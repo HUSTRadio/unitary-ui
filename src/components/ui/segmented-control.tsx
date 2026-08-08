@@ -108,7 +108,7 @@ function SegmentedControl({
             }}
             value={option.value}
             className={cn(
-              "relative z-10 inline-flex h-8 w-auto min-w-8 shrink-0 cursor-pointer items-center justify-center px-0 rounded-full transition-colors outline-none [&_svg]:[stroke-width:1px]",
+              "relative z-10 inline-flex h-8 w-auto min-w-8 shrink-0 cursor-pointer items-center justify-center px-0 rounded-full transition-colors outline-none",
               "focus-ring",
               active
                 ? (option.activeClass ?? "bg-selected text-foreground")

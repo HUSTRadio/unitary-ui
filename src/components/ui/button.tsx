@@ -40,9 +40,9 @@ const buttonVariants = cva(
         xs: "h-6 rounded-md px-1.5 [&_svg]:size-3",
         sm: "h-8 rounded-md px-1.5",
         lg: "h-10 rounded-[8px] px-3.5",
-        icon: "size-9 [&_svg]:size-4 [&_svg]:[stroke-width:1px]",
+        icon: "size-9 [&_svg]:size-4",
         "icon-xs": "size-6 rounded-md [&_svg]:size-3",
-        "icon-sm": "size-8 [&_svg]:size-4 [&_svg]:[stroke-width:1px]",
+        "icon-sm": "size-8 [&_svg]:size-4",
         "icon-lg": "size-10",
       },
       shape: {
@@ -98,19 +98,19 @@ function Button({
       {...props}
     >
       {loading ? (
-        <span className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5 [&_svg]:[stroke-width:1px]" aria-hidden>
+        <span className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5" aria-hidden>
           <Loader2 className="size-3.5 animate-spin" />
         </span>
       ) : (
         prefix && (
-          <span className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5 [&_svg]:[stroke-width:1px]" aria-hidden>
+          <span className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5" aria-hidden>
             {prefix}
           </span>
         )
       )}
       <span className="inline-block truncate px-1.5">{children}</span>
       {!loading && suffix && (
-        <span className="ml-1 mr-0.5 flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5 [&_svg]:[stroke-width:1px]" aria-hidden>
+        <span className="ml-1 mr-0.5 flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5" aria-hidden>
           {suffix}
         </span>
       )}
