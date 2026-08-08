@@ -11,7 +11,7 @@
 - **主题**：完整支持 light / dark 双主题，两套均映射 Geist 官方 token 角色
 - **响应式**：完整覆盖移动端 / 平板 / 桌面 / 超宽屏
 - **消费方式**：消费方项目复制 `src/styles/`、`src/components/ui/`、`src/lib/`，或直接以本仓库为样式基础层开发
-- **设计输入**：消费方项目通常以设计稿（mind draft 性质）为输入，框架自身以 `docs/geist/` 官方快照为权威
+- **设计输入**：消费方项目通常以设计稿（mind draft 性质）为输入，框架自身以 `docs/geist-markdown-refs/` 官方快照为权威
 
 ## 设计稿处理规范（Mind Draft）
 
@@ -52,7 +52,7 @@ mind draft 性质的设计稿可能：布局未最终确定、间距 / 字号 / 
 - 官方 token / 默认值来源：`https://vercel.com/geist/colors`、`https://vercel.com/geist/typography`、`https://vercel.com/geist/materials`（以当轮打开的官方页面为准，不要凭记忆写死色值）
 - 交互 / 无障碍 / 状态检查：`https://vercel.com/design/guidelines`
 - 字体安装与 Pixel 使用：`https://vercel.com/font`
-- **本地权威快照（优先查值）**：`docs/geist/`（2026-08-08 从官方页面实测抓取，含 92 个 `--ds-*` token 的 Dark/Light 双主题完整色板、排版类清单、材质表、72 个组件文档与 Best Practices）。查值顺序：`docs/geist/` 本地快照 → 官方页面复核。官方页面更新后以官方为准。
+- **本地权威快照（优先查值）**：`docs/geist-markdown-refs/`（2026-08-08 从官方页面实测抓取，含 92 个 `--ds-*` token 的 Dark/Light 双主题完整色板、排版类清单、材质表、72 个组件文档与 Best Practices）。查值顺序：`docs/geist-markdown-refs/` 本地快照 → 官方页面复核。官方页面更新后以官方为准。
 - `vercel-design.md` / `vercel-design-dark.md`（skill 附带的旧 token 对照表）已过时，仅作历史参考，不得作为查值依据
 
 #### 核心气质
@@ -79,7 +79,7 @@ mind draft 性质的设计稿可能：布局未最终确定、间距 / 字号 / 
 - 强调色（blue / red / amber / green / teal / purple / pink）仅作语义用途：状态、焦点、选中、链接、错误、成功、警告、受支持的唯一主行动；**不装饰性使用**
 - 通过 CSS 变量建立语义 token 层（`background` / `foreground` / `muted-foreground` / `border` / `ring` / `link` / `info` / `destructive` / `success` / `warning` 等），映射到上述 Geist 角色；组件只消费语义 token，不硬编码灰值
 - 图表与状态密集型视图：颜色不得单独承载含义，需配合标签 / 形状 / 图标 / 位置等冗余线索
-- **完整色板（92 个 `--ds-*` token 的 Dark/Light 双主题实测值）见 `docs/geist/foundations/colors.md`，实现时按需查表，禁止凭记忆写值**。关键常量（双主题一致，来自官方实测）：
+- **完整色板（92 个 `--ds-*` token 的 Dark/Light 双主题实测值）见 `docs/geist-markdown-refs/foundations/colors.md`，实现时按需查表，禁止凭记忆写值**。关键常量（双主题一致，来自官方实测）：
   - 主行动蓝：`blue-700 = #006efe`（Dark/Light 相同）
   - 破坏性红：`red-700 = #e5484d`（Dark/Light 相同，仅 hover/active 用 red-800）
   - 警告琥珀：`amber-700 = #ffb224`（Dark/Light 相同）
@@ -91,13 +91,13 @@ mind draft 性质的设计稿可能：布局未最终确定、间距 / 字号 / 
 #### 间距 / 圆角 / 材质
 
 - 间距使用 Geist 官方尺度：**4 / 8 / 12 / 16 / 24 / 32 / 40 / 64 / 96px**；组内紧凑、组间适中、区块间大间距（Tailwind v4 默认 4px 倍数即该尺度，直接使用标准 `p-*`/`gap-*`/`space-*`，无需额外 token）
-- 圆角体系（官方实测，见 `docs/geist/foundations/materials.md`）：
+- 圆角体系（官方实测，见 `docs/geist-markdown-refs/foundations/materials.md`）：
   - 常规表面（base/small）：**6px**
   - 抬升表面（medium/large）：**12px**
   - 浮层：tooltip **6px**、menu/modal **12px**、fullscreen **16px**
   - **禁止为「柔和感」发明更大圆角**
 - 阴影只用于厘清层级（菜单、弹窗、提示），不制造漂浮卡片美学；阴影与锐利边框搭配使用
-- 材质级别按组件用途选择（`material-*` 类名对应官方材质层级，详情查 `docs/geist/foundations/materials.md`）：
+- 材质级别按组件用途选择（`material-*` 类名对应官方材质层级，详情查 `docs/geist-markdown-refs/foundations/materials.md`）：
   - 普通页面卡片：base / small / medium / large 表面材质
   - 浮层：tooltip（唯一带三角柄的浮层，6px 角）/ menu / modal / fullscreen 材质
 - **材质使用约束（官方 Best Practices）**：
@@ -109,7 +109,7 @@ mind draft 性质的设计稿可能：布局未最终确定、间距 / 字号 / 
 
 #### 排版工具类
 
-- 定义或映射 Geist 排版命名类（完整清单与用法见 `docs/geist/foundations/typography.md`）：
+- 定义或映射 Geist 排版命名类（完整清单与用法见 `docs/geist-markdown-refs/foundations/typography.md`）：
   - `text-heading-*`：72 / 64 / 56 / 48 / 40 / 32 / 24 / 20 / 16 / 14（页面 / 区块标题）
   - `text-button-*`：16 / 14 / 12（仅限按钮内部；12 只用于输入框内的微型按钮）
   - `text-label-*`：20 / 18 / 16 / 14 / 13 / 12 + mono 变体（单行文本，行高充裕以对齐图标；`label-14` 是全系统最常用文本样式）
@@ -127,7 +127,7 @@ mind draft 性质的设计稿可能：布局未最终确定、间距 / 字号 / 
 - 「网格」首先是布局手段：CSS grid/flex、列、间距、边框分隔、稳定响应式跨栏；**不要**添加装饰性可见网格背景 / 蓝图线 / 图纸线，除非设计稿明确要求
 - 内容 / 产品表面居中于合理 max-width；hover / loading / selected / error 状态不得改变布局尺寸或引起跳动
 - 表格与日志：紧凑行高、列对齐清晰、需要时吸顶表头、数字 / ID 用等宽数字
-- **Table 视觉约束（官方实测，见 `docs/geist/components/table.md` 顶部渲染参数表）**：
+- **Table 视觉约束（官方实测，见 `docs/geist-markdown-refs/components/table.md` 顶部渲染参数表）**：
   - 表格外观由**外层容器**承载：1px hairline 边框（gray-alpha-400）+ 8px 圆角 + background-100；**单元格自身不加 border-bottom**
   - 表头：500 14px/20px，无填充背景，仅靠字重区分；正文：400 14px/20px；颜色均为 gray-900
   - 单元格 padding `10px 8px`（垂直 10 水平 8），行高 40px
@@ -149,7 +149,7 @@ mind draft 性质的设计稿可能：布局未最终确定、间距 / 字号 / 
 
 ### 组件选择与使用约束（Geist 官方 Best Practices）
 
-组件选型与使用必须遵循 Geist 官方 Best Practices（完整逐组件规范见 `docs/geist/components/<component>.md` 的 Best Practices 节）。**每个组件 md 顶部都有「渲染参数（官方页面实测）」引用块**——含该组件所有 demo 区块在 light / dark 双主题下的容器样式（border / 圆角 / 背景）与控件样式（高度 / padding / 字号 / 字重 / 颜色 / 圆角），实现组件视觉时必须对照该表对齐，禁止凭想象猜参数。以下是高频约束提炼：
+组件选型与使用必须遵循 Geist 官方 Best Practices（完整逐组件规范见 `docs/geist-markdown-refs/components/<component>.md` 的 Best Practices 节）。**每个组件 md 顶部都有「渲染参数（官方页面实测）」引用块**——含该组件所有 demo 区块在 light / dark 双主题下的容器样式（border / 圆角 / 背景）与控件样式（高度 / padding / 字号 / 字重 / 颜色 / 圆角），实现组件视觉时必须对照该表对齐，禁止凭想象猜参数。以下是高频约束提炼：
 
 #### 选择逻辑（用哪个组件）
 
@@ -234,7 +234,7 @@ mind draft 性质的设计稿可能：布局未最终确定、间距 / 字号 / 
 3. **Foundation Gate**：先完成共享基础层（Geist 字体、语义 token 双套、排版工具类、间距圆角、焦点环、基础组件、应用外壳），再进入屏幕实现
 4. **分步实现**：按组件 / 页面粒度实现，每个独立逻辑功能单独提交
 5. **自检**：四视口响应式（375 / 768 / 1440 / ≥1920）、双主题、交互状态（hover / active / disabled / loading / empty / error / focus-visible / reduced-motion）、无障碍、`vp check` / `vp build`；视觉结果用浏览器截图 + 视觉分析工具复核，不凭代码推断
-6. **Geist 审查**：整体扫一遍 anti-pattern（装饰渐变、卡片套卡片、超大圆角、偏离中性、Mono 排正文、硬编码颜色），对照 `docs/geist/` 本地快照逐项核对（色值 / 圆角 / 材质 / 排版类 / 组件选择），不合格即修订
+6. **Geist 审查**：整体扫一遍 anti-pattern（装饰渐变、卡片套卡片、超大圆角、偏离中性、Mono 排正文、硬编码颜色），对照 `docs/geist-markdown-refs/` 本地快照逐项核对（色值 / 圆角 / 材质 / 排版类 / 组件选择），不合格即修订
 7. **效果图更新（稳定后必做）**：样式 / 组件 / 示例页更新后，若已达到**稳定可生产的效果**，必须重新生成 README 效果图——用 Playwright 截取受影响页面（双主题），存入 `images/`（覆盖对应文件），并确认 README「效果图」区块的相对路径引用仍正确。截图脚本参考仓库历史（`vp dev` + Playwright chromium 截图 1440×900）
 8. **提交**：遵循本文件 Git 规范提交
 

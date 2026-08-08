@@ -3,7 +3,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Input — Geist 官方 Input 规范（docs/geist/components/input.md 实测）。
+ * Input — Geist 官方 Input 规范（docs/geist-markdown-refs/components/input.md 实测）。
  * - 高度 32px（h-8）、圆角 6px（官方 wrapper 实测）、padding 0 12px、400 14px/20px
  * - 边框 hairline（gray-alpha-400）、背景 background-100
  * - disabled：bg gray-100 + fg gray-700

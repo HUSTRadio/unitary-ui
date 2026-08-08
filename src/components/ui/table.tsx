@@ -3,7 +3,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Table — Geist 官方 Table 规范实现（AGENTS.md §Table 视觉约束 + docs/geist/components/table.md 实测）。
+ * Table — Geist 官方 Table 规范实现（AGENTS.md §Table 视觉约束 + docs/geist-markdown-refs/components/table.md 实测）。
  * - 外层容器：1px hairline（gray-alpha-400）+ 8px 圆角 + background-100（官方视觉主体）
  * - 表头：500 14px/20px，无填充背景，仅靠字重区分；正文：400 14px/20px；颜色均 gray-900
  * - 单元格 padding `10px 8px`，行高 40px；单元格自身无 border-bottom

@@ -5,7 +5,7 @@ import { Check, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * Checkbox — Geist 官方 Checkbox 规范（docs/geist/components/checkbox.md 实测）。
+ * Checkbox — Geist 官方 Checkbox 规范（docs/geist-markdown-refs/components/checkbox.md 实测）。
  * 官方实测：16×16px、圆角 4px、边框 1px gray-700、bg background-100；
  * 勾选态：bg 主色 + 白对勾。hover 边框加深；颜色全部消费语义 token。
  * 支持 indeterminate（半选）视觉态：横线图标，由父级部分选中驱动

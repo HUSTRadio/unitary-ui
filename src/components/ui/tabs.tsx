@@ -4,7 +4,7 @@ import { Tabs as TabsPrimitive } from "radix-ui";
 import { cn } from "@/lib/utils";
 
 /**
- * Tabs — Geist 官方 Tabs 规范（docs/geist/components/tabs.md 实测）。
+ * Tabs — Geist 官方 Tabs 规范（docs/geist-markdown-refs/components/tabs.md 实测）。
  * 官方实测：Tab 高 50px、padding 14px 2px、400 14px/20px；
  * 选中态：2px 下边框 fg gray-1000 + 文字 gray-1000；未选中 gray-900；
  * 无填充背景（透明），发丝线容器下边框。

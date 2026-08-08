@@ -4,7 +4,7 @@ import { Switch as SwitchPrimitive } from "radix-ui";
 import { cn } from "@/lib/utils";
 
 /**
- * Toggle — Geist 布尔开关（对应官方 Toggle，docs/geist/components/toggle.md 实测）。
+ * Toggle — Geist 布尔开关（对应官方 Toggle，docs/geist-markdown-refs/components/toggle.md 实测）。
  * 官方实测：default 40×24px / sm 36×20px、圆角 14px、off 态 bg gray-300、
  * on 态 bg 主色；thumb 白圆点（24px 轨 → 20px 圆点，位移 16px）。
  * 官方语义：Toggle = 单个布尔设置（ON 立即生效）；2–3 个互斥视图用

@@ -3,7 +3,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Textarea — Geist 官方 Textarea 规范（docs/geist/components/textarea.md 实测）。
+ * Textarea — Geist 官方 Textarea 规范（docs/geist-markdown-refs/components/textarea.md 实测）。
  * - 圆角 6px（官方 wrapper 实测，与 Input 一致）、padding 10px 12px、400 14px/20px、默认高 100px
  * - 边框 hairline（gray-alpha-400）、背景 background-100
  * - disabled：bg gray-100 + fg gray-700

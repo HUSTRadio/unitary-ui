@@ -11,7 +11,7 @@
 | 样式 token 体系   | `src/styles/index.css` | Geist 双主题 34 语义 token + 82 全色阶 + 排版工具类 + material-* 材质 + focus-ring（官方实测值）                                             |
 | 基础组件 ×12      | `src/components/ui/`   | badge / button / checkbox / dropdown-menu / input / segmented-control / select / step-point / table / tabs / textarea / toggle（零业务依赖） |
 | 工具              | `src/lib/`             | `utils.ts`（cn）、`theme.tsx`（light/dark/system 三态主题系统）                                                                              |
-| 规范快照          | `docs/geist/`          | Vercel Geist 官方文档快照（foundations + 72 组件 + 渲染参数实测表 + 截图，13MB）                                                             |
+| 规范快照          | `docs/geist-markdown-refs/`          | Vercel Geist 官方文档快照（foundations + 72 组件 + 渲染参数实测表 + 截图，13MB）                                                             |
 | Agent 约束        | `AGENTS.md`            | 框架通用开发约束（Geist 视觉规范 / Git 规范 / Vite+ 流程）                                                                                   |
 | Living styleguide | `src/App.tsx`          | 组件总览 + 4 个组合示例导航                                                                                                                  |
 | 组合示例          | `src/examples/`        | FormExample（表单校验/加载态）/ DataTableExample（表格+筛选+选择）/ WorkflowExample（审批步骤）/ SettingsExample（设置面板）                 |
@@ -84,13 +84,13 @@ import "@/styles/index.css";
 - 排版只用命名类（`text-heading-*` / `text-button-*` / `text-label-*` / `text-copy-*`），数值见官方实测
 - 圆角：表面 6px / 浮层 12px / 全屏 16px；间距 = Tailwind 4px 倍数（Geist 官方尺度）
 - 焦点：可交互元素用 `focus-ring`（双环）；输入控件用 `input-focus-ring`（灰阶加深 + 柔光）
-- 实现组件视觉前，先查 `docs/geist/components/<name>.md` 顶部「渲染参数」实测块
+- 实现组件视觉前，先查 `docs/geist-markdown-refs/components/<name>.md` 顶部「渲染参数」实测块
 
 ## 注意事项
 
 - **字体**：HarmonyOS Sans SC 为 GB2312 中文子集（面向中文 UI），国际场景需替换字体
 - **主题存储键**：`geist-theme-preference`（与 oa-frontend 的 `oa-theme-preference` 独立）
-- **docs/geist 体积**：13MB 快照可裁剪（仅保留 `foundations/` + 常用组件）以减小仓库体积
+- **docs/geist-markdown-refs 体积**：13MB 快照可裁剪（仅保留 `foundations/` + 常用组件）以减小仓库体积
 - **Git 签名**：本仓库沿用 oa-frontend 的 LeonhardtHUST GPG 键约定；公开协作时需泛化
 - **版本**：依赖与 oa-frontend 完全一致（radix-ui 一体化包 / lucide / tailwind v4），避免版本漂移
 

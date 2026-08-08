@@ -108,7 +108,7 @@ export default function App() {
               <h2 className="text-heading-24 text-foreground">排版 Typography</h2>
               <p className="text-copy-14 text-muted-foreground">
                 完整排版类见 <code className="font-mono">src/styles/index.css</code> 与{" "}
-                <code className="font-mono">docs/geist/foundations/typography.md</code>
+                <code className="font-mono">docs/geist-markdown-refs/foundations/typography.md</code>
               </p>
               <div className="space-y-2">
                 <p className="text-heading-32 text-foreground">Heading 32 — 主要区块标题</p>
@@ -267,7 +267,7 @@ export default function App() {
       </main>
 
       <footer className="border-t border-border px-6 py-4 text-label-12 text-muted-foreground">
-        Geist Style Framework · docs/geist 规范快照 · 2026-08-08
+        Geist Style Framework · docs/geist-markdown-refs 规范快照 · 2026-08-08
       </footer>
     </div>
   );
