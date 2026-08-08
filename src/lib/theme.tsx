@@ -74,7 +74,8 @@ export function applyTheme(theme: ResolvedTheme) {
  * first paint. Call once from main.tsx before createRoot().
  */
 export function initTheme() {
-  applyTheme(readStoredPreference() === "system" ? resolveSystem() : readStoredPreference());
+  const pref = readStoredPreference();
+  applyTheme(pref === "system" ? resolveSystem() : pref);
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
