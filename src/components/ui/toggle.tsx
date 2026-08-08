@@ -40,7 +40,7 @@ function Toggle({
       <SwitchPrimitive.Thumb
         data-slot="toggle-thumb"
         className={cn(
-          "pointer-events-none absolute left-[1.5px] top-1/2 flex -translate-y-1/2 items-center justify-center rounded-full bg-background text-foreground ring-0 transition-transform group-data-[size=default]/toggle:size-[21px] group-data-[size=sm]/toggle:size-[17px] data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0",
+          "pointer-events-none absolute left-[1.5px] top-1/2 flex -translate-y-1/2 items-center justify-center rounded-full bg-foreground text-background ring-0 transition-transform group-data-[size=default]/toggle:size-[21px] group-data-[size=sm]/toggle:size-[17px] data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0",
           thumbClassName,
         )}
       >
