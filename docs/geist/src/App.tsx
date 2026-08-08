@@ -1,16 +1,33 @@
+import type { ComponentType } from "react";
 import { useLocation } from "react-router-dom";
 
 import { DocsBanner, DocsSidebar } from "./components/docs-shell";
-import { IntroductionPage } from "./components/docs-pages";
+import {
+  BrandsPage,
+  ColorsPage,
+  IntroductionPage,
+  MaterialsPage,
+  TypographyPage,
+} from "./components/docs-pages";
 
 /**
  * docs/geist 文档站布局壳 — Banner + Sidebar + 内容区。
- * 内容区按 hash 路由渲染：/ 与 /introduction 显示 Introduction 首页
- * （标题区 + 发丝线卡片网格），其余路由为占位，由后续任务实现。
+ * 内容区按 hash 路由渲染：/ 与 /introduction 显示 Introduction 首页，
+ * /colors /typography /materials /brands 显示对应内容页，
+ * 其余路由为占位。
  */
+const PAGE_COMPONENTS: Record<string, ComponentType> = {
+  "/": IntroductionPage,
+  "/introduction": IntroductionPage,
+  "/colors": ColorsPage,
+  "/typography": TypographyPage,
+  "/materials": MaterialsPage,
+  "/brands": BrandsPage,
+};
+
 export default function App() {
   const { pathname } = useLocation();
-  const isIntroduction = pathname === "/" || pathname === "/introduction";
+  const Page = PAGE_COMPONENTS[pathname];
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -18,8 +35,8 @@ export default function App() {
       <div className="flex flex-1">
         <DocsSidebar />
         <main className="min-w-0 flex-1 px-8 py-10">
-          {isIntroduction ? (
-            <IntroductionPage />
+          {Page ? (
+            <Page />
           ) : (
             <>
               <h1 className="text-heading-32 text-foreground">页面开发中</h1>
