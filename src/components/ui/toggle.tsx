@@ -27,7 +27,7 @@ function Toggle({
       data-slot="toggle"
       data-size={size}
       className={cn(
-        "peer group/toggle inline-flex shrink-0 items-center rounded-[14px] border border-transparent transition-all outline-none focus-ring disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-6 data-[size=default]:w-10 data-[size=sm]:h-5 data-[size=sm]:w-9 data-[state=checked]:bg-primary data-[state=unchecked]:bg-gray-300",
+        "peer group/toggle inline-flex shrink-0 items-center rounded-[14px] border border-transparent transition-all outline-none focus-ring disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-6 data-[size=default]:w-10 data-[size=sm]:h-5 data-[size=sm]:w-9 data-[state=checked]:bg-progress data-[state=unchecked]:bg-gray-300",
         className,
       )}
       {...props}
