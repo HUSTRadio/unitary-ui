@@ -25,7 +25,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     title: "Foundations",
     items: [
-      { label: "Introduction", to: "/introduction" },
+      { label: "Introduction", to: "/" },
       { label: "Colors", to: "/colors" },
       { label: "Typography", to: "/typography" },
       { label: "Materials", to: "/materials" },

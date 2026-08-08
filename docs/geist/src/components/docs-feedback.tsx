@@ -103,7 +103,7 @@ export function FeedbackPanel() {
 
 /** 内容页顺序 — 按当前页计算下一页 */
 const PAGE_ORDER: { to: string; label: string }[] = [
-  { to: "/introduction", label: "Introduction" },
+  { to: "/", label: "Introduction" },
   { to: "/colors", label: "Colors" },
   { to: "/typography", label: "Typography" },
   { to: "/materials", label: "Materials" },

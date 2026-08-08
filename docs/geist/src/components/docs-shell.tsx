@@ -91,9 +91,9 @@ function DocsSidebarLink({ item }: { item: NavItem }) {
       to={item.to}
       className={({ isActive }) =>
         cn(
-          "flex items-center gap-2 rounded-md px-2 py-1.5 text-label-14 transition-colors",
+          "group relative -ml-2 flex h-10 items-center gap-2.5 rounded-md px-3 py-1.5 text-[14px] leading-5 outline-none transition-colors",
           isActive
-            ? "bg-selected text-foreground"
+            ? "bg-gray-alpha-100 text-foreground"
             : "text-muted-foreground hover:bg-gray-alpha-100 hover:text-foreground",
         )
       }
@@ -106,11 +106,11 @@ function DocsSidebarLink({ item }: { item: NavItem }) {
 
 function DocsSidebarGroup({ group }: { group: NavGroup }) {
   return (
-    <div className="mb-8">
-      <p className="mb-2 px-2 text-label-12 uppercase tracking-wide text-muted-foreground">
+    <div className="mb-0.5">
+      <p className="mb-0.5 flex h-10 items-center gap-2 py-1.5 pl-1 text-[14px] leading-5 font-medium text-foreground">
         {group.title}
       </p>
-      <ul className="space-y-0.5">
+      <ul>
         {group.items.map((item) => (
           <li key={item.to}>
             <DocsSidebarLink item={item} />
@@ -123,8 +123,8 @@ function DocsSidebarGroup({ group }: { group: NavGroup }) {
 
 function DocsSidebar() {
   return (
-    <aside className="hidden w-60 shrink-0 border-r border-border bg-surface lg:block">
-      <nav className="sticky top-16 max-h-[calc(100vh-4rem)] overflow-y-auto px-3 py-6">
+    <aside className="hidden w-[260px] shrink-0 border-r border-border lg:block">
+      <nav className="sticky top-16 max-h-[calc(100vh-4rem)] overflow-y-auto">
         {NAV_GROUPS.map((group) => (
           <DocsSidebarGroup key={group.title} group={group} />
         ))}
