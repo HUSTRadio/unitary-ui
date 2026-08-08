@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import { useLocation } from "react-router-dom";
 
 import { DocsBanner, DocsSidebar } from "./components/docs-shell";
+import { ComponentsPage } from "./components/docs-components-page";
 import {
   BrandsPage,
   ColorsPage,
@@ -14,6 +15,7 @@ import {
  * docs/geist 文档站布局壳 — Banner + Sidebar + 内容区。
  * 内容区按 hash 路由渲染：/ 与 /introduction 显示 Introduction 首页，
  * /colors /typography /materials /brands 显示对应内容页，
+ * /components 与 /components/:name 显示 Components 总览 / 元件详情，
  * 其余路由为占位。
  */
 const PAGE_COMPONENTS: Record<string, ComponentType> = {
@@ -23,11 +25,14 @@ const PAGE_COMPONENTS: Record<string, ComponentType> = {
   "/typography": TypographyPage,
   "/materials": MaterialsPage,
   "/brands": BrandsPage,
+  "/components": ComponentsPage,
 };
 
 export default function App() {
   const { pathname } = useLocation();
-  const Page = PAGE_COMPONENTS[pathname];
+  const Page =
+    PAGE_COMPONENTS[pathname] ??
+    (pathname.startsWith("/components/") ? ComponentsPage : undefined);
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
