@@ -21,7 +21,7 @@ const THEME_OPTIONS: { value: ThemePreference; label: React.ReactNode }[] = [
     value: "system",
     label: (
       <span title="System">
-        <Monitor className="size-3.5" aria-hidden />
+        <Monitor className="size-4" aria-hidden />
       </span>
     ),
   },
@@ -29,7 +29,7 @@ const THEME_OPTIONS: { value: ThemePreference; label: React.ReactNode }[] = [
     value: "light",
     label: (
       <span title="Light">
-        <Sun className="size-3.5" aria-hidden />
+        <Sun className="size-4" aria-hidden />
       </span>
     ),
   },
@@ -37,7 +37,7 @@ const THEME_OPTIONS: { value: ThemePreference; label: React.ReactNode }[] = [
     value: "dark",
     label: (
       <span title="Dark">
-        <Moon className="size-3.5" aria-hidden />
+        <Moon className="size-4" aria-hidden />
       </span>
     ),
   },

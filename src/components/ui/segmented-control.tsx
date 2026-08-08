@@ -79,18 +79,20 @@ function SegmentedControl({
       value={value}
       onValueChange={onValueChange}
       className={cn(
-        "relative inline-flex h-9 items-center rounded-md border border-border-strong bg-surface p-1",
+        "relative inline-flex h-8 items-center rounded-full bg-surface p-0 shadow-[var(--ds-shadow-border,0_0_0_1px_var(--border))]",
         className,
       )}
       aria-label={ariaLabel}
     >
-      {/* 滑块指示器：与选中项完全重合（offsetLeft/offsetWidth 已含容器 padding） */}
+      {/* 滑块指示器：与选中项完全重合 */}
       {slider && (
         <span
           aria-hidden
-          className="absolute top-1 bottom-1 rounded-[4px] transition-all duration-200 ease-out"
+          className="absolute rounded-full transition-all duration-200 ease-out"
           style={{
             width: slider.width,
+            height: 'calc(100% - 0px)',
+            top: 0,
             left: slider.left,
             backgroundColor: sliderBg,
           }}
@@ -106,7 +108,7 @@ function SegmentedControl({
             }}
             value={option.value}
             className={cn(
-              "relative z-10 inline-flex h-7 flex-1 cursor-pointer items-center justify-center whitespace-nowrap rounded-[4px] px-3 text-label-14 font-medium transition-colors outline-none",
+              "relative z-10 inline-flex h-8 w-auto min-w-8 shrink-0 cursor-pointer items-center justify-center px-0 rounded-full transition-colors outline-none [&_svg]:[stroke-width:1px]",
               "focus-ring",
               active
                 ? (option.activeClass ?? "bg-selected text-foreground")
