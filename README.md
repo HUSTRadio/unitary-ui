@@ -13,7 +13,8 @@
 | 工具              | `src/lib/`             | `utils.ts`（cn）、`theme.tsx`（light/dark/system 三态主题系统）                                                                              |
 | 规范快照          | `docs/geist/`          | Vercel Geist 官方文档快照（foundations + 72 组件 + 渲染参数实测表 + 截图，13MB）                                                             |
 | Agent 约束        | `AGENTS.md`            | 框架通用开发约束（Geist 视觉规范 / Git 规范 / Vite+ 流程）                                                                                   |
-| Living styleguide | `src/App.tsx`          | 全部组件 + 双主题切换示例                                                                                                                    |
+| Living styleguide | `src/App.tsx` | 组件总览 + 4 个组合示例导航 |
+| 组合示例 | `src/examples/` | FormExample（表单校验/加载态）/ DataTableExample（表格+筛选+选择）/ WorkflowExample（审批步骤）/ SettingsExample（设置面板） |
 
 ## 快速开始
 
