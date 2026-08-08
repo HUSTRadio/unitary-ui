@@ -243,9 +243,13 @@ export default function App() {
                       </TableCell>
                       <TableCell className="text-muted-foreground">{row.status}</TableCell>
                       <TableCell>
-                        <Button variant="ghost" size="sm">
+                        <a
+                          href="#"
+                          onClick={(e) => e.preventDefault()}
+                          className="focus-ring rounded-[4px] text-label-14 text-link underline-offset-4 hover:underline"
+                        >
                           查看
-                        </Button>
+                        </a>
                       </TableCell>
                     </TableRow>
                   ))}
