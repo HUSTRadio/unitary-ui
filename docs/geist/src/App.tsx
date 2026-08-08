@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import { useLocation } from "react-router-dom";
 
 import { DocsBanner, DocsSidebar } from "./components/docs-shell";
+import { DocsPagination, FeedbackPanel } from "./components/docs-feedback";
 import { ComponentsPage } from "./components/docs-components-page";
 import {
   BrandsPage,
@@ -49,6 +50,14 @@ export default function App() {
                 该页面（{pathname}）由后续任务实现。
               </p>
             </>
+          )}
+
+          {/* 内容页页脚 — 反馈区 + Next 分页（官方文档站每个页面底部都有） */}
+          {Page && (
+            <div className="mt-16 border-t border-border pt-8">
+              <FeedbackPanel />
+              <DocsPagination />
+            </div>
           )}
         </main>
       </div>
