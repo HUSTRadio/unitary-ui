@@ -490,6 +490,20 @@ function ComponentDetail({ name }: { name: string }) {
           <CodeBlock code={meta.code} label={`components/${name}.tsx`} />
         </div>
       </section>
+
+      {meta.bestPractices && meta.bestPractices.length > 0 && (
+        <section className="mt-12">
+          <h2 className="text-heading-24 text-foreground">Best Practices</h2>
+          <ul className="mt-6 space-y-3">
+            {meta.bestPractices.map((bp, i) => (
+              <li key={i} className="flex gap-3 text-copy-14 text-muted-foreground">
+                <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-muted-foreground" aria-hidden />
+                {bp}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }
