@@ -300,51 +300,6 @@ Closes #123
 Co-Authored by DeepSeek V4 Flash
 ```
 
-## Git 签名要求
-
-所有提交必须使用 GPG 签名。
-
-固定使用以下 GPG key：
-
-```
-LeonhardtHUST (codex-new-2026-06-24)
-92073072+LeonhardtHUST@users.noreply.github.com
-
-Key ID:
-EDBE72B991D05B9E8E9215D5115A25A8AEC82DCC
-```
-
-对应配置：
-
-```bash
-git config user.signingkey EDBE72B991D05B9E8E9215D5115A25A8AEC82DCC
-git config commit.gpgsign true
-```
-
-提交时必须生成签名：
-
-```bash
-git commit -S
-```
-
-禁止创建未签名提交。
-
-如当前环境无法完成 GPG 签名：
-
-1. 不得绕过签名要求；
-2. 检查 GPG agent、keyring、pinentry 配置；
-3. 修复签名环境后重新提交。
-
-## Git 用户身份
-
-提交作者身份必须保持：
-
-```
-LeonhardtHUST <92073072+LeonhardtHUST@users.noreply.github.com>
-```
-
-禁止自动替换为其他用户名或邮箱。
-
 ## Node.js / Vite+ 项目管理规范
 
 除非存在明确技术原因，否则所有 Node.js 项目必须优先使用 Vite+ (`vp`) 作为统一开发入口。
@@ -536,13 +491,7 @@ git diff --cached
 
 3. 确认提交信息符合 Angular Commit Convention。
 
-4. 确认 GPG 签名有效：
-
-```bash
-git log --show-signature -1
-```
-
-5. 确认不存在敏感信息、临时文件或调试产物。
+4. 确认不存在敏感信息、临时文件或调试产物。
 
 ## Agent 行为要求
 
