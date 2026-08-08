@@ -513,3 +513,74 @@ export function MaterialsPage() {
     </div>
   );
 }
+
+/* ================= Grid ================= */
+
+/**
+ * Grid - Geist Grid 系统（12 列响应式网格）。
+ * 官方定位 Grid 为 Foundations（布局基础），内容展示 CSS grid 用法。
+ */
+export function GridPage() {
+  return (
+    <div>
+      <h1 className="text-heading-40 text-foreground">Grid</h1>
+      <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
+        A huge part of the new Vercel aesthetic.
+      </p>
+
+      <section className="mt-10">
+        <h2 className="text-heading-24 text-foreground">12 Column Grid</h2>
+        <p className="mt-3 text-copy-14 text-muted-foreground">
+          The grid system uses a 12-column layout with configurable gaps and breakpoints.
+        </p>
+        {/* 可视化 12 列网格 */}
+        <div className="mt-6 grid grid-cols-12 gap-2">
+          {Array.from({ length: 12 }, (_, i) => (
+            <div
+              key={i}
+              className="h-16 rounded-md bg-gray-alpha-200"
+              style={{ gridColumn: `span 1` }}
+            >
+              <span className="flex h-full items-center justify-center text-label-12 text-muted-foreground">
+                {i + 1}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-12">
+        <h2 className="text-heading-24 text-foreground">Responsive Breakpoints</h2>
+        <p className="mt-3 text-copy-14 text-muted-foreground">
+          Breakpoints follow a mobile-first approach with sm, md, lg, xl, 2xl presets.
+        </p>
+        <div className="mt-6 overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background">
+          <table className="w-full text-copy-14">
+            <thead className="border-b border-gray-alpha-400">
+              <tr className="text-left text-label-12 text-muted-foreground">
+                <th className="px-4 py-2 font-medium">Prefix</th>
+                <th className="px-4 py-2 font-medium">Min Width</th>
+                <th className="px-4 py-2 font-medium">Columns</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { prefix: "sm", width: "640px", cols: "4" },
+                { prefix: "md", width: "768px", cols: "8" },
+                { prefix: "lg", width: "1024px", cols: "12" },
+                { prefix: "xl", width: "1280px", cols: "12" },
+                { prefix: "2xl", width: "1536px", cols: "12" },
+              ].map((bp) => (
+                <tr key={bp.prefix} className="border-b border-gray-alpha-400 last:border-0">
+                  <td className="px-4 py-2 font-mono text-foreground">{bp.prefix}</td>
+                  <td className="px-4 py-2 text-muted-foreground">{bp.width}</td>
+                  <td className="px-4 py-2 text-muted-foreground">{bp.cols}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  );
+}

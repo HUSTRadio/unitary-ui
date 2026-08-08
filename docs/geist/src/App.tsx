@@ -6,6 +6,7 @@ import { DocsPagination, FeedbackPanel } from "./components/docs-feedback";
 import { ComponentsPage } from "./components/docs-components-page";
 import {
   ColorsPage,
+  GridPage,
   IntroductionPage,
   MaterialsPage,
   TypographyPage,
@@ -24,6 +25,7 @@ const PAGE_COMPONENTS: Record<string, ComponentType> = {
   "/colors": ColorsPage,
   "/typography": TypographyPage,
   "/materials": MaterialsPage,
+  "/grid": GridPage,
   "/components": ComponentsPage,
 };
 

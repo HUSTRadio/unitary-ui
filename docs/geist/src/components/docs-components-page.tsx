@@ -420,7 +420,7 @@ function ComponentsOverview() {
   return (
     <div>
       <h1 className="text-heading-40 text-foreground">Components</h1>
-      <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
+      <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         Building blocks for React applications.
       </p>
 
@@ -429,7 +429,7 @@ function ComponentsOverview() {
           <a
             key={component.name}
             href={`#/components/${component.name}`}
-            className="group block rounded-lg border border-gray-alpha-400 bg-background p-5 transition-colors hover:border-foreground/25 hover:bg-gray-alpha-100"
+            className="group block border-b border-border p-6 transition-colors hover:bg-gray-alpha-100 sm:border-r"
           >
             <p className="font-mono text-label-12 text-muted-foreground">
               {component.official}
@@ -459,7 +459,7 @@ function ComponentDetail({ name }: { name: string }) {
       <div>
         <BackLink />
         <h1 className="text-heading-40 text-foreground">组件不存在</h1>
-        <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
+        <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
           未找到名为 {name} 的元件。
         </p>
       </div>
@@ -475,7 +475,7 @@ function ComponentDetail({ name }: { name: string }) {
           {meta.official}
         </span>
       </div>
-      <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
+      <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         {meta.description}
       </p>
 

@@ -107,6 +107,7 @@ const PAGE_ORDER: { to: string; label: string }[] = [
   { to: "/colors", label: "Colors" },
   { to: "/typography", label: "Typography" },
   { to: "/materials", label: "Materials" },
+  { to: "/grid", label: "Grid" },
   { to: "/components", label: "Components" },
 ];
 
@@ -116,7 +117,8 @@ function currentPageIndex(pathname: string): number {
   if (pathname === "/colors") return 1;
   if (pathname === "/typography") return 2;
   if (pathname === "/materials") return 3;
-  if (pathname.startsWith("/components")) return 4;
+  if (pathname.startsWith("/grid")) return 4;
+  if (pathname.startsWith("/components")) return 5;
   return -1;
 }
 

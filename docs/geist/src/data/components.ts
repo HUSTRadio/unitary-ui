@@ -15,6 +15,8 @@ export interface ComponentMeta {
   official: string;
   /** 用法 TSX 片段（详情页代码块，font-mono 展示） */
   code: string;
+  /** Best Practices 要点（详情页底部列表） */
+  bestPractices?: string[];
 }
 
 export const COMPONENTS: ComponentMeta[] = [
