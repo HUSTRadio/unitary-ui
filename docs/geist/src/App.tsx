@@ -5,7 +5,6 @@ import { DocsBanner, DocsSidebar } from "./components/docs-shell";
 import { DocsPagination, FeedbackPanel } from "./components/docs-feedback";
 import { ComponentsPage } from "./components/docs-components-page";
 import {
-  BrandsPage,
   ColorsPage,
   IntroductionPage,
   MaterialsPage,
@@ -15,7 +14,7 @@ import {
 /**
  * docs/geist 文档站布局壳 — Banner + Sidebar + 内容区。
  * 内容区按 hash 路由渲染：/ 与 /introduction 显示 Introduction 首页，
- * /colors /typography /materials /brands 显示对应内容页，
+ * /colors /typography /materials 显示对应内容页，
  * /components 与 /components/:name 显示 Components 总览 / 元件详情，
  * 其余路由为占位。
  */
@@ -25,7 +24,6 @@ const PAGE_COMPONENTS: Record<string, ComponentType> = {
   "/colors": ColorsPage,
   "/typography": TypographyPage,
   "/materials": MaterialsPage,
-  "/brands": BrandsPage,
   "/components": ComponentsPage,
 };
 

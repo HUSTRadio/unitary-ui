@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
  * FeedbackPanel：胶囊「Give feedback」+ 4 emoji radio（原生 input sr-only + label），
  *   下方 Textarea + Send 按钮；本地 state 模拟提交，不真实上报。
  * DocsPagination：右下角 Next + 页名 + ChevronRight，按当前页计算下一项
- *   （Introduction → Colors → Typography → Materials → Brands → Components）。
+ *   （Introduction → Colors → Typography → Materials → Components）。
  */
 
 /* ================= FeedbackPanel ================= */
@@ -107,7 +107,6 @@ const PAGE_ORDER: { to: string; label: string }[] = [
   { to: "/colors", label: "Colors" },
   { to: "/typography", label: "Typography" },
   { to: "/materials", label: "Materials" },
-  { to: "/brands", label: "Brands" },
   { to: "/components", label: "Components" },
 ];
 
@@ -117,8 +116,7 @@ function currentPageIndex(pathname: string): number {
   if (pathname === "/colors") return 1;
   if (pathname === "/typography") return 2;
   if (pathname === "/materials") return 3;
-  if (pathname.startsWith("/brands")) return 4;
-  if (pathname.startsWith("/components")) return 5;
+  if (pathname.startsWith("/components")) return 4;
   return -1;
 }
 

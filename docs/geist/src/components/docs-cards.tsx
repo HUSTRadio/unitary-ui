@@ -45,7 +45,7 @@ import { cn } from "@/lib/utils";
 /* ---------- 通用卡片单元 ---------- */
 
 interface DocCardProps {
-  /** hash 路由目标（如 "/brands" → href="#/brands"） */
+  /** hash 路由目标（如 "/typography" → href="#/typography"） */
   href: string;
   title: string;
   description: string;
@@ -67,18 +67,7 @@ function DocCard({ href, title, description, children }: DocCardProps) {
   );
 }
 
-/* ---------- 6 张预览卡 ---------- */
-
-/** Brand Assets — 点阵背景 + 内联 SVG 三角 logo（点阵样式作用域内，不全局化） */
-function BrandAssetsPreview() {
-  return (
-    <div className="flex h-full w-full items-center justify-center [background-image:radial-gradient(circle,var(--gray-alpha-400)_1px,transparent_1px)] [background-size:16px_16px]">
-      <svg viewBox="0 0 24 24" className="size-14 fill-foreground" aria-hidden>
-        <path d="M12 2.5 22.5 21h-21L12 2.5Z" />
-      </svg>
-    </div>
-  );
-}
+/* ---------- 5 张预览卡 ---------- */
 
 /** Icons — 24 个 lucide 图标，8 列网格 */
 const ICON_PREVIEWS = [
@@ -244,10 +233,10 @@ function TypefacePreview() {
   return (
     <div className="flex w-full max-w-sm gap-3">
       <div className="flex-1 rounded-md border border-dashed border-border px-4 py-6 text-center text-label-16 text-foreground">
-        Geist Sans
+        HarmonyOS Sans SC
       </div>
       <div className="flex-1 rounded-md border border-dashed border-border px-4 py-6 text-center font-mono text-label-16 text-foreground">
-        Geist Mono
+        JetBrains Maple Mono
       </div>
     </div>
   );
@@ -256,11 +245,6 @@ function TypefacePreview() {
 /* ---------- 网格 ---------- */
 
 const DOC_CARDS: Omit<DocCardProps, "children">[] = [
-  {
-    href: "/brands",
-    title: "Brand Assets",
-    description: "Learn how to work with our brand assets.",
-  },
   {
     href: "/components",
     title: "Icons",
@@ -289,7 +273,6 @@ const DOC_CARDS: Omit<DocCardProps, "children">[] = [
 ];
 
 const CARD_PREVIEWS = [
-  <BrandAssetsPreview key="brand" />,
   <IconsPreview key="icons" />,
   <ComponentsPreview key="components" />,
   <ColorsPreview key="colors" />,

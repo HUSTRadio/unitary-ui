@@ -11,7 +11,7 @@ import { NAV_GROUPS, type NavGroup, type NavItem } from "../data/nav";
 /**
  * 文档站外壳 — Banner + Sidebar。
  * Banner：logo（内联 SVG 三角）+ 搜索框（kbd Ctrl K 提示）+ 三态主题切换。
- * Sidebar：分组导航（Foundations / Brands / Components），NavLink 选中态。
+ * Sidebar：分组导航（Foundations / Components），NavLink 选中态。
  */
 
 /* ---------- Banner ---------- */
@@ -20,25 +20,25 @@ const THEME_OPTIONS: { value: ThemePreference; label: React.ReactNode }[] = [
   {
     value: "system",
     label: (
-      <>
-        <Monitor className="size-3.5" aria-hidden /> system
-      </>
+      <span title="System">
+        <Monitor className="size-3.5" aria-hidden />
+      </span>
     ),
   },
   {
     value: "light",
     label: (
-      <>
-        <Sun className="size-3.5" aria-hidden /> light
-      </>
+      <span title="Light">
+        <Sun className="size-3.5" aria-hidden />
+      </span>
     ),
   },
   {
     value: "dark",
     label: (
-      <>
-        <Moon className="size-3.5" aria-hidden /> dark
-      </>
+      <span title="Dark">
+        <Moon className="size-3.5" aria-hidden />
+      </span>
     ),
   },
 ];

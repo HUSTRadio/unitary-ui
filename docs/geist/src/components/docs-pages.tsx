@@ -1,13 +1,3 @@
-import {
-  Accessibility,
-  Blocks,
-  Sparkles,
-  Triangle,
-  Type,
-  Wind,
-  type LucideIcon,
-} from "lucide-react";
-
 import { DocsCardGrid } from "./docs-cards";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +12,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * 文档站页面组件（docs/geist 专用）。
- * Introduction 首页 + Colors / Typography / Materials / Brands 内容页。
+ * Introduction 首页 + Colors / Typography / Materials 内容页。
  * 内容值均提取自 docs/geist-markdown-refs/ 快照（2026-08-08 抓取），禁止凭记忆写值。
  */
 
@@ -519,90 +509,6 @@ export function MaterialsPage() {
             </dl>
           </div>
         ))}
-      </div>
-    </div>
-  );
-}
-
-/* ================= Brands ================= */
-
-/** 技术栈品牌数据 — 本框架实际依赖，非官方 Vercel/Next.js 品牌 */
-interface BrandCard {
-  name: string;
-  role: string;
-  description: string;
-  icon: LucideIcon;
-}
-
-const BRAND_CARDS: BrandCard[] = [
-  {
-    name: "Vercel Geist",
-    role: "设计基准",
-    description: "视觉系统与快照来源：docs/geist-markdown-refs/ 下的官方页面抓取（2026-08-08）。",
-    icon: Triangle,
-  },
-  {
-    name: "shadcn/ui",
-    role: "组件基础",
-    description: "New York style 元件结构 + components.json 注册；根 src/components/ui 全部组件由此派生。",
-    icon: Blocks,
-  },
-  {
-    name: "Radix UI",
-    role: "行为原语",
-    description: "无障碍交互层：下拉、选择等键盘/焦点/ARIA 行为由 radix-ui 提供。",
-    icon: Accessibility,
-  },
-  {
-    name: "Tailwind CSS v4",
-    role: "原子化 CSS",
-    description: "@theme 定义设计 token，@source 扫描源码生成工具类。",
-    icon: Wind,
-  },
-  {
-    name: "lucide-react",
-    role: "图标库",
-    description: "1px stroke 线性图标；文档站与组件内图标统一从这里取。",
-    icon: Sparkles,
-  },
-  {
-    name: "HarmonyOS Sans SC + Maple Mono",
-    role: "字体",
-    description: "自托管 woff2（public/）+ @fontsource；--font-sans / --font-mono 双栈。",
-    icon: Type,
-  },
-];
-
-/** Brands — 本框架技术栈品牌卡片 */
-export function BrandsPage() {
-  return (
-    <div>
-      <h1 className="text-heading-40 text-foreground">Brands</h1>
-      <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
-        The tech stack behind this framework.
-      </p>
-
-      <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {BRAND_CARDS.map((brand) => {
-          const Icon = brand.icon;
-          return (
-            <div
-              key={brand.name}
-              className="material-base p-5 transition-colors hover:bg-gray-alpha-100"
-            >
-              <div className="flex items-start gap-3">
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-md border border-gray-alpha-400 bg-background text-foreground">
-                  <Icon className="size-4" strokeWidth={1.5} aria-hidden />
-                </span>
-                <div className="min-w-0">
-                  <h3 className="text-label-16 font-medium text-foreground">{brand.name}</h3>
-                  <p className="text-label-12 text-muted-foreground">{brand.role}</p>
-                </div>
-              </div>
-              <p className="mt-3 text-copy-13 text-muted-foreground">{brand.description}</p>
-            </div>
-          );
-        })}
       </div>
     </div>
   );

@@ -2,13 +2,10 @@
  * docs/geist 样式入口
  *
  * 引入顺序有讲究：
- * 1. Maple Mono 字重必须先于根样式引入——根 src/styles/index.css 只声明
- *    font-family 名（--font-mono: "Maple Mono", ...），不 @import @fontsource 包。
- * 2. 根 src/styles/index.css 是 Geist token / 排版 / 材质的唯一权威样式源。
- * 3. @source 让 Tailwind v4 额外扫描根仓库 src/components（shadcn/ui 元件
+ * 1. 根 src/styles/index.css 是 Geist token / 排版 / 材质的唯一权威样式源，
+ *    其中声明了 HarmonyOS Sans SC + JetBrains Maple Mono 的 @font-face（自托管 woff2）。
+ * 2. @source 让 Tailwind v4 额外扫描根仓库 src/components（shadcn/ui 元件
  *    不在 docs/geist 目录内，默认自动扫描覆盖不到）。
  */
-@import "@fontsource/maple-mono/400.css";
-@import "@fontsource/maple-mono/500.css";
 @import "../../../src/styles/index.css";
 @source "../../../src/components";

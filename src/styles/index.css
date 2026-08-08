@@ -22,6 +22,35 @@
 }
 
 /*
+ * JetBrains Maple Mono (self-hosted, subset woff2)
+ * JetBrains Mono + Maple Mono 融合字体，含 Nerd Font 图标。
+ * 核心特征：CJK:ASCII = 1200:600 = 2:1 完美等宽对齐。
+ * 子集化：保留 GB2312 CJK + Latin + 符号 + Nerd Font PUA。
+ * Source: JetBrainsMapleMono-NF-XX-NL-XX, OFL-1.1
+ */
+@font-face {
+  font-family: "JetBrains Maple Mono";
+  src: url("/fonts/jetbrains-maple-mono-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Maple Mono";
+  src: url("/fonts/jetbrains-maple-mono-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Maple Mono";
+  src: url("/fonts/jetbrains-maple-mono-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
  * Geist Style Framework — Theme Architecture (single canonical UI)
  * =================================================================
  * One canonical UI structure; Light / Dark are color schemes, not
@@ -42,7 +71,7 @@
     "HarmonyOS Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, "Noto Sans SC", sans-serif;
   --font-mono:
-    "Maple Mono", ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas,
+    "JetBrains Maple Mono", ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas,
     monospace;
 
   /* shadcn/ui alias roles → semantic tokens */
