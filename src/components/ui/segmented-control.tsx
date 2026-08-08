@@ -11,7 +11,8 @@ import { cn } from "@/lib/utils";
 
 interface SegmentedOption {
   value: string;
-  label: string;
+  /** ReactNode 使选项可同时渲染图标 + 文字（纯 string 向后兼容） */
+  label: React.ReactNode;
   /** 选中滑块的自定义语义色（如紧急程度：普通=中性 / 紧急=warning / 特急=danger） */
   activeClass?: string;
   /** 未选中时文字色 */
