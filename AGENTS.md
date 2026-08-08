@@ -4,16 +4,16 @@
 
 本仓库是 **Geist 样式框架**（geist-style-framework）——基于 **shadcn/ui** 的**可复用前端样式基础设施**，视觉系统以 **Vercel Geist 设计系统**为基准。核心形态：
 
-> 提供 Geist 视觉体系的**样式 token + 基础组件 + 规范快照**，供消费方项目（如 oa-frontend）直接复用；本仓库**不包含业务页面**，`src/App.tsx` 仅为 living styleguide 示例。
+> 提供 Geist 视觉体系的**样式 token + 基础组件 + 规范快照**，供消费方项目直接复用；本仓库**不包含业务页面**，`src/App.tsx` 仅为 living styleguide 示例。
 
 - **技术栈**：Vite + React + TypeScript + Tailwind CSS + shadcn/ui（如项目实际依赖与默认不符，以 `package.json` 为准）
 - **视觉系统**：**Vercel Geist**（视觉权威；shadcn/Radix 仅作为行为与无障碍基础设施，其视觉默认值不是设计权威）
 - **主题**：完整支持 light / dark 双主题，两套均映射 Geist 官方 token 角色
 - **响应式**：完整覆盖移动端 / 平板 / 桌面 / 超宽屏
 - **消费方式**：消费方项目复制 `src/styles/`、`src/components/ui/`、`src/lib/`，或直接以本仓库为样式基础层开发
-- **设计输入**：消费方项目通常以 Penpot 设计稿为输入（mind draft 性质），框架自身以 `docs/geist/` 官方快照为权威
+- **设计输入**：消费方项目通常以设计稿（mind draft 性质）为输入，框架自身以 `docs/geist/` 官方快照为权威
 
-## 设计稿处理规范（Penpot / Mind Draft）
+## 设计稿处理规范（Mind Draft）
 
 ### 设计稿定位
 
@@ -30,19 +30,16 @@ mind draft 性质的设计稿可能：布局未最终确定、间距 / 字号 / 
 5. **不确定时先确认**：遇到影响面大的歧义（整体布局、关键交互、页面取舍），先向用户确认；小问题自行决策并记录。
 6. **拒绝草稿内容**：设计稿中的标注、占位文字、探索性元素不得进入最终实现，除非用户明确要求保留。
 
-### 视觉处理 MCP（可用工具）
+### 视觉验证
 
-**视觉相关工作优先通过 MCP 工具完成**，不要因「看不到图」而回避视觉验证，也不要只靠代码推断视觉结果：
+视觉相关工作优先通过可用的截图与视觉分析工具完成，不要因「看不到图」而回避视觉验证，也不要只靠代码推断视觉结果：
 
-- **Penpot MCP**（`mcp_penpot_execute_code` / `mcp_penpot_export_shape`）：设计稿的唯一数据源。读取页面结构、图层、样式（尺寸 / 颜色 / 字号 / 圆角 / 间距），导出 shape / page 为 PNG / SVG 查看实际外观。
-- **视觉理解 MCP**（agent-vision：`_vision_analyze` / `_vision_compare` / `_vision_extract_text` / `_vision_crop_analyze`）：分析浏览器截图与设计稿导出图；对比设计稿 vs 实现；提取图中文字 / 色值 / 布局问题（white leak、对比度、对齐、溢出、元素重叠）。
-- **浏览器 MCP**（Playwright：screenshot / read_page / 计算样式实测）：本地开发页面截图、DOM 结构、getComputedStyle 验证。
+- 浏览器截图：本地开发页面截图、DOM 结构、getComputedStyle 实测。
 
 使用时机：
 
-- 收到设计稿 → 先用 Penpot MCP 解析结构与样式，再决定实现方案；
-- 实现后自检 → 浏览器截图 + 视觉理解 MCP 复核双主题、四视口、交互状态；
-- 用户反馈「颜色不对 / 对不齐 / 太亮太暗」等视觉问题 → 优先截图 + 视觉 MCP 定位根因并验证修复，而非猜测。
+- 实现后自检 → 浏览器截图 + 视觉分析工具复核双主题、四视口、交互状态；
+- 用户反馈「颜色不对 / 对不齐 / 太亮太暗」等视觉问题 → 优先截图定位根因并验证修复，而非猜测。
 
 ## 前端实现规范
 
@@ -236,9 +233,10 @@ mind draft 性质的设计稿可能：布局未最终确定、间距 / 字号 / 
 2. **确认计划**：向用户简述实现计划（页面清单、技术决策、不确定点），获确认后开始（用户明确要求直接做时除外）
 3. **Foundation Gate**：先完成共享基础层（Geist 字体、语义 token 双套、排版工具类、间距圆角、焦点环、基础组件、应用外壳），再进入屏幕实现
 4. **分步实现**：按组件 / 页面粒度实现，每个独立逻辑功能单独提交
-5. **自检**：四视口响应式（375 / 768 / 1440 / ≥1920）、双主题、交互状态（hover / active / disabled / loading / empty / error / focus-visible / reduced-motion）、无障碍、`vp check` / `vp build`；视觉结果用浏览器截图 + 视觉理解 MCP 复核，不凭代码推断
+5. **自检**：四视口响应式（375 / 768 / 1440 / ≥1920）、双主题、交互状态（hover / active / disabled / loading / empty / error / focus-visible / reduced-motion）、无障碍、`vp check` / `vp build`；视觉结果用浏览器截图 + 视觉分析工具复核，不凭代码推断
 6. **Geist 审查**：整体扫一遍 anti-pattern（装饰渐变、卡片套卡片、超大圆角、偏离中性、Mono 排正文、硬编码颜色），对照 `docs/geist/` 本地快照逐项核对（色值 / 圆角 / 材质 / 排版类 / 组件选择），不合格即修订
-7. **提交**：遵循本文件 Git 规范提交
+7. **效果图更新（稳定后必做）**：样式 / 组件 / 示例页更新后，若已达到**稳定可生产的效果**，必须重新生成 README 效果图——用 Playwright 截取受影响页面（双主题），存入 `images/`（覆盖对应文件），并确认 README「效果图」区块的相对路径引用仍正确。截图脚本参考仓库历史（`vp dev` + Playwright chromium 截图 1440×900）
+8. **提交**：遵循本文件 Git 规范提交
 
 ## Git 提交规范
 

@@ -100,7 +100,7 @@ export function SettingsExample() {
 
       {/* 操作 */}
       <div className="flex items-center gap-3">
-        <Button onClick={handleSave} prefix={<Save className="size-4" aria-hidden />}>
+        <Button onClick={handleSave} prefix={<Save className="size-3.5" aria-hidden />}>
           {saved ? "已保存" : "保存更改"}
         </Button>
         <Button variant="outline">恢复默认</Button>

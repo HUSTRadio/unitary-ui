@@ -84,7 +84,7 @@ export function DataTableExample() {
             {ASSETS.length} 项资产 · 已选择 {selected.length} 项
           </p>
         </div>
-        <Button prefix={<Plus className="size-4" aria-hidden />}>登记资产</Button>
+        <Button prefix={<Plus className="size-3.5" aria-hidden />}>登记资产</Button>
       </div>
 
       <div className="flex flex-wrap items-center gap-3">

@@ -48,7 +48,6 @@ function SegmentedControl({
       left: el.offsetLeft,
     });
   }, [value, options]);
-
   React.useEffect(() => {
     measure();
   }, [measure, value]);
@@ -84,14 +83,14 @@ function SegmentedControl({
       )}
       aria-label={ariaLabel}
     >
-      {/* 滑块指示器 */}
+      {/* 滑块指示器：与选中项完全重合（offsetLeft/offsetWidth 已含容器 padding） */}
       {slider && (
         <span
           aria-hidden
           className="absolute top-1 bottom-1 rounded-[4px] transition-all duration-200 ease-out"
           style={{
-            width: slider.width - 8, // p-1 内边距补偿
-            left: slider.left + 4,
+            width: slider.width,
+            left: slider.left,
             backgroundColor: sliderBg,
           }}
         />

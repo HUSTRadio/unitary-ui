@@ -130,7 +130,7 @@ export default function App() {
               <Button variant="destructive">危险</Button>
               <Button size="sm">小号</Button>
               <Button size="lg">大号</Button>
-              <Button prefix={<Plus className="size-4" aria-hidden />}>带图标</Button>
+              <Button prefix={<Plus className="size-3.5" aria-hidden />}>带图标</Button>
               <Button loading>加载中</Button>
               <Button disabled>禁用</Button>
             </Section>
