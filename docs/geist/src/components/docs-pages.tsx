@@ -21,7 +21,7 @@ export function IntroductionPage() {
   return (
     <div>
       <h1 className="text-heading-40 text-foreground">Geist Style Framework</h1>
-      <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
+      <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         Vercel design system for building consistent web experiences.
       </p>
       <DocsCardGrid className="mt-10" />

@@ -754,37 +754,35 @@
 @utility text-heading-40 {
   font-size: 2.5rem;
   line-height: 3rem; /* 48px */
-  letter-spacing: -0.06em;
+  letter-spacing: -0.02em;
   font-weight: 600;
 }
 @utility text-heading-32 {
   font-size: 2rem;
   line-height: 2.5rem; /* 40px */
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   font-weight: 600;
 }
 @utility text-heading-24 {
   font-size: 1.5rem;
   line-height: 2rem; /* 32px */
-  letter-spacing: -0.04em;
+  letter-spacing: -0.01em;
   font-weight: 600;
 }
 @utility text-heading-20 {
   font-size: 1.25rem;
   line-height: 1.625rem; /* 26px */
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   font-weight: 600;
 }
 @utility text-heading-16 {
   font-size: 1rem;
   line-height: 1.5rem; /* 24px */
-  letter-spacing: -0.02em;
   font-weight: 600;
 }
 @utility text-heading-14 {
   font-size: 0.875rem;
   line-height: 1.25rem; /* 20px */
-  letter-spacing: -0.02em;
   font-weight: 600;
 }
 
