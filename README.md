@@ -15,6 +15,7 @@
 | Agent 约束        | `AGENTS.md`            | 框架通用开发约束（Geist 视觉规范 / Git 规范 / Vite+ 流程）                                                                                   |
 | Living styleguide | `src/App.tsx`          | 组件总览 + 4 个组合示例导航                                                                                                                  |
 | 组合示例          | `src/examples/`        | FormExample（表单校验/加载态）/ DataTableExample（表格+筛选+选择）/ WorkflowExample（审批步骤）/ SettingsExample（设置面板）                 |
+| 文档站            | `docs/geist/`          | 复刻 Vercel Geist 官方文档站（Introduction/Colors/Typography/Materials/Brands/Components），`vp dev docs/geist` serve；问题清单见 `docs/geist-docs-findings.md` |
 
 ## 效果图
 

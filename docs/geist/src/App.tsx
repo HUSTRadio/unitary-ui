@@ -41,24 +41,26 @@ export default function App() {
       <div className="flex flex-1">
         <DocsSidebar />
         <main className="min-w-0 flex-1 px-8 py-10">
-          {Page ? (
-            <Page />
-          ) : (
-            <>
-              <h1 className="text-heading-32 text-foreground">页面开发中</h1>
-              <p className="mt-2 text-copy-14 text-muted-foreground">
-                该页面（{pathname}）由后续任务实现。
-              </p>
-            </>
-          )}
+          <div className="mx-auto max-w-[1280px]">
+            {Page ? (
+              <Page />
+            ) : (
+              <>
+                <h1 className="text-heading-32 text-foreground">页面开发中</h1>
+                <p className="mt-2 text-copy-14 text-muted-foreground">
+                  该页面（{pathname}）由后续任务实现。
+                </p>
+              </>
+            )}
 
-          {/* 内容页页脚 — 反馈区 + Next 分页（官方文档站每个页面底部都有） */}
-          {Page && (
-            <div className="mt-16 border-t border-border pt-8">
-              <FeedbackPanel />
-              <DocsPagination />
-            </div>
-          )}
+            {/* 内容页页脚 — 反馈区 + Next 分页（官方文档站每个页面底部都有） */}
+            {Page && (
+              <div className="mt-16 border-t border-border pt-8">
+                <FeedbackPanel />
+                <DocsPagination />
+              </div>
+            )}
+          </div>
         </main>
       </div>
     </div>
