@@ -11,8 +11,9 @@ import { cn } from "@/lib/utils";
  * - variants: default / destructive / warning / outline / secondary / ghost / link
  * - sizes: tiny 24 / small 32 / medium 36 / large 40（默认 medium）
  * - shapes: square（默认）/ circle（pill）/ rounded（pill + shadow）
- * - prefix / suffix：图标 14px，图标↔文字间距 6px（margin 控制，
- *   无 flex gap，与官方一致）；padding 左右 10px
+ * - prefix / suffix：图标 14px，图标↔文字间距 3px（mr-[3px]，
+ *   与官方一致）；图标包裹 span min-w-5（20px 最小宽度，居中对齐）
+ * - loading：spinner 同样用 mr-[3px] 包裹 span，与 prefix 间距一致
  * - loading：spinner + 保持 label，disabled 态
  * - disabled：default 变灰（gray-100 + gray-700），其余保持原色
  */
@@ -97,17 +98,19 @@ function Button({
       {...props}
     >
       {loading ? (
-        <Loader2 className="size-3.5 animate-spin" aria-hidden />
+        <span className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center" aria-hidden>
+          <Loader2 className="size-3.5 animate-spin" />
+        </span>
       ) : (
         prefix && (
-          <span className="mr-1.5 flex shrink-0 items-center [&_svg]:size-3.5" aria-hidden>
+          <span className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5" aria-hidden>
             {prefix}
           </span>
         )
       )}
-      <span className="inline-block truncate">{children}</span>
+      <span className="inline-block truncate px-1.5">{children}</span>
       {!loading && suffix && (
-        <span className="ml-1.5 flex shrink-0 items-center [&_svg]:size-3.5" aria-hidden>
+        <span className="ml-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5" aria-hidden>
           {suffix}
         </span>
       )}
