@@ -40,9 +40,9 @@ const buttonVariants = cva(
         xs: "h-6 rounded-md px-1.5 [&_svg]:size-3",
         sm: "h-8 rounded-md px-1.5",
         lg: "h-10 rounded-[8px] px-3.5",
-        icon: "size-9",
+        icon: "size-9 [&_svg]:size-4 [&_svg]:[stroke-width:1px]",
         "icon-xs": "size-6 rounded-md [&_svg]:size-3",
-        "icon-sm": "size-8",
+        "icon-sm": "size-8 [&_svg]:size-4 [&_svg]:[stroke-width:1px]",
         "icon-lg": "size-10",
       },
       shape: {
