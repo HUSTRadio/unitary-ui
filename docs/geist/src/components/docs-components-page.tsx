@@ -414,6 +414,134 @@ function renderDemo(name: string): React.ReactNode {
   }
 }
 
+/* ---------- 额外分段（Sizes / Variants / States） ---------- */
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="mt-10">
+      <h2 className="text-heading-24 text-foreground">{title}</h2>
+      <div className="mt-6 flex min-h-28 flex-wrap items-center gap-x-6 gap-y-4 rounded-[8px] border border-gray-alpha-400 bg-background p-6">
+        {children}
+      </div>
+    </section>
+  );
+}
+
+/** 名称 → 额外演示分段（Sizes / Variants / States），未命中的组件返回 null */
+function renderExtraSections(name: string): React.ReactNode {
+  switch (name) {
+    case "button":
+      return (
+        <>
+          <Section title="Sizes">
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-3">
+                <Button type="button" size="sm">Small</Button>
+                <Button type="button">Medium</Button>
+                <Button type="button" size="lg">Large</Button>
+              </div>
+            </div>
+          </Section>
+          <Section title="Variants">
+            <div className="flex flex-wrap items-center gap-3">
+              <Button type="button">Default</Button>
+              <Button type="button" variant="secondary">Secondary</Button>
+              <Button type="button" variant="outline">Outline</Button>
+              <Button type="button" variant="ghost">Ghost</Button>
+              <Button type="button" variant="destructive">Destructive</Button>
+            </div>
+          </Section>
+          <Section title="Prefix and Suffix">
+            <div className="flex flex-wrap items-center gap-3">
+              <Button type="button" prefix={<Search aria-hidden />}>Search</Button>
+              <Button type="button" variant="secondary" prefix={<Copy aria-hidden />}>Copy</Button>
+              <Button type="button" variant="outline" loading>Loading</Button>
+              <Button type="button" disabled>Disabled</Button>
+            </div>
+          </Section>
+        </>
+      );
+    case "input":
+      return (
+        <>
+          <Section title="States">
+            <div className="flex w-full max-w-md flex-col gap-3">
+              <Input placeholder="Default" aria-label="默认" />
+              <Input placeholder="Disabled" disabled aria-label="禁用" />
+              <Input placeholder="With value" defaultValue="geist-docs" aria-label="有值" />
+            </div>
+          </Section>
+        </>
+      );
+    case "select":
+      return (
+        <>
+          <Section title="With Options">
+            <Select defaultValue="banana">
+              <SelectTrigger className="w-56" aria-label="选择水果">
+                <SelectValue placeholder="Select a fruit" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="apple">Apple</SelectItem>
+                <SelectItem value="orange">Orange</SelectItem>
+                <SelectItem value="banana">Banana</SelectItem>
+                <SelectItem value="grape">Grape</SelectItem>
+              </SelectContent>
+            </Select>
+          </Section>
+        </>
+      );
+    case "toggle":
+      return (
+        <>
+          <Section title="States">
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-3">
+                <Toggle defaultChecked aria-label="开启" />
+                <span className="text-copy-14 text-muted-foreground">Checked (ON)</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Toggle aria-label="关闭" />
+                <span className="text-copy-14 text-muted-foreground">Unchecked (OFF)</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Toggle disabled aria-label="禁用关闭" />
+                <span className="text-copy-14 text-muted-foreground">Disabled</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Toggle defaultChecked size="sm" aria-label="小号开启" />
+                <span className="text-copy-14 text-muted-foreground">Small size</span>
+              </div>
+            </div>
+          </Section>
+        </>
+      );
+    case "checkbox":
+      return (
+        <>
+          <Section title="Indeterminate">
+            <div className="flex flex-col gap-3">
+              <label className="flex cursor-pointer items-center gap-2.5">
+                <Checkbox checked="indeterminate" aria-label="半选" />
+                <span className="text-copy-14 text-foreground">Indeterminate (partial selection)</span>
+              </label>
+              <label className="flex cursor-pointer items-center gap-2.5">
+                <Checkbox checked aria-label="选中" />
+                <span className="text-copy-14 text-muted-foreground">Checked</span>
+              </label>
+              <label className="flex cursor-pointer items-center gap-2.5">
+                <Checkbox aria-label="未选中" />
+                <span className="text-copy-14 text-muted-foreground">Unchecked</span>
+              </label>
+            </div>
+          </Section>
+        </>
+      );
+    default:
+      return null;
+  }
+}
+
 /* ---------- 总览模式 ---------- */
 
 function ComponentsOverview() {
@@ -483,6 +611,8 @@ function ComponentDetail({ name }: { name: string }) {
         <h2 className="text-heading-24 text-foreground">Live Demo</h2>
         <DemoSection>{renderDemo(name)}</DemoSection>
       </section>
+
+      {renderExtraSections(name)}
 
       <section className="mt-12">
         <h2 className="text-heading-24 text-foreground">Usage</h2>
