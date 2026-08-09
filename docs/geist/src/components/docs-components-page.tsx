@@ -552,12 +552,12 @@ function ComponentsOverview() {
         Building blocks for React applications.
       </p>
 
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
         {COMPONENTS.map((component) => (
           <a
             key={component.name}
             href={`#/components/${component.name}`}
-            className="group block border-b border-border p-6 transition-colors hover:bg-gray-alpha-100 sm:border-r"
+            className="group block border-b border-r border-border p-6 transition-colors hover:bg-gray-alpha-100"
           >
             <p className="font-mono text-label-12 text-muted-foreground">
               {component.official}
