@@ -85,8 +85,8 @@ export function FeedbackPanel() {
         />
         <div className="mt-2 flex justify-end">
           <Button
-            type="button"
-            size="sm"
+            typeName="button"
+            size="small"
             disabled={sent}
             onClick={() => setSent(true)}
             prefix={sent ? <Check className="size-3.5" aria-hidden /> : undefined}

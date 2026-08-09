@@ -186,9 +186,10 @@ function CodeCopyButton({ text }: { text: string }) {
 
   return (
     <Button
-      type="button"
-      variant="ghost"
-      size="icon-sm"
+      typeName="button"
+      type="tertiary"
+      svgOnly
+      size="small"
       aria-label={copied ? "已复制" : "复制代码"}
       onClick={handleCopy}
       className="shrink-0"
@@ -277,32 +278,32 @@ function EmptyStateDemo() {
 function ButtonDemo() {
   return (
     <>
-      <Button type="button">Default</Button>
-      <Button type="button" variant="secondary">
+      <Button typeName="button">Default</Button>
+      <Button typeName="button" type="secondary">
         Secondary
       </Button>
-      <Button type="button" variant="outline">
+      <Button typeName="button" type="tertiary">
         Outline
       </Button>
-      <Button type="button" variant="ghost">
+      <Button typeName="button" type="tertiary">
         Ghost
       </Button>
-      <Button type="button" variant="destructive">
+      <Button typeName="button" type="error">
         Destructive
       </Button>
-      <Button type="button" size="sm">
+      <Button typeName="button" size="small">
         Small
       </Button>
-      <Button type="button" size="lg">
+      <Button typeName="button" size="large">
         Large
       </Button>
-      <Button type="button" prefix={<Search aria-hidden />}>
+      <Button typeName="button" prefix={<Search aria-hidden />}>
         Search
       </Button>
-      <Button type="button" variant="outline" loading>
+      <Button typeName="button" type="tertiary" loading>
         Loading
       </Button>
-      <Button type="button" disabled>
+      <Button typeName="button" disabled>
         Disabled
       </Button>
     </>
@@ -379,7 +380,7 @@ function ModalDemo() {
   return (
     <Modal>
       <ModalTrigger asChild>
-        <Button type="button">Open Modal</Button>
+        <Button typeName="button">Open Modal</Button>
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>
@@ -388,11 +389,11 @@ function ModalDemo() {
         </ModalHeader>
         <ModalFooter>
           <ModalClose asChild>
-            <Button type="button" variant="secondary">
+            <Button typeName="button" type="secondary">
               Cancel
             </Button>
           </ModalClose>
-          <Button type="button" variant="destructive">
+          <Button typeName="button" type="error">
             Delete
           </Button>
         </ModalFooter>
@@ -480,7 +481,7 @@ function SpinnerDemo() {
   return (
     <div className="flex items-center gap-6">
       <div className="flex flex-col items-center gap-2">
-        <Spinner size="sm" />
+        <Spinner size="small" />
         <span className="text-label-12 text-muted-foreground">sm</span>
       </div>
       <div className="flex flex-col items-center gap-2">
@@ -488,7 +489,7 @@ function SpinnerDemo() {
         <span className="text-label-12 text-muted-foreground">md</span>
       </div>
       <div className="flex flex-col items-center gap-2">
-        <Spinner size="lg" />
+        <Spinner size="large" />
         <span className="text-label-12 text-muted-foreground">lg</span>
       </div>
     </div>
@@ -586,7 +587,7 @@ function ToggleDemo() {
 function TooltipDemo() {
   return (
     <Tooltip text="The Evil Rabbit Jumped over the Fence">
-      <Button type="button" variant="outline">
+      <Button typeName="button" type="tertiary">
         Hover me
       </Button>
     </Tooltip>
@@ -638,7 +639,7 @@ function ToastDemo() {
 
   return (
     <>
-      <Button type="button" onClick={() => toasts.message({ text: "Project deleted" })}>
+      <Button typeName="button" onClick={() => toasts.message({ text: "Project deleted" })}>
         Show Toast
       </Button>
       <Toasts />
@@ -660,7 +661,7 @@ function DrawerDemo() {
 
   return (
     <>
-      <Button type="button" onClick={() => setOpen(true)}>
+      <Button typeName="button" onClick={() => setOpen(true)}>
         Open Drawer
       </Button>
       <Drawer show={open} onDismiss={() => setOpen(false)}>
@@ -668,10 +669,10 @@ function DrawerDemo() {
           <DrawerTitle>Filter Logs</DrawerTitle>
           <DrawerDescription>Narrow the logs by environment.</DrawerDescription>
           <div className="mt-5 flex gap-3">
-            <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
+            <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button type="button" onClick={() => setOpen(false)}>
+            <Button typeName="button" onClick={() => setOpen(false)}>
               Apply
             </Button>
           </div>
@@ -696,7 +697,7 @@ function SheetDemo() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button type="button">Open Sheet</Button>
+        <Button typeName="button">Open Sheet</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
@@ -705,7 +706,7 @@ function SheetDemo() {
         </SheetHeader>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="button" variant="secondary">
+            <Button typeName="button" type="secondary">
               Close
             </Button>
           </SheetClose>
@@ -725,9 +726,59 @@ function SnippetDemo() {
 }
 
 function BookDemo() {
+  const title = "The user experience of the Frontend Cloud";
+
   return (
-    <div className="w-full max-w-md">
-      <Book title="The user experience of the Frontend Cloud" />
+    <div className="w-full space-y-10">
+      <section aria-labelledby="book-default-heading" className="space-y-4">
+        <h3 id="book-default-heading" className="text-heading-20">
+          Default
+        </h3>
+        <div className="flex min-h-80 items-center justify-center rounded-md border border-gray-alpha-400 p-8">
+          <Book title={title} />
+        </div>
+      </section>
+
+      <section aria-labelledby="book-variants-heading" className="space-y-4">
+        <h3 id="book-variants-heading" className="text-heading-20">
+          Variants
+        </h3>
+        <div className="grid min-h-80 place-items-center gap-8 rounded-md border border-gray-alpha-400 p-8 sm:grid-cols-2">
+          <Book title={title} variant="simple" />
+          <Book title={title} />
+        </div>
+      </section>
+
+      <section aria-labelledby="book-colors-heading" className="space-y-4">
+        <h3 id="book-colors-heading" className="text-heading-20">
+          Custom color
+        </h3>
+        <div className="grid min-h-80 place-items-center gap-8 rounded-md border border-gray-alpha-400 p-8 sm:grid-cols-2 xl:grid-cols-3">
+          <Book color="#9D2127" title="How Vercel improves your website's search engine ranking" />
+          <Book
+            color="#7DC1C1"
+            textColor="white"
+            title="Design Engineering at Vercel"
+            variant="simple"
+          />
+          <Book color="#FED954" title={title} />
+        </div>
+      </section>
+
+      <section aria-labelledby="book-responsive-heading" className="space-y-4">
+        <h3 id="book-responsive-heading" className="text-heading-20">
+          Responsive and textured
+        </h3>
+        <div className="flex min-h-80 items-center justify-center rounded-md border border-gray-alpha-400 p-8">
+          <Book
+            color="#7DC1C1"
+            textured
+            title="Design Engineering at Vercel"
+            variant="simple"
+            width={{ sm: 150, md: 196 }}
+          />
+        </div>
+      </section>
     </div>
   );
 }
@@ -774,7 +825,7 @@ function CommandMenuDemo() {
   return (
     <CommandMenu open={open} onOpenChange={setOpen}>
       <CommandMenuTrigger asChild>
-        <Button type="button">Open Command Menu</Button>
+        <Button typeName="button">Open Command Menu</Button>
       </CommandMenuTrigger>
       <CommandMenuContent>
         <CommandMenuInput placeholder="What do you need?" />
@@ -926,7 +977,7 @@ function CodeDemo() {
         Install with <Code>npm i geist</Code> and import the component.
       </p>
       <p className="text-copy-14 text-muted-foreground">
-        Use <Code>variant="destructive"</Code> for destructive confirmations.
+        Use <Code>type="error"</Code> for destructive confirmations.
       </p>
     </div>
   );
@@ -947,7 +998,7 @@ function DestructiveActionModalDemo() {
 
   return (
     <>
-      <Button type="button" variant="destructive" onClick={() => setOpen(true)}>
+      <Button typeName="button" type="error" onClick={() => setOpen(true)}>
         Delete Project
       </Button>
       <DestructiveActionModal
@@ -1031,7 +1082,7 @@ function ContextCardDemo() {
         <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
       </ContextCardBody>
       <ContextCardFooter>
-        <Button type="button" size="sm">
+        <Button typeName="button" size="small">
           View Project
         </Button>
       </ContextCardFooter>
@@ -1043,7 +1094,7 @@ function ContextMenuDemo() {
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
-        <Button type="button" variant="outline">
+        <Button typeName="button" type="tertiary">
           Right click here
         </Button>
       </ContextMenuTrigger>
@@ -1140,7 +1191,7 @@ function KeyboardInputDemo() {
 function BannerDemo() {
   return (
     <Banner button={{ href: "#/components", content: "Read more" }} className="w-full p-4">
-      <b>Big News</b> – A new framework version is available
+      <b>Big News</b> – New components finally available
     </Banner>
   );
 }
@@ -1205,7 +1256,7 @@ function EntityDemo() {
         <EntityDescription>evilrabbit@example.com</EntityDescription>
       </EntityContent>
       <EntityAction>
-        <Button variant="secondary" size="sm">
+        <Button type="secondary" size="small">
           Manage
         </Button>
       </EntityAction>
@@ -1550,11 +1601,11 @@ function renderExtraSections(name: string): React.ReactNode {
           <Section title="Sizes">
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
-                <Button type="button" size="sm">
+                <Button typeName="button" size="small">
                   Small
                 </Button>
-                <Button type="button">Medium</Button>
-                <Button type="button" size="lg">
+                <Button typeName="button">Medium</Button>
+                <Button typeName="button" size="large">
                   Large
                 </Button>
               </div>
@@ -1562,33 +1613,33 @@ function renderExtraSections(name: string): React.ReactNode {
           </Section>
           <Section title="Variants">
             <div className="flex flex-wrap items-center gap-3">
-              <Button type="button">Default</Button>
-              <Button type="button" variant="secondary">
+              <Button typeName="button">Default</Button>
+              <Button typeName="button" type="secondary">
                 Secondary
               </Button>
-              <Button type="button" variant="outline">
+              <Button typeName="button" type="tertiary">
                 Outline
               </Button>
-              <Button type="button" variant="ghost">
+              <Button typeName="button" type="tertiary">
                 Ghost
               </Button>
-              <Button type="button" variant="destructive">
+              <Button typeName="button" type="error">
                 Destructive
               </Button>
             </div>
           </Section>
           <Section title="Prefix and Suffix">
             <div className="flex flex-wrap items-center gap-3">
-              <Button type="button" prefix={<Search aria-hidden />}>
+              <Button typeName="button" prefix={<Search aria-hidden />}>
                 Search
               </Button>
-              <Button type="button" variant="secondary" prefix={<Copy aria-hidden />}>
+              <Button typeName="button" type="secondary" prefix={<Copy aria-hidden />}>
                 Copy
               </Button>
-              <Button type="button" variant="outline" loading>
+              <Button typeName="button" type="tertiary" loading>
                 Loading
               </Button>
-              <Button type="button" disabled>
+              <Button typeName="button" disabled>
                 Disabled
               </Button>
             </div>

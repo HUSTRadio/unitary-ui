@@ -145,9 +145,10 @@ function ComponentsPreview() {
           $ {COPY_TEXT}
         </span>
         <Button
-          type="button"
-          variant="ghost"
-          size="icon-sm"
+          typeName="button"
+          type="tertiary"
+          svgOnly
+          size="small"
           aria-label={copied ? "已复制" : "复制命令"}
           onClick={handleCopy}
           className="shrink-0"
@@ -162,14 +163,14 @@ function ComponentsPreview() {
       {/* 2 个 icon Button（Collaborate / Shield 风格） */}
       <div className="flex items-center gap-2">
         <Button
-          type="button"
-          variant="secondary"
+          typeName="button"
+          type="secondary"
           aria-label="Collaborate"
           prefix={<Users aria-hidden />}
         >
           Collaborate
         </Button>
-        <Button type="button" variant="secondary" size="icon" aria-label="Shield">
+        <Button typeName="button" type="secondary" svgOnly size="medium" aria-label="Shield">
           <Shield aria-hidden />
         </Button>
       </div>

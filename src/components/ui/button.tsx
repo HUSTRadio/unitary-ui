@@ -6,45 +6,43 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * Button — Geist 官方 Button 完整实现。
- * 对齐 vercel.com/geist/button 实测规范（2026-08-08 computed style）：
- * - variants: default / destructive / warning / outline / secondary / ghost / link
- * - sizes: tiny 24 / small 32 / medium 36 / large 40（默认 medium）
- * - shapes: square（默认）/ circle（pill）/ rounded（pill + shadow）
- * - prefix / suffix：图标 14px，图标↔文字间距 3px（mr-[3px]，
- *   与官方一致）；图标包裹 span min-w-5（20px 最小宽度，居中对齐）
- * - loading：spinner 同样用 mr-[3px] 包裹 span，与 prefix 间距一致
- * - loading：spinner + 保持 label，disabled 态
- * - disabled/loading：官方实测实色灰（light bg #f2f2f2 / fg #8f8f8f，
- *   dark bg #1a1a1a / fg #8f8f8f），不透明；消费 gray-100/gray-700 语义 token
+ * Button - Geist 官方 Button 单轨 API 实现。
+ *
+ * 官方 API（vercel.com/geist/button 实测 + bundle 源码）：
+ * - `type` = 视觉变体 prop：default / secondary / error / warning / tertiary
+ *   （primary / success / ghost / violet 不是合法值）
+ * - `typeName` = HTML type 属性，默认 "submit"
+ * - `svgOnly` + `aria-label` = 图标按钮（padding collapse）
+ * - `shape` = square（默认）/ circle / rounded
+ * - `shadow` = 营销页阴影（配合 shape="rounded"）
+ * - `size` = tiny(24) / small(32) / medium(36, 默认) / large(40)
+ * - `loading` = spinner + 保持 label + disabled
+ * - `prefix` / `suffix` = 前后缀图标
+ *
+ * 导出：Button, ButtonLink, CustomButton, buttonVariants
  */
+
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center rounded-md text-[length:14px] font-medium whitespace-nowrap transition-all outline-none focus-ring disabled:pointer-events-none disabled:bg-gray-100 disabled:text-gray-700 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "inline-flex shrink-0 items-center justify-center rounded-md text-button-14 font-medium whitespace-nowrap transition-all outline-none focus-ring disabled:pointer-events-none disabled:bg-gray-100 disabled:text-gray-700 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
-      variant: {
+      type: {
         default:
           "bg-primary text-primary-foreground hover:bg-action-hover hover:text-primary-foreground",
-        destructive:
+        secondary:
+          "border border-gray-alpha-400 bg-background text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
+        tertiary:
+          "border border-transparent bg-transparent text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
+        error:
           "bg-destructive text-destructive-foreground hover:bg-danger-hover hover:text-destructive-foreground focus-visible:ring-destructive/20",
         warning:
           "bg-warning-action text-warning-action-foreground hover:bg-warning-action-hover hover:text-warning-action-foreground focus-visible:ring-warning-action/30",
-        outline:
-          "border border-gray-alpha-400 bg-background text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
-        secondary:
-          "border border-gray-alpha-400 bg-background text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
-        ghost: "hover:bg-gray-alpha-200 hover:text-foreground",
-        link: "text-link underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-9 px-2.5",
-        xs: "h-6 rounded-md px-1.5 [&_svg]:size-3",
-        sm: "h-8 rounded-md px-1.5",
-        lg: "h-10 rounded-[8px] px-3.5 text-[length:16px] leading-6",
-        icon: "size-9 [&_svg]:size-4",
-        "icon-xs": "size-6 rounded-md [&_svg]:size-3",
-        "icon-sm": "size-8 [&_svg]:size-4",
-        "icon-lg": "size-10",
+        tiny: "h-6 rounded-md px-1.5 [&_svg]:size-3",
+        small: "h-8 rounded-md px-1.5",
+        medium: "h-9 px-2.5",
+        large: "h-10 rounded-[8px] px-3.5 text-button-16",
       },
       shape: {
         square: "",
@@ -53,30 +51,51 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      type: "default",
+      size: "medium",
       shape: "square",
     },
   },
 );
 
-type ButtonVariant = VariantProps<typeof buttonVariants>;
+type ButtonType = VariantProps<typeof buttonVariants>["type"];
+type ButtonSize = VariantProps<typeof buttonVariants>["size"];
+type ButtonShape = VariantProps<typeof buttonVariants>["shape"];
 
-export interface ButtonProps extends Omit<React.ComponentProps<"button">, "prefix">, ButtonVariant {
-  asChild?: boolean;
+export interface ButtonProps extends Omit<
+  React.ComponentProps<"button">,
+  "type" | "prefix" | "shape"
+> {
+  /** 视觉变体（官方 type prop）：default / secondary / tertiary / error / warning */
+  type?: ButtonType;
+  /** HTML type 属性（官方 typeName），默认 "submit" */
+  typeName?: "submit" | "button" | "reset";
+  /** 尺寸 */
+  size?: ButtonSize;
+  /** 形状 */
+  shape?: ButtonShape;
+  /** 营销页阴影（配合 shape="rounded"） */
+  shadow?: boolean;
+  /** 图标按钮模式：padding collapse + 必须配 aria-label */
+  svgOnly?: boolean;
   /** 加载态：显示 spinner 并禁用（保持 label） */
   loading?: boolean;
-  /** 前缀图标（14px，与文字间距 6px，官方规范） */
+  /** 前缀图标 */
   prefix?: React.ReactNode;
-  /** 后缀图标（14px，与文字间距 6px，官方规范） */
+  /** 后缀图标 */
   suffix?: React.ReactNode;
+  /** asChild 模式 */
+  asChild?: boolean;
 }
 
 function Button({
   className,
-  variant = "default",
-  size = "default",
+  type = "default",
+  typeName = "submit",
+  size = "medium",
   shape = "square",
+  shadow = false,
+  svgOnly = false,
   asChild = false,
   loading = false,
   prefix,
@@ -87,15 +106,35 @@ function Button({
 }: ButtonProps) {
   const Comp = asChild ? Slot.Root : "button";
 
+  // svgOnly 模式：图标按钮 padding collapse
+  const svgOnlyClasses = svgOnly
+    ? {
+        tiny: "size-6 rounded-md p-0 [&_svg]:size-3",
+        small: "size-8 rounded-md p-0 [&_svg]:size-4",
+        medium: "size-9 rounded-md p-0 [&_svg]:size-4",
+        large: "size-10 rounded-md p-0 [&_svg]:size-5",
+      }
+    : {};
+
+  const shadowClass = shadow ? "shadow-lg" : "";
+
+  const resolvedSize = svgOnly ? "medium" : size;
+
   return (
     <Comp
       data-slot="button"
-      data-variant={variant}
-      data-size={size}
+      data-geist-button=""
+      data-type={type}
+      data-size={resolvedSize}
       data-shape={shape}
+      type={typeName}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
-      className={cn(buttonVariants({ variant, size, shape, className }))}
+      className={cn(
+        buttonVariants({ type, size: resolvedSize, shape, className }),
+        svgOnly && svgOnlyClasses[size ?? "medium"],
+        shadowClass,
+      )}
       {...props}
     >
       {loading ? (
@@ -115,7 +154,7 @@ function Button({
           </span>
         )
       )}
-      <span className="inline-block truncate px-1.5">{children}</span>
+      {svgOnly ? children : <span className="inline-block truncate px-1.5">{children}</span>}
       {!loading && suffix && (
         <span
           className="ml-1 mr-0.5 flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5"
@@ -128,4 +167,68 @@ function Button({
   );
 }
 
-export { Button, buttonVariants, type ButtonVariant };
+/* ---------- ButtonLink ---------- */
+
+export interface ButtonLinkProps extends Omit<ButtonProps, "typeName" | "asChild" | "onClick"> {
+  href: string;
+}
+
+function ButtonLink({ href, children, ...props }: ButtonLinkProps) {
+  return (
+    <Button asChild typeName="button" {...props}>
+      <a href={href}>{children}</a>
+    </Button>
+  );
+}
+
+/* ---------- CustomButton ---------- */
+
+export interface CustomColorSet {
+  foreground: string;
+  background: string;
+  border: string;
+}
+
+export interface CustomButtonProps extends Omit<ButtonProps, "type" | "className" | "style"> {
+  normal: CustomColorSet;
+  hover: CustomColorSet;
+  active: CustomColorSet;
+  width?: number;
+}
+
+function CustomButton({ normal, hover, active, width, children, ...props }: CustomButtonProps) {
+  const style: React.CSSProperties = {
+    // CSS custom properties for state-based color override
+    ["--custom-fg" as string]: normal.foreground,
+    ["--custom-bg" as string]: normal.background,
+    ["--custom-border" as string]: normal.border,
+  };
+
+  if (width) style.width = `${width}px`;
+
+  return (
+    <Button
+      type="default"
+      className={cn(
+        "border border-[var(--custom-border)] bg-[var(--custom-bg)] text-[var(--custom-fg)]",
+        "hover:border-[var(--custom-hover-border)] hover:bg-[var(--custom-hover-bg)] hover:text-[var(--custom-hover-fg)]",
+        "active:border-[var(--custom-active-border)] active:bg-[var(--custom-active-bg)] active:text-[var(--custom-active-fg)]",
+      )}
+      style={{
+        ...style,
+        ["--custom-hover-fg" as string]: hover.foreground,
+        ["--custom-hover-bg" as string]: hover.background,
+        ["--custom-hover-border" as string]: hover.border,
+        ["--custom-active-fg" as string]: active.foreground,
+        ["--custom-active-bg" as string]: active.background,
+        ["--custom-active-border" as string]: active.border,
+      }}
+      typeName="button"
+      {...props}
+    >
+      {children}
+    </Button>
+  );
+}
+
+export { Button, ButtonLink, CustomButton, buttonVariants };

@@ -117,7 +117,7 @@ export function DataTableExample() {
           <TableRow>
             <TableHead className="w-10">
               <Checkbox
-                size="sm"
+                size="small"
                 aria-label="全选"
                 checked={allChecked ? true : selected.length > 0 ? "indeterminate" : false}
                 onCheckedChange={toggleAll}
@@ -141,7 +141,7 @@ export function DataTableExample() {
               >
                 <TableCell>
                   <Checkbox
-                    size="sm"
+                    size="small"
                     aria-label={`选择 ${asset.name}`}
                     checked={selected.includes(index)}
                     onCheckedChange={() => toggleRow(index)}
@@ -156,7 +156,7 @@ export function DataTableExample() {
                   <Badge variant={meta.variant}>{meta.label}</Badge>
                 </TableCell>
                 <TableCell className="text-right">
-                  <Button variant="ghost" size="sm">
+                  <Button type="tertiary" size="small">
                     查看
                   </Button>
                 </TableCell>

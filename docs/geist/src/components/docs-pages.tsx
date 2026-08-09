@@ -444,7 +444,7 @@ function SpecimenRow({
       {renderAsButton ? (
         // button 类仅在按钮内部使用：类挂在按钮内层 span 上，
         // 避免与 Button cva 的 text-[length:14px] 冲突
-        <Button type="button" variant="outline" size="default">
+        <Button typeName="button" type="tertiary" size="medium">
           <span className={className}>{renderSample(sample)}</span>
         </Button>
       ) : (

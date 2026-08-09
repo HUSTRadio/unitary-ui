@@ -125,12 +125,12 @@ export default function App() {
             {/* 按钮 */}
             <Section title="Button">
               <Button>默认</Button>
-              <Button variant="secondary">次要</Button>
-              <Button variant="outline">描边</Button>
-              <Button variant="ghost">幽灵</Button>
-              <Button variant="destructive">危险</Button>
-              <Button size="sm">小号</Button>
-              <Button size="lg">大号</Button>
+              <Button type="secondary">次要</Button>
+              <Button type="tertiary">描边</Button>
+              <Button type="tertiary">幽灵</Button>
+              <Button type="error">危险</Button>
+              <Button size="small">小号</Button>
+              <Button size="large">大号</Button>
               <Button prefix={<Plus className="size-3.5" aria-hidden />}>带图标</Button>
               <Button loading>加载中</Button>
               <Button disabled>禁用</Button>

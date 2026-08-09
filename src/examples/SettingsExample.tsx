@@ -97,7 +97,7 @@ export function SettingsExample() {
         <Button onClick={handleSave} prefix={<Save className="size-3.5" aria-hidden />}>
           {saved ? "已保存" : "保存更改"}
         </Button>
-        <Button variant="outline">恢复默认</Button>
+        <Button type="tertiary">恢复默认</Button>
       </div>
     </div>
   );

@@ -32,7 +32,8 @@ function MenuContainer({
 }
 
 interface MenuButtonProps extends Omit<ButtonProps, "type"> {
-  type?: "unstyled";
+  /** "unstyled" renders a plain button; otherwise passes visual type to Button */
+  variant?: "unstyled" | ButtonProps["type"];
   showChevron?: boolean;
 }
 
@@ -41,11 +42,10 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
     {
       className,
       children,
-      type,
+      variant,
       showChevron = false,
       prefix,
       suffix,
-      variant,
       size,
       shape,
       loading,
@@ -56,7 +56,7 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
     ref,
   ) => (
     <MenuPrimitive.Trigger asChild>
-      {type === "unstyled" ? (
+      {variant === "unstyled" ? (
         <button
           ref={ref}
           type="button"
@@ -69,8 +69,8 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
       ) : (
         <Button
           ref={ref}
-          type="button"
-          variant={variant}
+          typeName="button"
+          type={variant}
           size={size}
           shape={shape}
           loading={loading}

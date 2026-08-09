@@ -51,14 +51,25 @@ export const COMPONENTS: ComponentMeta[] = [
   {
     name: "book",
     label: "Book",
-    description: "A book-shaped container with flip-through pages.",
+    description: "A responsive book component.",
     official: "Book",
     code: `import { Book } from "@/components/ui/book";
 
-<Book title="The user experience of the Frontend Cloud" />`,
+<Book title="The user experience of the Frontend Cloud" />
+<Book title="The user experience of the Frontend Cloud" variant="simple" />
+<Book
+  color="#7DC1C1"
+  textColor="white"
+  textured
+  title="Design Engineering at Vercel"
+  variant="simple"
+  width={{ sm: 150, md: 196 }}
+/>`,
     bestPractices: [
       "Use Book for marketing pages, docs landing covers, and changelog hero shots where content needs the metaphor of a labeled volume.",
       "For in-product cards and dashboard tiles, use Card; Book is too decorative for repeated UI rows.",
+      "Use simple when the title carries the design; use stripe when an icon or color stripe adds category hierarchy.",
+      "Use responsive widths to preserve the cover proportion, and reserve the textured treatment for isolated hero shots.",
       "Treat the cover as decorative chrome and surface the title via the underlying heading element so screen readers don't double-announce.",
     ],
   },
@@ -124,10 +135,10 @@ export const COMPONENTS: ComponentMeta[] = [
     code: `import { Button } from "@/components/ui/button";
 
 <Button>Default</Button>
-<Button variant="outline" size="sm">Small</Button>
-<Button variant="secondary" size="lg">Large</Button>
-<Button variant="ghost" prefix={<Search />}>Search</Button>
-<Button variant="destructive" loading>Delete</Button>
+<Button type="tertiary" size="small">Small</Button>
+<Button type="secondary" size="large">Large</Button>
+<Button type="tertiary" prefix={<Search />}>Search</Button>
+<Button type="error" loading>Delete</Button>
 <Button disabled>Disabled</Button>`,
     bestPractices: [
       "Use Button for actions that mutate state (deploy, save, delete); use ButtonLink for navigation that changes the URL. Switch to a Menu or Split Button when more than one related action shares a row.",
@@ -324,7 +335,7 @@ export const COMPONENTS: ComponentMeta[] = [
     <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
   </ContextCardBody>
   <ContextCardFooter>
-    <Button size="sm">View Project</Button>
+    <Button size="small">View Project</Button>
   </ContextCardFooter>
 </ContextCard>`,
     bestPractices: [
@@ -352,7 +363,7 @@ export const COMPONENTS: ComponentMeta[] = [
 
 <ContextMenu>
   <ContextMenuTrigger asChild>
-    <Button variant="outline">Right click here</Button>
+    <Button type="tertiary">Right click here</Button>
   </ContextMenuTrigger>
   <ContextMenuContent>
     <ContextMenuItem>Open in New Tab</ContextMenuItem>
@@ -414,7 +425,7 @@ export const COMPONENTS: ComponentMeta[] = [
     code: `import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
 import { Button } from "@/components/ui/button";
 
-<Button variant="destructive" onClick={() => setOpen(true)}>Delete Project</Button>
+<Button type="error" onClick={() => setOpen(true)}>Delete Project</Button>
 <DestructiveActionModal
   open={open}
   onCancel={() => setOpen(false)}
@@ -501,7 +512,7 @@ import { Button } from "@/components/ui/button";
   <div className="p-5">
       <DrawerTitle>Filter Logs</DrawerTitle>
       <DrawerDescription>Narrow the logs by environment.</DrawerDescription>
-    <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+    <Button type="secondary" onClick={() => setOpen(false)}>Cancel</Button>
     <Button onClick={applyFilters}>Apply</Button>
   </div>
 </Drawer>`,
@@ -781,7 +792,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     label: "Modal",
     description: "Displays a dialog that interrupts the user.",
     official: "Modal",
-    code: `import { Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalDescription, ModalFooter, ModalClose } from "@/components/ui/modal";\n\n<Modal>\n  <ModalTrigger asChild>\n    <Button>Open Modal</Button>\n  </ModalTrigger>\n  <ModalContent>\n    <ModalHeader>\n      <ModalTitle>Delete Project</ModalTitle>\n      <ModalDescription>This action cannot be undone.</ModalDescription>\n    </ModalHeader>\n    <ModalFooter>\n      <ModalClose asChild>\n        <Button variant="secondary">Cancel</Button>\n      </ModalClose>\n      <Button variant="destructive">Delete</Button>\n    </ModalFooter>\n  </ModalContent>\n</Modal>`,
+    code: `import { Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalDescription, ModalFooter, ModalClose } from "@/components/ui/modal";\n\n<Modal>\n  <ModalTrigger asChild>\n    <Button>Open Modal</Button>\n  </ModalTrigger>\n  <ModalContent>\n    <ModalHeader>\n      <ModalTitle>Delete Project</ModalTitle>\n      <ModalDescription>This action cannot be undone.</ModalDescription>\n    </ModalHeader>\n    <ModalFooter>\n      <ModalClose asChild>\n        <Button type="secondary">Cancel</Button>\n      </ModalClose>\n      <Button type="error">Delete</Button>\n    </ModalFooter>\n  </ModalContent>\n</Modal>`,
     bestPractices: [
       "Use Modal when a decision must block the rest of the page. For persistent associated context where the underlying page stays readable, use Sheet on desktop or Drawer on mobile.",
       "Confirm destructive actions in a Modal. Drawer and Sheet don't fully dim the page, so they read as too soft for a delete or revoke.",
@@ -1000,7 +1011,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     </SheetHeader>
     <SheetFooter>
       <SheetClose asChild>
-        <Button variant="secondary">Close</Button>
+        <Button type="secondary">Close</Button>
       </SheetClose>
     </SheetFooter>
   </SheetContent>
@@ -1141,8 +1152,8 @@ const [value, setValue] = useState([50]);
     code: `import { Spinner } from "@/components/ui/spinner";
 
 <Spinner />
-<Spinner size="sm" />
-<Spinner size="lg" />`,
+<Spinner size="small" />
+<Spinner size="large" />`,
     bestPractices: [
       "Use Spinner for a single in-flight action or indeterminate wait where there’s no known progress to show.",
       "For a known duration or percentage, use Progress instead of a spinner.",
