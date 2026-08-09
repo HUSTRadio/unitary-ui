@@ -12,8 +12,23 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Book, BookPage } from "@/components/ui/book";
+import {
+  Browser,
+  BrowserAddressBar,
+  BrowserContent,
+  BrowserHeader,
+} from "@/components/ui/browser";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Choicebox,
+  ChoiceboxDescription,
+  ChoiceboxItem,
+  ChoiceboxLabel,
+} from "@/components/ui/choicebox";
+import { CopyButton } from "@/components/ui/copy-button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,7 +41,26 @@ import {
   EmptyStateIcon,
   EmptyStateTitle,
 } from "@/components/ui/empty-state";
+import { ErrorText } from "@/components/ui/error";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import {
+  FieldSet,
+  FieldSetItem,
+  FieldSetLabel,
+  FieldSetLegend,
+} from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
+import { JsonView } from "@/components/ui/json-view";
+import { Label } from "@/components/ui/label";
 import {
   Modal,
   ModalContent,
@@ -36,6 +70,7 @@ import {
   ModalTitle,
   ModalTrigger,
 } from "@/components/ui/modal";
+import { Note } from "@/components/ui/note";
 import {
   Pagination,
   PaginationItem,
@@ -44,7 +79,14 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Phone, PhoneScreen } from "@/components/ui/phone";
+import { Pill } from "@/components/ui/pill";
 import { Progress } from "@/components/ui/progress";
+import {
+  RadioGroup,
+  RadioGroupItem,
+  RadioGroupLabel,
+} from "@/components/ui/radio";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import {
   Select,
@@ -54,7 +96,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Snippet } from "@/components/ui/snippet";
 import { Spinner } from "@/components/ui/spinner";
 import { StatusDot } from "@/components/ui/status-dot";
 import { StepPoint } from "@/components/ui/step-point";
@@ -84,6 +137,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Video, VideoControls } from "@/components/ui/video";
 
 import { COMPONENTS, type ComponentMeta } from "../data/components";
 
@@ -662,6 +716,78 @@ function ToastDemo() {
   );
 }
 
+function CopyButtonDemo() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <CopyButton text="lipsum" />
+      <span className="text-copy-13 text-muted-foreground">Click to copy “lipsum”</span>
+    </div>
+  );
+}
+
+function DrawerDemo() {
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button type="button">Open Drawer</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Filter Logs</DrawerTitle>
+          <DrawerDescription>Narrow the logs by environment.</DrawerDescription>
+        </DrawerHeader>
+        <DrawerFooter>
+          <DrawerClose asChild>
+            <Button type="button" variant="secondary">Cancel</Button>
+          </DrawerClose>
+          <Button type="button">Apply</Button>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
+}
+
+function NoteDemo() {
+  return (
+    <div className="flex w-full max-w-lg flex-col gap-3">
+      <Note>Changing this region restarts all functions.</Note>
+      <Note variant="success">Deployment succeeded.</Note>
+      <Note variant="warning">Your plan has a usage limit.</Note>
+      <Note variant="destructive">The API key is invalid.</Note>
+    </div>
+  );
+}
+
+function SheetDemo() {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button type="button">Open Sheet</Button>
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Deployment Details</SheetTitle>
+          <SheetDescription>Inspect the latest production deployment.</SheetDescription>
+        </SheetHeader>
+        <SheetFooter>
+          <SheetClose asChild>
+            <Button type="button" variant="secondary">Close</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
+function SnippetDemo() {
+  return (
+    <div className="flex w-full max-w-lg flex-col gap-3">
+      <Snippet code="npm i geist" />
+      <Snippet code="vercel link" />
+    </div>
+  );
+}
+
 /** 名称 → 实时 demo 渲染器（未命中的分支在调用前已拦截） */
 function renderDemo(name: string): React.ReactNode {
   switch (name) {
@@ -673,14 +799,20 @@ function renderDemo(name: string): React.ReactNode {
       return <ButtonDemo />;
     case "checkbox":
       return <CheckboxDemo />;
+    case "copy-button":
+      return <CopyButtonDemo />;
     case "dropdown-menu":
       return <DropdownMenuDemo />;
+    case "drawer":
+      return <DrawerDemo />;
     case "empty-state":
       return <EmptyStateDemo />;
     case "input":
       return <InputDemo />;
     case "modal":
       return <ModalDemo />;
+    case "note":
+      return <NoteDemo />;
     case "pagination":
       return <PaginationDemo />;
     case "progress":
@@ -689,10 +821,14 @@ function renderDemo(name: string): React.ReactNode {
       return <SegmentedControlDemo />;
     case "select":
       return <SelectDemo />;
+    case "sheet":
+      return <SheetDemo />;
     case "separator":
       return <SeparatorDemo />;
     case "skeleton":
       return <SkeletonDemo />;
+    case "snippet":
+      return <SnippetDemo />;
     case "spinner":
       return <SpinnerDemo />;
     case "status-dot":

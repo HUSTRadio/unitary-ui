@@ -39,6 +39,80 @@ export const COMPONENTS: ComponentMeta[] = [
     ]
   },
   {
+    name: "banner",
+    label: "Banner",
+    description: "A prominent message that spans the full width of its container to announce important information.",
+    official: "Banner",
+    code: `import { Banner, BannerContent, BannerClose } from "@/components/ui/banner";
+
+<Banner>
+  <BannerContent>
+    <b>Big News</b> – New components finally available
+  </BannerContent>
+  <BannerClose />
+</Banner>`,
+  },
+  {
+    name: "book",
+    label: "Book",
+    description: "A book-shaped container with flip-through pages.",
+    official: "Book",
+    code: `import { Book, BookPage } from "@/components/ui/book";
+
+<Book title="The user experience of the Frontend Cloud">
+  <BookPage title="Cover">Cover content</BookPage>
+  <BookPage title="Chapter 1">Chapter content</BookPage>
+</Book>`,
+    bestPractices: [
+      "Use Book for marketing pages, docs landing covers, and changelog hero shots where content needs the metaphor of a labeled volume.",
+      "For in-product cards and dashboard tiles, use Card; Book is too decorative for repeated UI rows.",
+      "Treat the cover as decorative chrome and surface the title via the underlying heading element so screen readers don't double-announce.",
+    ],
+  },
+  {
+    name: "browser",
+    label: "Browser",
+    description: "Frames screenshots and demos inside a realistic browser window.",
+    official: "Browser",
+    code: `import { Browser, BrowserHeader, BrowserAddressBar, BrowserContent } from "@/components/ui/browser";
+
+<Browser>
+  <BrowserHeader>
+    <BrowserAddressBar>https://vercel.com</BrowserAddressBar>
+  </BrowserHeader>
+  <BrowserContent>Screenshot or demo content</BrowserContent>
+</Browser>`,
+    bestPractices: [
+      "Use Browser as marketing chrome around screenshots, demos, and recordings shown on landing pages, docs, and changelog posts.",
+      "Don't render real product UI inside a Browser frame; the chrome implies a screenshot, not a live surface.",
+      "The browser chrome is decorative and should carry aria-hidden; meaning lives on the inner image or video.",
+    ],
+  },
+  {
+    name: "breadcrumbs",
+    label: "Breadcrumbs",
+    description: "Navigation aid that shows the user's location within a site's hierarchy.",
+    official: "Breadcrumbs",
+    code: `import {
+  Breadcrumbs,
+  BreadcrumbsItem,
+  BreadcrumbsLink,
+  BreadcrumbsSeparator,
+} from "@/components/ui/breadcrumbs";
+
+<Breadcrumbs>
+  <BreadcrumbsItem>
+    <BreadcrumbsLink href="#">Home</BreadcrumbsLink>
+  </BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem>
+    <BreadcrumbsLink href="#">Dashboard</BreadcrumbsLink>
+  </BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem aria-current="page">Overview</BreadcrumbsItem>
+</Breadcrumbs>`,
+  },
+  {
     name: "badge",
     label: "Badge",
     description: "Small labels for statuses, counts, and metadata.",
@@ -89,6 +163,43 @@ export const COMPONENTS: ComponentMeta[] = [
     ]
   },
   {
+    name: "calendar",
+    label: "Calendar",
+    description: "Displays a month calendar from which users can pick a date.",
+    official: "Calendar",
+    code: `import { Calendar } from "@/components/ui/calendar";
+
+<Calendar />`,
+    bestPractices: [
+      "Pick Calendar for analytics ranges and any picker where day-of-week and month context matter.",
+      "Set min and max to the data window so users can't pick outside the retention range.",
+      "Default to the user's locale and timezone; never silently render UTC for a US-Pacific viewer.",
+    ]
+  },
+  {
+    name: "choicebox",
+    label: "Choicebox",
+    description: "A larger form of Radio for choices with more detail.",
+    official: "Choicebox",
+    code: `import { Choicebox, ChoiceboxItem, ChoiceboxLabel, ChoiceboxDescription } from "@/components/ui/choicebox";
+
+<Choicebox defaultValue="pro" aria-label="select a plan">
+  <ChoiceboxItem value="trial">
+    <ChoiceboxLabel>Pro Trial</ChoiceboxLabel>
+    <ChoiceboxDescription>Free for two weeks</ChoiceboxDescription>
+  </ChoiceboxItem>
+  <ChoiceboxItem value="pro">
+    <ChoiceboxLabel>Pro</ChoiceboxLabel>
+    <ChoiceboxDescription>Get started now</ChoiceboxDescription>
+  </ChoiceboxItem>
+</Choicebox>`,
+    bestPractices: [
+      "Use Choicebox when a choice benefits from a larger tap target plus a description or icon.",
+      "Single-select for mutually exclusive choices, multi-select for additive ones. Don't mix the two within one group.",
+      "Cap at 4-6 tiles. Past that, switch to Select or Combobox so the page doesn't scroll for a single field.",
+    ]
+  },
+  {
     name: "checkbox",
     label: "Checkbox",
     description: "Allows users to select one or more items from a group.",
@@ -111,6 +222,71 @@ export const COMPONENTS: ComponentMeta[] = [
       "Wrap related checkboxes in <fieldset> with a <legend> so screen readers announce the group name before each option.",
       "Row-select checkbox in a table has no visible label. Set aria-label=\"Select {row name}\" so the row stays identifiable out of context.",
       "The click target already extends to the label. Don’t override the <label>/htmlFor association with a custom wrapper that breaks the click region.",
+    ]
+  },
+  {
+    name: "collapse",
+    label: "Collapse",
+    description: "A vertically stacked set of headings that each reveal a related section of content.",
+    official: "Collapse",
+    code: `import { Collapse, CollapseTrigger, CollapseContent } from "@/components/ui/collapse";
+
+<Collapse>
+  <CollapseTrigger>Question A</CollapseTrigger>
+  <CollapseContent>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+  </CollapseContent>
+</Collapse>`,
+    bestPractices: [
+      "Use Collapse for optional, advanced, or repetitive content that most users skip on most visits (FAQ, advanced settings, request payload preview).",
+      "For top-level structure that every user reads, use page sections with regular headings; collapsing primary content hides what the page is about.",
+      "Default state is closed unless the first-time visitor must read the content to act.",
+      "Animate the open/close transition; jump-cuts make the page feel like it teleported.",
+      "Don’t nest Collapse more than one level deep. Two-level nesting hides too much and breaks the keyboard tab path.",
+      "Heading is Title Case and names the topic, not the action (Advanced Settings, not Show Advanced Settings).",
+      "Don’t put primary destructive actions inside a closed Collapse; the user has to click twice to reach the warning.",
+      "The trigger is a <button> with aria-expanded that flips on toggle and aria-controls pointing at the panel id.",
+      "Render the panel content in the DOM when closed (with hidden or visibility) so search and find-in-page still hit it; lazy-render only for expensive content.",
+    ]
+  },
+  {
+    name: "description",
+    label: "Description",
+    description: "Displays key/value metadata pairs as a definition list.",
+    official: "Description",
+    code: `import { Description, DescriptionItem, DescriptionKey, DescriptionValue } from "@/components/ui/description";
+
+<Description>
+  <DescriptionItem>
+    <DescriptionKey>Last Deployed</DescriptionKey>
+    <DescriptionValue>2h ago</DescriptionValue>
+  </DescriptionItem>
+  <DescriptionItem>
+    <DescriptionKey>Region</DescriptionKey>
+    <DescriptionValue>iad1</DescriptionValue>
+  </DescriptionItem>
+</Description>`,
+    bestPractices: [
+      "Use <Description> for definition-list metadata: a short Title Case key paired with a single value (Last Deployed, Region, Plan). For inline help under a form field, use the input’s helper-text slot instead.",
+      "Geist renders <dl>/<dt>/<dd> so screen readers announce each key/value pair as a definition. Don’t wrap the component in extra paragraphs that break the list semantics.",
+      "Key is a Title Case noun (Last Deployed, Build Duration); value is sentence case unless it’s a literal identifier, ID, or timestamp that should be preserved verbatim.",
+      "Pass tooltip only when the key alone is ambiguous and a one-sentence definition resolves it. The tooltip text is sentence case and ends with a period.",
+      "Don’t put interactive controls in the key slot. Buttons, menus, and links belong in the value or the parent layout, not the label.",
+    ],
+  },
+  {
+    name: "copy-button",
+    label: "Copy Button",
+    description: "Copies a given string to the clipboard and provides feedback when copied.",
+    official: "Copy Button",
+    code: `import { CopyButton } from "@/components/ui/copy-button";
+
+<CopyButton text="lipsum" />`,
+    bestPractices: [
+      "Use CopyButton for a single short string the user copies verbatim — a token, a command, an ID. For longer blocks, pair a full Snippet with its own copy affordance.",
+      "Show the checkmark feedback for about 1.5s after a successful copy so the action reads as done; reset it before the next click.",
+      "Set aria-label on the icon-only button so screen readers announce the action (Copy deployment URL), not just the icon.",
+      "Prefer navigator.clipboard.writeText with a hidden-textarea execCommand fallback so copying still works where clipboard permissions are missing.",
     ]
   },
   {
@@ -153,6 +329,40 @@ export const COMPONENTS: ComponentMeta[] = [
     ]
   },
   {
+    name: "drawer",
+    label: "Drawer",
+    description: "Displays content in a separate bottom view from the existing context.",
+    official: "Drawer",
+    code: `import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerClose } from "@/components/ui/drawer";
+
+<Drawer>
+  <DrawerTrigger asChild>
+    <Button>Open Drawer</Button>
+  </DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Filter Logs</DrawerTitle>
+      <DrawerDescription>Narrow the logs by environment.</DrawerDescription>
+    </DrawerHeader>
+    <DrawerFooter>
+      <DrawerClose asChild>
+        <Button variant="secondary">Cancel</Button>
+      </DrawerClose>
+      <Button>Apply</Button>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>`,
+    bestPractices: [
+      "Only use Drawer on small viewports. For a desktop side panel that keeps the page interactive, use Sheet; for a blocking decision, use Modal.",
+      "Don’t use Drawer to confirm destructive actions. The lack of a fully blocking dim weakens the severity signal that delete and revoke flows need; route to Modal.",
+      "A Drawer is good for short focused mobile actions: a single form, a filter sheet, a primary CTA paired with Cancel.",
+      "Tap-outside and swipe-down dismiss by default; preserve both unless the form has dirty input.",
+      "DrawerTitle is a Title Case statement that names the entity (Deployment Details, Filter Logs). Body is sentence case prose with one primary Verb + Noun button and a literal Cancel.",
+      "Trap focus inside the drawer while open and return focus to the trigger on close. Escape closes the drawer.",
+      "Lock body scroll on open and restore it on close so iOS rubber-band scroll doesn’t leak through.",
+    ]
+  },
+  {
     name: "empty-state",
     label: "Empty State",
     description: "Fills spaces when no content has been added yet or a view is empty.",
@@ -172,6 +382,49 @@ import { Inbox } from "lucide-react";
       "title is Title Case; description is sentence case and adds new information instead of restating the title.",
       "Cap at one primary CTA, plus one secondary. Three CTAs is a smell.",
       "After an async filter change, wrap the region in aria-live=\"polite\" so screen readers announce the new state.",
+    ]
+  },
+  {
+    name: "error",
+    label: "Error",
+    description: "Provides a friendly, actionable message when an operation fails.",
+    official: "Error",
+    code: `import { ErrorText } from "@/components/ui/error";
+
+<ErrorText>This email address is already in use.</ErrorText>
+
+<Input aria-invalid placeholder="Email" />
+<ErrorText>Email address is required.</ErrorText>`,
+    bestPractices: [
+      "Use the Error component as a block surface when a section or page-level resource failed to load: a panel, a dashboard card, a route boundary.",
+      "Pick toasts.error() for transient action failures and the error prop on Input for field-level validation. Don't replace either with this block.",
+      "Always pair platform or system errors with a stable identifier (request ID, deployment ID, run ID, trace ID). Validation and permission denials are user-state and don't need an ID.",
+      "State what happened and what to do next, in that order. Cut apologetic preambles (Unfortunately, Oops, We're sorry).",
+      "Use Couldn't or Can't for user-state errors; use Failed to for system or infra errors. Unable to is banned.",
+      "Don't fall back to Something Went Wrong as a title; name the resource that failed (Couldn't Load Deployments).",
+      "When the error appears asynchronously after a failed fetch, wrap the region in aria-live=\"polite\" so it's announced; reserve assertive for true blocking errors.",
+    ]
+  },
+  {
+    name: "fieldset",
+    label: "Fieldset",
+    description: "Groups related form controls into a single semantic unit.",
+    official: "Fieldset",
+    code: `import { FieldSet, FieldSetLegend, FieldSetItem, FieldSetLabel } from "@/components/ui/fieldset";
+import { Input } from "@/components/ui/input";
+
+<FieldSet>
+  <FieldSetLegend>Account Settings</FieldSetLegend>
+  <FieldSetItem>
+    <FieldSetLabel htmlFor="name">Name</FieldSetLabel>
+    <Input id="name" placeholder="Your name" />
+  </FieldSetItem>
+</FieldSet>`,
+    bestPractices: [
+      "Wrap related form controls in a <fieldset> with a <legend> so screen readers announce the group name before each option.",
+      "The legend is a Title Case noun like Account Settings or Required Permissions. No trailing colon.",
+      "Keep each FieldSetItem to one control plus its label on a single row; stack multiple items vertically for longer forms.",
+      "FieldSet renders the native fieldset/legend semantics for accessible grouping, with Geist tokens for the legend and item layout.",
     ]
   },
   {
@@ -202,6 +455,56 @@ import { Inbox } from "lucide-react";
     ]
   },
   {
+    name: "json-view",
+    label: "JsonView",
+    description: "Renders JSON as a syntax-highlighted tree.",
+    official: "JsonView",
+    code: `import { JsonView } from "@/components/ui/json-view";
+
+const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
+
+<JsonView data={data} />`,
+    bestPractices: [
+      "Use JSON View for JSON objects or arrays that users need to inspect, scan, collapse, expand, select, or copy.",
+      "Use a regular code block when the value is static documentation, not an interactive product surface.",
+      "Keep the source data as an object or array. Do not pre-stringify JSON before passing it to data.",
+    ]
+  },
+  {
+    name: "loading-dots",
+    label: "Loading Dots",
+    description: "Indicates an action running in the background with three bouncing dots.",
+    official: "Loading Dots",
+    code: `import { LoadingDots } from "@/components/ui/loading-dots";
+
+<LoadingDots />`,
+    bestPractices: [
+      "Use Loading Dots embedded in copy for short indeterminate waits, e.g. Saving<LoadingDots /> or Building<LoadingDots />.",
+      "For buttons, set the loading prop on Button instead of dropping dots inside the label.",
+      "For layout placeholders use Skeleton; for known progress use Progress; for icon-sized indeterminate waits use Spinner.",
+      "Keep the trailing label specific to the work in flight (Saving, Deploying, Uploading) so a wait over ~1s still tells the user what’s happening.",
+      "Don’t string Loading Dots after a completed verb (Saved<LoadingDots />); the dots imply ongoing work.",
+      "Mark the wrapping span with aria-live=\"polite\" so screen readers pick up the in-progress label without interrupting.",
+      "The dots are decorative; the surrounding text carries meaning, so don’t add aria-label to the component itself.",
+      "Honor prefers-reduced-motion and avoid pairing Loading Dots with another animated indicator on the same line.",
+    ]
+  },
+  {
+    name: "label",
+    label: "Label",
+    description: "Accessible text label for form controls.",
+    official: "Label",
+    code: `import { Label } from "@/components/ui/label";
+
+<Label htmlFor="email">Email Address</Label>
+<Input id="email" placeholder="Enter email address..." />`,
+    bestPractices: [
+      "Use Label to associate a visible text label with a form control so screen readers announce the field name.",
+      "Match the label to the control via htmlFor and the control's id so clicking the label focuses the field.",
+      "Keep labels short Title Case nouns: Project Name, Domain, Environment Variable Name.",
+    ]
+  },
+  {
     name: "modal",
     label: "Modal",
     description: "Displays a dialog that interrupts the user.",
@@ -225,6 +528,26 @@ import { Inbox } from "lucide-react";
       "Keep the Cancel button literally Cancel so screen-reader users hear a stable dismissal label across destructive flows.",
       "After an error inside the Modal, keep focus inside so the user can retry; after success, return focus to the trigger.",
     ],
+  },
+  {
+    name: "note",
+    label: "Note",
+    description: "Displays text that requires attention or provides additional information.",
+    official: "Note",
+    code: `import { Note } from "@/components/ui/note";
+
+<Note>Changing this region restarts all functions.</Note>
+<Note variant="success">Deployment succeeded.</Note>
+<Note variant="warning">Your plan has a usage limit.</Note>
+<Note variant="destructive">The API key is invalid.</Note>`,
+    bestPractices: [
+      "Use a Note for inline contextual feedback next to the field, card, or section it describes: a region change warning above a region picker, a rate-limit notice next to a usage gauge.",
+      "Pick Banner when the message is page-level or system-wide and needs a CTA, Toast for transient acknowledgments, Modal for destructive confirmations.",
+      "Choose variant by meaning: destructive for a problem the user must fix, warning for a consequence to acknowledge, success for a passed check; omit variant for the default info icon.",
+      "A Note is persistent until the underlying state changes; don’t add an ad hoc dismiss control because it competes with the message.",
+      "One Note per concept. Stacking three Notes on a card means the page architecture, not the Note copy, is wrong.",
+      "The body is one sentence in active voice that names the impact: Changing this region restarts all functions.",
+    ]
   },
   {
     name: "pagination",
@@ -258,6 +581,38 @@ import { Inbox } from "lucide-react";
     ]
   },
   {
+    name: "phone",
+    label: "Phone",
+    description: "Frames mobile screenshots inside a realistic phone shell.",
+    official: "Phone",
+    code: `import { Phone, PhoneScreen } from "@/components/ui/phone";
+
+<Phone>
+  <PhoneScreen>Mobile screenshot or demo content</PhoneScreen>
+</Phone>`,
+    bestPractices: [
+      "Use Phone as marketing chrome around mobile screenshots, recordings, and demo images on landing pages and docs.",
+      "Don't render live mobile product UI inside the frame; the chrome implies a captured screen, not an interactive surface.",
+      "Treat the chrome as decorative (aria-hidden); accessible naming belongs on the inner screenshot.",
+    ]
+  },
+  {
+    name: "pill",
+    label: "Pill",
+    description: "Clickable filter chip for toggling a query or selection.",
+    official: "Pill",
+    code: `import { Pill } from "@/components/ui/pill";
+
+<Pill variant="active">Active</Pill>
+<Pill onClick={() => {}}>Inactive</Pill>
+<Pill>Pending</Pill>`,
+    bestPractices: [
+      "Use Pill for clickable filter chips that toggle a query; for a static status label use Badge instead.",
+      "Pass variant=\"active\" to highlight the currently selected filter so sighted users see the active state without color alone.",
+      "Wire onClick only when the pill can actually filter; otherwise promote to a Badge.",
+    ]
+  },
+  {
     name: "progress",
     label: "Progress",
     description: "Shows progress relative to a limit or a task.",
@@ -272,6 +627,26 @@ import { Inbox } from "lucide-react";
       "For short indeterminate waits (~1–3s), use Spinner; for inline copy like Saving, use Loading Dots.",
       "Use max for the real ceiling (max={files.length}), not a hardcoded 100. The component computes the percentage from value / max.",
       "Pair the bar with text naming the work and units: Uploading 12 of 30 files. The bar alone doesn’t say what’s progressing.",
+    ]
+  },
+  {
+    name: "radio",
+    label: "Radio",
+    description: "Provides single user input from a selection of options.",
+    official: "Radio",
+    code: `import { RadioGroup, RadioGroupItem, RadioGroupLabel } from "@/components/ui/radio";
+
+<RadioGroup defaultValue="one" aria-label="Deployment Region">
+  <RadioGroupItem value="one">Option 1</RadioGroupItem>
+  <RadioGroupItem value="two">Option 2</RadioGroupItem>
+</RadioGroup>`,
+    bestPractices: [
+      "A single choice from 2–6 mutually exclusive options where seeing every option matters (deploy regions, plan tiers, billing cycle).",
+      "Past 6 options, switch to Select or Combobox so the list doesn't dominate the form.",
+      "For binary on/off, use Toggle. For richer per-option content (icon, description, badge), use Choicebox.",
+      "Pre-select the safest default so the field reads as configured, never as required-but-empty.",
+      "Required state goes on the RadioGroup, not on individual options.",
+      "Wrap related radios in <fieldset> + <legend> so screen readers announce the group name before each option.",
     ]
   },
   {
@@ -301,6 +676,41 @@ import { Inbox } from "lucide-react";
       "Title Case each Switch.Control label. Keep labels to one or two words and parallel: Source / Output, not Source / Show output.",
       "Always provide a label on every Switch.Control, even when an icon carries the meaning, so screen readers announce the option. The component renders it as geist-sr-only for icon-only controls.",
       "Pair an icon-only Switch with a Tooltip on each control so sighted users get the same label assistive tech receives.",
+    ]
+  },
+  {
+    name: "sheet",
+    label: "Sheet",
+    description: "Displays content in a side panel that slides in from the edge of the screen.",
+    official: "Sheet",
+    code: `import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from "@/components/ui/sheet";
+
+<Sheet>
+  <SheetTrigger asChild>
+    <Button>Open Sheet</Button>
+  </SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Deployment Details</SheetTitle>
+      <SheetDescription>Inspect the latest production deployment.</SheetDescription>
+    </SheetHeader>
+    <SheetFooter>
+      <SheetClose asChild>
+        <Button variant="secondary">Close</Button>
+      </SheetClose>
+    </SheetFooter>
+  </SheetContent>
+</Sheet>`,
+    bestPractices: [
+      "Use Sheet for persistent associated context like deployment details, log row inspection, or a member profile, where the underlying page stays useful.",
+      "For a blocking decision, use Modal. For a mobile-only bottom sheet, use Drawer.",
+      "Don’t use Sheet to confirm destructive actions. The default keeps the page interactive, which weakens severity for a delete or revoke.",
+      "Pick side from the trigger location: a row inspector slides from right, a global filter from left. Don’t change sides mid-session.",
+      "Outside-click does not auto-close, so always render an explicit close affordance and honor Escape.",
+      "Title is Title Case and names the entity (Deployment Details, Member Profile), not the page action. Body is read-mostly prose.",
+      "Trap focus inside the sheet while it’s open and return focus to the trigger row on close so keyboard users keep their place in the list.",
+      "Provide a visible close button labeled Close (or an icon button with aria-label=\"Close\") since clicking outside doesn’t dismiss.",
+      "Announce the sheet with aria-labelledby pointing at the title; pair it with aria-describedby only when the body is short and load-bearing.",
     ]
   },
   {
@@ -359,6 +769,27 @@ import { Inbox } from "lucide-react";
     ]
   },
   {
+    name: "show-more",
+    label: "Show More",
+    description: "Shows expanded or collapsed content with a progressive-disclosure trigger.",
+    official: "Show More",
+    code: `import { ShowMore } from "@/components/ui/show-more";
+
+<ShowMore
+  preview="A short preview of the content…"
+>
+  The full content revealed after clicking Show more.
+</ShowMore>`,
+    bestPractices: [
+      "Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.",
+      "Show enough rows to convey the shape of the list before truncating (5–10 typical). Truncating at 2 makes the affordance feel performative.",
+      "Pair the trigger with the count of hidden items so the user knows the cost of expanding (Show 12 More, then Show Less after expand). Title Case both labels.",
+      "Don’t cycle Show More then Show Less mid-flow on the same data set; collapsing rows after the user expanded them scrolls them away from where they were reading.",
+      "Render hidden rows in the DOM when the count is small so find-in-page works; lazy-load only when the dataset is large enough to hurt initial render.",
+      "The trigger is a <button> with aria-expanded and aria-controls pointing at the list. After expansion, move focus to the first newly revealed row so screen readers and keyboard users land in the new content.",
+    ]
+  },
+  {
     name: "skeleton",
     label: "Skeleton",
     description: "Displays a placeholder while content is loading.",
@@ -372,6 +803,22 @@ import { Inbox } from "lucide-react";
       "Set width and height to match the final content so the layout doesn’t shift when data resolves.",
       "Wrap the loading region in aria-busy=\"true\" and announce completion with aria-live=\"polite\" on the destination container.",
       "Respect prefers-reduced-motion for the pulse animation on low-power surfaces.",
+    ]
+  },
+  {
+    name: "snippet",
+    label: "Snippet",
+    description: "Displays a runnable shell command or short code the user is meant to copy.",
+    official: "Snippet",
+    code: `import { Snippet } from "@/components/ui/snippet";
+
+<Snippet code="npm i geist" />
+<Snippet code="vercel link" />`,
+    bestPractices: [
+      "Use Snippet for a runnable shell command the user is meant to copy. For inline tokens (env var names, paths) use InlineCode, and for multi-line source use CodeBlock.",
+      "Pass the command as text. The component renders any prompt itself; keep the copied payload in sync with what the user sees.",
+      "Keep one command per Snippet. For longer scripts, switch to CodeBlock so users can read before they copy.",
+      "Pair Snippet with a CopyButton affordance so users can grab the command without selecting text manually.",
     ]
   },
   {
@@ -618,6 +1065,20 @@ import { Inbox } from "lucide-react";
       "The control auto-disables when forcedTheme is set on the provider; setting disabled manually is for read-only previews of the control itself.",
       "Don’t rebuild a theme picker with Switch or three icon buttons. Theme Switcher already handles the icons, the aria-label per option, and System detection.",
       "The component composes its own labels from the theme keys (light, system, dark); leave them alone so they stay translatable through next-themes.",
+    ]
+  },
+  {
+    name: "video",
+    label: "Video",
+    description: "Embeds a video with built-in playback controls.",
+    official: "Video",
+    code: `import { Video, VideoControls } from "@/components/ui/video";
+
+<Video src="/demo.mp4" />`,
+    bestPractices: [
+      "Use Video to embed clips with built-in playback controls and lazy loading support.",
+      "Lock the inner video aspect ratio so the container doesn't reflow while media loads.",
+      "For autoplay, respect prefers-reduced-motion and provide a paused poster fallback.",
     ]
   },
 ];

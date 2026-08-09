@@ -61,7 +61,7 @@ const buttonVariants = cva(
 
 type ButtonVariant = VariantProps<typeof buttonVariants>;
 
-interface ButtonProps extends Omit<React.ComponentProps<"button">, "prefix">, ButtonVariant {
+export interface ButtonProps extends Omit<React.ComponentProps<"button">, "prefix">, ButtonVariant {
   asChild?: boolean;
   /** 加载态：显示 spinner 并禁用（保持 label） */
   loading?: boolean;
