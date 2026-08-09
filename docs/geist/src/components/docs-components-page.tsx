@@ -5,10 +5,12 @@ import {
   Copy,
   CopyCheck,
   Edit,
+  Inbox,
   Search,
   Trash2,
 } from "lucide-react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -18,7 +20,31 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  EmptyState,
+  EmptyStateDescription,
+  EmptyStateIcon,
+  EmptyStateTitle,
+} from "@/components/ui/empty-state";
 import { Input } from "@/components/ui/input";
+import {
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+  ModalTrigger,
+} from "@/components/ui/modal";
+import {
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  PaginationList,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { Progress } from "@/components/ui/progress";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import {
   Select,
@@ -27,6 +53,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Spinner } from "@/components/ui/spinner";
+import { StatusDot } from "@/components/ui/status-dot";
 import { StepPoint } from "@/components/ui/step-point";
 import {
   Table,
@@ -40,6 +70,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { ThemeSwitch } from "@/components/ui/theme-switch";
 import { Toggle } from "@/components/ui/toggle";
+import {
+  Toast,
+  ToastClose,
+  ToastDescription,
+  ToastProvider,
+  ToastTitle,
+  ToastViewport,
+} from "@/components/ui/toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import { COMPONENTS, type ComponentMeta } from "../data/components";
 
@@ -132,6 +176,68 @@ function BadgeDemo() {
       <Badge variant="destructive">Destructive</Badge>
       <Badge variant="success">Success</Badge>
     </>
+  );
+}
+
+function AvatarDemo() {
+  return (
+    <div className="flex items-center gap-4">
+      <Avatar>
+        <AvatarImage
+          src="https://github.com/vercel.png"
+          alt="Vercel"
+        />
+        <AvatarFallback>VC</AvatarFallback>
+      </Avatar>
+      <Avatar size="sm">
+        <AvatarFallback>AL</AvatarFallback>
+      </Avatar>
+      <Avatar size="lg">
+        <AvatarFallback>LG</AvatarFallback>
+      </Avatar>
+    </div>
+  );
+}
+
+function PaginationDemo() {
+  return (
+    <Pagination>
+      <PaginationList>
+        <PaginationItem>
+          <PaginationPrevious href="#" />
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink href="#">1</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink href="#" isActive>
+            2
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink href="#">3</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationNext href="#" />
+        </PaginationItem>
+      </PaginationList>
+    </Pagination>
+  );
+}
+
+function EmptyStateDemo() {
+  return (
+    <div className="w-full max-w-md">
+      <EmptyState>
+        <EmptyStateIcon>
+          <Inbox aria-hidden />
+        </EmptyStateIcon>
+        <EmptyStateTitle>No results</EmptyStateTitle>
+        <EmptyStateDescription>
+          Clear your filters to see all logs.
+        </EmptyStateDescription>
+      </EmptyState>
+    </div>
   );
 }
 
@@ -246,6 +352,32 @@ function InputDemo() {
   );
 }
 
+function ModalDemo() {
+  return (
+    <Modal>
+      <ModalTrigger asChild>
+        <Button type="button">Open Modal</Button>
+      </ModalTrigger>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>Delete Project</ModalTitle>
+          <ModalDescription>This action cannot be undone.</ModalDescription>
+        </ModalHeader>
+        <ModalFooter>
+          <ModalTrigger asChild>
+            <Button type="button" variant="secondary">
+              Cancel
+            </Button>
+          </ModalTrigger>
+          <Button type="button" variant="destructive">
+            Delete
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+}
+
 function SegmentedControlDemo() {
   const [view, setView] = React.useState("preview");
   return (
@@ -275,6 +407,78 @@ function SelectDemo() {
         <SelectItem value="v0">v0</SelectItem>
       </SelectContent>
     </Select>
+  );
+}
+
+function SeparatorDemo() {
+  return (
+    <div className="flex w-full max-w-xl flex-col gap-6">
+      <div className="flex flex-col gap-3">
+        <p className="text-label-14 text-muted-foreground">Horizontal</p>
+        <Separator />
+      </div>
+      <div className="flex flex-col gap-3">
+        <p className="text-label-14 text-muted-foreground">Vertical</p>
+        <div className="flex h-10 items-center gap-3">
+          <span className="text-copy-14 text-foreground">Left</span>
+          <Separator orientation="vertical" />
+          <span className="text-copy-14 text-muted-foreground">Middle</span>
+          <Separator orientation="vertical" />
+          <span className="text-copy-14 text-foreground">Right</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SkeletonDemo() {
+  return (
+    <div className="flex w-full max-w-xl flex-col gap-6">
+      {/* 卡片骨架 */}
+      <div className="flex w-full max-w-sm flex-col gap-3 rounded-lg border border-gray-alpha-400 p-4">
+        <div className="flex items-center gap-3">
+          <Skeleton className="size-10 rounded-full" />
+          <div className="flex flex-1 flex-col gap-2">
+            <Skeleton className="h-3 w-1/2" />
+            <Skeleton className="h-3 w-1/3" />
+          </div>
+        </div>
+        <Skeleton className="mt-2 h-4 w-full" />
+        <Skeleton className="h-4 w-5/6" />
+      </div>
+      {/* 文本骨架 */}
+      <div className="flex w-full max-w-sm flex-col gap-2">
+        <Skeleton className="h-4 w-1/3" />
+        <Skeleton className="h-3 w-full" />
+        <Skeleton className="h-3 w-5/6" />
+        <Skeleton className="h-3 w-2/3" />
+      </div>
+      {/* 圆形骨架 */}
+      <div className="flex items-center gap-4">
+        <Skeleton className="size-12 rounded-full" />
+        <Skeleton className="size-16 rounded-full" />
+        <Skeleton className="size-20 rounded-full" />
+      </div>
+    </div>
+  );
+}
+
+function SpinnerDemo() {
+  return (
+    <div className="flex items-center gap-6">
+      <div className="flex flex-col items-center gap-2">
+        <Spinner size="sm" />
+        <span className="text-label-12 text-muted-foreground">sm</span>
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        <Spinner size="md" />
+        <span className="text-label-12 text-muted-foreground">md</span>
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        <Spinner size="lg" />
+        <span className="text-label-12 text-muted-foreground">lg</span>
+      </div>
+    </div>
   );
 }
 
@@ -369,6 +573,21 @@ function ToggleDemo() {
   );
 }
 
+function TooltipDemo() {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button type="button" variant="outline">
+            Hover me
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>The Evil Rabbit Jumped over the Fence</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
 function ThemeSwitchDemo() {
   return (
     <div className="flex items-center gap-2">
@@ -380,9 +599,74 @@ function ThemeSwitchDemo() {
   );
 }
 
+function ProgressDemo() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-6">
+      <div className="flex flex-col gap-1.5">
+        <Progress value={30} aria-label="进度 30%" />
+        <span className="text-copy-13 text-muted-foreground">30%</span>
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <Progress value={60} aria-label="进度 60%" />
+        <span className="text-copy-13 text-muted-foreground">60%</span>
+      </div>
+      <div className="flex flex-col gap-1.5">
+        <Progress value={90} aria-label="进度 90%" />
+        <span className="text-copy-13 text-muted-foreground">90%</span>
+      </div>
+    </div>
+  );
+}
+
+function StatusDotDemo() {
+  return (
+    <div className="flex items-center gap-5">
+      <StatusDot variant="default" />
+      <StatusDot variant="success" />
+      <StatusDot variant="warning" />
+      <StatusDot variant="destructive" />
+      <StatusDot variant="info" />
+    </div>
+  );
+}
+
+function ToastDemo() {
+  const [open, setOpen] = React.useState(false);
+  const timer = React.useRef<number | undefined>(undefined);
+
+  React.useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  return (
+    <>
+      <Button
+        type="button"
+        onClick={() => {
+          setOpen(true);
+          window.clearTimeout(timer.current);
+          timer.current = window.setTimeout(() => setOpen(false), 5000);
+        }}
+      >
+        Show Toast
+      </Button>
+      <ToastProvider swipeDirection="right">
+        <Toast open={open} onOpenChange={setOpen}>
+          <ToastTitle>Project deleted</ToastTitle>
+          <ToastDescription>
+            The Evil Rabbit jumped over the fence.
+          </ToastDescription>
+          <ToastClose />
+        </Toast>
+        <ToastViewport />
+      </ToastProvider>
+    </>
+  );
+}
+
 /** 名称 → 实时 demo 渲染器（未命中的分支在调用前已拦截） */
 function renderDemo(name: string): React.ReactNode {
   switch (name) {
+    case "avatar":
+      return <AvatarDemo />;
     case "badge":
       return <BadgeDemo />;
     case "button":
@@ -391,12 +675,28 @@ function renderDemo(name: string): React.ReactNode {
       return <CheckboxDemo />;
     case "dropdown-menu":
       return <DropdownMenuDemo />;
+    case "empty-state":
+      return <EmptyStateDemo />;
     case "input":
       return <InputDemo />;
+    case "modal":
+      return <ModalDemo />;
+    case "pagination":
+      return <PaginationDemo />;
+    case "progress":
+      return <ProgressDemo />;
     case "segmented-control":
       return <SegmentedControlDemo />;
     case "select":
       return <SelectDemo />;
+    case "separator":
+      return <SeparatorDemo />;
+    case "skeleton":
+      return <SkeletonDemo />;
+    case "spinner":
+      return <SpinnerDemo />;
+    case "status-dot":
+      return <StatusDotDemo />;
     case "step-point":
       return <StepPointDemo />;
     case "table":
@@ -405,8 +705,12 @@ function renderDemo(name: string): React.ReactNode {
       return <TabsDemo />;
     case "textarea":
       return <TextareaDemo />;
+    case "toast":
+      return <ToastDemo />;
     case "toggle":
       return <ToggleDemo />;
+    case "tooltip":
+      return <TooltipDemo />;
     case "theme-switch":
       return <ThemeSwitchDemo />;
     default:

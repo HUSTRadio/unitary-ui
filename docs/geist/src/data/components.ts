@@ -21,6 +21,24 @@ export interface ComponentMeta {
 
 export const COMPONENTS: ComponentMeta[] = [
   {
+    name: "avatar",
+    label: "Avatar",
+    description: "Represents a user or a team with an image or fallback.",
+    official: "Avatar",
+    code: `import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+
+<Avatar>
+  <AvatarImage src="/avatar.png" alt="User" />
+  <AvatarFallback>U</AvatarFallback>
+</Avatar>`,
+    bestPractices: [
+      "Use Avatar to represent a single user or team. Stacked Avatars represent a group of people.",
+      "Provide a fallback (initials, icon, or placeholder) so the avatar still reads when the image fails to load or is missing.",
+      "Set a meaningful alt text on AvatarImage so screen readers announce who the avatar depicts.",
+      "Match the size to the context: sm for dense rows, default for lists and mentions, lg for profile headers.",
+    ]
+  },
+  {
     name: "badge",
     label: "Badge",
     description: "Small labels for statuses, counts, and metadata.",
@@ -135,6 +153,28 @@ export const COMPONENTS: ComponentMeta[] = [
     ]
   },
   {
+    name: "empty-state",
+    label: "Empty State",
+    description: "Fills spaces when no content has been added yet or a view is empty.",
+    official: "Empty State",
+    code: `import { EmptyState, EmptyStateIcon, EmptyStateTitle, EmptyStateDescription } from "@/components/ui/empty-state";
+import { Inbox } from "lucide-react";
+
+<EmptyState>
+  <EmptyStateIcon><Inbox /></EmptyStateIcon>
+  <EmptyStateTitle>No results</EmptyStateTitle>
+  <EmptyStateDescription>Clear your filters to see all logs.</EmptyStateDescription>
+</EmptyState>`,
+    bestPractices: [
+      "Pick the variant by what the user needs: no-results for a filtered list that returned zero rows, blank slate or informational for a resource the user hasn’t created, cleared for completed work, error for a failed load.",
+      "Render the permission and tier-denial variants full-page when the user lands on a route they can’t view.",
+      "Don’t put critical persistent warnings here. Empty states vanish when the list populates; persistent warnings belong in a Note or the page header.",
+      "title is Title Case; description is sentence case and adds new information instead of restating the title.",
+      "Cap at one primary CTA, plus one secondary. Three CTAs is a smell.",
+      "After an async filter change, wrap the region in aria-live=\"polite\" so screen readers announce the new state.",
+    ]
+  },
+  {
     name: "input",
     label: "Input",
     description: "A single-line text field for user input.",
@@ -159,6 +199,79 @@ export const COMPONENTS: ComponentMeta[] = [
       "Passing a string to label requires id; the InputPropsWithStringLabelAndId union won’t compile without it and screen readers lose the association.",
       "For icon-only affordances inside a row of inputs, use <Button shape=\"circle\" svgOnly aria-label=\"…\"> rather than an unlabeled icon.",
       "A SearchInput placeholder names the scope (Search projects) so the role is clear without sighted context.",
+    ]
+  },
+  {
+    name: "modal",
+    label: "Modal",
+    description: "Displays a dialog that interrupts the user.",
+    official: "Modal",
+    code: `import { Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalDescription, ModalFooter, ModalClose } from "@/components/ui/modal";\n\n<Modal>\n  <ModalTrigger asChild>\n    <Button>Open Modal</Button>\n  </ModalTrigger>\n  <ModalContent>\n    <ModalHeader>\n      <ModalTitle>Delete Project</ModalTitle>\n      <ModalDescription>This action cannot be undone.</ModalDescription>\n    </ModalHeader>\n    <ModalFooter>\n      <ModalClose asChild>\n        <Button variant="secondary">Cancel</Button>\n      </ModalClose>\n      <Button variant="destructive">Delete</Button>\n    </ModalFooter>\n  </ModalContent>\n</Modal>`,
+    bestPractices: [
+      "Use Modal when a decision must block the rest of the page. For persistent associated context where the underlying page stays readable, use Sheet on desktop or Drawer on mobile.",
+      "Confirm destructive actions in a Modal. Drawer and Sheet don't fully dim the page, so they read as too soft for a delete or revoke.",
+      "Skip Modal for routine create flows that have a dedicated page; route to the page instead.",
+      "Default focus to Cancel on any destructive Modal. Enter must never trigger the destructive action without a typed confirmation.",
+      "Allow Escape and outside-click to dismiss non-destructive Modals; gate dismissal on destructive ones with unsaved input.",
+      "Trap focus inside the Modal while it's open and return focus to the trigger after close. Restore body scroll on the same tick the Modal unmounts.",
+      "For high-stakes destructive actions (delete production resource, rotate signing key, downgrade plan), gate the primary button on a typed match of the resource name.",
+      "Modal.Title is a Title Case statement, never a question. Transfer Project is correct; Transfer Project? is wrong.",
+      "Modal body copy is sentence case, 1-3 sentences. State the consequence first, then any cascade.",
+      "Primary button is Verb + Noun and matches the title verb (Transfer Project title pairs with Transfer Project button). Never Confirm, OK, or a bare verb on a destructive primary.",
+      "Cancel literal stays Cancel. Acknowledgment-only Modals (after a key reveal, after a one-time-show) use Done, never OK or Close.",
+      "Close irreversible bodies with This cannot be undone.; close cascade-only bodies with Some effects cannot be undone. Don't claim full irreversibility for a partial cascade.",
+      "Pair the success toast verb 1:1 with the primary button: Delete Project button, Project deleted toast.",
+      "Set aria-labelledby to the Modal.Title id so screen readers announce the title on open.",
+      "Keep the Cancel button literally Cancel so screen-reader users hear a stable dismissal label across destructive flows.",
+      "After an error inside the Modal, keep focus inside so the user can retry; after success, return focus to the trigger.",
+    ],
+  },
+  {
+    name: "pagination",
+    label: "Pagination",
+    description: "Navigates through numbered pages of a data set.",
+    official: "Pagination",
+    code: `import {
+  Pagination,
+  PaginationList,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+} from "@/components/ui/pagination";
+
+<Pagination>
+  <PaginationList>
+    <PaginationItem><PaginationPrevious href="#" /></PaginationItem>
+    <PaginationItem><PaginationLink href="#">1</PaginationLink></PaginationItem>
+    <PaginationItem><PaginationLink href="#" isActive>2</PaginationLink></PaginationItem>
+    <PaginationItem><PaginationLink href="#">3</PaginationLink></PaginationItem>
+    <PaginationItem><PaginationNext href="#" /></PaginationItem>
+  </PaginationList>
+</Pagination>`,
+    bestPractices: [
+      "Use Pagination for sequential navigation between sibling pages (docs articles, blog posts, onboarding steps). For revealing more rows of the same data set, use Show More or a numbered pager.",
+      "Use a numbered pager (PaginationList of PaginationLink) when the data set spans many pages and users need to jump to a specific page.",
+      "Mark the current page with isActive so it renders with aria-current=\"page\" and the selected highlight; keep other links as plain anchors.",
+      "Hide the Previous / Next slot at the start or end of a sequence instead of disabling it; an empty rail reads cleaner than a dimmed link with nowhere to go.",
+      "Keep page labels short — numbers or 1–2 words. Don’t restate ordinal positions like Page 3 of 10 inside a link.",
+    ]
+  },
+  {
+    name: "progress",
+    label: "Progress",
+    description: "Shows progress relative to a limit or a task.",
+    official: "Progress",
+    code: `import { Progress } from "@/components/ui/progress";
+
+<Progress value={30} />
+<Progress value={60} />
+<Progress value={90} />`,
+    bestPractices: [
+      "Determinate work whose total is knowable, like file uploads, multi-step setup, build steps, or batch deletions.",
+      "For short indeterminate waits (~1–3s), use Spinner; for inline copy like Saving, use Loading Dots.",
+      "Use max for the real ceiling (max={files.length}), not a hardcoded 100. The component computes the percentage from value / max.",
+      "Pair the bar with text naming the work and units: Uploading 12 of 30 files. The bar alone doesn’t say what’s progressing.",
     ]
   },
   {
@@ -222,6 +335,80 @@ export const COMPONENTS: ComponentMeta[] = [
       "Placeholder is action-oriented (Select a framework), never Choose one…, Pick, or the label restated.",
       "Validate on blur and pass a string to error; messages name the field and end in a period (Select a framework.).",
       "Don’t wrap a labelled <Select> in a Tooltip; put the hint on a sibling icon button so the label stays announced.",
+    ]
+  },
+  {
+    name: "separator",
+    label: "Separator",
+    description: "Divides content into visually distinct groups.",
+    official: "Separator",
+    code: `import { Separator } from "@/components/ui/separator";
+
+<Separator />
+
+<div className="flex h-10 items-center gap-3">
+  <span>Left</span>
+  <Separator orientation="vertical" />
+  <span>Right</span>
+</div>`,
+    bestPractices: [
+      "Use Separator to divide content into visually distinct groups, like between sections of a list or menu items.",
+      "Horizontal separators span the full width of their container; vertical ones fill the available height of a flex row.",
+      "Separators are decorative by default (decorative prop), so assistive tech ignores them. Set decorative={false} with an accessible name only when the separation is semantically meaningful.",
+      "Don’t overuse separators; grouping with white space or a background surface is often enough and reads cleaner.",
+    ]
+  },
+  {
+    name: "skeleton",
+    label: "Skeleton",
+    description: "Displays a placeholder while content is loading.",
+    official: "Skeleton",
+    code: `import { Skeleton } from "@/components/ui/skeleton";
+
+<Skeleton className="h-4 w-32" />`,
+    bestPractices: [
+      "Show a Skeleton when async data fills a known layout: table rows, card grids, profile blocks, sidebars.",
+      "For a single in-flight action, use Spinner; for known progress, use Progress.",
+      "Set width and height to match the final content so the layout doesn’t shift when data resolves.",
+      "Wrap the loading region in aria-busy=\"true\" and announce completion with aria-live=\"polite\" on the destination container.",
+      "Respect prefers-reduced-motion for the pulse animation on low-power surfaces.",
+    ]
+  },
+  {
+    name: "spinner",
+    label: "Spinner",
+    description: "Indicates an in-progress operation.",
+    official: "Spinner",
+    code: `import { Spinner } from "@/components/ui/spinner";
+
+<Spinner />
+<Spinner size="sm" />
+<Spinner size="lg" />`,
+    bestPractices: [
+      "Use Spinner for a single in-flight action or indeterminate wait where there’s no known progress to show.",
+      "For a known duration or percentage, use Progress instead of a spinner.",
+      "Prefer a loading state on the action control itself (like Button loading) so the busy element stays focusable.",
+      "Pair a standalone Spinner with a text label or aria-label so the loading state is announced to assistive tech.",
+    ]
+  },
+  {
+    name: "status-dot",
+    label: "Status Dot",
+    description: "Displays an indicator of deployment status.",
+    official: "Status Dot",
+    code: `import { StatusDot } from "@/components/ui/status-dot";
+
+<StatusDot variant="default" />
+<StatusDot variant="success" />
+<StatusDot variant="warning" />
+<StatusDot variant="destructive" />
+<StatusDot variant="info" />`,
+    bestPractices: [
+      "Use Status Dot only for deployment lifecycle states: QUEUED | BUILDING | READY | ERROR | CANCELED | DELETED.",
+      "For non-deployment statuses (Workflow runs, Queue messages, Sandbox, Cron jobs), use a Badge with the canonical state vocabulary instead of repurposing the dot.",
+      "The dot animates while BUILDING or QUEUED and goes static once the deployment reaches a terminal state. Don’t add a separate spinner alongside it.",
+      "Don’t flash the color through every transitional state on a polling tick; only update when the readyState changes.",
+      "Mark the dot decorative with aria-hidden when it sits inline with text that already names the state, so screen readers don’t announce it twice.",
     ]
   },
   {
@@ -334,6 +521,40 @@ export const COMPONENTS: ComponentMeta[] = [
     ]
   },
   {
+    name: "toast",
+    label: "Toast",
+    description: "A succinct message that is displayed temporarily.",
+    official: "Toast",
+    code: `import {
+  Toast,
+  ToastProvider,
+  ToastTitle,
+  ToastDescription,
+  ToastViewport,
+  ToastClose,
+} from "@/components/ui/toast";
+
+<ToastProvider swipeDirection="right">
+  <Toast>
+    <ToastTitle>Project deleted</ToastTitle>
+    <ToastDescription>The Evil Rabbit jumped over the fence.</ToastDescription>
+    <ToastClose />
+  </Toast>
+  <ToastViewport />
+</ToastProvider>`,
+    bestPractices: [
+      "Use a toast for non-blocking acknowledgments of user-initiated actions: Domain added, Project archived, Deployment canceled.",
+      "Don’t use a toast alone for billing failures, permission denials, or build failures the user has to triage. Pair a ≤6-word toast (Build failed) with a persistent row carrying the recovery step.",
+      "Default toasts auto-dismiss; pass preserve only when the user must read or act on the message before it disappears.",
+      "Don’t stack toasts to narrate one async flow; emit the success or error toast at the terminal step.",
+      "One sentence, sentence case, no trailing period when the toast is a single sentence.",
+      "Completion toasts follow {Noun} {past-participle}: Blob deleted, Domain added. Never include successfully.",
+      "Error toasts are two sentences with periods and end with a recovery step: Couldn’t verify domain. Try again.",
+      "Pair the toast verb 1:1 with the destructive button verb (Delete Project then Project deleted).",
+      "The toast region announces with aria-live=\\\"polite\\\"; reserve assertive for blocking errors that interrupt a flow.",
+    ]
+  },
+  {
     name: "toggle",
     label: "Toggle",
     description: "A switch for a single boolean setting.",
@@ -351,6 +572,35 @@ export const COMPONENTS: ComponentMeta[] = [
       "Keep labelCasing=\"title\" (the default) so labels match other Title Case surfaces. Use labelCasing=\"normal\" only when sentence-case content sits inline next to the toggle.",
       "Provide an accessible name through children, aria-label, or aria-labelledby. Geist warns in development if all three are missing.",
       "Set aria-label only when the visible label sits elsewhere on the row; otherwise let children carry it so sighted and screen-reader copy stay aligned.",
+    ]
+  },
+  {
+    name: "tooltip",
+    label: "Tooltip",
+    description: "A floating label that appears on hover or focus.",
+    official: "Tooltip",
+    code: `import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger>Hover me</TooltipTrigger>
+    <TooltipContent>The Evil Rabbit Jumped over the Fence</TooltipContent>
+  </Tooltip>
+</TooltipProvider>`,
+    bestPractices: [
+      "Use a Tooltip to explain why something exists, not what it is. The visible label names the thing; the tooltip adds the constraint, scope, or limit.",
+      "Tooltips open on hover and on keyboard focus. Keep the default ~150ms entry delay so the tooltip doesn’t flicker on a sweeping mouse.",
+      "Don’t wrap a labelled Input in a Tooltip. The trigger lands on the <label>, not the field, and the tooltip text becomes a second invisible label for screen readers. Put help on a sibling icon button.",
+      "Keep primary actions outside the Tooltip; touch users can’t reach a hover-revealed control.",
+      "One sentence or fragment in text. Sentence case, no period for a single fragment.",
+      "Skip tooltips that repeat the visible label (text=\"Rate Limit\" on a Rate Limit button) or describe the interaction (text=\"Click to override\").",
+      "An icon-only trigger needs an aria-label that names the action; the Tooltip body adds context, it doesn’t replace the label.",
+      "Escape closes the tooltip and returns focus to the trigger.",
     ]
   },
   {
