@@ -1,0 +1,966 @@
+{
+  "schemaVersion": 1,
+  "status": "SKELETON_NOT_ACCEPTANCE_EVIDENCE",
+  "viewports": [
+    {
+      "width": 375,
+      "height": 812
+    },
+    {
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "themes": ["light", "dark"],
+  "allowedStatuses": ["PASS", "FAIL", "MISSING", "BLOCKED", "NOT_APPLICABLE"],
+  "globalExclusionPolicy": [
+    "font-family identity only for approved HarmonyOS/Maple substitutions",
+    "icon path only; geometry/stroke/color remain comparable"
+  ],
+  "components": [
+    {
+      "slug": "avatar",
+      "officialUrl": "https://vercel.com/geist/avatar",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "badge",
+      "officialUrl": "https://vercel.com/geist/badge",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "banner",
+      "officialUrl": "https://vercel.com/geist/banner",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "book",
+      "officialUrl": "https://vercel.com/geist/book",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "breadcrumbs",
+      "officialUrl": "https://vercel.com/geist/breadcrumbs",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "browser",
+      "officialUrl": "https://vercel.com/geist/browser",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "button",
+      "officialUrl": "https://vercel.com/geist/button",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "calendar",
+      "officialUrl": "https://vercel.com/geist/calendar",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "checkbox",
+      "officialUrl": "https://vercel.com/geist/checkbox",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "choicebox",
+      "officialUrl": "https://vercel.com/geist/choicebox",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "clearable-input",
+      "officialUrl": "https://vercel.com/geist/clearable-input",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "code",
+      "officialUrl": "https://vercel.com/geist/code",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "code-block",
+      "officialUrl": "https://vercel.com/geist/code-block",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "collapse",
+      "officialUrl": "https://vercel.com/geist/collapse",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "combobox",
+      "officialUrl": "https://vercel.com/geist/combobox",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "command-menu",
+      "officialUrl": "https://vercel.com/geist/command-menu",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "context-card",
+      "officialUrl": "https://vercel.com/geist/context-card",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "context-menu",
+      "officialUrl": "https://vercel.com/geist/context-menu",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "copy-button",
+      "officialUrl": "https://vercel.com/geist/copy-button",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "description",
+      "officialUrl": "https://vercel.com/geist/description",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "destructive-action-modal",
+      "officialUrl": "https://vercel.com/geist/destructive-action-modal",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "dots-menu",
+      "officialUrl": "https://vercel.com/geist/dots-menu",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "drawer",
+      "officialUrl": "https://vercel.com/geist/drawer",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "empty-state",
+      "officialUrl": "https://vercel.com/geist/empty-state",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "entity",
+      "officialUrl": "https://vercel.com/geist/entity",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "error",
+      "officialUrl": "https://vercel.com/geist/error",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "error-card",
+      "officialUrl": "https://vercel.com/geist/error-card",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "feedback",
+      "officialUrl": "https://vercel.com/geist/feedback",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "fieldset",
+      "officialUrl": "https://vercel.com/geist/fieldset",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "file-tree",
+      "officialUrl": "https://vercel.com/geist/file-tree",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "gauge",
+      "officialUrl": "https://vercel.com/geist/gauge",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "grid",
+      "officialUrl": "https://vercel.com/geist/grid",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "input",
+      "officialUrl": "https://vercel.com/geist/input",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "json-view",
+      "officialUrl": "https://vercel.com/geist/json-view",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "keyboard-input",
+      "officialUrl": "https://vercel.com/geist/keyboard-input",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "label",
+      "officialUrl": "https://vercel.com/geist/label",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "load-more-button",
+      "officialUrl": "https://vercel.com/geist/load-more-button",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "loading-dots",
+      "officialUrl": "https://vercel.com/geist/loading-dots",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "menu",
+      "officialUrl": "https://vercel.com/geist/menu",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "middle-truncate",
+      "officialUrl": "https://vercel.com/geist/middle-truncate",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "modal",
+      "officialUrl": "https://vercel.com/geist/modal",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "multi-select",
+      "officialUrl": "https://vercel.com/geist/multi-select",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "note",
+      "officialUrl": "https://vercel.com/geist/note",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "pagination",
+      "officialUrl": "https://vercel.com/geist/pagination",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "phone",
+      "officialUrl": "https://vercel.com/geist/phone",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "pill",
+      "officialUrl": "https://vercel.com/geist/pill",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "progress",
+      "officialUrl": "https://vercel.com/geist/progress",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "project-banner",
+      "officialUrl": "https://vercel.com/geist/project-banner",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "radio",
+      "officialUrl": "https://vercel.com/geist/radio",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "relative-time-card",
+      "officialUrl": "https://vercel.com/geist/relative-time-card",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "scroller",
+      "officialUrl": "https://vercel.com/geist/scroller",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "search-input",
+      "officialUrl": "https://vercel.com/geist/search-input",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "select",
+      "officialUrl": "https://vercel.com/geist/select",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "separator",
+      "officialUrl": "https://vercel.com/geist/separator",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "sheet",
+      "officialUrl": "https://vercel.com/geist/sheet",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "show-more",
+      "officialUrl": "https://vercel.com/geist/show-more",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "skeleton",
+      "officialUrl": "https://vercel.com/geist/skeleton",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "slider",
+      "officialUrl": "https://vercel.com/geist/slider",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "snippet",
+      "officialUrl": "https://vercel.com/geist/snippet",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "spinner",
+      "officialUrl": "https://vercel.com/geist/spinner",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "split-button",
+      "officialUrl": "https://vercel.com/geist/split-button",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "status-dot",
+      "officialUrl": "https://vercel.com/geist/status-dot",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "switch",
+      "officialUrl": "https://vercel.com/geist/switch",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "table",
+      "officialUrl": "https://vercel.com/geist/table",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "tabs",
+      "officialUrl": "https://vercel.com/geist/tabs",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "text-with-copy-button",
+      "officialUrl": "https://vercel.com/geist/text-with-copy-button",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "textarea",
+      "officialUrl": "https://vercel.com/geist/textarea",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "theme-switcher",
+      "officialUrl": "https://vercel.com/geist/theme-switcher",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "toast",
+      "officialUrl": "https://vercel.com/geist/toast",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "toggle",
+      "officialUrl": "https://vercel.com/geist/toggle",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "tooltip",
+      "officialUrl": "https://vercel.com/geist/tooltip",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    },
+    {
+      "slug": "video",
+      "officialUrl": "https://vercel.com/geist/video",
+      "inventoryStatus": "pending_live_enumeration",
+      "variants": ["default"],
+      "states": ["default"],
+      "selectors": {
+        "official": "main",
+        "local": "main"
+      },
+      "interaction": "pending",
+      "approvedExclusions": []
+    }
+  ]
+}
