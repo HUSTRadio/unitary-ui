@@ -1,58 +1,46 @@
 import * as React from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-interface ShowMoreProps
-  extends Omit<React.ComponentProps<"div">, "children"> {
-  children: React.ReactNode;
-  /** 预览内容。缺省时若 children 为字符串且超过 maxLength，自动截断加省略号 */
-  preview?: React.ReactNode;
-  /** children 为字符串时的自动截断长度 */
-  maxLength?: number;
+/**
+ * ShowMore — 展开 / 折叠触发器（docs/geist-markdown-refs/components/show-more.md 官方语义）。
+ * 导出：ShowMore。
+ *
+ * 官方 API（受控触发器）：expanded / onClick / noBorder，渲染为白底 pill 按钮
+ * （h-32px · pad 0 12px · 500 14px/21px · 1px hairline 边框，官方实测），
+ * 文案 "Show More" / "Show Less"（Title Case）+ 方向箭头，aria-expanded 随状态切换。
+ * 官方 Best Practices：触发器是 <button> 且带 aria-expanded / aria-controls；
+ * 展开后把焦点移到首个新揭示行。
+ */
+
+interface ShowMoreProps extends Omit<React.ComponentProps<"button">, "children"> {
+  /** 官方 API：受控展开状态 */
+  expanded?: boolean;
+  /** 官方 API：无边框变体 */
+  noBorder?: boolean;
 }
 
-/**
- * ShowMore — 展开 / 折叠内容。
- * 默认展示预览（preview 或自动截断），点击 "Show more" 展开完整内容。
- */
-function ShowMore({
-  children,
-  preview,
-  maxLength,
-  className,
-  ...props
-}: ShowMoreProps) {
-  const [expanded, setExpanded] = React.useState(false);
-
-  const previewNode = React.useMemo(() => {
-    if (preview != null) return preview;
-    if (
-      typeof children === "string" &&
-      maxLength &&
-      children.length > maxLength
-    ) {
-      return `${children.slice(0, maxLength)}…`;
-    }
-    return children;
-  }, [children, preview, maxLength]);
-
+function ShowMore({ expanded = false, noBorder, className, ...props }: ShowMoreProps) {
   return (
-    <div
+    <button
+      type="button"
       data-slot="show-more"
-      className={cn("flex flex-col items-start gap-3", className)}
+      aria-expanded={expanded}
+      className={cn(
+        "inline-flex h-8 items-center justify-center gap-1.5 rounded-full bg-background px-3 text-[length:14px] font-medium whitespace-nowrap text-foreground transition-colors outline-none hover:bg-gray-alpha-200 focus-ring disabled:pointer-events-none disabled:opacity-50",
+        !noBorder && "border border-gray-alpha-400",
+        className,
+      )}
       {...props}
     >
-      <div>{expanded ? children : previewNode}</div>
-      <Button
-        type="button"
-        variant="ghost"
-        className="text-label-14 text-link"
-        onClick={() => setExpanded((v) => !v)}
-      >
-        {expanded ? "Show less" : "Show more"}
-      </Button>
-    </div>
+      {expanded ? "Show Less" : "Show More"}
+      {expanded ? (
+        <ChevronUp aria-hidden className="size-4" />
+      ) : (
+        <ChevronDown aria-hidden className="size-4" />
+      )}
+    </button>
   );
 }
 

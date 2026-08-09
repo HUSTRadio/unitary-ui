@@ -3,21 +3,33 @@ import { Label as LabelPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 
-/**
- * Label — 表单控件可访问标签（对应官方 Label，docs/geist-markdown-refs/components/label.md）。
- * 基于 radix-ui Label。默认渲染 <label>，点击可聚焦/激活关联控件。
- * 样式：text-label-14 text-foreground + cursor-pointer。
- */
-function Label({
-  className,
-  ...props
-}: React.ComponentProps<typeof LabelPrimitive.Root>) {
+interface LabelProps extends Omit<
+  React.ComponentProps<typeof LabelPrimitive.Root>,
+  "children" | "htmlFor" | "id"
+> {
+  /** 关联输入控件的 id。 */
+  id: string;
+  /** 标签文本。 */
+  value: string;
+  withInput?: boolean;
+  bypassCasing?: boolean;
+}
+
+function Label({ className, id, value, withInput, bypassCasing, ...props }: LabelProps) {
   return (
     <LabelPrimitive.Root
       data-slot="label"
-      className={cn("cursor-pointer text-label-14 text-foreground", className)}
+      data-with-input={withInput || undefined}
+      htmlFor={id}
+      className={cn(
+        "mb-2 block max-w-full cursor-text text-label-13 text-foreground",
+        !bypassCasing && "capitalize",
+        className,
+      )}
       {...props}
-    />
+    >
+      {value}
+    </LabelPrimitive.Root>
   );
 }
 

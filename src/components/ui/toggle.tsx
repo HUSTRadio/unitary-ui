@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
  *   上下取整方向不同导致圆钮视觉歪斜；1.5px × 1.25 = 1.875px 不撞 .5，
  *   光栅化取整对称，任意 DPI 下视觉均匀。
  * 官方语义：Toggle = 单个布尔设置（ON 立即生效）；2–3 个互斥视图用
- * Switch（分段控件，本项目为 SegmentedControl）。
+ * Switch（分段控件）。
  * 颜色消费语义 token（--progress / --input / --foreground 随主题切换），
  * 不引入任何 `dark:` 前缀变体（Geist 原则：组件零主题分支）。
  */
@@ -21,18 +21,31 @@ function Toggle({
   className,
   thumbClassName,
   children,
-  size = "default",
+  size = "small",
+  color = "blue",
+  labelCasing = "title",
+  direction = "ltr",
   ...props
-}: React.ComponentProps<typeof SwitchPrimitive.Root> & {
-  size?: "sm" | "default";
+}: Omit<React.ComponentProps<typeof SwitchPrimitive.Root>, "children"> & {
+  size?: "small" | "medium" | "large";
+  color?: "blue" | "amber" | "red";
+  labelCasing?: "title" | "normal";
+  direction?: "ltr" | "rtl";
   thumbClassName?: string;
+  children?: React.ReactNode;
 }) {
-  return (
+  const control = (
     <SwitchPrimitive.Root
       data-slot="toggle"
       data-size={size}
       className={cn(
-        "peer group/toggle relative inline-block shrink-0 cursor-pointer rounded-[14px] transition-colors outline-none focus-ring disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-6 data-[size=default]:w-10 data-[size=sm]:h-5 data-[size=sm]:w-9 data-[state=checked]:bg-progress data-[state=unchecked]:bg-[var(--gray-200)]",
+        "peer group/toggle relative inline-block shrink-0 cursor-pointer rounded-[14px] transition-colors outline-none focus-ring disabled:cursor-not-allowed data-[state=unchecked]:bg-gray-400 disabled:data-[state=unchecked]:bg-[var(--toggle-disabled-track-unchecked)] disabled:data-[state=checked]:bg-[var(--toggle-disabled-track-checked)]",
+        color === "blue" && "data-[state=checked]:bg-[var(--toggle-checked)]",
+        color === "amber" && "data-[state=checked]:bg-warning",
+        color === "red" && "data-[state=checked]:bg-destructive",
+        size === "small" && "h-[14px] w-7",
+        size === "medium" && "h-5 w-9",
+        size === "large" && "h-6 w-10",
         className,
       )}
       {...props}
@@ -40,13 +53,28 @@ function Toggle({
       <SwitchPrimitive.Thumb
         data-slot="toggle-thumb"
         className={cn(
-          "pointer-events-none absolute left-[1.5px] top-1/2 flex -translate-y-1/2 items-center justify-center rounded-full bg-[var(--toggle-thumb)] text-foreground ring-0 transition-transform group-data-[size=default]/toggle:size-[21px] group-data-[size=sm]/toggle:size-[17px] data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0",
+          "pointer-events-none absolute top-1/2 left-[1.5px] -translate-y-1/2 rounded-full border border-black/10 bg-[var(--toggle-thumb)] shadow-[0_1px_2px_rgba(0,0,0,0.12)] ring-0 transition-transform data-[state=unchecked]:translate-x-0 data-disabled:data-[state=unchecked]:bg-[var(--toggle-disabled-thumb-unchecked)] data-disabled:data-[state=checked]:bg-[var(--toggle-disabled-thumb-checked)]",
+          size === "small" && "size-[11px] data-[state=checked]:translate-x-[14px]",
+          size === "medium" && "size-[17px] data-[state=checked]:translate-x-4",
+          size === "large" && "size-[21px] data-[state=checked]:translate-x-4",
           thumbClassName,
         )}
-      >
-        {children}
-      </SwitchPrimitive.Thumb>
+      />
     </SwitchPrimitive.Root>
+  );
+
+  if (!children) return control;
+
+  return (
+    <label
+      className={cn(
+        "inline-flex cursor-pointer items-center gap-2 text-label-14 text-gray-1000 has-[:disabled]:cursor-not-allowed has-[:disabled]:text-gray-700",
+        direction === "rtl" && "flex-row-reverse",
+      )}
+    >
+      {control}
+      <span className={labelCasing === "title" ? "capitalize" : undefined}>{children}</span>
+    </label>
   );
 }
 

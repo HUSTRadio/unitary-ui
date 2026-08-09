@@ -161,7 +161,12 @@ function ComponentsPreview() {
       </div>
       {/* 2 个 icon Button（Collaborate / Shield 风格） */}
       <div className="flex items-center gap-2">
-        <Button type="button" variant="secondary" aria-label="Collaborate" prefix={<Users aria-hidden />}>
+        <Button
+          type="button"
+          variant="secondary"
+          aria-label="Collaborate"
+          prefix={<Users aria-hidden />}
+        >
           Collaborate
         </Button>
         <Button type="button" variant="secondary" size="icon" aria-label="Shield">

@@ -4,6 +4,7 @@
 > **抓取日期**：2026-08-08
 > **抓取方式**：Playwright 独立浏览器进程 × 12 并行子代理，自动展开每个组件页的 "Show code" 代码块；截图存 `screenshots/`（light 主题默认）
 > **用途**：本框架（geist-style-framework，视觉基准 Vercel Geist）的本地设计规范参考；**严格声明仍以官方页面为准**，本快照用于离线查值与快速对照。
+> **复核日期**：2026-08-09；72 组件本地复刻验收见 [`../geist-replica-acceptance.md`](../geist-replica-acceptance.md)。
 
 ## 目录结构
 

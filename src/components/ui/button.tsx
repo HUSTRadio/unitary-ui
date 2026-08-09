@@ -15,10 +15,11 @@ import { cn } from "@/lib/utils";
  *   与官方一致）；图标包裹 span min-w-5（20px 最小宽度，居中对齐）
  * - loading：spinner 同样用 mr-[3px] 包裹 span，与 prefix 间距一致
  * - loading：spinner + 保持 label，disabled 态
- * - disabled：default 变灰（gray-100 + gray-700），其余保持原色
+ * - disabled/loading：官方实测实色灰（light bg #f2f2f2 / fg #8f8f8f，
+ *   dark bg #1a1a1a / fg #8f8f8f），不透明；消费 gray-100/gray-700 语义 token
  */
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center rounded-md text-[length:14px] font-medium whitespace-nowrap transition-all outline-none focus-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "inline-flex shrink-0 items-center justify-center rounded-md text-[length:14px] font-medium whitespace-nowrap transition-all outline-none focus-ring disabled:pointer-events-none disabled:bg-gray-100 disabled:text-gray-700 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -39,7 +40,7 @@ const buttonVariants = cva(
         default: "h-9 px-2.5",
         xs: "h-6 rounded-md px-1.5 [&_svg]:size-3",
         sm: "h-8 rounded-md px-1.5",
-        lg: "h-10 rounded-[8px] px-3.5",
+        lg: "h-10 rounded-[8px] px-3.5 text-[length:16px] leading-6",
         icon: "size-9 [&_svg]:size-4",
         "icon-xs": "size-6 rounded-md [&_svg]:size-3",
         "icon-sm": "size-8 [&_svg]:size-4",
@@ -98,19 +99,28 @@ function Button({
       {...props}
     >
       {loading ? (
-        <span className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5" aria-hidden>
+        <span
+          className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5"
+          aria-hidden
+        >
           <Loader2 className="size-3.5 animate-spin" />
         </span>
       ) : (
         prefix && (
-          <span className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5" aria-hidden>
+          <span
+            className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5"
+            aria-hidden
+          >
             {prefix}
           </span>
         )
       )}
       <span className="inline-block truncate px-1.5">{children}</span>
       {!loading && suffix && (
-        <span className="ml-1 mr-0.5 flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5" aria-hidden>
+        <span
+          className="ml-1 mr-0.5 flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5"
+          aria-hidden
+        >
           {suffix}
         </span>
       )}

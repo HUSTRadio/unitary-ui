@@ -1,33 +1,33 @@
 # Geist Style Framework 文档站 — 问题记录
 
 > 目标界面：https://vercel.com/geist/introduction · 日期：2026-08-08
-> 摘要：文档站（`docs/geist/`，Vite 独立应用）已复刻官方 Introduction / Colors / Typography / Materials / Brands / Components（13 元件）页面。元件覆盖度：官方 72 组件 → 已实现 13。共记录 **14 个问题**（F1–F10 + F-mono + F-radix-1/2 + F-shadcn-path），另附 Task 7 自检修复记录。
+> 摘要：本文记录文档站初版验收发现；当前 registry 和 Live Demo 已覆盖官方 72 个组件，另保留纯本地 Step Point。条目中的“当前状态”以 2026-08-09 迁移结果为准。
 
 ---
 
 ## F1: 文档站外壳组件缺失
 
-- **现象**：Banner / Sidebar / Pagination / Feedback 四个文档站外壳件均无对应基础组件，用现有元件（Input / SegmentedControl / Button / Textarea / NavLink）组合实现，代码在 `docs/geist/src/components/docs-shell.tsx` 与 `docs-feedback.tsx`。
+- **当前状态**：Banner / Pagination / Feedback 已沉淀为共享基础组件；Sidebar 仍为文档站专用外壳，继续按 YAGNI 保留在 `docs/geist/`。
 - **复现路径**：`docs/geist/src/App.tsx` 引入上述外壳组件，全部为 docs 专用文件。
 - **期望**：框架提供可直接复用的站点外壳基础组件。
 - **影响**：低。文档站独占使用，根仓库其他消费方暂不需要；如需在更多页面复用，需先沉淀为基础组件。
 - **建议**：如需复用再抽（YAGNI）；保持组合实现即可。
 
-## F2: SearchInput 组件缺失
+## F2: SearchInput 组件（已解决）
 
-- **现象**：Banner 搜索框用裸 `Input` + 右侧 kbd「Ctrl K」提示组合（`docs-shell.tsx`），搜索本身未绑定任何行为（纯展示）。
+- **当前状态**：已新增共享 `SearchInput`，组件 registry、导航和 Live Demo 均已接线。
 - **复现路径**：打开任意页面 → Banner 中部搜索框。
 - **期望**：官方有完整 SearchInput（含快捷键聚焦、结果面板）。
 - **影响**：低。当前为占位展示；快捷键聚焦等交互待后续接入。
 - **建议**：新增 `SearchInput` 基础组件（含 kbd 提示与 `/` 或 `Ctrl+K` 聚焦），文档站与根仓库 styleguide 共用。
 
-## F3: 主题切换形态差异
+## F3: 主题切换形态差异（已解决）
 
-- **现象**：官方 banner 用 system/light/dark **三态 segmented**；仓库已有 `ThemeSwitch`（`src/components/ui/theme-switch.tsx`）是**下拉菜单**形态。文档站用 `SegmentedControl` 复刻官方三态形态，未复用 ThemeSwitch。
-- **复现路径**：对比 `docs/geist/src/components/docs-shell.tsx`（SegmentedControl）与 `src/App.tsx`（ThemeSwitch）。
+- **当前状态**：统一使用官方三态 `ThemeSwitcher`，文档站和根 styleguide 直接复用同一实现。
+- **复现路径**：`docs/geist/src/components/docs-shell.tsx` 与 `src/App.tsx` 均引用 `theme-switcher.tsx`。
 - **期望**：两种形态各有用武之地（banner 三态 segmented 省空间、设置页下拉可带更多信息）。
 - **影响**：无功能影响；两种形态并存。
-- **建议**：保留两种形态供选用；如需统一可新增三态 `ThemeSwitcher` 组件，内部复用 `src/lib/theme.tsx`。
+- **结论**：不保留下拉旧实现或双轨 API；三态控件直接复用 `src/lib/theme.tsx`。
 
 ## F4: CopyButton 组件缺失
 
@@ -69,13 +69,10 @@
 - **影响**：无。合理近似。
 - **建议**：保持近似；如需要正式品牌资源，走官方品牌资产渠道，不入库。
 
-## F9: 官方 72 组件 vs 已实现 13
+## F9: 官方 72 组件覆盖度（已解决接线缺口）
 
-- **现象**：文档站只列已实现 **13** 个组件（badge/button/checkbox/dropdown-menu/input/segmented-control/select/step-point/table/tabs/textarea/toggle/theme-switch），官方快照（`docs/geist-markdown-refs/components/`）共 **72** 个组件文档。
-- **复现路径**：`docs/geist/src/data/components.ts`（13 条）vs `docs/geist-markdown-refs/components/*.md`（72 个）。
-- **期望**：按需补齐高频组件（如 Avatar / Tooltip / Card / Dialog / Popover / Skeleton 等）。
-- **影响**：中。框架组件面未覆盖官方全量，消费方需自建缺失元件。
-- **建议**：按消费方（oa-frontend）实际需求优先级实现；文档站总览页可加「未实现」灰色区列出缺口清单。
+- **当前状态**：`components.ts` 与 Live Demo renderer 均覆盖官方 **72/72**；纯本地 Step Point 单独保留。侧栏由 registry 自动生成，不再维护重复清单。
+- **验收边界**：接线完成不等于视觉验收完成；仍需逐组件完成双主题、四视口、状态和交互对照。
 
 ## F10: Grid 卡 → Materials 卡（设计决策）
 
@@ -101,13 +98,13 @@
 - **影响**：低。实现已正确处理（`data-state="indeterminate"` 实测渲染正常）；仅文档示例（components.ts 中 code 片段写 `indeterminate` prop）需标注。
 - **建议**：在 Checkbox 组件文档中标注：半选态传 `checked="indeterminate"`，非 boolean prop。
 
-## F-radix-2: DropdownMenuItem 无 variant prop
+## F-radix-2: Menu destructive item（已解决）
 
-- **现象**：radix-ui 1.6.7 的 DropdownMenuItem **没有 variant prop**，destructive 样式需用 `className` 覆盖（`text-destructive focus:bg-destructive focus:text-destructive-foreground`）。
-- **复现路径**：`docs-components-page.tsx` DropdownMenuDemo 的 Delete 项。
+- **当前状态**：共享 `MenuItem` 暴露 `type="error"`，由包装层统一 destructive 颜色和焦点状态，不要求消费方手写 className。
+- **复现路径**：`docs-components-page.tsx` 的 Menu demo 使用 `MenuItem type="error"`。
 - **期望**：组件文档标注；或包装层补 variant。
 - **影响**：低。实现正确（实测 destructive 样式生效）。
-- **建议**：在 DropdownMenu 组件文档中标注：无 variant prop，destructive 用 className 组合。
+- **结论**：消费方直接使用 `MenuItem type="error"`。
 
 ## F-shadcn-path: components.json css 路径
 
@@ -123,11 +120,11 @@
 
 ### 响应式（四视口 375 / 768 / 1440 / 1920，puppeteer 实测）
 
-| 视口 | 结论 | 说明 |
-| --- | --- | --- |
-| 375 | ✅ | 单列网格（grid-cols-1）、侧栏隐藏（lg 以下）、搜索隐藏（md 以下）、无横向溢出 |
-| 768 | ✅ | md 两列网格（grid-cols-2）、侧栏仍隐藏、搜索可见（md:block） |
-| 1440 | ✅ | 完整三栏（Banner + Sidebar + 内容）、内容区 1136px 不拉伸 |
+| 视口 | 结论       | 说明                                                                                          |
+| ---- | ---------- | --------------------------------------------------------------------------------------------- |
+| 375  | ✅         | 单列网格（grid-cols-1）、侧栏隐藏（lg 以下）、搜索隐藏（md 以下）、无横向溢出                 |
+| 768  | ✅         | md 两列网格（grid-cols-2）、侧栏仍隐藏、搜索可见（md:block）                                  |
+| 1440 | ✅         | 完整三栏（Banner + Sidebar + 内容）、内容区 1136px 不拉伸                                     |
 | 1920 | ✅（修复） | **修复前内容区 1616px 全宽拉伸** → `App.tsx` 内容区加 `mx-auto max-w-[1280px]`，修复后 1280px |
 
 ### 双主题（light / dark，1440×900 截图）
@@ -140,7 +137,7 @@
 ### 无障碍
 
 - ✅ Banner 搜索 `aria-label="搜索文档"`、`role="search"`
-- ✅ 主题切换 SegmentedControl `aria-label="主题切换"`（Radix radiogroup，roving tabindex 实测焦点在选中项）
+- ✅ 主题切换 `ThemeSwitcher` 为 Light / System / Dark 三态 radio group，并为每个图标提供可访问名称
 - ✅ 反馈 radio 组 `role="radiogroup" aria-label="反馈评分"`，ArrowRight 键盘实测可移动选中
 - ✅ 全部 icon-only Button 有 aria-label（复制命令/复制代码/Collaborate/Shield）
 - ✅ Tab 全遍历 40 个焦点停靠点，全部有可见焦点指示（focus-ring 双环 / input-focus-ring 柔光）

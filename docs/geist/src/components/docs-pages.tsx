@@ -168,8 +168,8 @@ export function ColorsPage() {
       <section className="mt-10">
         <h2 className="text-heading-24 text-foreground">Scales</h2>
         <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
-          色值提取自 colors.md 快照「完整色板（Dark 主题）」，每色取
-          100/300/500/700/900/1000 关键档。
+          色值提取自 colors.md 快照「完整色板（Dark 主题）」，每色取 100/300/500/700/900/1000
+          关键档。
         </p>
         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 xl:grid-cols-8">
           {COLOR_SCALES.map((scale) => (
@@ -257,31 +257,83 @@ const HEADING_SPECIMENS: TypeSpecimen[] = [
   { className: "text-heading-56", label: "Heading 56", sample: "Heading 56" },
   { className: "text-heading-48", label: "Heading 48", sample: "Heading 48" },
   { className: "text-heading-40", label: "Heading 40", sample: "Heading 40" },
-  { className: "text-heading-32", label: "Heading 32 with Subtle", sample: "Heading 32 with <strong>Subtle</strong>" },
-  { className: "text-heading-24", label: "Heading 24 with Subtle", sample: "Heading 24 with <strong>Subtle</strong>" },
-  { className: "text-heading-20", label: "Heading 20 with Subtle", sample: "Heading 20 with <strong>Subtle</strong>" },
-  { className: "text-heading-16", label: "Heading 16 with Subtle", sample: "Heading 16 with <strong>Subtle</strong>" },
+  {
+    className: "text-heading-32",
+    label: "Heading 32 with Subtle",
+    sample: "Heading 32 with <strong>Subtle</strong>",
+  },
+  {
+    className: "text-heading-24",
+    label: "Heading 24 with Subtle",
+    sample: "Heading 24 with <strong>Subtle</strong>",
+  },
+  {
+    className: "text-heading-20",
+    label: "Heading 20 with Subtle",
+    sample: "Heading 20 with <strong>Subtle</strong>",
+  },
+  {
+    className: "text-heading-16",
+    label: "Heading 16 with Subtle",
+    sample: "Heading 16 with <strong>Subtle</strong>",
+  },
   { className: "text-heading-14", label: "Heading 14", sample: "Heading 14" },
 ];
 
 const LABEL_SPECIMENS: TypeSpecimen[] = [
   { className: "text-label-20", label: "Label 20", sample: "Label 20" },
   { className: "text-label-18", label: "Label 18", sample: "Label 18" },
-  { className: "text-label-16", label: "Label 16 with Strong", sample: "Label 16 with <strong>Strong</strong>" },
-  { className: "text-label-14", label: "Label 14 with Strong", sample: "Label 14 with <strong>Strong</strong>" },
+  {
+    className: "text-label-16",
+    label: "Label 16 with Strong",
+    sample: "Label 16 with <strong>Strong</strong>",
+  },
+  {
+    className: "text-label-14",
+    label: "Label 14 with Strong",
+    sample: "Label 14 with <strong>Strong</strong>",
+  },
   { className: "text-label-14-mono", label: "Label 14 Mono", sample: "Label 14 Mono", mono: true },
-  { className: "text-label-13", label: "Label 13 with Strong, and Tabular (123)", sample: "Label 13 with <strong>Strong</strong>, and Tabular (123)" },
+  {
+    className: "text-label-13",
+    label: "Label 13 with Strong, and Tabular (123)",
+    sample: "Label 13 with <strong>Strong</strong>, and Tabular (123)",
+  },
   { className: "text-label-13-mono", label: "Label 13 Mono", sample: "Label 13 Mono", mono: true },
-  { className: "text-label-12", label: "Label 12 with Strong, AND CAPS", sample: "Label 12 with <strong>Strong</strong>, AND CAPS" },
+  {
+    className: "text-label-12",
+    label: "Label 12 with Strong, AND CAPS",
+    sample: "Label 12 with <strong>Strong</strong>, AND CAPS",
+  },
   { className: "text-label-12-mono", label: "Label 12 Mono", sample: "Label 12 Mono", mono: true },
 ];
 
 const COPY_SPECIMENS: TypeSpecimen[] = [
-  { className: "text-copy-24", label: "Copy 24 with Strong", sample: "Copy 24 with <strong>Strong</strong>" },
-  { className: "text-copy-20", label: "Copy 20 with Strong", sample: "Copy 20 with <strong>Strong</strong>" },
-  { className: "text-copy-18", label: "Copy 18 with Strong", sample: "Copy 18 with <strong>Strong</strong>" },
-  { className: "text-copy-16", label: "Copy 16 with Strong", sample: "Copy 16 with <strong>Strong</strong>" },
-  { className: "text-copy-14", label: "Copy 14 with Strong", sample: "Copy 14 with <strong>Strong</strong>" },
+  {
+    className: "text-copy-24",
+    label: "Copy 24 with Strong",
+    sample: "Copy 24 with <strong>Strong</strong>",
+  },
+  {
+    className: "text-copy-20",
+    label: "Copy 20 with Strong",
+    sample: "Copy 20 with <strong>Strong</strong>",
+  },
+  {
+    className: "text-copy-18",
+    label: "Copy 18 with Strong",
+    sample: "Copy 18 with <strong>Strong</strong>",
+  },
+  {
+    className: "text-copy-16",
+    label: "Copy 16 with Strong",
+    sample: "Copy 16 with <strong>Strong</strong>",
+  },
+  {
+    className: "text-copy-14",
+    label: "Copy 14 with Strong",
+    sample: "Copy 14 with <strong>Strong</strong>",
+  },
   { className: "text-copy-13", label: "Copy 13", sample: "Copy 13" },
   { className: "text-copy-13-mono", label: "Copy 13 Mono", sample: "Copy 13 Mono", mono: true },
 ];
@@ -345,8 +397,8 @@ export function TypographyPage() {
       <section className="mt-12">
         <h2 className="text-heading-24 text-foreground">Label</h2>
         <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
-          Designed for single-lines, and given ample line-height for highlighting &amp; marrying
-          up with icons.
+          Designed for single-lines, and given ample line-height for highlighting &amp; marrying up
+          with icons.
         </p>
         <ul className="mt-6 space-y-4">
           {LABEL_SPECIMENS.map((s) => (
@@ -367,8 +419,8 @@ export function TypographyPage() {
           ))}
         </ul>
         <p className="mt-4 max-w-xl text-copy-13 text-muted-foreground">
-          缺口：快照仅定义 copy 的 13 Mono 变体（text-copy-13-mono）；text-copy-14-mono 等其余
-          mono 变体在框架中不存在，需新增时在 index.css 补 @utility。
+          缺口：快照仅定义 copy 的 13 Mono 变体（text-copy-13-mono）；text-copy-14-mono 等其余 mono
+          变体在框架中不存在，需新增时在 index.css 补 @utility。
         </p>
       </section>
     </div>
@@ -447,7 +499,8 @@ const MATERIALS: MaterialSpec[] = [
     className: "material-tooltip",
     name: "Tooltip",
     radius: "6px",
-    usage: "Lightest shadow. Corner 6px. Tooltips will be the only floating element with a triangular stem.",
+    usage:
+      "Lightest shadow. Corner 6px. Tooltips will be the only floating element with a triangular stem.",
     zIndex: "50（浮层，同 dropdown/select）",
   },
   {
@@ -483,8 +536,8 @@ export function MaterialsPage() {
       </p>
 
       <p className="mt-6 max-w-xl text-copy-14 text-muted-foreground">
-        Surface — on the page. Floating — above the page. 每个方块应用对应
-        material-* 类，标注圆角、用途与 z-index 层级。
+        Surface — on the page. Floating — above the page. 每个方块应用对应 material-*
+        类，标注圆角、用途与 z-index 层级。
       </p>
 
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">

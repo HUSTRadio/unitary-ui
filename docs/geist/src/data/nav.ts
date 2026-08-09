@@ -1,12 +1,12 @@
-import {
-  type LucideIcon,
-} from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 
 /**
  * 文档站侧栏导航数据（docs/geist 专用）。
  * 分组与条目对齐官方 Geist 文档站侧栏（foundations/components），
- * 但 Components 组只列本框架已实现的 13 个元件。
+ * Components 组直接由组件 registry 生成，避免 metadata、路由和侧栏漂移。
  */
+
+import { COMPONENTS } from "./components";
 
 export interface NavItem {
   label: string;
@@ -34,48 +34,11 @@ export const NAV_GROUPS: NavGroup[] = [
   },
   {
     title: "Components",
-    items: [
-      { label: "Avatar", to: "/components/avatar" },
-      { label: "Badge", to: "/components/badge" },
-      { label: "Book", to: "/components/book" },
-      { label: "Browser", to: "/components/browser" },
-      { label: "Button", to: "/components/button" },
-      { label: "Calendar", to: "/components/calendar" },
-      { label: "Checkbox", to: "/components/checkbox" },
-      { label: "Choicebox", to: "/components/choicebox" },
-      { label: "Copy Button", to: "/components/copy-button" },
-      { label: "Dropdown Menu", to: "/components/dropdown-menu" },
-      { label: "Drawer", to: "/components/drawer" },
-      { label: "Empty State", to: "/components/empty-state" },
-      { label: "Error", to: "/components/error" },
-      { label: "Fieldset", to: "/components/fieldset" },
-      { label: "Input", to: "/components/input" },
-      { label: "JsonView", to: "/components/json-view" },
-      { label: "Label", to: "/components/label" },
-      { label: "Modal", to: "/components/modal" },
-      { label: "Note", to: "/components/note" },
-      { label: "Pagination", to: "/components/pagination" },
-      { label: "Phone", to: "/components/phone" },
-      { label: "Pill", to: "/components/pill" },
-      { label: "Progress", to: "/components/progress" },
-      { label: "Radio", to: "/components/radio" },
-      { label: "Segmented Control", to: "/components/segmented-control" },
-      { label: "Select", to: "/components/select" },
-      { label: "Separator", to: "/components/separator" },
-      { label: "Sheet", to: "/components/sheet" },
-      { label: "Skeleton", to: "/components/skeleton" },
-      { label: "Snippet", to: "/components/snippet" },
-      { label: "Spinner", to: "/components/spinner" },
-      { label: "Status Dot", to: "/components/status-dot" },
-      { label: "Step Point", to: "/components/step-point" },
-      { label: "Table", to: "/components/table" },
-      { label: "Tabs", to: "/components/tabs" },
-      { label: "Textarea", to: "/components/textarea" },
-      { label: "Toast", to: "/components/toast" },
-      { label: "Toggle", to: "/components/toggle" },
-      { label: "Tooltip", to: "/components/tooltip" },
-      { label: "Theme Switch", to: "/components/theme-switch" },
-      { label: "Video", to: "/components/video" },
-    ],
+    items: [...COMPONENTS]
+      .sort((left, right) => left.label.localeCompare(right.label, "en"))
+      .map((component) => ({
+        label: component.label,
+        to: `/components/${component.name}`,
+      })),
   },
 ];

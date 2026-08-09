@@ -4,7 +4,7 @@ import { CheckCircle2, Clock, XCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { StepPoint, type StepStatus } from "@/components/ui/step-point";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs } from "@/components/ui/tabs";
 
 /** 审批流程示例 — StepPoint + Tabs + Badge 组合。 */
 interface RequestItem {
@@ -48,11 +48,11 @@ const REQUESTS: RequestItem[] = [
 
 const STATUS_META: Record<
   RequestItem["status"],
-  { label: string; variant: "warning" | "success" | "danger" }
+  { label: string; variant: "amber" | "green" | "red" }
 > = {
-  pending: { label: "待审批", variant: "warning" },
-  approved: { label: "已通过", variant: "success" },
-  rejected: { label: "已驳回", variant: "danger" },
+  pending: { label: "待审批", variant: "amber" },
+  approved: { label: "已通过", variant: "green" },
+  rejected: { label: "已驳回", variant: "red" },
 };
 
 export function WorkflowExample() {
@@ -96,14 +96,17 @@ export function WorkflowExample() {
 
         {/* 请求列表 */}
         <div className="space-y-2">
-          <Tabs value={tab} onValueChange={setTab}>
-            <TabsList aria-label="审批状态">
-              <TabsTrigger value="pending">待审批</TabsTrigger>
-              <TabsTrigger value="approved">已通过</TabsTrigger>
-              <TabsTrigger value="rejected">已驳回</TabsTrigger>
-              <TabsTrigger value="all">全部</TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <Tabs
+            tabs={[
+              { value: "pending", title: "待审批" },
+              { value: "approved", title: "已通过" },
+              { value: "rejected", title: "已驳回" },
+              { value: "all", title: "全部" },
+            ]}
+            selected={tab}
+            setSelected={setTab}
+            ariaLabel="审批状态"
+          />
           <div className="material-base divide-y divide-border">
             {shown.map((req) => {
               const meta = STATUS_META[req.status];

@@ -4,13 +4,7 @@ import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Toggle } from "@/components/ui/toggle";
 
@@ -92,16 +86,17 @@ export function FormExample() {
           <label htmlFor="f-dept" className="text-label-14 text-foreground">
             部门
           </label>
-          <Select value={department} onValueChange={setDepartment}>
-            <SelectTrigger id="f-dept" aria-label="选择部门">
-              <SelectValue placeholder="选择部门" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="admin">行政组</SelectItem>
-              <SelectItem value="tech">技术组</SelectItem>
-              <SelectItem value="activity">活动组</SelectItem>
-              <SelectItem value="media">宣传组</SelectItem>
-            </SelectContent>
+          <Select
+            id="f-dept"
+            value={department}
+            onChange={(event) => setDepartment(event.target.value)}
+            placeholder="选择部门"
+            aria-label="选择部门"
+          >
+            <option value="admin">行政组</option>
+            <option value="tech">技术组</option>
+            <option value="activity">活动组</option>
+            <option value="media">宣传组</option>
           </Select>
         </div>
 

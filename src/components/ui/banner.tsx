@@ -1,52 +1,40 @@
 import * as React from "react";
-import { X } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+interface BannerButton {
+  href: string;
+  content: React.ReactNode;
+  target?: React.HTMLAttributeAnchorTarget;
+  rel?: string;
+}
+
+interface BannerProps extends React.ComponentProps<"div"> {
+  button?: BannerButton;
+}
+
 /**
- * Banner — 顶部横幅，通告重要信息。
- * flex 两端对齐：左侧内容（BannerContent）+ 右侧关闭按钮（BannerClose）。
+ * Banner — full-width announcement with an optional pill CTA.
+ * Official contract: `<Banner button={{ href, content }}>…</Banner>`.
  */
-function Banner({ className, ...props }: React.ComponentProps<"div">) {
+function Banner({ button, children, className, ...props }: BannerProps) {
   return (
-    <div
-      data-slot="banner"
-      className={cn(
-        "flex items-center justify-between gap-4 border-b border-gray-alpha-400 bg-background px-6 py-3",
-        className,
-      )}
-      {...props}
-    />
+    <div data-slot="banner" className={cn("flex w-full items-center gap-3", className)} {...props}>
+      <div className="min-w-0 flex-1 text-copy-16 text-gray-900 [&_b]:font-semibold">
+        {children}
+      </div>
+      {button ? (
+        <a
+          href={button.href}
+          target={button.target}
+          rel={button.rel}
+          className="material-small inline-flex h-8 shrink-0 items-center justify-center rounded-full bg-background-100 px-3 text-[14px]/[21px] font-medium text-gray-1000 outline-none transition-colors hover:bg-gray-100 focus-ring"
+        >
+          {button.content}
+        </a>
+      ) : null}
+    </div>
   );
 }
 
-function BannerContent({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="banner-content"
-      className={cn("flex items-center gap-2", className)}
-      {...props}
-    />
-  );
-}
-
-function BannerClose({
-  className,
-  ...props
-}: React.ComponentProps<typeof Button>) {
-  return (
-    <Button
-      type="button"
-      variant="ghost"
-      size="icon-sm"
-      aria-label="Close banner"
-      className={cn("shrink-0", className)}
-      {...props}
-    >
-      <X aria-hidden />
-    </Button>
-  );
-}
-
-export { Banner, BannerContent, BannerClose };
+export { Banner };

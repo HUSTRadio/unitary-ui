@@ -3,19 +3,14 @@ import { Copy, CopyCheck } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-/**
- * CopyButton — 复制按钮（docs/geist-markdown-refs/components/copy-button.md 官方语义）。
- * 导出：CopyButton。
- * 点击后用 navigator.clipboard.writeText 复制 text，成功后 1.5s 显示 CopyCheck 反馈。
- * 样式：ghost icon-sm 按钮。
- */
-
 interface CopyButtonProps extends React.ComponentProps<"button"> {
-  /** 要复制的文本 */
-  text: string;
+  /** 要复制的文本。 */
+  textToCopy: string;
+  /** 可访问名称；不渲染可见文本。 */
+  label?: string;
 }
 
-function CopyButton({ className, text, ...props }: CopyButtonProps) {
+function CopyButton({ className, textToCopy, label = "Copy", ...props }: CopyButtonProps) {
   const [copied, setCopied] = React.useState(false);
   const timer = React.useRef<number | undefined>(undefined);
 
@@ -23,11 +18,10 @@ function CopyButton({ className, text, ...props }: CopyButtonProps) {
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(textToCopy);
     } catch {
-      // 降级：隐藏 textarea + execCommand（无 clipboard 权限的环境仍可复制并给出反馈）
       const textarea = document.createElement("textarea");
-      textarea.value = text;
+      textarea.value = textToCopy;
       textarea.style.position = "fixed";
       textarea.style.opacity = "0";
       document.body.appendChild(textarea);
@@ -45,20 +39,15 @@ function CopyButton({ className, text, ...props }: CopyButtonProps) {
     <button
       type="button"
       data-slot="copy-button"
-      aria-label="Copy"
+      aria-label={copied ? "Copied" : label}
       onClick={handleCopy}
       className={cn(
-        "inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors outline-none hover:bg-gray-alpha-200 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+        "inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-background p-0 text-sm font-medium text-foreground shadow-[0_0_0_1px_var(--color-gray-400)] outline-none transition-colors hover:bg-gray-100 focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
         className,
       )}
       {...props}
     >
-      {copied ? (
-        <CopyCheck className="text-success" aria-hidden />
-      ) : (
-        <Copy aria-hidden />
-      )}
-      <span className="sr-only">{copied ? "Copied" : "Copy"}</span>
+      {copied ? <CopyCheck className="text-success" aria-hidden /> : <Copy aria-hidden />}
     </button>
   );
 }

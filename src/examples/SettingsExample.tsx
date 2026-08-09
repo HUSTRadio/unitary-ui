@@ -3,13 +3,7 @@ import { Bell, Save } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select } from "@/components/ui/select";
 import { Toggle } from "@/components/ui/toggle";
 
 /** 设置面板示例 — material 分区 + Toggle 列表 + 保存动效。 */
@@ -78,15 +72,15 @@ export function SettingsExample() {
             <label htmlFor="s-lang" className="text-label-14 text-foreground">
               界面语言
             </label>
-            <Select value={language} onValueChange={setLanguage}>
-              <SelectTrigger id="s-lang" aria-label="界面语言">
-                <SelectValue placeholder="选择语言" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="zh">简体中文</SelectItem>
-                <SelectItem value="en">English</SelectItem>
-                <SelectItem value="ja">日本語</SelectItem>
-              </SelectContent>
+            <Select
+              id="s-lang"
+              value={language}
+              onChange={(event) => setLanguage(event.target.value)}
+              aria-label="界面语言"
+            >
+              <option value="zh">简体中文</option>
+              <option value="en">English</option>
+              <option value="ja">日本語</option>
             </Select>
           </div>
           <div className="space-y-1.5">

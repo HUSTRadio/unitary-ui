@@ -6,16 +6,16 @@
 
 ## 内容
 
-| 资产              | 路径                   | 说明                                                                                                                                         |
-| ----------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| 样式 token 体系   | `src/styles/index.css` | Geist 双主题 34 语义 token + 82 全色阶 + 排版工具类 + material-* 材质 + focus-ring（官方实测值）                                             |
-| 基础组件 ×12      | `src/components/ui/`   | badge / button / checkbox / dropdown-menu / input / segmented-control / select / step-point / table / tabs / textarea / toggle（零业务依赖） |
-| 工具              | `src/lib/`             | `utils.ts`（cn）、`theme.tsx`（light/dark/system 三态主题系统）                                                                              |
-| 规范快照          | `docs/geist-markdown-refs/`          | Vercel Geist 官方文档快照（foundations + 72 组件 + 渲染参数实测表 + 截图，13MB）                                                             |
-| Agent 约束        | `AGENTS.md`            | 框架通用开发约束（Geist 视觉规范 / Git 规范 / Vite+ 流程）                                                                                   |
-| Living styleguide | `src/App.tsx`          | 组件总览 + 4 个组合示例导航                                                                                                                  |
-| 组合示例          | `src/examples/`        | FormExample（表单校验/加载态）/ DataTableExample（表格+筛选+选择）/ WorkflowExample（审批步骤）/ SettingsExample（设置面板）                 |
-| 文档站            | `docs/geist/`          | 复刻 Vercel Geist 官方文档站（Introduction/Colors/Typography/Materials/Brands/Components），`vp dev docs/geist` serve；问题清单见 `docs/geist-docs-findings.md` |
+| 资产              | 路径                        | 说明                                                                                                                                                            |
+| ----------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 样式 token 体系   | `src/styles/index.css`      | Geist 双主题 34 语义 token + 82 全色阶 + 排版工具类 + material-* 材质 + focus-ring（官方实测值）                                                                |
+| 基础组件          | `src/components/ui/`        | 覆盖 72 个官方 Geist 组件，并保留本地 Step Point 扩展；文档 registry、路由与侧栏统一生成（零业务依赖）                                                          |
+| 工具              | `src/lib/`                  | `utils.ts`（cn）、`theme.tsx`（light/dark/system 三态主题系统）                                                                                                 |
+| 规范快照          | `docs/geist-markdown-refs/` | Vercel Geist 官方文档快照（foundations + 72 组件 + 渲染参数实测表 + 截图，13MB）                                                                                |
+| Agent 约束        | `AGENTS.md`                 | 框架通用开发约束（Geist 视觉规范 / Git 规范 / Vite+ 流程）                                                                                                      |
+| Living styleguide | `src/App.tsx`               | 组件总览 + 4 个组合示例导航                                                                                                                                     |
+| 组合示例          | `src/examples/`             | FormExample（表单校验/加载态）/ DataTableExample（表格+筛选+选择）/ WorkflowExample（审批步骤）/ SettingsExample（设置面板）                                    |
+| 文档站            | `docs/geist/`               | 复刻 Vercel Geist 官方文档站（Introduction/Colors/Typography/Materials/Brands/Components），`vp dev docs/geist` serve；问题清单见 `docs/geist-docs-findings.md` |
 
 ## 效果图
 

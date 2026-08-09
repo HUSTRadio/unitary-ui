@@ -32,8 +32,7 @@ const PAGE_COMPONENTS: Record<string, ComponentType> = {
 export default function App() {
   const { pathname } = useLocation();
   const Page =
-    PAGE_COMPONENTS[pathname] ??
-    (pathname.startsWith("/components/") ? ComponentsPage : undefined);
+    PAGE_COMPONENTS[pathname] ?? (pathname.startsWith("/components/") ? ComponentsPage : undefined);
 
   return (
     <div className="flex min-h-screen flex-col bg-background">

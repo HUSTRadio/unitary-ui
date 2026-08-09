@@ -6,41 +6,61 @@ import { Input } from "./input";
 
 /**
  * ClearableInput — Geist 官方 ClearableInput（docs/geist-markdown-refs/components/clearable-input.md 实测）。
- * 右侧清除按钮（lucide X）：有值时显示，无值时隐藏。
- * 用 React useState 管理内部值，onClear 在清除时回调。
+ * 官方：输入框 36px、右侧 32×32 清除按钮（有值时显示，无值时隐藏）；
+ * 标题行为 "resets the value on Escape" —— Esc 键清除。
+ * 支持受控（value + onChange）与非受控（defaultValue）两种用法；
+ * onClear 在清除时回调（按钮点击或 Esc）。
  */
 
-type ClearableInputProps = React.ComponentProps<"input"> & {
-  /** 点击清除按钮时回调（值已置空） */
+type ClearableInputProps = Omit<React.ComponentProps<"input">, "size"> & {
+  /** 点击清除按钮或按 Esc 清除时回调（值已置空） */
   onClear?: () => void;
 };
 
 const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
-  ({ className, defaultValue = "", onClear, ...props }, ref) => {
-    const [value, setValue] = React.useState<string>(
-      typeof defaultValue === "string" ? defaultValue : "",
-    );
+  (
+    { className, defaultValue = "", value: valueProp, onChange, onKeyDown, onClear, ...props },
+    ref,
+  ) => {
+    const isControlled = valueProp !== undefined;
+    const [internalValue, setInternalValue] = React.useState<string>(String(defaultValue));
+    const value = String(isControlled ? valueProp : internalValue);
     const showClear = value.length > 0;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setValue(e.target.value);
-      props.onChange?.(e);
+      if (!isControlled) setInternalValue(e.target.value);
+      onChange?.(e);
     };
 
     const handleClear = () => {
-      setValue("");
+      if (!isControlled) setInternalValue("");
       onClear?.();
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Escape" && value.length > 0) {
+        e.preventDefault();
+        handleClear();
+      }
+      onKeyDown?.(e);
     };
 
     return (
       <div className={cn("relative", className)}>
-        <Input ref={ref} value={value} onChange={handleChange} className="pr-9" {...props} />
+        <Input
+          ref={ref}
+          value={value}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          className="h-9 pr-10"
+          {...props}
+        />
         {showClear && (
           <button
             type="button"
             onClick={handleClear}
             aria-label="Clear input"
-            className="absolute top-1/2 right-2.5 -translate-y-1/2 rounded-md p-0.5 text-muted-foreground outline-none transition-colors hover:bg-gray-alpha-200 hover:text-foreground focus-ring"
+            className="absolute top-1/2 right-1 flex size-8 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-gray-alpha-200 hover:text-foreground focus-ring"
           >
             <X className="size-4" aria-hidden />
           </button>

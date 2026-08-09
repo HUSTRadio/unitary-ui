@@ -13,7 +13,7 @@ function Entity({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="entity"
       className={cn(
-        "flex items-center gap-3 rounded-[8px] border border-gray-alpha-400 bg-background p-4",
+        "flex items-center gap-4 rounded-[8px] border border-gray-alpha-400 bg-background p-4",
         className,
       )}
       {...props}
@@ -26,7 +26,7 @@ function EntityMedia({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="entity-media"
       className={cn(
-        "flex size-10 shrink-0 items-center justify-center rounded-full bg-gray-alpha-200",
+        "flex size-8 shrink-0 items-center justify-center rounded-full bg-gray-alpha-200",
         className,
       )}
       {...props}
@@ -35,29 +35,20 @@ function EntityMedia({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function EntityContent({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="entity-content"
-      className={cn("min-w-0 flex-1", className)}
-      {...props}
-    />
-  );
+  return <div data-slot="entity-content" className={cn("min-w-0 flex-1", className)} {...props} />;
 }
 
 function EntityTitle({ className, ...props }: React.ComponentProps<"h3">) {
   return (
     <h3
       data-slot="entity-title"
-      className={cn("truncate text-label-16 text-foreground", className)}
+      className={cn("truncate text-label-14 font-semibold text-foreground", className)}
       {...props}
     />
   );
 }
 
-function EntityDescription({
-  className,
-  ...props
-}: React.ComponentProps<"p">) {
+function EntityDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="entity-description"
@@ -68,20 +59,7 @@ function EntityDescription({
 }
 
 function EntityAction({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="entity-action"
-      className={cn("ml-auto shrink-0", className)}
-      {...props}
-    />
-  );
+  return <div data-slot="entity-action" className={cn("ml-auto shrink-0", className)} {...props} />;
 }
 
-export {
-  Entity,
-  EntityMedia,
-  EntityContent,
-  EntityTitle,
-  EntityDescription,
-  EntityAction,
-};
+export { Entity, EntityMedia, EntityContent, EntityTitle, EntityDescription, EntityAction };

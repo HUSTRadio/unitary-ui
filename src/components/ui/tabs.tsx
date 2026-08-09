@@ -1,55 +1,202 @@
 import * as React from "react";
-import { Tabs as TabsPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
+import { Tooltip } from "@/components/ui/tooltip";
 
 /**
  * Tabs — Geist 官方 Tabs 规范（docs/geist-markdown-refs/components/tabs.md 实测）。
- * 官方实测：Tab 高 50px、padding 14px 2px、400 14px/20px；
- * 选中态：2px 下边框 fg gray-1000 + 文字 gray-1000；未选中 gray-900；
- * 无填充背景（透明），发丝线容器下边框。
+ * 官方实测：Tab 高 50px、padding 14px 2px、400 14px/20px；tablist 无 border-b，
+ * 顶部 1px 发丝线（inset shadow）+ gap 24px；选中态 2px 下边框 gray-1000 + 文字 gray-1000。
+ * - 键盘：方向键只移动焦点，Enter/Space 激活（manual activation，官方 Best Practices）
+ * - variant="secondary"：24px pill，r6px，pad 0 6px，400 13px；选中 bg gray-1000/text background-100；
+ *   未选中 bg gray-alpha-200；禁用 bg gray-200/text gray-900
+ * - 禁用 tab 配 tooltip 说明约束（官方 tabs[].tooltip 语义）
  */
-const Tabs = TabsPrimitive.Root;
 
-const TabsList = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.List
-    ref={ref}
-    className={cn(
-      "inline-flex items-end gap-1 border-b border-border text-muted-foreground",
-      className,
-    )}
-    {...props}
-  />
-));
-TabsList.displayName = TabsPrimitive.List.displayName;
+type TabsVariant = "primary" | "secondary";
 
-const TabsTrigger = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Trigger
-    ref={ref}
-    className={cn(
-      "inline-flex h-[50px] items-center justify-center whitespace-nowrap border-b-2 border-transparent px-2 py-3.5 text-copy-14 font-normal transition-colors",
-      "focus-ring",
-      "disabled:pointer-events-none disabled:opacity-50",
-      "data-[state=active]:border-foreground data-[state=active]:text-foreground data-[state=inactive]:text-muted-foreground",
-      className,
-    )}
-    {...props}
-  />
-));
-TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
+interface TabsTab {
+  /** Title Case 标题（1–2 词，名词） */
+  title: React.ReactNode;
+  value: string;
+  icon?: React.ReactNode;
+  disabled?: boolean;
+  /** sentence case 约束说明（仅禁用 tab 需要） */
+  tooltip?: string;
+}
 
-const TabsContent = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Content ref={ref} className={cn("focus-ring", className)} {...props} />
-));
-TabsContent.displayName = TabsPrimitive.Content.displayName;
+interface TabsProps {
+  tabs: TabsTab[];
+  selected: string;
+  setSelected: (value: string) => void;
+  /** primary（下划线）/ secondary（pill），默认 primary */
+  variant?: TabsVariant;
+  /** 官方 API：整组禁用 */
+  disabled?: boolean;
+  /** tablist 无障碍标签（无可见标题时必填） */
+  ariaLabel?: string;
+  className?: string;
+}
 
-export { Tabs, TabsList, TabsTrigger, TabsContent };
+function Tabs({
+  className,
+  tabs,
+  selected,
+  setSelected,
+  variant = "primary",
+  disabled,
+  ariaLabel,
+}: TabsProps) {
+  return (
+    <OfficialTabs
+      tabs={tabs}
+      selected={selected}
+      setSelected={setSelected}
+      variant={variant}
+      disabled={disabled}
+      ariaLabel={ariaLabel}
+      className={className}
+    />
+  );
+}
+
+const tabsListClasses = (variant: TabsVariant) =>
+  cn(
+    "group flex flex-nowrap items-center gap-6 overflow-x-auto pb-px shadow-[0_-1px_0_var(--gray-200)_inset]",
+    variant === "secondary" && "gap-2 shadow-none",
+  );
+
+const tabsTriggerClasses = (variant: TabsVariant) =>
+  cn(
+    "outline-none focus-ring",
+    variant === "secondary"
+      ? "flex h-6 items-center justify-center whitespace-nowrap rounded-[6px] bg-gray-alpha-200 px-1.5 text-copy-13 text-foreground transition-colors data-[state=active]:bg-foreground data-[state=active]:text-background-100 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted-foreground"
+      : "flex -mb-px items-center justify-center whitespace-nowrap border-b-2 border-transparent px-0.5 py-3.5 text-copy-14 text-muted-foreground transition-colors hover:text-foreground data-[state=active]:border-foreground data-[state=active]:text-foreground disabled:cursor-not-allowed",
+  );
+
+/** 官方 API 模式：selected/setSelected/tabs[]，manual 键盘语义（方向键移焦点、Enter/Space 激活） */
+function OfficialTabs({
+  tabs,
+  selected,
+  setSelected,
+  variant = "primary",
+  disabled,
+  ariaLabel,
+  className,
+}: {
+  tabs: TabsTab[];
+  selected: string;
+  setSelected: (value: string) => void;
+  variant?: TabsVariant;
+  disabled?: boolean;
+  ariaLabel?: string;
+  className?: string;
+}) {
+  const [focusedIndex, setFocusedIndex] = React.useState(() =>
+    Math.max(
+      0,
+      tabs.findIndex((tab) => tab.value === selected),
+    ),
+  );
+  const refs = React.useRef<(HTMLButtonElement | null)[]>([]);
+
+  const enabledIndices = tabs
+    .map((tab, index) => (disabled || tab.disabled ? -1 : index))
+    .filter((index) => index >= 0);
+
+  const moveFocus = (direction: 1 | -1) => {
+    if (enabledIndices.length === 0) return;
+    const current = enabledIndices.indexOf(focusedIndex);
+    const next =
+      enabledIndices[(current + direction + enabledIndices.length) % enabledIndices.length];
+    setFocusedIndex(next);
+    refs.current[next]?.focus();
+  };
+
+  const activate = (index: number) => {
+    const tab = tabs[index];
+    if (disabled || tab.disabled) return;
+    setSelected(tab.value);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      moveFocus(1);
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      moveFocus(-1);
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      if (enabledIndices.length > 0) {
+        setFocusedIndex(enabledIndices[0]);
+        refs.current[enabledIndices[0]]?.focus();
+      }
+    } else if (event.key === "End") {
+      event.preventDefault();
+      if (enabledIndices.length > 0) {
+        const last = enabledIndices[enabledIndices.length - 1];
+        setFocusedIndex(last);
+        refs.current[last]?.focus();
+      }
+    } else if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      activate(focusedIndex);
+    }
+  };
+
+  return (
+    <div
+      role="tablist"
+      aria-label={ariaLabel}
+      onKeyDown={handleKeyDown}
+      data-slot="tabs"
+      className={cn(tabsListClasses(variant), className)}
+    >
+      {tabs.map((tab, index) => {
+        const isSelected = selected === tab.value;
+        const isDisabled = disabled || tab.disabled;
+        const button = (
+          <button
+            key={tab.value}
+            ref={(el) => {
+              refs.current[index] = el;
+            }}
+            type="button"
+            role="tab"
+            data-state={isSelected ? "active" : "inactive"}
+            aria-selected={isSelected}
+            aria-disabled={isDisabled || undefined}
+            disabled={isDisabled}
+            tabIndex={index === focusedIndex ? 0 : -1}
+            onClick={() => activate(index)}
+            onFocus={() => setFocusedIndex(index)}
+            className={cn(tabsTriggerClasses(variant), isDisabled && "cursor-not-allowed")}
+          >
+            {tab.icon ? (
+              <span
+                aria-hidden
+                className="mr-1.5 flex items-center [&_svg]:size-4 [&_svg]:shrink-0"
+              >
+                {tab.icon}
+              </span>
+            ) : null}
+            {tab.title}
+          </button>
+        );
+        if (tab.tooltip && isDisabled) {
+          return (
+            <Tooltip key={tab.value} text={tab.tooltip}>
+              <span tabIndex={0} className="inline-flex outline-none focus-ring">
+                {button}
+              </span>
+            </Tooltip>
+          );
+        }
+        return button;
+      })}
+    </div>
+  );
+}
+
+export { Tabs, type TabsProps, type TabsTab, type TabsVariant };

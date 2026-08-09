@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { SegmentedControl } from "@/components/ui/segmented-control";
+import { Select } from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-/** 数据表格示例 — Table + Checkbox + Badge + SegmentedControl + 搜索过滤。 */
+/** 数据表格示例 — Table + Checkbox + Badge + Select + 搜索过滤。 */
 interface Asset {
   id: string;
   name: string;
@@ -32,14 +32,12 @@ const ASSETS: Asset[] = [
   { id: "FA-RF-0021", name: "天线分析仪 KC901S+", category: "仪器设备", status: "available" },
 ];
 
-const STATUS_META: Record<
-  Asset["status"],
-  { label: string; variant: "success" | "info" | "warning" }
-> = {
-  available: { label: "可借", variant: "success" },
-  borrowed: { label: "借出中", variant: "info" },
-  maintenance: { label: "维修中", variant: "warning" },
-};
+const STATUS_META: Record<Asset["status"], { label: string; variant: "green" | "blue" | "amber" }> =
+  {
+    available: { label: "可借", variant: "green" },
+    borrowed: { label: "借出中", variant: "blue" },
+    maintenance: { label: "维修中", variant: "amber" },
+  };
 
 export function DataTableExample() {
   const [query, setQuery] = useState("");
@@ -101,17 +99,17 @@ export function DataTableExample() {
             aria-label="搜索资产"
           />
         </div>
-        <SegmentedControl
-          options={[
-            { value: "all", label: "全部" },
-            { value: "available", label: "可借" },
-            { value: "borrowed", label: "借出中" },
-            { value: "maintenance", label: "维修中" },
-          ]}
+        <Select
+          className="w-32"
           value={filter}
-          onValueChange={setFilter}
-          ariaLabel="按状态筛选"
-        />
+          onChange={(event) => setFilter(event.target.value)}
+          aria-label="按状态筛选"
+        >
+          <option value="all">全部</option>
+          <option value="available">可借</option>
+          <option value="borrowed">借出中</option>
+          <option value="maintenance">维修中</option>
+        </Select>
       </div>
 
       <Table>

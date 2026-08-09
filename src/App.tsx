@@ -6,14 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { SegmentedControl } from "@/components/ui/segmented-control";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select } from "@/components/ui/select";
+import { Switch, SwitchControl } from "@/components/ui/switch";
 import { StepPoint } from "@/components/ui/step-point";
 import {
   Table,
@@ -23,9 +17,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { ThemeSwitch } from "@/components/ui/theme-switch";
+import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { Toggle } from "@/components/ui/toggle";
 import { DataTableExample } from "@/examples/DataTableExample";
 import { FormExample } from "@/examples/FormExample";
@@ -82,17 +76,22 @@ export default function App() {
             ))}
           </nav>
         </div>
-        <ThemeSwitch />
+        <ThemeSwitcher small />
       </header>
 
       {/* 移动端导航 */}
       <div className="border-b border-border px-6 py-3 md:hidden">
-        <SegmentedControl
-          options={NAV.map((n) => ({ value: n.key, label: n.label }))}
+        <Select
           value={page}
-          onValueChange={(v) => setPage(v as typeof page)}
-          ariaLabel="示例导航"
-        />
+          onChange={(event) => setPage(event.target.value as typeof page)}
+          aria-label="示例导航"
+        >
+          {NAV.map((item) => (
+            <option key={item.key} value={item.key}>
+              {item.label}
+            </option>
+          ))}
+        </Select>
       </div>
 
       <main className="mx-auto max-w-6xl space-y-10 px-6 py-10">
@@ -108,7 +107,9 @@ export default function App() {
               <h2 className="text-heading-24 text-foreground">排版 Typography</h2>
               <p className="text-copy-14 text-muted-foreground">
                 完整排版类见 <code className="font-mono">src/styles/index.css</code> 与{" "}
-                <code className="font-mono">docs/geist-markdown-refs/foundations/typography.md</code>
+                <code className="font-mono">
+                  docs/geist-markdown-refs/foundations/typography.md
+                </code>
               </p>
               <div className="space-y-2">
                 <p className="text-heading-32 text-foreground">Heading 32 — 主要区块标题</p>
@@ -144,15 +145,10 @@ export default function App() {
                 <Input placeholder="禁用状态" disabled aria-label="禁用输入" />
               </div>
               <div className="w-56">
-                <Select>
-                  <SelectTrigger aria-label="示例选择">
-                    <SelectValue placeholder="选择类别" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="office">办公设备</SelectItem>
-                    <SelectItem value="instrument">仪器设备</SelectItem>
-                    <SelectItem value="comms">通信设备</SelectItem>
-                  </SelectContent>
+                <Select placeholder="选择类别" defaultValue="" aria-label="示例选择">
+                  <option value="office">办公设备</option>
+                  <option value="instrument">仪器设备</option>
+                  <option value="comms">通信设备</option>
                 </Select>
               </div>
               <div className="w-72">
@@ -172,48 +168,47 @@ export default function App() {
               </div>
             </Section>
 
-            {/* 分段控件 */}
-            <Section title="SegmentedControl">
-              <SegmentedControl
-                options={[
-                  { value: "all", label: "全部" },
-                  { value: "available", label: "可出借" },
-                  { value: "borrowed", label: "借出中" },
-                ]}
+            {/* 互斥视图切换 */}
+            <Section title="Switch">
+              <Switch
+                name="asset-status"
                 value={segment}
                 onValueChange={setSegment}
-                ariaLabel="筛选状态"
-              />
+                aria-label="筛选状态"
+              >
+                <SwitchControl value="all" label="全部" />
+                <SwitchControl value="available" label="可出借" />
+                <SwitchControl value="borrowed" label="借出中" />
+              </Switch>
             </Section>
 
             {/* Tabs */}
             <Section title="Tabs">
-              <Tabs value={tab} onValueChange={setTab}>
-                <TabsList aria-label="示例标签页">
-                  <TabsTrigger value="overview">概览</TabsTrigger>
-                  <TabsTrigger value="details">详情</TabsTrigger>
-                  <TabsTrigger value="history">历史</TabsTrigger>
-                </TabsList>
-                <TabsContent value="overview" className="pt-4 text-copy-14 text-muted-foreground">
-                  概览内容
-                </TabsContent>
-                <TabsContent value="details" className="pt-4 text-copy-14 text-muted-foreground">
-                  详情内容
-                </TabsContent>
-                <TabsContent value="history" className="pt-4 text-copy-14 text-muted-foreground">
-                  历史内容
-                </TabsContent>
-              </Tabs>
+              <Tabs
+                tabs={[
+                  { value: "overview", title: "概览" },
+                  { value: "details", title: "详情" },
+                  { value: "history", title: "历史" },
+                ]}
+                selected={tab}
+                setSelected={setTab}
+                ariaLabel="示例标签页"
+              />
+              <div className="pt-4 text-copy-14 text-muted-foreground">
+                {tab === "overview" ? "概览内容" : tab === "details" ? "详情内容" : "历史内容"}
+              </div>
             </Section>
 
             {/* Badge / StepPoint */}
             <Section title="Badge / StepPoint">
-              <Badge>默认</Badge>
-              <Badge variant="secondary">次要</Badge>
-              <Badge variant="success">成功</Badge>
-              <Badge variant="info">信息</Badge>
-              <Badge variant="warning">警告</Badge>
-              <Badge variant="danger">危险</Badge>
+              <Badge variant="gray">默认</Badge>
+              <Badge variant="gray" contrast="low">
+                次要
+              </Badge>
+              <Badge variant="green">成功</Badge>
+              <Badge variant="blue">信息</Badge>
+              <Badge variant="amber">警告</Badge>
+              <Badge variant="red">危险</Badge>
               <StepPoint status="done">第一步：填写信息</StepPoint>
               <StepPoint status="active">第二步：审批中</StepPoint>
               <StepPoint status="idle">第三步：待开始</StepPoint>

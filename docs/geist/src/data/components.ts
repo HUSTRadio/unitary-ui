@@ -25,31 +25,27 @@ export const COMPONENTS: ComponentMeta[] = [
     label: "Avatar",
     description: "Represents a user or a team with an image or fallback.",
     official: "Avatar",
-    code: `import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+    code: `import { Avatar } from "@/components/ui/avatar";
 
-<Avatar>
-  <AvatarImage src="/avatar.png" alt="User" />
-  <AvatarFallback>U</AvatarFallback>
-</Avatar>`,
+<Avatar src="/avatar.png" alt="Evil Rabbit" title="Evil Rabbit" />
+<Avatar size={24} letter="ER" />`,
     bestPractices: [
       "Use Avatar to represent a single user or team. Stacked Avatars represent a group of people.",
       "Provide a fallback (initials, icon, or placeholder) so the avatar still reads when the image fails to load or is missing.",
-      "Set a meaningful alt text on AvatarImage so screen readers announce who the avatar depicts.",
+      "Set a meaningful alt text so screen readers announce who the avatar depicts.",
       "Match the size to the context: sm for dense rows, default for lists and mentions, lg for profile headers.",
-    ]
+    ],
   },
   {
     name: "banner",
     label: "Banner",
-    description: "A prominent message that spans the full width of its container to announce important information.",
+    description:
+      "A prominent message that spans the full width of its container to announce important information.",
     official: "Banner",
-    code: `import { Banner, BannerContent, BannerClose } from "@/components/ui/banner";
+    code: `import { Banner } from "@/components/ui/banner";
 
-<Banner>
-  <BannerContent>
-    <b>Big News</b> – New components finally available
-  </BannerContent>
-  <BannerClose />
+<Banner button={{ href: "#", content: "Read more" }} className="p-4">
+  <b>Big News</b> – New components finally available
 </Banner>`,
   },
   {
@@ -57,12 +53,9 @@ export const COMPONENTS: ComponentMeta[] = [
     label: "Book",
     description: "A book-shaped container with flip-through pages.",
     official: "Book",
-    code: `import { Book, BookPage } from "@/components/ui/book";
+    code: `import { Book } from "@/components/ui/book";
 
-<Book title="The user experience of the Frontend Cloud">
-  <BookPage title="Cover">Cover content</BookPage>
-  <BookPage title="Chapter 1">Chapter content</BookPage>
-</Book>`,
+<Book title="The user experience of the Frontend Cloud" />`,
     bestPractices: [
       "Use Book for marketing pages, docs landing covers, and changelog hero shots where content needs the metaphor of a labeled volume.",
       "For in-product cards and dashboard tiles, use Card; Book is too decorative for repeated UI rows.",
@@ -74,13 +67,10 @@ export const COMPONENTS: ComponentMeta[] = [
     label: "Browser",
     description: "Frames screenshots and demos inside a realistic browser window.",
     official: "Browser",
-    code: `import { Browser, BrowserHeader, BrowserAddressBar, BrowserContent } from "@/components/ui/browser";
+    code: `import { Browser } from "@/components/ui/browser";
 
-<Browser>
-  <BrowserHeader>
-    <BrowserAddressBar>https://vercel.com</BrowserAddressBar>
-  </BrowserHeader>
-  <BrowserContent>Screenshot or demo content</BrowserContent>
+<Browser address="https://vercel.com">
+  <img src="/dashboard.png" alt="Deployment dashboard showing a successful build" />
 </Browser>`,
     bestPractices: [
       "Use Browser as marketing chrome around screenshots, demos, and recordings shown on landing pages, docs, and changelog posts.",
@@ -93,24 +83,13 @@ export const COMPONENTS: ComponentMeta[] = [
     label: "Breadcrumbs",
     description: "Navigation aid that shows the user's location within a site's hierarchy.",
     official: "Breadcrumbs",
-    code: `import {
-  Breadcrumbs,
-  BreadcrumbsItem,
-  BreadcrumbsLink,
-  BreadcrumbsSeparator,
-} from "@/components/ui/breadcrumbs";
+    code: `import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 
-<Breadcrumbs>
-  <BreadcrumbsItem>
-    <BreadcrumbsLink href="#">Home</BreadcrumbsLink>
-  </BreadcrumbsItem>
-  <BreadcrumbsSeparator />
-  <BreadcrumbsItem>
-    <BreadcrumbsLink href="#">Dashboard</BreadcrumbsLink>
-  </BreadcrumbsItem>
-  <BreadcrumbsSeparator />
-  <BreadcrumbsItem aria-current="page">Overview</BreadcrumbsItem>
-</Breadcrumbs>`,
+<Breadcrumb type="menu">
+  <BreadcrumbItem href="#">Home</BreadcrumbItem>
+  <BreadcrumbItem href="#">Dashboard</BreadcrumbItem>
+  <BreadcrumbItem active>Overview</BreadcrumbItem>
+</Breadcrumb>`,
   },
   {
     name: "badge",
@@ -119,12 +98,12 @@ export const COMPONENTS: ComponentMeta[] = [
     official: "Badge",
     code: `import { Badge } from "@/components/ui/badge";
 
-<Badge variant="default">Default</Badge>
-<Badge variant="secondary">Secondary</Badge>
-<Badge variant="outline">Outline</Badge>
-<Badge variant="ghost">Ghost</Badge>
-<Badge variant="destructive">Destructive</Badge>
-<Badge variant="success">Success</Badge>`,
+<Badge variant="gray">Gray</Badge>
+<Badge variant="blue">Blue</Badge>
+<Badge variant="purple">Purple</Badge>
+<Badge variant="amber">Amber</Badge>
+<Badge variant="red">Red</Badge>
+<Badge variant="green">Green</Badge>`,
     bestPractices: [
       "Use Badge for short, scannable metadata that sits next to the thing it describes: status, plan tier, environment, or role. One badge per row; two side by side is a sign the row needs a second column.",
       "For a colored dot without text, use Status Dot. For clickable filter chips that toggle a query, use the pill variant or a small Button.",
@@ -135,7 +114,7 @@ export const COMPONENTS: ComponentMeta[] = [
       "Don’t add a checkmark icon for success states or an X for errors; the variant carries that signal. Map meaning to color: green for healthy, red for error, amber for warning, blue for informational or production, gray for neutral. The -subtle suffix tones any of them down on dense surfaces.",
       "Skip stuffing sentences inside (Currently Active, You are on Pro); the surrounding row supplies the context.",
       "Set title for icon-only or ambiguous badges so screen readers announce the meaning. Don’t rely on color alone; the text has to be readable without it.",
-    ]
+    ],
   },
   {
     name: "button",
@@ -152,15 +131,15 @@ export const COMPONENTS: ComponentMeta[] = [
 <Button disabled>Disabled</Button>`,
     bestPractices: [
       "Use Button for actions that mutate state (deploy, save, delete); use ButtonLink for navigation that changes the URL. Switch to a Menu or Split Button when more than one related action shares a row.",
-      "Default Button is primary. Pass type=\"secondary\" for the supporting action and type=\"error\" for destructive confirmations. primary, success, ghost, and violet are not valid type values.",
-      "For form submits, use typeName=\"submit\". The HTML type attribute lives on typeName, not on type, which controls the visual variant.",
+      'Default Button is primary. Pass type="secondary" for the supporting action and type="error" for destructive confirmations. primary, success, ghost, and violet are not valid type values.',
+      'For form submits, use typeName="submit". The HTML type attribute lives on typeName, not on type, which controls the visual variant.',
       "Pass loading instead of swapping in a spinner so the button stays focusable and announces the busy state to assistive tech.",
       "Disable a button only when the action is impossible right now (missing input, insufficient permission); pair with a Tooltip that explains why.",
       "Title Case the label and name what happens: Deploy Project, Invite Member, Rotate Key. Avoid bare verbs (Submit) and generic confirms (OK, Confirm).",
       "Destructive buttons follow Verb + Noun and pair 1:1 with their toast: Delete Project then Project deleted. Mode-switch buttons append Instead: Use a Recovery Code Instead.",
       "Icon-only buttons require both svgOnly and aria-label; the validator throws without them. The aria-label names the action and the target (Copy deployment URL), not the icon (Copy).",
       "Don’t set aria-label on a button that already has visible text; it overrides the label and creates a screen-reader mismatch.",
-    ]
+    ],
   },
   {
     name: "calendar",
@@ -174,7 +153,7 @@ export const COMPONENTS: ComponentMeta[] = [
       "Pick Calendar for analytics ranges and any picker where day-of-week and month context matter.",
       "Set min and max to the data window so users can't pick outside the retention range.",
       "Default to the user's locale and timezone; never silently render UTC for a US-Pacific viewer.",
-    ]
+    ],
   },
   {
     name: "choicebox",
@@ -197,7 +176,7 @@ export const COMPONENTS: ComponentMeta[] = [
       "Use Choicebox when a choice benefits from a larger tap target plus a description or icon.",
       "Single-select for mutually exclusive choices, multi-select for additive ones. Don't mix the two within one group.",
       "Cap at 4-6 tiles. Past that, switch to Select or Combobox so the page doesn't scroll for a single field.",
-    ]
+    ],
   },
   {
     name: "checkbox",
@@ -220,14 +199,43 @@ export const COMPONENTS: ComponentMeta[] = [
       "Acknowledgment label is a full sentence ending in a period: I agree to the Terms of Service.",
       "Indeterminate copy names the partial count next to the group label (3 of 5 selected). Never leave the dash state unlabeled.",
       "Wrap related checkboxes in <fieldset> with a <legend> so screen readers announce the group name before each option.",
-      "Row-select checkbox in a table has no visible label. Set aria-label=\"Select {row name}\" so the row stays identifiable out of context.",
+      'Row-select checkbox in a table has no visible label. Set aria-label="Select {row name}" so the row stays identifiable out of context.',
       "The click target already extends to the label. Don’t override the <label>/htmlFor association with a custom wrapper that breaks the click region.",
-    ]
+    ],
+  },
+  {
+    name: "code",
+    label: "Code",
+    description: "Displays a snippet of inline code with Geist typography.",
+    official: "Code",
+    code: `import { Code } from "@/components/ui/code";
+
+<p>
+  Install with <Code>npm i geist</Code> and import the component.
+</p>`,
+  },
+  {
+    name: "code-block",
+    label: "Code Block",
+    description: "A bordered code block with a filename header for multi-line source.",
+    official: "Code Block",
+    code: `import { CodeBlock } from "@/components/ui/code-block";
+
+<CodeBlock filename="Table.jsx" language="jsx">{code}</CodeBlock>`,
+    bestPractices: [
+      "Use CodeBlock for multi-line, syntax-highlighted source the reader will scan or paste. For a single inline token (env var, function name, file path), use Code.",
+      "Pick Snippet for a copy-to-clipboard shell command or one-line key reveal; it ships with the prompt glyph and copy affordance built in.",
+      "Always pass a language/syntax (tsx, bash, json, diff). Highlighting is the primary reason to choose CodeBlock over a plain <pre>.",
+      "Highlight only the lines under discussion. A block where every line is highlighted reads the same as no highlight at all.",
+      "Show the filename header when the snippet has a paste destination (app/page.tsx, vercel.json). Omit it for ephemeral examples.",
+      "Snippets stay runnable. Don't paraphrase real code into pseudo-syntax, and don't prepend $ to shell commands.",
+    ],
   },
   {
     name: "collapse",
     label: "Collapse",
-    description: "A vertically stacked set of headings that each reveal a related section of content.",
+    description:
+      "A vertically stacked set of headings that each reveal a related section of content.",
     official: "Collapse",
     code: `import { Collapse, CollapseTrigger, CollapseContent } from "@/components/ui/collapse";
 
@@ -247,25 +255,133 @@ export const COMPONENTS: ComponentMeta[] = [
       "Don’t put primary destructive actions inside a closed Collapse; the user has to click twice to reach the warning.",
       "The trigger is a <button> with aria-expanded that flips on toggle and aria-controls pointing at the panel id.",
       "Render the panel content in the DOM when closed (with hidden or visibility) so search and find-in-page still hit it; lazy-render only for expensive content.",
-    ]
+    ],
+  },
+  {
+    name: "command-menu",
+    label: "Command Menu",
+    description: "Launches a set of actions as a full-screen overlay.",
+    official: "Command Menu",
+    code: `import {
+  CommandMenu,
+  CommandMenuContent,
+  CommandMenuGroup,
+  CommandMenuInput,
+  CommandMenuItem,
+  CommandMenuList,
+} from "@/components/ui/command-menu";
+
+<CommandMenu open onOpenChange={() => {}}>
+  <CommandMenuContent>
+    <CommandMenuInput placeholder="What do you need?" />
+    <CommandMenuList>
+      <CommandMenuGroup heading="Suggestions">
+        <CommandMenuItem>Figma Import</CommandMenuItem>
+      </CommandMenuGroup>
+      <CommandMenuGroup heading="Commands">
+        <CommandMenuItem>Import Extension</CommandMenuItem>
+        <CommandMenuItem>Manage Extensions</CommandMenuItem>
+      </CommandMenuGroup>
+    </CommandMenuList>
+  </CommandMenuContent>
+</CommandMenu>`,
+    bestPractices: [
+      "Use CommandMenu for a global, keyboard-first command palette that finds resources and runs actions across the app. For a menu opened from a visible trigger on a single resource, use Menu; for right-click on a row, use ContextMenu.",
+      "Group items into pages (Projects, Team Settings) when a single flat list would exceed roughly 30 items or span multiple resource types.",
+      "Bind ⌘K on macOS and Ctrl+K elsewhere. Don't reuse the binding for any in-page filter input; it's a global shortcut.",
+      "Trap focus inside the overlay while it's open and return focus to the previously active element on close.",
+      "Show a recent or default item set when the input is empty so the menu is useful before typing.",
+      "Item children are Title Case verb phrases (Deploy Project, Invite Team Member). Commands act, not browse; avoid navigation phrasing like Go to project page.",
+      "Group heading is Title Case, 1-2 words (Actions, Recent).",
+    ],
+  },
+  {
+    name: "context-card",
+    label: "Context Card",
+    description:
+      "A floating card that appears on hover or focus, showing richer detail than a tooltip.",
+    official: "Context Card",
+    code: `import {
+  ContextCard,
+  ContextCardAvatar,
+  ContextCardBody,
+  ContextCardDescription,
+  ContextCardFooter,
+  ContextCardHeader,
+  ContextCardTitle,
+} from "@/components/ui/context-card";
+
+<ContextCard>
+  <ContextCardHeader>
+    <ContextCardAvatar src="/avatar.png" alt="Acme" />
+    <div>
+      <ContextCardTitle>Acme Inc.</ContextCardTitle>
+      <ContextCardDescription>@acme · San Francisco</ContextCardDescription>
+    </div>
+  </ContextCardHeader>
+  <ContextCardBody>
+    <p className="text-copy-13 text-muted-foreground">Last Active: 2h ago</p>
+    <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
+  </ContextCardBody>
+  <ContextCardFooter>
+    <Button size="sm">View Project</Button>
+  </ContextCardFooter>
+</ContextCard>`,
+    bestPractices: [
+      "Use Context Card to reveal entity metadata on hover or focus: a user, a deployment, a project, an API key. The trigger is usually a name link or avatar in dense data.",
+      "For a one-line explanation without metadata rows, use Tooltip. For long-form content, edit forms, or persistent navigation, route to a Drawer or a detail page.",
+      "Don't use Context Card to surface destructive actions; the panel can dismiss on cursor exit before the user commits.",
+      "Cap interactive content at one primary action (View Project, Open Settings). More than one CTA reads as a menu and belongs in a Menu.",
+      "Lead with the entity name as a Title Case heading and one identifying line in sentence case underneath, followed by 2–4 metadata rows of Label: value.",
+      "Don't restate what the trigger already showed. If the row already renders the deployment URL, don't repeat it as the first card line.",
+      "The trigger keeps its own accessible name; the card is supplementary and shouldn't replace it. Escape closes the card and returns focus to the trigger.",
+    ],
+  },
+  {
+    name: "context-menu",
+    label: "Context Menu",
+    description: "A menu for contextual actions, revealed on right click or long press.",
+    official: "Context Menu",
+    code: `import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+
+<ContextMenu>
+  <ContextMenuTrigger asChild>
+    <Button variant="outline">Right click here</Button>
+  </ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuItem>Open in New Tab</ContextMenuItem>
+    <ContextMenuItem>Copy URL</ContextMenuItem>
+    <ContextMenuSeparator />
+    <ContextMenuItem className="text-destructive focus:bg-destructive focus:text-destructive-foreground">
+      Delete Deployment
+    </ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>`,
+    bestPractices: [
+      "Use ContextMenu for power-user shortcuts on right-click or long-press over a row, file, or canvas object.",
+      "ContextMenu must never be the only entry point for an action. Mirror every item in a visible Menu trigger or row button so mouse-only and keyboard-only users have parity.",
+      "Bind to right-click on desktop and long-press on touch. Suppress the native browser menu only on the trigger area, not the whole page.",
+      "Close on activation, Escape, and outside-click. Don't close on hover-out.",
+      "Items follow the same rules as Menu: Title Case Verb + Noun (Open in New Tab, Copy URL, Delete Deployment). Bare verbs are wrong.",
+      "Group destructive items at the bottom with a divider and keep the destructive label Verb + Noun.",
+      "The keyboard menu key (Shift+F10 on Windows/Linux) opens the same menu without right-click.",
+    ],
   },
   {
     name: "description",
     label: "Description",
     description: "Displays key/value metadata pairs as a definition list.",
     official: "Description",
-    code: `import { Description, DescriptionItem, DescriptionKey, DescriptionValue } from "@/components/ui/description";
+    code: `import { Description } from "@/components/ui/description";
 
-<Description>
-  <DescriptionItem>
-    <DescriptionKey>Last Deployed</DescriptionKey>
-    <DescriptionValue>2h ago</DescriptionValue>
-  </DescriptionItem>
-  <DescriptionItem>
-    <DescriptionKey>Region</DescriptionKey>
-    <DescriptionValue>iad1</DescriptionValue>
-  </DescriptionItem>
-</Description>`,
+<Description title="Last Deployed" content="2h ago" />
+<Description title="Region" content="iad1" />`,
     bestPractices: [
       "Use <Description> for definition-list metadata: a short Title Case key paired with a single value (Last Deployed, Region, Plan). For inline help under a form field, use the input’s helper-text slot instead.",
       "Geist renders <dl>/<dt>/<dd> so screen readers announce each key/value pair as a definition. Don’t wrap the component in extra paragraphs that break the list semantics.",
@@ -281,36 +397,81 @@ export const COMPONENTS: ComponentMeta[] = [
     official: "Copy Button",
     code: `import { CopyButton } from "@/components/ui/copy-button";
 
-<CopyButton text="lipsum" />`,
+<CopyButton textToCopy="lipsum" />`,
     bestPractices: [
       "Use CopyButton for a single short string the user copies verbatim — a token, a command, an ID. For longer blocks, pair a full Snippet with its own copy affordance.",
       "Show the checkmark feedback for about 1.5s after a successful copy so the action reads as done; reset it before the next click.",
       "Set aria-label on the icon-only button so screen readers announce the action (Copy deployment URL), not just the icon.",
       "Prefer navigator.clipboard.writeText with a hidden-textarea execCommand fallback so copying still works where clipboard permissions are missing.",
-    ]
+    ],
   },
   {
-    name: "dropdown-menu",
-    label: "Dropdown Menu",
-    description: "Displays a list of actions in a floating menu.",
-    official: "Dropdown Menu",
-    code: `import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+    name: "destructive-action-modal",
+    label: "Destructive Action Modal",
+    description:
+      "Confirms destructive actions with a red AlertTriangle header and a destructive confirm button.",
+    official: "Destructive Action Modal",
+    code: `import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
+import { Button } from "@/components/ui/button";
 
-<DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button variant="outline">Actions</Button>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent>
-    <DropdownMenuItem>Edit</DropdownMenuItem>
-    <DropdownMenuItem>Duplicate</DropdownMenuItem>
-    <DropdownMenuItem>Delete</DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>`,
+<Button variant="destructive" onClick={() => setOpen(true)}>Delete Project</Button>
+<DestructiveActionModal
+  open={open}
+  onCancel={() => setOpen(false)}
+  onConfirm={handleDelete}
+  title="Delete Project"
+  description="my-project and all its deployments will be permanently deleted."
+  confirmLabel="Delete Project"
+  verificationPhrase="my-project"
+  verificationLabel="project name"
+  irreversibleDescription="Deleting my-project cannot be undone."
+/>`,
+    bestPractices: [
+      "Reach for this over Modal when the action is destructive and warrants friction: delete, rotate, revoke, disconnect, downgrade. The typed gate forces deliberate intent.",
+      "Use it for reversible destructive actions too, when the consequence is serious enough to warrant a pause. Keep the typed gate; drop the irreversibility band.",
+      "Don't use for routine confirmations (save draft, discard changes, close without saving). The typed gate reads as melodrama when the stakes are low — use a plain Modal.",
+      "Title is Title Case, Verb + Noun, a statement — never a question. Delete Project, not Delete this project?.",
+      "confirmLabel matches the title 1:1. Never generic (Confirm, OK, Continue), never a bare verb (Delete).",
+      "loading disables both buttons. The caller owns open — do not self-dismiss from onConfirm. Close after the API settles, or keep open on error so the user can retry.",
+      "The verification input gets focus on open so the user can start typing immediately. Submit stays disabled until the value matches the verification phrase exactly.",
+    ],
+  },
+  {
+    name: "dots-menu",
+    label: "Dots Menu",
+    description:
+      "An overflow menu triggered by a three-dot icon that reveals additional actions in a dropdown.",
+    official: "Dots Menu",
+    code: `import { DotsMenu, DotsMenuItem, DotsMenuSeparator } from "@/components/ui/dots-menu";
+
+<DotsMenu>
+  <DotsMenuItem>View Build Logs</DotsMenuItem>
+  <DotsMenuItem>View Projects</DotsMenuItem>
+  <DotsMenuItem>View Analytics</DotsMenuItem>
+  <DotsMenuSeparator />
+  <DotsMenuItem disabled>Disabled Item</DotsMenuItem>
+</DotsMenu>`,
+  },
+  {
+    name: "menu",
+    label: "Menu",
+    description: "Displays a list of actions in a floating menu.",
+    official: "Menu",
+    code: `import {
+  Menu,
+  MenuButton,
+  MenuContainer,
+  MenuItem,
+} from "@/components/ui/menu";
+
+<MenuContainer>
+  <MenuButton>Actions</MenuButton>
+  <Menu width={200}>
+    <MenuItem>Edit Project</MenuItem>
+    <MenuItem>Duplicate Project</MenuItem>
+    <MenuItem type="error">Delete Project</MenuItem>
+  </Menu>
+</MenuContainer>`,
     bestPractices: [
       "Use Menu for a discoverable trigger that opens a list of actions on a single resource (a dots menu on a row, a dropdown on a primary entity).",
       "For right-click or long-press on a row, use ContextMenu. For global commands behind ⌘K, use CommandMenu. For two related primary actions, use a split button rather than burying the secondary action.",
@@ -326,31 +487,23 @@ export const COMPONENTS: ComponentMeta[] = [
       "Up/Down arrows move focus through items, Home/End jump to first/last, Enter or Space activates.",
       "Typeahead jumps to the next item whose label starts with the typed character; keep the visible label first so typeahead matches what the user sees.",
       "Return focus to the trigger on close so keyboard users keep their place in the row.",
-    ]
+    ],
   },
   {
     name: "drawer",
     label: "Drawer",
     description: "Displays content in a separate bottom view from the existing context.",
     official: "Drawer",
-    code: `import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerClose } from "@/components/ui/drawer";
+    code: `import { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 
-<Drawer>
-  <DrawerTrigger asChild>
-    <Button>Open Drawer</Button>
-  </DrawerTrigger>
-  <DrawerContent>
-    <DrawerHeader>
+<Button onClick={() => setOpen(true)}>Open Drawer</Button>
+<Drawer show={open} onDismiss={() => setOpen(false)}>
+  <div className="p-5">
       <DrawerTitle>Filter Logs</DrawerTitle>
       <DrawerDescription>Narrow the logs by environment.</DrawerDescription>
-    </DrawerHeader>
-    <DrawerFooter>
-      <DrawerClose asChild>
-        <Button variant="secondary">Cancel</Button>
-      </DrawerClose>
-      <Button>Apply</Button>
-    </DrawerFooter>
-  </DrawerContent>
+    <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+    <Button onClick={applyFilters}>Apply</Button>
+  </div>
 </Drawer>`,
     bestPractices: [
       "Only use Drawer on small viewports. For a desktop side panel that keeps the page interactive, use Sheet; for a blocking decision, use Modal.",
@@ -360,41 +513,41 @@ export const COMPONENTS: ComponentMeta[] = [
       "DrawerTitle is a Title Case statement that names the entity (Deployment Details, Filter Logs). Body is sentence case prose with one primary Verb + Noun button and a literal Cancel.",
       "Trap focus inside the drawer while open and return focus to the trigger on close. Escape closes the drawer.",
       "Lock body scroll on open and restore it on close so iOS rubber-band scroll doesn’t leak through.",
-    ]
+    ],
   },
   {
     name: "empty-state",
     label: "Empty State",
     description: "Fills spaces when no content has been added yet or a view is empty.",
     official: "Empty State",
-    code: `import { EmptyState, EmptyStateIcon, EmptyStateTitle, EmptyStateDescription } from "@/components/ui/empty-state";
+    code: `import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
 import { Inbox } from "lucide-react";
 
-<EmptyState>
-  <EmptyStateIcon><Inbox /></EmptyStateIcon>
-  <EmptyStateTitle>No results</EmptyStateTitle>
-  <EmptyStateDescription>Clear your filters to see all logs.</EmptyStateDescription>
-</EmptyState>`,
+<EmptyState
+  icon={<EmptyStateIcon icon={<Inbox />} />}
+  title="No results"
+  description="Clear your filters to see all logs."
+/>`,
     bestPractices: [
       "Pick the variant by what the user needs: no-results for a filtered list that returned zero rows, blank slate or informational for a resource the user hasn’t created, cleared for completed work, error for a failed load.",
       "Render the permission and tier-denial variants full-page when the user lands on a route they can’t view.",
       "Don’t put critical persistent warnings here. Empty states vanish when the list populates; persistent warnings belong in a Note or the page header.",
       "title is Title Case; description is sentence case and adds new information instead of restating the title.",
       "Cap at one primary CTA, plus one secondary. Three CTAs is a smell.",
-      "After an async filter change, wrap the region in aria-live=\"polite\" so screen readers announce the new state.",
-    ]
+      'After an async filter change, wrap the region in aria-live="polite" so screen readers announce the new state.',
+    ],
   },
   {
     name: "error",
     label: "Error",
     description: "Provides a friendly, actionable message when an operation fails.",
     official: "Error",
-    code: `import { ErrorText } from "@/components/ui/error";
+    code: `import { Error } from "@/components/ui/error";
 
-<ErrorText>This email address is already in use.</ErrorText>
+<Error>This email address is already in use.</Error>
 
-<Input aria-invalid placeholder="Email" />
-<ErrorText>Email address is required.</ErrorText>`,
+{/* Pair with aria-invalid and aria-describedby on the field */}
+<Error>Email address is required.</Error>`,
     bestPractices: [
       "Use the Error component as a block surface when a section or page-level resource failed to load: a panel, a dashboard card, a route boundary.",
       "Pick toasts.error() for transient action failures and the error prop on Input for field-level validation. Don't replace either with this block.",
@@ -402,8 +555,25 @@ import { Inbox } from "lucide-react";
       "State what happened and what to do next, in that order. Cut apologetic preambles (Unfortunately, Oops, We're sorry).",
       "Use Couldn't or Can't for user-state errors; use Failed to for system or infra errors. Unable to is banned.",
       "Don't fall back to Something Went Wrong as a title; name the resource that failed (Couldn't Load Deployments).",
-      "When the error appears asynchronously after a failed fetch, wrap the region in aria-live=\"polite\" so it's announced; reserve assertive for true blocking errors.",
-    ]
+      'When the error appears asynchronously after a failed fetch, wrap the region in aria-live="polite" so it\'s announced; reserve assertive for true blocking errors.',
+    ],
+  },
+  {
+    name: "feedback",
+    label: "Feedback",
+    description: "Gathers an emoji rating and open text feedback.",
+    official: "Feedback",
+    code: `import { Feedback } from "@/components/ui/feedback";
+
+<Feedback defaultValue="happy" onSubmit={(rating, text) => console.log(rating, text)} />`,
+    bestPractices: [
+      "Place Feedback at the end of a page, doc, or completed flow where the user has formed an opinion. Don't front-load it on a surface the user has only opened.",
+      "Keep the panel collapsed until the user clicks the trigger; auto-opening derails the work that prompted the feedback.",
+      "Submit closes the panel and returns focus to the trigger. Don't replace the panel with a generic acknowledgment toast; the close itself is the acknowledgment.",
+      "label is Title Case and short. Default Feedback is fine; override only when scoping to a flow: Feedback on Imports, Report a Bug. Don't end the label with ?.",
+      "copy overrides the prompt header next to the emoji row in sentence case (How did the import go?). Cut please and we're sorry.",
+      "Don't use Feedback as a substitute for a support form, a bug report intake, or NPS sampling. Those have dedicated surfaces.",
+    ],
   },
   {
     name: "fieldset",
@@ -425,7 +595,79 @@ import { Input } from "@/components/ui/input";
       "The legend is a Title Case noun like Account Settings or Required Permissions. No trailing colon.",
       "Keep each FieldSetItem to one control plus its label on a single row; stack multiple items vertically for longer forms.",
       "FieldSet renders the native fieldset/legend semantics for accessible grouping, with Geist tokens for the legend and item layout.",
-    ]
+    ],
+  },
+  {
+    name: "grid",
+    label: "Grid",
+    description: "Displays elements in a grid layout.",
+    official: "Grid",
+    code: `import { Grid, GridItem } from "@/components/ui/grid";
+
+<Grid columns={3} gap="md">
+  <GridItem>1</GridItem>
+  <GridItem>2</GridItem>
+  <GridItem>3</GridItem>
+  <GridItem>4</GridItem>
+  <GridItem>5</GridItem>
+  <GridItem>6</GridItem>
+</Grid>
+
+<Grid columns={12} gap="sm">
+  <GridItem span={6}>Half</GridItem>
+  <GridItem span={6}>Half</GridItem>
+</Grid>`,
+    bestPractices: [
+      "Use Grid for two-dimensional cell-and-guide layouts in marketing pages, docs landing pages, and feature breakdowns where the rule lines and cell borders are part of the design.",
+      "For plain n-column responsive content (cards, lists), use Tailwind grid grid-cols-* utilities directly; Grid is overkill when guides aren't visible.",
+      "Don't nest Grids more than one level; the guide overlap reads as visual noise and breaks the cell math.",
+      "Hide row or column guides only when their absence improves clarity (single-axis layouts, hero rows). Hiding both usually means a plain Tailwind grid is the right tool.",
+    ],
+  },
+  {
+    name: "file-tree",
+    label: "File Tree",
+    description: "Displays a hierarchical directory structure with expandable folders and files.",
+    official: "File Tree",
+    code: `import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@/components/ui/file-tree";
+
+<FileTree>
+  <FileTreeItem>
+    <FileTreeIcon type="folder-open" />
+    <FileTreeLabel>app</FileTreeLabel>
+    <FileTreeItem>
+      <FileTreeIcon type="file" />
+      <FileTreeLabel>main.tsx</FileTreeLabel>
+    </FileTreeItem>
+    <FileTreeItem>
+      <FileTreeIcon type="file" />
+      <FileTreeLabel>dashboard.tsx</FileTreeLabel>
+    </FileTreeItem>
+  </FileTreeItem>
+  <FileTreeItem>
+    <FileTreeIcon type="folder" />
+    <FileTreeLabel>public</FileTreeLabel>
+  </FileTreeItem>
+</FileTree>`,
+  },
+  {
+    name: "gauge",
+    label: "Gauge",
+    description: "A circular visual for conveying a percentage.",
+    official: "Gauge",
+    code: `import { Gauge } from "@/components/ui/gauge";
+
+<Gauge value={50} size="small" />
+<Gauge value={65} size="medium" />
+<Gauge value={80} size="large" />`,
+    bestPractices: [
+      "A 0–100 ratio against a fixed maximum where the comparison is the point, like quota usage, build cache hit rate, uptime, or billing-period consumption.",
+      "For determinate task progress with a known total (uploads, multi-step setup), use Progress.",
+      "For binary or enumerated state, use Status Dot for deployments or Badge for everything else.",
+      "Always pair the gauge with an adjacent label or Tooltip naming what the number represents (Build Cache Hit Rate). The gauge alone is not self-describing.",
+      "Don't put units inside children; the label carries the unit (Uptime · 99.97%). children is reserved for an icon overlay.",
+      'The component sets role="progressbar" with aria-valuemin, aria-valuemax, and aria-valuenow. Don\'t override those.',
+    ],
   },
   {
     name: "input",
@@ -450,9 +692,9 @@ import { Input } from "@/components/ui/input";
       "Helper text is sentence case, one sentence with a trailing period, on a sibling element wired through aria-describedby.",
       "Validation names the field and the constraint, ends in a period, and skips please (Project name is required., Code must be 6 digits.).",
       "Passing a string to label requires id; the InputPropsWithStringLabelAndId union won’t compile without it and screen readers lose the association.",
-      "For icon-only affordances inside a row of inputs, use <Button shape=\"circle\" svgOnly aria-label=\"…\"> rather than an unlabeled icon.",
+      'For icon-only affordances inside a row of inputs, use <Button shape="circle" svgOnly aria-label="…"> rather than an unlabeled icon.',
       "A SearchInput placeholder names the scope (Search projects) so the role is clear without sighted context.",
-    ]
+    ],
   },
   {
     name: "json-view",
@@ -468,7 +710,27 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "Use JSON View for JSON objects or arrays that users need to inspect, scan, collapse, expand, select, or copy.",
       "Use a regular code block when the value is static documentation, not an interactive product surface.",
       "Keep the source data as an object or array. Do not pre-stringify JSON before passing it to data.",
-    ]
+    ],
+  },
+  {
+    name: "keyboard-input",
+    label: "Keyboard Input",
+    description: "Displays keyboard input that triggers an action.",
+    official: "Keyboard Input",
+    code: `import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input";
+
+<KeyboardInput>
+  <Kbd>⌘</Kbd>
+  <Kbd>K</Kbd>
+</KeyboardInput>
+<Kbd>Enter</Kbd>`,
+    bestPractices: [
+      "Use Kbd for shortcut hints inside prose, menu items, and button suffixes. In long-form docs that narrate a shortcut, write the ⌘ K shortcut directly so the page renders the same when copied to plain text.",
+      "Pass modifiers via boolean props (meta, shift, alt, ctrl) so the component swaps ⌘ for Ctrl on Windows and Linux.",
+      "children is one key, digit, or named key (K, 7, Enter, Esc). Don't lowercase it, don't spell out modifiers inside, and don't pack a sentence into the element.",
+      "Use small inside dense surfaces like menu rows, command-bar items, or table cells where the default size crowds adjacent text.",
+      "Punctuation lives outside the element: period, comma, and or separators stay in surrounding prose so screen readers don't announce them as keys.",
+    ],
   },
   {
     name: "loading-dots",
@@ -484,10 +746,10 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "For layout placeholders use Skeleton; for known progress use Progress; for icon-sized indeterminate waits use Spinner.",
       "Keep the trailing label specific to the work in flight (Saving, Deploying, Uploading) so a wait over ~1s still tells the user what’s happening.",
       "Don’t string Loading Dots after a completed verb (Saved<LoadingDots />); the dots imply ongoing work.",
-      "Mark the wrapping span with aria-live=\"polite\" so screen readers pick up the in-progress label without interrupting.",
+      'Mark the wrapping span with aria-live="polite" so screen readers pick up the in-progress label without interrupting.',
       "The dots are decorative; the surrounding text carries meaning, so don’t add aria-label to the component itself.",
       "Honor prefers-reduced-motion and avoid pairing Loading Dots with another animated indicator on the same line.",
-    ]
+    ],
   },
   {
     name: "label",
@@ -496,13 +758,23 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     official: "Label",
     code: `import { Label } from "@/components/ui/label";
 
-<Label htmlFor="email">Email Address</Label>
+<Label id="email" value="Email Address" />
 <Input id="email" placeholder="Enter email address..." />`,
     bestPractices: [
       "Use Label to associate a visible text label with a form control so screen readers announce the field name.",
       "Match the label to the control via htmlFor and the control's id so clicking the label focuses the field.",
       "Keep labels short Title Case nouns: Project Name, Domain, Environment Variable Name.",
-    ]
+    ],
+  },
+  {
+    name: "load-more-button",
+    label: "Load More Button",
+    description: "A full-width button that appends more items to a paginated list.",
+    official: "Load More Button",
+    code: `import { LoadMoreButton } from "@/components/ui/load-more-button";
+
+<LoadMoreButton>Load More</LoadMoreButton>
+<LoadMoreButton loading>Loading...</LoadMoreButton>`,
   },
   {
     name: "modal",
@@ -539,7 +811,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
 <Note>Changing this region restarts all functions.</Note>
 <Note variant="success">Deployment succeeded.</Note>
 <Note variant="warning">Your plan has a usage limit.</Note>
-<Note variant="destructive">The API key is invalid.</Note>`,
+<Note variant="error">The API key is invalid.</Note>`,
     bestPractices: [
       "Use a Note for inline contextual feedback next to the field, card, or section it describes: a region change warning above a region picker, a rate-limit notice next to a usage gauge.",
       "Pick Banner when the message is page-level or system-wide and needs a CTA, Toast for transient acknowledgments, Modal for destructive confirmations.",
@@ -547,38 +819,26 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "A Note is persistent until the underlying state changes; don’t add an ad hoc dismiss control because it competes with the message.",
       "One Note per concept. Stacking three Notes on a card means the page architecture, not the Note copy, is wrong.",
       "The body is one sentence in active voice that names the impact: Changing this region restarts all functions.",
-    ]
+    ],
   },
   {
     name: "pagination",
     label: "Pagination",
     description: "Navigates through numbered pages of a data set.",
     official: "Pagination",
-    code: `import {
-  Pagination,
-  PaginationList,
-  PaginationItem,
-  PaginationLink,
-  PaginationPrevious,
-  PaginationNext,
-} from "@/components/ui/pagination";
+    code: `import { Pagination } from "@/components/ui/pagination";
 
-<Pagination>
-  <PaginationList>
-    <PaginationItem><PaginationPrevious href="#" /></PaginationItem>
-    <PaginationItem><PaginationLink href="#">1</PaginationLink></PaginationItem>
-    <PaginationItem><PaginationLink href="#" isActive>2</PaginationLink></PaginationItem>
-    <PaginationItem><PaginationLink href="#">3</PaginationLink></PaginationItem>
-    <PaginationItem><PaginationNext href="#" /></PaginationItem>
-  </PaginationList>
-</Pagination>`,
+<Pagination
+  previous={{ title: "Avatar", href: "/components/avatar" }}
+  next={{ title: "Phone", href: "/components/phone" }}
+/>`,
     bestPractices: [
       "Use Pagination for sequential navigation between sibling pages (docs articles, blog posts, onboarding steps). For revealing more rows of the same data set, use Show More or a numbered pager.",
-      "Use a numbered pager (PaginationList of PaginationLink) when the data set spans many pages and users need to jump to a specific page.",
-      "Mark the current page with isActive so it renders with aria-current=\"page\" and the selected highlight; keep other links as plain anchors.",
+      "Use Pagination as a previous/next document rail; use a data-table-specific pager when users must jump to numbered pages.",
+      'Mark the current page with isActive so it renders with aria-current="page" and the selected highlight; keep other links as plain anchors.',
       "Hide the Previous / Next slot at the start or end of a sequence instead of disabling it; an empty rail reads cleaner than a dimmed link with nowhere to go.",
       "Keep page labels short — numbers or 1–2 words. Don’t restate ordinal positions like Page 3 of 10 inside a link.",
-    ]
+    ],
   },
   {
     name: "phone",
@@ -594,7 +854,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "Use Phone as marketing chrome around mobile screenshots, recordings, and demo images on landing pages and docs.",
       "Don't render live mobile product UI inside the frame; the chrome implies a captured screen, not an interactive surface.",
       "Treat the chrome as decorative (aria-hidden); accessible naming belongs on the inner screenshot.",
-    ]
+    ],
   },
   {
     name: "pill",
@@ -608,9 +868,9 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
 <Pill>Pending</Pill>`,
     bestPractices: [
       "Use Pill for clickable filter chips that toggle a query; for a static status label use Badge instead.",
-      "Pass variant=\"active\" to highlight the currently selected filter so sighted users see the active state without color alone.",
+      'Pass variant="active" to highlight the currently selected filter so sighted users see the active state without color alone.',
       "Wire onClick only when the pill can actually filter; otherwise promote to a Badge.",
-    ]
+    ],
   },
   {
     name: "progress",
@@ -627,16 +887,44 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "For short indeterminate waits (~1–3s), use Spinner; for inline copy like Saving, use Loading Dots.",
       "Use max for the real ceiling (max={files.length}), not a hardcoded 100. The component computes the percentage from value / max.",
       "Pair the bar with text naming the work and units: Uploading 12 of 30 files. The bar alone doesn’t say what’s progressing.",
-    ]
+    ],
+  },
+  {
+    name: "project-banner",
+    label: "Project Banner",
+    description: "Used for temporary, project-wide notifications that require resolution.",
+    official: "Project Banner",
+    code: `import {
+  ProjectBanner,
+  ProjectBannerClose,
+  ProjectBannerContent,
+} from "@/components/ui/project-banner";
+
+<ProjectBanner>
+  <ProjectBannerContent>
+    <span>Attack Challenge Mode is enabled for this project</span>
+    <a href="#">Disable</a>
+  </ProjectBannerContent>
+  <ProjectBannerClose />
+</ProjectBanner>`,
+    bestPractices: [
+      "Use Project Banner for project-wide states that need resolution: overdue billing, an active rollback, attack mitigation, an expiring trial blocking deploys.",
+      "Pick Note for inline contextual messages tied to a single field or card, Toast for transient acknowledgments, Modal for confirmations.",
+      "Match variant to severity: error for critical downtime or payment-blocking states, warning for an exceptional state with non-immediate action, success for a positive temporary mitigation, gray for routine project-wide notices.",
+      "Project Banner is non-dismissible by design. If the message can be dismissed without resolving the underlying state, it isn't banner-worthy; move it to a Note.",
+      "Show one Project Banner at a time. Stacking competing banners drowns the most urgent state.",
+      "Always provide an action that resolves the state; a banner with no route is a dead end.",
+      "label is one sentence in sentence case that names the impact; the action label is Title Case Verb + Noun (Update Payment Method, Review Tokens).",
+    ],
   },
   {
     name: "radio",
     label: "Radio",
     description: "Provides single user input from a selection of options.",
     official: "Radio",
-    code: `import { RadioGroup, RadioGroupItem, RadioGroupLabel } from "@/components/ui/radio";
+    code: `import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
 
-<RadioGroup defaultValue="one" aria-label="Deployment Region">
+<RadioGroup label="Deployment Region" name="deployment-region" defaultValue="one">
   <RadioGroupItem value="one">Option 1</RadioGroupItem>
   <RadioGroupItem value="two">Option 2</RadioGroupItem>
 </RadioGroup>`,
@@ -647,25 +935,41 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "Pre-select the safest default so the field reads as configured, never as required-but-empty.",
       "Required state goes on the RadioGroup, not on individual options.",
       "Wrap related radios in <fieldset> + <legend> so screen readers announce the group name before each option.",
-    ]
+    ],
   },
   {
-    name: "segmented-control",
-    label: "Segmented Control",
-    description: "A slider group for mutually exclusive view options.",
-    official: "Segmented Control",
-    code: `import { SegmentedControl } from "@/components/ui/segmented-control";
+    name: "scroller",
+    label: "Scroller",
+    description: "Displays an overflowing list of items.",
+    official: "Scroller",
+    code: `import { Scroller } from "@/components/ui/scroller";
 
-<SegmentedControl
-  options={[
-    { value: "preview", label: "Preview" },
-    { value: "code", label: "Code" },
-    { value: "split", label: "Split" },
-  ]}
-  value={view}
-  onValueChange={setView}
-  ariaLabel="编辑器视图"
-/>`,
+<Scroller className="max-w-md">
+  <div className="h-24 w-48 shrink-0 rounded-md bg-gray-alpha-200" />
+  <div className="h-24 w-48 shrink-0 rounded-md bg-gray-alpha-200" />
+  <div className="h-24 w-48 shrink-0 rounded-md bg-gray-alpha-200" />
+  <div className="h-24 w-48 shrink-0 rounded-md bg-gray-alpha-200" />
+</Scroller>`,
+    bestPractices: [
+      "Use Scroller for an overflowing list of peer items along a single axis: chip rows, log streams, code snippets, command palettes.",
+      "Pick vertical for stacked feeds, horizontal for chip and tile rails, free only when content genuinely scrolls in both directions.",
+      "Show edge fade or shadow affordances on the clipped axis so users see there's more content past the viewport.",
+      "Keep item widths and gaps consistent in horizontal scrollers; ragged edges break the snap rhythm and make the rail feel broken.",
+      "Tab order follows DOM order, so place items in reading order regardless of visual scroll direction.",
+    ],
+  },
+  {
+    name: "switch",
+    label: "Switch",
+    description: "A slider group for mutually exclusive view options.",
+    official: "Switch",
+    code: `import { Switch, SwitchControl } from "@/components/ui/switch";
+
+<Switch name="editor-view" defaultValue="preview">
+  <SwitchControl defaultChecked value="preview" label="Preview" />
+  <SwitchControl value="code" label="Code" />
+  <SwitchControl value="split" label="Split" />
+</Switch>`,
     bestPractices: [
       "Use Switch as a segmented selector for 2–3 mutually exclusive options that show different views of the same surface, like Source vs Output.",
       "For a boolean on/off setting, use Toggle. Switch implements radio semantics, so two options stay mutually exclusive rather than reading as a checkbox.",
@@ -676,7 +980,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "Title Case each Switch.Control label. Keep labels to one or two words and parallel: Source / Output, not Source / Show output.",
       "Always provide a label on every Switch.Control, even when an icon carries the meaning, so screen readers announce the option. The component renders it as geist-sr-only for icon-only controls.",
       "Pair an icon-only Switch with a Tooltip on each control so sighted users get the same label assistive tech receives.",
-    ]
+    ],
   },
   {
     name: "sheet",
@@ -709,32 +1013,21 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "Outside-click does not auto-close, so always render an explicit close affordance and honor Escape.",
       "Title is Title Case and names the entity (Deployment Details, Member Profile), not the page action. Body is read-mostly prose.",
       "Trap focus inside the sheet while it’s open and return focus to the trigger row on close so keyboard users keep their place in the list.",
-      "Provide a visible close button labeled Close (or an icon button with aria-label=\"Close\") since clicking outside doesn’t dismiss.",
+      'Provide a visible close button labeled Close (or an icon button with aria-label="Close") since clicking outside doesn’t dismiss.',
       "Announce the sheet with aria-labelledby pointing at the title; pair it with aria-describedby only when the body is short and load-bearing.",
-    ]
+    ],
   },
   {
     name: "select",
     label: "Select",
     description: "Presents a list of options in a dropdown.",
     official: "Select",
-    code: `import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+    code: `import { Select } from "@/components/ui/select";
 
-<Select defaultValue="vercel">
-  <SelectTrigger className="w-56">
-    <SelectValue placeholder="Select a project" />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value="vercel">Vercel</SelectItem>
-    <SelectItem value="nextjs">Next.js</SelectItem>
-    <SelectItem value="turbo">Turborepo</SelectItem>
-  </SelectContent>
+<Select className="w-56" defaultValue="vercel" aria-label="Select a project">
+  <option value="vercel">Vercel</option>
+  <option value="nextjs">Next.js</option>
+  <option value="turbo">Turborepo</option>
 </Select>`,
     bestPractices: [
       "Pick <Select> for short, fixed lists (under ~10 items) where typing adds nothing; switch to Combobox once filtering helps.",
@@ -745,7 +1038,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "Placeholder is action-oriented (Select a framework), never Choose one…, Pick, or the label restated.",
       "Validate on blur and pass a string to error; messages name the field and end in a period (Select a framework.).",
       "Don’t wrap a labelled <Select> in a Tooltip; put the hint on a sibling icon button so the label stays announced.",
-    ]
+    ],
   },
   {
     name: "separator",
@@ -766,7 +1059,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "Horizontal separators span the full width of their container; vertical ones fill the available height of a flex row.",
       "Separators are decorative by default (decorative prop), so assistive tech ignores them. Set decorative={false} with an accessible name only when the separation is semantically meaningful.",
       "Don’t overuse separators; grouping with white space or a background surface is often enough and reads cleaner.",
-    ]
+    ],
   },
   {
     name: "show-more",
@@ -787,7 +1080,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "Don’t cycle Show More then Show Less mid-flow on the same data set; collapsing rows after the user expanded them scrolls them away from where they were reading.",
       "Render hidden rows in the DOM when the count is small so find-in-page works; lazy-load only when the dataset is large enough to hurt initial render.",
       "The trigger is a <button> with aria-expanded and aria-controls pointing at the list. After expansion, move focus to the first newly revealed row so screen readers and keyboard users land in the new content.",
-    ]
+    ],
   },
   {
     name: "skeleton",
@@ -801,9 +1094,28 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "Show a Skeleton when async data fills a known layout: table rows, card grids, profile blocks, sidebars.",
       "For a single in-flight action, use Spinner; for known progress, use Progress.",
       "Set width and height to match the final content so the layout doesn’t shift when data resolves.",
-      "Wrap the loading region in aria-busy=\"true\" and announce completion with aria-live=\"polite\" on the destination container.",
+      'Wrap the loading region in aria-busy="true" and announce completion with aria-live="polite" on the destination container.',
       "Respect prefers-reduced-motion for the pulse animation on low-power surfaces.",
-    ]
+    ],
+  },
+  {
+    name: "slider",
+    label: "Slider",
+    description: "An input to select a value from a given range.",
+    official: "Slider",
+    code: `import { Slider } from "@/components/ui/slider";
+import { useState } from "react";
+
+const [value, setValue] = useState([50]);
+
+<Slider value={value} onValueChange={setValue} aria-label="Volume" />`,
+    bestPractices: [
+      "Use a slider for ranged numeric input where shape and proximity matter more than precision: bandwidth caps, opacity, audio volume, color channels.",
+      "For exact values like a port number or memory limit, pair the slider with a numeric Input; keyboard users default to typing.",
+      "Snap to a sensible step (1, 5, 10%) so dragging never produces values like 47.83291. Clamp min and max to real product limits.",
+      "Always render the live value next to the track in tabular nums, and label what the number represents (Sample Rate · 44 kHz). The track alone is not self-describing.",
+      "Give the slider an accessible name through a sibling <label htmlFor> or aria-label, and let the native arrow-key, Page Up/Down, Home/End behavior do the keyboard work. Don't intercept those keys.",
+    ],
   },
   {
     name: "snippet",
@@ -812,14 +1124,14 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     official: "Snippet",
     code: `import { Snippet } from "@/components/ui/snippet";
 
-<Snippet code="npm i geist" />
-<Snippet code="vercel link" />`,
+<Snippet text="npm i geist" />
+<Snippet text="vercel link" />`,
     bestPractices: [
       "Use Snippet for a runnable shell command the user is meant to copy. For inline tokens (env var names, paths) use InlineCode, and for multi-line source use CodeBlock.",
       "Pass the command as text. The component renders any prompt itself; keep the copied payload in sync with what the user sees.",
       "Keep one command per Snippet. For longer scripts, switch to CodeBlock so users can read before they copy.",
       "Pair Snippet with a CopyButton affordance so users can grab the command without selecting text manually.",
-    ]
+    ],
   },
   {
     name: "spinner",
@@ -836,7 +1148,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "For a known duration or percentage, use Progress instead of a spinner.",
       "Prefer a loading state on the action control itself (like Button loading) so the busy element stays focusable.",
       "Pair a standalone Spinner with a text label or aria-label so the loading state is announced to assistive tech.",
-    ]
+    ],
   },
   {
     name: "status-dot",
@@ -845,18 +1157,17 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     official: "Status Dot",
     code: `import { StatusDot } from "@/components/ui/status-dot";
 
-<StatusDot variant="default" />
-<StatusDot variant="success" />
-<StatusDot variant="warning" />
-<StatusDot variant="destructive" />
-<StatusDot variant="info" />`,
+<StatusDot state="QUEUED" label />
+<StatusDot state="BUILDING" label />
+<StatusDot state="READY" label />
+<StatusDot state="ERROR" label />`,
     bestPractices: [
       "Use Status Dot only for deployment lifecycle states: QUEUED | BUILDING | READY | ERROR | CANCELED | DELETED.",
       "For non-deployment statuses (Workflow runs, Queue messages, Sandbox, Cron jobs), use a Badge with the canonical state vocabulary instead of repurposing the dot.",
       "The dot animates while BUILDING or QUEUED and goes static once the deployment reaches a terminal state. Don’t add a separate spinner alongside it.",
       "Don’t flash the color through every transitional state on a polling tick; only update when the readyState changes.",
       "Mark the dot decorative with aria-hidden when it sits inline with text that already names the state, so screen readers don’t announce it twice.",
-    ]
+    ],
   },
   {
     name: "step-point",
@@ -914,25 +1225,25 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "Column headers (<Table.Head>) are Title Case nouns or noun phrases: Last Used, Requests (7d), Created, Status. Never sentences.",
       "Use the canonical short relative-time form in cells (2m ago, 5h ago); switch to Mar 14, 2026 past 7 days. See Relative Time Card.",
       "Pagination labels are Previous and Next. Page-count copy reads Page 2 of 7 or 21–40 of 142 with an en-dash inside the range.",
-    ]
+    ],
   },
   {
     name: "tabs",
     label: "Tabs",
     description: "Organizes content into switchable panels.",
     official: "Tabs",
-    code: `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+    code: `import { Tabs } from "@/components/ui/tabs";
 
-<Tabs defaultValue="overview">
-  <TabsList>
-    <TabsTrigger value="overview">Overview</TabsTrigger>
-    <TabsTrigger value="usage">Usage</TabsTrigger>
-    <TabsTrigger value="api">API</TabsTrigger>
-  </TabsList>
-  <TabsContent value="overview">…</TabsContent>
-  <TabsContent value="usage">…</TabsContent>
-  <TabsContent value="api">…</TabsContent>
-</Tabs>`,
+<Tabs
+  tabs={[
+    { value: "overview", title: "Overview" },
+    { value: "usage", title: "Usage" },
+    { value: "api", title: "API" },
+  ]}
+  selected={tab}
+  setSelected={setTab}
+  ariaLabel="Component documentation"
+/>`,
     bestPractices: [
       "Use Tabs to switch between sibling views inside a single page (Overview, Logs, Settings).",
       "For navigation between unrelated pages, use a sub-menu, not Tabs. Tabs imply the views share scope, URL parent, and data model.",
@@ -944,9 +1255,18 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "tabs[].tooltip is sentence case and explains the constraint (Only visible to project owners.), not the tab’s purpose.",
       "Don’t append a count to the title (Logs (12)); use a badge slot instead and drop the badge at zero.",
       "Keep Left/Right arrows moving focus across tabs and Enter/Space activating; don’t hijack with global shortcuts.",
-      "Label the tablist with aria-label when no visible heading sits above it (aria-label=\"Sections\").",
+      'Label the tablist with aria-label when no visible heading sits above it (aria-label="Sections").',
       "Maintain a visible focus ring on the active tab; don’t suppress focus styles for visual polish.",
-    ]
+    ],
+  },
+  {
+    name: "text-with-copy-button",
+    label: "Text With Copy Button",
+    description: "Displays text alongside a button that copies it to the clipboard.",
+    official: "Text With Copy Button",
+    code: `import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
+
+<TextWithCopyButton textToCopy="npm i geist" textLabel="npm i geist" />`,
   },
   {
     name: "textarea",
@@ -965,30 +1285,27 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "Labels are short Title Case nouns (Description, Release Notes); placeholders show an example value, not instructions like Enter a description.",
       "Validation names the field and constraint, ends in a period, and skips please (Description is required., Release notes can’t exceed 500 characters.).",
       "Render helper text as a sibling <p> linked through aria-describedby; sentence case, one sentence, with a period.",
-    ]
+    ],
   },
   {
     name: "toast",
     label: "Toast",
     description: "A succinct message that is displayed temporarily.",
     official: "Toast",
-    code: `import {
-  Toast,
-  ToastProvider,
-  ToastTitle,
-  ToastDescription,
-  ToastViewport,
-  ToastClose,
-} from "@/components/ui/toast";
+    code: `import { Button } from "@/components/ui/button";
+import { Toasts, useToasts } from "@/components/ui/toast";
 
-<ToastProvider swipeDirection="right">
-  <Toast>
-    <ToastTitle>Project deleted</ToastTitle>
-    <ToastDescription>The Evil Rabbit jumped over the fence.</ToastDescription>
-    <ToastClose />
-  </Toast>
-  <ToastViewport />
-</ToastProvider>`,
+function Example() {
+  const toasts = useToasts();
+  return (
+    <>
+      <Button onClick={() => toasts.message({ text: "Project deleted" })}>
+        Show Toast
+      </Button>
+      <Toasts />
+    </>
+  );
+}`,
     bestPractices: [
       "Use a toast for non-blocking acknowledgments of user-initiated actions: Domain added, Project archived, Deployment canceled.",
       "Don’t use a toast alone for billing failures, permission denials, or build failures the user has to triage. Pair a ≤6-word toast (Build failed) with a persistent row carrying the recovery step.",
@@ -998,8 +1315,8 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "Completion toasts follow {Noun} {past-participle}: Blob deleted, Domain added. Never include successfully.",
       "Error toasts are two sentences with periods and end with a recovery step: Couldn’t verify domain. Try again.",
       "Pair the toast verb 1:1 with the destructive button verb (Delete Project then Project deleted).",
-      "The toast region announces with aria-live=\\\"polite\\\"; reserve assertive for blocking errors that interrupt a flow.",
-    ]
+      'The toast region announces with aria-live=\\"polite\\"; reserve assertive for blocking errors that interrupt a flow.',
+    ],
   },
   {
     name: "toggle",
@@ -1016,48 +1333,40 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "Disable Toggle only when the action is impossible (missing plan, locked policy); pair with helper text or a Tooltip that names the resolver.",
       "The label is children, not a label prop. Title Case noun phrase, 1–4 words, naming what is true when ON: Password Protection, not Enable Password Protection.",
       "Render an optional one-sentence description as a sibling under the label that explains ON only. Don’t describe OFF; it’s the negation.",
-      "Keep labelCasing=\"title\" (the default) so labels match other Title Case surfaces. Use labelCasing=\"normal\" only when sentence-case content sits inline next to the toggle.",
+      'Keep labelCasing="title" (the default) so labels match other Title Case surfaces. Use labelCasing="normal" only when sentence-case content sits inline next to the toggle.',
       "Provide an accessible name through children, aria-label, or aria-labelledby. Geist warns in development if all three are missing.",
       "Set aria-label only when the visible label sits elsewhere on the row; otherwise let children carry it so sighted and screen-reader copy stay aligned.",
-    ]
+    ],
   },
   {
     name: "tooltip",
     label: "Tooltip",
     description: "A floating label that appears on hover or focus.",
     official: "Tooltip",
-    code: `import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+    code: `import { Tooltip } from "@/components/ui/tooltip";
 
-<TooltipProvider>
-  <Tooltip>
-    <TooltipTrigger>Hover me</TooltipTrigger>
-    <TooltipContent>The Evil Rabbit Jumped over the Fence</TooltipContent>
-  </Tooltip>
-</TooltipProvider>`,
+<Tooltip text="The Evil Rabbit Jumped over the Fence">
+  <span>Hover me</span>
+</Tooltip>`,
     bestPractices: [
       "Use a Tooltip to explain why something exists, not what it is. The visible label names the thing; the tooltip adds the constraint, scope, or limit.",
       "Tooltips open on hover and on keyboard focus. Keep the default ~150ms entry delay so the tooltip doesn’t flicker on a sweeping mouse.",
       "Don’t wrap a labelled Input in a Tooltip. The trigger lands on the <label>, not the field, and the tooltip text becomes a second invisible label for screen readers. Put help on a sibling icon button.",
       "Keep primary actions outside the Tooltip; touch users can’t reach a hover-revealed control.",
       "One sentence or fragment in text. Sentence case, no period for a single fragment.",
-      "Skip tooltips that repeat the visible label (text=\"Rate Limit\" on a Rate Limit button) or describe the interaction (text=\"Click to override\").",
+      'Skip tooltips that repeat the visible label (text="Rate Limit" on a Rate Limit button) or describe the interaction (text="Click to override").',
       "An icon-only trigger needs an aria-label that names the action; the Tooltip body adds context, it doesn’t replace the label.",
       "Escape closes the tooltip and returns focus to the trigger.",
-    ]
+    ],
   },
   {
-    name: "theme-switch",
-    label: "Theme Switch",
+    name: "theme-switcher",
+    label: "Theme Switcher",
     description: "Switches between light, dark, and system themes.",
     official: "Theme Switcher",
-    code: `import { ThemeSwitch } from "@/components/ui/theme-switch";
+    code: `import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
-<ThemeSwitch />`,
+<ThemeSwitcher />`,
     bestPractices: [
       "Use Theme Switcher for the canonical Light / System / Dark control. Place it once per app, in the footer or settings, not duplicated across pages.",
       "Pass small for dense chrome (footers, dropdowns); use the default size on a settings page where there’s room for the labels to breathe.",
@@ -1065,20 +1374,178 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
       "The control auto-disables when forcedTheme is set on the provider; setting disabled manually is for read-only previews of the control itself.",
       "Don’t rebuild a theme picker with Switch or three icon buttons. Theme Switcher already handles the icons, the aria-label per option, and System detection.",
       "The component composes its own labels from the theme keys (light, system, dark); leave them alone so they stay translatable through next-themes.",
-    ]
+    ],
   },
   {
     name: "video",
     label: "Video",
     description: "Embeds a video with built-in playback controls.",
     official: "Video",
-    code: `import { Video, VideoControls } from "@/components/ui/video";
+    code: `import { Video } from "@/components/ui/video";
 
-<Video src="/demo.mp4" />`,
+<Video width={600} height={582} lazy={false} src="/demo.mp4" />`,
     bestPractices: [
       "Use Video to embed clips with built-in playback controls and lazy loading support.",
       "Lock the inner video aspect ratio so the container doesn't reflow while media loads.",
       "For autoplay, respect prefers-reduced-motion and provide a paused poster fallback.",
-    ]
+    ],
   },
-];
+  {
+    name: "clearable-input",
+    label: "Clearable Input",
+    description: "An input with an accessible one-click clear action.",
+    official: "Clearable Input",
+    code: `import { ClearableInput } from "@/components/ui/clearable-input";
+
+<ClearableInput defaultValue="geist-style-framework" />`,
+    bestPractices: [
+      "Use Clearable Input for search, filter, and short query fields where resetting the current value is frequent.",
+      "Keep the clear control keyboard reachable and label it with the result, such as Clear search.",
+    ],
+  },
+  {
+    name: "combobox",
+    label: "Combobox",
+    description: "A searchable single-select list.",
+    official: "Combobox",
+    code: `import { Combobox, ComboboxContent, ComboboxItem, ComboboxTrigger } from "@/components/ui/combobox";
+
+<Combobox defaultValue="nextjs" placeholder="Select a framework">
+  <ComboboxTrigger />
+  <ComboboxContent>
+    <ComboboxItem value="nextjs">Next.js</ComboboxItem>
+    <ComboboxItem value="react">React</ComboboxItem>
+  </ComboboxContent>
+</Combobox>`,
+    bestPractices: [
+      "Use Combobox when filtering materially helps users find one option; use Select for short fixed lists.",
+      "Keep the selected value and search query distinct so reopening the list does not erase the selection.",
+    ],
+  },
+  {
+    name: "entity",
+    label: "Entity",
+    description: "A structured row for an entity and its primary action.",
+    official: "Entity",
+    code: `import { Entity, EntityContent, EntityDescription, EntityTitle } from "@/components/ui/entity";
+
+<Entity>
+  <EntityContent>
+    <EntityTitle>Evil Rabbit</EntityTitle>
+    <EntityDescription>evilrabbit@example.com</EntityDescription>
+  </EntityContent>
+</Entity>`,
+    bestPractices: [
+      "Use Entity for one descriptive object with one primary row action; use Table when rows share comparable columns.",
+      "Keep media, content, and actions in stable columns so loading and selected states do not shift the row.",
+    ],
+  },
+  {
+    name: "error-card",
+    label: "Error Card",
+    description: "A contained error state with recovery guidance.",
+    official: "Error Card",
+    code: `import { ErrorCard, ErrorCardDescription, ErrorCardTitle } from "@/components/ui/error-card";
+
+<ErrorCard>
+  <ErrorCardTitle>No Credits Left</ErrorCardTitle>
+  <ErrorCardDescription>Add credits to continue.</ErrorCardDescription>
+</ErrorCard>`,
+    bestPractices: [
+      "Use Error Card when a bounded panel cannot render; use field errors for validation and Toast for transient action failures.",
+      "State what failed and provide a concrete recovery action rather than a generic Try again message.",
+    ],
+  },
+  {
+    name: "middle-truncate",
+    label: "Middle Truncate",
+    description: "Preserves the beginning and end of long identifiers.",
+    official: "Middle Truncate",
+    code: `import { MiddleTruncate } from "@/components/ui/middle-truncate";
+
+<MiddleTruncate value="https://example.com/very/long/path/deployment-id" />`,
+    bestPractices: [
+      "Use Middle Truncate for paths, URLs, hashes, and identifiers where both prefix and suffix carry meaning.",
+      "Expose the full value through title or adjacent copy affordance; truncation must not destroy access to the source value.",
+    ],
+  },
+  {
+    name: "multi-select",
+    label: "Multi Select",
+    description: "A filterable list that supports multiple selections.",
+    official: "Multi Select",
+    code: `import {
+  MultiSelectContent,
+  MultiSelectRoot,
+  MultiSelectRow,
+  MultiSelectTrigger,
+} from "@/components/ui/multi-select";
+
+<MultiSelectRoot>
+  <MultiSelectTrigger>{selected.length} selected</MultiSelectTrigger>
+  <MultiSelectContent>
+    {options.map((name) => (
+      <MultiSelectRow
+        key={name}
+        name={name}
+        checked={selected.includes(name)}
+        selectedCount={selected.length}
+        totalCount={options.length}
+        onChange={() => toggle(name)}
+        onSelectOnly={() => setSelected([name])}
+        onSelectAll={() => setSelected(options)}
+      />
+    ))}
+  </MultiSelectContent>
+</MultiSelectRoot>`,
+    bestPractices: [
+      "Use Multi Select only when more than one option may be active; use Combobox for searchable single selection.",
+      "Keep the trigger summary concise and expose the full selection list inside the open control.",
+    ],
+  },
+  {
+    name: "relative-time-card",
+    label: "Relative Time Card",
+    description: "Shows a relative timestamp with temporal context.",
+    official: "Relative Time Card",
+    code: `import { RelativeTimeCard } from "@/components/ui/relative-time-card";
+
+<RelativeTimeCard date={Date.now()} />`,
+    bestPractices: [
+      "Use relative time for recent activity and expose the exact timestamp when users hover or focus.",
+      "Switch to an absolute date once relative wording stops helping users compare events.",
+    ],
+  },
+  {
+    name: "search-input",
+    label: "Search Input",
+    description: "A search field with a standard leading icon.",
+    official: "Search Input",
+    code: `import { SearchInput } from "@/components/ui/search-input";
+
+<SearchInput placeholder="Search projects" aria-label="Search projects" />`,
+    bestPractices: [
+      "Use Search Input for query-driven filtering, not for ordinary form text entry.",
+      "Provide a visible label or an equivalent accessible name and preserve the query while results update.",
+    ],
+  },
+  {
+    name: "split-button",
+    label: "Split Button",
+    description: "Combines a primary action with a short menu of related actions.",
+    official: "Split Button",
+    code: `import { SplitButton, SplitButtonMain, SplitButtonMenu } from "@/components/ui/split-button";
+import { MenuItem } from "@/components/ui/menu";
+
+<SplitButton>
+  <SplitButtonMain>Deploy Project</SplitButtonMain>
+  <SplitButtonMenu>
+    <MenuItem>Deploy to Preview</MenuItem>
+  </SplitButtonMenu>
+</SplitButton>`,
+    bestPractices: [
+      "Keep the most common action on the main button and limit the menu to closely related variants.",
+      "Label the menu button with the target and purpose, not the chevron icon.",
+    ],
+  },
+].sort((a, b) => a.label.localeCompare(b.label));

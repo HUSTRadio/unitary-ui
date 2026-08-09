@@ -1,9 +1,8 @@
-import { Monitor, Moon, Search, Sun } from "lucide-react";
+import { Search } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 import { Input } from "@/components/ui/input";
-import { SegmentedControl } from "@/components/ui/segmented-control";
-import { useTheme, type ThemePreference } from "@/lib/theme";
+import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { cn } from "@/lib/utils";
 
 import { NAV_GROUPS, type NavGroup, type NavItem } from "../data/nav";
@@ -16,39 +15,15 @@ import { NAV_GROUPS, type NavGroup, type NavItem } from "../data/nav";
 
 /* ---------- Banner ---------- */
 
-const THEME_OPTIONS: { value: ThemePreference; label: React.ReactNode }[] = [
-  {
-    value: "system",
-    label: (
-      <span title="System">
-        <Monitor className="size-4" aria-hidden />
-      </span>
-    ),
-  },
-  {
-    value: "light",
-    label: (
-      <span title="Light">
-        <Sun className="size-4" aria-hidden />
-      </span>
-    ),
-  },
-  {
-    value: "dark",
-    label: (
-      <span title="Dark">
-        <Moon className="size-4" aria-hidden />
-      </span>
-    ),
-  },
-];
-
 function DocsBanner() {
-  const { preference, setPreference } = useTheme();
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b border-border bg-background px-6">
       {/* Logo — 内联 SVG 三角（Geist 风格符号） */}
-      <a href="#/" className="flex shrink-0 items-center gap-2" aria-label="Geist Style Framework 首页">
+      <a
+        href="#/"
+        className="flex shrink-0 items-center gap-2"
+        aria-label="Geist Style Framework 首页"
+      >
         <svg viewBox="0 0 24 24" className="size-5 fill-foreground" aria-hidden>
           <path d="M12 2.5 22.5 21h-21L12 2.5Z" />
         </svg>
@@ -69,14 +44,9 @@ function DocsBanner() {
         </kbd>
       </div>
 
-      {/* 主题切换 — 三态 SegmentedControl（icon + label） */}
+      {/* 主题切换 — 官方三态 ThemeSwitcher */}
       <div className="ml-auto">
-        <SegmentedControl
-          options={THEME_OPTIONS}
-          value={preference}
-          onValueChange={(value) => setPreference(value as ThemePreference)}
-          ariaLabel="主题切换"
-        />
+        <ThemeSwitcher small />
       </div>
     </header>
   );

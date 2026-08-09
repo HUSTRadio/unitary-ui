@@ -16,6 +16,12 @@ import { cn } from "@/lib/utils";
  * - title：text-heading-20 text-foreground
  * - description：text-copy-14 text-muted-foreground
  * - close：右上角 ghost icon button
+ * 官方语义（docs/geist-markdown-refs/components/sheet.md）：
+ * - SheetContent 支持 noOverlay prop（true 时不渲染遮罩，内容仍为 modal）
+ * - modal 语义由 Radix modal prop 透传（本组件默认 true，保持遮罩/焦点陷阱/
+ *   滚动锁定；官方默认 modal=false，需要时可显式传 <Sheet modal={false}>）
+ * - 官方 BP：点击外部不自动关闭（本组件默认阻止 outside-click 关闭），
+ *   始终提供显式关闭按钮并响应 Escape
  * 动画：data-[state=open]:animate-in / data-[state=closed]:animate-out
  */
 
@@ -56,17 +62,18 @@ const SIDE_ANIM: Record<SheetSide, string> = {
   left: "data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left",
 };
 
-interface SheetContentProps
-  extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+interface SheetContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
   side?: SheetSide;
+  /** 不渲染遮罩层（官方 noOverlay prop） */
+  noOverlay?: boolean;
 }
 
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   SheetContentProps
->(({ className, children, side = "right", ...props }, ref) => (
+>(({ className, children, side = "right", noOverlay = false, ...props }, ref) => (
   <SheetPortal>
-    <SheetOverlay />
+    {!noOverlay && <SheetOverlay />}
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
@@ -76,6 +83,7 @@ const SheetContent = React.forwardRef<
         SIDE_ANIM[side],
         className,
       )}
+      onPointerDownOutside={(event) => event.preventDefault()}
       {...props}
     >
       {children}
@@ -88,12 +96,11 @@ const SheetContent = React.forwardRef<
 ));
 SheetContent.displayName = DialogPrimitive.Content.displayName;
 
-const SheetHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("flex flex-col space-y-1.5 text-left", className)} {...props} />
-));
+const SheetHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("flex flex-col space-y-1.5 text-left", className)} {...props} />
+  ),
+);
 SheetHeader.displayName = "SheetHeader";
 
 const SheetTitle = React.forwardRef<
@@ -120,16 +127,15 @@ const SheetDescription = React.forwardRef<
 ));
 SheetDescription.displayName = DialogPrimitive.Description.displayName;
 
-const SheetFooter = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("mt-auto flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", className)}
-    {...props}
-  />
-));
+const SheetFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn("mt-auto flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", className)}
+      {...props}
+    />
+  ),
+);
 SheetFooter.displayName = "SheetFooter";
 
 export {

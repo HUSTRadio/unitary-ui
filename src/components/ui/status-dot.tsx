@@ -2,41 +2,61 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-/**
- * StatusDot — 状态指示圆点（docs/geist-markdown-refs/components/status-dot.md 官方语义，
- * 简化自 Penpot 状态语义）。默认灰点，success / warning / destructive / info 各映射语义色。
- * 尺寸 8px（size-2），纯视觉装饰态（decorative）。
- */
+export type StatusDotState = "QUEUED" | "BUILDING" | "READY" | "ERROR" | "CANCELED" | "DELETED";
 
-export type StatusDotVariant = "default" | "success" | "warning" | "destructive" | "info";
+const STATUS_DOT_STYLES: Record<StatusDotState, string> = {
+  QUEUED: "bg-[#eaeaea] dark:bg-[#333] animate-pulse",
+  BUILDING: "bg-[#f5a623] animate-pulse",
+  READY: "bg-[#50e3c2]",
+  ERROR: "bg-[#ee0000] dark:bg-[#ff0000]",
+  CANCELED: "bg-[#eaeaea] dark:bg-[#333]",
+  DELETED: "bg-[#eaeaea] dark:bg-[#333]",
+};
 
-const STATUS_DOT_STYLES: Record<StatusDotVariant, string> = {
-  default: "bg-muted-foreground",
-  success: "bg-success",
-  warning: "bg-warning",
-  destructive: "bg-destructive",
-  info: "bg-info",
+const STATUS_LABELS: Record<StatusDotState, string> = {
+  QUEUED: "Queued",
+  BUILDING: "Building",
+  READY: "Ready",
+  ERROR: "Error",
+  CANCELED: "Canceled",
+  DELETED: "Deleted",
+};
+
+const STATUS_MESSAGES: Record<StatusDotState, string> = {
+  QUEUED: "is queued.",
+  BUILDING: "is building.",
+  READY: "is ready.",
+  ERROR: "had an error.",
+  CANCELED: "was canceled.",
+  DELETED: "was deleted.",
 };
 
 function StatusDot({
   className,
-  variant = "default",
+  state = "QUEUED",
+  label,
+  titlePrefix = "This deployment",
   ...props
 }: React.ComponentProps<"span"> & {
-  variant?: StatusDotVariant;
+  state?: StatusDotState;
+  label?: boolean;
+  titlePrefix?: string;
 }) {
   return (
     <span
       data-slot="status-dot"
-      data-variant={variant}
-      aria-hidden
-      className={cn(
-        "inline-block size-2 shrink-0 rounded-full",
-        STATUS_DOT_STYLES[variant],
-        className,
-      )}
+      data-state={state}
+      aria-label={STATUS_LABELS[state]}
+      title={`${titlePrefix} ${STATUS_MESSAGES[state]}`}
+      className={cn("inline-flex items-center", className)}
       {...props}
-    />
+    >
+      <span
+        aria-hidden
+        className={cn("inline-block size-2.5 shrink-0 rounded-full", STATUS_DOT_STYLES[state])}
+      />
+      {label && <span className="ml-2 text-label-14 leading-[16px]">{STATUS_LABELS[state]}</span>}
+    </span>
   );
 }
 

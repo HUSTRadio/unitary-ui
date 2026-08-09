@@ -8,12 +8,19 @@ import { Input } from "./input";
 /**
  * Combobox — Geist 官方 Combobox 简化实现（docs/geist-markdown-refs/components/combobox.md 实测）。
  * 用 radix-ui Popover + Input 实现搜索下拉：
- * - Combobox 提供共享状态（value / query / open / items 注册表）
+ * - Combobox 提供共享状态（value / query / open / items 注册表 / 键盘导航 active）
  * - ComboboxTrigger 展示当前选中项 label（或 placeholder）
  * - ComboboxContent 内含搜索 Input + 按 query 过滤的选项列表
  * - ComboboxItem 单个可选项，点击选中并关闭
+ *
+ * ARIA（ARIA APG 可编辑 combobox 模式）：
+ * - 搜索 Input 承载 role="combobox" + aria-expanded + aria-autocomplete="list" +
+ *   aria-controls（指向 listbox）+ aria-activedescendant（指向高亮 option）
+ * - 选项列表 div role="listbox"，选项 role="option" + aria-selected
+ * - Trigger 保留 aria-haspopup="listbox"（Radix 自动维护 aria-expanded/aria-controls）
+ * - 键盘：ArrowDown/ArrowUp/Home/End 移动高亮，Enter 选中高亮项，Escape 关闭（Radix），
+ *   输入即 Type-ahead 过滤
  */
-
 
 type ComboboxContextValue = {
   value: string;
@@ -26,6 +33,14 @@ type ComboboxContextValue = {
   unregisterItem: (value: string) => void;
   getLabel: (value: string) => React.ReactNode;
   placeholder: string;
+  /** 过滤后可见选项的 value 列表（保持注册顺序） */
+  visibleValues: string[];
+  /** 键盘高亮项（aria-activedescendant 指向的 option） */
+  activeValue: string;
+  setActiveValue: (value: string) => void;
+  /** 选中并关闭 */
+  selectValue: (value: string) => void;
+  listboxId: string;
 };
 
 const ComboboxContext = React.createContext<ComboboxContextValue | null>(null);
@@ -56,7 +71,10 @@ function Combobox({
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
   const [internalValue, setInternalValue] = React.useState(defaultValue);
+  const [activeValue, setActiveValue] = React.useState("");
+  const [itemsVersion, setItemsVersion] = React.useState(0);
   const itemsRef = React.useRef<Map<string, React.ReactNode>>(new Map());
+  const id = React.useId();
 
   const value = valueProp !== undefined ? valueProp : internalValue;
 
@@ -65,15 +83,44 @@ function Combobox({
     onValueChange?.(next);
   };
 
+  const selectValue = (next: string) => {
+    handleValueChange(next);
+    setOpen(false);
+  };
+
   const registerItem = (itemValue: string, label: React.ReactNode) => {
     itemsRef.current.set(itemValue, label);
+    setItemsVersion((v) => v + 1);
   };
 
   const unregisterItem = (itemValue: string) => {
-    itemsRef.current.delete(itemValue);
+    if (itemsRef.current.delete(itemValue)) {
+      setItemsVersion((v) => v + 1);
+    }
   };
 
   const getLabel = (itemValue: string) => itemsRef.current.get(itemValue) ?? itemValue;
+
+  /** 与 ComboboxItem 的可见性过滤保持一致（label 包含 query） */
+  const visibleValues = React.useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return [...itemsRef.current.entries()]
+      .filter(([, label]) => q === "" || String(label).toLowerCase().includes(q))
+      .map(([itemValue]) => itemValue);
+    // itemsVersion 使注册表变化时重算；eslint-disable: itemsRef 是 ref，不参与依赖
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, itemsVersion, open]);
+
+  /** 打开或 query 变化时重置高亮：选中项可见则保持，否则落到第一项 */
+  React.useEffect(() => {
+    if (!open) return;
+    setActiveValue((prev) => {
+      if (visibleValues.includes(prev)) return prev;
+      if (visibleValues.includes(value)) return value;
+      return visibleValues[0] ?? "";
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, query, itemsVersion]);
 
   const ctx: ComboboxContextValue = {
     value,
@@ -86,6 +133,11 @@ function Combobox({
     unregisterItem,
     getLabel,
     placeholder,
+    visibleValues,
+    activeValue,
+    setActiveValue,
+    selectValue,
+    listboxId: `${id}-listbox`,
   };
 
   return (
@@ -100,11 +152,13 @@ function Combobox({
 const ComboboxTrigger = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>
->(({ className, children, ...props }, ref) => {
-  const { value, getLabel, placeholder } = useCombobox();
+>(({ className, ...props }, ref) => {
+  const { value, getLabel, placeholder, open } = useCombobox();
   return (
     <PopoverPrimitive.Trigger
       ref={ref}
+      aria-haspopup="listbox"
+      aria-expanded={open}
       className={cn(
         "flex h-8 w-full items-center justify-between gap-2 rounded-[6px] border border-gray-alpha-400 bg-background px-3 text-copy-14 input-focus-ring",
         "data-[state=open]:border-[var(--input-focus-border)] data-[state=open]:shadow-[0_0_0_4px_var(--input-focus-glow)] data-[state=open]:outline-none",
@@ -125,43 +179,126 @@ const ComboboxContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> & {
     placeholder?: string;
+    /** 搜索框的 accessible name（默认 "Filter options"） */
+    searchLabel?: string;
   }
->(({ className, placeholder = "Search…", align = "start", sideOffset = 4, children, ...props }, ref) => {
-  const { query, setQuery } = useCombobox();
-  return (
-    <PopoverPrimitive.Portal>
-      <PopoverPrimitive.Content
-        ref={ref}
-        align={align}
-        sideOffset={sideOffset}
-        className={cn(
-          "z-50 min-w-[var(--radix-popover-trigger-width)] overflow-hidden rounded-lg border border-gray-alpha-400 bg-popover text-popover-foreground shadow-md",
-          "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-          className,
-        )}
-        {...props}
-      >
-        <div className="border-b border-gray-alpha-400 p-2">
-          <Input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder={placeholder}
-            autoFocus
-          />
-        </div>
-        <div className="max-h-64 overflow-y-auto p-1">{children}</div>
-      </PopoverPrimitive.Content>
-    </PopoverPrimitive.Portal>
-  );
-});
+>(
+  (
+    {
+      className,
+      placeholder = "Search…",
+      searchLabel = "Filter options",
+      align = "start",
+      sideOffset = 4,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const {
+      query,
+      setQuery,
+      open,
+      visibleValues,
+      activeValue,
+      setActiveValue,
+      selectValue,
+      listboxId,
+    } = useCombobox();
+
+    const handleSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (visibleValues.length === 0) return;
+      const index = visibleValues.indexOf(activeValue);
+      switch (event.key) {
+        case "ArrowDown": {
+          event.preventDefault();
+          setActiveValue(visibleValues[(index + 1) % visibleValues.length]);
+          break;
+        }
+        case "ArrowUp": {
+          event.preventDefault();
+          setActiveValue(visibleValues[(index - 1 + visibleValues.length) % visibleValues.length]);
+          break;
+        }
+        case "Home": {
+          event.preventDefault();
+          setActiveValue(visibleValues[0]);
+          break;
+        }
+        case "End": {
+          event.preventDefault();
+          setActiveValue(visibleValues[visibleValues.length - 1]);
+          break;
+        }
+        case "Enter": {
+          if (activeValue) {
+            event.preventDefault();
+            selectValue(activeValue);
+          }
+          break;
+        }
+      }
+    };
+
+    return (
+      <PopoverPrimitive.Portal>
+        <PopoverPrimitive.Content
+          ref={ref}
+          align={align}
+          sideOffset={sideOffset}
+          className={cn(
+            "z-50 min-w-[var(--radix-popover-trigger-width)] overflow-hidden rounded-lg border border-gray-alpha-400 bg-popover text-popover-foreground shadow-md",
+            "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+            className,
+          )}
+          {...props}
+        >
+          <div className="border-b border-gray-alpha-400 p-2">
+            <Input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleSearchKeyDown}
+              placeholder={placeholder}
+              aria-label={searchLabel}
+              role="combobox"
+              aria-expanded={open}
+              aria-autocomplete="list"
+              aria-controls={listboxId}
+              aria-activedescendant={
+                activeValue ? `${listboxId}-option-${encodeURIComponent(activeValue)}` : undefined
+              }
+              autoFocus
+            />
+          </div>
+          <div
+            id={listboxId}
+            role="listbox"
+            aria-label={searchLabel}
+            className="max-h-64 overflow-y-auto p-1"
+          >
+            {children}
+          </div>
+        </PopoverPrimitive.Content>
+      </PopoverPrimitive.Portal>
+    );
+  },
+);
 ComboboxContent.displayName = PopoverPrimitive.Content.displayName;
 
 const ComboboxItem = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement> & { value: string }
 >(({ className, value, children, onClick, ...props }, ref) => {
-  const { value: selectedValue, onValueChange, setOpen, query, registerItem, unregisterItem } =
-    useCombobox();
+  const {
+    value: selectedValue,
+    query,
+    registerItem,
+    unregisterItem,
+    activeValue,
+    setActiveValue,
+    selectValue,
+    listboxId,
+  } = useCombobox();
 
   const label: React.ReactNode = children;
 
@@ -171,9 +308,16 @@ const ComboboxItem = React.forwardRef<
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
-  const visible =
-    query === "" ||
-    String(label).toLowerCase().includes(query.toLowerCase());
+  const visible = query === "" || String(label).toLowerCase().includes(query.toLowerCase());
+
+  const isActive = activeValue === value;
+  const isSelected = selectedValue === value;
+
+  React.useEffect(() => {
+    if (isActive && ref && typeof ref !== "function" && ref.current) {
+      ref.current.scrollIntoView({ block: "nearest" });
+    }
+  }, [isActive, ref]);
 
   if (!visible) return null;
 
@@ -181,20 +325,24 @@ const ComboboxItem = React.forwardRef<
     <button
       ref={ref}
       type="button"
+      role="option"
+      id={`${listboxId}-option-${encodeURIComponent(value)}`}
+      aria-selected={isSelected}
+      data-highlighted={isActive || undefined}
+      onMouseEnter={() => setActiveValue(value)}
       onClick={(e) => {
-        onValueChange(value);
-        setOpen(false);
+        selectValue(value);
         onClick?.(e);
       }}
       className={cn(
-        "flex w-full items-center justify-between gap-2 rounded-md px-3 py-2 text-left text-copy-14 outline-none cursor-pointer transition-colors hover:bg-gray-alpha-100 focus:bg-gray-alpha-100",
-        selectedValue === value && "text-foreground",
+        "flex w-full cursor-pointer items-center justify-between gap-2 rounded-md px-3 py-2 text-left text-copy-14 outline-none transition-colors hover:bg-gray-alpha-100 focus:bg-gray-alpha-100",
+        isActive && "bg-gray-alpha-100 text-foreground",
         className,
       )}
       {...props}
     >
       <span className="truncate">{children}</span>
-      {selectedValue === value && <Check className="size-4 shrink-0 text-foreground" aria-hidden />}
+      {isSelected && <Check className="size-4 shrink-0 text-foreground" aria-hidden />}
     </button>
   );
 });

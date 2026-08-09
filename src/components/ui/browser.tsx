@@ -1,58 +1,66 @@
 import * as React from "react";
+import { Copy } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-/**
- * Browser — 浏览器窗口模拟器（对应官方 Browser，docs/geist-markdown-refs/components/browser.md）。
- * 容器：flex flex-col + 12px 圆角 + 发丝线边框 + bg-background + overflow-hidden。
- * 由 BrowserHeader（红黄绿三圆点 + 地址栏）/ BrowserAddressBar / BrowserContent 组合。
- * 官方最佳实践：chrome 是装饰性框架（aria-hidden），含义在内部截图/视频上；不加可聚焦的往返按钮。
- */
-function Browser({ className, children }: { className?: string; children: React.ReactNode }) {
-  return (
-    <div
-      className={cn(
-        "flex flex-col overflow-hidden rounded-[12px] border border-gray-alpha-400 bg-background",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
+interface BrowserProps extends React.ComponentProps<"div"> {
+  address?: string;
 }
 
-function BrowserHeader({ className, children }: { className?: string; children: React.ReactNode }) {
-  return (
-    <div
-      className={cn(
-        "flex items-center gap-2 border-b border-gray-alpha-400 px-4 py-2.5",
-        className,
-      )}
-    >
-      <span className="flex items-center gap-1.5" aria-hidden>
-        <span className="size-2.5 rounded-full bg-[#ff5f57]" />
-        <span className="size-2.5 rounded-full bg-[#febc2e]" />
-        <span className="size-2.5 rounded-full bg-[#28c840]" />
-      </span>
-      {children}
-    </div>
-  );
-}
+function Browser({ address, className, children, ...props }: BrowserProps) {
+  const copyAddress = async () => {
+    if (!address) return;
+    await navigator.clipboard?.writeText(address);
+  };
 
-function BrowserAddressBar({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
+      data-slot="browser"
       className={cn(
-        "flex-1 rounded-md bg-gray-alpha-200 px-3 py-1 text-label-12 text-muted-foreground",
+        "material-small overflow-hidden rounded-md bg-background-200 md:rounded-[1.5cqw]",
         className,
       )}
       {...props}
-    />
+    >
+      <div
+        data-slot="browser-chrome"
+        className="flex justify-between gap-4 bg-background-100 px-4 py-2 md:gap-6 md:px-5 md:py-2.5"
+      >
+        <div className="flex min-w-0 flex-none items-center justify-start gap-4 md:max-w-[140px] md:flex-1">
+          <span className="flex items-center gap-4" aria-hidden>
+            <svg viewBox="0 0 16 16" className="size-3.5 fill-[#ff5f57]">
+              <circle cx="8" cy="8" r="7" />
+            </svg>
+            <svg viewBox="0 0 16 16" className="size-3.5 fill-[#febc2e]">
+              <circle cx="8" cy="8" r="7" />
+            </svg>
+            <svg viewBox="0 0 16 16" className="size-3.5 fill-[#28c840]">
+              <circle cx="8" cy="8" r="7" />
+            </svg>
+          </span>
+        </div>
+        <div className="flex min-w-0 flex-1 items-center justify-center gap-4">
+          {address ? (
+            <div className="flex w-full items-center justify-between rounded-full border border-gray-400 bg-background-200 py-1 pr-1 pl-4 lg:max-w-xs">
+              <span className="min-w-0 flex-1 truncate text-center text-copy-13 text-gray-1000">
+                {address}
+              </span>
+              <button
+                type="button"
+                aria-label="Copy"
+                onClick={() => void copyAddress()}
+                className="flex size-6 shrink-0 items-center justify-center rounded-full outline-none hover:bg-gray-alpha-200 focus-ring"
+              >
+                <Copy aria-hidden className="size-3" />
+              </button>
+            </div>
+          ) : null}
+        </div>
+        <div aria-hidden className="hidden min-w-0 flex-1 md:block md:max-w-[140px]" />
+      </div>
+      <div data-slot="browser-content">{children}</div>
+    </div>
   );
 }
 
-function BrowserContent({ className, ...props }: React.ComponentProps<"div">) {
-  return <div className={cn("p-4", className)} {...props} />;
-}
-
-export { Browser, BrowserHeader, BrowserAddressBar, BrowserContent };
+export { Browser };

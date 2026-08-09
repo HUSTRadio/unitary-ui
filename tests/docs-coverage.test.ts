@@ -1,0 +1,104 @@
+import { readdir, readFile } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { describe, expect, it } from "vitest";
+
+import { NAV_GROUPS } from "../docs/geist/src/data/nav";
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
+async function read(relativePath: string) {
+  return readFile(path.join(root, relativePath), "utf8");
+}
+
+describe("Geist documentation coverage", () => {
+  it("registers and renders every official component snapshot", async () => {
+    const referenceFiles = await readdir(path.join(root, "docs/geist-markdown-refs/components"));
+    const official = new Set(
+      referenceFiles.filter((file) => file.endsWith(".md")).map((file) => file.slice(0, -3)),
+    );
+    const metadataSource = await read("docs/geist/src/data/components.ts");
+    const demoSource = await read("docs/geist/src/components/docs-components-page.tsx");
+    const metadataNames = [...metadataSource.matchAll(/^ {4}name:\s*"([^"]+)",?$/gm)].map(
+      (match) => match[1],
+    );
+    const renderDemoSource = demoSource.slice(
+      demoSource.indexOf("function renderDemo("),
+      demoSource.indexOf("/* ---------- 额外分段"),
+    );
+    const demoNames = [...renderDemoSource.matchAll(/^ {4}case\s+"([^"]+)"\s*:/gm)].map(
+      (match) => match[1],
+    );
+    const metadata = new Set(metadataNames);
+    const demos = new Set(demoNames);
+
+    expect(official.size).toBe(72);
+    expect(metadataNames).toHaveLength(73);
+    expect(metadata.size).toBe(metadataNames.length);
+    expect(demoNames).toHaveLength(73);
+    expect(demos.size).toBe(demoNames.length);
+    expect([...official].filter((slug) => !metadata.has(slug))).toEqual([]);
+    expect([...official].filter((slug) => !demos.has(slug))).toEqual([]);
+    expect([...metadata].filter((slug) => !official.has(slug))).toEqual(["step-point"]);
+
+    const componentNav = NAV_GROUPS.find((group) => group.title === "Components");
+    const labels = componentNav?.items.map((item) => item.label) ?? [];
+    expect(labels).toEqual([...labels].sort((left, right) => left.localeCompare(right, "en")));
+  });
+
+  it("does not retain removed component APIs", async () => {
+    const targets = [
+      "README.md",
+      "src/App.tsx",
+      "src/examples/DataTableExample.tsx",
+      "src/components/ui",
+      "docs/geist/src",
+      "docs/geist-docs-findings.md",
+    ];
+    const removedApiPatterns = [
+      /@\/components\/ui\/(?:dropdown-menu|segmented-control)/,
+      /\bSegmentedControl\b|\bThemeSwitch\b|@\/components\/ui\/theme-switch(?:"|')/,
+      /\b(?:AvatarImage|AvatarFallback|BookPage)\b/,
+      /\bBanner(?:Content|Close)\b/,
+      /\bBreadcrumbs(?:Item|Link|Separator)\b|<Breadcrumbs(?:\s|>)/,
+      /\bBrowser(?:Header|AddressBar|Content)\b/,
+      /\bDescription(?:Item|Key|Value)\b/,
+      /\bDestructiveActionModal(?:Close|Content|Description|Footer|Header|Title|Trigger)\b/,
+      /\bDotsMenu(?:Content|Trigger)\b/,
+      /\bDrawer(?:Close|Content|Footer|Header|Trigger)\b/,
+      /\b(?:EmptyStateTitle|EmptyStateDescription|ErrorText|MultiSelectItem|RadioGroupLabel)\b/,
+      /\bPagination(?:List|Item|Link|Previous|Next)\b/,
+      /\bSelect(?:Content|Item|Trigger|Value)\b/,
+      /\bTabs(?:List|Trigger|Content)\b/,
+      /\bToast(?:Provider|Viewport|Title|Description|Close|Action)\b/,
+      /\bTooltip(?:Provider|Trigger|Content)\b|\bVideoControls\b/,
+      /<Avatar[^>]*\bsize=["'](?:sm|default|lg)["']/,
+      /<Badge[^>]*\bvariant=["'](?:default|secondary|outline|ghost|destructive|success|warning|danger|info)["']/,
+      /<CopyButton[^>]*\btext=|<Grid[^>]*\bcols=|<MiddleTruncate[^>]*\btext=/,
+      /<Gauge[^>]*\bsize=["'](?:sm|md|lg)["']/,
+      /<Label(?:\s|\n)[^>]*\bhtmlFor=|<Note[^>]*\bvariant=["']destructive["']/,
+      /<Snippet[^>]*\b(?:code|showCopy)=|<StatusDot[^>]*\bvariant=/,
+      /<TextWithCopyButton[^>]*\btext=|<RelativeTimeCard\s+time=|<ShowMore\s+maxLength=/,
+    ];
+
+    async function collect(relativePath: string): Promise<string[]> {
+      const absolutePath = path.join(root, relativePath);
+      const entries = await readdir(absolutePath, { withFileTypes: true }).catch(() => []);
+      if (entries.length === 0) return [relativePath];
+      const nested = await Promise.all(
+        entries.map((entry) => collect(path.join(relativePath, entry.name))),
+      );
+      return nested.flat();
+    }
+
+    const files = (await Promise.all(targets.map(collect))).flat();
+    const violations: string[] = [];
+    for (const file of files) {
+      if (!/\.(?:md|ts|tsx)$/.test(file)) continue;
+      const source = await read(file);
+      if (removedApiPatterns.some((pattern) => pattern.test(source))) violations.push(file);
+    }
+
+    expect(violations).toEqual([]);
+  });
+});

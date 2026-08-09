@@ -1,20 +1,72 @@
 import * as React from "react";
+import { AlertCircle, ArrowUpRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-/**
- * ErrorText — 表单字段内联错误提示（对应官方 Error 的字段级用法）。
- * 官方 Best Practices：字段级校验错误（validate on blur 后）用 error prop 内联展示，
- * 与 Input/Select/Textarea 搭配，位于控件下方 mt-1。
- * 样式：text-copy-13 text-destructive；颜色消费语义 token（--destructive），零 `dark:` 分支。
- */
-function ErrorText({
-  className,
-  ...props
-}: React.ComponentProps<"p">) {
+type ErrorSize = "small" | "default" | "large";
+
+interface ErrorProps extends React.ComponentProps<"div"> {
+  /** 加粗标签前缀；传 false 显式关闭。 */
+  label?: string | false;
+  size?: ErrorSize;
+  error?: {
+    message: string;
+    action?: string;
+    link?: string;
+  };
+}
+
+const SIZE_CLASSES: Record<ErrorSize, string> = {
+  small: "text-copy-13 leading-5",
+  default: "text-copy-14 leading-5",
+  large: "text-copy-16 leading-6",
+};
+
+const ICON_OFFSET: Record<ErrorSize, string> = {
+  small: "mt-0.5",
+  default: "mt-0.5",
+  large: "mt-1",
+};
+
+function Error({ className, label, size = "default", error, children, ...props }: ErrorProps) {
   return (
-    <p data-slot="error-text" className={cn("mt-1 text-copy-13 text-destructive", className)} {...props} />
+    <div
+      data-slot="error"
+      role="alert"
+      className={cn("flex items-start text-destructive", SIZE_CLASSES[size], className)}
+      {...props}
+    >
+      <span aria-hidden className={cn("mr-2 flex items-center", ICON_OFFSET[size])}>
+        <AlertCircle className="size-4 shrink-0" />
+      </span>
+      <div className="min-w-0 break-words">
+        {label ? <b className="mr-2 font-medium">{label}:</b> : null}
+        {error ? (
+          <>
+            {error.message}
+            {error.action && error.link ? (
+              <>
+                {" "}
+                <span className="inline-block">
+                  <a
+                    href={error.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-0.5 font-medium underline underline-offset-2 hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                  >
+                    {error.action}
+                    <ArrowUpRight className="size-4 shrink-0" aria-hidden />
+                  </a>
+                </span>
+              </>
+            ) : null}
+          </>
+        ) : (
+          children
+        )}
+      </div>
+    </div>
   );
 }
 
-export { ErrorText };
+export { Error, type ErrorProps, type ErrorSize };
