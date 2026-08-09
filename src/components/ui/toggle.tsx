@@ -32,7 +32,7 @@ function Toggle({
       data-slot="toggle"
       data-size={size}
       className={cn(
-        "peer group/toggle relative inline-block shrink-0 cursor-pointer rounded-[14px] transition-colors outline-none focus-ring disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-6 data-[size=default]:w-10 data-[size=sm]:h-5 data-[size=sm]:w-9 data-[state=checked]:bg-progress data-[state=unchecked]:bg-gray-300",
+        "peer group/toggle relative inline-block shrink-0 cursor-pointer rounded-[14px] transition-colors outline-none focus-ring disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-6 data-[size=default]:w-10 data-[size=sm]:h-5 data-[size=sm]:w-9 data-[state=checked]:bg-progress data-[state=unchecked]:bg-[var(--gray-200)]",
         className,
       )}
       {...props}
@@ -40,7 +40,7 @@ function Toggle({
       <SwitchPrimitive.Thumb
         data-slot="toggle-thumb"
         className={cn(
-          "pointer-events-none absolute left-[1.5px] top-1/2 flex -translate-y-1/2 items-center justify-center rounded-full bg-foreground text-background ring-0 transition-transform group-data-[size=default]/toggle:size-[21px] group-data-[size=sm]/toggle:size-[17px] data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0",
+          "pointer-events-none absolute left-[1.5px] top-1/2 flex -translate-y-1/2 items-center justify-center rounded-full bg-[var(--toggle-thumb)] text-foreground ring-0 transition-transform group-data-[size=default]/toggle:size-[21px] group-data-[size=sm]/toggle:size-[17px] data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0",
           thumbClassName,
         )}
       >
