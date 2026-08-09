@@ -61,7 +61,7 @@ function DocsSidebarLink({ item }: { item: NavItem }) {
       to={item.to}
       className={({ isActive }) =>
         cn(
-          "group relative -ml-2 flex h-10 items-center gap-2.5 rounded-md px-3 py-1.5 text-[14px] leading-5 outline-none transition-colors",
+          "group relative -ml-2 flex h-10 items-center gap-2.5 rounded-md px-3 py-1.5 text-label-14 outline-none transition-colors",
           isActive
             ? "bg-gray-alpha-100 text-foreground"
             : "text-muted-foreground hover:bg-gray-alpha-100 hover:text-foreground",
@@ -77,7 +77,7 @@ function DocsSidebarLink({ item }: { item: NavItem }) {
 function DocsSidebarGroup({ group }: { group: NavGroup }) {
   return (
     <div className="mb-0.5">
-      <p className="mb-0.5 flex h-10 items-center gap-2 py-1.5 pl-1 text-[14px] leading-5 font-medium text-foreground">
+      <p className="mb-0.5 flex h-10 items-center gap-2 py-1.5 pl-1 text-label-14 font-medium text-foreground">
         {group.title}
       </p>
       <ul>

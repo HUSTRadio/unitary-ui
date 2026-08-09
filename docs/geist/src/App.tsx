@@ -1,4 +1,4 @@
-import type { ComponentType } from "react";
+import { useEffect, type ComponentType } from "react";
 import { useLocation } from "react-router-dom";
 
 import { DocsBanner, DocsSidebar } from "./components/docs-shell";
@@ -11,6 +11,7 @@ import {
   MaterialsPage,
   TypographyPage,
 } from "./components/docs-pages";
+import { COMPONENTS } from "./data/components";
 
 /**
  * docs/geist 文档站布局壳 — Banner + Sidebar + 内容区。
@@ -29,17 +30,52 @@ const PAGE_COMPONENTS: Record<string, ComponentType> = {
   "/components": ComponentsPage,
 };
 
+const PAGE_TITLES: Record<string, string> = {
+  "/": "Geist Style Framework",
+  "/introduction": "Introduction",
+  "/colors": "Colors",
+  "/typography": "Typography",
+  "/materials": "Materials",
+  "/grid": "Grid",
+  "/components": "Components",
+};
+
+function getPageTitle(pathname: string) {
+  const componentName = pathname.startsWith("/components/")
+    ? pathname.slice("/components/".length)
+    : undefined;
+  const component = componentName
+    ? COMPONENTS.find((candidate) => candidate.name === componentName)
+    : undefined;
+  const pageTitle = component?.label ?? PAGE_TITLES[pathname] ?? "Page Not Found";
+  return pageTitle === "Geist Style Framework" ? pageTitle : `${pageTitle} – Geist Style Framework`;
+}
+
 export default function App() {
   const { pathname } = useLocation();
   const Page =
     PAGE_COMPONENTS[pathname] ?? (pathname.startsWith("/components/") ? ComponentsPage : undefined);
 
+  useEffect(() => {
+    document.title = getPageTitle(pathname);
+  }, [pathname]);
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      <a
+        href="#main-content"
+        onClick={(event) => {
+          event.preventDefault();
+          document.getElementById("main-content")?.focus();
+        }}
+        className="focus-ring fixed top-4 left-4 z-50 -translate-y-24 rounded-md bg-foreground px-3 py-2 text-label-14 text-background-100 transition-transform focus:translate-y-0"
+      >
+        Skip to content
+      </a>
       <DocsBanner />
       <div className="flex flex-1">
         <DocsSidebar />
-        <main className="min-w-0 flex-1 px-8 py-10">
+        <main id="main-content" tabIndex={-1} className="min-w-0 flex-1 px-8 py-10">
           <div className="mx-auto max-w-[1280px]">
             {Page ? (
               <Page />
