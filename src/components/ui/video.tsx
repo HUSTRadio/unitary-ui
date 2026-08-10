@@ -4,9 +4,14 @@ import { Pause, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * Video — 视频播放器容器（对应官方 Video，docs/geist-markdown-refs/components/video.md 简化版）。
- * 容器：8px 圆角 + overflow-hidden + 发丝线边框 + bg-background。
- * video 元素填满固定宽高比容器；控制层在 hover/focus 或窄屏下显示。
+ * Video — 视频播放器容器（对应官方 Video，docs/geist-markdown-refs/components/video.md）。
+ * 容器：8px 圆角 + overflow-hidden + bg-black；video 元素填满固定宽高比容器。
+ * 控制层（官方实测对齐）：
+ * - bar：absolute bottom-[5%] w-[85%] h-12，bg-background rounded-md，tooltip 阴影，
+ *   hover/focus 或窄屏（max-[992px]）下显示
+ * - play button：size-10（40px），svg 16x16，无 aria-label（与官方一致）
+ * - time：mm:ss（'00:00'）13px tabular-nums，当前时间 + 总时长
+ * - progress：原生 <progress max={100}> h-1 rounded-[5px] + 可点击轨道 + size-2.5 拇指点
  */
 interface VideoProps {
   src: string;
@@ -24,11 +29,10 @@ interface VideoProps {
 }
 
 function formatTime(seconds: number) {
-  if (!Number.isFinite(seconds)) return "0:00";
-  const minutes = Math.floor(seconds / 60);
-  return `${minutes}:${Math.floor(seconds % 60)
-    .toString()
-    .padStart(2, "0")}`;
+  if (!Number.isFinite(seconds) || seconds < 0) return "00:00";
+  const total = Math.floor(seconds);
+  const minutes = Math.floor(total / 60);
+  return `${String(minutes).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
 }
 
 function Video({
@@ -46,6 +50,7 @@ function Video({
   preload,
 }: VideoProps) {
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  const trackRef = React.useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = React.useState(false);
   const [currentTime, setCurrentTime] = React.useState(0);
   const [duration, setDuration] = React.useState(0);
@@ -60,12 +65,18 @@ function Video({
     }
   };
 
-  const seek = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const next = Number(event.target.value);
-    if (!videoRef.current) return;
-    videoRef.current.currentTime = next;
+  const seekByClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    const el = videoRef.current;
+    const track = trackRef.current;
+    if (!el || !track || !duration) return;
+    const rect = track.getBoundingClientRect();
+    const ratio = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
+    const next = ratio * duration;
+    el.currentTime = next;
     setCurrentTime(next);
   };
+
+  const progressPercent = duration > 0 ? Math.min(100, (currentTime / duration) * 100) : 0;
 
   return (
     <div
@@ -97,12 +108,15 @@ function Video({
         onPause={() => setPlaying(false)}
       />
       {controls ? (
-        <div className="pointer-events-none absolute inset-x-[5%] bottom-[5%] flex h-12 items-center gap-3 rounded-[8px] bg-background-100 px-3 text-gray-1000 opacity-0 shadow-[var(--material-shadow-menu)] transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 max-[992px]:pointer-events-auto max-[992px]:opacity-100">
+        <div
+          role="region"
+          aria-label="Video player"
+          className="pointer-events-none absolute bottom-[5%] left-1/2 flex h-12 w-[85%] -translate-x-1/2 items-center gap-3 rounded-md bg-background px-2 text-gray-1000 opacity-0 shadow-[var(--material-shadow-tooltip)] transition-all group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 max-[992px]:pointer-events-auto max-[992px]:opacity-100"
+        >
           <button
             type="button"
             onClick={togglePlayback}
-            aria-label={playing ? "Pause" : "Play"}
-            className="pointer-events-auto flex size-8 shrink-0 items-center justify-center rounded-[6px] bg-transparent outline-none hover:bg-gray-alpha-200 focus-ring"
+            className="pointer-events-auto flex size-10 shrink-0 items-center justify-center rounded-[6px] bg-transparent text-gray-1000 outline-none hover:bg-gray-alpha-200 focus-ring"
           >
             {playing ? (
               <Pause className="size-4 fill-current" aria-hidden />
@@ -110,19 +124,28 @@ function Video({
               <Play className="size-4 fill-current" aria-hidden />
             )}
           </button>
-          <input
-            type="range"
-            min={0}
-            max={duration || 0}
-            step={0.01}
-            value={Math.min(currentTime, duration || 0)}
-            onChange={seek}
-            aria-label="Video progress"
-            className="pointer-events-auto h-1 min-w-0 flex-1 cursor-pointer accent-foreground"
-          />
-          <span className="shrink-0 text-label-13-mono tabular-nums">
-            {formatTime(currentTime)} / {formatTime(duration)}
-          </span>
+          <div
+            ref={trackRef}
+            onClick={seekByClick}
+            className="pointer-events-auto relative flex h-[18px] min-w-0 flex-1 cursor-pointer items-center"
+          >
+            <progress
+              max={100}
+              value={progressPercent}
+              aria-label="Video progress"
+              className="h-1 w-full appearance-none overflow-hidden rounded-[5px] [&::-moz-progress-bar]:bg-foreground [&::-webkit-progress-bar]:bg-gray-alpha-200 [&::-webkit-progress-value]:rounded-[5px] [&::-webkit-progress-value]:bg-foreground"
+            />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground shadow-[0_0_0_1px_var(--color-background)]"
+              style={{ left: `${progressPercent}%` }}
+            />
+          </div>
+          <div className="flex shrink-0 items-center text-[13px] leading-10 tabular-nums">
+            <span className="w-[60px]">{formatTime(currentTime)}</span>
+            <span aria-hidden>/</span>
+            <span>{formatTime(duration)}</span>
+          </div>
         </div>
       ) : null}
     </div>

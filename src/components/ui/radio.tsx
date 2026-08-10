@@ -10,8 +10,9 @@ import { cn } from "@/lib/utils";
  * - RadioGroupItem：value + children（选项文案）
  * - Radio：独立无标签单选点（custom UI，需自行提供 aria-label）
  * - useRadio：headless 用法，返回 { component }
- * 圆点 16×16、边框 gray-alpha-400；选中态 border-progress + 中心圆点 bg-progress；
- * 焦点环 focus-ring；颜色全部消费语义 token（--progress / --gray-alpha / --foreground），零 `dark:` 分支。
+ * 圆点 16×16、边框 gray-700；选中态 border-foreground + 中心圆点 bg-foreground（官方 FOREGROUND 规则，light #171717 / dark #ededed）；
+ * 禁用态实色灰：选项文字 gray-500、圆点边框 gray-500、禁用选中圆点 gray-600，cursor-not-allowed，无 opacity 变暗；
+ * 焦点环 focus-ring；颜色全部消费语义 token（--gray-700 / --gray-500 / --gray-600 / --foreground），零 `dark:` 分支。
  * 语义：单个多选一（2–6 项）；超过 6 项改用 Select/Combobox，二选一布尔用 Toggle。
  */
 
@@ -67,14 +68,15 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
         <span
           aria-hidden
           className={cn(
-            "grid size-4 place-content-center rounded-full border border-gray-alpha-400 transition-colors",
-            "peer-checked:border-progress",
+            "grid size-4 place-content-center rounded-full border border-gray-700 transition-colors",
+            "peer-checked:border-foreground",
             "peer-focus-visible:focus-ring",
-            "peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
+            "peer-disabled:cursor-not-allowed peer-disabled:border-gray-500 peer-disabled:text-gray-500",
             "peer-checked:[&>span]:opacity-100",
+            "peer-disabled:peer-checked:border-gray-600 peer-disabled:peer-checked:[&>span]:bg-gray-600",
           )}
         >
-          <span className="size-2 rounded-full bg-progress opacity-0 transition-opacity" />
+          <span className="size-2 rounded-full bg-foreground opacity-0 transition-opacity" />
         </span>
       </span>
     );
@@ -165,10 +167,18 @@ function RadioGroupItem({ value, children, className, ...radioProps }: RadioGrou
   return (
     <label
       data-slot="radio-item-wrapper"
-      className={cn("flex cursor-pointer items-center gap-2.5", className)}
+      className={cn(
+        "group/radio-item flex cursor-pointer items-center gap-2.5",
+        "group-has-[:disabled]/radio-item:cursor-not-allowed",
+        className,
+      )}
     >
       <Radio value={value} {...radioProps} />
-      {children ? <span className="text-copy-14 text-foreground">{children}</span> : null}
+      {children ? (
+        <span className="text-copy-13 text-foreground group-has-[:disabled]/radio-item:text-gray-500">
+          {children}
+        </span>
+      ) : null}
     </label>
   );
 }

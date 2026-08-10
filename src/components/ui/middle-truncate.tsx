@@ -5,52 +5,69 @@ import { cn } from "@/lib/utils";
 /**
  * MiddleTruncate — Geist 中段截断（docs/geist-markdown-refs/components/middle-truncate.md 官方语义）。
  * 官方行为：
- * - 布局感知：监听容器宽度（ResizeObserver），按当前字体用 Canvas 测量字符宽度，
- *   二分求「头部 + 单个省略号 … + 尾部」放得下的最长组合；
+ * - 布局感知：监听**容器**宽度（ResizeObserver 观察父容器），按当前生效字体用 Canvas 测量字符宽度，
+ *   二分求「头部 + 单个省略号 … + 尾部」放得下的最长组合（head/tail 随可用宽度自适应）；
  * - 单个省略号字形（…）而非三个句点，等宽字体不多占字符格；
- * - 完整文本保留在 DOM（sr-only span），复制拿到的是原文；
- * - 完整字符串通过包裹元素 accessible name（aria-label）暴露给辅助技术。
+ * - 完整文本保留在 DOM（sr-only span + data-value），复制拿到的是原文；
+ * - 完整字符串通过包裹元素 accessible name（aria-label / title）暴露给辅助技术。
  * value 为官方文本入口。
+ *
+ * G07-MT-01 修复要点：可用宽度取自**父容器**（node.parentElement.clientWidth）而非自身
+ * clientWidth —— 自身宽度会随截断结果收缩（首帧为空内容时为 0），导致 availableWidth<=0、
+ * 二分结果永久塌缩为 1 头 1 尾（'h…t'）；观察父容器则宽度变化（视口/布局/动画）都会触发重算。
  */
 
-const TEXT_PAD = 20; // 容器可用宽度两侧留白（px）
-const ELLIPSIS_WIDTH = 14; // 省略号 … 的估算宽度（px）
+const FALLBACK_CHAR_WIDTH = 7; // 无 canvas 环境（SSR / node 测试）下的单字符估算宽度（px）
+const FALLBACK_ELLIPSIS_WIDTH = 14; // 无 canvas 环境下的省略号 … 估算宽度（px）
 
 interface MiddleTruncateProps extends React.ComponentProps<"span"> {
   /** 完整文本（官方 prop） */
   value: string;
 }
 
-function getCharWidths(text: string, font: string): number[] {
+/** 用 Canvas 测量一段文本的像素宽度；无 canvas 时退化为逐字符估算（确定性，便于测试）。 */
+function measureTextWidth(text: string, font: string): number {
   if (typeof document === "undefined") {
-    return text.split("").map(() => 7);
+    return text === "…" ? FALLBACK_ELLIPSIS_WIDTH : text.length * FALLBACK_CHAR_WIDTH;
   }
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
   if (!context) {
-    return text.split("").map(() => 7);
+    return text === "…" ? FALLBACK_ELLIPSIS_WIDTH : text.length * FALLBACK_CHAR_WIDTH;
   }
   context.font = font;
-  return text.split("").map((char) => context.measureText(char).width);
+  return context.measureText(text).width;
 }
 
-function getStyleFont(style?: React.CSSProperties): string {
-  const { fontFamily, fontSize, fontWeight, fontStyle, fontVariant } = style ?? {};
-  const size = typeof fontSize === "number" ? `${fontSize}px` : (fontSize ?? "14px");
+/** 读取元素当前生效的字体（含 className 引入的字号/字重/字体族），保证 Canvas 度量与渲染一致。 */
+function getComputedFont(node: HTMLElement): string {
+  if (typeof getComputedStyle === "undefined") {
+    return "normal normal 400 14px sans-serif";
+  }
+  const style = getComputedStyle(node);
   return [
-    fontStyle ?? "normal",
-    fontVariant ?? "normal",
-    fontWeight ?? 400,
-    size,
-    fontFamily ?? "sans-serif",
+    style.fontStyle,
+    style.fontVariant,
+    style.fontWeight,
+    style.fontSize,
+    style.fontFamily,
   ].join(" ");
 }
 
+function getCharWidths(text: string, font: string): number[] {
+  return text.split("").map((char) => measureTextWidth(char, font));
+}
+
 /**
- * 二分查找：返回 [head, tail]，head 与 tail 等长（≤ 文本一半），
- * head + … + tail 的总宽不超过 maxWidth。放得下则返回 [text, ""]。
+ * 二分查找：返回 [head, tail]（等长，≤ 文本一半），head + … + tail 的总宽不超过 maxWidth。
+ * 文本整体放得下则返回 [text, ""]（不截断）；maxWidth <= 0（尚未布局）时保持完整文本，
+ * 避免在首帧/隐藏容器中塌缩为单字符。
  */
-function splitStringByWidth(text: string, font: string, maxWidth: number): [string, string] {
+export function splitStringByWidth(text: string, font: string, maxWidth: number): [string, string] {
+  if (maxWidth <= 0) {
+    return [text, ""];
+  }
+
   const charWidths = getCharWidths(text, font);
   const totalWidth = charWidths.reduce((sum, width) => sum + width, 0);
 
@@ -58,6 +75,7 @@ function splitStringByWidth(text: string, font: string, maxWidth: number): [stri
     return [text, ""];
   }
 
+  const ellipsisWidth = measureTextWidth("…", font);
   let low = 1;
   let high = Math.floor(text.length / 2);
   let bestHead = 1;
@@ -67,7 +85,7 @@ function splitStringByWidth(text: string, font: string, maxWidth: number): [stri
     const headWidth = charWidths.slice(0, headLength).reduce((sum, width) => sum + width, 0);
     const tailWidth = charWidths.slice(-headLength).reduce((sum, width) => sum + width, 0);
 
-    if (headWidth + ELLIPSIS_WIDTH + tailWidth <= maxWidth) {
+    if (headWidth + ellipsisWidth + tailWidth <= maxWidth) {
       bestHead = headLength;
       low = headLength + 1;
     } else {
@@ -85,15 +103,23 @@ function splitStringByWidth(text: string, font: string, maxWidth: number): [stri
 
 function MiddleTruncate({ className, style, value, ...props }: MiddleTruncateProps) {
   const ref = React.useRef<HTMLSpanElement>(null);
-  const [parts, setParts] = React.useState<[string, string]>(["", ""]);
+  // 初始渲染完整文本：SSR 输出完整值；客户端 useLayoutEffect 在绘制前完成测量截断，避免闪烁
+  const [parts, setParts] = React.useState<[string, string]>([value, ""]);
   const fullText = value;
 
   const resize = React.useCallback(() => {
     const node = ref.current;
     if (!node || !fullText) return;
-    const availableWidth = node.clientWidth - TEXT_PAD;
-    setParts(splitStringByWidth(fullText, getStyleFont(style), availableWidth));
-  }, [fullText, style]);
+    // 测量父容器而不是自身（见文件头 G07-MT-01 说明）；父容器宽度不受截断结果影响
+    const parent = node.parentElement;
+    if (!parent) return;
+    const availableWidth = parent.clientWidth;
+    const font = getComputedFont(node);
+    setParts((prev) => {
+      const next = splitStringByWidth(fullText, font, availableWidth);
+      return prev[0] === next[0] && prev[1] === next[1] ? prev : next;
+    });
+  }, [fullText]);
 
   // 布局前测量：首帧直接渲染完整文本，useLayoutEffect 在绘制前完成截断，避免闪烁
   React.useLayoutEffect(() => {
@@ -102,9 +128,14 @@ function MiddleTruncate({ className, style, value, ...props }: MiddleTruncatePro
 
   React.useLayoutEffect(() => {
     const node = ref.current;
-    if (!node || typeof ResizeObserver === "undefined") return;
+    const parent = node?.parentElement;
+    if (!node || !parent || typeof ResizeObserver === "undefined") return;
     const observer = new ResizeObserver(resize);
-    observer.observe(node);
+    observer.observe(parent);
+    // 字体加载完成后 Canvas 度量才准确，重新测量一次
+    if (typeof document !== "undefined") {
+      document.fonts?.ready?.then(resize).catch(() => {});
+    }
     return () => observer.disconnect();
   }, [resize]);
 

@@ -3,27 +3,54 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Code — 行内代码标记（docs/geist-markdown-refs/components/code.md 官方语义）。
- * 导出：Code。
- * 样式对齐官方实测行内 code：bg #f2f2f2（gray-100，dark #1a1a1a）、
- * 圆角 6px、文字 muted（#4d4d4d）、mono 13px。
- * 注：官方 Code 组件本体是语法高亮代码块（border r5、pad 24、16px mono），
- * 与本仓库 CodeBlock 的角色映射属产品决策（BLOCKED），此处保持行内语义。
+ * Code — 语法高亮代码块展示（docs/geist-markdown-refs/components/code.md 官方语义）。
+ * 导出：Code, InlineCode。
+ * - Code：BLOCK 级语法高亮代码显示（官方实测：pre border accents-2、r5、p-6、
+ *   my-8、whitespace-pre、touch-pan-y、透明背景；code mono 13px/20px）。
+ *   `syntax` 属性映射为 <code class="language-*">，由消费方语法主题着色
+ *   （与官方组件一致：组件本身不做高亮，只挂 language-* 钩子）。
+ *   本仓库无 accents-* 令牌，实测等价色 light #eaeaea / dark #333 ≈ border-border
+ *   （light #ebebeb / dark #2e2e2e）。
+ * - InlineCode：文档正文行内 code（官方实测：纯 mono 文本，无背景、无圆角）。
  */
 
-const Code = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<"code">>(
-  ({ className, ...props }, ref) => (
-    <code
+interface CodeProps extends React.ComponentPropsWithoutRef<"pre"> {
+  /** 语法语言（如 "javascript"），映射为 <code class="language-*"> 供语法主题着色 */
+  syntax?: string;
+}
+
+const Code = React.forwardRef<HTMLPreElement, CodeProps>(
+  ({ className, syntax, children, ...props }, ref) => (
+    <pre
       ref={ref}
       data-slot="code"
       className={cn(
-        "rounded-[6px] bg-gray-100 px-1.5 py-0.5 font-mono text-copy-13 text-muted-foreground",
+        "mx-0 my-8 touch-pan-y whitespace-pre rounded-[5px] border border-border bg-transparent p-6 text-foreground",
         className,
       )}
       {...props}
-    />
+    >
+      <code
+        data-slot="code-content"
+        className={cn("font-mono text-copy-13 leading-5", syntax && `language-${syntax}`)}
+      >
+        {children}
+      </code>
+    </pre>
   ),
 );
 Code.displayName = "Code";
 
-export { Code };
+const InlineCode = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<"code">>(
+  ({ className, ...props }, ref) => (
+    <code
+      ref={ref}
+      data-slot="inline-code"
+      className={cn("font-mono text-copy-13", className)}
+      {...props}
+    />
+  ),
+);
+InlineCode.displayName = "InlineCode";
+
+export { Code, InlineCode };
