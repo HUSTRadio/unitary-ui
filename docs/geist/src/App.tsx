@@ -76,10 +76,10 @@ export default function App() {
       <main
         id="main-content"
         tabIndex={-1}
-        className="mx-auto w-full max-w-[1220px] flex-1 py-10 xl:grid xl:grid-cols-[260px_1fr]"
+        className="mx-auto w-full max-w-[1220px] flex-1 xl:grid xl:grid-cols-[260px_1fr]"
       >
         <DocsSidebar />
-        <div className="min-w-0">
+        <div className="min-w-0 py-10">
           <div className="px-6 xl:px-12">
             {Page ? (
               <Page />

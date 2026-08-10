@@ -46,7 +46,7 @@ function DocsBanner() {
 
       {/* 主题切换 — 官方三态 ThemeSwitcher */}
       <div className="ml-auto">
-        <ThemeSwitcher small />
+        <ThemeSwitcher />
       </div>
     </header>
   );
@@ -91,7 +91,7 @@ function DocsSidebarGroup({ group }: { group: NavGroup }) {
 
 function DocsSidebar() {
   return (
-    <aside className="hidden w-[260px] shrink-0 self-start overflow-y-auto border-l border-r border-gray-alpha-400 xl:sticky xl:top-16 xl:block xl:h-[calc(100vh-4rem)]">
+    <aside className="hidden w-[260px] shrink-0 self-start overflow-y-auto border-l border-r border-gray-alpha-400 xl:sticky xl:top-16 xl:bottom-0 xl:block xl:h-[calc(100vh-4rem)]">
       <nav className="relative flex h-full min-h-0 flex-col space-y-4 overflow-y-auto px-6 pb-3.5 pt-4">
         {NAV_GROUPS.map((group) => (
           <DocsSidebarGroup key={group.title} group={group} />
