@@ -18,7 +18,7 @@ function isDocsLanguage(value: string | null): value is DocsLanguage {
 
 function readUrlLanguage(): DocsLanguage | null {
   if (typeof window === "undefined") return null;
-  const params = new URLSearchParams(window.location.hash.split("?")[1] ?? "");
+  const params = new URLSearchParams(window.location.search);
   const language = params.get("lang");
   return isDocsLanguage(language) ? language : null;
 }
@@ -38,11 +38,11 @@ export function readDocsLanguage(): DocsLanguage {
 }
 
 function writeUrlLanguage(language: DocsLanguage) {
-  const hash = window.location.hash || "#/";
-  const [route, query = ""] = hash.split("?");
-  const params = new URLSearchParams(query);
+  const url = new URL(window.location.href);
+  const params = url.searchParams;
   params.set("lang", language);
-  window.history.replaceState(null, "", `${route}?${params.toString()}`);
+  url.search = params.toString();
+  window.history.replaceState(null, "", url);
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {

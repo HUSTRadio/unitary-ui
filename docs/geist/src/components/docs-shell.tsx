@@ -85,6 +85,7 @@ function DocsBanner() {
 /* ---------- Sidebar ---------- */
 
 function DocsSidebarLink({ item }: { item: NavItem }) {
+  const { language } = useLanguage();
   const Icon = item.icon;
   return (
     <NavLink
@@ -97,16 +98,17 @@ function DocsSidebarLink({ item }: { item: NavItem }) {
       }
     >
       {Icon && <Icon className="size-3.5 shrink-0 text-current" aria-hidden />}
-      {item.label}
+      {language === "zh-CN" ? (item.labelZh ?? item.label) : item.label}
     </NavLink>
   );
 }
 
 function DocsSidebarGroup({ group }: { group: NavGroup }) {
+  const { language } = useLanguage();
   return (
     <div>
       <p className="text-label-14 font-medium mb-0.5 flex h-10 items-center gap-2 py-1.5 pl-1">
-        {group.title}
+        {language === "zh-CN" ? (group.titleZh ?? group.title) : group.title}
       </p>
       <ul className="relative space-y-0.5" style={{ width: "calc(100% + 8px)" }}>
         {group.items.map((item) => (

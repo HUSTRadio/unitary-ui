@@ -1,3 +1,5 @@
+import { localizeComponentMetadata } from "../i18n/components-zh";
+
 /**
  * 文档站 Components 数据（docs/geist 专用）。
  * 13 个已实现元件的元数据：路由 slug / 显示名 / 一句说明 / 官方对应组件名 / 用法代码片段。
@@ -9,17 +11,23 @@ export interface ComponentMeta {
   name: string;
   /** 侧栏 / 卡片显示名 */
   label: string;
+  /** 中文显示名（技术组件名可保持英文） */
+  labelZh?: string;
   /** 一句说明（总览卡片 + 详情页副标题） */
   description: string;
+  /** 中文一句说明 */
+  descriptionZh?: string;
   /** 官方 Geist（或 Penpot Core）对应组件名 */
   official: string;
   /** 用法 TSX 片段（详情页代码块，font-mono 展示） */
   code: string;
   /** Best Practices 要点（详情页底部列表） */
   bestPractices?: string[];
+  /** 中文 Best Practices */
+  bestPracticesZh?: string[];
 }
 
-export const COMPONENTS: ComponentMeta[] = [
+const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "avatar",
     label: "Avatar",
@@ -1568,3 +1576,5 @@ import { MenuItem } from "@/components/ui/menu";
     ],
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
+
+export const COMPONENTS: ComponentMeta[] = COMPONENTS_EN.map(localizeComponentMetadata);

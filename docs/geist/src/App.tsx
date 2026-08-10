@@ -12,6 +12,8 @@ import {
   TypographyPage,
 } from "./components/docs-pages";
 import { COMPONENTS } from "./data/components";
+import { SHELL_COPY } from "./i18n/catalog";
+import { useLanguage, type DocsLanguage } from "./i18n/language";
 
 /**
  * docs/geist 文档站布局壳 — Banner + Sidebar + 内容区。
@@ -40,25 +42,40 @@ const PAGE_TITLES: Record<string, string> = {
   "/components": "Components",
 };
 
-function getPageTitle(pathname: string) {
+function getPageTitle(pathname: string, language: DocsLanguage) {
   const componentName = pathname.startsWith("/components/")
     ? pathname.slice("/components/".length)
     : undefined;
   const component = componentName
     ? COMPONENTS.find((candidate) => candidate.name === componentName)
     : undefined;
-  const pageTitle = component?.label ?? PAGE_TITLES[pathname] ?? "Page Not Found";
+  const zhTitles: Record<string, string> = {
+    "/": "Geist Style Framework",
+    "/introduction": "介绍",
+    "/colors": "颜色",
+    "/typography": "排版",
+    "/materials": "材质",
+    "/grid": "网格",
+    "/components": "组件",
+  };
+  const pageTitle =
+    language === "zh-CN"
+      ? (component?.labelZh ?? component?.label ?? zhTitles[pathname] ?? "页面未找到")
+      : (component?.label ?? PAGE_TITLES[pathname] ?? "Page Not Found");
   return pageTitle === "Geist Style Framework" ? pageTitle : `${pageTitle} – Geist Style Framework`;
 }
 
 export default function App() {
   const { pathname } = useLocation();
+  const { language } = useLanguage();
+  const copy = SHELL_COPY[language];
   const Page =
     PAGE_COMPONENTS[pathname] ?? (pathname.startsWith("/components/") ? ComponentsPage : undefined);
 
   useEffect(() => {
-    document.title = getPageTitle(pathname);
-  }, [pathname]);
+    document.title = getPageTitle(pathname, language);
+    document.documentElement.lang = language;
+  }, [language, pathname]);
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -70,7 +87,7 @@ export default function App() {
         }}
         className="focus-ring fixed top-4 left-4 z-50 -translate-y-24 rounded-md bg-foreground px-3 py-2 text-label-14 text-background-100 transition-transform focus:translate-y-0"
       >
-        Skip to content
+        {copy.skip}
       </a>
       <DocsBanner />
       <main
@@ -85,9 +102,9 @@ export default function App() {
               <Page />
             ) : (
               <>
-                <h1 className="text-heading-32 text-foreground">页面开发中</h1>
+                <h1 className="text-heading-32 text-foreground">{copy.pageInProgress}</h1>
                 <p className="mt-2 text-copy-14 text-muted-foreground">
-                  该页面（{pathname}）由后续任务实现。
+                  {copy.pageInProgressDescription(pathname)}
                 </p>
               </>
             )}
