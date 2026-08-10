@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
  * 勾选态：box bg = 前景色（light #171717 / dark #ededed）+ 背景色对勾；
  * 禁用态：实色灰（light bg #f2f2f2 / border #c9c9c9，dark #1a1a1a / #454545），
  * 禁用勾选 box = gray-600（light #a8a8a8 / dark #878787）。颜色全部消费语义 token。
+ * hover 未选中态：box 填充 gray-200（light #f2f2f2），仅未禁用未勾选时生效（G02-CHK-01）。
  * 支持 indeterminate（半选）视觉态：横线图标，由父级部分选中驱动
  * （官方 Best Practices：indeterminate 是视觉态非第三值）。
  * sm=16（官方默认）/ default=18 / lg=20（触控增强变体）。
@@ -27,7 +28,7 @@ function Checkbox({
       data-size={size}
       className={cn(
         "group/checkbox grid shrink-0 place-content-center rounded-[4px] border transition-[background-color,border-color] outline-none",
-        "border-gray-700 bg-background hover:border-foreground/40",
+        "border-gray-700 bg-background hover:border-foreground/40 peer-hover:not-peer-disabled:not-peer-checked:bg-gray-200",
         "focus-ring",
         "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:border-gray-500",
         "data-[state=checked]:border-foreground data-[state=checked]:bg-foreground data-[state=checked]:text-background disabled:data-[state=checked]:border-gray-600 disabled:data-[state=checked]:bg-gray-600",

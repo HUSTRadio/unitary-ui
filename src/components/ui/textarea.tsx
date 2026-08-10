@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
  * - 几何：pad 10px 12px、默认 h 100px（rows 存在时 h auto）、small/medium 14px/20px r:6px、
  *   large 16px/24px r:8px；disabled：bg gray-100 + fg gray-700 + placeholder gray-600
  * - error：红色光环（1px red-900 + 4px red-300），文案 inline 渲染在字段下方
- *   [role=alert] 13px/20px（large 16px/24px）red-900，margin-top 8px
+ *   [role=alert] 13px/20px（large 16px/24px）#cb2a2f / dark #ff6166，margin-top 8px
  */
 
 type TextareaSize = "small" | "medium" | "large";
@@ -69,7 +69,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             aria-atomic="true"
             data-geist-error=""
             className={cn(
-              "mt-2 flex items-start text-[13px] leading-5 text-[var(--red-900)]",
+              "mt-2 flex items-start text-[13px] leading-5 text-[#cb2a2f] dark:text-[#ff6166]",
               large && "text-base leading-6",
             )}
           >
