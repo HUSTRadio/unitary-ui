@@ -10,10 +10,10 @@ import { cn } from "@/lib/utils";
  * - placeholder：占位文案（渲染为 disabled/hidden 的占位 option）
  * - size：small 32px / 默认 36px / large 40px（large 16px 文字、8px 圆角）
  * - prefix / suffix：左右侧元素（pointer-events-none，输入区按 40px 避让）
- * - error：校验错误文案（红色边框 + 下方提示，danger token）
+ * - error：校验错误文案（红色边框 + 下方提示，官方 #cb2a2f / dark #ff6166，13px/20px，large 16px/24px）
  * - label：字段标签（Title Case 名词，直接接受在 <Select> 上，渲染为上方 <label>）
  * - 其余 props（value / defaultValue / onChange / required / disabled / name / aria-label）为原生 select 透传
- * 颜色全部消费语义 token（--gray-alpha / --background / --danger / input-focus-ring），零 `dark:` 分支。
+ * 颜色主要消费语义 token（--gray-alpha / --background / --danger / input-focus-ring）；error 文案按官方实测用固定色 #cb2a2f / dark #ff6166。
  */
 interface SelectProps extends Omit<React.ComponentProps<"select">, "size" | "prefix"> {
   /** 占位文案（未选择时显示） */
@@ -86,7 +86,16 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             aria-hidden
           />
         </div>
-        {error ? <p className="text-copy-13 text-danger">{error}</p> : null}
+        {error ? (
+          <p
+            className={cn(
+              size === "large" ? "text-base leading-6" : "text-copy-13 leading-5",
+              "text-[#cb2a2f] dark:text-[#ff6166]",
+            )}
+          >
+            {error}
+          </p>
+        ) : null}
       </div>
     );
   },

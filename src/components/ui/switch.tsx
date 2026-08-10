@@ -18,6 +18,7 @@ function Switch({
   name,
   children,
   defaultValue,
+  onKeyDown,
   ...props
 }: React.ComponentProps<typeof RadioGroupPrimitive.Root> & {
   size?: SwitchSize;
@@ -29,10 +30,60 @@ function Switch({
       child.props.defaultChecked === true,
   ) as React.ReactElement<{ defaultChecked?: boolean; value?: string }> | undefined;
   const initialValue = defaultValue ?? defaultChild?.props.value;
+  const rootRef = React.useRef<HTMLDivElement>(null);
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    // Radio-group semantics (WAI-ARIA radiogroup / native radio behavior):
+    // arrow keys and Home/End move focus AND change the selection in one step
+    // (auto-activate on focus). Radix radio-group only roves focus on arrow
+    // keys, so we select the target item here to keep checked in sync.
+    // Note: Radix's roving-focus handler already called preventDefault() on
+    // these keys by the time this bubbles up, so we must NOT bail on
+    // event.defaultPrevented — that would defeat the auto-activation.
+    if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) {
+      return;
+    }
+    const root = rootRef.current;
+    if (!root) return;
+    const items = Array.from(
+      root.querySelectorAll<HTMLButtonElement>('[data-slot="switch-control"]'),
+    );
+    const enabled = items.filter((item) => !item.disabled);
+    if (enabled.length === 0) return;
+    const activeIndex = enabled.indexOf(root.ownerDocument.activeElement as HTMLButtonElement);
+    if (activeIndex === -1) return;
+
+    let nextIndex: number;
+    switch (event.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        nextIndex = (activeIndex + 1) % enabled.length;
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        nextIndex = (activeIndex - 1 + enabled.length) % enabled.length;
+        break;
+      case "Home":
+        nextIndex = 0;
+        break;
+      case "End":
+        nextIndex = enabled.length - 1;
+        break;
+      default:
+        return;
+    }
+    const target = enabled[nextIndex];
+    if (target === root.ownerDocument.activeElement) return;
+    event.preventDefault();
+    // Radix roves focus on these keys; selecting via a click keeps the value
+    // in sync with the roved focus (native radio auto-activation).
+    target.click();
+  };
 
   return (
     <SwitchContext.Provider value={{ size, name }}>
       <RadioGroupPrimitive.Root
+        ref={rootRef}
         data-slot="switch"
         name={name}
         defaultValue={initialValue}
@@ -44,6 +95,10 @@ function Switch({
           size === "large" && "h-10 rounded-[8px]",
           className,
         )}
+        onKeyDown={(event) => {
+          onKeyDown?.(event);
+          handleKeyDown(event);
+        }}
         {...props}
       >
         {children}

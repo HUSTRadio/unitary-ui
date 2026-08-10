@@ -7,7 +7,8 @@ import { Tooltip } from "@/components/ui/tooltip";
  * Tabs — Geist 官方 Tabs 规范（docs/geist-markdown-refs/components/tabs.md 实测）。
  * 官方实测：Tab 高 50px、padding 14px 2px、400 14px/20px；tablist 无 border-b，
  * 顶部 1px 发丝线（inset shadow）+ gap 24px；选中态 2px 下边框 gray-1000 + 文字 gray-1000。
- * - 键盘：方向键只移动焦点，Enter/Space 激活（manual activation，官方 Best Practices）
+ * - 键盘（官方实测 auto activation）：ArrowRight/ArrowLeft/Home/End 移动焦点并立即激活
+ *   新聚焦的 tab（禁用 tab 跳过），Enter/Space 仍可激活当前聚焦 tab
  * - variant="secondary"：24px pill，r6px，pad 0 6px，400 13px；选中 bg gray-1000/text background-100；
  *   未选中 bg gray-alpha-200；禁用 bg gray-200/text gray-900
  * - 禁用 tab 配 tooltip 说明约束（官方 tabs[].tooltip 语义）
@@ -74,7 +75,7 @@ const tabsTriggerClasses = (variant: TabsVariant) =>
       : "flex -mb-px items-center justify-center whitespace-nowrap border-b-2 border-transparent px-0.5 py-3.5 text-copy-14 text-muted-foreground transition-colors hover:text-foreground data-[state=active]:border-foreground data-[state=active]:text-foreground disabled:cursor-not-allowed",
   );
 
-/** 官方 API 模式：selected/setSelected/tabs[]，manual 键盘语义（方向键移焦点、Enter/Space 激活） */
+/** 官方 API 模式：selected/setSelected/tabs[]；auto activation 键盘语义（方向键/Home/End 移动焦点即激活，禁用跳过） */
 function OfficialTabs({
   tabs,
   selected,
@@ -104,19 +105,25 @@ function OfficialTabs({
     .map((tab, index) => (disabled || tab.disabled ? -1 : index))
     .filter((index) => index >= 0);
 
+  const activate = (index: number) => {
+    const tab = tabs[index];
+    if (disabled || tab.disabled) return;
+    setSelected(tab.value);
+  };
+
+  /** 移动焦点并同步激活（官方实测 auto activation：新聚焦的 tab 立即被选中） */
+  const moveFocusTo = (index: number) => {
+    setFocusedIndex(index);
+    refs.current[index]?.focus();
+    activate(index);
+  };
+
   const moveFocus = (direction: 1 | -1) => {
     if (enabledIndices.length === 0) return;
     const current = enabledIndices.indexOf(focusedIndex);
     const next =
       enabledIndices[(current + direction + enabledIndices.length) % enabledIndices.length];
-    setFocusedIndex(next);
-    refs.current[next]?.focus();
-  };
-
-  const activate = (index: number) => {
-    const tab = tabs[index];
-    if (disabled || tab.disabled) return;
-    setSelected(tab.value);
+    moveFocusTo(next);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -128,16 +135,11 @@ function OfficialTabs({
       moveFocus(-1);
     } else if (event.key === "Home") {
       event.preventDefault();
-      if (enabledIndices.length > 0) {
-        setFocusedIndex(enabledIndices[0]);
-        refs.current[enabledIndices[0]]?.focus();
-      }
+      if (enabledIndices.length > 0) moveFocusTo(enabledIndices[0]);
     } else if (event.key === "End") {
       event.preventDefault();
       if (enabledIndices.length > 0) {
-        const last = enabledIndices[enabledIndices.length - 1];
-        setFocusedIndex(last);
-        refs.current[last]?.focus();
+        moveFocusTo(enabledIndices[enabledIndices.length - 1]);
       }
     } else if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();

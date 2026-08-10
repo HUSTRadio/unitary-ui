@@ -55,8 +55,12 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
           ref={ref}
           value={currentValue}
           onChange={handleChange}
-          className={cn("h-9 pl-9", (showClear || loading || cmdk) && "pr-9")}
+          className={cn(
+            "h-9 pl-9 [&::-webkit-search-cancel-button]:hidden",
+            (showClear || loading || cmdk) && "pr-9",
+          )}
           {...props}
+          type="search"
         />
         {loading ? (
           <Loader2

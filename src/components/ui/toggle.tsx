@@ -42,7 +42,7 @@ function Toggle({
         "peer group/toggle relative inline-block shrink-0 cursor-pointer rounded-[14px] transition-colors outline-none focus-ring disabled:cursor-not-allowed data-[state=unchecked]:bg-gray-400 disabled:data-[state=unchecked]:bg-[var(--toggle-disabled-track-unchecked)] disabled:data-[state=checked]:bg-[var(--toggle-disabled-track-checked)]",
         color === "blue" && "data-[state=checked]:bg-[var(--toggle-checked)]",
         color === "amber" && "data-[state=checked]:bg-warning",
-        color === "red" && "data-[state=checked]:bg-destructive",
+        color === "red" && "data-[state=checked]:bg-[var(--toggle-checked-red)]",
         size === "small" && "h-[14px] w-7",
         size === "medium" && "h-5 w-9",
         size === "large" && "h-6 w-10",

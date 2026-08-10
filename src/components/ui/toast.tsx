@@ -132,19 +132,14 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
             key={toast.id}
             role="status"
             data-kind={toast.kind}
-            className="pointer-events-auto flex min-h-13 items-start gap-3 rounded-[12px] bg-background-100 p-4 text-copy-14 text-gray-1000 shadow-[var(--material-shadow-menu)] animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:animate-none"
+            className={cn(
+              "pointer-events-auto flex min-h-13 items-start gap-3 rounded-[12px] bg-background-100 p-4 text-copy-14 text-gray-1000 shadow-[var(--material-shadow-menu)] animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:animate-none",
+              toast.kind === "success" && "bg-[#0072f5] text-white",
+              toast.kind === "warning" && "bg-[#ff990a] text-[#0a0a0a]",
+              toast.kind === "error" && "bg-[#e5484d] text-white",
+            )}
           >
-            {Icon ? (
-              <Icon
-                aria-hidden
-                className={cn(
-                  "mt-0.5 size-4 shrink-0",
-                  toast.kind === "success" && "text-success",
-                  toast.kind === "warning" && "text-warning",
-                  toast.kind === "error" && "text-destructive",
-                )}
-              />
-            ) : null}
+            {Icon ? <Icon aria-hidden className="mt-0.5 size-4 shrink-0" /> : null}
             <div className="min-w-0 flex-1">{toast.text}</div>
             {actionLabel ? (
               <button
@@ -163,7 +158,10 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
               data-slot="toast-close"
               aria-label="Dismiss notification"
               onClick={() => dismiss(toast.id)}
-              className="flex size-6 shrink-0 items-center justify-center rounded-[6px] text-gray-900 outline-none hover:bg-gray-alpha-200 focus-ring"
+              className={cn(
+                "flex size-6 shrink-0 items-center justify-center rounded-[6px] outline-none hover:bg-gray-alpha-200 focus-ring",
+                toast.kind === "message" && "text-gray-900",
+              )}
             >
               <X aria-hidden className="size-4" />
             </button>

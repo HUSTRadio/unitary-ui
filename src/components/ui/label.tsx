@@ -22,7 +22,7 @@ function Label({ className, id, value, withInput, bypassCasing, ...props }: Labe
       data-with-input={withInput || undefined}
       htmlFor={id}
       className={cn(
-        "mb-2 block max-w-full cursor-text text-label-13 text-foreground",
+        "mb-2 block max-w-full cursor-text text-label-13 text-gray-900",
         !bypassCasing && "capitalize",
         className,
       )}
