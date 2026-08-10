@@ -21,11 +21,15 @@ describe("docs shell geometry — official Geist layout", () => {
   it("keeps vertical padding off <main> so sidebar borders start at banner bottom", () => {
     // py-10 must be on the content column, NOT on main
     expect(app).not.toContain("flex-1 py-10 xl:grid");
-    expect(app).toContain("min-w-0 py-10");
+    expect(app).toContain("border-gray-alpha-400 py-10");
   });
 
   it("puts 48px gutter on the content column, not on <main>", () => {
     expect(app).toContain("xl:px-12");
+  });
+
+  it("draws the view's right vertical boundary on the full content column", () => {
+    expect(app).toContain('className="min-w-0 border-r border-gray-alpha-400 py-10"');
   });
 
   it("uses the official 260px sidebar with dual borders at xl breakpoint", () => {
