@@ -1644,6 +1644,26 @@ function renderDemo(name: string): React.ReactNode {
 
 /* ---------- 额外分段（Sizes / Variants / States） ---------- */
 
+const SECTION_TITLES_ZH: Record<string, string> = {
+  Default: "默认",
+  Disabled: "禁用",
+  Sizes: "尺寸",
+  Variants: "变体",
+  States: "状态",
+  Icon: "图标",
+  "With icons": "带图标",
+  "With Options": "带选项",
+  "Custom Color": "自定义颜色",
+  "With Label": "带标签",
+  "Read Only": "只读",
+  "Full width": "全宽",
+  Error: "错误",
+  Success: "成功",
+  Warning: "警告",
+  Components: "组件",
+  Other: "其他",
+};
+
 function Section({
   title,
   children,
@@ -1653,9 +1673,12 @@ function Section({
   children: React.ReactNode;
   tableCode?: string;
 }) {
+  const { language } = useLanguage();
   return (
     <section className="mt-10">
-      <h2 className="text-heading-24 text-foreground">{title}</h2>
+      <h2 className="text-heading-24 text-foreground">
+        {language === "zh-CN" ? (SECTION_TITLES_ZH[title] ?? title) : title}
+      </h2>
       {tableCode ? (
         <TableDemoCard code={tableCode}>{children}</TableDemoCard>
       ) : (
