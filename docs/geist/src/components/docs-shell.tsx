@@ -17,36 +17,37 @@ import { NAV_GROUPS, type NavGroup, type NavItem } from "../data/nav";
 
 function DocsBanner() {
   return (
-    <header className="sticky top-0 z-40 mx-auto flex h-16 w-full max-w-[1220px] items-center gap-4 border-b border-border bg-background px-6">
-      {/* Logo — 内联 SVG 三角（Geist 风格符号） */}
-      <a
-        href="#/"
-        className="flex shrink-0 items-center gap-2"
-        aria-label="Geist Style Framework 首页"
-      >
-        <svg viewBox="0 0 24 24" className="size-5 fill-foreground" aria-hidden>
-          <path d="M12 2.5 22.5 21h-21L12 2.5Z" />
-        </svg>
-        <span className="hidden whitespace-nowrap text-label-14 font-medium text-foreground sm:block">
-          Geist Style Framework
-        </span>
-      </a>
-
-      {/* Search — 复用根 Input，右侧 kbd 提示 */}
-      <div className="relative hidden w-72 md:block" role="search">
-        <Search
-          className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-muted-foreground"
-          aria-hidden
-        />
-        <Input placeholder="Search Geist" aria-label="搜索文档" className="pr-14 pl-9" />
-        <kbd className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 rounded border border-border bg-surface px-1.5 py-0.5 text-label-12 text-muted-foreground">
-          Ctrl K
-        </kbd>
-      </div>
-
-      {/* 主题切换 — 官方三态 ThemeSwitcher */}
-      <div className="ml-auto">
-        <ThemeSwitcher />
+    <header className="sticky top-0 z-40 mx-auto w-full max-w-[1220px]">
+      <div className="bg-background flex h-16 w-full max-w-[1219px] border-b border-l border-r border-gray-alpha-400 pl-[22px] dark:border-[#242424]">
+        {/* 左区块：Logo + Search */}
+        <div className="border-gray-alpha-400 flex grow items-center gap-4 border-r py-4 pl-px xl:w-[237px] xl:grow-0">
+          <a
+            href="#/"
+            className="flex shrink-0 items-center gap-2"
+            aria-label="Geist Style Framework 首页"
+          >
+            <svg viewBox="0 0 24 24" className="size-5 fill-foreground" aria-hidden>
+              <path d="M12 2.5 22.5 21h-21L12 2.5Z" />
+            </svg>
+            <span className="hidden whitespace-nowrap text-label-14 font-medium text-foreground sm:block">
+              Geist Style Framework
+            </span>
+          </a>
+        </div>
+        {/* 右区块：Search + ThemeSwitcher */}
+        <div className="flex items-center justify-between p-4 xl:grow">
+          <div className="relative hidden md:block" role="search">
+            <Search
+              className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-muted-foreground"
+              aria-hidden
+            />
+            <Input placeholder="Search Geist" aria-label="搜索文档" className="pr-14 pl-9" />
+            <kbd className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 rounded border border-border bg-surface px-1.5 py-0.5 text-label-12 text-muted-foreground">
+              Ctrl K
+            </kbd>
+          </div>
+          <ThemeSwitcher />
+        </div>
       </div>
     </header>
   );
