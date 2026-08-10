@@ -33,6 +33,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "../i18n/language";
 
 /**
  * Introduction 页卡片网格（docs/geist 首页）。
@@ -111,6 +112,8 @@ function IconsPreview() {
 const COPY_TEXT = "vp dev docs/geist";
 
 function ComponentsPreview() {
+  const { language } = useLanguage();
+  const zh = language === "zh-CN";
   const [copied, setCopied] = React.useState(false);
   const timer = React.useRef<number | undefined>(undefined);
 
@@ -168,7 +171,7 @@ function ComponentsPreview() {
           aria-label="Collaborate"
           prefix={<Users aria-hidden />}
         >
-          Collaborate
+          {zh ? "协作" : "Collaborate"}
         </Button>
         <Button typeName="button" type="secondary" svgOnly size="medium" aria-label="Shield">
           <Shield aria-hidden />
@@ -177,7 +180,7 @@ function ComponentsPreview() {
       {/* Label / Value 输入组 */}
       <div className="flex flex-col gap-1">
         <label htmlFor="docs-preview-project" className="text-label-12 text-muted-foreground">
-          Project name
+          {zh ? "项目名称" : "Project name"}
         </label>
         <Input id="docs-preview-project" defaultValue="geist-docs" readOnly />
       </div>
@@ -291,6 +294,30 @@ const CARD_PREVIEWS = [
  * 末列去右线（md 下 2n 单元）、末行去底线（md 下最后 2 个单元 / 移动端最后 1 个）。
  */
 function DocsCardGrid({ className }: { className?: string }) {
+  const { language } = useLanguage();
+  const cards =
+    language === "zh-CN"
+      ? DOC_CARDS.map((card) => ({
+          ...card,
+          title:
+            {
+              Icons: "图标",
+              Components: "组件",
+              Colors: "颜色",
+              Materials: "材质",
+              Typeface: "字体",
+            }[card.title] ?? card.title,
+          description:
+            {
+              "Icon set tailored for developer tools.": "为开发者工具定制的图标集合。",
+              "Building blocks for React applications.": "用于构建 React 应用的基础模块。",
+              "A high contrast, accessible color system.":
+                "一套高对比度且具备无障碍能力的颜色系统。",
+              "Presets for radii, fills, strokes, and shadows.": "圆角、填充、描边与阴影的预设。",
+              "Specifically designed for developers and designers.": "专为开发者和设计师设计。",
+            }[card.description] ?? card.description,
+        }))
+      : DOC_CARDS;
   return (
     <div
       className={cn(
@@ -301,7 +328,7 @@ function DocsCardGrid({ className }: { className?: string }) {
         className,
       )}
     >
-      {DOC_CARDS.map((card, i) => (
+      {cards.map((card, i) => (
         <DocCard key={card.title} {...card}>
           {CARD_PREVIEWS[i]}
         </DocCard>
