@@ -184,6 +184,10 @@ import { Video } from "@/components/ui/video";
 import { COMPONENTS, type ComponentMeta } from "../data/components";
 import { useLanguage } from "../i18n/language";
 
+function isChinese() {
+  return document.documentElement.lang === "zh-CN";
+}
+
 /**
  * Components 文档页（docs/geist 专用）。
  * 总览模式（/components）：13 元件索引卡片网格。
@@ -343,7 +347,7 @@ function EmptyStateDemo() {
 function ButtonDemo() {
   return (
     <>
-      <Button typeName="button">Default</Button>
+      <Button typeName="button">{isChinese() ? "默认" : "Default"}</Button>
       <Button typeName="button" type="secondary">
         Secondary
       </Button>
@@ -421,8 +425,12 @@ function MenuDemo() {
     <MenuContainer>
       <MenuButton>Actions</MenuButton>
       <Menu width={200}>
-        <MenuItem prefix={<Edit aria-hidden />}>Edit Project</MenuItem>
-        <MenuItem prefix={<Copy aria-hidden />}>Duplicate Project</MenuItem>
+        <MenuItem prefix={<Edit aria-hidden />}>
+          {isChinese() ? "编辑项目" : "Edit Project"}
+        </MenuItem>
+        <MenuItem prefix={<Copy aria-hidden />}>
+          {isChinese() ? "复制项目" : "Duplicate Project"}
+        </MenuItem>
         <MenuDivider />
         <MenuItem type="error" prefix={<Trash2 aria-hidden />}>
           Delete Project
@@ -435,8 +443,12 @@ function MenuDemo() {
 function InputDemo() {
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
-      <Input placeholder="Project name" aria-label="项目名" />
-      <Input placeholder="Disabled input" disabled aria-label="禁用输入框" />
+      <Input placeholder={isChinese() ? "项目名称" : "Project name"} aria-label="项目名" />
+      <Input
+        placeholder={isChinese() ? "禁用输入框" : "Disabled input"}
+        disabled
+        aria-label="禁用输入框"
+      />
     </div>
   );
 }
@@ -445,11 +457,11 @@ function ModalDemo() {
   return (
     <Modal>
       <ModalTrigger asChild>
-        <Button typeName="button">Open Modal</Button>
+        <Button typeName="button">{isChinese() ? "打开 Modal" : "Open Modal"}</Button>
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>
-          <ModalTitle>Delete Project</ModalTitle>
+          <ModalTitle>{isChinese() ? "删除项目" : "Delete Project"}</ModalTitle>
           <ModalDescription>This action cannot be undone.</ModalDescription>
         </ModalHeader>
         <ModalFooter>
@@ -628,8 +640,15 @@ function TabsDemo() {
 function TextareaDemo() {
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
-      <Textarea placeholder="Describe your project…" aria-label="项目描述" />
-      <Textarea placeholder="Disabled textarea" disabled aria-label="禁用文本区" />
+      <Textarea
+        placeholder={isChinese() ? "描述你的项目……" : "Describe your project…"}
+        aria-label="项目描述"
+      />
+      <Textarea
+        placeholder={isChinese() ? "禁用文本区" : "Disabled textarea"}
+        disabled
+        aria-label="禁用文本区"
+      />
     </div>
   );
 }
@@ -757,7 +776,7 @@ function SheetDemo() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button typeName="button">Open Sheet</Button>
+        <Button typeName="button">{isChinese() ? "打开 Sheet" : "Open Sheet"}</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
@@ -866,7 +885,7 @@ function CalendarDemo() {
 function ChoiceboxDemo() {
   return (
     <div className="w-full max-w-md">
-      <Choicebox defaultValue="pro" aria-label="select a plan">
+      <Choicebox defaultValue="pro" aria-label={isChinese() ? "选择方案" : "select a plan"}>
         <ChoiceboxItem value="trial">
           <ChoiceboxLabel>Pro Trial</ChoiceboxLabel>
           <ChoiceboxDescription>Free for two weeks</ChoiceboxDescription>
@@ -885,10 +904,10 @@ function CommandMenuDemo() {
   return (
     <CommandMenu open={open} onOpenChange={setOpen}>
       <CommandMenuTrigger asChild>
-        <Button typeName="button">Open Command Menu</Button>
+        <Button typeName="button">{isChinese() ? "打开命令菜单" : "Open Command Menu"}</Button>
       </CommandMenuTrigger>
       <CommandMenuContent>
-        <CommandMenuInput placeholder="What do you need?" />
+        <CommandMenuInput placeholder={isChinese() ? "你需要什么？" : "What do you need?"} />
         <CommandMenuList>
           <CommandMenuGroup heading="Suggestions">
             <CommandMenuItem onClick={() => setOpen(false)}>Figma Import</CommandMenuItem>
@@ -1004,7 +1023,7 @@ function SliderDemo() {
   const [value, setValue] = React.useState<number[]>([50]);
   return (
     <div className="w-full max-w-md">
-      <Slider value={value} onValueChange={setValue} aria-label="Volume" />
+      <Slider value={value} onValueChange={setValue} aria-label={isChinese() ? "音量" : "Volume"} />
       <p className="mt-3 text-copy-14 text-muted-foreground">Value: {value[0]}</p>
     </div>
   );
@@ -1262,7 +1281,7 @@ function BannerDemo() {
 function BreadcrumbsDemo() {
   return (
     <Breadcrumb type="menu">
-      <BreadcrumbItem href="#/">Home</BreadcrumbItem>
+      <BreadcrumbItem href="#/">{isChinese() ? "首页" : "Home"}</BreadcrumbItem>
       <BreadcrumbItem href="#/components">Components</BreadcrumbItem>
       <BreadcrumbItem active>Breadcrumbs</BreadcrumbItem>
     </Breadcrumb>
@@ -1288,8 +1307,12 @@ function CollapseDemo() {
 
 function ComboboxDemo() {
   return (
-    <Combobox defaultValue="nextjs" className="w-64" placeholder="Select a framework">
-      <ComboboxTrigger aria-label="Select a framework" />
+    <Combobox
+      defaultValue="nextjs"
+      className="w-64"
+      placeholder={isChinese() ? "选择框架" : "Select a framework"}
+    >
+      <ComboboxTrigger aria-label={isChinese() ? "选择框架" : "Select a framework"} />
       <ComboboxContent>
         <ComboboxItem value="nextjs">Next.js</ComboboxItem>
         <ComboboxItem value="react">React</ComboboxItem>
@@ -1390,7 +1413,7 @@ function MultiSelectDemo() {
 
   return (
     <MultiSelectRoot className="w-64">
-      <MultiSelectTrigger aria-label="Select frameworks">
+      <MultiSelectTrigger aria-label={isChinese() ? "选择框架" : "Select frameworks"}>
         {selected.length} selected
       </MultiSelectTrigger>
       <MultiSelectContent>
@@ -1414,7 +1437,10 @@ function MultiSelectDemo() {
 function PillDemo() {
   const [active, setActive] = React.useState("all");
   return (
-    <div className="flex flex-wrap gap-2" aria-label="Deployment status filter">
+    <div
+      className="flex flex-wrap gap-2"
+      aria-label={isChinese() ? "部署状态筛选" : "Deployment status filter"}
+    >
       {[
         ["all", "All"],
         ["ready", "Ready"],
@@ -1451,8 +1477,8 @@ function SearchInputDemo() {
   return (
     <SearchInput
       className="w-full max-w-sm"
-      placeholder="Search projects"
-      aria-label="Search projects"
+      placeholder={isChinese() ? "搜索项目" : "Search projects"}
+      aria-label={isChinese() ? "搜索项目" : "Search projects"}
     />
   );
 }
@@ -1479,10 +1505,10 @@ function ShowMoreDemo() {
 function SplitButtonDemo() {
   return (
     <SplitButton>
-      <SplitButtonMain>Deploy Project</SplitButtonMain>
+      <SplitButtonMain>{isChinese() ? "部署项目" : "Deploy Project"}</SplitButtonMain>
       <SplitButtonMenu menuLabel="More deployment actions">
-        <MenuItem>Deploy to Preview</MenuItem>
-        <MenuItem>Deploy to Production</MenuItem>
+        <MenuItem>{isChinese() ? "部署到预览环境" : "Deploy to Preview"}</MenuItem>
+        <MenuItem>{isChinese() ? "部署到生产环境" : "Deploy to Production"}</MenuItem>
       </SplitButtonMenu>
     </SplitButton>
   );
@@ -1662,6 +1688,55 @@ const SECTION_TITLES_ZH: Record<string, string> = {
   Warning: "警告",
   Components: "组件",
   Other: "其他",
+  "Multi-line": "多行",
+  "With jsx": "使用 JSX",
+  "With a link": "带链接",
+  Preserve: "保留",
+  Action: "操作",
+  Undo: "撤销",
+  "Prefix and Suffix": "前缀与后缀",
+  Label: "标签",
+  "Default color scale": "默认颜色阶",
+  "Custom color range": "自定义颜色范围",
+  "Custom secondary color": "自定义辅助颜色",
+  "Arc priority": "弧线优先级",
+  "Radio disabled": "禁用 Radio",
+  "Radio required": "必填 Radio",
+  "Radio headless": "无头 Radio",
+  "Radio standalone": "独立 Radio",
+  Tooltip: "Tooltip",
+  "No delay": "无延迟",
+  "Box align": "盒对齐",
+  "Custom content": "自定义内容",
+  "Custom type": "自定义类型",
+  "No Loop": "不循环",
+  "No Controls": "无控件",
+  "With Input": "带输入",
+  "Bypass Casing": "忽略大小写",
+  "Full featured table": "完整表格",
+  Group: "分组",
+  "Stacking order": "堆叠顺序",
+  Overlap: "重叠",
+  "Fixed overlap": "固定重叠",
+  Git: "Git",
+  "With custom icon": "自定义图标",
+  Letter: "字母",
+  Placeholder: "占位符",
+  Pill: "Pill",
+  Active: "激活",
+  Expanded: "展开",
+  Multiple: "多个",
+  Small: "小尺寸",
+  "Single line": "单行",
+  Wrapped: "换行",
+  Collapsed: "折叠",
+  Highlighted: "高亮",
+  Vertical: "垂直",
+  Horizontal: "水平",
+  Free: "自由滚动",
+  "Vertical with buttons": "垂直滚动（带按钮）",
+  "Horizontal with buttons": "水平滚动（带按钮）",
+  "Menu Alignment": "菜单对齐",
 };
 
 function Section({
@@ -1715,14 +1790,18 @@ function RadioHeadlessDemo() {
   const { component: component2 } = useRadio({ value: "two", disabled: false });
 
   return (
-    <RadioGroup aria-label="Options" onChange={setValue} value={value}>
+    <RadioGroup aria-label={isChinese() ? "选项" : "Options"} onChange={setValue} value={value}>
       <div className="flex w-full min-w-56 flex-col items-stretch justify-start gap-6">
         <label className="flex justify-between gap-4">
-          <span className="text-copy-13 text-foreground">Option 1</span>
+          <span className="text-copy-13 text-foreground">
+            {isChinese() ? "选项 1" : "Option 1"}
+          </span>
           {component}
         </label>
         <label className="flex justify-between gap-4">
-          <span className="text-copy-13 text-foreground">Option 2</span>
+          <span className="text-copy-13 text-foreground">
+            {isChinese() ? "选项 2" : "Option 2"}
+          </span>
           {component2}
         </label>
       </div>
@@ -1736,7 +1815,7 @@ function RadioStandaloneDemo() {
   return (
     <ul className="flex list-none flex-row items-stretch justify-start gap-6">
       <li className="flex items-center gap-2">
-        <span className="text-copy-13 text-foreground">Option 1</span>
+        <span className="text-copy-13 text-foreground">{isChinese() ? "选项 1" : "Option 1"}</span>
         <Radio
           aria-label="Option 1"
           checked={value === "one"}
@@ -1745,7 +1824,7 @@ function RadioStandaloneDemo() {
         />
       </li>
       <li className="flex items-center gap-2">
-        <span className="text-copy-13 text-foreground">Option 2</span>
+        <span className="text-copy-13 text-foreground">{isChinese() ? "选项 2" : "Option 2"}</span>
         <Radio
           aria-label="Option 2"
           checked={value === "two"}
@@ -1764,13 +1843,13 @@ function ToggleColorDemo() {
     <div className="flex flex-col gap-4">
       <div className="flex flex-row flex-wrap items-center gap-6">
         <Toggle
-          aria-label="Enable Firewall"
+          aria-label={isChinese() ? "启用防火墙" : "Enable Firewall"}
           checked={checked}
           color="amber"
           onCheckedChange={() => setChecked(!checked)}
         />
         <Toggle
-          aria-label="Enable Firewall"
+          aria-label={isChinese() ? "启用防火墙" : "Enable Firewall"}
           checked={checked}
           color="red"
           onCheckedChange={() => setChecked(!checked)}
@@ -1778,14 +1857,14 @@ function ToggleColorDemo() {
       </div>
       <div className="flex flex-row flex-wrap items-center gap-6">
         <Toggle
-          aria-label="Enable Firewall"
+          aria-label={isChinese() ? "启用防火墙" : "Enable Firewall"}
           checked={checked}
           color="amber"
           onCheckedChange={() => setChecked(!checked)}
           size="large"
         />
         <Toggle
-          aria-label="Enable Firewall"
+          aria-label={isChinese() ? "启用防火墙" : "Enable Firewall"}
           checked={checked}
           color="red"
           onCheckedChange={() => setChecked(!checked)}
@@ -1973,7 +2052,7 @@ function renderExtraSections(name: string): React.ReactNode {
           </Section>
           <Section title="Variants">
             <div className="flex flex-wrap items-center gap-3">
-              <Button typeName="button">Default</Button>
+              <Button typeName="button">{isChinese() ? "默认" : "Default"}</Button>
               <Button typeName="button" type="secondary">
                 Secondary
               </Button>
@@ -2037,20 +2116,36 @@ function renderExtraSections(name: string): React.ReactNode {
           <Section title="Disabled">
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
-                <Toggle aria-label="Enable Firewall" checked={false} disabled />
+                <Toggle
+                  aria-label={isChinese() ? "启用防火墙" : "Enable Firewall"}
+                  checked={false}
+                  disabled
+                />
                 <span className="text-copy-14 text-muted-foreground">Unchecked (disabled)</span>
               </div>
               <div className="flex items-center gap-3">
-                <Toggle aria-label="Enable Firewall" checked disabled />
+                <Toggle
+                  aria-label={isChinese() ? "启用防火墙" : "Enable Firewall"}
+                  checked
+                  disabled
+                />
                 <span className="text-copy-14 text-muted-foreground">Checked (disabled)</span>
               </div>
             </div>
           </Section>
           <Section title="Sizes">
             <div className="flex flex-row flex-wrap items-center gap-6">
-              <Toggle aria-label="Enable Firewall" checked={false} />
-              <Toggle aria-label="Enable Firewall" checked={false} size="medium" />
-              <Toggle aria-label="Enable Firewall" checked={false} size="large" />
+              <Toggle aria-label={isChinese() ? "启用防火墙" : "Enable Firewall"} checked={false} />
+              <Toggle
+                aria-label={isChinese() ? "启用防火墙" : "Enable Firewall"}
+                checked={false}
+                size="medium"
+              />
+              <Toggle
+                aria-label={isChinese() ? "启用防火墙" : "Enable Firewall"}
+                checked={false}
+                size="large"
+              />
             </div>
           </Section>
           <Section title="Custom Color">
@@ -2148,8 +2243,8 @@ function renderExtraSections(name: string): React.ReactNode {
           <Section title="Radio disabled">
             <RadioGroup disabled label="Disabled Radio Example" defaultValue="one">
               <div className="flex flex-col items-stretch justify-start gap-6">
-                <RadioGroupItem value="one">Option 1</RadioGroupItem>
-                <RadioGroupItem value="two">Option 2</RadioGroupItem>
+                <RadioGroupItem value="one">{isChinese() ? "选项 1" : "Option 1"}</RadioGroupItem>
+                <RadioGroupItem value="two">{isChinese() ? "选项 2" : "Option 2"}</RadioGroupItem>
               </div>
             </RadioGroup>
           </Section>
@@ -2157,11 +2252,11 @@ function renderExtraSections(name: string): React.ReactNode {
             <form className="flex flex-col items-start justify-start gap-6">
               <RadioGroup label="Required Radio Example" required defaultValue="">
                 <div className="flex flex-col items-stretch justify-start gap-4">
-                  <RadioGroupItem value="one">Option 1</RadioGroupItem>
-                  <RadioGroupItem value="two">Option 2</RadioGroupItem>
+                  <RadioGroupItem value="one">{isChinese() ? "选项 1" : "Option 1"}</RadioGroupItem>
+                  <RadioGroupItem value="two">{isChinese() ? "选项 2" : "Option 2"}</RadioGroupItem>
                 </div>
               </RadioGroup>
-              <Button size="small">Submit</Button>
+              <Button size="small">{isChinese() ? "提交" : "Submit"}</Button>
             </form>
           </Section>
           <Section title="Radio headless">
@@ -2314,7 +2409,9 @@ function renderExtraSections(name: string): React.ReactNode {
             <div className="flex w-full max-w-md flex-col">
               <Textarea
                 aria-label="Textarea with fixed rows"
-                placeholder="Textarea with fixed number of rows"
+                placeholder={
+                  isChinese() ? "固定行数的文本区" : "Textarea with fixed number of rows"
+                }
                 rows={5}
               />
             </div>
@@ -2596,7 +2693,7 @@ function renderExtraSections(name: string): React.ReactNode {
               <Input
                 aria-labelledby="label-input"
                 id="label-input"
-                placeholder="Enter email address..."
+                placeholder={isChinese() ? "输入邮箱地址……" : "Enter email address..."}
               />
             </div>
           </Section>
@@ -2606,7 +2703,7 @@ function renderExtraSections(name: string): React.ReactNode {
               <Input
                 aria-labelledby="label-input-bypass"
                 id="label-input-bypass"
-                placeholder="Enter email address..."
+                placeholder={isChinese() ? "输入邮箱地址……" : "Enter email address..."}
               />
             </div>
           </Section>
@@ -3104,29 +3201,29 @@ function renderExtraSections(name: string): React.ReactNode {
           <Section title="Default">
             <div className="flex w-full max-w-md flex-col gap-4">
               <Breadcrumb type="text">
-                <BreadcrumbItem>Home</BreadcrumbItem>
-                <BreadcrumbItem>Dashboard</BreadcrumbItem>
-                <BreadcrumbItem>Overview</BreadcrumbItem>
+                <BreadcrumbItem>{isChinese() ? "首页" : "Home"}</BreadcrumbItem>
+                <BreadcrumbItem>{isChinese() ? "仪表盘" : "Dashboard"}</BreadcrumbItem>
+                <BreadcrumbItem>{isChinese() ? "概览" : "Overview"}</BreadcrumbItem>
               </Breadcrumb>
               <Breadcrumb type="menu">
-                <BreadcrumbItem>Home</BreadcrumbItem>
-                <BreadcrumbItem>Dashboard</BreadcrumbItem>
-                <BreadcrumbItem>Overview</BreadcrumbItem>
+                <BreadcrumbItem>{isChinese() ? "首页" : "Home"}</BreadcrumbItem>
+                <BreadcrumbItem>{isChinese() ? "仪表盘" : "Dashboard"}</BreadcrumbItem>
+                <BreadcrumbItem>{isChinese() ? "概览" : "Overview"}</BreadcrumbItem>
               </Breadcrumb>
             </div>
           </Section>
           <Section title="Active">
             <Breadcrumb>
-              <BreadcrumbItem>Home</BreadcrumbItem>
-              <BreadcrumbItem active>Dashboard</BreadcrumbItem>
-              <BreadcrumbItem>Overview</BreadcrumbItem>
+              <BreadcrumbItem>{isChinese() ? "首页" : "Home"}</BreadcrumbItem>
+              <BreadcrumbItem active>{isChinese() ? "仪表盘" : "Dashboard"}</BreadcrumbItem>
+              <BreadcrumbItem>{isChinese() ? "概览" : "Overview"}</BreadcrumbItem>
             </Breadcrumb>
           </Section>
           <Section title="Disabled">
             <Breadcrumb>
-              <BreadcrumbItem>Home</BreadcrumbItem>
-              <BreadcrumbItem disabled>Dashboard</BreadcrumbItem>
-              <BreadcrumbItem>Overview</BreadcrumbItem>
+              <BreadcrumbItem>{isChinese() ? "首页" : "Home"}</BreadcrumbItem>
+              <BreadcrumbItem disabled>{isChinese() ? "仪表盘" : "Dashboard"}</BreadcrumbItem>
+              <BreadcrumbItem>{isChinese() ? "概览" : "Overview"}</BreadcrumbItem>
             </Breadcrumb>
           </Section>
         </>
@@ -3414,13 +3511,14 @@ function renderExtraSections(name: string): React.ReactNode {
 /* ---------- 总览模式 ---------- */
 
 function ComponentsOverview() {
-  const { language } = useLanguage();
-  const zh = language === "zh-CN";
+  useLanguage();
   return (
     <div>
-      <h1 className="text-heading-40 text-foreground">{zh ? "组件" : "Components"}</h1>
+      <h1 className="text-heading-40 text-foreground">{isChinese() ? "组件" : "Components"}</h1>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
-        {zh ? "用于构建 React 应用的基础模块。" : "Building blocks for React applications."}
+        {isChinese()
+          ? "用于构建 React 应用的基础模块。"
+          : "Building blocks for React applications."}
       </p>
 
       <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
@@ -3432,10 +3530,12 @@ function ComponentsOverview() {
           >
             <p className="font-mono text-label-12 text-muted-foreground">{component.official}</p>
             <h3 className="mt-1 text-label-16 font-medium text-foreground">
-              {zh ? (component.labelZh ?? component.label) : component.label}
+              {isChinese() ? (component.labelZh ?? component.label) : component.label}
             </h3>
             <p className="mt-1 text-copy-13 text-muted-foreground">
-              {zh ? (component.descriptionZh ?? component.description) : component.description}
+              {isChinese()
+                ? (component.descriptionZh ?? component.description)
+                : component.description}
             </p>
           </a>
         ))}
@@ -3447,8 +3547,7 @@ function ComponentsOverview() {
 /* ---------- 详情模式 ---------- */
 
 function ComponentDetail({ name }: { name: string }) {
-  const { language } = useLanguage();
-  const zh = language === "zh-CN";
+  useLanguage();
   const meta: ComponentMeta | undefined = COMPONENTS.find((component) => component.name === name);
 
   if (!meta) {
@@ -3456,10 +3555,10 @@ function ComponentDetail({ name }: { name: string }) {
       <div>
         <BackLink />
         <h1 className="text-heading-40 text-foreground">
-          {zh ? "组件不存在" : "Component not found"}
+          {isChinese() ? "组件不存在" : "Component not found"}
         </h1>
         <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
-          {zh ? `未找到名为 ${name} 的组件。` : `No component named ${name} was found.`}
+          {isChinese() ? `未找到名为 ${name} 的组件。` : `No component named ${name} was found.`}
         </p>
       </div>
     );
@@ -3470,18 +3569,20 @@ function ComponentDetail({ name }: { name: string }) {
       <BackLink />
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <h1 className="text-heading-40 text-foreground">
-          {zh ? (meta.labelZh ?? meta.label) : meta.label}
+          {isChinese() ? (meta.labelZh ?? meta.label) : meta.label}
         </h1>
         <span className="rounded-full border border-gray-alpha-400 px-2 py-0.5 font-mono text-label-12 text-muted-foreground">
           {meta.official}
         </span>
       </div>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
-        {zh ? (meta.descriptionZh ?? meta.description) : meta.description}
+        {isChinese() ? (meta.descriptionZh ?? meta.description) : meta.description}
       </p>
 
       <section className="mt-10">
-        <h2 className="text-heading-24 text-foreground">{zh ? "实时示例" : "Live Demo"}</h2>
+        <h2 className="text-heading-24 text-foreground">
+          {isChinese() ? "实时示例" : "Live Demo"}
+        </h2>
         {name === "table" ? (
           <TableDemoCard code={meta.code}>{renderDemo(name)}</TableDemoCard>
         ) : (
@@ -3492,7 +3593,7 @@ function ComponentDetail({ name }: { name: string }) {
       {renderExtraSections(name)}
 
       <section className="mt-12">
-        <h2 className="text-heading-24 text-foreground">{zh ? "用法" : "Usage"}</h2>
+        <h2 className="text-heading-24 text-foreground">{isChinese() ? "用法" : "Usage"}</h2>
         <div className="mt-6">
           <CodeBlock code={meta.code} label={`components/${name}.tsx`} />
         </div>
@@ -3500,7 +3601,9 @@ function ComponentDetail({ name }: { name: string }) {
 
       {meta.bestPractices && meta.bestPractices.length > 0 && (
         <section className="mt-12">
-          <h2 className="text-heading-24 text-foreground">{zh ? "最佳实践" : "Best Practices"}</h2>
+          <h2 className="text-heading-24 text-foreground">
+            {isChinese() ? "最佳实践" : "Best Practices"}
+          </h2>
           <ul className="mt-6 space-y-3">
             {meta.bestPractices.map((bp, i) => (
               <li key={i} className="flex gap-3 text-copy-14 text-muted-foreground">

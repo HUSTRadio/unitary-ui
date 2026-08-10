@@ -47,6 +47,7 @@ function writeUrlLanguage(language: DocsLanguage) {
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<DocsLanguage>(() => readDocsLanguage());
+  document.documentElement.lang = language;
 
   const setLanguage = useCallback((next: DocsLanguage) => {
     setLanguageState(next);
