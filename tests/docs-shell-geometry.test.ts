@@ -8,16 +8,33 @@ const shell = readFileSync(
   "utf8",
 );
 
-describe("docs wide viewport shell geometry", () => {
-  it("uses the official 48px content gutters on desktop while retaining compact mobile gutters", () => {
-    expect(app).toContain('className="min-w-0 flex-1 px-6 py-10 lg:px-12"');
-    expect(app).not.toContain("flex-1 px-8 py-10");
+describe("docs shell geometry — official Geist layout", () => {
+  it("limits width on <main> itself, not an inner wrapper", () => {
+    // official: <main class="... max-w-[1220px] mx-auto ...">
+    expect(app).toContain("max-w-[1220px]");
+    expect(app).not.toContain("max-w-[1280px]");
+    expect(app).toContain("mx-auto");
   });
 
-  it("uses the official 272px desktop sidebar track", () => {
-    expect(shell).toContain(
-      'className="hidden w-[272px] shrink-0 border-r border-border lg:block"',
-    );
-    expect(shell).not.toContain("w-[260px]");
+  it("uses xl:grid with sidebar + content columns at the official breakpoint", () => {
+    expect(app).toContain("xl:grid xl:grid-cols-[260px_1fr]");
+  });
+
+  it("puts 48px gutter on the content column, not on <main>", () => {
+    expect(app).toContain("xl:px-12");
+    expect(app).not.toContain("px-6 py-10 lg:px-12");
+    // main itself should NOT have horizontal padding
+    expect(app).not.toContain('px-6 py-10 xl:px-12"');
+  });
+
+  it("uses the official 260px sidebar at xl breakpoint", () => {
+    expect(shell).toContain("w-[260px]");
+    expect(shell).not.toContain("w-[272px]");
+    expect(shell).toContain("xl:block");
+    expect(shell).not.toContain("lg:block");
+  });
+
+  it("caps banner width to match main", () => {
+    expect(shell).toContain("max-w-[1220px]");
   });
 });

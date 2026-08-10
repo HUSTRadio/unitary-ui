@@ -73,10 +73,14 @@ export default function App() {
         Skip to content
       </a>
       <DocsBanner />
-      <div className="flex flex-1">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="mx-auto w-full max-w-[1220px] flex-1 py-10 xl:grid xl:grid-cols-[260px_1fr]"
+      >
         <DocsSidebar />
-        <main id="main-content" tabIndex={-1} className="min-w-0 flex-1 px-6 py-10 lg:px-12">
-          <div className="mx-auto max-w-[1280px]">
+        <div className="min-w-0">
+          <div className="px-6 xl:px-12">
             {Page ? (
               <Page />
             ) : (
@@ -88,7 +92,7 @@ export default function App() {
               </>
             )}
 
-            {/* 内容页页脚 — 反馈区 + Next 分页（官方文档站每个页面底部都有） */}
+            {/* 内容页页脚 - 反馈区 + Next 分页（官方文档站每个页面底部都有） */}
             {Page && (
               <div className="mt-16 border-t border-border pt-8">
                 <FeedbackPanel />
@@ -96,8 +100,8 @@ export default function App() {
               </div>
             )}
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 }

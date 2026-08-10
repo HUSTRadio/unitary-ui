@@ -17,7 +17,7 @@ import { NAV_GROUPS, type NavGroup, type NavItem } from "../data/nav";
 
 function DocsBanner() {
   return (
-    <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b border-border bg-background px-6">
+    <header className="sticky top-0 z-40 mx-auto flex h-16 w-full max-w-[1220px] items-center gap-4 border-b border-border bg-background px-6">
       {/* Logo — 内联 SVG 三角（Geist 风格符号） */}
       <a
         href="#/"
@@ -93,8 +93,8 @@ function DocsSidebarGroup({ group }: { group: NavGroup }) {
 
 function DocsSidebar() {
   return (
-    <aside className="hidden w-[272px] shrink-0 border-r border-border lg:block">
-      <nav className="sticky top-16 max-h-[calc(100vh-4rem)] overflow-y-auto">
+    <aside className="hidden w-[260px] shrink-0 self-start overflow-y-auto border-r border-border xl:sticky xl:top-16 xl:block xl:h-[calc(100vh-4rem)]">
+      <nav className="space-y-1">
         {NAV_GROUPS.map((group) => (
           <DocsSidebarGroup key={group.title} group={group} />
         ))}
