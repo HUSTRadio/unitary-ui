@@ -1344,7 +1344,7 @@ function Example() {
     official: "Toggle",
     code: `import { Toggle } from "@/components/ui/toggle";
 
-<Toggle checked={enabled} onCheckedChange={setEnabled} />`,
+<Toggle checked={enabled} onCheckedChange={setEnabled} aria-label="Enable Firewall" />`,
     bestPractices: [
       "Use Toggle for a single boolean setting where ON takes effect immediately, like Password Protection or Auto-Cancel Builds. Switch to Checkbox for a multi-select list, or to Switch for 2–3 mutually exclusive views.",
       "checked is required and the component is controlled. Own the state and update it from onChange.",

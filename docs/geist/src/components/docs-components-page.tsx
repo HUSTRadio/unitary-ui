@@ -1,8 +1,31 @@
 import * as React from "react";
 import { useLocation } from "react-router-dom";
-import { ArrowLeft, Copy, CopyCheck, Edit, Inbox, Search, Trash2 } from "lucide-react";
+import {
+  ArrowDownCircle,
+  ArrowLeft,
+  CircleCheck,
+  Clock,
+  Copy,
+  CopyCheck,
+  Edit,
+  ExternalLink,
+  Inbox,
+  LayoutGrid,
+  List,
+  Rocket,
+  Search,
+  Shield,
+  Trash2,
+} from "lucide-react";
 
-import { Avatar } from "@/components/ui/avatar";
+import {
+  Avatar,
+  AvatarGroup,
+  AvatarWithIcon,
+  BitbucketAvatar,
+  GitHubAvatar,
+  GitLabAvatar,
+} from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Banner } from "@/components/ui/banner";
 import { Book } from "@/components/ui/book";
@@ -75,7 +98,7 @@ import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@/component
 import { Gauge } from "@/components/ui/gauge";
 import { Grid, GridItem } from "@/components/ui/grid";
 import { Input } from "@/components/ui/input";
-import { JsonView } from "@/components/ui/json-view";
+import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view";
 import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input";
 import { Label } from "@/components/ui/label";
 import { LoadMoreButton } from "@/components/ui/load-more-button";
@@ -107,7 +130,7 @@ import {
   ProjectBannerContent,
 } from "@/components/ui/project-banner";
 import { Progress } from "@/components/ui/progress";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
+import { Radio, RadioGroup, RadioGroupItem, useRadio } from "@/components/ui/radio";
 import { RelativeTimeCard } from "@/components/ui/relative-time-card";
 import { Scroller } from "@/components/ui/scroller";
 import { SearchInput } from "@/components/ui/search-input";
@@ -129,7 +152,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Slider } from "@/components/ui/slider";
 import { Snippet } from "@/components/ui/snippet";
 import { Spinner } from "@/components/ui/spinner";
-import { SplitButton, SplitButtonMain, SplitButtonMenu } from "@/components/ui/split-button";
+import {
+  SplitButton,
+  SplitButtonMain,
+  SplitButtonMenu,
+  SplitButtonMenuItem,
+} from "@/components/ui/split-button";
 import { StatusDot } from "@/components/ui/status-dot";
 import { StepPoint } from "@/components/ui/step-point";
 import {
@@ -1593,6 +1621,268 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
+/* ---------- 额外分段共享常量与状态组件 ---------- */
+
+const LOREM_IPSUM =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+
+/** 官方 Custom color range 演示的粉色阈值色阶（0→pink-100 … 100→pink-1000，无 40 档） */
+const GAUGE_PINK_SCALE = {
+  "0": "var(--pink-100)",
+  "10": "var(--pink-200)",
+  "20": "var(--pink-300)",
+  "30": "var(--pink-400)",
+  "50": "var(--pink-500)",
+  "60": "var(--pink-600)",
+  "70": "var(--pink-700)",
+  "80": "var(--pink-800)",
+  "90": "var(--pink-900)",
+  "100": "var(--pink-1000)",
+};
+
+function RadioHeadlessDemo() {
+  const [value, setValue] = React.useState("one");
+  const { component } = useRadio({ value: "one", disabled: false });
+  const { component: component2 } = useRadio({ value: "two", disabled: false });
+
+  return (
+    <RadioGroup aria-label="Options" onChange={setValue} value={value}>
+      <div className="flex w-full min-w-56 flex-col items-stretch justify-start gap-6">
+        <label className="flex justify-between gap-4">
+          <span className="text-copy-13 text-foreground">Option 1</span>
+          {component}
+        </label>
+        <label className="flex justify-between gap-4">
+          <span className="text-copy-13 text-foreground">Option 2</span>
+          {component2}
+        </label>
+      </div>
+    </RadioGroup>
+  );
+}
+
+function RadioStandaloneDemo() {
+  const [value, setValue] = React.useState("one");
+
+  return (
+    <ul className="flex list-none flex-row items-stretch justify-start gap-6">
+      <li className="flex items-center gap-2">
+        <span className="text-copy-13 text-foreground">Option 1</span>
+        <Radio
+          aria-label="Option 1"
+          checked={value === "one"}
+          onChange={() => setValue("one")}
+          value="one"
+        />
+      </li>
+      <li className="flex items-center gap-2">
+        <span className="text-copy-13 text-foreground">Option 2</span>
+        <Radio
+          aria-label="Option 2"
+          checked={value === "two"}
+          onChange={() => setValue("two")}
+          value="two"
+        />
+      </li>
+    </ul>
+  );
+}
+
+function ToggleColorDemo() {
+  const [checked, setChecked] = React.useState(false);
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-row flex-wrap items-center gap-6">
+        <Toggle
+          aria-label="Enable Firewall"
+          checked={checked}
+          color="amber"
+          onCheckedChange={() => setChecked(!checked)}
+        />
+        <Toggle
+          aria-label="Enable Firewall"
+          checked={checked}
+          color="red"
+          onCheckedChange={() => setChecked(!checked)}
+        />
+      </div>
+      <div className="flex flex-row flex-wrap items-center gap-6">
+        <Toggle
+          aria-label="Enable Firewall"
+          checked={checked}
+          color="amber"
+          onCheckedChange={() => setChecked(!checked)}
+          size="large"
+        />
+        <Toggle
+          aria-label="Enable Firewall"
+          checked={checked}
+          color="red"
+          onCheckedChange={() => setChecked(!checked)}
+          size="large"
+        />
+      </div>
+    </div>
+  );
+}
+
+function ToggleLabelDemo() {
+  const [checked, setChecked] = React.useState(false);
+
+  return (
+    <div className="flex flex-col items-start justify-start gap-4">
+      <div className="flex flex-row flex-wrap items-center gap-6">
+        <Toggle checked={checked} onCheckedChange={() => setChecked(!checked)}>
+          Enable Firewall
+        </Toggle>
+        <Toggle checked={checked} direction="rtl" onCheckedChange={() => setChecked(!checked)}>
+          Enable Firewall
+        </Toggle>
+      </div>
+      <div className="flex flex-row flex-wrap items-center gap-6">
+        <Toggle checked={checked} onCheckedChange={() => setChecked(!checked)} size="large">
+          Enable Firewall
+        </Toggle>
+        <Toggle
+          checked={checked}
+          direction="rtl"
+          onCheckedChange={() => setChecked(!checked)}
+          size="large"
+        >
+          Enable Firewall
+        </Toggle>
+      </div>
+    </div>
+  );
+}
+
+/** Toast 额外演示分段 — 每个分段一个触发按钮（Toasts 视口由 ToastDemo 挂载一次） */
+function ToastExtraSections() {
+  const toasts = useToasts();
+
+  return (
+    <>
+      <Section title="Multi-line">
+        <Button
+          typeName="button"
+          onClick={() =>
+            toasts.message({
+              text: "The Evil Rabbit jumped over the fence. The Evil Rabbit jumped over the fence. The Evil Rabbit jumped over the fence. The Evil Rabbit jumped over the fence.",
+            })
+          }
+        >
+          Show Toast
+        </Button>
+      </Section>
+      <Section title="With jsx">
+        <Button
+          typeName="button"
+          onClick={() =>
+            toasts.message({
+              text: (
+                <>
+                  <span className="text-heading-14">The Evil Rabbit</span> jumped over the fence.
+                </>
+              ),
+              preserve: true,
+            })
+          }
+        >
+          Show Toast
+        </Button>
+      </Section>
+      <Section title="With a link">
+        <Button
+          typeName="button"
+          onClick={() =>
+            toasts.message({
+              text: (
+                <>
+                  The Evil Rabbit jumped over the fence. The Evil Rabbit jumped over the{" "}
+                  <a
+                    href="#/components"
+                    className="font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground"
+                  >
+                    fence again
+                  </a>
+                  .
+                </>
+              ),
+              preserve: true,
+            })
+          }
+        >
+          Show Toast
+        </Button>
+      </Section>
+      <Section title="Preserve">
+        <Button
+          typeName="button"
+          onClick={() =>
+            toasts.message({
+              text: "The Evil Rabbit jumped over the fence.",
+              preserve: true,
+            })
+          }
+        >
+          Show Toast
+        </Button>
+      </Section>
+      <Section title="Action">
+        <Button
+          typeName="button"
+          onClick={() =>
+            toasts.message({
+              text: "The Evil Rabbit jumped over the fence. The Evil Rabbit jumped over the fence again.",
+              action: "Undo",
+            })
+          }
+        >
+          Show Toast
+        </Button>
+      </Section>
+      <Section title="Undo">
+        <Button
+          typeName="button"
+          onClick={() =>
+            toasts.message({
+              text: "The Evil Rabbit jumped over the fence. The Evil Rabbit jumped over the fence again.",
+              onUndoAction: () => undefined,
+            })
+          }
+        >
+          Show Toast
+        </Button>
+      </Section>
+      <Section title="Success">
+        <Button
+          typeName="button"
+          onClick={() => toasts.success("The Evil Rabbit jumped over the fence.")}
+        >
+          Show Toast
+        </Button>
+      </Section>
+      <Section title="Warning">
+        <Button
+          typeName="button"
+          onClick={() => toasts.warning("The Evil Rabbit jumped over the fence.")}
+        >
+          Show Toast
+        </Button>
+      </Section>
+      <Section title="Error">
+        <Button
+          typeName="button"
+          onClick={() => toasts.error("The Evil Rabbit jumped over the fence.")}
+        >
+          Show Toast
+        </Button>
+      </Section>
+    </>
+  );
+}
+
 /** 名称 → 额外演示分段（Sizes / Variants / States），未命中的组件返回 null */
 function renderExtraSections(name: string): React.ReactNode {
   switch (name) {
@@ -1675,25 +1965,30 @@ function renderExtraSections(name: string): React.ReactNode {
     case "toggle":
       return (
         <>
-          <Section title="States">
+          <Section title="Disabled">
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
-                <Toggle defaultChecked aria-label="开启" />
-                <span className="text-copy-14 text-muted-foreground">Checked (ON)</span>
+                <Toggle aria-label="Enable Firewall" checked={false} disabled />
+                <span className="text-copy-14 text-muted-foreground">Unchecked (disabled)</span>
               </div>
               <div className="flex items-center gap-3">
-                <Toggle aria-label="关闭" />
-                <span className="text-copy-14 text-muted-foreground">Unchecked (OFF)</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Toggle disabled aria-label="禁用关闭" />
-                <span className="text-copy-14 text-muted-foreground">Disabled</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Toggle defaultChecked size="large" aria-label="大号开启" />
-                <span className="text-copy-14 text-muted-foreground">Large size</span>
+                <Toggle aria-label="Enable Firewall" checked disabled />
+                <span className="text-copy-14 text-muted-foreground">Checked (disabled)</span>
               </div>
             </div>
+          </Section>
+          <Section title="Sizes">
+            <div className="flex flex-row flex-wrap items-center gap-6">
+              <Toggle aria-label="Enable Firewall" checked={false} />
+              <Toggle aria-label="Enable Firewall" checked={false} size="medium" />
+              <Toggle aria-label="Enable Firewall" checked={false} size="large" />
+            </div>
+          </Section>
+          <Section title="Custom Color">
+            <ToggleColorDemo />
+          </Section>
+          <Section title="With Label">
+            <ToggleLabelDemo />
           </Section>
         </>
       );
@@ -1716,6 +2011,534 @@ function renderExtraSections(name: string): React.ReactNode {
                 <Checkbox aria-label="未选中" />
                 <span className="text-copy-14 text-muted-foreground">Unchecked</span>
               </label>
+            </div>
+          </Section>
+        </>
+      );
+    case "gauge":
+      return (
+        <>
+          <Section title="Label">
+            <div className="flex flex-row flex-wrap items-stretch justify-start gap-8">
+              <Gauge showValue size="tiny" value={80} />
+              <Gauge showValue size="small" value={80} />
+              <Gauge showValue size="small" value={100} />
+              <Gauge showValue size="medium" value={80} />
+              <Gauge showValue size="medium" value={100} />
+              <Gauge showValue size="large" value={80} />
+              <Gauge showValue size="large" value={100} />
+            </div>
+          </Section>
+          <Section title="Default color scale">
+            <div className="flex flex-row flex-wrap items-stretch justify-start gap-8">
+              <Gauge size="small" value={14} />
+              <Gauge size="small" value={34} />
+              <Gauge size="small" value={68} />
+            </div>
+          </Section>
+          <Section title="Custom color range">
+            <div className="flex flex-row flex-wrap items-stretch justify-start gap-2">
+              {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((value) => (
+                <Gauge key={value} colors={GAUGE_PINK_SCALE} size="small" value={value} />
+              ))}
+            </div>
+          </Section>
+          <Section title="Custom secondary color">
+            <div className="flex justify-start">
+              <Gauge
+                colors={{ primary: "var(--blue-700)", secondary: "var(--blue-300)" }}
+                size="medium"
+                value={50}
+              />
+            </div>
+          </Section>
+          <Section title="Arc priority">
+            <div className="flex justify-start">
+              <Gauge
+                arcPriority="equal"
+                colors={{ primary: "var(--blue-700)", secondary: "var(--red-700)" }}
+                showValue
+                size="medium"
+                value={50}
+              />
+            </div>
+          </Section>
+          <Section title="Indeterminate">
+            <div className="flex flex-row flex-wrap items-stretch justify-start gap-2">
+              <Gauge indeterminate size="tiny" value={25} />
+              <Gauge indeterminate size="small" value={25} />
+              <Gauge indeterminate size="medium" value={25} />
+              <Gauge indeterminate size="large" value={25} />
+            </div>
+          </Section>
+        </>
+      );
+    case "radio":
+      return (
+        <>
+          <Section title="Radio disabled">
+            <RadioGroup disabled label="Disabled Radio Example" defaultValue="one">
+              <div className="flex flex-col items-stretch justify-start gap-6">
+                <RadioGroupItem value="one">Option 1</RadioGroupItem>
+                <RadioGroupItem value="two">Option 2</RadioGroupItem>
+              </div>
+            </RadioGroup>
+          </Section>
+          <Section title="Radio required">
+            <form className="flex flex-col items-start justify-start gap-6">
+              <RadioGroup label="Required Radio Example" required defaultValue="">
+                <div className="flex flex-col items-stretch justify-start gap-4">
+                  <RadioGroupItem value="one">Option 1</RadioGroupItem>
+                  <RadioGroupItem value="two">Option 2</RadioGroupItem>
+                </div>
+              </RadioGroup>
+              <Button size="small">Submit</Button>
+            </form>
+          </Section>
+          <Section title="Radio headless">
+            <RadioHeadlessDemo />
+          </Section>
+          <Section title="Radio standalone">
+            <RadioStandaloneDemo />
+          </Section>
+        </>
+      );
+    case "switch":
+      return (
+        <>
+          <Section title="Disabled">
+            <div className="flex w-full max-w-md flex-col items-start">
+              <Switch name="view-mode">
+                <SwitchControl defaultChecked disabled label="Source" value="source" />
+                <SwitchControl disabled label="Output" value="output" />
+              </Switch>
+            </div>
+          </Section>
+          <Section title="Sizes">
+            <div className="flex w-full flex-col gap-4 lg:flex-row lg:flex-wrap">
+              <Switch name="sizes-small" size="small">
+                <SwitchControl defaultChecked label="Source" value="source" />
+                <SwitchControl label="Output" value="output" />
+              </Switch>
+              <Switch name="sizes-default">
+                <SwitchControl defaultChecked label="Source" value="source" />
+                <SwitchControl label="Output" value="output" />
+              </Switch>
+              <Switch name="sizes-large" size="large">
+                <SwitchControl defaultChecked label="Source" value="source" />
+                <SwitchControl label="Output" value="output" />
+              </Switch>
+            </div>
+          </Section>
+          <Section title="Full width">
+            <Switch name="full-width" style={{ width: "100%" }}>
+              <SwitchControl defaultChecked label="Source" size="large" value="source" />
+              <SwitchControl label="Output" size="large" value="output" />
+            </Switch>
+          </Section>
+          <Section title="Tooltip">
+            <div className="flex w-full max-w-md flex-col items-start">
+              <Switch name="view-mode">
+                <Tooltip text="View Source">
+                  <SwitchControl defaultChecked label="Source" size="large" value="source" />
+                </Tooltip>
+                <Tooltip text="View Output">
+                  <SwitchControl label="Output" size="large" value="output" />
+                </Tooltip>
+              </Switch>
+            </div>
+          </Section>
+          <Section title="Icon">
+            <div className="flex w-full flex-col gap-4 lg:flex-row lg:flex-wrap">
+              <Switch name="icons-small" size="small">
+                <SwitchControl
+                  defaultChecked
+                  icon={<LayoutGrid aria-hidden />}
+                  label="Source"
+                  value="source"
+                />
+                <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
+              </Switch>
+              <Switch name="icons-default">
+                <SwitchControl
+                  defaultChecked
+                  icon={<LayoutGrid aria-hidden />}
+                  label="Source"
+                  value="source"
+                />
+                <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
+              </Switch>
+              <Switch name="icons-large" size="large">
+                <SwitchControl
+                  defaultChecked
+                  icon={<LayoutGrid aria-hidden />}
+                  label="Source"
+                  value="source"
+                />
+                <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
+              </Switch>
+            </div>
+          </Section>
+        </>
+      );
+    case "textarea":
+      return (
+        <>
+          <Section title="Error">
+            <div className="flex w-full max-w-md flex-col gap-8">
+              <Textarea
+                aria-label="With error (small)"
+                defaultValue={LOREM_IPSUM}
+                error="There has been an error."
+                size="small"
+                style={{ minHeight: 100 }}
+              />
+              <Textarea
+                aria-label="With error (medium)"
+                defaultValue={LOREM_IPSUM}
+                error="There has been an error."
+                size="medium"
+                style={{ minHeight: 100 }}
+              />
+              <Textarea
+                aria-label="With error (large)"
+                defaultValue={LOREM_IPSUM}
+                error="There has been an error."
+                size="large"
+                style={{ minHeight: 100 }}
+              />
+            </div>
+          </Section>
+          <Section title="Sizes">
+            <div className="flex w-full max-w-md flex-col gap-6">
+              <Textarea
+                aria-label="Textarea"
+                defaultValue={LOREM_IPSUM}
+                size="small"
+                style={{ minHeight: 100 }}
+              />
+              <Textarea
+                aria-label="Textarea"
+                defaultValue={LOREM_IPSUM}
+                size="medium"
+                style={{ minHeight: 100 }}
+              />
+              <Textarea
+                aria-label="Textarea"
+                defaultValue={LOREM_IPSUM}
+                size="large"
+                style={{ minHeight: 100 }}
+              />
+            </div>
+          </Section>
+          <Section title="Read Only">
+            <div className="flex w-full max-w-md flex-col">
+              <Textarea
+                aria-label="Read only"
+                defaultValue={LOREM_IPSUM}
+                readOnly
+                style={{ minHeight: 100 }}
+              />
+            </div>
+          </Section>
+          <Section title="Rows">
+            <div className="flex w-full max-w-md flex-col">
+              <Textarea
+                aria-label="Textarea with fixed rows"
+                placeholder="Textarea with fixed number of rows"
+                rows={5}
+              />
+            </div>
+          </Section>
+        </>
+      );
+    case "tooltip":
+      return (
+        <>
+          <Section title="No delay">
+            <div className="flex w-full flex-row flex-wrap">
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip delay={false} text="The Evil Rabbit Jumped over the Fence">
+                  <span>Top</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  delay={false}
+                  position="bottom"
+                  text="The Evil Rabbit Jumped over the Fence"
+                >
+                  <span>Bottom</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip delay={false} position="left" text="The Evil Rabbit Jumped over the Fence">
+                  <span>Left</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  delay={false}
+                  position="right"
+                  text="The Evil Rabbit Jumped over the Fence"
+                >
+                  <span>Right</span>
+                </Tooltip>
+              </div>
+            </div>
+          </Section>
+          <Section title="Box align">
+            <div className="flex w-full flex-row flex-wrap">
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  boxAlign="left"
+                  position="bottom"
+                  text="The Evil Rabbit Jumped over the Fence"
+                >
+                  <span>Bottom/Left</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip position="bottom" text="The Evil Rabbit Jumped over the Fence">
+                  <span>Bottom/Center</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  boxAlign="right"
+                  position="bottom"
+                  text="The Evil Rabbit Jumped over the Fence"
+                >
+                  <span>Bottom/Right</span>
+                </Tooltip>
+              </div>
+            </div>
+            <div className="flex w-full flex-row flex-wrap">
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  boxAlign="left"
+                  position="left"
+                  text="The Evil Rabbit Jumped over the Fence"
+                >
+                  <span>Left/Left</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip position="left" text="The Evil Rabbit Jumped over the Fence">
+                  <span>Left/Center</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  boxAlign="right"
+                  position="left"
+                  text="The Evil Rabbit Jumped over the Fence"
+                >
+                  <span>Left/Right</span>
+                </Tooltip>
+              </div>
+            </div>
+            <div className="flex w-full flex-row flex-wrap">
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  boxAlign="left"
+                  position="right"
+                  text="The Evil Rabbit Jumped over the Fence"
+                >
+                  <span>Right/Left</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip position="right" text="The Evil Rabbit Jumped over the Fence">
+                  <span>Right/Center</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  boxAlign="right"
+                  position="right"
+                  text="The Evil Rabbit Jumped over the Fence"
+                >
+                  <span>Right/Right</span>
+                </Tooltip>
+              </div>
+            </div>
+          </Section>
+          <Section title="Custom content">
+            <div className="flex w-full flex-row flex-wrap">
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  text={
+                    <>
+                      The <b>Evil Rabbit</b> Jumped over the <i>Fence</i>.
+                    </>
+                  }
+                >
+                  <span>Top</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  position="bottom"
+                  text={
+                    <>
+                      The <b>Evil Rabbit</b> Jumped over the <i>Fence</i>.
+                    </>
+                  }
+                >
+                  <span>Bottom</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  position="left"
+                  text={
+                    <>
+                      The <b>Evil Rabbit</b> Jumped over the <i>Fence</i>.
+                    </>
+                  }
+                >
+                  <span>Left</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  position="right"
+                  text={
+                    <>
+                      The <b>Evil Rabbit</b> Jumped over the <i>Fence</i>.
+                    </>
+                  }
+                >
+                  <span>Right</span>
+                </Tooltip>
+              </div>
+            </div>
+          </Section>
+          <Section title="Custom type">
+            <div className="flex w-full flex-row flex-wrap">
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip text="The Evil Rabbit Jumped over the Fence" type="success">
+                  <span>Top</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  position="bottom"
+                  text="The Evil Rabbit Jumped over the Fence"
+                  type="error"
+                >
+                  <span>Bottom</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  position="left"
+                  text="The Evil Rabbit Jumped over the Fence"
+                  type="warning"
+                >
+                  <span>Left</span>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  position="right"
+                  text="The Evil Rabbit Jumped over the Fence"
+                  type="violet"
+                >
+                  <span>Right</span>
+                </Tooltip>
+              </div>
+            </div>
+          </Section>
+          <Section title="Components">
+            <div className="flex w-full flex-row flex-wrap">
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip position="bottom" text="The Evil Rabbit Jumped over the Fence">
+                  <Button size="small" typeName="button">
+                    Bottom
+                  </Button>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip position="left" text="The Evil Rabbit Jumped over the Fence">
+                  <Badge size="sm">LEFT</Badge>
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip position="right" text="The Evil Rabbit Jumped over the Fence">
+                  <Spinner />
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  text={
+                    <>
+                      Search
+                      <Kbd>/</Kbd>
+                    </>
+                  }
+                >
+                  <span>Shortcut</span>
+                </Tooltip>
+              </div>
+            </div>
+          </Section>
+          <Section title="Other">
+            <div className="flex w-full flex-row flex-wrap">
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip text="The Evil Rabbit Jumped over the Fence" tip={false}>
+                  No tip indicator
+                </Tooltip>
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center py-2">
+                <Tooltip
+                  center={false}
+                  text="The Evil Rabbit Jumped over the Fence multiple times."
+                >
+                  No center text
+                </Tooltip>
+              </div>
+            </div>
+          </Section>
+        </>
+      );
+    case "video":
+      return (
+        <>
+          <Section title="No Loop">
+            <div className="w-full max-w-md">
+              <Video height={582} lazy={false} loop={false} src="/demo.mp4" width={600} />
+            </div>
+          </Section>
+          <Section title="No Controls">
+            <div className="w-full max-w-md">
+              <Video controls={false} height={582} lazy={false} src="/demo.mp4" width={600} />
+            </div>
+          </Section>
+        </>
+      );
+    case "label":
+      return (
+        <>
+          <Section title="With Input">
+            <div className="flex w-full max-w-sm flex-col">
+              <Label id="label-input" value="Email Address" withInput />
+              <Input
+                aria-labelledby="label-input"
+                id="label-input"
+                placeholder="Enter email address..."
+              />
+            </div>
+          </Section>
+          <Section title="Bypass Casing">
+            <div className="flex w-full max-w-sm flex-col">
+              <Label bypassCasing id="label-input-bypass" value="Email address" withInput />
+              <Input
+                aria-labelledby="label-input-bypass"
+                id="label-input-bypass"
+                placeholder="Enter email address..."
+              />
             </div>
           </Section>
         </>
@@ -1875,6 +2698,636 @@ function renderExtraSections(name: string): React.ReactNode {
           </Section>
         </>
       );
+    case "avatar":
+      return (
+        <>
+          <Section title="Group">
+            <div className="flex flex-wrap items-center gap-4">
+              <AvatarGroup
+                members={[
+                  { username: "evilrabbit" },
+                  { username: "severinlandolt" },
+                  { username: "rauchg" },
+                ]}
+                size={32}
+              />
+              <AvatarGroup
+                limit={4}
+                members={[
+                  { username: "christopherkindl" },
+                  { username: "rauno" },
+                  { username: "shuding" },
+                  { username: "skllcrn" },
+                  { username: "almonk" },
+                ]}
+                size={32}
+              />
+            </div>
+          </Section>
+          <Section title="Stacking order">
+            <div className="flex flex-wrap items-center gap-4">
+              <AvatarGroup
+                members={[
+                  { username: "evilrabbit" },
+                  { username: "severinlandolt" },
+                  { username: "rauchg" },
+                ]}
+                size={32}
+              />
+              <AvatarGroup
+                reverse
+                members={[
+                  { username: "evilrabbit" },
+                  { username: "severinlandolt" },
+                  { username: "rauchg" },
+                ]}
+                size={32}
+              />
+            </div>
+          </Section>
+          <Section title="Overlap">
+            <div className="flex flex-wrap items-center gap-6">
+              <AvatarGroup
+                overlap="auto"
+                members={[
+                  { username: "evilrabbit" },
+                  { username: "severinlandolt" },
+                  { username: "rauchg" },
+                ]}
+                size={16}
+              />
+              <AvatarGroup
+                overlap="auto"
+                members={[
+                  { username: "evilrabbit" },
+                  { username: "severinlandolt" },
+                  { username: "rauchg" },
+                ]}
+                size={24}
+              />
+              <AvatarGroup
+                overlap="auto"
+                members={[
+                  { username: "evilrabbit" },
+                  { username: "severinlandolt" },
+                  { username: "rauchg" },
+                ]}
+                size={32}
+              />
+              <AvatarGroup
+                overlap="auto"
+                members={[
+                  { username: "evilrabbit" },
+                  { username: "severinlandolt" },
+                  { username: "rauchg" },
+                ]}
+                size={48}
+              />
+            </div>
+          </Section>
+          <Section title="Fixed overlap">
+            <div className="flex flex-wrap items-center gap-4">
+              <AvatarGroup
+                overlap={10}
+                members={[
+                  { username: "evilrabbit" },
+                  { username: "severinlandolt" },
+                  { username: "rauchg" },
+                ]}
+                size={24}
+              />
+              <AvatarGroup
+                overlap={6}
+                members={[
+                  { username: "evilrabbit" },
+                  { username: "severinlandolt" },
+                  { username: "rauchg" },
+                ]}
+                size={24}
+              />
+              <AvatarGroup
+                overlap={0}
+                members={[
+                  { username: "evilrabbit" },
+                  { username: "severinlandolt" },
+                  { username: "rauchg" },
+                ]}
+                size={24}
+              />
+            </div>
+          </Section>
+          <Section title="Size">
+            <div className="flex flex-wrap items-center gap-4">
+              <Avatar size={24} username="evilrabbit" />
+              <Avatar size={32} username="evilrabbit" />
+              <Avatar size={48} username="evilrabbit" />
+            </div>
+          </Section>
+          <Section title="Git">
+            <div className="flex flex-wrap items-center gap-4">
+              <GitHubAvatar size={32} username="rauchg" />
+              <GitLabAvatar size={32} username="severinlandolt" />
+              <BitbucketAvatar size={32} username="evilrabbit" />
+            </div>
+          </Section>
+          <Section title="With custom icon">
+            <div className="flex flex-wrap items-center gap-4">
+              <AvatarWithIcon
+                icon={<ArrowDownCircle className="size-3.5" aria-hidden />}
+                size={32}
+                iconBackground
+              />
+              <AvatarWithIcon
+                icon={<CircleCheck className="size-3.5" aria-hidden />}
+                size={32}
+                iconBackground
+              />
+              <AvatarWithIcon
+                icon={<Clock className="size-3.5" aria-hidden />}
+                size={32}
+                iconBackground
+              />
+            </div>
+          </Section>
+          <Section title="Letter">
+            <div className="flex flex-wrap items-center gap-4">
+              <Avatar letter="SL" placeholder size={32} />
+              <Avatar letter="EK" placeholder size={32} />
+              <Avatar letter="CK" placeholder size={32} />
+            </div>
+          </Section>
+          <Section title="Placeholder">
+            <Avatar placeholder size={90} />
+          </Section>
+        </>
+      );
+    case "badge":
+      return (
+        <>
+          <Section title="Variants">
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Badge variant="gray">Gray</Badge>
+                <Badge variant="gray" contrast="low">
+                  Gray Subtle
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Badge variant="blue">Blue</Badge>
+                <Badge variant="blue" contrast="low">
+                  Blue Subtle
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Badge variant="purple">Purple</Badge>
+                <Badge variant="purple" contrast="low">
+                  Purple Subtle
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Badge variant="amber">Amber</Badge>
+                <Badge variant="amber" contrast="low">
+                  Amber Subtle
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Badge variant="red">Red</Badge>
+                <Badge variant="red" contrast="low">
+                  Red Subtle
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Badge variant="pink">Pink</Badge>
+                <Badge variant="pink" contrast="low">
+                  Pink Subtle
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Badge variant="green">Green</Badge>
+                <Badge variant="green" contrast="low">
+                  Green Subtle
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Badge variant="teal">Teal</Badge>
+                <Badge variant="teal" contrast="low">
+                  Teal Subtle
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Badge variant="inverted">Inverted</Badge>
+                <Badge variant="trial">Trial</Badge>
+                <Badge variant="turbo">Turborepo</Badge>
+              </div>
+            </div>
+          </Section>
+          <Section title="Sizes">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge size="sm">Small</Badge>
+              <Badge size="md">Medium</Badge>
+              <Badge size="lg">Large</Badge>
+            </div>
+          </Section>
+          <Section title="With icons">
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Badge icon={<Shield aria-hidden />} size="lg" variant="gray">
+                  Gray
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="md" variant="gray">
+                  Gray
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="sm" variant="gray">
+                  Gray
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="lg" variant="gray" contrast="low">
+                  Gray
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="md" variant="gray" contrast="low">
+                  Gray
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="sm" variant="gray" contrast="low">
+                  Gray
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Badge icon={<Shield aria-hidden />} size="lg" variant="blue">
+                  Blue
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="md" variant="blue">
+                  Blue
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="sm" variant="blue">
+                  Blue
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="lg" variant="blue" contrast="low">
+                  Blue
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="md" variant="blue" contrast="low">
+                  Blue
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="sm" variant="blue" contrast="low">
+                  Blue
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Badge icon={<Shield aria-hidden />} size="lg" variant="green">
+                  Green
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="md" variant="green">
+                  Green
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="sm" variant="green">
+                  Green
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="lg" variant="green" contrast="low">
+                  Green
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="md" variant="green" contrast="low">
+                  Green
+                </Badge>
+                <Badge icon={<Shield aria-hidden />} size="sm" variant="green" contrast="low">
+                  Green
+                </Badge>
+              </div>
+            </div>
+          </Section>
+          <Section title="Pill">
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant="pill" size="sm">
+                  Label
+                </Badge>
+                <Badge variant="pill" size="md">
+                  Label
+                </Badge>
+                <Badge variant="pill" size="lg">
+                  Label
+                </Badge>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant="pill" size="sm" icon={<Shield aria-hidden />}>
+                  Label
+                </Badge>
+                <Badge variant="pill" size="md" icon={<Shield aria-hidden />}>
+                  Label
+                </Badge>
+                <Badge variant="pill" size="lg" icon={<Shield aria-hidden />}>
+                  Label
+                </Badge>
+              </div>
+            </div>
+          </Section>
+        </>
+      );
+    case "breadcrumbs":
+      return (
+        <>
+          <Section title="Default">
+            <div className="flex w-full max-w-md flex-col gap-4">
+              <Breadcrumb type="text">
+                <BreadcrumbItem>Home</BreadcrumbItem>
+                <BreadcrumbItem>Dashboard</BreadcrumbItem>
+                <BreadcrumbItem>Overview</BreadcrumbItem>
+              </Breadcrumb>
+              <Breadcrumb type="menu">
+                <BreadcrumbItem>Home</BreadcrumbItem>
+                <BreadcrumbItem>Dashboard</BreadcrumbItem>
+                <BreadcrumbItem>Overview</BreadcrumbItem>
+              </Breadcrumb>
+            </div>
+          </Section>
+          <Section title="Active">
+            <Breadcrumb>
+              <BreadcrumbItem>Home</BreadcrumbItem>
+              <BreadcrumbItem active>Dashboard</BreadcrumbItem>
+              <BreadcrumbItem>Overview</BreadcrumbItem>
+            </Breadcrumb>
+          </Section>
+          <Section title="Disabled">
+            <Breadcrumb>
+              <BreadcrumbItem>Home</BreadcrumbItem>
+              <BreadcrumbItem disabled>Dashboard</BreadcrumbItem>
+              <BreadcrumbItem>Overview</BreadcrumbItem>
+            </Breadcrumb>
+          </Section>
+        </>
+      );
+    case "collapse":
+      return (
+        <>
+          <Section title="Default">
+            <div className="flex w-full max-w-md flex-col gap-3">
+              <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
+                <CollapseTrigger className="text-label-14 text-foreground">
+                  Question A
+                </CollapseTrigger>
+                <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua.
+                </CollapseContent>
+              </Collapse>
+              <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
+                <CollapseTrigger className="text-label-14 text-foreground">
+                  Question B
+                </CollapseTrigger>
+                <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                  fugiat nulla pariatur.
+                </CollapseContent>
+              </Collapse>
+            </div>
+          </Section>
+          <Section title="Expanded">
+            <div className="flex w-full max-w-md flex-col gap-3">
+              <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
+                <CollapseTrigger className="text-label-14 text-foreground">
+                  Question A
+                </CollapseTrigger>
+                <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua.
+                </CollapseContent>
+              </Collapse>
+              <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
+                <CollapseTrigger className="text-label-14 text-foreground">
+                  Question B
+                </CollapseTrigger>
+                <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                  fugiat nulla pariatur.
+                </CollapseContent>
+              </Collapse>
+            </div>
+          </Section>
+          <Section title="Multiple">
+            <div className="flex w-full max-w-md flex-col gap-3">
+              <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
+                <CollapseTrigger className="text-label-14 text-foreground">
+                  Question A
+                </CollapseTrigger>
+                <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua.
+                </CollapseContent>
+              </Collapse>
+              <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
+                <CollapseTrigger className="text-label-14 text-foreground">
+                  Question B
+                </CollapseTrigger>
+                <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                  fugiat nulla pariatur.
+                </CollapseContent>
+              </Collapse>
+            </div>
+          </Section>
+          <Section title="Small">
+            <Collapse className="w-full max-w-sm rounded-[8px] border border-gray-alpha-400 p-3">
+              <CollapseTrigger className="text-label-13 text-foreground">
+                Question A
+              </CollapseTrigger>
+              <CollapseContent className="pt-2 text-copy-13 text-muted-foreground">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua.
+              </CollapseContent>
+            </Collapse>
+          </Section>
+        </>
+      );
+    case "json-view":
+      return (
+        <>
+          <Section title="Single line">
+            <div className="w-full max-w-md">
+              <JsonView data={{ foo: "bar" }} defaultExpandDepth={1} />
+            </div>
+          </Section>
+          <Section title="Wrapped">
+            <div className="w-full max-w-md">
+              <JsonView
+                data={{
+                  browserApiUrl:
+                    "https://browser-api.vercel.sh/screenshot?url=https%3A%2F%2Fprocore-com-prod-f5vem4o6u-marketing-web-dev.vercel.app&width=1440&height=900&fullPage=true",
+                }}
+                defaultExpandDepth={1}
+              />
+            </div>
+          </Section>
+          <Section title="Collapsed">
+            <div className="w-full max-w-md">
+              <JsonView
+                data={{
+                  trace: {
+                    spanId: "span_7Qk9b4",
+                    parentId: "span_root",
+                    service: "api",
+                  },
+                  request: {
+                    id: "req_00042",
+                    path: "/api/projects",
+                    method: "GET",
+                  },
+                  flags: ["enable-logs-json-rendering", "observability-panel"],
+                }}
+                defaultExpandDepth={0}
+              />
+            </div>
+          </Section>
+          <Section title="Highlighted">
+            <div className="w-full max-w-md">
+              <JsonView
+                data={{
+                  level: "error",
+                  requestId: "req_00042",
+                  deploymentId: "dpl_9WjH8QFQySx7",
+                  message: "Deployment request failed",
+                  statusCode: 500,
+                }}
+                defaultExpandDepth={1}
+                highlightPattern={makeJsonViewHighlightPattern(["request", "failed"])}
+              />
+            </div>
+          </Section>
+        </>
+      );
+    case "scroller":
+      return (
+        <>
+          <Section title="Vertical">
+            <div className="w-full max-w-2xl">
+              <Scroller height={220} overflow="y" width="100%">
+                <div
+                  className="flex flex-col items-stretch justify-start gap-4"
+                  style={{ width: 400 }}
+                >
+                  <div className="h-64 w-64 bg-gray-1000" />
+                  <div className="h-64 w-64 bg-gray-1000" />
+                </div>
+              </Scroller>
+            </div>
+          </Section>
+          <Section title="Horizontal">
+            <div className="w-full max-w-2xl">
+              <Scroller height="100%" overflow="x" width="100%">
+                <div
+                  className="flex flex-row items-stretch justify-start gap-4"
+                  style={{ minWidth: "120%" }}
+                >
+                  <div className="h-64 w-64 bg-gray-1000" />
+                  <div className="h-64 w-64 bg-gray-1000" />
+                  <div className="h-64 w-64 bg-gray-1000" />
+                  <div className="h-64 w-64 bg-gray-1000" />
+                </div>
+              </Scroller>
+            </div>
+          </Section>
+          <Section title="Free">
+            <div className="w-full max-w-2xl">
+              <Scroller height={220} overflow="both" width="100%">
+                <div className="grid grid-flow-col grid-rows-2 gap-4">
+                  {Array.from({ length: 6 }, (_, i) => (
+                    <div key={i} className="h-96 w-96 bg-gray-1000" />
+                  ))}
+                </div>
+              </Scroller>
+            </div>
+          </Section>
+          <Section title="Vertical with buttons">
+            <div className="flex max-w-full flex-col gap-4">
+              <Scroller childrenContainerClassName="gap-4" height={220} overflow="y" withButtons>
+                {Array.from({ length: 4 }, (_, i) => (
+                  <div key={i} className="h-60 w-96 shrink-0 bg-gray-1000" />
+                ))}
+              </Scroller>
+            </div>
+          </Section>
+          <Section title="Horizontal with buttons">
+            <div className="flex w-full max-w-2xl flex-col gap-4">
+              <Scroller
+                childrenContainerClassName="gap-4"
+                height="100%"
+                overflow="x"
+                width="100%"
+                withButtons
+              >
+                {Array.from({ length: 4 }, (_, i) => (
+                  <div key={i} className="h-64 w-96 shrink-0 bg-gray-1000" />
+                ))}
+              </Scroller>
+            </div>
+          </Section>
+        </>
+      );
+    case "split-button":
+      return (
+        <>
+          <Section title="Menu Alignment">
+            <div className="flex flex-wrap items-start gap-8">
+              <SplitButton
+                buttonProps={{ type: "default" }}
+                menuButtonLabel="Select save method"
+                menuItems={
+                  <>
+                    <SplitButtonMenuItem description="Save changes" title="Save" />
+                    <SplitButtonMenuItem
+                      description="Save changes and create a new production deployment"
+                      title="Save + Redeploy"
+                    />
+                  </>
+                }
+                menuProps={{ width: 264 }}
+              >
+                Save (bottom-start)
+              </SplitButton>
+              <SplitButton
+                buttonProps={{ type: "secondary" }}
+                menuAlignment="bottom-end"
+                menuButtonLabel="Select save method"
+                menuItems={
+                  <>
+                    <SplitButtonMenuItem description="Save changes" title="Save" />
+                    <SplitButtonMenuItem
+                      description="Save changes and create a new production deployment"
+                      title="Save + Redeploy"
+                    />
+                  </>
+                }
+                menuProps={{ width: 264 }}
+              >
+                Save (bottom-end)
+              </SplitButton>
+            </div>
+          </Section>
+          <Section title="Icon">
+            <SplitButton
+              buttonProps={{ size: "small", type: "secondary" }}
+              menuButtonLabel="Copy page"
+              menuItems={[
+                <SplitButtonMenuItem
+                  key="v0"
+                  description="Open this page in v0"
+                  menuItemProps={{ className: "w-[200px]" }}
+                  title="Open in v0"
+                  icon={<Rocket className="size-4" aria-hidden />}
+                />,
+                <SplitButtonMenuItem
+                  key="chatgpt"
+                  description="Open this page in ChatGPT"
+                  menuItemProps={{ className: "w-[200px]" }}
+                  title="Open in ChatGPT"
+                  icon={<ExternalLink className="size-4" aria-hidden />}
+                />,
+              ]}
+              menuProps={{ width: 240 }}
+            >
+              Copy page
+            </SplitButton>
+          </Section>
+        </>
+      );
+    case "toast":
+      return <ToastExtraSections />;
     default:
       return null;
   }

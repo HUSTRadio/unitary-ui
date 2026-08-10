@@ -101,11 +101,10 @@ describe("Button official single-track API contract", () => {
       if (/variant=["'](?:destructive|outline|ghost)["']/.test(source)) {
         violations.push(`${file}: uses old variant name`);
       }
-      // Check for old size names
-      if (/\bsize=["'](?:xs|sm|default|lg|icon|icon-sm|icon-lg)["']/.test(source)) {
-        // Allow in button.tsx itself (cva definition is gone)
+      // Check for old size names on Button (not Badge or other components)
+      if (/<Button[^>]*\bsize=["'](?:xs|sm|default|lg|icon|icon-sm|icon-lg)["']/.test(source)) {
         if (!file.includes("button.tsx")) {
-          violations.push(`${file}: uses old size name`);
+          violations.push(`${file}: uses old Button size name`);
         }
       }
       // Check for type="button" / type="submit" (should be typeName now)

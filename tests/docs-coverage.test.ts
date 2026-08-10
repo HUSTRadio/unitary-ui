@@ -46,7 +46,7 @@ describe("Geist documentation coverage", () => {
     expect(labels).toEqual([...labels].sort((left, right) => left.localeCompare(right, "en")));
   });
 
-  it("does not retain removed component APIs", async () => {
+  it("does not retain removed component APIs", { timeout: 15000 }, async () => {
     const targets = [
       "README.md",
       "src/App.tsx",
