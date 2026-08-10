@@ -12,8 +12,8 @@ import { cn } from "@/lib/utils";
  *   箭头键移动、Enter/Space 切换展开、Home/End 首尾节点（官方 Accessibility）
  * - highlightPattern：makeJsonViewHighlightPattern(terms) 生成，高亮字段名与原始值
  *   （官方 <mark> 为 highlight-yellow 底 + 黑字）
- * - 文本可选中（复制可用）；颜色沿用本地语义 token（key=foreground、string=success、
- *   number/info、boolean=warning、null=info、标点=muted-foreground）
+ * - 文本可选中（复制可用）；颜色沿用官方实测（key=#c41562/dark:#ff518d、string=success、
+ *   number/info、boolean=amber-900、null=info、标点=muted-foreground、chevron=gray-500/dark:gray-700）
  */
 
 interface JsonNode {
@@ -139,7 +139,7 @@ function makeJsonViewHighlightPattern(terms: string[]): RegExp | null {
 
 function JsonPrimitiveValue({ value, pattern }: { value: unknown; pattern?: RegExp | null }) {
   if (value === null) return <span className="text-info">null</span>;
-  if (typeof value === "boolean") return <span className="text-warning">{String(value)}</span>;
+  if (typeof value === "boolean") return <span className="text-amber-900">{String(value)}</span>;
   if (typeof value === "number") return <span className="text-info">{String(value)}</span>;
   return <span className="text-success">{highlightText(JSON.stringify(value), pattern)}</span>;
 }
@@ -262,7 +262,7 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
           {isExpandable ? (
             <span
               aria-hidden
-              className="mr-0.5 inline-flex size-4 translate-y-0.5 items-center justify-center align-top text-muted-foreground"
+              className="mr-0.5 inline-flex size-4 translate-y-0.5 items-center justify-center align-top text-gray-500 dark:text-gray-700"
             >
               <svg
                 viewBox="0 0 16 16"
@@ -281,8 +281,8 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
           )}
           {node.key != null ? (
             <>
-              <span className="text-foreground">
-                {highlightText(JSON.stringify(node.key), highlightPattern)}
+              <span className="text-[#c41562] dark:text-[#ff518d]">
+                {highlightText(node.key ?? "", highlightPattern)}
               </span>
               <span className="text-muted-foreground">: </span>
             </>
@@ -313,7 +313,7 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
   return (
     <pre
       className={cn(
-        "block w-max max-w-full overflow-x-auto rounded-[8px] border border-gray-alpha-400 bg-background p-4 align-top font-mono text-copy-13 leading-5",
+        "block w-max max-w-full overflow-x-auto align-top font-mono text-copy-13 leading-5",
         className,
       )}
     >

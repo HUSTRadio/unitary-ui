@@ -6,12 +6,12 @@ import { cn } from "@/lib/utils";
 /**
  * Separator — 水平 / 垂直分隔线（Radix Separator）。
  * horizontal: h-px w-full；vertical: w-px h-full。
- * 颜色消费语义 token bg-border。
+ * 颜色消费语义 token bg-gray-200（light #ebebeb / dark #1f1f1f）。
  */
 function Separator({
   className,
   orientation = "horizontal",
-  decorative = true,
+  decorative = false,
   ...props
 }: React.ComponentProps<typeof SeparatorPrimitive.Root> & {
   orientation?: "horizontal" | "vertical";
@@ -22,7 +22,7 @@ function Separator({
       decorative={decorative}
       orientation={orientation}
       className={cn(
-        "shrink-0 bg-border",
+        "shrink-0 bg-gray-200",
         orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
         className,
       )}

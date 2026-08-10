@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
  * 导出：Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle,
  *       ModalDescription, ModalFooter, ModalClose。
  * 材质对齐 Geist 实测（2026-08）：
- * - overlay：bg-black/50 + backdrop-blur-sm
+ * - overlay：light #f2f2f2 / dark #000、opacity 0.8、无模糊、z-[300]（G07-MODAL-01）
  * - content：bg-background rounded-[12px] border border-gray-alpha-400
  *   shadow-[var(--material-shadow-modal)] p-5（官方 540px 宽 / 20px 内边距）
  * - content 强制 aria-modal="true"（官方实测有）
@@ -34,7 +34,7 @@ const ModalOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm",
+      "fixed inset-0 z-[300] bg-[#f2f2f2]/80 dark:bg-black/80",
       "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className,
     )}
@@ -83,7 +83,7 @@ const ModalContent = React.forwardRef<
             }
           }}
           className={cn(
-            "fixed top-[50%] left-[50%] z-50 grid w-full max-w-[540px] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-[12px] border border-gray-alpha-400 bg-background p-5 shadow-[var(--material-shadow-modal)] outline-none",
+            "fixed top-[50%] left-[50%] z-[300] grid w-full max-w-[540px] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-[12px] border border-gray-alpha-400 bg-background p-5 shadow-[var(--material-shadow-modal)] outline-none",
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
             className,
           )}

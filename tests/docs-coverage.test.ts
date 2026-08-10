@@ -66,7 +66,7 @@ describe("Geist documentation coverage", () => {
       /\bDestructiveActionModal(?:Close|Content|Description|Footer|Header|Title|Trigger)\b/,
       /\bDotsMenu(?:Content|Trigger)\b/,
       /\bDrawer(?:Close|Content|Footer|Header|Trigger)\b/,
-      /\b(?:EmptyStateTitle|EmptyStateDescription|ErrorText|MultiSelectItem|RadioGroupLabel)\b/,
+      /\b(?:EmptyStateTitle|EmptyStateDescription|MultiSelectItem|RadioGroupLabel)\b/,
       /\bPagination(?:List|Item|Link|Previous|Next)\b/,
       /\bSelect(?:Content|Item|Trigger|Value)\b/,
       /\bTabs(?:List|Trigger|Content)\b/,
