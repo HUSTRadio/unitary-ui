@@ -18,7 +18,7 @@ import { NAV_GROUPS, type NavGroup, type NavItem } from "../data/nav";
 function DocsBanner() {
   return (
     <header className="sticky top-0 z-40 mx-auto w-full max-w-[1220px]">
-      <div className="bg-background flex h-16 w-full max-w-[1219px] border-b border-l border-r border-gray-alpha-400 pl-[22px] dark:border-[#242424]">
+      <div className="bg-background-100 flex h-16 w-full max-w-[1219px] border-b border-l border-r border-gray-alpha-400 pl-[22px] dark:border-[#242424]">
         {/* 左区块：Logo + Search */}
         <div className="border-gray-alpha-400 flex grow items-center gap-4 border-r py-4 pl-px xl:w-[237px] xl:grow-0">
           <a
@@ -63,7 +63,7 @@ function DocsSidebarLink({ item }: { item: NavItem }) {
       className={({ isActive }) =>
         cn(
           "group relative -ml-2 flex h-10 items-center gap-2.5 rounded-md px-3 py-1.5 text-copy-14 outline-none transition-colors",
-          isActive ? "bg-gray-100 text-gray-900" : "text-gray-900 hover:bg-gray-100",
+          isActive ? "bg-gray-alpha-100 text-gray-900" : "text-gray-900 hover:bg-gray-alpha-100",
         )
       }
     >

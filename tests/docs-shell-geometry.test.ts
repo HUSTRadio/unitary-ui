@@ -24,6 +24,22 @@ describe("docs shell geometry — official Geist layout", () => {
     expect(app).toContain("border-gray-alpha-400 py-10");
   });
 
+  it("uses the page canvas separately from Background 1 surfaces", () => {
+    expect(app).toContain("bg-background");
+    expect(shell).toContain("bg-background");
+  });
+
+  it("uses the official dark page canvas and surface values", () => {
+    const styles = readFileSync(resolve(process.cwd(), "src/styles/index.css"), "utf8");
+    expect(styles).toContain("--color-bg-canvas: #000000;");
+    expect(styles).toContain("--color-bg-surface: #0a0a0a;");
+  });
+
+  it("keeps sidebar state colors on the official gray-alpha scale", () => {
+    expect(shell).toContain("bg-gray-alpha-100");
+    expect(shell).toContain("hover:bg-gray-alpha-100");
+  });
+
   it("puts 48px gutter on the content column, not on <main>", () => {
     expect(app).toContain("xl:px-12");
   });

@@ -467,7 +467,7 @@
 .dark,
 [data-theme="dark"] {
   /* bg — 官方实测：background-100 主背景（light #fff / dark #0a0a0a） */
-  --color-bg-canvas: #0a0a0a; /* background-100 — 页面主背景 */
+  --color-bg-canvas: #000000; /* Geist dark page canvas */
   --color-bg-surface: #0a0a0a; /* background-100 — 卡片表面（官方材质实测同值） */
   --color-bg-elevated: #1a1a1a; /* gray-100 — 浮层 */
   --color-bg-hover: #1f1f1f; /* gray-200 */
