@@ -22,6 +22,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     Disabled: "禁用",
     "Custom Color": "自定义颜色",
     "With Label": "带标签",
+    "With icons": "带图标",
     Indeterminate: "半选",
     Label: "标签",
     "Default color scale": "默认颜色刻度",
@@ -82,6 +83,13 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     Undo: "撤销",
     Success: "成功",
     Warning: "警告",
+
+    // Headings and assistive labels outside Section
+    "Custom color": "自定义颜色",
+    "Responsive and textured": "响应式与纹理",
+    "More deployment actions": "更多部署操作",
+    "Select save method": "选择保存方式",
+    "project name": "项目名称",
 
     // Buttons, menus, status and form labels
     Secondary: "次要",

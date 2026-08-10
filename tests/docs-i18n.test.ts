@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { LANGUAGE_OPTIONS, SHELL_COPY } from "../docs/geist/src/i18n/catalog";
@@ -36,5 +38,50 @@ describe("docs language support", () => {
   it("does not put code identifiers into the demo catalog", () => {
     expect(DEMO_COPY["zh-CN"]["text-heading-40"]).toBeUndefined();
     expect(DEMO_COPY["zh-CN"]["/components/button"]).toBeUndefined();
+  });
+
+  it("uses the language catalog instead of duplicate component-page maps", () => {
+    const source = readFileSync(
+      resolve(process.cwd(), "docs/geist/src/components/docs-components-page.tsx"),
+      "utf8",
+    );
+    expect(source).not.toContain("isChinese()");
+    expect(source).not.toContain("useIsChinese()");
+    expect(source).not.toContain("SECTION_TITLES_ZH");
+  });
+
+  it("does not hardcode Chinese accessible names in the component demos", () => {
+    const source = readFileSync(
+      resolve(process.cwd(), "docs/geist/src/components/docs-components-page.tsx"),
+      "utf8",
+    );
+    expect(source).not.toMatch(/aria-label="[^"]*[\u3400-\u9fff][^"]*"/u);
+  });
+
+  it("translates every user-facing section title from the shared catalog", () => {
+    const source = readFileSync(
+      resolve(process.cwd(), "docs/geist/src/components/docs-components-page.tsx"),
+      "utf8",
+    );
+    const titles = [...source.matchAll(/<Section title="([^"]+)"/gu)].map((match) => match[1]);
+    const intentionalEnglish = new Set(["Git"]);
+
+    for (const title of new Set(titles)) {
+      if (!intentionalEnglish.has(title)) {
+        expect(demoText("zh-CN", title), title).not.toBe(title);
+      }
+    }
+  });
+
+  it("covers P0 headings and assistive labels that bypass Section", () => {
+    for (const source of [
+      "Custom color",
+      "Responsive and textured",
+      "More deployment actions",
+      "Select save method",
+      "project name",
+    ]) {
+      expect(demoText("zh-CN", source), source).not.toBe(source);
+    }
   });
 });
