@@ -57,11 +57,12 @@ describe("Tooltip official single-track API contract", () => {
     expect(css).toMatch(/--invert-foreground:\s*#0a0a0a;/);
   });
 
-  test("tooltip content and arrow both use --tooltip-background so the surface stays consistent", async () => {
+  test("tooltip content and custom SVG arrow both use --tooltip-background so the surface stays consistent", async () => {
     const src = await read("src/components/ui/tooltip.tsx");
     expect(src).toMatch(/bg-\[var\(--tooltip-background\)\]/);
     expect(src).toMatch(/text-\[var\(--tooltip-foreground\)\]/);
-    expect(src).toMatch(/fill-\[var\(--tooltip-background\)\]/);
+    expect(src).toMatch(/fill="var\(--tooltip-background\)"/);
+    expect(src).toMatch(/stroke="var\(--tooltip-tip-stroke\)"/);
   });
 
   test("typed variants (success/error/warning/violet) are preserved", async () => {
@@ -72,9 +73,9 @@ describe("Tooltip official single-track API contract", () => {
     expect(src).toMatch(/violet:\s*\{\s*background:\s*"var\(--purple-700\)"/);
   });
 
-  test("geometry/behavior props stay at official parity (radius 8px, sideOffset 10, ~150ms delay)", async () => {
+  test("geometry/behavior props stay at official parity (radius 6px, sideOffset 10, ~150ms delay)", async () => {
     const src = await read("src/components/ui/tooltip.tsx");
-    expect(src).toMatch(/rounded-\[8px\]/);
+    expect(src).toMatch(/rounded-\[6px\]/);
     expect(src).toMatch(/sideOffset=\{10\}/);
     expect(src).toMatch(/delay \? 150 : 0/);
   });

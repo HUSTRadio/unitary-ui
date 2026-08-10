@@ -6,6 +6,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
+  TableRoot,
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
@@ -198,28 +199,30 @@ export function ColorsPage() {
           shadcn/ui alias roles 映射到框架语义 token，业务状态绑定语义 token、不直接使用原始色阶。
         </p>
         <div className="mt-6 max-w-2xl">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Token</TableHead>
-                <TableHead>Light</TableHead>
-                <TableHead>Dark</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {SEMANTIC_TOKENS.map((t) => (
-                <TableRow key={t.token}>
-                  <TableCell className="font-mono text-foreground">{t.token}</TableCell>
-                  <TableCell>
-                    <SwatchCell hex={t.light} />
-                  </TableCell>
-                  <TableCell>
-                    <SwatchCell hex={t.dark} />
-                  </TableCell>
+          <TableRoot>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Token</TableHead>
+                  <TableHead>Light</TableHead>
+                  <TableHead>Dark</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {SEMANTIC_TOKENS.map((t) => (
+                  <TableRow key={t.token}>
+                    <TableCell className="font-mono text-foreground">{t.token}</TableCell>
+                    <TableCell>
+                      <SwatchCell hex={t.light} />
+                    </TableCell>
+                    <TableCell>
+                      <SwatchCell hex={t.dark} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableRoot>
         </div>
       </section>
     </div>

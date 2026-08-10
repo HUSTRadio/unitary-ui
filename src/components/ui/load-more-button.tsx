@@ -50,7 +50,7 @@ function LoadMoreButton({
     >
       {loading ? (
         <>
-          <Spinner size="small" aria-hidden />
+          <Spinner size="sm" aria-hidden />
           {!noGap && <span className="ml-[3px]" aria-hidden />}
           <span>Loading...</span>
         </>

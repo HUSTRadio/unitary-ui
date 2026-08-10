@@ -111,12 +111,12 @@ function Video({
         <div
           role="region"
           aria-label="Video player"
-          className="pointer-events-none absolute bottom-[5%] left-1/2 flex h-12 w-[85%] -translate-x-1/2 items-center gap-3 rounded-md bg-background px-2 text-gray-1000 opacity-0 shadow-[var(--material-shadow-tooltip)] transition-all group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 max-[992px]:pointer-events-auto max-[992px]:opacity-100"
+          className="pointer-events-none absolute bottom-[5%] left-1/2 flex h-12 w-[85%] -translate-x-1/2 items-center rounded-md bg-background px-2 text-gray-1000 opacity-0 shadow-[var(--material-shadow-tooltip)] transition-all group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 max-[992px]:pointer-events-auto max-[992px]:opacity-100"
         >
           <button
             type="button"
             onClick={togglePlayback}
-            className="pointer-events-auto flex size-10 shrink-0 items-center justify-center rounded-[6px] bg-transparent text-gray-1000 outline-none hover:bg-gray-alpha-200 focus-ring"
+            className="pointer-events-auto flex size-10 shrink-0 items-center justify-center bg-transparent text-gray-1000 outline-none focus-visible:rounded-sm focus-ring"
           >
             {playing ? (
               <Pause className="size-4 fill-current" aria-hidden />
@@ -124,6 +124,9 @@ function Video({
               <Play className="size-4 fill-current" aria-hidden />
             )}
           </button>
+          <div className="pl-0 text-[13px] leading-10 px-3 flex-[0_0_auto] tabular-nums w-[60px]">
+            {formatTime(currentTime)}
+          </div>
           <div
             ref={trackRef}
             onClick={seekByClick}
@@ -141,10 +144,8 @@ function Video({
               style={{ left: `${progressPercent}%` }}
             />
           </div>
-          <div className="flex shrink-0 items-center text-[13px] leading-10 tabular-nums">
-            <span className="w-[60px]">{formatTime(currentTime)}</span>
-            <span aria-hidden>/</span>
-            <span>{formatTime(duration)}</span>
+          <div className="text-[13px] leading-10 px-3 flex-[0_0_auto] tabular-nums w-[60px]">
+            {formatTime(duration)}
           </div>
         </div>
       ) : null}

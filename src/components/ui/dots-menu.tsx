@@ -42,7 +42,7 @@ function DotsMenu({
   return (
     <MenuContainer position={position} {...props}>
       <MenuButton
-        type="unstyled"
+        variant="unstyled"
         disabled={disabled}
         aria-label="Menu"
         className={cn(

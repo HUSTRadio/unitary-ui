@@ -15,6 +15,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
+  TableRoot,
   TableRow,
 } from "@/components/ui/table";
 import { Tabs } from "@/components/ui/tabs";
@@ -216,40 +217,42 @@ export default function App() {
 
             {/* Table */}
             <Section title="Table">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>资产</TableHead>
-                    <TableHead>编号</TableHead>
-                    <TableHead>状态</TableHead>
-                    <TableHead>操作</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {[
-                    { name: "ThinkPad X1 Carbon", id: "NB-2024-0012", status: "借出中" },
-                    { name: "SIGLENT SDS1104X-E", id: "FA-OSC-0007", status: "可借" },
-                    { name: "RF Explorer 6G Combo", id: "FA-RF-0012", status: "库内" },
-                  ].map((row) => (
-                    <TableRow key={row.id}>
-                      <TableCell className="font-medium text-foreground">{row.name}</TableCell>
-                      <TableCell className="font-mono text-copy-13 tabular-nums text-muted-foreground">
-                        {row.id}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground">{row.status}</TableCell>
-                      <TableCell>
-                        <a
-                          href="#"
-                          onClick={(e) => e.preventDefault()}
-                          className="focus-ring rounded-[4px] text-label-14 text-link underline-offset-4 hover:underline"
-                        >
-                          查看
-                        </a>
-                      </TableCell>
+              <TableRoot>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>资产</TableHead>
+                      <TableHead>编号</TableHead>
+                      <TableHead>状态</TableHead>
+                      <TableHead>操作</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {[
+                      { name: "ThinkPad X1 Carbon", id: "NB-2024-0012", status: "借出中" },
+                      { name: "SIGLENT SDS1104X-E", id: "FA-OSC-0007", status: "可借" },
+                      { name: "RF Explorer 6G Combo", id: "FA-RF-0012", status: "库内" },
+                    ].map((row) => (
+                      <TableRow key={row.id}>
+                        <TableCell className="font-medium text-foreground">{row.name}</TableCell>
+                        <TableCell className="font-mono text-copy-13 tabular-nums text-muted-foreground">
+                          {row.id}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">{row.status}</TableCell>
+                        <TableCell>
+                          <a
+                            href="#"
+                            onClick={(e) => e.preventDefault()}
+                            className="focus-ring rounded-[4px] text-label-14 text-link underline-offset-4 hover:underline"
+                          >
+                            查看
+                          </a>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableRoot>
             </Section>
 
             {/* 材质 */}

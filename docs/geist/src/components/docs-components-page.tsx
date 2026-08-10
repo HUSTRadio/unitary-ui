@@ -4,6 +4,7 @@ import {
   ArrowDownCircle,
   ArrowLeft,
   CircleCheck,
+  ChevronRight,
   Clock,
   Copy,
   CopyCheck,
@@ -256,6 +257,38 @@ function DemoSection({ children }: { children: React.ReactNode }) {
   return (
     <div className="mt-6 flex min-h-28 flex-wrap items-center gap-x-6 gap-y-4 rounded-[8px] border border-gray-alpha-400 bg-background p-6">
       {children}
+    </div>
+  );
+}
+
+function TableDemoCard({ children, code }: { children: React.ReactNode; code: string }) {
+  const [showCode, setShowCode] = React.useState(false);
+  const codeId = React.useId();
+
+  return (
+    <div className="mt-6 overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background-100">
+      <div className="w-full overflow-x-auto p-6">{children}</div>
+      <button
+        type="button"
+        aria-expanded={showCode}
+        aria-controls={codeId}
+        onClick={() => setShowCode((value) => !value)}
+        className="flex h-12 w-full items-center gap-2 border-t border-gray-alpha-400 bg-background-200 px-6 text-left text-copy-14 text-foreground transition-colors hover:bg-gray-200 focus-ring"
+      >
+        <ChevronRight
+          className={`size-4 transition-transform${showCode ? " rotate-90" : ""}`}
+          aria-hidden
+        />
+        Show code
+      </button>
+      {showCode ? (
+        <pre
+          id={codeId}
+          className="overflow-x-auto border-t border-gray-alpha-400 bg-background p-6 font-mono text-copy-13 leading-relaxed text-foreground"
+        >
+          <code>{code}</code>
+        </pre>
+      ) : null}
     </div>
   );
 }
@@ -978,8 +1011,8 @@ function SliderDemo() {
 
 function VideoDemo() {
   return (
-    <div className="w-full max-w-md">
-      <Video src="/demo.mp4" poster="/demo-poster.png" />
+    <div className="w-full min-w-0 max-w-[600px]">
+      <Video height={582} lazy={false} src="/demo.mp4" poster="/demo-poster.png" width={600} />
     </div>
   );
 }
@@ -1610,13 +1643,25 @@ function renderDemo(name: string): React.ReactNode {
 
 /* ---------- 额外分段（Sizes / Variants / States） ---------- */
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({
+  title,
+  children,
+  tableCode,
+}: {
+  title: string;
+  children: React.ReactNode;
+  tableCode?: string;
+}) {
   return (
     <section className="mt-10">
       <h2 className="text-heading-24 text-foreground">{title}</h2>
-      <div className="mt-6 flex min-h-28 flex-wrap items-center gap-x-6 gap-y-4 rounded-[8px] border border-gray-alpha-400 bg-background p-6">
-        {children}
-      </div>
+      {tableCode ? (
+        <TableDemoCard code={tableCode}>{children}</TableDemoCard>
+      ) : (
+        <div className="mt-6 flex min-h-28 flex-wrap items-center gap-x-6 gap-y-4 rounded-[8px] border border-gray-alpha-400 bg-background p-6">
+          {children}
+        </div>
+      )}
     </section>
   );
 }
@@ -2507,12 +2552,12 @@ function renderExtraSections(name: string): React.ReactNode {
       return (
         <>
           <Section title="No Loop">
-            <div className="w-full max-w-md">
+            <div className="w-full min-w-0 max-w-[600px]">
               <Video height={582} lazy={false} loop={false} src="/demo.mp4" width={600} />
             </div>
           </Section>
           <Section title="No Controls">
-            <div className="w-full max-w-md">
+            <div className="w-full min-w-0 max-w-[600px]">
               <Video controls={false} height={582} lazy={false} src="/demo.mp4" width={600} />
             </div>
           </Section>
@@ -2546,7 +2591,10 @@ function renderExtraSections(name: string): React.ReactNode {
     case "table":
       return (
         <>
-          <Section title="Striped table">
+          <Section
+            title="Striped table"
+            tableCode="<Table><TableBody striped>…</TableBody></Table>"
+          >
             <Table>
               <TableHeader>
                 <TableRow>
@@ -2574,7 +2622,10 @@ function renderExtraSections(name: string): React.ReactNode {
               </TableBody>
             </Table>
           </Section>
-          <Section title="Bordered table">
+          <Section
+            title="Bordered table"
+            tableCode="<Table><TableBody bordered>…</TableBody></Table>"
+          >
             <Table>
               <TableHeader>
                 <TableRow>
@@ -2602,7 +2653,10 @@ function renderExtraSections(name: string): React.ReactNode {
               </TableBody>
             </Table>
           </Section>
-          <Section title="Interactive table">
+          <Section
+            title="Interactive table"
+            tableCode="<Table><TableBody interactive>…</TableBody></Table>"
+          >
             <Table>
               <TableHeader>
                 <TableRow>
@@ -2630,7 +2684,7 @@ function renderExtraSections(name: string): React.ReactNode {
               </TableBody>
             </Table>
           </Section>
-          <Section title="Full featured table">
+          <Section title="Full featured table" tableCode="<Table>…full featured rows…</Table>">
             <Table>
               <TableColgroup>
                 <TableCol className="w-[44%]" />
@@ -3390,7 +3444,11 @@ function ComponentDetail({ name }: { name: string }) {
 
       <section className="mt-10">
         <h2 className="text-heading-24 text-foreground">Live Demo</h2>
-        <DemoSection>{renderDemo(name)}</DemoSection>
+        {name === "table" ? (
+          <TableDemoCard code={meta.code}>{renderDemo(name)}</TableDemoCard>
+        ) : (
+          <DemoSection>{renderDemo(name)}</DemoSection>
+        )}
       </section>
 
       {renderExtraSections(name)}

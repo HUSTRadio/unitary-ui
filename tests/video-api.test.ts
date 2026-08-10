@@ -57,6 +57,27 @@ describe("Video official single-track API contract", () => {
     expect(src).toMatch(/padStart\(2, "0"\)/);
   });
 
+  test("control bar follows official child order and spacing", async () => {
+    const src = await read("src/components/ui/video.tsx");
+    const button = src.indexOf("<button");
+    const current = src.indexOf("{formatTime(currentTime)}");
+    const track = src.indexOf("ref={trackRef}");
+    const duration = src.indexOf("{formatTime(duration)}");
+
+    expect(button).toBeGreaterThan(-1);
+    expect(button).toBeLessThan(current);
+    expect(current).toBeLessThan(track);
+    expect(track).toBeLessThan(duration);
+    expect(src).not.toContain("<span aria-hidden>/</span>");
+    expect(src).not.toMatch(/items-center gap-3 rounded-md/);
+    expect(src).toContain(
+      'className="pl-0 text-[13px] leading-10 px-3 flex-[0_0_auto] tabular-nums w-[60px]"',
+    );
+    expect(src).toContain(
+      'className="text-[13px] leading-10 px-3 flex-[0_0_auto] tabular-nums w-[60px]"',
+    );
+  });
+
   test("progress is native <progress max={100}> + clickable track + thumb dot size-2.5 (no input range)", async () => {
     const src = await read("src/components/ui/video.tsx");
     expect(src).toMatch(/<progress/);
@@ -68,6 +89,13 @@ describe("Video official single-track API contract", () => {
   test("demo assets exist in public/: demo.mp4 and demo-poster.png (G12-VIDEO-01)", async () => {
     expect(await exists("public/demo.mp4")).toBe(true);
     expect(await exists("public/demo-poster.png")).toBe(true);
+  });
+
+  test("VideoDemo preserves the official 600x582 geometry and shrinks with its viewport", async () => {
+    const demo = await read("docs/geist/src/components/docs-components-page.tsx");
+    expect(demo.match(/w-full min-w-0 max-w-\[600px\]/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
+    expect(demo.match(/height=\{582\}/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
+    expect(demo.match(/width=\{600\}/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
   });
 
   test("VideoDemo references /demo.mp4 and /demo-poster.png which now resolve via public/", async () => {
