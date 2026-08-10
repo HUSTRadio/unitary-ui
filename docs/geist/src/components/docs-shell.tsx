@@ -2,10 +2,13 @@ import { Search } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 import { Input } from "@/components/ui/input";
+import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { cn } from "@/lib/utils";
 
 import { NAV_GROUPS, type NavGroup, type NavItem } from "../data/nav";
+import { LANGUAGE_OPTIONS, SHELL_COPY } from "../i18n/catalog";
+import { useLanguage } from "../i18n/language";
 
 /**
  * 文档站外壳 — Banner + Sidebar。
@@ -16,16 +19,15 @@ import { NAV_GROUPS, type NavGroup, type NavItem } from "../data/nav";
 /* ---------- Banner ---------- */
 
 function DocsBanner() {
+  const { language, setLanguage } = useLanguage();
+  const copy = SHELL_COPY[language];
+
   return (
     <header className="sticky top-0 z-40 mx-auto w-full max-w-[1220px]">
       <div className="bg-background-100 flex h-16 w-full max-w-[1219px] border-b border-l border-r border-gray-alpha-400 pl-[22px] dark:border-[#242424]">
         {/* 左区块：Logo + Search */}
         <div className="border-gray-alpha-400 flex grow items-center gap-4 border-r py-4 pl-px xl:w-[237px] xl:grow-0">
-          <a
-            href="#/"
-            className="flex shrink-0 items-center gap-2"
-            aria-label="Geist Style Framework 首页"
-          >
+          <a href="#/" className="flex shrink-0 items-center gap-2" aria-label={copy.homeAria}>
             <svg viewBox="0 0 24 24" className="size-5 fill-foreground" aria-hidden>
               <path d="M12 2.5 22.5 21h-21L12 2.5Z" />
             </svg>
@@ -41,12 +43,39 @@ function DocsBanner() {
               className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-muted-foreground"
               aria-hidden
             />
-            <Input placeholder="Search Geist" aria-label="搜索文档" className="pr-14 pl-9" />
+            <Input
+              placeholder={copy.searchPlaceholder}
+              aria-label={copy.searchAria}
+              className="pr-14 pl-9"
+            />
             <kbd className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 rounded border border-border bg-surface px-1.5 py-0.5 text-label-12 text-muted-foreground">
               Ctrl K
             </kbd>
           </div>
-          <ThemeSwitcher />
+          <div className="flex items-center gap-2">
+            <MenuContainer position="bottom-end">
+              <MenuButton
+                variant="unstyled"
+                aria-label={copy.languageAria}
+                className="flex h-8 items-center rounded-md px-2 text-label-13 text-muted-foreground hover:bg-gray-alpha-100 hover:text-foreground"
+              >
+                {LANGUAGE_OPTIONS.find((option) => option.value === language)?.label}
+              </MenuButton>
+              <Menu width={128} aria-label={copy.languageLabel}>
+                {LANGUAGE_OPTIONS.map((option) => (
+                  <MenuItem
+                    key={option.value}
+                    aria-current={option.value === language ? "true" : undefined}
+                    className={option.value === language ? "bg-gray-alpha-100" : undefined}
+                    onSelect={() => setLanguage(option.value)}
+                  >
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </MenuContainer>
+            <ThemeSwitcher />
+          </div>
         </div>
       </div>
     </header>

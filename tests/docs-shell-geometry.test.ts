@@ -48,6 +48,13 @@ describe("docs shell geometry — official Geist layout", () => {
     expect(app).toContain('className="min-w-0 border-r border-gray-alpha-400 py-10"');
   });
 
+  it("places the language menu immediately before the theme switcher", () => {
+    expect(shell).toContain("LANGUAGE_OPTIONS");
+    expect(shell).toContain("<ThemeSwitcher />");
+    expect(shell.indexOf("LANGUAGE_OPTIONS")).toBeLessThan(shell.indexOf("<ThemeSwitcher />"));
+    expect(shell).toContain("flex items-center gap-2");
+  });
+
   it("uses the official 260px sidebar with dual borders at xl breakpoint", () => {
     expect(shell).toContain("w-[260px]");
     expect(shell).toContain("border-l border-r border-gray-alpha-400");
