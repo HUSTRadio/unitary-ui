@@ -61,9 +61,10 @@ function ProjectBannerClose({ className, onClick, ...props }: React.ComponentPro
   }
   return (
     <Button
-      type="button"
-      variant="ghost"
-      size="icon-sm"
+      typeName="button"
+      type="tertiary"
+      svgOnly
+      size="small"
       aria-label="Close banner"
       onClick={onClick}
       className={cn("absolute top-4 right-4", className)}

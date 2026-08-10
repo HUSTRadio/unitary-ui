@@ -186,6 +186,37 @@ async function main() {
   const textButton = (text) =>
     `[...(${demoExpression})?.querySelectorAll("button") ?? []].find((node) => node.textContent?.trim() === ${JSON.stringify(text)})`;
 
+  test("book", "trusted hover reveals the three-dimensional page stack", async () => {
+    const book = q('[data-slot="book"]');
+    const rotate = q('[data-slot="book-rotate"]');
+    const before = await evaluate(send, `getComputedStyle(${rotate}).transform`);
+
+    await hover(send, book);
+
+    await expectValue(
+      send,
+      "book hover did not apply its 3D transform",
+      `(() => {
+        const root = ${book};
+        const rotate = ${rotate};
+        return {
+          hovered: root?.matches(":hover") ?? false,
+          transform: rotate ? getComputedStyle(rotate).transform : "none",
+          transition: rotate ? getComputedStyle(rotate).transition : "none",
+          pages: Boolean(root?.querySelector('[data-slot="book-pages"]')),
+          back: Boolean(root?.querySelector('[data-slot="book-back"]')),
+        };
+      })()`,
+      (value) =>
+        value?.hovered &&
+        value.transform !== "none" &&
+        value.transform !== before &&
+        value.transition.includes("0.25s") &&
+        value.pages &&
+        value.back,
+    );
+  });
+
   test("calendar", "ArrowRight moves day focus", async () => {
     const selector = "td button";
     await focus(send, q(selector));

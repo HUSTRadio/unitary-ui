@@ -4,6 +4,7 @@ import path from "node:path";
 const CDP_HTTP = process.env.CDP_HTTP ?? "http://127.0.0.1:9223";
 const DOCS_URL = process.env.DOCS_URL ?? "http://localhost:5201/";
 const OUT = process.env.VISUAL_OUT ?? "C:/Users/Leon/geist-acceptance/final-shots";
+const STATE = process.env.VISUAL_STATE ?? "default";
 
 const GROUPS = [
   ["avatar", "badge", "banner", "book", "breadcrumbs", "browser"],
@@ -27,7 +28,21 @@ const VIEWPORTS = [
   { name: "1920", width: 1920, height: 1080, mobile: false },
 ];
 const THEMES = ["light", "dark"];
-const SLUGS = GROUPS.flat();
+const requestedSlugs = new Set(
+  (process.env.VISUAL_SLUGS ?? "")
+    .split(",")
+    .map((slug) => slug.trim())
+    .filter(Boolean),
+);
+const SLUGS = GROUPS.flat().filter((slug) => requestedSlugs.size === 0 || requestedSlugs.has(slug));
+
+if (SLUGS.length === 0) throw new Error("VISUAL_SLUGS did not match a component slug");
+if (!new Set(["default", "hover"]).has(STATE)) {
+  throw new Error(`Unsupported VISUAL_STATE: ${STATE}`);
+}
+if (STATE === "hover" && SLUGS.some((slug) => slug !== "book")) {
+  throw new Error("VISUAL_STATE=hover currently supports the Book route only");
+}
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -163,14 +178,30 @@ async function main() {
           );
           if (!clip) throw new Error(`Missing demo clip: ${slug}`);
 
+          if (STATE === "hover") {
+            const point = await evaluate(
+              send,
+              `(() => {
+                const book = document.querySelector('[data-slot="book"]');
+                if (!book) return null;
+                const rect = book.getBoundingClientRect();
+                return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+              })()`,
+            );
+            if (!point) throw new Error(`Missing hover target: ${slug}`);
+            await send("Input.dispatchMouseEvent", { type: "mouseMoved", ...point });
+            await sleep(300);
+          }
+
           const screenshot = await send(
             "Page.captureScreenshot",
             { format: "png", captureBeyondViewport: true, fromSurface: true, clip },
             30_000,
           );
-          const filename = `${slug}-${viewport.name}-${theme}.png`;
+          const stateSuffix = STATE === "default" ? "" : `-${STATE}`;
+          const filename = `${slug}-${viewport.name}-${theme}${stateSuffix}.png`;
           await fs.writeFile(path.join(OUT, filename), Buffer.from(screenshot.data, "base64"));
-          manifest.push({ slug, viewport: viewport.name, theme, filename, clip });
+          manifest.push({ slug, viewport: viewport.name, theme, state: STATE, filename, clip });
         }
       }
       console.log(`captured viewport ${viewport.name}: ${SLUGS.length * THEMES.length} images`);

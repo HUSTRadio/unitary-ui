@@ -31,8 +31,8 @@ function LoadMoreButton({
 }: LoadMoreButtonProps) {
   return (
     <Button
-      type="button"
-      variant="secondary"
+      typeName="button"
+      type="secondary"
       // 官方 h:36px · pad:0px 10px = Button 默认 size（medium），勿改回 sm
       disabled={disabled || loading}
       aria-busy={loading || undefined}
@@ -50,7 +50,7 @@ function LoadMoreButton({
     >
       {loading ? (
         <>
-          <Spinner size="sm" aria-hidden />
+          <Spinner size="small" aria-hidden />
           {!noGap && <span className="ml-[3px]" aria-hidden />}
           <span>Loading...</span>
         </>
