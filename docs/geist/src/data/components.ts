@@ -217,13 +217,15 @@ export const COMPONENTS: ComponentMeta[] = [
   {
     name: "code",
     label: "Code",
-    description: "Displays a snippet of inline code with Geist typography.",
+    description: "Display a snippet of code with syntax highlighting.",
     official: "Code",
-    code: `import { Code } from "@/components/ui/code";
+    code: `import { Code, InlineCode } from "@/components/ui/code";
 
 <p>
-  Install with <Code>npm i geist</Code> and import the component.
-</p>`,
+  Install with <InlineCode>npm i geist</InlineCode> and import the component.
+</p>
+
+<Code syntax="javascript">{"const greeting = 'Hello, Geist';"}</Code>`,
   },
   {
     name: "code-block",
@@ -234,7 +236,7 @@ export const COMPONENTS: ComponentMeta[] = [
 
 <CodeBlock filename="Table.jsx" language="jsx">{code}</CodeBlock>`,
     bestPractices: [
-      "Use CodeBlock for multi-line, syntax-highlighted source the reader will scan or paste. For a single inline token (env var, function name, file path), use Code.",
+      "Use CodeBlock for multi-line, syntax-highlighted source the reader will scan or paste. For a single inline token (env var, function name, file path), use InlineCode.",
       "Pick Snippet for a copy-to-clipboard shell command or one-line key reveal; it ships with the prompt glyph and copy affordance built in.",
       "Always pass a language/syntax (tsx, bash, json, diff). Highlighting is the primary reason to choose CodeBlock over a plain <pre>.",
       "Highlight only the lines under discussion. A block where every line is highlighted reads the same as no highlight at all.",
@@ -1205,26 +1207,32 @@ const [value, setValue] = useState([50]);
   TableHead,
   TableHeader,
   TableRow,
+  TableRoot,
 } from "@/components/ui/table";
 
-<Table>
-  <TableHeader>
-    <TableRow>
-      <TableHead>Name</TableHead>
-      <TableHead>Status</TableHead>
-    </TableRow>
-  </TableHeader>
-  <TableBody>
-    <TableRow>
-      <TableCell>Vercel</TableCell>
-      <TableCell>Active</TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell>Next.js</TableCell>
-      <TableCell>Active</TableCell>
-    </TableRow>
-  </TableBody>
-</Table>`,
+<TableRoot>
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead>Col 1</TableHead>
+        <TableHead>Col 2</TableHead>
+        <TableHead>Col 3</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      <TableRow>
+        <TableCell>Value 1.1</TableCell>
+        <TableCell>Value 1.2</TableCell>
+        <TableCell>Value 1.3</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Value 2.1</TableCell>
+        <TableCell>Value 2.2</TableCell>
+        <TableCell>Value 2.3</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</TableRoot>`,
     bestPractices: [
       "Use <Table> for tabular data where rows share the same shape and at least one column is sortable or comparable across rows.",
       "For a row of descriptive content paired with a single action (membership row, integration row), use Entity instead.",

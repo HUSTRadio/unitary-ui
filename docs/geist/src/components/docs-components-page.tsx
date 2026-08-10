@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/choicebox";
 import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
 import { Combobox, ComboboxContent, ComboboxItem, ComboboxTrigger } from "@/components/ui/combobox";
-import { Code } from "@/components/ui/code";
+import { Code, InlineCode } from "@/components/ui/code";
 import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
 import {
   CommandMenu,
@@ -136,9 +136,13 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableCol,
+  TableColgroup,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
+  TableRoot,
 } from "@/components/ui/table";
 import { Tabs } from "@/components/ui/tabs";
 import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
@@ -507,34 +511,178 @@ function StepPointDemo() {
 }
 
 function TableDemo() {
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    maximumFractionDigits: 2,
+    currency: "usd",
+  });
+  const items = [
+    { product: "Brake Pads Set", usage: "100 sets", price: "$50 per set", charge: 5000 },
+    { product: "Oil Filters", usage: "200 filters", price: "$10 per filter", charge: 2000 },
+    { product: "Car Batteries", usage: "50 batteries", price: "$100 per battery", charge: 5000 },
+    { product: "Headlight Bulbs", usage: "300 bulbs", price: "$15 per bulb", charge: 4500 },
+    { product: "Windshield Wipers", usage: "250 pairs", price: "$20 per pair", charge: 5000 },
+    { product: "Spark Plugs", usage: "500 sets", price: "$5 per set", charge: 2500 },
+  ];
+  const basicData = [
+    { c1: "Value 1.1", c2: "Value 1.2", c3: "Value 1.3" },
+    { c1: "Value 2.1", c2: "Value 2.2", c3: "Value 2.3" },
+    { c1: "Value 3.1", c2: "Value 3.2", c3: "Value 3.3" },
+  ];
   return (
-    <div className="w-full max-w-xl">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Project</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Deployments</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell>Vercel</TableCell>
-            <TableCell>Active</TableCell>
-            <TableCell>12</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Next.js</TableCell>
-            <TableCell>Active</TableCell>
-            <TableCell>8</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Turborepo</TableCell>
-            <TableCell>Paused</TableCell>
-            <TableCell>3</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+    <div className="flex w-full flex-col gap-8">
+      {/* Basic table */}
+      <div className="w-full max-w-2xl">
+        <h3 className="text-label-14 font-medium text-foreground">Basic table</h3>
+        <div className="mt-2">
+          <TableRoot>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Col 1</TableHead>
+                  <TableHead>Col 2</TableHead>
+                  <TableHead>Col 3</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {basicData.map((row) => (
+                  <TableRow key={row.c1}>
+                    <TableCell>{row.c1}</TableCell>
+                    <TableCell>{row.c2}</TableCell>
+                    <TableCell>{row.c3}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableRoot>
+        </div>
+      </div>
+
+      {/* Striped table */}
+      <div className="w-full max-w-2xl">
+        <h3 className="text-label-14 font-medium text-foreground">Striped table</h3>
+        <div className="mt-2">
+          <TableRoot>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Col 1</TableHead>
+                  <TableHead>Col 2</TableHead>
+                  <TableHead>Col 3</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody striped>
+                {basicData.map((row) => (
+                  <TableRow key={row.c1}>
+                    <TableCell>{row.c1}</TableCell>
+                    <TableCell>{row.c2}</TableCell>
+                    <TableCell>{row.c3}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableRoot>
+        </div>
+      </div>
+
+      {/* Bordered table */}
+      <div className="w-full max-w-2xl">
+        <h3 className="text-label-14 font-medium text-foreground">Bordered table</h3>
+        <div className="mt-2">
+          <TableRoot>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Col 1</TableHead>
+                  <TableHead>Col 2</TableHead>
+                  <TableHead>Col 3</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody bordered>
+                {basicData.map((row) => (
+                  <TableRow key={row.c1}>
+                    <TableCell>{row.c1}</TableCell>
+                    <TableCell>{row.c2}</TableCell>
+                    <TableCell>{row.c3}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableRoot>
+        </div>
+      </div>
+
+      {/* Interactive table */}
+      <div className="w-full max-w-2xl">
+        <h3 className="text-label-14 font-medium text-foreground">Interactive table</h3>
+        <div className="mt-2">
+          <TableRoot>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Col 1</TableHead>
+                  <TableHead>Col 2</TableHead>
+                  <TableHead>Col 3</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody interactive>
+                {basicData.map((row) => (
+                  <TableRow key={row.c1}>
+                    <TableCell>{row.c1}</TableCell>
+                    <TableCell>{row.c2}</TableCell>
+                    <TableCell>{row.c3}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableRoot>
+        </div>
+      </div>
+
+      {/* Full featured table */}
+      <div className="w-full max-w-2xl">
+        <h3 className="text-label-14 font-medium text-foreground">Full featured table</h3>
+        <div className="mt-2">
+          <TableRoot>
+            <Table>
+              <TableColgroup>
+                <TableCol className="w-[44%]" />
+                <TableCol className="w-[22%]" />
+                <TableCol className="w-[22%]" />
+                <TableCol className="w-[11%]" />
+              </TableColgroup>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Product</TableHead>
+                  <TableHead>Usage</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead>Charge</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody interactive striped>
+                {items.map((item) => (
+                  <TableRow key={item.product}>
+                    <TableCell>{item.product}</TableCell>
+                    <TableCell>{item.usage}</TableCell>
+                    <TableCell>{item.price}</TableCell>
+                    <TableCell className="tabular-nums">{formatter.format(item.charge)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TableCell className="text-gray-1000 font-medium" colSpan={3}>
+                    Subtotal
+                  </TableCell>
+                  <TableCell className="text-gray-1000 font-medium tabular-nums">
+                    {formatter.format(items.reduce((sum, val) => sum + val.charge, 0))}
+                  </TableCell>
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableRoot>
+        </div>
+      </div>
     </div>
   );
 }
@@ -970,15 +1118,20 @@ function MyComponent(props) {
   );
 }`;
 
+const codeExample = `export function Component(): JSX.Element {
+  return <Snippet text="npm init next-app" width="300px" />;
+}`;
+
 function CodeDemo() {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex w-full max-w-2xl flex-col gap-3">
       <p className="text-copy-14 text-muted-foreground">
-        Install with <Code>npm i geist</Code> and import the component.
+        Install with <InlineCode>npm i geist</InlineCode> and import the component.
       </p>
       <p className="text-copy-14 text-muted-foreground">
-        Use <Code>type="error"</Code> for destructive confirmations.
+        Use <InlineCode>type="error"</InlineCode> for destructive confirmations.
       </p>
+      <Code syntax="javascript">{codeExample}</Code>
     </div>
   );
 }
@@ -1176,12 +1329,10 @@ function KeyboardInputDemo() {
   return (
     <div className="flex flex-wrap items-center gap-4">
       <KeyboardInput>
-        <Kbd>⌘</Kbd>
-        <Kbd>K</Kbd>
+        <Kbd meta>K</Kbd>
       </KeyboardInput>
       <KeyboardInput>
-        <Kbd>Shift</Kbd>
-        <Kbd>Enter</Kbd>
+        <Kbd shift>Enter</Kbd>
       </KeyboardInput>
       <Kbd>Esc</Kbd>
     </div>
