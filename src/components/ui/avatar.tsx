@@ -122,7 +122,11 @@ function AvatarGroup({
   const shown =
     limit !== undefined && members.length > limit ? members.slice(0, limit - 1) : members;
   const hiddenCount = members.length - shown.length;
-  const list = reverse ? [...shown].reverse() : shown;
+  // Official: "The visual left-to-right order is unchanged."
+  // reverse flips z-index only, NOT DOM order. We preserve the source array
+  // and apply z-index via inline style so the last member visually overlaps
+  // on top when reverse=true.
+  const list = shown;
   const chipMember = limit !== undefined && hiddenCount > 0 ? members[limit - 1] : null;
 
   return (
@@ -137,6 +141,7 @@ function AvatarGroup({
             "relative inline-flex items-center rounded-full shadow-[0_0_0_1px_var(--color-background-100)]",
             i > 0 && "ml-[-1*var(--avatar-overlap)]",
           )}
+          style={reverse ? { zIndex: list.length - i } : undefined}
         >
           <Avatar size={size} username={member.username} title={member.title ?? member.username} />
         </span>
