@@ -75,7 +75,7 @@ export default function App() {
       <DocsBanner />
       <div className="flex flex-1">
         <DocsSidebar />
-        <main id="main-content" tabIndex={-1} className="min-w-0 flex-1 px-8 py-10">
+        <main id="main-content" tabIndex={-1} className="min-w-0 flex-1 px-6 py-10 lg:px-12">
           <div className="mx-auto max-w-[1280px]">
             {Page ? (
               <Page />

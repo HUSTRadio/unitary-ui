@@ -93,7 +93,7 @@ function DocsSidebarGroup({ group }: { group: NavGroup }) {
 
 function DocsSidebar() {
   return (
-    <aside className="hidden w-[260px] shrink-0 border-r border-border lg:block">
+    <aside className="hidden w-[272px] shrink-0 border-r border-border lg:block">
       <nav className="sticky top-16 max-h-[calc(100vh-4rem)] overflow-y-auto">
         {NAV_GROUPS.map((group) => (
           <DocsSidebarGroup key={group.title} group={group} />
