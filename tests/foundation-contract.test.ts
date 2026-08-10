@@ -74,6 +74,8 @@ describe("Geist foundation and docs shell contract", () => {
   test("docs shell consumes named Geist typography utilities", async () => {
     const shell = await read("docs/geist/src/components/docs-shell.tsx");
     expect(shell).not.toMatch(/text-\[\d+px\]|leading-\[?\d/);
-    expect(shell.match(/text-label-14/g)?.length).toBeGreaterThanOrEqual(3);
+    const labelCount = shell.match(/text-label-14/g)?.length ?? 0;
+    const copyCount = shell.match(/text-copy-14/g)?.length ?? 0;
+    expect(labelCount + copyCount).toBeGreaterThanOrEqual(3);
   });
 });

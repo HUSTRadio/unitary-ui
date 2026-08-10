@@ -61,10 +61,8 @@ function DocsSidebarLink({ item }: { item: NavItem }) {
       to={item.to}
       className={({ isActive }) =>
         cn(
-          "group relative -ml-2 flex h-10 items-center gap-2.5 rounded-md px-3 py-1.5 text-label-14 outline-none transition-colors",
-          isActive
-            ? "bg-gray-alpha-100 text-foreground"
-            : "text-muted-foreground hover:bg-gray-alpha-100 hover:text-foreground",
+          "group relative -ml-2 flex h-10 items-center gap-2.5 rounded-md px-3 py-1.5 text-copy-14 outline-none transition-colors",
+          isActive ? "bg-gray-100 text-gray-900" : "text-gray-900 hover:bg-gray-100",
         )
       }
     >
@@ -76,11 +74,11 @@ function DocsSidebarLink({ item }: { item: NavItem }) {
 
 function DocsSidebarGroup({ group }: { group: NavGroup }) {
   return (
-    <div className="mb-0.5">
-      <p className="mb-0.5 flex h-10 items-center gap-2 py-1.5 pl-1 text-label-14 font-medium text-foreground">
+    <div>
+      <p className="text-label-14 font-medium mb-0.5 flex h-10 items-center gap-2 py-1.5 pl-1">
         {group.title}
       </p>
-      <ul>
+      <ul className="relative space-y-0.5" style={{ width: "calc(100% + 8px)" }}>
         {group.items.map((item) => (
           <li key={item.to}>
             <DocsSidebarLink item={item} />
@@ -93,12 +91,16 @@ function DocsSidebarGroup({ group }: { group: NavGroup }) {
 
 function DocsSidebar() {
   return (
-    <aside className="hidden w-[260px] shrink-0 self-start overflow-y-auto border-r border-border xl:sticky xl:top-16 xl:block xl:h-[calc(100vh-4rem)]">
-      <nav className="space-y-1">
+    <aside className="hidden w-[260px] shrink-0 self-start overflow-y-auto border-l border-r border-gray-alpha-400 xl:sticky xl:top-16 xl:block xl:h-[calc(100vh-4rem)]">
+      <nav className="relative flex h-full min-h-0 flex-col space-y-4 overflow-y-auto px-6 pb-3.5 pt-4">
         {NAV_GROUPS.map((group) => (
           <DocsSidebarGroup key={group.title} group={group} />
         ))}
       </nav>
+      <div
+        className="from-background pointer-events-none absolute inset-x-0 top-0 h-4 bg-linear-to-b"
+        aria-hidden
+      />
     </aside>
   );
 }
