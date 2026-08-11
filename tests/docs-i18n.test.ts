@@ -177,4 +177,64 @@ describe("docs language support", () => {
     expect(demos).not.toMatch(/const zh = language === "zh-CN"/u);
     expect(demos).not.toMatch(/\bzh \?/u);
   });
+
+  it("eliminates zh ternaries from the entire docs site source", () => {
+    const files = [
+      "docs/geist/src/components/docs-components-page.tsx",
+      "docs/geist/src/components/docs-pages.tsx",
+      "docs/geist/src/components/docs-cards.tsx",
+      "docs/geist/src/App.tsx",
+    ];
+    for (const file of files) {
+      const source = readFileSync(resolve(process.cwd(), file), "utf8");
+      expect(source, file).not.toMatch(/const zh = language === "zh-CN"/u);
+      expect(source, file).not.toMatch(/\bzh \?/u);
+    }
+  });
+
+  it("does not contain zhTitles or SECTION_TITLES_ZH maps in any docs file", () => {
+    const files = [
+      "docs/geist/src/components/docs-components-page.tsx",
+      "docs/geist/src/components/docs-pages.tsx",
+      "docs/geist/src/components/docs-cards.tsx",
+      "docs/geist/src/App.tsx",
+    ];
+    for (const file of files) {
+      const source = readFileSync(resolve(process.cwd(), file), "utf8");
+      expect(source, file).not.toContain("zhTitles");
+      expect(source, file).not.toContain("SECTION_TITLES_ZH");
+    }
+  });
+
+  it("translates Foundations page headings from the catalog", () => {
+    for (const source of [
+      "Colors",
+      "Typography",
+      "Materials",
+      "Grid",
+      "Scales",
+      "Semantic Tokens",
+      "Headings",
+      "Buttons",
+      "Label",
+      "Copy",
+      "12 Column Grid",
+      "Responsive Breakpoints",
+    ]) {
+      expect(demoText("zh-CN", source), source).not.toBe(source);
+    }
+  });
+
+  it("translates page shell headings from the catalog", () => {
+    for (const source of [
+      "Live Demo",
+      "Usage",
+      "Best Practices",
+      "Back to Components",
+      "Component not found",
+      "Page Not Found",
+    ]) {
+      expect(demoText("zh-CN", source), source).not.toBe(source);
+    }
+  });
 });
