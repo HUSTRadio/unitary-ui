@@ -1485,12 +1485,26 @@ function ContextMenuVariantDemo({ variant }: { variant: "disabled" | "link" | "p
 }
 
 function DotsMenuDemo() {
-  return (
-    <DotsMenu>
+  const items = (
+    <>
       <DotsMenuItem>View Build Logs</DotsMenuItem>
       <DotsMenuItem>View Projects</DotsMenuItem>
       <DotsMenuItem>View Analytics</DotsMenuItem>
-    </DotsMenu>
+    </>
+  );
+  return (
+    <div className="flex flex-wrap items-start gap-6">
+      <DotsMenu>{items}</DotsMenu>
+      <DotsMenu iconSize={10}>{items}</DotsMenu>
+      <DotsMenu iconSize={12}>{items}</DotsMenu>
+      <DotsMenu iconSize={18}>{items}</DotsMenu>
+      <DotsMenu disabled>{items}</DotsMenu>
+      <DotsMenu>
+        <DotsMenuItem>View Build Logs</DotsMenuItem>
+        <DotsMenuItem disabled>View Projects</DotsMenuItem>
+        <DotsMenuItem>View Analytics</DotsMenuItem>
+      </DotsMenu>
+    </div>
   );
 }
 
