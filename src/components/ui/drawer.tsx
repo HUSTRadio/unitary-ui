@@ -83,8 +83,8 @@ function Drawer({ show, onDismiss, height, verticalScroll, className, children }
           data-slot="drawer"
           data-swipe-direction="down"
           className={cn(
-            "fixed inset-x-0 bottom-0 z-50 w-full touch-pan-y rounded-t-[10px] border-t border-gray-alpha-400 bg-background outline-none",
-            "max-h-[90dvh] overscroll-none",
+            "fixed inset-x-0 bottom-0 z-50 w-full touch-pan-y rounded-t-[10px] border-t border-gray-alpha-400 bg-background outline-none shadow-[var(--material-shadow-medium)]",
+            "max-h-[90dvh] overscroll-none motion-reduce:transition-none",
             verticalScroll && "overflow-y-auto",
             dragging && "select-none",
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
@@ -96,7 +96,7 @@ function Drawer({ show, onDismiss, height, verticalScroll, className, children }
               "--drawer-frontmost-height": height ? `${height}px` : undefined,
               "--drawer-swipe-movement-y": `${dragY}px`,
               transform: `translateY(${dragY}px)`,
-              transition: dragging ? "none" : undefined,
+              transition: dragging ? "none" : "transform 500ms cubic-bezier(0.32, 0.72, 0, 1)",
             } as React.CSSProperties
           }
           onPointerDown={handlePointerDown}

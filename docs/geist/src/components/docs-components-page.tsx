@@ -766,29 +766,38 @@ function CopyButtonDemo() {
 function DrawerDemo() {
   const { language } = useLanguage();
   const [open, setOpen] = React.useState(false);
+  const [customOpen, setCustomOpen] = React.useState(false);
+
+  const body = (close: () => void) => (
+    <div className="p-5">
+      <DrawerTitle>{demoText(language, "A drawer title")}</DrawerTitle>
+      <DrawerDescription>{demoText(language, "Drawer body")}</DrawerDescription>
+      <div className="mt-5 flex gap-3">
+        <Button typeName="button" type="secondary" onClick={close}>
+          {demoText(language, "Cancel")}
+        </Button>
+        <Button typeName="button" onClick={close}>
+          {demoText(language, "Apply")}
+        </Button>
+      </div>
+    </div>
+  );
 
   return (
-    <>
+    <div className="flex flex-wrap gap-4">
       <Button typeName="button" onClick={() => setOpen(true)}>
-        {demoText(language, "Open Drawer")}
+        {demoText(language, "Open")}
       </Button>
       <Drawer show={open} onDismiss={() => setOpen(false)}>
-        <div className="p-5">
-          <DrawerTitle>{demoText(language, "Filter Logs")}</DrawerTitle>
-          <DrawerDescription>
-            {demoText(language, "Narrow the logs by environment.")}
-          </DrawerDescription>
-          <div className="mt-5 flex gap-3">
-            <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
-              {demoText(language, "Cancel")}
-            </Button>
-            <Button typeName="button" onClick={() => setOpen(false)}>
-              {demoText(language, "Apply")}
-            </Button>
-          </div>
-        </div>
+        {body(() => setOpen(false))}
       </Drawer>
-    </>
+      <Button typeName="button" onClick={() => setCustomOpen(true)}>
+        {demoText(language, "Open Custom Height")}
+      </Button>
+      <Drawer height={200} show={customOpen} onDismiss={() => setCustomOpen(false)}>
+        {body(() => setCustomOpen(false))}
+      </Drawer>
+    </div>
   );
 }
 
