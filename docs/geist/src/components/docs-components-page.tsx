@@ -1361,7 +1361,54 @@ function BreadcrumbsDemo() {
 }
 
 function ClearableInputDemo() {
-  return <ClearableInput className="w-full max-w-sm" defaultValue="geist-style-framework" />;
+  const { language } = useLanguage();
+  const [defaultValue, setDefaultValue] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [search, setSearch] = React.useState("");
+  const [callbackValue, setCallbackValue] = React.useState("");
+  const [clearCount, setClearCount] = React.useState(0);
+
+  return (
+    <div className="grid w-full max-w-2xl gap-5">
+      <ClearableInput
+        aria-label={demoText(language, "Demo clearable input")}
+        placeholder={demoText(language, "Enter some text…")}
+        value={defaultValue}
+        onChange={(event) => setDefaultValue(event.target.value)}
+      />
+      <ClearableInput
+        label={demoText(language, "Email")}
+        placeholder={demoText(language, "Enter your email…")}
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
+      />
+      <ClearableInput
+        aria-label={demoText(language, "Search with cmdk")}
+        cmdk
+        placeholder={demoText(language, "Search…")}
+        value={search}
+        onChange={(event) => setSearch(event.target.value)}
+      />
+      <ClearableInput
+        aria-label={demoText(language, "Disabled clearable input")}
+        disabled
+        value="Some text"
+        onChange={() => {}}
+      />
+      <div className="grid gap-2">
+        <ClearableInput
+          aria-label={demoText(language, "Clearable input with callback")}
+          placeholder={demoText(language, "Enter some text and clear…")}
+          value={callbackValue}
+          onChange={(event) => setCallbackValue(event.target.value)}
+          onClear={() => setClearCount((count) => count + 1)}
+        />
+        <p className="text-copy-13 text-muted-foreground">
+          {demoTextWithValues(language, "Cleared {count} times", { count: clearCount })}
+        </p>
+      </div>
+    </div>
+  );
 }
 
 function CollapseDemo() {

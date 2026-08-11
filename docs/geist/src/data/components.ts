@@ -1424,14 +1424,16 @@ function Example() {
   {
     name: "clearable-input",
     label: "Clearable Input",
-    description: "An input with an accessible one-click clear action.",
+    description:
+      "A text input with an inline Esc keycap that clears on pointer activation or Escape.",
     official: "Clearable Input",
     code: `import { ClearableInput } from "@/components/ui/clearable-input";
 
-<ClearableInput defaultValue="geist-style-framework" />`,
+<ClearableInput label="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
+<ClearableInput aria-label="Search" cmdk value={query} onChange={(event) => setQuery(event.target.value)} />`,
     bestPractices: [
       "Use Clearable Input for search, filter, and short query fields where resetting the current value is frequent.",
-      "Keep the clear control keyboard reachable and label it with the result, such as Clear search.",
+      "Associate visible labels with the native input, and keep Escape clearing available from the input itself.",
     ],
   },
   {
