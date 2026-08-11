@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, test } from "vitest";
 
 const source = readFileSync(new URL("../src/components/ui/checkbox.tsx", import.meta.url), "utf8");
+const captureSource = readFileSync(new URL("./capture-visual-matrix.mjs", import.meta.url), "utf8");
 
 describe("Checkbox official matrix contract", () => {
   test("supports default, checked, indeterminate, and disabled states", () => {
@@ -23,5 +24,10 @@ describe("Checkbox official matrix contract", () => {
     expect(source).toContain("data-[state=indeterminate]:bg-foreground");
     expect(source).toContain("data-[state=indeterminate]:text-background");
     expect(source).toContain("<Minus");
+  });
+
+  test("visual capture waits for the color transition to settle", () => {
+    expect(captureSource).toContain("await sleep(250)");
+    expect(captureSource).not.toContain("await sleep(60)");
   });
 });

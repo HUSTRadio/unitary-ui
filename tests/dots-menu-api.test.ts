@@ -18,6 +18,8 @@ describe("Dots Menu official contract", () => {
     expect(source).toContain("iconSize = 18");
     expect(source).toContain("disabled?: boolean");
     expect(source).toContain("disabled={disabled}");
+    expect(source).toContain("disabled:bg-gray-100");
+    expect(source).toContain("disabled:opacity-50");
   });
 
   test("keeps disabled menu items readable without opacity reduction", () => {

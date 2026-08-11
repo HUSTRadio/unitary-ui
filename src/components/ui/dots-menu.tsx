@@ -46,7 +46,7 @@ function DotsMenu({
         disabled={disabled}
         aria-label="Menu"
         className={cn(
-          "inline-flex size-8 shrink-0 items-center justify-center rounded-md text-foreground outline-none transition-colors hover:bg-gray-alpha-200 focus-ring data-[state=open]:bg-gray-alpha-200 disabled:pointer-events-none disabled:opacity-50",
+          "inline-flex size-8 shrink-0 items-center justify-center rounded-md text-foreground outline-none transition-colors hover:bg-gray-alpha-200 focus-ring data-[state=open]:bg-gray-alpha-200 disabled:pointer-events-none disabled:bg-gray-100 disabled:opacity-50",
           className,
         )}
       >

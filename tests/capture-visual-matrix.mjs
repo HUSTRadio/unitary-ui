@@ -150,7 +150,9 @@ async function main() {
               return document.documentElement.className;
             })()`,
           );
-          await sleep(60);
+          // Controls transition theme-sensitive colors for up to 150ms.
+          // Capture only after the computed styles have reached steady state.
+          await sleep(250);
 
           const clip = await evaluate(
             send,

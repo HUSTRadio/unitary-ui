@@ -28,7 +28,7 @@ function Checkbox({
       data-size={size}
       className={cn(
         "group/checkbox grid shrink-0 place-content-center rounded-[4px] border transition-[background-color,border-color] outline-none",
-        "border-gray-700 bg-background-100 hover:border-foreground/40 peer-hover:not-peer-disabled:not-peer-checked:bg-gray-200",
+        "border-gray-700 bg-background-100 enabled:hover:data-[state=unchecked]:bg-gray-200",
         "focus-ring",
         "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:border-gray-500",
         "data-[state=checked]:border-foreground data-[state=checked]:bg-foreground data-[state=checked]:text-background disabled:data-[state=checked]:border-gray-600 disabled:data-[state=checked]:bg-gray-600",

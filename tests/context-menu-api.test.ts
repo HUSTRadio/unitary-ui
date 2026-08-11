@@ -30,6 +30,9 @@ describe("Context Menu official contract", () => {
     expect(source).toContain("h-9");
     expect(source).toContain("rounded-[6px]");
     expect(source).toContain("text-label-14");
+    expect(source).toContain("cursor-pointer");
+    expect(source).toContain("data-[disabled]:cursor-default");
+    expect(source).not.toContain("h-9 cursor-default");
   });
 
   test("uses content-sized desktop width and the official mobile sheet classes", () => {

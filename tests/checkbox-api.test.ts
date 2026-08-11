@@ -16,12 +16,9 @@ const checkbox = (props: React.ComponentProps<typeof Checkbox>) =>
 describe("Checkbox official API contract (G02)", () => {
   test("G02-CHK-01: unchecked hover fills the box bg with gray-200, not border-only", async () => {
     const src = await read("src/components/ui/checkbox.tsx");
-    // The hover fill class (official: peer-hover:not-peer-disabled:not-peer-checked:bg-[var(--ds-gray-200)])
-    expect(src).toMatch(/peer-hover:not-peer-disabled:not-peer-checked:bg-gray-200/);
-    // Border tint stays, but the fill must sit next to it on the hover line — never border-only
-    expect(src).toMatch(
-      /hover:border-foreground\/40[\s\S]{0,120}peer-hover:not-peer-disabled:not-peer-checked:bg-gray-200/,
-    );
+    expect(src).toContain("enabled:hover:data-[state=unchecked]:bg-gray-200");
+    expect(src).not.toContain("peer-hover:not-peer-disabled:not-peer-checked:bg-gray-200");
+    expect(src).not.toContain("hover:border-foreground/40");
     // Local token mapping: gray-200 (#f2f2f2 light), never the undefined --ds-gray-200 var
     expect(src).not.toContain("var(--ds-gray-200)");
   });
@@ -29,8 +26,7 @@ describe("Checkbox official API contract (G02)", () => {
   test("G02-CHK-01: SSR renders the hover-fill class on an unchecked checkbox", () => {
     const markup = checkbox({ "aria-label": "Subscribe" });
     expect(markup).toContain('data-state="unchecked"');
-    expect(markup).toContain("peer-hover:not-peer-disabled:not-peer-checked:bg-gray-200");
-    expect(markup).toContain("hover:border-foreground/40");
+    expect(markup).toContain("enabled:hover:data-[state=unchecked]:bg-gray-200");
   });
 
   test("checked state uses foreground fill (official #171717 light, not blue)", () => {
