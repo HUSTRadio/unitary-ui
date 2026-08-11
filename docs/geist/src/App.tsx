@@ -13,6 +13,7 @@ import {
 } from "./components/docs-pages";
 import { COMPONENTS } from "./data/components";
 import { SHELL_COPY } from "./i18n/catalog";
+import { demoText } from "./i18n/components-demo";
 import { useLanguage, type DocsLanguage } from "./i18n/language";
 
 /**
