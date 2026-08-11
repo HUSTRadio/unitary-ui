@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { LANGUAGE_OPTIONS, SHELL_COPY } from "../docs/geist/src/i18n/catalog";
-import { DEMO_COPY, demoText } from "../docs/geist/src/i18n/components-demo";
+import { DEMO_COPY, demoText, demoTextWithValues } from "../docs/geist/src/i18n/components-demo";
 import { readDocsLanguage } from "../docs/geist/src/i18n/language";
 
 describe("docs language support", () => {
@@ -83,5 +83,98 @@ describe("docs language support", () => {
     ]) {
       expect(demoText("zh-CN", source), source).not.toBe(source);
     }
+  });
+
+  it("covers P1 interactive demo copy", () => {
+    for (const source of [
+      "Actions",
+      "Default",
+      "Secondary",
+      "Outline",
+      "Ghost",
+      "Destructive",
+      "Search",
+      "Copy",
+      "Loading",
+      "Disabled",
+      "Edit Project",
+      "Duplicate Project",
+      "Delete Project",
+      "Open Modal",
+      "Open Sheet",
+      "Open Command Menu",
+      "Cancel",
+      "Delete",
+      "Apply",
+      "Close",
+      "Send",
+      "Sent",
+      "Deploy Project",
+      "Deploy to Preview",
+      "Deploy to Production",
+      "Save",
+      "Save + Redeploy",
+      "Copy page",
+      "No results",
+      "Read more",
+      "Show Toast",
+      "Load More",
+      "All",
+      "Ready",
+      "Error",
+      "On",
+      "Off",
+      "Overview",
+      "Usage",
+    ]) {
+      expect(demoText("zh-CN", source), source).not.toBe(source);
+    }
+  });
+
+  it("interpolates localized runtime values without changing the source fallback", () => {
+    expect(demoTextWithValues("zh-CN", "{count} items loaded", { count: 3 })).toBe(
+      "已加载 3 个项目",
+    );
+    expect(demoTextWithValues("en-US", "{count} items loaded", { count: 3 })).toBe(
+      "3 items loaded",
+    );
+  });
+
+  it("consumes the catalog in interactive and feedback demos", () => {
+    const source = readFileSync(
+      resolve(process.cwd(), "docs/geist/src/components/docs-components-page.tsx"),
+      "utf8",
+    );
+
+    expect(source).toContain("demoTextWithValues(language");
+    expect(source).not.toContain('text: "Project deleted"');
+    expect(source).not.toContain('title="Delete Project"');
+    expect(source).not.toMatch(
+      />\s*(Show Toast|Open Drawer|Filter Logs|Load More|Right click here|View Project)\s*</,
+    );
+  });
+
+  it("localizes the remaining P1 control and status demos", () => {
+    const source = readFileSync(
+      resolve(process.cwd(), "docs/geist/src/components/docs-components-page.tsx"),
+      "utf8",
+    );
+
+    expect(source).toContain('demoText(language, "Loading deployment")');
+    expect(source).toContain('demoTextWithValues(language, "{count} selected"');
+    expect(source).not.toContain("{selected.length} selected");
+    expect(source).not.toContain("Loading deployment <LoadingDots />");
+    expect(source).not.toContain("Enable Firewall\n        </Toggle>");
+  });
+
+  it("does not use scattered language ternaries inside component demos", () => {
+    const source = readFileSync(
+      resolve(process.cwd(), "docs/geist/src/components/docs-components-page.tsx"),
+      "utf8",
+    );
+    const demos = source.split("/* ---------- 总览模式 ---------- */", 1)[0];
+
+    expect(demos).not.toMatch(/const zh = language === "zh-CN"/u);
+    expect(demos).not.toMatch(/\bzh \?/u);
   });
 });

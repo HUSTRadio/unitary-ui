@@ -51,7 +51,7 @@ export function FeedbackPanel() {
       {/* 胶囊 — 左侧文案 + 右侧 emoji radio（原生 input sr-only + label） */}
       <div className="flex items-center justify-between rounded-full border border-border bg-gray-alpha-100 py-1.5 pr-1.5 pl-4">
         <span className="text-label-14 text-muted-foreground">{copy.feedbackQuestion}</span>
-        <div role="radiogroup" aria-label="反馈评分" className="flex items-center">
+        <div role="radiogroup" aria-label={copy.feedbackRating} className="flex items-center">
           {EMOJI_OPTIONS[language].map((option) => {
             const checked = rating === option.value;
             return (
@@ -90,7 +90,7 @@ export function FeedbackPanel() {
       {/* 反馈表单 — Textarea + Send（本地 state，点击后显示已发送） */}
       <div className="mt-4">
         <Textarea
-          placeholder={language === "zh-CN" ? "写下你的反馈……" : "Your feedback..."}
+          placeholder={copy.feedbackPlaceholder}
           value={comment}
           onChange={(event) => setComment(event.target.value)}
           disabled={sent}
@@ -103,13 +103,7 @@ export function FeedbackPanel() {
             onClick={() => setSent(true)}
             prefix={sent ? <Check className="size-3.5" aria-hidden /> : undefined}
           >
-            {sent
-              ? language === "zh-CN"
-                ? "已发送"
-                : "Sent"
-              : language === "zh-CN"
-                ? "发送"
-                : "Send"}
+            {sent ? copy.feedbackSent : copy.feedbackSend}
           </Button>
         </div>
       </div>
@@ -158,16 +152,7 @@ export function DocsPagination() {
         <span className="flex flex-col items-end gap-0.5">
           <span className="text-label-12 text-muted-foreground">{copy.next}</span>
           <span className="text-label-16 font-medium text-foreground">
-            {language === "zh-CN"
-              ? ({
-                  Introduction: "介绍",
-                  Colors: "颜色",
-                  Typography: "排版",
-                  Materials: "材质",
-                  Grid: "网格",
-                  Components: "组件",
-                }[next.label] ?? next.label)
-              : next.label}
+            {copy.pageNames[next.label as keyof typeof copy.pageNames] ?? next.label}
           </span>
         </span>
         <ChevronRight

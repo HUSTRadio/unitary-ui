@@ -182,7 +182,7 @@ import { Tooltip } from "@/components/ui/tooltip";
 import { Video } from "@/components/ui/video";
 
 import { COMPONENTS, type ComponentMeta } from "../data/components";
-import { demoText } from "../i18n/components-demo";
+import { demoText, demoTextWithValues } from "../i18n/components-demo";
 import { type DocsLanguage, useLanguage } from "../i18n/language";
 
 /**
@@ -195,7 +195,6 @@ import { type DocsLanguage, useLanguage } from "../i18n/language";
 
 function CodeCopyButton({ text }: { text: string }) {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   const [copied, setCopied] = React.useState(false);
   const timer = React.useRef<number | undefined>(undefined);
 
@@ -226,7 +225,7 @@ function CodeCopyButton({ text }: { text: string }) {
       type="tertiary"
       svgOnly
       size="small"
-      aria-label={copied ? (zh ? "已复制" : "Copied") : zh ? "复制代码" : "Copy code"}
+      aria-label={copied ? demoText(language, "Copied") : demoText(language, "Copy code")}
       onClick={handleCopy}
       className="shrink-0"
     >
@@ -346,10 +345,9 @@ function EmptyStateDemo() {
 
 function ButtonDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <>
-      <Button typeName="button">{zh ? "默认" : "Default"}</Button>
+      <Button typeName="button">{demoText(language, "Default")}</Button>
       <Button typeName="button" type="secondary">
         Secondary
       </Button>
@@ -383,7 +381,6 @@ function ButtonDemo() {
 
 function CheckboxDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   const [checked, setChecked] = React.useState<boolean[]>([true, false]);
   const allChecked = checked.every(Boolean);
   const someChecked = checked.some(Boolean);
@@ -400,7 +397,7 @@ function CheckboxDemo() {
         <Checkbox
           checked={parentState}
           onCheckedChange={(value) => setChecked([value === true, value === true])}
-          aria-label={zh ? "全选权限" : "All permissions"}
+          aria-label={demoText(language, "All permissions")}
         />
         <span className="text-copy-14 text-foreground">All permissions</span>
       </label>
@@ -408,7 +405,7 @@ function CheckboxDemo() {
         <Checkbox
           checked={checked[0]}
           onCheckedChange={(value) => setChecked([value === true, checked[1]])}
-          aria-label={zh ? "读取权限" : "Read access"}
+          aria-label={demoText(language, "Read access")}
         />
         <span className="text-copy-14 text-muted-foreground">Read access</span>
       </label>
@@ -416,7 +413,7 @@ function CheckboxDemo() {
         <Checkbox
           checked={checked[1]}
           onCheckedChange={(value) => setChecked([checked[0], value === true])}
-          aria-label={zh ? "写入权限" : "Write access"}
+          aria-label={demoText(language, "Write access")}
         />
         <span className="text-copy-14 text-muted-foreground">Write access</span>
       </label>
@@ -426,13 +423,12 @@ function CheckboxDemo() {
 
 function MenuDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <MenuContainer>
       <MenuButton>Actions</MenuButton>
       <Menu width={200}>
-        <MenuItem prefix={<Edit aria-hidden />}>{zh ? "编辑项目" : "Edit Project"}</MenuItem>
-        <MenuItem prefix={<Copy aria-hidden />}>{zh ? "复制项目" : "Duplicate Project"}</MenuItem>
+        <MenuItem prefix={<Edit aria-hidden />}>{demoText(language, "Edit Project")}</MenuItem>
+        <MenuItem prefix={<Copy aria-hidden />}>{demoText(language, "Duplicate Project")}</MenuItem>
         <MenuDivider />
         <MenuItem type="error" prefix={<Trash2 aria-hidden />}>
           Delete Project
@@ -444,17 +440,16 @@ function MenuDemo() {
 
 function InputDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
       <Input
-        placeholder={zh ? "项目名称" : "Project name"}
-        aria-label={zh ? "项目名" : "Project name"}
+        placeholder={demoText(language, "Project name")}
+        aria-label={demoText(language, "Project name")}
       />
       <Input
-        placeholder={zh ? "禁用输入框" : "Disabled input"}
+        placeholder={demoText(language, "Disabled input")}
         disabled
-        aria-label={zh ? "禁用输入框" : "Disabled input"}
+        aria-label={demoText(language, "Disabled input")}
       />
     </div>
   );
@@ -462,15 +457,14 @@ function InputDemo() {
 
 function ModalDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <Modal>
       <ModalTrigger asChild>
-        <Button typeName="button">{zh ? "打开 Modal" : "Open Modal"}</Button>
+        <Button typeName="button">{demoText(language, "Open Modal")}</Button>
       </ModalTrigger>
       <ModalContent>
         <ModalHeader>
-          <ModalTitle>{zh ? "删除项目" : "Delete Project"}</ModalTitle>
+          <ModalTitle>{demoText(language, "Delete Project")}</ModalTitle>
           <ModalDescription>This action cannot be undone.</ModalDescription>
         </ModalHeader>
         <ModalFooter>
@@ -490,14 +484,13 @@ function ModalDemo() {
 
 function SwitchDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   const [view, setView] = React.useState("preview");
   return (
     <Switch
       name="editor-view"
       value={view}
       onValueChange={setView}
-      aria-label={zh ? "编辑器视图" : "Editor view"}
+      aria-label={demoText(language, "Editor view")}
     >
       <SwitchControl value="preview" label="Preview" />
       <SwitchControl value="code" label="Code" />
@@ -508,9 +501,12 @@ function SwitchDemo() {
 
 function SelectDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
-    <Select className="w-56" defaultValue="vercel" aria-label={zh ? "选择项目" : "Select project"}>
+    <Select
+      className="w-56"
+      defaultValue="vercel"
+      aria-label={demoText(language, "Select project")}
+    >
       <option value="vercel">Vercel</option>
       <option value="nextjs">Next.js</option>
       <option value="turbo">Turborepo</option>
@@ -657,17 +653,16 @@ function TabsDemo() {
 
 function TextareaDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
       <Textarea
-        placeholder={zh ? "描述你的项目……" : "Describe your project…"}
-        aria-label={zh ? "项目描述" : "Project description"}
+        placeholder={demoText(language, "Describe your project…")}
+        aria-label={demoText(language, "Project description")}
       />
       <Textarea
-        placeholder={zh ? "禁用文本区" : "Disabled textarea"}
+        placeholder={demoText(language, "Disabled textarea")}
         disabled
-        aria-label={zh ? "禁用文本区" : "Disabled textarea"}
+        aria-label={demoText(language, "Disabled textarea")}
       />
     </div>
   );
@@ -675,14 +670,13 @@ function TextareaDemo() {
 
 function ToggleDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   const [enabled, setEnabled] = React.useState(true);
   return (
     <div className="flex items-center gap-3">
       <Toggle
         checked={enabled}
         onCheckedChange={setEnabled}
-        aria-label={zh ? "切换设置" : "Toggle settings"}
+        aria-label={demoText(language, "Toggle settings")}
       />
       <span className="text-copy-14 text-muted-foreground">{enabled ? "On" : "Off"}</span>
     </div>
@@ -710,19 +704,27 @@ function ThemeSwitcherDemo() {
 
 function ProgressDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <div className="flex w-full max-w-md flex-col gap-6">
       <div className="flex flex-col gap-1.5">
-        <Progress value={30} aria-label={zh ? "进度 30%" : "Progress 30%"} />
+        <Progress
+          value={30}
+          aria-label={demoTextWithValues(language, "Progress {value}%", { value: 30 })}
+        />
         <span className="text-copy-13 text-muted-foreground">30%</span>
       </div>
       <div className="flex flex-col gap-1.5">
-        <Progress value={60} aria-label={zh ? "进度 60%" : "Progress 60%"} />
+        <Progress
+          value={60}
+          aria-label={demoTextWithValues(language, "Progress {value}%", { value: 60 })}
+        />
         <span className="text-copy-13 text-muted-foreground">60%</span>
       </div>
       <div className="flex flex-col gap-1.5">
-        <Progress value={90} aria-label={zh ? "进度 90%" : "Progress 90%"} />
+        <Progress
+          value={90}
+          aria-label={demoTextWithValues(language, "Progress {value}%", { value: 90 })}
+        />
         <span className="text-copy-13 text-muted-foreground">90%</span>
       </div>
     </div>
@@ -742,12 +744,16 @@ function StatusDotDemo() {
 }
 
 function ToastDemo() {
+  const { language } = useLanguage();
   const toasts = useToasts();
 
   return (
     <>
-      <Button typeName="button" onClick={() => toasts.message({ text: "Project deleted" })}>
-        Show Toast
+      <Button
+        typeName="button"
+        onClick={() => toasts.message({ text: demoText(language, "Project deleted") })}
+      >
+        {demoText(language, "Show Toast")}
       </Button>
       <Toasts />
     </>
@@ -764,23 +770,26 @@ function CopyButtonDemo() {
 }
 
 function DrawerDemo() {
+  const { language } = useLanguage();
   const [open, setOpen] = React.useState(false);
 
   return (
     <>
       <Button typeName="button" onClick={() => setOpen(true)}>
-        Open Drawer
+        {demoText(language, "Open Drawer")}
       </Button>
       <Drawer show={open} onDismiss={() => setOpen(false)}>
         <div className="p-5">
-          <DrawerTitle>Filter Logs</DrawerTitle>
-          <DrawerDescription>Narrow the logs by environment.</DrawerDescription>
+          <DrawerTitle>{demoText(language, "Filter Logs")}</DrawerTitle>
+          <DrawerDescription>
+            {demoText(language, "Narrow the logs by environment.")}
+          </DrawerDescription>
           <div className="mt-5 flex gap-3">
             <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
-              Cancel
+              {demoText(language, "Cancel")}
             </Button>
             <Button typeName="button" onClick={() => setOpen(false)}>
-              Apply
+              {demoText(language, "Apply")}
             </Button>
           </div>
         </div>
@@ -802,11 +811,10 @@ function NoteDemo() {
 
 function SheetDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button typeName="button">{zh ? "打开 Sheet" : "Open Sheet"}</Button>
+        <Button typeName="button">{demoText(language, "Open Sheet")}</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
@@ -915,10 +923,9 @@ function CalendarDemo() {
 
 function ChoiceboxDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <div className="w-full max-w-md">
-      <Choicebox defaultValue="pro" aria-label={zh ? "选择方案" : "select a plan"}>
+      <Choicebox defaultValue="pro" aria-label={demoText(language, "select a plan")}>
         <ChoiceboxItem value="trial">
           <ChoiceboxLabel>Pro Trial</ChoiceboxLabel>
           <ChoiceboxDescription>Free for two weeks</ChoiceboxDescription>
@@ -934,15 +941,14 @@ function ChoiceboxDemo() {
 
 function CommandMenuDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   const [open, setOpen] = React.useState(false);
   return (
     <CommandMenu open={open} onOpenChange={setOpen}>
       <CommandMenuTrigger asChild>
-        <Button typeName="button">{zh ? "打开命令菜单" : "Open Command Menu"}</Button>
+        <Button typeName="button">{demoText(language, "Open Command Menu")}</Button>
       </CommandMenuTrigger>
       <CommandMenuContent>
-        <CommandMenuInput placeholder={zh ? "你需要什么？" : "What do you need?"} />
+        <CommandMenuInput placeholder={demoText(language, "What do you need?")} />
         <CommandMenuList>
           <CommandMenuGroup heading="Suggestions">
             <CommandMenuItem onClick={() => setOpen(false)}>Figma Import</CommandMenuItem>
@@ -1056,12 +1062,13 @@ function ProjectBannerDemo() {
 
 function SliderDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   const [value, setValue] = React.useState<number[]>([50]);
   return (
     <div className="w-full max-w-md">
-      <Slider value={value} onValueChange={setValue} aria-label={zh ? "音量" : "Volume"} />
-      <p className="mt-3 text-copy-14 text-muted-foreground">Value: {value[0]}</p>
+      <Slider value={value} onValueChange={setValue} aria-label={demoText(language, "Volume")} />
+      <p className="mt-3 text-copy-14 text-muted-foreground">
+        {demoTextWithValues(language, "Value: {value}", { value: value[0] })}
+      </p>
     </div>
   );
 }
@@ -1121,15 +1128,18 @@ function DestructiveActionModalDemo() {
   return (
     <>
       <Button typeName="button" type="error" onClick={() => setOpen(true)}>
-        Delete Project
+        {demoText(language, "Delete Project")}
       </Button>
       <DestructiveActionModal
         open={open}
         onCancel={() => setOpen(false)}
         onConfirm={() => setOpen(false)}
-        title="Delete Project"
-        description="next-year-boilerplate and all its deployments, domains, and environment variables will be permanently deleted."
-        confirmLabel="Delete Project"
+        title={demoText(language, "Delete Project")}
+        description={demoText(
+          language,
+          "next-year-boilerplate and all its deployments, domains, and environment variables will be permanently deleted.",
+        )}
+        confirmLabel={demoText(language, "Delete Project")}
         verificationPhrase="next-year-boilerplate"
         verificationLabel={demoText(language, "project name")}
         irreversibleDescription="Deleting next-year-boilerplate cannot be undone."
@@ -1173,9 +1183,11 @@ function LoadMoreButtonDemo() {
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
       <LoadMoreButton onClick={handleClick} loading={loading}>
-        Load More
+        {demoText(language, "Load More")}
       </LoadMoreButton>
-      <p className="text-center text-copy-13 text-muted-foreground">{count} items loaded</p>
+      <p className="text-center text-copy-13 text-muted-foreground">
+        {demoTextWithValues(language, "{count} items loaded", { count })}
+      </p>
     </div>
   );
 }
@@ -1190,22 +1202,27 @@ function TextWithCopyButtonDemo() {
 }
 
 function ContextCardDemo() {
+  const { language } = useLanguage();
   return (
     <ContextCard>
       <ContextCardHeader>
         <ContextCardAvatar src="https://github.com/vercel.png" alt="Acme" />
         <div>
-          <ContextCardTitle>Acme Inc.</ContextCardTitle>
-          <ContextCardDescription>@acme · San Francisco</ContextCardDescription>
+          <ContextCardTitle>{demoText(language, "Acme Inc.")}</ContextCardTitle>
+          <ContextCardDescription>
+            {demoText(language, "@acme · San Francisco")}
+          </ContextCardDescription>
         </div>
       </ContextCardHeader>
       <ContextCardBody>
-        <p className="text-copy-13 text-muted-foreground">Last Active: 2h ago</p>
-        <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
+        <p className="text-copy-13 text-muted-foreground">
+          {demoText(language, "Last Active: 2h ago")}
+        </p>
+        <p className="text-copy-13 text-muted-foreground">{demoText(language, "Plan: Pro")}</p>
       </ContextCardBody>
       <ContextCardFooter>
         <Button typeName="button" size="small">
-          View Project
+          {demoText(language, "View Project")}
         </Button>
       </ContextCardFooter>
     </ContextCard>
@@ -1213,19 +1230,20 @@ function ContextCardDemo() {
 }
 
 function ContextMenuDemo() {
+  const { language } = useLanguage();
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <Button typeName="button" type="tertiary">
-          Right click here
+          {demoText(language, "Right click here")}
         </Button>
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuItem>Open in New Tab</ContextMenuItem>
-        <ContextMenuItem>Copy URL</ContextMenuItem>
+        <ContextMenuItem>{demoText(language, "Open in New Tab")}</ContextMenuItem>
+        <ContextMenuItem>{demoText(language, "Copy URL")}</ContextMenuItem>
         <ContextMenuSeparator />
         <ContextMenuItem className="text-destructive focus:bg-destructive focus:text-destructive-foreground">
-          Delete Deployment
+          {demoText(language, "Delete Deployment")}
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
@@ -1318,10 +1336,9 @@ function BannerDemo() {
 
 function BreadcrumbsDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <Breadcrumb type="menu">
-      <BreadcrumbItem href="#/">{zh ? "首页" : "Home"}</BreadcrumbItem>
+      <BreadcrumbItem href="#/">{demoText(language, "Home")}</BreadcrumbItem>
       <BreadcrumbItem href="#/components">Components</BreadcrumbItem>
       <BreadcrumbItem active>Breadcrumbs</BreadcrumbItem>
     </Breadcrumb>
@@ -1347,14 +1364,13 @@ function CollapseDemo() {
 
 function ComboboxDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <Combobox
       defaultValue="nextjs"
       className="w-64"
-      placeholder={zh ? "选择框架" : "Select a framework"}
+      placeholder={demoText(language, "Select a framework")}
     >
-      <ComboboxTrigger aria-label={zh ? "选择框架" : "Select a framework"} />
+      <ComboboxTrigger aria-label={demoText(language, "Select a framework")} />
       <ComboboxContent>
         <ComboboxItem value="nextjs">Next.js</ComboboxItem>
         <ComboboxItem value="react">React</ComboboxItem>
@@ -1430,9 +1446,10 @@ function LabelDemo() {
 }
 
 function LoadingDotsDemo() {
+  const { language } = useLanguage();
   return (
     <div className="flex items-center gap-3 text-copy-14 text-muted-foreground">
-      Loading deployment <LoadingDots />
+      {demoText(language, "Loading deployment")} <LoadingDots />
     </div>
   );
 }
@@ -1447,7 +1464,6 @@ function MiddleTruncateDemo() {
 
 function MultiSelectDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   const options = ["React", "Next.js", "Vite"];
   const [selected, setSelected] = React.useState(["React"]);
   const toggle = (name: string) =>
@@ -1457,8 +1473,8 @@ function MultiSelectDemo() {
 
   return (
     <MultiSelectRoot className="w-64">
-      <MultiSelectTrigger aria-label={zh ? "选择框架" : "Select frameworks"}>
-        {selected.length} selected
+      <MultiSelectTrigger aria-label={demoText(language, "Select frameworks")}>
+        {demoTextWithValues(language, "{count} selected", { count: selected.length })}
       </MultiSelectTrigger>
       <MultiSelectContent>
         {options.map((name) => (
@@ -1480,12 +1496,11 @@ function MultiSelectDemo() {
 
 function PillDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   const [active, setActive] = React.useState("all");
   return (
     <div
       className="flex flex-wrap gap-2"
-      aria-label={zh ? "部署状态筛选" : "Deployment status filter"}
+      aria-label={demoText(language, "Deployment status filter")}
     >
       {[
         ["all", "All"],
@@ -1521,12 +1536,11 @@ function RelativeTimeCardDemo() {
 
 function SearchInputDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <SearchInput
       className="w-full max-w-sm"
-      placeholder={zh ? "搜索项目" : "Search projects"}
-      aria-label={zh ? "搜索项目" : "Search projects"}
+      placeholder={demoText(language, "Search projects")}
+      aria-label={demoText(language, "Search projects")}
     />
   );
 }
@@ -1552,13 +1566,12 @@ function ShowMoreDemo() {
 
 function SplitButtonDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <SplitButton>
-      <SplitButtonMain>{zh ? "部署项目" : "Deploy Project"}</SplitButtonMain>
+      <SplitButtonMain>{demoText(language, "Deploy Project")}</SplitButtonMain>
       <SplitButtonMenu menuLabel={demoText(language, "More deployment actions")}>
-        <MenuItem>{zh ? "部署到预览环境" : "Deploy to Preview"}</MenuItem>
-        <MenuItem>{zh ? "部署到生产环境" : "Deploy to Production"}</MenuItem>
+        <MenuItem>{demoText(language, "Deploy to Preview")}</MenuItem>
+        <MenuItem>{demoText(language, "Deploy to Production")}</MenuItem>
       </SplitButtonMenu>
     </SplitButton>
   );
@@ -1765,20 +1778,19 @@ const GAUGE_PINK_SCALE = {
 
 function RadioHeadlessDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   const [value, setValue] = React.useState("one");
   const { component } = useRadio({ value: "one", disabled: false });
   const { component: component2 } = useRadio({ value: "two", disabled: false });
 
   return (
-    <RadioGroup aria-label={zh ? "选项" : "Options"} onChange={setValue} value={value}>
+    <RadioGroup aria-label={demoText(language, "Options")} onChange={setValue} value={value}>
       <div className="flex w-full min-w-56 flex-col items-stretch justify-start gap-6">
         <label className="flex justify-between gap-4">
-          <span className="text-copy-13 text-foreground">{zh ? "选项 1" : "Option 1"}</span>
+          <span className="text-copy-13 text-foreground">{demoText(language, "Option 1")}</span>
           {component}
         </label>
         <label className="flex justify-between gap-4">
-          <span className="text-copy-13 text-foreground">{zh ? "选项 2" : "Option 2"}</span>
+          <span className="text-copy-13 text-foreground">{demoText(language, "Option 2")}</span>
           {component2}
         </label>
       </div>
@@ -1788,13 +1800,12 @@ function RadioHeadlessDemo() {
 
 function RadioStandaloneDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   const [value, setValue] = React.useState("one");
 
   return (
     <ul className="flex list-none flex-row items-stretch justify-start gap-6">
       <li className="flex items-center gap-2">
-        <span className="text-copy-13 text-foreground">{zh ? "选项 1" : "Option 1"}</span>
+        <span className="text-copy-13 text-foreground">{demoText(language, "Option 1")}</span>
         <Radio
           aria-label="Option 1"
           checked={value === "one"}
@@ -1803,7 +1814,7 @@ function RadioStandaloneDemo() {
         />
       </li>
       <li className="flex items-center gap-2">
-        <span className="text-copy-13 text-foreground">{zh ? "选项 2" : "Option 2"}</span>
+        <span className="text-copy-13 text-foreground">{demoText(language, "Option 2")}</span>
         <Radio
           aria-label="Option 2"
           checked={value === "two"}
@@ -1817,20 +1828,19 @@ function RadioStandaloneDemo() {
 
 function ToggleColorDemo() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   const [checked, setChecked] = React.useState(false);
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row flex-wrap items-center gap-6">
         <Toggle
-          aria-label={zh ? "启用防火墙" : "Enable Firewall"}
+          aria-label={demoText(language, "Enable Firewall")}
           checked={checked}
           color="amber"
           onCheckedChange={() => setChecked(!checked)}
         />
         <Toggle
-          aria-label={zh ? "启用防火墙" : "Enable Firewall"}
+          aria-label={demoText(language, "Enable Firewall")}
           checked={checked}
           color="red"
           onCheckedChange={() => setChecked(!checked)}
@@ -1838,14 +1848,14 @@ function ToggleColorDemo() {
       </div>
       <div className="flex flex-row flex-wrap items-center gap-6">
         <Toggle
-          aria-label={zh ? "启用防火墙" : "Enable Firewall"}
+          aria-label={demoText(language, "Enable Firewall")}
           checked={checked}
           color="amber"
           onCheckedChange={() => setChecked(!checked)}
           size="large"
         />
         <Toggle
-          aria-label={zh ? "启用防火墙" : "Enable Firewall"}
+          aria-label={demoText(language, "Enable Firewall")}
           checked={checked}
           color="red"
           onCheckedChange={() => setChecked(!checked)}
@@ -1857,21 +1867,23 @@ function ToggleColorDemo() {
 }
 
 function ToggleLabelDemo() {
+  const { language } = useLanguage();
   const [checked, setChecked] = React.useState(false);
+  const label = demoText(language, "Enable Firewall");
 
   return (
     <div className="flex flex-col items-start justify-start gap-4">
       <div className="flex flex-row flex-wrap items-center gap-6">
         <Toggle checked={checked} onCheckedChange={() => setChecked(!checked)}>
-          Enable Firewall
+          {label}
         </Toggle>
         <Toggle checked={checked} direction="rtl" onCheckedChange={() => setChecked(!checked)}>
-          Enable Firewall
+          {label}
         </Toggle>
       </div>
       <div className="flex flex-row flex-wrap items-center gap-6">
         <Toggle checked={checked} onCheckedChange={() => setChecked(!checked)} size="large">
-          Enable Firewall
+          {label}
         </Toggle>
         <Toggle
           checked={checked}
@@ -1879,7 +1891,7 @@ function ToggleLabelDemo() {
           onCheckedChange={() => setChecked(!checked)}
           size="large"
         >
-          Enable Firewall
+          {label}
         </Toggle>
       </div>
     </div>
@@ -1901,7 +1913,7 @@ function ToastExtraSections() {
             })
           }
         >
-          Show Toast
+          {demoText(language, "Show Toast")}
         </Button>
       </Section>
       <Section title="With jsx">
@@ -1918,7 +1930,7 @@ function ToastExtraSections() {
             })
           }
         >
-          Show Toast
+          {demoText(language, "Show Toast")}
         </Button>
       </Section>
       <Section title="With a link">
@@ -1942,7 +1954,7 @@ function ToastExtraSections() {
             })
           }
         >
-          Show Toast
+          {demoText(language, "Show Toast")}
         </Button>
       </Section>
       <Section title="Preserve">
@@ -1955,7 +1967,7 @@ function ToastExtraSections() {
             })
           }
         >
-          Show Toast
+          {demoText(language, "Show Toast")}
         </Button>
       </Section>
       <Section title="Action">
@@ -1968,7 +1980,7 @@ function ToastExtraSections() {
             })
           }
         >
-          Show Toast
+          {demoText(language, "Show Toast")}
         </Button>
       </Section>
       <Section title="Undo">
@@ -1981,7 +1993,7 @@ function ToastExtraSections() {
             })
           }
         >
-          Show Toast
+          {demoText(language, "Show Toast")}
         </Button>
       </Section>
       <Section title="Success">
@@ -1989,7 +2001,7 @@ function ToastExtraSections() {
           typeName="button"
           onClick={() => toasts.success("The Evil Rabbit jumped over the fence.")}
         >
-          Show Toast
+          {demoText(language, "Show Toast")}
         </Button>
       </Section>
       <Section title="Warning">
@@ -1997,7 +2009,7 @@ function ToastExtraSections() {
           typeName="button"
           onClick={() => toasts.warning("The Evil Rabbit jumped over the fence.")}
         >
-          Show Toast
+          {demoText(language, "Show Toast")}
         </Button>
       </Section>
       <Section title="Error">
@@ -2005,7 +2017,7 @@ function ToastExtraSections() {
           typeName="button"
           onClick={() => toasts.error("The Evil Rabbit jumped over the fence.")}
         >
-          Show Toast
+          {demoText(language, "Show Toast")}
         </Button>
       </Section>
     </>
@@ -2014,7 +2026,6 @@ function ToastExtraSections() {
 
 /** 名称 → 额外演示分段（Sizes / Variants / States），未命中的组件返回 null */
 function renderExtraSections(name: string, language: DocsLanguage): React.ReactNode {
-  const zh = language === "zh-CN";
   switch (name) {
     case "button":
       return (
@@ -2034,7 +2045,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
           </Section>
           <Section title="Variants">
             <div className="flex flex-wrap items-center gap-3">
-              <Button typeName="button">{zh ? "默认" : "Default"}</Button>
+              <Button typeName="button">{demoText(language, "Default")}</Button>
               <Button typeName="button" type="secondary">
                 Secondary
               </Button>
@@ -2072,16 +2083,19 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
         <>
           <Section title="States">
             <div className="flex w-full max-w-md flex-col gap-3">
-              <Input placeholder={zh ? "默认" : "Default"} aria-label={zh ? "默认" : "Default"} />
               <Input
-                placeholder={zh ? "禁用" : "Disabled"}
-                disabled
-                aria-label={zh ? "禁用" : "Disabled"}
+                placeholder={demoText(language, "Default")}
+                aria-label={demoText(language, "Default")}
               />
               <Input
-                placeholder={zh ? "有值" : "With value"}
+                placeholder={demoText(language, "Disabled")}
+                disabled
+                aria-label={demoText(language, "Disabled")}
+              />
+              <Input
+                placeholder={demoText(language, "With value")}
                 defaultValue="geist-docs"
-                aria-label={zh ? "有值" : "With value"}
+                aria-label={demoText(language, "With value")}
               />
             </div>
           </Section>
@@ -2094,7 +2108,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
             <Select
               className="w-56"
               defaultValue="banana"
-              aria-label={zh ? "选择水果" : "Select fruit"}
+              aria-label={demoText(language, "Select fruit")}
             >
               <option value="apple">Apple</option>
               <option value="orange">Orange</option>
@@ -2111,28 +2125,28 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <Toggle
-                  aria-label={zh ? "启用防火墙" : "Enable Firewall"}
+                  aria-label={demoText(language, "Enable Firewall")}
                   checked={false}
                   disabled
                 />
                 <span className="text-copy-14 text-muted-foreground">Unchecked (disabled)</span>
               </div>
               <div className="flex items-center gap-3">
-                <Toggle aria-label={zh ? "启用防火墙" : "Enable Firewall"} checked disabled />
+                <Toggle aria-label={demoText(language, "Enable Firewall")} checked disabled />
                 <span className="text-copy-14 text-muted-foreground">Checked (disabled)</span>
               </div>
             </div>
           </Section>
           <Section title="Sizes">
             <div className="flex flex-row flex-wrap items-center gap-6">
-              <Toggle aria-label={zh ? "启用防火墙" : "Enable Firewall"} checked={false} />
+              <Toggle aria-label={demoText(language, "Enable Firewall")} checked={false} />
               <Toggle
-                aria-label={zh ? "启用防火墙" : "Enable Firewall"}
+                aria-label={demoText(language, "Enable Firewall")}
                 checked={false}
                 size="medium"
               />
               <Toggle
-                aria-label={zh ? "启用防火墙" : "Enable Firewall"}
+                aria-label={demoText(language, "Enable Firewall")}
                 checked={false}
                 size="large"
               />
@@ -2152,17 +2166,20 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
           <Section title="Indeterminate">
             <div className="flex flex-col gap-3">
               <label className="flex cursor-pointer items-center gap-2.5">
-                <Checkbox checked="indeterminate" aria-label={zh ? "半选" : "Indeterminate"} />
+                <Checkbox
+                  checked="indeterminate"
+                  aria-label={demoText(language, "Indeterminate")}
+                />
                 <span className="text-copy-14 text-foreground">
                   Indeterminate (partial selection)
                 </span>
               </label>
               <label className="flex cursor-pointer items-center gap-2.5">
-                <Checkbox checked aria-label={zh ? "选中" : "Checked"} />
+                <Checkbox checked aria-label={demoText(language, "Checked")} />
                 <span className="text-copy-14 text-muted-foreground">Checked</span>
               </label>
               <label className="flex cursor-pointer items-center gap-2.5">
-                <Checkbox aria-label={zh ? "未选中" : "Unchecked"} />
+                <Checkbox aria-label={demoText(language, "Unchecked")} />
                 <span className="text-copy-14 text-muted-foreground">Unchecked</span>
               </label>
             </div>
@@ -2233,8 +2250,8 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
           <Section title="Radio disabled">
             <RadioGroup disabled label="Disabled Radio Example" defaultValue="one">
               <div className="flex flex-col items-stretch justify-start gap-6">
-                <RadioGroupItem value="one">{zh ? "选项 1" : "Option 1"}</RadioGroupItem>
-                <RadioGroupItem value="two">{zh ? "选项 2" : "Option 2"}</RadioGroupItem>
+                <RadioGroupItem value="one">{demoText(language, "Option 1")}</RadioGroupItem>
+                <RadioGroupItem value="two">{demoText(language, "Option 2")}</RadioGroupItem>
               </div>
             </RadioGroup>
           </Section>
@@ -2242,11 +2259,11 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
             <form className="flex flex-col items-start justify-start gap-6">
               <RadioGroup label="Required Radio Example" required defaultValue="">
                 <div className="flex flex-col items-stretch justify-start gap-4">
-                  <RadioGroupItem value="one">{zh ? "选项 1" : "Option 1"}</RadioGroupItem>
-                  <RadioGroupItem value="two">{zh ? "选项 2" : "Option 2"}</RadioGroupItem>
+                  <RadioGroupItem value="one">{demoText(language, "Option 1")}</RadioGroupItem>
+                  <RadioGroupItem value="two">{demoText(language, "Option 2")}</RadioGroupItem>
                 </div>
               </RadioGroup>
-              <Button size="small">{zh ? "提交" : "Submit"}</Button>
+              <Button size="small">{demoText(language, "Submit")}</Button>
             </form>
           </Section>
           <Section title="Radio headless">
@@ -2399,7 +2416,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
             <div className="flex w-full max-w-md flex-col">
               <Textarea
                 aria-label={demoText(language, "Textarea with fixed rows")}
-                placeholder={zh ? "固定行数的文本区" : "Textarea with fixed number of rows"}
+                placeholder={demoText(language, "Textarea with fixed number of rows")}
                 rows={5}
               />
             </div>
@@ -2681,7 +2698,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               <Input
                 aria-labelledby="label-input"
                 id="label-input"
-                placeholder={zh ? "输入邮箱地址……" : "Enter email address..."}
+                placeholder={demoText(language, "Enter email address...")}
               />
             </div>
           </Section>
@@ -2691,7 +2708,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               <Input
                 aria-labelledby="label-input-bypass"
                 id="label-input-bypass"
-                placeholder={zh ? "输入邮箱地址……" : "Enter email address..."}
+                placeholder={demoText(language, "Enter email address...")}
               />
             </div>
           </Section>
@@ -3189,29 +3206,29 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
           <Section title="Default">
             <div className="flex w-full max-w-md flex-col gap-4">
               <Breadcrumb type="text">
-                <BreadcrumbItem>{zh ? "首页" : "Home"}</BreadcrumbItem>
-                <BreadcrumbItem>{zh ? "仪表盘" : "Dashboard"}</BreadcrumbItem>
-                <BreadcrumbItem>{zh ? "概览" : "Overview"}</BreadcrumbItem>
+                <BreadcrumbItem>{demoText(language, "Home")}</BreadcrumbItem>
+                <BreadcrumbItem>{demoText(language, "Dashboard")}</BreadcrumbItem>
+                <BreadcrumbItem>{demoText(language, "Overview")}</BreadcrumbItem>
               </Breadcrumb>
               <Breadcrumb type="menu">
-                <BreadcrumbItem>{zh ? "首页" : "Home"}</BreadcrumbItem>
-                <BreadcrumbItem>{zh ? "仪表盘" : "Dashboard"}</BreadcrumbItem>
-                <BreadcrumbItem>{zh ? "概览" : "Overview"}</BreadcrumbItem>
+                <BreadcrumbItem>{demoText(language, "Home")}</BreadcrumbItem>
+                <BreadcrumbItem>{demoText(language, "Dashboard")}</BreadcrumbItem>
+                <BreadcrumbItem>{demoText(language, "Overview")}</BreadcrumbItem>
               </Breadcrumb>
             </div>
           </Section>
           <Section title="Active">
             <Breadcrumb>
-              <BreadcrumbItem>{zh ? "首页" : "Home"}</BreadcrumbItem>
-              <BreadcrumbItem active>{zh ? "仪表盘" : "Dashboard"}</BreadcrumbItem>
-              <BreadcrumbItem>{zh ? "概览" : "Overview"}</BreadcrumbItem>
+              <BreadcrumbItem>{demoText(language, "Home")}</BreadcrumbItem>
+              <BreadcrumbItem active>{demoText(language, "Dashboard")}</BreadcrumbItem>
+              <BreadcrumbItem>{demoText(language, "Overview")}</BreadcrumbItem>
             </Breadcrumb>
           </Section>
           <Section title="Disabled">
             <Breadcrumb>
-              <BreadcrumbItem>{zh ? "首页" : "Home"}</BreadcrumbItem>
-              <BreadcrumbItem disabled>{zh ? "仪表盘" : "Dashboard"}</BreadcrumbItem>
-              <BreadcrumbItem>{zh ? "概览" : "Overview"}</BreadcrumbItem>
+              <BreadcrumbItem>{demoText(language, "Home")}</BreadcrumbItem>
+              <BreadcrumbItem disabled>{demoText(language, "Dashboard")}</BreadcrumbItem>
+              <BreadcrumbItem>{demoText(language, "Overview")}</BreadcrumbItem>
             </Breadcrumb>
           </Section>
         </>
