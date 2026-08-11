@@ -1017,6 +1017,41 @@
   }
 }
 
+/* Command Menu 官方 300ms overlay scale/fade；阴影复用同值的 material modal token。 */
+@keyframes command-menu-scale-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes command-menu-scale-out {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.96);
+  }
+}
+
+@utility command-menu-scale {
+  box-shadow: var(--material-shadow-modal);
+
+  &[data-state="open"] {
+    animation: command-menu-scale-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  }
+
+  &[data-state="closed"] {
+    animation: command-menu-scale-out 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  }
+}
+
 /*
  * 表单控件焦点态（官方 Input/Select/Textarea 实测）
  * 与 focus-ring（蓝色双环）不同：输入类控件官方用「边框加深 + 同色系

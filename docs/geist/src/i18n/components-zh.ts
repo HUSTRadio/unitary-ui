@@ -14,7 +14,7 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   code: "使用语法高亮展示代码片段。",
   "code-block": "带文件名标题和边框的多行代码块。",
   collapse: "垂直排列标题，每个标题可展开相关内容。",
-  "command-menu": "以全屏浮层启动一组操作。",
+  "command-menu": "在模态命令面板中筛选并启动键盘优先的操作。",
   "context-card": "在悬停或聚焦时显示比 Tooltip 更丰富信息的浮动卡片。",
   "context-menu": "通过右键点击或长按显示上下文操作菜单。",
   description: "以定义列表展示键值元数据。",

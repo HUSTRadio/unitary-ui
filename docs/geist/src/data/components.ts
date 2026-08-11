@@ -285,36 +285,36 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "command-menu",
     label: "Command Menu",
-    description: "Launches a set of actions as a full-screen overlay.",
+    description: "Filters and launches keyboard-first actions in a modal command palette.",
     official: "Command Menu",
     code: `import {
   CommandMenu,
-  CommandMenuContent,
+  CommandMenuDivider,
   CommandMenuGroup,
   CommandMenuInput,
   CommandMenuItem,
   CommandMenuList,
 } from "@/components/ui/command-menu";
 
-<CommandMenu open onOpenChange={() => {}}>
-  <CommandMenuContent>
-    <CommandMenuInput placeholder="What do you need?" />
-    <CommandMenuList>
-      <CommandMenuGroup heading="Suggestions">
-        <CommandMenuItem>Figma Import</CommandMenuItem>
-      </CommandMenuGroup>
-      <CommandMenuGroup heading="Commands">
-        <CommandMenuItem>Import Extension</CommandMenuItem>
-        <CommandMenuItem>Manage Extensions</CommandMenuItem>
-      </CommandMenuGroup>
-    </CommandMenuList>
-  </CommandMenuContent>
+<CommandMenu open={open} setOpen={setOpen}>
+  <CommandMenuInput placeholder="What do you need?" />
+  <CommandMenuList>
+    <CommandMenuGroup heading="Suggestions">
+      <CommandMenuItem callback={runImport}>Figma Import</CommandMenuItem>
+    </CommandMenuGroup>
+    <CommandMenuDivider />
+    <CommandMenuGroup heading="Commands">
+      <CommandMenuItem callback={installExtension} suffix={<span>⌘I</span>}>
+        Import Extension
+      </CommandMenuItem>
+    </CommandMenuGroup>
+  </CommandMenuList>
 </CommandMenu>`,
     bestPractices: [
       "Use CommandMenu for a global, keyboard-first command palette that finds resources and runs actions across the app. For a menu opened from a visible trigger on a single resource, use Menu; for right-click on a row, use ContextMenu.",
       "Group items into pages (Projects, Team Settings) when a single flat list would exceed roughly 30 items or span multiple resource types.",
       "Bind ⌘K on macOS and Ctrl+K elsewhere. Don't reuse the binding for any in-page filter input; it's a global shortcut.",
-      "Trap focus inside the overlay while it's open and return focus to the previously active element on close.",
+      "Trap focus inside the overlay while it is open, close on Escape, and release focus when the palette closes.",
       "Show a recent or default item set when the input is empty so the menu is useful before typing.",
       "Item children are Title Case verb phrases (Deploy Project, Invite Team Member). Commands act, not browse; avoid navigation phrasing like Go to project page.",
       "Group heading is Title Case, 1-2 words (Actions, Recent).",

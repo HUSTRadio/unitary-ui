@@ -101,4 +101,35 @@ describe("Geist documentation coverage", () => {
 
     expect(violations).toEqual([]);
   });
+
+  it("renders all three live Command Menu demo content contracts", async () => {
+    const source = await read("docs/geist/src/components/docs-components-page.tsx");
+    const demo = source.slice(
+      source.indexOf("function CommandMenuDemo()"),
+      source.indexOf("function ContextCardDemo()"),
+    );
+
+    for (const text of [
+      "Flags Explorer",
+      "Item 1",
+      "Item 2",
+      "Item 3",
+      "Group 2",
+      "Grouped Item 1",
+      "Grouped Item 2",
+      "United States of America",
+      "Switzerland",
+      "Germany",
+      "USA",
+      "ESP",
+      "FRA",
+      "AUT",
+      "GER",
+    ]) {
+      expect(demo).toContain(`demoText(language, "${text}")`);
+    }
+    expect(demo).toContain("<CommandMenuDivider />");
+    expect(demo).toContain('<Button key={name} type="default"');
+    expect(demo).not.toContain('<Button key={name} type="secondary"');
+  });
 });
