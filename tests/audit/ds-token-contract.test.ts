@@ -11,9 +11,17 @@ const readCss = () => readFile(path.join(root, "src/styles/index.css"), "utf8");
  *
  * Values are frozen in docs/audits/geist-component-and-responsive-remediation-design.md §1.1
  * from persisted official runtime evidence. Only variables with exact values in both themes
- * are admitted here; pending or conflicting names must remain undefined instead of guessed.
+ * are admitted here; Choicebox B1 adds gray-400/blue-200 from its persisted Light/Dark
+ * runtime evidence. Pending or conflicting names must remain undefined instead of guessed.
  */
 describe("official --ds-* compatibility token map", () => {
+  test("Choicebox focus utility uses the verified indigo outline without inventing ds-focus-ring", async () => {
+    const css = await readCss();
+    expect(css).toContain("@utility choicebox-focus");
+    expect(css).toMatch(/&:has\(:focus-visible\)\s*\{[\s\S]*outline:\s*2px solid #5b5bd6;/);
+    expect(css).toMatch(/outline-offset:\s*2px;/);
+  });
+
   test("defines theme-invariant size, focus and popover metrics", async () => {
     const css = await readCss();
     const light = themeBlock(css, ":root");
@@ -33,6 +41,7 @@ describe("official --ds-* compatibility token map", () => {
 
     expectDeclarations(light, {
       "--ds-gray-100": "var(--gray-100)",
+      "--ds-gray-400": "hsl(0 0% 92%)",
       "--ds-gray-500": "var(--gray-500)",
       "--ds-gray-700": "var(--gray-700)",
       "--ds-gray-900": "var(--gray-900)",
@@ -43,6 +52,7 @@ describe("official --ds-* compatibility token map", () => {
       "--ds-blue-600": "#52aeff",
       "--ds-blue-900": "#0068d6",
       "--ds-blue-100": "#f0f7ff",
+      "--ds-blue-200": "hsl(210 100% 96%)",
     });
   });
 
@@ -52,6 +62,7 @@ describe("official --ds-* compatibility token map", () => {
 
     expectDeclarations(dark, {
       "--ds-gray-100": "var(--gray-100)",
+      "--ds-gray-400": "hsl(0 0% 18%)",
       "--ds-gray-500": "var(--gray-500)",
       "--ds-gray-700": "var(--gray-700)",
       "--ds-gray-900": "var(--gray-900)",
@@ -62,6 +73,7 @@ describe("official --ds-* compatibility token map", () => {
       "--ds-blue-600": "#0091ff",
       "--ds-blue-900": "#52a8ff",
       "--ds-blue-100": "#0f1c2e",
+      "--ds-blue-200": "hsl(214 59% 15%)",
     });
   });
 

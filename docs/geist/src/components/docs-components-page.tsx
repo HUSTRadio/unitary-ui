@@ -36,12 +36,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ClearableInput } from "@/components/ui/clearable-input";
-import {
-  Choicebox,
-  ChoiceboxDescription,
-  ChoiceboxItem,
-  ChoiceboxLabel,
-} from "@/components/ui/choicebox";
+import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
 import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
 import { Combobox, ComboboxContent, ComboboxItem, ComboboxTrigger } from "@/components/ui/combobox";
 import { Code, InlineCode } from "@/components/ui/code";
@@ -923,18 +918,38 @@ function CalendarDemo() {
 
 function ChoiceboxDemo() {
   const { language } = useLanguage();
+  const [plan, setPlan] = React.useState("pro");
+  const [features, setFeatures] = React.useState<string[]>(["analytics"]);
   return (
-    <div className="w-full max-w-md">
-      <Choicebox defaultValue="pro" aria-label={demoText(language, "select a plan")}>
-        <ChoiceboxItem value="trial">
-          <ChoiceboxLabel>Pro Trial</ChoiceboxLabel>
-          <ChoiceboxDescription>Free for two weeks</ChoiceboxDescription>
-        </ChoiceboxItem>
-        <ChoiceboxItem value="pro">
-          <ChoiceboxLabel>Pro</ChoiceboxLabel>
-          <ChoiceboxDescription>Get started now</ChoiceboxDescription>
-        </ChoiceboxItem>
-      </Choicebox>
+    <div className="w-full max-w-2xl space-y-4">
+      <ChoiceboxGroup
+        label={demoText(language, "select a plan")}
+        listClassName="flex-row"
+        onChange={setPlan}
+        type="radio"
+        value={plan}
+      >
+        <ChoiceboxGroupItem
+          description={demoText(language, "Free for two weeks")}
+          title={demoText(language, "Pro Trial")}
+          value="trial"
+        />
+        <ChoiceboxGroupItem
+          description={demoText(language, "Get started now")}
+          title="Pro"
+          value="pro"
+        />
+      </ChoiceboxGroup>
+      <ChoiceboxGroup
+        label={demoText(language, "Select frameworks")}
+        listClassName="flex-row"
+        onChange={setFeatures}
+        type="checkbox"
+        value={features}
+      >
+        <ChoiceboxGroupItem description="Next.js" title="Next.js" value="nextjs" />
+        <ChoiceboxGroupItem description="Web Analytics" title="Analytics" value="analytics" />
+      </ChoiceboxGroup>
     </div>
   );
 }

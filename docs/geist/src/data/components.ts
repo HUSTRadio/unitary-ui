@@ -179,18 +179,22 @@ const COMPONENTS_EN: ComponentMeta[] = [
     label: "Choicebox",
     description: "A larger form of Radio for choices with more detail.",
     official: "Choicebox",
-    code: `import { Choicebox, ChoiceboxItem, ChoiceboxLabel, ChoiceboxDescription } from "@/components/ui/choicebox";
+    code: `import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
 
-<Choicebox defaultValue="pro" aria-label="select a plan">
-  <ChoiceboxItem value="trial">
-    <ChoiceboxLabel>Pro Trial</ChoiceboxLabel>
-    <ChoiceboxDescription>Free for two weeks</ChoiceboxDescription>
-  </ChoiceboxItem>
-  <ChoiceboxItem value="pro">
-    <ChoiceboxLabel>Pro</ChoiceboxLabel>
-    <ChoiceboxDescription>Get started now</ChoiceboxDescription>
-  </ChoiceboxItem>
-</Choicebox>`,
+<ChoiceboxGroup
+  label="select a plan"
+  listClassName="flex-row"
+  onChange={setPlan}
+  type="radio"
+  value={plan}
+>
+  <ChoiceboxGroupItem
+    description="Free for two weeks"
+    title="Pro Trial"
+    value="trial"
+  />
+  <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
+</ChoiceboxGroup>`,
     bestPractices: [
       "Use Choicebox when a choice benefits from a larger tap target plus a description or icon.",
       "Single-select for mutually exclusive choices, multi-select for additive ones. Don't mix the two within one group.",
