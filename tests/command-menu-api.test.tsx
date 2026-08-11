@@ -133,6 +133,9 @@ describe("CommandMenu official runtime contract", () => {
     const empty = document.querySelector<HTMLElement>("[cmdk-empty]")!;
     expect(empty.getAttribute("role")).toBe("presentation");
     expect(empty.textContent).toBe('No results found for "missing command".');
+    expect(empty.className).toContain("text-left");
+    expect(empty.className).toContain("text-copy-16");
+    expect(empty.className).toContain("text-foreground");
   });
 
   test("Enter calls the selected item callback and closes the menu", () => {
@@ -154,6 +157,8 @@ describe("CommandMenu official runtime contract", () => {
 
     expect(esc.textContent).toBe("Esc");
     expect(esc.className).toContain("h-5");
+    expect(esc.className).toContain("w-[25px]");
+    expect(esc.querySelector("kbd")?.className).toContain("w-[25px]");
     keydown(input, "Escape");
     expect(setOpen).toHaveBeenCalledWith(false);
   });
@@ -184,7 +189,7 @@ describe("CommandMenu official runtime contract", () => {
     const item = document.querySelector<HTMLElement>("[cmdk-item]")!;
 
     expect(overlay.className).toContain("bg-background-100");
-    expect(overlay.className).toContain("opacity-80");
+    expect(overlay.className).toContain("command-menu-overlay");
     expect(dialog.className).toContain("top-[15%]");
     expect(dialog.className).toContain("w-[640px]");
     expect(dialog.className).not.toContain("max-w-[calc(100vw-32px)]");
@@ -201,6 +206,7 @@ describe("CommandMenu official runtime contract", () => {
     expect(dialog.className).toContain("max-[600px]:rounded-b-none");
     expect(dialog.className).toContain("max-[600px]:rounded-t-[8px]");
     expect(dialog.className).toContain("max-[600px]:overflow-auto");
+    expect(dialog.className).toContain("command-menu-mobile");
     expect(input.className).toContain("text-base");
     expect(input.className).toContain("sm:text-lg");
     expect(list.className).toContain("max-h-none");

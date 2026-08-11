@@ -38,7 +38,7 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           data-slot="command-menu-overlay"
-          className="fixed inset-0 z-100 bg-background-100 opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=open]:duration-300"
+          className="command-menu-overlay fixed inset-0 z-100 bg-background-100 opacity-80"
         />
         <DialogPrimitive.Content
           data-slot="command-menu-content"
@@ -48,7 +48,7 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
             event.preventDefault();
             requestAnimationFrame(() => document.body.focus());
           }}
-          className="command-menu-scale fixed top-[15%] left-1/2 z-100 w-[640px] -translate-x-1/2 overflow-hidden rounded-[12px] bg-background-100 outline-none max-[600px]:top-auto max-[600px]:bottom-0 max-[600px]:left-0 max-[600px]:h-[80vh] max-[600px]:max-h-[80vh] max-[600px]:w-full max-[600px]:max-w-full max-[600px]:translate-x-0 max-[600px]:overflow-auto max-[600px]:rounded-t-[8px] max-[600px]:rounded-b-none"
+          className="command-menu-scale command-menu-mobile fixed top-[15%] left-1/2 z-100 w-[640px] -translate-x-1/2 overflow-hidden rounded-[12px] bg-background-100 outline-none max-[600px]:top-auto max-[600px]:bottom-0 max-[600px]:left-0 max-[600px]:h-[80vh] max-[600px]:max-h-[80vh] max-[600px]:w-full max-[600px]:max-w-full max-[600px]:translate-x-0 max-[600px]:overflow-auto max-[600px]:rounded-t-[8px] max-[600px]:rounded-b-none"
         >
           <h2 id={titleId} className="sr-only">
             Command Menu
@@ -93,9 +93,9 @@ const CommandMenuInput = React.forwardRef<
         type="button"
         aria-label="Close command menu"
         onClick={close}
-        className="h-5 shrink-0 rounded-sm border-0 bg-transparent p-0 outline-none"
+        className="h-5 w-[25px] shrink-0 rounded-sm border-0 bg-transparent p-0 outline-none"
       >
-        <Kbd small className="font-sans!">
+        <Kbd small className="w-[25px] font-sans!">
           Esc
         </Kbd>
       </button>
@@ -121,7 +121,7 @@ const CommandMenuList = React.forwardRef<
     >
       <Command.Empty
         role="presentation"
-        className="px-0 py-[30px] text-center text-copy-14 text-[var(--ds-gray-900)]"
+        className="px-0 py-[30px] text-left text-copy-16 text-foreground"
       >
         {`No results found for "${query}".`}
       </Command.Empty>
