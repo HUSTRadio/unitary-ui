@@ -119,7 +119,7 @@ const Menu = React.forwardRef<
         {...positionProps[position]}
         data-slot="menu"
         className={cn(
-          "z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-32 overflow-x-hidden overflow-y-auto rounded-[8px] border border-gray-alpha-400 bg-background p-1 text-foreground shadow-md outline-none",
+          "z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-32 overflow-x-hidden overflow-y-auto rounded-[12px] bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none",
           "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
           className,
         )}
@@ -173,9 +173,9 @@ const MenuItem = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Item>, M
         data-slot="menu-item"
         data-type={type}
         className={cn(
-          "relative flex min-h-8 cursor-default select-none items-center gap-2 rounded-[6px] px-2 py-1.5 text-label-13 text-foreground outline-none transition-colors focus:bg-gray-alpha-200 data-[disabled]:pointer-events-none data-[disabled]:text-muted-foreground data-[disabled]:opacity-60",
+          "relative flex min-h-9 cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-label-14 text-foreground outline-none transition-colors data-highlighted:bg-gray-alpha-100 data-[disabled]:pointer-events-none data-[disabled]:text-muted-foreground data-[disabled]:opacity-60",
           type === "error" &&
-            "text-destructive focus:bg-destructive focus:text-destructive-foreground",
+            "text-destructive data-highlighted:bg-destructive data-highlighted:text-destructive-foreground",
           className,
         )}
         {...props}
