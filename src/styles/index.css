@@ -310,6 +310,7 @@
   /* 表单控件 focus（官方 Input/Select/Textarea 实测：边框加深 + 同色系柔光，150ms 过渡） */
   --input-focus-border: rgba(0, 0, 0, 0.34);
   --input-focus-glow: rgba(0, 0, 0, 0.16);
+  --input-disabled-placeholder: #999999;
 
   /* Geist 全色阶（Light，colors.md 实测） */
   --amber-100: #fff7e6;
@@ -550,6 +551,7 @@
   /* 表单控件 focus（官方实测 dark：白 alpha 边框加深 + 柔光） */
   --input-focus-border: rgba(255, 255, 255, 0.51);
   --input-focus-glow: rgba(255, 255, 255, 0.24);
+  --input-disabled-placeholder: #444444;
 
   /* Geist 全色阶（Dark，colors.md 实测） */
   --amber-100: #291a00;

@@ -179,8 +179,9 @@ describe("ClearableInput official runtime contract", () => {
 
     expect(button.tabIndex).toBe(-1);
     expect(suffix.className).toContain("bg-[var(--ds-gray-100)]");
-    expect(button.querySelector("kbd")!.className).toContain("bg-[var(--ds-gray-100)]");
-    expect(button.querySelector("kbd")!.className).toContain("text-[var(--ds-gray-700)]");
+    expect(button.querySelector("kbd")!.className).toContain("bg-background-100");
+    expect(button.querySelector("kbd")!.className).toContain("text-[var(--ds-gray-900)]");
+    expect(button.querySelector("kbd")!.className).not.toContain("bg-[var(--ds-gray-100)]");
     click(button);
     keydown(input, "Escape");
     expect(input.value).toBe("locked");
@@ -200,5 +201,9 @@ describe("ClearableInput official runtime contract", () => {
     expect(wrapper.className).not.toContain("border ");
     expect(input.className).toContain("disabled:bg-[var(--ds-gray-100)]");
     expect(input.className).toContain("disabled:text-[var(--ds-gray-700)]");
+    expect(input.className).toContain("placeholder:text-foreground/50");
+    expect(input.className).toContain(
+      "disabled:placeholder:!text-[var(--input-disabled-placeholder)]",
+    );
   });
 });

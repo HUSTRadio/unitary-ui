@@ -50,10 +50,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
     const value = String(isControlled ? valueProp : internalValue);
     const showClear = value.length > 0;
     const showSuffix = showClear || cmdk;
-    const clearableKbdClass = cn(
-      "font-sans! text-[var(--ds-gray-900)]",
-      disabled && "bg-[var(--ds-gray-100)] text-[var(--ds-gray-700)]",
-    );
+    const clearableKbdClass = "font-sans! bg-background-100 text-[var(--ds-gray-900)]";
 
     const setRefs = React.useCallback(
       (node: HTMLInputElement | null) => {
@@ -123,8 +120,8 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
           data-geist-input=""
           className={cn(
             "order-1 h-full w-full min-w-0 appearance-none border-none bg-background-100 px-3 text-copy-14 text-foreground outline-none",
-            "placeholder:text-muted-foreground focus:outline-none",
-            "disabled:cursor-not-allowed disabled:bg-[var(--ds-gray-100)] disabled:text-[var(--ds-gray-700)] disabled:opacity-100",
+            "placeholder:text-foreground/50 focus:outline-none",
+            "disabled:cursor-not-allowed disabled:bg-[var(--ds-gray-100)] disabled:text-[var(--ds-gray-700)] disabled:opacity-100 disabled:placeholder:!text-[var(--input-disabled-placeholder)]",
             showSuffix && "rounded-r-none",
           )}
         />

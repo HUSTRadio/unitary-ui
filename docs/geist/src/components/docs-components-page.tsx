@@ -1392,6 +1392,7 @@ function ClearableInputDemo() {
       <ClearableInput
         aria-label={demoText(language, "Disabled clearable input")}
         disabled
+        placeholder={demoText(language, "Enter some text…")}
         value="Some text"
         onChange={() => {}}
       />

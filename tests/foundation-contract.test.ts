@@ -45,6 +45,12 @@ describe("Geist foundation and docs shell contract", () => {
     expect(css).toContain("@media (prefers-reduced-motion: reduce)");
   });
 
+  test("Clearable Input disabled placeholder token matches live Geist in both themes", async () => {
+    const css = await read("src/styles/index.css");
+    expect(css).toMatch(/:root[\s\S]*?--input-disabled-placeholder:\s*#999999;/);
+    expect(css).toMatch(/\.dark[\s\S]*?--input-disabled-placeholder:\s*#444444;/);
+  });
+
   test("docs shell provides skip navigation and a focusable main target", async () => {
     const app = await read("docs/geist/src/App.tsx");
     expect(app).toContain('href="#main-content"');

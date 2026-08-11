@@ -65,7 +65,7 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   tooltip: "在悬停或聚焦时显示的浮动标签。",
   "theme-switcher": "在浅色、深色和系统主题之间切换。",
   video: "嵌入带内置播放控件的视频。",
-  "clearable-input": "带无障碍一键清除操作的输入框。",
+  "clearable-input": "带内联 Esc 键帽、支持按 Escape 清除内容的输入框。",
   combobox: "可搜索的单选列表。",
   entity: "用于实体及其主要操作的结构化行。",
   "error-card": "包含恢复指引的封闭错误状态。",
