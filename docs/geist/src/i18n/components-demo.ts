@@ -237,6 +237,12 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Drawer body": "抽屉内容",
     Open: "打开",
     "Open Custom Height": "打开自定义高度",
+    Title: "标题",
+    "A message conveying the state of the product.": "传达产品状态的信息。",
+    "This should detail the actions you can take on this screen, as well as why it’s valuable.":
+      "这里应说明你可以在此屏幕执行的操作，以及这些操作的价值。",
+    "Primary Action": "主要操作",
+    "Learn more": "了解更多",
     "View Build Logs": "查看构建日志",
     "View Projects": "查看项目",
     "View Analytics": "查看分析",

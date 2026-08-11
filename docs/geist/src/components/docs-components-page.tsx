@@ -326,13 +326,35 @@ function PaginationDemo() {
 }
 
 function EmptyStateDemo() {
+  const { language } = useLanguage();
+  const icon = <EmptyStateIcon icon={<Inbox aria-hidden />} />;
   return (
-    <div className="w-full max-w-md">
+    <div className="flex w-full max-w-md flex-col gap-8">
       <EmptyState
-        icon={<EmptyStateIcon icon={<Inbox aria-hidden />} />}
-        title="No results"
-        description="Clear your filters to see all logs."
+        icon={icon}
+        title={demoText(language, "Title")}
+        description={demoText(language, "A message conveying the state of the product.")}
       />
+      <EmptyState
+        icon={icon}
+        title={demoText(language, "Title")}
+        description={demoText(language, "A message conveying the state of the product.")}
+      />
+      <EmptyState
+        icon={icon}
+        title={demoText(language, "Title")}
+        description={demoText(
+          language,
+          "This should detail the actions you can take on this screen, as well as why it’s valuable.",
+        )}
+      >
+        <Button typeName="button" type="secondary">
+          {demoText(language, "Primary Action")}
+        </Button>
+        <a href="/" className="text-label-14 text-muted-foreground">
+          {demoText(language, "Learn more")}
+        </a>
+      </EmptyState>
     </div>
   );
 }
