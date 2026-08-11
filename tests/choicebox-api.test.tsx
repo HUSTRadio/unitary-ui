@@ -126,6 +126,9 @@ describe("Choicebox official Group/Item contract (B1)", () => {
     expect(inputs).toHaveLength(2);
     expect([...inputs].every((input) => input.disabled)).toBe(true);
     expect(group.querySelector('svg path[d="M14 7L8.5 12.5L6 10"]')).not.toBeNull();
+    const indicator = group.querySelector('[data-slot="choicebox-checkbox-indicator"]')!;
+    expect(indicator.className).toContain("peer-disabled:peer-checked:bg-[var(--gray-600)]");
+    expect(indicator.className).not.toContain("var(--ds-gray-600)");
   });
 
   test("custom children render only for selected items", () => {

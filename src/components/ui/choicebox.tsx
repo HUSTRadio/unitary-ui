@@ -115,24 +115,23 @@ function ChoiceboxGroupItem({
 }: ChoiceboxGroupItemProps) {
   const context = React.useContext(ChoiceboxContext);
   if (!context) throw new Error("ChoiceboxGroupItem must be rendered inside ChoiceboxGroup");
+  const group = context;
 
   const reactId = React.useId();
   const inputId = id ?? `choicebox-input-${reactId}`;
   const titleId = `choicebox-title-${reactId}`;
   const descriptionId = `choicebox-description-${reactId}`;
-  const selected = Array.isArray(context.value)
-    ? context.value.includes(value)
-    : context.value === value;
-  const itemDisabled = context.disabled || disabled;
+  const selected = Array.isArray(group.value) ? group.value.includes(value) : group.value === value;
+  const itemDisabled = group.disabled || disabled;
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (itemDisabled) return;
-    if (context.type === "radio") {
-      if (event.target.checked) context.onChange(value);
+    if (group.type === "radio") {
+      if (event.target.checked) group.onChange(value);
       return;
     }
-    const current = Array.isArray(context.value) ? context.value : [];
-    context.onChange(
+    const current = Array.isArray(group.value) ? group.value : [];
+    group.onChange(
       event.target.checked ? [...current, value] : current.filter((item) => item !== value),
     );
   }
@@ -184,7 +183,7 @@ function ChoiceboxGroupItem({
             {description}
           </span>
         </span>
-        {context.type === "radio" ? (
+        {group.type === "radio" ? (
           <span
             className={cn("-m-0.5 flex items-center p-0.5", itemDisabled && "cursor-not-allowed")}
           >
@@ -195,9 +194,9 @@ function ChoiceboxGroupItem({
               checked={selected}
               className="peer sr-only"
               disabled={itemDisabled}
-              name={context.name}
+              name={group.name}
               onChange={handleChange}
-              required={context.required || props.required}
+              required={group.required || props.required}
               type="radio"
               value={value}
             />
@@ -222,9 +221,9 @@ function ChoiceboxGroupItem({
               checked={selected}
               className="peer sr-only"
               disabled={itemDisabled}
-              name={context.name}
+              name={group.name}
               onChange={handleChange}
-              required={context.required || props.required}
+              required={group.required || props.required}
               type="checkbox"
               value={value}
             />
@@ -233,7 +232,7 @@ function ChoiceboxGroupItem({
               data-slot="choicebox-checkbox-indicator"
               className={cn(
                 "relative inline-flex size-4 items-center justify-center rounded-sm border border-[var(--ds-gray-500)] bg-[var(--ds-background-100)] transition-all duration-200",
-                "peer-checked:border-[var(--ds-blue-900)] peer-checked:bg-[var(--ds-blue-900)] peer-disabled:not-peer-checked:bg-[var(--ds-gray-100)] peer-disabled:peer-checked:border-[var(--ds-gray-600)] peer-disabled:peer-checked:bg-[var(--ds-gray-600)]",
+                "peer-checked:border-[var(--ds-blue-900)] peer-checked:bg-[var(--ds-blue-900)] peer-disabled:not-peer-checked:bg-[var(--ds-gray-100)] peer-disabled:peer-checked:border-[var(--gray-600)] peer-disabled:peer-checked:bg-[var(--gray-600)]",
               )}
             >
               <svg aria-hidden="true" fill="none" height="16" viewBox="0 0 20 20" width="16">
