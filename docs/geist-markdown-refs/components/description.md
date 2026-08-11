@@ -6,6 +6,8 @@ Displays a brief heading and subheading to communicate any additional informatio
 
 > **渲染参数（官方页面实测）**
 >
+> 下列“容器”值属于官方文档 demo 外层，不属于 `Description` 自身。组件 `dl` 实测为 border 0、radius 0、padding 0、透明背景；`dt` 为 14px/14px/400，`dd` 为 14px/16px/500。
+>
 > **Light 主题**
 >
 > - **Default**

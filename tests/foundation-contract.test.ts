@@ -60,6 +60,16 @@ describe("Geist foundation and docs shell contract", () => {
     );
   });
 
+  test("Description compact typography matches the live component", async () => {
+    const css = await read("src/styles/index.css");
+    expect(css).toMatch(
+      /@utility text-description-title \{\s*font-size: 0\.875rem;\s*line-height: 0\.875rem;\s*font-weight: 400;/,
+    );
+    expect(css).toMatch(
+      /@utility text-description-content \{\s*font-size: 0\.875rem;\s*line-height: 1rem;\s*font-weight: 500;/,
+    );
+  });
+
   test("docs shell provides skip navigation and a focusable main target", async () => {
     const app = await read("docs/geist/src/App.tsx");
     expect(app).toContain('href="#main-content"');

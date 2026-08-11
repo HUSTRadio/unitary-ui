@@ -951,6 +951,18 @@
   font-family: var(--font-mono);
 }
 
+/* Description 官方紧凑 definition-list 排版（14/14 title，14/16 content）。 */
+@utility text-description-title {
+  font-size: 0.875rem;
+  line-height: 0.875rem;
+  font-weight: 400;
+}
+@utility text-description-content {
+  font-size: 0.875rem;
+  line-height: 1rem;
+  font-weight: 500;
+}
+
 /*
  * Geist material-* 材质（官方 materials.md 实测，2026-08-08）
  * 8 级材质：base/small/medium/large 表面 + tooltip/menu/modal/fullscreen 浮层。

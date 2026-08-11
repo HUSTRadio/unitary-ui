@@ -7,12 +7,12 @@ const source = readFileSync(
 );
 
 describe("Description official contract", () => {
-  test("uses definition-list semantics and official text utilities", () => {
+  test("uses definition-list semantics and the official compact typography", () => {
     expect(source).toContain("<dl");
     expect(source).toContain("<dt");
     expect(source).toContain("<dd");
-    expect(source).toContain("text-label-14");
-    expect(source).toContain("text-copy-14");
+    expect(source).toContain("text-description-title");
+    expect(source).toContain("text-description-content");
   });
 
   test("supports right and ellipsis variants without changing markup", () => {
@@ -30,9 +30,11 @@ describe("Description official contract", () => {
     expect(source).toContain("aria-label={tooltip}");
   });
 
-  test("uses the official bordered surface contract", () => {
-    expect(source).toContain("rounded-[8px]");
-    expect(source).toContain("border-gray-alpha-400");
-    expect(source).toContain("bg-background-100");
+  test("keeps the component transparent and delegates framing to the demo wrapper", () => {
+    expect(source).toMatch(/className=\{cn\(\s*"m-0"/);
+    expect(source).not.toContain("rounded-[8px]");
+    expect(source).not.toContain("border-gray-alpha-400");
+    expect(source).not.toContain("bg-background-100");
+    expect(source).not.toContain("p-4");
   });
 });

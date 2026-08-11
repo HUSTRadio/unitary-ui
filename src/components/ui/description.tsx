@@ -25,7 +25,7 @@ function Description({
     <dl
       data-slot="description"
       className={cn(
-        "m-0 rounded-[8px] border border-gray-alpha-400 bg-background-100 p-4",
+        "m-0",
         right && "text-right",
         ellipsis && "w-full [&>dt]:overflow-hidden [&>dt]:truncate [&>dd]:truncate",
         className,
@@ -34,7 +34,7 @@ function Description({
     >
       <dt
         data-slot="description-title"
-        className="mb-2 min-h-[14px] text-label-14 capitalize whitespace-nowrap text-muted-foreground"
+        className="mb-2 min-h-[14px] text-description-title capitalize whitespace-nowrap text-muted-foreground"
       >
         {title}
         {tooltip && (
@@ -50,7 +50,7 @@ function Description({
           </Tooltip>
         )}
       </dt>
-      <dd data-slot="description-content" className="m-0 text-copy-14 font-medium text-foreground">
+      <dd data-slot="description-content" className="m-0 text-description-content text-foreground">
         {content}
       </dd>
     </dl>
