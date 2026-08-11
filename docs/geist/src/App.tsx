@@ -49,19 +49,9 @@ function getPageTitle(pathname: string, language: DocsLanguage) {
   const component = componentName
     ? COMPONENTS.find((candidate) => candidate.name === componentName)
     : undefined;
-  const zhTitles: Record<string, string> = {
-    "/": "Geist Style Framework",
-    "/introduction": "介绍",
-    "/colors": "颜色",
-    "/typography": "排版",
-    "/materials": "材质",
-    "/grid": "网格",
-    "/components": "组件",
-  };
-  const pageTitle =
-    language === "zh-CN"
-      ? (component?.labelZh ?? component?.label ?? zhTitles[pathname] ?? "页面未找到")
-      : (component?.label ?? PAGE_TITLES[pathname] ?? "Page Not Found");
+  const pageTitle = component
+    ? demoText(language, component.label)
+    : demoText(language, PAGE_TITLES[pathname] ?? "Page Not Found");
   return pageTitle === "Geist Style Framework" ? pageTitle : `${pageTitle} – Geist Style Framework`;
 }
 

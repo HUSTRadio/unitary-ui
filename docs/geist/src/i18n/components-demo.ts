@@ -264,6 +264,13 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
       "断点采用移动优先策略，提供 sm、md、lg、xl、2xl 预设。",
     Icons: "图标",
     Typeface: "字体",
+    "Back to Components": "返回组件",
+    "Component not found": "组件不存在",
+    "No component named {name} was found.": "未找到名为 {name} 的组件。",
+    "Live Demo": "实时示例",
+    "Best Practices": "最佳实践",
+    "Page Not Found": "页面未找到",
+    Introduction: "介绍",
   },
   "en-US": {},
 };
