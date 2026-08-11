@@ -1,0 +1,155 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/HUSTRadio/geist-style-framework/tests/audit/geist-audit-manifest.schema.json",
+  "title": "Geist replica audit manifest",
+  "description": "契约：tests/audit/geist-audit-manifest.json 的组件条目必须携带真实能力与响应式矩阵，拒绝 default-only、`main` selector、未实时枚举（pending_live_enumeration）的占位骨架。字段枚举词汇在首次实时取证回填（Task 2 完整版）时按证据收紧。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "status",
+    "viewports",
+    "themes",
+    "allowedStatuses",
+    "globalExclusionPolicy",
+    "components"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["IN_PROGRESS_NO_COMPLETION_CLAIM", "ACCEPTANCE_EVIDENCE_COMPLETE"]
+    },
+    "viewports": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["width", "height"],
+        "properties": {
+          "width": { "type": "integer" },
+          "height": { "type": "integer" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "themes": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": { "enum": ["light", "dark"] }
+    },
+    "allowedStatuses": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "enum": ["PASS", "FAIL", "MISSING", "BLOCKED", "NOT_APPLICABLE"] }
+    },
+    "globalExclusionPolicy": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/component" }
+    }
+  },
+  "definitions": {
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slug",
+        "officialUrl",
+        "inventoryStatus",
+        "variants",
+        "states",
+        "demos",
+        "viewports",
+        "themes",
+        "interactionRecipes",
+        "responsiveExpectations",
+        "selectors",
+        "interaction",
+        "approvedExclusions"
+      ],
+      "properties": {
+        "slug": {
+          "type": "string",
+          "minLength": 1
+        },
+        "officialUrl": {
+          "type": "string",
+          "pattern": "^https://vercel\\.com/geist/"
+        },
+        "inventoryStatus": {
+          "type": "string",
+          "minLength": 1,
+          "not": { "const": "pending_live_enumeration" }
+        },
+        "variants": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "states": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "demos": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "viewports": {
+          "const": ["375x812", "768x1024", "1440x900", "1920x1080"]
+        },
+        "themes": {
+          "const": ["light", "dark"]
+        },
+        "interactionRecipes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "responsiveExpectations": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "selectors": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["official", "local"],
+          "properties": {
+            "official": {
+              "type": "string",
+              "minLength": 1,
+              "not": { "const": "main" }
+            },
+            "local": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "interaction": {
+          "enum": ["applicable", "NOT_APPLICABLE", "pending"]
+        },
+        "approvedExclusions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}
