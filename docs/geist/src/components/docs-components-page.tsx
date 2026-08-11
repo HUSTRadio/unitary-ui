@@ -1436,6 +1436,54 @@ function ContextMenuDemo() {
   );
 }
 
+function ContextMenuVariantDemo({ variant }: { variant: "disabled" | "link" | "prefix" }) {
+  const { language } = useLanguage();
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger asChild>
+        <Button typeName="button" type="tertiary">
+          {demoText(language, "Right click here")}
+        </Button>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        {variant === "disabled" ? (
+          <>
+            <ContextMenuItem>{demoText(language, "Open Project")}</ContextMenuItem>
+            <ContextMenuItem disabled>{demoText(language, "Archive Project")}</ContextMenuItem>
+            <ContextMenuItem>{demoText(language, "Copy URL")}</ContextMenuItem>
+          </>
+        ) : null}
+        {variant === "link" ? (
+          <>
+            <ContextMenuItem href="/projects">{demoText(language, "Open Project")}</ContextMenuItem>
+            <ContextMenuItem href="/settings">
+              {demoText(language, "Open Settings")}
+            </ContextMenuItem>
+          </>
+        ) : null}
+        {variant === "prefix" ? (
+          <>
+            <ContextMenuItem
+              prefix={<span aria-hidden>◈</span>}
+              suffix={<span aria-hidden>⌘K</span>}
+              value="project"
+            >
+              {demoText(language, "Open Project")}
+            </ContextMenuItem>
+            <ContextMenuItem
+              prefix={<span aria-hidden>↗</span>}
+              suffix={<span aria-hidden>↵</span>}
+              value="deployment"
+            >
+              {demoText(language, "Open Deployment")}
+            </ContextMenuItem>
+          </>
+        ) : null}
+      </ContextMenuContent>
+    </ContextMenu>
+  );
+}
+
 function DotsMenuDemo() {
   return (
     <DotsMenu>
@@ -1849,7 +1897,14 @@ function renderDemo(name: string): React.ReactNode {
     case "context-card":
       return <ContextCardDemo />;
     case "context-menu":
-      return <ContextMenuDemo />;
+      return (
+        <div className="space-y-8">
+          <ContextMenuDemo />
+          <ContextMenuVariantDemo variant="disabled" />
+          <ContextMenuVariantDemo variant="link" />
+          <ContextMenuVariantDemo variant="prefix" />
+        </div>
+      );
     case "copy-button":
       return <CopyButtonDemo />;
     case "destructive-action-modal":

@@ -380,8 +380,8 @@ const COMPONENTS_EN: ComponentMeta[] = [
     <Button type="tertiary">Right click here</Button>
   </ContextMenuTrigger>
   <ContextMenuContent>
-    <ContextMenuItem>Open in New Tab</ContextMenuItem>
-    <ContextMenuItem>Copy URL</ContextMenuItem>
+    <ContextMenuItem href="/projects">Open Project</ContextMenuItem>
+    <ContextMenuItem href="/settings">Open Settings</ContextMenuItem>
     <ContextMenuSeparator />
     <ContextMenuItem className="text-destructive focus:bg-destructive focus:text-destructive-foreground">
       Delete Deployment

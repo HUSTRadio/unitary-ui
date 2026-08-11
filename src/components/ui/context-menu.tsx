@@ -3,15 +3,6 @@ import { ContextMenu as ContextMenuPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 
-/**
- * ContextMenu — Geist 官方 Context Menu 规范（docs/geist-markdown-refs/components/context-menu.md）。
- * radix-ui ContextMenu 原语。官方实测对齐：
- * - 浮层：min-w 160px · pad 6px · 材质 hairline 阴影（--material-shadow-menu，含 1px 描边，
- *   不再叠 border）· 8px 圆角 · 双主题随 bg-popover 切换
- * - 条目：h 36px（py-2 + text-label-14 20px 行高）· pad 0 8px
- * Content 自带 onContextMenu preventDefault，仅压制触发区域的原生右键菜单。
- */
-
 const ContextMenu = ContextMenuPrimitive.Root;
 const ContextMenuTrigger = ContextMenuPrimitive.Trigger;
 
@@ -24,8 +15,7 @@ const ContextMenuContent = React.forwardRef<
       ref={ref}
       onContextMenu={(event) => event.preventDefault()}
       className={cn(
-        "z-50 min-w-[10rem] overflow-hidden rounded-[8px] bg-popover p-1.5 text-popover-foreground shadow-[var(--material-shadow-menu)]",
-        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+        "z-50 w-max overflow-hidden rounded-[12px] bg-background-100 p-1.5 text-foreground shadow-[var(--material-shadow-menu)] max-sm:w-full max-sm:rounded-b-none",
         className,
       )}
       {...props}
@@ -34,24 +24,75 @@ const ContextMenuContent = React.forwardRef<
 ));
 ContextMenuContent.displayName = ContextMenuPrimitive.Content.displayName;
 
-const ContextMenuItem = React.forwardRef<
-  React.ElementRef<typeof ContextMenuPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item> & {
-    inset?: boolean;
-    /** 官方示例 API（value="hello"）；本地 ContextMenu 无 onValueChange，忽略之 */
-    value?: string;
-  }
->(({ className, inset, value: _value, ...props }, ref) => (
-  <ContextMenuPrimitive.Item
-    ref={ref}
-    className={cn(
-      "relative flex cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-label-14 outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0",
-      inset && "pl-8",
-      className,
-    )}
-    {...props}
-  />
-));
+interface ContextMenuItemProps extends Omit<
+  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item>,
+  "asChild" | "prefix" | "suffix"
+> {
+  inset?: boolean;
+  value?: string;
+  href?: string;
+  prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
+}
+
+const itemClassName =
+  "relative flex h-9 cursor-default select-none items-center rounded-[6px] px-2 text-label-14 outline-none focus:bg-gray-alpha-200 data-[disabled]:pointer-events-none data-[disabled]:text-gray-500 [&_svg]:size-4 [&_svg]:shrink-0";
+
+const ContextMenuItem = React.forwardRef<HTMLElement, ContextMenuItemProps>(
+  (
+    { className, inset, value, href, prefix, suffix, children, disabled, onClick, ...props },
+    ref,
+  ) => {
+    const content = (
+      <>
+        {prefix ? (
+          <span data-context-menu-prefix className="mr-2 flex size-4 items-center">
+            {prefix}
+          </span>
+        ) : null}
+        <span>{children}</span>
+        {suffix ? (
+          <span data-context-menu-suffix className="ml-2 flex size-4 items-center">
+            {suffix}
+          </span>
+        ) : null}
+      </>
+    );
+
+    if (href) {
+      return (
+        <ContextMenuPrimitive.Item asChild disabled={disabled} {...props}>
+          <a
+            ref={ref as React.ForwardedRef<HTMLAnchorElement>}
+            href={href}
+            role="menuitem"
+            data-value={value}
+            aria-disabled={disabled || undefined}
+            data-disabled={disabled ? "" : undefined}
+            onClick={onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>}
+            className={cn(itemClassName, inset && "pl-8", className)}
+          >
+            {content}
+          </a>
+        </ContextMenuPrimitive.Item>
+      );
+    }
+
+    return (
+      <ContextMenuPrimitive.Item
+        ref={ref as React.ForwardedRef<HTMLDivElement>}
+        disabled={disabled}
+        data-value={value}
+        aria-disabled={disabled || undefined}
+        onClick={onClick}
+        className={cn(itemClassName, inset && "pl-8", className)}
+        {...props}
+      >
+        {content}
+      </ContextMenuPrimitive.Item>
+    );
+  },
+);
 ContextMenuItem.displayName = ContextMenuPrimitive.Item.displayName;
 
 const ContextMenuSeparator = React.forwardRef<
@@ -60,7 +101,7 @@ const ContextMenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ContextMenuPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-border", className)}
+    className={cn("-mx-1 my-1 h-px bg-gray-alpha-400", className)}
     {...props}
   />
 ));
@@ -73,3 +114,4 @@ export {
   ContextMenuItem,
   ContextMenuSeparator,
 };
+export type { ContextMenuItemProps };
