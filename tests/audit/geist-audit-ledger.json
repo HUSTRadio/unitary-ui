@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "EMPTY_SKELETON_NO_PASS_CLAIMS",
+  "status": "IN_PROGRESS_NO_COMPLETION_CLAIM",
   "generatedFrom": "tests/audit/geist-audit-manifest.json",
   "results": []
 }

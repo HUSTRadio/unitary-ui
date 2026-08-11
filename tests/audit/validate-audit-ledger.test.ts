@@ -9,6 +9,8 @@ const auditDir = join(root, "tests/audit");
 const allowedStatuses = new Set(["PASS", "FAIL", "MISSING", "BLOCKED", "NOT_APPLICABLE"]);
 
 const readJson = (name: string) => JSON.parse(readFileSync(join(auditDir, name), "utf8"));
+const readReport = () => readFileSync(resolve(root, "docs/geist-replica-acceptance.md"), "utf8");
+const COMPLETION_CLAIM_RE = /72\/72|576\/576/;
 
 describe("Geist replica audit contract", () => {
   test("manifest declares exactly 72 unique official components", () => {
@@ -47,6 +49,27 @@ describe("Geist replica audit contract", () => {
       }
       if (result.status === "BLOCKED") expect(result.reason).toBeTruthy();
     }
+  });
+
+  test("completion claims in the report require a populated, failure-free ledger", () => {
+    const manifest = readJson("geist-audit-manifest.json");
+    const ledger = readJson("geist-audit-ledger.json");
+    const report = readReport();
+
+    const claimsCompletion = COMPLETION_CLAIM_RE.test(report);
+    const evidenceComplete =
+      manifest.status === "ACCEPTANCE_EVIDENCE_COMPLETE" &&
+      Array.isArray(ledger.results) &&
+      ledger.results.length > 0 &&
+      ledger.results.every(
+        (row: { status: string }) => !["FAIL", "MISSING", "BLOCKED"].includes(row.status),
+      );
+
+    // 双向门禁：报告出现 72/72 或 576/576 完成声明 ⟺ manifest/ledger 处于完整验收证据状态。
+    // 不写成 if 条件，避免撤销报告后测试逃逸、失去持续约束。
+    expect(claimsCompletion, "完成声明必须与 ACCEPTANCE_EVIDENCE_COMPLETE + 已填充无失败 ledger 同真同假").toBe(
+      evidenceComplete,
+    );
   });
 
   test("collector validates a single isolated cell without opening a browser", () => {
