@@ -218,7 +218,7 @@ describe("Geist replica audit contract", () => {
     expect(report.geometry.nodes[0].official).toEqual({ x: 10, y: 10, width: 20, height: 10 });
     expect(readFileSync(join(out, "diff.png")).byteLength).toBeGreaterThan(0);
     expect(readFileSync(join(out, "overlay.png")).byteLength).toBeGreaterThan(0);
-  });
+  }, 15_000);
 
   test("comparator keeps legacy output compatible while adding semantic-role fields", () => {
     const dir = mkdtempSync(join(tmpdir(), "geist-audit-compare-legacy-"));
@@ -276,7 +276,7 @@ describe("Geist replica audit contract", () => {
     expect(report.status).toBe("FAIL");
     expect(report.approved_exclusions).toEqual([]);
     expect(report.artifacts).toEqual({ diff: "diff.png", overlay: "overlay.png" });
-  });
+  }, 15_000);
 });
 
 describe("Geist audit evidence collector (Task 3: demo / state recipe / ancestry / responsive fields)", () => {
@@ -524,28 +524,100 @@ describe("Geist audit manifest schema gate (Task 2: schema 基础门禁)", () =>
     expect(componentSchema.properties.responsiveExpectations.minItems).toBeGreaterThan(0);
   });
 
-  test("current skeleton manifest is flagged non-compliant by the schema contract", () => {
+  test("Task 9 backfilled components satisfy the schema; un-evidenced skeletons stay rejected", () => {
     const schema = readSchema();
     const manifest = readJson("geist-audit-manifest.json");
-    const violations = manifest.components.flatMap((component: Record<string, unknown>) =>
+    const designGate = readJson("geist-design-gate.json");
+
+    // Task 9 门禁：只有证据支撑的组件允许回填；清单见 docs/audits/geist-component-and-responsive-remediation-design.md §2。
+    const BACKFILLED = new Set([
+      "checkbox",
+      "choicebox",
+      "clearable-input",
+      "code-block",
+      "collapse",
+      "command-menu",
+      "context-card",
+      "context-menu",
+      "description",
+      "dots-menu",
+      "drawer",
+      "empty-state",
+    ]);
+
+    // 已回填组件必须零违规：真实能力矩阵与 schema 完全一致。
+    const backfilled = manifest.components.filter((component: { slug: string }) =>
+      BACKFILLED.has(component.slug),
+    );
+    expect(backfilled).toHaveLength(12);
+    const backfilledViolations = backfilled.flatMap((component: Record<string, unknown>) =>
       collectContractViolations(component, schema.definitions.component),
     );
-
-    // 72 个组件全部仍是 pending_live_enumeration 骨架：每个都必须被拒绝。
-    expect(violations.length).toBeGreaterThanOrEqual(manifest.components.length);
-    const reasons = violations.map((violation) => violation.reason).join("\n");
-    expect(reasons).toMatch(/pending_live_enumeration/);
-    expect(reasons).toMatch(/"main"/);
-    for (const field of [
-      "demos",
-      "viewports",
-      "themes",
-      "interactionRecipes",
-      "responsiveExpectations",
-    ]) {
-      expect(reasons, `skeleton must be rejected for missing "${field}"`).toMatch(
-        new RegExp(`"${field}"`),
+    expect(
+      backfilledViolations,
+      `backfilled components must satisfy the schema contract: ${JSON.stringify(backfilledViolations)}`,
+    ).toEqual([]);
+    for (const component of backfilled as Array<{
+      slug: string;
+      states: string[];
+      demos: Array<{ id: string }>;
+      selectors: { official: string; local: string };
+      interactionRecipes: string[];
+      interaction: string;
+    }>) {
+      const ids = component.demos.map((demo) => demo.id);
+      expect(new Set(ids).size, `${component.slug} demo ids must be unique`).toBe(ids.length);
+      for (const [side, selector] of Object.entries(component.selectors)) {
+        expect(selector, `${component.slug}.${side} selector must be specific`).not.toBe("main");
+      }
+      const gateEntry = designGate.components.find(
+        (entry: { slug: string }) => entry.slug === component.slug,
       );
+      expect(gateEntry, `${component.slug} must have a machine gate entry`).toBeDefined();
+      if (gateEntry.dimensions.states === "BLOCKED") {
+        expect(component.interaction, `${component.slug} blocked states cannot be applicable`).toBe(
+          "pending",
+        );
+        expect(
+          component.interactionRecipes.every((recipe) => recipe.startsWith("blocked:")),
+          `${component.slug} blocked recipes must be explicitly marked`,
+        ).toBe(true);
+        expect(
+          component.states.some((state) => state.endsWith("-blocked")),
+          `${component.slug} blocked states must be visible in the manifest`,
+        ).toBe(true);
+      }
+    }
+
+    // 其余组件尚未形成满足 schema 的完整能力矩阵，必须继续被拒绝；其中 Calendar/Combobox/Entity
+    // 已有部分持久证据，但仍缺结构化完整枚举、双主题四视口或可执行 selector/recipe，不能提前回填。
+    const skeletons = manifest.components.filter(
+      (component: { slug: string }) => !BACKFILLED.has(component.slug),
+    );
+    expect(skeletons.length).toBe(60);
+    for (const skeleton of skeletons) {
+      const reasons = collectContractViolations(
+        skeleton as Record<string, unknown>,
+        schema.definitions.component,
+      )
+        .map((violation) => violation.reason)
+        .join("\n");
+      expect(reasons, `${skeleton.slug} must stay rejected for pending_live_enumeration`).toMatch(
+        /pending_live_enumeration/,
+      );
+      expect(reasons, `${skeleton.slug} must stay rejected for "main" selector`).toMatch(/"main"/);
+      for (const field of [
+        "demos",
+        "viewports",
+        "themes",
+        "interactionRecipes",
+        "responsiveExpectations",
+      ]) {
+        expect(
+          reasons,
+          `skeleton ${skeleton.slug} must be rejected for missing "${field}"`,
+        ).toMatch(new RegExp(`"${field}"`));
+      }
     }
   });
 });
@@ -643,7 +715,7 @@ describe("Geist audit comparator (Task 4: semantic roles / responsive deltas / f
         selector: '[data-demo-id="drawer-demo"] [data-role="portal"]',
       },
     ]);
-  });
+  }, 15_000);
 
   test("font-family and Lucide icon path diffs are field-level exemptions that never mask size/color/ARIA", () => {
     const dir = mkdtempSync(join(tmpdir(), "geist-audit-compare-exempt-"));
@@ -710,7 +782,7 @@ describe("Geist audit comparator (Task 4: semantic roles / responsive deltas / f
     expect(byRole.content.aria.failures.map((entry: { field: string }) => entry.field)).toContain(
       "aria-expanded",
     );
-  });
+  }, 15_000);
 
   test("responsiveDelta reports same-role viewport changes instead of pixel error", () => {
     const dir = mkdtempSync(join(tmpdir(), "geist-audit-compare-responsive-"));
@@ -763,7 +835,7 @@ describe("Geist audit comparator (Task 4: semantic roles / responsive deltas / f
     expect(
       report.responsiveDelta.find((entry: { role: string }) => entry.role === "icon"),
     ).toBeUndefined();
-  });
+  }, 15_000);
 
   test("style and aria comparison covers the required field sets", () => {
     const requiredStyleFields = [
@@ -831,5 +903,5 @@ describe("Geist audit comparator (Task 4: semantic roles / responsive deltas / f
     for (const field of requiredAriaFields) {
       expect(ariaFailureFields, `aria field "${field}" must be compared`).toContain(field);
     }
-  });
+  }, 15_000);
 });

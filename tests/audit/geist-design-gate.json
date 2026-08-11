@@ -1,0 +1,416 @@
+{
+  "schemaVersion": 1,
+  "title": "Geist Task 9 design gate ledger (machine-readable)",
+  "gateDateUtc": "2026-08-11T07:10:00Z",
+  "plan": ".hermes/plans/2026-08-11_141304-geist-systemic-parity-and-responsive-remediation.md",
+  "designDoc": "docs/audits/geist-component-and-responsive-remediation-design.md",
+  "evidenceRoot": "C:/Users/Leon/geist-audit/phase-e",
+  "status": "GATE_APPROVED_B0_B1_ONLY",
+  "dimensions": [
+    "officialCapabilities",
+    "api",
+    "dom",
+    "states",
+    "responsive",
+    "aria",
+    "motion",
+    "localDemoCoverage",
+    "comparison"
+  ],
+  "components": [
+    {
+      "slug": "choicebox",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "FAIL",
+        "dom": "FAIL",
+        "states": "PARTIAL",
+        "responsive": "BLOCKED_PRELIMINARY",
+        "aria": "FAIL",
+        "motion": "PARTIAL",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["choicebox/choicebox-evidence.md"],
+      "notes": "A1-A4/D1-D2/S2/S5-S9 diff list frozen; multi-select + children-on-select + API rename required; viewport data is container-simulation only"
+    },
+    {
+      "slug": "clearable-input",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "FAIL",
+        "dom": "FAIL",
+        "states": "PARTIAL",
+        "responsive": "BLOCKED_PRELIMINARY",
+        "aria": "FAIL",
+        "motion": "PASS",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["clearable-input/evidence-live.md", "clearable-input/evidence-raw.json"],
+      "notes": "kbd Esc keycap vs X icon; label/cmdk props missing; disabled colors; focus ring #0072f5; AT contract aria-hidden"
+    },
+    {
+      "slug": "command-menu",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "FAIL",
+        "dom": "FAIL",
+        "states": "PARTIAL",
+        "responsive": "BLOCKED_PRELIMINARY",
+        "aria": "FAIL",
+        "motion": "FAIL",
+        "localDemoCoverage": "PARTIAL",
+        "comparison": "MISSING"
+      },
+      "evidence": ["command-menu/evidence-command-menu.md", "command-menu/STATUS.md"],
+      "notes": "13 diff paths frozen; cmdk semantics, overlay bg-background-100 opacity-80, w-[640px] top-[15%], focus-to-body on Esc, sm(401px) variant"
+    },
+    {
+      "slug": "code-block",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PARTIAL",
+        "responsive": "MISSING",
+        "aria": "PARTIAL",
+        "motion": "PARTIAL",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["code-block/code-block.json", "code-block/evidence-summary.md"],
+      "notes": "CONFIRMED_MISSING high: 1/9 variants; CB-01..CB-12; official props, DOM/ARIA line anchors and switcher/tabs, visual states and observed motion policy are partially evidenced; responsive matrix remains missing"
+    },
+    {
+      "slug": "context-menu",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "MISSING",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": [
+        "context-menu/README.md",
+        "context-menu/context-menu-diff-table.md",
+        "context-menu/evidence/"
+      ],
+      "notes": "16/16 real-viewport cells passed; CM-1/CM-2 href/prefix/suffix missing; CM-3 radius 12 vs 8; CM-4 dark #0a0a0a vs #1a1a1a; CM-6 375 max-sm:w-full; CM-11 longpress BLOCKED"
+    },
+    {
+      "slug": "description",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PARTIAL",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "PARTIAL"
+      },
+      "evidence": ["description/report.json", "description/DIFF-REPORT.md"],
+      "notes": "Core PASS (dl/dt/dd, right, ellipsis); TIP-05 tooltip surface (max-w 250, no shadow); TIP-02 indicator glyph; DEM-01 variants missing; RES-03 1440/1920 BLOCKED"
+    },
+    {
+      "slug": "dots-menu",
+      "batch": "B1_PARTIAL_MATRIX",
+      "inventoryStatus": "live_enumeration_partial",
+      "gate": "TDD_READY_CONDITIONAL",
+      "dimensions": {
+        "officialCapabilities": "PARTIAL",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PARTIAL",
+        "responsive": "MISSING",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": [
+        "dots-menu/evidence/official-1440-light.json",
+        "dots-menu/evidence/official-1440-light-interact.json",
+        "dots-menu/evidence/cells-manifest.json"
+      ],
+      "notes": "Only 1440-light cells (4/4); sections Default/Sizes/Disabled/Disabled Menu Item; trigger 32x32 r6 icon 18; menu min-w 200 r12 p6 rows 36; G12: 7/8 matrix cells missing before final acceptance"
+    },
+    {
+      "slug": "drawer",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "FAIL",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["drawer/REPORT.md", "drawer/evidence/", "drawer/run.log"],
+      "notes": "16/16 real-viewport x theme cells + full interaction matrix PASS; first invalid 375 official probes are isolated under evidence/invalid and excluded, verified redo-375 data is used. D1-D7 and Base UI contract remain"
+    },
+    {
+      "slug": "empty-state",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PARTIAL",
+        "dom": "PASS",
+        "states": "NOT_APPLICABLE",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "BLOCKED",
+        "comparison": "MISSING"
+      },
+      "evidence": [
+        "empty-state/evidence/official-sweep.json",
+        "empty-state/evidence/local-sweep.json"
+      ],
+      "notes": "Official 8/8 real-viewport cells ok (3 demos); local sweep 8/8 timeout (no data-slot=empty-state in demo); container/bubble/title classes frozen"
+    },
+    {
+      "slug": "checkbox",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PARTIAL",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PASS",
+        "motion": "PASS",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["checkbox/pixel-summary.json", "checkbox/runs/"],
+      "notes": "64-cell official-only pixel summary (4 viewports x 2 themes x 8 states); initial dark detailed-run writes hit ENOSPC, but the final aggregate contains 32 dark cells. Local runtime comparison remains MISSING"
+    },
+    {
+      "slug": "collapse",
+      "batch": "B2",
+      "inventoryStatus": "live_enumeration_partial",
+      "gate": "RE_EVIDENCE_REQUIRED",
+      "dimensions": {
+        "officialCapabilities": "PARTIAL",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "BLOCKED",
+        "responsive": "BLOCKED",
+        "aria": "PARTIAL",
+        "motion": "PARTIAL",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": [
+        "collapse/evidence/official-375-light-cell.json",
+        "collapse/evidence/official-manifest.json",
+        "collapse/evidence/local-manifest.json"
+      ],
+      "notes": "G7 demo attribution failed (all demos resolve to same element), so collected viewport cells are not demo-attributable; G8 local matrix FATAL; only shared structural facts are usable"
+    },
+    {
+      "slug": "context-card",
+      "batch": "B2",
+      "inventoryStatus": "live_enumeration_partial",
+      "gate": "RE_EVIDENCE_REQUIRED",
+      "dimensions": {
+        "officialCapabilities": "PARTIAL",
+        "api": "PARTIAL",
+        "dom": "FAIL",
+        "states": "BLOCKED",
+        "responsive": "UNVERIFIED",
+        "aria": "PARTIAL",
+        "motion": "DIFF_SOURCE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["context-card/report-context-card.json", "context-card/diff-table.md"],
+      "notes": "CONFIRMED_ERROR high: radius 6, w-fit, dark bg #0a0a0a, content 16px/24px, arrow, z-1000000, 4-layer shadow; interaction open-state BLOCKED both sides; visual fixes may start, interaction acceptance frozen"
+    },
+    {
+      "slug": "entity",
+      "batch": "B2",
+      "inventoryStatus": "pending_live_enumeration",
+      "gate": "RE_EVIDENCE_REQUIRED",
+      "dimensions": {
+        "officialCapabilities": "PARTIAL",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PARTIAL",
+        "responsive": "PARTIAL",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": [
+        "entity/evidence/official-rsc-samples.json",
+        "entity/evidence/official-interactions.json",
+        "entity/evidence/cell-manifest.json"
+      ],
+      "notes": "API frozen from 6 RSC samples. Re-run: official 8/8 viewport-theme cells succeeded with 7 sections and 48 slots; local 8/8 captured zero Entity DOM, and all 4 local Dark cells failed theme verification. G6 now requires local demo/route targeting plus Dark theme repair before implementation"
+    },
+    {
+      "slug": "calendar",
+      "batch": "B2",
+      "inventoryStatus": "pending_live_enumeration",
+      "gate": "RE_EVIDENCE_REQUIRED",
+      "dimensions": {
+        "officialCapabilities": "PARTIAL",
+        "api": "FAIL",
+        "dom": "FAIL",
+        "states": "PARTIAL",
+        "responsive": "MISSING",
+        "aria": "PARTIAL",
+        "motion": "MISSING",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": [
+        "calendar/evidence/off-default-open-light.png",
+        "calendar/evidence/off-pinned-tz-open-light.png",
+        "calendar/delegation/live-transcript.log"
+      ],
+      "notes": "9 demos and desktop main flow enumerated live; official Popover range-picker architecture is frozen and local static single-month table is a confirmed API/DOM failure. Dark, real four-viewport/local runtime matrix, Presets conflict and Shift+Arrow conflict remain G5"
+    },
+    {
+      "slug": "combobox",
+      "batch": "BLOCKED",
+      "inventoryStatus": "pending_live_enumeration",
+      "gate": "BLOCKED",
+      "dimensions": {
+        "officialCapabilities": "PARTIAL",
+        "api": "FAIL",
+        "dom": "FAIL",
+        "states": "PARTIAL",
+        "responsive": "MISSING",
+        "aria": "PARTIAL",
+        "motion": "MISSING",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["combobox/delegation/live-transcript.log"],
+      "notes": "14 demos and main flow were enumerated live; official Combobox/Input/List/Option searchbox+listbox architecture is frozen and local Trigger/Content/Item API is a confirmed failure. Full report was not persisted during ENOSPC; reconstruct it and add Dark/four-viewport/Modal/Sheet matrices before implementation"
+    },
+    {
+      "slug": "modal",
+      "batch": "BLOCKED",
+      "inventoryStatus": "pending_live_enumeration",
+      "gate": "BLOCKED",
+      "dimensions": {
+        "officialCapabilities": "MISSING",
+        "api": "MISSING",
+        "dom": "MISSING",
+        "states": "MISSING",
+        "responsive": "MISSING",
+        "aria": "MISSING",
+        "motion": "MISSING",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": [],
+      "notes": "Zero evidence; old max-sm bottom-sheet assumption explicitly forbidden (plan 5.6); Task 8 layout audit required; shared Dialog contract stays frozen"
+    },
+    {
+      "slug": "sheet",
+      "batch": "BLOCKED",
+      "inventoryStatus": "pending_live_enumeration",
+      "gate": "BLOCKED",
+      "dimensions": {
+        "officialCapabilities": "MISSING",
+        "api": "MISSING",
+        "dom": "MISSING",
+        "states": "MISSING",
+        "responsive": "MISSING",
+        "aria": "MISSING",
+        "motion": "MISSING",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": [],
+      "notes": "Zero evidence; default-vs-demo-override boundary and 4-viewport width/margin/height/scroll require Task 8 measurement"
+    }
+  ],
+  "batches": {
+    "B0_SHARED_LAYERS": {
+      "entry": "TDD_READY",
+      "items": ["ds-token-map", "input-wrapper", "menu-surface", "tooltip-surface"],
+      "notes": "input-wrapper is directly evidenced only for clearable-input; any extraction into input.tsx must first lock the existing public Input behavior with regression tests",
+      "files": [
+        "src/styles/index.css",
+        "src/components/ui/input.tsx",
+        "src/components/ui/menu.tsx",
+        "src/components/ui/tooltip.tsx"
+      ],
+      "tests": ["tests/audit/ds-token-contract.test.ts"],
+      "excluded": ["modal", "sheet", "dialog-primitive"]
+    },
+    "B1": {
+      "entry": "TDD_READY",
+      "items": [
+        "choicebox",
+        "clearable-input",
+        "command-menu",
+        "code-block",
+        "context-menu",
+        "description",
+        "dots-menu",
+        "drawer",
+        "empty-state",
+        "checkbox"
+      ],
+      "planTasks": ["Task11(4/5)", "Task12(3/4)", "Task14(1/2)", "Task15(2/5)"],
+      "notes": "dots-menu B1*: matrix G12 must be closed before independent acceptance (Task 17)"
+    },
+    "B2": {
+      "entry": "RE_EVIDENCE_REQUIRED",
+      "items": ["context-card", "collapse", "entity", "calendar"],
+      "unblocks": ["G5", "G6", "G7", "G8", "G9"]
+    },
+    "BLOCKED": {
+      "entry": "NO_IMPLEMENTATION",
+      "items": ["combobox", "modal", "sheet"],
+      "unblocks": ["Task5-combobox", "Task8-modal-sheet"]
+    }
+  },
+  "globalBlockers": [
+    "G1: no official/local comparison.json pairs anywhere -> consistency PASS impossible until Task 4 comparator enters the implementation loop",
+    "G2: viewport clamp for browser_tools workers -> re-collect with CDP/playwright for 7 components",
+    "G16: md-refs snapshot drift (context-menu radius 8 vs 12, context-card 8px/0.14) -> refresh snapshots at batch start",
+    "G17: official docs prose vs live behavior drift (Command Menu Esc focus, Context Card keyboard open, Context Menu Shift+F10) -> tests assert measured reality"
+  ]
+}

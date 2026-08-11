@@ -133,40 +133,116 @@
     {
       "slug": "checkbox",
       "officialUrl": "https://vercel.com/geist/checkbox",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["default", "disabled"],
+      "states": ["default", "checked", "indeterminate", "disabled", "hover", "focus-visible"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "disabled"
+        },
+        {
+          "id": "indeterminate"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": ["click:input", "keyboard:space", "keyboard:tab-focus"],
+      "responsiveExpectations": [
+        "indicator-16x16-r4:indicator box stays 16x16 at all four viewports (pixel matrix 64 cells)",
+        "state-colors:checked/disabled/hover/focus use --ds-gray tokens unchanged across viewports"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "main input[type=\"checkbox\"]",
+        "local": "[data-slot=\"checkbox\"]"
       },
-      "interaction": "pending",
+      "interaction": "applicable",
       "approvedExclusions": []
     },
     {
       "slug": "choicebox",
       "officialUrl": "https://vercel.com/geist/choicebox",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["single-select", "multi-select", "disabled", "custom-content"],
+      "states": ["default", "selected", "disabled", "hover", "focus-visible"],
+      "demos": [
+        {
+          "id": "single-select"
+        },
+        {
+          "id": "multi-select"
+        },
+        {
+          "id": "disabled"
+        },
+        {
+          "id": "custom-content"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": [
+        "click:option",
+        "keyboard:arrow",
+        "focus:input",
+        "click:disabled-option"
+      ],
+      "responsiveExpectations": [
+        "preliminary-container-simulation:desc wraps and tile height grows at simulated 375 container width (90px); real viewport G2 evidence still required",
+        "equal-height:tiles stretch to equal height at all viewports (items-stretch)",
+        "row-layout:ul flex-row nowrap per demo listClassName"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[role=\"radiogroup\"]",
+        "local": "[data-slot=\"choicebox\"]"
       },
-      "interaction": "pending",
+      "interaction": "applicable",
       "approvedExclusions": []
     },
     {
       "slug": "clearable-input",
       "officialUrl": "https://vercel.com/geist/clearable-input",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["default", "with-label", "with-cmdk", "disabled", "with-clear-callback"],
+      "states": ["default", "focused", "hover", "disabled", "coarse-pointer"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "with-label"
+        },
+        {
+          "id": "with-cmdk"
+        },
+        {
+          "id": "disabled"
+        },
+        {
+          "id": "with-clear-callback"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": [
+        "type:text",
+        "key:escape",
+        "click:clear-button",
+        "key:tab",
+        "click:disabled-input"
+      ],
+      "responsiveExpectations": [
+        "cmdk-hide:cmdk kbd suffix hidden below 960px (max-[960px]:hidden measured)",
+        "coarse-pointer:clear button hidden by @media(pointer:coarse)",
+        "preliminary-rule-inference:wrapper max-w-full shrinks with column (simulated 375 ~327px); real viewport G2 evidence still required"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[data-geist-input-wrapper]",
+        "local": "[data-slot=\"clearable-input-wrapper\"]"
       },
-      "interaction": "pending",
+      "interaction": "applicable",
       "approvedExclusions": []
     },
     {
@@ -185,25 +261,99 @@
     {
       "slug": "code-block",
       "officialUrl": "https://vercel.com/geist/code-block",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": [
+        "default",
+        "no-filename",
+        "highlighted-lines",
+        "added-removed-lines",
+        "referenced-lines",
+        "language-switcher",
+        "language-switcher-tabs",
+        "hidden-line-numbers",
+        "open-in-v0"
+      ],
+      "states": ["default", "hover", "focus-visible"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "no-filename"
+        },
+        {
+          "id": "highlighted-lines"
+        },
+        {
+          "id": "added-removed-lines"
+        },
+        {
+          "id": "referenced-lines"
+        },
+        {
+          "id": "language-switcher"
+        },
+        {
+          "id": "language-switcher-tabs"
+        },
+        {
+          "id": "hidden-line-numbers"
+        },
+        {
+          "id": "open-in-v0"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": [
+        "click:copy",
+        "click:line-number-anchor",
+        "click:language-switcher",
+        "key:tab-focus"
+      ],
+      "responsiveExpectations": [
+        "pre-scroll:pre overflow-x auto is component contract",
+        "tablist-scroll:language tabs overflow-x-auto",
+        "floating-copy:headerless copy revealed on group-hover/focus"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": ".prism-code",
+        "local": "[data-slot=\"code-block\"]"
       },
-      "interaction": "pending",
+      "interaction": "applicable",
       "approvedExclusions": []
     },
     {
       "slug": "collapse",
       "officialUrl": "https://vercel.com/geist/collapse",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_partial",
+      "variants": ["default", "expanded", "multiple", "small"],
+      "states": ["default", "open-blocked", "closed-blocked", "focus-visible-blocked"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "expanded"
+        },
+        {
+          "id": "multiple"
+        },
+        {
+          "id": "small"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": ["blocked:demo-attribution-and-local-matrix-required"],
+      "responsiveExpectations": [
+        "panel-anim:panel transition 200ms ease-in-out measured; closed panel stays mounted h=0 overflow-y-hidden",
+        "content-scroll:inner content max-h-[60vh] overflow-y-auto",
+        "preliminary-unattributed:no horizontal overflow in collected official viewport cells; demo attribution UNVERIFIED per G7"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "button[aria-expanded]",
+        "local": "[data-slot=\"collapse-trigger\"]"
       },
       "interaction": "pending",
       "approvedExclusions": []
@@ -224,25 +374,69 @@
     {
       "slug": "command-menu",
       "officialUrl": "https://vercel.com/geist/command-menu",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["default", "with-divider", "with-suffix"],
+      "states": ["open", "closed", "selected", "hover", "keyboard"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "with-divider"
+        },
+        {
+          "id": "with-suffix"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": [
+        "click:trigger",
+        "key:escape",
+        "key:arrow",
+        "key:enter",
+        "key:tab-focus"
+      ],
+      "responsiveExpectations": [
+        "preliminary-rule-inference:w-[640px] fixed top-[15%]; 375 overflow is CSS-rule inference pending real viewport G2 evidence",
+        "sm-variant:input font-size/item height/listbox max-h switch at 401px",
+        "overlay:bg-background-100 opacity-80 both themes"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[data-testid=\"cmdk/root\"]",
+        "local": "[data-slot=\"command-menu-content\"]"
       },
-      "interaction": "pending",
+      "interaction": "applicable",
       "approvedExclusions": []
     },
     {
       "slug": "context-card",
       "officialUrl": "https://vercel.com/geist/context-card",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_partial",
+      "variants": ["default", "alignment", "render-prop"],
+      "states": ["default", "closed", "open-blocked", "hover-blocked", "focus-visible-blocked"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "alignment"
+        },
+        {
+          "id": "render-prop"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": ["blocked:trusted-pointer-and-local-trigger-demo-required"],
+      "responsiveExpectations": [
+        "viewport-matrix:375/768/1440/1920 UNVERIFIED (G10) - re-collect before acceptance",
+        "closed-mounted:card stays mounted closed with h-0 + pointer-events-none",
+        "side-anchor:right side flips to left when overflowing demo frame (measured)"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden",
+        "local": "[data-slot=\"context-card\"]"
       },
       "interaction": "pending",
       "approvedExclusions": []
@@ -250,14 +444,42 @@
     {
       "slug": "context-menu",
       "officialUrl": "https://vercel.com/geist/context-menu",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["default", "disabled-items", "link-items", "prefix-and-suffix"],
+      "states": ["open", "closed", "disabled", "highlighted", "keyboard"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "disabled-items"
+        },
+        {
+          "id": "link-items"
+        },
+        {
+          "id": "prefix-and-suffix"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": [
+        "contextmenu:right-click-open",
+        "key:arrow",
+        "key:enter",
+        "key:escape",
+        "pointer:outside-click"
+      ],
+      "responsiveExpectations": [
+        "mobile-width:375 menu max-sm:w-full rounded-b-0 content-adaptive (104px measured); >=768 fixed 160px",
+        "no-overflow:scrollW==innerW at all 16 cells",
+        "portal:menu anchors at pointer (x+2) via body portal"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[role=\"menu\"]",
+        "local": "[data-radix-context-menu-content]"
       },
-      "interaction": "pending",
+      "interaction": "applicable",
       "approvedExclusions": []
     },
     {
@@ -276,14 +498,33 @@
     {
       "slug": "description",
       "officialUrl": "https://vercel.com/geist/description",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["default", "text-right", "ellipsis"],
+      "states": ["default", "hover", "focus-visible", "ellipsis"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "text-right"
+        },
+        {
+          "id": "ellipsis"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": ["hover:tooltip-trigger", "key:tab-focus", "key:escape"],
+      "responsiveExpectations": [
+        "no-overflow:dl=container-50px at 357-1262 widths no horizontal overflow (measured)",
+        "ellipsis:truncate effective at all widths (class string matches official)",
+        "right:textAlign right kept at all widths"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[data-geist-description-title]",
+        "local": "[data-slot=\"description\"]"
       },
-      "interaction": "pending",
+      "interaction": "applicable",
       "approvedExclusions": []
     },
     {
@@ -302,40 +543,104 @@
     {
       "slug": "dots-menu",
       "officialUrl": "https://vercel.com/geist/dots-menu",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_partial",
+      "variants": ["default", "sizes", "disabled", "disabled-menu-item"],
+      "states": ["default", "open", "closed", "disabled", "hover", "focus-visible"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "sizes"
+        },
+        {
+          "id": "disabled"
+        },
+        {
+          "id": "disabled-menu-item"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": ["click:trigger", "key:arrow", "key:enter", "key:escape"],
+      "responsiveExpectations": [
+        "matrix-partial:only 1440-light measured (G12); 375/768/1920 x dark required before acceptance",
+        "menu-surface:min-w 200px r12 p6 rows 36/6px (1440-light measured)",
+        "in-place:menu renders in z-[var(--ds-z-menu)] wrapper, not body portal (measured)"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[aria-label=\"Menu\"]",
+        "local": "[data-radix-dropdown-menu-trigger]"
       },
-      "interaction": "pending",
+      "interaction": "applicable",
       "approvedExclusions": []
     },
     {
       "slug": "drawer",
       "officialUrl": "https://vercel.com/geist/drawer",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["default", "custom-height"],
+      "states": ["open", "closed", "entering", "exiting", "focus-visible"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "custom-height"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": [
+        "click:open-button",
+        "key:escape",
+        "pointer:overlay-click",
+        "pointer:swipe-down",
+        "key:tab-trap"
+      ],
+      "responsiveExpectations": [
+        "fullwidth:panel w=viewport x=0 bottom-anchored at all 4 viewports (16/16 cells measured)",
+        "maxh:effective max-h 80dvh (div.geist-dialog overrides 90dvh class)",
+        "snap:default height content-adaptive (148px); custom height exact (200px)",
+        "lock:html+body overflow:clip + scrollbar-width:none while open"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[role=\"dialog\"][data-open]",
+        "local": "[data-slot=\"drawer\"]"
       },
-      "interaction": "pending",
+      "interaction": "applicable",
       "approvedExclusions": []
     },
     {
       "slug": "empty-state",
       "officialUrl": "https://vercel.com/geist/empty-state",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["empty-state-design-framework", "blank-slate", "informational"],
       "states": ["default"],
+      "demos": [
+        {
+          "id": "empty-state-design-framework"
+        },
+        {
+          "id": "blank-slate"
+        },
+        {
+          "id": "informational"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": ["hover:link", "key:tab-focus"],
+      "responsiveExpectations": [
+        "container:py-12 px-[70px] gap-6 centered column keeps geometry at 375 (262px container measured)",
+        "no-overflow:all 8 official cells scrollW==innerW",
+        "bubble:54x54 r8 shrink-0"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[class*=\"border-[var(--ds-gray-200)]\"]",
+        "local": "[data-slot=\"empty-state\"]"
       },
-      "interaction": "pending",
+      "interaction": "applicable",
       "approvedExclusions": []
     },
     {
