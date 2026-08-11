@@ -159,7 +159,7 @@
 ### 2.5 Context Menu（B1）
 
 - **官方事实**（README + diff-table + interactions）：16/16 真实视口 cells 全过（open/rest/主题/无溢出）；菜单 surface = §1.3 契约（r12、p6、`--material-shadow-menu`、行 36/6px、14/20/400、#171717/#ededed）；右键打开、指针锚定 menu.x≈pointer.x+2、body Portal、方向键/Enter/Esc/外点一致；API：`ContextMenuItem` 支持 `href`→`<a role=menuitem>`、`prefix`（span.flex.mr-2+16×16 svg）、`suffix`（span.flex.ml-2）、`value`+`onClick`（Enter 激活触发 onClick）；disabled → aria-disabled+data-disabled、#8f8f8f opacity 1、方向键跳过；375 `max-sm:w-full!`+`rounded-b-0`（104×172）；dark bg #0a0a0a；容器 r12（快照 md-refs 8px 已过期）；Shift+F10/菜单键实测不开（文档漂移，两端一致）；长按 BLOCKED。
-- **本地现状**：Radix ContextMenu 直连；Menu.Item 渲染 div（href 无效）；无 prefix/suffix/value/onClick；r8；dark #1a1a1a；375 固定 160px；demo 1/4；禁用项样式 opacity-50 无显式色。
+- **本地现状**：已补齐 href/prefix/suffix/value/onClick/disabled、r12 menu surface、移动端 sheet 与 4 类 demo；2026-08-12 实时复核后将可用项 cursor 对齐为 pointer、disabled 保持 default。长按仍 BLOCKED。
 - **目标 API**：ContextMenuItem 增加 `href/prefix/suffix/value/onClick/disabled` 全契约；Demo 补齐 4 变体。**Breaking**：本地 demo 的 ContextMenuItem 用法迁移；`tests/context-menu-api.test.ts` 新建。
 - **响应式**：`max-sm:w-full!` + `rounded-b-0` + 内容自适应宽度（104px 实测）。
 - **ARIA**：menuitem/aria-disabled/data-disabled；a role=menuitem 的链接语义。
@@ -169,8 +169,8 @@
 
 ### 2.6 Description（B1）
 
-- **官方事实**（DIFF-REPORT）：核心 PASS（dl/dt/dd、14px/400 dt gray-900、14px/500 dd foreground、right/ellipsis 类串逐字一致、容器 r8/1px/bg 一致）；tooltip 指示器 `span.inline-block.align-[-2px].ml-1.s-[14px]` > 14×14 圆形填充 glyph；tooltip 表面 13px/1.3 r8 padding 6×8 **max-w 250px** z 99999 反色 **无阴影**；3 demo 均带 tooltip；hover 延时/focus 开启 aria-describedby。
-- **本地现状**：核心一致；tooltip 256px + 阴影 + rounded-[6px] 类声明；lucide Info stroke 图标 aria-hidden；demo 无 right/ellipsis/tooltip 变体。
+- **官方事实**（2026-08-12 实时 DOM/computed style）：组件本体为 `dl.m-0`，border 0、radius 0、padding 0、透明背景；官方文档外层 demo wrapper 才承载 24px padding 与页面容器边框。`dt` 14px/14px/400 gray-900、`dd` 14px/16px/500 foreground；right/ellipsis 类串保持。tooltip 指示器与表面契约不变。
+- **本地现状**：已移除误加到 `dl` 的 r8/border/background/padding 卡片表面，改用命名工具类实现 14/14 title 与 14/16 content；right/ellipsis/tooltip 三类 demo 已补齐。
 - **目标 API**：现有 `DescriptionProps`（title/content/tooltip/right/ellipsis）保持；demo 覆盖补全。无 breaking。
 - **响应式**：RES-01 无溢出已 PASS；1440/1920 直接测量 BLOCKED（补证项）。
 - **ARIA**：tooltip 指示器 aria 契约（官方 glyph 无 aria-hidden——按官方形态实现并复核 AT）。
@@ -181,7 +181,7 @@
 ### 2.7 Dots Menu（B1*）
 
 - **官方事实**（official-1440-light.json + interact）：4 区段（Default 1 trigger / Sizes 3 / Disabled 1 / Disabled Menu Item 1）；trigger 32×32 r6 透明 bg、icon 18×18、aria-haspopup + aria-label "Menu"、类 `geist-new-tertiary`（data-focus shadow `--ds-focus-ring`、data-hover bg gray-alpha-200、disabled text gray-700 bg gray-100）；菜单 surface：min-width 200px、r12、p6、`--material-shadow-menu`、行 36px r6 14/20/400；菜单在 `div.z-[var(--ds-z-menu)]` wrapper 内（position static，非 body portal）。
-- **本地现状**：menu.tsx MenuContainer 驱动；仅 1440-light 对照；其余视口/主题 7 cells 缺失。
+- **本地现状**：menu.tsx MenuContainer 驱动；8-cell 本地矩阵已补齐；2026-08-12 实时复核后补上 disabled:bg-gray-100，保留官方 opacity-50。
 - **目标 API**：保持 DotsMenuProps（iconSize/disabled/contentClassName）；补 Sizes/Disabled/Disabled Menu Item 变体 demo。**Breaking**：无。
 - **响应式**：矩阵 7/8 缺失 → 实施前补证（375/768/1920 × dark）。
 - **ARIA**：trigger aria-haspopup/aria-expanded/aria-label（官方 "Menu"）。
@@ -213,7 +213,7 @@
 ### 2.10 Checkbox（B1）
 
 - **官方事实**（official-only 64 cell pixel summary + evidence.json）：DOM `input[type=checkbox].sr-only.peer` + `span[--checkbox-color]` 指示器 16×16（size-4）r4（rounded-sm）border `--ds-gray-700`；checked → bg+border `--ds-gray-1000`；indeterminate 类 → svg line 显示；inverted 类变体；peer-checked/peer-disabled 组合（disabled+checked → gray-600；disabled 未选 → bg gray-100 border gray-500；hover → gray-200）；focus-visible `shadow-[var(--ds-focus-ring)]`（light 2px #fff + 4px #0072f5，dark 2px #0a0a0a + 4px #52a8ff）；transition-all 200ms rotate 微偏移；对勾 svg path 2px。首轮 Dark 详细写入曾因 ENOSPC 失败，最终聚合已包含 32 个 Dark cells。
-- **本地现状**：Radix Checkbox + size prop；Task 17 已补齐 Light/Dark × 375/768/1440/1920 本地矩阵，2026-08-12 复核后将未选中背景改为 `background-100`，焦点环改为主题相关官方值。
+- **本地现状**：Radix Checkbox + size prop；Task 17 已补齐 Light/Dark × 375/768/1440/1920 本地矩阵。2026-08-12 复核后将未选中背景改为 `background-100`、焦点环改为主题相关官方值，并把无效 peer-hover 改为 Root 自身的 enabled+unchecked hover；截图主题等待由 60ms 延长到 250ms，避免记录 150ms 颜色过渡中间态。
 - **目标 API**：保持 Checkbox（size/checked/onCheckedChange/disabled/indeterminate）；指示器几何/状态机按官方实现。**Breaking**：无（若 size 默认值与官方不同则迁移）。
 - **响应式**：四视口一致（28×28 裁剪恒定）。
 - **ARIA**：role=checkbox + aria-checked（Radix 原生）；sr-only input 结构对齐官方。
