@@ -38,17 +38,22 @@ export interface InputProps extends Omit<React.ComponentProps<"input">, "size" |
   rounded?: boolean;
 }
 
-const INPUT_BASE = "flex w-full border border-gray-alpha-400 bg-background px-3 text-copy-14";
+const INPUT_BASE = "flex w-full min-w-0 border-none bg-transparent px-3 text-copy-14 outline-none";
 
-const ERROR_INPUT_CLASSES = cn(
-  "border-red-900 shadow-[0_0_0_4px_var(--color-red-300)] transition-[border-color,box-shadow] duration-150",
-  "hover:shadow-[0_0_0_4px_var(--color-red-500)]",
-  "focus:border-red-900 focus:shadow-[0_0_0_4px_var(--color-red-300)] focus:outline-none",
+const WRAPPER_BASE = cn(
+  "flex max-w-full items-center overflow-hidden bg-background-100",
+  "shadow-[0_0_0_1px_var(--color-gray-alpha-400)] transition-[box-shadow] duration-150",
+  "hover:shadow-[0_0_0_1px_var(--color-gray-alpha-500)]",
+  "focus-within:!shadow-[0_0_0_1px_var(--input-focus-border),0_0_0_4px_var(--input-focus-glow)] focus-within:outline-none",
+  "has-[input:disabled]:cursor-not-allowed has-[input:disabled]:bg-muted",
+  "has-[input:disabled]:hover:shadow-[0_0_0_1px_var(--color-gray-alpha-400)]",
 );
 
-/** 官方输入控件焦点态：边框加深 + 4px 柔光 + 150ms 过渡（wrapper 版 focus-within） */
-const WRAPPER_FOCUS_CLASSES =
-  "transition-[border-color,box-shadow] duration-150 focus-within:border-[var(--input-focus-border)] focus-within:shadow-[0_0_0_4px_var(--input-focus-glow)] focus-within:outline-none";
+const ERROR_WRAPPER_CLASSES = cn(
+  "shadow-[0_0_0_1px_var(--color-red-900),0_0_0_4px_var(--color-red-300)]",
+  "hover:shadow-[0_0_0_1px_var(--color-red-900),0_0_0_4px_var(--color-red-500)]",
+  "focus-within:!shadow-[0_0_0_1px_var(--color-red-900),0_0_0_4px_var(--color-red-300)]",
+);
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
@@ -75,40 +80,70 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const height = size === "small" ? "h-8" : size === "large" ? "h-10" : "h-9";
     const radius = size === "large" ? "rounded-lg" : "rounded-[6px]";
 
-    const input = (
-      <input
-        id={id}
-        type={type}
-        data-slot="input"
-        aria-invalid={error ? true : undefined}
-        aria-describedby={
-          error
-            ? [errorId, props["aria-describedby"]].filter(Boolean).join(" ")
-            : props["aria-describedby"]
-        }
-        className={cn(
-          INPUT_BASE,
-          height,
-          radius,
-          "file:border-0 file:bg-transparent file:text-copy-13 file:font-medium file:text-foreground",
-          "placeholder:text-muted-foreground",
-          error ? ERROR_INPUT_CLASSES : "input-focus-ring",
-          "disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground",
-          className,
+    const control = (
+      <div
+        data-geist-input-wrapper=""
+        data-version="v1"
+        data-slot="input-container"
+        className={cn(WRAPPER_BASE, height, radius, error && ERROR_WRAPPER_CLASSES)}
+      >
+        {prefix && (
+          <span
+            data-slot="input-prefix"
+            className={cn(
+              "mr-2 flex h-full shrink-0 items-center",
+              prefixStyling &&
+                (rounded
+                  ? "rounded-full border-r border-gray-alpha-400 bg-gray-alpha-100 px-2 py-0.5"
+                  : "border-r border-gray-alpha-400 pr-2"),
+            )}
+          >
+            {prefix}
+          </span>
         )}
-        ref={ref}
-        {...(typeof size === "number" ? { size } : {})}
-        {...props}
-      />
+        <input
+          type={type}
+          id={id}
+          data-slot="input"
+          aria-invalid={error ? true : undefined}
+          aria-describedby={
+            error
+              ? [errorId, props["aria-describedby"]].filter(Boolean).join(" ")
+              : props["aria-describedby"]
+          }
+          className={cn(
+            INPUT_BASE,
+            "h-full",
+            "file:border-0 file:bg-transparent file:text-copy-13 file:font-medium file:text-foreground",
+            "placeholder:text-muted-foreground",
+            "disabled:cursor-not-allowed disabled:text-muted-foreground",
+            className,
+          )}
+          ref={ref}
+          {...(typeof size === "number" ? { size } : {})}
+          {...props}
+        />
+        {suffix && (
+          <span
+            data-slot="input-suffix"
+            className={cn(
+              "ml-2 flex h-full shrink-0 items-center",
+              suffixStyling &&
+                (rounded
+                  ? "rounded-full border-l border-gray-alpha-400 bg-gray-alpha-100 px-2 py-0.5"
+                  : "border-l border-gray-alpha-400 pl-2"),
+            )}
+          >
+            {suffix}
+          </span>
+        )}
+      </div>
     );
 
-    if (!error && !label && !prefix && !suffix) return input;
+    if (!error && !label) return control;
 
     return (
-      <div
-        data-slot="input-wrapper"
-        className={cn("flex w-full flex-col", label && "gap-1.5", className)}
-      >
+      <div data-slot="input-field" className={cn("flex w-full flex-col", label && "gap-1.5")}>
         {label && (
           <label
             htmlFor={id}
@@ -118,73 +153,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {label}
           </label>
         )}
-        {(prefix || suffix) && (
-          <div
-            data-slot="input-container"
-            className={cn(
-              "flex w-full items-center border border-gray-alpha-400 bg-background px-3",
-              height,
-              radius,
-              error
-                ? cn(
-                    "border-red-900 shadow-[0_0_0_4px_var(--color-red-300)]",
-                    "hover:shadow-[0_0_0_4px_var(--color-red-500)]",
-                    "focus-within:border-red-900 focus-within:shadow-[0_0_0_4px_var(--color-red-300)] focus-within:outline-none",
-                    "transition-[border-color,box-shadow] duration-150",
-                  )
-                : WRAPPER_FOCUS_CLASSES,
-              "has-[input:disabled]:cursor-not-allowed has-[input:disabled]:bg-muted",
-            )}
-          >
-            {prefix && (
-              <span
-                data-slot="input-prefix"
-                className={cn(
-                  "mr-2 flex shrink-0 items-center",
-                  prefixStyling &&
-                    (rounded
-                      ? "rounded-full border-r border-gray-alpha-400 bg-gray-alpha-100 px-2 py-0.5"
-                      : "border-r border-gray-alpha-400 pr-2"),
-                )}
-              >
-                {prefix}
-              </span>
-            )}
-            <input
-              type={type}
-              data-slot="input"
-              aria-invalid={error ? true : undefined}
-              aria-describedby={
-                error
-                  ? [errorId, props["aria-describedby"]].filter(Boolean).join(" ")
-                  : props["aria-describedby"]
-              }
-              className={cn(
-                "h-full w-full min-w-0 border-none bg-transparent px-0 text-copy-14 outline-none",
-                "file:border-0 file:bg-transparent file:text-copy-13 file:font-medium file:text-foreground",
-                "placeholder:text-muted-foreground",
-                "disabled:cursor-not-allowed disabled:text-muted-foreground",
-              )}
-              ref={ref}
-              {...(typeof size === "number" ? { size } : {})}
-              {...props}
-            />
-            {suffix && (
-              <span
-                data-slot="input-suffix"
-                className={cn(
-                  "ml-2 flex shrink-0 items-center",
-                  suffixStyling &&
-                    (rounded
-                      ? "rounded-full border-l border-gray-alpha-400 bg-gray-alpha-100 px-2 py-0.5"
-                      : "border-l border-gray-alpha-400 pl-2"),
-                )}
-              >
-                {suffix}
-              </span>
-            )}
-          </div>
-        )}
+        {control}
         {error && (
           <p
             id={errorId}
