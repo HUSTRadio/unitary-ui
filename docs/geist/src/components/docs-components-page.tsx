@@ -400,7 +400,6 @@ function CheckboxDemo() {
   const [checked, setChecked] = React.useState<boolean[]>([true, false]);
   const allChecked = checked.every(Boolean);
   const someChecked = checked.some(Boolean);
-  // 半选态：Radix CheckedState 的 "indeterminate" 字符串值
   const parentState: boolean | "indeterminate" = allChecked
     ? true
     : someChecked
@@ -408,7 +407,7 @@ function CheckboxDemo() {
       : false;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4">
       <label className="flex cursor-pointer items-center gap-2.5">
         <Checkbox
           checked={parentState}
@@ -432,6 +431,22 @@ function CheckboxDemo() {
           aria-label={demoText(language, "Write access")}
         />
         <span className="text-copy-14 text-muted-foreground">Write access</span>
+      </label>
+      <label className="flex cursor-pointer items-center gap-2.5">
+        <Checkbox disabled aria-label={demoText(language, "Disabled")} />
+        <span className="text-copy-14 text-muted-foreground">Disabled</span>
+      </label>
+      <label className="flex cursor-pointer items-center gap-2.5">
+        <Checkbox checked disabled aria-label={demoText(language, "Disabled Checked")} />
+        <span className="text-copy-14 text-muted-foreground">Disabled Checked</span>
+      </label>
+      <label className="flex cursor-pointer items-center gap-2.5">
+        <Checkbox
+          checked="indeterminate"
+          disabled
+          aria-label={demoText(language, "Disabled Indeterminate")}
+        />
+        <span className="text-copy-14 text-muted-foreground">Disabled Indeterminate</span>
       </label>
     </div>
   );

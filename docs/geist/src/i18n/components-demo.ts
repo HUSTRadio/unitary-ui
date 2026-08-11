@@ -243,6 +243,8 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
       "这里应说明你可以在此屏幕执行的操作，以及这些操作的价值。",
     "Primary Action": "主要操作",
     "Learn more": "了解更多",
+    "Disabled Checked": "已禁用（已选中）",
+    "Disabled Indeterminate": "已禁用（半选）",
     "View Build Logs": "查看构建日志",
     "View Projects": "查看项目",
     "View Analytics": "查看分析",
