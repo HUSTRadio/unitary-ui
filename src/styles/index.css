@@ -1082,12 +1082,28 @@
 
 @utility command-menu-overlay {
   animation-fill-mode: both;
+
   &[data-state="open"] {
     animation: command-menu-overlay-in 0.3s ease-out;
   }
+
   &[data-state="closed"] {
     animation: command-menu-overlay-out 0.3s ease-in;
   }
+}
+
+:root {
+  --code-highlight: #e0f0ff;
+  --code-added: #daf6da;
+  --code-removed: #ffe6e6;
+  --code-referenced: #fef0cd;
+}
+
+.dark {
+  --code-highlight: #0f2f57;
+  --code-added: #12361b;
+  --code-removed: #561a1e;
+  --code-referenced: #4d2a00;
 }
 
 @utility command-menu-scale {

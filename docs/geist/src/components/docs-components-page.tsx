@@ -1214,11 +1214,95 @@ function CodeDemo() {
 }
 
 function CodeBlockDemo() {
+  const highlightedCode =
+    "function MyComponent(props) {\n  return (\n    <div>\n      <h1>Count: {props.count}</h1>\n    </div>\n  );\n}";
+  const diffCode =
+    "module.exports = {\n  experimental: {\n    appDir: true,\n  },\n  appDir: true,\n};";
+  const referencedCode = highlightedCode;
+  const languageOptions = ["JavaScript", "TypeScript", "Next.js", "Lua"];
+  const section = (title: string, child: React.ReactNode) => (
+    <section className="space-y-3" key={title}>
+      <h3 className="text-heading-20">{title}</h3>
+      {child}
+    </section>
+  );
+
   return (
-    <div className="w-full max-w-2xl">
-      <CodeBlockComponent filename="Table.jsx" language="jsx">
-        {codeBlockExample}
-      </CodeBlockComponent>
+    <div className="w-full max-w-2xl space-y-8">
+      {section(
+        "Default",
+        <CodeBlockComponent filename="Table.jsx" language="jsx">
+          {codeBlockExample}
+        </CodeBlockComponent>,
+      )}
+      {section(
+        "No filename",
+        <CodeBlockComponent language="jsx">{codeBlockExample}</CodeBlockComponent>,
+      )}
+      {section(
+        "Highlighted lines",
+        <CodeBlockComponent
+          filename="highlighted.jsx"
+          language="jsx"
+          highlightedLinesNumbers={[1, 4]}
+        >
+          {highlightedCode}
+        </CodeBlockComponent>,
+      )}
+      {section(
+        "Added & removed lines",
+        <CodeBlockComponent
+          filename="next.config.js"
+          language="jsx"
+          addedLinesNumbers={[5]}
+          removedLinesNumbers={[2, 3, 4]}
+        >
+          {diffCode}
+        </CodeBlockComponent>,
+      )}
+      {section(
+        "Referenced lines",
+        <CodeBlockComponent language="jsx" referencedLinesNumbers={[4]}>
+          {referencedCode}
+        </CodeBlockComponent>,
+      )}
+      {section(
+        "Language switcher",
+        <CodeBlockComponent
+          filename="language-switcher.jsx"
+          language="jsx"
+          switcher={{ options: languageOptions, value: "JavaScript", onChange: () => {} }}
+        >
+          {codeBlockExample}
+        </CodeBlockComponent>,
+      )}
+      {section(
+        "Language switcher with tabs",
+        <CodeBlockComponent
+          filename="language-switcher.jsx"
+          language="jsx"
+          tabs={{ options: languageOptions, value: "JavaScript", onChange: () => {} }}
+        >
+          {codeBlockExample}
+        </CodeBlockComponent>,
+      )}
+      {section(
+        "Hidden line numbers",
+        <CodeBlockComponent filename="hidden-line-numbers.jsx" language="jsx" hideLineNumbers>
+          {codeBlockExample}
+        </CodeBlockComponent>,
+      )}
+      {section(
+        "Open in v0",
+        <div className="space-y-4">
+          <CodeBlockComponent filename="Table.jsx" language="jsx" v0="ask">
+            {codeBlockExample}
+          </CodeBlockComponent>
+          <CodeBlockComponent filename="Table.jsx" language="jsx" v0="build">
+            {codeBlockExample}
+          </CodeBlockComponent>
+        </div>,
+      )}
     </div>
   );
 }
