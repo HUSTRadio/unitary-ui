@@ -395,6 +395,25 @@
   --teal-800: #0f8c7d;
   --teal-900: #0c7869;
 
+  /* 官方 --ds-* 兼容层（仅映射 Task 10 §1.1 已有双主题精确证据的变量） */
+  --ds-size-medium: 36px;
+  --ds-control-decoration-size: 14px;
+  --ds-focus-color: #0072f5;
+  --ds-popover-padding: 6px;
+  --ds-popover-row-height: 36px;
+  --ds-gray-100: var(--gray-100);
+  --ds-gray-500: var(--gray-500);
+  --ds-gray-700: var(--gray-700);
+  --ds-gray-900: var(--gray-900);
+  --ds-gray-1000: var(--gray-1000);
+  --ds-gray-alpha-400: var(--gray-alpha-400);
+  --ds-gray-alpha-600: var(--gray-alpha-600);
+  --ds-background-100: var(--background-100);
+  /* 官方运行时值与现有本地 blue scale 有差异，保留独立兼容值。 */
+  --ds-blue-600: #52aeff;
+  --ds-blue-900: #0068d6;
+  --ds-blue-100: #f0f7ff;
+
   /* Geist material-* 阴影（官方实测 light） */
   --material-shadow-base: rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgb(250, 250, 250) 0px 0px 0px 1px;
   --material-shadow-small:
@@ -613,6 +632,19 @@
   --teal-700: #17a693;
   --teal-800: #0f8c7d;
   --teal-900: #12b5a1;
+
+  /* 官方 --ds-* 兼容层：主题相关精确值 */
+  --ds-gray-100: var(--gray-100);
+  --ds-gray-500: var(--gray-500);
+  --ds-gray-700: var(--gray-700);
+  --ds-gray-900: var(--gray-900);
+  --ds-gray-1000: var(--gray-1000);
+  --ds-gray-alpha-400: var(--gray-alpha-400);
+  --ds-gray-alpha-600: var(--gray-alpha-600);
+  --ds-background-100: var(--background-100);
+  --ds-blue-600: #0091ff;
+  --ds-blue-900: #52a8ff;
+  --ds-blue-100: #0f1c2e;
 
   /* Geist material-* 阴影（官方实测 dark） */
   --material-shadow-base: rgba(255, 255, 255, 0.145) 0px 0px 0px 1px, rgb(0, 0, 0) 0px 0px 0px 1px;
