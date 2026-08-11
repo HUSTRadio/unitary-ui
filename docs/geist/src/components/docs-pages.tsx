@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "../i18n/language";
+import { demoText } from "../i18n/components-demo";
 
 /**
  * 文档站页面组件（docs/geist 专用）。
@@ -21,14 +22,11 @@ import { useLanguage } from "../i18n/language";
 /** Introduction — Geist 文档站首页：H1 + 副标题 + 发丝线卡片网格 */
 export function IntroductionPage() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <div>
       <h1 className="text-heading-40 text-foreground">Geist Style Framework</h1>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
-        {zh
-          ? "用于构建一致 Web 体验的 Vercel 设计系统。"
-          : "Vercel design system for building consistent web experiences."}
+        {demoText(language, "Vercel design system for building consistent web experiences.")}
       </p>
       <DocsCardGrid className="mt-10" />
     </div>
@@ -164,19 +162,16 @@ const SEMANTIC_TOKENS: SemanticToken[] = [
 /** Colors — 色阶网格 + 语义 token 表 */
 export function ColorsPage() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <div>
-      <h1 className="text-heading-40 text-foreground">{zh ? "颜色" : "Colors"}</h1>
+      <h1 className="text-heading-40 text-foreground">{demoText(language, "Colors")}</h1>
       <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
-        {zh
-          ? "一套高对比度且具备无障碍能力的颜色系统。"
-          : "A high contrast, accessible color system."}
+        {demoText(language, "A high contrast, accessible color system.")}
       </p>
 
       {/* 色阶网格 — 8 色 × 关键档（值：colors.md 快照 Dark 主题） */}
       <section className="mt-10">
-        <h2 className="text-heading-24 text-foreground">{zh ? "色阶" : "Scales"}</h2>
+        <h2 className="text-heading-24 text-foreground">{demoText(language, "Scales")}</h2>
         <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
           色值提取自 colors.md 快照「完整色板（Dark 主题）」，每色取 100/300/500/700/900/1000
           关键档。
@@ -203,7 +198,7 @@ export function ColorsPage() {
 
       {/* 语义 token 表 */}
       <section className="mt-12">
-        <h2 className="text-heading-24 text-foreground">{zh ? "语义 Token" : "Semantic Tokens"}</h2>
+        <h2 className="text-heading-24 text-foreground">{demoText(language, "Semantic Tokens")}</h2>
         <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
           shadcn/ui alias roles 映射到框架语义 token，业务状态绑定语义 token、不直接使用原始色阶。
         </p>
@@ -213,8 +208,8 @@ export function ColorsPage() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Token</TableHead>
-                  <TableHead>{zh ? "浅色" : "Light"}</TableHead>
-                  <TableHead>{zh ? "深色" : "Dark"}</TableHead>
+                  <TableHead>{demoText(language, "Light")}</TableHead>
+                  <TableHead>{demoText(language, "Dark")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -360,19 +355,18 @@ function renderSample(sample: string) {
 /** Typography — heading / label / copy / button 排版类实例 */
 export function TypographyPage() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <div>
-      <h1 className="text-heading-40 text-foreground">{zh ? "排版" : "Typography"}</h1>
+      <h1 className="text-heading-40 text-foreground">{demoText(language, "Typography")}</h1>
       <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
-        {zh ? "贯穿整个系统的排版规则。" : "Rules of typesetting throughout the system."}
+        {demoText(language, "Rules of typesetting throughout the system.")}
       </p>
 
       {/* Headings */}
       <section className="mt-10">
-        <h2 className="text-heading-24 text-foreground">{zh ? "标题" : "Headings"}</h2>
+        <h2 className="text-heading-24 text-foreground">{demoText(language, "Headings")}</h2>
         <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
-          {zh ? "用于引出页面或章节。" : "Used to introduce pages or sections."}
+          {demoText(language, "Used to introduce pages or sections.")}
         </p>
         <ul className="mt-6 space-y-4">
           {HEADING_SPECIMENS.map((s) => (
@@ -383,11 +377,9 @@ export function TypographyPage() {
 
       {/* Buttons */}
       <section className="mt-12">
-        <h2 className="text-heading-24 text-foreground">{zh ? "按钮" : "Buttons"}</h2>
+        <h2 className="text-heading-24 text-foreground">{demoText(language, "Buttons")}</h2>
         <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
-          {zh
-            ? "仅用于渲染按钮的组件内部。"
-            : "Only to be used within components that render buttons."}
+          {demoText(language, "Only to be used within components that render buttons.")}
         </p>
         <ul className="mt-6 space-y-4">
           <SpecimenRow
@@ -411,11 +403,12 @@ export function TypographyPage() {
 
       {/* Label */}
       <section className="mt-12">
-        <h2 className="text-heading-24 text-foreground">{zh ? "标签文本" : "Label"}</h2>
+        <h2 className="text-heading-24 text-foreground">{demoText(language, "Label")}</h2>
         <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
-          {zh
-            ? "为单行文本设计，并提供充足行高以便突出显示并与图标对齐。"
-            : "Designed for single-lines, and given ample line-height for highlighting & marrying up with icons."}
+          {demoText(
+            language,
+            "Designed for single-lines, and given ample line-height for highlighting & marrying up with icons.",
+          )}
         </p>
         <ul className="mt-6 space-y-4">
           {LABEL_SPECIMENS.map((s) => (
@@ -426,11 +419,12 @@ export function TypographyPage() {
 
       {/* Copy */}
       <section className="mt-12">
-        <h2 className="text-heading-24 text-foreground">{zh ? "正文" : "Copy"}</h2>
+        <h2 className="text-heading-24 text-foreground">{demoText(language, "Copy")}</h2>
         <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
-          {zh
-            ? "为多行文本设计，行高高于 Label。"
-            : "Designed for multiple lines of text, having a higher line height than Label."}
+          {demoText(
+            language,
+            "Designed for multiple lines of text, having a higher line height than Label.",
+          )}
         </p>
         <ul className="mt-6 space-y-4">
           {COPY_SPECIMENS.map((s) => (
@@ -548,18 +542,18 @@ const MATERIALS: MaterialSpec[] = [
 /** Materials — 8 级材质方块（surface 4 级 + floating 4 级） */
 export function MaterialsPage() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <div>
-      <h1 className="text-heading-40 text-foreground">{zh ? "材质" : "Materials"}</h1>
+      <h1 className="text-heading-40 text-foreground">{demoText(language, "Materials")}</h1>
       <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
-        {zh ? "圆角、填充、描边与阴影的预设。" : "Presets for radii, fills, strokes, and shadows."}
+        {demoText(language, "Presets for radii, fills, strokes, and shadows.")}
       </p>
 
       <p className="mt-6 max-w-xl text-copy-14 text-muted-foreground">
-        {zh
-          ? "Surface 位于页面内，Floating 位于页面之上。每个方块应用对应 material-* 类，并标注圆角、用途与 z-index 层级。"
-          : "Surface — on the page. Floating — above the page. Each block applies its material-* class and lists its radius, usage, and z-index."}
+        {demoText(
+          language,
+          "Surface — on the page. Floating — above the page. Each block applies its material-* class and lists its radius, usage, and z-index.",
+        )}
       </p>
 
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
@@ -571,13 +565,13 @@ export function MaterialsPage() {
             <dl className="mt-2 space-y-1">
               <div className="flex gap-2">
                 <dt className="w-16 shrink-0 text-label-12 text-muted-foreground">
-                  {zh ? "类名" : "Class"}
+                  {demoText(language, "Class")}
                 </dt>
                 <dd className="font-mono text-label-12 text-foreground">{m.className}</dd>
               </div>
               <div className="flex gap-2">
                 <dt className="w-16 shrink-0 text-label-12 text-muted-foreground">
-                  {zh ? "圆角" : "Radius"}
+                  {demoText(language, "Radius")}
                 </dt>
                 <dd className="text-label-12 text-foreground">{m.radius}</dd>
               </div>
@@ -601,20 +595,20 @@ export function MaterialsPage() {
  */
 export function GridPage() {
   const { language } = useLanguage();
-  const zh = language === "zh-CN";
   return (
     <div>
-      <h1 className="text-heading-40 text-foreground">{zh ? "网格" : "Grid"}</h1>
+      <h1 className="text-heading-40 text-foreground">{demoText(language, "Grid")}</h1>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
-        {zh ? "Vercel 新视觉体系的重要组成部分。" : "A huge part of the new Vercel aesthetic."}
+        {demoText(language, "A huge part of the new Vercel aesthetic.")}
       </p>
 
       <section className="mt-10">
-        <h2 className="text-heading-24 text-foreground">{zh ? "12 列网格" : "12 Column Grid"}</h2>
+        <h2 className="text-heading-24 text-foreground">{demoText(language, "12 Column Grid")}</h2>
         <p className="mt-3 text-copy-14 text-muted-foreground">
-          {zh
-            ? "网格系统采用 12 列布局，并支持配置间距和断点。"
-            : "The grid system uses a 12-column layout with configurable gaps and breakpoints."}
+          {demoText(
+            language,
+            "The grid system uses a 12-column layout with configurable gaps and breakpoints.",
+          )}
         </p>
         {/* 可视化 12 列网格 */}
         <div className="mt-6 grid grid-cols-12 gap-2">
@@ -634,12 +628,13 @@ export function GridPage() {
 
       <section className="mt-12">
         <h2 className="text-heading-24 text-foreground">
-          {zh ? "响应式断点" : "Responsive Breakpoints"}
+          {demoText(language, "Responsive Breakpoints")}
         </h2>
         <p className="mt-3 text-copy-14 text-muted-foreground">
-          {zh
-            ? "断点采用移动优先策略，提供 sm、md、lg、xl、2xl 预设。"
-            : "Breakpoints follow a mobile-first approach with sm, md, lg, xl, 2xl presets."}
+          {demoText(
+            language,
+            "Breakpoints follow a mobile-first approach with sm, md, lg, xl, 2xl presets.",
+          )}
         </p>
         <div className="mt-6 overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background">
           <table className="w-full text-copy-14">

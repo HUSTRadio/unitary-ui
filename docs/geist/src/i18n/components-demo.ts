@@ -230,6 +230,40 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Read only": "只读",
     "View Source": "查看源代码",
     "View Output": "查看输出",
+    Colors: "颜色",
+    Typography: "排版",
+    Materials: "材质",
+    Grid: "网格",
+    Collaborate: "协作",
+    "Icon set tailored for developer tools.": "为开发者工具定制的图标集合。",
+    "Building blocks for React applications.": "用于构建 React 应用的基础模块。",
+    "A high contrast, accessible color system.": "一套高对比度且具备无障碍能力的颜色系统。",
+    "Presets for radii, fills, strokes, and shadows.": "圆角、填充、描边与阴影的预设。",
+    "Specifically designed for developers and designers.": "专为开发者和设计师设计。",
+    "Vercel design system for building consistent web experiences.":
+      "用于构建一致 Web 体验的 Vercel 设计系统。",
+    Scales: "色阶",
+    "Semantic Tokens": "语义 Token",
+    "Rules of typesetting throughout the system.": "贯穿整个系统的排版规则。",
+    Headings: "标题",
+    Buttons: "按钮",
+    "12 Column Grid": "12 列网格",
+    "Responsive Breakpoints": "响应式断点",
+    "Presets for radius, fills, strokes and shadows.": "圆角、填充、描边与阴影的预设。",
+    "Surface — on the page. Floating — above the page. Each block applies its material-* class and lists its radius, usage, and z-index.":
+      "Surface 位于页面内，Floating 位于页面之上。每个方块应用对应 material-* 类，并标注圆角、用途与 z-index 层级。",
+    "Only to be used within components that render buttons.": "仅用于渲染按钮的组件内部。",
+    "Designed for single-lines, and given ample line-height for highlighting & marrying up with icons.":
+      "为单行文本设计，并提供充足行高以便突出显示并与图标对齐。",
+    "Designed for multiple lines of text, having a higher line height than Label.":
+      "为多行文本设计，行高高于 Label。",
+    "Used to introduce pages or sections.": "用于引出页面或章节。",
+    "The grid system uses a 12-column layout with configurable gaps and breakpoints.":
+      "网格系统采用 12 列布局，并支持配置间距和断点。",
+    "Breakpoints follow a mobile-first approach with sm, md, lg, xl, 2xl presets.":
+      "断点采用移动优先策略，提供 sm、md、lg、xl、2xl 预设。",
+    Icons: "图标",
+    Typeface: "字体",
   },
   "en-US": {},
 };
