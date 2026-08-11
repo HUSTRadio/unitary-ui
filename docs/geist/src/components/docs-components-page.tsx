@@ -1663,10 +1663,29 @@ function ComboboxDemo() {
 }
 
 function DescriptionDemo() {
+  const { language } = useLanguage();
   return (
-    <div className="grid w-full max-w-md grid-cols-2 gap-6">
-      <Description title="Framework" content="Next.js" />
-      <Description title="Region" content="Washington, D.C., USA" />
+    <div className="grid w-full max-w-md grid-cols-1 gap-6 md:grid-cols-2">
+      <Description
+        title={demoText(language, "Section Title")}
+        content={demoText(language, "Data about this section.")}
+        tooltip={demoText(language, "Additional context about what this section refers to.")}
+      />
+      <Description
+        right
+        title={demoText(language, "Section Title")}
+        content={demoText(language, "Data about this section.")}
+        tooltip={demoText(language, "Additional context about what this section refers to.")}
+      />
+      <Description
+        ellipsis
+        title={demoText(language, "Section Title")}
+        content={demoText(
+          language,
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sed venenatis libero.",
+        )}
+        tooltip={demoText(language, "Additional context about what this section refers to.")}
+      />
     </div>
   );
 }
