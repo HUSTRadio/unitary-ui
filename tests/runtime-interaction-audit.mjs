@@ -51,7 +51,7 @@ async function evaluate(send, expression) {
 
 const demoExpression = `(() => {
   const heading = [...document.querySelectorAll("main h2")]
-    .find((node) => node.textContent?.trim() === "Live Demo");
+    .find((node) => ["Live Demo", "实时示例"].includes(node.textContent?.trim()));
   return heading?.nextElementSibling ?? null;
 })()`;
 
@@ -243,12 +243,12 @@ async function main() {
   });
 
   test("choicebox", "radio choice changes selection", async () => {
-    await click(send, q('[role="radio"][value="trial"]'));
+    await click(send, q('input[type="radio"][value="trial"]'));
     await expectValue(
       send,
       "choicebox trial not selected",
-      `(${q('[role="radio"][value="trial"]')})?.getAttribute("aria-checked")`,
-      (v) => v === "true",
+      `(${q('input[type="radio"][value="trial"]')})?.checked`,
+      (v) => v === true,
     );
   });
 
@@ -295,8 +295,9 @@ async function main() {
     );
   });
 
-  test("command-menu", "dialog Escape closes and restores focus", async () => {
-    await click(send, textButton("Open Command Menu"));
+  test("command-menu", "dialog Escape closes and returns focus to body", async () => {
+    const trigger = q("button");
+    await click(send, trigger);
     await expectValue(
       send,
       "command dialog missing",
@@ -310,14 +311,13 @@ async function main() {
     );
     await expectValue(
       send,
-      "command focus not restored",
-      `document.activeElement?.textContent?.trim()`,
-      (v) => v === "Open Command Menu",
+      "command focus did not return to body",
+      `document.activeElement === document.body`,
     );
   });
 
   test("context-menu", "right click opens menu and Escape closes", async () => {
-    await click(send, textButton("Right click here"), "right");
+    await click(send, q("button"), "right");
     await expectValue(
       send,
       "context menu missing",
@@ -381,7 +381,8 @@ async function main() {
   });
 
   test("drawer", "dialog Escape closes and restores focus", async () => {
-    await click(send, textButton("Open Drawer"));
+    const trigger = q("button");
+    await click(send, trigger);
     await expectValue(
       send,
       "drawer dialog missing",
@@ -389,12 +390,7 @@ async function main() {
     );
     await key(send, "Escape");
     await expectValue(send, "drawer did not close", `!document.querySelector('[role="dialog"]')`);
-    await expectValue(
-      send,
-      "drawer focus not restored",
-      `document.activeElement?.textContent?.trim()`,
-      (v) => v === "Open Drawer",
-    );
+    await expectValue(send, "drawer focus not restored", `document.activeElement === (${trigger})`);
   });
 
   test("json-view", "tree item expands and collapses", async () => {

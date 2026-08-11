@@ -45,6 +45,7 @@ if (STATE === "hover" && SLUGS.some((slug) => slug !== "book")) {
 }
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const liveHeadingPredicate = `(node) => ["Live Demo", "实时示例"].includes(node.textContent?.trim())`;
 
 async function openTarget() {
   const target = await (
@@ -102,7 +103,7 @@ async function waitForDemo(send, slug) {
       `(() => {
         const heading = document.querySelector("main h1")?.textContent?.trim() ?? "";
         const liveHeading = [...document.querySelectorAll("main h2")]
-          .find((node) => node.textContent?.trim() === "Live Demo");
+          .find(${liveHeadingPredicate});
         const demo = liveHeading?.nextElementSibling;
         return {
           hash: location.hash,
@@ -155,7 +156,7 @@ async function main() {
             send,
             `(() => {
               const liveHeading = [...document.querySelectorAll("main h2")]
-                .find((node) => node.textContent?.trim() === "Live Demo");
+                .find(${liveHeadingPredicate});
               const demo = liveHeading?.nextElementSibling;
               if (!demo) return null;
               for (const node of document.body.querySelectorAll("*")) {
