@@ -42,33 +42,33 @@
 
 来源：choicebox-evidence.md §2、clearable-input/evidence-live.md §2、checkbox evidence.json cssVars、context-menu-diff-table.md、drawer/REPORT.md。官方 `--ds-*` 变量是真实存在的基础设施（clearable-input/combobox/drawer/checkbox/choicebox 共用）。
 
-| 官方变量                                           | Light 值                       | Dark 值   | 证据                                                                      |
-| -------------------------------------------------- | ------------------------------ | --------- | ------------------------------------------------------------------------- |
-| `--ds-size-medium`                                 | 36px                           | 36px      | clearable-input（input h36）                                              |
-| `--ds-control-decoration-size`                     | 14px                           | 14px      | clearable-input                                                           |
-| `--ds-focus-color`                                 | hsla(212,100%,48%,1) = #0072f5 | 同        | clearable-input（kbd/按钮 focus outline #0072f5）                         |
-| `--ds-gray-100`                                    | #f2f2f2                        | #1a1a1a   | clearable-input（disabled bg）                                            |
-| `--ds-gray-500`                                    | #c9c9c9                        | #454545   | choicebox（disabled 文字、圆点 border）                                   |
-| `--ds-gray-700`                                    | #8f8f8f                        | #8f8f8f   | clearable-input disabled 文字、checkbox border                            |
-| `--ds-gray-900`                                    | #4d4d4d                        | #a1a1a1   | choicebox desc、clearable label/kbd 文字                                  |
-| `--ds-gray-1000`                                   | #171717                        | #ededed   | choicebox title、clearable 有值文字、checkbox checked bg/border           |
-| `--ds-gray-alpha-400`                              | #00000014                      | #ffffff24 | clearable wrapper ring、drawer border-t、menu ring                        |
-| `--ds-gray-alpha-500`                              | #00000036                      | 待证      | clearable hover ring；Dark 精确值未持久化                                 |
-| `--ds-gray-alpha-600`                              | #00000057                      | #ffffff82 | clearable focus ring 1px 层                                               |
-| `--ds-background-100`                              | #ffffff                        | #0a0a0a   | drawer 面板、context-card dark bg、empty-state 容器、command-menu overlay |
-| `--ds-blue-600`                                    | #52AEFF                        | #0091FF   | choicebox 选中 border                                                     |
-| `--ds-blue-900`                                    | #0068D6                        | #52A8FF   | choicebox 选中文字/指示器                                                 |
-| `--ds-blue-100`                                    | #F0F7FF                        | #0F1C2E   | choicebox 选中 bg                                                         |
-| `--ds-blue-700`                                    | 待证                           | 待证      | collapse focus-visible ring；G7 归属修复后重采                            |
-| indigo-600                                         | #5B5BD6                        | 同        | 非 `--ds-*` 变量；choicebox focus outline                                 |
-| `--ds-focus-ring`                                  | 待证                           | 待证      | checkbox peer-focus-visible、dots-menu data-focus；精确 shadow 未冻结     |
-| `--ds-shadow-border-medium/large`                  | 1px #00000014 + 2 层           | —         | checkbox cssVars 实测                                                     |
-| `--material-shadow-menu`                           | 1px 环 + 4 层 + #fafafa 外环   | 反色系    | context-menu/dots-menu 实测一致                                           |
-| `--ds-shadow-modal`                                | 待证                           | 待证      | command-menu 差异路径 3；精确 shadow 未冻结                               |
-| `--ds-popover-padding` / `--ds-popover-row-height` | 6px / 36px                     | 同        | context-menu                                                              |
-| `--ds-z-menu`                                      | var                            | 同        | dots-menu wrapper `z-[var(--ds-z-menu)]`                                  |
-| `--ds-gray-200`                                    | #EBEBEB                        | #2E2E2E   | empty-state token 实测；choicebox 报告将同值标作 gray-400，命名冲突待核对 |
-| `--ds-gray-600`                                    | 待证                           | 待证      | checkbox checked+disabled bg/border                                       |
+| 官方变量                                           | Light 值                       | Dark 值                   | 证据                                                                      |
+| -------------------------------------------------- | ------------------------------ | ------------------------- | ------------------------------------------------------------------------- |
+| `--ds-size-medium`                                 | 36px                           | 36px                      | clearable-input（input h36）                                              |
+| `--ds-control-decoration-size`                     | 14px                           | 14px                      | clearable-input                                                           |
+| `--ds-focus-color`                                 | hsla(212,100%,48%,1) = #0072f5 | 同                        | clearable-input（kbd/按钮 focus outline #0072f5）                         |
+| `--ds-gray-100`                                    | #f2f2f2                        | #1a1a1a                   | clearable-input（disabled bg）                                            |
+| `--ds-gray-500`                                    | #c9c9c9                        | #454545                   | choicebox（disabled 文字、圆点 border）                                   |
+| `--ds-gray-700`                                    | #8f8f8f                        | #8f8f8f                   | clearable-input disabled 文字、checkbox border                            |
+| `--ds-gray-900`                                    | #4d4d4d                        | #a1a1a1                   | choicebox desc、clearable label/kbd 文字                                  |
+| `--ds-gray-1000`                                   | #171717                        | #ededed                   | choicebox title、clearable 有值文字、checkbox checked bg/border           |
+| `--ds-gray-alpha-400`                              | #00000014                      | #ffffff24                 | clearable wrapper ring、drawer border-t、menu ring                        |
+| `--ds-gray-alpha-500`                              | #00000036                      | 待证                      | clearable hover ring；Dark 精确值未持久化                                 |
+| `--ds-gray-alpha-600`                              | #00000057                      | #ffffff82                 | clearable focus ring 1px 层                                               |
+| `--ds-background-100`                              | #ffffff                        | #0a0a0a                   | drawer 面板、context-card dark bg、empty-state 容器、command-menu overlay |
+| `--ds-blue-600`                                    | #52AEFF                        | #0091FF                   | choicebox 选中 border                                                     |
+| `--ds-blue-900`                                    | #0068D6                        | #52A8FF                   | choicebox 选中文字/指示器                                                 |
+| `--ds-blue-100`                                    | #F0F7FF                        | #0F1C2E                   | choicebox 选中 bg                                                         |
+| `--ds-blue-700`                                    | 待证                           | 待证                      | collapse focus-visible ring；G7 归属修复后重采                            |
+| indigo-600                                         | #5B5BD6                        | 同                        | 非 `--ds-*` 变量；choicebox focus outline                                 |
+| `--ds-focus-ring`                                  | 2px #ffffff + 4px #0072f5      | 2px #0a0a0a + 4px #52a8ff | checkbox peer-focus-visible；2026-08-12 实时 computed style 复核          |
+| `--ds-shadow-border-medium/large`                  | 1px #00000014 + 2 层           | —                         | checkbox cssVars 实测                                                     |
+| `--material-shadow-menu`                           | 1px 环 + 4 层 + #fafafa 外环   | 反色系                    | context-menu/dots-menu 实测一致                                           |
+| `--ds-shadow-modal`                                | 待证                           | 待证                      | command-menu 差异路径 3；精确 shadow 未冻结                               |
+| `--ds-popover-padding` / `--ds-popover-row-height` | 6px / 36px                     | 同                        | context-menu                                                              |
+| `--ds-z-menu`                                      | var                            | 同                        | dots-menu wrapper `z-[var(--ds-z-menu)]`                                  |
+| `--ds-gray-200`                                    | #EBEBEB                        | #2E2E2E                   | empty-state token 实测；choicebox 报告将同值标作 gray-400，命名冲突待核对 |
+| `--ds-gray-600`                                    | 待证                           | 待证                      | checkbox checked+disabled bg/border                                       |
 
 **决策 D-T1**：在 `src/styles/index.css` 主题层建立 `--ds-*` → 本地 Tailwind v4 token 的映射表（只读对照，不替换现有语义 token 的消费方），作为所有整改组件取值的唯一来源；禁止组件内硬编码色值。验收：新增 `tests/audit/ds-token-contract.test.ts`，只对上表已有双主题精确值的变量做数字精确断言；标为“待证”的变量先保持门禁红，不得填入猜测值。
 
@@ -212,8 +212,8 @@
 
 ### 2.10 Checkbox（B1）
 
-- **官方事实**（official-only 64 cell pixel summary + evidence.json）：DOM `input[type=checkbox].sr-only.peer` + `span[--checkbox-color]` 指示器 16×16（size-4）r4（rounded-sm）border `--ds-gray-700`；checked → bg+border `--ds-gray-1000`；indeterminate 类 → svg line 显示；inverted 类变体；peer-checked/peer-disabled 组合（disabled+checked → gray-600；disabled 未选 → bg gray-100 border gray-500；hover → gray-200）；focus-visible `shadow-[var(--ds-focus-ring)]`；transition-all 200ms rotate 微偏移；对勾 svg path 2px。首轮 Dark 详细写入曾因 ENOSPC 失败，最终聚合已包含 32 个 Dark cells；本地运行时矩阵仍缺失。
-- **本地现状**：Radix Checkbox + size prop；无 64-cell 对比。
+- **官方事实**（official-only 64 cell pixel summary + evidence.json）：DOM `input[type=checkbox].sr-only.peer` + `span[--checkbox-color]` 指示器 16×16（size-4）r4（rounded-sm）border `--ds-gray-700`；checked → bg+border `--ds-gray-1000`；indeterminate 类 → svg line 显示；inverted 类变体；peer-checked/peer-disabled 组合（disabled+checked → gray-600；disabled 未选 → bg gray-100 border gray-500；hover → gray-200）；focus-visible `shadow-[var(--ds-focus-ring)]`（light 2px #fff + 4px #0072f5，dark 2px #0a0a0a + 4px #52a8ff）；transition-all 200ms rotate 微偏移；对勾 svg path 2px。首轮 Dark 详细写入曾因 ENOSPC 失败，最终聚合已包含 32 个 Dark cells。
+- **本地现状**：Radix Checkbox + size prop；Task 17 已补齐 Light/Dark × 375/768/1440/1920 本地矩阵，2026-08-12 复核后将未选中背景改为 `background-100`，焦点环改为主题相关官方值。
 - **目标 API**：保持 Checkbox（size/checked/onCheckedChange/disabled/indeterminate）；指示器几何/状态机按官方实现。**Breaking**：无（若 size 默认值与官方不同则迁移）。
 - **响应式**：四视口一致（28×28 裁剪恒定）。
 - **ARIA**：role=checkbox + aria-checked（Radix 原生）；sr-only input 结构对齐官方。

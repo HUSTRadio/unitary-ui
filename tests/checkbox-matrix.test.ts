@@ -13,6 +13,8 @@ describe("Checkbox official matrix contract", () => {
     expect(source).toContain("data-[size=sm]:size-4");
     expect(source).toContain("rounded-[4px]");
     expect(source).toContain("focus-ring");
+    expect(source).toContain("border-gray-700 bg-background-100");
+    expect(source).not.toContain("border-gray-700 bg-background ");
   });
 
   test("uses semantic foreground/background tokens for checked and mixed states", () => {

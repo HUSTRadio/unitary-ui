@@ -303,9 +303,10 @@
   /* misc */
   --overlay: #00000099;
   --color-focus-ring: #171717; /* gray-1000 */
+  --focus-ring-color: #0072f5; /* official --ds-focus-ring light */
 
-  /* 焦点环（官方 --ds-focus-ring 实测：2px 背景色描边 + 4px 主色 ring） */
-  --focus-ring-outline: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--link);
+  /* 焦点环（官方 --ds-focus-ring 实测：2px 背景色描边 + 4px 主题焦点蓝） */
+  --focus-ring-outline: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--focus-ring-color);
 
   /* 表单控件 focus（官方 Input/Select/Textarea 实测：边框加深 + 同色系柔光，150ms 过渡） */
   --input-focus-border: rgba(0, 0, 0, 0.34);
@@ -544,9 +545,10 @@
   /* misc */
   --overlay: #000000b3;
   --color-focus-ring: #ededed; /* gray-1000 */
+  --focus-ring-color: #52a8ff; /* official --ds-focus-ring dark */
 
-  /* 焦点环（Dark：2px 深色背景描边 + 4px 主色 ring） */
-  --focus-ring-outline: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--link);
+  /* 焦点环（Dark：2px 深色背景描边 + 4px 主题焦点蓝） */
+  --focus-ring-outline: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--focus-ring-color);
 
   /* 表单控件 focus（官方实测 dark：白 alpha 边框加深 + 柔光） */
   --input-focus-border: rgba(255, 255, 255, 0.51);
@@ -998,7 +1000,8 @@
 
 /*
  * Geist 统一焦点环（官方 --ds-focus-ring 实测）
- * 双环结构：2px 表面色描边（与背景分离）+ 4px 主色 ring（#006efe）。
+ * 双环结构：2px 表面色描边（与背景分离）+ 4px 主题焦点蓝
+ * （light #0072f5 / dark #52a8ff）。
  * 所有可交互基础组件必须消费 focus-ring，页面禁止自定义 outline/ring。
  */
 @utility focus-ring {
