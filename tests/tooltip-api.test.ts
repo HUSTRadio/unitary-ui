@@ -73,9 +73,11 @@ describe("Tooltip official single-track API contract", () => {
     expect(src).toMatch(/violet:\s*\{\s*background:\s*"var\(--purple-700\)"/);
   });
 
-  test("geometry/behavior props stay at official parity (radius 6px, sideOffset 10, ~150ms delay)", async () => {
+  test("surface and behavior stay at official parity (250px, radius 8px, no shadow, sideOffset 10, ~150ms delay)", async () => {
     const src = await read("src/components/ui/tooltip.tsx");
-    expect(src).toMatch(/rounded-\[6px\]/);
+    expect(src).toMatch(/max-w-\[250px\]/);
+    expect(src).toMatch(/rounded-\[8px\]/);
+    expect(src).not.toMatch(/shadow-\[var\(--material-shadow-tooltip\)\]/);
     expect(src).toMatch(/sideOffset=\{10\}/);
     expect(src).toMatch(/delay \? 150 : 0/);
   });

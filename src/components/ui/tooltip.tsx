@@ -73,7 +73,7 @@ function Tooltip({
               } as React.CSSProperties
             }
             className={cn(
-              "z-[99999] max-w-64 rounded-[6px] bg-[var(--tooltip-background)] px-2 py-1.5 text-[13px]/[1.3] text-[var(--tooltip-foreground)] shadow-[var(--material-shadow-tooltip)] outline-none data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
+              "z-[99999] max-w-[250px] rounded-[8px] bg-[var(--tooltip-background)] px-2 py-1.5 text-[13px]/[1.3] text-[var(--tooltip-foreground)] outline-none data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
               center ? "text-center" : "text-left",
               className,
             )}

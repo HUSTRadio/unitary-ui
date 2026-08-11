@@ -15,8 +15,8 @@ describe("Tooltip tip seam contract", () => {
     expect(source).toContain('stroke="var(--tooltip-tip-stroke)"');
   });
 
-  it("uses theme-aware seam stroke and official 6px tooltip radius", () => {
+  it("uses theme-aware seam stroke and the official 8px tooltip radius", () => {
     expect(source).toContain('"--tooltip-tip-stroke": "var(--gray-alpha-400)"');
-    expect(source).toContain("rounded-[6px]");
+    expect(source).toContain("rounded-[8px]");
   });
 });
