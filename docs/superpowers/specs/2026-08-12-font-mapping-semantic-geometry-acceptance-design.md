@@ -59,15 +59,18 @@ schema 文件边界明确为：
 
 validator 必须用支持本地 `$ref` 的同一 Ajv 实例加载以上 schema；不能只在 TypeScript 测试里手写局部 shape 判断。fixture 必须逐个通过对应 schema 后才能参与行为测试。
 
-每个具备验收证据的组件通过 `acceptanceContracts` 声明精确到 `(demoId, variant, state)` 的合同。合同至少包含：
+每个具备验收证据的组件通过 `acceptanceContracts` 声明精确到 `(demoId, variant, state)` 的合同。每个合同的 schema required 字段为：
 
+- `demoId`、`variant`、`state`；
 - `clipRole`：截图和根 metrics 的角色；
 - `evidenceNotBefore`：该合同允许使用的最早官方采集时间；
-- `roles`：角色名到角色合同的对象；
-- 每个角色的 official/local selector、`acceptanceProfile`、presence 和坐标拥有者；
-- profile 需要的 `textRole`、`flowAnchorRole`、`contextOwnerRole` 或锚边等显式依赖。
+- `roles`：角色名到角色合同的非空对象；
+- `semanticNodeInventory`：本状态下必须匹配的语义节点计数，可为空数组但不可省略；
+- `transparentWrappers`：批准折叠的透明包装层，可为空数组但不可省略。
 
-selector 可以声明 `default`，并按 viewport 覆盖；解析顺序为精确 viewport → `default`。禁止 comparator 根据角色名、tag 或 selector 内容推断 profile。未声明 `acceptanceProfile` 的角色默认为 `strict`。pending 组件可以暂时没有 `acceptanceContracts`，但没有覆盖目标 cell 的精确 contract 时，该 cell 只能为 `BLOCKED`。
+每个 role contract 必须显式包含 `selectors`、`presence` 和 `acceptanceProfile`；不得依赖字段缺失表达默认值。`presence` 只允许 `required | forbidden`。精确到 state 的 contract 已经负责状态分支，因此不引入运行时猜测的 optional presence。`required` 角色必须声明 selector；`forbidden` 角色必须声明用于验证不存在的 selector。profile 所需的 `coordinateOwnerRole`、`textRole`、`flowAnchorRole`、`contextOwnerRole`、`anchorEdge` 或 `measurementAxes` 通过 schema 条件设为 required。
+
+`selectors` 的唯一规范形状为 `{ "default": { "official", "local" }, "byViewport": { "<viewport>": { "official", "local" } } }`；`byViewport` 必须存在但可以为空。解析顺序为 `byViewport[currentViewport]` → `default`，两层都禁止额外键。禁止 comparator 根据角色名、tag 或 selector 内容推断 profile。pending 组件可以暂时没有 `acceptanceContracts`，但没有覆盖目标 cell 的精确 contract 时，该 cell 只能为 `BLOCKED`。
 
 resolved evidence cell v2 必须保存 `contractDigest`，comparison v3 必须验证 official、local 和当前 manifest 三者完全相同。这样 profile 的批准边界可追溯到 manifest，而不是仓库外命令行。
 
@@ -75,7 +78,7 @@ comparison v3 的规范字段为：
 
 - `diagnosticPixelStatus: IDENTICAL | DIFFERENT | UNAVAILABLE`；
 - `semanticAcceptanceStatus: PASS | FAIL | BLOCKED`；
-- `status`：为兼容现有消费者而保留，值必须严格等于 `semanticAcceptanceStatus`；
+- `status`：comparison 兼容字段，只允许 `PASS | FAIL | BLOCKED`，且必须严格等于 `semanticAcceptanceStatus`；
 - `strictFailures`：结构化失败数组；
 - `approvedExclusions`：结构化豁免数组；
 - `roleComparisons`：每个角色包含 `verdict`、原始差异、`strictFailures` 和 `approvedExclusions`；
@@ -104,7 +107,7 @@ comparison v2 的 `approved_exclusions`、`style_failures` 和单一 `classifica
 
 批准字体对的 `fontFamily` 身份差异可在所有 profile 上输出 `FONT_FAMILY_MAPPING`，但它本身不允许任何几何差异。`mapped-text`、`text-adjacent-icon` 和 `text-sized-control` 只有在以下条件全部满足时才能进一步应用字体几何豁免：
 
-1. 官方和本地 computed `fontFamily` 的首个有效 family 不同，且二者命中 manifest v2 `acceptancePolicy.approvedFontMappings` 中已批准的有向映射。
+1. 官方和本地 computed `fontFamily` 的 primary family token 不同，且二者命中 manifest v2 `acceptancePolicy.approvedFontMappings` 中已批准的有向映射。primary token 定义为浏览器 computed 字符串按 CSS family list 解析后的第一项，去除外层引号并规范化空白和大小写；它不是品牌展示名，也不因 fallback 中存在共同项而命中。collector 还必须用 `document.fonts.check()` 对该角色的实际 font shorthand 和文本样本记录 `fontLoadStatus`；任一批准 primary family 未加载时 cell 为 `BLOCKED`，不能退回 fallback 后继续豁免。
 2. `fontSize`、`fontWeight`、`lineHeight` 和 `letterSpacing` 均通过严格比较。
 3. 角色的垂直几何通过严格比较。
 4. 容器的 padding、gap、border 和对齐规则通过严格比较。
@@ -121,7 +124,7 @@ comparison v2 的 `approved_exclusions`、`style_failures` 和单一 `classifica
 - `Geist` → `HarmonyOS Sans SC`；
 - `Geist Mono` → `JetBrains Maple Mono`。
 
-上面的键是本轮 live computed style 与 `src/styles/index.css` 的首个有效 family，不是品牌展示名：官方 Sans 的品牌名称是 Geist Sans，但 computed family 键为 `Geist`；本地 Mono 的实际键是 `JetBrains Maple Mono`，不能缩写为 `Maple Mono`。匹配时先去除引号、规范化空白和大小写，但不把 fallback stack 中任意共同字体视为命中。新增、别名化或扩展映射都会改变全局验收边界，必须修改 manifest schema 约束、增加负向测试并独立人工 review；禁止在单个 ledger cell 临时批准。
+上面的键来自本轮 live evidence 与 `src/styles/index.css` 的 computed primary family，不是品牌展示名：仓库外当前官方 evidence 的 primary token 为 `Geist`，尽管品牌名称是 Geist Sans；本地 Mono 的实际 token 是 `JetBrains Maple Mono`，不能缩写为 `Maple Mono`。新增、别名化或扩展映射都会改变全局验收边界，必须修改 manifest schema 约束、增加负向测试并独立人工 review；禁止在单个 ledger cell 临时批准。
 
 ### 文本驱动控件宽度证明
 
@@ -131,7 +134,7 @@ comparison v2 的 `approved_exclusions`、`style_failures` 和单一 `classifica
 2. 控件高度、padding、gap、border、图标宽度和其他非文本子项严格一致；
 3. 使用有符号差值验证 `controlWidthDelta - textWidthDelta`，残差在既有几何阈值内；
 4. 控件没有 `width`、`min-width`、`max-width`、stretch 或 transform 等其他宽度来源；
-5. 文本不换行、未省略且未被裁切。
+5. 文本不换行、未省略且未被裁切。collector v2 必须为被引用的 `textRole` 记录 `clientRects`、`clientWidth`、`scrollWidth`、`whiteSpace`、`overflow` 和 `textOverflow`；只有 `scrollWidth <= clientWidth`、未出现 ellipsis/clip 且行盒完整时通过。
 
 满足时输出 `FONT_METRIC_CONTROL_WIDTH`。任何条件不满足，控件宽差保持 `GEOMETRY_MISMATCH`。
 
@@ -153,15 +156,17 @@ comparison v2 的 `approved_exclusions`、`style_failures` 和单一 `classifica
 
 ## 结构与语义节点
 
-现有 collector 已采集根下全部 `metrics.nodes`，comparator 也会对 DOM path 集合生成 `missingPaths`，因此普通结构差异不是完全不可观测。但官方和本地允许使用不同透明 wrapper，不能把所有 path 差异都等同于语义失败，也不在本轮引入高成本、易误判的通用 DOM 树编辑距离算法。
+现有 collector 会遍历根下全部节点，comparator 也会对 numeric sibling-index path 集合生成 `missingPaths`，因此普通结构差异不是完全不可观测。但 raw path 形如 `0.1.2`；若一侧插入 wrapper，其全部后代索引都会漂移，不能用一个 `allowedStructuralPaths` 精确路径假装解决。也不在本轮引入高成本、易误判的通用 DOM 树编辑距离算法。
 
-manifest 合同改为显式列出：
+manifest 合同必须显式包含：
 
-- `roles`：必须逐项比较的语义角色；
-- `semanticNodeInventory`：根下必须一致的交互与 ARIA 节点计数，例如 `button`、`a[href]`、`input`、`[role]`，以及通过 `getAttributeNames()` 识别任意 `aria-` 前缀属性的节点；`[aria-*]` 不是合法 CSS selector，禁止把它写进 contract；
-- `allowedStructuralPaths`：仅用于已审核、无语义、无布局所有权的 wrapper path 差异。
+- `roles`：必须逐项验证 required/forbidden presence 的语义角色；
+- `semanticNodeInventory`：结构化 matcher 与 `expectedCount` 的数组；matcher 只允许 `tagName`、精确 `role`、精确属性值、属性存在和 `attributeNamePrefix`。例如 `a[href]` 表达为 `tagName: "a"` 加 `href: present`，任意 ARIA 属性表达为 `attributeNamePrefix: "aria-"`，禁止使用无效 CSS selector `[aria-*]`；
+- `transparentWrappers`：按 source 声明 `id`、唯一 selector、parent role 以及必须全部通过的透明性约束。
 
-单侧缺失角色、语义节点 inventory 不一致或未批准 path 差异均进入 `strictFailures`。普通包装层只有在无 ARIA/交互语义、不拥有 padding/gap/position/transform/overflow 等布局规则，且命中结构化 allowlist 时才允许排除。原规格中的“没有未声明的额外结构角色”只指这套可机验范围，不承诺发现选择器合同之外的任意业务语义。
+collector v2 必须为每个 raw node 新增 `tagName`、全部属性名和语义相关属性值，并据 matcher 计算 inventory；现有 role-level ARIA 证据不能替代全树计数。official/local 的实测计数都必须等于 contract 的同一 `expectedCount`，否则输出 `SEMANTIC_INVENTORY_MISMATCH`。
+
+透明 wrapper 在**采集阶段**处理：先验证 selector 在声明 source 和 parent role 下唯一命中，且 wrapper 不是原生交互元素，不带 `role`、`aria-*`、`href`、`tabindex`、`contenteditable`、`disabled`、`data-state` 或 inline `on*` 属性，也不拥有 padding、margin、gap、border、position、transform、overflow、尺寸约束、伪元素或可见样式；随后在 canonical tree 中折叠该 wrapper，再对折叠后的兄弟序列生成 canonical path。DOM API 无法枚举 `addEventListener` 注册项，因此 contract 不能靠“无监听器”这一不可观测断言批准 wrapper；存在疑问时不得列入 `transparentWrappers`。comparison 只用 canonical path 判结构一致；raw path 和折叠映射仍保留为诊断证据。任一透明性约束失败、selector 漂移或未批准 canonical path 差异都进入 `strictFailures`。这套规则只承诺核对已声明角色、结构 matcher 和 canonical tree，不承诺发现合同之外的任意业务语义。
 
 ## 差异分类
 
@@ -175,17 +180,18 @@ manifest 合同改为显式列出：
 - `FONT_METRIC_CONTROL_WIDTH`：文本内在宽度完整传递到控件外宽。
 - `CONTEXT_OWNED_WIDTH`：由已测 docs wrapper 宽度差完整传递的 fill 差异。
 - `UNEXPLAINED_PIXEL_DELTA`：结构化差异无法解释的非字体像素差，经确定性 mask 仍存在。
-- `GEOMETRY_MISMATCH`、`STYLE_MISMATCH`、`ARIA_MISMATCH`、`MISSING_ROLE`、`UNEXPECTED_ROLE`、`UNEXPECTED_STRUCTURE`、`FONT_METRIC_REFLOW`、`RESPONSIVE_STRUCTURE_DELTA`：严格失败分类。
+- `GEOMETRY_MISMATCH`、`STYLE_MISMATCH`、`ARIA_MISMATCH`、`MISSING_ROLE`、`UNEXPECTED_ROLE`、`UNEXPECTED_STRUCTURE`、`SEMANTIC_INVENTORY_MISMATCH`、`FONT_METRIC_REFLOW`、`RESPONSIVE_STRUCTURE_DELTA`：严格失败分类。
 
 每个 exclusion 必须记录：
 
 ```json
 {
   "classification": "FONT_METRIC_INLINE_GEOMETRY",
+  "scope": "role",
   "role": "title",
-  "fields": ["x", "width", "right"],
-  "official": { "x": 0, "width": 277 },
-  "local": { "x": 0, "width": 276 },
+  "fields": ["width"],
+  "official": { "width": 277 },
+  "local": { "width": 276 },
   "evidence": {
     "fontMapping": "Geist -> HarmonyOS Sans SC",
     "strictTypographyMatched": true,
@@ -196,7 +202,9 @@ manifest 合同改为显式列出：
 
 禁止只写自由文本 reason 而不记录原始值和证明条件。
 
-`approvedExclusions` 的统一对象 schema 至少要求 `classification`、`role`、非空 `fields`、`official`、`local` 和结构化 `evidence`；`strictFailures` 至少要求 `classification`、`role`、非空 `fields`、`official` 和 `local`，可附带只用于展示的 `message`。两类对象都禁止 `additionalProperties`，classification 使用枚举，字段名使用各 classification 的白名单。comparison 和 ledger 引用同一 `$defs`，不得复制出两套相似但不相同的定义。
+`approvedExclusions` 的统一对象 schema 要求 `classification`、`scope`、`role`、非空 `fields`、`official`、`local` 和结构化 `evidence`；批准项必然归属于显式角色，不允许 cell 级自由豁免。
+
+`strictFailures` 使用共享 base：`classification`、`scope`、`official` 和 `local` required，`message` 仅供展示；再按 classification 用 JSON Schema `oneOf`/`if-then` 收紧。`scope: role` 的字段差异必须有 `role` 和非空 `fields`；`scope: structure | pixel | responsive | cell` 可以没有单一 role，且 `fields` 可省略，但必须携带对应的 `paths`、`artifactRegions`、`viewports` 或 `evidenceCode`。例如 `UNEXPLAINED_PIXEL_DELTA` 使用 pixel scope，inventory/path 失败使用 structure scope，禁止伪造 role 或空字段绕过 schema。两类对象都禁止 `additionalProperties`，classification 使用枚举，字段名使用各 classification 的白名单。comparison 和 ledger 引用同一 `$defs`，不得复制出两套相似但不相同的定义。
 
 ## 响应式判定
 
@@ -227,7 +235,7 @@ profile 按 viewport 独立应用，不能先聚合 viewport 再统一豁免。`
 
 若仍存在无法解释的像素差，结果必须为 `FAIL` 或 `BLOCKED`；不得仅因组件属于文字类组件就忽略。
 
-像素归因使用确定性 mask，而不是人工观察：
+像素归因使用确定性 mask，而不是人工观察。每侧 role rect 先减去各自 screenshot clip rect 的页面原点，转换为各自截图坐标；随后按 comparison 统一画布的左上对齐规则映射，不得直接混用页面绝对坐标：
 
 1. `mapped-text` 仅在 official/local 文本 role rect 的并集内生成候选 mask，允许为抗锯齿边缘扩展 1 个 device pixel；
 2. `text-adjacent-icon` 仅在 official/local 图标 role rect 的并集内生成候选 mask；
@@ -235,7 +243,7 @@ profile 按 viewport 独立应用，不能先聚合 viewport 再统一豁免。`
 4. `context-owned-fill` 只 mask 由有符号 owner delta 产生的边缘条带，不 mask 整个组件表面；
 5. 所有 mask 都必须记录来源 role、原始 rect 和扩展量。
 
-候选矩形不是自动豁免区。像素只有在对应 role 的前景色、opacity 和背景 computed style 已严格一致，且差异像素至少一侧与该前景 alpha 合成色匹配时才能进入最终 mask；纯背景、边框、阴影或状态层差异不能因落在文字 rect 内而被吞掉。实现允许使用确定性的颜色距离阈值处理抗锯齿，但阈值必须固定在 policy、写入报告并有“相同 rect 内背景色错误仍 FAIL”的负向测试。
+候选矩形不是自动豁免区。像素只有在对应 role 的前景色、opacity 和背景 computed style 已严格一致，且差异像素至少一侧与该前景的预期合成色匹配时才能进入最终 mask。预期合成色由 role 到 canvas 的 ancestor chain 背景色按 alpha 自下而上确定性合成；遇到 gradient、background image、blend/filter/backdrop-filter 或无法还原的 backdrop 时不得生成前景 mask，cell 保持 `FAIL`/`BLOCKED`。纯背景、边框、阴影或状态层差异不能因落在文字 rect 内而被吞掉。颜色距离算法及上限固定为 `acceptancePolicy.pixelAttribution.foregroundColorDistanceMax`，边缘扩展固定为 `edgeExpansionDevicePixels`；两者写入 comparison，并有“相同 rect 内背景色错误仍 FAIL”的负向测试。
 
 changed pixel 落在最终 mask 外时输出 `UNEXPLAINED_PIXEL_DELTA`。扩展量固定为 1 个 device pixel，只处理字体光栅化边缘，不改变 CSS 几何阈值。若 device scale factor 不是 1，必须按实际 device pixel ratio 记录和换算；本项目默认采集为 1。
 
@@ -254,17 +262,24 @@ freshness 不使用“距现在 N 天”的滚动 TTL；否则持久 ledger 会�
 
 ## Ledger 与状态
 
-ledger 每个结果必须保存：
+ledger v2 把证据覆盖状态与语义比较状态分开：
+
+- `evidenceStatus: READY | MISSING | NOT_APPLICABLE | BLOCKED`；
+- `semanticAcceptanceStatus: PASS | FAIL | BLOCKED | null`；
+- `status: PASS | FAIL | BLOCKED | MISSING | NOT_APPLICABLE` 为兼容字段。
+
+映射规则是确定的：`READY` 表示输入证据足以运行 comparator，此时 semantic 允许 `PASS | FAIL | BLOCKED`，且 `status` 与其相等；comparison 因未知 profile、证明不完整或策略校验失败而给出 `BLOCKED` 时，evidence 仍可保持 `READY`。`evidenceStatus: BLOCKED` 专指证据层在比较前已因 artifact、revision、digest 或 producer 问题阻断，此时 semantic/status 都为 `BLOCKED`；`MISSING` 或 `NOT_APPLICABLE` 时 semantic 必须为 `null`，status 分别保持同名值。comparison v3 只针对实际进入比较的 cell，仍只输出 `PASS | FAIL | BLOCKED`，不输出 `MISSING` 或 `NOT_APPLICABLE`。
+
+ledger 每个 READY/BLOCKED 结果还必须保存：
 
 - `diagnosticPixelStatus`；
-- `semanticAcceptanceStatus`；
 - 原始 pixel 和 geometry 摘要；
 - `strictFailures`；
 - `approvedExclusions`；
 - 角色级 classification；
 - 官方证据时间戳、`auditRunId`、`contractDigest`、本地 revision、`localSourceDigest`、`worktreeClean` 和仓库外 artifact 路径。
 
-顶层在矩阵未完成时继续保持 `IN_PROGRESS_NO_COMPLETION_CLAIM`。单个 cell 的正式 `status` 等于 `semanticAcceptanceStatus`，不能由人工描述覆盖。
+顶层在矩阵未完成时继续保持 `IN_PROGRESS_NO_COMPLETION_CLAIM`。人工描述不能覆盖上述状态映射。
 
 ## Description 试点迁移
 
@@ -287,35 +302,65 @@ ledger 每个结果必须保存：
   "evidenceNotBefore": "2026-08-12T00:00:00.000Z",
   "roles": {
     "demo-context": {
-      "selectors": { "official": "[LIVE_SELECTOR]", "local": "[LIVE_SELECTOR]" },
+      "selectors": {
+        "default": { "official": "[LIVE_SELECTOR]", "local": "[LIVE_SELECTOR]" },
+        "byViewport": {}
+      },
+      "presence": "required",
       "acceptanceProfile": "measurement-context",
       "measurementAxes": ["x", "width", "right"]
     },
     "root": {
-      "selectors": { "official": "[LIVE_SELECTOR]", "local": "[LIVE_SELECTOR]" },
+      "selectors": {
+        "default": { "official": "[LIVE_SELECTOR]", "local": "[LIVE_SELECTOR]" },
+        "byViewport": {}
+      },
+      "presence": "required",
       "acceptanceProfile": "context-owned-fill",
       "contextOwnerRole": "demo-context"
     },
     "title": {
-      "selectors": { "official": "[LIVE_SELECTOR]", "local": "[LIVE_SELECTOR]" },
+      "selectors": {
+        "default": { "official": "[LIVE_SELECTOR]", "local": "[LIVE_SELECTOR]" },
+        "byViewport": {}
+      },
+      "presence": "required",
+      "acceptanceProfile": "mapped-text"
+    },
+    "content": {
+      "selectors": {
+        "default": { "official": "[LIVE_SELECTOR]", "local": "[LIVE_SELECTOR]" },
+        "byViewport": {}
+      },
+      "presence": "required",
       "acceptanceProfile": "mapped-text"
     },
     "tooltip-shell": {
-      "selectors": { "official": "[LIVE_SELECTOR]", "local": "[LIVE_SELECTOR]" },
+      "selectors": {
+        "default": { "official": "[LIVE_SELECTOR]", "local": "[LIVE_SELECTOR]" },
+        "byViewport": {}
+      },
+      "presence": "required",
       "acceptanceProfile": "text-adjacent-icon",
       "textRole": "title",
       "anchorEdge": "right"
     },
     "tooltip-trigger": {
-      "selectors": { "official": "[LIVE_SELECTOR]", "local": "[LIVE_SELECTOR]" },
+      "selectors": {
+        "default": { "official": "[LIVE_SELECTOR]", "local": "[LIVE_SELECTOR]" },
+        "byViewport": {}
+      },
+      "presence": "required",
       "acceptanceProfile": "strict",
       "coordinateOwnerRole": "tooltip-shell"
     }
-  }
+  },
+  "semanticNodeInventory": [],
+  "transparentWrappers": []
 }
 ```
 
-`[LIVE_SELECTOR]` 不是实施占位符：它明确表示 schema 示例不能批准未经本轮 live discovery 复核的 selector。真正写入 manifest 的每个 selector 必须是非空、可在对应 source 唯一命中的具体字符串，schema 和采集测试必须拒绝该哨兵值。
+`[LIVE_SELECTOR]` 不是实施占位符：它明确表示 schema 示例不能批准未经本轮 live discovery 复核的 selector。真正写入 manifest 的每个 selector 必须是非空、可在对应 source 唯一命中的具体字符串，schema 和采集测试必须拒绝该哨兵值。示例中的空 `semanticNodeInventory` 只展示 required 字段形状，不证明 Description 没有语义节点；实际 contract 必须根据同一轮 official/local live discovery 填入真实 matcher 和计数，或者以独立证据证明该状态 inventory 确为空。
 
 迁移后必须重新采集当前提交，而不是直接改写旧 ledger 结论。若 1 px 根宽差能通过 context-owned 证明，文本横向差能通过字体映射证明，且没有其他失败，cell 才可从 `FAIL` 改为 `PASS`。
 
@@ -347,8 +392,12 @@ ledger 每个结果必须保存：
 14. responsiveDelta 在每个端点独立应用 profile；端点未通过时跨视口结果不能为 MATCH。
 15. schema 测试接受 manifest v2、evidence v2、comparison v3 和 ledger v2 的完整结构，并拒绝旧版本冒充正式 PASS。
 16. freshness 测试拒绝 epoch 之前的 official evidence、不同 run/contract digest、dirty worktree、非 40 位 SHA、未知 producer 和变化的 local source digest。
-17. Description 真实 evidence fixture 固化 profile、坐标 owner、锚边证明项和正式结论。
-18. 全量 ledger validator 拒绝只有自由文本、没有结构化 evidence 的 exclusion。
+17. Description 真实 evidence fixture 固化 profile、`content` 角色、统一 selector/presence、inventory、坐标 owner、锚边证明项和正式结论。
+18. schema 拒绝缺少 required contract 字段、错误 selector 形状和非法透明 wrapper；canonical path 测试证明批准 wrapper 不导致后代 path 漂移，未批准 wrapper 仍失败。
+19. 无角色 pixel/structure failure 能通过 strict failure schema，approved exclusion 仍必须绑定角色和非空字段。
+20. ledger 状态测试覆盖 READY、MISSING、NOT_APPLICABLE 和 BLOCKED 映射，并迁移现有依赖 `style_failures` 的 validator 断言。
+21. collector 测试覆盖全树语义属性、inventory、字体加载状态、文本裁切字段、clip-origin 坐标转换和不可合成背景。
+22. 全量 ledger validator 拒绝只有自由文本、没有结构化 evidence 的 exclusion。
 
 ## 实施边界
 
