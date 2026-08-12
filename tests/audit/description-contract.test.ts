@@ -55,6 +55,7 @@ describe("Description live-discovery acceptance contract", () => {
     expect(roles["demo-container"].selectors.default.official).toBe(
       'a[href="#default"] ~ * div.w-full.p-6',
     );
+    expect(roles["demo-container"].selectors.default.local).toBe('[data-demo-container="default"]');
 
     // root is the clip target and a context-owned-fill of the demo container
     expect(roles.root).toMatchObject({

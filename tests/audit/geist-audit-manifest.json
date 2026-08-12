@@ -604,7 +604,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
-                  "local": "div:has(> [data-demo-id=\"default\"])"
+                  "local": "[data-demo-container=\"default\"]"
                 },
                 "byViewport": {}
               },

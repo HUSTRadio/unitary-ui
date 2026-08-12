@@ -1724,34 +1724,42 @@ function ComboboxDemo() {
 
 function DescriptionDemo() {
   const { language } = useLanguage();
+  const title = demoText(language, "Section Title");
+  const content = demoText(language, "Data about this section.");
+  const tooltip = demoText(language, "Additional context about what this section refers to.");
   return (
-    <div className="w-full">
-      <Description
-        data-demo-id="default"
-        title={demoText(language, "Section Title")}
-        content={demoText(language, "Data about this section.")}
-        tooltip={demoText(language, "Additional context about what this section refers to.")}
-      />
-      <Description
-        data-demo-id="text-right"
-        right
-        className="mt-6"
-        title={demoText(language, "Section Title")}
-        content={demoText(language, "Data about this section.")}
-        tooltip={demoText(language, "Additional context about what this section refers to.")}
-      />
-      <Description
-        data-demo-id="ellipsis"
-        ellipsis
-        className="mt-6"
-        title={demoText(language, "Section Title")}
-        content={demoText(
-          language,
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sed venenatis libero.",
-        )}
-        tooltip={demoText(language, "Additional context about what this section refers to.")}
-      />
-    </div>
+    <>
+      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
+        <div className="w-full p-6" data-demo-container="default">
+          <Description data-demo-id="default" title={title} content={content} tooltip={tooltip} />
+        </div>
+      </div>
+      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
+        <div className="w-full p-6" data-demo-container="text-right">
+          <Description
+            data-demo-id="text-right"
+            right
+            title={title}
+            content={content}
+            tooltip={tooltip}
+          />
+        </div>
+      </div>
+      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
+        <div className="w-full p-6" data-demo-container="ellipsis">
+          <Description
+            data-demo-id="ellipsis"
+            ellipsis
+            title={title}
+            content={demoText(
+              language,
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sed venenatis libero.",
+            )}
+            tooltip={tooltip}
+          />
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -3955,6 +3963,8 @@ function ComponentDetail({ name }: { name: string }) {
         <h2 className="text-heading-24 text-foreground">{demoText(language, "Live Demo")}</h2>
         {name === "table" ? (
           <TableDemoCard code={meta.code}>{renderDemo(name)}</TableDemoCard>
+        ) : name === "description" ? (
+          <div>{renderDemo(name)}</div>
         ) : (
           <DemoSection>{renderDemo(name)}</DemoSection>
         )}

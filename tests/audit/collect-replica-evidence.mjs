@@ -337,11 +337,15 @@ async function openTarget(cdpHttp) {
 }
 
 async function evaluate(send, expression) {
-  const result = await send("Runtime.evaluate", {
-    expression,
-    awaitPromise: true,
-    returnByValue: true,
-  });
+  const result = await send(
+    "Runtime.evaluate",
+    {
+      expression,
+      awaitPromise: true,
+      returnByValue: true,
+    },
+    60_000,
+  );
   if (result.exceptionDetails) {
     throw new Error(result.exceptionDetails.exception?.description ?? "Runtime.evaluate failed");
   }
@@ -796,16 +800,18 @@ async function collect(config, runDir) {
       mobile: config.viewport.width <= 480,
     });
     const navigationStartedAt = new Date().toISOString();
-    await send("Page.navigate", { url: config.url });
+    await send("Page.navigate", { url: config.url }, 60_000);
     await waitFor(
       send,
       `document.readyState === 'complete' || document.readyState === 'interactive'`,
       "document readiness",
+      600,
     );
     await waitFor(
       send,
       `Boolean(document.querySelector(${JSON.stringify(config.rootSelector)}))`,
       config.rootSelector,
+      600,
     );
     const sourceTimestamp = new Date().toISOString();
     const observedTheme = await applyTheme(send, config.theme);
