@@ -1727,17 +1727,20 @@ function DescriptionDemo() {
   return (
     <div className="grid w-full max-w-md grid-cols-1 gap-6 md:grid-cols-2">
       <Description
+        data-demo-id="default"
         title={demoText(language, "Section Title")}
         content={demoText(language, "Data about this section.")}
         tooltip={demoText(language, "Additional context about what this section refers to.")}
       />
       <Description
+        data-demo-id="text-right"
         right
         title={demoText(language, "Section Title")}
         content={demoText(language, "Data about this section.")}
         tooltip={demoText(language, "Additional context about what this section refers to.")}
       />
       <Description
+        data-demo-id="ellipsis"
         ellipsis
         title={demoText(language, "Section Title")}
         content={demoText(

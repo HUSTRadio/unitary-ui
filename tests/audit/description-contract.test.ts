@@ -47,14 +47,16 @@ describe("Description live-discovery acceptance contract", () => {
 
     // root is the clip target and a strict container/surface
     expect(roles.root).toMatchObject({ presence: "required", acceptanceProfile: "strict" });
-    expect(roles.root.selectors.default.local).toBe('[data-slot="description"]');
+    expect(roles.root.selectors.default.local).toBe('[data-demo-id="default"]');
 
     // title and content carry text and are font-mapping profiles
     expect(roles.title).toMatchObject({ presence: "required", acceptanceProfile: "mapped-text" });
     expect(roles.title.selectors.default.official).toBe(
       'a[href="#default"] ~ * dt[data-geist-description-title]',
     );
-    expect(roles.title.selectors.default.local).toBe('[data-slot="description-title"]');
+    expect(roles.title.selectors.default.local).toBe(
+      '[data-demo-id="default"] [data-slot="description-title"]',
+    );
     expect(roles.content).toMatchObject({
       presence: "required",
       acceptanceProfile: "mapped-text",
@@ -62,7 +64,9 @@ describe("Description live-discovery acceptance contract", () => {
     expect(roles.content.selectors.default.official).toBe(
       'a[href="#default"] ~ * dd[data-geist-description-content]',
     );
-    expect(roles.content.selectors.default.local).toBe('[data-slot="description-content"]');
+    expect(roles.content.selectors.default.local).toBe(
+      '[data-demo-id="default"] [data-slot="description-content"]',
+    );
 
     // tooltip shell and trigger are anchored to the mapped title text's right edge
     for (const role of ["tooltip-shell", "tooltip-trigger"]) {
@@ -74,10 +78,10 @@ describe("Description live-discovery acceptance contract", () => {
       });
     }
     expect(roles["tooltip-shell"].selectors.default.local).toBe(
-      '[data-slot="description-tooltip-shell"]',
+      '[data-demo-id="default"] [data-slot="description-tooltip-shell"]',
     );
     expect(roles["tooltip-trigger"].selectors.default.local).toBe(
-      '[data-slot="description-tooltip"]',
+      '[data-demo-id="default"] [data-slot="description-tooltip"]',
     );
     expect(roles["tooltip-trigger"].selectors.default.official).toBe(
       'a[href="#default"] ~ * [data-testid="legacy/tooltip-trigger"]',

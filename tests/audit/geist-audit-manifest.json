@@ -544,7 +544,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * dl",
-                  "local": "[data-slot=\"description\"]"
+                  "local": "[data-demo-id=\"default\"]"
                 },
                 "byViewport": {}
               },
@@ -555,7 +555,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * dt[data-geist-description-title]",
-                  "local": "[data-slot=\"description-title\"]"
+                  "local": "[data-demo-id=\"default\"] [data-slot=\"description-title\"]"
                 },
                 "byViewport": {}
               },
@@ -566,7 +566,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * dd[data-geist-description-content]",
-                  "local": "[data-slot=\"description-content\"]"
+                  "local": "[data-demo-id=\"default\"] [data-slot=\"description-content\"]"
                 },
                 "byViewport": {}
               },
@@ -577,7 +577,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * dt[data-geist-description-title] > span",
-                  "local": "[data-slot=\"description-tooltip-shell\"]"
+                  "local": "[data-demo-id=\"default\"] [data-slot=\"description-tooltip-shell\"]"
                 },
                 "byViewport": {}
               },
@@ -590,7 +590,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * [data-testid=\"legacy/tooltip-trigger\"]",
-                  "local": "[data-slot=\"description-tooltip\"]"
+                  "local": "[data-demo-id=\"default\"] [data-slot=\"description-tooltip\"]"
                 },
                 "byViewport": {}
               },
