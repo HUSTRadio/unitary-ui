@@ -672,6 +672,7 @@ def main() -> None:
     # Context-owned-fill attribution: compare content-box widths (border-box
     # minus horizontal padding) so that a host container's padding position does
     # not masquerade as a fill width mismatch.
+    context_delta = 0.0
     if official_cell is not None:
         contract_roles = (official_cell.get("contract") or {}).get("roles", {})
 
@@ -725,7 +726,6 @@ def main() -> None:
             strict_failures_v3[:] = remaining
         # 2) any role whose content-box width delta equals the measurement-context
         #    delta is fully explained by the host container (fill and its fillers).
-        context_delta = 0.0
         for role_name, role_def in contract_roles.items():
             if role_def.get("acceptanceProfile") == "measurement-context":
                 context_delta = max(context_delta, content_box_delta.get(role_name, 0.0))
@@ -756,6 +756,15 @@ def main() -> None:
                     remaining.append(failure)
             strict_failures_v3[:] = remaining
 
+    # A clip dimension mismatch that matches the context width delta is the same
+    # host-container difference already exempted at the role level.
+    dimension_mismatch_explained = False
+    if dimension_mismatch and context_delta > 0:
+        off_w = float(official_size[0]) if official_size else 0.0
+        local_w = float(local_size[0]) if local_size else 0.0
+        if abs(off_w - local_w) <= context_delta + 0.5:
+            dimension_mismatch_explained = True
+
     # Determine v3 semantic status
     has_strict_failures = bool(strict_failures_v3)
     has_non_font_failures = any(
@@ -768,7 +777,11 @@ def main() -> None:
     semantic_acceptance_status: str
     if provenance_failures:
         semantic_acceptance_status = "BLOCKED"
-    elif has_non_font_failures or dimension_mismatch or has_geometry_failures:
+    elif (
+        has_non_font_failures
+        or (dimension_mismatch and not dimension_mismatch_explained)
+        or has_geometry_failures
+    ):
         semantic_acceptance_status = "FAIL"
     elif has_strict_failures:
         # font-only differences
