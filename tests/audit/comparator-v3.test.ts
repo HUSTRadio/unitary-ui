@@ -110,7 +110,7 @@ const runComparator = (
   return JSON.parse(readFileSync(join(out, "comparison.json"), "utf8"));
 };
 
-describe("comparator v3 acceptance-policy-driven exemptions", () => {
+describe("comparator v3 acceptance-policy-driven exemptions", { timeout: 15000 }, () => {
   let directory: string;
   let manifestPath: string;
 

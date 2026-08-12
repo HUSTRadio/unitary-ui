@@ -669,16 +669,39 @@ def main() -> None:
     if provenance_failures:
         strict_failures_v3.extend(provenance_failures)
 
-    # Context-owned-fill attribution: a fill role whose width delta equals its
-    # measurement-context width delta is fully explained by the host container.
+    # Context-owned-fill attribution: compare content-box widths (border-box
+    # minus horizontal padding) so that a host container's padding position does
+    # not masquerade as a fill width mismatch.
     if official_cell is not None:
         contract_roles = (official_cell.get("contract") or {}).get("roles", {})
-        rect_width_delta: dict[str, float] = {}
-        for rows in role_comparisons.values():
-            for row in rows:
-                delta = row.get("rect", {}).get("delta")
-                if delta and delta.get("width") is not None:
-                    rect_width_delta[row["role"]] = abs(float(delta["width"]))
+
+        def _px(value: Any) -> float:
+            if isinstance(value, (int, float)):
+                return float(value)
+            if isinstance(value, str):
+                match = re.match(r"([\d.]+)px", value.strip())
+                if match:
+                    return float(match.group(1))
+            return 0.0
+
+        def _content_box_width(metrics: dict[str, Any], role_name: str) -> float | None:
+            role = (metrics.get("roles") or {}).get(role_name)
+            if not role or not role.get("present"):
+                return None
+            rect = role.get("rect") or {}
+            styles = role.get("styles") or {}
+            width = float(rect.get("width", 0))
+            pad_left = _px(styles.get("paddingLeft", "0px"))
+            pad_right = _px(styles.get("paddingRight", "0px"))
+            return width - pad_left - pad_right
+
+        content_box_delta: dict[str, float] = {}
+        for role_name in contract_roles:
+            off_cb = _content_box_width(official_metrics, role_name)
+            loc_cb = _content_box_width(local_metrics, role_name)
+            if off_cb is not None and loc_cb is not None:
+                content_box_delta[role_name] = abs(off_cb - loc_cb)
+
         # 1) measurement-context roles: their declared axes are host context input.
         for role_name, role_def in contract_roles.items():
             if role_def.get("acceptanceProfile") != "measurement-context":
@@ -700,36 +723,32 @@ def main() -> None:
                 else:
                     remaining.append(failure)
             strict_failures_v3[:] = remaining
-        # 2) context-owned-fill roles: width (and width-derived transformOrigin)
-        #    whose delta equals the context delta.
+        # 2) any role whose content-box width delta equals the measurement-context
+        #    delta is fully explained by the host container (fill and its fillers).
+        context_delta = 0.0
         for role_name, role_def in contract_roles.items():
-            if role_def.get("acceptanceProfile") != "context-owned-fill":
-                continue
-            context_role = role_def.get("contextOwnerRole")
-            if context_role not in rect_width_delta or role_name not in rect_width_delta:
-                continue
-            context_w = rect_width_delta[context_role]
-            fill_w = rect_width_delta[role_name]
-            if context_w <= 0 or abs(fill_w - context_w) > 0.5:
-                continue
+            if role_def.get("acceptanceProfile") == "measurement-context":
+                context_delta = max(context_delta, content_box_delta.get(role_name, 0.0))
+        if context_delta > 0:
             remaining = []
             for failure in strict_failures_v3:
+                role_name = failure.get("role")
+                field = failure.get("field")
                 if (
-                    failure.get("role") == role_name
-                    and failure.get("field") in ("width", "transformOrigin")
+                    field in ("width", "transformOrigin")
+                    and abs(content_box_delta.get(role_name, -1.0) - context_delta) <= 0.5
                 ):
                     approved_exclusions_v3.append(
                         {
                             "classification": "CONTEXT_OWNED_WIDTH",
                             "scope": "role",
                             "role": role_name,
-                            "fields": [failure["field"]],
+                            "fields": [field],
                             "official": failure.get("official"),
                             "local": failure.get("local"),
                             "evidence": {
-                                "contextOwnerRole": context_role,
-                                "contextWidthDelta": context_w,
-                                "fillWidthDelta": fill_w,
+                                "contextWidthDelta": context_delta,
+                                "fillWidthDelta": content_box_delta.get(role_name),
                             },
                         }
                     )

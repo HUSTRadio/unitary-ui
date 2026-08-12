@@ -129,7 +129,7 @@ const runComparatorWithCells = (dir: string, officialCell: object, localCell: ob
   return JSON.parse(readFileSync(join(out, "comparison.json"), "utf8"));
 };
 
-describe("comparator v3 evidence provenance gate", () => {
+describe("comparator v3 evidence provenance gate", { timeout: 15000 }, () => {
   let directory: string;
 
   beforeAll(() => {

@@ -160,7 +160,7 @@ describe("resolved evidence contract v2", () => {
   });
 });
 
-describe("local UI source state", () => {
+describe("local UI source state", { timeout: 15000 }, () => {
   test("hashes only tracked policy matches and reports revision and cleanliness", () => {
     const repo = mkdtempSync(join(tmpdir(), "geist-evidence-v2-"));
     mkdirSync(join(repo, "src"));

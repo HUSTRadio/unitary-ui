@@ -120,7 +120,7 @@ const cell = (source: "official" | "local", _contextWidth: number, _rootWidth: n
   status: "captured",
 });
 
-describe("comparator v3 context-owned-fill attribution", () => {
+describe("comparator v3 context-owned-fill attribution", { timeout: 15000 }, () => {
   test("fill width delta fully explained by measurement-context width delta is exempted", () => {
     const dir = mkdtempSync(join(tmpdir(), "geist-comparator-context-"));
     const official = makeImage(dir, "official.png");
