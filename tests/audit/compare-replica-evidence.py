@@ -37,6 +37,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--pixel-threshold", type=int, default=0)
     parser.add_argument("--geometry-threshold", type=float, default=0.0)
     parser.add_argument("--manifest", default=None)
+    parser.add_argument("--official-cell", default=None)
+    parser.add_argument("--local-cell", default=None)
     return parser.parse_args()
 
 
@@ -492,6 +494,13 @@ def main() -> None:
     if args.manifest:
         manifest = load_json(args.manifest)
 
+    official_cell: dict[str, Any] | None = None
+    local_cell: dict[str, Any] | None = None
+    if args.official_cell:
+        official_cell = load_json(args.official_cell)
+    if args.local_cell:
+        local_cell = load_json(args.local_cell)
+
     official_image = Image.open(args.official_image).convert("RGBA")
     local_image = Image.open(args.local_image).convert("RGBA")
     official_size = official_image.size
@@ -606,6 +615,35 @@ def main() -> None:
         # All style differences are already in failures because field_exemption returns None
         pass
 
+    # Verify evidence provenance when cells are provided
+    has_provenance = official_cell is not None and local_cell is not None
+    provenance_failures: list[dict[str, Any]] = []
+    if has_provenance:
+        official_digest = official_cell.get("contractDigest")
+        local_digest = local_cell.get("contractDigest")
+        if official_digest != local_digest:
+            provenance_failures.append(
+                {
+                    "classification": "EVIDENCE_DIGEST_MISMATCH",
+                    "scope": "evidence",
+                    "official": official_digest,
+                    "local": local_digest,
+                }
+            )
+        official_run = official_cell.get("auditRunId")
+        local_run = local_cell.get("auditRunId")
+        if official_run != local_run:
+            provenance_failures.append(
+                {
+                    "classification": "EVIDENCE_RUN_MISMATCH",
+                    "scope": "evidence",
+                    "official": official_run,
+                    "local": local_run,
+                }
+            )
+    if provenance_failures:
+        strict_failures_v3.extend(provenance_failures)
+
     # Determine v3 semantic status
     has_strict_failures = bool(strict_failures_v3)
     has_non_font_failures = any(
@@ -616,14 +654,19 @@ def main() -> None:
         or bool(geometry["missing_paths"])
     )
     semantic_acceptance_status: str
-    if has_non_font_failures or dimension_mismatch or has_geometry_failures:
-        semantic_acceptance_status = "FAIL"
-    elif manifest is None and has_strict_failures:
-        # Without manifest, font-only differences cannot be evaluated: BLOCK, not FAIL
+    if provenance_failures:
         semantic_acceptance_status = "BLOCKED"
-    elif has_strict_failures:
-        # Manifest present but font pair not approved: FAIL
+    elif has_non_font_failures or dimension_mismatch or has_geometry_failures:
         semantic_acceptance_status = "FAIL"
+    elif has_strict_failures:
+        # font-only differences
+        if manifest is None:
+            semantic_acceptance_status = "BLOCKED"
+        else:
+            semantic_acceptance_status = "FAIL"
+    elif manifest is None and not has_provenance:
+        # Legacy metrics-only invocation without policy or provenance: diagnostic only
+        semantic_acceptance_status = "BLOCKED"
     else:
         semantic_acceptance_status = "PASS"
 
