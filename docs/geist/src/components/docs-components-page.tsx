@@ -1730,12 +1730,12 @@ function DescriptionDemo() {
   return (
     <>
       <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
-        <div className="w-full p-6" data-demo-container="default">
+        <div className="w-full p-6 min-w-0 min-h-0" data-demo-container="default">
           <Description data-demo-id="default" title={title} content={content} tooltip={tooltip} />
         </div>
       </div>
       <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
-        <div className="w-full p-6" data-demo-container="text-right">
+        <div className="w-full p-6 min-w-0 min-h-0" data-demo-container="text-right">
           <Description
             data-demo-id="text-right"
             right
@@ -1746,7 +1746,7 @@ function DescriptionDemo() {
         </div>
       </div>
       <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
-        <div className="w-full p-6" data-demo-container="ellipsis">
+        <div className="w-full p-6 min-w-0 min-h-0" data-demo-container="ellipsis">
           <Description
             data-demo-id="ellipsis"
             ellipsis
