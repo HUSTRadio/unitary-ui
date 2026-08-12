@@ -1725,7 +1725,7 @@ function ComboboxDemo() {
 function DescriptionDemo() {
   const { language } = useLanguage();
   return (
-    <div className="flex w-full flex-col gap-6">
+    <div className="w-full">
       <Description
         data-demo-id="default"
         title={demoText(language, "Section Title")}
@@ -1735,6 +1735,7 @@ function DescriptionDemo() {
       <Description
         data-demo-id="text-right"
         right
+        className="mt-6"
         title={demoText(language, "Section Title")}
         content={demoText(language, "Data about this section.")}
         tooltip={demoText(language, "Additional context about what this section refers to.")}
@@ -1742,6 +1743,7 @@ function DescriptionDemo() {
       <Description
         data-demo-id="ellipsis"
         ellipsis
+        className="mt-6"
         title={demoText(language, "Section Title")}
         content={demoText(
           language,
