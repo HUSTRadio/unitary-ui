@@ -258,4 +258,58 @@ describe("comparator v3 acceptance-policy-driven exemptions", () => {
     );
     expect(bgFailure).toBeTruthy();
   });
+
+  test("border colors with zero border width are not style failures", () => {
+    const borderMetrics = (color: string) => ({
+      viewport: "375x812",
+      root: { x: 0, y: 0, width: 100, height: 100 },
+      roles: {
+        root: {
+          selector: "[data-o]",
+          present: true,
+          rect: { x: 0, y: 0, width: 100, height: 100 },
+          styles: {
+            display: "block",
+            position: "static",
+            width: "100px",
+            height: "100px",
+            padding: "0px",
+            margin: "0px",
+            borderTopWidth: "0px",
+            borderRightWidth: "0px",
+            borderBottomWidth: "0px",
+            borderLeftWidth: "0px",
+            borderTopColor: color,
+            borderRightColor: color,
+            borderBottomColor: color,
+            borderLeftColor: color,
+            borderRadius: "0px",
+            background: "rgb(255, 255, 255)",
+            color: "rgb(0, 0, 0)",
+            fontFamily: "Arial, sans-serif",
+            transition: "none",
+            animation: "none",
+          },
+          aria: { role: "dialog" },
+          ancestorChain: [],
+        },
+      },
+    });
+
+    const dir = mkdtempSync(join(tmpdir(), "geist-comparator-v3-border-"));
+    const report = runComparator(
+      dir,
+      borderMetrics("rgb(31, 31, 31)"),
+      borderMetrics("rgb(46, 46, 46)"),
+      manifestPath,
+    );
+
+    expect(report.schemaVersion).toBe(3);
+    const borderFailures = report.strictFailures.filter((f: { field?: string }) =>
+      /^border(Top|Right|Bottom|Left)Color$/.test(f.field ?? ""),
+    );
+    expect(borderFailures).toEqual([]);
+    // No other differences -> PASS (fontFamily identical, manifest present)
+    expect(report.semanticAcceptanceStatus).toBe("PASS");
+  });
 });

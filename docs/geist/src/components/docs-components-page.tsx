@@ -1725,7 +1725,7 @@ function ComboboxDemo() {
 function DescriptionDemo() {
   const { language } = useLanguage();
   return (
-    <div className="grid w-full max-w-md grid-cols-1 gap-6 md:grid-cols-2">
+    <div className="flex w-full flex-col gap-6">
       <Description
         data-demo-id="default"
         title={demoText(language, "Section Title")}

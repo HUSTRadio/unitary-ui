@@ -168,6 +168,24 @@ def field_exemption(
     return None
 
 
+def _is_zero_border_width(value: Any) -> bool:
+    """A computed border-*-width of 0 means the border is not rendered."""
+    if isinstance(value, (int, float)):
+        return value == 0
+    if isinstance(value, str):
+        stripped = value.strip().lower()
+        return stripped in ("0", "0px", "0.0px") or stripped.startswith("0px")
+    return False
+
+
+BORDER_COLOR_TO_WIDTH = {
+    "borderTopColor": "borderTopWidth",
+    "borderRightColor": "borderRightWidth",
+    "borderBottomColor": "borderBottomWidth",
+    "borderLeftColor": "borderLeftWidth",
+}
+
+
 def compare_styles_pair(
     expected: dict[str, Any],
     actual: dict[str, Any],
@@ -181,6 +199,13 @@ def compare_styles_pair(
         local_value = actual.get(field)
         if official_value == local_value:
             continue
+        width_field = BORDER_COLOR_TO_WIDTH.get(field)
+        if width_field is not None:
+            # Border colors are invisible when the corresponding border width is zero.
+            if _is_zero_border_width(expected.get(width_field)) and _is_zero_border_width(
+                actual.get(width_field)
+            ):
+                continue
         reason = field_exemption(field, official_value, local_value, manifest)
         if reason is not None:
             exemptions.append(
