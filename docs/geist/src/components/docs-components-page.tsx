@@ -1730,33 +1730,39 @@ function DescriptionDemo() {
   return (
     <>
       <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
-        <div className="w-full p-6 min-w-0 min-h-0" data-demo-container="default">
-          <Description data-demo-id="default" title={title} content={content} tooltip={tooltip} />
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <Description data-demo-id="default" title={title} content={content} tooltip={tooltip} />
+          </div>
         </div>
       </div>
       <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
-        <div className="w-full p-6 min-w-0 min-h-0" data-demo-container="text-right">
-          <Description
-            data-demo-id="text-right"
-            right
-            title={title}
-            content={content}
-            tooltip={tooltip}
-          />
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="text-right">
+            <Description
+              data-demo-id="text-right"
+              right
+              title={title}
+              content={content}
+              tooltip={tooltip}
+            />
+          </div>
         </div>
       </div>
       <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
-        <div className="w-full p-6 min-w-0 min-h-0" data-demo-container="ellipsis">
-          <Description
-            data-demo-id="ellipsis"
-            ellipsis
-            title={title}
-            content={demoText(
-              language,
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sed venenatis libero.",
-            )}
-            tooltip={tooltip}
-          />
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="ellipsis">
+            <Description
+              data-demo-id="ellipsis"
+              ellipsis
+              title={title}
+              content={demoText(
+                language,
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sed venenatis libero.",
+              )}
+              tooltip={tooltip}
+            />
+          </div>
         </div>
       </div>
     </>
