@@ -220,6 +220,57 @@ describe("Geist replica audit contract", () => {
     expect(readFileSync(join(out, "overlay.png")).byteLength).toBeGreaterThan(0);
   }, 15_000);
 
+  test("comparator records image dimension mismatches instead of aborting without artifacts", () => {
+    const dir = mkdtempSync(join(tmpdir(), "geist-audit-compare-dimensions-"));
+    const official = join(dir, "official.png");
+    const local = join(dir, "local.png");
+    const officialMetrics = join(dir, "official.json");
+    const localMetrics = join(dir, "local.json");
+    const out = join(dir, "out");
+
+    execFileSync("python", [
+      "-c",
+      "from PIL import Image; import sys; Image.new('RGBA',(3,2),(0,0,0,0)).save(sys.argv[1]); Image.new('RGBA',(2,2),(0,0,0,0)).save(sys.argv[2])",
+      official,
+      local,
+    ]);
+    writeFileSync(
+      officialMetrics,
+      JSON.stringify({ root: { x: 0, y: 0, width: 3, height: 2 }, nodes: [] }),
+    );
+    writeFileSync(
+      localMetrics,
+      JSON.stringify({ root: { x: 0, y: 0, width: 3, height: 2 }, nodes: [] }),
+    );
+
+    execFileSync("python", [
+      join(auditDir, "compare-replica-evidence.py"),
+      "--official-image",
+      official,
+      "--local-image",
+      local,
+      "--official-metrics",
+      officialMetrics,
+      "--local-metrics",
+      localMetrics,
+      "--out",
+      out,
+    ]);
+
+    const report = JSON.parse(readFileSync(join(out, "comparison.json"), "utf8"));
+    expect(report.status).toBe("FAIL");
+    expect(report.pixel.dimension_mismatch).toBe(true);
+    expect(report.pixel.image_dimensions).toEqual({
+      official: { width: 3, height: 2 },
+      local: { width: 2, height: 2 },
+      canvas: { width: 3, height: 2 },
+    });
+    expect(report.pixel.total_pixels).toBe(6);
+    expect(report.pixel.changed_pixels).toBe(0);
+    expect(readFileSync(join(out, "diff.png")).byteLength).toBeGreaterThan(0);
+    expect(readFileSync(join(out, "overlay.png")).byteLength).toBeGreaterThan(0);
+  }, 15_000);
+
   test("comparator keeps legacy output compatible while adding semantic-role fields", () => {
     const dir = mkdtempSync(join(tmpdir(), "geist-audit-compare-legacy-"));
     const official = join(dir, "official.png");
@@ -454,6 +505,15 @@ describe("Geist audit evidence collector (Task 3: demo / state recipe / ancestry
     expect(metrics.motion).toHaveProperty("animation");
     expect(metrics.motion).toHaveProperty("reducedMotion");
     expect(metrics).toHaveProperty("themeMarker");
+    expect(metrics).toHaveProperty("roles");
+    expect(metrics.roles.root).toMatchObject({
+      selector: fixture.roleSelectors.root,
+      present: true,
+    });
+    expect(metrics.roles.content).toMatchObject({
+      selector: fixture.roleSelectors.content,
+      present: true,
+    });
 
     // dry-run 规划输出字段必须全部存在于实采 cell 契约中（规划 ⊆ 契约）
     const result = runCollector([

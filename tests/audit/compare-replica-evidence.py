@@ -428,10 +428,17 @@ def main() -> None:
 
     official_image = Image.open(args.official_image).convert("RGBA")
     local_image = Image.open(args.local_image).convert("RGBA")
-    if official_image.size != local_image.size:
-        raise ValueError(
-            f"Image dimensions differ: official={official_image.size}, local={local_image.size}"
-        )
+    official_size = official_image.size
+    local_size = local_image.size
+    dimension_mismatch = official_size != local_size
+    canvas_size = (max(official_size[0], local_size[0]), max(official_size[1], local_size[1]))
+    if dimension_mismatch:
+        official_canvas = Image.new("RGBA", canvas_size, (0, 0, 0, 0))
+        local_canvas = Image.new("RGBA", canvas_size, (0, 0, 0, 0))
+        official_canvas.paste(official_image, (0, 0))
+        local_canvas.paste(local_image, (0, 0))
+        official_image = official_canvas
+        local_image = local_canvas
 
     raw_diff = ImageChops.difference(official_image, local_image)
     changed_pixels = sum(
@@ -460,7 +467,8 @@ def main() -> None:
         entry["classification"] == "RESPONSIVE_STRUCTURE_DELTA" for entry in responsive_delta
     )
     passed = (
-        changed_pixels == 0
+        not dimension_mismatch
+        and changed_pixels == 0
         and geometry["max_geometry_delta_px"] <= args.geometry_threshold
         and not geometry["missing_paths"]
         and not style_failures
@@ -472,6 +480,12 @@ def main() -> None:
         "total_pixels": total_pixels,
         "changed_ratio": changed_pixels / total_pixels if total_pixels else 0,
         "threshold": args.pixel_threshold,
+        "dimension_mismatch": dimension_mismatch,
+        "image_dimensions": {
+            "official": {"width": official_size[0], "height": official_size[1]},
+            "local": {"width": local_size[0], "height": local_size[1]},
+            "canvas": {"width": canvas_size[0], "height": canvas_size[1]},
+        },
     }
     report = {
         "schemaVersion": 2,

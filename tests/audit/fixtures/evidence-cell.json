@@ -35,6 +35,32 @@
   "status": "captured",
   "metrics": {
     "root": { "x": 0, "y": 312, "width": 375, "height": 500 },
+    "roles": {
+      "root": {
+        "selector": "[data-demo-id=\"custom-height\"]",
+        "present": true,
+        "rect": { "x": 0, "y": 312, "width": 375, "height": 500 },
+        "styles": { "display": "block", "position": "fixed" },
+        "aria": { "role": "dialog", "attributes": { "role": "dialog" } },
+        "ancestorChain": []
+      },
+      "trigger": {
+        "selector": "[data-demo-id=\"custom-height\"] [data-role=\"trigger\"]",
+        "present": true,
+        "rect": { "x": 12, "y": 320, "width": 120, "height": 40 },
+        "styles": { "display": "inline-flex", "position": "relative" },
+        "aria": { "role": "button", "attributes": { "aria-expanded": "true" } },
+        "ancestorChain": []
+      },
+      "content": {
+        "selector": "[data-demo-id=\"custom-height\"] [data-role=\"content\"]",
+        "present": true,
+        "rect": { "x": 12, "y": 380, "width": 300, "height": 120 },
+        "styles": { "display": "block", "position": "relative" },
+        "aria": { "role": "region", "attributes": { "aria-label": "panel" } },
+        "ancestorChain": []
+      }
+    },
     "nodes": [],
     "ancestors": [
       {

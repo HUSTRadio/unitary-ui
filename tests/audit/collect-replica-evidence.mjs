@@ -500,10 +500,11 @@ async function applyStateRecipe(send, config) {
   }
 }
 
-function metricsExpression(selector, ancestorDepth) {
+function metricsExpression(selector, ancestorDepth, roleSelectors) {
   return `(() => {
     const selector = ${JSON.stringify(selector)};
     const ancestorDepth = ${JSON.stringify(ancestorDepth)};
+    const roleSelectors = ${JSON.stringify(roleSelectors)};
     const root = document.querySelector(selector);
     if (!root) return null;
     const fields = ${JSON.stringify(STYLE_FIELDS)};
@@ -566,8 +567,53 @@ function metricsExpression(selector, ancestorDepth) {
       return node.parentElement === document.body ? node : null;
     })();
     const rootStyle = styleValue(root);
+    const roles = Object.fromEntries(
+      Object.entries(roleSelectors ?? {}).map(([role, roleSelector]) => {
+        const element = document.querySelector(roleSelector);
+        if (!element) {
+          return [role, {
+            selector: roleSelector,
+            present: false,
+            rect: { x: 0, y: 0, width: 0, height: 0 },
+            styles: {},
+            aria: {},
+            ancestorChain: [],
+          }];
+        }
+        const styles = styleValue(element);
+        delete styles.cssVariables;
+        const ancestorChain = [];
+        let current = element.parentElement;
+        let depth = 0;
+        while (current && depth < ancestorDepth) {
+          ancestorChain.push({
+            depth: depth + 1,
+            tag: current.tagName.toLowerCase(),
+            rect: rectValue(current),
+          });
+          current = current.parentElement;
+          depth += 1;
+        }
+        return [role, {
+          selector: roleSelector,
+          present: true,
+          rect: rectValue(element),
+          styles,
+          aria: {
+            role: element.getAttribute('role'),
+            attributes: Object.fromEntries(
+              [...element.attributes]
+                .filter((attribute) => attribute.name === 'role' || attribute.name.startsWith('aria-'))
+                .map((attribute) => [attribute.name, attribute.value])
+            ),
+          },
+          ancestorChain,
+        }];
+      })
+    );
     return {
       root: rectValue(root),
+      roles,
       nodes: elements.map((element) => ({
         path: pathFor(element),
         tag: element.tagName.toLowerCase(),
@@ -649,7 +695,7 @@ async function collect(config, runDir) {
     await applyStateRecipe(send, config);
     const metrics = await evaluate(
       send,
-      metricsExpression(config.rootSelector, config.ancestorDepth),
+      metricsExpression(config.rootSelector, config.ancestorDepth, config.roleSelectors),
     );
     if (!metrics) throw new Error(`Selector disappeared: ${config.rootSelector}`);
     // observed theme marker 属于实采 metrics 的一部分，不是 CLI 假设

@@ -2,5 +2,54 @@
   "schemaVersion": 1,
   "status": "IN_PROGRESS_NO_COMPLETION_CLAIM",
   "generatedFrom": "tests/audit/geist-audit-manifest.json",
-  "results": []
+  "results": [
+    {
+      "cellKey": "description/default/default/light/375x812",
+      "slug": "description",
+      "variant": "default",
+      "state": "default",
+      "theme": "light",
+      "viewport": "375x812",
+      "status": "FAIL",
+      "officialSourceTimestamp": "2026-08-12T04:05:49.165Z",
+      "localRevision": "working-tree-after-2cca5fa",
+      "comparisonArtifact": "external:geist-audit/task17/ledger-pilot/description-default-375-light-final/comparison/comparison.json",
+      "officialScreenshot": "external:geist-audit/task17/ledger-pilot/description-default-375-light-roles-v3/runs/official/official-current/screenshot.png",
+      "localScreenshot": "external:geist-audit/task17/ledger-pilot/description-default-375-light-roles-v4/runs/local/local-working-tree/screenshot.png",
+      "metrics": {
+        "official": "external:geist-audit/task17/ledger-pilot/description-default-375-light-roles-v3/runs/official/official-current/metrics.json",
+        "local": "external:geist-audit/task17/ledger-pilot/description-default-375-light-roles-v4/runs/local/local-working-tree/metrics.json"
+      },
+      "pixel": {
+        "changed_pixels": 2050,
+        "total_pixels": 11080,
+        "changed_ratio": 0.18501805054151624,
+        "dimension_mismatch": true,
+        "official": { "width": 277, "height": 40 },
+        "local": { "width": 276, "height": 40 }
+      },
+      "max_geometry_delta_px": 4.65625,
+      "style_failures": [
+        "root/content/title width: official 277px, local 276px (demo wrapper inner-width delta)",
+        "root min-width/min-height computed defaults: official 0px, local auto",
+        "text/icon horizontal placement differs under the repository-mandated HarmonyOS Sans SC mapping versus official Geist Sans"
+      ],
+      "roleSummary": {
+        "root": "MISMATCH",
+        "title": "MISMATCH",
+        "content": "MISMATCH",
+        "tooltip-shell": "MISMATCH",
+        "tooltip-trigger": "MISMATCH"
+      },
+      "styleFields": ["width", "height", "minWidth", "minHeight", "transformOrigin", "fontFamily"],
+      "approvedExclusions": [
+        {
+          "field": "fontFamily",
+          "reason": "FONT_FAMILY",
+          "scope": "field only; pixel and geometry differences remain failures"
+        }
+      ],
+      "reason": "The component's 40px vertical geometry now matches official evidence, but the cell remains FAIL because the official and local demo roots differ by 1px in width and the mandated HarmonyOS Sans SC mapping changes text/icon placement relative to official Geist Sans. No threshold was widened and no geometry difference was excluded."
+    }
+  ]
 }
