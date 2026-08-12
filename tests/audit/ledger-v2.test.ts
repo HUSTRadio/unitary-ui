@@ -177,4 +177,10 @@ describe("ledger v2 schema and state mapping", () => {
     badDigest.results[0].contractDigest = "short";
     expectRejected(badDigest);
   });
+
+  test("the checked-in ledger validates against the v2 schema", () => {
+    const ledger = readJson("geist-audit-ledger.json");
+    const validate = compileLedgerSchema();
+    expect(validate(ledger), JSON.stringify(validate.errors, null, 2)).toBe(true);
+  });
 });
