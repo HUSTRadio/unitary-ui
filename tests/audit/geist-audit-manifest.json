@@ -531,7 +531,79 @@
         "official": "[data-geist-description-title]",
         "local": "[data-slot=\"description\"]"
       },
-      "interaction": "applicable"
+      "interaction": "applicable",
+      "acceptanceContracts": [
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-12T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * dl",
+                  "local": "[data-slot=\"description\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "title": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * dt[data-geist-description-title]",
+                  "local": "[data-slot=\"description-title\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "content": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * dd[data-geist-description-content]",
+                  "local": "[data-slot=\"description-content\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "tooltip-shell": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * dt[data-geist-description-title] > span",
+                  "local": "[data-slot=\"description-tooltip-shell\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "text-adjacent-icon",
+              "textRole": "title",
+              "anchorEdge": "right"
+            },
+            "tooltip-trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * [data-testid=\"legacy/tooltip-trigger\"]",
+                  "local": "[data-slot=\"description-tooltip\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "text-adjacent-icon",
+              "textRole": "title",
+              "anchorEdge": "right"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "destructive-action-modal",
