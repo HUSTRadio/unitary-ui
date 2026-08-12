@@ -252,11 +252,12 @@ changed pixel 落在最终 mask 外时输出 `UNEXPLAINED_PIXEL_DELTA`。扩展�
 freshness 不使用“距现在 N 天”的滚动 TTL；否则持久 ledger 会在代码没有变化时仅因时间经过而自动失效。采用内容和审计 epoch 门禁：
 
 1. manifest v2 `acceptancePolicy.evidenceEpochNotBefore` 定义本轮官方证据的最早 ISO 8601 时间；单个 contract 可以用更晚的 `evidenceNotBefore` 覆盖。
-2. official evidence 的 `sourceTimestamp` 必须不早于有效门禁，URL、component、demo、state、theme 和 viewport 必须与 contract 精确一致。
-3. official/local evidence 必须携带相同的 `auditRunId` 和 `contractDigest`，并记录 evidence schema、collector 源文件 SHA-256 和浏览器版本；comparison 记录 comparator 源文件 SHA-256。禁止拼接不同采集轮次的截图与 metrics，也禁止来源未知的 producer 形成正式 PASS。
-4. local collector 在采集前记录 40 位 `localRevision`、`worktreeClean: true` 和 `localSourceDigest`。工作树不干净时拒绝生成 acceptance evidence。
-5. manifest v2 `acceptancePolicy.localSourceInputs` 明确受审 UI 输入 glob。collector 仅纳入 Git 已跟踪的匹配文件，按“POSIX 相对路径 + NUL + 文件内容”排序后计算 SHA-256，并把实际文件清单写入 evidence。初始 glob 至少覆盖 `src/**`、`public/fonts/**`、`docs/geist/src/**`、`docs/geist/public/**`、根与 docs app 的 `package.json`、当前 lockfile、`components.json`、`vite.config.*`、`docs/geist/vite.config.*` 和所有参与 CSS 构建的配置文件。
-6. validator 对当前 checkout 重新计算 digest。digest 不同、revision 不是提交 SHA、artifact 缺失或 producer status 非成功时，cell 为 `BLOCKED`。
+2. collector 可以保留导航开始时间用于诊断，但不得把它当成正式 freshness 时间。主题、state recipe、字体加载和所有稳定等待条件通过后，立即记录 `stateStabilizedAt`；metrics 与 screenshot 均成功生成并原子写入后记录 `capturedAt`。必须满足 `navigationStartedAt <= stateStabilizedAt <= capturedAt`，artifact 的证据区间定义为 `[stateStabilizedAt, capturedAt]`。
+3. official evidence 的 `stateStabilizedAt` 必须不早于有效 epoch 门禁；URL、component、demo、state、theme 和 viewport 必须与 contract 精确一致。旧 `sourceTimestamp` 不再是 v2 freshness 权威字段，迁移后只能作为可选诊断别名且不得决定 PASS。
+4. official/local evidence 必须携带相同的 `auditRunId` 和 `contractDigest`，并记录 evidence schema、collector 源文件 SHA-256 和浏览器版本；comparison 记录 comparator 源文件 SHA-256。禁止拼接不同采集轮次的截图与 metrics，也禁止来源未知的 producer 形成正式 PASS。
+5. local collector 在采集前记录 40 位 `localRevision`、`worktreeClean: true` 和 `localSourceDigest`。工作树不干净时拒绝生成 acceptance evidence。
+6. manifest v2 `acceptancePolicy.localSourceInputs` 明确受审 UI 输入 glob。collector 仅纳入 Git 已跟踪的匹配文件，按“POSIX 相对路径 + NUL + 文件内容”排序后计算 SHA-256，并把实际文件清单写入 evidence。初始 glob 至少覆盖 `src/**`、`public/fonts/**`、`docs/geist/src/**`、`docs/geist/public/**`、根与 docs app 的 `package.json`、当前 lockfile、`components.json`、`vite.config.*`、`docs/geist/vite.config.*` 和所有参与 CSS 构建的配置文件。
+7. validator 对当前 checkout 重新计算 digest，并验证时间字段可解析、顺序正确。digest 不同、revision 不是提交 SHA、artifact 缺失、时间区间倒置或 producer status 非成功时，cell 为 `BLOCKED`。
 
 `localRevision` 用于追溯，不要求永远等于 ledger 提交后的 `HEAD`；ledger、spec 或审计脚本的后续提交不会改变 UI digest。修改 `localSourceInputs` 本身会改变 policy 和 `contractDigest`，因此必须重采。若受审 UI 输入变化，即使 SHA 仍可解析，旧证据也必须失效。该规则无法自动发现官方站点在门禁之后的未公告变化；开始新审计轮次时必须更新 epoch 并重采，不能沿用上一轮 PASS。
 
@@ -391,7 +392,7 @@ ledger 每个 READY/BLOCKED 结果还必须保存：
 13. `mapped-text` 在任一 viewport 发生换行数或高度变化时输出 `FONT_METRIC_REFLOW`；不因字体映射豁免垂直 reflow。
 14. responsiveDelta 在每个端点独立应用 profile；端点未通过时跨视口结果不能为 MATCH。
 15. schema 测试接受 manifest v2、evidence v2、comparison v3 和 ledger v2 的完整结构，并拒绝旧版本冒充正式 PASS。
-16. freshness 测试拒绝 epoch 之前的 official evidence、不同 run/contract digest、dirty worktree、非 40 位 SHA、未知 producer 和变化的 local source digest。
+16. freshness 测试拒绝 epoch 之前的 official evidence、把导航时间冒充稳定时间、倒置的采集区间、不同 run/contract digest、dirty worktree、非 40 位 SHA、未知 producer 和变化的 local source digest。
 17. Description 真实 evidence fixture 固化 profile、`content` 角色、统一 selector/presence、inventory、坐标 owner、锚边证明项和正式结论。
 18. schema 拒绝缺少 required contract 字段、错误 selector 形状和非法透明 wrapper；canonical path 测试证明批准 wrapper 不导致后代 path 漂移，未批准 wrapper 仍失败。
 19. 无角色 pixel/structure failure 能通过 strict failure schema，approved exclusion 仍必须绑定角色和非空字段。
