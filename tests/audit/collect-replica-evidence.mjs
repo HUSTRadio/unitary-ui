@@ -50,6 +50,8 @@ const STYLE_FIELDS = [
   "lineHeight",
   "letterSpacing",
   "textAlign",
+  "whiteSpace",
+  "textOverflow",
   "transform",
   "transformOrigin",
   "transition",
