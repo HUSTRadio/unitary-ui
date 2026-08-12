@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "status": "IN_PROGRESS_NO_COMPLETION_CLAIM",
   "viewports": [
     {
@@ -21,10 +21,36 @@
   ],
   "themes": ["light", "dark"],
   "allowedStatuses": ["PASS", "FAIL", "MISSING", "BLOCKED", "NOT_APPLICABLE"],
-  "globalExclusionPolicy": [
-    "font-family identity only for approved HarmonyOS/Maple substitutions",
-    "icon path only; geometry/stroke/color remain comparable"
-  ],
+  "acceptancePolicy": {
+    "evidenceEpochNotBefore": "2026-08-12T00:00:00.000Z",
+    "approvedFontMappings": [
+      {
+        "officialPrimaryFamily": "Geist",
+        "localPrimaryFamily": "HarmonyOS Sans SC"
+      },
+      {
+        "officialPrimaryFamily": "Geist Mono",
+        "localPrimaryFamily": "JetBrains Maple Mono"
+      }
+    ],
+    "localSourceInputs": [
+      "src/**",
+      "public/fonts/**",
+      "docs/geist/src/**",
+      "docs/geist/public/**",
+      "package.json",
+      "pnpm-lock.yaml",
+      "components.json",
+      "vite.config.*",
+      "docs/geist/vite.config.*",
+      "tsconfig*.json",
+      "docs/geist/tsconfig*.json"
+    ],
+    "pixelAttribution": {
+      "foregroundColorDistanceMax": 0,
+      "edgeExpansionDevicePixels": 1
+    }
+  },
   "components": [
     {
       "slug": "avatar",
@@ -36,8 +62,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "badge",
@@ -49,8 +74,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "banner",
@@ -62,8 +86,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "book",
@@ -75,8 +98,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "breadcrumbs",
@@ -88,8 +110,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "browser",
@@ -101,8 +122,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "button",
@@ -114,8 +134,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "calendar",
@@ -127,8 +146,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "checkbox",
@@ -158,8 +176,7 @@
         "official": "main input[type=\"checkbox\"]",
         "local": "[data-slot=\"checkbox\"]"
       },
-      "interaction": "applicable",
-      "approvedExclusions": []
+      "interaction": "applicable"
     },
     {
       "slug": "choicebox",
@@ -198,8 +215,7 @@
         "official": "[role=\"radiogroup\"]",
         "local": "[data-slot=\"choicebox\"]"
       },
-      "interaction": "applicable",
-      "approvedExclusions": []
+      "interaction": "applicable"
     },
     {
       "slug": "clearable-input",
@@ -242,8 +258,7 @@
         "official": "[data-geist-input-wrapper]",
         "local": "[data-slot=\"clearable-input-wrapper\"]"
       },
-      "interaction": "applicable",
-      "approvedExclusions": []
+      "interaction": "applicable"
     },
     {
       "slug": "code",
@@ -255,8 +270,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "code-block",
@@ -320,8 +334,7 @@
         "official": ".prism-code",
         "local": "[data-slot=\"code-block\"]"
       },
-      "interaction": "applicable",
-      "approvedExclusions": []
+      "interaction": "applicable"
     },
     {
       "slug": "collapse",
@@ -355,8 +368,7 @@
         "official": "button[aria-expanded]",
         "local": "[data-slot=\"collapse-trigger\"]"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "combobox",
@@ -368,8 +380,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "command-menu",
@@ -406,8 +417,7 @@
         "official": "[data-testid=\"cmdk/root\"]",
         "local": "[data-slot=\"command-menu-content\"]"
       },
-      "interaction": "applicable",
-      "approvedExclusions": []
+      "interaction": "applicable"
     },
     {
       "slug": "context-card",
@@ -438,8 +448,7 @@
         "official": "div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden",
         "local": "[data-slot=\"context-card\"]"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "context-menu",
@@ -479,8 +488,7 @@
         "official": "[role=\"menu\"]",
         "local": "[data-radix-context-menu-content]"
       },
-      "interaction": "applicable",
-      "approvedExclusions": []
+      "interaction": "applicable"
     },
     {
       "slug": "copy-button",
@@ -492,8 +500,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "description",
@@ -524,8 +531,7 @@
         "official": "[data-geist-description-title]",
         "local": "[data-slot=\"description\"]"
       },
-      "interaction": "applicable",
-      "approvedExclusions": []
+      "interaction": "applicable"
     },
     {
       "slug": "destructive-action-modal",
@@ -537,8 +543,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "dots-menu",
@@ -572,8 +577,7 @@
         "official": "[aria-label=\"Menu\"]",
         "local": "[data-radix-dropdown-menu-trigger]"
       },
-      "interaction": "applicable",
-      "approvedExclusions": []
+      "interaction": "applicable"
     },
     {
       "slug": "drawer",
@@ -608,8 +612,7 @@
         "official": "[role=\"dialog\"][data-open]",
         "local": "[data-slot=\"drawer\"]"
       },
-      "interaction": "applicable",
-      "approvedExclusions": []
+      "interaction": "applicable"
     },
     {
       "slug": "empty-state",
@@ -640,8 +643,7 @@
         "official": "[class*=\"border-[var(--ds-gray-200)]\"]",
         "local": "[data-slot=\"empty-state\"]"
       },
-      "interaction": "applicable",
-      "approvedExclusions": []
+      "interaction": "applicable"
     },
     {
       "slug": "entity",
@@ -653,8 +655,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "error",
@@ -666,8 +667,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "error-card",
@@ -679,8 +679,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "feedback",
@@ -692,8 +691,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "fieldset",
@@ -705,8 +703,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "file-tree",
@@ -718,8 +715,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "gauge",
@@ -731,8 +727,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "grid",
@@ -744,8 +739,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "input",
@@ -757,8 +751,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "json-view",
@@ -770,8 +763,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "keyboard-input",
@@ -783,8 +775,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "label",
@@ -796,8 +787,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "load-more-button",
@@ -809,8 +799,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "loading-dots",
@@ -822,8 +811,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "menu",
@@ -835,8 +823,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "middle-truncate",
@@ -848,8 +835,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "modal",
@@ -861,8 +847,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "multi-select",
@@ -874,8 +859,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "note",
@@ -887,8 +871,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "pagination",
@@ -900,8 +883,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "phone",
@@ -913,8 +895,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "pill",
@@ -926,8 +907,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "progress",
@@ -939,8 +919,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "project-banner",
@@ -952,8 +931,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "radio",
@@ -965,8 +943,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "relative-time-card",
@@ -978,8 +955,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "scroller",
@@ -991,8 +967,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "search-input",
@@ -1004,8 +979,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "select",
@@ -1017,8 +991,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "separator",
@@ -1030,8 +1003,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "sheet",
@@ -1043,8 +1015,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "show-more",
@@ -1056,8 +1027,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "skeleton",
@@ -1069,8 +1039,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "slider",
@@ -1082,8 +1051,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "snippet",
@@ -1095,8 +1063,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "spinner",
@@ -1108,8 +1075,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "split-button",
@@ -1121,8 +1087,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "status-dot",
@@ -1134,8 +1099,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "switch",
@@ -1147,8 +1111,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "table",
@@ -1160,8 +1123,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "tabs",
@@ -1173,8 +1135,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "text-with-copy-button",
@@ -1186,8 +1147,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "textarea",
@@ -1199,8 +1159,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "theme-switcher",
@@ -1212,8 +1171,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "toast",
@@ -1225,8 +1183,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "toggle",
@@ -1238,8 +1195,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "tooltip",
@@ -1251,8 +1207,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     },
     {
       "slug": "video",
@@ -1264,8 +1219,7 @@
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending",
-      "approvedExclusions": []
+      "interaction": "pending"
     }
   ]
 }

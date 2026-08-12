@@ -12,71 +12,10 @@ const readJson = (name: string) => JSON.parse(readFileSync(join(auditDir, name),
 const readReport = () => readFileSync(resolve(root, "docs/geist-replica-acceptance.md"), "utf8");
 const COMPLETION_CLAIM_RE = /72\/72|576\/576/;
 
-type ContractViolation = { slug: string; path: string; reason: string };
-
-/**
- * 极简 JSON 结构契约检查器（无 ajv 等运行时依赖）。
- * 按 schema 的 component 定义逐条执行 required / not-const / minItems / const 约束，
- * 用于证明当前 skeleton manifest 会被 schema 门禁拒绝。
- */
-function collectContractViolations(
-  component: Record<string, unknown>,
-  componentSchema: Record<string, unknown>,
-): ContractViolation[] {
-  const violations: ContractViolation[] = [];
-  const slug = String(component.slug ?? "?");
-  const push = (path: string, reason: string) => violations.push({ slug, path, reason });
-  const props = (componentSchema.properties ?? {}) as Record<string, any>;
-
-  for (const field of (componentSchema.required as string[]) ?? []) {
-    if (!(field in component)) push(field, `missing required field "${field}"`);
-  }
-
-  if (
-    props.inventoryStatus?.not?.const &&
-    component.inventoryStatus === props.inventoryStatus.not.const
-  ) {
-    push(
-      "inventoryStatus",
-      `inventoryStatus ${JSON.stringify(component.inventoryStatus)} is the skeleton placeholder`,
-    );
-  }
-
-  const officialSelector = props.selectors?.properties?.official;
-  const officialValue = (component.selectors as Record<string, unknown> | undefined)?.official;
-  if (officialSelector?.not?.const && officialValue === officialSelector.not.const) {
-    push(
-      "selectors.official",
-      `selectors.official ${JSON.stringify(officialValue)} is the skeleton placeholder`,
-    );
-  }
-
-  for (const field of ["demos", "interactionRecipes", "responsiveExpectations"]) {
-    const minItems = props[field]?.minItems ?? 1;
-    if (field in component && !Array.isArray(component[field])) {
-      push(field, `"${field}" must be a non-empty array`);
-    } else if (Array.isArray(component[field]) && component[field].length < minItems) {
-      push(field, `"${field}" must have at least ${minItems} entr${minItems === 1 ? "y" : "ies"}`);
-    }
-  }
-
-  for (const field of ["viewports", "themes"]) {
-    if (
-      field in component &&
-      "const" in (props[field] ?? {}) &&
-      JSON.stringify(component[field]) !== JSON.stringify(props[field].const)
-    ) {
-      push(field, `"${field}" must equal ${JSON.stringify(props[field].const)}`);
-    }
-  }
-
-  return violations;
-}
-
 describe("Geist replica audit contract", () => {
   test("manifest declares exactly 72 unique official components", () => {
     const manifest = readJson("geist-audit-manifest.json");
-    expect(manifest.schemaVersion).toBe(1);
+    expect(manifest.schemaVersion).toBe(2);
     expect(manifest.components).toHaveLength(72);
     const slugs = manifest.components.map((component: { slug: string }) => component.slug);
     expect(new Set(slugs).size).toBe(72);
@@ -88,7 +27,7 @@ describe("Geist replica audit contract", () => {
       expect(component.selectors.official).toBeTruthy();
       expect(component.selectors.local).toBeTruthy();
       expect(["applicable", "NOT_APPLICABLE", "pending"]).toContain(component.interaction);
-      expect(component.approvedExclusions).toBeInstanceOf(Array);
+      expect(component).not.toHaveProperty("approvedExclusions");
     }
   });
 
@@ -555,23 +494,29 @@ describe("Geist audit manifest schema gate (Task 2: schema 基础门禁)", () =>
     expect(schema.required).toContain("components");
   });
 
-  test("schema requires the capability & responsive matrix fields on every component", () => {
+  test("schema requires the capability matrix on live entries and blocks contracts on pending entries", () => {
     const componentSchema = readSchema().definitions.component;
+    const inventoryBranch = componentSchema.allOf[0];
 
+    expect(componentSchema.required).toContain("inventoryStatus");
+    expect(inventoryBranch.if.properties.inventoryStatus.const).toBe("pending_live_enumeration");
+    expect(inventoryBranch.then.properties.acceptanceContracts).toBe(false);
     for (const field of [
-      "inventoryStatus",
       "demos",
       "viewports",
       "themes",
       "interactionRecipes",
       "responsiveExpectations",
     ]) {
-      expect(componentSchema.required, `component schema must require "${field}"`).toContain(field);
+      expect(
+        inventoryBranch.else.required,
+        `live component schema must require "${field}"`,
+      ).toContain(field);
     }
 
-    // 门禁必须按约束拒绝 skeleton 占位，而不只是要求字段存在。
-    expect(componentSchema.properties.inventoryStatus.not.const).toBe("pending_live_enumeration");
-    expect(componentSchema.properties.selectors.properties.official.not.const).toBe("main");
+    expect(inventoryBranch.else.properties.selectors.$ref).toBe(
+      "#/definitions/liveComponentSelectors",
+    );
     expect(componentSchema.properties.demos.minItems).toBeGreaterThan(0);
     expect(componentSchema.properties.viewports.const).toEqual([
       "375x812",
@@ -584,8 +529,7 @@ describe("Geist audit manifest schema gate (Task 2: schema 基础门禁)", () =>
     expect(componentSchema.properties.responsiveExpectations.minItems).toBeGreaterThan(0);
   });
 
-  test("Task 9 backfilled components satisfy the schema; un-evidenced skeletons stay rejected", () => {
-    const schema = readSchema();
+  test("Task 9 live components keep complete matrices; pending inventory cannot claim contracts", () => {
     const manifest = readJson("geist-audit-manifest.json");
     const designGate = readJson("geist-design-gate.json");
 
@@ -605,28 +549,28 @@ describe("Geist audit manifest schema gate (Task 2: schema 基础门禁)", () =>
       "empty-state",
     ]);
 
-    // 已回填组件必须零违规：真实能力矩阵与 schema 完全一致。
+    // 已回填组件必须保留完整能力矩阵与具体 selector。
     const backfilled = manifest.components.filter((component: { slug: string }) =>
       BACKFILLED.has(component.slug),
     );
     expect(backfilled).toHaveLength(12);
-    const backfilledViolations = backfilled.flatMap((component: Record<string, unknown>) =>
-      collectContractViolations(component, schema.definitions.component),
-    );
-    expect(
-      backfilledViolations,
-      `backfilled components must satisfy the schema contract: ${JSON.stringify(backfilledViolations)}`,
-    ).toEqual([]);
     for (const component of backfilled as Array<{
       slug: string;
       states: string[];
       demos: Array<{ id: string }>;
+      viewports: string[];
+      themes: string[];
       selectors: { official: string; local: string };
       interactionRecipes: string[];
+      responsiveExpectations: string[];
       interaction: string;
     }>) {
       const ids = component.demos.map((demo) => demo.id);
       expect(new Set(ids).size, `${component.slug} demo ids must be unique`).toBe(ids.length);
+      expect(component.viewports).toEqual(["375x812", "768x1024", "1440x900", "1920x1080"]);
+      expect(component.themes).toEqual(["light", "dark"]);
+      expect(component.interactionRecipes.length).toBeGreaterThan(0);
+      expect(component.responsiveExpectations.length).toBeGreaterThan(0);
       for (const [side, selector] of Object.entries(component.selectors)) {
         expect(selector, `${component.slug}.${side} selector must be specific`).not.toBe("main");
       }
@@ -649,35 +593,14 @@ describe("Geist audit manifest schema gate (Task 2: schema 基础门禁)", () =>
       }
     }
 
-    // 其余组件尚未形成满足 schema 的完整能力矩阵，必须继续被拒绝；其中 Calendar/Combobox/Entity
-    // 已有部分持久证据，但仍缺结构化完整枚举、双主题四视口或可执行 selector/recipe，不能提前回填。
+    // 其余组件可作为 pending inventory 保留，但不得携带 acceptance contract 或伪装成正式证据。
     const skeletons = manifest.components.filter(
       (component: { slug: string }) => !BACKFILLED.has(component.slug),
     );
     expect(skeletons.length).toBe(60);
     for (const skeleton of skeletons) {
-      const reasons = collectContractViolations(
-        skeleton as Record<string, unknown>,
-        schema.definitions.component,
-      )
-        .map((violation) => violation.reason)
-        .join("\n");
-      expect(reasons, `${skeleton.slug} must stay rejected for pending_live_enumeration`).toMatch(
-        /pending_live_enumeration/,
-      );
-      expect(reasons, `${skeleton.slug} must stay rejected for "main" selector`).toMatch(/"main"/);
-      for (const field of [
-        "demos",
-        "viewports",
-        "themes",
-        "interactionRecipes",
-        "responsiveExpectations",
-      ]) {
-        expect(
-          reasons,
-          `skeleton ${skeleton.slug} must be rejected for missing "${field}"`,
-        ).toMatch(new RegExp(`"${field}"`));
-      }
+      expect(skeleton.inventoryStatus).toBe("pending_live_enumeration");
+      expect(skeleton).not.toHaveProperty("acceptanceContracts");
     }
   });
 });
