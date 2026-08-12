@@ -1,6 +1,15 @@
 #!/usr/bin/env node
+import { createHash } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { assertEvidenceCellV2, assertManifestV2 } from "./audit-schema-validator.mjs";
+import {
+  buildEvidenceCellV2,
+  collectMetricsContractViolations,
+  computeLocalSourceState,
+  resolveEvidenceContract,
+} from "./evidence-v2.mjs";
 
 const STYLE_FIELDS = [
   "display",
@@ -199,6 +208,85 @@ function makeConfig(args) {
         : `${source}/${slug}/${variant}/${state}/${theme}/${viewportText}`,
     outputPolicy: "isolated-run-directory",
     outputIsolation: "per-source-run-directory",
+  };
+}
+
+async function makeV2Config(args) {
+  for (const override of ["selector", "rootSelector", "roleSelector"]) {
+    if (args[override] != null) {
+      throw new Error(
+        `--${override.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)} cannot override a manifest v2 acceptance contract`,
+      );
+    }
+  }
+
+  const manifestPath = path.resolve(required(args, "manifest"));
+  const manifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
+  assertManifestV2(manifest);
+  const source = required(args, "source");
+  const slug = required(args, "slug");
+  const demoId = required(args, "demoId");
+  const variant = required(args, "variant");
+  const state = required(args, "state");
+  const theme = required(args, "theme");
+  const viewportText = required(args, "viewport");
+  const auditRunId = required(args, "auditRunId");
+  const out = required(args, "out");
+  if (!new Set(["official", "local"]).has(source)) throw new Error(`Invalid source: ${source}`);
+  if (!new Set(["light", "dark"]).has(theme)) throw new Error(`Invalid theme: ${theme}`);
+  const viewportMatch = /^(\d+)x(\d+)$/.exec(viewportText);
+  if (!viewportMatch) throw new Error(`Invalid viewport: ${viewportText}; expected WIDTHxHEIGHT`);
+  const viewport = { width: Number(viewportMatch[1]), height: Number(viewportMatch[2]) };
+
+  let stateRecipe = null;
+  if (args.stateRecipe != null) {
+    stateRecipe = parseJsonArg(args.stateRecipe, "--state-recipe", "步骤数组");
+    validateRecipe(stateRecipe);
+  }
+  const resolved = resolveEvidenceContract(manifest, {
+    source,
+    slug,
+    demoId,
+    variant,
+    state,
+    theme,
+    viewportText,
+    auditRunId,
+  });
+  const repoRoot = path.resolve(args.repoRoot ?? process.cwd());
+  const localSourceState =
+    source === "local"
+      ? computeLocalSourceState(repoRoot, manifest.acceptancePolicy.localSourceInputs)
+      : {
+          localRevision: null,
+          worktreeClean: null,
+          localSourceDigest: null,
+          localSourceFiles: [],
+        };
+  const url = source === "official" ? resolved.url : required(args, "url");
+  const ancestorDepth =
+    args.ancestorDepth == null ? DEFAULT_ANCESTOR_DEPTH : parseAncestorDepth(args.ancestorDepth);
+
+  return {
+    ...resolved,
+    slug,
+    viewport,
+    selector: resolved.rootSelector,
+    stateRecipe,
+    ancestorDepth,
+    navigationStartedAt: null,
+    stateStabilizedAt: null,
+    capturedAt: null,
+    sourceTimestamp: null,
+    url,
+    out: path.resolve(out),
+    cdpHttp: args.cdpHttp ?? process.env.CDP_HTTP ?? "http://127.0.0.1:9223",
+    runId: args.runId ?? `${Date.now()}-${process.pid}`,
+    cellKey: `${source}/${slug}/${variant}/${state}/${theme}/${viewportText}/demo:${demoId}`,
+    outputPolicy: "isolated-run-directory",
+    outputIsolation: "per-source-run-directory",
+    repoRoot,
+    ...localSourceState,
   };
 }
 
@@ -582,6 +670,15 @@ function metricsExpression(selector, ancestorDepth, roleSelectors) {
         }
         const styles = styleValue(element);
         delete styles.cssVariables;
+        const textSample = (element.textContent || '').trim();
+        const fontShorthand = [
+          styles.fontStyle || 'normal',
+          styles.fontWeight || '400',
+          (styles.fontSize || '16px') + '/' + (styles.lineHeight || 'normal'),
+          styles.fontFamily || 'sans-serif',
+        ].join(' ');
+        const textRange = document.createRange();
+        textRange.selectNodeContents(element);
         const ancestorChain = [];
         let current = element.parentElement;
         let depth = 0;
@@ -599,6 +696,22 @@ function metricsExpression(selector, ancestorDepth, roleSelectors) {
           present: true,
           rect: rectValue(element),
           styles,
+          textEvidence: {
+            textSample,
+            fontShorthand,
+            fontLoadStatus: document.fonts.check(fontShorthand, textSample || 'BESbswy'),
+            clientRects: [...textRange.getClientRects()].map((rect) => ({
+              x: rect.x,
+              y: rect.y,
+              width: rect.width,
+              height: rect.height,
+            })),
+            clientWidth: element.clientWidth,
+            scrollWidth: element.scrollWidth,
+            whiteSpace: styles.whiteSpace,
+            overflow: styles.overflow,
+            textOverflow: styles.textOverflow,
+          },
           aria: {
             role: element.getAttribute('role'),
             attributes: Object.fromEntries(
@@ -674,11 +787,13 @@ async function collect(config, runDir) {
   try {
     await send("Page.enable");
     await send("Runtime.enable");
+    const browserVersion = (await send("Browser.getVersion")).product;
     await send("Emulation.setDeviceMetricsOverride", {
       ...config.viewport,
       deviceScaleFactor: 1,
       mobile: config.viewport.width <= 480,
     });
+    const navigationStartedAt = new Date().toISOString();
     await send("Page.navigate", { url: config.url });
     await waitFor(
       send,
@@ -693,11 +808,29 @@ async function collect(config, runDir) {
     const sourceTimestamp = new Date().toISOString();
     const observedTheme = await applyTheme(send, config.theme);
     await applyStateRecipe(send, config);
+    if (config.schemaVersion === 2) {
+      await evaluate(
+        send,
+        `document.fonts.ready
+          .then(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))))
+          .then(() => true)`,
+      );
+      config.navigationStartedAt = navigationStartedAt;
+      config.stateStabilizedAt = new Date().toISOString();
+    }
     const metrics = await evaluate(
       send,
       metricsExpression(config.rootSelector, config.ancestorDepth, config.roleSelectors),
     );
     if (!metrics) throw new Error(`Selector disappeared: ${config.rootSelector}`);
+    if (config.schemaVersion === 2) {
+      const metricViolations = collectMetricsContractViolations(config, metrics);
+      if (metricViolations.length) {
+        throw new Error(
+          `Collected metrics violate the acceptance contract: ${JSON.stringify(metricViolations)}`,
+        );
+      }
+    }
     // observed theme marker 属于实采 metrics 的一部分，不是 CLI 假设
     metrics.themeMarker = observedTheme;
     const clip = metrics.root;
@@ -719,17 +852,30 @@ async function collect(config, runDir) {
       },
       30_000,
     );
-    await fs.writeFile(path.join(runDir, "screenshot.png"), Buffer.from(screenshot.data, "base64"));
+    await atomicWrite(path.join(runDir, "screenshot.png"), Buffer.from(screenshot.data, "base64"));
     await atomicWrite(path.join(runDir, "metrics.json"), `${JSON.stringify(metrics, null, 2)}\n`);
-    const cell = {
-      schemaVersion: 1,
-      ...config,
-      sourceTimestamp,
-      observedTheme,
-      screenshot: "screenshot.png",
-      metrics: "metrics.json",
-      status: "captured",
-    };
+    const capturedAt = new Date().toISOString();
+    const collectorSha256 = createHash("sha256")
+      .update(await fs.readFile(fileURLToPath(import.meta.url)))
+      .digest("hex");
+    const cell =
+      config.schemaVersion === 2
+        ? buildEvidenceCellV2(config, {
+            capturedAt,
+            observedTheme,
+            collectorSha256,
+            browserVersion,
+          })
+        : {
+            schemaVersion: 1,
+            ...config,
+            sourceTimestamp,
+            observedTheme,
+            screenshot: "screenshot.png",
+            metrics: "metrics.json",
+            status: "captured",
+          };
+    if (config.schemaVersion === 2) assertEvidenceCellV2(cell);
     await atomicWrite(path.join(runDir, "cell.json"), `${JSON.stringify(cell, null, 2)}\n`);
     return cell;
   } finally {
@@ -742,10 +888,13 @@ async function collect(config, runDir) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  const config = makeConfig(args);
+  const config = args.manifest != null ? await makeV2Config(args) : makeConfig(args);
   if (args.dryRun) {
     console.log(JSON.stringify(config));
     return;
+  }
+  if (config.schemaVersion === 2 && config.source === "local" && !config.worktreeClean) {
+    throw new Error("Local acceptance evidence requires a clean worktree");
   }
   // 官方与本地证据各自写入独立 run 目录，避免同一 out 根下互相覆盖
   const runDir = path.join(config.out, "runs", config.source, config.runId);

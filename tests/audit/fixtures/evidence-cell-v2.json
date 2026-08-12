@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "source": "official",
+  "slug": "drawer",
+  "demoId": "default",
+  "variant": "default",
+  "state": "open",
+  "theme": "dark",
+  "viewport": { "width": 375, "height": 812 },
+  "viewportText": "375x812",
+  "url": "https://vercel.com/geist/drawer",
+  "rootSelector": "[data-official-root]",
+  "roleSelectors": { "root": "[data-official-root]" },
+  "auditRunId": "audit-20260812-01",
+  "contractDigest": "15a3484f6e9ddb66a5abb4cf72b0186a0fecba7ca29d300124d84c630f65e893",
+  "effectiveEvidenceNotBefore": "2026-08-12T01:00:00.000Z",
+  "contract": {
+    "demoId": "default",
+    "variant": "default",
+    "state": "open",
+    "clipRole": "root",
+    "evidenceNotBefore": "2026-08-12T01:00:00.000Z",
+    "roles": {
+      "root": {
+        "selectors": {
+          "default": {
+            "official": "[data-official-root]",
+            "local": "[data-local-root]"
+          },
+          "byViewport": {}
+        },
+        "presence": "required",
+        "acceptanceProfile": "strict"
+      }
+    },
+    "semanticNodeInventory": [],
+    "transparentWrappers": []
+  },
+  "navigationStartedAt": "2026-08-12T02:00:00.000Z",
+  "stateStabilizedAt": "2026-08-12T02:00:01.000Z",
+  "capturedAt": "2026-08-12T02:00:02.000Z",
+  "sourceTimestamp": null,
+  "producer": {
+    "collectorSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "browserVersion": "Chrome/139.0.0.0"
+  },
+  "artifacts": {
+    "screenshot": "screenshot.png",
+    "metrics": "metrics.json"
+  },
+  "localRevision": null,
+  "worktreeClean": null,
+  "localSourceDigest": null,
+  "localSourceFiles": [],
+  "observedTheme": {
+    "htmlClass": "dark",
+    "dataTheme": "dark",
+    "colorScheme": "dark",
+    "bodyBackground": "rgb(0, 0, 0)"
+  },
+  "status": "captured"
+}
