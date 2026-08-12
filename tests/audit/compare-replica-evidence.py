@@ -36,6 +36,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--out", required=True)
     parser.add_argument("--pixel-threshold", type=int, default=0)
     parser.add_argument("--geometry-threshold", type=float, default=0.0)
+    parser.add_argument("--manifest", default=None)
     return parser.parse_args()
 
 
@@ -110,23 +111,67 @@ def viewport_roles(metrics_body: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return roles
 
 
-def field_exemption(field: str, official: Any, local: Any) -> str | None:
-    """字段级豁免：仅当差异本身属于字体族或 Lucide icon path，且只发生在该字段上。"""
-    if field == "fontFamily":
-        return "FONT_FAMILY"
-    if field in ICON_FIELDS and isinstance(official, str) and isinstance(local, str):
+def parse_font_family_token(value: Any) -> str | None:
+    """Extract the primary family token from a CSS font-family computed value."""
+    if not isinstance(value, str):
+        return None
+    # Split on comma, take first, strip quotes and whitespace
+    parts = value.split(",")
+    if not parts:
+        return None
+    token = parts[0].strip().strip("\"'").strip()
+    if not token:
+        return None
+    # Normalize: collapse internal whitespace, lowercase
+    return " ".join(token.split()).lower()
+
+
+def is_approved_font_mapping(
+    official_value: Any,
+    local_value: Any,
+    approved_mappings: list[dict[str, str]],
+) -> bool:
+    """Check if a fontFamily difference matches an approved mapping in the manifest policy."""
+    official_token = parse_font_family_token(official_value)
+    local_token = parse_font_family_token(local_value)
+    if official_token is None or local_token is None:
+        return False
+    for mapping in approved_mappings:
         if (
-            "data:image/svg+xml" in official
-            and "data:image/svg+xml" in local
-            and "d=" in official
-            and "d=" in local
-            and PATH_ATTR_RE.sub("", official) == PATH_ATTR_RE.sub("", local)
+            parse_font_family_token(mapping.get("officialPrimaryFamily", "")) == official_token
+            and parse_font_family_token(mapping.get("localPrimaryFamily", "")) == local_token
         ):
-            return "ICON_PATH"
+            return True
+    return False
+
+
+def field_exemption(
+    field: str,
+    official: Any,
+    local: Any,
+    manifest: dict[str, Any] | None,
+) -> str | None:
+    """Field-level exemption driven by manifest acceptancePolicy, not hardcoded.
+
+    Without a manifest, no exemption is granted: all differences are strict failures.
+    """
+    if field == "fontFamily":
+        if manifest is None:
+            return None
+        approved = manifest.get("acceptancePolicy", {}).get("approvedFontMappings", [])
+        if is_approved_font_mapping(official, local, approved):
+            return "FONT_FAMILY_MAPPING"
+        return None
+    # ICON_PATH is no longer a valid exemption: the v3 taxonomy has no such classification.
     return None
 
 
-def compare_styles_pair(expected: dict[str, Any], actual: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def compare_styles_pair(
+    expected: dict[str, Any],
+    actual: dict[str, Any],
+    manifest: dict[str, Any] | None = None,
+    role: str | None = None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     failures: list[dict[str, Any]] = []
     exemptions: list[dict[str, Any]] = []
     for field in sorted(set(expected) | set(actual)):
@@ -134,10 +179,16 @@ def compare_styles_pair(expected: dict[str, Any], actual: dict[str, Any]) -> tup
         local_value = actual.get(field)
         if official_value == local_value:
             continue
-        reason = field_exemption(field, official_value, local_value)
+        reason = field_exemption(field, official_value, local_value, manifest)
         if reason is not None:
             exemptions.append(
-                {"field": field, "reason": reason, "official": official_value, "local": local_value}
+                {
+                    "field": field,
+                    "reason": reason,
+                    "official": official_value,
+                    "local": local_value,
+                    "role": role,
+                }
             )
         else:
             failures.append({"field": field, "official": official_value, "local": local_value})
@@ -162,7 +213,11 @@ def clean_rect(rect: dict[str, float]) -> dict[str, int | float]:
 
 
 def compare_role_pair(
-    official: dict[str, Any] | None, local: dict[str, Any] | None, threshold: float
+    official: dict[str, Any] | None,
+    local: dict[str, Any] | None,
+    threshold: float,
+    manifest: dict[str, Any] | None = None,
+    role: str | None = None,
 ) -> dict[str, Any] | None:
     """比较同一语义 role 的 official/local 归一化数据；单侧缺失返回缺失分类。"""
     if official is None and local is None:
@@ -187,7 +242,9 @@ def compare_role_pair(
         key: abs(official["rect"][key] - local["rect"][key]) for key in ("x", "y", "width", "height")
     }
     max_delta = max(rect_delta.values())
-    style_failures, style_exemptions = compare_styles_pair(official["styles"], local["styles"])
+    style_failures, style_exemptions = compare_styles_pair(
+        official["styles"], local["styles"], manifest, role
+    )
     aria_failures, aria_matched = compare_aria_pair(official["aria"], local["aria"])
     classification = "MATCH"
     if max_delta > threshold or style_failures or aria_failures:
@@ -208,7 +265,10 @@ def compare_role_pair(
 
 
 def compare_roles_by_viewport(
-    official_metrics: dict[str, Any], local_metrics: dict[str, Any], threshold: float
+    official_metrics: dict[str, Any],
+    local_metrics: dict[str, Any],
+    threshold: float,
+    manifest: dict[str, Any] | None = None,
 ) -> tuple[dict[str, list[dict[str, Any]]], list[dict[str, Any]], list[dict[str, Any]]]:
     official_viewports = effective_viewports(official_metrics)
     local_viewports = effective_viewports(local_metrics)
@@ -223,7 +283,9 @@ def compare_roles_by_viewport(
         local_roles = viewport_roles(local_viewports[viewport])
         rows: list[dict[str, Any]] = []
         for role in sorted(set(official_roles) | set(local_roles)):
-            row = compare_role_pair(official_roles.get(role), local_roles.get(role), threshold)
+            row = compare_role_pair(
+                official_roles.get(role), local_roles.get(role), threshold, manifest, role
+            )
             if row is None:
                 continue
             row["role"] = role
@@ -426,6 +488,10 @@ def main() -> None:
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
 
+    manifest: dict[str, Any] | None = None
+    if args.manifest:
+        manifest = load_json(args.manifest)
+
     official_image = Image.open(args.official_image).convert("RGBA")
     local_image = Image.open(args.local_image).convert("RGBA")
     official_size = official_image.size
@@ -453,7 +519,7 @@ def main() -> None:
     geometry = compare_geometry(official_metrics, local_metrics)
     style_failures = compare_styles(official_metrics, local_metrics)
     role_comparisons, missing_roles, unexpected_roles = compare_roles_by_viewport(
-        official_metrics, local_metrics, args.geometry_threshold
+        official_metrics, local_metrics, args.geometry_threshold, manifest
     )
     responsive_delta = compute_responsive_delta(
         official_metrics, local_metrics, args.geometry_threshold
@@ -487,9 +553,89 @@ def main() -> None:
             "canvas": {"width": canvas_size[0], "height": canvas_size[1]},
         },
     }
+    # Collect strictFailures and approvedExclusions from role comparisons
+    strict_failures_v3: list[dict[str, Any]] = []
+    approved_exclusions_v3: list[dict[str, Any]] = []
+    for rows in role_comparisons.values():
+        for row in rows:
+            role_name = row.get("role", "unknown")
+            for failure in row.get("styles", {}).get("failures", []):
+                strict_failures_v3.append(
+                    {
+                        "classification": "STYLE_MISMATCH",
+                        "scope": "role",
+                        "role": role_name,
+                        "field": failure["field"],
+                        "official": failure["official"],
+                        "local": failure["local"],
+                    }
+                )
+            for exemption in row.get("styles", {}).get("exemptions", []):
+                approved_exclusions_v3.append(
+                    {
+                        "classification": exemption["reason"],
+                        "scope": "role",
+                        "role": role_name,
+                        "fields": [exemption["field"]],
+                        "official": exemption["official"],
+                        "local": exemption["local"],
+                    }
+                )
+            for failure in row.get("aria", {}).get("failures", []):
+                strict_failures_v3.append(
+                    {
+                        "classification": "ARIA_MISMATCH",
+                        "scope": "role",
+                        "role": role_name,
+                        "field": failure["field"],
+                        "official": failure["official"],
+                        "local": failure["local"],
+                    }
+                )
+            if row.get("classification") == "MISSING_ROLE":
+                strict_failures_v3.append(
+                    {"classification": "MISSING_ROLE", "scope": "role", "role": role_name}
+                )
+            elif row.get("classification") == "UNEXPECTED_ROLE":
+                strict_failures_v3.append(
+                    {"classification": "UNEXPECTED_ROLE", "scope": "role", "role": role_name}
+                )
+
+    # Without manifest: any style failure that was previously exempted is now a strict failure
+    if manifest is None:
+        # All style differences are already in failures because field_exemption returns None
+        pass
+
+    # Determine v3 semantic status
+    has_strict_failures = bool(strict_failures_v3)
+    has_non_font_failures = any(
+        f.get("field") != "fontFamily" for f in strict_failures_v3
+    )
+    has_geometry_failures = (
+        geometry["max_geometry_delta_px"] > args.geometry_threshold
+        or bool(geometry["missing_paths"])
+    )
+    semantic_acceptance_status: str
+    if has_non_font_failures or dimension_mismatch or has_geometry_failures:
+        semantic_acceptance_status = "FAIL"
+    elif manifest is None and has_strict_failures:
+        # Without manifest, font-only differences cannot be evaluated: BLOCK, not FAIL
+        semantic_acceptance_status = "BLOCKED"
+    elif has_strict_failures:
+        # Manifest present but font pair not approved: FAIL
+        semantic_acceptance_status = "FAIL"
+    else:
+        semantic_acceptance_status = "PASS"
+
+    diagnostic_pixel_status = "IDENTICAL" if changed_pixels == 0 else "DIFFERENT"
+
     report = {
-        "schemaVersion": 2,
-        "status": "PASS" if passed else "FAIL",
+        "schemaVersion": 3,
+        "diagnosticPixelStatus": diagnostic_pixel_status,
+        "semanticAcceptanceStatus": semantic_acceptance_status,
+        "status": semantic_acceptance_status,
+        "strictFailures": strict_failures_v3,
+        "approvedExclusions": approved_exclusions_v3,
         "pixel": pixel,
         "pixelDiff": pixel,
         "geometry": geometry,

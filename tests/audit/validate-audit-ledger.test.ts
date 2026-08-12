@@ -197,7 +197,7 @@ describe("Geist replica audit contract", () => {
     ]);
 
     const report = JSON.parse(readFileSync(join(out, "comparison.json"), "utf8"));
-    expect(report.status).toBe("FAIL");
+    expect(report.semanticAcceptanceStatus).toBe("FAIL");
     expect(report.pixel.dimension_mismatch).toBe(true);
     expect(report.pixel.image_dimensions).toEqual({
       official: { width: 3, height: 2 },
@@ -255,7 +255,7 @@ describe("Geist replica audit contract", () => {
 
     const report = JSON.parse(readFileSync(join(out, "comparison.json"), "utf8"));
     // Task 4 输出契约：旧字段原样保留，新语义字段以 schemaVersion=2 共存。
-    expect(report.schemaVersion).toBe(2);
+    expect(report.schemaVersion).toBe(3);
     expect(report.pixelDiff).toEqual(report.pixel);
     expect(report.missingPaths).toEqual(report.geometry.missing_paths);
     expect(report.normalizedGeometry).toEqual(report.geometry);
@@ -263,7 +263,7 @@ describe("Geist replica audit contract", () => {
     expect(report.missingRoles).toEqual([]);
     expect(report.unexpectedRoles).toEqual([]);
     expect(report.responsiveDelta).toEqual([]);
-    expect(report.status).toBe("FAIL");
+    expect(report.semanticAcceptanceStatus).toBe("FAIL");
     expect(report.approved_exclusions).toEqual([]);
     expect(report.artifacts).toEqual({ diff: "diff.png", overlay: "overlay.png" });
   }, 15_000);
@@ -652,8 +652,8 @@ describe("Geist audit comparator (Task 4: semantic roles / responsive deltas / f
       fixture("semantic-local.json"),
     );
 
-    expect(report.schemaVersion).toBe(2);
-    expect(report.status).toBe("FAIL");
+    expect(report.schemaVersion).toBe(3);
+    expect(report.semanticAcceptanceStatus).toBe("FAIL");
     expect(Object.keys(report.roleComparisons).sort()).toEqual(["1440x900", "375x812"]);
 
     const byRole = Object.fromEntries(
@@ -713,50 +713,40 @@ describe("Geist audit comparator (Task 4: semantic roles / responsive deltas / f
       ),
     );
 
-    // root：唯一差异是 fontFamily → 整个 role MATCH，但豁免是字段级的
-    expect(byRole.root.classification).toBe("MATCH");
-    expect(byRole.root.styles.failures).toEqual([]);
-    expect(
-      byRole.root.styles.exemptions.map((entry: { field: string; reason: string }) => [
-        entry.field,
-        entry.reason,
-      ]),
-    ).toContainEqual(["fontFamily", "FONT_FAMILY"]);
+    // root：唯一差异是 fontFamily，无 manifest -> strict failure，无豁免
+    expect(byRole.root.classification).toBe("MISMATCH");
+    expect(byRole.root.styles.failures.map((entry: { field: string }) => entry.field)).toContain(
+      "fontFamily",
+    );
+    expect(byRole.root.styles.exemptions).toEqual([]);
 
-    // trigger：唯一差异是 Lucide icon 的 SVG path → MATCH + ICON_PATH 豁免
-    expect(byRole.trigger.classification).toBe("MATCH");
-    expect(byRole.trigger.styles.failures).toEqual([]);
-    expect(
-      byRole.trigger.styles.exemptions.map((entry: { field: string; reason: string }) => [
-        entry.field,
-        entry.reason,
-      ]),
-    ).toContainEqual(["backgroundImage", "ICON_PATH"]);
+    // trigger：唯一差异是 backgroundImage (icon path)，无 manifest -> strict failure
+    expect(byRole.trigger.classification).toBe("MISMATCH");
+    expect(byRole.trigger.styles.failures.map((entry: { field: string }) => entry.field)).toContain(
+      "backgroundImage",
+    );
+    expect(byRole.trigger.styles.exemptions).toEqual([]);
 
-    // icon：尺寸(rect + width) 与 icon path 同时不同 → 尺寸必须 FAIL，icon path 只豁免 backgroundImage
+    // icon：尺寸 + backgroundImage 都是 strict failure
     expect(byRole.icon.classification).toBe("MISMATCH");
     expect(byRole.icon.rect.max_delta_px).toBe(8);
     expect(byRole.icon.styles.failures.map((entry: { field: string }) => entry.field)).toContain(
       "width",
     );
-    expect(
-      byRole.icon.styles.exemptions.map((entry: { field: string; reason: string }) => [
-        entry.field,
-        entry.reason,
-      ]),
-    ).toContainEqual(["backgroundImage", "ICON_PATH"]);
+    expect(byRole.icon.styles.failures.map((entry: { field: string }) => entry.field)).toContain(
+      "backgroundImage",
+    );
+    expect(byRole.icon.styles.exemptions).toEqual([]);
 
-    // title：颜色与 fontFamily 同时不同 → 颜色必须 FAIL，fontFamily 只豁免自身
+    // title：颜色与 fontFamily 同时不同 -> 都是 strict failure
     expect(byRole.title.classification).toBe("MISMATCH");
     expect(byRole.title.styles.failures.map((entry: { field: string }) => entry.field)).toContain(
       "color",
     );
-    expect(
-      byRole.title.styles.exemptions.map((entry: { field: string; reason: string }) => [
-        entry.field,
-        entry.reason,
-      ]),
-    ).toContainEqual(["fontFamily", "FONT_FAMILY"]);
+    expect(byRole.title.styles.failures.map((entry: { field: string }) => entry.field)).toContain(
+      "fontFamily",
+    );
+    expect(byRole.title.styles.exemptions).toEqual([]);
 
     // content：rect/styles 相同，aria-expanded 不同 → ARIA 差异必须 FAIL，不能被任何豁免抹掉
     expect(byRole.content.classification).toBe("MISMATCH");
@@ -878,7 +868,8 @@ describe("Geist audit comparator (Task 4: semantic roles / responsive deltas / f
     const exemptionFields = (row.styles.exemptions as Array<{ field: string; reason: string }>).map(
       (entry) => [entry.field, entry.reason],
     );
-    expect(exemptionFields).toContainEqual(["fontFamily", "FONT_FAMILY"]);
+    expect(failureFields).toContain("fontFamily");
+    expect(exemptionFields).toEqual([]);
 
     const ariaFailureFields = (row.aria.failures as Array<{ field: string }>).map(
       (entry) => entry.field,
