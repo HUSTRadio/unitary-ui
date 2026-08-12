@@ -549,7 +549,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
             },
             "title": {
               "selectors": {
@@ -598,6 +599,18 @@
               "acceptanceProfile": "text-adjacent-icon",
               "textRole": "title",
               "anchorEdge": "right"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
+                  "local": "div:has(> [data-demo-id=\"default\"])"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
             }
           },
           "semanticNodeInventory": [],

@@ -39,14 +39,29 @@ describe("Description live-discovery acceptance contract", () => {
     const roles = contract.roles;
     expect(Object.keys(roles).sort()).toEqual([
       "content",
+      "demo-container",
       "root",
       "title",
       "tooltip-shell",
       "tooltip-trigger",
     ]);
 
-    // root is the clip target and a strict container/surface
-    expect(roles.root).toMatchObject({ presence: "required", acceptanceProfile: "strict" });
+    // demo-container is the host context (measurement-context) that owns root's width
+    expect(roles["demo-container"]).toMatchObject({
+      presence: "required",
+      acceptanceProfile: "measurement-context",
+      measurementAxes: ["width"],
+    });
+    expect(roles["demo-container"].selectors.default.official).toBe(
+      'a[href="#default"] ~ * div.w-full.p-6',
+    );
+
+    // root is the clip target and a context-owned-fill of the demo container
+    expect(roles.root).toMatchObject({
+      presence: "required",
+      acceptanceProfile: "context-owned-fill",
+      contextOwnerRole: "demo-container",
+    });
     expect(roles.root.selectors.default.local).toBe('[data-demo-id="default"]');
 
     // title and content carry text and are font-mapping profiles

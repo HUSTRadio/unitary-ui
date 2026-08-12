@@ -669,6 +669,74 @@ def main() -> None:
     if provenance_failures:
         strict_failures_v3.extend(provenance_failures)
 
+    # Context-owned-fill attribution: a fill role whose width delta equals its
+    # measurement-context width delta is fully explained by the host container.
+    if official_cell is not None:
+        contract_roles = (official_cell.get("contract") or {}).get("roles", {})
+        rect_width_delta: dict[str, float] = {}
+        for rows in role_comparisons.values():
+            for row in rows:
+                delta = row.get("rect", {}).get("delta")
+                if delta and delta.get("width") is not None:
+                    rect_width_delta[row["role"]] = abs(float(delta["width"]))
+        # 1) measurement-context roles: their declared axes are host context input.
+        for role_name, role_def in contract_roles.items():
+            if role_def.get("acceptanceProfile") != "measurement-context":
+                continue
+            axes = set(role_def.get("measurementAxes") or [])
+            remaining = []
+            for failure in strict_failures_v3:
+                if failure.get("role") == role_name and failure.get("field") in axes:
+                    approved_exclusions_v3.append(
+                        {
+                            "classification": "HOST_CONTEXT_GEOMETRY",
+                            "scope": "role",
+                            "role": role_name,
+                            "fields": [failure["field"]],
+                            "official": failure.get("official"),
+                            "local": failure.get("local"),
+                        }
+                    )
+                else:
+                    remaining.append(failure)
+            strict_failures_v3[:] = remaining
+        # 2) context-owned-fill roles: width (and width-derived transformOrigin)
+        #    whose delta equals the context delta.
+        for role_name, role_def in contract_roles.items():
+            if role_def.get("acceptanceProfile") != "context-owned-fill":
+                continue
+            context_role = role_def.get("contextOwnerRole")
+            if context_role not in rect_width_delta or role_name not in rect_width_delta:
+                continue
+            context_w = rect_width_delta[context_role]
+            fill_w = rect_width_delta[role_name]
+            if context_w <= 0 or abs(fill_w - context_w) > 0.5:
+                continue
+            remaining = []
+            for failure in strict_failures_v3:
+                if (
+                    failure.get("role") == role_name
+                    and failure.get("field") in ("width", "transformOrigin")
+                ):
+                    approved_exclusions_v3.append(
+                        {
+                            "classification": "CONTEXT_OWNED_WIDTH",
+                            "scope": "role",
+                            "role": role_name,
+                            "fields": [failure["field"]],
+                            "official": failure.get("official"),
+                            "local": failure.get("local"),
+                            "evidence": {
+                                "contextOwnerRole": context_role,
+                                "contextWidthDelta": context_w,
+                                "fillWidthDelta": fill_w,
+                            },
+                        }
+                    )
+                else:
+                    remaining.append(failure)
+            strict_failures_v3[:] = remaining
+
     # Determine v3 semantic status
     has_strict_failures = bool(strict_failures_v3)
     has_non_font_failures = any(
