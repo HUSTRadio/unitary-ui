@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { beforeAll, describe, expect, test } from "vitest";
@@ -106,6 +106,20 @@ describe("collector v2 exact-contract dry run", () => {
     directory = mkdtempSync(join(tmpdir(), "geist-collector-v2-"));
     manifestPath = join(directory, "manifest.json");
     writeFileSync(manifestPath, JSON.stringify(manifest));
+    // Construct a dirty git repo so local source state detection is deterministic
+    // regardless of the real checkout's cleanliness.
+    execFileSync("git", ["init", "-q"], { cwd: directory });
+    execFileSync("git", ["config", "user.email", "test@example.com"], { cwd: directory });
+    execFileSync("git", ["config", "user.name", "Test"], { cwd: directory });
+    writeFileSync(join(directory, "package.json"), "{}");
+    mkdirSync(join(directory, "src"));
+    writeFileSync(join(directory, "src", "index.ts"), "export {}");
+    execFileSync("git", ["add", "-A"], { cwd: directory });
+    execFileSync("git", ["-c", "commit.gpgsign=false", "commit", "-qm", "init"], {
+      cwd: directory,
+    });
+    // Make the worktree dirty.
+    writeFileSync(join(directory, "src", "index.ts"), "export const dirty = true;");
   });
 
   const args = (source: "official" | "local") => [
@@ -115,7 +129,7 @@ describe("collector v2 exact-contract dry run", () => {
     "--audit-run-id",
     "audit-20260812-01",
     "--repo-root",
-    root,
+    directory,
     "--source",
     source,
     "--slug",
