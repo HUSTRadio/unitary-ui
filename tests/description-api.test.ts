@@ -13,6 +13,7 @@ describe("Description official contract", () => {
     expect(source).toContain("<dd");
     expect(source).toContain("text-description-title");
     expect(source).toContain("text-description-content");
+    expect(source).toContain("min-h-[14px]");
   });
 
   test("supports right and ellipsis variants without changing markup", () => {
@@ -27,7 +28,9 @@ describe("Description official contract", () => {
     expect(source).toContain("<Tooltip text={tooltip}>");
     expect(source).toContain("tabIndex={0}");
     expect(source).toContain('data-slot="description-tooltip"');
-    expect(source).toContain("aria-label={tooltip}");
+    expect(source).toContain('data-slot="description-tooltip-shell"');
+    expect(source).toContain("inline-block");
+    expect(source).not.toContain("aria-label={tooltip}");
   });
 
   test("keeps the component transparent and delegates framing to the demo wrapper", () => {

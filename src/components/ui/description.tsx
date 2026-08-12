@@ -38,16 +38,17 @@ function Description({
       >
         {title}
         {tooltip && (
-          <Tooltip text={tooltip}>
-            <span
-              data-slot="description-tooltip"
-              tabIndex={0}
-              aria-label={tooltip}
-              className="ml-1 inline-flex items-center align-[-2px] text-muted-foreground"
-            >
-              <Info className="size-3.5" aria-hidden />
-            </span>
-          </Tooltip>
+          <span data-slot="description-tooltip-shell" className="ml-1 inline-block align-[-2px]">
+            <Tooltip text={tooltip}>
+              <span
+                data-slot="description-tooltip"
+                tabIndex={0}
+                className="inline-flex size-3.5 items-center text-muted-foreground"
+              >
+                <Info className="size-3.5" aria-hidden />
+              </span>
+            </Tooltip>
+          </span>
         )}
       </dt>
       <dd data-slot="description-content" className="m-0 text-description-content text-foreground">
