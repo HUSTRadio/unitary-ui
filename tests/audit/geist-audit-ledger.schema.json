@@ -1,0 +1,223 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/HUSTRadio/geist-style-framework/tests/audit/geist-audit-ledger.schema.json",
+  "title": "Geist replica audit ledger v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "status", "results"],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "status": { "type": "string", "minLength": 1 },
+    "generatedFrom": { "type": "string" },
+    "results": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/ledgerResult" }
+    }
+  },
+  "definitions": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "evidenceStatus": {
+      "enum": ["READY", "MISSING", "NOT_APPLICABLE", "BLOCKED"]
+    },
+    "semanticStatus": { "enum": ["PASS", "FAIL", "BLOCKED"] },
+    "compatStatus": {
+      "enum": ["PASS", "FAIL", "BLOCKED", "MISSING", "NOT_APPLICABLE"]
+    },
+    "strictFailure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification", "scope"],
+      "properties": {
+        "classification": { "type": "string", "minLength": 1 },
+        "scope": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 },
+        "field": { "type": "string" },
+        "official": {},
+        "local": {}
+      }
+    },
+    "approvedExclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification", "scope"],
+      "properties": {
+        "classification": { "type": "string", "minLength": 1 },
+        "scope": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 },
+        "fields": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "official": {},
+        "local": {}
+      }
+    },
+    "roleClassification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "verdict"],
+      "properties": {
+        "role": { "type": "string", "minLength": 1 },
+        "verdict": { "type": "string", "minLength": 1 }
+      }
+    },
+    "ledgerResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cellKey",
+        "slug",
+        "variant",
+        "state",
+        "theme",
+        "viewport",
+        "evidenceStatus",
+        "semanticAcceptanceStatus",
+        "status"
+      ],
+      "properties": {
+        "cellKey": { "type": "string", "minLength": 1 },
+        "slug": { "type": "string", "minLength": 1 },
+        "variant": { "type": "string", "minLength": 1 },
+        "state": { "type": "string", "minLength": 1 },
+        "theme": { "enum": ["light", "dark"] },
+        "viewport": { "type": "string", "pattern": "^[1-9][0-9]*x[1-9][0-9]*$" },
+        "evidenceStatus": { "$ref": "#/definitions/evidenceStatus" },
+        "semanticAcceptanceStatus": {
+          "anyOf": [{ "$ref": "#/definitions/semanticStatus" }, { "type": "null" }]
+        },
+        "status": { "$ref": "#/definitions/compatStatus" },
+        "diagnosticPixelStatus": {
+          "enum": ["IDENTICAL", "DIFFERENT", "UNAVAILABLE"]
+        },
+        "strictFailures": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/strictFailure" }
+        },
+        "approvedExclusions": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/approvedExclusion" }
+        },
+        "roleClassifications": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/roleClassification" }
+        },
+        "pixel": { "type": "object" },
+        "geometry": { "type": "object" },
+        "officialEvidenceTimestamp": { "type": "string", "format": "date-time" },
+        "auditRunId": { "type": "string", "minLength": 1 },
+        "contractDigest": { "$ref": "#/definitions/sha256" },
+        "localRevision": { "$ref": "#/definitions/revision" },
+        "localSourceDigest": { "$ref": "#/definitions/sha256" },
+        "worktreeClean": { "type": "boolean" },
+        "artifacts": { "type": "object" },
+        "reason": { "type": "string" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "properties": { "evidenceStatus": { "const": "READY" } },
+            "required": ["evidenceStatus"]
+          },
+          "then": {
+            "type": "object",
+            "required": [
+              "semanticAcceptanceStatus",
+              "status",
+              "diagnosticPixelStatus",
+              "strictFailures",
+              "approvedExclusions",
+              "auditRunId",
+              "contractDigest",
+              "artifacts"
+            ],
+            "properties": {
+              "semanticAcceptanceStatus": { "$ref": "#/definitions/semanticStatus" },
+              "status": { "$ref": "#/definitions/semanticStatus" },
+              "diagnosticPixelStatus": {
+                "enum": ["IDENTICAL", "DIFFERENT", "UNAVAILABLE"]
+              },
+              "strictFailures": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/strictFailure" }
+              },
+              "approvedExclusions": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/approvedExclusion" }
+              },
+              "auditRunId": { "type": "string", "minLength": 1 },
+              "contractDigest": { "$ref": "#/definitions/sha256" },
+              "artifacts": { "type": "object" }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "properties": { "evidenceStatus": { "const": "BLOCKED" } },
+            "required": ["evidenceStatus"]
+          },
+          "then": {
+            "type": "object",
+            "required": [
+              "semanticAcceptanceStatus",
+              "status",
+              "diagnosticPixelStatus",
+              "strictFailures",
+              "approvedExclusions",
+              "artifacts"
+            ],
+            "properties": {
+              "semanticAcceptanceStatus": { "const": "BLOCKED" },
+              "status": { "const": "BLOCKED" },
+              "diagnosticPixelStatus": {
+                "enum": ["IDENTICAL", "DIFFERENT", "UNAVAILABLE"]
+              },
+              "strictFailures": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/strictFailure" }
+              },
+              "approvedExclusions": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/approvedExclusion" }
+              },
+              "artifacts": { "type": "object" }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "properties": { "evidenceStatus": { "const": "MISSING" } },
+            "required": ["evidenceStatus"]
+          },
+          "then": {
+            "type": "object",
+            "required": ["semanticAcceptanceStatus", "status"],
+            "properties": {
+              "semanticAcceptanceStatus": { "type": "null" },
+              "status": { "const": "MISSING" }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "properties": { "evidenceStatus": { "const": "NOT_APPLICABLE" } },
+            "required": ["evidenceStatus"]
+          },
+          "then": {
+            "type": "object",
+            "required": ["semanticAcceptanceStatus", "status"],
+            "properties": {
+              "semanticAcceptanceStatus": { "type": "null" },
+              "status": { "const": "NOT_APPLICABLE" }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

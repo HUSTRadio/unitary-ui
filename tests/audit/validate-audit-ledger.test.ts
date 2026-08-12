@@ -33,21 +33,28 @@ describe("Geist replica audit contract", () => {
 
   test("ledger never permits an evidence-free PASS or reason-free BLOCKED", () => {
     const ledger = readJson("geist-audit-ledger.json");
-    expect(ledger.schemaVersion).toBe(1);
+    expect(ledger.schemaVersion).toBe(2);
     expect(ledger.results).toBeInstanceOf(Array);
 
     for (const result of ledger.results) {
       expect(allowedStatuses.has(result.status)).toBe(true);
-      expect(result).toHaveProperty("max_geometry_delta_px");
-      expect(result).toHaveProperty("style_failures");
-      if (result.status === "PASS") {
-        expect(result.officialScreenshot).toBeTruthy();
-        expect(result.localScreenshot).toBeTruthy();
-        expect(result.metrics).toBeTruthy();
-        expect(result.styleFields.length).toBeGreaterThan(0);
-        expect(result.approvedExclusions).toBeInstanceOf(Array);
+      expect(result).toHaveProperty("evidenceStatus");
+      expect(result).toHaveProperty("semanticAcceptanceStatus");
+      if (result.evidenceStatus === "READY") {
+        expect(result.status).toBe(result.semanticAcceptanceStatus);
+        expect(result).toHaveProperty("diagnosticPixelStatus");
+        expect(result).toHaveProperty("strictFailures");
+        expect(result).toHaveProperty("approvedExclusions");
+        expect(result.auditRunId).toBeTruthy();
+        expect(result.contractDigest).toMatch(/^[a-f0-9]{64}$/);
       }
-      if (result.status === "BLOCKED") expect(result.reason).toBeTruthy();
+      if (result.evidenceStatus === "BLOCKED") {
+        expect(result.semanticAcceptanceStatus).toBe("BLOCKED");
+        expect(result.reason).toBeTruthy();
+      }
+      if (result.evidenceStatus === "MISSING" || result.evidenceStatus === "NOT_APPLICABLE") {
+        expect(result.semanticAcceptanceStatus).toBeNull();
+      }
     }
   });
 
