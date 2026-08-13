@@ -10,6 +10,9 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
   "zh-CN": {
     // Shared demo chrome
     "Show code": "显示代码",
+    "Select Date Range": "选择日期范围",
+    "Select Period": "选择周期",
+    "Combobox Menu": "组合框菜单",
     "Delete Project": "删除项目",
     "Select a framework": "选择框架",
     Cancel: "取消",

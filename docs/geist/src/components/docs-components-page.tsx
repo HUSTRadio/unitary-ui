@@ -34,7 +34,13 @@ import { Book } from "@/components/ui/book";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 import { Browser } from "@/components/ui/browser";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import {
+  Calendar,
+  calendarColClass,
+  CALENDAR_ROW_CLASS,
+  CALENDAR_ROW_REV_CLASS,
+  TRIGGER_ROW_EXTRA_CLASS,
+} from "@/components/ui/calendar";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ClearableInput } from "@/components/ui/clearable-input";
 import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
@@ -985,9 +991,144 @@ function BrowserDemo() {
 }
 
 function CalendarDemo() {
+  const { language } = useLanguage();
+  const triggerLabel = demoText(language, "Select Date Range");
+  const periodLabel = demoText(language, "Select Period");
+  const comboboxLabel = demoText(language, "Combobox Menu");
+
+  const mediumItems = (
+    <>
+      <Calendar label={triggerLabel} />
+      <Calendar
+        label={triggerLabel}
+        showCombobox
+        className={CALENDAR_ROW_CLASS}
+        width={180}
+        triggerClassName={TRIGGER_ROW_EXTRA_CLASS}
+        comboboxLabel={comboboxLabel}
+      />
+      <Calendar
+        label={triggerLabel}
+        showCombobox
+        comboboxFirst
+        comboboxFull
+        comboboxWide
+        className={calendarColClass("medium")}
+        comboboxPlaceholder={periodLabel}
+        comboboxLabel={comboboxLabel}
+      />
+      <Calendar
+        label={triggerLabel}
+        showCombobox
+        comboboxFirst
+        comboboxFull
+        className={CALENDAR_ROW_REV_CLASS}
+        comboboxPlaceholder={periodLabel}
+        comboboxLabel={comboboxLabel}
+      />
+    </>
+  );
+
+  const smallItems = (
+    <>
+      <Calendar label={triggerLabel} size="small" />
+      <Calendar
+        label={triggerLabel}
+        size="small"
+        showCombobox
+        className={CALENDAR_ROW_CLASS}
+        width={180}
+        triggerClassName={TRIGGER_ROW_EXTRA_CLASS}
+        comboboxLabel={comboboxLabel}
+      />
+      <Calendar
+        label={triggerLabel}
+        size="small"
+        showCombobox
+        comboboxFirst
+        comboboxFull
+        comboboxWide
+        className={calendarColClass("small")}
+        comboboxPlaceholder={periodLabel}
+        comboboxLabel={comboboxLabel}
+      />
+      <Calendar
+        label={triggerLabel}
+        size="small"
+        showCombobox
+        comboboxFirst
+        comboboxFull
+        className={CALENDAR_ROW_REV_CLASS}
+        comboboxPlaceholder={periodLabel}
+        comboboxLabel={comboboxLabel}
+      />
+    </>
+  );
+
   return (
-    <div className="w-full max-w-xs">
-      <Calendar />
+    <div className="w-full max-w-[862px] space-y-6">
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <div className="flex justify-center py-12">
+              <Calendar label={triggerLabel} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="horizontal-layout"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="horizontal-layout">
+            <div className="flex justify-center py-12">
+              <Calendar label={triggerLabel} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="sizes"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="sizes">
+            <div className="py-12 space-y-12">
+              <div>
+                <p className="text-copy-14 text-gray-900 mb-4 font-mono">small</p>
+                <div className="flex flex-wrap items-start gap-x-4 gap-y-12">{smallItems}</div>
+              </div>
+              <div>
+                <p className="text-copy-14 text-gray-900 mb-4 font-mono">default / medium</p>
+                <div className="flex flex-wrap items-start gap-x-4 gap-y-12">{mediumItems}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="compact"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="compact">
+            <div className="flex justify-center py-12">
+              <Calendar
+                label={triggerLabel}
+                showCombobox
+                className={CALENDAR_ROW_CLASS}
+                width={180}
+                triggerClassName={TRIGGER_ROW_EXTRA_CLASS}
+                comboboxLabel={comboboxLabel}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -166,14 +166,332 @@
     {
       "slug": "calendar",
       "officialUrl": "https://vercel.com/geist/calendar",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["default", "horizontal-layout", "sizes", "compact"],
       "states": ["default"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "horizontal-layout"
+        },
+        {
+          "id": "sizes"
+        },
+        {
+          "id": "compact"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": ["blocked:popover-open", "click:trigger"],
+      "responsiveExpectations": [
+        "trigger:w-[var(--width)] fixed 250/180px across viewports",
+        "skeleton:data-geist-skeleton wraps trigger and matches --width",
+        "combobox-input:data-testid=calendar/combobox-input width follows --ds-size-*"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[data-geist-calendar]",
+        "local": "[data-geist-calendar]"
       },
-      "interaction": "pending"
+      "interaction": "applicable",
+      "acceptanceContracts": [
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "calendar": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div[data-geist-calendar]",
+                  "local": "[data-demo-container=\"default\"] div[data-geist-calendar]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * [data-testid=\"calendar/trigger/button\"]",
+                  "local": "[data-demo-container=\"default\"] [data-testid=\"calendar/trigger/button\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * [data-testid=\"calendar/trigger/button\"] span.truncate",
+                  "local": "[data-demo-container=\"default\"] [data-testid=\"calendar/trigger/button\"] span.truncate"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "horizontal-layout",
+          "variant": "horizontal-layout",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#horizontal-layout\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"horizontal-layout\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#horizontal-layout\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"horizontal-layout\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "calendar": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#horizontal-layout\"] ~ * div[data-geist-calendar]",
+                  "local": "[data-demo-container=\"horizontal-layout\"] div[data-geist-calendar]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#horizontal-layout\"] ~ * [data-testid=\"calendar/trigger/button\"]",
+                  "local": "[data-demo-container=\"horizontal-layout\"] [data-testid=\"calendar/trigger/button\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#horizontal-layout\"] ~ * [data-testid=\"calendar/trigger/button\"] span.truncate",
+                  "local": "[data-demo-container=\"horizontal-layout\"] [data-testid=\"calendar/trigger/button\"] span.truncate"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "sizes",
+          "variant": "sizes",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"sizes\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"sizes\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "calendar": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div[data-geist-calendar]",
+                  "local": "[data-demo-container=\"sizes\"] div[data-geist-calendar]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * [data-testid=\"calendar/trigger/button\"]",
+                  "local": "[data-demo-container=\"sizes\"] [data-testid=\"calendar/trigger/button\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * [data-testid=\"calendar/trigger/button\"] span.truncate",
+                  "local": "[data-demo-container=\"sizes\"] [data-testid=\"calendar/trigger/button\"] span.truncate"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "combobox": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * [data-testid=\"calendar/combobox-input\"]",
+                  "local": "[data-demo-container=\"sizes\"] [data-testid=\"calendar/combobox-input\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "compact",
+          "variant": "compact",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#compact\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"compact\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#compact\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"compact\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "calendar": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#compact\"] ~ * div[data-geist-calendar]",
+                  "local": "[data-demo-container=\"compact\"] div[data-geist-calendar]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#compact\"] ~ * [data-testid=\"calendar/trigger/button\"]",
+                  "local": "[data-demo-container=\"compact\"] [data-testid=\"calendar/trigger/button\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#compact\"] ~ * [data-testid=\"calendar/trigger/button\"] span.truncate",
+                  "local": "[data-demo-container=\"compact\"] [data-testid=\"calendar/trigger/button\"] span.truncate"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "combobox": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#compact\"] ~ * [data-testid=\"calendar/combobox-input\"]",
+                  "local": "[data-demo-container=\"compact\"] [data-testid=\"calendar/combobox-input\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "checkbox",
