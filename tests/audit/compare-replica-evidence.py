@@ -407,6 +407,7 @@ def compare_role_pair(
     threshold: float,
     manifest: dict[str, Any] | None = None,
     role: str | None = None,
+    role_def: dict[str, Any] | None = None,
 ) -> dict[str, Any] | None:
     """比较同一语义 role 的 official/local 归一化数据；单侧缺失返回缺失分类。"""
     if official is None and local is None:
@@ -430,22 +431,12 @@ def compare_role_pair(
     rect_delta = {
         key: abs(official["rect"][key] - local["rect"][key]) for key in ("x", "y", "width", "height")
     }
-    # FONT_MAPPING_HEIGHT：mapped-text 角色的 height 差（字体映射宽度差导致的换行副作用）豁免。
-    # 仅当 height 差是 lineHeight 的整数倍（换行行数差），非整数倍的行高错误仍严格比较。
-    if _is_mapped_text_width(official, local, manifest):
-        line_height = _px((local.get("styles") or {}).get("lineHeight"))
-        height_delta = rect_delta.get("height", 0.0)
-        if line_height > 0 and height_delta > 0:
-            if abs(height_delta - round(height_delta / line_height) * line_height) <= 0.5:
-                rect_delta["height"] = 0.0
     max_delta = max(rect_delta.values())
     style_failures, style_exemptions = compare_styles_pair(
         official["styles"], local["styles"], manifest, role
     )
-    # FONT_MAPPING_WIDTH：mapped-text 角色的文本宽度差异（字体映射根因）豁免；
-    # FONT_MAPPING_HEIGHT：高度差（换行副作用，lineHeight 整数倍）豁免。
+    # FONT_MAPPING_WIDTH：mapped-text 角色的文本宽度差异（字体映射根因）豁免
     if _is_mapped_text_width(official, local, manifest):
-        line_height = _px((local.get("styles") or {}).get("lineHeight"))
         kept: list[dict[str, Any]] = []
         for failure in style_failures:
             if failure["field"] in ("width", "transformOrigin"):
@@ -458,23 +449,22 @@ def compare_role_pair(
                         "role": role,
                     }
                 )
-            elif failure["field"] == "height" and line_height > 0:
-                height_delta = abs(_px(failure["official"]) - _px(failure["local"]))
-                if height_delta > 0 and abs(height_delta - round(height_delta / line_height) * line_height) <= 0.5:
-                    style_exemptions.append(
-                        {
-                            "field": "height",
-                            "reason": "FONT_MAPPING_HEIGHT",
-                            "official": failure["official"],
-                            "local": failure["local"],
-                            "role": role,
-                        }
-                    )
-                else:
-                    kept.append(failure)
             else:
                 kept.append(failure)
         style_failures = kept
+    # FONT_METRIC_REFLOW：mapped-text 换行行数差异（字体映射不豁免换行/垂直 reflow）。
+    if (role_def or {}).get("acceptanceProfile") == "mapped-text" and _is_mapped_text_width(official, local, manifest):
+        off_rects = (official.get("textEvidence") or {}).get("clientRects") or []
+        loc_rects = (local.get("textEvidence") or {}).get("clientRects") or []
+        if len(off_rects) != len(loc_rects):
+            style_failures.append(
+                {
+                    "field": "lineCount",
+                    "reason": "FONT_METRIC_REFLOW",
+                    "official": str(len(off_rects)),
+                    "local": str(len(loc_rects)),
+                }
+            )
     aria_failures, aria_matched = compare_aria_pair(official["aria"], local["aria"], manifest)
     classification = "MATCH"
     if max_delta > threshold or style_failures or aria_failures:
@@ -499,6 +489,7 @@ def compare_roles_by_viewport(
     local_metrics: dict[str, Any],
     threshold: float,
     manifest: dict[str, Any] | None = None,
+    contract_roles: dict[str, dict[str, Any]] | None = None,
 ) -> tuple[dict[str, list[dict[str, Any]]], list[dict[str, Any]], list[dict[str, Any]]]:
     official_viewports = effective_viewports(official_metrics)
     local_viewports = effective_viewports(local_metrics)
@@ -514,7 +505,12 @@ def compare_roles_by_viewport(
         rows: list[dict[str, Any]] = []
         for role in sorted(set(official_roles) | set(local_roles)):
             row = compare_role_pair(
-                official_roles.get(role), local_roles.get(role), threshold, manifest, role
+                official_roles.get(role),
+                local_roles.get(role),
+                threshold,
+                manifest,
+                role,
+                (contract_roles or {}).get(role),
             )
             if row is None:
                 continue
@@ -1054,15 +1050,10 @@ def compare_geometry(
             and _node_font_mapped(official_nodes[path], local_nodes[path], manifest)
         ):
             deltas.pop("y", None)
-        # FONT_METRIC_INLINE_FLOW_Y (geometry layer): 前序 sibling height 差（换行）累积传递到 y。
-        elif "y" in deltas:
-            top_shift = _top_shift(path, official_nodes, local_nodes, manifest)
-            if abs(top_shift) > 0.5 and abs(deltas["y"] - abs(top_shift)) <= 0.5:
-                deltas.pop("y", None)
-        # FONT_MAPPING_WIDTH (geometry layer): font-mapped 子树 width/height 差豁免（文本宽度映射 + 换行副作用）。
+
+        # FONT_MAPPING_WIDTH (geometry layer): font-mapped 子树 width 差豁免（文本宽度映射）。
         if _font_mapped_subtree(path, official_nodes, local_nodes, manifest):
             deltas.pop("width", None)
-            deltas.pop("height", None)
         # FONT_METRIC_INLINE_FLOW_X (geometry layer): 前序 sibling 宽度差累积传递到 x。
         if "x" in deltas:
             left_shift = _left_shift(path, official_nodes, local_nodes, manifest)
@@ -1149,7 +1140,11 @@ def main() -> None:
     geometry = compare_geometry(official_metrics, local_metrics, manifest, official_cell)
     style_failures = compare_styles(official_metrics, local_metrics)
     role_comparisons, missing_roles, unexpected_roles = compare_roles_by_viewport(
-        official_metrics, local_metrics, args.geometry_threshold, manifest
+        official_metrics,
+        local_metrics,
+        args.geometry_threshold,
+        manifest,
+        ((official_cell or {}).get("contract") or {}).get("roles", {}),
     )
     responsive_delta = compute_responsive_delta(
         official_metrics, local_metrics, args.geometry_threshold
