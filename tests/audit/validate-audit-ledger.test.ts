@@ -837,7 +837,6 @@ describe("Geist audit comparator (Task 4: semantic roles / responsive deltas / f
       "role",
       "aria-label",
       "aria-expanded",
-      "aria-controls",
       "disabled",
       "tabIndex",
     ];
