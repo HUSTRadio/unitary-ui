@@ -70,6 +70,7 @@ const RECIPE_VERBS = new Set([
   "focus",
   "press",
   "wait",
+  "sleep",
   "open",
   "closed",
   "disabled",
@@ -510,6 +511,12 @@ async function applyStateRecipe(send, config) {
             `wait:${target}`,
           );
         }
+        break;
+      }
+      case "sleep": {
+        const ms = Number.parseInt(target, 10);
+        if (Number.isNaN(ms)) throw new Error(`--state-recipe "sleep" 需要毫秒数: ${step}`);
+        await new Promise((r) => setTimeout(r, ms));
         break;
       }
       case "open": {
