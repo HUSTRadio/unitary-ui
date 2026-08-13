@@ -1118,7 +1118,11 @@ function CommandMenuDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
-            <Button type="default" onClick={() => openDemo("default")}>
+            <Button
+              type="default"
+              className="relative flex max-w-full whitespace-normal leading-[21px]"
+              onClick={() => openDemo("default")}
+            >
               {demoText(language, "Open Command Menu")}
             </Button>
           </div>
@@ -1131,7 +1135,11 @@ function CommandMenuDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="with-divider">
-            <Button type="default" onClick={() => openDemo("with-divider")}>
+            <Button
+              type="default"
+              className="relative flex max-w-full whitespace-normal leading-[21px]"
+              onClick={() => openDemo("with-divider")}
+            >
               {demoText(language, "Open Command Menu")}
             </Button>
           </div>
@@ -1144,7 +1152,11 @@ function CommandMenuDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="with-suffix">
-            <Button type="default" onClick={() => openDemo("with-suffix")}>
+            <Button
+              type="default"
+              className="relative flex max-w-full whitespace-normal leading-[21px]"
+              onClick={() => openDemo("with-suffix")}
+            >
               {demoText(language, "Open Command Menu")}
             </Button>
           </div>
