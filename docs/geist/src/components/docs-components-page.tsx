@@ -1836,7 +1836,7 @@ function CollapseDemo() {
         <CollapseTrigger>{title}</CollapseTrigger>
       </h3>
       <CollapseContent>
-        <div className="text-base leading-[26px]">
+        <div className="overflow-hidden text-base leading-[26px]">
           <p className="mb-4 text-copy-16 text-muted-foreground">{body}</p>
         </div>
       </CollapseContent>
@@ -1895,7 +1895,7 @@ function CollapseDemo() {
                   <CollapseTrigger>{questionA}</CollapseTrigger>
                 </h3>
                 <CollapseContent>
-                  <div className="text-base leading-[26px]">
+                  <div className="overflow-hidden text-base leading-[26px]">
                     <p className="mb-4 text-copy-16 text-muted-foreground">{lorem}</p>
                   </div>
                 </CollapseContent>
