@@ -27,7 +27,7 @@ function Checkbox({
       data-slot="checkbox"
       data-size={size}
       className={cn(
-        "group/checkbox relative inline-flex shrink-0 items-center justify-center rounded-[4px] border text-left transition duration-200 outline-none",
+        "group/checkbox relative inline-flex shrink-0 items-center justify-center rounded-[4px] border text-start transition duration-200 outline-none",
         "border-gray-700 bg-background-100 enabled:hover:data-[state=unchecked]:bg-gray-200",
         "focus-ring",
         "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:border-gray-500",

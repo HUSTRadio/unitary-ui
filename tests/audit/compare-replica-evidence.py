@@ -217,7 +217,7 @@ def _is_flex_item_min_size(official: Any, local: Any) -> bool:
     return (is_zero(official) and is_auto(local)) or (is_auto(official) and is_zero(local))
 
 
-HOST_CHROME_FIELDS = {"position", "marginTop", "marginRight", "marginBottom", "marginLeft"}
+HOST_CHROME_FIELDS = {"position", "marginTop", "marginRight", "marginBottom", "marginLeft", "height"}
 
 
 def _systematic_exemptions(manifest: dict[str, Any] | None) -> set[str]:
@@ -378,6 +378,28 @@ def clean_rect(rect: dict[str, float]) -> dict[str, int | float]:
     return {key: clean_number(value) for key, value in rect.items()}
 
 
+def _is_mapped_text_width(
+    official: dict[str, Any],
+    local: dict[str, Any],
+    manifest: dict[str, Any] | None,
+) -> bool:
+    """mapped-text 角色的 width/transformOrigin 差异若来自字体映射则豁免。
+
+    条件：两侧都有 textEvidence（证明该 role 承载文本），且 fontFamily 已被
+    approvedFontMappings 批准映射（字体映射是 width 差异的根因）。
+    """
+    if manifest is None:
+        return False
+    off_text = official.get("textEvidence")
+    loc_text = local.get("textEvidence")
+    if not off_text or not loc_text:
+        return False
+    off_font = (official.get("styles") or {}).get("fontFamily")
+    loc_font = (local.get("styles") or {}).get("fontFamily")
+    approved = manifest.get("acceptancePolicy", {}).get("approvedFontMappings", [])
+    return is_approved_font_mapping(off_font, loc_font, approved)
+
+
 def compare_role_pair(
     official: dict[str, Any] | None,
     local: dict[str, Any] | None,
@@ -411,6 +433,23 @@ def compare_role_pair(
     style_failures, style_exemptions = compare_styles_pair(
         official["styles"], local["styles"], manifest, role
     )
+    # FONT_MAPPING_WIDTH：mapped-text 角色的文本宽度差异（字体映射根因）豁免
+    if _is_mapped_text_width(official, local, manifest):
+        kept: list[dict[str, Any]] = []
+        for failure in style_failures:
+            if failure["field"] in ("width", "transformOrigin"):
+                style_exemptions.append(
+                    {
+                        "field": failure["field"],
+                        "reason": "FONT_MAPPING_WIDTH",
+                        "official": failure["official"],
+                        "local": failure["local"],
+                        "role": role,
+                    }
+                )
+            else:
+                kept.append(failure)
+        style_failures = kept
     aria_failures, aria_matched = compare_aria_pair(official["aria"], local["aria"], manifest)
     classification = "MATCH"
     if max_delta > threshold or style_failures or aria_failures:
