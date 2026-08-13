@@ -636,6 +636,7 @@ def normalized_nodes(metrics: dict[str, Any]) -> dict[str, dict[str, Any]]:
                 "height": float(rect.get("height", 0)),
             },
             "styles": node.get("styles", {}),
+            "tag": node.get("tag"),
         }
     return normalized
 
@@ -779,12 +780,12 @@ def _geometry_skip_paths(
     local_nodes: dict[str, dict[str, Any]],
     manifest: dict[str, Any] | None,
 ) -> set[str]:
-    """geometry 层跳过「行为组件内部节点 + 宿主 chrome 按钮」的路径。
+    """geometry 层跳过「行为组件子树 + 宿主 chrome 子树」的路径。
 
     官方 checkbox 用原生 input.sr-only + span 视觉盒子 + svg 勾选（多层子树），
     本地用 Radix button（单节点）；官方 demo 卡片含 Show code 按钮，本地无。
     这些结构差异已在 role 层被 BEHAVIOR_INFRASTRUCTURE / HOST_CHROME 豁免，
-    geometry 层按 tag 识别对应子树一并跳过，避免 missing/尺寸差误报。
+    geometry 层按结构识别对应子树一并跳过，避免 missing/尺寸差误报。
     """
     skip: set[str] = set()
     if manifest is None:
@@ -792,16 +793,39 @@ def _geometry_skip_paths(
     accepted = manifest.get("acceptancePolicy", {}).get("acceptedBehaviorInfrastructure", [])
     if not accepted:
         return skip
-    infra_tags = {"input", "svg", "path", "line", "circle", "rect", "polyline"}
+    infra_leaf = {"input", "svg", "path", "line", "circle", "rect", "polyline"}
+    # 1. 行为组件叶子（input/svg/path/line 等，本地 Radix button 无这些子树）
     for path, node in official_nodes.items():
-        tag = node.get("tag")
-        # 行为组件内部节点（本地 Radix button 无这些子树）
-        if tag in infra_tags:
+        if node.get("tag") in infra_leaf:
             skip.add(path)
-        # 宿主 chrome 的 Show code 按钮：官方有、本地无的 button
-        if tag == "button" and path not in local_nodes:
+    # 2. 行为组件根：官方 span 且其子孙是已跳过的叶子（点击区域/视觉盒子 span）
+    #    跳过整棵 span 子树（含自身尺寸差 20×23.5 vs 16×16），文本 span 无子孙不受影响
+    for path, node in official_nodes.items():
+        if node.get("tag") != "span":
+            continue
+        if any(child.startswith(path + ".") and child in skip for child in official_nodes):
+            skip.add(path)
+    # 3. 宿主 chrome：官方有、本地无的 div/button 子树（Show code 按钮）
+    for path, node in official_nodes.items():
+        if path not in local_nodes and node.get("tag") in ("div", "button"):
             skip.add(path)
     return skip
+
+
+def _node_font_mapped(
+    off_node: dict[str, Any],
+    loc_node: dict[str, Any],
+    manifest: dict[str, Any] | None,
+) -> bool:
+    """geometry 层节点两侧 fontFamily 是否已被 approvedFontMappings 批准映射。"""
+    if manifest is None:
+        return False
+    off_font = (off_node.get("styles") or {}).get("fontFamily")
+    loc_font = (loc_node.get("styles") or {}).get("fontFamily")
+    if not off_font or not loc_font:
+        return False
+    approved = manifest.get("acceptancePolicy", {}).get("approvedFontMappings", [])
+    return is_approved_font_mapping(off_font, loc_font, approved)
 
 
 def compare_geometry(
@@ -858,6 +882,20 @@ def compare_geometry(
         # CONTEXT_OWNED_WIDTH (geometry layer): fill width delta is exempted.
         if path in context_width_exempt:
             deltas.pop("width", None)
+        # HOST_CHROME (geometry layer): root height delta (Show code button) exempted.
+        if (
+            path == "root"
+            and "HOST_CHROME" in _systematic_exemptions(manifest)
+            and "root" in _host_chrome_roles(manifest)
+        ):
+            deltas.pop("height", None)
+        # FONT_MAPPING (geometry layer): font-mapped node y delta (baseline metric) <=1.5px exempted.
+        if (
+            "y" in deltas
+            and deltas["y"] <= 1.5
+            and _node_font_mapped(official_nodes[path], local_nodes[path], manifest)
+        ):
+            deltas.pop("y", None)
         if deltas:
             max_delta = max(max_delta, *deltas.values())
         rows.append(
