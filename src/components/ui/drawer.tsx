@@ -51,13 +51,21 @@ function DrawerPanel({
 }) {
   const [dragY, setDragY] = React.useState(0);
   // 打开瞬间先以 translateY(100%) 渲染（与官方 Base UI data-starting-style 同帧），
-  // 下一帧回到 0，由 transition 驱动与官方一致的滑入动画。
+  // 下一帧直接改写 DOM 样式回到 0，由 transition 驱动与官方一致的滑入动画。
+  // 直接用 DOM 写入而非依赖 React 再渲染，避免 rAF 回调里的 setState 提交延迟
+  // 导致采集窗口内动画尚未起步（transform 卡在 translateY(100%)）。
   const [phase, setPhase] = React.useState<"start" | "end">("start");
+  const contentRef = React.useRef<HTMLDivElement | null>(null);
   const startY = React.useRef<number | null>(null);
   const dragging = dragY > 0;
 
   React.useLayoutEffect(() => {
-    const raf = requestAnimationFrame(() => setPhase("end"));
+    const raf = requestAnimationFrame(() => {
+      setPhase("end");
+      if (contentRef.current) {
+        contentRef.current.style.transform = "translateY(0px)";
+      }
+    });
     return () => cancelAnimationFrame(raf);
   }, []);
 
@@ -83,19 +91,21 @@ function DrawerPanel({
 
   return (
     <DialogPrimitive.Content
+      ref={contentRef}
       data-slot="drawer"
       data-swipe-direction="down"
       className={cn(
-        "fixed inset-x-0 bottom-0 w-full touch-pan-y rounded-t-[8px] bg-background outline-none",
+        "fixed inset-x-0 bottom-0 w-full max-w-full min-h-[45px] touch-pan-y rounded-t-[8px] bg-background outline-none",
         "max-h-[80dvh] overscroll-none",
         verticalScroll && "overflow-y-auto",
-        "shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_1px_1px_0_rgba(0,0,0,0.02),0_4px_8px_-4px_rgba(0,0,0,0.04),0_16px_24px_-8px_rgba(0,0,0,0.06),0_0_0_1px_rgb(250,250,250)]",
         dragging && "select-none",
         className,
       )}
       style={
         {
           height: height ?? undefined,
+          boxShadow:
+            "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.02) 0px 1px 1px 0px, rgba(0, 0, 0, 0.04) 0px 4px 8px -4px, rgba(0, 0, 0, 0.06) 0px 16px 24px -8px, rgb(250, 250, 250) 0px 0px 0px 1px",
           "--drawer-frontmost-height": height ? `${height}px` : undefined,
           "--drawer-swipe-movement-y": `${dragY}px`,
           transform: phase === "start" ? "translateY(100%)" : `translateY(${dragY}px)`,
