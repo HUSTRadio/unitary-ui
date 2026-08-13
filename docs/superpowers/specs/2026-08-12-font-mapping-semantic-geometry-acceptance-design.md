@@ -117,6 +117,8 @@ comparison v2 的 `approved_exclusions`、`style_failures` 和单一 `classifica
 
 `mapped-text` 自身字体度量只能直接证明 `width` 以及由同一 `x + width` 推导出的 `right`。它的 `x` 默认严格；只有 contract 显式声明 `flowAnchorRole`、双方 DOM 顺序和布局方向一致，并验证 `textXDelta - anchorEdgeDelta` 的有符号残差通过时，才能输出 `FONT_METRIC_INLINE_FLOW_X`。这避免把真实的左 padding、margin 或定位错误归因给字体。
 
+实现（comparator v3）采用几何驱动等价：跨层递归累积前序 font-mapped sibling 的 width 差，右对齐末子再叠加「父级内容盒 width 差 − 前序 sibling width 差 − 自身 width 差」（justify-between 剩余空间 gap 差），仅当与 x delta 同号且绝对值相等（±0.5px）才豁免；右对齐由双方子节点右边缘与父级内容盒右边缘（扣 paddingRight）差值 ≤2.5px 判定，不依赖未采集的 `justifyContent`。
+
 `text-adjacent-icon` 必须显式声明 `textRole` 和 `anchorEdge`（`left | right`）。双方 DOM 顺序、布局方向、computed gap/margin 必须严格一致，并验证 `iconEdgeDelta - textAnchorEdgeDelta` 的有符号残差通过；仅凭角色名或邻接关系不能豁免。满足时输出 `FONT_METRIC_ADJACENT_ICON_X`。图标 glyph（`svg` 子树的 path/circle 几何）差异在 `acceptancePolicy.approvedIconMappings` 批准图标库对时豁免，输出 `ICON_GLYPH`；图标外框（`svg` 尺寸）、stroke、color 仍严格比较，glyph 豁免不覆盖外框尺寸、颜色、垂直对齐、gap 或 ARIA 差异。
 
 初始批准映射只有：
@@ -143,6 +145,8 @@ comparison v2 的 `approved_exclusions`、`style_failures` 和单一 `classifica
 ### 文本换行规则
 
 字体映射不会豁免换行和垂直 reflow。collector 必须为 `mapped-text` 记录 `clientRects` 行盒数量与各行 rect。若官方和本地行数、角色高度或后续严格角色的纵向位置不同，输出 `FONT_METRIC_REFLOW` strict failure，cell 为 `FAIL`。这项分类说明根因可能来自字体映射，但不把已改变的语义几何视为一致。
+
+实现（comparator v3）：比较 `mapped-text` 角色的 `textEvidence.clientRects` 行盒数量，行数差异输出 `FONT_METRIC_REFLOW` strict failure（仅限 `acceptanceProfile == "mapped-text"` 角色，不误伤 root/容器）；styles 的 `height` 与后序 sibling 的 `y` 差异不豁免，随 reflow 如实 FAIL。
 
 ## 上下文拥有宽度证明
 
@@ -182,7 +186,7 @@ collector v2 必须为每个 raw node 新增 `tagName`、全部属性名和语�
 - `ICON_GLYPH`：批准图标库对的 glyph path 几何差异（如 Geist 图标集 → Lucide）。
 - `FONT_METRIC_CONTROL_WIDTH`：文本内在宽度完整传递到控件外宽。
 - `CONTEXT_OWNED_WIDTH`：由已测 docs wrapper 宽度差完整传递的 fill 差异。
-- `FONT_MAPPING_WIDTH`：`mapped-text`/`text-adjacent-icon` 角色在双方都有 `textEvidence` 且 `fontFamily` 映射批准时的 `width`/`transformOrigin` 差异；geometry 层对应节点的 `y` 差 ≤1.5px 一并豁免（字体基线度量）。
+- `FONT_MAPPING_WIDTH`：`mapped-text`/`text-adjacent-icon` 角色在双方都有 `textEvidence` 且 `fontFamily` 映射批准时的 `width`/`transformOrigin` 差异；geometry 层对应节点的 `y` 差 ≤1.5px 一并豁免（字体基线度量）。geometry 层另有 font-mapped 子树（节点及全部子孙 fontFamily 映射批准）的 `width` 差豁免，覆盖文本宽度映射在多视口下超出 `CONTEXT_OWNED_WIDTH` 范围的纯宽度差（不含换行副作用）。
 - `BEHAVIOR_INFRASTRUCTURE`：Radix 行为组件（`button[data-slot]`/`role=checkbox` 等）与官方原生（`input.sr-only`+`span` 视觉盒子）的语义等价差异。role 层豁免 `role`/`aria-*`/`animation`（行为语义），geometry 层跳过行为组件子树（input/svg/path/line 叶子 + 含叶子子孙的 span 根）。外框尺寸、位置、颜色、stroke 仍严格。
 - `TRANSITION_SHORTHAND`：Tailwind 多属性展开（`color 0.2s ..., background-color 0.2s ...`）vs 官方 `all` 简写。仅当 duration 与 timing-function 逐段一致才豁免。
 - `FLEX_ITEM_MIN_SIZE`：flex item 的 `min-width`/`min-height` `auto` vs 官方 `0` reset。
