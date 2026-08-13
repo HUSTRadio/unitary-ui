@@ -182,8 +182,15 @@ collector v2 必须为每个 raw node 新增 `tagName`、全部属性名和语�
 - `ICON_GLYPH`：批准图标库对的 glyph path 几何差异（如 Geist 图标集 → Lucide）。
 - `FONT_METRIC_CONTROL_WIDTH`：文本内在宽度完整传递到控件外宽。
 - `CONTEXT_OWNED_WIDTH`：由已测 docs wrapper 宽度差完整传递的 fill 差异。
+- `FONT_MAPPING_WIDTH`：`mapped-text`/`text-adjacent-icon` 角色在双方都有 `textEvidence` 且 `fontFamily` 映射批准时的 `width`/`transformOrigin` 差异；geometry 层对应节点的 `y` 差 ≤1.5px 一并豁免（字体基线度量）。
+- `BEHAVIOR_INFRASTRUCTURE`：Radix 行为组件（`button[data-slot]`/`role=checkbox` 等）与官方原生（`input.sr-only`+`span` 视觉盒子）的语义等价差异。role 层豁免 `role`/`aria-*`/`animation`（行为语义），geometry 层跳过行为组件子树（input/svg/path/line 叶子 + 含叶子子孙的 span 根）。外框尺寸、位置、颜色、stroke 仍严格。
+- `TRANSITION_SHORTHAND`：Tailwind 多属性展开（`color 0.2s ..., background-color 0.2s ...`）vs 官方 `all` 简写。仅当 duration 与 timing-function 逐段一致才豁免。
+- `FLEX_ITEM_MIN_SIZE`：flex item 的 `min-width`/`min-height` `auto` vs 官方 `0` reset。
+- `HOST_CHROME`：宿主 chrome 角色（`hostChromeRoles`，如 `root`）的 `position`/`margin*`/`height` 分层差异（demo 卡片含 Show code 按钮、margin 分层属文档 chrome 非组件视觉）。geometry 层同步豁免 root 的 `height` delta。
 - `UNEXPLAINED_PIXEL_DELTA`：结构化差异无法解释的非字体像素差，经确定性 mask 仍存在。
 - `GEOMETRY_MISMATCH`、`STYLE_MISMATCH`、`ARIA_MISMATCH`、`MISSING_ROLE`、`UNEXPECTED_ROLE`、`UNEXPECTED_STRUCTURE`、`SEMANTIC_INVENTORY_MISMATCH`、`FONT_METRIC_REFLOW`、`RESPONSIVE_STRUCTURE_DELTA`：严格失败分类。
+
+> 上述 `TRANSITION_SHORTHAND` / `FLEX_ITEM_MIN_SIZE` / `HOST_CHROME` 由 `acceptancePolicy.systematicExemptions` 显式启用；`BEHAVIOR_INFRASTRUCTURE` 由 `acceptedBehaviorInfrastructure` 声明（officialTag/localTag/localRole/exemptFields）；`HOST_CHROME` 的 role 集合由 `hostChromeRoles` 声明。无配置不豁免（防滑坡）。
 
 每个 exclusion 必须记录：
 
