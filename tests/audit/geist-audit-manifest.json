@@ -1840,14 +1840,481 @@
     {
       "slug": "entity",
       "officialUrl": "https://vercel.com/geist/entity",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": [
+        "default",
+        "entity-with-skeleton",
+        "entity-with-list",
+        "entity-with-list-and-checkbox",
+        "entity-with-fill",
+        "entity-with-column-class-names"
+      ],
       "states": ["default"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "entity-with-skeleton"
+        },
+        {
+          "id": "entity-with-list"
+        },
+        {
+          "id": "entity-with-list-and-checkbox"
+        },
+        {
+          "id": "entity-with-fill"
+        },
+        {
+          "id": "entity-with-column-class-names"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": ["blocked:static-demo-matrix-only"],
+      "responsiveExpectations": [
+        "entity-row:li row p-4 flex col, section flex items-center gap-4, left flex-1 + right ml-auto",
+        "content-column:[--width:initial] w-[var(--width, initial)] min-w-0; fill 时 flex-1 否则 flex-initial",
+        "preliminary-unattributed:matrix light 1440x900 only; viewport 矩阵 G2 证据后续补齐"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "li.p-4",
+        "local": "[data-slot=\"entity\"]"
       },
-      "interaction": "pending"
+      "interaction": "pending",
+      "acceptanceContracts": [
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.flex.w-full.overflow-x-auto",
+                  "local": "[data-demo-card=\"default\"] > div.flex.w-full.overflow-x-auto"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "card": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "entity": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > li",
+                  "local": "[data-demo-container=\"default\"] > li"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "entity-action": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 div.right",
+                  "local": "[data-demo-container=\"default\"] div.right"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "entity-content": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 div.flex.flex-col.items-stretch.flex-1.min-w-0",
+                  "local": "[data-demo-container=\"default\"] div.flex.flex-col.items-stretch.flex-1.min-w-0"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "entity-with-skeleton",
+          "variant": "entity-with-skeleton",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-skeleton\"] ~ * div.flex.w-full.overflow-x-auto",
+                  "local": "[data-demo-card=\"entity-with-skeleton\"] > div.flex.w-full.overflow-x-auto"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "card": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-skeleton\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"entity-with-skeleton\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-skeleton\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"entity-with-skeleton\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "entity": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-skeleton\"] ~ * div.w-full.p-6 > li",
+                  "local": "[data-demo-container=\"entity-with-skeleton\"] > li"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "entity-with-list",
+          "variant": "entity-with-list",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-list\"] ~ * div.flex.w-full.overflow-x-auto",
+                  "local": "[data-demo-card=\"entity-with-list\"] > div.flex.w-full.overflow-x-auto"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "card": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-list\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"entity-with-list\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-list\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"entity-with-list\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "entity": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-list\"] ~ * div.w-full.p-6 > ul > li",
+                  "local": "[data-demo-container=\"entity-with-list\"] > ul > li"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "entity-action": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-list\"] ~ * div.w-full.p-6 div.right",
+                  "local": "[data-demo-container=\"entity-with-list\"] div.right"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "entity-content": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-list\"] ~ * div.w-full.p-6 div.flex.flex-col.items-stretch.flex-1.min-w-0",
+                  "local": "[data-demo-container=\"entity-with-list\"] div.flex.flex-col.items-stretch.flex-1.min-w-0"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "entity-with-list-and-checkbox",
+          "variant": "entity-with-list-and-checkbox",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-list-and-checkbox\"] ~ * div.flex.w-full.overflow-x-auto",
+                  "local": "[data-demo-card=\"entity-with-list-and-checkbox\"] > div.flex.w-full.overflow-x-auto"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "card": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-list-and-checkbox\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"entity-with-list-and-checkbox\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-list-and-checkbox\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"entity-with-list-and-checkbox\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "entity": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-list-and-checkbox\"] ~ * div.w-full.p-6 > ul > button",
+                  "local": "[data-demo-container=\"entity-with-list-and-checkbox\"] > ul > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "entity-content": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-list-and-checkbox\"] ~ * div.w-full.p-6 div.flex.flex-col.items-stretch.flex-1.min-w-0",
+                  "local": "[data-demo-container=\"entity-with-list-and-checkbox\"] div.flex.flex-col.items-stretch.flex-1.min-w-0"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "entity-with-fill",
+          "variant": "entity-with-fill",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-fill\"] ~ * div.flex.w-full.overflow-x-auto",
+                  "local": "[data-demo-card=\"entity-with-fill\"] > div.flex.w-full.overflow-x-auto"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "card": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-fill\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"entity-with-fill\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-fill\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"entity-with-fill\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "entity": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-fill\"] ~ * div.w-full.p-6 > ul > li",
+                  "local": "[data-demo-container=\"entity-with-fill\"] > ul > li"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "entity-content": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-fill\"] ~ * div.w-full.p-6 div.flex.flex-col.items-stretch.flex-1.min-w-0",
+                  "local": "[data-demo-container=\"entity-with-fill\"] div.flex.flex-col.items-stretch.flex-1.min-w-0"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "entity-with-column-class-names",
+          "variant": "entity-with-column-class-names",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-column-class-names\"] ~ * div.flex.w-full.overflow-x-auto",
+                  "local": "[data-demo-card=\"entity-with-column-class-names\"] > div.flex.w-full.overflow-x-auto"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "card": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-column-class-names\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"entity-with-column-class-names\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-column-class-names\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"entity-with-column-class-names\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "entity": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-column-class-names\"] ~ * div.w-full.p-6 > ul > li",
+                  "local": "[data-demo-container=\"entity-with-column-class-names\"] > ul > li"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "entity-action": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-column-class-names\"] ~ * div.w-full.p-6 div.right",
+                  "local": "[data-demo-container=\"entity-with-column-class-names\"] div.right"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "entity-content": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#entity-with-column-class-names\"] ~ * div.w-full.p-6 div.flex.flex-col.items-stretch.flex-1.min-w-0",
+                  "local": "[data-demo-container=\"entity-with-column-class-names\"] div.flex.flex-col.items-stretch.flex-1.min-w-0"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "error",

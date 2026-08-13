@@ -1971,22 +1971,288 @@ function DescriptionDemo() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Entity demo — 官方 vercel.com/geist/entity 逐 demo 复刻（6 demos）。  */
+/* 官方 class 原样保留；官方 CSS 变量缺失时在卡片上以内联变量补齐。      */
+/* ------------------------------------------------------------------ */
+
+const ENTITY_DEMO_VARS = {
+  "--geist-gap-half": "6px",
+  "--geist-form-small-font": "14px",
+  "--geist-background": "var(--background-100)",
+  "--accents-1": "#fafafa",
+  "--accents-2": "#eaeaea",
+  "--ds-shadow-border": "0 0 0 1px var(--ds-gray-alpha-400)",
+  "--ds-gray-200": "var(--gray-200)",
+  "--ds-focus-ring": "0 0 0 2px var(--background-100), 0 0 0 4px var(--focus-ring-color)",
+} as React.CSSProperties;
+
+const ENTITY_AVATAR_CLS =
+  'w-[var(--size)] h-[var(--size)] shrink-0 rounded-full inline-block overflow-hidden leading-0 align-top relative transition-[background] duration-200 ease-in-out after:content-[""] after:w-full after:h-full after:absolute after:inset-0 after:rounded-full after:border after:border-[var(--ds-gray-alpha-400)] data-[mask=false]:rounded-md data-[mask=false]:after:hidden data-[mask=false]:before:hidden data-[resolved=false]:before:content-[""] data-[resolved=false]:before:w-full data-[resolved=false]:before:h-full data-[resolved=false]:before:absolute data-[resolved=false]:before:inset-0 data-[resolved=false]:before:rounded-full data-[resolved=false]:before:bg-gradient-to-r data-[resolved=false]:before:from-[var(--accents-1)] data-[resolved=false]:before:via-[var(--accents-2)] data-[resolved=false]:before:to-[var(--accents-1)] data-[resolved=false]:before:bg-[length:400%_100%] data-[resolved=false]:before:animate-loading [mask-image:radial-gradient(circle,white,black)] [-webkit-mask-image:radial-gradient(circle,white,black)]';
+
+const ENTITY_AVATAR_IMG_CLS = "h-auto max-w-full  w-full h-full relative";
+
+const ENTITY_SKELETON_CLS =
+  'block rounded-[5px] after:animate-loading-skeleton relative overflow-hidden after:content-[""] after:absolute after:inset-0 after:right-[-200%] after:bg-gradient-to-r after:from-gray-100 after:via-gray-200 after:to-gray-100 after:bg-[length:50%_100%] after:bg-[position:0_0]';
+
+const ENTITY_UL_CLS =
+  "bg-[var(--geist-background)] shadow-[var(--ds-shadow-border),0_4px_6px_rgba(0,0,0,0.04)] rounded-[5px] overflow-hidden list-none m-0 p-0 [&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-[color:var(--accents-2)] [&>button:not(:last-child)]:border-b! [&>button:not(:last-child)]:border-[color:var(--accents-2)]";
+
+const ENTITY_DECLINE_BTN_CLS =
+  "outline-none m-0 p-0 border-0 align-baseline no-underline group/trigger relative cursor-pointer select-none transform translate-z-0 flex text-[var(--themed-fg,_var(--ds-background-100))] bg-[var(--themed-bg,_var(--ds-gray-1000))] font-medium !px-(--geist-gap-half) max-w-full items-center justify-center transition-[border-color, background,color,transform,box-shadow] duration-[time:150ms] ease-in-out data-[focus]:shadow-[var(--ds-focus-ring)] [&_svg]:shrink-0 disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:text-[var(--ds-gray-700)] disabled:bg-[var(--ds-gray-100)] aria-disabled:text-[var(--ds-gray-700)] aria-disabled:bg-[var(--ds-gray-100)] disabled:![--themed-border:_var(--ds-gray-400)] [--x-padding:6px] [--height:32px] !pl-[var(--x-padding)] !pr-[var(--x-padding)] rounded-md [--themed-bg:_var(--ds-background-100)] shadow-[0_0_0_1px_var(--themed-border,_transparent)] [--themed-hover-bg:_var(--ds-gray-alpha-200)] [--themed-fg:_var(--ds-gray-1000)] [--themed-border:_var(--ds-gray-400)] data-[focus]:shadow-[0_0_0_1px_var(--themed-border,_transparent),0_0_0_2px_var(--ds-background-100),0_0_0_4px_var(--ds-focus-color)] data-[focus]:transition-none text-(length:--geist-form-small-font) [--spinner-size:16px] h-[var(--height)] data-hover:bg-[var(--ds-gray-100)] dark-theme:data-hover:bg-[var(--ds-gray-200)] data-hover:text-[var(--themed-fg)] data-hover:disabled:bg-[var(--ds-gray-100)]";
+
+const ENTITY_CHECKBOX_ROW_CLS =
+  "p-4 flex flex-col items-stretch justify-start flex-initial bg-inherit w-full text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-[var(--accents-1)]";
+
+const ENTITY_CHECKBOX_VISUAL_CLS =
+  "[--checkbox-color:var(--ds-gray-700)] inline-flex items-center justify-center size-4 relative bg-[var(--ds-background-100)] border border-[var(--ds-gray-700)] rounded-sm transition-all duration-200 rotate-[0.000001deg] peer-checked:[&:not(.indeterminate)]:bg-[var(--ds-gray-1000)] peer-checked:[&:not(.indeterminate)]:border-[var(--ds-gray-1000)] peer-disabled:peer-checked:[&:not(.indeterminate)]:bg-[var(--ds-gray-600)] peer-disabled:peer-checked:[&:not(.indeterminate)]:border-[var(--ds-gray-600)] peer-disabled:not-peer-checked:bg-[var(--ds-gray-100)] peer-disabled:not-peer-checked:border-[var(--ds-gray-500)] peer-disabled:[&.indeterminate_svg_line]:stroke-[var(--ds-gray-500)] peer-hover:not-peer-disabled:not-peer-checked:bg-[var(--ds-gray-200)] peer-focus-visible:shadow-[var(--ds-focus-ring)] peer-focus-visible:not-peer-checked:not-peer-disabled:bg-[var(--ds-gray-200)] group [&:not(.indeterminate)_svg_path]:invisible peer-checked:[&:not(.indeterminate)_svg_path]:visible [&:not(.indeterminate)_svg_line]:invisible [&.indeterminate_svg_line]:visible [&.indeterminate_svg_path]:invisible !important [&.inverted_svg_path]:visible";
+
 function EntityDemo() {
+  const { language } = useLanguage();
+  const connected = demoText(language, "Connected 1h ago");
+  const lastUsedJustNow = demoText(language, "Last used just now");
+  const lastUsed10 = demoText(language, "Last used 10min ago");
+  const lastUsed25 = demoText(language, "Last used 25min ago");
+  const decline = demoText(language, "Decline");
+  const simpleDesc = demoText(language, "This is a simple description");
+  const dashedTitle = demoText(language, "Entity with dashed borders");
+  const ghDesktop = demoText(language, "GitHub Desktop on MacBook Pro");
+  const vsCode = demoText(language, "VS Code on Windows 11");
+  const terminalUbuntu = demoText(language, "Terminal on Ubuntu 24.04");
+
+  const memberRows = [
+    { title: ghDesktop, desc: lastUsedJustNow },
+    { title: vsCode, desc: lastUsed10 },
+    { title: terminalUbuntu, desc: lastUsed25 },
+  ];
+
   return (
-    <Entity className="w-full max-w-lg">
-      <EntityMedia>
-        <Avatar size={24} letter="ER" />
-      </EntityMedia>
-      <EntityContent>
-        <EntityTitle>Evil Rabbit</EntityTitle>
-        <EntityDescription>evilrabbit@example.com</EntityDescription>
-      </EntityContent>
-      <EntityAction>
-        <Button type="secondary" size="small">
-          Manage
-        </Button>
-      </EntityAction>
-    </Entity>
+    <div className="w-full max-w-[862px] space-y-6">
+      <div
+        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+        style={ENTITY_DEMO_VARS}
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <Entity>
+              <EntityMedia>
+                <span
+                  className={ENTITY_AVATAR_CLS}
+                  role="img"
+                  aria-label="Avatar for evilrabbit"
+                  data-geist-avatar=""
+                  data-mask="true"
+                  data-resolved="true"
+                  data-version="v1"
+                  style={{ "--size": "32px" } as React.CSSProperties}
+                >
+                  <img
+                    src="https://vercel.com/api/www/avatar?s=64&u=evilrabbit"
+                    alt="Avatar for evilrabbit"
+                    title="Avatar for evilrabbit"
+                    loading="eager"
+                    width={32}
+                    height={32}
+                    decoding="sync"
+                    data-nimg="1"
+                    data-version="v1"
+                    className={ENTITY_AVATAR_IMG_CLS}
+                    style={{ color: "transparent" }}
+                  />
+                </span>
+              </EntityMedia>
+              <EntityContent fill>
+                <EntityTitle>Evil Rabbit</EntityTitle>
+                <EntityDescription>Glenn Hitchcock (@gln)</EntityDescription>
+              </EntityContent>
+              <EntityAction>
+                <p className="text-copy-14 text-gray-1000">{connected}</p>
+              </EntityAction>
+            </Entity>
+          </div>
+        </div>
+      </div>
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="entity-with-skeleton"
+        style={ENTITY_DEMO_VARS}
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="entity-with-skeleton">
+            <Entity>
+              <div className="flex flex-col items-stretch justify-start gap-2 flex-1">
+                <span
+                  className={ENTITY_SKELETON_CLS}
+                  style={{ width: "100%", minHeight: "20px" }}
+                />
+                <div className="flex flex-row items-center justify-start gap-2 flex-initial">
+                  <span
+                    className={ENTITY_SKELETON_CLS}
+                    style={{ width: "70px", minHeight: "20px" }}
+                  />
+                  <span
+                    className={ENTITY_SKELETON_CLS}
+                    style={{ width: "60px", minHeight: "20px" }}
+                  />
+                  <span
+                    className={ENTITY_SKELETON_CLS}
+                    style={{ width: "68px", minHeight: "20px" }}
+                  />
+                </div>
+              </div>
+            </Entity>
+          </div>
+        </div>
+      </div>
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="entity-with-list"
+        style={ENTITY_DEMO_VARS}
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="entity-with-list">
+            <ul className={ENTITY_UL_CLS}>
+              {memberRows.map((row) => (
+                <Entity key={row.title}>
+                  <EntityContent>
+                    <EntityTitle>{row.title}</EntityTitle>
+                    <EntityDescription>{row.desc}</EntityDescription>
+                  </EntityContent>
+                  <EntityAction>
+                    <button
+                      type="submit"
+                      data-geist-button=""
+                      data-prefix="false"
+                      data-suffix="false"
+                      data-version="v1"
+                      className={ENTITY_DECLINE_BTN_CLS}
+                    >
+                      <span className="truncate inline-block px-1.5">{decline}</span>
+                    </button>
+                  </EntityAction>
+                </Entity>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="entity-with-list-and-checkbox"
+        style={ENTITY_DEMO_VARS}
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="entity-with-list-and-checkbox">
+            <ul className={ENTITY_UL_CLS}>
+              {memberRows.map((row, index) => (
+                <button key={row.title} type="submit" className={ENTITY_CHECKBOX_ROW_CLS}>
+                  <section className="flex items-center gap-4">
+                    <div className="left flex flex-1 items-center gap-4 min-w-0">
+                      <label
+                        className="text-[13px] inline-flex items-start cursor-pointer"
+                        htmlFor={`entity-checkbox-${index}`}
+                      >
+                        <span className="flex relative items-center p-0.5 -m-0.5">
+                          <input
+                            id={`entity-checkbox-${index}`}
+                            type="checkbox"
+                            className="sr-only peer"
+                            aria-label={row.title}
+                            checked
+                            readOnly
+                          />
+                          <span className={ENTITY_CHECKBOX_VISUAL_CLS}>
+                            <svg fill="none" height="16" viewBox="0 0 20 20" width="16">
+                              <path
+                                className="stroke-[var(--geist-background)]"
+                                d="M14 7L8.5 12.5L6 10"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                              />
+                              <line
+                                className="stroke-[var(--checkbox-color)]"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                x1="5"
+                                x2="15"
+                                y1="10"
+                                y2="10"
+                              />
+                            </svg>
+                          </span>
+                        </span>
+                      </label>
+                      <EntityContent>
+                        <EntityTitle>{row.title}</EntityTitle>
+                        <EntityDescription>{row.desc}</EntityDescription>
+                      </EntityContent>
+                    </div>
+                  </section>
+                </button>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="entity-with-fill"
+        style={ENTITY_DEMO_VARS}
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="entity-with-fill">
+            <ul className={ENTITY_UL_CLS}>
+              <Entity>
+                <EntityContent fill>
+                  <EntityDescription>{simpleDesc}</EntityDescription>
+                </EntityContent>
+                <EntityContent>
+                  <EntityDescription>{simpleDesc}</EntityDescription>
+                </EntityContent>
+              </Entity>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="entity-with-column-class-names"
+        style={ENTITY_DEMO_VARS}
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="entity-with-column-class-names">
+            <ul className={ENTITY_UL_CLS}>
+              <Entity
+                leftClassName="border border-dashed border-gray-300 rounded-md p-2"
+                rightClassName="border border-dashed border-gray-300 rounded-md p-2"
+              >
+                <EntityMedia>
+                  <span
+                    className={ENTITY_AVATAR_CLS}
+                    role="img"
+                    aria-label="Placeholder Avatar"
+                    data-geist-avatar=""
+                    data-mask="true"
+                    data-resolved="false"
+                    data-version="v1"
+                    style={{ "--size": "50px" } as React.CSSProperties}
+                  />
+                </EntityMedia>
+                <EntityContent>
+                  <EntityDescription>{dashedTitle}</EntityDescription>
+                </EntityContent>
+                <EntityAction>
+                  <span className="text-copy-14 text-gray-1000">[some action]</span>
+                </EntityAction>
+              </Entity>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
