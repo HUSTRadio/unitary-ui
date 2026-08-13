@@ -36,6 +36,9 @@ const manifest = {
       foregroundColorDistanceMax: 0,
       edgeExpansionDevicePixels: 1,
     },
+    systematicExemptions: ["TRANSITION_SHORTHAND", "FLEX_ITEM_MIN_SIZE", "HOST_CHROME"],
+    hostChromeRoles: ["root"],
+    acceptedBehaviorInfrastructure: [],
   },
   components: [
     {

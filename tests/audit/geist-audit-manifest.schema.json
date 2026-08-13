@@ -48,7 +48,10 @@
         "approvedFontMappings",
         "approvedIconMappings",
         "localSourceInputs",
-        "pixelAttribution"
+        "pixelAttribution",
+        "systematicExemptions",
+        "hostChromeRoles",
+        "acceptedBehaviorInfrastructure"
       ],
       "properties": {
         "evidenceEpochNotBefore": { "type": "string", "format": "date-time" },
@@ -85,6 +88,36 @@
           "properties": {
             "foregroundColorDistanceMax": { "type": "number", "minimum": 0 },
             "edgeExpansionDevicePixels": { "const": 1 }
+          }
+        },
+        "systematicExemptions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": ["TRANSITION_SHORTHAND", "FLEX_ITEM_MIN_SIZE", "HOST_CHROME"]
+          }
+        },
+        "hostChromeRoles": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "acceptedBehaviorInfrastructure": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["officialTag", "localTag", "localRole", "exemptFields"],
+            "properties": {
+              "officialTag": { "type": "string", "minLength": 1 },
+              "localTag": { "type": "string", "minLength": 1 },
+              "localRole": { "type": "string", "minLength": 1 },
+              "exemptFields": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": { "type": "string", "minLength": 1 }
+              }
+            }
           }
         }
       }

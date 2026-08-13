@@ -147,24 +147,127 @@ def is_approved_font_mapping(
     return False
 
 
+def _split_top_level(value: str, sep: str = ",") -> list[str]:
+    """按顶层分隔符切分，忽略括号内的分隔符（如 cubic-bezier(0.4, 0, 0.2, 1) 的逗号）。"""
+    parts: list[str] = []
+    depth = 0
+    current: list[str] = []
+    for char in value:
+        if char == "(":
+            depth += 1
+        elif char == ")":
+            depth -= 1
+        if char == sep and depth == 0:
+            parts.append("".join(current).strip())
+            current = []
+        else:
+            current.append(char)
+    parts.append("".join(current).strip())
+    return [part for part in parts if part]
+
+
+def _duration_token(tokens: list[str]) -> str | None:
+    for token in tokens:
+        core = token.rstrip(")")
+        if core.endswith("s") and core[:-1].replace(".", "").isdigit():
+            return core
+    return None
+
+
+def _timing_token(tokens: list[str]) -> str | None:
+    for token in tokens:
+        if token.startswith(("cubic-bezier", "ease", "linear", "step")):
+            return token
+    return None
+
+
+def _is_transition_shorthand_expansion(official: Any, local: Any) -> bool:
+    """官方 transition 简写（如 ``0.2s cubic-bezier(0.4,0,0.2,1)``）vs Tailwind
+    展开（``color 0.2s ..., background-color 0.2s ..., ...``）：两者 duration 与
+    timing-function 一致，仅 property 列表不同，属框架差异。
+    """
+    if not isinstance(official, str) or not isinstance(local, str):
+        return False
+    if official in ("none", "") or local in ("none", ""):
+        return False
+    off_parts = _split_top_level(official)
+    local_parts = _split_top_level(local)
+    if len(off_parts) != 1 or len(local_parts) <= 1:
+        return False
+    off_tokens = off_parts[0].split()
+    off_duration = _duration_token(off_tokens)
+    off_timing = _timing_token(off_tokens)
+    if off_duration is None or off_timing is None:
+        return False
+    for part in local_parts:
+        tokens = part.split()
+        if _duration_token(tokens) != off_duration or _timing_token(tokens) != off_timing:
+            return False
+    return True
+
+
+def _is_flex_item_min_size(official: Any, local: Any) -> bool:
+    """flex item 的 min-width/min-height：官方 0 reset vs 本地 auto。"""
+    def is_zero(value: Any) -> bool:
+        if isinstance(value, (int, float)):
+            return value == 0
+        return isinstance(value, str) and value.strip().lower() in ("0", "0px", "0.0px")
+    def is_auto(value: Any) -> bool:
+        return isinstance(value, str) and value.strip().lower() == "auto"
+    return (is_zero(official) and is_auto(local)) or (is_auto(official) and is_zero(local))
+
+
+HOST_CHROME_FIELDS = {"position", "marginTop", "marginRight", "marginBottom", "marginLeft"}
+
+
+def _systematic_exemptions(manifest: dict[str, Any] | None) -> set[str]:
+    if manifest is None:
+        return set()
+    return set(manifest.get("acceptancePolicy", {}).get("systematicExemptions", []))
+
+
+def _host_chrome_roles(manifest: dict[str, Any] | None) -> set[str]:
+    if manifest is None:
+        return set()
+    return set(manifest.get("acceptancePolicy", {}).get("hostChromeRoles", []))
+
+
+def _behavior_infra_exempts_animation(manifest: dict[str, Any] | None) -> bool:
+    if manifest is None:
+        return False
+    accepted = manifest.get("acceptancePolicy", {}).get("acceptedBehaviorInfrastructure", [])
+    return any("animation" in (entry.get("exemptFields") or []) for entry in accepted)
+
+
 def field_exemption(
     field: str,
     official: Any,
     local: Any,
     manifest: dict[str, Any] | None,
+    role: str | None = None,
 ) -> str | None:
     """Field-level exemption driven by manifest acceptancePolicy, not hardcoded.
 
-    Without a manifest, no exemption is granted: all differences are strict failures.
+    Without a manifest (or without the corresponding acceptancePolicy config),
+    no exemption is granted: all differences are strict failures.
     """
+    if manifest is None:
+        return None
+    policy = manifest.get("acceptancePolicy", {})
     if field == "fontFamily":
-        if manifest is None:
-            return None
-        approved = manifest.get("acceptancePolicy", {}).get("approvedFontMappings", [])
+        approved = policy.get("approvedFontMappings", [])
         if is_approved_font_mapping(official, local, approved):
             return "FONT_FAMILY_MAPPING"
         return None
-    # ICON_PATH is no longer a valid exemption: the v3 taxonomy has no such classification.
+    systematic = _systematic_exemptions(manifest)
+    if field == "transition" and "TRANSITION_SHORTHAND" in systematic and _is_transition_shorthand_expansion(official, local):
+        return "TRANSITION_SHORTHAND"
+    if field in ("minWidth", "minHeight") and "FLEX_ITEM_MIN_SIZE" in systematic and _is_flex_item_min_size(official, local):
+        return "FLEX_ITEM_MIN_SIZE"
+    if field in HOST_CHROME_FIELDS and "HOST_CHROME" in systematic and role in _host_chrome_roles(manifest):
+        return "HOST_CHROME"
+    if field == "animation" and _behavior_infra_exempts_animation(manifest):
+        return "BEHAVIOR_INFRASTRUCTURE"
     return None
 
 
@@ -206,7 +309,7 @@ def compare_styles_pair(
                 actual.get(width_field)
             ):
                 continue
-        reason = field_exemption(field, official_value, local_value, manifest)
+        reason = field_exemption(field, official_value, local_value, manifest, role)
         if reason is not None:
             exemptions.append(
                 {
@@ -222,13 +325,49 @@ def compare_styles_pair(
     return failures, exemptions
 
 
-def compare_aria_pair(expected: dict[str, Any], actual: dict[str, Any]) -> tuple[list[dict[str, Any]], list[str]]:
+def _behavior_infra_exempt_aria_fields(manifest: dict[str, Any] | None) -> set[str]:
+    """acceptedBehaviorInfrastructure 里声明的 aria/role 豁免字段集合。"""
+    if manifest is None:
+        return set()
+    accepted = manifest.get("acceptancePolicy", {}).get("acceptedBehaviorInfrastructure", [])
+    aria_fields: set[str] = set()
+    for entry in accepted:
+        for field in entry.get("exemptFields") or []:
+            if field in ("role", "aria-checked", "aria-hidden", "aria-label", "aria-expanded", "aria-controls"):
+                aria_fields.add(field)
+    return aria_fields
+
+
+def _is_behavior_infra_pair(expected: dict[str, Any], actual: dict[str, Any], manifest: dict[str, Any] | None) -> bool:
+    """官方视觉元素（无 role）vs 本地 Radix 行为组件（role=checkbox 等）的语义等价配对。"""
+    if manifest is None:
+        return False
+    accepted = manifest.get("acceptancePolicy", {}).get("acceptedBehaviorInfrastructure", [])
+    local_roles = {entry.get("localRole") for entry in accepted}
+    off_role = expected.get("role")
+    local_role = actual.get("role")
+    if off_role is None and local_role in local_roles:
+        return True
+    if local_role is None and off_role in local_roles:
+        return True
+    return False
+
+
+def compare_aria_pair(
+    expected: dict[str, Any],
+    actual: dict[str, Any],
+    manifest: dict[str, Any] | None = None,
+) -> tuple[list[dict[str, Any]], list[str]]:
     failures: list[dict[str, Any]] = []
     matched: list[str] = []
+    exempt_fields = _behavior_infra_exempt_aria_fields(manifest)
+    is_infra_pair = _is_behavior_infra_pair(expected, actual, manifest)
     for field in sorted(set(expected) | set(actual)):
         official_value = expected.get(field)
         local_value = actual.get(field)
         if official_value == local_value:
+            matched.append(field)
+        elif is_infra_pair and field in exempt_fields:
             matched.append(field)
         else:
             failures.append({"field": field, "official": official_value, "local": local_value})
@@ -272,7 +411,7 @@ def compare_role_pair(
     style_failures, style_exemptions = compare_styles_pair(
         official["styles"], local["styles"], manifest, role
     )
-    aria_failures, aria_matched = compare_aria_pair(official["aria"], local["aria"])
+    aria_failures, aria_matched = compare_aria_pair(official["aria"], local["aria"], manifest)
     classification = "MATCH"
     if max_delta > threshold or style_failures or aria_failures:
         classification = "MISMATCH"
