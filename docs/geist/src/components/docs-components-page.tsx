@@ -61,7 +61,6 @@ import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
-  ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { CopyButton } from "@/components/ui/copy-button";
@@ -2231,70 +2230,174 @@ function ContextCardDemo() {
 
 function ContextMenuDemo() {
   const { language } = useLanguage();
-  return (
-    <ContextMenu>
-      <ContextMenuTrigger asChild>
-        <Button typeName="button" type="tertiary">
-          {demoText(language, "Right click here")}
-        </Button>
-      </ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuItem>{demoText(language, "Open in New Tab")}</ContextMenuItem>
-        <ContextMenuItem>{demoText(language, "Copy URL")}</ContextMenuItem>
-        <ContextMenuSeparator />
-        <ContextMenuItem className="text-destructive focus:bg-destructive focus:text-destructive-foreground">
-          {demoText(language, "Delete Deployment")}
-        </ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenu>
-  );
-}
+  const rightClickHere = demoText(language, "Right click here");
+  const itemOne = demoText(language, "Item one");
+  const itemTwo = demoText(language, "Item Two");
+  const itemThree = demoText(language, "Item Three");
+  const itemFour = demoText(language, "Item Four");
 
-function ContextMenuVariantDemo({ variant }: { variant: "disabled" | "link" | "prefix" }) {
-  const { language } = useLanguage();
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
+    </div>
+  );
+
+  const triggerArea = (
+    <div className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
+      {rightClickHere}
+    </div>
+  );
+
+  const menuIcon = (
+    <svg
+      viewBox="0 0 16 16"
+      width="16"
+      height="16"
+      aria-hidden="true"
+      data-slot="geist-icon"
+      style={{ color: "currentcolor" }}
+    >
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 10.63h7L8 4.5z"
+      />
+    </svg>
+  );
+
   return (
-    <ContextMenu>
-      <ContextMenuTrigger asChild>
-        <Button typeName="button" type="tertiary">
-          {demoText(language, "Right click here")}
-        </Button>
-      </ContextMenuTrigger>
-      <ContextMenuContent>
-        {variant === "disabled" ? (
-          <>
-            <ContextMenuItem>{demoText(language, "Open Project")}</ContextMenuItem>
-            <ContextMenuItem disabled>{demoText(language, "Archive Project")}</ContextMenuItem>
-            <ContextMenuItem>{demoText(language, "Copy URL")}</ContextMenuItem>
-          </>
-        ) : null}
-        {variant === "link" ? (
-          <>
-            <ContextMenuItem href="/projects">{demoText(language, "Open Project")}</ContextMenuItem>
-            <ContextMenuItem href="/settings">
-              {demoText(language, "Open Settings")}
-            </ContextMenuItem>
-          </>
-        ) : null}
-        {variant === "prefix" ? (
-          <>
-            <ContextMenuItem
-              prefix={<span aria-hidden>◈</span>}
-              suffix={<span aria-hidden>⌘K</span>}
-              value="project"
-            >
-              {demoText(language, "Open Project")}
-            </ContextMenuItem>
-            <ContextMenuItem
-              prefix={<span aria-hidden>↗</span>}
-              suffix={<span aria-hidden>↵</span>}
-              value="deployment"
-            >
-              {demoText(language, "Open Deployment")}
-            </ContextMenuItem>
-          </>
-        ) : null}
-      </ContextMenuContent>
-    </ContextMenu>
+    <div className="w-full max-w-[862px]">
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <ContextMenu>
+              <ContextMenuTrigger asChild>
+                <span>{triggerArea}</span>
+              </ContextMenuTrigger>
+              <ContextMenuContent className="w-[160px]">
+                <ContextMenuItem>{itemOne}</ContextMenuItem>
+                <ContextMenuItem>{itemTwo}</ContextMenuItem>
+                <ContextMenuItem>{itemThree}</ContextMenuItem>
+                <ContextMenuItem>{itemFour}</ContextMenuItem>
+              </ContextMenuContent>
+            </ContextMenu>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled-items"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled-items">
+            <ContextMenu>
+              <ContextMenuTrigger asChild>
+                <span>{triggerArea}</span>
+              </ContextMenuTrigger>
+              <ContextMenuContent className="w-[160px]">
+                <ContextMenuItem>{itemOne}</ContextMenuItem>
+                <ContextMenuItem disabled>{itemTwo}</ContextMenuItem>
+                <ContextMenuItem disabled>{itemThree}</ContextMenuItem>
+                <ContextMenuItem>{itemFour}</ContextMenuItem>
+              </ContextMenuContent>
+            </ContextMenu>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="link-items"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="link-items">
+            <ContextMenu>
+              <ContextMenuTrigger asChild>
+                <span>{triggerArea}</span>
+              </ContextMenuTrigger>
+              <ContextMenuContent className="w-[160px]">
+                <ContextMenuItem href="/">{itemOne}</ContextMenuItem>
+                <ContextMenuItem href="/">{itemTwo}</ContextMenuItem>
+                <ContextMenuItem href="/">{itemThree}</ContextMenuItem>
+                <ContextMenuItem href="/">{itemFour}</ContextMenuItem>
+              </ContextMenuContent>
+            </ContextMenu>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="prefix-and-suffix"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="prefix-and-suffix">
+            <div className="flex flex-col items-stretch justify-start gap-6 md:flex-row flex-initial">
+              <ContextMenu>
+                <ContextMenuTrigger asChild>
+                  <span>{triggerArea}</span>
+                </ContextMenuTrigger>
+                <ContextMenuContent className="w-[160px]">
+                  <ContextMenuItem href="/" prefix={menuIcon}>
+                    {itemOne}
+                  </ContextMenuItem>
+                  <ContextMenuItem href="/" prefix={menuIcon}>
+                    {itemTwo}
+                  </ContextMenuItem>
+                  <ContextMenuItem href="/" prefix={menuIcon}>
+                    {itemThree}
+                  </ContextMenuItem>
+                  <ContextMenuItem href="/" prefix={menuIcon}>
+                    {itemFour}
+                  </ContextMenuItem>
+                </ContextMenuContent>
+              </ContextMenu>
+              <ContextMenu>
+                <ContextMenuTrigger asChild>
+                  <span>{triggerArea}</span>
+                </ContextMenuTrigger>
+                <ContextMenuContent className="w-[160px]">
+                  <ContextMenuItem href="/" suffix={menuIcon}>
+                    {itemOne}
+                  </ContextMenuItem>
+                  <ContextMenuItem href="/" suffix={menuIcon}>
+                    {itemTwo}
+                  </ContextMenuItem>
+                  <ContextMenuItem href="/" suffix={menuIcon}>
+                    {itemThree}
+                  </ContextMenuItem>
+                  <ContextMenuItem href="/" suffix={menuIcon}>
+                    {itemFour}
+                  </ContextMenuItem>
+                </ContextMenuContent>
+              </ContextMenu>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+    </div>
   );
 }
 
@@ -3390,14 +3493,7 @@ function renderDemo(name: string): React.ReactNode {
     case "context-card":
       return <ContextCardDemo />;
     case "context-menu":
-      return (
-        <div className="space-y-8">
-          <ContextMenuDemo />
-          <ContextMenuVariantDemo variant="disabled" />
-          <ContextMenuVariantDemo variant="link" />
-          <ContextMenuVariantDemo variant="prefix" />
-        </div>
-      );
+      return <ContextMenuDemo />;
     case "copy-button":
       return <CopyButtonDemo />;
     case "destructive-action-modal":

@@ -395,7 +395,9 @@ function Combobox({
         {open ? (
           <div className="sr-only" role="status" aria-live="polite" />
         ) : (
-          <ul aria-hidden="true" className="hidden">{options}</ul>
+          <ul aria-hidden="true" className="hidden">
+            {options}
+          </ul>
         )}
         {open
           ? createPortal(

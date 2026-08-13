@@ -15,7 +15,7 @@ const ContextMenuContent = React.forwardRef<
       ref={ref}
       onContextMenu={(event) => event.preventDefault()}
       className={cn(
-        "z-50 w-max overflow-hidden rounded-[12px] bg-background-100 p-1.5 text-foreground shadow-[var(--material-shadow-menu)] max-sm:w-full max-sm:rounded-b-none",
+        "z-50 w-max overflow-hidden rounded-[12px] bg-background-100 p-1.5 text-sm text-foreground shadow-[var(--material-shadow-menu)] max-sm:w-full max-sm:rounded-b-none",
         className,
       )}
       {...props}
@@ -36,7 +36,7 @@ interface ContextMenuItemProps extends Omit<
 }
 
 const itemClassName =
-  "relative flex h-9 cursor-pointer select-none items-center rounded-[6px] px-2 text-label-14 outline-none focus:bg-gray-alpha-200 data-[disabled]:pointer-events-none data-[disabled]:cursor-default data-[disabled]:text-gray-500 [&_svg]:size-4 [&_svg]:shrink-0";
+  "relative flex h-9 cursor-pointer select-none items-center rounded-[6px] px-2 text-label-14 outline-none focus:bg-gray-alpha-200 data-[disabled]:pointer-events-none data-[disabled]:cursor-default data-[disabled]:text-gray-700 [&_svg]:size-4 [&_svg]:shrink-0";
 
 const ContextMenuItem = React.forwardRef<HTMLElement, ContextMenuItemProps>(
   (
@@ -52,7 +52,7 @@ const ContextMenuItem = React.forwardRef<HTMLElement, ContextMenuItemProps>(
         ) : null}
         <span>{children}</span>
         {suffix ? (
-          <span data-context-menu-suffix className="ml-2 flex size-4 items-center">
+          <span data-context-menu-suffix className="ml-auto flex pl-3 items-center">
             {suffix}
           </span>
         ) : null}
