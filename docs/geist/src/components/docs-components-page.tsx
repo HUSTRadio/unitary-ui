@@ -1083,110 +1083,148 @@ function ChoiceboxDemo() {
 
 function CommandMenuDemo() {
   const { language } = useLanguage();
-  const [open, setOpen] = React.useState(false);
-  const [variant, setVariant] = React.useState<"default" | "divider" | "suffix">("default");
+  const [openVariant, setOpenVariant] = React.useState<
+    "default" | "with-divider" | "with-suffix" | null
+  >(null);
 
-  const openVariant = (nextVariant: typeof variant) => {
-    setVariant(nextVariant);
-    setOpen(true);
+  const openDemo = (variant: "default" | "with-divider" | "with-suffix") => {
+    setOpenVariant(variant);
   };
 
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
+    </div>
+  );
+
   return (
-    <div className="flex flex-wrap gap-2">
-      {(["default", "divider", "suffix"] as const).map((name) => (
-        <Button key={name} type="default" typeName="button" onClick={() => openVariant(name)}>
-          {demoText(
-            language,
-            name === "default"
-              ? "Open Default Menu"
-              : name === "divider"
-                ? "Open Divider Menu"
-                : "Open Suffix Menu",
-          )}
-        </Button>
-      ))}
-      <CommandMenu open={open} setOpen={setOpen}>
+    <div className="w-full max-w-[862px] space-y-6">
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <Button type="default" onClick={() => openDemo("default")}>
+              {demoText(language, "Open Command Menu")}
+            </Button>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="with-divider"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="with-divider">
+            <Button type="default" onClick={() => openDemo("with-divider")}>
+              {demoText(language, "Open Command Menu")}
+            </Button>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="with-suffix"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="with-suffix">
+            <Button type="default" onClick={() => openDemo("with-suffix")}>
+              {demoText(language, "Open Command Menu")}
+            </Button>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+      <CommandMenu
+        open={openVariant === "default"}
+        setOpen={(open) => setOpenVariant(open ? "default" : null)}
+      >
         <CommandMenuInput placeholder={demoText(language, "What do you need?")} />
         <CommandMenuList>
-          {variant === "default" ? (
-            <>
-              <CommandMenuGroup heading={demoText(language, "Suggestions")}>
-                <CommandMenuItem callback={() => {}}>
-                  {demoText(language, "Figma Import")}
-                </CommandMenuItem>
-              </CommandMenuGroup>
-              <CommandMenuGroup heading={demoText(language, "Commands")}>
-                <CommandMenuItem callback={() => {}}>
-                  {demoText(language, "Import Extension")}
-                </CommandMenuItem>
-                <CommandMenuItem callback={() => {}}>
-                  {demoText(language, "Manage Extensions")}
-                </CommandMenuItem>
-              </CommandMenuGroup>
-              <CommandMenuGroup heading={demoText(language, "Collaboration")}>
-                <CommandMenuItem callback={() => {}}>
-                  {demoText(language, "Flags Explorer")}
-                </CommandMenuItem>
-              </CommandMenuGroup>
-            </>
-          ) : null}
-          {variant === "divider" ? (
-            <>
-              <CommandMenuItem callback={() => {}}>{demoText(language, "Item 1")}</CommandMenuItem>
-              <CommandMenuItem callback={() => {}}>{demoText(language, "Item 2")}</CommandMenuItem>
-              <CommandMenuDivider />
-              <CommandMenuItem callback={() => {}}>{demoText(language, "Item 3")}</CommandMenuItem>
-              <CommandMenuGroup heading={demoText(language, "Group 1")}>
-                <CommandMenuItem callback={() => {}}>
-                  {demoText(language, "Grouped Item 1")}
-                </CommandMenuItem>
-                <CommandMenuItem callback={() => {}}>
-                  {demoText(language, "Grouped Item 2")}
-                </CommandMenuItem>
-              </CommandMenuGroup>
-            </>
-          ) : null}
-          {variant === "suffix" ? (
-            <>
-              <CommandMenuGroup heading={demoText(language, "Group 1")}>
-                <CommandMenuItem
-                  callback={() => {}}
-                  suffix={<span>{demoText(language, "USA")}</span>}
-                >
-                  {demoText(language, "United States of America")}
-                </CommandMenuItem>
-                <CommandMenuItem
-                  callback={() => {}}
-                  suffix={<span>{demoText(language, "ESP")}</span>}
-                >
-                  {demoText(language, "Spain")}
-                </CommandMenuItem>
-                <CommandMenuItem
-                  callback={() => {}}
-                  suffix={<span>{demoText(language, "FRA")}</span>}
-                >
-                  {demoText(language, "France")}
-                </CommandMenuItem>
-              </CommandMenuGroup>
-              <CommandMenuGroup heading={demoText(language, "Group 2")}>
-                <CommandMenuItem
-                  callback={() => {}}
-                  suffix={<span>{demoText(language, "AUT")}</span>}
-                >
-                  {demoText(language, "Austria")}
-                </CommandMenuItem>
-                <CommandMenuItem callback={() => {}} suffix={<span />}>
-                  {demoText(language, "Switzerland")}
-                </CommandMenuItem>
-                <CommandMenuItem
-                  callback={() => {}}
-                  suffix={<span>{demoText(language, "GER")}</span>}
-                >
-                  {demoText(language, "Germany")}
-                </CommandMenuItem>
-              </CommandMenuGroup>
-            </>
-          ) : null}
+          <CommandMenuGroup heading={demoText(language, "Suggestions")}>
+            <CommandMenuItem callback={() => {}}>
+              {demoText(language, "Figma Import")}
+            </CommandMenuItem>
+          </CommandMenuGroup>
+          <CommandMenuGroup heading={demoText(language, "Commands")}>
+            <CommandMenuItem callback={() => {}}>
+              {demoText(language, "Import Extension")}
+            </CommandMenuItem>
+            <CommandMenuItem callback={() => {}}>
+              {demoText(language, "Manage Extensions")}
+            </CommandMenuItem>
+          </CommandMenuGroup>
+          <CommandMenuGroup heading={demoText(language, "Collaboration")}>
+            <CommandMenuItem callback={() => {}}>
+              {demoText(language, "Flags Explorer")}
+            </CommandMenuItem>
+          </CommandMenuGroup>
+        </CommandMenuList>
+      </CommandMenu>
+      <CommandMenu
+        open={openVariant === "with-divider"}
+        setOpen={(open) => setOpenVariant(open ? "with-divider" : null)}
+      >
+        <CommandMenuInput placeholder={demoText(language, "What do you need?")} />
+        <CommandMenuList>
+          <CommandMenuItem callback={() => {}}>{demoText(language, "Item 1")}</CommandMenuItem>
+          <CommandMenuItem callback={() => {}}>{demoText(language, "Item 2")}</CommandMenuItem>
+          <CommandMenuDivider />
+          <CommandMenuItem callback={() => {}}>{demoText(language, "Item 3")}</CommandMenuItem>
+          <CommandMenuGroup heading={demoText(language, "Group 1")}>
+            <CommandMenuItem callback={() => {}}>
+              {demoText(language, "Grouped Item 1")}
+            </CommandMenuItem>
+            <CommandMenuItem callback={() => {}}>
+              {demoText(language, "Grouped Item 2")}
+            </CommandMenuItem>
+          </CommandMenuGroup>
+        </CommandMenuList>
+      </CommandMenu>
+      <CommandMenu
+        open={openVariant === "with-suffix"}
+        setOpen={(open) => setOpenVariant(open ? "with-suffix" : null)}
+      >
+        <CommandMenuInput placeholder={demoText(language, "What do you need?")} />
+        <CommandMenuList>
+          <CommandMenuGroup heading={demoText(language, "Group 1")}>
+            <CommandMenuItem callback={() => {}} suffix={<span>{demoText(language, "USA")}</span>}>
+              {demoText(language, "United States of America")}
+            </CommandMenuItem>
+            <CommandMenuItem callback={() => {}} suffix={<span>{demoText(language, "ESP")}</span>}>
+              {demoText(language, "Spain")}
+            </CommandMenuItem>
+            <CommandMenuItem callback={() => {}} suffix={<span>{demoText(language, "FRA")}</span>}>
+              {demoText(language, "France")}
+            </CommandMenuItem>
+          </CommandMenuGroup>
+          <CommandMenuGroup heading={demoText(language, "Group 2")}>
+            <CommandMenuItem callback={() => {}} suffix={<span>{demoText(language, "AUT")}</span>}>
+              {demoText(language, "Austria")}
+            </CommandMenuItem>
+            <CommandMenuItem callback={() => {}} suffix={<span />}>
+              {demoText(language, "Switzerland")}
+            </CommandMenuItem>
+            <CommandMenuItem callback={() => {}} suffix={<span>{demoText(language, "GER")}</span>}>
+              {demoText(language, "Germany")}
+            </CommandMenuItem>
+          </CommandMenuGroup>
         </CommandMenuList>
       </CommandMenu>
     </div>
