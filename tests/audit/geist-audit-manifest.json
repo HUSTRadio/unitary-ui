@@ -471,7 +471,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#single-select\"] ~ * ul label.flex-1",
-                  "local": "[data-demo-container=\"single-select\"] label"
+                  "local": "[data-demo-container=\"single-select\"] label.flex-1"
                 },
                 "byViewport": {}
               },
@@ -539,7 +539,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#multi-select\"] ~ * ul label.flex-1",
-                  "local": "[data-demo-container=\"multi-select\"] label"
+                  "local": "[data-demo-container=\"multi-select\"] label.flex-1"
                 },
                 "byViewport": {}
               },
@@ -607,7 +607,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#disabled\"] ~ * ul label.flex-1",
-                  "local": "[data-demo-container=\"disabled\"] label"
+                  "local": "[data-demo-container=\"disabled\"] label.flex-1"
                 },
                 "byViewport": {}
               },
