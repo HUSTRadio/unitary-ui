@@ -968,37 +968,87 @@ function CalendarDemo() {
 function ChoiceboxDemo() {
   const { language } = useLanguage();
   const [plan, setPlan] = React.useState("pro");
-  const [features, setFeatures] = React.useState<string[]>(["analytics"]);
+  const [features, setFeatures] = React.useState<string[]>(["pro"]);
+  const [disabledPlan, setDisabledPlan] = React.useState("pro");
   return (
-    <div className="w-full max-w-2xl space-y-4">
-      <ChoiceboxGroup
-        label={demoText(language, "select a plan")}
-        listClassName="flex-row"
-        onChange={setPlan}
-        type="radio"
-        value={plan}
+    <div className="w-full max-w-2xl space-y-6">
+      <div
+        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="single-select"
       >
-        <ChoiceboxGroupItem
-          description={demoText(language, "Free for two weeks")}
-          title={demoText(language, "Pro Trial")}
-          value="trial"
-        />
-        <ChoiceboxGroupItem
-          description={demoText(language, "Get started now")}
-          title="Pro"
-          value="pro"
-        />
-      </ChoiceboxGroup>
-      <ChoiceboxGroup
-        label={demoText(language, "Select frameworks")}
-        listClassName="flex-row"
-        onChange={setFeatures}
-        type="checkbox"
-        value={features}
+        <div className="w-full p-6" data-demo-container="single-select">
+          <ChoiceboxGroup
+            label={demoText(language, "select a plan")}
+            listClassName="flex-row"
+            onChange={setPlan}
+            type="radio"
+            value={plan}
+          >
+            <ChoiceboxGroupItem
+              description={demoText(language, "Free for two weeks")}
+              title={demoText(language, "Pro Trial")}
+              value="trial"
+            />
+            <ChoiceboxGroupItem
+              description={demoText(language, "Get started now")}
+              title="Pro"
+              value="pro"
+            />
+          </ChoiceboxGroup>
+        </div>
+      </div>
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="multi-select"
       >
-        <ChoiceboxGroupItem description="Next.js" title="Next.js" value="nextjs" />
-        <ChoiceboxGroupItem description="Web Analytics" title="Analytics" value="analytics" />
-      </ChoiceboxGroup>
+        <div className="w-full p-6" data-demo-container="multi-select">
+          <ChoiceboxGroup
+            label={demoText(language, "Select frameworks")}
+            listClassName="flex-row"
+            onChange={setFeatures}
+            type="checkbox"
+            value={features}
+          >
+            <ChoiceboxGroupItem
+              description={demoText(language, "Free for two weeks")}
+              title={demoText(language, "Pro Trial")}
+              value="trial"
+            />
+            <ChoiceboxGroupItem
+              description={demoText(language, "Get started now")}
+              title="Pro"
+              value="pro"
+            />
+          </ChoiceboxGroup>
+        </div>
+      </div>
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled"
+      >
+        <div className="w-full p-6" data-demo-container="disabled">
+          <ChoiceboxGroup
+            disabled
+            showLabel
+            label={demoText(language, "Choicebox group disabled")}
+            listClassName="flex-row"
+            onChange={setDisabledPlan}
+            type="radio"
+            value={disabledPlan}
+          >
+            <ChoiceboxGroupItem
+              description={demoText(language, "Free for two weeks")}
+              title={demoText(language, "Pro Trial")}
+              value="trial"
+            />
+            <ChoiceboxGroupItem
+              description={demoText(language, "Get started now")}
+              title="Pro"
+              value="pro"
+            />
+          </ChoiceboxGroup>
+        </div>
+      </div>
     </div>
   );
 }

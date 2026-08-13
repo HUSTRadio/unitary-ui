@@ -415,9 +415,6 @@
         },
         {
           "id": "disabled"
-        },
-        {
-          "id": "custom-content"
         }
       ],
       "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
@@ -437,7 +434,213 @@
         "official": "[role=\"radiogroup\"]",
         "local": "[data-slot=\"choicebox\"]"
       },
-      "interaction": "applicable"
+      "interaction": "applicable",
+      "acceptanceContracts": [
+        {
+          "demoId": "single-select",
+          "variant": "single-select",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#single-select\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"single-select\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#single-select\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"single-select\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "choicebox-row": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#single-select\"] ~ * ul label",
+                  "local": "[data-demo-container=\"single-select\"] label"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "choicebox-box": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#single-select\"] ~ * label span[class*=\"--radio-color\"]",
+                  "local": "span[data-slot=\"choicebox-radio-indicator\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "choicebox-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#single-select\"] ~ * label span.text-sm.font-medium",
+                  "local": "[data-demo-container=\"single-select\"] span[data-slot=\"choicebox-group-item-title\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "multi-select",
+          "variant": "multi-select",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#multi-select\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"multi-select\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#multi-select\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"multi-select\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "choicebox-row": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#multi-select\"] ~ * ul label",
+                  "local": "[data-demo-container=\"multi-select\"] label"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "choicebox-box": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#multi-select\"] ~ * label span[class*=\"--checkbox-color\"]",
+                  "local": "span[data-slot=\"choicebox-checkbox-indicator\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "choicebox-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#multi-select\"] ~ * label span.text-sm.font-medium",
+                  "local": "[data-demo-container=\"multi-select\"] span[data-slot=\"choicebox-group-item-title\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "disabled",
+          "variant": "disabled",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"disabled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"disabled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "choicebox-row": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * ul label",
+                  "local": "[data-demo-container=\"disabled\"] label"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "choicebox-box": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * label span[class*=\"--radio-color\"]",
+                  "local": "span[data-slot=\"choicebox-radio-indicator\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "choicebox-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * label span.text-sm.font-medium",
+                  "local": "[data-demo-container=\"disabled\"] span[data-slot=\"choicebox-group-item-title\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "clearable-input",

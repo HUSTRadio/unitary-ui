@@ -159,6 +159,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Describe your project…": "描述你的项目……",
     "Disabled textarea": "禁用文本区",
     "select a plan": "选择方案",
+    "Choicebox group disabled": "选项组已禁用",
     "What do you need?": "你需要什么？",
     Suggestions: "建议",
     Commands: "命令",
