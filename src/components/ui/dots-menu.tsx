@@ -47,7 +47,7 @@ function DotsMenu({
         aria-label="Menu"
         aria-haspopup="true"
         className={cn(
-          "relative flex size-8 shrink-0 items-center justify-center rounded-md text-sm font-medium leading-[21px] text-foreground outline-none transition-colors hover:bg-gray-alpha-200 focus-ring data-[state=open]:bg-gray-alpha-200 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50",
+          "relative flex size-8 max-w-full shrink-0 items-center justify-center rounded-md text-sm font-medium leading-[21px] text-foreground outline-none transition-colors hover:bg-gray-alpha-200 focus-ring data-[state=open]:bg-gray-alpha-200 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50",
           className,
         )}
       >
