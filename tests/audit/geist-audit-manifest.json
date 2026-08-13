@@ -1072,7 +1072,7 @@
         "added-removed-lines",
         "referenced-lines",
         "language-switcher",
-        "language-switcher-tabs",
+        "language-switcher-with-tabs",
         "hidden-line-numbers",
         "open-in-v0"
       ],
@@ -1097,7 +1097,7 @@
           "id": "language-switcher"
         },
         {
-          "id": "language-switcher-tabs"
+          "id": "language-switcher-with-tabs"
         },
         {
           "id": "hidden-line-numbers"
@@ -1556,8 +1556,8 @@
           "transparentWrappers": []
         },
         {
-          "demoId": "language-switcher-tabs",
-          "variant": "language-switcher-tabs",
+          "demoId": "language-switcher-with-tabs",
+          "variant": "language-switcher-with-tabs",
           "state": "default",
           "clipRole": "root",
           "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
@@ -1565,8 +1565,8 @@
             "root": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#language-switcher-tabs\"] ~ * div.flex.w-full.overflow-x-auto",
-                  "local": "[data-demo-card=\"language-switcher-tabs\"] > div.flex.w-full.overflow-x-auto"
+                  "official": "a[href=\"#language-switcher-with-tabs\"] ~ * div.flex.w-full.overflow-x-auto",
+                  "local": "[data-demo-card=\"language-switcher-with-tabs\"] > div.flex.w-full.overflow-x-auto"
                 },
                 "byViewport": {}
               },
@@ -1577,8 +1577,8 @@
             "card": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#language-switcher-tabs\"] ~ * div.border-gray-alpha-400",
-                  "local": "[data-demo-card=\"language-switcher-tabs\"]"
+                  "official": "a[href=\"#language-switcher-with-tabs\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"language-switcher-with-tabs\"]"
                 },
                 "byViewport": {}
               },
@@ -1588,8 +1588,8 @@
             "demo-container": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#language-switcher-tabs\"] ~ * div.w-full.p-6",
-                  "local": "[data-demo-container=\"language-switcher-tabs\"]"
+                  "official": "a[href=\"#language-switcher-with-tabs\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"language-switcher-with-tabs\"]"
                 },
                 "byViewport": {}
               },
@@ -1600,8 +1600,8 @@
             "code-block": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#language-switcher-tabs\"] ~ * div.my-4",
-                  "local": "[data-demo-container=\"language-switcher-tabs\"] [data-slot=\"code-block\"]"
+                  "official": "a[href=\"#language-switcher-with-tabs\"] ~ * div.my-4",
+                  "local": "[data-demo-container=\"language-switcher-with-tabs\"] [data-slot=\"code-block\"]"
                 },
                 "byViewport": {}
               },
@@ -1611,8 +1611,8 @@
             "pre": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#language-switcher-tabs\"] ~ * pre",
-                  "local": "[data-demo-container=\"language-switcher-tabs\"] pre"
+                  "official": "a[href=\"#language-switcher-with-tabs\"] ~ * pre",
+                  "local": "[data-demo-container=\"language-switcher-with-tabs\"] pre"
                 },
                 "byViewport": {}
               },

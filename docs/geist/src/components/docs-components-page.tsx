@@ -1566,10 +1566,10 @@ function CodeBlockDemo() {
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="language-switcher-tabs"
+        data-demo-card="language-switcher-with-tabs"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="language-switcher-tabs">
+          <div className="w-full p-6" data-demo-container="language-switcher-with-tabs">
             <CodeBlockComponent
               aria-label="Hello world"
               filename="language-switcher.jsx"
