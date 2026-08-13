@@ -396,28 +396,31 @@ function Combobox({
         ) : (
           <ul aria-hidden="true">{options}</ul>
         )}
-        {open ? (
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              transform: `translate(${position.x}px, ${position.y}px)`,
-              zIndex: 2001,
-            }}
-          >
-            <div
-              ref={panelRef}
-              role="dialog"
-              className={PANEL_CLASS}
-              style={{ width: position.width }}
-            >
-              <ul role="listbox" data-slot="combobox-list">
-                {options}
-              </ul>
-            </div>
-          </div>
-        ) : null}
+        {open
+          ? React.createPortal(
+              <div
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  transform: `translate(${position.x}px, ${position.y}px)`,
+                  zIndex: 2001,
+                }}
+              >
+                <div
+                  ref={panelRef}
+                  role="dialog"
+                  className={PANEL_CLASS}
+                  style={{ width: position.width }}
+                >
+                  <ul role="listbox" data-slot="combobox-list">
+                    {options}
+                  </ul>
+                </div>
+              </div>,
+              document.body,
+            )
+          : null}
       </div>
     </ComboboxContext.Provider>
   );
