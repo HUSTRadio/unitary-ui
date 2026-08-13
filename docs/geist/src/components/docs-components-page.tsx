@@ -46,7 +46,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ClearableInput } from "@/components/ui/clearable-input";
 import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
 import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
-import { Combobox, ComboboxContent, ComboboxItem, ComboboxTrigger } from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 import { Code, InlineCode } from "@/components/ui/code";
 import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
 import {
@@ -2655,19 +2655,199 @@ function CollapseDemo() {
 
 function ComboboxDemo() {
   const { language } = useLanguage();
+  const [controlledValue, setControlledValue] = React.useState("b");
+  const searchLabel = demoText(language, "Search");
+  const searchPlaceholder = demoText(language, "Search...");
+  const countriesPlaceholder = demoText(language, "Search countries…");
+  const countryLabel = demoText(language, "Select your country");
+
+  const simpleOptions = [
+    { value: "a", label: "One" },
+    { value: "b", label: "Two" },
+    { value: "c", label: "Three" },
+  ];
+
+  const countryOptions = [
+    { value: "us", label: "United States" },
+    { value: "ca", label: "Canada" },
+    { value: "uk", label: "United Kingdom" },
+    { value: "de", label: "Germany" },
+    { value: "fr", label: "France" },
+    { value: "jp", label: "Japan" },
+    { value: "au", label: "Australia" },
+    { value: "br", label: "Brazil" },
+  ];
+
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
+    </div>
+  );
+
   return (
-    <Combobox
-      defaultValue="nextjs"
-      className="w-64"
-      placeholder={demoText(language, "Select a framework")}
-    >
-      <ComboboxTrigger aria-label={demoText(language, "Select a framework")} />
-      <ComboboxContent>
-        <ComboboxItem value="nextjs">Next.js</ComboboxItem>
-        <ComboboxItem value="react">React</ComboboxItem>
-        <ComboboxItem value="vite">Vite</ComboboxItem>
-      </ComboboxContent>
-    </Combobox>
+    <div className="w-full max-w-[862px]">
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="uncontrolled"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="uncontrolled">
+            <Combobox aria-label={searchLabel} placeholder={searchPlaceholder}>
+              <ComboboxInput />
+              <ComboboxList>
+                {simpleOptions.map((option) => (
+                  <ComboboxOption key={option.value} value={option.value}>
+                    {option.label}
+                  </ComboboxOption>
+                ))}
+              </ComboboxList>
+            </Combobox>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="controlled"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="controlled">
+            <Combobox
+              aria-label={searchLabel}
+              placeholder={searchPlaceholder}
+              value={controlledValue}
+              onValueChange={setControlledValue}
+            >
+              <ComboboxInput />
+              <ComboboxList>
+                {simpleOptions.map((option) => (
+                  <ComboboxOption key={option.value} value={option.value}>
+                    {option.label}
+                  </ComboboxOption>
+                ))}
+              </ComboboxList>
+            </Combobox>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled">
+            <Combobox aria-label={searchLabel} placeholder={searchPlaceholder} disabled>
+              <ComboboxInput />
+              <ComboboxList>
+                {simpleOptions.map((option) => (
+                  <ComboboxOption key={option.value} value={option.value}>
+                    {option.label}
+                  </ComboboxOption>
+                ))}
+              </ComboboxList>
+            </Combobox>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="sizes"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="sizes">
+            <div className="flex flex-col md:flex-row items-stretch justify-start gap-4 flex-initial">
+              <Combobox
+                aria-label={searchLabel}
+                placeholder={searchPlaceholder}
+                size="small"
+                className="w-[235px]"
+              >
+                <ComboboxInput />
+                <ComboboxList>
+                  {simpleOptions.map((option) => (
+                    <ComboboxOption key={option.value} value={option.value}>
+                      {option.label}
+                    </ComboboxOption>
+                  ))}
+                </ComboboxList>
+              </Combobox>
+              <Combobox
+                aria-label={searchLabel}
+                placeholder={searchPlaceholder}
+                className="w-[235px]"
+              >
+                <ComboboxInput />
+                <ComboboxList>
+                  {simpleOptions.map((option) => (
+                    <ComboboxOption key={option.value} value={option.value}>
+                      {option.label}
+                    </ComboboxOption>
+                  ))}
+                </ComboboxList>
+              </Combobox>
+              <Combobox
+                aria-label={searchLabel}
+                placeholder={searchPlaceholder}
+                size="large"
+                className="w-[257px]"
+              >
+                <ComboboxInput />
+                <ComboboxList>
+                  {simpleOptions.map((option) => (
+                    <ComboboxOption key={option.value} value={option.value}>
+                      {option.label}
+                    </ComboboxOption>
+                  ))}
+                </ComboboxList>
+              </Combobox>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="with-label"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="with-label">
+            <div className="space-y-2">
+              <label className="text-label-14 text-gray-900">{countryLabel}</label>
+              <Combobox aria-label={countryLabel} placeholder={countriesPlaceholder}>
+                <ComboboxInput />
+                <ComboboxList>
+                  {countryOptions.map((option) => (
+                    <ComboboxOption key={option.value} value={option.value}>
+                      {option.label}
+                    </ComboboxOption>
+                  ))}
+                </ComboboxList>
+              </Combobox>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+    </div>
   );
 }
 

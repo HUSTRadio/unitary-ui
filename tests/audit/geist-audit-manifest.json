@@ -2434,14 +2434,729 @@
     {
       "slug": "combobox",
       "officialUrl": "https://vercel.com/geist/combobox",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["uncontrolled", "controlled", "disabled", "sizes", "with-label"],
+      "states": ["default", "open"],
+      "demos": [
+        {
+          "id": "uncontrolled"
+        },
+        {
+          "id": "controlled"
+        },
+        {
+          "id": "disabled"
+        },
+        {
+          "id": "sizes"
+        },
+        {
+          "id": "with-label"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": [
+        "click:trigger",
+        "key:escape",
+        "key:arrow",
+        "key:enter",
+        "key:tab-focus"
+      ],
+      "responsiveExpectations": [
+        "panel:list width equals trigger width (812px uncontrolled/controlled/disabled/with-label; sizes 235/235/257 at 1440x900 measured)",
+        "panel:sideOffset 8 below trigger, align start (x = round(trigger.left); open ul 800x108 at 1440x900)",
+        "open:first option highlighted (bg gray-alpha-100 + aria-selected=true); selected value shows check icon (controlled=b)",
+        "open:in-root listbox ul replaced by div.sr-only; ul[role=listbox] portals to body positioner (fixed, z 2001)",
+        "sizes:small/medium/large input heights 32/36/40 with group text-sm/text-sm/text-base; open button heights 32/30/40 (1440x900 measured)"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "div[role=\"combobox\"]",
+        "local": "[data-slot=\"combobox-root\"]"
       },
-      "interaction": "pending"
+      "interaction": "applicable",
+      "acceptanceContracts": [
+        {
+          "demoId": "uncontrolled",
+          "variant": "uncontrolled",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#uncontrolled\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"uncontrolled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#uncontrolled\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"uncontrolled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#uncontrolled\"] ~ * div.w-full.p-6 div.group\\/combobox",
+                  "local": "[data-demo-container=\"uncontrolled\"] div.group\\/combobox"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#uncontrolled\"] ~ * div.w-full.p-6 input",
+                  "local": "[data-demo-container=\"uncontrolled\"] input"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "uncontrolled",
+          "variant": "uncontrolled",
+          "state": "open",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#uncontrolled\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"uncontrolled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#uncontrolled\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"uncontrolled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#uncontrolled\"] ~ * div.w-full.p-6 div.group\\/combobox",
+                  "local": "[data-demo-container=\"uncontrolled\"] div.group\\/combobox"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"] li span",
+                  "local": "[data-slot=\"combobox-list\"] li span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"]",
+                  "local": "[data-slot=\"combobox-list\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "list": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"]",
+                  "local": "[data-slot=\"combobox-list\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "controlled",
+          "variant": "controlled",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#controlled\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"controlled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#controlled\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"controlled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#controlled\"] ~ * div.w-full.p-6 div.group\\/combobox",
+                  "local": "[data-demo-container=\"controlled\"] div.group\\/combobox"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#controlled\"] ~ * div.w-full.p-6 input",
+                  "local": "[data-demo-container=\"controlled\"] input"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "controlled",
+          "variant": "controlled",
+          "state": "open",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#controlled\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"controlled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#controlled\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"controlled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#controlled\"] ~ * div.w-full.p-6 div.group\\/combobox",
+                  "local": "[data-demo-container=\"controlled\"] div.group\\/combobox"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"] li span",
+                  "local": "[data-slot=\"combobox-list\"] li span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"]",
+                  "local": "[data-slot=\"combobox-list\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "list": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"]",
+                  "local": "[data-slot=\"combobox-list\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "disabled",
+          "variant": "disabled",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"disabled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"disabled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6 div.group\\/combobox",
+                  "local": "[data-demo-container=\"disabled\"] div.group\\/combobox"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6 input",
+                  "local": "[data-demo-container=\"disabled\"] input"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "disabled",
+          "variant": "disabled",
+          "state": "open",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"disabled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"disabled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6 div.group\\/combobox",
+                  "local": "[data-demo-container=\"disabled\"] div.group\\/combobox"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"] li span",
+                  "local": "[data-slot=\"combobox-list\"] li span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"]",
+                  "local": "[data-slot=\"combobox-list\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "list": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"]",
+                  "local": "[data-slot=\"combobox-list\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "sizes",
+          "variant": "sizes",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"sizes\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"sizes\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.w-full.p-6 div.group\\/combobox",
+                  "local": "[data-demo-container=\"sizes\"] div.group\\/combobox"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.w-full.p-6 input",
+                  "local": "[data-demo-container=\"sizes\"] input"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "sizes",
+          "variant": "sizes",
+          "state": "open",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"sizes\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"sizes\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.w-full.p-6 div.group\\/combobox",
+                  "local": "[data-demo-container=\"sizes\"] div.group\\/combobox"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"] li span",
+                  "local": "[data-slot=\"combobox-list\"] li span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"]",
+                  "local": "[data-slot=\"combobox-list\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "list": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"]",
+                  "local": "[data-slot=\"combobox-list\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "with-label",
+          "variant": "with-label",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-label\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"with-label\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-label\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"with-label\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-label\"] ~ * div.w-full.p-6 div.group\\/combobox",
+                  "local": "[data-demo-container=\"with-label\"] div.group\\/combobox"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-label\"] ~ * div.w-full.p-6 input",
+                  "local": "[data-demo-container=\"with-label\"] input"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "with-label",
+          "variant": "with-label",
+          "state": "open",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-label\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"with-label\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-label\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"with-label\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-label\"] ~ * div.w-full.p-6 div.group\\/combobox",
+                  "local": "[data-demo-container=\"with-label\"] div.group\\/combobox"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"] li span",
+                  "local": "[data-slot=\"combobox-list\"] li span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"]",
+                  "local": "[data-slot=\"combobox-list\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "list": {
+              "selectors": {
+                "default": {
+                  "official": "ul[role=\"listbox\"]",
+                  "local": "[data-slot=\"combobox-list\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "command-menu",
