@@ -421,6 +421,7 @@ async function elementPoint(send, selector) {
     `(() => {
       const el = document.querySelector(${JSON.stringify(selector)});
       if (!el) return null;
+      el.scrollIntoView({ block: "center", inline: "center" });
       const rect = el.getBoundingClientRect();
       return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
     })()`,
