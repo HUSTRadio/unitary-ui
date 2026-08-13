@@ -273,7 +273,7 @@ const CodeBlockContent = React.forwardRef<HTMLPreElement, React.ComponentPropsWi
     <pre
       ref={ref}
       data-slot="code-block-content"
-      className={cn("overflow-auto bg-background py-5", className)}
+      className={cn("overflow-auto bg-background py-5 font-mono text-[13px] leading-[20px]", className)}
       {...props}
     />
   ),
