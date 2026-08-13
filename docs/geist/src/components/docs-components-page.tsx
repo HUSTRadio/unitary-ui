@@ -1032,26 +1032,48 @@ function ChoiceboxDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="disabled">
-            <ChoiceboxGroup
-              disabled
-              showLabel
-              label={demoText(language, "Choicebox group disabled")}
-              listClassName="flex-row"
-              onChange={setDisabledPlan}
-              type="radio"
-              value={disabledPlan}
-            >
-              <ChoiceboxGroupItem
-                description={demoText(language, "Free for two weeks")}
-                title={demoText(language, "Pro Trial")}
-                value="trial"
-              />
-              <ChoiceboxGroupItem
-                description={demoText(language, "Get started now")}
-                title="Pro"
-                value="pro"
-              />
-            </ChoiceboxGroup>
+            <div className="flex flex-col items-stretch justify-start gap-6">
+              <ChoiceboxGroup
+                disabled
+                showLabel
+                label={demoText(language, "Choicebox group disabled")}
+                listClassName="flex-row"
+                onChange={setDisabledPlan}
+                type="radio"
+                value={disabledPlan}
+              >
+                <ChoiceboxGroupItem
+                  description={demoText(language, "Free for two weeks")}
+                  title={demoText(language, "Pro Trial")}
+                  value="trial"
+                />
+                <ChoiceboxGroupItem
+                  description={demoText(language, "Get started now")}
+                  title="Pro"
+                  value="pro"
+                />
+              </ChoiceboxGroup>
+              <ChoiceboxGroup
+                showLabel
+                label={demoText(language, "Single input disabled")}
+                listClassName="flex-row"
+                onChange={setDisabledPlan}
+                type="radio"
+                value={disabledPlan}
+              >
+                <ChoiceboxGroupItem
+                  disabled
+                  description={demoText(language, "Free for two weeks")}
+                  title={demoText(language, "Pro Trial")}
+                  value="trial"
+                />
+                <ChoiceboxGroupItem
+                  description={demoText(language, "Get started now")}
+                  title="Pro"
+                  value="pro"
+                />
+              </ChoiceboxGroup>
+            </div>
           </div>
         </div>
       </div>

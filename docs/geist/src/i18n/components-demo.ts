@@ -160,6 +160,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Disabled textarea": "禁用文本区",
     "select a plan": "选择方案",
     "Choicebox group disabled": "选项组已禁用",
+    "Single input disabled": "单个输入已禁用",
     "What do you need?": "你需要什么？",
     Suggestions: "建议",
     Commands: "命令",
