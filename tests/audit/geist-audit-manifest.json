@@ -400,8 +400,8 @@
             "combobox": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#sizes\"] ~ * [data-testid=\"calendar/combobox-input\"]",
-                  "local": "[data-demo-container=\"sizes\"] [data-testid=\"calendar/combobox-input\"]"
+                  "official": "a[href=\"#sizes\"] ~ * [cmdk-root]",
+                  "local": "[data-demo-container=\"sizes\"] [cmdk-root]"
                 },
                 "byViewport": {}
               },
@@ -479,8 +479,8 @@
             "combobox": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#compact\"] ~ * [data-testid=\"calendar/combobox-input\"]",
-                  "local": "[data-demo-container=\"compact\"] [data-testid=\"calendar/combobox-input\"]"
+                  "official": "a[href=\"#compact\"] ~ * [cmdk-root]",
+                  "local": "[data-demo-container=\"compact\"] [cmdk-root]"
                 },
                 "byViewport": {}
               },
