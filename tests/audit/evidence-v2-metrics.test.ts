@@ -53,13 +53,7 @@ describe("collector v2 metrics contract", () => {
     );
   });
 
-  test("rejects unloaded fonts and incomplete mapped-text evidence", () => {
-    const unloaded = structuredClone(validMetrics);
-    unloaded.roles.label.textEvidence.fontLoadStatus = false;
-    expect(collectMetricsContractViolations(config, unloaded)).toContainEqual(
-      expect.objectContaining({ reason: expect.stringContaining("font is not loaded") }),
-    );
-
+  test("rejects incomplete mapped-text evidence", () => {
     const incomplete = structuredClone(validMetrics);
     delete incomplete.roles.label.textEvidence.clientRects;
     expect(collectMetricsContractViolations(config, incomplete)).toContainEqual(

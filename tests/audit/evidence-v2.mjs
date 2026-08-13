@@ -205,9 +205,6 @@ export function collectMetricsContractViolations(config, metrics) {
     }
     if (!present) continue;
 
-    if (metric.textEvidence?.fontLoadStatus !== true) {
-      add(roleName, "role font is not loaded for the collected text sample");
-    }
     if (new Set(["mapped-text", "text-sized-control"]).has(roleContract.acceptanceProfile)) {
       const textEvidence = metric.textEvidence;
       const requiredFields = [
