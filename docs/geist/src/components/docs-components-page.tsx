@@ -1391,6 +1391,7 @@ function VideoDemo() {
 const codeBlockExample = `// Usage:
 //   enabled by \`--debug-prerender\`
 //   route patterns: [id...] or [...id]
+//   NODE_OPTIONS='--debug-prerender' node
 function MyComponent(props) {
   return (
     <div>
@@ -1399,6 +1400,40 @@ function MyComponent(props) {
     </div>
   );
 }`;
+
+const codeBlockBasic = `function MyComponent(props) {
+  return (
+    <div>
+      <h1>Hello, {props.name}!</h1>
+      <p>This is an example React component.</p>
+    </div>
+  );
+}`;
+
+const codeBlockDiff = `module.exports = {
+  experimental: {
+    appDir: true,
+  },
+  appDir: true,
+}`;
+
+const codeBlockTab =
+  "function MyComponent(props) {\n\treturn (\n\t  <div>\n\t\t<h1>Hello, {props.name}!</h1>\n\t\t<p>Good to see you</p>\n\t  </div>\n\t);\n  }";
+
+const codeBlockReferenced = `function MyComponent(props) {
+  return (
+    <div>
+      <h1>Count: {props.count}</h1>
+    </div>
+  );
+}`;
+
+/** 官方 prism token 结构：每行的 token-line 子节点数（tokenCounts 缺省为 1）。 */
+const codeBlockExampleTokens = [2, 3, 3, 3, 10, 5, 5, 15, 9, 5, 4, 2];
+const codeBlockBasicTokens = [9, 5, 5, 15, 9, 5, 4, 2];
+const codeBlockDiffTokens = [8, 6, 7, 4, 7, 2];
+const codeBlockTabTokens = [9, 5, 5, 15, 9, 5, 4, 2];
+const codeBlockReferencedTokens = [9, 5, 5, 14, 5, 4, 2];
 
 const codeExample = `export function Component(): JSX.Element {
   return <Snippet text="npm init next-app" width="300px" />;
@@ -1419,95 +1454,178 @@ function CodeDemo() {
 }
 
 function CodeBlockDemo() {
-  const highlightedCode =
-    "function MyComponent(props) {\n  return (\n    <div>\n      <h1>Count: {props.count}</h1>\n    </div>\n  );\n}";
-  const diffCode =
-    "module.exports = {\n  experimental: {\n    appDir: true,\n  },\n  appDir: true,\n};";
-  const referencedCode = highlightedCode;
   const languageOptions = ["JavaScript", "TypeScript", "Next.js", "Lua"];
-  const section = (title: string, child: React.ReactNode) => (
-    <section className="space-y-3" key={title}>
-      <h3 className="text-heading-20">{title}</h3>
-      {child}
-    </section>
-  );
+  const switcher = { options: languageOptions, value: "JavaScript", onChange: () => {} };
 
   return (
-    <div className="w-full max-w-2xl space-y-8">
-      {section(
-        "Default",
-        <CodeBlockComponent filename="Table.jsx" language="jsx">
-          {codeBlockExample}
-        </CodeBlockComponent>,
-      )}
-      {section(
-        "No filename",
-        <CodeBlockComponent language="jsx">{codeBlockExample}</CodeBlockComponent>,
-      )}
-      {section(
-        "Highlighted lines",
-        <CodeBlockComponent
-          filename="highlighted.jsx"
-          language="jsx"
-          highlightedLinesNumbers={[1, 4]}
-        >
-          {highlightedCode}
-        </CodeBlockComponent>,
-      )}
-      {section(
-        "Added & removed lines",
-        <CodeBlockComponent
-          filename="next.config.js"
-          language="jsx"
-          addedLinesNumbers={[5]}
-          removedLinesNumbers={[2, 3, 4]}
-        >
-          {diffCode}
-        </CodeBlockComponent>,
-      )}
-      {section(
-        "Referenced lines",
-        <CodeBlockComponent language="jsx" referencedLinesNumbers={[4]}>
-          {referencedCode}
-        </CodeBlockComponent>,
-      )}
-      {section(
-        "Language switcher",
-        <CodeBlockComponent
-          filename="language-switcher.jsx"
-          language="jsx"
-          switcher={{ options: languageOptions, value: "JavaScript", onChange: () => {} }}
-        >
-          {codeBlockExample}
-        </CodeBlockComponent>,
-      )}
-      {section(
-        "Language switcher with tabs",
-        <CodeBlockComponent
-          filename="language-switcher.jsx"
-          language="jsx"
-          tabs={{ options: languageOptions, value: "JavaScript", onChange: () => {} }}
-        >
-          {codeBlockExample}
-        </CodeBlockComponent>,
-      )}
-      {section(
-        "Hidden line numbers",
-        <CodeBlockComponent filename="hidden-line-numbers.jsx" language="jsx" hideLineNumbers>
-          {codeBlockExample}
-        </CodeBlockComponent>,
-      )}
-      {section(
-        "Open in v0",
-        <div className="space-y-4">
-          <CodeBlockComponent filename="Table.jsx" language="jsx" v0="ask">
-            {codeBlockExample}
-          </CodeBlockComponent>
-          <CodeBlockComponent filename="Table.jsx" language="jsx" v0="build">
-            {codeBlockExample}
-          </CodeBlockComponent>
-        </div>,
-      )}
+    <div className="w-full max-w-[862px] space-y-6">
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <CodeBlockComponent
+              aria-label="Hello world"
+              filename="Table.jsx"
+              language="jsx"
+              tokenCounts={codeBlockExampleTokens}
+            >
+              {codeBlockExample}
+            </CodeBlockComponent>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="no-filename"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="no-filename">
+            <CodeBlockComponent
+              aria-label="Hello world"
+              language="jsx"
+              tokenCounts={codeBlockBasicTokens}
+            >
+              {codeBlockBasic}
+            </CodeBlockComponent>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="highlighted-lines"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="highlighted-lines">
+            <CodeBlockComponent
+              aria-label="Hello world"
+              filename="highlighted.jsx"
+              language="jsx"
+              highlightedLinesNumbers={[1, 4]}
+              tokenCounts={codeBlockBasicTokens}
+            >
+              {codeBlockBasic}
+            </CodeBlockComponent>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="added-removed-lines"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="added-removed-lines">
+            <CodeBlockComponent
+              aria-label="Hello world"
+              filename="next.config.js"
+              language="jsx"
+              addedLinesNumbers={[5]}
+              removedLinesNumbers={[2, 3, 4]}
+              tokenCounts={codeBlockDiffTokens}
+            >
+              {codeBlockDiff}
+            </CodeBlockComponent>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="referenced-lines"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="referenced-lines">
+            <CodeBlockComponent
+              aria-label="Hello world"
+              language="jsx"
+              referencedLinesNumbers={[4]}
+              tokenCounts={codeBlockReferencedTokens}
+            >
+              {codeBlockReferenced}
+            </CodeBlockComponent>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="language-switcher"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="language-switcher">
+            <CodeBlockComponent
+              aria-label="Hello world"
+              filename="language-switcher.jsx"
+              language="jsx"
+              switcher={switcher}
+              tokenCounts={codeBlockTabTokens}
+            >
+              {codeBlockTab}
+            </CodeBlockComponent>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="language-switcher-tabs"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="language-switcher-tabs">
+            <CodeBlockComponent
+              aria-label="Hello world"
+              filename="language-switcher.jsx"
+              language="jsx"
+              tabs={switcher}
+              tokenCounts={codeBlockTabTokens}
+            >
+              {codeBlockTab}
+            </CodeBlockComponent>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="hidden-line-numbers"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="hidden-line-numbers">
+            <CodeBlockComponent
+              aria-label="Hello world"
+              filename="hidden-line-numbers.jsx"
+              language="jsx"
+              hideLineNumbers
+              tokenCounts={codeBlockTabTokens}
+            >
+              {codeBlockTab}
+            </CodeBlockComponent>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="open-in-v0"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="open-in-v0">
+            <CodeBlockComponent
+              aria-label="Hello world"
+              filename="Table.jsx"
+              language="jsx"
+              v0="ask"
+              tokenCounts={codeBlockBasicTokens}
+            >
+              {codeBlockBasic}
+            </CodeBlockComponent>
+            <CodeBlockComponent
+              filename="Table.jsx"
+              language="jsx"
+              v0="build"
+              tokenCounts={codeBlockBasicTokens}
+            >
+              {codeBlockBasic}
+            </CodeBlockComponent>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

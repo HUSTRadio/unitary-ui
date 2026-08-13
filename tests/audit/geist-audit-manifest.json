@@ -1123,7 +1123,99 @@
         "official": ".prism-code",
         "local": "[data-slot=\"code-block\"]"
       },
-      "interaction": "applicable"
+      "interaction": "applicable",
+      "acceptanceContracts": [
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.flex.w-full.overflow-x-auto",
+                  "local": "[data-demo-card=\"default\"] > div.flex.w-full.overflow-x-auto"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "card": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "code-block": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.my-4",
+                  "local": "[data-demo-container=\"default\"] [data-slot=\"code-block\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "header": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.h-12",
+                  "local": "[data-demo-container=\"default\"] [data-slot=\"code-block-header\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "filename": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * span.truncate",
+                  "local": "[data-demo-container=\"default\"] [data-slot=\"code-block-filename\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "pre": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * pre",
+                  "local": "[data-demo-container=\"default\"] pre"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "collapse",
