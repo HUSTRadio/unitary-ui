@@ -168,7 +168,12 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
           />
         )}
         <CodeBlockContent>
-          <code className={cn("prism-code block font-mono text-[13px] leading-[20px]", language && `language-${language}`)}>
+          <code
+            className={cn(
+              "prism-code block font-mono text-[13px] leading-[20px]",
+              language && `language-${language}`,
+            )}
+          >
             {lines.map((line, index) => {
               const number = index + 1;
               const referenced = referencedLinesNumbers.includes(number);
