@@ -374,45 +374,43 @@ describe("comparator v3 systematic exemptions", { timeout: 15000 }, () => {
     expect(classifications).not.toContain("BEHAVIOR_INFRASTRUCTURE");
   });
 
-
-const flowMetrics = (source: "official" | "local") => {
-  const isOff = source === "official";
-  const fontFamily = isOff ? "Geist, sans-serif" : "HarmonyOS Sans SC, sans-serif";
-  const item1W = isOff ? 400 : 305; // 第一个 item 字体映射宽度差 95
-  const node = (path: string, x: number, width: number, tag: string) => ({
-    path,
-    tag,
-    rect: { x, y: 0, width, height: 70 },
-    styles: { fontFamily },
-  });
-  return {
-    viewport: "375x812",
-    root: { x: 0, y: 0, width: 812, height: 72 },
-    roles: {},
-    nodes: [
-      node("root", 0, 812, "div"),
-      node("0", 0, 812, "div"),
-      node("0.0", 0, 812, "ul"),
-      node("0.0.0", 0, item1W, "label"),
-      node("0.0.1", item1W, 400, "label"), // x = 前序 item 宽度，传递
-    ],
+  const flowMetrics = (source: "official" | "local") => {
+    const isOff = source === "official";
+    const fontFamily = isOff ? "Geist, sans-serif" : "HarmonyOS Sans SC, sans-serif";
+    const item1W = isOff ? 400 : 305; // 第一个 item 字体映射宽度差 95
+    const node = (path: string, x: number, width: number, tag: string) => ({
+      path,
+      tag,
+      rect: { x, y: 0, width, height: 70 },
+      styles: { fontFamily },
+    });
+    return {
+      viewport: "375x812",
+      root: { x: 0, y: 0, width: 812, height: 72 },
+      roles: {},
+      nodes: [
+        node("root", 0, 812, "div"),
+        node("0", 0, 812, "div"),
+        node("0.0", 0, 812, "ul"),
+        node("0.0.0", 0, item1W, "label"),
+        node("0.0.1", item1W, 400, "label"), // x = 前序 item 宽度，传递
+      ],
+    };
   };
-};
 
-test("font-mapped inline flow x (sibling width propagation) is exempted", () => {
-  const dir = mkdtempSync(join(tmpdir(), "geist-exempt-flow-"));
-  const officialMetrics = join(dir, "official.json");
-  const localMetrics = join(dir, "local.json");
-  writeFileSync(officialMetrics, JSON.stringify(flowMetrics("official")));
-  writeFileSync(localMetrics, JSON.stringify(flowMetrics("local")));
+  test("font-mapped inline flow x (sibling width propagation) is exempted", () => {
+    const dir = mkdtempSync(join(tmpdir(), "geist-exempt-flow-"));
+    const officialMetrics = join(dir, "official.json");
+    const localMetrics = join(dir, "local.json");
+    writeFileSync(officialMetrics, JSON.stringify(flowMetrics("official")));
+    writeFileSync(localMetrics, JSON.stringify(flowMetrics("local")));
 
-  const report = runComparator(dir, officialMetrics, localMetrics, false);
-  // 第二个 item 的 x 差 95 根因是前序字体映射宽度传递，应豁免（delta 不再含 x）
-  const second = report.geometry.nodes.find((n: { path: string }) => n.path === "0.0.1");
-  expect(second).toBeTruthy();
-  expect(second.delta.x).toBeUndefined();
-  // width 亦被 font-mapped 子树豁免（宽度差 0 被 pop）
-  expect(second.delta.width).toBeUndefined();
-});
-
+    const report = runComparator(dir, officialMetrics, localMetrics, false);
+    // 第二个 item 的 x 差 95 根因是前序字体映射宽度传递，应豁免（delta 不再含 x）
+    const second = report.geometry.nodes.find((n: { path: string }) => n.path === "0.0.1");
+    expect(second).toBeTruthy();
+    expect(second.delta.x).toBeUndefined();
+    // width 亦被 font-mapped 子树豁免（宽度差 0 被 pop）
+    expect(second.delta.width).toBeUndefined();
+  });
 });
