@@ -168,7 +168,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
           />
         )}
         <CodeBlockContent>
-          <code className={cn("prism-code block", language && `language-${language}`)}>
+          <code className={cn("prism-code block font-mono text-[13px] leading-[20px]", language && `language-${language}`)}>
             {lines.map((line, index) => {
               const number = index + 1;
               const referenced = referencedLinesNumbers.includes(number);
@@ -273,7 +273,7 @@ const CodeBlockContent = React.forwardRef<HTMLPreElement, React.ComponentPropsWi
     <pre
       ref={ref}
       data-slot="code-block-content"
-      className={cn("overflow-auto bg-background py-5 font-mono text-[13px] leading-[20px]", className)}
+      className={cn("overflow-auto bg-background py-5", className)}
       {...props}
     />
   ),
