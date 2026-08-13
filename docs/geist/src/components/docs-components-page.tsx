@@ -1730,44 +1730,89 @@ function ClearableInputDemo() {
   const [clearCount, setClearCount] = React.useState(0);
 
   return (
-    <div className="grid w-full max-w-2xl gap-5">
-      <ClearableInput
-        aria-label={demoText(language, "Demo clearable input")}
-        placeholder={demoText(language, "Enter some text…")}
-        value={defaultValue}
-        onChange={(event) => setDefaultValue(event.target.value)}
-      />
-      <ClearableInput
-        label={demoText(language, "Email")}
-        placeholder={demoText(language, "Enter your email…")}
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-      />
-      <ClearableInput
-        aria-label={demoText(language, "Search with cmdk")}
-        cmdk
-        placeholder={demoText(language, "Search…")}
-        value={search}
-        onChange={(event) => setSearch(event.target.value)}
-      />
-      <ClearableInput
-        aria-label={demoText(language, "Disabled clearable input")}
-        disabled
-        placeholder={demoText(language, "Enter some text…")}
-        value="Some text"
-        onChange={() => {}}
-      />
-      <div className="grid gap-2">
-        <ClearableInput
-          aria-label={demoText(language, "Clearable input with callback")}
-          placeholder={demoText(language, "Enter some text and clear…")}
-          value={callbackValue}
-          onChange={(event) => setCallbackValue(event.target.value)}
-          onClear={() => setClearCount((count) => count + 1)}
-        />
-        <p className="text-copy-13 text-muted-foreground">
-          {demoTextWithValues(language, "Cleared {count} times", { count: clearCount })}
-        </p>
+    <div className="w-full max-w-[862px] space-y-6">
+      <div
+        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <ClearableInput
+              aria-label={demoText(language, "Demo clearable input")}
+              placeholder={demoText(language, "Enter some text…")}
+              value={defaultValue}
+              onChange={(event) => setDefaultValue(event.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="with-label"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="with-label">
+            <ClearableInput
+              label={demoText(language, "Email")}
+              placeholder={demoText(language, "Enter your email…")}
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="with-cmdk"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="with-cmdk">
+            <ClearableInput
+              aria-label={demoText(language, "Search with cmdk")}
+              cmdk
+              placeholder={demoText(language, "Search…")}
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled">
+            <ClearableInput
+              aria-label={demoText(language, "Disabled clearable input")}
+              disabled
+              placeholder={demoText(language, "Enter some text…")}
+              value="Some text"
+              onChange={() => {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="with-clear-callback"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="with-clear-callback">
+            <div className="flex flex-col gap-2">
+              <ClearableInput
+                aria-label={demoText(language, "Clearable input with callback")}
+                placeholder={demoText(language, "Enter some text and clear…")}
+                value={callbackValue}
+                onChange={(event) => setCallbackValue(event.target.value)}
+                onClear={() => setClearCount((count) => count + 1)}
+              />
+              <p className="text-copy-14 text-gray-900">
+                {demoTextWithValues(language, "Cleared {count} times", { count: clearCount })}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
