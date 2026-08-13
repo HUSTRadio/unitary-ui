@@ -50,15 +50,6 @@ import {
   CommandMenuList,
 } from "@/components/ui/command-menu";
 import {
-  ContextCard,
-  ContextCardAvatar,
-  ContextCardBody,
-  ContextCardDescription,
-  ContextCardFooter,
-  ContextCardHeader,
-  ContextCardTitle,
-} from "@/components/ui/context-card";
-import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
