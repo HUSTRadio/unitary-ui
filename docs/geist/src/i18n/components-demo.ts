@@ -18,6 +18,10 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     Close: "关闭",
     Send: "发送",
     Sent: "已发送",
+    Top: "顶部",
+    Bottom: "底部",
+    Left: "左",
+    Right: "右",
 
     // Section titles
     Sizes: "尺寸",

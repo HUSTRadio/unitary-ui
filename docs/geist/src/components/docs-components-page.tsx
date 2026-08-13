@@ -1567,29 +1567,53 @@ function TextWithCopyButtonDemo() {
 
 function ContextCardDemo() {
   const { language } = useLanguage();
+  const triggers = [
+    { label: demoText(language, "Top"), id: "top" },
+    { label: demoText(language, "Bottom"), id: "bottom" },
+    { label: demoText(language, "Left"), id: "left" },
+    { label: demoText(language, "Right"), id: "right" },
+  ];
   return (
-    <ContextCard>
-      <ContextCardHeader>
-        <ContextCardAvatar src="https://github.com/vercel.png" alt="Acme" />
-        <div>
-          <ContextCardTitle>{demoText(language, "Acme Inc.")}</ContextCardTitle>
-          <ContextCardDescription>
-            {demoText(language, "@acme · San Francisco")}
-          </ContextCardDescription>
+    <div className="w-full max-w-[862px]">
+      <div
+        className="group relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <div className="flex flex-row items-stretch justify-around flex-initial">
+              {triggers.map((trigger) => (
+                <div
+                  key={trigger.id}
+                  className="flex flex-col items-center justify-center flex-initial"
+                >
+                  <div className="inline-flex cursor-pointer flex-[0_1_auto] overflow-hidden">
+                    <span className="block text-base leading-6 text-gray-1000">
+                      {trigger.label}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </ContextCardHeader>
-      <ContextCardBody>
-        <p className="text-copy-13 text-muted-foreground">
-          {demoText(language, "Last Active: 2h ago")}
-        </p>
-        <p className="text-copy-13 text-muted-foreground">{demoText(language, "Plan: Pro")}</p>
-      </ContextCardBody>
-      <ContextCardFooter>
-        <Button typeName="button" size="small">
-          {demoText(language, "View Project")}
-        </Button>
-      </ContextCardFooter>
-    </ContextCard>
+        <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+          <div className="border-b-lg w-full" data-state="closed">
+            <button
+              type="button"
+              aria-expanded={false}
+              data-state="closed"
+              className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+            >
+              <div className="-rotate-90">
+                <ChevronRight className="size-4" aria-hidden />
+              </div>
+            </button>
+            <div data-state="closed" hidden />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

@@ -1761,7 +1761,143 @@
         "official": "div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden",
         "local": "[data-slot=\"context-card\"]"
       },
-      "interaction": "pending"
+      "interaction": "pending",
+      "acceptanceContracts": [
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.flex.w-full.overflow-x-auto",
+                  "local": "[data-demo-card=\"default\"] > div.flex.w-full.overflow-x-auto"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "card": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger-top": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(1) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden",
+                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(1) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-bottom": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(2) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden",
+                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(2) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-left": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(3) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden",
+                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(3) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-right": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(4) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden",
+                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(4) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "label-top": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(1) > div > span",
+                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(1) > div > span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "label-bottom": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(2) > div > span",
+                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(2) > div > span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "label-left": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(3) > div > span",
+                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(3) > div > span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "label-right": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(4) > div > span",
+                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(4) > div > span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "context-menu",
