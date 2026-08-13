@@ -109,6 +109,7 @@ def viewport_roles(metrics_body: dict[str, Any]) -> dict[str, dict[str, Any]]:
             "styles": entry.get("styles") or {},
             "aria": normalize_aria(entry.get("aria")),
             "ancestorChain": entry.get("ancestorChain"),
+            "textEvidence": entry.get("textEvidence"),
         }
     return roles
 
