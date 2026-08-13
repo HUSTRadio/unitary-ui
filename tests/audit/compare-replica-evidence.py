@@ -830,6 +830,37 @@ def _node_font_mapped(
     return is_approved_font_mapping(off_font, loc_font, approved)
 
 
+def _left_shift(
+    path: str,
+    official_nodes: dict[str, dict[str, Any]],
+    local_nodes: dict[str, dict[str, Any]],
+    manifest: dict[str, Any] | None,
+) -> float:
+    """跨层累积前序 font-mapped sibling 的宽度差（官方 - 本地，有符号）。
+
+    多 item 横排（flex row）布局中，前序 item 的字体映射宽度差会沿祖先链传递到
+    后续 item 及其子树的 x；仅累积 fontFamily 已批准映射的 sibling 宽度差，
+    避免把真实布局（padding/margin）错误误归因为字体流。
+    """
+    if path == "root" or "." not in path:
+        return 0.0
+    parent, idx_s = path.rsplit(".", 1)
+    try:
+        idx = int(idx_s)
+    except ValueError:
+        return 0.0
+    shift = 0.0
+    for i in range(idx):
+        sibling = f"{parent}.{i}"
+        if sibling in official_nodes and sibling in local_nodes:
+            if _node_font_mapped(official_nodes[sibling], local_nodes[sibling], manifest):
+                off_w = float(official_nodes[sibling]["rect"]["width"])
+                loc_w = float(local_nodes[sibling]["rect"]["width"])
+                shift += off_w - loc_w
+    shift += _left_shift(parent, official_nodes, local_nodes, manifest)
+    return shift
+
+
 def compare_geometry(
     official: dict[str, Any],
     local: dict[str, Any],
@@ -898,6 +929,11 @@ def compare_geometry(
             and _node_font_mapped(official_nodes[path], local_nodes[path], manifest)
         ):
             deltas.pop("y", None)
+        # FONT_METRIC_INLINE_FLOW_X (geometry layer): 前序 sibling 宽度差累积传递到 x。
+        if "x" in deltas:
+            left_shift = _left_shift(path, official_nodes, local_nodes, manifest)
+            if abs(left_shift) > 0.5 and abs(deltas["x"] - abs(left_shift)) <= 0.5:
+                deltas.pop("x", None)
         if deltas:
             max_delta = max(max_delta, *deltas.values())
         rows.append(
