@@ -405,12 +405,10 @@ function CheckboxDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
-            <div className="flex flex-col items-stretch justify-start gap-4">
-              <label className="text-label-13 inline-flex cursor-pointer items-start">
-                <Checkbox aria-label={demoText(language, "Option 1")} />
-                <span className="ml-2 text-foreground">{demoText(language, "Option 1")}</span>
-              </label>
-            </div>
+            <label className="text-label-13 inline-flex cursor-pointer items-start">
+              <Checkbox aria-label={demoText(language, "Option 1")} />
+              <span className="ml-2 text-foreground">{demoText(language, "Option 1")}</span>
+            </label>
           </div>
         </div>
       </div>
@@ -447,12 +445,10 @@ function CheckboxDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="indeterminate">
-            <div className="flex flex-col items-stretch justify-start gap-4">
-              <label className="text-label-13 inline-flex cursor-pointer items-start">
-                <Checkbox checked="indeterminate" aria-label={demoText(language, "Option 1")} />
-                <span className="ml-2 text-foreground">{demoText(language, "Option 1")}</span>
-              </label>
-            </div>
+            <label className="text-label-13 inline-flex cursor-pointer items-start">
+              <Checkbox checked="indeterminate" aria-label={demoText(language, "Option 1")} />
+              <span className="ml-2 text-foreground">{demoText(language, "Option 1")}</span>
+            </label>
           </div>
         </div>
       </div>
