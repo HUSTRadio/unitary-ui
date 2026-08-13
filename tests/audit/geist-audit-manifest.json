@@ -482,7 +482,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#single-select\"] ~ * label span[class*=\"--radio-color\"].size-4",
-                  "local": "span[data-slot=\"choicebox-radio-indicator\"]"
+                  "local": "[data-demo-container=\"single-select\"] span[data-slot=\"choicebox-radio-indicator\"]"
                 },
                 "byViewport": {}
               },
@@ -550,7 +550,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#multi-select\"] ~ * label span[class*=\"--checkbox-color\"]",
-                  "local": "span[data-slot=\"choicebox-checkbox-indicator\"]"
+                  "local": "[data-demo-container=\"multi-select\"] span[data-slot=\"choicebox-checkbox-indicator\"]"
                 },
                 "byViewport": {}
               },
@@ -618,7 +618,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#disabled\"] ~ * label span[class*=\"--radio-color\"].size-4",
-                  "local": "span[data-slot=\"choicebox-radio-indicator\"]"
+                  "local": "[data-demo-container=\"disabled\"] span[data-slot=\"choicebox-radio-indicator\"]"
                 },
                 "byViewport": {}
               },
