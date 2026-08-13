@@ -470,7 +470,7 @@
             "choicebox-row": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#single-select\"] ~ * ul label",
+                  "official": "a[href=\"#single-select\"] ~ * ul label.flex-1",
                   "local": "[data-demo-container=\"single-select\"] label"
                 },
                 "byViewport": {}
@@ -481,7 +481,7 @@
             "choicebox-box": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#single-select\"] ~ * label span[class*=\"--radio-color\"]",
+                  "official": "a[href=\"#single-select\"] ~ * label span[class*=\"--radio-color\"].size-4",
                   "local": "span[data-slot=\"choicebox-radio-indicator\"]"
                 },
                 "byViewport": {}
@@ -538,7 +538,7 @@
             "choicebox-row": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#multi-select\"] ~ * ul label",
+                  "official": "a[href=\"#multi-select\"] ~ * ul label.flex-1",
                   "local": "[data-demo-container=\"multi-select\"] label"
                 },
                 "byViewport": {}
@@ -606,7 +606,7 @@
             "choicebox-row": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#disabled\"] ~ * ul label",
+                  "official": "a[href=\"#disabled\"] ~ * ul label.flex-1",
                   "local": "[data-demo-container=\"disabled\"] label"
                 },
                 "byViewport": {}
@@ -617,7 +617,7 @@
             "choicebox-box": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#disabled\"] ~ * label span[class*=\"--radio-color\"]",
+                  "official": "a[href=\"#disabled\"] ~ * label span[class*=\"--radio-color\"].size-4",
                   "local": "span[data-slot=\"choicebox-radio-indicator\"]"
                 },
                 "byViewport": {}

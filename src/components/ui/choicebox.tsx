@@ -1,4 +1,4 @@
-import * as React from "react";
+﻿import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -231,7 +231,7 @@ function ChoiceboxGroupItem({
               aria-hidden="true"
               data-slot="choicebox-checkbox-indicator"
               className={cn(
-                "relative inline-flex size-4 items-center justify-center rounded-sm border border-[var(--ds-gray-500)] bg-[var(--ds-background-100)] transition-all duration-200",
+                "relative inline-flex size-4 items-center justify-center rounded-sm border border-[var(--ds-gray-500)] bg-[var(--ds-background-100)] text-[13px] transition-all duration-200",
                 "peer-checked:border-[var(--ds-blue-900)] peer-checked:bg-[var(--ds-blue-900)] peer-disabled:not-peer-checked:bg-[var(--ds-gray-100)] peer-disabled:peer-checked:border-[var(--gray-600)] peer-disabled:peer-checked:bg-[var(--gray-600)]",
               )}
             >

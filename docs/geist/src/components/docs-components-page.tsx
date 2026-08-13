@@ -967,8 +967,8 @@ function CalendarDemo() {
 
 function ChoiceboxDemo() {
   const { language } = useLanguage();
-  const [plan, setPlan] = React.useState("pro");
-  const [features, setFeatures] = React.useState<string[]>(["pro"]);
+  const [plan, setPlan] = React.useState("trial");
+  const [features, setFeatures] = React.useState<string[]>(["trial"]);
   const [disabledPlan, setDisabledPlan] = React.useState("pro");
   return (
     <div className="w-full max-w-2xl space-y-6">
