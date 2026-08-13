@@ -1010,7 +1010,12 @@ function SheetDemo() {
             <div className="flex items-center justify-center gap-4">
               <Sheet open={topOpen} onOpenChange={setTopOpen}>
                 <SheetTrigger asChild>
-                  <Button type="default">{demoText(language, "Open top")}</Button>
+                  <Button
+                    type="default"
+                    className="relative flex max-w-full whitespace-normal leading-[21px]"
+                  >
+                    {demoText(language, "Open top")}
+                  </Button>
                 </SheetTrigger>
                 <SheetContent side="top">
                   {sheetBody("Sheet from top", "This sheet slides in from the top.")}
@@ -1018,7 +1023,12 @@ function SheetDemo() {
               </Sheet>
               <Sheet open={rightOpen} onOpenChange={setRightOpen}>
                 <SheetTrigger asChild>
-                  <Button type="default">{demoText(language, "Open right")}</Button>
+                  <Button
+                    type="default"
+                    className="relative flex max-w-full whitespace-normal leading-[21px]"
+                  >
+                    {demoText(language, "Open right")}
+                  </Button>
                 </SheetTrigger>
                 <SheetContent side="right">
                   {sheetBody("Sheet from right", "This sheet slides in from the right.")}
@@ -1026,7 +1036,12 @@ function SheetDemo() {
               </Sheet>
               <Sheet open={bottomOpen} onOpenChange={setBottomOpen}>
                 <SheetTrigger asChild>
-                  <Button type="default">{demoText(language, "Open bottom")}</Button>
+                  <Button
+                    type="default"
+                    className="relative flex max-w-full whitespace-normal leading-[21px]"
+                  >
+                    {demoText(language, "Open bottom")}
+                  </Button>
                 </SheetTrigger>
                 <SheetContent side="bottom">
                   {sheetBody("Sheet from bottom", "This sheet slides in from the bottom.")}
@@ -1034,7 +1049,12 @@ function SheetDemo() {
               </Sheet>
               <Sheet open={leftOpen} onOpenChange={setLeftOpen}>
                 <SheetTrigger asChild>
-                  <Button type="default">{demoText(language, "Open left")}</Button>
+                  <Button
+                    type="default"
+                    className="relative flex max-w-full whitespace-normal leading-[21px]"
+                  >
+                    {demoText(language, "Open left")}
+                  </Button>
                 </SheetTrigger>
                 <SheetContent side="left">
                   {sheetBody("Sheet from left", "This sheet slides in from the left.")}
