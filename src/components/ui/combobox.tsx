@@ -1,4 +1,5 @@
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { Check, ChevronDown, Search, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -397,7 +398,7 @@ function Combobox({
           <ul aria-hidden="true">{options}</ul>
         )}
         {open
-          ? React.createPortal(
+          ? createPortal(
               <div
                 style={{
                   position: "fixed",
