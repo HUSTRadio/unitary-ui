@@ -9,13 +9,13 @@ import { cn } from "@/lib/utils";
  * 导出：Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle,
  *       SheetDescription, SheetFooter, SheetClose。
  * 侧边滑出面板：默认从右侧滑入，可通过 side 切换 top / right / bottom / left。
- * 材质对齐 Geist 实测（2026-08）：
+ * 材质对齐 Geist 实测（2026-08，1440x900 light）：
  * - overlay：bg-black/50
- * - content：bg-background w-full max-w-sm h-full p-6，
- *   border-l border-gray-alpha-400 shadow-[var(--material-shadow-modal)]
- * - title：text-heading-20 text-foreground
- * - description：text-copy-14 text-muted-foreground
- * - close：右上角 ghost icon button
+ * - right/left：fixed inset-y-0 m-3 w-[512px] rounded-[16px]，无 border
+ * - top/bottom：fixed inset-x-0 h-24 p-6，无圆角
+ * - 阴影：官方 modal-elevated 8 层（含 4 层透明前缀），内联 style 精确复刻
+ * - transition：Tailwind v4 `transition duration-200` 展开与官方一致
+ * - z-index：200（官方 --ds-z-drawer）
  * 官方语义（docs/geist-markdown-refs/components/sheet.md）：
  * - SheetContent 支持 noOverlay prop（true 时不渲染遮罩，内容仍为 modal）
  * - modal 语义由 Radix modal prop 透传（本组件默认 true，保持遮罩/焦点陷阱/
@@ -31,6 +31,13 @@ const Sheet = DialogPrimitive.Root;
 const SheetTrigger = DialogPrimitive.Trigger;
 const SheetPortal = DialogPrimitive.Portal;
 const SheetClose = DialogPrimitive.Close;
+
+/** 官方 geist shadow-modal-elevated 计算值（8 层，前 4 层透明前缀）。 */
+const SHEET_SHADOW =
+  "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, " +
+  "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, " +
+  "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.06) 0px 32px 72px -12px, " +
+  "rgba(0, 0, 0, 0.08) 0px 8px 32px -12px, rgba(0, 0, 0, 0.12) 0px 8px 24px -12px";
 
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
@@ -49,10 +56,10 @@ const SheetOverlay = React.forwardRef<
 SheetOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 const SIDE_STYLES: Record<SheetSide, string> = {
-  top: "inset-x-0 top-0 w-full border-b",
-  right: "inset-y-0 right-0 h-full w-full max-w-sm border-l",
-  bottom: "inset-x-0 bottom-0 w-full border-t",
-  left: "inset-y-0 left-0 h-full w-full max-w-sm border-r",
+  top: "inset-x-0 top-0 h-24 w-full p-6",
+  right: "inset-y-0 right-0 m-3 w-[512px] flex flex-col rounded-[16px]",
+  bottom: "inset-x-0 bottom-0 h-24 w-full p-6",
+  left: "inset-y-0 left-0 m-3 w-[512px] flex flex-col rounded-[16px]",
 };
 
 const SIDE_ANIM: Record<SheetSide, string> = {
@@ -71,18 +78,20 @@ interface SheetContentProps extends React.ComponentPropsWithoutRef<typeof Dialog
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   SheetContentProps
->(({ className, children, side = "right", noOverlay = false, ...props }, ref) => (
+>(({ className, children, side = "right", noOverlay = false, style, ...props }, ref) => (
   <SheetPortal>
     {!noOverlay && <SheetOverlay />}
     <DialogPrimitive.Content
       ref={ref}
+      data-slot="sheet-content"
       className={cn(
-        "fixed z-50 flex flex-col gap-4 bg-background p-6 shadow-[var(--material-shadow-modal)] outline-none",
+        "fixed z-[200] gap-4 bg-background outline-none transition duration-200",
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
         SIDE_STYLES[side],
         SIDE_ANIM[side],
         className,
       )}
+      style={{ boxShadow: SHEET_SHADOW, ...style }}
       onPointerDownOutside={(event) => event.preventDefault()}
       {...props}
     >

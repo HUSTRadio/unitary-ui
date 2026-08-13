@@ -556,13 +556,14 @@ describe("Geist audit manifest schema gate (Task 2: schema 基础门禁)", () =>
       "drawer",
       "empty-state",
       "entity",
+      "sheet",
     ]);
 
     // 已回填组件必须保留完整能力矩阵与具体 selector。
     const backfilled = manifest.components.filter((component: { slug: string }) =>
       BACKFILLED.has(component.slug),
     );
-    expect(backfilled).toHaveLength(14);
+    expect(backfilled).toHaveLength(15);
     for (const component of backfilled as Array<{
       slug: string;
       states: string[];
@@ -606,7 +607,7 @@ describe("Geist audit manifest schema gate (Task 2: schema 基础门禁)", () =>
     const skeletons = manifest.components.filter(
       (component: { slug: string }) => !BACKFILLED.has(component.slug),
     );
-    expect(skeletons.length).toBe(58);
+    expect(skeletons.length).toBe(57);
     for (const skeleton of skeletons) {
       expect(skeleton.inventoryStatus).toBe("pending_live_enumeration");
       expect(skeleton).not.toHaveProperty("acceptanceContracts");

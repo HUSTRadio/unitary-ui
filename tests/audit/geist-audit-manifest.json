@@ -4767,14 +4767,288 @@
     {
       "slug": "sheet",
       "officialUrl": "https://vercel.com/geist/sheet",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["default", "with-side"],
+      "states": ["default", "open"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "with-side"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": [
+        "click:trigger",
+        "key:escape",
+        "pointer:overlay-click",
+        "key:tab-trap"
+      ],
+      "responsiveExpectations": [
+        "panel:default right drawer w=512px inset-y-3 right-3 at 1440x900 (official measured)",
+        "top:with-side first trigger opens top sheet inset-x-0 top-0 h-24 at 1440x900 (official measured)",
+        "right:with-side second trigger opens right sheet w-96 inset-y-0 right-0 at 1440x900 (official measured)",
+        "lock:radix modal scroll lock while open"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[role=\"dialog\"][data-slot=\"sheet-content\"]",
+        "local": "[data-slot=\"sheet-content\"]"
       },
-      "interaction": "pending"
+      "interaction": "applicable",
+      "acceptanceContracts": [
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > button",
+                  "local": "[data-demo-container=\"default\"] > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > button span",
+                  "local": "[data-demo-container=\"default\"] > button span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "open",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > button",
+                  "local": "[data-demo-container=\"default\"] > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > button span",
+                  "local": "[data-demo-container=\"default\"] > button span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "[role=\"dialog\"][data-slot=\"sheet-content\"]",
+                  "local": "[data-slot=\"sheet-content\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "with-side",
+          "variant": "with-side",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-side\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"with-side\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-side\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"with-side\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-side\"] ~ * div.w-full.p-6 div.flex.items-center.justify-center.gap-4 > button",
+                  "local": "[data-demo-container=\"with-side\"] > div > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-side\"] ~ * div.w-full.p-6 div.flex.items-center.justify-center.gap-4 > button span",
+                  "local": "[data-demo-container=\"with-side\"] > div > button span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "with-side",
+          "variant": "with-side",
+          "state": "open",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-side\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"with-side\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-side\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"with-side\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-side\"] ~ * div.w-full.p-6 div.flex.items-center.justify-center.gap-4 > button",
+                  "local": "[data-demo-container=\"with-side\"] > div > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-side\"] ~ * div.w-full.p-6 div.flex.items-center.justify-center.gap-4 > button span",
+                  "local": "[data-demo-container=\"with-side\"] > div > button span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "[role=\"dialog\"][data-slot=\"sheet-content\"]",
+                  "local": "[data-slot=\"sheet-content\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "show-more",

@@ -934,25 +934,118 @@ function NoteDemo() {
 
 function SheetDemo() {
   const { language } = useLanguage();
+  const [open, setOpen] = React.useState(false);
+  const [topOpen, setTopOpen] = React.useState(false);
+  const [rightOpen, setRightOpen] = React.useState(false);
+  const [bottomOpen, setBottomOpen] = React.useState(false);
+  const [leftOpen, setLeftOpen] = React.useState(false);
+
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
+    </div>
+  );
+
+  const sheetBody = (title: string, description: string) => (
+    <div className="flex flex-col gap-4">
+      <SheetHeader className="p-6">
+        <SheetTitle>{demoText(language, title)}</SheetTitle>
+        <SheetDescription>{demoText(language, description)}</SheetDescription>
+      </SheetHeader>
+      <p className="px-6 py-4 text-copy-14 text-muted-foreground">
+        {demoText(language, "Sheet body")}
+      </p>
+      <SheetFooter className="p-6">
+        <SheetClose asChild>
+          <Button typeName="button" type="secondary">
+            {demoText(language, "Close")}
+          </Button>
+        </SheetClose>
+      </SheetFooter>
+    </div>
+  );
+
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button typeName="button">{demoText(language, "Open Sheet")}</Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Deployment Details</SheetTitle>
-          <SheetDescription>Inspect the latest production deployment.</SheetDescription>
-        </SheetHeader>
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button typeName="button" type="secondary">
-              Close
-            </Button>
-          </SheetClose>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+    <div className="w-full max-w-[862px] space-y-6">
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  type="default"
+                  className="relative flex max-w-full whitespace-normal leading-[21px]"
+                >
+                  {demoText(language, "Open Sheet")}
+                </Button>
+              </SheetTrigger>
+              <SheetContent>{sheetBody("Sheet Title", "Sheet description")}</SheetContent>
+            </Sheet>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="with-side"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="with-side">
+            <div className="flex items-center justify-center gap-4">
+              <Sheet open={topOpen} onOpenChange={setTopOpen}>
+                <SheetTrigger asChild>
+                  <Button type="default">{demoText(language, "Open top")}</Button>
+                </SheetTrigger>
+                <SheetContent side="top">
+                  {sheetBody("Sheet from top", "This sheet slides in from the top.")}
+                </SheetContent>
+              </Sheet>
+              <Sheet open={rightOpen} onOpenChange={setRightOpen}>
+                <SheetTrigger asChild>
+                  <Button type="default">{demoText(language, "Open right")}</Button>
+                </SheetTrigger>
+                <SheetContent side="right">
+                  {sheetBody("Sheet from right", "This sheet slides in from the right.")}
+                </SheetContent>
+              </Sheet>
+              <Sheet open={bottomOpen} onOpenChange={setBottomOpen}>
+                <SheetTrigger asChild>
+                  <Button type="default">{demoText(language, "Open bottom")}</Button>
+                </SheetTrigger>
+                <SheetContent side="bottom">
+                  {sheetBody("Sheet from bottom", "This sheet slides in from the bottom.")}
+                </SheetContent>
+              </Sheet>
+              <Sheet open={leftOpen} onOpenChange={setLeftOpen}>
+                <SheetTrigger asChild>
+                  <Button type="default">{demoText(language, "Open left")}</Button>
+                </SheetTrigger>
+                <SheetContent side="left">
+                  {sheetBody("Sheet from left", "This sheet slides in from the left.")}
+                </SheetContent>
+              </Sheet>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+    </div>
   );
 }
 
