@@ -15,7 +15,7 @@ const ContextMenuContent = React.forwardRef<
       ref={ref}
       onContextMenu={(event) => event.preventDefault()}
       className={cn(
-        "z-50 w-max overflow-hidden rounded-[12px] bg-background-100 p-1.5 text-sm text-foreground shadow-[var(--material-shadow-menu)] max-sm:w-full max-sm:rounded-b-none",
+        "material-menu text-sm outline-hidden overflow-x-hidden overflow-y-auto p-1.5 overscroll-contain w-[160px] max-sm:w-full max-sm:rounded-b-none",
         className,
       )}
       {...props}
