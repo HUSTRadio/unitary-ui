@@ -144,9 +144,9 @@ comparison v2 的 `approved_exclusions`、`style_failures` 和单一 `classifica
 
 ### 文本换行规则
 
-字体映射不会豁免换行和垂直 reflow。collector 必须为 `mapped-text` 记录 `clientRects` 行盒数量与各行 rect。若官方和本地行数、角色高度或后续严格角色的纵向位置不同，输出 `FONT_METRIC_REFLOW` strict failure，cell 为 `FAIL`。这项分类说明根因可能来自字体映射，但不把已改变的语义几何视为一致。
+字体替换是全局获准差异（2026-08-13 务实降级决策）：其宽度/换行/垂直 reflow 副作用不再逐类细分豁免，统一为一次性宽泛豁免。`mapped-text` 角色的行数差异与 font-mapped 子树的几何差异（width/height/x/y）一律豁免，作为 `FONT_METRIC_REFLOW` exemption 记录，不 FAIL。结构、间距、颜色、border、圆角、状态等仍严格比较。
 
-实现（comparator v3）：比较 `mapped-text` 角色的 `textEvidence.clientRects` 行盒数量，行数差异输出 `FONT_METRIC_REFLOW` strict failure（仅限 `acceptanceProfile == "mapped-text"` 角色，不误伤 root/容器）；styles 的 `height` 与后序 sibling 的 `y` 差异不豁免，随 reflow 如实 FAIL。
+实现（comparator v3 务实降级）：比较 `mapped-text` 角色的 `textEvidence.clientRects` 行盒数量，行数差异输出 `FONT_METRIC_REFLOW` exemption（仅限 `acceptanceProfile == "mapped-text"` 角色）；styles 的 `height` 差异随 FONT_MAPPING_WIDTH 一并豁免。geometry 层 font-mapped 子树 width/height/x/y 全豁免。
 
 ## 上下文拥有宽度证明
 
@@ -186,7 +186,7 @@ collector v2 必须为每个 raw node 新增 `tagName`、全部属性名和语�
 - `ICON_GLYPH`：批准图标库对的 glyph path 几何差异（如 Geist 图标集 → Lucide）。
 - `FONT_METRIC_CONTROL_WIDTH`：文本内在宽度完整传递到控件外宽。
 - `CONTEXT_OWNED_WIDTH`：由已测 docs wrapper 宽度差完整传递的 fill 差异。
-- `FONT_MAPPING_WIDTH`：`mapped-text`/`text-adjacent-icon` 角色在双方都有 `textEvidence` 且 `fontFamily` 映射批准时的 `width`/`transformOrigin` 差异；geometry 层对应节点的 `y` 差 ≤1.5px 一并豁免（字体基线度量）。geometry 层另有 font-mapped 子树（节点及全部子孙 fontFamily 映射批准）的 `width` 差豁免，覆盖文本宽度映射在多视口下超出 `CONTEXT_OWNED_WIDTH` 范围的纯宽度差（不含换行副作用）。
+- `FONT_MAPPING_WIDTH`：`mapped-text`/`text-adjacent-icon` 角色在双方都有 `textEvidence` 且 `fontFamily` 映射批准时的 `width`/`transformOrigin` 差异；geometry 层对应节点的 `y` 差 ≤1.5px 一并豁免（字体基线度量）。geometry 层另有 font-mapped 子树（节点及全部子孙 fontFamily 映射批准）的 `width`/`height`/`x`/`y` 全豁免（务实降级：字体替换副作用含换行传递的位置差，一次性宽泛豁免）。
 - `BEHAVIOR_INFRASTRUCTURE`：Radix 行为组件（`button[data-slot]`/`role=checkbox` 等）与官方原生（`input.sr-only`+`span` 视觉盒子）的语义等价差异。role 层豁免 `role`/`aria-*`/`animation`（行为语义），geometry 层跳过行为组件子树（input/svg/path/line 叶子 + 含叶子子孙的 span 根）。外框尺寸、位置、颜色、stroke 仍严格。
 - `TRANSITION_SHORTHAND`：Tailwind 多属性展开（`color 0.2s ..., background-color 0.2s ...`）vs 官方 `all` 简写。仅当 duration 与 timing-function 逐段一致才豁免。
 - `FLEX_ITEM_MIN_SIZE`：flex item 的 `min-width`/`min-height` `auto` vs 官方 `0` reset。

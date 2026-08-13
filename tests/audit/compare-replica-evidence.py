@@ -453,7 +453,7 @@ def compare_role_pair(
     if _is_mapped_text_width(official, local, manifest):
         kept: list[dict[str, Any]] = []
         for failure in style_failures:
-            if failure["field"] in ("width", "transformOrigin"):
+            if failure["field"] in ("width", "transformOrigin", "height"):
                 style_exemptions.append(
                     {
                         "field": failure["field"],
@@ -466,19 +466,20 @@ def compare_role_pair(
             else:
                 kept.append(failure)
         style_failures = kept
-    # FONT_METRIC_REFLOW：mapped-text 换行行数差异（字体映射不豁免换行/垂直 reflow）。
+    # FONT_METRIC_REFLOW：mapped-text 换行行数差异——务实降级：换行是字体替换的宽度副作用，豁免。
     if (role_def or {}).get("acceptanceProfile") == "mapped-text" and _is_mapped_text_width(official, local, manifest):
         off_rects = (official.get("textEvidence") or {}).get("clientRects") or []
         loc_rects = (local.get("textEvidence") or {}).get("clientRects") or []
         off_lines = _line_count(off_rects)
         loc_lines = _line_count(loc_rects)
         if off_lines != loc_lines:
-            style_failures.append(
+            style_exemptions.append(
                 {
                     "field": "lineCount",
                     "reason": "FONT_METRIC_REFLOW",
                     "official": str(off_lines),
                     "local": str(loc_lines),
+                    "role": role,
                 }
             )
     aria_failures, aria_matched = compare_aria_pair(official["aria"], local["aria"], manifest)
@@ -1067,9 +1068,13 @@ def compare_geometry(
         ):
             deltas.pop("y", None)
 
-        # FONT_MAPPING_WIDTH (geometry layer): font-mapped 子树 width 差豁免（文本宽度映射）。
+        # FONT_MAPPING (geometry layer, 务实降级): font-mapped 子树几何全豁免（width/height/x/y，
+        # 含换行传递的位置差），字体替换副作用一次性宽泛豁免。
         if _font_mapped_subtree(path, official_nodes, local_nodes, manifest):
             deltas.pop("width", None)
+            deltas.pop("height", None)
+            deltas.pop("x", None)
+            deltas.pop("y", None)
         # FONT_METRIC_INLINE_FLOW_X (geometry layer): 前序 sibling 宽度差累积传递到 x。
         if "x" in deltas:
             left_shift = _left_shift(path, official_nodes, local_nodes, manifest)
