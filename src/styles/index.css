@@ -895,6 +895,14 @@
   line-height: 1rem; /* 16px */
   font-weight: 400;
 }
+
+/* Checkbox label：官方 checkbox 页 label 用 text-[13px]（继承 body 1.5 → 19.5px），
+   而非 label-13 的紧凑 16px；此处显式对齐官方 checkbox 组件的实际行高。 */
+@utility text-checkbox-label {
+  font-size: 0.8125rem;
+  line-height: 1.5em; /* 19.5px */
+  font-weight: 400;
+}
 @utility text-label-14-mono {
   font-size: 0.875rem;
   line-height: 1.25rem; /* 20px */
