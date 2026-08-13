@@ -401,6 +401,17 @@ def _is_mapped_text_width(
     return is_approved_font_mapping(off_font, loc_font, approved)
 
 
+def _line_count(rects: list[Any]) -> int:
+    """按 y 去重 clientRects 计算行数（同一行的 inline 子元素共享同一 y）。"""
+    ys: set[float] = set()
+    for r in rects:
+        if isinstance(r, dict):
+            y = r.get("y")
+            if y is not None:
+                ys.add(round(float(y), 1))
+    return len(ys)
+
+
 def compare_role_pair(
     official: dict[str, Any] | None,
     local: dict[str, Any] | None,
@@ -456,13 +467,15 @@ def compare_role_pair(
     if (role_def or {}).get("acceptanceProfile") == "mapped-text" and _is_mapped_text_width(official, local, manifest):
         off_rects = (official.get("textEvidence") or {}).get("clientRects") or []
         loc_rects = (local.get("textEvidence") or {}).get("clientRects") or []
-        if len(off_rects) != len(loc_rects):
+        off_lines = _line_count(off_rects)
+        loc_lines = _line_count(loc_rects)
+        if off_lines != loc_lines:
             style_failures.append(
                 {
                     "field": "lineCount",
                     "reason": "FONT_METRIC_REFLOW",
-                    "official": str(len(off_rects)),
-                    "local": str(len(loc_rects)),
+                    "official": str(off_lines),
+                    "local": str(loc_lines),
                 }
             )
     aria_failures, aria_matched = compare_aria_pair(official["aria"], local["aria"], manifest)

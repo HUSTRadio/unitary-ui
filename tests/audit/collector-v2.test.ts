@@ -26,6 +26,10 @@ const manifest = {
         localPrimaryFamily: "HarmonyOS Sans SC",
       },
       {
+        officialPrimaryFamily: "GeistSans",
+        localPrimaryFamily: "HarmonyOS Sans SC",
+      },
+      {
         officialPrimaryFamily: "Geist Mono",
         localPrimaryFamily: "JetBrains Maple Mono",
       },

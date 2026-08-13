@@ -65,6 +65,7 @@ describe("Geist audit manifest v2 acceptance contracts", () => {
     expect(manifest).not.toHaveProperty("globalExclusionPolicy");
     expect(manifest.acceptancePolicy.approvedFontMappings).toEqual([
       { officialPrimaryFamily: "Geist", localPrimaryFamily: "HarmonyOS Sans SC" },
+      { officialPrimaryFamily: "GeistSans", localPrimaryFamily: "HarmonyOS Sans SC" },
       { officialPrimaryFamily: "Geist Mono", localPrimaryFamily: "JetBrains Maple Mono" },
     ]);
     expect(manifest.acceptancePolicy.localSourceInputs).toContain("src/**");
