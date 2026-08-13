@@ -411,7 +411,8 @@ test("font-mapped inline flow x (sibling width propagation) is exempted", () => 
   const second = report.geometry.nodes.find((n: { path: string }) => n.path === "0.0.1");
   expect(second).toBeTruthy();
   expect(second.delta.x).toBeUndefined();
-  expect(second.delta.width).toBe(0);
+  // width 亦被 font-mapped 子树豁免（宽度差 0 被 pop）
+  expect(second.delta.width).toBeUndefined();
 });
 
 });

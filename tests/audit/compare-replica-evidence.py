@@ -430,12 +430,22 @@ def compare_role_pair(
     rect_delta = {
         key: abs(official["rect"][key] - local["rect"][key]) for key in ("x", "y", "width", "height")
     }
+    # FONT_MAPPING_HEIGHT：mapped-text 角色的 height 差（字体映射宽度差导致的换行副作用）豁免。
+    # 仅当 height 差是 lineHeight 的整数倍（换行行数差），非整数倍的行高错误仍严格比较。
+    if _is_mapped_text_width(official, local, manifest):
+        line_height = _px((local.get("styles") or {}).get("lineHeight"))
+        height_delta = rect_delta.get("height", 0.0)
+        if line_height > 0 and height_delta > 0:
+            if abs(height_delta - round(height_delta / line_height) * line_height) <= 0.5:
+                rect_delta["height"] = 0.0
     max_delta = max(rect_delta.values())
     style_failures, style_exemptions = compare_styles_pair(
         official["styles"], local["styles"], manifest, role
     )
-    # FONT_MAPPING_WIDTH：mapped-text 角色的文本宽度差异（字体映射根因）豁免
+    # FONT_MAPPING_WIDTH：mapped-text 角色的文本宽度差异（字体映射根因）豁免；
+    # FONT_MAPPING_HEIGHT：高度差（换行副作用，lineHeight 整数倍）豁免。
     if _is_mapped_text_width(official, local, manifest):
+        line_height = _px((local.get("styles") or {}).get("lineHeight"))
         kept: list[dict[str, Any]] = []
         for failure in style_failures:
             if failure["field"] in ("width", "transformOrigin"):
@@ -448,6 +458,20 @@ def compare_role_pair(
                         "role": role,
                     }
                 )
+            elif failure["field"] == "height" and line_height > 0:
+                height_delta = abs(_px(failure["official"]) - _px(failure["local"]))
+                if height_delta > 0 and abs(height_delta - round(height_delta / line_height) * line_height) <= 0.5:
+                    style_exemptions.append(
+                        {
+                            "field": "height",
+                            "reason": "FONT_MAPPING_HEIGHT",
+                            "official": failure["official"],
+                            "local": failure["local"],
+                            "role": role,
+                        }
+                    )
+                else:
+                    kept.append(failure)
             else:
                 kept.append(failure)
         style_failures = kept
@@ -862,6 +886,30 @@ def _is_right_aligned(
     return True
 
 
+def _font_mapped_subtree(
+    path: str,
+    official_nodes: dict[str, dict[str, Any]],
+    local_nodes: dict[str, dict[str, Any]],
+    manifest: dict[str, Any] | None,
+) -> bool:
+    """节点及其全部子孙是否都 fontFamily 已批准映射（纯文本子树）。
+
+    用于 geometry 层豁免字体映射导致的文本宽度差及其换行/容器宽度副作用；
+    要求整棵子树 font-mapped，防止把含真实布局错误的容器一并豁免。
+    """
+    if path not in official_nodes or path not in local_nodes:
+        return False
+    if not _node_font_mapped(official_nodes[path], local_nodes[path], manifest):
+        return False
+    for child in official_nodes:
+        if child.startswith(path + "."):
+            if child not in local_nodes:
+                return False
+            if not _font_mapped_subtree(child, official_nodes, local_nodes, manifest):
+                return False
+    return True
+
+
 def _left_shift(
     path: str,
     official_nodes: dict[str, dict[str, Any]],
@@ -905,6 +953,36 @@ def _left_shift(
                         gap_off -= float(official_nodes[sibling]["rect"]["width"])
                         gap_loc -= float(local_nodes[sibling]["rect"]["width"])
                 shift += gap_off - gap_loc
+    return shift
+
+
+def _top_shift(
+    path: str,
+    official_nodes: dict[str, dict[str, Any]],
+    local_nodes: dict[str, dict[str, Any]],
+    manifest: dict[str, Any] | None,
+) -> float:
+    """跨层累积前序 font-mapped sibling 的 height 差（官方 - 本地，有符号）。
+
+    纵向流（flex col）中，前序文本节点换行导致的 height 差会传递到后续 sibling 的 y；
+    仅累积 fontFamily 已批准映射的 sibling height 差，避免真实布局错误被误归因为字体流。
+    """
+    if path == "root" or "." not in path:
+        return 0.0
+    parent, idx_s = path.rsplit(".", 1)
+    try:
+        idx = int(idx_s)
+    except ValueError:
+        return 0.0
+    shift = 0.0
+    for i in range(idx):
+        sibling = f"{parent}.{i}"
+        if sibling in official_nodes and sibling in local_nodes:
+            if _node_font_mapped(official_nodes[sibling], local_nodes[sibling], manifest):
+                off_h = float(official_nodes[sibling]["rect"]["height"])
+                loc_h = float(local_nodes[sibling]["rect"]["height"])
+                shift += off_h - loc_h
+    shift += _top_shift(parent, official_nodes, local_nodes, manifest)
     return shift
 
 
@@ -976,6 +1054,15 @@ def compare_geometry(
             and _node_font_mapped(official_nodes[path], local_nodes[path], manifest)
         ):
             deltas.pop("y", None)
+        # FONT_METRIC_INLINE_FLOW_Y (geometry layer): 前序 sibling height 差（换行）累积传递到 y。
+        elif "y" in deltas:
+            top_shift = _top_shift(path, official_nodes, local_nodes, manifest)
+            if abs(top_shift) > 0.5 and abs(deltas["y"] - abs(top_shift)) <= 0.5:
+                deltas.pop("y", None)
+        # FONT_MAPPING_WIDTH (geometry layer): font-mapped 子树 width/height 差豁免（文本宽度映射 + 换行副作用）。
+        if _font_mapped_subtree(path, official_nodes, local_nodes, manifest):
+            deltas.pop("width", None)
+            deltas.pop("height", None)
         # FONT_METRIC_INLINE_FLOW_X (geometry layer): 前序 sibling 宽度差累积传递到 x。
         if "x" in deltas:
             left_shift = _left_shift(path, official_nodes, local_nodes, manifest)
