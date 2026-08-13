@@ -33,6 +33,12 @@
         "localPrimaryFamily": "JetBrains Maple Mono"
       }
     ],
+    "approvedIconMappings": [
+      {
+        "officialIconSet": "geist",
+        "localIconSet": "lucide"
+      }
+    ],
     "localSourceInputs": [
       "src/**",
       "public/fonts/**",

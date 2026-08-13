@@ -461,20 +461,192 @@ def normalized_nodes(metrics: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return normalized
 
 
-def compare_geometry(official: dict[str, Any], local: dict[str, Any]) -> dict[str, Any]:
+def _px(value: Any) -> float:
+    if isinstance(value, (int, float)):
+        return float(value)
+    if isinstance(value, str):
+        match = re.match(r"([\d.]+)px", value.strip())
+        if match:
+            return float(match.group(1))
+    return 0.0
+
+
+def _content_box_width(metrics: dict[str, Any], role_name: str) -> float | None:
+    role = (metrics.get("roles") or {}).get(role_name)
+    if not role or not role.get("present"):
+        return None
+    rect = role.get("rect") or {}
+    styles = role.get("styles") or {}
+    width = float(rect.get("width", 0))
+    pad_left = _px(styles.get("paddingLeft", "0px"))
+    pad_right = _px(styles.get("paddingRight", "0px"))
+    return width - pad_left - pad_right
+
+
+def _rects_close(a: dict[str, Any] | None, b: dict[str, Any] | None, eps: float = 0.5) -> bool:
+    if not a or not b:
+        return False
+    for key in ("x", "y", "width", "height"):
+        if abs(float(a.get(key, 0)) - float(b.get(key, 0))) > eps:
+            return False
+    return True
+
+
+def _analyze_icon_exemptions(
+    official: dict[str, Any],
+    local: dict[str, Any],
+    manifest: dict[str, Any] | None,
+    official_cell: dict[str, Any] | None,
+) -> tuple[set[str], set[str], list[dict[str, Any]]]:
+    """Identify icon glyph subtrees and anchor-edge x deltas eligible for exemption.
+
+    Only active when ``acceptancePolicy.approvedIconMappings`` approves an icon-set
+    pair. ``glyph_prefixes`` are the ``svg`` node paths whose descendants are glyph
+    geometry; ``x_exempt_paths`` are node paths whose ``x`` delta is fully explained
+    by the anchor text's right-edge delta.
+    """
+    glyph_prefixes: set[str] = set()
+    x_exempt_paths: set[str] = set()
+    exclusions: list[dict[str, Any]] = []
+
+    if manifest is None:
+        return glyph_prefixes, x_exempt_paths, exclusions
+    approved_icons = manifest.get("acceptancePolicy", {}).get("approvedIconMappings", [])
+    if not approved_icons:
+        return glyph_prefixes, x_exempt_paths, exclusions
+
+    contract = (official_cell or {}).get("contract") or {}
+    roles = contract.get("roles", {})
+    official_nodes = {str(n.get("path")): n for n in official.get("nodes", [])}
+    official_roles = official.get("roles") or {}
+    local_roles = local.get("roles") or {}
+
+    # text-adjacent-icon role rect -> node path
+    icon_role_paths: set[str] = set()
+    for role_name, role_def in roles.items():
+        if role_def.get("acceptanceProfile") != "text-adjacent-icon":
+            continue
+        role_rect = (official_roles.get(role_name) or {}).get("rect")
+        if not role_rect:
+            continue
+        for path, node in official_nodes.items():
+            if _rects_close(node.get("rect", {}), role_rect):
+                icon_role_paths.add(path)
+                break
+
+    # icon svg nodes: descendants of a text-adjacent-icon role node
+    svg_paths: set[str] = set()
+    for path, node in official_nodes.items():
+        if node.get("tag") != "svg":
+            continue
+        if path in icon_role_paths or any(
+            path.startswith(role_path + ".") for role_path in icon_role_paths
+        ):
+            svg_paths.add(path)
+            glyph_prefixes.add(path)
+
+    # anchor-edge x delta: icon x displacement must equal the text right-edge delta
+    for role_name, role_def in roles.items():
+        if role_def.get("acceptanceProfile") != "text-adjacent-icon":
+            continue
+        text_role = role_def.get("textRole")
+        if not text_role or text_role not in official_roles or text_role not in local_roles:
+            continue
+        off_text = (official_roles[text_role].get("textEvidence") or {}).get("clientRects") or []
+        loc_text = (local_roles[text_role].get("textEvidence") or {}).get("clientRects") or []
+        if not off_text or not loc_text:
+            continue
+        off_right = float(off_text[0]["x"]) + float(off_text[0]["width"])
+        loc_right = float(loc_text[0]["x"]) + float(loc_text[0]["width"])
+        text_right_delta = off_right - loc_right
+
+        off_icon = (official_roles.get(role_name) or {}).get("rect")
+        loc_icon = (local_roles.get(role_name) or {}).get("rect")
+        if not off_icon or not loc_icon:
+            continue
+        icon_x_delta = float(off_icon["x"]) - float(loc_icon["x"])
+        residual = icon_x_delta - text_right_delta
+        if abs(residual) <= 0.5:
+            x_exempt_paths.update(icon_role_paths)
+            x_exempt_paths.update(svg_paths)
+            exclusions.append(
+                {
+                    "classification": "FONT_METRIC_ADJACENT_ICON_X",
+                    "scope": "geometry",
+                    "role": role_name,
+                    "evidence": {
+                        "iconXDelta": clean_number(icon_x_delta),
+                        "textRightDelta": clean_number(text_right_delta),
+                        "residual": clean_number(residual),
+                    },
+                }
+            )
+            break
+
+    if glyph_prefixes:
+        exclusions.append(
+            {
+                "classification": "ICON_GLYPH",
+                "scope": "geometry",
+                "evidence": {"svgPaths": sorted(glyph_prefixes)},
+            }
+        )
+
+    return glyph_prefixes, x_exempt_paths, exclusions
+
+
+def compare_geometry(
+    official: dict[str, Any],
+    local: dict[str, Any],
+    manifest: dict[str, Any] | None = None,
+    official_cell: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     official_nodes = normalized_nodes(official)
     local_nodes = normalized_nodes(local)
+    glyph_prefixes, x_exempt_paths, icon_exclusions = _analyze_icon_exemptions(
+        official, local, manifest, official_cell
+    )
+    # Context-owned width at the geometry layer: exempt width deltas equal to the
+    # measurement-context content-box delta (the same host-container difference
+    # already exempted at the role level).
+    context_width_exempt: set[str] = set()
+    if official_cell is not None:
+        contract_roles = (official_cell.get("contract") or {}).get("roles", {})
+        context_delta = 0.0
+        for role_name, role_def in contract_roles.items():
+            if role_def.get("acceptanceProfile") != "measurement-context":
+                continue
+            off_cb = _content_box_width(official, role_name)
+            loc_cb = _content_box_width(local, role_name)
+            if off_cb is not None and loc_cb is not None:
+                context_delta = max(context_delta, abs(off_cb - loc_cb))
+        if context_delta > 0:
+            for path in set(official_nodes) & set(local_nodes):
+                off_w = float(official_nodes[path]["rect"]["width"])
+                loc_w = float(local_nodes[path]["rect"]["width"])
+                if abs(off_w - loc_w) <= context_delta + 0.5:
+                    context_width_exempt.add(path)
     rows = []
     max_delta = 0.0
     missing = []
     for path in sorted(set(official_nodes) | set(local_nodes)):
+        # ICON_GLYPH: glyph descendants of an icon svg are exempted entirely.
+        if any(path.startswith(prefix + ".") for prefix in glyph_prefixes):
+            continue
         if path not in official_nodes or path not in local_nodes:
             missing.append(path)
             continue
         expected = official_nodes[path]["rect"]
         actual = local_nodes[path]["rect"]
         deltas = {key: abs(expected[key] - actual[key]) for key in expected}
-        max_delta = max(max_delta, *deltas.values())
+        # FONT_METRIC_ADJACENT_ICON_X: anchor-edge x delta is exempted.
+        if path in x_exempt_paths:
+            deltas.pop("x", None)
+        # CONTEXT_OWNED_WIDTH (geometry layer): fill width delta is exempted.
+        if path in context_width_exempt:
+            deltas.pop("width", None)
+        if deltas:
+            max_delta = max(max_delta, *deltas.values())
         rows.append(
             {
                 "path": path,
@@ -487,6 +659,7 @@ def compare_geometry(official: dict[str, Any], local: dict[str, Any]) -> dict[st
         "max_geometry_delta_px": clean_number(max_delta),
         "missing_paths": missing,
         "nodes": rows,
+        "iconExclusions": icon_exclusions,
     }
 
 
@@ -550,7 +723,7 @@ def main() -> None:
 
     official_metrics = load_json(args.official_metrics)
     local_metrics = load_json(args.local_metrics)
-    geometry = compare_geometry(official_metrics, local_metrics)
+    geometry = compare_geometry(official_metrics, local_metrics, manifest, official_cell)
     style_failures = compare_styles(official_metrics, local_metrics)
     role_comparisons, missing_roles, unexpected_roles = compare_roles_by_viewport(
         official_metrics, local_metrics, args.geometry_threshold, manifest
@@ -764,6 +937,9 @@ def main() -> None:
         local_w = float(local_size[0]) if local_size else 0.0
         if abs(off_w - local_w) <= context_delta + 0.5:
             dimension_mismatch_explained = True
+
+    # Merge geometry-level icon exemptions into approved exclusions.
+    approved_exclusions_v3.extend(geometry.get("iconExclusions", []))
 
     # Determine v3 semantic status
     has_strict_failures = bool(strict_failures_v3)

@@ -30,6 +30,7 @@ const manifest = {
         localPrimaryFamily: "JetBrains Maple Mono",
       },
     ],
+    approvedIconMappings: [{ officialIconSet: "geist", localIconSet: "lucide" }],
     localSourceInputs: ["src/**", "package.json"],
     pixelAttribution: {
       foregroundColorDistanceMax: 0,

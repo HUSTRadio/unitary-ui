@@ -172,6 +172,13 @@ describe("Geist audit manifest v2 acceptance contracts", () => {
     });
     expectRejected(unapproved);
 
+    const unapprovedIcon = candidateManifest(validContract);
+    unapprovedIcon.acceptancePolicy.approvedIconMappings.push({
+      officialIconSet: "geist",
+      localIconSet: "fontawesome",
+    });
+    expectRejected(unapprovedIcon);
+
     const cellExclusion = structuredClone(validContract) as Record<string, unknown>;
     cellExclusion.approvedExclusions = [];
     expectRejected(candidateManifest(cellExclusion));

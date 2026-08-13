@@ -96,7 +96,7 @@ comparison v2 的 `approved_exclusions`、`style_failures` 和单一 `classifica
 | --------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `strict`              | 容器、表面、固定尺寸控件、未知角色                   | 批准字体对的 `fontFamily`；无字体几何豁免                                 | 除 `fontFamily` 身份外的全部字段                                                                                                                        |
 | `mapped-text`         | 直接承载文本的 `dt`、`dd`、label、paragraph 等       | `fontFamily`；有字体映射证据时的 `width`、`right`；有 flow 锚证明时的 `x` | `y`、`height`、`top`、`bottom`、`fontSize`、`fontWeight`、`lineHeight`、`letterSpacing`、颜色、opacity、padding、margin、border、radius、overflow、ARIA |
-| `text-adjacent-icon`  | 紧邻映射文本、由文本行盒定位的图标或 Tooltip shell   | 锚边位移完整传递时的 `x`、`right`                                         | `y`、`width`、`height`、图标 path/stroke/color、垂直对齐、状态、ARIA                                                                                    |
+| `text-adjacent-icon`  | 紧邻映射文本、由文本行盒定位的图标或 Tooltip shell   | 锚边位移完整传递时的 `x`、`right`；图标库 glyph 的 path 几何              | `y`、`width`、`height`、图标 stroke/color、垂直对齐、状态、ARIA                                                                                         |
 | `text-sized-control`  | Button、Badge、Chip、Tab 等由文本内在宽度决定的控件  | `textRole` 证明完整传递时的 `fontFamily` 和 `width`                       | `x`、`y`、`height`、padding、gap、border、radius、图标几何、状态、ARIA                                                                                  |
 | `measurement-context` | 组件截图外、仅用于归因的 docs host 内容盒            | 已声明轴上的 `x`、`width`、`right`，只作为 context 原始输入               | `y`、`height`、box-sizing、padding、border、transform、overflow；禁止成为组件 PASS 的唯一角色                                                           |
 | `context-owned-fill`  | 填满显式 `contextOwnerRole` 内容盒的组件或 fill 容器 | context 内容盒差完整传递时的 `x`、`width`、`right`                        | `y`、`height`、内部 padding/gap、边框、radius、overflow、响应式结构                                                                                     |
@@ -117,12 +117,14 @@ comparison v2 的 `approved_exclusions`、`style_failures` 和单一 `classifica
 
 `mapped-text` 自身字体度量只能直接证明 `width` 以及由同一 `x + width` 推导出的 `right`。它的 `x` 默认严格；只有 contract 显式声明 `flowAnchorRole`、双方 DOM 顺序和布局方向一致，并验证 `textXDelta - anchorEdgeDelta` 的有符号残差通过时，才能输出 `FONT_METRIC_INLINE_FLOW_X`。这避免把真实的左 padding、margin 或定位错误归因给字体。
 
-`text-adjacent-icon` 必须显式声明 `textRole` 和 `anchorEdge`（`left | right`）。双方 DOM 顺序、布局方向、computed gap/margin 必须严格一致，并验证 `iconEdgeDelta - textAnchorEdgeDelta` 的有符号残差通过；仅凭角色名或邻接关系不能豁免。满足时输出 `FONT_METRIC_ADJACENT_ICON_X`。
+`text-adjacent-icon` 必须显式声明 `textRole` 和 `anchorEdge`（`left | right`）。双方 DOM 顺序、布局方向、computed gap/margin 必须严格一致，并验证 `iconEdgeDelta - textAnchorEdgeDelta` 的有符号残差通过；仅凭角色名或邻接关系不能豁免。满足时输出 `FONT_METRIC_ADJACENT_ICON_X`。图标 glyph（`svg` 子树的 path/circle 几何）差异在 `acceptancePolicy.approvedIconMappings` 批准图标库对时豁免，输出 `ICON_GLYPH`；图标外框（`svg` 尺寸）、stroke、color 仍严格比较，glyph 豁免不覆盖外框尺寸、颜色、垂直对齐、gap 或 ARIA 差异。
 
 初始批准映射只有：
 
 - `Geist` → `HarmonyOS Sans SC`；
 - `Geist Mono` → `JetBrains Maple Mono`。
+
+图标库映射（`acceptancePolicy.approvedIconMappings`）独立于字体映射：初始批准只有 `Geist` 图标集 → `Lucide`。它只豁免 icon glyph 的 path 几何，不豁免 icon 外框尺寸、stroke、color、对齐或 ARIA；新增、扩展映射同样须改 schema 约束、加负向测试并人工 review，禁止在单个 ledger cell 临时批准。
 
 上面的键来自本轮 live evidence 与 `src/styles/index.css` 的 computed primary family，不是品牌展示名：仓库外当前官方 evidence 的 primary token 为 `Geist`，尽管品牌名称是 Geist Sans；本地 Mono 的实际 token 是 `JetBrains Maple Mono`，不能缩写为 `Maple Mono`。新增、别名化或扩展映射都会改变全局验收边界，必须修改 manifest schema 约束、增加负向测试并独立人工 review；禁止在单个 ledger cell 临时批准。
 
@@ -177,6 +179,7 @@ collector v2 必须为每个 raw node 新增 `tagName`、全部属性名和语�
 - `FONT_METRIC_INLINE_GEOMETRY`：`mapped-text` 的横向度量差异。
 - `FONT_METRIC_INLINE_FLOW_X`：由已证明的前序文本锚边位移传递到当前文本的横向位置差异。
 - `FONT_METRIC_ADJACENT_ICON_X`：文本邻接图标的横向位置差异。
+- `ICON_GLYPH`：批准图标库对的 glyph path 几何差异（如 Geist 图标集 → Lucide）。
 - `FONT_METRIC_CONTROL_WIDTH`：文本内在宽度完整传递到控件外宽。
 - `CONTEXT_OWNED_WIDTH`：由已测 docs wrapper 宽度差完整传递的 fill 差异。
 - `UNEXPLAINED_PIXEL_DELTA`：结构化差异无法解释的非字体像素差，经确定性 mask 仍存在。
@@ -381,7 +384,7 @@ ledger 每个 READY/BLOCKED 结果还必须保存：
 2. `mapped-text` 在排版和垂直几何一致时豁免横向宽度差。
 3. `mapped-text` 的高度、行高、颜色或 padding 不一致时仍失败。
 4. `mapped-text` 的 `x` 默认严格；只有显式 flow anchor 的有符号残差通过时才豁免。
-5. `text-adjacent-icon` 只有锚边位移残差通过时豁免横向位置；图标尺寸、垂直位置、gap 或颜色不一致时失败。
+5. `text-adjacent-icon` 只有锚边位移残差通过时豁免横向位置；glyph path 几何在批准图标库对下豁免，但图标外框尺寸、stroke、颜色、垂直位置、gap 不一致时仍失败。
 6. `text-sized-control` 只有在控件宽差与显式 text role 宽差残差通过时豁免；padding、图标或固定宽度差仍失败。
 7. `measurement-context` 只能被组件角色引用；host 差异不参与组件 verdict，也不能遮蔽组件自身失败。
 8. `context-owned-fill` 只有在角色与显式 owner 的有符号宽差残差通过时豁免，验证阈值作用于残差而非原 delta。

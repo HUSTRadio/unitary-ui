@@ -46,6 +46,7 @@
       "required": [
         "evidenceEpochNotBefore",
         "approvedFontMappings",
+        "approvedIconMappings",
         "localSourceInputs",
         "pixelAttribution"
       ],
@@ -60,6 +61,14 @@
             {
               "officialPrimaryFamily": "Geist Mono",
               "localPrimaryFamily": "JetBrains Maple Mono"
+            }
+          ]
+        },
+        "approvedIconMappings": {
+          "const": [
+            {
+              "officialIconSet": "geist",
+              "localIconSet": "lucide"
             }
           ]
         },
