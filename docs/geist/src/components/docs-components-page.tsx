@@ -397,58 +397,57 @@ function ButtonDemo() {
 
 function CheckboxDemo() {
   const { language } = useLanguage();
-  const [checked, setChecked] = React.useState<boolean[]>([true, false]);
-  const allChecked = checked.every(Boolean);
-  const someChecked = checked.some(Boolean);
-  const parentState: boolean | "indeterminate" = allChecked
-    ? true
-    : someChecked
-      ? "indeterminate"
-      : false;
-
   return (
-    <div className="flex flex-col gap-4">
-      <label className="flex cursor-pointer items-center gap-2.5">
-        <Checkbox
-          checked={parentState}
-          onCheckedChange={(value) => setChecked([value === true, value === true])}
-          aria-label={demoText(language, "All permissions")}
-        />
-        <span className="text-copy-14 text-foreground">All permissions</span>
-      </label>
-      <label className="flex cursor-pointer items-center gap-2.5">
-        <Checkbox
-          checked={checked[0]}
-          onCheckedChange={(value) => setChecked([value === true, checked[1]])}
-          aria-label={demoText(language, "Read access")}
-        />
-        <span className="text-copy-14 text-muted-foreground">Read access</span>
-      </label>
-      <label className="flex cursor-pointer items-center gap-2.5">
-        <Checkbox
-          checked={checked[1]}
-          onCheckedChange={(value) => setChecked([checked[0], value === true])}
-          aria-label={demoText(language, "Write access")}
-        />
-        <span className="text-copy-14 text-muted-foreground">Write access</span>
-      </label>
-      <label className="flex cursor-pointer items-center gap-2.5">
-        <Checkbox disabled aria-label={demoText(language, "Disabled")} />
-        <span className="text-copy-14 text-muted-foreground">Disabled</span>
-      </label>
-      <label className="flex cursor-pointer items-center gap-2.5">
-        <Checkbox checked disabled aria-label={demoText(language, "Disabled Checked")} />
-        <span className="text-copy-14 text-muted-foreground">Disabled Checked</span>
-      </label>
-      <label className="flex cursor-pointer items-center gap-2.5">
-        <Checkbox
-          checked="indeterminate"
-          disabled
-          aria-label={demoText(language, "Disabled Indeterminate")}
-        />
-        <span className="text-copy-14 text-muted-foreground">Disabled Indeterminate</span>
-      </label>
-    </div>
+    <>
+      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <div className="flex flex-col items-stretch justify-start gap-4">
+              <label className="text-label-13 inline-flex cursor-pointer items-start">
+                <Checkbox defaultChecked aria-label={demoText(language, "Option 1")} />
+                <span className="ml-2 text-foreground">{demoText(language, "Option 1")}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled">
+            <div className="flex flex-col items-stretch justify-start gap-4">
+              <label className="text-label-13 inline-flex cursor-not-allowed items-start text-muted-foreground">
+                <Checkbox disabled aria-label={demoText(language, "Disabled")} />
+                <span className="ml-2">{demoText(language, "Disabled")}</span>
+              </label>
+              <label className="text-label-13 inline-flex cursor-not-allowed items-start text-muted-foreground">
+                <Checkbox checked disabled aria-label={demoText(language, "Disabled Checked")} />
+                <span className="ml-2">{demoText(language, "Disabled Checked")}</span>
+              </label>
+              <label className="text-label-13 inline-flex cursor-not-allowed items-start text-muted-foreground">
+                <Checkbox
+                  checked="indeterminate"
+                  disabled
+                  aria-label={demoText(language, "Disabled Indeterminate")}
+                />
+                <span className="ml-2">{demoText(language, "Disabled Indeterminate")}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="indeterminate">
+            <div className="flex flex-col items-stretch justify-start gap-4">
+              <label className="text-label-13 inline-flex cursor-pointer items-start">
+                <Checkbox checked="indeterminate" aria-label={demoText(language, "Option 1")} />
+                <span className="ml-2 text-foreground">{demoText(language, "Option 1")}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
