@@ -399,19 +399,25 @@ function CheckboxDemo() {
   const { language } = useLanguage();
   return (
     <>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
+      <div
+        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
             <div className="flex flex-col items-stretch justify-start gap-4">
               <label className="text-label-13 inline-flex cursor-pointer items-start">
-                <Checkbox defaultChecked aria-label={demoText(language, "Option 1")} />
+                <Checkbox aria-label={demoText(language, "Option 1")} />
                 <span className="ml-2 text-foreground">{demoText(language, "Option 1")}</span>
               </label>
             </div>
           </div>
         </div>
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
+      <div
+        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled"
+      >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="disabled">
             <div className="flex flex-col items-stretch justify-start gap-4">
@@ -435,7 +441,10 @@ function CheckboxDemo() {
           </div>
         </div>
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
+      <div
+        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="indeterminate"
+      >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="indeterminate">
             <div className="flex flex-col items-stretch justify-start gap-4">

@@ -195,7 +195,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.border-gray-alpha-400",
-                  "local": "[data-demo-container=\"default\"]"
+                  "local": "[data-demo-card=\"default\"]"
                 },
                 "byViewport": {}
               },
@@ -263,7 +263,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#disabled\"] ~ * div.border-gray-alpha-400",
-                  "local": "[data-demo-container=\"disabled\"]"
+                  "local": "[data-demo-card=\"disabled\"]"
                 },
                 "byViewport": {}
               },
@@ -331,7 +331,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#indeterminate\"] ~ * div.border-gray-alpha-400",
-                  "local": "[data-demo-container=\"indeterminate\"]"
+                  "local": "[data-demo-card=\"indeterminate\"]"
                 },
                 "byViewport": {}
               },
