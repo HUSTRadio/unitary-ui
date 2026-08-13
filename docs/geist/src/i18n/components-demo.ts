@@ -174,6 +174,8 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     Preview: "预览",
     Code: "代码",
     Split: "拆分",
+    "Question A": "问题 A",
+    "Question B": "问题 B",
     "Select project": "选择项目",
     "Loading deployment": "正在加载部署",
     "Progress {value}%": "进度 {value}%",

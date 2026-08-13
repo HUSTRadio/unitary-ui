@@ -1819,15 +1819,92 @@ function ClearableInputDemo() {
 }
 
 function CollapseDemo() {
-  return (
-    <Collapse className="w-full max-w-md rounded-[8px] border border-gray-alpha-400 p-4">
-      <CollapseTrigger className="text-label-14 text-foreground">
-        What is Geist Style Framework?
-      </CollapseTrigger>
-      <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-        A reusable React style foundation aligned with the Vercel Geist design system.
+  const { language } = useLanguage();
+  const questionA = demoText(language, "Question A");
+  const questionB = demoText(language, "Question B");
+  const lorem = demoText(
+    language,
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  );
+  const duis = demoText(
+    language,
+    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+  );
+  const renderItem = (title: string, body: string, defaultOpen = false) => (
+    <Collapse className="border-b border-gray-alpha-400" defaultOpen={defaultOpen}>
+      <h3 className="text-[24px] font-semibold text-foreground">
+        <CollapseTrigger>{title}</CollapseTrigger>
+      </h3>
+      <CollapseContent>
+        <div className="text-base leading-[26px]">
+          <p className="mb-4 text-copy-16 text-muted-foreground">{body}</p>
+        </div>
       </CollapseContent>
     </Collapse>
+  );
+  return (
+    <>
+      <div
+        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <div className="border-t border-gray-alpha-400">
+              {renderItem(questionA, lorem)}
+              {renderItem(questionB, duis)}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="expanded"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="expanded">
+            <div className="border-t border-gray-alpha-400">
+              {renderItem(questionA, lorem)}
+              {renderItem(questionB, duis, true)}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="multiple"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="multiple">
+            <div className="border-t border-gray-alpha-400">
+              {renderItem(questionA, lorem)}
+              {renderItem(questionB, duis)}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="small"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="small">
+            <div className="border-t border-gray-alpha-400">
+              <Collapse className="border-b border-gray-alpha-400">
+                <h3 className="text-[16px] font-medium text-foreground">
+                  <CollapseTrigger>{questionA}</CollapseTrigger>
+                </h3>
+                <CollapseContent>
+                  <div className="text-base leading-[26px]">
+                    <p className="mb-4 text-copy-16 text-muted-foreground">{lorem}</p>
+                  </div>
+                </CollapseContent>
+              </Collapse>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
