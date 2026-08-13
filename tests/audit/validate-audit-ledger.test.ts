@@ -833,13 +833,7 @@ describe("Geist audit comparator (Task 4: semantic roles / responsive deltas / f
       "transition",
       "animation",
     ];
-    const requiredAriaFields = [
-      "role",
-      "aria-label",
-      "aria-expanded",
-      "disabled",
-      "tabIndex",
-    ];
+    const requiredAriaFields = ["role", "aria-label", "aria-expanded", "disabled", "tabIndex"];
     const build = (prefix: string) => ({
       viewport: "375x812",
       root: { x: 0, y: 0, width: 100, height: 100 },
