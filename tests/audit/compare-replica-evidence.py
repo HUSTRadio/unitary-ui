@@ -774,6 +774,36 @@ def _analyze_icon_exemptions(
     return glyph_prefixes, x_exempt_paths, exclusions
 
 
+def _geometry_skip_paths(
+    official_nodes: dict[str, dict[str, Any]],
+    local_nodes: dict[str, dict[str, Any]],
+    manifest: dict[str, Any] | None,
+) -> set[str]:
+    """geometry 层跳过「行为组件内部节点 + 宿主 chrome 按钮」的路径。
+
+    官方 checkbox 用原生 input.sr-only + span 视觉盒子 + svg 勾选（多层子树），
+    本地用 Radix button（单节点）；官方 demo 卡片含 Show code 按钮，本地无。
+    这些结构差异已在 role 层被 BEHAVIOR_INFRASTRUCTURE / HOST_CHROME 豁免，
+    geometry 层按 tag 识别对应子树一并跳过，避免 missing/尺寸差误报。
+    """
+    skip: set[str] = set()
+    if manifest is None:
+        return skip
+    accepted = manifest.get("acceptancePolicy", {}).get("acceptedBehaviorInfrastructure", [])
+    if not accepted:
+        return skip
+    infra_tags = {"input", "svg", "path", "line", "circle", "rect", "polyline"}
+    for path, node in official_nodes.items():
+        tag = node.get("tag")
+        # 行为组件内部节点（本地 Radix button 无这些子树）
+        if tag in infra_tags:
+            skip.add(path)
+        # 宿主 chrome 的 Show code 按钮：官方有、本地无的 button
+        if tag == "button" and path not in local_nodes:
+            skip.add(path)
+    return skip
+
+
 def compare_geometry(
     official: dict[str, Any],
     local: dict[str, Any],
@@ -785,6 +815,7 @@ def compare_geometry(
     glyph_prefixes, x_exempt_paths, icon_exclusions = _analyze_icon_exemptions(
         official, local, manifest, official_cell
     )
+    geometry_skip_paths = _geometry_skip_paths(official_nodes, local_nodes, manifest)
     # Context-owned width at the geometry layer: exempt width deltas equal to the
     # measurement-context content-box delta (the same host-container difference
     # already exempted at the role level).
@@ -811,6 +842,9 @@ def compare_geometry(
     for path in sorted(set(official_nodes) | set(local_nodes)):
         # ICON_GLYPH: glyph descendants of an icon svg are exempted entirely.
         if any(path.startswith(prefix + ".") for prefix in glyph_prefixes):
+            continue
+        # BEHAVIOR_INFRASTRUCTURE / HOST_CHROME（geometry 层）：结构差异子树跳过
+        if path in geometry_skip_paths:
             continue
         if path not in official_nodes or path not in local_nodes:
             missing.append(path)
