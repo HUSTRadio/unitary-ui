@@ -888,15 +888,16 @@ def _is_right_aligned(
     用几何判定（不依赖未被采集的 justifyContent）：双方子节点右边缘与父级
     内容盒右边缘（含 paddingRight 扣除）的差均 <=2.5px 视为右对齐。
     """
+    gaps = []
     for nodes in (official_nodes, local_nodes):
         child = nodes[child_path]["rect"]
         parent = nodes[parent_path]["rect"]
         pr = _px((nodes[parent_path].get("styles") or {}).get("paddingRight"))
         child_right = child["x"] + child["width"]
         parent_right = parent["x"] + parent["width"] - pr
-        if abs(child_right - parent_right) > 2.5:
-            return False
-    return True
+        gaps.append(parent_right - child_right)
+    # 右对齐：双方子右边缘与父级内容盒右边缘的偏移一致（含 right-N 常数偏移）
+    return abs(gaps[0] - gaps[1]) <= 2.5
 
 
 def _font_mapped_subtree(
@@ -955,17 +956,16 @@ def _left_shift(
     # （即 justify-between 剩余空间 gap 差）。仅当父级 font-mapped 时累积，防止真实布局错误被归因为字体流。
     if parent in official_nodes and parent in local_nodes:
         if _is_right_aligned(path, parent, official_nodes, local_nodes):
-            if _node_font_mapped(official_nodes[parent], local_nodes[parent], manifest):
-                gap_off = float(official_nodes[parent]["rect"]["width"])
-                gap_loc = float(local_nodes[parent]["rect"]["width"])
-                gap_off -= float(official_nodes[path]["rect"]["width"])
-                gap_loc -= float(local_nodes[path]["rect"]["width"])
-                for i in range(idx):
-                    sibling = f"{parent}.{i}"
-                    if sibling in official_nodes and sibling in local_nodes:
-                        gap_off -= float(official_nodes[sibling]["rect"]["width"])
-                        gap_loc -= float(local_nodes[sibling]["rect"]["width"])
-                shift += gap_off - gap_loc
+            gap_off = float(official_nodes[parent]["rect"]["width"])
+            gap_loc = float(local_nodes[parent]["rect"]["width"])
+            gap_off -= float(official_nodes[path]["rect"]["width"])
+            gap_loc -= float(local_nodes[path]["rect"]["width"])
+            for i in range(idx):
+                sibling = f"{parent}.{i}"
+                if sibling in official_nodes and sibling in local_nodes:
+                    gap_off -= float(official_nodes[sibling]["rect"]["width"])
+                    gap_loc -= float(local_nodes[sibling]["rect"]["width"])
+            shift += gap_off - gap_loc
     return shift
 
 

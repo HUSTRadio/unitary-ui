@@ -1606,23 +1606,25 @@ function CodeBlockDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="open-in-v0">
-            <CodeBlockComponent
-              aria-label="Hello world"
-              filename="Table.jsx"
-              language="jsx"
-              v0="ask"
-              tokenCounts={codeBlockBasicTokens}
-            >
-              {codeBlockBasic}
-            </CodeBlockComponent>
-            <CodeBlockComponent
-              filename="Table.jsx"
-              language="jsx"
-              v0="build"
-              tokenCounts={codeBlockBasicTokens}
-            >
-              {codeBlockBasic}
-            </CodeBlockComponent>
+            <div className="flex flex-col gap-4">
+              <CodeBlockComponent
+                aria-label="Hello world"
+                filename="Table.jsx"
+                language="jsx"
+                v0="ask"
+                tokenCounts={codeBlockBasicTokens}
+              >
+                {codeBlockBasic}
+              </CodeBlockComponent>
+              <CodeBlockComponent
+                filename="Table.jsx"
+                language="jsx"
+                v0="build"
+                tokenCounts={codeBlockBasicTokens}
+              >
+                {codeBlockBasic}
+              </CodeBlockComponent>
+            </div>
           </div>
         </div>
       </div>
