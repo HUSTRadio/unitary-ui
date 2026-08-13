@@ -67,7 +67,14 @@
         "officialTag": "span",
         "localTag": "button",
         "localRole": "checkbox",
-        "exemptFields": ["role", "aria-checked", "aria-hidden", "aria-label", "animation"]
+        "exemptFields": [
+          "role",
+          "aria-checked",
+          "aria-hidden",
+          "aria-label",
+          "aria-controls",
+          "animation"
+        ]
       }
     ]
   },

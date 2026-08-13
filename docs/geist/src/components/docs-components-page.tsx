@@ -237,7 +237,7 @@ function CodeCopyButton({ text }: { text: string }) {
 function CodeBlock({ code, label }: { code: string; label: string }) {
   return (
     <div className="overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background">
-      <div className="flex items-center justify-between border-b border-gray-alpha-400 py-1 pr-1 pl-3">
+      <div className="flex items-center justify-between border-b border-gray-200 py-1 pr-1 pl-3">
         <span className="text-label-12-mono text-muted-foreground">{label}</span>
         <CodeCopyButton text={code} />
       </div>
@@ -271,7 +271,7 @@ function TableDemoCard({ children, code }: { children: React.ReactNode; code: st
         aria-expanded={showCode}
         aria-controls={codeId}
         onClick={() => setShowCode((value) => !value)}
-        className="flex h-12 w-full items-center gap-2 border-t border-gray-alpha-400 bg-background-200 px-6 text-left text-copy-14 text-foreground transition-colors hover:bg-gray-200 focus-ring"
+        className="flex h-12 w-full items-center gap-2 border-t border-gray-200 bg-background-200 px-6 text-left text-copy-14 text-foreground transition-colors hover:bg-gray-200 focus-ring"
       >
         <ChevronRight
           className={`size-4 transition-transform${showCode ? " rotate-90" : ""}`}
@@ -282,7 +282,7 @@ function TableDemoCard({ children, code }: { children: React.ReactNode; code: st
       {showCode ? (
         <pre
           id={codeId}
-          className="overflow-x-auto border-t border-gray-alpha-400 bg-background p-6 font-mono text-copy-13 leading-relaxed text-foreground"
+          className="overflow-x-auto border-t border-gray-200 bg-background p-6 font-mono text-copy-13 leading-relaxed text-foreground"
         >
           <code>{code}</code>
         </pre>
@@ -1831,7 +1831,7 @@ function CollapseDemo() {
     "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
   );
   const renderItem = (title: string, body: string, defaultOpen = false) => (
-    <Collapse className="border-b border-gray-alpha-400" defaultOpen={defaultOpen}>
+    <Collapse className="border-b border-gray-200" defaultOpen={defaultOpen}>
       <h3 className="text-[24px] font-semibold text-foreground">
         <CollapseTrigger>{title}</CollapseTrigger>
       </h3>
@@ -1850,7 +1850,7 @@ function CollapseDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
-            <div className="border-t border-gray-alpha-400">
+            <div className="border-t border-gray-200">
               {renderItem(questionA, lorem)}
               {renderItem(questionB, duis)}
             </div>
@@ -1863,7 +1863,7 @@ function CollapseDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="expanded">
-            <div className="border-t border-gray-alpha-400">
+            <div className="border-t border-gray-200">
               {renderItem(questionA, lorem)}
               {renderItem(questionB, duis, true)}
             </div>
@@ -1876,7 +1876,7 @@ function CollapseDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="multiple">
-            <div className="border-t border-gray-alpha-400">
+            <div className="border-t border-gray-200">
               {renderItem(questionA, lorem)}
               {renderItem(questionB, duis)}
             </div>
@@ -1889,8 +1889,8 @@ function CollapseDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="small">
-            <div className="border-t border-gray-alpha-400">
-              <Collapse className="border-b border-gray-alpha-400">
+            <div className="border-t border-gray-200">
+              <Collapse size="small" className="border-t border-b border-gray-200">
                 <h3 className="text-[16px] font-medium text-foreground">
                   <CollapseTrigger>{questionA}</CollapseTrigger>
                 </h3>
