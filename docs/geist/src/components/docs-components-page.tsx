@@ -367,13 +367,13 @@ function EmptyStateDemo() {
               <Button
                 type="secondary"
                 typeName="button"
-                className="!max-w-full !border-0 !leading-[21px] !transition-none shadow-[0_0_0_1px_var(--gray-400)] duration-150 ease-in-out"
+                className="relative !max-w-full !border-0 !leading-[21px] whitespace-normal shadow-[0_0_0_1px_var(--gray-400)]"
               >
                 {demoText(language, "Primary Action")}
               </Button>
               <a
                 href="/"
-                className="inline-flex cursor-pointer items-center gap-0.5 text-label-14 text-muted-foreground transition-colors no-underline"
+                className="inline-flex cursor-pointer items-center gap-0.5 text-label-14 text-muted-foreground transition-colors duration-100 no-underline"
               >
                 {demoText(language, "Learn more")}
                 <ArrowRight className="size-4" aria-hidden />

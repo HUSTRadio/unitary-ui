@@ -842,6 +842,7 @@
   font-size: 1rem;
   line-height: 1.5rem; /* 24px */
   font-weight: 600;
+  letter-spacing: -0.02em; /* 16px × -0.02 = -0.32px，官方 heading 负 letterSpacing */
 }
 @utility text-heading-14 {
   font-size: 0.875rem;

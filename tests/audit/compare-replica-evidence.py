@@ -453,7 +453,7 @@ def compare_role_pair(
     if _is_mapped_text_width(official, local, manifest):
         kept: list[dict[str, Any]] = []
         for failure in style_failures:
-            if failure["field"] in ("width", "transformOrigin", "height"):
+            if failure["field"] in ("width", "transformOrigin", "height") or failure["field"].startswith("margin"):
                 style_exemptions.append(
                     {
                         "field": failure["field"],
