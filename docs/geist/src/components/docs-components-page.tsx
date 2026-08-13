@@ -85,7 +85,7 @@ import {
 } from "@/components/ui/error-card";
 import { Error } from "@/components/ui/error";
 import { Feedback } from "@/components/ui/feedback";
-import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
+import { Drawer } from "@/components/ui/drawer";
 import { FieldSet, FieldSetItem, FieldSetLabel, FieldSetLegend } from "@/components/ui/fieldset";
 import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@/components/ui/file-tree";
 import { Gauge } from "@/components/ui/gauge";
@@ -842,35 +842,81 @@ function DrawerDemo() {
   const [open, setOpen] = React.useState(false);
   const [customOpen, setCustomOpen] = React.useState(false);
 
-  const body = (close: () => void) => (
-    <div className="p-5">
-      <DrawerTitle>{demoText(language, "A drawer title")}</DrawerTitle>
-      <DrawerDescription>{demoText(language, "Drawer body")}</DrawerDescription>
-      <div className="mt-5 flex gap-3">
-        <Button typeName="button" type="secondary" onClick={close}>
-          {demoText(language, "Cancel")}
-        </Button>
-        <Button typeName="button" onClick={close}>
-          {demoText(language, "Apply")}
-        </Button>
+  const drawerBody = (
+    <div className="flex flex-col items-stretch justify-start gap-2 p-12">
+      <p className="text-center text-[18px] font-semibold leading-[24px]">
+        {demoText(language, "A drawer title")}
+      </p>
+      <p className="text-center text-copy-14">{demoText(language, "Drawer body")}</p>
+    </div>
+  );
+
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
       </div>
     </div>
   );
 
   return (
-    <div className="flex flex-wrap gap-4">
-      <Button typeName="button" onClick={() => setOpen(true)}>
-        {demoText(language, "Open")}
-      </Button>
-      <Drawer show={open} onDismiss={() => setOpen(false)}>
-        {body(() => setOpen(false))}
-      </Drawer>
-      <Button typeName="button" onClick={() => setCustomOpen(true)}>
-        {demoText(language, "Open Custom Height")}
-      </Button>
-      <Drawer height={200} show={customOpen} onDismiss={() => setCustomOpen(false)}>
-        {body(() => setCustomOpen(false))}
-      </Drawer>
+    <div className="w-full max-w-[862px] space-y-6">
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <Button
+              type="default"
+              className="relative flex max-w-full whitespace-normal leading-[21px]"
+              onClick={() => setOpen(true)}
+            >
+              {demoText(language, "Open")}
+            </Button>
+          </div>
+        </div>
+        {footerBar}
+        <Drawer show={open} onDismiss={() => setOpen(false)} verticalScroll>
+          {drawerBody}
+        </Drawer>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="custom-height"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="custom-height">
+            <Button
+              type="default"
+              className="relative flex max-w-full whitespace-normal leading-[21px]"
+              onClick={() => setCustomOpen(true)}
+            >
+              {demoText(language, "Open")}
+            </Button>
+          </div>
+        </div>
+        {footerBar}
+        <Drawer
+          height={200}
+          show={customOpen}
+          onDismiss={() => setCustomOpen(false)}
+          verticalScroll
+        >
+          {drawerBody}
+        </Drawer>
+      </div>
     </div>
   );
 }

@@ -5,12 +5,18 @@ import { cn } from "@/lib/utils";
 
 /**
  * Drawer — Geist 官方 Drawer（docs/geist-markdown-refs/components/drawer.md 官方语义）。
- * 官方实测（2026-08 vercel.com/geist/drawer 实时 DOM/computed style）：
+ * 官方实测（2026-08-13 vercel.com/geist/drawer 实时 DOM/computed style）：
  * - 受控 API：show / onDismiss / height / verticalScroll（无 Trigger 子组件）
- * - 全宽底部 sheet（w-full，桌面 1262px 视口即全宽），rounded-t-[10px]、
- *   border-t gray-alpha-400、bg-background、max-h-[90dvh]
- * - overlay bg-black/40（有暗化，实测 rgba(0,0,0,.4)）
+ * - 全宽底部 sheet（w-full，fixed inset-x-0 bottom-0），rounded-t-[8px]（实测
+ *   computed 8px，官方类名写 10px 但被 geist-dialog 覆盖为 8px）、无 border-top
+ *   （官方 border-t 类名存在但 computed border-top-width 为 0）、
+ *   bg-background、max-h-[80dvh]（官方 geist-dialog 覆盖 90dvh 类为 80dvh）
+ * - boxShadow 四层：ring 1px + 1px/2px + 8px -4px + 16px 24px -8px + 底 1px 白 ring
+ * - overlay bg-black/40（有暗化，实测 rgba(0,0,0,.4)），overlay 与 panel 同在
+ *   fixed inset-0 层内（z-index 交给父层，panel 自身 z-index auto）
  * - height 生效为 --drawer-frontmost-height（实测 200px）
+ * - 打开动画：transform 0.5s cubic-bezier(0.32, 0.72, 0, 1)，从 translateY(100%)
+ *   滑入（Base UI data-starting-style 同帧机制）；无 keyframe animation
  * - 下滑手势关闭（--drawer-swipe-movement-y 驱动 transform，data-swipe-direction="down"）
  * - 无右上 X 关闭按钮；Escape / 外点 / 下滑关闭；body scroll 锁定 + 焦点返还（Radix）
  * 说明：官方基于 Base UI 实现；本组件基于 Radix Dialog 复刻同款行为与外观。
@@ -30,25 +36,30 @@ interface DrawerProps {
   children?: React.ReactNode;
 }
 
-function Drawer({ show, onDismiss, height, verticalScroll, className, children }: DrawerProps) {
+function DrawerPanel({
+  onDismiss,
+  height,
+  verticalScroll,
+  className,
+  children,
+}: {
+  onDismiss?: () => void;
+  height?: number;
+  verticalScroll?: boolean;
+  className?: string;
+  children?: React.ReactNode;
+}) {
   const [dragY, setDragY] = React.useState(0);
+  // 打开瞬间先以 translateY(100%) 渲染（与官方 Base UI data-starting-style 同帧），
+  // 下一帧回到 0，由 transition 驱动与官方一致的滑入动画。
+  const [phase, setPhase] = React.useState<"start" | "end">("start");
   const startY = React.useRef<number | null>(null);
-  const restoreFocusRef = React.useRef<HTMLElement | null>(null);
-  const wasShownRef = React.useRef(false);
   const dragging = dragY > 0;
 
-  React.useEffect(() => {
-    if (show && !wasShownRef.current) {
-      restoreFocusRef.current =
-        document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    } else if (!show && wasShownRef.current) {
-      const target = restoreFocusRef.current;
-      window.requestAnimationFrame(() => {
-        if (target?.isConnected) target.focus();
-      });
-    }
-    wasShownRef.current = Boolean(show);
-  }, [show]);
+  React.useLayoutEffect(() => {
+    const raf = requestAnimationFrame(() => setPhase("end"));
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if (event.button !== 0) return;
@@ -71,6 +82,54 @@ function Drawer({ show, onDismiss, height, verticalScroll, className, children }
   };
 
   return (
+    <DialogPrimitive.Content
+      data-slot="drawer"
+      data-swipe-direction="down"
+      className={cn(
+        "fixed inset-x-0 bottom-0 w-full touch-pan-y rounded-t-[8px] bg-background outline-none",
+        "max-h-[80dvh] overscroll-none",
+        verticalScroll && "overflow-y-auto",
+        "shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_1px_1px_0_rgba(0,0,0,0.02),0_4px_8px_-4px_rgba(0,0,0,0.04),0_16px_24px_-8px_rgba(0,0,0,0.06),0_0_0_1px_rgb(250,250,250)]",
+        dragging && "select-none",
+        className,
+      )}
+      style={
+        {
+          height: height ?? undefined,
+          "--drawer-frontmost-height": height ? `${height}px` : undefined,
+          "--drawer-swipe-movement-y": `${dragY}px`,
+          transform: phase === "start" ? "translateY(100%)" : `translateY(${dragY}px)`,
+          transition: dragging ? "none" : "transform 500ms cubic-bezier(0.32, 0.72, 0, 1)",
+        } as React.CSSProperties
+      }
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={endDrag}
+      onPointerCancel={endDrag}
+    >
+      {children}
+    </DialogPrimitive.Content>
+  );
+}
+
+function Drawer({ show, onDismiss, height, verticalScroll, className, children }: DrawerProps) {
+  const restoreFocusRef = React.useRef<HTMLElement | null>(null);
+  const wasShownRef = React.useRef(false);
+
+  React.useEffect(() => {
+    if (show && !wasShownRef.current) {
+      restoreFocusRef.current =
+        document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    } else if (!show && wasShownRef.current) {
+      const target = restoreFocusRef.current;
+      window.requestAnimationFrame(() => {
+        if (target?.isConnected) target.focus();
+      });
+    }
+    wasShownRef.current = Boolean(show);
+  }, [show]);
+
+  return (
     <DialogPrimitive.Root
       open={show}
       onOpenChange={(next) => {
@@ -78,34 +137,15 @@ function Drawer({ show, onDismiss, height, verticalScroll, className, children }
       }}
     >
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-        <DialogPrimitive.Content
-          data-slot="drawer"
-          data-swipe-direction="down"
-          className={cn(
-            "fixed inset-x-0 bottom-0 z-50 w-full touch-pan-y rounded-t-[10px] border-t border-gray-alpha-400 bg-background outline-none shadow-[var(--material-shadow-medium)]",
-            "max-h-[90dvh] overscroll-none motion-reduce:transition-none",
-            verticalScroll && "overflow-y-auto",
-            dragging && "select-none",
-            "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
-            className,
-          )}
-          style={
-            {
-              height: height ?? undefined,
-              "--drawer-frontmost-height": height ? `${height}px` : undefined,
-              "--drawer-swipe-movement-y": `${dragY}px`,
-              transform: `translateY(${dragY}px)`,
-              transition: dragging ? "none" : "transform 500ms cubic-bezier(0.32, 0.72, 0, 1)",
-            } as React.CSSProperties
-          }
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={endDrag}
-          onPointerCancel={endDrag}
+        <DialogPrimitive.Overlay className="fixed inset-0 bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+        <DrawerPanel
+          onDismiss={onDismiss}
+          height={height}
+          verticalScroll={verticalScroll}
+          className={className}
         >
           {children}
-        </DialogPrimitive.Content>
+        </DrawerPanel>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>
   );
