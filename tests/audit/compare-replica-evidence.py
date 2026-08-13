@@ -915,14 +915,10 @@ def _font_mapped_subtree(
         return False
     if not _node_font_mapped(official_nodes[path], local_nodes[path], manifest):
         return False
-    svg_tags = {"svg", "path", "g", "circle", "ellipse", "line", "rect", "polygon"}
     for child in official_nodes:
         if child.startswith(path + "."):
             if child not in local_nodes:
                 return False
-            # 图标节点（svg 几何子元素）无 fontFamily，属获准图标替换，不阻断字体映射子树判定
-            if (official_nodes[child].get("tag") in svg_tags) or (local_nodes[child].get("tag") in svg_tags):
-                continue
             if not _font_mapped_subtree(child, official_nodes, local_nodes, manifest):
                 return False
     return True
