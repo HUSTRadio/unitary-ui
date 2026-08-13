@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 type ComboboxSize = "small" | "medium" | "large";
 
 type ComboboxContextValue = {
-  value: string;
+  value: string | null;
   onValueChange: (value: string) => void;
   query: string;
   setQuery: (query: string) => void;
@@ -451,7 +451,7 @@ type ComboboxOptionProps = React.HTMLAttributes<HTMLLIElement> & {
 };
 
 const ComboboxOption = React.forwardRef<HTMLLIElement, ComboboxOptionProps>(
-  ({ value, children, ...props }, _ref) => {
+  ({ value, children }, _ref) => {
     const { registerItem, unregisterItem } = useCombobox();
     React.useEffect(() => {
       registerItem(value, children);
