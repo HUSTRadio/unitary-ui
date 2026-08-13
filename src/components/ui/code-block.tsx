@@ -235,6 +235,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
             >
               <span className="inline-block truncate px-1.5">
                 <span aria-hidden className="flex items-center gap-x-1">
+                  {v0 === "ask" ? "Ask" : "Open in"}
                   <svg aria-hidden viewBox="0 0 16 16" fill="none" className="size-3">
                     <g>
                       <path
