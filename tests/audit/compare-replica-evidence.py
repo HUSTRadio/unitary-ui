@@ -799,18 +799,28 @@ def _geometry_skip_paths(
         for path, node in nodes.items():
             if node.get("tag") in infra_leaf:
                 skip.add(path)
-    # 2. 行为组件根 span（官方点击区域/视觉盒子 + 本地 Indicator）：子孙是已跳过的叶子则跳过整棵子树
+    # 2. 行为组件根 span（官方点击区域/视觉盒子 + 本地 Indicator）：子孙是已跳过的叶子则递归跳过整棵子树
     for nodes in (official_nodes, local_nodes):
         for path, node in nodes.items():
             if node.get("tag") != "span":
                 continue
             if any(child.startswith(path + ".") and child in skip for child in nodes):
                 skip.add(path)
+                for child in nodes:
+                    if child.startswith(path + "."):
+                        skip.add(child)
     # 3. 宿主 chrome：一方有、对方无的 div/button 子树（Show code 按钮）
     for nodes, other in ((official_nodes, local_nodes), (local_nodes, official_nodes)):
         for path, node in nodes.items():
             if path not in other and node.get("tag") in ("div", "button"):
                 skip.add(path)
+    # 4. 零高度占位节点（无视觉，一方有、对方无且 height<=0.5px）
+    for nodes, other in ((official_nodes, local_nodes), (local_nodes, official_nodes)):
+        for path, node in nodes.items():
+            if path not in other:
+                rect = node.get("rect") or {}
+                if float(rect.get("height", 0)) <= 0.5:
+                    skip.add(path)
     return skip
 
 
@@ -828,6 +838,28 @@ def _node_font_mapped(
         return False
     approved = manifest.get("acceptancePolicy", {}).get("approvedFontMappings", [])
     return is_approved_font_mapping(off_font, loc_font, approved)
+
+
+def _is_right_aligned(
+    child_path: str,
+    parent_path: str,
+    official_nodes: dict[str, dict[str, Any]],
+    local_nodes: dict[str, dict[str, Any]],
+) -> bool:
+    """子节点右边缘是否对齐父级内容盒右边缘（右对齐/两端对齐的末子）。
+
+    用几何判定（不依赖未被采集的 justifyContent）：双方子节点右边缘与父级
+    内容盒右边缘（含 paddingRight 扣除）的差均 <=2.5px 视为右对齐。
+    """
+    for nodes in (official_nodes, local_nodes):
+        child = nodes[child_path]["rect"]
+        parent = nodes[parent_path]["rect"]
+        pr = _px((nodes[parent_path].get("styles") or {}).get("paddingRight"))
+        child_right = child["x"] + child["width"]
+        parent_right = parent["x"] + parent["width"] - pr
+        if abs(child_right - parent_right) > 2.5:
+            return False
+    return True
 
 
 def _left_shift(
@@ -858,6 +890,21 @@ def _left_shift(
                 loc_w = float(local_nodes[sibling]["rect"]["width"])
                 shift += off_w - loc_w
     shift += _left_shift(parent, official_nodes, local_nodes, manifest)
+    # 右对齐末子：其 x 由父级右边缘决定，x delta 含「父级内容盒宽度差 - 前序 sibling 宽度差 - 自身宽度差」
+    # （即 justify-between 剩余空间 gap 差）。仅当父级 font-mapped 时累积，防止真实布局错误被归因为字体流。
+    if parent in official_nodes and parent in local_nodes:
+        if _is_right_aligned(path, parent, official_nodes, local_nodes):
+            if _node_font_mapped(official_nodes[parent], local_nodes[parent], manifest):
+                gap_off = float(official_nodes[parent]["rect"]["width"])
+                gap_loc = float(local_nodes[parent]["rect"]["width"])
+                gap_off -= float(official_nodes[path]["rect"]["width"])
+                gap_loc -= float(local_nodes[path]["rect"]["width"])
+                for i in range(idx):
+                    sibling = f"{parent}.{i}"
+                    if sibling in official_nodes and sibling in local_nodes:
+                        gap_off -= float(official_nodes[sibling]["rect"]["width"])
+                        gap_loc -= float(local_nodes[sibling]["rect"]["width"])
+                shift += gap_off - gap_loc
     return shift
 
 
