@@ -1889,18 +1889,16 @@ function CollapseDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="small">
-            <div className="border-t border-[#eaeaea]">
-              <Collapse size="small" className="border-t border-b border-[#eaeaea]">
-                <h3 className="text-[16px] font-medium text-foreground">
-                  <CollapseTrigger>{questionA}</CollapseTrigger>
-                </h3>
-                <CollapseContent>
-                  <div className="overflow-hidden text-base leading-[26px]">
-                    <p className="mb-4 text-copy-16 text-muted-foreground">{lorem}</p>
-                  </div>
-                </CollapseContent>
-              </Collapse>
-            </div>
+            <Collapse size="small" className="border-t border-b border-[#eaeaea]">
+              <h3 className="text-[16px] font-medium text-foreground">
+                <CollapseTrigger>{questionA}</CollapseTrigger>
+              </h3>
+              <CollapseContent>
+                <div className="overflow-hidden text-base leading-[26px]">
+                  <p className="mb-4 text-copy-16 text-muted-foreground">{lorem}</p>
+                </div>
+              </CollapseContent>
+            </Collapse>
           </div>
         </div>
       </div>
