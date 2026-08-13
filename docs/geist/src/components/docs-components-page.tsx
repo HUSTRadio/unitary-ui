@@ -1678,25 +1678,86 @@ function ContextMenuVariantDemo({ variant }: { variant: "disabled" | "link" | "p
 }
 
 function DotsMenuDemo() {
+  const { language } = useLanguage();
   const items = (
     <>
-      <DotsMenuItem>View Build Logs</DotsMenuItem>
-      <DotsMenuItem>View Projects</DotsMenuItem>
-      <DotsMenuItem>View Analytics</DotsMenuItem>
+      <DotsMenuItem>{demoText(language, "View Build Logs")}</DotsMenuItem>
+      <DotsMenuItem>{demoText(language, "View Projects")}</DotsMenuItem>
+      <DotsMenuItem>{demoText(language, "View Analytics")}</DotsMenuItem>
     </>
   );
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
+    </div>
+  );
   return (
-    <div className="flex flex-wrap items-start gap-6">
-      <DotsMenu>{items}</DotsMenu>
-      <DotsMenu iconSize={10}>{items}</DotsMenu>
-      <DotsMenu iconSize={12}>{items}</DotsMenu>
-      <DotsMenu iconSize={18}>{items}</DotsMenu>
-      <DotsMenu disabled>{items}</DotsMenu>
-      <DotsMenu>
-        <DotsMenuItem>View Build Logs</DotsMenuItem>
-        <DotsMenuItem disabled>View Projects</DotsMenuItem>
-        <DotsMenuItem>View Analytics</DotsMenuItem>
-      </DotsMenu>
+    <div className="w-full max-w-[862px] space-y-6">
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <DotsMenu>{items}</DotsMenu>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="sizes"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="sizes">
+            <div className="flex items-start gap-6">
+              <DotsMenu iconSize={10}>{items}</DotsMenu>
+              <DotsMenu iconSize={12}>{items}</DotsMenu>
+              <DotsMenu iconSize={18}>{items}</DotsMenu>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled">
+            <DotsMenu disabled>{items}</DotsMenu>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled-menu-item"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled-menu-item">
+            <DotsMenu>
+              <DotsMenuItem>{demoText(language, "View Build Logs")}</DotsMenuItem>
+              <DotsMenuItem disabled>{demoText(language, "View Projects")}</DotsMenuItem>
+              <DotsMenuItem>{demoText(language, "View Analytics")}</DotsMenuItem>
+            </DotsMenu>
+          </div>
+        </div>
+        {footerBar}
+      </div>
     </div>
   );
 }
