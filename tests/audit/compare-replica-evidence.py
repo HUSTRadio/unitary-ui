@@ -794,21 +794,23 @@ def _geometry_skip_paths(
     if not accepted:
         return skip
     infra_leaf = {"input", "svg", "path", "line", "circle", "rect", "polyline"}
-    # 1. 行为组件叶子（input/svg/path/line 等，本地 Radix button 无这些子树）
-    for path, node in official_nodes.items():
-        if node.get("tag") in infra_leaf:
-            skip.add(path)
-    # 2. 行为组件根：官方 span 且其子孙是已跳过的叶子（点击区域/视觉盒子 span）
-    #    跳过整棵 span 子树（含自身尺寸差 20×23.5 vs 16×16），文本 span 无子孙不受影响
-    for path, node in official_nodes.items():
-        if node.get("tag") != "span":
-            continue
-        if any(child.startswith(path + ".") and child in skip for child in official_nodes):
-            skip.add(path)
-    # 3. 宿主 chrome：官方有、本地无的 div/button 子树（Show code 按钮）
-    for path, node in official_nodes.items():
-        if path not in local_nodes and node.get("tag") in ("div", "button"):
-            skip.add(path)
+    # 1. 行为组件叶子（input/svg/path/line 等，双向：官方原生子树 + 本地 Radix Indicator 子树）
+    for nodes in (official_nodes, local_nodes):
+        for path, node in nodes.items():
+            if node.get("tag") in infra_leaf:
+                skip.add(path)
+    # 2. 行为组件根 span（官方点击区域/视觉盒子 + 本地 Indicator）：子孙是已跳过的叶子则跳过整棵子树
+    for nodes in (official_nodes, local_nodes):
+        for path, node in nodes.items():
+            if node.get("tag") != "span":
+                continue
+            if any(child.startswith(path + ".") and child in skip for child in nodes):
+                skip.add(path)
+    # 3. 宿主 chrome：一方有、对方无的 div/button 子树（Show code 按钮）
+    for nodes, other in ((official_nodes, local_nodes), (local_nodes, official_nodes)):
+        for path, node in nodes.items():
+            if path not in other and node.get("tag") in ("div", "button"):
+                skip.add(path)
     return skip
 
 
