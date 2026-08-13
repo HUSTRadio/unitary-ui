@@ -6,6 +6,7 @@ import {
   ArrowRight,
   ChartColumn,
   CircleCheck,
+  ChevronLeft,
   ChevronRight,
   Clock,
   Copy,
@@ -525,28 +526,192 @@ function InputDemo() {
 
 function ModalDemo() {
   const { language } = useLanguage();
+  const [openDefault, setOpenDefault] = React.useState(false);
+  const [openSticky, setOpenSticky] = React.useState(false);
+  const [openSingleButton, setOpenSingleButton] = React.useState(false);
+  const [openInset, setOpenInset] = React.useState(false);
+
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
+    </div>
+  );
+
+  const modalFooter = (
+    <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
+      <Button size="small" typeName="button" type="secondary">
+        {demoText(language, "Cancel")}
+      </Button>
+      <Button size="small" typeName="button" type="default">
+        {demoText(language, "Submit")}
+      </Button>
+    </footer>
+  );
+
+  const triggerButton = (onOpenChange: (open: boolean) => void) => (
+    <ModalTrigger asChild>
+      <Button
+        size="small"
+        typeName="button"
+        type="default"
+        className="relative flex max-w-full whitespace-normal leading-[21px]"
+        onClick={() => onOpenChange(true)}
+      >
+        {demoText(language, "Open Modal")}
+      </Button>
+    </ModalTrigger>
+  );
+
   return (
-    <Modal>
-      <ModalTrigger asChild>
-        <Button typeName="button">{demoText(language, "Open Modal")}</Button>
-      </ModalTrigger>
-      <ModalContent>
-        <ModalHeader>
-          <ModalTitle>{demoText(language, "Delete Project")}</ModalTitle>
-          <ModalDescription>This action cannot be undone.</ModalDescription>
-        </ModalHeader>
-        <ModalFooter>
-          <ModalClose asChild>
-            <Button typeName="button" type="secondary">
-              Cancel
-            </Button>
-          </ModalClose>
-          <Button typeName="button" type="error">
-            Delete
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+    <div className="w-full max-w-[862px]">
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <Modal open={openDefault} onOpenChange={setOpenDefault}>
+              {triggerButton(setOpenDefault)}
+              <ModalContent>
+                <header className="mb-5">
+                  <h3 className="text-heading-20 text-foreground">
+                    {demoText(language, "Create Token")}
+                  </h3>
+                  <div className="mt-2 mb-1 text-copy-14 text-muted-foreground">
+                    {demoText(
+                      language,
+                      "Enter a unique name for your token to differentiate it from other tokens and then select the scope.",
+                    )}
+                  </div>
+                </header>
+                <p className="text-copy-14">
+                  {demoText(language, "Some content contained within the modal.")}
+                </p>
+                <div className="h-px w-full" aria-hidden />
+                {modalFooter}
+              </ModalContent>
+            </Modal>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="sticky"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="sticky">
+            <Modal open={openSticky} onOpenChange={setOpenSticky}>
+              {triggerButton(setOpenSticky)}
+              <ModalContent className="sticky" bodyClassName="pt-0">
+                <header className="sticky top-0 z-10 -mx-5 mb-5 flex items-center gap-2.5 bg-background-200 px-5 py-5">
+                  <h3 className="text-heading-20 leading-6 text-foreground">
+                    {demoText(language, "Create Token")}
+                  </h3>
+                </header>
+                {Array.from({ length: 52 }).map((_, index) => (
+                  <p key={index} className="text-copy-14">
+                    {demoText(language, "Some content contained within the modal.")}
+                  </p>
+                ))}
+                <div className="h-px w-full" aria-hidden />
+                <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
+                  <Button size="small" typeName="button" type="secondary">
+                    {demoText(language, "Cancel")}
+                  </Button>
+                  <Button
+                    size="small"
+                    typeName="button"
+                    type="secondary"
+                    prefix={<ChevronLeft className="size-3.5" aria-hidden />}
+                  >
+                    {demoText(language, "Previous")}
+                  </Button>
+                  <Button size="small" typeName="button" type="default">
+                    {demoText(language, "Submit")}
+                  </Button>
+                </footer>
+              </ModalContent>
+            </Modal>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="single-button"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="single-button">
+            <Modal open={openSingleButton} onOpenChange={setOpenSingleButton}>
+              {triggerButton(setOpenSingleButton)}
+              <ModalContent className="sticky" bodyClassName="pt-0">
+                <header className="sticky top-0 z-10 -mx-5 mb-5 flex items-center gap-2.5 bg-background-200 px-5 py-5">
+                  <h3 className="text-heading-20 leading-6 text-foreground">
+                    {demoText(language, "Create Token")}
+                  </h3>
+                </header>
+                <p className="text-copy-14">
+                  {demoText(language, "Some content contained within the modal.")}
+                </p>
+                <div className="h-px w-full" aria-hidden />
+                <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
+                  <Button size="small" typeName="button" type="secondary">
+                    {demoText(language, "Cancel")}
+                  </Button>
+                </footer>
+              </ModalContent>
+            </Modal>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="inset"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="inset">
+            <Modal open={openInset} onOpenChange={setOpenInset}>
+              {triggerButton(setOpenInset)}
+              <ModalContent>
+                <header className="mb-5">
+                  <h3 className="text-heading-20 text-foreground">{demoText(language, "Modal")}</h3>
+                  <div className="mt-2 mb-1 text-copy-14 text-muted-foreground">
+                    {demoText(language, "This is a modal.")}
+                  </div>
+                </header>
+                <div className="mx-[-20px] border-y border-gray-400 bg-background-200 px-5 py-6">
+                  <p className="text-copy-14">{demoText(language, "Content within the inset.")}</p>
+                </div>
+                <div className="pt-5">
+                  <p className="text-copy-14">{demoText(language, "Content outside the inset.")}</p>
+                </div>
+                <div className="h-px w-full" aria-hidden />
+                {modalFooter}
+              </ModalContent>
+            </Modal>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+    </div>
   );
 }
 

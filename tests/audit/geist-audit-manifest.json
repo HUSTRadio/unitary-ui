@@ -4599,14 +4599,545 @@
     {
       "slug": "modal",
       "officialUrl": "https://vercel.com/geist/modal",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["default", "sticky", "single-button", "inset"],
+      "states": ["default", "open"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "sticky"
+        },
+        {
+          "id": "single-button"
+        },
+        {
+          "id": "inset"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": [
+        "click:trigger",
+        "key:escape",
+        "pointer:overlay-click",
+        "key:tab-trap"
+      ],
+      "responsiveExpectations": [
+        "panel:default 540px dialog centered, content-adaptive height 211px at 1440x900 (official measured)",
+        "panel:sticky full-height 540x720 (max-h min(800px,80vh)) with sticky header/footer at 1440x900",
+        "panel:single-button content-adaptive 181px, single footer action, sticky header at 1440x900",
+        "panel:inset content-adaptive 281px with inset band at 1440x900",
+        "lock:radix modal scroll lock while open"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[role=\"dialog\"][data-geist-modal]",
+        "local": "[data-slot=\"modal-content\"]"
       },
-      "interaction": "pending"
+      "interaction": "applicable",
+      "acceptanceContracts": [
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > button",
+                  "local": "[data-demo-container=\"default\"] > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > button span",
+                  "local": "[data-demo-container=\"default\"] > button span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "open",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > button",
+                  "local": "[data-demo-container=\"default\"] > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > button span",
+                  "local": "[data-demo-container=\"default\"] > button span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "[role=\"dialog\"][data-geist-modal]",
+                  "local": "[data-slot=\"modal-content\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "sticky",
+          "variant": "sticky",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sticky\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"sticky\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sticky\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"sticky\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sticky\"] ~ * div.w-full.p-6 > button",
+                  "local": "[data-demo-container=\"sticky\"] > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sticky\"] ~ * div.w-full.p-6 > button span",
+                  "local": "[data-demo-container=\"sticky\"] > button span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "sticky",
+          "variant": "sticky",
+          "state": "open",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sticky\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"sticky\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sticky\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"sticky\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sticky\"] ~ * div.w-full.p-6 > button",
+                  "local": "[data-demo-container=\"sticky\"] > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sticky\"] ~ * div.w-full.p-6 > button span",
+                  "local": "[data-demo-container=\"sticky\"] > button span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "[role=\"dialog\"][data-geist-modal]",
+                  "local": "[data-slot=\"modal-content\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "single-button",
+          "variant": "single-button",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#single-button\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"single-button\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#single-button\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"single-button\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#single-button\"] ~ * div.w-full.p-6 > button",
+                  "local": "[data-demo-container=\"single-button\"] > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#single-button\"] ~ * div.w-full.p-6 > button span",
+                  "local": "[data-demo-container=\"single-button\"] > button span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "single-button",
+          "variant": "single-button",
+          "state": "open",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#single-button\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"single-button\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#single-button\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"single-button\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#single-button\"] ~ * div.w-full.p-6 > button",
+                  "local": "[data-demo-container=\"single-button\"] > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#single-button\"] ~ * div.w-full.p-6 > button span",
+                  "local": "[data-demo-container=\"single-button\"] > button span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "[role=\"dialog\"][data-geist-modal]",
+                  "local": "[data-slot=\"modal-content\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "inset",
+          "variant": "inset",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#inset\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"inset\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#inset\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"inset\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#inset\"] ~ * div.w-full.p-6 > button",
+                  "local": "[data-demo-container=\"inset\"] > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#inset\"] ~ * div.w-full.p-6 > button span",
+                  "local": "[data-demo-container=\"inset\"] > button span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "inset",
+          "variant": "inset",
+          "state": "open",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#inset\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"inset\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#inset\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"inset\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#inset\"] ~ * div.w-full.p-6 > button",
+                  "local": "[data-demo-container=\"inset\"] > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#inset\"] ~ * div.w-full.p-6 > button span",
+                  "local": "[data-demo-container=\"inset\"] > button span"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "[role=\"dialog\"][data-geist-modal]",
+                  "local": "[data-slot=\"modal-content\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "multi-select",
