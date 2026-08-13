@@ -57,9 +57,9 @@ function CollapseContent({
       data-slot="collapse-content"
       forceMount={forceMount}
       className={cn(
-        "overflow-hidden transition-[height,opacity,visibility] duration-200",
-        "data-[state=closed]:invisible data-[state=closed]:h-0 data-[state=closed]:opacity-0",
-        "data-[state=open]:visible data-[state=open]:h-auto data-[state=open]:opacity-100",
+        "overflow-hidden",
+        "data-[state=closed]:h-0",
+        "data-[state=open]:h-auto",
         className,
       )}
       {...props}
