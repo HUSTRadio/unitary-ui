@@ -66,6 +66,7 @@ const DEFAULT_ANCESTOR_DEPTH = 6;
 const MAX_ANCESTOR_DEPTH = 6;
 const RECIPE_VERBS = new Set([
   "click",
+  "contextmenu",
   "hover",
   "focus",
   "press",
@@ -481,6 +482,26 @@ async function applyStateRecipe(send, config) {
           type: "mouseReleased",
           ...point,
           button: "left",
+          buttons: 0,
+          clickCount: 1,
+        });
+        break;
+      }
+      case "contextmenu": {
+        const point = await elementPoint(send, selector);
+        if (!point) throw new Error(`--state-recipe "${step}" 目标不存在: ${selector}`);
+        await send("Input.dispatchMouseEvent", { type: "mouseMoved", ...point });
+        await send("Input.dispatchMouseEvent", {
+          type: "mousePressed",
+          ...point,
+          button: "right",
+          buttons: 2,
+          clickCount: 1,
+        });
+        await send("Input.dispatchMouseEvent", {
+          type: "mouseReleased",
+          ...point,
+          button: "right",
           buttons: 0,
           clickCount: 1,
         });
