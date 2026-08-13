@@ -453,6 +453,12 @@ async function applyStateRecipe(send, config) {
       });
       continue;
     }
+    if (verb === "sleep") {
+      const ms = Number.parseInt(target, 10);
+      if (Number.isNaN(ms)) throw new Error(`--state-recipe "sleep" 需要毫秒数: ${step}`);
+      await new Promise((r) => setTimeout(r, ms));
+      continue;
+    }
     const selector = selectorFor(target);
     if (!selector)
       throw new Error(
