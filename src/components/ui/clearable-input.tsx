@@ -134,7 +134,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
           data-slot="input"
           data-geist-input=""
           className={cn(
-            "order-1 h-full w-full min-w-0 appearance-none border-none bg-background-100 px-3 text-copy-14 outline-none",
+            "order-1 flex h-full w-full min-w-0 appearance-none border-none bg-background-100 px-3 text-copy-14 outline-none",
             showSuffix
               ? "rounded-r-none text-[var(--ds-gray-1000)]"
               : "text-black last:pr-0 dark:text-white",
@@ -149,7 +149,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
             aria-hidden="true"
             data-geist-input-suffix=""
             className={cn(
-              "order-2 flex h-full shrink-0 items-center bg-background-100 pl-3 text-[var(--ds-gray-700)] has-[button:focus-visible]:relative",
+              "order-2 relative flex h-full shrink-0 items-center bg-background-100 pl-3 text-[var(--ds-gray-700)]",
               disabled && "bg-[var(--ds-gray-100)]",
             )}
           >
@@ -180,7 +180,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
                 type="button"
                 tabIndex={disabled ? -1 : undefined}
                 onClick={handleClear}
-                className="pointer-coarse:hidden flex h-full max-w-full shrink-0 cursor-pointer items-center rounded-r-md border-0 bg-transparent px-2.5 font-inherit text-base text-[var(--ds-gray-700)] no-underline outline-none transition-[color,box-shadow,border-color] duration-150 hover:text-foreground focus-visible:-outline-offset-1 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-[var(--ds-focus-color)] disabled:cursor-not-allowed"
+                className="pointer-coarse:hidden flex h-full max-w-full shrink-0 cursor-pointer items-center rounded-r-md border-0 bg-transparent px-2.5 font-inherit text-base text-[var(--ds-gray-700)] no-underline outline-none transition-[color,box-shadow,border-color] duration-150 ease-[ease] hover:text-foreground focus-visible:-outline-offset-1 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-[var(--ds-focus-color)] disabled:cursor-not-allowed"
               >
                 <Kbd small className={cn(clearableKbdClass, clearButtonKbdClass)}>
                   Esc

@@ -31,6 +31,10 @@
       {
         "officialPrimaryFamily": "Geist Mono",
         "localPrimaryFamily": "JetBrains Maple Mono"
+      },
+      {
+        "officialPrimaryFamily": "GeistSans",
+        "localPrimaryFamily": "HarmonyOS Sans SC"
       }
     ],
     "approvedIconMappings": [
