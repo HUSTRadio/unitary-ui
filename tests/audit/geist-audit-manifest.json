@@ -3604,7 +3604,7 @@
       ],
       "selectors": {
         "official": "[role=\"menu\"]",
-        "local": "[data-radix-context-menu-content]"
+        "local": "[role=menu]"
       },
       "interaction": "applicable",
       "acceptanceContracts": [
@@ -3722,7 +3722,7 @@
               "selectors": {
                 "default": {
                   "official": "[role=\"menu\"]",
-                  "local": "[data-radix-context-menu-content]"
+                  "local": "[role=menu]"
                 },
                 "byViewport": {}
               },
@@ -3733,7 +3733,7 @@
               "selectors": {
                 "default": {
                   "official": "[role=\"menu\"]",
-                  "local": "[data-radix-context-menu-content]"
+                  "local": "[role=menu]"
                 },
                 "byViewport": {}
               },
@@ -3858,7 +3858,7 @@
               "selectors": {
                 "default": {
                   "official": "[role=\"menu\"]",
-                  "local": "[data-radix-context-menu-content]"
+                  "local": "[role=menu]"
                 },
                 "byViewport": {}
               },
@@ -3869,7 +3869,7 @@
               "selectors": {
                 "default": {
                   "official": "[role=\"menu\"]",
-                  "local": "[data-radix-context-menu-content]"
+                  "local": "[role=menu]"
                 },
                 "byViewport": {}
               },
@@ -3994,7 +3994,7 @@
               "selectors": {
                 "default": {
                   "official": "[role=\"menu\"]",
-                  "local": "[data-radix-context-menu-content]"
+                  "local": "[role=menu]"
                 },
                 "byViewport": {}
               },
@@ -4005,7 +4005,7 @@
               "selectors": {
                 "default": {
                   "official": "[role=\"menu\"]",
-                  "local": "[data-radix-context-menu-content]"
+                  "local": "[role=menu]"
                 },
                 "byViewport": {}
               },
@@ -4130,7 +4130,7 @@
               "selectors": {
                 "default": {
                   "official": "[role=\"menu\"]",
-                  "local": "[data-radix-context-menu-content]"
+                  "local": "[role=menu]"
                 },
                 "byViewport": {}
               },
@@ -4141,7 +4141,7 @@
               "selectors": {
                 "default": {
                   "official": "[role=\"menu\"]",
-                  "local": "[data-radix-context-menu-content]"
+                  "local": "[role=menu]"
                 },
                 "byViewport": {}
               },

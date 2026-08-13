@@ -488,23 +488,23 @@ async function applyStateRecipe(send, config) {
         break;
       }
       case "contextmenu": {
-        const point = await elementPoint(send, selector);
-        if (!point) throw new Error(`--state-recipe "${step}" 目标不存在: ${selector}`);
-        await send("Input.dispatchMouseEvent", { type: "mouseMoved", ...point });
-        await send("Input.dispatchMouseEvent", {
-          type: "mousePressed",
-          ...point,
-          button: "right",
-          buttons: 2,
-          clickCount: 1,
-        });
-        await send("Input.dispatchMouseEvent", {
-          type: "mouseReleased",
-          ...point,
-          button: "right",
-          buttons: 0,
-          clickCount: 1,
-        });
+        const ok = await evaluate(
+          send,
+          `(() => {
+            const el = document.querySelector(${JSON.stringify(selector)});
+            if (!el) return false;
+            const r = el.getBoundingClientRect();
+            el.dispatchEvent(new MouseEvent("contextmenu", {
+              bubbles: true,
+              cancelable: true,
+              clientX: r.left + r.width / 2,
+              clientY: r.top + r.height / 2,
+              button: 2,
+            }));
+            return true;
+          })()`,
+        );
+        if (!ok) throw new Error(`--state-recipe "${step}" 目标不存在: ${selector}`);
         break;
       }
       case "hover": {
