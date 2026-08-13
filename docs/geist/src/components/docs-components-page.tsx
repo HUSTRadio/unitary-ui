@@ -419,15 +419,15 @@ function CheckboxDemo() {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="disabled">
             <div className="flex flex-col items-stretch justify-start gap-4">
-              <label className="text-checkbox-label inline-flex cursor-not-allowed items-start text-muted-foreground">
+              <label className="text-checkbox-label inline-flex cursor-not-allowed items-start text-disabled-foreground">
                 <Checkbox disabled aria-label={demoText(language, "Disabled")} />
                 <span className="ml-2">{demoText(language, "Disabled")}</span>
               </label>
-              <label className="text-checkbox-label inline-flex cursor-not-allowed items-start text-muted-foreground">
+              <label className="text-checkbox-label inline-flex cursor-not-allowed items-start text-disabled-foreground">
                 <Checkbox checked disabled aria-label={demoText(language, "Disabled Checked")} />
                 <span className="ml-2">{demoText(language, "Disabled Checked")}</span>
               </label>
-              <label className="text-checkbox-label inline-flex cursor-not-allowed items-start text-muted-foreground">
+              <label className="text-checkbox-label inline-flex cursor-not-allowed items-start text-disabled-foreground">
                 <Checkbox
                   checked="indeterminate"
                   disabled

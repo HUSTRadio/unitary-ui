@@ -87,6 +87,7 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-disabled-foreground: var(--disabled-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
@@ -465,6 +466,7 @@
   --secondary-foreground: var(--color-text-primary);
   --muted: var(--color-bg-subtle);
   --muted-foreground: var(--color-text-secondary);
+  --disabled-foreground: #c9c9c9; /* gray-500 */
   --accent: var(--color-bg-hover);
   --accent-foreground: var(--color-text-primary);
   --destructive: var(--danger);
@@ -701,6 +703,7 @@
   --secondary-foreground: var(--color-text-primary);
   --muted: var(--color-bg-subtle);
   --muted-foreground: var(--color-text-secondary);
+  --disabled-foreground: #454545; /* gray-500 */
   --accent: var(--color-bg-hover);
   --accent-foreground: var(--color-text-primary);
   --destructive: var(--danger);
