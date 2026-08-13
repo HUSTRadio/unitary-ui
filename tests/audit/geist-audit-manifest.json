@@ -2429,6 +2429,306 @@
         "official": "[class*=\"border-[var(--ds-gray-200)]\"]",
         "local": "[data-slot=\"empty-state\"]"
       },
+      "acceptanceContracts": [
+        {
+          "demoId": "empty-state-design-framework",
+          "variant": "empty-state-design-framework",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#empty-state-design-framework\"] ~ * div.flex.w-full.overflow-x-auto",
+                  "local": "[data-demo-card=\"empty-state-design-framework\"] > div.flex.w-full.overflow-x-auto"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "card": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#empty-state-design-framework\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"empty-state-design-framework\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#empty-state-design-framework\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"empty-state-design-framework\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "empty-state": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#empty-state-design-framework\"] ~ * div[class*=\"border-[var(--ds-gray-200)]\"]",
+                  "local": "[data-demo-container=\"empty-state-design-framework\"] > [data-slot=\"empty-state\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "icon-bubble": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#empty-state-design-framework\"] ~ * div[class*=\"border-[var(--ds-gray-200)]\"] div[aria-hidden=\"true\"]",
+                  "local": "[data-demo-container=\"empty-state-design-framework\"] [data-slot=\"empty-state-icon\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "text-adjacent-icon",
+              "textRole": "title",
+              "anchorEdge": "left"
+            },
+            "title": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#empty-state-design-framework\"] ~ * div[class*=\"text-heading-16\"]",
+                  "local": "[data-demo-container=\"empty-state-design-framework\"] [class*=\"text-heading-16\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "description": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#empty-state-design-framework\"] ~ * div[class*=\"text-copy-14\"]",
+                  "local": "[data-demo-container=\"empty-state-design-framework\"] [class*=\"text-copy-14\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "blank-slate",
+          "variant": "blank-slate",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#blank-slate\"] ~ * div.flex.w-full.overflow-x-auto",
+                  "local": "[data-demo-card=\"blank-slate\"] > div.flex.w-full.overflow-x-auto"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "card": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#blank-slate\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"blank-slate\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#blank-slate\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"blank-slate\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "empty-state": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#blank-slate\"] ~ * div[class*=\"border-[var(--ds-gray-200)]\"]",
+                  "local": "[data-demo-container=\"blank-slate\"] > [data-slot=\"empty-state\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "icon-bubble": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#blank-slate\"] ~ * div[class*=\"border-[var(--ds-gray-200)]\"] div[aria-hidden=\"true\"]",
+                  "local": "[data-demo-container=\"blank-slate\"] [data-slot=\"empty-state-icon\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "text-adjacent-icon",
+              "textRole": "title",
+              "anchorEdge": "left"
+            },
+            "title": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#blank-slate\"] ~ * div[class*=\"text-heading-16\"]",
+                  "local": "[data-demo-container=\"blank-slate\"] [class*=\"text-heading-16\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "description": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#blank-slate\"] ~ * div[class*=\"text-copy-14\"]",
+                  "local": "[data-demo-container=\"blank-slate\"] [class*=\"text-copy-14\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "informational",
+          "variant": "informational",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#informational\"] ~ * div.flex.w-full.overflow-x-auto",
+                  "local": "[data-demo-card=\"informational\"] > div.flex.w-full.overflow-x-auto"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "card": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#informational\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"informational\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#informational\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"informational\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "empty-state": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#informational\"] ~ * div[class*=\"border-[var(--ds-gray-200)]\"]",
+                  "local": "[data-demo-container=\"informational\"] > [data-slot=\"empty-state\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "icon-bubble": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#informational\"] ~ * div[class*=\"border-[var(--ds-gray-200)]\"] div[aria-hidden=\"true\"]",
+                  "local": "[data-demo-container=\"informational\"] [data-slot=\"empty-state-icon\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "text-adjacent-icon",
+              "textRole": "title",
+              "anchorEdge": "left"
+            },
+            "title": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#informational\"] ~ * div[class*=\"text-heading-16\"]",
+                  "local": "[data-demo-container=\"informational\"] [class*=\"text-heading-16\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "description": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#informational\"] ~ * div[class*=\"text-copy-14\"]",
+                  "local": "[data-demo-container=\"informational\"] [class*=\"text-copy-14\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "button": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#informational\"] ~ * div[class*=\"border-[var(--ds-gray-200)]\"] > button",
+                  "local": "[data-demo-container=\"informational\"] > [data-slot=\"empty-state\"] > button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "link": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#informational\"] ~ * div[class*=\"border-[var(--ds-gray-200)]\"] > a",
+                  "local": "[data-demo-container=\"informational\"] > [data-slot=\"empty-state\"] > a"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ],
       "interaction": "applicable"
     },
     {

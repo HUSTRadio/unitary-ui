@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 import {
   ArrowDownCircle,
   ArrowLeft,
+  ArrowRight,
+  ChartColumn,
   CircleCheck,
   ChevronRight,
   Clock,
@@ -10,7 +12,6 @@ import {
   CopyCheck,
   Edit,
   ExternalLink,
-  Inbox,
   LayoutGrid,
   List,
   Rocket,
@@ -318,34 +319,69 @@ function PaginationDemo() {
 
 function EmptyStateDemo() {
   const { language } = useLanguage();
-  const icon = <EmptyStateIcon icon={<Inbox aria-hidden />} />;
+  const icon = <EmptyStateIcon icon={<ChartColumn className="size-8" aria-hidden />} />;
   return (
-    <div className="flex w-full max-w-md flex-col gap-8">
-      <EmptyState
-        icon={icon}
-        title={demoText(language, "Title")}
-        description={demoText(language, "A message conveying the state of the product.")}
-      />
-      <EmptyState
-        icon={icon}
-        title={demoText(language, "Title")}
-        description={demoText(language, "A message conveying the state of the product.")}
-      />
-      <EmptyState
-        icon={icon}
-        title={demoText(language, "Title")}
-        description={demoText(
-          language,
-          "This should detail the actions you can take on this screen, as well as why it’s valuable.",
-        )}
+    <div className="w-full max-w-[862px] space-y-6">
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="empty-state-design-framework"
       >
-        <Button typeName="button" type="secondary">
-          {demoText(language, "Primary Action")}
-        </Button>
-        <a href="/" className="text-label-14 text-muted-foreground">
-          {demoText(language, "Learn more")}
-        </a>
-      </EmptyState>
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="empty-state-design-framework">
+            <EmptyState
+              icon={icon}
+              title={demoText(language, "Title")}
+              description={demoText(language, "A message conveying the state of the product.")}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="blank-slate"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="blank-slate">
+            <EmptyState
+              icon={icon}
+              title={demoText(language, "Title")}
+              description={demoText(language, "A message conveying the state of the product.")}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="informational"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="informational">
+            <EmptyState
+              icon={icon}
+              title={demoText(language, "Title")}
+              description={demoText(
+                language,
+                "This should detail the actions you can take on this screen, as well as why it’s valuable.",
+              )}
+            >
+              <Button
+                type="secondary"
+                typeName="button"
+                className="!max-w-full !border-0 !leading-[21px] !transition-none shadow-[0_0_0_1px_var(--gray-400)] duration-150 ease-in-out"
+              >
+                {demoText(language, "Primary Action")}
+              </Button>
+              <a
+                href="/"
+                className="inline-flex cursor-pointer items-center gap-0.5 text-label-14 text-muted-foreground transition-colors no-underline"
+              >
+                {demoText(language, "Learn more")}
+                <ArrowRight className="size-4" aria-hidden />
+              </a>
+            </EmptyState>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
