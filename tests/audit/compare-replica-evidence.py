@@ -368,8 +368,8 @@ def compare_aria_pair(
         local_value = actual.get(field)
         if official_value == local_value:
             matched.append(field)
-        elif field == "aria-controls":
-            # aria-controls 是 Radix 动态生成的 id（每次渲染不同），无条件豁免。
+        elif field in ("aria-controls", "aria-labelledby", "aria-describedby"):
+            # Radix 动态生成的 id（每次渲染不同），无条件豁免。
             matched.append(field)
         elif is_infra_pair and field in exempt_fields:
             matched.append(field)
