@@ -15,6 +15,8 @@ import {
   ExternalLink,
   LayoutGrid,
   List,
+  Lock,
+  LockOpen,
   Rocket,
   Search,
   Shield,
@@ -1865,16 +1867,216 @@ function TextareaDemo() {
 
 function ToggleDemo() {
   const { language } = useLanguage();
-  const [enabled, setEnabled] = React.useState(true);
-  return (
-    <div className="flex items-center gap-3">
-      <Toggle
-        checked={enabled}
-        onCheckedChange={setEnabled}
-        aria-label={demoText(language, "Toggle settings")}
-      />
-      <span className="text-copy-14 text-muted-foreground">{enabled ? "On" : "Off"}</span>
+  const [checked, setChecked] = React.useState(true);
+
+  const lockIcon = {
+    checked: <Lock className="size-2" aria-hidden />,
+    unchecked: <LockOpen className="size-2" aria-hidden />,
+  };
+
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
     </div>
+  );
+
+  return (
+    <>
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <div className="flex flex-col gap-4">
+              <div>
+                <Toggle
+                  aria-label={demoText(language, "Enable Firewall")}
+                  checked={false}
+                  onCheckedChange={() => {}}
+                />
+              </div>
+              <div>
+                <Toggle
+                  aria-label={demoText(language, "Enable Firewall")}
+                  checked
+                  onCheckedChange={setChecked}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled">
+            <div className="flex flex-col gap-4">
+              <div>
+                <Toggle
+                  aria-label={demoText(language, "Enable Firewall")}
+                  checked={false}
+                  disabled
+                />
+              </div>
+              <div>
+                <Toggle aria-label={demoText(language, "Enable Firewall")} checked disabled />
+              </div>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="sizes"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="sizes">
+            <div className="flex flex-row flex-wrap gap-4">
+              <div>
+                <Toggle aria-label={demoText(language, "Enable Firewall")} checked={false} />
+              </div>
+              <div>
+                <Toggle
+                  aria-label={demoText(language, "Enable Firewall")}
+                  checked={false}
+                  size="medium"
+                />
+              </div>
+              <div>
+                <Toggle
+                  aria-label={demoText(language, "Enable Firewall")}
+                  checked={false}
+                  size="large"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="custom-color"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="custom-color">
+            <div className="flex flex-col gap-4">
+              <div>
+                <Toggle
+                  aria-label={demoText(language, "Enable Firewall")}
+                  checked
+                  color="amber"
+                  icon={lockIcon}
+                  onCheckedChange={setChecked}
+                />
+              </div>
+              <div>
+                <Toggle
+                  aria-label={demoText(language, "Enable Firewall")}
+                  checked
+                  color="red"
+                  icon={lockIcon}
+                  onCheckedChange={setChecked}
+                />
+              </div>
+              <div>
+                <Toggle
+                  aria-label={demoText(language, "Enable Firewall")}
+                  checked
+                  color="amber"
+                  icon={lockIcon}
+                  size="large"
+                  onCheckedChange={setChecked}
+                />
+              </div>
+              <div>
+                <Toggle
+                  aria-label={demoText(language, "Enable Firewall")}
+                  checked
+                  color="red"
+                  icon={lockIcon}
+                  size="large"
+                  onCheckedChange={setChecked}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="with-label"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="with-label">
+            <div className="flex flex-col items-start justify-start gap-4">
+              <div className="flex flex-row items-stretch justify-start gap-4">
+                <Toggle checked onCheckedChange={setChecked}>
+                  {demoText(language, "Enable Firewall")}
+                </Toggle>
+                <Toggle checked direction="rtl" onCheckedChange={setChecked}>
+                  {demoText(language, "Enable Firewall")}
+                </Toggle>
+              </div>
+              <div className="flex flex-row items-stretch justify-start gap-4">
+                <Toggle checked size="large" onCheckedChange={setChecked}>
+                  {demoText(language, "Enable Firewall")}
+                </Toggle>
+                <Toggle checked direction="rtl" size="large" onCheckedChange={setChecked}>
+                  {demoText(language, "Enable Firewall")}
+                </Toggle>
+              </div>
+              <div className="flex flex-row items-stretch justify-start gap-4">
+                <Toggle checked icon={lockIcon} onCheckedChange={setChecked}>
+                  {demoText(language, "Enable Firewall")}
+                </Toggle>
+                <Toggle checked direction="rtl" icon={lockIcon} onCheckedChange={setChecked}>
+                  {demoText(language, "Enable Firewall")}
+                </Toggle>
+              </div>
+              <div className="flex flex-row items-stretch justify-start gap-4">
+                <Toggle checked icon={lockIcon} size="large" onCheckedChange={setChecked}>
+                  {demoText(language, "Enable Firewall")}
+                </Toggle>
+                <Toggle
+                  checked
+                  direction="rtl"
+                  icon={lockIcon}
+                  size="large"
+                  onCheckedChange={setChecked}
+                >
+                  {demoText(language, "Enable Firewall")}
+                </Toggle>
+              </div>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+    </>
   );
 }
 

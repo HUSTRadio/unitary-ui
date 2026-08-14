@@ -566,6 +566,7 @@ describe("Geist audit manifest schema gate (Task 2: schema 基础门禁)", () =>
       "separator",
       "sheet",
       "textarea",
+      "toggle",
       "switch",
     ]);
 

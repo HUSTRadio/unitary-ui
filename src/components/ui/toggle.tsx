@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 function Toggle({
   className,
   thumbClassName,
+  icon,
   children,
   size = "small",
   color = "blue",
@@ -31,6 +32,7 @@ function Toggle({
   color?: "blue" | "amber" | "red";
   labelCasing?: "title" | "normal";
   direction?: "ltr" | "rtl";
+  icon?: { checked?: React.ReactNode; unchecked?: React.ReactNode };
   thumbClassName?: string;
   children?: React.ReactNode;
 }) {
@@ -53,13 +55,24 @@ function Toggle({
       <SwitchPrimitive.Thumb
         data-slot="toggle-thumb"
         className={cn(
-          "pointer-events-none absolute top-1/2 left-[1.5px] -translate-y-1/2 rounded-full border border-black/10 bg-[var(--toggle-thumb)] shadow-[0_1px_2px_rgba(0,0,0,0.12)] ring-0 transition-transform data-[state=unchecked]:translate-x-0 data-disabled:data-[state=unchecked]:bg-[var(--toggle-disabled-thumb-unchecked)] data-disabled:data-[state=checked]:bg-[var(--toggle-disabled-thumb-checked)]",
+          "pointer-events-none absolute top-1/2 left-[1.5px] flex -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-[var(--toggle-thumb)] shadow-[0_1px_2px_rgba(0,0,0,0.12)] ring-0 transition-transform data-[state=unchecked]:translate-x-0 data-disabled:data-[state=unchecked]:bg-[var(--toggle-disabled-thumb-unchecked)] data-disabled:data-[state=checked]:bg-[var(--toggle-disabled-thumb-checked)]",
           size === "small" && "size-[11px] data-[state=checked]:translate-x-[14px]",
           size === "medium" && "size-[17px] data-[state=checked]:translate-x-4",
           size === "large" && "size-[21px] data-[state=checked]:translate-x-4",
           thumbClassName,
         )}
-      />
+      >
+        {icon?.checked ? (
+          <span className="hidden text-[8px] group-data-[state=checked]/toggle:block">
+            {icon.checked}
+          </span>
+        ) : null}
+        {icon?.unchecked ? (
+          <span className="hidden text-[8px] group-data-[state=unchecked]/toggle:block">
+            {icon.unchecked}
+          </span>
+        ) : null}
+      </SwitchPrimitive.Thumb>
     </SwitchPrimitive.Root>
   );
 
