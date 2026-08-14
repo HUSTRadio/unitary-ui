@@ -8872,8 +8872,8 @@
         "disabled"
       ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[data-slot=switch]",
+        "local": "[data-slot=switch]"
       },
       "interaction": "pending",
       "acceptanceContracts": [
@@ -8932,7 +8932,9 @@
               "presence": "required",
               "acceptanceProfile": "mapped-text"
             }
-          }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
         },
         {
           "demoId": "sizes",
@@ -8989,7 +8991,9 @@
               "presence": "required",
               "acceptanceProfile": "mapped-text"
             }
-          }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
         },
         {
           "demoId": "full-width",
@@ -9046,7 +9050,9 @@
               "presence": "required",
               "acceptanceProfile": "mapped-text"
             }
-          }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
         },
         {
           "demoId": "tooltip",
@@ -9103,7 +9109,9 @@
               "presence": "required",
               "acceptanceProfile": "mapped-text"
             }
-          }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
         },
         {
           "demoId": "icon",
@@ -9160,7 +9168,9 @@
               "presence": "required",
               "acceptanceProfile": "mapped-text"
             }
-          }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
         }
       ],
       "demos": [
