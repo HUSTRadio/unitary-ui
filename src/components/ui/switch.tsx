@@ -95,7 +95,7 @@ function Switch({
           size === "large" && "h-10 rounded-[8px]",
           className,
         )}
-        style={{ boxShadow: "0 0 0 1px var(--gray-alpha-400)", ...(props.style as object) }}
+        style={{ boxShadow: "0 0 0 1px rgba(0,0,0,0.08)", ...(props.style as object) }}
         onKeyDown={(event) => {
           onKeyDown?.(event);
           handleKeyDown(event);
@@ -129,13 +129,13 @@ function SwitchControl({
       data-slot="switch-control"
       aria-label={label}
       className={cn(
-        "relative flex h-full flex-1 cursor-pointer items-center justify-center font-medium text-gray-800 outline-none transition-colors duration-150 focus-ring",
+        "flex h-full flex-1 cursor-pointer items-center justify-center text-start font-medium text-gray-800 outline-none transition-colors duration-150 focus-ring",
         "hover:text-gray-900",
         "data-[state=checked]:bg-gray-100 data-[state=checked]:text-gray-1000",
         "data-[state=checked]:rounded-[4px]",
         "data-[disabled]:pointer-events-none data-[disabled]:text-gray-800",
-        size === "large" && "px-4 text-copy-16 data-[state=checked]:rounded-[6px]",
-        size !== "large" && "px-3 text-copy-14",
+        size === "large" && "px-4 text-label-16 data-[state=checked]:rounded-[6px]",
+        size !== "large" && "px-3 text-label-14",
         className,
       )}
       {...props}
