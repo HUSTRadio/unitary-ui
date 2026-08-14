@@ -496,20 +496,26 @@
       "dimensions": {
         "officialCapabilities": "PASS",
         "api": "PASS",
-        "dom": "PARTIAL",
-        "states": "PARTIAL",
-        "responsive": "MISSING",
-        "aria": "PARTIAL",
-        "motion": "PARTIAL",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PARTIAL",
+        "aria": "PASS",
+        "motion": "PASS",
         "localDemoCoverage": "PASS",
-        "comparison": "MISSING"
+        "comparison": "PASS"
       },
       "evidence": [
-        "https://vercel.com/geist/multi-select",
-        "docs/geist-markdown-refs/components/multi-select.md",
-        "tests/multi-select-api.test.tsx"
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/runs/official/",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/runs/local/",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/comparisons/select-actions-closed/comparison.json",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/comparisons/select-actions-open/comparison.json",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/comparisons/keyboard-navigation-closed/comparison.json",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/comparisons/keyboard-navigation-open/comparison.json",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/comparisons/controlled-state-closed/comparison.json",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/comparisons/controlled-state-open/comparison.json",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/visual/final-contact-sheet.png"
       ],
-      "notes": "B3 进行中；已固定 select-actions/keyboard-navigation/controlled-state 三组实时 demo，并按 TDD 落地 trigger、menu material、28px row、Check All/Only action 与组合键盘模型；等待 clean-revision evidence、comparator 和视觉终验"
+      "notes": "B3 复刻闭环；3 live demos（select-actions/keyboard-navigation/controlled-state）的 closed/open 六组 clean-revision comparator 均为 semantic PASS，strict/ARIA failures、missing paths 与 normalized geometry delta 均为 0；open panel 唯一 raw minWidth 差异由 trigger-context 明确回溯到获准 Geist Sans→HarmonyOS Sans 字宽传导，最终同条件 contact sheet 复核 36px trigger、100/128px panel、8px padding、12px radius、28px row、checkbox/action/scrollbar/shadow 无未解释差异；未采集的主题/视口矩阵诚实保留 responsive PARTIAL"
     },
     {
       "slug": "slider",
