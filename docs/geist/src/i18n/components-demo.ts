@@ -366,6 +366,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     Checked: "已选中",
     Unchecked: "未选中",
     "Indeterminate (partial selection)": "半选（部分选择）",
+    "Default Radio Example": "默认单选框示例",
     "Disabled Radio Example": "禁用单选框示例",
     "Required Radio Example": "必填单选框示例",
     "With error (small)": "带错误（小）",

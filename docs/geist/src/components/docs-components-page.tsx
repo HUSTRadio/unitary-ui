@@ -4429,12 +4429,98 @@ function PillDemo() {
 }
 
 function RadioDemo() {
+  const { language } = useLanguage();
+
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
+    </div>
+  );
+
   return (
-    <RadioGroup label="Deployment Region" defaultValue="iad1" name="deployment-region">
-      <RadioGroupItem value="iad1">Washington, D.C.</RadioGroupItem>
-      <RadioGroupItem value="fra1">Frankfurt</RadioGroupItem>
-      <RadioGroupItem value="hnd1">Tokyo</RadioGroupItem>
-    </RadioGroup>
+    <>
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <RadioGroup
+              label={demoText(language, "Default Radio Example")}
+              defaultValue="option-1"
+              name="radio-name"
+            >
+              <div className="flex flex-col items-stretch justify-start gap-6">
+                <RadioGroupItem value="option-1">{demoText(language, "Option 1")}</RadioGroupItem>
+                <RadioGroupItem value="option-2">{demoText(language, "Option 2")}</RadioGroupItem>
+              </div>
+            </RadioGroup>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="radio-disabled"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="radio-disabled">
+            <RadioGroup
+              label={demoText(language, "Disabled Radio Example")}
+              defaultValue="option-1"
+              disabled
+              name="radio-name"
+            >
+              <div className="flex flex-col items-stretch justify-start gap-6">
+                <RadioGroupItem value="option-1">{demoText(language, "Option 1")}</RadioGroupItem>
+                <RadioGroupItem value="option-2">{demoText(language, "Option 2")}</RadioGroupItem>
+              </div>
+            </RadioGroup>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="radio-required"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="radio-required">
+            <RadioGroup
+              label={demoText(language, "Required Radio Example")}
+              required
+              name="radio-name"
+            >
+              <form className="flex flex-col items-start justify-start gap-6">
+                <div className="flex flex-col items-stretch justify-start gap-4">
+                  <RadioGroupItem value="option-1">{demoText(language, "Option 1")}</RadioGroupItem>
+                  <RadioGroupItem value="option-2">{demoText(language, "Option 2")}</RadioGroupItem>
+                </div>
+                <Button typeName="submit" size="small">
+                  {demoText(language, "Submit")}
+                </Button>
+              </form>
+            </RadioGroup>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+    </>
   );
 }
 

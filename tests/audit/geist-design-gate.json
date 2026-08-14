@@ -19,6 +19,26 @@
   ],
   "components": [
     {
+      "slug": "radio",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "MISSING",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["radio/README.md", "radio/radio-diff-table.md", "radio/evidence/"],
+      "notes": "B3；3 live demo（default/radio-disabled/radio-required）"
+    },
+
+    {
       "slug": "switch",
       "batch": "B3",
       "inventoryStatus": "live_enumeration_complete",

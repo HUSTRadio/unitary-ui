@@ -7368,14 +7368,207 @@
     {
       "slug": "radio",
       "officialUrl": "https://vercel.com/geist/radio",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["default", "radio-disabled", "radio-required"],
+      "states": ["default", "disabled", "required"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "radio-disabled"
+        },
+        {
+          "id": "radio-required"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": ["pointer:none", "keyboard:none"],
+      "responsiveExpectations": [
+        "radio:item rows gap-6 (24px) stack vertically; label fills container content width at 1440x900 (official measured)",
+        "radio:disabled rows keep gray-500 text and circle border, checked dot stays gray-500 at all four viewports (official measured)",
+        "radio:required demo is a form: rows gap-4, submit button h-8, form rows + button gap-6 (official measured)",
+        "no-overflow:overflow-x-auto wrapper keeps demo rows scrollable without page overflow at all 16 cells"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "label[data-geist-radio-item]",
+        "local": "[data-slot=\"radio-item-wrapper\"]"
       },
-      "interaction": "pending"
+      "interaction": "NOT_APPLICABLE",
+      "acceptanceContracts": [
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "radio": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 label[data-geist-radio-item]",
+                  "local": "[data-demo-container=\"default\"] [data-slot=\"radio-item-wrapper\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "radio-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 label[data-geist-radio-item] span.ml-[var(--geist-gap-quarter)]",
+                  "local": "[data-demo-container=\"default\"] [data-slot=\"radio-item-wrapper\"] span.ml-2"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "radio-disabled",
+          "variant": "radio-disabled",
+          "state": "disabled",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-disabled\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"radio-disabled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-disabled\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"radio-disabled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "radio": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-disabled\"] ~ * div.w-full.p-6 label[data-geist-radio-item]",
+                  "local": "[data-demo-container=\"radio-disabled\"] [data-slot=\"radio-item-wrapper\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "radio-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-disabled\"] ~ * div.w-full.p-6 label[data-geist-radio-item] span.ml-[var(--geist-gap-quarter)]",
+                  "local": "[data-demo-container=\"radio-disabled\"] [data-slot=\"radio-item-wrapper\"] span.ml-2"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "radio-required",
+          "variant": "radio-required",
+          "state": "required",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-required\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"radio-required\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-required\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"radio-required\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "radio": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-required\"] ~ * div.w-full.p-6 label[data-geist-radio-item]",
+                  "local": "[data-demo-container=\"radio-required\"] [data-slot=\"radio-item-wrapper\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "radio-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-required\"] ~ * div.w-full.p-6 label[data-geist-radio-item] span.ml-[var(--geist-gap-quarter)]",
+                  "local": "[data-demo-container=\"radio-required\"] [data-slot=\"radio-item-wrapper\"] span.ml-2"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "relative-time-card",
