@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
  * - useRadio：headless 用法，返回 { component }
  * 圆点 16×16、边框 gray-700（--radio-color 变量）；选中态 --radio-color 切换为 gray-1000（light #171717），
  * 中心圆点 bg-[var(--radio-color)] scale-0 → scale-100（官方 peer-checked:after:scale-100 等价）；
- * 禁用态实色灰：选项文字 gray-500、圆点边框 gray-500、禁用选中圆点 gray-500（官方 [--radio-color:var(--ds-gray-500)]），
+ * 禁用态实色灰：选项文字 gray-400、圆点边框 gray-400、禁用选中圆点 gray-400（官方实测 #c9c9c9），
  * cursor-not-allowed，无 opacity 变暗；
  * 焦点环 focus-ring；颜色全部消费语义 token（--gray-700 / --gray-500 / --gray-1000 / --background-100），零 `dark:` 分支。
  * 语义：单个多选一（2–6 项）；超过 6 项改用 Select/Combobox，二选一布尔用 Toggle。
@@ -74,7 +74,7 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
             "transition-[border-color,background] duration-200 ease-in",
             "peer-focus-visible:focus-ring",
             "peer-enabled:peer-checked:[--radio-color:var(--gray-1000)]",
-            "peer-disabled:[--radio-color:var(--gray-500)]",
+            "peer-disabled:[--radio-color:var(--gray-400)]",
             "peer-checked:[&>span]:scale-100",
           )}
         >
@@ -172,12 +172,14 @@ function RadioGroupItem({ value, children, className, ...radioProps }: RadioGrou
       data-slot="radio-item-wrapper"
       className={cn(
         "group flex items-center text-[13px] leading-[19.5px] [--radio-color:var(--gray-700)]",
-        "group-has-[:disabled]:cursor-not-allowed group-has-[:disabled]:text-gray-500 group-has-[:disabled]:[--radio-color:var(--gray-500)]",
+        "group-has-[:disabled]:cursor-not-allowed group-has-[:disabled]:text-gray-400 group-has-[:disabled]:[--radio-color:var(--gray-400)]",
         className,
       )}
     >
       <Radio value={value} {...radioProps} />
-      {children ? <span className="ml-2 group-hover:cursor-pointer">{children}</span> : null}
+      {children ? (
+        <span className="ml-2 flex px-0.5 group-hover:cursor-pointer">{children}</span>
+      ) : null}
     </label>
   );
 }
