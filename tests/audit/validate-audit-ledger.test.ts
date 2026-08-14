@@ -563,6 +563,7 @@ describe("Geist audit manifest schema gate (Task 2: schema 基础门禁)", () =>
       "select",
       "sheet",
       "textarea",
+      "switch",
     ]);
 
     // 已回填组件必须保留完整能力矩阵与具体 selector。

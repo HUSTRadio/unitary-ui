@@ -358,6 +358,8 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     Textarea: "文本区",
     "With error": "带错误",
     "Read only": "只读",
+    Source: "源代码",
+    Output: "输出",
     "View Source": "查看源代码",
     "View Output": "查看输出",
     Colors: "颜色",

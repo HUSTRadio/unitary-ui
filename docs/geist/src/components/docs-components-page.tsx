@@ -1086,18 +1086,146 @@ function ModalDemo() {
 
 function SwitchDemo() {
   const { language } = useLanguage();
-  const [view, setView] = React.useState("preview");
+
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
+    </div>
+  );
+
   return (
-    <Switch
-      name="editor-view"
-      value={view}
-      onValueChange={setView}
-      aria-label={demoText(language, "Editor view")}
-    >
-      <SwitchControl value="preview" label="Preview" />
-      <SwitchControl value="code" label="Code" />
-      <SwitchControl value="split" label="Split" />
-    </Switch>
+    <>
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled">
+            <div className="flex w-full max-w-md flex-col items-start">
+              <Switch name="view-mode">
+                <SwitchControl defaultChecked disabled label="Source" value="source" />
+                <SwitchControl disabled label="Output" value="output" />
+              </Switch>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="sizes"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="sizes">
+            <div className="flex w-full flex-col gap-4 lg:flex-row lg:flex-wrap">
+              <Switch name="sizes-small" size="small">
+                <SwitchControl defaultChecked label="Source" value="source" />
+                <SwitchControl label="Output" value="output" />
+              </Switch>
+              <Switch name="sizes-default">
+                <SwitchControl defaultChecked label="Source" value="source" />
+                <SwitchControl label="Output" value="output" />
+              </Switch>
+              <Switch name="sizes-large" size="large">
+                <SwitchControl defaultChecked label="Source" value="source" />
+                <SwitchControl label="Output" value="output" />
+              </Switch>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="full-width"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="full-width">
+            <Switch name="full-width" style={{ width: "100%" }}>
+              <SwitchControl defaultChecked label="Source" size="large" value="source" />
+              <SwitchControl label="Output" size="large" value="output" />
+            </Switch>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="tooltip"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="tooltip">
+            <div className="flex w-full max-w-md flex-col items-start">
+              <Switch name="view-mode-tooltip">
+                <Tooltip text={demoText(language, "View Source")}>
+                  <SwitchControl defaultChecked label="Source" size="large" value="source" />
+                </Tooltip>
+                <Tooltip text={demoText(language, "View Output")}>
+                  <SwitchControl label="Output" size="large" value="output" />
+                </Tooltip>
+              </Switch>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="icon"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="icon">
+            <div className="flex w-full flex-col gap-4 lg:flex-row lg:flex-wrap">
+              <Switch name="icons-small" size="small">
+                <SwitchControl
+                  defaultChecked
+                  icon={<LayoutGrid aria-hidden />}
+                  label="Source"
+                  value="source"
+                />
+                <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
+              </Switch>
+              <Switch name="icons-default">
+                <SwitchControl
+                  defaultChecked
+                  icon={<LayoutGrid aria-hidden />}
+                  label="Source"
+                  value="source"
+                />
+                <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
+              </Switch>
+              <Switch name="icons-large" size="large">
+                <SwitchControl
+                  defaultChecked
+                  icon={<LayoutGrid aria-hidden />}
+                  label="Source"
+                  value="source"
+                />
+                <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
+              </Switch>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+    </>
   );
 }
 

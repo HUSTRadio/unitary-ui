@@ -19,6 +19,26 @@
   ],
   "components": [
     {
+      "slug": "switch",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "MISSING",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["switch/README.md", "switch/switch-diff-table.md", "switch/evidence/"],
+      "notes": "B3；5 live demo（disabled/sizes/full-width/tooltip/icon）"
+    },
+
+    {
       "slug": "button",
       "batch": "B3",
       "inventoryStatus": "live_enumeration_complete",

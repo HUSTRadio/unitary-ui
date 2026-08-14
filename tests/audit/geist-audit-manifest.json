@@ -19,8 +19,17 @@
       "height": 1080
     }
   ],
-  "themes": ["light", "dark"],
-  "allowedStatuses": ["PASS", "FAIL", "MISSING", "BLOCKED", "NOT_APPLICABLE"],
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "allowedStatuses": [
+    "PASS",
+    "FAIL",
+    "MISSING",
+    "BLOCKED",
+    "NOT_APPLICABLE"
+  ],
   "acceptancePolicy": {
     "evidenceEpochNotBefore": "2026-08-12T00:00:00.000Z",
     "approvedFontMappings": [
@@ -60,8 +69,15 @@
       "foregroundColorDistanceMax": 0,
       "edgeExpansionDevicePixels": 1
     },
-    "systematicExemptions": ["TRANSITION_SHORTHAND", "FLEX_ITEM_MIN_SIZE", "HOST_CHROME"],
-    "hostChromeRoles": ["root", "card"],
+    "systematicExemptions": [
+      "TRANSITION_SHORTHAND",
+      "FLEX_ITEM_MIN_SIZE",
+      "HOST_CHROME"
+    ],
+    "hostChromeRoles": [
+      "root",
+      "card"
+    ],
     "acceptedBehaviorInfrastructure": [
       {
         "officialTag": "span",
@@ -83,8 +99,12 @@
       "slug": "avatar",
       "officialUrl": "https://vercel.com/geist/avatar",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -95,8 +115,12 @@
       "slug": "badge",
       "officialUrl": "https://vercel.com/geist/badge",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -107,8 +131,12 @@
       "slug": "banner",
       "officialUrl": "https://vercel.com/geist/banner",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -119,8 +147,12 @@
       "slug": "book",
       "officialUrl": "https://vercel.com/geist/book",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -131,8 +163,12 @@
       "slug": "breadcrumbs",
       "officialUrl": "https://vercel.com/geist/breadcrumbs",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -143,8 +179,12 @@
       "slug": "browser",
       "officialUrl": "https://vercel.com/geist/browser",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -162,7 +202,11 @@
         "disabled",
         "disabled-variants"
       ],
-      "states": ["default", "disabled", "loading"],
+      "states": [
+        "default",
+        "disabled",
+        "loading"
+      ],
       "demos": [
         {
           "id": "all-types-and-sizes-in-comparison"
@@ -180,9 +224,21 @@
           "id": "disabled-variants"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
-      "interactionRecipes": ["pointer:click", "keyboard:space", "keyboard:tab-focus"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "interactionRecipes": [
+        "pointer:click",
+        "keyboard:space",
+        "keyboard:tab-focus"
+      ],
       "responsiveExpectations": [
         "button-sizes:small/medium/large fixed heights 32/36/40px and radius 6/6/8px at all four viewports",
         "no-overflow:overflow-x-auto wrapper keeps demo rows scrollable without page overflow at all 16 cells"
@@ -222,7 +278,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "button": {
               "selectors": {
@@ -279,7 +337,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "button": {
               "selectors": {
@@ -336,7 +396,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "button": {
               "selectors": {
@@ -393,7 +455,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "button": {
               "selectors": {
@@ -450,7 +514,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "button": {
               "selectors": {
@@ -484,8 +550,15 @@
       "slug": "calendar",
       "officialUrl": "https://vercel.com/geist/calendar",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["default", "horizontal-layout", "sizes", "compact"],
-      "states": ["default"],
+      "variants": [
+        "default",
+        "horizontal-layout",
+        "sizes",
+        "compact"
+      ],
+      "states": [
+        "default"
+      ],
       "demos": [
         {
           "id": "default"
@@ -500,9 +573,20 @@
           "id": "compact"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
-      "interactionRecipes": ["blocked:popover-open", "click:trigger"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "interactionRecipes": [
+        "blocked:popover-open",
+        "click:trigger"
+      ],
       "responsiveExpectations": [
         "trigger:w-[var(--width)] fixed 250/180px across viewports",
         "skeleton:data-geist-skeleton wraps trigger and matches --width",
@@ -543,7 +627,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "calendar": {
               "selectors": {
@@ -611,7 +697,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "calendar": {
               "selectors": {
@@ -679,7 +767,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "calendar": {
               "selectors": {
@@ -758,7 +848,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "calendar": {
               "selectors": {
@@ -814,8 +906,18 @@
       "slug": "checkbox",
       "officialUrl": "https://vercel.com/geist/checkbox",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["default", "disabled"],
-      "states": ["default", "checked", "indeterminate", "disabled", "hover", "focus-visible"],
+      "variants": [
+        "default",
+        "disabled"
+      ],
+      "states": [
+        "default",
+        "checked",
+        "indeterminate",
+        "disabled",
+        "hover",
+        "focus-visible"
+      ],
       "demos": [
         {
           "id": "default"
@@ -827,9 +929,21 @@
           "id": "indeterminate"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
-      "interactionRecipes": ["click:input", "keyboard:space", "keyboard:tab-focus"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "interactionRecipes": [
+        "click:input",
+        "keyboard:space",
+        "keyboard:tab-focus"
+      ],
       "responsiveExpectations": [
         "indicator-16x16-r4:indicator box stays 16x16 at all four viewports (pixel matrix 64 cells)",
         "state-colors:checked/disabled/hover/focus use --ds-gray tokens unchanged across viewports"
@@ -869,7 +983,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "checkbox-row": {
               "selectors": {
@@ -937,7 +1053,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "checkbox-row": {
               "selectors": {
@@ -1005,7 +1123,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "checkbox-row": {
               "selectors": {
@@ -1050,8 +1170,19 @@
       "slug": "choicebox",
       "officialUrl": "https://vercel.com/geist/choicebox",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["single-select", "multi-select", "disabled", "custom-content"],
-      "states": ["default", "selected", "disabled", "hover", "focus-visible"],
+      "variants": [
+        "single-select",
+        "multi-select",
+        "disabled",
+        "custom-content"
+      ],
+      "states": [
+        "default",
+        "selected",
+        "disabled",
+        "hover",
+        "focus-visible"
+      ],
       "demos": [
         {
           "id": "single-select"
@@ -1063,8 +1194,16 @@
           "id": "disabled"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
       "interactionRecipes": [
         "click:option",
         "keyboard:arrow",
@@ -1111,7 +1250,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "choicebox-row": {
               "selectors": {
@@ -1179,7 +1320,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "choicebox-row": {
               "selectors": {
@@ -1247,7 +1390,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "choicebox-row": {
               "selectors": {
@@ -1292,8 +1437,20 @@
       "slug": "clearable-input",
       "officialUrl": "https://vercel.com/geist/clearable-input",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["default", "with-label", "with-cmdk", "disabled", "with-clear-callback"],
-      "states": ["default", "focused", "hover", "disabled", "coarse-pointer"],
+      "variants": [
+        "default",
+        "with-label",
+        "with-cmdk",
+        "disabled",
+        "with-clear-callback"
+      ],
+      "states": [
+        "default",
+        "focused",
+        "hover",
+        "disabled",
+        "coarse-pointer"
+      ],
       "demos": [
         {
           "id": "default"
@@ -1311,8 +1468,16 @@
           "id": "with-clear-callback"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
       "interactionRecipes": [
         "type:text",
         "key:escape",
@@ -1371,7 +1536,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "input": {
               "selectors": {
@@ -1428,7 +1595,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "input": {
               "selectors": {
@@ -1496,7 +1665,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "input": {
               "selectors": {
@@ -1575,7 +1746,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "input": {
               "selectors": {
@@ -1654,7 +1827,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "input": {
               "selectors": {
@@ -1688,8 +1863,12 @@
       "slug": "code",
       "officialUrl": "https://vercel.com/geist/code",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -1711,7 +1890,11 @@
         "hidden-line-numbers",
         "open-in-v0"
       ],
-      "states": ["default", "hover", "focus-visible"],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible"
+      ],
       "demos": [
         {
           "id": "default"
@@ -1741,8 +1924,16 @@
           "id": "open-in-v0"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
       "interactionRecipes": [
         "click:copy",
         "click:line-number-anchor",
@@ -1800,7 +1991,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "code-block": {
               "selectors": {
@@ -1890,7 +2083,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "code-block": {
               "selectors": {
@@ -1958,7 +2153,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "code-block": {
               "selectors": {
@@ -2026,7 +2223,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "code-block": {
               "selectors": {
@@ -2094,7 +2293,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "code-block": {
               "selectors": {
@@ -2162,7 +2363,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "code-block": {
               "selectors": {
@@ -2230,7 +2433,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "code-block": {
               "selectors": {
@@ -2298,7 +2503,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "code-block": {
               "selectors": {
@@ -2366,7 +2573,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "code-block": {
               "selectors": {
@@ -2400,8 +2609,18 @@
       "slug": "collapse",
       "officialUrl": "https://vercel.com/geist/collapse",
       "inventoryStatus": "live_enumeration_partial",
-      "variants": ["default", "expanded", "multiple", "small"],
-      "states": ["default", "open-blocked", "closed-blocked", "focus-visible-blocked"],
+      "variants": [
+        "default",
+        "expanded",
+        "multiple",
+        "small"
+      ],
+      "states": [
+        "default",
+        "open-blocked",
+        "closed-blocked",
+        "focus-visible-blocked"
+      ],
       "demos": [
         {
           "id": "default"
@@ -2416,9 +2635,19 @@
           "id": "small"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
-      "interactionRecipes": ["blocked:demo-attribution-and-local-matrix-required"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "interactionRecipes": [
+        "blocked:demo-attribution-and-local-matrix-required"
+      ],
       "responsiveExpectations": [
         "panel-anim:panel transition 200ms ease-in-out measured; closed panel stays mounted h=0 overflow-y-hidden",
         "content-scroll:inner content max-h-[60vh] overflow-y-auto",
@@ -2470,7 +2699,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "collapse-item": {
               "selectors": {
@@ -2549,7 +2780,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "collapse-item": {
               "selectors": {
@@ -2628,7 +2861,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "collapse-item": {
               "selectors": {
@@ -2707,7 +2942,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "collapse-item": {
               "selectors": {
@@ -2752,8 +2989,17 @@
       "slug": "combobox",
       "officialUrl": "https://vercel.com/geist/combobox",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["uncontrolled", "controlled", "disabled", "sizes", "with-label"],
-      "states": ["default", "open"],
+      "variants": [
+        "uncontrolled",
+        "controlled",
+        "disabled",
+        "sizes",
+        "with-label"
+      ],
+      "states": [
+        "default",
+        "open"
+      ],
       "demos": [
         {
           "id": "uncontrolled"
@@ -2771,8 +3017,16 @@
           "id": "with-label"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
       "interactionRecipes": [
         "click:trigger",
         "key:escape",
@@ -2822,7 +3076,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -2879,7 +3135,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -2958,7 +3216,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -3015,7 +3275,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -3094,7 +3356,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -3151,7 +3415,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -3230,7 +3496,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -3287,7 +3555,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -3366,7 +3636,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -3423,7 +3695,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -3479,8 +3753,19 @@
       "slug": "command-menu",
       "officialUrl": "https://vercel.com/geist/command-menu",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["default", "with-divider", "with-suffix"],
-      "states": ["default", "open", "closed", "selected", "hover", "keyboard"],
+      "variants": [
+        "default",
+        "with-divider",
+        "with-suffix"
+      ],
+      "states": [
+        "default",
+        "open",
+        "closed",
+        "selected",
+        "hover",
+        "keyboard"
+      ],
       "demos": [
         {
           "id": "default"
@@ -3492,8 +3777,16 @@
           "id": "with-suffix"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
       "interactionRecipes": [
         "click:trigger",
         "key:escape",
@@ -3552,7 +3845,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -3620,7 +3915,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -3688,7 +3985,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -3722,8 +4021,18 @@
       "slug": "context-card",
       "officialUrl": "https://vercel.com/geist/context-card",
       "inventoryStatus": "live_enumeration_partial",
-      "variants": ["default", "alignment", "render-prop"],
-      "states": ["default", "closed", "open-blocked", "hover-blocked", "focus-visible-blocked"],
+      "variants": [
+        "default",
+        "alignment",
+        "render-prop"
+      ],
+      "states": [
+        "default",
+        "closed",
+        "open-blocked",
+        "hover-blocked",
+        "focus-visible-blocked"
+      ],
       "demos": [
         {
           "id": "default"
@@ -3735,9 +4044,19 @@
           "id": "render-prop"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
-      "interactionRecipes": ["blocked:trusted-pointer-and-local-trigger-demo-required"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "interactionRecipes": [
+        "blocked:trusted-pointer-and-local-trigger-demo-required"
+      ],
       "responsiveExpectations": [
         "viewport-matrix:375/768/1440/1920 UNVERIFIED (G10) - re-collect before acceptance",
         "closed-mounted:card stays mounted closed with h-0 + pointer-events-none",
@@ -3789,7 +4108,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger-top": {
               "selectors": {
@@ -3889,8 +4210,16 @@
       "slug": "context-menu",
       "officialUrl": "https://vercel.com/geist/context-menu",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["default", "disabled-items", "link-items", "prefix-and-suffix"],
-      "states": ["default", "open"],
+      "variants": [
+        "default",
+        "disabled-items",
+        "link-items",
+        "prefix-and-suffix"
+      ],
+      "states": [
+        "default",
+        "open"
+      ],
       "demos": [
         {
           "id": "default"
@@ -3905,8 +4234,16 @@
           "id": "prefix-and-suffix"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
       "interactionRecipes": [
         "contextmenu:right-click-open",
         "key:arrow",
@@ -3954,7 +4291,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -4011,7 +4350,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -4090,7 +4431,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -4147,7 +4490,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -4226,7 +4571,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -4283,7 +4630,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -4362,7 +4711,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -4419,7 +4770,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -4475,8 +4828,12 @@
       "slug": "copy-button",
       "officialUrl": "https://vercel.com/geist/copy-button",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -4487,8 +4844,17 @@
       "slug": "description",
       "officialUrl": "https://vercel.com/geist/description",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["default", "text-right", "ellipsis"],
-      "states": ["default", "hover", "focus-visible", "ellipsis"],
+      "variants": [
+        "default",
+        "text-right",
+        "ellipsis"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "ellipsis"
+      ],
       "demos": [
         {
           "id": "default"
@@ -4500,9 +4866,21 @@
           "id": "ellipsis"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
-      "interactionRecipes": ["hover:tooltip-trigger", "key:tab-focus", "key:escape"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "interactionRecipes": [
+        "hover:tooltip-trigger",
+        "key:tab-focus",
+        "key:escape"
+      ],
       "responsiveExpectations": [
         "no-overflow:dl=container-50px at 357-1262 widths no horizontal overflow (measured)",
         "ellipsis:truncate effective at all widths (class string matches official)",
@@ -4591,7 +4969,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             }
           },
           "semanticNodeInventory": [],
@@ -4603,8 +4983,12 @@
       "slug": "destructive-action-modal",
       "officialUrl": "https://vercel.com/geist/destructive-action-modal",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -4615,8 +4999,20 @@
       "slug": "dots-menu",
       "officialUrl": "https://vercel.com/geist/dots-menu",
       "inventoryStatus": "live_enumeration_partial",
-      "variants": ["default", "sizes", "disabled", "disabled-menu-item"],
-      "states": ["default", "open", "closed", "disabled", "hover", "focus-visible"],
+      "variants": [
+        "default",
+        "sizes",
+        "disabled",
+        "disabled-menu-item"
+      ],
+      "states": [
+        "default",
+        "open",
+        "closed",
+        "disabled",
+        "hover",
+        "focus-visible"
+      ],
       "demos": [
         {
           "id": "default"
@@ -4631,9 +5027,22 @@
           "id": "disabled-menu-item"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
-      "interactionRecipes": ["click:trigger", "key:arrow", "key:enter", "key:escape"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "interactionRecipes": [
+        "click:trigger",
+        "key:arrow",
+        "key:enter",
+        "key:escape"
+      ],
       "responsiveExpectations": [
         "matrix-partial:only 1440-light measured (G12); 375/768/1920 x dark required before acceptance",
         "menu-surface:min-w 200px r12 p6 rows 36/6px (1440-light measured)",
@@ -4684,7 +5093,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -4741,7 +5152,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger-1": {
               "selectors": {
@@ -4820,7 +5233,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -4877,7 +5292,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -4901,8 +5318,14 @@
       "slug": "drawer",
       "officialUrl": "https://vercel.com/geist/drawer",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["default", "custom-height"],
-      "states": ["default", "open"],
+      "variants": [
+        "default",
+        "custom-height"
+      ],
+      "states": [
+        "default",
+        "open"
+      ],
       "demos": [
         {
           "id": "default"
@@ -4911,8 +5334,16 @@
           "id": "custom-height"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
       "interactionRecipes": [
         "click:open-button",
         "key:escape",
@@ -4961,7 +5392,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -5018,7 +5451,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -5086,7 +5521,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -5143,7 +5580,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -5188,8 +5627,14 @@
       "slug": "empty-state",
       "officialUrl": "https://vercel.com/geist/empty-state",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["empty-state-design-framework", "blank-slate", "informational"],
-      "states": ["default"],
+      "variants": [
+        "empty-state-design-framework",
+        "blank-slate",
+        "informational"
+      ],
+      "states": [
+        "default"
+      ],
       "demos": [
         {
           "id": "empty-state-design-framework"
@@ -5201,9 +5646,20 @@
           "id": "informational"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
-      "interactionRecipes": ["hover:link", "key:tab-focus"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "interactionRecipes": [
+        "hover:link",
+        "key:tab-focus"
+      ],
       "responsiveExpectations": [
         "container:py-12 px-[70px] gap-6 centered column keeps geometry at 375 (262px container measured)",
         "no-overflow:all 8 official cells scrollW==innerW",
@@ -5254,7 +5710,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "empty-state": {
               "selectors": {
@@ -5346,7 +5804,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "empty-state": {
               "selectors": {
@@ -5438,7 +5898,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "empty-state": {
               "selectors": {
@@ -5527,7 +5989,9 @@
         "entity-with-fill",
         "entity-with-column-class-names"
       ],
-      "states": ["default"],
+      "states": [
+        "default"
+      ],
       "demos": [
         {
           "id": "default"
@@ -5548,9 +6012,19 @@
           "id": "entity-with-column-class-names"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
-      "interactionRecipes": ["blocked:static-demo-matrix-only"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "interactionRecipes": [
+        "blocked:static-demo-matrix-only"
+      ],
       "responsiveExpectations": [
         "entity-row:li row p-4 flex col, section flex items-center gap-4, left flex-1 + right ml-auto",
         "content-column:[--width:initial] w-[var(--width, initial)] min-w-0; fill 时 flex-1 否则 flex-initial",
@@ -5602,7 +6076,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "entity": {
               "selectors": {
@@ -5681,7 +6157,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "entity": {
               "selectors": {
@@ -5738,7 +6216,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "entity": {
               "selectors": {
@@ -5817,7 +6297,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "entity": {
               "selectors": {
@@ -5885,7 +6367,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "entity": {
               "selectors": {
@@ -5953,7 +6437,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "entity": {
               "selectors": {
@@ -5998,8 +6484,12 @@
       "slug": "error",
       "officialUrl": "https://vercel.com/geist/error",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6010,8 +6500,12 @@
       "slug": "error-card",
       "officialUrl": "https://vercel.com/geist/error-card",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6022,8 +6516,12 @@
       "slug": "feedback",
       "officialUrl": "https://vercel.com/geist/feedback",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6034,8 +6532,12 @@
       "slug": "fieldset",
       "officialUrl": "https://vercel.com/geist/fieldset",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6046,8 +6548,12 @@
       "slug": "file-tree",
       "officialUrl": "https://vercel.com/geist/file-tree",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6058,8 +6564,12 @@
       "slug": "gauge",
       "officialUrl": "https://vercel.com/geist/gauge",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6070,8 +6580,12 @@
       "slug": "grid",
       "officialUrl": "https://vercel.com/geist/grid",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6091,7 +6605,11 @@
         "rounded-prefix-and-suffix",
         "rounded-prefix-and-suffix-without-styling"
       ],
-      "states": ["default", "disabled", "error"],
+      "states": [
+        "default",
+        "disabled",
+        "error"
+      ],
       "demos": [
         {
           "id": "default"
@@ -6115,9 +6633,20 @@
           "id": "rounded-prefix-and-suffix-without-styling"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
-      "interactionRecipes": ["pointer:click", "keyboard:tab-focus"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "interactionRecipes": [
+        "pointer:click",
+        "keyboard:tab-focus"
+      ],
       "responsiveExpectations": [
         "input-sizes:small/default/large fixed heights 32/36/40px and radius 6/6/8px at all four viewports",
         "no-overflow:overflow-x-auto wrapper keeps demo rows scrollable without page overflow at all 16 cells"
@@ -6157,7 +6686,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "input": {
               "selectors": {
@@ -6203,7 +6734,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "input": {
               "selectors": {
@@ -6249,7 +6782,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "input": {
               "selectors": {
@@ -6295,7 +6830,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "input": {
               "selectors": {
@@ -6341,7 +6878,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "input": {
               "selectors": {
@@ -6398,7 +6937,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "input": {
               "selectors": {
@@ -6444,7 +6985,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "input": {
               "selectors": {
@@ -6467,8 +7010,12 @@
       "slug": "json-view",
       "officialUrl": "https://vercel.com/geist/json-view",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6479,8 +7026,12 @@
       "slug": "keyboard-input",
       "officialUrl": "https://vercel.com/geist/keyboard-input",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6491,8 +7042,12 @@
       "slug": "label",
       "officialUrl": "https://vercel.com/geist/label",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6503,8 +7058,12 @@
       "slug": "load-more-button",
       "officialUrl": "https://vercel.com/geist/load-more-button",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6515,8 +7074,12 @@
       "slug": "loading-dots",
       "officialUrl": "https://vercel.com/geist/loading-dots",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6527,8 +7090,12 @@
       "slug": "menu",
       "officialUrl": "https://vercel.com/geist/menu",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6539,8 +7106,12 @@
       "slug": "middle-truncate",
       "officialUrl": "https://vercel.com/geist/middle-truncate",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -6551,8 +7122,16 @@
       "slug": "modal",
       "officialUrl": "https://vercel.com/geist/modal",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["default", "sticky", "single-button", "inset"],
-      "states": ["default", "open"],
+      "variants": [
+        "default",
+        "sticky",
+        "single-button",
+        "inset"
+      ],
+      "states": [
+        "default",
+        "open"
+      ],
       "demos": [
         {
           "id": "default"
@@ -6567,8 +7146,16 @@
           "id": "inset"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
       "interactionRecipes": [
         "click:trigger",
         "key:escape",
@@ -6617,7 +7204,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -6674,7 +7263,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -6742,7 +7333,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -6799,7 +7392,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -6867,7 +7462,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -6924,7 +7521,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -6992,7 +7591,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -7049,7 +7650,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -7094,8 +7697,12 @@
       "slug": "multi-select",
       "officialUrl": "https://vercel.com/geist/multi-select",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -7106,8 +7713,12 @@
       "slug": "note",
       "officialUrl": "https://vercel.com/geist/note",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -7118,8 +7729,12 @@
       "slug": "pagination",
       "officialUrl": "https://vercel.com/geist/pagination",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -7130,8 +7745,12 @@
       "slug": "phone",
       "officialUrl": "https://vercel.com/geist/phone",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -7142,8 +7761,12 @@
       "slug": "pill",
       "officialUrl": "https://vercel.com/geist/pill",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -7154,8 +7777,12 @@
       "slug": "progress",
       "officialUrl": "https://vercel.com/geist/progress",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -7166,8 +7793,12 @@
       "slug": "project-banner",
       "officialUrl": "https://vercel.com/geist/project-banner",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -7178,8 +7809,12 @@
       "slug": "radio",
       "officialUrl": "https://vercel.com/geist/radio",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -7190,8 +7825,12 @@
       "slug": "relative-time-card",
       "officialUrl": "https://vercel.com/geist/relative-time-card",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -7202,8 +7841,12 @@
       "slug": "scroller",
       "officialUrl": "https://vercel.com/geist/scroller",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -7214,8 +7857,12 @@
       "slug": "search-input",
       "officialUrl": "https://vercel.com/geist/search-input",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -7235,7 +7882,12 @@
         "with-options",
         "required"
       ],
-      "states": ["default", "open", "disabled", "error"],
+      "states": [
+        "default",
+        "open",
+        "disabled",
+        "error"
+      ],
       "demos": [
         {
           "id": "sizes"
@@ -7259,9 +7911,20 @@
           "id": "required"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
-      "interactionRecipes": ["pointer:click", "keyboard:tab-focus"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "interactionRecipes": [
+        "pointer:click",
+        "keyboard:tab-focus"
+      ],
       "responsiveExpectations": [
         "sizes:small/default/large fixed heights 32/36/40px and radius 6/6/8px at 1440x900 (official measured)",
         "native-select:options are UA-rendered; open state has no DOM popup, click focuses the select (screenshot captures the select itself)"
@@ -7301,7 +7964,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -7358,7 +8023,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -7415,7 +8082,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -7472,7 +8141,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -7529,7 +8200,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -7586,7 +8259,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -7643,7 +8318,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -7711,7 +8388,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -7745,8 +8424,12 @@
       "slug": "separator",
       "officialUrl": "https://vercel.com/geist/separator",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -7757,8 +8440,14 @@
       "slug": "sheet",
       "officialUrl": "https://vercel.com/geist/sheet",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["default", "with-side"],
-      "states": ["default", "open"],
+      "variants": [
+        "default",
+        "with-side"
+      ],
+      "states": [
+        "default",
+        "open"
+      ],
       "demos": [
         {
           "id": "default"
@@ -7767,8 +8456,16 @@
           "id": "with-side"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
       "interactionRecipes": [
         "click:trigger",
         "key:escape",
@@ -7816,7 +8513,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -7873,7 +8572,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -7941,7 +8642,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -7998,7 +8701,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "trigger": {
               "selectors": {
@@ -8043,8 +8748,12 @@
       "slug": "show-more",
       "officialUrl": "https://vercel.com/geist/show-more",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8055,8 +8764,12 @@
       "slug": "skeleton",
       "officialUrl": "https://vercel.com/geist/skeleton",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8067,8 +8780,12 @@
       "slug": "slider",
       "officialUrl": "https://vercel.com/geist/slider",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8079,8 +8796,12 @@
       "slug": "snippet",
       "officialUrl": "https://vercel.com/geist/snippet",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8091,8 +8812,12 @@
       "slug": "spinner",
       "officialUrl": "https://vercel.com/geist/spinner",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8103,8 +8828,12 @@
       "slug": "split-button",
       "officialUrl": "https://vercel.com/geist/split-button",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8115,8 +8844,12 @@
       "slug": "status-dot",
       "officialUrl": "https://vercel.com/geist/status-dot",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8126,21 +8859,321 @@
     {
       "slug": "switch",
       "officialUrl": "https://vercel.com/geist/switch",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": [
+        "disabled",
+        "sizes",
+        "full-width",
+        "tooltip",
+        "icon"
+      ],
+      "states": [
+        "default",
+        "disabled"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
       },
-      "interaction": "pending"
+      "interaction": "pending",
+      "acceptanceContracts": [
+        {
+          "demoId": "disabled",
+          "variant": "disabled",
+          "state": "disabled",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"disabled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"disabled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": [
+                "width"
+              ]
+            },
+            "switch": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6 div.bg-background-100",
+                  "local": "[data-demo-container=\"disabled\"] [data-slot=\"switch\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "switch-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6 label",
+                  "local": "[data-demo-container=\"disabled\"] [data-slot=\"switch-control\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "sizes",
+          "variant": "sizes",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"sizes\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"sizes\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": [
+                "width"
+              ]
+            },
+            "switch": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.w-full.p-6 div.bg-background-100",
+                  "local": "[data-demo-container=\"sizes\"] [data-slot=\"switch\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "switch-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.w-full.p-6 label",
+                  "local": "[data-demo-container=\"sizes\"] [data-slot=\"switch-control\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "full-width",
+          "variant": "full-width",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#full-width\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"full-width\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#full-width\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"full-width\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": [
+                "width"
+              ]
+            },
+            "switch": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#full-width\"] ~ * div.w-full.p-6 div.bg-background-100",
+                  "local": "[data-demo-container=\"full-width\"] [data-slot=\"switch\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "switch-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#full-width\"] ~ * div.w-full.p-6 label",
+                  "local": "[data-demo-container=\"full-width\"] [data-slot=\"switch-control\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "tooltip",
+          "variant": "tooltip",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#tooltip\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"tooltip\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#tooltip\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"tooltip\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": [
+                "width"
+              ]
+            },
+            "switch": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#tooltip\"] ~ * div.w-full.p-6 div.bg-background-100",
+                  "local": "[data-demo-container=\"tooltip\"] [data-slot=\"switch\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "switch-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#tooltip\"] ~ * div.w-full.p-6 label",
+                  "local": "[data-demo-container=\"tooltip\"] [data-slot=\"switch-control\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "icon",
+          "variant": "icon",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#icon\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"icon\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#icon\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"icon\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": [
+                "width"
+              ]
+            },
+            "switch": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#icon\"] ~ * div.w-full.p-6 div.bg-background-100",
+                  "local": "[data-demo-container=\"icon\"] [data-slot=\"switch\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "switch-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#icon\"] ~ * div.w-full.p-6 label",
+                  "local": "[data-demo-container=\"icon\"] [data-slot=\"switch-control\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        }
+      ]
     },
     {
       "slug": "table",
       "officialUrl": "https://vercel.com/geist/table",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8151,8 +9184,12 @@
       "slug": "tabs",
       "officialUrl": "https://vercel.com/geist/tabs",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8163,8 +9200,12 @@
       "slug": "text-with-copy-button",
       "officialUrl": "https://vercel.com/geist/text-with-copy-button",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8175,8 +9216,20 @@
       "slug": "textarea",
       "officialUrl": "https://vercel.com/geist/textarea",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["default", "disabled", "error", "sizes", "read-only", "rows"],
-      "states": ["default", "disabled", "error", "read-only"],
+      "variants": [
+        "default",
+        "disabled",
+        "error",
+        "sizes",
+        "read-only",
+        "rows"
+      ],
+      "states": [
+        "default",
+        "disabled",
+        "error",
+        "read-only"
+      ],
       "demos": [
         {
           "id": "default"
@@ -8197,9 +9250,20 @@
           "id": "rows"
         }
       ],
-      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
-      "themes": ["light", "dark"],
-      "interactionRecipes": ["pointer:click", "keyboard:tab-focus"],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "interactionRecipes": [
+        "pointer:click",
+        "keyboard:tab-focus"
+      ],
       "responsiveExpectations": [
         "textarea-sizes:medium/large fixed min-height 100px and radius 6/8px at all four viewports",
         "no-overflow:overflow-x-auto wrapper keeps demo rows scrollable without page overflow at all 16 cells"
@@ -8239,7 +9303,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "textarea": {
               "selectors": {
@@ -8296,7 +9362,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "textarea": {
               "selectors": {
@@ -8353,7 +9421,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "textarea": {
               "selectors": {
@@ -8410,7 +9480,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "textarea": {
               "selectors": {
@@ -8467,7 +9539,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "textarea": {
               "selectors": {
@@ -8524,7 +9598,9 @@
               },
               "presence": "required",
               "acceptanceProfile": "measurement-context",
-              "measurementAxes": ["width"]
+              "measurementAxes": [
+                "width"
+              ]
             },
             "textarea": {
               "selectors": {
@@ -8558,8 +9634,12 @@
       "slug": "theme-switcher",
       "officialUrl": "https://vercel.com/geist/theme-switcher",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8570,8 +9650,12 @@
       "slug": "toast",
       "officialUrl": "https://vercel.com/geist/toast",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8582,8 +9666,12 @@
       "slug": "toggle",
       "officialUrl": "https://vercel.com/geist/toggle",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8594,8 +9682,12 @@
       "slug": "tooltip",
       "officialUrl": "https://vercel.com/geist/tooltip",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
@@ -8606,8 +9698,12 @@
       "slug": "video",
       "officialUrl": "https://vercel.com/geist/video",
       "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default"
+      ],
       "selectors": {
         "official": "main",
         "local": "main"
