@@ -334,7 +334,7 @@ function EmptyStateDemo() {
         data-demo-card="empty-state-design-framework"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="empty-state-design-framework">
+          <div className="w-full min-w-full p-6" data-demo-container="empty-state-design-framework">
             <EmptyState
               icon={icon}
               title={demoText(language, "Title")}
@@ -348,7 +348,7 @@ function EmptyStateDemo() {
         data-demo-card="blank-slate"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="blank-slate">
+          <div className="w-full min-w-full p-6" data-demo-container="blank-slate">
             <EmptyState
               icon={icon}
               title={demoText(language, "Title")}
@@ -362,7 +362,7 @@ function EmptyStateDemo() {
         data-demo-card="informational"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="informational">
+          <div className="w-full min-w-full p-6" data-demo-container="informational">
             <EmptyState
               icon={icon}
               title={demoText(language, "Title")}
@@ -430,7 +430,10 @@ function ButtonDemo() {
         data-demo-card="all-types-and-sizes-in-comparison"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="all-types-and-sizes-in-comparison">
+          <div
+            className="w-full min-w-full p-6"
+            data-demo-container="all-types-and-sizes-in-comparison"
+          >
             <div className="flex flex-col gap-6">
               <div className="flex items-center gap-3">
                 <Button size="small" typeName="button">
@@ -492,7 +495,7 @@ function ButtonDemo() {
         data-demo-card="prefix-and-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="prefix-and-suffix">
+          <div className="w-full min-w-full p-6" data-demo-container="prefix-and-suffix">
             <div className="flex flex-col items-start gap-4 md:flex-row">
               <Button typeName="button" prefix={uploadIcon}>
                 {upload}
@@ -514,7 +517,7 @@ function ButtonDemo() {
         data-demo-card="loading"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="loading">
+          <div className="w-full min-w-full p-6" data-demo-container="loading">
             <div className="flex flex-col items-start gap-4 md:flex-row">
               <Button size="small" typeName="button" loading>
                 {upload}
@@ -536,7 +539,7 @@ function ButtonDemo() {
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="disabled">
+          <div className="w-full min-w-full p-6" data-demo-container="disabled">
             <div className="flex flex-col items-start gap-4 md:flex-row">
               <Button size="small" typeName="button" disabled>
                 {upload}
@@ -558,7 +561,7 @@ function ButtonDemo() {
         data-demo-card="disabled-variants"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="disabled-variants">
+          <div className="w-full min-w-full p-6" data-demo-container="disabled-variants">
             <div className="flex flex-col items-start gap-4 md:flex-row">
               <Button typeName="button" disabled>
                 {defaultLabel}
@@ -593,7 +596,7 @@ function CheckboxDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <label className="text-checkbox-label inline-flex cursor-pointer items-start">
               <Checkbox aria-label={demoText(language, "Option 1")} />
               <span className="ml-2 text-foreground">{demoText(language, "Option 1")}</span>
@@ -606,7 +609,7 @@ function CheckboxDemo() {
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="disabled">
+          <div className="w-full min-w-full p-6" data-demo-container="disabled">
             <div className="flex flex-col items-stretch justify-start gap-4">
               <label className="text-checkbox-label inline-flex cursor-not-allowed items-start text-disabled-foreground">
                 <Checkbox disabled aria-label={demoText(language, "Disabled")} />
@@ -633,7 +636,7 @@ function CheckboxDemo() {
         data-demo-card="indeterminate"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="indeterminate">
+          <div className="w-full min-w-full p-6" data-demo-container="indeterminate">
             <label className="text-checkbox-label inline-flex cursor-pointer items-start">
               <Checkbox checked="indeterminate" aria-label={demoText(language, "Option 1")} />
               <span className="ml-2 text-foreground">{demoText(language, "Option 1")}</span>
@@ -709,7 +712,7 @@ function InputDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <div className="flex flex-col items-start justify-between gap-4 md:flex-row flex-initial">
               <Input
                 size="small"
@@ -733,7 +736,7 @@ function InputDemo() {
         data-demo-card="prefix-and-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="prefix-and-suffix">
+          <div className="w-full min-w-full p-6" data-demo-container="prefix-and-suffix">
             <div className="flex flex-col items-start justify-start gap-6 flex-initial">
               <Input prefix={circularGlyph} placeholder={demoText(language, "Default")} />
               <Input suffix={circularGlyph} placeholder={demoText(language, "Default")} />
@@ -766,7 +769,7 @@ function InputDemo() {
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="disabled">
+          <div className="w-full min-w-full p-6" data-demo-container="disabled">
             <div className="flex flex-col items-start justify-start gap-4 flex-initial">
               <Input disabled placeholder={demoText(language, "Disabled with placeholder")} />
               <Input disabled defaultValue={demoText(language, "Disabled with value")} />
@@ -805,7 +808,7 @@ function InputDemo() {
         data-demo-card="error"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="error">
+          <div className="w-full min-w-full p-6" data-demo-container="error">
             <div className="flex flex-col items-start justify-start gap-8 flex-initial">
               <Input
                 size="small"
@@ -835,7 +838,7 @@ function InputDemo() {
         data-demo-card="label"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="label">
+          <div className="w-full min-w-full p-6" data-demo-container="label">
             <div className="flex flex-col items-start justify-start flex-initial">
               <Input
                 className="text-black"
@@ -853,7 +856,7 @@ function InputDemo() {
         data-demo-card="rounded-prefix-and-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="rounded-prefix-and-suffix">
+          <div className="w-full min-w-full p-6" data-demo-container="rounded-prefix-and-suffix">
             <Input
               rounded
               prefix={demoText(language, "www.")}
@@ -948,7 +951,7 @@ function ModalDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <Modal open={openDefault} onOpenChange={setOpenDefault}>
               {triggerButton(setOpenDefault)}
               <ModalContent>
@@ -980,7 +983,7 @@ function ModalDemo() {
         data-demo-card="sticky"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="sticky">
+          <div className="w-full min-w-full p-6" data-demo-container="sticky">
             <Modal open={openSticky} onOpenChange={setOpenSticky}>
               {triggerButton(setOpenSticky)}
               <ModalContent className="sticky" bodyClassName="pt-0">
@@ -1023,7 +1026,7 @@ function ModalDemo() {
         data-demo-card="single-button"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="single-button">
+          <div className="w-full min-w-full p-6" data-demo-container="single-button">
             <Modal open={openSingleButton} onOpenChange={setOpenSingleButton}>
               {triggerButton(setOpenSingleButton)}
               <ModalContent className="sticky" bodyClassName="pt-0">
@@ -1053,7 +1056,7 @@ function ModalDemo() {
         data-demo-card="inset"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="inset">
+          <div className="w-full min-w-full p-6" data-demo-container="inset">
             <Modal open={openInset} onOpenChange={setOpenInset}>
               {triggerButton(setOpenInset)}
               <ModalContent>
@@ -1149,7 +1152,7 @@ function SelectDemo() {
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="sizes">
+          <div className="w-full min-w-full p-6" data-demo-container="sizes">
             <div className={sizesRowClass}>
               <div className={sizesColClass}>
                 <Select size="small" aria-label="Small" placeholder={demoText(language, "Small")}>
@@ -1183,7 +1186,7 @@ function SelectDemo() {
         data-demo-card="prefix-and-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="prefix-and-suffix">
+          <div className="w-full min-w-full p-6" data-demo-container="prefix-and-suffix">
             <div className={sizesRowClass}>
               <div className={sizesColClass}>
                 <Select
@@ -1222,7 +1225,7 @@ function SelectDemo() {
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="disabled">
+          <div className="w-full min-w-full p-6" data-demo-container="disabled">
             <Select
               disabled
               aria-label="Disabled"
@@ -1238,7 +1241,7 @@ function SelectDemo() {
         data-demo-card="error"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="error">
+          <div className="w-full min-w-full p-6" data-demo-container="error">
             <div className={sizesRowClass}>
               <div className={sizesColClass}>
                 <Select
@@ -1274,7 +1277,7 @@ function SelectDemo() {
         data-demo-card="label"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="label">
+          <div className="w-full min-w-full p-6" data-demo-container="label">
             <Select
               label={demoText(language, "My label")}
               placeholder={demoText(language, "With label")}
@@ -1289,7 +1292,7 @@ function SelectDemo() {
         data-demo-card="with-options"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="with-options">
+          <div className="w-full min-w-full p-6" data-demo-container="with-options">
             <div className="flex flex-col items-start gap-4 md:flex-row">
               <div>
                 <Select aria-label="Fruit" placeholder={demoText(language, "Select a fruit")}>
@@ -1322,7 +1325,7 @@ function SelectDemo() {
         data-demo-card="required"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="required">
+          <div className="w-full min-w-full p-6" data-demo-container="required">
             <Select
               required
               label={demoText(language, "Required field")}
@@ -1510,7 +1513,7 @@ function TextareaDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <label>
               <Textarea className="text-black" aria-label={demoText(language, "Default")} />
             </label>
@@ -1524,7 +1527,7 @@ function TextareaDemo() {
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="disabled">
+          <div className="w-full min-w-full p-6" data-demo-container="disabled">
             <label>
               <Textarea disabled aria-label={demoText(language, "Disabled")} />
             </label>
@@ -1538,7 +1541,7 @@ function TextareaDemo() {
         data-demo-card="error"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="error">
+          <div className="w-full min-w-full p-6" data-demo-container="error">
             <div className="flex flex-col items-stretch justify-start gap-8 flex-initial">
               <label>
                 <Textarea
@@ -1577,7 +1580,7 @@ function TextareaDemo() {
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="sizes">
+          <div className="w-full min-w-full p-6" data-demo-container="sizes">
             <div className="flex flex-col gap-6">
               <label>
                 <Textarea
@@ -1612,7 +1615,7 @@ function TextareaDemo() {
         data-demo-card="read-only"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="read-only">
+          <div className="w-full min-w-full p-6" data-demo-container="read-only">
             <label>
               <Textarea
                 className="text-black"
@@ -1631,7 +1634,7 @@ function TextareaDemo() {
         data-demo-card="rows"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="rows">
+          <div className="w-full min-w-full p-6" data-demo-container="rows">
             <label>
               <Textarea
                 className="text-black"
@@ -1788,7 +1791,7 @@ function DrawerDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <Button
               type="default"
               className="relative flex max-w-full whitespace-normal leading-[21px]"
@@ -1808,7 +1811,7 @@ function DrawerDemo() {
         data-demo-card="custom-height"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="custom-height">
+          <div className="w-full min-w-full p-6" data-demo-container="custom-height">
             <Button
               type="default"
               className="relative flex max-w-full whitespace-normal leading-[21px]"
@@ -1896,7 +1899,7 @@ function SheetDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button
@@ -1917,7 +1920,7 @@ function SheetDemo() {
         data-demo-card="with-side"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="with-side">
+          <div className="w-full min-w-full p-6" data-demo-container="with-side">
             <div className="flex items-center justify-center gap-4">
               <Sheet open={topOpen} onOpenChange={setTopOpen}>
                 <SheetTrigger asChild>
@@ -2142,7 +2145,7 @@ function CalendarDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <div className="flex justify-center py-12">
               <Calendar label={triggerLabel} />
             </div>
@@ -2154,7 +2157,7 @@ function CalendarDemo() {
         data-demo-card="horizontal-layout"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="horizontal-layout">
+          <div className="w-full min-w-full p-6" data-demo-container="horizontal-layout">
             <div className="flex justify-center py-12">
               <Calendar label={triggerLabel} />
             </div>
@@ -2166,7 +2169,7 @@ function CalendarDemo() {
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="sizes">
+          <div className="w-full min-w-full p-6" data-demo-container="sizes">
             <div className="py-12 space-y-12">
               <div>
                 <p className="text-copy-14 text-gray-900 mb-4 font-mono">small</p>
@@ -2185,7 +2188,7 @@ function CalendarDemo() {
         data-demo-card="compact"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="compact">
+          <div className="w-full min-w-full p-6" data-demo-container="compact">
             <div className="flex justify-center py-12">
               <Calendar
                 label={triggerLabel}
@@ -2215,7 +2218,7 @@ function ChoiceboxDemo() {
         data-demo-card="single-select"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="single-select">
+          <div className="w-full min-w-full p-6" data-demo-container="single-select">
             <ChoiceboxGroup
               label={demoText(language, "select a plan")}
               listClassName="flex-row"
@@ -2242,7 +2245,7 @@ function ChoiceboxDemo() {
         data-demo-card="multi-select"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="multi-select">
+          <div className="w-full min-w-full p-6" data-demo-container="multi-select">
             <ChoiceboxGroup
               label={demoText(language, "Select frameworks")}
               listClassName="flex-row"
@@ -2269,7 +2272,7 @@ function ChoiceboxDemo() {
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="disabled">
+          <div className="w-full min-w-full p-6" data-demo-container="disabled">
             <div className="flex flex-col items-stretch justify-start gap-6">
               <ChoiceboxGroup
                 disabled
@@ -2355,7 +2358,7 @@ function CommandMenuDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <Button
               type="default"
               className="relative flex max-w-full whitespace-normal leading-[21px]"
@@ -2372,7 +2375,7 @@ function CommandMenuDemo() {
         data-demo-card="with-divider"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="with-divider">
+          <div className="w-full min-w-full p-6" data-demo-container="with-divider">
             <Button
               type="default"
               className="relative flex max-w-full whitespace-normal leading-[21px]"
@@ -2389,7 +2392,7 @@ function CommandMenuDemo() {
         data-demo-card="with-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="with-suffix">
+          <div className="w-full min-w-full p-6" data-demo-container="with-suffix">
             <Button
               type="default"
               className="relative flex max-w-full whitespace-normal leading-[21px]"
@@ -2675,7 +2678,7 @@ function CodeBlockDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <CodeBlockComponent
               aria-label="Hello world"
               filename="Table.jsx"
@@ -2692,7 +2695,7 @@ function CodeBlockDemo() {
         data-demo-card="no-filename"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="no-filename">
+          <div className="w-full min-w-full p-6" data-demo-container="no-filename">
             <CodeBlockComponent
               aria-label="Hello world"
               language="jsx"
@@ -2708,7 +2711,7 @@ function CodeBlockDemo() {
         data-demo-card="highlighted-lines"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="highlighted-lines">
+          <div className="w-full min-w-full p-6" data-demo-container="highlighted-lines">
             <CodeBlockComponent
               aria-label="Hello world"
               filename="highlighted.jsx"
@@ -2726,7 +2729,7 @@ function CodeBlockDemo() {
         data-demo-card="added-removed-lines"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="added-removed-lines">
+          <div className="w-full min-w-full p-6" data-demo-container="added-removed-lines">
             <CodeBlockComponent
               aria-label="Hello world"
               filename="next.config.js"
@@ -2745,7 +2748,7 @@ function CodeBlockDemo() {
         data-demo-card="referenced-lines"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="referenced-lines">
+          <div className="w-full min-w-full p-6" data-demo-container="referenced-lines">
             <CodeBlockComponent
               aria-label="Hello world"
               language="jsx"
@@ -2762,7 +2765,7 @@ function CodeBlockDemo() {
         data-demo-card="language-switcher"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="language-switcher">
+          <div className="w-full min-w-full p-6" data-demo-container="language-switcher">
             <CodeBlockComponent
               aria-label="Hello world"
               filename="language-switcher.jsx"
@@ -2780,7 +2783,7 @@ function CodeBlockDemo() {
         data-demo-card="language-switcher-with-tabs"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="language-switcher-with-tabs">
+          <div className="w-full min-w-full p-6" data-demo-container="language-switcher-with-tabs">
             <CodeBlockComponent
               aria-label="Hello world"
               filename="language-switcher.jsx"
@@ -2798,7 +2801,7 @@ function CodeBlockDemo() {
         data-demo-card="hidden-line-numbers"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="hidden-line-numbers">
+          <div className="w-full min-w-full p-6" data-demo-container="hidden-line-numbers">
             <CodeBlockComponent
               aria-label="Hello world"
               filename="hidden-line-numbers.jsx"
@@ -2816,7 +2819,7 @@ function CodeBlockDemo() {
         data-demo-card="open-in-v0"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="open-in-v0">
+          <div className="w-full min-w-full p-6" data-demo-container="open-in-v0">
             <div className="flex flex-col gap-4">
               <CodeBlockComponent
                 aria-label="Hello world"
@@ -2938,7 +2941,7 @@ function ContextCardDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <div className="flex flex-row items-stretch justify-around flex-initial">
               {triggers.map((trigger) => (
                 <div
@@ -3033,7 +3036,7 @@ function ContextMenuDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <ContextMenu>
               <ContextMenuTrigger asChild>
                 <span>{triggerArea}</span>
@@ -3055,7 +3058,7 @@ function ContextMenuDemo() {
         data-demo-card="disabled-items"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="disabled-items">
+          <div className="w-full min-w-full p-6" data-demo-container="disabled-items">
             <ContextMenu>
               <ContextMenuTrigger asChild>
                 <span>{triggerArea}</span>
@@ -3077,7 +3080,7 @@ function ContextMenuDemo() {
         data-demo-card="link-items"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="link-items">
+          <div className="w-full min-w-full p-6" data-demo-container="link-items">
             <ContextMenu>
               <ContextMenuTrigger asChild>
                 <span>{triggerArea}</span>
@@ -3099,7 +3102,7 @@ function ContextMenuDemo() {
         data-demo-card="prefix-and-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="prefix-and-suffix">
+          <div className="w-full min-w-full p-6" data-demo-container="prefix-and-suffix">
             <div className="flex flex-col items-stretch justify-start gap-6 md:flex-row flex-initial">
               <ContextMenu>
                 <ContextMenuTrigger asChild>
@@ -3182,7 +3185,7 @@ function DotsMenuDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <DotsMenu>{items}</DotsMenu>
           </div>
         </div>
@@ -3193,7 +3196,7 @@ function DotsMenuDemo() {
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="sizes">
+          <div className="w-full min-w-full p-6" data-demo-container="sizes">
             <div className="flex items-start gap-6">
               <DotsMenu iconSize={10}>{items}</DotsMenu>
               <DotsMenu iconSize={12}>{items}</DotsMenu>
@@ -3208,7 +3211,7 @@ function DotsMenuDemo() {
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="disabled">
+          <div className="w-full min-w-full p-6" data-demo-container="disabled">
             <DotsMenu disabled>{items}</DotsMenu>
           </div>
         </div>
@@ -3219,7 +3222,7 @@ function DotsMenuDemo() {
         data-demo-card="disabled-menu-item"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="disabled-menu-item">
+          <div className="w-full min-w-full p-6" data-demo-container="disabled-menu-item">
             <DotsMenu>
               <DotsMenuItem>{demoText(language, "View Build Logs")}</DotsMenuItem>
               <DotsMenuItem disabled>{demoText(language, "View Projects")}</DotsMenuItem>
@@ -3333,7 +3336,7 @@ function ClearableInputDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <ClearableInput
               aria-label={demoText(language, "Demo clearable input")}
               placeholder={demoText(language, "Enter some text…")}
@@ -3348,7 +3351,7 @@ function ClearableInputDemo() {
         data-demo-card="with-label"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="with-label">
+          <div className="w-full min-w-full p-6" data-demo-container="with-label">
             <ClearableInput
               label={demoText(language, "Email")}
               placeholder={demoText(language, "Enter your email…")}
@@ -3363,7 +3366,7 @@ function ClearableInputDemo() {
         data-demo-card="with-cmdk"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="with-cmdk">
+          <div className="w-full min-w-full p-6" data-demo-container="with-cmdk">
             <ClearableInput
               aria-label={demoText(language, "Search with cmdk")}
               cmdk
@@ -3379,7 +3382,7 @@ function ClearableInputDemo() {
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="disabled">
+          <div className="w-full min-w-full p-6" data-demo-container="disabled">
             <ClearableInput
               aria-label={demoText(language, "Disabled clearable input")}
               disabled
@@ -3395,7 +3398,7 @@ function ClearableInputDemo() {
         data-demo-card="with-clear-callback"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="with-clear-callback">
+          <div className="w-full min-w-full p-6" data-demo-container="with-clear-callback">
             <div className="flex flex-col gap-2">
               <ClearableInput
                 aria-label={demoText(language, "Clearable input with callback")}
@@ -3446,7 +3449,7 @@ function CollapseDemo() {
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <div className="border-t border-[#eaeaea]">
               {renderItem(questionA, lorem)}
               {renderItem(questionB, duis)}
@@ -3459,7 +3462,7 @@ function CollapseDemo() {
         data-demo-card="expanded"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="expanded">
+          <div className="w-full min-w-full p-6" data-demo-container="expanded">
             <div className="border-t border-[#eaeaea]">
               {renderItem(questionA, lorem)}
               {renderItem(questionB, duis, true)}
@@ -3472,7 +3475,7 @@ function CollapseDemo() {
         data-demo-card="multiple"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="multiple">
+          <div className="w-full min-w-full p-6" data-demo-container="multiple">
             <div className="border-t border-[#eaeaea]">
               {renderItem(questionA, lorem)}
               {renderItem(questionB, duis)}
@@ -3485,7 +3488,7 @@ function CollapseDemo() {
         data-demo-card="small"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="small">
+          <div className="w-full min-w-full p-6" data-demo-container="small">
             <Collapse size="small" className="border-t border-b border-[#eaeaea]">
               <h3 className="text-[16px] font-medium text-foreground">
                 <CollapseTrigger>{questionA}</CollapseTrigger>
@@ -3554,7 +3557,7 @@ function ComboboxDemo() {
         data-demo-card="uncontrolled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="uncontrolled">
+          <div className="w-full min-w-full p-6" data-demo-container="uncontrolled">
             <Combobox aria-label={searchLabel} placeholder={searchPlaceholder}>
               <ComboboxInput />
               <ComboboxList>
@@ -3575,7 +3578,7 @@ function ComboboxDemo() {
         data-demo-card="controlled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="controlled">
+          <div className="w-full min-w-full p-6" data-demo-container="controlled">
             <Combobox
               aria-label={searchLabel}
               placeholder={searchPlaceholder}
@@ -3601,7 +3604,7 @@ function ComboboxDemo() {
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="disabled">
+          <div className="w-full min-w-full p-6" data-demo-container="disabled">
             <Combobox aria-label={searchLabel} placeholder={searchPlaceholder} disabled>
               <ComboboxInput />
               <ComboboxList>
@@ -3622,7 +3625,7 @@ function ComboboxDemo() {
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="sizes">
+          <div className="w-full min-w-full p-6" data-demo-container="sizes">
             <div className="flex flex-col md:flex-row items-stretch justify-start gap-4 flex-initial">
               <Combobox
                 aria-label={searchLabel}
@@ -3679,7 +3682,7 @@ function ComboboxDemo() {
         data-demo-card="with-label"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="with-label">
+          <div className="w-full min-w-full p-6" data-demo-container="with-label">
             <div className="space-y-2">
               <label className="text-label-14 text-gray-900">{countryLabel}</label>
               <Combobox aria-label={countryLabel} placeholder={countriesPlaceholder}>
@@ -3710,14 +3713,14 @@ function DescriptionDemo() {
     <>
       <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <Description data-demo-id="default" title={title} content={content} tooltip={tooltip} />
           </div>
         </div>
       </div>
       <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="text-right">
+          <div className="w-full min-w-full p-6" data-demo-container="text-right">
             <Description
               data-demo-id="text-right"
               right
@@ -3730,7 +3733,7 @@ function DescriptionDemo() {
       </div>
       <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="ellipsis">
+          <div className="w-full min-w-full p-6" data-demo-container="ellipsis">
             <Description
               data-demo-id="ellipsis"
               ellipsis
@@ -3811,7 +3814,7 @@ function EntityDemo() {
         style={ENTITY_DEMO_VARS}
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
+          <div className="w-full min-w-full p-6" data-demo-container="default">
             <Entity>
               <EntityMedia>
                 <span
@@ -3856,7 +3859,7 @@ function EntityDemo() {
         style={ENTITY_DEMO_VARS}
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="entity-with-skeleton">
+          <div className="w-full min-w-full p-6" data-demo-container="entity-with-skeleton">
             <Entity>
               <div className="flex flex-col items-stretch justify-start gap-2 flex-1">
                 <span
@@ -3888,7 +3891,7 @@ function EntityDemo() {
         style={ENTITY_DEMO_VARS}
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="entity-with-list">
+          <div className="w-full min-w-full p-6" data-demo-container="entity-with-list">
             <ul className={ENTITY_UL_CLS}>
               {memberRows.map((row) => (
                 <Entity key={row.title}>
@@ -3920,7 +3923,10 @@ function EntityDemo() {
         style={ENTITY_DEMO_VARS}
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="entity-with-list-and-checkbox">
+          <div
+            className="w-full min-w-full p-6"
+            data-demo-container="entity-with-list-and-checkbox"
+          >
             <ul className={ENTITY_UL_CLS}>
               {memberRows.map((row, index) => (
                 <button key={row.title} type="submit" className={ENTITY_CHECKBOX_ROW_CLS}>
@@ -3980,7 +3986,7 @@ function EntityDemo() {
         style={ENTITY_DEMO_VARS}
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="entity-with-fill">
+          <div className="w-full min-w-full p-6" data-demo-container="entity-with-fill">
             <ul className={ENTITY_UL_CLS}>
               <Entity>
                 <EntityContent fill>
@@ -4000,7 +4006,10 @@ function EntityDemo() {
         style={ENTITY_DEMO_VARS}
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="entity-with-column-class-names">
+          <div
+            className="w-full min-w-full p-6"
+            data-demo-container="entity-with-column-class-names"
+          >
             <ul className={ENTITY_UL_CLS}>
               <Entity
                 leftClassName="border border-dashed border-gray-300 rounded-md p-2"
