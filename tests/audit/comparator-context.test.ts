@@ -201,4 +201,82 @@ describe("comparator v3 context-owned-fill attribution", { timeout: 15000 }, () 
     );
     expect(widthFailure).toBeTruthy();
   });
+
+  test("context-owned minWidth matching its declared owner width delta is exempted", () => {
+    const dir = mkdtempSync(join(tmpdir(), "geist-comparator-context-minwidth-"));
+    const official = makeImage(dir, "official.png");
+    const local = makeImage(dir, "local.png");
+    const officialMetrics = join(dir, "official.json");
+    const localMetrics = join(dir, "local.json");
+    const officialCell = join(dir, "official-cell.json");
+    const localCell = join(dir, "local-cell.json");
+    const ownerContract = {
+      ...contract,
+      clipRole: "panel",
+      roles: {
+        trigger: {
+          ...contract.roles["demo-container"],
+          acceptanceProfile: "measurement-context",
+          measurementAxes: ["width"],
+        },
+        panel: {
+          ...contract.roles.root,
+          acceptanceProfile: "context-owned-fill",
+          contextOwnerRole: "trigger",
+        },
+      },
+    };
+    const ownerMetrics = (source: "official" | "local", triggerWidth: number) => {
+      const base = metrics(triggerWidth, 200, source);
+      const trigger = base.roles["demo-container"];
+      const panel = base.roles.root;
+      trigger.styles.width = `${triggerWidth}px`;
+      panel.rect.width = 200;
+      panel.styles.width = "200px";
+      panel.styles.minWidth = `${triggerWidth}px`;
+      return { ...base, roles: { trigger, panel } };
+    };
+    writeFileSync(officialMetrics, JSON.stringify(ownerMetrics("official", 100)));
+    writeFileSync(localMetrics, JSON.stringify(ownerMetrics("local", 105)));
+    writeFileSync(
+      officialCell,
+      JSON.stringify({ ...cell("official", 100, 200), contract: ownerContract }),
+    );
+    writeFileSync(
+      localCell,
+      JSON.stringify({ ...cell("local", 105, 200), contract: ownerContract }),
+    );
+    const out = join(dir, "out");
+
+    execFileSync("python", [
+      comparator,
+      "--official-image",
+      official,
+      "--local-image",
+      local,
+      "--official-metrics",
+      officialMetrics,
+      "--local-metrics",
+      localMetrics,
+      "--official-cell",
+      officialCell,
+      "--local-cell",
+      localCell,
+      "--out",
+      out,
+    ]);
+
+    const report = JSON.parse(readFileSync(join(out, "comparison.json"), "utf8"));
+    expect(report.strictFailures).not.toContainEqual(
+      expect.objectContaining({ role: "panel", field: "minWidth" }),
+    );
+    expect(report.approvedExclusions).toContainEqual(
+      expect.objectContaining({
+        classification: "CONTEXT_OWNED_WIDTH",
+        role: "panel",
+        fields: ["minWidth"],
+      }),
+    );
+    expect(report.semanticAcceptanceStatus).toBe("PASS");
+  });
 });

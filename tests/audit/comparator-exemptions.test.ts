@@ -227,7 +227,7 @@ const checkboxMetrics = (
   };
 };
 
-const cell = (source: "official" | "local") => ({
+const cell = (source: "official" | "local", cellContract = contract) => ({
   schemaVersion: 2,
   source,
   slug: "checkbox",
@@ -243,7 +243,7 @@ const cell = (source: "official" | "local") => ({
   auditRunId: "audit-exempt-01",
   contractDigest: "a".repeat(64),
   effectiveEvidenceNotBefore: "2026-08-13T00:00:00.000Z",
-  contract,
+  contract: cellContract,
   navigationStartedAt: "2026-08-13T02:00:00.000Z",
   stateStabilizedAt: "2026-08-13T02:00:01.000Z",
   capturedAt: "2026-08-13T02:00:02.000Z",
@@ -262,14 +262,19 @@ const runComparator = (
   officialMetrics: string,
   localMetrics: string,
   behaviorInfra: boolean,
+  options: {
+    contract?: typeof contract;
+    officialImageSize?: [number, number];
+    localImageSize?: [number, number];
+  } = {},
 ) => {
-  const official = makeImage(dir, "official.png");
-  const local = makeImage(dir, "local.png");
+  const official = makeImage(dir, "official.png", ...(options.officialImageSize ?? [2, 2]));
+  const local = makeImage(dir, "local.png", ...(options.localImageSize ?? [2, 2]));
   const officialCell = join(dir, "official-cell.json");
   const localCell = join(dir, "local-cell.json");
   const manifestPath = join(dir, "manifest.json");
-  writeFileSync(officialCell, JSON.stringify(cell("official")));
-  writeFileSync(localCell, JSON.stringify(cell("local")));
+  writeFileSync(officialCell, JSON.stringify(cell("official", options.contract)));
+  writeFileSync(localCell, JSON.stringify(cell("local", options.contract)));
   writeFileSync(manifestPath, JSON.stringify(manifest(behaviorInfra)));
   const out = join(dir, "out");
 
@@ -372,6 +377,39 @@ describe("comparator v3 systematic exemptions", { timeout: 15000 }, () => {
       (e: { classification?: string }) => e.classification,
     );
     expect(classifications).not.toContain("BEHAVIOR_INFRASTRUCTURE");
+  });
+
+  test("font-mapped clip width explains screenshot dimension mismatch", () => {
+    const dir = mkdtempSync(join(tmpdir(), "geist-exempt-font-clip-"));
+    const officialMetrics = join(dir, "official.json");
+    const localMetrics = join(dir, "local.json");
+    const official = checkboxMetrics("official");
+    const local = checkboxMetrics("local");
+    official.roles["checkbox-label"].rect.width = 50;
+    official.roles["checkbox-label"].styles.width = "50px";
+    official.roles["checkbox-label"].textEvidence = { text: "Mapped label", clientRects: [] };
+    local.roles["checkbox-label"].rect.width = 55;
+    local.roles["checkbox-label"].styles.width = "55px";
+    local.roles["checkbox-label"].textEvidence = { text: "Mapped label", clientRects: [] };
+    writeFileSync(officialMetrics, JSON.stringify(official));
+    writeFileSync(localMetrics, JSON.stringify(local));
+
+    const clipContract = { ...contract, clipRole: "checkbox-label" };
+    const report = runComparator(dir, officialMetrics, localMetrics, false, {
+      contract: clipContract,
+      officialImageSize: [50, 16],
+      localImageSize: [55, 16],
+    });
+
+    expect(report.pixel.dimension_mismatch).toBe(true);
+    expect(report.approvedExclusions).toContainEqual(
+      expect.objectContaining({
+        classification: "FONT_MAPPING_WIDTH",
+        role: "checkbox-label",
+        fields: ["width"],
+      }),
+    );
+    expect(report.semanticAcceptanceStatus).toBe("PASS");
   });
 
   const flowMetrics = (source: "official" | "local") => {

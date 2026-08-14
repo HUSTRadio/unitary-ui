@@ -1396,6 +1396,49 @@ def main() -> None:
                     remaining.append(failure)
             strict_failures_v3[:] = remaining
 
+        # 3) context-owned-fill roles may inherit a min-width from a declared
+        #    owner (for example, a popover panel constrained by its trigger).
+        #    Exempt only when the owner's width was already approved and the
+        #    min-width delta exactly follows that owner width delta.
+        approved_owner_widths = {
+            exclusion.get("role")
+            for exclusion in approved_exclusions_v3
+            if "width" in (exclusion.get("fields") or [])
+            and exclusion.get("classification")
+            in {"FONT_MAPPING_WIDTH", "HOST_CONTEXT_GEOMETRY", "CONTEXT_OWNED_WIDTH"}
+        }
+        remaining = []
+        for failure in strict_failures_v3:
+            role_name = failure.get("role")
+            role_def = contract_roles.get(role_name) or {}
+            owner_role = role_def.get("contextOwnerRole")
+            owner_delta = content_box_delta.get(owner_role, -1.0)
+            field_delta = abs(_px(failure.get("official")) - _px(failure.get("local")))
+            if (
+                role_def.get("acceptanceProfile") == "context-owned-fill"
+                and failure.get("field") == "minWidth"
+                and owner_role in approved_owner_widths
+                and owner_delta >= 0
+                and abs(field_delta - owner_delta) <= 0.5
+            ):
+                approved_exclusions_v3.append(
+                    {
+                        "classification": "CONTEXT_OWNED_WIDTH",
+                        "scope": "role",
+                        "role": role_name,
+                        "fields": ["minWidth"],
+                        "official": failure.get("official"),
+                        "local": failure.get("local"),
+                        "evidence": {
+                            "contextOwnerRole": owner_role,
+                            "contextWidthDelta": owner_delta,
+                        },
+                    }
+                )
+            else:
+                remaining.append(failure)
+        strict_failures_v3[:] = remaining
+
     # A clip dimension mismatch that matches the context width delta is the same
     # host-container difference already exempted at the role level.
     dimension_mismatch_explained = False
@@ -1404,6 +1447,33 @@ def main() -> None:
         local_w = float(local_size[0]) if local_size else 0.0
         if abs(off_w - local_w) <= context_delta + 0.5:
             dimension_mismatch_explained = True
+
+    # A mapped-text clip may legitimately produce a different screenshot width.
+    # Reuse the role-level FONT_MAPPING_WIDTH decision only when the clip's rect
+    # delta explains the raster width delta (allowing one pixel for clip rounding)
+    # and the screenshot heights are otherwise identical.
+    if dimension_mismatch and not dimension_mismatch_explained and official_cell is not None:
+        contract = official_cell.get("contract") or {}
+        clip_role = contract.get("clipRole")
+        clip_width_mapped = any(
+            exclusion.get("classification") == "FONT_MAPPING_WIDTH"
+            and exclusion.get("role") == clip_role
+            and "width" in (exclusion.get("fields") or [])
+            for exclusion in approved_exclusions_v3
+        )
+        off_clip = (official_metrics.get("roles") or {}).get(clip_role, {})
+        loc_clip = (local_metrics.get("roles") or {}).get(clip_role, {})
+        if clip_width_mapped and official_size and local_size:
+            image_width_delta = abs(float(official_size[0]) - float(local_size[0]))
+            clip_width_delta = abs(
+                float((off_clip.get("rect") or {}).get("width", 0))
+                - float((loc_clip.get("rect") or {}).get("width", 0))
+            )
+            if (
+                official_size[1] == local_size[1]
+                and abs(image_width_delta - clip_width_delta) <= 1.0
+            ):
+                dimension_mismatch_explained = True
 
     # Merge geometry-level icon exemptions into approved exclusions.
     approved_exclusions_v3.extend(geometry.get("iconExclusions", []))

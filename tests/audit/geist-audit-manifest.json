@@ -7826,7 +7826,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "trigger"
             }
           },
           "semanticNodeInventory": [],
@@ -7881,7 +7882,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "trigger"
             }
           },
           "semanticNodeInventory": [],
@@ -7936,7 +7938,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "trigger"
             }
           },
           "semanticNodeInventory": [],
