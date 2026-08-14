@@ -8058,14 +8058,140 @@
     {
       "slug": "search-input",
       "officialUrl": "https://vercel.com/geist/search-input",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["default", "with-cmdk", "disabled", "loading", "custom-prefix"],
+      "states": ["default", "disabled", "loading", "clearable"],
+      "demos": [
+        { "id": "default" },
+        { "id": "with-cmdk" },
+        { "id": "disabled" },
+        { "id": "loading" },
+        { "id": "custom-prefix" }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": ["pointer:click", "keyboard:tab-focus", "keyboard:escape"],
+      "responsiveExpectations": [
+        "control remains 36px high with 6px radius at all viewports",
+        "cmdk and clear suffixes use pointer-coarse:hidden while the search input remains operable"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "div[data-geist-input-wrapper]",
+        "local": "[data-slot=search-input] [data-geist-input-wrapper]"
       },
-      "interaction": "pending"
+      "interaction": "applicable",
+      "acceptanceContracts": [
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "default",
+          "clipRole": "control",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "control": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] + div div[data-geist-input-wrapper]",
+                  "local": "[data-demo-container=\"default\"] [data-geist-input-wrapper]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "with-cmdk",
+          "variant": "with-cmdk",
+          "state": "default",
+          "clipRole": "control",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "control": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-cmdk\"] + div div[data-geist-input-wrapper]",
+                  "local": "[data-demo-container=\"with-cmdk\"] [data-geist-input-wrapper]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "disabled",
+          "variant": "disabled",
+          "state": "disabled",
+          "clipRole": "control",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "control": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] + div div[data-geist-input-wrapper]",
+                  "local": "[data-demo-container=\"disabled\"] [data-geist-input-wrapper]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "loading",
+          "variant": "loading",
+          "state": "loading",
+          "clipRole": "control",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "control": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#loading\"] + div div[data-geist-input-wrapper]",
+                  "local": "[data-demo-container=\"loading\"] [data-geist-input-wrapper]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "custom-prefix",
+          "variant": "custom-prefix",
+          "state": "default",
+          "clipRole": "control",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "control": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#custom-prefix\"] + div div[data-geist-input-wrapper]",
+                  "local": "[data-demo-container=\"custom-prefix\"] [data-geist-input-wrapper]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "select",

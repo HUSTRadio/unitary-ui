@@ -1,34 +1,33 @@
 import * as React from "react";
-import { Loader2, Search, X } from "lucide-react";
+import { Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Input } from "./input";
+import { Kbd } from "./keyboard-input";
+import { Spinner } from "./spinner";
 
 /**
- * SearchInput — Geist 官方 SearchInput（docs/geist-markdown-refs/components/search-input.md）。
- * 官方形态：放大镜前缀 + 输入框（h:36px）+ 右侧清除按钮 / loading spinner / cmdk Esc 徽标。
- * - 清除按钮：有值时显示；受控用法下点击触发 onChange（value 置空）
- * - loading：右侧 spinner（替代清除按钮）
- * - cmdk：右侧 "Esc" 徽标（`.pointer-coarse:hidden`，触屏设备隐藏）
- * - prefix：自定义前缀节点（缺省为放大镜）
+ * SearchInput — Geist Search Input（vercel.com/geist/search-input 实时页面）。
+ * 采用共享 Input 的 36px prefix / input / suffix slot：默认前缀为搜索图标，
+ * loading 时替换为 Spinner；非空值显示 Esc 清除动作，空值且 cmdk 时显示 ⌘ K。
  */
 interface SearchInputProps extends Omit<React.ComponentProps<"input">, "prefix"> {
-  /** 显示 ⌘K 风格 Esc 徽标（触屏设备自动隐藏） */
+  /** 空值时显示 ⌘ K 提示；触屏设备隐藏。 */
   cmdk?: boolean;
-  /** 加载态：右侧显示 spinner */
+  /** 用 Spinner 替换默认搜索前缀。 */
   loading?: boolean;
-  /** 自定义前缀（替换默认放大镜） */
+  /** 自定义前缀（替换默认搜索图标）。 */
   prefix?: React.ReactNode;
 }
 
 const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
   ({ className, cmdk, loading, prefix, defaultValue = "", value, onChange, ...props }, ref) => {
     const [internalValue, setInternalValue] = React.useState(
-      typeof defaultValue === "string" ? defaultValue : "",
+      typeof defaultValue === "string" || typeof defaultValue === "number" ? defaultValue : "",
     );
     const isControlled = value !== undefined;
     const currentValue = isControlled ? value : internalValue;
-    const showClear = !loading && String(currentValue).length > 0;
+    const showClear = String(currentValue ?? "").length > 0;
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (!isControlled) setInternalValue(event.target.value);
@@ -43,44 +42,63 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
       } as React.ChangeEvent<HTMLInputElement>);
     };
 
+    const leading = loading ? (
+      <Spinner size="md" className="text-gray-700" />
+    ) : (
+      (prefix ?? <Search className="size-4" aria-hidden />)
+    );
+
+    const trailing = showClear ? (
+      <button
+        type="button"
+        onClick={handleClear}
+        aria-label="Clear search"
+        className="pointer-coarse:hidden flex h-full cursor-pointer items-center rounded-r-[6px] border-0 bg-transparent px-2.5 text-gray-700 outline-none transition-colors duration-150 hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring"
+      >
+        <Kbd small className="ml-0 font-medium text-gray-900">
+          Esc
+        </Kbd>
+      </button>
+    ) : cmdk ? (
+      <span
+        aria-label="Press Command K to open the Command Menu"
+        className="pointer-coarse:hidden flex items-center justify-center gap-1 pr-2.5 font-medium"
+      >
+        <Kbd small className="ml-0 text-gray-900">
+          ⌘
+        </Kbd>
+        <Kbd small className="ml-0 text-gray-900">
+          K
+        </Kbd>
+      </span>
+    ) : undefined;
+
     return (
-      <div className={cn("relative", className)}>
-        {prefix ?? (
-          <Search
-            className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
-            aria-hidden
-          />
+      <div
+        data-slot="search-input"
+        className={cn(
+          "w-full max-w-full",
+          "[&_[data-slot=input-suffix]]:!mr-0 [&_[data-slot=input-suffix]]:!ml-0 [&_[data-slot=input-suffix]]:!pr-0",
+          "[&:has(input:disabled)_[data-slot=input-prefix]]:!bg-gray-100 [&:has(input:disabled)_[data-slot=input-suffix]]:!bg-gray-100",
+          className,
         )}
+      >
         <Input
           ref={ref}
+          prefix={leading}
+          prefixStyling={false}
+          suffix={trailing}
+          suffixStyling={false}
           value={currentValue}
           onChange={handleChange}
-          className={cn(
-            "h-9 pl-9 [&::-webkit-search-cancel-button]:hidden",
-            (showClear || loading || cmdk) && "pr-9",
-          )}
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck={false}
           {...props}
           type="search"
+          className="[&::-webkit-search-cancel-button]:hidden"
         />
-        {loading ? (
-          <Loader2
-            className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 animate-spin text-muted-foreground"
-            aria-hidden
-          />
-        ) : showClear ? (
-          <button
-            type="button"
-            onClick={handleClear}
-            aria-label="Clear search"
-            className="absolute top-1/2 right-3 -translate-y-1/2 rounded-md p-0.5 text-muted-foreground outline-none transition-colors hover:bg-gray-alpha-200 hover:text-foreground focus-ring"
-          >
-            <X className="size-4" aria-hidden />
-          </button>
-        ) : cmdk ? (
-          <kbd className="pointer-coarse:hidden pointer-events-none absolute top-1/2 right-2.5 -translate-y-1/2 rounded-[6px] border border-gray-alpha-400 px-1.5 py-0.5 text-copy-13 text-muted-foreground">
-            Esc
-          </kbd>
-        ) : null}
       </div>
     );
   },

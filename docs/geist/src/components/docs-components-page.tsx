@@ -20,6 +20,7 @@ import {
   Rocket,
   Search,
   Shield,
+  Sparkles,
   Trash2,
   Upload,
 } from "lucide-react";
@@ -4970,13 +4971,56 @@ function RelativeTimeCardDemo() {
 }
 
 function SearchInputDemo() {
-  const { language } = useLanguage();
+  const demos = [
+    {
+      id: "default",
+      control: <SearchInput aria-label="Search" placeholder="Enter some text..." />,
+    },
+    {
+      id: "with-cmdk",
+      control: <SearchInput aria-label="Search" cmdk placeholder="Enter some text..." />,
+    },
+    {
+      id: "disabled",
+      control: <SearchInput aria-label="Search" cmdk disabled placeholder="Enter some text..." />,
+    },
+    {
+      id: "loading",
+      control: (
+        <SearchInput
+          aria-label="Search"
+          defaultValue="Project A"
+          loading
+          placeholder="Enter some text..."
+        />
+      ),
+    },
+    {
+      id: "custom-prefix",
+      control: (
+        <SearchInput
+          aria-label="Search"
+          placeholder="Enter some text..."
+          prefix={<Sparkles className="size-4" aria-hidden />}
+        />
+      ),
+    },
+  ] as const;
+
   return (
-    <SearchInput
-      className="w-full max-w-sm"
-      placeholder={demoText(language, "Search projects")}
-      aria-label={demoText(language, "Search projects")}
-    />
+    <div className="w-full space-y-6">
+      {demos.map(({ id, control }) => (
+        <div
+          key={id}
+          data-demo-card={id}
+          className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        >
+          <div data-demo-container={id} className="w-full p-6">
+            {control}
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
 

@@ -461,6 +461,25 @@
       "notes": "B3 复刻；3 live demo（default/with-input/bypass-casing），states default，矩阵 light 1440x900 采集对比"
     },
     {
+      "slug": "search-input",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PARTIAL",
+        "aria": "PASS",
+        "motion": "PARTIAL",
+        "localDemoCoverage": "PASS",
+        "comparison": "MISSING"
+      },
+      "evidence": ["search-input/runs/", "search-input/search-input-evidence.json"],
+      "notes": "B3 复刻；5 live demos（default/with-cmdk/disabled/loading/custom-prefix），等待 clean-revision official/local comparison"
+    },
+    {
       "slug": "select",
       "batch": "B3",
       "inventoryStatus": "live_enumeration_complete",

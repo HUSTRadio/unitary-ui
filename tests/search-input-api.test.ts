@@ -15,6 +15,63 @@ const renderSearchInput = (props: Record<string, unknown>) =>
   renderToStaticMarkup(createElement(SearchInput, props));
 
 describe("SearchInput official API contract (G09 audit fixes)", () => {
+  test("matches the live five-demo inventory and keeps the input wrapper contract", async () => {
+    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
+    const manifest = await read("tests/audit/geist-audit-manifest.json");
+
+    for (const id of ["default", "with-cmdk", "disabled", "loading", "custom-prefix"]) {
+      expect(docs).toContain(`id: "${id}"`);
+      expect(manifest).toContain(`"id": "${id}"`);
+    }
+  });
+
+  test("renders the official prefix/input/suffix slot order", () => {
+    const markup = renderSearchInput({ "aria-label": "Search", placeholder: "Enter some text..." });
+
+    expect(markup).toContain('data-slot="search-input"');
+    expect(markup).toContain('data-slot="input-prefix"');
+    expect(markup).toContain('data-slot="input"');
+    expect(markup.indexOf('data-slot="input-prefix"')).toBeLessThan(
+      markup.indexOf('data-slot="input"'),
+    );
+    expect(markup).not.toContain('data-slot="input-suffix"');
+  });
+
+  test("cmdk renders two compact keys in the suffix", () => {
+    const markup = renderSearchInput({ "aria-label": "Search", cmdk: true });
+
+    expect(markup).toContain('data-slot="input-suffix"');
+    expect(markup.match(/data-slot="kbd"/g)).toHaveLength(2);
+    expect(markup).toContain("⌘");
+    expect(markup).toContain(">K<");
+  });
+
+  test("loading replaces the search prefix and keeps an Esc clear action for a value", () => {
+    const markup = renderSearchInput({
+      "aria-label": "Search",
+      defaultValue: "Project A",
+      loading: true,
+    });
+
+    expect(markup).toContain('data-slot="spinner"');
+    expect(markup).toContain('aria-label="Clear search"');
+    expect(markup).toContain(">Esc<");
+    expect(markup.indexOf('data-slot="spinner"')).toBeLessThan(markup.indexOf('data-slot="input"'));
+  });
+
+  test("disabled and custom prefix flow through the shared input slots", () => {
+    const disabled = renderSearchInput({ "aria-label": "Search", cmdk: true, disabled: true });
+    const custom = renderSearchInput({
+      "aria-label": "Search",
+      prefix: createElement("span", { "data-testid": "sparkles" }, "sparkles"),
+    });
+
+    expect(disabled).toContain("disabled");
+    expect(disabled).toContain('data-slot="input-prefix"');
+    expect(disabled).toContain('data-slot="input-suffix"');
+    expect(custom).toContain('data-testid="sparkles"');
+  });
+
   test("G09-SI-01: underlying input is type=search (native Escape clears the value)", async () => {
     const src = await read("src/components/ui/search-input.tsx");
     // The Input element must render type="search" — not plain text
