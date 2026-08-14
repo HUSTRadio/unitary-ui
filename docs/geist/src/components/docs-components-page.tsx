@@ -3029,13 +3029,85 @@ function ProjectBannerDemo() {
 
 function SliderDemo() {
   const { language } = useLanguage();
-  const [value, setValue] = React.useState<number[]>([50]);
+  const [defaultValue, setDefaultValue] = React.useState<number[]>([50]);
+  const [labelValue, setLabelValue] = React.useState<number[]>([40]);
+  const [rangeValue, setRangeValue] = React.useState<number[]>([50, 75]);
+  const [commitValue, setCommitValue] = React.useState<number[]>([50]);
+  const [committed, setCommitted] = React.useState<number | null>(null);
+  const demos = [
+    {
+      id: "default",
+      content: (
+        <form>
+          <Slider value={defaultValue} onValueChange={setDefaultValue} aria-label="Value" />
+        </form>
+      ),
+    },
+    {
+      id: "with-label",
+      content: (
+        <form>
+          <Slider
+            label={demoText(language, "Volume")}
+            value={labelValue}
+            onValueChange={setLabelValue}
+          />
+        </form>
+      ),
+    },
+    {
+      id: "range-with-inputs",
+      content: (
+        <form>
+          <Slider
+            showStartInput
+            showEndInput
+            value={rangeValue}
+            onValueChange={setRangeValue}
+            aria-label="Range"
+          />
+        </form>
+      ),
+    },
+    {
+      id: "disabled-range-with-inputs",
+      content: (
+        <form>
+          <Slider disabled showStartInput showEndInput value={[50, 75]} aria-label="Range" />
+        </form>
+      ),
+    },
+    {
+      id: "commit-on-release",
+      content: (
+        <form>
+          <Slider
+            label="Drag then release"
+            value={commitValue}
+            onValueChange={setCommitValue}
+            onValueCommitted={(value) => setCommitted(value[0] ?? null)}
+          />
+          <p className="mt-2 text-copy-13 text-gray-900">
+            Last committed: {committed === null ? "—" : committed}
+          </p>
+        </form>
+      ),
+    },
+  ];
+
   return (
-    <div className="w-full max-w-md">
-      <Slider value={value} onValueChange={setValue} aria-label={demoText(language, "Volume")} />
-      <p className="mt-3 text-copy-14 text-muted-foreground">
-        {demoTextWithValues(language, "Value: {value}", { value: value[0] })}
-      </p>
+    <div className="w-full space-y-6">
+      {demos.map((demo) => (
+        <div
+          key={demo.id}
+          data-demo-card={demo.id}
+          className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        >
+          <div data-demo-container={demo.id} className="w-full p-6">
+            {demo.content}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

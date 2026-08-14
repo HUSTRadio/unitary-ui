@@ -9196,14 +9196,183 @@
     {
       "slug": "slider",
       "officialUrl": "https://vercel.com/geist/slider",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": [
+        "default",
+        "with-label",
+        "range-with-inputs",
+        "disabled-range-with-inputs",
+        "commit-on-release"
+      ],
+      "states": ["default", "disabled", "committed"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "with-label"
+        },
+        {
+          "id": "range-with-inputs"
+        },
+        {
+          "id": "disabled-range-with-inputs"
+        },
+        {
+          "id": "commit-on-release"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": [
+        "pointer:drag",
+        "keyboard:arrow-step",
+        "keyboard:home-end",
+        "keyboard:tab-focus"
+      ],
+      "responsiveExpectations": [
+        "The 216px minimum track and paired 48px inputs remain usable without overflow",
+        "The track keeps 8px height and the thumb keeps 6px by 14px geometry"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[data-slot=\"slider\"]",
+        "local": "[data-slot=\"slider\"]"
       },
-      "interaction": "pending"
+      "interaction": "applicable",
+      "acceptanceContracts": [
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "default",
+          "clipRole": "control",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "control": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] + div [data-slot=\"slider\"]",
+                  "local": "[data-demo-container=\"default\"] [data-slot=\"slider\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "with-label",
+          "variant": "with-label",
+          "state": "default",
+          "clipRole": "control",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "control": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-label\"] + div [data-slot=\"slider\"]",
+                  "local": "[data-demo-container=\"with-label\"] [data-slot=\"slider\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "range-with-inputs",
+          "variant": "range-with-inputs",
+          "state": "default",
+          "clipRole": "control",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "control": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#range-with-inputs\"] + div [data-slot=\"slider\"]",
+                  "local": "[data-demo-container=\"range-with-inputs\"] [data-slot=\"slider\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "disabled-range-with-inputs",
+          "variant": "disabled-range-with-inputs",
+          "state": "disabled",
+          "clipRole": "control",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "control": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled-range-with-inputs\"] + div [data-slot=\"slider\"]",
+                  "local": "[data-demo-container=\"disabled-range-with-inputs\"] [data-slot=\"slider\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "commit-on-release",
+          "variant": "commit-on-release",
+          "state": "default",
+          "clipRole": "control",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "control": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#commit-on-release\"] + div [data-slot=\"slider\"]",
+                  "local": "[data-demo-container=\"commit-on-release\"] [data-slot=\"slider\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "commit-on-release",
+          "variant": "commit-on-release",
+          "state": "committed",
+          "clipRole": "control",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "control": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#commit-on-release\"] + div [data-slot=\"slider\"]",
+                  "local": "[data-demo-container=\"commit-on-release\"] [data-slot=\"slider\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "snippet",

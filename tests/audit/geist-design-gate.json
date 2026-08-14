@@ -489,6 +489,25 @@
       "notes": "B3 复刻闭环；5 live demos（default/with-cmdk/disabled/loading/custom-prefix），wrapper 高度/圆角/描边/排版/motion 与 prefix/input/suffix 状态均已实测；comparator 仅余获准 Geist Sans→HarmonyOS Sans family、49px 宿主宽度及连带 transform-origin 映射，disabled placeholder 对齐官方 gray-500（live RGB 68，本地快照 RGB 69）；最终 contact sheet 无未解释差异；未采集的主题/视口矩阵诚实保留 responsive PARTIAL"
     },
     {
+      "slug": "slider",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PARTIAL",
+        "aria": "PASS",
+        "motion": "PARTIAL",
+        "localDemoCoverage": "PASS",
+        "comparison": "MISSING"
+      },
+      "evidence": ["slider/runs/", "slider/slider-evidence.json"],
+      "notes": "B3 复刻；5 live demos（default/with-label/range-with-inputs/disabled-range-with-inputs/commit-on-release），等待 clean-revision official/local comparison"
+    },
+    {
       "slug": "select",
       "batch": "B3",
       "inventoryStatus": "live_enumeration_complete",

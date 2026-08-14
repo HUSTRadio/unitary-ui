@@ -46,10 +46,19 @@ interface ValueInputProps {
   max?: number;
   disabled?: boolean;
   ariaLabel: string;
+  type?: "text" | "number";
   onChange: (next: number) => void;
 }
 
-function ValueInput({ value, min, max, disabled, ariaLabel, onChange }: ValueInputProps) {
+function ValueInput({
+  value,
+  min,
+  max,
+  disabled,
+  ariaLabel,
+  type = "number",
+  onChange,
+}: ValueInputProps) {
   const [text, setText] = React.useState(String(value));
   const valueRef = React.useRef(value);
   valueRef.current = value;
@@ -71,10 +80,11 @@ function ValueInput({ value, min, max, disabled, ariaLabel, onChange }: ValueInp
 
   return (
     <Input
-      type="number"
+      type={type}
+      size="small"
       inputMode="numeric"
       aria-label={ariaLabel}
-      className="w-16 shrink-0 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+      className="w-12 shrink-0 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       value={text}
       disabled={disabled}
       onChange={(event) => setText(event.target.value)}
@@ -116,8 +126,8 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
     };
 
     return (
-      <div data-slot="slider" className={cn("flex w-full flex-col gap-2", className)}>
-        {label && <Label value={label} id={rootId} className="mb-0" />}
+      <div data-slot="slider-field" className={cn("flex w-full flex-col", className)}>
+        {label && <Label value={label} id={rootId} />}
         <div className="flex w-full items-center gap-3">
           {showStartInput && (
             <ValueInput
@@ -125,7 +135,8 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
               min={min}
               max={max}
               disabled={disabled}
-              ariaLabel="Minimum value"
+              ariaLabel="Starting range value"
+              type="text"
               onChange={(next) => updateValue(0, next)}
             />
           )}
@@ -138,16 +149,17 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
             value={valueProp}
             defaultValue={defaultValue}
             onValueCommit={onValueCommitted}
-            className="relative flex h-3.5 w-full touch-none items-center"
+            data-slot="slider"
+            className="relative flex h-2 min-w-54 touch-none items-center select-none data-[disabled]:cursor-not-allowed"
             {...props}
           >
             <SliderPrimitive.Track
               data-slot="slider-track"
-              className="relative h-1 grow rounded-full bg-gray-alpha-200"
+              className="relative h-2 grow rounded-full bg-gray-200 select-none"
             >
               <SliderPrimitive.Range
-                data-slot="slider-range"
-                className="absolute h-full rounded-full bg-progress"
+                data-slot="slider-indicator"
+                className="absolute h-full rounded-full bg-blue-700 select-none data-[disabled]:bg-gray-500"
               />
             </SliderPrimitive.Track>
             {value.map((_, index) => (
@@ -155,7 +167,7 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
                 key={index}
                 data-slot="slider-thumb"
                 aria-label={thumbAriaLabel}
-                className="block size-4 rounded-full border-2 border-progress bg-background transition-colors focus-ring hover:border-progress/80"
+                className="relative block h-3.5 w-1.5 shrink-0 rounded-[1px] bg-white ring-1 ring-gray-alpha-500 transition-[scale] duration-100 after:absolute after:-inset-2 focus-visible:scale-120 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-120 dark:ring-black"
               />
             ))}
           </SliderPrimitive.Root>
@@ -165,7 +177,7 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
               min={min}
               max={max}
               disabled={disabled}
-              ariaLabel="Maximum value"
+              ariaLabel="Ending range value"
               onChange={(next) => updateValue(value.length - 1, next)}
             />
           )}

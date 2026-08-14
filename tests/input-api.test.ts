@@ -70,8 +70,9 @@ describe("Input official API contract (G06 audit fixes)", () => {
   test("slider.tsx stays compatible with the Input API change", async () => {
     const slider = await read("src/components/ui/slider.tsx");
     expect(slider).toMatch(/from "@\/components\/ui\/input"/);
-    // Slider's ValueInput must not rely on the removed 'medium' size name
-    expect(slider).not.toMatch(/size=/);
+    // Slider's live paired inputs are the supported 32px small size; only the removed
+    // historical "medium" name remains forbidden.
+    expect(slider).toContain('size="small"');
     expect(slider).not.toContain("medium");
   });
 });
