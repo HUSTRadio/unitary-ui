@@ -60,8 +60,10 @@ describe("Slider live Geist contract", () => {
     );
     const enabledGroup = enabled.match(/<[^>]+data-slot="slider"[^>]*>/)?.[0];
     const disabledGroup = disabled.match(/<[^>]+data-slot="slider"[^>]*>/)?.[0];
+    const disabledControl = disabled.match(/<[^>]+data-slot="slider-control"[^>]*>/)?.[0];
     expect(enabledGroup).not.toContain('aria-disabled="false"');
-    expect(disabledGroup).toContain('aria-disabled="true"');
+    expect(disabledGroup).not.toContain("aria-disabled");
+    expect(disabledControl).toContain('aria-disabled="true"');
   });
 
   test("renders one thumb by default and two thumbs for a range", () => {

@@ -139,12 +139,7 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
               onChange={(next) => updateValue(0, next)}
             />
           )}
-          <div
-            data-slot="slider"
-            role="group"
-            aria-disabled={disabled || undefined}
-            className="h-2 min-w-54"
-          >
+          <div data-slot="slider" role="group" className="h-2 min-w-54">
             <SliderPrimitive.Root
               ref={ref}
               id={rootId}
