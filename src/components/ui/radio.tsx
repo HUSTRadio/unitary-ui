@@ -76,6 +76,7 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
             "peer-enabled:peer-checked:[--radio-color:var(--gray-1000)]",
             "peer-disabled:[--radio-color:var(--gray-400)]",
             "peer-checked:[&>span]:scale-100",
+            "peer-disabled:peer-checked:[--radio-color:var(--gray-400)]",
           )}
         >
           <span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 scale-0 rounded-full bg-[var(--radio-color)] transition-transform duration-150 ease-in" />
@@ -178,7 +179,7 @@ function RadioGroupItem({ value, children, className, ...radioProps }: RadioGrou
     >
       <Radio value={value} {...radioProps} />
       {children ? (
-        <span className="ml-2 flex px-0.5 group-hover:cursor-pointer">{children}</span>
+        <span className="ml-2 flex p-0.5 group-hover:cursor-pointer">{children}</span>
       ) : null}
     </label>
   );
