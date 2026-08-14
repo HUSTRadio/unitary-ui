@@ -74,9 +74,9 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
             "transition-[border-color,background] duration-200 ease-in",
             "peer-focus-visible:focus-ring",
             "peer-enabled:peer-checked:[--radio-color:var(--gray-1000)]",
-            "peer-disabled:[--radio-color:var(--gray-400)]",
+            "peer-disabled:[--radio-color:#c9c9c9]",
             "peer-checked:[&>span]:scale-100",
-            "peer-disabled:peer-checked:[--radio-color:var(--gray-400)]",
+            "peer-disabled:peer-checked:![--radio-color:#c9c9c9]",
           )}
         >
           <span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 scale-0 rounded-full bg-[var(--radio-color)] transition-transform duration-150 ease-in" />
@@ -173,7 +173,7 @@ function RadioGroupItem({ value, children, className, ...radioProps }: RadioGrou
       data-slot="radio-item-wrapper"
       className={cn(
         "group flex items-center text-[13px] leading-[19.5px] [--radio-color:var(--gray-700)]",
-        "group-has-[:disabled]:cursor-not-allowed group-has-[:disabled]:text-gray-400 group-has-[:disabled]:[--radio-color:var(--gray-400)]",
+        "group-has-[:disabled]:cursor-not-allowed group-has-[:disabled]:text-[#c9c9c9] group-has-[:disabled]:[--radio-color:#c9c9c9]",
         className,
       )}
     >
