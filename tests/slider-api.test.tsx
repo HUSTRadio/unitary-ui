@@ -47,6 +47,20 @@ describe("Slider live Geist contract", () => {
     expect(source).not.toContain("size-4 rounded-full border-2");
   });
 
+  test("maps paired input foreground and border to the live light and dark roles", async () => {
+    const [source, styles] = await Promise.all([
+      read("src/components/ui/slider.tsx"),
+      read("src/styles/index.css"),
+    ]);
+
+    expect(source).toContain(
+      "border-[var(--input-value-border)] text-[var(--input-value-foreground)]",
+    );
+    expect(styles).toContain("--input-value-border: var(--gray-200)");
+    expect(styles).toContain("--input-value-foreground: var(--color-black)");
+    expect(styles).toContain("--input-value-foreground: var(--color-white)");
+  });
+
   test("uses the official group, control, track hierarchy and disabled ARIA", () => {
     const enabled = renderSlider({ defaultValue: [50], "aria-label": "Volume" });
     const disabled = renderSlider({ defaultValue: [50], disabled: true, "aria-label": "Volume" });

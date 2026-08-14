@@ -83,7 +83,7 @@ function ValueInput({
       size="small"
       inputMode="numeric"
       aria-label={ariaLabel}
-      className="w-12 shrink-0 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+      className="w-12 shrink-0 border-[var(--input-value-border)] text-[var(--input-value-foreground)] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       value={text}
       disabled={disabled}
       onChange={(event) => setText(event.target.value)}

@@ -313,6 +313,8 @@
   --input-focus-border: rgba(0, 0, 0, 0.34);
   --input-focus-glow: rgba(0, 0, 0, 0.16);
   --input-disabled-placeholder: #999999;
+  --input-value-border: var(--gray-200);
+  --input-value-foreground: var(--color-black);
 
   /* Geist 全色阶（Light，colors.md 实测） */
   --amber-100: #fff7e6;
@@ -557,6 +559,7 @@
   --input-focus-border: rgba(255, 255, 255, 0.51);
   --input-focus-glow: rgba(255, 255, 255, 0.24);
   --input-disabled-placeholder: #444444;
+  --input-value-foreground: var(--color-white);
 
   /* Geist 全色阶（Dark，colors.md 实测） */
   --amber-100: #291a00;
