@@ -14,13 +14,13 @@ const toggle = (props: React.ComponentProps<typeof Toggle>) =>
   renderToStaticMarkup(React.createElement(Toggle, props));
 
 describe("Toggle official API contract (G12)", () => {
-  test("G12-TOGGLE-01: color=red checked uses theme-aware --toggle-checked-red token", async () => {
+  test("G12-TOGGLE-01: color=red uses theme-aware token in checked and unchecked states", async () => {
     const src = await read("src/components/ui/toggle.tsx");
-    // Red variant must consume the theme-aware token, not bg-destructive (var(--danger) = #e5484d both themes)
-    expect(src).toMatch(
-      /color === "red" && "data-\[state=checked\]:bg-\[var\(--toggle-checked-red\)\]"/,
+    // Live Geist custom-color demo keeps the red track while unchecked; both states use the theme token.
+    expect(src).toContain(
+      "data-[state=checked]:bg-[var(--toggle-checked-red)] data-[state=unchecked]:bg-[var(--toggle-checked-red)]",
     );
-    expect(src).not.toMatch(/color === "red"[\s\S]{0,120}bg-destructive/);
+    expect(src).not.toMatch(/color === "red"[\s\S]{0,180}bg-destructive/);
   });
 
   test("G12-TOGGLE-01: --toggle-checked-red is #f87275 in light and #e5484d in dark", async () => {
@@ -44,17 +44,17 @@ describe("Toggle official API contract (G12)", () => {
     expect(markup).not.toContain("bg-destructive");
   });
 
-  test("G12-TOGGLE-01: blue and amber variants keep their official tokens", async () => {
+  test("G12-TOGGLE-01: blue is checked-only; amber keeps its custom color in both states", async () => {
     const src = await read("src/components/ui/toggle.tsx");
     expect(src).toMatch(
       /color === "blue" && "data-\[state=checked\]:bg-\[var\(--toggle-checked\)\]"/,
     );
-    expect(src).toMatch(/color === "amber" && "data-\[state=checked\]:bg-warning"/);
+    expect(src).toContain("data-[state=checked]:bg-warning data-[state=unchecked]:bg-warning");
 
     const blueMarkup = toggle({ color: "blue", checked: true, "aria-label": "Enable Firewall" });
     expect(blueMarkup).toContain("data-[state=checked]:bg-[var(--toggle-checked)]");
-    const amberMarkup = toggle({ color: "amber", checked: true, "aria-label": "Enable Firewall" });
-    expect(amberMarkup).toContain("data-[state=checked]:bg-warning");
+    const amberMarkup = toggle({ color: "amber", checked: false, "aria-label": "Enable Firewall" });
+    expect(amberMarkup).toContain("data-[state=unchecked]:bg-warning");
   });
 
   test("G12-TOGGLE-01: Toggle exports and supports size/color/labelCasing/direction props", async () => {
