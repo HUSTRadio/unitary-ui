@@ -9162,6 +9162,23 @@
             }
           }
         }
+      ],
+      "demos": [
+        {
+          "id": "disabled"
+        },
+        {
+          "id": "sizes"
+        },
+        {
+          "id": "full-width"
+        },
+        {
+          "id": "tooltip"
+        },
+        {
+          "id": "icon"
+        }
       ]
     },
     {
