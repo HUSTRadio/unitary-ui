@@ -559,6 +559,7 @@ describe("Geist audit manifest schema gate (Task 2: schema 基础门禁)", () =>
       "empty-state",
       "entity",
       "input",
+      "keyboard-input",
       "label",
       "modal",
       "radio",
@@ -574,7 +575,7 @@ describe("Geist audit manifest schema gate (Task 2: schema 基础门禁)", () =>
     const backfilled = manifest.components.filter((component: { slug: string }) =>
       BACKFILLED.has(component.slug),
     );
-    expect(backfilled).toHaveLength(26);
+    expect(backfilled).toHaveLength(27);
     for (const component of backfilled as Array<{
       slug: string;
       states: string[];
@@ -618,7 +619,7 @@ describe("Geist audit manifest schema gate (Task 2: schema 基础门禁)", () =>
     const skeletons = manifest.components.filter(
       (component: { slug: string }) => !BACKFILLED.has(component.slug),
     );
-    expect(skeletons.length).toBe(46);
+    expect(skeletons.length).toBe(45);
     for (const skeleton of skeletons) {
       expect(skeleton.inventoryStatus).toBe("pending_live_enumeration");
       expect(skeleton).not.toHaveProperty("acceptanceContracts");

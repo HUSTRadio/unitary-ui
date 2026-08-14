@@ -95,7 +95,7 @@ import { Gauge } from "@/components/ui/gauge";
 import { Grid, GridItem } from "@/components/ui/grid";
 import { Input } from "@/components/ui/input";
 import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view";
-import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input";
+import { Kbd } from "@/components/ui/keyboard-input";
 import { Label } from "@/components/ui/label";
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 import { LoadingDots } from "@/components/ui/loading-dots";
@@ -3723,14 +3723,49 @@ function ScrollerDemo() {
 
 function KeyboardInputDemo() {
   return (
-    <div className="flex flex-wrap items-center gap-4">
-      <KeyboardInput>
-        <Kbd meta>K</Kbd>
-      </KeyboardInput>
-      <KeyboardInput>
-        <Kbd shift>Enter</Kbd>
-      </KeyboardInput>
-      <Kbd>Esc</Kbd>
+    <div className="w-full max-w-[862px] space-y-6">
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="modifiers"
+      >
+        <div
+          className="flex h-[74px] w-full overflow-x-auto md:overflow-visible"
+          data-demo-surface="modifiers"
+        >
+          <div className="w-full p-6" data-demo-container="modifiers">
+            <Kbd meta />
+            <Kbd shift />
+            <Kbd alt />
+            <Kbd ctrl />
+          </div>
+        </div>
+      </div>
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="combination"
+      >
+        <div
+          className="flex h-[74px] w-full overflow-x-auto md:overflow-visible"
+          data-demo-surface="combination"
+        >
+          <div className="w-full p-6" data-demo-container="combination">
+            <Kbd meta shift />
+          </div>
+        </div>
+      </div>
+      <div
+        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="small"
+      >
+        <div
+          className="flex h-[72px] w-full overflow-x-auto md:overflow-visible"
+          data-demo-surface="small"
+        >
+          <div className="w-full p-6" data-demo-container="small">
+            <Kbd small>/</Kbd>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

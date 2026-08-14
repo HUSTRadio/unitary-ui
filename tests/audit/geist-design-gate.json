@@ -384,6 +384,25 @@
       "notes": "B3 复刻；7 live demo（default/prefix-and-suffix/disabled/error/label/rounded-prefix-and-suffix/rounded-prefix-and-suffix-without-styling），states default/disabled/error，矩阵 light 1440x900 采集对比"
     },
     {
+      "slug": "keyboard-input",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PASS",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "PASS",
+        "comparison": "MISSING"
+      },
+      "evidence": ["keyboard-input/runs/", "keyboard-input/keyboard-input-evidence.json"],
+      "notes": "B3 复刻；3 live demo（modifiers/combination/small），states default，待完成 official/local 采集对比"
+    },
+    {
       "slug": "label",
       "batch": "B3",
       "inventoryStatus": "live_enumeration_complete",

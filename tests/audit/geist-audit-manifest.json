@@ -6478,14 +6478,195 @@
     {
       "slug": "keyboard-input",
       "officialUrl": "https://vercel.com/geist/keyboard-input",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["modifiers", "combination", "small"],
       "states": ["default"],
+      "demos": [{ "id": "modifiers" }, { "id": "combination" }, { "id": "small" }],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "kbd[data-geist-kbd]",
+        "local": "[data-slot=\"kbd\"]"
       },
-      "interaction": "pending"
+      "interaction": "NOT_APPLICABLE",
+      "interactionRecipes": ["pointer:none", "keyboard:none"],
+      "responsiveExpectations": [
+        "kbd:default remains 24px high with 4px leading spacing; small remains 20px high with 2px leading spacing at all four viewports",
+        "no-overflow:three demo cards retain 24px internal padding without page overflow in light and dark themes"
+      ],
+      "acceptanceContracts": [
+        {
+          "demoId": "modifiers",
+          "variant": "modifiers",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#modifiers\"] + div > div.border-gray-alpha-400 > div.flex",
+                  "local": "[data-demo-surface=\"modifiers\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#modifiers\"] + div > div.border-gray-alpha-400 > div.flex > div.w-full.p-6",
+                  "local": "[data-demo-container=\"modifiers\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "kbd-meta": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#modifiers\"] + div div.w-full.p-6 kbd:nth-of-type(1)",
+                  "local": "[data-demo-container=\"modifiers\"] kbd:nth-of-type(1)"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "kbd-shift": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#modifiers\"] + div div.w-full.p-6 kbd:nth-of-type(2)",
+                  "local": "[data-demo-container=\"modifiers\"] kbd:nth-of-type(2)"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "kbd-alt": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#modifiers\"] + div div.w-full.p-6 kbd:nth-of-type(3)",
+                  "local": "[data-demo-container=\"modifiers\"] kbd:nth-of-type(3)"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "kbd-ctrl": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#modifiers\"] + div div.w-full.p-6 kbd:nth-of-type(4)",
+                  "local": "[data-demo-container=\"modifiers\"] kbd:nth-of-type(4)"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "combination",
+          "variant": "combination",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#combination\"] + div > div.border-gray-alpha-400 > div.flex",
+                  "local": "[data-demo-surface=\"combination\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#combination\"] + div > div.border-gray-alpha-400 > div.flex > div.w-full.p-6",
+                  "local": "[data-demo-container=\"combination\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "kbd": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#combination\"] + div div.w-full.p-6 kbd",
+                  "local": "[data-demo-container=\"combination\"] kbd"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "small",
+          "variant": "small",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#small\"] + div > div.border-gray-alpha-400 > div.flex",
+                  "local": "[data-demo-surface=\"small\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#small\"] + div > div.border-gray-alpha-400 > div.flex > div.w-full.p-6",
+                  "local": "[data-demo-container=\"small\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "kbd": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#small\"] + div div.w-full.p-6 kbd",
+                  "local": "[data-demo-container=\"small\"] kbd"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        }
+      ]
     },
     {
       "slug": "label",

@@ -23,7 +23,7 @@ function KeyboardInput({ className, ...props }: React.HTMLAttributes<HTMLDivElem
   return (
     <div
       data-slot="keyboard-input"
-      className={cn("inline-flex items-center gap-1", className)}
+      className={cn("inline-flex items-center", className)}
       {...props}
     />
   );
@@ -43,23 +43,22 @@ interface KbdProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 function Kbd({ className, meta, shift, alt, ctrl, small, children, ...props }: KbdProps) {
-  // 官方实测：仅 meta 在非 macOS 变为单词 'Ctrl'；shift/alt/ctrl 在所有平台保留字形。
-  const modifiers = [meta && (IS_MAC ? "⌘" : "Ctrl"), shift && "⇧", alt && "⌥", ctrl && "⌃"].filter(
-    (modifier): modifier is string => Boolean(modifier),
-  );
-
   return (
     <kbd
       data-slot="kbd"
       className={cn(
-        "inline-flex h-6 items-center justify-center rounded-[4px] bg-background-100 px-1.5 text-sm text-gray-1000 ring-1 ring-inset ring-gray-alpha-400",
-        small && "h-5 min-w-5 px-1 text-xs",
+        "inline-block rounded-[4px] bg-background-100 py-0 text-center font-sans !leading-[1.7em] text-gray-1000 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] [&>span]:font-inherit",
+        small ? "ml-0.5 h-5 min-h-5 min-w-5 px-1 text-xs" : "ml-1 min-h-6 min-w-6 px-1.5 text-sm",
         className,
       )}
       {...props}
     >
-      {/* 多个修饰符拼接为单个文本节点：同一个 pill（'Ctrl⇧'），无间距 */}
-      {modifiers.length > 0 ? <span>{modifiers.join("")}</span> : null}
+      {meta ? (
+        <span style={{ display: "inline-block", minWidth: "1em" }}>{IS_MAC ? "⌘" : "Ctrl"}</span>
+      ) : null}
+      {shift ? <span>⇧</span> : null}
+      {alt ? <span>⌥</span> : null}
+      {ctrl ? <span>⌃</span> : null}
       {children != null ? <span>{children}</span> : null}
     </kbd>
   );

@@ -742,13 +742,14 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     label: "Keyboard Input",
     description: "Displays keyboard input that triggers an action.",
     official: "Keyboard Input",
-    code: `import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input";
+    code: `import { Kbd } from "@/components/ui/keyboard-input";
 
-<KeyboardInput>
-  <Kbd>⌘</Kbd>
-  <Kbd>K</Kbd>
-</KeyboardInput>
-<Kbd>Enter</Kbd>`,
+<Kbd meta />
+<Kbd shift />
+<Kbd alt />
+<Kbd ctrl />
+<Kbd meta shift />
+<Kbd small>/</Kbd>`,
     bestPractices: [
       "Use Kbd for shortcut hints inside prose, menu items, and button suffixes. In long-form docs that narrate a shortcut, write the ⌘ K shortcut directly so the page renders the same when copied to plain text.",
       "Pass modifiers via boolean props (meta, shift, alt, ctrl) so the component swaps ⌘ for Ctrl on Windows and Linux.",
