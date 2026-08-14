@@ -71,7 +71,6 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
               "shadow-[0_0_0_1px_var(--gray-alpha-400)] transition-[box-shadow,color] duration-200",
               "hover:shadow-[0_0_0_1px_var(--gray-alpha-500)]",
               "focus:shadow-[0_0_0_1px_#00000057,0_0_0_4px_#00000029] focus:outline-none",
-              "focus-visible:shadow-[0_0_0_2px_#fff,0_0_0_4px_#0072f5]",
               "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-700 disabled:opacity-100",
               "disabled:shadow-[0_0_0_1px_var(--gray-alpha-400)]",
               "aria-[invalid=true]:shadow-[0_0_0_1px_#ee0000,0_0_0_4px_rgba(203,42,47,0.16)] aria-[invalid=true]:outline-none",
@@ -82,7 +81,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             {...props}
           >
             {placeholder ? (
-              <option value="" disabled hidden className="text-gray-800">
+              <option value="" disabled className="text-gray-800">
                 {placeholder}
               </option>
             ) : null}
