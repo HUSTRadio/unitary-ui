@@ -9459,7 +9459,7 @@
           "id": "with-label"
         }
       ],
-      "viewports": ["375", "768", "1440", "1920"],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
       "themes": ["light", "dark"],
       "interactionRecipes": ["pointer:click", "keyboard:space", "keyboard:tab-focus"],
       "responsiveExpectations": ["track-and-thumb-scale-by-size"],
@@ -9474,71 +9474,50 @@
           "transparentWrappers": [],
           "roles": {
             "root": {
-              "kind": "context-owned-fill",
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.border-gray-alpha-400",
                   "local": "[data-demo-card=\"default\"]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
             },
             "demo-container": {
-              "kind": "measurement-context",
-              "widthFields": ["width"],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
                   "local": "[data-demo-container=\"default\"]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
             },
             "toggle": {
-              "kind": "strict",
-              "fields": [
-                "color",
-                "backgroundColor",
-                "borderColor",
-                "borderRadius",
-                "fontSize",
-                "lineHeight",
-                "padding",
-                "width",
-                "height",
-                "minWidth",
-                "minHeight",
-                "display",
-                "position"
-              ],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6 label > span",
                   "local": "[data-demo-container=\"default\"] [data-slot=toggle]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
             },
             "toggle-thumb": {
-              "kind": "strict",
-              "fields": [
-                "color",
-                "backgroundColor",
-                "borderColor",
-                "borderRadius",
-                "fontSize",
-                "lineHeight",
-                "padding",
-                "width",
-                "height",
-                "minWidth",
-                "minHeight",
-                "display",
-                "position"
-              ],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6 label > span > div",
                   "local": "[data-demo-container=\"default\"] [data-slot=toggle-thumb]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
             }
           }
         },
@@ -9552,71 +9531,50 @@
           "transparentWrappers": [],
           "roles": {
             "root": {
-              "kind": "context-owned-fill",
               "selectors": {
                 "default": {
                   "official": "a[href=\"#disabled\"] ~ * div.border-gray-alpha-400",
                   "local": "[data-demo-card=\"disabled\"]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
             },
             "demo-container": {
-              "kind": "measurement-context",
-              "widthFields": ["width"],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6",
                   "local": "[data-demo-container=\"disabled\"]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
             },
             "toggle": {
-              "kind": "strict",
-              "fields": [
-                "color",
-                "backgroundColor",
-                "borderColor",
-                "borderRadius",
-                "fontSize",
-                "lineHeight",
-                "padding",
-                "width",
-                "height",
-                "minWidth",
-                "minHeight",
-                "display",
-                "position"
-              ],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6 label > span",
                   "local": "[data-demo-container=\"disabled\"] [data-slot=toggle]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
             },
             "toggle-thumb": {
-              "kind": "strict",
-              "fields": [
-                "color",
-                "backgroundColor",
-                "borderColor",
-                "borderRadius",
-                "fontSize",
-                "lineHeight",
-                "padding",
-                "width",
-                "height",
-                "minWidth",
-                "minHeight",
-                "display",
-                "position"
-              ],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6 label > span > div",
                   "local": "[data-demo-container=\"disabled\"] [data-slot=toggle-thumb]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
             }
           }
         },
@@ -9630,71 +9588,50 @@
           "transparentWrappers": [],
           "roles": {
             "root": {
-              "kind": "context-owned-fill",
               "selectors": {
                 "default": {
                   "official": "a[href=\"#sizes\"] ~ * div.border-gray-alpha-400",
                   "local": "[data-demo-card=\"sizes\"]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
             },
             "demo-container": {
-              "kind": "measurement-context",
-              "widthFields": ["width"],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#sizes\"] ~ * div.w-full.p-6",
                   "local": "[data-demo-container=\"sizes\"]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
             },
             "toggle": {
-              "kind": "strict",
-              "fields": [
-                "color",
-                "backgroundColor",
-                "borderColor",
-                "borderRadius",
-                "fontSize",
-                "lineHeight",
-                "padding",
-                "width",
-                "height",
-                "minWidth",
-                "minHeight",
-                "display",
-                "position"
-              ],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#sizes\"] ~ * div.w-full.p-6 label > span",
                   "local": "[data-demo-container=\"sizes\"] [data-slot=toggle]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
             },
             "toggle-thumb": {
-              "kind": "strict",
-              "fields": [
-                "color",
-                "backgroundColor",
-                "borderColor",
-                "borderRadius",
-                "fontSize",
-                "lineHeight",
-                "padding",
-                "width",
-                "height",
-                "minWidth",
-                "minHeight",
-                "display",
-                "position"
-              ],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#sizes\"] ~ * div.w-full.p-6 label > span > div",
                   "local": "[data-demo-container=\"sizes\"] [data-slot=toggle-thumb]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
             }
           }
         },
@@ -9708,71 +9645,50 @@
           "transparentWrappers": [],
           "roles": {
             "root": {
-              "kind": "context-owned-fill",
               "selectors": {
                 "default": {
                   "official": "a[href=\"#custom-color\"] ~ * div.border-gray-alpha-400",
                   "local": "[data-demo-card=\"custom-color\"]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
             },
             "demo-container": {
-              "kind": "measurement-context",
-              "widthFields": ["width"],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#custom-color\"] ~ * div.w-full.p-6",
                   "local": "[data-demo-container=\"custom-color\"]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
             },
             "toggle": {
-              "kind": "strict",
-              "fields": [
-                "color",
-                "backgroundColor",
-                "borderColor",
-                "borderRadius",
-                "fontSize",
-                "lineHeight",
-                "padding",
-                "width",
-                "height",
-                "minWidth",
-                "minHeight",
-                "display",
-                "position"
-              ],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#custom-color\"] ~ * div.w-full.p-6 label > span",
                   "local": "[data-demo-container=\"custom-color\"] [data-slot=toggle]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
             },
             "toggle-thumb": {
-              "kind": "strict",
-              "fields": [
-                "color",
-                "backgroundColor",
-                "borderColor",
-                "borderRadius",
-                "fontSize",
-                "lineHeight",
-                "padding",
-                "width",
-                "height",
-                "minWidth",
-                "minHeight",
-                "display",
-                "position"
-              ],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#custom-color\"] ~ * div.w-full.p-6 label > span > div",
                   "local": "[data-demo-container=\"custom-color\"] [data-slot=toggle-thumb]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
             }
           }
         },
@@ -9786,81 +9702,61 @@
           "transparentWrappers": [],
           "roles": {
             "root": {
-              "kind": "context-owned-fill",
               "selectors": {
                 "default": {
                   "official": "a[href=\"#with-label\"] ~ * div.border-gray-alpha-400",
                   "local": "[data-demo-card=\"with-label\"]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
             },
             "demo-container": {
-              "kind": "measurement-context",
-              "widthFields": ["width"],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#with-label\"] ~ * div.w-full.p-6",
                   "local": "[data-demo-container=\"with-label\"]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
             },
             "toggle": {
-              "kind": "strict",
-              "fields": [
-                "color",
-                "backgroundColor",
-                "borderColor",
-                "borderRadius",
-                "fontSize",
-                "lineHeight",
-                "padding",
-                "width",
-                "height",
-                "minWidth",
-                "minHeight",
-                "display",
-                "position"
-              ],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#with-label\"] ~ * div.w-full.p-6 label > span",
                   "local": "[data-demo-container=\"with-label\"] [data-slot=toggle]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
             },
             "toggle-thumb": {
-              "kind": "strict",
-              "fields": [
-                "color",
-                "backgroundColor",
-                "borderColor",
-                "borderRadius",
-                "fontSize",
-                "lineHeight",
-                "padding",
-                "width",
-                "height",
-                "minWidth",
-                "minHeight",
-                "display",
-                "position"
-              ],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#with-label\"] ~ * div.w-full.p-6 label > span > div",
                   "local": "[data-demo-container=\"with-label\"] [data-slot=toggle-thumb]"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
             },
             "toggle-label": {
-              "kind": "mapped-text",
-              "fields": ["color", "fontSize", "fontWeight", "lineHeight", "textTransform"],
               "selectors": {
                 "default": {
                   "official": "a[href=\"#with-label\"] ~ * div.w-full.p-6 label > span:last-child",
                   "local": "[data-demo-container=\"with-label\"] label > span:last-child"
-                }
-              }
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
             }
           }
         }
