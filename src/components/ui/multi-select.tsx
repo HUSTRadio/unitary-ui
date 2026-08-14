@@ -40,16 +40,22 @@ const MultiSelectTrigger = React.forwardRef<
       ref={ref}
       data-slot="multi-select-trigger"
       className={cn(
-        "multi-select-trigger group/multi-select-trigger flex h-9 w-full touch-manipulation items-center justify-between gap-2 rounded-[6px] border-0 bg-background-100 py-0 pr-[13px] pl-[10px] text-foreground outline-none transition-[box-shadow] duration-150",
+        "multi-select-trigger group/multi-select-trigger relative flex h-9 w-full max-w-full touch-manipulation items-center justify-between rounded-[6px] border-0 bg-background-100 py-0 pr-[13px] pl-[10px] text-foreground shadow-[0_0_0_1px_var(--gray-400)] outline-none hover:shadow-[0_0_0_1px_var(--gray-alpha-500)] data-[state=open]:shadow-[0_0_0_1px_var(--gray-alpha-500)]",
         className,
       )}
       {...props}
     >
-      <span className="truncate">{children}</span>
-      <ChevronDown
-        className="size-4 shrink-0 text-gray-900 transition-transform duration-150 group-data-[state=open]/multi-select-trigger:rotate-180 motion-reduce:transition-none"
-        aria-hidden
-      />
+      <span className="truncate">
+        <span>{children}</span>
+      </span>
+      <span className="ml-2 flex shrink-0">
+        <div className="flex size-4 items-center justify-center">
+          <ChevronDown
+            className="size-4 text-gray-900 transition-transform duration-150 group-data-[state=open]/multi-select-trigger:rotate-180 motion-reduce:transition-none"
+            aria-hidden
+          />
+        </div>
+      </span>
     </PopoverPrimitive.Trigger>
   );
 });
@@ -161,7 +167,7 @@ const MultiSelectContent = React.forwardRef<
           onOpenAutoFocus={handleOpenAutoFocus}
           onKeyDown={handleKeyDown}
           className={cn(
-            "material-menu multi-select-content z-50 max-h-96 min-w-[var(--radix-popover-trigger-width)] overflow-y-scroll overscroll-contain p-2 text-popover-foreground outline-none",
+            "material-menu multi-select-content max-h-[min(calc(var(--radix-popover-content-available-height)-16px),384px)] min-w-[var(--radix-popover-trigger-width)] overflow-y-scroll overscroll-contain p-2 text-popover-foreground outline-none",
             "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
             className,
           )}
