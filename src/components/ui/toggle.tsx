@@ -82,12 +82,12 @@ function Toggle({
   return (
     <label
       className={cn(
-        "text-toggle-label inline-flex cursor-pointer items-center gap-2 whitespace-nowrap has-[:disabled]:cursor-not-allowed has-[:disabled]:text-gray-700",
+        "text-toggle-label inline-flex cursor-pointer items-center gap-3 whitespace-nowrap py-[3px] has-[:disabled]:cursor-not-allowed has-[:disabled]:text-gray-700",
         direction === "rtl" && "flex-row-reverse",
       )}
     >
-      {control}
       <span className={labelCasing === "title" ? "capitalize" : undefined}>{children}</span>
+      {control}
     </label>
   );
 }

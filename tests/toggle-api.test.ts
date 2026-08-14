@@ -70,6 +70,35 @@ describe("Toggle official API contract (G12)", () => {
     );
   });
 
+  test("G12-TOGGLE-02: default label order is text then control with official padding and gap", () => {
+    const markup = toggle({ checked: false, children: "Enable Firewall" });
+    const labelText = markup.indexOf(">Enable Firewall</span>");
+    const control = markup.indexOf('data-slot="toggle"');
+
+    expect(markup).toContain("gap-3");
+    expect(markup).toContain("py-[3px]");
+    expect(labelText).toBeGreaterThan(-1);
+    expect(control).toBeGreaterThan(-1);
+    expect(labelText).toBeLessThan(control);
+  });
+
+  test("G12-TOGGLE-03: sizes demo gives all three variants equal-width columns", async () => {
+    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
+    const toggleStart = docs.indexOf("function ToggleDemo(");
+    const toggleEnd = docs.indexOf("function TooltipDemo(", toggleStart);
+    const toggleDemo = docs.slice(toggleStart, toggleEnd);
+    const sizesStart = toggleDemo.indexOf('data-demo-card="sizes"');
+    const sizesEnd = toggleDemo.indexOf("{footerBar}", sizesStart);
+    const sizesDemo = toggleDemo.slice(sizesStart, sizesEnd);
+
+    expect(toggleStart).toBeGreaterThan(-1);
+    expect(toggleEnd).toBeGreaterThan(toggleStart);
+    expect(sizesStart).toBeGreaterThan(-1);
+    expect(sizesEnd).toBeGreaterThan(sizesStart);
+    expect(sizesDemo).toContain('className="flex flex-row flex-wrap"');
+    expect(sizesDemo.match(/className="flex-1"/g)).toHaveLength(3);
+  });
+
   test("G12-TOGGLE-01: Toggle exports and supports size/color/labelCasing/direction props", async () => {
     const src = await read("src/components/ui/toggle.tsx");
     expect(src).toMatch(/export\s*\{\s*Toggle\s*\}/);

@@ -1954,18 +1954,18 @@ function ToggleDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="sizes">
-            <div className="flex flex-row flex-wrap gap-4">
-              <div>
+            <div className="flex flex-row flex-wrap">
+              <div className="flex-1">
                 <Toggle aria-label={demoText(language, "Enable Firewall")} checked={false} />
               </div>
-              <div>
+              <div className="flex-1">
                 <Toggle
                   aria-label={demoText(language, "Enable Firewall")}
                   checked={false}
                   size="medium"
                 />
               </div>
-              <div>
+              <div className="flex-1">
                 <Toggle
                   aria-label={demoText(language, "Enable Firewall")}
                   checked={false}
