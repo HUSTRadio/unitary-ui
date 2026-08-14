@@ -1100,17 +1100,243 @@ function SwitchDemo() {
 
 function SelectDemo() {
   const { language } = useLanguage();
-  return (
-    <Select
-      className="w-56"
-      defaultValue="vercel"
-      aria-label={demoText(language, "Select project")}
+
+  const circularGlyph = (
+    <svg
+      viewBox="0 0 16 16"
+      height={16}
+      width={16}
+      data-slot="geist-icon"
+      data-glyph="circular"
+      aria-hidden="true"
     >
-      <option value="vercel">Vercel</option>
-      <option value="nextjs">Next.js</option>
-      <option value="turbo">Turborepo</option>
-      <option value="v0">v0</option>
-    </Select>
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M7.25 10.75v.75h1.5V6.56l1.47 1.47.53.53 1.06-1.06-.53-.53-2.75-2.75a.75.75 0 0 0-1.06 0L4.72 6.97l-.53.53 1.06 1.06.53-.53 1.47-1.47zM14.5 8a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
+      />
+    </svg>
+  );
+
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
+    </div>
+  );
+
+  const sizesRowClass =
+    "flex relative min-w-px max-w-full flex-col sm:flex-row sm:flex-wrap flex-1";
+  const sizesColClass = "flex relative min-w-px max-w-full flex-col items-start flex-1";
+
+  return (
+    <>
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="sizes"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="sizes">
+            <div className={sizesRowClass}>
+              <div className={sizesColClass}>
+                <Select size="small" aria-label="Small" placeholder={demoText(language, "Small")}>
+                  <option>{demoText(language, "Option 1")}</option>
+                  <option>{demoText(language, "Option 2")}</option>
+                  <option>{demoText(language, "Option 3")}</option>
+                </Select>
+              </div>
+              <div className={sizesColClass}>
+                <Select aria-label="Default" placeholder={demoText(language, "Default")}>
+                  <option>{demoText(language, "Option 1")}</option>
+                  <option>{demoText(language, "Option 2")}</option>
+                  <option>{demoText(language, "Option 3")}</option>
+                </Select>
+              </div>
+              <div className={sizesColClass}>
+                <Select size="large" aria-label="Large" placeholder={demoText(language, "Large")}>
+                  <option>{demoText(language, "Option 1")}</option>
+                  <option>{demoText(language, "Option 2")}</option>
+                  <option>{demoText(language, "Option 3")}</option>
+                </Select>
+              </div>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="prefix-and-suffix"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="prefix-and-suffix">
+            <div className={sizesRowClass}>
+              <div className={sizesColClass}>
+                <Select
+                  size="small"
+                  prefix={circularGlyph}
+                  suffix={circularGlyph}
+                  aria-label="Small"
+                  placeholder={demoText(language, "Small")}
+                />
+              </div>
+              <div className={sizesColClass}>
+                <Select
+                  prefix={circularGlyph}
+                  suffix={circularGlyph}
+                  aria-label="Default"
+                  placeholder={demoText(language, "Default")}
+                />
+              </div>
+              <div className={sizesColClass}>
+                <Select
+                  size="large"
+                  prefix={circularGlyph}
+                  suffix={circularGlyph}
+                  aria-label="Large"
+                  placeholder={demoText(language, "Large")}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled">
+            <Select
+              disabled
+              aria-label="Disabled"
+              placeholder={demoText(language, "Disabled with placeholder")}
+            />
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="error"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="error">
+            <div className={sizesRowClass}>
+              <div className={sizesColClass}>
+                <Select
+                  size="small"
+                  error={demoText(language, "Please select a value.")}
+                  aria-label="Small with error"
+                  placeholder={demoText(language, "Small")}
+                />
+              </div>
+              <div className={sizesColClass}>
+                <Select
+                  error={demoText(language, "Please select a value.")}
+                  aria-label="Default with error"
+                  placeholder={demoText(language, "Default")}
+                />
+              </div>
+              <div className={sizesColClass}>
+                <Select
+                  size="large"
+                  error={demoText(language, "Please select a value.")}
+                  aria-label="Large with error"
+                  placeholder={demoText(language, "Large")}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="label"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="label">
+            <Select
+              label={demoText(language, "My label")}
+              placeholder={demoText(language, "With label")}
+            />
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="with-options"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="with-options">
+            <div className="flex flex-col items-start gap-4 md:flex-row">
+              <div>
+                <Select aria-label="Fruit" placeholder={demoText(language, "Select a fruit")}>
+                  <option>{demoText(language, "Apple")}</option>
+                  <option>{demoText(language, "Orange")}</option>
+                  <option>{demoText(language, "Banana")}</option>
+                  <option>{demoText(language, "Grape")}</option>
+                </Select>
+              </div>
+              <div>
+                <Select
+                  aria-label="Fruit with default value"
+                  defaultValue="Banana"
+                  placeholder={demoText(language, "With default value")}
+                >
+                  <option>{demoText(language, "Apple")}</option>
+                  <option>{demoText(language, "Orange")}</option>
+                  <option>{demoText(language, "Banana")}</option>
+                  <option>{demoText(language, "Grape")}</option>
+                </Select>
+              </div>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="required"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="required">
+            <Select
+              required
+              label={demoText(language, "Required field")}
+              placeholder={demoText(language, "Please select an option")}
+            >
+              <option>{demoText(language, "Option 1")}</option>
+              <option>{demoText(language, "Option 2")}</option>
+              <option>{demoText(language, "Option 3")}</option>
+            </Select>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+    </>
   );
 }
 
