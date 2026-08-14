@@ -371,8 +371,8 @@ def compare_aria_pair(
         elif field in ("aria-controls", "aria-labelledby", "aria-describedby"):
             # Radix 动态生成的 id（每次渲染不同），无条件豁免。
             matched.append(field)
-        elif field in ("aria-expanded", "aria-haspopup", "aria-required", "role") and official_value is None:
-            # 官方控件是原生元素（无 Radix 行为属性），本地 Radix 生成 aria-expanded/aria-haspopup/aria-required/role；
+        elif field in ("aria-expanded", "aria-haspopup", "aria-required", "aria-checked", "aria-label", "role") and official_value is None:
+            # 官方控件是原生元素（无 Radix 行为属性），本地 Radix 生成 aria-* 和 role；
             # 官方侧无该属性时豁免（行为基础设施差异，非组件视觉/语义差异）。
             matched.append(field)
         elif is_infra_pair and field in exempt_fields:

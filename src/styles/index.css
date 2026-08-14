@@ -1006,6 +1006,10 @@
   background-color: var(--color-bg-elevated);
   box-shadow: var(--material-shadow-tooltip);
 }
+@utility switch-ring {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
 @utility material-menu {
   border-radius: 12px;
   background-color: var(--color-bg-elevated);
