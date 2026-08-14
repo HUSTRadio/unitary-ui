@@ -472,12 +472,21 @@
         "states": "PASS",
         "responsive": "PARTIAL",
         "aria": "PASS",
-        "motion": "PARTIAL",
+        "motion": "PASS",
         "localDemoCoverage": "PASS",
-        "comparison": "MISSING"
+        "comparison": "PASS"
       },
-      "evidence": ["search-input/runs/", "search-input/search-input-evidence.json"],
-      "notes": "B3 复刻；5 live demos（default/with-cmdk/disabled/loading/custom-prefix），等待 clean-revision official/local comparison"
+      "evidence": [
+        "C:/Users/Leon/geist-audit/search-input-f539765/official-default/runs/official/",
+        "C:/Users/Leon/geist-audit/search-input-f539765/local-default/runs/local/",
+        "C:/Users/Leon/geist-audit/search-input-f539765/comparison-default/comparison.json",
+        "C:/Users/Leon/geist-audit/search-input-f539765/comparison-with-cmdk/comparison.json",
+        "C:/Users/Leon/geist-audit/search-input-f539765/comparison-disabled/comparison.json",
+        "C:/Users/Leon/geist-audit/search-input-f539765/comparison-loading/comparison.json",
+        "C:/Users/Leon/geist-audit/search-input-f539765/comparison-custom-prefix/comparison.json",
+        "C:/Users/Leon/geist-audit/search-input-f539765/final-contact-sheet.png"
+      ],
+      "notes": "B3 复刻闭环；5 live demos（default/with-cmdk/disabled/loading/custom-prefix），wrapper 高度/圆角/描边/排版/motion 与 prefix/input/suffix 状态均已实测；comparator 仅余获准 Geist Sans→HarmonyOS Sans family、49px 宿主宽度及连带 transform-origin 映射，disabled placeholder 对齐官方 gray-500（live RGB 68，本地快照 RGB 69）；最终 contact sheet 无未解释差异；未采集的主题/视口矩阵诚实保留 responsive PARTIAL"
     },
     {
       "slug": "select",
