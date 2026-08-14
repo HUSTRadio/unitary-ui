@@ -132,7 +132,7 @@ function SwitchControl({
         "hover:text-gray-900",
         "data-[state=checked]:bg-gray-100 data-[state=checked]:text-gray-1000",
         "data-[state=checked]:rounded-[4px]",
-        "data-[disabled]:pointer-events-none data-[disabled]:text-gray-800",
+        "data-[disabled]:pointer-events-none data-[disabled]:!text-gray-800",
         size === "large" && "px-4 text-label-16 leading-6 data-[state=checked]:rounded-[6px]",
         size !== "large" && "px-3 text-label-14 leading-[21px]",
         className,

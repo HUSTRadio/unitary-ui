@@ -1157,8 +1157,8 @@ function SwitchDemo() {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="full-width">
             <Switch name="full-width" style={{ width: "100%" }}>
-              <SwitchControl defaultChecked label="Source" size="large" value="source" />
-              <SwitchControl label="Output" size="large" value="output" />
+              <SwitchControl defaultChecked label="Source" value="source" />
+              <SwitchControl label="Output" value="output" />
             </Switch>
           </div>
         </div>
