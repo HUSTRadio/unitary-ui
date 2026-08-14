@@ -1028,6 +1028,28 @@
   background-color: var(--color-bg-elevated);
   box-shadow: var(--material-shadow-menu);
 }
+
+/* Multi Select 实时页面：trigger 使用 14/21 regular，menu 保持主表面而非通用 elevated 表面。 */
+@utility multi-select-trigger {
+  font-size: 0.875rem;
+  line-height: 1.3125rem;
+  font-weight: 400;
+  letter-spacing: normal;
+  box-shadow: 0 0 0 1px var(--gray-400);
+
+  &:hover,
+  &[data-state="open"] {
+    box-shadow: 0 0 0 1px var(--gray-alpha-500);
+  }
+
+  &:focus-visible {
+    box-shadow: var(--focus-ring-outline);
+  }
+}
+
+@utility multi-select-content {
+  background-color: var(--background-100);
+}
 @utility material-modal {
   border-radius: 12px;
   background-color: var(--color-bg-elevated);

@@ -489,6 +489,29 @@
       "notes": "B3 复刻闭环；5 live demos（default/with-cmdk/disabled/loading/custom-prefix），wrapper 高度/圆角/描边/排版/motion 与 prefix/input/suffix 状态均已实测；comparator 仅余获准 Geist Sans→HarmonyOS Sans family、49px 宿主宽度及连带 transform-origin 映射，disabled placeholder 对齐官方 gray-500（live RGB 68，本地快照 RGB 69）；最终 contact sheet 无未解释差异；未采集的主题/视口矩阵诚实保留 responsive PARTIAL"
     },
     {
+      "slug": "multi-select",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PARTIAL",
+        "states": "PARTIAL",
+        "responsive": "MISSING",
+        "aria": "PARTIAL",
+        "motion": "PARTIAL",
+        "localDemoCoverage": "PASS",
+        "comparison": "MISSING"
+      },
+      "evidence": [
+        "https://vercel.com/geist/multi-select",
+        "docs/geist-markdown-refs/components/multi-select.md",
+        "tests/multi-select-api.test.tsx"
+      ],
+      "notes": "B3 进行中；已固定 select-actions/keyboard-navigation/controlled-state 三组实时 demo，并按 TDD 落地 trigger、menu material、28px row、Check All/Only action 与组合键盘模型；等待 clean-revision evidence、comparator 和视觉终验"
+    },
+    {
       "slug": "slider",
       "batch": "B3",
       "inventoryStatus": "live_enumeration_complete",

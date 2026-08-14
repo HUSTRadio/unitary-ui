@@ -4885,34 +4885,157 @@ function MiddleTruncateDemo() {
 }
 
 function MultiSelectDemo() {
-  const { language } = useLanguage();
-  const options = ["React", "Next.js", "Vite"];
-  const [selected, setSelected] = React.useState(["React"]);
-  const toggle = (name: string) =>
-    setSelected((current) =>
-      current.includes(name) ? current.filter((item) => item !== name) : [...current, name],
-    );
+  const actionItems = ["Design System", "Components", "Design Tokens"];
+  const categories = ["Frameworks", "Libraries", "Development Tools", "Databases"];
+  const controlledItems = [
+    { id: "analytics", name: "Analytics" },
+    { id: "monitoring", name: "Monitoring" },
+    { id: "security", name: "Security" },
+    { id: "performance", name: "Performance" },
+  ];
+  const [selectedActions, setSelectedActions] = React.useState(
+    () => new Set(["Design System", "Components"]),
+  );
+  const [selectedCategories, setSelectedCategories] = React.useState(() => new Set(["Frameworks"]));
+  const [selectedFeatures, setSelectedFeatures] = React.useState(() => new Set(["analytics"]));
+
+  const toggle = (setter: React.Dispatch<React.SetStateAction<Set<string>>>, name: string) => {
+    setter((current) => {
+      const next = new Set(current);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
+  };
+
+  const card = (id: string, children: React.ReactNode) => (
+    <div
+      data-demo-card={id}
+      className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+    >
+      <div data-demo-container={id} className="w-full p-6">
+        {children}
+      </div>
+    </div>
+  );
 
   return (
-    <MultiSelectRoot className="w-64">
-      <MultiSelectTrigger aria-label={demoText(language, "Select frameworks")}>
-        {demoTextWithValues(language, "{count} selected", { count: selected.length })}
-      </MultiSelectTrigger>
-      <MultiSelectContent>
-        {options.map((name) => (
-          <MultiSelectRow
-            key={name}
-            name={name}
-            checked={selected.includes(name)}
-            selectedCount={selected.length}
-            totalCount={options.length}
-            onChange={() => toggle(name)}
-            onSelectOnly={() => setSelected([name])}
-            onSelectAll={() => setSelected(options)}
-          />
-        ))}
-      </MultiSelectContent>
-    </MultiSelectRoot>
+    <div className="w-full space-y-6">
+      {card(
+        "select-actions",
+        <div className="flex flex-col items-start gap-4">
+          <MultiSelectRoot>
+            <MultiSelectTrigger aria-label="Select design system items">
+              {selectedActions.size} {selectedActions.size === 1 ? "item" : "items"} selected
+            </MultiSelectTrigger>
+            <MultiSelectContent>
+              {actionItems.map((name) => (
+                <MultiSelectRow
+                  key={name}
+                  name={name}
+                  checked={selectedActions.has(name)}
+                  selectedCount={selectedActions.size}
+                  totalCount={actionItems.length}
+                  onChange={() => toggle(setSelectedActions, name)}
+                  onSelectOnly={() => setSelectedActions(new Set([name]))}
+                  onSelectAll={() => setSelectedActions(new Set(actionItems))}
+                />
+              ))}
+            </MultiSelectContent>
+          </MultiSelectRoot>
+          <p className="text-copy-14 text-foreground">
+            Hover over items to see action labels. Different actions appear based on selection
+            state.
+          </p>
+        </div>,
+      )}
+
+      {card(
+        "keyboard-navigation",
+        <div className="flex flex-col items-start gap-4">
+          <MultiSelectRoot>
+            <MultiSelectTrigger aria-label="Select categories">
+              {selectedCategories.size} {selectedCategories.size === 1 ? "category" : "categories"}{" "}
+              selected
+            </MultiSelectTrigger>
+            <MultiSelectContent>
+              {categories.map((name) => (
+                <MultiSelectRow
+                  key={name}
+                  name={name}
+                  checked={selectedCategories.has(name)}
+                  selectedCount={selectedCategories.size}
+                  totalCount={categories.length}
+                  onChange={() => toggle(setSelectedCategories, name)}
+                  onSelectOnly={() => setSelectedCategories(new Set([name]))}
+                  onSelectAll={() => setSelectedCategories(new Set(categories))}
+                />
+              ))}
+            </MultiSelectContent>
+          </MultiSelectRoot>
+          <p className="text-copy-14 text-foreground">
+            Try keyboard navigation: ↑ ↓ for rows, ← → for checkbox/button focus, Tab to cycle
+            through all elements
+          </p>
+        </div>,
+      )}
+
+      {card(
+        "controlled-state",
+        <div className="flex flex-col items-start gap-4">
+          <MultiSelectRoot>
+            <MultiSelectTrigger aria-label="Select features">
+              {selectedFeatures.size === 0
+                ? "No features selected"
+                : selectedFeatures.size === controlledItems.length
+                  ? "All features selected"
+                  : `Selected: ${Array.from(selectedFeatures).join(", ")}`}
+            </MultiSelectTrigger>
+            <MultiSelectContent>
+              {controlledItems.map((item) => (
+                <MultiSelectRow
+                  key={item.id}
+                  name={item.name}
+                  checked={selectedFeatures.has(item.id)}
+                  selectedCount={selectedFeatures.size}
+                  totalCount={controlledItems.length}
+                  onChange={() => toggle(setSelectedFeatures, item.id)}
+                  onSelectOnly={() => setSelectedFeatures(new Set([item.id]))}
+                  onSelectAll={() =>
+                    setSelectedFeatures(new Set(controlledItems.map(({ id }) => id)))
+                  }
+                />
+              ))}
+            </MultiSelectContent>
+          </MultiSelectRoot>
+          <p className="text-copy-14 text-foreground">
+            <button
+              type="button"
+              className="cursor-pointer text-link hover:underline focus-ring"
+              onClick={() => setSelectedFeatures(new Set())}
+            >
+              Clear All
+            </button>
+            ,{" "}
+            <button
+              type="button"
+              className="cursor-pointer text-link hover:underline focus-ring"
+              onClick={() => setSelectedFeatures(new Set(["analytics", "monitoring"]))}
+            >
+              Core Features
+            </button>
+            ,{" "}
+            <button
+              type="button"
+              className="cursor-pointer text-link hover:underline focus-ring"
+              onClick={() => setSelectedFeatures(new Set(["security", "performance"]))}
+            >
+              Advanced Features
+            </button>
+          </p>
+        </div>,
+      )}
+    </div>
   );
 }
 

@@ -7742,14 +7742,207 @@
     {
       "slug": "multi-select",
       "officialUrl": "https://vercel.com/geist/multi-select",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["select-actions", "keyboard-navigation", "controlled-state"],
+      "states": ["closed", "open", "checked", "unchecked"],
+      "demos": [
+        {
+          "id": "select-actions"
+        },
+        {
+          "id": "keyboard-navigation"
+        },
+        {
+          "id": "controlled-state"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": [
+        "click:trigger",
+        "key:arrow",
+        "key:tab-focus",
+        "key:space",
+        "key:enter",
+        "key:escape",
+        "pointer:outside-click"
+      ],
+      "responsiveExpectations": [
+        "The trigger expands to the available width on the 375px viewport and remains intrinsic at larger viewports",
+        "The menu remains within the viewport while preserving 28px rows and the 12px menu radius"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "button[aria-haspopup=\"dialog\"]",
+        "local": "[data-slot=\"multi-select-trigger\"]"
       },
-      "interaction": "pending"
+      "interaction": "applicable",
+      "acceptanceContracts": [
+        {
+          "demoId": "select-actions",
+          "variant": "select-actions",
+          "state": "closed",
+          "clipRole": "trigger",
+          "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
+          "roles": {
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#select-actions\"] + div button[aria-haspopup=\"dialog\"]",
+                  "local": "[data-demo-container=\"select-actions\"] [data-slot=\"multi-select-trigger\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "select-actions",
+          "variant": "select-actions",
+          "state": "open",
+          "clipRole": "panel",
+          "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
+          "roles": {
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#select-actions\"] + div button[aria-haspopup=\"dialog\"]",
+                  "local": "[data-demo-container=\"select-actions\"] [data-slot=\"multi-select-trigger\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "[role=\"dialog\"][data-state=\"open\"]",
+                  "local": "[data-slot=\"multi-select-content\"][data-state=\"open\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "keyboard-navigation",
+          "variant": "keyboard-navigation",
+          "state": "closed",
+          "clipRole": "trigger",
+          "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
+          "roles": {
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#keyboard-navigation\"] + div button[aria-haspopup=\"dialog\"]",
+                  "local": "[data-demo-container=\"keyboard-navigation\"] [data-slot=\"multi-select-trigger\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "keyboard-navigation",
+          "variant": "keyboard-navigation",
+          "state": "open",
+          "clipRole": "panel",
+          "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
+          "roles": {
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#keyboard-navigation\"] + div button[aria-haspopup=\"dialog\"]",
+                  "local": "[data-demo-container=\"keyboard-navigation\"] [data-slot=\"multi-select-trigger\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "[role=\"dialog\"][data-state=\"open\"]",
+                  "local": "[data-slot=\"multi-select-content\"][data-state=\"open\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "controlled-state",
+          "variant": "controlled-state",
+          "state": "closed",
+          "clipRole": "trigger",
+          "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
+          "roles": {
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#controlled-state\"] + div button[aria-haspopup=\"dialog\"]",
+                  "local": "[data-demo-container=\"controlled-state\"] [data-slot=\"multi-select-trigger\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "controlled-state",
+          "variant": "controlled-state",
+          "state": "open",
+          "clipRole": "panel",
+          "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
+          "roles": {
+            "trigger": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#controlled-state\"] + div button[aria-haspopup=\"dialog\"]",
+                  "local": "[data-demo-container=\"controlled-state\"] [data-slot=\"multi-select-trigger\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "panel": {
+              "selectors": {
+                "default": {
+                  "official": "[role=\"dialog\"][data-state=\"open\"]",
+                  "local": "[data-slot=\"multi-select-content\"][data-state=\"open\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "note",
