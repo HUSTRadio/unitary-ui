@@ -7787,7 +7787,7 @@
             "trigger": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#select-actions\"] + div button[aria-haspopup=\"dialog\"]",
+                  "official": "a#select-actions ~ div button[aria-haspopup=\"dialog\"]",
                   "local": "[data-demo-container=\"select-actions\"] [data-slot=\"multi-select-trigger\"]"
                 },
                 "byViewport": {}
@@ -7809,7 +7809,7 @@
             "trigger": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#select-actions\"] + div button[aria-haspopup=\"dialog\"]",
+                  "official": "a#select-actions ~ div button[aria-haspopup=\"dialog\"]",
                   "local": "[data-demo-container=\"select-actions\"] [data-slot=\"multi-select-trigger\"]"
                 },
                 "byViewport": {}
@@ -7842,7 +7842,7 @@
             "trigger": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#keyboard-navigation\"] + div button[aria-haspopup=\"dialog\"]",
+                  "official": "a#keyboard-navigation ~ div button[aria-haspopup=\"dialog\"]",
                   "local": "[data-demo-container=\"keyboard-navigation\"] [data-slot=\"multi-select-trigger\"]"
                 },
                 "byViewport": {}
@@ -7864,7 +7864,7 @@
             "trigger": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#keyboard-navigation\"] + div button[aria-haspopup=\"dialog\"]",
+                  "official": "a#keyboard-navigation ~ div button[aria-haspopup=\"dialog\"]",
                   "local": "[data-demo-container=\"keyboard-navigation\"] [data-slot=\"multi-select-trigger\"]"
                 },
                 "byViewport": {}
@@ -7897,7 +7897,7 @@
             "trigger": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#controlled-state\"] + div button[aria-haspopup=\"dialog\"]",
+                  "official": "a#controlled-state ~ div button[aria-haspopup=\"dialog\"]",
                   "local": "[data-demo-container=\"controlled-state\"] [data-slot=\"multi-select-trigger\"]"
                 },
                 "byViewport": {}
@@ -7919,7 +7919,7 @@
             "trigger": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#controlled-state\"] + div button[aria-haspopup=\"dialog\"]",
+                  "official": "a#controlled-state ~ div button[aria-haspopup=\"dialog\"]",
                   "local": "[data-demo-container=\"controlled-state\"] [data-slot=\"multi-select-trigger\"]"
                 },
                 "byViewport": {}
