@@ -7442,7 +7442,7 @@
             "radio-label": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 label[data-geist-radio-item] span.ml-[var(--geist-gap-quarter)]",
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 label[data-geist-radio-item] span",
                   "local": "[data-demo-container=\"default\"] [data-slot=\"radio-item-wrapper\"] span.ml-2"
                 },
                 "byViewport": {}
@@ -7499,7 +7499,7 @@
             "radio-label": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#radio-disabled\"] ~ * div.w-full.p-6 label[data-geist-radio-item] span.ml-[var(--geist-gap-quarter)]",
+                  "official": "a[href=\"#radio-disabled\"] ~ * div.w-full.p-6 label[data-geist-radio-item] span",
                   "local": "[data-demo-container=\"radio-disabled\"] [data-slot=\"radio-item-wrapper\"] span.ml-2"
                 },
                 "byViewport": {}
@@ -7556,7 +7556,7 @@
             "radio-label": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#radio-required\"] ~ * div.w-full.p-6 label[data-geist-radio-item] span.ml-[var(--geist-gap-quarter)]",
+                  "official": "a[href=\"#radio-required\"] ~ * div.w-full.p-6 label[data-geist-radio-item] span",
                   "local": "[data-demo-container=\"radio-required\"] [data-slot=\"radio-item-wrapper\"] span.ml-2"
                 },
                 "byViewport": {}
