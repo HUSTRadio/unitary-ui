@@ -88,13 +88,14 @@ function Switch({
         name={name}
         defaultValue={initialValue}
         className={cn(
-          "flex max-w-full items-stretch bg-background-100 p-1 shadow-[0_0_0_1px_var(--gray-alpha-400)] [&>*]:h-full",
+          "flex items-stretch bg-background-100 p-1 [&>*]:h-full",
           "rounded-[6px]",
           size === "small" && "h-8",
           size === "default" && "h-9",
           size === "large" && "h-10 rounded-[8px]",
           className,
         )}
+        style={{ boxShadow: "0 0 0 1px var(--gray-alpha-400)", ...(props.style as object) }}
         onKeyDown={(event) => {
           onKeyDown?.(event);
           handleKeyDown(event);
