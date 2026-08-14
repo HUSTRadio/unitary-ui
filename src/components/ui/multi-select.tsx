@@ -45,15 +45,12 @@ const MultiSelectTrigger = React.forwardRef<
       )}
       {...props}
     >
-      <span className="truncate">
-        <span>{children}</span>
+      <span className="truncate px-[6px] transition-all">
+        <span className="-mx-0.5 flex h-[21px] transition-all">{children}</span>
       </span>
-      <span className="ml-2 flex shrink-0">
-        <div className="flex size-4 items-center justify-center">
-          <ChevronDown
-            className="size-4 text-gray-900 transition-transform duration-150 group-data-[state=open]/multi-select-trigger:rotate-180 motion-reduce:transition-none"
-            aria-hidden
-          />
+      <span className="ml-1 -mr-px flex size-[14px] shrink-0 transition-all">
+        <div className="size-[14px] text-gray-700 transition-[color,transform] duration-150 group-data-[state=open]/multi-select-trigger:rotate-180 motion-reduce:transition-none">
+          <ChevronDown className="block size-[14px] transition-all" aria-hidden />
         </div>
       </span>
     </PopoverPrimitive.Trigger>
@@ -167,7 +164,7 @@ const MultiSelectContent = React.forwardRef<
           onOpenAutoFocus={handleOpenAutoFocus}
           onKeyDown={handleKeyDown}
           className={cn(
-            "material-menu multi-select-content max-h-[min(calc(var(--radix-popover-content-available-height)-16px),384px)] min-w-[var(--radix-popover-trigger-width)] overflow-y-scroll overscroll-contain p-2 text-popover-foreground outline-none",
+            "material-menu multi-select-content max-h-[min(var(--radix-popover-content-available-height),376px)] min-w-[var(--radix-popover-trigger-width)] overflow-y-scroll overscroll-contain p-2 text-popover-foreground outline-none",
             "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
             className,
           )}

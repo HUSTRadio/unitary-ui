@@ -62,6 +62,8 @@ describe("Multi Select live Geist contract", () => {
     expect(source).toContain("multi-select-trigger");
     expect(source).toContain("relative flex h-9 w-full max-w-full");
     expect(source).toContain("shadow-[0_0_0_1px_var(--gray-400)]");
+    expect(source).toContain("size-[14px]");
+    expect(source).toContain("px-[6px]");
     expect(source).toContain("material-menu");
     expect(source).toContain("multi-select-content");
     expect(source).toContain("--radix-popover-content-available-height");
