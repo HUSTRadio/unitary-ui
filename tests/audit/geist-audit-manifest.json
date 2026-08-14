@@ -9179,6 +9179,24 @@
         {
           "id": "icon"
         }
+      ],
+      "viewports": [
+        "375x812",
+        "768x1024",
+        "1440x900",
+        "1920x1080"
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "interactionRecipes": [
+        "pointer:click",
+        "keyboard:space",
+        "keyboard:tab-focus"
+      ],
+      "responsiveExpectations": [
+        "switch-sizes:small/default/large fixed heights 32/36/40px at all four viewports"
       ]
     },
     {
