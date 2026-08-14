@@ -500,12 +500,21 @@
         "states": "PASS",
         "responsive": "PARTIAL",
         "aria": "PASS",
-        "motion": "PARTIAL",
+        "motion": "PASS",
         "localDemoCoverage": "PASS",
-        "comparison": "MISSING"
+        "comparison": "PASS"
       },
-      "evidence": ["slider/runs/", "slider/slider-evidence.json"],
-      "notes": "B3 复刻；5 live demos（default/with-label/range-with-inputs/disabled-range-with-inputs/commit-on-release），等待 clean-revision official/local comparison"
+      "evidence": [
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/runs/official/",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/runs/local/",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/comparison-default/comparison.json",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/comparison-with-label/comparison.json",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/comparison-range-with-inputs/comparison.json",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/comparison-disabled-range-with-inputs/comparison.json",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/comparison-commit-on-release/comparison.json",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/final-contact-sheet.png"
+      ],
+      "notes": "B3 复刻闭环；5 live demos（default/with-label/range-with-inputs/disabled-range-with-inputs/commit-on-release），clean revision fe9f0a8 的五组 comparator 均为 semantic PASS，strict/style/ARIA failures、missing paths 与 normalized geometry delta 均为 0；完整可见区域 contact sheet 复核 track/indicator/thumb/label/paired inputs/disabled/commit 状态无未解释差异；仅保留获准 Geist Sans→HarmonyOS Sans 字体映射与 official live blue-700 #0072f5→本地权威快照同角色 #006efe 版本映射；未采集的主题/视口矩阵诚实保留 responsive PARTIAL"
     },
     {
       "slug": "select",
