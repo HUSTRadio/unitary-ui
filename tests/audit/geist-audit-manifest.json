@@ -7437,7 +7437,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "radio-label": {
               "selectors": {
@@ -7494,7 +7495,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "radio-label": {
               "selectors": {
@@ -7551,7 +7553,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "radio-label": {
               "selectors": {
@@ -8718,7 +8721,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "switch-label": {
               "selectors": {
@@ -8775,7 +8779,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "switch-label": {
               "selectors": {
@@ -8832,7 +8837,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "switch-label": {
               "selectors": {
@@ -8889,7 +8895,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "switch-label": {
               "selectors": {
@@ -8946,7 +8953,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "switch-label": {
               "selectors": {
@@ -9506,7 +9514,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "toggle-thumb": {
               "selectors": {
@@ -9517,7 +9526,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             }
           }
         },
@@ -9563,7 +9573,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "toggle-thumb": {
               "selectors": {
@@ -9574,7 +9585,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             }
           }
         },
@@ -9620,7 +9632,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "toggle-thumb": {
               "selectors": {
@@ -9631,7 +9644,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             }
           }
         },
@@ -9677,7 +9691,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "toggle-thumb": {
               "selectors": {
@@ -9688,7 +9703,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             }
           }
         },
@@ -9734,7 +9750,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "toggle-thumb": {
               "selectors": {
@@ -9745,7 +9762,8 @@
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "strict"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             },
             "toggle-label": {
               "selectors": {

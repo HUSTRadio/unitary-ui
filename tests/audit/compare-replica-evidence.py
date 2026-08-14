@@ -453,6 +453,30 @@ def compare_role_pair(
     style_failures, style_exemptions = compare_styles_pair(
         official["styles"], local["styles"], manifest, role
     )
+    # GRAPHIC_STYLE_NOISE：styleProfile=graphic 的图形角色（轨道/圆钮/圆点）不比较继承的文本样式。
+    # 官方图形 span 继承 label 的 fontSize/fontWeight/color，本地 button/span 是元素默认值，
+    # 这些字段对纯图形角色是噪声（视觉由 backgroundColor/borderRadius/width/height 承载）。
+    # 由 manifest 的 role.styleProfile="graphic" 驱动，不用「无文本」启发式（会把 root/trigger 误判）。
+    if (role_def or {}).get("styleProfile") == "graphic":
+        graphic_fields = {
+            "color", "fontSize", "fontWeight", "lineHeight",
+            "letterSpacing", "textAlign", "textTransform",
+        }
+        kept = []
+        for failure in style_failures:
+            if failure["field"] in graphic_fields:
+                style_exemptions.append(
+                    {
+                        "field": failure["field"],
+                        "reason": "GRAPHIC_STYLE_NOISE",
+                        "official": failure["official"],
+                        "local": failure["local"],
+                        "role": role,
+                    }
+                )
+            else:
+                kept.append(failure)
+        style_failures = kept
     # FONT_MAPPING_WIDTH：mapped-text 角色的文本宽度差异（字体映射根因）豁免
     if _is_mapped_text_width(official, local, manifest):
         kept: list[dict[str, Any]] = []

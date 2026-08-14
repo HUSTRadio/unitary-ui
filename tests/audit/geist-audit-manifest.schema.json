@@ -15,28 +15,48 @@
     "components"
   ],
   "properties": {
-    "schemaVersion": { "const": 2 },
+    "schemaVersion": {
+      "const": 2
+    },
     "status": {
       "type": "string",
       "enum": ["IN_PROGRESS_NO_COMPLETION_CLAIM", "ACCEPTANCE_EVIDENCE_COMPLETE"]
     },
     "viewports": {
       "const": [
-        { "width": 375, "height": 812 },
-        { "width": 768, "height": 1024 },
-        { "width": 1440, "height": 900 },
-        { "width": 1920, "height": 1080 }
+        {
+          "width": 375,
+          "height": 812
+        },
+        {
+          "width": 768,
+          "height": 1024
+        },
+        {
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "width": 1920,
+          "height": 1080
+        }
       ]
     },
-    "themes": { "const": ["light", "dark"] },
+    "themes": {
+      "const": ["light", "dark"]
+    },
     "allowedStatuses": {
       "const": ["PASS", "FAIL", "MISSING", "BLOCKED", "NOT_APPLICABLE"]
     },
-    "acceptancePolicy": { "$ref": "#/definitions/acceptancePolicy" },
+    "acceptancePolicy": {
+      "$ref": "#/definitions/acceptancePolicy"
+    },
     "components": {
       "type": "array",
       "minItems": 1,
-      "items": { "$ref": "#/definitions/component" }
+      "items": {
+        "$ref": "#/definitions/component"
+      }
     }
   },
   "definitions": {
@@ -54,7 +74,10 @@
         "acceptedBehaviorInfrastructure"
       ],
       "properties": {
-        "evidenceEpochNotBefore": { "type": "string", "format": "date-time" },
+        "evidenceEpochNotBefore": {
+          "type": "string",
+          "format": "date-time"
+        },
         "approvedFontMappings": {
           "const": [
             {
@@ -83,15 +106,23 @@
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
-          "items": { "type": "string", "minLength": 1 }
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
         "pixelAttribution": {
           "type": "object",
           "additionalProperties": false,
           "required": ["foregroundColorDistanceMax", "edgeExpansionDevicePixels"],
           "properties": {
-            "foregroundColorDistanceMax": { "type": "number", "minimum": 0 },
-            "edgeExpansionDevicePixels": { "const": 1 }
+            "foregroundColorDistanceMax": {
+              "type": "number",
+              "minimum": 0
+            },
+            "edgeExpansionDevicePixels": {
+              "const": 1
+            }
           }
         },
         "systematicExemptions": {
@@ -104,7 +135,10 @@
         "hostChromeRoles": {
           "type": "array",
           "uniqueItems": true,
-          "items": { "type": "string", "minLength": 1 }
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
         "acceptedBehaviorInfrastructure": {
           "type": "array",
@@ -113,13 +147,25 @@
             "additionalProperties": false,
             "required": ["officialTag", "localTag", "localRole", "exemptFields"],
             "properties": {
-              "officialTag": { "type": "string", "minLength": 1 },
-              "localTag": { "type": "string", "minLength": 1 },
-              "localRole": { "type": "string", "minLength": 1 },
+              "officialTag": {
+                "type": "string",
+                "minLength": 1
+              },
+              "localTag": {
+                "type": "string",
+                "minLength": 1
+              },
+              "localRole": {
+                "type": "string",
+                "minLength": 1
+              },
               "exemptFields": {
                 "type": "array",
                 "uniqueItems": true,
-                "items": { "type": "string", "minLength": 1 }
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
               }
             }
           }
@@ -139,7 +185,10 @@
         "interaction"
       ],
       "properties": {
-        "slug": { "type": "string", "minLength": 1 },
+        "slug": {
+          "type": "string",
+          "minLength": 1
+        },
         "officialUrl": {
           "type": "string",
           "pattern": "^https://vercel\\.com/geist/"
@@ -155,13 +204,19 @@
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
-          "items": { "type": "string", "minLength": 1 }
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
         "states": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
-          "items": { "type": "string", "minLength": 1 }
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
         "demos": {
           "type": "array",
@@ -171,42 +226,65 @@
             "additionalProperties": false,
             "required": ["id"],
             "properties": {
-              "id": { "type": "string", "minLength": 1 }
+              "id": {
+                "type": "string",
+                "minLength": 1
+              }
             }
           }
         },
         "viewports": {
           "const": ["375x812", "768x1024", "1440x900", "1920x1080"]
         },
-        "themes": { "const": ["light", "dark"] },
+        "themes": {
+          "const": ["light", "dark"]
+        },
         "interactionRecipes": {
           "type": "array",
           "minItems": 1,
-          "items": { "type": "string", "minLength": 1 }
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
         "responsiveExpectations": {
           "type": "array",
           "minItems": 1,
-          "items": { "type": "string", "minLength": 1 }
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
-        "selectors": { "$ref": "#/definitions/componentSelectors" },
-        "interaction": { "enum": ["applicable", "NOT_APPLICABLE", "pending"] },
+        "selectors": {
+          "$ref": "#/definitions/componentSelectors"
+        },
+        "interaction": {
+          "enum": ["applicable", "NOT_APPLICABLE", "pending"]
+        },
         "acceptanceContracts": {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/definitions/acceptanceContract" }
+          "items": {
+            "$ref": "#/definitions/acceptanceContract"
+          }
         }
       },
       "allOf": [
         {
           "if": {
             "type": "object",
-            "properties": { "inventoryStatus": { "const": "pending_live_enumeration" } },
+            "properties": {
+              "inventoryStatus": {
+                "const": "pending_live_enumeration"
+              }
+            },
             "required": ["inventoryStatus"]
           },
           "then": {
             "type": "object",
-            "properties": { "acceptanceContracts": false }
+            "properties": {
+              "acceptanceContracts": false
+            }
           },
           "else": {
             "type": "object",
@@ -223,7 +301,9 @@
               "themes": {},
               "interactionRecipes": {},
               "responsiveExpectations": {},
-              "selectors": { "$ref": "#/definitions/liveComponentSelectors" }
+              "selectors": {
+                "$ref": "#/definitions/liveComponentSelectors"
+              }
             }
           }
         }
@@ -234,8 +314,12 @@
       "additionalProperties": false,
       "required": ["official", "local"],
       "properties": {
-        "official": { "$ref": "#/definitions/concreteSelector" },
-        "local": { "$ref": "#/definitions/concreteSelector" }
+        "official": {
+          "$ref": "#/definitions/concreteSelector"
+        },
+        "local": {
+          "$ref": "#/definitions/concreteSelector"
+        }
       }
     },
     "liveComponentSelectors": {
@@ -243,12 +327,25 @@
       "additionalProperties": false,
       "required": ["official", "local"],
       "properties": {
-        "official": { "$ref": "#/definitions/liveComponentSelector" },
-        "local": { "$ref": "#/definitions/liveComponentSelector" }
+        "official": {
+          "$ref": "#/definitions/liveComponentSelector"
+        },
+        "local": {
+          "$ref": "#/definitions/liveComponentSelector"
+        }
       }
     },
     "liveComponentSelector": {
-      "allOf": [{ "$ref": "#/definitions/concreteSelector" }, { "not": { "const": "main" } }]
+      "allOf": [
+        {
+          "$ref": "#/definitions/concreteSelector"
+        },
+        {
+          "not": {
+            "const": "main"
+          }
+        }
+      ]
     },
     "acceptanceContract": {
       "type": "object",
@@ -264,24 +361,47 @@
         "transparentWrappers"
       ],
       "properties": {
-        "demoId": { "type": "string", "minLength": 1 },
-        "variant": { "type": "string", "minLength": 1 },
-        "state": { "type": "string", "minLength": 1 },
-        "clipRole": { "type": "string", "minLength": 1 },
-        "evidenceNotBefore": { "type": "string", "format": "date-time" },
+        "demoId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "variant": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "clipRole": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidenceNotBefore": {
+          "type": "string",
+          "format": "date-time"
+        },
         "roles": {
           "type": "object",
           "minProperties": 1,
-          "propertyNames": { "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
-          "additionalProperties": { "$ref": "#/definitions/roleContract" }
+          "propertyNames": {
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "additionalProperties": {
+            "$ref": "#/definitions/roleContract"
+          }
         },
         "semanticNodeInventory": {
           "type": "array",
-          "items": { "$ref": "#/definitions/semanticNodeInventoryEntry" }
+          "items": {
+            "$ref": "#/definitions/semanticNodeInventoryEntry"
+          }
         },
         "transparentWrappers": {
           "type": "array",
-          "items": { "$ref": "#/definitions/transparentWrapper" }
+          "items": {
+            "$ref": "#/definitions/transparentWrapper"
+          }
         }
       }
     },
@@ -290,8 +410,12 @@
       "additionalProperties": false,
       "required": ["selectors", "presence", "acceptanceProfile"],
       "properties": {
-        "selectors": { "$ref": "#/definitions/roleSelectors" },
-        "presence": { "enum": ["required", "forbidden"] },
+        "selectors": {
+          "$ref": "#/definitions/roleSelectors"
+        },
+        "presence": {
+          "enum": ["required", "forbidden"]
+        },
         "acceptanceProfile": {
           "enum": [
             "strict",
@@ -302,28 +426,55 @@
             "context-owned-fill"
           ]
         },
-        "coordinateOwnerRole": { "type": "string", "minLength": 1 },
-        "textRole": { "type": "string", "minLength": 1 },
-        "flowAnchorRole": { "type": "string", "minLength": 1 },
-        "contextOwnerRole": { "type": "string", "minLength": 1 },
-        "anchorEdge": { "enum": ["left", "right"] },
+        "coordinateOwnerRole": {
+          "type": "string",
+          "minLength": 1
+        },
+        "textRole": {
+          "type": "string",
+          "minLength": 1
+        },
+        "flowAnchorRole": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contextOwnerRole": {
+          "type": "string",
+          "minLength": 1
+        },
+        "anchorEdge": {
+          "enum": ["left", "right"]
+        },
         "measurementAxes": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
-          "items": { "enum": ["x", "width", "right"] }
+          "items": {
+            "enum": ["x", "width", "right"]
+          }
+        },
+        "styleProfile": {
+          "enum": ["text", "graphic"]
         }
       },
       "allOf": [
         {
           "if": {
             "type": "object",
-            "properties": { "presence": { "const": "forbidden" } },
+            "properties": {
+              "presence": {
+                "const": "forbidden"
+              }
+            },
             "required": ["presence"]
           },
           "then": {
             "type": "object",
-            "properties": { "acceptanceProfile": { "const": "strict" } },
+            "properties": {
+              "acceptanceProfile": {
+                "const": "strict"
+              }
+            },
             "propertyNames": {
               "enum": ["selectors", "presence", "acceptanceProfile"]
             }
@@ -332,20 +483,34 @@
         {
           "if": {
             "type": "object",
-            "properties": { "acceptanceProfile": { "const": "strict" } },
+            "properties": {
+              "acceptanceProfile": {
+                "const": "strict"
+              }
+            },
             "required": ["acceptanceProfile"]
           },
           "then": {
             "type": "object",
             "propertyNames": {
-              "enum": ["selectors", "presence", "acceptanceProfile", "coordinateOwnerRole"]
+              "enum": [
+                "selectors",
+                "presence",
+                "acceptanceProfile",
+                "coordinateOwnerRole",
+                "styleProfile"
+              ]
             }
           }
         },
         {
           "if": {
             "type": "object",
-            "properties": { "acceptanceProfile": { "const": "mapped-text" } },
+            "properties": {
+              "acceptanceProfile": {
+                "const": "mapped-text"
+              }
+            },
             "required": ["acceptanceProfile"]
           },
           "then": {
@@ -368,7 +533,10 @@
                 }
               },
               {
-                "properties": { "flowAnchorRole": {}, "anchorEdge": {} },
+                "properties": {
+                  "flowAnchorRole": {},
+                  "anchorEdge": {}
+                },
                 "required": ["flowAnchorRole", "anchorEdge"]
               }
             ]
@@ -377,7 +545,11 @@
         {
           "if": {
             "type": "object",
-            "properties": { "acceptanceProfile": { "const": "text-adjacent-icon" } },
+            "properties": {
+              "acceptanceProfile": {
+                "const": "text-adjacent-icon"
+              }
+            },
             "required": ["acceptanceProfile"]
           },
           "then": {
@@ -392,14 +564,21 @@
                 "anchorEdge"
               ]
             },
-            "properties": { "textRole": {}, "anchorEdge": {} },
+            "properties": {
+              "textRole": {},
+              "anchorEdge": {}
+            },
             "required": ["textRole", "anchorEdge"]
           }
         },
         {
           "if": {
             "type": "object",
-            "properties": { "acceptanceProfile": { "const": "text-sized-control" } },
+            "properties": {
+              "acceptanceProfile": {
+                "const": "text-sized-control"
+              }
+            },
             "required": ["acceptanceProfile"]
           },
           "then": {
@@ -413,14 +592,20 @@
                 "textRole"
               ]
             },
-            "properties": { "textRole": {} },
+            "properties": {
+              "textRole": {}
+            },
             "required": ["textRole"]
           }
         },
         {
           "if": {
             "type": "object",
-            "properties": { "acceptanceProfile": { "const": "measurement-context" } },
+            "properties": {
+              "acceptanceProfile": {
+                "const": "measurement-context"
+              }
+            },
             "required": ["acceptanceProfile"]
           },
           "then": {
@@ -434,14 +619,20 @@
                 "measurementAxes"
               ]
             },
-            "properties": { "measurementAxes": {} },
+            "properties": {
+              "measurementAxes": {}
+            },
             "required": ["measurementAxes"]
           }
         },
         {
           "if": {
             "type": "object",
-            "properties": { "acceptanceProfile": { "const": "context-owned-fill" } },
+            "properties": {
+              "acceptanceProfile": {
+                "const": "context-owned-fill"
+              }
+            },
             "required": ["acceptanceProfile"]
           },
           "then": {
@@ -455,7 +646,9 @@
                 "contextOwnerRole"
               ]
             },
-            "properties": { "contextOwnerRole": {} },
+            "properties": {
+              "contextOwnerRole": {}
+            },
             "required": ["contextOwnerRole"]
           }
         }
@@ -466,7 +659,9 @@
       "additionalProperties": false,
       "required": ["default", "byViewport"],
       "properties": {
-        "default": { "$ref": "#/definitions/sourceSelectorPair" },
+        "default": {
+          "$ref": "#/definitions/sourceSelectorPair"
+        },
         "byViewport": {
           "type": "object",
           "additionalProperties": false,
@@ -483,8 +678,12 @@
       "additionalProperties": false,
       "required": ["official", "local"],
       "properties": {
-        "official": { "$ref": "#/definitions/concreteSelector" },
-        "local": { "$ref": "#/definitions/concreteSelector" }
+        "official": {
+          "$ref": "#/definitions/concreteSelector"
+        },
+        "local": {
+          "$ref": "#/definitions/concreteSelector"
+        }
       }
     },
     "concreteSelector": {
@@ -497,8 +696,13 @@
       "additionalProperties": false,
       "required": ["matcher", "expectedCount"],
       "properties": {
-        "matcher": { "$ref": "#/definitions/semanticNodeMatcher" },
-        "expectedCount": { "type": "integer", "minimum": 0 }
+        "matcher": {
+          "$ref": "#/definitions/semanticNodeMatcher"
+        },
+        "expectedCount": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "semanticNodeMatcher": {
@@ -506,20 +710,34 @@
       "additionalProperties": false,
       "minProperties": 1,
       "properties": {
-        "tagName": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
-        "role": { "type": "string", "minLength": 1 },
+        "tagName": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
         "attributes": {
           "type": "object",
           "minProperties": 1,
-          "additionalProperties": { "type": "string" }
+          "additionalProperties": {
+            "type": "string"
+          }
         },
         "presentAttributes": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
-          "items": { "type": "string", "minLength": 1 }
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
-        "attributeNamePrefix": { "type": "string", "minLength": 1 }
+        "attributeNamePrefix": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "transparentWrapper": {
@@ -527,10 +745,20 @@
       "additionalProperties": false,
       "required": ["id", "source", "selector", "parentRole", "constraints"],
       "properties": {
-        "id": { "type": "string", "minLength": 1 },
-        "source": { "enum": ["official", "local"] },
-        "selector": { "$ref": "#/definitions/concreteSelector" },
-        "parentRole": { "type": "string", "minLength": 1 },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "enum": ["official", "local"]
+        },
+        "selector": {
+          "$ref": "#/definitions/concreteSelector"
+        },
+        "parentRole": {
+          "type": "string",
+          "minLength": 1
+        },
         "constraints": {
           "const": {
             "uniqueMatch": true,
