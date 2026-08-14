@@ -605,21 +605,34 @@ import { Inbox } from "lucide-react";
     label: "Fieldset",
     description: "Groups related form controls into a single semantic unit.",
     official: "Fieldset",
-    code: `import { FieldSet, FieldSetLegend, FieldSetItem, FieldSetLabel } from "@/components/ui/fieldset";
-import { Input } from "@/components/ui/input";
+    code: `import {
+  Fieldset,
+  FieldsetContent,
+  FieldsetFooter,
+  FieldsetFooterAction,
+  FieldsetFooterActions,
+  FieldsetFooterStatus,
+  FieldsetSubtitle,
+  FieldsetTitle,
+} from "@/components/ui/fieldset";
 
-<FieldSet>
-  <FieldSetLegend>Account Settings</FieldSetLegend>
-  <FieldSetItem>
-    <FieldSetLabel htmlFor="name">Name</FieldSetLabel>
-    <Input id="name" placeholder="Your name" />
-  </FieldSetItem>
-</FieldSet>`,
+<Fieldset>
+  <FieldsetContent>
+    <FieldsetTitle>Account Settings</FieldsetTitle>
+    <FieldsetSubtitle>Manage your account preferences and settings</FieldsetSubtitle>
+  </FieldsetContent>
+  <FieldsetFooter>
+    <FieldsetFooterStatus>Need help?</FieldsetFooterStatus>
+    <FieldsetFooterActions>
+      <FieldsetFooterAction>Save Changes</FieldsetFooterAction>
+    </FieldsetFooterActions>
+  </FieldsetFooter>
+</Fieldset>`,
     bestPractices: [
-      "Wrap related form controls in a <fieldset> with a <legend> so screen readers announce the group name before each option.",
-      "The legend is a Title Case noun like Account Settings or Required Permissions. No trailing colon.",
-      "Keep each FieldSetItem to one control plus its label on a single row; stack multiple items vertically for longer forms.",
-      "FieldSet renders the native fieldset/legend semantics for accessible grouping, with Geist tokens for the legend and item layout.",
+      "Use Fieldset for one settings surface with a title, supporting copy, and optional footer status/actions.",
+      "Put body content in FieldsetContent and actions in FieldsetFooterActions; don't hand-build an extra card or footer shell.",
+      "Use disabled content or DisabledWall for unavailable sections while keeping the explanatory footer readable.",
+      "Use type=error or type=warning only when the whole surface carries that semantic state; use ErrorText or WarningText for inline messages.",
     ],
   },
   {

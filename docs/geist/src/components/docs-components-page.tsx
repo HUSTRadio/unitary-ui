@@ -89,7 +89,19 @@ import {
 import { Error } from "@/components/ui/error";
 import { Feedback } from "@/components/ui/feedback";
 import { Drawer } from "@/components/ui/drawer";
-import { FieldSet, FieldSetItem, FieldSetLabel, FieldSetLegend } from "@/components/ui/fieldset";
+import {
+  DisabledWall,
+  ErrorText,
+  Fieldset,
+  FieldsetContent,
+  FieldsetFooter,
+  FieldsetFooterAction,
+  FieldsetFooterActions,
+  FieldsetFooterStatus,
+  FieldsetSubtitle,
+  FieldsetTitle,
+  WarningText,
+} from "@/components/ui/fieldset";
 import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@/components/ui/file-tree";
 import { Gauge } from "@/components/ui/gauge";
 import { Grid, GridItem } from "@/components/ui/grid";
@@ -4527,14 +4539,188 @@ function ErrorCardDemo() {
 }
 
 function FieldSetDemo() {
+  type Action = { label: string; secondary?: boolean };
+  type ExampleProps = {
+    demoId?: string;
+    title?: string;
+    subtitle: string;
+    type?: "default" | "error" | "warning";
+    disabled?: boolean;
+    highlight?: boolean;
+    footerStatus?: React.ReactNode;
+    actions?: Action[];
+    children?: React.ReactNode;
+  };
+
+  function Example({
+    demoId,
+    title,
+    subtitle,
+    type,
+    disabled,
+    highlight,
+    footerStatus,
+    actions,
+    children,
+  }: ExampleProps) {
+    const hasFooter = footerStatus !== undefined || Boolean(actions?.length);
+    return (
+      <Fieldset data-demo-card={demoId} type={type}>
+        <FieldsetContent disabled={disabled}>
+          {title && <FieldsetTitle>{title}</FieldsetTitle>}
+          <FieldsetSubtitle>{subtitle}</FieldsetSubtitle>
+          {children}
+        </FieldsetContent>
+        {hasFooter && (
+          <FieldsetFooter highlight={highlight}>
+            {footerStatus !== undefined && (
+              <FieldsetFooterStatus>{footerStatus}</FieldsetFooterStatus>
+            )}
+            {Boolean(actions?.length) && (
+              <FieldsetFooterActions>
+                {actions?.map((action) => (
+                  <FieldsetFooterAction
+                    key={action.label}
+                    type={action.secondary ? "secondary" : undefined}
+                  >
+                    {action.label}
+                  </FieldsetFooterAction>
+                ))}
+              </FieldsetFooterActions>
+            )}
+          </FieldsetFooter>
+        )}
+      </Fieldset>
+    );
+  }
+
   return (
-    <FieldSet className="w-full max-w-sm space-y-3">
-      <FieldSetLegend>Project Settings</FieldSetLegend>
-      <FieldSetItem>
-        <FieldSetLabel id="fieldset-project" value="Project Name" />
-        <Input id="fieldset-project" defaultValue="geist-style-framework" />
-      </FieldSetItem>
-    </FieldSet>
+    <div className="flex w-full max-w-[812px] flex-col gap-6">
+      <Example
+        demoId="default"
+        title="Account Settings"
+        subtitle="Manage your account preferences and settings"
+        footerStatus={
+          <span>
+            Need help?{" "}
+            <a href="#" className="cursor-pointer text-link hover:underline">
+              View documentation
+            </a>
+          </span>
+        }
+        actions={[{ label: "Save Changes" }]}
+      />
+      <Example
+        demoId="disabled"
+        title="Transfer Project"
+        subtitle="Move this project to another team or account"
+        disabled
+        highlight
+        footerStatus="You need additional permissions to transfer projects."
+      />
+      <Example
+        demoId="with-long-content"
+        title="Privacy Policy"
+        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam volutpat, nunc vel ultrices sollicitudin, dolor eros volutpat ex, et sagittis sem enim in eros. Curabitur eu consequat neque, non finibus odio. Donec vitae tellus eu mauris feugiat efficitur. Maecenas blandit sit amet tellus vel blandit. Phasellus ultrices vulputate arcu, vel dictum erat facilisis et."
+        footerStatus="Last updated: March 10, 2025"
+        actions={[{ label: "Decline", secondary: true }, { label: "Accept" }]}
+      />
+      <div className="flex flex-col gap-6" data-demo-card="multiple-fieldsets">
+        <Example
+          title="Personal Information"
+          subtitle="Update your name and contact details"
+          footerStatus="This information will be publicly visible"
+          actions={[{ label: "Update" }]}
+        />
+        <Example
+          title="Security"
+          subtitle="Manage your password and authentication methods"
+          footerStatus="Last password change: 30 days ago"
+          actions={[{ label: "Change Password" }]}
+        />
+        <Example
+          title="API Access"
+          subtitle="Generate and manage API tokens for programmatic access"
+          disabled
+          highlight
+          footerStatus="You need a Pro account to access API features."
+        />
+      </div>
+      <Example
+        demoId="without-footer"
+        title="Account Information"
+        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nisl nisl aliquam nisl."
+      />
+      <Example
+        demoId="without-title"
+        subtitle="This fieldset contains only a subtitle with no title. It can be used for informational sections or supplementary content."
+        footerStatus="Information only"
+      />
+      <Example
+        demoId="with-error-text"
+        title="API Configuration"
+        subtitle="Configure your API endpoint and authentication"
+        footerStatus="Last checked: 5 minutes ago"
+        actions={[{ label: "Verify API Connection" }]}
+      >
+        <div className="mt-4">
+          <ErrorText>
+            API key validation failed. Please check your credentials and try again.
+          </ErrorText>
+        </div>
+      </Example>
+      <Example
+        demoId="with-warning-text"
+        title="Database Settings"
+        subtitle="Configure your database connection parameters"
+        footerStatus="Current status: Connected"
+        actions={[{ label: "Cancel", secondary: true }, { label: "Apply Changes" }]}
+      >
+        <div className="mt-4">
+          <WarningText>
+            Changing these settings will require a restart of your application. Make sure to save
+            any pending work.
+          </WarningText>
+        </div>
+      </Example>
+      <Example
+        demoId="with-disabled-wall"
+        title="Advanced Features"
+        subtitle="Access premium capabilities and tools"
+        disabled
+        highlight
+        footerStatus="Upgrade to a Pro plan to access these features."
+      >
+        <div className="relative mt-2 rounded-[6px] border border-gray-alpha-400 p-3">
+          <p className="text-copy-14">
+            This content is behind a disabled wall and not accessible to free users.
+          </p>
+          <p className="mt-2 text-copy-14">
+            It contains advanced configuration options and premium features.
+          </p>
+          <DisabledWall />
+        </div>
+      </Example>
+      <Example
+        demoId="error-type"
+        type="error"
+        title="Payment Failed"
+        subtitle="Your payment method was declined. Please update your billing information to continue using the service."
+        footerStatus="Payment failed on February 10, 2026"
+        actions={[
+          { label: "Contact Support", secondary: true },
+          { label: "Update Payment Method" },
+        ]}
+      />
+      <Example
+        demoId="warning-type"
+        type="warning"
+        title="Trial Ending Soon"
+        subtitle="Your trial period will end in 3 days. Add a payment method to continue accessing premium features without interruption."
+        footerStatus="Trial expires: February 13, 2026"
+        actions={[{ label: "Remind Me Later", secondary: true }, { label: "Add Payment Method" }]}
+      />
+    </div>
   );
 }
 

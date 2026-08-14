@@ -139,6 +139,26 @@ describe("Fieldset official API contract", () => {
     expect(footer).toContain("rounded-bl rounded-br");
     expect(footer).not.toContain("rounded-b-[6px]");
   });
+
+  test("FS-12: docs demo covers all eleven live official sections", async () => {
+    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
+    const demo = fnSrc(docs, "FieldSetDemo");
+    for (const id of [
+      "default",
+      "disabled",
+      "with-long-content",
+      "multiple-fieldsets",
+      "without-footer",
+      "without-title",
+      "with-error-text",
+      "with-warning-text",
+      "with-disabled-wall",
+      "error-type",
+      "warning-type",
+    ]) {
+      expect(demo).toMatch(new RegExp(`(?:demoId|data-demo-card)=\\"${id}\\"`));
+    }
+  });
 });
 
 describe("Fieldset runtime rendering", () => {
