@@ -6033,14 +6033,291 @@
     {
       "slug": "fieldset",
       "officialUrl": "https://vercel.com/geist/fieldset",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": [
+        "default",
+        "disabled",
+        "with-long-content",
+        "multiple-fieldsets",
+        "without-footer",
+        "without-title",
+        "with-error-text",
+        "with-warning-text",
+        "with-disabled-wall",
+        "error-type",
+        "warning-type"
+      ],
+      "states": ["default", "disabled", "error", "warning"],
+      "demos": [
+        { "id": "default" },
+        { "id": "disabled" },
+        { "id": "with-long-content" },
+        { "id": "multiple-fieldsets" },
+        { "id": "without-footer" },
+        { "id": "without-title" },
+        { "id": "with-error-text" },
+        { "id": "with-warning-text" },
+        { "id": "with-disabled-wall" },
+        { "id": "error-type" },
+        { "id": "warning-type" }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[data-geist-fieldset]",
+        "local": "[data-slot=\"fieldset\"]"
       },
-      "interaction": "pending"
+      "interaction": "NOT_APPLICABLE",
+      "interactionRecipes": ["pointer:none", "keyboard:none"],
+      "responsiveExpectations": [
+        "fieldset:root preserves 6px material surface, 20px content padding and 56px minimum footer at all four viewports",
+        "footer:status and actions reflow without page overflow on narrow viewports",
+        "warning-type:HarmonyOS Sans may add one 20px subtitle line relative to Geist Sans"
+      ],
+      "acceptanceContracts": [
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] + div div.w-full.p-6 > [data-geist-fieldset]",
+                  "local": "[data-demo-card=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "disabled",
+          "variant": "disabled",
+          "state": "disabled",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] + div div.w-full.p-6 > [data-geist-fieldset]",
+                  "local": "[data-demo-card=\"disabled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "with-long-content",
+          "variant": "with-long-content",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-long-content\"] + div div.w-full.p-6 > [data-geist-fieldset]",
+                  "local": "[data-demo-card=\"with-long-content\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "multiple-fieldsets",
+          "variant": "multiple-fieldsets",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#multiple-fieldsets\"] + div div.w-full.p-6 > div.flex.flex-col.gap-6",
+                  "local": "[data-demo-card=\"multiple-fieldsets\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "without-footer",
+          "variant": "without-footer",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#without-footer\"] + div div.w-full.p-6 > [data-geist-fieldset]",
+                  "local": "[data-demo-card=\"without-footer\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "without-title",
+          "variant": "without-title",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#without-title\"] + div div.w-full.p-6 > [data-geist-fieldset]",
+                  "local": "[data-demo-card=\"without-title\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "with-error-text",
+          "variant": "with-error-text",
+          "state": "error",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-error-text\"] + div div.w-full.p-6 > [data-geist-fieldset]",
+                  "local": "[data-demo-card=\"with-error-text\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "with-warning-text",
+          "variant": "with-warning-text",
+          "state": "warning",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-warning-text\"] + div div.w-full.p-6 > [data-geist-fieldset]",
+                  "local": "[data-demo-card=\"with-warning-text\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "with-disabled-wall",
+          "variant": "with-disabled-wall",
+          "state": "disabled",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-disabled-wall\"] + div div.w-full.p-6 > [data-geist-fieldset]",
+                  "local": "[data-demo-card=\"with-disabled-wall\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "error-type",
+          "variant": "error-type",
+          "state": "error",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#error-type\"] + div div.w-full.p-6 > [data-geist-fieldset]",
+                  "local": "[data-demo-card=\"error-type\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        },
+        {
+          "demoId": "warning-type",
+          "variant": "warning-type",
+          "state": "warning",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00Z",
+          "semanticNodeInventory": [],
+          "transparentWrappers": [],
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#warning-type\"] + div div.w-full.p-6 > [data-geist-fieldset]",
+                  "local": "[data-demo-card=\"warning-type\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          }
+        }
+      ]
     },
     {
       "slug": "file-tree",

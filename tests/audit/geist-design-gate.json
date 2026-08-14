@@ -365,6 +365,25 @@
       "notes": "API frozen from 6 RSC samples. Re-run: official 8/8 viewport-theme cells succeeded with 7 sections and 48 slots; local 8/8 captured zero Entity DOM, and all 4 local Dark cells failed theme verification. G6 now requires local demo/route targeting plus Dark theme repair before implementation"
     },
     {
+      "slug": "fieldset",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PARTIAL",
+        "aria": "PASS",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "PASS",
+        "comparison": "MISSING"
+      },
+      "evidence": ["fieldset/runs/", "fieldset/fieldset-evidence.json"],
+      "notes": "B3 复刻；11 live demo 已实现，基础 DOM/API/关键 1440px 几何已实测；待 clean-revision official/local 采集与 comparator"
+    },
+    {
       "slug": "input",
       "batch": "B3",
       "inventoryStatus": "live_enumeration_complete",
