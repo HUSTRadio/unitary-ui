@@ -711,9 +711,17 @@ function InputDemo() {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
             <div className="flex flex-col items-start justify-between gap-4 md:flex-row flex-initial">
-              <Input size="small" placeholder={demoText(language, "Small")} />
-              <Input placeholder={demoText(language, "Default")} />
-              <Input size="large" placeholder={demoText(language, "Large")} />
+              <Input
+                size="small"
+                className="text-black"
+                placeholder={demoText(language, "Small")}
+              />
+              <Input className="text-black" placeholder={demoText(language, "Default")} />
+              <Input
+                size="large"
+                className="text-black"
+                placeholder={demoText(language, "Large")}
+              />
             </div>
           </div>
         </div>
@@ -801,15 +809,18 @@ function InputDemo() {
             <div className="flex flex-col items-start justify-start gap-8 flex-initial">
               <Input
                 size="small"
+                className="text-black"
                 error={demoText(language, "An error message.")}
                 placeholder={demoText(language, "long-error@gmail.com")}
               />
               <Input
+                className="text-black"
                 error={demoText(language, "An error message.")}
                 placeholder={demoText(language, "long-error@gmail.com")}
               />
               <Input
                 size="large"
+                className="text-black"
                 error={demoText(language, "An error message.")}
                 placeholder={demoText(language, "long-error@gmail.com")}
               />
@@ -827,6 +838,7 @@ function InputDemo() {
           <div className="w-full p-6" data-demo-container="label">
             <div className="flex flex-col items-start justify-start flex-initial">
               <Input
+                className="text-black"
                 label={demoText(language, "Label")}
                 placeholder={demoText(language, "Label")}
               />
