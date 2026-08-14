@@ -378,10 +378,24 @@
         "aria": "PASS",
         "motion": "NOT_APPLICABLE",
         "localDemoCoverage": "PASS",
-        "comparison": "MISSING"
+        "comparison": "PASS"
       },
-      "evidence": ["fieldset/runs/", "fieldset/fieldset-evidence.json"],
-      "notes": "B3 复刻；11 live demo 已实现，基础 DOM/API/关键 1440px 几何已实测；待 clean-revision official/local 采集与 comparator"
+      "evidence": [
+        "fieldset-060dce5/runs/",
+        "fieldset-060dce5/comparison-default/",
+        "fieldset-060dce5/comparison-disabled/",
+        "fieldset-060dce5/comparison-with-long-content/",
+        "fieldset-060dce5/comparison-multiple-fieldsets/",
+        "fieldset-060dce5/comparison-without-footer/",
+        "fieldset-060dce5/comparison-without-title/",
+        "fieldset-060dce5/comparison-with-error-text/",
+        "fieldset-060dce5/comparison-with-warning-text/",
+        "fieldset-060dce5/comparison-with-disabled-wall/",
+        "fieldset-060dce5/comparison-error-type/",
+        "fieldset-060dce5/comparison-warning-type/",
+        "fieldset-060dce5/final-contact-sheet.png"
+      ],
+      "notes": "B3 复刻闭环；11 live demo 在 light 1440x900 下 strict/style failures 均为 0，default/disabled/without-footer/with-disabled-wall raw PASS；其余 missing path 和最大 2.609375px 几何差来自获准 Geist Sans→HarmonyOS Sans 字体子树映射，warning-type 的 20px 高度差仅为副标题多折一行；最终视觉复核无实质差异，四视口双主题矩阵仍诚实保留 PARTIAL"
     },
     {
       "slug": "input",
