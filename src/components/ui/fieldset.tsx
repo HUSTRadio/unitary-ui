@@ -88,9 +88,7 @@ function Fieldset({
 }: FieldsetProps) {
   const titleNodes: React.ReactNode[] = [];
   const subtitleNodes: React.ReactNode[] = [];
-  const footerNodes: React.ReactNode[] = [];
   const rest: React.ReactNode[] = [];
-  let footerProps: React.ComponentProps<typeof FieldsetFooter> = {};
 
   React.Children.forEach(children, (child) => {
     if (!React.isValidElement(child)) {
@@ -99,25 +97,14 @@ function Fieldset({
     }
     if (child.type === FieldsetTitle) titleNodes.push(child);
     else if (child.type === FieldsetSubtitle) subtitleNodes.push(child);
-    else if (child.type === FieldsetFooter) {
-      // 展开 FieldsetFooter 容器，保留其 props（highlight 等），子节点放入单一 <footer>
-      const { children: footerChildren, ...footerRest } = child.props as React.ComponentProps<
-        typeof FieldsetFooter
-      >;
-      footerProps = footerRest;
-      React.Children.forEach(footerChildren, (c) => footerNodes.push(c));
-    } else if (
-      child.type === FieldsetFooterStatus ||
-      child.type === FieldsetFooterActions ||
-      child.type === FieldsetFooterAction
-    ) {
-      footerNodes.push(child);
-    } else {
-      rest.push(child);
-    }
+    else rest.push(child);
   });
 
-  const hasFooter = footerNodes.length > 0;
+  const hasDirectHeader =
+    title !== undefined ||
+    subtitle !== undefined ||
+    titleNodes.length > 0 ||
+    subtitleNodes.length > 0;
 
   return (
     <FieldsetTypeContext.Provider value={type}>
@@ -125,19 +112,24 @@ function Fieldset({
         data-slot="fieldset"
         data-fieldset-type={type}
         className={cn(
-          "group/fieldset relative overflow-hidden rounded-[6px] bg-background",
-          type === "error" && "border border-red-400",
-          type === "warning" && "border border-amber-400",
+          "group/fieldset material-base relative overflow-hidden rounded-[6px] [--geist-fieldset-title-color:var(--ds-gray-1000)]",
+          type === "error" && "border border-red-400 shadow-none",
+          type === "warning" && "border border-amber-400 shadow-none",
           className,
         )}
         {...props}
       >
-        <div className={cn("relative rounded-t-[6px] bg-background p-5", hasFooter && "pb-0")}>
-          {title ?? titleNodes}
-          {subtitle ?? subtitleNodes}
-          {rest}
-        </div>
-        {hasFooter && <FieldsetFooter {...footerProps}>{footerNodes}</FieldsetFooter>}
+        {hasDirectHeader && (
+          <FieldsetContent>
+            {title !== undefined ? <FieldsetTitle>{title}</FieldsetTitle> : titleNodes}
+            {subtitle !== undefined ? (
+              <FieldsetSubtitle>{subtitle}</FieldsetSubtitle>
+            ) : (
+              subtitleNodes
+            )}
+          </FieldsetContent>
+        )}
+        {rest}
       </div>
     </FieldsetTypeContext.Provider>
   );
@@ -147,7 +139,10 @@ function FieldsetTitle({ className, ...props }: React.ComponentProps<"h4">) {
   return (
     <h4
       data-slot="fieldset-title"
-      className={cn("text-heading-20 text-foreground", className)}
+      className={cn(
+        "inline-flex items-center text-heading-20 text-foreground [word-break:_break-word]",
+        className,
+      )}
       {...props}
     />
   );
@@ -157,7 +152,7 @@ function FieldsetSubtitle({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="fieldset-subtitle"
-      className={cn("pb-5 pt-2 text-copy-14 text-muted-foreground first:pt-0", className)}
+      className={cn("pb-5 pt-2 text-copy-14 text-gray-900 first:pt-0", className)}
       {...props}
     />
   );
@@ -177,13 +172,15 @@ function FieldsetContent({
   return (
     <div
       data-slot="fieldset-content"
-      className={cn("relative flex flex-col gap-4", disabled && "text-gray-700", className)}
+      className={cn(
+        "relative rounded-t-[6px] bg-background p-5 [&:has(>[data-slot=fieldset-subtitle]:last-child)]:pb-0 first:rounded-t-[6px] last:rounded-b-[6px]",
+        disabled && "text-gray-700",
+        className,
+      )}
       {...props}
     >
+      {disabled && <div aria-hidden data-slot="fieldset-wall" className="absolute inset-0 z-1" />}
       {children}
-      {disabled && (
-        <div aria-hidden data-slot="fieldset-wall" className="absolute inset-0 bg-background/60" />
-      )}
     </div>
   );
 }
@@ -199,7 +196,7 @@ function FieldsetFooter({ className, highlight = false, ...props }: FieldsetFoot
   // tailwind-merge 的 bg-color 组，直接传入 cn() 会被 twMerge 去重丢掉一个；
   // 官方 DOM 同时保留两个类（由 CSS 级联决定最终背景），因此 highlight 类拼接在 cn() 之外。
   const typeClasses = cn(
-    "relative flex min-h-14 items-center rounded-b-[6px] border-t pt-3 pr-3 pb-3 pl-5 text-copy-14",
+    "relative flex min-h-14 items-center rounded-bl rounded-br border-t pt-3 pr-3 pb-3 pl-5 text-copy-14",
     type === "default" && "border-gray-400 bg-background-200 text-gray-900",
     type === "error" && "border-red-400 bg-red-100 text-red-900",
     type === "warning" && "border-amber-400 bg-amber-100 text-amber-900",
@@ -228,7 +225,10 @@ function FieldsetFooterActions({ className, ...props }: React.ComponentProps<"di
   return (
     <div
       data-slot="fieldset-footer-actions"
-      className={cn("ml-auto flex items-center justify-end", className)}
+      className={cn(
+        "ml-auto flex items-center justify-end sm:justify-between max-w-3xl:ml-0",
+        className,
+      )}
       {...props}
     />
   );
@@ -236,12 +236,9 @@ function FieldsetFooterActions({ className, ...props }: React.ComponentProps<"di
 
 function FieldsetFooterAction({ className, ...props }: React.ComponentProps<typeof Button>) {
   return (
-    <Button
-      typeName="button"
-      size="small"
-      className={cn("mx-2 first:ml-0 last:mr-0", className)}
-      {...props}
-    />
+    <div data-slot="fieldset-footer-action" className={cn("mx-2 first:ml-0 last:mr-0", className)}>
+      <Button typeName="button" size="small" {...props} />
+    </div>
   );
 }
 
@@ -267,7 +264,7 @@ function DisabledWall({ className, ...props }: React.ComponentProps<"div">) {
     <div
       aria-hidden
       data-slot="fieldset-disabled-wall"
-      className={cn("absolute inset-0 bg-background/60", className)}
+      className={cn("absolute inset-0 z-1", className)}
       {...props}
     />
   );

@@ -78,6 +78,8 @@ describe("Fieldset official API contract", () => {
     // wall renders inside FieldsetContent (not on the container)
     expect(fnSrc(src, "FieldsetContent")).toContain("fieldset-wall");
     expect(fnSrc(src, "FieldsetContent")).toContain("absolute inset-0");
+    expect(fnSrc(src, "FieldsetContent")).toContain("z-1");
+    expect(fnSrc(src, "FieldsetContent")).not.toContain("bg-background/60");
     // container itself must not carry disabled prop handling
     const fieldset = fnSrc(src, "Fieldset");
     expect(fieldset).not.toMatch(/disabled/);
@@ -89,8 +91,8 @@ describe("Fieldset official API contract", () => {
     expect(fieldset).toContain("rounded-[6px]");
     expect(fieldset).not.toContain("rounded-[8px]");
     // default type: no border class (no unconditional border)
-    expect(fieldset).toMatch(/type === "error" && "border border-red-400"/);
-    expect(fieldset).toMatch(/type === "warning" && "border border-amber-400"/);
+    expect(fieldset).toMatch(/type === "error" && "border border-red-400 shadow-none"/);
+    expect(fieldset).toMatch(/type === "warning" && "border border-amber-400 shadow-none"/);
     expect(fieldset).not.toMatch(/border-gray-alpha-400/);
   });
 
@@ -111,13 +113,31 @@ describe("Fieldset official API contract", () => {
     expect(actions).not.toContain("gap-2");
     const action = fnSrc(src, "FieldsetFooterAction");
     expect(action).toMatch(/mx-2 first:ml-0 last:mr-0/);
+    expect(action).toContain('data-slot="fieldset-footer-action"');
   });
 
-  test("FieldsetFooter highlight prop survives footer flattening in Fieldset", async () => {
+  test("FS-9: root uses material-base and preserves official direct child structure", async () => {
     const src = await read("src/components/ui/fieldset.tsx");
-    // 展开 FieldsetFooter 时必须保留其 props（highlight 等）
-    expect(fnSrc(src, "Fieldset")).toMatch(/footerRest/);
-    expect(fnSrc(src, "Fieldset")).toMatch(/<FieldsetFooter \{[^}]*\.\.\.footerProps\s*\}/);
+    const fieldset = fnSrc(src, "Fieldset");
+    expect(fieldset).toContain("material-base");
+    expect(fieldset).toContain("shadow-none");
+    expect(fieldset).not.toContain('"relative rounded-t-[6px] bg-background p-5"');
+  });
+
+  test("FS-10: content owns official padding/radii and remains block layout", async () => {
+    const src = await read("src/components/ui/fieldset.tsx");
+    const content = fnSrc(src, "FieldsetContent");
+    expect(content).toContain("bg-background p-5");
+    expect(content).toContain("last:rounded-b-[6px]");
+    expect(content).toContain("[&:has(>[data-slot=fieldset-subtitle]:last-child)]:pb-0");
+    expect(content).not.toContain("flex flex-col gap-4");
+  });
+
+  test("FS-11: footer uses the official four-pixel bottom radii", async () => {
+    const src = await read("src/components/ui/fieldset.tsx");
+    const footer = fnSrc(src, "FieldsetFooter");
+    expect(footer).toContain("rounded-bl rounded-br");
+    expect(footer).not.toContain("rounded-b-[6px]");
   });
 });
 
@@ -137,7 +157,8 @@ describe("Fieldset runtime rendering", () => {
 
     // wall renders inside the content area
     expect(markup).toContain('data-slot="fieldset-wall"');
-    expect(markup).toContain("absolute inset-0 bg-background/60");
+    expect(markup).toContain("absolute inset-0 z-1");
+    expect(markup).not.toContain("bg-background/60");
     // no whole-fieldset dimming
     expect(markup).not.toContain("opacity-60");
     expect(markup).not.toContain("pointer-events-none");
