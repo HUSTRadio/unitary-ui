@@ -664,18 +664,217 @@ function MenuDemo() {
 
 function InputDemo() {
   const { language } = useLanguage();
-  return (
-    <div className="flex w-full max-w-md flex-col gap-3">
-      <Input
-        placeholder={demoText(language, "Project name")}
-        aria-label={demoText(language, "Project name")}
+
+  const circularGlyph = (
+    <svg
+      viewBox="0 0 16 16"
+      height={14}
+      width={14}
+      data-slot="geist-icon"
+      data-glyph="circular"
+      aria-hidden="true"
+    >
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M7.25 10.75v.75h1.5V6.56l1.47 1.47.53.53 1.06-1.06-.53-.53-2.75-2.75a.75.75 0 0 0-1.06 0L4.72 6.97l-.53.53 1.06 1.06.53-.53 1.47-1.47zM14.5 8a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
       />
-      <Input
-        placeholder={demoText(language, "Disabled input")}
-        disabled
-        aria-label={demoText(language, "Disabled input")}
-      />
+    </svg>
+  );
+
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
     </div>
+  );
+
+  return (
+    <>
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <div className="flex flex-col items-start justify-between gap-4 md:flex-row flex-initial">
+              <Input size="small" placeholder={demoText(language, "Small")} />
+              <Input placeholder={demoText(language, "Default")} />
+              <Input size="large" placeholder={demoText(language, "Large")} />
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="prefix-and-suffix"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="prefix-and-suffix">
+            <div className="flex flex-col items-start justify-start gap-6 flex-initial">
+              <Input prefix={circularGlyph} placeholder={demoText(language, "Default")} />
+              <Input suffix={circularGlyph} placeholder={demoText(language, "Default")} />
+              <Input
+                prefix={demoText(language, "https://")}
+                suffix={demoText(language, ".com")}
+                placeholder={demoText(language, "Default")}
+              />
+              <Input
+                prefix={circularGlyph}
+                suffix={circularGlyph}
+                prefixStyling={false}
+                suffixStyling={false}
+                placeholder={demoText(language, "Default")}
+              />
+              <Input
+                prefix={demoText(language, "vercel/")}
+                suffix={circularGlyph}
+                suffixStyling={false}
+                placeholder={demoText(language, "Default")}
+              />
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled">
+            <div className="flex flex-col items-start justify-start gap-4 flex-initial">
+              <Input disabled placeholder={demoText(language, "Disabled with placeholder")} />
+              <Input disabled defaultValue={demoText(language, "Disabled with value")} />
+              <Input
+                disabled
+                prefix={circularGlyph}
+                placeholder={demoText(language, "Disabled with prefix")}
+              />
+              <Input
+                disabled
+                suffix={circularGlyph}
+                placeholder={demoText(language, "Disabled with suffix")}
+              />
+              <Input
+                disabled
+                prefix={demoText(language, "https://")}
+                suffix={demoText(language, ".com")}
+                placeholder={demoText(language, "Disabled with prefix and suffix")}
+              />
+              <Input
+                disabled
+                prefix={circularGlyph}
+                suffix={circularGlyph}
+                prefixStyling={false}
+                suffixStyling={false}
+                placeholder={demoText(language, "Disabled with prefix and suffix")}
+              />
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="error"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="error">
+            <div className="flex flex-col items-start justify-start gap-8 flex-initial">
+              <Input
+                size="small"
+                error={demoText(language, "An error message.")}
+                placeholder={demoText(language, "long-error@gmail.com")}
+              />
+              <Input
+                error={demoText(language, "An error message.")}
+                placeholder={demoText(language, "long-error@gmail.com")}
+              />
+              <Input
+                size="large"
+                error={demoText(language, "An error message.")}
+                placeholder={demoText(language, "long-error@gmail.com")}
+              />
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="label"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="label">
+            <div className="flex flex-col items-start justify-start flex-initial">
+              <Input
+                label={demoText(language, "Label")}
+                placeholder={demoText(language, "Label")}
+              />
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="rounded-prefix-and-suffix"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="rounded-prefix-and-suffix">
+            <Input
+              rounded
+              prefix={demoText(language, "www.")}
+              suffix={demoText(language, ".com")}
+              placeholder={demoText(language, "Label example")}
+            />
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="rounded-prefix-and-suffix-without-styling"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div
+            className="w-full p-6"
+            data-demo-container="rounded-prefix-and-suffix-without-styling"
+          >
+            <Input
+              rounded
+              prefix={demoText(language, "www.")}
+              suffix={demoText(language, ".com")}
+              prefixStyling={false}
+              suffixStyling={false}
+              placeholder={demoText(language, "Label example")}
+            />
+          </div>
+        </div>
+        {footerBar}
+      </div>
+    </>
   );
 }
 

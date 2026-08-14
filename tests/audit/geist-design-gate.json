@@ -305,6 +305,25 @@
       "notes": "API frozen from 6 RSC samples. Re-run: official 8/8 viewport-theme cells succeeded with 7 sections and 48 slots; local 8/8 captured zero Entity DOM, and all 4 local Dark cells failed theme verification. G6 now requires local demo/route targeting plus Dark theme repair before implementation"
     },
     {
+      "slug": "input",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["input/runs/", "input/input-evidence.json"],
+      "notes": "B3 复刻；7 live demo（default/prefix-and-suffix/disabled/error/label/rounded-prefix-and-suffix/rounded-prefix-and-suffix-without-styling），states default/disabled/error，矩阵 light 1440x900 采集对比"
+    },
+    {
       "slug": "calendar",
       "batch": "B2",
       "inventoryStatus": "pending_live_enumeration",
