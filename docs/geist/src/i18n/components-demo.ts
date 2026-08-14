@@ -237,6 +237,9 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Enable Firewall": "启用防火墙",
     "Textarea with fixed rows": "固定行数的文本区",
     "Textarea with fixed number of rows": "固定行数的文本区",
+    "There has been an error.": "发生了一个错误。",
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.":
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua。",
     "Enter email address...": "输入邮箱地址……",
     "Option 1": "选项 1",
     "Option 2": "选项 2",

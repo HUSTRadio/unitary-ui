@@ -1478,18 +1478,172 @@ function TabsDemo() {
 
 function TextareaDemo() {
   const { language } = useLanguage();
-  return (
-    <div className="flex w-full max-w-md flex-col gap-3">
-      <Textarea
-        placeholder={demoText(language, "Describe your project…")}
-        aria-label={demoText(language, "Project description")}
-      />
-      <Textarea
-        placeholder={demoText(language, "Disabled textarea")}
-        disabled
-        aria-label={demoText(language, "Disabled textarea")}
-      />
+
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
     </div>
+  );
+
+  const lorem = demoText(
+    language,
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  );
+
+  return (
+    <>
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <label>
+              <Textarea className="text-black" aria-label={demoText(language, "Default")} />
+            </label>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled">
+            <label>
+              <Textarea disabled aria-label={demoText(language, "Disabled")} />
+            </label>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="error"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="error">
+            <div className="flex flex-col items-stretch justify-start gap-8 flex-initial">
+              <label>
+                <Textarea
+                  size="small"
+                  className="text-black"
+                  aria-label={demoText(language, "With error (small)")}
+                  error={demoText(language, "There has been an error.")}
+                  defaultValue={lorem}
+                />
+              </label>
+              <label>
+                <Textarea
+                  className="text-black"
+                  aria-label={demoText(language, "With error (medium)")}
+                  error={demoText(language, "There has been an error.")}
+                  defaultValue={lorem}
+                />
+              </label>
+              <label>
+                <Textarea
+                  size="large"
+                  className="text-black"
+                  aria-label={demoText(language, "With error (large)")}
+                  error={demoText(language, "There has been an error.")}
+                  defaultValue={lorem}
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="sizes"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="sizes">
+            <div className="flex flex-col gap-6">
+              <label>
+                <Textarea
+                  className="text-black"
+                  aria-label={demoText(language, "Textarea")}
+                  defaultValue={lorem}
+                />
+              </label>
+              <label>
+                <Textarea
+                  className="text-black"
+                  aria-label={demoText(language, "Textarea")}
+                  defaultValue={lorem}
+                />
+              </label>
+              <label>
+                <Textarea
+                  size="large"
+                  className="text-black"
+                  aria-label={demoText(language, "Textarea")}
+                  defaultValue={lorem}
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="read-only"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="read-only">
+            <label>
+              <Textarea
+                className="text-black"
+                readOnly
+                aria-label={demoText(language, "Read only")}
+                defaultValue={lorem}
+              />
+            </label>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="rows"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="rows">
+            <label>
+              <Textarea
+                className="text-black"
+                rows={5}
+                aria-label={demoText(language, "Textarea with fixed rows")}
+              />
+            </label>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+    </>
   );
 }
 
