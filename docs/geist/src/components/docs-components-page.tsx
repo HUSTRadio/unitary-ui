@@ -19,6 +19,7 @@ import {
   Search,
   Shield,
   Trash2,
+  Upload,
 } from "lucide-react";
 
 import {
@@ -394,36 +395,191 @@ function EmptyStateDemo() {
 
 function ButtonDemo() {
   const { language } = useLanguage();
+  const upload = demoText(language, "Upload");
+  const defaultLabel = demoText(language, "Default");
+  const secondaryLabel = demoText(language, "Secondary");
+  const tertiaryLabel = demoText(language, "Tertiary");
+  const errorLabel = demoText(language, "Error");
+  const warningLabel = demoText(language, "Warning");
+
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
+    </div>
+  );
+
+  const uploadIcon = <Upload aria-hidden />;
+
   return (
     <>
-      <Button typeName="button">{demoText(language, "Default")}</Button>
-      <Button typeName="button" type="secondary">
-        Secondary
-      </Button>
-      <Button typeName="button" type="tertiary">
-        Outline
-      </Button>
-      <Button typeName="button" type="tertiary">
-        Ghost
-      </Button>
-      <Button typeName="button" type="error">
-        Destructive
-      </Button>
-      <Button typeName="button" size="small">
-        Small
-      </Button>
-      <Button typeName="button" size="large">
-        Large
-      </Button>
-      <Button typeName="button" prefix={<Search aria-hidden />}>
-        Search
-      </Button>
-      <Button typeName="button" type="tertiary" loading>
-        Loading
-      </Button>
-      <Button typeName="button" disabled>
-        Disabled
-      </Button>
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="all-types-and-sizes-in-comparison"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="all-types-and-sizes-in-comparison">
+            <div className="flex flex-col gap-6">
+              <div className="flex items-center gap-3">
+                <Button size="small" typeName="button">
+                  {upload}
+                </Button>
+                <Button size="small" typeName="button" type="error">
+                  {upload}
+                </Button>
+                <Button size="small" typeName="button" type="warning">
+                  {upload}
+                </Button>
+                <Button size="small" typeName="button" type="secondary">
+                  {upload}
+                </Button>
+                <Button size="small" typeName="button" type="tertiary">
+                  {upload}
+                </Button>
+              </div>
+              <div className="flex items-center gap-3">
+                <Button typeName="button">{upload}</Button>
+                <Button typeName="button" type="error">
+                  {upload}
+                </Button>
+                <Button typeName="button" type="warning">
+                  {upload}
+                </Button>
+                <Button typeName="button" type="secondary">
+                  {upload}
+                </Button>
+                <Button typeName="button" type="tertiary">
+                  {upload}
+                </Button>
+              </div>
+              <div className="flex items-center gap-3">
+                <Button size="large" typeName="button">
+                  {upload}
+                </Button>
+                <Button size="large" typeName="button" type="error">
+                  {upload}
+                </Button>
+                <Button size="large" typeName="button" type="warning">
+                  {upload}
+                </Button>
+                <Button size="large" typeName="button" type="secondary">
+                  {upload}
+                </Button>
+                <Button size="large" typeName="button" type="tertiary">
+                  {upload}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="prefix-and-suffix"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="prefix-and-suffix">
+            <div className="flex flex-col items-start gap-4 md:flex-row">
+              <Button typeName="button" prefix={uploadIcon}>
+                {upload}
+              </Button>
+              <Button typeName="button" suffix={uploadIcon}>
+                {upload}
+              </Button>
+              <Button typeName="button" prefix={uploadIcon} suffix={uploadIcon}>
+                {upload}
+              </Button>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="loading"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="loading">
+            <div className="flex flex-col items-start gap-4 md:flex-row">
+              <Button size="small" typeName="button" loading>
+                {upload}
+              </Button>
+              <Button typeName="button" loading>
+                {upload}
+              </Button>
+              <Button size="large" typeName="button" loading>
+                {upload}
+              </Button>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled">
+            <div className="flex flex-col items-start gap-4 md:flex-row">
+              <Button size="small" typeName="button" disabled>
+                {upload}
+              </Button>
+              <Button typeName="button" disabled>
+                {upload}
+              </Button>
+              <Button size="large" typeName="button" disabled>
+                {upload}
+              </Button>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled-variants"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled-variants">
+            <div className="flex flex-col items-start gap-4 md:flex-row">
+              <Button typeName="button" disabled>
+                {defaultLabel}
+              </Button>
+              <Button typeName="button" type="secondary" disabled>
+                {secondaryLabel}
+              </Button>
+              <Button typeName="button" type="tertiary" disabled>
+                {tertiaryLabel}
+              </Button>
+              <Button typeName="button" type="error" disabled>
+                {errorLabel}
+              </Button>
+              <Button typeName="button" type="warning" disabled>
+                {warningLabel}
+              </Button>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
     </>
   );
 }

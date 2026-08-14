@@ -23,16 +23,14 @@ import { cn } from "@/lib/utils";
  */
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center rounded-md text-button-14 font-medium whitespace-nowrap transition-all outline-none focus-ring disabled:pointer-events-none disabled:bg-gray-100 disabled:text-gray-700 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "relative inline-flex shrink-0 items-center justify-center rounded-md text-button-14 leading-[21px] font-medium whitespace-nowrap transition-all outline-none focus-ring disabled:pointer-events-none disabled:bg-gray-100 disabled:text-gray-700 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       type: {
         default:
           "bg-primary text-primary-foreground hover:bg-action-hover hover:text-primary-foreground",
-        secondary:
-          "border border-gray-alpha-400 bg-background text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
-        tertiary:
-          "border border-transparent bg-transparent text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
+        secondary: "bg-background text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
+        tertiary: "bg-transparent text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
         error:
           "bg-destructive text-destructive-foreground hover:bg-danger-hover hover:text-destructive-foreground focus-visible:ring-destructive/20",
         warning:
@@ -42,7 +40,7 @@ const buttonVariants = cva(
         tiny: "h-6 rounded-md px-1.5 [&_svg]:size-3",
         small: "h-8 rounded-md px-1.5",
         medium: "h-9 px-2.5",
-        large: "h-10 rounded-[8px] px-3.5 text-button-16",
+        large: "h-10 rounded-[8px] px-3.5 text-button-16 leading-6",
       },
       shape: {
         square: "",
@@ -129,7 +127,6 @@ function Button({
       data-shape={shape}
       type={typeName}
       disabled={disabled || loading}
-      aria-busy={loading || undefined}
       className={cn(
         buttonVariants({ type, size: resolvedSize, shape, className }),
         svgOnly && svgOnlyClasses[size ?? "medium"],
@@ -143,6 +140,7 @@ function Button({
           aria-hidden
         >
           <Loader2 className="size-3.5 animate-spin" />
+          <span className="sr-only">Loading...</span>
         </span>
       ) : (
         prefix && (

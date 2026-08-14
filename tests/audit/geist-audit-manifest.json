@@ -154,14 +154,331 @@
     {
       "slug": "button",
       "officialUrl": "https://vercel.com/geist/button",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
-      "states": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": [
+        "all-types-and-sizes-in-comparison",
+        "prefix-and-suffix",
+        "loading",
+        "disabled",
+        "disabled-variants"
+      ],
+      "states": ["default", "disabled", "loading"],
+      "demos": [
+        {
+          "id": "all-types-and-sizes-in-comparison"
+        },
+        {
+          "id": "prefix-and-suffix"
+        },
+        {
+          "id": "loading"
+        },
+        {
+          "id": "disabled"
+        },
+        {
+          "id": "disabled-variants"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": ["pointer:click", "keyboard:space", "keyboard:tab-focus"],
+      "responsiveExpectations": [
+        "button-sizes:small/medium/large fixed heights 32/36/40px and radius 6/6/8px at all four viewports",
+        "no-overflow:overflow-x-auto wrapper keeps demo rows scrollable without page overflow at all 16 cells"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "button[data-geist-button]",
+        "local": "button[data-geist-button]"
       },
-      "interaction": "pending"
+      "interaction": "applicable",
+      "acceptanceContracts": [
+        {
+          "demoId": "all-types-and-sizes-in-comparison",
+          "variant": "all-types-and-sizes-in-comparison",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#all-types-and-sizes-in-comparison\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"all-types-and-sizes-in-comparison\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#all-types-and-sizes-in-comparison\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"all-types-and-sizes-in-comparison\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "button": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#all-types-and-sizes-in-comparison\"] ~ * div.w-full.p-6 button",
+                  "local": "[data-demo-container=\"all-types-and-sizes-in-comparison\"] button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "button-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#all-types-and-sizes-in-comparison\"] ~ * div.w-full.p-6 button span.truncate",
+                  "local": "[data-demo-container=\"all-types-and-sizes-in-comparison\"] button span.truncate"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "prefix-and-suffix",
+          "variant": "prefix-and-suffix",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#prefix-and-suffix\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"prefix-and-suffix\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#prefix-and-suffix\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"prefix-and-suffix\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "button": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#prefix-and-suffix\"] ~ * div.w-full.p-6 button",
+                  "local": "[data-demo-container=\"prefix-and-suffix\"] button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "button-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#prefix-and-suffix\"] ~ * div.w-full.p-6 button span.truncate",
+                  "local": "[data-demo-container=\"prefix-and-suffix\"] button span.truncate"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "loading",
+          "variant": "loading",
+          "state": "loading",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#loading\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"loading\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#loading\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"loading\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "button": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#loading\"] ~ * div.w-full.p-6 button",
+                  "local": "[data-demo-container=\"loading\"] button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "button-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#loading\"] ~ * div.w-full.p-6 button span.truncate",
+                  "local": "[data-demo-container=\"loading\"] button span.truncate"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "disabled",
+          "variant": "disabled",
+          "state": "disabled",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"disabled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"disabled\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "button": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6 button",
+                  "local": "[data-demo-container=\"disabled\"] button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "button-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6 button span.truncate",
+                  "local": "[data-demo-container=\"disabled\"] button span.truncate"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "disabled-variants",
+          "variant": "disabled-variants",
+          "state": "disabled",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled-variants\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"disabled-variants\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled-variants\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"disabled-variants\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "button": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled-variants\"] ~ * div.w-full.p-6 button",
+                  "local": "[data-demo-container=\"disabled-variants\"] button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "button-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled-variants\"] ~ * div.w-full.p-6 button span.truncate",
+                  "local": "[data-demo-container=\"disabled-variants\"] button span.truncate"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "calendar",
