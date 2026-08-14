@@ -77,7 +77,19 @@ function Toggle({
     </SwitchPrimitive.Root>
   );
 
-  if (!children) return control;
+  if (!children) {
+    return (
+      <span
+        data-slot="toggle-line"
+        className={cn(
+          "flex items-center",
+          size === "small" ? "h-5" : size === "medium" ? "h-[26px]" : "h-[30px]",
+        )}
+      >
+        {control}
+      </span>
+    );
+  }
 
   return (
     <label

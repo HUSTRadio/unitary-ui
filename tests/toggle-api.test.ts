@@ -93,6 +93,16 @@ describe("Toggle official API contract (G12)", () => {
     expect(labelText).toBeLessThan(control);
   });
 
+  test("G12-TOGGLE-02: unlabeled controls keep the official 20/26/30px line boxes", () => {
+    const small = toggle({ checked: false });
+    expect(small).toContain('data-slot="toggle-line"');
+    expect(small).toContain("flex items-center");
+    expect(small).not.toContain("inline-flex items-center");
+    expect(small).toContain("h-5");
+    expect(toggle({ checked: false, size: "medium" })).toContain("h-[26px]");
+    expect(toggle({ checked: false, size: "large" })).toContain("h-[30px]");
+  });
+
   test("G12-TOGGLE-03: sizes demo gives all three variants equal-width columns", async () => {
     const docs = await read("docs/geist/src/components/docs-components-page.tsx");
     const toggleStart = docs.indexOf("function ToggleDemo(");
@@ -108,6 +118,17 @@ describe("Toggle official API contract (G12)", () => {
     expect(sizesEnd).toBeGreaterThan(sizesStart);
     expect(sizesDemo).toContain('className="flex flex-row flex-wrap"');
     expect(sizesDemo.match(/className="flex-1"/g)).toHaveLength(3);
+  });
+
+  test("G12-TOGGLE-03: vertical demos stack line boxes without additional row gaps", async () => {
+    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
+    const toggleStart = docs.indexOf("function ToggleDemo(");
+    const toggleEnd = docs.indexOf("function TooltipDemo(", toggleStart);
+    const toggleDemo = docs.slice(toggleStart, toggleEnd);
+
+    expect(toggleDemo.match(/className="flex flex-col"/g)).toHaveLength(3);
+    expect(toggleDemo).not.toContain('className="flex flex-col gap-4"');
+    expect(toggleDemo).toContain('className="flex flex-col items-start justify-start gap-4"');
   });
 
   test("G12-TOGGLE-01: Toggle exports and supports size/color/labelCasing/direction props", async () => {

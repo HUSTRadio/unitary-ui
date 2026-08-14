@@ -1904,7 +1904,7 @@ function ToggleDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col">
               <div>
                 <Toggle
                   aria-label={demoText(language, "Enable Firewall")}
@@ -1931,7 +1931,7 @@ function ToggleDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="disabled">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col">
               <div>
                 <Toggle
                   aria-label={demoText(language, "Enable Firewall")}
@@ -1984,7 +1984,7 @@ function ToggleDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="custom-color">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col">
               <div>
                 <Toggle
                   aria-label={demoText(language, "Enable Firewall")}
