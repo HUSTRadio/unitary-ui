@@ -363,6 +363,25 @@
       "notes": "B3 复刻；7 live demo（sizes/prefix-and-suffix/disabled/error/label/with-options/required），states default/open/disabled/error，矩阵 light 1440x900 采集对比（含 with-options open 打开态）"
     },
     {
+      "slug": "separator",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["separator/runs/", "separator/separator-evidence.json"],
+      "notes": "B3 复刻；3 live demo（horizontal/vertical/orientation-variants），states default，矩阵 light 1440x900 采集对比"
+    },
+    {
       "slug": "textarea",
       "batch": "B3",
       "inventoryStatus": "live_enumeration_complete",

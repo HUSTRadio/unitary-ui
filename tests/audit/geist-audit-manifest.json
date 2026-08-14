@@ -7744,14 +7744,173 @@
     {
       "slug": "separator",
       "officialUrl": "https://vercel.com/geist/separator",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["horizontal", "vertical", "orientation-variants"],
       "states": ["default"],
+      "demos": [
+        {
+          "id": "horizontal"
+        },
+        {
+          "id": "vertical"
+        },
+        {
+          "id": "orientation-variants"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": ["pointer:none", "keyboard:none"],
+      "responsiveExpectations": [
+        "horizontal:separator h-px w-full fills container content width at all four viewports (official measured)",
+        "vertical:separator w-px h-full fills flex row height (h-8 32px / h-6 24px) at all four viewports (official measured)",
+        "no-overflow:overflow-x-auto wrapper keeps demo rows scrollable without page overflow at all 16 cells"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "[data-testid=\"geistcn/separator\"]",
+        "local": "[data-slot=\"separator\"]"
       },
-      "interaction": "pending"
+      "interaction": "NOT_APPLICABLE",
+      "acceptanceContracts": [
+        {
+          "demoId": "horizontal",
+          "variant": "horizontal",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#horizontal\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"horizontal\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#horizontal\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"horizontal\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "separator": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#horizontal\"] ~ * div.w-full.p-6 [data-testid=\"geistcn/separator\"]",
+                  "local": "[data-demo-container=\"horizontal\"] [data-slot=\"separator\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "vertical",
+          "variant": "vertical",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#vertical\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"vertical\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#vertical\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"vertical\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "separator": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#vertical\"] ~ * div.w-full.p-6 [data-testid=\"geistcn/separator\"]",
+                  "local": "[data-demo-container=\"vertical\"] [data-slot=\"separator\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "orientation-variants",
+          "variant": "orientation-variants",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#orientation-variants\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"orientation-variants\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#orientation-variants\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"orientation-variants\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "separator": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#orientation-variants\"] ~ * div.w-full.p-6 [data-testid=\"geistcn/separator\"]",
+                  "local": "[data-demo-container=\"orientation-variants\"] [data-slot=\"separator\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "sheet",

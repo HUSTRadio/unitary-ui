@@ -1472,23 +1472,108 @@ function SelectDemo() {
 }
 
 function SeparatorDemo() {
-  return (
-    <div className="flex w-full max-w-xl flex-col gap-6">
-      <div className="flex flex-col gap-3">
-        <p className="text-label-14 text-muted-foreground">Horizontal</p>
-        <Separator />
-      </div>
-      <div className="flex flex-col gap-3">
-        <p className="text-label-14 text-muted-foreground">Vertical</p>
-        <div className="flex h-10 items-center gap-3">
-          <span className="text-copy-14 text-foreground">Left</span>
-          <Separator orientation="vertical" />
-          <span className="text-copy-14 text-muted-foreground">Middle</span>
-          <Separator orientation="vertical" />
-          <span className="text-copy-14 text-foreground">Right</span>
-        </div>
+  const { language } = useLanguage();
+
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
       </div>
     </div>
+  );
+
+  return (
+    <>
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="horizontal"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="horizontal">
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-label-16">{demoText(language, "Section 1")}</h3>
+                <p className="text-copy-14 text-gray-900">
+                  {demoText(language, "This is the first section of content.")}
+                </p>
+              </div>
+              <Separator />
+              <div>
+                <h3 className="text-label-16">{demoText(language, "Section 2")}</h3>
+                <p className="text-copy-14 text-gray-900">
+                  {demoText(language, "This is the second section of content.")}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="vertical"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="vertical">
+            <div className="flex h-8 items-center space-x-4">
+              <p className="text-copy-14 text-gray-1000">{demoText(language, "Home")}</p>
+              <Separator orientation="vertical" />
+              <p className="text-copy-14 text-gray-1000">{demoText(language, "About")}</p>
+              <Separator orientation="vertical" />
+              <p className="text-copy-14 text-gray-1000">{demoText(language, "Services")}</p>
+              <Separator orientation="vertical" />
+              <p className="text-copy-14 text-gray-1000">{demoText(language, "Contact")}</p>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="orientation-variants"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="orientation-variants">
+            <div className="space-y-8">
+              <div>
+                <h4 className="mb-2 text-label-14">
+                  {demoText(language, "Horizontal Separators")}
+                </h4>
+                <div className="space-y-2">
+                  <p className="text-copy-14">{demoText(language, "Content above separator")}</p>
+                  <Separator />
+                  <p className="text-copy-14">{demoText(language, "Content below separator")}</p>
+                </div>
+              </div>
+              <div>
+                <h4 className="mb-2 text-label-14">{demoText(language, "Vertical Separators")}</h4>
+                <div className="flex h-6 items-center space-x-2">
+                  <span className="text-copy-14">{demoText(language, "Left")}</span>
+                  <Separator orientation="vertical" />
+                  <span className="text-copy-14">{demoText(language, "Center")}</span>
+                  <Separator orientation="vertical" />
+                  <span className="text-copy-14">{demoText(language, "Right")}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+    </>
   );
 }
 

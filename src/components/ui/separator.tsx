@@ -21,6 +21,7 @@ function Separator({
       data-slot="separator"
       decorative={decorative}
       orientation={orientation}
+      aria-orientation={decorative ? undefined : orientation}
       className={cn(
         "shrink-0 bg-gray-200",
         orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
