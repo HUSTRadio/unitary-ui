@@ -58,15 +58,26 @@ describe("Toggle official API contract (G12)", () => {
   });
 
   test("G12-TOGGLE-02: with-label uses the measured 12px/18px/500 theme-aware style", async () => {
-    const [src, css] = await Promise.all([
+    const [src, css, manifestSource] = await Promise.all([
       read("src/components/ui/toggle.tsx"),
       read("src/styles/index.css"),
+      read("tests/audit/geist-audit-manifest.json"),
     ]);
+    const manifest = JSON.parse(manifestSource);
+    const toggleComponent = manifest.components.find(
+      (component: { slug: string }) => component.slug === "toggle",
+    );
+    const toggleContract = toggleComponent.acceptanceContracts.find(
+      (contract: { demoId: string }) => contract.demoId === "with-label",
+    );
     expect(src).toContain("text-toggle-label");
     expect(css).toContain("--toggle-label: #666666");
     expect(css).toContain("--toggle-label: #888888");
     expect(css).toMatch(
       /@utility text-toggle-label \{[\s\S]*?font-size: 0\.75rem;[\s\S]*?line-height: 1\.125rem;[\s\S]*?font-weight: 500;/,
+    );
+    expect(toggleContract.roles["toggle-label"].selectors.default.local).toBe(
+      '[data-demo-container="with-label"] label > span:first-child',
     );
   });
 

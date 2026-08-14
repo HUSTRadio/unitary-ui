@@ -9769,7 +9769,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#with-label\"] ~ * div.w-full.p-6 label > span:first-of-type",
-                  "local": "[data-demo-container=\"with-label\"] label > span:last-child"
+                  "local": "[data-demo-container=\"with-label\"] label > span:first-child"
                 },
                 "byViewport": {}
               },
