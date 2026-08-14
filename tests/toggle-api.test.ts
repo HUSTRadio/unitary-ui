@@ -57,6 +57,19 @@ describe("Toggle official API contract (G12)", () => {
     expect(amberMarkup).toContain("data-[state=unchecked]:bg-warning");
   });
 
+  test("G12-TOGGLE-02: with-label uses the measured 12px/18px/500 theme-aware style", async () => {
+    const [src, css] = await Promise.all([
+      read("src/components/ui/toggle.tsx"),
+      read("src/styles/index.css"),
+    ]);
+    expect(src).toContain("text-toggle-label");
+    expect(css).toContain("--toggle-label: #666666");
+    expect(css).toContain("--toggle-label: #888888");
+    expect(css).toMatch(
+      /@utility text-toggle-label \{[\s\S]*?font-size: 0\.75rem;[\s\S]*?line-height: 1\.125rem;[\s\S]*?font-weight: 500;/,
+    );
+  });
+
   test("G12-TOGGLE-01: Toggle exports and supports size/color/labelCasing/direction props", async () => {
     const src = await read("src/components/ui/toggle.tsx");
     expect(src).toMatch(/export\s*\{\s*Toggle\s*\}/);

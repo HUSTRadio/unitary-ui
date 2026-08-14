@@ -82,7 +82,7 @@ function Toggle({
   return (
     <label
       className={cn(
-        "inline-flex cursor-pointer items-center gap-2 text-label-14 text-gray-1000 has-[:disabled]:cursor-not-allowed has-[:disabled]:text-gray-700",
+        "text-toggle-label inline-flex cursor-pointer items-center gap-2 whitespace-nowrap has-[:disabled]:cursor-not-allowed has-[:disabled]:text-gray-700",
         direction === "rtl" && "flex-row-reverse",
       )}
     >

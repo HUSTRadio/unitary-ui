@@ -450,6 +450,7 @@
   --toggle-thumb: #ffffff;
   --toggle-checked: #0070f3;
   --toggle-checked-red: #f87275;
+  --toggle-label: #666666;
   --toggle-disabled-track-unchecked: #ebebeb;
   --toggle-disabled-track-checked: #c9c9c9;
   --toggle-disabled-thumb-unchecked: #fafafa;
@@ -687,6 +688,7 @@
   --toggle-thumb: #ededed;
   --toggle-checked: #0070f3;
   --toggle-checked-red: #e5484d;
+  --toggle-label: #888888;
   --toggle-disabled-track-unchecked: #333333;
   --toggle-disabled-track-checked: #333333;
   --toggle-disabled-thumb-unchecked: #454545;
@@ -898,6 +900,14 @@
   font-size: 0.75rem;
   line-height: 1rem; /* 16px */
   font-weight: 400;
+}
+
+/* Toggle with-label：官方 live demo 为 12px/18px/500，双主题标签色由组件 token 映射。 */
+@utility text-toggle-label {
+  color: var(--toggle-label);
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  font-weight: 500;
 }
 
 /* Checkbox label：官方 checkbox 页 label 用 text-[13px]（继承 body 1.5 → 19.5px），
