@@ -7817,6 +7817,18 @@
               "presence": "required",
               "acceptanceProfile": "strict"
             },
+            "trigger-context": {
+              "selectors": {
+                "default": {
+                  "official": "a#select-actions ~ div button[aria-haspopup=\"dialog\"]",
+                  "local": "[data-demo-container=\"select-actions\"] [data-slot=\"multi-select-trigger\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
             "panel": {
               "selectors": {
                 "default": {
@@ -7827,7 +7839,7 @@
               },
               "presence": "required",
               "acceptanceProfile": "context-owned-fill",
-              "contextOwnerRole": "trigger"
+              "contextOwnerRole": "trigger-context"
             }
           },
           "semanticNodeInventory": [],
@@ -7873,6 +7885,18 @@
               "presence": "required",
               "acceptanceProfile": "strict"
             },
+            "trigger-context": {
+              "selectors": {
+                "default": {
+                  "official": "a#keyboard-navigation ~ div button[aria-haspopup=\"dialog\"]",
+                  "local": "[data-demo-container=\"keyboard-navigation\"] [data-slot=\"multi-select-trigger\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
             "panel": {
               "selectors": {
                 "default": {
@@ -7883,7 +7907,7 @@
               },
               "presence": "required",
               "acceptanceProfile": "context-owned-fill",
-              "contextOwnerRole": "trigger"
+              "contextOwnerRole": "trigger-context"
             }
           },
           "semanticNodeInventory": [],
@@ -7929,6 +7953,18 @@
               "presence": "required",
               "acceptanceProfile": "strict"
             },
+            "trigger-context": {
+              "selectors": {
+                "default": {
+                  "official": "a#controlled-state ~ div button[aria-haspopup=\"dialog\"]",
+                  "local": "[data-demo-container=\"controlled-state\"] [data-slot=\"multi-select-trigger\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
             "panel": {
               "selectors": {
                 "default": {
@@ -7939,7 +7975,7 @@
               },
               "presence": "required",
               "acceptanceProfile": "context-owned-fill",
-              "contextOwnerRole": "trigger"
+              "contextOwnerRole": "trigger-context"
             }
           },
           "semanticNodeInventory": [],
