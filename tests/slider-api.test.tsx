@@ -40,10 +40,28 @@ describe("Slider live Geist contract", () => {
     expect(source).toContain("min-w-54");
     expect(source).toContain("h-2 min-w-54");
     expect(source).toContain("h-2 grow rounded-full bg-gray-200");
+    expect(source).toContain("[&>span:has([data-slot=slider-thumb])]:-top-[3px]");
     expect(source).toContain("h-3.5 w-1.5 shrink-0 rounded-[1px]");
     expect(source).toContain("ring-1 ring-gray-alpha-500");
     expect(source).toContain("transition-[scale] duration-100");
     expect(source).not.toContain("size-4 rounded-full border-2");
+  });
+
+  test("uses the official group, control, track hierarchy and disabled ARIA", () => {
+    const enabled = renderSlider({ defaultValue: [50], "aria-label": "Volume" });
+    const disabled = renderSlider({ defaultValue: [50], disabled: true, "aria-label": "Volume" });
+
+    expect(enabled).toMatch(
+      /data-slot="slider"[^>]*role="group"|role="group"[^>]*data-slot="slider"/,
+    );
+    expect(enabled).toContain('data-slot="slider-control"');
+    expect(enabled.indexOf('data-slot="slider-control"')).toBeGreaterThan(
+      enabled.indexOf('data-slot="slider"'),
+    );
+    const enabledGroup = enabled.match(/<[^>]+data-slot="slider"[^>]*>/)?.[0];
+    const disabledGroup = disabled.match(/<[^>]+data-slot="slider"[^>]*>/)?.[0];
+    expect(enabledGroup).not.toContain('aria-disabled="false"');
+    expect(disabledGroup).toContain('aria-disabled="true"');
   });
 
   test("renders one thumb by default and two thumbs for a range", () => {

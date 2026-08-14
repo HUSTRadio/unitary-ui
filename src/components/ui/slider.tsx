@@ -16,11 +16,10 @@ import { cn } from "@/lib/utils";
  * - onValueCommitted：拖动释放后提交（映射到 Radix onValueCommit）
  *
  * 样式（官方实测对齐）：
- * - root：relative flex w-full touch-none items-center h-3.5（轨道区 14px）
- * - track：bg-gray-alpha-200 h-1 rounded-full grow
- * - range：bg-progress absolute h-full rounded-full
- * - thumb：size-4 rounded-full bg-background border-2 border-progress，
- *   hover:border-progress/80，焦点环 focus-ring
+ * - root：216px min-width、8px 轨道区，外层 group 包裹 control
+ * - track：gray-200、8px 高、全圆角
+ * - indicator：blue-700，禁用态 gray-500
+ * - thumb：6×14px、1px 圆角、白色表面与 hairline ring
  * 官方 bestPractices：
  * - 滑块适合「形状与邻近度比精度更重要」的范围数值输入（带宽、透明度、音量、色道）；
  *   精确值（端口号、内存上限）应配数值 Input，键盘用户默认直接输入。
@@ -140,37 +139,44 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
               onChange={(next) => updateValue(0, next)}
             />
           )}
-          <SliderPrimitive.Root
-            ref={ref}
-            id={rootId}
-            min={min}
-            max={max}
-            disabled={disabled}
-            value={valueProp}
-            defaultValue={defaultValue}
-            onValueCommit={onValueCommitted}
+          <div
             data-slot="slider"
-            className="relative flex h-2 min-w-54 touch-none items-center select-none data-[disabled]:cursor-not-allowed"
-            {...props}
+            role="group"
+            aria-disabled={disabled || undefined}
+            className="h-2 min-w-54"
           >
-            <SliderPrimitive.Track
-              data-slot="slider-track"
-              className="relative h-2 grow rounded-full bg-gray-200 select-none"
+            <SliderPrimitive.Root
+              ref={ref}
+              id={rootId}
+              min={min}
+              max={max}
+              disabled={disabled}
+              value={valueProp}
+              defaultValue={defaultValue}
+              onValueCommit={onValueCommitted}
+              data-slot="slider-control"
+              className="relative flex h-2 min-w-54 touch-none items-center select-none data-[disabled]:cursor-not-allowed"
+              {...props}
             >
-              <SliderPrimitive.Range
-                data-slot="slider-indicator"
-                className="absolute h-full rounded-full bg-blue-700 select-none data-[disabled]:bg-gray-500"
-              />
-            </SliderPrimitive.Track>
-            {value.map((_, index) => (
-              <SliderPrimitive.Thumb
-                key={index}
-                data-slot="slider-thumb"
-                aria-label={thumbAriaLabel}
-                className="relative block h-3.5 w-1.5 shrink-0 rounded-[1px] bg-white ring-1 ring-gray-alpha-500 transition-[scale] duration-100 after:absolute after:-inset-2 focus-visible:scale-120 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-120 dark:ring-black"
-              />
-            ))}
-          </SliderPrimitive.Root>
+              <SliderPrimitive.Track
+                data-slot="slider-track"
+                className="relative h-2 grow rounded-full bg-gray-200 select-none [&>span:has([data-slot=slider-thumb])]:-top-[3px]"
+              >
+                <SliderPrimitive.Range
+                  data-slot="slider-indicator"
+                  className="absolute h-full rounded-full bg-blue-700 select-none data-[disabled]:bg-gray-500"
+                />
+                {value.map((_, index) => (
+                  <SliderPrimitive.Thumb
+                    key={index}
+                    data-slot="slider-thumb"
+                    aria-label={thumbAriaLabel}
+                    className="relative block h-3.5 w-1.5 shrink-0 rounded-[1px] bg-white ring-1 ring-gray-alpha-500 transition-[scale] duration-100 after:absolute after:-inset-2 focus-visible:scale-120 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-120 dark:ring-black"
+                  />
+                ))}
+              </SliderPrimitive.Track>
+            </SliderPrimitive.Root>
+          </div>
           {showEndInput && (
             <ValueInput
               value={value[value.length - 1]}
