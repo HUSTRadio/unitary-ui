@@ -43,7 +43,7 @@ export interface InputProps extends Omit<React.ComponentProps<"input">, "size" |
 }
 
 const INPUT_BASE = cn(
-  "inline-flex w-full min-w-0 appearance-none border-none bg-background-100 px-3 text-copy-14 outline-none",
+  "inline-flex w-full min-w-0 appearance-none border-none bg-background-100 px-3 text-copy-14 text-black outline-none",
   "placeholder:text-gray-700",
   "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-700 disabled:placeholder:text-[#999999]",
 );
@@ -130,7 +130,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className={cn(
             INPUT_BASE,
             "h-full",
-            rounded && "rounded-full",
             "file:border-0 file:bg-transparent file:text-copy-13 file:font-medium file:text-foreground",
             className,
           )}
