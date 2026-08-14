@@ -7803,7 +7803,7 @@
           "demoId": "select-actions",
           "variant": "select-actions",
           "state": "open",
-          "clipRole": "panel",
+          "clipRole": "trigger",
           "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
           "roles": {
             "trigger": {
@@ -7858,7 +7858,7 @@
           "demoId": "keyboard-navigation",
           "variant": "keyboard-navigation",
           "state": "open",
-          "clipRole": "panel",
+          "clipRole": "trigger",
           "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
           "roles": {
             "trigger": {
@@ -7913,7 +7913,7 @@
           "demoId": "controlled-state",
           "variant": "controlled-state",
           "state": "open",
-          "clipRole": "panel",
+          "clipRole": "trigger",
           "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
           "roles": {
             "trigger": {
