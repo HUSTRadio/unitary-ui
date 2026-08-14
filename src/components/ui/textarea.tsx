@@ -39,7 +39,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           data-slot="textarea-wrapper"
           data-size={size}
           className={cn(
-            "flex w-full overflow-hidden font-normal transition-all duration-150",
+            "inline-flex w-full overflow-hidden font-normal transition-all duration-150",
             "shadow-[0_0_0_1px_var(--gray-alpha-400)] hover:shadow-[0_0_0_1px_var(--gray-alpha-500)]",
             "focus-within:shadow-[0_0_0_1px_var(--gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]",
             "dark:focus-within:shadow-[0_0_0_1px_var(--gray-alpha-600),0_0_0_4px_rgba(255,255,255,0.24)]",

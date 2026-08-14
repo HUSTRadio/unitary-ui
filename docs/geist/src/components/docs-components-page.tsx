@@ -1514,7 +1514,7 @@ function TextareaDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
-            <label className="block w-full">
+            <label>
               <Textarea className="text-black" aria-label={demoText(language, "Default")} />
             </label>
           </div>
@@ -1528,7 +1528,7 @@ function TextareaDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="disabled">
-            <label className="block w-full">
+            <label>
               <Textarea disabled aria-label={demoText(language, "Disabled")} />
             </label>
           </div>
@@ -1543,7 +1543,7 @@ function TextareaDemo() {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="error">
             <div className="flex flex-col items-stretch justify-start gap-8 flex-initial">
-              <label className="block w-full">
+              <label>
                 <Textarea
                   size="small"
                   className="text-black"
@@ -1552,7 +1552,7 @@ function TextareaDemo() {
                   defaultValue={lorem}
                 />
               </label>
-              <label className="block w-full">
+              <label>
                 <Textarea
                   className="text-black"
                   aria-label={demoText(language, "With error (medium)")}
@@ -1560,7 +1560,7 @@ function TextareaDemo() {
                   defaultValue={lorem}
                 />
               </label>
-              <label className="block w-full">
+              <label>
                 <Textarea
                   size="large"
                   className="text-black"
@@ -1582,21 +1582,21 @@ function TextareaDemo() {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="sizes">
             <div className="flex flex-col gap-6">
-              <label className="block w-full">
+              <label>
                 <Textarea
                   className="text-black"
                   aria-label={demoText(language, "Textarea")}
                   defaultValue={lorem}
                 />
               </label>
-              <label className="block w-full">
+              <label>
                 <Textarea
                   className="text-black"
                   aria-label={demoText(language, "Textarea")}
                   defaultValue={lorem}
                 />
               </label>
-              <label className="block w-full">
+              <label>
                 <Textarea
                   size="large"
                   className="text-black"
@@ -1616,7 +1616,7 @@ function TextareaDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="read-only">
-            <label className="block w-full">
+            <label>
               <Textarea
                 className="text-black"
                 readOnly
@@ -1635,7 +1635,7 @@ function TextareaDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="rows">
-            <label className="block w-full">
+            <label>
               <Textarea
                 className="text-black"
                 rows={5}
