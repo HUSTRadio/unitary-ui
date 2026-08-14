@@ -4284,11 +4284,72 @@ function FieldSetDemo() {
 }
 
 function LabelDemo() {
-  return (
-    <div className="flex w-full max-w-sm flex-col gap-2">
-      <Label id="label-project" value="Project Name" />
-      <Input id="label-project" placeholder="my-project" />
+  const { language } = useLanguage();
+
+  const footerBar = (
+    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
+      <div className="border-b-lg w-full" data-state="closed">
+        <button
+          type="button"
+          aria-expanded={false}
+          data-state="closed"
+          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
+        >
+          <div className="-rotate-90">
+            <ChevronRight className="size-4" aria-hidden />
+          </div>
+          {demoText(language, "Show code")}
+        </button>
+        <div data-state="closed" hidden />
+      </div>
     </div>
+  );
+
+  return (
+    <>
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <Label id="label-default" value={demoText(language, "This is a label")} />
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="with-input"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="with-input">
+            <Label id="test-input" value={demoText(language, "Email Address")} withInput />
+            <Input aria-labelledby="test-input" id="test-input" />
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="bypass-casing"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="bypass-casing">
+            <Label
+              bypassCasing
+              id="test-input"
+              value={demoText(language, "Email address")}
+              withInput
+            />
+            <Input aria-labelledby="test-input" id="test-input" />
+          </div>
+        </div>
+        {footerBar}
+      </div>
+    </>
   );
 }
 

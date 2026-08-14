@@ -6490,14 +6490,205 @@
     {
       "slug": "label",
       "officialUrl": "https://vercel.com/geist/label",
-      "inventoryStatus": "pending_live_enumeration",
-      "variants": ["default"],
+      "inventoryStatus": "live_enumeration_complete",
+      "variants": ["default", "with-input", "bypass-casing"],
       "states": ["default"],
+      "demos": [
+        {
+          "id": "default"
+        },
+        {
+          "id": "with-input"
+        },
+        {
+          "id": "bypass-casing"
+        }
+      ],
+      "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
+      "themes": ["light", "dark"],
+      "interactionRecipes": ["pointer:none", "keyboard:none"],
+      "responsiveExpectations": [
+        "label:label-text 13px/19.5px text-gray-900 block fills container content width at all four viewports (official measured)",
+        "no-overflow:overflow-x-auto wrapper keeps demo rows scrollable without page overflow at all 16 cells"
+      ],
       "selectors": {
-        "official": "main",
-        "local": "main"
+        "official": "label[data-version=\"v1\"]",
+        "local": "[data-slot=\"label\"]"
       },
-      "interaction": "pending"
+      "interaction": "NOT_APPLICABLE",
+      "acceptanceContracts": [
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 label[data-version=\"v1\"]",
+                  "local": "[data-demo-container=\"default\"] [data-slot=\"label\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "label-text": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 label[data-version=\"v1\"] div",
+                  "local": "[data-demo-container=\"default\"] [data-slot=\"label\"] div"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "with-input",
+          "variant": "with-input",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-input\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"with-input\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-input\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"with-input\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-input\"] ~ * div.w-full.p-6 label[data-version=\"v1\"]",
+                  "local": "[data-demo-container=\"with-input\"] [data-slot=\"label\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "label-text": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#with-input\"] ~ * div.w-full.p-6 label[data-version=\"v1\"] div",
+                  "local": "[data-demo-container=\"with-input\"] [data-slot=\"label\"] div"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "bypass-casing",
+          "variant": "bypass-casing",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#bypass-casing\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"bypass-casing\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#bypass-casing\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"bypass-casing\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#bypass-casing\"] ~ * div.w-full.p-6 label[data-version=\"v1\"]",
+                  "local": "[data-demo-container=\"bypass-casing\"] [data-slot=\"label\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "label-text": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#bypass-casing\"] ~ * div.w-full.p-6 label[data-version=\"v1\"] div",
+                  "local": "[data-demo-container=\"bypass-casing\"] [data-slot=\"label\"] div"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        }
+      ]
     },
     {
       "slug": "load-more-button",
