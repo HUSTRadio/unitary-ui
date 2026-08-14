@@ -76,6 +76,8 @@ describe("SearchInput official API contract (G09 audit fixes)", () => {
     const src = await read("src/components/ui/search-input.tsx");
     // The Input element must render type="search" — not plain text
     expect(src).toMatch(/type="search"/);
+    expect(src).toContain("[&_[data-geist-input-wrapper]]:text-label-14");
+    expect(src).toContain("[animation-duration:150ms]");
     // type="search" must be enforced after the props spread so callers cannot
     // downgrade it back to type="text" and lose the native Escape-to-clear contract
     expect(src).toMatch(/\{\.\.\.props\}\s*\n\s*type="search"/);
