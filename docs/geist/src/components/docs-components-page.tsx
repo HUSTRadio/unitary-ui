@@ -3330,6 +3330,7 @@ function FeedbackDemo() {
 }
 
 function LoadMoreButtonDemo() {
+  const { language } = useLanguage();
   const [loading, setLoading] = React.useState(false);
   const [count, setCount] = React.useState(0);
   const timer = React.useRef<number | undefined>(undefined);
@@ -3358,6 +3359,7 @@ function LoadMoreButtonDemo() {
 }
 
 function TextWithCopyButtonDemo() {
+  const { language } = useLanguage();
   return (
     <div className="flex flex-col gap-3">
       <TextWithCopyButton textToCopy="npm i geist" textLabel="npm i geist" />
@@ -4880,6 +4882,7 @@ function MiddleTruncateDemo() {
 }
 
 function MultiSelectDemo() {
+  const { language } = useLanguage();
   const actionItems = ["Design System", "Components", "Design Tokens"];
   const categories = ["Frameworks", "Libraries", "Development Tools", "Databases"];
   const controlledItems = [
@@ -5560,6 +5563,7 @@ function ToggleLabelDemo() {
 
 /** Toast 额外演示分段 — 每个分段一个触发按钮（Toasts 视口由 ToastDemo 挂载一次） */
 function ToastExtraSections() {
+  const { language } = useLanguage();
   const toasts = useToasts();
 
   return (
