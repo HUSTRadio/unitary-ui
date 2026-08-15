@@ -187,8 +187,8 @@ function RadioGroupItem({ value, children, className, ...radioProps }: RadioGrou
     <label
       data-slot="radio-item-wrapper"
       className={cn(
-        "group flex items-center text-copy-13 [--radio-color:var(--gray-700)]",
-        "group-has-[:disabled]:cursor-not-allowed group-has-[:disabled]:text-gray-500 group-has-[:disabled]:[--radio-color:var(--gray-500)]",
+        "group flex items-center text-copy-13 leading-[19.5px] [--radio-color:var(--gray-700)]",
+        "has-[input:disabled]:cursor-not-allowed has-[input:disabled]:text-gray-500 has-[input:disabled]:[--radio-color:var(--gray-500)]",
         className,
       )}
     >

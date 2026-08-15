@@ -5512,12 +5512,16 @@ function RadioHeadlessDemo() {
   return (
     <RadioGroup aria-label={demoText(language, "Options")} onChange={setValue} value={value}>
       <div className="flex w-full min-w-56 flex-col items-stretch justify-start gap-6">
-        <label className="flex justify-between gap-4">
-          <span className="text-copy-13 text-foreground">{demoText(language, "Option 1")}</span>
+        <label className="flex w-full items-center justify-between leading-6">
+          <span className="text-copy-13 leading-6 text-foreground">
+            {demoText(language, "Option 1")}
+          </span>
           {component}
         </label>
-        <label className="flex justify-between gap-4">
-          <span className="text-copy-13 text-foreground">{demoText(language, "Option 2")}</span>
+        <label className="flex w-full items-center justify-between leading-6">
+          <span className="text-copy-13 leading-6 text-foreground">
+            {demoText(language, "Option 2")}
+          </span>
           {component2}
         </label>
       </div>
@@ -5527,8 +5531,8 @@ function RadioHeadlessDemo() {
 
 function RadioStandaloneDemo() {
   return (
-    <ul className="flex list-none flex-row items-stretch justify-start gap-6">
-      <li className="flex items-center gap-2">
+    <ul className="flex w-full list-none flex-row items-stretch justify-start gap-2">
+      <li className="flex w-full items-center gap-2">
         <span className="text-copy-13 text-foreground">Option 1</span>
         <Radio aria-label="Option 1" defaultChecked value="one" />
       </li>
