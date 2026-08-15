@@ -5531,7 +5531,10 @@ function RadioHeadlessDemo() {
 
 function RadioStandaloneDemo() {
   return (
-    <ul className="contents flex w-full list-none flex-row items-stretch justify-start gap-2">
+    <ul
+      className="flex w-full list-none flex-row items-stretch justify-start gap-2"
+      style={{ display: "contents" }}
+    >
       <li className="flex w-full items-center gap-2">
         <span className="text-base leading-6 text-foreground">Option 1</span>
         <Radio aria-label="Option 1" defaultChecked value="one" />
