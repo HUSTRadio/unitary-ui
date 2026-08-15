@@ -56,6 +56,8 @@ type ComboboxProps = {
   placeholder?: string;
   /** 输入框的 accessible name（官方 Combobox aria-label） */
   "aria-label"?: string;
+  /** 字段标签：存在时用 <label className="mb-2 block"> 包裹标签文本（13px capitalize gray-900）与 combobox（对齐 Select 结构） */
+  label?: string;
   disabled?: boolean;
   size?: ComboboxSize;
   className?: string;
@@ -89,6 +91,7 @@ function Combobox({
   onValueChange,
   placeholder = "Search…",
   "aria-label": searchLabel = "Search",
+  label,
   disabled = false,
   size = "medium",
   className,
@@ -338,93 +341,110 @@ function Combobox({
       </button>
     ) : null;
 
-  return (
-    <ComboboxContext.Provider value={ctx}>
-      {/* 注册容器：ComboboxInput/ComboboxList/ComboboxOption 在此挂载并注册选项 */}
-      {children}
+  const comboboxRoot = (
+    <div
+      ref={rootRef}
+      role="combobox"
+      aria-expanded={open}
+      aria-haspopup="listbox"
+      aria-controls={listId}
+      aria-owns={listId}
+      tabIndex={-1}
+      data-slot="combobox-root"
+      className={cn(
+        "relative outline-hidden rounded-md transition-shadow duration-200 focus:shadow-[var(--ds-focus-ring)]",
+        className,
+      )}
+      onClick={() => {
+        if (!open) setOpen(true);
+      }}
+    >
       <div
-        ref={rootRef}
-        role="combobox"
-        aria-expanded={open}
-        aria-haspopup="listbox"
-        aria-controls={listId}
-        aria-owns={listId}
-        tabIndex={-1}
-        data-slot="combobox-root"
-        className={cn(
-          "relative outline-hidden rounded-md transition-shadow duration-200 focus:shadow-[var(--ds-focus-ring)]",
-          className,
-        )}
+        ref={groupRef}
+        className={cn(GROUP_SIZE_CLASS[size])}
         onClick={() => {
           if (!open) setOpen(true);
         }}
       >
         <div
-          ref={groupRef}
-          className={cn(GROUP_SIZE_CLASS[size])}
-          onClick={() => {
-            if (!open) setOpen(true);
-          }}
+          aria-hidden="true"
+          className="inline-flex items-center justify-center text-[var(--ds-gray-700)] pointer-events-none absolute left-[13px] top-1/2 z-10 transform -translate-y-1/2"
         >
-          <div
-            aria-hidden="true"
-            className="inline-flex items-center justify-center text-[var(--ds-gray-700)] pointer-events-none absolute left-[13px] top-1/2 z-10 transform -translate-y-1/2"
-          >
-            <Search className="size-(--ds-control-decoration-size)" aria-hidden />
-          </div>
-          <input
-            ref={inputRef}
-            role="searchbox"
-            aria-autocomplete="list"
-            aria-controls={listId}
-            aria-label={searchLabel}
-            aria-activedescendant={open && activeValue ? optionId(activeValue) : undefined}
-            autoComplete="off"
-            spellCheck={false}
-            type="text"
-            value={inputDisplay}
-            placeholder={placeholder}
-            disabled={disabled}
-            onChange={(event) => setQuery(event.target.value)}
-            onKeyDown={handleInputKeyDown}
-            className={INPUT_CLASS}
-          />
-          {clearButton}
-          {openButton}
+          <Search className="size-(--ds-control-decoration-size)" aria-hidden />
         </div>
-        {open ? (
-          <div className="sr-only" role="status" aria-live="polite" />
-        ) : (
-          <ul aria-hidden="true" className="hidden">
-            {options}
-          </ul>
-        )}
-        {open
-          ? createPortal(
-              <div
-                style={{
-                  position: "fixed",
-                  top: 0,
-                  left: 0,
-                  transform: `translate(${position.x}px, ${position.y}px)`,
-                  zIndex: 2001,
-                }}
-              >
-                <div
-                  ref={panelRef}
-                  role="dialog"
-                  className={PANEL_CLASS}
-                  style={{ width: position.width }}
-                >
-                  <ul role="listbox" data-slot="combobox-list">
-                    {options}
-                  </ul>
-                </div>
-              </div>,
-              document.body,
-            )
-          : null}
+        <input
+          ref={inputRef}
+          role="searchbox"
+          aria-autocomplete="list"
+          aria-controls={listId}
+          aria-label={searchLabel}
+          aria-activedescendant={open && activeValue ? optionId(activeValue) : undefined}
+          autoComplete="off"
+          spellCheck={false}
+          type="text"
+          value={inputDisplay}
+          placeholder={placeholder}
+          disabled={disabled}
+          onChange={(event) => setQuery(event.target.value)}
+          onKeyDown={handleInputKeyDown}
+          className={INPUT_CLASS}
+        />
+        {clearButton}
+        {openButton}
       </div>
+      {open ? (
+        <div className="sr-only" role="status" aria-live="polite" />
+      ) : (
+        <ul aria-hidden="true" className="hidden">
+          {options}
+        </ul>
+      )}
+      {open
+        ? createPortal(
+            <div
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                transform: `translate(${position.x}px, ${position.y}px)`,
+                zIndex: 2001,
+              }}
+            >
+              <div
+                ref={panelRef}
+                role="dialog"
+                className={PANEL_CLASS}
+                style={{ width: position.width }}
+              >
+                <ul role="listbox" data-slot="combobox-list">
+                  {options}
+                </ul>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
+    </div>
+  );
+
+  return (
+    <ComboboxContext.Provider value={ctx}>
+      {label ? (
+        <label className="mb-2 block cursor-text">
+          <div className="block max-w-full cursor-text text-[13px] text-gray-900 capitalize">
+            {label}
+          </div>
+          {/* 注册容器：ComboboxInput/ComboboxList/ComboboxOption 在此挂载并注册选项 */}
+          {children}
+          {comboboxRoot}
+        </label>
+      ) : (
+        <>
+          {/* 注册容器：ComboboxInput/ComboboxList/ComboboxOption 在此挂载并注册选项 */}
+          {children}
+          {comboboxRoot}
+        </>
+      )}
     </ComboboxContext.Provider>
   );
 }

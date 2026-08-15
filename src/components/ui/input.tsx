@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
  *   prefixStyling/suffixStyling=false 时 bg-background-100 + ml-px -mr-3（无分隔线）
  * - rounded：wrapper rounded-full + mt-3（官方原样），input 同步 rounded-full
  * - label：<label> 包裹 text div（data-slot=input-label，13px/19.5px gray-900，
- *   capitalize + mb-2）与输入控件（官方 label[data-version=v1] 结构）
+ *   capitalize，mb-2 在 <label> 自身）与输入控件（官方 label[data-version=v1] 结构）
  * - error：1px red-900 边框 + 4px red-300 柔光（hover red-500、focus 保持 red-300），
  *   input aria-invalid + aria-describedby，下方 role="alert" 错误文案
  *   （mt-2 8px、13px/20px，large 16px/24px、#cb2a2f + 16×16 警告图标）
@@ -158,10 +158,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div data-slot="input-field" className="block">
         {label && (
-          <label htmlFor={id} className="block cursor-text">
+          <label htmlFor={id} className="mb-2 block cursor-text">
             <div
               data-slot="input-label"
-              className="mb-2 block max-w-full text-copy-13 capitalize leading-[19.5px] text-gray-900"
+              className="block max-w-full text-copy-13 capitalize leading-[19.5px] text-gray-900"
             >
               {label}
             </div>

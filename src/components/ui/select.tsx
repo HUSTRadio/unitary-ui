@@ -43,9 +43,9 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           : "h-9 rounded-[6px] text-[14px] leading-5";
 
     return (
-      <label className={cn(className)}>
+      <label className={cn("mb-2 block", className)}>
         {label ? (
-          <div className="mb-2 block max-w-full cursor-text text-[13px] text-gray-900 capitalize">
+          <div className="block max-w-full cursor-text text-[13px] text-gray-900 capitalize">
             {label}
           </div>
         ) : null}

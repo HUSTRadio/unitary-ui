@@ -60,4 +60,21 @@ describe("Textarea official API contract (G12 audit fixes)", () => {
     expect(src).toMatch(/Textarea\.displayName = "Textarea"/);
     expect(src).toMatch(/export \{ Textarea, type TextareaProps, type TextareaSize \}/);
   });
+
+  test("label prop: mb-2 on <label> element itself (8px gap, no margin-collapse risk)", async () => {
+    const src = await read("src/components/ui/textarea.tsx");
+    const lines = src.split("\n");
+    // label prop exists on TextareaProps
+    expect(src).toMatch(/label\?: React\.ReactNode;/);
+    // mb-2 lives on the <label> element itself
+    expect(src).toMatch(/<label className="mb-2 block cursor-text">/);
+    // the inner label text div must NOT carry mb-2 (exact class string locks it)
+    expect(src).toContain(
+      '<div className="block max-w-full text-copy-13 capitalize text-gray-900">',
+    );
+    // no-label path keeps the bare wrapper (existing render unchanged)
+    const wrapperIdx = lines.findIndex((line) => line.includes('data-slot="textarea-wrapper"'));
+    expect(wrapperIdx).toBeGreaterThan(-1);
+    expect(src).toMatch(/\) : \(\n\s*wrapper\n\s*\)/);
+  });
 });

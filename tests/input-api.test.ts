@@ -75,4 +75,18 @@ describe("Input official API contract (G06 audit fixes)", () => {
     expect(slider).toContain('size="small"');
     expect(slider).not.toContain("medium");
   });
+
+  test("label renders mb-2 on <label> element itself (8px gap, no margin-collapse risk)", async () => {
+    const src = await read("src/components/ui/input.tsx");
+    const lines = src.split("\n");
+    // mb-2 lives on the <label> element itself, not on the inner text div
+    expect(src).toMatch(/<label[^>]*className="[^"]*\bmb-2\b[^"]*"/);
+    expect(src).toMatch(/<label htmlFor=\{id\} className="mb-2 block cursor-text">/);
+    // the inner label text div (data-slot="input-label") must NOT carry mb-2
+    const labelDivIdx = lines.findIndex((line) => line.includes('data-slot="input-label"'));
+    expect(labelDivIdx).toBeGreaterThan(-1);
+    const divClassLine = lines[labelDivIdx + 1];
+    expect(divClassLine).toMatch(/className="[^"]*text-copy-13/);
+    expect(divClassLine).not.toMatch(/\bmb-2\b/);
+  });
 });

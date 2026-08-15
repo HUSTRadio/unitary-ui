@@ -21,6 +21,8 @@ interface TextareaProps extends React.ComponentProps<"textarea"> {
   size?: TextareaSize;
   /** 官方 error：传入字符串时在字段下方渲染 inline 错误消息，并切换红色光环 */
   error?: React.ReactNode;
+  /** 关联标签：存在时用 <label className="mb-2 block"> 包裹标签文本（13px capitalize gray-900）与输入控件（对齐 Input 结构） */
+  label?: React.ReactNode;
 }
 
 const ERROR_ICON = (
@@ -30,46 +32,57 @@ const ERROR_ICON = (
 );
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, size = "medium", error, ...props }, ref) => {
+  ({ className, size = "medium", error, label, ...props }, ref) => {
     const large = size === "large";
     const errorId = React.useId();
 
+    const wrapper = (
+      <div
+        data-slot="textarea-wrapper"
+        data-size={size}
+        className={cn(
+          "inline-flex w-full overflow-hidden font-normal transition-all duration-150",
+          "shadow-[0_0_0_1px_var(--gray-alpha-400)] hover:shadow-[0_0_0_1px_var(--gray-alpha-500)]",
+          "focus-within:shadow-[0_0_0_1px_var(--gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]",
+          "dark:focus-within:shadow-[0_0_0_1px_var(--gray-alpha-600),0_0_0_4px_rgba(255,255,255,0.24)]",
+          error
+            ? cn(
+                "shadow-[0_0_0_1px_var(--red-900),0_0_0_4px_var(--red-300)]",
+                "hover:shadow-[0_0_0_1px_var(--red-900),0_0_0_4px_var(--red-500)]",
+                "focus-within:shadow-[0_0_0_1px_var(--red-900),0_0_0_4px_var(--red-300)]",
+              )
+            : undefined,
+          large ? "rounded-[8px]" : "rounded-[6px]",
+        )}
+      >
+        <textarea
+          ref={ref}
+          data-slot="textarea"
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? errorId : undefined}
+          className={cn(
+            "flex min-w-0 w-full resize-none border-none bg-background px-3 py-2.5 text-copy-14 text-foreground outline-none",
+            "placeholder:text-muted-foreground",
+            "disabled:cursor-not-allowed disabled:bg-[var(--gray-100)] disabled:text-[var(--gray-700)] disabled:placeholder:text-[var(--gray-600)]",
+            props.rows === undefined ? "h-[100px]" : "h-auto",
+            large && "text-base leading-6",
+            className,
+          )}
+          {...props}
+        />
+      </div>
+    );
+
     return (
       <>
-        <div
-          data-slot="textarea-wrapper"
-          data-size={size}
-          className={cn(
-            "inline-flex w-full overflow-hidden font-normal transition-all duration-150",
-            "shadow-[0_0_0_1px_var(--gray-alpha-400)] hover:shadow-[0_0_0_1px_var(--gray-alpha-500)]",
-            "focus-within:shadow-[0_0_0_1px_var(--gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]",
-            "dark:focus-within:shadow-[0_0_0_1px_var(--gray-alpha-600),0_0_0_4px_rgba(255,255,255,0.24)]",
-            error
-              ? cn(
-                  "shadow-[0_0_0_1px_var(--red-900),0_0_0_4px_var(--red-300)]",
-                  "hover:shadow-[0_0_0_1px_var(--red-900),0_0_0_4px_var(--red-500)]",
-                  "focus-within:shadow-[0_0_0_1px_var(--red-900),0_0_0_4px_var(--red-300)]",
-                )
-              : undefined,
-            large ? "rounded-[8px]" : "rounded-[6px]",
-          )}
-        >
-          <textarea
-            ref={ref}
-            data-slot="textarea"
-            aria-invalid={error ? true : undefined}
-            aria-describedby={error ? errorId : undefined}
-            className={cn(
-              "flex min-w-0 w-full resize-none border-none bg-background px-3 py-2.5 text-copy-14 text-foreground outline-none",
-              "placeholder:text-muted-foreground",
-              "disabled:cursor-not-allowed disabled:bg-[var(--gray-100)] disabled:text-[var(--gray-700)] disabled:placeholder:text-[var(--gray-600)]",
-              props.rows === undefined ? "h-[100px]" : "h-auto",
-              large && "text-base leading-6",
-              className,
-            )}
-            {...props}
-          />
-        </div>
+        {label ? (
+          <label className="mb-2 block cursor-text">
+            <div className="block max-w-full text-copy-13 capitalize text-gray-900">{label}</div>
+            {wrapper}
+          </label>
+        ) : (
+          wrapper
+        )}
         {error ? (
           <div
             role="alert"
