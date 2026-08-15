@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { beforeAll, describe, expect, test } from "vitest";
@@ -206,5 +206,15 @@ describe("collector v2 exact-contract dry run", () => {
     const result = runCollector(missing);
     expect(result.ok).toBe(false);
     expect(result.error).toMatch(/exact acceptance contract/i);
+  });
+});
+
+describe("collector theme control targeting", () => {
+  test("clicks the associated label when the theme radio and label are siblings", () => {
+    const source = readFileSync(collector, "utf8");
+
+    expect(source).toContain(
+      `document.querySelector('label[for="' + CSS.escape(element.id) + '"]')`,
+    );
   });
 });

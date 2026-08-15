@@ -377,7 +377,10 @@ async function applyTheme(send, theme) {
         node.textContent?.trim() === title
       );
       if (!element) return null;
-      const target = element.closest('label') ?? element;
+      const associatedLabel = element.id
+        ? document.querySelector('label[for="' + CSS.escape(element.id) + '"]')
+        : null;
+      const target = element.closest('label') ?? associatedLabel ?? element;
       const rect = target.getBoundingClientRect();
       return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
     })()`,
