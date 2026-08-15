@@ -104,9 +104,15 @@ const COMPONENTS_EN: ComponentMeta[] = [
     official: "Breadcrumbs",
     code: `import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 
-<Breadcrumb type="menu">
+<Breadcrumb type="text">
   <BreadcrumbItem href="#">Home</BreadcrumbItem>
   <BreadcrumbItem href="#">Dashboard</BreadcrumbItem>
+  <BreadcrumbItem active>Overview</BreadcrumbItem>
+</Breadcrumb>
+
+<Breadcrumb type="menu">
+  <BreadcrumbItem>Home</BreadcrumbItem>
+  <BreadcrumbItem>Dashboard</BreadcrumbItem>
   <BreadcrumbItem active>Overview</BreadcrumbItem>
 </Breadcrumb>`,
   },

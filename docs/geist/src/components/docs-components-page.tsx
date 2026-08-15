@@ -3799,11 +3799,18 @@ function BannerDemo() {
 function BreadcrumbsDemo() {
   const { language } = useLanguage();
   return (
-    <Breadcrumb type="menu">
-      <BreadcrumbItem href="#/">{demoText(language, "Home")}</BreadcrumbItem>
-      <BreadcrumbItem href="#/components">Components</BreadcrumbItem>
-      <BreadcrumbItem active>Breadcrumbs</BreadcrumbItem>
-    </Breadcrumb>
+    <div className="flex flex-col gap-4">
+      <Breadcrumb type="text">
+        <BreadcrumbItem href="#/">{demoText(language, "Home")}</BreadcrumbItem>
+        <BreadcrumbItem href="#/components">Components</BreadcrumbItem>
+        <BreadcrumbItem active>Breadcrumbs</BreadcrumbItem>
+      </Breadcrumb>
+      <Breadcrumb type="menu">
+        <BreadcrumbItem>{demoText(language, "Home")}</BreadcrumbItem>
+        <BreadcrumbItem>Components</BreadcrumbItem>
+        <BreadcrumbItem active>Breadcrumbs</BreadcrumbItem>
+      </Breadcrumb>
+    </div>
   );
 }
 
