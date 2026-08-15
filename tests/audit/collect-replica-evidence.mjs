@@ -382,25 +382,31 @@ async function applyTheme(send, theme) {
         : null;
       const target = element.closest('label') ?? associatedLabel ?? element;
       const rect = target.getBoundingClientRect();
-      return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+      if (rect.width === 0 || rect.height === 0) {
+        target.click();
+        return { domClicked: true };
+      }
+      return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2, domClicked: false };
     })()`,
   );
   if (!point) throw new Error(`Theme control not found: ${theme}`);
-  await send("Input.dispatchMouseEvent", { type: "mouseMoved", ...point });
-  await send("Input.dispatchMouseEvent", {
-    type: "mousePressed",
-    ...point,
-    button: "left",
-    buttons: 1,
-    clickCount: 1,
-  });
-  await send("Input.dispatchMouseEvent", {
-    type: "mouseReleased",
-    ...point,
-    button: "left",
-    buttons: 0,
-    clickCount: 1,
-  });
+  if (!point.domClicked) {
+    await send("Input.dispatchMouseEvent", { type: "mouseMoved", ...point });
+    await send("Input.dispatchMouseEvent", {
+      type: "mousePressed",
+      ...point,
+      button: "left",
+      buttons: 1,
+      clickCount: 1,
+    });
+    await send("Input.dispatchMouseEvent", {
+      type: "mouseReleased",
+      ...point,
+      button: "left",
+      buttons: 0,
+      clickCount: 1,
+    });
+  }
   await sleep(250);
   const observed = await evaluate(
     send,

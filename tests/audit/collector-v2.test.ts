@@ -217,4 +217,11 @@ describe("collector theme control targeting", () => {
       `document.querySelector('label[for="' + CSS.escape(element.id) + '"]')`,
     );
   });
+
+  test("falls back to DOM click when the responsive theme control has no layout box", () => {
+    const source = readFileSync(collector, "utf8");
+
+    expect(source).toContain("if (rect.width === 0 || rect.height === 0)");
+    expect(source).toContain("target.click();");
+  });
 });
