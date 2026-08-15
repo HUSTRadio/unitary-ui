@@ -31,6 +31,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "avatar",
     label: "Avatar",
+    labelZh: "头像",
     description: "Represents a user or a team with an image or fallback.",
     official: "Avatar",
     code: `import { Avatar } from "@/components/ui/avatar";
@@ -47,6 +48,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "banner",
     label: "Banner",
+    labelZh: "横幅",
     description:
       "A prominent message that spans the full width of its container to announce important information.",
     official: "Banner",
@@ -59,6 +61,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "book",
     label: "Book",
+    labelZh: "手册",
     description: "A responsive book component.",
     official: "Book",
     code: `import { Book } from "@/components/ui/book";
@@ -84,6 +87,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "browser",
     label: "Browser",
+    labelZh: "浏览器",
     description: "Frames screenshots and demos inside a realistic browser window.",
     official: "Browser",
     code: `import { Browser } from "@/components/ui/browser";
@@ -100,6 +104,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "breadcrumbs",
     label: "Breadcrumbs",
+    labelZh: "面包屑",
     description: "Navigation aid that shows the user's location within a site's hierarchy.",
     official: "Breadcrumbs",
     code: `import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
@@ -119,6 +124,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "badge",
     label: "Badge",
+    labelZh: "徽章",
     description: "Small labels for statuses, counts, and metadata.",
     official: "Badge",
     code: `import { Badge } from "@/components/ui/badge";
@@ -144,6 +150,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "button",
     label: "Button",
+    labelZh: "按钮",
     description: "Triggers an action with configurable variants, sizes, and icons.",
     official: "Button",
     code: `import { Button } from "@/components/ui/button";
@@ -169,6 +176,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "calendar",
     label: "Calendar",
+    labelZh: "日历",
     description: "Displays a month calendar from which users can pick a date.",
     official: "Calendar",
     code: `import { Calendar } from "@/components/ui/calendar";
@@ -183,6 +191,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "choicebox",
     label: "Choicebox",
+    labelZh: "选择框",
     description: "A larger form of Radio for choices with more detail.",
     official: "Choicebox",
     code: `import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
@@ -210,6 +219,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "checkbox",
     label: "Checkbox",
+    labelZh: "复选框",
     description: "Allows users to select one or more items from a group.",
     official: "Checkbox",
     code: `import { Checkbox } from "@/components/ui/checkbox";
@@ -235,6 +245,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "code",
     label: "Code",
+    labelZh: "代码",
     description: "Display a snippet of code with syntax highlighting.",
     official: "Code",
     code: `import { Code, InlineCode } from "@/components/ui/code";
@@ -248,6 +259,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "code-block",
     label: "Code Block",
+    labelZh: "代码块",
     description: "A bordered code block with a filename header for multi-line source.",
     official: "Code Block",
     code: `import { CodeBlock } from "@/components/ui/code-block";
@@ -265,6 +277,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "collapse",
     label: "Collapse",
+    labelZh: "折叠面板",
     description:
       "A vertically stacked set of headings that each reveal a related section of content.",
     official: "Collapse",
@@ -291,6 +304,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "command-menu",
     label: "Command Menu",
+    labelZh: "命令菜单",
     description: "Filters and launches keyboard-first actions in a modal command palette.",
     official: "Command Menu",
     code: `import {
@@ -329,6 +343,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "context-card",
     label: "Context Card",
+    labelZh: "上下文卡片",
     description:
       "A floating card that appears on hover or focus, showing richer detail than a tooltip.",
     official: "Context Card",
@@ -371,6 +386,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "context-menu",
     label: "Context Menu",
+    labelZh: "右键菜单",
     description: "A menu for contextual actions, revealed on right click or long press.",
     official: "Context Menu",
     code: `import {
@@ -407,6 +423,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "description",
     label: "Description",
+    labelZh: "描述",
     description: "Displays key/value metadata pairs as a definition list.",
     official: "Description",
     code: `import { Description } from "@/components/ui/description";
@@ -424,6 +441,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "copy-button",
     label: "Copy Button",
+    labelZh: "复制按钮",
     description: "Copies a given string to the clipboard and provides feedback when copied.",
     official: "Copy Button",
     code: `import { CopyButton } from "@/components/ui/copy-button";
@@ -439,6 +457,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "destructive-action-modal",
     label: "Destructive Action Modal",
+    labelZh: "危险操作确认框",
     description:
       "Confirms destructive actions with a red AlertTriangle header and a destructive confirm button.",
     official: "Destructive Action Modal",
@@ -470,6 +489,7 @@ import { Button } from "@/components/ui/button";
   {
     name: "dots-menu",
     label: "Dots Menu",
+    labelZh: "省略号菜单",
     description:
       "An overflow menu triggered by a three-dot icon that reveals additional actions in a dropdown.",
     official: "Dots Menu",
@@ -486,6 +506,7 @@ import { Button } from "@/components/ui/button";
   {
     name: "menu",
     label: "Menu",
+    labelZh: "菜单",
     description: "Displays a list of actions in a floating menu.",
     official: "Menu",
     code: `import {
@@ -523,6 +544,7 @@ import { Button } from "@/components/ui/button";
   {
     name: "drawer",
     label: "Drawer",
+    labelZh: "抽屉",
     description: "Displays content in a separate bottom view from the existing context.",
     official: "Drawer",
     code: `import { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
@@ -549,6 +571,7 @@ import { Button } from "@/components/ui/button";
   {
     name: "empty-state",
     label: "Empty State",
+    labelZh: "空状态",
     description: "Fills spaces when no content has been added yet or a view is empty.",
     official: "Empty State",
     code: `import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
@@ -571,6 +594,7 @@ import { Inbox } from "lucide-react";
   {
     name: "error",
     label: "Error",
+    labelZh: "错误",
     description: "Provides a friendly, actionable message when an operation fails.",
     official: "Error",
     code: `import { Error } from "@/components/ui/error";
@@ -592,6 +616,7 @@ import { Inbox } from "lucide-react";
   {
     name: "feedback",
     label: "Feedback",
+    labelZh: "反馈",
     description: "Gathers an emoji rating and open text feedback.",
     official: "Feedback",
     code: `import { Feedback } from "@/components/ui/feedback";
@@ -609,6 +634,7 @@ import { Inbox } from "lucide-react";
   {
     name: "fieldset",
     label: "Fieldset",
+    labelZh: "字段集",
     description: "Groups related form controls into a single semantic unit.",
     official: "Fieldset",
     code: `import {
@@ -644,6 +670,7 @@ import { Inbox } from "lucide-react";
   {
     name: "grid",
     label: "Grid",
+    labelZh: "栅格",
     description: "Displays elements in a grid layout.",
     official: "Grid",
     code: `import { Grid, GridItem } from "@/components/ui/grid";
@@ -671,6 +698,7 @@ import { Inbox } from "lucide-react";
   {
     name: "file-tree",
     label: "File Tree",
+    labelZh: "文件树",
     description: "Displays a hierarchical directory structure with expandable folders and files.",
     official: "File Tree",
     code: `import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@/components/ui/file-tree";
@@ -697,6 +725,7 @@ import { Inbox } from "lucide-react";
   {
     name: "gauge",
     label: "Gauge",
+    labelZh: "仪表",
     description: "A circular visual for conveying a percentage.",
     official: "Gauge",
     code: `import { Gauge } from "@/components/ui/gauge";
@@ -716,6 +745,7 @@ import { Inbox } from "lucide-react";
   {
     name: "input",
     label: "Input",
+    labelZh: "输入框",
     description: "A single-line text field for user input.",
     official: "Input",
     code: `import { Input } from "@/components/ui/input";
@@ -743,6 +773,7 @@ import { Inbox } from "lucide-react";
   {
     name: "json-view",
     label: "JsonView",
+    labelZh: "JSON 查看器",
     description: "Renders JSON as a syntax-highlighted tree.",
     official: "JsonView",
     code: `import { JsonView } from "@/components/ui/json-view";
@@ -759,6 +790,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "keyboard-input",
     label: "Keyboard Input",
+    labelZh: "键盘输入",
     description: "Displays keyboard input that triggers an action.",
     official: "Keyboard Input",
     code: `import { Kbd } from "@/components/ui/keyboard-input";
@@ -780,6 +812,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "loading-dots",
     label: "Loading Dots",
+    labelZh: "加载圆点",
     description: "Indicates an action running in the background with three bouncing dots.",
     official: "Loading Dots",
     code: `import { LoadingDots } from "@/components/ui/loading-dots";
@@ -799,6 +832,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "label",
     label: "Label",
+    labelZh: "标签",
     description: "Accessible text label for form controls.",
     official: "Label",
     code: `import { Label } from "@/components/ui/label";
@@ -814,6 +848,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "load-more-button",
     label: "Load More Button",
+    labelZh: "加载更多按钮",
     description: "A full-width button that appends more items to a paginated list.",
     official: "Load More Button",
     code: `import { LoadMoreButton } from "@/components/ui/load-more-button";
@@ -824,6 +859,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "modal",
     label: "Modal",
+    labelZh: "模态框",
     description: "Displays a dialog that interrupts the user.",
     official: "Modal",
     code: `import { Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalDescription, ModalFooter, ModalClose } from "@/components/ui/modal";\n\n<Modal>\n  <ModalTrigger asChild>\n    <Button>Open Modal</Button>\n  </ModalTrigger>\n  <ModalContent>\n    <ModalHeader>\n      <ModalTitle>Delete Project</ModalTitle>\n      <ModalDescription>This action cannot be undone.</ModalDescription>\n    </ModalHeader>\n    <ModalFooter>\n      <ModalClose asChild>\n        <Button type="secondary">Cancel</Button>\n      </ModalClose>\n      <Button type="error">Delete</Button>\n    </ModalFooter>\n  </ModalContent>\n</Modal>`,
@@ -849,6 +885,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "note",
     label: "Note",
+    labelZh: "注释",
     description: "Displays text that requires attention or provides additional information.",
     official: "Note",
     code: `import { Note } from "@/components/ui/note";
@@ -869,6 +906,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "pagination",
     label: "Pagination",
+    labelZh: "分页",
     description: "Navigates through numbered pages of a data set.",
     official: "Pagination",
     code: `import { Pagination } from "@/components/ui/pagination";
@@ -888,6 +926,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "phone",
     label: "Phone",
+    labelZh: "手机外框",
     description: "Frames mobile screenshots inside a realistic phone shell.",
     official: "Phone",
     code: `import { Phone, PhoneScreen } from "@/components/ui/phone";
@@ -904,6 +943,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "pill",
     label: "Pill",
+    labelZh: "胶囊标签",
     description: "Clickable filter chip for toggling a query or selection.",
     official: "Pill",
     code: `import { Pill } from "@/components/ui/pill";
@@ -920,6 +960,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "progress",
     label: "Progress",
+    labelZh: "进度条",
     description: "Shows progress relative to a limit or a task.",
     official: "Progress",
     code: `import { Progress } from "@/components/ui/progress";
@@ -937,6 +978,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "project-banner",
     label: "Project Banner",
+    labelZh: "项目横幅",
     description: "Used for temporary, project-wide notifications that require resolution.",
     official: "Project Banner",
     code: `import {
@@ -965,6 +1007,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "radio",
     label: "Radio",
+    labelZh: "单选按钮",
     description: "Provides single user input from a selection of options.",
     official: "Radio",
     code: `import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
@@ -985,6 +1028,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "scroller",
     label: "Scroller",
+    labelZh: "滚动容器",
     description: "Displays an overflowing list of items.",
     official: "Scroller",
     code: `import { Scroller } from "@/components/ui/scroller";
@@ -1006,6 +1050,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "switch",
     label: "Switch",
+    labelZh: "分段选择",
     description: "A slider group for mutually exclusive view options.",
     official: "Switch",
     code: `import { Switch, SwitchControl } from "@/components/ui/switch";
@@ -1030,6 +1075,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "sheet",
     label: "Sheet",
+    labelZh: "侧边面板",
     description: "Displays content in a side panel that slides in from the edge of the screen.",
     official: "Sheet",
     code: `import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from "@/components/ui/sheet";
@@ -1065,6 +1111,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "select",
     label: "Select",
+    labelZh: "下拉选择器",
     description: "Presents a list of options in a dropdown.",
     official: "Select",
     code: `import { Select } from "@/components/ui/select";
@@ -1088,6 +1135,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "separator",
     label: "Separator",
+    labelZh: "分隔线",
     description: "Divides content into visually distinct groups.",
     official: "Separator",
     code: `import { Separator } from "@/components/ui/separator";
@@ -1109,6 +1157,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "show-more",
     label: "Show More",
+    labelZh: "显示更多",
     description: "Shows expanded or collapsed content with a progressive-disclosure trigger.",
     official: "Show More",
     code: `import { ShowMore } from "@/components/ui/show-more";
@@ -1130,6 +1179,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "skeleton",
     label: "Skeleton",
+    labelZh: "骨架屏",
     description: "Displays a placeholder while content is loading.",
     official: "Skeleton",
     code: `import { Skeleton } from "@/components/ui/skeleton";
@@ -1146,6 +1196,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
   {
     name: "slider",
     label: "Slider",
+    labelZh: "滑块",
     description: "An input to select a value from a given range.",
     official: "Slider",
     code: `import { Slider } from "@/components/ui/slider";
@@ -1165,6 +1216,7 @@ const [value, setValue] = useState([50]);
   {
     name: "snippet",
     label: "Snippet",
+    labelZh: "代码片段",
     description: "Displays a runnable shell command or short code the user is meant to copy.",
     official: "Snippet",
     code: `import { Snippet } from "@/components/ui/snippet";
@@ -1181,6 +1233,7 @@ const [value, setValue] = useState([50]);
   {
     name: "spinner",
     label: "Spinner",
+    labelZh: "加载指示器",
     description: "Indicates an in-progress operation.",
     official: "Spinner",
     code: `import { Spinner } from "@/components/ui/spinner";
@@ -1198,6 +1251,7 @@ const [value, setValue] = useState([50]);
   {
     name: "status-dot",
     label: "Status Dot",
+    labelZh: "状态圆点",
     description: "Displays an indicator of deployment status.",
     official: "Status Dot",
     code: `import { StatusDot } from "@/components/ui/status-dot";
@@ -1217,6 +1271,7 @@ const [value, setValue] = useState([50]);
   {
     name: "step-point",
     label: "Step Point",
+    labelZh: "步骤指示点",
     description: "Marks progress through a multi-step flow.",
     official: "StepPoint",
     code: `import { StepPoint } from "@/components/ui/step-point";
@@ -1230,6 +1285,7 @@ const [value, setValue] = useState([50]);
   {
     name: "table",
     label: "Table",
+    labelZh: "表格",
     description: "Displays structured data in rows and columns.",
     official: "Table",
     code: `import {
@@ -1281,6 +1337,7 @@ const [value, setValue] = useState([50]);
   {
     name: "tabs",
     label: "Tabs",
+    labelZh: "标签页",
     description: "Organizes content into switchable panels.",
     official: "Tabs",
     code: `import { Tabs } from "@/components/ui/tabs";
@@ -1313,6 +1370,7 @@ const [value, setValue] = useState([50]);
   {
     name: "text-with-copy-button",
     label: "Text With Copy Button",
+    labelZh: "带复制按钮的文本",
     description: "Displays text alongside a button that copies it to the clipboard.",
     official: "Text With Copy Button",
     code: `import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
@@ -1322,6 +1380,7 @@ const [value, setValue] = useState([50]);
   {
     name: "textarea",
     label: "Textarea",
+    labelZh: "多行文本域",
     description: "A multi-line text field for longer input.",
     official: "Textarea",
     code: `import { Textarea } from "@/components/ui/textarea";
@@ -1341,6 +1400,7 @@ const [value, setValue] = useState([50]);
   {
     name: "toast",
     label: "Toast",
+    labelZh: "轻提示",
     description: "A succinct message that is displayed temporarily.",
     official: "Toast",
     code: `import { Button } from "@/components/ui/button";
@@ -1372,6 +1432,7 @@ function Example() {
   {
     name: "toggle",
     label: "Toggle",
+    labelZh: "开关",
     description: "A switch for a single boolean setting.",
     official: "Toggle",
     code: `import { Toggle } from "@/components/ui/toggle";
@@ -1392,6 +1453,7 @@ function Example() {
   {
     name: "tooltip",
     label: "Tooltip",
+    labelZh: "工具提示",
     description: "A floating label that appears on hover or focus.",
     official: "Tooltip",
     code: `import { Tooltip } from "@/components/ui/tooltip";
@@ -1413,6 +1475,7 @@ function Example() {
   {
     name: "theme-switcher",
     label: "Theme Switcher",
+    labelZh: "主题切换器",
     description: "Switches between light, dark, and system themes.",
     official: "Theme Switcher",
     code: `import { ThemeSwitcher } from "@/components/ui/theme-switcher";
@@ -1430,6 +1493,7 @@ function Example() {
   {
     name: "video",
     label: "Video",
+    labelZh: "视频",
     description: "Embeds a video with built-in playback controls.",
     official: "Video",
     code: `import { Video } from "@/components/ui/video";
@@ -1444,6 +1508,7 @@ function Example() {
   {
     name: "clearable-input",
     label: "Clearable Input",
+    labelZh: "可清空输入框",
     description:
       "A text input with an inline Esc keycap that clears on pointer activation or Escape.",
     official: "Clearable Input",
@@ -1459,6 +1524,7 @@ function Example() {
   {
     name: "combobox",
     label: "Combobox",
+    labelZh: "组合框",
     description: "A searchable single-select list.",
     official: "Combobox",
     code: `import { Combobox, ComboboxContent, ComboboxItem, ComboboxTrigger } from "@/components/ui/combobox";
@@ -1478,6 +1544,7 @@ function Example() {
   {
     name: "entity",
     label: "Entity",
+    labelZh: "实体",
     description: "A structured row for an entity and its primary action.",
     official: "Entity",
     code: `import { Entity, EntityContent, EntityDescription, EntityTitle } from "@/components/ui/entity";
@@ -1496,6 +1563,7 @@ function Example() {
   {
     name: "error-card",
     label: "Error Card",
+    labelZh: "错误卡片",
     description: "A contained error state with recovery guidance.",
     official: "Error Card",
     code: `import { ErrorCard, ErrorCardDescription, ErrorCardTitle } from "@/components/ui/error-card";
@@ -1512,6 +1580,7 @@ function Example() {
   {
     name: "middle-truncate",
     label: "Middle Truncate",
+    labelZh: "中间截断",
     description: "Preserves the beginning and end of long identifiers.",
     official: "Middle Truncate",
     code: `import { MiddleTruncate } from "@/components/ui/middle-truncate";
@@ -1525,6 +1594,7 @@ function Example() {
   {
     name: "multi-select",
     label: "Multi Select",
+    labelZh: "多选",
     description: "A filterable list that supports multiple selections.",
     official: "Multi Select",
     code: `import {
@@ -1559,6 +1629,7 @@ function Example() {
   {
     name: "relative-time-card",
     label: "Relative Time Card",
+    labelZh: "相对时间卡片",
     description: "Shows a relative timestamp with temporal context.",
     official: "Relative Time Card",
     code: `import { RelativeTimeCard } from "@/components/ui/relative-time-card";
@@ -1572,6 +1643,7 @@ function Example() {
   {
     name: "search-input",
     label: "Search Input",
+    labelZh: "搜索框",
     description: "A search field with a standard leading icon.",
     official: "Search Input",
     code: `import { SearchInput } from "@/components/ui/search-input";
@@ -1585,6 +1657,7 @@ function Example() {
   {
     name: "split-button",
     label: "Split Button",
+    labelZh: "拆分按钮",
     description: "Combines a primary action with a short menu of related actions.",
     official: "Split Button",
     code: `import { SplitButton, SplitButtonMain, SplitButtonMenu } from "@/components/ui/split-button";
