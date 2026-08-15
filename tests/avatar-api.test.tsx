@@ -47,4 +47,25 @@ describe("Avatar official API contract", () => {
     expect(reversed.indexOf("first")).toBeLessThan(reversed.indexOf("second"));
     expect(reversed.indexOf("second")).toBeLessThan(reversed.indexOf("third"));
   });
+
+  it("AvatarGroup stacks members with negative overlap margin and official z-index order", () => {
+    const members = [{ username: "alice" }, { username: "bob" }, { username: "carol" }];
+
+    const normal = renderToStaticMarkup(<AvatarGroup members={members} size={32} />);
+    const reversed = renderToStaticMarkup(<AvatarGroup members={members} reverse size={32} />);
+
+    // 负 margin（overlap）必须用合法的 -ml-[var(...)] 形式（而非无效的 ml-[-1*var(...)]）
+    expect(normal).toContain("-ml-[var(--avatar-overlap)]");
+    expect(normal).not.toContain("-1*var(--avatar-overlap)");
+
+    // 默认：第一个成员在最上面 → z-index 递减（2/1/0），对齐官方 3 成员组
+    expect(normal).toContain("z-index:2");
+    expect(normal).toContain("z-index:1");
+    expect(normal).toContain("z-index:0");
+
+    // reverse：最后一个成员在最上面 → z-index 递增（0/1/2）
+    expect(reversed).toContain("z-index:2");
+    expect(reversed).toContain("z-index:1");
+    expect(reversed).toContain("z-index:0");
+  });
 });

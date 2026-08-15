@@ -139,9 +139,9 @@ function AvatarGroup({
           key={member.username}
           className={cn(
             "relative inline-flex items-center rounded-full shadow-[0_0_0_1px_var(--color-background-100)]",
-            i > 0 && "ml-[-1*var(--avatar-overlap)]",
+            i > 0 && "-ml-[var(--avatar-overlap)]",
           )}
-          style={reverse ? { zIndex: list.length - i } : undefined}
+          style={{ zIndex: reverse ? i : list.length - 1 - i }}
         >
           <Avatar size={size} username={member.username} title={member.title ?? member.username} />
         </span>
@@ -150,7 +150,7 @@ function AvatarGroup({
         <span
           aria-label={`${hiddenCount} more avatars in this group`}
           role="img"
-          className="relative ml-[-1*var(--avatar-overlap)] inline-flex items-center rounded-full shadow-[0_0_0_1px_var(--color-background-100)]"
+          className="relative -ml-[var(--avatar-overlap)] inline-flex items-center rounded-full shadow-[0_0_0_1px_var(--color-background-100)]"
         >
           <Avatar
             size={size}
