@@ -57,7 +57,7 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
       <span
         data-slot="radio-control"
         className={cn(
-          "relative -m-0.5 inline-flex size-5 shrink-0 items-center justify-center p-0.5",
+          "-m-0.5 inline-flex size-5 shrink-0 items-center justify-center p-0.5",
           className,
         )}
       >
