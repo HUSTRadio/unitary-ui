@@ -643,13 +643,13 @@
     },
     {
       "slug": "combobox",
-      "batch": "BLOCKED",
-      "inventoryStatus": "pending_live_enumeration",
-      "gate": "BLOCKED",
+      "batch": "B2",
+      "inventoryStatus": "live_enumeration_partial",
+      "gate": "RE_EVIDENCE_REQUIRED",
       "dimensions": {
         "officialCapabilities": "PARTIAL",
-        "api": "FAIL",
-        "dom": "FAIL",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
         "states": "PARTIAL",
         "responsive": "MISSING",
         "aria": "PARTIAL",
@@ -658,7 +658,7 @@
         "comparison": "MISSING"
       },
       "evidence": ["combobox/delegation/live-transcript.log"],
-      "notes": "14 demos and main flow were enumerated live; official Combobox/Input/List/Option searchbox+listbox architecture is frozen and local Trigger/Content/Item API is a confirmed failure. Full report was not persisted during ENOSPC; reconstruct it and add Dark/four-viewport/Modal/Sheet matrices before implementation"
+      "notes": "本地 Combobox/ComboboxInput/ComboboxList/ComboboxOption 已完整实现（searchbox+listbox 架构对齐官方 div[role=combobox] + group/combobox + portal panel z-2001 + listbox + 首项高亮），本地浏览器验证 5 demo 打开态正常。待补：Dark/四视口矩阵、官方/local comparison、完整报告重建（ENOSPC 曾丢失）。"
     },
     {
       "slug": "modal",
