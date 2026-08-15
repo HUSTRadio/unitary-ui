@@ -4341,7 +4341,7 @@ function DescriptionDemo() {
 const ENTITY_DEMO_VARS = {
   "--geist-gap-half": "6px",
   "--geist-form-small-font": "14px",
-  "--geist-background": "var(--background-200)",
+  "--geist-background": "var(--entity-list-background)",
   "--accents-1": "#fafafa",
   "--accents-2": "var(--entity-list-divider)",
   "--ds-shadow-border": "0 0 0 1px var(--ds-gray-alpha-400)",
@@ -4389,7 +4389,7 @@ function EntityDemo() {
   ];
 
   return (
-    <div className="w-full max-w-[862px] space-y-6 [--entity-list-divider:#eaeaea] dark:[--entity-list-divider:#333333]">
+    <div className="w-full max-w-[862px] space-y-6 [--entity-list-background:var(--background-100)] [--entity-list-divider:#eaeaea] dark:[--entity-list-background:var(--background-200)] dark:[--entity-list-divider:#333333]">
       <div
         className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"

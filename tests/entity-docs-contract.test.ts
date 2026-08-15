@@ -9,17 +9,17 @@ const source = readFileSync(
 
 describe("Entity official demo contract", () => {
   test("uses the theme-sensitive legacy list surface and divider colors", () => {
-    expect(source).toContain('"--geist-background": "var(--background-200)"');
+    expect(source).toContain('"--geist-background": "var(--entity-list-background)"');
     expect(source).toContain('"--accents-2": "var(--entity-list-divider)"');
+    expect(source).toContain("[--entity-list-background:var(--background-100)]");
+    expect(source).toContain("dark:[--entity-list-background:var(--background-200)]");
     expect(source).toContain("[--entity-list-divider:#eaeaea]");
     expect(source).toContain("dark:[--entity-list-divider:#333333]");
   });
 
   test("keeps checkbox and column-class demo containers at auto min-width", () => {
     for (const demoId of ["entity-with-list-and-checkbox", "entity-with-column-class-names"]) {
-      expect(source).toContain(
-        `<div className="w-full p-6" data-demo-container="${demoId}">`,
-      );
+      expect(source).toContain(`<div className="w-full p-6" data-demo-container="${demoId}">`);
     }
   });
 });
