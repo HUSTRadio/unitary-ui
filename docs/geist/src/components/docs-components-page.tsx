@@ -4000,6 +4000,8 @@ function ClearableInputDemo() {
   );
 }
 
+const COLLAPSE_DIVIDER_CLS = "border-[#eaeaea] dark:border-[#333333]";
+
 function CollapseDemo() {
   const { language } = useLanguage();
   const questionA = demoText(language, "Question A");
@@ -4013,7 +4015,7 @@ function CollapseDemo() {
     "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
   );
   const renderItem = (title: string, body: string, defaultOpen = false) => (
-    <Collapse className="border-b border-[#eaeaea]" defaultOpen={defaultOpen}>
+    <Collapse className={`border-b ${COLLAPSE_DIVIDER_CLS}`} defaultOpen={defaultOpen}>
       <h3 className="text-[24px] font-semibold text-foreground">
         <CollapseTrigger>{title}</CollapseTrigger>
       </h3>
@@ -4032,7 +4034,7 @@ function CollapseDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
-            <div className="border-t border-[#eaeaea]">
+            <div className={`border-t ${COLLAPSE_DIVIDER_CLS}`}>
               {renderItem(questionA, lorem)}
               {renderItem(questionB, duis)}
             </div>
@@ -4045,7 +4047,7 @@ function CollapseDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="expanded">
-            <div className="border-t border-[#eaeaea]">
+            <div className={`border-t ${COLLAPSE_DIVIDER_CLS}`}>
               {renderItem(questionA, lorem)}
               {renderItem(questionB, duis, true)}
             </div>
@@ -4058,7 +4060,7 @@ function CollapseDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="multiple">
-            <div className="border-t border-[#eaeaea]">
+            <div className={`border-t ${COLLAPSE_DIVIDER_CLS}`}>
               {renderItem(questionA, lorem)}
               {renderItem(questionB, duis)}
             </div>
@@ -4071,7 +4073,7 @@ function CollapseDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="small">
-            <Collapse size="small" className="border-t border-b border-[#eaeaea]">
+            <Collapse size="small" className={`border-t border-b ${COLLAPSE_DIVIDER_CLS}`}>
               <h3 className="text-[16px] font-medium text-foreground">
                 <CollapseTrigger>{questionA}</CollapseTrigger>
               </h3>
