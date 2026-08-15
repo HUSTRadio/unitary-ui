@@ -4341,9 +4341,9 @@ function DescriptionDemo() {
 const ENTITY_DEMO_VARS = {
   "--geist-gap-half": "6px",
   "--geist-form-small-font": "14px",
-  "--geist-background": "var(--background-100)",
+  "--geist-background": "var(--background-200)",
   "--accents-1": "#fafafa",
-  "--accents-2": "#eaeaea",
+  "--accents-2": "var(--entity-list-divider)",
   "--ds-shadow-border": "0 0 0 1px var(--ds-gray-alpha-400)",
   "--ds-gray-200": "var(--gray-200)",
   "--ds-focus-ring": "0 0 0 2px var(--background-100), 0 0 0 4px var(--focus-ring-color)",
@@ -4389,7 +4389,7 @@ function EntityDemo() {
   ];
 
   return (
-    <div className="w-full max-w-[862px] space-y-6">
+    <div className="w-full max-w-[862px] space-y-6 [--entity-list-divider:#eaeaea] dark:[--entity-list-divider:#333333]">
       <div
         className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
@@ -4505,10 +4505,7 @@ function EntityDemo() {
         style={ENTITY_DEMO_VARS}
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div
-            className="w-full min-w-full p-6"
-            data-demo-container="entity-with-list-and-checkbox"
-          >
+          <div className="w-full p-6" data-demo-container="entity-with-list-and-checkbox">
             <ul className={ENTITY_UL_CLS}>
               {memberRows.map((row, index) => (
                 <button key={row.title} type="submit" className={ENTITY_CHECKBOX_ROW_CLS}>
@@ -4588,10 +4585,7 @@ function EntityDemo() {
         style={ENTITY_DEMO_VARS}
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div
-            className="w-full min-w-full p-6"
-            data-demo-container="entity-with-column-class-names"
-          >
+          <div className="w-full p-6" data-demo-container="entity-with-column-class-names">
             <ul className={ENTITY_UL_CLS}>
               <Entity
                 leftClassName="border border-dashed border-gray-300 rounded-md p-2"
