@@ -8142,16 +8142,17 @@
               "acceptanceProfile": "strict",
               "styleProfile": "graphic"
             },
-            "radio-label": {
+            "radio-control": {
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6 label[data-geist-radio-item] span",
-                  "local": "[data-demo-container=\"default\"] [data-slot=\"radio-item-wrapper\"] span.ml-2"
+                  "local": "[data-demo-container=\"default\"] [data-slot=\"radio-control\"]"
                 },
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "mapped-text"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             }
           },
           "semanticNodeInventory": [],
@@ -8200,16 +8201,17 @@
               "acceptanceProfile": "strict",
               "styleProfile": "graphic"
             },
-            "radio-label": {
+            "radio-control": {
               "selectors": {
                 "default": {
                   "official": "a[href=\"#radio-disabled\"] ~ * div.w-full.p-6 label[data-geist-radio-item] span",
-                  "local": "[data-demo-container=\"radio-disabled\"] [data-slot=\"radio-item-wrapper\"] span.ml-2"
+                  "local": "[data-demo-container=\"radio-disabled\"] [data-slot=\"radio-control\"]"
                 },
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "mapped-text"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             }
           },
           "semanticNodeInventory": [],
@@ -8258,16 +8260,17 @@
               "acceptanceProfile": "strict",
               "styleProfile": "graphic"
             },
-            "radio-label": {
+            "radio-control": {
               "selectors": {
                 "default": {
                   "official": "a[href=\"#radio-required\"] ~ * div.w-full.p-6 label[data-geist-radio-item] span",
-                  "local": "[data-demo-container=\"radio-required\"] [data-slot=\"radio-item-wrapper\"] span.ml-2"
+                  "local": "[data-demo-container=\"radio-required\"] [data-slot=\"radio-control\"]"
                 },
                 "byViewport": {}
               },
               "presence": "required",
-              "acceptanceProfile": "mapped-text"
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             }
           },
           "semanticNodeInventory": [],
