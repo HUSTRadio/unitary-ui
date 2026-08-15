@@ -21,8 +21,8 @@ interface TooltipProps {
 }
 
 const tooltipColors: Record<TooltipType, { background: string; foreground: string }> = {
-  // Official uses the INVERTED surface: light -> bg #0a0a0a fg #ededed; dark -> bg white fg #0a0a0a
-  default: { background: "var(--invert-background)", foreground: "var(--invert-foreground)" },
+  // Official default tooltip uses the normal surface: bg background-100 (light #fff / dark #0a0a0a) + gray-1000 text.
+  default: { background: "var(--background-100)", foreground: "var(--foreground)" },
   success: { background: "var(--success)", foreground: "#ffffff" },
   error: { background: "var(--destructive)", foreground: "#ffffff" },
   warning: { background: "var(--warning)", foreground: "#0a0a0a" },
