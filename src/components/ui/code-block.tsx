@@ -191,7 +191,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
                   data-added={addedLinesNumbers.includes(number)}
                   data-removed={removedLinesNumbers.includes(number)}
                   data-referenced={referenced}
-                  className="flex min-w-max data-[highlighted=true]:bg-[var(--code-highlight)] data-[added=true]:bg-[var(--code-added)] data-[removed=true]:bg-[var(--code-removed)] data-[referenced=true]:bg-[var(--code-referenced)]"
+                  className="flex min-w-max px-5 data-[highlighted=true]:bg-[var(--code-highlight)] data-[added=true]:bg-[var(--code-added)] data-[removed=true]:bg-[var(--code-removed)] data-[referenced=true]:bg-[var(--code-referenced)]"
                 >
                   {!hideLineNumbers ? (
                     <button
@@ -203,7 +203,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
                       {number}
                     </button>
                   ) : null}
-                  <div className="token-line min-w-max pr-5 whitespace-pre">
+                  <div className="token-line min-w-max whitespace-pre">
                     {addedLinesNumbers.includes(number)
                       ? "+"
                       : removedLinesNumbers.includes(number)
