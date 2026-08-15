@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { DocsBanner, DocsSidebar } from "./components/docs-shell";
 import { DocsPagination, FeedbackPanel } from "./components/docs-feedback";
 import { ComponentsPage } from "./components/docs-components-page";
+import { IconsPage } from "./components/docs-icons";
 import {
   ColorsPage,
   GridPage,
@@ -31,6 +32,7 @@ const PAGE_COMPONENTS: Record<string, ComponentType> = {
   "/materials": MaterialsPage,
   "/grid": GridPage,
   "/components": ComponentsPage,
+  "/icons": IconsPage,
 };
 
 const PAGE_TITLES: Record<string, string> = {
@@ -41,6 +43,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/materials": "Materials",
   "/grid": "Grid",
   "/components": "Components",
+  "/icons": "Icons",
 };
 
 function getPageTitle(pathname: string, language: DocsLanguage) {

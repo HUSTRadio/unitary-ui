@@ -29,6 +29,7 @@ export const NAV_GROUPS: NavGroup[] = [
     titleZh: "基础",
     items: [
       { label: "Introduction", labelZh: "介绍", to: "/" },
+      { label: "Icons", labelZh: "图标", to: "/icons" },
       { label: "Colors", labelZh: "颜色", to: "/colors" },
       { label: "Typography", labelZh: "排版", to: "/typography" },
       { label: "Materials", labelZh: "材质", to: "/materials" },

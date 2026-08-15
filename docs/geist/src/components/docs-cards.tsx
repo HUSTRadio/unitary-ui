@@ -255,7 +255,7 @@ function TypefacePreview() {
 
 const DOC_CARDS: Omit<DocCardProps, "children">[] = [
   {
-    href: "/components",
+    href: "/icons",
     title: "Icons",
     description: "Icon set tailored for developer tools.",
   },
