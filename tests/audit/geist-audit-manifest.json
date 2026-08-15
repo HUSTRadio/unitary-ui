@@ -8354,8 +8354,8 @@
             "radio": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#radio-standalone\"] ~ * div.w-full.p-6 li",
-                  "local": "[data-demo-container=\"radio-standalone\"] li"
+                  "official": "a[href=\"#radio-standalone\"] ~ * div.w-full.p-6 input[type=\"radio\"]",
+                  "local": "[data-demo-container=\"radio-standalone\"] input[type=\"radio\"]"
                 },
                 "byViewport": {}
               },
