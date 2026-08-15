@@ -53,7 +53,7 @@ describe("Checkbox official API contract (G02)", () => {
   test("indeterminate uses foreground treatment with a Minus line", async () => {
     const src = await read("src/components/ui/checkbox.tsx");
     expect(src).toMatch(/<Minus/);
-    expect(src).toMatch(/hidden group-data-\[state=indeterminate\]\/checkbox:block/);
+    expect(src).toMatch(/invisible group-data-\[state=indeterminate\]\/checkbox:visible/);
     const markup = checkbox({ checked: "indeterminate", "aria-label": "Select all" });
     expect(markup).toContain('aria-checked="mixed"');
     expect(markup).toContain('data-state="indeterminate"');

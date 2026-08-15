@@ -39,16 +39,17 @@ function Checkbox({
       {...props}
     >
       <CheckboxPrimitive.Indicator
+        forceMount
         data-slot="checkbox-indicator"
         className="grid place-content-center text-current transition-transform duration-150 ease-out data-[state=checked]:scale-100 data-[state=indeterminate]:scale-100 data-[state=unchecked]:scale-0"
       >
         <Check
-          className="hidden group-data-[state=checked]/checkbox:block group-data-[size=sm]/checkbox:size-3.5 group-data-[size=default]/checkbox:size-3.5 group-data-[size=lg]/checkbox:size-4"
+          className="col-start-1 row-start-1 invisible group-data-[state=checked]/checkbox:visible group-data-[size=sm]/checkbox:size-3.5 group-data-[size=default]/checkbox:size-3.5 group-data-[size=lg]/checkbox:size-4"
           strokeWidth={2}
           aria-hidden
         />
         <Minus
-          className="hidden group-data-[state=indeterminate]/checkbox:block group-data-[size=sm]/checkbox:size-3.5 group-data-[size=default]/checkbox:size-3.5 group-data-[size=lg]/checkbox:size-4"
+          className="col-start-1 row-start-1 invisible group-data-[state=indeterminate]/checkbox:visible group-data-[size=sm]/checkbox:size-3.5 group-data-[size=default]/checkbox:size-3.5 group-data-[size=lg]/checkbox:size-4"
           strokeWidth={2}
           aria-hidden
         />
