@@ -67,6 +67,15 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import {
+  ContextCard,
+  ContextCardBody,
+  ContextCardDescription,
+  ContextCardFooter,
+  ContextCardHeader,
+  ContextCardTitle,
+  ContextCardTrigger,
+} from "@/components/ui/context-card";
 import { CopyButton } from "@/components/ui/copy-button";
 import { Description } from "@/components/ui/description";
 import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
@@ -3475,52 +3484,108 @@ function TextWithCopyButtonDemo() {
 
 function ContextCardDemo() {
   const { language } = useLanguage();
-  const triggers = [
-    { label: demoText(language, "Top"), id: "top" },
-    { label: demoText(language, "Bottom"), id: "bottom" },
-    { label: demoText(language, "Left"), id: "left" },
-    { label: demoText(language, "Right"), id: "right" },
-  ];
-  return (
-    <div className="w-full max-w-[862px]">
-      <div
-        className="group relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="default"
-      >
-        <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
-            <div className="flex flex-row items-stretch justify-around flex-initial">
-              {triggers.map((trigger) => (
-                <div
-                  key={trigger.id}
-                  className="flex flex-col items-center justify-center flex-initial"
-                >
-                  <div className="inline-flex cursor-pointer flex-[0_1_auto] overflow-hidden">
-                    <span className="block text-base leading-6 text-gray-1000">
-                      {trigger.label}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+  const card = (
+    <ContextCard>
+      <ContextCardHeader>
+        <div className="size-8 shrink-0 rounded-full bg-gray-400" aria-hidden />
+        <div>
+          <ContextCardTitle>Acme Inc.</ContextCardTitle>
+          <ContextCardDescription>@acme · San Francisco</ContextCardDescription>
         </div>
-        <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-          <div className="border-b-lg w-full" data-state="closed">
-            <button
-              type="button"
-              aria-expanded={false}
-              data-state="closed"
-              className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-            >
-              <div className="-rotate-90">
-                <ChevronRight className="size-4" aria-hidden />
-              </div>
-            </button>
-            <div data-state="closed" hidden />
-          </div>
+      </ContextCardHeader>
+      <ContextCardBody>
+        <p className="text-copy-13 text-muted-foreground">Last Active: 2h ago</p>
+        <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
+      </ContextCardBody>
+      <ContextCardFooter>
+        <Button type="secondary" typeName="button" size="small">
+          {demoText(language, "View Project")}
+        </Button>
+      </ContextCardFooter>
+    </ContextCard>
+  );
+
+  const demo = (id: string, children: React.ReactNode) => (
+    <div
+      className="w-full max-w-[862px] overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="flex w-full overflow-x-auto md:overflow-visible">
+        <div className="w-full p-6" data-demo-container={id}>
+          {children}
         </div>
       </div>
+      <button
+        type="button"
+        aria-expanded={false}
+        className="flex h-12 w-full items-center gap-3 border-t border-gray-400 bg-background-200 px-4 text-left text-label-14 text-gray-900 focus-ring"
+      >
+        <ChevronRight className="size-4 -rotate-90" aria-hidden />
+        {demoText(language, "Show code")}
+      </button>
+    </div>
+  );
+
+  return (
+    <div className="flex w-full flex-col gap-6">
+      {demo(
+        "default",
+        <div className="flex flex-wrap items-center justify-around gap-6">
+          {(["Top", "Bottom", "Left", "Right"] as const).map((label) => (
+            <ContextCardTrigger
+              key={label}
+              content={card}
+              side={label.toLowerCase() as "top" | "bottom" | "left" | "right"}
+            >
+              <span className="text-label-14 text-foreground">{demoText(language, label)}</span>
+            </ContextCardTrigger>
+          ))}
+        </div>,
+      )}
+      {demo(
+        "alignment",
+        <div className="flex flex-wrap items-center gap-3">
+          {(["Start", "Center", "End"] as const).map((label) => (
+            <ContextCardTrigger
+              key={label}
+              content={card}
+              align={label.toLowerCase() as "start" | "center" | "end"}
+              render={
+                <Button type="secondary" typeName="button">
+                  {demoText(language, label)}
+                </Button>
+              }
+            >
+              {null}
+            </ContextCardTrigger>
+          ))}
+        </div>,
+      )}
+      {demo(
+        "render-prop",
+        <div className="flex flex-wrap items-center gap-3">
+          <ContextCardTrigger
+            content={card}
+            render={
+              <Button type="secondary" typeName="button">
+                {demoText(language, "Default wrapper")}
+              </Button>
+            }
+          >
+            {null}
+          </ContextCardTrigger>
+          <ContextCardTrigger
+            content={card}
+            render={
+              <a href="#render-prop" className="text-label-14 text-link">
+                {demoText(language, "Rendered as a link")}
+              </a>
+            }
+          >
+            {null}
+          </ContextCardTrigger>
+        </div>,
+      )}
     </div>
   );
 }
@@ -7308,7 +7373,7 @@ function ComponentDetail({ name }: { name: string }) {
         <h2 className="text-heading-24 text-foreground">{demoText(language, "Live Demo")}</h2>
         {name === "table" ? (
           <TableDemoCard code={meta.code}>{renderDemo(name)}</TableDemoCard>
-        ) : name === "description" ? (
+        ) : name === "description" || name === "context-card" ? (
           <div>{renderDemo(name)}</div>
         ) : (
           <DemoSection>{renderDemo(name)}</DemoSection>

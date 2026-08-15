@@ -3721,9 +3721,9 @@
     {
       "slug": "context-card",
       "officialUrl": "https://vercel.com/geist/context-card",
-      "inventoryStatus": "live_enumeration_partial",
+      "inventoryStatus": "live_enumeration_complete",
       "variants": ["default", "alignment", "render-prop"],
-      "states": ["default", "closed", "open-blocked", "hover-blocked", "focus-visible-blocked"],
+      "states": ["default", "closed", "open", "hover", "focus-visible"],
       "demos": [
         {
           "id": "default"
@@ -3737,24 +3737,29 @@
       ],
       "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
       "themes": ["light", "dark"],
-      "interactionRecipes": ["blocked:trusted-pointer-and-local-trigger-demo-required"],
+      "interactionRecipes": [
+        "pointer:hover-open-after-150ms",
+        "keyboard:focus-open",
+        "keyboard:escape-close-and-preserve-focus",
+        "collision:side-flip"
+      ],
       "responsiveExpectations": [
-        "viewport-matrix:375/768/1440/1920 UNVERIFIED (G10) - re-collect before acceptance",
-        "closed-mounted:card stays mounted closed with h-0 + pointer-events-none",
-        "side-anchor:right side flips to left when overflowing demo frame (measured)"
+        "viewport-matrix:375/768/1440/1920 required before acceptance",
+        "portal:popover renders under body at z-index 1000000",
+        "collision:side flips when the requested side would overflow"
       ],
       "selectors": {
         "official": "div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden",
-        "local": "[data-slot=\"context-card\"]"
+        "local": "[data-slot=\"context-card-trigger\"]"
       },
-      "interaction": "pending",
+      "interaction": "applicable",
       "acceptanceContracts": [
         {
           "demoId": "default",
           "variant": "default",
           "state": "default",
           "clipRole": "root",
-          "evidenceNotBefore": "2026-08-13T00:00:00.000Z",
+          "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
           "roles": {
             "root": {
               "selectors": {
@@ -3795,7 +3800,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(1) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden",
-                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(1) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden"
+                  "local": "[data-demo-container=\"default\"] > div > [data-slot=\"context-card-trigger\"]:nth-child(1)"
                 },
                 "byViewport": {}
               },
@@ -3806,7 +3811,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(2) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden",
-                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(2) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden"
+                  "local": "[data-demo-container=\"default\"] > div > [data-slot=\"context-card-trigger\"]:nth-child(2)"
                 },
                 "byViewport": {}
               },
@@ -3817,7 +3822,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(3) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden",
-                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(3) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden"
+                  "local": "[data-demo-container=\"default\"] > div > [data-slot=\"context-card-trigger\"]:nth-child(3)"
                 },
                 "byViewport": {}
               },
@@ -3828,7 +3833,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(4) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden",
-                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(4) > div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden"
+                  "local": "[data-demo-container=\"default\"] > div > [data-slot=\"context-card-trigger\"]:nth-child(4)"
                 },
                 "byViewport": {}
               },
@@ -3839,7 +3844,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(1) > div > span",
-                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(1) > div > span"
+                  "local": "[data-demo-container=\"default\"] > div > [data-slot=\"context-card-trigger\"]:nth-child(1) > span"
                 },
                 "byViewport": {}
               },
@@ -3850,7 +3855,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(2) > div > span",
-                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(2) > div > span"
+                  "local": "[data-demo-container=\"default\"] > div > [data-slot=\"context-card-trigger\"]:nth-child(2) > span"
                 },
                 "byViewport": {}
               },
@@ -3861,7 +3866,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(3) > div > span",
-                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(3) > div > span"
+                  "local": "[data-demo-container=\"default\"] > div > [data-slot=\"context-card-trigger\"]:nth-child(3) > span"
                 },
                 "byViewport": {}
               },
@@ -3872,12 +3877,137 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6 > div > div:nth-child(4) > div > span",
-                  "local": "[data-demo-container=\"default\"] > div > div:nth-child(4) > div > span"
+                  "local": "[data-demo-container=\"default\"] > div > [data-slot=\"context-card-trigger\"]:nth-child(4) > span"
                 },
                 "byViewport": {}
               },
               "presence": "required",
               "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "alignment",
+          "variant": "alignment",
+          "state": "default",
+          "clipRole": "card",
+          "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
+          "roles": {
+            "card": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#alignment\"] ~ p ~ div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"alignment\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#alignment\"] ~ p ~ div.w-full.p-6",
+                  "local": "[data-demo-container=\"alignment\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger-start": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#alignment\"] ~ p ~ div.w-full.p-6 > div > div:nth-child(1)",
+                  "local": "[data-demo-container=\"alignment\"] button:nth-child(1)"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-center": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#alignment\"] ~ p ~ div.w-full.p-6 > div > div:nth-child(2)",
+                  "local": "[data-demo-container=\"alignment\"] button:nth-child(2)"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-end": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#alignment\"] ~ p ~ div.w-full.p-6 > div > div:nth-child(3)",
+                  "local": "[data-demo-container=\"alignment\"] button:nth-child(3)"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "render-prop",
+          "variant": "render-prop",
+          "state": "default",
+          "clipRole": "card",
+          "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
+          "roles": {
+            "card": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#render-prop\"] ~ p ~ div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"render-prop\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#render-prop\"] ~ p ~ div.w-full.p-6",
+                  "local": "[data-demo-container=\"render-prop\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "trigger-default": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#render-prop\"] ~ p ~ div.w-full.p-6 > div > div:nth-child(1)",
+                  "local": "[data-demo-container=\"render-prop\"] button"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
+            },
+            "trigger-link": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#render-prop\"] ~ p ~ div.w-full.p-6 > div > a",
+                  "local": "[data-demo-container=\"render-prop\"] a"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict"
             }
           },
           "semanticNodeInventory": [],
@@ -6049,17 +6179,39 @@
       ],
       "states": ["default", "disabled", "error", "warning"],
       "demos": [
-        { "id": "default" },
-        { "id": "disabled" },
-        { "id": "with-long-content" },
-        { "id": "multiple-fieldsets" },
-        { "id": "without-footer" },
-        { "id": "without-title" },
-        { "id": "with-error-text" },
-        { "id": "with-warning-text" },
-        { "id": "with-disabled-wall" },
-        { "id": "error-type" },
-        { "id": "warning-type" }
+        {
+          "id": "default"
+        },
+        {
+          "id": "disabled"
+        },
+        {
+          "id": "with-long-content"
+        },
+        {
+          "id": "multiple-fieldsets"
+        },
+        {
+          "id": "without-footer"
+        },
+        {
+          "id": "without-title"
+        },
+        {
+          "id": "with-error-text"
+        },
+        {
+          "id": "with-warning-text"
+        },
+        {
+          "id": "with-disabled-wall"
+        },
+        {
+          "id": "error-type"
+        },
+        {
+          "id": "warning-type"
+        }
       ],
       "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
       "themes": ["light", "dark"],
@@ -6758,7 +6910,17 @@
       "inventoryStatus": "live_enumeration_complete",
       "variants": ["modifiers", "combination", "small"],
       "states": ["default"],
-      "demos": [{ "id": "modifiers" }, { "id": "combination" }, { "id": "small" }],
+      "demos": [
+        {
+          "id": "modifiers"
+        },
+        {
+          "id": "combination"
+        },
+        {
+          "id": "small"
+        }
+      ],
       "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
       "themes": ["light", "dark"],
       "selectors": {
@@ -8403,11 +8565,21 @@
       "variants": ["default", "with-cmdk", "disabled", "loading", "custom-prefix"],
       "states": ["default", "disabled", "loading", "clearable"],
       "demos": [
-        { "id": "default" },
-        { "id": "with-cmdk" },
-        { "id": "disabled" },
-        { "id": "loading" },
-        { "id": "custom-prefix" }
+        {
+          "id": "default"
+        },
+        {
+          "id": "with-cmdk"
+        },
+        {
+          "id": "disabled"
+        },
+        {
+          "id": "loading"
+        },
+        {
+          "id": "custom-prefix"
+        }
       ],
       "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
       "themes": ["light", "dark"],

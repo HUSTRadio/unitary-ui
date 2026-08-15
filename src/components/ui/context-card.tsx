@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * ContextCard — Geist 官方 Context Card 规范（docs/geist-markdown-refs/components/context-card.md）。
- * 浮层卡片：w-64、8px 圆角、gray-alpha-400 边框、material-shadow-small 投影。
+ * 浮层卡片：内容自适应、6px 圆角、tooltip 材质与方向箭头。
  * 组合：Header（avatar + title/description）→ Body（元数据行）→ Footer（单一主操作）。
  *
  * ContextCardTrigger — 官方契约（hover/focus 打开、~150ms 延迟、Escape 关闭并返回焦点）。
@@ -22,7 +22,7 @@ function ContextCard({ className, ...props }: React.HTMLAttributes<HTMLDivElemen
     <div
       data-slot="context-card"
       className={cn(
-        "w-64 rounded-[8px] border border-gray-alpha-400 bg-background p-4 shadow-[var(--material-shadow-small)]",
+        "w-fit rounded-[6px] bg-background-100 p-3 shadow-[var(--material-shadow-tooltip)]",
         className,
       )}
       {...props}
@@ -85,16 +85,21 @@ function ContextCardTrigger({
           sideOffset={sideOffset}
           data-slot="context-card-popover"
           className={cn(
-            "z-50 w-64 rounded-[8px] border border-gray-alpha-400 bg-background p-4 shadow-[var(--material-shadow-small)] outline-none",
+            "z-[1000000] w-fit rounded-[6px] bg-background-100 p-3 shadow-[var(--material-shadow-tooltip)] outline-none",
             "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
             className,
           )}
         >
           {typeof content === "string" ? (
-            <p className="text-copy-13 text-muted-foreground">{content}</p>
+            <p className="text-copy-16 whitespace-nowrap text-foreground">{content}</p>
           ) : (
             content
           )}
+          <HoverCardPrimitive.Arrow
+            width={14}
+            height={7}
+            className="fill-background-100 stroke-gray-alpha-400"
+          />
         </HoverCardPrimitive.Content>
       </HoverCardPrimitive.Portal>
     </HoverCardPrimitive.Root>
