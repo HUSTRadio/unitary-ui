@@ -66,16 +66,26 @@
       "dimensions": {
         "officialCapabilities": "PASS",
         "api": "PASS",
-        "dom": "PARTIAL",
+        "dom": "PASS",
         "states": "PASS",
         "responsive": "PARTIAL",
         "aria": "PASS",
         "motion": "PASS",
         "localDemoCoverage": "PASS",
-        "comparison": "MISSING"
+        "comparison": "PASS"
       },
-      "evidence": ["switch/README.md", "switch/switch-diff-table.md", "switch/evidence/"],
-      "notes": "B3 进行中；实时页面为 6 demos（default/disabled/sizes/full-width/tooltip/icon）；已按原生 radio/label DOM、32/36/40px 尺寸、full-width、tooltip wrapper 与 icon sr-only 合同落地，等待 clean-revision comparator 与视觉终验；响应式矩阵未完整采集，保留 PARTIAL"
+      "evidence": [
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/runs/official/",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/runs/local/",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/comparisons/default/comparison.json",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/comparisons/disabled/comparison.json",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/comparisons/sizes/comparison.json",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/comparisons/full-width/comparison.json",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/comparisons/tooltip/comparison.json",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/comparisons/icon/comparison.json",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/visual/final-contact-sheet.png"
+      ],
+      "notes": "B3 复刻闭环；6 live demos（default/disabled/sizes/full-width/tooltip/icon）的 clean revision 7bc9a9b comparator 均为 semantic PASS，strict/ARIA failures、missing/unexpected roles 与 normalized geometry delta 均为 0；同条件 contact sheet 复核原生 radio/label、32/36/40px 尺寸、full-width、tooltip wrapper、禁用态与 icon 控件无未解释差异，仅保留获准 Geist Sans→HarmonyOS Sans 字宽、Lucide glyph 与宿主内容宽度映射；未采集的主题/视口矩阵诚实保留 responsive PARTIAL"
     },
 
     {
