@@ -3898,7 +3898,7 @@
             "card": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#alignment\"] ~ p ~ div.border-gray-alpha-400",
+                  "official": "a[href=\"#alignment\"] ~ * div.border-gray-alpha-400",
                   "local": "[data-demo-card=\"alignment\"]"
                 },
                 "byViewport": {}
@@ -3910,7 +3910,7 @@
             "demo-container": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#alignment\"] ~ p ~ div.w-full.p-6",
+                  "official": "a[href=\"#alignment\"] ~ * div.w-full.p-6",
                   "local": "[data-demo-container=\"alignment\"]"
                 },
                 "byViewport": {}
@@ -3922,7 +3922,7 @@
             "trigger-start": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#alignment\"] ~ p ~ div.w-full.p-6 > div > div:nth-child(1)",
+                  "official": "a[href=\"#alignment\"] ~ * div.w-full.p-6 > div > div:nth-child(1)",
                   "local": "[data-demo-container=\"alignment\"] button:nth-child(1)"
                 },
                 "byViewport": {}
@@ -3933,7 +3933,7 @@
             "trigger-center": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#alignment\"] ~ p ~ div.w-full.p-6 > div > div:nth-child(2)",
+                  "official": "a[href=\"#alignment\"] ~ * div.w-full.p-6 > div > div:nth-child(2)",
                   "local": "[data-demo-container=\"alignment\"] button:nth-child(2)"
                 },
                 "byViewport": {}
@@ -3944,7 +3944,7 @@
             "trigger-end": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#alignment\"] ~ p ~ div.w-full.p-6 > div > div:nth-child(3)",
+                  "official": "a[href=\"#alignment\"] ~ * div.w-full.p-6 > div > div:nth-child(3)",
                   "local": "[data-demo-container=\"alignment\"] button:nth-child(3)"
                 },
                 "byViewport": {}
@@ -3966,7 +3966,7 @@
             "card": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#render-prop\"] ~ p ~ div.border-gray-alpha-400",
+                  "official": "a[href=\"#render-prop\"] ~ * div.border-gray-alpha-400",
                   "local": "[data-demo-card=\"render-prop\"]"
                 },
                 "byViewport": {}
@@ -3978,7 +3978,7 @@
             "demo-container": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#render-prop\"] ~ p ~ div.w-full.p-6",
+                  "official": "a[href=\"#render-prop\"] ~ * div.w-full.p-6",
                   "local": "[data-demo-container=\"render-prop\"]"
                 },
                 "byViewport": {}
@@ -3990,7 +3990,7 @@
             "trigger-default": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#render-prop\"] ~ p ~ div.w-full.p-6 > div > div:nth-child(1)",
+                  "official": "a[href=\"#render-prop\"] ~ * div.w-full.p-6 > div > div:nth-child(1)",
                   "local": "[data-demo-container=\"render-prop\"] button"
                 },
                 "byViewport": {}
@@ -4001,7 +4001,7 @@
             "trigger-link": {
               "selectors": {
                 "default": {
-                  "official": "a[href=\"#render-prop\"] ~ p ~ div.w-full.p-6 > div > a",
+                  "official": "a[href=\"#render-prop\"] ~ * div.w-full.p-6 > div > a",
                   "local": "[data-demo-container=\"render-prop\"] a"
                 },
                 "byViewport": {}
