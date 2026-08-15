@@ -427,9 +427,9 @@ function EmptyStateDemo() {
               )}
             >
               <Button
-                type="secondary"
+                type="default"
                 typeName="button"
-                className="relative !max-w-full !border-0 !leading-[21px] whitespace-normal shadow-[0_0_0_1px_var(--gray-400)]"
+                className="relative !max-w-full !border-0 !leading-[21px] whitespace-normal"
               >
                 {demoText(language, "Primary Action")}
               </Button>
@@ -787,7 +787,7 @@ function MenuDemo() {
   const { language } = useLanguage();
   return (
     <MenuContainer>
-      <MenuButton>Actions</MenuButton>
+      <MenuButton variant="secondary">Actions</MenuButton>
       <Menu width={200}>
         <MenuItem prefix={<Edit aria-hidden />}>{demoText(language, "Edit Project")}</MenuItem>
         <MenuItem prefix={<Copy aria-hidden />}>{demoText(language, "Duplicate Project")}</MenuItem>
@@ -1026,7 +1026,7 @@ function ModalDemo({ code }: { code?: string }) {
       <Button
         size="small"
         typeName="button"
-        type="default"
+        type="secondary"
         className="relative flex max-w-full whitespace-normal leading-[21px]"
         onClick={() => onOpenChange(true)}
       >
@@ -2222,7 +2222,7 @@ function DrawerDemo({ code }: { code?: string }) {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
             <Button
-              type="default"
+              type="secondary"
               className="relative flex max-w-full whitespace-normal leading-[21px]"
               onClick={() => setOpen(true)}
             >

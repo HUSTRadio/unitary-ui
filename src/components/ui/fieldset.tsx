@@ -237,7 +237,7 @@ function FieldsetFooterActions({ className, ...props }: React.ComponentProps<"di
 function FieldsetFooterAction({ className, ...props }: React.ComponentProps<typeof Button>) {
   return (
     <div data-slot="fieldset-footer-action" className={cn("mx-2 first:ml-0 last:mr-0", className)}>
-      <Button typeName="button" size="small" {...props} />
+      <Button typeName="button" size="small" type="secondary" {...props} />
     </div>
   );
 }

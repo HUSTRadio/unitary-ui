@@ -66,6 +66,7 @@ function CollapseContent({
   return (
     <CollapsiblePrimitive.Content
       data-slot="collapse-content"
+      role="region"
       forceMount={forceMount}
       className={cn(
         "overflow-hidden",

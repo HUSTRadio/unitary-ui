@@ -100,6 +100,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         {error ? (
           <div
             data-geist-error=""
+            role="alert"
             aria-atomic="true"
             className={cn(
               "flex items-start text-[#cb2a2f] dark:text-[#ff6166]",
