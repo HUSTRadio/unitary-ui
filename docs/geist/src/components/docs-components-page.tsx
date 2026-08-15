@@ -756,7 +756,7 @@ function CheckboxDemo() {
               </label>
               <label className="text-checkbox-label inline-flex cursor-not-allowed items-start text-disabled-foreground">
                 <Checkbox
-                  checked="indeterminate"
+                  indeterminate
                   disabled
                   aria-label={demoText(language, "Disabled Indeterminate")}
                 />
@@ -773,7 +773,7 @@ function CheckboxDemo() {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="indeterminate">
             <label className="text-checkbox-label inline-flex cursor-pointer items-start">
-              <Checkbox checked="indeterminate" aria-label={demoText(language, "Option 1")} />
+              <Checkbox indeterminate aria-label={demoText(language, "Option 1")} />
               <span className="ml-2 text-foreground">{demoText(language, "Option 1")}</span>
             </label>
           </div>
@@ -1924,14 +1924,14 @@ function ToggleDemo({ code }: { code?: string }) {
                 <Toggle
                   aria-label={demoText(language, "Enable Firewall")}
                   checked={defaultOff}
-                  onCheckedChange={setDefaultOff}
+                  onChange={() => setDefaultOff(!defaultOff)}
                 />
               </div>
               <div>
                 <Toggle
                   aria-label={demoText(language, "Enable Firewall")}
                   checked={defaultOn}
-                  onCheckedChange={setDefaultOn}
+                  onChange={() => setDefaultOn(!defaultOn)}
                 />
               </div>
             </div>
@@ -2006,7 +2006,7 @@ function ToggleDemo({ code }: { code?: string }) {
                   checked={customChecked}
                   color="amber"
                   icon={lockIcon}
-                  onCheckedChange={setCustomChecked}
+                  onChange={() => setCustomChecked(!customChecked)}
                 />
               </div>
               <div>
@@ -2015,7 +2015,7 @@ function ToggleDemo({ code }: { code?: string }) {
                   checked={customChecked}
                   color="red"
                   icon={lockIcon}
-                  onCheckedChange={setCustomChecked}
+                  onChange={() => setCustomChecked(!customChecked)}
                 />
               </div>
               <div>
@@ -2025,7 +2025,7 @@ function ToggleDemo({ code }: { code?: string }) {
                   color="amber"
                   icon={lockIcon}
                   size="large"
-                  onCheckedChange={setCustomChecked}
+                  onChange={() => setCustomChecked(!customChecked)}
                 />
               </div>
               <div>
@@ -2035,7 +2035,7 @@ function ToggleDemo({ code }: { code?: string }) {
                   color="red"
                   icon={lockIcon}
                   size="large"
-                  onCheckedChange={setCustomChecked}
+                  onChange={() => setCustomChecked(!customChecked)}
                 />
               </div>
             </div>
@@ -2052,35 +2052,35 @@ function ToggleDemo({ code }: { code?: string }) {
           <div className="w-full p-6" data-demo-container="with-label">
             <div className="flex flex-col items-start justify-start gap-4">
               <div className="flex flex-row items-stretch justify-start gap-4">
-                <Toggle checked={labelChecked} onCheckedChange={setLabelChecked}>
+                <Toggle checked={labelChecked} onChange={() => setLabelChecked(!labelChecked)}>
                   {demoText(language, "Enable Firewall")}
                 </Toggle>
-                <Toggle checked={labelChecked} direction="rtl" onCheckedChange={setLabelChecked}>
+                <Toggle checked={labelChecked} direction="rtl" onChange={() => setLabelChecked(!labelChecked)}>
                   {demoText(language, "Enable Firewall")}
                 </Toggle>
               </div>
               <div className="flex flex-row items-stretch justify-start gap-4">
-                <Toggle checked={labelChecked} size="large" onCheckedChange={setLabelChecked}>
+                <Toggle checked={labelChecked} size="large" onChange={() => setLabelChecked(!labelChecked)}>
                   {demoText(language, "Enable Firewall")}
                 </Toggle>
                 <Toggle
                   checked={labelChecked}
                   direction="rtl"
                   size="large"
-                  onCheckedChange={setLabelChecked}
+                  onChange={() => setLabelChecked(!labelChecked)}
                 >
                   {demoText(language, "Enable Firewall")}
                 </Toggle>
               </div>
               <div className="flex flex-row items-stretch justify-start gap-4">
-                <Toggle checked={labelChecked} icon={lockIcon} onCheckedChange={setLabelChecked}>
+                <Toggle checked={labelChecked} icon={lockIcon} onChange={() => setLabelChecked(!labelChecked)}>
                   {demoText(language, "Enable Firewall")}
                 </Toggle>
                 <Toggle
                   checked={labelChecked}
                   direction="rtl"
                   icon={lockIcon}
-                  onCheckedChange={setLabelChecked}
+                  onChange={() => setLabelChecked(!labelChecked)}
                 >
                   {demoText(language, "Enable Firewall")}
                 </Toggle>
@@ -2090,7 +2090,7 @@ function ToggleDemo({ code }: { code?: string }) {
                   checked={labelChecked}
                   icon={lockIcon}
                   size="large"
-                  onCheckedChange={setLabelChecked}
+                  onChange={() => setLabelChecked(!labelChecked)}
                 >
                   {demoText(language, "Enable Firewall")}
                 </Toggle>
@@ -2099,7 +2099,7 @@ function ToggleDemo({ code }: { code?: string }) {
                   direction="rtl"
                   icon={lockIcon}
                   size="large"
-                  onCheckedChange={setLabelChecked}
+                  onChange={() => setLabelChecked(!labelChecked)}
                 >
                   {demoText(language, "Enable Firewall")}
                 </Toggle>
@@ -5486,13 +5486,13 @@ function ToggleColorDemo() {
           aria-label={demoText(language, "Enable Firewall")}
           checked={checked}
           color="amber"
-          onCheckedChange={() => setChecked(!checked)}
+          onChange={() => setChecked(!checked)}
         />
         <Toggle
           aria-label={demoText(language, "Enable Firewall")}
           checked={checked}
           color="red"
-          onCheckedChange={() => setChecked(!checked)}
+          onChange={() => setChecked(!checked)}
         />
       </div>
       <div className="flex flex-row flex-wrap items-center gap-6">
@@ -5500,14 +5500,14 @@ function ToggleColorDemo() {
           aria-label={demoText(language, "Enable Firewall")}
           checked={checked}
           color="amber"
-          onCheckedChange={() => setChecked(!checked)}
+          onChange={() => setChecked(!checked)}
           size="large"
         />
         <Toggle
           aria-label={demoText(language, "Enable Firewall")}
           checked={checked}
           color="red"
-          onCheckedChange={() => setChecked(!checked)}
+          onChange={() => setChecked(!checked)}
           size="large"
         />
       </div>
@@ -5523,21 +5523,21 @@ function ToggleLabelDemo() {
   return (
     <div className="flex flex-col items-start justify-start gap-4">
       <div className="flex flex-row flex-wrap items-center gap-6">
-        <Toggle checked={checked} onCheckedChange={() => setChecked(!checked)}>
+        <Toggle checked={checked} onChange={() => setChecked(!checked)}>
           {label}
         </Toggle>
-        <Toggle checked={checked} direction="rtl" onCheckedChange={() => setChecked(!checked)}>
+        <Toggle checked={checked} direction="rtl" onChange={() => setChecked(!checked)}>
           {label}
         </Toggle>
       </div>
       <div className="flex flex-row flex-wrap items-center gap-6">
-        <Toggle checked={checked} onCheckedChange={() => setChecked(!checked)} size="large">
+        <Toggle checked={checked} onChange={() => setChecked(!checked)} size="large">
           {label}
         </Toggle>
         <Toggle
           checked={checked}
           direction="rtl"
-          onCheckedChange={() => setChecked(!checked)}
+          onChange={() => setChecked(!checked)}
           size="large"
         >
           {label}
@@ -5817,7 +5817,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
             <div className="flex flex-col gap-3">
               <label className="flex cursor-pointer items-center gap-2.5">
                 <Checkbox
-                  checked="indeterminate"
+                  indeterminate
                   aria-label={demoText(language, "Indeterminate")}
                 />
                 <span className="text-copy-14 text-foreground">

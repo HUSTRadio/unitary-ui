@@ -117,11 +117,11 @@ export function FormExample() {
             <p className="text-label-14 text-foreground">邮件通知</p>
             <p className="text-copy-13 text-muted-foreground">有变动时发送邮件提醒</p>
           </div>
-          <Toggle checked={notify} onCheckedChange={(v) => setNotify(v)} aria-label="邮件通知" />
+          <Toggle checked={notify} onChange={() => setNotify(!notify)} aria-label="邮件通知" />
         </div>
 
         <label className="flex items-center gap-2 text-label-14 text-foreground">
-          <Checkbox checked={terms} onCheckedChange={(c) => setTerms(c === true)} />
+          <Checkbox checked={terms} onChange={() => setTerms(!terms)} />
           我已阅读并同意相关条款
         </label>
 

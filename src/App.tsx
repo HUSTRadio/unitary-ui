@@ -156,13 +156,13 @@ export default function App() {
                 <Textarea placeholder="备注…" aria-label="示例备注" />
               </div>
               <label className="flex items-center gap-2 text-label-14 text-foreground">
-                <Checkbox checked={checked} onCheckedChange={(c) => setChecked(c === true)} />
+                <Checkbox checked={checked} onChange={() => setChecked(!checked)} />
                 已选中
               </label>
               <div className="flex items-center gap-2 text-label-14 text-foreground">
                 <Toggle
                   checked={toggled}
-                  onCheckedChange={(t) => setToggled(t)}
+                  onChange={() => setToggled(!toggled)}
                   aria-label="示例开关"
                 />
                 开关

@@ -6,12 +6,14 @@ const captureSource = readFileSync(new URL("./capture-visual-matrix.mjs", import
 
 describe("Checkbox official matrix contract", () => {
   test("supports default, checked, indeterminate, and disabled states", () => {
-    expect(source).toContain("data-[state=indeterminate]");
-    expect(source).toContain("disabled:");
+    expect(source).toContain("peer-indeterminate");
+    expect(source).toContain("peer-checked");
+    expect(source).toContain("peer-disabled");
+    expect(source).toContain("indeterminate");
   });
 
   test("keeps the official 16px default geometry and visible focus ring", () => {
-    expect(source).toContain("data-[size=sm]:size-4");
+    expect(source).toContain('size === "sm" && "size-4"');
     expect(source).toContain("rounded-[4px]");
     expect(source).toContain("focus-ring");
     expect(source).toContain("border-gray-700 bg-background-100");
@@ -19,10 +21,9 @@ describe("Checkbox official matrix contract", () => {
   });
 
   test("uses semantic foreground/background tokens for checked and mixed states", () => {
-    expect(source).toContain("data-[state=checked]:bg-foreground");
-    expect(source).toContain("data-[state=checked]:text-background");
-    expect(source).toContain("data-[state=indeterminate]:bg-foreground");
-    expect(source).toContain("data-[state=indeterminate]:text-background");
+    expect(source).toContain("peer-checked:bg-foreground");
+    expect(source).toContain("text-background");
+    expect(source).toContain("peer-indeterminate:bg-foreground");
     expect(source).toContain("<Minus");
   });
 

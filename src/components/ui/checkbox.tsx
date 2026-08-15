@@ -1,60 +1,112 @@
 ﻿import * as React from "react";
-import { Checkbox as CheckboxPrimitive } from "radix-ui";
 import { Check, Minus } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 /**
- * Checkbox — Geist 官方 Checkbox 规范（docs/geist-markdown-refs/components/checkbox.md 实测）。
- * 官方实测：16×16px、圆角 4px、边框 1px gray-700、bg background-100；
- * 勾选态：box bg = 前景色（light #171717 / dark #ededed）+ 背景色对勾；
- * 禁用态：实色灰（light bg #f2f2f2 / border #c9c9c9，dark #1a1a1a / #454545），
- * 禁用勾选 box = gray-600（light #a8a8a8 / dark #878787）。颜色全部消费语义 token。
- * hover 未选中态：box 填充 gray-200（light #f2f2f2），仅未禁用未勾选时生效（G02-CHK-01）。
- * 支持 indeterminate（半选）视觉态：横线图标，由父级部分选中驱动
- * （官方 Best Practices：indeterminate 是视觉态非第三值）。
- * sm=16（官方默认）/ default=18 / lg=20（触控增强变体）。
+ * Checkbox — Geist 官方 Checkbox 规范（docs/geist-markdown-refs/components/checkbox.md + 官方页面实测）。
+ * 原生 <input type="checkbox"> + 视觉 box（结构对齐官方，非 Radix button[role=checkbox]）。
+ * input 以 opacity-0 覆盖 box（保留点击/聚焦/键盘，视觉由 box 承载），避免 label 嵌套。
+ *
+ * 官方 API：
+ * - checked：boolean（受控）
+ * - onChange：() => void（无参数，官方 demo `onChange={(): void => setChecked((b) => !b)}`）
+ * - indeterminate：独立 boolean prop（视觉态，非第三值；内部用 ref 设置原生 indeterminate 属性）
+ * - disabled：boolean
+ * - children：label 文本（有 children 时渲染 <label>，点击区域扩展到 label）
+ *
+ * 视觉（官方实测）：
+ * - box：16×16px、圆角 4px、边框 1px gray-700、bg background-100
+ * - 勾选/半选：box bg = 前景色（light #171717 / dark #ededed）+ 背景色对勾/横线
+ * - 禁用：灰（light bg #f2f2f2 / border #c9c9c9，dark #1a1a1a / #454545）
+ * - hover 未选中：box 填充 gray-200（仅未禁用未勾选未半选）
+ * - 颜色全部消费语义 token；size 为本地扩展（sm=16 / default=18 / lg=20）
  */
 function Checkbox({
   className,
+  checked,
+  onChange,
+  disabled,
+  indeterminate,
+  children,
   size = "sm",
   ...props
-}: React.ComponentProps<typeof CheckboxPrimitive.Root> & {
+}: Omit<React.ComponentProps<"input">, "type" | "checked" | "onChange" | "size" | "children"> & {
+  checked?: boolean;
+  onChange?: () => void;
+  indeterminate?: boolean;
   size?: "sm" | "default" | "lg";
+  children?: React.ReactNode;
 }) {
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  // 原生 indeterminate 是 DOM 属性（非 HTML 属性），需 ref 同步
+  React.useEffect(() => {
+    if (inputRef.current) inputRef.current.indeterminate = Boolean(indeterminate);
+  }, [indeterminate]);
+
+  const control = (
+    <span className="relative inline-flex shrink-0 items-center justify-center">
+      <input
+        ref={inputRef}
+        type="checkbox"
+        className="peer absolute inset-0 z-10 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed"
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+        {...props}
+      />
+      <span
+        aria-hidden
+        className={cn(
+          "relative block rounded-[4px] border border-gray-700 bg-background-100 transition-colors duration-200",
+          "peer-checked:border-foreground peer-checked:bg-foreground",
+          "peer-indeterminate:border-foreground peer-indeterminate:bg-foreground",
+          "peer-focus-visible:focus-ring",
+          "peer-hover:enabled:peer-not-checked:peer-not-indeterminate:bg-gray-200",
+          "peer-disabled:cursor-not-allowed peer-disabled:border-gray-500 peer-disabled:bg-gray-100",
+          "peer-disabled:peer-checked:border-gray-600 peer-disabled:peer-checked:bg-gray-600",
+          "peer-disabled:peer-indeterminate:border-gray-600 peer-disabled:peer-indeterminate:bg-gray-600",
+          size === "sm" && "size-4",
+          size === "default" && "size-[18px]",
+          size === "lg" && "size-5",
+          className,
+        )}
+      />
+      <Check
+        strokeWidth={2}
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-0 z-20 m-auto hidden text-background peer-checked:block",
+          size === "sm" && "size-3.5",
+          size === "default" && "size-3.5",
+          size === "lg" && "size-4",
+        )}
+      />
+      <Minus
+        strokeWidth={2}
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-0 z-20 m-auto hidden text-background peer-indeterminate:block",
+          size === "sm" && "size-3.5",
+          size === "default" && "size-3.5",
+          size === "lg" && "size-4",
+        )}
+      />
+    </span>
+  );
+
+  // 无 children：独立 checkbox（input 覆盖 box，点击即可切换，调用方自行包裹 label）
+  if (children == null) {
+    return control;
+  }
+
+  // 有 children：渲染 label，点击区域扩展到 label（官方结构）
   return (
-    <CheckboxPrimitive.Root
-      data-slot="checkbox"
-      data-size={size}
-      className={cn(
-        "group/checkbox relative inline-flex shrink-0 items-center justify-center rounded-[4px] border text-start transition duration-200 outline-none",
-        "border-gray-700 bg-background-100 enabled:hover:data-[state=unchecked]:bg-gray-200",
-        "focus-ring",
-        "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:border-gray-500",
-        "data-[state=checked]:border-foreground data-[state=checked]:bg-foreground data-[state=checked]:text-background disabled:data-[state=checked]:border-gray-600 disabled:data-[state=checked]:bg-gray-600",
-        "data-[state=indeterminate]:border-foreground data-[state=indeterminate]:bg-foreground data-[state=indeterminate]:text-background disabled:data-[state=indeterminate]:border-gray-600 disabled:data-[state=indeterminate]:bg-gray-600",
-        "data-[size=sm]:size-4 data-[size=default]:size-[18px] data-[size=lg]:size-5",
-        className,
-      )}
-      {...props}
-    >
-      <CheckboxPrimitive.Indicator
-        forceMount
-        data-slot="checkbox-indicator"
-        className="grid place-content-center text-current transition-transform duration-150 ease-out data-[state=checked]:scale-100 data-[state=indeterminate]:scale-100 data-[state=unchecked]:scale-0"
-      >
-        <Check
-          className="col-start-1 row-start-1 invisible group-data-[state=checked]/checkbox:visible group-data-[size=sm]/checkbox:size-3.5 group-data-[size=default]/checkbox:size-3.5 group-data-[size=lg]/checkbox:size-4"
-          strokeWidth={2}
-          aria-hidden
-        />
-        <Minus
-          className="col-start-1 row-start-1 invisible group-data-[state=indeterminate]/checkbox:visible group-data-[size=sm]/checkbox:size-3.5 group-data-[size=default]/checkbox:size-3.5 group-data-[size=lg]/checkbox:size-4"
-          strokeWidth={2}
-          aria-hidden
-        />
-      </CheckboxPrimitive.Indicator>
-    </CheckboxPrimitive.Root>
+    <label className="inline-flex cursor-pointer items-center gap-2">
+      {control}
+      <span>{children}</span>
+    </label>
   );
 }
 

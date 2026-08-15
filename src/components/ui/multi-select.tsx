@@ -219,7 +219,7 @@ function MultiSelectRow({
         <Checkbox
           data-multi-select-checkbox
           checked={checked}
-          onCheckedChange={onChange}
+          onChange={onChange}
           tabIndex={-1}
           aria-label={`${name}. ${checked ? "Uncheck" : "Check"}`}
           className="after:absolute after:-inset-1.5 after:content-['']"

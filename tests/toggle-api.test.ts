@@ -16,10 +16,8 @@ const toggle = (props: React.ComponentProps<typeof Toggle>) =>
 describe("Toggle official API contract (G12)", () => {
   test("G12-TOGGLE-01: color=red uses theme-aware token in checked and unchecked states", async () => {
     const src = await read("src/components/ui/toggle.tsx");
-    // Live Geist custom-color demo keeps the red track while unchecked; both states use the theme token.
-    expect(src).toContain(
-      "data-[state=checked]:bg-[var(--toggle-checked-red)] data-[state=unchecked]:bg-[var(--toggle-checked-red)]",
-    );
+    // Live Geist custom-color demo keeps the red track only while checked (unchecked is gray).
+    expect(src).toContain("peer-checked:bg-[var(--toggle-checked-red)]");
     expect(src).not.toMatch(/color === "red"[\s\S]{0,180}bg-destructive/);
   });
 
@@ -39,22 +37,22 @@ describe("Toggle official API contract (G12)", () => {
 
   test("G12-TOGGLE-01: SSR renders the checked red toggle with the theme-aware class", () => {
     const markup = toggle({ color: "red", checked: true, "aria-label": "Enable Firewall" });
-    expect(markup).toContain('data-state="checked"');
-    expect(markup).toContain("data-[state=checked]:bg-[var(--toggle-checked-red)]");
+    expect(markup).toMatch(/<input[^>]*type="checkbox"/);
+    expect(markup).toContain("peer-checked:bg-[var(--toggle-checked-red)]");
     expect(markup).not.toContain("bg-destructive");
   });
 
-  test("G12-TOGGLE-01: blue is checked-only; amber keeps its custom color in both states", async () => {
+  test("G12-TOGGLE-01: blue is checked-only; amber keeps its custom color only while checked", async () => {
     const src = await read("src/components/ui/toggle.tsx");
     expect(src).toMatch(
-      /color === "blue" && "data-\[state=checked\]:bg-\[var\(--toggle-checked\)\]"/,
+      /color === "blue" && "peer-checked:bg-\[var\(--toggle-checked\)\]"/,
     );
-    expect(src).toContain("data-[state=checked]:bg-warning data-[state=unchecked]:bg-warning");
+    expect(src).toContain('color === "amber" && "peer-checked:bg-warning"');
 
     const blueMarkup = toggle({ color: "blue", checked: true, "aria-label": "Enable Firewall" });
-    expect(blueMarkup).toContain("data-[state=checked]:bg-[var(--toggle-checked)]");
+    expect(blueMarkup).toContain("peer-checked:bg-[var(--toggle-checked)]");
     const amberMarkup = toggle({ color: "amber", checked: false, "aria-label": "Enable Firewall" });
-    expect(amberMarkup).toContain("data-[state=unchecked]:bg-warning");
+    expect(amberMarkup).toContain("peer-checked:bg-warning");
   });
 
   test("G12-TOGGLE-02: with-label uses the measured 12px/18px/500 theme-aware style", async () => {
@@ -84,7 +82,7 @@ describe("Toggle official API contract (G12)", () => {
   test("G12-TOGGLE-02: default label order is text then control with official padding and gap", () => {
     const markup = toggle({ checked: false, children: "Enable Firewall" });
     const labelText = markup.indexOf(">Enable Firewall</span>");
-    const control = markup.indexOf('data-slot="toggle"');
+    const control = markup.indexOf('type="checkbox"');
 
     expect(markup).toContain("gap-3");
     expect(markup).toContain("py-[3px]");

@@ -121,8 +121,9 @@ export function DataTableExample() {
                 <Checkbox
                   size="sm"
                   aria-label="全选"
-                  checked={allChecked ? true : selected.length > 0 ? "indeterminate" : false}
-                  onCheckedChange={toggleAll}
+                  checked={allChecked}
+                  indeterminate={!allChecked && selected.length > 0}
+                  onChange={toggleAll}
                 />
               </TableHead>
               <TableHead>资产</TableHead>
@@ -146,7 +147,7 @@ export function DataTableExample() {
                       size="sm"
                       aria-label={`选择 ${asset.name}`}
                       checked={selected.includes(index)}
-                      onCheckedChange={() => toggleRow(index)}
+                      onChange={() => toggleRow(index)}
                     />
                   </TableCell>
                   <TableCell className="font-medium text-foreground">{asset.name}</TableCell>

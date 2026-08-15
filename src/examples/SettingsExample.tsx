@@ -56,7 +56,7 @@ export function SettingsExample() {
               </div>
               <Toggle
                 checked={row.value}
-                onCheckedChange={() => toggleRow(row.key)}
+                onChange={() => toggleRow(row.key)}
                 aria-label={row.title}
               />
             </div>
