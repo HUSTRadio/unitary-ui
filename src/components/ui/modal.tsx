@@ -118,7 +118,7 @@ const ModalContent = React.forwardRef<
             <div className={cn("overflow-y-auto p-5", bodyClassName)}>
               {children}
               {showCloseButton && (
-                <DialogPrimitive.Close className="absolute top-4 right-4 rounded-md p-1 text-muted-foreground opacity-70 transition-opacity outline-none hover:bg-gray-alpha-200 hover:text-foreground hover:opacity-100 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none">
+                <DialogPrimitive.Close className="absolute top-4 right-4 rounded-md p-1 text-muted-foreground opacity-70 transition-opacity outline-none hover:bg-gray-alpha-200 hover:text-foreground hover:opacity-100 focus-ring disabled:pointer-events-none">
                   <X className="size-4" aria-hidden />
                   <span className="sr-only">Close</span>
                 </DialogPrimitive.Close>

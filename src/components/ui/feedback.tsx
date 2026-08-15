@@ -88,7 +88,7 @@ function FeedbackRating({ className, value, onValueChange, ...props }: FeedbackR
             onClick={() => onValueChange?.(ratingValue)}
             className={cn(
               "flex size-8 items-center justify-center rounded-full text-muted-foreground transition-all outline-none [&_svg]:size-4 [&_svg]:shrink-0",
-              "hover:bg-gray-alpha-200 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+              "hover:bg-gray-alpha-200 hover:text-foreground focus-ring",
               selected && "bg-gray-alpha-200 text-foreground",
             )}
           >
