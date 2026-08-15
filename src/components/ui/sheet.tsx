@@ -24,12 +24,12 @@ import { cn } from "@/lib/utils";
 type SheetSide = "top" | "right" | "bottom" | "left";
 
 /** Sheet Root：官方默认 modal=false（Best Practices），可显式 <Sheet modal> 覆盖。 */
-const Sheet = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>
->(({ modal = false, ...props }, ref) => (
-  <DialogPrimitive.Root ref={ref} modal={modal} {...props} />
-));
+const Sheet = ({
+  modal = false,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) => (
+  <DialogPrimitive.Root modal={modal} {...props} />
+);
 Sheet.displayName = "Sheet";
 
 const SheetTrigger = DialogPrimitive.Trigger;
