@@ -542,7 +542,7 @@
   --color-text-inverse: #0a0a0a; /* background-100 */
   --color-text-inverse-secondary: #404040;
   /* border */
-  --color-border-subtle: #2e2e2e; /* gray-400 */
+  --color-border-subtle: #1f1f1f; /* gray-200 */
   --color-border-strong: #454545; /* gray-500 */
   /* gray-alpha（Dark：白色 alpha，官方 colors.md 实测） */
   --gray-alpha-100: #ffffff0f;
