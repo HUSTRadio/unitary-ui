@@ -4521,7 +4521,7 @@ function EntityDemo() {
                             type="checkbox"
                             className="sr-only peer"
                             aria-label={row.title}
-                            checked
+                            checked={index === 0}
                             readOnly
                           />
                           <span className={ENTITY_CHECKBOX_VISUAL_CLS}>

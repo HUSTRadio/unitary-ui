@@ -22,4 +22,8 @@ describe("Entity official demo contract", () => {
       expect(source).toContain(`<div className="w-full p-6" data-demo-container="${demoId}">`);
     }
   });
+
+  test("checks only the first row in the checkbox list demo", () => {
+    expect(source).toContain("checked={index === 0}");
+  });
 });
