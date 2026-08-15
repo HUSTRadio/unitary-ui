@@ -15,71 +15,59 @@ interface BannerProps extends React.ComponentProps<"div"> {
 }
 
 /**
- * Banner - full-width announcement with an optional pill CTA.
+ * Banner - 官方 @vercel/geistcn Banner 对齐实现（vercel.com/geist/banner 实测）。
  *
- * Official contract (vercel.com/geist/banner):
- * - Mobile (< lg): whole-message pill CTA (lg:hidden)
- * - Desktop (≥ lg): content + separate CTA row (hidden lg:flex)
- * - CTA: text-button-14 (14px/21px), 32px height, pill shape
- * - Chevron: 14px (size-3.5), not 16px
+ * 响应式双根节点：
+ * - Mobile（<lg）：整条胶囊 `<a>`（lg:hidden）——文本 + chevron，无 "Read more" 文本
+ * - Desktop（≥lg）：`<div>` 文本 + 单独 CTA 胶囊（hidden lg:flex）
+ *
+ * 胶囊样式（官方实测）：bg background-100 + 1px ring（gray-400）+ 底部阴影
+ * （material-small / shadow-border-small）+ rounded-full + h-8 + px-3 + text-button-14/500。
+ * `<b>` 保持原生 bold（700），不降为 font-semibold。
  */
-function Banner({ button, children, className, ...props }: BannerProps) {
-  const cta = button ? (
-    <a
-      href={button.href}
-      target={button.target}
-      rel={button.rel}
-      className="material-small inline-flex h-8 max-w-full shrink-0 items-center justify-center rounded-full bg-background-100 px-3 text-button-14 text-gray-1000 outline-none transition-colors hover:bg-gray-100 focus-ring"
-    >
-      <span className="inline-block truncate px-1.5">{button.content}</span>
-      <span className="ml-1 mr-0.5 flex shrink-0 items-center justify-center" aria-hidden>
-        <ChevronRight className="size-3.5" />
-      </span>
-    </a>
-  ) : null;
+const CTA_CLASS =
+  "material-small inline-flex h-8 max-w-full shrink-0 items-center justify-center rounded-full bg-background-100 px-3 text-button-14 font-medium text-gray-1000 outline-none transition-colors hover:bg-gray-100 dark:hover:bg-gray-200 focus-ring";
 
+function Banner({ button, children, className, ...props }: BannerProps) {
   return (
     <>
-      {/* Mobile: whole-message pill CTA */}
-      <div
+      {/* Mobile：整条胶囊链接（文本 + chevron） */}
+      <a
         data-slot="banner"
-        className={cn(
-          "flex w-full max-w-[1080px] items-center justify-center lg:hidden [&_b]:font-semibold [&_b]:text-gray-1000",
-          className,
-        )}
-        {...props}
+        href={button?.href}
+        target={button?.target}
+        rel={button?.rel}
+        className={cn(CTA_CLASS, "mx-auto !w-fit lg:hidden")}
       >
-        <a
-          href={button?.href}
-          target={button?.target}
-          rel={button?.rel}
-          className="material-small inline-flex h-8 max-w-full shrink-0 items-center justify-center gap-1 rounded-full bg-background-100 px-3 text-button-14 text-gray-1000 outline-none transition-colors hover:bg-gray-100 focus-ring"
-        >
-          <span className="inline-block truncate px-1.5 [&_b]:font-semibold [&_b]:text-gray-1000">
-            {children}
-          </span>
-          {button && (
-            <>
-              <span className="px-0.5 text-gray-900" aria-hidden>
-                {button.content}
-              </span>
-              <ChevronRight className="size-3.5 shrink-0" aria-hidden />
-            </>
-          )}
-        </a>
-      </div>
+        <span className="inline-block truncate px-1.5">{children}</span>
+        <span className="ml-1 mr-0.5 flex shrink-0 items-center justify-center" aria-hidden>
+          <ChevronRight className="size-3.5" />
+        </span>
+      </a>
 
-      {/* Desktop: content + CTA row */}
+      {/* Desktop：文本 + 单独 CTA 胶囊 */}
       <div
         data-slot="banner"
         className={cn(
-          "hidden w-full max-w-[1080px] items-center justify-center gap-3 lg:flex [&_b]:font-semibold [&_b]:text-gray-1000",
+          "hidden w-full max-w-[1080px] items-center justify-center gap-3 lg:flex [&_b]:text-gray-1000",
           className,
         )}
         {...props}
       >
         <p className="text-copy-16 text-gray-900">{children}</p>
-        {cta}
+        {button && (
+          <a
+            href={button.href}
+            target={button.target}
+            rel={button.rel}
+            className={CTA_CLASS}
+          >
+            <span className="inline-block truncate px-1.5">{button.content}</span>
+            <span className="ml-1 mr-0.5 flex shrink-0 items-center justify-center" aria-hidden>
+              <ChevronRight className="size-3.5" />
+            </span>
+          </a>
+        )}
       </div>
     </>
   );
