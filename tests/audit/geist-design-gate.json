@@ -359,25 +359,26 @@
     {
       "slug": "entity",
       "batch": "B2",
-      "inventoryStatus": "pending_live_enumeration",
-      "gate": "RE_EVIDENCE_REQUIRED",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
       "dimensions": {
-        "officialCapabilities": "PARTIAL",
-        "api": "PARTIAL",
-        "dom": "PARTIAL",
-        "states": "PARTIAL",
-        "responsive": "PARTIAL",
-        "aria": "PARTIAL",
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PASS",
         "motion": "NOT_APPLICABLE",
-        "localDemoCoverage": "MISSING",
-        "comparison": "MISSING"
+        "localDemoCoverage": "PASS",
+        "comparison": "PASS"
       },
       "evidence": [
-        "entity/evidence/official-rsc-samples.json",
-        "entity/evidence/official-interactions.json",
-        "entity/evidence/cell-manifest.json"
+        "C:/Users/Leon/geist-audit/entity-656e1a2/runs/official/",
+        "C:/Users/Leon/geist-audit/entity-656e1a2/runs/local/",
+        "C:/Users/Leon/geist-audit/entity-656e1a2/comparisons/",
+        "C:/Users/Leon/geist-audit/entity-656e1a2/visual/final-contact-sheet.png"
       ],
-      "notes": "API frozen from 6 RSC samples. Re-run: official 8/8 viewport-theme cells succeeded with 7 sections and 48 slots; local 8/8 captured zero Entity DOM, and all 4 local Dark cells failed theme verification. G6 now requires local demo/route targeting plus Dark theme repair before implementation"
+      "notes": "B2 证据债务闭环；实时官方 inventory 为 6 个 demo。clean revision 656e1a2 在 light/dark 与 375/768/1440/1920 四视口完成 96 cells、48 对 comparator，48/48 semantic PASS，strict/ARIA failures、missing paths 与 normalized geometry delta 均为 0；96 张原始截图均非空。视觉复核发现并修正 checkbox demo 三项全选问题，最终官方与本地 checked 数组均为 [true,false,false]；其余可见宽度差异属于已批准宿主内容宽度映射。"
     },
     {
       "slug": "fieldset",
