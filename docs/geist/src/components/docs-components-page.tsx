@@ -4014,8 +4014,12 @@ function CollapseDemo() {
     language,
     "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
   );
-  const renderItem = (title: string, body: string, defaultOpen = false) => (
-    <Collapse className={`border-b ${COLLAPSE_DIVIDER_CLS}`} defaultOpen={defaultOpen}>
+  const renderItem = (title: string, body: string, defaultOpen = false, disabled = false) => (
+    <Collapse
+      className={`border-b ${COLLAPSE_DIVIDER_CLS}`}
+      defaultOpen={defaultOpen}
+      disabled={disabled}
+    >
       <h3 className="text-[24px] font-semibold text-foreground">
         <CollapseTrigger>{title}</CollapseTrigger>
       </h3>
@@ -4049,7 +4053,7 @@ function CollapseDemo() {
           <div className="w-full p-6" data-demo-container="expanded">
             <div className={`border-t ${COLLAPSE_DIVIDER_CLS}`}>
               {renderItem(questionA, lorem)}
-              {renderItem(questionB, duis, true)}
+              {renderItem(questionB, duis, true, true)}
             </div>
           </div>
         </div>
