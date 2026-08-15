@@ -1,181 +1,201 @@
 import * as React from "react";
+import { Command } from "cmdk";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
+import { Kbd } from "@/components/ui/keyboard-input";
 import { cn } from "@/lib/utils";
 
-/**
- * CommandMenu — 命令面板（对应官方 Command Menu，docs/geist-markdown-refs/components/command-menu.md）。
- * 基于 Radix Dialog 原语，全局 ⌘K 风格、键盘优先的命令面板。
- * 导出：CommandMenu, CommandMenuTrigger, CommandMenuContent, CommandMenuInput,
- *       CommandMenuList, CommandMenuItem, CommandMenuGroup, CommandMenuSeparator,
- *       CommandMenuDivider。
- * 用法与 Modal 同构：<CommandMenu open onOpenChange> 包 <CommandMenuContent>。
- * 样式（官方实测对齐）：
- * - overlay：bg #0a0a0a opacity-80（无 blur，双主题一致）
- * - content：fixed top-[85px] left-1/2 -translate-x-1/2 w-full max-w-[640px]
- *   bg-background border border-gray-alpha-400 rounded-[12px]
- *   shadow-[var(--material-shadow-modal)] overflow-hidden，aria-labelledby 指向 sr-only 标题
- * - input：border-b border-gray-alpha-400 px-4 py-3
- * - list：max-h-64 overflow-y-auto，ArrowDown/Up/Home/End 在条目间移动焦点
- * - item：px-4 py-2 text-copy-14 hover:bg-gray-alpha-100 cursor-pointer
- * 官方 bestPractices：全局 ⌘K / Ctrl+K 绑定；打开时焦点困在 overlay 内、关闭时
- * 返回触发元素；item 文案是 Title Case 动词短语（Deploy Project），命令是执行不是浏览；
- * Group heading 是 Title Case、1–2 词（Actions, Recent）。
- */
+const CommandMenuContext = React.createContext<{
+  close: () => void;
+  query: string;
+  setQuery: (value: string) => void;
+} | null>(null);
 
-const CommandMenu = DialogPrimitive.Root;
-const CommandMenuTrigger = DialogPrimitive.Trigger;
+function useCommandMenu() {
+  const context = React.useContext(CommandMenuContext);
+  if (!context) throw new Error("CommandMenu components must be used inside CommandMenu");
+  return context;
+}
 
-const CommandMenuContent = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => {
+type CommandMenuProps = {
+  children?: React.ReactNode;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+};
+
+function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
+  const [query, setQuery] = React.useState("");
   const titleId = React.useId();
+  const descriptionId = React.useId();
+  const close = React.useCallback(() => setOpen(false), [setOpen]);
+
+  React.useEffect(() => {
+    if (!open) setQuery("");
+  }, [open]);
+
   return (
-    <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay
-        data-slot="command-menu-overlay"
-        className="fixed inset-0 z-50 bg-[#0a0a0a] opacity-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
-      />
-      <DialogPrimitive.Content
+    <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
+      <DialogPrimitive.Portal>
+        <DialogPrimitive.Overlay
+          data-slot="command-menu-overlay"
+          className="command-menu-overlay fixed inset-0 z-100 bg-background-100 opacity-80"
+        />
+        <DialogPrimitive.Content
+          data-slot="command-menu-content"
+          aria-labelledby={titleId}
+          aria-describedby={descriptionId}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            requestAnimationFrame(() => document.body.focus());
+          }}
+          className="command-menu-scale command-menu-mobile fixed top-[15%] left-1/2 z-100 w-[640px] -translate-x-1/2 overflow-hidden rounded-[12px] bg-background-100 outline-none max-[600px]:top-auto max-[600px]:bottom-0 max-[600px]:left-0 max-[600px]:h-[80vh] max-[600px]:max-h-[80vh] max-[600px]:w-full max-[600px]:max-w-full max-[600px]:translate-x-0 max-[600px]:overflow-auto max-[600px]:rounded-t-[8px] max-[600px]:rounded-b-none"
+        >
+          <h2 id={titleId} className="sr-only">
+            Command Menu
+          </h2>
+          <p id={descriptionId} className="sr-only">
+            Use the command menu to navigate through available actions.
+          </p>
+          <CommandMenuContext.Provider value={{ close, query, setQuery }}>
+            <Command
+              data-testid="cmdk/root"
+              label="Command Menu"
+              loop
+              className="w-full bg-background-100 text-foreground"
+            >
+              {children}
+            </Command>
+          </CommandMenuContext.Provider>
+        </DialogPrimitive.Content>
+      </DialogPrimitive.Portal>
+    </DialogPrimitive.Root>
+  );
+}
+
+const CommandMenuInput = React.forwardRef<
+  React.ElementRef<typeof Command.Input>,
+  React.ComponentPropsWithoutRef<typeof Command.Input>
+>(({ className, ...props }, ref) => {
+  const { close, query, setQuery } = useCommandMenu();
+  return (
+    <div className="relative flex w-full items-center gap-2 border-b border-gray-alpha-400 p-3">
+      <Command.Input
         ref={ref}
-        data-slot="command-menu-content"
-        aria-labelledby={titleId}
+        value={query}
+        onValueChange={setQuery}
         className={cn(
-          "fixed top-[85px] left-1/2 z-50 w-full max-w-[640px] -translate-x-1/2 overflow-hidden rounded-[12px] border border-gray-alpha-400 bg-background shadow-[var(--material-shadow-modal)] outline-none",
-          "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+          "h-7 flex-1 border-none bg-transparent text-base text-[var(--ds-gray-1000)] outline-hidden placeholder:text-[var(--ds-gray-700)] sm:text-lg",
           className,
         )}
         {...props}
+      />
+      <button
+        type="button"
+        aria-label="Close command menu"
+        onClick={close}
+        className="h-5 w-[25px] shrink-0 rounded-sm border-0 bg-transparent p-0 outline-none"
       >
-        <h2 id={titleId} className="sr-only">
-          Command Menu
-        </h2>
-        {children}
-      </DialogPrimitive.Content>
-    </DialogPrimitive.Portal>
+        <Kbd small className="w-[25px] font-sans!">
+          Esc
+        </Kbd>
+      </button>
+    </div>
   );
 });
-CommandMenuContent.displayName = DialogPrimitive.Content.displayName;
+CommandMenuInput.displayName = "CommandMenuInput";
 
-const CommandMenuInput = React.forwardRef<
-  React.ElementRef<"input">,
-  React.ComponentPropsWithoutRef<"input">
+const CommandMenuList = React.forwardRef<
+  React.ElementRef<typeof Command.List>,
+  React.ComponentPropsWithoutRef<typeof Command.List>
+>(({ className, children, ...props }, ref) => {
+  const { query } = useCommandMenu();
+  return (
+    <Command.List
+      ref={ref}
+      label="Suggestions"
+      className={cn(
+        "flex max-h-none overflow-y-auto p-2 transition-[height] duration-100 sm:block sm:max-h-[436px]",
+        className,
+      )}
+      {...props}
+    >
+      <Command.Empty
+        role="presentation"
+        className="px-0 py-[30px] text-left text-copy-16 text-foreground"
+      >
+        {`No results found for "${query}".`}
+      </Command.Empty>
+      {children}
+    </Command.List>
+  );
+});
+CommandMenuList.displayName = "CommandMenuList";
+
+type CommandMenuItemProps = React.ComponentPropsWithoutRef<typeof Command.Item> & {
+  suffix?: React.ReactNode;
+  callback?: () => void;
+};
+
+const CommandMenuItem = React.forwardRef<
+  React.ElementRef<typeof Command.Item>,
+  CommandMenuItemProps
+>(({ className, suffix, callback, onSelect, children, ...props }, ref) => {
+  const { close } = useCommandMenu();
+  return (
+    <Command.Item
+      ref={ref}
+      onSelect={(value) => {
+        callback?.();
+        onSelect?.(value);
+        close();
+      }}
+      className={cn(
+        "flex min-h-10 w-full cursor-pointer items-center gap-3 rounded-md px-2 py-0 text-copy-14 text-foreground outline-none sm:min-h-9",
+        "data-[selected=true]:bg-gray-alpha-100 [@media(hover:hover)_and_(pointer:fine)]:data-[selected=true]:bg-gray-alpha-100",
+        "data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+      {suffix ? <div className="ml-auto flex items-stretch gap-1">{suffix}</div> : null}
+    </Command.Item>
+  );
+});
+CommandMenuItem.displayName = "CommandMenuItem";
+
+const CommandMenuGroup = React.forwardRef<
+  React.ElementRef<typeof Command.Group>,
+  React.ComponentPropsWithoutRef<typeof Command.Group>
 >(({ className, ...props }, ref) => (
-  <input
+  <Command.Group
     ref={ref}
-    data-slot="command-menu-input"
     className={cn(
-      "w-full border-b border-gray-alpha-400 bg-transparent px-4 py-3 text-copy-14 text-foreground outline-none placeholder:text-muted-foreground",
+      "[&_[cmdk-group-heading]]:flex [&_[cmdk-group-heading]]:h-9 [&_[cmdk-group-heading]]:items-center [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:text-[13px] [&_[cmdk-group-heading]]:leading-[1.5] [&_[cmdk-group-heading]]:text-[var(--ds-gray-900)]",
       className,
     )}
     {...props}
   />
 ));
-CommandMenuInput.displayName = "CommandMenuInput";
-
-const CommandMenuList = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, onKeyDown, ...props }, ref) => {
-    /** 键盘优先：ArrowDown/Up 在条目间移动焦点，Home/End 跳首尾，Enter 自然激活 */
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-      const items = Array.from(
-        event.currentTarget.querySelectorAll<HTMLButtonElement>('[data-slot="command-menu-item"]'),
-      );
-      if (items.length === 0) return;
-      const currentIndex = items.indexOf(document.activeElement as HTMLButtonElement);
-      if (event.key === "ArrowDown") {
-        event.preventDefault();
-        items[(currentIndex + 1) % items.length]?.focus();
-      } else if (event.key === "ArrowUp") {
-        event.preventDefault();
-        items[(currentIndex - 1 + items.length) % items.length]?.focus();
-      } else if (event.key === "Home") {
-        event.preventDefault();
-        items[0]?.focus();
-      } else if (event.key === "End") {
-        event.preventDefault();
-        items[items.length - 1]?.focus();
-      }
-      onKeyDown?.(event);
-    };
-
-    return (
-      <div
-        ref={ref}
-        data-slot="command-menu-list"
-        onKeyDown={handleKeyDown}
-        className={cn("max-h-64 overflow-y-auto p-1.5", className)}
-        {...props}
-      />
-    );
-  },
-);
-CommandMenuList.displayName = "CommandMenuList";
-
-const CommandMenuItem = React.forwardRef<
-  HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    suffix?: React.ReactNode;
-    /** 官方 API 别名：激活时执行的动作（等价于 onClick） */
-    callback?: () => void;
-  }
->(({ className, suffix, callback, onClick, children, ...props }, ref) => (
-  <button
-    ref={ref}
-    type="button"
-    data-slot="command-menu-item"
-    onClick={(event) => {
-      callback?.();
-      onClick?.(event);
-    }}
-    className={cn(
-      "flex w-full cursor-pointer items-center justify-between gap-2 rounded-[6px] px-4 py-2 text-left text-copy-14 text-foreground transition-colors focus-ring hover:bg-gray-alpha-100",
-      className,
-    )}
-    {...props}
-  >
-    <span className="flex-1">{children}</span>
-    {suffix}
-  </button>
-));
-CommandMenuItem.displayName = "CommandMenuItem";
-
-const CommandMenuGroup = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & {
-    heading?: string;
-  }
->(({ className, heading, children, ...props }, ref) => (
-  <div ref={ref} data-slot="command-menu-group" className={cn("py-1", className)} {...props}>
-    {heading && <p className="px-4 pt-2 pb-1 text-label-12 text-muted-foreground">{heading}</p>}
-    {children}
-  </div>
-));
 CommandMenuGroup.displayName = "CommandMenuGroup";
 
-const CommandMenuSeparator = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      data-slot="command-menu-separator"
-      className={cn("mx-2 my-1 h-px bg-gray-alpha-200", className)}
-      {...props}
-    />
-  ),
-);
-CommandMenuSeparator.displayName = "CommandMenuSeparator";
-
-/** 官方 API 名称（docs 示例用 CommandMenuDivider） */
-const CommandMenuDivider = CommandMenuSeparator;
+const CommandMenuDivider = React.forwardRef<
+  React.ElementRef<typeof Command.Separator>,
+  React.ComponentPropsWithoutRef<typeof Command.Separator>
+>(({ className, ...props }, ref) => (
+  <Command.Separator
+    ref={ref}
+    className={cn("my-2 -ml-2 h-px w-[calc(100%+16px)] bg-[var(--ds-gray-alpha-400)]", className)}
+    {...props}
+  />
+));
+CommandMenuDivider.displayName = "CommandMenuDivider";
 
 export {
   CommandMenu,
-  CommandMenuTrigger,
-  CommandMenuContent,
-  CommandMenuInput,
-  CommandMenuList,
-  CommandMenuItem,
-  CommandMenuGroup,
-  CommandMenuSeparator,
   CommandMenuDivider,
+  CommandMenuGroup,
+  CommandMenuInput,
+  CommandMenuItem,
+  CommandMenuList,
 };

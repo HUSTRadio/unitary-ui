@@ -5,17 +5,21 @@ import { cn } from "@/lib/utils";
 /**
  * Radio — Geist 官方 Radio（docs/geist-markdown-refs/components/radio.md）。
  * 官方 API：原生 input[type=radio] 语义，无 Radix 依赖。
- * - RadioGroup：label（渲染为 <legend>）/ onChange(value) / value / defaultValue /
- *   required / disabled / name / aria-label
+ * - RadioGroup：label（渲染为 sr-only 说明 + aria-labelledby，官方即此结构）/
+ *   onChange(value) / value / defaultValue / required / disabled / name / aria-label
  * - RadioGroupItem：value + children（选项文案）
  * - Radio：独立无标签单选点（custom UI，需自行提供 aria-label）
  * - useRadio：headless 用法，返回 { component }
- * 圆点 16×16、边框 gray-alpha-400；选中态 border-progress + 中心圆点 bg-progress；
- * 焦点环 focus-ring；颜色全部消费语义 token（--progress / --gray-alpha / --foreground），零 `dark:` 分支。
+ * 圆点 16×16、边框 gray-700（--radio-color 变量）；选中态 --radio-color 切换为 gray-1000（light #171717），
+ * 中心圆点 bg-[var(--radio-color)] scale-0 → scale-100（官方 peer-checked:after:scale-100 等价）；
+ * 禁用态实色灰：选项文字 gray-400、圆点边框 gray-400、禁用选中圆点 gray-400（官方实测 #c9c9c9），
+ * cursor-not-allowed，无 opacity 变暗；
+ * 焦点环 focus-ring；颜色全部消费语义 token（--gray-700 / --gray-500 / --gray-1000 / --background-100），零 `dark:` 分支。
  * 语义：单个多选一（2–6 项）；超过 6 项改用 Select/Combobox，二选一布尔用 Toggle。
  */
 
 type RadioGroupContextValue = {
+  inGroup?: boolean;
   value?: string;
   onChange?: (value: string) => void;
   disabled?: boolean;
@@ -39,7 +43,7 @@ interface RadioProps extends Omit<React.ComponentProps<"input">, "type" | "size"
 const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
   ({ className, checked, onChange, value, disabled, required, name, ...props }, ref) => {
     const group = React.useContext(RadioGroupContext);
-    const inGroup = group.value !== undefined;
+    const inGroup = group.inGroup === true;
     const isChecked = checked ?? (inGroup ? group.value === String(value) : undefined);
     const generatedName = React.useId();
     const inputName = name ?? group.name ?? generatedName;
@@ -50,7 +54,13 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
     };
 
     return (
-      <span className={cn("relative inline-flex size-4 shrink-0", className)}>
+      <span
+        data-slot="radio-control"
+        className={cn(
+          "-m-0.5 inline-flex size-5 shrink-0 items-center justify-center p-0.5",
+          className,
+        )}
+      >
         <input
           ref={ref}
           type="radio"
@@ -67,14 +77,16 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
         <span
           aria-hidden
           className={cn(
-            "grid size-4 place-content-center rounded-full border border-gray-alpha-400 transition-colors",
-            "peer-checked:border-progress",
+            "relative size-4 rounded-full border border-[var(--radio-color)] bg-background-100",
+            "transition-[border-color,background] duration-200 ease-in",
             "peer-focus-visible:focus-ring",
-            "peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
-            "peer-checked:[&>span]:opacity-100",
+            "peer-enabled:peer-checked:[--radio-color:var(--gray-1000)]",
+            "peer-disabled:[--radio-color:var(--gray-500)]",
+            "peer-checked:[&>span]:scale-100",
+            "peer-disabled:peer-checked:![--radio-color:var(--gray-500)]",
           )}
         >
-          <span className="size-2 rounded-full bg-progress opacity-0 transition-opacity" />
+          <span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 scale-0 rounded-full bg-[var(--radio-color)] transition-transform duration-150 ease-in" />
         </span>
       </span>
     );
@@ -83,10 +95,10 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
 Radio.displayName = "Radio";
 
 interface RadioGroupProps extends Pick<
-  React.ComponentProps<"fieldset">,
-  "id" | "aria-label" | "aria-describedby"
+  React.ComponentProps<"div">,
+  "id" | "aria-label" | "aria-describedby" | "className"
 > {
-  /** 组标签（Title Case 名词），渲染为 <legend> */
+  /** 组标签（Title Case 名词），渲染为 sr-only 说明并作为 aria-labelledby 目标（官方结构） */
   label?: React.ReactNode;
   /** 选中值变化回调（受控） */
   onChange?: (value: string) => void;
@@ -100,7 +112,6 @@ interface RadioGroupProps extends Pick<
   disabled?: boolean;
   /** 原生 name（键盘分组 / 表单提交）；缺省按选项自动生成 */
   name?: string;
-  className?: string;
   children?: React.ReactNode;
 }
 
@@ -114,11 +125,13 @@ function RadioGroup({
   name,
   className,
   children,
-  ...fieldsetProps
+  ...divProps
 }: RadioGroupProps) {
   const [internalValue, setInternalValue] = React.useState(defaultValue);
   const isControlled = value !== undefined;
   const currentValue = isControlled ? value : internalValue;
+  const srLabelId = React.useId();
+  const generatedName = React.useId();
 
   const handleChange = React.useCallback(
     (next: string) => {
@@ -129,25 +142,33 @@ function RadioGroup({
   );
 
   const context = React.useMemo<RadioGroupContextValue>(
-    () => ({ value: currentValue, onChange: handleChange, disabled, required, name }),
-    [currentValue, handleChange, disabled, required, name],
+    () => ({
+      inGroup: true,
+      value: currentValue,
+      onChange: handleChange,
+      disabled,
+      required,
+      name: name ?? generatedName,
+    }),
+    [currentValue, handleChange, disabled, required, name, generatedName],
   );
 
   return (
     <RadioGroupContext.Provider value={context}>
-      <fieldset
+      <div
         data-slot="radio-group"
-        disabled={disabled}
+        role="radiogroup"
+        aria-labelledby={label != null ? srLabelId : undefined}
         className={cn("min-w-0", className)}
-        {...fieldsetProps}
+        {...divProps}
       >
-        {label ? (
-          <legend data-slot="radio-group-label" className="mb-2.5 text-label-14 text-foreground">
+        {label != null ? (
+          <span id={srLabelId} className="sr-only">
             {label}
-          </legend>
+          </span>
         ) : null}
-        <div className="flex flex-col gap-2.5">{children}</div>
-      </fieldset>
+        {children}
+      </div>
     </RadioGroupContext.Provider>
   );
 }
@@ -165,10 +186,14 @@ function RadioGroupItem({ value, children, className, ...radioProps }: RadioGrou
   return (
     <label
       data-slot="radio-item-wrapper"
-      className={cn("flex cursor-pointer items-center gap-2.5", className)}
+      className={cn(
+        "group flex items-center text-copy-13 leading-[19.5px] [--radio-color:var(--gray-700)]",
+        "has-[input:disabled]:cursor-not-allowed has-[input:disabled]:text-gray-500 has-[input:disabled]:[--radio-color:var(--gray-500)]",
+        className,
+      )}
     >
       <Radio value={value} {...radioProps} />
-      {children ? <span className="text-copy-14 text-foreground">{children}</span> : null}
+      {children ? <span className="ml-2 group-hover:cursor-pointer">{children}</span> : null}
     </label>
   );
 }

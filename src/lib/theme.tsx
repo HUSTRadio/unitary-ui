@@ -64,9 +64,10 @@ export function applyTheme(theme: ResolvedTheme) {
   const root = document.documentElement;
   root.classList.toggle("dark", theme === "dark");
   root.dataset.theme = theme;
+  root.style.colorScheme = theme;
   // Geist guideline: browser UI matches the page background.
   const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
-  if (meta) meta.content = theme === "dark" ? "#0d0d0d" : "#fafafa";
+  if (meta) meta.content = theme === "dark" ? "#0a0a0a" : "#ffffff";
 }
 
 /**

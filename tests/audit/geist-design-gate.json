@@ -1,0 +1,751 @@
+{
+  "schemaVersion": 1,
+  "title": "Geist Task 9 design gate ledger (machine-readable)",
+  "gateDateUtc": "2026-08-11T07:10:00Z",
+  "plan": ".hermes/plans/2026-08-11_141304-geist-systemic-parity-and-responsive-remediation.md",
+  "designDoc": "docs/audits/geist-component-and-responsive-remediation-design.md",
+  "evidenceRoot": "C:/Users/Leon/geist-audit/phase-e",
+  "status": "GATE_APPROVED_B0_B1_ONLY",
+  "dimensions": [
+    "officialCapabilities",
+    "api",
+    "dom",
+    "states",
+    "responsive",
+    "aria",
+    "motion",
+    "localDemoCoverage",
+    "comparison"
+  ],
+  "components": [
+    {
+      "slug": "toggle",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "MISSING",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["toggle/README.md", "toggle/toggle-diff-table.md", "toggle/evidence/"],
+      "notes": "B3；5 live demo（default/disabled/sizes/custom-color/with-label）"
+    },
+
+    {
+      "slug": "radio",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PARTIAL",
+        "aria": "PASS",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "PASS",
+        "comparison": "PASS"
+      },
+      "evidence": [
+        "C:/Users/Leon/geist-audit/radio-8886133/runs/official/",
+        "C:/Users/Leon/geist-audit/radio-8886133/runs/local/",
+        "C:/Users/Leon/geist-audit/radio-8886133/comparisons/",
+        "C:/Users/Leon/geist-audit/radio-8886133/visual/final-contact-sheet.png"
+      ],
+      "notes": "B3 复刻闭环；5 live demo（default/radio-disabled/radio-required/radio-headless/radio-standalone）的 clean revision 8886133 双主题 comparator 10/10 semantic PASS，strict/ARIA failures、missing paths 与 normalized geometry delta 均为 0；原生 label 点击、同组互斥、方向键切换、disabled 不可变、required 空提交聚焦无效控件与 standalone 可访问名称均已实测；contact sheet 经 browser vision 复核 PASS，无未解释差异；四视口响应式证据尚未完成，保持 PARTIAL"
+    },
+
+    {
+      "slug": "switch",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PARTIAL",
+        "aria": "PASS",
+        "motion": "PASS",
+        "localDemoCoverage": "PASS",
+        "comparison": "PASS"
+      },
+      "evidence": [
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/runs/official/",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/runs/local/",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/comparisons/default/comparison.json",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/comparisons/disabled/comparison.json",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/comparisons/sizes/comparison.json",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/comparisons/full-width/comparison.json",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/comparisons/tooltip/comparison.json",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/comparisons/icon/comparison.json",
+        "C:/Users/Leon/geist-audit/switch-7bc9a9b/visual/final-contact-sheet.png"
+      ],
+      "notes": "B3 复刻闭环；6 live demos（default/disabled/sizes/full-width/tooltip/icon）的 clean revision 7bc9a9b comparator 均为 semantic PASS，strict/ARIA failures、missing/unexpected roles 与 normalized geometry delta 均为 0；同条件 contact sheet 复核原生 radio/label、32/36/40px 尺寸、full-width、tooltip wrapper、禁用态与 icon 控件无未解释差异，仅保留获准 Geist Sans→HarmonyOS Sans 字宽、Lucide glyph 与宿主内容宽度映射；未采集的主题/视口矩阵诚实保留 responsive PARTIAL"
+    },
+
+    {
+      "slug": "button",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "MISSING",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["button/README.md", "button/button-diff-table.md", "button/evidence/"],
+      "notes": "B3 首批；5 live demo（all-types-and-sizes-in-comparison/prefix-and-suffix/loading/disabled/disabled-variants）"
+    },
+
+    {
+      "slug": "choicebox",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "FAIL",
+        "dom": "FAIL",
+        "states": "PARTIAL",
+        "responsive": "BLOCKED_PRELIMINARY",
+        "aria": "FAIL",
+        "motion": "PARTIAL",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["choicebox/choicebox-evidence.md"],
+      "notes": "A1-A4/D1-D2/S2/S5-S9 diff list frozen; multi-select + children-on-select + API rename required; viewport data is container-simulation only"
+    },
+    {
+      "slug": "clearable-input",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "FAIL",
+        "dom": "FAIL",
+        "states": "PARTIAL",
+        "responsive": "BLOCKED_PRELIMINARY",
+        "aria": "FAIL",
+        "motion": "PASS",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["clearable-input/evidence-live.md", "clearable-input/evidence-raw.json"],
+      "notes": "kbd Esc keycap vs X icon; label/cmdk props missing; disabled colors; focus ring #0072f5; AT contract aria-hidden"
+    },
+    {
+      "slug": "command-menu",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "FAIL",
+        "dom": "FAIL",
+        "states": "PARTIAL",
+        "responsive": "BLOCKED_PRELIMINARY",
+        "aria": "FAIL",
+        "motion": "FAIL",
+        "localDemoCoverage": "PARTIAL",
+        "comparison": "MISSING"
+      },
+      "evidence": ["command-menu/evidence-command-menu.md", "command-menu/STATUS.md"],
+      "notes": "13 diff paths frozen; cmdk semantics, overlay bg-background-100 opacity-80, w-[640px] top-[15%], focus-to-body on Esc, sm(401px) variant"
+    },
+    {
+      "slug": "code-block",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PARTIAL",
+        "responsive": "MISSING",
+        "aria": "PARTIAL",
+        "motion": "PARTIAL",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["code-block/code-block.json", "code-block/evidence-summary.md"],
+      "notes": "CONFIRMED_MISSING high: 1/9 variants; CB-01..CB-12; official props, DOM/ARIA line anchors and switcher/tabs, visual states and observed motion policy are partially evidenced; responsive matrix remains missing"
+    },
+    {
+      "slug": "context-menu",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "MISSING",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": [
+        "context-menu/README.md",
+        "context-menu/context-menu-diff-table.md",
+        "context-menu/evidence/"
+      ],
+      "notes": "16/16 real-viewport cells passed; CM-1/CM-2 href/prefix/suffix missing; CM-3 radius 12 vs 8; CM-4 dark #0a0a0a vs #1a1a1a; CM-6 375 max-sm:w-full; CM-11 longpress BLOCKED"
+    },
+    {
+      "slug": "description",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PARTIAL",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "PARTIAL"
+      },
+      "evidence": ["description/report.json", "description/DIFF-REPORT.md"],
+      "notes": "Core PASS (dl/dt/dd, right, ellipsis); TIP-05 tooltip surface (max-w 250, no shadow); TIP-02 indicator glyph; DEM-01 variants missing; RES-03 1440/1920 BLOCKED"
+    },
+    {
+      "slug": "dots-menu",
+      "batch": "B1_PARTIAL_MATRIX",
+      "inventoryStatus": "live_enumeration_partial",
+      "gate": "TDD_READY_CONDITIONAL",
+      "dimensions": {
+        "officialCapabilities": "PARTIAL",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PARTIAL",
+        "responsive": "MISSING",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": [
+        "dots-menu/evidence/official-1440-light.json",
+        "dots-menu/evidence/official-1440-light-interact.json",
+        "dots-menu/evidence/cells-manifest.json"
+      ],
+      "notes": "Only 1440-light cells (4/4); sections Default/Sizes/Disabled/Disabled Menu Item; trigger 32x32 r6 icon 18; menu min-w 200 r12 p6 rows 36; G12: 7/8 matrix cells missing before final acceptance"
+    },
+    {
+      "slug": "drawer",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "FAIL",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["drawer/REPORT.md", "drawer/evidence/", "drawer/run.log"],
+      "notes": "16/16 real-viewport x theme cells + full interaction matrix PASS; first invalid 375 official probes are isolated under evidence/invalid and excluded, verified redo-375 data is used. D1-D7 and Base UI contract remain"
+    },
+    {
+      "slug": "empty-state",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PARTIAL",
+        "dom": "PASS",
+        "states": "NOT_APPLICABLE",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "BLOCKED",
+        "comparison": "MISSING"
+      },
+      "evidence": [
+        "empty-state/evidence/official-sweep.json",
+        "empty-state/evidence/local-sweep.json"
+      ],
+      "notes": "Official 8/8 real-viewport cells ok (3 demos); local sweep 8/8 timeout (no data-slot=empty-state in demo); container/bubble/title classes frozen"
+    },
+    {
+      "slug": "checkbox",
+      "batch": "B1",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PARTIAL",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PASS",
+        "motion": "PASS",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["checkbox/pixel-summary.json", "checkbox/runs/"],
+      "notes": "64-cell official-only pixel summary (4 viewports x 2 themes x 8 states); initial dark detailed-run writes hit ENOSPC, but the final aggregate contains 32 dark cells. Local runtime comparison remains MISSING"
+    },
+    {
+      "slug": "collapse",
+      "batch": "B2",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PASS",
+        "motion": "PASS",
+        "localDemoCoverage": "PASS",
+        "comparison": "PASS"
+      },
+      "evidence": [
+        "C:/Users/Leon/geist-audit/collapse-b79dbc3/runs",
+        "C:/Users/Leon/geist-audit/collapse-b79dbc3/comparisons",
+        "C:/Users/Leon/geist-audit/collapse-b79dbc3/visual/final-contact-sheet.png"
+      ],
+      "notes": "Clean revision b79dbc3; 4 demos × 4 viewports × light/dark official/local = 64 cells, 32/32 comparisons PASS, strict/ARIA/missing paths/geometry all zero. Interaction verified: click/Enter/Space toggle, closed content remains in DOM, Expanded Question B stays open with aria-disabled=true, motion is 200ms cubic-bezier(0.4,0,0.2,1). Remote vision endpoint returned blank-page errors; desktop preview independently displayed the populated contact sheet with no visible differences."
+    },
+    {
+      "slug": "context-card",
+      "batch": "B2",
+      "inventoryStatus": "live_enumeration_partial",
+      "gate": "RE_EVIDENCE_REQUIRED",
+      "dimensions": {
+        "officialCapabilities": "PARTIAL",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "BLOCKED",
+        "responsive": "UNVERIFIED",
+        "aria": "PARTIAL",
+        "motion": "DIFF_SOURCE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["context-card/report-context-card.json", "context-card/diff-table.md"],
+      "notes": "视觉修复完成（commit 0226b56）：双层边框消除（ContextCard 移出 surface）；箭头官方精确 path（14×7 viewBox 14×7，fill 背景色 + stroke #dbdbdb，根部深入 content 覆盖边框，底边不描 stroke 消除内框割裂）；Show code 真实 toggle；popover 圆角 6px、内边距 16px、string 内容 16px/24px。原 CONFIRMED_ERROR（radius 6/w-fit/dark bg #0a0a0a/content 16px/arrow/z-1000000）已修复。待补：interaction open-state（官方 hover 反自动化拦截）、四视口 responsive、官方/local comparison、motion 对齐。"
+    },
+    {
+      "slug": "entity",
+      "batch": "B2",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PASS",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "PASS",
+        "comparison": "PASS"
+      },
+      "evidence": [
+        "C:/Users/Leon/geist-audit/entity-656e1a2/runs/official/",
+        "C:/Users/Leon/geist-audit/entity-656e1a2/runs/local/",
+        "C:/Users/Leon/geist-audit/entity-656e1a2/comparisons/",
+        "C:/Users/Leon/geist-audit/entity-656e1a2/visual/final-contact-sheet.png"
+      ],
+      "notes": "B2 证据债务闭环；实时官方 inventory 为 6 个 demo。clean revision 656e1a2 在 light/dark 与 375/768/1440/1920 四视口完成 96 cells、48 对 comparator，48/48 semantic PASS，strict/ARIA failures、missing paths 与 normalized geometry delta 均为 0；96 张原始截图均非空。视觉复核发现并修正 checkbox demo 三项全选问题，最终官方与本地 checked 数组均为 [true,false,false]；其余可见宽度差异属于已批准宿主内容宽度映射。"
+    },
+    {
+      "slug": "fieldset",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PARTIAL",
+        "aria": "PASS",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "PASS",
+        "comparison": "PASS"
+      },
+      "evidence": [
+        "fieldset-060dce5/runs/",
+        "fieldset-060dce5/comparison-default/",
+        "fieldset-060dce5/comparison-disabled/",
+        "fieldset-060dce5/comparison-with-long-content/",
+        "fieldset-060dce5/comparison-multiple-fieldsets/",
+        "fieldset-060dce5/comparison-without-footer/",
+        "fieldset-060dce5/comparison-without-title/",
+        "fieldset-060dce5/comparison-with-error-text/",
+        "fieldset-060dce5/comparison-with-warning-text/",
+        "fieldset-060dce5/comparison-with-disabled-wall/",
+        "fieldset-060dce5/comparison-error-type/",
+        "fieldset-060dce5/comparison-warning-type/",
+        "fieldset-060dce5/final-contact-sheet.png"
+      ],
+      "notes": "B3 复刻闭环；11 live demo 在 light 1440x900 下 strict/style failures 均为 0，default/disabled/without-footer/with-disabled-wall raw PASS；其余 missing path 和最大 2.609375px 几何差来自获准 Geist Sans→HarmonyOS Sans 字体子树映射，warning-type 的 20px 高度差仅为副标题多折一行；最终视觉复核无实质差异，四视口双主题矩阵仍诚实保留 PARTIAL"
+    },
+    {
+      "slug": "input",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["input/runs/", "input/input-evidence.json"],
+      "notes": "B3 复刻；7 live demo（default/prefix-and-suffix/disabled/error/label/rounded-prefix-and-suffix/rounded-prefix-and-suffix-without-styling），states default/disabled/error，矩阵 light 1440x900 采集对比"
+    },
+    {
+      "slug": "keyboard-input",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PASS",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "PASS",
+        "comparison": "PASS"
+      },
+      "evidence": [
+        "keyboard-input-9ada93f/runs/",
+        "keyboard-input-9ada93f/comparison-modifiers/",
+        "keyboard-input-9ada93f/comparison-combination/",
+        "keyboard-input-9ada93f/comparison-small/",
+        "keyboard-input-9ada93f/final-contact-sheet.png"
+      ],
+      "notes": "B3 复刻闭环；3 live demo（modifiers/combination/small），strict/style/ARIA failures 均为 0，normalized geometry 0、无 missing path；raw FAIL 仅来自获准 Geist Sans→HarmonyOS Sans 字体/宿主宽度映射（最大 Kbd 字宽差 1.8125px、默认基线差 1px），最终视觉复核无实质差异"
+    },
+    {
+      "slug": "label",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["label/runs/", "label/label-evidence.json"],
+      "notes": "B3 复刻；3 live demo（default/with-input/bypass-casing），states default，矩阵 light 1440x900 采集对比"
+    },
+    {
+      "slug": "search-input",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PARTIAL",
+        "aria": "PASS",
+        "motion": "PASS",
+        "localDemoCoverage": "PASS",
+        "comparison": "PASS"
+      },
+      "evidence": [
+        "C:/Users/Leon/geist-audit/search-input-f539765/official-default/runs/official/",
+        "C:/Users/Leon/geist-audit/search-input-f539765/local-default/runs/local/",
+        "C:/Users/Leon/geist-audit/search-input-f539765/comparison-default/comparison.json",
+        "C:/Users/Leon/geist-audit/search-input-f539765/comparison-with-cmdk/comparison.json",
+        "C:/Users/Leon/geist-audit/search-input-f539765/comparison-disabled/comparison.json",
+        "C:/Users/Leon/geist-audit/search-input-f539765/comparison-loading/comparison.json",
+        "C:/Users/Leon/geist-audit/search-input-f539765/comparison-custom-prefix/comparison.json",
+        "C:/Users/Leon/geist-audit/search-input-f539765/final-contact-sheet.png"
+      ],
+      "notes": "B3 复刻闭环；5 live demos（default/with-cmdk/disabled/loading/custom-prefix），wrapper 高度/圆角/描边/排版/motion 与 prefix/input/suffix 状态均已实测；comparator 仅余获准 Geist Sans→HarmonyOS Sans family、49px 宿主宽度及连带 transform-origin 映射，disabled placeholder 对齐官方 gray-500（live RGB 68，本地快照 RGB 69）；最终 contact sheet 无未解释差异；未采集的主题/视口矩阵诚实保留 responsive PARTIAL"
+    },
+    {
+      "slug": "multi-select",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PARTIAL",
+        "aria": "PASS",
+        "motion": "PASS",
+        "localDemoCoverage": "PASS",
+        "comparison": "PASS"
+      },
+      "evidence": [
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/runs/official/",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/runs/local/",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/comparisons/select-actions-closed/comparison.json",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/comparisons/select-actions-open/comparison.json",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/comparisons/keyboard-navigation-closed/comparison.json",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/comparisons/keyboard-navigation-open/comparison.json",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/comparisons/controlled-state-closed/comparison.json",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/comparisons/controlled-state-open/comparison.json",
+        "C:/Users/Leon/geist-audit/multi-select-ae0bff0/visual/final-contact-sheet.png"
+      ],
+      "notes": "B3 复刻闭环；3 live demos（select-actions/keyboard-navigation/controlled-state）的 closed/open 六组 clean-revision comparator 均为 semantic PASS，strict/ARIA failures、missing paths 与 normalized geometry delta 均为 0；open panel 唯一 raw minWidth 差异由 trigger-context 明确回溯到获准 Geist Sans→HarmonyOS Sans 字宽传导，最终同条件 contact sheet 复核 36px trigger、100/128px panel、8px padding、12px radius、28px row、checkbox/action/scrollbar/shadow 无未解释差异；未采集的主题/视口矩阵诚实保留 responsive PARTIAL"
+    },
+    {
+      "slug": "slider",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PARTIAL",
+        "aria": "PASS",
+        "motion": "PASS",
+        "localDemoCoverage": "PASS",
+        "comparison": "PASS"
+      },
+      "evidence": [
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/runs/official/",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/runs/local/",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/comparison-default/comparison.json",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/comparison-with-label/comparison.json",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/comparison-range-with-inputs/comparison.json",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/comparison-disabled-range-with-inputs/comparison.json",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/comparison-commit-on-release/comparison.json",
+        "C:/Users/Leon/geist-audit/slider-fe9f0a8/final-contact-sheet.png"
+      ],
+      "notes": "B3 复刻闭环；5 live demos（default/with-label/range-with-inputs/disabled-range-with-inputs/commit-on-release），clean revision fe9f0a8 的五组 comparator 均为 semantic PASS，strict/style/ARIA failures、missing paths 与 normalized geometry delta 均为 0；完整可见区域 contact sheet 复核 track/indicator/thumb/label/paired inputs/disabled/commit 状态无未解释差异；仅保留获准 Geist Sans→HarmonyOS Sans 字体映射与 official live blue-700 #0072f5→本地权威快照同角色 #006efe 版本映射；未采集的主题/视口矩阵诚实保留 responsive PARTIAL"
+    },
+    {
+      "slug": "select",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["select/runs/", "select/select-evidence.json"],
+      "notes": "B3 复刻；7 live demo（sizes/prefix-and-suffix/disabled/error/label/with-options/required），states default/open/disabled/error，矩阵 light 1440x900 采集对比（含 with-options open 打开态）"
+    },
+    {
+      "slug": "separator",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["separator/runs/", "separator/separator-evidence.json"],
+      "notes": "B3 复刻；3 live demo（horizontal/vertical/orientation-variants），states default，矩阵 light 1440x900 采集对比"
+    },
+    {
+      "slug": "textarea",
+      "batch": "B3",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
+      "dimensions": {
+        "officialCapabilities": "PASS",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PARTIAL",
+        "motion": "NOT_APPLICABLE",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["textarea/runs/", "textarea/textarea-evidence.json"],
+      "notes": "B3 复刻；6 live demo（default/disabled/error/sizes/read-only/rows），states default/disabled/error/read-only，矩阵 light 1440x900 采集对比"
+    },
+    {
+      "slug": "calendar",
+      "batch": "B2",
+      "inventoryStatus": "live_enumeration_partial",
+      "gate": "RE_EVIDENCE_REQUIRED",
+      "dimensions": {
+        "officialCapabilities": "PARTIAL",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PARTIAL",
+        "responsive": "MISSING",
+        "aria": "PARTIAL",
+        "motion": "MISSING",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": [
+        "calendar/evidence/off-default-open-light.png",
+        "calendar/evidence/off-pinned-tz-open-light.png",
+        "calendar/delegation/live-transcript.log"
+      ],
+      "notes": "打开态 Popover 已实现（commit 3208f4a）：官方 date range picker 实测复刻——Popover 容器（menu 材质 rounded-12px w-280px）、Start/End 日期+时间输入、月份导航、42 格 table 网格（当前月/相邻月深浅）、范围选择（点击 start→end 高亮首尾圆角）。待补：四视口 responsive、Dark 主题复核、Presets 快速选择、Shift+Arrow 键盘导航、官方/local comparison。"
+    },
+    {
+      "slug": "combobox",
+      "batch": "B2",
+      "inventoryStatus": "live_enumeration_partial",
+      "gate": "RE_EVIDENCE_REQUIRED",
+      "dimensions": {
+        "officialCapabilities": "PARTIAL",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PARTIAL",
+        "responsive": "MISSING",
+        "aria": "PARTIAL",
+        "motion": "MISSING",
+        "localDemoCoverage": "MISSING",
+        "comparison": "MISSING"
+      },
+      "evidence": ["combobox/delegation/live-transcript.log"],
+      "notes": "本地 Combobox/ComboboxInput/ComboboxList/ComboboxOption 已完整实现（searchbox+listbox 架构对齐官方 div[role=combobox] + group/combobox + portal panel z-2001 + listbox + 首项高亮），本地浏览器验证 5 demo 打开态正常。待补：Dark/四视口矩阵、官方/local comparison、完整报告重建（ENOSPC 曾丢失）。"
+    },
+    {
+      "slug": "modal",
+      "batch": "B2",
+      "inventoryStatus": "live_enumeration_partial",
+      "gate": "RE_EVIDENCE_REQUIRED",
+      "dimensions": {
+        "officialCapabilities": "PARTIAL",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PARTIAL",
+        "responsive": "PARTIAL",
+        "aria": "PARTIAL",
+        "motion": "PARTIAL",
+        "localDemoCoverage": "PARTIAL",
+        "comparison": "PARTIAL"
+      },
+      "evidence": [],
+      "notes": "官方实测（2026-08-15 live DOM+computed）：scrim 为独立 geist-overlay-backdrop 元素（bg #f2f2f2 light / #000 dark @ 0.8），overlay 透明 flex 居中；content position:static 由 overlay flex 居中，w-[540px] max-w-full max-[540px]:max-w-[calc(100vw-20px)] rounded-12px bg-background-100 shadow-[var(--ds-shadow-modal-elevated)] max-h-[min(800px,80vh)] sm:overflow-hidden overflow-y-auto。本地 modal.tsx 已对齐：shadow 硬编码→var（dark 边框层 #ffffff24 修复）、补响应式 max-w、overflow-y-auto；scrim 位置（overlay 自身 vs 独立 backdrop）与 content 定位（fixed translate vs static flex）视觉等价保留（注释已记录）。G07-MODAL-01 scrim 修复 + tests/modal-api.test.ts 7 断言锁定。待补：375/768/1440/1920 四视口、10 demo 逐一复核、official/local 截图差分、evidence 落盘。"
+    },
+    {
+      "slug": "sheet",
+      "batch": "B2",
+      "inventoryStatus": "live_enumeration_partial",
+      "gate": "RE_EVIDENCE_REQUIRED",
+      "dimensions": {
+        "officialCapabilities": "PARTIAL",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PARTIAL",
+        "responsive": "PARTIAL",
+        "aria": "PARTIAL",
+        "motion": "PARTIAL",
+        "localDemoCoverage": "PARTIAL",
+        "comparison": "PARTIAL"
+      },
+      "evidence": [],
+      "notes": "官方实测（2026-08-15 live DOM+computed，vercel.com/geist/sheet With Side demo 无 className 覆盖 = 组件默认值）：modal=false（BP 权威声明）、overlay bg-[var(--ds-overlay-backdrop-color)]@0.8（light #f2f2f2/dark #000）、content gap-4 bg-background-100 p-6 shadow-[var(--ds-shadow-modal-elevated)] z-[var(--ds-z-drawer)] transition ease-in-out、focus:outline-none；side 默认 right/left=inset-y-0 h-full w-3/4 sm:max-w-sm（实测 384px），top/bottom=inset-x-0 全宽，无圆角无 margin；动画 slide-in-<side>-5/slide-out-<side>-10 duration-200；不内置关闭按钮（消费者 SheetClose）。本地 sheet.tsx 已重写对齐（旧实现把 Default demo 的 m-3/rounded-16/w-512 覆盖误当默认值），Default demo 补 className 覆盖，demo 非受控+modal，新增 --ds-overlay-backdrop-color/opacity、--ds-shadow-modal-elevated、--ds-z-drawer 双主题变量，tests/sheet-api.test.ts 8 断言锁定。切主题时 bg 不即时更新经实测为官方一致行为（官方同款 transition+var 在 Chromium 下同样卡住，非本地差异）。待补：375/768/1440/1920 四视口逐视口测量、official/local contact sheet 截图差分、evidence 截图落盘。"
+    }
+  ],
+  "batches": {
+    "B0_SHARED_LAYERS": {
+      "entry": "TDD_READY",
+      "items": ["ds-token-map", "input-wrapper", "menu-surface", "tooltip-surface"],
+      "notes": "input-wrapper is directly evidenced only for clearable-input; any extraction into input.tsx must first lock the existing public Input behavior with regression tests",
+      "files": [
+        "src/styles/index.css",
+        "src/components/ui/input.tsx",
+        "src/components/ui/menu.tsx",
+        "src/components/ui/tooltip.tsx"
+      ],
+      "tests": ["tests/audit/ds-token-contract.test.ts"],
+      "excluded": ["modal", "sheet", "dialog-primitive"]
+    },
+    "B1": {
+      "entry": "TDD_READY",
+      "items": [
+        "choicebox",
+        "clearable-input",
+        "command-menu",
+        "code-block",
+        "context-menu",
+        "description",
+        "dots-menu",
+        "drawer",
+        "empty-state",
+        "checkbox"
+      ],
+      "planTasks": ["Task11(4/5)", "Task12(3/4)", "Task14(1/2)", "Task15(2/5)"],
+      "notes": "dots-menu B1*: matrix G12 must be closed before independent acceptance (Task 17)"
+    },
+    "B2": {
+      "entry": "RE_EVIDENCE_REQUIRED",
+      "items": ["context-card", "collapse", "entity", "calendar"],
+      "unblocks": ["G5", "G6", "G7", "G8", "G9"]
+    },
+    "BLOCKED": {
+      "entry": "RESOLVED",
+      "items": [],
+      "unblocks": ["Task5-combobox", "Task8-modal-sheet"],
+      "notes": "combobox/sheet/modal 已全部推进（2026-08-15）：combobox 实现完成→RE_EVIDENCE_REQUIRED，sheet 组件默认值修复→RE_EVIDENCE_REQUIRED，modal shadow/响应式对齐→RE_EVIDENCE_REQUIRED"
+    }
+  },
+  "globalBlockers": [
+    "G1: no official/local comparison.json pairs anywhere -> consistency PASS impossible until Task 4 comparator enters the implementation loop",
+    "G2: viewport clamp for browser_tools workers -> re-collect with CDP/playwright for 7 components",
+    "G16: md-refs snapshot drift (context-menu radius 8 vs 12, context-card 8px/0.14) -> refresh snapshots at batch start",
+    "G17: official docs prose vs live behavior drift (Command Menu Esc focus, Context Card keyboard open, Context Menu Shift+F10) -> tests assert measured reality"
+  ]
+}

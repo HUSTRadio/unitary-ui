@@ -130,7 +130,7 @@ export function FormExample() {
             提交
           </Button>
           <Button
-            variant="ghost"
+            type="tertiary"
             onClick={() => {
               setName("");
               setEmail("");

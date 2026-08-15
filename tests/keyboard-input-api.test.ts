@@ -1,0 +1,132 @@
+import { describe, expect, test } from "vitest";
+
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
+
+describe("KeyboardInput official API contract (G06 wave)", () => {
+  test("keyboard-input.tsx exports KeyboardInput and Kbd", async () => {
+    const src = await read("src/components/ui/keyboard-input.tsx");
+    expect(src).toMatch(/export\s*\{\s*KeyboardInput\s*,\s*Kbd\s*\}/);
+  });
+
+  test("Kbd exposes meta/shift/alt/ctrl boolean modifier props", async () => {
+    const src = await read("src/components/ui/keyboard-input.tsx");
+    expect(src).toMatch(/meta\??:\s*boolean/);
+    expect(src).toMatch(/shift\??:\s*boolean/);
+    expect(src).toMatch(/alt\??:\s*boolean/);
+    expect(src).toMatch(/ctrl\??:\s*boolean/);
+  });
+
+  test("Kbd exposes small prop", async () => {
+    const src = await read("src/components/ui/keyboard-input.tsx");
+    expect(src).toMatch(/small\??:\s*boolean/);
+  });
+
+  test("G06-KBD-01: only meta swaps to the word 'Ctrl' off-Mac; shift/alt/ctrl keep glyphs on all platforms", async () => {
+    const src = await read("src/components/ui/keyboard-input.tsx");
+    // meta is the only modifier with a platform branch (⌘ on Mac, 'Ctrl' elsewhere)
+    expect(src).toMatch(/meta \? \([\s\S]*?\{IS_MAC \? "⌘" : "Ctrl"\}[\s\S]*?\) : null/);
+    // shift/alt/ctrl must NOT have a platform branch — they always render the glyph
+    expect(src).not.toMatch(/shift && \(IS_MAC/);
+    expect(src).not.toMatch(/alt && \(IS_MAC/);
+    expect(src).not.toMatch(/ctrl && \(IS_MAC/);
+    expect(src).toMatch(/shift \? <span>⇧<\/span> : null/);
+    expect(src).toMatch(/alt \? <span>⌥<\/span> : null/);
+    expect(src).toMatch(/ctrl \? <span>⌃<\/span> : null/);
+    // no non-Mac word fallbacks for shift/alt/ctrl
+    expect(src).not.toMatch(/shift && \(IS_MAC \? "⇧" : "Shift"\)/);
+    expect(src).not.toMatch(/alt && \(IS_MAC \? "⌥" : "Alt"\)/);
+    expect(src).not.toMatch(/ctrl && \(IS_MAC \? "⌃" : "Ctrl"\)/);
+  });
+
+  test("G06-KBD-03: default kbd uses the official inline line box, minimum size, spacing, and sans font", async () => {
+    const src = await read("src/components/ui/keyboard-input.tsx");
+    expect(src).toContain("inline-block");
+    expect(src).toContain("min-h-6 min-w-6");
+    expect(src).toContain("!leading-[1.7em]");
+    expect(src).toContain("ml-1");
+    expect(src).toContain("font-sans");
+    expect(src).toMatch(/text-sm/);
+    expect(src).toMatch(/px-1\.5/);
+    // Geist Sans, NOT mono
+    expect(src).not.toMatch(/font-mono/);
+    expect(src).not.toMatch(/text-label-12-mono/);
+  });
+
+  test("G06-KBD-05: kbd surface uses the official one-pixel outer shadow", async () => {
+    const src = await read("src/components/ui/keyboard-input.tsx");
+    expect(src).toMatch(/bg-background-100/);
+    expect(src).toContain("shadow-[0_0_0_1px_var(--ds-gray-alpha-400)]");
+    expect(src).not.toContain("ring-inset");
+    expect(src).not.toMatch(/bg-gray-alpha-200/);
+    expect(src).not.toMatch(/border-gray-alpha-400/);
+  });
+
+  test("G06-KBD-04: multi-modifier renders as one pill with one span per modifier", async () => {
+    const src = await read("src/components/ui/keyboard-input.tsx");
+    expect(src).not.toMatch(/modifiers\.join/);
+    expect(src).toContain('style={{ display: "inline-block", minWidth: "1em" }}');
+    expect(src).toContain("{shift ? <span>⇧</span> : null}");
+    expect(src).toContain("{alt ? <span>⌥</span> : null}");
+    expect(src).toContain("{ctrl ? <span>⌃</span> : null}");
+    expect(src).not.toMatch(/gap-0\.5/);
+  });
+
+  test("small variant keeps the official compact size and two-pixel leading margin", async () => {
+    const src = await read("src/components/ui/keyboard-input.tsx");
+    expect(src).toContain('"ml-0.5 h-5 min-h-5 min-w-5 px-1 text-xs"');
+  });
+
+  test("G06-KBD-02: docs demo must not hardcode modifier glyphs — uses modifier props", async () => {
+    const demo = await read("docs/geist/src/components/docs-components-page.tsx");
+    const demoBody = demo.slice(
+      demo.indexOf("function KeyboardInputDemo"),
+      demo.indexOf("function BannerDemo"),
+    );
+    // uses the modifier props
+    expect(demoBody).toMatch(/<Kbd meta\s*\/>/);
+    expect(demoBody).toMatch(/<Kbd shift\s*\/>/);
+    // no hardcoded Mac glyph or spelled-out modifier words as children
+    expect(demoBody).not.toContain("⌘");
+    expect(demoBody).not.toContain("<Kbd>Shift</Kbd>");
+    expect(demoBody).not.toContain("<Kbd>Alt</Kbd>");
+    expect(demoBody).not.toContain("<Kbd>Ctrl</Kbd>");
+  });
+
+  test("docs mirror the three official Modifiers, Combination, and Small demos", async () => {
+    const demo = await read("docs/geist/src/components/docs-components-page.tsx");
+    const demoBody = demo.slice(
+      demo.indexOf("function KeyboardInputDemo"),
+      demo.indexOf("function BannerDemo"),
+    );
+
+    for (const id of ["modifiers", "combination", "small"]) {
+      expect(demoBody).toContain(`data-demo-card="${id}"`);
+      expect(demoBody).toContain(`data-demo-container="${id}"`);
+    }
+    expect(demoBody).toContain("<Kbd meta />");
+    expect(demoBody).toContain("<Kbd shift />");
+    expect(demoBody).toContain("<Kbd alt />");
+    expect(demoBody).toContain("<Kbd ctrl />");
+    expect(demoBody).toContain("<Kbd meta shift />");
+    expect(demoBody).toContain("<Kbd small>/</Kbd>");
+    expect(demoBody).not.toContain("<KeyboardInput>");
+  });
+
+  test("audit manifest enumerates all three official demos", async () => {
+    const manifest = JSON.parse(await read("tests/audit/geist-audit-manifest.json"));
+    const component = manifest.components.find(
+      (candidate: { slug?: string }) => candidate.slug === "keyboard-input",
+    );
+
+    expect(component.inventoryStatus).toBe("live_enumeration_complete");
+    expect(component.variants).toEqual(["modifiers", "combination", "small"]);
+    expect(
+      component.acceptanceContracts.map((contract: { demoId: string }) => contract.demoId),
+    ).toEqual(["modifiers", "combination", "small"]);
+  });
+});

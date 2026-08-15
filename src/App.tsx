@@ -15,6 +15,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
+  TableRoot,
   TableRow,
 } from "@/components/ui/table";
 import { Tabs } from "@/components/ui/tabs";
@@ -125,12 +126,12 @@ export default function App() {
             {/* 按钮 */}
             <Section title="Button">
               <Button>默认</Button>
-              <Button variant="secondary">次要</Button>
-              <Button variant="outline">描边</Button>
-              <Button variant="ghost">幽灵</Button>
-              <Button variant="destructive">危险</Button>
-              <Button size="sm">小号</Button>
-              <Button size="lg">大号</Button>
+              <Button type="secondary">次要</Button>
+              <Button type="tertiary">三级</Button>
+              <Button type="error">错误</Button>
+              <Button type="warning">警告</Button>
+              <Button size="small">小号</Button>
+              <Button size="large">大号</Button>
               <Button prefix={<Plus className="size-3.5" aria-hidden />}>带图标</Button>
               <Button loading>加载中</Button>
               <Button disabled>禁用</Button>
@@ -175,6 +176,7 @@ export default function App() {
                 value={segment}
                 onValueChange={setSegment}
                 aria-label="筛选状态"
+                className="w-full max-w-sm"
               >
                 <SwitchControl value="all" label="全部" />
                 <SwitchControl value="available" label="可出借" />
@@ -216,40 +218,42 @@ export default function App() {
 
             {/* Table */}
             <Section title="Table">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>资产</TableHead>
-                    <TableHead>编号</TableHead>
-                    <TableHead>状态</TableHead>
-                    <TableHead>操作</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {[
-                    { name: "ThinkPad X1 Carbon", id: "NB-2024-0012", status: "借出中" },
-                    { name: "SIGLENT SDS1104X-E", id: "FA-OSC-0007", status: "可借" },
-                    { name: "RF Explorer 6G Combo", id: "FA-RF-0012", status: "库内" },
-                  ].map((row) => (
-                    <TableRow key={row.id}>
-                      <TableCell className="font-medium text-foreground">{row.name}</TableCell>
-                      <TableCell className="font-mono text-copy-13 tabular-nums text-muted-foreground">
-                        {row.id}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground">{row.status}</TableCell>
-                      <TableCell>
-                        <a
-                          href="#"
-                          onClick={(e) => e.preventDefault()}
-                          className="focus-ring rounded-[4px] text-label-14 text-link underline-offset-4 hover:underline"
-                        >
-                          查看
-                        </a>
-                      </TableCell>
+              <TableRoot>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>资产</TableHead>
+                      <TableHead>编号</TableHead>
+                      <TableHead>状态</TableHead>
+                      <TableHead>操作</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {[
+                      { name: "ThinkPad X1 Carbon", id: "NB-2024-0012", status: "借出中" },
+                      { name: "SIGLENT SDS1104X-E", id: "FA-OSC-0007", status: "可借" },
+                      { name: "RF Explorer 6G Combo", id: "FA-RF-0012", status: "库内" },
+                    ].map((row) => (
+                      <TableRow key={row.id}>
+                        <TableCell className="font-medium text-foreground">{row.name}</TableCell>
+                        <TableCell className="font-mono text-copy-13 tabular-nums text-muted-foreground">
+                          {row.id}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">{row.status}</TableCell>
+                        <TableCell>
+                          <a
+                            href="#"
+                            onClick={(e) => e.preventDefault()}
+                            className="focus-ring rounded-[4px] text-label-14 text-link underline-offset-4 hover:underline"
+                          >
+                            查看
+                          </a>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableRoot>
             </Section>
 
             {/* 材质 */}

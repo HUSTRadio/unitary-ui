@@ -12,6 +12,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
+  TableRoot,
   TableRow,
 } from "@/components/ui/table";
 
@@ -112,59 +113,61 @@ export function DataTableExample() {
         </Select>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-10">
-              <Checkbox
-                size="sm"
-                aria-label="全选"
-                checked={allChecked ? true : selected.length > 0 ? "indeterminate" : false}
-                onCheckedChange={toggleAll}
-              />
-            </TableHead>
-            <TableHead>资产</TableHead>
-            <TableHead>编号</TableHead>
-            <TableHead>类别</TableHead>
-            <TableHead>状态</TableHead>
-            <TableHead className="text-right">操作</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {rows.map((asset) => {
-            const index = ASSETS.indexOf(asset);
-            const meta = STATUS_META[asset.status];
-            return (
-              <TableRow
-                key={asset.id}
-                data-state={selected.includes(index) ? "selected" : undefined}
-              >
-                <TableCell>
-                  <Checkbox
-                    size="sm"
-                    aria-label={`选择 ${asset.name}`}
-                    checked={selected.includes(index)}
-                    onCheckedChange={() => toggleRow(index)}
-                  />
-                </TableCell>
-                <TableCell className="font-medium text-foreground">{asset.name}</TableCell>
-                <TableCell className="font-mono text-copy-13 tabular-nums text-muted-foreground">
-                  {asset.id}
-                </TableCell>
-                <TableCell className="text-muted-foreground">{asset.category}</TableCell>
-                <TableCell>
-                  <Badge variant={meta.variant}>{meta.label}</Badge>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button variant="ghost" size="sm">
-                    查看
-                  </Button>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
+      <TableRoot>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-10">
+                <Checkbox
+                  size="sm"
+                  aria-label="全选"
+                  checked={allChecked ? true : selected.length > 0 ? "indeterminate" : false}
+                  onCheckedChange={toggleAll}
+                />
+              </TableHead>
+              <TableHead>资产</TableHead>
+              <TableHead>编号</TableHead>
+              <TableHead>类别</TableHead>
+              <TableHead>状态</TableHead>
+              <TableHead className="text-right">操作</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {rows.map((asset) => {
+              const index = ASSETS.indexOf(asset);
+              const meta = STATUS_META[asset.status];
+              return (
+                <TableRow
+                  key={asset.id}
+                  data-state={selected.includes(index) ? "selected" : undefined}
+                >
+                  <TableCell>
+                    <Checkbox
+                      size="sm"
+                      aria-label={`选择 ${asset.name}`}
+                      checked={selected.includes(index)}
+                      onCheckedChange={() => toggleRow(index)}
+                    />
+                  </TableCell>
+                  <TableCell className="font-medium text-foreground">{asset.name}</TableCell>
+                  <TableCell className="font-mono text-copy-13 tabular-nums text-muted-foreground">
+                    {asset.id}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">{asset.category}</TableCell>
+                  <TableCell>
+                    <Badge variant={meta.variant}>{meta.label}</Badge>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Button type="tertiary" size="small">
+                      查看
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableRoot>
     </div>
   );
 }

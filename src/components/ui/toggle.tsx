@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 function Toggle({
   className,
   thumbClassName,
+  icon,
   children,
   size = "small",
   color = "blue",
@@ -31,6 +32,7 @@ function Toggle({
   color?: "blue" | "amber" | "red";
   labelCasing?: "title" | "normal";
   direction?: "ltr" | "rtl";
+  icon?: { checked?: React.ReactNode; unchecked?: React.ReactNode };
   thumbClassName?: string;
   children?: React.ReactNode;
 }) {
@@ -39,10 +41,11 @@ function Toggle({
       data-slot="toggle"
       data-size={size}
       className={cn(
-        "peer group/toggle relative inline-block shrink-0 cursor-pointer rounded-[14px] transition-colors outline-none focus-ring disabled:cursor-not-allowed data-[state=unchecked]:bg-gray-400 disabled:data-[state=unchecked]:bg-[var(--toggle-disabled-track-unchecked)] disabled:data-[state=checked]:bg-[var(--toggle-disabled-track-checked)]",
+        "peer group/toggle relative block shrink-0 cursor-pointer whitespace-nowrap rounded-[14px] transition-[background,border-color] duration-150 ease-out outline-none focus-ring disabled:cursor-not-allowed data-[state=unchecked]:bg-gray-400 disabled:data-[state=unchecked]:bg-[var(--toggle-disabled-track-unchecked)] disabled:data-[state=checked]:bg-[var(--toggle-disabled-track-checked)]",
         color === "blue" && "data-[state=checked]:bg-[var(--toggle-checked)]",
-        color === "amber" && "data-[state=checked]:bg-warning",
-        color === "red" && "data-[state=checked]:bg-destructive",
+        color === "amber" && "data-[state=checked]:bg-warning data-[state=unchecked]:bg-warning",
+        color === "red" &&
+          "data-[state=checked]:bg-[var(--toggle-checked-red)] data-[state=unchecked]:bg-[var(--toggle-checked-red)]",
         size === "small" && "h-[14px] w-7",
         size === "medium" && "h-5 w-9",
         size === "large" && "h-6 w-10",
@@ -53,27 +56,50 @@ function Toggle({
       <SwitchPrimitive.Thumb
         data-slot="toggle-thumb"
         className={cn(
-          "pointer-events-none absolute top-1/2 left-[1.5px] -translate-y-1/2 rounded-full border border-black/10 bg-[var(--toggle-thumb)] shadow-[0_1px_2px_rgba(0,0,0,0.12)] ring-0 transition-transform data-[state=unchecked]:translate-x-0 data-disabled:data-[state=unchecked]:bg-[var(--toggle-disabled-thumb-unchecked)] data-disabled:data-[state=checked]:bg-[var(--toggle-disabled-thumb-checked)]",
+          "pointer-events-none absolute top-1/2 left-[1.5px] block -translate-y-1/2 whitespace-nowrap rounded-[50%] border-gray-400 bg-[var(--toggle-thumb)] shadow-[0_0_3px_-1px_rgba(0,0,0,0.24),0_0_0.5px_rgba(0,0,0,0.16),-0.5px_2px_3px_-2px_rgba(0,0,0,0.36)] transition-transform data-[state=unchecked]:translate-x-0 data-disabled:border-transparent data-disabled:shadow-none data-disabled:data-[state=unchecked]:bg-[var(--toggle-disabled-thumb-unchecked)] data-disabled:data-[state=checked]:bg-[var(--toggle-disabled-thumb-checked)]",
           size === "small" && "size-[11px] data-[state=checked]:translate-x-[14px]",
           size === "medium" && "size-[17px] data-[state=checked]:translate-x-4",
           size === "large" && "size-[21px] data-[state=checked]:translate-x-4",
           thumbClassName,
         )}
-      />
+      >
+        {icon?.checked ? (
+          <span className="absolute inset-0 hidden items-center justify-center text-[8px] text-[#171717] group-data-[state=checked]/toggle:flex">
+            {icon.checked}
+          </span>
+        ) : null}
+        {icon?.unchecked ? (
+          <span className="absolute inset-0 hidden items-center justify-center text-[8px] text-[#171717] group-data-[state=unchecked]/toggle:flex">
+            {icon.unchecked}
+          </span>
+        ) : null}
+      </SwitchPrimitive.Thumb>
     </SwitchPrimitive.Root>
   );
 
-  if (!children) return control;
+  if (!children) {
+    return (
+      <span
+        data-slot="toggle-line"
+        className={cn(
+          "flex items-center",
+          size === "small" ? "h-5" : size === "medium" ? "h-[26px]" : "h-[30px]",
+        )}
+      >
+        {control}
+      </span>
+    );
+  }
 
   return (
     <label
       className={cn(
-        "inline-flex cursor-pointer items-center gap-2 text-label-14 text-gray-1000 has-[:disabled]:cursor-not-allowed has-[:disabled]:text-gray-700",
+        "text-toggle-label inline-flex cursor-pointer items-center gap-3 whitespace-nowrap py-[3px] has-[:disabled]:cursor-not-allowed has-[:disabled]:text-gray-700",
         direction === "rtl" && "flex-row-reverse",
       )}
     >
-      {control}
       <span className={labelCasing === "title" ? "capitalize" : undefined}>{children}</span>
+      {control}
     </label>
   );
 }

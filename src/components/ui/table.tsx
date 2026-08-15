@@ -4,7 +4,8 @@ import { cn } from "@/lib/utils";
 
 /**
  * Table — Geist 官方 Table 规范实现（AGENTS.md §Table 视觉约束 + docs/geist-markdown-refs/components/table.md 实测）。
- * - TableRoot：1px hairline（gray-alpha-400）+ 8px 圆角 + background-100 容器；Table 单独使用时会自带容器
+ * - TableRoot：显式提供 1px hairline（gray-alpha-400）+ 8px 圆角 + background-100 容器
+ * - Table：只渲染语义化 `<table>`；在 DemoSection/Section 等已有卡片中不会重复创建边框容器
  * - 表头：500 14px/20px，36px 高，无填充背景，仅靠字重区分；正文：400 14px/20px；颜色均 gray-900
  * - 单元格 padding `10px 8px`（py-2.5 / px-2），行高 40px；单元格自身无 border-bottom
  * - thead 行下沿 1px 发丝线（gray-400）；Basic 无行分隔线；
@@ -12,48 +13,32 @@ import { cn } from "@/lib/utils";
  * - 空列表渲染 Empty State；未知值渲染 —（页面层约定）
  */
 
-const TableRootContext = React.createContext(false);
-
 const TableRoot = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <TableRootContext.Provider value={true}>
-      <div
-        ref={ref}
-        data-slot="table-root"
-        className={cn(
-          "relative w-full overflow-x-auto rounded-[8px] border border-gray-alpha-400 bg-background-100",
-          className,
-        )}
-        {...props}
-      />
-    </TableRootContext.Provider>
+    <div
+      ref={ref}
+      data-slot="table-root"
+      className={cn(
+        "relative w-full overflow-x-auto rounded-[8px] border border-gray-alpha-400 bg-background-100",
+        className,
+      )}
+      {...props}
+    />
   ),
 );
 TableRoot.displayName = "TableRoot";
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
-  ({ className, ...props }, ref) => {
-    const inRoot = React.useContext(TableRootContext);
-    const table = (
-      <table
-        ref={ref}
-        className={cn(
-          "w-full caption-bottom border-collapse text-copy-14 text-muted-foreground",
-          className,
-        )}
-        {...props}
-      />
-    );
-    if (inRoot) return table;
-    return (
-      <div
-        data-slot="table-root"
-        className="relative w-full overflow-x-auto rounded-[8px] border border-gray-alpha-400 bg-background-100"
-      >
-        {table}
-      </div>
-    );
-  },
+  ({ className, ...props }, ref) => (
+    <table
+      ref={ref}
+      className={cn(
+        "w-full caption-bottom border-collapse text-copy-14 text-muted-foreground",
+        className,
+      )}
+      {...props}
+    />
+  ),
 );
 Table.displayName = "Table";
 

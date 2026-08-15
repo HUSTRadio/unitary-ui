@@ -1,0 +1,45 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { describe, expect, test } from "vitest";
+
+const source = readFileSync(
+  resolve(import.meta.dirname, "../src/components/ui/context-card.tsx"),
+  "utf8",
+);
+const docsSource = readFileSync(
+  resolve(import.meta.dirname, "../docs/geist/src/components/docs-components-page.tsx"),
+  "utf8",
+);
+
+describe("Context Card visual parity contract", () => {
+  test("uses the official 6px popover surface and dark-safe semantic tokens", () => {
+    expect(source).toContain("rounded-[6px]");
+    expect(source).toContain("border-gray-alpha-400");
+    expect(source).toContain("bg-background-100");
+    expect(source).toContain("p-4");
+    expect(source).toContain("flex-[0_1_auto]");
+    expect(source).toContain("overflow-hidden");
+  });
+
+  test("uses official 16px string content and muted 13px metadata typography", () => {
+    expect(source).toContain("text-copy-16");
+    expect(source).toContain("text-copy-13");
+  });
+
+  test("renders the official fill/stroke arrow without an inner border stroke", () => {
+    expect(source).toContain('data-slot="context-card-tip"');
+    expect(source).toContain('fill="var(--background-100)"');
+    expect(source).toContain('stroke="var(--context-card-tip-stroke)"');
+  });
+
+  test("alignment and render-prop demos use the official compact button and link classes", () => {
+    expect(docsSource).toContain('<Button type="default" typeName="button">');
+    expect(docsSource).toContain('className="text-blue-700 underline underline-offset-2"');
+  });
+
+  test("Show code toggle is wired with real code content", () => {
+    expect(docsSource).toContain("setShowCode");
+    expect(docsSource).toContain("aria-controls={codeId}");
+    expect(docsSource).toContain("DEFAULT_DEMO_CODE");
+  });
+});

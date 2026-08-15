@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "source": "official",
+  "slug": "drawer",
+  "variant": "default",
+  "state": "open",
+  "theme": "dark",
+  "viewport": { "width": 375, "height": 812 },
+  "viewportText": "375x812",
+  "selector": "main",
+  "url": "https://vercel.com/geist/drawer",
+  "out": "C:/Users/Leon/geist-audit/task3-demo",
+  "cdpHttp": "http://127.0.0.1:9223",
+  "runId": "1723000000000-1",
+  "cellKey": "official/drawer/default/open/dark/375x812/demo:custom-height",
+  "outputPolicy": "isolated-run-directory",
+  "outputIsolation": "per-source-run-directory",
+  "demoId": "custom-height",
+  "stateRecipe": ["click:trigger", "wait:open"],
+  "rootSelector": "[data-demo-id=\"custom-height\"]",
+  "ancestorDepth": 6,
+  "roleSelectors": {
+    "root": "[data-demo-id=\"custom-height\"]",
+    "trigger": "[data-demo-id=\"custom-height\"] [data-role=\"trigger\"]",
+    "content": "[data-demo-id=\"custom-height\"] [data-role=\"content\"]"
+  },
+  "sourceTimestamp": "2026-08-11T06:30:00.000Z",
+  "observedTheme": {
+    "htmlClass": "dark",
+    "dataTheme": "dark",
+    "colorScheme": "dark",
+    "bodyBackground": "rgb(0, 0, 0)"
+  },
+  "screenshot": "screenshot.png",
+  "status": "captured",
+  "metrics": {
+    "root": { "x": 0, "y": 312, "width": 375, "height": 500 },
+    "roles": {
+      "root": {
+        "selector": "[data-demo-id=\"custom-height\"]",
+        "present": true,
+        "rect": { "x": 0, "y": 312, "width": 375, "height": 500 },
+        "styles": { "display": "block", "position": "fixed" },
+        "aria": { "role": "dialog", "attributes": { "role": "dialog" } },
+        "ancestorChain": []
+      },
+      "trigger": {
+        "selector": "[data-demo-id=\"custom-height\"] [data-role=\"trigger\"]",
+        "present": true,
+        "rect": { "x": 12, "y": 320, "width": 120, "height": 40 },
+        "styles": { "display": "inline-flex", "position": "relative" },
+        "aria": { "role": "button", "attributes": { "aria-expanded": "true" } },
+        "ancestorChain": []
+      },
+      "content": {
+        "selector": "[data-demo-id=\"custom-height\"] [data-role=\"content\"]",
+        "present": true,
+        "rect": { "x": 12, "y": 380, "width": 300, "height": 120 },
+        "styles": { "display": "block", "position": "relative" },
+        "aria": { "role": "region", "attributes": { "aria-label": "panel" } },
+        "ancestorChain": []
+      }
+    },
+    "nodes": [],
+    "ancestors": [
+      {
+        "depth": 1,
+        "tag": "section",
+        "rect": { "x": 0, "y": 200, "width": 375, "height": 612 },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "maxWidth": "none",
+          "padding": "0px",
+          "marginLeft": "auto",
+          "marginRight": "auto",
+          "overflow": "visible",
+          "transition": "all 0s ease 0s",
+          "animation": "none"
+        },
+        "layoutOwners": {
+          "maxWidth": null,
+          "padding": null,
+          "grid": null,
+          "marginAuto": { "left": "auto", "right": "auto" },
+          "overflow": null,
+          "position": null
+        }
+      },
+      {
+        "depth": 2,
+        "tag": "main",
+        "rect": { "x": 0, "y": 0, "width": 375, "height": 812 },
+        "styles": {
+          "display": "block",
+          "position": "static",
+          "maxWidth": "none",
+          "padding": "0px",
+          "marginLeft": "0px",
+          "marginRight": "0px",
+          "overflow": "visible",
+          "transition": "all 0s ease 0s",
+          "animation": "none"
+        },
+        "layoutOwners": {
+          "maxWidth": null,
+          "padding": null,
+          "grid": null,
+          "marginAuto": null,
+          "overflow": null,
+          "position": null
+        }
+      }
+    ],
+    "aria": {
+      "role": "dialog",
+      "attributes": {
+        "role": "dialog",
+        "aria-modal": "true",
+        "aria-labelledby": "drawer-title"
+      },
+      "descendantRoles": ["button", "heading"]
+    },
+    "portal": {
+      "isInPortal": true,
+      "topLevelHost": { "tag": "div", "id": null, "className": "fixed inset-0 z-50" }
+    },
+    "motion": {
+      "transition": "transform 300ms cubic-bezier(0.4, 0, 0.2, 1)",
+      "transitionDuration": "300ms",
+      "animation": "none",
+      "animationDuration": "0s",
+      "reducedMotion": false,
+      "transitioningAncestors": 0
+    },
+    "themeMarker": {
+      "htmlClass": "dark",
+      "dataTheme": "dark",
+      "colorScheme": "dark",
+      "bodyBackground": "rgb(0, 0, 0)"
+    },
+    "document": {
+      "scrollWidth": 375,
+      "clientWidth": 375,
+      "overflowX": false
+    }
+  }
+}

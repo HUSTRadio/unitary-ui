@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Copy } from "lucide-react";
+import { ArrowLeft, ArrowRight, Copy, RefreshCw } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -27,16 +27,15 @@ function Browser({ address, className, children, ...props }: BrowserProps) {
         className="flex justify-between gap-4 bg-background-100 px-4 py-2 md:gap-6 md:px-5 md:py-2.5"
       >
         <div className="flex min-w-0 flex-none items-center justify-start gap-4 md:max-w-[140px] md:flex-1">
-          <span className="flex items-center gap-4" aria-hidden>
-            <svg viewBox="0 0 16 16" className="size-3.5 fill-[#ff5f57]">
-              <circle cx="8" cy="8" r="7" />
-            </svg>
-            <svg viewBox="0 0 16 16" className="size-3.5 fill-[#febc2e]">
-              <circle cx="8" cy="8" r="7" />
-            </svg>
-            <svg viewBox="0 0 16 16" className="size-3.5 fill-[#28c840]">
-              <circle cx="8" cy="8" r="7" />
-            </svg>
+          <span aria-hidden className="flex items-center gap-2">
+            <span className="size-3 rounded-full bg-[#ff5f57]" />
+            <span className="size-3 rounded-full bg-[#febc2e]" />
+            <span className="size-3 rounded-full bg-[#28c840]" />
+          </span>
+          <span aria-hidden className="hidden items-center gap-4 md:flex">
+            <ArrowLeft className="size-3.5 text-gray-900" />
+            <ArrowRight className="size-3.5 text-gray-900" />
+            <RefreshCw className="size-3.5 text-gray-900" />
           </span>
         </div>
         <div className="flex min-w-0 flex-1 items-center justify-center gap-4">

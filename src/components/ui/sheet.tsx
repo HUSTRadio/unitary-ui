@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
-import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -8,26 +7,31 @@ import { cn } from "@/lib/utils";
  * Sheet — Geist 官方 Sheet 封装（基于 Radix Dialog 原语）。
  * 导出：Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle,
  *       SheetDescription, SheetFooter, SheetClose。
- * 侧边滑出面板：默认从右侧滑入，可通过 side 切换 top / right / bottom / left。
- * 材质对齐 Geist 实测（2026-08）：
- * - overlay：bg-black/50
- * - content：bg-background w-full max-w-sm h-full p-6，
- *   border-l border-gray-alpha-400 shadow-[var(--material-shadow-modal)]
- * - title：text-heading-20 text-foreground
- * - description：text-copy-14 text-muted-foreground
- * - close：右上角 ghost icon button
- * 官方语义（docs/geist-markdown-refs/components/sheet.md）：
- * - SheetContent 支持 noOverlay prop（true 时不渲染遮罩，内容仍为 modal）
- * - modal 语义由 Radix modal prop 透传（本组件默认 true，保持遮罩/焦点陷阱/
- *   滚动锁定；官方默认 modal=false，需要时可显式传 <Sheet modal={false}>）
- * - 官方 BP：点击外部不自动关闭（本组件默认阻止 outside-click 关闭），
- *   始终提供显式关闭按钮并响应 Escape
- * 动画：data-[state=open]:animate-in / data-[state=closed]:animate-out
+ * 侧边滑出面板：通过 side 切换 top / right / bottom / left。
+ *
+ * 组件默认值对齐官方实测（2026-08-15，vercel.com/geist/sheet，live DOM + computed）：
+ * - modal 默认 false（官方 Best Practices「Sheet defaults to modal=false」；
+ *   页面保持可交互、不锁滚动、outside-click 不关闭）
+ * - overlay：bg-[var(--ds-overlay-backdrop-color)] @ opacity-0.8（light #f2f2f2 / dark #000）
+ * - content 公共：gap-4 bg-background-100 p-6，fixed z-[var(--ds-z-drawer)]，
+ *   shadow-[var(--ds-shadow-modal-elevated)]，transition ease-in-out
+ * - side 默认几何（组件默认值，非 demo 覆盖）：
+ *   top/bottom：inset-x-0 全宽，无圆角无 margin
+ *   right/left：inset-y-0 w-3/4 sm:max-w-sm h-full，无圆角无 margin
+ * - 官方不内置关闭按钮；消费者用 <SheetClose asChild> 显式提供
+ * - 动画：data-[state=open]:slide-in-from-<side>-5 / closed:slide-out-to-<side>-10
  */
-
 type SheetSide = "top" | "right" | "bottom" | "left";
 
-const Sheet = DialogPrimitive.Root;
+/** Sheet Root：官方默认 modal=false（Best Practices），可显式 <Sheet modal> 覆盖。 */
+const Sheet = ({
+  modal = false,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) => (
+  <DialogPrimitive.Root modal={modal} {...props} />
+);
+Sheet.displayName = "Sheet";
+
 const SheetTrigger = DialogPrimitive.Trigger;
 const SheetPortal = DialogPrimitive.Portal;
 const SheetClose = DialogPrimitive.Close;
@@ -38,9 +42,9 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
     ref={ref}
+    data-slot="sheet-overlay"
     className={cn(
-      "fixed inset-0 z-50 bg-black/50",
-      "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-[var(--ds-z-drawer)] bg-[var(--ds-overlay-backdrop-color)] opacity-[var(--ds-overlay-backdrop-opacity)]",
       className,
     )}
     {...props}
@@ -48,18 +52,14 @@ const SheetOverlay = React.forwardRef<
 ));
 SheetOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
+/** 官方 side 默认定位 + 动画（slide-in 5% / slide-out 10%）。 */
 const SIDE_STYLES: Record<SheetSide, string> = {
-  top: "inset-x-0 top-0 w-full border-b",
-  right: "inset-y-0 right-0 h-full w-full max-w-sm border-l",
-  bottom: "inset-x-0 bottom-0 w-full border-t",
-  left: "inset-y-0 left-0 h-full w-full max-w-sm border-r",
-};
-
-const SIDE_ANIM: Record<SheetSide, string> = {
-  top: "data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top",
-  right: "data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right",
-  bottom: "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
-  left: "data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left",
+  top: "inset-x-0 top-0 data-[state=open]:slide-in-from-top-5 data-[state=closed]:slide-out-to-top-10",
+  right:
+    "inset-y-0 right-0 h-full w-3/4 sm:max-w-sm data-[state=open]:slide-in-from-right-5 data-[state=closed]:slide-out-to-right-10",
+  bottom:
+    "inset-x-0 bottom-0 data-[state=open]:slide-in-from-bottom-5 data-[state=closed]:slide-out-to-bottom-10",
+  left: "inset-y-0 left-0 h-full w-3/4 sm:max-w-sm data-[state=open]:slide-in-from-left-5 data-[state=closed]:slide-out-to-left-10",
 };
 
 interface SheetContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
@@ -76,21 +76,18 @@ const SheetContent = React.forwardRef<
     {!noOverlay && <SheetOverlay />}
     <DialogPrimitive.Content
       ref={ref}
+      data-slot="sheet-content"
       className={cn(
-        "fixed z-50 flex flex-col gap-4 bg-background p-6 shadow-[var(--material-shadow-modal)] outline-none",
-        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        "fixed z-[var(--ds-z-drawer)] gap-4 bg-background-100 p-6 shadow-[var(--ds-shadow-modal-elevated)] transition ease-in-out focus:outline-none",
+        "data-[state=open]:animate-in data-[state=open]:duration-200 data-[state=open]:fade-in-0",
+        "data-[state=closed]:animate-out data-[state=closed]:duration-200 data-[state=closed]:fade-out-0",
         SIDE_STYLES[side],
-        SIDE_ANIM[side],
         className,
       )}
       onPointerDownOutside={(event) => event.preventDefault()}
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute top-4 right-4 rounded-md p-1 text-muted-foreground opacity-70 transition-opacity outline-none hover:bg-gray-alpha-200 hover:text-foreground hover:opacity-100 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none">
-        <X className="size-4" aria-hidden />
-        <span className="sr-only">Close</span>
-      </DialogPrimitive.Close>
     </DialogPrimitive.Content>
   </SheetPortal>
 ));

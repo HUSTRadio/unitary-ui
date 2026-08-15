@@ -33,6 +33,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "../i18n/language";
+import { demoText } from "../i18n/components-demo";
 
 /**
  * Introduction 页卡片网格（docs/geist 首页）。
@@ -111,6 +113,7 @@ function IconsPreview() {
 const COPY_TEXT = "vp dev docs/geist";
 
 function ComponentsPreview() {
+  const { language } = useLanguage();
   const [copied, setCopied] = React.useState(false);
   const timer = React.useRef<number | undefined>(undefined);
 
@@ -145,10 +148,11 @@ function ComponentsPreview() {
           $ {COPY_TEXT}
         </span>
         <Button
-          type="button"
-          variant="ghost"
-          size="icon-sm"
-          aria-label={copied ? "已复制" : "复制命令"}
+          typeName="button"
+          type="tertiary"
+          svgOnly
+          size="small"
+          aria-label={demoText(language, copied ? "Copied" : "Copy code")}
           onClick={handleCopy}
           className="shrink-0"
         >
@@ -162,21 +166,21 @@ function ComponentsPreview() {
       {/* 2 个 icon Button（Collaborate / Shield 风格） */}
       <div className="flex items-center gap-2">
         <Button
-          type="button"
-          variant="secondary"
+          typeName="button"
+          type="secondary"
           aria-label="Collaborate"
           prefix={<Users aria-hidden />}
         >
-          Collaborate
+          {demoText(language, "Collaborate")}
         </Button>
-        <Button type="button" variant="secondary" size="icon" aria-label="Shield">
+        <Button typeName="button" type="secondary" svgOnly size="medium" aria-label="Shield">
           <Shield aria-hidden />
         </Button>
       </div>
       {/* Label / Value 输入组 */}
       <div className="flex flex-col gap-1">
         <label htmlFor="docs-preview-project" className="text-label-12 text-muted-foreground">
-          Project name
+          {demoText(language, "Project name")}
         </label>
         <Input id="docs-preview-project" defaultValue="geist-docs" readOnly />
       </div>
@@ -290,6 +294,12 @@ const CARD_PREVIEWS = [
  * 末列去右线（md 下 2n 单元）、末行去底线（md 下最后 2 个单元 / 移动端最后 1 个）。
  */
 function DocsCardGrid({ className }: { className?: string }) {
+  const { language } = useLanguage();
+  const cards = DOC_CARDS.map((card) => ({
+    ...card,
+    title: demoText(language, card.title),
+    description: demoText(language, card.description),
+  }));
   return (
     <div
       className={cn(
@@ -300,7 +310,7 @@ function DocsCardGrid({ className }: { className?: string }) {
         className,
       )}
     >
-      {DOC_CARDS.map((card, i) => (
+      {cards.map((card, i) => (
         <DocCard key={card.title} {...card}>
           {CARD_PREVIEWS[i]}
         </DocCard>

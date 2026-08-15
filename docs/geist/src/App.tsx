@@ -1,4 +1,4 @@
-import type { ComponentType } from "react";
+import { useEffect, type ComponentType } from "react";
 import { useLocation } from "react-router-dom";
 
 import { DocsBanner, DocsSidebar } from "./components/docs-shell";
@@ -11,6 +11,10 @@ import {
   MaterialsPage,
   TypographyPage,
 } from "./components/docs-pages";
+import { COMPONENTS } from "./data/components";
+import { SHELL_COPY } from "./i18n/catalog";
+import { demoText } from "./i18n/components-demo";
+import { useLanguage, type DocsLanguage } from "./i18n/language";
 
 /**
  * docs/geist 文档站布局壳 — Banner + Sidebar + 内容区。
@@ -29,30 +33,74 @@ const PAGE_COMPONENTS: Record<string, ComponentType> = {
   "/components": ComponentsPage,
 };
 
+const PAGE_TITLES: Record<string, string> = {
+  "/": "Geist Style Framework",
+  "/introduction": "Introduction",
+  "/colors": "Colors",
+  "/typography": "Typography",
+  "/materials": "Materials",
+  "/grid": "Grid",
+  "/components": "Components",
+};
+
+function getPageTitle(pathname: string, language: DocsLanguage) {
+  const componentName = pathname.startsWith("/components/")
+    ? pathname.slice("/components/".length)
+    : undefined;
+  const component = componentName
+    ? COMPONENTS.find((candidate) => candidate.name === componentName)
+    : undefined;
+  const pageTitle = component
+    ? demoText(language, component.label)
+    : demoText(language, PAGE_TITLES[pathname] ?? "Page Not Found");
+  return pageTitle === "Geist Style Framework" ? pageTitle : `${pageTitle} – Geist Style Framework`;
+}
+
 export default function App() {
   const { pathname } = useLocation();
+  const { language } = useLanguage();
+  const copy = SHELL_COPY[language];
   const Page =
     PAGE_COMPONENTS[pathname] ?? (pathname.startsWith("/components/") ? ComponentsPage : undefined);
 
+  useEffect(() => {
+    document.title = getPageTitle(pathname, language);
+    document.documentElement.lang = language;
+  }, [language, pathname]);
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      <a
+        href="#main-content"
+        onClick={(event) => {
+          event.preventDefault();
+          document.getElementById("main-content")?.focus();
+        }}
+        className="focus-ring fixed top-4 left-4 z-50 -translate-y-24 rounded-md bg-foreground px-3 py-2 text-label-14 text-background-100 transition-transform focus:translate-y-0"
+      >
+        {copy.skip}
+      </a>
       <DocsBanner />
-      <div className="flex flex-1">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="mx-auto w-full max-w-[1220px] flex-1 xl:grid xl:grid-cols-[260px_1fr]"
+      >
         <DocsSidebar />
-        <main className="min-w-0 flex-1 px-8 py-10">
-          <div className="mx-auto max-w-[1280px]">
+        <div className="min-w-0 border-r border-gray-alpha-400 py-10">
+          <div className="px-6 xl:px-12">
             {Page ? (
               <Page />
             ) : (
               <>
-                <h1 className="text-heading-32 text-foreground">页面开发中</h1>
+                <h1 className="text-heading-32 text-foreground">{copy.pageInProgress}</h1>
                 <p className="mt-2 text-copy-14 text-muted-foreground">
-                  该页面（{pathname}）由后续任务实现。
+                  {copy.pageInProgressDescription(pathname)}
                 </p>
               </>
             )}
 
-            {/* 内容页页脚 — 反馈区 + Next 分页（官方文档站每个页面底部都有） */}
+            {/* 内容页页脚 - 反馈区 + Next 分页（官方文档站每个页面底部都有） */}
             {Page && (
               <div className="mt-16 border-t border-border pt-8">
                 <FeedbackPanel />
@@ -60,8 +108,8 @@ export default function App() {
               </div>
             )}
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 }

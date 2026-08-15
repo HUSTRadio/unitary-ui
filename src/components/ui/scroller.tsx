@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
  * Scroller — Geist 官方 Scroller（docs/geist-markdown-refs/components/scroller.md）。
  * 官方 props：height / width / overflow（"x" | "y" | "both"）/ withButtons / childrenContainerClassName。
  * - 默认横向（overflow="x"），children 容器 flex + gap-4
- * - withButtons：右上角 32px 方形方向按钮，每次滚动到相邻 direct child
+ * - withButtons：右上角 32px 圆形实心方向按钮，每次滚动到相邻 direct child
  *   （按钮只认 direct children，多包一层布局节点会失效）
  * - 高度/宽度经 style 透传（number → px，string 原样）
  */
@@ -81,7 +81,7 @@ function Scroller({
   );
 
   const buttonClass =
-    "grid size-8 place-items-center rounded-[6px] border border-gray-alpha-400 bg-background text-foreground outline-none transition-colors hover:bg-gray-alpha-200 focus-ring";
+    "grid size-8 place-items-center rounded-full border-0 bg-gray-1000 text-gray-100 outline-none transition-colors hover:bg-gray-900 focus-ring";
 
   return (
     <div

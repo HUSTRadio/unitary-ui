@@ -1,0 +1,673 @@
+/* Grid system — replica of the official Geist GridSystem/Grid/GridCell/GridCross/GridPage.
+ * Mechanism (verified from official SSR + CSS module):
+ *  - spacing comes from the guide lines (1px borders), NOT CSS gap (colGap: normal)
+ *  - breakpoints: xs <=400 / sm 401-600 / smd 601-768 / md 769-960 / lg >=961
+ *  - `unstable_useContainer` switches the same layers to container queries
+ */
+
+.gridSystem {
+  --max-width: 1080px;
+  --min-width: 368px;
+  --guide-width: 1px;
+  --horizontal-margin: 2rem;
+  --grid-system-width: 100vw;
+  --guide-color: var(--gray-400);
+  --light-dashed-png: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAANklEQVQokWN8/fr1fwY0ICoqyoguhk0dE7oAKYARZiI223ABmB6KbKZI8yggEQzReGYcsIwBALk3HxGhdtdwAAAAAElFTkSuQmCC);
+  --dark-dashed-png: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAANklEQVQokWOUl5f/z4AGHj58yIguhk0dE7oAKYARZiI223ABmB6KbKZI8yggEQzReGYcsIwBAA1NFYEXiwqfAAAAAElFTkSuQmCC);
+
+  position: relative;
+}
+
+:global(.dark) .gridSystem {
+  --guide-color: var(--gray-200);
+}
+
+.gridSystem::before {
+  position: absolute;
+  inset: 0;
+  top: calc(-1 * var(--guide-width));
+  left: calc(-1 * var(--guide-width));
+  border: var(--guide-width) solid var(--guide-color);
+  content: "";
+  pointer-events: none;
+}
+
+/* debug mode: amber overlay guides, tinted blocks, dashed hidden borders */
+.systemDebug {
+  --debug-color-rgb: 255, 204, 109;
+  --debug-guide-color: rgba(var(--debug-color-rgb), 0.7);
+  --debug-block-color: rgba(var(--debug-color-rgb), 0.1);
+  --debug-hidden-guide-color: rgba(var(--debug-color-rgb), 0.1);
+  --guide-color: var(--debug-guide-color) !important;
+}
+
+.systemDebug .block {
+  background-color: var(--debug-block-color);
+}
+
+.systemDebug .guide[style*="border-right:none"] {
+  border-right: var(--guide-width) dashed var(--debug-hidden-guide-color) !important;
+}
+
+.systemDebug .guide[style*="border-bottom:none"] {
+  border-bottom: var(--guide-width) dashed var(--debug-hidden-guide-color) !important;
+}
+
+.systemDebugOverlay::before {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  padding: 0.25rem 0.5rem;
+  border: 1px dashed var(--guide-color);
+  background: #000;
+  font-size: 12px;
+  content: "xs";
+  animation: 2s ease-out forwards debugXsDisappear;
+}
+
+/* dashed guides mode */
+.systemDashed::before,
+.systemDashed [data-grid] {
+  border-image: var(--light-dashed-png) 1 round;
+}
+
+:global(.dark) .systemDashed::before,
+:global(.dark) .systemDashed [data-grid] {
+  border-image: var(--dark-dashed-png) 1 round;
+}
+
+.dashedGuide {
+  border: var(--guide-width) dashed var(--guide-color);
+  border-top: none;
+  border-left: none;
+  border-image: var(--light-dashed-png) 2 round;
+}
+
+:global(.dark) .dashedGuide {
+  border-image: var(--dark-dashed-png) 2 round;
+}
+
+.gridSystemContentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gridSystemLazyContent {
+  contain: layout;
+  overflow: visible;
+}
+
+.unstableGridSystemWrapper {
+  display: inherit;
+  width: 100%;
+  align-items: inherit;
+  justify-content: inherit;
+  container-type: inline-size;
+}
+
+.unstableGridSystemWrapper .gridSystem {
+  --horizontal-margin: 0px;
+  --grid-system-width: calc(100cqw);
+}
+
+/* grid */
+.grid {
+  --guide-width: 1px;
+  --guide-color: var(--gray-400);
+  --width: clamp(
+    calc(var(--min-width) - var(--guide-width)),
+    calc(var(--grid-system-width) - var(--guide-width) - (var(--horizontal-margin) * 2)),
+    calc(var(--max-width) - var(--guide-width))
+  );
+  --column-width: calc(var(--width) / var(--grid-columns));
+  --row-height: calc(var(--height) / var(--grid-rows));
+  --height: var(--xs-height, var(--sm-height));
+  --grid-rows: var(--xs-grid-rows, var(--sm-grid-rows));
+  --grid-columns: var(--xs-grid-columns, var(--sm-grid-columns));
+  --cell-padding: 24px;
+  --grid-divider-gap: calc(72px - var(--cell-padding));
+
+  position: relative;
+  display: grid;
+  width: var(--width);
+  height: var(--height);
+  grid-template-columns: repeat(var(--grid-columns), var(--column-width));
+  grid-template-rows: repeat(var(--grid-rows), var(--row-height));
+}
+
+:global(.dark) .grid {
+  --guide-color: var(--gray-200);
+}
+
+.gridSystem [data-grid] {
+  border-bottom: var(--guide-width) solid var(--guide-color);
+}
+
+/* guides: decorative lines drawn per cell corner; occluded by solid cells */
+.guides {
+  z-index: 1;
+  display: contents;
+  pointer-events: none;
+}
+
+.guide {
+  position: absolute;
+  inset: 0;
+  grid-column-start: var(--x);
+  grid-row-start: var(--y);
+  grid-column-end: span 1;
+  grid-row-end: span 1;
+  border: var(--guide-width) solid var(--guide-color);
+  border-top: none;
+  border-left: none;
+}
+
+/* cells */
+.block {
+  --grid-row: var(--xs-grid-row, var(--sm-grid-row));
+  --grid-column: var(--xs-grid-column, var(--sm-grid-column));
+  --block-display: var(--xs-block-display, var(--sm-block-display));
+  --cell-rows: var(--xs-cell-rows, var(--sm-cell-rows));
+  --cell-columns: var(--xs-cell-columns, var(--sm-cell-columns));
+
+  z-index: 2;
+  display: var(--block-display, block);
+  grid-row: var(--grid-row);
+  grid-column: var(--grid-column);
+  margin-right: var(--guide-width);
+  margin-bottom: var(--guide-width);
+  padding: var(--cell-padding);
+  overflow: hidden;
+}
+
+.block > div {
+  height: 100%;
+}
+
+/* crosses */
+.cross {
+  --cross-size: 21px;
+  --cross-half-size: calc((var(--cross-size) / 2) + var(--guide-width) - 0.5px);
+  --cross-row: var(--xs-cross-row, var(--sm-cross-row));
+  --cross-column: var(--xs-cross-column, var(--sm-cross-column));
+
+  position: absolute;
+  inset: calc(var(--cross-half-size) * -1);
+  z-index: 2;
+  width: fit-content;
+  height: fit-content;
+  grid-column-start: var(--cross-column);
+  grid-row-start: var(--cross-row);
+  pointer-events: none;
+}
+
+.crossLine {
+  position: absolute;
+  border: var(--guide-width) solid var(--guide-color);
+  border-width: 0;
+}
+
+/* page */
+.page {
+  background: var(--background-200);
+}
+
+/* responsive guide sets: exactly one breakpoint set is visible */
+.smGuide,
+.smdGuide,
+.mdGuide,
+.lgGuide {
+  display: none;
+}
+
+@keyframes debugXsDisappear {
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes debugSmDisappear {
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes debugMdDisappear {
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes debugLgDisappear {
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* xs */
+@media screen and (max-width: 400px) {
+  .gridSystem {
+    --horizontal-margin: 1rem;
+  }
+
+  .grid {
+    --height: var(--xs-height, var(--sm-height));
+    --grid-rows: var(--xs-grid-rows, var(--sm-grid-rows));
+    --grid-columns: var(--xs-grid-columns, var(--sm-grid-columns));
+    --cell-padding: 24px;
+    --grid-divider-gap: calc(72px - var(--cell-padding));
+  }
+
+  .block {
+    --grid-row: var(--xs-grid-row, var(--sm-grid-row));
+    --grid-column: var(--xs-grid-column, var(--sm-grid-column));
+    --block-display: var(--xs-block-display, var(--sm-block-display));
+    --cell-rows: var(--xs-cell-rows, var(--sm-cell-rows));
+    --cell-columns: var(--xs-cell-columns, var(--sm-cell-columns));
+  }
+
+  .cross {
+    --cross-size: 11px;
+    --cross-row: var(--xs-cross-row, var(--sm-cross-row));
+    --cross-column: var(--xs-cross-column, var(--sm-cross-column));
+  }
+
+  .smGuide,
+  .smdGuide,
+  .mdGuide,
+  .lgGuide {
+    display: none;
+  }
+
+  .systemDebugOverlay::before {
+    content: "xs";
+    animation: 2s ease-out forwards debugXsDisappear;
+  }
+}
+
+/* sm */
+@media screen and (min-width: 401px) and (max-width: 600px) {
+  .gridSystem {
+    --horizontal-margin: 1rem;
+  }
+
+  .grid {
+    --height: var(--sm-height);
+    --grid-rows: var(--sm-grid-rows);
+    --grid-columns: var(--sm-grid-columns);
+    --cell-padding: 24px;
+    --grid-divider-gap: calc(72px - var(--cell-padding));
+  }
+
+  .block {
+    --grid-row: var(--sm-grid-row);
+    --grid-column: var(--sm-grid-column);
+    --block-display: var(--sm-block-display);
+    --cell-rows: var(--sm-cell-rows);
+    --cell-columns: var(--sm-cell-columns);
+  }
+
+  .cross {
+    --cross-size: 11px;
+    --cross-row: var(--sm-cross-row);
+    --cross-column: var(--sm-cross-column);
+  }
+
+  .xsGuide,
+  .smdGuide,
+  .mdGuide,
+  .lgGuide {
+    display: none;
+  }
+
+  .systemDebugOverlay::before {
+    content: "sm";
+    animation: 2s ease-out forwards debugSmDisappear;
+  }
+}
+
+/* smd */
+@media screen and (min-width: 601px) and (max-width: 768px) {
+  .grid {
+    --height: var(--smd-height, var(--md-height, var(--sm-height)));
+    --grid-rows: var(--smd-grid-rows, var(--md-grid-rows, var(--sm-grid-rows)));
+    --grid-columns: var(--smd-grid-columns, var(--md-grid-columns, var(--sm-grid-columns)));
+    --cell-padding: 40px;
+    --grid-divider-gap: calc(120px - var(--cell-padding));
+  }
+
+  .block {
+    --grid-row: var(--smd-grid-row, var(--md-grid-row, var(--sm-grid-row)));
+    --grid-column: var(--smd-grid-column, var(--md-grid-column, var(--sm-grid-column)));
+    --cell-rows: var(--smd-cell-rows, var(--md-cell-rows, var(--sm-cell-rows)));
+    --cell-columns: var(--smd-cell-columns, var(--md-cell-columns, var(--sm-cell-columns)));
+    --block-display: var(--smd-block-display);
+  }
+
+  .cross {
+    --cross-size: 15px;
+    --cross-row: var(--smd-cross-row, var(--md-cross-row, var(--sm-cross-row)));
+    --cross-column: var(--smd-cross-column, var(--md-cross-column, var(--sm-cross-column)));
+  }
+
+  .xsGuide,
+  .smGuide,
+  .mdGuide,
+  .lgGuide {
+    display: none;
+  }
+
+  .systemDebugOverlay::before {
+    content: "smd";
+    animation: 2s ease-out forwards debugMdDisappear;
+  }
+}
+
+/* md */
+@media screen and (min-width: 769px) and (max-width: 960px) {
+  .grid {
+    --height: var(--md-height, var(--smd-height, var(--sm-height)));
+    --grid-rows: var(--md-grid-rows, var(--smd-grid-rows, var(--sm-grid-rows)));
+    --grid-columns: var(--md-grid-columns, var(--smd-grid-columns, var(--sm-grid-columns)));
+    --cell-padding: 40px;
+    --grid-divider-gap: calc(140px - var(--cell-padding));
+  }
+
+  .block {
+    --grid-row: var(--md-grid-row, var(--smd-grid-row, var(--sm-grid-row)));
+    --grid-column: var(--md-grid-column, var(--smd-grid-column, var(--sm-grid-column)));
+    --cell-rows: var(--md-cell-rows, var(--smd-cell-rows, var(--sm-cell-rows)));
+    --cell-columns: var(--md-cell-columns, var(--smd-cell-columns, var(--sm-cell-columns)));
+    --block-display: var(--md-block-display, var(--smd-block-display));
+  }
+
+  .cross {
+    --cross-size: 15px;
+    --cross-row: var(--md-cross-row, var(--smd-cross-row, var(--sm-cross-row)));
+    --cross-column: var(--md-cross-column, var(--smd-cross-column, var(--sm-cross-column)));
+  }
+
+  .xsGuide,
+  .smGuide,
+  .smdGuide,
+  .lgGuide {
+    display: none;
+  }
+
+  .systemDebugOverlay::before {
+    content: "md";
+    animation: 2s ease-out forwards debugMdDisappear;
+  }
+}
+
+/* lg */
+@media screen and (min-width: 961px) {
+  .grid {
+    --height: var(--lg-height, var(--md-height, var(--smd-height, var(--sm-height))));
+    --grid-rows: var(
+      --lg-grid-rows,
+      var(--md-grid-rows, var(--smd-grid-rows, var(--sm-grid-rows)))
+    );
+    --grid-columns: var(
+      --lg-grid-columns,
+      var(--md-grid-columns, var(--smd-grid-columns, var(--sm-grid-columns)))
+    );
+    --cell-padding: 48px;
+    --grid-divider-gap: calc(140px - var(--cell-padding));
+  }
+
+  .block {
+    --grid-row: var(--lg-grid-row, var(--md-grid-row, var(--smd-grid-row, var(--sm-grid-row))));
+    --grid-column: var(
+      --lg-grid-column,
+      var(--md-grid-column, var(--smd-grid-column, var(--sm-grid-column)))
+    );
+    --cell-rows: var(
+      --lg-cell-rows,
+      var(--md-cell-rows, var(--smd-cell-rows, var(--sm-cell-rows)))
+    );
+    --cell-columns: var(
+      --lg-cell-columns,
+      var(--md-cell-columns, var(--smd-cell-columns, var(--sm-cell-columns)))
+    );
+    --block-display: var(--smd-block-display);
+  }
+
+  .cross {
+    --cross-row: var(
+      --lg-cross-row,
+      var(--md-cross-row, var(--smd-cross-row, var(--sm-cross-row)))
+    );
+    --cross-column: var(
+      --lg-cross-column,
+      var(--md-cross-column, var(--smd-cross-column, var(--sm-cross-column)))
+    );
+  }
+
+  .xsGuide,
+  .smGuide,
+  .smdGuide,
+  .mdGuide {
+    display: none;
+  }
+
+  .systemDebugOverlay::before {
+    content: "lg";
+    animation: 2s ease-out forwards debugLgDisappear;
+  }
+}
+
+/* container-query layers (unstable_useContainer) */
+@container (max-width: 400px) {
+  .useContainer {
+    --height: var(--xs-height, var(--sm-height));
+    --grid-rows: var(--xs-grid-rows, var(--sm-grid-rows));
+    --grid-columns: var(--xs-grid-columns, var(--sm-grid-columns));
+    --cell-padding: 24px;
+    --grid-divider-gap: calc(72px - var(--cell-padding));
+  }
+
+  .useContainer .block {
+    --grid-row: var(--xs-grid-row, var(--sm-grid-row));
+    --grid-column: var(--xs-grid-column, var(--sm-grid-column));
+    --block-display: var(--xs-block-display, var(--sm-block-display));
+    --cell-rows: var(--xs-cell-rows, var(--sm-cell-rows));
+    --cell-columns: var(--xs-cell-columns, var(--sm-cell-columns));
+  }
+
+  .useContainer .cross {
+    --cross-size: 11px;
+    --cross-row: var(--xs-cross-row, var(--sm-cross-row));
+    --cross-column: var(--xs-cross-column, var(--sm-cross-column));
+  }
+
+  .useContainer .xsGuide {
+    display: block;
+  }
+
+  .useContainer .smGuide,
+  .useContainer .smdGuide,
+  .useContainer .mdGuide,
+  .useContainer .lgGuide {
+    display: none;
+  }
+}
+
+@container (min-width: 401px) and (max-width: 600px) {
+  .useContainer {
+    --height: var(--sm-height);
+    --grid-rows: var(--sm-grid-rows);
+    --grid-columns: var(--sm-grid-columns);
+    --cell-padding: 24px;
+    --grid-divider-gap: calc(72px - var(--cell-padding));
+  }
+
+  .useContainer .block {
+    --grid-row: var(--sm-grid-row);
+    --grid-column: var(--sm-grid-column);
+    --cell-rows: var(--sm-cell-rows);
+    --cell-columns: var(--sm-cell-columns);
+    --block-display: var(--sm-block-display);
+  }
+
+  .useContainer .cross {
+    --cross-size: 11px;
+    --cross-row: var(--sm-cross-row);
+    --cross-column: var(--sm-cross-column);
+  }
+
+  .useContainer .smGuide {
+    display: block;
+  }
+
+  .useContainer .xsGuide,
+  .useContainer .smdGuide,
+  .useContainer .mdGuide,
+  .useContainer .lgGuide {
+    display: none;
+  }
+}
+
+@container (min-width: 601px) and (max-width: 768px) {
+  .useContainer {
+    --height: var(--smd-height, var(--md-height, var(--sm-height)));
+    --grid-rows: var(--smd-grid-rows, var(--md-grid-rows, var(--sm-grid-rows)));
+    --grid-columns: var(--smd-grid-columns, var(--md-grid-columns, var(--sm-grid-columns)));
+    --cell-padding: 40px;
+    --grid-divider-gap: calc(120px - var(--cell-padding));
+  }
+
+  .useContainer .block {
+    --grid-row: var(--smd-grid-row, var(--md-grid-row, var(--sm-grid-row)));
+    --grid-column: var(--smd-grid-column, var(--md-grid-column, var(--sm-grid-column)));
+    --cell-rows: var(--smd-cell-rows, var(--md-cell-rows, var(--sm-cell-rows)));
+    --cell-columns: var(--smd-cell-columns, var(--md-cell-columns, var(--sm-cell-columns)));
+    --block-display: var(--smd-block-display);
+  }
+
+  .useContainer .cross {
+    --cross-size: 15px;
+    --cross-row: var(--smd-cross-row, var(--md-cross-row, var(--sm-cross-row)));
+    --cross-column: var(--smd-cross-column, var(--md-cross-column, var(--sm-cross-column)));
+  }
+
+  .useContainer .smdGuide {
+    display: block;
+  }
+
+  .useContainer .xsGuide,
+  .useContainer .smGuide,
+  .useContainer .mdGuide,
+  .useContainer .lgGuide {
+    display: none;
+  }
+}
+
+@container (min-width: 769px) and (max-width: 960px) {
+  .useContainer {
+    --height: var(--md-height, var(--smd-height, var(--sm-height)));
+    --grid-rows: var(--md-grid-rows, var(--smd-grid-rows, var(--sm-grid-rows)));
+    --grid-columns: var(--md-grid-columns, var(--smd-grid-columns, var(--sm-grid-columns)));
+    --cell-padding: 40px;
+    --grid-divider-gap: calc(140px - var(--cell-padding));
+  }
+
+  .useContainer .block {
+    --grid-row: var(--md-grid-row, var(--smd-grid-row, var(--sm-grid-row)));
+    --grid-column: var(--md-grid-column, var(--smd-grid-column, var(--sm-grid-column)));
+    --cell-rows: var(--md-cell-rows, var(--smd-cell-rows, var(--sm-cell-rows)));
+    --cell-columns: var(--md-cell-columns, var(--smd-cell-columns, var(--sm-cell-columns)));
+    --block-display: var(--md-block-display, var(--smd-block-display));
+  }
+
+  .useContainer .cross {
+    --cross-size: 15px;
+    --cross-row: var(--md-cross-row, var(--smd-cross-row, var(--sm-cross-row)));
+    --cross-column: var(--md-cross-column, var(--smd-cross-column, var(--sm-cross-column)));
+  }
+
+  .useContainer .mdGuide {
+    display: block;
+  }
+
+  .useContainer .xsGuide,
+  .useContainer .smGuide,
+  .useContainer .smdGuide,
+  .useContainer .lgGuide {
+    display: none;
+  }
+}
+
+@container (min-width: 961px) {
+  .useContainer {
+    --height: var(--lg-height, var(--md-height, var(--smd-height, var(--sm-height))));
+    --grid-rows: var(
+      --lg-grid-rows,
+      var(--md-grid-rows, var(--smd-grid-rows, var(--sm-grid-rows)))
+    );
+    --grid-columns: var(
+      --lg-grid-columns,
+      var(--md-grid-columns, var(--smd-grid-columns, var(--sm-grid-columns)))
+    );
+    --cell-padding: 48px;
+    --grid-divider-gap: calc(140px - var(--cell-padding));
+  }
+
+  .useContainer .block {
+    --grid-row: var(--lg-grid-row, var(--md-grid-row, var(--smd-grid-row, var(--sm-grid-row))));
+    --grid-column: var(
+      --lg-grid-column,
+      var(--md-grid-column, var(--smd-grid-column, var(--sm-grid-column)))
+    );
+    --cell-rows: var(
+      --lg-cell-rows,
+      var(--md-cell-rows, var(--smd-cell-rows, var(--sm-cell-rows)))
+    );
+    --cell-columns: var(
+      --lg-cell-columns,
+      var(--md-cell-columns, var(--smd-cell-columns, var(--sm-cell-columns)))
+    );
+    --block-display: var(--smd-block-display);
+  }
+
+  .useContainer .cross {
+    --cross-row: var(
+      --lg-cross-row,
+      var(--md-cross-row, var(--smd-cross-row, var(--sm-cross-row)))
+    );
+    --cross-column: var(
+      --lg-cross-column,
+      var(--md-cross-column, var(--smd-cross-column, var(--sm-cross-column)))
+    );
+  }
+
+  .useContainer .lgGuide {
+    display: block;
+  }
+
+  .useContainer .xsGuide,
+  .useContainer .smGuide,
+  .useContainer .smdGuide,
+  .useContainer .mdGuide {
+    display: none;
+  }
+}

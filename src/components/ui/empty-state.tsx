@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 /**
  * EmptyState — 空状态（docs/geist-markdown-refs/components/empty-state.md 官方语义）。
  * 官方实测（2026-08 vercel.com/geist/empty-state 实时 DOM/computed style）：
- * - 容器：带边框卡片（rounded-lg r:8px、border gray-200 #ebebeb、bg-background、
+ * - 容器：带边框卡片（rounded-[8px] r:8px、border gray-200 #ebebeb、bg-background、
  *   px-[70px] py-12、gap-6、flex-col items-center、[&>a]:text-sm）
- * - 图标气泡 EmptyStateIcon：54×54、rounded-lg、border gray-alpha-400、
+ * - 图标气泡 EmptyStateIcon：54×54、rounded-[8px]、border gray-alpha-400、
  *   bg-background、p-[10px]、32px 图标、fg gray-900
  * - title：text-heading-16 + font-medium（16px/500/24px）、gray-1000、
  *   mx-auto max-w-[340px] text-center text-balance
@@ -60,16 +60,19 @@ interface EmptyStateIconProps extends React.ComponentProps<"div"> {
 }
 
 function EmptyStateIcon({ icon, className, children, ...props }: EmptyStateIconProps) {
+  // 官方 DOM：匿名包裹 div > aria-hidden 气泡（气泡承载全部视觉样式）。
   return (
-    <div
-      data-slot="empty-state-icon"
-      className={cn(
-        "flex size-[54px] shrink-0 items-center justify-center rounded-lg border border-gray-alpha-400 bg-background p-[10px] text-muted-foreground",
-        className,
-      )}
-      {...props}
-    >
-      {icon ?? children}
+    <div {...props}>
+      <div
+        aria-hidden="true"
+        data-slot="empty-state-icon"
+        className={cn(
+          "flex size-[54px] shrink-0 items-center justify-center rounded-[8px] border border-gray-alpha-400 bg-background p-[10px] text-muted-foreground",
+          className,
+        )}
+      >
+        {icon ?? children}
+      </div>
     </div>
   );
 }

@@ -16,11 +16,10 @@ import { cn } from "@/lib/utils";
  * - onValueCommitted：拖动释放后提交（映射到 Radix onValueCommit）
  *
  * 样式（官方实测对齐）：
- * - root：relative flex w-full touch-none items-center h-3.5（轨道区 14px）
- * - track：bg-gray-alpha-200 h-1 rounded-full grow
- * - range：bg-progress absolute h-full rounded-full
- * - thumb：size-4 rounded-full bg-background border-2 border-progress，
- *   hover:border-progress/80，焦点环 focus-ring
+ * - root：216px min-width、8px 轨道区，外层 group 包裹 control
+ * - track：gray-200、8px 高、全圆角
+ * - indicator：blue-700，禁用态 gray-500
+ * - thumb：6×14px、1px 圆角、白色表面与 hairline ring
  * 官方 bestPractices：
  * - 滑块适合「形状与邻近度比精度更重要」的范围数值输入（带宽、透明度、音量、色道）；
  *   精确值（端口号、内存上限）应配数值 Input，键盘用户默认直接输入。
@@ -46,10 +45,19 @@ interface ValueInputProps {
   max?: number;
   disabled?: boolean;
   ariaLabel: string;
+  type?: "text" | "number";
   onChange: (next: number) => void;
 }
 
-function ValueInput({ value, min, max, disabled, ariaLabel, onChange }: ValueInputProps) {
+function ValueInput({
+  value,
+  min,
+  max,
+  disabled,
+  ariaLabel,
+  type = "number",
+  onChange,
+}: ValueInputProps) {
   const [text, setText] = React.useState(String(value));
   const valueRef = React.useRef(value);
   valueRef.current = value;
@@ -71,10 +79,11 @@ function ValueInput({ value, min, max, disabled, ariaLabel, onChange }: ValueInp
 
   return (
     <Input
-      type="number"
+      type={type}
+      size="small"
       inputMode="numeric"
       aria-label={ariaLabel}
-      className="w-16 shrink-0 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+      className="w-12 shrink-0 border-[var(--input-value-border)] text-[var(--input-value-foreground)] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       value={text}
       disabled={disabled}
       onChange={(event) => setText(event.target.value)}
@@ -116,7 +125,7 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
     };
 
     return (
-      <div data-slot="slider" className={cn("flex w-full flex-col gap-2", className)}>
+      <div data-slot="slider-field" className={cn("flex w-full flex-col", className)}>
         {label && <Label value={label} id={rootId} className="mb-0" />}
         <div className="flex w-full items-center gap-3">
           {showStartInput && (
@@ -125,47 +134,51 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
               min={min}
               max={max}
               disabled={disabled}
-              ariaLabel="Minimum value"
+              ariaLabel="Starting range value"
+              type="text"
               onChange={(next) => updateValue(0, next)}
             />
           )}
-          <SliderPrimitive.Root
-            ref={ref}
-            id={rootId}
-            min={min}
-            max={max}
-            disabled={disabled}
-            value={valueProp}
-            defaultValue={defaultValue}
-            onValueCommit={onValueCommitted}
-            className="relative flex h-3.5 w-full touch-none items-center"
-            {...props}
-          >
-            <SliderPrimitive.Track
-              data-slot="slider-track"
-              className="relative h-1 grow rounded-full bg-gray-alpha-200"
+          <div data-slot="slider" role="group" className="h-2 min-w-54">
+            <SliderPrimitive.Root
+              ref={ref}
+              id={rootId}
+              min={min}
+              max={max}
+              disabled={disabled}
+              value={valueProp}
+              defaultValue={defaultValue}
+              onValueCommit={onValueCommitted}
+              data-slot="slider-control"
+              className="relative flex h-2 min-w-54 touch-none items-center select-none data-[disabled]:cursor-not-allowed"
+              {...props}
             >
-              <SliderPrimitive.Range
-                data-slot="slider-range"
-                className="absolute h-full rounded-full bg-progress"
-              />
-            </SliderPrimitive.Track>
-            {value.map((_, index) => (
-              <SliderPrimitive.Thumb
-                key={index}
-                data-slot="slider-thumb"
-                aria-label={thumbAriaLabel}
-                className="block size-4 rounded-full border-2 border-progress bg-background transition-colors focus-ring hover:border-progress/80"
-              />
-            ))}
-          </SliderPrimitive.Root>
+              <SliderPrimitive.Track
+                data-slot="slider-track"
+                className="relative h-2 grow rounded-full bg-gray-200 select-none [&>span:has([data-slot=slider-thumb])]:-top-[3px]"
+              >
+                <SliderPrimitive.Range
+                  data-slot="slider-indicator"
+                  className="absolute h-full rounded-full bg-blue-700 select-none data-[disabled]:bg-gray-500"
+                />
+                {value.map((_, index) => (
+                  <SliderPrimitive.Thumb
+                    key={index}
+                    data-slot="slider-thumb"
+                    aria-label={thumbAriaLabel}
+                    className="relative block h-3.5 w-1.5 shrink-0 rounded-[1px] bg-white ring-1 ring-gray-alpha-500 transition-[scale] duration-100 after:absolute after:-inset-2 focus-visible:scale-120 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-120 dark:ring-black"
+                  />
+                ))}
+              </SliderPrimitive.Track>
+            </SliderPrimitive.Root>
+          </div>
           {showEndInput && (
             <ValueInput
               value={value[value.length - 1]}
               min={min}
               max={max}
               disabled={disabled}
-              ariaLabel="Maximum value"
+              ariaLabel="Ending range value"
               onChange={(next) => updateValue(value.length - 1, next)}
             />
           )}

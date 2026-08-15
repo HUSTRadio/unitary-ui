@@ -3,46 +3,56 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Entity — Geist 行级实体卡片。
- * 左侧媒体（Avatar / 图标）+ 中间内容（标题 + 描述）+ 右侧操作区。
- * 用于成员行、集成行、域名行等「描述性内容 + 一两个控件」的行式布局。
+ * Entity — Geist 官方 Entity 行式实体卡片（vercel.com/geist/entity 实测对齐）。
+ *
+ * 官方 DOM（b1-evidence + CDP 实测）：
+ *   li.p-4.flex.flex-col.items-stretch.justify-start.flex-initial
+ *     section.flex.items-center.gap-4
+ *       div.left.flex.flex-1.items-center.gap-4.min-w-0
+ *         [EntityMedia 内容直接内联]
+ *         div.flex.items-center.gap-2.[--width:initial].w-[var(--width, initial)].min-w-0[.flex-1|.flex-initial]
+ *           div.flex.flex-col.items-stretch.flex-1.min-w-0
+ *             p.text-copy-14.truncate.font-semibold（Title）
+ *             p.text-copy-14.truncate.text-gray-900（Description）
+ *       div.right.flex.items-center.gap-4.ml-auto（有 Action 时）
+ *         [EntityAction 内容直接内联]
+ *
+ * 使用：<Entity><EntityMedia>…</EntityMedia><EntityContent fill>…</EntityContent>
+ *       <EntityAction>…</EntityAction></Entity>。EntityContent 的 fill 控制内容列
+ *       flex-1（占满）还是 flex-initial（按内容）；leftClassName/rightClassName
+ *       透传到 left/right 容器（官方 columnClassName 场景）。
  */
 
-function Entity({ className, ...props }: React.ComponentProps<"div">) {
+function EntityMedia({ children }: { children?: React.ReactNode }) {
+  return <>{children}</>;
+}
+
+function EntityContent({
+  className,
+  fill = false,
+  ...props
+}: React.ComponentProps<"div"> & { fill?: boolean }) {
   return (
     <div
-      data-slot="entity"
       className={cn(
-        "flex items-center gap-4 rounded-[8px] border border-gray-alpha-400 bg-background p-4",
-        className,
+        "flex items-center gap-2 [--width:initial] w-[var(--width, initial)] min-w-0",
+        fill ? "flex-1" : "flex-initial",
       )}
-      {...props}
-    />
+    >
+      <div
+        data-slot="entity-content"
+        className={cn("flex flex-col items-stretch flex-1 min-w-0", className)}
+        {...props}
+      />
+    </div>
   );
 }
 
-function EntityMedia({ className, ...props }: React.ComponentProps<"div">) {
+function EntityTitle({ className, ...props }: React.ComponentProps<"p">) {
   return (
-    <div
-      data-slot="entity-media"
-      className={cn(
-        "flex size-8 shrink-0 items-center justify-center rounded-full bg-gray-alpha-200",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
-
-function EntityContent({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="entity-content" className={cn("min-w-0 flex-1", className)} {...props} />;
-}
-
-function EntityTitle({ className, ...props }: React.ComponentProps<"h3">) {
-  return (
-    <h3
+    <p
       data-slot="entity-title"
-      className={cn("truncate text-label-14 font-semibold text-foreground", className)}
+      className={cn("text-copy-14 truncate font-semibold", className)}
       {...props}
     />
   );
@@ -52,14 +62,61 @@ function EntityDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="entity-description"
-      className={cn("truncate text-copy-13 text-muted-foreground", className)}
+      className={cn("text-copy-14 truncate text-gray-1000", className)}
       {...props}
     />
   );
 }
 
-function EntityAction({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="entity-action" className={cn("ml-auto shrink-0", className)} {...props} />;
+function EntityAction({ children }: { children?: React.ReactNode }) {
+  return <>{children}</>;
+}
+
+function Entity({
+  className,
+  leftClassName,
+  rightClassName,
+  children,
+  ...props
+}: React.ComponentProps<"li"> & {
+  /** 透传到 left 容器（官方 columnClassName 左侧） */
+  leftClassName?: string;
+  /** 透传到 right 容器（官方 columnClassName 右侧） */
+  rightClassName?: string;
+}) {
+  const media: React.ReactNode[] = [];
+  const content: React.ReactNode[] = [];
+  const action: React.ReactNode[] = [];
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement(child) && child.type === EntityMedia) media.push(child);
+    else if (React.isValidElement(child) && child.type === EntityAction) action.push(child);
+    else content.push(child);
+  });
+  return (
+    <li
+      data-slot="entity"
+      className={cn("p-4 flex flex-col items-stretch justify-start flex-initial", className)}
+      {...props}
+    >
+      <section className="flex items-center gap-4">
+        <div
+          data-slot="entity-left"
+          className={cn("left flex flex-1 items-center gap-4 min-w-0", leftClassName)}
+        >
+          {media}
+          {content}
+        </div>
+        {action.length > 0 && (
+          <div
+            data-slot="entity-right"
+            className={cn("right flex items-center gap-4 ml-auto", rightClassName)}
+          >
+            {action}
+          </div>
+        )}
+      </section>
+    </li>
+  );
 }
 
 export { Entity, EntityMedia, EntityContent, EntityTitle, EntityDescription, EntityAction };

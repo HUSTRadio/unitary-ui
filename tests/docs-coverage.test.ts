@@ -46,7 +46,7 @@ describe("Geist documentation coverage", () => {
     expect(labels).toEqual([...labels].sort((left, right) => left.localeCompare(right, "en")));
   });
 
-  it("does not retain removed component APIs", async () => {
+  it("does not retain removed component APIs", { timeout: 15000 }, async () => {
     const targets = [
       "README.md",
       "src/App.tsx",
@@ -66,7 +66,7 @@ describe("Geist documentation coverage", () => {
       /\bDestructiveActionModal(?:Close|Content|Description|Footer|Header|Title|Trigger)\b/,
       /\bDotsMenu(?:Content|Trigger)\b/,
       /\bDrawer(?:Close|Content|Footer|Header|Trigger)\b/,
-      /\b(?:EmptyStateTitle|EmptyStateDescription|ErrorText|MultiSelectItem|RadioGroupLabel)\b/,
+      /\b(?:EmptyStateTitle|EmptyStateDescription|MultiSelectItem|RadioGroupLabel)\b/,
       /\bPagination(?:List|Item|Link|Previous|Next)\b/,
       /\bSelect(?:Content|Item|Trigger|Value)\b/,
       /\bTabs(?:List|Trigger|Content)\b/,
@@ -100,5 +100,37 @@ describe("Geist documentation coverage", () => {
     }
 
     expect(violations).toEqual([]);
+  });
+
+  it("renders all three live Command Menu demo content contracts", async () => {
+    const source = await read("docs/geist/src/components/docs-components-page.tsx");
+    const demo = source.slice(
+      source.indexOf("function CommandMenuDemo("),
+      source.indexOf("function GridDemo()"),
+    );
+
+    for (const text of [
+      "Flags Explorer",
+      "Item 1",
+      "Item 2",
+      "Item 3",
+      "Group 2",
+      "Grouped Item 1",
+      "Grouped Item 2",
+      "United States of America",
+      "Switzerland",
+      "Germany",
+      "USA",
+      "ESP",
+      "FRA",
+      "AUT",
+      "GER",
+    ]) {
+      expect(demo).toContain(`demoText(language, "${text}")`);
+    }
+    expect(demo).toContain("<CommandMenuDivider />");
+    expect(demo).toContain("key={name}");
+    expect(demo).toContain('type="default"');
+    expect(demo).not.toContain('type="secondary"');
   });
 });

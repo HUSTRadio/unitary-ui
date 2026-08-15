@@ -87,6 +87,7 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-disabled-foreground: var(--disabled-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
@@ -303,20 +304,24 @@
   /* misc */
   --overlay: #00000099;
   --color-focus-ring: #171717; /* gray-1000 */
+  --focus-ring-color: #0072f5; /* official --ds-focus-ring light */
 
-  /* 焦点环（官方 --ds-focus-ring 实测：2px 背景色描边 + 4px 主色 ring） */
-  --focus-ring-outline: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--link);
+  /* 焦点环（官方 --ds-focus-ring 实测：2px 背景色描边 + 4px 主题焦点蓝） */
+  --focus-ring-outline: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--focus-ring-color);
 
   /* 表单控件 focus（官方 Input/Select/Textarea 实测：边框加深 + 同色系柔光，150ms 过渡） */
   --input-focus-border: rgba(0, 0, 0, 0.34);
   --input-focus-glow: rgba(0, 0, 0, 0.16);
+  --input-disabled-placeholder: #999999;
+  --input-value-border: var(--gray-200);
+  --input-value-foreground: var(--color-black);
 
   /* Geist 全色阶（Light，colors.md 实测） */
   --amber-100: #fff7e6;
   --amber-1000: #3d2200;
   --amber-200: #ffefcc;
   --amber-300: #ffe6b3;
-  --amber-400: #ffcc66;
+  --amber-400: #ffdd8f;
   --amber-500: #ffb224;
   --amber-600: #f59e0b;
   --amber-700: #ffb224;
@@ -324,6 +329,8 @@
   --amber-900: #a35200;
   --background-100: #ffffff;
   --background-200: #fafafa;
+  /* Context Card 箭头描边：官方实测固定 #dbdbdb（light/dark 均如此）。 */
+  --context-card-tip-stroke: #dbdbdb;
   --blue-100: #ebf5ff;
   --blue-1000: #00264d;
   --blue-200: #e8f2ff;
@@ -378,7 +385,7 @@
   --red-1000: #351315;
   --red-200: #fff0f0;
   --red-300: #ffe8e8;
-  --red-400: #ffd1d1;
+  --red-400: #fdd8d8;
   --red-500: #ffb3b3;
   --red-600: #ff6b6e;
   --red-700: #e5484d;
@@ -394,6 +401,27 @@
   --teal-700: #17a693;
   --teal-800: #0f8c7d;
   --teal-900: #0c7869;
+
+  /* 官方 --ds-* 兼容层（仅映射 Task 10 §1.1 已有双主题精确证据的变量） */
+  --ds-size-medium: 36px;
+  --ds-control-decoration-size: 14px;
+  --ds-focus-color: #0072f5;
+  --ds-popover-padding: 6px;
+  --ds-popover-row-height: 36px;
+  --ds-gray-100: var(--gray-100);
+  --ds-gray-400: hsl(0 0% 92%);
+  --ds-gray-500: var(--gray-500);
+  --ds-gray-700: var(--gray-700);
+  --ds-gray-900: var(--gray-900);
+  --ds-gray-1000: var(--gray-1000);
+  --ds-gray-alpha-400: var(--gray-alpha-400);
+  --ds-gray-alpha-600: var(--gray-alpha-600);
+  --ds-background-100: var(--background-100);
+  /* 官方运行时值与现有本地 blue scale 有差异，保留独立兼容值。 */
+  --ds-blue-600: #52aeff;
+  --ds-blue-900: #0068d6;
+  --ds-blue-100: #f0f7ff;
+  --ds-blue-200: hsl(210 100% 96%);
 
   /* Geist material-* 阴影（官方实测 light） */
   --material-shadow-base: rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgb(250, 250, 250) 0px 0px 0px 1px;
@@ -422,9 +450,19 @@
     rgba(0, 0, 0, 0.04) 0px 8px 16px -4px, rgba(0, 0, 0, 0.06) 0px 24px 32px -8px,
     rgb(250, 250, 250) 0px 0px 0px 1px;
 
+  /* Sheet 官方实测（2026-08-15）：overlay 遮罩 + 浮层阴影 + z 层级 */
+  --ds-overlay-backdrop-color: #f2f2f2;
+  --ds-overlay-backdrop-opacity: 0.8;
+  --ds-shadow-modal-elevated:
+    0px 0px 0px 1px #00000014, 0px 32px 72px -12px #0000000f, 0px 8px 32px -12px #00000014,
+    0px 8px 24px -12px #0000001f;
+  --ds-z-drawer: 200;
+
   /* shadcn/ui alias roles -> semantic tokens (Light) */
   --toggle-thumb: #ffffff;
   --toggle-checked: #0070f3;
+  --toggle-checked-red: #f87275;
+  --toggle-label: #666666;
   --toggle-disabled-track-unchecked: #ebebeb;
   --toggle-disabled-track-checked: #c9c9c9;
   --toggle-disabled-thumb-unchecked: #fafafa;
@@ -441,6 +479,7 @@
   --secondary-foreground: var(--color-text-primary);
   --muted: var(--color-bg-subtle);
   --muted-foreground: var(--color-text-secondary);
+  --disabled-foreground: #c9c9c9; /* gray-500 */
   --accent: var(--color-bg-hover);
   --accent-foreground: var(--color-text-primary);
   --destructive: var(--danger);
@@ -455,6 +494,9 @@
   --border-strong: var(--color-border-strong);
   --input: var(--color-border-subtle);
   --ring: var(--color-focus-ring);
+  /* 官方 Tooltip 反转表面 (invert-theme): light bg #0a0a0a fg #ededed */
+  --invert-background: #0a0a0a;
+  --invert-foreground: #ededed;
 
   color-scheme: light;
 }
@@ -463,7 +505,7 @@
 .dark,
 [data-theme="dark"] {
   /* bg — 官方实测：background-100 主背景（light #fff / dark #0a0a0a） */
-  --color-bg-canvas: #0a0a0a; /* background-100 — 页面主背景 */
+  --color-bg-canvas: #000000; /* Geist dark page canvas */
   --color-bg-surface: #0a0a0a; /* background-100 — 卡片表面（官方材质实测同值） */
   --color-bg-elevated: #1a1a1a; /* gray-100 — 浮层 */
   --color-bg-hover: #1f1f1f; /* gray-200 */
@@ -518,13 +560,16 @@
   /* misc */
   --overlay: #000000b3;
   --color-focus-ring: #ededed; /* gray-1000 */
+  --focus-ring-color: #52a8ff; /* official --ds-focus-ring dark */
 
-  /* 焦点环（Dark：2px 深色背景描边 + 4px 主色 ring） */
-  --focus-ring-outline: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--link);
+  /* 焦点环（Dark：2px 深色背景描边 + 4px 主题焦点蓝） */
+  --focus-ring-outline: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--focus-ring-color);
 
   /* 表单控件 focus（官方实测 dark：白 alpha 边框加深 + 柔光） */
   --input-focus-border: rgba(255, 255, 255, 0.51);
   --input-focus-glow: rgba(255, 255, 255, 0.24);
+  --input-disabled-placeholder: #444444;
+  --input-value-foreground: var(--color-white);
 
   /* Geist 全色阶（Dark，colors.md 实测） */
   --amber-100: #291a00;
@@ -610,6 +655,21 @@
   --teal-800: #0f8c7d;
   --teal-900: #12b5a1;
 
+  /* 官方 --ds-* 兼容层：主题相关精确值 */
+  --ds-gray-100: var(--gray-100);
+  --ds-gray-400: hsl(0 0% 18%);
+  --ds-gray-500: var(--gray-500);
+  --ds-gray-700: var(--gray-700);
+  --ds-gray-900: var(--gray-900);
+  --ds-gray-1000: var(--gray-1000);
+  --ds-gray-alpha-400: var(--gray-alpha-400);
+  --ds-gray-alpha-600: var(--gray-alpha-600);
+  --ds-background-100: var(--background-100);
+  --ds-blue-600: #0091ff;
+  --ds-blue-900: #52a8ff;
+  --ds-blue-100: #0f1c2e;
+  --ds-blue-200: hsl(214 59% 15%);
+
   /* Geist material-* 阴影（官方实测 dark） */
   --material-shadow-base: rgba(255, 255, 255, 0.145) 0px 0px 0px 1px, rgb(0, 0, 0) 0px 0px 0px 1px;
   --material-shadow-small:
@@ -637,9 +697,17 @@
     rgba(0, 0, 0, 0.04) 0px 8px 16px -4px, rgba(0, 0, 0, 0.06) 0px 24px 32px -8px,
     rgb(0, 0, 0) 0px 0px 0px 1px;
 
+  /* Sheet 官方实测（2026-08-15）：overlay 遮罩 + 浮层阴影（z 层级沿用 :root） */
+  --ds-overlay-backdrop-color: #000000;
+  --ds-shadow-modal-elevated:
+    0 0 0 1px #ffffff24, 0px 32px 72px -12px #0000000f, 0px 8px 32px -12px #00000014,
+    0px 8px 24px -12px #0000001f;
+
   /* shadcn/ui alias roles -> semantic tokens (Dark) */
   --toggle-thumb: #ededed;
   --toggle-checked: #0070f3;
+  --toggle-checked-red: #e5484d;
+  --toggle-label: #888888;
   --toggle-disabled-track-unchecked: #333333;
   --toggle-disabled-track-checked: #333333;
   --toggle-disabled-thumb-unchecked: #454545;
@@ -656,6 +724,7 @@
   --secondary-foreground: var(--color-text-primary);
   --muted: var(--color-bg-subtle);
   --muted-foreground: var(--color-text-secondary);
+  --disabled-foreground: #454545; /* gray-500 */
   --accent: var(--color-bg-hover);
   --accent-foreground: var(--color-text-primary);
   --destructive: var(--danger);
@@ -670,6 +739,9 @@
   --border-strong: var(--color-border-strong);
   --input: var(--color-border-subtle);
   --ring: var(--color-focus-ring);
+  /* 官方 Tooltip 反转表面 (invert-theme): dark bg white fg #0a0a0a */
+  --invert-background: #ffffff;
+  --invert-foreground: #0a0a0a;
 
   color-scheme: dark;
 }
@@ -791,6 +863,7 @@
   font-size: 1rem;
   line-height: 1.5rem; /* 24px */
   font-weight: 600;
+  letter-spacing: -0.02em; /* 16px × -0.02 = -0.32px，官方 heading 负 letterSpacing */
 }
 @utility text-heading-14 {
   font-size: 0.875rem;
@@ -845,6 +918,22 @@
 @utility text-label-12 {
   font-size: 0.75rem;
   line-height: 1rem; /* 16px */
+  font-weight: 400;
+}
+
+/* Toggle with-label：官方 live demo 为 12px/18px/500，双主题标签色由组件 token 映射。 */
+@utility text-toggle-label {
+  color: var(--toggle-label);
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  font-weight: 500;
+}
+
+/* Checkbox label：官方 checkbox 页 label 用 text-[13px]（继承 body 1.5 → 19.5px），
+   而非 label-13 的紧凑 16px；此处显式对齐官方 checkbox 组件的实际行高。 */
+@utility text-checkbox-label {
+  font-size: 0.8125rem;
+  line-height: 1.5em; /* 19.5px */
   font-weight: 400;
 }
 @utility text-label-14-mono {
@@ -903,6 +992,18 @@
   font-family: var(--font-mono);
 }
 
+/* Description 官方紧凑 definition-list 排版（14/14 title，14/16 content）。 */
+@utility text-description-title {
+  font-size: 0.875rem;
+  line-height: 0.875rem;
+  font-weight: 400;
+}
+@utility text-description-content {
+  font-size: 0.875rem;
+  line-height: 1rem;
+  font-weight: 500;
+}
+
 /*
  * Geist material-* 材质（官方 materials.md 实测，2026-08-08）
  * 8 级材质：base/small/medium/large 表面 + tooltip/menu/modal/fullscreen 浮层。
@@ -934,10 +1035,31 @@
   background-color: var(--color-bg-elevated);
   box-shadow: var(--material-shadow-tooltip);
 }
+@utility switch-ring {
+  box-shadow: 0 0 0 1px var(--ds-gray-alpha-400);
+}
+
 @utility material-menu {
   border-radius: 12px;
   background-color: var(--color-bg-elevated);
   box-shadow: var(--material-shadow-menu);
+}
+
+/* Multi Select 实时页面：trigger 使用 14/21 regular，menu 保持主表面而非通用 elevated 表面。 */
+@utility multi-select-trigger {
+  font-size: 0.875rem;
+  line-height: 1.3125rem;
+  font-weight: 400;
+  letter-spacing: normal;
+  transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:focus-visible {
+    box-shadow: var(--focus-ring-outline);
+  }
+}
+
+@utility multi-select-content {
+  background-color: var(--background-100);
 }
 @utility material-modal {
   border-radius: 12px;
@@ -952,7 +1074,8 @@
 
 /*
  * Geist 统一焦点环（官方 --ds-focus-ring 实测）
- * 双环结构：2px 表面色描边（与背景分离）+ 4px 主色 ring（#006efe）。
+ * 双环结构：2px 表面色描边（与背景分离）+ 4px 主题焦点蓝
+ * （light #0072f5 / dark #52a8ff）。
  * 所有可交互基础组件必须消费 focus-ring，页面禁止自定义 outline/ring。
  */
 @utility focus-ring {
@@ -961,6 +1084,165 @@
     outline: none;
     box-shadow: var(--focus-ring-outline);
   }
+}
+
+/* Choicebox 官方焦点态：tile 在内部原生 input 获得键盘焦点时显示 indigo outline。 */
+@utility choicebox-focus {
+  &:has(:focus-visible) {
+    outline: 2px solid #5b5bd6;
+    outline-offset: 2px;
+  }
+}
+
+/* Command Menu 官方 300ms overlay scale/fade；阴影复用同值的 material modal token。 */
+@keyframes command-menu-scale-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes command-menu-scale-out {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.96);
+  }
+}
+
+@keyframes command-menu-mobile-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes command-menu-mobile-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes command-menu-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.8;
+  }
+}
+
+@keyframes command-menu-overlay-out {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@utility command-menu-overlay {
+  animation-fill-mode: both;
+
+  &[data-state="open"] {
+    animation: command-menu-overlay-in 0.3s ease-out;
+  }
+
+  &[data-state="closed"] {
+    animation: command-menu-overlay-out 0.3s ease-in;
+  }
+}
+
+:root {
+  --code-highlight: #e0f0ff;
+  --code-added: #daf6da;
+  --code-removed: #ffe6e6;
+  --code-referenced: #fef0cd;
+}
+
+.dark {
+  --code-highlight: #0f2f57;
+  --code-added: #12361b;
+  --code-removed: #561a1e;
+  --code-referenced: #4d2a00;
+}
+
+@utility command-menu-scale {
+  box-shadow: var(--material-shadow-modal);
+
+  &[data-state="open"] {
+    animation: command-menu-scale-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  }
+
+  &[data-state="closed"] {
+    animation: command-menu-scale-out 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  }
+}
+
+@media (max-width: 600px) {
+  .command-menu-mobile[data-state="open"] {
+    animation: command-menu-mobile-in 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .command-menu-mobile[data-state="closed"] {
+    animation: command-menu-mobile-out 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .command-menu-overlay,
+  .command-menu-scale,
+  .command-menu-mobile {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/*
+ * Context Card 箭头定位（官方实测：14×7，根部深入 content 覆盖卡片边框，
+ * 底边不描 stroke，避免与卡片边框叠加成割裂的内框）。
+ * 手动按 data-side 定位，尖端指向 trigger。
+ */
+[data-slot="context-card-tip"] {
+  position: absolute;
+  width: 14px;
+  height: 7px;
+  z-index: 999999999;
+}
+[data-slot="context-card-popover"][data-side="top"] [data-slot="context-card-tip"] {
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -3.5px);
+}
+[data-slot="context-card-popover"][data-side="bottom"] [data-slot="context-card-tip"] {
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, 3.5px) rotate(180deg);
+}
+[data-slot="context-card-popover"][data-side="left"] [data-slot="context-card-tip"] {
+  left: 100%;
+  top: 50%;
+  transform: translate(-3.5px, -50%) rotate(-90deg);
+}
+[data-slot="context-card-popover"][data-side="right"] [data-slot="context-card-tip"] {
+  right: 100%;
+  top: 50%;
+  transform: translate(3.5px, -50%) rotate(90deg);
 }
 
 /*

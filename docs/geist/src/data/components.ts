@@ -1,3 +1,5 @@
+import { localizeComponentMetadata } from "../i18n/components-zh";
+
 /**
  * 文档站 Components 数据（docs/geist 专用）。
  * 13 个已实现元件的元数据：路由 slug / 显示名 / 一句说明 / 官方对应组件名 / 用法代码片段。
@@ -9,17 +11,23 @@ export interface ComponentMeta {
   name: string;
   /** 侧栏 / 卡片显示名 */
   label: string;
+  /** 中文显示名（技术组件名可保持英文） */
+  labelZh?: string;
   /** 一句说明（总览卡片 + 详情页副标题） */
   description: string;
+  /** 中文一句说明 */
+  descriptionZh?: string;
   /** 官方 Geist（或 Penpot Core）对应组件名 */
   official: string;
   /** 用法 TSX 片段（详情页代码块，font-mono 展示） */
   code: string;
   /** Best Practices 要点（详情页底部列表） */
   bestPractices?: string[];
+  /** 中文 Best Practices */
+  bestPracticesZh?: string[];
 }
 
-export const COMPONENTS: ComponentMeta[] = [
+const COMPONENTS_EN: ComponentMeta[] = [
   {
     name: "avatar",
     label: "Avatar",
@@ -51,14 +59,25 @@ export const COMPONENTS: ComponentMeta[] = [
   {
     name: "book",
     label: "Book",
-    description: "A book-shaped container with flip-through pages.",
+    description: "A responsive book component.",
     official: "Book",
     code: `import { Book } from "@/components/ui/book";
 
-<Book title="The user experience of the Frontend Cloud" />`,
+<Book title="The user experience of the Frontend Cloud" />
+<Book title="The user experience of the Frontend Cloud" variant="simple" />
+<Book
+  color="#7DC1C1"
+  textColor="white"
+  textured
+  title="Design Engineering at Vercel"
+  variant="simple"
+  width={{ sm: 150, md: 196 }}
+/>`,
     bestPractices: [
       "Use Book for marketing pages, docs landing covers, and changelog hero shots where content needs the metaphor of a labeled volume.",
       "For in-product cards and dashboard tiles, use Card; Book is too decorative for repeated UI rows.",
+      "Use simple when the title carries the design; use stripe when an icon or color stripe adds category hierarchy.",
+      "Use responsive widths to preserve the cover proportion, and reserve the textured treatment for isolated hero shots.",
       "Treat the cover as decorative chrome and surface the title via the underlying heading element so screen readers don't double-announce.",
     ],
   },
@@ -124,10 +143,10 @@ export const COMPONENTS: ComponentMeta[] = [
     code: `import { Button } from "@/components/ui/button";
 
 <Button>Default</Button>
-<Button variant="outline" size="sm">Small</Button>
-<Button variant="secondary" size="lg">Large</Button>
-<Button variant="ghost" prefix={<Search />}>Search</Button>
-<Button variant="destructive" loading>Delete</Button>
+<Button type="tertiary" size="small">Small</Button>
+<Button type="secondary" size="large">Large</Button>
+<Button type="tertiary" prefix={<Search />}>Search</Button>
+<Button type="error" loading>Delete</Button>
 <Button disabled>Disabled</Button>`,
     bestPractices: [
       "Use Button for actions that mutate state (deploy, save, delete); use ButtonLink for navigation that changes the URL. Switch to a Menu or Split Button when more than one related action shares a row.",
@@ -160,18 +179,22 @@ export const COMPONENTS: ComponentMeta[] = [
     label: "Choicebox",
     description: "A larger form of Radio for choices with more detail.",
     official: "Choicebox",
-    code: `import { Choicebox, ChoiceboxItem, ChoiceboxLabel, ChoiceboxDescription } from "@/components/ui/choicebox";
+    code: `import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
 
-<Choicebox defaultValue="pro" aria-label="select a plan">
-  <ChoiceboxItem value="trial">
-    <ChoiceboxLabel>Pro Trial</ChoiceboxLabel>
-    <ChoiceboxDescription>Free for two weeks</ChoiceboxDescription>
-  </ChoiceboxItem>
-  <ChoiceboxItem value="pro">
-    <ChoiceboxLabel>Pro</ChoiceboxLabel>
-    <ChoiceboxDescription>Get started now</ChoiceboxDescription>
-  </ChoiceboxItem>
-</Choicebox>`,
+<ChoiceboxGroup
+  label="select a plan"
+  listClassName="flex-row"
+  onChange={setPlan}
+  type="radio"
+  value={plan}
+>
+  <ChoiceboxGroupItem
+    description="Free for two weeks"
+    title="Pro Trial"
+    value="trial"
+  />
+  <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
+</ChoiceboxGroup>`,
     bestPractices: [
       "Use Choicebox when a choice benefits from a larger tap target plus a description or icon.",
       "Single-select for mutually exclusive choices, multi-select for additive ones. Don't mix the two within one group.",
@@ -206,13 +229,15 @@ export const COMPONENTS: ComponentMeta[] = [
   {
     name: "code",
     label: "Code",
-    description: "Displays a snippet of inline code with Geist typography.",
+    description: "Display a snippet of code with syntax highlighting.",
     official: "Code",
-    code: `import { Code } from "@/components/ui/code";
+    code: `import { Code, InlineCode } from "@/components/ui/code";
 
 <p>
-  Install with <Code>npm i geist</Code> and import the component.
-</p>`,
+  Install with <InlineCode>npm i geist</InlineCode> and import the component.
+</p>
+
+<Code syntax="javascript">{"const greeting = 'Hello, Geist';"}</Code>`,
   },
   {
     name: "code-block",
@@ -223,7 +248,7 @@ export const COMPONENTS: ComponentMeta[] = [
 
 <CodeBlock filename="Table.jsx" language="jsx">{code}</CodeBlock>`,
     bestPractices: [
-      "Use CodeBlock for multi-line, syntax-highlighted source the reader will scan or paste. For a single inline token (env var, function name, file path), use Code.",
+      "Use CodeBlock for multi-line, syntax-highlighted source the reader will scan or paste. For a single inline token (env var, function name, file path), use InlineCode.",
       "Pick Snippet for a copy-to-clipboard shell command or one-line key reveal; it ships with the prompt glyph and copy affordance built in.",
       "Always pass a language/syntax (tsx, bash, json, diff). Highlighting is the primary reason to choose CodeBlock over a plain <pre>.",
       "Highlight only the lines under discussion. A block where every line is highlighted reads the same as no highlight at all.",
@@ -260,36 +285,36 @@ export const COMPONENTS: ComponentMeta[] = [
   {
     name: "command-menu",
     label: "Command Menu",
-    description: "Launches a set of actions as a full-screen overlay.",
+    description: "Filters and launches keyboard-first actions in a modal command palette.",
     official: "Command Menu",
     code: `import {
   CommandMenu,
-  CommandMenuContent,
+  CommandMenuDivider,
   CommandMenuGroup,
   CommandMenuInput,
   CommandMenuItem,
   CommandMenuList,
 } from "@/components/ui/command-menu";
 
-<CommandMenu open onOpenChange={() => {}}>
-  <CommandMenuContent>
-    <CommandMenuInput placeholder="What do you need?" />
-    <CommandMenuList>
-      <CommandMenuGroup heading="Suggestions">
-        <CommandMenuItem>Figma Import</CommandMenuItem>
-      </CommandMenuGroup>
-      <CommandMenuGroup heading="Commands">
-        <CommandMenuItem>Import Extension</CommandMenuItem>
-        <CommandMenuItem>Manage Extensions</CommandMenuItem>
-      </CommandMenuGroup>
-    </CommandMenuList>
-  </CommandMenuContent>
+<CommandMenu open={open} setOpen={setOpen}>
+  <CommandMenuInput placeholder="What do you need?" />
+  <CommandMenuList>
+    <CommandMenuGroup heading="Suggestions">
+      <CommandMenuItem callback={runImport}>Figma Import</CommandMenuItem>
+    </CommandMenuGroup>
+    <CommandMenuDivider />
+    <CommandMenuGroup heading="Commands">
+      <CommandMenuItem callback={installExtension} suffix={<span>⌘I</span>}>
+        Import Extension
+      </CommandMenuItem>
+    </CommandMenuGroup>
+  </CommandMenuList>
 </CommandMenu>`,
     bestPractices: [
       "Use CommandMenu for a global, keyboard-first command palette that finds resources and runs actions across the app. For a menu opened from a visible trigger on a single resource, use Menu; for right-click on a row, use ContextMenu.",
       "Group items into pages (Projects, Team Settings) when a single flat list would exceed roughly 30 items or span multiple resource types.",
       "Bind ⌘K on macOS and Ctrl+K elsewhere. Don't reuse the binding for any in-page filter input; it's a global shortcut.",
-      "Trap focus inside the overlay while it's open and return focus to the previously active element on close.",
+      "Trap focus inside the overlay while it is open, close on Escape, and release focus when the palette closes.",
       "Show a recent or default item set when the input is empty so the menu is useful before typing.",
       "Item children are Title Case verb phrases (Deploy Project, Invite Team Member). Commands act, not browse; avoid navigation phrasing like Go to project page.",
       "Group heading is Title Case, 1-2 words (Actions, Recent).",
@@ -324,7 +349,7 @@ export const COMPONENTS: ComponentMeta[] = [
     <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
   </ContextCardBody>
   <ContextCardFooter>
-    <Button size="sm">View Project</Button>
+    <Button size="small">View Project</Button>
   </ContextCardFooter>
 </ContextCard>`,
     bestPractices: [
@@ -352,11 +377,11 @@ export const COMPONENTS: ComponentMeta[] = [
 
 <ContextMenu>
   <ContextMenuTrigger asChild>
-    <Button variant="outline">Right click here</Button>
+    <Button type="tertiary">Right click here</Button>
   </ContextMenuTrigger>
   <ContextMenuContent>
-    <ContextMenuItem>Open in New Tab</ContextMenuItem>
-    <ContextMenuItem>Copy URL</ContextMenuItem>
+    <ContextMenuItem href="/projects">Open Project</ContextMenuItem>
+    <ContextMenuItem href="/settings">Open Settings</ContextMenuItem>
     <ContextMenuSeparator />
     <ContextMenuItem className="text-destructive focus:bg-destructive focus:text-destructive-foreground">
       Delete Deployment
@@ -414,7 +439,7 @@ export const COMPONENTS: ComponentMeta[] = [
     code: `import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
 import { Button } from "@/components/ui/button";
 
-<Button variant="destructive" onClick={() => setOpen(true)}>Delete Project</Button>
+<Button type="error" onClick={() => setOpen(true)}>Delete Project</Button>
 <DestructiveActionModal
   open={open}
   onCancel={() => setOpen(false)}
@@ -501,7 +526,7 @@ import { Button } from "@/components/ui/button";
   <div className="p-5">
       <DrawerTitle>Filter Logs</DrawerTitle>
       <DrawerDescription>Narrow the logs by environment.</DrawerDescription>
-    <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+    <Button type="secondary" onClick={() => setOpen(false)}>Cancel</Button>
     <Button onClick={applyFilters}>Apply</Button>
   </div>
 </Drawer>`,
@@ -580,21 +605,34 @@ import { Inbox } from "lucide-react";
     label: "Fieldset",
     description: "Groups related form controls into a single semantic unit.",
     official: "Fieldset",
-    code: `import { FieldSet, FieldSetLegend, FieldSetItem, FieldSetLabel } from "@/components/ui/fieldset";
-import { Input } from "@/components/ui/input";
+    code: `import {
+  Fieldset,
+  FieldsetContent,
+  FieldsetFooter,
+  FieldsetFooterAction,
+  FieldsetFooterActions,
+  FieldsetFooterStatus,
+  FieldsetSubtitle,
+  FieldsetTitle,
+} from "@/components/ui/fieldset";
 
-<FieldSet>
-  <FieldSetLegend>Account Settings</FieldSetLegend>
-  <FieldSetItem>
-    <FieldSetLabel htmlFor="name">Name</FieldSetLabel>
-    <Input id="name" placeholder="Your name" />
-  </FieldSetItem>
-</FieldSet>`,
+<Fieldset>
+  <FieldsetContent>
+    <FieldsetTitle>Account Settings</FieldsetTitle>
+    <FieldsetSubtitle>Manage your account preferences and settings</FieldsetSubtitle>
+  </FieldsetContent>
+  <FieldsetFooter>
+    <FieldsetFooterStatus>Need help?</FieldsetFooterStatus>
+    <FieldsetFooterActions>
+      <FieldsetFooterAction>Save Changes</FieldsetFooterAction>
+    </FieldsetFooterActions>
+  </FieldsetFooter>
+</Fieldset>`,
     bestPractices: [
-      "Wrap related form controls in a <fieldset> with a <legend> so screen readers announce the group name before each option.",
-      "The legend is a Title Case noun like Account Settings or Required Permissions. No trailing colon.",
-      "Keep each FieldSetItem to one control plus its label on a single row; stack multiple items vertically for longer forms.",
-      "FieldSet renders the native fieldset/legend semantics for accessible grouping, with Geist tokens for the legend and item layout.",
+      "Use Fieldset for one settings surface with a title, supporting copy, and optional footer status/actions.",
+      "Put body content in FieldsetContent and actions in FieldsetFooterActions; don't hand-build an extra card or footer shell.",
+      "Use disabled content or DisabledWall for unavailable sections while keeping the explanatory footer readable.",
+      "Use type=error or type=warning only when the whole surface carries that semantic state; use ErrorText or WarningText for inline messages.",
     ],
   },
   {
@@ -717,13 +755,14 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     label: "Keyboard Input",
     description: "Displays keyboard input that triggers an action.",
     official: "Keyboard Input",
-    code: `import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input";
+    code: `import { Kbd } from "@/components/ui/keyboard-input";
 
-<KeyboardInput>
-  <Kbd>⌘</Kbd>
-  <Kbd>K</Kbd>
-</KeyboardInput>
-<Kbd>Enter</Kbd>`,
+<Kbd meta />
+<Kbd shift />
+<Kbd alt />
+<Kbd ctrl />
+<Kbd meta shift />
+<Kbd small>/</Kbd>`,
     bestPractices: [
       "Use Kbd for shortcut hints inside prose, menu items, and button suffixes. In long-form docs that narrate a shortcut, write the ⌘ K shortcut directly so the page renders the same when copied to plain text.",
       "Pass modifiers via boolean props (meta, shift, alt, ctrl) so the component swaps ⌘ for Ctrl on Windows and Linux.",
@@ -781,7 +820,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     label: "Modal",
     description: "Displays a dialog that interrupts the user.",
     official: "Modal",
-    code: `import { Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalDescription, ModalFooter, ModalClose } from "@/components/ui/modal";\n\n<Modal>\n  <ModalTrigger asChild>\n    <Button>Open Modal</Button>\n  </ModalTrigger>\n  <ModalContent>\n    <ModalHeader>\n      <ModalTitle>Delete Project</ModalTitle>\n      <ModalDescription>This action cannot be undone.</ModalDescription>\n    </ModalHeader>\n    <ModalFooter>\n      <ModalClose asChild>\n        <Button variant="secondary">Cancel</Button>\n      </ModalClose>\n      <Button variant="destructive">Delete</Button>\n    </ModalFooter>\n  </ModalContent>\n</Modal>`,
+    code: `import { Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalDescription, ModalFooter, ModalClose } from "@/components/ui/modal";\n\n<Modal>\n  <ModalTrigger asChild>\n    <Button>Open Modal</Button>\n  </ModalTrigger>\n  <ModalContent>\n    <ModalHeader>\n      <ModalTitle>Delete Project</ModalTitle>\n      <ModalDescription>This action cannot be undone.</ModalDescription>\n    </ModalHeader>\n    <ModalFooter>\n      <ModalClose asChild>\n        <Button type="secondary">Cancel</Button>\n      </ModalClose>\n      <Button type="error">Delete</Button>\n    </ModalFooter>\n  </ModalContent>\n</Modal>`,
     bestPractices: [
       "Use Modal when a decision must block the rest of the page. For persistent associated context where the underlying page stays readable, use Sheet on desktop or Drawer on mobile.",
       "Confirm destructive actions in a Modal. Drawer and Sheet don't fully dim the page, so they read as too soft for a delete or revoke.",
@@ -1000,7 +1039,7 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     </SheetHeader>
     <SheetFooter>
       <SheetClose asChild>
-        <Button variant="secondary">Close</Button>
+        <Button type="secondary">Close</Button>
       </SheetClose>
     </SheetFooter>
   </SheetContent>
@@ -1141,8 +1180,8 @@ const [value, setValue] = useState([50]);
     code: `import { Spinner } from "@/components/ui/spinner";
 
 <Spinner />
-<Spinner size="sm" />
-<Spinner size="lg" />`,
+<Spinner size="small" />
+<Spinner size="large" />`,
     bestPractices: [
       "Use Spinner for a single in-flight action or indeterminate wait where there’s no known progress to show.",
       "For a known duration or percentage, use Progress instead of a spinner.",
@@ -1194,26 +1233,32 @@ const [value, setValue] = useState([50]);
   TableHead,
   TableHeader,
   TableRow,
+  TableRoot,
 } from "@/components/ui/table";
 
-<Table>
-  <TableHeader>
-    <TableRow>
-      <TableHead>Name</TableHead>
-      <TableHead>Status</TableHead>
-    </TableRow>
-  </TableHeader>
-  <TableBody>
-    <TableRow>
-      <TableCell>Vercel</TableCell>
-      <TableCell>Active</TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell>Next.js</TableCell>
-      <TableCell>Active</TableCell>
-    </TableRow>
-  </TableBody>
-</Table>`,
+<TableRoot>
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead>Col 1</TableHead>
+        <TableHead>Col 2</TableHead>
+        <TableHead>Col 3</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      <TableRow>
+        <TableCell>Value 1.1</TableCell>
+        <TableCell>Value 1.2</TableCell>
+        <TableCell>Value 1.3</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Value 2.1</TableCell>
+        <TableCell>Value 2.2</TableCell>
+        <TableCell>Value 2.3</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</TableRoot>`,
     bestPractices: [
       "Use <Table> for tabular data where rows share the same shape and at least one column is sortable or comparable across rows.",
       "For a row of descriptive content paired with a single action (membership row, integration row), use Entity instead.",
@@ -1325,7 +1370,7 @@ function Example() {
     official: "Toggle",
     code: `import { Toggle } from "@/components/ui/toggle";
 
-<Toggle checked={enabled} onCheckedChange={setEnabled} />`,
+<Toggle checked={enabled} onCheckedChange={setEnabled} aria-label="Enable Firewall" />`,
     bestPractices: [
       "Use Toggle for a single boolean setting where ON takes effect immediately, like Password Protection or Auto-Cancel Builds. Switch to Checkbox for a multi-select list, or to Switch for 2–3 mutually exclusive views.",
       "checked is required and the component is controlled. Own the state and update it from onChange.",
@@ -1393,14 +1438,16 @@ function Example() {
   {
     name: "clearable-input",
     label: "Clearable Input",
-    description: "An input with an accessible one-click clear action.",
+    description:
+      "A text input with an inline Esc keycap that clears on pointer activation or Escape.",
     official: "Clearable Input",
     code: `import { ClearableInput } from "@/components/ui/clearable-input";
 
-<ClearableInput defaultValue="geist-style-framework" />`,
+<ClearableInput label="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
+<ClearableInput aria-label="Search" cmdk value={query} onChange={(event) => setQuery(event.target.value)} />`,
     bestPractices: [
       "Use Clearable Input for search, filter, and short query fields where resetting the current value is frequent.",
-      "Keep the clear control keyboard reachable and label it with the result, such as Clear search.",
+      "Associate visible labels with the native input, and keep Escape clearing available from the input itself.",
     ],
   },
   {
@@ -1549,3 +1596,5 @@ import { MenuItem } from "@/components/ui/menu";
     ],
   },
 ].sort((a, b) => a.label.localeCompare(b.label));
+
+export const COMPONENTS: ComponentMeta[] = COMPONENTS_EN.map(localizeComponentMetadata);

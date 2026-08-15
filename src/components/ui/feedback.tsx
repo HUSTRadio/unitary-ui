@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
  * - Feedback：状态容器（评分 + 文本），组合三个子部件；submit 在未选评分时禁用
  * - FeedbackRating：4 个表情评分（Frown / Meh / Smile / Heart）
  * - FeedbackTextarea：textarea（w-full rounded-[8px] border gray-alpha-400 bg-background p-3 text-copy-14）
- * - FeedbackSubmit：Button size="sm"
+ * - FeedbackSubmit：Button size="small"
  */
 
 const RATINGS = [
@@ -119,7 +119,7 @@ const FeedbackTextarea = React.forwardRef<HTMLTextAreaElement, React.ComponentPr
 FeedbackTextarea.displayName = "FeedbackTextarea";
 
 function FeedbackSubmit({ className, ...props }: React.ComponentProps<typeof Button>) {
-  return <Button type="submit" size="sm" className={className} {...props} />;
+  return <Button typeName="submit" size="small" className={className} {...props} />;
 }
 
 export { Feedback, FeedbackRating, FeedbackTextarea, FeedbackSubmit, type FeedbackRatingValue };

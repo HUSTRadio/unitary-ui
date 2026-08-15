@@ -176,9 +176,9 @@ function DestructiveActionModal({
               className="sticky bottom-0 flex shrink-0 items-center justify-between gap-4 bg-background p-3"
             >
               <Button
-                type="button"
-                variant="secondary"
-                size="sm"
+                typeName="button"
+                type="secondary"
+                size="small"
                 disabled={loading}
                 onClick={onCancel}
               >

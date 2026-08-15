@@ -81,12 +81,12 @@ export function WorkflowExample() {
             <StepPoint status={steps[3]}>完成出借</StepPoint>
           </ul>
           <div className="mt-4 flex items-center gap-2">
-            <Button size="sm" onClick={() => setSteps(["done", "done", "done", "done"])}>
+            <Button size="small" onClick={() => setSteps(["done", "done", "done", "done"])}>
               模拟全部通过
             </Button>
             <Button
-              size="sm"
-              variant="ghost"
+              size="small"
+              type="tertiary"
               onClick={() => setSteps(["done", "active", "idle", "idle"])}
             >
               重置

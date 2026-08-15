@@ -1,0 +1,421 @@
+{
+  "schemaVersion": 2,
+  "status": "IN_PROGRESS_NO_COMPLETION_CLAIM",
+  "generatedFrom": "tests/audit/geist-audit-manifest.json",
+  "results": [
+    {
+      "cellKey": "description/default/default/light/375x812",
+      "slug": "description",
+      "variant": "default",
+      "state": "default",
+      "theme": "light",
+      "viewport": "375x812",
+      "evidenceStatus": "BLOCKED",
+      "semanticAcceptanceStatus": "BLOCKED",
+      "status": "BLOCKED",
+      "diagnosticPixelStatus": "DIFFERENT",
+      "strictFailures": [
+        {
+          "classification": "GEOMETRY_MISMATCH",
+          "scope": "role",
+          "role": "root",
+          "field": "width",
+          "official": 277,
+          "local": 276
+        },
+        {
+          "classification": "EVIDENCE_REVISION_INVALID",
+          "scope": "evidence",
+          "reason": "legacy localRevision is not a 40-character commit SHA"
+        }
+      ],
+      "approvedExclusions": [],
+      "roleClassifications": [
+        {
+          "role": "root",
+          "verdict": "BLOCKED"
+        },
+        {
+          "role": "title",
+          "verdict": "BLOCKED"
+        },
+        {
+          "role": "content",
+          "verdict": "BLOCKED"
+        },
+        {
+          "role": "tooltip-shell",
+          "verdict": "BLOCKED"
+        },
+        {
+          "role": "tooltip-trigger",
+          "verdict": "BLOCKED"
+        }
+      ],
+      "pixel": {
+        "changed_pixels": 2050,
+        "total_pixels": 11080,
+        "changed_ratio": 0.18501805054151624,
+        "dimension_mismatch": true,
+        "official": {
+          "width": 277,
+          "height": 40
+        },
+        "local": {
+          "width": 276,
+          "height": 40
+        }
+      },
+      "geometry": {
+        "max_geometry_delta_px": 4.65625,
+        "missing_paths": []
+      },
+      "officialEvidenceTimestamp": "2026-08-12T04:05:49.165Z",
+      "artifacts": {
+        "comparison": "external:geist-audit/task17/ledger-pilot/description-default-375-light-final/comparison/comparison.json",
+        "officialScreenshot": "external:geist-audit/task17/ledger-pilot/description-default-375-light-roles-v3/runs/official/official-current/screenshot.png",
+        "localScreenshot": "external:geist-audit/task17/ledger-pilot/description-default-375-light-roles-v4/runs/local/local-working-tree/screenshot.png"
+      },
+      "reason": "Legacy evidence predates the manifest v2 / evidence v2 contract. Its localRevision is not a 40-character commit SHA and it carries no auditRunId, contractDigest or localSourceDigest, so it cannot form an acceptance verdict. Re-collect under the v2 contract before claiming PASS or FAIL."
+    },
+    {
+      "cellKey": "description/default/default/dark/1440x900",
+      "slug": "description",
+      "variant": "default",
+      "state": "default",
+      "theme": "dark",
+      "viewport": "1440x900",
+      "evidenceStatus": "READY",
+      "semanticAcceptanceStatus": "FAIL",
+      "status": "FAIL",
+      "diagnosticPixelStatus": "DIFFERENT",
+      "strictFailures": [
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "content",
+          "field": "borderBottomColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "content",
+          "field": "borderLeftColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "content",
+          "field": "borderRightColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "content",
+          "field": "borderTopColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "content",
+          "field": "transformOrigin",
+          "official": "406px 8px",
+          "local": "106px 8px"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "content",
+          "field": "width",
+          "official": "812px",
+          "local": "212px"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "root",
+          "field": "borderBottomColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "root",
+          "field": "borderLeftColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "root",
+          "field": "borderRightColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "root",
+          "field": "borderTopColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "root",
+          "field": "minHeight",
+          "official": "0px",
+          "local": "auto"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "root",
+          "field": "minWidth",
+          "official": "0px",
+          "local": "auto"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "root",
+          "field": "transformOrigin",
+          "official": "406px 20px",
+          "local": "106px 20px"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "root",
+          "field": "width",
+          "official": "812px",
+          "local": "212px"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "title",
+          "field": "borderBottomColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "title",
+          "field": "borderLeftColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "title",
+          "field": "borderRightColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "title",
+          "field": "borderTopColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "title",
+          "field": "transformOrigin",
+          "official": "406px 8px",
+          "local": "106px 8px"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "title",
+          "field": "width",
+          "official": "812px",
+          "local": "212px"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "tooltip-shell",
+          "field": "borderBottomColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "tooltip-shell",
+          "field": "borderLeftColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "tooltip-shell",
+          "field": "borderRightColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "tooltip-shell",
+          "field": "borderTopColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "tooltip-trigger",
+          "field": "borderBottomColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "tooltip-trigger",
+          "field": "borderLeftColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "tooltip-trigger",
+          "field": "borderRightColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        },
+        {
+          "classification": "STYLE_MISMATCH",
+          "scope": "role",
+          "role": "tooltip-trigger",
+          "field": "borderTopColor",
+          "official": "rgb(31, 31, 31)",
+          "local": "rgb(46, 46, 46)"
+        }
+      ],
+      "approvedExclusions": [
+        {
+          "classification": "FONT_FAMILY_MAPPING",
+          "scope": "role",
+          "role": "content",
+          "fields": ["fontFamily"],
+          "official": "Geist, Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif",
+          "local": "\"HarmonyOS Sans SC\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans SC\", sans-serif"
+        },
+        {
+          "classification": "FONT_FAMILY_MAPPING",
+          "scope": "role",
+          "role": "root",
+          "fields": ["fontFamily"],
+          "official": "Geist, Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif",
+          "local": "\"HarmonyOS Sans SC\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans SC\", sans-serif"
+        },
+        {
+          "classification": "FONT_FAMILY_MAPPING",
+          "scope": "role",
+          "role": "title",
+          "fields": ["fontFamily"],
+          "official": "Geist, Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif",
+          "local": "\"HarmonyOS Sans SC\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans SC\", sans-serif"
+        },
+        {
+          "classification": "FONT_FAMILY_MAPPING",
+          "scope": "role",
+          "role": "tooltip-shell",
+          "fields": ["fontFamily"],
+          "official": "Geist, Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif",
+          "local": "\"HarmonyOS Sans SC\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans SC\", sans-serif"
+        },
+        {
+          "classification": "FONT_FAMILY_MAPPING",
+          "scope": "role",
+          "role": "tooltip-trigger",
+          "fields": ["fontFamily"],
+          "official": "Geist, Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif",
+          "local": "\"HarmonyOS Sans SC\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans SC\", sans-serif"
+        }
+      ],
+      "roleClassifications": [
+        {
+          "role": "content",
+          "verdict": "MISMATCH"
+        },
+        {
+          "role": "root",
+          "verdict": "MISMATCH"
+        },
+        {
+          "role": "title",
+          "verdict": "MISMATCH"
+        },
+        {
+          "role": "tooltip-shell",
+          "verdict": "MISMATCH"
+        },
+        {
+          "role": "tooltip-trigger",
+          "verdict": "MISMATCH"
+        }
+      ],
+      "pixel": {
+        "changed_pixels": 32478,
+        "total_pixels": 32480,
+        "changed_ratio": 0.9999384236453202,
+        "threshold": 0,
+        "dimension_mismatch": true,
+        "image_dimensions": {
+          "official": {
+            "width": 812,
+            "height": 40
+          },
+          "local": {
+            "width": 212,
+            "height": 40
+          },
+          "canvas": {
+            "width": 812,
+            "height": 40
+          }
+        }
+      },
+      "geometry": {
+        "max_geometry_delta_px": 600,
+        "missing_paths": ["0.0.0.0.2"]
+      },
+      "officialEvidenceTimestamp": "2026-08-12T16:28:44.267Z",
+      "auditRunId": "desc-pilot-20260812-01",
+      "contractDigest": "bed7fe4f588cbcc1bed35c3e7c5b73fb0a13a872dade82827c541e06aded21f3",
+      "localRevision": "eee482e747c2a510db315432d6579ba4615e62e4",
+      "localSourceDigest": "409c531fd23b9f7a8ff97d38a695e8dffd2e16786ab45918386cdca42c3db612",
+      "worktreeClean": true,
+      "artifacts": {
+        "officialScreenshot": "C:/Users/Leon/geist-audit/desc-pilot/runs/official/1786552123361-20380/screenshot.png",
+        "localScreenshot": "C:/Users/Leon/geist-audit/desc-pilot/runs/local/1786552185391-31840/screenshot.png",
+        "comparison": "C:/Users/Leon/geist-audit/desc-pilot/comparison/comparison.json"
+      },
+      "reason": "Description 试点首轮真实采集。端到端链路(manifest v2 -> collector v2 -> comparator v3)工作，fontFamily 映射正确豁免，但存在真实差异：root width 812 vs 212px(本地 demo grid-cols-2 两列 vs 官方单列全宽)、icon glyph 10.5 vs 11.67px(lucide vs geist)、min-width 0px vs auto(reset 差异)；另有 border 颜色差异(border-width=0 无视觉意义)。"
+    }
+  ]
+}

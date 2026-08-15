@@ -1,5 +1,11 @@
 const CDP_HTTP = process.env.CDP_HTTP ?? "http://127.0.0.1:9223";
 const DOCS_URL = process.env.DOCS_URL ?? "http://localhost:5201/";
+const requestedSlugs = new Set(
+  (process.env.RUNTIME_SLUGS ?? "")
+    .split(",")
+    .map((slug) => slug.trim())
+    .filter(Boolean),
+);
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -51,7 +57,7 @@ async function evaluate(send, expression) {
 
 const demoExpression = `(() => {
   const heading = [...document.querySelectorAll("main h2")]
-    .find((node) => node.textContent?.trim() === "Live Demo");
+    .find((node) => ["Live Demo", "实时示例"].includes(node.textContent?.trim()));
   return heading?.nextElementSibling ?? null;
 })()`;
 
@@ -186,6 +192,37 @@ async function main() {
   const textButton = (text) =>
     `[...(${demoExpression})?.querySelectorAll("button") ?? []].find((node) => node.textContent?.trim() === ${JSON.stringify(text)})`;
 
+  test("book", "trusted hover reveals the three-dimensional page stack", async () => {
+    const book = q('[data-slot="book"]');
+    const rotate = q('[data-slot="book-rotate"]');
+    const before = await evaluate(send, `getComputedStyle(${rotate}).transform`);
+
+    await hover(send, book);
+
+    await expectValue(
+      send,
+      "book hover did not apply its 3D transform",
+      `(() => {
+        const root = ${book};
+        const rotate = ${rotate};
+        return {
+          hovered: root?.matches(":hover") ?? false,
+          transform: rotate ? getComputedStyle(rotate).transform : "none",
+          transition: rotate ? getComputedStyle(rotate).transition : "none",
+          pages: Boolean(root?.querySelector('[data-slot="book-pages"]')),
+          back: Boolean(root?.querySelector('[data-slot="book-back"]')),
+        };
+      })()`,
+      (value) =>
+        value?.hovered &&
+        value.transform !== "none" &&
+        value.transform !== before &&
+        value.transition.includes("0.25s") &&
+        value.pages &&
+        value.back,
+    );
+  });
+
   test("calendar", "ArrowRight moves day focus", async () => {
     const selector = "td button";
     await focus(send, q(selector));
@@ -211,13 +248,40 @@ async function main() {
     );
   });
 
+  test("checkbox", "unchecked hover reaches the steady gray-200 fill", async () => {
+    const selector = '[role="checkbox"][aria-label="写入权限"]';
+    const state = await evaluate(send, `(${q(selector)})?.getAttribute("data-state")`);
+    if (state !== "unchecked") await click(send, q(selector));
+    await hover(send, q(selector));
+    await expectValue(
+      send,
+      "checkbox hover fill did not reach gray-200",
+      `(() => {
+        const box = ${q(selector)};
+        const probe = document.createElement("span");
+        probe.style.backgroundColor = "var(--gray-200)";
+        document.body.append(probe);
+        const expected = getComputedStyle(probe).backgroundColor;
+        probe.remove();
+        return {
+          state: box?.getAttribute("data-state"),
+          hovered: box?.matches(":hover") ?? false,
+          background: box ? getComputedStyle(box).backgroundColor : null,
+          expected,
+        };
+      })()`,
+      (value) =>
+        value?.state === "unchecked" && value.hovered && value.background === value.expected,
+    );
+  });
+
   test("choicebox", "radio choice changes selection", async () => {
-    await click(send, q('[role="radio"][value="trial"]'));
+    await click(send, q('input[type="radio"][value="trial"]'));
     await expectValue(
       send,
       "choicebox trial not selected",
-      `(${q('[role="radio"][value="trial"]')})?.getAttribute("aria-checked")`,
-      (v) => v === "true",
+      `(${q('input[type="radio"][value="trial"]')})?.checked`,
+      (v) => v === true,
     );
   });
 
@@ -264,8 +328,9 @@ async function main() {
     );
   });
 
-  test("command-menu", "dialog Escape closes and restores focus", async () => {
-    await click(send, textButton("Open Command Menu"));
+  test("command-menu", "dialog Escape closes and returns focus to body", async () => {
+    const trigger = q("button");
+    await click(send, trigger);
     await expectValue(
       send,
       "command dialog missing",
@@ -279,18 +344,23 @@ async function main() {
     );
     await expectValue(
       send,
-      "command focus not restored",
-      `document.activeElement?.textContent?.trim()`,
-      (v) => v === "Open Command Menu",
+      "command focus did not return to body",
+      `document.activeElement === document.body`,
     );
   });
 
   test("context-menu", "right click opens menu and Escape closes", async () => {
-    await click(send, textButton("Right click here"), "right");
+    await click(send, q("button"), "right");
     await expectValue(
       send,
       "context menu missing",
       `Boolean(document.querySelector('[role="menu"]'))`,
+    );
+    await expectValue(
+      send,
+      "context menu item cursor is not pointer",
+      `getComputedStyle(document.querySelector('[role="menuitem"]')).cursor`,
+      (value) => value === "pointer",
     );
     await key(send, "Escape");
     await expectValue(
@@ -349,8 +419,57 @@ async function main() {
     );
   });
 
+  test("dots-menu", "disabled trigger uses the gray-100 tile", async () => {
+    await expectValue(
+      send,
+      "disabled dots trigger surface mismatch",
+      `(() => {
+        const button = (${demoExpression})?.querySelector("button[disabled]");
+        const probe = document.createElement("span");
+        probe.style.backgroundColor = "var(--gray-100)";
+        document.body.append(probe);
+        const expected = getComputedStyle(probe).backgroundColor;
+        probe.remove();
+        const style = button ? getComputedStyle(button) : null;
+        return { background: style?.backgroundColor, opacity: style?.opacity, expected };
+      })()`,
+      (value) => value?.background === value.expected && value.opacity === "0.5",
+    );
+  });
+
+  test("description", "definition list is unframed with compact typography", async () => {
+    await expectValue(
+      send,
+      "description structure or typography mismatch",
+      `(() => {
+        const root = ${q('[data-slot="description"]')};
+        const title = root?.querySelector("dt");
+        const content = root?.querySelector("dd");
+        const rs = root ? getComputedStyle(root) : null;
+        const ts = title ? getComputedStyle(title) : null;
+        const cs = content ? getComputedStyle(content) : null;
+        return {
+          borderWidth: rs?.borderTopWidth,
+          radius: rs?.borderRadius,
+          padding: rs?.padding,
+          background: rs?.backgroundColor,
+          title: ts ? [ts.fontSize, ts.lineHeight, ts.fontWeight] : null,
+          content: cs ? [cs.fontSize, cs.lineHeight, cs.fontWeight] : null,
+        };
+      })()`,
+      (value) =>
+        value?.borderWidth === "0px" &&
+        value.radius === "0px" &&
+        value.padding === "0px" &&
+        value.background === "rgba(0, 0, 0, 0)" &&
+        JSON.stringify(value.title) === JSON.stringify(["14px", "14px", "400"]) &&
+        JSON.stringify(value.content) === JSON.stringify(["14px", "16px", "500"]),
+    );
+  });
+
   test("drawer", "dialog Escape closes and restores focus", async () => {
-    await click(send, textButton("Open Drawer"));
+    const trigger = q("button");
+    await click(send, trigger);
     await expectValue(
       send,
       "drawer dialog missing",
@@ -358,12 +477,7 @@ async function main() {
     );
     await key(send, "Escape");
     await expectValue(send, "drawer did not close", `!document.querySelector('[role="dialog"]')`);
-    await expectValue(
-      send,
-      "drawer focus not restored",
-      `document.activeElement?.textContent?.trim()`,
-      (v) => v === "Open Drawer",
-    );
+    await expectValue(send, "drawer focus not restored", `document.activeElement === (${trigger})`);
   });
 
   test("json-view", "tree item expands and collapses", async () => {
@@ -624,8 +738,13 @@ async function main() {
 
   const failures = [];
   const passes = [];
+  const selectedTests = tests.filter(
+    (entry) => requestedSlugs.size === 0 || requestedSlugs.has(entry.slug),
+  );
+  if (selectedTests.length === 0)
+    throw new Error("RUNTIME_SLUGS did not match an interaction check");
   try {
-    for (const entry of tests) {
+    for (const entry of selectedTests) {
       try {
         await goto(send, entry.slug);
         await entry.run();
@@ -639,7 +758,9 @@ async function main() {
     await fetch(`${CDP_HTTP}/json/close/${targetId}`, { method: "PUT" }).catch(() => undefined);
   }
 
-  console.log(JSON.stringify({ checks: tests.length, passes: passes.length, failures }, null, 2));
+  console.log(
+    JSON.stringify({ checks: selectedTests.length, passes: passes.length, failures }, null, 2),
+  );
   if (failures.length) process.exitCode = 1;
 }
 
