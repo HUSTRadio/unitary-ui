@@ -103,7 +103,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             aria-atomic="true"
             className={cn(
               "flex items-start text-[#cb2a2f] dark:text-[#ff6166]",
-              size === "large" ? "text-base leading-6" : "text-[13px] leading-5",
+              size === "large" ? "text-base leading-6" : "text-copy-13 leading-5",
             )}
           >
             <div

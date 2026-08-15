@@ -32,7 +32,7 @@ function Checkbox({
         "focus-ring",
         "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:border-gray-500",
         "data-[state=checked]:border-foreground data-[state=checked]:bg-foreground data-[state=checked]:text-background disabled:data-[state=checked]:border-gray-600 disabled:data-[state=checked]:bg-gray-600",
-        "data-[state=indeterminate]:text-foreground disabled:data-[state=indeterminate]:text-gray-500",
+        "data-[state=indeterminate]:border-foreground data-[state=indeterminate]:bg-foreground data-[state=indeterminate]:text-background disabled:data-[state=indeterminate]:border-gray-600 disabled:data-[state=indeterminate]:bg-gray-600",
         "data-[size=sm]:size-4 data-[size=default]:size-[18px] data-[size=lg]:size-5",
         className,
       )}

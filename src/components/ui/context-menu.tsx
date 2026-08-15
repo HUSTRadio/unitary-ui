@@ -15,7 +15,7 @@ const ContextMenuContent = React.forwardRef<
       ref={ref}
       onContextMenu={(event) => event.preventDefault()}
       className={cn(
-        "material-menu text-sm outline-hidden overflow-x-hidden overflow-y-auto p-1.5 overscroll-contain w-[160px] max-sm:w-full max-sm:rounded-b-none",
+        "rounded-[12px] bg-[var(--color-bg-elevated)] shadow-[var(--material-shadow-menu)] text-sm outline-hidden overflow-x-hidden overflow-y-auto p-1.5 overscroll-contain w-max max-sm:w-full max-sm:rounded-b-none",
         className,
       )}
       {...props}
@@ -36,7 +36,7 @@ interface ContextMenuItemProps extends Omit<
 }
 
 const itemClassName =
-  "relative flex h-9 cursor-pointer select-none items-center rounded-[6px] px-2 text-label-14 outline-none focus:bg-gray-alpha-200 data-[disabled]:pointer-events-none data-[disabled]:cursor-default data-[disabled]:text-gray-700 [&_svg]:size-4 [&_svg]:shrink-0";
+  "relative flex h-9 cursor-pointer select-none items-center rounded-[6px] px-2 text-label-14 outline-none focus:bg-gray-alpha-200 data-[disabled]:pointer-events-none data-[disabled]:cursor-default data-[disabled]:text-gray-500 [&_svg]:size-4 [&_svg]:shrink-0";
 
 const ContextMenuItem = React.forwardRef<HTMLElement, ContextMenuItemProps>(
   (

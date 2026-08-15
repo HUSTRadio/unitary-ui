@@ -29,7 +29,7 @@ function EmptyState({ title, description, icon, className, children, ...props }:
     <div
       data-slot="empty-state"
       className={cn(
-        "flex w-full flex-col items-center gap-6 rounded-[8px] border border-gray-200 bg-background px-[70px] py-12 [&>a]:text-sm",
+        "flex w-full flex-col items-center gap-6 rounded-lg border border-gray-200 bg-background px-[70px] py-12 [&>a]:text-sm",
         className,
       )}
       {...props}

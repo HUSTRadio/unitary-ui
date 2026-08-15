@@ -49,7 +49,7 @@ const INPUT_BASE = cn(
 );
 
 const WRAPPER_BASE = cn(
-  "flex max-w-full items-center overflow-hidden",
+  "flex max-w-full items-center overflow-hidden bg-background-100",
   "shadow-[0_0_0_1px_var(--color-gray-alpha-400)] transition-[box-shadow] duration-150",
   "hover:shadow-[0_0_0_1px_var(--color-gray-alpha-500)]",
   "focus-within:!shadow-[0_0_0_1px_var(--input-focus-border),0_0_0_4px_var(--input-focus-glow)] focus-within:outline-none",

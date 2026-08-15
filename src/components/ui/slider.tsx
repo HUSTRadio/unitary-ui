@@ -126,7 +126,7 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
 
     return (
       <div data-slot="slider-field" className={cn("flex w-full flex-col", className)}>
-        {label && <Label value={label} id={rootId} />}
+        {label && <Label value={label} id={rootId} className="mb-0" />}
         <div className="flex w-full items-center gap-3">
           {showStartInput && (
             <ValueInput

@@ -95,8 +95,9 @@ function DrawerPanel({
       data-slot="drawer"
       data-swipe-direction="down"
       className={cn(
-        "fixed inset-x-0 bottom-0 w-full max-w-full min-h-[45px] touch-pan-y rounded-t-[8px] bg-background outline-none",
-        "max-h-[80dvh] overscroll-none",
+        "fixed inset-x-0 bottom-0 w-full max-w-full min-h-[45px] touch-pan-y rounded-t-[10px] border-t bg-background outline-none",
+        "max-h-[90dvh] overscroll-none",
+        "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
         verticalScroll && "overflow-y-auto",
         dragging && "select-none",
         className,
