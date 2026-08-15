@@ -439,6 +439,13 @@
   --ds-blue-900: #0068d6;
   --ds-blue-100: #f0f7ff;
   --ds-blue-200: hsl(210 100% 96%);
+  /* 语法高亮 token 色（官方 code-block/code 运行时 --ds-* 实测） */
+  --ds-pink-900: hsla(336, 65%, 45%, 1);
+  --ds-green-900: hsla(133, 50%, 32%, 1);
+  --ds-red-900: hsla(358, 66%, 48%, 1);
+  --ds-purple-900: hsla(274, 71%, 43%, 1);
+  --ds-amber-900: hsla(30, 100%, 32%, 1);
+  --ds-accents-5: #666;
 
   /* Geist material-* 阴影（官方实测 light） */
   --material-shadow-base: rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgb(250, 250, 250) 0px 0px 0px 1px;
@@ -697,6 +704,13 @@
   --ds-blue-900: #52a8ff;
   --ds-blue-100: #0f1c2e;
   --ds-blue-200: hsl(214 59% 15%);
+  /* 语法高亮 token 色（官方 code-block/code 运行时 --ds-* 实测） */
+  --ds-pink-900: hsla(341, 90%, 67%, 1);
+  --ds-green-900: hsla(131, 43%, 57%, 1);
+  --ds-red-900: hsla(358, 100%, 69%, 1);
+  --ds-purple-900: hsla(275, 80%, 71%, 1);
+  --ds-amber-900: hsla(39, 90%, 50%, 1);
+  --ds-accents-5: #888;
 
   /* Geist material-* 阴影（官方实测 dark） */
   --material-shadow-base: rgba(255, 255, 255, 0.145) 0px 0px 0px 1px, rgb(0, 0, 0) 0px 0px 0px 1px;
@@ -1120,6 +1134,87 @@
     outline: 2px solid #5b5bd6;
     outline-offset: 2px;
   }
+}
+
+/* CodeBlock 语法主题（官方 code-block-module 实测 token → --ds-* 映射） */
+[data-slot="code-block"] .token.comment,
+[data-slot="code-block"] .token.prolog,
+[data-slot="code-block"] .token.doctype,
+[data-slot="code-block"] .token.cdata {
+  color: var(--ds-gray-900);
+}
+[data-slot="code-block"] .token.string,
+[data-slot="code-block"] .token.attr-value,
+[data-slot="code-block"] .token.url,
+[data-slot="code-block"] .token.symbol,
+[data-slot="code-block"] .token.boolean,
+[data-slot="code-block"] .token.variable,
+[data-slot="code-block"] .token.constant,
+[data-slot="code-block"] .token.tag,
+[data-slot="code-block"] .token.class-name,
+[data-slot="code-block"] .token.number {
+  color: var(--ds-green-900);
+}
+[data-slot="code-block"] .token.keyword,
+[data-slot="code-block"] .token.selector {
+  color: var(--ds-pink-900);
+}
+[data-slot="code-block"] .token.property,
+[data-slot="code-block"] .token.entity {
+  color: var(--ds-red-900);
+}
+[data-slot="code-block"] .token.function,
+[data-slot="code-block"] .token.attr-name,
+[data-slot="code-block"] .token.regex {
+  color: var(--ds-purple-900);
+}
+[data-slot="code-block"] .token.punctuation,
+[data-slot="code-block"] .token.operator {
+  color: var(--ds-gray-1000);
+}
+[data-slot="code-block"] .token.tag.attr-value {
+  color: var(--ds-blue-900);
+}
+
+/* Code 语法主题（官方 syntax-theme-module 实测：function/tag/number 为蓝、attr-name 为 amber） */
+[data-slot="code"] .token.comment,
+[data-slot="code"] .token.prolog,
+[data-slot="code"] .token.doctype,
+[data-slot="code"] .token.cdata {
+  color: var(--ds-accents-5);
+}
+[data-slot="code"] .token.string,
+[data-slot="code"] .token.attr-value,
+[data-slot="code"] .token.url,
+[data-slot="code"] .token.symbol,
+[data-slot="code"] .token.boolean,
+[data-slot="code"] .token.variable,
+[data-slot="code"] .token.constant {
+  color: var(--ds-green-900);
+}
+[data-slot="code"] .token.keyword {
+  color: var(--ds-pink-900);
+}
+[data-slot="code"] .token.function,
+[data-slot="code"] .token.tag,
+[data-slot="code"] .token.class-name,
+[data-slot="code"] .token.number {
+  color: var(--ds-blue-900);
+}
+[data-slot="code"] .token.tag .token.punctuation {
+  color: var(--ds-blue-900);
+}
+[data-slot="code"] .token.property,
+[data-slot="code"] .token.entity {
+  color: var(--ds-red-900);
+}
+[data-slot="code"] .token.attr-name,
+[data-slot="code"] .token.regex {
+  color: var(--ds-amber-900);
+}
+[data-slot="code"] .token.punctuation,
+[data-slot="code"] .token.operator {
+  color: var(--ds-gray-1000);
 }
 
 /* Command Menu 官方 300ms overlay scale/fade；阴影复用同值的 material modal token。 */

@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { highlightLines } from "@/lib/highlight";
 import { cn } from "@/lib/utils";
 
 /**
@@ -20,24 +21,39 @@ interface CodeProps extends React.ComponentPropsWithoutRef<"pre"> {
 }
 
 const Code = React.forwardRef<HTMLPreElement, CodeProps>(
-  ({ className, syntax, children, ...props }, ref) => (
-    <pre
-      ref={ref}
-      data-slot="code"
-      className={cn(
-        "mx-0 my-8 touch-pan-y whitespace-pre rounded-[5px] border border-border bg-transparent p-6 text-foreground",
-        className,
-      )}
-      {...props}
-    >
-      <code
-        data-slot="code-content"
-        className={cn("font-mono text-copy-13 leading-5", syntax && `language-${syntax}`)}
+  ({ className, syntax, children, ...props }, ref) => {
+    const code = typeof children === "string" ? children : "";
+    const lines = syntax ? highlightLines(code.replace(/\n$/, ""), syntax) : null;
+    return (
+      <pre
+        ref={ref}
+        data-slot="code"
+        className={cn(
+          "mx-0 my-8 touch-pan-y whitespace-pre rounded-[5px] border border-border bg-transparent p-6 text-foreground",
+          className,
+        )}
+        {...props}
       >
-        {children}
-      </code>
-    </pre>
-  ),
+        <code
+          data-slot="code-content"
+          className={cn("font-mono text-copy-13 leading-5", syntax && `language-${syntax}`)}
+        >
+          {lines
+            ? lines.map((tokens, lineIndex) => (
+                <React.Fragment key={lineIndex}>
+                  {lineIndex > 0 ? "\n" : null}
+                  {tokens.map((token, tokenIndex) => (
+                    <span key={tokenIndex} className={`token ${token.type}`}>
+                      {token.content}
+                    </span>
+                  ))}
+                </React.Fragment>
+              ))
+            : children}
+        </code>
+      </pre>
+    );
+  },
 );
 Code.displayName = "Code";
 

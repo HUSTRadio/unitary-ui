@@ -2,6 +2,7 @@ import * as React from "react";
 import { ChevronDown } from "lucide-react";
 
 import { CopyButton } from "@/components/ui/copy-button";
+import { highlightLines } from "@/lib/highlight";
 import { cn } from "@/lib/utils";
 
 type CodeBlockSwitcher = {
@@ -22,8 +23,6 @@ interface CodeBlockProps extends Omit<React.ComponentPropsWithoutRef<"div">, "ch
   switcher?: CodeBlockSwitcher;
   tabs?: CodeBlockSwitcher;
   v0?: "ask" | "build";
-  /** 每行的 token 数量（对齐官方 prism 的 token-line 子节点结构）；缺省时整行渲染为单个 span。 */
-  tokenCounts?: number[];
 }
 
 /** 官方 geist 文件图标（svg > circle + g > ellipse×3），仅装饰用。 */
@@ -116,13 +115,12 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
       switcher,
       tabs,
       v0,
-      tokenCounts,
       ...props
     },
     ref,
   ) => {
     const blockId = React.useId().replaceAll(":", "");
-    const lines = code.replace(/\n$/, "").split("\n");
+    const highlightedLines = highlightLines(code.replace(/\n$/, ""), language);
     const hasHeader = Boolean(filename || switcher);
     const v0Href = `https://v0.app/chat?q=${encodeURIComponent(code)}`;
 
@@ -174,13 +172,9 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
               language && `language-${language}`,
             )}
           >
-            {lines.map((line, index) => {
+            {highlightedLines.map((tokens, index) => {
               const number = index + 1;
               const referenced = referencedLinesNumbers.includes(number);
-              const tokenCount = tokenCounts?.[index] ?? 1;
-              const parts = Array.from({ length: tokenCount }, (_, tokenIndex) =>
-                tokenIndex === 0 ? line : "",
-              );
               return (
                 <div
                   key={number}
@@ -209,9 +203,9 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
                       : removedLinesNumbers.includes(number)
                         ? "-"
                         : null}
-                    {parts.map((part, tokenIndex) => (
-                      <span key={tokenIndex} className="token">
-                        {part}
+                    {tokens.map((token, tokenIndex) => (
+                      <span key={tokenIndex} className={`token ${token.type}`}>
+                        {token.content}
                       </span>
                     ))}
                   </div>

@@ -3099,13 +3099,6 @@ const codeBlockReferenced = `function MyComponent(props) {
   );
 }`;
 
-/** 官方 prism token 结构：每行的 token-line 子节点数（tokenCounts 缺省为 1）。 */
-const codeBlockExampleTokens = [2, 3, 3, 3, 10, 5, 5, 15, 9, 5, 4, 2];
-const codeBlockBasicTokens = [9, 5, 5, 15, 9, 5, 4, 2];
-const codeBlockDiffTokens = [8, 6, 7, 4, 7, 2];
-const codeBlockTabTokens = [9, 5, 5, 15, 9, 5, 4, 2];
-const codeBlockReferencedTokens = [9, 5, 5, 14, 5, 4, 2];
-
 const codeExample = `export function Component(): JSX.Element {
   return <Snippet text="npm init next-app" width="300px" />;
 }`;
@@ -3140,7 +3133,6 @@ function CodeBlockDemo() {
               aria-label="Hello world"
               filename="Table.jsx"
               language="jsx"
-              tokenCounts={codeBlockExampleTokens}
             >
               {codeBlockExample}
             </CodeBlockComponent>
@@ -3156,7 +3148,6 @@ function CodeBlockDemo() {
             <CodeBlockComponent
               aria-label="Hello world"
               language="jsx"
-              tokenCounts={codeBlockBasicTokens}
             >
               {codeBlockBasic}
             </CodeBlockComponent>
@@ -3174,7 +3165,6 @@ function CodeBlockDemo() {
               filename="highlighted.jsx"
               language="jsx"
               highlightedLinesNumbers={[1, 4]}
-              tokenCounts={codeBlockBasicTokens}
             >
               {codeBlockBasic}
             </CodeBlockComponent>
@@ -3193,7 +3183,6 @@ function CodeBlockDemo() {
               language="jsx"
               addedLinesNumbers={[5]}
               removedLinesNumbers={[2, 3, 4]}
-              tokenCounts={codeBlockDiffTokens}
             >
               {codeBlockDiff}
             </CodeBlockComponent>
@@ -3210,7 +3199,6 @@ function CodeBlockDemo() {
               aria-label="Hello world"
               language="jsx"
               referencedLinesNumbers={[4]}
-              tokenCounts={codeBlockReferencedTokens}
             >
               {codeBlockReferenced}
             </CodeBlockComponent>
@@ -3228,7 +3216,6 @@ function CodeBlockDemo() {
               filename="language-switcher.jsx"
               language="jsx"
               switcher={switcher}
-              tokenCounts={codeBlockTabTokens}
             >
               {codeBlockTab}
             </CodeBlockComponent>
@@ -3246,7 +3233,6 @@ function CodeBlockDemo() {
               filename="language-switcher.jsx"
               language="jsx"
               tabs={switcher}
-              tokenCounts={codeBlockTabTokens}
             >
               {codeBlockTab}
             </CodeBlockComponent>
@@ -3264,7 +3250,6 @@ function CodeBlockDemo() {
               filename="hidden-line-numbers.jsx"
               language="jsx"
               hideLineNumbers
-              tokenCounts={codeBlockTabTokens}
             >
               {codeBlockTab}
             </CodeBlockComponent>
@@ -3283,7 +3268,6 @@ function CodeBlockDemo() {
                 filename="Table.jsx"
                 language="jsx"
                 v0="ask"
-                tokenCounts={codeBlockBasicTokens}
               >
                 {codeBlockBasic}
               </CodeBlockComponent>
@@ -3291,7 +3275,6 @@ function CodeBlockDemo() {
                 filename="Table.jsx"
                 language="jsx"
                 v0="build"
-                tokenCounts={codeBlockBasicTokens}
               >
                 {codeBlockBasic}
               </CodeBlockComponent>
