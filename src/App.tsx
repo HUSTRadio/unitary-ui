@@ -176,6 +176,7 @@ export default function App() {
                 value={segment}
                 onValueChange={setSegment}
                 aria-label="筛选状态"
+                className="w-full max-w-sm"
               >
                 <SwitchControl value="all" label="全部" />
                 <SwitchControl value="available" label="可出借" />
