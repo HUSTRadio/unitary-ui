@@ -329,6 +329,8 @@
   --amber-900: #a35200;
   --background-100: #ffffff;
   --background-200: #fafafa;
+  /* Context Card 箭头描边：官方实测固定 #dbdbdb（light/dark 均如此）。 */
+  --context-card-tip-stroke: #dbdbdb;
   --blue-100: #ebf5ff;
   --blue-1000: #00264d;
   --blue-200: #e8f2ff;
@@ -1195,6 +1197,38 @@
     animation: none !important;
     transition: none !important;
   }
+}
+
+/*
+ * Context Card 箭头定位（官方实测：14×7，根部深入 content 覆盖卡片边框，
+ * 底边不描 stroke，避免与卡片边框叠加成割裂的内框）。
+ * 手动按 data-side 定位，尖端指向 trigger。
+ */
+[data-slot="context-card-tip"] {
+  position: absolute;
+  width: 14px;
+  height: 7px;
+  z-index: 999999999;
+}
+[data-slot="context-card-popover"][data-side="top"] [data-slot="context-card-tip"] {
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -3.5px);
+}
+[data-slot="context-card-popover"][data-side="bottom"] [data-slot="context-card-tip"] {
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, 3.5px) rotate(180deg);
+}
+[data-slot="context-card-popover"][data-side="left"] [data-slot="context-card-tip"] {
+  left: 100%;
+  top: 50%;
+  transform: translate(-3.5px, -50%) rotate(-90deg);
+}
+[data-slot="context-card-popover"][data-side="right"] [data-slot="context-card-tip"] {
+  right: 100%;
+  top: 50%;
+  transform: translate(3.5px, -50%) rotate(90deg);
 }
 
 /*

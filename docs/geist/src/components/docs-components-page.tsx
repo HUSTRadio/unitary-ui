@@ -3482,6 +3482,101 @@ function TextWithCopyButtonDemo() {
   );
 }
 
+const DEFAULT_DEMO_CODE = `const card = (
+  <ContextCard>
+    <ContextCardHeader>
+      <div className="size-8 shrink-0 rounded-full bg-gray-400" aria-hidden />
+      <div>
+        <ContextCardTitle>Acme Inc.</ContextCardTitle>
+        <ContextCardDescription>@acme · San Francisco</ContextCardDescription>
+      </div>
+    </ContextCardHeader>
+    <ContextCardBody>
+      <p className="text-copy-13 text-muted-foreground">Last Active: 2h ago</p>
+      <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
+    </ContextCardBody>
+    <ContextCardFooter>
+      <Button type="secondary" size="small">View Project</Button>
+    </ContextCardFooter>
+  </ContextCard>
+);
+
+{(["Top", "Bottom", "Left", "Right"] as const).map((label) => (
+  <ContextCardTrigger key={label} content={card} side={label.toLowerCase()}>
+    <span className="text-label-14 text-foreground">{label}</span>
+  </ContextCardTrigger>
+))}`;
+
+const ALIGNMENT_DEMO_CODE = `{(["Start", "Center", "End"] as const).map((label) => (
+  <ContextCardTrigger
+    key={label}
+    content={card}
+    align={label.toLowerCase()}
+    render={<Button>{label}</Button>}
+  >
+    {null}
+  </ContextCardTrigger>
+))}`;
+
+const RENDER_PROP_DEMO_CODE = `<ContextCardTrigger content={card} render={<Button>Default wrapper</Button>}>
+  {null}
+</ContextCardTrigger>
+
+<ContextCardTrigger
+  content={card}
+  render={<a href="#" className="text-blue-700 underline underline-offset-2">Rendered as a link</a>}
+>
+  {null}
+</ContextCardTrigger>`;
+
+function ContextCardDemoCard({
+  id,
+  code,
+  children,
+}: {
+  id: string;
+  code: string;
+  children: React.ReactNode;
+}) {
+  const { language } = useLanguage();
+  const [showCode, setShowCode] = React.useState(false);
+  const codeId = React.useId();
+
+  return (
+    <div
+      className="w-full max-w-[862px] overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="flex w-full overflow-x-auto md:overflow-visible">
+        <div className="w-full p-6" data-demo-container={id}>
+          {children}
+        </div>
+      </div>
+      <button
+        type="button"
+        aria-expanded={showCode}
+        aria-controls={codeId}
+        onClick={() => setShowCode((value) => !value)}
+        className="flex h-12 w-full items-center gap-3 border-t border-gray-400 bg-background-200 px-4 text-left text-label-14 text-gray-900 transition-colors hover:bg-gray-200 focus-ring"
+      >
+        <ChevronRight
+          className={`size-4 transition-transform${showCode ? " rotate-90" : ""}`}
+          aria-hidden
+        />
+        {demoText(language, "Show code")}
+      </button>
+      {showCode ? (
+        <pre
+          id={codeId}
+          className="overflow-x-auto border-t border-gray-400 bg-background-100 p-4 font-mono text-copy-13 leading-relaxed text-foreground"
+        >
+          <code>{code}</code>
+        </pre>
+      ) : null}
+    </div>
+  );
+}
+
 function ContextCardDemo() {
   const { language } = useLanguage();
   const card = (
@@ -3505,31 +3600,17 @@ function ContextCardDemo() {
     </ContextCard>
   );
 
-  const demo = (id: string, children: React.ReactNode) => (
-    <div
-      className="w-full max-w-[862px] overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background-100"
-      data-demo-card={id}
-    >
-      <div className="flex w-full overflow-x-auto md:overflow-visible">
-        <div className="w-full p-6" data-demo-container={id}>
-          {children}
-        </div>
-      </div>
-      <button
-        type="button"
-        aria-expanded={false}
-        className="flex h-12 w-full items-center gap-3 border-t border-gray-400 bg-background-200 px-4 text-left text-label-14 text-gray-900 focus-ring"
-      >
-        <ChevronRight className="size-4 -rotate-90" aria-hidden />
-        {demoText(language, "Show code")}
-      </button>
-    </div>
+  const demo = (id: string, code: string, children: React.ReactNode) => (
+    <ContextCardDemoCard id={id} code={code}>
+      {children}
+    </ContextCardDemoCard>
   );
 
   return (
     <div className="flex w-full flex-col gap-6">
       {demo(
         "default",
+        DEFAULT_DEMO_CODE,
         <div className="flex flex-wrap items-center justify-around gap-6">
           {(["Top", "Bottom", "Left", "Right"] as const).map((label) => (
             <ContextCardTrigger
@@ -3544,6 +3625,7 @@ function ContextCardDemo() {
       )}
       {demo(
         "alignment",
+        ALIGNMENT_DEMO_CODE,
         <div className="flex flex-wrap items-center gap-3">
           {(["Start", "Center", "End"] as const).map((label) => (
             <ContextCardTrigger
@@ -3551,7 +3633,7 @@ function ContextCardDemo() {
               content={card}
               align={label.toLowerCase() as "start" | "center" | "end"}
               render={
-                <Button type="secondary" typeName="button">
+                <Button type="default" typeName="button">
                   {demoText(language, label)}
                 </Button>
               }
@@ -3563,11 +3645,12 @@ function ContextCardDemo() {
       )}
       {demo(
         "render-prop",
+        RENDER_PROP_DEMO_CODE,
         <div className="flex flex-wrap items-center gap-3">
           <ContextCardTrigger
             content={card}
             render={
-              <Button type="secondary" typeName="button">
+              <Button type="default" typeName="button">
                 {demoText(language, "Default wrapper")}
               </Button>
             }
@@ -3577,7 +3660,7 @@ function ContextCardDemo() {
           <ContextCardTrigger
             content={card}
             render={
-              <a href="#render-prop" className="text-label-14 text-link">
+              <a href="#render-prop" className="text-blue-700 underline underline-offset-2">
                 {demoText(language, "Rendered as a link")}
               </a>
             }
