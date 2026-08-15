@@ -2,6 +2,7 @@ import * as React from "react";
 import { Popover as PopoverPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 /**
  * Calendar — 日期范围选择器（对应官方 geist Calendar，关闭态视觉复刻）。
@@ -374,8 +375,6 @@ function fmtDate(d: Date): string {
 
 const PANEL_CONTENT_CLASS = "relative rounded-[6px] p-(--padding) [--padding:_12px]";
 
-const START_END_WRAP_CLASS = "mb-3 border-b border-gray-100 -ml-3 -mr-3 px-3 pb-3";
-
 const START_END_LABEL_CLASS =
   "block text-[13px] max-w-full text-gray-900 cursor-text capitalize mb-0";
 
@@ -394,8 +393,7 @@ const GRID_HEAD_TH_CLASS =
   "p-0 font-normal flex-1 text-center text-[0.75rem] text-[var(--ds-gray-900)] uppercase";
 const GRID_BODY_CLASS = "block !mt-[14.5px]";
 const GRID_ROW_CLASS = "last:mb-0 flex flex-nowrap my-2";
-const GRID_CELL_CLASS =
-  "flex-1 flex justify-center size-8 p-0 text-center cursor-pointer aria-selected:bg-gray-300 aria-selected:first:rounded-l-[4px] aria-selected:last:rounded-r-[4px]";
+const GRID_CELL_CLASS = "flex-1 flex justify-center size-8 p-0 text-center";
 
 const GEIST_CHEVRON_LEFT =
   "M9.56 4.06 4.47 8.5a1 1 0 0 0 0 1.42l4.8 4.8a1 1 0 0 0 1.42 0l.53-.53-4.27-4.27L11.5 5l-.53-.53a1 1 0 0 0-1.41-.41z";
@@ -408,6 +406,9 @@ function CalendarPanel() {
   const [viewMonth, setViewMonth] = React.useState(today.getMonth());
   const [start, setStart] = React.useState<Date | null>(null);
   const [end, setEnd] = React.useState<Date | null>(null);
+
+  const timeZone =
+    typeof Intl === "undefined" ? "UTC" : Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const cells = monthGrid(viewYear, viewMonth);
 
@@ -423,11 +424,10 @@ function CalendarPanel() {
     }
   };
 
-  const isSelected = (d: Date) => {
-    if (!start) return false;
-    if (!end) return sameDay(d, start);
-    return d >= start && d <= end;
-  };
+  const isStart = (d: Date) => (start ? sameDay(d, start) : false);
+  const isEnd = (d: Date) => (end ? sameDay(d, end) : false);
+  const inRange = (d: Date) => !!(start && end && d > start && d < end);
+  const isSelected = (d: Date) => isStart(d) || isEnd(d) || inRange(d);
 
   const prevMonth = () => {
     const m = new Date(viewYear, viewMonth - 1, 1);
@@ -443,91 +443,9 @@ function CalendarPanel() {
   return (
     <div className={PANEL_CONTENT_CLASS}>
       <div className="flex flex-col">
-        <div className={START_END_WRAP_CLASS}>
-          <div className="space-y-2">
-            <div>
-              <div className="mb-1 flex items-center justify-between">
-                <label>
-                  <div className={START_END_LABEL_CLASS}>Start</div>
-                </label>
-              </div>
-              <div className="flex gap-2">
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
-                  <input
-                    aria-labelledby="start-date"
-                    placeholder="Jan 01, 2025"
-                    aria-invalid="false"
-                    autoCapitalize="none"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    className={DATE_INPUT_CLASS}
-                    data-geist-input=""
-                    spellCheck="false"
-                    type="text"
-                    value={start ? fmtDate(start) : ""}
-                    readOnly
-                  />
-                </div>
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
-                  <input
-                    aria-labelledby="time"
-                    placeholder="13:00"
-                    aria-invalid="false"
-                    autoComplete="off"
-                    className={cn(DATE_INPUT_CLASS, "text-center")}
-                    data-geist-input=""
-                    spellCheck="false"
-                    type="text"
-                    value="00:00"
-                    readOnly
-                  />
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className="mb-1 flex items-center justify-between">
-                <label>
-                  <div className={START_END_LABEL_CLASS}>End</div>
-                </label>
-              </div>
-              <div className="flex gap-2">
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
-                  <input
-                    aria-labelledby="end-date"
-                    placeholder="Jan 01, 2025"
-                    aria-invalid="false"
-                    autoComplete="off"
-                    className={DATE_INPUT_CLASS}
-                    data-geist-input=""
-                    spellCheck="false"
-                    type="text"
-                    value={end ? fmtDate(end) : ""}
-                    readOnly
-                  />
-                </div>
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
-                  <input
-                    aria-labelledby="time"
-                    placeholder="13:00"
-                    aria-invalid="false"
-                    autoComplete="off"
-                    className={cn(DATE_INPUT_CLASS, "text-center")}
-                    data-geist-input=""
-                    spellCheck="false"
-                    type="text"
-                    value="00:00"
-                    readOnly
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* 日历（在上） */}
         <div>
-          <div
-            className="flex flex-row items-center justify-between"
-            style={{ margin: "-3px 0px" }}
-          >
+          <div className="flex flex-row items-center justify-between" style={{ margin: "-3px 0px" }}>
             <div
               style={{
                 overflow: "hidden",
@@ -536,7 +454,7 @@ function CalendarPanel() {
                 flex: "1 1 0%",
               }}
             >
-              <h2 className="m-0 font-medium color-[var(--ds-gray-1000)] block w-fit max-w-full text-[14px]">
+              <h2 className="m-0 font-medium text-gray-1000 block w-fit max-w-full text-[14px]">
                 {MONTH_NAMES[viewMonth]} {viewYear}
               </h2>
             </div>
@@ -588,27 +506,24 @@ function CalendarPanel() {
                   {cells.slice(week * 7, week * 7 + 7).map((d, i) => {
                     const inMonth = d.getMonth() === viewMonth;
                     const selected = isSelected(d);
-                    const isStart = start ? sameDay(d, start) : false;
-                    const isEnd = end ? sameDay(d, end) : false;
+                    const startDay = isStart(d);
+                    const endDay = isEnd(d);
                     return (
-                      <td
-                        key={i}
-                        role="gridcell"
-                        aria-selected={selected}
-                        className={cn(
-                          GRID_CELL_CLASS,
-                          isStart && "rounded-l-[4px]",
-                          isEnd && "rounded-r-[4px]",
-                        )}
-                      >
+                      <td key={i} role="gridcell" aria-selected={selected} className={GRID_CELL_CLASS}>
                         <span
                           role="button"
                           tabIndex={-1}
                           aria-label={d.toLocaleDateString()}
                           data-testid={`calendar/cell/date-${d.getDate()}`}
                           className={cn(
-                            "z-[1] outline-none block size-8 rounded-[4px] text-[14px] font-normal text-center border border-transparent m-0 leading-[30px]",
-                            inMonth ? "text-[var(--ds-gray-900)]" : "text-[var(--ds-gray-700)]",
+                            "z-[1] outline-none block h-9 w-full rounded-[5px] text-[14px] font-normal text-center border border-transparent m-0 leading-9 cursor-pointer",
+                            startDay || endDay
+                              ? "bg-blue-900 !text-background-100"
+                              : inRange(d)
+                                ? "bg-gray-alpha-300 text-gray-1000"
+                                : inMonth
+                                  ? "text-gray-1000"
+                                  : "text-gray-700",
                           )}
                           onClick={() => selectDate(d)}
                         >
@@ -621,6 +536,103 @@ function CalendarPanel() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Start / End（在下，带分割线） */}
+        <div className="-ml-3 -mr-3 mt-3 border-t border-gray-alpha-200 px-3 pt-3">
+          <div className="space-y-2">
+            <div>
+              <div className="mb-1 flex items-center justify-between">
+                <label>
+                  <div className={START_END_LABEL_CLASS}>Start</div>
+                </label>
+              </div>
+              <div className="flex gap-2">
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
+                  <input
+                    aria-labelledby="start-date"
+                    placeholder="Jan 01, 2025"
+                    aria-invalid="false"
+                    autoCapitalize="none"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className={DATE_INPUT_CLASS}
+                    data-geist-input=""
+                    spellCheck="false"
+                    type="text"
+                    value={start ? fmtDate(start) : ""}
+                    readOnly
+                  />
+                </div>
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
+                  <input
+                    aria-labelledby="time"
+                    placeholder="00:00"
+                    aria-invalid="false"
+                    autoComplete="off"
+                    className={cn(DATE_INPUT_CLASS, "text-center")}
+                    data-geist-input=""
+                    spellCheck="false"
+                    type="text"
+                    value="00:00"
+                    readOnly
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="mb-1 flex items-center justify-between">
+                <label>
+                  <div className={START_END_LABEL_CLASS}>End</div>
+                </label>
+              </div>
+              <div className="flex gap-2">
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
+                  <input
+                    aria-labelledby="end-date"
+                    placeholder="Jan 01, 2025"
+                    aria-invalid="false"
+                    autoComplete="off"
+                    className={DATE_INPUT_CLASS}
+                    data-geist-input=""
+                    spellCheck="false"
+                    type="text"
+                    value={end ? fmtDate(end) : ""}
+                    readOnly
+                  />
+                </div>
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
+                  <input
+                    aria-labelledby="time"
+                    placeholder="23:59"
+                    aria-invalid="false"
+                    autoComplete="off"
+                    className={cn(DATE_INPUT_CLASS, "text-center")}
+                    data-geist-input=""
+                    spellCheck="false"
+                    type="text"
+                    value={end ? "23:59" : "00:00"}
+                    readOnly
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Apply */}
+        <div className="mt-3">
+          <Button className="w-full" size="small" type="secondary" typeName="button">
+            Apply
+            <span className="ml-2 text-xs" aria-hidden>
+              ↵
+            </span>
+          </Button>
+        </div>
+
+        {/* 时区选择器 */}
+        <div className="mt-1 flex justify-center pl-4">
+          <span className="text-xs text-gray-800">Local ({timeZone})</span>
         </div>
       </div>
     </div>
