@@ -45,7 +45,7 @@ describe("Multi Select live Geist contract", () => {
     expect(component?.demos?.map(({ id }) => id)).toEqual(demoIds);
     expect(docs).toContain("data-demo-card={id}");
     expect(docs).toContain("data-demo-container={id}");
-    expect(docs).toContain('selectedActions.size === 1 ? "item" : "items"');
+    expect(docs).toContain('demoTextWithValues(language, "{count} selected"');
     for (const id of demoIds) {
       expect(docs).toContain(`"${id}"`);
     }

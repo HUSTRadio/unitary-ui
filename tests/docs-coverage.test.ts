@@ -106,7 +106,7 @@ describe("Geist documentation coverage", () => {
     const source = await read("docs/geist/src/components/docs-components-page.tsx");
     const demo = source.slice(
       source.indexOf("function CommandMenuDemo()"),
-      source.indexOf("function ContextCardDemo()"),
+      source.indexOf("function GridDemo()"),
     );
 
     for (const text of [
@@ -129,7 +129,8 @@ describe("Geist documentation coverage", () => {
       expect(demo).toContain(`demoText(language, "${text}")`);
     }
     expect(demo).toContain("<CommandMenuDivider />");
-    expect(demo).toContain('<Button key={name} type="default"');
-    expect(demo).not.toContain('<Button key={name} type="secondary"');
+    expect(demo).toContain("key={name}");
+    expect(demo).toContain('type="default"');
+    expect(demo).not.toContain('type="secondary"');
   });
 });

@@ -119,6 +119,8 @@ describe("CodeBlock official API contract", () => {
     const block = document.querySelector<HTMLElement>("[data-slot='code-block']")!;
     expect(block.querySelector("[data-slot='code-block-header']")).toBeNull();
     expect(block.querySelector("button[aria-label='Copy to clipboard']")).toBeTruthy();
-    expect(block.querySelector("a")?.textContent).toBe("Ask v0");
+    // 官方实测（2026-08-15）：v0 链接可见 "Ask"（aria-hidden）+ sr-only "Ask v0"，
+    // textContent 为 "AskAsk v0"，与本地一致。
+    expect(block.querySelector("a")?.textContent).toBe("AskAsk v0");
   });
 });

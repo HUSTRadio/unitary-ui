@@ -294,7 +294,7 @@ function TableDemoCard({ children, code }: { children: React.ReactNode; code: st
         aria-expanded={showCode}
         aria-controls={codeId}
         onClick={() => setShowCode((value) => !value)}
-        className="flex h-12 w-full items-center gap-2 border-t border-[#eaeaea] bg-background-200 px-6 text-left text-copy-14 text-foreground transition-colors hover:bg-gray-200 focus-ring"
+        className="flex h-12 w-full items-center gap-2 border-t border-gray-alpha-400 bg-background-200 px-6 text-left text-copy-14 text-foreground transition-colors hover:bg-gray-200 focus-ring"
       >
         <ChevronRight
           className={`size-4 transition-transform${showCode ? " rotate-90" : ""}`}
@@ -305,7 +305,7 @@ function TableDemoCard({ children, code }: { children: React.ReactNode; code: st
       {showCode ? (
         <pre
           id={codeId}
-          className="overflow-x-auto border-t border-[#eaeaea] bg-background p-6 font-mono text-copy-13 leading-relaxed text-foreground"
+          className="overflow-x-auto border-t border-gray-alpha-400 bg-background p-6 font-mono text-copy-13 leading-relaxed text-foreground"
         >
           <code>{code}</code>
         </pre>
@@ -2835,59 +2835,31 @@ function CommandMenuDemo() {
     </div>
   );
 
+  const demoVariants = ["default", "with-divider", "with-suffix"] as const;
+
   return (
     <div className="w-full max-w-[862px] space-y-6">
-      <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="default"
-      >
-        <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
-            <Button
-              type="default"
-              className="relative flex max-w-full whitespace-normal leading-[21px]"
-              onClick={() => openDemo("default")}
-            >
-              {demoText(language, "Open Command Menu")}
-            </Button>
+      {demoVariants.map((name, index) => (
+        <div
+          key={name}
+          className={`relative rounded-[8px] border border-gray-alpha-400 bg-background-100${index === 0 ? " mt-6" : ""}`}
+          data-demo-card={name}
+        >
+          <div className="flex w-full overflow-x-auto md:overflow-visible">
+            <div className="w-full p-6" data-demo-container={name}>
+              <Button
+                key={name}
+                type="default"
+                className="relative flex max-w-full whitespace-normal leading-[21px]"
+                onClick={() => openDemo(name)}
+              >
+                {demoText(language, "Open Command Menu")}
+              </Button>
+            </div>
           </div>
+          {footerBar}
         </div>
-        {footerBar}
-      </div>
-      <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="with-divider"
-      >
-        <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="with-divider">
-            <Button
-              type="default"
-              className="relative flex max-w-full whitespace-normal leading-[21px]"
-              onClick={() => openDemo("with-divider")}
-            >
-              {demoText(language, "Open Command Menu")}
-            </Button>
-          </div>
-        </div>
-        {footerBar}
-      </div>
-      <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="with-suffix"
-      >
-        <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="with-suffix">
-            <Button
-              type="default"
-              className="relative flex max-w-full whitespace-normal leading-[21px]"
-              onClick={() => openDemo("with-suffix")}
-            >
-              {demoText(language, "Open Command Menu")}
-            </Button>
-          </div>
-        </div>
-        {footerBar}
-      </div>
+      ))}
       <CommandMenu
         open={openVariant === "default"}
         setOpen={(open) => setOpenVariant(open ? "default" : null)}
@@ -3496,7 +3468,7 @@ const DEFAULT_DEMO_CODE = `const card = (
       <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
     </ContextCardBody>
     <ContextCardFooter>
-      <Button type="secondary" size="small">View Project</Button>
+      <Button type="secondary" size="small">{demoText(language, "View Project")}</Button>
     </ContextCardFooter>
   </ContextCard>
 );
@@ -5103,7 +5075,7 @@ function MultiSelectDemo() {
         <div className="flex flex-col items-start gap-4">
           <MultiSelectRoot>
             <MultiSelectTrigger aria-label="Select design system items">
-              {selectedActions.size} {selectedActions.size === 1 ? "item" : "items"} selected
+              {demoTextWithValues(language, "{count} selected", { count: selectedActions.size })}
             </MultiSelectTrigger>
             <MultiSelectContent>
               {actionItems.map((name) => (
@@ -5132,8 +5104,7 @@ function MultiSelectDemo() {
         <div className="flex flex-col items-start gap-4">
           <MultiSelectRoot>
             <MultiSelectTrigger aria-label="Select categories">
-              {selectedCategories.size} {selectedCategories.size === 1 ? "category" : "categories"}{" "}
-              selected
+              {demoTextWithValues(language, "{count} selected", { count: selectedCategories.size })}
             </MultiSelectTrigger>
             <MultiSelectContent>
               {categories.map((name) => (
