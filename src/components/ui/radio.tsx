@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
  */
 
 type RadioGroupContextValue = {
+  inGroup?: boolean;
   value?: string;
   onChange?: (value: string) => void;
   disabled?: boolean;
@@ -42,7 +43,7 @@ interface RadioProps extends Omit<React.ComponentProps<"input">, "type" | "size"
 const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
   ({ className, checked, onChange, value, disabled, required, name, ...props }, ref) => {
     const group = React.useContext(RadioGroupContext);
-    const inGroup = group.value !== undefined;
+    const inGroup = group.inGroup === true;
     const isChecked = checked ?? (inGroup ? group.value === String(value) : undefined);
     const generatedName = React.useId();
     const inputName = name ?? group.name ?? generatedName;
@@ -53,7 +54,13 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
     };
 
     return (
-      <span className={cn("relative inline-flex size-4 shrink-0", className)}>
+      <span
+        data-slot="radio-control"
+        className={cn(
+          "relative -m-0.5 inline-flex size-5 shrink-0 items-center justify-center",
+          className,
+        )}
+      >
         <input
           ref={ref}
           type="radio"
@@ -74,9 +81,9 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
             "transition-[border-color,background] duration-200 ease-in",
             "peer-focus-visible:focus-ring",
             "peer-enabled:peer-checked:[--radio-color:var(--gray-1000)]",
-            "peer-disabled:[--radio-color:#c9c9c9]",
+            "peer-disabled:[--radio-color:var(--gray-500)]",
             "peer-checked:[&>span]:scale-100",
-            "peer-disabled:peer-checked:![--radio-color:#c9c9c9]",
+            "peer-disabled:peer-checked:![--radio-color:var(--gray-500)]",
           )}
         >
           <span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 scale-0 rounded-full bg-[var(--radio-color)] transition-transform duration-150 ease-in" />
@@ -124,6 +131,7 @@ function RadioGroup({
   const isControlled = value !== undefined;
   const currentValue = isControlled ? value : internalValue;
   const srLabelId = React.useId();
+  const generatedName = React.useId();
 
   const handleChange = React.useCallback(
     (next: string) => {
@@ -134,8 +142,15 @@ function RadioGroup({
   );
 
   const context = React.useMemo<RadioGroupContextValue>(
-    () => ({ value: currentValue, onChange: handleChange, disabled, required, name }),
-    [currentValue, handleChange, disabled, required, name],
+    () => ({
+      inGroup: true,
+      value: currentValue,
+      onChange: handleChange,
+      disabled,
+      required,
+      name: name ?? generatedName,
+    }),
+    [currentValue, handleChange, disabled, required, name, generatedName],
   );
 
   return (
@@ -172,8 +187,8 @@ function RadioGroupItem({ value, children, className, ...radioProps }: RadioGrou
     <label
       data-slot="radio-item-wrapper"
       className={cn(
-        "group flex items-center text-[13px] leading-[19.5px] [--radio-color:var(--gray-700)]",
-        "group-has-[:disabled]:cursor-not-allowed group-has-[:disabled]:text-[#c9c9c9] group-has-[:disabled]:[--radio-color:#c9c9c9]",
+        "group flex items-center text-copy-13 [--radio-color:var(--gray-700)]",
+        "group-has-[:disabled]:cursor-not-allowed group-has-[:disabled]:text-gray-500 group-has-[:disabled]:[--radio-color:var(--gray-500)]",
         className,
       )}
     >

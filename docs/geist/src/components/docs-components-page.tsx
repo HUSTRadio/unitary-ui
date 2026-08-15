@@ -5127,7 +5127,7 @@ function RadioDemo() {
             <RadioGroup
               label={demoText(language, "Default Radio Example")}
               defaultValue="option-1"
-              name="radio-name"
+              name="radio-default"
             >
               <div className="flex flex-col items-stretch justify-start gap-6">
                 <RadioGroupItem value="option-1">{demoText(language, "Option 1")}</RadioGroupItem>
@@ -5149,7 +5149,7 @@ function RadioDemo() {
               label={demoText(language, "Disabled Radio Example")}
               defaultValue="option-1"
               disabled
-              name="radio-name"
+              name="radio-disabled"
             >
               <div className="flex flex-col items-stretch justify-start gap-6">
                 <RadioGroupItem value="option-1">{demoText(language, "Option 1")}</RadioGroupItem>
@@ -5167,21 +5167,45 @@ function RadioDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="radio-required">
-            <RadioGroup
-              label={demoText(language, "Required Radio Example")}
-              required
-              name="radio-name"
-            >
-              <form className="flex flex-col items-start justify-start gap-6">
+            <form className="flex flex-col items-start justify-start gap-6">
+              <RadioGroup
+                label={demoText(language, "Required Radio Example")}
+                required
+                name="radio-required"
+              >
                 <div className="flex flex-col items-stretch justify-start gap-4">
                   <RadioGroupItem value="option-1">{demoText(language, "Option 1")}</RadioGroupItem>
                   <RadioGroupItem value="option-2">{demoText(language, "Option 2")}</RadioGroupItem>
                 </div>
-                <Button typeName="submit" size="small">
-                  {demoText(language, "Submit")}
-                </Button>
-              </form>
-            </RadioGroup>
+              </RadioGroup>
+              <Button typeName="submit" size="small">
+                {demoText(language, "Submit")}
+              </Button>
+            </form>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="radio-headless"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="radio-headless">
+            <RadioHeadlessDemo />
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="radio-standalone"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="radio-standalone">
+            <RadioStandaloneDemo />
           </div>
         </div>
         {footerBar}
@@ -5502,28 +5526,11 @@ function RadioHeadlessDemo() {
 }
 
 function RadioStandaloneDemo() {
-  const { language } = useLanguage();
-  const [value, setValue] = React.useState("one");
-
   return (
     <ul className="flex list-none flex-row items-stretch justify-start gap-6">
       <li className="flex items-center gap-2">
-        <span className="text-copy-13 text-foreground">{demoText(language, "Option 1")}</span>
-        <Radio
-          aria-label="Option 1"
-          checked={value === "one"}
-          onChange={() => setValue("one")}
-          value="one"
-        />
-      </li>
-      <li className="flex items-center gap-2">
-        <span className="text-copy-13 text-foreground">{demoText(language, "Option 2")}</span>
-        <Radio
-          aria-label="Option 2"
-          checked={value === "two"}
-          onChange={() => setValue("two")}
-          value="two"
-        />
+        <span className="text-copy-13 text-foreground">Option 1</span>
+        <Radio aria-label="Option 1" defaultChecked value="one" />
       </li>
     </ul>
   );

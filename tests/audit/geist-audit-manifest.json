@@ -8059,7 +8059,13 @@
       "slug": "radio",
       "officialUrl": "https://vercel.com/geist/radio",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["default", "radio-disabled", "radio-required"],
+      "variants": [
+        "default",
+        "radio-disabled",
+        "radio-required",
+        "radio-headless",
+        "radio-standalone"
+      ],
       "states": ["default", "disabled", "required"],
       "demos": [
         {
@@ -8070,11 +8076,17 @@
         },
         {
           "id": "radio-required"
+        },
+        {
+          "id": "radio-headless"
+        },
+        {
+          "id": "radio-standalone"
         }
       ],
       "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
       "themes": ["light", "dark"],
-      "interactionRecipes": ["pointer:none", "keyboard:none"],
+      "interactionRecipes": ["pointer:click", "keyboard:arrow-selection"],
       "responsiveExpectations": [
         "radio:item rows gap-6 (24px) stack vertically; label fills container content width at 1440x900 (official measured)",
         "radio:disabled rows keep gray-500 text and circle border, checked dot stays gray-500 at all four viewports (official measured)",
@@ -8085,7 +8097,7 @@
         "official": "label[data-geist-radio-item]",
         "local": "[data-slot=\"radio-item-wrapper\"]"
       },
-      "interaction": "NOT_APPLICABLE",
+      "interaction": "applicable",
       "acceptanceContracts": [
         {
           "demoId": "default",
@@ -8256,6 +8268,100 @@
               },
               "presence": "required",
               "acceptanceProfile": "mapped-text"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "radio-headless",
+          "variant": "radio-headless",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-headless\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"radio-headless\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-headless\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"radio-headless\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "radio": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-headless\"] ~ * div.w-full.p-6 label",
+                  "local": "[data-demo-container=\"radio-headless\"] label"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
+        {
+          "demoId": "radio-standalone",
+          "variant": "radio-standalone",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-15T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-standalone\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"radio-standalone\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-standalone\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"radio-standalone\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "radio": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#radio-standalone\"] ~ * div.w-full.p-6 li",
+                  "local": "[data-demo-container=\"radio-standalone\"] li"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             }
           },
           "semanticNodeInventory": [],
