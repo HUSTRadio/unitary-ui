@@ -832,13 +832,11 @@ function InputDemo({ code }: { code?: string }) {
             <div className="flex flex-col items-start justify-between gap-4 md:flex-row flex-initial">
               <Input
                 size="small"
-                className="text-black"
                 placeholder={demoText(language, "Small")}
               />
-              <Input className="text-black" placeholder={demoText(language, "Default")} />
+              <Input placeholder={demoText(language, "Default")} />
               <Input
                 size="large"
-                className="text-black"
                 placeholder={demoText(language, "Large")}
               />
             </div>
@@ -928,18 +926,15 @@ function InputDemo({ code }: { code?: string }) {
             <div className="flex flex-col items-start justify-start gap-8 flex-initial">
               <Input
                 size="small"
-                className="text-black"
                 error={demoText(language, "An error message.")}
                 placeholder={demoText(language, "long-error@gmail.com")}
               />
               <Input
-                className="text-black"
                 error={demoText(language, "An error message.")}
                 placeholder={demoText(language, "long-error@gmail.com")}
               />
               <Input
                 size="large"
-                className="text-black"
                 error={demoText(language, "An error message.")}
                 placeholder={demoText(language, "long-error@gmail.com")}
               />
@@ -957,7 +952,6 @@ function InputDemo({ code }: { code?: string }) {
           <div className="w-full p-6" data-demo-container="label">
             <div className="flex flex-col items-start justify-start flex-initial">
               <Input
-                className="text-black"
                 label={demoText(language, "Label")}
                 placeholder={demoText(language, "Label")}
               />
@@ -1778,7 +1772,7 @@ function TextareaDemo({ code }: { code?: string }) {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
             <label>
-              <Textarea className="text-black" aria-label={demoText(language, "Default")} />
+              <Textarea aria-label={demoText(language, "Default")} />
             </label>
           </div>
         </div>
@@ -1809,7 +1803,6 @@ function TextareaDemo({ code }: { code?: string }) {
               <label>
                 <Textarea
                   size="small"
-                  className="text-black"
                   aria-label={demoText(language, "With error (small)")}
                   error={demoText(language, "There has been an error.")}
                   defaultValue={lorem}
@@ -1817,7 +1810,6 @@ function TextareaDemo({ code }: { code?: string }) {
               </label>
               <label>
                 <Textarea
-                  className="text-black"
                   aria-label={demoText(language, "With error (medium)")}
                   error={demoText(language, "There has been an error.")}
                   defaultValue={lorem}
@@ -1826,7 +1818,6 @@ function TextareaDemo({ code }: { code?: string }) {
               <label>
                 <Textarea
                   size="large"
-                  className="text-black"
                   aria-label={demoText(language, "With error (large)")}
                   error={demoText(language, "There has been an error.")}
                   defaultValue={lorem}
@@ -1847,14 +1838,12 @@ function TextareaDemo({ code }: { code?: string }) {
             <div className="flex flex-col gap-6">
               <label>
                 <Textarea
-                  className="text-black"
                   aria-label={demoText(language, "Textarea")}
                   defaultValue={lorem}
                 />
               </label>
               <label>
                 <Textarea
-                  className="text-black"
                   aria-label={demoText(language, "Textarea")}
                   defaultValue={lorem}
                 />
@@ -1862,7 +1851,6 @@ function TextareaDemo({ code }: { code?: string }) {
               <label>
                 <Textarea
                   size="large"
-                  className="text-black"
                   aria-label={demoText(language, "Textarea")}
                   defaultValue={lorem}
                 />
@@ -1881,7 +1869,6 @@ function TextareaDemo({ code }: { code?: string }) {
           <div className="w-full p-6" data-demo-container="read-only">
             <label>
               <Textarea
-                className="text-black"
                 readOnly
                 aria-label={demoText(language, "Read only")}
                 defaultValue={lorem}
@@ -1900,7 +1887,6 @@ function TextareaDemo({ code }: { code?: string }) {
           <div className="w-full p-6" data-demo-container="rows">
             <label>
               <Textarea
-                className="text-black"
                 rows={5}
                 aria-label={demoText(language, "Textarea with fixed rows")}
               />
