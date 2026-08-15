@@ -21,8 +21,8 @@ function Pill({
       data-slot="pill"
       data-variant={variant}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border border-gray-alpha-400 px-3 py-1 text-label-14 text-muted-foreground transition-colors",
-        "hover:bg-gray-alpha-100",
+        "inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-background-100 px-3 py-1 text-label-14 text-foreground transition-colors",
+        "hover:bg-gray-200",
         "focus-ring",
         "data-[variant=active]:border-transparent data-[variant=active]:bg-selected data-[variant=active]:text-foreground",
         className,

@@ -39,7 +39,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
       size === "small"
         ? "h-8 rounded-[6px] text-[14px]"
         : size === "large"
-          ? "h-10 rounded-lg text-[16px] leading-6"
+          ? "h-10 rounded-[8px] text-[16px] leading-6"
           : "h-9 rounded-[6px] text-[14px] leading-5";
 
     return (

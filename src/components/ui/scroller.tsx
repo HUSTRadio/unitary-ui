@@ -81,7 +81,7 @@ function Scroller({
   );
 
   const buttonClass =
-    "grid size-8 place-items-center rounded-full border-0 bg-gray-1000 text-gray-100 outline-none transition-colors hover:bg-gray-900 focus-ring";
+    "grid size-8 place-items-center rounded-full border border-gray-200 bg-background-100 text-gray-1000 outline-none transition-colors hover:bg-gray-200 focus-ring";
 
   return (
     <div

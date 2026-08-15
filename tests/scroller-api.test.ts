@@ -18,20 +18,20 @@ const kids = (count: number) =>
   );
 
 describe("Scroller official API contract (G09)", () => {
-  test("G09-SCROLLER-02: direction buttons are 32x32 FILLED controls (bg-gray-1000, themed fg, border-0, rounded-full)", () => {
+  test("G09-SCROLLER-02: direction buttons are 32x32 themed-surface controls (bg-background-100, themed fg, 1px gray-200 ring, rounded-full)", () => {
     const markup = ssr({ withButtons: true }, kids(4));
     const buttons = markup.match(/<button\b[^>]*>/g) ?? [];
     expect(buttons).toHaveLength(2);
 
     for (const btn of buttons) {
-      // 32x32 filled circle: no border, no background-colored body, no 6px radius
+      // 官方实测：跟随主题表面（light #fff / dark #0a0a0a）+ 1px 灰环 + 主题前景图标
       expect(btn).toContain("size-8");
-      expect(btn).toContain("bg-gray-1000");
-      expect(btn).toContain("text-gray-100"); // themed fg — inverts with light/dark
+      expect(btn).toContain("bg-background-100");
+      expect(btn).toContain("text-gray-1000"); // themed fg — light 黑图标 / dark 白图标
+      expect(btn).toContain("border-gray-200"); // 1px hairline 环
       expect(btn).toContain("rounded-full");
-      expect(btn).toContain("border-0");
-      expect(btn).not.toContain("bg-background");
-      expect(btn).not.toContain("border-gray-alpha-400");
+      expect(btn).not.toContain("bg-gray-1000"); // 非反色实心
+      expect(btn).not.toContain("border-0");
       expect(btn).not.toContain("rounded-[6px]");
     }
 

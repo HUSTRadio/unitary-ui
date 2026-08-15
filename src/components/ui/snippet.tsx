@@ -132,7 +132,7 @@ function Snippet({
         data-slot="snippet-copy"
         aria-label="Copy"
         onClick={handleCopy}
-        className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors outline-none hover:bg-gray-alpha-200 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0"
+        className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-foreground transition-colors outline-none hover:bg-gray-alpha-200 focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0"
       >
         {copied ? <CopyCheck className="text-success" aria-hidden /> : <Copy aria-hidden />}
         <span className="sr-only">{copied ? "Copied" : "Copy"}</span>
