@@ -7205,10 +7205,10 @@ function ComponentsOverview() {
           >
             <p className="font-mono text-label-12 text-muted-foreground">{component.official}</p>
             <h3 className="mt-1 text-label-16 font-medium text-foreground">
-              {demoText(language, component.label)}
+              {language === "zh-CN" ? (component.labelZh ?? component.label) : component.label}
             </h3>
             <p className="mt-1 text-copy-13 text-muted-foreground">
-              {demoText(language, component.description)}
+              {language === "zh-CN" ? (component.descriptionZh ?? component.description) : component.description}
             </p>
           </a>
         ))}
@@ -7241,13 +7241,15 @@ function ComponentDetail({ name }: { name: string }) {
     <div>
       <BackLink />
       <div className="mt-6 flex flex-wrap items-center gap-3">
-        <h1 className="text-heading-40 text-foreground">{demoText(language, meta.label)}</h1>
+        <h1 className="text-heading-40 text-foreground">
+          {language === "zh-CN" ? (meta.labelZh ?? meta.label) : meta.label}
+        </h1>
         <span className="rounded-full border border-gray-alpha-400 px-2 py-0.5 font-mono text-label-12 text-muted-foreground">
           {meta.official}
         </span>
       </div>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
-        {demoText(language, meta.description)}
+        {language === "zh-CN" ? (meta.descriptionZh ?? meta.description) : meta.description}
       </p>
 
       <section className="mt-10">
