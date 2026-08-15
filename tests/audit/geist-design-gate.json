@@ -317,25 +317,25 @@
     {
       "slug": "collapse",
       "batch": "B2",
-      "inventoryStatus": "live_enumeration_partial",
-      "gate": "RE_EVIDENCE_REQUIRED",
+      "inventoryStatus": "live_enumeration_complete",
+      "gate": "TDD_READY",
       "dimensions": {
-        "officialCapabilities": "PARTIAL",
-        "api": "PARTIAL",
-        "dom": "PARTIAL",
-        "states": "BLOCKED",
-        "responsive": "BLOCKED",
-        "aria": "PARTIAL",
-        "motion": "PARTIAL",
-        "localDemoCoverage": "MISSING",
-        "comparison": "MISSING"
+        "officialCapabilities": "PASS",
+        "api": "PASS",
+        "dom": "PASS",
+        "states": "PASS",
+        "responsive": "PASS",
+        "aria": "PASS",
+        "motion": "PASS",
+        "localDemoCoverage": "PASS",
+        "comparison": "PASS"
       },
       "evidence": [
-        "collapse/evidence/official-375-light-cell.json",
-        "collapse/evidence/official-manifest.json",
-        "collapse/evidence/local-manifest.json"
+        "C:/Users/Leon/geist-audit/collapse-b79dbc3/runs",
+        "C:/Users/Leon/geist-audit/collapse-b79dbc3/comparisons",
+        "C:/Users/Leon/geist-audit/collapse-b79dbc3/visual/final-contact-sheet.png"
       ],
-      "notes": "G7 demo attribution failed (all demos resolve to same element), so collected viewport cells are not demo-attributable; G8 local matrix FATAL; only shared structural facts are usable"
+      "notes": "Clean revision b79dbc3; 4 demos × 4 viewports × light/dark official/local = 64 cells, 32/32 comparisons PASS, strict/ARIA/missing paths/geometry all zero. Interaction verified: click/Enter/Space toggle, closed content remains in DOM, Expanded Question B stays open with aria-disabled=true, motion is 200ms cubic-bezier(0.4,0,0.2,1). Remote vision endpoint returned blank-page errors; desktop preview independently displayed the populated contact sheet with no visible differences."
     },
     {
       "slug": "context-card",
