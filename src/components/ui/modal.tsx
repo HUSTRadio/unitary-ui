@@ -49,7 +49,7 @@ const ModalOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-[300] flex flex-col items-center justify-center overflow-auto",
+      "fixed inset-0 z-[300] flex flex-col items-center justify-center overflow-auto bg-[#f2f2f2]/80 dark:bg-black/80",
       className,
     )}
     {...props}
@@ -110,10 +110,9 @@ const ModalContent = React.forwardRef<
             }}
             style={{ boxShadow: MODAL_SHADOW, ...style }}
             className={cn(
-              "flex min-h-0 w-[540px] max-w-full min-w-0 flex-col overflow-hidden rounded-[12px] bg-background-100 text-foreground outline-none",
+              "fixed top-[50%] left-[50%] z-[300] flex min-h-0 w-[540px] max-w-full min-w-0 flex-col overflow-hidden rounded-[12px] bg-background-100 text-foreground outline-none",
               "max-h-[min(800px,80vh)]",
-              // 官方 dialog computed transform 为 identity matrix（translateZ(0)）
-              "[transform:translateZ(0)]",
+              "-translate-x-1/2 -translate-y-1/2",
               "transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.1)]",
               className,
             )}
