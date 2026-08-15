@@ -345,7 +345,7 @@
       "dimensions": {
         "officialCapabilities": "PARTIAL",
         "api": "PARTIAL",
-        "dom": "FAIL",
+        "dom": "PARTIAL",
         "states": "BLOCKED",
         "responsive": "UNVERIFIED",
         "aria": "PARTIAL",
@@ -354,7 +354,7 @@
         "comparison": "MISSING"
       },
       "evidence": ["context-card/report-context-card.json", "context-card/diff-table.md"],
-      "notes": "CONFIRMED_ERROR high: radius 6, w-fit, dark bg #0a0a0a, content 16px/24px, arrow, z-1000000, 4-layer shadow; interaction open-state BLOCKED both sides; visual fixes may start, interaction acceptance frozen"
+      "notes": "视觉修复完成（commit 0226b56）：双层边框消除（ContextCard 移出 surface）；箭头官方精确 path（14×7 viewBox 14×7，fill 背景色 + stroke #dbdbdb，根部深入 content 覆盖边框，底边不描 stroke 消除内框割裂）；Show code 真实 toggle；popover 圆角 6px、内边距 16px、string 内容 16px/24px。原 CONFIRMED_ERROR（radius 6/w-fit/dark bg #0a0a0a/content 16px/arrow/z-1000000）已修复。待补：interaction open-state（官方 hover 反自动化拦截）、四视口 responsive、官方/local comparison、motion 对齐。"
     },
     {
       "slug": "entity",

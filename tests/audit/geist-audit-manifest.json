@@ -3723,7 +3723,7 @@
       "officialUrl": "https://vercel.com/geist/context-card",
       "inventoryStatus": "live_enumeration_complete",
       "variants": ["default", "alignment", "render-prop"],
-      "states": ["default", "closed", "open", "hover", "focus-visible"],
+      "states": ["default", "closed", "open", "hover", "focus-visible", "open-blocked"],
       "demos": [
         {
           "id": "default"
@@ -3738,10 +3738,10 @@
       "viewports": ["375x812", "768x1024", "1440x900", "1920x1080"],
       "themes": ["light", "dark"],
       "interactionRecipes": [
-        "pointer:hover-open-after-150ms",
-        "keyboard:focus-open",
-        "keyboard:escape-close-and-preserve-focus",
-        "collision:side-flip"
+        "blocked:pointer:hover-open-after-150ms",
+        "blocked:keyboard:focus-open",
+        "blocked:keyboard:escape-close-and-preserve-focus",
+        "blocked:collision:side-flip"
       ],
       "responsiveExpectations": [
         "viewport-matrix:375/768/1440/1920 required before acceptance",
@@ -3752,7 +3752,7 @@
         "official": "div.inline-flex.cursor-pointer[class*=\"flex-[0_1_auto]\"].overflow-hidden",
         "local": "[data-slot=\"context-card-trigger\"]"
       },
-      "interaction": "applicable",
+      "interaction": "pending",
       "acceptanceContracts": [
         {
           "demoId": "default",
