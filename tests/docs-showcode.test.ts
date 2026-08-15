@@ -54,7 +54,7 @@ describe("docs Show code footer", () => {
     }
     expect(src).toMatch(/function renderDemo\(name: string, code\?: string\)/);
     expect(src.match(/renderDemo\(name, meta\.code\)/g)).toHaveLength(3);
-    expect(src.match(/<ShowCodeFooter code=\{code \?\? ""\} \/>/g)).toHaveLength(69);
+    expect(src.match(/<ShowCodeFooter code=\{code \?\? ""\} \/>/g)).toHaveLength(74);
   });
 
   test("ModalDemo return container has vertical gap (space-y-6)", async () => {

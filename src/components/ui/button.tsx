@@ -31,14 +31,15 @@ const buttonVariants = cva(
           "bg-primary text-primary-foreground hover:bg-action-hover hover:text-primary-foreground",
         secondary:
           "bg-background-100 text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
-        tertiary: "bg-transparent text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
+        tertiary:
+          "bg-transparent text-foreground hover:bg-gray-alpha-200 hover:text-foreground disabled:bg-transparent disabled:text-foreground disabled:opacity-50",
         error:
-          "bg-destructive text-destructive-foreground hover:bg-danger-hover hover:text-destructive-foreground focus-visible:ring-destructive/20",
+          "bg-button-error text-button-error-foreground hover:bg-button-error-hover hover:text-button-error-foreground",
         warning:
-          "bg-warning-action text-warning-action-foreground hover:bg-warning-action-hover hover:text-warning-action-foreground focus-visible:ring-warning-action/30",
+          "bg-button-warning text-button-warning-foreground hover:bg-button-warning-hover hover:text-button-warning-foreground",
       },
       size: {
-        tiny: "h-6 rounded-md px-1.5 [&_svg]:size-3",
+        tiny: "h-6 rounded-[4px] px-1.5 [&_svg]:size-3",
         small: "h-8 rounded-md px-1.5",
         medium: "h-9 px-2.5",
         large: "h-10 rounded-[8px] px-3.5 text-button-16 leading-6",
@@ -46,7 +47,7 @@ const buttonVariants = cva(
       shape: {
         square: "",
         circle: "rounded-full",
-        rounded: "rounded-full",
+        rounded: "rounded-full !px-3",
       },
     },
     defaultVariants: {
@@ -60,6 +61,14 @@ const buttonVariants = cva(
 type ButtonType = VariantProps<typeof buttonVariants>["type"];
 type ButtonSize = VariantProps<typeof buttonVariants>["size"];
 type ButtonShape = VariantProps<typeof buttonVariants>["shape"];
+
+/** svgOnly 图标按钮：padding collapse + 正方形宽高 + 图标尺寸（圆角由 size/shape 决定） */
+const SVG_ONLY_CLASSES: Record<string, string> = {
+  tiny: "size-6 p-0 [&_svg]:size-4",
+  small: "size-8 p-0 [&_svg]:size-4",
+  medium: "size-9 p-0 [&_svg]:size-4",
+  large: "size-10 p-0 [&_svg]:size-4",
+};
 
 export interface ButtonProps extends Omit<
   React.ComponentProps<"button">,
@@ -105,19 +114,9 @@ function Button({
 }: ButtonProps) {
   const Comp = asChild ? Slot.Root : "button";
 
-  // svgOnly 模式：图标按钮 padding collapse
-  const svgOnlyClasses = svgOnly
-    ? {
-        tiny: "size-6 rounded-md p-0 [&_svg]:size-3",
-        small: "size-8 rounded-md p-0 [&_svg]:size-4",
-        medium: "size-9 rounded-md p-0 [&_svg]:size-4",
-        large: "size-10 rounded-md p-0 [&_svg]:size-5",
-      }
-    : {};
-
   const shadowClass = shadow ? "shadow-lg" : "";
 
-  const resolvedSize = svgOnly ? "medium" : size;
+  const resolvedSize = size;
 
   return (
     <Comp
@@ -130,7 +129,7 @@ function Button({
       disabled={disabled || loading}
       className={cn(
         buttonVariants({ type, size: resolvedSize, shape, className }),
-        svgOnly && svgOnlyClasses[size ?? "medium"],
+        svgOnly && SVG_ONLY_CLASSES[size ?? "medium"],
         shadowClass,
       )}
       {...props}
@@ -168,15 +167,79 @@ function Button({
 
 /* ---------- ButtonLink ---------- */
 
-export interface ButtonLinkProps extends Omit<ButtonProps, "typeName" | "asChild" | "onClick"> {
-  href: string;
+export interface ButtonLinkProps
+  extends Omit<React.ComponentProps<"a">, "type" | "prefix" | "shape"> {
+  type?: ButtonType;
+  size?: ButtonSize;
+  shape?: ButtonShape;
+  shadow?: boolean;
+  svgOnly?: boolean;
+  loading?: boolean;
+  disabled?: boolean;
+  prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
 }
 
-function ButtonLink({ href, children, ...props }: ButtonLinkProps) {
+function ButtonLink({
+  className,
+  type = "default",
+  size = "medium",
+  shape = "square",
+  shadow = false,
+  svgOnly = false,
+  loading = false,
+  prefix,
+  suffix,
+  disabled,
+  href,
+  children,
+  ...props
+}: ButtonLinkProps) {
+  const resolvedSize = size;
   return (
-    <Button asChild typeName="button" {...props}>
-      <a href={href}>{children}</a>
-    </Button>
+    <a
+      data-slot="button"
+      data-geist-button=""
+      data-type={type}
+      data-size={resolvedSize}
+      data-shape={shape}
+      href={href}
+      aria-disabled={disabled || loading || undefined}
+      className={cn(
+        buttonVariants({ type, size: resolvedSize, shape, className }),
+        svgOnly && SVG_ONLY_CLASSES[size ?? "medium"],
+        shadow && "shadow-lg",
+      )}
+      {...props}
+    >
+      {loading ? (
+        <span
+          className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5"
+          aria-hidden
+        >
+          <Loader2 className="size-3.5 animate-spin" />
+          <span className="sr-only">Loading...</span>
+        </span>
+      ) : (
+        prefix && (
+          <span
+            className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5"
+            aria-hidden
+          >
+            {prefix}
+          </span>
+        )
+      )}
+      {svgOnly ? children : <span className="inline-block truncate px-1.5">{children}</span>}
+      {!loading && suffix && (
+        <span
+          className="ml-1 mr-0.5 flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5"
+          aria-hidden
+        >
+          {suffix}
+        </span>
+      )}
+    </a>
   );
 }
 

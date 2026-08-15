@@ -121,6 +121,12 @@
   --color-warning-action: var(--warning-action);
   --color-warning-action-foreground: var(--warning-action-foreground);
   --color-warning-action-hover: var(--warning-action-hover);
+  --color-button-error: var(--button-error);
+  --color-button-error-foreground: var(--button-error-foreground);
+  --color-button-error-hover: var(--button-error-hover);
+  --color-button-warning: var(--button-warning);
+  --color-button-warning-foreground: var(--button-warning-foreground);
+  --color-button-warning-hover: var(--button-warning-hover);
   --color-ai: var(--ai-primary);
   --color-ai-soft: var(--ai-soft);
 
@@ -301,6 +307,13 @@
   --warning-action: #ffb224; /* amber-700 */
   --warning-action-foreground: #0a0a0a;
   --warning-action-hover: #ff9900; /* amber-800 */
+  /* Button error/warning 变体（官方 Button 实测 2026-08-15：error=red-800 系, warning=amber-800） */
+  --button-error: #da2f35;
+  --button-error-foreground: #f5f5f5;
+  --button-error-hover: #ae292f;
+  --button-warning: #ff990a;
+  --button-warning-foreground: #0a0a0a;
+  --button-warning-hover: #d27504;
   /* misc */
   --overlay: #00000099;
   --color-focus-ring: #171717; /* gray-1000 */
@@ -557,6 +570,13 @@
   --warning-action: #ffb224; /* amber-700 */
   --warning-action-foreground: #0a0a0a;
   --warning-action-hover: #ff9900; /* amber-800 */
+  /* Button error/warning 变体（官方 Button 实测 2026-08-15：error=red-800 系, warning=amber-800） */
+  --button-error: #d93036;
+  --button-error-foreground: #ffffff;
+  --button-error-hover: #ff6166;
+  --button-warning: #ff990a;
+  --button-warning-foreground: #0a0a0a;
+  --button-warning-hover: #d27504;
   /* misc */
   --overlay: #000000b3;
   --color-focus-ring: #ededed; /* gray-1000 */

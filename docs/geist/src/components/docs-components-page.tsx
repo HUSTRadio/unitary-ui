@@ -4,6 +4,7 @@ import {
   ArrowDownCircle,
   ArrowLeft,
   ArrowRight,
+  ArrowUp,
   ChartColumn,
   CircleCheck,
   ChevronLeft,
@@ -22,7 +23,6 @@ import {
   Shield,
   Sparkles,
   Trash2,
-  Upload,
 } from "lucide-react";
 
 import {
@@ -38,7 +38,7 @@ import { Banner } from "@/components/ui/banner";
 import { Book } from "@/components/ui/book";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 import { Browser } from "@/components/ui/browser";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLink, CustomButton } from "@/components/ui/button";
 import {
   Calendar,
   calendarColClass,
@@ -457,19 +457,34 @@ function ButtonDemo({ code }: { code?: string }) {
   const errorLabel = demoText(language, "Error");
   const warningLabel = demoText(language, "Warning");
 
-  const uploadIcon = <Upload aria-hidden />;
+  const arrowUpIcon = <ArrowUp aria-hidden />;
+  const arrowLeftIcon = <ArrowLeft aria-hidden />;
+  const arrowRightIcon = <ArrowRight aria-hidden />;
+
+  const cardClass = "relative mt-4 rounded-[8px] border border-gray-alpha-400 bg-background-100 xl:mt-7";
 
   return (
     <>
-      <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="all-types-and-sizes-in-comparison"
-      >
+      <div className={cardClass} data-demo-card="sizes">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div
-            className="w-full min-w-full p-6"
-            data-demo-container="all-types-and-sizes-in-comparison"
-          >
+          <div className="w-full p-6" data-demo-container="sizes">
+            <div className="flex flex-col items-start gap-4 md:flex-row">
+              <Button size="small" typeName="button">
+                {upload}
+              </Button>
+              <Button typeName="button">{upload}</Button>
+              <Button size="large" typeName="button">
+                {upload}
+              </Button>
+            </div>
+          </div>
+        </div>
+        <ShowCodeFooter code={code ?? ""} />
+      </div>
+
+      <div className={cardClass} data-demo-card="all-types-and-sizes-in-comparison">
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="all-types-and-sizes-in-comparison">
             <div className="flex flex-col gap-6">
               <div className="flex items-center gap-3">
                 <Button size="small" typeName="button">
@@ -526,20 +541,51 @@ function ButtonDemo({ code }: { code?: string }) {
         <ShowCodeFooter code={code ?? ""} />
       </div>
 
-      <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="prefix-and-suffix"
-      >
+      <div className={cardClass} data-demo-card="shapes">
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="shapes">
+            <div className="flex flex-col items-start gap-4 md:flex-row">
+              <Button aria-label={upload} shape="square" size="tiny" svgOnly typeName="button">
+                {arrowUpIcon}
+              </Button>
+              <Button aria-label={upload} shape="square" size="small" svgOnly typeName="button">
+                {arrowUpIcon}
+              </Button>
+              <Button aria-label={upload} shape="square" svgOnly typeName="button">
+                {arrowUpIcon}
+              </Button>
+              <Button aria-label={upload} shape="square" size="large" svgOnly typeName="button">
+                {arrowUpIcon}
+              </Button>
+              <Button aria-label={upload} shape="circle" size="tiny" svgOnly typeName="button">
+                {arrowUpIcon}
+              </Button>
+              <Button aria-label={upload} shape="circle" size="small" svgOnly typeName="button">
+                {arrowUpIcon}
+              </Button>
+              <Button aria-label={upload} shape="circle" svgOnly typeName="button">
+                {arrowUpIcon}
+              </Button>
+              <Button aria-label={upload} shape="circle" size="large" svgOnly typeName="button">
+                {arrowUpIcon}
+              </Button>
+            </div>
+          </div>
+        </div>
+        <ShowCodeFooter code={code ?? ""} />
+      </div>
+
+      <div className={cardClass} data-demo-card="prefix-and-suffix">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="prefix-and-suffix">
             <div className="flex flex-col items-start gap-4 md:flex-row">
-              <Button typeName="button" prefix={uploadIcon}>
+              <Button typeName="button" prefix={arrowLeftIcon}>
                 {upload}
               </Button>
-              <Button typeName="button" suffix={uploadIcon}>
+              <Button typeName="button" suffix={arrowRightIcon}>
                 {upload}
               </Button>
-              <Button typeName="button" prefix={uploadIcon} suffix={uploadIcon}>
+              <Button typeName="button" prefix={arrowLeftIcon} suffix={arrowRightIcon}>
                 {upload}
               </Button>
             </div>
@@ -548,10 +594,26 @@ function ButtonDemo({ code }: { code?: string }) {
         <ShowCodeFooter code={code ?? ""} />
       </div>
 
-      <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="loading"
-      >
+      <div className={cardClass} data-demo-card="rounded">
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="rounded">
+            <div className="flex flex-col items-start gap-4 md:flex-row">
+              <Button shadow shape="rounded" size="small" type="secondary" typeName="button">
+                {upload}
+              </Button>
+              <Button shadow shape="rounded" type="secondary" typeName="button">
+                {upload}
+              </Button>
+              <Button shadow shape="rounded" size="large" type="secondary" typeName="button">
+                {upload}
+              </Button>
+            </div>
+          </div>
+        </div>
+        <ShowCodeFooter code={code ?? ""} />
+      </div>
+
+      <div className={cardClass} data-demo-card="loading">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="loading">
             <div className="flex flex-col items-start gap-4 md:flex-row">
@@ -570,10 +632,7 @@ function ButtonDemo({ code }: { code?: string }) {
         <ShowCodeFooter code={code ?? ""} />
       </div>
 
-      <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="disabled"
-      >
+      <div className={cardClass} data-demo-card="disabled">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="disabled">
             <div className="flex flex-col items-start gap-4 md:flex-row">
@@ -592,10 +651,7 @@ function ButtonDemo({ code }: { code?: string }) {
         <ShowCodeFooter code={code ?? ""} />
       </div>
 
-      <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="disabled-variants"
-      >
+      <div className={cardClass} data-demo-card="disabled-variants">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="disabled-variants">
             <div className="flex flex-col items-start gap-4 md:flex-row">
@@ -614,6 +670,49 @@ function ButtonDemo({ code }: { code?: string }) {
               <Button typeName="button" type="warning" disabled>
                 {warningLabel}
               </Button>
+            </div>
+          </div>
+        </div>
+        <ShowCodeFooter code={code ?? ""} />
+      </div>
+
+      <div className={cardClass} data-demo-card="link">
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="link">
+            <div className="flex flex-col items-start gap-4 md:flex-row">
+              <ButtonLink className="w-fit" href="#">
+                {demoText(language, "Sign Up")}
+              </ButtonLink>
+            </div>
+          </div>
+        </div>
+        <ShowCodeFooter code={code ?? ""} />
+      </div>
+
+      <div className={cardClass} data-demo-card="custom">
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="custom">
+            <div className="flex flex-col items-start gap-4 md:flex-row">
+              <CustomButton
+                active={{
+                  foreground: "#fff",
+                  background: "var(--blue-700)",
+                  border: "var(--blue-700)",
+                }}
+                hover={{
+                  foreground: "#fff",
+                  background: "#0B7BFE",
+                  border: "var(--blue-700)",
+                }}
+                normal={{
+                  foreground: "#fff",
+                  background: "var(--blue-700)",
+                  border: "var(--blue-700)",
+                }}
+                width={160}
+              >
+                {demoText(language, "Upgrade to Pro")}
+              </CustomButton>
             </div>
           </div>
         </div>
