@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Popover as PopoverPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 
@@ -244,49 +245,66 @@ function Calendar({
           label={comboboxLabel}
         />
       )}
-      <span
-        data-geist-skeleton=""
-        data-testid="legacy/skeleton"
-        data-version="v1"
-        className={SKELETON_CLASS}
-        style={{ width: "var(--width)" }}
-      >
-        <div className={groupClass}>
-          <button
-            type="submit"
-            tabIndex={0}
-            data-react-aria-pressable="true"
-            aria-haspopup="dialog"
-            aria-expanded={false}
-            aria-controls="radix-calendar-trigger"
-            data-testid="calendar/trigger/button"
-            style={isSmall ? TRIGGER_SMALL_INLINE_STYLE : TRIGGER_INLINE_STYLE}
-            title={label}
-            data-state="closed"
-            className={cn(isSmall ? TRIGGER_SMALL_CLASS : TRIGGER_MEDIUM_CLASS, triggerClassName)}
-            data-geist-button=""
-            data-prefix="true"
-            data-suffix="false"
-            data-version="v1"
-          >
-            <span className={ICON_SPAN_CLASS}>
-              <svg
-                {...GEIST_ICON_ATTRS}
-                style={{ color: "var(--ds-gray-700)" }}
-                className={ICON_SVG_CLASS}
+      <PopoverPrimitive.Root>
+        <span
+          data-geist-skeleton=""
+          data-testid="legacy/skeleton"
+          data-version="v1"
+          className={SKELETON_CLASS}
+          style={{ width: "var(--width)" }}
+        >
+          <div className={groupClass}>
+            <PopoverPrimitive.Trigger asChild>
+              <button
+                type="submit"
+                tabIndex={0}
+                data-react-aria-pressable="true"
+                aria-haspopup="dialog"
+                aria-controls="radix-calendar-trigger"
+                data-testid="calendar/trigger/button"
+                style={isSmall ? TRIGGER_SMALL_INLINE_STYLE : TRIGGER_INLINE_STYLE}
+                title={label}
+                className={cn(
+                  isSmall ? TRIGGER_SMALL_CLASS : TRIGGER_MEDIUM_CLASS,
+                  triggerClassName,
+                )}
+                data-geist-button=""
+                data-prefix="true"
+                data-suffix="false"
+                data-version="v1"
               >
-                <path
-                  fill="currentColor"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M5.5.5V2h5V.5H12V2h3.5v11.5A2.5 2.5 0 0 1 13 16H3a2.5 2.5 0 0 1-2.5-2.5V2H4V.5zM2 3.5h12V6H2zm0 4v6a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-6z"
-                />
-              </svg>
-            </span>
-            <span className={TEXT_SPAN_CLASS}>{label}</span>
-          </button>
-        </div>
-      </span>
+                <span className={ICON_SPAN_CLASS}>
+                  <svg
+                    {...GEIST_ICON_ATTRS}
+                    style={{ color: "var(--ds-gray-700)" }}
+                    className={ICON_SVG_CLASS}
+                  >
+                    <path
+                      fill="currentColor"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M5.5.5V2h5V.5H12V2h3.5v11.5A2.5 2.5 0 0 1 13 16H3a2.5 2.5 0 0 1-2.5-2.5V2H4V.5zM2 3.5h12V6H2zm0 4v6a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-6z"
+                    />
+                  </svg>
+                </span>
+                <span className={TEXT_SPAN_CLASS}>{label}</span>
+              </button>
+            </PopoverPrimitive.Trigger>
+          </div>
+        </span>
+        <PopoverPrimitive.Portal>
+          <PopoverPrimitive.Content
+            side="bottom"
+            align="start"
+            sideOffset={4}
+            data-slot="calendar-popover"
+            className="group/popover z-30 w-[280px] overflow-x-hidden overflow-y-auto rounded-[12px] bg-[var(--ds-background-100)] shadow-[var(--ds-shadow-menu)] outline-none"
+          >
+            <button type="button" className="sr-only" />
+            <CalendarPanel />
+          </PopoverPrimitive.Content>
+        </PopoverPrimitive.Portal>
+      </PopoverPrimitive.Root>
       {!comboboxFirst && showCombobox && (
         <CalendarCombobox
           size={size}
@@ -311,6 +329,302 @@ const CALENDAR_ROW_REV_CLASS =
 /** 官方纵向排布根类：combobox 在上、trigger 在下（sizes item3）。 */
 function calendarColClass(size: "medium" | "small"): string {
   return `[&_[data-geist-button]]:transform-none [&_[data-geist-button]]:rounded-[5px] [&_[data-geist-button]]:rounded-t-none [&_[data-geist-button]]:text-[1rem] inline-flex flex-col [&_[data-geist-button]]:!rounded-[5px] [&_[data-geist-button]]:!rounded-t-none h-(--ds-size-${size}) [&_[data-geist-select]_select]:rounded-t [&_[data-geist-select]_select]:rounded-br-none [&_[data-geist-select]_select]:rounded-bl-none`;
+}
+
+/* ---------- 打开态 Popover（官方 date range picker，2026-08-15 实测） ---------- */
+
+const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
+const MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+/** 当月 42 格日期（从当月 1 号所在周的周日开始，覆盖 6 周）。 */
+function monthGrid(viewYear: number, viewMonth: number): Date[] {
+  const start = new Date(viewYear, viewMonth, 1);
+  start.setDate(1 - start.getDay());
+  return Array.from({ length: 42 }, (_, i) => {
+    const d = new Date(start);
+    d.setDate(start.getDate() + i);
+    return d;
+  });
+}
+
+function sameDay(a: Date, b: Date): boolean {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+}
+
+function fmtDate(d: Date): string {
+  return `${MONTH_NAMES[d.getMonth()].slice(0, 3)} ${String(d.getDate()).padStart(2, "0")}, ${d.getFullYear()}`;
+}
+
+const PANEL_CONTENT_CLASS = "relative rounded-[6px] p-(--padding) [--padding:_12px]";
+
+const START_END_WRAP_CLASS = "mb-3 border-b border-gray-100 -ml-3 -mr-3 px-3 pb-3";
+
+const START_END_LABEL_CLASS =
+  "block text-[13px] max-w-full text-gray-900 cursor-text capitalize mb-0";
+
+const DATE_INPUT_WRAP_CLASS =
+  "flex max-w-full transition-all duration-150 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] overflow-hidden font-normal rounded-md [&>input]:h-8 text-sm [&>input]:px-3 has-[:focus]:!shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] dark-theme:has-[:focus]:!shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] hover:shadow-[0_0_0_1px_var(--ds-gray-alpha-500)]";
+
+const DATE_INPUT_CLASS =
+  "inline-flex appearance-none min-w-0 w-full border-none bg-background-100 text-[var(--geist-foreground)] outline-none focus:outline-none disabled:bg-[var(--ds-gray-100)] disabled:text-[var(--ds-gray-700)] disabled:cursor-not-allowed [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
+
+const NAV_BUTTON_CLASS =
+  "p-0.5 active:bg-gray-300 flex aspect-square shrink-0 items-center rounded-full bg-transparent text-[var(--ds-gray-700)] hover:text-[var(--ds-gray-1000)] disabled:cursor-not-allowed disabled:text-[var(--ds-gray-700)]";
+
+const GRID_TABLE_CLASS = "relative block table-fixed border-collapse w-full";
+const GRID_HEAD_TR_CLASS = "last:mb-0 flex flex-nowrap my-2";
+const GRID_HEAD_TH_CLASS =
+  "p-0 font-normal flex-1 text-center text-[0.75rem] text-[var(--ds-gray-900)] uppercase";
+const GRID_BODY_CLASS = "block !mt-[14.5px]";
+const GRID_ROW_CLASS = "last:mb-0 flex flex-nowrap my-2";
+const GRID_CELL_CLASS =
+  "flex-1 flex justify-center size-8 p-0 text-center cursor-pointer aria-selected:bg-gray-300 aria-selected:first:rounded-l-[4px] aria-selected:last:rounded-r-[4px]";
+
+const GEIST_CHEVRON_LEFT =
+  "M9.56 4.06 4.47 8.5a1 1 0 0 0 0 1.42l4.8 4.8a1 1 0 0 0 1.42 0l.53-.53-4.27-4.27L11.5 5l-.53-.53a1 1 0 0 0-1.41-.41z";
+const GEIST_CHEVRON_RIGHT =
+  "M6.44 4.06l5.09 4.44a1 1 0 0 1 0 1.42l-4.8 4.8a1 1 0 0 1-1.42 0l-.53-.53 4.27-4.27L4.5 5l.53-.53a1 1 0 0 1 1.41-.41z";
+
+function CalendarPanel() {
+  const today = new Date();
+  const [viewYear, setViewYear] = React.useState(today.getFullYear());
+  const [viewMonth, setViewMonth] = React.useState(today.getMonth());
+  const [start, setStart] = React.useState<Date | null>(null);
+  const [end, setEnd] = React.useState<Date | null>(null);
+
+  const cells = monthGrid(viewYear, viewMonth);
+
+  const selectDate = (d: Date) => {
+    if (!start || (start && end)) {
+      setStart(d);
+      setEnd(null);
+    } else if (d < start) {
+      setEnd(start);
+      setStart(d);
+    } else {
+      setEnd(d);
+    }
+  };
+
+  const isSelected = (d: Date) => {
+    if (!start) return false;
+    if (!end) return sameDay(d, start);
+    return d >= start && d <= end;
+  };
+
+  const prevMonth = () => {
+    const m = new Date(viewYear, viewMonth - 1, 1);
+    setViewYear(m.getFullYear());
+    setViewMonth(m.getMonth());
+  };
+  const nextMonth = () => {
+    const m = new Date(viewYear, viewMonth + 1, 1);
+    setViewYear(m.getFullYear());
+    setViewMonth(m.getMonth());
+  };
+
+  return (
+    <div className={PANEL_CONTENT_CLASS}>
+      <div className="flex flex-col">
+        <div className={START_END_WRAP_CLASS}>
+          <div className="space-y-2">
+            <div>
+              <div className="mb-1 flex items-center justify-between">
+                <label>
+                  <div className={START_END_LABEL_CLASS}>Start</div>
+                </label>
+              </div>
+              <div className="flex gap-2">
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
+                  <input
+                    aria-labelledby="start-date"
+                    placeholder="Jan 01, 2025"
+                    aria-invalid="false"
+                    autoCapitalize="none"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className={DATE_INPUT_CLASS}
+                    data-geist-input=""
+                    spellCheck="false"
+                    type="text"
+                    value={start ? fmtDate(start) : ""}
+                    readOnly
+                  />
+                </div>
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
+                  <input
+                    aria-labelledby="time"
+                    placeholder="13:00"
+                    aria-invalid="false"
+                    autoComplete="off"
+                    className={cn(DATE_INPUT_CLASS, "text-center")}
+                    data-geist-input=""
+                    spellCheck="false"
+                    type="text"
+                    value="00:00"
+                    readOnly
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="mb-1 flex items-center justify-between">
+                <label>
+                  <div className={START_END_LABEL_CLASS}>End</div>
+                </label>
+              </div>
+              <div className="flex gap-2">
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
+                  <input
+                    aria-labelledby="end-date"
+                    placeholder="Jan 01, 2025"
+                    aria-invalid="false"
+                    autoComplete="off"
+                    className={DATE_INPUT_CLASS}
+                    data-geist-input=""
+                    spellCheck="false"
+                    type="text"
+                    value={end ? fmtDate(end) : ""}
+                    readOnly
+                  />
+                </div>
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
+                  <input
+                    aria-labelledby="time"
+                    placeholder="13:00"
+                    aria-invalid="false"
+                    autoComplete="off"
+                    className={cn(DATE_INPUT_CLASS, "text-center")}
+                    data-geist-input=""
+                    spellCheck="false"
+                    type="text"
+                    value="00:00"
+                    readOnly
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            className="flex flex-row items-center justify-between"
+            style={{ margin: "-3px 0px" }}
+          >
+            <div
+              style={{
+                overflow: "hidden",
+                marginLeft: "-16px",
+                paddingLeft: "16px",
+                flex: "1 1 0%",
+              }}
+            >
+              <h2 className="m-0 font-medium color-[var(--ds-gray-1000)] block w-fit max-w-full text-[14px]">
+                {MONTH_NAMES[viewMonth]} {viewYear}
+              </h2>
+            </div>
+            <button
+              type="button"
+              aria-label="Previous"
+              className={NAV_BUTTON_CLASS}
+              onClick={prevMonth}
+            >
+              <svg {...GEIST_ICON_ATTRS}>
+                <path
+                  fill="currentColor"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d={GEIST_CHEVRON_LEFT}
+                />
+              </svg>
+            </button>
+            <button
+              type="button"
+              aria-label="Next"
+              className={NAV_BUTTON_CLASS}
+              onClick={nextMonth}
+            >
+              <svg {...GEIST_ICON_ATTRS}>
+                <path
+                  fill="currentColor"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d={GEIST_CHEVRON_RIGHT}
+                />
+              </svg>
+            </button>
+          </div>
+          <table className={GRID_TABLE_CLASS}>
+            <caption className="sr-only">Calendar</caption>
+            <thead className="block">
+              <tr className={GRID_HEAD_TR_CLASS}>
+                {WEEKDAYS.map((d, i) => (
+                  <th key={i} className={GRID_HEAD_TH_CLASS}>
+                    {d}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className={GRID_BODY_CLASS}>
+              {Array.from({ length: 6 }, (_, week) => (
+                <tr key={week} className={GRID_ROW_CLASS}>
+                  {cells.slice(week * 7, week * 7 + 7).map((d, i) => {
+                    const inMonth = d.getMonth() === viewMonth;
+                    const selected = isSelected(d);
+                    const isStart = start ? sameDay(d, start) : false;
+                    const isEnd = end ? sameDay(d, end) : false;
+                    return (
+                      <td
+                        key={i}
+                        role="gridcell"
+                        aria-selected={selected}
+                        className={cn(
+                          GRID_CELL_CLASS,
+                          isStart && "rounded-l-[4px]",
+                          isEnd && "rounded-r-[4px]",
+                        )}
+                      >
+                        <span
+                          role="button"
+                          tabIndex={-1}
+                          aria-label={d.toLocaleDateString()}
+                          data-testid={`calendar/cell/date-${d.getDate()}`}
+                          className={cn(
+                            "z-[1] outline-none block size-8 rounded-[4px] text-[14px] font-normal text-center border border-transparent m-0 leading-[30px]",
+                            inMonth ? "text-[var(--ds-gray-900)]" : "text-[var(--ds-gray-700)]",
+                          )}
+                          onClick={() => selectDate(d)}
+                        >
+                          {d.getDate()}
+                        </span>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export {
