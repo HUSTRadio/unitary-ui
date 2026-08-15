@@ -681,22 +681,22 @@
     },
     {
       "slug": "sheet",
-      "batch": "BLOCKED",
-      "inventoryStatus": "pending_live_enumeration",
-      "gate": "BLOCKED",
+      "batch": "B2",
+      "inventoryStatus": "live_enumeration_partial",
+      "gate": "RE_EVIDENCE_REQUIRED",
       "dimensions": {
-        "officialCapabilities": "MISSING",
-        "api": "MISSING",
-        "dom": "MISSING",
-        "states": "MISSING",
-        "responsive": "MISSING",
-        "aria": "MISSING",
-        "motion": "MISSING",
-        "localDemoCoverage": "MISSING",
-        "comparison": "MISSING"
+        "officialCapabilities": "PARTIAL",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PARTIAL",
+        "responsive": "PARTIAL",
+        "aria": "PARTIAL",
+        "motion": "PARTIAL",
+        "localDemoCoverage": "PARTIAL",
+        "comparison": "PARTIAL"
       },
       "evidence": [],
-      "notes": "Zero evidence; default-vs-demo-override boundary and 4-viewport width/margin/height/scroll require Task 8 measurement"
+      "notes": "官方实测（2026-08-15 live DOM+computed，vercel.com/geist/sheet With Side demo 无 className 覆盖 = 组件默认值）：modal=false（BP 权威声明）、overlay bg-[var(--ds-overlay-backdrop-color)]@0.8（light #f2f2f2/dark #000）、content gap-4 bg-background-100 p-6 shadow-[var(--ds-shadow-modal-elevated)] z-[var(--ds-z-drawer)] transition ease-in-out、focus:outline-none；side 默认 right/left=inset-y-0 h-full w-3/4 sm:max-w-sm（实测 384px），top/bottom=inset-x-0 全宽，无圆角无 margin；动画 slide-in-<side>-5/slide-out-<side>-10 duration-200；不内置关闭按钮（消费者 SheetClose）。本地 sheet.tsx 已重写对齐（旧实现把 Default demo 的 m-3/rounded-16/w-512 覆盖误当默认值），Default demo 补 className 覆盖，demo 非受控+modal，新增 --ds-overlay-backdrop-color/opacity、--ds-shadow-modal-elevated、--ds-z-drawer 双主题变量，tests/sheet-api.test.ts 8 断言锁定。切主题时 bg 不即时更新经实测为官方一致行为（官方同款 transition+var 在 Chromium 下同样卡住，非本地差异）。待补：375/768/1440/1920 四视口逐视口测量、official/local contact sheet 截图差分、evidence 截图落盘。"
     }
   ],
   "batches": {

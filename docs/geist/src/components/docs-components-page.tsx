@@ -2332,11 +2332,6 @@ function NoteDemo() {
 
 function SheetDemo() {
   const { language } = useLanguage();
-  const [open, setOpen] = React.useState(false);
-  const [topOpen, setTopOpen] = React.useState(false);
-  const [rightOpen, setRightOpen] = React.useState(false);
-  const [bottomOpen, setBottomOpen] = React.useState(false);
-  const [leftOpen, setLeftOpen] = React.useState(false);
 
   const footerBar = (
     <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
@@ -2359,19 +2354,20 @@ function SheetDemo() {
 
   const sheetBody = (title: string, description: string) => (
     <div className="flex flex-col gap-4">
-      <SheetHeader className="p-6">
+      <SheetHeader className="p-6 text-left">
         <SheetTitle>{demoText(language, title)}</SheetTitle>
-        <SheetDescription>{demoText(language, description)}</SheetDescription>
+        <p className="text-copy-14 text-foreground">{demoText(language, description)}</p>
       </SheetHeader>
-      <p className="px-6 py-4 text-copy-14 text-muted-foreground">
+      <SheetDescription className="px-6 py-4 text-copy-14">
         {demoText(language, "Sheet body")}
-      </p>
-      <SheetFooter className="p-6">
+      </SheetDescription>
+      <SheetFooter className="p-6 gap-2 flex-row justify-end mt-auto">
         <SheetClose asChild>
           <Button typeName="button" type="secondary">
             {demoText(language, "Close")}
           </Button>
         </SheetClose>
+        <Button typeName="button">{demoText(language, "Next")}</Button>
       </SheetFooter>
     </div>
   );
@@ -2384,7 +2380,7 @@ function SheetDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
-            <Sheet open={open} onOpenChange={setOpen}>
+            <Sheet modal>
               <SheetTrigger asChild>
                 <Button
                   type="default"
@@ -2393,7 +2389,9 @@ function SheetDemo() {
                   {demoText(language, "Open Sheet")}
                 </Button>
               </SheetTrigger>
-              <SheetContent>{sheetBody("Sheet Title", "Sheet description")}</SheetContent>
+              <SheetContent className="m-3 h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] rounded-2xl bg-background-100 p-0 lg:w-[512px] sm:max-w-[auto] flex flex-col">
+                {sheetBody("Sheet Title", "Sheet description")}
+              </SheetContent>
             </Sheet>
           </div>
         </div>
@@ -2406,7 +2404,7 @@ function SheetDemo() {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="with-side">
             <div className="flex items-center justify-center gap-4">
-              <Sheet open={topOpen} onOpenChange={setTopOpen}>
+              <Sheet modal>
                 <SheetTrigger asChild>
                   <Button
                     type="default"
@@ -2419,7 +2417,7 @@ function SheetDemo() {
                   {sheetBody("Sheet from top", "This sheet slides in from the top.")}
                 </SheetContent>
               </Sheet>
-              <Sheet open={rightOpen} onOpenChange={setRightOpen}>
+              <Sheet modal>
                 <SheetTrigger asChild>
                   <Button
                     type="default"
@@ -2432,7 +2430,7 @@ function SheetDemo() {
                   {sheetBody("Sheet from right", "This sheet slides in from the right.")}
                 </SheetContent>
               </Sheet>
-              <Sheet open={bottomOpen} onOpenChange={setBottomOpen}>
+              <Sheet modal>
                 <SheetTrigger asChild>
                   <Button
                     type="default"
@@ -2445,7 +2443,7 @@ function SheetDemo() {
                   {sheetBody("Sheet from bottom", "This sheet slides in from the bottom.")}
                 </SheetContent>
               </Sheet>
-              <Sheet open={leftOpen} onOpenChange={setLeftOpen}>
+              <Sheet modal>
                 <SheetTrigger asChild>
                   <Button
                     type="default"

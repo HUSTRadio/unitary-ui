@@ -22,6 +22,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     Delete: "删除",
     Apply: "应用",
     Close: "关闭",
+    Next: "下一步",
     Send: "发送",
     Sent: "已发送",
     Top: "顶部",
