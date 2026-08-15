@@ -29,7 +29,8 @@ const buttonVariants = cva(
       type: {
         default:
           "bg-primary text-primary-foreground hover:bg-action-hover hover:text-primary-foreground",
-        secondary: "bg-background text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
+        secondary:
+          "bg-background-100 text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
         tertiary: "bg-transparent text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
         error:
           "bg-destructive text-destructive-foreground hover:bg-danger-hover hover:text-destructive-foreground focus-visible:ring-destructive/20",
