@@ -29,13 +29,12 @@ describe("Select official API contract (G09 audit fixes)", () => {
     expect(src).toMatch(/size === "large" \? "text-base leading-6" : "text-copy-13 leading-5"/);
   });
 
-  test("label renders mb-2 on <label> element itself (8px gap, no margin-collapse risk)", async () => {
+  test("label renders mb-2 on inner text div (8px gap, official structure)", async () => {
     const src = await read("src/components/ui/select.tsx");
-    // mb-2 lives on the <label> element itself (kept inside cn() so className still merges)
-    expect(src).toMatch(/<label className=\{cn\("mb-2 block", className\)\}>/);
-    // the inner label text div must NOT carry mb-2 (exact class string locks it)
+    // mb-2 lives on the inner label text div, NOT on the <label> element
+    expect(src).toMatch(/<label className=\{cn\(className\)\}>/);
     expect(src).toContain(
-      '<div className="block max-w-full cursor-text text-[13px] text-gray-900 capitalize">',
+      '<div className="mb-2 block max-w-full cursor-text text-[13px] text-gray-900 capitalize">',
     );
   });
 });

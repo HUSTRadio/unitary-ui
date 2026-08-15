@@ -56,7 +56,7 @@ type ComboboxProps = {
   placeholder?: string;
   /** 输入框的 accessible name（官方 Combobox aria-label） */
   "aria-label"?: string;
-  /** 字段标签：存在时用 <label className="mb-2 block"> 包裹标签文本（13px capitalize gray-900）与 combobox（对齐 Select 结构） */
+  /** 字段标签：存在时用 <label className="block cursor-text"> 包裹标签文本（13px capitalize gray-900，mb-2 8px 间距在文本 div 上）与 combobox（对齐 Select 结构） */
   label?: string;
   disabled?: boolean;
   size?: ComboboxSize;
@@ -430,8 +430,8 @@ function Combobox({
   return (
     <ComboboxContext.Provider value={ctx}>
       {label ? (
-        <label className="mb-2 block cursor-text">
-          <div className="block max-w-full cursor-text text-[13px] text-gray-900 capitalize">
+        <label className="block cursor-text">
+          <div className="mb-2 block max-w-full cursor-text text-[13px] text-gray-900 capitalize">
             {label}
           </div>
           {/* 注册容器：ComboboxInput/ComboboxList/ComboboxOption 在此挂载并注册选项 */}

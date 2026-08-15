@@ -21,7 +21,7 @@ interface TextareaProps extends React.ComponentProps<"textarea"> {
   size?: TextareaSize;
   /** 官方 error：传入字符串时在字段下方渲染 inline 错误消息，并切换红色光环 */
   error?: React.ReactNode;
-  /** 关联标签：存在时用 <label className="mb-2 block"> 包裹标签文本（13px capitalize gray-900）与输入控件（对齐 Input 结构） */
+  /** 关联标签：存在时用 <label className="block cursor-text"> 包裹标签文本（13px capitalize gray-900，mb-2 8px 间距在文本 div 上）与输入控件（对齐 Input 结构） */
   label?: React.ReactNode;
 }
 
@@ -76,8 +76,10 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <>
         {label ? (
-          <label className="mb-2 block cursor-text">
-            <div className="block max-w-full text-copy-13 capitalize text-gray-900">{label}</div>
+          <label className="block cursor-text">
+            <div className="mb-2 block max-w-full text-copy-13 capitalize text-gray-900">
+              {label}
+            </div>
             {wrapper}
           </label>
         ) : (
