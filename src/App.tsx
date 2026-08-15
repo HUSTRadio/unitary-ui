@@ -127,9 +127,9 @@ export default function App() {
             <Section title="Button">
               <Button>默认</Button>
               <Button type="secondary">次要</Button>
-              <Button type="tertiary">描边</Button>
-              <Button type="tertiary">幽灵</Button>
-              <Button type="error">危险</Button>
+              <Button type="tertiary">三级</Button>
+              <Button type="error">错误</Button>
+              <Button type="warning">警告</Button>
               <Button size="small">小号</Button>
               <Button size="large">大号</Button>
               <Button prefix={<Plus className="size-3.5" aria-hidden />}>带图标</Button>
