@@ -1020,7 +1020,7 @@
   box-shadow: var(--material-shadow-tooltip);
 }
 @utility switch-ring {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 0 1px var(--ds-gray-alpha-400);
 }
 
 @utility material-menu {

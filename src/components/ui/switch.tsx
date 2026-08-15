@@ -139,15 +139,16 @@ function SwitchControl({
       <div
         data-slot="switch-control"
         className={cn(
-          "flex h-full flex-1 cursor-pointer items-center justify-center text-start font-medium text-gray-900 no-underline outline-none transition-colors duration-150",
+          "flex h-full flex-1 cursor-pointer items-center justify-center text-start text-gray-900 no-underline outline-none transition-colors duration-150",
           "hover:text-gray-1000 peer-focus-visible:shadow-focus-ring",
           "peer-checked:bg-gray-100 peer-checked:text-gray-1000 peer-checked:rounded-[4px]",
           "peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed peer-disabled:!text-gray-800",
-          icon && size === "small" && "px-2 py-1",
-          icon && size === "default" && "p-2",
+          icon && size !== "large" && "p-2 font-normal",
           icon && size === "large" && "p-3 peer-checked:rounded-[6px]",
-          !icon && size === "large" && "px-4 text-label-16 leading-6 peer-checked:rounded-[6px]",
-          !icon && size !== "large" && "px-3 text-label-14 leading-[21px]",
+          !icon &&
+            size === "large" &&
+            "px-4 text-label-16 leading-6 font-medium peer-checked:rounded-[6px]",
+          !icon && size !== "large" && "px-3 text-label-14 leading-[21px] font-medium",
           className,
         )}
       >

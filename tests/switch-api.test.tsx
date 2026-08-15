@@ -130,7 +130,14 @@ describe("Switch live official contract", () => {
     expect(roots[1].className).toContain("h-10");
     const iconControl = container.querySelector<HTMLElement>('[data-slot="switch-control"]');
     expect(iconControl?.querySelector(".sr-only")?.textContent).toBe("Grid");
+    expect(iconControl?.className).toContain("p-2");
+    expect(iconControl?.className).toContain("font-normal");
     expect(radios()[0].getAttribute("aria-label")).toBeNull();
+  });
+
+  test("the root hairline consumes the theme-aware Geist alpha token", async () => {
+    const css = await read("src/styles/index.css");
+    expect(css).toContain("box-shadow: 0 0 0 1px var(--ds-gray-alpha-400);");
   });
 
   test("arrow keys auto-activate, skip disabled radios and wrap at group edges", async () => {
