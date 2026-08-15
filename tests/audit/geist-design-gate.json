@@ -42,7 +42,7 @@
       "slug": "radio",
       "batch": "B3",
       "inventoryStatus": "live_enumeration_complete",
-      "gate": "IN_PROGRESS_NO_COMPLETION_CLAIM",
+      "gate": "TDD_READY",
       "dimensions": {
         "officialCapabilities": "PASS",
         "api": "PASS",
@@ -52,15 +52,15 @@
         "aria": "PASS",
         "motion": "NOT_APPLICABLE",
         "localDemoCoverage": "PASS",
-        "comparison": "MISSING"
+        "comparison": "PASS"
       },
       "evidence": [
-        "C:/Users/Leon/geist-audit/radio-<REVISION>/runs/official/",
-        "C:/Users/Leon/geist-audit/radio-<REVISION>/runs/local/",
-        "C:/Users/Leon/geist-audit/radio-<REVISION>/comparisons/",
-        "C:/Users/Leon/geist-audit/radio-<REVISION>/visual/final-contact-sheet.png"
+        "C:/Users/Leon/geist-audit/radio-8886133/runs/official/",
+        "C:/Users/Leon/geist-audit/radio-8886133/runs/local/",
+        "C:/Users/Leon/geist-audit/radio-8886133/comparisons/",
+        "C:/Users/Leon/geist-audit/radio-8886133/visual/final-contact-sheet.png"
       ],
-      "notes": "B3；5 live demo（default/radio-disabled/radio-required/radio-headless/radio-standalone）；API、原生 radio/label 结构、受控/非受控、required/disabled、headless 共享 name、standalone aria-label 已由 targeted contract 覆盖；响应式证据尚未完成，保持 PARTIAL；comparison 待 clean revision evidence 验收后更新"
+      "notes": "B3 复刻闭环；5 live demo（default/radio-disabled/radio-required/radio-headless/radio-standalone）的 clean revision 8886133 双主题 comparator 10/10 semantic PASS，strict/ARIA failures、missing paths 与 normalized geometry delta 均为 0；原生 label 点击、同组互斥、方向键切换、disabled 不可变、required 空提交聚焦无效控件与 standalone 可访问名称均已实测；contact sheet 经 browser vision 复核 PASS，无未解释差异；四视口响应式证据尚未完成，保持 PARTIAL"
     },
 
     {
