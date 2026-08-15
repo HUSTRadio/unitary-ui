@@ -65,17 +65,17 @@
       "gate": "TDD_READY",
       "dimensions": {
         "officialCapabilities": "PASS",
-        "api": "MISSING",
+        "api": "PASS",
         "dom": "PARTIAL",
         "states": "PASS",
-        "responsive": "PASS",
-        "aria": "PARTIAL",
-        "motion": "NOT_APPLICABLE",
-        "localDemoCoverage": "MISSING",
+        "responsive": "PARTIAL",
+        "aria": "PASS",
+        "motion": "PASS",
+        "localDemoCoverage": "PASS",
         "comparison": "MISSING"
       },
       "evidence": ["switch/README.md", "switch/switch-diff-table.md", "switch/evidence/"],
-      "notes": "B3；5 live demo（disabled/sizes/full-width/tooltip/icon）"
+      "notes": "B3 进行中；实时页面为 6 demos（default/disabled/sizes/full-width/tooltip/icon）；已按原生 radio/label DOM、32/36/40px 尺寸、full-width、tooltip wrapper 与 icon sr-only 合同落地，等待 clean-revision comparator 与视觉终验；响应式矩阵未完整采集，保留 PARTIAL"
     },
 
     {

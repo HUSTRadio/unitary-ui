@@ -9658,14 +9658,84 @@
       "slug": "switch",
       "officialUrl": "https://vercel.com/geist/switch",
       "inventoryStatus": "live_enumeration_complete",
-      "variants": ["disabled", "sizes", "full-width", "tooltip", "icon"],
+      "variants": ["default", "disabled", "sizes", "full-width", "tooltip", "icon"],
       "states": ["default", "disabled"],
       "selectors": {
         "official": "[data-slot=switch]",
         "local": "[data-slot=switch]"
       },
-      "interaction": "pending",
+      "interaction": "applicable",
       "acceptanceContracts": [
+        {
+          "demoId": "default",
+          "variant": "default",
+          "state": "default",
+          "clipRole": "root",
+          "evidenceNotBefore": "2026-08-14T00:00:00.000Z",
+          "roles": {
+            "root": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.border-gray-alpha-400",
+                  "local": "[data-demo-card=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "context-owned-fill",
+              "contextOwnerRole": "demo-container"
+            },
+            "demo-container": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6",
+                  "local": "[data-demo-container=\"default\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "measurement-context",
+              "measurementAxes": ["width"]
+            },
+            "switch": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 div.bg-background-100",
+                  "local": "[data-demo-container=\"default\"] [data-slot=\"switch\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
+            },
+            "switch-label": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 label > div",
+                  "local": "[data-demo-container=\"default\"] [data-slot=\"switch-control\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "mapped-text"
+            },
+            "switch-input": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#default\"] ~ * div.w-full.p-6 input[type=\"radio\"]",
+                  "local": "[data-demo-container=\"default\"] [data-slot=\"switch-input\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
+            }
+          },
+          "semanticNodeInventory": [],
+          "transparentWrappers": []
+        },
         {
           "demoId": "disabled",
           "variant": "disabled",
@@ -9719,6 +9789,18 @@
               },
               "presence": "required",
               "acceptanceProfile": "mapped-text"
+            },
+            "switch-input": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6 input[type=\"radio\"]",
+                  "local": "[data-demo-container=\"disabled\"] [data-slot=\"switch-input\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             }
           },
           "semanticNodeInventory": [],
@@ -9777,6 +9859,18 @@
               },
               "presence": "required",
               "acceptanceProfile": "mapped-text"
+            },
+            "switch-input": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#sizes\"] ~ * div.w-full.p-6 input[type=\"radio\"]",
+                  "local": "[data-demo-container=\"sizes\"] [data-slot=\"switch-input\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             }
           },
           "semanticNodeInventory": [],
@@ -9835,6 +9929,18 @@
               },
               "presence": "required",
               "acceptanceProfile": "mapped-text"
+            },
+            "switch-input": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#full-width\"] ~ * div.w-full.p-6 input[type=\"radio\"]",
+                  "local": "[data-demo-container=\"full-width\"] [data-slot=\"switch-input\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             }
           },
           "semanticNodeInventory": [],
@@ -9893,6 +9999,18 @@
               },
               "presence": "required",
               "acceptanceProfile": "mapped-text"
+            },
+            "switch-input": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#tooltip\"] ~ * div.w-full.p-6 input[type=\"radio\"]",
+                  "local": "[data-demo-container=\"tooltip\"] [data-slot=\"switch-input\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             }
           },
           "semanticNodeInventory": [],
@@ -9951,6 +10069,18 @@
               },
               "presence": "required",
               "acceptanceProfile": "mapped-text"
+            },
+            "switch-input": {
+              "selectors": {
+                "default": {
+                  "official": "a[href=\"#icon\"] ~ * div.w-full.p-6 input[type=\"radio\"]",
+                  "local": "[data-demo-container=\"icon\"] [data-slot=\"switch-input\"]"
+                },
+                "byViewport": {}
+              },
+              "presence": "required",
+              "acceptanceProfile": "strict",
+              "styleProfile": "graphic"
             }
           },
           "semanticNodeInventory": [],
@@ -9958,6 +10088,9 @@
         }
       ],
       "demos": [
+        {
+          "id": "default"
+        },
         {
           "id": "disabled"
         },

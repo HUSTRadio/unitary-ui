@@ -1125,6 +1125,23 @@ function SwitchDemo() {
     <>
       <div
         className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="default">
+            <div className="flex w-full max-w-md flex-col items-start">
+              <Switch name="default">
+                <SwitchControl defaultChecked label="Source" value="source" />
+                <SwitchControl label="Output" value="output" />
+              </Switch>
+            </div>
+          </div>
+        </div>
+        {footerBar}
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1146,19 +1163,25 @@ function SwitchDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="sizes">
-            <div className="flex w-full flex-col gap-4 lg:flex-row lg:flex-wrap">
-              <Switch name="sizes-small" size="small">
-                <SwitchControl defaultChecked label="Source" value="source" />
-                <SwitchControl label="Output" value="output" />
-              </Switch>
-              <Switch name="sizes-default">
-                <SwitchControl defaultChecked label="Source" value="source" />
-                <SwitchControl label="Output" value="output" />
-              </Switch>
-              <Switch name="sizes-large" size="large">
-                <SwitchControl defaultChecked label="Source" value="source" />
-                <SwitchControl label="Output" value="output" />
-              </Switch>
+            <div className="flex w-full flex-col lg:flex-row lg:flex-wrap">
+              <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+                <Switch name="sizes-small" size="small">
+                  <SwitchControl defaultChecked label="Source" value="source" />
+                  <SwitchControl label="Output" value="output" />
+                </Switch>
+              </div>
+              <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+                <Switch name="sizes-default">
+                  <SwitchControl defaultChecked label="Source" value="source" />
+                  <SwitchControl label="Output" value="output" />
+                </Switch>
+              </div>
+              <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+                <Switch name="sizes-large" size="large">
+                  <SwitchControl defaultChecked label="Source" value="source" />
+                  <SwitchControl label="Output" value="output" />
+                </Switch>
+              </div>
             </div>
           </div>
         </div>
@@ -1207,34 +1230,40 @@ function SwitchDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="icon">
-            <div className="flex w-full flex-col gap-4 lg:flex-row lg:flex-wrap">
-              <Switch name="icons-small" size="small">
-                <SwitchControl
-                  defaultChecked
-                  icon={<LayoutGrid aria-hidden />}
-                  label="Source"
-                  value="source"
-                />
-                <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
-              </Switch>
-              <Switch name="icons-default">
-                <SwitchControl
-                  defaultChecked
-                  icon={<LayoutGrid aria-hidden />}
-                  label="Source"
-                  value="source"
-                />
-                <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
-              </Switch>
-              <Switch name="icons-large" size="large">
-                <SwitchControl
-                  defaultChecked
-                  icon={<LayoutGrid aria-hidden />}
-                  label="Source"
-                  value="source"
-                />
-                <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
-              </Switch>
+            <div className="flex w-full flex-col lg:flex-row lg:flex-wrap">
+              <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+                <Switch name="icons-small" size="small">
+                  <SwitchControl
+                    defaultChecked
+                    icon={<LayoutGrid aria-hidden />}
+                    label="Source"
+                    value="source"
+                  />
+                  <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
+                </Switch>
+              </div>
+              <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+                <Switch name="icons-default">
+                  <SwitchControl
+                    defaultChecked
+                    icon={<LayoutGrid aria-hidden />}
+                    label="Source"
+                    value="source"
+                  />
+                  <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
+                </Switch>
+              </div>
+              <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+                <Switch name="icons-large" size="large">
+                  <SwitchControl
+                    defaultChecked
+                    icon={<LayoutGrid aria-hidden />}
+                    label="Source"
+                    value="source"
+                  />
+                  <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
+                </Switch>
+              </div>
             </div>
           </div>
         </div>
@@ -5953,37 +5982,43 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
         <>
           <Section title="Disabled">
             <div className="flex w-full max-w-md flex-col items-start">
-              <Switch name="view-mode">
+              <Switch name="reference-view-mode">
                 <SwitchControl defaultChecked disabled label="Source" value="source" />
                 <SwitchControl disabled label="Output" value="output" />
               </Switch>
             </div>
           </Section>
           <Section title="Sizes">
-            <div className="flex w-full flex-col gap-4 lg:flex-row lg:flex-wrap">
-              <Switch name="sizes-small" size="small">
-                <SwitchControl defaultChecked label="Source" value="source" />
-                <SwitchControl label="Output" value="output" />
-              </Switch>
-              <Switch name="sizes-default">
-                <SwitchControl defaultChecked label="Source" value="source" />
-                <SwitchControl label="Output" value="output" />
-              </Switch>
-              <Switch name="sizes-large" size="large">
-                <SwitchControl defaultChecked label="Source" value="source" />
-                <SwitchControl label="Output" value="output" />
-              </Switch>
+            <div className="flex w-full flex-col lg:flex-row lg:flex-wrap">
+              <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+                <Switch name="reference-sizes-small" size="small">
+                  <SwitchControl defaultChecked label="Source" value="source" />
+                  <SwitchControl label="Output" value="output" />
+                </Switch>
+              </div>
+              <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+                <Switch name="reference-sizes-default">
+                  <SwitchControl defaultChecked label="Source" value="source" />
+                  <SwitchControl label="Output" value="output" />
+                </Switch>
+              </div>
+              <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+                <Switch name="reference-sizes-large" size="large">
+                  <SwitchControl defaultChecked label="Source" value="source" />
+                  <SwitchControl label="Output" value="output" />
+                </Switch>
+              </div>
             </div>
           </Section>
           <Section title="Full width">
-            <Switch name="full-width" style={{ width: "100%" }}>
-              <SwitchControl defaultChecked label="Source" size="large" value="source" />
-              <SwitchControl label="Output" size="large" value="output" />
+            <Switch name="reference-full-width" style={{ width: "100%" }}>
+              <SwitchControl defaultChecked label="Source" value="source" />
+              <SwitchControl label="Output" value="output" />
             </Switch>
           </Section>
           <Section title="Tooltip">
             <div className="flex w-full max-w-md flex-col items-start">
-              <Switch name="view-mode">
+              <Switch name="reference-tooltip">
                 <Tooltip text="View Source">
                   <SwitchControl defaultChecked label="Source" size="large" value="source" />
                 </Tooltip>
@@ -5994,34 +6029,40 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
             </div>
           </Section>
           <Section title="Icon">
-            <div className="flex w-full flex-col gap-4 lg:flex-row lg:flex-wrap">
-              <Switch name="icons-small" size="small">
-                <SwitchControl
-                  defaultChecked
-                  icon={<LayoutGrid aria-hidden />}
-                  label="Source"
-                  value="source"
-                />
-                <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
-              </Switch>
-              <Switch name="icons-default">
-                <SwitchControl
-                  defaultChecked
-                  icon={<LayoutGrid aria-hidden />}
-                  label="Source"
-                  value="source"
-                />
-                <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
-              </Switch>
-              <Switch name="icons-large" size="large">
-                <SwitchControl
-                  defaultChecked
-                  icon={<LayoutGrid aria-hidden />}
-                  label="Source"
-                  value="source"
-                />
-                <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
-              </Switch>
+            <div className="flex w-full flex-col lg:flex-row lg:flex-wrap">
+              <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+                <Switch name="reference-icons-small" size="small">
+                  <SwitchControl
+                    defaultChecked
+                    icon={<LayoutGrid aria-hidden />}
+                    label="Source"
+                    value="source"
+                  />
+                  <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
+                </Switch>
+              </div>
+              <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+                <Switch name="reference-icons-default">
+                  <SwitchControl
+                    defaultChecked
+                    icon={<LayoutGrid aria-hidden />}
+                    label="Source"
+                    value="source"
+                  />
+                  <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
+                </Switch>
+              </div>
+              <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+                <Switch name="reference-icons-large" size="large">
+                  <SwitchControl
+                    defaultChecked
+                    icon={<LayoutGrid aria-hidden />}
+                    label="Source"
+                    value="source"
+                  />
+                  <SwitchControl icon={<List aria-hidden />} label="Output" value="output" />
+                </Switch>
+              </div>
             </div>
           </Section>
         </>
