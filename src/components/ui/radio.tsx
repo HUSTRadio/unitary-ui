@@ -57,7 +57,7 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
       <span
         data-slot="radio-control"
         className={cn(
-          "relative -m-0.5 inline-flex size-5 shrink-0 items-center justify-center",
+          "relative -m-0.5 inline-flex size-5 shrink-0 items-center justify-center p-0.5",
           className,
         )}
       >
@@ -187,15 +187,13 @@ function RadioGroupItem({ value, children, className, ...radioProps }: RadioGrou
     <label
       data-slot="radio-item-wrapper"
       className={cn(
-        "group flex text-copy-13 leading-[19.5px] [--radio-color:var(--gray-700)]",
+        "group flex items-center text-copy-13 leading-[19.5px] [--radio-color:var(--gray-700)]",
         "has-[input:disabled]:cursor-not-allowed has-[input:disabled]:text-gray-500 has-[input:disabled]:[--radio-color:var(--gray-500)]",
         className,
       )}
     >
       <Radio value={value} {...radioProps} />
-      {children ? (
-        <span className="ml-2 flex p-0.5 group-hover:cursor-pointer">{children}</span>
-      ) : null}
+      {children ? <span className="ml-2 group-hover:cursor-pointer">{children}</span> : null}
     </label>
   );
 }
