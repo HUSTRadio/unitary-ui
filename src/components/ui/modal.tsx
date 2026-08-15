@@ -8,15 +8,16 @@ import { cn } from "@/lib/utils";
  * Modal — Geist 官方 Modal 封装（基于 Radix Dialog 原语）。
  * 导出：Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle,
  *       ModalDescription, ModalFooter, ModalClose。
- * 材质对齐 Geist 实测（2026-08，vercel.com/geist/modal 实时 DOM/computed style）：
- * - 定位：overlay（fixed inset-0 z-300 flex flex-col items-center justify-center
- *   overflow-auto，背景透明，官方 geist-overlay 无遮罩变暗）内层 dialog 为
- *   position:static，由 flex 居中；dialog 自身无 transform 偏移
- *   （computed transform 为 identity matrix，用 translateZ(0) 复刻）
- * - content：w-[540px] max-w-full flex flex-col overflow-hidden rounded-[12px]
- *   bg-background-100（light #fff）无 border，max-h-[min(800px,80vh)]（1440x900
- *   下 720px，sticky demo 全高即由此封顶）
- * - 阴影：官方 shadow-modal-elevated 8 层计算值（内联 style 精确复刻，同 Sheet）
+ * 材质对齐 Geist 实测（2026-08-15，vercel.com/geist/modal 实时 DOM/computed style）：
+ * - scrim：官方为独立 geist-overlay-backdrop 元素（bg #f2f2f2 light / #000 dark @ 0.8），
+ *   overlay 本身透明；本地简化为 overlay 自身 bg-[#f2f2f2]/80 dark:bg-black/80（视觉等价）
+ * - content 定位：官方 position:static 由 overlay flex 居中；本地 fixed top-50% left-50%
+ *   -translate-x/y-1/2 居中（视觉等价）
+ * - content：w-[540px] max-w-full max-[540px]:max-w-[calc(100vw-20px)] flex flex-col
+ *   rounded-[12px] bg-background-100 无 border，max-h-[min(800px,80vh)]（1440x900 下
+ *   720px，sticky demo 全高即由此封顶），sm:overflow-hidden overflow-y-auto
+ * - 阴影：shadow-[var(--ds-shadow-modal-elevated)]（双主题：light 边框层 #00000014 /
+ *   dark #ffffff24，其余 3 层一致）
  * - 过渡：transition-[opacity,transform] 0.3s cubic-bezier(0.175,0.885,0.32,1.1)
  *   （官方 --ds-motion-overlay-duration/timing），无 animation
  * - 内容区：body（p-5 overflow-y-auto）承载 header/title/description/footer；
@@ -34,13 +35,6 @@ const Modal = DialogPrimitive.Root;
 const ModalTrigger = DialogPrimitive.Trigger;
 const ModalPortal = DialogPrimitive.Portal;
 const ModalClose = DialogPrimitive.Close;
-
-/** 官方 geist shadow-modal-elevated 计算值（8 层，前 4 层透明前缀）。 */
-const MODAL_SHADOW =
-  "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, " +
-  "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, " +
-  "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.06) 0px 32px 72px -12px, " +
-  "rgba(0, 0, 0, 0.08) 0px 8px 32px -12px, rgba(0, 0, 0, 0.12) 0px 8px 24px -12px";
 
 const ModalOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
@@ -108,12 +102,15 @@ const ModalContent = React.forwardRef<
                 requestAnimationFrame(() => previous.focus());
               }
             }}
-            style={{ boxShadow: MODAL_SHADOW, ...style }}
+            style={style}
             className={cn(
               "fixed top-[50%] left-[50%] z-[300] flex min-h-0 w-[540px] max-w-full min-w-0 flex-col overflow-hidden rounded-[12px] bg-background-100 text-foreground outline-none",
               "max-h-[min(800px,80vh)]",
+              "max-[540px]:max-w-[calc(100vw-20px)]",
+              "shadow-[var(--ds-shadow-modal-elevated)]",
               "-translate-x-1/2 -translate-y-1/2",
               "transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.1)]",
+              "sm:overflow-hidden overflow-y-auto",
               className,
             )}
             {...props}

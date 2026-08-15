@@ -662,22 +662,22 @@
     },
     {
       "slug": "modal",
-      "batch": "BLOCKED",
-      "inventoryStatus": "pending_live_enumeration",
-      "gate": "BLOCKED",
+      "batch": "B2",
+      "inventoryStatus": "live_enumeration_partial",
+      "gate": "RE_EVIDENCE_REQUIRED",
       "dimensions": {
-        "officialCapabilities": "MISSING",
-        "api": "MISSING",
-        "dom": "MISSING",
-        "states": "MISSING",
-        "responsive": "MISSING",
-        "aria": "MISSING",
-        "motion": "MISSING",
-        "localDemoCoverage": "MISSING",
-        "comparison": "MISSING"
+        "officialCapabilities": "PARTIAL",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
+        "states": "PARTIAL",
+        "responsive": "PARTIAL",
+        "aria": "PARTIAL",
+        "motion": "PARTIAL",
+        "localDemoCoverage": "PARTIAL",
+        "comparison": "PARTIAL"
       },
       "evidence": [],
-      "notes": "Zero evidence; old max-sm bottom-sheet assumption explicitly forbidden (plan 5.6); Task 8 layout audit required; shared Dialog contract stays frozen"
+      "notes": "官方实测（2026-08-15 live DOM+computed）：scrim 为独立 geist-overlay-backdrop 元素（bg #f2f2f2 light / #000 dark @ 0.8），overlay 透明 flex 居中；content position:static 由 overlay flex 居中，w-[540px] max-w-full max-[540px]:max-w-[calc(100vw-20px)] rounded-12px bg-background-100 shadow-[var(--ds-shadow-modal-elevated)] max-h-[min(800px,80vh)] sm:overflow-hidden overflow-y-auto。本地 modal.tsx 已对齐：shadow 硬编码→var（dark 边框层 #ffffff24 修复）、补响应式 max-w、overflow-y-auto；scrim 位置（overlay 自身 vs 独立 backdrop）与 content 定位（fixed translate vs static flex）视觉等价保留（注释已记录）。G07-MODAL-01 scrim 修复 + tests/modal-api.test.ts 7 断言锁定。待补：375/768/1440/1920 四视口、10 demo 逐一复核、official/local 截图差分、evidence 落盘。"
     },
     {
       "slug": "sheet",
@@ -736,9 +736,10 @@
       "unblocks": ["G5", "G6", "G7", "G8", "G9"]
     },
     "BLOCKED": {
-      "entry": "NO_IMPLEMENTATION",
-      "items": ["combobox", "modal", "sheet"],
-      "unblocks": ["Task5-combobox", "Task8-modal-sheet"]
+      "entry": "RESOLVED",
+      "items": [],
+      "unblocks": ["Task5-combobox", "Task8-modal-sheet"],
+      "notes": "combobox/sheet/modal 已全部推进（2026-08-15）：combobox 实现完成→RE_EVIDENCE_REQUIRED，sheet 组件默认值修复→RE_EVIDENCE_REQUIRED，modal shadow/响应式对齐→RE_EVIDENCE_REQUIRED"
     }
   },
   "globalBlockers": [

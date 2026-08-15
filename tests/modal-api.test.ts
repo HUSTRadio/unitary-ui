@@ -44,6 +44,19 @@ describe("Modal official API contract (G07-MODAL-01 fix)", () => {
     expect(src).toMatch(/aria-modal="true"/);
   });
 
+  test("modal content uses --ds-shadow-modal-elevated token (dual-theme border layer), not hardcoded black", async () => {
+    const src = await read("src/components/ui/modal.tsx");
+    expect(src).toContain("shadow-[var(--ds-shadow-modal-elevated)]");
+    expect(src).not.toContain("MODAL_SHADOW");
+    expect(src).not.toMatch(/boxShadow/);
+  });
+
+  test("modal content responsive max-width + scrollable overflow (official)", async () => {
+    const src = await read("src/components/ui/modal.tsx");
+    expect(src).toContain("max-[540px]:max-w-[calc(100vw-20px)]");
+    expect(src).toContain("sm:overflow-hidden overflow-y-auto");
+  });
+
   test("Modal exports full API surface", async () => {
     const src = await read("src/components/ui/modal.tsx");
     expect(src).toMatch(
