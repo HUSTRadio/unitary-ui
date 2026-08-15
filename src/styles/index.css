@@ -428,7 +428,11 @@
   --ds-gray-900: var(--gray-900);
   --ds-gray-1000: var(--gray-1000);
   --ds-gray-alpha-400: var(--gray-alpha-400);
+  --ds-gray-alpha-500: var(--gray-alpha-500);
+  --ds-gray-alpha-300: var(--gray-alpha-300);
   --ds-gray-alpha-600: var(--gray-alpha-600);
+  --ds-gray-600: var(--gray-600);
+  --ds-shadow-menu: var(--material-shadow-menu);
   --ds-background-100: var(--background-100);
   /* 官方运行时值与现有本地 blue scale 有差异，保留独立兼容值。 */
   --ds-blue-600: #52aeff;
@@ -683,7 +687,11 @@
   --ds-gray-900: var(--gray-900);
   --ds-gray-1000: var(--gray-1000);
   --ds-gray-alpha-400: var(--gray-alpha-400);
+  --ds-gray-alpha-500: var(--gray-alpha-500);
+  --ds-gray-alpha-300: var(--gray-alpha-300);
   --ds-gray-alpha-600: var(--gray-alpha-600);
+  --ds-gray-600: var(--gray-600);
+  --ds-shadow-menu: var(--material-shadow-menu);
   --ds-background-100: var(--background-100);
   --ds-blue-600: #0091ff;
   --ds-blue-900: #52a8ff;

@@ -2490,6 +2490,9 @@ function CalendarDemo() {
   const triggerLabel = demoText(language, "Select Date Range");
   const periodLabel = demoText(language, "Select Period");
   const comboboxLabel = demoText(language, "Combobox Menu");
+  const presetTexts = ["Last 3 Days", "Last 7 Days", "Last 14 Days", "Last Month"].map((text) =>
+    demoText(language, text),
+  );
 
   const mediumItems = (
     <>
@@ -2501,6 +2504,7 @@ function CalendarDemo() {
         width={180}
         triggerClassName={TRIGGER_ROW_EXTRA_CLASS}
         comboboxLabel={comboboxLabel}
+        presets={presetTexts}
       />
       <Calendar
         label={triggerLabel}
@@ -2511,6 +2515,7 @@ function CalendarDemo() {
         className={calendarColClass("medium")}
         comboboxPlaceholder={periodLabel}
         comboboxLabel={comboboxLabel}
+        presets={presetTexts}
       />
       <Calendar
         label={triggerLabel}
@@ -2520,6 +2525,7 @@ function CalendarDemo() {
         className={CALENDAR_ROW_REV_CLASS}
         comboboxPlaceholder={periodLabel}
         comboboxLabel={comboboxLabel}
+        presets={presetTexts}
       />
     </>
   );
@@ -2535,6 +2541,7 @@ function CalendarDemo() {
         width={180}
         triggerClassName={TRIGGER_ROW_EXTRA_CLASS}
         comboboxLabel={comboboxLabel}
+        presets={presetTexts}
       />
       <Calendar
         label={triggerLabel}
@@ -2546,6 +2553,7 @@ function CalendarDemo() {
         className={calendarColClass("small")}
         comboboxPlaceholder={periodLabel}
         comboboxLabel={comboboxLabel}
+        presets={presetTexts}
       />
       <Calendar
         label={triggerLabel}
@@ -2556,6 +2564,7 @@ function CalendarDemo() {
         className={CALENDAR_ROW_REV_CLASS}
         comboboxPlaceholder={periodLabel}
         comboboxLabel={comboboxLabel}
+        presets={presetTexts}
       />
     </>
   );
@@ -2619,6 +2628,7 @@ function CalendarDemo() {
                 width={180}
                 triggerClassName={TRIGGER_ROW_EXTRA_CLASS}
                 comboboxLabel={comboboxLabel}
+                presets={presetTexts}
               />
             </div>
           </div>

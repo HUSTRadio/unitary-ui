@@ -47,7 +47,11 @@ describe("official --ds-* compatibility token map", () => {
       "--ds-gray-900": "var(--gray-900)",
       "--ds-gray-1000": "var(--gray-1000)",
       "--ds-gray-alpha-400": "var(--gray-alpha-400)",
+      "--ds-gray-alpha-500": "var(--gray-alpha-500)",
+      "--ds-gray-alpha-300": "var(--gray-alpha-300)",
       "--ds-gray-alpha-600": "var(--gray-alpha-600)",
+      "--ds-gray-600": "var(--gray-600)",
+      "--ds-shadow-menu": "var(--material-shadow-menu)",
       "--ds-background-100": "var(--background-100)",
       "--ds-blue-600": "#52aeff",
       "--ds-blue-900": "#0068d6",
@@ -68,7 +72,11 @@ describe("official --ds-* compatibility token map", () => {
       "--ds-gray-900": "var(--gray-900)",
       "--ds-gray-1000": "var(--gray-1000)",
       "--ds-gray-alpha-400": "var(--gray-alpha-400)",
+      "--ds-gray-alpha-500": "var(--gray-alpha-500)",
+      "--ds-gray-alpha-300": "var(--gray-alpha-300)",
       "--ds-gray-alpha-600": "var(--gray-alpha-600)",
+      "--ds-gray-600": "var(--gray-600)",
+      "--ds-shadow-menu": "var(--material-shadow-menu)",
       "--ds-background-100": "var(--background-100)",
       "--ds-blue-600": "#0091ff",
       "--ds-blue-900": "#52a8ff",
@@ -80,13 +88,11 @@ describe("official --ds-* compatibility token map", () => {
   test("does not invent pending, single-theme or conflicting token values", async () => {
     const css = await readCss();
     for (const token of [
-      "--ds-gray-alpha-500",
       "--ds-blue-700",
       "--ds-focus-ring",
       "--ds-shadow-modal",
       "--ds-shadow-border-medium",
       "--ds-gray-200",
-      "--ds-gray-600",
     ]) {
       expect(css).not.toMatch(new RegExp(`${escapeRegExp(token)}\\s*:`));
     }

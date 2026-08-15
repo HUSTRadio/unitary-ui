@@ -71,10 +71,10 @@ const SR_ONLY_LABEL_STYLE: React.CSSProperties = {
 };
 
 const CHEVRON_SVG_CLASS =
-  "size-(--ds-control-decoration-size) right-3 pointer-events-none absolute top-1/2 z-10 -translate-y-1/2 transition duration-150 peer-focus/comboboxInput:rotate-180";
+  "size-(--ds-control-decoration-size) right-3 pointer-events-none absolute top-1/2 z-10 -translate-y-1/2 transition duration-150";
 
 const CHEVRON_SVG_SMALL_CLASS =
-  "size-(--ds-control-decoration-size) pointer-events-none absolute top-1/2 z-10 -translate-y-1/2 transition duration-150 peer-focus/comboboxInput:rotate-180 right-[9px]";
+  "size-(--ds-control-decoration-size) pointer-events-none absolute top-1/2 z-10 -translate-y-1/2 transition duration-150 right-[9px]";
 
 const CIRCULAR_SVG_CLASS =
   "pointer-events-none absolute z-10 size-(--ds-control-decoration-size) top-[9px] left-[9px]";
@@ -97,6 +97,27 @@ const GEIST_ICON_ATTRS = {
   "data-slot": "geist-icon",
 } as const;
 
+/** combobox 弹出菜单（官方 cmdk-root：grid 容器 + p-2 group + h-9 item，2026-08-16 实测）。 */
+const COMBO_MENU_CLASS =
+  "grid bg-[var(--ds-background-100)] rounded-[8px] shadow-[var(--ds-shadow-menu)] overflow-hidden z-[99999999]";
+
+const COMBO_GROUP_CLASS = "p-2";
+
+const COMBO_ITEM_CLASS =
+  "max-sm:h-12 max-sm:text-[16px] h-9 text-[14px] px-2 rounded-[5px] flex scroll-m-2 cursor-pointer items-center font-normal text-[var(--ds-gray-1000)] hover:bg-[var(--ds-gray-alpha-300)]";
+
+/** 官方右列「Type relative times」相对时间快捷按钮（showHints，2026-08-16 实测）。 */
+const RELATIVE_TIMES = ["45m", "12 hours", "10d", "2 weeks", "last month", "yesterday", "today"];
+
+const COMBO_HINT_COL_CLASS = "p-4 pr-[30px]";
+
+const COMBO_HINT_TITLE_CLASS = "text-copy-14 text-gray-900";
+
+const COMBO_HINT_WRAP_CLASS = "flex flex-wrap mt-2 gap-1";
+
+const COMBO_HINT_BUTTON_CLASS =
+  "text-[13px] hover:bg-[hsl(0,0%,87%)] dark-theme:hover:bg-[hsl(0,0%,30%)] px-1.5 h-5 inline-flex items-center font-[var(--font-mono)] bg-[var(--ds-gray-100)] border-none rounded-[4px] cursor-pointer text-[var(--ds-gray-1000)] focus:outline-2 focus:outline-gray-700";
+
 interface CalendarComboboxProps {
   size: "medium" | "small";
   /** 通栏模式：占满 --width（Select Period），否则为小方块（宽度随尺寸）。 */
@@ -105,10 +126,33 @@ interface CalendarComboboxProps {
   wide?: boolean;
   placeholder?: string;
   label: string;
+  /** 快速选择 preset 文本列表（官方 presets 各条目 text）。 */
+  presets?: string[];
+  /** 受控选中值（preset text）。 */
+  value?: string;
+  onValueChange?: (value: string) => void;
 }
 
-function CalendarCombobox({ size, full, wide, placeholder = "", label }: CalendarComboboxProps) {
+function CalendarCombobox({
+  size,
+  full,
+  wide,
+  placeholder = "",
+  label,
+  presets = [],
+  value,
+  onValueChange,
+}: CalendarComboboxProps) {
   const sizeToken = size === "small" ? "small" : "medium";
+  const [open, setOpen] = React.useState(false);
+  const [internalValue, setInternalValue] = React.useState("");
+  const currentValue = value !== undefined ? value : internalValue;
+
+  const select = (text: string) => {
+    setInternalValue(text);
+    onValueChange?.(text);
+    setOpen(false);
+  };
   const inputClass = full
     ? size === "small"
       ? wide
@@ -125,65 +169,125 @@ function CalendarCombobox({ size, full, wide, placeholder = "", label }: Calenda
   const circularClass = size === "small" ? CIRCULAR_SVG_CLASS : CIRCULAR_SVG_MEDIUM_CLASS;
 
   return (
-    <div tabIndex={-1} className={cn(COMBO_ROOT_CLASS, `h-(--ds-size-${sizeToken})`)} cmdk-root="">
-      <label
-        cmdk-label=""
-        htmlFor="radix-calendar-combobox-input"
-        id="radix-calendar-combobox-label"
-        style={SR_ONLY_LABEL_STYLE}
-      >
-        {label}
-      </label>
-      <div className="relative">
-        <input
-          className={inputClass}
-          data-error="false"
-          data-testid="calendar/combobox-input"
-          placeholder={placeholder}
-          aria-haspopup="dialog"
-          aria-expanded="true"
-          aria-controls="radix-calendar-combobox"
-          data-state="closed"
-          cmdk-input=""
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck="false"
-          aria-autocomplete="list"
-          role="combobox"
-          aria-labelledby="radix-calendar-combobox-label"
-          id="radix-calendar-combobox-input"
-          type="text"
-          defaultValue=""
-          style={
-            full
-              ? { paddingRight: "0px" }
-              : { paddingRight: "0px", width: `var(--ds-size-${sizeToken})`, color: "transparent" }
-          }
-        />
-        {full && (
+    <PopoverPrimitive.Root open={open} onOpenChange={setOpen}>
+      <div tabIndex={-1} className={cn(COMBO_ROOT_CLASS, `h-(--ds-size-${sizeToken})`)} cmdk-root="">
+        <label
+          cmdk-label=""
+          htmlFor="radix-calendar-combobox-input"
+          id="radix-calendar-combobox-label"
+          style={SR_ONLY_LABEL_STYLE}
+        >
+          {label}
+        </label>
+        <div className="relative">
+          <PopoverPrimitive.Trigger asChild>
+            <input
+              className={inputClass}
+              data-error="false"
+              data-testid="calendar/combobox-input"
+              placeholder={placeholder}
+              aria-controls="radix-calendar-combobox"
+              cmdk-input=""
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
+              aria-autocomplete="list"
+              role="combobox"
+              aria-labelledby="radix-calendar-combobox-label"
+              id="radix-calendar-combobox-input"
+              type="text"
+              readOnly
+              value={currentValue}
+              onChange={() => {}}
+              style={
+                full
+                  ? { paddingRight: "0px" }
+                  : { paddingRight: "0px", width: `var(--ds-size-${sizeToken})`, color: "transparent" }
+              }
+            />
+          </PopoverPrimitive.Trigger>
+          {full && (
+            <svg
+              {...GEIST_ICON_ATTRS}
+              data-glyph="circular"
+              style={{ color: "var(--ds-gray-700)" }}
+              className={circularClass}
+            >
+              <path
+                fill="currentColor"
+                d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0m0 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13m.75 6.12 1.7 1.28.6.45-.9 1.2-.6-.45-1.9-1.43a1 1 0 0 1-.4-.8V3.5h1.5z"
+              />
+            </svg>
+          )}
           <svg
             {...GEIST_ICON_ATTRS}
-            data-glyph="circular"
             style={{ color: "var(--ds-gray-700)" }}
-            className={circularClass}
+            className={cn(chevronClass, open && "rotate-180")}
           >
             <path
               fill="currentColor"
-              d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0m0 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13m.75 6.12 1.7 1.28.6.45-.9 1.2-.6-.45-1.9-1.43a1 1 0 0 1-.4-.8V3.5h1.5z"
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="m14.06 5.5-.53.53-4.82 4.82a1 1 0 0 1-1.42 0L2.47 6.03l-.53-.53L3 4.44l.53.53L8 9.44l4.47-4.47.53-.53z"
             />
           </svg>
+          <div aria-hidden="true" className={full ? DIVIDER_FULL_CLASS : DIVIDER_SQUARE_CLASS} />
+        </div>
+        {presets.length > 0 && (
+          <PopoverPrimitive.Portal>
+            <PopoverPrimitive.Content
+              align="start"
+              sideOffset={8}
+              className={cn(COMBO_MENU_CLASS, full && "grid-cols-2")}
+              style={{
+                width: full
+                  ? "calc(var(--radix-popover-trigger-width) * 2 + 2px)"
+                  : "var(--radix-popover-trigger-width)",
+                minWidth: full ? "370px" : "165px",
+              }}
+            >
+              <div className={cn(COMBO_GROUP_CLASS, full && "border-r border-[var(--ds-gray-alpha-400)]")}>
+                {presets.map((text) => (
+                  <button
+                    key={text}
+                    type="button"
+                    className={cn(
+                      COMBO_ITEM_CLASS,
+                      "w-full",
+                      currentValue === text && "bg-[var(--ds-gray-alpha-300)]",
+                    )}
+                    onClick={() => select(text)}
+                  >
+                    <div className="flex w-full items-center justify-between gap-1">
+                      {text}
+                      <span className="text-gray-900" />
+                    </div>
+                  </button>
+                ))}
+              </div>
+              {full && (
+                <div className={COMBO_HINT_COL_CLASS}>
+                  <p className={COMBO_HINT_TITLE_CLASS}>Type relative times</p>
+                  <div className={COMBO_HINT_WRAP_CLASS}>
+                    {RELATIVE_TIMES.map((text) => (
+                      <button
+                        key={text}
+                        type="button"
+                        className={COMBO_HINT_BUTTON_CLASS}
+                        onClick={() => select(text)}
+                        onMouseUp={(event) => event.preventDefault()}
+                      >
+                        {text}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </PopoverPrimitive.Content>
+          </PopoverPrimitive.Portal>
         )}
-        <svg {...GEIST_ICON_ATTRS} style={{ color: "var(--ds-gray-700)" }} className={chevronClass}>
-          <path
-            fill="currentColor"
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="m14.06 5.5-.53.53-4.82 4.82a1 1 0 0 1-1.42 0L2.47 6.03l-.53-.53L3 4.44l.53.53L8 9.44l4.47-4.47.53-.53z"
-          />
-        </svg>
-        <div aria-hidden="true" className={full ? DIVIDER_FULL_CLASS : DIVIDER_SQUARE_CLASS} />
       </div>
-    </div>
+    </PopoverPrimitive.Root>
   );
 }
 
@@ -208,6 +312,8 @@ interface CalendarProps {
   triggerClassName?: string;
   /** combobox 的 sr-only 标签文案（官方 "Combobox Menu"） */
   comboboxLabel?: string;
+  /** 快速选择 preset 文本列表（传给 combobox，官方 presets 各条目 text） */
+  presets?: string[];
 }
 
 function Calendar({
@@ -222,6 +328,7 @@ function Calendar({
   comboboxPlaceholder = "",
   triggerClassName,
   comboboxLabel = "Combobox Menu",
+  presets = [],
 }: CalendarProps) {
   const isSmall = size === "small";
   const groupClass = showCombobox
@@ -244,6 +351,7 @@ function Calendar({
           wide={comboboxWide}
           placeholder={comboboxPlaceholder}
           label={comboboxLabel}
+          presets={presets}
         />
       )}
       <PopoverPrimitive.Root>
@@ -313,6 +421,7 @@ function Calendar({
           wide={comboboxWide}
           placeholder={comboboxPlaceholder}
           label={comboboxLabel}
+          presets={presets}
         />
       )}
     </div>
