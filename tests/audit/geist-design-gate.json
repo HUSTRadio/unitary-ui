@@ -621,12 +621,12 @@
     {
       "slug": "calendar",
       "batch": "B2",
-      "inventoryStatus": "pending_live_enumeration",
+      "inventoryStatus": "live_enumeration_partial",
       "gate": "RE_EVIDENCE_REQUIRED",
       "dimensions": {
         "officialCapabilities": "PARTIAL",
-        "api": "FAIL",
-        "dom": "FAIL",
+        "api": "PARTIAL",
+        "dom": "PARTIAL",
         "states": "PARTIAL",
         "responsive": "MISSING",
         "aria": "PARTIAL",
@@ -639,7 +639,7 @@
         "calendar/evidence/off-pinned-tz-open-light.png",
         "calendar/delegation/live-transcript.log"
       ],
-      "notes": "9 demos and desktop main flow enumerated live; official Popover range-picker architecture is frozen and local static single-month table is a confirmed API/DOM failure. Dark, real four-viewport/local runtime matrix, Presets conflict and Shift+Arrow conflict remain G5"
+      "notes": "打开态 Popover 已实现（commit 3208f4a）：官方 date range picker 实测复刻——Popover 容器（menu 材质 rounded-12px w-280px）、Start/End 日期+时间输入、月份导航、42 格 table 网格（当前月/相邻月深浅）、范围选择（点击 start→end 高亮首尾圆角）。待补：四视口 responsive、Dark 主题复核、Presets 快速选择、Shift+Arrow 键盘导航、官方/local comparison。"
     },
     {
       "slug": "combobox",
