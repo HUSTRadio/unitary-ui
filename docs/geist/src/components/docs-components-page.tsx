@@ -943,7 +943,7 @@ function ModalDemo({ code }: { code?: string }) {
   );
 
   return (
-    <div className="w-full max-w-[862px]">
+    <div className="w-full max-w-[862px] space-y-6">
       <div
         className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
@@ -4156,19 +4156,20 @@ function ComboboxDemo({ code }: { code?: string }) {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="with-label">
-            <div className="space-y-2">
-              <label className="text-label-14 text-gray-900">{countryLabel}</label>
-              <Combobox aria-label={countryLabel} placeholder={countriesPlaceholder}>
-                <ComboboxInput />
-                <ComboboxList>
-                  {countryOptions.map((option) => (
-                    <ComboboxOption key={option.value} value={option.value}>
-                      {option.label}
-                    </ComboboxOption>
-                  ))}
-                </ComboboxList>
-              </Combobox>
-            </div>
+            <Combobox
+              label={countryLabel}
+              aria-label={countryLabel}
+              placeholder={countriesPlaceholder}
+            >
+              <ComboboxInput />
+              <ComboboxList>
+                {countryOptions.map((option) => (
+                  <ComboboxOption key={option.value} value={option.value}>
+                    {option.label}
+                  </ComboboxOption>
+                ))}
+              </ComboboxList>
+            </Combobox>
           </div>
         </div>
         <ShowCodeFooter code={code ?? ""} />
