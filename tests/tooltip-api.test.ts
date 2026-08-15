@@ -38,13 +38,14 @@ describe("Tooltip official single-track API contract", () => {
     );
   });
 
-  test("G12-TOOLTIP-01: default surface is INVERTED (light bg #0a0a0a fg #ededed; dark bg white fg #0a0a0a)", async () => {
+  test("G12-TOOLTIP-01: default surface uses normal surface (light bg #ffffff fg #171717; dark bg #0a0a0a fg #ededed)", async () => {
     const src = await read("src/components/ui/tooltip.tsx");
-    // Default must reference the invert tokens, not the page background/foreground
+    // Default references the normal page surface, not the inverted tokens
+    // (official measured: bg var(--ds-background-100) + gray-1000 text)
     expect(src).toMatch(
-      /default:\s*\{\s*background:\s*"var\(--invert-background\)",\s*foreground:\s*"var\(--invert-foreground\)"/,
+      /default:\s*\{\s*background:\s*"var\(--background-100\)",\s*foreground:\s*"var\(--foreground\)"/,
     );
-    expect(src).not.toMatch(/default:\s*\{\s*background:\s*"var\(--background\)"/);
+    expect(src).not.toMatch(/default:\s*\{\s*background:\s*"var\(--invert-background\)"/);
   });
 
   test("theme defines the inverted surface tokens for both themes", async () => {
