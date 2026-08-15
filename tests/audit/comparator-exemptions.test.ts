@@ -379,17 +379,21 @@ describe("comparator v3 systematic exemptions", { timeout: 15000 }, () => {
     expect(classifications).not.toContain("BEHAVIOR_INFRASTRUCTURE");
   });
 
-  test("font-mapped clip width explains screenshot dimension mismatch", () => {
+  test("font-mapped clip width and reflow height explain screenshot dimension mismatch", () => {
     const dir = mkdtempSync(join(tmpdir(), "geist-exempt-font-clip-"));
     const officialMetrics = join(dir, "official.json");
     const localMetrics = join(dir, "local.json");
     const official = checkboxMetrics("official");
     const local = checkboxMetrics("local");
     official.roles["checkbox-label"].rect.width = 50;
+    official.roles["checkbox-label"].rect.height = 16;
     official.roles["checkbox-label"].styles.width = "50px";
+    official.roles["checkbox-label"].styles.height = "16px";
     official.roles["checkbox-label"].textEvidence = { text: "Mapped label", clientRects: [] };
     local.roles["checkbox-label"].rect.width = 55;
+    local.roles["checkbox-label"].rect.height = 20;
     local.roles["checkbox-label"].styles.width = "55px";
+    local.roles["checkbox-label"].styles.height = "20px";
     local.roles["checkbox-label"].textEvidence = { text: "Mapped label", clientRects: [] };
     writeFileSync(officialMetrics, JSON.stringify(official));
     writeFileSync(localMetrics, JSON.stringify(local));
@@ -398,7 +402,7 @@ describe("comparator v3 systematic exemptions", { timeout: 15000 }, () => {
     const report = runComparator(dir, officialMetrics, localMetrics, false, {
       contract: clipContract,
       officialImageSize: [50, 16],
-      localImageSize: [55, 16],
+      localImageSize: [55, 20],
     });
 
     expect(report.pixel.dimension_mismatch).toBe(true);
@@ -409,7 +413,90 @@ describe("comparator v3 systematic exemptions", { timeout: 15000 }, () => {
         fields: ["width"],
       }),
     );
+    expect(report.approvedExclusions).toContainEqual(
+      expect.objectContaining({
+        classification: "FONT_MAPPING_WIDTH",
+        role: "checkbox-label",
+        fields: ["height"],
+      }),
+    );
     expect(report.semanticAcceptanceStatus).toBe("PASS");
+  });
+
+  test("font-mapped clip dimensions do not explain an unmatched screenshot axis", () => {
+    const dir = mkdtempSync(join(tmpdir(), "geist-exempt-font-clip-axis-"));
+    const officialMetrics = join(dir, "official.json");
+    const localMetrics = join(dir, "local.json");
+    const official = checkboxMetrics("official");
+    const local = checkboxMetrics("local");
+    official.roles["checkbox-label"].rect.width = 50;
+    official.roles["checkbox-label"].rect.height = 16;
+    official.roles["checkbox-label"].styles.width = "50px";
+    official.roles["checkbox-label"].styles.height = "16px";
+    official.roles["checkbox-label"].textEvidence = { text: "Mapped label", clientRects: [] };
+    local.roles["checkbox-label"].rect.width = 55;
+    local.roles["checkbox-label"].rect.height = 20;
+    local.roles["checkbox-label"].styles.width = "55px";
+    local.roles["checkbox-label"].styles.height = "20px";
+    local.roles["checkbox-label"].textEvidence = { text: "Mapped label", clientRects: [] };
+    writeFileSync(officialMetrics, JSON.stringify(official));
+    writeFileSync(localMetrics, JSON.stringify(local));
+
+    const report = runComparator(dir, officialMetrics, localMetrics, false, {
+      contract: { ...contract, clipRole: "checkbox-label" },
+      officialImageSize: [50, 16],
+      localImageSize: [55, 22],
+    });
+
+    expect(report.semanticAcceptanceStatus).toBe("FAIL");
+  });
+
+  test("font reflow height propagates through matching ancestor heights only", () => {
+    const dir = mkdtempSync(join(tmpdir(), "geist-exempt-font-reflow-ancestor-"));
+    const officialMetrics = join(dir, "official.json");
+    const localMetrics = join(dir, "local.json");
+    const official = checkboxMetrics("official");
+    const local = checkboxMetrics("local");
+    official.root.height = 40;
+    local.root.height = 64;
+    official.nodes = [
+      {
+        path: "0",
+        tag: "div",
+        rect: { x: 0, y: 0, width: 100, height: 40 },
+        styles: { fontFamily: "Arial, sans-serif" },
+      },
+      {
+        path: "0.0",
+        tag: "p",
+        rect: { x: 0, y: 0, width: 100, height: 40 },
+        styles: { fontFamily: "Geist, sans-serif" },
+      },
+    ];
+    local.nodes = [
+      {
+        path: "0",
+        tag: "div",
+        rect: { x: 0, y: 0, width: 100, height: 64 },
+        styles: { fontFamily: "Arial, sans-serif" },
+      },
+      {
+        path: "0.0",
+        tag: "p",
+        rect: { x: 0, y: 0, width: 100, height: 64 },
+        styles: { fontFamily: "HarmonyOS Sans SC, sans-serif" },
+      },
+    ];
+    writeFileSync(officialMetrics, JSON.stringify(official));
+    writeFileSync(localMetrics, JSON.stringify(local));
+
+    const report = runComparator(dir, officialMetrics, localMetrics, false);
+    expect(report.geometry.max_geometry_delta_px).toBe(0);
+
+    local.nodes[0].rect.height = 65;
+    writeFileSync(localMetrics, JSON.stringify(local));
+    const mismatch = runComparator(dir, officialMetrics, localMetrics, false);
+    expect(mismatch.geometry.max_geometry_delta_px).toBe(25);
   });
 
   const flowMetrics = (source: "official" | "local") => {

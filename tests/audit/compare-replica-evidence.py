@@ -1027,6 +1027,49 @@ def _top_shift(
     return shift
 
 
+def _font_reflow_height_paths(
+    official_nodes: dict[str, dict[str, Any]],
+    local_nodes: dict[str, dict[str, Any]],
+    manifest: dict[str, Any] | None,
+) -> set[str]:
+    """Return paths whose height delta is fully caused by approved font reflow."""
+    attributed: dict[str, float] = {}
+    shared = set(official_nodes) & set(local_nodes)
+
+    for path in shared:
+        if _font_mapped_subtree(path, official_nodes, local_nodes, manifest):
+            attributed[path] = (
+                float(local_nodes[path]["rect"]["height"])
+                - float(official_nodes[path]["rect"]["height"])
+            )
+
+    for path in sorted((p for p in shared if p != "root"), key=lambda p: p.count("."), reverse=True):
+        if path in attributed:
+            continue
+        children = [
+            child
+            for child in shared
+            if child.startswith(path + ".") and child.count(".") == path.count(".") + 1
+        ]
+        child_delta = sum(attributed.get(child, 0.0) for child in children)
+        own_delta = (
+            float(local_nodes[path]["rect"]["height"])
+            - float(official_nodes[path]["rect"]["height"])
+        )
+        if abs(child_delta) > 0.5 and abs(own_delta - child_delta) <= 0.5:
+            attributed[path] = own_delta
+
+    if "root" in shared and "0" in attributed:
+        root_delta = (
+            float(local_nodes["root"]["rect"]["height"])
+            - float(official_nodes["root"]["rect"]["height"])
+        )
+        if abs(root_delta - attributed["0"]) <= 0.5:
+            attributed["root"] = root_delta
+
+    return set(attributed)
+
+
 def compare_geometry(
     official: dict[str, Any],
     local: dict[str, Any],
@@ -1039,6 +1082,7 @@ def compare_geometry(
         official, local, manifest, official_cell
     )
     geometry_skip_paths = _geometry_skip_paths(official_nodes, local_nodes, manifest)
+    font_reflow_height_paths = _font_reflow_height_paths(official_nodes, local_nodes, manifest)
     # Context-owned width at the geometry layer: exempt width deltas equal to the
     # measurement-context content-box delta (the same host-container difference
     # already exempted at the role level).
@@ -1103,6 +1147,10 @@ def compare_geometry(
             deltas.pop("height", None)
             deltas.pop("x", None)
             deltas.pop("y", None)
+        # FONT_METRIC_REFLOW (geometry layer): propagate an approved text subtree's
+        # signed height delta only through ancestors with the exact same accumulated delta.
+        if path in font_reflow_height_paths:
+            deltas.pop("height", None)
         # FONT_METRIC_INLINE_FLOW_X (geometry layer): 前序 sibling 宽度差累积传递到 x。
         if "x" in deltas:
             left_shift = _left_shift(path, official_nodes, local_nodes, manifest)
@@ -1448,30 +1496,38 @@ def main() -> None:
         if abs(off_w - local_w) <= context_delta + 0.5:
             dimension_mismatch_explained = True
 
-    # A mapped-text clip may legitimately produce a different screenshot width.
-    # Reuse the role-level FONT_MAPPING_WIDTH decision only when the clip's rect
-    # delta explains the raster width delta (allowing one pixel for clip rounding)
-    # and the screenshot heights are otherwise identical.
+    # A mapped-text clip may legitimately produce different screenshot dimensions.
+    # Reuse the role-level FONT_MAPPING_WIDTH decision only when each changed raster
+    # axis is approved for the clip role and matches its rect delta (allowing one
+    # pixel for clip rounding).
     if dimension_mismatch and not dimension_mismatch_explained and official_cell is not None:
         contract = official_cell.get("contract") or {}
         clip_role = contract.get("clipRole")
-        clip_width_mapped = any(
-            exclusion.get("classification") == "FONT_MAPPING_WIDTH"
-            and exclusion.get("role") == clip_role
-            and "width" in (exclusion.get("fields") or [])
+        mapped_clip_axes = {
+            field
             for exclusion in approved_exclusions_v3
-        )
+            if exclusion.get("classification") == "FONT_MAPPING_WIDTH"
+            and exclusion.get("role") == clip_role
+            for field in (exclusion.get("fields") or [])
+            if field in {"width", "height"}
+        }
         off_clip = (official_metrics.get("roles") or {}).get(clip_role, {})
         loc_clip = (local_metrics.get("roles") or {}).get(clip_role, {})
-        if clip_width_mapped and official_size and local_size:
-            image_width_delta = abs(float(official_size[0]) - float(local_size[0]))
-            clip_width_delta = abs(
-                float((off_clip.get("rect") or {}).get("width", 0))
-                - float((loc_clip.get("rect") or {}).get("width", 0))
-            )
-            if (
-                official_size[1] == local_size[1]
-                and abs(image_width_delta - clip_width_delta) <= 1.0
+        if mapped_clip_axes and official_size and local_size:
+            off_rect = off_clip.get("rect") or {}
+            loc_rect = loc_clip.get("rect") or {}
+            image_deltas = {
+                "width": abs(float(official_size[0]) - float(local_size[0])),
+                "height": abs(float(official_size[1]) - float(local_size[1])),
+            }
+            clip_deltas = {
+                axis: abs(float(off_rect.get(axis, 0)) - float(loc_rect.get(axis, 0)))
+                for axis in ("width", "height")
+            }
+            if all(
+                (delta == 0 and axis not in mapped_clip_axes)
+                or (axis in mapped_clip_axes and abs(delta - clip_deltas[axis]) <= 1.0)
+                for axis, delta in image_deltas.items()
             ):
                 dimension_mismatch_explained = True
 
