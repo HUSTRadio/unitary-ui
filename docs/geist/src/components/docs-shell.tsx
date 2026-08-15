@@ -38,7 +38,7 @@ function DocsBanner() {
         </div>
         {/* 右区块：Search + ThemeSwitcher */}
         <div className="flex items-center justify-between p-4 xl:grow">
-          <div className="relative hidden md:block" role="search">
+          <div className="relative hidden xl:block" role="search">
             <Search
               className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-muted-foreground"
               aria-hidden
