@@ -314,6 +314,37 @@ function TableDemoCard({ children, code }: { children: React.ReactNode; code: st
   );
 }
 
+function ShowCodeFooter({ code }: { code: string }) {
+  const { language } = useLanguage();
+  const [showCode, setShowCode] = React.useState(false);
+  const codeId = React.useId();
+  return (
+    <>
+      <button
+        type="button"
+        aria-expanded={showCode}
+        aria-controls={codeId}
+        onClick={() => setShowCode((v) => !v)}
+        className="flex h-12 w-full items-center gap-3 border-t border-gray-alpha-400 bg-background-200 px-4 text-left text-copy-14 text-foreground transition-colors hover:bg-gray-200 focus-ring"
+      >
+        <ChevronRight
+          className={`size-4 transition-transform${showCode ? " rotate-90" : ""}`}
+          aria-hidden
+        />
+        {demoText(language, "Show code")}
+      </button>
+      {showCode ? (
+        <pre
+          id={codeId}
+          className="overflow-x-auto border-t border-gray-alpha-400 bg-background p-6 font-mono text-copy-13 leading-relaxed text-foreground"
+        >
+          <code>{code}</code>
+        </pre>
+      ) : null}
+    </>
+  );
+}
+
 /* ---------- 13 元件实时 demo（直接渲染根元件） ---------- */
 
 function BadgeDemo() {
@@ -417,7 +448,7 @@ function EmptyStateDemo() {
   );
 }
 
-function ButtonDemo() {
+function ButtonDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
   const upload = demoText(language, "Upload");
   const defaultLabel = demoText(language, "Default");
@@ -425,25 +456,6 @@ function ButtonDemo() {
   const tertiaryLabel = demoText(language, "Tertiary");
   const errorLabel = demoText(language, "Error");
   const warningLabel = demoText(language, "Warning");
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
-  );
 
   const uploadIcon = <Upload aria-hidden />;
 
@@ -511,7 +523,7 @@ function ButtonDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -533,7 +545,7 @@ function ButtonDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -555,7 +567,7 @@ function ButtonDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -577,7 +589,7 @@ function ButtonDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -605,7 +617,7 @@ function ButtonDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </>
   );
@@ -689,7 +701,7 @@ function MenuDemo() {
   );
 }
 
-function InputDemo() {
+function InputDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
 
   const circularGlyph = (
@@ -708,25 +720,6 @@ function InputDemo() {
         d="M7.25 10.75v.75h1.5V6.56l1.47 1.47.53.53 1.06-1.06-.53-.53-2.75-2.75a.75.75 0 0 0-1.06 0L4.72 6.97l-.53.53 1.06 1.06.53-.53 1.47-1.47zM14.5 8a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
       />
     </svg>
-  );
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
   );
 
   return (
@@ -752,7 +745,7 @@ function InputDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -785,7 +778,7 @@ function InputDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -824,7 +817,7 @@ function InputDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -854,7 +847,7 @@ function InputDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -872,7 +865,7 @@ function InputDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -889,7 +882,7 @@ function InputDemo() {
             />
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -911,37 +904,18 @@ function InputDemo() {
             />
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </>
   );
 }
 
-function ModalDemo() {
+function ModalDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
   const [openDefault, setOpenDefault] = React.useState(false);
   const [openSticky, setOpenSticky] = React.useState(false);
   const [openSingleButton, setOpenSingleButton] = React.useState(false);
   const [openInset, setOpenInset] = React.useState(false);
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
-  );
 
   const modalFooter = (
     <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
@@ -999,7 +973,7 @@ function ModalDemo() {
             </Modal>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1042,7 +1016,7 @@ function ModalDemo() {
             </Modal>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1072,7 +1046,7 @@ function ModalDemo() {
             </Modal>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1102,33 +1076,14 @@ function ModalDemo() {
             </Modal>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </div>
   );
 }
 
-function SwitchDemo() {
+function SwitchDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
-  );
 
   return (
     <>
@@ -1146,7 +1101,7 @@ function SwitchDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1163,7 +1118,7 @@ function SwitchDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1194,7 +1149,7 @@ function SwitchDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1209,7 +1164,7 @@ function SwitchDemo() {
             </Switch>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1230,7 +1185,7 @@ function SwitchDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1276,13 +1231,13 @@ function SwitchDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </>
   );
 }
 
-function SelectDemo() {
+function SelectDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
 
   const circularGlyph = (
@@ -1301,25 +1256,6 @@ function SelectDemo() {
         d="M7.25 10.75v.75h1.5V6.56l1.47 1.47.53.53 1.06-1.06-.53-.53-2.75-2.75a.75.75 0 0 0-1.06 0L4.72 6.97l-.53.53 1.06 1.06.53-.53 1.47-1.47zM14.5 8a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
       />
     </svg>
-  );
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
   );
 
   const sizesRowClass =
@@ -1359,7 +1295,7 @@ function SelectDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1398,7 +1334,7 @@ function SelectDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1414,7 +1350,7 @@ function SelectDemo() {
             />
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1450,7 +1386,7 @@ function SelectDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1465,7 +1401,7 @@ function SelectDemo() {
             />
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1498,7 +1434,7 @@ function SelectDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1518,33 +1454,14 @@ function SelectDemo() {
             </Select>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </>
   );
 }
 
-function SeparatorDemo() {
+function SeparatorDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
-  );
 
   return (
     <>
@@ -1571,7 +1488,7 @@ function SeparatorDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1591,7 +1508,7 @@ function SeparatorDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1624,7 +1541,7 @@ function SeparatorDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </>
   );
@@ -1745,27 +1662,8 @@ function TabsDemo() {
   );
 }
 
-function TextareaDemo() {
+function TextareaDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
-  );
 
   const lorem = demoText(
     language,
@@ -1785,7 +1683,7 @@ function TextareaDemo() {
             </label>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1799,7 +1697,7 @@ function TextareaDemo() {
             </label>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1838,7 +1736,7 @@ function TextareaDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1873,7 +1771,7 @@ function TextareaDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1892,7 +1790,7 @@ function TextareaDemo() {
             </label>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1910,13 +1808,13 @@ function TextareaDemo() {
             </label>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </>
   );
 }
 
-function ToggleDemo() {
+function ToggleDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
   const [defaultOff, setDefaultOff] = React.useState(false);
   const [defaultOn, setDefaultOn] = React.useState(true);
@@ -1927,25 +1825,6 @@ function ToggleDemo() {
     checked: <Lock className="size-2" aria-hidden />,
     unchecked: <LockOpen className="size-2" aria-hidden />,
   };
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
-  );
 
   return (
     <>
@@ -1973,7 +1852,7 @@ function ToggleDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -1996,7 +1875,7 @@ function ToggleDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -2026,7 +1905,7 @@ function ToggleDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -2077,7 +1956,7 @@ function ToggleDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -2143,7 +2022,7 @@ function ToggleDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </>
   );
@@ -2235,7 +2114,7 @@ function CopyButtonDemo() {
   );
 }
 
-function DrawerDemo() {
+function DrawerDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
   const [open, setOpen] = React.useState(false);
   const [customOpen, setCustomOpen] = React.useState(false);
@@ -2246,25 +2125,6 @@ function DrawerDemo() {
         {demoText(language, "A drawer title")}
       </p>
       <p className="text-center text-copy-14">{demoText(language, "Drawer body")}</p>
-    </div>
-  );
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
     </div>
   );
 
@@ -2285,7 +2145,7 @@ function DrawerDemo() {
             </Button>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
         <Drawer show={open} onDismiss={() => setOpen(false)} verticalScroll>
           {drawerBody}
         </Drawer>
@@ -2305,7 +2165,7 @@ function DrawerDemo() {
             </Button>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
         <Drawer
           height={200}
           show={customOpen}
@@ -2330,27 +2190,8 @@ function NoteDemo() {
   );
 }
 
-function SheetDemo() {
+function SheetDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
-  );
 
   const sheetBody = (title: string, description: string) => (
     <div className="flex flex-col gap-4">
@@ -2395,7 +2236,7 @@ function SheetDemo() {
             </Sheet>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -2459,7 +2300,7 @@ function SheetDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </div>
   );
@@ -2804,7 +2645,7 @@ function ChoiceboxDemo() {
   );
 }
 
-function CommandMenuDemo() {
+function CommandMenuDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
   const [openVariant, setOpenVariant] = React.useState<
     "default" | "with-divider" | "with-suffix" | null
@@ -2813,25 +2654,6 @@ function CommandMenuDemo() {
   const openDemo = (variant: "default" | "with-divider" | "with-suffix") => {
     setOpenVariant(variant);
   };
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
-  );
 
   const demoVariants = ["default", "with-divider", "with-suffix"] as const;
 
@@ -2855,7 +2677,7 @@ function CommandMenuDemo() {
               </Button>
             </div>
           </div>
-          {footerBar}
+          <ShowCodeFooter code={code ?? ""} />
         </div>
       ))}
       <CommandMenu
@@ -3643,32 +3465,13 @@ function ContextCardDemo() {
   );
 }
 
-function ContextMenuDemo() {
+function ContextMenuDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
   const rightClickHere = demoText(language, "Right click here");
   const itemOne = demoText(language, "Item one");
   const itemTwo = demoText(language, "Item Two");
   const itemThree = demoText(language, "Item Three");
   const itemFour = demoText(language, "Item Four");
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
-  );
 
   const triggerArea = (
     <div className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
@@ -3715,7 +3518,7 @@ function ContextMenuDemo() {
             </ContextMenu>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -3737,7 +3540,7 @@ function ContextMenuDemo() {
             </ContextMenu>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -3759,7 +3562,7 @@ function ContextMenuDemo() {
             </ContextMenu>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -3810,13 +3613,13 @@ function ContextMenuDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </div>
   );
 }
 
-function DotsMenuDemo() {
+function DotsMenuDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
   const items = (
     <>
@@ -3825,24 +3628,7 @@ function DotsMenuDemo() {
       <DotsMenuItem>{demoText(language, "View Analytics")}</DotsMenuItem>
     </>
   );
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
-  );
+
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
@@ -3854,7 +3640,7 @@ function DotsMenuDemo() {
             <DotsMenu>{items}</DotsMenu>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3869,7 +3655,7 @@ function DotsMenuDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3880,7 +3666,7 @@ function DotsMenuDemo() {
             <DotsMenu disabled>{items}</DotsMenu>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3895,7 +3681,7 @@ function DotsMenuDemo() {
             </DotsMenu>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </div>
   );
@@ -4212,7 +3998,7 @@ function CollapseDemo() {
   );
 }
 
-function ComboboxDemo() {
+function ComboboxDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
   const [controlledValue, setControlledValue] = React.useState("b");
   const searchLabel = demoText(language, "Search");
@@ -4237,25 +4023,6 @@ function ComboboxDemo() {
     { value: "br", label: "Brazil" },
   ];
 
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
-  );
-
   return (
     <div className="w-full max-w-[862px]">
       <div
@@ -4276,7 +4043,7 @@ function ComboboxDemo() {
             </Combobox>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -4302,7 +4069,7 @@ function ComboboxDemo() {
             </Combobox>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -4323,7 +4090,7 @@ function ComboboxDemo() {
             </Combobox>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -4380,7 +4147,7 @@ function ComboboxDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -4404,7 +4171,7 @@ function ComboboxDemo() {
             </div>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </div>
   );
@@ -4944,27 +4711,8 @@ function FieldSetDemo() {
   );
 }
 
-function LabelDemo() {
+function LabelDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
-  );
 
   return (
     <>
@@ -4977,7 +4725,7 @@ function LabelDemo() {
             <Label id="label-default" value={demoText(language, "This is a label")} />
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -4990,7 +4738,7 @@ function LabelDemo() {
             <Input aria-labelledby="test-input" id="test-input" />
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -5008,7 +4756,7 @@ function LabelDemo() {
             <Input aria-labelledby="test-input" id="test-input" />
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </>
   );
@@ -5211,27 +4959,8 @@ function PillDemo() {
   );
 }
 
-function RadioDemo() {
+function RadioDemo({ code }: { code?: string }) {
   const { language } = useLanguage();
-
-  const footerBar = (
-    <div className="bg-background-200 relative flex items-center rounded-b-lg border-t border-gray-400">
-      <div className="border-b-lg w-full" data-state="closed">
-        <button
-          type="button"
-          aria-expanded={false}
-          data-state="closed"
-          className="bg-background-200 focus-visible:shadow-focus-ring flex h-[48px] w-full cursor-pointer items-center gap-3 rounded-b-lg px-4 text-left font-sans text-sm text-gray-900 focus:outline-none"
-        >
-          <div className="-rotate-90">
-            <ChevronRight className="size-4" aria-hidden />
-          </div>
-          {demoText(language, "Show code")}
-        </button>
-        <div data-state="closed" hidden />
-      </div>
-    </div>
-  );
 
   return (
     <>
@@ -5253,7 +4982,7 @@ function RadioDemo() {
             </RadioGroup>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -5275,7 +5004,7 @@ function RadioDemo() {
             </RadioGroup>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -5301,7 +5030,7 @@ function RadioDemo() {
             </form>
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -5313,7 +5042,7 @@ function RadioDemo() {
             <RadioHeadlessDemo />
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
 
       <div
@@ -5325,7 +5054,7 @@ function RadioDemo() {
             <RadioStandaloneDemo />
           </div>
         </div>
-        {footerBar}
+        <ShowCodeFooter code={code ?? ""} />
       </div>
     </>
   );
@@ -5422,7 +5151,7 @@ function SplitButtonDemo() {
 }
 
 /** 名称 → 实时 demo 渲染器（未命中的分支在调用前已拦截） */
-function renderDemo(name: string): React.ReactNode {
+function renderDemo(name: string, code?: string): React.ReactNode {
   switch (name) {
     case "avatar":
       return <AvatarDemo />;
@@ -5437,7 +5166,7 @@ function renderDemo(name: string): React.ReactNode {
     case "browser":
       return <BrowserDemo />;
     case "button":
-      return <ButtonDemo />;
+      return <ButtonDemo code={code} />;
     case "calendar":
       return <CalendarDemo />;
     case "checkbox":
@@ -5449,17 +5178,17 @@ function renderDemo(name: string): React.ReactNode {
     case "collapse":
       return <CollapseDemo />;
     case "combobox":
-      return <ComboboxDemo />;
+      return <ComboboxDemo code={code} />;
     case "code":
       return <CodeDemo />;
     case "code-block":
       return <CodeBlockDemo />;
     case "command-menu":
-      return <CommandMenuDemo />;
+      return <CommandMenuDemo code={code} />;
     case "context-card":
       return <ContextCardDemo />;
     case "context-menu":
-      return <ContextMenuDemo />;
+      return <ContextMenuDemo code={code} />;
     case "copy-button":
       return <CopyButtonDemo />;
     case "destructive-action-modal":
@@ -5467,11 +5196,11 @@ function renderDemo(name: string): React.ReactNode {
     case "description":
       return <DescriptionDemo />;
     case "dots-menu":
-      return <DotsMenuDemo />;
+      return <DotsMenuDemo code={code} />;
     case "menu":
       return <MenuDemo />;
     case "drawer":
-      return <DrawerDemo />;
+      return <DrawerDemo code={code} />;
     case "empty-state":
       return <EmptyStateDemo />;
     case "entity":
@@ -5491,19 +5220,19 @@ function renderDemo(name: string): React.ReactNode {
     case "grid":
       return <GridDemo />;
     case "input":
-      return <InputDemo />;
+      return <InputDemo code={code} />;
     case "json-view":
       return <JsonViewDemo />;
     case "keyboard-input":
       return <KeyboardInputDemo />;
     case "label":
-      return <LabelDemo />;
+      return <LabelDemo code={code} />;
     case "load-more-button":
       return <LoadMoreButtonDemo />;
     case "loading-dots":
       return <LoadingDotsDemo />;
     case "modal":
-      return <ModalDemo />;
+      return <ModalDemo code={code} />;
     case "middle-truncate":
       return <MiddleTruncateDemo />;
     case "multi-select":
@@ -5521,7 +5250,7 @@ function renderDemo(name: string): React.ReactNode {
     case "progress":
       return <ProgressDemo />;
     case "radio":
-      return <RadioDemo />;
+      return <RadioDemo code={code} />;
     case "relative-time-card":
       return <RelativeTimeCardDemo />;
     case "scroller":
@@ -5529,15 +5258,15 @@ function renderDemo(name: string): React.ReactNode {
     case "search-input":
       return <SearchInputDemo />;
     case "switch":
-      return <SwitchDemo />;
+      return <SwitchDemo code={code} />;
     case "select":
-      return <SelectDemo />;
+      return <SelectDemo code={code} />;
     case "sheet":
-      return <SheetDemo />;
+      return <SheetDemo code={code} />;
     case "show-more":
       return <ShowMoreDemo />;
     case "separator":
-      return <SeparatorDemo />;
+      return <SeparatorDemo code={code} />;
     case "skeleton":
       return <SkeletonDemo />;
     case "slider":
@@ -5559,11 +5288,11 @@ function renderDemo(name: string): React.ReactNode {
     case "text-with-copy-button":
       return <TextWithCopyButtonDemo />;
     case "textarea":
-      return <TextareaDemo />;
+      return <TextareaDemo code={code} />;
     case "toast":
       return <ToastDemo />;
     case "toggle":
-      return <ToggleDemo />;
+      return <ToggleDemo code={code} />;
     case "tooltip":
       return <TooltipDemo />;
     case "theme-switcher":
@@ -7424,11 +7153,11 @@ function ComponentDetail({ name }: { name: string }) {
       <section className="mt-10">
         <h2 className="text-heading-24 text-foreground">{demoText(language, "Live Demo")}</h2>
         {name === "table" ? (
-          <TableDemoCard code={meta.code}>{renderDemo(name)}</TableDemoCard>
+          <TableDemoCard code={meta.code}>{renderDemo(name, meta.code)}</TableDemoCard>
         ) : name === "description" || name === "context-card" ? (
-          <div>{renderDemo(name)}</div>
+          <div>{renderDemo(name, meta.code)}</div>
         ) : (
-          <DemoSection>{renderDemo(name)}</DemoSection>
+          <DemoSection>{renderDemo(name, meta.code)}</DemoSection>
         )}
       </section>
 

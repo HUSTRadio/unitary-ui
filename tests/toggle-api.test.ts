@@ -109,7 +109,7 @@ describe("Toggle official API contract (G12)", () => {
     const toggleEnd = docs.indexOf("function TooltipDemo(", toggleStart);
     const toggleDemo = docs.slice(toggleStart, toggleEnd);
     const sizesStart = toggleDemo.indexOf('data-demo-card="sizes"');
-    const sizesEnd = toggleDemo.indexOf("{footerBar}", sizesStart);
+    const sizesEnd = toggleDemo.indexOf("<ShowCodeFooter", sizesStart);
     const sizesDemo = toggleDemo.slice(sizesStart, sizesEnd);
 
     expect(toggleStart).toBeGreaterThan(-1);

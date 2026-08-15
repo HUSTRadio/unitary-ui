@@ -105,7 +105,7 @@ describe("Geist documentation coverage", () => {
   it("renders all three live Command Menu demo content contracts", async () => {
     const source = await read("docs/geist/src/components/docs-components-page.tsx");
     const demo = source.slice(
-      source.indexOf("function CommandMenuDemo()"),
+      source.indexOf("function CommandMenuDemo("),
       source.indexOf("function GridDemo()"),
     );
 
