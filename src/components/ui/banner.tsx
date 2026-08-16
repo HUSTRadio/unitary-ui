@@ -22,11 +22,11 @@ interface BannerProps extends React.ComponentProps<"div"> {
  * - Desktop（≥lg）：`<div>` 文本 + 单独 CTA 胶囊（hidden lg:flex）
  *
  * 胶囊样式（官方实测）：bg background-100 + 1px ring（gray-400）+ 底部阴影
- * （material-small / shadow-border-small）+ rounded-full + h-8 + px-3 + text-button-14/500。
- * `<b>` 保持原生 bold（700），不降为 font-semibold。
+ * （shadow-border-small）+ rounded-full + h-8 + px-3 + text-button-14/500。
+ * `<b>` 字重：mobile 胶囊保持原生 bold（700）；desktop 文本由根 div `[&_b]:font-semibold` 降为 600（官方实测）。
  */
 const CTA_CLASS =
-  "material-small inline-flex h-8 max-w-full shrink-0 items-center justify-center rounded-full bg-background-100 px-3 text-button-14 font-medium text-gray-1000 outline-none transition-colors hover:bg-gray-100 dark:hover:bg-gray-200 focus-ring";
+  "inline-flex h-8 max-w-full shrink-0 items-center justify-center rounded-full bg-background-100 px-3 text-button-14 font-medium text-gray-1000 shadow-[var(--material-shadow-small)] outline-none transition-colors hover:bg-gray-100 dark:hover:bg-gray-200 focus-ring";
 
 function Banner({ button, children, className, ...props }: BannerProps) {
   return (
