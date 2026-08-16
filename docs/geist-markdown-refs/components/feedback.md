@@ -51,6 +51,13 @@ Gather text feedback with an associated emotion.
 > - **Feedback with suffix**
 >   容器 b:1px solid rgba(255, 255, 255, 0.14) · 容器 r:8px · 容器 bg:#0a0a0a
 >   "Feedback" · .outline-none · h:32px · pad:0px 6px · 500 14px/21px · fg:#ededed · bg:#0a0a0a · r:6px
+>
+> **评分表情语义色（Light / Dark 共用 token）**
+>
+> - 脸部与轮廓：`currentColor`，继承评分按钮的主题前景色。
+> - **Hate it** 泪痕：`--ds-blue-700` = `#006efe`。
+> - **Love it!** 眼睛：`--ds-amber-800` = `#ff9900`。
+> - **Not great** / **Okay**：不附加强调色，仅使用 `currentColor`。
 
 <!-- GEIST-RENDER-METRICS-END -->
 
