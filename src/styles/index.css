@@ -166,6 +166,9 @@
   --radius-xl: 0.75rem; /* 12px — menu / modal / combobox / feedback popover */
   --radius-pill: 9999px;
 
+  /* LoadingDots 官方 blink 动画（1.4s ease infinite） */
+  --animate-blink: blink 1.4s ease infinite;
+
   /* Geist 全色阶（colors.md 92 token 实测；gray-alpha 已在上面定义） */
   --color-amber-100: var(--amber-100);
   --color-amber-1000: var(--amber-1000);
@@ -1216,6 +1219,19 @@
 [data-slot="code"] .token.punctuation,
 [data-slot="code"] .token.operator {
   color: var(--ds-gray-1000);
+}
+
+/* LoadingDots 官方 blink 动画（1.4s ease infinite，opacity 0.2→1→0.2） */
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
 }
 
 /* Command Menu 官方 300ms overlay scale/fade；阴影复用同值的 material modal token。 */
