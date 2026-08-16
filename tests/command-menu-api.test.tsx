@@ -157,8 +157,9 @@ describe("CommandMenu official runtime contract", () => {
 
     expect(esc.textContent).toBe("Esc");
     expect(esc.className).toContain("h-5");
-    expect(esc.className).toContain("w-[25px]");
-    expect(esc.querySelector("kbd")?.className).toContain("w-[25px]");
+    expect(esc.className).toContain("ml-auto");
+    expect(esc.className).toContain("px-1");
+    expect(esc.querySelector("kbd")).toBeNull();
     keydown(input, "Escape");
     expect(setOpen).toHaveBeenCalledWith(false);
   });

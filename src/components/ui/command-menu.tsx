@@ -2,7 +2,6 @@ import * as React from "react";
 import { Command } from "cmdk";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
-import { Kbd } from "@/components/ui/keyboard-input";
 import { cn } from "@/lib/utils";
 
 const CommandMenuContext = React.createContext<{
@@ -78,7 +77,7 @@ const CommandMenuInput = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const { close, query, setQuery } = useCommandMenu();
   return (
-    <div className="relative flex w-full items-center gap-2 border-b border-gray-alpha-400 p-3">
+    <div className="relative flex w-full items-center gap-2 border-b border-gray-alpha-400 px-4 py-3">
       <Command.Input
         ref={ref}
         value={query}
@@ -93,11 +92,9 @@ const CommandMenuInput = React.forwardRef<
         type="button"
         aria-label="Close command menu"
         onClick={close}
-        className="h-5 w-[25px] shrink-0 rounded-sm border-0 bg-transparent p-0 outline-none"
+        className="ml-auto hidden h-5 cursor-pointer items-center rounded-sm border-none bg-background-100 px-1 py-0 text-xs text-gray-1000 shadow-[var(--material-shadow-base)] outline-none transition-[background] duration-200 [@media(hover:hover)_and_(pointer:fine)]:flex focus-visible:shadow-[var(--focus-ring-outline)] hover:bg-gray-100"
       >
-        <Kbd small className="w-[25px] font-sans!">
-          Esc
-        </Kbd>
+        Esc
       </button>
     </div>
   );
