@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import { Languages, Search } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 import { Input } from "@/components/ui/input";
@@ -26,7 +26,7 @@ function DocsBanner() {
     <header className="sticky top-0 z-40 mx-auto w-full max-w-[1220px]">
       <div className="bg-background-100 flex h-16 w-full max-w-[1219px] border-b border-l border-r border-gray-alpha-400 pl-[22px] dark:border-[#242424]">
         {/* 左区块：Logo + Search */}
-        <div className="border-gray-alpha-400 flex grow items-center gap-4 border-r py-4 pl-px xl:w-[237px] xl:grow-0">
+        <div className="border-gray-alpha-400 flex grow items-center gap-4 py-4 pl-px xl:w-[237px] xl:grow-0 xl:border-r">
           <a href="#/" className="flex shrink-0 items-center gap-2" aria-label={copy.homeAria}>
             <svg viewBox="0 0 24 24" className="size-5 fill-foreground" aria-hidden>
               <path d="M12 2.5 22.5 21h-21L12 2.5Z" />
@@ -57,8 +57,9 @@ function DocsBanner() {
               <MenuButton
                 variant="unstyled"
                 aria-label={copy.languageAria}
-                className="flex h-8 items-center rounded-md px-2 text-label-13 text-muted-foreground hover:bg-gray-alpha-100 hover:text-foreground"
+                className="flex h-8 items-center gap-1.5 rounded-md px-2 text-label-13 text-muted-foreground hover:bg-gray-alpha-100 hover:text-foreground"
               >
+                <Languages className="size-3.5 shrink-0" aria-hidden />
                 {LANGUAGE_OPTIONS.find((option) => option.value === language)?.label}
               </MenuButton>
               <Menu width={128} aria-label={copy.languageLabel}>
