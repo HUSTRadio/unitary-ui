@@ -1116,6 +1116,12 @@
   background-color: var(--color-bg-elevated);
   box-shadow: var(--material-shadow-modal);
 }
+
+/* Force-mounted Radix content gets an inline 0s transition during presence setup. */
+@utility collapse-content-motion {
+  transition-duration: 200ms !important;
+}
+
 @utility material-fullscreen {
   border-radius: 16px;
   background-color: var(--color-bg-elevated);

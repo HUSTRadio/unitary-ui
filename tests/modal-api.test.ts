@@ -30,6 +30,13 @@ describe("Modal official API contract (G07-MODAL-01 fix)", () => {
     expect(line).not.toContain("z-50");
   });
 
+  test("overlay fades with the official 300ms spring curve", async () => {
+    const src = await read("src/components/ui/modal.tsx");
+    expect(src).toContain("data-[state=open]:fade-in-0");
+    expect(src).toContain("data-[state=closed]:fade-out-0");
+    expect(src).toContain("duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.1)]");
+  });
+
   test("G07-MODAL-01: modal content keeps z-[300] so it stacks above the z-300 overlay", async () => {
     const src = await read("src/components/ui/modal.tsx");
     const contentLine = src

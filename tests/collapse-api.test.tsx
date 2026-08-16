@@ -2,6 +2,8 @@
 import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 
 import { Collapse, CollapseContent, CollapseTrigger } from "../src/components/ui/collapse";
@@ -42,12 +44,17 @@ describe("Collapse live official contract", () => {
     expect(trigger.getAttribute("aria-expanded")).toBe("true");
   });
 
-  test("uses the official 200ms ease-in-out motion", () => {
+  test("uses the official 200ms ease-in-out motion", async () => {
     render(
       <Collapse>
         <CollapseTrigger>Question A</CollapseTrigger>
         <CollapseContent>Answer</CollapseContent>
       </Collapse>,
+    );
+
+    const css = await readFile(path.resolve(process.cwd(), "src/styles/index.css"), "utf8");
+    expect(css).toMatch(
+      /@utility collapse-content-motion \{\s*transition-duration: 200ms !important;/,
     );
 
     expect(
@@ -56,5 +63,14 @@ describe("Collapse live official contract", () => {
     expect(
       container.querySelector('[data-slot="collapse-content"]')?.getAttribute("class"),
     ).toContain("duration-200");
+    expect(
+      container.querySelector('[data-slot="collapse-content"]')?.getAttribute("class"),
+    ).toContain("data-[state=open]:h-[var(--collapse-content-height)]");
+    expect(
+      container.querySelector('[data-slot="collapse-content"]')?.hasAttribute("inert"),
+    ).toBe(true);
+    expect(
+      container.querySelector('[data-slot="collapse-trigger"] svg')?.getAttribute("class"),
+    ).toContain("group-data-[state=open]:rotate-180");
   });
 });

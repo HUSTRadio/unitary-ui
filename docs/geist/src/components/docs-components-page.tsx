@@ -2668,7 +2668,9 @@ function ToastDemo() {
       <div className="w-full p-6" data-demo-container="Default">
         <Button
           typeName="button"
-          onClick={() => toasts.message({ text: demoText(language, "Project deleted") })}
+          onClick={() =>
+            toasts.message({ text: "The Evil Rabbit jumped over the fence." })
+          }
         >
           {demoText(language, "Show Toast")}
         </Button>

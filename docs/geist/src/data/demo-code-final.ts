@@ -79,7 +79,10 @@ import { Toasts, useToasts } from "@/components/ui/toast";
 const toasts = useToasts();
 
 <>
-  <Button typeName="button" onClick={() => toasts.message({ text: "Project deleted" })}>
+  <Button
+    typeName="button"
+    onClick={() => toasts.message({ text: "The Evil Rabbit jumped over the fence." })}
+  >
     Show Toast
   </Button>
   <Toasts />

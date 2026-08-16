@@ -39,6 +39,14 @@ describe("Menu surface contract (B0 menu-surface)", () => {
     expect(content!.className).toContain("text-foreground");
   });
 
+  test("menu opens without animation and only fades when closing", () => {
+    const { content } = renderMenu();
+    expect(content!.className).not.toContain("data-[state=open]:animate-in");
+    expect(content!.className).not.toContain("data-[state=open]:zoom-in-95");
+    expect(content!.className).toContain("data-[state=closed]:animate-out");
+    expect(content!.className).toContain("data-[state=closed]:fade-out-0");
+  });
+
   test("dark theme background stays surface token (computed #0a0a0a verified in real browser)", () => {
     document.documentElement.classList.add("dark");
     try {

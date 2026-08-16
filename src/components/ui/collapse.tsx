@@ -10,9 +10,7 @@ const CollapseContext = React.createContext(false);
  * Collapse — 折叠面板（Radix Collapsible）。
  * Collapse（根，size=default/small 控制标题 padding py-6/py-3）/ CollapseTrigger（h3 内，含 chevron）
  * / CollapseContent（内容）。
- * bestPractices 要求「closed 时内容保留在 DOM（hidden）」，因此 CollapseContent 默认
- * forceMount：关闭时内容仍在 DOM（invisible + h-0 + opacity-0），
- * 同时从可访问性树与布局中移除。
+ * 官方关闭态保留内容节点，使用 height:0 + inert；展开时测量实际高度并做 200ms 过渡。
  */
 function Collapse({
   size = "default",
@@ -52,7 +50,7 @@ function CollapseTrigger({
       <span className="flex items-center py-6 group-data-[size=small]:py-3">{children}</span>
       <ChevronDown
         aria-hidden
-        className="size-4 shrink-0 transition-transform duration-200 ease-in-out data-[state=open]:rotate-180"
+        className="size-4 shrink-0 transition-transform duration-200 ease-in-out group-data-[state=open]:rotate-180"
       />
     </CollapsiblePrimitive.Trigger>
   );
@@ -61,18 +59,55 @@ function CollapseTrigger({
 function CollapseContent({
   className,
   forceMount = true,
+  ref,
+  style,
   ...props
 }: React.ComponentProps<typeof CollapsiblePrimitive.Content>) {
+  const contentRef = React.useRef<HTMLDivElement>(null);
+  const [height, setHeight] = React.useState(0);
+  const [closed, setClosed] = React.useState(true);
+
+  React.useLayoutEffect(() => {
+    const content = contentRef.current;
+    if (!content) return;
+
+    const measure = () => setHeight(content.scrollHeight);
+    const syncState = () => setClosed(content.dataset.state === "closed");
+    measure();
+    syncState();
+
+    const mutationObserver = new MutationObserver(syncState);
+    mutationObserver.observe(content, { attributes: true, attributeFilter: ["data-state"] });
+
+    const resizeObserver =
+      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    for (const child of content.children) resizeObserver?.observe(child);
+
+    return () => {
+      mutationObserver.disconnect();
+      resizeObserver?.disconnect();
+    };
+  }, []);
+
   return (
     <CollapsiblePrimitive.Content
       data-slot="collapse-content"
       role="region"
       forceMount={forceMount}
+      ref={(node) => {
+        contentRef.current = node;
+        if (typeof ref === "function") ref(node);
+        else if (ref) ref.current = node;
+      }}
+      inert={closed || undefined}
+      style={{
+        "--collapse-content-height": `${height}px`,
+        ...style,
+      } as React.CSSProperties}
       className={cn(
-        "overflow-hidden",
-        "transition-[height] duration-200 ease-in-out",
+        "collapse-content-motion overflow-y-hidden transition-all duration-200 ease-in-out",
         "data-[state=closed]:h-0",
-        "data-[state=open]:h-auto",
+        "data-[state=open]:h-[var(--collapse-content-height)]",
         className,
       )}
       {...props}

@@ -14,6 +14,11 @@ const toggle = (props: React.ComponentProps<typeof Toggle>) =>
   renderToStaticMarkup(React.createElement(Toggle, props));
 
 describe("Toggle official API contract (G12)", () => {
+  test("track and thumb use the official 200ms standard easing", async () => {
+    const src = await read("src/components/ui/toggle.tsx");
+    expect(src.match(/duration-200 ease-\[cubic-bezier\(0\.4,0,0\.2,1\)\]/g)).toHaveLength(2);
+  });
+
   test("G12-TOGGLE-01: color=red uses theme-aware token in checked and unchecked states", async () => {
     const src = await read("src/components/ui/toggle.tsx");
     // Live Geist custom-color demo keeps the red track only while checked (unchecked is gray).

@@ -120,7 +120,7 @@ const Menu = React.forwardRef<
         data-slot="menu"
         className={cn(
           "z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-32 overflow-x-hidden overflow-y-auto rounded-[12px] bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none",
-          "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+          "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
           className,
         )}
         style={{ ...style, width }}

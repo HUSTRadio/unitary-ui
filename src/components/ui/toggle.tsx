@@ -53,7 +53,7 @@ function Toggle({
       <span
         aria-hidden
         className={cn(
-          "block cursor-pointer rounded-[14px] transition-[background,border-color] duration-150 ease-out",
+          "block cursor-pointer rounded-[14px] transition-[background,border-color] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]",
           "bg-gray-400 peer-focus-visible:focus-ring peer-disabled:cursor-not-allowed",
           color === "blue" && "peer-checked:bg-[var(--toggle-checked)]",
           color === "amber" && "peer-checked:bg-warning",
@@ -69,7 +69,7 @@ function Toggle({
       <span
         aria-hidden
         className={cn(
-          "pointer-events-none absolute top-1/2 left-[1.5px] block -translate-y-1/2 rounded-full border-gray-400 bg-[var(--toggle-thumb)] shadow-[0_0_3px_-1px_rgba(0,0,0,0.24),0_0_0.5px_rgba(0,0,0,0.16),-0.5px_2px_3px_-2px_rgba(0,0,0,0.36)] transition-transform",
+          "pointer-events-none absolute top-1/2 left-[1.5px] block -translate-y-1/2 rounded-full border-gray-400 bg-[var(--toggle-thumb)] shadow-[0_0_3px_-1px_rgba(0,0,0,0.24),0_0_0.5px_rgba(0,0,0,0.16),-0.5px_2px_3px_-2px_rgba(0,0,0,0.36)] transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]",
           "peer-disabled:border-transparent peer-disabled:shadow-none peer-disabled:bg-[var(--toggle-disabled-thumb-unchecked)] peer-disabled:peer-checked:bg-[var(--toggle-disabled-thumb-checked)]",
           size === "small" && "size-[11px] peer-checked:translate-x-[14px]",
           size === "medium" && "size-[17px] peer-checked:translate-x-4",

@@ -76,4 +76,25 @@ describe("Toast official API contract (G12 audit fixes)", () => {
     expect(src).toMatch(/aria-label="Dismiss notification"/);
     expect(src).toMatch(/onClick=\{\(\) => dismiss\(toast\.id\)\}/);
   });
+
+  test("default demo keeps the official neutral message instead of claiming an unrelated result", async () => {
+    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
+    const code = await read("docs/geist/src/data/demo-code-final.ts");
+    for (const source of [docs, code]) {
+      expect(source).toContain("The Evil Rabbit jumped over the fence.");
+    }
+    const toastDemo = docs.slice(
+      docs.indexOf("function ToastDemo()"),
+      docs.indexOf("function CopyButtonDemo()"),
+    );
+    expect(toastDemo).not.toContain("Project deleted");
+  });
+
+  test("toast action is a native focusable button and dismisses after invocation", async () => {
+    const src = await read("src/components/ui/toast.tsx");
+    expect(src).toMatch(/const action = toast\.onUndoAction \?\? toast\.onAction/);
+    expect(src).toMatch(
+      /<button[\s\S]*?onClick=\{\(\) => \{[\s\S]*?action\?\.\(\);[\s\S]*?dismiss\(toast\.id\);[\s\S]*?\}\}[\s\S]*?\{actionLabel\}[\s\S]*?<\/button>/,
+    );
+  });
 });

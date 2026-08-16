@@ -139,7 +139,7 @@ function SwitchControl({
       <div
         data-slot="switch-control"
         className={cn(
-          "flex h-full flex-1 cursor-pointer items-center justify-center text-start text-gray-900 no-underline outline-none transition-colors duration-150",
+          "flex h-full flex-1 cursor-pointer items-center justify-center text-start text-gray-900 no-underline outline-none transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]",
           "hover:text-gray-1000 peer-focus-visible:shadow-focus-ring",
           "peer-checked:bg-gray-100 peer-checked:text-gray-1000 peer-checked:rounded-[4px]",
           "peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed peer-disabled:!text-gray-800",
