@@ -5582,18 +5582,18 @@ function renderDemo(name: string): React.ReactNode {
 function Section({
   title,
   children,
-  tableCode,
+  code,
 }: {
   title: string;
   children: React.ReactNode;
-  tableCode?: string;
+  code?: string;
 }) {
   const { language } = useLanguage();
   return (
     <section className="mt-10">
       <h2 className="text-heading-24 text-foreground">{demoText(language, title)}</h2>
-      {tableCode ? (
-        <TableDemoCard code={tableCode}>{children}</TableDemoCard>
+      {code ? (
+        <TableDemoCard code={code}>{children}</TableDemoCard>
       ) : (
         <div className="mt-6 flex min-h-28 flex-wrap items-center gap-x-6 gap-y-4 rounded-[8px] border border-gray-alpha-400 bg-background p-6">
           {children}
@@ -5973,6 +5973,7 @@ function VirtualizedTableDemo() {
 
 /** 名称 → 额外演示分段（Sizes / Variants / States），未命中的组件返回 null */
 function renderExtraSections(name: string, language: DocsLanguage): React.ReactNode {
+  const sectionCode = (title: string) => DEMO_CODE[name]?.[title] ?? "";
   switch (name) {
     case "button":
       return (
@@ -6136,7 +6137,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "gauge":
       return (
         <>
-          <Section title="Label">
+          <Section title="Label" code={sectionCode("Label")}>
             <div className="flex flex-row flex-wrap items-stretch justify-start gap-8">
               <Gauge showValue size="tiny" value={80} />
               <Gauge showValue size="small" value={80} />
@@ -6147,21 +6148,21 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               <Gauge showValue size="large" value={100} />
             </div>
           </Section>
-          <Section title="Default color scale">
+          <Section title="Default color scale" code={sectionCode("Default color scale")}>
             <div className="flex flex-row flex-wrap items-stretch justify-start gap-8">
               <Gauge size="small" value={14} />
               <Gauge size="small" value={34} />
               <Gauge size="small" value={68} />
             </div>
           </Section>
-          <Section title="Custom color range">
+          <Section title="Custom color range" code={sectionCode("Custom color range")}>
             <div className="flex flex-row flex-wrap items-stretch justify-start gap-2">
               {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((value) => (
                 <Gauge key={value} colors={GAUGE_PINK_SCALE} size="small" value={value} />
               ))}
             </div>
           </Section>
-          <Section title="Custom secondary color">
+          <Section title="Custom secondary color" code={sectionCode("Custom secondary color")}>
             <div className="flex justify-start">
               <Gauge
                 colors={{ primary: "var(--blue-700)", secondary: "var(--blue-300)" }}
@@ -6170,7 +6171,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Arc priority">
+          <Section title="Arc priority" code={sectionCode("Arc priority")}>
             <div className="flex justify-start">
               <Gauge
                 arcPriority="equal"
@@ -6181,7 +6182,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Indeterminate">
+          <Section title="Indeterminate" code={sectionCode("Indeterminate")}>
             <div className="flex flex-row flex-wrap items-stretch justify-start gap-2">
               <Gauge indeterminate size="tiny" value={25} />
               <Gauge indeterminate size="small" value={25} />
@@ -6385,7 +6386,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "tooltip":
       return (
         <>
-          <Section title="No delay">
+          <Section title="No delay" code={sectionCode("No delay")}>
             <div className="flex w-full flex-row flex-wrap">
               <div className="flex flex-1 flex-col items-center justify-center py-2">
                 <Tooltip delay={false} text="The Evil Rabbit Jumped over the Fence">
@@ -6417,7 +6418,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </div>
             </div>
           </Section>
-          <Section title="Box align">
+          <Section title="Box align" code={sectionCode("Box align")}>
             <div className="flex w-full flex-row flex-wrap">
               <div className="flex flex-1 flex-col items-center justify-center py-2">
                 <Tooltip
@@ -6494,7 +6495,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </div>
             </div>
           </Section>
-          <Section title="Custom content">
+          <Section title="Custom content" code={sectionCode("Custom content")}>
             <div className="flex w-full flex-row flex-wrap">
               <div className="flex flex-1 flex-col items-center justify-center py-2">
                 <Tooltip
@@ -6545,7 +6546,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </div>
             </div>
           </Section>
-          <Section title="Custom type">
+          <Section title="Custom type" code={sectionCode("Custom type")}>
             <div className="flex w-full flex-row flex-wrap">
               <div className="flex flex-1 flex-col items-center justify-center py-2">
                 <Tooltip text="The Evil Rabbit Jumped over the Fence" type="success">
@@ -6581,7 +6582,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </div>
             </div>
           </Section>
-          <Section title="Components">
+          <Section title="Components" code={sectionCode("Components")}>
             <div className="flex w-full flex-row flex-wrap">
               <div className="flex flex-1 flex-col items-center justify-center py-2">
                 <Tooltip position="bottom" text="The Evil Rabbit Jumped over the Fence">
@@ -6614,7 +6615,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </div>
             </div>
           </Section>
-          <Section title="Other">
+          <Section title="Other" code={sectionCode("Other")}>
             <div className="flex w-full flex-row flex-wrap">
               <div className="flex flex-1 flex-col items-center justify-center py-2">
                 <Tooltip text="The Evil Rabbit Jumped over the Fence" tip={false}>
@@ -6636,12 +6637,12 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "video":
       return (
         <>
-          <Section title="No Loop">
+          <Section title="No Loop" code={sectionCode("No Loop")}>
             <div className="w-full min-w-0 max-w-[600px]">
               <Video height={582} lazy={false} loop={false} src="/demo.mp4" width={600} />
             </div>
           </Section>
-          <Section title="No Controls">
+          <Section title="No Controls" code={sectionCode("No Controls")}>
             <div className="w-full min-w-0 max-w-[600px]">
               <Video controls={false} height={582} lazy={false} src="/demo.mp4" width={600} />
             </div>
@@ -6678,7 +6679,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
         <>
           <Section
             title="Striped table"
-            tableCode="<Table><TableBody striped>…</TableBody></Table>"
+            code="<Table><TableBody striped>…</TableBody></Table>"
           >
             <Table>
               <TableHeader>
@@ -6709,7 +6710,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
           </Section>
           <Section
             title="Bordered table"
-            tableCode="<Table><TableBody bordered>…</TableBody></Table>"
+            code="<Table><TableBody bordered>…</TableBody></Table>"
           >
             <Table>
               <TableHeader>
@@ -6740,7 +6741,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
           </Section>
           <Section
             title="Interactive table"
-            tableCode="<Table><TableBody interactive>…</TableBody></Table>"
+            code="<Table><TableBody interactive>…</TableBody></Table>"
           >
             <Table>
               <TableHeader>
@@ -6769,7 +6770,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </TableBody>
             </Table>
           </Section>
-          <Section title="Full featured table" tableCode="<Table>…full featured rows…</Table>">
+          <Section title="Full featured table" code="<Table>…full featured rows…</Table>">
             <Table>
               <TableColgroup>
                 <TableCol className="w-[44%]" />
@@ -6835,7 +6836,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </TableFooter>
             </Table>
           </Section>
-          <Section title="Virtualized table" tableCode="<Table><TableBody interactive striped>…</TableBody></Table>">
+          <Section title="Virtualized table" code="<Table><TableBody interactive striped>…</TableBody></Table>">
             <VirtualizedTableDemo />
           </Section>
         </>
@@ -6843,7 +6844,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "avatar":
       return (
         <>
-          <Section title="Group">
+          <Section title="Group" code={sectionCode("Group")}>
             <div className="flex flex-wrap items-center gap-4">
               <AvatarGroup
                 members={[
@@ -6866,7 +6867,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Stacking order">
+          <Section title="Stacking order" code={sectionCode("Stacking order")}>
             <div className="flex flex-wrap items-center gap-4">
               <AvatarGroup
                 members={[
@@ -6887,7 +6888,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Overlap">
+          <Section title="Overlap" code={sectionCode("Overlap")}>
             <div className="flex flex-wrap items-center gap-6">
               <AvatarGroup
                 overlap="auto"
@@ -6927,7 +6928,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Fixed overlap">
+          <Section title="Fixed overlap" code={sectionCode("Fixed overlap")}>
             <div className="flex flex-wrap items-center gap-4">
               <AvatarGroup
                 overlap={10}
@@ -6958,21 +6959,21 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Size">
+          <Section title="Size" code={sectionCode("Size")}>
             <div className="flex flex-wrap items-center gap-4">
               <Avatar size={24} username="evilrabbit" />
               <Avatar size={32} username="evilrabbit" />
               <Avatar size={48} username="evilrabbit" />
             </div>
           </Section>
-          <Section title="Git">
+          <Section title="Git" code={sectionCode("Git")}>
             <div className="flex flex-wrap items-center gap-4">
               <GitHubAvatar size={32} username="rauchg" />
               <GitLabAvatar size={32} username="severinlandolt" />
               <BitbucketAvatar size={32} username="evilrabbit" />
             </div>
           </Section>
-          <Section title="With custom icon">
+          <Section title="With custom icon" code={sectionCode("With custom icon")}>
             <div className="flex flex-wrap items-center gap-4">
               <AvatarWithIcon
                 icon={<ArrowDownCircle className="size-3.5" aria-hidden />}
@@ -6991,14 +6992,14 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Letter">
+          <Section title="Letter" code={sectionCode("Letter")}>
             <div className="flex flex-wrap items-center gap-4">
               <Avatar letter="SL" placeholder size={32} />
               <Avatar letter="EK" placeholder size={32} />
               <Avatar letter="CK" placeholder size={32} />
             </div>
           </Section>
-          <Section title="Placeholder">
+          <Section title="Placeholder" code={sectionCode("Placeholder")}>
             <Avatar placeholder size={90} />
           </Section>
         </>
@@ -7006,7 +7007,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "badge":
       return (
         <>
-          <Section title="Variants">
+          <Section title="Variants" code={sectionCode("Variants")}>
             <div className="flex flex-col gap-2">
               <div className="flex flex-wrap items-center gap-1.5">
                 <Badge variant="gray">Gray</Badge>
@@ -7063,14 +7064,14 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </div>
             </div>
           </Section>
-          <Section title="Sizes">
+          <Section title="Sizes" code={sectionCode("Sizes")}>
             <div className="flex flex-wrap items-center gap-2">
               <Badge size="sm">Small</Badge>
               <Badge size="md">Medium</Badge>
               <Badge size="lg">Large</Badge>
             </div>
           </Section>
-          <Section title="With icons">
+          <Section title="With icons" code={sectionCode("With icons")}>
             <div className="flex flex-col gap-2">
               <div className="flex flex-wrap items-center gap-1.5">
                 <Badge icon={<Shield aria-hidden />} size="lg" variant="gray">
@@ -7134,7 +7135,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </div>
             </div>
           </Section>
-          <Section title="Pill">
+          <Section title="Pill" code={sectionCode("Pill")}>
             <div className="flex flex-col gap-4">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant="pill" size="sm">
@@ -7165,7 +7166,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "breadcrumbs":
       return (
         <>
-          <Section title="Default">
+          <Section title="Default" code={sectionCode("Default")}>
             <div className="flex w-full max-w-md flex-col gap-4">
               <Breadcrumb type="text">
                 <BreadcrumbItem>{demoText(language, "Home")}</BreadcrumbItem>
@@ -7179,14 +7180,14 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Breadcrumb>
             </div>
           </Section>
-          <Section title="Active">
+          <Section title="Active" code={sectionCode("Active")}>
             <Breadcrumb>
               <BreadcrumbItem>{demoText(language, "Home")}</BreadcrumbItem>
               <BreadcrumbItem active>{demoText(language, "Dashboard")}</BreadcrumbItem>
               <BreadcrumbItem>{demoText(language, "Overview")}</BreadcrumbItem>
             </Breadcrumb>
           </Section>
-          <Section title="Disabled">
+          <Section title="Disabled" code={sectionCode("Disabled")}>
             <Breadcrumb>
               <BreadcrumbItem>{demoText(language, "Home")}</BreadcrumbItem>
               <BreadcrumbItem disabled>{demoText(language, "Dashboard")}</BreadcrumbItem>
@@ -7280,12 +7281,12 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "json-view":
       return (
         <>
-          <Section title="Single line">
+          <Section title="Single line" code={sectionCode("Single line")}>
             <div className="w-full max-w-md">
               <JsonView data={{ foo: "bar" }} defaultExpandDepth={1} />
             </div>
           </Section>
-          <Section title="Wrapped">
+          <Section title="Wrapped" code={sectionCode("Wrapped")}>
             <div className="w-full max-w-md">
               <JsonView
                 data={{
@@ -7296,7 +7297,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Collapsed">
+          <Section title="Collapsed" code={sectionCode("Collapsed")}>
             <div className="w-full max-w-md">
               <JsonView
                 data={{
@@ -7316,7 +7317,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Highlighted">
+          <Section title="Highlighted" code={sectionCode("Highlighted")}>
             <div className="w-full max-w-md">
               <JsonView
                 data={{
@@ -7336,7 +7337,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "scroller":
       return (
         <>
-          <Section title="Vertical">
+          <Section title="Vertical" code={sectionCode("Vertical")}>
             <div className="w-full max-w-2xl">
               <Scroller height={220} overflow="y" width="100%">
                 <div
@@ -7349,7 +7350,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Scroller>
             </div>
           </Section>
-          <Section title="Horizontal">
+          <Section title="Horizontal" code={sectionCode("Horizontal")}>
             <div className="w-full max-w-2xl">
               <Scroller height="100%" overflow="x" width="100%">
                 <div
@@ -7364,7 +7365,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Scroller>
             </div>
           </Section>
-          <Section title="Free">
+          <Section title="Free" code={sectionCode("Free")}>
             <div className="w-full max-w-2xl">
               <Scroller height={220} overflow="both" width="100%">
                 <div className="grid grid-flow-col grid-rows-2 gap-4">
@@ -7375,7 +7376,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Scroller>
             </div>
           </Section>
-          <Section title="Vertical with buttons">
+          <Section title="Vertical with buttons" code={sectionCode("Vertical with buttons")}>
             <div className="flex max-w-full flex-col gap-4">
               <Scroller childrenContainerClassName="gap-4" height={220} overflow="y" withButtons>
                 {Array.from({ length: 4 }, (_, i) => (
@@ -7384,7 +7385,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Scroller>
             </div>
           </Section>
-          <Section title="Horizontal with buttons">
+          <Section title="Horizontal with buttons" code={sectionCode("Horizontal with buttons")}>
             <div className="flex w-full max-w-2xl flex-col gap-4">
               <Scroller
                 childrenContainerClassName="gap-4"
@@ -7404,7 +7405,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "split-button":
       return (
         <>
-          <Section title="Menu Alignment">
+          <Section title="Menu Alignment" code={sectionCode("Menu Alignment")}>
             <div className="flex flex-wrap items-start gap-8">
               <SplitButton
                 buttonProps={{ type: "default" }}
@@ -7441,7 +7442,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </SplitButton>
             </div>
           </Section>
-          <Section title="Icon">
+          <Section title="Icon" code={sectionCode("Icon")}>
             <SplitButton
               buttonProps={{ size: "small", type: "secondary" }}
               menuButtonLabel="Copy page"
@@ -7466,7 +7467,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               Copy page
             </SplitButton>
           </Section>
-          <Section title="Title with Icon">
+          <Section title="Title with Icon" code={sectionCode("Title with Icon")}>
             <div className="flex w-full flex-col gap-8">
               {(["default", "secondary"] as const).map((variant) => (
                 <div key={variant} className="flex flex-row gap-1">
@@ -7511,12 +7512,12 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "progress":
       return (
         <>
-          <Section title="Custom max">
+          <Section title="Custom max" code={sectionCode("Custom max")}>
             <div className="w-full max-w-md">
               <Progress value={30} max={40} aria-label="Progress 30 of 40" />
             </div>
           </Section>
-          <Section title="Dynamic colors">
+          <Section title="Dynamic colors" code={sectionCode("Dynamic colors")}>
             <div className="w-full max-w-md">
               <Progress
                 value={50}
@@ -7531,7 +7532,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Themed">
+          <Section title="Themed" code={sectionCode("Themed")}>
             <div className="flex w-full max-w-md flex-col gap-6">
               <Progress type="success" value={100} aria-label="Success progress" />
               <Progress type="error" value={10} aria-label="Error progress" />
@@ -7539,7 +7540,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               <Progress type="secondary" value={70} aria-label="Secondary progress" />
             </div>
           </Section>
-          <Section title="With Stops">
+          <Section title="With Stops" code={sectionCode("With Stops")}>
             <div className="w-full max-w-md">
               <Progress
                 value={30}
@@ -7555,7 +7556,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Widths">
+          <Section title="Widths" code={sectionCode("Widths")}>
             <div className="flex w-full max-w-md flex-col gap-6">
               <Progress value={60} width={100} aria-label="Progress width 100" />
               <Progress value={60} width={200} aria-label="Progress width 200" />
@@ -7564,7 +7565,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               <Progress value={60} width="100%" aria-label="Progress full width" />
             </div>
           </Section>
-          <Section title="Heights">
+          <Section title="Heights" code={sectionCode("Heights")}>
             <div className="flex w-full max-w-md flex-col gap-6">
               <Progress value={60} height={4} aria-label="Progress height 4" />
               <Progress value={60} height={10} aria-label="Progress height 10" />
@@ -7577,7 +7578,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "spinner":
       return (
         <>
-          <Section title="Colors">
+          <Section title="Colors" code={sectionCode("Colors")}>
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-4">
                 <span className="w-24 text-copy-14 text-muted-foreground">Default:</span>
@@ -7604,20 +7605,20 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "error":
       return (
         <>
-          <Section title="Custom label">
+          <Section title="Custom label" code={sectionCode("Custom label")}>
             <Error label="Email Error">This email address is already in use.</Error>
           </Section>
-          <Section title="No label">
+          <Section title="No label" code={sectionCode("No label")}>
             <Error label={false}>This email address is already in use.</Error>
           </Section>
-          <Section title="Sizes">
+          <Section title="Sizes" code={sectionCode("Sizes")}>
             <div className="flex w-full flex-col items-stretch gap-6">
               <Error size="small">This email is in use.</Error>
               <Error>This email is in use.</Error>
               <Error size="large">This email is in use.</Error>
             </div>
           </Section>
-          <Section title="With an error property">
+          <Section title="With an error property" code={sectionCode("With an error property")}>
             <Error
               error={{
                 message: "The request failed.",
@@ -7631,7 +7632,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "note":
       return (
         <>
-          <Section title="Sizes">
+          <Section title="Sizes" code={sectionCode("Sizes")}>
             <div className="flex w-full flex-col gap-3">
               <Note size="small">
                 <NoteContent>A small note.</NoteContent>
@@ -7641,7 +7642,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Note>
             </div>
           </Section>
-          <Section title="Action">
+          <Section title="Action" code={sectionCode("Action")}>
             <div className="flex w-full flex-col gap-3">
               <Note>
                 <NoteContent>This note details some information.</NoteContent>
@@ -7664,24 +7665,24 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Note>
             </div>
           </Section>
-          <Section title="Secondary">
+          <Section title="Secondary" code={sectionCode("Secondary")}>
             <div className="flex w-full flex-col gap-3">
               <Note variant="secondary">
                 <NoteContent>This note details some secondary information.</NoteContent>
               </Note>
             </div>
           </Section>
-          <Section title="Violet">
+          <Section title="Violet" code={sectionCode("Violet")}>
             <Note variant="violet">
               <NoteContent>This note details some violet information.</NoteContent>
             </Note>
           </Section>
-          <Section title="Cyan">
+          <Section title="Cyan" code={sectionCode("Cyan")}>
             <Note variant="cyan">
               <NoteContent>This note details some cyan information.</NoteContent>
             </Note>
           </Section>
-          <Section title="Disabled">
+          <Section title="Disabled" code={sectionCode("Disabled")}>
             <div className="flex w-full flex-col gap-3">
               <Note disabled fill variant="warning">
                 <NoteContent>This note details a warning.</NoteContent>
@@ -7693,14 +7694,14 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Note>
             </div>
           </Section>
-          <Section title="Label">
+          <Section title="Label" code={sectionCode("Label")}>
             <Note>
               <NoteContent>
                 <NoteLabel>Region Change:</NoteLabel>Changing this region restarts all functions.
               </NoteContent>
             </Note>
           </Section>
-          <Section title="Custom icon">
+          <Section title="Custom icon" code={sectionCode("Custom icon")}>
             <div className="flex w-full flex-col gap-3">
               <Note icon={<Sparkles className="size-4" aria-hidden />}>
                 <NoteContent>A custom icon replaces the variant&apos;s default.</NoteContent>
@@ -7715,12 +7716,12 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "grid":
       return (
         <>
-          <Section title="Grid">
+          <Section title="Grid" code={sectionCode("Grid")}>
             <GridSystem debug guideWidth={1} unstable_useContainer>
               <Grid columns={5} height="preserve-aspect-ratio" rows={2} />
             </GridSystem>
           </Section>
-          <Section title="Basic grid">
+          <Section title="Basic grid" code={sectionCode("Basic grid")}>
             <GridSystem guideWidth={1} unstable_useContainer>
               <Grid columns={3} rows={2}>
                 {[1, 2, 3, 4, 5, 6].map((n) => (
@@ -7729,7 +7730,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Grid>
             </GridSystem>
           </Section>
-          <Section title="Solid cells">
+          <Section title="Solid cells" code={sectionCode("Solid cells")}>
             <GridSystem guideWidth={1} unstable_useContainer>
               <Grid columns={3} rows={2}>
                 <GridCell column="1/3" row="1" solid>
@@ -7743,7 +7744,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Grid>
             </GridSystem>
           </Section>
-          <Section title="Responsive grid">
+          <Section title="Responsive grid" code={sectionCode("Responsive grid")}>
             <GridSystem unstable_useContainer>
               <Grid columns={{ sm: 1, md: 2, lg: 3 }} rows={{ sm: 6, md: 3, lg: 2 }}>
                 {[1, 2, 3, 4, 5, 6].map((n) => (
@@ -7752,7 +7753,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Grid>
             </GridSystem>
           </Section>
-          <Section title="Responsive guide clipping">
+          <Section title="Responsive guide clipping" code={sectionCode("Responsive guide clipping")}>
             <GridSystem unstable_useContainer>
               <Grid columns={{ sm: 1, md: 2, lg: 3 }} rows={{ sm: 6, md: 3, lg: 2 }}>
                 <GridCell column={{ sm: "1", md: "1/3" }} row={{ sm: "1/3", md: 1 }} solid>
@@ -7766,17 +7767,17 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Grid>
             </GridSystem>
           </Section>
-          <Section title="Hidden row guides">
+          <Section title="Hidden row guides" code={sectionCode("Hidden row guides")}>
             <GridSystem unstable_useContainer>
               <Grid columns={12} height="preserve-aspect-ratio" hideGuides="row" rows={3} />
             </GridSystem>
           </Section>
-          <Section title="Hidden column guides">
+          <Section title="Hidden column guides" code={sectionCode("Hidden column guides")}>
             <GridSystem unstable_useContainer>
               <Grid columns={12} height="preserve-aspect-ratio" hideGuides="column" rows={3} />
             </GridSystem>
           </Section>
-          <Section title="Overlaying cells">
+          <Section title="Overlaying cells" code={sectionCode("Overlaying cells")}>
             <GridSystem unstable_useContainer>
               <Grid columns={12} rows={3}>
                 <GridCell column="1/3" row="1/3" solid>
@@ -7797,7 +7798,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Grid>
             </GridSystem>
           </Section>
-          <Section title="Specific guide clipping">
+          <Section title="Specific guide clipping" code={sectionCode("Specific guide clipping")}>
             <GridSystem guideWidth={1} unstable_useContainer>
               <Grid columns={3} rows={4}>
                 <GridCell column="1/2" row="1/3" solid>
@@ -7818,7 +7819,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Grid>
             </GridSystem>
           </Section>
-          <Section title="Grid with cross">
+          <Section title="Grid with cross" code={sectionCode("Grid with cross")}>
             <GridSystem guideWidth={1} unstable_useContainer>
               <Grid columns={3} rows={2}>
                 <GridCross column={1} row={1} />
@@ -7831,7 +7832,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Grid>
             </GridSystem>
           </Section>
-          <Section title="Dashed grid with cross">
+          <Section title="Dashed grid with cross" code={sectionCode("Dashed grid with cross")}>
             <GridSystem dashedGuides guideWidth={1} unstable_useContainer>
               <Grid columns={1} rows={1}>
                 <GridCross column={1} row={1} />
@@ -7842,7 +7843,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Grid>
             </GridSystem>
           </Section>
-          <Section title="Dashed grid with grid page">
+          <Section title="Dashed grid with grid page" code={sectionCode("Dashed grid with grid page")}>
             <GridPage>
               <GridSystem dashedGuides guideWidth={1}>
                 <Grid columns={1} rows={1}>

@@ -24,7 +24,7 @@ describe("Table docs demo card contract", () => {
 
   it("uses TableDemoCard for Live Demo and all table variants", () => {
     expect(source).toContain('name === "table" ? (');
-    expect(source.match(/tableCode=/g)?.length ?? 0).toBe(5);
+    expect(source.match(/code="<Table>/g)?.length ?? 0).toBe(5);
     expect(source).toContain("<TableDemoCard code={meta.code}>");
   });
 });

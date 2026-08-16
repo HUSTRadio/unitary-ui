@@ -19,6 +19,9 @@ import { DEMO_CODE_BATCH5 } from "./demo-code-batch5";
 import { DEMO_CODE_BATCH6 } from "./demo-code-batch6";
 import { DEMO_CODE_BATCH7 } from "./demo-code-batch7";
 import { DEMO_CODE_BATCH8 } from "./demo-code-batch8";
+import { DEMO_CODE_SECTION_BATCH1 } from "./demo-code-section-batch1";
+import { DEMO_CODE_SECTION_BATCH2 } from "./demo-code-section-batch2";
+import { DEMO_CODE_SECTION_BATCH3 } from "./demo-code-section-batch3";
 
 export const DEMO_CODE: Record<string, Record<string, string>> = {
   calendar: {
@@ -93,4 +96,7 @@ const maxDate = new Date(now.getFullYear(), now.getMonth() + 2, now.getDate());
   ...DEMO_CODE_BATCH6,
   ...DEMO_CODE_BATCH7,
   ...DEMO_CODE_BATCH8,
+  ...DEMO_CODE_SECTION_BATCH1,
+  ...DEMO_CODE_SECTION_BATCH2,
+  ...DEMO_CODE_SECTION_BATCH3,
 };
