@@ -1,5 +1,5 @@
-import * as React from "react";
-import { useLocation } from "react-router-dom";
+import * as React from"react";
+import { useLocation } from"react-router-dom";
 import {
   Accessibility,
   ArrowDownCircle,
@@ -30,7 +30,7 @@ import {
   Sparkles,
   Trash2,
   TriangleAlert,
-} from "lucide-react";
+} from"lucide-react";
 
 import {
   Avatar,
@@ -239,7 +239,7 @@ function TableDemoCard({ children, code }: { children: React.ReactNode; code: st
   const codeId = React.useId();
 
   return (
-    <div className="mt-6 overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background-100">
+    <div className="mt-6 overflow-hidden">
       <div className="w-full overflow-x-auto p-6">{children}</div>
       <button
         type="button"
@@ -271,7 +271,7 @@ function ShowCodeFooter({ code }: { code: string }) {
   const [showCode, setShowCode] = React.useState(false);
   const codeId = React.useId();
   const highlighted = React.useMemo(
-    () => highlightLines(code.replace(/\n$/, ""), "tsx"),
+    () => highlightLines(code.replace(/\n$/, ""),"tsx"),
     [code],
   );
   return (
@@ -341,7 +341,7 @@ function PaginationDemo() {
   const demoCode = (id: string) => DEMO_CODE.pagination?.[id] ?? "";
   return (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card="Default"
     >
       <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -364,7 +364,7 @@ function EmptyStateDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="empty-state-design-framework"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -379,7 +379,7 @@ function EmptyStateDemo() {
         <ShowCodeFooter code={demoCode("empty-state-design-framework")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="blank-slate"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -394,7 +394,7 @@ function EmptyStateDemo() {
         <ShowCodeFooter code={demoCode("blank-slate")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="informational"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -444,7 +444,7 @@ function ButtonDemo() {
   const arrowLeftIcon = <ArrowLeft aria-hidden />;
   const arrowRightIcon = <ArrowRight aria-hidden />;
 
-  const cardClass = "relative mt-4 rounded-[8px] border border-gray-alpha-400 bg-background-100 xl:mt-7";
+  const cardClass = "relative mt-4 xl:mt-7";
 
   return (
     <>
@@ -711,7 +711,7 @@ function CheckboxDemo() {
   return (
     <>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-6"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -725,7 +725,7 @@ function CheckboxDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-6"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -753,7 +753,7 @@ function CheckboxDemo() {
         <ShowCodeFooter code={demoCode("disabled")} />
       </div>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-6"
         data-demo-card="indeterminate"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -774,7 +774,7 @@ function MenuDemo() {
   const demoCode = (id: string) => DEMO_CODE.menu?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -951,7 +951,7 @@ function InputDemo() {
   return (
     <>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -973,7 +973,7 @@ function InputDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="prefix-and-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -982,7 +982,7 @@ function InputDemo() {
               <Input prefix={circularGlyph} placeholder={demoText(language, "Default")} />
               <Input suffix={circularGlyph} placeholder={demoText(language, "Default")} />
               <Input
-                prefix={demoText(language, "https://")}
+                prefix={demoText(language,"https://")}
                 suffix={demoText(language, ".com")}
                 placeholder={demoText(language, "Default")}
               />
@@ -994,7 +994,7 @@ function InputDemo() {
                 placeholder={demoText(language, "Default")}
               />
               <Input
-                prefix={demoText(language, "vercel/")}
+                prefix={demoText(language,"vercel/")}
                 suffix={circularGlyph}
                 suffixStyling={false}
                 placeholder={demoText(language, "Default")}
@@ -1006,7 +1006,7 @@ function InputDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1026,7 +1026,7 @@ function InputDemo() {
               />
               <Input
                 disabled
-                prefix={demoText(language, "https://")}
+                prefix={demoText(language,"https://")}
                 suffix={demoText(language, ".com")}
                 placeholder={demoText(language, "Disabled with prefix and suffix")}
               />
@@ -1045,7 +1045,7 @@ function InputDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="error"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1054,16 +1054,16 @@ function InputDemo() {
               <Input
                 size="small"
                 error={demoText(language, "An error message.")}
-                placeholder={demoText(language, "long-error@gmail.com")}
+                placeholder={demoText(language,"long-error@gmail.com")}
               />
               <Input
                 error={demoText(language, "An error message.")}
-                placeholder={demoText(language, "long-error@gmail.com")}
+                placeholder={demoText(language,"long-error@gmail.com")}
               />
               <Input
                 size="large"
                 error={demoText(language, "An error message.")}
-                placeholder={demoText(language, "long-error@gmail.com")}
+                placeholder={demoText(language,"long-error@gmail.com")}
               />
             </div>
           </div>
@@ -1072,7 +1072,7 @@ function InputDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="label"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1089,14 +1089,14 @@ function InputDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="rounded-prefix-and-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="rounded-prefix-and-suffix">
             <Input
               rounded
-              prefix={demoText(language, "www.")}
+              prefix={demoText(language,"www.")}
               suffix={demoText(language, ".com")}
               placeholder={demoText(language, "Label example")}
             />
@@ -1106,7 +1106,7 @@ function InputDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="rounded-prefix-and-suffix-without-styling"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1116,7 +1116,7 @@ function InputDemo() {
           >
             <Input
               rounded
-              prefix={demoText(language, "www.")}
+              prefix={demoText(language,"www.")}
               suffix={demoText(language, ".com")}
               prefixStyling={false}
               suffixStyling={false}
@@ -1166,7 +1166,7 @@ function ModalDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1198,7 +1198,7 @@ function ModalDemo() {
       </div>
 
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="sticky"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1241,7 +1241,7 @@ function ModalDemo() {
       </div>
 
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="single-button"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1271,7 +1271,7 @@ function ModalDemo() {
       </div>
 
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="inset"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1310,7 +1310,7 @@ function SwitchDemo() {
   return (
     <>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1327,7 +1327,7 @@ function SwitchDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1344,7 +1344,7 @@ function SwitchDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1375,7 +1375,7 @@ function SwitchDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="full-width"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1390,7 +1390,7 @@ function SwitchDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="tooltip"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1411,7 +1411,7 @@ function SwitchDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="icon"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1481,14 +1481,13 @@ function SelectDemo() {
     </svg>
   );
 
-  const sizesRowClass =
-    "flex relative min-w-px max-w-full flex-col sm:flex-row sm:flex-wrap flex-1";
+  const sizesRowClass = "flex relative min-w-px max-w-full flex-col sm:flex-row sm:flex-wrap flex-1";
   const sizesColClass = "flex relative min-w-px max-w-full flex-col items-start flex-1";
 
   return (
     <>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1522,7 +1521,7 @@ function SelectDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="prefix-and-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1561,7 +1560,7 @@ function SelectDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1577,7 +1576,7 @@ function SelectDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="error"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1613,7 +1612,7 @@ function SelectDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="label"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1628,7 +1627,7 @@ function SelectDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="with-options"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1661,7 +1660,7 @@ function SelectDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="required"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1690,7 +1689,7 @@ function SeparatorDemo() {
   return (
     <>
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="horizontal"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1716,7 +1715,7 @@ function SeparatorDemo() {
       </div>
 
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="vertical"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1736,7 +1735,7 @@ function SeparatorDemo() {
       </div>
 
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="orientation-variants"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1775,7 +1774,7 @@ function SkeletonDemo() {
   const demoCode = (id: string) => DEMO_CODE.skeleton?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -1881,7 +1880,7 @@ function SpinnerDemo() {
 function StepPointDemo() {
   const demoCode = (id: string) => DEMO_CODE["step-point"]?.[id] ?? "";
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div className="mt-6" data-demo-card="Default">
       <div className="w-full p-6" data-demo-container="Default">
         <ul className="w-full max-w-xs">
           <StepPoint status="done">Submitted</StepPoint>
@@ -1927,7 +1926,7 @@ function TabsDemo() {
   const [tab, setTab] = React.useState("overview");
 
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div className="mt-6" data-demo-card="Default">
       <div className="w-full p-6" data-demo-container="Default">
         <div className="w-full max-w-xl">
       <Tabs
@@ -1966,7 +1965,7 @@ function TextareaDemo() {
   return (
     <>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1980,7 +1979,7 @@ function TextareaDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1994,7 +1993,7 @@ function TextareaDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="error"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2030,7 +2029,7 @@ function TextareaDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2062,7 +2061,7 @@ function TextareaDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="read-only"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2080,7 +2079,7 @@ function TextareaDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="rows"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2115,7 +2114,7 @@ function ToggleDemo() {
   return (
     <>
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2142,7 +2141,7 @@ function ToggleDemo() {
       </div>
 
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2165,7 +2164,7 @@ function ToggleDemo() {
       </div>
 
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2195,7 +2194,7 @@ function ToggleDemo() {
       </div>
 
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="custom-color"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2246,7 +2245,7 @@ function ToggleDemo() {
       </div>
 
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="with-label"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2328,7 +2327,7 @@ function ThemeSwitcherDemo() {
   const demoCode = (id: string) => DEMO_CODE["theme-switcher"]?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -2385,7 +2384,7 @@ function StatusDotDemo() {
   const demoCode = (id: string) => DEMO_CODE["status-dot"]?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -2424,7 +2423,7 @@ function ToastDemo() {
   const toasts = useToasts();
 
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div className="mt-6" data-demo-card="Default">
       <div className="w-full p-6" data-demo-container="Default">
         <Button
           typeName="button"
@@ -2470,7 +2469,7 @@ function DrawerDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2490,7 +2489,7 @@ function DrawerDemo() {
         </Drawer>
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="custom-height"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2556,7 +2555,7 @@ function SheetDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2579,7 +2578,7 @@ function SheetDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="with-side"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2651,7 +2650,7 @@ function SnippetDemo() {
   const [copied, setCopied] = React.useState(false);
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -2669,7 +2668,7 @@ function SnippetDemo() {
         <Snippet dark text="npm init next-app" width="300px" />
       </Card>
       <Card id="Multi line">
-        <Snippet text={["cd project", "now"]} width="100%" />
+        <Snippet text={["cd project","now"]} width="100%" />
       </Card>
       <Card id="No prompt">
         <Snippet prompt={false} text="npm init next-app" width="300px" />
@@ -2918,7 +2917,7 @@ function CalendarDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2931,7 +2930,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="horizontal-layout"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2944,7 +2943,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("horizontal-layout")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2964,7 +2963,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("sizes")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="presets"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2986,7 +2985,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("presets")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="compact"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3004,7 +3003,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("compact")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="stacked"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3023,7 +3022,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("stacked")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="presets-default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3046,7 +3045,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("presets-default")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="min-max"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3059,7 +3058,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("min-max")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="pinned-timezone"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3084,13 +3083,13 @@ function ChoiceboxDemo() {
   return (
     <div className="w-full max-w-2xl space-y-6">
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-6"
         data-demo-card="single-select"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="single-select">
             <ChoiceboxGroup
-              label={demoText(language, "select a plan")}
+              label={demoText(language,"select a plan")}
               listClassName="flex-row"
               onChange={setPlan}
               type="radio"
@@ -3112,7 +3111,7 @@ function ChoiceboxDemo() {
         <ShowCodeFooter code={demoCode("single-select")} />
       </div>
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="multi-select"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3140,7 +3139,7 @@ function ChoiceboxDemo() {
         <ShowCodeFooter code={demoCode("multi-select")} />
       </div>
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3198,22 +3197,21 @@ function ChoiceboxDemo() {
 function CommandMenuDemo() {
   const demoCode = (id: string) => DEMO_CODE["command-menu"]?.[id] ?? "";
   const { language } = useLanguage();
-  const [openVariant, setOpenVariant] = React.useState<
-    "default" | "with-divider" | "with-suffix" | null
+  const [openVariant, setOpenVariant] = React.useState<"default" |"with-divider" |"with-suffix" | null
   >(null);
 
-  const openDemo = (variant: "default" | "with-divider" | "with-suffix") => {
+  const openDemo = (variant: "default" |"with-divider" |"with-suffix") => {
     setOpenVariant(variant);
   };
 
-  const demoVariants = ["default", "with-divider", "with-suffix"] as const;
+  const demoVariants = ["default","with-divider","with-suffix"] as const;
 
   return (
     <div className="w-full max-w-[862px] space-y-6">
       {demoVariants.map((name, index) => (
         <div
           key={name}
-          className={`relative rounded-[8px] border border-gray-alpha-400 bg-background-100${index === 0 ? " mt-6" : ""}`}
+          className={`relative${index === 0 ? " mt-6" : ""}`}
           data-demo-card={name}
         >
           <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3233,7 +3231,7 @@ function CommandMenuDemo() {
       ))}
       <CommandMenu
         open={openVariant === "default"}
-        setOpen={(open) => setOpenVariant(open ? "default" : null)}
+        setOpen={(open) => setOpenVariant(open ?"default" : null)}
       >
         <CommandMenuInput placeholder={demoText(language, "What do you need?")} />
         <CommandMenuList>
@@ -3259,7 +3257,7 @@ function CommandMenuDemo() {
       </CommandMenu>
       <CommandMenu
         open={openVariant === "with-divider"}
-        setOpen={(open) => setOpenVariant(open ? "with-divider" : null)}
+        setOpen={(open) => setOpenVariant(open ?"with-divider" : null)}
       >
         <CommandMenuInput placeholder={demoText(language, "What do you need?")} />
         <CommandMenuList>
@@ -3279,7 +3277,7 @@ function CommandMenuDemo() {
       </CommandMenu>
       <CommandMenu
         open={openVariant === "with-suffix"}
-        setOpen={(open) => setOpenVariant(open ? "with-suffix" : null)}
+        setOpen={(open) => setOpenVariant(open ?"with-suffix" : null)}
       >
         <CommandMenuInput placeholder={demoText(language, "What do you need?")} />
         <CommandMenuList>
@@ -3395,7 +3393,7 @@ function ProjectBannerDemo() {
   const demoCode = (id: string) => DEMO_CODE["project-banner"]?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -3520,7 +3518,7 @@ function SliderDemo() {
         <div
           key={demo.id}
           data-demo-card={demo.id}
-          className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+         
         >
           <div data-demo-container={demo.id} className="w-full p-6">
             {demo.content}
@@ -3569,14 +3567,11 @@ const codeBlockDiff = `module.exports = {
   appDir: true,
 }`;
 
-const codeBlockTab =
-  "function MyComponent(props) {\n\treturn (\n\t  <div>\n\t\t<h1>Hello, {props.name}!</h1>\n\t\t<p>Good to see you</p>\n\t  </div>\n\t);\n  }";
+const codeBlockTab = "function MyComponent(props) {\n\treturn (\n\t  <div>\n\t\t<h1>Hello, {props.name}!</h1>\n\t\t<p>Good to see you</p>\n\t  </div>\n\t);\n  }";
 
-const codeBlockTabTS =
-  "function MyComponent(props: Props) {\n\treturn (\n\t  <div>\n\t\t<h1>Hello, {props.name}!</h1>\n\t\t<p>Good to see you</p>\n\t  </div>\n\t);\n  }";
+const codeBlockTabTS = "function MyComponent(props: Props) {\n\treturn (\n\t  <div>\n\t\t<h1>Hello, {props.name}!</h1>\n\t\t<p>Good to see you</p>\n\t  </div>\n\t);\n  }";
 
-const codeBlockTabLua =
-  "local b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'\nlocal decode_table = ffi.new 'uint8_t[256]'\nfor i = 1, #b64 do\n  decode_table[str_byte(b64, i)] = i - 1 -- Base64 values start from 0\nend\n\nfunction BloomFilter:has(key)\n  local ptr = self.ptr -- uint8_t* pointer to start of base64 string\n  for byte_offset, bit_offset in self:iterator(key) do\n    local sextet = decode_table[ptr[byte_offset]]\n    if band(sextet, lshift(1, bit_offset)) == 0 then\n      return false\n    end\n  end\n  return true\nend";
+const codeBlockTabLua = "local b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'\nlocal decode_table = ffi.new 'uint8_t[256]'\nfor i = 1, #b64 do\n  decode_table[str_byte(b64, i)] = i - 1 -- Base64 values start from 0\nend\n\nfunction BloomFilter:has(key)\n  local ptr = self.ptr -- uint8_t* pointer to start of base64 string\n  for byte_offset, bit_offset in self:iterator(key) do\n    local sextet = decode_table[ptr[byte_offset]]\n    if band(sextet, lshift(1, bit_offset)) == 0 then\n      return false\n    end\n  end\n  return true\nend";
 
 const codeBlockReferenced = `function MyComponent(props) {
   return (
@@ -3647,7 +3642,7 @@ function CodeBlockDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3664,7 +3659,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="no-filename"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3680,7 +3675,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("no-filename")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="highlighted-lines"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3698,7 +3693,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("highlighted-lines")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="added-removed-lines"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3717,7 +3712,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("added-removed-lines")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="referenced-lines"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3734,7 +3729,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("referenced-lines")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="language-switcher"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3752,7 +3747,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("language-switcher")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="language-switcher-with-tabs"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3770,7 +3765,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("language-switcher-with-tabs")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="hidden-line-numbers"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3788,7 +3783,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("hidden-line-numbers")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="open-in-v0"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3828,7 +3823,7 @@ function DestructiveActionModalDemo() {
   const [openError, setOpenError] = React.useState(false);
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -3863,7 +3858,7 @@ function DestructiveActionModalDemo() {
           }
           confirmLabel={demoText(language, "Delete Project")}
           verificationPhrase="next-year-boilerplate"
-          verificationLabel={demoText(language, "project name")}
+          verificationLabel={demoText(language,"project name")}
           irreversibleDescription="Deleting next-year-boilerplate cannot be undone."
           loading={loadingDefault}
         />
@@ -3896,7 +3891,7 @@ function DestructiveActionModalDemo() {
           description="my-project and all its deployments will be permanently deleted."
           confirmLabel={demoText(language, "Delete Project")}
           verificationPhrase="my-project"
-          verificationLabel={demoText(language, "project name")}
+          verificationLabel={demoText(language,"project name")}
           irreversibleDescription="Deleting my-project cannot be undone."
           loading
         />
@@ -3914,7 +3909,7 @@ function DestructiveActionModalDemo() {
           description="my-project and all its deployments will be permanently deleted."
           confirmLabel={demoText(language, "Delete Project")}
           verificationPhrase="my-project"
-          verificationLabel={demoText(language, "project name")}
+          verificationLabel={demoText(language,"project name")}
           irreversibleDescription="Deleting my-project cannot be undone."
           error="Couldn’t delete project. Try again."
         />
@@ -3926,7 +3921,7 @@ function FeedbackDemo() {
   const demoCode = (id: string) => DEMO_CODE.feedback?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -3971,7 +3966,7 @@ function LoadMoreButtonDemo() {
   const { language } = useLanguage();
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -4004,7 +3999,7 @@ function TextWithCopyButtonDemo() {
   const demoCode = (id: string) => DEMO_CODE["text-with-copy-button"]?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -4097,7 +4092,7 @@ function ContextCardDemoCard({
 
   return (
     <div
-      className="w-full max-w-[862px] overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="w-full max-w-[862px] overflow-hidden"
       data-demo-card={id}
     >
       <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4161,30 +4156,28 @@ function ContextCardDemo() {
 
   return (
     <div className="flex w-full flex-col gap-6">
-      {demo(
-        "default",
+      {demo("default",
         DEFAULT_DEMO_CODE,
         <div className="flex flex-wrap items-center justify-around gap-6">
           {(["Top", "Bottom", "Left", "Right"] as const).map((label) => (
             <ContextCardTrigger
               key={label}
               content={card}
-              side={label.toLowerCase() as "top" | "bottom" | "left" | "right"}
+              side={label.toLowerCase() as"top" |"bottom" |"left" |"right"}
             >
               <span className="text-label-14 text-foreground">{demoText(language, label)}</span>
             </ContextCardTrigger>
           ))}
         </div>,
       )}
-      {demo(
-        "alignment",
+      {demo("alignment",
         ALIGNMENT_DEMO_CODE,
         <div className="flex flex-wrap items-center gap-3">
           {(["Start", "Center", "End"] as const).map((label) => (
             <ContextCardTrigger
               key={label}
               content={card}
-              align={label.toLowerCase() as "start" | "center" | "end"}
+              align={label.toLowerCase() as"start" |"center" |"end"}
               render={
                 <Button type="default" typeName="button">
                   {demoText(language, label)}
@@ -4196,8 +4189,7 @@ function ContextCardDemo() {
           ))}
         </div>,
       )}
-      {demo(
-        "render-prop",
+      {demo("render-prop",
         RENDER_PROP_DEMO_CODE,
         <div className="flex flex-wrap items-center gap-3">
           <ContextCardTrigger
@@ -4262,7 +4254,7 @@ function ContextMenuDemo() {
   return (
     <div className="w-full max-w-[862px]">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4284,7 +4276,7 @@ function ContextMenuDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="disabled-items"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4306,7 +4298,7 @@ function ContextMenuDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="link-items"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4328,7 +4320,7 @@ function ContextMenuDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="prefix-and-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4395,7 +4387,7 @@ function DotsMenuDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4406,7 +4398,7 @@ function DotsMenuDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4421,7 +4413,7 @@ function DotsMenuDemo() {
         <ShowCodeFooter code={demoCode("sizes")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4432,7 +4424,7 @@ function DotsMenuDemo() {
         <ShowCodeFooter code={demoCode("disabled")} />
       </div>
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="disabled-menu-item"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4511,7 +4503,7 @@ function KeyboardInputDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="modifiers"
       >
         <div
@@ -4528,7 +4520,7 @@ function KeyboardInputDemo() {
         <ShowCodeFooter code={demoCode("modifiers")} />
       </div>
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="combination"
       >
         <div
@@ -4542,7 +4534,7 @@ function KeyboardInputDemo() {
         <ShowCodeFooter code={demoCode("combination")} />
       </div>
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="small"
       >
         <div
@@ -4563,7 +4555,7 @@ function BannerDemo() {
   const demoCode = (id: string) => DEMO_CODE.banner?.[id] ?? "";
   return (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card="Default"
     >
       <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4608,7 +4600,7 @@ function ClearableInputDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-6"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4624,7 +4616,7 @@ function ClearableInputDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="with-label"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4640,7 +4632,7 @@ function ClearableInputDemo() {
         <ShowCodeFooter code={demoCode("with-label")} />
       </div>
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="with-cmdk"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4657,7 +4649,7 @@ function ClearableInputDemo() {
         <ShowCodeFooter code={demoCode("with-cmdk")} />
       </div>
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4674,7 +4666,7 @@ function ClearableInputDemo() {
         <ShowCodeFooter code={demoCode("disabled")} />
       </div>
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="with-clear-callback"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4733,7 +4725,7 @@ function CollapseDemo() {
   return (
     <>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-6"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4747,7 +4739,7 @@ function CollapseDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-6"
         data-demo-card="expanded"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4761,7 +4753,7 @@ function CollapseDemo() {
         <ShowCodeFooter code={demoCode("expanded")} />
       </div>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-6"
         data-demo-card="multiple"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4775,7 +4767,7 @@ function CollapseDemo() {
         <ShowCodeFooter code={demoCode("multiple")} />
       </div>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-6"
         data-demo-card="small"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4827,7 +4819,7 @@ function ComboboxDemo() {
   return (
     <div className="w-full max-w-[862px]">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6"
         data-demo-card="uncontrolled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4848,7 +4840,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="controlled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4874,7 +4866,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4895,7 +4887,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4952,7 +4944,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative"
         data-demo-card="with-label"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4987,7 +4979,7 @@ function DescriptionDemo() {
   const tooltip = demoText(language, "Additional context about what this section refers to.");
   return (
     <>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="default">
+      <div className="mt-6" data-demo-card="default">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
             <Description data-demo-id="default" title={title} content={content} tooltip={tooltip} />
@@ -4995,7 +4987,7 @@ function DescriptionDemo() {
         </div>
           <ShowCodeFooter code={demoCode("default")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="text-right">
+      <div className="mt-6" data-demo-card="text-right">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="text-right">
             <Description
@@ -5009,7 +5001,7 @@ function DescriptionDemo() {
         </div>
           <ShowCodeFooter code={demoCode("text-right")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="ellipsis">
+      <div className="mt-6" data-demo-card="ellipsis">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="ellipsis">
             <Description
@@ -5054,14 +5046,11 @@ const ENTITY_AVATAR_IMG_CLS = "h-auto max-w-full  w-full h-full relative";
 const ENTITY_SKELETON_CLS =
   'block rounded-[5px] after:animate-loading-skeleton relative overflow-hidden after:content-[""] after:absolute after:inset-0 after:right-[-200%] after:bg-gradient-to-r after:from-gray-100 after:via-gray-200 after:to-gray-100 after:bg-[length:50%_100%] after:bg-[position:0_0]';
 
-const ENTITY_UL_CLS =
-  "bg-[var(--geist-background)] shadow-[var(--ds-shadow-border),0_4px_6px_rgba(0,0,0,0.04)] rounded-[5px] overflow-hidden list-none m-0 p-0 [&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-[color:var(--accents-2)] [&>button:not(:last-child)]:border-b! [&>button:not(:last-child)]:border-[color:var(--accents-2)]";
+const ENTITY_UL_CLS = "bg-[var(--geist-background)] shadow-[var(--ds-shadow-border),0_4px_6px_rgba(0,0,0,0.04)] rounded-[5px] overflow-hidden list-none m-0 p-0 [&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-[color:var(--accents-2)] [&>button:not(:last-child)]:border-b! [&>button:not(:last-child)]:border-[color:var(--accents-2)]";
 
-const ENTITY_DECLINE_BTN_CLS =
-  "outline-none m-0 p-0 border-0 align-baseline no-underline group/trigger relative cursor-pointer select-none transform translate-z-0 flex text-[var(--themed-fg,_var(--ds-background-100))] bg-[var(--themed-bg,_var(--ds-gray-1000))] font-medium !px-(--geist-gap-half) max-w-full items-center justify-center transition-[border-color, background,color,transform,box-shadow] duration-[time:150ms] ease-in-out data-[focus]:shadow-[var(--ds-focus-ring)] [&_svg]:shrink-0 disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:text-[var(--ds-gray-700)] disabled:bg-[var(--ds-gray-100)] aria-disabled:text-[var(--ds-gray-700)] aria-disabled:bg-[var(--ds-gray-100)] disabled:![--themed-border:_var(--ds-gray-400)] [--x-padding:6px] [--height:32px] !pl-[var(--x-padding)] !pr-[var(--x-padding)] rounded-md [--themed-bg:_var(--ds-background-100)] shadow-[0_0_0_1px_var(--themed-border,_transparent)] [--themed-hover-bg:_var(--ds-gray-alpha-200)] [--themed-fg:_var(--ds-gray-1000)] [--themed-border:_var(--ds-gray-400)] data-[focus]:shadow-[0_0_0_1px_var(--themed-border,_transparent),0_0_0_2px_var(--ds-background-100),0_0_0_4px_var(--ds-focus-color)] data-[focus]:transition-none text-(length:--geist-form-small-font) [--spinner-size:16px] h-[var(--height)] data-hover:bg-[var(--ds-gray-100)] dark-theme:data-hover:bg-[var(--ds-gray-200)] data-hover:text-[var(--themed-fg)] data-hover:disabled:bg-[var(--ds-gray-100)]";
+const ENTITY_DECLINE_BTN_CLS = "outline-none m-0 p-0 border-0 align-baseline no-underline group/trigger relative cursor-pointer select-none transform translate-z-0 flex text-[var(--themed-fg,_var(--ds-background-100))] bg-[var(--themed-bg,_var(--ds-gray-1000))] font-medium !px-(--geist-gap-half) max-w-full items-center justify-center transition-[border-color, background,color,transform,box-shadow] duration-[time:150ms] ease-in-out data-[focus]:shadow-[var(--ds-focus-ring)] [&_svg]:shrink-0 disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:text-[var(--ds-gray-700)] disabled:bg-[var(--ds-gray-100)] aria-disabled:text-[var(--ds-gray-700)] aria-disabled:bg-[var(--ds-gray-100)] disabled:![--themed-border:_var(--ds-gray-400)] [--x-padding:6px] [--height:32px] !pl-[var(--x-padding)] !pr-[var(--x-padding)] rounded-md [--themed-bg:_var(--ds-background-100)] shadow-[0_0_0_1px_var(--themed-border,_transparent)] [--themed-hover-bg:_var(--ds-gray-alpha-200)] [--themed-fg:_var(--ds-gray-1000)] [--themed-border:_var(--ds-gray-400)] data-[focus]:shadow-[0_0_0_1px_var(--themed-border,_transparent),0_0_0_2px_var(--ds-background-100),0_0_0_4px_var(--ds-focus-color)] data-[focus]:transition-none text-(length:--geist-form-small-font) [--spinner-size:16px] h-[var(--height)] data-hover:bg-[var(--ds-gray-100)] dark-theme:data-hover:bg-[var(--ds-gray-200)] data-hover:text-[var(--themed-fg)] data-hover:disabled:bg-[var(--ds-gray-100)]";
 
-const ENTITY_CHECKBOX_ROW_CLS =
-  "p-4 flex flex-col items-stretch justify-start flex-initial bg-inherit w-full text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-[var(--accents-1)]";
+const ENTITY_CHECKBOX_ROW_CLS = "p-4 flex flex-col items-stretch justify-start flex-initial bg-inherit w-full text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-[var(--accents-1)]";
 
 const ENTITY_CHECKBOX_VISUAL_CLS =
   "[--checkbox-color:var(--ds-gray-700)] inline-flex items-center justify-center size-4 relative bg-[var(--ds-background-100)] border border-[var(--ds-gray-700)] rounded-sm transition-all duration-200 rotate-[0.000001deg] peer-checked:[&:not(.indeterminate)]:bg-[var(--ds-gray-1000)] peer-checked:[&:not(.indeterminate)]:border-[var(--ds-gray-1000)] peer-disabled:peer-checked:[&:not(.indeterminate)]:bg-[var(--ds-gray-600)] peer-disabled:peer-checked:[&:not(.indeterminate)]:border-[var(--ds-gray-600)] peer-disabled:not-peer-checked:bg-[var(--ds-gray-100)] peer-disabled:not-peer-checked:border-[var(--ds-gray-500)] peer-disabled:[&.indeterminate_svg_line]:stroke-[var(--ds-gray-500)] peer-hover:not-peer-disabled:not-peer-checked:bg-[var(--ds-gray-200)] peer-focus-visible:shadow-[var(--ds-focus-ring)] peer-focus-visible:not-peer-checked:not-peer-disabled:bg-[var(--ds-gray-200)] group [&:not(.indeterminate)_svg_path]:invisible peer-checked:[&:not(.indeterminate)_svg_path]:visible [&:not(.indeterminate)_svg_line]:invisible [&.indeterminate_svg_line]:visible [&.indeterminate_svg_path]:invisible !important [&.inverted_svg_path]:visible";
@@ -5089,7 +5078,7 @@ function EntityDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6 [--entity-list-background:var(--background-100)] [--entity-list-divider:#eaeaea] dark:[--entity-list-background:var(--background-200)] dark:[--entity-list-divider:#333333]">
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-6"
         data-demo-card="default"
         style={ENTITY_DEMO_VARS}
       >
@@ -5135,7 +5124,7 @@ function EntityDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="entity-with-skeleton"
         style={ENTITY_DEMO_VARS}
       >
@@ -5168,7 +5157,7 @@ function EntityDemo() {
         <ShowCodeFooter code={demoCode("entity-with-skeleton")} />
       </div>
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="entity-with-list"
         style={ENTITY_DEMO_VARS}
       >
@@ -5201,7 +5190,7 @@ function EntityDemo() {
         <ShowCodeFooter code={demoCode("entity-with-list")} />
       </div>
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="entity-with-list-and-checkbox"
         style={ENTITY_DEMO_VARS}
       >
@@ -5262,7 +5251,7 @@ function EntityDemo() {
         <ShowCodeFooter code={demoCode("entity-with-list-and-checkbox")} />
       </div>
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="entity-with-fill"
         style={ENTITY_DEMO_VARS}
       >
@@ -5283,7 +5272,7 @@ function EntityDemo() {
         <ShowCodeFooter code={demoCode("entity-with-fill")} />
       </div>
       <div
-        className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+       
         data-demo-card="entity-with-column-class-names"
         style={ENTITY_DEMO_VARS}
       >
@@ -5330,7 +5319,7 @@ function ErrorCardDemo() {
   const demoCode = (id: string) => DEMO_CODE["error-card"]?.[id] ?? "";
   return (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card="Default"
     >
       <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5356,7 +5345,7 @@ function FieldSetDemo() {
     demoId?: string;
     title?: string;
     subtitle: string;
-    type?: "default" | "error" | "warning";
+    type?: "default" |"error" |"warning";
     disabled?: boolean;
     highlight?: boolean;
     footerStatus?: React.ReactNode;
@@ -5393,7 +5382,7 @@ function FieldSetDemo() {
                 {actions?.map((action) => (
                   <FieldsetFooterAction
                     key={action.label}
-                    type={action.secondary ? "secondary" : undefined}
+                    type={action.secondary ?"secondary" : undefined}
                   >
                     {action.label}
                   </FieldsetFooterAction>
@@ -5545,7 +5534,7 @@ function LabelDemo() {
   return (
     <>
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5557,7 +5546,7 @@ function LabelDemo() {
       </div>
 
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="with-input"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5570,7 +5559,7 @@ function LabelDemo() {
       </div>
 
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="bypass-casing"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5595,7 +5584,7 @@ function LoadingDotsDemo() {
   const { language } = useLanguage();
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -5666,7 +5655,7 @@ function MultiSelectDemo() {
   const card = (id: string, children: React.ReactNode) => (
     <div
       data-demo-card={id}
-      className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+     
     >
       <div data-demo-container={id} className="w-full p-6">
         {children}
@@ -5677,8 +5666,7 @@ function MultiSelectDemo() {
 
   return (
     <div className="w-full space-y-6">
-      {card(
-        "select-actions",
+      {card("select-actions",
         <div className="flex flex-col items-start gap-4">
           <MultiSelectRoot>
             <MultiSelectTrigger aria-label="Select design system items">
@@ -5706,8 +5694,7 @@ function MultiSelectDemo() {
         </div>,
       )}
 
-      {card(
-        "keyboard-navigation",
+      {card("keyboard-navigation",
         <div className="flex flex-col items-start gap-4">
           <MultiSelectRoot>
             <MultiSelectTrigger aria-label="Select categories">
@@ -5735,8 +5722,7 @@ function MultiSelectDemo() {
         </div>,
       )}
 
-      {card(
-        "controlled-state",
+      {card("controlled-state",
         <div className="flex flex-col items-start gap-4">
           <MultiSelectRoot>
             <MultiSelectTrigger aria-label="Select features">
@@ -5775,7 +5761,7 @@ function MultiSelectDemo() {
             <button
               type="button"
               className="cursor-pointer text-link hover:underline focus-ring"
-              onClick={() => setSelectedFeatures(new Set(["analytics", "monitoring"]))}
+              onClick={() => setSelectedFeatures(new Set(["analytics","monitoring"]))}
             >
               Core Features
             </button>
@@ -5783,7 +5769,7 @@ function MultiSelectDemo() {
             <button
               type="button"
               className="cursor-pointer text-link hover:underline focus-ring"
-              onClick={() => setSelectedFeatures(new Set(["security", "performance"]))}
+              onClick={() => setSelectedFeatures(new Set(["security","performance"]))}
             >
               Advanced Features
             </button>
@@ -5800,7 +5786,7 @@ function PillDemo() {
   const [active, setActive] = React.useState("all");
   return (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card="Default"
     >
       <div className="w-full p-6" data-demo-container="Default">
@@ -5815,7 +5801,7 @@ function PillDemo() {
       ].map(([value, label]) => (
         <Pill
           key={value}
-          variant={active === value ? "active" : "default"}
+          variant={active === value ?"active" :"default"}
           aria-pressed={active === value}
           onClick={() => setActive(value)}
         >
@@ -5836,7 +5822,7 @@ function RadioDemo() {
   return (
     <>
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5857,7 +5843,7 @@ function RadioDemo() {
       </div>
 
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="radio-disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5879,7 +5865,7 @@ function RadioDemo() {
       </div>
 
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="radio-required"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5905,7 +5891,7 @@ function RadioDemo() {
       </div>
 
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="radio-headless"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5917,7 +5903,7 @@ function RadioDemo() {
       </div>
 
       <div
-        className="relative mt-6 w-full rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-6 w-full"
         data-demo-card="radio-standalone"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5935,7 +5921,7 @@ function RelativeTimeCardDemo() {
   const demoCode = (id: string) => DEMO_CODE["relative-time-card"]?.[id] ?? "";
   return (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card="Default"
     >
       <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5992,7 +5978,7 @@ function SearchInputDemo() {
         <div
           key={id}
           data-demo-card={id}
-          className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
+         
         >
           <div data-demo-container={id} className="w-full p-6">
             {control}
@@ -6011,7 +5997,7 @@ function ShowMoreDemo() {
     "Geist Style Framework provides reusable tokens, primitives, and component patterns for building consistent React interfaces in both light and dark themes.";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-6"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -7925,8 +7911,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
             <div className="w-full max-w-md">
               <JsonView
                 data={{
-                  browserApiUrl:
-                    "https://browser-api.vercel.sh/screenshot?url=https%3A%2F%2Fprocore-com-prod-f5vem4o6u-marketing-web-dev.vercel.app&width=1440&height=900&fullPage=true",
+                  browserApiUrl: "https://browser-api.vercel.sh/screenshot?url=https%3A%2F%2Fprocore-com-prod-f5vem4o6u-marketing-web-dev.vercel.app&width=1440&height=900&fullPage=true",
                 }}
                 defaultExpandDepth={1}
               />
@@ -7946,7 +7931,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
                     path: "/api/projects",
                     method: "GET",
                   },
-                  flags: ["enable-logs-json-rendering", "observability-panel"],
+                  flags: ["enable-logs-json-rendering","observability-panel"],
                 }}
                 defaultExpandDepth={0}
               />
@@ -7963,7 +7948,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
                   statusCode: 500,
                 }}
                 defaultExpandDepth={1}
-                highlightPattern={makeJsonViewHighlightPattern(["request", "failed"])}
+                highlightPattern={makeJsonViewHighlightPattern(["request","failed"])}
               />
             </div>
           </Section>
@@ -8104,9 +8089,9 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
           </Section>
           <Section title="Title with Icon" code={sectionCode("Title with Icon")}>
             <div className="flex w-full flex-col gap-8">
-              {(["default", "secondary"] as const).map((variant) => (
+              {(["default","secondary"] as const).map((variant) => (
                 <div key={variant} className="flex flex-row gap-1">
-                  {(["small", "medium", "large"] as const).map((size) => (
+                  {(["small","medium","large"] as const).map((size) => (
                     <SplitButton
                       key={`${variant}-${size}`}
                       buttonProps={{ size, type: variant }}
