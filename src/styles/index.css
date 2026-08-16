@@ -158,11 +158,12 @@
   --color-action-pressed: var(--action-pressed);
   --color-action-soft: var(--action-soft);
 
-  /* Radius — Geist scale: 6px surface / 12px overlay / 16px fullscreen */
+  /* Radius — 对齐官方 Geist（Tailwind 默认，实测 rounded-sm/md/lg/xl/2xl）：
+     4px / 6px / 8px / 12px / 16px（demo 卡片与 input-large 用 lg 8px，浮层用 xl 12px） */
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
-  --radius-lg: 0.75rem; /* 12px — menus / dialogs */
-  --radius-xl: 1rem; /* 16px — fullscreen overlays */
+  --radius-lg: 0.5rem; /* 8px — demo 卡片 / input large / hover card 浮层 */
+  --radius-xl: 0.75rem; /* 12px — menu / modal / combobox / feedback popover */
   --radius-pill: 9999px;
 
   /* Geist 全色阶（colors.md 92 token 实测；gray-alpha 已在上面定义） */
