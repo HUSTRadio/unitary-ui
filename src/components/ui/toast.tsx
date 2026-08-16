@@ -78,10 +78,24 @@ interface ToastsProps extends React.ComponentProps<"ol"> {
   gap?: number;
 }
 
-/** Mount once near the application root; messages are emitted through `useToasts()`. */
+/**
+ * Toast 堆叠视口（官方 vercel.com/geist/toast 实测）。
+ *
+ * 官方堆叠机制：所有 toast 绝对定位在右下角同一点（bottom-0 right-0），
+ * 通过 translate3d + scale + translateZ 分层堆叠——最新的 toast 完整可见，
+ * 旧的按距离 d 缩放 1-0.05d、上移 -(13+20d)px、Z 轴后退 -d px，只露出顶部一小条。
+ * hover 视口时展开：scale 归 1、translateY 恢复为累计高度偏移（完整垂直排列）。
+ * 过渡 350ms cubic-bezier(0.25,0.75,0.6,0.98)；第 5 个及更旧（nth-last）隐藏。
+ */
+const STACK_GAP = 20; // 展开态 toast 间距（官方实测 20px）
+const MAX_STACK = 4; // 最多堆叠层数（更旧的隐藏）
+
 function Toasts({ className, gap = 16, ...props }: ToastsProps) {
   const records = React.useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
   const timers = React.useRef(new Map<number, number>());
+  const [expanded, setExpanded] = React.useState(false);
+  const itemRefs = React.useRef(new Map<number, HTMLLIElement>());
+  const [heights, setHeights] = React.useState<Record<number, number>>({});
 
   React.useEffect(() => {
     records.forEach((toast) => {
@@ -111,33 +125,68 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
     [],
   );
 
+  // 测量每个 toast 的完整高度（展开态累计偏移用；transform 不影响 offsetHeight）
+  React.useLayoutEffect(() => {
+    const next: Record<number, number> = {};
+    records.forEach((toast) => {
+      const el = itemRefs.current.get(toast.id);
+      if (el) next[toast.id] = el.offsetHeight;
+    });
+    setHeights(next);
+  }, [records]);
+
+  const count = records.length;
+
   return (
     <ol
       data-slot="toasts"
       aria-live="polite"
       aria-relevant="additions text"
+      onMouseEnter={() => setExpanded(true)}
+      onMouseLeave={() => setExpanded(false)}
       className={cn(
-        "pointer-events-none fixed right-[var(--toast-gap)] bottom-[var(--toast-gap)] z-[5000] flex max-h-[calc(100vh-2*var(--toast-gap))] w-[min(420px,calc(100vw-2*var(--toast-gap)))] flex-col gap-2 p-0 outline-none",
+        "pointer-events-none fixed right-[var(--toast-gap)] bottom-[var(--toast-gap)] z-[5000] m-0 w-[min(420px,calc(100vw-2*var(--toast-gap)))] p-0 outline-none",
         className,
       )}
       style={{ "--toast-gap": `${gap}px` } as React.CSSProperties}
       {...props}
     >
-      {records.map((toast) => {
+      {records.map((toast, i) => {
+        const d = count - 1 - i; // 0 = 最新（完全可见）
+        const cappedD = Math.min(d, MAX_STACK);
+        // 展开态：向上累计（更旧的 toast 排到更上面）
+        let expandY = 0;
+        for (let j = i + 1; j < count; j++) {
+          expandY += (heights[records[j].id] ?? 56) + STACK_GAP;
+        }
+        const scale = expanded ? 1 : 1 - 0.05 * cappedD;
+        const ty = expanded ? -expandY : cappedD === 0 ? 0 : -(13 + 20 * cappedD);
+        const tz = -cappedD;
         const Icon = toastIcons[toast.kind];
         const actionLabel = toast.onUndoAction ? "Undo" : toast.action;
         const action = toast.onUndoAction ?? toast.onAction;
         return (
           <li
             key={toast.id}
+            ref={(el) => {
+              if (el) itemRefs.current.set(toast.id, el);
+              else itemRefs.current.delete(toast.id);
+            }}
             role="status"
             data-kind={toast.kind}
             className={cn(
-              "pointer-events-auto flex min-h-13 items-start gap-3 rounded-[12px] bg-background-100 p-4 text-copy-14 text-gray-1000 shadow-[var(--material-shadow-menu)] animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:animate-none",
+              "pointer-events-auto absolute right-0 bottom-0 flex min-h-13 w-full items-start gap-3 rounded-[12px] bg-background-100 p-4 text-copy-14 text-gray-1000 shadow-[var(--material-shadow-menu)]",
+              "transition-all duration-[350ms] ease-[cubic-bezier(0.25,0.75,0.6,0.98)]",
+              "animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:animate-none",
+              "nth-last-[n+4]:opacity-0 nth-last-[n+4]:pointer-events-none",
               toast.kind === "success" && "bg-[#0072f5] text-white",
               toast.kind === "warning" && "bg-[#ff990a] text-[#0a0a0a]",
               toast.kind === "error" && "bg-[#e5484d] text-white",
             )}
+            style={{
+              transform: `translate3d(0, ${ty}px, ${tz}px) scale(${scale})`,
+              zIndex: i + 1,
+            }}
           >
             {Icon ? <Icon aria-hidden className="mt-0.5 size-4 shrink-0" /> : null}
             <div className="min-w-0 flex-1">{toast.text}</div>
