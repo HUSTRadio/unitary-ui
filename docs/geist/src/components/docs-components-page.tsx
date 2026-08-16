@@ -15,6 +15,7 @@ import {
   Copy,
   CopyCheck,
   ExternalLink,
+  Flag,
   LayoutGrid,
   List,
   Lock,
@@ -3846,26 +3847,48 @@ function DestructiveActionModalDemo() {
 }
 function FeedbackDemo() {
   const demoCode = (id: string) => DEMO_CODE.feedback?.[id] ?? "";
-  const [submitted, setSubmitted] = React.useState(false);
-
-  return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
-      <div className="w-full p-6" data-demo-container="Default">
-        <div className="w-full max-w-md">
-          {submitted ? (
-            <p className="rounded-[8px] border border-gray-alpha-400 bg-background p-4 text-center text-copy-14 text-muted-foreground">
-              Thanks for your feedback!
-            </p>
-          ) : (
-            <Feedback onSubmit={() => setSubmitted(true)} />
-          )}
-        </div>
+  const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="w-full p-6" data-demo-container={id}>
+        {children}
       </div>
-      <ShowCodeFooter code={demoCode("Default")} />
+      <ShowCodeFooter code={demoCode(id)} />
     </div>
   );
+  return (
+    <>
+      <Card id="Default">
+        <Feedback label="vercel" dryRun />
+      </Card>
+      <Card id="Inline">
+        <Feedback dryRun label="vercel" type="inline" />
+      </Card>
+      <Card id="Feedback with Select">
+        <Feedback label="vercel" showTopics dryRun />
+      </Card>
+      <Card id="Feedback with metadata">
+        <Feedback
+          label="vercel"
+          dryRun
+          metadata={{
+            userId: "user_12345",
+            location: "post-checkout",
+            orderId: "order_123456",
+          }}
+        />
+      </Card>
+      <Card id="Feedback with prefix">
+        <Feedback dryRun label="vercel" prefix={<Flag className="size-4" />} />
+      </Card>
+      <Card id="Feedback with suffix">
+        <Feedback dryRun label="vercel" suffix={<Flag className="size-4" />} />
+      </Card>
+    </>
+  );
 }
-
 function LoadMoreButtonDemo() {
   const demoCode = (id: string) => DEMO_CODE["load-more-button"]?.[id] ?? "";
   const { language } = useLanguage();
