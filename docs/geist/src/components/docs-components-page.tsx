@@ -46,13 +46,7 @@ import { Book } from "@/components/ui/book";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 import { Browser } from "@/components/ui/browser";
 import { Button, ButtonLink, CustomButton } from "@/components/ui/button";
-import {
-  Calendar,
-  calendarColClass,
-  CALENDAR_ROW_CLASS,
-  CALENDAR_ROW_REV_CLASS,
-  TRIGGER_ROW_EXTRA_CLASS,
-} from "@/components/ui/calendar";
+import { Calendar, CALENDAR_ROW_REV_CLASS } from "@/components/ui/calendar";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ClearableInput } from "@/components/ui/clearable-input";
 import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
@@ -2819,22 +2813,10 @@ function CalendarDemo() {
   const mediumItems = (
     <>
       <Calendar label={triggerLabel} />
+      <Calendar label={triggerLabel} compact comboboxLabel={comboboxLabel} presets={presetTexts} />
       <Calendar
         label={triggerLabel}
-        showCombobox
-        className={CALENDAR_ROW_CLASS}
-        width={180}
-        triggerClassName={TRIGGER_ROW_EXTRA_CLASS}
-        comboboxLabel={comboboxLabel}
-        presets={presetTexts}
-      />
-      <Calendar
-        label={triggerLabel}
-        showCombobox
-        comboboxFirst
-        comboboxFull
-        comboboxWide
-        className={calendarColClass("medium")}
+        stacked
         comboboxPlaceholder={periodLabel}
         comboboxLabel={comboboxLabel}
         presets={presetTexts}
@@ -2858,21 +2840,14 @@ function CalendarDemo() {
       <Calendar
         label={triggerLabel}
         size="small"
-        showCombobox
-        className={CALENDAR_ROW_CLASS}
-        width={180}
-        triggerClassName={TRIGGER_ROW_EXTRA_CLASS}
+        compact
         comboboxLabel={comboboxLabel}
         presets={presetTexts}
       />
       <Calendar
         label={triggerLabel}
         size="small"
-        showCombobox
-        comboboxFirst
-        comboboxFull
-        comboboxWide
-        className={calendarColClass("small")}
+        stacked
         comboboxPlaceholder={periodLabel}
         comboboxLabel={comboboxLabel}
         presets={presetTexts}
@@ -3012,10 +2987,7 @@ function CalendarDemo() {
             <div className="flex justify-center py-12">
               <Calendar
                 label={triggerLabel}
-                showCombobox
-                comboboxFirst
-                comboboxFull
-                comboboxWide
+                stacked
                 comboboxLabel={comboboxLabel}
                 comboboxPlaceholder={periodLabel}
                 presets={presetTexts}
@@ -4542,7 +4514,7 @@ function BannerDemo() {
     >
       <div className="flex w-full overflow-x-auto md:overflow-visible">
         <div className="w-full p-6" data-demo-container="Default">
-          <Banner button={{ href: "#/components", content: "Read more" }} className="w-full p-4">
+          <Banner button={{ href: "#/components", content: "Read more" }} className="p-4">
             <b>Big News</b> – New components finally available
           </Banner>
         </div>

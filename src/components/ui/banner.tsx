@@ -49,7 +49,7 @@ function Banner({ button, children, className, ...props }: BannerProps) {
       <div
         data-slot="banner"
         className={cn(
-          "hidden w-full max-w-[1080px] items-center justify-center gap-3 lg:flex [&_b]:text-gray-1000",
+          "hidden w-full max-w-[1080px] items-center justify-center gap-3 lg:flex [&_b]:text-gray-1000 [&_b]:font-semibold",
           className,
         )}
         {...props}
