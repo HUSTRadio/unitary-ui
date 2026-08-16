@@ -7,7 +7,7 @@ const LANGUAGE_ICON_SLUGS: Record<string, string> = {
   javascript: "javascript",
   jsx: "react",
   typescript: "typescript",
-  tsx: "typescript",
+  tsx: "react",
   json: "json",
   bash: "gnubash",
 };
