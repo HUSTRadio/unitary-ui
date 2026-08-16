@@ -26,7 +26,7 @@ describe("docs Show code footer", () => {
     expect(src).not.toMatch(/\{footerBar\}/);
   });
 
-  test("every footerBar demo now renders ShowCodeFooter and receives code via renderDemo/ComponentDetail", async () => {
+  test("every demo renders ShowCodeFooter with per-block DEMO_CODE source", async () => {
     const src = await read(pagePath);
     const demos = [
       "ButtonDemo",
@@ -47,14 +47,14 @@ describe("docs Show code footer", () => {
       "RadioDemo",
     ];
     for (const demo of demos) {
-      expect(src).toMatch(
-        new RegExp(`function ${demo}\\(\\{ code \\}: \\{ code\\?: string \\}\\)`),
-      );
-      expect(src).toMatch(new RegExp(`return <${demo} code=\\{code\\} />;`));
+      expect(src).toMatch(new RegExp(`function ${demo}\\(\\)`));
+      expect(src).toMatch(new RegExp(`return <${demo} />;`));
     }
-    expect(src).toMatch(/function renderDemo\(name: string, code\?: string\)/);
-    expect(src.match(/renderDemo\(name, meta\.code\)/g)).toHaveLength(3);
-    expect(src.match(/<ShowCodeFooter code=\{code \?\? ""\} \/>/g)).toHaveLength(74);
+    expect(src).toMatch(/function renderDemo\(name: string\)/);
+    expect(src.match(/renderDemo\(name\)/g)).toHaveLength(3);
+    // 每个 demo 函数用 demoCode 查 DEMO_CODE（区块独立源码），不再统一传 meta.code
+    expect(src.match(/const demoCode = \(id: string\) => DEMO_CODE/g)?.length).toBeGreaterThanOrEqual(16);
+    expect(src.match(/<ShowCodeFooter code=\{code \?\? ""\} \/>/g)).toBeNull();
   });
 
   test("ModalDemo return container has vertical gap (space-y-6)", async () => {

@@ -382,6 +382,7 @@ function PaginationDemo() {
 }
 
 function EmptyStateDemo() {
+  const demoCode = (id: string) => DEMO_CODE["empty-state"]?.[id] ?? "";
   const { language } = useLanguage();
   const icon = <EmptyStateIcon icon={<ChartColumn className="size-8" aria-hidden />} />;
   return (
@@ -399,6 +400,7 @@ function EmptyStateDemo() {
             />
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("empty-state-design-framework")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -413,6 +415,7 @@ function EmptyStateDemo() {
             />
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("blank-slate")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -445,12 +448,14 @@ function EmptyStateDemo() {
             </EmptyState>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("informational")} />
       </div>
     </div>
   );
 }
 
-function ButtonDemo({ code }: { code?: string }) {
+function ButtonDemo() {
+  const demoCode = (id: string) => DEMO_CODE.button?.[id] ?? "";
   const { language } = useLanguage();
   const upload = demoText(language, "Upload");
   const defaultLabel = demoText(language, "Default");
@@ -481,7 +486,7 @@ function ButtonDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("sizes")} />
       </div>
 
       <div className={cardClass} data-demo-card="all-types-and-sizes-in-comparison">
@@ -540,7 +545,7 @@ function ButtonDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("all-types-and-sizes-in-comparison")} />
       </div>
 
       <div className={cardClass} data-demo-card="shapes">
@@ -574,7 +579,7 @@ function ButtonDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("shapes")} />
       </div>
 
       <div className={cardClass} data-demo-card="prefix-and-suffix">
@@ -593,7 +598,7 @@ function ButtonDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("prefix-and-suffix")} />
       </div>
 
       <div className={cardClass} data-demo-card="rounded">
@@ -612,7 +617,7 @@ function ButtonDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("rounded")} />
       </div>
 
       <div className={cardClass} data-demo-card="loading">
@@ -631,7 +636,7 @@ function ButtonDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("loading")} />
       </div>
 
       <div className={cardClass} data-demo-card="disabled">
@@ -650,7 +655,7 @@ function ButtonDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("disabled")} />
       </div>
 
       <div className={cardClass} data-demo-card="disabled-variants">
@@ -675,7 +680,7 @@ function ButtonDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("disabled-variants")} />
       </div>
 
       <div className={cardClass} data-demo-card="link">
@@ -688,7 +693,7 @@ function ButtonDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("link")} />
       </div>
 
       <div className={cardClass} data-demo-card="custom">
@@ -718,13 +723,14 @@ function ButtonDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("custom")} />
       </div>
     </>
   );
 }
 
 function CheckboxDemo() {
+  const demoCode = (id: string) => DEMO_CODE.checkbox?.[id] ?? "";
   const { language } = useLanguage();
   return (
     <>
@@ -740,6 +746,7 @@ function CheckboxDemo() {
             </label>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
         className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -767,6 +774,7 @@ function CheckboxDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("disabled")} />
       </div>
       <div
         className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -780,6 +788,7 @@ function CheckboxDemo() {
             </label>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("indeterminate")} />
       </div>
     </>
   );
@@ -802,7 +811,8 @@ function MenuDemo() {
   );
 }
 
-function InputDemo({ code }: { code?: string }) {
+function InputDemo() {
+  const demoCode = (id: string) => DEMO_CODE.input?.[id] ?? "";
   const { language } = useLanguage();
 
   const circularGlyph = (
@@ -844,7 +854,7 @@ function InputDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
 
       <div
@@ -877,7 +887,7 @@ function InputDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("prefix-and-suffix")} />
       </div>
 
       <div
@@ -916,7 +926,7 @@ function InputDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("disabled")} />
       </div>
 
       <div
@@ -943,7 +953,7 @@ function InputDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("error")} />
       </div>
 
       <div
@@ -960,7 +970,7 @@ function InputDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("label")} />
       </div>
 
       <div
@@ -977,7 +987,7 @@ function InputDemo({ code }: { code?: string }) {
             />
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("rounded-prefix-and-suffix")} />
       </div>
 
       <div
@@ -999,13 +1009,14 @@ function InputDemo({ code }: { code?: string }) {
             />
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("rounded-prefix-and-suffix-without-styling")} />
       </div>
     </>
   );
 }
 
-function ModalDemo({ code }: { code?: string }) {
+function ModalDemo() {
+  const demoCode = (id: string) => DEMO_CODE.modal?.[id] ?? "";
   const { language } = useLanguage();
   const [openDefault, setOpenDefault] = React.useState(false);
   const [openSticky, setOpenSticky] = React.useState(false);
@@ -1068,7 +1079,7 @@ function ModalDemo({ code }: { code?: string }) {
             </Modal>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
 
       <div
@@ -1111,7 +1122,7 @@ function ModalDemo({ code }: { code?: string }) {
             </Modal>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("sticky")} />
       </div>
 
       <div
@@ -1141,7 +1152,7 @@ function ModalDemo({ code }: { code?: string }) {
             </Modal>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("single-button")} />
       </div>
 
       <div
@@ -1171,13 +1182,14 @@ function ModalDemo({ code }: { code?: string }) {
             </Modal>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("inset")} />
       </div>
     </div>
   );
 }
 
-function SwitchDemo({ code }: { code?: string }) {
+function SwitchDemo() {
+  const demoCode = (id: string) => DEMO_CODE.switch?.[id] ?? "";
   const { language } = useLanguage();
 
   return (
@@ -1196,7 +1208,7 @@ function SwitchDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
 
       <div
@@ -1213,7 +1225,7 @@ function SwitchDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("disabled")} />
       </div>
 
       <div
@@ -1244,7 +1256,7 @@ function SwitchDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("sizes")} />
       </div>
 
       <div
@@ -1259,7 +1271,7 @@ function SwitchDemo({ code }: { code?: string }) {
             </Switch>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("full-width")} />
       </div>
 
       <div
@@ -1280,7 +1292,7 @@ function SwitchDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("tooltip")} />
       </div>
 
       <div
@@ -1326,13 +1338,14 @@ function SwitchDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("icon")} />
       </div>
     </>
   );
 }
 
-function SelectDemo({ code }: { code?: string }) {
+function SelectDemo() {
+  const demoCode = (id: string) => DEMO_CODE.select?.[id] ?? "";
   const { language } = useLanguage();
 
   const circularGlyph = (
@@ -1390,7 +1403,7 @@ function SelectDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("sizes")} />
       </div>
 
       <div
@@ -1429,7 +1442,7 @@ function SelectDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("prefix-and-suffix")} />
       </div>
 
       <div
@@ -1445,7 +1458,7 @@ function SelectDemo({ code }: { code?: string }) {
             />
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("disabled")} />
       </div>
 
       <div
@@ -1481,7 +1494,7 @@ function SelectDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("error")} />
       </div>
 
       <div
@@ -1496,7 +1509,7 @@ function SelectDemo({ code }: { code?: string }) {
             />
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("label")} />
       </div>
 
       <div
@@ -1529,7 +1542,7 @@ function SelectDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("with-options")} />
       </div>
 
       <div
@@ -1549,13 +1562,14 @@ function SelectDemo({ code }: { code?: string }) {
             </Select>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("required")} />
       </div>
     </>
   );
 }
 
-function SeparatorDemo({ code }: { code?: string }) {
+function SeparatorDemo() {
+  const demoCode = (id: string) => DEMO_CODE.separator?.[id] ?? "";
   const { language } = useLanguage();
 
   return (
@@ -1583,7 +1597,7 @@ function SeparatorDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("horizontal")} />
       </div>
 
       <div
@@ -1603,7 +1617,7 @@ function SeparatorDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("vertical")} />
       </div>
 
       <div
@@ -1636,7 +1650,7 @@ function SeparatorDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("orientation-variants")} />
       </div>
     </>
   );
@@ -1760,7 +1774,8 @@ function TabsDemo() {
   );
 }
 
-function TextareaDemo({ code }: { code?: string }) {
+function TextareaDemo() {
+  const demoCode = (id: string) => DEMO_CODE.textarea?.[id] ?? "";
   const { language } = useLanguage();
 
   const lorem = demoText(
@@ -1781,7 +1796,7 @@ function TextareaDemo({ code }: { code?: string }) {
             </label>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
 
       <div
@@ -1795,7 +1810,7 @@ function TextareaDemo({ code }: { code?: string }) {
             </label>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("disabled")} />
       </div>
 
       <div
@@ -1831,7 +1846,7 @@ function TextareaDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("error")} />
       </div>
 
       <div
@@ -1863,7 +1878,7 @@ function TextareaDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("sizes")} />
       </div>
 
       <div
@@ -1881,7 +1896,7 @@ function TextareaDemo({ code }: { code?: string }) {
             </label>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("read-only")} />
       </div>
 
       <div
@@ -1898,13 +1913,14 @@ function TextareaDemo({ code }: { code?: string }) {
             </label>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("rows")} />
       </div>
     </>
   );
 }
 
-function ToggleDemo({ code }: { code?: string }) {
+function ToggleDemo() {
+  const demoCode = (id: string) => DEMO_CODE.toggle?.[id] ?? "";
   const { language } = useLanguage();
   const [defaultOff, setDefaultOff] = React.useState(false);
   const [defaultOn, setDefaultOn] = React.useState(true);
@@ -1942,7 +1958,7 @@ function ToggleDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
 
       <div
@@ -1965,7 +1981,7 @@ function ToggleDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("disabled")} />
       </div>
 
       <div
@@ -1995,7 +2011,7 @@ function ToggleDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("sizes")} />
       </div>
 
       <div
@@ -2046,7 +2062,7 @@ function ToggleDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("custom-color")} />
       </div>
 
       <div
@@ -2112,7 +2128,7 @@ function ToggleDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("with-label")} />
       </div>
     </>
   );
@@ -2204,7 +2220,8 @@ function CopyButtonDemo() {
   );
 }
 
-function DrawerDemo({ code }: { code?: string }) {
+function DrawerDemo() {
+  const demoCode = (id: string) => DEMO_CODE.drawer?.[id] ?? "";
   const { language } = useLanguage();
   const [open, setOpen] = React.useState(false);
   const [customOpen, setCustomOpen] = React.useState(false);
@@ -2235,7 +2252,7 @@ function DrawerDemo({ code }: { code?: string }) {
             </Button>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("default")} />
         <Drawer show={open} onDismiss={() => setOpen(false)} verticalScroll>
           {drawerBody}
         </Drawer>
@@ -2255,7 +2272,7 @@ function DrawerDemo({ code }: { code?: string }) {
             </Button>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("custom-height")} />
         <Drawer
           height={200}
           show={customOpen}
@@ -2280,7 +2297,8 @@ function NoteDemo() {
   );
 }
 
-function SheetDemo({ code }: { code?: string }) {
+function SheetDemo() {
+  const demoCode = (id: string) => DEMO_CODE.sheet?.[id] ?? "";
   const { language } = useLanguage();
 
   const sheetBody = (title: string, description: string) => (
@@ -2326,7 +2344,7 @@ function SheetDemo({ code }: { code?: string }) {
             </Sheet>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -2390,7 +2408,7 @@ function SheetDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("with-side")} />
       </div>
     </div>
   );
@@ -2726,6 +2744,7 @@ function CalendarDemo() {
 }
 
 function ChoiceboxDemo() {
+  const demoCode = (id: string) => DEMO_CODE.choicebox?.[id] ?? "";
   const { language } = useLanguage();
   const [plan, setPlan] = React.useState("trial");
   const [features, setFeatures] = React.useState<string[]>([]);
@@ -2758,6 +2777,7 @@ function ChoiceboxDemo() {
             </ChoiceboxGroup>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("single-select")} />
       </div>
       <div
         className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -2785,6 +2805,7 @@ function ChoiceboxDemo() {
             </ChoiceboxGroup>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("multi-select")} />
       </div>
       <div
         className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -2836,12 +2857,14 @@ function ChoiceboxDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("disabled")} />
       </div>
     </div>
   );
 }
 
-function CommandMenuDemo({ code }: { code?: string }) {
+function CommandMenuDemo() {
+  const demoCode = (id: string) => DEMO_CODE["command-menu"]?.[id] ?? "";
   const { language } = useLanguage();
   const [openVariant, setOpenVariant] = React.useState<
     "default" | "with-divider" | "with-suffix" | null
@@ -2873,7 +2896,7 @@ function CommandMenuDemo({ code }: { code?: string }) {
               </Button>
             </div>
           </div>
-          <ShowCodeFooter code={code ?? ""} />
+          <ShowCodeFooter code={demoCode(name)} />
         </div>
       ))}
       <CommandMenu
@@ -3068,6 +3091,7 @@ function ProjectBannerDemo() {
 }
 
 function SliderDemo() {
+  const demoCode = (id: string) => DEMO_CODE.slider?.[id] ?? "";
   const { language } = useLanguage();
   const [defaultValue, setDefaultValue] = React.useState<number[]>([50]);
   const [labelValue, setLabelValue] = React.useState<number[]>([40]);
@@ -3146,6 +3170,7 @@ function SliderDemo() {
           <div data-demo-container={demo.id} className="w-full p-6">
             {demo.content}
           </div>
+          <ShowCodeFooter code={demoCode(demo.id)} />
         </div>
       ))}
     </div>
@@ -3219,6 +3244,7 @@ function CodeDemo() {
 }
 
 function CodeBlockDemo() {
+  const demoCode = (id: string) => DEMO_CODE["code-block"]?.[id] ?? "";
   const languageOptions = ["JavaScript", "TypeScript", "Next.js", "Lua"];
   const switcher = { options: languageOptions, value: "JavaScript", onChange: () => {} };
 
@@ -3239,6 +3265,7 @@ function CodeBlockDemo() {
             </CodeBlockComponent>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3254,6 +3281,7 @@ function CodeBlockDemo() {
             </CodeBlockComponent>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("no-filename")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3271,6 +3299,7 @@ function CodeBlockDemo() {
             </CodeBlockComponent>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("highlighted-lines")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3289,6 +3318,7 @@ function CodeBlockDemo() {
             </CodeBlockComponent>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("added-removed-lines")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3305,6 +3335,7 @@ function CodeBlockDemo() {
             </CodeBlockComponent>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("referenced-lines")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3322,6 +3353,7 @@ function CodeBlockDemo() {
             </CodeBlockComponent>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("language-switcher")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3339,6 +3371,7 @@ function CodeBlockDemo() {
             </CodeBlockComponent>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("language-switcher-with-tabs")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3356,6 +3389,7 @@ function CodeBlockDemo() {
             </CodeBlockComponent>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("hidden-line-numbers")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3382,6 +3416,7 @@ function CodeBlockDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("open-in-v0")} />
       </div>
     </div>
   );
@@ -3660,7 +3695,8 @@ function ContextCardDemo() {
   );
 }
 
-function ContextMenuDemo({ code }: { code?: string }) {
+function ContextMenuDemo() {
+  const demoCode = (id: string) => DEMO_CODE["context-menu"]?.[id] ?? "";
   const { language } = useLanguage();
   const rightClickHere = demoText(language, "Right click here");
   const itemOne = demoText(language, "Item one");
@@ -3713,7 +3749,7 @@ function ContextMenuDemo({ code }: { code?: string }) {
             </ContextMenu>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
 
       <div
@@ -3735,7 +3771,7 @@ function ContextMenuDemo({ code }: { code?: string }) {
             </ContextMenu>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("disabled-items")} />
       </div>
 
       <div
@@ -3757,7 +3793,7 @@ function ContextMenuDemo({ code }: { code?: string }) {
             </ContextMenu>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("link-items")} />
       </div>
 
       <div
@@ -3808,13 +3844,14 @@ function ContextMenuDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("prefix-and-suffix")} />
       </div>
     </div>
   );
 }
 
-function DotsMenuDemo({ code }: { code?: string }) {
+function DotsMenuDemo() {
+  const demoCode = (id: string) => DEMO_CODE["dots-menu"]?.[id] ?? "";
   const { language } = useLanguage();
   const items = (
     <>
@@ -3835,7 +3872,7 @@ function DotsMenuDemo({ code }: { code?: string }) {
             <DotsMenu>{items}</DotsMenu>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3850,7 +3887,7 @@ function DotsMenuDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("sizes")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3861,7 +3898,7 @@ function DotsMenuDemo({ code }: { code?: string }) {
             <DotsMenu disabled>{items}</DotsMenu>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("disabled")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3876,7 +3913,7 @@ function DotsMenuDemo({ code }: { code?: string }) {
             </DotsMenu>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("disabled-menu-item")} />
       </div>
     </div>
   );
@@ -3935,6 +3972,7 @@ function ScrollerDemo() {
 }
 
 function KeyboardInputDemo() {
+  const demoCode = (id: string) => DEMO_CODE["keyboard-input"]?.[id] ?? "";
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
@@ -3952,6 +3990,7 @@ function KeyboardInputDemo() {
             <Kbd ctrl />
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("modifiers")} />
       </div>
       <div
         className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3965,6 +4004,7 @@ function KeyboardInputDemo() {
             <Kbd meta shift />
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("combination")} />
       </div>
       <div
         className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -3978,6 +4018,7 @@ function KeyboardInputDemo() {
             <Kbd small>/</Kbd>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("small")} />
       </div>
     </div>
   );
@@ -4010,6 +4051,7 @@ function BreadcrumbsDemo() {
 }
 
 function ClearableInputDemo() {
+  const demoCode = (id: string) => DEMO_CODE["clearable-input"]?.[id] ?? "";
   const { language } = useLanguage();
   const [defaultValue, setDefaultValue] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -4033,6 +4075,7 @@ function ClearableInputDemo() {
             />
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
         className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -4048,6 +4091,7 @@ function ClearableInputDemo() {
             />
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("with-label")} />
       </div>
       <div
         className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -4064,6 +4108,7 @@ function ClearableInputDemo() {
             />
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("with-cmdk")} />
       </div>
       <div
         className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -4080,6 +4125,7 @@ function ClearableInputDemo() {
             />
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("disabled")} />
       </div>
       <div
         className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -4101,6 +4147,7 @@ function ClearableInputDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("with-clear-callback")} />
       </div>
     </div>
   );
@@ -4109,6 +4156,7 @@ function ClearableInputDemo() {
 const COLLAPSE_DIVIDER_CLS = "border-[#eaeaea] dark:border-[#333333]";
 
 function CollapseDemo() {
+  const demoCode = (id: string) => DEMO_CODE.collapse?.[id] ?? "";
   const { language } = useLanguage();
   const questionA = demoText(language, "Question A");
   const questionB = demoText(language, "Question B");
@@ -4150,6 +4198,7 @@ function CollapseDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
         className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -4163,6 +4212,7 @@ function CollapseDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("expanded")} />
       </div>
       <div
         className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -4176,6 +4226,7 @@ function CollapseDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("multiple")} />
       </div>
       <div
         className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -4195,12 +4246,14 @@ function CollapseDemo() {
             </Collapse>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("small")} />
       </div>
     </>
   );
 }
 
-function ComboboxDemo({ code }: { code?: string }) {
+function ComboboxDemo() {
+  const demoCode = (id: string) => DEMO_CODE.combobox?.[id] ?? "";
   const { language } = useLanguage();
   const [controlledValue, setControlledValue] = React.useState("b");
   const searchLabel = demoText(language, "Search");
@@ -4245,7 +4298,7 @@ function ComboboxDemo({ code }: { code?: string }) {
             </Combobox>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("uncontrolled")} />
       </div>
 
       <div
@@ -4271,7 +4324,7 @@ function ComboboxDemo({ code }: { code?: string }) {
             </Combobox>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("controlled")} />
       </div>
 
       <div
@@ -4292,7 +4345,7 @@ function ComboboxDemo({ code }: { code?: string }) {
             </Combobox>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("disabled")} />
       </div>
 
       <div
@@ -4349,7 +4402,7 @@ function ComboboxDemo({ code }: { code?: string }) {
             </div>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("sizes")} />
       </div>
 
       <div
@@ -4374,7 +4427,7 @@ function ComboboxDemo({ code }: { code?: string }) {
             </Combobox>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("with-label")} />
       </div>
     </div>
   );
@@ -4464,6 +4517,7 @@ const ENTITY_CHECKBOX_VISUAL_CLS =
   "[--checkbox-color:var(--ds-gray-700)] inline-flex items-center justify-center size-4 relative bg-[var(--ds-background-100)] border border-[var(--ds-gray-700)] rounded-sm transition-all duration-200 rotate-[0.000001deg] peer-checked:[&:not(.indeterminate)]:bg-[var(--ds-gray-1000)] peer-checked:[&:not(.indeterminate)]:border-[var(--ds-gray-1000)] peer-disabled:peer-checked:[&:not(.indeterminate)]:bg-[var(--ds-gray-600)] peer-disabled:peer-checked:[&:not(.indeterminate)]:border-[var(--ds-gray-600)] peer-disabled:not-peer-checked:bg-[var(--ds-gray-100)] peer-disabled:not-peer-checked:border-[var(--ds-gray-500)] peer-disabled:[&.indeterminate_svg_line]:stroke-[var(--ds-gray-500)] peer-hover:not-peer-disabled:not-peer-checked:bg-[var(--ds-gray-200)] peer-focus-visible:shadow-[var(--ds-focus-ring)] peer-focus-visible:not-peer-checked:not-peer-disabled:bg-[var(--ds-gray-200)] group [&:not(.indeterminate)_svg_path]:invisible peer-checked:[&:not(.indeterminate)_svg_path]:visible [&:not(.indeterminate)_svg_line]:invisible [&.indeterminate_svg_line]:visible [&.indeterminate_svg_path]:invisible !important [&.inverted_svg_path]:visible";
 
 function EntityDemo() {
+  const demoCode = (id: string) => DEMO_CODE.entity?.[id] ?? "";
   const { language } = useLanguage();
   const connected = demoText(language, "Connected 1h ago");
   const lastUsedJustNow = demoText(language, "Last used just now");
@@ -4528,6 +4582,7 @@ function EntityDemo() {
             </Entity>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
         className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -4560,6 +4615,7 @@ function EntityDemo() {
             </Entity>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("entity-with-skeleton")} />
       </div>
       <div
         className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -4592,6 +4648,7 @@ function EntityDemo() {
             </ul>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("entity-with-list")} />
       </div>
       <div
         className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -4652,6 +4709,7 @@ function EntityDemo() {
             </ul>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("entity-with-list-and-checkbox")} />
       </div>
       <div
         className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -4672,6 +4730,7 @@ function EntityDemo() {
             </ul>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("entity-with-fill")} />
       </div>
       <div
         className="rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -4707,6 +4766,7 @@ function EntityDemo() {
             </ul>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("entity-with-column-class-names")} />
       </div>
     </div>
   );
@@ -4729,6 +4789,7 @@ function ErrorCardDemo() {
 }
 
 function FieldSetDemo() {
+  const demoCode = (id: string) => DEMO_CODE.fieldset?.[id] ?? "";
   type Action = { label: string; secondary?: boolean };
   type ExampleProps = {
     demoId?: string;
@@ -4780,6 +4841,7 @@ function FieldSetDemo() {
             )}
           </FieldsetFooter>
         )}
+        {demoId && <ShowCodeFooter code={demoCode(demoId)} />}
       </Fieldset>
     );
   }
@@ -4835,6 +4897,7 @@ function FieldSetDemo() {
           highlight
           footerStatus="You need a Pro account to access API features."
         />
+        <ShowCodeFooter code={demoCode("multiple-fieldsets")} />
       </div>
       <Example
         demoId="without-footer"
@@ -4914,7 +4977,8 @@ function FieldSetDemo() {
   );
 }
 
-function LabelDemo({ code }: { code?: string }) {
+function LabelDemo() {
+  const demoCode = (id: string) => DEMO_CODE.label?.[id] ?? "";
   const { language } = useLanguage();
 
   return (
@@ -4928,7 +4992,7 @@ function LabelDemo({ code }: { code?: string }) {
             <Label id="label-default" value={demoText(language, "This is a label")} />
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
 
       <div
@@ -4941,7 +5005,7 @@ function LabelDemo({ code }: { code?: string }) {
             <Input aria-labelledby="test-input" id="test-input" />
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("with-input")} />
       </div>
 
       <div
@@ -4959,7 +5023,7 @@ function LabelDemo({ code }: { code?: string }) {
             <Input aria-labelledby="test-input" id="test-input" />
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("bypass-casing")} />
       </div>
     </>
   );
@@ -4983,6 +5047,7 @@ function MiddleTruncateDemo() {
 }
 
 function MultiSelectDemo() {
+  const demoCode = (id: string) => DEMO_CODE["multi-select"]?.[id] ?? "";
   const { language } = useLanguage();
   const actionItems = ["Design System", "Components", "Design Tokens"];
   const categories = ["Frameworks", "Libraries", "Development Tools", "Databases"];
@@ -5015,6 +5080,7 @@ function MultiSelectDemo() {
       <div data-demo-container={id} className="w-full p-6">
         {children}
       </div>
+      <ShowCodeFooter code={demoCode(id)} />
     </div>
   );
 
@@ -5163,7 +5229,8 @@ function PillDemo() {
   );
 }
 
-function RadioDemo({ code }: { code?: string }) {
+function RadioDemo() {
+  const demoCode = (id: string) => DEMO_CODE.radio?.[id] ?? "";
   const { language } = useLanguage();
 
   return (
@@ -5186,7 +5253,7 @@ function RadioDemo({ code }: { code?: string }) {
             </RadioGroup>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
 
       <div
@@ -5208,7 +5275,7 @@ function RadioDemo({ code }: { code?: string }) {
             </RadioGroup>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("radio-disabled")} />
       </div>
 
       <div
@@ -5234,7 +5301,7 @@ function RadioDemo({ code }: { code?: string }) {
             </form>
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("radio-required")} />
       </div>
 
       <div
@@ -5246,7 +5313,7 @@ function RadioDemo({ code }: { code?: string }) {
             <RadioHeadlessDemo />
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("radio-headless")} />
       </div>
 
       <div
@@ -5258,7 +5325,7 @@ function RadioDemo({ code }: { code?: string }) {
             <RadioStandaloneDemo />
           </div>
         </div>
-        <ShowCodeFooter code={code ?? ""} />
+        <ShowCodeFooter code={demoCode("radio-standalone")} />
       </div>
     </>
   );
@@ -5269,6 +5336,7 @@ function RelativeTimeCardDemo() {
 }
 
 function SearchInputDemo() {
+  const demoCode = (id: string) => DEMO_CODE["search-input"]?.[id] ?? "";
   const demos = [
     {
       id: "default",
@@ -5316,6 +5384,7 @@ function SearchInputDemo() {
           <div data-demo-container={id} className="w-full p-6">
             {control}
           </div>
+          <ShowCodeFooter code={demoCode(id)} />
         </div>
       ))}
     </div>
@@ -5355,7 +5424,7 @@ function SplitButtonDemo() {
 }
 
 /** 名称 → 实时 demo 渲染器（未命中的分支在调用前已拦截） */
-function renderDemo(name: string, code?: string): React.ReactNode {
+function renderDemo(name: string): React.ReactNode {
   switch (name) {
     case "avatar":
       return <AvatarDemo />;
@@ -5370,7 +5439,7 @@ function renderDemo(name: string, code?: string): React.ReactNode {
     case "browser":
       return <BrowserDemo />;
     case "button":
-      return <ButtonDemo code={code} />;
+      return <ButtonDemo />;
     case "calendar":
       return <CalendarDemo />;
     case "checkbox":
@@ -5382,17 +5451,17 @@ function renderDemo(name: string, code?: string): React.ReactNode {
     case "collapse":
       return <CollapseDemo />;
     case "combobox":
-      return <ComboboxDemo code={code} />;
+      return <ComboboxDemo />;
     case "code":
       return <CodeDemo />;
     case "code-block":
       return <CodeBlockDemo />;
     case "command-menu":
-      return <CommandMenuDemo code={code} />;
+      return <CommandMenuDemo />;
     case "context-card":
       return <ContextCardDemo />;
     case "context-menu":
-      return <ContextMenuDemo code={code} />;
+      return <ContextMenuDemo />;
     case "copy-button":
       return <CopyButtonDemo />;
     case "destructive-action-modal":
@@ -5400,11 +5469,11 @@ function renderDemo(name: string, code?: string): React.ReactNode {
     case "description":
       return <DescriptionDemo />;
     case "dots-menu":
-      return <DotsMenuDemo code={code} />;
+      return <DotsMenuDemo />;
     case "menu":
       return <MenuDemo />;
     case "drawer":
-      return <DrawerDemo code={code} />;
+      return <DrawerDemo />;
     case "empty-state":
       return <EmptyStateDemo />;
     case "entity":
@@ -5424,19 +5493,19 @@ function renderDemo(name: string, code?: string): React.ReactNode {
     case "grid":
       return <GridDemo />;
     case "input":
-      return <InputDemo code={code} />;
+      return <InputDemo />;
     case "json-view":
       return <JsonViewDemo />;
     case "keyboard-input":
       return <KeyboardInputDemo />;
     case "label":
-      return <LabelDemo code={code} />;
+      return <LabelDemo />;
     case "load-more-button":
       return <LoadMoreButtonDemo />;
     case "loading-dots":
       return <LoadingDotsDemo />;
     case "modal":
-      return <ModalDemo code={code} />;
+      return <ModalDemo />;
     case "middle-truncate":
       return <MiddleTruncateDemo />;
     case "multi-select":
@@ -5454,7 +5523,7 @@ function renderDemo(name: string, code?: string): React.ReactNode {
     case "progress":
       return <ProgressDemo />;
     case "radio":
-      return <RadioDemo code={code} />;
+      return <RadioDemo />;
     case "relative-time-card":
       return <RelativeTimeCardDemo />;
     case "scroller":
@@ -5462,15 +5531,15 @@ function renderDemo(name: string, code?: string): React.ReactNode {
     case "search-input":
       return <SearchInputDemo />;
     case "switch":
-      return <SwitchDemo code={code} />;
+      return <SwitchDemo />;
     case "select":
-      return <SelectDemo code={code} />;
+      return <SelectDemo />;
     case "sheet":
-      return <SheetDemo code={code} />;
+      return <SheetDemo />;
     case "show-more":
       return <ShowMoreDemo />;
     case "separator":
-      return <SeparatorDemo code={code} />;
+      return <SeparatorDemo />;
     case "skeleton":
       return <SkeletonDemo />;
     case "slider":
@@ -5492,11 +5561,11 @@ function renderDemo(name: string, code?: string): React.ReactNode {
     case "text-with-copy-button":
       return <TextWithCopyButtonDemo />;
     case "textarea":
-      return <TextareaDemo code={code} />;
+      return <TextareaDemo />;
     case "toast":
       return <ToastDemo />;
     case "toggle":
-      return <ToggleDemo code={code} />;
+      return <ToggleDemo />;
     case "tooltip":
       return <TooltipDemo />;
     case "theme-switcher":
@@ -7863,11 +7932,11 @@ function ComponentDetail({ name }: { name: string }) {
       <section className="mt-10">
         <h2 className="text-heading-24 text-foreground">{demoText(language, "Live Demo")}</h2>
         {name === "table" ? (
-          <TableDemoCard code={meta.code}>{renderDemo(name, meta.code)}</TableDemoCard>
+          <TableDemoCard code={meta.code}>{renderDemo(name)}</TableDemoCard>
         ) : name === "description" || name === "context-card" ? (
-          <div>{renderDemo(name, meta.code)}</div>
+          <div>{renderDemo(name)}</div>
         ) : (
-          <DemoSection>{renderDemo(name, meta.code)}</DemoSection>
+          <DemoSection>{renderDemo(name)}</DemoSection>
         )}
       </section>
 
