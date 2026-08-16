@@ -1,8 +1,13 @@
 import * as React from "react";
 import { Popover as PopoverPrimitive } from "radix-ui";
-import { Frown, Heart, Meh, Smile } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import {
+  FeedbackHateFace,
+  FeedbackLoveFace,
+  FeedbackNotGreatFace,
+  FeedbackOkayFace,
+} from "@/components/ui/feedback-faces";
 import { cn } from "@/lib/utils";
 
 /**
@@ -11,14 +16,14 @@ import { cn } from "@/lib/utils";
  * - label：trigger 文本（Title Case，默认 "Feedback"）；type="inline" 时 trigger 固定为 "Was this helpful?"
  * - copy：评分行旁提示 header（sentence case）；showTopics：预定义主题 Select；metadata：透传 key-value
  * - dryRun：演示态（不触发 onSubmit）；prefix/suffix：trigger 前后缀图标
- * - 4 表情（Hate it / Not great / It's okay / Love it!），size-8 rounded-full radio，hover bg-blue-300
+ * - 4 表情（Hate it / Not great / It's okay / Love it!），官方 Geist 表情 SVG 整体引用（feedback-faces.tsx）
  * - panel w-[340px] rounded-xl；内容区 p-2（copy / topics / textarea / Markdown supported 提示）；footer 表情行 + Send
  */
 const RATINGS = [
-  { value: "hate", label: "Hate it", icon: Frown },
-  { value: "not-great", label: "Not great", icon: Meh },
-  { value: "okay", label: "It's okay", icon: Smile },
-  { value: "love", label: "Love it!", icon: Heart },
+  { value: "hate", label: "Hate it", icon: FeedbackHateFace },
+  { value: "not-great", label: "Not great", icon: FeedbackNotGreatFace },
+  { value: "okay", label: "It's okay", icon: FeedbackOkayFace },
+  { value: "love", label: "Love it!", icon: FeedbackLoveFace },
 ] as const;
 
 type FeedbackRatingValue = (typeof RATINGS)[number]["value"];

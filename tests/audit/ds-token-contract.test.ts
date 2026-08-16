@@ -12,7 +12,9 @@ const readCss = () => readFile(path.join(root, "src/styles/index.css"), "utf8");
  * Values are frozen in docs/audits/geist-component-and-responsive-remediation-design.md §1.1
  * from persisted official runtime evidence. Only variables with exact values in both themes
  * are admitted here; Choicebox B1 adds gray-400/blue-200 from its persisted Light/Dark
- * runtime evidence. Pending or conflicting names must remain undefined instead of guessed.
+ * runtime evidence. Feedback adds blue-700/amber-800 from its 2026-08-16 runtime evidence
+ * (rating emoji SVG uses fill=var(--ds-blue-700) tears / var(--ds-amber-800) heart eyes).
+ * Pending or conflicting names must remain undefined instead of guessed.
  */
 describe("official --ds-* compatibility token map", () => {
   test("Choicebox focus utility uses the verified indigo outline without inventing ds-focus-ring", async () => {
@@ -57,6 +59,8 @@ describe("official --ds-* compatibility token map", () => {
       "--ds-blue-900": "#0068d6",
       "--ds-blue-100": "#f0f7ff",
       "--ds-blue-200": "hsl(210 100% 96%)",
+      "--ds-blue-700": "var(--blue-700)",
+      "--ds-amber-800": "var(--amber-800)",
     });
   });
 
@@ -82,13 +86,14 @@ describe("official --ds-* compatibility token map", () => {
       "--ds-blue-900": "#52a8ff",
       "--ds-blue-100": "#0f1c2e",
       "--ds-blue-200": "hsl(214 59% 15%)",
+      "--ds-blue-700": "var(--blue-700)",
+      "--ds-amber-800": "var(--amber-800)",
     });
   });
 
   test("does not invent pending, single-theme or conflicting token values", async () => {
     const css = await readCss();
     for (const token of [
-      "--ds-blue-700",
       "--ds-focus-ring",
       "--ds-shadow-modal",
       "--ds-shadow-border-medium",
