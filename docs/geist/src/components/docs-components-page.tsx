@@ -806,19 +806,25 @@ function CheckboxDemo() {
 }
 
 function MenuDemo() {
+  const demoCode = (id: string) => DEMO_CODE.menu?.[id] ?? "";
   const { language } = useLanguage();
   return (
-    <MenuContainer>
-      <MenuButton variant="secondary">Actions</MenuButton>
-      <Menu width={200}>
-        <MenuItem prefix={<Edit aria-hidden />}>{demoText(language, "Edit Project")}</MenuItem>
-        <MenuItem prefix={<Copy aria-hidden />}>{demoText(language, "Duplicate Project")}</MenuItem>
-        <MenuDivider />
-        <MenuItem type="error" prefix={<Trash2 aria-hidden />}>
-          Delete Project
-        </MenuItem>
-      </Menu>
-    </MenuContainer>
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <MenuContainer>
+          <MenuButton variant="secondary">Actions</MenuButton>
+          <Menu width={200}>
+            <MenuItem prefix={<Edit aria-hidden />}>{demoText(language, "Edit Project")}</MenuItem>
+            <MenuItem prefix={<Copy aria-hidden />}>{demoText(language, "Duplicate Project")}</MenuItem>
+            <MenuDivider />
+            <MenuItem type="error" prefix={<Trash2 aria-hidden />}>
+              Delete Project
+            </MenuItem>
+          </Menu>
+        </MenuContainer>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
+    </div>
   );
 }
 
@@ -1668,33 +1674,39 @@ function SeparatorDemo() {
 }
 
 function SkeletonDemo() {
+  const demoCode = (id: string) => DEMO_CODE.skeleton?.[id] ?? "";
   return (
-    <div className="flex w-full max-w-xl flex-col gap-6">
-      {/* 卡片骨架 */}
-      <div className="flex w-full max-w-sm flex-col gap-3 rounded-lg border border-gray-alpha-400 p-4">
-        <div className="flex items-center gap-3">
-          <Skeleton className="size-10 rounded-full" />
-          <div className="flex flex-1 flex-col gap-2">
-            <Skeleton className="h-3 w-1/2" />
-            <Skeleton className="h-3 w-1/3" />
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <div className="flex w-full max-w-xl flex-col gap-6">
+          {/* 卡片骨架 */}
+          <div className="flex w-full max-w-sm flex-col gap-3 rounded-lg border border-gray-alpha-400 p-4">
+            <div className="flex items-center gap-3">
+              <Skeleton className="size-10 rounded-full" />
+              <div className="flex flex-1 flex-col gap-2">
+                <Skeleton className="h-3 w-1/2" />
+                <Skeleton className="h-3 w-1/3" />
+              </div>
+            </div>
+            <Skeleton className="mt-2 h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+          </div>
+          {/* 文本骨架 */}
+          <div className="flex w-full max-w-sm flex-col gap-2">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-3 w-full" />
+            <Skeleton className="h-3 w-5/6" />
+            <Skeleton className="h-3 w-2/3" />
+          </div>
+          {/* 圆形骨架 */}
+          <div className="flex items-center gap-4">
+            <Skeleton className="size-12 rounded-full" />
+            <Skeleton className="size-16 rounded-full" />
+            <Skeleton className="size-20 rounded-full" />
           </div>
         </div>
-        <Skeleton className="mt-2 h-4 w-full" />
-        <Skeleton className="h-4 w-5/6" />
       </div>
-      {/* 文本骨架 */}
-      <div className="flex w-full max-w-sm flex-col gap-2">
-        <Skeleton className="h-4 w-1/3" />
-        <Skeleton className="h-3 w-full" />
-        <Skeleton className="h-3 w-5/6" />
-        <Skeleton className="h-3 w-2/3" />
-      </div>
-      {/* 圆形骨架 */}
-      <div className="flex items-center gap-4">
-        <Skeleton className="size-12 rounded-full" />
-        <Skeleton className="size-16 rounded-full" />
-        <Skeleton className="size-20 rounded-full" />
-      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
@@ -2156,10 +2168,16 @@ function TooltipDemo() {
 }
 
 function ThemeSwitcherDemo() {
+  const demoCode = (id: string) => DEMO_CODE["theme-switcher"]?.[id] ?? "";
   return (
-    <div className="flex items-center gap-2">
-      <ThemeSwitcher />
-      <span className="text-copy-14 text-muted-foreground">Light / System / Dark</span>
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <div className="flex items-center gap-2">
+          <ThemeSwitcher />
+          <span className="text-copy-14 text-muted-foreground">Light / System / Dark</span>
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
@@ -2194,13 +2212,19 @@ function ProgressDemo() {
 }
 
 function StatusDotDemo() {
+  const demoCode = (id: string) => DEMO_CODE["status-dot"]?.[id] ?? "";
   return (
-    <div className="flex flex-wrap items-center justify-center gap-5">
-      <StatusDot state="QUEUED" label />
-      <StatusDot state="BUILDING" label />
-      <StatusDot state="READY" label />
-      <StatusDot state="ERROR" label />
-      <StatusDot state="CANCELED" label />
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <div className="flex flex-wrap items-center justify-center gap-5">
+          <StatusDot state="QUEUED" label />
+          <StatusDot state="BUILDING" label />
+          <StatusDot state="READY" label />
+          <StatusDot state="ERROR" label />
+          <StatusDot state="CANCELED" label />
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
@@ -2430,30 +2454,38 @@ function SheetDemo() {
 }
 
 function SnippetDemo() {
+  const demoCode = (id: string) => DEMO_CODE.snippet?.[id] ?? "";
   return (
-    <div className="flex w-full max-w-lg flex-col gap-3">
-      <Snippet text="npm i geist" />
-      <Snippet text="vercel link" />
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <div className="flex w-full max-w-lg flex-col gap-3">
+          <Snippet text="npm i geist" />
+          <Snippet text="vercel link" />
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
 
 function BookDemo() {
+  const demoCode = (id: string) => DEMO_CODE.book?.[id] ?? "";
   const { language } = useLanguage();
   const title = "The user experience of the Frontend Cloud";
 
   return (
     <div className="w-full space-y-10">
-      <section aria-labelledby="book-default-heading" className="space-y-4">
+      <section aria-labelledby="book-default-heading" data-demo-card="Default" className="space-y-4">
         <h3 id="book-default-heading" className="text-heading-20">
           {demoText(language, "Default")}
         </h3>
         <div className="flex min-h-80 items-center justify-center rounded-md border border-gray-alpha-400 p-8">
           <Book title={title} />
         </div>
+        <ShowCodeFooter code={demoCode("Default")} />
       </section>
 
-      <section aria-labelledby="book-variants-heading" className="space-y-4">
+      <section aria-labelledby="book-variants-heading" data-demo-card="Variants" className="space-y-4">
         <h3 id="book-variants-heading" className="text-heading-20">
           {demoText(language, "Variants")}
         </h3>
@@ -2461,9 +2493,10 @@ function BookDemo() {
           <Book title={title} variant="simple" />
           <Book title={title} />
         </div>
+        <ShowCodeFooter code={demoCode("Variants")} />
       </section>
 
-      <section aria-labelledby="book-colors-heading" className="space-y-4">
+      <section aria-labelledby="book-colors-heading" data-demo-card="Custom color" className="space-y-4">
         <h3 id="book-colors-heading" className="text-heading-20">
           {demoText(language, "Custom color")}
         </h3>
@@ -2477,9 +2510,10 @@ function BookDemo() {
           />
           <Book color="#FED954" title={title} />
         </div>
+        <ShowCodeFooter code={demoCode("Custom color")} />
       </section>
 
-      <section aria-labelledby="book-responsive-heading" className="space-y-4">
+      <section aria-labelledby="book-responsive-heading" data-demo-card="Responsive and textured" className="space-y-4">
         <h3 id="book-responsive-heading" className="text-heading-20">
           {demoText(language, "Responsive and textured")}
         </h3>
@@ -2492,6 +2526,7 @@ function BookDemo() {
             width={{ sm: 150, md: 196 }}
           />
         </div>
+        <ShowCodeFooter code={demoCode("Responsive and textured")} />
       </section>
     </div>
   );
@@ -3079,36 +3114,42 @@ function PhoneDemo() {
 }
 
 function ProjectBannerDemo() {
+  const demoCode = (id: string) => DEMO_CODE["project-banner"]?.[id] ?? "";
   return (
-    <div className="w-full space-y-6">
-      <ProjectBanner
-        icon={<ShieldCheck />}
-        label="Attack Challenge Mode is enabled for this project"
-        callToAction={{ label: "Disable", href: "#" }}
-      />
-      <ProjectBanner
-        variant="success"
-        icon={<ShieldCheck />}
-        label="Attack Challenge Mode is enabled for this project"
-        callToAction={{ label: "Disable", href: "#" }}
-      />
-      <ProjectBanner
-        variant="warning"
-        icon={<RotateCcw />}
-        label={
-          <>
-            This project was rolled back by{" "}
-            <Tooltip text="Yesterday for project marketing-website">@johnphamous</Tooltip>
-          </>
-        }
-        callToAction={{ label: "Undo Rollback", onClick: () => {} }}
-      />
-      <ProjectBanner
-        variant="error"
-        icon={<TriangleAlert />}
-        label="Payment failed, update credit card information before your account is shut down"
-        callToAction={{ label: "Add Credit Card", href: "#" }}
-      />
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <div className="w-full space-y-6">
+          <ProjectBanner
+            icon={<ShieldCheck />}
+            label="Attack Challenge Mode is enabled for this project"
+            callToAction={{ label: "Disable", href: "#" }}
+          />
+          <ProjectBanner
+            variant="success"
+            icon={<ShieldCheck />}
+            label="Attack Challenge Mode is enabled for this project"
+            callToAction={{ label: "Disable", href: "#" }}
+          />
+          <ProjectBanner
+            variant="warning"
+            icon={<RotateCcw />}
+            label={
+              <>
+                This project was rolled back by{" "}
+                <Tooltip text="Yesterday for project marketing-website">@johnphamous</Tooltip>
+              </>
+            }
+            callToAction={{ label: "Undo Rollback", onClick: () => {} }}
+          />
+          <ProjectBanner
+            variant="error"
+            icon={<TriangleAlert />}
+            label="Payment failed, update credit card information before your account is shut down"
+            callToAction={{ label: "Add Credit Card", href: "#" }}
+          />
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
@@ -3450,49 +3491,60 @@ function CodeBlockDemo() {
 }
 
 function DestructiveActionModalDemo() {
+  const demoCode = (id: string) => DEMO_CODE["destructive-action-modal"]?.[id] ?? "";
   const { language } = useLanguage();
   const [open, setOpen] = React.useState(false);
 
   return (
-    <>
-      <Button typeName="button" type="error" onClick={() => setOpen(true)}>
-        {demoText(language, "Delete Project")}
-      </Button>
-      <DestructiveActionModal
-        open={open}
-        onCancel={() => setOpen(false)}
-        onConfirm={() => setOpen(false)}
-        title={demoText(language, "Delete Project")}
-        description={demoText(
-          language,
-          "next-year-boilerplate and all its deployments, domains, and environment variables will be permanently deleted.",
-        )}
-        confirmLabel={demoText(language, "Delete Project")}
-        verificationPhrase="next-year-boilerplate"
-        verificationLabel={demoText(language, "project name")}
-        irreversibleDescription="Deleting next-year-boilerplate cannot be undone."
-      />
-    </>
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <Button typeName="button" type="error" onClick={() => setOpen(true)}>
+          {demoText(language, "Delete Project")}
+        </Button>
+        <DestructiveActionModal
+          open={open}
+          onCancel={() => setOpen(false)}
+          onConfirm={() => setOpen(false)}
+          title={demoText(language, "Delete Project")}
+          description={demoText(
+            language,
+            "next-year-boilerplate and all its deployments, domains, and environment variables will be permanently deleted.",
+          )}
+          confirmLabel={demoText(language, "Delete Project")}
+          verificationPhrase="next-year-boilerplate"
+          verificationLabel={demoText(language, "project name")}
+          irreversibleDescription="Deleting next-year-boilerplate cannot be undone."
+        />
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
+    </div>
   );
 }
 
 function FeedbackDemo() {
+  const demoCode = (id: string) => DEMO_CODE.feedback?.[id] ?? "";
   const [submitted, setSubmitted] = React.useState(false);
 
   return (
-    <div className="w-full max-w-md">
-      {submitted ? (
-        <p className="rounded-[8px] border border-gray-alpha-400 bg-background p-4 text-center text-copy-14 text-muted-foreground">
-          Thanks for your feedback!
-        </p>
-      ) : (
-        <Feedback onSubmit={() => setSubmitted(true)} />
-      )}
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <div className="w-full max-w-md">
+          {submitted ? (
+            <p className="rounded-[8px] border border-gray-alpha-400 bg-background p-4 text-center text-copy-14 text-muted-foreground">
+              Thanks for your feedback!
+            </p>
+          ) : (
+            <Feedback onSubmit={() => setSubmitted(true)} />
+          )}
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
 
 function LoadMoreButtonDemo() {
+  const demoCode = (id: string) => DEMO_CODE["load-more-button"]?.[id] ?? "";
   const { language } = useLanguage();
   const [loading, setLoading] = React.useState(false);
   const [count, setCount] = React.useState(0);
@@ -3510,23 +3562,33 @@ function LoadMoreButtonDemo() {
   };
 
   return (
-    <div className="flex w-full max-w-md flex-col gap-3">
-      <LoadMoreButton onClick={handleClick} loading={loading}>
-        {demoText(language, "Load More")}
-      </LoadMoreButton>
-      <p className="text-center text-copy-13 text-muted-foreground">
-        {demoTextWithValues(language, "{count} items loaded", { count })}
-      </p>
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <div className="flex w-full max-w-md flex-col gap-3">
+          <LoadMoreButton onClick={handleClick} loading={loading}>
+            {demoText(language, "Load More")}
+          </LoadMoreButton>
+          <p className="text-center text-copy-13 text-muted-foreground">
+            {demoTextWithValues(language, "{count} items loaded", { count })}
+          </p>
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
 
 function TextWithCopyButtonDemo() {
-  const { language } = useLanguage();
+  const demoCode = (id: string) => DEMO_CODE["text-with-copy-button"]?.[id] ?? "";
   return (
-    <div className="flex flex-col gap-3">
-      <TextWithCopyButton textToCopy="npm i geist" textLabel="npm i geist" />
-      <TextWithCopyButton textToCopy="vercel deploy --prod" textLabel="vercel deploy --prod" />
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <div className="flex flex-col gap-3">
+          <TextWithCopyButton textToCopy="npm i geist" textLabel="npm i geist" />
+          <TextWithCopyButton textToCopy="vercel deploy --prod" textLabel="vercel deploy --prod" />
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
@@ -4476,20 +4538,22 @@ function ComboboxDemo() {
 }
 
 function DescriptionDemo() {
+  const demoCode = (id: string) => DEMO_CODE.description?.[id] ?? "";
   const { language } = useLanguage();
   const title = demoText(language, "Section Title");
   const content = demoText(language, "Data about this section.");
   const tooltip = demoText(language, "Additional context about what this section refers to.");
   return (
     <>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
+      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="default">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
             <Description data-demo-id="default" title={title} content={content} tooltip={tooltip} />
           </div>
         </div>
+          <ShowCodeFooter code={demoCode("default")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
+      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="text-right">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="text-right">
             <Description
@@ -4501,8 +4565,9 @@ function DescriptionDemo() {
             />
           </div>
         </div>
+          <ShowCodeFooter code={demoCode("text-right")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100">
+      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="ellipsis">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="ellipsis">
             <Description
@@ -4517,6 +4582,7 @@ function DescriptionDemo() {
             />
           </div>
         </div>
+          <ShowCodeFooter code={demoCode("ellipsis")} />
       </div>
     </>
   );
@@ -5083,10 +5149,16 @@ function LabelDemo() {
 }
 
 function LoadingDotsDemo() {
+  const demoCode = (id: string) => DEMO_CODE["loading-dots"]?.[id] ?? "";
   const { language } = useLanguage();
   return (
-    <div className="flex items-center gap-3 text-copy-14 text-muted-foreground">
-      {demoText(language, "Loading deployment")} <LoadingDots />
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <div className="flex items-center gap-3 text-copy-14 text-muted-foreground">
+          {demoText(language, "Loading deployment")} <LoadingDots />
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
@@ -5462,20 +5534,26 @@ function SearchInputDemo() {
 }
 
 function ShowMoreDemo() {
+  const demoCode = (id: string) => DEMO_CODE["show-more"]?.[id] ?? "";
   const [expanded, setExpanded] = React.useState(false);
   const copy =
     "Geist Style Framework provides reusable tokens, primitives, and component patterns for building consistent React interfaces in both light and dark themes.";
 
   return (
-    <div className="flex w-full max-w-lg flex-col items-start gap-3">
-      <p id="show-more-content" className="text-copy-14 text-foreground">
-        {expanded ? copy : `${copy.slice(0, 88)}…`}
-      </p>
-      <ShowMore
-        expanded={expanded}
-        aria-controls="show-more-content"
-        onClick={() => setExpanded((value) => !value)}
-      />
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <div className="flex w-full max-w-lg flex-col items-start gap-3">
+          <p id="show-more-content" className="text-copy-14 text-foreground">
+            {expanded ? copy : `${copy.slice(0, 88)}…`}
+          </p>
+          <ShowMore
+            expanded={expanded}
+            aria-controls="show-more-content"
+            onClick={() => setExpanded((value) => !value)}
+          />
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
