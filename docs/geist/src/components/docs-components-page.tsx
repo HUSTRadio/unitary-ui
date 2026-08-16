@@ -227,38 +227,16 @@ function DemoSection({ children }: { children: React.ReactNode }) {
 }
 
 function TableDemoCard({ children, code }: { children: React.ReactNode; code: string }) {
-  const { language } = useLanguage();
-  const [showCode, setShowCode] = React.useState(false);
-  const codeId = React.useId();
-
   return (
     <div className="mt-6 overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background-100">
       <div className="w-full overflow-x-auto p-6">{children}</div>
-      <button
-        type="button"
-        aria-expanded={showCode}
-        aria-controls={codeId}
-        onClick={() => setShowCode((value) => !value)}
-        className="flex h-12 w-full items-center gap-2 border-t border-gray-400 bg-background-200 px-6 text-left text-copy-14 text-foreground transition-colors hover:bg-gray-200 focus-ring"
-      >
-        <ChevronRight
-          className={`size-4 transition-transform${showCode ? " rotate-90" : ""}`}
-          aria-hidden
-        />
-        {demoText(language, "Show code")}
-      </button>
-      {showCode ? (
-        <div id={codeId}>
-          <CodeBlockComponent language="tsx" className="rounded-none border-0">
-            {code}
-          </CodeBlockComponent>
-        </div>
-      ) : null}
+      <DemoShowCode code={code} />
     </div>
   );
 }
 
-function ShowCodeFooter({ code }: { code: string }) {
+/** 官方 show code 统一实现：按钮（rounded-b-lg + gray-900）+ 展开代码（rounded-b-lg + border-t，含行号）。 */
+function DemoShowCode({ code }: { code: string }) {
   const { language } = useLanguage();
   const [showCode, setShowCode] = React.useState(false);
   const codeId = React.useId();
@@ -269,7 +247,7 @@ function ShowCodeFooter({ code }: { code: string }) {
         aria-expanded={showCode}
         aria-controls={codeId}
         onClick={() => setShowCode((v) => !v)}
-        className="flex h-12 w-full items-center gap-3 rounded-b-[8px] border-t border-gray-400 bg-background-200 px-4 text-left text-copy-14 text-foreground transition-colors hover:bg-gray-200 focus-ring"
+        className="flex h-12 w-full items-center gap-3 rounded-b-[8px] border-t border-gray-400 bg-background-200 px-4 text-left text-copy-14 text-gray-900 transition-colors hover:bg-gray-200 focus-ring"
       >
         <ChevronRight
           className={`size-4 transition-transform${showCode ? " rotate-90" : ""}`}
@@ -279,13 +257,20 @@ function ShowCodeFooter({ code }: { code: string }) {
       </button>
       {showCode ? (
         <div id={codeId}>
-          <CodeBlockComponent language="tsx" className="rounded-none border-0">
+          <CodeBlockComponent
+            language="tsx"
+            className="rounded-none rounded-b-[8px] border-0 border-t border-gray-alpha-400"
+          >
             {code}
           </CodeBlockComponent>
         </div>
       ) : null}
     </>
   );
+}
+
+function ShowCodeFooter({ code }: { code: string }) {
+  return <DemoShowCode code={code} />;
 }
 
 /* ---------- 13 元件实时 demo（直接渲染根元件） ---------- */
@@ -4040,10 +4025,6 @@ function ContextCardDemoCard({
   code: string;
   children: React.ReactNode;
 }) {
-  const { language } = useLanguage();
-  const [showCode, setShowCode] = React.useState(false);
-  const codeId = React.useId();
-
   return (
     <div
       className="mt-6 w-full max-w-[862px] overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -4054,27 +4035,7 @@ function ContextCardDemoCard({
           {children}
         </div>
       </div>
-      <button
-        type="button"
-        aria-expanded={showCode}
-        aria-controls={codeId}
-        onClick={() => setShowCode((value) => !value)}
-        className="flex h-12 w-full items-center gap-3 border-t border-gray-400 bg-background-200 px-4 text-left text-label-14 text-gray-900 transition-colors hover:bg-gray-200 focus-ring"
-      >
-        <ChevronRight
-          className={`size-4 transition-transform${showCode ? " rotate-90" : ""}`}
-          aria-hidden
-        />
-        {demoText(language, "Show code")}
-      </button>
-      {showCode ? (
-        <pre
-          id={codeId}
-          className="overflow-x-auto border-t border-gray-400 bg-background-100 p-4 font-mono text-copy-13 leading-relaxed text-foreground"
-        >
-          <code>{code}</code>
-        </pre>
-      ) : null}
+      <DemoShowCode code={code} />
     </div>
   );
 }
