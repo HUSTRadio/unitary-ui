@@ -205,7 +205,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
               rel="noreferrer"
               role="link"
               data-slot="code-block-v0-link"
-              className="relative flex h-8 max-w-full items-center justify-center rounded-md bg-background-100 px-1.5 text-sm leading-[21px] font-medium text-gray-1000 no-underline shadow-[0_0_0_1px_var(--color-gray-400)] transition-[border-color,background,color,transform,box-shadow] duration-150 ease-in-out"
+              className="relative flex h-8 max-w-full items-center justify-center rounded-md bg-background-100 px-1.5 text-sm leading-[21px] font-medium text-gray-1000 no-underline shadow-[0_0_0_1px_var(--color-gray-400)] transition-[border-color,background,color,transform,box-shadow] duration-150 ease-in-out hover:bg-gray-100 active:bg-gray-alpha-300"
             >
               <span className="inline-block truncate px-1.5">
                 <span aria-hidden className="flex items-center gap-x-1">
