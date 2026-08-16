@@ -5,7 +5,7 @@ import { Check, ChevronDown, Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * Combobox — 官方 vercel.com/geist/combobox 复刻实现（@vercel/geistcn Combobox）。
+ * Combobox - 官方 vercel.com/geist/combobox 复刻实现（@vercel/geistcn Combobox）。
  *
  * DOM 结构（与官方一致，采集证据对齐）：
  * - 根 div[role=combobox]（aria-controls/aria-expanded/aria-haspopup/aria-owns）
@@ -17,8 +17,26 @@ import { cn } from "@/lib/utils";
  * - 点击输入框/展开按钮打开；Escape / 点击外部 / 选中 / 清除 关闭
  * - 输入即过滤；ArrowDown/Up/Home/End 移动高亮，Enter 选中
  * - 打开时高亮第一项（aria-selected=true + bg-gray-alpha-100），选中项带对勾图标
+ *
+ * 官方 API（2026-08-17 对齐 combobox.md）：
+ * - errored：输入文本 / 搜索图标 / 展开按钮着 --button-error（官方实测 light #da2f35 / dark #d93036）
+ * - width：根节点像素宽度
+ * - ComboboxList maxWidth：面板独立最大宽度（面板 = max(输入框宽, maxWidth)）
+ * - ComboboxList emptyMessage：过滤无结果时的空状态文案
+ * - clearable：显式开启清除按钮（默认不渲染，官方语义）
+ * - ComboboxOption prefix / suffix：选项行首/行尾图标
+ * - ComboboxOption ignoreDefaultHeight：取消固定行高，支持多行内容
+ * - ComboboxInput onChange：输入变化回调（外部受控 query）
  */
 type ComboboxSize = "small" | "medium" | "large";
+
+type OptionMeta = {
+  label: string;
+  children?: React.ReactNode;
+  prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
+  ignoreDefaultHeight?: boolean;
+};
 
 type ComboboxContextValue = {
   value: string | null;
@@ -27,7 +45,7 @@ type ComboboxContextValue = {
   setQuery: (query: string) => void;
   open: boolean;
   setOpen: (open: boolean) => void;
-  registerItem: (value: string, label: string) => void;
+  registerItem: (value: string, meta: OptionMeta) => void;
   unregisterItem: (value: string) => void;
   getLabel: (value: string) => string;
   placeholder: string;
@@ -39,6 +57,9 @@ type ComboboxContextValue = {
   listId: string;
   optionId: (value: string) => string;
   disabled: boolean;
+  clearable: boolean;
+  errored: boolean;
+  inputOnChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
 const ComboboxContext = React.createContext<ComboboxContextValue | null>(null);
@@ -60,6 +81,12 @@ type ComboboxProps = {
   label?: string;
   disabled?: boolean;
   size?: ComboboxSize;
+  /** 官方 errored：输入文本/图标/展开按钮着 --button-error */
+  errored?: boolean;
+  /** 官方 clearable：显式开启清除按钮（默认不渲染） */
+  clearable?: boolean;
+  /** 官方 width：根节点像素宽度 */
+  width?: number;
   className?: string;
   children: React.ReactNode;
 };
@@ -85,6 +112,18 @@ const PANEL_CLASS =
 const OPTION_BASE_CLASS =
   "flex items-center text-sm px-2 scroll-my-2 rounded-[6px] cursor-pointer outline-hidden h-9";
 
+/** 从 ReactNode 提取纯文本（过滤与输入回显用） */
+function nodeToText(node: React.ReactNode): string {
+  if (node === null || node === undefined || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(nodeToText).join("");
+  if (React.isValidElement(node)) {
+    const props = node.props as { children?: React.ReactNode };
+    return nodeToText(props.children);
+  }
+  return "";
+}
+
 function Combobox({
   value: valueProp,
   defaultValue = "",
@@ -94,6 +133,9 @@ function Combobox({
   label,
   disabled = false,
   size = "medium",
+  errored = false,
+  clearable = false,
+  width,
   className,
   children,
 }: ComboboxProps) {
@@ -103,7 +145,14 @@ function Combobox({
   const [activeValue, setActiveValue] = React.useState("");
   const [itemsVersion, setItemsVersion] = React.useState(0);
   const [position, setPosition] = React.useState({ x: 0, y: 0, width: 0 });
-  const itemsRef = React.useRef<Map<string, string>>(new Map());
+  const [listMeta, setListMeta] = React.useState<{
+    maxWidth?: number;
+    emptyMessage?: string;
+  }>({});
+  const [inputOnChange, setInputOnChange] = React.useState<
+    React.ChangeEventHandler<HTMLInputElement> | undefined
+  >();
+  const itemsRef = React.useRef<Map<string, OptionMeta>>(new Map());
   const rootRef = React.useRef<HTMLDivElement>(null);
   const groupRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -123,8 +172,8 @@ function Combobox({
     setOpen(false);
   };
 
-  const registerItem = (itemValue: string, label: string) => {
-    itemsRef.current.set(itemValue, label);
+  const registerItem = (itemValue: string, meta: OptionMeta) => {
+    itemsRef.current.set(itemValue, meta);
     setItemsVersion((v) => v + 1);
   };
 
@@ -134,12 +183,12 @@ function Combobox({
     }
   };
 
-  const getLabel = (itemValue: string) => itemsRef.current.get(itemValue) ?? itemValue;
+  const getLabel = (itemValue: string) => itemsRef.current.get(itemValue)?.label ?? itemValue;
 
   const visibleValues = React.useMemo(() => {
     const q = query.trim().toLowerCase();
     return [...itemsRef.current.entries()]
-      .filter(([, label]) => q === "" || label.toLowerCase().includes(q))
+      .filter(([, meta]) => q === "" || meta.label.toLowerCase().includes(q))
       .map(([itemValue]) => itemValue);
     // itemsVersion 使注册表变化时重算；itemsRef 是 ref，不参与依赖
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -199,7 +248,7 @@ function Combobox({
     };
   }, [open]);
 
-  const listId = `combobox-list-${id}`;
+  const listId = `combobox-list-$glm-5.3_common`;
   const optionId = (itemValue: string) => `${listId}-option-${itemValue}`;
 
   const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -236,6 +285,26 @@ function Combobox({
     }
   };
 
+  const registerList = React.useCallback(
+    (meta: { maxWidth?: number; emptyMessage?: string }) => {
+      setListMeta((prev) =>
+        prev.maxWidth === meta.maxWidth && prev.emptyMessage === meta.emptyMessage
+          ? prev
+          : meta,
+      );
+    },
+    [],
+  );
+
+  const registerInput = React.useCallback(
+    (onChange?: React.ChangeEventHandler<HTMLInputElement>) => {
+      setInputOnChange((prev: React.ChangeEventHandler<HTMLInputElement> | undefined) =>
+        prev === onChange ? prev : onChange,
+      );
+    },
+    [],
+  );
+
   const ctx: ComboboxContextValue = {
     value,
     onValueChange: handleValueChange,
@@ -255,12 +324,16 @@ function Combobox({
     listId,
     optionId,
     disabled,
+    clearable,
+    errored,
+    inputOnChange,
   };
 
   const inputDisplay = query !== "" ? query : value ? getLabel(value) : "";
 
   const options = [...visibleValues].map((itemValue, index) => {
-    const label = getLabel(itemValue);
+    const meta = itemsRef.current.get(itemValue);
+    const label = meta?.label ?? itemValue;
     const isActive = activeValue === itemValue;
     const isSelected = value === itemValue;
     const inClosedList = !open;
@@ -274,6 +347,8 @@ function Combobox({
         data-order={inClosedList ? undefined : index}
         className={cn(
           OPTION_BASE_CLASS,
+          !meta?.ignoreDefaultHeight && "h-9",
+          meta?.ignoreDefaultHeight && "min-h-9 h-auto",
           inClosedList && "text-[var(--ds-gray-1000)]",
           !inClosedList && isActive && "bg-[var(--gray-alpha-100)] text-[var(--ds-gray-1000)]",
           !inClosedList && !isActive && "text-[var(--ds-gray-1000)]",
@@ -281,43 +356,48 @@ function Combobox({
         onMouseEnter={() => setActiveValue(itemValue)}
         onClick={() => selectValue(itemValue)}
       >
-        <span className="text-left truncate" title={label}>
-          {label}
-        </span>
+        {meta?.prefix && <span className="mr-2 inline-flex shrink-0 items-center">{meta.prefix}</span>}
+        {meta?.ignoreDefaultHeight && meta.children !== undefined ? (
+          <span className="min-w-0 flex-1 text-left">{meta.children}</span>
+        ) : (
+          <span className="text-left truncate" title={label}>
+            {label}
+          </span>
+        )}
         {!inClosedList && isSelected && (
           <Check
-            className="size-(--ds-control-decoration-size)"
-            style={{ marginLeft: "auto" }}
+            className="ml-auto size-(--ds-control-decoration-size) shrink-0"
             aria-hidden
           />
         )}
+        {meta?.suffix && <span className="ml-2 inline-flex shrink-0 items-center">{meta.suffix}</span>}
       </li>
     );
   });
 
-  const clearButton = (
-    <button
-      type="button"
-      aria-label="Clear selected value"
-      data-open={open}
-      tabIndex={0}
-      style={{ display: value ? undefined : "none" }}
-      disabled={disabled}
-      onClick={(event) => {
-        event.stopPropagation();
-        handleValueChange("");
-        setQuery("");
-      }}
-      className={cn(
-        CLEAR_BUTTON_CLASS,
-        size === "small" && "!h-8",
-        size === "medium" && "!h-full h-(--ds-size-medium)",
-        size === "large" && "!h-10",
-      )}
-    >
-      <X className="size-(--ds-control-decoration-size)" aria-hidden />
-    </button>
-  );
+  const clearButton =
+    clearable && value ? (
+      <button
+        type="button"
+        aria-label="Clear selected value"
+        data-open={open}
+        tabIndex={0}
+        disabled={disabled}
+        onClick={(event) => {
+          event.stopPropagation();
+          handleValueChange("");
+          setQuery("");
+        }}
+        className={cn(
+          CLEAR_BUTTON_CLASS,
+          size === "small" && "!h-8",
+          size === "medium" && "!h-full h-(--ds-size-medium)",
+          size === "large" && "!h-10",
+        )}
+      >
+        <X className="size-(--ds-control-decoration-size)" aria-hidden />
+      </button>
+    ) : null;
 
   const openButton =
     !open && !value ? (
@@ -329,6 +409,7 @@ function Combobox({
         disabled={disabled}
         className={cn(
           OPEN_BUTTON_CLASS,
+          errored && "text-[var(--button-error)]",
           size === "small" && "!h-8",
           size === "medium" && "!h-[30px]",
           size === "large" && "!h-10",
@@ -341,6 +422,10 @@ function Combobox({
       </button>
     ) : null;
 
+  const panelWidth = listMeta.maxWidth
+    ? Math.max(position.width, listMeta.maxWidth)
+    : position.width;
+
   const comboboxRoot = (
     <div
       ref={rootRef}
@@ -351,6 +436,7 @@ function Combobox({
       aria-owns={listId}
       tabIndex={-1}
       data-slot="combobox-root"
+      style={width ? { width } : undefined}
       className={cn(
         "relative outline-hidden rounded-md transition-shadow duration-200 focus:shadow-[var(--ds-focus-ring)]",
         className,
@@ -368,7 +454,12 @@ function Combobox({
       >
         <div
           aria-hidden="true"
-          className="inline-flex items-center justify-center text-[var(--ds-gray-700)] pointer-events-none absolute left-[13px] top-1/2 z-10 transform -translate-y-1/2"
+          className={cn(
+            "inline-flex items-center justify-center pointer-events-none absolute left-[13px] top-1/2 z-10 transform -translate-y-1/2",
+            errored
+              ? "text-[var(--button-error)]"
+              : "text-[var(--ds-gray-700)]",
+          )}
         >
           <Search className="size-(--ds-control-decoration-size)" aria-hidden />
         </div>
@@ -379,15 +470,22 @@ function Combobox({
           aria-controls={listId}
           aria-label={searchLabel}
           aria-activedescendant={open && activeValue ? optionId(activeValue) : undefined}
+          aria-invalid={errored || undefined}
           autoComplete="off"
           spellCheck={false}
           type="text"
           value={inputDisplay}
           placeholder={placeholder}
           disabled={disabled}
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => {
+            setQuery(event.target.value);
+            inputOnChange?.(event);
+          }}
           onKeyDown={handleInputKeyDown}
-          className={INPUT_CLASS}
+          className={cn(
+            INPUT_CLASS,
+            errored && "text-[var(--button-error)] placeholder:text-[var(--button-error)]",
+          )}
         />
         {clearButton}
         {openButton}
@@ -414,11 +512,17 @@ function Combobox({
                 ref={panelRef}
                 role="dialog"
                 className={PANEL_CLASS}
-                style={{ width: position.width }}
+                style={{ width: panelWidth }}
               >
-                <ul role="listbox" data-slot="combobox-list">
-                  {options}
-                </ul>
+                {visibleValues.length === 0 && listMeta.emptyMessage ? (
+                  <p className="m-0 px-2 py-2 text-sm text-[var(--ds-gray-900)]">
+                    {listMeta.emptyMessage}
+                  </p>
+                ) : (
+                  <ul role="listbox" data-slot="combobox-list">
+                    {options}
+                  </ul>
+                )}
               </div>
             </div>,
             document.body,
@@ -428,58 +532,101 @@ function Combobox({
   );
 
   return (
-    <ComboboxContext.Provider value={ctx}>
-      {label ? (
-        <label className="block cursor-text">
-          <div className="mb-2 block max-w-full cursor-text text-[13px] text-gray-900 capitalize">
-            {label}
-          </div>
-          {/* 注册容器：ComboboxInput/ComboboxList/ComboboxOption 在此挂载并注册选项 */}
-          {children}
-          {comboboxRoot}
-        </label>
-      ) : (
-        <>
-          {/* 注册容器：ComboboxInput/ComboboxList/ComboboxOption 在此挂载并注册选项 */}
-          {children}
-          {comboboxRoot}
-        </>
-      )}
-    </ComboboxContext.Provider>
+    <ListMetaContext.Provider value={{ registerList, registerInput }}>
+      <ComboboxContext.Provider value={ctx}>
+        {label ? (
+          <label className="block cursor-text">
+            <div className="mb-2 block max-w-full cursor-text text-[13px] text-gray-900 capitalize">
+              {label}
+            </div>
+            {/* 注册容器：ComboboxInput/ComboboxList/ComboboxOption 在此挂载并注册选项 */}
+            {children}
+            {comboboxRoot}
+          </label>
+        ) : (
+          <>
+            {/* 注册容器：ComboboxInput/ComboboxList/ComboboxOption 在此挂载并注册选项 */}
+            {children}
+            {comboboxRoot}
+          </>
+        )}
+      </ComboboxContext.Provider>
+    </ListMetaContext.Provider>
   );
+}
+
+type ListMetaContextValue = {
+  registerList: (meta: { maxWidth?: number; emptyMessage?: string }) => void;
+  registerInput: (onChange?: React.ChangeEventHandler<HTMLInputElement>) => void;
+};
+
+const ListMetaContext = React.createContext<ListMetaContextValue | null>(null);
+
+function useListMeta() {
+  const ctx = React.useContext(ListMetaContext);
+  if (!ctx) throw new Error("Combobox 子组件必须在 <Combobox> 内使用");
+  return ctx;
 }
 
 const ComboboxInput = React.forwardRef<
   HTMLInputElement,
   React.InputHTMLAttributes<HTMLInputElement>
->((_props, _ref) => {
+>(({ onChange }, _ref) => {
   useCombobox();
+  const { registerInput } = useListMeta();
+  React.useEffect(() => {
+    registerInput(onChange);
+    return () => registerInput(undefined);
+  }, [onChange, registerInput]);
   return null;
 });
 ComboboxInput.displayName = "ComboboxInput";
 
-const ComboboxList = React.forwardRef<HTMLUListElement, React.HTMLAttributes<HTMLUListElement>>(
-  ({ children }, _ref) => {
+type ComboboxListProps = React.HTMLAttributes<HTMLUListElement> & {
+  /** 官方 maxWidth：面板独立最大宽度（面板 = max(输入框宽, maxWidth)） */
+  maxWidth?: number;
+  /** 官方 emptyMessage：过滤无结果时的空状态文案 */
+  emptyMessage?: string;
+};
+
+const ComboboxList = React.forwardRef<HTMLUListElement, ComboboxListProps>(
+  ({ children, maxWidth, emptyMessage }, _ref) => {
     useCombobox();
+    const { registerList } = useListMeta();
+    React.useEffect(() => {
+      registerList({ maxWidth, emptyMessage });
+      return () => registerList({});
+    }, [maxWidth, emptyMessage, registerList]);
     // 仅作为注册容器：让 ComboboxOption 挂载并注册到上下文；真实 ul 由 Combobox 根渲染。
     return <>{children}</>;
   },
 );
 ComboboxList.displayName = "ComboboxList";
 
-type ComboboxOptionProps = React.HTMLAttributes<HTMLLIElement> & {
+type ComboboxOptionProps = Omit<
+  React.HTMLAttributes<HTMLLIElement>,
+  "children" | "prefix" | "suffix"
+> & {
   value: string;
-  children: string;
+  /** 文本或自定义内容（ignoreDefaultHeight 时支持多行 JSX） */
+  children: React.ReactNode;
+  /** 官方 prefix：选项行首图标 */
+  prefix?: React.ReactNode;
+  /** 官方 suffix：选项行尾图标 */
+  suffix?: React.ReactNode;
+  /** 官方 ignoreDefaultHeight：取消固定行高，按内容自适应（多行选项） */
+  ignoreDefaultHeight?: boolean;
 };
 
 const ComboboxOption = React.forwardRef<HTMLLIElement, ComboboxOptionProps>(
-  ({ value, children }, _ref) => {
+  ({ value, children, prefix, suffix, ignoreDefaultHeight }, _ref) => {
     const { registerItem, unregisterItem } = useCombobox();
+    const label = nodeToText(children);
     React.useEffect(() => {
-      registerItem(value, children);
+      registerItem(value, { label, children, prefix, suffix, ignoreDefaultHeight });
       return () => unregisterItem(value);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value, children]);
+    }, [value, label, prefix, suffix, ignoreDefaultHeight]);
     return null;
   },
 );

@@ -29,7 +29,9 @@ import {
   ShieldCheck,
   Sparkles,
   Trash2,
+  Triangle,
   TriangleAlert,
+  X,
 } from"lucide-react";
 
 import {
@@ -5045,6 +5047,28 @@ function ComboboxDemo() {
   const { language } = useLanguage();
   const [controlledValue, setControlledValue] = React.useState("b");
   const [clearableValue, setClearableValue] = React.useState("two");
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [sheetLinked, setSheetLinked] = React.useState<string[]>([]);
+  const [sheetSearch, setSheetSearch] = React.useState("");
+
+  const SHARED_VARS = [
+    { key: "CONTENTFUL_MANAGEMENT_APP_INSTALLATION_ID", target: "Preview and Production" },
+    { key: "EXTENSION_AUTH_JWT_SECRET", target: "Development" },
+    { key: "SCREENSHOT_SECRET_DEPLOYMENT_SUMMARY", target: "failover" },
+    { key: "FLAGS_VERCEL_MARKETING", target: "Preview and Production" },
+    { key: "FLAGS_VERCEL_MARKETING", target: "Development" },
+    { key: "FLAGS_VERCEL_MARKETING", target: "Preview" },
+    { key: "DATABASE_URL", target: "Production" },
+    { key: "REDIS_URL", target: "Preview and Production" },
+    { key: "STRIPE_SECRET_KEY", target: "Production" },
+    { key: "STRIPE_WEBHOOK_SECRET", target: "Development" },
+    { key: "OPENAI_API_KEY", target: "Preview and Production" },
+    { key: "SENTRY_AUTH_TOKEN", target: "Preview" },
+    { key: "NEXT_PUBLIC_ANALYTICS_ID", target: "Development" },
+    { key: "AWS_ACCESS_KEY_ID", target: "Production" },
+    { key: "AWS_SECRET_ACCESS_KEY", target: "Production" },
+    { key: "GITHUB_APP_PRIVATE_KEY", target: "Preview and Production" },
+  ];
   const searchLabel = demoText(language, "Search");
   const searchPlaceholder = demoText(language, "Search...");
   const countriesPlaceholder = demoText(language, "Search countries…");
@@ -5243,6 +5267,267 @@ function ComboboxDemo() {
           </div>
         </div>
         <ShowCodeFooter code={demoCode("clearable")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="errored"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="errored">
+            <Combobox aria-label={searchLabel} errored placeholder={searchPlaceholder}>
+              <ComboboxInput />
+              <ComboboxList>
+                {simpleOptions.map((option) => (
+                  <ComboboxOption key={option.value} value={option.value}>
+                    {option.label}
+                  </ComboboxOption>
+                ))}
+              </ComboboxList>
+            </Combobox>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("errored")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="custom-width-input"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="custom-width-input">
+            <Combobox aria-label={searchLabel} placeholder={searchPlaceholder} width={256}>
+              <ComboboxInput />
+              <ComboboxList>
+                {simpleOptions.map((option) => (
+                  <ComboboxOption key={option.value} value={option.value}>
+                    {option.label}
+                  </ComboboxOption>
+                ))}
+              </ComboboxList>
+            </Combobox>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("custom-width-input")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="custom-width-list"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="custom-width-list">
+            <Combobox aria-label={searchLabel} placeholder={searchPlaceholder} width={256}>
+              <ComboboxInput />
+              <ComboboxList maxWidth={500}>
+                <ComboboxOption value="a">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua.
+                </ComboboxOption>
+                <ComboboxOption value="b">
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                  voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                </ComboboxOption>
+                <ComboboxOption value="c">
+                  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                  deserunt mollit anim id est laborum.
+                </ComboboxOption>
+              </ComboboxList>
+            </Combobox>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("custom-width-list")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="custom-empty-message"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="custom-empty-message">
+            <Combobox aria-label={searchLabel} placeholder={searchPlaceholder} width={256}>
+              <ComboboxInput />
+              <ComboboxList emptyMessage="Nothing to see here..." />
+            </Combobox>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("custom-empty-message")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="with-prefix-icons"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="with-prefix-icons">
+            <Combobox aria-label={searchLabel} className="w-fit" placeholder={searchPlaceholder}>
+              <ComboboxInput />
+              <ComboboxList>
+                {simpleOptions.map((option) => (
+                  <ComboboxOption
+                    key={option.value}
+                    value={option.value}
+                    prefix={<Triangle className="size-4" aria-hidden />}
+                  >
+                    {option.label}
+                  </ComboboxOption>
+                ))}
+              </ComboboxList>
+            </Combobox>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("with-prefix-icons")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="with-suffix-icons"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="with-suffix-icons">
+            <Combobox aria-label={searchLabel} className="w-fit" placeholder={searchPlaceholder}>
+              <ComboboxInput />
+              <ComboboxList>
+                {simpleOptions.map((option) => (
+                  <ComboboxOption
+                    key={option.value}
+                    value={option.value}
+                    suffix={<Triangle className="size-4" aria-hidden />}
+                  >
+                    {option.label}
+                  </ComboboxOption>
+                ))}
+              </ComboboxList>
+            </Combobox>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("with-suffix-icons")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="used-inside-modal"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="used-inside-modal">
+            <Button onClick={() => setModalOpen(true)} size="small" typeName="button">
+              Open Modal
+            </Button>
+            <Modal open={modalOpen} onOpenChange={setModalOpen}>
+              <ModalContent onInteractOutside={() => setModalOpen(false)}>
+                <ModalHeader>
+                  <ModalTitle>Create Token</ModalTitle>
+                  <ModalDescription>
+                    Enter a unique name for your token to differentiate it from other tokens and
+                    then select the scope.
+                  </ModalDescription>
+                </ModalHeader>
+                <div className="mx-[-20px] border-t border-gray-400 bg-background-200 px-5 py-6">
+                  <div className="flex flex-col gap-2.5">
+                    <Combobox
+                      aria-label="Region"
+                      label="Region"
+                      placeholder={searchPlaceholder}
+                      size="small"
+                    >
+                      <ComboboxInput />
+                      <ComboboxList>
+                        {simpleOptions.map((option) => (
+                          <ComboboxOption key={option.value} value={option.value}>
+                            {option.label}
+                          </ComboboxOption>
+                        ))}
+                      </ComboboxList>
+                    </Combobox>
+                    <p className="text-copy-13 text-gray-900">
+                      This is the region where your database reads and writes will take place.
+                    </p>
+                  </div>
+                </div>
+                <div className="h-px w-full" aria-hidden />
+                <ModalFooter>
+                  <Button
+                    typeName="button"
+                    type="secondary"
+                    onClick={() => setModalOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button typeName="button" onClick={() => setModalOpen(false)}>
+                    Submit
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("used-inside-modal")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="inside-sheet"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="inside-sheet">
+            <Sheet modal>
+              <SheetTrigger asChild>
+                <Button size="small" typeName="button">
+                  Link Shared Variable
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                className="m-3 flex h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] max-w-3xl flex-col overflow-clip rounded-2xl bg-background-100 p-0 lg:w-5/6 sm:max-w-[auto]"
+              >
+                <div className="flex flex-shrink-0 items-center justify-between pt-3 pl-4 pr-3">
+                  <SheetTitle className="text-heading-20">Link Shared Variable</SheetTitle>
+                  <SheetClose asChild>
+                    <Button
+                      aria-label="Close"
+                      shape="square"
+                      svgOnly
+                      type="tertiary"
+                      typeName="button"
+                    >
+                      <X className="size-4" aria-hidden />
+                    </Button>
+                  </SheetClose>
+                </div>
+                <p className="px-4 pb-2 text-copy-14 text-gray-900">
+                  Changes to shared variables sync automatically across all linked projects.
+                </p>
+                <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-1">
+                  <Combobox
+                    aria-label="Search for shared environment variables"
+                    placeholder="Search for shared environment variables…"
+                    value={sheetSearch}
+                  >
+                    <ComboboxInput />
+                    <ComboboxList>
+                      {SHARED_VARS.filter(
+                        (v) => !sheetLinked.includes(`${v.key}::${v.target}`),
+                      ).map((v) => (
+                        <ComboboxOption
+                          ignoreDefaultHeight
+                          key={`${v.key}::${v.target}`}
+                          value={`${v.key}::${v.target}`}
+                        >
+                          <div className="flex flex-col items-stretch justify-start py-[15px] px-2">
+                            <p className="font-mono text-sm font-medium">{v.key}</p>
+                            <p className="mt-[3px] text-xs text-gray-900">{v.target}</p>
+                          </div>
+                        </ComboboxOption>
+                      ))}
+                    </ComboboxList>
+                  </Combobox>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("inside-sheet")} />
       </div>
     </div>
   );
