@@ -12,7 +12,7 @@ const LANGUAGE_ICON_SLUGS: Record<string, string> = {
   bash: "gnubash",
 };
 
-/** 默认文件图标（fallback，官方 geist 地球图标）。 */
+/** 默认代码图标（fallback，`</>` 尖括号）。 */
 export function CodeBlockFileIcon() {
   return (
     <svg
@@ -21,14 +21,12 @@ export function CodeBlockFileIcon() {
       fill="none"
       stroke="currentColor"
       strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className="size-4"
     >
-      <circle cx="12" cy="12" r="9" />
-      <g>
-        <ellipse cx="12" cy="7.5" rx="4.5" ry="1.2" />
-        <ellipse cx="12" cy="12" rx="4.5" ry="1.2" />
-        <ellipse cx="12" cy="16.5" rx="4.5" ry="1.2" />
-      </g>
+      <path d="m8 6-6 6 6 6" />
+      <path d="m16 6 6 6-6 6" />
     </svg>
   );
 }
