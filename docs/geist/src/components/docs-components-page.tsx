@@ -5044,6 +5044,7 @@ function ComboboxDemo() {
   const demoCode = (id: string) => DEMO_CODE.combobox?.[id] ?? "";
   const { language } = useLanguage();
   const [controlledValue, setControlledValue] = React.useState("b");
+  const [clearableValue, setClearableValue] = React.useState("two");
   const searchLabel = demoText(language, "Search");
   const searchPlaceholder = demoText(language, "Search...");
   const countriesPlaceholder = demoText(language, "Search countries…");
@@ -5216,6 +5217,32 @@ function ComboboxDemo() {
           </div>
         </div>
         <ShowCodeFooter code={demoCode("with-label")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="clearable"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="clearable">
+            <Combobox
+              aria-label={searchLabel}
+              placeholder={searchPlaceholder}
+              value={clearableValue}
+              onValueChange={setClearableValue}
+            >
+              <ComboboxInput />
+              <ComboboxList>
+                {simpleOptions.map((option) => (
+                  <ComboboxOption key={option.value} value={option.value}>
+                    {option.label}
+                  </ComboboxOption>
+                ))}
+              </ComboboxList>
+            </Combobox>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("clearable")} />
       </div>
     </div>
   );

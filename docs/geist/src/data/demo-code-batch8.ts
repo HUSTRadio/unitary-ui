@@ -178,6 +178,20 @@ const options = [
     <ComboboxOption value="br">Brazil</ComboboxOption>
   </ComboboxList>
 </Combobox>`,
+    clearable: `import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
+import { useState } from "react";
+
+const [value, setValue] = useState("two");
+
+// 选中后出现清除按钮（X），点击即清空并回调 onValueChange。
+<Combobox aria-label="Search" onValueChange={setValue} placeholder="Search..." value={value}>
+  <ComboboxInput />
+  <ComboboxList>
+    <ComboboxOption value="one">One</ComboboxOption>
+    <ComboboxOption value="two">Two</ComboboxOption>
+    <ComboboxOption value="three">Three</ComboboxOption>
+  </ComboboxList>
+</Combobox>`,
   },
   entity: {
     default: `import { Avatar } from "@/components/ui/avatar";
