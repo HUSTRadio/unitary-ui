@@ -3556,6 +3556,12 @@ const codeBlockDiff = `module.exports = {
 const codeBlockTab =
   "function MyComponent(props) {\n\treturn (\n\t  <div>\n\t\t<h1>Hello, {props.name}!</h1>\n\t\t<p>Good to see you</p>\n\t  </div>\n\t);\n  }";
 
+const codeBlockTabTS =
+  "function MyComponent(props: Props) {\n\treturn (\n\t  <div>\n\t\t<h1>Hello, {props.name}!</h1>\n\t\t<p>Good to see you</p>\n\t  </div>\n\t);\n  }";
+
+const codeBlockTabLua =
+  "local b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'\nlocal decode_table = ffi.new 'uint8_t[256]'\nfor i = 1, #b64 do\n  decode_table[str_byte(b64, i)] = i - 1 -- Base64 values start from 0\nend\n\nfunction BloomFilter:has(key)\n  local ptr = self.ptr -- uint8_t* pointer to start of base64 string\n  for byte_offset, bit_offset in self:iterator(key) do\n    local sextet = decode_table[ptr[byte_offset]]\n    if band(sextet, lshift(1, bit_offset)) == 0 then\n      return false\n    end\n  end\n  return true\nend";
+
 const codeBlockReferenced = `function MyComponent(props) {
   return (
     <div>
@@ -3589,7 +3595,38 @@ function CodeDemo() {
 function CodeBlockDemo() {
   const demoCode = (id: string) => DEMO_CODE["code-block"]?.[id] ?? "";
   const languageOptions = ["JavaScript", "TypeScript", "Next.js", "Lua"];
-  const switcher = { options: languageOptions, value: "JavaScript", onChange: () => {} };
+  const [switcherLanguage, setSwitcherLanguage] = React.useState("JavaScript");
+  const switcher = {
+    options: languageOptions,
+    value: switcherLanguage,
+    onChange: setSwitcherLanguage,
+  };
+  const switchCode: Record<
+    string,
+    { filename: string; language: string; code: string }
+  > = {
+    JavaScript: {
+      filename: "language-switcher.jsx",
+      language: "jsx",
+      code: codeBlockTab,
+    },
+    TypeScript: {
+      filename: "language-switcher.tsx",
+      language: "tsx",
+      code: codeBlockTabTS,
+    },
+    "Next.js": {
+      filename: "language-switcher.tsx",
+      language: "tsx",
+      code: codeBlockTabTS,
+    },
+    Lua: {
+      filename: "bloom-filter.lua",
+      language: "lua",
+      code: codeBlockTabLua,
+    },
+  };
+  const currentSwitch = switchCode[switcherLanguage];
 
   return (
     <div className="w-full max-w-[862px] space-y-6">
@@ -3688,11 +3725,11 @@ function CodeBlockDemo() {
           <div className="w-full p-6" data-demo-container="language-switcher">
             <CodeBlockComponent
               aria-label="Hello world"
-              filename="language-switcher.jsx"
-              language="jsx"
+              filename={currentSwitch.filename}
+              language={currentSwitch.language}
               switcher={switcher}
             >
-              {codeBlockTab}
+              {currentSwitch.code}
             </CodeBlockComponent>
           </div>
         </div>
@@ -3706,11 +3743,11 @@ function CodeBlockDemo() {
           <div className="w-full p-6" data-demo-container="language-switcher-with-tabs">
             <CodeBlockComponent
               aria-label="Hello world"
-              filename="language-switcher.jsx"
-              language="jsx"
+              filename={currentSwitch.filename}
+              language={currentSwitch.language}
               tabs={switcher}
             >
-              {codeBlockTab}
+              {currentSwitch.code}
             </CodeBlockComponent>
           </div>
         </div>
