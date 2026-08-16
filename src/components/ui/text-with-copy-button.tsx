@@ -84,14 +84,18 @@ function TextWithCopyButton({
       </Tag>
       <span className="relative flex size-4 shrink-0 items-center justify-center" aria-hidden>
         <span
-          className="absolute inset-0 flex items-center justify-center transition-opacity duration-100"
-          style={{ opacity: copied ? 0 : 1 }}
+          className={cn(
+            "absolute inset-0 flex items-center justify-center transition-all duration-150",
+            copied ? "scale-50 opacity-0" : "scale-100 opacity-100",
+          )}
         >
           <Copy className="size-4" />
         </span>
         <span
-          className="absolute inset-0 flex items-center justify-center transition-opacity duration-100"
-          style={{ opacity: copied ? 1 : 0 }}
+          className={cn(
+            "absolute inset-0 flex items-center justify-center transition-all duration-150",
+            copied ? "scale-100 opacity-100" : "scale-50 opacity-0",
+          )}
         >
           <CopyCheck className="size-4" />
         </span>

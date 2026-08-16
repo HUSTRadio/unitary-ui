@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { DocsBanner, DocsSidebar } from "./components/docs-shell";
 import { DocsPagination, FeedbackPanel } from "./components/docs-feedback";
 import { ComponentsPage } from "./components/docs-components-page";
+import { Toasts } from "@/components/ui/toast";
 import { IconsPage } from "./components/docs-icons";
 import {
   ColorsPage,
@@ -113,6 +114,7 @@ export default function App() {
           </div>
         </div>
       </main>
+      <Toasts />
     </div>
   );
 }

@@ -191,7 +191,7 @@ import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
 import { Textarea } from "@/components/ui/textarea";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { Toggle } from "@/components/ui/toggle";
-import { Toasts, useToasts } from "@/components/ui/toast";
+import { useToasts } from "@/components/ui/toast";
 import { Tooltip } from "@/components/ui/tooltip";
 import { Video } from "@/components/ui/video";
 
@@ -2392,7 +2392,6 @@ function ToastDemo() {
         >
           {demoText(language, "Show Toast")}
         </Button>
-        <Toasts />
       </div>
       <ShowCodeFooter code={demoCode("Default")} />
     </div>
@@ -6262,7 +6261,7 @@ function ToggleLabelDemo() {
   );
 }
 
-/** Toast 额外演示分段 — 每个分段一个触发按钮（Toasts 视口由 ToastDemo 挂载一次） */
+/** Toast 额外演示分段 — 每个分段一个触发按钮（Toasts 视口由 App 根全局挂载） */
 function ToastExtraSections() {
   const sectionCode = (title: string) => DEMO_CODE.toast?.[title] ?? "";
   const { language } = useLanguage();
