@@ -80,7 +80,7 @@ const OPEN_BUTTON_CLASS =
   "outline-hidden m-0 p-0 border-0 box-border text-base align-baseline no-underline [tap-highlight-color:transparent] select-none bg-none cursor-pointer inline-flex !w-10 group-hover/combobox:text-gray-1000 disabled:cursor-not-allowed disabled:text-[var(--ds-gray-700)] [&>span]:inline-flex items-center justify-center !mr-0 absolute -right-px top-1/2 text-[var(--ds-gray-700)] transform -translate-y-1/2 transition-colors duration-150 ease-in";
 
 const PANEL_CLASS =
-  "m-0 p-1.5 outline-hidden bg-[var(--ds-background-100)] shadow-[0_0_0_1px_var(--ds-gray-alpha-400),0_2px_2px_0_rgba(0,0,0,0.04),0_8px_16px_-4px_rgba(0,0,0,0.04),0_0_0_1px_var(--ds-background-200)] rounded-xl z-[2001] max-h-[210px] overflow-y-auto overflow-x-hidden [&>ul]:m-0 [&>ul]:p-0 [&>ul]:list-none";
+  "m-0 p-1.5 outline-hidden bg-[var(--ds-background-100)] shadow-[0_0_0_1px_var(--ds-gray-alpha-400),0_2px_2px_0_rgba(0,0,0,0.04),0_8px_16px_-4px_rgba(0,0,0,0.04),0_0_0_1px_var(--ds-background-200)] rounded-xl z-[2001] max-h-[210px] overflow-y-auto overflow-x-hidden animate-in fade-in-0 zoom-in-95 duration-150 [&>ul]:m-0 [&>ul]:p-0 [&>ul]:list-none";
 
 const OPTION_BASE_CLASS =
   "flex items-center text-sm px-2 scroll-my-2 rounded-[6px] cursor-pointer outline-hidden h-9";

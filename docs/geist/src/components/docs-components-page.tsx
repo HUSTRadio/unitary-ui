@@ -8121,7 +8121,7 @@ function ComponentDetail({ name }: { name: string }) {
       <section className="mt-12">
         <h2 className="text-heading-24 text-foreground">{demoText(language, "Usage")}</h2>
         <div className="mt-6">
-          <CodeBlock code={meta.code} label={`components/${name}.tsx`} />
+          <CodeBlock code={meta.code} label={`components/${name}.tsx`} language="tsx" />
         </div>
       </section>
 

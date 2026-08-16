@@ -109,6 +109,7 @@ const ModalContent = React.forwardRef<
               "max-[540px]:max-w-[calc(100vw-20px)]",
               "shadow-[var(--ds-shadow-modal-elevated)]",
               "-translate-x-1/2 -translate-y-1/2",
+              "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
               "transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.1)]",
               "sm:overflow-hidden overflow-y-auto",
               className,
