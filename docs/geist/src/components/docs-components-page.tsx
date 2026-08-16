@@ -9,6 +9,7 @@ import {
   CircleCheck,
   ChevronLeft,
   ChevronRight,
+  CircleArrowUp,
   Clock,
   Copy,
   CopyCheck,
@@ -19,10 +20,14 @@ import {
   Lock,
   LockOpen,
   Rocket,
+  RotateCcw,
+  Save,
   Search,
   Shield,
+  ShieldCheck,
   Sparkles,
   Trash2,
+  TriangleAlert,
 } from "lucide-react";
 
 import {
@@ -114,7 +119,7 @@ import {
 } from "@/components/ui/fieldset";
 import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@/components/ui/file-tree";
 import { Gauge } from "@/components/ui/gauge";
-import { Grid, GridItem } from "@/components/ui/grid";
+import { Grid, GridCell, GridCross, GridItem, GridPage, GridSystem } from "@/components/ui/grid";
 import { Input } from "@/components/ui/input";
 import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view";
 import { Kbd } from "@/components/ui/keyboard-input";
@@ -138,15 +143,11 @@ import {
   MultiSelectRow,
   MultiSelectTrigger,
 } from "@/components/ui/multi-select";
-import { Note } from "@/components/ui/note";
+import { Note, NoteAction, NoteContent, NoteLabel } from "@/components/ui/note";
 import { Pagination } from "@/components/ui/pagination";
 import { Phone, PhoneScreen } from "@/components/ui/phone";
 import { Pill } from "@/components/ui/pill";
-import {
-  ProjectBanner,
-  ProjectBannerClose,
-  ProjectBannerContent,
-} from "@/components/ui/project-banner";
+import { ProjectBanner } from "@/components/ui/project-banner";
 import { Progress } from "@/components/ui/progress";
 import { Radio, RadioGroup, RadioGroupItem, useRadio } from "@/components/ui/radio";
 import { RelativeTimeCard } from "@/components/ui/relative-time-card";
@@ -1673,20 +1674,23 @@ function SkeletonDemo() {
 }
 
 function SpinnerDemo() {
+  const sizes = [
+    { size: "sm", label: "sm" },
+    { size: "md", label: "md" },
+    { size: "lg", label: "lg" },
+    { size: "xl", label: "xl" },
+    { size: "2xl", label: "2xl" },
+    { size: "3xl", label: "3xl" },
+    { size: "4xl", label: "4xl" },
+  ] as const;
   return (
-    <div className="flex items-center gap-6">
-      <div className="flex flex-col items-center gap-2">
-        <Spinner size="small" />
-        <span className="text-label-12 text-muted-foreground">sm</span>
-      </div>
-      <div className="flex flex-col items-center gap-2">
-        <Spinner size="md" />
-        <span className="text-label-12 text-muted-foreground">md</span>
-      </div>
-      <div className="flex flex-col items-center gap-2">
-        <Spinner size="large" />
-        <span className="text-label-12 text-muted-foreground">lg</span>
-      </div>
+    <div className="flex items-end gap-6">
+      {sizes.map((s) => (
+        <div key={s.size} className="flex flex-col items-center gap-2">
+          <Spinner size={s.size} />
+          <span className="text-label-12 text-muted-foreground">{s.label}</span>
+        </div>
+      ))}
     </div>
   );
 }
@@ -2933,21 +2937,35 @@ function PhoneDemo() {
 
 function ProjectBannerDemo() {
   return (
-    <div className="w-full">
-      <ProjectBanner>
-        <ProjectBannerContent>
-          <span className="text-copy-14 text-foreground">
-            Attack Challenge Mode is enabled for this project
-          </span>
-          <a
-            href="#"
-            className="text-copy-14 font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground"
-          >
-            Disable
-          </a>
-        </ProjectBannerContent>
-        <ProjectBannerClose />
-      </ProjectBanner>
+    <div className="w-full space-y-6">
+      <ProjectBanner
+        icon={<ShieldCheck />}
+        label="Attack Challenge Mode is enabled for this project"
+        callToAction={{ label: "Disable", href: "#" }}
+      />
+      <ProjectBanner
+        variant="success"
+        icon={<ShieldCheck />}
+        label="Attack Challenge Mode is enabled for this project"
+        callToAction={{ label: "Disable", href: "#" }}
+      />
+      <ProjectBanner
+        variant="warning"
+        icon={<RotateCcw />}
+        label={
+          <>
+            This project was rolled back by{" "}
+            <Tooltip text="Yesterday for project marketing-website">@johnphamous</Tooltip>
+          </>
+        }
+        callToAction={{ label: "Undo Rollback", onClick: () => {} }}
+      />
+      <ProjectBanner
+        variant="error"
+        icon={<TriangleAlert />}
+        label="Payment failed, update credit card information before your account is shut down"
+        callToAction={{ label: "Add Credit Card", href: "#" }}
+      />
     </div>
   );
 }
@@ -5674,6 +5692,119 @@ function ToastExtraSections() {
   );
 }
 
+/** Tabs 额外演示分段 — 官方 5 demo 区块中除 Default 外的 4 个变体 */
+function TabsExtraSections() {
+  const [git, setGit] = React.useState("github");
+  return (
+    <>
+      <Section title="Disabled">
+        <Tabs
+          disabled
+          selected="apple"
+          setSelected={() => {}}
+          tabs={[
+            { title: "Apple", value: "apple" },
+            { title: "Orange", value: "orange" },
+            { title: "Mango", value: "mango" },
+          ]}
+          ariaLabel="Disabled tabs"
+        />
+      </Section>
+      <Section title="Disable specific tabs">
+        <Tabs
+          selected="apple"
+          setSelected={() => {}}
+          tabs={[
+            { title: "Apple", value: "apple" },
+            { title: "Orange", value: "orange" },
+            { title: "Mango", value: "mango", disabled: true, tooltip: "Mangos are not allowed" },
+          ]}
+          ariaLabel="Tabs with disabled tab"
+        />
+      </Section>
+      <Section title="With icons">
+        <Tabs
+          selected={git}
+          setSelected={setGit}
+          tabs={[
+            { title: "GitHub", value: "github", icon: <LayoutGrid className="size-4" aria-hidden /> },
+            { title: "GitLab", value: "gitlab", icon: <List className="size-4" aria-hidden /> },
+            { title: "Bitbucket", value: "bitbucket", icon: <Search className="size-4" aria-hidden /> },
+          ]}
+          ariaLabel="Tabs with icons"
+        />
+      </Section>
+      <Section title="Secondary">
+        <Tabs
+          variant="secondary"
+          selected={git}
+          setSelected={setGit}
+          tabs={[
+            { title: "GitHub", value: "github" },
+            { title: "GitLab", value: "gitlab" },
+            { title: "Bitbucket", value: "bitbucket", disabled: true },
+          ]}
+          ariaLabel="Secondary tabs"
+        />
+      </Section>
+    </>
+  );
+}
+
+const VIRTUALIZED_TABLE_ITEMS = [
+  { product: "Brake Pads Set", usage: "100 sets", price: "$50 per set", charge: "$5,000.00" },
+  { product: "Oil Filters", usage: "200 filters", price: "$10 per filter", charge: "$2,000.00" },
+  { product: "Car Batteries", usage: "50 batteries", price: "$100 per battery", charge: "$5,000.00" },
+  { product: "Headlight Bulbs", usage: "300 bulbs", price: "$15 per bulb", charge: "$4,500.00" },
+  { product: "Windshield Wipers", usage: "250 pairs", price: "$20 per pair", charge: "$5,000.00" },
+  { product: "Spark Plugs", usage: "500 sets", price: "$5 per set", charge: "$2,500.00" },
+];
+
+/** Table Virtualized 演示 — 官方 virtualize 语义：默认折叠显示前 9 行，ShowMore 展开全部 */
+function VirtualizedTableDemo() {
+  const [expanded, setExpanded] = React.useState(false);
+  const rows = expanded ? 48 : 9;
+  return (
+    <div className="relative">
+      <Table>
+        <TableColgroup>
+          <TableCol className="w-[44%]" />
+          <TableCol className="w-[22%]" />
+          <TableCol className="w-[22%]" />
+          <TableCol className="w-[11%]" />
+        </TableColgroup>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Product</TableHead>
+            <TableHead>Usage</TableHead>
+            <TableHead>Price</TableHead>
+            <TableHead>Charge</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody interactive striped>
+          {Array.from({ length: rows }, (_, index) => {
+            const item = VIRTUALIZED_TABLE_ITEMS[index % VIRTUALIZED_TABLE_ITEMS.length];
+            return (
+              <TableRow key={`${item.product}-${index}`}>
+                <TableCell>{item.product}</TableCell>
+                <TableCell>{item.usage}</TableCell>
+                <TableCell>{item.price}</TableCell>
+                <TableCell className="tabular-nums">{item.charge}</TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+      {!expanded ? (
+        <div className="from-background-100 pointer-events-none absolute bottom-0 left-0 h-[30%] w-full rounded bg-linear-to-t to-transparent opacity-80" />
+      ) : null}
+      <div className="flex justify-center pt-2">
+        <ShowMore expanded={expanded} noBorder onClick={() => setExpanded(!expanded)} />
+      </div>
+    </div>
+  );
+}
+
 /** 名称 → 额外演示分段（Sizes / Variants / States），未命中的组件返回 null */
 function renderExtraSections(name: string, language: DocsLanguage): React.ReactNode {
   switch (name) {
@@ -6538,6 +6669,9 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </TableFooter>
             </Table>
           </Section>
+          <Section title="Virtualized table" tableCode="<Table><TableBody interactive striped>…</TableBody></Table>">
+            <VirtualizedTableDemo />
+          </Section>
         </>
       );
     case "avatar":
@@ -7166,10 +7300,397 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               Copy page
             </SplitButton>
           </Section>
+          <Section title="Title with Icon">
+            <div className="flex w-full flex-col gap-8">
+              {(["default", "secondary"] as const).map((variant) => (
+                <div key={variant} className="flex flex-row gap-1">
+                  {(["small", "medium", "large"] as const).map((size) => (
+                    <SplitButton
+                      key={`${variant}-${size}`}
+                      buttonProps={{ size, type: variant }}
+                      menuButtonLabel="Select save method"
+                      menuItems={
+                        <>
+                          <SplitButtonMenuItem
+                            description="Save changes"
+                            title={
+                              <span className="flex items-center gap-2">
+                                <Save className="size-4" aria-hidden /> Save
+                              </span>
+                            }
+                          />
+                          <SplitButtonMenuItem
+                            description="Save changes and create a new production deployment"
+                            title={
+                              <span className="flex items-center gap-2">
+                                <CircleArrowUp className="size-4" aria-hidden /> Save + Redeploy
+                              </span>
+                            }
+                          />
+                        </>
+                      }
+                      menuProps={{ width: 264 }}
+                    >
+                      Save
+                    </SplitButton>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </Section>
         </>
       );
     case "toast":
       return <ToastExtraSections />;
+    case "progress":
+      return (
+        <>
+          <Section title="Custom max">
+            <div className="w-full max-w-md">
+              <Progress value={30} max={40} aria-label="Progress 30 of 40" />
+            </div>
+          </Section>
+          <Section title="Dynamic colors">
+            <div className="w-full max-w-md">
+              <Progress
+                value={50}
+                aria-label="Dynamic colors progress"
+                colors={{
+                  0: "var(--color-gray-1000)",
+                  25: "var(--color-destructive)",
+                  50: "var(--color-warning)",
+                  75: "var(--color-pink-600)",
+                  100: "var(--color-progress)",
+                }}
+              />
+            </div>
+          </Section>
+          <Section title="Themed">
+            <div className="flex w-full max-w-md flex-col gap-6">
+              <Progress type="success" value={100} aria-label="Success progress" />
+              <Progress type="error" value={10} aria-label="Error progress" />
+              <Progress type="warning" value={40} aria-label="Warning progress" />
+              <Progress type="secondary" value={70} aria-label="Secondary progress" />
+            </div>
+          </Section>
+          <Section title="With Stops">
+            <div className="w-full max-w-md">
+              <Progress
+                value={30}
+                type="success"
+                aria-label="Progress with stops"
+                stops={[
+                  { value: 10, tooltip: "10%" },
+                  { value: 20, tooltip: "20%" },
+                  { value: 30, tooltip: "30%" },
+                  { value: 40, tooltip: "40%" },
+                  { value: 50, tooltip: "50%" },
+                ]}
+              />
+            </div>
+          </Section>
+          <Section title="Widths">
+            <div className="flex w-full max-w-md flex-col gap-6">
+              <Progress value={60} width={100} aria-label="Progress width 100" />
+              <Progress value={60} width={200} aria-label="Progress width 200" />
+              <Progress value={60} width={300} aria-label="Progress width 300" />
+              <Progress value={60} width="50%" aria-label="Progress width 50%" />
+              <Progress value={60} width="100%" aria-label="Progress full width" />
+            </div>
+          </Section>
+          <Section title="Heights">
+            <div className="flex w-full max-w-md flex-col gap-6">
+              <Progress value={60} height={4} aria-label="Progress height 4" />
+              <Progress value={60} height={10} aria-label="Progress height 10" />
+              <Progress value={60} height={50} aria-label="Progress height 50" />
+              <Progress value={60} height={200} aria-label="Progress height 200" />
+            </div>
+          </Section>
+        </>
+      );
+    case "spinner":
+      return (
+        <>
+          <Section title="Colors">
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-4">
+                <span className="w-24 text-copy-14 text-muted-foreground">Default:</span>
+                <Spinner />
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="w-24 text-copy-14 text-muted-foreground">Red:</span>
+                <Spinner className="text-red-700" />
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="w-24 text-copy-14 text-muted-foreground">Green:</span>
+                <Spinner className="text-green-700" />
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="w-24 text-copy-14 text-muted-foreground">Blue:</span>
+                <Spinner className="text-blue-700" />
+              </div>
+            </div>
+          </Section>
+        </>
+      );
+    case "tabs":
+      return <TabsExtraSections />;
+    case "error":
+      return (
+        <>
+          <Section title="Custom label">
+            <Error label="Email Error">This email address is already in use.</Error>
+          </Section>
+          <Section title="No label">
+            <Error label={false}>This email address is already in use.</Error>
+          </Section>
+          <Section title="Sizes">
+            <div className="flex w-full flex-col items-stretch gap-6">
+              <Error size="small">This email is in use.</Error>
+              <Error>This email is in use.</Error>
+              <Error size="large">This email is in use.</Error>
+            </div>
+          </Section>
+          <Section title="With an error property">
+            <Error
+              error={{
+                message: "The request failed.",
+                action: "Contact Us",
+                link: "https://vercel.com/contact",
+              }}
+            />
+          </Section>
+        </>
+      );
+    case "note":
+      return (
+        <>
+          <Section title="Sizes">
+            <div className="flex w-full flex-col gap-3">
+              <Note size="small">
+                <NoteContent>A small note.</NoteContent>
+              </Note>
+              <Note>
+                <NoteContent>A medium note.</NoteContent>
+              </Note>
+            </div>
+          </Section>
+          <Section title="Action">
+            <div className="flex w-full flex-col gap-3">
+              <Note>
+                <NoteContent>This note details some information.</NoteContent>
+                <NoteAction>
+                  <Button typeName="button" size="small">
+                    Upgrade
+                  </Button>
+                </NoteAction>
+              </Note>
+              <Note>
+                <NoteContent>
+                  This note details a large amount information that could potentially wrap into two
+                  or more lines.
+                </NoteContent>
+                <NoteAction>
+                  <Button typeName="button" size="small">
+                    Upgrade
+                  </Button>
+                </NoteAction>
+              </Note>
+            </div>
+          </Section>
+          <Section title="Secondary">
+            <div className="flex w-full flex-col gap-3">
+              <Note variant="secondary">
+                <NoteContent>This note details some secondary information.</NoteContent>
+              </Note>
+            </div>
+          </Section>
+          <Section title="Violet">
+            <Note variant="violet">
+              <NoteContent>This note details some violet information.</NoteContent>
+            </Note>
+          </Section>
+          <Section title="Cyan">
+            <Note variant="cyan">
+              <NoteContent>This note details some cyan information.</NoteContent>
+            </Note>
+          </Section>
+          <Section title="Disabled">
+            <div className="flex w-full flex-col gap-3">
+              <Note disabled fill variant="warning">
+                <NoteContent>This note details a warning.</NoteContent>
+                <NoteAction>
+                  <Button typeName="button" size="small">
+                    Upgrade
+                  </Button>
+                </NoteAction>
+              </Note>
+            </div>
+          </Section>
+          <Section title="Label">
+            <Note>
+              <NoteContent>
+                <NoteLabel>Region Change:</NoteLabel>Changing this region restarts all functions.
+              </NoteContent>
+            </Note>
+          </Section>
+          <Section title="Custom icon">
+            <div className="flex w-full flex-col gap-3">
+              <Note icon={<Sparkles className="size-4" aria-hidden />}>
+                <NoteContent>A custom icon replaces the variant&apos;s default.</NoteContent>
+              </Note>
+              <Note icon={null}>
+                <NoteContent>Pass a null icon to render no icon at all.</NoteContent>
+              </Note>
+            </div>
+          </Section>
+        </>
+      );
+    case "grid":
+      return (
+        <>
+          <Section title="Grid">
+            <GridSystem debug guideWidth={1} unstable_useContainer>
+              <Grid columns={5} height="preserve-aspect-ratio" rows={2} />
+            </GridSystem>
+          </Section>
+          <Section title="Basic grid">
+            <GridSystem guideWidth={1} unstable_useContainer>
+              <Grid columns={3} rows={2}>
+                {[1, 2, 3, 4, 5, 6].map((n) => (
+                  <GridCell key={n}>{n}</GridCell>
+                ))}
+              </Grid>
+            </GridSystem>
+          </Section>
+          <Section title="Solid cells">
+            <GridSystem guideWidth={1} unstable_useContainer>
+              <Grid columns={3} rows={2}>
+                <GridCell column="1/3" row="1" solid>
+                  1 + 2
+                </GridCell>
+                <GridCell>3</GridCell>
+                <GridCell>4</GridCell>
+                <GridCell column="2/4" row="2" solid>
+                  5 + 6
+                </GridCell>
+              </Grid>
+            </GridSystem>
+          </Section>
+          <Section title="Responsive grid">
+            <GridSystem unstable_useContainer>
+              <Grid columns={{ sm: 1, md: 2, lg: 3 }} rows={{ sm: 6, md: 3, lg: 2 }}>
+                {[1, 2, 3, 4, 5, 6].map((n) => (
+                  <GridCell key={n}>{n}</GridCell>
+                ))}
+              </Grid>
+            </GridSystem>
+          </Section>
+          <Section title="Responsive guide clipping">
+            <GridSystem unstable_useContainer>
+              <Grid columns={{ sm: 1, md: 2, lg: 3 }} rows={{ sm: 6, md: 3, lg: 2 }}>
+                <GridCell column={{ sm: "1", md: "1/3" }} row={{ sm: "1/3", md: 1 }} solid>
+                  1 + 2
+                </GridCell>
+                <GridCell>3</GridCell>
+                <GridCell>4</GridCell>
+                <GridCell column={{ sm: 1, md: "1/3", lg: "2/4" }} row={{ sm: "5/7", md: 3, lg: 2 }} solid>
+                  5 + 6
+                </GridCell>
+              </Grid>
+            </GridSystem>
+          </Section>
+          <Section title="Hidden row guides">
+            <GridSystem unstable_useContainer>
+              <Grid columns={12} height="preserve-aspect-ratio" hideGuides="row" rows={3} />
+            </GridSystem>
+          </Section>
+          <Section title="Hidden column guides">
+            <GridSystem unstable_useContainer>
+              <Grid columns={12} height="preserve-aspect-ratio" hideGuides="column" rows={3} />
+            </GridSystem>
+          </Section>
+          <Section title="Overlaying cells">
+            <GridSystem unstable_useContainer>
+              <Grid columns={12} rows={3}>
+                <GridCell column="1/3" row="1/3" solid>
+                  1
+                </GridCell>
+                <GridCell column="2/4" row="2/4">
+                  2
+                </GridCell>
+                <GridCell column="3/10" row="2/4">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at felis
+                </GridCell>
+                <GridCell column="7/12" row="1/-1" solid>
+                  3
+                </GridCell>
+                <GridCell column="11/13" row="1/3" solid>
+                  4
+                </GridCell>
+              </Grid>
+            </GridSystem>
+          </Section>
+          <Section title="Specific guide clipping">
+            <GridSystem guideWidth={1} unstable_useContainer>
+              <Grid columns={3} rows={4}>
+                <GridCell column="1/2" row="1/3" solid>
+                  1
+                </GridCell>
+                <GridCell column="3/4" row="1/2" solid>
+                  2
+                </GridCell>
+                <GridCell column="2/3" row="2/4">
+                  3
+                </GridCell>
+                <GridCell column="1/2" row="4/5" solid>
+                  4
+                </GridCell>
+                <GridCell column="3/4" row="3/5" solid>
+                  5
+                </GridCell>
+              </Grid>
+            </GridSystem>
+          </Section>
+          <Section title="Grid with cross">
+            <GridSystem guideWidth={1} unstable_useContainer>
+              <Grid columns={3} rows={2}>
+                <GridCross column={1} row={1} />
+                <GridCross column={4} row={1} />
+                <GridCross column={4} row={3} />
+                <GridCross column={1} row={3} />
+                {[1, 2, 3, 4, 5, 6].map((n) => (
+                  <GridCell key={n}>{n}</GridCell>
+                ))}
+              </Grid>
+            </GridSystem>
+          </Section>
+          <Section title="Dashed grid with cross">
+            <GridSystem dashedGuides guideWidth={1} unstable_useContainer>
+              <Grid columns={1} rows={1}>
+                <GridCross column={1} row={1} />
+                <GridCross column={2} row={2} />
+                <GridCross column={2} row={1} />
+                <GridCross column={1} row={2} />
+                <GridCell>Content here</GridCell>
+              </Grid>
+            </GridSystem>
+          </Section>
+          <Section title="Dashed grid with grid page">
+            <GridPage>
+              <GridSystem dashedGuides guideWidth={1}>
+                <Grid columns={1} rows={1}>
+                  <GridCross column={1} row={1} />
+                  <GridCross column={2} row={2} />
+                  <GridCross column={2} row={1} />
+                  <GridCross column={1} row={2} />
+                  <GridCell>Content here</GridCell>
+                </Grid>
+              </GridSystem>
+            </GridPage>
+          </Section>
+        </>
+      );
     default:
       return null;
   }
