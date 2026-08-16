@@ -60,7 +60,6 @@ import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/coll
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 import { Code, InlineCode } from "@/components/ui/code";
 import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
-import { highlightLines } from "@/lib/highlight";
 import {
   CommandMenu,
   CommandMenuDivider,
@@ -255,12 +254,11 @@ function TableDemoCard({ children, code }: { children: React.ReactNode; code: st
         {demoText(language, "Show code")}
       </button>
       {showCode ? (
-        <pre
-          id={codeId}
-          className="overflow-x-auto bg-background p-6 font-mono text-copy-13 leading-relaxed text-foreground"
-        >
-          <code>{code}</code>
-        </pre>
+        <div id={codeId}>
+          <CodeBlockComponent language="tsx" className="rounded-none border-0">
+            {code}
+          </CodeBlockComponent>
+        </div>
       ) : null}
     </div>
   );
@@ -270,10 +268,6 @@ function ShowCodeFooter({ code }: { code: string }) {
   const { language } = useLanguage();
   const [showCode, setShowCode] = React.useState(false);
   const codeId = React.useId();
-  const highlighted = React.useMemo(
-    () => highlightLines(code.replace(/\n$/, ""),"tsx"),
-    [code],
-  );
   return (
     <>
       <button
@@ -290,23 +284,11 @@ function ShowCodeFooter({ code }: { code: string }) {
         {demoText(language, "Show code")}
       </button>
       {showCode ? (
-        <pre
-          id={codeId}
-          data-slot="code-block"
-          className="overflow-x-auto bg-background p-6 font-mono text-copy-13 leading-relaxed text-foreground"
-        >
-          <code className="language-tsx prism-code">
-            {highlighted.map((tokens, i) => (
-              <div key={i} className="token-line whitespace-pre">
-                {tokens.map((t, j) => (
-                  <span key={j} className={`token ${t.type}`}>
-                    {t.content}
-                  </span>
-                ))}
-              </div>
-            ))}
-          </code>
-        </pre>
+        <div id={codeId}>
+          <CodeBlockComponent language="tsx" className="rounded-none border-0">
+            {code}
+          </CodeBlockComponent>
+        </div>
       ) : null}
     </>
   );
