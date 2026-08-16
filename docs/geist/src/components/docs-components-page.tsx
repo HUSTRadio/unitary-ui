@@ -373,11 +373,22 @@ function AvatarDemo() {
 }
 
 function PaginationDemo() {
+  const demoCode = (id: string) => DEMO_CODE.pagination?.[id] ?? "";
   return (
-    <Pagination
-      previous={{ title: "Avatar", href: "#/components/avatar" }}
-      next={{ title: "Phone", href: "#/components/phone" }}
-    />
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Default"
+    >
+      <div className="flex w-full overflow-x-auto md:overflow-visible">
+        <div className="w-full p-6" data-demo-container="Default">
+          <Pagination
+            previous={{ title: "Avatar", href: "#/components/avatar" }}
+            next={{ title: "Phone", href: "#/components/phone" }}
+          />
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
+    </div>
   );
 }
 
@@ -2212,10 +2223,14 @@ function ToastDemo() {
 }
 
 function CopyButtonDemo() {
+  const demoCode = (id: string) => DEMO_CODE["copy-button"]?.[id] ?? "";
   return (
-    <div className="flex flex-wrap items-center gap-3">
-      <CopyButton textToCopy="lipsum" />
-      <span className="text-copy-13 text-muted-foreground">Click to copy “lipsum”</span>
+    <div className="flex flex-wrap items-center gap-3" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <CopyButton textToCopy="lipsum" />
+        <span className="text-copy-13 text-muted-foreground">Click to copy “lipsum”</span>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
@@ -2483,13 +2498,17 @@ function BookDemo() {
 }
 
 function BrowserDemo() {
+  const demoCode = (id: string) => DEMO_CODE.browser?.[id] ?? "";
   return (
-    <div className="w-full max-w-2xl">
-      <Browser address="https://vercel.com">
-        <div className="flex h-24 items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
-          Screenshot or demo content
-        </div>
-      </Browser>
+    <div className="w-full max-w-2xl" data-demo-card="Composition">
+      <div className="w-full p-6" data-demo-container="Composition">
+        <Browser address="https://vercel.com">
+          <div className="flex h-24 items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
+            Screenshot or demo content
+          </div>
+        </Browser>
+      </div>
+      <ShowCodeFooter code={demoCode("Composition")} />
     </div>
   );
 }
@@ -3042,15 +3061,19 @@ function JsonViewDemo() {
 }
 
 function PhoneDemo() {
+  const demoCode = (id: string) => DEMO_CODE.phone?.[id] ?? "";
   return (
-    <div className="w-full max-w-xs">
-      <Phone>
-        <PhoneScreen>
-          <div className="flex h-full min-h-[540px] items-center justify-center rounded-md bg-gray-alpha-100 text-copy-14 text-muted-foreground">
-            Mobile screenshot
-          </div>
-        </PhoneScreen>
-      </Phone>
+    <div className="w-full max-w-xs" data-demo-card="Composition">
+      <div className="w-full p-6" data-demo-container="Composition">
+        <Phone>
+          <PhoneScreen>
+            <div className="flex h-full min-h-[540px] items-center justify-center rounded-md bg-gray-alpha-100 text-copy-14 text-muted-foreground">
+              Mobile screenshot
+            </div>
+          </PhoneScreen>
+        </Phone>
+      </div>
+      <ShowCodeFooter code={demoCode("Composition")} />
     </div>
   );
 }
@@ -3230,15 +3253,19 @@ const codeExample = `export function Component(): JSX.Element {
 }`;
 
 function CodeDemo() {
+  const demoCode = (id: string) => DEMO_CODE.code?.[id] ?? "";
   return (
-    <div className="flex w-full max-w-2xl flex-col gap-3">
-      <p className="text-copy-14 text-muted-foreground">
-        Install with <InlineCode>npm i geist</InlineCode> and import the component.
-      </p>
-      <p className="text-copy-14 text-muted-foreground">
-        Use <InlineCode>type="error"</InlineCode> for destructive confirmations.
-      </p>
-      <Code syntax="javascript">{codeExample}</Code>
+    <div className="flex w-full max-w-2xl flex-col gap-3" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <p className="text-copy-14 text-muted-foreground">
+          Install with <InlineCode>npm i geist</InlineCode> and import the component.
+        </p>
+        <p className="text-copy-14 text-muted-foreground">
+          Use <InlineCode>type="error"</InlineCode> for destructive confirmations.
+        </p>
+        <Code syntax="javascript">{codeExample}</Code>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
@@ -3930,26 +3957,30 @@ function GaugeDemo() {
 }
 
 function FileTreeDemo() {
+  const demoCode = (id: string) => DEMO_CODE["file-tree"]?.[id] ?? "";
   return (
-    <div className="w-full max-w-xs">
-      <FileTree>
-        <FileTreeItem>
-          <FileTreeIcon type="folder-open" />
-          <FileTreeLabel>app</FileTreeLabel>
+    <div className="w-full max-w-xs" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <FileTree>
           <FileTreeItem>
-            <FileTreeIcon type="file" />
-            <FileTreeLabel>main.tsx</FileTreeLabel>
+            <FileTreeIcon type="folder-open" />
+            <FileTreeLabel>app</FileTreeLabel>
+            <FileTreeItem>
+              <FileTreeIcon type="file" />
+              <FileTreeLabel>main.tsx</FileTreeLabel>
+            </FileTreeItem>
+            <FileTreeItem>
+              <FileTreeIcon type="file" />
+              <FileTreeLabel>dashboard.tsx</FileTreeLabel>
+            </FileTreeItem>
           </FileTreeItem>
           <FileTreeItem>
-            <FileTreeIcon type="file" />
-            <FileTreeLabel>dashboard.tsx</FileTreeLabel>
+            <FileTreeIcon type="folder" />
+            <FileTreeLabel>public</FileTreeLabel>
           </FileTreeItem>
-        </FileTreeItem>
-        <FileTreeItem>
-          <FileTreeIcon type="folder" />
-          <FileTreeLabel>public</FileTreeLabel>
-        </FileTreeItem>
-      </FileTree>
+        </FileTree>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
@@ -4025,10 +4056,21 @@ function KeyboardInputDemo() {
 }
 
 function BannerDemo() {
+  const demoCode = (id: string) => DEMO_CODE.banner?.[id] ?? "";
   return (
-    <Banner button={{ href: "#/components", content: "Read more" }} className="w-full p-4">
-      <b>Big News</b> – New components finally available
-    </Banner>
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Default"
+    >
+      <div className="flex w-full overflow-x-auto md:overflow-visible">
+        <div className="w-full p-6" data-demo-container="Default">
+          <Banner button={{ href: "#/components", content: "Read more" }} className="w-full p-4">
+            <b>Big News</b> – New components finally available
+          </Banner>
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
+    </div>
   );
 }
 
@@ -4777,14 +4819,25 @@ function ErrorDemo() {
 }
 
 function ErrorCardDemo() {
+  const demoCode = (id: string) => DEMO_CODE["error-card"]?.[id] ?? "";
   return (
-    <ErrorCard className="w-full max-w-md" icon={<Trash2 className="size-6" />}>
-      <ErrorCardTitle>No Credits Left</ErrorCardTitle>
-      <ErrorCardDescription>Add credits to continue deploying projects.</ErrorCardDescription>
-      <ErrorCardAction>
-        <Button>Add Credits</Button>
-      </ErrorCardAction>
-    </ErrorCard>
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Default"
+    >
+      <div className="flex w-full overflow-x-auto md:overflow-visible">
+        <div className="w-full p-6" data-demo-container="Default">
+          <ErrorCard className="w-full max-w-md" icon={<Trash2 className="size-6" />}>
+            <ErrorCardTitle>No Credits Left</ErrorCardTitle>
+            <ErrorCardDescription>Add credits to continue deploying projects.</ErrorCardDescription>
+            <ErrorCardAction>
+              <Button>Add Credits</Button>
+            </ErrorCardAction>
+          </ErrorCard>
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
+    </div>
   );
 }
 
@@ -5039,9 +5092,13 @@ function LoadingDotsDemo() {
 }
 
 function MiddleTruncateDemo() {
+  const demoCode = (id: string) => DEMO_CODE["middle-truncate"]?.[id] ?? "";
   return (
-    <div className="w-64 font-mono text-copy-13 text-foreground">
-      <MiddleTruncate value="https://example.com/teams/hustradio/projects/geist-style-framework/deployments/latest" />
+    <div className="w-64 font-mono text-copy-13 text-foreground" data-demo-card="Examples">
+      <div className="w-full p-6" data-demo-container="Examples">
+        <MiddleTruncate value="https://example.com/teams/hustradio/projects/geist-style-framework/deployments/latest" />
+      </div>
+      <ShowCodeFooter code={demoCode("Examples")} />
     </div>
   );
 }
@@ -5332,7 +5389,20 @@ function RadioDemo() {
 }
 
 function RelativeTimeCardDemo() {
-  return <RelativeTimeCard date={Date.now() - 5 * 60 * 1000} />;
+  const demoCode = (id: string) => DEMO_CODE["relative-time-card"]?.[id] ?? "";
+  return (
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Default"
+    >
+      <div className="flex w-full overflow-x-auto md:overflow-visible">
+        <div className="w-full p-6" data-demo-container="Default">
+          <RelativeTimeCard date={Date.now() - 5 * 60 * 1000} />
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
+    </div>
+  );
 }
 
 function SearchInputDemo() {
