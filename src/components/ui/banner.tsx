@@ -17,59 +17,42 @@ interface BannerProps extends React.ComponentProps<"div"> {
 /**
  * Banner - 官方 @vercel/geistcn Banner 对齐实现（vercel.com/geist/banner 实测）。
  *
- * 响应式双根节点：
- * - Mobile（<lg）：整条胶囊 `<a>`（lg:hidden）——文本 + chevron，无 "Read more" 文本
- * - Desktop（≥lg）：`<div>` 文本 + 单独 CTA 胶囊（hidden lg:flex）
+ * 单一 universal 形态：横幅消息（children）+ 可选 CTA 胶囊（button），所有 viewport 一致。
+ * banner 的语义是「横幅消息」，整个 banner 绝不降级为一条按钮。
  *
- * 胶囊样式（官方实测）：bg background-100 + 1px ring（gray-400）+ 底部阴影
- * （shadow-border-small）+ rounded-full + h-8 + px-3 + text-button-14/500。
- * `<b>` 字重：mobile 胶囊保持原生 bold（700）；desktop 文本由根 div `[&_b]:font-semibold` 降为 600（官方实测）。
+ * 官方结构（实测）：max-w-[1080px] + w-full + flex + items-center + justify-center
+ * + gap-3 + [&_b]:text-gray-1000 [&_b]:font-semibold + p-4（组件内置）；
+ * 文本 p 用 text-copy-16 text-gray-900；CTA 胶囊 bg-background-100 + rounded-full
+ * + h-8 + px-3 + text-button-14/500 + shadow-border-small。
  */
 const CTA_CLASS =
   "inline-flex h-8 max-w-full shrink-0 items-center justify-center rounded-full bg-background-100 px-3 text-button-14 font-medium text-gray-1000 shadow-[var(--material-shadow-small)] outline-none transition-colors hover:bg-gray-100 dark:hover:bg-gray-200 focus-ring";
 
 function Banner({ button, children, className, ...props }: BannerProps) {
   return (
-    <>
-      {/* Mobile：整条胶囊链接（文本 + chevron） */}
-      <a
-        data-slot="banner"
-        href={button?.href}
-        target={button?.target}
-        rel={button?.rel}
-        className={cn(CTA_CLASS, "mx-auto !w-fit lg:hidden")}
-      >
-        <span className="inline-block truncate px-1.5">{children}</span>
-        <span className="ml-1 mr-0.5 flex shrink-0 items-center justify-center" aria-hidden>
-          <ChevronRight className="size-3.5" />
-        </span>
-      </a>
-
-      {/* Desktop：文本 + 单独 CTA 胶囊 */}
-      <div
-        data-slot="banner"
-        className={cn(
-          "hidden w-full max-w-[1080px] items-center justify-center gap-3 lg:flex [&_b]:text-gray-1000 [&_b]:font-semibold",
-          className,
-        )}
-        {...props}
-      >
-        <p className="text-copy-16 text-gray-900">{children}</p>
-        {button && (
-          <a
-            href={button.href}
-            target={button.target}
-            rel={button.rel}
-            className={CTA_CLASS}
-          >
-            <span className="inline-block truncate px-1.5">{button.content}</span>
-            <span className="ml-1 mr-0.5 flex shrink-0 items-center justify-center" aria-hidden>
-              <ChevronRight className="size-3.5" />
-            </span>
-          </a>
-        )}
-      </div>
-    </>
+    <div
+      data-slot="banner"
+      className={cn(
+        "flex w-full max-w-[1080px] flex-wrap items-center justify-center gap-3 p-4 [&_b]:text-gray-1000 [&_b]:font-semibold",
+        className,
+      )}
+      {...props}
+    >
+      <p className="text-copy-16 text-gray-900">{children}</p>
+      {button && (
+        <a
+          href={button.href}
+          target={button.target}
+          rel={button.rel}
+          className={CTA_CLASS}
+        >
+          <span className="inline-block truncate px-1.5">{button.content}</span>
+          <span className="ml-1 mr-0.5 flex shrink-0 items-center justify-center" aria-hidden>
+            <ChevronRight className="size-3.5" />
+          </span>
+        </a>
+      )}
+    </div>
   );
 }
 

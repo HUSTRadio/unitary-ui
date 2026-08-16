@@ -4,19 +4,20 @@ import { describe, expect, it } from "vitest";
 import { Banner } from "../src/components/ui/banner";
 
 describe("Banner official API contract", () => {
-  it("renders a mobile whole-message CTA visible below lg breakpoint", () => {
+  it("renders a single universal message + CTA structure (no mobile pill variant)", () => {
     const markup = renderToStaticMarkup(
-      <Banner button={{ href: "#", content: "Read more" }} className="p-4">
+      <Banner button={{ href: "#", content: "Read more" }}>
         <b>Big News</b> – New components finally available
       </Banner>,
     );
 
-    // Must NOT be entirely hidden below lg
-    expect(markup).not.toContain("hidden ... lg:flex");
-    // Must have a mobile-visible pill CTA (lg:hidden on the pill variant)
-    expect(markup).toMatch(/lg:hidden/);
-    // Must have a desktop content/CTA row (hidden ... lg:flex)
-    expect(markup).toMatch(/hidden[^"]*lg:flex/);
+    // Single root banner element, not a hidden/mobile split
+    expect(markup.match(/data-slot="banner"/g)).toHaveLength(1);
+    // No whole-message pill button variant
+    expect(markup).not.toContain("lg:hidden");
+    // Text and CTA are siblings inside the banner container
+    expect(markup).toContain("<p");
+    expect(markup).toContain("Read more");
   });
 
   it("CTA uses text-button-14 (14px/21px line height) not 20px", () => {

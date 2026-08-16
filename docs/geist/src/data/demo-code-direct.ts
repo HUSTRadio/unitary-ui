@@ -7,7 +7,7 @@ export const DEMO_CODE_DIRECT: Record<string, Record<string, string>> = {
   banner: {
     Default: `import { Banner } from "@/components/ui/banner";
 
-<Banner button={{ href: "#/components", content: "Read more" }} className="w-full p-4">
+<Banner button={{ href: "#/components", content: "Read more" }}>
   <b>Big News</b> – New components finally available
 </Banner>`,
   },

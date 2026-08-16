@@ -54,7 +54,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     official: "Banner",
     code: `import { Banner } from "@/components/ui/banner";
 
-<Banner button={{ href: "#", content: "Read more" }} className="p-4">
+<Banner button={{ href: "#", content: "Read more" }}>
   <b>Big News</b> – New components finally available
 </Banner>`,
   },

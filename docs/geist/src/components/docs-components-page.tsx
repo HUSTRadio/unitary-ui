@@ -4475,7 +4475,7 @@ function BannerDemo() {
     >
       <div className="flex w-full overflow-x-auto md:overflow-visible">
         <div className="w-full p-6" data-demo-container="Default">
-          <Banner button={{ href: "#/components", content: "Read more" }} className="p-4">
+          <Banner button={{ href: "#/components", content: "Read more" }}>
             <b>Big News</b> – New components finally available
           </Banner>
         </div>
