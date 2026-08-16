@@ -8473,7 +8473,7 @@ function ComponentsOverview() {
         {demoText(language, "Building blocks for React applications.")}
       </p>
 
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-10 grid grid-cols-1 border-t border-l border-border sm:grid-cols-2 xl:grid-cols-3">
         {COMPONENTS.map((component) => (
           <a
             key={component.name}
