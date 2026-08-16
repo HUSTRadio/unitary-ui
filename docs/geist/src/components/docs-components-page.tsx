@@ -2559,6 +2559,10 @@ function CalendarDemo() {
     </>
   );
 
+  const now = new Date();
+  const minDate = new Date(now.getFullYear(), now.getMonth() - 2, now.getDate());
+  const maxDate = new Date(now.getFullYear(), now.getMonth() + 2, now.getDate());
+
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
@@ -2580,7 +2584,7 @@ function CalendarDemo() {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="horizontal-layout">
             <div className="flex justify-center py-12">
-              <Calendar label={triggerLabel} />
+              <Calendar label={triggerLabel} horizontalLayout />
             </div>
           </div>
         </div>
@@ -2606,6 +2610,27 @@ function CalendarDemo() {
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="presets"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="presets">
+            <div className="flex justify-center py-12">
+              <Calendar
+                label={triggerLabel}
+                showCombobox
+                comboboxFirst
+                comboboxFull
+                comboboxWide
+                comboboxLabel={comboboxLabel}
+                comboboxPlaceholder={periodLabel}
+                presets={presetTexts}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="compact"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2613,13 +2638,74 @@ function CalendarDemo() {
             <div className="flex justify-center py-12">
               <Calendar
                 label={triggerLabel}
-                showCombobox
-                className={CALENDAR_ROW_CLASS}
-                width={180}
-                triggerClassName={TRIGGER_ROW_EXTRA_CLASS}
+                compact
                 comboboxLabel={comboboxLabel}
                 presets={presetTexts}
               />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="stacked"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="stacked">
+            <div className="flex justify-center py-12">
+              <Calendar
+                label={triggerLabel}
+                stacked
+                comboboxLabel={comboboxLabel}
+                comboboxPlaceholder={periodLabel}
+                presets={presetTexts}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="presets-default"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="presets-default">
+            <div className="flex justify-center py-12">
+              <Calendar
+                label={triggerLabel}
+                showCombobox
+                comboboxFirst
+                comboboxFull
+                comboboxWide
+                comboboxLabel={comboboxLabel}
+                comboboxPlaceholder={periodLabel}
+                presets={presetTexts}
+                presetIndex={2}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="min-max"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="min-max">
+            <div className="flex justify-center py-12">
+              <Calendar label={triggerLabel} minValue={minDate} maxValue={maxDate} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="pinned-timezone"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="pinned-timezone">
+            <div className="flex justify-center py-12">
+              <Calendar label={triggerLabel} pinnedTimezone="America/Los_Angeles" />
             </div>
           </div>
         </div>

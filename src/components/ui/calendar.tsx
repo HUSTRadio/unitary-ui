@@ -131,6 +131,8 @@ interface CalendarComboboxProps {
   /** 受控选中值（preset text）。 */
   value?: string;
   onValueChange?: (value: string) => void;
+  /** 默认选中 preset 索引（官方 presetIndex）。 */
+  defaultIndex?: number;
 }
 
 function CalendarCombobox({
@@ -142,10 +144,13 @@ function CalendarCombobox({
   presets = [],
   value,
   onValueChange,
+  defaultIndex,
 }: CalendarComboboxProps) {
   const sizeToken = size === "small" ? "small" : "medium";
   const [open, setOpen] = React.useState(false);
-  const [internalValue, setInternalValue] = React.useState("");
+  const [internalValue, setInternalValue] = React.useState(
+    () => (defaultIndex !== undefined ? (presets[defaultIndex] ?? "") : ""),
+  );
   const currentValue = value !== undefined ? value : internalValue;
 
   const select = (text: string) => {
@@ -314,6 +319,20 @@ interface CalendarProps {
   comboboxLabel?: string;
   /** 快速选择 preset 文本列表（传给 combobox，官方 presets 各条目 text） */
   presets?: string[];
+  /** 打开态横向布局（官方 horizontalLayout：日历在左、Start/End 在右） */
+  horizontalLayout?: boolean;
+  /** 紧凑排布（官方 compact：trigger 左圆角 + combobox 右圆角，宽 180） */
+  compact?: boolean;
+  /** 纵向堆叠（官方 stacked：combobox 在上、trigger 在下） */
+  stacked?: boolean;
+  /** 固定时区标签（官方 pinnedTimezone，覆盖默认 Local 时区） */
+  pinnedTimezone?: string;
+  /** 默认选中 preset 索引（官方 presetIndex，触发按钮显示该 preset 的日期范围） */
+  presetIndex?: number;
+  /** 可选最小日期（官方 minValue，范围外日期禁用） */
+  minValue?: Date;
+  /** 可选最大日期（官方 maxValue，范围外日期禁用） */
+  maxValue?: Date;
 }
 
 function Calendar({
@@ -329,9 +348,26 @@ function Calendar({
   triggerClassName,
   comboboxLabel = "Combobox Menu",
   presets = [],
+  horizontalLayout = false,
+  compact = false,
+  stacked = false,
+  pinnedTimezone,
+  presetIndex,
+  minValue,
+  maxValue,
 }: CalendarProps) {
   const isSmall = size === "small";
-  const groupClass = showCombobox
+  // compact/stacked 隐含 combobox + 排布（官方：compact 横向紧凑、stacked 纵向堆叠）
+  const effectiveShowCombobox = showCombobox || compact || stacked;
+  const effectiveComboboxFirst = compact ? false : stacked ? true : comboboxFirst;
+  const effectiveComboboxFull = stacked ? true : comboboxFull;
+  const effectiveWidth = compact ? 180 : width;
+  const effectiveClassName = compact
+    ? cn(CALENDAR_ROW_CLASS, className)
+    : stacked
+      ? cn(calendarColClass(size), className)
+      : className;
+  const groupClass = effectiveShowCombobox
     ? "group/calendar relative inline-flex w-full"
     : "group/calendar relative inline-flex";
 
@@ -339,19 +375,20 @@ function Calendar({
     <div
       data-geist-calendar=""
       data-version="v1"
-      className={className}
+      className={effectiveClassName}
       style={
-        { "--width": `${width}px`, width: "auto", "--ds-size-small": "32px" } as React.CSSProperties
+        { "--width": `${effectiveWidth}px`, width: "auto", "--ds-size-small": "32px" } as React.CSSProperties
       }
     >
-      {comboboxFirst && showCombobox && (
+      {effectiveComboboxFirst && effectiveShowCombobox && (
         <CalendarCombobox
           size={size}
-          full={comboboxFull}
+          full={effectiveComboboxFull}
           wide={comboboxWide}
           placeholder={comboboxPlaceholder}
           label={comboboxLabel}
           presets={presets}
+          defaultIndex={presetIndex}
         />
       )}
       <PopoverPrimitive.Root>
@@ -410,18 +447,24 @@ function Calendar({
             className="group/popover z-30 w-[280px] overflow-x-hidden overflow-y-auto rounded-[12px] bg-[var(--ds-background-100)] shadow-[var(--ds-shadow-menu)] outline-none"
           >
             <button type="button" className="sr-only" />
-            <CalendarPanel />
+            <CalendarPanel
+              horizontalLayout={horizontalLayout}
+              pinnedTimezone={pinnedTimezone}
+              minValue={minValue}
+              maxValue={maxValue}
+            />
           </PopoverPrimitive.Content>
         </PopoverPrimitive.Portal>
       </PopoverPrimitive.Root>
-      {!comboboxFirst && showCombobox && (
+      {!effectiveComboboxFirst && effectiveShowCombobox && (
         <CalendarCombobox
           size={size}
-          full={comboboxFull}
+          full={effectiveComboboxFull}
           wide={comboboxWide}
           placeholder={comboboxPlaceholder}
           label={comboboxLabel}
           presets={presets}
+          defaultIndex={presetIndex}
         />
       )}
     </div>
@@ -509,7 +552,17 @@ const GEIST_CHEVRON_LEFT =
 const GEIST_CHEVRON_RIGHT =
   "M6.44 4.06l5.09 4.44a1 1 0 0 1 0 1.42l-4.8 4.8a1 1 0 0 1-1.42 0l-.53-.53 4.27-4.27L4.5 5l.53-.53a1 1 0 0 1 1.41-.41z";
 
-function CalendarPanel() {
+function CalendarPanel({
+  horizontalLayout = false,
+  pinnedTimezone,
+  minValue,
+  maxValue,
+}: {
+  horizontalLayout?: boolean;
+  pinnedTimezone?: string;
+  minValue?: Date;
+  maxValue?: Date;
+}) {
   const today = new Date();
   const [viewYear, setViewYear] = React.useState(today.getFullYear());
   const [viewMonth, setViewMonth] = React.useState(today.getMonth());
@@ -517,7 +570,8 @@ function CalendarPanel() {
   const [end, setEnd] = React.useState<Date | null>(null);
 
   const timeZone =
-    typeof Intl === "undefined" ? "UTC" : Intl.DateTimeFormat().resolvedOptions().timeZone;
+    pinnedTimezone ??
+    (typeof Intl === "undefined" ? "UTC" : Intl.DateTimeFormat().resolvedOptions().timeZone);
 
   const cells = monthGrid(viewYear, viewMonth);
 
@@ -537,6 +591,8 @@ function CalendarPanel() {
   const isEnd = (d: Date) => (end ? sameDay(d, end) : false);
   const inRange = (d: Date) => !!(start && end && d > start && d < end);
   const isSelected = (d: Date) => isStart(d) || isEnd(d) || inRange(d);
+  const isDisabled = (d: Date) =>
+    (minValue !== undefined && d < minValue) || (maxValue !== undefined && d > maxValue);
 
   const prevMonth = () => {
     const m = new Date(viewYear, viewMonth - 1, 1);
@@ -551,8 +607,8 @@ function CalendarPanel() {
 
   return (
     <div className={PANEL_CONTENT_CLASS}>
-      <div className="flex flex-col">
-        {/* 日历（在上） */}
+      <div className={horizontalLayout ? "flex flex-row" : "flex flex-col"}>
+        {/* 日历（在上 / 左） */}
         <div>
           <div className="flex flex-row items-center justify-between" style={{ margin: "-3px 0px" }}>
             <div
@@ -617,24 +673,32 @@ function CalendarPanel() {
                     const selected = isSelected(d);
                     const startDay = isStart(d);
                     const endDay = isEnd(d);
+                    const disabled = isDisabled(d);
                     return (
                       <td key={i} role="gridcell" aria-selected={selected} className={GRID_CELL_CLASS}>
                         <span
                           role="button"
                           tabIndex={-1}
                           aria-label={d.toLocaleDateString()}
+                          aria-disabled={disabled || undefined}
                           data-testid={`calendar/cell/date-${d.getDate()}`}
                           className={cn(
-                            "z-[1] outline-none block h-9 w-full rounded-[5px] text-[14px] font-normal text-center border border-transparent m-0 leading-9 cursor-pointer",
-                            startDay || endDay
-                              ? "bg-blue-900 !text-background-100"
-                              : inRange(d)
-                                ? "bg-gray-alpha-300 text-gray-1000"
-                                : inMonth
-                                  ? "text-gray-1000"
-                                  : "text-gray-700",
+                            "z-[1] outline-none block h-9 w-full rounded-[5px] text-[14px] font-normal text-center border border-transparent m-0 leading-9",
+                            disabled
+                              ? "cursor-not-allowed text-gray-500"
+                              : "cursor-pointer",
+                            !disabled &&
+                              (startDay || endDay
+                                ? "bg-blue-900 !text-background-100"
+                                : inRange(d)
+                                  ? "bg-gray-alpha-300 text-gray-1000"
+                                  : inMonth
+                                    ? "text-gray-1000"
+                                    : "text-gray-700"),
                           )}
-                          onClick={() => selectDate(d)}
+                          onClick={() => {
+                            if (!disabled) selectDate(d);
+                          }}
                         >
                           {d.getDate()}
                         </span>
@@ -647,8 +711,14 @@ function CalendarPanel() {
           </table>
         </div>
 
-        {/* Start / End（在下，带分割线） */}
-        <div className="-ml-3 -mr-3 mt-3 border-t border-gray-alpha-200 px-3 pt-3">
+        {/* Start / End（在下 / 右，带分割线） */}
+        <div
+          className={
+            horizontalLayout
+              ? "-ml-3 -mr-3 mt-3 border-t border-gray-alpha-200 px-3 pt-3 md:ml-3 md:mt-0 md:border-t-0 md:border-l md:pl-3 md:pt-0"
+              : "-ml-3 -mr-3 mt-3 border-t border-gray-alpha-200 px-3 pt-3"
+          }
+        >
           <div className="space-y-2">
             <div>
               <div className="mb-1 flex items-center justify-between">
@@ -741,7 +811,9 @@ function CalendarPanel() {
 
         {/* 时区选择器 */}
         <div className="mt-1 flex justify-center pl-4">
-          <span className="text-xs text-gray-800">Local ({timeZone})</span>
+          <span className="text-xs text-gray-800">
+            {pinnedTimezone ? `Timezone: ${pinnedTimezone}` : `Local (${timeZone})`}
+          </span>
         </div>
       </div>
     </div>
