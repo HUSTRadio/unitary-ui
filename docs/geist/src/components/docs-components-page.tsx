@@ -200,6 +200,7 @@ import { Tooltip } from "@/components/ui/tooltip";
 import { Video } from "@/components/ui/video";
 
 import { COMPONENTS, type ComponentMeta } from "../data/components";
+import { DEMO_CODE } from "../data/demo-code";
 import { demoText, demoTextWithValues } from "../i18n/components-demo";
 import { type DocsLanguage, useLanguage } from "../i18n/language";
 
@@ -2562,6 +2563,7 @@ function CalendarDemo() {
   const now = new Date();
   const minDate = new Date(now.getFullYear(), now.getMonth() - 2, now.getDate());
   const maxDate = new Date(now.getFullYear(), now.getMonth() + 2, now.getDate());
+  const demoCode = (id: string) => DEMO_CODE.calendar?.[id] ?? "";
 
   return (
     <div className="w-full max-w-[862px] space-y-6">
@@ -2576,6 +2578,7 @@ function CalendarDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -2588,6 +2591,7 @@ function CalendarDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("horizontal-layout")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -2607,6 +2611,7 @@ function CalendarDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("sizes")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -2628,6 +2633,7 @@ function CalendarDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("presets")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -2645,6 +2651,7 @@ function CalendarDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("compact")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -2663,6 +2670,7 @@ function CalendarDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("stacked")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -2685,6 +2693,7 @@ function CalendarDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("presets-default")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -2697,6 +2706,7 @@ function CalendarDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("min-max")} />
       </div>
       <div
         className="relative rounded-[8px] border border-gray-alpha-400 bg-background-100"
@@ -2709,6 +2719,7 @@ function CalendarDemo() {
             </div>
           </div>
         </div>
+        <ShowCodeFooter code={demoCode("pinned-timezone")} />
       </div>
     </div>
   );
