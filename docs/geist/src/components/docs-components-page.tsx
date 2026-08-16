@@ -3871,24 +3871,45 @@ function FeedbackDemo() {
   return (
     <>
       <Card id="Default">
-        <Feedback label="vercel" dryRun />
+        <div className="hidden justify-center xl:flex">
+          <Feedback label="vercel" dryRun />
+        </div>
+        <div className="flex justify-center xl:hidden">
+          <Note>
+            <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
+          </Note>
+        </div>
       </Card>
       <Card id="Inline">
         <Feedback dryRun label="vercel" type="inline" />
       </Card>
       <Card id="Feedback with Select">
-        <Feedback label="vercel" showTopics dryRun />
+        <div className="hidden justify-center xl:flex">
+          <Feedback label="vercel" showTopics dryRun />
+        </div>
+        <div className="flex justify-center xl:hidden">
+          <Note>
+            <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
+          </Note>
+        </div>
       </Card>
       <Card id="Feedback with metadata">
-        <Feedback
-          label="vercel"
-          dryRun
-          metadata={{
-            userId: "user_12345",
-            location: "post-checkout",
-            orderId: "order_123456",
-          }}
-        />
+        <div className="hidden justify-center xl:flex">
+          <Feedback
+            label="vercel"
+            dryRun
+            metadata={{
+              userId: "user_12345",
+              location: "post-checkout",
+              orderId: "order_123456",
+            }}
+          />
+        </div>
+        <div className="flex justify-center xl:hidden">
+          <Note>
+            <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
+          </Note>
+        </div>
       </Card>
       <Card id="Feedback with prefix">
         <Feedback dryRun label="vercel" prefix={<Flag className="size-4" />} />
