@@ -19,7 +19,7 @@ describe("Table docs demo card contract", () => {
     expect(source).toContain("id={codeId}");
     expect(source).toContain("Show code");
     expect(source).toContain("h-12 w-full items-center");
-    expect(source).toContain("border-t border-gray-alpha-400 bg-background-200");
+    expect(source).toContain("border-t border-gray-400 bg-background-200");
   });
 
   it("uses TableDemoCard for Live Demo and all table variants", () => {

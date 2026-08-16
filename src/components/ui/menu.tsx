@@ -173,7 +173,7 @@ const MenuItem = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Item>, M
         data-slot="menu-item"
         data-type={type}
         className={cn(
-          "relative flex min-h-9 cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-label-14 text-foreground outline-none transition-colors data-highlighted:bg-gray-alpha-100 data-[disabled]:pointer-events-none data-[disabled]:text-muted-foreground data-[disabled]:opacity-60",
+          "relative flex h-9 cursor-default select-none items-center gap-2 rounded-md px-2 text-label-14 text-foreground outline-none transition-colors data-highlighted:bg-gray-alpha-100 data-[disabled]:pointer-events-none data-[disabled]:text-muted-foreground data-[disabled]:opacity-60",
           type === "error" &&
             "text-destructive data-highlighted:bg-destructive data-highlighted:text-destructive-foreground",
           className,

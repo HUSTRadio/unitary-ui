@@ -160,7 +160,7 @@ describe("docs language support", () => {
       "utf8",
     );
 
-    expect(source).toContain('demoText(language, "Loading deployment")');
+    expect(source).toContain('demoText(language, "Loading")');
     expect(source).toContain('demoTextWithValues(language, "{count} selected"');
     expect(source).not.toContain("{selected.length} selected");
     expect(source).not.toContain("Loading deployment <LoadingDots />");
