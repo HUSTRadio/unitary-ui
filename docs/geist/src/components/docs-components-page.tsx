@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useLocation } from "react-router-dom";
 import {
+  Accessibility,
   ArrowDownCircle,
   ArrowLeft,
   ArrowRight,
@@ -13,12 +14,12 @@ import {
   Clock,
   Copy,
   CopyCheck,
-  Edit,
   ExternalLink,
   LayoutGrid,
   List,
   Lock,
   LockOpen,
+  MoreHorizontal,
   Rocket,
   RotateCcw,
   Save,
@@ -85,7 +86,7 @@ import { CopyButton } from "@/components/ui/copy-button";
 import { Description } from "@/components/ui/description";
 import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
 import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
-import { Menu, MenuButton, MenuContainer, MenuDivider, MenuItem } from "@/components/ui/menu";
+import { Menu, MenuButton, MenuContainer, MenuDivider, MenuItem, MenuItemLocked, MenuLink, MenuSection } from "@/components/ui/menu";
 import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
 import {
   Entity,
@@ -210,66 +211,13 @@ import { type DocsLanguage, useLanguage } from "../i18n/language";
  * 详情模式（/components/:name）：返回链接 + 实时 demo（直接渲染根元件）+ 代码块（带 Copy 按钮）。
  */
 
-/* ---------- Copy 按钮（复用 Introduction 页终端行模式） ---------- */
-
-function CodeCopyButton({ text }: { text: string }) {
-  const { language } = useLanguage();
-  const [copied, setCopied] = React.useState(false);
-  const timer = React.useRef<number | undefined>(undefined);
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch {
-      // 降级：隐藏 textarea + execCommand（无 clipboard 权限的环境仍可复制并给出反馈）
-      const textarea = document.createElement("textarea");
-      textarea.value = text;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      textarea.remove();
-    }
-    setCopied(true);
-    window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(() => setCopied(false), 1500);
-  };
-
-  React.useEffect(() => () => window.clearTimeout(timer.current), []);
-
-  return (
-    <Button
-      typeName="button"
-      type="tertiary"
-      svgOnly
-      size="small"
-      aria-label={copied ? demoText(language, "Copied") : demoText(language, "Copy code")}
-      onClick={handleCopy}
-      className="shrink-0"
-    >
-      {copied ? (
-        <CopyCheck className="size-3.5 text-foreground" aria-hidden />
-      ) : (
-        <Copy className="size-3.5 text-muted-foreground" aria-hidden />
-      )}
-    </Button>
-  );
-}
-
 /* ---------- 代码块 ---------- */
 
-function CodeBlock({ code, label }: { code: string; label: string }) {
+function CodeBlock({ code, label, language }: { code: string; label: string; language?: string }) {
   return (
-    <div className="overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background">
-      <div className="flex items-center justify-between border-b border-[#eaeaea] py-1 pr-1 pl-3">
-        <span className="text-label-12-mono text-muted-foreground">{label}</span>
-        <CodeCopyButton text={code} />
-      </div>
-      <pre className="overflow-x-auto p-4 font-mono text-copy-13 leading-relaxed text-foreground">
-        <code>{code}</code>
-      </pre>
-    </div>
+    <CodeBlockComponent language={language} filename={label}>
+      {code}
+    </CodeBlockComponent>
   );
 }
 
@@ -807,24 +755,157 @@ function CheckboxDemo() {
 
 function MenuDemo() {
   const demoCode = (id: string) => DEMO_CODE.menu?.[id] ?? "";
-  const { language } = useLanguage();
+  const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="w-full p-6" data-demo-container={id}>
+        {children}
+      </div>
+      <ShowCodeFooter code={demoCode(id)} />
+    </div>
+  );
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
-      <div className="w-full p-6" data-demo-container="Default">
+    <>
+      <Card id="Default">
         <MenuContainer>
-          <MenuButton variant="secondary">Actions</MenuButton>
+          <MenuButton>Actions</MenuButton>
           <Menu width={200}>
-            <MenuItem prefix={<Edit aria-hidden />}>{demoText(language, "Edit Project")}</MenuItem>
-            <MenuItem prefix={<Copy aria-hidden />}>{demoText(language, "Duplicate Project")}</MenuItem>
-            <MenuDivider />
-            <MenuItem type="error" prefix={<Trash2 aria-hidden />}>
-              Delete Project
+            <MenuItem onClick={() => undefined}>One</MenuItem>
+            <MenuItem onClick={() => undefined}>Two</MenuItem>
+            <MenuItem onClick={() => undefined}>Three</MenuItem>
+            <MenuItem href="https://vercel.com">Test for Link</MenuItem>
+            <MenuItem onClick={() => undefined} type="error">
+              Delete
             </MenuItem>
           </Menu>
         </MenuContainer>
-      </div>
-      <ShowCodeFooter code={demoCode("Default")} />
-    </div>
+      </Card>
+
+      <Card id="With chevron">
+        <MenuContainer>
+          <MenuButton showChevron variant="secondary">
+            Actions
+          </MenuButton>
+          <Menu width={200}>
+            <MenuItem onClick={() => undefined}>One</MenuItem>
+            <MenuItem onClick={() => undefined}>Two</MenuItem>
+            <MenuItem onClick={() => undefined}>Three</MenuItem>
+            <MenuItem href="https://vercel.com">Test for Link</MenuItem>
+            <MenuItem onClick={() => undefined} type="error">
+              Delete
+            </MenuItem>
+          </Menu>
+        </MenuContainer>
+      </Card>
+
+      <Card id="Disabled items">
+        <MenuContainer>
+          <MenuButton>Actions</MenuButton>
+          <Menu width={200}>
+            <MenuItem onClick={() => undefined}>One</MenuItem>
+            <MenuItem onClick={() => undefined}>Two</MenuItem>
+            <MenuItem disabled onClick={() => undefined}>
+              Three
+            </MenuItem>
+            <MenuItem onClick={() => undefined} type="error">
+              Delete
+            </MenuItem>
+          </Menu>
+        </MenuContainer>
+      </Card>
+
+      <Card id="Locked items">
+        <MenuContainer>
+          <MenuButton>Actions</MenuButton>
+          <Menu width={200}>
+            <MenuItem onClick={() => undefined}>View Details</MenuItem>
+            <MenuItem onClick={() => undefined}>Edit</MenuItem>
+            <Tooltip className="w-full flex" text="You do not have the permissions to delete.">
+              <MenuItemLocked onClick={() => undefined}>Delete</MenuItemLocked>
+            </Tooltip>
+          </Menu>
+        </MenuContainer>
+      </Card>
+
+      <Card id="Link items">
+        <MenuContainer>
+          <MenuButton>Links</MenuButton>
+          <Menu width={200}>
+            <MenuLink href="/design/menu#custom-trigger">One</MenuLink>
+            <MenuLink href="#">Two</MenuLink>
+            <MenuLink href="#">Three</MenuLink>
+          </Menu>
+        </MenuContainer>
+      </Card>
+
+      <Card id="Custom trigger">
+        <MenuContainer>
+          <MenuButton variant="unstyled">
+            <Avatar size={30} username="evilrabbit" />
+          </MenuButton>
+          <Menu width={200}>
+            <MenuItem>One</MenuItem>
+            <MenuItem>Two</MenuItem>
+            <MenuItem>Three</MenuItem>
+          </Menu>
+        </MenuContainer>
+      </Card>
+
+      <Card id="Prefix and suffix">
+        <div className="flex flex-row items-stretch justify-start gap-6 flex-initial">
+          <MenuContainer>
+            <MenuButton aria-label="Menu" shape="square" size="small" svgOnly variant="secondary">
+              <MoreHorizontal />
+            </MenuButton>
+            <Menu>
+              <MenuItem prefix={<Accessibility />}>Left</MenuItem>
+              <MenuItem prefix={<Accessibility />}>Center</MenuItem>
+              <MenuItem prefix={<Accessibility />}>Right</MenuItem>
+            </Menu>
+          </MenuContainer>
+          <MenuContainer>
+            <MenuButton aria-label="Menu" shape="square" size="small" svgOnly variant="secondary">
+              <MoreHorizontal />
+            </MenuButton>
+            <Menu>
+              <MenuItem suffix={<Accessibility />}>Left</MenuItem>
+              <MenuItem suffix={<Accessibility />}>Center</MenuItem>
+              <MenuItem suffix={<Accessibility />}>Right</MenuItem>
+            </Menu>
+          </MenuContainer>
+        </div>
+      </Card>
+
+      <Card id="Menu position">
+        <MenuContainer position="left-start">
+          <MenuButton>Left Start</MenuButton>
+          <Menu width={200}>
+            <MenuItem>One</MenuItem>
+            <MenuItem>Two</MenuItem>
+          </Menu>
+        </MenuContainer>
+      </Card>
+
+      <Card id="With section">
+        <MenuContainer>
+          <MenuButton>Actions</MenuButton>
+          <Menu width={200}>
+            <MenuSection title="Section">
+              <MenuItem onClick={() => undefined}>One</MenuItem>
+              <MenuItem onClick={() => undefined}>Two</MenuItem>
+            </MenuSection>
+            <MenuItem onClick={() => undefined}>Three</MenuItem>
+            <MenuItemLocked onClick={() => undefined}>Locked</MenuItemLocked>
+            <MenuDivider />
+            <MenuItem onClick={() => undefined} type="error">
+              Delete
+            </MenuItem>
+          </Menu>
+        </MenuContainer>
+      </Card>
+    </>
   );
 }
 
@@ -1675,42 +1756,89 @@ function SeparatorDemo() {
 
 function SkeletonDemo() {
   const demoCode = (id: string) => DEMO_CODE.skeleton?.[id] ?? "";
-  return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
-      <div className="w-full p-6" data-demo-container="Default">
-        <div className="flex w-full max-w-xl flex-col gap-6">
-          {/* 卡片骨架 */}
-          <div className="flex w-full max-w-sm flex-col gap-3 rounded-lg border border-gray-alpha-400 p-4">
-            <div className="flex items-center gap-3">
-              <Skeleton className="size-10 rounded-full" />
-              <div className="flex flex-1 flex-col gap-2">
-                <Skeleton className="h-3 w-1/2" />
-                <Skeleton className="h-3 w-1/3" />
-              </div>
-            </div>
-            <Skeleton className="mt-2 h-4 w-full" />
-            <Skeleton className="h-4 w-5/6" />
-          </div>
-          {/* 文本骨架 */}
-          <div className="flex w-full max-w-sm flex-col gap-2">
-            <Skeleton className="h-4 w-1/3" />
-            <Skeleton className="h-3 w-full" />
-            <Skeleton className="h-3 w-5/6" />
-            <Skeleton className="h-3 w-2/3" />
-          </div>
-          {/* 圆形骨架 */}
-          <div className="flex items-center gap-4">
-            <Skeleton className="size-12 rounded-full" />
-            <Skeleton className="size-16 rounded-full" />
-            <Skeleton className="size-20 rounded-full" />
-          </div>
-        </div>
+  const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="w-full p-6" data-demo-container={id}>
+        {children}
       </div>
-      <ShowCodeFooter code={demoCode("Default")} />
+      <ShowCodeFooter code={demoCode(id)} />
     </div>
   );
+  return (
+    <>
+      <Card id="Default with set width">
+        <Skeleton width={160} />
+      </Card>
+      <Card id="Default with box height">
+        <Skeleton boxHeight={42} width={160} />
+      </Card>
+      <Card id="Wrapping children">
+        <div className="flex flex-col items-start justify-start gap-4 flex-initial">
+          <Skeleton>
+            <Button>Hidden by skeleton</Button>
+          </Skeleton>
+          <Skeleton show={false}>
+            <Button>Not hidden by skeleton</Button>
+          </Skeleton>
+        </div>
+      </Card>
+      <Card id="Wrapping children with fixed size">
+        <div className="flex flex-col items-start justify-start gap-4 flex-initial">
+          <Skeleton height={100} width="100%">
+            {null}
+          </Skeleton>
+          <Skeleton height={100} width="100%">
+            <Button>Not hidden by Skeleton</Button>
+          </Skeleton>
+        </div>
+      </Card>
+      <Card id="Pill">
+        <Skeleton pill width={48} />
+      </Card>
+      <Card id="Rounded">
+        <Skeleton boxHeight={48} height={48} rounded width={48} />
+      </Card>
+      <Card id="Squared">
+        <Skeleton boxHeight={48} height={48} squared width={48} />
+      </Card>
+      <Card id="No animation">
+        <Skeleton animated={false} height={100} width="100%">
+          {null}
+        </Skeleton>
+      </Card>
+      <Card id="Button">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <p className="text-label-14">Without button prop (default):</p>
+            <Skeleton height={32} width={120}>
+              <Button>Loading...</Button>
+            </Skeleton>
+          </div>
+          <div className="flex flex-col gap-2">
+            <p className="text-label-14">With button prop (extends animation by 1px):</p>
+            <Skeleton button height={32} width={120}>
+              <Button>Loading...</Button>
+            </Skeleton>
+          </div>
+          <div className="flex flex-col gap-2">
+            <p className="text-label-14">Multiple buttons loading:</p>
+            <div className="flex gap-3">
+              <Skeleton button>
+                <Button>Save</Button>
+              </Skeleton>
+              <Skeleton button>
+                <Button type="secondary">Cancel</Button>
+              </Skeleton>
+            </div>
+          </div>
+        </div>
+      </Card>
+    </>
+  );
 }
-
 function SpinnerDemo() {
   const sizes = [
     { size: "sm", label: "sm" },
@@ -2181,16 +2309,29 @@ function TooltipDemo() {
 
 function ThemeSwitcherDemo() {
   const demoCode = (id: string) => DEMO_CODE["theme-switcher"]?.[id] ?? "";
-  return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
-      <div className="w-full p-6" data-demo-container="Default">
-        <div className="flex items-center gap-2">
-          <ThemeSwitcher />
-          <span className="text-copy-14 text-muted-foreground">Light / System / Dark</span>
-        </div>
+  const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="w-full p-6" data-demo-container={id}>
+        {children}
       </div>
-      <ShowCodeFooter code={demoCode("Default")} />
+      <ShowCodeFooter code={demoCode(id)} />
     </div>
+  );
+  return (
+    <>
+      <Card id="Default">
+        <ThemeSwitcher />
+      </Card>
+      <Card id="Small">
+        <ThemeSwitcher small />
+      </Card>
+      <Card id="Disabled">
+        <ThemeSwitcher disabled />
+      </Card>
+    </>
   );
 }
 
@@ -2225,19 +2366,38 @@ function ProgressDemo() {
 
 function StatusDotDemo() {
   const demoCode = (id: string) => DEMO_CODE["status-dot"]?.[id] ?? "";
-  return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
-      <div className="w-full p-6" data-demo-container="Default">
-        <div className="flex flex-wrap items-center justify-center gap-5">
-          <StatusDot state="QUEUED" label />
-          <StatusDot state="BUILDING" label />
-          <StatusDot state="READY" label />
-          <StatusDot state="ERROR" label />
-          <StatusDot state="CANCELED" label />
-        </div>
+  const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="w-full p-6" data-demo-container={id}>
+        {children}
       </div>
-      <ShowCodeFooter code={demoCode("Default")} />
+      <ShowCodeFooter code={demoCode(id)} />
     </div>
+  );
+  return (
+    <>
+      <Card id="Default">
+        <div className="flex flex-col items-stretch justify-start gap-6 flex-initial">
+          <StatusDot state="QUEUED" />
+          <StatusDot state="BUILDING" />
+          <StatusDot state="ERROR" />
+          <StatusDot state="READY" />
+          <StatusDot state="CANCELED" />
+        </div>
+      </Card>
+      <Card id="Label">
+        <div className="flex flex-col items-stretch justify-start gap-6 flex-initial">
+          <StatusDot label state="QUEUED" />
+          <StatusDot label state="BUILDING" />
+          <StatusDot label state="ERROR" />
+          <StatusDot label state="READY" />
+          <StatusDot label state="CANCELED" />
+        </div>
+      </Card>
+    </>
   );
 }
 
@@ -2471,51 +2631,82 @@ function SheetDemo() {
 
 function SnippetDemo() {
   const demoCode = (id: string) => DEMO_CODE.snippet?.[id] ?? "";
-  return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
-      <div className="w-full p-6" data-demo-container="Default">
-        <div className="flex w-full max-w-lg flex-col gap-3">
-          <Snippet text="npm i geist" />
-          <Snippet text="vercel link" />
-        </div>
+  const [copied, setCopied] = React.useState(false);
+  const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="w-full p-6" data-demo-container={id}>
+        {children}
       </div>
-      <ShowCodeFooter code={demoCode("Default")} />
+      <ShowCodeFooter code={demoCode(id)} />
     </div>
   );
+  return (
+    <>
+      <Card id="Default">
+        <Snippet text="npm init next-app" width="300px" />
+      </Card>
+      <Card id="Inverted">
+        <Snippet dark text="npm init next-app" width="300px" />
+      </Card>
+      <Card id="Multi line">
+        <Snippet text={["cd project", "now"]} width="100%" />
+      </Card>
+      <Card id="No prompt">
+        <Snippet prompt={false} text="npm init next-app" width="300px" />
+      </Card>
+      <Card id="Callback">
+        <Snippet onCopy={() => setCopied(true)} text="npm init next-app" width="300px" copied={copied} />
+      </Card>
+      <Card id="Variants">
+        <div className="flex flex-col items-stretch justify-start gap-3 flex-initial">
+          <Snippet text="npm init next-app" type="success" width="300px" />
+          <Snippet text="npm init next-app" type="error" width="300px" />
+          <Snippet text="npm init next-app" type="warning" width="300px" />
+        </div>
+      </Card>
+      <Card id="Controlled Copied State">
+        <Snippet
+          text="npm init next-app"
+          width="300px"
+          copied={copied}
+          onCopy={() => setCopied((value) => !value)}
+        />
+      </Card>
+    </>
+  );
 }
-
 function BookDemo() {
   const demoCode = (id: string) => DEMO_CODE.book?.[id] ?? "";
   const { language } = useLanguage();
   const title = "The user experience of the Frontend Cloud";
-
+  const Section = ({ id, children }: { id: string; children: React.ReactNode }) => (
+    <section aria-labelledby={`book-${id.replaceAll(" ", "-").toLowerCase()}-heading`} data-demo-card={id} className="space-y-4">
+      <h3 id={`book-${id.replaceAll(" ", "-").toLowerCase()}-heading`} className="text-heading-20">
+        {demoText(language, id)}
+      </h3>
+      {children}
+      <ShowCodeFooter code={demoCode(id)} />
+    </section>
+  );
   return (
     <div className="w-full space-y-10">
-      <section aria-labelledby="book-default-heading" data-demo-card="Default" className="space-y-4">
-        <h3 id="book-default-heading" className="text-heading-20">
-          {demoText(language, "Default")}
-        </h3>
+      <Section id="Default">
         <div className="flex min-h-80 items-center justify-center rounded-md border border-gray-alpha-400 p-8">
           <Book title={title} />
         </div>
-        <ShowCodeFooter code={demoCode("Default")} />
-      </section>
+      </Section>
 
-      <section aria-labelledby="book-variants-heading" data-demo-card="Variants" className="space-y-4">
-        <h3 id="book-variants-heading" className="text-heading-20">
-          {demoText(language, "Variants")}
-        </h3>
+      <Section id="Variants">
         <div className="grid min-h-80 place-items-center gap-8 rounded-md border border-gray-alpha-400 p-8 sm:grid-cols-2">
           <Book title={title} variant="simple" />
           <Book title={title} />
         </div>
-        <ShowCodeFooter code={demoCode("Variants")} />
-      </section>
+      </Section>
 
-      <section aria-labelledby="book-colors-heading" data-demo-card="Custom color" className="space-y-4">
-        <h3 id="book-colors-heading" className="text-heading-20">
-          {demoText(language, "Custom color")}
-        </h3>
+      <Section id="Custom color">
         <div className="grid min-h-80 place-items-center gap-8 rounded-md border border-gray-alpha-400 p-8 sm:grid-cols-2 xl:grid-cols-3">
           <Book color="#9D2127" title="How Vercel improves your website's search engine ranking" />
           <Book
@@ -2526,28 +2717,58 @@ function BookDemo() {
           />
           <Book color="#FED954" title={title} />
         </div>
-        <ShowCodeFooter code={demoCode("Custom color")} />
-      </section>
+      </Section>
 
-      <section aria-labelledby="book-responsive-heading" data-demo-card="Responsive and textured" className="space-y-4">
-        <h3 id="book-responsive-heading" className="text-heading-20">
-          {demoText(language, "Responsive and textured")}
-        </h3>
-        <div className="flex min-h-80 items-center justify-center rounded-md border border-gray-alpha-400 p-8">
+      <Section id="Custom icon">
+        <div className="flex min-h-80 flex-wrap items-center justify-center gap-8 rounded-md border border-gray-alpha-400 p-8">
+          <Book icon={<ShieldCheck className="size-4" />} title="Vercel Platform Guide" />
+          <Book icon={<Rocket className="size-4" />} title="Next.js Documentation" />
+          <Book icon={<Sparkles className="size-4" />} title="React Documentation" />
+        </div>
+      </Section>
+
+      <Section id="Custom illustration">
+        <div className="flex min-h-80 flex-wrap items-center justify-center gap-8 rounded-md border border-gray-alpha-400 p-8">
           <Book
-            color="#7DC1C1"
-            textured
-            title="Design Engineering at Vercel"
+            illustration={
+              <div className="flex h-14 w-9 items-center justify-center rounded-sm bg-[#0070F3]" aria-hidden />
+            }
+            title={title}
+          />
+          <Book
+            illustration={
+              <div className="flex h-14 w-9 items-center justify-center rounded-sm bg-[#f5b047]" aria-hidden />
+            }
+            title={title}
             variant="simple"
-            width={{ sm: 150, md: 196 }}
           />
         </div>
-        <ShowCodeFooter code={demoCode("Responsive and textured")} />
-      </section>
+      </Section>
+
+      <Section id="Responsive">
+        <div className="flex min-h-80 items-center justify-center rounded-md border border-gray-alpha-400 p-8">
+          <Book title={title} width={{ sm: 150, md: 196 }} />
+        </div>
+      </Section>
+
+      <Section id="Width">
+        <div className="flex min-h-80 flex-wrap items-baseline justify-center gap-8 rounded-md border border-gray-alpha-400 p-8">
+          <Book title={title} width={300} />
+          <Book title={title} width={200} />
+          <Book title={title} width={150} />
+        </div>
+      </Section>
+
+      <Section id="Textured">
+        <div className="flex min-h-80 flex-wrap items-center justify-center gap-8 rounded-md border border-gray-alpha-400 p-8">
+          <Book color="#7DC1C1" textured title="Design Engineering at Vercel" />
+          <Book color="#9D2127" textured title="Design Engineering at Vercel" />
+          <Book color="#FED954" textured title="Design Engineering at Vercel" />
+        </div>
+      </Section>
     </div>
   );
 }
-
 function BrowserDemo() {
   const demoCode = (id: string) => DEMO_CODE.browser?.[id] ?? "";
   return (
@@ -3131,45 +3352,58 @@ function PhoneDemo() {
 
 function ProjectBannerDemo() {
   const demoCode = (id: string) => DEMO_CODE["project-banner"]?.[id] ?? "";
-  return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
-      <div className="w-full p-6" data-demo-container="Default">
-        <div className="w-full space-y-6">
-          <ProjectBanner
-            icon={<ShieldCheck />}
-            label="Attack Challenge Mode is enabled for this project"
-            callToAction={{ label: "Disable", href: "#" }}
-          />
-          <ProjectBanner
-            variant="success"
-            icon={<ShieldCheck />}
-            label="Attack Challenge Mode is enabled for this project"
-            callToAction={{ label: "Disable", href: "#" }}
-          />
-          <ProjectBanner
-            variant="warning"
-            icon={<RotateCcw />}
-            label={
-              <>
-                This project was rolled back by{" "}
-                <Tooltip text="Yesterday for project marketing-website">@johnphamous</Tooltip>
-              </>
-            }
-            callToAction={{ label: "Undo Rollback", onClick: () => {} }}
-          />
-          <ProjectBanner
-            variant="error"
-            icon={<TriangleAlert />}
-            label="Payment failed, update credit card information before your account is shut down"
-            callToAction={{ label: "Add Credit Card", href: "#" }}
-          />
-        </div>
+  const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="w-full p-6" data-demo-container={id}>
+        {children}
       </div>
-      <ShowCodeFooter code={demoCode("Default")} />
+      <ShowCodeFooter code={demoCode(id)} />
     </div>
   );
+  return (
+    <>
+      <Card id="Default">
+        <ProjectBanner
+          icon={<ShieldCheck />}
+          label="Attack Challenge Mode is enabled for this project"
+          callToAction={{ label: "Disable", href: "#" }}
+        />
+      </Card>
+      <Card id="Success">
+        <ProjectBanner
+          variant="success"
+          icon={<ShieldCheck />}
+          label="Attack Challenge Mode is enabled for this project"
+          callToAction={{ label: "Disable", href: "#" }}
+        />
+      </Card>
+      <Card id="Warning">
+        <ProjectBanner
+          variant="warning"
+          icon={<RotateCcw />}
+          label={
+            <>
+              This project was rolled back by{" "}
+              <Tooltip text="Yesterday for project marketing-website">@johnphamous</Tooltip>
+            </>
+          }
+          callToAction={{ label: "Undo Rollback", onClick: () => {} }}
+        />
+      </Card>
+      <Card id="Error">
+        <ProjectBanner
+          variant="error"
+          icon={<TriangleAlert />}
+          label="Payment failed, update credit card information before your account is shut down"
+          callToAction={{ label: "Add Credit Card", href: "#" }}
+        />
+      </Card>
+    </>
+  );
 }
-
 function SliderDemo() {
   const demoCode = (id: string) => DEMO_CODE.slider?.[id] ?? "";
   const { language } = useLanguage();
@@ -3509,34 +3743,107 @@ function CodeBlockDemo() {
 function DestructiveActionModalDemo() {
   const demoCode = (id: string) => DEMO_CODE["destructive-action-modal"]?.[id] ?? "";
   const { language } = useLanguage();
-  const [open, setOpen] = React.useState(false);
-
+  const [openDefault, setOpenDefault] = React.useState(false);
+  const [loadingDefault, setLoadingDefault] = React.useState(false);
+  const [openReversible, setOpenReversible] = React.useState(false);
+  const [openLoading, setOpenLoading] = React.useState(false);
+  const [openError, setOpenError] = React.useState(false);
+  const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="w-full p-6" data-demo-container={id}>
+        {children}
+      </div>
+      <ShowCodeFooter code={demoCode(id)} />
+    </div>
+  );
+  const handleConfirmDefault = () => {
+    setLoadingDefault(true);
+    window.setTimeout(() => {
+      setLoadingDefault(false);
+      setOpenDefault(false);
+    }, 1500);
+  };
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
-      <div className="w-full p-6" data-demo-container="Default">
-        <Button typeName="button" type="error" onClick={() => setOpen(true)}>
+    <>
+      <Card id="Default">
+        <Button typeName="button" type="error" onClick={() => setOpenDefault(true)}>
           {demoText(language, "Delete Project")}
         </Button>
         <DestructiveActionModal
-          open={open}
-          onCancel={() => setOpen(false)}
-          onConfirm={() => setOpen(false)}
+          open={openDefault}
+          onCancel={() => setOpenDefault(false)}
+          onConfirm={handleConfirmDefault}
           title={demoText(language, "Delete Project")}
-          description={demoText(
-            language,
-            "next-year-boilerplate and all its deployments, domains, and environment variables will be permanently deleted.",
-          )}
+          description={
+            <>
+              <span className="font-medium">next-year-boilerplate</span> and all its deployments,
+              domains, and environment variables will be permanently deleted.
+            </>
+          }
           confirmLabel={demoText(language, "Delete Project")}
           verificationPhrase="next-year-boilerplate"
           verificationLabel={demoText(language, "project name")}
           irreversibleDescription="Deleting next-year-boilerplate cannot be undone."
+          loading={loadingDefault}
         />
-      </div>
-      <ShowCodeFooter code={demoCode("Default")} />
-    </div>
+      </Card>
+
+      <Card id="Reversible">
+        <Button typeName="button" type="error" onClick={() => setOpenReversible(true)}>
+          Disable Vercel Authentication
+        </Button>
+        <DestructiveActionModal
+          open={openReversible}
+          onCancel={() => setOpenReversible(false)}
+          onConfirm={() => setOpenReversible(false)}
+          title="Disable Vercel Authentication"
+          description="Anyone will be able to view your deployments without being a member of your team."
+          confirmLabel="Disable Vercel Authentication"
+          verificationPhrase="disable vercel authentication"
+        />
+      </Card>
+
+      <Card id="Loading">
+        <Button typeName="button" type="error" onClick={() => setOpenLoading(true)}>
+          {demoText(language, "Delete Project")}
+        </Button>
+        <DestructiveActionModal
+          open={openLoading}
+          onCancel={() => setOpenLoading(false)}
+          onConfirm={() => undefined}
+          title={demoText(language, "Delete Project")}
+          description="my-project and all its deployments will be permanently deleted."
+          confirmLabel={demoText(language, "Delete Project")}
+          verificationPhrase="my-project"
+          verificationLabel={demoText(language, "project name")}
+          irreversibleDescription="Deleting my-project cannot be undone."
+          loading
+        />
+      </Card>
+
+      <Card id="With error">
+        <Button typeName="button" type="error" onClick={() => setOpenError(true)}>
+          {demoText(language, "Delete Project")}
+        </Button>
+        <DestructiveActionModal
+          open={openError}
+          onCancel={() => setOpenError(false)}
+          onConfirm={() => setOpenError(false)}
+          title={demoText(language, "Delete Project")}
+          description="my-project and all its deployments will be permanently deleted."
+          confirmLabel={demoText(language, "Delete Project")}
+          verificationPhrase="my-project"
+          verificationLabel={demoText(language, "project name")}
+          irreversibleDescription="Deleting my-project cannot be undone."
+          error="Couldn’t delete project. Try again."
+        />
+      </Card>
+    </>
   );
 }
-
 function FeedbackDemo() {
   const demoCode = (id: string) => DEMO_CODE.feedback?.[id] ?? "";
   const [submitted, setSubmitted] = React.useState(false);
@@ -3562,50 +3869,69 @@ function FeedbackDemo() {
 function LoadMoreButtonDemo() {
   const demoCode = (id: string) => DEMO_CODE["load-more-button"]?.[id] ?? "";
   const { language } = useLanguage();
-  const [loading, setLoading] = React.useState(false);
-  const [count, setCount] = React.useState(0);
-  const timer = React.useRef<number | undefined>(undefined);
-
-  React.useEffect(() => () => window.clearTimeout(timer.current), []);
-
-  const handleClick = () => {
-    setLoading(true);
-    window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(() => {
-      setLoading(false);
-      setCount((c) => c + 1);
-    }, 1200);
-  };
-
-  return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
-      <div className="w-full p-6" data-demo-container="Default">
-        <div className="flex w-full max-w-md flex-col gap-3">
-          <LoadMoreButton onClick={handleClick} loading={loading}>
-            {demoText(language, "Load More")}
-          </LoadMoreButton>
-          <p className="text-center text-copy-13 text-muted-foreground">
-            {demoTextWithValues(language, "{count} items loaded", { count })}
-          </p>
-        </div>
+  const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="w-full p-6" data-demo-container={id}>
+        {children}
       </div>
-      <ShowCodeFooter code={demoCode("Default")} />
+      <ShowCodeFooter code={demoCode(id)} />
     </div>
   );
+  return (
+    <>
+      <Card id="Default">
+        <LoadMoreButton>{demoText(language, "Load More")}</LoadMoreButton>
+      </Card>
+      <Card id="Loading">
+        <LoadMoreButton loading>{demoText(language, "Loading...")}</LoadMoreButton>
+      </Card>
+      <Card id="No Gap">
+        <LoadMoreButton noGap>{demoText(language, "Load More")}</LoadMoreButton>
+      </Card>
+      <Card id="No Border Radius">
+        <LoadMoreButton noBorderRadius>{demoText(language, "Load More")}</LoadMoreButton>
+      </Card>
+      <Card id="Custom Text">
+        <LoadMoreButton>{demoText(language, "Show More Results")}</LoadMoreButton>
+      </Card>
+    </>
+  );
 }
-
 function TextWithCopyButtonDemo() {
   const demoCode = (id: string) => DEMO_CODE["text-with-copy-button"]?.[id] ?? "";
-  return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
-      <div className="w-full p-6" data-demo-container="Default">
-        <div className="flex flex-col gap-3">
-          <TextWithCopyButton textToCopy="npm i geist" textLabel="npm i geist" />
-          <TextWithCopyButton textToCopy="vercel deploy --prod" textLabel="vercel deploy --prod" />
-        </div>
+  const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="w-full p-6" data-demo-container={id}>
+        {children}
       </div>
-      <ShowCodeFooter code={demoCode("Default")} />
+      <ShowCodeFooter code={demoCode(id)} />
     </div>
+  );
+  return (
+    <>
+      <Card id="Default">
+        <TextWithCopyButton
+          ellipsis
+          successMessage="Copied to clipboard"
+          textLabel="Copy"
+          textToCopy="lipsum"
+        />
+      </Card>
+      <Card id="With Small and Tertiary">
+        <TextWithCopyButton
+          ellipsis
+          successMessage="Copied hashed digest to clipboard"
+          textLabel="Copy config digest"
+          textToCopy="edgeConfigData.digest"
+        />
+      </Card>
+    </>
   );
 }
 
@@ -5167,15 +5493,35 @@ function LabelDemo() {
 function LoadingDotsDemo() {
   const demoCode = (id: string) => DEMO_CODE["loading-dots"]?.[id] ?? "";
   const { language } = useLanguage();
-  return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
-      <div className="w-full p-6" data-demo-container="Default">
-        <div className="flex items-center gap-3 text-copy-14 text-muted-foreground">
-          {demoText(language, "Loading deployment")} <LoadingDots />
-        </div>
+  const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="w-full p-6" data-demo-container={id}>
+        {children}
       </div>
-      <ShowCodeFooter code={demoCode("Default")} />
+      <ShowCodeFooter code={demoCode(id)} />
     </div>
+  );
+  return (
+    <>
+      <Card id="Default">
+        <div className="flex flex-col items-start justify-between gap-6 flex-initial">
+          <LoadingDots size="sm" />
+          <LoadingDots size="md" />
+          <LoadingDots size="lg" />
+          <div className="flex items-center gap-3 text-copy-14 text-muted-foreground">
+            {demoText(language, "Loading deployment")} <LoadingDots />
+          </div>
+        </div>
+      </Card>
+      <Card id="With text">
+        <LoadingDots size="md">
+          <p className="text-copy-14 text-gray-900">Loading</p>
+        </LoadingDots>
+      </Card>
+    </>
   );
 }
 
@@ -5563,10 +5909,20 @@ function ShowMoreDemo() {
   const [expanded, setExpanded] = React.useState(false);
   const copy =
     "Geist Style Framework provides reusable tokens, primitives, and component patterns for building consistent React interfaces in both light and dark themes.";
-
+  const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
+    <div
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card={id}
+    >
+      <div className="w-full p-6" data-demo-container={id}>
+        {children}
+      </div>
+      <ShowCodeFooter code={demoCode(id)} />
+    </div>
+  );
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
-      <div className="w-full p-6" data-demo-container="Default">
+    <>
+      <Card id="Default">
         <div className="flex w-full max-w-lg flex-col items-start gap-3">
           <p id="show-more-content" className="text-copy-14 text-foreground">
             {expanded ? copy : `${copy.slice(0, 88)}…`}
@@ -5577,12 +5933,16 @@ function ShowMoreDemo() {
             onClick={() => setExpanded((value) => !value)}
           />
         </div>
-      </div>
-      <ShowCodeFooter code={demoCode("Default")} />
-    </div>
+      </Card>
+      <Card id="Expanded">
+        <ShowMore expanded />
+      </Card>
+      <Card id="No border">
+        <ShowMore noBorder />
+      </Card>
+    </>
   );
 }
-
 function SplitButtonDemo() {
   const { language } = useLanguage();
   return (

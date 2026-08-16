@@ -27,6 +27,20 @@ import { DEMO_CODE_MULTI_BATCH1 } from "./demo-code-multi-batch1";
 import { DEMO_CODE_MULTI_BATCH2 } from "./demo-code-multi-batch2";
 import { DEMO_CODE_MULTI_BATCH3 } from "./demo-code-multi-batch3";
 import { DEMO_CODE_FINAL } from "./demo-code-final";
+import { DEMO_CODE_SPLIT_BATCH1 } from "./demo-code-split-batch1";
+import { DEMO_CODE_SPLIT_BATCH2 } from "./demo-code-split-batch2";
+import { DEMO_CODE_SPLIT_BATCH3 } from "./demo-code-split-batch3";
+import { DEMO_CODE_SPLIT_BATCH4 } from "./demo-code-split-batch4";
+import { DEMO_CODE_SPLIT_BATCH5 } from "./demo-code-split-batch5";
+import { DEMO_CODE_SPLIT_BATCH6 } from "./demo-code-split-batch6";
+import { DEMO_CODE_SPLIT_BATCH7 } from "./demo-code-split-batch7";
+import { DEMO_CODE_SPLIT_BATCH8 } from "./demo-code-split-batch8";
+import { DEMO_CODE_SPLIT_BATCH9 } from "./demo-code-split-batch9";
+import { DEMO_CODE_SPLIT_BATCH10 } from "./demo-code-split-batch10";
+import { DEMO_CODE_SPLIT_BATCH11 } from "./demo-code-split-batch11";
+import { DEMO_CODE_SPLIT_BATCH12 } from "./demo-code-split-batch12";
+import { DEMO_CODE_SPLIT_BATCH13 } from "./demo-code-split-batch13";
+import { DEMO_CODE_SPLIT_BATCH14 } from "./demo-code-split-batch14";
 
 export const DEMO_CODE: Record<string, Record<string, string>> = {
   calendar: {
@@ -109,4 +123,18 @@ const maxDate = new Date(now.getFullYear(), now.getMonth() + 2, now.getDate());
   ...DEMO_CODE_MULTI_BATCH2,
   ...DEMO_CODE_MULTI_BATCH3,
   ...DEMO_CODE_FINAL,
+  ...DEMO_CODE_SPLIT_BATCH1,
+  ...DEMO_CODE_SPLIT_BATCH2,
+  ...DEMO_CODE_SPLIT_BATCH3,
+  ...DEMO_CODE_SPLIT_BATCH4,
+  ...DEMO_CODE_SPLIT_BATCH5,
+  ...DEMO_CODE_SPLIT_BATCH6,
+  ...DEMO_CODE_SPLIT_BATCH7,
+  ...DEMO_CODE_SPLIT_BATCH8,
+  ...DEMO_CODE_SPLIT_BATCH9,
+  ...DEMO_CODE_SPLIT_BATCH10,
+  ...DEMO_CODE_SPLIT_BATCH11,
+  ...DEMO_CODE_SPLIT_BATCH12,
+  ...DEMO_CODE_SPLIT_BATCH13,
+  ...DEMO_CODE_SPLIT_BATCH14,
 };
