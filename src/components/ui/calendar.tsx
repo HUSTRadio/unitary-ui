@@ -3,6 +3,14 @@ import { Popover as PopoverPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import {
+  defaultLocale,
+  formatDate,
+  getMonthTitle,
+  getRelativeTimePresets,
+  getWeekStartDay,
+  getWeekdayLabels,
+} from "@/lib/date-locale";
 
 /**
  * Calendar — 日期范围选择器（对应官方 geist Calendar，关闭态视觉复刻）。
@@ -106,8 +114,7 @@ const COMBO_GROUP_CLASS = "p-2";
 const COMBO_ITEM_CLASS =
   "max-sm:h-12 max-sm:text-[16px] h-9 text-[14px] px-2 rounded-[5px] flex scroll-m-2 cursor-pointer items-center font-normal text-[var(--ds-gray-1000)] hover:bg-[var(--ds-gray-alpha-300)]";
 
-/** 官方右列「Type relative times」相对时间快捷按钮（showHints，2026-08-16 实测）。 */
-const RELATIVE_TIMES = ["45m", "12 hours", "10d", "2 weeks", "last month", "yesterday", "today"];
+/** 官方右列「Type relative times」相对时间快捷按钮（showHints，2026-08-16 实测；文案 locale 化）。 */
 
 const COMBO_HINT_COL_CLASS = "p-4 pr-[30px]";
 
@@ -133,6 +140,8 @@ interface CalendarComboboxProps {
   onValueChange?: (value: string) => void;
   /** 默认选中 preset 索引（官方 presetIndex）。 */
   defaultIndex?: number;
+  /** 语言 locale（BCP 47），驱动相对时间快捷按钮文案。 */
+  locale?: string;
 }
 
 function CalendarCombobox({
@@ -145,6 +154,7 @@ function CalendarCombobox({
   value,
   onValueChange,
   defaultIndex,
+  locale = "en-US",
 }: CalendarComboboxProps) {
   const sizeToken = size === "small" ? "small" : "medium";
   const [open, setOpen] = React.useState(false);
@@ -274,7 +284,7 @@ function CalendarCombobox({
                 <div className={COMBO_HINT_COL_CLASS}>
                   <p className={COMBO_HINT_TITLE_CLASS}>Type relative times</p>
                   <div className={COMBO_HINT_WRAP_CLASS}>
-                    {RELATIVE_TIMES.map((text) => (
+                    {getRelativeTimePresets(locale).map((text) => (
                       <button
                         key={text}
                         type="button"
@@ -333,6 +343,8 @@ interface CalendarProps {
   minValue?: Date;
   /** 可选最大日期（官方 maxValue，范围外日期禁用） */
   maxValue?: Date;
+  /** 语言 locale（BCP 47），驱动日期格式/星期起始/月份标题/相对时间文案 */
+  locale?: string;
 }
 
 function Calendar({
@@ -355,6 +367,7 @@ function Calendar({
   presetIndex,
   minValue,
   maxValue,
+  locale = defaultLocale(),
 }: CalendarProps) {
   const isSmall = size === "small";
   // compact/stacked 隐含 combobox + 排布（官方：compact 横向紧凑、stacked 纵向堆叠）
@@ -389,6 +402,7 @@ function Calendar({
           label={comboboxLabel}
           presets={presets}
           defaultIndex={presetIndex}
+          locale={locale}
         />
       )}
       <PopoverPrimitive.Root>
@@ -452,6 +466,7 @@ function Calendar({
               pinnedTimezone={pinnedTimezone}
               minValue={minValue}
               maxValue={maxValue}
+              locale={locale}
             />
           </PopoverPrimitive.Content>
         </PopoverPrimitive.Portal>
@@ -465,6 +480,7 @@ function Calendar({
           label={comboboxLabel}
           presets={presets}
           defaultIndex={presetIndex}
+          locale={locale}
         />
       )}
     </div>
@@ -486,26 +502,11 @@ function calendarColClass(size: "medium" | "small"): string {
 
 /* ---------- 打开态 Popover（官方 date range picker，2026-08-15 实测） ---------- */
 
-const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
-const MONTH_NAMES = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-/** 当月 42 格日期（从当月 1 号所在周的周日开始，覆盖 6 周）。 */
-function monthGrid(viewYear: number, viewMonth: number): Date[] {
-  const start = new Date(viewYear, viewMonth, 1);
-  start.setDate(1 - start.getDay());
+/** 当月 42 格日期（从当月 1 号所在周的 weekStart 开始，覆盖 6 周）。 */
+function monthGrid(viewYear: number, viewMonth: number, weekStart: number): Date[] {
+  const first = new Date(viewYear, viewMonth, 1);
+  const start = new Date(first);
+  start.setDate(first.getDate() - ((first.getDay() - weekStart + 7) % 7));
   return Array.from({ length: 42 }, (_, i) => {
     const d = new Date(start);
     d.setDate(start.getDate() + i);
@@ -519,10 +520,6 @@ function sameDay(a: Date, b: Date): boolean {
     a.getMonth() === b.getMonth() &&
     a.getDate() === b.getDate()
   );
-}
-
-function fmtDate(d: Date): string {
-  return `${MONTH_NAMES[d.getMonth()].slice(0, 3)} ${String(d.getDate()).padStart(2, "0")}, ${d.getFullYear()}`;
 }
 
 const PANEL_CONTENT_CLASS = "relative rounded-[6px] p-(--padding) [--padding:_12px]";
@@ -557,11 +554,13 @@ function CalendarPanel({
   pinnedTimezone,
   minValue,
   maxValue,
+  locale = defaultLocale(),
 }: {
   horizontalLayout?: boolean;
   pinnedTimezone?: string;
   minValue?: Date;
   maxValue?: Date;
+  locale?: string;
 }) {
   const today = new Date();
   const [viewYear, setViewYear] = React.useState(today.getFullYear());
@@ -573,7 +572,7 @@ function CalendarPanel({
     pinnedTimezone ??
     (typeof Intl === "undefined" ? "UTC" : Intl.DateTimeFormat().resolvedOptions().timeZone);
 
-  const cells = monthGrid(viewYear, viewMonth);
+  const cells = monthGrid(viewYear, viewMonth, getWeekStartDay(locale));
 
   const selectDate = (d: Date) => {
     if (!start || (start && end)) {
@@ -620,7 +619,7 @@ function CalendarPanel({
               }}
             >
               <h2 className="m-0 font-medium text-gray-1000 block w-fit max-w-full text-[14px]">
-                {MONTH_NAMES[viewMonth]} {viewYear}
+                {getMonthTitle(new Date(viewYear, viewMonth, 1), locale)}
               </h2>
             </div>
             <button
@@ -658,7 +657,7 @@ function CalendarPanel({
             <caption className="sr-only">Calendar</caption>
             <thead className="block">
               <tr className={GRID_HEAD_TR_CLASS}>
-                {WEEKDAYS.map((d, i) => (
+                {getWeekdayLabels(locale).map((d, i) => (
                   <th key={i} className={GRID_HEAD_TH_CLASS}>
                     {d}
                   </th>
@@ -669,21 +668,38 @@ function CalendarPanel({
               {Array.from({ length: 6 }, (_, week) => (
                 <tr key={week} className={GRID_ROW_CLASS}>
                   {cells.slice(week * 7, week * 7 + 7).map((d, i) => {
+                    const idx = week * 7 + i;
                     const inMonth = d.getMonth() === viewMonth;
                     const selected = isSelected(d);
                     const startDay = isStart(d);
                     const endDay = isEnd(d);
                     const disabled = isDisabled(d);
+                    // 连续区间：同行内区间段两端圆角、中间无圆角（几何圆角，非 start/end 语义）
+                    const inSel = !!(start && end && d >= start && d <= end);
+                    const leftIn = i > 0 && !!(start && end && cells[idx - 1] >= start && cells[idx - 1] <= end);
+                    const rightIn = i < 6 && !!(start && end && cells[idx + 1] >= start && cells[idx + 1] <= end);
+                    const isLeftEdge = inSel && !leftIn;
+                    const isRightEdge = inSel && !rightIn;
+                    const rounded = !inSel
+                      ? "rounded-[5px]"
+                      : isLeftEdge && isRightEdge
+                        ? "rounded-[5px]"
+                        : isLeftEdge
+                          ? "rounded-l-[5px] rounded-r-none"
+                          : isRightEdge
+                            ? "rounded-r-[5px] rounded-l-none"
+                            : "rounded-none";
                     return (
                       <td key={i} role="gridcell" aria-selected={selected} className={GRID_CELL_CLASS}>
                         <span
                           role="button"
                           tabIndex={-1}
-                          aria-label={d.toLocaleDateString()}
+                          aria-label={d.toLocaleDateString(locale)}
                           aria-disabled={disabled || undefined}
                           data-testid={`calendar/cell/date-${d.getDate()}`}
                           className={cn(
-                            "z-[1] outline-none block h-9 w-full rounded-[5px] text-[14px] font-normal text-center border border-transparent m-0 leading-9",
+                            "z-[1] outline-none block h-9 w-full text-[14px] font-normal text-center border border-transparent m-0 leading-9 transition-[background-color,border-radius] duration-150",
+                            rounded,
                             disabled
                               ? "cursor-not-allowed text-gray-500"
                               : "cursor-pointer",
@@ -691,7 +707,7 @@ function CalendarPanel({
                               (startDay || endDay
                                 ? "bg-blue-900 !text-background-100"
                                 : inRange(d)
-                                  ? "bg-gray-alpha-300 text-gray-1000"
+                                  ? "bg-blue-100 text-gray-1000"
                                   : inMonth
                                     ? "text-gray-1000"
                                     : "text-gray-700"),
@@ -739,7 +755,7 @@ function CalendarPanel({
                     data-geist-input=""
                     spellCheck="false"
                     type="text"
-                    value={start ? fmtDate(start) : ""}
+                    value={start ? formatDate(start, locale) : ""}
                     readOnly
                   />
                 </div>
@@ -776,7 +792,7 @@ function CalendarPanel({
                     data-geist-input=""
                     spellCheck="false"
                     type="text"
-                    value={end ? fmtDate(end) : ""}
+                    value={end ? formatDate(end, locale) : ""}
                     readOnly
                   />
                 </div>
@@ -810,7 +826,7 @@ function CalendarPanel({
         </div>
 
         {/* 时区选择器 */}
-        <div className="mt-1 flex justify-center pl-4">
+        <div className="mt-1 flex justify-center">
           <span className="text-xs text-gray-800">
             {pinnedTimezone ? `Timezone: ${pinnedTimezone}` : `Local (${timeZone})`}
           </span>

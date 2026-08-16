@@ -2,6 +2,7 @@ import * as React from "react";
 import { HoverCard as HoverCardPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
+import { defaultLocale, formatRelativeTime } from "@/lib/date-locale";
 
 /**
  * RelativeTimeCard — Geist 官方 RelativeTimeCard（docs/geist-markdown-refs/components/relative-time-card.md）。
@@ -12,36 +13,12 @@ import { cn } from "@/lib/utils";
  * - children：自定义触发内容（官方用 <Button>Hover Me</Button>）；缺省渲染短相对时间文本
  * - 浮层材质复用 repo 语义 token（bg-popover / border-gray-alpha-400 / shadow-md），零 `dark:` 分支
  */
-const MINUTE = 60_000;
-const HOUR = 3_600_000;
-const DAY = 86_400_000;
-const WEEK = 7 * DAY;
-const MONTH = 30 * DAY;
-const YEAR = 365 * DAY;
-
-/** 官方短格式：just now / 2m ago / 5h ago / Yesterday / 3d ago / 2w ago / 4mo ago / 1y ago */
-function formatShort(ms: number): string {
-  const elapsed = Date.now() - ms;
-  if (elapsed < MINUTE) return "just now";
-  if (elapsed < HOUR) return `${Math.floor(elapsed / MINUTE)}m ago`;
-  if (elapsed < DAY) return `${Math.floor(elapsed / HOUR)}h ago`;
-
-  const now = new Date();
-  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  if (ms >= startOfToday - DAY && ms < startOfToday) return "Yesterday";
-
-  if (elapsed < WEEK) return `${Math.floor(elapsed / DAY)}d ago`;
-  if (elapsed < MONTH) return `${Math.floor(elapsed / WEEK)}w ago`;
-  if (elapsed < YEAR) return `${Math.floor(elapsed / MONTH)}mo ago`;
-  return `${Math.floor(elapsed / YEAR)}y ago`;
+function formatLocal(date: Date, locale: string): string {
+  return date.toLocaleString(locale, { dateStyle: "medium", timeStyle: "short" });
 }
 
-function formatLocal(date: Date): string {
-  return date.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
-}
-
-function formatUtc(date: Date): string {
-  return date.toLocaleString(undefined, {
+function formatUtc(date: Date, locale: string): string {
+  return date.toLocaleString(locale, {
     timeZone: "UTC",
     dateStyle: "medium",
     timeStyle: "short",
@@ -57,9 +34,17 @@ interface RelativeTimeCardProps {
   children?: React.ReactNode;
   /** 浮层内容 className */
   className?: string;
+  /** 语言 locale（BCP 47），驱动相对时间文案与本地/UTC 时间格式 */
+  locale?: string;
 }
 
-function RelativeTimeCard({ date, side = "top", className, children }: RelativeTimeCardProps) {
+function RelativeTimeCard({
+  date,
+  side = "top",
+  className,
+  children,
+  locale = defaultLocale(),
+}: RelativeTimeCardProps) {
   const timestamp = new Date(date);
 
   return (
@@ -70,7 +55,7 @@ function RelativeTimeCard({ date, side = "top", className, children }: RelativeT
             data-slot="relative-time-card"
             className="inline-flex cursor-help items-baseline whitespace-nowrap border-b border-dotted border-muted-foreground/60 text-copy-14 text-foreground"
           >
-            {formatShort(date)}
+            {formatRelativeTime(date, locale)}
           </span>
         )}
       </HoverCardPrimitive.Trigger>
@@ -86,8 +71,8 @@ function RelativeTimeCard({ date, side = "top", className, children }: RelativeT
           )}
         >
           <div className="flex flex-col gap-0.5">
-            <span className="text-copy-14 text-foreground">{formatLocal(timestamp)}</span>
-            <span className="text-copy-13 text-muted-foreground">UTC {formatUtc(timestamp)}</span>
+            <span className="text-copy-14 text-foreground">{formatLocal(timestamp, locale)}</span>
+            <span className="text-copy-13 text-muted-foreground">UTC {formatUtc(timestamp, locale)}</span>
           </div>
         </HoverCardPrimitive.Content>
       </HoverCardPrimitive.Portal>
