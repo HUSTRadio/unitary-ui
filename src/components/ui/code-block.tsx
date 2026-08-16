@@ -3,6 +3,7 @@ import { ChevronDown } from "lucide-react";
 
 import { CopyButton } from "@/components/ui/copy-button";
 import { highlightLines } from "@/lib/highlight";
+import { LanguageIcon } from "@/lib/language-icons";
 import { cn } from "@/lib/utils";
 
 type CodeBlockSwitcher = {
@@ -23,27 +24,6 @@ interface CodeBlockProps extends Omit<React.ComponentPropsWithoutRef<"div">, "ch
   switcher?: CodeBlockSwitcher;
   tabs?: CodeBlockSwitcher;
   v0?: "ask" | "build";
-}
-
-/** 官方 geist 文件图标（svg > circle + g > ellipse×3），仅装饰用。 */
-function CodeBlockFileIcon() {
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      className="size-4"
-    >
-      <circle cx="12" cy="12" r="9" />
-      <g>
-        <ellipse cx="12" cy="7.5" rx="4.5" ry="1.2" />
-        <ellipse cx="12" cy="12" rx="4.5" ry="1.2" />
-        <ellipse cx="12" cy="16.5" rx="4.5" ry="1.2" />
-      </g>
-    </svg>
-  );
 }
 
 function CodeBlockSwitcher({ config }: { config: CodeBlockSwitcher }) {
@@ -140,7 +120,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
           <CodeBlockHeader>
             <div className="m-0 flex min-w-0 items-center gap-2 text-[13px] leading-[19.5px] text-muted-foreground">
               <div aria-hidden className="flex w-4 shrink-0 items-center">
-                <CodeBlockFileIcon />
+                <LanguageIcon language={language} />
               </div>
               <span
                 data-slot="code-block-filename"

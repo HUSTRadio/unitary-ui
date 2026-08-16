@@ -24,10 +24,15 @@ const LANGUAGE_ALIASES: Record<string, string> = {
 
 export type HighlightToken = { type: string; content: string };
 
-function resolveGrammar(language?: string): Prism.Grammar | undefined {
+/** 语言别名归一化（导出供 language-icons 复用）。 */
+export function resolveLanguageKey(language?: string): string | undefined {
   if (!language) return undefined;
-  const key = LANGUAGE_ALIASES[language] ?? language;
-  return Prism.languages[key];
+  return LANGUAGE_ALIASES[language] ?? language;
+}
+
+function resolveGrammar(language?: string): Prism.Grammar | undefined {
+  const key = resolveLanguageKey(language);
+  return key ? Prism.languages[key] : undefined;
 }
 
 /**
