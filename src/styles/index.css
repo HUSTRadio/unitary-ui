@@ -1234,26 +1234,28 @@
   }
 }
 
-/* Command Menu 官方 300ms overlay scale/fade；阴影复用同值的 material modal token。 */
+/* Command Menu 官方 300ms overlay scale/fade；阴影复用同值的 material modal token。
+   注意：水平居中由 Tailwind 的 translate 属性（-translate-x-1/2）承担，keyframes 只做 scale，
+   不能再用 transform: translateX(-50%)，否则与 translate 属性叠加成 -100% 偏移（从左出现再跳中间）。 */
 @keyframes command-menu-scale-in {
   from {
     opacity: 0;
-    transform: translateX(-50%) scale(0.96);
+    transform: scale(0.96);
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) scale(1);
+    transform: scale(1);
   }
 }
 
 @keyframes command-menu-scale-out {
   from {
     opacity: 1;
-    transform: translateX(-50%) scale(1);
+    transform: scale(1);
   }
   to {
     opacity: 0;
-    transform: translateX(-50%) scale(0.96);
+    transform: scale(0.96);
   }
 }
 
