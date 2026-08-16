@@ -1734,12 +1734,18 @@ function SpinnerDemo() {
 }
 
 function StepPointDemo() {
+  const demoCode = (id: string) => DEMO_CODE["step-point"]?.[id] ?? "";
   return (
-    <ul className="w-full max-w-xs">
-      <StepPoint status="done">Submitted</StepPoint>
-      <StepPoint status="active">Under review</StepPoint>
-      <StepPoint status="idle">Approved</StepPoint>
-    </ul>
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <ul className="w-full max-w-xs">
+          <StepPoint status="done">Submitted</StepPoint>
+          <StepPoint status="active">Under review</StepPoint>
+          <StepPoint status="idle">Approved</StepPoint>
+        </ul>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
+    </div>
   );
 }
 
@@ -1772,10 +1778,13 @@ function TableDemo() {
 }
 
 function TabsDemo() {
+  const demoCode = (id: string) => DEMO_CODE.tabs?.[id] ?? "";
   const [tab, setTab] = React.useState("overview");
 
   return (
-    <div className="w-full max-w-xl">
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <div className="w-full max-w-xl">
       <Tabs
         tabs={[
           { value: "overview", title: "Overview" },
@@ -1793,6 +1802,9 @@ function TabsDemo() {
             ? "Import Tabs and control the selected value from the parent."
             : "Use the tabs, selected, and setSelected props."}
       </div>
+        </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
@@ -2230,19 +2242,23 @@ function StatusDotDemo() {
 }
 
 function ToastDemo() {
+  const demoCode = (id: string) => DEMO_CODE.toast?.[id] ?? "";
   const { language } = useLanguage();
   const toasts = useToasts();
 
   return (
-    <>
-      <Button
-        typeName="button"
-        onClick={() => toasts.message({ text: demoText(language, "Project deleted") })}
-      >
-        {demoText(language, "Show Toast")}
-      </Button>
-      <Toasts />
-    </>
+    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+      <div className="w-full p-6" data-demo-container="Default">
+        <Button
+          typeName="button"
+          onClick={() => toasts.message({ text: demoText(language, "Project deleted") })}
+        >
+          {demoText(language, "Show Toast")}
+        </Button>
+        <Toasts />
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
+    </div>
   );
 }
 
@@ -5333,13 +5349,19 @@ function MultiSelectDemo() {
 }
 
 function PillDemo() {
+  const demoCode = (id: string) => DEMO_CODE.pill?.[id] ?? "";
   const { language } = useLanguage();
   const [active, setActive] = React.useState("all");
   return (
     <div
-      className="flex flex-wrap gap-2"
-      aria-label={demoText(language, "Deployment status filter")}
+      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Default"
     >
+      <div className="w-full p-6" data-demo-container="Default">
+      <div
+        className="flex flex-wrap gap-2"
+        aria-label={demoText(language, "Deployment status filter")}
+      >
       {[
         ["all", "All"],
         ["ready", "Ready"],
@@ -5354,6 +5376,9 @@ function PillDemo() {
           {label}
         </Pill>
       ))}
+      </div>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
     </div>
   );
 }
@@ -5881,12 +5906,13 @@ function ToggleLabelDemo() {
 
 /** Toast 额外演示分段 — 每个分段一个触发按钮（Toasts 视口由 ToastDemo 挂载一次） */
 function ToastExtraSections() {
+  const sectionCode = (title: string) => DEMO_CODE.toast?.[title] ?? "";
   const { language } = useLanguage();
   const toasts = useToasts();
 
   return (
     <>
-      <Section title="Multi-line">
+      <Section title="Multi-line" code={sectionCode("Multi-line")}>
         <Button
           typeName="button"
           onClick={() =>
@@ -5898,7 +5924,7 @@ function ToastExtraSections() {
           {demoText(language, "Show Toast")}
         </Button>
       </Section>
-      <Section title="With jsx">
+      <Section title="With jsx" code={sectionCode("With jsx")}>
         <Button
           typeName="button"
           onClick={() =>
@@ -5915,7 +5941,7 @@ function ToastExtraSections() {
           {demoText(language, "Show Toast")}
         </Button>
       </Section>
-      <Section title="With a link">
+      <Section title="With a link" code={sectionCode("With a link")}>
         <Button
           typeName="button"
           onClick={() =>
@@ -5939,7 +5965,7 @@ function ToastExtraSections() {
           {demoText(language, "Show Toast")}
         </Button>
       </Section>
-      <Section title="Preserve">
+      <Section title="Preserve" code={sectionCode("Preserve")}>
         <Button
           typeName="button"
           onClick={() =>
@@ -5952,7 +5978,7 @@ function ToastExtraSections() {
           {demoText(language, "Show Toast")}
         </Button>
       </Section>
-      <Section title="Action">
+      <Section title="Action" code={sectionCode("Action")}>
         <Button
           typeName="button"
           onClick={() =>
@@ -5965,7 +5991,7 @@ function ToastExtraSections() {
           {demoText(language, "Show Toast")}
         </Button>
       </Section>
-      <Section title="Undo">
+      <Section title="Undo" code={sectionCode("Undo")}>
         <Button
           typeName="button"
           onClick={() =>
@@ -5978,7 +6004,7 @@ function ToastExtraSections() {
           {demoText(language, "Show Toast")}
         </Button>
       </Section>
-      <Section title="Success">
+      <Section title="Success" code={sectionCode("Success")}>
         <Button
           typeName="button"
           onClick={() => toasts.success("The Evil Rabbit jumped over the fence.")}
@@ -5986,7 +6012,7 @@ function ToastExtraSections() {
           {demoText(language, "Show Toast")}
         </Button>
       </Section>
-      <Section title="Warning">
+      <Section title="Warning" code={sectionCode("Warning")}>
         <Button
           typeName="button"
           onClick={() => toasts.warning("The Evil Rabbit jumped over the fence.")}
@@ -5994,7 +6020,7 @@ function ToastExtraSections() {
           {demoText(language, "Show Toast")}
         </Button>
       </Section>
-      <Section title="Error">
+      <Section title="Error" code={sectionCode("Error")}>
         <Button
           typeName="button"
           onClick={() => toasts.error("The Evil Rabbit jumped over the fence.")}
@@ -6008,10 +6034,11 @@ function ToastExtraSections() {
 
 /** Tabs 额外演示分段 — 官方 5 demo 区块中除 Default 外的 4 个变体 */
 function TabsExtraSections() {
+  const sectionCode = (title: string) => DEMO_CODE.tabs?.[title] ?? "";
   const [git, setGit] = React.useState("github");
   return (
     <>
-      <Section title="Disabled">
+      <Section title="Disabled" code={sectionCode("Disabled")}>
         <Tabs
           disabled
           selected="apple"
@@ -6024,7 +6051,7 @@ function TabsExtraSections() {
           ariaLabel="Disabled tabs"
         />
       </Section>
-      <Section title="Disable specific tabs">
+      <Section title="Disable specific tabs" code={sectionCode("Disable specific tabs")}>
         <Tabs
           selected="apple"
           setSelected={() => {}}
@@ -6036,7 +6063,7 @@ function TabsExtraSections() {
           ariaLabel="Tabs with disabled tab"
         />
       </Section>
-      <Section title="With icons">
+      <Section title="With icons" code={sectionCode("With icons")}>
         <Tabs
           selected={git}
           setSelected={setGit}
@@ -6048,7 +6075,7 @@ function TabsExtraSections() {
           ariaLabel="Tabs with icons"
         />
       </Section>
-      <Section title="Secondary">
+      <Section title="Secondary" code={sectionCode("Secondary")}>
         <Tabs
           variant="secondary"
           selected={git}

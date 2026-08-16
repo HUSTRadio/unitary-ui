@@ -26,6 +26,7 @@ import { DEMO_CODE_DIRECT } from "./demo-code-direct";
 import { DEMO_CODE_MULTI_BATCH1 } from "./demo-code-multi-batch1";
 import { DEMO_CODE_MULTI_BATCH2 } from "./demo-code-multi-batch2";
 import { DEMO_CODE_MULTI_BATCH3 } from "./demo-code-multi-batch3";
+import { DEMO_CODE_FINAL } from "./demo-code-final";
 
 export const DEMO_CODE: Record<string, Record<string, string>> = {
   calendar: {
@@ -107,4 +108,5 @@ const maxDate = new Date(now.getFullYear(), now.getMonth() + 2, now.getDate());
   ...DEMO_CODE_MULTI_BATCH1,
   ...DEMO_CODE_MULTI_BATCH2,
   ...DEMO_CODE_MULTI_BATCH3,
+  ...DEMO_CODE_FINAL,
 };
