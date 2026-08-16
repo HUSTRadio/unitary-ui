@@ -165,7 +165,7 @@ function Feedback({
                   onChange={(event) => setText(event.target.value)}
                   placeholder="Your feedback..."
                   aria-label="Feedback"
-                  className="w-full resize-none appearance-none border-none bg-background-100 px-3 py-2.5 text-[14px] leading-5 text-foreground outline-none placeholder:text-muted-foreground shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] rounded-md focus:shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)] h-[100px]"
+                  className="w-full resize-none appearance-none border-none bg-background-100 px-3 py-2.5 text-[14px] leading-5 text-foreground outline-none placeholder:text-muted-foreground shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] rounded-md transition-[box-shadow] duration-200 focus:shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)] h-[100px]"
                 />
                 <div className="flex items-center justify-end gap-1 p-0 text-label-12 text-gray-900">
                   <svg
