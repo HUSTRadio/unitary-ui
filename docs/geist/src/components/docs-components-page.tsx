@@ -3018,6 +3018,7 @@ function ChoiceboxDemo() {
   const [plan, setPlan] = React.useState("trial");
   const [features, setFeatures] = React.useState<string[]>([]);
   const [disabledPlan, setDisabledPlan] = React.useState("");
+  const [customPlan, setCustomPlan] = React.useState("trial");
   return (
     <div className="w-full max-w-2xl space-y-6">
       <div
@@ -3127,6 +3128,42 @@ function ChoiceboxDemo() {
           </div>
         </div>
         <ShowCodeFooter code={demoCode("disabled")} />
+      </div>
+      <div
+        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="custom-content"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="custom-content">
+            <ChoiceboxGroup
+              label={demoText(language, "select a plan")}
+              listClassName="flex-row"
+              onChange={setCustomPlan}
+              type="radio"
+              value={customPlan}
+            >
+              <ChoiceboxGroupItem
+                description={demoText(language, "Free for two weeks")}
+                title={demoText(language, "Pro Trial")}
+                value="trial"
+              >
+                <div className="flex justify-center p-2">
+                  <Badge variant="purple">Trial</Badge>
+                </div>
+              </ChoiceboxGroupItem>
+              <ChoiceboxGroupItem
+                description={demoText(language, "Get started now")}
+                title="Pro"
+                value="pro"
+              >
+                <div className="flex justify-center p-2">
+                  <Badge variant="blue">Pro</Badge>
+                </div>
+              </ChoiceboxGroupItem>
+            </ChoiceboxGroup>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("custom-content")} />
       </div>
     </div>
   );
