@@ -1098,6 +1098,18 @@ function ModalDemo() {
   const [openSticky, setOpenSticky] = React.useState(false);
   const [openSingleButton, setOpenSingleButton] = React.useState(false);
   const [openInset, setOpenInset] = React.useState(false);
+  const [openDisabledActions, setOpenDisabledActions] = React.useState(false);
+  const [openControlFocus, setOpenControlFocus] = React.useState(false);
+  const [openFocusInput, setOpenFocusInput] = React.useState(false);
+  const [openMobileInputs, setOpenMobileInputs] = React.useState(false);
+  const [openComboboxFocus, setOpenComboboxFocus] = React.useState(false);
+  const [openToastsFocus, setOpenToastsFocus] = React.useState(false);
+  const [memberName, setMemberName] = React.useState("");
+  const [memberEmail, setMemberEmail] = React.useState("");
+  const [region, setRegion] = React.useState<string | null>(null);
+  const submitFocusRef = React.useRef<HTMLButtonElement>(null);
+  const inputFocusRef = React.useRef<HTMLInputElement>(null);
+  const toasts = useToasts();
 
   const modalFooter = (
     <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
@@ -1259,6 +1271,272 @@ function ModalDemo() {
           </div>
         </div>
         <ShowCodeFooter code={demoCode("inset")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="disabled-actions"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="disabled-actions">
+            <Modal open={openDisabledActions} onOpenChange={setOpenDisabledActions}>
+              {triggerButton(setOpenDisabledActions)}
+              <ModalContent onInteractOutside={() => setOpenDisabledActions(false)}>
+                <ModalHeader>
+                  <ModalTitle>{demoText(language, "Modal")}</ModalTitle>
+                  <ModalDescription>{demoText(language, "This is a modal.")}</ModalDescription>
+                </ModalHeader>
+                <p className="text-copy-14">
+                  {demoText(language, "Some content contained within the modal.")}
+                </p>
+                <div className="h-px w-full" aria-hidden />
+                <ModalFooter>
+                  <Button typeName="button" type="secondary" onClick={() => setOpenDisabledActions(false)}>
+                    {demoText(language, "Cancel")}
+                  </Button>
+                  <Button typeName="button" disabled onClick={() => setOpenDisabledActions(false)}>
+                    {demoText(language, "Submit")}
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("disabled-actions")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="control-initial-focus"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="control-initial-focus">
+            <Modal open={openControlFocus} onOpenChange={setOpenControlFocus}>
+              {triggerButton(setOpenControlFocus)}
+              <ModalContent
+                onInteractOutside={() => setOpenControlFocus(false)}
+                onOpenAutoFocus={(event) => {
+                  event.preventDefault();
+                  submitFocusRef.current?.focus();
+                }}
+              >
+                <ModalHeader>
+                  <ModalTitle>Initial Focus</ModalTitle>
+                  <ModalDescription>
+                    This Modal is set up to programmatically move the focus onto the Submit button,
+                    making it possible to promptly continue with the Enter key.
+                  </ModalDescription>
+                </ModalHeader>
+                <div className="h-px w-full" aria-hidden />
+                <ModalFooter>
+                  <Button typeName="button" type="secondary" onClick={() => setOpenControlFocus(false)}>
+                    {demoText(language, "Cancel")}
+                  </Button>
+                  <Button typeName="button" ref={submitFocusRef} onClick={() => setOpenControlFocus(false)}>
+                    {demoText(language, "Submit")}
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("control-initial-focus")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="focus-input-on-open"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="focus-input-on-open">
+            <Modal open={openFocusInput} onOpenChange={setOpenFocusInput}>
+              {triggerButton(setOpenFocusInput)}
+              <ModalContent
+                onInteractOutside={() => setOpenFocusInput(false)}
+                onOpenAutoFocus={(event) => {
+                  event.preventDefault();
+                  inputFocusRef.current?.focus();
+                }}
+              >
+                <ModalHeader>
+                  <ModalTitle>Invite Member</ModalTitle>
+                  <ModalDescription>
+                    On both desktop and the mobile bottom sheet, the Name field receives focus when
+                    the Modal opens so the user can start typing immediately.
+                  </ModalDescription>
+                </ModalHeader>
+                <div className="flex flex-col gap-3">
+                  <Input
+                    label="Name"
+                    onChange={(e) => setMemberName(e.target.value)}
+                    placeholder="Jane Doe"
+                    ref={inputFocusRef}
+                    value={memberName}
+                  />
+                </div>
+                <div className="h-px w-full" aria-hidden />
+                <ModalFooter>
+                  <Button typeName="button" type="secondary" onClick={() => setOpenFocusInput(false)}>
+                    {demoText(language, "Cancel")}
+                  </Button>
+                  <Button typeName="button" onClick={() => setOpenFocusInput(false)}>
+                    Send Invite
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("focus-input-on-open")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="mobile-sheet-inputs"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="mobile-sheet-inputs">
+            <Modal open={openMobileInputs} onOpenChange={setOpenMobileInputs}>
+              {triggerButton(setOpenMobileInputs)}
+              <ModalContent onInteractOutside={() => setOpenMobileInputs(false)}>
+                <ModalHeader>
+                  <ModalTitle>Invite Member</ModalTitle>
+                  <ModalDescription>
+                    On a mobile viewport this opens as a bottom sheet. Verify that both inputs
+                    receive focus and accept keyboard input.
+                  </ModalDescription>
+                </ModalHeader>
+                <div className="flex flex-col gap-3">
+                  <Input
+                    label="Name"
+                    onChange={(e) => setMemberName(e.target.value)}
+                    placeholder="Jane Doe"
+                    value={memberName}
+                  />
+                  <Input
+                    label="Email"
+                    onChange={(e) => setMemberEmail(e.target.value)}
+                    placeholder="jane@example.com"
+                    value={memberEmail}
+                  />
+                </div>
+                <div className="h-px w-full" aria-hidden />
+                <ModalFooter>
+                  <Button typeName="button" type="secondary" onClick={() => setOpenMobileInputs(false)}>
+                    {demoText(language, "Cancel")}
+                  </Button>
+                  <Button typeName="button" onClick={() => setOpenMobileInputs(false)}>
+                    Send Invite
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("mobile-sheet-inputs")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="combobox-focus"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="combobox-focus">
+            <Modal open={openComboboxFocus} onOpenChange={setOpenComboboxFocus}>
+              {triggerButton(setOpenComboboxFocus)}
+              <ModalContent onInteractOutside={() => setOpenComboboxFocus(false)}>
+                <ModalHeader>
+                  <ModalTitle>Create Database</ModalTitle>
+                  <ModalDescription>
+                    Choose a region for your database. Reads and writes will take place in this
+                    region.
+                  </ModalDescription>
+                </ModalHeader>
+                <div className="mx-[-20px] border-t border-gray-400 bg-background-200 px-5 py-6">
+                  <Combobox
+                    aria-label="Region"
+                    label="Region"
+                    onValueChange={setRegion}
+                    placeholder="Search regions..."
+                    size="small"
+                    value={region}
+                  >
+                    <ComboboxInput />
+                    <ComboboxList>
+                      {[
+                        { value: "iad1", label: "Washington, D.C., USA (East) – iad1" },
+                        { value: "sfo1", label: "San Francisco, USA (West) – sfo1" },
+                        { value: "lhr1", label: "London, UK (London) – lhr1" },
+                        { value: "fra1", label: "Frankfurt, Germany (Central EU) – fra1" },
+                        { value: "sin1", label: "Singapore (Southeast Asia) – sin1" },
+                      ].map((option) => (
+                        <ComboboxOption key={option.value} value={option.value}>
+                          {option.label}
+                        </ComboboxOption>
+                      ))}
+                    </ComboboxList>
+                  </Combobox>
+                </div>
+                <div className="h-px w-full" aria-hidden />
+                <ModalFooter>
+                  <Button typeName="button" type="secondary" onClick={() => setOpenComboboxFocus(false)}>
+                    {demoText(language, "Cancel")}
+                  </Button>
+                  <Button typeName="button" onClick={() => setOpenComboboxFocus(false)}>
+                    Create Database
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("combobox-focus")} />
+      </div>
+
+      <div
+        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="toasts-focus-trap"
+      >
+        <div className="flex w-full overflow-x-auto md:overflow-visible">
+          <div className="w-full p-6" data-demo-container="toasts-focus-trap">
+            <Modal open={openToastsFocus} onOpenChange={setOpenToastsFocus}>
+              {triggerButton(setOpenToastsFocus)}
+              <ModalContent onInteractOutside={() => setOpenToastsFocus(false)}>
+                <ModalHeader>
+                  <ModalTitle>Toasts and Focus Trap</ModalTitle>
+                  <ModalDescription>
+                    The Modal traps focus, so Tab stays within it. Toasts still render above the
+                    Modal and remain interactive — trigger one, then click its action. The Modal
+                    stays open and focus returns to it.
+                  </ModalDescription>
+                </ModalHeader>
+                <div className="flex flex-col gap-3">
+                  <Button
+                    onClick={() =>
+                      toasts.message({
+                        text: "Project link copied",
+                        action: "Undo",
+                        onAction: () => toasts.message({ text: "Copy reverted" }),
+                      })
+                    }
+                    size="small"
+                    type="secondary"
+                    typeName="button"
+                  >
+                    {demoText(language, "Show Toast")}
+                  </Button>
+                </div>
+                <div className="h-px w-full" aria-hidden />
+                <ModalFooter>
+                  <Button typeName="button" onClick={() => setOpenToastsFocus(false)}>
+                    Done
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("toasts-focus-trap")} />
       </div>
     </div>
   );

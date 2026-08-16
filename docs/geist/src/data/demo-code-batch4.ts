@@ -261,5 +261,320 @@ const [open, setOpen] = useState(false);
     </footer>
   </ModalContent>
 </Modal>`,
+    "disabled-actions": `import { Button } from "@/components/ui/button";
+import {
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from "@/components/ui/modal";
+import { useState } from "react";
+
+const [open, setOpen] = useState(false);
+
+<Modal open={open} onOpenChange={setOpen}>
+  <ModalTrigger asChild>
+    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+      Open Modal
+    </Button>
+  </ModalTrigger>
+  <ModalContent>
+    <ModalHeader>
+      <ModalTitle>Modal</ModalTitle>
+      <ModalDescription>This is a modal.</ModalDescription>
+    </ModalHeader>
+    <p className="text-copy-14">Some content contained within the modal.</p>
+    <div className="h-px w-full" aria-hidden />
+    <ModalFooter>
+      <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
+        Cancel
+      </Button>
+      <Button typeName="button" disabled onClick={() => setOpen(false)}>
+        Submit
+      </Button>
+    </ModalFooter>
+  </ModalContent>
+</Modal>`,
+    "control-initial-focus": `import { Button } from "@/components/ui/button";
+import {
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from "@/components/ui/modal";
+import { useRef, useState } from "react";
+
+const [open, setOpen] = useState(false);
+const initialFocusRef = useRef<HTMLButtonElement>(null);
+
+<Modal open={open} onOpenChange={setOpen}>
+  <ModalTrigger asChild>
+    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+      Open Modal
+    </Button>
+  </ModalTrigger>
+  <ModalContent
+    onOpenAutoFocus={(event) => {
+      event.preventDefault();
+      initialFocusRef.current?.focus();
+    }}
+  >
+    <ModalHeader>
+      <ModalTitle>Initial Focus</ModalTitle>
+      <ModalDescription>
+        This Modal is set up to programmatically move the focus onto the Submit button, making it
+        possible to promptly continue with the Enter key.
+      </ModalDescription>
+    </ModalHeader>
+    <div className="h-px w-full" aria-hidden />
+    <ModalFooter>
+      <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
+        Cancel
+      </Button>
+      <Button typeName="button" ref={initialFocusRef} onClick={() => setOpen(false)}>
+        Submit
+      </Button>
+    </ModalFooter>
+  </ModalContent>
+</Modal>`,
+    "focus-input-on-open": `import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from "@/components/ui/modal";
+import { useRef, useState } from "react";
+
+const [open, setOpen] = useState(false);
+const [name, setName] = useState("");
+const initialFocusRef = useRef<HTMLInputElement>(null);
+
+<Modal open={open} onOpenChange={setOpen}>
+  <ModalTrigger asChild>
+    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+      Open Modal
+    </Button>
+  </ModalTrigger>
+  <ModalContent
+    onOpenAutoFocus={(event) => {
+      event.preventDefault();
+      initialFocusRef.current?.focus();
+    }}
+  >
+    <ModalHeader>
+      <ModalTitle>Invite Member</ModalTitle>
+      <ModalDescription>
+        On both desktop and the mobile bottom sheet, the Name field receives focus when the Modal
+        opens so the user can start typing immediately.
+      </ModalDescription>
+    </ModalHeader>
+    <div className="flex flex-col gap-3">
+      <Input
+        label="Name"
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Jane Doe"
+        ref={initialFocusRef}
+        value={name}
+      />
+    </div>
+    <div className="h-px w-full" aria-hidden />
+    <ModalFooter>
+      <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
+        Cancel
+      </Button>
+      <Button typeName="button" onClick={() => setOpen(false)}>
+        Send Invite
+      </Button>
+    </ModalFooter>
+  </ModalContent>
+</Modal>`,
+    "mobile-sheet-inputs": `import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from "@/components/ui/modal";
+import { useState } from "react";
+
+const [open, setOpen] = useState(false);
+const [name, setName] = useState("");
+const [email, setEmail] = useState("");
+
+<Modal open={open} onOpenChange={setOpen}>
+  <ModalTrigger asChild>
+    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+      Open Modal
+    </Button>
+  </ModalTrigger>
+  <ModalContent>
+    <ModalHeader>
+      <ModalTitle>Invite Member</ModalTitle>
+      <ModalDescription>
+        On a mobile viewport this opens as a bottom sheet. Verify that both inputs receive focus
+        and accept keyboard input.
+      </ModalDescription>
+    </ModalHeader>
+    <div className="flex flex-col gap-3">
+      <Input
+        label="Name"
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Jane Doe"
+        value={name}
+      />
+      <Input
+        label="Email"
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="jane@example.com"
+        value={email}
+      />
+    </div>
+    <div className="h-px w-full" aria-hidden />
+    <ModalFooter>
+      <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
+        Cancel
+      </Button>
+      <Button typeName="button" onClick={() => setOpen(false)}>
+        Send Invite
+      </Button>
+    </ModalFooter>
+  </ModalContent>
+</Modal>`,
+    "combobox-focus": `import { Button } from "@/components/ui/button";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxList,
+  ComboboxOption,
+} from "@/components/ui/combobox";
+import {
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from "@/components/ui/modal";
+import { useState } from "react";
+
+const regions = [
+  { value: "iad1", label: "Washington, D.C., USA (East) – iad1" },
+  { value: "sfo1", label: "San Francisco, USA (West) – sfo1" },
+  { value: "lhr1", label: "London, UK (London) – lhr1" },
+  { value: "fra1", label: "Frankfurt, Germany (Central EU) – fra1" },
+  { value: "sin1", label: "Singapore (Southeast Asia) – sin1" },
+];
+
+const [open, setOpen] = useState(false);
+const [region, setRegion] = useState<string | null>(null);
+
+<Modal open={open} onOpenChange={setOpen}>
+  <ModalTrigger asChild>
+    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+      Open Modal
+    </Button>
+  </ModalTrigger>
+  <ModalContent>
+    <ModalHeader>
+      <ModalTitle>Create Database</ModalTitle>
+      <ModalDescription>
+        Choose a region for your database. Reads and writes will take place in this region.
+      </ModalDescription>
+    </ModalHeader>
+    <div className="mx-[-20px] border-t border-gray-400 bg-background-200 px-5 py-6">
+      <Combobox
+        aria-label="Region"
+        label="Region"
+        onValueChange={setRegion}
+        placeholder="Search regions..."
+        size="small"
+        value={region}
+      >
+        <ComboboxInput />
+        <ComboboxList>
+          {regions.map((option) => (
+            <ComboboxOption key={option.value} value={option.value}>
+              {option.label}
+            </ComboboxOption>
+          ))}
+        </ComboboxList>
+      </Combobox>
+    </div>
+    <div className="h-px w-full" aria-hidden />
+    <ModalFooter>
+      <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
+        Cancel
+      </Button>
+      <Button typeName="button" onClick={() => setOpen(false)}>
+        Create Database
+      </Button>
+    </ModalFooter>
+  </ModalContent>
+</Modal>`,
+    "toasts-focus-trap": `import { Button } from "@/components/ui/button";
+import {
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from "@/components/ui/modal";
+import { useToasts } from "@/components/ui/toast";
+import { useState } from "react";
+
+const [open, setOpen] = useState(false);
+const toasts = useToasts();
+
+<Modal open={open} onOpenChange={setOpen}>
+  <ModalTrigger asChild>
+    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+      Open Modal
+    </Button>
+  </ModalTrigger>
+  <ModalContent>
+    <ModalHeader>
+      <ModalTitle>Toasts and Focus Trap</ModalTitle>
+      <ModalDescription>
+        The Modal traps focus, so Tab stays within it. Toasts still render above the Modal and
+        remain interactive — trigger one, then click its action. The Modal stays open and focus
+        returns to it.
+      </ModalDescription>
+    </ModalHeader>
+    <div className="flex flex-col gap-3">
+      <Button
+        onClick={() =>
+          toasts.message({
+            text: "Project link copied",
+            action: "Undo",
+            onAction: () => toasts.message({ text: "Copy reverted" }),
+          })
+        }
+        size="small"
+        type="secondary"
+        typeName="button"
+      >
+        Show Toast
+      </Button>
+    </div>
+    <div className="h-px w-full" aria-hidden />
+    <ModalFooter>
+      <Button typeName="button" onClick={() => setOpen(false)}>
+        Done
+      </Button>
+    </ModalFooter>
+  </ModalContent>
+</Modal>`,
   },
 };
