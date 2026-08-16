@@ -148,7 +148,7 @@ function Feedback({
                     aria-label="Product topic selection"
                     value={topic}
                     onChange={(event) => setTopic(event.target.value)}
-                    className="peer w-full cursor-pointer truncate appearance-none rounded-[6px] border-none bg-background-100 px-3 pr-9 text-[14px] leading-5 text-gray-1000 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] transition-[box-shadow] duration-200 h-9 hover:shadow-[0_0_0_1px_var(--ds-gray-alpha-500)] focus:outline-hidden focus:shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]"
+                    className="peer w-full cursor-pointer truncate appearance-none rounded-[6px] border-none bg-background-100 px-3 pr-9 text-[14px] leading-5 text-gray-1000 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] transition-[box-shadow] duration-200 h-9 hover:shadow-[0_0_0_1px_var(--ds-gray-alpha-500)] focus:outline-hidden focus:!shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]"
                   >
                     <option disabled value="">
                       Select a topic...

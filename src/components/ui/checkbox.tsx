@@ -62,7 +62,7 @@ function Checkbox({
           "relative block rounded-[4px] border border-gray-700 bg-background-100 transition-colors duration-200",
           "peer-checked:border-foreground peer-checked:bg-foreground",
           "peer-indeterminate:border-foreground peer-indeterminate:bg-foreground",
-          "peer-focus-visible:focus-ring",
+          "peer-focus:shadow-[var(--focus-ring-outline)]",
           "peer-hover:enabled:peer-not-checked:peer-not-indeterminate:bg-gray-200",
           "peer-disabled:cursor-not-allowed peer-disabled:border-gray-500 peer-disabled:bg-gray-100",
           "peer-disabled:peer-checked:border-gray-600 peer-disabled:peer-checked:bg-gray-600",

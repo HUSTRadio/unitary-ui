@@ -43,13 +43,13 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         className={cn(
           "inline-flex w-full overflow-hidden font-normal transition-all duration-150",
           "shadow-[0_0_0_1px_var(--gray-alpha-400)] hover:shadow-[0_0_0_1px_var(--gray-alpha-500)]",
-          "focus-within:shadow-[0_0_0_1px_var(--gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]",
-          "dark:focus-within:shadow-[0_0_0_1px_var(--gray-alpha-600),0_0_0_4px_rgba(255,255,255,0.24)]",
+          "focus-within:!shadow-[0_0_0_1px_var(--gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]",
+          "dark:focus-within:!shadow-[0_0_0_1px_var(--gray-alpha-600),0_0_0_4px_rgba(255,255,255,0.24)]",
           error
             ? cn(
                 "shadow-[0_0_0_1px_var(--red-900),0_0_0_4px_var(--red-300)]",
                 "hover:shadow-[0_0_0_1px_var(--red-900),0_0_0_4px_var(--red-500)]",
-                "focus-within:shadow-[0_0_0_1px_var(--red-900),0_0_0_4px_var(--red-300)]",
+                "focus-within:!shadow-[0_0_0_1px_var(--red-900),0_0_0_4px_var(--red-300)]",
               )
             : undefined,
           large ? "rounded-[8px]" : "rounded-[6px]",

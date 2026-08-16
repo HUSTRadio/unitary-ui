@@ -79,7 +79,7 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
           className={cn(
             "relative size-4 rounded-full border border-[var(--radio-color)] bg-background-100",
             "transition-[border-color,background] duration-200 ease-in",
-            "peer-focus-visible:focus-ring",
+            "peer-focus:shadow-[var(--focus-ring-outline)]",
             "peer-enabled:peer-checked:[--radio-color:var(--gray-1000)]",
             "peer-disabled:[--radio-color:var(--gray-500)]",
             "peer-checked:[&>span]:scale-100",

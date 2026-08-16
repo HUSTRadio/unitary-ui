@@ -92,7 +92,7 @@ const CommandMenuInput = React.forwardRef<
         type="button"
         aria-label="Close command menu"
         onClick={close}
-        className="ml-auto hidden h-5 cursor-pointer items-center rounded-sm border-none bg-background-100 px-1 py-0 text-xs text-gray-1000 shadow-[var(--material-shadow-base)] outline-none transition-[background] duration-200 [@media(hover:hover)_and_(pointer:fine)]:flex focus-visible:shadow-[var(--focus-ring-outline)] hover:bg-gray-100"
+        className="ml-auto hidden h-5 cursor-pointer items-center rounded-sm border-none bg-background-100 px-1 py-0 text-xs text-gray-1000 shadow-[var(--material-shadow-base)] outline-none transition-[background] duration-200 [@media(hover:hover)_and_(pointer:fine)]:flex focus:shadow-[var(--focus-ring-outline)] hover:bg-gray-100"
       >
         Esc
       </button>

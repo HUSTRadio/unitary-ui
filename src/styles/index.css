@@ -1099,7 +1099,7 @@
   letter-spacing: normal;
   transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  &:focus-visible {
+  &:focus {
     box-shadow: var(--focus-ring-outline);
   }
 }
@@ -1126,7 +1126,7 @@
  */
 @utility focus-ring {
   outline: none;
-  &:focus-visible {
+  &:focus {
     outline: none;
     box-shadow: var(--focus-ring-outline);
   }
