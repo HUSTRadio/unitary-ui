@@ -304,7 +304,7 @@ function PaginationDemo() {
   const demoCode = (id: string) => DEMO_CODE.pagination?.[id] ?? "";
   return (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card="Default"
     >
       <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -327,7 +327,7 @@ function EmptyStateDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="empty-state-design-framework"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -342,7 +342,7 @@ function EmptyStateDemo() {
         <ShowCodeFooter code={demoCode("empty-state-design-framework")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="blank-slate"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -357,7 +357,7 @@ function EmptyStateDemo() {
         <ShowCodeFooter code={demoCode("blank-slate")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="informational"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -674,7 +674,7 @@ function CheckboxDemo() {
   return (
     <>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -688,7 +688,7 @@ function CheckboxDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -716,7 +716,7 @@ function CheckboxDemo() {
         <ShowCodeFooter code={demoCode("disabled")} />
       </div>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="indeterminate"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -737,7 +737,7 @@ function MenuDemo() {
   const demoCode = (id: string) => DEMO_CODE.menu?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -914,7 +914,7 @@ function InputDemo() {
   return (
     <>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -936,7 +936,7 @@ function InputDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="prefix-and-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -969,7 +969,7 @@ function InputDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1008,7 +1008,7 @@ function InputDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="error"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1035,7 +1035,7 @@ function InputDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="label"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1052,7 +1052,7 @@ function InputDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="rounded-prefix-and-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1069,7 +1069,7 @@ function InputDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="rounded-prefix-and-suffix-without-styling"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1141,7 +1141,7 @@ function ModalDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1173,7 +1173,7 @@ function ModalDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="sticky"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1216,7 +1216,7 @@ function ModalDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="single-button"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1246,7 +1246,7 @@ function ModalDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="inset"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1276,7 +1276,7 @@ function ModalDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="disabled-actions"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1308,7 +1308,7 @@ function ModalDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="control-initial-focus"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1346,7 +1346,7 @@ function ModalDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="focus-input-on-open"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1393,7 +1393,7 @@ function ModalDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="mobile-sheet-inputs"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1439,7 +1439,7 @@ function ModalDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="combobox-focus"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1496,7 +1496,7 @@ function ModalDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="toasts-focus-trap"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1551,7 +1551,7 @@ function SwitchDemo() {
   return (
     <>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1568,7 +1568,7 @@ function SwitchDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1585,7 +1585,7 @@ function SwitchDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1616,7 +1616,7 @@ function SwitchDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="full-width"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1631,7 +1631,7 @@ function SwitchDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="tooltip"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1652,7 +1652,7 @@ function SwitchDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="icon"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1728,7 +1728,7 @@ function SelectDemo() {
   return (
     <>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1762,7 +1762,7 @@ function SelectDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="prefix-and-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1801,7 +1801,7 @@ function SelectDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1817,7 +1817,7 @@ function SelectDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="error"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1853,7 +1853,7 @@ function SelectDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="label"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1868,7 +1868,7 @@ function SelectDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="with-options"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -1901,7 +1901,7 @@ function SelectDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="required"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2015,7 +2015,7 @@ function SkeletonDemo() {
   const demoCode = (id: string) => DEMO_CODE.skeleton?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -2121,7 +2121,7 @@ function SpinnerDemo() {
 function StepPointDemo() {
   const demoCode = (id: string) => DEMO_CODE["step-point"]?.[id] ?? "";
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
       <div className="w-full p-6" data-demo-container="Default">
         <ul className="w-full max-w-xs">
           <StepPoint status="done">Submitted</StepPoint>
@@ -2167,7 +2167,7 @@ function TabsDemo() {
   const [tab, setTab] = React.useState("overview");
 
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
       <div className="w-full p-6" data-demo-container="Default">
         <div className="w-full max-w-xl">
       <Tabs
@@ -2206,7 +2206,7 @@ function TextareaDemo() {
   return (
     <>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2220,7 +2220,7 @@ function TextareaDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2234,7 +2234,7 @@ function TextareaDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="error"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2270,7 +2270,7 @@ function TextareaDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2302,7 +2302,7 @@ function TextareaDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="read-only"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2320,7 +2320,7 @@ function TextareaDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="rows"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2568,7 +2568,7 @@ function ThemeSwitcherDemo() {
   const demoCode = (id: string) => DEMO_CODE["theme-switcher"]?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -2625,7 +2625,7 @@ function StatusDotDemo() {
   const demoCode = (id: string) => DEMO_CODE["status-dot"]?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -2664,7 +2664,7 @@ function ToastDemo() {
   const toasts = useToasts();
 
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
       <div className="w-full p-6" data-demo-container="Default">
         <Button
           typeName="button"
@@ -2681,7 +2681,7 @@ function ToastDemo() {
 function CopyButtonDemo() {
   const demoCode = (id: string) => DEMO_CODE["copy-button"]?.[id] ?? "";
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
       <div className="w-full p-6" data-demo-container="Default">
         <CopyButton textToCopy="lipsum" />
         <span className="text-copy-13 text-muted-foreground">Click to copy “lipsum”</span>
@@ -2709,7 +2709,7 @@ function DrawerDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2729,7 +2729,7 @@ function DrawerDemo() {
         </Drawer>
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="custom-height"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2795,7 +2795,7 @@ function SheetDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2818,7 +2818,7 @@ function SheetDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="with-side"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -2890,7 +2890,7 @@ function SnippetDemo() {
   const [copied, setCopied] = React.useState(false);
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -3052,7 +3052,7 @@ function BookDemo() {
 function BrowserDemo() {
   const demoCode = (id: string) => DEMO_CODE.browser?.[id] ?? "";
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Composition">
+    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Composition">
       <div className="w-full p-6" data-demo-container="Composition">
         <Browser address="https://vercel.com">
           <div className="flex h-24 items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
@@ -3138,7 +3138,7 @@ function CalendarDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3151,7 +3151,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="horizontal-layout"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3164,7 +3164,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("horizontal-layout")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3184,7 +3184,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("sizes")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="presets"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3206,7 +3206,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("presets")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="compact"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3224,7 +3224,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("compact")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="stacked"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3243,7 +3243,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("stacked")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="presets-default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3263,7 +3263,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("presets-default")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="min-max"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3276,7 +3276,7 @@ function CalendarDemo() {
         <ShowCodeFooter code={demoCode("min-max")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="pinned-timezone"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3302,7 +3302,7 @@ function ChoiceboxDemo() {
   return (
     <div className="w-full max-w-2xl space-y-6">
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="single-select"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3329,7 +3329,7 @@ function ChoiceboxDemo() {
         </div>
         <ShowCodeFooter code={demoCode("single-select")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="multi-select"
       >
@@ -3357,7 +3357,7 @@ function ChoiceboxDemo() {
         </div>
         <ShowCodeFooter code={demoCode("multi-select")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="disabled"
       >
@@ -3410,7 +3410,7 @@ function ChoiceboxDemo() {
         <ShowCodeFooter code={demoCode("disabled")} />
       </div>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="custom-content"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3629,7 +3629,7 @@ function JsonViewDemo() {
 function PhoneDemo() {
   const demoCode = (id: string) => DEMO_CODE.phone?.[id] ?? "";
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Composition">
+    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Composition">
       <div className="w-full p-6" data-demo-container="Composition">
         <Phone>
           <PhoneScreen>
@@ -3648,7 +3648,7 @@ function ProjectBannerDemo() {
   const demoCode = (id: string) => DEMO_CODE["project-banner"]?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -3843,7 +3843,7 @@ const codeExample = `export function Component(): JSX.Element {
 function CodeDemo() {
   const demoCode = (id: string) => DEMO_CODE.code?.[id] ?? "";
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
       <div className="w-full p-6" data-demo-container="Default">
         <p className="text-copy-14 text-muted-foreground">
           Install with <InlineCode>npm i geist</InlineCode> and import the component.
@@ -3897,7 +3897,7 @@ function CodeBlockDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3914,7 +3914,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="no-filename"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3930,7 +3930,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("no-filename")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="highlighted-lines"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3948,7 +3948,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("highlighted-lines")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="added-removed-lines"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3967,7 +3967,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("added-removed-lines")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="referenced-lines"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3984,7 +3984,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("referenced-lines")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="language-switcher"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4002,7 +4002,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("language-switcher")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="language-switcher-with-tabs"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4020,7 +4020,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("language-switcher-with-tabs")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="hidden-line-numbers"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4038,7 +4038,7 @@ function CodeBlockDemo() {
         <ShowCodeFooter code={demoCode("hidden-line-numbers")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="open-in-v0"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4078,7 +4078,7 @@ function DestructiveActionModalDemo() {
   const [openError, setOpenError] = React.useState(false);
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -4176,7 +4176,7 @@ function FeedbackDemo() {
   const demoCode = (id: string) => DEMO_CODE.feedback?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -4242,7 +4242,7 @@ function LoadMoreButtonDemo() {
   const { language } = useLanguage();
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -4275,7 +4275,7 @@ function TextWithCopyButtonDemo() {
   const demoCode = (id: string) => DEMO_CODE["text-with-copy-button"]?.[id] ?? "";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -4506,7 +4506,7 @@ function ContextMenuDemo() {
   return (
     <div className="w-full max-w-[862px]">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4528,7 +4528,7 @@ function ContextMenuDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="disabled-items"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4550,7 +4550,7 @@ function ContextMenuDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="link-items"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4572,7 +4572,7 @@ function ContextMenuDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="prefix-and-suffix"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4639,7 +4639,7 @@ function DotsMenuDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4650,7 +4650,7 @@ function DotsMenuDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4665,7 +4665,7 @@ function DotsMenuDemo() {
         <ShowCodeFooter code={demoCode("sizes")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4676,7 +4676,7 @@ function DotsMenuDemo() {
         <ShowCodeFooter code={demoCode("disabled")} />
       </div>
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="disabled-menu-item"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4707,7 +4707,7 @@ function GaugeDemo() {
 function FileTreeDemo() {
   const demoCode = (id: string) => DEMO_CODE["file-tree"]?.[id] ?? "";
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
       <div className="w-full p-6" data-demo-container="Default">
         <FileTree>
           <FileTreeItem>
@@ -4754,7 +4754,7 @@ function KeyboardInputDemo() {
   const demoCode = (id: string) => DEMO_CODE["keyboard-input"]?.[id] ?? "";
   return (
     <div className="w-full max-w-[862px] space-y-6">
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="modifiers"
       >
@@ -4771,7 +4771,7 @@ function KeyboardInputDemo() {
         </div>
         <ShowCodeFooter code={demoCode("modifiers")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="combination"
       >
@@ -4785,7 +4785,7 @@ function KeyboardInputDemo() {
         </div>
         <ShowCodeFooter code={demoCode("combination")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="small"
       >
@@ -4807,7 +4807,7 @@ function BannerDemo() {
   const demoCode = (id: string) => DEMO_CODE.banner?.[id] ?? "";
   return (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card="Default"
     >
       <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4852,7 +4852,7 @@ function ClearableInputDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6">
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4867,7 +4867,7 @@ function ClearableInputDemo() {
         </div>
         <ShowCodeFooter code={demoCode("default")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="with-label"
       >
@@ -4883,7 +4883,7 @@ function ClearableInputDemo() {
         </div>
         <ShowCodeFooter code={demoCode("with-label")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="with-cmdk"
       >
@@ -4900,7 +4900,7 @@ function ClearableInputDemo() {
         </div>
         <ShowCodeFooter code={demoCode("with-cmdk")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="disabled"
       >
@@ -4917,7 +4917,7 @@ function ClearableInputDemo() {
         </div>
         <ShowCodeFooter code={demoCode("disabled")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="with-clear-callback"
       >
@@ -4977,7 +4977,7 @@ function CollapseDemo() {
   return (
     <>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4991,7 +4991,7 @@ function CollapseDemo() {
         <ShowCodeFooter code={demoCode("default")} />
       </div>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="expanded"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5005,7 +5005,7 @@ function CollapseDemo() {
         <ShowCodeFooter code={demoCode("expanded")} />
       </div>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="multiple"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5019,7 +5019,7 @@ function CollapseDemo() {
         <ShowCodeFooter code={demoCode("multiple")} />
       </div>
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="small"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5094,7 +5094,7 @@ function ComboboxDemo() {
   return (
     <div className="w-full max-w-[862px]">
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="uncontrolled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5115,7 +5115,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="controlled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5141,7 +5141,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5162,7 +5162,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="sizes"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5219,7 +5219,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="with-label"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5244,7 +5244,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="clearable"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5270,7 +5270,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="errored"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5291,7 +5291,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="custom-width-input"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5312,7 +5312,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="custom-width-list"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5341,7 +5341,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="custom-empty-message"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5356,7 +5356,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="with-prefix-icons"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5381,7 +5381,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="with-suffix-icons"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5406,7 +5406,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="used-inside-modal"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5466,7 +5466,7 @@ function ComboboxDemo() {
       </div>
 
       <div
-        className="relative mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="inside-sheet"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5541,7 +5541,7 @@ function DescriptionDemo() {
   const tooltip = demoText(language, "Additional context about what this section refers to.");
   return (
     <>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="default">
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="default">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
             <Description data-demo-id="default" title={title} content={content} tooltip={tooltip} />
@@ -5549,7 +5549,7 @@ function DescriptionDemo() {
         </div>
           <ShowCodeFooter code={demoCode("default")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="text-right">
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="text-right">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="text-right">
             <Description
@@ -5563,7 +5563,7 @@ function DescriptionDemo() {
         </div>
           <ShowCodeFooter code={demoCode("text-right")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="ellipsis">
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="ellipsis">
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="ellipsis">
             <Description
@@ -5640,7 +5640,7 @@ function EntityDemo() {
   return (
     <div className="w-full max-w-[862px] space-y-6 [--entity-list-background:var(--background-100)] [--entity-list-divider:#eaeaea] dark:[--entity-list-background:var(--background-200)] dark:[--entity-list-divider:#333333]">
       <div
-        className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
         style={ENTITY_DEMO_VARS}
       >
@@ -5685,7 +5685,7 @@ function EntityDemo() {
         </div>
         <ShowCodeFooter code={demoCode("default")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="entity-with-skeleton"
         style={ENTITY_DEMO_VARS}
@@ -5718,7 +5718,7 @@ function EntityDemo() {
         </div>
         <ShowCodeFooter code={demoCode("entity-with-skeleton")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="entity-with-list"
         style={ENTITY_DEMO_VARS}
@@ -5751,7 +5751,7 @@ function EntityDemo() {
         </div>
         <ShowCodeFooter code={demoCode("entity-with-list")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="entity-with-list-and-checkbox"
         style={ENTITY_DEMO_VARS}
@@ -5812,7 +5812,7 @@ function EntityDemo() {
         </div>
         <ShowCodeFooter code={demoCode("entity-with-list-and-checkbox")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="entity-with-fill"
         style={ENTITY_DEMO_VARS}
@@ -5833,7 +5833,7 @@ function EntityDemo() {
         </div>
         <ShowCodeFooter code={demoCode("entity-with-fill")} />
       </div>
-      <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
        
         data-demo-card="entity-with-column-class-names"
         style={ENTITY_DEMO_VARS}
@@ -5881,7 +5881,7 @@ function ErrorCardDemo() {
   const demoCode = (id: string) => DEMO_CODE["error-card"]?.[id] ?? "";
   return (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card="Default"
     >
       <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -6146,7 +6146,7 @@ function LoadingDotsDemo() {
   const { language } = useLanguage();
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
@@ -6176,7 +6176,7 @@ function LoadingDotsDemo() {
 function MiddleTruncateDemo() {
   const demoCode = (id: string) => DEMO_CODE["middle-truncate"]?.[id] ?? "";
   return (
-    <div className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Examples">
+    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Examples">
       <div className="w-full p-6" data-demo-container="Examples">
         <div className="w-64 font-mono text-copy-13 text-foreground">
           <MiddleTruncate value="https://example.com/teams/hustradio/projects/geist-style-framework/deployments/latest" />
@@ -6215,7 +6215,7 @@ function MultiSelectDemo() {
 
   const card = (id: string, children: React.ReactNode) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div data-demo-container={id} className="w-full p-6">
@@ -6347,7 +6347,7 @@ function PillDemo() {
   const [active, setActive] = React.useState("all");
   return (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card="Default"
     >
       <div className="w-full p-6" data-demo-container="Default">
@@ -6482,7 +6482,7 @@ function RelativeTimeCardDemo() {
   const demoCode = (id: string) => DEMO_CODE["relative-time-card"]?.[id] ?? "";
   return (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card="Default"
     >
       <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -6558,7 +6558,7 @@ function ShowMoreDemo() {
     "Geist Style Framework provides reusable tokens, primitives, and component patterns for building consistent React interfaces in both light and dark themes.";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
-      className="mt-6 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div className="w-full p-6" data-demo-container={id}>
