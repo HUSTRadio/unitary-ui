@@ -158,7 +158,7 @@ const [checked, setChecked] = useState(false);
 
 <div className="flex flex-col items-stretch justify-start gap-4">
   <Checkbox disabled>Disabled</Checkbox>
-  <Checkbox checked disabled>Disabled Checked</Checkbox>
+  <Checkbox checked readOnly disabled>Disabled Checked</Checkbox>
   <Checkbox disabled indeterminate>Disabled Indeterminate</Checkbox>
 </div>`,
     indeterminate: `import { Checkbox } from "@/components/ui/checkbox";

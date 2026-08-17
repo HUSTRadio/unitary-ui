@@ -54,9 +54,9 @@ describe("Avatar official API contract", () => {
     const normal = renderToStaticMarkup(<AvatarGroup members={members} size={32} />);
     const reversed = renderToStaticMarkup(<AvatarGroup members={members} reverse size={32} />);
 
-    // 负 margin（overlap）必须用合法的 -ml-[var(...)] 形式（而非无效的 ml-[-1*var(...)]）
-    expect(normal).toContain("-ml-[var(--avatar-overlap)]");
-    expect(normal).not.toContain("-1*var(--avatar-overlap)");
+    // Overlap uses a named utility so CSS variables do not leak into generated selectors.
+    expect(normal).toContain("avatar-group-overlap");
+    expect(normal).not.toContain("-ml-[var(--avatar-overlap)]");
 
     // 默认：第一个成员在最上面 → z-index 递减（2/1/0），对齐官方 3 成员组
     expect(normal).toContain("z-index:2");

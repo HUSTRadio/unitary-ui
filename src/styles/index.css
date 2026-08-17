@@ -1111,6 +1111,11 @@
 @utility multi-select-content {
   background-color: var(--background-100);
 }
+
+@utility avatar-group-overlap {
+  margin-left: calc(var(--avatar-overlap) * -1);
+}
+
 @utility material-modal {
   border-radius: 12px;
   background-color: var(--color-bg-elevated);

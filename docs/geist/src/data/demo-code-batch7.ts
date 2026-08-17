@@ -127,15 +127,15 @@ export function Component() {
     disabled: `import { Toggle } from "@/components/ui/toggle";
 
 <div className="flex flex-col">
-  <Toggle aria-label="Enable Firewall" checked={false} disabled />
-  <Toggle aria-label="Enable Firewall" checked disabled />
+  <Toggle aria-label="Enable Firewall" checked={false} readOnly disabled />
+  <Toggle aria-label="Enable Firewall" checked readOnly disabled />
 </div>`,
     sizes: `import { Toggle } from "@/components/ui/toggle";
 
 <div className="flex flex-row flex-wrap">
-  <Toggle aria-label="Enable Firewall" checked={false} />
-  <Toggle aria-label="Enable Firewall" checked={false} size="medium" />
-  <Toggle aria-label="Enable Firewall" checked={false} size="large" />
+  <Toggle aria-label="Enable Firewall" checked={false} readOnly />
+  <Toggle aria-label="Enable Firewall" checked={false} readOnly size="medium" />
+  <Toggle aria-label="Enable Firewall" checked={false} readOnly size="large" />
 </div>`,
     "custom-color": `import { Toggle } from "@/components/ui/toggle";
 import { Lock, LockOpen } from "lucide-react";

@@ -224,7 +224,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     official: "Checkbox",
     code: `import { Checkbox } from "@/components/ui/checkbox";
 
-<Checkbox id="checked" checked />
+<Checkbox id="checked" checked readOnly />
 <Checkbox id="unchecked" />
 <Checkbox id="partial" indeterminate />`,
     bestPractices: [

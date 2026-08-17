@@ -699,7 +699,12 @@ function CheckboxDemo() {
                 <span className="ml-2">{demoText(language, "Disabled")}</span>
               </label>
               <label className="text-checkbox-label inline-flex cursor-not-allowed items-start text-disabled-foreground">
-                <Checkbox checked disabled aria-label={demoText(language, "Disabled Checked")} />
+                <Checkbox
+                  checked
+                  readOnly
+                  disabled
+                  aria-label={demoText(language, "Disabled Checked")}
+                />
                 <span className="ml-2">{demoText(language, "Disabled Checked")}</span>
               </label>
               <label className="text-checkbox-label inline-flex cursor-not-allowed items-start text-disabled-foreground">
@@ -2392,11 +2397,17 @@ function ToggleDemo() {
                 <Toggle
                   aria-label={demoText(language, "Enable Firewall")}
                   checked={false}
+                  readOnly
                   disabled
                 />
               </div>
               <div>
-                <Toggle aria-label={demoText(language, "Enable Firewall")} checked disabled />
+                <Toggle
+                  aria-label={demoText(language, "Enable Firewall")}
+                  checked
+                  readOnly
+                  disabled
+                />
               </div>
             </div>
           </div>
@@ -2412,12 +2423,17 @@ function ToggleDemo() {
           <div className="w-full p-6" data-demo-container="sizes">
             <div className="flex flex-row flex-wrap">
               <div className="flex-1">
-                <Toggle aria-label={demoText(language, "Enable Firewall")} checked={false} />
+                <Toggle
+                  aria-label={demoText(language, "Enable Firewall")}
+                  checked={false}
+                  readOnly
+                />
               </div>
               <div className="flex-1">
                 <Toggle
                   aria-label={demoText(language, "Enable Firewall")}
                   checked={false}
+                  readOnly
                   size="medium"
                 />
               </div>
@@ -2425,6 +2441,7 @@ function ToggleDemo() {
                 <Toggle
                   aria-label={demoText(language, "Enable Firewall")}
                   checked={false}
+                  readOnly
                   size="large"
                 />
               </div>
@@ -7257,27 +7274,35 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
                 <Toggle
                   aria-label={demoText(language, "Enable Firewall")}
                   checked={false}
+                  readOnly
                   disabled
                 />
                 <span className="text-copy-14 text-muted-foreground">Unchecked (disabled)</span>
               </div>
               <div className="flex items-center gap-3">
-                <Toggle aria-label={demoText(language, "Enable Firewall")} checked disabled />
+                <Toggle
+                  aria-label={demoText(language, "Enable Firewall")}
+                  checked
+                  readOnly
+                  disabled
+                />
                 <span className="text-copy-14 text-muted-foreground">Checked (disabled)</span>
               </div>
             </div>
           </Section>
           <Section title="Sizes">
             <div className="flex flex-row flex-wrap items-center gap-6">
-              <Toggle aria-label={demoText(language, "Enable Firewall")} checked={false} />
+              <Toggle aria-label={demoText(language, "Enable Firewall")} checked={false} readOnly />
               <Toggle
                 aria-label={demoText(language, "Enable Firewall")}
                 checked={false}
+                readOnly
                 size="medium"
               />
               <Toggle
                 aria-label={demoText(language, "Enable Firewall")}
                 checked={false}
+                readOnly
                 size="large"
               />
             </div>
@@ -7305,7 +7330,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
                 </span>
               </label>
               <label className="flex cursor-pointer items-center gap-2.5">
-                <Checkbox checked aria-label={demoText(language, "Checked")} />
+                <Checkbox checked readOnly aria-label={demoText(language, "Checked")} />
                 <span className="text-copy-14 text-muted-foreground">Checked</span>
               </label>
               <label className="flex cursor-pointer items-center gap-2.5">
