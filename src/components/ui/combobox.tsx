@@ -157,8 +157,6 @@ function Combobox({
   const groupRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const panelRef = React.useRef<HTMLDivElement>(null);
-  const id = React.useId();
-
   const value = valueProp !== undefined ? valueProp : internalValue;
 
   const handleValueChange = (next: string) => {

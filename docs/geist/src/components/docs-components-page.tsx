@@ -13,7 +13,6 @@ import {
   CircleArrowUp,
   Clock,
   Copy,
-  CopyCheck,
   ExternalLink,
   Flag,
   LayoutGrid,
@@ -136,7 +135,6 @@ import { LoadingDots } from "@/components/ui/loading-dots";
 import { MiddleTruncate } from "@/components/ui/middle-truncate";
 import {
   Modal,
-  ModalClose,
   ModalContent,
   ModalDescription,
   ModalFooter,
@@ -5136,8 +5134,8 @@ function ComboboxDemo() {
   const [controlledValue, setControlledValue] = React.useState("b");
   const [clearableValue, setClearableValue] = React.useState("two");
   const [modalOpen, setModalOpen] = React.useState(false);
-  const [sheetLinked, setSheetLinked] = React.useState<string[]>([]);
-  const [sheetSearch, setSheetSearch] = React.useState("");
+  const [sheetLinked] = React.useState<string[]>([]);
+  const [sheetSearch] = React.useState("");
 
   const SHARED_VARS = [
     { key: "CONTENTFUL_MANAGEMENT_APP_INSTALLATION_ID", target: "Preview and Production" },
