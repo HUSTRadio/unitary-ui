@@ -53,7 +53,9 @@ describe("docs Show code footer", () => {
     expect(src).toMatch(/function renderDemo\(name: string\)/);
     expect(src.match(/renderDemo\(name\)/g)).toHaveLength(3);
     // 每个 demo 函数用 demoCode 查 DEMO_CODE（区块独立源码），不再统一传 meta.code
-    expect(src.match(/const demoCode = \(id: string\) => DEMO_CODE/g)?.length).toBeGreaterThanOrEqual(16);
+    expect(
+      src.match(/const demoCode = \(id: string\) => DEMO_CODE/g)?.length,
+    ).toBeGreaterThanOrEqual(16);
     expect(src.match(/<ShowCodeFooter code=\{code \?\? ""\} \/>/g)).toBeNull();
   });
 

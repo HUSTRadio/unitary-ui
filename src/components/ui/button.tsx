@@ -167,8 +167,10 @@ function Button({
 
 /* ---------- ButtonLink ---------- */
 
-export interface ButtonLinkProps
-  extends Omit<React.ComponentProps<"a">, "type" | "prefix" | "shape"> {
+export interface ButtonLinkProps extends Omit<
+  React.ComponentProps<"a">,
+  "type" | "prefix" | "shape"
+> {
   type?: ButtonType;
   size?: ButtonSize;
   shape?: ButtonShape;

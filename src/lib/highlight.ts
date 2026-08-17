@@ -56,11 +56,7 @@ export function highlightLines(code: string, language?: string): HighlightToken[
       if (typeof token === "string") {
         flat.push({ type: prefix || "plain", content: token });
       } else {
-        const aliases = Array.isArray(token.alias)
-          ? token.alias
-          : token.alias
-            ? [token.alias]
-            : [];
+        const aliases = Array.isArray(token.alias) ? token.alias : token.alias ? [token.alias] : [];
         const parts = [
           ...new Set(`${prefix} ${token.type} ${aliases.join(" ")}`.split(" ").filter(Boolean)),
         ];

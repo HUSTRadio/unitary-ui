@@ -80,7 +80,8 @@ function Feedback({
   onSubmit,
   className,
   ...props
-}: FeedbackProps & Omit<React.ComponentProps<"div">, "onSubmit" | "defaultValue" | "prefix" | "suffix">) {
+}: FeedbackProps &
+  Omit<React.ComponentProps<"div">, "onSubmit" | "defaultValue" | "prefix" | "suffix">) {
   const [open, setOpen] = React.useState(false);
   const [rating, setRating] = React.useState<FeedbackRatingValue | undefined>(defaultValue);
   const [text, setText] = React.useState("");
@@ -139,9 +140,7 @@ function Feedback({
           >
             <form className="h-full" onSubmit={handleSubmit}>
               <div className="flex flex-col gap-2 p-2">
-                {copy ? (
-                  <p className="text-label-14 text-gray-900">{copy}</p>
-                ) : null}
+                {copy ? <p className="text-label-14 text-gray-900">{copy}</p> : null}
                 {showTopics ? (
                   <label className="sr-only" htmlFor="feedback-topic">
                     Product topic selection

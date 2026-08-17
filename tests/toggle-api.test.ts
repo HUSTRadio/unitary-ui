@@ -49,9 +49,7 @@ describe("Toggle official API contract (G12)", () => {
 
   test("G12-TOGGLE-01: blue is checked-only; amber keeps its custom color only while checked", async () => {
     const src = await read("src/components/ui/toggle.tsx");
-    expect(src).toMatch(
-      /color === "blue" && "peer-checked:bg-\[var\(--toggle-checked\)\]"/,
-    );
+    expect(src).toMatch(/color === "blue" && "peer-checked:bg-\[var\(--toggle-checked\)\]"/);
     expect(src).toContain('color === "amber" && "peer-checked:bg-warning"');
 
     const blueMarkup = toggle({ color: "blue", checked: true, "aria-label": "Enable Firewall" });

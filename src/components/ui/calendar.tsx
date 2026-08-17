@@ -158,8 +158,8 @@ function CalendarCombobox({
 }: CalendarComboboxProps) {
   const sizeToken = size === "small" ? "small" : "medium";
   const [open, setOpen] = React.useState(false);
-  const [internalValue, setInternalValue] = React.useState(
-    () => (defaultIndex !== undefined ? (presets[defaultIndex] ?? "") : ""),
+  const [internalValue, setInternalValue] = React.useState(() =>
+    defaultIndex !== undefined ? (presets[defaultIndex] ?? "") : "",
   );
   const currentValue = value !== undefined ? value : internalValue;
 
@@ -185,7 +185,11 @@ function CalendarCombobox({
 
   return (
     <PopoverPrimitive.Root open={open} onOpenChange={setOpen}>
-      <div tabIndex={-1} className={cn(COMBO_ROOT_CLASS, `h-(--ds-size-${sizeToken})`)} cmdk-root="">
+      <div
+        tabIndex={-1}
+        className={cn(COMBO_ROOT_CLASS, `h-(--ds-size-${sizeToken})`)}
+        cmdk-root=""
+      >
         <label
           cmdk-label=""
           htmlFor="radix-calendar-combobox-input"
@@ -217,7 +221,11 @@ function CalendarCombobox({
               style={
                 full
                   ? { paddingRight: "0px" }
-                  : { paddingRight: "0px", width: `var(--ds-size-${sizeToken})`, color: "transparent" }
+                  : {
+                      paddingRight: "0px",
+                      width: `var(--ds-size-${sizeToken})`,
+                      color: "transparent",
+                    }
               }
             />
           </PopoverPrimitive.Trigger>
@@ -261,7 +269,12 @@ function CalendarCombobox({
                 minWidth: full ? "370px" : "165px",
               }}
             >
-              <div className={cn(COMBO_GROUP_CLASS, full && "border-r border-[var(--ds-gray-alpha-400)]")}>
+              <div
+                className={cn(
+                  COMBO_GROUP_CLASS,
+                  full && "border-r border-[var(--ds-gray-alpha-400)]",
+                )}
+              >
                 {presets.map((text) => (
                   <button
                     key={text}
@@ -390,7 +403,11 @@ function Calendar({
       data-version="v1"
       className={effectiveClassName}
       style={
-        { "--width": `${effectiveWidth}px`, width: "auto", "--ds-size-small": "32px" } as React.CSSProperties
+        {
+          "--width": `${effectiveWidth}px`,
+          width: "auto",
+          "--ds-size-small": "32px",
+        } as React.CSSProperties
       }
     >
       {effectiveComboboxFirst && effectiveShowCombobox && (
@@ -609,7 +626,10 @@ function CalendarPanel({
       <div className={horizontalLayout ? "flex flex-row" : "flex flex-col"}>
         {/* 日历（在上 / 左） */}
         <div>
-          <div className="flex flex-row items-center justify-between" style={{ margin: "-3px 0px" }}>
+          <div
+            className="flex flex-row items-center justify-between"
+            style={{ margin: "-3px 0px" }}
+          >
             <div
               style={{
                 overflow: "hidden",
@@ -676,8 +696,10 @@ function CalendarPanel({
                     const disabled = isDisabled(d);
                     // 连续区间：同行内区间段两端圆角、中间无圆角（几何圆角，非 start/end 语义）
                     const inSel = !!(start && end && d >= start && d <= end);
-                    const leftIn = i > 0 && !!(start && end && cells[idx - 1] >= start && cells[idx - 1] <= end);
-                    const rightIn = i < 6 && !!(start && end && cells[idx + 1] >= start && cells[idx + 1] <= end);
+                    const leftIn =
+                      i > 0 && !!(start && end && cells[idx - 1] >= start && cells[idx - 1] <= end);
+                    const rightIn =
+                      i < 6 && !!(start && end && cells[idx + 1] >= start && cells[idx + 1] <= end);
                     const isLeftEdge = inSel && !leftIn;
                     const isRightEdge = inSel && !rightIn;
                     const rounded = !inSel
@@ -690,7 +712,12 @@ function CalendarPanel({
                             ? "rounded-r-[5px] rounded-l-none"
                             : "rounded-none";
                     return (
-                      <td key={i} role="gridcell" aria-selected={selected} className={GRID_CELL_CLASS}>
+                      <td
+                        key={i}
+                        role="gridcell"
+                        aria-selected={selected}
+                        className={GRID_CELL_CLASS}
+                      >
                         <span
                           role="button"
                           tabIndex={-1}
@@ -700,9 +727,7 @@ function CalendarPanel({
                           className={cn(
                             "z-[1] outline-none block h-9 w-full text-[14px] font-normal text-center border border-transparent m-0 leading-9 transition-[background-color,border-radius] duration-150",
                             rounded,
-                            disabled
-                              ? "cursor-not-allowed text-gray-500"
-                              : "cursor-pointer",
+                            disabled ? "cursor-not-allowed text-gray-500" : "cursor-pointer",
                             !disabled &&
                               (startDay || endDay
                                 ? "bg-blue-900 !text-background-100"

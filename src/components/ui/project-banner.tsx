@@ -77,7 +77,10 @@ function ProjectBanner({
       {callToAction && (
         <div className="ml-6 md:ml-0">
           {callToAction.href !== undefined ? (
-            <a href={callToAction.href} className={cn(CTA_BASE_CLASS, CTA_VARIANT_CLASSES[variant])}>
+            <a
+              href={callToAction.href}
+              className={cn(CTA_BASE_CLASS, CTA_VARIANT_CLASSES[variant])}
+            >
               {callToAction.label}
             </a>
           ) : (
@@ -115,7 +118,10 @@ function ProjectBannerContent({ className, ...props }: React.ComponentProps<"div
   return (
     <div
       data-slot="project-banner-content"
-      className={cn("mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4", className)}
+      className={cn(
+        "mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4",
+        className,
+      )}
       {...props}
     />
   );

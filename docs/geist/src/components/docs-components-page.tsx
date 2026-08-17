@@ -1,5 +1,5 @@
-import * as React from"react";
-import { useLocation } from"react-router-dom";
+import * as React from "react";
+import { useLocation } from "react-router-dom";
 import {
   Accessibility,
   ArrowDownCircle,
@@ -32,7 +32,7 @@ import {
   Triangle,
   TriangleAlert,
   X,
-} from"lucide-react";
+} from "lucide-react";
 
 import {
   Avatar,
@@ -83,7 +83,16 @@ import { CopyButton } from "@/components/ui/copy-button";
 import { Description } from "@/components/ui/description";
 import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
 import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
-import { Menu, MenuButton, MenuContainer, MenuDivider, MenuItem, MenuItemLocked, MenuLink, MenuSection } from "@/components/ui/menu";
+import {
+  Menu,
+  MenuButton,
+  MenuContainer,
+  MenuDivider,
+  MenuItem,
+  MenuItemLocked,
+  MenuLink,
+  MenuSection,
+} from "@/components/ui/menu";
 import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
 import {
   Entity,
@@ -221,11 +230,7 @@ function CodeBlock({ code, label, language }: { code: string; label: string; lan
 /* ---------- Demo 容器 ---------- */
 
 function DemoSection({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mt-6">
-      {children}
-    </div>
-  );
+  return <div className="mt-6">{children}</div>;
 }
 
 function TableDemoCard({ children, code }: { children: React.ReactNode; code: string }) {
@@ -407,7 +412,8 @@ function ButtonDemo() {
   const arrowLeftIcon = <ArrowLeft aria-hidden />;
   const arrowRightIcon = <ArrowRight aria-hidden />;
 
-  const cardClass = "relative mt-4 rounded-[8px] border border-gray-alpha-400 bg-background-100 xl:mt-7";
+  const cardClass =
+    "relative mt-4 rounded-[8px] border border-gray-alpha-400 bg-background-100 xl:mt-7";
 
   return (
     <>
@@ -925,15 +931,9 @@ function InputDemo() {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
             <div className="flex flex-col items-start justify-between gap-4 md:flex-row flex-initial">
-              <Input
-                size="small"
-                placeholder={demoText(language, "Small")}
-              />
+              <Input size="small" placeholder={demoText(language, "Small")} />
               <Input placeholder={demoText(language, "Default")} />
-              <Input
-                size="large"
-                placeholder={demoText(language, "Large")}
-              />
+              <Input size="large" placeholder={demoText(language, "Large")} />
             </div>
           </div>
         </div>
@@ -950,7 +950,7 @@ function InputDemo() {
               <Input prefix={circularGlyph} placeholder={demoText(language, "Default")} />
               <Input suffix={circularGlyph} placeholder={demoText(language, "Default")} />
               <Input
-                prefix={demoText(language,"https://")}
+                prefix={demoText(language, "https://")}
                 suffix={demoText(language, ".com")}
                 placeholder={demoText(language, "Default")}
               />
@@ -962,7 +962,7 @@ function InputDemo() {
                 placeholder={demoText(language, "Default")}
               />
               <Input
-                prefix={demoText(language,"vercel/")}
+                prefix={demoText(language, "vercel/")}
                 suffix={circularGlyph}
                 suffixStyling={false}
                 placeholder={demoText(language, "Default")}
@@ -994,7 +994,7 @@ function InputDemo() {
               />
               <Input
                 disabled
-                prefix={demoText(language,"https://")}
+                prefix={demoText(language, "https://")}
                 suffix={demoText(language, ".com")}
                 placeholder={demoText(language, "Disabled with prefix and suffix")}
               />
@@ -1022,16 +1022,16 @@ function InputDemo() {
               <Input
                 size="small"
                 error={demoText(language, "An error message.")}
-                placeholder={demoText(language,"long-error@gmail.com")}
+                placeholder={demoText(language, "long-error@gmail.com")}
               />
               <Input
                 error={demoText(language, "An error message.")}
-                placeholder={demoText(language,"long-error@gmail.com")}
+                placeholder={demoText(language, "long-error@gmail.com")}
               />
               <Input
                 size="large"
                 error={demoText(language, "An error message.")}
-                placeholder={demoText(language,"long-error@gmail.com")}
+                placeholder={demoText(language, "long-error@gmail.com")}
               />
             </div>
           </div>
@@ -1064,7 +1064,7 @@ function InputDemo() {
           <div className="w-full p-6" data-demo-container="rounded-prefix-and-suffix">
             <Input
               rounded
-              prefix={demoText(language,"www.")}
+              prefix={demoText(language, "www.")}
               suffix={demoText(language, ".com")}
               placeholder={demoText(language, "Label example")}
             />
@@ -1084,7 +1084,7 @@ function InputDemo() {
           >
             <Input
               rounded
-              prefix={demoText(language,"www.")}
+              prefix={demoText(language, "www.")}
               suffix={demoText(language, ".com")}
               prefixStyling={false}
               suffixStyling={false}
@@ -1298,7 +1298,11 @@ function ModalDemo() {
                 </p>
                 <div className="h-px w-full" aria-hidden />
                 <ModalFooter>
-                  <Button typeName="button" type="secondary" onClick={() => setOpenDisabledActions(false)}>
+                  <Button
+                    typeName="button"
+                    type="secondary"
+                    onClick={() => setOpenDisabledActions(false)}
+                  >
                     {demoText(language, "Cancel")}
                   </Button>
                   <Button typeName="button" disabled onClick={() => setOpenDisabledActions(false)}>
@@ -1336,10 +1340,18 @@ function ModalDemo() {
                 </ModalHeader>
                 <div className="h-px w-full" aria-hidden />
                 <ModalFooter>
-                  <Button typeName="button" type="secondary" onClick={() => setOpenControlFocus(false)}>
+                  <Button
+                    typeName="button"
+                    type="secondary"
+                    onClick={() => setOpenControlFocus(false)}
+                  >
                     {demoText(language, "Cancel")}
                   </Button>
-                  <Button typeName="button" ref={submitFocusRef} onClick={() => setOpenControlFocus(false)}>
+                  <Button
+                    typeName="button"
+                    ref={submitFocusRef}
+                    onClick={() => setOpenControlFocus(false)}
+                  >
                     {demoText(language, "Submit")}
                   </Button>
                 </ModalFooter>
@@ -1383,7 +1395,11 @@ function ModalDemo() {
                 </div>
                 <div className="h-px w-full" aria-hidden />
                 <ModalFooter>
-                  <Button typeName="button" type="secondary" onClick={() => setOpenFocusInput(false)}>
+                  <Button
+                    typeName="button"
+                    type="secondary"
+                    onClick={() => setOpenFocusInput(false)}
+                  >
                     {demoText(language, "Cancel")}
                   </Button>
                   <Button typeName="button" onClick={() => setOpenFocusInput(false)}>
@@ -1429,7 +1445,11 @@ function ModalDemo() {
                 </div>
                 <div className="h-px w-full" aria-hidden />
                 <ModalFooter>
-                  <Button typeName="button" type="secondary" onClick={() => setOpenMobileInputs(false)}>
+                  <Button
+                    typeName="button"
+                    type="secondary"
+                    onClick={() => setOpenMobileInputs(false)}
+                  >
                     {demoText(language, "Cancel")}
                   </Button>
                   <Button typeName="button" onClick={() => setOpenMobileInputs(false)}>
@@ -1486,7 +1506,11 @@ function ModalDemo() {
                 </div>
                 <div className="h-px w-full" aria-hidden />
                 <ModalFooter>
-                  <Button typeName="button" type="secondary" onClick={() => setOpenComboboxFocus(false)}>
+                  <Button
+                    typeName="button"
+                    type="secondary"
+                    onClick={() => setOpenComboboxFocus(false)}
+                  >
                     {demoText(language, "Cancel")}
                   </Button>
                   <Button typeName="button" onClick={() => setOpenComboboxFocus(false)}>
@@ -1727,7 +1751,8 @@ function SelectDemo() {
     </svg>
   );
 
-  const sizesRowClass = "flex relative min-w-px max-w-full flex-col sm:flex-row sm:flex-wrap flex-1";
+  const sizesRowClass =
+    "flex relative min-w-px max-w-full flex-col sm:flex-row sm:flex-wrap flex-1";
   const sizesColClass = "flex relative min-w-px max-w-full flex-col items-start flex-1";
 
   return (
@@ -2126,7 +2151,10 @@ function SpinnerDemo() {
 function StepPointDemo() {
   const demoCode = (id: string) => DEMO_CODE["step-point"]?.[id] ?? "";
   return (
-    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Default"
+    >
       <div className="w-full p-6" data-demo-container="Default">
         <ul className="w-full max-w-xs">
           <StepPoint status="done">Submitted</StepPoint>
@@ -2172,26 +2200,29 @@ function TabsDemo() {
   const [tab, setTab] = React.useState("overview");
 
   return (
-    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Default"
+    >
       <div className="w-full p-6" data-demo-container="Default">
         <div className="w-full max-w-xl">
-      <Tabs
-        tabs={[
-          { value: "overview", title: "Overview" },
-          { value: "usage", title: "Usage" },
-          { value: "api", title: "API" },
-        ]}
-        selected={tab}
-        setSelected={setTab}
-        ariaLabel="Component documentation"
-      />
-      <div className="pt-4 text-copy-14 text-muted-foreground">
-        {tab === "overview"
-          ? "Building blocks for consistent web experiences."
-          : tab === "usage"
-            ? "Import Tabs and control the selected value from the parent."
-            : "Use the tabs, selected, and setSelected props."}
-      </div>
+          <Tabs
+            tabs={[
+              { value: "overview", title: "Overview" },
+              { value: "usage", title: "Usage" },
+              { value: "api", title: "API" },
+            ]}
+            selected={tab}
+            setSelected={setTab}
+            ariaLabel="Component documentation"
+          />
+          <div className="pt-4 text-copy-14 text-muted-foreground">
+            {tab === "overview"
+              ? "Building blocks for consistent web experiences."
+              : tab === "usage"
+                ? "Import Tabs and control the selected value from the parent."
+                : "Use the tabs, selected, and setSelected props."}
+          </div>
         </div>
       </div>
       <ShowCodeFooter code={demoCode("Default")} />
@@ -2282,16 +2313,10 @@ function TextareaDemo() {
           <div className="w-full p-6" data-demo-container="sizes">
             <div className="flex flex-col gap-6">
               <label>
-                <Textarea
-                  aria-label={demoText(language, "Textarea")}
-                  defaultValue={lorem}
-                />
+                <Textarea aria-label={demoText(language, "Textarea")} defaultValue={lorem} />
               </label>
               <label>
-                <Textarea
-                  aria-label={demoText(language, "Textarea")}
-                  defaultValue={lorem}
-                />
+                <Textarea aria-label={demoText(language, "Textarea")} defaultValue={lorem} />
               </label>
               <label>
                 <Textarea
@@ -2331,10 +2356,7 @@ function TextareaDemo() {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="rows">
             <label>
-              <Textarea
-                rows={5}
-                aria-label={demoText(language, "Textarea with fixed rows")}
-              />
+              <Textarea rows={5} aria-label={demoText(language, "Textarea with fixed rows")} />
             </label>
           </div>
         </div>
@@ -2513,12 +2535,20 @@ function ToggleDemo() {
                 <Toggle checked={labelChecked} onChange={() => setLabelChecked(!labelChecked)}>
                   {demoText(language, "Enable Firewall")}
                 </Toggle>
-                <Toggle checked={labelChecked} direction="rtl" onChange={() => setLabelChecked(!labelChecked)}>
+                <Toggle
+                  checked={labelChecked}
+                  direction="rtl"
+                  onChange={() => setLabelChecked(!labelChecked)}
+                >
                   {demoText(language, "Enable Firewall")}
                 </Toggle>
               </div>
               <div className="flex flex-row items-stretch justify-start gap-4">
-                <Toggle checked={labelChecked} size="large" onChange={() => setLabelChecked(!labelChecked)}>
+                <Toggle
+                  checked={labelChecked}
+                  size="large"
+                  onChange={() => setLabelChecked(!labelChecked)}
+                >
                   {demoText(language, "Enable Firewall")}
                 </Toggle>
                 <Toggle
@@ -2531,7 +2561,11 @@ function ToggleDemo() {
                 </Toggle>
               </div>
               <div className="flex flex-row items-stretch justify-start gap-4">
-                <Toggle checked={labelChecked} icon={lockIcon} onChange={() => setLabelChecked(!labelChecked)}>
+                <Toggle
+                  checked={labelChecked}
+                  icon={lockIcon}
+                  onChange={() => setLabelChecked(!labelChecked)}
+                >
                   {demoText(language, "Enable Firewall")}
                 </Toggle>
                 <Toggle
@@ -2681,13 +2715,14 @@ function ToastDemo() {
   const toasts = useToasts();
 
   return (
-    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Default"
+    >
       <div className="w-full p-6" data-demo-container="Default">
         <Button
           typeName="button"
-          onClick={() =>
-            toasts.message({ text: "The Evil Rabbit jumped over the fence." })
-          }
+          onClick={() => toasts.message({ text: "The Evil Rabbit jumped over the fence." })}
         >
           {demoText(language, "Show Toast")}
         </Button>
@@ -2700,7 +2735,10 @@ function ToastDemo() {
 function CopyButtonDemo() {
   const demoCode = (id: string) => DEMO_CODE["copy-button"]?.[id] ?? "";
   return (
-    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Default"
+    >
       <div className="w-full p-6" data-demo-container="Default">
         <CopyButton textToCopy="lipsum" />
         <span className="text-copy-13 text-muted-foreground">Click to copy “lipsum”</span>
@@ -2927,13 +2965,18 @@ function SnippetDemo() {
         <Snippet dark text="npm init next-app" width="300px" />
       </Card>
       <Card id="Multi line">
-        <Snippet text={["cd project","now"]} width="100%" />
+        <Snippet text={["cd project", "now"]} width="100%" />
       </Card>
       <Card id="No prompt">
         <Snippet prompt={false} text="npm init next-app" width="300px" />
       </Card>
       <Card id="Callback">
-        <Snippet onCopy={() => setCopied(true)} text="npm init next-app" width="300px" copied={copied} />
+        <Snippet
+          onCopy={() => setCopied(true)}
+          text="npm init next-app"
+          width="300px"
+          copied={copied}
+        />
       </Card>
       <Card id="Variants">
         <div className="flex flex-col items-stretch justify-start gap-3 flex-initial">
@@ -2982,7 +3025,11 @@ function BookDemo() {
   const { language } = useLanguage();
   const title = "The user experience of the Frontend Cloud";
   const Section = ({ id, children }: { id: string; children: React.ReactNode }) => (
-    <section aria-labelledby={`book-${id.replaceAll(" ", "-").toLowerCase()}-heading`} data-demo-card={id} className="space-y-4 rounded-[8px] border border-gray-alpha-400 bg-background-100 p-6">
+    <section
+      aria-labelledby={`book-${id.replaceAll(" ", "-").toLowerCase()}-heading`}
+      data-demo-card={id}
+      className="space-y-4 rounded-[8px] border border-gray-alpha-400 bg-background-100 p-6"
+    >
       <h3 id={`book-${id.replaceAll(" ", "-").toLowerCase()}-heading`} className="text-heading-20">
         {demoText(language, id)}
       </h3>
@@ -3030,13 +3077,19 @@ function BookDemo() {
         <div className="flex min-h-80 flex-wrap items-center justify-center gap-8 p-8">
           <Book
             illustration={
-              <div className="flex h-14 w-9 items-center justify-center rounded-sm bg-[#0070F3]" aria-hidden />
+              <div
+                className="flex h-14 w-9 items-center justify-center rounded-sm bg-[#0070F3]"
+                aria-hidden
+              />
             }
             title={title}
           />
           <Book
             illustration={
-              <div className="flex h-14 w-9 items-center justify-center rounded-sm bg-[#f5b047]" aria-hidden />
+              <div
+                className="flex h-14 w-9 items-center justify-center rounded-sm bg-[#f5b047]"
+                aria-hidden
+              />
             }
             title={title}
             variant="simple"
@@ -3071,7 +3124,10 @@ function BookDemo() {
 function BrowserDemo() {
   const demoCode = (id: string) => DEMO_CODE.browser?.[id] ?? "";
   return (
-    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Composition">
+    <div
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Composition"
+    >
       <div className="w-full p-6" data-demo-container="Composition">
         <Browser address="https://vercel.com">
           <div className="flex h-24 items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
@@ -3327,7 +3383,7 @@ function ChoiceboxDemo() {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="single-select">
             <ChoiceboxGroup
-              label={demoText(language,"select a plan")}
+              label={demoText(language, "select a plan")}
               listClassName="flex-row"
               onChange={setPlan}
               type="radio"
@@ -3348,8 +3404,9 @@ function ChoiceboxDemo() {
         </div>
         <ShowCodeFooter code={demoCode("single-select")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="multi-select"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3376,8 +3433,9 @@ function ChoiceboxDemo() {
         </div>
         <ShowCodeFooter code={demoCode("multi-select")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -3471,14 +3529,15 @@ function ChoiceboxDemo() {
 function CommandMenuDemo() {
   const demoCode = (id: string) => DEMO_CODE["command-menu"]?.[id] ?? "";
   const { language } = useLanguage();
-  const [openVariant, setOpenVariant] = React.useState<"default" |"with-divider" |"with-suffix" | null
+  const [openVariant, setOpenVariant] = React.useState<
+    "default" | "with-divider" | "with-suffix" | null
   >(null);
 
-  const openDemo = (variant: "default" |"with-divider" |"with-suffix") => {
+  const openDemo = (variant: "default" | "with-divider" | "with-suffix") => {
     setOpenVariant(variant);
   };
 
-  const demoVariants = ["default","with-divider","with-suffix"] as const;
+  const demoVariants = ["default", "with-divider", "with-suffix"] as const;
 
   return (
     <div className="w-full max-w-[862px] space-y-6">
@@ -3505,7 +3564,7 @@ function CommandMenuDemo() {
       ))}
       <CommandMenu
         open={openVariant === "default"}
-        setOpen={(open) => setOpenVariant(open ?"default" : null)}
+        setOpen={(open) => setOpenVariant(open ? "default" : null)}
       >
         <CommandMenuInput placeholder={demoText(language, "What do you need?")} />
         <CommandMenuList>
@@ -3531,7 +3590,7 @@ function CommandMenuDemo() {
       </CommandMenu>
       <CommandMenu
         open={openVariant === "with-divider"}
-        setOpen={(open) => setOpenVariant(open ?"with-divider" : null)}
+        setOpen={(open) => setOpenVariant(open ? "with-divider" : null)}
       >
         <CommandMenuInput placeholder={demoText(language, "What do you need?")} />
         <CommandMenuList>
@@ -3551,7 +3610,7 @@ function CommandMenuDemo() {
       </CommandMenu>
       <CommandMenu
         open={openVariant === "with-suffix"}
-        setOpen={(open) => setOpenVariant(open ?"with-suffix" : null)}
+        setOpen={(open) => setOpenVariant(open ? "with-suffix" : null)}
       >
         <CommandMenuInput placeholder={demoText(language, "What do you need?")} />
         <CommandMenuList>
@@ -3648,7 +3707,10 @@ function JsonViewDemo() {
 function PhoneDemo() {
   const demoCode = (id: string) => DEMO_CODE.phone?.[id] ?? "";
   return (
-    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Composition">
+    <div
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Composition"
+    >
       <div className="w-full p-6" data-demo-container="Composition">
         <Phone>
           <PhoneScreen>
@@ -3789,11 +3851,7 @@ function SliderDemo() {
   return (
     <div className="w-full space-y-6">
       {demos.map((demo) => (
-        <div
-          key={demo.id}
-          data-demo-card={demo.id}
-         
-        >
+        <div key={demo.id} data-demo-card={demo.id}>
           <div data-demo-container={demo.id} className="w-full p-6">
             {demo.content}
           </div>
@@ -3841,11 +3899,14 @@ const codeBlockDiff = `module.exports = {
   appDir: true,
 }`;
 
-const codeBlockTab = "function MyComponent(props) {\n\treturn (\n\t  <div>\n\t\t<h1>Hello, {props.name}!</h1>\n\t\t<p>Good to see you</p>\n\t  </div>\n\t);\n  }";
+const codeBlockTab =
+  "function MyComponent(props) {\n\treturn (\n\t  <div>\n\t\t<h1>Hello, {props.name}!</h1>\n\t\t<p>Good to see you</p>\n\t  </div>\n\t);\n  }";
 
-const codeBlockTabTS = "function MyComponent(props: Props) {\n\treturn (\n\t  <div>\n\t\t<h1>Hello, {props.name}!</h1>\n\t\t<p>Good to see you</p>\n\t  </div>\n\t);\n  }";
+const codeBlockTabTS =
+  "function MyComponent(props: Props) {\n\treturn (\n\t  <div>\n\t\t<h1>Hello, {props.name}!</h1>\n\t\t<p>Good to see you</p>\n\t  </div>\n\t);\n  }";
 
-const codeBlockTabLua = "local b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'\nlocal decode_table = ffi.new 'uint8_t[256]'\nfor i = 1, #b64 do\n  decode_table[str_byte(b64, i)] = i - 1 -- Base64 values start from 0\nend\n\nfunction BloomFilter:has(key)\n  local ptr = self.ptr -- uint8_t* pointer to start of base64 string\n  for byte_offset, bit_offset in self:iterator(key) do\n    local sextet = decode_table[ptr[byte_offset]]\n    if band(sextet, lshift(1, bit_offset)) == 0 then\n      return false\n    end\n  end\n  return true\nend";
+const codeBlockTabLua =
+  "local b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'\nlocal decode_table = ffi.new 'uint8_t[256]'\nfor i = 1, #b64 do\n  decode_table[str_byte(b64, i)] = i - 1 -- Base64 values start from 0\nend\n\nfunction BloomFilter:has(key)\n  local ptr = self.ptr -- uint8_t* pointer to start of base64 string\n  for byte_offset, bit_offset in self:iterator(key) do\n    local sextet = decode_table[ptr[byte_offset]]\n    if band(sextet, lshift(1, bit_offset)) == 0 then\n      return false\n    end\n  end\n  return true\nend";
 
 const codeBlockReferenced = `function MyComponent(props) {
   return (
@@ -3862,7 +3923,10 @@ const codeExample = `export function Component(): JSX.Element {
 function CodeDemo() {
   const demoCode = (id: string) => DEMO_CODE.code?.[id] ?? "";
   return (
-    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Default"
+    >
       <div className="w-full p-6" data-demo-container="Default">
         <p className="text-copy-14 text-muted-foreground">
           Install with <InlineCode>npm i geist</InlineCode> and import the component.
@@ -3886,10 +3950,7 @@ function CodeBlockDemo() {
     value: switcherLanguage,
     onChange: setSwitcherLanguage,
   };
-  const switchCode: Record<
-    string,
-    { filename: string; language: string; code: string }
-  > = {
+  const switchCode: Record<string, { filename: string; language: string; code: string }> = {
     JavaScript: {
       filename: "language-switcher.jsx",
       language: "jsx",
@@ -3921,11 +3982,7 @@ function CodeBlockDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
-            <CodeBlockComponent
-              aria-label="Hello world"
-              filename="Table.jsx"
-              language="jsx"
-            >
+            <CodeBlockComponent aria-label="Hello world" filename="Table.jsx" language="jsx">
               {codeBlockExample}
             </CodeBlockComponent>
           </div>
@@ -3938,10 +3995,7 @@ function CodeBlockDemo() {
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="no-filename">
-            <CodeBlockComponent
-              aria-label="Hello world"
-              language="jsx"
-            >
+            <CodeBlockComponent aria-label="Hello world" language="jsx">
               {codeBlockBasic}
             </CodeBlockComponent>
           </div>
@@ -4071,11 +4125,7 @@ function CodeBlockDemo() {
               >
                 {codeBlockBasic}
               </CodeBlockComponent>
-              <CodeBlockComponent
-                filename="Table.jsx"
-                language="jsx"
-                v0="build"
-              >
+              <CodeBlockComponent filename="Table.jsx" language="jsx" v0="build">
                 {codeBlockBasic}
               </CodeBlockComponent>
             </div>
@@ -4132,7 +4182,7 @@ function DestructiveActionModalDemo() {
           }
           confirmLabel={demoText(language, "Delete Project")}
           verificationPhrase="next-year-boilerplate"
-          verificationLabel={demoText(language,"project name")}
+          verificationLabel={demoText(language, "project name")}
           irreversibleDescription="Deleting next-year-boilerplate cannot be undone."
           loading={loadingDefault}
         />
@@ -4165,7 +4215,7 @@ function DestructiveActionModalDemo() {
           description="my-project and all its deployments will be permanently deleted."
           confirmLabel={demoText(language, "Delete Project")}
           verificationPhrase="my-project"
-          verificationLabel={demoText(language,"project name")}
+          verificationLabel={demoText(language, "project name")}
           irreversibleDescription="Deleting my-project cannot be undone."
           loading
         />
@@ -4183,7 +4233,7 @@ function DestructiveActionModalDemo() {
           description="my-project and all its deployments will be permanently deleted."
           confirmLabel={demoText(language, "Delete Project")}
           verificationPhrase="my-project"
-          verificationLabel={demoText(language,"project name")}
+          verificationLabel={demoText(language, "project name")}
           irreversibleDescription="Deleting my-project cannot be undone."
           error="Couldn’t delete project. Try again."
         />
@@ -4212,7 +4262,9 @@ function FeedbackDemo() {
         </div>
         <div className="flex justify-center xl:hidden">
           <Note>
-            <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
+            <NoteContent>
+              This example is hidden because it is intended for only desktop.
+            </NoteContent>
           </Note>
         </div>
       </Card>
@@ -4225,7 +4277,9 @@ function FeedbackDemo() {
         </div>
         <div className="flex justify-center xl:hidden">
           <Note>
-            <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
+            <NoteContent>
+              This example is hidden because it is intended for only desktop.
+            </NoteContent>
           </Note>
         </div>
       </Card>
@@ -4243,7 +4297,9 @@ function FeedbackDemo() {
         </div>
         <div className="flex justify-center xl:hidden">
           <Note>
-            <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
+            <NoteContent>
+              This example is hidden because it is intended for only desktop.
+            </NoteContent>
           </Note>
         </div>
       </Card>
@@ -4427,28 +4483,30 @@ function ContextCardDemo() {
 
   return (
     <div className="flex w-full flex-col gap-6">
-      {demo("default",
+      {demo(
+        "default",
         DEFAULT_DEMO_CODE,
         <div className="flex flex-wrap items-center justify-around gap-6">
           {(["Top", "Bottom", "Left", "Right"] as const).map((label) => (
             <ContextCardTrigger
               key={label}
               content={card}
-              side={label.toLowerCase() as"top" |"bottom" |"left" |"right"}
+              side={label.toLowerCase() as "top" | "bottom" | "left" | "right"}
             >
               <span className="text-label-14 text-foreground">{demoText(language, label)}</span>
             </ContextCardTrigger>
           ))}
         </div>,
       )}
-      {demo("alignment",
+      {demo(
+        "alignment",
         ALIGNMENT_DEMO_CODE,
         <div className="flex flex-wrap items-center gap-3">
           {(["Start", "Center", "End"] as const).map((label) => (
             <ContextCardTrigger
               key={label}
               content={card}
-              align={label.toLowerCase() as"start" |"center" |"end"}
+              align={label.toLowerCase() as "start" | "center" | "end"}
               render={
                 <Button type="default" typeName="button">
                   {demoText(language, label)}
@@ -4460,7 +4518,8 @@ function ContextCardDemo() {
           ))}
         </div>,
       )}
-      {demo("render-prop",
+      {demo(
+        "render-prop",
         RENDER_PROP_DEMO_CODE,
         <div className="flex flex-wrap items-center gap-3">
           <ContextCardTrigger
@@ -4726,7 +4785,10 @@ function GaugeDemo() {
 function FileTreeDemo() {
   const demoCode = (id: string) => DEMO_CODE["file-tree"]?.[id] ?? "";
   return (
-    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Default">
+    <div
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Default"
+    >
       <div className="w-full p-6" data-demo-container="Default">
         <FileTree>
           <FileTreeItem>
@@ -4773,8 +4835,9 @@ function KeyboardInputDemo() {
   const demoCode = (id: string) => DEMO_CODE["keyboard-input"]?.[id] ?? "";
   return (
     <div className="w-full max-w-[862px] space-y-6">
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="modifiers"
       >
         <div
@@ -4790,8 +4853,9 @@ function KeyboardInputDemo() {
         </div>
         <ShowCodeFooter code={demoCode("modifiers")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="combination"
       >
         <div
@@ -4804,8 +4868,9 @@ function KeyboardInputDemo() {
         </div>
         <ShowCodeFooter code={demoCode("combination")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="small"
       >
         <div
@@ -4886,8 +4951,9 @@ function ClearableInputDemo() {
         </div>
         <ShowCodeFooter code={demoCode("default")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="with-label"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4902,8 +4968,9 @@ function ClearableInputDemo() {
         </div>
         <ShowCodeFooter code={demoCode("with-label")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="with-cmdk"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4919,8 +4986,9 @@ function ClearableInputDemo() {
         </div>
         <ShowCodeFooter code={demoCode("with-cmdk")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="disabled"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -4936,8 +5004,9 @@ function ClearableInputDemo() {
         </div>
         <ShowCodeFooter code={demoCode("disabled")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="with-clear-callback"
       >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
@@ -5344,13 +5413,13 @@ function ComboboxDemo() {
                   incididunt ut labore et dolore magna aliqua.
                 </ComboboxOption>
                 <ComboboxOption value="b">
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                  voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                  ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                  esse cillum dolore eu fugiat nulla pariatur.
                 </ComboboxOption>
                 <ComboboxOption value="c">
-                  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                  deserunt mollit anim id est laborum.
+                  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
                 </ComboboxOption>
               </ComboboxList>
             </Combobox>
@@ -5466,11 +5535,7 @@ function ComboboxDemo() {
                 </div>
                 <div className="h-px w-full" aria-hidden />
                 <ModalFooter>
-                  <Button
-                    typeName="button"
-                    type="secondary"
-                    onClick={() => setModalOpen(false)}
-                  >
+                  <Button typeName="button" type="secondary" onClick={() => setModalOpen(false)}>
                     Cancel
                   </Button>
                   <Button typeName="button" onClick={() => setModalOpen(false)}>
@@ -5560,15 +5625,21 @@ function DescriptionDemo() {
   const tooltip = demoText(language, "Additional context about what this section refers to.");
   return (
     <>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="default">
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="default"
+      >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
             <Description data-demo-id="default" title={title} content={content} tooltip={tooltip} />
           </div>
         </div>
-          <ShowCodeFooter code={demoCode("default")} />
+        <ShowCodeFooter code={demoCode("default")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="text-right">
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="text-right"
+      >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="text-right">
             <Description
@@ -5580,9 +5651,12 @@ function DescriptionDemo() {
             />
           </div>
         </div>
-          <ShowCodeFooter code={demoCode("text-right")} />
+        <ShowCodeFooter code={demoCode("text-right")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="ellipsis">
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="ellipsis"
+      >
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="ellipsis">
             <Description
@@ -5597,7 +5671,7 @@ function DescriptionDemo() {
             />
           </div>
         </div>
-          <ShowCodeFooter code={demoCode("ellipsis")} />
+        <ShowCodeFooter code={demoCode("ellipsis")} />
       </div>
     </>
   );
@@ -5627,11 +5701,14 @@ const ENTITY_AVATAR_IMG_CLS = "h-auto max-w-full  w-full h-full relative";
 const ENTITY_SKELETON_CLS =
   'block rounded-[5px] after:animate-loading-skeleton relative overflow-hidden after:content-[""] after:absolute after:inset-0 after:right-[-200%] after:bg-gradient-to-r after:from-gray-100 after:via-gray-200 after:to-gray-100 after:bg-[length:50%_100%] after:bg-[position:0_0]';
 
-const ENTITY_UL_CLS = "bg-[var(--geist-background)] shadow-[var(--ds-shadow-border),0_4px_6px_rgba(0,0,0,0.04)] rounded-[5px] overflow-hidden list-none m-0 p-0 [&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-[color:var(--accents-2)] [&>button:not(:last-child)]:border-b! [&>button:not(:last-child)]:border-[color:var(--accents-2)]";
+const ENTITY_UL_CLS =
+  "bg-[var(--geist-background)] shadow-[var(--ds-shadow-border),0_4px_6px_rgba(0,0,0,0.04)] rounded-[5px] overflow-hidden list-none m-0 p-0 [&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-[color:var(--accents-2)] [&>button:not(:last-child)]:border-b! [&>button:not(:last-child)]:border-[color:var(--accents-2)]";
 
-const ENTITY_DECLINE_BTN_CLS = "outline-none m-0 p-0 border-0 align-baseline no-underline group/trigger relative cursor-pointer select-none transform translate-z-0 flex text-[var(--themed-fg,_var(--ds-background-100))] bg-[var(--themed-bg,_var(--ds-gray-1000))] font-medium !px-(--geist-gap-half) max-w-full items-center justify-center transition-[border-color, background,color,transform,box-shadow] duration-[time:150ms] ease-in-out data-[focus]:shadow-[var(--ds-focus-ring)] [&_svg]:shrink-0 disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:text-[var(--ds-gray-700)] disabled:bg-[var(--ds-gray-100)] aria-disabled:text-[var(--ds-gray-700)] aria-disabled:bg-[var(--ds-gray-100)] disabled:![--themed-border:_var(--ds-gray-400)] [--x-padding:6px] [--height:32px] !pl-[var(--x-padding)] !pr-[var(--x-padding)] rounded-md [--themed-bg:_var(--ds-background-100)] shadow-[0_0_0_1px_var(--themed-border,_transparent)] [--themed-hover-bg:_var(--ds-gray-alpha-200)] [--themed-fg:_var(--ds-gray-1000)] [--themed-border:_var(--ds-gray-400)] data-[focus]:shadow-[0_0_0_1px_var(--themed-border,_transparent),0_0_0_2px_var(--ds-background-100),0_0_0_4px_var(--ds-focus-color)] data-[focus]:transition-none text-(length:--geist-form-small-font) [--spinner-size:16px] h-[var(--height)] data-hover:bg-[var(--ds-gray-100)] dark-theme:data-hover:bg-[var(--ds-gray-200)] data-hover:text-[var(--themed-fg)] data-hover:disabled:bg-[var(--ds-gray-100)]";
+const ENTITY_DECLINE_BTN_CLS =
+  "outline-none m-0 p-0 border-0 align-baseline no-underline group/trigger relative cursor-pointer select-none transform translate-z-0 flex text-[var(--themed-fg,_var(--ds-background-100))] bg-[var(--themed-bg,_var(--ds-gray-1000))] font-medium !px-(--geist-gap-half) max-w-full items-center justify-center transition-[border-color, background,color,transform,box-shadow] duration-[time:150ms] ease-in-out data-[focus]:shadow-[var(--ds-focus-ring)] [&_svg]:shrink-0 disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:text-[var(--ds-gray-700)] disabled:bg-[var(--ds-gray-100)] aria-disabled:text-[var(--ds-gray-700)] aria-disabled:bg-[var(--ds-gray-100)] disabled:![--themed-border:_var(--ds-gray-400)] [--x-padding:6px] [--height:32px] !pl-[var(--x-padding)] !pr-[var(--x-padding)] rounded-md [--themed-bg:_var(--ds-background-100)] shadow-[0_0_0_1px_var(--themed-border,_transparent)] [--themed-hover-bg:_var(--ds-gray-alpha-200)] [--themed-fg:_var(--ds-gray-1000)] [--themed-border:_var(--ds-gray-400)] data-[focus]:shadow-[0_0_0_1px_var(--themed-border,_transparent),0_0_0_2px_var(--ds-background-100),0_0_0_4px_var(--ds-focus-color)] data-[focus]:transition-none text-(length:--geist-form-small-font) [--spinner-size:16px] h-[var(--height)] data-hover:bg-[var(--ds-gray-100)] dark-theme:data-hover:bg-[var(--ds-gray-200)] data-hover:text-[var(--themed-fg)] data-hover:disabled:bg-[var(--ds-gray-100)]";
 
-const ENTITY_CHECKBOX_ROW_CLS = "p-4 flex flex-col items-stretch justify-start flex-initial bg-inherit w-full text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-[var(--accents-1)]";
+const ENTITY_CHECKBOX_ROW_CLS =
+  "p-4 flex flex-col items-stretch justify-start flex-initial bg-inherit w-full text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-[var(--accents-1)]";
 
 const ENTITY_CHECKBOX_VISUAL_CLS =
   "[--checkbox-color:var(--ds-gray-700)] inline-flex items-center justify-center size-4 relative bg-[var(--ds-background-100)] border border-[var(--ds-gray-700)] rounded-sm transition-all duration-200 rotate-[0.000001deg] peer-checked:[&:not(.indeterminate)]:bg-[var(--ds-gray-1000)] peer-checked:[&:not(.indeterminate)]:border-[var(--ds-gray-1000)] peer-disabled:peer-checked:[&:not(.indeterminate)]:bg-[var(--ds-gray-600)] peer-disabled:peer-checked:[&:not(.indeterminate)]:border-[var(--ds-gray-600)] peer-disabled:not-peer-checked:bg-[var(--ds-gray-100)] peer-disabled:not-peer-checked:border-[var(--ds-gray-500)] peer-disabled:[&.indeterminate_svg_line]:stroke-[var(--ds-gray-500)] peer-hover:not-peer-disabled:not-peer-checked:bg-[var(--ds-gray-200)] peer-focus-visible:shadow-[var(--ds-focus-ring)] peer-focus-visible:not-peer-checked:not-peer-disabled:bg-[var(--ds-gray-200)] group [&:not(.indeterminate)_svg_path]:invisible peer-checked:[&:not(.indeterminate)_svg_path]:visible [&:not(.indeterminate)_svg_line]:invisible [&.indeterminate_svg_line]:visible [&.indeterminate_svg_path]:invisible !important [&.inverted_svg_path]:visible";
@@ -5704,8 +5781,9 @@ function EntityDemo() {
         </div>
         <ShowCodeFooter code={demoCode("default")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="entity-with-skeleton"
         style={ENTITY_DEMO_VARS}
       >
@@ -5737,8 +5815,9 @@ function EntityDemo() {
         </div>
         <ShowCodeFooter code={demoCode("entity-with-skeleton")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="entity-with-list"
         style={ENTITY_DEMO_VARS}
       >
@@ -5770,8 +5849,9 @@ function EntityDemo() {
         </div>
         <ShowCodeFooter code={demoCode("entity-with-list")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="entity-with-list-and-checkbox"
         style={ENTITY_DEMO_VARS}
       >
@@ -5831,8 +5911,9 @@ function EntityDemo() {
         </div>
         <ShowCodeFooter code={demoCode("entity-with-list-and-checkbox")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="entity-with-fill"
         style={ENTITY_DEMO_VARS}
       >
@@ -5852,8 +5933,9 @@ function EntityDemo() {
         </div>
         <ShowCodeFooter code={demoCode("entity-with-fill")} />
       </div>
-      <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-       
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+
         data-demo-card="entity-with-column-class-names"
         style={ENTITY_DEMO_VARS}
       >
@@ -5926,7 +6008,7 @@ function FieldSetDemo() {
     demoId?: string;
     title?: string;
     subtitle: string;
-    type?: "default" |"error" |"warning";
+    type?: "default" | "error" | "warning";
     disabled?: boolean;
     highlight?: boolean;
     footerStatus?: React.ReactNode;
@@ -5963,7 +6045,7 @@ function FieldSetDemo() {
                 {actions?.map((action) => (
                   <FieldsetFooterAction
                     key={action.label}
-                    type={action.secondary ?"secondary" : undefined}
+                    type={action.secondary ? "secondary" : undefined}
                   >
                     {action.label}
                   </FieldsetFooterAction>
@@ -6195,7 +6277,10 @@ function LoadingDotsDemo() {
 function MiddleTruncateDemo() {
   const demoCode = (id: string) => DEMO_CODE["middle-truncate"]?.[id] ?? "";
   return (
-    <div className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100" data-demo-card="Examples">
+    <div
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Examples"
+    >
       <div className="w-full p-6" data-demo-container="Examples">
         <div className="w-64 font-mono text-copy-13 text-foreground">
           <MiddleTruncate value="https://example.com/teams/hustradio/projects/geist-style-framework/deployments/latest" />
@@ -6246,7 +6331,8 @@ function MultiSelectDemo() {
 
   return (
     <div className="w-full space-y-6">
-      {card("select-actions",
+      {card(
+        "select-actions",
         <div className="flex flex-col items-start gap-4">
           <MultiSelectRoot>
             <MultiSelectTrigger aria-label="Select design system items">
@@ -6274,7 +6360,8 @@ function MultiSelectDemo() {
         </div>,
       )}
 
-      {card("keyboard-navigation",
+      {card(
+        "keyboard-navigation",
         <div className="flex flex-col items-start gap-4">
           <MultiSelectRoot>
             <MultiSelectTrigger aria-label="Select categories">
@@ -6302,7 +6389,8 @@ function MultiSelectDemo() {
         </div>,
       )}
 
-      {card("controlled-state",
+      {card(
+        "controlled-state",
         <div className="flex flex-col items-start gap-4">
           <MultiSelectRoot>
             <MultiSelectTrigger aria-label="Select features">
@@ -6341,7 +6429,7 @@ function MultiSelectDemo() {
             <button
               type="button"
               className="cursor-pointer text-link hover:underline focus-ring"
-              onClick={() => setSelectedFeatures(new Set(["analytics","monitoring"]))}
+              onClick={() => setSelectedFeatures(new Set(["analytics", "monitoring"]))}
             >
               Core Features
             </button>
@@ -6349,7 +6437,7 @@ function MultiSelectDemo() {
             <button
               type="button"
               className="cursor-pointer text-link hover:underline focus-ring"
-              onClick={() => setSelectedFeatures(new Set(["security","performance"]))}
+              onClick={() => setSelectedFeatures(new Set(["security", "performance"]))}
             >
               Advanced Features
             </button>
@@ -6370,25 +6458,25 @@ function PillDemo() {
       data-demo-card="Default"
     >
       <div className="w-full p-6" data-demo-container="Default">
-      <div
-        className="flex flex-wrap gap-2"
-        aria-label={demoText(language, "Deployment status filter")}
-      >
-      {[
-        ["all", "All"],
-        ["ready", "Ready"],
-        ["error", "Error"],
-      ].map(([value, label]) => (
-        <Pill
-          key={value}
-          variant={active === value ?"active" :"default"}
-          aria-pressed={active === value}
-          onClick={() => setActive(value)}
+        <div
+          className="flex flex-wrap gap-2"
+          aria-label={demoText(language, "Deployment status filter")}
         >
-          {label}
-        </Pill>
-      ))}
-      </div>
+          {[
+            ["all", "All"],
+            ["ready", "Ready"],
+            ["error", "Error"],
+          ].map(([value, label]) => (
+            <Pill
+              key={value}
+              variant={active === value ? "active" : "default"}
+              aria-pressed={active === value}
+              onClick={() => setActive(value)}
+            >
+              {label}
+            </Pill>
+          ))}
+        </div>
       </div>
       <ShowCodeFooter code={demoCode("Default")} />
     </div>
@@ -6555,11 +6643,7 @@ function SearchInputDemo() {
   return (
     <div className="w-full space-y-6">
       {demos.map(({ id, control }) => (
-        <div
-          key={id}
-          data-demo-card={id}
-         
-        >
+        <div key={id} data-demo-card={id}>
           <div data-demo-container={id} className="w-full p-6">
             {control}
           </div>
@@ -7092,9 +7176,17 @@ function TabsExtraSections() {
           selected={git}
           setSelected={setGit}
           tabs={[
-            { title: "GitHub", value: "github", icon: <LayoutGrid className="size-4" aria-hidden /> },
+            {
+              title: "GitHub",
+              value: "github",
+              icon: <LayoutGrid className="size-4" aria-hidden />,
+            },
             { title: "GitLab", value: "gitlab", icon: <List className="size-4" aria-hidden /> },
-            { title: "Bitbucket", value: "bitbucket", icon: <Search className="size-4" aria-hidden /> },
+            {
+              title: "Bitbucket",
+              value: "bitbucket",
+              icon: <Search className="size-4" aria-hidden />,
+            },
           ]}
           ariaLabel="Tabs with icons"
         />
@@ -7119,7 +7211,12 @@ function TabsExtraSections() {
 const VIRTUALIZED_TABLE_ITEMS = [
   { product: "Brake Pads Set", usage: "100 sets", price: "$50 per set", charge: "$5,000.00" },
   { product: "Oil Filters", usage: "200 filters", price: "$10 per filter", charge: "$2,000.00" },
-  { product: "Car Batteries", usage: "50 batteries", price: "$100 per battery", charge: "$5,000.00" },
+  {
+    product: "Car Batteries",
+    usage: "50 batteries",
+    price: "$100 per battery",
+    charge: "$5,000.00",
+  },
   { product: "Headlight Bulbs", usage: "300 bulbs", price: "$15 per bulb", charge: "$4,500.00" },
   { product: "Windshield Wipers", usage: "250 pairs", price: "$20 per pair", charge: "$5,000.00" },
   { product: "Spark Plugs", usage: "500 sets", price: "$5 per set", charge: "$2,500.00" },
@@ -7321,10 +7418,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
           <Section title="Indeterminate">
             <div className="flex flex-col gap-3">
               <label className="flex cursor-pointer items-center gap-2.5">
-                <Checkbox
-                  indeterminate
-                  aria-label={demoText(language, "Indeterminate")}
-                />
+                <Checkbox indeterminate aria-label={demoText(language, "Indeterminate")} />
                 <span className="text-copy-14 text-foreground">
                   Indeterminate (partial selection)
                 </span>
@@ -7884,10 +7978,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "table":
       return (
         <>
-          <Section
-            title="Striped table"
-            code="<Table><TableBody striped>…</TableBody></Table>"
-          >
+          <Section title="Striped table" code="<Table><TableBody striped>…</TableBody></Table>">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -7915,10 +8006,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </TableBody>
             </Table>
           </Section>
-          <Section
-            title="Bordered table"
-            code="<Table><TableBody bordered>…</TableBody></Table>"
-          >
+          <Section title="Bordered table" code="<Table><TableBody bordered>…</TableBody></Table>">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -8043,7 +8131,10 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </TableFooter>
             </Table>
           </Section>
-          <Section title="Virtualized table" code="<Table><TableBody interactive striped>…</TableBody></Table>">
+          <Section
+            title="Virtualized table"
+            code="<Table><TableBody interactive striped>…</TableBody></Table>"
+          >
             <VirtualizedTableDemo />
           </Section>
         </>
@@ -8497,7 +8588,8 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
             <div className="w-full max-w-md">
               <JsonView
                 data={{
-                  browserApiUrl: "https://browser-api.vercel.sh/screenshot?url=https%3A%2F%2Fprocore-com-prod-f5vem4o6u-marketing-web-dev.vercel.app&width=1440&height=900&fullPage=true",
+                  browserApiUrl:
+                    "https://browser-api.vercel.sh/screenshot?url=https%3A%2F%2Fprocore-com-prod-f5vem4o6u-marketing-web-dev.vercel.app&width=1440&height=900&fullPage=true",
                 }}
                 defaultExpandDepth={1}
               />
@@ -8517,7 +8609,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
                     path: "/api/projects",
                     method: "GET",
                   },
-                  flags: ["enable-logs-json-rendering","observability-panel"],
+                  flags: ["enable-logs-json-rendering", "observability-panel"],
                 }}
                 defaultExpandDepth={0}
               />
@@ -8534,7 +8626,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
                   statusCode: 500,
                 }}
                 defaultExpandDepth={1}
-                highlightPattern={makeJsonViewHighlightPattern(["request","failed"])}
+                highlightPattern={makeJsonViewHighlightPattern(["request", "failed"])}
               />
             </div>
           </Section>
@@ -8675,9 +8767,9 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
           </Section>
           <Section title="Title with Icon" code={sectionCode("Title with Icon")}>
             <div className="flex w-full flex-col gap-8">
-              {(["default","secondary"] as const).map((variant) => (
+              {(["default", "secondary"] as const).map((variant) => (
                 <div key={variant} className="flex flex-row gap-1">
-                  {(["small","medium","large"] as const).map((size) => (
+                  {(["small", "medium", "large"] as const).map((size) => (
                     <SplitButton
                       key={`${variant}-${size}`}
                       buttonProps={{ size, type: variant }}
@@ -8959,7 +9051,10 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Grid>
             </GridSystem>
           </Section>
-          <Section title="Responsive guide clipping" code={sectionCode("Responsive guide clipping")}>
+          <Section
+            title="Responsive guide clipping"
+            code={sectionCode("Responsive guide clipping")}
+          >
             <GridSystem unstable_useContainer>
               <Grid columns={{ sm: 1, md: 2, lg: 3 }} rows={{ sm: 6, md: 3, lg: 2 }}>
                 <GridCell column={{ sm: "1", md: "1/3" }} row={{ sm: "1/3", md: 1 }} solid>
@@ -8967,7 +9062,11 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
                 </GridCell>
                 <GridCell>3</GridCell>
                 <GridCell>4</GridCell>
-                <GridCell column={{ sm: 1, md: "1/3", lg: "2/4" }} row={{ sm: "5/7", md: 3, lg: 2 }} solid>
+                <GridCell
+                  column={{ sm: 1, md: "1/3", lg: "2/4" }}
+                  row={{ sm: "5/7", md: 3, lg: 2 }}
+                  solid
+                >
                   5 + 6
                 </GridCell>
               </Grid>
@@ -9049,7 +9148,10 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Grid>
             </GridSystem>
           </Section>
-          <Section title="Dashed grid with grid page" code={sectionCode("Dashed grid with grid page")}>
+          <Section
+            title="Dashed grid with grid page"
+            code={sectionCode("Dashed grid with grid page")}
+          >
             <GridPage>
               <GridSystem dashedGuides guideWidth={1}>
                 <Grid columns={1} rows={1}>
@@ -9092,7 +9194,9 @@ function ComponentsOverview() {
               {language === "zh-CN" ? (component.labelZh ?? component.label) : component.label}
             </h3>
             <p className="mt-1 text-copy-13 text-muted-foreground">
-              {language === "zh-CN" ? (component.descriptionZh ?? component.description) : component.description}
+              {language === "zh-CN"
+                ? (component.descriptionZh ?? component.description)
+                : component.description}
             </p>
           </a>
         ))}

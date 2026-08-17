@@ -55,7 +55,9 @@ function getPageTitle(pathname: string, language: DocsLanguage) {
     ? COMPONENTS.find((candidate) => candidate.name === componentName)
     : undefined;
   const pageTitle = component
-    ? (language === "zh-CN" ? (component.labelZh ?? component.label) : component.label)
+    ? language === "zh-CN"
+      ? (component.labelZh ?? component.label)
+      : component.label
     : demoText(language, PAGE_TITLES[pathname] ?? "Page Not Found");
   return pageTitle === "Geist Style Framework" ? pageTitle : `${pageTitle} – Geist Style Framework`;
 }

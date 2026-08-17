@@ -285,16 +285,11 @@ function Combobox({
     }
   };
 
-  const registerList = React.useCallback(
-    (meta: { maxWidth?: number; emptyMessage?: string }) => {
-      setListMeta((prev) =>
-        prev.maxWidth === meta.maxWidth && prev.emptyMessage === meta.emptyMessage
-          ? prev
-          : meta,
-      );
-    },
-    [],
-  );
+  const registerList = React.useCallback((meta: { maxWidth?: number; emptyMessage?: string }) => {
+    setListMeta((prev) =>
+      prev.maxWidth === meta.maxWidth && prev.emptyMessage === meta.emptyMessage ? prev : meta,
+    );
+  }, []);
 
   const registerInput = React.useCallback(
     (onChange?: React.ChangeEventHandler<HTMLInputElement>) => {
@@ -356,7 +351,9 @@ function Combobox({
         onMouseEnter={() => setActiveValue(itemValue)}
         onClick={() => selectValue(itemValue)}
       >
-        {meta?.prefix && <span className="mr-2 inline-flex shrink-0 items-center">{meta.prefix}</span>}
+        {meta?.prefix && (
+          <span className="mr-2 inline-flex shrink-0 items-center">{meta.prefix}</span>
+        )}
         {meta?.ignoreDefaultHeight && meta.children !== undefined ? (
           <span className="min-w-0 flex-1 text-left">{meta.children}</span>
         ) : (
@@ -365,12 +362,11 @@ function Combobox({
           </span>
         )}
         {!inClosedList && isSelected && (
-          <Check
-            className="ml-auto size-(--ds-control-decoration-size) shrink-0"
-            aria-hidden
-          />
+          <Check className="ml-auto size-(--ds-control-decoration-size) shrink-0" aria-hidden />
         )}
-        {meta?.suffix && <span className="ml-2 inline-flex shrink-0 items-center">{meta.suffix}</span>}
+        {meta?.suffix && (
+          <span className="ml-2 inline-flex shrink-0 items-center">{meta.suffix}</span>
+        )}
       </li>
     );
   });
@@ -456,9 +452,7 @@ function Combobox({
           aria-hidden="true"
           className={cn(
             "inline-flex items-center justify-center pointer-events-none absolute left-[13px] top-1/2 z-10 transform -translate-y-1/2",
-            errored
-              ? "text-[var(--button-error)]"
-              : "text-[var(--ds-gray-700)]",
+            errored ? "text-[var(--button-error)]" : "text-[var(--ds-gray-700)]",
           )}
         >
           <Search className="size-(--ds-control-decoration-size)" aria-hidden />

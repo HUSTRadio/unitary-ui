@@ -147,12 +147,12 @@
 
 ### Phase 5 高风险组件复验（2026-08-17）
 
-| 维度 | 覆盖范围 | 结果 |
-| --- | --- | --- |
-| 响应式结构 | Feedback / Combobox / Modal / Collapse / Toast；375、768、1440、1920 | 40 个视口/主题/路由组合均无 document/body 横向溢出，demo 卡片越界 `0` |
-| 主题 | 5 个高风险路由 × 4 视口 × light/dark | light 20 组 `#fff/#171717`，dark 20 组 `#000/#ededed` |
-| 动画 | Toggle / Switch / Menu / Collapse / Tooltip / Modal / Toast | CDP computed 与官方 duration/easing/状态时序一致；Collapse 高度中间帧和 Modal reduced-motion 已实测 |
-| Toast 语义 | Modal focus trap + action + dismiss + stack | action 可鼠标触发，Modal 保持打开，`Copy reverted` 出现，焦点恢复 Modal 内触发按钮 |
-| 视觉 | Feedback 官方/本地同尺寸标注对比图 | `gpt-5.6-sol` 返回 `PASS`；确认四枚表情、蓝色泪痕、琥珀色眼睛、间距与裁切对齐 |
+| 维度       | 覆盖范围                                                             | 结果                                                                                                |
+| ---------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| 响应式结构 | Feedback / Combobox / Modal / Collapse / Toast；375、768、1440、1920 | 40 个视口/主题/路由组合均无 document/body 横向溢出，demo 卡片越界 `0`                               |
+| 主题       | 5 个高风险路由 × 4 视口 × light/dark                                 | light 20 组 `#fff/#171717`，dark 20 组 `#000/#ededed`                                               |
+| 动画       | Toggle / Switch / Menu / Collapse / Tooltip / Modal / Toast          | CDP computed 与官方 duration/easing/状态时序一致；Collapse 高度中间帧和 Modal reduced-motion 已实测 |
+| Toast 语义 | Modal focus trap + action + dismiss + stack                          | action 可鼠标触发，Modal 保持打开，`Copy reverted` 出现，焦点恢复 Modal 内触发按钮                  |
+| 视觉       | Feedback 官方/本地同尺寸标注对比图                                   | `gpt-5.6-sol` 返回 `PASS`；确认四枚表情、蓝色泪痕、琥珀色眼睛、间距与裁切对齐                       |
 
 确定性门禁：根 tsc 0；docs tsc 15 个既有 TS6133/TS1117、非基线 0；`vp test` 82 files / 496 tests；`vp build` 成功。

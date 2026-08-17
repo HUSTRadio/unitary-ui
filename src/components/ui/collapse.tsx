@@ -100,10 +100,12 @@ function CollapseContent({
         else if (ref) ref.current = node;
       }}
       inert={closed || undefined}
-      style={{
-        "--collapse-content-height": `${height}px`,
-        ...style,
-      } as React.CSSProperties}
+      style={
+        {
+          "--collapse-content-height": `${height}px`,
+          ...style,
+        } as React.CSSProperties
+      }
       className={cn(
         "collapse-content-motion overflow-y-hidden transition-all duration-200 ease-in-out",
         "data-[state=closed]:h-0",

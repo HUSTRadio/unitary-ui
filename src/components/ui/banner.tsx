@@ -40,12 +40,7 @@ function Banner({ button, children, className, ...props }: BannerProps) {
     >
       <p className="text-copy-16 text-gray-900">{children}</p>
       {button && (
-        <a
-          href={button.href}
-          target={button.target}
-          rel={button.rel}
-          className={CTA_CLASS}
-        >
+        <a href={button.href} target={button.target} rel={button.rel} className={CTA_CLASS}>
           <span className="inline-block truncate px-1.5">{button.content}</span>
           <span className="ml-1 mr-0.5 flex shrink-0 items-center justify-center" aria-hidden>
             <ChevronRight className="size-3.5" />

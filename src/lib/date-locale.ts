@@ -55,9 +55,11 @@ export function defaultLocale(): string {
  */
 export function getWeekStartDay(locale: string): number {
   try {
-    const weekInfo = (new Intl.Locale(locale) as unknown as {
-      weekInfo?: { firstDay?: number };
-    }).weekInfo;
+    const weekInfo = (
+      new Intl.Locale(locale) as unknown as {
+        weekInfo?: { firstDay?: number };
+      }
+    ).weekInfo;
     if (weekInfo && typeof weekInfo.firstDay === "number") return weekInfo.firstDay;
   } catch {
     // fall through

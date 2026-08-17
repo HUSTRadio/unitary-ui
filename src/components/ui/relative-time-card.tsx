@@ -72,7 +72,9 @@ function RelativeTimeCard({
         >
           <div className="flex flex-col gap-0.5">
             <span className="text-copy-14 text-foreground">{formatLocal(timestamp, locale)}</span>
-            <span className="text-copy-13 text-muted-foreground">UTC {formatUtc(timestamp, locale)}</span>
+            <span className="text-copy-13 text-muted-foreground">
+              UTC {formatUtc(timestamp, locale)}
+            </span>
           </div>
         </HoverCardPrimitive.Content>
       </HoverCardPrimitive.Portal>

@@ -39,7 +39,9 @@ describe("Checkbox official API contract (G02)", () => {
   test("disabled and disabled-checked states use official gray tokens (source-level)", async () => {
     const src = await read("src/components/ui/checkbox.tsx");
     expect(src).toMatch(/peer-disabled:border-gray-500 peer-disabled:bg-gray-100/);
-    expect(src).toMatch(/peer-disabled:peer-checked:border-gray-600 peer-disabled:peer-checked:bg-gray-600/);
+    expect(src).toMatch(
+      /peer-disabled:peer-checked:border-gray-600 peer-disabled:peer-checked:bg-gray-600/,
+    );
     expect(src).toMatch(/peer-disabled:peer-indeterminate:border-gray-600/);
     const disabledMarkup = checkbox({ disabled: true, "aria-label": "Subscribe" });
     expect(disabledMarkup).toMatch(/disabled/);
