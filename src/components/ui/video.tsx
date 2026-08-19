@@ -124,7 +124,7 @@ function Video({
               <Play className="size-4 fill-current" aria-hidden />
             )}
           </button>
-          <div className="pl-0 text-[13px] leading-10 px-3 flex-[0_0_auto] tabular-nums w-[60px]">
+          <div className="pl-0 text-[13px] leading-10 px-3 flex-[0_0_auto] tabular-nums w-[60px] text-center">
             {formatTime(currentTime)}
           </div>
           <div
@@ -144,7 +144,7 @@ function Video({
               style={{ left: `${progressPercent}%` }}
             />
           </div>
-          <div className="text-[13px] leading-10 px-3 flex-[0_0_auto] tabular-nums w-[60px]">
+          <div className="text-[13px] leading-10 px-3 flex-[0_0_auto] tabular-nums w-[60px] text-center">
             {formatTime(duration)}
           </div>
         </div>
