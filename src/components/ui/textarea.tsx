@@ -61,7 +61,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? errorId : undefined}
           className={cn(
-            "flex min-w-0 w-full resize-none border-none bg-background px-3 py-2.5 text-copy-14 text-foreground outline-none",
+            "flex min-w-0 w-full resize-none border-none bg-background px-3 py-2.5 text-copy-14 text-black dark:text-white outline-none",
             "placeholder:text-muted-foreground",
             "disabled:cursor-not-allowed disabled:bg-[var(--gray-100)] disabled:text-[var(--gray-700)] disabled:placeholder:text-[var(--gray-600)]",
             props.rows === undefined ? "h-[100px]" : "h-auto",

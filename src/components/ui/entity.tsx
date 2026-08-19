@@ -62,7 +62,7 @@ function EntityDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="entity-description"
-      className={cn("text-copy-14 truncate text-gray-1000", className)}
+      className={cn("text-copy-14 truncate text-muted-foreground", className)}
       {...props}
     />
   );

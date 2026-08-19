@@ -43,7 +43,7 @@ export interface InputProps extends Omit<React.ComponentProps<"input">, "size" |
 }
 
 const INPUT_BASE = cn(
-  "inline-flex w-full min-w-0 appearance-none border-none bg-background-100 px-3 text-foreground outline-none",
+  "inline-flex w-full min-w-0 appearance-none border-none bg-background-100 px-3 text-black dark:text-white outline-none",
   "placeholder:text-gray-700",
   "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-700 disabled:placeholder:text-[#999999]",
 );

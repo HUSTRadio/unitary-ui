@@ -35,7 +35,7 @@ const badgeVariants = cva(
         inverted: "bg-gray-1000 text-gray-100",
         trial: "bg-black text-white bg-linear-[135deg,#0070f3,#f81ce5]",
         turbo: "bg-black text-white bg-linear-[135deg,#ff1e56,#0096ff]",
-        pill: "bg-background text-foreground ring-1 ring-gray-alpha-400 ring-inset hover:[a,button]:bg-gray-200",
+        pill: "bg-background text-black dark:text-white ring-1 ring-gray-alpha-400 ring-inset hover:[a,button]:bg-gray-200",
       },
       contrast: {
         low: "relative bg-transparent before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:content-[''] before:mix-blend-multiply dark:before:mix-blend-screen",

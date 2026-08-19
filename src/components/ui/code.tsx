@@ -29,7 +29,7 @@ const Code = React.forwardRef<HTMLPreElement, CodeProps>(
         ref={ref}
         data-slot="code"
         className={cn(
-          "mx-0 my-8 touch-pan-y whitespace-pre rounded-[5px] border border-border bg-transparent p-6 text-foreground",
+          "mx-0 my-8 touch-pan-y overflow-x-auto whitespace-pre rounded-[5px] border border-border bg-transparent p-6 text-foreground",
           className,
         )}
         {...props}
