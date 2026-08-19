@@ -33,7 +33,7 @@ function Error({ className, label, size = "default", error, children, ...props }
     <div
       data-slot="error"
       role="alert"
-      className={cn("flex items-start text-destructive", SIZE_CLASSES[size], className)}
+      className={cn("flex items-start text-[#cb2a2f] dark:text-[#ff6166]", SIZE_CLASSES[size], className)}
       {...props}
     >
       <span aria-hidden className={cn("mr-2 flex items-center", ICON_OFFSET[size])}>

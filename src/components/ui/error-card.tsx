@@ -19,7 +19,7 @@ function ErrorCard({ className, icon, children, ...props }: ErrorCardProps) {
     <div
       data-slot="error-card"
       className={cn(
-        "flex flex-col items-center gap-2 rounded-[8px] border border-red-400 bg-red-100 p-4 text-center text-destructive",
+        "flex flex-col items-center gap-2 rounded-[8px] border border-red-400 bg-red-100 p-4 text-center text-[#cb2a2f] dark:text-[#ff6166]",
         className,
       )}
       {...props}
@@ -27,7 +27,7 @@ function ErrorCard({ className, icon, children, ...props }: ErrorCardProps) {
       {icon && (
         <div
           data-slot="error-card-icon"
-          className="flex items-center justify-center text-destructive [&_svg]:size-4"
+          className="flex items-center justify-center text-[#cb2a2f] dark:text-[#ff6166] [&_svg]:size-4"
           aria-hidden
         >
           {icon}
