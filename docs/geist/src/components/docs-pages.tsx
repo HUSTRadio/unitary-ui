@@ -24,7 +24,7 @@ export function IntroductionPage() {
   const { language } = useLanguage();
   return (
     <div>
-      <h1 className="text-heading-40 text-foreground">Geist Style Framework</h1>
+      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">Geist Style Framework</h1>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         {demoText(language, "Vercel design system for building consistent web experiences.")}
       </p>
@@ -164,7 +164,7 @@ export function ColorsPage() {
   const { language } = useLanguage();
   return (
     <div>
-      <h1 className="text-heading-40 text-foreground">{demoText(language, "Colors")}</h1>
+      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">{demoText(language, "Colors")}</h1>
       <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
         {demoText(language, "A high contrast, accessible color system.")}
       </p>
@@ -357,7 +357,7 @@ export function TypographyPage() {
   const { language } = useLanguage();
   return (
     <div>
-      <h1 className="text-heading-40 text-foreground">{demoText(language, "Typography")}</h1>
+      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">{demoText(language, "Typography")}</h1>
       <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
         {demoText(language, "Rules of typesetting throughout the system.")}
       </p>
@@ -544,7 +544,7 @@ export function MaterialsPage() {
   const { language } = useLanguage();
   return (
     <div>
-      <h1 className="text-heading-40 text-foreground">{demoText(language, "Materials")}</h1>
+      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">{demoText(language, "Materials")}</h1>
       <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
         {demoText(language, "Presets for radii, fills, strokes, and shadows.")}
       </p>
@@ -597,7 +597,7 @@ export function GridPage() {
   const { language } = useLanguage();
   return (
     <div>
-      <h1 className="text-heading-40 text-foreground">{demoText(language, "Grid")}</h1>
+      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">{demoText(language, "Grid")}</h1>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         {demoText(language, "A huge part of the new Vercel aesthetic.")}
       </p>

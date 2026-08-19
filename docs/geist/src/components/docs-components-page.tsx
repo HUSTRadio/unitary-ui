@@ -9175,7 +9175,7 @@ function ComponentsOverview() {
   const { language } = useLanguage();
   return (
     <div>
-      <h1 className="text-heading-40 text-foreground">{demoText(language, "Components")}</h1>
+      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">{demoText(language, "Components")}</h1>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         {demoText(language, "Building blocks for React applications.")}
       </p>
@@ -9213,7 +9213,7 @@ function ComponentDetail({ name }: { name: string }) {
     return (
       <div>
         <BackLink />
-        <h1 className="text-heading-40 text-foreground">
+        <h1 className="text-heading-24 sm:text-heading-40 text-foreground">
           {demoText(language, "Component not found")}
         </h1>
         <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
@@ -9227,7 +9227,7 @@ function ComponentDetail({ name }: { name: string }) {
     <div>
       <BackLink />
       <div className="mt-6 flex flex-wrap items-center gap-3">
-        <h1 className="text-heading-40 text-foreground">
+        <h1 className="text-heading-24 sm:text-heading-40 text-foreground">
           {language === "zh-CN" ? (meta.labelZh ?? meta.label) : meta.label}
         </h1>
         <span className="rounded-full border border-gray-alpha-400 px-2 py-0.5 font-mono text-label-12 text-muted-foreground">
