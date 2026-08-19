@@ -128,7 +128,7 @@ function FileTreeLabel({ className, ...props }: React.HTMLAttributes<HTMLSpanEle
   return (
     <span
       data-slot="file-tree-label"
-      className={cn("truncate font-mono text-copy-13 text-foreground", className)}
+      className={cn("truncate font-mono text-copy-13 text-foreground leading-7 text-center", className)}
       {...props}
     />
   );
