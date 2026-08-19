@@ -261,7 +261,7 @@ function DemoShowCode({ code }: { code: string }) {
         {demoText(language, "Show code")}
       </button>
       {showCode ? (
-        <div id={codeId}>
+        <div id={codeId} className="overflow-hidden">
           <CodeBlockComponent
             language="tsx"
             className="rounded-none rounded-b-[8px] border-0 border-t border-gray-alpha-400"
@@ -1132,7 +1132,7 @@ function ModalDemo() {
       <Button
         size="small"
         typeName="button"
-        type="secondary"
+        type="default"
         className="relative flex max-w-full whitespace-normal leading-[21px]"
         onClick={() => onOpenChange(true)}
       >
@@ -2135,7 +2135,7 @@ function SpinnerDemo() {
     { size: "4xl", label: "4xl" },
   ] as const;
   return (
-    <div className="flex items-end gap-6">
+    <div className="flex flex-wrap items-end gap-6">
       {sizes.map((s) => (
         <div key={s.size} className="flex flex-col items-center gap-2">
           <Spinner size={s.size} />
@@ -2770,7 +2770,7 @@ function DrawerDemo() {
         <div className="flex w-full overflow-x-auto md:overflow-visible">
           <div className="w-full p-6" data-demo-container="default">
             <Button
-              type="secondary"
+              type="default"
               className="relative flex max-w-full whitespace-normal leading-[21px]"
               onClick={() => setOpen(true)}
             >
