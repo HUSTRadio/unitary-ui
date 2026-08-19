@@ -305,7 +305,7 @@
   --info-soft: #ebf5ff; /* blue-100 */
   --progress: #006efe; /* blue-700 */
   --progress-soft: #ebf5ff; /* blue-100 */
-  --link: #006efe; /* blue-700 */
+  --link: #0072f5; /* official link blue */
   --urgent: #ff9900; /* amber-800 */
   --urgent-soft: #ffe6b3; /* amber-300 */
   --warning-action: #ffb224; /* amber-700 */
@@ -581,7 +581,7 @@
   --info-soft: #101f38; /* blue-200 */
   --progress: #006efe; /* blue-700 */
   --progress-soft: #101f38; /* blue-200 */
-  --link: #006efe; /* blue-700 */
+  --link: #0072f5; /* official link blue */
   --urgent: #ff9900; /* amber-800 */
   --urgent-soft: #4d2600; /* amber-300 */
   --warning-action: #ffb224; /* amber-700 */
