@@ -284,16 +284,16 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
               <span className="text-[#c41562] dark:text-[#ff518d]">
                 {highlightText(node.key ?? "", highlightPattern)}
               </span>
-              <span className="text-muted-foreground">: </span>
+              <span className="text-foreground">: </span>
             </>
           ) : null}
           {isOpen ? (
-            <span className="text-muted-foreground">{openingBrace}</span>
+            <span className="text-foreground">{openingBrace}</span>
           ) : (
             <>
-              <span className="text-muted-foreground">{openingBrace}</span>
-              <span className="text-muted-foreground"> … </span>
-              <span className="text-muted-foreground">{closingBrace}</span>
+              <span className="text-foreground">{openingBrace}</span>
+              <span className="text-foreground"> … </span>
+              <span className="text-foreground">{closingBrace}</span>
             </>
           )}
           {!isExpandable ? (
@@ -305,7 +305,7 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
             {node.children.map((child) => renderNode(child))}
           </span>
         ) : null}
-        {isOpen ? <span className="block text-muted-foreground">{closingBrace}</span> : null}
+        {isOpen ? <span className="block text-foreground">{closingBrace}</span> : null}
       </span>
     );
   }
