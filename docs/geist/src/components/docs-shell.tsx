@@ -62,12 +62,12 @@ function DocsBanner() {
                 <Languages className="size-3.5 shrink-0" aria-hidden />
                 {LANGUAGE_OPTIONS.find((option) => option.value === language)?.label}
               </MenuButton>
-              <Menu width={128} aria-label={copy.languageLabel}>
+              <Menu width={128} stateful aria-label={copy.languageLabel}>
                 {LANGUAGE_OPTIONS.map((option) => (
                   <MenuItem
                     key={option.value}
                     aria-current={option.value === language ? "true" : undefined}
-                    className={option.value === language ? "bg-gray-alpha-100" : undefined}
+                    active={option.value === language}
                     onSelect={() => setLanguage(option.value)}
                   >
                     {option.label}

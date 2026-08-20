@@ -17,6 +17,15 @@ type MenuPosition =
 
 const MenuPositionContext = React.createContext<MenuPosition>("bottom-start");
 
+/**
+ * stateful 声明：该菜单包含持久状态项（如语言切换的当前选中项）。
+ * - 声明后：容器切换为 flex-col 布局并在 items 间引入 gap-1（4px，Geist 间距尺度），
+ *   MenuItem 的 active 持久态样式才会生效
+ * - 未声明：保持官方默认（items 块级堆叠、零间隙、active 不生效）——
+ *   官方 vercel.com/geist/menu 实测 items gap=0，普通菜单无此问题
+ */
+const MenuStatefulContext = React.createContext(false);
+
 function MenuContainer({
   position = "bottom-start",
   children,
@@ -107,26 +116,36 @@ const Menu = React.forwardRef<
   React.ElementRef<typeof MenuPrimitive.Content>,
   Omit<React.ComponentPropsWithoutRef<typeof MenuPrimitive.Content>, "width"> & {
     width?: number | string;
+    /**
+     * 显式声明该菜单含持久状态项（如当前语言选中项）。
+     * 声明后：items 间获得 4px 间隙，且 MenuItem 的 active 属性生效；
+     * 不声明则保持官方默认零间隙（官方 Menu 实测 items 完全邻接）。
+     */
+    stateful?: boolean;
   }
->(({ className, sideOffset = 4, style, width, ...props }, ref) => {
+>(({ className, sideOffset = 4, style, width, stateful = false, ...props }, ref) => {
   const position = React.useContext(MenuPositionContext);
 
   return (
-    <MenuPrimitive.Portal>
-      <MenuPrimitive.Content
-        ref={ref}
-        sideOffset={sideOffset}
-        {...positionProps[position]}
-        data-slot="menu"
-        className={cn(
-          "z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-32 overflow-x-hidden overflow-y-auto rounded-[12px] bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none",
-          "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
-          className,
-        )}
-        style={{ ...style, width }}
-        {...props}
-      />
-    </MenuPrimitive.Portal>
+    <MenuStatefulContext.Provider value={stateful}>
+      <MenuPrimitive.Portal>
+        <MenuPrimitive.Content
+          ref={ref}
+          sideOffset={sideOffset}
+          {...positionProps[position]}
+          data-slot="menu"
+          data-stateful={stateful || undefined}
+          className={cn(
+            "z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-32 overflow-x-hidden overflow-y-auto rounded-[12px] bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none",
+            stateful && "flex flex-col gap-1",
+            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
+            className,
+          )}
+          style={{ ...style, width }}
+          {...props}
+        />
+      </MenuPrimitive.Portal>
+    </MenuStatefulContext.Provider>
   );
 });
 Menu.displayName = "Menu";
@@ -139,10 +158,17 @@ interface MenuItemProps extends Omit<
   type?: "default" | "error";
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
+  /**
+   * 持久选中态（如语言菜单当前语言）。仅在父级 Menu 声明 stateful 时生效；
+   * 普通菜单（官方零间隙模型）下忽略，避免常驻背景与相邻项 hover 背景互相干扰。
+   */
+  active?: boolean;
 }
 
 const MenuItem = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Item>, MenuItemProps>(
-  ({ className, children, disabled, href, type = "default", prefix, suffix, ...props }, ref) => {
+  ({ className, children, disabled, href, type = "default", prefix, suffix, active = false, ...props }, ref) => {
+    const stateful = React.useContext(MenuStatefulContext);
+    const isActive = stateful && active;
     const content = (
       <>
         {prefix && (
@@ -172,8 +198,10 @@ const MenuItem = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Item>, M
         disabled={disabled}
         data-slot="menu-item"
         data-type={type}
+        data-active={isActive || undefined}
         className={cn(
           "relative flex h-9 cursor-default select-none items-center gap-2 rounded-md px-2 text-label-14 text-foreground outline-none transition-colors data-highlighted:bg-gray-alpha-100 data-[disabled]:pointer-events-none data-[disabled]:text-muted-foreground data-[disabled]:opacity-60",
+          isActive && "bg-gray-alpha-100",
           type === "error" &&
             "text-[#cb2a2f] dark:text-[#ff6166] data-highlighted:bg-destructive data-highlighted:text-destructive-foreground",
           className,
