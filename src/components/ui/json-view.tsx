@@ -255,7 +255,6 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
         }}
         className={cn(
           "block py-0 pr-0 pl-2 outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-progress",
         )}
       >
         <span className="block">

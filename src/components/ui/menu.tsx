@@ -61,7 +61,7 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
           ref={ref}
           type="button"
           disabled={disabled}
-          className={cn("outline-none focus-ring", className)}
+          className={cn("outline-none", className)}
           {...props}
         >
           {children}

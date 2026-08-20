@@ -45,7 +45,7 @@ function ThemeSwitcher({
             disabled={disabled}
             onClick={() => setPreference(value)}
             className={cn(
-              "inline-flex items-center justify-center rounded-full text-muted-foreground outline-none transition-colors focus-ring disabled:pointer-events-none disabled:opacity-50",
+              "inline-flex items-center justify-center rounded-full text-muted-foreground outline-none transition-colors disabled:pointer-events-none disabled:opacity-50",
               small ? "size-6" : "size-8",
               checked &&
                 "bg-background text-foreground shadow-[0_0_0_1px_var(--gray-alpha-400),0_2px_2px_rgba(0,0,0,0.12)]",

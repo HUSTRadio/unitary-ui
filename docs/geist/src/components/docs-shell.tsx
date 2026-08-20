@@ -57,7 +57,7 @@ function DocsBanner() {
               <MenuButton
                 variant="unstyled"
                 aria-label={copy.languageAria}
-                className="flex h-8 items-center gap-1.5 rounded-md px-2 text-label-13 text-muted-foreground hover:bg-gray-alpha-100 hover:text-foreground"
+                className="flex h-8 items-center gap-1.5 rounded-md px-2 text-label-13 text-muted-foreground hover:bg-gray-alpha-100 hover:text-foreground focus-ring"
               >
                 <Languages className="size-3.5 shrink-0" aria-hidden />
                 {LANGUAGE_OPTIONS.find((option) => option.value === language)?.label}

@@ -48,7 +48,7 @@ function Browser({ address, className, children, ...props }: BrowserProps) {
                 type="button"
                 aria-label="Copy"
                 onClick={() => void copyAddress()}
-                className="flex size-6 shrink-0 items-center justify-center rounded-[4px] outline-none hover:bg-gray-alpha-200 focus-ring"
+                className="flex size-6 shrink-0 items-center justify-center rounded-[4px] outline-none hover:bg-gray-alpha-200"
               >
                 <Copy aria-hidden className="size-3" />
               </button>
