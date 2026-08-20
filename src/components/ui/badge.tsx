@@ -20,7 +20,7 @@ const badgeVariants = cva(
       size: {
         sm: "h-5 gap-1 px-2 text-[11px]/[20px] tracking-[0.2px] **:data-[slot=icon]:size-3 **:data-[slot=icon]:-ml-0.5 **:data-[slot=icon]:data-[glyph=circular]:-ml-1 **:data-[slot=icon]:has-[[data-glyph=circular]]:-ml-1",
         md: "h-6 gap-1.25 px-3 text-[12px]/[24px] **:data-[slot=icon]:size-3.5 **:data-[slot=icon]:-ml-1 **:data-[slot=icon]:data-[glyph=circular]:-ml-1.75 **:data-[slot=icon]:has-[[data-glyph=circular]]:-ml-1.75 has-[[data-glyph=circular]]:pr-2.5",
-        lg: "h-8 gap-1.5 px-3 text-sm **:data-[slot=icon]:size-4 **:data-[slot=icon]:-ml-1 **:data-[slot=icon]:data-[glyph=circular]:-ml-1 **:data-[slot=icon]:has-[[data-glyph=circular]]:-ml-1",
+        lg: "h-8 gap-1.5 px-3 text-sm **:data-[slot=icon]:size-4 **:data-[slot=icon]:data-[glyph=circular]:-ml-1 **:data-[slot=icon]:has-[[data-glyph=circular]]:-ml-1",
       },
       variant: {
         // 官方变体（vercel.com/geist/badge 实测色值，Light/Dark 均实测）
