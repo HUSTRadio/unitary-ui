@@ -10,6 +10,16 @@ interface CopyButtonProps extends React.ComponentProps<"button"> {
   label?: string;
 }
 
+/**
+ * CopyButton — 官方 vercel.com/geist/copy-button 实时实测对齐。
+ *
+ * 官方动效机制（2026-08-20 官方页面 CDP 实测）：
+ * - 按钮内**同时渲染两个图标**（copy 16px + check 8px 中心叠加），不是条件替换 DOM
+ * - 点击复制：check 从 scale-50 放大到 100%、copy 从 100% 缩小到 50% 并淡出，
+ *   过渡 150ms（t+120ms 实测中间帧 13.2px/10.8px，t+220ms 完成）
+ * - 约 1000ms 后自动还原（官方 t+700ms 仍为 check 态、t+1200ms 已还原）
+ * - check 图标继承前景色，**不变绿**；按钮 hover 背景 gray-200（dark 实测 #1f1f1f）
+ */
 function CopyButton({ className, textToCopy, label = "Copy", ...props }: CopyButtonProps) {
   const [copied, setCopied] = React.useState(false);
   const timer = React.useRef<number | undefined>(undefined);
@@ -32,7 +42,7 @@ function CopyButton({ className, textToCopy, label = "Copy", ...props }: CopyBut
 
     setCopied(true);
     window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(() => setCopied(false), 1500);
+    timer.current = window.setTimeout(() => setCopied(false), 1000);
   };
 
   return (
@@ -42,12 +52,30 @@ function CopyButton({ className, textToCopy, label = "Copy", ...props }: CopyBut
       aria-label={copied ? "Copied" : label}
       onClick={handleCopy}
       className={cn(
-        "inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-background p-0 text-sm font-medium text-foreground shadow-[0_0_0_1px_var(--color-gray-400)] outline-none transition-colors hover:bg-gray-100 focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+        "inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-background p-0 text-sm font-medium text-foreground shadow-[0_0_0_1px_var(--color-gray-400)] outline-none transition-colors duration-150 hover:bg-gray-200 focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",
         className,
       )}
       {...props}
     >
-      {copied ? <CopyCheck className="text-success" aria-hidden /> : <Copy aria-hidden />}
+      {/* 官方双图标 scale 交叉：copy 与 check 常驻叠加，靠 scale/opacity 过渡切换 */}
+      <span className="relative flex size-4 items-center justify-center" aria-hidden>
+        <span
+          className={cn(
+            "absolute inset-0 flex items-center justify-center transition-all duration-150 ease-in-out motion-reduce:transition-none",
+            copied ? "scale-50 opacity-0" : "scale-100 opacity-100",
+          )}
+        >
+          <Copy className="size-4" />
+        </span>
+        <span
+          className={cn(
+            "absolute inset-0 flex items-center justify-center transition-all duration-150 ease-in-out motion-reduce:transition-none",
+            copied ? "scale-100 opacity-100" : "scale-50 opacity-0",
+          )}
+        >
+          <CopyCheck className="size-4" />
+        </span>
+      </span>
     </button>
   );
 }
