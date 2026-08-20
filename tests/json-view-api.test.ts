@@ -47,7 +47,9 @@ describe("JsonView official API contract (G06-JSONVIEW)", () => {
     expect(html).toContain(">durationMs</span>");
     // Key color: text-pink-900 = #c41562 light / #ff518d dark
     expect(html).toContain('class="text-[#c41562] dark:text-[#ff518d]">deployment</span>');
-    expect(html).not.toContain('class="text-foreground"');
+    // 官方实测标点色 = foreground（非 muted）；key 必须是粉色而非 foreground
+    expect(html).toContain('<span class="text-foreground">: </span>');
+    expect(html).not.toContain('class="text-foreground">deployment');
   });
 
   it("booleans use text-amber-900 (#a35200 light) instead of warning (#ffb224) (G06-JSONVIEW-02)", () => {
@@ -95,13 +97,13 @@ describe("JsonView official API contract (G06-JSONVIEW)", () => {
 
   it("collapsed rows render a preview with braces and ellipsis", () => {
     const html = renderToStaticMarkup(React.createElement(JsonView, { data }));
-    // deployment row: key: { … } (unquoted key, preview braces)
+    // deployment row: key: { … } (unquoted key, preview braces; 官方标点色 = foreground)
     expect(html).toContain(
-      '>deployment</span><span class="text-muted-foreground">: </span><span class="text-muted-foreground">{</span><span class="text-muted-foreground"> … </span><span class="text-muted-foreground">}</span>',
+      '>deployment</span><span class="text-foreground">: </span><span class="text-foreground">{</span><span class="text-foreground"> … </span><span class="text-foreground">}</span>',
     );
     // tags (array) preview uses square brackets
     expect(html).toContain(
-      '>tags</span><span class="text-muted-foreground">: </span><span class="text-muted-foreground">[</span>',
+      '>tags</span><span class="text-foreground">: </span><span class="text-foreground">[</span>',
     );
   });
 

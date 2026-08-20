@@ -71,7 +71,7 @@ describe("Multi Select live Geist contract", () => {
     expect(source).toContain("p-2");
     expect(source).toContain("sideOffset = 8");
     expect(source).not.toContain("shadow-md");
-    expect(source).not.toContain("zoom-in-95");
+    expect(source).toContain("zoom-in-95");
   });
 
   test("renders the live 28px row hierarchy and action geometry", async () => {

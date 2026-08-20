@@ -71,10 +71,10 @@ describe("Video official single-track API contract", () => {
     expect(src).not.toContain("<span aria-hidden>/</span>");
     expect(src).not.toMatch(/items-center gap-3 rounded-md/);
     expect(src).toContain(
-      'className="pl-0 text-[13px] leading-10 px-3 flex-[0_0_auto] tabular-nums w-[60px]"',
+      'className="pl-0 text-[13px] leading-10 px-3 flex-[0_0_auto] tabular-nums w-[60px] text-center"',
     );
     expect(src).toContain(
-      'className="text-[13px] leading-10 px-3 flex-[0_0_auto] tabular-nums w-[60px]"',
+      'className="text-[13px] leading-10 px-3 flex-[0_0_auto] tabular-nums w-[60px] text-center"',
     );
   });
 
