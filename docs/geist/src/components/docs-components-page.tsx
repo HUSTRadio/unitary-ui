@@ -240,7 +240,7 @@ function TableDemoCard({ children, code }: { children: React.ReactNode; code: st
   );
 }
 
-/** 官方 show code 统一实现：按钮（rounded-b-lg + gray-900）+ 展开代码（rounded-b-lg + border-t，含行号）。 */
+/** 官方 show code 统一实现：按钮（收起态 rounded-b-lg 作卡片底边；展开态直角，无缝衔接代码区）+ 展开代码（rounded-b-lg + border-t，含行号）。官方实测：按钮 focus 无可见 ring，故不施加 focus-ring。 */
 function DemoShowCode({ code }: { code: string }) {
   const { language } = useLanguage();
   const [showCode, setShowCode] = React.useState(false);
@@ -252,7 +252,7 @@ function DemoShowCode({ code }: { code: string }) {
         aria-expanded={showCode}
         aria-controls={codeId}
         onClick={() => setShowCode((v) => !v)}
-        className="flex h-12 w-full items-center gap-3 rounded-b-[8px] border-t border-gray-400 bg-background-200 px-4 text-left text-copy-14 text-gray-900 transition-colors hover:bg-gray-200 focus-ring"
+        className={`flex h-12 w-full items-center gap-3 border-t border-gray-400 bg-background-200 px-4 text-left text-copy-14 text-gray-900 transition-colors hover:bg-gray-200 focus:outline-none${showCode ? "" : " rounded-b-[8px]"}`}
       >
         <ChevronRight
           className={`size-4 transition-transform${showCode ? " rotate-90" : ""}`}
