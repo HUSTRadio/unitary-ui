@@ -2645,12 +2645,14 @@ function ThemeSwitcherDemo() {
 function ProgressDynamicDemo() {
   const { language } = useLanguage();
   const [value, setValue] = React.useState(40);
+  const [animated, setAnimated] = React.useState(true);
   return (
     <div className="flex w-full max-w-md flex-col items-start gap-6">
       <Progress
         value={value}
         label={demoTextWithValues(language, "{value}%", { value })}
         labelPosition="right"
+        animated={animated}
         aria-label={demoTextWithValues(language, "Dynamic progress {value}%", { value })}
       />
       <div className="flex gap-2">
@@ -2661,6 +2663,17 @@ function ProgressDynamicDemo() {
           {demoText(language, "Decrease")}
         </Button>
       </div>
+      <label className="flex items-center gap-2">
+        <Toggle
+          checked={animated}
+          onChange={() => setAnimated((v) => !v)}
+          size="small"
+          aria-label={demoText(language, "Animated transition")}
+        />
+        <span className="text-label-13 text-muted-foreground">
+          {demoText(language, "Animated transition")}
+        </span>
+      </label>
     </div>
   );
 }

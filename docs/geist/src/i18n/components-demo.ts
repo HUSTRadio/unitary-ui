@@ -122,6 +122,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     Heights: "高度",
     "Label Positions": "标签位置",
     Dynamic: "动态更新",
+    "Animated transition": "过渡动画",
     "Custom label": "自定义标签",
     "No label": "无标签",
     "With an error property": "带 error 属性",

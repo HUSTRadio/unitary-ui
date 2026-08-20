@@ -129,6 +129,29 @@ describe("Progress dynamic update (controlled value)", () => {
   });
 });
 
+describe("Progress animated transition", () => {
+  test("animated defaults to true: fill has transition classes", () => {
+    const html = renderToStaticMarkup(createElement(Progress, { value: 30 }));
+    // 属性中 & 被转义为 &amp;；webkit 与 moz 填充伪元素均带 width 过渡 + reduced-motion 降级
+    expect(html).toContain("[&amp;::-webkit-progress-value]:transition-[width]");
+    expect(html).toContain("[&amp;::-webkit-progress-value]:duration-300");
+    expect(html).toContain("[&amp;::-moz-progress-bar]:transition-[width]");
+    expect(html).toContain("motion-reduce:transition-none");
+  });
+
+  test("animated={false} omits transition classes (instant update)", () => {
+    const html = renderToStaticMarkup(createElement(Progress, { value: 30, animated: false }));
+    expect(html).not.toContain("transition-[width]");
+    expect(html).toContain('value="30"');
+  });
+
+  test("source declares animated prop with default true", async () => {
+    const src = await read("src/components/ui/progress.tsx");
+    expect(src).toContain("animated?: boolean");
+    expect(src).toContain("animated = true");
+  });
+});
+
 describe("Progress stops compatibility with labels", () => {
   test("stops + left label renders core wrapper with flex-1", () => {
     const html = renderToStaticMarkup(

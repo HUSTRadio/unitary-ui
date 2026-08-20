@@ -67,6 +67,7 @@ function Progress({
   stops,
   label,
   labelPosition = "bottom-left",
+  animated = true,
   ...props
 }: Omit<React.ComponentProps<"progress">, "max" | "value"> & {
   value?: number | null;
@@ -80,6 +81,11 @@ function Progress({
   label?: React.ReactNode;
   /** 标签位置（默认 bottom-left，即「文字在进度条下左」）。left/right 与进度条垂直居中 */
   labelPosition?: ProgressLabelPosition;
+  /**
+   * value 变化时填充宽度是否平滑过渡（300ms ease-out）。默认 true（连续进度更自然）；
+   * 传 false 为瞬时跳变。prefers-reduced-motion 下自动降级为无动画。
+   */
+  animated?: boolean;
 }) {
   const fg =
     type !== undefined
@@ -105,6 +111,8 @@ function Progress({
         "[&::-moz-progress-bar]:rounded-[6px] [&::-moz-progress-bar]:bg-[var(--fg)]",
         hasStops &&
           "[&::-webkit-progress-value]:!rounded-none [&::-moz-progress-bar]:!rounded-none",
+        animated &&
+          "[&::-webkit-progress-value]:transition-[width] [&::-webkit-progress-value]:duration-300 [&::-webkit-progress-value]:ease-out [&::-webkit-progress-value]:motion-reduce:transition-none [&::-moz-progress-bar]:transition-[width] [&::-moz-progress-bar]:duration-300 [&::-moz-progress-bar]:ease-out [&::-moz-progress-bar]:motion-reduce:transition-none",
         inlineLabel && "min-w-0 flex-1",
         className,
       )}
