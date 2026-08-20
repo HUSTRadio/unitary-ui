@@ -107,7 +107,10 @@ const OPEN_BUTTON_CLASS =
   "outline-hidden m-0 p-0 border-0 box-border text-base align-baseline no-underline [tap-highlight-color:transparent] select-none bg-none cursor-pointer inline-flex !w-10 group-hover/combobox:text-gray-1000 disabled:cursor-not-allowed disabled:text-[var(--ds-gray-700)] [&>span]:inline-flex items-center justify-center !mr-0 absolute -right-px top-1/2 text-[var(--ds-gray-700)] transform -translate-y-1/2 transition-colors duration-150 ease-in";
 
 const PANEL_CLASS =
-  "m-0 p-1.5 outline-hidden bg-[var(--ds-background-100)] shadow-[0_0_0_1px_var(--ds-gray-alpha-400),0_2px_2px_0_rgba(0,0,0,0.04),0_8px_16px_-4px_rgba(0,0,0,0.04),0_0_0_1px_var(--ds-background-200)] rounded-xl z-[2001] max-h-[210px] overflow-y-auto overflow-x-hidden animate-in fade-in-0 zoom-in-95 duration-150 [&>ul]:m-0 [&>ul]:p-0 [&>ul]:list-none";
+  "m-0 p-1.5 outline-hidden bg-[var(--ds-background-100)] shadow-[0_0_0_1px_var(--ds-gray-alpha-400),0_2px_2px_0_rgba(0,0,0,0.04),0_8px_16px_-4px_rgba(0,0,0,0.04),0_0_0_1px_var(--ds-background-200)] rounded-xl z-[2001] max-h-[210px] overflow-y-auto overflow-x-hidden [&>ul]:m-0 [&>ul]:p-0 [&>ul]:list-none";
+/** 面板为条件挂载 portal（关闭即卸载），关闭动画由 panelMounted 延迟卸载 150ms 承载 */
+const PANEL_ENTER_CLASS = "animate-in fade-in-0 zoom-in-95 duration-150 motion-reduce:animate-none";
+const PANEL_EXIT_CLASS = "animate-out fade-out-0 zoom-out-95 duration-150 motion-reduce:animate-none";
 
 const OPTION_BASE_CLASS =
   "flex items-center text-sm px-2 scroll-my-2 rounded-[6px] cursor-pointer outline-hidden h-9";
@@ -140,6 +143,24 @@ function Combobox({
   children,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
+  /** 关闭后延迟卸载面板 150ms，让退出动画播完再卸载（条件挂载 portal 无 data-state） */
+  const [panelMounted, setPanelMounted] = React.useState(false);
+  const [panelClosing, setPanelClosing] = React.useState(false);
+  React.useEffect(() => {
+    if (open) {
+      setPanelMounted(true);
+      setPanelClosing(false);
+      return;
+    }
+    if (!panelMounted) return;
+    setPanelClosing(true);
+    const timer = window.setTimeout(() => {
+      setPanelMounted(false);
+      setPanelClosing(false);
+    }, 150);
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
   const [query, setQuery] = React.useState("");
   const [internalValue, setInternalValue] = React.useState(defaultValue);
   const [activeValue, setActiveValue] = React.useState("");
@@ -489,7 +510,7 @@ function Combobox({
           {options}
         </ul>
       )}
-      {open
+      {panelMounted
         ? createPortal(
             <div
               style={{
@@ -503,7 +524,7 @@ function Combobox({
               <div
                 ref={panelRef}
                 role="dialog"
-                className={PANEL_CLASS}
+                className={cn(PANEL_CLASS, panelClosing ? PANEL_EXIT_CLASS : PANEL_ENTER_CLASS)}
                 style={{ width: panelWidth }}
               >
                 {visibleValues.length === 0 && listMeta.emptyMessage ? (
