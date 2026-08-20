@@ -154,7 +154,7 @@ function Progress({
   // left / right：与进度条同行，items-center 保证垂直居中对齐
   if (inlineLabel) {
     return (
-      <div className="flex items-center gap-2" style={width !== undefined ? { width } : undefined}>
+      <div className="flex w-full items-center gap-2" style={width !== undefined ? { width } : undefined}>
         {labelPosition === "left" ? labelNode : core}
         {labelPosition === "left" ? core : labelNode}
       </div>
@@ -170,7 +170,7 @@ function Progress({
   const isTop = labelPosition.startsWith("top");
 
   return (
-    <div className={cn("flex flex-col gap-1.5", align)} style={width !== undefined ? { width } : undefined}>
+    <div className={cn("flex w-full flex-col gap-1.5", align)} style={width !== undefined ? { width } : undefined}>
       {isTop ? labelNode : core}
       {isTop ? core : labelNode}
     </div>

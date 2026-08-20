@@ -58,8 +58,8 @@ describe("Progress label positions", () => {
       const html = renderToStaticMarkup(
         createElement(Progress, { value: 30, label: "30%", labelPosition: pos }),
       );
-      // 同行 + 垂直居中：flex items-center
-      expect(html, pos).toContain("flex items-center gap-2");
+      // 同行 + 垂直居中：flex items-center；w-full 保证包裹层在 items-start 容器中不被收缩（进度条 flex-1 才能占满）
+      expect(html, pos).toContain("flex w-full items-center gap-2");
       // 进度条占剩余宽度
       expect(html, pos).toContain("min-w-0 flex-1");
     }
@@ -141,6 +141,6 @@ describe("Progress stops compatibility with labels", () => {
     );
     expect(html).toContain("relative");
     expect(html).toContain("min-w-0 flex-1");
-    expect(html).toContain("flex items-center gap-2");
+    expect(html).toContain("flex w-full items-center gap-2");
   });
 });
