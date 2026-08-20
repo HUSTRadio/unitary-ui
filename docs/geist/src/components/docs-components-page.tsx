@@ -2641,6 +2641,30 @@ function ThemeSwitcherDemo() {
   );
 }
 
+/** Progress 动态更新演示：Progress 为受控组件，外部更新 value 即驱动进度条（动态更新 API） */
+function ProgressDynamicDemo() {
+  const { language } = useLanguage();
+  const [value, setValue] = React.useState(40);
+  return (
+    <div className="flex w-full max-w-md flex-col items-start gap-6">
+      <Progress
+        value={value}
+        label={demoTextWithValues(language, "{value}%", { value })}
+        labelPosition="right"
+        aria-label={demoTextWithValues(language, "Dynamic progress {value}%", { value })}
+      />
+      <div className="flex gap-2">
+        <Button type="default" size="small" onClick={() => setValue((v) => Math.min(100, v + 10))}>
+          {demoText(language, "Increase")}
+        </Button>
+        <Button type="secondary" size="small" onClick={() => setValue((v) => Math.max(0, v - 10))}>
+          {demoText(language, "Decrease")}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 function ProgressDemo() {
   const { language } = useLanguage();
   return (
@@ -8868,6 +8892,21 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               <Progress value={60} height={50} aria-label="Progress height 50" />
               <Progress value={60} height={200} aria-label="Progress height 200" />
             </div>
+          </Section>
+          <Section title="Label Positions" code={sectionCode("Label Positions")}>
+            <div className="flex w-full max-w-md flex-col gap-8">
+              <Progress value={45} label="left" labelPosition="left" aria-label="Label left" />
+              <Progress value={45} label="right" labelPosition="right" aria-label="Label right" />
+              <Progress value={45} label="top-left" labelPosition="top-left" aria-label="Label top left" />
+              <Progress value={45} label="top-center" labelPosition="top-center" aria-label="Label top center" />
+              <Progress value={45} label="top-right" labelPosition="top-right" aria-label="Label top right" />
+              <Progress value={45} label="bottom-left" labelPosition="bottom-left" aria-label="Label bottom left" />
+              <Progress value={45} label="bottom-center" labelPosition="bottom-center" aria-label="Label bottom center" />
+              <Progress value={45} label="bottom-right" labelPosition="bottom-right" aria-label="Label bottom right" />
+            </div>
+          </Section>
+          <Section title="Dynamic" code={sectionCode("Dynamic")}>
+            <ProgressDynamicDemo />
           </Section>
         </>
       );

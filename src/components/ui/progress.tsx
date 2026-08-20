@@ -19,6 +19,17 @@ import { Tooltip } from "@/components/ui/tooltip";
 
 type ProgressType = "success" | "error" | "warning" | "secondary";
 
+/** 标签位置：8 方位。left/right 与进度条垂直居中对齐（flex items-center） */
+type ProgressLabelPosition =
+  | "left"
+  | "right"
+  | "top-left"
+  | "top-center"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-center"
+  | "bottom-right";
+
 interface ProgressStop {
   value: number;
   tooltip?: string;
@@ -54,6 +65,8 @@ function Progress({
   width,
   height,
   stops,
+  label,
+  labelPosition = "bottom-left",
   ...props
 }: Omit<React.ComponentProps<"progress">, "max" | "value"> & {
   value?: number | null;
@@ -63,6 +76,10 @@ function Progress({
   width?: number | string;
   height?: number;
   stops?: ProgressStop[];
+  /** 标签内容；配合 labelPosition 决定位置。label 缺省时无标签层，行为与原实现一致 */
+  label?: React.ReactNode;
+  /** 标签位置（默认 bottom-left，即「文字在进度条下左」）。left/right 与进度条垂直居中 */
+  labelPosition?: ProgressLabelPosition;
 }) {
   const fg =
     type !== undefined
@@ -73,6 +90,8 @@ function Progress({
 
   const resolvedHeight = height ?? 10;
   const hasStops = stops !== undefined && stops.length > 0;
+  /** left/right 位置时标签与进度条同行，进度条占剩余宽度（flex-1） */
+  const inlineLabel = label !== undefined && (labelPosition === "left" || labelPosition === "right");
 
   const bar = (
     <progress
@@ -86,17 +105,19 @@ function Progress({
         "[&::-moz-progress-bar]:rounded-[6px] [&::-moz-progress-bar]:bg-[var(--fg)]",
         hasStops &&
           "[&::-webkit-progress-value]:!rounded-none [&::-moz-progress-bar]:!rounded-none",
+        inlineLabel && "min-w-0 flex-1",
         className,
       )}
-      style={{ width, height: resolvedHeight, ["--fg" as string]: fg }}
+      style={{ width: inlineLabel ? undefined : width, height: resolvedHeight, ["--fg" as string]: fg }}
       {...props}
     />
   );
 
-  if (!hasStops) return bar;
-
-  return (
-    <div className="relative" style={{ width, height: resolvedHeight }}>
+  const core = hasStops ? (
+    <div
+      className={cn("relative", inlineLabel && "min-w-0 flex-1")}
+      style={inlineLabel ? { height: resolvedHeight } : { width, height: resolvedHeight }}
+    >
       {bar}
       {stops.map((stop, index) => {
         const hasTooltip = Boolean(stop.tooltip);
@@ -119,6 +140,39 @@ function Progress({
           </div>
         );
       })}
+    </div>
+  ) : (
+    bar
+  );
+
+  if (label === undefined) return core;
+
+  const labelNode = (
+    <span className="shrink-0 text-copy-13 text-muted-foreground whitespace-nowrap">{label}</span>
+  );
+
+  // left / right：与进度条同行，items-center 保证垂直居中对齐
+  if (inlineLabel) {
+    return (
+      <div className="flex items-center gap-2" style={width !== undefined ? { width } : undefined}>
+        {labelPosition === "left" ? labelNode : core}
+        {labelPosition === "left" ? core : labelNode}
+      </div>
+    );
+  }
+
+  // top-* / bottom-*：列布局，gap 1.5（6px），水平对齐按 *-left / *-center / *-right
+  const align = labelPosition.endsWith("-left")
+    ? "items-start"
+    : labelPosition.endsWith("-center")
+      ? "items-center"
+      : "items-end";
+  const isTop = labelPosition.startsWith("top");
+
+  return (
+    <div className={cn("flex flex-col gap-1.5", align)} style={width !== undefined ? { width } : undefined}>
+      {isTop ? labelNode : core}
+      {isTop ? core : labelNode}
     </div>
   );
 }

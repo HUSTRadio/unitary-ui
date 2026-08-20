@@ -120,6 +120,8 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "With Stops": "带刻度",
     Widths: "宽度",
     Heights: "高度",
+    "Label Positions": "标签位置",
+    Dynamic: "动态更新",
     "Custom label": "自定义标签",
     "No label": "无标签",
     "With an error property": "带 error 属性",

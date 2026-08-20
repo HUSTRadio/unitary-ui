@@ -343,6 +343,35 @@ import { Sparkles } from "lucide-react";
   <Progress value={60} height={50} aria-label="Progress height 50" />
   <Progress value={60} height={200} aria-label="Progress height 200" />
 </div>`,
+    "Label Positions": `import { Progress } from "@/components/ui/progress";
+
+<div className="flex w-full max-w-md flex-col gap-8">
+  <Progress value={45} label="left" labelPosition="left" aria-label="Label left" />
+  <Progress value={45} label="right" labelPosition="right" aria-label="Label right" />
+  <Progress value={45} label="top-left" labelPosition="top-left" aria-label="Label top left" />
+  <Progress value={45} label="top-center" labelPosition="top-center" aria-label="Label top center" />
+  <Progress value={45} label="top-right" labelPosition="top-right" aria-label="Label top right" />
+  <Progress value={45} label="bottom-left" labelPosition="bottom-left" aria-label="Label bottom left" />
+  <Progress value={45} label="bottom-center" labelPosition="bottom-center" aria-label="Label bottom center" />
+  <Progress value={45} label="bottom-right" labelPosition="bottom-right" aria-label="Label bottom right" />
+</div>`,
+    Dynamic: `import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+
+const [value, setValue] = useState(40);
+
+<div className="flex w-full max-w-md flex-col items-start gap-6">
+  <Progress value={value} label={\`\${value}%\`} labelPosition="right" aria-label="Dynamic progress" />
+  <div className="flex gap-2">
+    <Button type="default" size="small" onClick={() => setValue((v) => Math.min(100, v + 10))}>
+      Increase
+    </Button>
+    <Button type="secondary" size="small" onClick={() => setValue((v) => Math.max(0, v - 10))}>
+      Decrease
+    </Button>
+  </div>
+</div>`,
   },
   scroller: {
     Vertical: `import { Scroller } from "@/components/ui/scroller";
