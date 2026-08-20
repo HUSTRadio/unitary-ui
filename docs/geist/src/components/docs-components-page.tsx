@@ -282,14 +282,14 @@ function ShowCodeFooter({ code }: { code: string }) {
 
 function BadgeDemo() {
   return (
-    <>
+    <div className="flex flex-wrap items-center gap-1">
       <Badge variant="gray">Gray</Badge>
       <Badge variant="blue">Blue</Badge>
       <Badge variant="purple">Purple</Badge>
       <Badge variant="amber">Amber</Badge>
       <Badge variant="red">Red</Badge>
       <Badge variant="green">Green</Badge>
-    </>
+    </div>
   );
 }
 
