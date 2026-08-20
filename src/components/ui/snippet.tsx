@@ -48,7 +48,7 @@ interface SnippetProps extends React.HTMLAttributes<HTMLDivElement> {
 const typeColor: Record<SnippetType, string> = {
   default: "text-foreground",
   success: "text-success",
-  error: "text-destructive",
+  error: "text-[#cb2a2f] dark:text-[#ff6166]",
   warning: "text-warning-action",
 };
 
