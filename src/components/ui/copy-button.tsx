@@ -11,14 +11,11 @@ interface CopyButtonProps extends React.ComponentProps<"button"> {
 }
 
 /**
- * CopyButton — 官方 vercel.com/geist/copy-button 实时实测对齐。
- *
- * 官方动效机制（2026-08-20 官方页面 CDP 实测）：
- * - 按钮内**同时渲染两个图标**（copy 16px + check 8px 中心叠加），不是条件替换 DOM
- * - 点击复制：check 从 scale-50 放大到 100%、copy 从 100% 缩小到 50% 并淡出，
- *   过渡 150ms（t+120ms 实测中间帧 13.2px/10.8px，t+220ms 完成）
- * - 约 1000ms 后自动还原（官方 t+700ms 仍为 check 态、t+1200ms 已还原）
- * - check 图标继承前景色，**不变绿**；按钮 hover 背景 gray-200（dark 实测 #1f1f1f）
+ * CopyButton — 复制反馈动效：
+ * 1. 点按：复制图标快速 fade out（120ms），同时对勾以描边绘制动画「打出来」（200ms，
+ *    keyframes copy-check-draw 驱动 stroke-dashoffset，不修改 lucide SVG 内容）
+ * 2. 约 1.2s 后：对勾 fade out，复制图标 fade in 还原
+ * reduced-motion 下所有过渡降级为瞬时切换。
  */
 function CopyButton({ className, textToCopy, label = "Copy", ...props }: CopyButtonProps) {
   const [copied, setCopied] = React.useState(false);
@@ -42,7 +39,7 @@ function CopyButton({ className, textToCopy, label = "Copy", ...props }: CopyBut
 
     setCopied(true);
     window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(() => setCopied(false), 1000);
+    timer.current = window.setTimeout(() => setCopied(false), 1200);
   };
 
   return (
@@ -57,20 +54,21 @@ function CopyButton({ className, textToCopy, label = "Copy", ...props }: CopyBut
       )}
       {...props}
     >
-      {/* 官方双图标 scale 交叉：copy 与 check 常驻叠加，靠 scale/opacity 过渡切换 */}
+      {/* 双图标常驻叠加，靠 opacity / 描边动画切换 */}
       <span className="relative flex size-4 items-center justify-center" aria-hidden>
         <span
           className={cn(
-            "absolute inset-0 flex items-center justify-center transition-all duration-150 ease-in-out motion-reduce:transition-none",
-            copied ? "scale-50 opacity-0" : "scale-100 opacity-100",
+            "absolute inset-0 flex items-center justify-center transition-opacity ease-in-out motion-reduce:transition-none",
+            copied ? "opacity-0 duration-100" : "opacity-100 duration-150",
           )}
         >
           <Copy className="size-4" />
         </span>
         <span
           className={cn(
-            "absolute inset-0 flex items-center justify-center transition-all duration-150 ease-in-out motion-reduce:transition-none",
-            copied ? "scale-100 opacity-100" : "scale-50 opacity-0",
+            "absolute inset-0 flex items-center justify-center transition-opacity duration-150 ease-in-out motion-reduce:transition-none",
+            copied ? "opacity-100" : "opacity-0",
+            copied && "[&_svg_path:first-child]:animate-copy-check-draw",
           )}
         >
           <CopyCheck className="size-4" />

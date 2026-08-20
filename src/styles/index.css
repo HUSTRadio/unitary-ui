@@ -169,6 +169,9 @@
   /* LoadingDots 官方 blink 动画（1.4s ease infinite） */
   --animate-blink: blink 1.4s ease infinite;
 
+  /* CopyButton 对勾描边绘制动画（0.2s ease-out，配合图标 fade 使用） */
+  --animate-copy-check-draw: copy-check-draw 0.2s ease-out both;
+
   /* Geist 全色阶（colors.md 92 token 实测；gray-alpha 已在上面定义） */
   --color-amber-100: var(--amber-100);
   --color-amber-1000: var(--amber-1000);
@@ -1248,6 +1251,19 @@
   }
   100% {
     opacity: 0.2;
+  }
+}
+
+/* CopyButton 对勾描边绘制：lucide CopyCheck 首子元素即对勾笔画（path 长约 11.3），
+   dash 16 覆盖全长，offset 16→0 画出对勾。不修改图标 SVG，仅外层样式驱动。 */
+@keyframes copy-check-draw {
+  from {
+    stroke-dasharray: 16;
+    stroke-dashoffset: 16;
+  }
+  to {
+    stroke-dasharray: 16;
+    stroke-dashoffset: 0;
   }
 }
 
