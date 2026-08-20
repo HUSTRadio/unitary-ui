@@ -46,10 +46,19 @@
 
 ```bash
 vp install
-vp dev        # living styleguide @ localhost
+vp dev             # living styleguide @ localhost
+vp dev docs/geist  # 文档站（复刻 Vercel Geist 官方文档站）
 vp check
 vp build
 ```
+
+## 文档站（docs/geist）
+
+`docs/geist/` 是一个独立 Vite 应用，复刻 Vercel Geist 官方文档站结构：Introduction / Colors / Typography / Materials / Brands / Components（72 组件逐节 demo + Show Code）+ Icons，支持中英文切换与 light/dark 双主题。
+
+- 通过 alias 直接消费根仓库 `src/`（shadcn/ui 元件、样式、lib），不复制代码；字体等静态资源共享根仓库 `public/`
+- 启动：`vp dev docs/geist`（默认 http://localhost:5173）
+- 已知问题清单：`docs/geist-docs-findings.md`
 
 ## 消费方式
 
