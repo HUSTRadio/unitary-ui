@@ -13,7 +13,8 @@ const interpolate = (message: string, values?: MessageValues) =>
 
 const fallback: I18nContextValue = {
   locale: "en",
-  t: (key, values) => interpolate(key, values),
+  t: (key, values) =>
+    interpolate(FRAMEWORK_MESSAGES.en[key as keyof typeof FRAMEWORK_MESSAGES.en] ?? key, values),
 };
 
 const I18nContext = React.createContext<I18nContextValue>(fallback);

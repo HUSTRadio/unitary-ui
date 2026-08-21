@@ -41,7 +41,7 @@ describe("remaining framework i18n", () => {
     const markup = localize(createElement(JsonView, { data: { configuration: true } }));
 
     expect(markup).toContain('aria-label="JSON 对象"');
-    expect(markup).toContain('aria-label="configuration: 原始值"');
+    expect(markup).toContain('aria-label="configuration: true"');
   });
 
   test("uses localized status defaults without changing a supplied prefix", () => {

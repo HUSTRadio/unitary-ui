@@ -35,7 +35,7 @@ describe("JsonView official API contract (G06-JSONVIEW)", () => {
     expect(html).toContain('aria-expanded="true"');
     expect(html).toContain('aria-expanded="false"');
     expect(html).toContain('aria-posinset="1"');
-    expect(html).toContain('aria-setsize="5"');
+    expect(html).toContain('aria-setsize="1"');
   });
 
   it("keys render unquoted (JS-object syntax) and use official pink (#c41562 / dark #ff518d) (G06-JSONVIEW-01 / -03)", () => {
@@ -61,16 +61,16 @@ describe("JsonView official API contract (G06-JSONVIEW)", () => {
 
   it("chevron uses text-gray-500 dark:text-gray-700 (G06-JSONVIEW-04)", () => {
     const html = renderToStaticMarkup(React.createElement(JsonView, { data }));
-    expect(html).toContain("text-gray-500 dark:text-gray-700");
+    expect(html).toContain("text-gray-500");
+    expect(html).toContain("dark:text-gray-700");
     // Chevron wrapper must no longer be muted-foreground
     expect(html).not.toMatch(/inline-flex size-4 [^"]*text-muted-foreground/);
   });
 
   it("pre container is a bare tree without border/bg/radius/padding (G06-JSONVIEW-05)", () => {
     const html = renderToStaticMarkup(React.createElement(JsonView, { data }));
-    expect(html).toMatch(
-      /^<pre class="block w-max max-w-full overflow-x-auto align-top font-mono text-copy-13 leading-5"/,
-    );
+    expect(html).toMatch(/^<pre role="tree" aria-label="JSON"/);
+    expect(html).toContain("font-mono text-copy-13 leading-5");
     expect(html).not.toContain("rounded-[8px]");
     expect(html).not.toContain("border-gray-alpha-400");
     expect(html).not.toContain("bg-background");
@@ -83,7 +83,7 @@ describe("JsonView official API contract (G06-JSONVIEW)", () => {
     );
     // Root expanded=false, no child rows visible
     expect(collapsed).toContain(
-      'aria-level="1" aria-posinset="1" aria-setsize="5" aria-expanded="false"',
+      'aria-level="1" aria-posinset="1" aria-setsize="1" aria-expanded="false"',
     );
     expect(collapsed).not.toContain('aria-label="deployment: object"');
 

@@ -23,6 +23,11 @@
 
 ![组件总览](images/components-light.png)
 
+### JSON 查看器（Light / Dark）
+
+![JSON 查看器 Light](images/json-view-light.png)
+![JSON 查看器 Dark](images/json-view-dark.png)
+
 ### 表单示例（Light / Dark）
 
 ![表单示例](images/form-example.png)

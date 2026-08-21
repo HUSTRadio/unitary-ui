@@ -1,30 +1,16 @@
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 
-/**
- * JsonView — JSON 展示组件（对应官方 JsonView，docs/geist-markdown-refs/components/json-view.md）。
- *
- * 官方行为（vercel.com/geist/json-view 实测）：
- * - 可折叠树：defaultExpandDepth 控制默认展开层级（level <= defaultExpandDepth 展开，
- *   默认 1：顶层展开、嵌套折叠；0 = 全部折叠）
- * - 无障碍：role="tree" + treeitem（aria-level/posinset/setsize/expanded），
- *   箭头键移动、Enter/Space 切换展开、Home/End 首尾节点（官方 Accessibility）
- * - highlightPattern：makeJsonViewHighlightPattern(terms) 生成，高亮字段名与原始值
- *   （官方 <mark> 为 highlight-yellow 底 + 黑字）
- * - 文本可选中（复制可用）；颜色沿用官方实测（key=#c41562/dark:#ff518d、string=success、
- *   number/info、boolean=amber-900、null=info、标点=muted-foreground、chevron=gray-500/dark:gray-700）
- */
+type JsonNodeType = "object" | "array" | "primitive";
 
 interface JsonNode {
-  /** 字段名（数组项为索引字符串），根节点为 null */
   key: string | null;
   value: unknown;
-  /** 唯一路径，用于展开/焦点状态 */
+  primitiveText?: string;
   path: string;
-  type: "object" | "array" | "primitive";
-  /** 1 起始的树层级（根 = 1） */
+  type: JsonNodeType;
   level: number;
   posinset: number;
   setsize: number;
@@ -32,87 +18,190 @@ interface JsonNode {
   children: JsonNode[];
 }
 
+const MAX_TREE_DEPTH = 512;
+
+function escapeJsonPointer(segment: string): string {
+  return segment.replace(/~/g, "~0").replace(/\//g, "~1");
+}
+
+function specialObjectText(value: unknown): string | undefined {
+  if (value instanceof Date) {
+    return Number.isNaN(value.getTime()) ? "Invalid Date" : JSON.stringify(value.toISOString());
+  }
+  if (value instanceof RegExp) return String(value);
+  if (value instanceof Error) return `${value.name}: ${value.message}`;
+  if (value instanceof Map) return `[Map(${value.size})]`;
+  if (value instanceof Set) return `[Set(${value.size})]`;
+  return undefined;
+}
+
 interface JsonViewProps {
   data: unknown;
   className?: string;
-  /** 默认展开层级：level <= defaultExpandDepth 的节点展开（默认 1） */
+  /** Root is level 1. Zero collapses the root; one expands only the root. */
   defaultExpandDepth?: number;
-  /** 搜索高亮正则，用 makeJsonViewHighlightPattern 生成 */
+  /** Highlights matching keys and primitive values. Global and non-global regexes are accepted. */
   highlightPattern?: RegExp | null;
 }
 
+function isContainer(value: unknown): value is Record<string, unknown> | unknown[] {
+  return value !== null && typeof value === "object" && specialObjectText(value) === undefined;
+}
+
 function buildTree(data: unknown): JsonNode {
-  function build(
+  const ancestors = new Set<object>();
+  const makeNode = (
     value: unknown,
     key: string | null,
     path: string,
     level: number,
     parentPath: string | null,
     posinset: number,
-  ): JsonNode {
-    const type: JsonNode["type"] =
-      value === null || typeof value !== "object"
-        ? "primitive"
-        : Array.isArray(value)
-          ? "array"
-          : "object";
+    setsize: number,
+  ): JsonNode => {
+    const type: JsonNodeType = !isContainer(value)
+      ? "primitive"
+      : Array.isArray(value)
+        ? "array"
+        : "object";
 
-    let children: JsonNode[] = [];
-    if (type === "object") {
-      children = Object.entries(value as Record<string, unknown>).map(([k, v], i) =>
-        build(v, k, `${path}/${i}`, level + 1, path, i + 1),
-      );
-    } else if (type === "array") {
-      children = (value as unknown[]).map((v, i) =>
-        build(v, String(i), `${path}/${i}`, level + 1, path, i + 1),
-      );
-    }
-
-    return {
+    const node: JsonNode = {
       key,
       value,
       path,
       type,
       level,
       posinset,
-      setsize: type === "primitive" ? 1 : children.length,
+      setsize,
       parentPath,
-      children,
+      children: [],
     };
+    node.primitiveText = specialObjectText(value);
+    return node;
+  };
+
+  const root = makeNode(data, null, "", 1, null, 1, 1);
+  type Frame = { kind: "visit"; node: JsonNode } | { kind: "leave"; value: object };
+  const stack: Frame[] = [{ kind: "visit", node: root }];
+
+  while (stack.length > 0) {
+    const frame = stack.pop()!;
+    if (frame.kind === "leave") {
+      ancestors.delete(frame.value);
+      continue;
+    }
+
+    const { node } = frame;
+    if (node.type === "primitive") continue;
+    const container = node.value as Record<string, unknown> | unknown[];
+    if (ancestors.has(container as object)) {
+      node.type = "primitive";
+      node.primitiveText = "[Circular]";
+      continue;
+    }
+    if (node.level >= MAX_TREE_DEPTH) {
+      node.type = "primitive";
+      node.primitiveText = `[Max depth ${MAX_TREE_DEPTH} reached]`;
+      continue;
+    }
+
+    ancestors.add(container as object);
+    stack.push({ kind: "leave", value: container as object });
+
+    let keys: string[];
+    try {
+      keys = Array.isArray(container)
+        ? Array.from({ length: container.length }, (_, index) => String(index))
+        : Object.keys(container);
+    } catch {
+      node.type = "primitive";
+      node.primitiveText = "[Thrown while reading keys]";
+      ancestors.delete(container as object);
+      stack.pop();
+      continue;
+    }
+
+    node.children = keys.map((childKey, index) => {
+      let childValue: unknown;
+      try {
+        childValue = container[childKey as keyof typeof container];
+      } catch {
+        childValue = "[Thrown while reading value]";
+      }
+      const segment = Array.isArray(container) ? childKey : escapeJsonPointer(childKey);
+      return makeNode(
+        childValue,
+        childKey,
+        `${node.path}/${segment}`,
+        node.level + 1,
+        node.path,
+        index + 1,
+        keys.length,
+      );
+    });
+
+    for (let index = node.children.length - 1; index >= 0; index -= 1) {
+      stack.push({ kind: "visit", node: node.children[index] });
+    }
   }
 
-  return build(data, null, "root", 1, null, 1);
+  return root;
 }
 
 function initExpanded(root: JsonNode, depth: number): Set<string> {
-  const set = new Set<string>();
+  const expanded = new Set<string>();
   const walk = (node: JsonNode) => {
-    if (node.type !== "primitive" && node.level <= depth) {
-      set.add(node.path);
-      for (const child of node.children) walk(child);
+    if (node.type !== "primitive" && node.children.length > 0 && node.level <= depth) {
+      expanded.add(node.path);
+      node.children.forEach(walk);
     }
   };
   walk(root);
-  return set;
+  return expanded;
 }
 
 function flattenVisible(root: JsonNode, expanded: Set<string>): JsonNode[] {
-  const out: JsonNode[] = [];
+  const visible: JsonNode[] = [];
   const walk = (node: JsonNode) => {
-    out.push(node);
+    visible.push(node);
     if (node.type !== "primitive" && expanded.has(node.path)) {
-      for (const child of node.children) walk(child);
+      node.children.forEach(walk);
     }
   };
   walk(root);
-  return out;
+  return visible;
+}
+
+function collectPaths(root: JsonNode): Set<string> {
+  const paths = new Set<string>();
+  const stack = [root];
+  while (stack.length > 0) {
+    const node = stack.pop()!;
+    paths.add(node.path);
+    stack.push(...node.children);
+  }
+  return paths;
+}
+
+function collectExpandablePaths(root: JsonNode): Set<string> {
+  const paths = new Set<string>();
+  const stack = [root];
+  while (stack.length > 0) {
+    const node = stack.pop()!;
+    if (node.type !== "primitive" && node.children.length > 0) paths.add(node.path);
+    stack.push(...node.children);
+  }
+  return paths;
 }
 
 function highlightText(text: string, pattern?: RegExp | null): React.ReactNode {
   if (!pattern) return text;
+  const flags = pattern.flags.includes("g") ? pattern.flags : `${pattern.flags}g`;
+  const matcher = new RegExp(pattern.source, flags);
   const nodes: React.ReactNode[] = [];
   let last = 0;
-  for (const match of text.matchAll(pattern)) {
+  for (const match of text.matchAll(matcher)) {
+    if (match[0].length === 0) continue;
     const index = match.index ?? 0;
     if (index > last) nodes.push(text.slice(last, index));
     nodes.push(
@@ -126,39 +215,96 @@ function highlightText(text: string, pattern?: RegExp | null): React.ReactNode {
   return nodes.length > 0 ? nodes : text;
 }
 
-/**
- * 由搜索词生成高亮正则（官方 makeJsonViewHighlightPattern）。
- * 匹配字段名与原始值；terms 为空时返回 null（官方：无搜索时不传 pattern）。
- */
+function primitiveDisplay(value: unknown, override?: string): string {
+  if (override !== undefined) return override;
+  if (value === null) return "null";
+  if (value === undefined) return "undefined";
+  if (typeof value === "bigint") return `${value}n`;
+  if (typeof value === "number" && !Number.isFinite(value)) return String(value);
+  if (typeof value === "string") return JSON.stringify(value);
+  if (typeof value === "symbol" || typeof value === "function") return String(value);
+  return String(value);
+}
+
+function getInlinePrimitiveChild(node: JsonNode): JsonNode | null {
+  if (node.type !== "object" || node.children.length !== 1) return null;
+  const child = node.children[0];
+  if (child.type !== "primitive") return null;
+  const display = primitiveDisplay(child.value, child.primitiveText);
+  if (display.includes("\n") || (child.key?.length ?? 0) + display.length > 64) return null;
+  return child;
+}
+
+function JsonPrimitiveValue({
+  value,
+  text,
+  pattern,
+}: {
+  value: unknown;
+  text?: string;
+  pattern?: RegExp | null;
+}) {
+  const display = primitiveDisplay(value, text);
+  if (value === null || typeof value === "number" || typeof value === "bigint") {
+    return <span className="text-info">{highlightText(display, pattern)}</span>;
+  }
+  if (typeof value === "boolean") {
+    return <span className="text-amber-900">{highlightText(display, pattern)}</span>;
+  }
+  if (value === undefined || text?.startsWith("[")) {
+    return <span className="text-gray-900">{highlightText(display, pattern)}</span>;
+  }
+  return <span className="text-success">{highlightText(display, pattern)}</span>;
+}
+
 function makeJsonViewHighlightPattern(terms: string[]): RegExp | null {
   const escaped = terms
     .filter((term) => term.length > 0)
     .map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  if (escaped.length === 0) return null;
-  return new RegExp(`(${escaped.join("|")})`, "gi");
-}
-
-function JsonPrimitiveValue({ value, pattern }: { value: unknown; pattern?: RegExp | null }) {
-  if (value === null) return <span className="text-info">null</span>;
-  if (typeof value === "boolean") return <span className="text-amber-900">{String(value)}</span>;
-  if (typeof value === "number") return <span className="text-info">{String(value)}</span>;
-  return <span className="text-success">{highlightText(JSON.stringify(value), pattern)}</span>;
+  return escaped.length === 0 ? null : new RegExp(`(${escaped.join("|")})`, "gi");
 }
 
 function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }: JsonViewProps) {
   const { t } = useI18n();
   const tree = React.useMemo(() => buildTree(data), [data]);
-  const [expanded, setExpanded] = React.useState<Set<string>>(() =>
-    initExpanded(tree, defaultExpandDepth),
-  );
-  const [focusedPath, setFocusedPath] = React.useState<string | null>(null);
-  const rowRefs = React.useRef(new Map<string, HTMLElement>());
+  const depth = Math.max(0, Math.floor(defaultExpandDepth));
+  const [expanded, setExpanded] = React.useState<Set<string>>(() => initExpanded(tree, depth));
+  const [focusedPath, setFocusedPath] = React.useState("");
+  const pendingFocus = React.useRef<string | null>(null);
+  const rowRefs = React.useRef(new Map<string, HTMLSpanElement>());
+  const previousDepth = React.useRef(depth);
+  const previousExpandablePaths = React.useRef(collectExpandablePaths(tree));
+
+  React.useEffect(() => {
+    if (previousDepth.current !== depth) {
+      previousDepth.current = depth;
+      setExpanded(initExpanded(tree, depth));
+      setFocusedPath("");
+      previousExpandablePaths.current = collectExpandablePaths(tree);
+      return;
+    }
+
+    const validPaths = collectPaths(tree);
+    const expandablePaths = collectExpandablePaths(tree);
+    const defaultPaths = initExpanded(tree, depth);
+    setExpanded((current) => {
+      const next = new Set([...current].filter((path) => validPaths.has(path)));
+      for (const path of defaultPaths) {
+        if (!previousExpandablePaths.current.has(path)) next.add(path);
+      }
+      if (next.size === current.size && [...next].every((path) => current.has(path)))
+        return current;
+      return next;
+    });
+    setFocusedPath((current) => (validPaths.has(current) ? current : ""));
+    previousExpandablePaths.current = expandablePaths;
+  }, [tree, depth]);
 
   const visible = React.useMemo(() => flattenVisible(tree, expanded), [tree, expanded]);
 
   const toggle = React.useCallback((path: string, force?: boolean) => {
-    setExpanded((prev) => {
-      const next = new Set(prev);
+    setExpanded((current) => {
+      const next = new Set(current);
       const shouldExpand = force ?? !next.has(path);
       if (shouldExpand) next.add(path);
       else next.delete(path);
@@ -168,20 +314,25 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
 
   const moveFocus = React.useCallback(
     (index: number) => {
-      if (index >= 0 && index < visible.length) {
-        setFocusedPath(visible[index].path);
-      }
+      const node = visible[index];
+      if (!node) return;
+      pendingFocus.current = node.path;
+      setFocusedPath(node.path);
     },
     [visible],
   );
 
-  React.useEffect(() => {
-    if (focusedPath) rowRefs.current.get(focusedPath)?.focus();
-  }, [focusedPath]);
+  React.useLayoutEffect(() => {
+    const path = pendingFocus.current;
+    if (path === null) return;
+    rowRefs.current.get(path)?.focus();
+    pendingFocus.current = null;
+  }, [focusedPath, visible]);
 
   function handleKeyDown(event: React.KeyboardEvent) {
-    const currentIndex = focusedPath ? visible.findIndex((node) => node.path === focusedPath) : -1;
-    const current = currentIndex >= 0 ? visible[currentIndex] : null;
+    const currentIndex = visible.findIndex((node) => node.path === focusedPath);
+    const current = visible[currentIndex];
+    if (!current) return;
 
     switch (event.key) {
       case "ArrowDown":
@@ -194,22 +345,22 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
         break;
       case "ArrowRight":
         event.preventDefault();
-        if (!current) break;
-        if (current.type !== "primitive" && !expanded.has(current.path)) {
-          toggle(current.path, true);
-        } else {
-          const next = visible[currentIndex + 1];
-          if (next && next.parentPath === current.path) moveFocus(currentIndex + 1);
+        if (current.type === "primitive" || current.children.length === 0) break;
+        if (!expanded.has(current.path)) toggle(current.path, true);
+        else if (visible[currentIndex + 1]?.parentPath === current.path) {
+          moveFocus(currentIndex + 1);
         }
         break;
       case "ArrowLeft":
         event.preventDefault();
-        if (!current) break;
-        if (current.type !== "primitive" && expanded.has(current.path)) {
+        if (
+          current.type !== "primitive" &&
+          current.children.length > 0 &&
+          expanded.has(current.path)
+        ) {
           toggle(current.path, false);
-        } else if (current.parentPath) {
-          const parentIndex = visible.findIndex((node) => node.path === current.parentPath);
-          if (parentIndex >= 0) moveFocus(parentIndex);
+        } else if (current.parentPath !== null) {
+          moveFocus(visible.findIndex((node) => node.path === current.parentPath));
         }
         break;
       case "Home":
@@ -222,55 +373,78 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
         break;
       case "Enter":
       case " ":
-        event.preventDefault();
-        if (current && current.type !== "primitive") {
-          toggle(current.path, !expanded.has(current.path));
+        if (current.type !== "primitive" && current.children.length > 0) {
+          event.preventDefault();
+          toggle(current.path);
         }
         break;
     }
   }
 
-  function renderNode(node: JsonNode): React.ReactNode {
-    const isExpandable = node.type !== "primitive";
-    const isOpen = isExpandable && expanded.has(node.path);
-    const isFocused = focusedPath === node.path;
+  function renderNode(node: JsonNode, inline = false): React.ReactNode {
+    const container = node.type !== "primitive";
+    const expandable = container && node.children.length > 0;
+    const open = expandable && expanded.has(node.path);
+    const inlineChild = open ? getInlinePrimitiveChild(node) : null;
     const openingBrace = node.type === "array" ? "[" : "{";
     const closingBrace = node.type === "array" ? "]" : "}";
+    const comma = node.parentPath !== null && node.posinset < node.setsize ? "," : "";
 
     return (
       <span
         key={node.path}
+        ref={(element) => {
+          if (element) rowRefs.current.set(node.path, element);
+          else rowRefs.current.delete(node.path);
+        }}
         role="treeitem"
+        data-path={node.path || "root"}
         aria-level={node.level}
         aria-posinset={node.posinset}
         aria-setsize={node.setsize}
-        aria-expanded={isExpandable ? isOpen : undefined}
+        aria-expanded={expandable ? open : undefined}
         aria-label={
-          node.key != null
-            ? `${node.key}: ${t(`JSON ${node.type}`)}`
-            : t("JSON {type}", { type: t(`JSON ${node.type}`) })
+          node.type === "primitive"
+            ? node.key === null
+              ? primitiveDisplay(node.value, node.primitiveText)
+              : `${node.key}: ${primitiveDisplay(node.value, node.primitiveText)}`
+            : node.key === null
+              ? t("JSON {type}", { type: t(`JSON ${node.type}`) })
+              : `${node.key}: ${t(`JSON ${node.type}`)}`
         }
-        tabIndex={isFocused ? 0 : -1}
-        ref={(el) => {
-          if (el) rowRefs.current.set(node.path, el);
-          else rowRefs.current.delete(node.path);
+        tabIndex={focusedPath === node.path ? 0 : -1}
+        onFocus={(event) => {
+          if (event.currentTarget === event.target) setFocusedPath(node.path);
         }}
-        onClick={() => {
-          setFocusedPath(node.path);
-          if (isExpandable) toggle(node.path, !isOpen);
-        }}
-        className={cn("block py-0 pr-0 pl-2 outline-none")}
+        className={cn("focus-ring rounded-[4px] outline-none", inline ? "inline" : "block")}
       >
-        <span className="block">
-          {isExpandable ? (
-            <span
-              aria-hidden
-              className="mr-0.5 inline-flex size-4 translate-y-0.5 items-center justify-center align-top text-gray-500 dark:text-gray-700"
+        <span
+          data-slot="json-view-row"
+          className={cn(
+            "whitespace-pre-wrap [overflow-wrap:anywhere]",
+            inline ? "inline" : "block",
+          )}
+          style={{ paddingLeft: inline ? 0 : 8 }}
+        >
+          {expandable ? (
+            <button
+              type="button"
+              tabIndex={-1}
+              data-slot="json-view-toggle"
+              aria-label={t(open ? "Collapse JSON node" : "Expand JSON node")}
+              onClick={(event) => {
+                event.stopPropagation();
+                pendingFocus.current = node.path;
+                setFocusedPath(node.path);
+                toggle(node.path);
+              }}
+              className="mr-0.5 inline-flex size-4 translate-y-0.5 cursor-pointer items-center justify-center rounded-[3px] border-0 bg-transparent p-0 align-top text-gray-500 outline-none hover:bg-gray-alpha-200 dark:text-gray-700"
             >
               <svg
                 viewBox="0 0 16 16"
-                className={cn("size-4 transition-transform", !isOpen && "-rotate-90")}
+                className={cn("size-4 transition-transform", !open && "-rotate-90")}
                 fill="currentColor"
+                aria-hidden
               >
                 <path
                   fillRule="evenodd"
@@ -278,56 +452,77 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
                   clipRule="evenodd"
                 />
               </svg>
-            </span>
-          ) : (
+            </button>
+          ) : inline ? null : (
             <span className="inline-block w-4" aria-hidden />
           )}
-          {node.key != null ? (
+          {node.key !== null ? (
             <>
               <span className="text-[#c41562] dark:text-[#ff518d]">
-                {highlightText(node.key ?? "", highlightPattern)}
+                {highlightText(node.key, highlightPattern)}
               </span>
               <span className="text-foreground">: </span>
             </>
           ) : null}
-          {isOpen ? (
-            <span className="text-foreground">{openingBrace}</span>
-          ) : (
+          {container ? (
             <>
               <span className="text-foreground">{openingBrace}</span>
-              <span className="text-foreground"> … </span>
-              <span className="text-foreground">{closingBrace}</span>
+              {inlineChild ? (
+                <>
+                  <span aria-hidden> </span>
+                  <span role="group" className="inline">
+                    {renderNode(inlineChild, true)}
+                  </span>
+                  <span className="text-foreground"> {closingBrace}</span>
+                  {comma ? <span className="text-foreground">{comma}</span> : null}
+                </>
+              ) : null}
+              {!open && expandable ? <span className="text-foreground"> … </span> : null}
+              {!open ? <span className="text-foreground">{closingBrace}</span> : null}
+              {!open && comma ? <span className="text-foreground">{comma}</span> : null}
+            </>
+          ) : (
+            <>
+              <JsonPrimitiveValue
+                value={node.value}
+                text={node.primitiveText}
+                pattern={highlightPattern}
+              />
+              {comma ? <span className="text-foreground">{comma}</span> : null}
             </>
           )}
-          {!isExpandable ? (
-            <JsonPrimitiveValue value={node.value} pattern={highlightPattern} />
-          ) : null}
         </span>
-        {isOpen && node.children.length > 0 ? (
-          <span role="group" className="block">
-            {node.children.map((child) => renderNode(child))}
-          </span>
+        {open && !inlineChild ? (
+          <>
+            {node.children.length > 0 ? (
+              <span role="group" className="block pl-4">
+                {node.children.map((child) => renderNode(child))}
+              </span>
+            ) : null}
+            <span
+              className="block whitespace-pre-wrap pl-6 text-foreground [overflow-wrap:anywhere]"
+              aria-hidden
+            >
+              {closingBrace}
+              {comma}
+            </span>
+          </>
         ) : null}
-        {isOpen ? <span className="block text-foreground">{closingBrace}</span> : null}
       </span>
     );
   }
 
   return (
     <pre
+      role="tree"
+      aria-label={t("JSON")}
+      onKeyDown={handleKeyDown}
       className={cn(
-        "block w-max max-w-full overflow-x-auto align-top font-mono text-copy-13 leading-5",
+        "block w-full max-w-full whitespace-pre-wrap align-top font-mono text-copy-13 leading-5 [overflow-wrap:anywhere]",
         className,
       )}
     >
-      <span
-        role="tree"
-        aria-label={t("JSON")}
-        onKeyDown={handleKeyDown}
-        className="block w-max max-w-full whitespace-pre-wrap [overflow-wrap:anywhere]"
-      >
-        {renderNode(tree)}
-      </span>
+      {renderNode(tree)}
     </pre>
   );
 }
