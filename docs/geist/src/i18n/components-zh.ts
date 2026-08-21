@@ -1,4 +1,5 @@
 import type { ComponentMeta } from "../data/components";
+import COMPONENT_BEST_PRACTICES_ZH from "./best-practices-zh";
 
 const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   avatar: "使用图片或回退内容表示用户或团队。",
@@ -82,5 +83,6 @@ export function localizeComponentMetadata(component: ComponentMeta): ComponentMe
     labelZh: component.labelZh ?? component.label,
     descriptionZh:
       component.descriptionZh ?? COMPONENT_DESCRIPTION_ZH[component.name] ?? component.description,
+    bestPracticesZh: COMPONENT_BEST_PRACTICES_ZH[component.name],
   };
 }

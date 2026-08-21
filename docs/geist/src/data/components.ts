@@ -21,7 +21,7 @@ export interface ComponentMeta {
   official: string;
   /** Best Practices 要点（详情页底部列表） */
   bestPractices?: string[];
-  /** 中文 Best Practices */
+  /** 中文 Best Practices（zh-CN 模式优先使用，缺失回退英文） */
   bestPracticesZh?: string[];
 }
 

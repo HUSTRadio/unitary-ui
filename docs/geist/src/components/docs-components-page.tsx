@@ -9259,7 +9259,11 @@ function ComponentDetail({ name }: { name: string }) {
             {demoText(language, "Best Practices")}
           </h2>
           <ul className="mt-6 space-y-3">
-            {meta.bestPractices.map((bp, i) => (
+            {(
+              language === "zh-CN"
+                ? (meta.bestPracticesZh ?? meta.bestPractices)
+                : meta.bestPractices
+            ).map((bp, i) => (
               <li key={i} className="flex gap-3 text-copy-14 text-muted-foreground">
                 <span
                   className="mt-1.5 size-1.5 shrink-0 rounded-full bg-muted-foreground"
