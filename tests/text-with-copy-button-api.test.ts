@@ -34,8 +34,8 @@ describe("TextWithCopyButton official API contract (G11-RETRY audit fixes)", () 
   test("G11-TWCB-03: feedback via toast (message on success, error on failure), no title/sr-only/execCommand", async () => {
     const src = await read("src/components/ui/text-with-copy-button.tsx");
     // Toast integration
-    expect(src).toMatch(/toast\.message\(\{ text: successMessage \}\)/);
-    expect(src).toMatch(/toast\.error\("Failed to copy to clipboard"\)/);
+    expect(src).toMatch(/toast\.message\(\{ text: resolvedSuccessMessage \}\)/);
+    expect(src).toMatch(/toast\.error\(t\("Failed to copy to clipboard"\)\)/);
     // Success icon shows immediately on click (before the promise settles)
     const setCopiedPos = src.indexOf("setCopied(true)");
     const writeTextPos = src.indexOf("writeText(textToCopy)");
