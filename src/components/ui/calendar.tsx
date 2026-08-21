@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Popover as PopoverPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
@@ -475,7 +476,7 @@ function Calendar({
             align="start"
             sideOffset={4}
             data-slot="calendar-popover"
-            className="group/popover z-30 w-[280px] overflow-x-hidden overflow-y-auto rounded-[12px] bg-[var(--ds-background-100)] shadow-[var(--ds-shadow-menu)] outline-none"
+            className="group/popover z-30 w-[280px] overflow-x-hidden overflow-y-auto rounded-[12px] bg-[var(--ds-background-100)] shadow-[var(--ds-shadow-menu)] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none"
           >
             <button type="button" className="sr-only" />
             <CalendarPanel
@@ -561,11 +562,6 @@ const GRID_BODY_CLASS = "block !mt-[14.5px]";
 const GRID_ROW_CLASS = "last:mb-0 flex flex-nowrap my-2";
 const GRID_CELL_CLASS = "flex-1 flex justify-center size-8 p-0 text-center";
 
-const GEIST_CHEVRON_LEFT =
-  "M9.56 4.06 4.47 8.5a1 1 0 0 0 0 1.42l4.8 4.8a1 1 0 0 0 1.42 0l.53-.53-4.27-4.27L11.5 5l-.53-.53a1 1 0 0 0-1.41-.41z";
-const GEIST_CHEVRON_RIGHT =
-  "M6.44 4.06l5.09 4.44a1 1 0 0 1 0 1.42l-4.8 4.8a1 1 0 0 1-1.42 0l-.53-.53 4.27-4.27L4.5 5l.53-.53a1 1 0 0 1 1.41-.41z";
-
 function CalendarPanel({
   horizontalLayout = false,
   pinnedTimezone,
@@ -648,14 +644,7 @@ function CalendarPanel({
               className={NAV_BUTTON_CLASS}
               onClick={prevMonth}
             >
-              <svg {...GEIST_ICON_ATTRS}>
-                <path
-                  fill="currentColor"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d={GEIST_CHEVRON_LEFT}
-                />
-              </svg>
+              <ChevronLeft className="size-4" />
             </button>
             <button
               type="button"
@@ -663,14 +652,7 @@ function CalendarPanel({
               className={NAV_BUTTON_CLASS}
               onClick={nextMonth}
             >
-              <svg {...GEIST_ICON_ATTRS}>
-                <path
-                  fill="currentColor"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d={GEIST_CHEVRON_RIGHT}
-                />
-              </svg>
+              <ChevronRight className="size-4" />
             </button>
           </div>
           <table className={GRID_TABLE_CLASS}>
