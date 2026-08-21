@@ -789,6 +789,7 @@ function CalendarPanel({
 
         {/* Start / End（横向：右列 border-l；纵向：上分割线） */}
         <div
+          data-slot="calendar-range-controls"
           className={
             horizontalLayout
               ? "ml-3 flex w-60 shrink-0 flex-col border-l border-gray-alpha-200 pl-3"
@@ -873,34 +874,34 @@ function CalendarPanel({
               </div>
             </div>
           </div>
+
+          {/* Apply（右侧区域底部，全宽；mt-3 为 Geist 12px 档） */}
+          <div className="mt-3" data-slot="calendar-apply">
+            <Button
+              className="w-full"
+              size="small"
+              type="secondary"
+              typeName="button"
+              onClick={() => {
+                const range = { start, end };
+                onApply?.(range);
+                onValueChange?.(range);
+              }}
+            >
+              Apply
+              <span className="ml-2 text-xs" aria-hidden>
+                ↵
+              </span>
+            </Button>
+          </div>
+
+          {/* 时区选择器（mt-1 为 Geist 4px 档） */}
+          <div className="mt-1 flex justify-center">
+            <span className="text-xs text-gray-800">
+              {pinnedTimezone ? `Timezone: ${pinnedTimezone}` : `Local (${timeZone})`}
+            </span>
+          </div>
         </div>
-      </div>
-
-      {/* Apply（容器底部，全宽，mt-3 按 Geist 12px 档） */}
-      <div className="mt-3">
-        <Button
-          className="w-full"
-          size="small"
-          type="secondary"
-          typeName="button"
-          onClick={() => {
-            const range = { start, end };
-            onApply?.(range);
-            onValueChange?.(range);
-          }}
-        >
-          Apply
-          <span className="ml-2 text-xs" aria-hidden>
-            ↵
-          </span>
-        </Button>
-      </div>
-
-      {/* 时区选择器（mt-1 按 Geist 4px 档） */}
-      <div className="mt-1 flex justify-center">
-        <span className="text-xs text-gray-800">
-          {pinnedTimezone ? `Timezone: ${pinnedTimezone}` : `Local (${timeZone})`}
-        </span>
       </div>
     </div>
   );
