@@ -49,10 +49,10 @@ describe("docs controlled field console contract", () => {
   });
 
   test("copyable static checked examples are explicitly read-only", async () => {
-    const [batch1, batch7, components] = await Promise.all([
+    const [batch1, batch7, batch4] = await Promise.all([
       readFile(path.resolve(root, "docs/geist/src/data/demo-code-batch1.ts"), "utf8"),
       readFile(path.resolve(root, "docs/geist/src/data/demo-code-batch7.ts"), "utf8"),
-      readFile(path.resolve(root, "docs/geist/src/data/components.ts"), "utf8"),
+      readFile(path.resolve(root, "docs/geist/src/data/demo-code-section-batch4.ts"), "utf8"),
     ]);
 
     expect(batch1).toContain("<Checkbox checked readOnly disabled>Disabled Checked</Checkbox>");
@@ -60,6 +60,7 @@ describe("docs controlled field console contract", () => {
     expect(batch7).toContain(
       '<Toggle aria-label="Enable Firewall" checked={false} readOnly size="large" />',
     );
-    expect(components).toContain('<Checkbox id="checked" checked readOnly />');
+    // Checkbox 只读示例已随 Usage 删除从 components.ts 迁移到 section-batch4
+    expect(batch4).toContain('<Checkbox checked readOnly aria-label="Checked" />');
   });
 });

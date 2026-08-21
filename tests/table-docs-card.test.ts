@@ -22,9 +22,14 @@ describe("Table docs demo card contract", () => {
     expect(source).toContain("border-t border-gray-400 bg-background-200");
   });
 
-  it("uses TableDemoCard for Live Demo and all table variants", () => {
-    expect(source).toContain('name === "table" ? (');
+  it("uses TableDemoCard for table variants", () => {
+    expect(source).toContain("function TableDemoCard");
     expect(source.match(/code="<Table>/g)?.length ?? 0).toBe(5);
-    expect(source).toContain("<TableDemoCard code={meta.code}>");
+  });
+
+  it("table Live Demo has its own per-block Show code source", () => {
+    expect(source).toContain('const demoCode = (id: string) => DEMO_CODE["table"]?.[id] ?? "";');
+    expect(source).toContain('data-demo-card="Default"');
+    expect(source).toContain('<ShowCodeFooter code={demoCode("Default")} />');
   });
 });

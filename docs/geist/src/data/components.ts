@@ -19,8 +19,6 @@ export interface ComponentMeta {
   descriptionZh?: string;
   /** 官方 Geist（或 Penpot Core）对应组件名 */
   official: string;
-  /** 用法 TSX 片段（详情页代码块，font-mono 展示） */
-  code: string;
   /** Best Practices 要点（详情页底部列表） */
   bestPractices?: string[];
   /** 中文 Best Practices */
@@ -34,10 +32,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "头像",
     description: "Represents a user or a team with an image or fallback.",
     official: "Avatar",
-    code: `import { Avatar } from "@/components/ui/avatar";
-
-<Avatar src="/avatar.png" alt="Evil Rabbit" title="Evil Rabbit" />
-<Avatar size={24} letter="ER" />`,
     bestPractices: [
       "Use Avatar to represent a single user or team. Stacked Avatars represent a group of people.",
       "Provide a fallback (initials, icon, or placeholder) so the avatar still reads when the image fails to load or is missing.",
@@ -52,11 +46,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     description:
       "A prominent message that spans the full width of its container to announce important information.",
     official: "Banner",
-    code: `import { Banner } from "@/components/ui/banner";
-
-<Banner button={{ href: "#", content: "Read more" }}>
-  <b>Big News</b> – New components finally available
-</Banner>`,
   },
   {
     name: "book",
@@ -64,18 +53,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "手册",
     description: "A responsive book component.",
     official: "Book",
-    code: `import { Book } from "@/components/ui/book";
-
-<Book title="The user experience of the Frontend Cloud" />
-<Book title="The user experience of the Frontend Cloud" variant="simple" />
-<Book
-  color="#7DC1C1"
-  textColor="white"
-  textured
-  title="Design Engineering at Vercel"
-  variant="simple"
-  width={{ sm: 150, md: 196 }}
-/>`,
     bestPractices: [
       "Use Book for marketing pages, docs landing covers, and changelog hero shots where content needs the metaphor of a labeled volume.",
       "For in-product cards and dashboard tiles, use Card; Book is too decorative for repeated UI rows.",
@@ -90,11 +67,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "浏览器",
     description: "Frames screenshots and demos inside a realistic browser window.",
     official: "Browser",
-    code: `import { Browser } from "@/components/ui/browser";
-
-<Browser address="https://vercel.com">
-  <img src="/dashboard.png" alt="Deployment dashboard showing a successful build" />
-</Browser>`,
     bestPractices: [
       "Use Browser as marketing chrome around screenshots, demos, and recordings shown on landing pages, docs, and changelog posts.",
       "Don't render real product UI inside a Browser frame; the chrome implies a screenshot, not a live surface.",
@@ -107,19 +79,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "面包屑",
     description: "Navigation aid that shows the user's location within a site's hierarchy.",
     official: "Breadcrumbs",
-    code: `import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
-
-<Breadcrumb type="text">
-  <BreadcrumbItem href="#">Home</BreadcrumbItem>
-  <BreadcrumbItem href="#">Dashboard</BreadcrumbItem>
-  <BreadcrumbItem active>Overview</BreadcrumbItem>
-</Breadcrumb>
-
-<Breadcrumb type="menu">
-  <BreadcrumbItem>Home</BreadcrumbItem>
-  <BreadcrumbItem>Dashboard</BreadcrumbItem>
-  <BreadcrumbItem active>Overview</BreadcrumbItem>
-</Breadcrumb>`,
   },
   {
     name: "badge",
@@ -127,14 +86,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "徽章",
     description: "Small labels for statuses, counts, and metadata.",
     official: "Badge",
-    code: `import { Badge } from "@/components/ui/badge";
-
-<Badge variant="gray">Gray</Badge>
-<Badge variant="blue">Blue</Badge>
-<Badge variant="purple">Purple</Badge>
-<Badge variant="amber">Amber</Badge>
-<Badge variant="red">Red</Badge>
-<Badge variant="green">Green</Badge>`,
     bestPractices: [
       "Use Badge for short, scannable metadata that sits next to the thing it describes: status, plan tier, environment, or role. One badge per row; two side by side is a sign the row needs a second column.",
       "For a colored dot without text, use Status Dot. For clickable filter chips that toggle a query, use the pill variant or a small Button.",
@@ -153,14 +104,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "按钮",
     description: "Triggers an action with configurable variants, sizes, and icons.",
     official: "Button",
-    code: `import { Button } from "@/components/ui/button";
-
-<Button>Default</Button>
-<Button type="tertiary" size="small">Small</Button>
-<Button type="secondary" size="large">Large</Button>
-<Button type="tertiary" prefix={<Search />}>Search</Button>
-<Button type="error" loading>Delete</Button>
-<Button disabled>Disabled</Button>`,
     bestPractices: [
       "Use Button for actions that mutate state (deploy, save, delete); use ButtonLink for navigation that changes the URL. Switch to a Menu or Split Button when more than one related action shares a row.",
       'Default Button is primary. Pass type="secondary" for the supporting action and type="error" for destructive confirmations. primary, success, ghost, and violet are not valid type values.',
@@ -179,9 +122,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "日历",
     description: "Displays a month calendar from which users can pick a date.",
     official: "Calendar",
-    code: `import { Calendar } from "@/components/ui/calendar";
-
-<Calendar />`,
     bestPractices: [
       "Pick Calendar for analytics ranges and any picker where day-of-week and month context matter.",
       "Set min and max to the data window so users can't pick outside the retention range.",
@@ -194,22 +134,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "选择框",
     description: "A larger form of Radio for choices with more detail.",
     official: "Choicebox",
-    code: `import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
-
-<ChoiceboxGroup
-  label="select a plan"
-  listClassName="flex-row"
-  onChange={setPlan}
-  type="radio"
-  value={plan}
->
-  <ChoiceboxGroupItem
-    description="Free for two weeks"
-    title="Pro Trial"
-    value="trial"
-  />
-  <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
-</ChoiceboxGroup>`,
     bestPractices: [
       "Use Choicebox when a choice benefits from a larger tap target plus a description or icon.",
       "Single-select for mutually exclusive choices, multi-select for additive ones. Don't mix the two within one group.",
@@ -222,11 +146,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "复选框",
     description: "Allows users to select one or more items from a group.",
     official: "Checkbox",
-    code: `import { Checkbox } from "@/components/ui/checkbox";
-
-<Checkbox id="checked" checked readOnly />
-<Checkbox id="unchecked" />
-<Checkbox id="partial" indeterminate />`,
     bestPractices: [
       "Multi-select inside a list, like table-row pickers, multi-pick filters, and opt-in preference groups.",
       "Acknowledgments where the user must affirm a specific statement (terms of service, irreversible export).",
@@ -248,13 +167,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "代码",
     description: "Display a snippet of code with syntax highlighting.",
     official: "Code",
-    code: `import { Code, InlineCode } from "@/components/ui/code";
-
-<p>
-  Install with <InlineCode>npm i geist</InlineCode> and import the component.
-</p>
-
-<Code syntax="javascript">{"const greeting = 'Hello, Geist';"}</Code>`,
   },
   {
     name: "code-block",
@@ -262,9 +174,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "代码块",
     description: "A bordered code block with a filename header for multi-line source.",
     official: "Code Block",
-    code: `import { CodeBlock } from "@/components/ui/code-block";
-
-<CodeBlock filename="Table.jsx" language="jsx">{code}</CodeBlock>`,
     bestPractices: [
       "Use CodeBlock for multi-line, syntax-highlighted source the reader will scan or paste. For a single inline token (env var, function name, file path), use InlineCode.",
       "Pick Snippet for a copy-to-clipboard shell command or one-line key reveal; it ships with the prompt glyph and copy affordance built in.",
@@ -281,14 +190,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     description:
       "A vertically stacked set of headings that each reveal a related section of content.",
     official: "Collapse",
-    code: `import { Collapse, CollapseTrigger, CollapseContent } from "@/components/ui/collapse";
-
-<Collapse>
-  <CollapseTrigger>Question A</CollapseTrigger>
-  <CollapseContent>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-  </CollapseContent>
-</Collapse>`,
     bestPractices: [
       "Use Collapse for optional, advanced, or repetitive content that most users skip on most visits (FAQ, advanced settings, request payload preview).",
       "For top-level structure that every user reads, use page sections with regular headings; collapsing primary content hides what the page is about.",
@@ -307,29 +208,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "命令菜单",
     description: "Filters and launches keyboard-first actions in a modal command palette.",
     official: "Command Menu",
-    code: `import {
-  CommandMenu,
-  CommandMenuDivider,
-  CommandMenuGroup,
-  CommandMenuInput,
-  CommandMenuItem,
-  CommandMenuList,
-} from "@/components/ui/command-menu";
-
-<CommandMenu open={open} setOpen={setOpen}>
-  <CommandMenuInput placeholder="What do you need?" />
-  <CommandMenuList>
-    <CommandMenuGroup heading="Suggestions">
-      <CommandMenuItem callback={runImport}>Figma Import</CommandMenuItem>
-    </CommandMenuGroup>
-    <CommandMenuDivider />
-    <CommandMenuGroup heading="Commands">
-      <CommandMenuItem callback={installExtension} suffix={<span>⌘I</span>}>
-        Import Extension
-      </CommandMenuItem>
-    </CommandMenuGroup>
-  </CommandMenuList>
-</CommandMenu>`,
     bestPractices: [
       "Use CommandMenu for a global, keyboard-first command palette that finds resources and runs actions across the app. For a menu opened from a visible trigger on a single resource, use Menu; for right-click on a row, use ContextMenu.",
       "Group items into pages (Projects, Team Settings) when a single flat list would exceed roughly 30 items or span multiple resource types.",
@@ -347,32 +225,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     description:
       "A floating card that appears on hover or focus, showing richer detail than a tooltip.",
     official: "Context Card",
-    code: `import {
-  ContextCard,
-  ContextCardAvatar,
-  ContextCardBody,
-  ContextCardDescription,
-  ContextCardFooter,
-  ContextCardHeader,
-  ContextCardTitle,
-} from "@/components/ui/context-card";
-
-<ContextCard>
-  <ContextCardHeader>
-    <ContextCardAvatar src="/avatar.png" alt="Acme" />
-    <div>
-      <ContextCardTitle>Acme Inc.</ContextCardTitle>
-      <ContextCardDescription>@acme · San Francisco</ContextCardDescription>
-    </div>
-  </ContextCardHeader>
-  <ContextCardBody>
-    <p className="text-copy-13 text-muted-foreground">Last Active: 2h ago</p>
-    <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
-  </ContextCardBody>
-  <ContextCardFooter>
-    <Button size="small">View Project</Button>
-  </ContextCardFooter>
-</ContextCard>`,
     bestPractices: [
       "Use Context Card to reveal entity metadata on hover or focus: a user, a deployment, a project, an API key. The trigger is usually a name link or avatar in dense data.",
       "For a one-line explanation without metadata rows, use Tooltip. For long-form content, edit forms, or persistent navigation, route to a Drawer or a detail page.",
@@ -389,27 +241,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "右键菜单",
     description: "A menu for contextual actions, revealed on right click or long press.",
     official: "Context Menu",
-    code: `import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuSeparator,
-  ContextMenuTrigger,
-} from "@/components/ui/context-menu";
-
-<ContextMenu>
-  <ContextMenuTrigger asChild>
-    <Button type="tertiary">Right click here</Button>
-  </ContextMenuTrigger>
-  <ContextMenuContent>
-    <ContextMenuItem href="/projects">Open Project</ContextMenuItem>
-    <ContextMenuItem href="/settings">Open Settings</ContextMenuItem>
-    <ContextMenuSeparator />
-    <ContextMenuItem className="text-destructive focus:bg-destructive focus:text-destructive-foreground">
-      Delete Deployment
-    </ContextMenuItem>
-  </ContextMenuContent>
-</ContextMenu>`,
     bestPractices: [
       "Use ContextMenu for power-user shortcuts on right-click or long-press over a row, file, or canvas object.",
       "ContextMenu must never be the only entry point for an action. Mirror every item in a visible Menu trigger or row button so mouse-only and keyboard-only users have parity.",
@@ -426,10 +257,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "描述",
     description: "Displays key/value metadata pairs as a definition list.",
     official: "Description",
-    code: `import { Description } from "@/components/ui/description";
-
-<Description title="Last Deployed" content="2h ago" />
-<Description title="Region" content="iad1" />`,
     bestPractices: [
       "Use <Description> for definition-list metadata: a short Title Case key paired with a single value (Last Deployed, Region, Plan). For inline help under a form field, use the input’s helper-text slot instead.",
       "Geist renders <dl>/<dt>/<dd> so screen readers announce each key/value pair as a definition. Don’t wrap the component in extra paragraphs that break the list semantics.",
@@ -444,9 +271,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "复制按钮",
     description: "Copies a given string to the clipboard and provides feedback when copied.",
     official: "Copy Button",
-    code: `import { CopyButton } from "@/components/ui/copy-button";
-
-<CopyButton textToCopy="lipsum" />`,
     bestPractices: [
       "Use CopyButton for a single short string the user copies verbatim — a token, a command, an ID. For longer blocks, pair a full Snippet with its own copy affordance.",
       "Show the checkmark feedback for about 1.5s after a successful copy so the action reads as done; reset it before the next click.",
@@ -461,21 +285,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     description:
       "Confirms destructive actions with a red AlertTriangle header and a destructive confirm button.",
     official: "Destructive Action Modal",
-    code: `import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
-import { Button } from "@/components/ui/button";
-
-<Button type="error" onClick={() => setOpen(true)}>Delete Project</Button>
-<DestructiveActionModal
-  open={open}
-  onCancel={() => setOpen(false)}
-  onConfirm={handleDelete}
-  title="Delete Project"
-  description="my-project and all its deployments will be permanently deleted."
-  confirmLabel="Delete Project"
-  verificationPhrase="my-project"
-  verificationLabel="project name"
-  irreversibleDescription="Deleting my-project cannot be undone."
-/>`,
     bestPractices: [
       "Reach for this over Modal when the action is destructive and warrants friction: delete, rotate, revoke, disconnect, downgrade. The typed gate forces deliberate intent.",
       "Use it for reversible destructive actions too, when the consequence is serious enough to warrant a pause. Keep the typed gate; drop the irreversibility band.",
@@ -493,15 +302,6 @@ import { Button } from "@/components/ui/button";
     description:
       "An overflow menu triggered by a three-dot icon that reveals additional actions in a dropdown.",
     official: "Dots Menu",
-    code: `import { DotsMenu, DotsMenuItem, DotsMenuSeparator } from "@/components/ui/dots-menu";
-
-<DotsMenu>
-  <DotsMenuItem>View Build Logs</DotsMenuItem>
-  <DotsMenuItem>View Projects</DotsMenuItem>
-  <DotsMenuItem>View Analytics</DotsMenuItem>
-  <DotsMenuSeparator />
-  <DotsMenuItem disabled>Disabled Item</DotsMenuItem>
-</DotsMenu>`,
   },
   {
     name: "menu",
@@ -509,21 +309,6 @@ import { Button } from "@/components/ui/button";
     labelZh: "菜单",
     description: "Displays a list of actions in a floating menu.",
     official: "Menu",
-    code: `import {
-  Menu,
-  MenuButton,
-  MenuContainer,
-  MenuItem,
-} from "@/components/ui/menu";
-
-<MenuContainer>
-  <MenuButton>Actions</MenuButton>
-  <Menu width={200}>
-    <MenuItem>Edit Project</MenuItem>
-    <MenuItem>Duplicate Project</MenuItem>
-    <MenuItem type="error">Delete Project</MenuItem>
-  </Menu>
-</MenuContainer>`,
     bestPractices: [
       "Use Menu for a discoverable trigger that opens a list of actions on a single resource (a dots menu on a row, a dropdown on a primary entity).",
       "For right-click or long-press on a row, use ContextMenu. For global commands behind ⌘K, use CommandMenu. For two related primary actions, use a split button rather than burying the secondary action.",
@@ -547,17 +332,6 @@ import { Button } from "@/components/ui/button";
     labelZh: "抽屉",
     description: "Displays content in a separate bottom view from the existing context.",
     official: "Drawer",
-    code: `import { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
-
-<Button onClick={() => setOpen(true)}>Open Drawer</Button>
-<Drawer show={open} onDismiss={() => setOpen(false)}>
-  <div className="p-5">
-      <DrawerTitle>Filter Logs</DrawerTitle>
-      <DrawerDescription>Narrow the logs by environment.</DrawerDescription>
-    <Button type="secondary" onClick={() => setOpen(false)}>Cancel</Button>
-    <Button onClick={applyFilters}>Apply</Button>
-  </div>
-</Drawer>`,
     bestPractices: [
       "Only use Drawer on small viewports. For a desktop side panel that keeps the page interactive, use Sheet; for a blocking decision, use Modal.",
       "Don’t use Drawer to confirm destructive actions. The lack of a fully blocking dim weakens the severity signal that delete and revoke flows need; route to Modal.",
@@ -574,14 +348,6 @@ import { Button } from "@/components/ui/button";
     labelZh: "空状态",
     description: "Fills spaces when no content has been added yet or a view is empty.",
     official: "Empty State",
-    code: `import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
-import { Inbox } from "lucide-react";
-
-<EmptyState
-  icon={<EmptyStateIcon icon={<Inbox />} />}
-  title="No results"
-  description="Clear your filters to see all logs."
-/>`,
     bestPractices: [
       "Pick the variant by what the user needs: no-results for a filtered list that returned zero rows, blank slate or informational for a resource the user hasn’t created, cleared for completed work, error for a failed load.",
       "Render the permission and tier-denial variants full-page when the user lands on a route they can’t view.",
@@ -597,12 +363,6 @@ import { Inbox } from "lucide-react";
     labelZh: "错误",
     description: "Provides a friendly, actionable message when an operation fails.",
     official: "Error",
-    code: `import { Error } from "@/components/ui/error";
-
-<Error>This email address is already in use.</Error>
-
-{/* Pair with aria-invalid and aria-describedby on the field */}
-<Error>Email address is required.</Error>`,
     bestPractices: [
       "Use the Error component as a block surface when a section or page-level resource failed to load: a panel, a dashboard card, a route boundary.",
       "Pick toasts.error() for transient action failures and the error prop on Input for field-level validation. Don't replace either with this block.",
@@ -619,9 +379,6 @@ import { Inbox } from "lucide-react";
     labelZh: "反馈",
     description: "Gathers an emoji rating and open text feedback.",
     official: "Feedback",
-    code: `import { Feedback } from "@/components/ui/feedback";
-
-<Feedback defaultValue="happy" onSubmit={(rating, text) => console.log(rating, text)} />`,
     bestPractices: [
       "Place Feedback at the end of a page, doc, or completed flow where the user has formed an opinion. Don't front-load it on a surface the user has only opened.",
       "Keep the panel collapsed until the user clicks the trigger; auto-opening derails the work that prompted the feedback.",
@@ -637,29 +394,6 @@ import { Inbox } from "lucide-react";
     labelZh: "字段集",
     description: "Groups related form controls into a single semantic unit.",
     official: "Fieldset",
-    code: `import {
-  Fieldset,
-  FieldsetContent,
-  FieldsetFooter,
-  FieldsetFooterAction,
-  FieldsetFooterActions,
-  FieldsetFooterStatus,
-  FieldsetSubtitle,
-  FieldsetTitle,
-} from "@/components/ui/fieldset";
-
-<Fieldset>
-  <FieldsetContent>
-    <FieldsetTitle>Account Settings</FieldsetTitle>
-    <FieldsetSubtitle>Manage your account preferences and settings</FieldsetSubtitle>
-  </FieldsetContent>
-  <FieldsetFooter>
-    <FieldsetFooterStatus>Need help?</FieldsetFooterStatus>
-    <FieldsetFooterActions>
-      <FieldsetFooterAction>Save Changes</FieldsetFooterAction>
-    </FieldsetFooterActions>
-  </FieldsetFooter>
-</Fieldset>`,
     bestPractices: [
       "Use Fieldset for one settings surface with a title, supporting copy, and optional footer status/actions.",
       "Put body content in FieldsetContent and actions in FieldsetFooterActions; don't hand-build an extra card or footer shell.",
@@ -673,21 +407,6 @@ import { Inbox } from "lucide-react";
     labelZh: "栅格",
     description: "Displays elements in a grid layout.",
     official: "Grid",
-    code: `import { Grid, GridItem } from "@/components/ui/grid";
-
-<Grid columns={3} gap="md">
-  <GridItem>1</GridItem>
-  <GridItem>2</GridItem>
-  <GridItem>3</GridItem>
-  <GridItem>4</GridItem>
-  <GridItem>5</GridItem>
-  <GridItem>6</GridItem>
-</Grid>
-
-<Grid columns={12} gap="sm">
-  <GridItem span={6}>Half</GridItem>
-  <GridItem span={6}>Half</GridItem>
-</Grid>`,
     bestPractices: [
       "Use Grid for two-dimensional cell-and-guide layouts in marketing pages, docs landing pages, and feature breakdowns where the rule lines and cell borders are part of the design.",
       "For plain n-column responsive content (cards, lists), use Tailwind grid grid-cols-* utilities directly; Grid is overkill when guides aren't visible.",
@@ -701,26 +420,6 @@ import { Inbox } from "lucide-react";
     labelZh: "文件树",
     description: "Displays a hierarchical directory structure with expandable folders and files.",
     official: "File Tree",
-    code: `import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@/components/ui/file-tree";
-
-<FileTree>
-  <FileTreeItem>
-    <FileTreeIcon type="folder-open" />
-    <FileTreeLabel>app</FileTreeLabel>
-    <FileTreeItem>
-      <FileTreeIcon type="file" />
-      <FileTreeLabel>main.tsx</FileTreeLabel>
-    </FileTreeItem>
-    <FileTreeItem>
-      <FileTreeIcon type="file" />
-      <FileTreeLabel>dashboard.tsx</FileTreeLabel>
-    </FileTreeItem>
-  </FileTreeItem>
-  <FileTreeItem>
-    <FileTreeIcon type="folder" />
-    <FileTreeLabel>public</FileTreeLabel>
-  </FileTreeItem>
-</FileTree>`,
   },
   {
     name: "gauge",
@@ -728,11 +427,6 @@ import { Inbox } from "lucide-react";
     labelZh: "仪表",
     description: "A circular visual for conveying a percentage.",
     official: "Gauge",
-    code: `import { Gauge } from "@/components/ui/gauge";
-
-<Gauge value={50} size="small" />
-<Gauge value={65} size="medium" />
-<Gauge value={80} size="large" />`,
     bestPractices: [
       "A 0–100 ratio against a fixed maximum where the comparison is the point, like quota usage, build cache hit rate, uptime, or billing-period consumption.",
       "For determinate task progress with a known total (uploads, multi-step setup), use Progress.",
@@ -748,10 +442,6 @@ import { Inbox } from "lucide-react";
     labelZh: "输入框",
     description: "A single-line text field for user input.",
     official: "Input",
-    code: `import { Input } from "@/components/ui/input";
-
-<Input placeholder="Name" />
-<Input placeholder="Disabled" disabled />`,
     bestPractices: [
       "Pick <Input> for a single line of free-form text such as names, domains, or tokens.",
       "Switch to Textarea the moment content can wrap to multiple lines.",
@@ -776,11 +466,6 @@ import { Inbox } from "lucide-react";
     labelZh: "JSON 查看器",
     description: "Renders JSON as a syntax-highlighted tree.",
     official: "JsonView",
-    code: `import { JsonView } from "@/components/ui/json-view";
-
-const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
-
-<JsonView data={data} />`,
     bestPractices: [
       "Use JSON View for JSON objects or arrays that users need to inspect, scan, collapse, expand, select, or copy.",
       "Use a regular code block when the value is static documentation, not an interactive product surface.",
@@ -793,14 +478,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "键盘输入",
     description: "Displays keyboard input that triggers an action.",
     official: "Keyboard Input",
-    code: `import { Kbd } from "@/components/ui/keyboard-input";
-
-<Kbd meta />
-<Kbd shift />
-<Kbd alt />
-<Kbd ctrl />
-<Kbd meta shift />
-<Kbd small>/</Kbd>`,
     bestPractices: [
       "Use Kbd for shortcut hints inside prose, menu items, and button suffixes. In long-form docs that narrate a shortcut, write the ⌘ K shortcut directly so the page renders the same when copied to plain text.",
       "Pass modifiers via boolean props (meta, shift, alt, ctrl) so the component swaps ⌘ for Ctrl on Windows and Linux.",
@@ -815,9 +492,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "加载圆点",
     description: "Indicates an action running in the background with three bouncing dots.",
     official: "Loading Dots",
-    code: `import { LoadingDots } from "@/components/ui/loading-dots";
-
-<LoadingDots />`,
     bestPractices: [
       "Use Loading Dots embedded in copy for short indeterminate waits, e.g. Saving<LoadingDots /> or Building<LoadingDots />.",
       "For buttons, set the loading prop on Button instead of dropping dots inside the label.",
@@ -835,10 +509,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "标签",
     description: "Accessible text label for form controls.",
     official: "Label",
-    code: `import { Label } from "@/components/ui/label";
-
-<Label id="email" value="Email Address" />
-<Input id="email" placeholder="Enter email address..." />`,
     bestPractices: [
       "Use Label to associate a visible text label with a form control so screen readers announce the field name.",
       "Match the label to the control via htmlFor and the control's id so clicking the label focuses the field.",
@@ -851,10 +521,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "加载更多按钮",
     description: "A full-width button that appends more items to a paginated list.",
     official: "Load More Button",
-    code: `import { LoadMoreButton } from "@/components/ui/load-more-button";
-
-<LoadMoreButton>Load More</LoadMoreButton>
-<LoadMoreButton loading>Loading...</LoadMoreButton>`,
   },
   {
     name: "modal",
@@ -862,7 +528,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "模态框",
     description: "Displays a dialog that interrupts the user.",
     official: "Modal",
-    code: `import { Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalDescription, ModalFooter, ModalClose } from "@/components/ui/modal";\n\n<Modal>\n  <ModalTrigger asChild>\n    <Button>Open Modal</Button>\n  </ModalTrigger>\n  <ModalContent>\n    <ModalHeader>\n      <ModalTitle>Delete Project</ModalTitle>\n      <ModalDescription>This action cannot be undone.</ModalDescription>\n    </ModalHeader>\n    <ModalFooter>\n      <ModalClose asChild>\n        <Button type="secondary">Cancel</Button>\n      </ModalClose>\n      <Button type="error">Delete</Button>\n    </ModalFooter>\n  </ModalContent>\n</Modal>`,
     bestPractices: [
       "Use Modal when a decision must block the rest of the page. For persistent associated context where the underlying page stays readable, use Sheet on desktop or Drawer on mobile.",
       "Confirm destructive actions in a Modal. Drawer and Sheet don't fully dim the page, so they read as too soft for a delete or revoke.",
@@ -888,12 +553,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "注释",
     description: "Displays text that requires attention or provides additional information.",
     official: "Note",
-    code: `import { Note } from "@/components/ui/note";
-
-<Note>Changing this region restarts all functions.</Note>
-<Note variant="success">Deployment succeeded.</Note>
-<Note variant="warning">Your plan has a usage limit.</Note>
-<Note variant="error">The API key is invalid.</Note>`,
     bestPractices: [
       "Use a Note for inline contextual feedback next to the field, card, or section it describes: a region change warning above a region picker, a rate-limit notice next to a usage gauge.",
       "Pick Banner when the message is page-level or system-wide and needs a CTA, Toast for transient acknowledgments, Modal for destructive confirmations.",
@@ -909,12 +568,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "分页",
     description: "Navigates through numbered pages of a data set.",
     official: "Pagination",
-    code: `import { Pagination } from "@/components/ui/pagination";
-
-<Pagination
-  previous={{ title: "Avatar", href: "/components/avatar" }}
-  next={{ title: "Phone", href: "/components/phone" }}
-/>`,
     bestPractices: [
       "Use Pagination for sequential navigation between sibling pages (docs articles, blog posts, onboarding steps). For revealing more rows of the same data set, use Show More or a numbered pager.",
       "Use Pagination as a previous/next document rail; use a data-table-specific pager when users must jump to numbered pages.",
@@ -929,11 +582,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "手机外框",
     description: "Frames mobile screenshots inside a realistic phone shell.",
     official: "Phone",
-    code: `import { Phone, PhoneScreen } from "@/components/ui/phone";
-
-<Phone>
-  <PhoneScreen>Mobile screenshot or demo content</PhoneScreen>
-</Phone>`,
     bestPractices: [
       "Use Phone as marketing chrome around mobile screenshots, recordings, and demo images on landing pages and docs.",
       "Don't render live mobile product UI inside the frame; the chrome implies a captured screen, not an interactive surface.",
@@ -946,11 +594,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "胶囊标签",
     description: "Clickable filter chip for toggling a query or selection.",
     official: "Pill",
-    code: `import { Pill } from "@/components/ui/pill";
-
-<Pill variant="active">Active</Pill>
-<Pill onClick={() => {}}>Inactive</Pill>
-<Pill>Pending</Pill>`,
     bestPractices: [
       "Use Pill for clickable filter chips that toggle a query; for a static status label use Badge instead.",
       'Pass variant="active" to highlight the currently selected filter so sighted users see the active state without color alone.',
@@ -963,11 +606,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "进度条",
     description: "Shows progress relative to a limit or a task.",
     official: "Progress",
-    code: `import { Progress } from "@/components/ui/progress";
-
-<Progress value={30} />
-<Progress value={60} />
-<Progress value={90} />`,
     bestPractices: [
       "Determinate work whose total is knowable, like file uploads, multi-step setup, build steps, or batch deletions.",
       "For short indeterminate waits (~1–3s), use Spinner; for inline copy like Saving, use Loading Dots.",
@@ -981,19 +619,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "项目横幅",
     description: "Used for temporary, project-wide notifications that require resolution.",
     official: "Project Banner",
-    code: `import {
-  ProjectBanner,
-  ProjectBannerClose,
-  ProjectBannerContent,
-} from "@/components/ui/project-banner";
-
-<ProjectBanner>
-  <ProjectBannerContent>
-    <span>Attack Challenge Mode is enabled for this project</span>
-    <a href="#">Disable</a>
-  </ProjectBannerContent>
-  <ProjectBannerClose />
-</ProjectBanner>`,
     bestPractices: [
       "Use Project Banner for project-wide states that need resolution: overdue billing, an active rollback, attack mitigation, an expiring trial blocking deploys.",
       "Pick Note for inline contextual messages tied to a single field or card, Toast for transient acknowledgments, Modal for confirmations.",
@@ -1010,12 +635,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "单选按钮",
     description: "Provides single user input from a selection of options.",
     official: "Radio",
-    code: `import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
-
-<RadioGroup label="Deployment Region" name="deployment-region" defaultValue="one">
-  <RadioGroupItem value="one">Option 1</RadioGroupItem>
-  <RadioGroupItem value="two">Option 2</RadioGroupItem>
-</RadioGroup>`,
     bestPractices: [
       "A single choice from 2–6 mutually exclusive options where seeing every option matters (deploy regions, plan tiers, billing cycle).",
       "Past 6 options, switch to Select or Combobox so the list doesn't dominate the form.",
@@ -1031,14 +650,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "滚动容器",
     description: "Displays an overflowing list of items.",
     official: "Scroller",
-    code: `import { Scroller } from "@/components/ui/scroller";
-
-<Scroller className="max-w-md">
-  <div className="h-24 w-48 shrink-0 rounded-md bg-gray-alpha-200" />
-  <div className="h-24 w-48 shrink-0 rounded-md bg-gray-alpha-200" />
-  <div className="h-24 w-48 shrink-0 rounded-md bg-gray-alpha-200" />
-  <div className="h-24 w-48 shrink-0 rounded-md bg-gray-alpha-200" />
-</Scroller>`,
     bestPractices: [
       "Use Scroller for an overflowing list of peer items along a single axis: chip rows, log streams, code snippets, command palettes.",
       "Pick vertical for stacked feeds, horizontal for chip and tile rails, free only when content genuinely scrolls in both directions.",
@@ -1053,13 +664,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "分段选择",
     description: "A slider group for mutually exclusive view options.",
     official: "Switch",
-    code: `import { Switch, SwitchControl } from "@/components/ui/switch";
-
-<Switch name="editor-view" defaultValue="preview">
-  <SwitchControl defaultChecked value="preview" label="Preview" />
-  <SwitchControl value="code" label="Code" />
-  <SwitchControl value="split" label="Split" />
-</Switch>`,
     bestPractices: [
       "Use Switch as a segmented selector for 2–3 mutually exclusive options that show different views of the same surface, like Source vs Output.",
       "For a boolean on/off setting, use Toggle. Switch implements radio semantics, so two options stay mutually exclusive rather than reading as a checkbox.",
@@ -1078,24 +682,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "侧边面板",
     description: "Displays content in a side panel that slides in from the edge of the screen.",
     official: "Sheet",
-    code: `import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from "@/components/ui/sheet";
-
-<Sheet>
-  <SheetTrigger asChild>
-    <Button>Open Sheet</Button>
-  </SheetTrigger>
-  <SheetContent>
-    <SheetHeader>
-      <SheetTitle>Deployment Details</SheetTitle>
-      <SheetDescription>Inspect the latest production deployment.</SheetDescription>
-    </SheetHeader>
-    <SheetFooter>
-      <SheetClose asChild>
-        <Button type="secondary">Close</Button>
-      </SheetClose>
-    </SheetFooter>
-  </SheetContent>
-</Sheet>`,
     bestPractices: [
       "Use Sheet for persistent associated context like deployment details, log row inspection, or a member profile, where the underlying page stays useful.",
       "For a blocking decision, use Modal. For a mobile-only bottom sheet, use Drawer.",
@@ -1114,13 +700,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "下拉选择器",
     description: "Presents a list of options in a dropdown.",
     official: "Select",
-    code: `import { Select } from "@/components/ui/select";
-
-<Select className="w-56" defaultValue="vercel" aria-label="Select a project">
-  <option value="vercel">Vercel</option>
-  <option value="nextjs">Next.js</option>
-  <option value="turbo">Turborepo</option>
-</Select>`,
     bestPractices: [
       "Pick <Select> for short, fixed lists (under ~10 items) where typing adds nothing; switch to Combobox once filtering helps.",
       "Use MultiSelect when more than one value can be chosen at once; use Switch for a 2–3 option segmented choice.",
@@ -1138,15 +717,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "分隔线",
     description: "Divides content into visually distinct groups.",
     official: "Separator",
-    code: `import { Separator } from "@/components/ui/separator";
-
-<Separator />
-
-<div className="flex h-10 items-center gap-3">
-  <span>Left</span>
-  <Separator orientation="vertical" />
-  <span>Right</span>
-</div>`,
     bestPractices: [
       "Use Separator to divide content into visually distinct groups, like between sections of a list or menu items.",
       "Horizontal separators span the full width of their container; vertical ones fill the available height of a flex row.",
@@ -1160,13 +730,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "显示更多",
     description: "Shows expanded or collapsed content with a progressive-disclosure trigger.",
     official: "Show More",
-    code: `import { ShowMore } from "@/components/ui/show-more";
-
-<ShowMore
-  preview="A short preview of the content…"
->
-  The full content revealed after clicking Show more.
-</ShowMore>`,
     bestPractices: [
       "Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.",
       "Show enough rows to convey the shape of the list before truncating (5–10 typical). Truncating at 2 makes the affordance feel performative.",
@@ -1182,9 +745,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "骨架屏",
     description: "Displays a placeholder while content is loading.",
     official: "Skeleton",
-    code: `import { Skeleton } from "@/components/ui/skeleton";
-
-<Skeleton className="h-4 w-32" />`,
     bestPractices: [
       "Show a Skeleton when async data fills a known layout: table rows, card grids, profile blocks, sidebars.",
       "For a single in-flight action, use Spinner; for known progress, use Progress.",
@@ -1199,12 +759,6 @@ const data = { deployment: { id: "dpl_1", state: "ready" }, cached: false };
     labelZh: "滑块",
     description: "An input to select a value from a given range.",
     official: "Slider",
-    code: `import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
-
-const [value, setValue] = useState([50]);
-
-<Slider value={value} onValueChange={setValue} aria-label="Volume" />`,
     bestPractices: [
       "Use a slider for ranged numeric input where shape and proximity matter more than precision: bandwidth caps, opacity, audio volume, color channels.",
       "For exact values like a port number or memory limit, pair the slider with a numeric Input; keyboard users default to typing.",
@@ -1219,10 +773,6 @@ const [value, setValue] = useState([50]);
     labelZh: "代码片段",
     description: "Displays a runnable shell command or short code the user is meant to copy.",
     official: "Snippet",
-    code: `import { Snippet } from "@/components/ui/snippet";
-
-<Snippet text="npm i geist" />
-<Snippet text="vercel link" />`,
     bestPractices: [
       "Use Snippet for a runnable shell command the user is meant to copy. For inline tokens (env var names, paths) use InlineCode, and for multi-line source use CodeBlock.",
       "Pass the command as text. The component renders any prompt itself; keep the copied payload in sync with what the user sees.",
@@ -1236,11 +786,6 @@ const [value, setValue] = useState([50]);
     labelZh: "加载指示器",
     description: "Indicates an in-progress operation.",
     official: "Spinner",
-    code: `import { Spinner } from "@/components/ui/spinner";
-
-<Spinner />
-<Spinner size="small" />
-<Spinner size="large" />`,
     bestPractices: [
       "Use Spinner for a single in-flight action or indeterminate wait where there’s no known progress to show.",
       "For a known duration or percentage, use Progress instead of a spinner.",
@@ -1254,12 +799,6 @@ const [value, setValue] = useState([50]);
     labelZh: "状态圆点",
     description: "Displays an indicator of deployment status.",
     official: "Status Dot",
-    code: `import { StatusDot } from "@/components/ui/status-dot";
-
-<StatusDot state="QUEUED" label />
-<StatusDot state="BUILDING" label />
-<StatusDot state="READY" label />
-<StatusDot state="ERROR" label />`,
     bestPractices: [
       "Use Status Dot only for deployment lifecycle states: QUEUED | BUILDING | READY | ERROR | CANCELED | DELETED.",
       "For non-deployment statuses (Workflow runs, Queue messages, Sandbox, Cron jobs), use a Badge with the canonical state vocabulary instead of repurposing the dot.",
@@ -1274,13 +813,6 @@ const [value, setValue] = useState([50]);
     labelZh: "步骤指示点",
     description: "Marks progress through a multi-step flow.",
     official: "StepPoint",
-    code: `import { StepPoint } from "@/components/ui/step-point";
-
-<ul>
-  <StepPoint status="done">Submitted</StepPoint>
-  <StepPoint status="active">Under review</StepPoint>
-  <StepPoint status="idle">Approved</StepPoint>
-</ul>`,
   },
   {
     name: "table",
@@ -1288,39 +820,6 @@ const [value, setValue] = useState([50]);
     labelZh: "表格",
     description: "Displays structured data in rows and columns.",
     official: "Table",
-    code: `import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  TableRoot,
-} from "@/components/ui/table";
-
-<TableRoot>
-  <Table>
-    <TableHeader>
-      <TableRow>
-        <TableHead>Col 1</TableHead>
-        <TableHead>Col 2</TableHead>
-        <TableHead>Col 3</TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      <TableRow>
-        <TableCell>Value 1.1</TableCell>
-        <TableCell>Value 1.2</TableCell>
-        <TableCell>Value 1.3</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell>Value 2.1</TableCell>
-        <TableCell>Value 2.2</TableCell>
-        <TableCell>Value 2.3</TableCell>
-      </TableRow>
-    </TableBody>
-  </Table>
-</TableRoot>`,
     bestPractices: [
       "Use <Table> for tabular data where rows share the same shape and at least one column is sortable or comparable across rows.",
       "For a row of descriptive content paired with a single action (membership row, integration row), use Entity instead.",
@@ -1340,18 +839,6 @@ const [value, setValue] = useState([50]);
     labelZh: "标签页",
     description: "Organizes content into switchable panels.",
     official: "Tabs",
-    code: `import { Tabs } from "@/components/ui/tabs";
-
-<Tabs
-  tabs={[
-    { value: "overview", title: "Overview" },
-    { value: "usage", title: "Usage" },
-    { value: "api", title: "API" },
-  ]}
-  selected={tab}
-  setSelected={setTab}
-  ariaLabel="Component documentation"
-/>`,
     bestPractices: [
       "Use Tabs to switch between sibling views inside a single page (Overview, Logs, Settings).",
       "For navigation between unrelated pages, use a sub-menu, not Tabs. Tabs imply the views share scope, URL parent, and data model.",
@@ -1373,9 +860,6 @@ const [value, setValue] = useState([50]);
     labelZh: "带复制按钮的文本",
     description: "Displays text alongside a button that copies it to the clipboard.",
     official: "Text With Copy Button",
-    code: `import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
-
-<TextWithCopyButton textToCopy="npm i geist" textLabel="npm i geist" />`,
   },
   {
     name: "textarea",
@@ -1383,10 +867,6 @@ const [value, setValue] = useState([50]);
     labelZh: "多行文本域",
     description: "A multi-line text field for longer input.",
     official: "Textarea",
-    code: `import { Textarea } from "@/components/ui/textarea";
-
-<Textarea placeholder="Describe your project" />
-<Textarea placeholder="Disabled" disabled />`,
     bestPractices: [
       "Pick <Textarea> for content that wraps to multiple lines (commit messages, descriptions, notes); use Input for a single value like a name or domain.",
       "Set a generous default rows and grow only when the surface has vertical room; don’t let the field push primary actions below the fold.",
@@ -1403,20 +883,6 @@ const [value, setValue] = useState([50]);
     labelZh: "轻提示",
     description: "A succinct message that is displayed temporarily.",
     official: "Toast",
-    code: `import { Button } from "@/components/ui/button";
-import { Toasts, useToasts } from "@/components/ui/toast";
-
-function Example() {
-  const toasts = useToasts();
-  return (
-    <>
-      <Button onClick={() => toasts.message({ text: "Project deleted" })}>
-        Show Toast
-      </Button>
-      <Toasts />
-    </>
-  );
-}`,
     bestPractices: [
       "Use a toast for non-blocking acknowledgments of user-initiated actions: Domain added, Project archived, Deployment canceled.",
       "Don’t use a toast alone for billing failures, permission denials, or build failures the user has to triage. Pair a ≤6-word toast (Build failed) with a persistent row carrying the recovery step.",
@@ -1435,9 +901,6 @@ function Example() {
     labelZh: "开关",
     description: "A switch for a single boolean setting.",
     official: "Toggle",
-    code: `import { Toggle } from "@/components/ui/toggle";
-
-<Toggle checked={enabled} onCheckedChange={setEnabled} aria-label="Enable Firewall" />`,
     bestPractices: [
       "Use Toggle for a single boolean setting where ON takes effect immediately, like Password Protection or Auto-Cancel Builds. Switch to Checkbox for a multi-select list, or to Switch for 2–3 mutually exclusive views.",
       "checked is required and the component is controlled. Own the state and update it from onChange.",
@@ -1456,11 +919,6 @@ function Example() {
     labelZh: "工具提示",
     description: "A floating label that appears on hover or focus.",
     official: "Tooltip",
-    code: `import { Tooltip } from "@/components/ui/tooltip";
-
-<Tooltip text="The Evil Rabbit Jumped over the Fence">
-  <span>Hover me</span>
-</Tooltip>`,
     bestPractices: [
       "Use a Tooltip to explain why something exists, not what it is. The visible label names the thing; the tooltip adds the constraint, scope, or limit.",
       "Tooltips open on hover and on keyboard focus. Keep the default ~150ms entry delay so the tooltip doesn’t flicker on a sweeping mouse.",
@@ -1478,9 +936,6 @@ function Example() {
     labelZh: "主题切换器",
     description: "Switches between light, dark, and system themes.",
     official: "Theme Switcher",
-    code: `import { ThemeSwitcher } from "@/components/ui/theme-switcher";
-
-<ThemeSwitcher />`,
     bestPractices: [
       "Use Theme Switcher for the canonical Light / System / Dark control. Place it once per app, in the footer or settings, not duplicated across pages.",
       "Pass small for dense chrome (footers, dropdowns); use the default size on a settings page where there’s room for the labels to breathe.",
@@ -1496,9 +951,6 @@ function Example() {
     labelZh: "视频",
     description: "Embeds a video with built-in playback controls.",
     official: "Video",
-    code: `import { Video } from "@/components/ui/video";
-
-<Video width={600} height={582} lazy={false} src="/demo.mp4" />`,
     bestPractices: [
       "Use Video to embed clips with built-in playback controls and lazy loading support.",
       "Lock the inner video aspect ratio so the container doesn't reflow while media loads.",
@@ -1512,10 +964,6 @@ function Example() {
     description:
       "A text input with an inline Esc keycap that clears on pointer activation or Escape.",
     official: "Clearable Input",
-    code: `import { ClearableInput } from "@/components/ui/clearable-input";
-
-<ClearableInput label="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
-<ClearableInput aria-label="Search" cmdk value={query} onChange={(event) => setQuery(event.target.value)} />`,
     bestPractices: [
       "Use Clearable Input for search, filter, and short query fields where resetting the current value is frequent.",
       "Associate visible labels with the native input, and keep Escape clearing available from the input itself.",
@@ -1527,15 +975,6 @@ function Example() {
     labelZh: "组合框",
     description: "A searchable single-select list.",
     official: "Combobox",
-    code: `import { Combobox, ComboboxContent, ComboboxItem, ComboboxTrigger } from "@/components/ui/combobox";
-
-<Combobox defaultValue="nextjs" placeholder="Select a framework">
-  <ComboboxTrigger />
-  <ComboboxContent>
-    <ComboboxItem value="nextjs">Next.js</ComboboxItem>
-    <ComboboxItem value="react">React</ComboboxItem>
-  </ComboboxContent>
-</Combobox>`,
     bestPractices: [
       "Use Combobox when filtering materially helps users find one option; use Select for short fixed lists.",
       "Keep the selected value and search query distinct so reopening the list does not erase the selection.",
@@ -1547,14 +986,6 @@ function Example() {
     labelZh: "实体",
     description: "A structured row for an entity and its primary action.",
     official: "Entity",
-    code: `import { Entity, EntityContent, EntityDescription, EntityTitle } from "@/components/ui/entity";
-
-<Entity>
-  <EntityContent>
-    <EntityTitle>Evil Rabbit</EntityTitle>
-    <EntityDescription>evilrabbit@example.com</EntityDescription>
-  </EntityContent>
-</Entity>`,
     bestPractices: [
       "Use Entity for one descriptive object with one primary row action; use Table when rows share comparable columns.",
       "Keep media, content, and actions in stable columns so loading and selected states do not shift the row.",
@@ -1566,12 +997,6 @@ function Example() {
     labelZh: "错误卡片",
     description: "A contained error state with recovery guidance.",
     official: "Error Card",
-    code: `import { ErrorCard, ErrorCardDescription, ErrorCardTitle } from "@/components/ui/error-card";
-
-<ErrorCard>
-  <ErrorCardTitle>No Credits Left</ErrorCardTitle>
-  <ErrorCardDescription>Add credits to continue.</ErrorCardDescription>
-</ErrorCard>`,
     bestPractices: [
       "Use Error Card when a bounded panel cannot render; use field errors for validation and Toast for transient action failures.",
       "State what failed and provide a concrete recovery action rather than a generic Try again message.",
@@ -1583,9 +1008,6 @@ function Example() {
     labelZh: "中间截断",
     description: "Preserves the beginning and end of long identifiers.",
     official: "Middle Truncate",
-    code: `import { MiddleTruncate } from "@/components/ui/middle-truncate";
-
-<MiddleTruncate value="https://example.com/very/long/path/deployment-id" />`,
     bestPractices: [
       "Use Middle Truncate for paths, URLs, hashes, and identifiers where both prefix and suffix carry meaning.",
       "Expose the full value through title or adjacent copy affordance; truncation must not destroy access to the source value.",
@@ -1597,30 +1019,6 @@ function Example() {
     labelZh: "多选",
     description: "A filterable list that supports multiple selections.",
     official: "Multi Select",
-    code: `import {
-  MultiSelectContent,
-  MultiSelectRoot,
-  MultiSelectRow,
-  MultiSelectTrigger,
-} from "@/components/ui/multi-select";
-
-<MultiSelectRoot>
-  <MultiSelectTrigger>{selected.length} selected</MultiSelectTrigger>
-  <MultiSelectContent>
-    {options.map((name) => (
-      <MultiSelectRow
-        key={name}
-        name={name}
-        checked={selected.includes(name)}
-        selectedCount={selected.length}
-        totalCount={options.length}
-        onChange={() => toggle(name)}
-        onSelectOnly={() => setSelected([name])}
-        onSelectAll={() => setSelected(options)}
-      />
-    ))}
-  </MultiSelectContent>
-</MultiSelectRoot>`,
     bestPractices: [
       "Use Multi Select only when more than one option may be active; use Combobox for searchable single selection.",
       "Keep the trigger summary concise and expose the full selection list inside the open control.",
@@ -1632,9 +1030,6 @@ function Example() {
     labelZh: "相对时间卡片",
     description: "Shows a relative timestamp with temporal context.",
     official: "Relative Time Card",
-    code: `import { RelativeTimeCard } from "@/components/ui/relative-time-card";
-
-<RelativeTimeCard date={Date.now()} />`,
     bestPractices: [
       "Use relative time for recent activity and expose the exact timestamp when users hover or focus.",
       "Switch to an absolute date once relative wording stops helping users compare events.",
@@ -1646,9 +1041,6 @@ function Example() {
     labelZh: "搜索框",
     description: "A search field with a standard leading icon.",
     official: "Search Input",
-    code: `import { SearchInput } from "@/components/ui/search-input";
-
-<SearchInput placeholder="Search projects" aria-label="Search projects" />`,
     bestPractices: [
       "Use Search Input for query-driven filtering, not for ordinary form text entry.",
       "Provide a visible label or an equivalent accessible name and preserve the query while results update.",
@@ -1660,15 +1052,6 @@ function Example() {
     labelZh: "拆分按钮",
     description: "Combines a primary action with a short menu of related actions.",
     official: "Split Button",
-    code: `import { SplitButton, SplitButtonMain, SplitButtonMenu } from "@/components/ui/split-button";
-import { MenuItem } from "@/components/ui/menu";
-
-<SplitButton>
-  <SplitButtonMain>Deploy Project</SplitButtonMain>
-  <SplitButtonMenu>
-    <MenuItem>Deploy to Preview</MenuItem>
-  </SplitButtonMenu>
-</SplitButton>`,
     bestPractices: [
       "Keep the most common action on the main button and limit the menu to closely related variants.",
       "Label the menu button with the target and purpose, not the chevron icon.",

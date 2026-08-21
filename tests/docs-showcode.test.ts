@@ -51,7 +51,7 @@ describe("docs Show code footer", () => {
       expect(src).toMatch(new RegExp(`return <${demo} />;`));
     }
     expect(src).toMatch(/function renderDemo\(name: string\)/);
-    expect(src.match(/renderDemo\(name\)/g)).toHaveLength(3);
+    expect(src.match(/renderDemo\(name\)/g)).toHaveLength(1);
     // 每个 demo 函数用 demoCode 查 DEMO_CODE（区块独立源码），不再统一传 meta.code
     expect(
       src.match(/const demoCode = \(id: string\) => DEMO_CODE/g)?.length,

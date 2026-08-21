@@ -18,14 +18,14 @@
 
 export const DEMO_CODE_SPLIT_BATCH9: Record<string, Record<string, string>> = {
   description: {
-    Default: `import { Description } from "@/components/ui/description";
+    default: `import { Description } from "@/components/ui/description";
 
 <Description
   content="Data about this section."
   title="Section Title"
   tooltip="Additional context about what this section refers to."
 />`,
-    "Text right": `import { Description } from "@/components/ui/description";
+    "text-right": `import { Description } from "@/components/ui/description";
 
 <Description
   content="Data about this section."
@@ -33,7 +33,7 @@ export const DEMO_CODE_SPLIT_BATCH9: Record<string, Record<string, string>> = {
   title="Section Title"
   tooltip="Additional context about what this section refers to."
 />`,
-    Ellipsis: `import { Description } from "@/components/ui/description";
+    ellipsis: `import { Description } from "@/components/ui/description";
 
 <Description
   content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sed venenatis libero. Phasellus consectetur turpis ac est pulvinar finibus. Mauris non tellus pretium, vehicula lectus sed, iaculis ex. Integer eu aliquet turpis. Cras sem nulla, commodo ut libero id, suscipit pulvinar lorem."

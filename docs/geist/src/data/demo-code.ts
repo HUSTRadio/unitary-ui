@@ -22,6 +22,7 @@ import { DEMO_CODE_BATCH8 } from "./demo-code-batch8";
 import { DEMO_CODE_SECTION_BATCH1 } from "./demo-code-section-batch1";
 import { DEMO_CODE_SECTION_BATCH2 } from "./demo-code-section-batch2";
 import { DEMO_CODE_SECTION_BATCH3 } from "./demo-code-section-batch3";
+import { DEMO_CODE_SECTION_BATCH4 } from "./demo-code-section-batch4";
 import { DEMO_CODE_DIRECT } from "./demo-code-direct";
 import { DEMO_CODE_FINAL } from "./demo-code-final";
 import { DEMO_CODE_SPLIT_BATCH1 } from "./demo-code-split-batch1";
@@ -132,3 +133,9 @@ const maxDate = new Date(now.getFullYear(), now.getMonth() + 2, now.getDate());
   ...DEMO_CODE_SPLIT_BATCH13,
   ...DEMO_CODE_SPLIT_BATCH14,
 };
+
+// batch4 的 Section 代码与已有组件对象**并入**（不覆盖 demo 卡代码）：
+// 先展开同 slug 的既有键，再覆盖 batch4 的 section 键。
+for (const [slug, blocks] of Object.entries(DEMO_CODE_SECTION_BATCH4)) {
+  DEMO_CODE[slug] = { ...DEMO_CODE[slug], ...blocks };
+}

@@ -40,6 +40,8 @@ describe("Context Card visual parity contract", () => {
   test("Show code toggle is wired with real code content", () => {
     expect(docsSource).toContain("setShowCode");
     expect(docsSource).toContain("aria-controls={codeId}");
-    expect(docsSource).toContain("DEFAULT_DEMO_CODE");
+    // Show code 内容来自 DEMO_CODE 查询（demoCode("default")），不再使用内联常量
+    expect(docsSource).toContain('demoCode("default")');
+    expect(docsSource).toContain('DEMO_CODE["context-card"]');
   });
 });

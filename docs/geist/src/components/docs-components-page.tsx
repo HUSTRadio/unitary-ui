@@ -217,14 +217,6 @@ import { type DocsLanguage, useLanguage } from "../i18n/language";
 
 /* ---------- 代码块 ---------- */
 
-function CodeBlock({ code, label, language }: { code: string; label: string; language?: string }) {
-  return (
-    <CodeBlockComponent language={language} filename={label}>
-      {code}
-    </CodeBlockComponent>
-  );
-}
-
 /* ---------- Demo 容器 ---------- */
 
 function DemoSection({ children }: { children: React.ReactNode }) {
@@ -2166,30 +2158,39 @@ function StepPointDemo() {
 }
 
 function TableDemo() {
+  const demoCode = (id: string) => DEMO_CODE["table"]?.[id] ?? "";
   const basicData = [
     { c1: "Value 1.1", c2: "Value 1.2", c3: "Value 1.3" },
     { c1: "Value 2.1", c2: "Value 2.2", c3: "Value 2.3" },
     { c1: "Value 3.1", c2: "Value 3.2", c3: "Value 3.3" },
   ];
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Col 1</TableHead>
-          <TableHead>Col 2</TableHead>
-          <TableHead>Col 3</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {basicData.map((row) => (
-          <TableRow key={row.c1}>
-            <TableCell>{row.c1}</TableCell>
-            <TableCell>{row.c2}</TableCell>
-            <TableCell>{row.c3}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <div
+      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="Default"
+    >
+      <div className="w-full p-6" data-demo-container="Default">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Col 1</TableHead>
+              <TableHead>Col 2</TableHead>
+              <TableHead>Col 3</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {basicData.map((row) => (
+              <TableRow key={row.c1}>
+                <TableCell>{row.c1}</TableCell>
+                <TableCell>{row.c2}</TableCell>
+                <TableCell>{row.c3}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      <ShowCodeFooter code={demoCode("Default")} />
+    </div>
   );
 }
 
@@ -4416,52 +4417,6 @@ function TextWithCopyButtonDemo() {
   );
 }
 
-const DEFAULT_DEMO_CODE = `const card = (
-  <ContextCard>
-    <ContextCardHeader>
-      <div className="size-8 shrink-0 rounded-full bg-gray-400" aria-hidden />
-      <div>
-        <ContextCardTitle>Acme Inc.</ContextCardTitle>
-        <ContextCardDescription>@acme · San Francisco</ContextCardDescription>
-      </div>
-    </ContextCardHeader>
-    <ContextCardBody>
-      <p className="text-copy-13 text-muted-foreground">Last Active: 2h ago</p>
-      <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
-    </ContextCardBody>
-    <ContextCardFooter>
-      <Button type="secondary" size="small">{demoText(language, "View Project")}</Button>
-    </ContextCardFooter>
-  </ContextCard>
-);
-
-{(["Top", "Bottom", "Left", "Right"] as const).map((label) => (
-  <ContextCardTrigger key={label} content={card} side={label.toLowerCase()}>
-    <span className="text-label-14 text-foreground">{label}</span>
-  </ContextCardTrigger>
-))}`;
-
-const ALIGNMENT_DEMO_CODE = `{(["Start", "Center", "End"] as const).map((label) => (
-  <ContextCardTrigger
-    key={label}
-    content={card}
-    align={label.toLowerCase()}
-    render={<Button>{label}</Button>}
-  >
-    {null}
-  </ContextCardTrigger>
-))}`;
-
-const RENDER_PROP_DEMO_CODE = `<ContextCardTrigger content={card} render={<Button>Default wrapper</Button>}>
-  {null}
-</ContextCardTrigger>
-
-<ContextCardTrigger
-  content={card}
-  render={<a href="#" className="text-blue-700 underline underline-offset-2">Rendered as a link</a>}
->
-  {null}
-</ContextCardTrigger>`;
 
 function ContextCardDemoCard({
   id,
@@ -4488,6 +4443,7 @@ function ContextCardDemoCard({
 }
 
 function ContextCardDemo() {
+  const demoCode = (id: string) => DEMO_CODE["context-card"]?.[id] ?? "";
   const { language } = useLanguage();
   const card = (
     <ContextCard>
@@ -4520,7 +4476,7 @@ function ContextCardDemo() {
     <div className="flex w-full flex-col gap-6">
       {demo(
         "default",
-        DEFAULT_DEMO_CODE,
+        demoCode("default"),
         <div className="flex flex-wrap items-center justify-around gap-6">
           {(["Top", "Bottom", "Left", "Right"] as const).map((label) => (
             <ContextCardTrigger
@@ -4535,7 +4491,7 @@ function ContextCardDemo() {
       )}
       {demo(
         "alignment",
-        ALIGNMENT_DEMO_CODE,
+        demoCode("alignment"),
         <div className="flex flex-wrap items-center gap-3">
           {(["Start", "Center", "End"] as const).map((label) => (
             <ContextCardTrigger
@@ -4555,7 +4511,7 @@ function ContextCardDemo() {
       )}
       {demo(
         "render-prop",
-        RENDER_PROP_DEMO_CODE,
+        demoCode("render-prop"),
         <div className="flex flex-wrap items-center gap-3">
           <ContextCardTrigger
             content={card}
@@ -7309,7 +7265,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "button":
       return (
         <>
-          <Section title="Sizes">
+          <Section title="Sizes" code={sectionCode("Sizes")}>
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <Button typeName="button" size="small">
@@ -7322,7 +7278,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </div>
             </div>
           </Section>
-          <Section title="Variants">
+          <Section title="Variants" code={sectionCode("Variants")}>
             <div className="flex flex-wrap items-center gap-3">
               <Button typeName="button">{demoText(language, "Default")}</Button>
               <Button typeName="button" type="secondary">
@@ -7339,7 +7295,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Button>
             </div>
           </Section>
-          <Section title="Prefix and Suffix">
+          <Section title="Prefix and Suffix" code={sectionCode("Prefix and Suffix")}>
             <div className="flex flex-wrap items-center gap-3">
               <Button typeName="button" prefix={<Search aria-hidden />}>
                 Search
@@ -7360,7 +7316,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "input":
       return (
         <>
-          <Section title="States">
+          <Section title="States" code={sectionCode("States")}>
             <div className="flex w-full max-w-md flex-col gap-3">
               <Input
                 placeholder={demoText(language, "Default")}
@@ -7383,7 +7339,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "select":
       return (
         <>
-          <Section title="With Options">
+          <Section title="With Options" code={sectionCode("With Options")}>
             <Select
               className="w-56"
               defaultValue="banana"
@@ -7400,7 +7356,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "toggle":
       return (
         <>
-          <Section title="Disabled">
+          <Section title="Disabled" code={sectionCode("Disabled")}>
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <Toggle
@@ -7422,7 +7378,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </div>
             </div>
           </Section>
-          <Section title="Sizes">
+          <Section title="Sizes" code={sectionCode("Sizes")}>
             <div className="flex flex-row flex-wrap items-center gap-6">
               <Toggle aria-label={demoText(language, "Enable Firewall")} checked={false} readOnly />
               <Toggle
@@ -7439,10 +7395,10 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Custom Color">
+          <Section title="Custom Color" code={sectionCode("Custom Color")}>
             <ToggleColorDemo />
           </Section>
-          <Section title="With Label">
+          <Section title="With Label" code={sectionCode("With Label")}>
             <ToggleLabelDemo />
           </Section>
         </>
@@ -7450,7 +7406,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "checkbox":
       return (
         <>
-          <Section title="Indeterminate">
+          <Section title="Indeterminate" code={sectionCode("Indeterminate")}>
             <div className="flex flex-col gap-3">
               <label className="flex cursor-pointer items-center gap-2.5">
                 <Checkbox indeterminate aria-label={demoText(language, "Indeterminate")} />
@@ -7531,7 +7487,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "radio":
       return (
         <>
-          <Section title="Radio disabled">
+          <Section title="Radio disabled" code={sectionCode("Radio disabled")}>
             <RadioGroup disabled label="Disabled Radio Example" defaultValue="one">
               <div className="flex flex-col items-stretch justify-start gap-6">
                 <RadioGroupItem value="one">{demoText(language, "Option 1")}</RadioGroupItem>
@@ -7539,7 +7495,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </div>
             </RadioGroup>
           </Section>
-          <Section title="Radio required">
+          <Section title="Radio required" code={sectionCode("Radio required")}>
             <form className="flex flex-col items-start justify-start gap-6">
               <RadioGroup label="Required Radio Example" required defaultValue="">
                 <div className="flex flex-col items-stretch justify-start gap-4">
@@ -7550,10 +7506,10 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               <Button size="small">{demoText(language, "Submit")}</Button>
             </form>
           </Section>
-          <Section title="Radio headless">
+          <Section title="Radio headless" code={sectionCode("Radio headless")}>
             <RadioHeadlessDemo />
           </Section>
-          <Section title="Radio standalone">
+          <Section title="Radio standalone" code={sectionCode("Radio standalone")}>
             <RadioStandaloneDemo />
           </Section>
         </>
@@ -7561,7 +7517,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "switch":
       return (
         <>
-          <Section title="Disabled">
+          <Section title="Disabled" code={sectionCode("Disabled")}>
             <div className="flex w-full max-w-md flex-col items-start">
               <Switch name="reference-view-mode">
                 <SwitchControl defaultChecked disabled label="Source" value="source" />
@@ -7569,7 +7525,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Switch>
             </div>
           </Section>
-          <Section title="Sizes">
+          <Section title="Sizes" code={sectionCode("Sizes")}>
             <div className="flex w-full flex-col lg:flex-row lg:flex-wrap">
               <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
                 <Switch name="reference-sizes-small" size="small">
@@ -7591,13 +7547,13 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </div>
             </div>
           </Section>
-          <Section title="Full width">
+          <Section title="Full width" code={sectionCode("Full width")}>
             <Switch name="reference-full-width" style={{ width: "100%" }}>
               <SwitchControl defaultChecked label="Source" value="source" />
               <SwitchControl label="Output" value="output" />
             </Switch>
           </Section>
-          <Section title="Tooltip">
+          <Section title="Tooltip" code={sectionCode("Tooltip")}>
             <div className="flex w-full max-w-md flex-col items-start">
               <Switch name="reference-tooltip">
                 <Tooltip text="View Source">
@@ -7609,7 +7565,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Switch>
             </div>
           </Section>
-          <Section title="Icon">
+          <Section title="Icon" code={sectionCode("Icon")}>
             <div className="flex w-full flex-col lg:flex-row lg:flex-wrap">
               <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
                 <Switch name="reference-icons-small" size="small">
@@ -7651,7 +7607,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "textarea":
       return (
         <>
-          <Section title="Error">
+          <Section title="Error" code={sectionCode("Error")}>
             <div className="flex w-full max-w-md flex-col gap-8">
               <Textarea
                 aria-label="With error (small)"
@@ -7676,7 +7632,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Sizes">
+          <Section title="Sizes" code={sectionCode("Sizes")}>
             <div className="flex w-full max-w-md flex-col gap-6">
               <Textarea
                 aria-label="Textarea"
@@ -7698,7 +7654,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Read Only">
+          <Section title="Read Only" code={sectionCode("Read Only")}>
             <div className="flex w-full max-w-md flex-col">
               <Textarea
                 aria-label="Read only"
@@ -7708,7 +7664,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Rows">
+          <Section title="Rows" code={sectionCode("Rows")}>
             <div className="flex w-full max-w-md flex-col">
               <Textarea
                 aria-label={demoText(language, "Textarea with fixed rows")}
@@ -7988,7 +7944,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "label":
       return (
         <>
-          <Section title="With Input">
+          <Section title="With Input" code={sectionCode("With Input")}>
             <div className="flex w-full max-w-sm flex-col">
               <Label id="label-input" value="Email Address" withInput />
               <Input
@@ -7998,7 +7954,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               />
             </div>
           </Section>
-          <Section title="Bypass Casing">
+          <Section title="Bypass Casing" code={sectionCode("Bypass Casing")}>
             <div className="flex w-full max-w-sm flex-col">
               <Label bypassCasing id="label-input-bypass" value="Email address" withInput />
               <Input
@@ -8532,7 +8488,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "collapse":
       return (
         <>
-          <Section title="Default">
+          <Section title="Default" code={sectionCode("Default")}>
             <div className="flex w-full max-w-md flex-col gap-3">
               <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
                 <CollapseTrigger className="text-label-14 text-foreground">
@@ -8554,7 +8510,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Collapse>
             </div>
           </Section>
-          <Section title="Expanded">
+          <Section title="Expanded" code={sectionCode("Expanded")}>
             <div className="flex w-full max-w-md flex-col gap-3">
               <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
                 <CollapseTrigger className="text-label-14 text-foreground">
@@ -8576,7 +8532,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Collapse>
             </div>
           </Section>
-          <Section title="Multiple">
+          <Section title="Multiple" code={sectionCode("Multiple")}>
             <div className="flex w-full max-w-md flex-col gap-3">
               <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
                 <CollapseTrigger className="text-label-14 text-foreground">
@@ -8598,7 +8554,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Collapse>
             </div>
           </Section>
-          <Section title="Small">
+          <Section title="Small" code={sectionCode("Small")}>
             <Collapse className="w-full max-w-sm rounded-[8px] border border-gray-alpha-400 p-3">
               <CollapseTrigger className="text-label-13 text-foreground">
                 Question A
@@ -9292,23 +9248,10 @@ function ComponentDetail({ name }: { name: string }) {
 
       <section className="mt-10">
         <h2 className="text-heading-24 text-foreground">{demoText(language, "Live Demo")}</h2>
-        {name === "table" ? (
-          <TableDemoCard code={meta.code}>{renderDemo(name)}</TableDemoCard>
-        ) : name === "description" || name === "context-card" ? (
-          <div>{renderDemo(name)}</div>
-        ) : (
-          <DemoSection>{renderDemo(name)}</DemoSection>
-        )}
+        <DemoSection>{renderDemo(name)}</DemoSection>
       </section>
 
       {renderExtraSections(name, language)}
-
-      <section className="mt-12">
-        <h2 className="text-heading-24 text-foreground">{demoText(language, "Usage")}</h2>
-        <div className="mt-6">
-          <CodeBlock code={meta.code} label={`components/${name}.tsx`} language="tsx" />
-        </div>
-      </section>
 
       {meta.bestPractices && meta.bestPractices.length > 0 && (
         <section className="mt-12">
