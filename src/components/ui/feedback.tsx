@@ -8,6 +8,7 @@ import {
   FeedbackNotGreatFace,
   FeedbackOkayFace,
 } from "@/components/ui/feedback-faces";
+import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 /**
@@ -68,7 +69,7 @@ interface FeedbackProps {
 }
 
 function Feedback({
-  label = "Feedback",
+  label,
   copy,
   dryRun = false,
   type,
@@ -82,6 +83,7 @@ function Feedback({
   ...props
 }: FeedbackProps &
   Omit<React.ComponentProps<"div">, "onSubmit" | "defaultValue" | "prefix" | "suffix">) {
+  const { t } = useI18n();
   const [open, setOpen] = React.useState(false);
   const [rating, setRating] = React.useState<FeedbackRatingValue | undefined>(defaultValue);
   const [text, setText] = React.useState("");
@@ -99,6 +101,7 @@ function Feedback({
   };
 
   const isInline = type === "inline";
+  const triggerLabel = label ?? t("Feedback");
 
   return (
     <div className={cn("w-fit", className)} {...props}>
@@ -109,7 +112,7 @@ function Feedback({
               type="button"
               className="outline-none m-0 p-0 border-0 align-baseline no-underline bg-transparent cursor-pointer text-copy-14 text-gray-900"
             >
-              Was this helpful?
+              {t("Was this helpful?")}
             </button>
           ) : (
             <button
@@ -123,7 +126,7 @@ function Feedback({
                   {prefix}
                 </span>
               ) : null}
-              <span className="truncate inline-block">{label}</span>
+              <span className="truncate inline-block">{triggerLabel}</span>
               {suffix ? (
                 <span className="ml-1 shrink-0 inline-flex items-center justify-center [&>svg]:size-4">
                   {suffix}
@@ -143,23 +146,23 @@ function Feedback({
                 {copy ? <p className="text-label-14 text-gray-900">{copy}</p> : null}
                 {showTopics ? (
                   <label className="sr-only" htmlFor="feedback-topic">
-                    Product topic selection
+                    {t("Product topic selection")}
                   </label>
                 ) : null}
                 {showTopics ? (
                   <select
                     id="feedback-topic"
-                    aria-label="Product topic selection"
+                    aria-label={t("Product topic selection")}
                     value={topic}
                     onChange={(event) => setTopic(event.target.value)}
                     className="peer w-full cursor-pointer truncate appearance-none rounded-[6px] border-none bg-background-100 px-3 pr-9 text-[14px] leading-5 text-gray-1000 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] transition-[box-shadow] duration-200 h-9 hover:shadow-[0_0_0_1px_var(--ds-gray-alpha-500)] focus:outline-hidden focus:!shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]"
                   >
                     <option disabled value="">
-                      Select a topic...
+                      {t("Select a topic...")}
                     </option>
-                    {TOPICS.map((t) => (
-                      <option key={t} value={t}>
-                        {t}
+                    {TOPICS.map((topicName) => (
+                      <option key={topicName} value={topicName}>
+                        {t(topicName)}
                       </option>
                     ))}
                   </select>
@@ -167,8 +170,8 @@ function Feedback({
                 <textarea
                   value={text}
                   onChange={(event) => setText(event.target.value)}
-                  placeholder="Your feedback..."
-                  aria-label="Feedback"
+                  placeholder={t("Your feedback...")}
+                  aria-label={t("Feedback")}
                   className="w-full resize-none appearance-none border-none bg-background-100 px-3 py-2.5 text-[14px] leading-5 text-foreground outline-none placeholder:text-muted-foreground shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] rounded-md transition-[box-shadow] duration-200 focus:shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)] h-[100px]"
                 />
                 <div className="flex items-center justify-end gap-1 p-0 text-label-12 text-gray-900">
@@ -187,7 +190,7 @@ function Feedback({
                       fillRule="evenodd"
                     />
                   </svg>
-                  supported.
+                  {t("supported.")}
                 </div>
               </div>
               <div className="flex items-center justify-between border-t border-gray-alpha-200 bg-gray-alpha-100 p-3">
@@ -200,7 +203,7 @@ function Feedback({
                         type="button"
                         role="radio"
                         aria-checked={selected}
-                        aria-label={`Select ${ratingLabel} emoji`}
+                        aria-label={t("Select {rating} emoji", { rating: t(ratingLabel) })}
                         onClick={() => setRating(value)}
                         className={cn(
                           "flex size-8 items-center justify-center rounded-[50%] border-none bg-transparent p-0 text-gray-900 transition-[background] duration-200 hover:bg-blue-alpha-300",
@@ -215,7 +218,7 @@ function Feedback({
                   })}
                 </span>
                 <Button typeName="submit" size="small">
-                  Send
+                  {t("Send")}
                 </Button>
               </div>
             </form>

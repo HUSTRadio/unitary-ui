@@ -165,7 +165,7 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
         const ty = expanded ? -expandY : cappedD === 0 ? 0 : -(13 + 20 * cappedD);
         const tz = -cappedD;
         const Icon = toastIcons[toast.kind];
-        const actionLabel = toast.onUndoAction ? "Undo" : toast.action;
+        const actionLabel = toast.onUndoAction ? t("Undo") : toast.action;
         const action = toast.onUndoAction ?? toast.onAction;
         return (
           <li

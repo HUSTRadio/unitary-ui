@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { Kbd } from "@/components/ui/keyboard-input";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * ClearableInput — Geist Clearable Input.
@@ -58,6 +59,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
     },
     forwardedRef,
   ) => {
+    const { t } = useI18n();
     const generatedId = React.useId();
     const id = idProp ?? `input-${generatedId.replaceAll(":", "")}`;
     const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -155,7 +157,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
           >
             {cmdk ? (
               <div
-                aria-label="Press Cmd + K to open the Command Menu"
+                aria-label={t("Press Cmd + K to open the Command Menu")}
                 data-animate="false"
                 className="group clearable-input max-[960px]:hidden flex items-center justify-center gap-1 pr-2.5 font-medium"
               >

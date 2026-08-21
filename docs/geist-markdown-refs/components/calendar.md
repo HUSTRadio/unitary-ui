@@ -509,6 +509,26 @@ export function Component(): JSX.Element {
 }
 ```
 
+## Framework extensions
+
+The following props are framework extensions and do not replace the upstream
+Calendar contract:
+
+- `colorScheme` overrides the selected-range and in-range semantic colors.
+  Defaults use `--info`, `--info-soft`, and their paired foreground tokens.
+- `locale`, `timeZone`, `dateTimeFormat`, and `timeFormat` control display and
+  editable picker inputs. Defaults derive the numeric date order and separator
+  from `Intl.DateTimeFormat(...).formatToParts()`; format tokens follow Unicode
+  LDML / UTS#35 (`yyyy/MM/dd`, `HH:mm`).
+- `wrap` permits trigger text to wrap only between date-time objects. Its
+  `wrapWidth`, `wrapMinWidth`, `wrapMaxWidth`, `wrapMinHeight`,
+  `wrapMaxHeight`, `wrapMinRows`, and `wrapMaxRows` constraints keep the
+  trigger predictable in compact layouts.
+
+Picker date/time inputs expose their pattern as a placeholder, accept
+unpadded numeric fields, normalise valid values on blur/Enter, and set
+`aria-invalid` plus the framework danger ring when parsing fails.
+
 ## Best Practices
 
 ### When to use

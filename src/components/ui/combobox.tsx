@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { Check, ChevronDown, Search, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Combobox - 官方 vercel.com/geist/combobox 复刻实现（@vercel/geistcn Combobox）。
@@ -110,7 +111,8 @@ const PANEL_CLASS =
   "m-0 p-1.5 outline-hidden bg-[var(--ds-background-100)] shadow-[0_0_0_1px_var(--ds-gray-alpha-400),0_2px_2px_0_rgba(0,0,0,0.04),0_8px_16px_-4px_rgba(0,0,0,0.04),0_0_0_1px_var(--ds-background-200)] rounded-xl z-[2001] max-h-[210px] overflow-y-auto overflow-x-hidden [&>ul]:m-0 [&>ul]:p-0 [&>ul]:list-none";
 /** 面板为条件挂载 portal（关闭即卸载），关闭动画由 panelMounted 延迟卸载 150ms 承载 */
 const PANEL_ENTER_CLASS = "animate-in fade-in-0 zoom-in-95 duration-150 motion-reduce:animate-none";
-const PANEL_EXIT_CLASS = "animate-out fade-out-0 zoom-out-95 duration-150 motion-reduce:animate-none";
+const PANEL_EXIT_CLASS =
+  "animate-out fade-out-0 zoom-out-95 duration-150 motion-reduce:animate-none";
 
 const OPTION_BASE_CLASS =
   "flex items-center text-sm px-2 scroll-my-2 rounded-[6px] cursor-pointer outline-hidden h-9";
@@ -131,8 +133,8 @@ function Combobox({
   value: valueProp,
   defaultValue = "",
   onValueChange,
-  placeholder = "Search…",
-  "aria-label": searchLabel = "Search",
+  placeholder: placeholderProp,
+  "aria-label": searchLabelProp,
   label,
   disabled = false,
   size = "medium",
@@ -142,6 +144,9 @@ function Combobox({
   className,
   children,
 }: ComboboxProps) {
+  const { t } = useI18n();
+  const placeholder = placeholderProp ?? t("Search…");
+  const searchLabel = searchLabelProp ?? t("Search");
   const [open, setOpen] = React.useState(false);
   /** 关闭后延迟卸载面板 150ms，让退出动画播完再卸载（条件挂载 portal 无 data-state） */
   const [panelMounted, setPanelMounted] = React.useState(false);
@@ -394,7 +399,7 @@ function Combobox({
     clearable && value ? (
       <button
         type="button"
-        aria-label="Clear selected value"
+        aria-label={t("Clear selected value")}
         data-open={open}
         tabIndex={0}
         disabled={disabled}
@@ -418,7 +423,7 @@ function Combobox({
     !open && !value ? (
       <button
         type="button"
-        aria-label="Open menu"
+        aria-label={t("Open menu")}
         data-open={open}
         tabIndex={-1}
         disabled={disabled}

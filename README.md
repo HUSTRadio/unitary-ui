@@ -75,6 +75,9 @@ cp -r geist-style-framework/src/components/ui/ <项目>/src/components/ui/
 # 3. 工具
 cp geist-style-framework/src/lib/utils.ts <项目>/src/lib/
 cp geist-style-framework/src/lib/theme.tsx <项目>/src/lib/
+cp geist-style-framework/src/lib/i18n.tsx <项目>/src/lib/
+cp geist-style-framework/src/lib/framework-messages.ts <项目>/src/lib/
+cp geist-style-framework/src/lib/date-time.ts <项目>/src/lib/
 ```
 
 然后在项目入口引入样式：
@@ -83,7 +86,7 @@ cp geist-style-framework/src/lib/theme.tsx <项目>/src/lib/
 import "@/styles/index.css";
 ```
 
-依赖需求：react / react-dom / radix-ui / lucide-react / class-variance-authority / clsx / tailwind-merge / tw-animate-css / @fontsource/maple-mono / tailwindcss（`@tailwindcss/vite`）。
+依赖需求：react / react-dom / radix-ui / lucide-react / class-variance-authority / clsx / tailwind-merge / tw-animate-css / date-fns / @date-fns/tz / @fontsource/maple-mono / tailwindcss（`@tailwindcss/vite`）。
 
 ## 设计约束（消费方也适用）
 

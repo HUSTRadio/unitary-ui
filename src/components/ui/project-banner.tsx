@@ -2,6 +2,7 @@ import * as React from "react";
 import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 /**
@@ -132,6 +133,7 @@ function ProjectBannerContent({ className, ...props }: React.ComponentProps<"div
  * 未传 onClick 时不渲染（避免死控件）。
  */
 function ProjectBannerClose({ className, onClick, ...props }: React.ComponentProps<typeof Button>) {
+  const { t } = useI18n();
   if (!onClick) {
     return null;
   }
@@ -141,7 +143,7 @@ function ProjectBannerClose({ className, onClick, ...props }: React.ComponentPro
       type="tertiary"
       svgOnly
       size="small"
-      aria-label="Close banner"
+      aria-label={t("Close banner")}
       onClick={onClick}
       className={cn("absolute top-4 right-4", className)}
       {...props}

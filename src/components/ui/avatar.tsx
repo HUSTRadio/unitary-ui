@@ -2,6 +2,7 @@ import * as React from "react";
 import { Avatar as AvatarPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Avatar — 官方 @vercel/geistcn Avatar 对齐实现（vercel.com/geist/avatar 实测）。
@@ -51,17 +52,22 @@ function Avatar({
   title?: string;
   alt?: string;
 }) {
+  const { t } = useI18n();
   const px = size;
   const hasVisual = Boolean(src || username || letter || placeholder);
   const hasImage = Boolean(src || username);
   const imgSrc = src ?? (username ? AVATAR_IMG_URL.github(username, px) : undefined);
   const ariaLabel =
     title ??
-    (placeholder ? "Placeholder Avatar" : letter ? `Avatar with initials: ${letter}` : undefined);
+    (placeholder
+      ? t("Placeholder Avatar")
+      : letter
+        ? t("Avatar with initials: {letter}", { letter })
+        : undefined);
   const visual = hasImage ? (
     <img
       src={imgSrc}
-      alt={alt ?? (username ? `Avatar for ${username}` : (title ?? ""))}
+      alt={alt ?? (username ? t("Avatar for {username}", { username }) : (title ?? ""))}
       loading="eager"
       className="relative size-full h-full w-full max-w-full"
     />
@@ -118,6 +124,7 @@ function AvatarGroup({
   overlap?: "auto" | number;
   reverse?: boolean;
 }) {
+  const { t } = useI18n();
   const overlapPx = overlap === "auto" ? Math.round(size * 0.3) : overlap;
   const shown =
     limit !== undefined && members.length > limit ? members.slice(0, limit - 1) : members;
@@ -148,7 +155,7 @@ function AvatarGroup({
       ))}
       {chipMember ? (
         <span
-          aria-label={`${hiddenCount} more avatars in this group`}
+          aria-label={t("{count} more avatars in this group", { count: hiddenCount })}
           role="img"
           className="avatar-group-overlap relative inline-flex items-center rounded-full shadow-[0_0_0_1px_var(--color-background-100)]"
         >
@@ -180,11 +187,12 @@ function AvatarWithIcon({
   iconBackground?: boolean;
   title?: string;
 }) {
+  const { t } = useI18n();
   return (
     <AvatarPrimitive.Root
       data-slot="avatar-with-icon"
       role="img"
-      aria-label={title ?? "Avatar with icon"}
+      aria-label={title ?? t("Avatar with icon")}
       className={cn(
         "relative inline-flex size-[var(--avatar-size)] shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-alpha-200 align-top leading-[0]",
         className,

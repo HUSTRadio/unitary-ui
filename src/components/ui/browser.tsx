@@ -2,12 +2,14 @@ import * as React from "react";
 import { ArrowLeft, ArrowRight, Copy, RefreshCw } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 interface BrowserProps extends React.ComponentProps<"div"> {
   address?: string;
 }
 
 function Browser({ address, className, children, ...props }: BrowserProps) {
+  const { t } = useI18n();
   const copyAddress = async () => {
     if (!address) return;
     await navigator.clipboard?.writeText(address);
@@ -46,7 +48,7 @@ function Browser({ address, className, children, ...props }: BrowserProps) {
               </span>
               <button
                 type="button"
-                aria-label="Copy"
+                aria-label={t("Copy")}
                 onClick={() => void copyAddress()}
                 className="flex size-6 shrink-0 items-center justify-center rounded-[4px] outline-none hover:bg-gray-alpha-200"
               >

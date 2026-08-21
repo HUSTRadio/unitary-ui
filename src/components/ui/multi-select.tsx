@@ -3,6 +3,7 @@ import { Popover as PopoverPrimitive } from "radix-ui";
 import { ChevronDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 import { Checkbox } from "./checkbox";
 
 /**
@@ -199,9 +200,10 @@ function MultiSelectRow({
   count,
   className,
 }: MultiSelectRowProps) {
+  const { t } = useI18n();
   const action = checked
-    ? { label: "Check All", run: onSelectAll }
-    : { label: "Only", run: onSelectOnly };
+    ? { label: t("Check All"), run: onSelectAll }
+    : { label: t("Only"), run: onSelectOnly };
 
   return (
     <div
@@ -221,7 +223,7 @@ function MultiSelectRow({
           checked={checked}
           onChange={onChange}
           tabIndex={-1}
-          aria-label={`${name}. ${checked ? "Uncheck" : "Check"}`}
+          aria-label={`${name}. ${t(checked ? "Uncheck" : "Check")}`}
           className="after:absolute after:-inset-1.5 after:content-['']"
         />
       </div>

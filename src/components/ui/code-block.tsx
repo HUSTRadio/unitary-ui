@@ -5,6 +5,7 @@ import { CopyButton } from "@/components/ui/copy-button";
 import { highlightLines } from "@/lib/highlight";
 import { LanguageIcon } from "@/lib/language-icons";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 type CodeBlockSwitcher = {
   options: string[];
@@ -27,6 +28,7 @@ interface CodeBlockProps extends Omit<React.ComponentPropsWithoutRef<"div">, "ch
 }
 
 function CodeBlockSwitcher({ config }: { config: CodeBlockSwitcher }) {
+  const { t } = useI18n();
   return (
     <div className="relative h-8">
       <div
@@ -38,7 +40,7 @@ function CodeBlockSwitcher({ config }: { config: CodeBlockSwitcher }) {
         <ChevronDown className="size-3" aria-hidden />
       </div>
       <select
-        aria-label="Select language"
+        aria-label={t("Select language")}
         value={config.value}
         onChange={(event) => config.onChange(event.target.value)}
         className="absolute inset-0 cursor-pointer bg-gray-100 opacity-0"
@@ -99,6 +101,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
     },
     ref,
   ) => {
+    const { t } = useI18n();
     const blockId = React.useId().replaceAll(":", "");
     const highlightedLines = highlightLines(code.replace(/\n$/, ""), language);
     const hasHeader = Boolean(filename || switcher);
@@ -133,7 +136,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
               {switcher ? <CodeBlockSwitcher config={switcher} /> : null}
               <CopyButton
                 textToCopy={code}
-                label="Copy to clipboard"
+                label={t("Copy to clipboard")}
                 className="size-8 rounded-[5px] bg-transparent shadow-none hover:bg-gray-alpha-200"
               />
             </span>
@@ -141,7 +144,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
         ) : (
           <CopyButton
             textToCopy={code}
-            label="Copy to clipboard"
+            label={t("Copy to clipboard")}
             className="absolute top-4 right-4 z-10 size-8 rounded-[5px] bg-background-200 opacity-0 shadow-none group-hover:opacity-100 focus:opacity-100"
           />
         )}
@@ -171,7 +174,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
                     <button
                       type="button"
                       tabIndex={-1}
-                      aria-label="Add line anchor to the URL"
+                      aria-label={t("Add line anchor to the URL")}
                       className="w-9 shrink-0 select-none pr-5 text-right text-gray-600"
                     >
                       {number}
@@ -209,7 +212,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
             >
               <span className="inline-block truncate px-1.5">
                 <span aria-hidden className="flex items-center gap-x-1">
-                  {v0 === "ask" ? "Ask" : "Open in"}
+                  {v0 === "ask" ? t("Ask") : t("Open in")}
                   <svg aria-hidden viewBox="0 0 16 16" fill="none" className="size-3">
                     <g>
                       <path
@@ -222,7 +225,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
                     </g>
                   </svg>
                 </span>
-                <span className="sr-only">{v0 === "ask" ? "Ask v0" : "Open in v0"}</span>
+                <span className="sr-only">{v0 === "ask" ? t("Ask v0") : t("Open in v0")}</span>
               </span>
             </a>
           </div>

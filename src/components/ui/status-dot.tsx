@@ -36,7 +36,7 @@ function StatusDot({
   className,
   state = "QUEUED",
   label,
-  titlePrefix = "This deployment",
+  titlePrefix,
   ...props
 }: React.ComponentProps<"span"> & {
   state?: StatusDotState;
@@ -44,12 +44,13 @@ function StatusDot({
   titlePrefix?: string;
 }) {
   const { t } = useI18n();
+  const resolvedTitlePrefix = titlePrefix ?? t("This deployment");
   return (
     <span
       data-slot="status-dot"
       data-state={state}
       aria-label={t(STATUS_LABELS[state])}
-      title={`${titlePrefix} ${t(STATUS_MESSAGES[state])}`}
+      title={`${resolvedTitlePrefix} ${t(STATUS_MESSAGES[state])}`}
       className={cn("inline-flex items-center", className)}
       {...props}
     >

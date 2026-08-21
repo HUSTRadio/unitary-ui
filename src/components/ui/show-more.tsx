@@ -2,6 +2,7 @@ import * as React from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * ShowMore — 展开 / 折叠触发器（docs/geist-markdown-refs/components/show-more.md 官方语义）。
@@ -22,6 +23,7 @@ interface ShowMoreProps extends Omit<React.ComponentProps<"button">, "children">
 }
 
 function ShowMore({ expanded = false, noBorder, className, ...props }: ShowMoreProps) {
+  const { t } = useI18n();
   return (
     <button
       type="button"
@@ -34,7 +36,7 @@ function ShowMore({ expanded = false, noBorder, className, ...props }: ShowMoreP
       )}
       {...props}
     >
-      {expanded ? "Show Less" : "Show More"}
+      {t(expanded ? "Show Less" : "Show More")}
       {expanded ? (
         <ChevronUp aria-hidden className="size-4" />
       ) : (

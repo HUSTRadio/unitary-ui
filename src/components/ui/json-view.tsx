@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * JsonView — JSON 展示组件（对应官方 JsonView，docs/geist-markdown-refs/components/json-view.md）。
@@ -145,6 +146,7 @@ function JsonPrimitiveValue({ value, pattern }: { value: unknown; pattern?: RegE
 }
 
 function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }: JsonViewProps) {
+  const { t } = useI18n();
   const tree = React.useMemo(() => buildTree(data), [data]);
   const [expanded, setExpanded] = React.useState<Set<string>>(() =>
     initExpanded(tree, defaultExpandDepth),
@@ -243,7 +245,11 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
         aria-posinset={node.posinset}
         aria-setsize={node.setsize}
         aria-expanded={isExpandable ? isOpen : undefined}
-        aria-label={node.key != null ? `${node.key}: ${node.type}` : `JSON ${node.type}`}
+        aria-label={
+          node.key != null
+            ? `${node.key}: ${t(`JSON ${node.type}`)}`
+            : t("JSON {type}", { type: t(`JSON ${node.type}`) })
+        }
         tabIndex={isFocused ? 0 : -1}
         ref={(el) => {
           if (el) rowRefs.current.set(node.path, el);
@@ -253,9 +259,7 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
           setFocusedPath(node.path);
           if (isExpandable) toggle(node.path, !isOpen);
         }}
-        className={cn(
-          "block py-0 pr-0 pl-2 outline-none",
-        )}
+        className={cn("block py-0 pr-0 pl-2 outline-none")}
       >
         <span className="block">
           {isExpandable ? (
@@ -318,7 +322,7 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
     >
       <span
         role="tree"
-        aria-label="JSON"
+        aria-label={t("JSON")}
         onKeyDown={handleKeyDown}
         className="block w-max max-w-full whitespace-pre-wrap [overflow-wrap:anywhere]"
       >

@@ -2,6 +2,7 @@ import * as React from "react";
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Scroller — Geist 官方 Scroller（docs/geist-markdown-refs/components/scroller.md）。
@@ -35,6 +36,7 @@ function Scroller({
   className,
   children,
 }: ScrollerProps) {
+  const { t } = useI18n();
   const containerRef = React.useRef<HTMLDivElement>(null);
   const vertical = overflow === "y";
 
@@ -94,7 +96,7 @@ function Scroller({
           <button
             type="button"
             onClick={() => scrollToChild(-1)}
-            aria-label={vertical ? "Scroll up" : "Scroll left"}
+            aria-label={t(vertical ? "Scroll up" : "Scroll left")}
             className={buttonClass}
           >
             {vertical ? (
@@ -106,7 +108,7 @@ function Scroller({
           <button
             type="button"
             onClick={() => scrollToChild(1)}
-            aria-label={vertical ? "Scroll down" : "Scroll right"}
+            aria-label={t(vertical ? "Scroll down" : "Scroll right")}
             className={buttonClass}
           >
             {vertical ? (

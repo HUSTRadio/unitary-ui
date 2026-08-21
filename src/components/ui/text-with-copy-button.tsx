@@ -4,6 +4,7 @@ import { Copy, CopyCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tooltip } from "@/components/ui/tooltip";
 import { useToasts } from "@/components/ui/toast";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * TextWithCopyButton — 官方 Text With Copy Button（docs/geist-markdown-refs/components/text-with-copy-button.md 实测）。
@@ -36,7 +37,7 @@ function TextWithCopyButton({
   className,
   textToCopy,
   textLabel,
-  successMessage = "Copied",
+  successMessage,
   ellipsis = false,
   showTooltip = false,
   as: Tag = "p",
@@ -47,6 +48,8 @@ function TextWithCopyButton({
   const [copied, setCopied] = React.useState(false);
   const timer = React.useRef<number | undefined>(undefined);
   const toast = useToasts();
+  const { t } = useI18n();
+  const resolvedSuccessMessage = successMessage ?? t("Copied");
 
   React.useEffect(() => () => window.clearTimeout(timer.current), []);
 
@@ -59,8 +62,8 @@ function TextWithCopyButton({
 
     navigator.clipboard
       .writeText(textToCopy)
-      .then(() => toast.message({ text: successMessage }))
-      .catch(() => toast.error("Failed to copy to clipboard"));
+      .then(() => toast.message({ text: resolvedSuccessMessage }))
+      .catch(() => toast.error(t("Failed to copy to clipboard")));
 
     // 官方 revert = 1000ms
     timer.current = window.setTimeout(() => setCopied(false), 1000);
