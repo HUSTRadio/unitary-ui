@@ -453,7 +453,7 @@ function Combobox({
       data-slot="combobox-root"
       style={width ? { width } : undefined}
       className={cn(
-        "relative outline-hidden rounded-md transition-shadow duration-200 focus:shadow-[var(--ds-focus-ring)]",
+        "relative outline-hidden rounded-md transition-shadow duration-200 focus-visible:shadow-[var(--ds-focus-ring)]",
         className,
       )}
       onClick={() => {

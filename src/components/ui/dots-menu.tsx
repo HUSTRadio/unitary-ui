@@ -73,7 +73,7 @@ const DotsMenuItem = React.forwardRef<
   <MenuItem
     ref={ref}
     className={cn(
-      "h-9 rounded-[6px] px-2 text-sm hover:bg-gray-alpha-100 focus:bg-gray-alpha-100 data-[highlighted]:bg-gray-alpha-100 data-[disabled]:text-gray-700 data-[disabled]:opacity-100",
+      "h-9 rounded-[6px] px-2 text-sm hover:bg-gray-alpha-100 focus-visible:bg-gray-alpha-100 data-[highlighted]:bg-gray-alpha-100 data-[disabled]:text-gray-700 data-[disabled]:opacity-100",
       className,
     )}
     {...props}

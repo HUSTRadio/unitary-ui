@@ -36,7 +36,7 @@ interface ContextMenuItemProps extends Omit<
 }
 
 const itemClassName =
-  "relative flex h-9 cursor-pointer select-none items-center rounded-[6px] px-2 text-label-14 outline-none focus:bg-gray-alpha-200 data-[disabled]:pointer-events-none data-[disabled]:cursor-default data-[disabled]:text-gray-500 [&_svg]:size-4 [&_svg]:shrink-0";
+  "relative flex h-9 cursor-pointer select-none items-center rounded-[6px] px-2 text-label-14 outline-none focus-visible:bg-gray-alpha-200 data-[disabled]:pointer-events-none data-[disabled]:cursor-default data-[disabled]:text-gray-500 [&_svg]:size-4 [&_svg]:shrink-0";
 
 const ContextMenuItem = React.forwardRef<HTMLElement, ContextMenuItemProps>(
   (

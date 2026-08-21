@@ -116,7 +116,7 @@ function Video({
           <button
             type="button"
             onClick={togglePlayback}
-            className="pointer-events-auto flex size-10 shrink-0 items-center justify-center bg-transparent text-gray-1000 outline-none focus:rounded-sm focus-ring"
+            className="pointer-events-auto flex size-10 shrink-0 items-center justify-center bg-transparent text-gray-1000 outline-none focus-visible:rounded-sm focus-ring"
           >
             {playing ? (
               <Pause className="size-4 fill-current" aria-hidden />
