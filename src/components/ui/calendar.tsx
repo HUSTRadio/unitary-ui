@@ -751,125 +751,116 @@ function CalendarPanel({
           </table>
         </div>
 
-        {/* Start/End + Apply + 时区（下 / 右列） */}
+        {/* Start / End（横向：右列 border-l；纵向：上分割线） */}
         <div
           className={
             horizontalLayout
               ? "ml-3 flex w-60 shrink-0 flex-col border-l border-gray-alpha-200 pl-3"
-              : "flex flex-col"
+              : "-ml-3 -mr-3 mt-3 border-t border-gray-alpha-200 px-3 pt-3"
           }
         >
-          {/* Start / End（纵向：上分割线；横向：由右列 border-l 承担） */}
-          <div
-            className={
-              horizontalLayout
-                ? ""
-                : "-ml-3 -mr-3 mt-3 border-t border-gray-alpha-200 px-3 pt-3"
-            }
-          >
-            <div className="space-y-2">
-              <div>
-                <div className="mb-1 flex items-center justify-between">
-                  <label>
-                    <div className={START_END_LABEL_CLASS}>Start</div>
-                  </label>
+          <div className="space-y-2">
+            <div>
+              <div className="mb-1 flex items-center justify-between">
+                <label>
+                  <div className={START_END_LABEL_CLASS}>Start</div>
+                </label>
+              </div>
+              <div className="flex gap-2">
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
+                  <input
+                    aria-labelledby="start-date"
+                    placeholder="Jan 01, 2025"
+                    aria-invalid="false"
+                    autoCapitalize="none"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className={DATE_INPUT_CLASS}
+                    data-geist-input=""
+                    spellCheck="false"
+                    type="text"
+                    value={start ? formatDate(start, locale) : ""}
+                    readOnly
+                  />
                 </div>
-                <div className="flex gap-2">
-                  <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
-                    <input
-                      aria-labelledby="start-date"
-                      placeholder="Jan 01, 2025"
-                      aria-invalid="false"
-                      autoCapitalize="none"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className={DATE_INPUT_CLASS}
-                      data-geist-input=""
-                      spellCheck="false"
-                      type="text"
-                      value={start ? formatDate(start, locale) : ""}
-                      readOnly
-                    />
-                  </div>
-                  <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
-                    <input
-                      aria-labelledby="time"
-                      placeholder="00:00"
-                      aria-invalid="false"
-                      autoComplete="off"
-                      className={cn(DATE_INPUT_CLASS, "text-center")}
-                      data-geist-input=""
-                      spellCheck="false"
-                      type="text"
-                      value="00:00"
-                      readOnly
-                    />
-                  </div>
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
+                  <input
+                    aria-labelledby="time"
+                    placeholder="00:00"
+                    aria-invalid="false"
+                    autoComplete="off"
+                    className={cn(DATE_INPUT_CLASS, "text-center")}
+                    data-geist-input=""
+                    spellCheck="false"
+                    type="text"
+                    value="00:00"
+                    readOnly
+                  />
                 </div>
               </div>
-              <div>
-                <div className="mb-1 flex items-center justify-between">
-                  <label>
-                    <div className={START_END_LABEL_CLASS}>End</div>
-                  </label>
+            </div>
+            <div>
+              <div className="mb-1 flex items-center justify-between">
+                <label>
+                  <div className={START_END_LABEL_CLASS}>End</div>
+                </label>
+              </div>
+              <div className="flex gap-2">
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
+                  <input
+                    aria-labelledby="end-date"
+                    placeholder="Jan 01, 2025"
+                    aria-invalid="false"
+                    autoComplete="off"
+                    className={DATE_INPUT_CLASS}
+                    data-geist-input=""
+                    spellCheck="false"
+                    type="text"
+                    value={end ? formatDate(end, locale) : ""}
+                    readOnly
+                  />
                 </div>
-                <div className="flex gap-2">
-                  <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
-                    <input
-                      aria-labelledby="end-date"
-                      placeholder="Jan 01, 2025"
-                      aria-invalid="false"
-                      autoComplete="off"
-                      className={DATE_INPUT_CLASS}
-                      data-geist-input=""
-                      spellCheck="false"
-                      type="text"
-                      value={end ? formatDate(end, locale) : ""}
-                      readOnly
-                    />
-                  </div>
-                  <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
-                    <input
-                      aria-labelledby="time"
-                      placeholder="23:59"
-                      aria-invalid="false"
-                      autoComplete="off"
-                      className={cn(DATE_INPUT_CLASS, "text-center")}
-                      data-geist-input=""
-                      spellCheck="false"
-                      type="text"
-                      value={end ? "23:59" : "00:00"}
-                      readOnly
-                    />
-                  </div>
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
+                  <input
+                    aria-labelledby="time"
+                    placeholder="23:59"
+                    aria-invalid="false"
+                    autoComplete="off"
+                    className={cn(DATE_INPUT_CLASS, "text-center")}
+                    data-geist-input=""
+                    spellCheck="false"
+                    type="text"
+                    value={end ? "23:59" : "00:00"}
+                    readOnly
+                  />
                 </div>
               </div>
             </div>
           </div>
-
-          {/* Apply */}
-          <div className="mt-3">
-            <Button
-              className="w-full"
-              size="small"
-              type="secondary"
-              typeName="button"
-              onClick={() => onApply?.({ start, end })}
-            >
-              Apply
-              <span className="ml-2 text-xs" aria-hidden>
-                ↵
-              </span>
-            </Button>
-          </div>
-
-          {/* 时区选择器 */}
-          <div className="mt-1 flex justify-center">
-            <span className="text-xs text-gray-800">
-              {pinnedTimezone ? `Timezone: ${pinnedTimezone}` : `Local (${timeZone})`}
-            </span>
-          </div>
         </div>
+      </div>
+
+      {/* Apply（容器底部，全宽，mt-3 按 Geist 12px 档） */}
+      <div className="mt-3">
+        <Button
+          className="w-full"
+          size="small"
+          type="secondary"
+          typeName="button"
+          onClick={() => onApply?.({ start, end })}
+        >
+          Apply
+          <span className="ml-2 text-xs" aria-hidden>
+            ↵
+          </span>
+        </Button>
+      </div>
+
+      {/* 时区选择器（mt-1 按 Geist 4px 档） */}
+      <div className="mt-1 flex justify-center">
+        <span className="text-xs text-gray-800">
+          {pinnedTimezone ? `Timezone: ${pinnedTimezone}` : `Local (${timeZone})`}
+        </span>
       </div>
     </div>
   );
