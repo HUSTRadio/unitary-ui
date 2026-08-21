@@ -134,8 +134,8 @@ interface CalendarComboboxProps {
   wide?: boolean;
   placeholder?: string;
   label: string;
-  /** 快速选择 preset 文本列表（官方 presets 各条目 text）。 */
-  presets?: string[];
+  /** 快速选择 preset 映射（官方 presets：{key: {text, start, end}}）。 */
+  presets?: Record<string, { text: string; start: Date; end: Date }>;
   /** 受控选中值（preset text）。 */
   value?: string;
   onValueChange?: (value: string) => void;
@@ -151,16 +151,17 @@ function CalendarCombobox({
   wide,
   placeholder = "",
   label,
-  presets = [],
+  presets = {},
   value,
   onValueChange,
   defaultIndex,
   locale = "en-US",
 }: CalendarComboboxProps) {
   const sizeToken = size === "small" ? "small" : "medium";
+  const presetEntries = Object.entries(presets);
   const [open, setOpen] = React.useState(false);
   const [internalValue, setInternalValue] = React.useState(() =>
-    defaultIndex !== undefined ? (presets[defaultIndex] ?? "") : "",
+    defaultIndex !== undefined ? (presetEntries[defaultIndex]?.[1]?.text ?? "") : "",
   );
   const currentValue = value !== undefined ? value : internalValue;
 
@@ -257,7 +258,7 @@ function CalendarCombobox({
           </svg>
           <div aria-hidden="true" className={full ? DIVIDER_FULL_CLASS : DIVIDER_SQUARE_CLASS} />
         </div>
-        {presets.length > 0 && (
+        {Object.keys(presets).length > 0 && (
           <PopoverPrimitive.Portal>
             <PopoverPrimitive.Content
               align="start"
@@ -276,9 +277,9 @@ function CalendarCombobox({
                   full && "border-r border-[var(--ds-gray-alpha-400)]",
                 )}
               >
-                {presets.map((text) => (
+                {presetEntries.map(([key, { text }]) => (
                   <button
-                    key={text}
+                    key={key}
                     type="button"
                     className={cn(
                       COMBO_ITEM_CLASS,
@@ -341,8 +342,10 @@ interface CalendarProps {
   triggerClassName?: string;
   /** combobox 的 sr-only 标签文案（官方 "Combobox Menu"） */
   comboboxLabel?: string;
-  /** 快速选择 preset 文本列表（传给 combobox，官方 presets 各条目 text） */
-  presets?: string[];
+  /** 快速选择 preset 映射（官方 presets：{key: {text, start, end}}）。 */
+  presets?: Record<string, { text: string; start: Date; end: Date }>;
+  /** 选中日期范围变化回调（官方 onChange：preset 选中 / Apply / 日历点选均触发）。 */
+  onChange?: (range: { start: Date | null; end: Date | null }) => void;
   /** 打开态横向布局（官方 horizontalLayout：日历在左、Start/End 在右） */
   horizontalLayout?: boolean;
   /** 紧凑排布（官方 compact：trigger 左圆角 + combobox 右圆角，宽 180） */
@@ -373,7 +376,7 @@ function Calendar({
   comboboxPlaceholder = "",
   triggerClassName,
   comboboxLabel = "Combobox Menu",
-  presets = [],
+  presets = {},
   horizontalLayout = false,
   compact = false,
   stacked = false,
@@ -382,6 +385,7 @@ function Calendar({
   minValue,
   maxValue,
   locale = defaultLocale(),
+  onChange,
 }: CalendarProps) {
   const isSmall = size === "small";
   // compact/stacked 隐含 combobox + 排布（官方：compact 横向紧凑、stacked 纵向堆叠）
@@ -408,6 +412,15 @@ function Calendar({
       ? `${formatDate(applied.start, locale)} – ${formatDate(applied.end, locale)}`
       : label;
 
+  // preset 选中：按 text 查映射，写回 applied + 触发 onChange
+  const handlePresetSelect = (text: string) => {
+    const entry = Object.values(presets).find((p) => p.text === text);
+    if (!entry) return;
+    const range = { start: entry.start, end: entry.end };
+    setApplied(range);
+    onChange?.(range);
+  };
+
   return (
     <div
       data-geist-calendar=""
@@ -431,6 +444,7 @@ function Calendar({
           presets={presets}
           defaultIndex={presetIndex}
           locale={locale}
+          onValueChange={handlePresetSelect}
         />
       )}
       <PopoverPrimitive.Root>
@@ -499,6 +513,11 @@ function Calendar({
               maxValue={maxValue}
               locale={locale}
               onApply={setApplied}
+              value={applied}
+              onValueChange={(range) => {
+                setApplied(range);
+                onChange?.(range);
+              }}
             />
           </PopoverPrimitive.Content>
         </PopoverPrimitive.Portal>
@@ -513,6 +532,7 @@ function Calendar({
           presets={presets}
           defaultIndex={presetIndex}
           locale={locale}
+          onValueChange={handlePresetSelect}
         />
       )}
     </div>
@@ -583,6 +603,8 @@ function CalendarPanel({
   maxValue,
   locale = defaultLocale(),
   onApply,
+  value,
+  onValueChange,
 }: {
   horizontalLayout?: boolean;
   pinnedTimezone?: string;
@@ -591,12 +613,24 @@ function CalendarPanel({
   locale?: string;
   /** 点击 Apply 时回调选中的日期范围（官方 onChange 语义）。 */
   onApply?: (range: { start: Date | null; end: Date | null }) => void;
+  /** 外部受控范围（preset 选中 / 父组件回填），变化时同步内部选中态。 */
+  value?: { start: Date | null; end: Date | null };
+  /** 内部点选 / 范围变化回调。 */
+  onValueChange?: (range: { start: Date | null; end: Date | null }) => void;
 }) {
   const today = new Date();
   const [viewYear, setViewYear] = React.useState(today.getFullYear());
   const [viewMonth, setViewMonth] = React.useState(today.getMonth());
   const [start, setStart] = React.useState<Date | null>(null);
   const [end, setEnd] = React.useState<Date | null>(null);
+
+  // 外部受控范围（preset 选中）变化时同步内部选中态
+  React.useEffect(() => {
+    if (value && (value.start || value.end)) {
+      setStart(value.start);
+      setEnd(value.end);
+    }
+  }, [value?.start, value?.end]);
 
   const timeZone =
     pinnedTimezone ??
@@ -605,15 +639,17 @@ function CalendarPanel({
   const cells = monthGrid(viewYear, viewMonth, getWeekStartDay(locale));
 
   const selectDate = (d: Date) => {
+    let next: { start: Date | null; end: Date | null };
     if (!start || (start && end)) {
-      setStart(d);
-      setEnd(null);
+      next = { start: d, end: null };
     } else if (d < start) {
-      setEnd(start);
-      setStart(d);
+      next = { start: d, end: start };
     } else {
-      setEnd(d);
+      next = { start, end: d };
     }
+    setStart(next.start);
+    setEnd(next.end);
+    onValueChange?.(next);
   };
 
   const isStart = (d: Date) => (start ? sameDay(d, start) : false);
@@ -847,7 +883,11 @@ function CalendarPanel({
           size="small"
           type="secondary"
           typeName="button"
-          onClick={() => onApply?.({ start, end })}
+          onClick={() => {
+            const range = { start, end };
+            onApply?.(range);
+            onValueChange?.(range);
+          }}
         >
           Apply
           <span className="ml-2 text-xs" aria-hidden>

@@ -3181,9 +3181,20 @@ function CalendarDemo() {
   const triggerLabel = demoText(language, "Select Date Range");
   const periodLabel = demoText(language, "Select Period");
   const comboboxLabel = demoText(language, "Combobox Menu");
-  const presetTexts = ["Last 3 Days", "Last 7 Days", "Last 14 Days", "Last Month"].map((text) =>
-    demoText(language, text),
-  );
+  // 官方 presets 语义：{key: {text, start, end}}，选中后写回日历范围并更新 trigger
+  const presetTexts = (() => {
+    const now = new Date();
+    const startOfDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const endOfDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
+    const subDays = (d: Date, n: number) => new Date(d.getTime() - n * 86_400_000);
+    const subMonths = (d: Date, n: number) => new Date(d.getFullYear(), d.getMonth() - n, d.getDate());
+    return {
+      "last-3-days": { text: demoText(language, "Last 3 Days"), start: startOfDay(subDays(now, 3)), end: endOfDay(now) },
+      "last-7-days": { text: demoText(language, "Last 7 Days"), start: startOfDay(subDays(now, 7)), end: endOfDay(now) },
+      "last-14-days": { text: demoText(language, "Last 14 Days"), start: startOfDay(subDays(now, 14)), end: endOfDay(now) },
+      "last-month": { text: demoText(language, "Last Month"), start: startOfDay(subMonths(now, 1)), end: endOfDay(now) },
+    };
+  })();
 
   const mediumItems = (
     <>
