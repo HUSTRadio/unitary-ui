@@ -45,6 +45,11 @@ function mount(props: Record<string, unknown> = {}, localized = false) {
   return trigger;
 }
 
+function setInputValue(input: HTMLInputElement, value: string) {
+  Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")!.set!.call(input, value);
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+}
+
 describe("calendar enhancements", () => {
   test("wrap keeps date objects atomic and publishes all bounds", () => {
     const trigger = mount({
@@ -73,13 +78,23 @@ describe("calendar enhancements", () => {
     mount({ locale: "zh-CN", timeZone: "Asia/Shanghai" });
     const input = document.querySelector<HTMLInputElement>('input[aria-labelledby="start-date"]')!;
     act(() => {
-      input.value = "2026/13/40";
-      input.dispatchEvent(new Event("input", { bubbles: true }));
+      setInputValue(input, "2026/13/40");
       input.dispatchEvent(new FocusEvent("focusout", { bubbles: true }));
     });
     expect(input.value).toBe("2026/13/40");
     expect(input.getAttribute("aria-invalid")).toBe("true");
     expect(input.className).toContain("--danger");
+  });
+
+  test("unpadded date input is parsed then rendered in the declared format", () => {
+    mount({ locale: "zh-CN", timeZone: "Asia/Shanghai" });
+    const input = document.querySelector<HTMLInputElement>('input[aria-labelledby="start-date"]')!;
+    act(() => {
+      setInputValue(input, "2026/8/5");
+      input.dispatchEvent(new FocusEvent("focusout", { bubbles: true }));
+    });
+    expect(input.value).toBe("2026/08/05");
+    expect(input.getAttribute("aria-invalid")).toBeNull();
   });
 
   test("framework i18n localizes calendar UI without changing its default English API", () => {

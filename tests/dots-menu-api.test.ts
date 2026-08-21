@@ -5,7 +5,7 @@ const source = readFileSync(new URL("../src/components/ui/dots-menu.tsx", import
 
 describe("Dots Menu official contract", () => {
   test("uses the official trigger, menu surface, and row geometry", () => {
-    expect(source).toContain('aria-label="Menu"');
+    expect(source).toContain('aria-label={t("Menu")}');
     expect(source).toContain("size-8");
     expect(source).toContain("min-w-[200px]");
     expect(source).toContain("rounded-[12px]");

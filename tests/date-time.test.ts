@@ -1,5 +1,11 @@
 import { describe, expect, test } from "vitest";
-import { defaultDateFmt, formatDateTime, parseDateTime, resolveTimeZone } from "@/lib/date-time";
+import {
+  defaultDateFmt,
+  formatDateTime,
+  parseDateTime,
+  parseTimeOfDay,
+  resolveTimeZone,
+} from "@/lib/date-time";
 
 describe("date-time locale and timezone helpers", () => {
   test("derives locale field order and separator without making timezone determine it", () => {
@@ -29,5 +35,11 @@ describe("date-time locale and timezone helpers", () => {
 
   test("resolves an IANA timezone with UTC fallback", () => {
     expect(resolveTimeZone("")).toMatch(/^[A-Za-z_+\-/0-9]+$/);
+  });
+
+  test("parses both default and explicitly supplied LDML time patterns", () => {
+    expect(parseTimeOfDay("8:05")).toEqual({ hours: 8, minutes: 5 });
+    expect(parseTimeOfDay("08.05", "HH.mm")).toEqual({ hours: 8, minutes: 5 });
+    expect(parseTimeOfDay("29:00")).toBeNull();
   });
 });

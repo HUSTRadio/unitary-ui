@@ -89,12 +89,17 @@ export function parseDateTime(value: string, options: DateTimeFormatOptions = {}
   }
 }
 
-export function parseTimeOfDay(value: string): { hours: number; minutes: number } | null {
-  const match = /^(\d{1,2}):(\d{1,2})$/.exec(value.trim());
-  if (!match) return null;
-  const hours = Number(match[1]);
-  const minutes = Number(match[2]);
-  return hours <= 23 && minutes <= 59 ? { hours, minutes } : null;
+export function parseTimeOfDay(
+  value: string,
+  timeFormat = FALLBACK_TIME_FORMAT,
+): { hours: number; minutes: number } | null {
+  try {
+    const parsed = parse(value.trim(), timeFormat, new Date(2000, 0, 1));
+    if (!isValid(parsed)) return null;
+    return { hours: parsed.getHours(), minutes: parsed.getMinutes() };
+  } catch {
+    return null;
+  }
 }
 
 export function setTimeOfDay(

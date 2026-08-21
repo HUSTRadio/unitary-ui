@@ -770,7 +770,7 @@ function CalendarPanel({
       setInputError(key, true);
       return;
     }
-    const time = parseTimeOfDay(getTimeInput(field)) ?? {
+    const time = parseTimeOfDay(getTimeInput(field), clockPattern) ?? {
       hours: field === "end" ? 23 : 0,
       minutes: 0,
     };
@@ -786,7 +786,7 @@ function CalendarPanel({
   };
   const updateTime = (field: "start" | "end", raw: string) => {
     const key = `${field}-time`;
-    const time = parseTimeOfDay(raw);
+    const time = parseTimeOfDay(raw, clockPattern);
     const current = field === "start" ? start : end;
     if (!time || !current) {
       setInputError(key, true);

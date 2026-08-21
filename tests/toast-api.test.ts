@@ -73,7 +73,7 @@ describe("Toast official API contract (G12 audit fixes)", () => {
     expect(src).toMatch(/role="status"/);
     // close button with data-slot + dismiss wiring
     expect(src).toMatch(/data-slot="toast-close"/);
-    expect(src).toMatch(/aria-label="Dismiss notification"/);
+    expect(src).toMatch(/aria-label=\{t\("Dismiss notification"\)\}/);
     expect(src).toMatch(/onClick=\{\(\) => dismiss\(toast\.id\)\}/);
   });
 
