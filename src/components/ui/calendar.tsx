@@ -398,6 +398,16 @@ function Calendar({
     ? "group/calendar relative inline-flex w-full"
     : "group/calendar relative inline-flex";
 
+  // Apply 后写回 trigger 的已选范围（官方 onChange 受控语义的非受控内部实现）
+  const [applied, setApplied] = React.useState<{ start: Date | null; end: Date | null }>({
+    start: null,
+    end: null,
+  });
+  const appliedLabel =
+    applied.start && applied.end
+      ? `${formatDate(applied.start, locale)} – ${formatDate(applied.end, locale)}`
+      : label;
+
   return (
     <div
       data-geist-calendar=""
@@ -465,7 +475,7 @@ function Calendar({
                     />
                   </svg>
                 </span>
-                <span className={TEXT_SPAN_CLASS}>{label}</span>
+                <span className={TEXT_SPAN_CLASS}>{appliedLabel}</span>
               </button>
             </PopoverPrimitive.Trigger>
           </div>
@@ -476,7 +486,10 @@ function Calendar({
             align="start"
             sideOffset={4}
             data-slot="calendar-popover"
-            className="group/popover z-30 w-[280px] overflow-x-hidden overflow-y-auto rounded-[12px] bg-[var(--ds-background-100)] shadow-[var(--ds-shadow-menu)] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none"
+            className={cn(
+              "group/popover z-30 overflow-x-hidden overflow-y-auto rounded-[12px] bg-[var(--ds-background-100)] shadow-[var(--ds-shadow-menu)] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
+              horizontalLayout ? "w-[520px]" : "w-[280px]",
+            )}
           >
             <button type="button" className="sr-only" />
             <CalendarPanel
@@ -485,6 +498,7 @@ function Calendar({
               minValue={minValue}
               maxValue={maxValue}
               locale={locale}
+              onApply={setApplied}
             />
           </PopoverPrimitive.Content>
         </PopoverPrimitive.Portal>
@@ -568,12 +582,15 @@ function CalendarPanel({
   minValue,
   maxValue,
   locale = defaultLocale(),
+  onApply,
 }: {
   horizontalLayout?: boolean;
   pinnedTimezone?: string;
   minValue?: Date;
   maxValue?: Date;
   locale?: string;
+  /** 点击 Apply 时回调选中的日期范围（官方 onChange 语义）。 */
+  onApply?: (range: { start: Date | null; end: Date | null }) => void;
 }) {
   const today = new Date();
   const [viewYear, setViewYear] = React.useState(today.getFullYear());
@@ -619,9 +636,9 @@ function CalendarPanel({
 
   return (
     <div className={PANEL_CONTENT_CLASS}>
-      <div className={horizontalLayout ? "flex flex-row" : "flex flex-col"}>
-        {/* 日历（在上 / 左） */}
-        <div>
+      <div className={horizontalLayout ? "flex flex-row items-start" : "flex flex-col"}>
+        {/* 日历（上 / 左） */}
+        <div className={horizontalLayout ? "min-w-0 flex-1" : ""}>
           <div
             className="flex flex-row items-center justify-between"
             style={{ margin: "-3px 0px" }}
@@ -734,109 +751,124 @@ function CalendarPanel({
           </table>
         </div>
 
-        {/* Start / End（在下 / 右，带分割线） */}
+        {/* Start/End + Apply + 时区（下 / 右列） */}
         <div
           className={
             horizontalLayout
-              ? "-ml-3 -mr-3 mt-3 border-t border-gray-alpha-200 px-3 pt-3 md:ml-3 md:mt-0 md:border-t-0 md:border-l md:pl-3 md:pt-0"
-              : "-ml-3 -mr-3 mt-3 border-t border-gray-alpha-200 px-3 pt-3"
+              ? "ml-3 flex w-60 shrink-0 flex-col border-l border-gray-alpha-200 pl-3"
+              : "flex flex-col"
           }
         >
-          <div className="space-y-2">
-            <div>
-              <div className="mb-1 flex items-center justify-between">
-                <label>
-                  <div className={START_END_LABEL_CLASS}>Start</div>
-                </label>
-              </div>
-              <div className="flex gap-2">
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
-                  <input
-                    aria-labelledby="start-date"
-                    placeholder="Jan 01, 2025"
-                    aria-invalid="false"
-                    autoCapitalize="none"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    className={DATE_INPUT_CLASS}
-                    data-geist-input=""
-                    spellCheck="false"
-                    type="text"
-                    value={start ? formatDate(start, locale) : ""}
-                    readOnly
-                  />
+          {/* Start / End（纵向：上分割线；横向：由右列 border-l 承担） */}
+          <div
+            className={
+              horizontalLayout
+                ? ""
+                : "-ml-3 -mr-3 mt-3 border-t border-gray-alpha-200 px-3 pt-3"
+            }
+          >
+            <div className="space-y-2">
+              <div>
+                <div className="mb-1 flex items-center justify-between">
+                  <label>
+                    <div className={START_END_LABEL_CLASS}>Start</div>
+                  </label>
                 </div>
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
-                  <input
-                    aria-labelledby="time"
-                    placeholder="00:00"
-                    aria-invalid="false"
-                    autoComplete="off"
-                    className={cn(DATE_INPUT_CLASS, "text-center")}
-                    data-geist-input=""
-                    spellCheck="false"
-                    type="text"
-                    value="00:00"
-                    readOnly
-                  />
+                <div className="flex gap-2">
+                  <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
+                    <input
+                      aria-labelledby="start-date"
+                      placeholder="Jan 01, 2025"
+                      aria-invalid="false"
+                      autoCapitalize="none"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className={DATE_INPUT_CLASS}
+                      data-geist-input=""
+                      spellCheck="false"
+                      type="text"
+                      value={start ? formatDate(start, locale) : ""}
+                      readOnly
+                    />
+                  </div>
+                  <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
+                    <input
+                      aria-labelledby="time"
+                      placeholder="00:00"
+                      aria-invalid="false"
+                      autoComplete="off"
+                      className={cn(DATE_INPUT_CLASS, "text-center")}
+                      data-geist-input=""
+                      spellCheck="false"
+                      type="text"
+                      value="00:00"
+                      readOnly
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div>
-              <div className="mb-1 flex items-center justify-between">
-                <label>
-                  <div className={START_END_LABEL_CLASS}>End</div>
-                </label>
-              </div>
-              <div className="flex gap-2">
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
-                  <input
-                    aria-labelledby="end-date"
-                    placeholder="Jan 01, 2025"
-                    aria-invalid="false"
-                    autoComplete="off"
-                    className={DATE_INPUT_CLASS}
-                    data-geist-input=""
-                    spellCheck="false"
-                    type="text"
-                    value={end ? formatDate(end, locale) : ""}
-                    readOnly
-                  />
+              <div>
+                <div className="mb-1 flex items-center justify-between">
+                  <label>
+                    <div className={START_END_LABEL_CLASS}>End</div>
+                  </label>
                 </div>
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
-                  <input
-                    aria-labelledby="time"
-                    placeholder="23:59"
-                    aria-invalid="false"
-                    autoComplete="off"
-                    className={cn(DATE_INPUT_CLASS, "text-center")}
-                    data-geist-input=""
-                    spellCheck="false"
-                    type="text"
-                    value={end ? "23:59" : "00:00"}
-                    readOnly
-                  />
+                <div className="flex gap-2">
+                  <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
+                    <input
+                      aria-labelledby="end-date"
+                      placeholder="Jan 01, 2025"
+                      aria-invalid="false"
+                      autoComplete="off"
+                      className={DATE_INPUT_CLASS}
+                      data-geist-input=""
+                      spellCheck="false"
+                      type="text"
+                      value={end ? formatDate(end, locale) : ""}
+                      readOnly
+                    />
+                  </div>
+                  <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
+                    <input
+                      aria-labelledby="time"
+                      placeholder="23:59"
+                      aria-invalid="false"
+                      autoComplete="off"
+                      className={cn(DATE_INPUT_CLASS, "text-center")}
+                      data-geist-input=""
+                      spellCheck="false"
+                      type="text"
+                      value={end ? "23:59" : "00:00"}
+                      readOnly
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Apply */}
-        <div className="mt-3">
-          <Button className="w-full" size="small" type="secondary" typeName="button">
-            Apply
-            <span className="ml-2 text-xs" aria-hidden>
-              ↵
+          {/* Apply */}
+          <div className="mt-3">
+            <Button
+              className="w-full"
+              size="small"
+              type="secondary"
+              typeName="button"
+              onClick={() => onApply?.({ start, end })}
+            >
+              Apply
+              <span className="ml-2 text-xs" aria-hidden>
+                ↵
+              </span>
+            </Button>
+          </div>
+
+          {/* 时区选择器 */}
+          <div className="mt-1 flex justify-center">
+            <span className="text-xs text-gray-800">
+              {pinnedTimezone ? `Timezone: ${pinnedTimezone}` : `Local (${timeZone})`}
             </span>
-          </Button>
-        </div>
-
-        {/* 时区选择器 */}
-        <div className="mt-1 flex justify-center">
-          <span className="text-xs text-gray-800">
-            {pinnedTimezone ? `Timezone: ${pinnedTimezone}` : `Local (${timeZone})`}
-          </span>
+          </div>
         </div>
       </div>
     </div>
