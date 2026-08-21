@@ -555,10 +555,10 @@ const NAV_BUTTON_CLASS =
   "p-0.5 active:bg-gray-300 flex aspect-square shrink-0 items-center rounded-full bg-transparent text-[var(--ds-gray-700)] hover:text-[var(--ds-gray-1000)] disabled:cursor-not-allowed disabled:text-[var(--ds-gray-700)]";
 
 const GRID_TABLE_CLASS = "relative block table-fixed border-collapse w-full";
-const GRID_HEAD_TR_CLASS = "last:mb-0 flex flex-nowrap my-2";
+const GRID_HEAD_TR_CLASS = "last:mb-0 flex flex-nowrap mt-4 mb-2";
 const GRID_HEAD_TH_CLASS =
   "p-0 font-normal flex-1 text-center text-[0.75rem] text-[var(--ds-gray-900)] uppercase";
-const GRID_BODY_CLASS = "block !mt-[14.5px]";
+const GRID_BODY_CLASS = "block !mt-2";
 const GRID_ROW_CLASS = "last:mb-0 flex flex-nowrap my-2";
 const GRID_CELL_CLASS = "flex-1 flex justify-center size-8 p-0 text-center";
 
