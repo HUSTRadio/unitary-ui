@@ -35,7 +35,7 @@ mind draft 性质的设计稿可能：布局未最终确定、间距 / 字号 / 
 视觉相关工作优先通过可用的截图与视觉分析工具完成，不要因「看不到图」而回避视觉验证，也不要只靠代码推断视觉结果：
 
 - 浏览器截图：本地开发页面截图、DOM 结构、getComputedStyle 实测。
-- **图片分析强制走独立脚本**：所有图片视觉分析请求必须走 `.hermes/skills/direct-upstream-vision-analysis/scripts/analyze_image.py`（直连豆包视觉模型 `doubao-seed-2-1-turbo-260628`，key 读 `.env` 的 `HERMES_CUSTOM_VOLCENGINE_CODING_PLAN_API_KEY`），**禁止调用 Hermes 内置 `vision_analyze` tool**。
+- 图片分析：优先使用 Hermes 内置 `vision_analyze` 工具进行视觉复核。
 
 使用时机：
 
