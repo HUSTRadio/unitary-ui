@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * SplitButton - Geist 官方 props 式 API（docs/geist-markdown-refs/components/split-button.md 实测）。
@@ -74,6 +75,7 @@ function SplitButton({
   menuProps,
   ...props
 }: SplitButtonProps) {
+  const { t } = useI18n();
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const triggerWidth = useElementWidth(triggerRef);
 
@@ -109,7 +111,7 @@ function SplitButton({
           data-slot="split-button-menu"
           variant={buttonProps?.type}
           size={buttonProps?.size}
-          aria-label={menuButtonLabel}
+          aria-label={menuButtonLabel === "More options" ? t(menuButtonLabel) : menuButtonLabel}
           className="rounded-l-none"
         >
           <ChevronDown className="size-3.5" aria-hidden />
@@ -151,6 +153,7 @@ function SplitButtonMenu({
   type: _type,
   ...props
 }: SplitButtonMenuProps) {
+  const { t } = useI18n();
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const triggerWidth = useElementWidth(triggerRef);
   // "start" 对齐主按钮左缘；"end" 对齐整组右缘（触发按钮贴右）；"center" 取整组中心
@@ -163,7 +166,7 @@ function SplitButtonMenu({
         data-slot="split-button-menu"
         variant={variant}
         size={size}
-        aria-label={menuLabel}
+        aria-label={menuLabel === "More options" ? t(menuLabel) : menuLabel}
         className={cn("rounded-l-none", className)}
         {...props}
       >

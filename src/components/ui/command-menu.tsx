@@ -3,6 +3,7 @@ import { Command } from "cmdk";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 const CommandMenuContext = React.createContext<{
   close: () => void;
@@ -23,6 +24,7 @@ type CommandMenuProps = {
 };
 
 function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
+  const { t } = useI18n();
   const [query, setQuery] = React.useState("");
   const titleId = React.useId();
   const descriptionId = React.useId();
@@ -50,15 +52,15 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
           className="command-menu-scale command-menu-mobile fixed top-[15%] left-1/2 z-100 w-[640px] -translate-x-1/2 overflow-hidden rounded-[12px] bg-background-100 outline-none max-[600px]:top-auto max-[600px]:bottom-0 max-[600px]:left-0 max-[600px]:h-[80vh] max-[600px]:max-h-[80vh] max-[600px]:w-full max-[600px]:max-w-full max-[600px]:translate-x-0 max-[600px]:overflow-auto max-[600px]:rounded-t-[8px] max-[600px]:rounded-b-none"
         >
           <h2 id={titleId} className="sr-only">
-            Command Menu
+            {t("Command Menu")}
           </h2>
           <p id={descriptionId} className="sr-only">
-            Use the command menu to navigate through available actions.
+            {t("Use the command menu to navigate through available actions.")}
           </p>
           <CommandMenuContext.Provider value={{ close, query, setQuery }}>
             <Command
               data-testid="cmdk/root"
-              label="Command Menu"
+              label={t("Command Menu")}
               loop
               className="w-full bg-background-100 text-foreground"
             >
@@ -76,6 +78,7 @@ const CommandMenuInput = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof Command.Input>
 >(({ className, ...props }, ref) => {
   const { close, query, setQuery } = useCommandMenu();
+  const { t } = useI18n();
   return (
     <div className="relative flex w-full items-center gap-2 border-b border-gray-alpha-400 px-4 py-3">
       <Command.Input
@@ -90,7 +93,7 @@ const CommandMenuInput = React.forwardRef<
       />
       <button
         type="button"
-        aria-label="Close command menu"
+        aria-label={t("Close command menu")}
         onClick={close}
         className="ml-auto hidden h-5 cursor-pointer items-center rounded-sm border-none bg-background-100 px-1 py-0 text-xs text-gray-1000 shadow-[var(--material-shadow-base)] outline-none transition-[background] duration-200 [@media(hover:hover)_and_(pointer:fine)]:flex focus-visible:shadow-[var(--focus-ring-outline)] hover:bg-gray-100"
       >
@@ -106,10 +109,11 @@ const CommandMenuList = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof Command.List>
 >(({ className, children, ...props }, ref) => {
   const { query } = useCommandMenu();
+  const { t } = useI18n();
   return (
     <Command.List
       ref={ref}
-      label="Suggestions"
+      label={t("Suggestions")}
       className={cn(
         "flex max-h-none overflow-y-auto p-2 transition-[height] duration-100 sm:block sm:max-h-[436px]",
         className,
@@ -120,7 +124,7 @@ const CommandMenuList = React.forwardRef<
         role="presentation"
         className="px-0 py-[30px] text-left text-copy-16 text-foreground"
       >
-        {`No results found for "${query}".`}
+        {t('No results found for "{query}".', { query })}
       </Command.Empty>
       {children}
     </Command.List>

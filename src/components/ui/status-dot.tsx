@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 export type StatusDotState = "QUEUED" | "BUILDING" | "READY" | "ERROR" | "CANCELED" | "DELETED";
 
@@ -42,12 +43,13 @@ function StatusDot({
   label?: boolean;
   titlePrefix?: string;
 }) {
+  const { t } = useI18n();
   return (
     <span
       data-slot="status-dot"
       data-state={state}
-      aria-label={STATUS_LABELS[state]}
-      title={`${titlePrefix} ${STATUS_MESSAGES[state]}`}
+      aria-label={t(STATUS_LABELS[state])}
+      title={`${titlePrefix} ${t(STATUS_MESSAGES[state])}`}
       className={cn("inline-flex items-center", className)}
       {...props}
     >
@@ -55,7 +57,9 @@ function StatusDot({
         aria-hidden
         className={cn("inline-block size-2.5 shrink-0 rounded-full", STATUS_DOT_STYLES[state])}
       />
-      {label && <span className="ml-2 text-label-14 leading-[16px]">{STATUS_LABELS[state]}</span>}
+      {label && (
+        <span className="ml-2 text-label-14 leading-[16px]">{t(STATUS_LABELS[state])}</span>
+      )}
     </span>
   );
 }

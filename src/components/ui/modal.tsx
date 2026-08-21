@@ -3,6 +3,7 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Modal — Geist 官方 Modal 封装（基于 Radix Dialog 原语）。
@@ -76,6 +77,7 @@ const ModalContent = React.forwardRef<
     },
     ref,
   ) => {
+    const { t } = useI18n();
     // 打开前的焦点元素：关闭后优先归还给它。
     // 修复：内容内嵌套 ModalTrigger（如 demo 的 Cancel 误用 Trigger）会覆盖 Radix
     // composedTriggerRef，关闭时默认归还指向已卸载节点 → 焦点掉到 <body>。
@@ -122,7 +124,7 @@ const ModalContent = React.forwardRef<
               {showCloseButton && (
                 <DialogPrimitive.Close className="absolute top-4 right-4 rounded-md p-1 text-muted-foreground opacity-70 transition-opacity outline-none hover:bg-gray-alpha-200 hover:text-foreground hover:opacity-100 focus-ring disabled:pointer-events-none">
                   <X className="size-4" aria-hidden />
-                  <span className="sr-only">Close</span>
+                  <span className="sr-only">{t("Close")}</span>
                 </DialogPrimitive.Close>
               )}
             </div>

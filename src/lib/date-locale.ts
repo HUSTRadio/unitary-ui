@@ -11,6 +11,8 @@
  *   其余保持官方西方习惯（"Aug 02, 2026"、周日开始、英文缩写相对时间）。
  */
 
+import { formatDateTime } from "@/lib/date-time";
+
 const MONTH_NAMES_EN = [
   "January",
   "February",
@@ -68,20 +70,10 @@ export function getWeekStartDay(locale: string): number {
 }
 
 /**
- * 日期格式化：zh 系 → YYYY-MM-DD（补零横杠）；其余 → 官方 "Aug 02, 2026"。
+ * 日期格式化委托给 date-time：字段顺序/分隔符由浏览器 ICU 的 locale 规则推导。
  */
 export function formatDate(date: Date, locale: string): string {
-  if (isZhLocale(locale)) {
-    const y = date.getFullYear();
-    const m = String(date.getMonth() + 1).padStart(2, "0");
-    const d = String(date.getDate()).padStart(2, "0");
-    return `${y}-${m}-${d}`;
-  }
-  return new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-  }).format(date);
+  return formatDateTime(date, { locale });
 }
 
 /**

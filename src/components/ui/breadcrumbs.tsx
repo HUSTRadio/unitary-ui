@@ -2,6 +2,7 @@ import * as React from "react";
 import { ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 type BreadcrumbType = "text" | "menu";
 
@@ -21,19 +22,20 @@ interface BreadcrumbProps extends React.ComponentProps<"nav"> {
  *   分隔符（官方 menu 变体是独立 chip 按钮组，不用 nav/ol/li）。
  */
 function Breadcrumb({ type = "text", className, children, ...props }: BreadcrumbProps) {
+  const { t } = useI18n();
   return (
     <BreadcrumbTypeContext.Provider value={type}>
       {type === "menu" ? (
         <div
           data-slot="breadcrumb"
           role="navigation"
-          aria-label="Breadcrumb"
+          aria-label={t("Breadcrumb")}
           className={cn("flex gap-2 max-sm:overflow-x-auto", className)}
         >
           {children}
         </div>
       ) : (
-        <nav data-slot="breadcrumb" aria-label="Breadcrumb" className={className} {...props}>
+        <nav data-slot="breadcrumb" aria-label={t("Breadcrumb")} className={className} {...props}>
           <ol className="flex list-none items-center gap-1.5 p-0">{children}</ol>
         </nav>
       )}

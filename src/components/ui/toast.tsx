@@ -2,6 +2,7 @@ import * as React from "react";
 import { CircleAlert, CircleCheck, CircleX, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 type ToastKind = "message" | "success" | "warning" | "error";
 
@@ -91,6 +92,7 @@ const STACK_GAP = 20; // 展开态 toast 间距（官方实测 20px）
 const MAX_STACK = 4; // 最多堆叠层数（更旧的隐藏）
 
 function Toasts({ className, gap = 16, ...props }: ToastsProps) {
+  const { t } = useI18n();
   const records = React.useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
   const timers = React.useRef(new Map<number, number>());
   const [expanded, setExpanded] = React.useState(false);
@@ -205,7 +207,7 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
             <button
               type="button"
               data-slot="toast-close"
-              aria-label="Dismiss notification"
+              aria-label={t("Dismiss notification")}
               onClick={() => dismiss(toast.id)}
               className={cn(
                 "flex size-6 shrink-0 items-center justify-center rounded-[6px] outline-none hover:bg-gray-alpha-200 focus-ring",

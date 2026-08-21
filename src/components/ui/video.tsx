@@ -2,6 +2,7 @@ import * as React from "react";
 import { Pause, Play } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Video — 视频播放器容器（对应官方 Video，docs/geist-markdown-refs/components/video.md）。
@@ -49,6 +50,7 @@ function Video({
   style,
   preload,
 }: VideoProps) {
+  const { t } = useI18n();
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const trackRef = React.useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = React.useState(false);
@@ -110,7 +112,7 @@ function Video({
       {controls ? (
         <div
           role="region"
-          aria-label="Video player"
+          aria-label={t("Video player")}
           className="pointer-events-none absolute bottom-[5%] left-1/2 flex h-12 w-[85%] -translate-x-1/2 items-center rounded-md bg-background px-2 text-gray-1000 opacity-0 shadow-[var(--material-shadow-tooltip)] transition-all group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 max-[992px]:pointer-events-auto max-[992px]:opacity-100"
         >
           <button
@@ -135,7 +137,7 @@ function Video({
             <progress
               max={100}
               value={progressPercent}
-              aria-label="Video progress"
+              aria-label={t("Video progress")}
               className="h-1 w-full appearance-none overflow-hidden rounded-[5px] [&::-moz-progress-bar]:bg-foreground [&::-webkit-progress-bar]:bg-gray-alpha-200 [&::-webkit-progress-value]:rounded-[5px] [&::-webkit-progress-value]:bg-foreground"
             />
             <span

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Copy, CopyCheck } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Snippet — 代码片段展示（docs/geist-markdown-refs/components/snippet.md 官方语义）。
@@ -71,6 +72,7 @@ function Snippet({
 
   ...props
 }: SnippetProps) {
+  const { t } = useI18n();
   const [internalCopied, setInternalCopied] = React.useState(false);
   const timer = React.useRef<number | undefined>(undefined);
   const copied = copiedProp ?? internalCopied;
@@ -130,12 +132,12 @@ function Snippet({
       <button
         type="button"
         data-slot="snippet-copy"
-        aria-label="Copy"
+        aria-label={t("Copy")}
         onClick={handleCopy}
         className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-foreground transition-colors outline-none hover:bg-gray-alpha-200 focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0"
       >
         {copied ? <CopyCheck className="text-success" aria-hidden /> : <Copy aria-hidden />}
-        <span className="sr-only">{copied ? "Copied" : "Copy"}</span>
+        <span className="sr-only">{copied ? t("Copied") : t("Copy")}</span>
       </button>
     </div>
   );

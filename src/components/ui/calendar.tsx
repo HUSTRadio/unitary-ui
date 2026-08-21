@@ -4,9 +4,20 @@ import { Popover as PopoverPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { resolveRangeColors, type RangeColorScheme } from "@/lib/calendar-colors";
+import {
+  defaultDateFmt,
+  defaultTimeFmt,
+  formatDateTime,
+  formatTimeOfDay,
+  parseDateTime,
+  parseTimeOfDay,
+  resolveTimeZone,
+  setTimeOfDay,
+} from "@/lib/date-time";
+import { useI18n } from "@/lib/i18n";
 import {
   defaultLocale,
-  formatDate,
   getMonthTitle,
   getRelativeTimePresets,
   getWeekStartDay,
@@ -157,6 +168,7 @@ function CalendarCombobox({
   defaultIndex,
   locale = "en-US",
 }: CalendarComboboxProps) {
+  const { t } = useI18n();
   const sizeToken = size === "small" ? "small" : "medium";
   const presetEntries = Object.entries(presets);
   const [open, setOpen] = React.useState(false);
@@ -297,7 +309,7 @@ function CalendarCombobox({
               </div>
               {full && (
                 <div className={COMBO_HINT_COL_CLASS}>
-                  <p className={COMBO_HINT_TITLE_CLASS}>Type relative times</p>
+                  <p className={COMBO_HINT_TITLE_CLASS}>{t("Type relative times")}</p>
                   <div className={COMBO_HINT_WRAP_CLASS}>
                     {getRelativeTimePresets(locale).map((text) => (
                       <button
@@ -362,6 +374,23 @@ interface CalendarProps {
   maxValue?: Date;
   /** 语言 locale（BCP 47），驱动日期格式/星期起始/月份标题/相对时间文案 */
   locale?: string;
+  /** IANA 时区；未声明时读取当前浏览器用户时区。 */
+  timeZone?: string;
+  /** Unicode LDML/UTS#35 日期格式，例如 yyyy/MM/dd。 */
+  dateTimeFormat?: string;
+  /** Unicode LDML/UTS#35 时间格式，例如 HH:mm。 */
+  timeFormat?: string;
+  /** 覆盖日期区间端点与中段的语义颜色。 */
+  colorScheme?: Partial<RangeColorScheme>;
+  /** 允许 trigger 的日期范围按日期对象整体自动换行。 */
+  wrap?: boolean;
+  wrapWidth?: number;
+  wrapMinWidth?: number;
+  wrapMaxWidth?: number;
+  wrapMinHeight?: number;
+  wrapMaxHeight?: number;
+  wrapMinRows?: number;
+  wrapMaxRows?: number;
 }
 
 function Calendar({
@@ -385,14 +414,36 @@ function Calendar({
   minValue,
   maxValue,
   locale = defaultLocale(),
+  timeZone,
+  dateTimeFormat,
+  timeFormat,
+  colorScheme,
+  wrap = false,
+  wrapWidth,
+  wrapMinWidth,
+  wrapMaxWidth,
+  wrapMinHeight,
+  wrapMaxHeight,
+  wrapMinRows = 1,
+  wrapMaxRows = 3,
   onChange,
 }: CalendarProps) {
+  const { t } = useI18n();
   const isSmall = size === "small";
   // compact/stacked 隐含 combobox + 排布（官方：compact 横向紧凑、stacked 纵向堆叠）
   const effectiveShowCombobox = showCombobox || compact || stacked;
   const effectiveComboboxFirst = compact ? false : stacked ? true : comboboxFirst;
   const effectiveComboboxFull = stacked ? true : comboboxFull;
   const effectiveWidth = compact ? 180 : width;
+  const rowHeight = 21;
+  const minimumHeight = Math.max(wrapMinHeight ?? 0, wrapMinRows * rowHeight);
+  const maximumHeight = Math.min(
+    wrapMaxHeight ?? Number.POSITIVE_INFINITY,
+    wrapMaxRows * rowHeight,
+  );
+  if (import.meta.env.DEV && wrap && minimumHeight > maximumHeight) {
+    throw new Error("Calendar wrapMinHeight/wrapMinRows cannot exceed wrapMaxHeight/wrapMaxRows");
+  }
   const effectiveClassName = compact
     ? cn(CALENDAR_ROW_CLASS, className)
     : stacked
@@ -409,8 +460,38 @@ function Calendar({
   });
   const appliedLabel =
     applied.start && applied.end
-      ? `${formatDate(applied.start, locale)} – ${formatDate(applied.end, locale)}`
-      : label;
+      ? `${formatDateTime(applied.start, { locale, timeZone, dateTimeFormat })} – ${formatDateTime(applied.end, { locale, timeZone, dateTimeFormat })}`
+      : label === "Select Date Range"
+        ? t(label)
+        : label;
+  const triggerStyle: React.CSSProperties = {
+    ...(isSmall ? TRIGGER_SMALL_INLINE_STYLE : TRIGGER_INLINE_STYLE),
+    ...(wrap
+      ? {
+          minWidth: wrapMinWidth ?? effectiveWidth,
+          maxWidth: wrapMaxWidth ?? wrapWidth ?? effectiveWidth,
+          minHeight: minimumHeight,
+          maxHeight: maximumHeight,
+          overflow: "hidden",
+        }
+      : {}),
+  };
+  const rootStyle = {
+    "--width": `${effectiveWidth}px`,
+    width: "auto",
+    "--ds-size-small": "32px",
+    ...(wrap
+      ? {
+          "--wrap-width": `${wrapWidth ?? effectiveWidth}px`,
+          "--wrap-min-width": `${wrapMinWidth ?? effectiveWidth}px`,
+          "--wrap-max-width": `${wrapMaxWidth ?? wrapWidth ?? effectiveWidth}px`,
+          "--wrap-min-height": `${minimumHeight}px`,
+          "--wrap-max-height": `${maximumHeight}px`,
+          "--wrap-min-rows": String(wrapMinRows),
+          "--wrap-max-rows": String(wrapMaxRows),
+        }
+      : {}),
+  } as React.CSSProperties;
 
   // preset 选中：按 text 查映射，写回 applied + 触发 onChange
   const handlePresetSelect = (text: string) => {
@@ -422,25 +503,14 @@ function Calendar({
   };
 
   return (
-    <div
-      data-geist-calendar=""
-      data-version="v1"
-      className={effectiveClassName}
-      style={
-        {
-          "--width": `${effectiveWidth}px`,
-          width: "auto",
-          "--ds-size-small": "32px",
-        } as React.CSSProperties
-      }
-    >
+    <div data-geist-calendar="" data-version="v1" className={effectiveClassName} style={rootStyle}>
       {effectiveComboboxFirst && effectiveShowCombobox && (
         <CalendarCombobox
           size={size}
           full={effectiveComboboxFull}
           wide={comboboxWide}
           placeholder={comboboxPlaceholder}
-          label={comboboxLabel}
+          label={comboboxLabel === "Combobox Menu" ? t(comboboxLabel) : comboboxLabel}
           presets={presets}
           defaultIndex={presetIndex}
           locale={locale}
@@ -464,10 +534,11 @@ function Calendar({
                 aria-haspopup="dialog"
                 aria-controls="radix-calendar-trigger"
                 data-testid="calendar/trigger/button"
-                style={isSmall ? TRIGGER_SMALL_INLINE_STYLE : TRIGGER_INLINE_STYLE}
+                style={triggerStyle}
                 title={label}
                 className={cn(
                   isSmall ? TRIGGER_SMALL_CLASS : TRIGGER_MEDIUM_CLASS,
+                  wrap ? "!whitespace-normal items-start py-1" : "whitespace-nowrap",
                   triggerClassName,
                 )}
                 data-geist-button=""
@@ -489,7 +560,19 @@ function Calendar({
                     />
                   </svg>
                 </span>
-                <span className={TEXT_SPAN_CLASS}>{appliedLabel}</span>
+                {wrap && applied.start && applied.end ? (
+                  <span className={cn(TEXT_SPAN_CLASS, "!whitespace-normal")}>
+                    <span className="whitespace-nowrap">
+                      {formatDateTime(applied.start, { locale, timeZone, dateTimeFormat })}
+                    </span>
+                    {" – "}
+                    <span className="whitespace-nowrap">
+                      {formatDateTime(applied.end, { locale, timeZone, dateTimeFormat })}
+                    </span>
+                  </span>
+                ) : (
+                  <span className={TEXT_SPAN_CLASS}>{appliedLabel}</span>
+                )}
               </button>
             </PopoverPrimitive.Trigger>
           </div>
@@ -512,6 +595,10 @@ function Calendar({
               minValue={minValue}
               maxValue={maxValue}
               locale={locale}
+              timeZone={timeZone}
+              dateTimeFormat={dateTimeFormat}
+              timeFormat={timeFormat}
+              colorScheme={colorScheme}
               onApply={setApplied}
               value={applied}
               onValueChange={(range) => {
@@ -528,7 +615,7 @@ function Calendar({
           full={effectiveComboboxFull}
           wide={comboboxWide}
           placeholder={comboboxPlaceholder}
-          label={comboboxLabel}
+          label={comboboxLabel === "Combobox Menu" ? t(comboboxLabel) : comboboxLabel}
           presets={presets}
           defaultIndex={presetIndex}
           locale={locale}
@@ -602,6 +689,10 @@ function CalendarPanel({
   minValue,
   maxValue,
   locale = defaultLocale(),
+  timeZone: requestedTimeZone,
+  dateTimeFormat,
+  timeFormat,
+  colorScheme,
   onApply,
   value,
   onValueChange,
@@ -611,6 +702,10 @@ function CalendarPanel({
   minValue?: Date;
   maxValue?: Date;
   locale?: string;
+  timeZone?: string;
+  dateTimeFormat?: string;
+  timeFormat?: string;
+  colorScheme?: Partial<RangeColorScheme>;
   /** 点击 Apply 时回调选中的日期范围（官方 onChange 语义）。 */
   onApply?: (range: { start: Date | null; end: Date | null }) => void;
   /** 外部受控范围（preset 选中 / 父组件回填），变化时同步内部选中态。 */
@@ -618,11 +713,14 @@ function CalendarPanel({
   /** 内部点选 / 范围变化回调。 */
   onValueChange?: (range: { start: Date | null; end: Date | null }) => void;
 }) {
+  const { t } = useI18n();
   const today = new Date();
   const [viewYear, setViewYear] = React.useState(today.getFullYear());
   const [viewMonth, setViewMonth] = React.useState(today.getMonth());
   const [start, setStart] = React.useState<Date | null>(null);
   const [end, setEnd] = React.useState<Date | null>(null);
+  const [inputs, setInputs] = React.useState<Record<string, string>>({});
+  const [inputErrors, setInputErrors] = React.useState<Record<string, boolean>>({});
 
   // 外部受控范围（preset 选中）变化时同步内部选中态
   React.useEffect(() => {
@@ -632,9 +730,78 @@ function CalendarPanel({
     }
   }, [value?.start, value?.end]);
 
-  const timeZone =
-    pinnedTimezone ??
-    (typeof Intl === "undefined" ? "UTC" : Intl.DateTimeFormat().resolvedOptions().timeZone);
+  const timeZone = pinnedTimezone ?? resolveTimeZone(requestedTimeZone);
+  const datePattern = dateTimeFormat ?? defaultDateFmt(locale, timeZone);
+  const clockPattern = timeFormat ?? defaultTimeFmt();
+  const colors = resolveRangeColors(colorScheme);
+  const colorStyle = {
+    "--calendar-range-selected-bg": colors.selectedBg,
+    "--calendar-range-selected-fg": colors.selectedFg,
+    "--calendar-range-soft-bg": colors.softBg,
+    "--calendar-range-soft-fg": colors.softFg,
+  } as React.CSSProperties;
+
+  const getDateInput = (field: "start" | "end") => {
+    const selected = field === "start" ? start : end;
+    return (
+      inputs[`${field}-date`] ??
+      (selected ? formatDateTime(selected, { locale, timeZone, dateTimeFormat: datePattern }) : "")
+    );
+  };
+  const getTimeInput = (field: "start" | "end") => {
+    const selected = field === "start" ? start : end;
+    return (
+      inputs[`${field}-time`] ??
+      (selected
+        ? formatTimeOfDay(selected, { timeZone, timeFormat: clockPattern })
+        : field === "end"
+          ? "23:59"
+          : "00:00")
+    );
+  };
+  const setInput = (key: string, value: string) =>
+    setInputs((current) => ({ ...current, [key]: value }));
+  const setInputError = (key: string, invalid: boolean) =>
+    setInputErrors((current) => ({ ...current, [key]: invalid }));
+  const updateDate = (field: "start" | "end", raw: string) => {
+    const key = `${field}-date`;
+    const parsed = parseDateTime(raw, { locale, timeZone, dateTimeFormat: datePattern });
+    if (!parsed) {
+      setInputError(key, true);
+      return;
+    }
+    const time = parseTimeOfDay(getTimeInput(field)) ?? {
+      hours: field === "end" ? 23 : 0,
+      minutes: 0,
+    };
+    const next = setTimeOfDay(parsed, time, timeZone);
+    if (field === "start") setStart(next);
+    else setEnd(next);
+    setInputs((values) => {
+      const nextValues = { ...values };
+      delete nextValues[key];
+      return nextValues;
+    });
+    setInputError(key, false);
+  };
+  const updateTime = (field: "start" | "end", raw: string) => {
+    const key = `${field}-time`;
+    const time = parseTimeOfDay(raw);
+    const current = field === "start" ? start : end;
+    if (!time || !current) {
+      setInputError(key, true);
+      return;
+    }
+    const next = setTimeOfDay(current, time, timeZone);
+    if (field === "start") setStart(next);
+    else setEnd(next);
+    setInputs((values) => {
+      const nextValues = { ...values };
+      delete nextValues[key];
+      return nextValues;
+    });
+    setInputError(key, false);
+  };
 
   const cells = monthGrid(viewYear, viewMonth, getWeekStartDay(locale));
 
@@ -671,7 +838,7 @@ function CalendarPanel({
   };
 
   return (
-    <div className={PANEL_CONTENT_CLASS}>
+    <div className={PANEL_CONTENT_CLASS} style={colorStyle}>
       <div className={horizontalLayout ? "flex flex-row items-start" : "flex flex-col"}>
         {/* 日历（上 / 左） */}
         <div className={horizontalLayout ? "min-w-0 flex-1" : ""}>
@@ -693,7 +860,7 @@ function CalendarPanel({
             </div>
             <button
               type="button"
-              aria-label="Previous"
+              aria-label={t("Previous")}
               className={NAV_BUTTON_CLASS}
               onClick={prevMonth}
             >
@@ -701,7 +868,7 @@ function CalendarPanel({
             </button>
             <button
               type="button"
-              aria-label="Next"
+              aria-label={t("Next")}
               className={NAV_BUTTON_CLASS}
               onClick={nextMonth}
             >
@@ -709,7 +876,7 @@ function CalendarPanel({
             </button>
           </div>
           <table className={GRID_TABLE_CLASS}>
-            <caption className="sr-only">Calendar</caption>
+            <caption className="sr-only">{t("Calendar")}</caption>
             <thead className="block">
               <tr className={GRID_HEAD_TR_CLASS}>
                 {getWeekdayLabels(locale).map((d, i) => (
@@ -765,9 +932,9 @@ function CalendarPanel({
                             disabled ? "cursor-not-allowed text-gray-500" : "cursor-pointer",
                             !disabled &&
                               (startDay || endDay
-                                ? "bg-blue-900 !text-background-100"
+                                ? "bg-[var(--calendar-range-selected-bg)] !text-[var(--calendar-range-selected-fg)]"
                                 : inRange(d)
-                                  ? "bg-blue-100 text-gray-1000"
+                                  ? "bg-[var(--calendar-range-soft-bg)] text-[var(--calendar-range-soft-fg)]"
                                   : inMonth
                                     ? "text-gray-1000"
                                     : "text-gray-700"),
@@ -800,38 +967,56 @@ function CalendarPanel({
             <div>
               <div className="mb-1 flex items-center justify-between">
                 <label>
-                  <div className={START_END_LABEL_CLASS}>Start</div>
+                  <div className={START_END_LABEL_CLASS}>{t("Start")}</div>
                 </label>
               </div>
               <div className="flex gap-2">
                 <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
                   <input
                     aria-labelledby="start-date"
-                    placeholder="Jan 01, 2025"
-                    aria-invalid="false"
+                    placeholder={datePattern}
+                    aria-invalid={inputErrors["start-date"] || undefined}
                     autoCapitalize="none"
                     autoComplete="off"
                     autoCorrect="off"
-                    className={DATE_INPUT_CLASS}
+                    className={cn(
+                      DATE_INPUT_CLASS,
+                      "text-center",
+                      inputErrors["start-date"] &&
+                        "!shadow-[0_0_0_1px_var(--danger),0_0_0_4px_color-mix(in_srgb,var(--danger)_20%,transparent)]",
+                    )}
                     data-geist-input=""
                     spellCheck="false"
                     type="text"
-                    value={start ? formatDate(start, locale) : ""}
-                    readOnly
+                    value={getDateInput("start")}
+                    onChange={(event) => setInput("start-date", event.target.value)}
+                    onBlur={(event) => updateDate("start", event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") updateDate("start", event.currentTarget.value);
+                    }}
                   />
                 </div>
                 <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
                   <input
                     aria-labelledby="time"
-                    placeholder="00:00"
-                    aria-invalid="false"
+                    placeholder={clockPattern}
+                    aria-invalid={inputErrors["start-time"] || undefined}
                     autoComplete="off"
-                    className={cn(DATE_INPUT_CLASS, "text-center")}
+                    className={cn(
+                      DATE_INPUT_CLASS,
+                      "text-center",
+                      inputErrors["start-time"] &&
+                        "!shadow-[0_0_0_1px_var(--danger),0_0_0_4px_color-mix(in_srgb,var(--danger)_20%,transparent)]",
+                    )}
                     data-geist-input=""
                     spellCheck="false"
                     type="text"
-                    value="00:00"
-                    readOnly
+                    value={getTimeInput("start")}
+                    onChange={(event) => setInput("start-time", event.target.value)}
+                    onBlur={(event) => updateTime("start", event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") updateTime("start", event.currentTarget.value);
+                    }}
                   />
                 </div>
               </div>
@@ -839,36 +1024,54 @@ function CalendarPanel({
             <div>
               <div className="mb-1 flex items-center justify-between">
                 <label>
-                  <div className={START_END_LABEL_CLASS}>End</div>
+                  <div className={START_END_LABEL_CLASS}>{t("End")}</div>
                 </label>
               </div>
               <div className="flex gap-2">
                 <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
                   <input
                     aria-labelledby="end-date"
-                    placeholder="Jan 01, 2025"
-                    aria-invalid="false"
+                    placeholder={datePattern}
+                    aria-invalid={inputErrors["end-date"] || undefined}
                     autoComplete="off"
-                    className={DATE_INPUT_CLASS}
+                    className={cn(
+                      DATE_INPUT_CLASS,
+                      "text-center",
+                      inputErrors["end-date"] &&
+                        "!shadow-[0_0_0_1px_var(--danger),0_0_0_4px_color-mix(in_srgb,var(--danger)_20%,transparent)]",
+                    )}
                     data-geist-input=""
                     spellCheck="false"
                     type="text"
-                    value={end ? formatDate(end, locale) : ""}
-                    readOnly
+                    value={getDateInput("end")}
+                    onChange={(event) => setInput("end-date", event.target.value)}
+                    onBlur={(event) => updateDate("end", event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") updateDate("end", event.currentTarget.value);
+                    }}
                   />
                 </div>
                 <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
                   <input
                     aria-labelledby="time"
-                    placeholder="23:59"
-                    aria-invalid="false"
+                    placeholder={clockPattern}
+                    aria-invalid={inputErrors["end-time"] || undefined}
                     autoComplete="off"
-                    className={cn(DATE_INPUT_CLASS, "text-center")}
+                    className={cn(
+                      DATE_INPUT_CLASS,
+                      "text-center",
+                      inputErrors["end-time"] &&
+                        "!shadow-[0_0_0_1px_var(--danger),0_0_0_4px_color-mix(in_srgb,var(--danger)_20%,transparent)]",
+                    )}
                     data-geist-input=""
                     spellCheck="false"
                     type="text"
-                    value={end ? "23:59" : "00:00"}
-                    readOnly
+                    value={getTimeInput("end")}
+                    onChange={(event) => setInput("end-time", event.target.value)}
+                    onBlur={(event) => updateTime("end", event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") updateTime("end", event.currentTarget.value);
+                    }}
                   />
                 </div>
               </div>
@@ -888,7 +1091,7 @@ function CalendarPanel({
                 onValueChange?.(range);
               }}
             >
-              Apply
+              {t("Apply")}
               <span className="ml-2 text-xs" aria-hidden>
                 ↵
               </span>
@@ -898,7 +1101,9 @@ function CalendarPanel({
           {/* 时区选择器（mt-1 为 Geist 4px 档） */}
           <div className="mt-1 flex justify-center">
             <span className="text-xs text-gray-800">
-              {pinnedTimezone ? `Timezone: ${pinnedTimezone}` : `Local (${timeZone})`}
+              {pinnedTimezone
+                ? t("Timezone: {timeZone}", { timeZone: pinnedTimezone })
+                : t("Local ({timeZone})", { timeZone })}
             </span>
           </div>
         </div>

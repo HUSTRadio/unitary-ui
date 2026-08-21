@@ -2,6 +2,7 @@ import * as React from "react";
 import { Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 import { Input } from "./input";
 import { Kbd } from "./keyboard-input";
 import { Spinner } from "./spinner";
@@ -22,6 +23,7 @@ interface SearchInputProps extends Omit<React.ComponentProps<"input">, "prefix">
 
 const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
   ({ className, cmdk, loading, prefix, defaultValue = "", value, onChange, ...props }, ref) => {
+    const { t } = useI18n();
     const [internalValue, setInternalValue] = React.useState(
       typeof defaultValue === "string" || typeof defaultValue === "number" ? defaultValue : "",
     );
@@ -52,7 +54,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
       <button
         type="button"
         onClick={handleClear}
-        aria-label="Clear search"
+        aria-label={t("Clear search")}
         className="pointer-coarse:hidden flex h-full cursor-pointer items-center rounded-r-[6px] border-0 bg-transparent px-2.5 text-gray-700 outline-none transition-colors duration-150 hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring"
       >
         <Kbd small className="ml-0 font-medium text-gray-900">
@@ -61,7 +63,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
       </button>
     ) : cmdk ? (
       <span
-        aria-label="Press Command K to open the Command Menu"
+        aria-label={t("Press Command K to open the Command Menu")}
         className="pointer-coarse:hidden flex items-center justify-center gap-1 pr-2.5 font-medium"
       >
         <Kbd small className="ml-0 text-gray-900">

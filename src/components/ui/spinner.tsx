@@ -2,6 +2,7 @@ import * as React from "react";
 import { Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Spinner — 加载指示器（docs/geist-markdown-refs/components/spinner.md 官方语义）。
@@ -31,6 +32,7 @@ function Spinner({
 }: React.ComponentProps<typeof Loader2> & {
   size?: keyof typeof spinnerSize;
 }) {
+  const { t } = useI18n();
   const hidden = ariaHidden === true || ariaHidden === "true";
 
   return (
@@ -40,7 +42,7 @@ function Spinner({
       className={cn("inline-flex", className)}
     >
       <Loader2 aria-hidden className={cn("animate-spin", spinnerSize[size])} {...props} />
-      {!hidden && <span className="sr-only">Loading...</span>}
+      {!hidden && <span className="sr-only">{t("Loading...")}</span>}
     </span>
   );
 }

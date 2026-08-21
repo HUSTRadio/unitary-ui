@@ -3,6 +3,7 @@ import { MoreHorizontal } from "lucide-react";
 
 import { Menu, MenuButton, MenuContainer, MenuDivider, MenuItem } from "@/components/ui/menu";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * DotsMenu — Geist 官方 Dots Menu（docs/geist-markdown-refs/components/dots-menu.md 官方语义）。
@@ -39,12 +40,13 @@ function DotsMenu({
   position = "bottom-end",
   ...props
 }: DotsMenuProps) {
+  const { t } = useI18n();
   return (
     <MenuContainer position={position} {...props}>
       <MenuButton
         variant="unstyled"
         disabled={disabled}
-        aria-label="Menu"
+        aria-label={t("Menu")}
         aria-haspopup="true"
         style={
           disabled

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Copy, CopyCheck } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 interface CopyButtonProps extends React.ComponentProps<"button"> {
   /** 要复制的文本。 */
@@ -18,6 +19,7 @@ interface CopyButtonProps extends React.ComponentProps<"button"> {
  * reduced-motion 下所有过渡降级为瞬时切换。
  */
 function CopyButton({ className, textToCopy, label = "Copy", ...props }: CopyButtonProps) {
+  const { t } = useI18n();
   const [copied, setCopied] = React.useState(false);
   const timer = React.useRef<number | undefined>(undefined);
 
@@ -46,7 +48,7 @@ function CopyButton({ className, textToCopy, label = "Copy", ...props }: CopyBut
     <button
       type="button"
       data-slot="copy-button"
-      aria-label={copied ? "Copied" : label}
+      aria-label={copied ? t("Copied") : label === "Copy" ? t(label) : label}
       onClick={handleCopy}
       className={cn(
         "inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-background p-0 text-sm font-medium text-foreground shadow-[0_0_0_1px_var(--color-gray-400)] outline-none transition-colors duration-150 hover:bg-gray-200 focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",

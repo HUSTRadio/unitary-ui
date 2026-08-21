@@ -2,6 +2,7 @@ import { Monitor, Moon, Sun } from "lucide-react";
 
 import { useTheme, type ThemePreference } from "@/lib/theme";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 const THEME_OPTIONS: Array<{
   value: ThemePreference;
@@ -23,16 +24,18 @@ function ThemeSwitcher({
   disabled?: boolean;
 }) {
   const { preference, setPreference } = useTheme();
+  const { t } = useI18n();
 
   return (
     <div
       data-slot="theme-switcher"
       role="radiogroup"
-      aria-label="Display theme"
+      aria-label={t("Display theme")}
       aria-disabled={disabled || undefined}
       className={cn("inline-flex items-center rounded-full bg-gray-alpha-200 p-0.5", className)}
     >
       {THEME_OPTIONS.map(({ value, label, icon: Icon }) => {
+        const localizedLabel = t(label);
         const checked = preference === value;
         return (
           <button
@@ -40,8 +43,8 @@ function ThemeSwitcher({
             type="button"
             role="radio"
             aria-checked={checked}
-            aria-label={label}
-            title={label}
+            aria-label={localizedLabel}
+            title={localizedLabel}
             disabled={disabled}
             onClick={() => setPreference(value)}
             className={cn(

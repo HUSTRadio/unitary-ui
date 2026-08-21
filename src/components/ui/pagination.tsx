@@ -2,6 +2,7 @@ import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 export interface PaginationRailLink {
   title: string;
@@ -14,10 +15,11 @@ interface PaginationProps extends React.ComponentProps<"nav"> {
 }
 
 function Pagination({ className, previous, next, children, ...props }: PaginationProps) {
+  const { t } = useI18n();
   return (
     <nav
       role="navigation"
-      aria-label="pagination"
+      aria-label={t("pagination")}
       data-slot="pagination"
       className={cn(
         "relative flex w-full flex-wrap items-start justify-between [&_a]:no-underline",
@@ -41,11 +43,12 @@ function RailLink({
   title,
   href,
 }: PaginationRailLink & { direction: "previous" | "next" }) {
+  const { t } = useI18n();
   const alignRight = direction === "next";
   return (
     <a
       href={href}
-      aria-label={`Go to ${direction} page: ${title}`}
+      aria-label={t("Go to {direction} page: {title}", { direction, title })}
       data-slot="pagination-rail-link"
       className={cn(
         "group rounded-md p-1 focus-ring",
@@ -53,7 +56,7 @@ function RailLink({
       )}
     >
       <span className="mb-0.5 text-copy-13 text-gray-900 transition-colors duration-200 ease-in-out group-hover:text-foreground">
-        {alignRight ? "Next" : "Previous"}
+        {alignRight ? t("Next") : t("Previous")}
       </span>
       <span className="relative flex [&>span]:inline-block [&>span]:max-w-[20em] [&>span]:truncate [&>span]:break-words">
         <span className="text-[16px] leading-[24px] font-medium">{title}</span>

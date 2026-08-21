@@ -4,6 +4,7 @@ import { Slot } from "radix-ui";
 import { Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Button - Geist 官方 Button 单轨 API 实现。
@@ -112,6 +113,7 @@ function Button({
   children,
   ...props
 }: ButtonProps) {
+  const { t } = useI18n();
   const Comp = asChild ? Slot.Root : "button";
 
   const shadowClass = shadow ? "shadow-lg" : "";
@@ -140,7 +142,7 @@ function Button({
           aria-hidden
         >
           <Loader2 className="size-3.5 animate-spin" />
-          <span className="sr-only">Loading...</span>
+          <span className="sr-only">{t("Loading...")}</span>
         </span>
       ) : (
         prefix && (
@@ -197,6 +199,7 @@ function ButtonLink({
   children,
   ...props
 }: ButtonLinkProps) {
+  const { t } = useI18n();
   const resolvedSize = size;
   return (
     <a
@@ -220,7 +223,7 @@ function ButtonLink({
           aria-hidden
         >
           <Loader2 className="size-3.5 animate-spin" />
-          <span className="sr-only">Loading...</span>
+          <span className="sr-only">{t("Loading...")}</span>
         </span>
       ) : (
         prefix && (

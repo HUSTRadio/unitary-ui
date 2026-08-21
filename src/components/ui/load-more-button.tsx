@@ -1,6 +1,7 @@
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * LoadMoreButton — 全宽「加载更多」按钮（docs/geist-markdown-refs/components/load-more-button.md 官方语义）。
@@ -29,6 +30,7 @@ function LoadMoreButton({
   children,
   ...props
 }: LoadMoreButtonProps) {
+  const { t } = useI18n();
   return (
     <Button
       typeName="button"
@@ -52,7 +54,7 @@ function LoadMoreButton({
         <>
           <Spinner size="sm" aria-hidden />
           {!noGap && <span className="ml-[3px]" aria-hidden />}
-          <span>Loading...</span>
+          <span>{t("Loading...")}</span>
         </>
       ) : (
         children
