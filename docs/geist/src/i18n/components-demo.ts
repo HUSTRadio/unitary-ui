@@ -428,6 +428,29 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
       "用于构建一致 Web 体验的 Vercel 设计系统。",
     Scales: "色阶",
     "Semantic Tokens": "语义 Token",
+    Backgrounds: "背景",
+    "Gray Alpha": "灰色透明度",
+    "Colors 1–10": "色彩 1–10",
+    "There are 10 color scales in the system. P3 colors are used on supported browsers and displays.":
+      "系统共 10 个色阶；支持 P3 的浏览器与显示器使用 P3 色值。",
+    "There are two background colors for pages and UI components. In most instances, you should use Background 1—especially when color is being placed on top of the background. Background 2 should be used sparingly when a subtle background differentiation is needed.":
+      "页面与 UI 组件使用两种背景色。大多数情况下应使用 Background 1——尤其是当颜色置于背景之上时。Background 2 仅在需要细微背景区分时使用。",
+    "Background 1 — Default element background": "Background 1 — 默认元素背景",
+    "Background 2 — Secondary background": "Background 2 — 次要背景",
+    "The numbered color steps map to UI roles (gray scale steps, dark theme).":
+      "1–10 档色阶按角色分区使用（对应 gray 色阶各档，Dark 主题）。",
+    "Component Backgrounds": "组件背景",
+    Borders: "边框",
+    "High Contrast Backgrounds": "高对比背景",
+    "Text and Icons": "文本与图标",
+    "These three colors are designed for UI component backgrounds. If your UI component's default background is Background 1, you can use Color 1 as your hover background and Color 2 as your active background. On smaller UI elements like badges, you can use Color 2 or Color 3 as the background.":
+      "这三个颜色专为 UI 组件背景设计。若组件默认背景是 Background 1，可用 Color 1 作悬停背景、Color 2 作激活背景；在徽章等小元素上可用 Color 2 或 Color 3 作背景。",
+    "These three colors are designed for UI component borders.":
+      "这三个颜色专为 UI 组件边框设计。",
+    "These two colors are designed for high contrast UI component backgrounds.":
+      "这两个颜色专为高对比度的 UI 组件背景设计。",
+    "These two colors are designed for accessible text and icons.":
+      "这两个颜色专为无障碍的文本与图标设计。",
     "Rules of typesetting throughout the system.": "贯穿整个系统的排版规则。",
     Headings: "标题",
     Buttons: "按钮",

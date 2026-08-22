@@ -140,6 +140,103 @@ const COLOR_SCALES: ColorScale[] = [
   },
 ];
 
+/** 双主题色板（Dark/Light 各自一组全档）— gray-alpha 与 backgrounds（官方 10 色阶补全） */
+interface DualColorScale {
+  name: string;
+  dark: ColorStep[];
+  light: ColorStep[];
+}
+
+/** gray-alpha 全档（colors.md 快照，8 位 hex 保留 alpha 值） */
+const GRAY_ALPHA_SCALES: DualColorScale = {
+  name: "gray-alpha",
+  dark: [
+    { step: 100, hex: "#ffffff0f" },
+    { step: 200, hex: "#ffffff17" },
+    { step: 300, hex: "#ffffff21" },
+    { step: 400, hex: "#ffffff24" },
+    { step: 500, hex: "#ffffff3d" },
+    { step: 600, hex: "#ffffff82" },
+    { step: 700, hex: "#ffffff8a" },
+    { step: 800, hex: "#ffffff78" },
+    { step: 900, hex: "#ffffff9c" },
+    { step: 1000, hex: "#ffffffeb" },
+  ],
+  light: [
+    { step: 100, hex: "#0000000d" },
+    { step: 200, hex: "#00000014" },
+    { step: 300, hex: "#0000001a" },
+    { step: 400, hex: "#00000014" },
+    { step: 500, hex: "#00000036" },
+    { step: 600, hex: "#00000057" },
+    { step: 700, hex: "#00000070" },
+    { step: 800, hex: "#00000082" },
+    { step: 900, hex: "#000000b3" },
+    { step: 1000, hex: "#000000e8" },
+  ],
+};
+
+/** backgrounds 双档（页面与 UI 组件背景，官方 Background 1/2） */
+const BACKGROUND_SCALES: DualColorScale = {
+  name: "backgrounds",
+  dark: [
+    { step: 100, hex: "#0a0a0a" },
+    { step: 200, hex: "#000000" },
+  ],
+  light: [
+    { step: 100, hex: "#ffffff" },
+    { step: 200, hex: "#fafafa" },
+  ],
+};
+
+/** gray（Dark）全档查询表 — 用于 Colors 1–10 分区色板渲染 */
+const GRAY_DARK: Record<number, string> = {
+  100: "#1a1a1a",
+  200: "#1f1f1f",
+  300: "#292929",
+  400: "#2e2e2e",
+  500: "#454545",
+  600: "#878787",
+  700: "#8f8f8f",
+  800: "#7d7d7d",
+  900: "#a1a1a1",
+  1000: "#ededed",
+};
+
+/** Colors 1–10 角色分区（官方 foundations/colors.md）：组件背景 / 边框 / 高对比背景 / 文本与图标 */
+const COLOR_PARTITIONS: {
+  range: string;
+  heading: string;
+  description: string;
+  steps: number[];
+}[] = [
+  {
+    range: "1–3",
+    heading: "Component Backgrounds",
+    description:
+      "These three colors are designed for UI component backgrounds. If your UI component's default background is Background 1, you can use Color 1 as your hover background and Color 2 as your active background. On smaller UI elements like badges, you can use Color 2 or Color 3 as the background.",
+    steps: [100, 200, 300],
+  },
+  {
+    range: "4–6",
+    heading: "Borders",
+    description: "These three colors are designed for UI component borders.",
+    steps: [400, 500, 600],
+  },
+  {
+    range: "7–8",
+    heading: "High Contrast Backgrounds",
+    description: "These two colors are designed for high contrast UI component backgrounds.",
+    steps: [700, 800],
+  },
+  {
+    range: "9–10",
+    heading: "Text and Icons",
+    description: "These two colors are designed for accessible text and icons.",
+    steps: [900, 1000],
+  },
+];
+
 /** 语义 token — Light/Dark 值取自框架 src/styles/index.css 实际定义（与快照色阶同源） */
 interface SemanticToken {
   token: string;
@@ -159,7 +256,7 @@ const SEMANTIC_TOKENS: SemanticToken[] = [
   { token: "warning", light: "#ffb224", dark: "#ffb224" },
 ];
 
-/** Colors — 色阶网格 + 语义 token 表 */
+/** Colors — 色阶网格（官方 10 色阶）+ Backgrounds + Colors 1–10 分区 + 语义 token 表 */
 export function ColorsPage() {
   const { language } = useLanguage();
   return (
@@ -171,28 +268,72 @@ export function ColorsPage() {
         {demoText(language, "A high contrast, accessible color system.")}
       </p>
 
-      {/* 色阶网格 — 8 色 × 关键档（值：colors.md 快照 Dark 主题） */}
+      {/* 色阶网格 — 10 色阶：8 主色（Dark 关键档）+ gray-alpha / backgrounds（Dark+Light 全档） */}
       <section className="mt-10">
         <h2 className="text-heading-24 text-foreground">{demoText(language, "Scales")}</h2>
         <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
-          色值提取自 colors.md 快照「完整色板（Dark 主题）」，每色取 100/300/500/700/900/1000
-          关键档。
+          {demoText(
+            language,
+            "There are 10 color scales in the system. P3 colors are used on supported browsers and displays.",
+          )}
         </p>
-        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 xl:grid-cols-8">
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {COLOR_SCALES.map((scale) => (
-            <div key={scale.name} className="min-w-0">
-              <p className="mb-2 text-label-14 font-medium text-foreground">{scale.name}</p>
-              <ul className="space-y-2">
-                {scale.steps.map((s) => (
-                  <li key={s.step} className="overflow-hidden rounded-md">
-                    <div className="h-10 w-full" style={{ backgroundColor: s.hex }} />
-                    <div className="flex items-center justify-between border border-t-0 border-gray-alpha-400 bg-background px-2 py-1">
-                      <span className="text-label-12 text-muted-foreground">{s.step}</span>
-                      <span className="font-mono text-label-12 text-foreground">{s.hex}</span>
+            <PaletteColumn key={scale.name} name={scale.name} steps={scale.steps} />
+          ))}
+          <PaletteColumn name="gray-alpha · dark" steps={GRAY_ALPHA_SCALES.dark} />
+          <PaletteColumn name="gray-alpha · light" steps={GRAY_ALPHA_SCALES.light} />
+          <PaletteColumn name="backgrounds · dark" steps={BACKGROUND_SCALES.dark} />
+          <PaletteColumn name="backgrounds · light" steps={BACKGROUND_SCALES.light} />
+        </div>
+      </section>
+
+      {/* Backgrounds — 页面与 UI 组件背景（官方 Background 1/2 说明） */}
+      <section className="mt-12">
+        <h2 className="text-heading-24 text-foreground">{demoText(language, "Backgrounds")}</h2>
+        <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
+          {demoText(
+            language,
+            "There are two background colors for pages and UI components. In most instances, you should use Background 1—especially when color is being placed on top of the background. Background 2 should be used sparingly when a subtle background differentiation is needed.",
+          )}
+        </p>
+        <ul className="mt-4 list-disc space-y-1 pl-5 text-copy-14 text-muted-foreground">
+          <li>{demoText(language, "Background 1 — Default element background")}</li>
+          <li>{demoText(language, "Background 2 — Secondary background")}</li>
+        </ul>
+      </section>
+
+      {/* Colors 1–10 角色分区 — 组件背景 / 边框 / 高对比背景 / 文本与图标 */}
+      <section className="mt-12">
+        <h2 className="text-heading-24 text-foreground">{demoText(language, "Colors 1–10")}</h2>
+        <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
+          {demoText(
+            language,
+            "The numbered color steps map to UI roles (gray scale steps, dark theme).",
+          )}
+        </p>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {COLOR_PARTITIONS.map((partition) => (
+            <div key={partition.range} className="rounded-md border border-gray-alpha-400 p-4">
+              <h3 className="text-label-14 font-medium text-foreground">
+                Colors {partition.range}: {demoText(language, partition.heading)}
+              </h3>
+              <p className="mt-1.5 text-copy-13 text-muted-foreground">
+                {demoText(language, partition.description)}
+              </p>
+              <div className="mt-3 flex overflow-hidden rounded-md">
+                {partition.steps.map((step) => (
+                  <div key={step} className="min-w-0 flex-1">
+                    <div className="h-12 w-full" style={{ backgroundColor: GRAY_DARK[step] }} />
+                    <div className="flex items-center justify-between border border-t-0 border-gray-alpha-400 bg-background px-1.5 py-0.5">
+                      <span className="text-label-12 text-muted-foreground">{step}</span>
+                      <span className="font-mono text-label-12 text-foreground">
+                        {GRAY_DARK[step]}
+                      </span>
                     </div>
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           ))}
         </div>
@@ -231,6 +372,26 @@ export function ColorsPage() {
           </TableRoot>
         </div>
       </section>
+    </div>
+  );
+}
+
+/** 单列色板 — 名称 + 色阶列表（色块 + 档位/hex 标注） */
+function PaletteColumn({ name, steps }: { name: string; steps: ColorStep[] }) {
+  return (
+    <div className="min-w-0">
+      <p className="mb-2 text-label-14 font-medium text-foreground">{name}</p>
+      <ul className="space-y-2">
+        {steps.map((s) => (
+          <li key={s.step} className="overflow-hidden rounded-md">
+            <div className="h-10 w-full" style={{ backgroundColor: s.hex }} />
+            <div className="flex items-center justify-between border border-t-0 border-gray-alpha-400 bg-background px-2 py-1">
+              <span className="text-label-12 text-muted-foreground">{s.step}</span>
+              <span className="font-mono text-label-12 text-foreground">{s.hex}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
