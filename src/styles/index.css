@@ -1512,3 +1512,14 @@
     transform: translateY(0.25px);
   }
 }
+
+/*
+ * Drawer / Sheet 打开时 body 滚动锁（P1-2，官方实测 vercel.com/geist = overflow: clip）：
+ * Radix react-remove-scroll 会在 body 上打 data-scroll-locked 并注入
+ * `body[data-scroll-locked] { overflow: hidden !important }`（运行时 <style>，级联靠后）。
+ * clip 不建立新滚动容器、不破坏 sticky/fixed 祖先定位语义（与 header sticky 更兼容），
+ * 故用双属性选择器提权（0,2,1 > 0,1,1）覆盖为 clip；属性移除由 Radix 负责，关闭即还原。
+ */
+body[data-scroll-locked][data-scroll-locked] {
+  overflow: clip !important;
+}
