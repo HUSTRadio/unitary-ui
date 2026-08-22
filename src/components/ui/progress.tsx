@@ -121,7 +121,7 @@ function Progress({
         hasStops &&
           "[&::-webkit-progress-value]:!rounded-none [&::-moz-progress-bar]:!rounded-none",
         animated &&
-          "[&::-webkit-progress-value]:transition-[width] [&::-webkit-progress-value]:duration-300 [&::-webkit-progress-value]:ease-out [&::-webkit-progress-value]:motion-reduce:transition-none [&::-moz-progress-bar]:transition-[width] [&::-moz-progress-bar]:duration-300 [&::-moz-progress-bar]:ease-out [&::-moz-progress-bar]:motion-reduce:transition-none",
+          "[&::-webkit-progress-value]:transition-[width,background-color] [&::-webkit-progress-value]:duration-300 [&::-webkit-progress-value]:ease-out [&::-webkit-progress-value]:motion-reduce:transition-none [&::-moz-progress-bar]:transition-[width,background-color] [&::-moz-progress-bar]:duration-300 [&::-moz-progress-bar]:ease-out [&::-moz-progress-bar]:motion-reduce:transition-none",
         inlineLabel && "min-w-0 flex-1",
         className,
       )}
