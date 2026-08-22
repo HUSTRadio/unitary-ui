@@ -172,7 +172,7 @@
   --radius-pill: 9999px;
 
   /* LoadingDots 官方 blink 动画（1.4s ease infinite） */
-  --animate-blink: blink 1.4s ease infinite;
+  --animate-blink: blink 1.4s ease infinite backwards;
 
   /* CopyButton 对勾描边绘制动画（0.2s ease-out，配合缩放淡入使用） */
   --animate-copy-check-draw: copy-check-draw 0.2s ease-out both;
