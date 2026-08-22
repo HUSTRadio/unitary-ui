@@ -37,6 +37,8 @@ export interface SelectProps extends Omit<
   React.ComponentProps<typeof SelectPrimitive.Root>,
   "dir"
 > {
+  /** 透传到触发器表面的类名（触发按钮，非外层字段容器） */
+  className?: string;
   /** 占位文案（未选择时显示在触发器上） */
   placeholder?: string;
   /** small 32px / 默认 36px / large 40px */

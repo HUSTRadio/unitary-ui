@@ -55,4 +55,9 @@ describe("Select composite API contract (v2 Radix popup)", () => {
       '<div\n              data-slot="select-label"\n              className="mb-2 block max-w-full cursor-text text-[13px] text-gray-900 capitalize"\n            >',
     );
   });
+
+  test("SelectProps explicitly declares className (forwarded to trigger)", async () => {
+    const src = await read("src/components/ui/select.tsx");
+    expect(src).toMatch(/className\?: string/);
+  });
 });
