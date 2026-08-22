@@ -1450,3 +1450,24 @@
     outline: none;
   }
 }
+
+/*
+ * Phone（react-mockframe iPhone 17 包装）
+ * 覆盖第三方 .mockframe 的 transition: all：默认无过渡；animated 只允许
+ * 短促的 transform 过渡；reduced-motion 下完全禁用。
+ */
+.phone-frame-static.mockframe,
+.phone-frame-animated.mockframe {
+  transition: none !important;
+}
+
+.phone-frame-animated.mockframe {
+  transition: transform 0.2s ease-out !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone-frame-static.mockframe,
+  .phone-frame-animated.mockframe {
+    transition: none !important;
+  }
+}

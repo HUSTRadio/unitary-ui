@@ -3801,7 +3801,7 @@ function PhoneDemo() {
       <div className="w-full p-6" data-demo-container="Composition">
         <Phone>
           <PhoneScreen>
-            <div className="flex h-full min-h-[540px] items-center justify-center rounded-md bg-gray-alpha-100 text-copy-14 text-muted-foreground">
+            <div className="flex h-full items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
               Mobile screenshot
             </div>
           </PhoneScreen>
