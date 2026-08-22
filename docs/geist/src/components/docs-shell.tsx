@@ -94,7 +94,7 @@ function DocsSidebarLink({ item }: { item: NavItem }) {
       className={({ isActive }) =>
         cn(
           "group relative -ml-2 flex h-10 items-center gap-2.5 rounded-md px-3 py-1.5 text-copy-14 outline-none transition-colors",
-          isActive ? "bg-gray-alpha-100 text-gray-900" : "text-gray-900 hover:bg-gray-alpha-100",
+          isActive ? "bg-gray-alpha-100 text-gray-1000" : "text-gray-900 hover:bg-gray-100",
         )
       }
     >
