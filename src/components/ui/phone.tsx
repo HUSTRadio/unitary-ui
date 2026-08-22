@@ -202,9 +202,5 @@ function PhoneScreen({ className, ...props }: PhoneScreenProps) {
 export {
   Phone,
   PhoneScreen,
-  type PhoneProps,
-  type PhoneScreenProps,
   type IPhone17Color,
-  type PhoneStatusBarOptions,
-  type PhoneSafariOptions,
 };
