@@ -71,4 +71,25 @@ describe("docs shell geometry — official Geist layout", () => {
   it("caps banner width to match main", () => {
     expect(shell).toContain("max-w-[1220px]");
   });
+
+  it("locks the hamburger menu to narrow screens so desktop never shows it", () => {
+    // 桌面端（lg 起）不得出现汉堡按钮：汉堡按钮必须携带 lg:hidden，
+    // 且 menuOpen 只能被该汉堡按钮置真（桌面端按钮不可见即无任何打开 Drawer 的路径）。
+    const hamburger = shell.match(
+      /<button[\s\S]*?aria-label=\{copy\.menuOpenAria\}[\s\S]*?<\/button>/,
+    )?.[0];
+    expect(hamburger).toBeDefined();
+    expect(hamburger).toContain("lg:hidden");
+    expect(hamburger).toContain("onClick={() => setMenuOpen(true)}");
+
+    const setMenuOpenTrue = shell.match(/setMenuOpen\(true\)/g);
+    expect(setMenuOpenTrue).toEqual(["setMenuOpen(true)"]);
+
+    // 窄屏搜索图标同样 lg:hidden（桌面端用 lg:block 的搜索框）
+    const searchIconBlock = shell.match(
+      /<button[\s\S]*?aria-label=\{copy\.searchAria\}[\s\S]*?<\/button>/,
+    )?.[0];
+    expect(searchIconBlock).toContain("lg:hidden");
+    expect(searchIconBlock).toContain("onClick={onSearchOpen}");
+  });
 });
