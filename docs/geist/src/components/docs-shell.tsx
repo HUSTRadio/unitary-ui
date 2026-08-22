@@ -133,7 +133,17 @@ function DocsMobileNav({ onClose }: { onClose: () => void }) {
   const { language } = useLanguage();
   const copy = SHELL_COPY[language];
   const [filter, setFilter] = useState("");
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const query = filter.trim().toLocaleLowerCase();
+  // P1-3：打开时自动滚动到当前激活项（官方 cmdk 打开即 aria-selected 当前页）
+  React.useEffect(() => {
+    const active = rootRef.current?.querySelector<HTMLElement>('[aria-current="page"]');
+    // setTimeout 而非 rAF：后台标签页 rAF 会被挂起；面板在 effect 时已完成布局
+    const timer = window.setTimeout(() => {
+      active?.scrollIntoView({ block: "nearest", inline: "nearest" });
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
   // 就地过滤：命中条目 label/labelZh（按当前语言）或分组标题的组保留，其余隐藏
   const groups = query
     ? NAV_GROUPS.map((group) => {
@@ -151,7 +161,7 @@ function DocsMobileNav({ onClose }: { onClose: () => void }) {
   const hasResults = groups.some((group) => group.items.length > 0);
 
   return (
-    <div className="px-6 pt-5 pb-6">
+    <div className="px-6 pt-5 pb-6" ref={rootRef}>
       {/* 就地过滤输入（P1-1）：替代原「打开独立命令面板」的搜索行 */}
       <div className="relative mb-5">
         <Search
