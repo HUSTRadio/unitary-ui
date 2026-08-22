@@ -41,10 +41,12 @@ const buttonVariants = cva(
           "bg-button-warning text-button-warning-foreground hover:bg-button-warning-hover hover:text-button-warning-foreground active:brightness-90",
       },
       size: {
-        tiny: "h-6 rounded-[4px] px-1.5 [&_svg]:size-3",
-        small: "h-8 rounded-md px-1.5",
-        medium: "h-9 px-2.5",
-        large: "h-10 rounded-[8px] px-3.5 text-button-16 leading-6",
+        // min-w 为框架扩展：默认最小宽度 = 高度 × 2.2（对齐官方 Upload 按钮宽高比，
+        // 避免短标签尤其中文两字按钮过于局促）；svgOnly 以 min-w-0 覆盖保持正方形。
+        tiny: "h-6 rounded-[4px] px-1.5 min-w-[52px] [&_svg]:size-3",
+        small: "h-8 rounded-md px-1.5 min-w-[70px]",
+        medium: "h-9 px-2.5 min-w-[80px]",
+        large: "h-10 rounded-[8px] px-3.5 min-w-[88px] text-button-16 leading-6",
       },
       shape: {
         square: "",
@@ -66,10 +68,10 @@ type ButtonShape = VariantProps<typeof buttonVariants>["shape"];
 
 /** svgOnly 图标按钮：padding collapse + 正方形宽高 + 图标尺寸（圆角由 size/shape 决定） */
 const SVG_ONLY_CLASSES: Record<string, string> = {
-  tiny: "size-6 p-0 [&_svg]:size-4",
-  small: "size-8 p-0 [&_svg]:size-4",
-  medium: "size-9 p-0 [&_svg]:size-4",
-  large: "size-10 p-0 [&_svg]:size-4",
+  tiny: "size-6 p-0 min-w-0 [&_svg]:size-4",
+  small: "size-8 p-0 min-w-0 [&_svg]:size-4",
+  medium: "size-9 p-0 min-w-0 [&_svg]:size-4",
+  large: "size-10 p-0 min-w-0 [&_svg]:size-4",
 };
 
 export interface ButtonProps extends Omit<
