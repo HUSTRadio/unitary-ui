@@ -60,6 +60,10 @@ const WRAPPER_BASE = cn(
   "focus-within:!shadow-[0_0_0_1px_var(--input-focus-border),0_0_0_4px_var(--input-focus-glow)] focus-within:outline-none",
   "has-[input:disabled]:cursor-not-allowed",
   "has-[input:disabled]:hover:shadow-[0_0_0_1px_var(--color-gray-alpha-400)]",
+  // disabled 态 prefix/suffix chip 跟随 input 主体的 gray-100 底色（span 不匹配
+  // :disabled，故由 wrapper has-[input:disabled] 统一下发，避免独立灰块断裂）
+  "has-[input:disabled]:[&_[data-slot=input-prefix]]:bg-gray-100",
+  "has-[input:disabled]:[&_[data-slot=input-suffix]]:bg-gray-100",
 );
 
 /** prefixStyling/suffixStyling=false：官方 bg-background-100 无分隔线（负边距补偿已删除） */

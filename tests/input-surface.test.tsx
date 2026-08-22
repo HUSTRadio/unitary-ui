@@ -78,6 +78,21 @@ describe("Input wrapper contract (B0 input-wrapper)", () => {
     expect(input!.getAttribute("aria-invalid")).toBe("true");
     expect(input!.getAttribute("aria-describedby")).toContain(alert!.id);
   });
+
+  test("disabled input chips follow the gray-100 body (no standalone gray block)", () => {
+    const { wrapper } = renderInput({
+      disabled: true,
+      prefix: "https://",
+      suffix: ".com",
+      onChange: () => {},
+    });
+    expect(wrapper!.className).toContain(
+      "has-[input:disabled]:[&_[data-slot=input-prefix]]:bg-gray-100",
+    );
+    expect(wrapper!.className).toContain(
+      "has-[input:disabled]:[&_[data-slot=input-suffix]]:bg-gray-100",
+    );
+  });
 });
 
 /** 渲染 Input，返回 wrapper/label/input 元素。 */
