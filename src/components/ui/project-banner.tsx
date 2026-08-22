@@ -11,10 +11,11 @@ import { cn } from "@/lib/utils";
  *
  * 官方实测（vercel.com/geist/project-banner，2026-08 CDP）：
  * - 根：<aside>，flex justify-center items-center gap-x-2 py-2 min-h-[40px]
- *   border-t border-b border-gray-400 bg-gray-100 text-[14px]/20px text-gray-900 translate-y-[-1px]
+ *   border-t border-b translate-y-[-1px]，variant 决定整条横幅着色三件套：
+ *   bg-{c}-100 + border-{c}-400 + text-{c}-900（default = gray，2026-08 线上实测）
  * - 内容：flex flex-col gap-2 px-6（移动）→ md:flex-row md:justify-center md:items-center（桌面）
- * - icon：16px shrink-0（aria-hidden），随 label 文字色（gray-900）
- * - label：<p>，14px/20px，text-gray-900
+ * - icon：16px shrink-0（aria-hidden），随容器文字色继承
+ * - label：<p> 无 class，颜色继承自根的 text-{c}-900
  * - callToAction：链接样式（underline + decoration-*-400，14px/20px font-medium），
  *   variant 决定文字色：default=gray-1000 / success=blue-1000 / warning=amber-1000 / error=red-1000，
  *   hover 降到 900 级、decoration 升到 500 级
@@ -49,6 +50,14 @@ const CTA_VARIANT_CLASSES: Record<ProjectBannerVariant, string> = {
   error: "text-red-1000 hover:text-red-900 decoration-red-400 hover:decoration-red-500",
 };
 
+/** variant 决定根元素整体着色三件套（官方 default 视觉即 gray）。 */
+const ROOT_VARIANT_CLASSES: Record<ProjectBannerVariant, string> = {
+  default: "bg-gray-100 border-gray-400 text-gray-900",
+  success: "bg-blue-100 border-blue-400 text-blue-900",
+  warning: "bg-amber-100 border-amber-400 text-amber-900",
+  error: "bg-red-100 border-red-400 text-red-900",
+};
+
 const CTA_BASE_CLASS =
   "rounded-xs cursor-pointer bg-transparent px-0 py-1 h-6 my-[-1px] font-medium underline underline-offset-[5px] outline-none focus-ring text-[14px] leading-5";
 
@@ -72,7 +81,7 @@ function ProjectBanner({
               {icon}
             </div>
           )}
-          {label !== undefined && <p className="text-gray-900">{label}</p>}
+          {label !== undefined && <p>{label}</p>}
         </div>
       )}
       {callToAction && (
@@ -104,7 +113,8 @@ function ProjectBanner({
     <aside
       data-slot="project-banner"
       className={cn(
-        "flex z-30 min-h-[40px] translate-y-[-1px] items-center justify-center gap-x-2 border-t border-b border-gray-400 bg-gray-100 py-2 text-[14px] leading-5 text-gray-900",
+        "flex z-30 min-h-[40px] translate-y-[-1px] items-center justify-center gap-x-2 border-t border-b py-2 text-[14px] leading-5",
+        ROOT_VARIANT_CLASSES[variant],
         className,
       )}
       {...props}
