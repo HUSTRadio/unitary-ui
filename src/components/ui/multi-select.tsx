@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+import { layoutRootStyle, type ControlLayout } from "@/lib/control-layout";
 import { Checkbox } from "./checkbox";
 
 /**
@@ -16,13 +17,16 @@ import { Checkbox } from "./checkbox";
 
 export interface MultiSelectRootProps extends React.ComponentProps<typeof PopoverPrimitive.Root> {
   className?: string;
+  /** 统一尺寸 API：宽度三件套+flex 作用于根容器 */
+  layout?: ControlLayout;
 }
 
-function MultiSelectRoot({ className, children, ...props }: MultiSelectRootProps) {
+function MultiSelectRoot({ className, layout, children, ...props }: MultiSelectRootProps) {
   return (
     <PopoverPrimitive.Root {...props}>
       <div
         data-slot="multi-select-root"
+        style={layoutRootStyle(layout)}
         className={cn("relative w-fit max-w-full max-sm:w-full", className)}
       >
         {children}

@@ -4,6 +4,7 @@ import { Check, ChevronDown, Search, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+import { layoutRootStyle, layoutSurfaceStyle, type ControlLayout } from "@/lib/control-layout";
 
 /**
  * Combobox - 官方 vercel.com/geist/combobox 复刻实现（@vercel/geistcn Combobox）。
@@ -86,8 +87,10 @@ type ComboboxProps = {
   errored?: boolean;
   /** 官方 clearable：显式开启清除按钮（默认不渲染） */
   clearable?: boolean;
-  /** 官方 width：根节点像素宽度 */
+  /** 官方 width：根节点像素宽度（兼容保留；推荐改用 layout.width） */
   width?: number;
+  /** 统一尺寸 API：宽度三件套+flex 作用于根节点；高度作用于输入表面 */
+  layout?: ControlLayout;
   className?: string;
   children: React.ReactNode;
 };
@@ -143,6 +146,7 @@ function Combobox({
   errored = false,
   clearable = false,
   width,
+  layout,
   className,
   children,
 }: ComboboxProps) {
@@ -448,6 +452,12 @@ function Combobox({
     ? Math.max(position.width, listMeta.maxWidth)
     : position.width;
 
+  /** layout.width 优先；兼容保留的 width prop（数字 px）次之 */
+  const rootStyle = {
+    ...layoutRootStyle(layout),
+    ...(width !== undefined && layout?.width === undefined ? { width } : undefined),
+  };
+
   const comboboxRoot = (
     <div
       ref={rootRef}
@@ -458,7 +468,7 @@ function Combobox({
       aria-owns={listId}
       tabIndex={-1}
       data-slot="combobox-root"
-      style={width ? { width } : undefined}
+      style={rootStyle}
       className={cn(
         "relative outline-hidden rounded-md transition-shadow duration-200 focus-visible:shadow-[var(--ds-focus-ring)]",
         className,
@@ -469,6 +479,7 @@ function Combobox({
     >
       <div
         ref={groupRef}
+        style={layoutSurfaceStyle(layout)}
         className={cn(GROUP_SIZE_CLASS[size])}
         onClick={() => {
           if (!open) setOpen(true);

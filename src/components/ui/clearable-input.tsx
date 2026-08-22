@@ -3,6 +3,7 @@ import * as React from "react";
 import { Kbd } from "@/components/ui/keyboard-input";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+import { layoutRootStyle, layoutSurfaceStyle, type ControlLayout } from "@/lib/control-layout";
 
 /**
  * ClearableInput — Geist Clearable Input.
@@ -26,6 +27,8 @@ type ClearableInputProps = Omit<React.ComponentProps<"input">, "size"> & {
   cmdk?: boolean;
   /** Called after a pointer or Escape clear request. */
   onClear?: () => void;
+  /** 统一尺寸 API：宽度/flex → 字段根容器；高度 → wrapper 表面。 */
+  layout?: ControlLayout;
 };
 
 const clearableKbdClass = "font-sans! bg-background-100 text-[var(--ds-gray-900)]";
@@ -50,6 +53,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
       disabled = false,
       id: idProp,
       label,
+      layout,
       onChange,
       onClear,
       onKeyDown,
@@ -110,6 +114,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
         data-slot="clearable-input-wrapper"
         data-geist-input-wrapper=""
         data-version="v1"
+        style={layoutSurfaceStyle(layout)}
         className={cn(
           "flex h-9 w-full max-w-full items-center overflow-hidden rounded-[6px] bg-background-100 text-sm font-normal",
           "shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] transition-all duration-150",
@@ -195,12 +200,21 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
     );
 
     return label ? (
-      <label data-version="v1" htmlFor={id} className="block w-full max-w-full">
+      <label
+        data-version="v1"
+        htmlFor={id}
+        className="block w-full max-w-full"
+        style={layoutRootStyle(layout)}
+      >
         <div className="mb-2 block max-w-full cursor-text capitalize text-[13px] leading-[1.5] text-[var(--ds-gray-900)]">
           {label}
         </div>
         {wrapper}
       </label>
+    ) : layout ? (
+      <div data-slot="clearable-input-field" style={layoutRootStyle(layout)} className="w-full min-w-0">
+        {wrapper}
+      </div>
     ) : (
       wrapper
     );
