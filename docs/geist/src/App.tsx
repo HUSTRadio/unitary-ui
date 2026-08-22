@@ -1,9 +1,16 @@
-import { useEffect, type ComponentType } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState, type ComponentType } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { DocsBanner, DocsSidebar } from "./components/docs-shell";
 import { DocsPagination, FeedbackPanel } from "./components/docs-feedback";
 import { ComponentsPage } from "./components/docs-components-page";
+import {
+  CommandMenu,
+  CommandMenuGroup,
+  CommandMenuInput,
+  CommandMenuItem,
+  CommandMenuList,
+} from "@/components/ui/command-menu";
 import { Toasts } from "@/components/ui/toast";
 import { IconsPage } from "./components/docs-icons";
 import { LifecycleAndHooksPage } from "./pages/lifecycle-and-hooks";
@@ -15,6 +22,7 @@ import {
   TypographyPage,
 } from "./components/docs-pages";
 import { COMPONENTS } from "./data/components";
+import { NAV_GROUPS } from "./data/nav";
 import { SHELL_COPY } from "./i18n/catalog";
 import { demoText } from "./i18n/components-demo";
 import { useLanguage, type DocsLanguage } from "./i18n/language";
@@ -71,8 +79,10 @@ function getPageTitle(pathname: string, language: DocsLanguage) {
 
 export default function App() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const copy = SHELL_COPY[language];
+  const [cmdOpen, setCmdOpen] = useState(false);
   const Page =
     PAGE_COMPONENTS[pathname] ?? (pathname.startsWith("/components/") ? ComponentsPage : undefined);
   const ContentPage = PAGE_CONTENT_COMPONENTS[pathname];
@@ -80,7 +90,21 @@ export default function App() {
   useEffect(() => {
     document.title = getPageTitle(pathname, language);
     document.documentElement.lang = language;
-  }, [language, pathname]);
+    // 路由切换滚动复位（item 21）：仅 pathname 变化时回到顶部，语言切换不触发
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  // 全局 Cmd/Ctrl+K 打开命令面板（HashRouter 下无 SSR 问题）
+  useEffect(() => {
+    const handler = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setCmdOpen(true);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -94,7 +118,7 @@ export default function App() {
       >
         {copy.skip}
       </a>
-      <DocsBanner />
+      <DocsBanner onSearchOpen={() => setCmdOpen(true)} />
       <main
         id="main-content"
         tabIndex={-1}
@@ -127,6 +151,29 @@ export default function App() {
         </div>
       </main>
       <Toasts />
+
+      {/* 全局命令面板 — NAV_GROUPS 跳转（搜索随查询过滤，选择即导航） */}
+      <CommandMenu open={cmdOpen} setOpen={setCmdOpen}>
+        <CommandMenuInput placeholder={copy.searchPlaceholder} />
+        <CommandMenuList>
+          {NAV_GROUPS.map((group) => (
+            <CommandMenuGroup
+              key={group.title}
+              heading={language === "zh-CN" ? (group.titleZh ?? group.title) : group.title}
+            >
+              {group.items.map((item) => (
+                <CommandMenuItem
+                  key={item.to}
+                  value={`${group.title} ${item.label}`}
+                  onSelect={() => navigate(item.to)}
+                >
+                  {language === "zh-CN" ? (item.labelZh ?? item.label) : item.label}
+                </CommandMenuItem>
+              ))}
+            </CommandMenuGroup>
+          ))}
+        </CommandMenuList>
+      </CommandMenu>
     </div>
   );
 }
