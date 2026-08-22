@@ -1,3 +1,4 @@
+import { CodeBlock } from "@/components/ui/code-block";
 import { getComponentApi, type ApiRow } from "../data/component-api";
 import { useLanguage } from "../i18n/language";
 
@@ -73,16 +74,13 @@ export function ComponentApiReference({ componentName }: { componentName: string
           : "This page lists the stable public surface. Refer to the underlying element type for inherited native attributes."}
       </p>
 
-      <div className="mt-6 rounded-md border border-border bg-background-200 px-4 py-3">
-        <p className="text-label-13 text-muted-foreground">
+      <div className="mt-6">
+        <p className="mb-2 text-label-13 text-muted-foreground">
           {language === "zh-CN" ? "导入" : "Import"}
         </p>
-        <code
-          className="mt-1 block overflow-x-auto font-mono text-label-13 text-foreground"
-          translate="no"
-        >
+        <CodeBlock language="tsx" hideLineNumbers>
           {`import { ${api.exports.join(", ")} } from "@/components/ui/${componentName}"`}
-        </code>
+        </CodeBlock>
       </div>
 
       {api.extends ? (
