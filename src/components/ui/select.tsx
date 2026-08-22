@@ -232,6 +232,5 @@ export {
   SelectGroup,
   SelectSeparator,
   SelectItem,
-  type SelectProps,
   type SelectGroupProps,
 };
