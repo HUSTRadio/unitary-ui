@@ -30,14 +30,14 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
     <header className="sticky top-0 z-40 mx-auto w-full max-w-[1220px]">
       <div className="bg-background-100 flex h-16 w-full max-w-[1219px] border-b border-l border-r border-gray-alpha-400 pl-[22px] dark:border-[#242424]">
         {/* 左区块：汉堡按钮 + Logo（xl 以下汉堡可见，点击打开 Drawer 侧栏） */}
-        <div className="border-gray-alpha-400 flex grow items-center gap-4 py-4 pl-px xl:w-[237px] xl:grow-0 xl:border-r">
+        <div className="border-gray-alpha-400 flex grow items-center gap-4 py-4 pl-px lg:w-[237px] lg:grow-0 lg:border-r">
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
             aria-label={copy.menuOpenAria}
             aria-haspopup="dialog"
             aria-expanded={menuOpen}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-gray-alpha-100 hover:text-foreground focus-ring xl:hidden"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-gray-alpha-100 hover:text-foreground focus-ring lg:hidden"
           >
             <MenuIcon className="size-4" aria-hidden />
           </button>
@@ -51,8 +51,8 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
           </a>
         </div>
         {/* 右区块：Search + ThemeSwitcher */}
-        <div className="flex items-center justify-between p-4 xl:grow">
-          <div className="relative hidden xl:block" role="search">
+        <div className="flex items-center justify-between p-4 lg:grow">
+          <div className="relative hidden lg:block" role="search">
             <Search
               className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-muted-foreground"
               aria-hidden
@@ -74,7 +74,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               type="button"
               onClick={onSearchOpen}
               aria-label={copy.searchAria}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-gray-alpha-100 hover:text-foreground focus-ring xl:hidden"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-gray-alpha-100 hover:text-foreground focus-ring lg:hidden"
             >
               <Search className="size-4" aria-hidden />
             </button>
@@ -216,7 +216,7 @@ function DocsSidebarGroup({ group }: { group: NavGroup }) {
 
 function DocsSidebar() {
   return (
-    <aside className="hidden w-[260px] shrink-0 self-start overflow-y-auto border-l border-r border-gray-alpha-400 xl:sticky xl:top-16 xl:bottom-0 xl:block xl:h-[calc(100vh-4rem)]">
+    <aside className="hidden w-[260px] shrink-0 self-start overflow-y-auto border-l border-r border-gray-alpha-400 lg:sticky lg:top-16 lg:bottom-0 lg:block lg:h-[calc(100vh-4rem)]">
       <nav className="relative flex h-full min-h-0 flex-col space-y-4 overflow-y-auto px-6 pb-3.5 pt-4">
         {NAV_GROUPS.map((group) => (
           <DocsSidebarGroup key={group.title} group={group} />

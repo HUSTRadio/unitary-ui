@@ -14,13 +14,13 @@ describe("docs shell geometry — official Geist layout", () => {
     expect(app).not.toContain("max-w-[1280px]");
   });
 
-  it("uses xl:grid with sidebar + content columns at the official breakpoint", () => {
-    expect(app).toContain("xl:grid xl:grid-cols-[260px_1fr]");
+  it("uses lg:grid with sidebar + content columns at the shell breakpoint", () => {
+    expect(app).toContain("lg:grid lg:grid-cols-[260px_1fr]");
   });
 
   it("keeps vertical padding off <main> so sidebar borders start at banner bottom", () => {
     // py-10 must be on the content column, NOT on main
-    expect(app).not.toContain("flex-1 py-10 xl:grid");
+    expect(app).not.toContain("flex-1 py-10 lg:grid");
     expect(app).toContain("border-gray-alpha-400 py-10");
   });
 
@@ -41,7 +41,7 @@ describe("docs shell geometry — official Geist layout", () => {
   });
 
   it("puts 48px gutter on the content column, not on <main>", () => {
-    expect(app).toContain("xl:px-12");
+    expect(app).toContain("lg:px-12");
   });
 
   it("draws the view's right vertical boundary on the full content column", () => {
@@ -55,12 +55,12 @@ describe("docs shell geometry — official Geist layout", () => {
     expect(shell).toContain("flex items-center gap-2");
   });
 
-  it("uses the official 260px sidebar with dual borders at xl breakpoint", () => {
+  it("uses the official 260px sidebar with dual borders at the lg breakpoint", () => {
     expect(shell).toContain("w-[260px]");
     expect(shell).toContain("border-l border-r border-gray-alpha-400");
-    expect(shell).toContain("xl:sticky");
-    expect(shell).toContain("xl:top-16");
-    expect(shell).toContain("xl:bottom-0");
+    expect(shell).toContain("lg:sticky");
+    expect(shell).toContain("lg:top-16");
+    expect(shell).toContain("lg:bottom-0");
   });
 
   it("uses full-size theme switcher (not small) in the banner", () => {
