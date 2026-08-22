@@ -80,7 +80,7 @@ function RelativeTimeCard({
         {children ?? (
           <span
             data-slot="relative-time-card"
-            className="inline-flex cursor-help items-baseline whitespace-nowrap border-b border-dotted border-muted-foreground/60 text-copy-14 text-foreground"
+            className="inline-flex cursor-pointer items-baseline whitespace-nowrap text-copy-14 text-foreground"
           >
             {formatRelativeTime(date, locale)}
           </span>
