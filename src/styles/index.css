@@ -1165,6 +1165,21 @@
   }
 }
 
+/*
+ * shadow-focus-ring（官方 ProjectBanner CTA 焦点态专用，shard-F 实测）：
+ * 官方 CTA 类 focus-visible:shadow-focus-ring + focus-visible:!shadow-[var(--banner-focus-color)]，
+ * 即「banner 专用焦点色覆盖 + focus-ring 双环兜底」。--banner-focus-color 随 variant
+ * 由组件内联设置（project-banner.tsx 按色组给值），此处只定义 utility 与回退变量。
+ */
+:root {
+  --banner-focus-color: var(--focus-ring-color);
+}
+@utility shadow-focus-ring {
+  &:focus-visible {
+    box-shadow: 0 0 0 2px var(--banner-focus-color, var(--focus-ring-color)), var(--focus-ring-outline);
+  }
+}
+
 /* Choicebox 官方焦点态：tile 在内部原生 input 获得键盘焦点时显示 indigo outline。 */
 @utility choicebox-focus {
   &:has(:focus-visible) {
