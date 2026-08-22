@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import { Select, SelectItem } from "@/components/ui/select";
 import { Switch, SwitchControl } from "@/components/ui/switch";
 import { StepPoint } from "@/components/ui/step-point";
 import {
@@ -84,13 +84,13 @@ export default function App() {
       <div className="border-b border-border px-6 py-3 md:hidden">
         <Select
           value={page}
-          onChange={(event) => setPage(event.target.value as typeof page)}
+          onValueChange={(value) => setPage(value as typeof page)}
           aria-label="示例导航"
         >
           {NAV.map((item) => (
-            <option key={item.key} value={item.key}>
+            <SelectItem key={item.key} value={item.key}>
               {item.label}
-            </option>
+            </SelectItem>
           ))}
         </Select>
       </div>
@@ -147,9 +147,9 @@ export default function App() {
               </div>
               <div className="w-56">
                 <Select placeholder="选择类别" defaultValue="" aria-label="示例选择">
-                  <option value="office">办公设备</option>
-                  <option value="instrument">仪器设备</option>
-                  <option value="comms">通信设备</option>
+                  <SelectItem value="office">办公设备</SelectItem>
+                  <SelectItem value="instrument">仪器设备</SelectItem>
+                  <SelectItem value="comms">通信设备</SelectItem>
                 </Select>
               </div>
               <div className="w-72">
