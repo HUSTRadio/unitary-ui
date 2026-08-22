@@ -19,9 +19,7 @@ const zhSource = await readFile(
 describe("Best Practices i18n contract", () => {
   test("every component with English bestPractices has a Chinese translation", () => {
     const withEn = COMPONENTS.filter((c) => c.bestPractices?.length);
-    const missing = withEn
-      .filter((c) => !COMPONENT_BEST_PRACTICES_ZH[c.name])
-      .map((c) => c.name);
+    const missing = withEn.filter((c) => !COMPONENT_BEST_PRACTICES_ZH[c.name]).map((c) => c.name);
     expect(missing, "缺中文翻译的组件").toEqual([]);
   });
 
@@ -30,7 +28,10 @@ describe("Best Practices i18n contract", () => {
       (c) => COMPONENT_BEST_PRACTICES_ZH[c.name]?.length !== c.bestPractices?.length,
     );
     expect(
-      mismatches.map((c) => `${c.name}: en=${c.bestPractices?.length} zh=${COMPONENT_BEST_PRACTICES_ZH[c.name]?.length}`),
+      mismatches.map(
+        (c) =>
+          `${c.name}: en=${c.bestPractices?.length} zh=${COMPONENT_BEST_PRACTICES_ZH[c.name]?.length}`,
+      ),
       "条目数不一致",
     ).toEqual([]);
   });

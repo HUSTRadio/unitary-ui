@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { I18nProvider } from "@/lib/i18n";
 
 export type DocsLanguage = "zh-CN" | "en-US";
 
@@ -60,7 +61,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(() => ({ language, setLanguage }), [language, setLanguage]);
-  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
+  return (
+    <LanguageContext.Provider value={value}>
+      <I18nProvider locale={language === "zh-CN" ? "zh-CN" : "en"}>{children}</I18nProvider>
+    </LanguageContext.Provider>
+  );
 }
 
 export function useLanguage(): LanguageContextValue {

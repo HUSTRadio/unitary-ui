@@ -16,6 +16,13 @@ describe("docs language support", () => {
     expect(LANGUAGE_OPTIONS.map((option) => option.label)).toEqual(["中文", "English"]);
   });
 
+  it("bridges the docs language state into framework component translations", () => {
+    const source = readFileSync(resolve(process.cwd(), "docs/geist/src/i18n/language.tsx"), "utf8");
+
+    expect(source).toContain('import { I18nProvider } from "@/lib/i18n"');
+    expect(source).toContain('<I18nProvider locale={language === "zh-CN" ? "zh-CN" : "en"}>');
+  });
+
   it("keeps shell copy complete in both locales", () => {
     const keys = Object.keys(SHELL_COPY["zh-CN"]);
     expect(keys).toEqual(Object.keys(SHELL_COPY["en-US"]));

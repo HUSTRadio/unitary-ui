@@ -42,8 +42,8 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
   button: [
     "改变状态的动作（部署、保存、删除）用 Button；改变 URL 的导航用 ButtonLink。一行放不下多个相关动作时改用 Menu 或 Split Button。",
     "用 loading 而不是替换成 spinner，这样按钮保持可聚焦，并向辅助技术播报忙碌状态。",
-    "默认 Button 是 primary。支持动作传 type=\"secondary\"，破坏性确认传 type=\"error\"。primary、success、ghost 和 violet 不是合法 type 值。",
-    "表单提交用 typeName=\"submit\"。HTML type 属性位于 typeName 上，而非控制视觉变体的 type 上。",
+    '默认 Button 是 primary。支持动作传 type="secondary"，破坏性确认传 type="error"。primary、success、ghost 和 violet 不是合法 type 值。',
+    '表单提交用 typeName="submit"。HTML type 属性位于 typeName 上，而非控制视觉变体的 type 上。',
     "仅当动作当前确实不可能时（缺输入、权限不足）才禁用按钮，并配一个解释原因的 Tooltip。",
     "标签首字母大写并写明结果：Deploy Project、Invite Member、Rotate Key。避免裸动词（Submit）与通用确认（OK、Confirm）。",
     "破坏性按钮遵循 动词 + 名词，并 1:1 配对 toast：Delete Project 然后 Project deleted。模式切换按钮追加 Instead：Use a Recovery Code Instead。",
@@ -72,7 +72,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "Indeterminate 文案在组标签旁注明部分数量（3 of 5 selected）。绝不让破折号状态无标签。",
     "用 fieldset + legend 包裹相关复选框，让屏幕阅读器在每个选项前播报组名。",
     "点击目标已延伸到标签。不要用自定义包装器覆盖 label/htmlFor 关联而破坏点击区域。",
-    "表格里的行选择复选框没有可见标签。设置 aria-label=\"Select {row name}\" 让屏幕阅读器播报所选行。",
+    '表格里的行选择复选框没有可见标签。设置 aria-label="Select {row name}" 让屏幕阅读器播报所选行。',
   ],
   "code-block": [
     "对读者会扫读或粘贴的多行、语法高亮源码使用 CodeBlock。单个内联 token（环境变量名、函数名、文件路径）用 InlineCode。",
@@ -173,7 +173,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "不要在这里放关键持久警告。列表填充后空态会消失；持久警告属于 Note 或页头。",
     "title 首字母大写；description 句首大写并补充新信息，而非复述标题。",
     "最多一个主 CTA 加一个次 CTA。三个 CTA 是坏味道。",
-    "异步过滤变化后用 aria-live=\"polite\" 包裹区域，让屏幕阅读器播报结果更新。",
+    '异步过滤变化后用 aria-live="polite" 包裹区域，让屏幕阅读器播报结果更新。',
   ],
   error: [
     "区块或页面级资源加载失败时（面板、仪表盘卡片、路由边界）用 Error 组件作为块级表面。",
@@ -182,7 +182,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "先说发生了什么、再说接下来怎么做，顺序如此。去掉道歉式开场（Unfortunately、Oops、We're sorry）。",
     "用户状态错误用 Couldn't 或 Can't；系统或基础设施错误用 Failed to。禁用 Unable to。",
     "标题不要回退成 Something Went Wrong；点名失败的资源（Couldn't Load Deployments）。",
-    "取数失败后错误异步出现时，用 aria-live=\"polite\" 包裹区域让其被播报；把 assertive 保留给真正阻塞的错误。",
+    '取数失败后错误异步出现时，用 aria-live="polite" 包裹区域让其被播报；把 assertive 保留给真正阻塞的错误。',
   ],
   feedback: [
     "把 Feedback 放在页面、文档或已完成流程的末尾，此时用户已形成观点。不要把它前置到用户刚打开的界面上。",
@@ -210,7 +210,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "二进制或枚举状态用 Status Dot（部署）或 Badge（其余）。",
     "始终在 gauge 旁放相邻标签或 Tooltip，说明数字代表什么（Build Cache Hit Rate）。单独一个 gauge 无法自我描述。",
     "不要把单位放进 children；标签承载单位（Uptime · 99.97%）。children 保留给图标覆盖层。",
-    "组件设置 role=\"progressbar\" 及 aria-valuemin、aria-valuemax、aria-valuenow；不要覆盖它们。",
+    '组件设置 role="progressbar" 及 aria-valuemin、aria-valuemax、aria-valuenow；不要覆盖它们。',
   ],
   input: [
     "单行自由文本（名称、域名、token）用 <Input>。",
@@ -227,7 +227,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "校验消息点名字段与约束、以句号结尾并省略 please（Project name is required.、Code must be 6 digits.）。",
     "向 label 传字符串需要 id；缺少时 InputPropsWithStringLabelAndId 联合类型无法编译，屏幕阅读器也会失去关联。",
     "SearchInput 的 placeholder 限定范围（Search projects），让无视觉上下文也能明确其角色。",
-    "输入行内的纯图标功能用 <Button shape=\"circle\" svgOnly>（如清除或显示/隐藏），保持控件行对齐。",
+    '输入行内的纯图标功能用 <Button shape="circle" svgOnly>（如清除或显示/隐藏），保持控件行对齐。',
   ],
   "json-view": [
     "需要用户检查、扫读、折叠、展开、选择或复制的 JSON 对象或数组用 JSON View。",
@@ -253,7 +253,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "尾部标签针对进行中的工作具体化（Saving、Deploying、Uploading），让超过 ~1s 的等待仍告诉用户发生了什么。",
     "不要在已完成动词后接 Loading Dots（Saved<LoadingDots />）；圆点暗示进行中的工作。",
     "圆点是装饰性的；含义由周围文本承载，所以不要给组件本身加 aria-label。",
-    "用 aria-live=\"polite\" 标记包裹 span，让屏幕阅读器捕捉进行中的文案变化。",
+    '用 aria-live="polite" 标记包裹 span，让屏幕阅读器捕捉进行中的文案变化。',
     "尊重 prefers-reduced-motion，并避免在同一行把 Loading Dots 与另一动画指示器配对。",
   ],
   modal: [
@@ -286,7 +286,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "兄弟页面间的顺序导航（文档文章、博客帖子、引导步骤）用 Pagination。同一数据集内揭示更多行用 Show More 或数字分页器。",
     "作为上一篇/下一篇文档轨使用 Pagination；需要跳到编号页面时用数据表格专用分页器。",
     "序列首尾的 Previous / Next 槽位用隐藏而非禁用；空的导轨比一个无处可去的暗淡链接更干净。",
-    "用 isActive 标记当前页，使其渲染 aria-current=\"page\" 且不渲染为链接。",
+    '用 isActive 标记当前页，使其渲染 aria-current="page" 且不渲染为链接。',
     "页面标签保持简短——数字或 1–2 个词。不要在链接内复述如 Page 3 of 10 这样的序号位置。",
   ],
   phone: [
@@ -297,7 +297,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
   pill: [
     "可点击、切换查询的过滤 chip 用 Pill；静态状态标签用 Badge。",
     "仅当 pill 确实可以过滤时接 onClick；否则升级为 Badge。",
-    "传 variant=\"active\" 高亮当前选中的过滤器，让视觉用户看到选择状态。",
+    '传 variant="active" 高亮当前选中的过滤器，让视觉用户看到选择状态。',
   ],
   progress: [
     "总量可知的确定性工作：文件上传、多步设置、构建步骤或批量删除。",
@@ -349,7 +349,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "标题首字母大写并命名实体（Deployment Details、Member Profile），而非页面动作。正文是偏阅读的散文。",
     "Sheet 打开时困住焦点，关闭时还给触发器行，让键盘用户保持在列表中的位置。",
     "用指向标题的 aria-labelledby 播报 sheet；仅当正文短且承载关键信息时配 aria-describedby。",
-    "提供标为 Close 的可见关闭按钮（或 aria-label=\"Close\" 的图标按钮）；读屏用户需要稳定的关闭标签。",
+    '提供标为 Close 的可见关闭按钮（或 aria-label="Close" 的图标按钮）；读屏用户需要稳定的关闭标签。',
   ],
   select: [
     "短而固定的列表（约 10 项以内）用 <Select>，输入过滤没有增益；需要过滤时改用 Combobox。",
@@ -380,7 +380,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "单个进行中的动作用 Spinner；已知进度用 Progress。",
     "width 与 height 匹配最终内容，让数据解析时布局不位移。",
     "在低功耗表面尊重 prefers-reduced-motion 处理脉冲动画。",
-    "用 aria-busy=\"true\" 包裹加载区域，并用 aria-live 播报完成。",
+    '用 aria-busy="true" 包裹加载区域，并用 aria-live 播报完成。',
   ],
   slider: [
     "形状与邻近性比精度更重要的范围数字输入用 slider：带宽上限、透明度、音量、颜色通道。",
@@ -432,7 +432,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "不要在标题后追加计数（Logs (12)）；用 badge 槽并在归零时去掉 badge。",
     "让 Left/Right 箭头在 tab 间移动焦点、Enter/Space 激活；不要用全局快捷键劫持。",
     "活动 tab 保持可见焦点环；不要为视觉美观压制焦点样式。",
-    "上方没有可见标题时用 aria-label 标记 tablist（如 aria-label=\"Reference view\"）。",
+    '上方没有可见标题时用 aria-label 标记 tablist（如 aria-label="Reference view"）。',
   ],
   textarea: [
     "会换行成多行的内容（提交消息、描述、备注）用 <Textarea>；名称或域名这类单个值用 Input。",
@@ -452,7 +452,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "完成类 toast 遵循 {Noun} {过去分词}：Blob deleted、Domain added。绝不加 successfully。",
     "错误 toast 是带句号的两句，以恢复步骤结尾：Couldn't verify domain. Try again.。",
     "toast 动词与破坏性按钮动词 1:1 配对（Delete Project 然后 Project deleted）。",
-    "toast 区域用 aria-live=\"polite\" 播报；把 assertive 保留给需要立即打断的警报。",
+    'toast 区域用 aria-live="polite" 播报；把 assertive 保留给需要立即打断的警报。',
   ],
   toggle: [
     "单个布尔设置且 ON 立即生效用 Toggle，如 Password Protection 或 Auto-Cancel Builds。多选列表用 Checkbox，2–3 互斥视图用 Switch。",
@@ -462,7 +462,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "标签是 children 而非 label prop。首字母大写名词短语、1–4 个词，命名 ON 时成立的状态：Password Protection，而非 Enable Password Protection。",
     "在标签下渲染可选的一句说明，只解释 ON。不要描述 OFF；它是否定。",
     "通过 children、aria-label 或 aria-labelledby 提供可访问名称。三者都缺失时 Geist 在开发模式警告。",
-    "保持 labelCasing=\"title\"（默认值），让标签与其他首字母大写表面一致。",
+    '保持 labelCasing="title"（默认值），让标签与其他首字母大写表面一致。',
     "仅当可见标签位于行上别处时才设 aria-label；否则让 children 承载它，让视觉与读屏文案保持一致。",
   ],
   tooltip: [
@@ -472,7 +472,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "把主动作留在 Tooltip 之外；触屏用户够不到悬停揭示的控件。",
     "文本是一句或短语。句首大写；单一短语无句号。",
     "纯图标触发器需要命名动作的 aria-label；Tooltip 正文补充上下文，不替代标签。",
-    "跳过复述可见标签的 tooltip（如 Rate Limit 按钮上的 text=\"Rate Limit\"）；只会重复而不会补充。",
+    '跳过复述可见标签的 tooltip（如 Rate Limit 按钮上的 text="Rate Limit"）；只会重复而不会补充。',
     "Escape 关闭 tooltip 并把焦点还给触发器。",
   ],
   "theme-switcher": [
