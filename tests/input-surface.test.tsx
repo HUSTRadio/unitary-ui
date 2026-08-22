@@ -93,6 +93,14 @@ describe("Input wrapper contract (B0 input-wrapper)", () => {
       "has-[input:disabled]:[&_[data-slot=input-suffix]]:bg-gray-100",
     );
   });
+
+  test("rounded variant chips sync the pill radius (no right-angle corners in capsule)", () => {
+    const { container } = renderInput({ rounded: true, prefix: "$", suffix: "USD", onChange: () => {} });
+    const prefix = container.querySelector('[data-slot="input-prefix"]');
+    const suffix = container.querySelector('[data-slot="input-suffix"]');
+    expect(prefix!.className).toContain("rounded-full");
+    expect(suffix!.className).toContain("rounded-full");
+  });
 });
 
 /** 渲染 Input，返回 wrapper/label/input 元素。 */

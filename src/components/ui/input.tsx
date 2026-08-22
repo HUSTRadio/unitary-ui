@@ -114,6 +114,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             data-slot="input-prefix"
             className={cn(
               "flex h-full shrink-0 items-center text-gray-700",
+              rounded && "rounded-full",
               prefixStyling
                 ? "ml-3 border-r border-gray-alpha-400 bg-background-200 pl-3 pr-2"
                 : cn(NO_STYLING_CLASSES, "ml-3 pl-3"),
@@ -148,6 +149,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             data-slot="input-suffix"
             className={cn(
               "flex h-full shrink-0 items-center text-gray-700",
+              rounded && "rounded-full",
               suffixStyling
                 ? "mr-3 border-l border-gray-alpha-400 bg-background-200 ml-2 pr-3"
                 : cn(NO_STYLING_CLASSES, "mr-3 pr-3"),
