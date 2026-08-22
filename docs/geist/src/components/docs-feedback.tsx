@@ -3,6 +3,7 @@ import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
+import { RatingPill, type RatingValue } from "@/components/ui/rating-pill";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { SHELL_COPY } from "../i18n/catalog";
@@ -10,8 +11,9 @@ import { useLanguage } from "../i18n/language";
 
 /**
  * 文档站页脚 — 反馈区 + Next 分页（docs/geist 专用）。
- * FeedbackPanel：胶囊「Give feedback」+ 4 emoji radio（原生 input sr-only + label），
- *   下方 Textarea + Send 按钮；本地 state 模拟提交，不真实上报。
+ * FeedbackPanel：胶囊 rating bar（收起为一行「Was this helpful?」），点击展开 4 表情评分，
+ *   选中后胶囊以语义色着色；展开面板内保留 Textarea + Send（本地 state 模拟提交，不真实上报）。
+ *   — 复用库组件 RatingPill（与 Feedback 组件同一交互/着色，消除形态漂移）。
  * DocsPagination：左右双分页 — 左 Previous + 标题 + ChevronLeft，右标题 + Next + ChevronRight，
  *   按当前页计算上/下一项（Introduction → Colors → Typography → Materials → Grid → Components）；
  *   首页只 Next、末页只 Previous、中间页双显。
@@ -19,84 +21,21 @@ import { useLanguage } from "../i18n/language";
 
 /* ================= FeedbackPanel ================= */
 
-interface EmojiOption {
-  value: string;
-  emoji: string;
-  label: string;
-}
-
-const EMOJI_OPTIONS = {
-  "zh-CN": [
-    { value: "hate", emoji: "😡", label: "很差" },
-    { value: "not-great", emoji: "😕", label: "不太好" },
-    { value: "okay", emoji: "😐", label: "还可以" },
-    { value: "love", emoji: "🤩", label: "很喜欢" },
-  ],
-  "en-US": [
-    { value: "hate", emoji: "😡", label: "Hate it" },
-    { value: "not-great", emoji: "😕", label: "Not great" },
-    { value: "okay", emoji: "😐", label: "It's okay" },
-    { value: "love", emoji: "🤩", label: "Love it" },
-  ],
-} satisfies Record<string, EmojiOption[]>;
-
 export function FeedbackPanel() {
   const { language } = useLanguage();
   const copy = SHELL_COPY[language];
-  const [rating, setRating] = useState<string | null>(null);
+  const [rating, setRating] = useState<RatingValue | undefined>(undefined);
   const [comment, setComment] = useState("");
   const [sent, setSent] = useState(false);
 
   return (
     <section aria-label={copy.feedbackQuestion}>
-      {/* 胶囊 — 左侧文案 + 右侧 emoji radio（原生 input sr-only + label） */}
-      <div className="flex items-center justify-between rounded-full border border-border bg-gray-alpha-100 py-1.5 pr-1.5 pl-4">
-        <span className="text-label-14 text-muted-foreground">{copy.feedbackQuestion}</span>
-        <div role="radiogroup" aria-label={copy.feedbackRating} className="flex items-center">
-          {EMOJI_OPTIONS[language].map((option) => {
-            const checked = rating === option.value;
-            return (
-              <label
-                key={option.value}
-                title={option.label}
-                className={cn(
-                  "cursor-pointer rounded-full p-1.5 transition-colors",
-                  checked && "bg-background ring-2 ring-ring",
-                )}
-              >
-                <input
-                  type="radio"
-                  name="feedback-rating"
-                  value={option.value}
-                  checked={checked}
-                  onChange={() => setRating(option.value)}
-                  aria-label={option.label}
-                  className="peer sr-only"
-                />
-                <span
-                  aria-hidden
-                  className={cn(
-                    "block text-base leading-none transition-transform peer-focus-visible:focus-ring",
-                    checked && "scale-110",
-                  )}
-                >
-                  {option.emoji}
-                </span>
-              </label>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* 反馈表单 — Textarea + Send（本地 state，点击后显示已发送） */}
-      <div className="mt-4">
-        <Textarea
-          placeholder={copy.feedbackPlaceholder}
-          value={comment}
-          onChange={(event) => setComment(event.target.value)}
-          disabled={sent}
-        />
-        <div className="mt-2 flex justify-end">
+      {/* 胶囊 rating bar — 收起为一行 trigger，点开展开评分、点外收起；选中后胶囊语义色着色 */}
+      <RatingPill
+        label={copy.feedbackQuestion}
+        value={rating}
+        onValueChange={setRating}
+        footerActions={
           <Button
             typeName="button"
             size="small"
@@ -106,8 +45,21 @@ export function FeedbackPanel() {
           >
             {sent ? copy.feedbackSent : copy.feedbackSend}
           </Button>
+        }
+      >
+        {/* 展开面板 body — 文本反馈（docs 场景保留 Textarea + Send） */}
+        <div className="mt-1">
+          <Textarea
+            placeholder={copy.feedbackPlaceholder}
+            value={comment}
+            onChange={(event) => setComment(event.target.value)}
+            disabled={sent}
+          />
+          {sent ? (
+            <p className="mt-1 text-label-12 text-muted-foreground">{copy.feedbackThanks}</p>
+          ) : null}
         </div>
-      </div>
+      </RatingPill>
     </section>
   );
 }

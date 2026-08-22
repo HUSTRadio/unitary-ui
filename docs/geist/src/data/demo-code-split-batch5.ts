@@ -9,7 +9,9 @@
  * - 图标用 lucide-react（`import { X } from "lucide-react"`），不用 @vercel/geistcn-assets。
  * - blockId 用官方快照 docs/geist-markdown-refs/components/feedback.md 的
  *   「## 区块标题」原文（Default / Inline / Feedback with Select / Feedback with
- *   metadata / Feedback with prefix / Feedback with suffix）。
+ *   metadata / Feedback with prefix / Feedback with suffix）+ 本地新增「Rating bar」（item 12：
+ *   胶囊 rating bar 收起为一行、点开展开评分、选中后胶囊语义色着色 love→success 绿 / okay→gray /
+ *   not-great→warning 黄 / hate→error 红）。
  * - 本地 FeedbackProps 已实现 label / copy / dryRun / type / showTopics / metadata /
  *   prefix / suffix / defaultValue / onSubmit，与 docs-components-page.tsx 实际渲染一致。
  * - Default / Feedback with Select / Feedback with metadata 三区块为桌面-only：
@@ -67,6 +69,17 @@ import { Note, NoteContent } from "@/components/ui/note";
     <Note>
       <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
     </Note>
+  </div>
+</>`,
+    "Rating bar": `import { Feedback } from "@/components/ui/feedback";
+
+// 胶囊 rating bar：收起为一行 trigger，点开展开评分、点外部收起；选中后胶囊以语义色着色
+// （love → success 绿 / okay → gray 中性 / not-great → warning 黄 / hate → error 红）
+<>
+  <div className="flex flex-wrap items-center justify-center gap-4">
+    <Feedback label="vercel" dryRun defaultValue="love" />
+    <Feedback label="vercel" dryRun defaultValue="not-great" />
+    <Feedback label="vercel" dryRun defaultValue="hate" />
   </div>
 </>`,
     "Feedback with prefix": `import { Feedback } from "@/components/ui/feedback";
