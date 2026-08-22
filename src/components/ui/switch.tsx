@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-type SwitchSize = "small" | "default" | "large";
+export type SwitchSize = "small" | "default" | "large";
 
 interface SwitchContextValue {
   size: SwitchSize;
@@ -14,7 +14,7 @@ interface SwitchContextValue {
 
 const SwitchContext = React.createContext<SwitchContextValue | null>(null);
 
-type SwitchProps = Omit<React.ComponentProps<"div">, "defaultValue" | "onChange"> & {
+export type SwitchProps = Omit<React.ComponentProps<"div">, "defaultValue" | "onChange"> & {
   size?: SwitchSize;
   name: string;
   value?: string;
@@ -52,7 +52,7 @@ function Switch({
   );
 }
 
-type SwitchControlProps = Omit<
+export type SwitchControlProps = Omit<
   React.ComponentProps<"input">,
   "checked" | "defaultChecked" | "name" | "size" | "type"
 > & {

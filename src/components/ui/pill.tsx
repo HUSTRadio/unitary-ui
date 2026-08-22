@@ -8,13 +8,11 @@ import { cn } from "@/lib/utils";
  * variant="active" 高亮当前选中项（bg-selected + 前景色）；默认态为灰色描边 chip。
  * 颜色消费语义 token（--selected / --gray-alpha / --foreground 随主题切换），零 `dark:` 分支。
  */
-function Pill({
-  variant = "default",
-  className,
-  ...props
-}: React.ComponentProps<"button"> & {
+export interface PillProps extends React.ComponentProps<"button"> {
   variant?: "default" | "active";
-}) {
+}
+
+function Pill({ variant = "default", className, ...props }: PillProps) {
   return (
     <button
       type="button"

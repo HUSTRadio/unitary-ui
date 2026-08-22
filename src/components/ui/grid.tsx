@@ -29,11 +29,11 @@ import styles from "./grid.module.css";
 /* types                                                               */
 /* ------------------------------------------------------------------ */
 
-/** Legacy column presets (kept for backward compatibility). */
+/** @deprecated Legacy column presets; use `number` through `GridColumns`. */
 export type GridCols = 1 | 2 | 3 | 4 | 6 | 12;
-/** Legacy gap presets (deprecated — spacing now comes from the guide system). */
+/** @deprecated Spacing comes from the guide system; `Grid.gap` is ignored. */
 export type GridGap = "sm" | "md" | "lg";
-/** Legacy responsive columns shape (kept for backward compatibility). */
+/** @deprecated Use `GridResponsiveValue<number>`. */
 export type GridResponsiveCols = { sm?: GridCols; md?: GridCols; lg?: GridCols };
 
 export type GridBreakpoint = "xs" | "sm" | "smd" | "md" | "lg";
@@ -47,6 +47,44 @@ export type GridHeight =
   | GridResponsiveValue<number | "preserve-aspect-ratio">;
 export type GridHideGuides = "row" | "column";
 export type GridCellPosition = number | string | GridResponsiveValue<number | string>;
+
+export interface GridSystemProps extends React.ComponentProps<"div"> {
+  debug?: boolean;
+  dashedGuides?: boolean;
+  guideWidth?: number;
+  /** Experimental container-query layout wrapper. */
+  unstable_useContainer?: boolean;
+}
+
+export interface GridProps extends React.ComponentProps<"section"> {
+  columns?: GridColumns;
+  rows?: GridRows;
+  height?: GridHeight;
+  hideGuides?: GridHideGuides;
+  /**
+   * @deprecated Official grids have no `gap` prop — spacing comes from the guide
+   * system. Kept for backward compatibility; the value is ignored.
+   */
+  gap?: GridGap;
+}
+
+export interface GridCellProps extends React.ComponentProps<"div"> {
+  column?: GridCellPosition;
+  row?: GridCellPosition;
+  solid?: boolean;
+}
+
+export interface GridCrossProps extends React.ComponentProps<"div"> {
+  column?: number;
+  row?: number;
+}
+
+export type GridPageProps = React.ComponentProps<"div">;
+
+/** @deprecated Use `GridCell` with an explicit `column` span. */
+export interface GridItemProps extends React.ComponentProps<"div"> {
+  span?: GridCols;
+}
 
 const GRID_BREAKPOINTS: readonly GridBreakpoint[] = ["xs", "sm", "smd", "md", "lg"] as const;
 
@@ -346,12 +384,7 @@ function GridSystem({
   guideWidth,
   unstable_useContainer = false,
   ...props
-}: React.ComponentProps<"div"> & {
-  debug?: boolean;
-  dashedGuides?: boolean;
-  guideWidth?: number;
-  unstable_useContainer?: boolean;
-}) {
+}: GridSystemProps) {
   const contextValue = useMemo(
     () => ({ guideWidth, dashedGuides, unstable_useContainer }),
     [guideWidth, dashedGuides, unstable_useContainer],
@@ -402,17 +435,7 @@ function Grid({
   hideGuides,
   gap: _gap,
   ...props
-}: React.ComponentProps<"section"> & {
-  columns?: GridColumns;
-  rows?: GridRows;
-  height?: GridHeight;
-  hideGuides?: GridHideGuides;
-  /**
-   * @deprecated Official grids have no `gap` prop — spacing comes from the guide
-   * system (G06-GRID-03). Kept for backward compatibility; the value is ignored.
-   */
-  gap?: GridGap;
-}) {
+}: GridProps) {
   const system = useContext(GridSystemContext);
   const epochRef = useRef(0);
   epochRef.current += 1;
@@ -504,18 +527,7 @@ function GridGuides({
  * (start/end grid lines), or a responsive object. `solid` occludes the guides
  * the cell overlaps (their borders are removed; debug mode shows them dashed).
  */
-function GridCell({
-  className,
-  children,
-  column,
-  row,
-  solid = false,
-  ...props
-}: React.ComponentProps<"div"> & {
-  column?: GridCellPosition;
-  row?: GridCellPosition;
-  solid?: boolean;
-}) {
+function GridCell({ className, children, column, row, solid = false, ...props }: GridCellProps) {
   const grid = useContext(GridContext);
   const id = useId();
 
@@ -537,15 +549,7 @@ function GridCell({
 }
 
 /** GridCross — a corner marker at the given grid line intersection. */
-function GridCross({
-  className,
-  column,
-  row,
-  ...props
-}: React.ComponentProps<"div"> & {
-  column?: number;
-  row?: number;
-}) {
+function GridCross({ className, column, row, ...props }: GridCrossProps) {
   return (
     <div
       data-grid-cross=""
@@ -579,7 +583,7 @@ function GridCross({
 }
 
 /** GridPage — page-level wrapper that centers its grid system content. */
-function GridPage({ className, children, ...props }: React.ComponentProps<"div">) {
+function GridPage({ className, children, ...props }: GridPageProps) {
   return (
     <div data-slot="grid-page" className={cn(styles.page, className)} {...props}>
       <div className={styles.gridSystemContentWrapper}>{children}</div>
@@ -588,16 +592,11 @@ function GridPage({ className, children, ...props }: React.ComponentProps<"div">
 }
 
 /**
+ * @deprecated Use `GridCell` with an explicit `column` span.
  * GridItem — legacy component, kept for backward compatibility.
  * Maps the old `span` prop onto an auto-placed GridCell column span.
  */
-function GridItem({
-  className,
-  span,
-  ...props
-}: React.ComponentProps<"div"> & {
-  span?: GridCols;
-}) {
+function GridItem({ className, span, ...props }: GridItemProps) {
   return (
     <GridCell
       data-slot="grid-item"

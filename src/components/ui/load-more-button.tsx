@@ -12,7 +12,7 @@ import { useI18n } from "@/lib/i18n";
  * - noGap / noBorderRadius 变体
  */
 
-interface LoadMoreButtonProps extends ButtonProps {
+export interface LoadMoreButtonProps extends ButtonProps {
   /** 加载态：显示 Spinner + "Loading..." 并禁用按钮 */
   loading?: boolean;
   /** 无间距变体：Spinner 与文字之间不留间隙 */

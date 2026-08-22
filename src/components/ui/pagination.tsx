@@ -9,7 +9,7 @@ export interface PaginationRailLink {
   href: string;
 }
 
-interface PaginationProps extends React.ComponentProps<"nav"> {
+export interface PaginationProps extends React.ComponentProps<"nav"> {
   previous?: PaginationRailLink;
   next?: PaginationRailLink;
 }
@@ -48,7 +48,11 @@ function RailLink({
   return (
     <a
       href={href}
-      aria-label={t("Go to {direction} page: {title}", { direction, title })}
+      aria-label={
+        alignRight
+          ? t("Go to next page: {title}", { title })
+          : t("Go to previous page: {title}", { title })
+      }
       data-slot="pagination-rail-link"
       className={cn(
         "group rounded-md p-1 focus-ring",
@@ -56,7 +60,7 @@ function RailLink({
       )}
     >
       <span className="mb-0.5 text-copy-13 text-gray-900 transition-colors duration-200 ease-in-out group-hover:text-foreground">
-        {alignRight ? t("Next") : t("Previous")}
+        {alignRight ? t("Next page") : t("Previous page")}
       </span>
       <span className="relative flex [&>span]:inline-block [&>span]:max-w-[20em] [&>span]:truncate [&>span]:break-words">
         <span className="text-[16px] leading-[24px] font-medium">{title}</span>

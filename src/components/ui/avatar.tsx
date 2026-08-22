@@ -27,17 +27,7 @@ const AVATAR_LOADING_CSS = `
 }
 `;
 
-function Avatar({
-  className,
-  size = 32,
-  src,
-  username,
-  letter,
-  placeholder,
-  title,
-  alt,
-  ...props
-}: Omit<React.ComponentProps<typeof AvatarPrimitive.Root>, "children"> & {
+interface AvatarProps extends Omit<React.ComponentProps<typeof AvatarPrimitive.Root>, "children"> {
   /** 数字尺寸（官方 24/32/48…） */
   size?: number;
   /** 图片地址 */
@@ -51,7 +41,19 @@ function Avatar({
   /** 实体名（作为 SR 标签） */
   title?: string;
   alt?: string;
-}) {
+}
+
+function Avatar({
+  className,
+  size = 32,
+  src,
+  username,
+  letter,
+  placeholder,
+  title,
+  alt,
+  ...props
+}: AvatarProps) {
   const { t } = useI18n();
   const px = size;
   const hasVisual = Boolean(src || username || letter || placeholder);
@@ -104,6 +106,15 @@ interface AvatarGroupMember {
   [key: string]: unknown;
 }
 
+interface AvatarGroupProps {
+  className?: string;
+  members: AvatarGroupMember[];
+  size?: number;
+  limit?: number;
+  overlap?: "auto" | number;
+  reverse?: boolean;
+}
+
 /**
  * AvatarGroup — 官方 API：members / size / limit / overlap（"auto" | 数字）/ reverse。
  * auto overlap = round(size × 0.3)（官方实测 16→5、24→7、32→10、48→14）。
@@ -116,14 +127,7 @@ function AvatarGroup({
   limit,
   overlap = "auto",
   reverse = false,
-}: {
-  className?: string;
-  members: AvatarGroupMember[];
-  size?: number;
-  limit?: number;
-  overlap?: "auto" | number;
-  reverse?: boolean;
-}) {
+}: AvatarGroupProps) {
   const { t } = useI18n();
   const overlapPx = overlap === "auto" ? Math.round(size * 0.3) : overlap;
   const shown =
@@ -174,6 +178,13 @@ function AvatarGroup({
 }
 
 /** AvatarWithIcon — 图标头像（iconBackground 给图标加浅色圆底） */
+interface AvatarWithIconProps extends React.ComponentProps<typeof AvatarPrimitive.Root> {
+  icon: React.ReactNode;
+  size?: number;
+  iconBackground?: boolean;
+  title?: string;
+}
+
 function AvatarWithIcon({
   className,
   icon,
@@ -181,12 +192,7 @@ function AvatarWithIcon({
   iconBackground = false,
   title,
   ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Root> & {
-  icon: React.ReactNode;
-  size?: number;
-  iconBackground?: boolean;
-  title?: string;
-}) {
+}: AvatarWithIconProps) {
   const { t } = useI18n();
   return (
     <AvatarPrimitive.Root
@@ -211,11 +217,15 @@ function AvatarWithIcon({
   );
 }
 
-function GitHubAvatar(props: React.ComponentProps<typeof Avatar> & { username: string }) {
+interface ServiceAvatarProps extends AvatarProps {
+  username: string;
+}
+
+function GitHubAvatar(props: ServiceAvatarProps) {
   return <Avatar {...props} username={props.username} />;
 }
 
-function GitLabAvatar(props: React.ComponentProps<typeof Avatar> & { username: string }) {
+function GitLabAvatar(props: ServiceAvatarProps) {
   return (
     <Avatar
       {...props}
@@ -225,7 +235,7 @@ function GitLabAvatar(props: React.ComponentProps<typeof Avatar> & { username: s
   );
 }
 
-function BitbucketAvatar(props: React.ComponentProps<typeof Avatar> & { username: string }) {
+function BitbucketAvatar(props: ServiceAvatarProps) {
   return (
     <Avatar
       {...props}
@@ -239,3 +249,10 @@ function BitbucketAvatar(props: React.ComponentProps<typeof Avatar> & { username
 }
 
 export { Avatar, AvatarGroup, AvatarWithIcon, GitHubAvatar, GitLabAvatar, BitbucketAvatar };
+export type {
+  AvatarProps,
+  AvatarGroupMember,
+  AvatarGroupProps,
+  AvatarWithIconProps,
+  ServiceAvatarProps,
+};

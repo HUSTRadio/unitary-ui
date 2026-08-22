@@ -5,6 +5,12 @@ import { useI18n } from "@/lib/i18n";
 
 export type StatusDotState = "QUEUED" | "BUILDING" | "READY" | "ERROR" | "CANCELED" | "DELETED";
 
+export interface StatusDotProps extends React.ComponentProps<"span"> {
+  state?: StatusDotState;
+  label?: boolean;
+  titlePrefix?: string;
+}
+
 const STATUS_DOT_STYLES: Record<StatusDotState, string> = {
   QUEUED: "bg-[#eaeaea] dark:bg-[#333] animate-pulse",
   BUILDING: "bg-[#f5a623] animate-pulse",
@@ -32,17 +38,7 @@ const STATUS_MESSAGES: Record<StatusDotState, string> = {
   DELETED: "was deleted.",
 };
 
-function StatusDot({
-  className,
-  state = "QUEUED",
-  label,
-  titlePrefix,
-  ...props
-}: React.ComponentProps<"span"> & {
-  state?: StatusDotState;
-  label?: boolean;
-  titlePrefix?: string;
-}) {
+function StatusDot({ className, state = "QUEUED", label, titlePrefix, ...props }: StatusDotProps) {
   const { t } = useI18n();
   const resolvedTitlePrefix = titlePrefix ?? t("This deployment");
   return (

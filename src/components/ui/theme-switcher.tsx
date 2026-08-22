@@ -14,15 +14,13 @@ const THEME_OPTIONS: Array<{
   { value: "dark", label: "Dark", icon: Moon },
 ];
 
-function ThemeSwitcher({
-  className,
-  small = false,
-  disabled = false,
-}: {
+export interface ThemeSwitcherProps {
   className?: string;
   small?: boolean;
   disabled?: boolean;
-}) {
+}
+
+function ThemeSwitcher({ className, small = false, disabled = false }: ThemeSwitcherProps) {
   const { preference, setPreference } = useTheme();
   const { t } = useI18n();
 

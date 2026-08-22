@@ -4,9 +4,9 @@ import { CircleAlert, CircleCheck, CircleX, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 
-type ToastKind = "message" | "success" | "warning" | "error";
+export type ToastKind = "message" | "success" | "warning" | "error";
 
-interface ToastOptions {
+export interface ToastOptions {
   text: React.ReactNode;
   preserve?: boolean;
   action?: string;
@@ -56,7 +56,15 @@ function getSnapshot() {
   return toastRecords;
 }
 
-function useToasts() {
+export interface UseToastsReturn {
+  message: (options: ToastOptions) => number;
+  success: (text: React.ReactNode) => number;
+  warning: (text: React.ReactNode) => number;
+  error: (text: React.ReactNode) => number;
+  dismiss: (id: number) => void;
+}
+
+function useToasts(): UseToastsReturn {
   return React.useMemo(
     () => ({
       message: (options: ToastOptions) => addToast("message", options),
@@ -75,7 +83,7 @@ const toastIcons: Partial<Record<ToastKind, React.ComponentType<{ className?: st
   error: CircleX,
 };
 
-interface ToastsProps extends React.ComponentProps<"ol"> {
+export interface ToastsProps extends React.ComponentProps<"ol"> {
   gap?: number;
 }
 

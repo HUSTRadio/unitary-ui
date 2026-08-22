@@ -6,9 +6,16 @@ import { cn } from "@/lib/utils";
 const ContextMenu = ContextMenuPrimitive.Root;
 const ContextMenuTrigger = ContextMenuPrimitive.Trigger;
 
+type ContextMenuProps = React.ComponentProps<typeof ContextMenuPrimitive.Root>;
+type ContextMenuTriggerProps = React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Trigger>;
+type ContextMenuContentProps = React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Content>;
+type ContextMenuSeparatorProps = React.ComponentPropsWithoutRef<
+  typeof ContextMenuPrimitive.Separator
+>;
+
 const ContextMenuContent = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Content>
+  ContextMenuContentProps
 >(({ className, ...props }, ref) => (
   <ContextMenuPrimitive.Portal>
     <ContextMenuPrimitive.Content
@@ -97,7 +104,7 @@ ContextMenuItem.displayName = ContextMenuPrimitive.Item.displayName;
 
 const ContextMenuSeparator = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Separator>
+  ContextMenuSeparatorProps
 >(({ className, ...props }, ref) => (
   <ContextMenuPrimitive.Separator
     ref={ref}
@@ -114,4 +121,10 @@ export {
   ContextMenuItem,
   ContextMenuSeparator,
 };
-export type { ContextMenuItemProps };
+export type {
+  ContextMenuProps,
+  ContextMenuTriggerProps,
+  ContextMenuContentProps,
+  ContextMenuItemProps,
+  ContextMenuSeparatorProps,
+};

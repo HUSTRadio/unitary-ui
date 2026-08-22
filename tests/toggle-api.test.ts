@@ -19,6 +19,13 @@ describe("Toggle official API contract (G12)", () => {
     expect(src.match(/duration-200 ease-\[cubic-bezier\(0\.4,0,0\.2,1\)\]/g)).toHaveLength(2);
   });
 
+  test("thumb is visually compact while preserving 1.5px end margins in every size", async () => {
+    const src = await read("src/components/ui/toggle.tsx");
+    expect(src).toContain('size === "small" && "size-2.5 peer-checked:translate-x-[15px]"');
+    expect(src).toContain('size === "medium" && "size-4 peer-checked:translate-x-[17px]"');
+    expect(src).toContain('size === "large" && "size-5 peer-checked:translate-x-[17px]"');
+  });
+
   test("G12-TOGGLE-01: color=red uses theme-aware token in checked and unchecked states", async () => {
     const src = await read("src/components/ui/toggle.tsx");
     // Live Geist custom-color demo keeps the red track only while checked (unchecked is gray).

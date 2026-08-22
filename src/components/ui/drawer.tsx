@@ -34,7 +34,16 @@ interface DrawerProps {
   /** 面板 className */
   className?: string;
   children?: React.ReactNode;
+  /** 无可见 DrawerTitle 时提供面板的可访问名称。 */
+  "aria-label"?: string;
+  /** 覆盖由 DrawerTitle 自动提供的关联。 */
+  "aria-labelledby"?: string;
+  /** 覆盖由 DrawerDescription 自动提供的关联。 */
+  "aria-describedby"?: string;
 }
+
+type DrawerTitleProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>;
+type DrawerDescriptionProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>;
 
 function DrawerPanel({
   onDismiss,
@@ -42,12 +51,18 @@ function DrawerPanel({
   verticalScroll,
   className,
   children,
+  ariaLabel,
+  ariaLabelledBy,
+  ariaDescribedBy,
 }: {
   onDismiss?: () => void;
   height?: number;
   verticalScroll?: boolean;
   className?: string;
   children?: React.ReactNode;
+  ariaLabel?: string;
+  ariaLabelledBy?: string;
+  ariaDescribedBy?: string;
 }) {
   const [dragY, setDragY] = React.useState(0);
   // 打开瞬间先以 translateY(100%) 渲染（与官方 Base UI data-starting-style 同帧），
@@ -58,6 +73,13 @@ function DrawerPanel({
   const contentRef = React.useRef<HTMLDivElement | null>(null);
   const startY = React.useRef<number | null>(null);
   const dragging = dragY > 0;
+  const accessibilityProps = {
+    ...(ariaLabel !== undefined ? { "aria-label": ariaLabel } : {}),
+    ...(ariaLabelledBy !== undefined || ariaLabel !== undefined
+      ? { "aria-labelledby": ariaLabelledBy }
+      : {}),
+    ...(ariaDescribedBy !== undefined ? { "aria-describedby": ariaDescribedBy } : {}),
+  };
 
   React.useLayoutEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -94,6 +116,7 @@ function DrawerPanel({
       ref={contentRef}
       data-slot="drawer"
       data-swipe-direction="down"
+      {...accessibilityProps}
       className={cn(
         "fixed inset-x-0 bottom-0 w-full max-w-full min-h-[45px] touch-pan-y rounded-t-[10px] border-t bg-background outline-none",
         "max-h-[90dvh] overscroll-none",
@@ -123,7 +146,17 @@ function DrawerPanel({
   );
 }
 
-function Drawer({ show, onDismiss, height, verticalScroll, className, children }: DrawerProps) {
+function Drawer({
+  show,
+  onDismiss,
+  height,
+  verticalScroll,
+  className,
+  children,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  "aria-describedby": ariaDescribedBy,
+}: DrawerProps) {
   const restoreFocusRef = React.useRef<HTMLElement | null>(null);
   const wasShownRef = React.useRef(false);
 
@@ -154,6 +187,9 @@ function Drawer({ show, onDismiss, height, verticalScroll, className, children }
           height={height}
           verticalScroll={verticalScroll}
           className={className}
+          ariaLabel={ariaLabel}
+          ariaLabelledBy={ariaLabelledBy}
+          ariaDescribedBy={ariaDescribedBy}
         >
           {children}
         </DrawerPanel>
@@ -164,7 +200,7 @@ function Drawer({ show, onDismiss, height, verticalScroll, className, children }
 
 const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+  DrawerTitleProps
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
@@ -176,7 +212,7 @@ DrawerTitle.displayName = "DrawerTitle";
 
 const DrawerDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+  DrawerDescriptionProps
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
@@ -187,3 +223,4 @@ const DrawerDescription = React.forwardRef<
 DrawerDescription.displayName = "DrawerDescription";
 
 export { Drawer, DrawerTitle, DrawerDescription };
+export type { DrawerProps, DrawerTitleProps, DrawerDescriptionProps };

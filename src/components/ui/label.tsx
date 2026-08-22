@@ -3,7 +3,7 @@ import { Label as LabelPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 
-interface LabelProps extends Omit<
+export interface LabelProps extends Omit<
   React.ComponentProps<typeof LabelPrimitive.Root>,
   "children" | "htmlFor" | "id"
 > {
@@ -11,6 +11,7 @@ interface LabelProps extends Omit<
   id: string;
   /** 标签文本。 */
   value: string;
+  /** @deprecated `id` 已始终通过 htmlFor 关联输入控件；该标记仅为兼容旧调用保留。 */
   withInput?: boolean;
   bypassCasing?: boolean;
 }

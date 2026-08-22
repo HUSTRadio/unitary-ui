@@ -4,6 +4,7 @@ import { CircleAlert, Loader2, TriangleAlert } from "lucide-react";
 
 import { Button } from "./button";
 import { Input } from "./input";
+import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 /**
@@ -48,6 +49,12 @@ interface DestructiveActionModalProps {
   error?: string | Error;
   /** 透传给内容面板的 className */
   className?: string;
+  /** 覆盖标题提供的可访问名称。 */
+  "aria-label"?: string;
+  /** 覆盖内部标题的关联 id。 */
+  "aria-labelledby"?: string;
+  /** 覆盖内部描述的关联 id；无 description 时组件不会声明该关联。 */
+  "aria-describedby"?: string;
 }
 
 function DestructiveActionModal({
@@ -58,16 +65,22 @@ function DestructiveActionModal({
   description,
   confirmLabel,
   verificationPhrase,
-  verificationLabel = "the value",
+  verificationLabel,
   irreversibleDescription,
   loading = false,
   error,
   className,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  "aria-describedby": ariaDescribedBy,
 }: DestructiveActionModalProps) {
+  const { t } = useI18n();
   const [input, setInput] = React.useState("");
   const id = React.useId();
   const inputId = `${id}-prompt`;
   const labelId = `${id}-label`;
+  const titleId = `${id}-title`;
+  const descriptionId = `${id}-description`;
   const restoreFocusRef = React.useRef<HTMLElement | null>(null);
   const wasOpenRef = React.useRef(false);
 
@@ -104,6 +117,9 @@ function DestructiveActionModal({
         <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
         <DialogPrimitive.Content
           data-slot="destructive-action-modal"
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy ?? (ariaLabel ? undefined : titleId)}
+          aria-describedby={ariaDescribedBy ?? (description ? descriptionId : undefined)}
           className={cn(
             "fixed top-1/2 left-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-[12px] border border-gray-alpha-400 bg-background shadow-[var(--material-shadow-modal)] outline-none",
             "max-h-[min(800px,80vh)] overflow-y-auto",
@@ -115,11 +131,16 @@ function DestructiveActionModal({
             <div className="p-5 text-copy-14 text-muted-foreground">
               <header className="mb-5">
                 <DialogPrimitive.Title asChild>
-                  <h3 className="text-heading-20 text-left text-foreground">{title}</h3>
+                  <h3 id={titleId} className="text-heading-20 text-left text-foreground">
+                    {title}
+                  </h3>
                 </DialogPrimitive.Title>
                 {description && (
                   <DialogPrimitive.Description asChild>
-                    <div className="mt-2 mb-1 text-copy-14 text-muted-foreground">
+                    <div
+                      id={descriptionId}
+                      className="mt-2 mb-1 text-copy-14 text-muted-foreground"
+                    >
                       {description}
                     </div>
                   </DialogPrimitive.Description>
@@ -143,7 +164,9 @@ function DestructiveActionModal({
                     id={labelId}
                     className="text-sm leading-5 text-foreground"
                   >
-                    To confirm, type the {verificationLabel} “
+                    {t("To confirm, type the {verificationLabel} “", {
+                      verificationLabel: verificationLabel ?? t("value"),
+                    })}
                     <b className="font-semibold break-words" translate="no">
                       {verificationPhrase}
                     </b>
@@ -182,7 +205,7 @@ function DestructiveActionModal({
                 disabled={loading}
                 onClick={onCancel}
               >
-                Cancel
+                {t("Cancel")}
               </Button>
               <button
                 type="submit"
@@ -206,3 +229,4 @@ function DestructiveActionModal({
 }
 
 export { DestructiveActionModal };
+export type { DestructiveActionModalProps };

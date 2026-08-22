@@ -17,7 +17,14 @@ const FILE_ICONS = {
   "folder-open": FolderOpen,
 } as const;
 
-function FileTree({ className, ...props }: React.ComponentProps<"ul">) {
+type FileTreeProps = React.ComponentProps<"ul">;
+type FileTreeIconType = keyof typeof FILE_ICONS;
+type FileTreeLabelProps = React.HTMLAttributes<HTMLSpanElement>;
+type FileTreeIconProps = React.SVGProps<SVGSVGElement> & {
+  type?: FileTreeIconType;
+};
+
+function FileTree({ className, ...props }: FileTreeProps) {
   return (
     <ul
       data-slot="file-tree"
@@ -124,23 +131,20 @@ function FileTreeItem({
   );
 }
 
-function FileTreeLabel({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
+function FileTreeLabel({ className, ...props }: FileTreeLabelProps) {
   return (
     <span
       data-slot="file-tree-label"
-      className={cn("truncate font-mono text-copy-13 text-foreground leading-7 text-center", className)}
+      className={cn(
+        "truncate font-mono text-copy-13 text-foreground leading-7 text-center",
+        className,
+      )}
       {...props}
     />
   );
 }
 
-function FileTreeIcon({
-  className,
-  type = "file",
-  ...props
-}: React.SVGProps<SVGSVGElement> & {
-  type?: keyof typeof FILE_ICONS;
-}) {
+function FileTreeIcon({ className, type = "file", ...props }: FileTreeIconProps) {
   const Icon = FILE_ICONS[type];
   return (
     <Icon
@@ -153,12 +157,12 @@ function FileTreeIcon({
 }
 
 /** 取行首文件夹图标类型（folder / folder-open），用于推断默认展开态 */
-function findFolderIconType(children: React.ReactNode): keyof typeof FILE_ICONS | undefined {
-  let type: keyof typeof FILE_ICONS | undefined;
+function findFolderIconType(children: React.ReactNode): FileTreeIconType | undefined {
+  let type: FileTreeIconType | undefined;
   React.Children.forEach(children, (child) => {
     if (type) return;
     if (React.isValidElement(child) && child.type === FileTreeIcon) {
-      const t = (child.props as { type?: keyof typeof FILE_ICONS }).type;
+      const t = (child.props as { type?: FileTreeIconType }).type;
       if (t === "folder" || t === "folder-open") type = t;
     }
   });
@@ -169,9 +173,9 @@ function findFolderIconType(children: React.ReactNode): keyof typeof FILE_ICONS 
 function syncFolderIcon(children: React.ReactNode, open: boolean): React.ReactNode {
   return React.Children.map(children, (child) => {
     if (React.isValidElement(child) && child.type === FileTreeIcon) {
-      const t = (child.props as { type?: keyof typeof FILE_ICONS }).type;
+      const t = (child.props as { type?: FileTreeIconType }).type;
       if (t === "folder" || t === "folder-open") {
-        return React.cloneElement(child as React.ReactElement<{ type?: keyof typeof FILE_ICONS }>, {
+        return React.cloneElement(child as React.ReactElement<{ type?: FileTreeIconType }>, {
           type: open ? "folder-open" : "folder",
         });
       }
@@ -180,4 +184,11 @@ function syncFolderIcon(children: React.ReactNode, open: boolean): React.ReactNo
   });
 }
 
-export { FileTree, FileTreeItem, FileTreeLabel, FileTreeIcon, type FileTreeItemProps };
+export { FileTree, FileTreeItem, FileTreeLabel, FileTreeIcon };
+export type {
+  FileTreeProps,
+  FileTreeItemProps,
+  FileTreeLabelProps,
+  FileTreeIconProps,
+  FileTreeIconType,
+};

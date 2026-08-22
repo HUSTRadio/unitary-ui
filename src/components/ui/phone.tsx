@@ -12,7 +12,9 @@ import { cn } from "@/lib/utils";
  * 官方最佳实践：chrome 装饰性（aria-hidden）——但本组件包裹的是实时内容（非截图），
  * 对 root 加 aria-hidden 会连带隐藏内容，故省略；含义内容应自带可访问名称。
  */
-function Phone({ className, children }: { className?: string; children: React.ReactNode }) {
+export type PhoneProps = React.ComponentProps<"div">;
+
+function Phone({ className, children, ...props }: PhoneProps) {
   return (
     <div
       data-slot="phone"
@@ -20,13 +22,16 @@ function Phone({ className, children }: { className?: string; children: React.Re
         "mx-auto w-full max-w-[320px] overflow-hidden rounded-[32px] border-[8px] border-black bg-background",
         className,
       )}
+      {...props}
     >
       {children}
     </div>
   );
 }
 
-function PhoneScreen({ className, ...props }: React.ComponentProps<"div">) {
+export type PhoneScreenProps = React.ComponentProps<"div">;
+
+function PhoneScreen({ className, ...props }: PhoneScreenProps) {
   return <div data-slot="phone-screen" className={cn("min-h-[568px] p-4", className)} {...props} />;
 }
 

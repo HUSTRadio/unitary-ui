@@ -92,6 +92,8 @@ type ComboboxProps = {
   children: React.ReactNode;
 };
 
+type ComboboxInputProps = React.InputHTMLAttributes<HTMLInputElement>;
+
 const GROUP_SIZE_CLASS: Record<ComboboxSize, string> = {
   small: "group/combobox w-full inline-block relative z-0 text-sm [&>input]:h-8",
   medium: "group/combobox text-sm w-full inline-block relative z-0",
@@ -586,18 +588,17 @@ function useListMeta() {
   return ctx;
 }
 
-const ComboboxInput = React.forwardRef<
-  HTMLInputElement,
-  React.InputHTMLAttributes<HTMLInputElement>
->(({ onChange }, _ref) => {
-  useCombobox();
-  const { registerInput } = useListMeta();
-  React.useEffect(() => {
-    registerInput(onChange);
-    return () => registerInput(undefined);
-  }, [onChange, registerInput]);
-  return null;
-});
+const ComboboxInput = React.forwardRef<HTMLInputElement, ComboboxInputProps>(
+  ({ onChange }, _ref) => {
+    useCombobox();
+    const { registerInput } = useListMeta();
+    React.useEffect(() => {
+      registerInput(onChange);
+      return () => registerInput(undefined);
+    }, [onChange, registerInput]);
+    return null;
+  },
+);
 ComboboxInput.displayName = "ComboboxInput";
 
 type ComboboxListProps = React.HTMLAttributes<HTMLUListElement> & {
@@ -651,3 +652,10 @@ const ComboboxOption = React.forwardRef<HTMLLIElement, ComboboxOptionProps>(
 ComboboxOption.displayName = "ComboboxOption";
 
 export { Combobox, ComboboxInput, ComboboxList, ComboboxOption };
+export type {
+  ComboboxSize,
+  ComboboxProps,
+  ComboboxInputProps,
+  ComboboxListProps,
+  ComboboxOptionProps,
+};

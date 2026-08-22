@@ -62,6 +62,9 @@ function getCharWidths(text: string, font: string): number[] {
  * 二分查找：返回 [head, tail]（等长，≤ 文本一半），head + … + tail 的总宽不超过 maxWidth。
  * 文本整体放得下则返回 [text, ""]（不截断）；maxWidth <= 0（尚未布局）时保持完整文本，
  * 避免在首帧/隐藏容器中塌缩为单字符。
+ *
+ * @deprecated Internal measurement helper retained only for backwards compatibility.
+ * Use `MiddleTruncate` instead; this function may be removed in a future major release.
  */
 export function splitStringByWidth(text: string, font: string, maxWidth: number): [string, string] {
   if (maxWidth <= 0) {

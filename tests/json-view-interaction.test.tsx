@@ -5,6 +5,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, describe, expect, test } from "vitest";
 
 import { JsonView } from "@/components/ui/json-view";
+import { I18nProvider } from "@/lib/i18n";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -18,11 +19,21 @@ afterEach(() => {
   container = undefined;
 });
 
-function mount(data: unknown, defaultExpandDepth = 1) {
+function mount(data: unknown, defaultExpandDepth = 1, localized = false) {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
-  act(() => root?.render(<JsonView data={data} defaultExpandDepth={defaultExpandDepth} />));
+  act(() =>
+    root?.render(
+      localized ? (
+        <I18nProvider locale="zh-CN">
+          <JsonView data={data} defaultExpandDepth={defaultExpandDepth} />
+        </I18nProvider>
+      ) : (
+        <JsonView data={data} defaultExpandDepth={defaultExpandDepth} />
+      ),
+    ),
+  );
   return container;
 }
 
@@ -148,6 +159,16 @@ describe("JsonView interaction regressions", () => {
       .querySelector<HTMLButtonElement>('[data-slot="json-view-toggle"]')!;
     act(() => cycleToggle.click());
     expect(view.textContent).toContain("[Circular]");
+  });
+
+  test("localizes framework diagnostics without translating matching user strings", () => {
+    const cycle: { self?: unknown } = {};
+    cycle.self = cycle;
+    const view = mount({ invalid: new Date("invalid"), cycle, literal: "[Circular]" }, 2, true);
+
+    expect(view.textContent).toContain("无效日期");
+    expect(view.textContent).toContain("[循环引用]");
+    expect(view.textContent).toContain('literal: "[Circular]"');
   });
 
   test("collapsed deep data does not overflow the JavaScript call stack", () => {

@@ -17,10 +17,10 @@ import { Tooltip } from "@/components/ui/tooltip";
  *   双 1px 竖线（gray-alpha-600 + background-100）+ 可聚焦 tooltip 热区；有 stops 时填充去圆角。
  */
 
-type ProgressType = "success" | "error" | "warning" | "secondary";
+export type ProgressType = "success" | "error" | "warning" | "secondary";
 
 /** 标签位置：8 方位。left/right 与进度条垂直居中对齐（flex items-center） */
-type ProgressLabelPosition =
+export type ProgressLabelPosition =
   | "left"
   | "right"
   | "top-left"
@@ -30,7 +30,7 @@ type ProgressLabelPosition =
   | "bottom-center"
   | "bottom-right";
 
-interface ProgressStop {
+export interface ProgressStop {
   value: number;
   tooltip?: string;
 }
@@ -56,20 +56,7 @@ function resolveThresholdColor(value: number, colors: Record<string, string>): s
   return matched ?? entries[0]?.[1];
 }
 
-function Progress({
-  className,
-  value,
-  max = 100,
-  type,
-  colors,
-  width,
-  height,
-  stops,
-  label,
-  labelPosition = "bottom-left",
-  animated = true,
-  ...props
-}: Omit<React.ComponentProps<"progress">, "max" | "value"> & {
+export interface ProgressProps extends Omit<React.ComponentProps<"progress">, "max" | "value"> {
   value?: number | null;
   max?: number;
   type?: ProgressType;
@@ -86,7 +73,22 @@ function Progress({
    * 传 false 为瞬时跳变。prefers-reduced-motion 下自动降级为无动画。
    */
   animated?: boolean;
-}) {
+}
+
+function Progress({
+  className,
+  value,
+  max = 100,
+  type,
+  colors,
+  width,
+  height,
+  stops,
+  label,
+  labelPosition = "bottom-left",
+  animated = true,
+  ...props
+}: ProgressProps) {
   const fg =
     type !== undefined
       ? TYPE_FG[type]
@@ -97,7 +99,8 @@ function Progress({
   const resolvedHeight = height ?? 10;
   const hasStops = stops !== undefined && stops.length > 0;
   /** left/right 位置时标签与进度条同行，进度条占剩余宽度（flex-1） */
-  const inlineLabel = label !== undefined && (labelPosition === "left" || labelPosition === "right");
+  const inlineLabel =
+    label !== undefined && (labelPosition === "left" || labelPosition === "right");
 
   const bar = (
     <progress
@@ -116,7 +119,11 @@ function Progress({
         inlineLabel && "min-w-0 flex-1",
         className,
       )}
-      style={{ width: inlineLabel ? undefined : width, height: resolvedHeight, ["--fg" as string]: fg }}
+      style={{
+        width: inlineLabel ? undefined : width,
+        height: resolvedHeight,
+        ["--fg" as string]: fg,
+      }}
       {...props}
     />
   );
@@ -162,7 +169,10 @@ function Progress({
   // left / right：与进度条同行，items-center 保证垂直居中对齐
   if (inlineLabel) {
     return (
-      <div className="flex w-full items-center gap-2" style={width !== undefined ? { width } : undefined}>
+      <div
+        className="flex w-full items-center gap-2"
+        style={width !== undefined ? { width } : undefined}
+      >
         {labelPosition === "left" ? labelNode : core}
         {labelPosition === "left" ? core : labelNode}
       </div>
@@ -178,7 +188,10 @@ function Progress({
   const isTop = labelPosition.startsWith("top");
 
   return (
-    <div className={cn("flex w-full flex-col gap-1.5", align)} style={width !== undefined ? { width } : undefined}>
+    <div
+      className={cn("flex w-full flex-col gap-1.5", align)}
+      style={width !== undefined ? { width } : undefined}
+    >
       {isTop ? labelNode : core}
       {isTop ? core : labelNode}
     </div>

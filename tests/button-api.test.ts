@@ -34,6 +34,14 @@ describe("Button official single-track API contract", () => {
     expect(src).toContain("shadow");
   });
 
+  test("text buttons use a single 8px icon gap without reserving a 20px icon slot", async () => {
+    const src = await read("src/components/ui/button.tsx");
+    expect(src).toContain('"mr-2 flex size-3.5 shrink-0 items-center justify-center"');
+    expect(src).toContain('"ml-2 flex size-3.5 shrink-0 items-center justify-center"');
+    expect(src).toContain('<span className="inline-block truncate">{children}</span>');
+    expect(src).not.toContain("min-w-5 shrink-0 items-center justify-center");
+  });
+
   test("Button variant values are default/secondary/error/warning/tertiary only", async () => {
     const src = await read("src/components/ui/button.tsx");
     // Must NOT contain old variant names as cva keys

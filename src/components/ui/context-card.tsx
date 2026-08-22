@@ -20,7 +20,15 @@ import { cn } from "@/lib/utils";
  *   flex-[0_1_auto] overflow-hidden 的 <div>，children 作为 accessible name
  */
 
-function ContextCard({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+type ContextCardProps = React.HTMLAttributes<HTMLDivElement>;
+type ContextCardHeaderProps = React.HTMLAttributes<HTMLDivElement>;
+type ContextCardAvatarProps = React.ComponentProps<"img">;
+type ContextCardTitleProps = React.HTMLAttributes<HTMLHeadingElement>;
+type ContextCardDescriptionProps = React.HTMLAttributes<HTMLParagraphElement>;
+type ContextCardBodyProps = React.HTMLAttributes<HTMLDivElement>;
+type ContextCardFooterProps = React.HTMLAttributes<HTMLDivElement>;
+
+function ContextCard({ className, ...props }: ContextCardProps) {
   return <div data-slot="context-card" className={cn("w-fit", className)} {...props} />;
 }
 
@@ -110,7 +118,7 @@ function ContextCardTrigger({
   );
 }
 
-function ContextCardHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+function ContextCardHeader({ className, ...props }: ContextCardHeaderProps) {
   return (
     <div
       data-slot="context-card-header"
@@ -120,7 +128,7 @@ function ContextCardHeader({ className, ...props }: React.HTMLAttributes<HTMLDiv
   );
 }
 
-function ContextCardAvatar({ className, ...props }: React.ComponentProps<"img">) {
+function ContextCardAvatar({ className, ...props }: ContextCardAvatarProps) {
   return (
     <img
       data-slot="context-card-avatar"
@@ -130,7 +138,7 @@ function ContextCardAvatar({ className, ...props }: React.ComponentProps<"img">)
   );
 }
 
-function ContextCardTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
+function ContextCardTitle({ className, ...props }: ContextCardTitleProps) {
   return (
     <h4
       data-slot="context-card-title"
@@ -140,10 +148,7 @@ function ContextCardTitle({ className, ...props }: React.HTMLAttributes<HTMLHead
   );
 }
 
-function ContextCardDescription({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLParagraphElement>) {
+function ContextCardDescription({ className, ...props }: ContextCardDescriptionProps) {
   return (
     <p
       data-slot="context-card-description"
@@ -153,7 +158,7 @@ function ContextCardDescription({
   );
 }
 
-function ContextCardBody({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+function ContextCardBody({ className, ...props }: ContextCardBodyProps) {
   return (
     <div
       data-slot="context-card-body"
@@ -163,7 +168,7 @@ function ContextCardBody({ className, ...props }: React.HTMLAttributes<HTMLDivEl
   );
 }
 
-function ContextCardFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+function ContextCardFooter({ className, ...props }: ContextCardFooterProps) {
   return (
     <div
       data-slot="context-card-footer"
@@ -182,4 +187,14 @@ export {
   ContextCardAvatar,
   ContextCardBody,
   ContextCardFooter,
+};
+export type {
+  ContextCardProps,
+  ContextCardTriggerProps,
+  ContextCardHeaderProps,
+  ContextCardAvatarProps,
+  ContextCardTitleProps,
+  ContextCardDescriptionProps,
+  ContextCardBodyProps,
+  ContextCardFooterProps,
 };

@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
  * 颜色/尺寸按官方实时实测值落地（light 1440×900）：ring 用 --gray-alpha-400，error 环 #ee0000 + rgba(203,42,47,0.16)，
  * 焦点环 focus 0 0 0 1px #00000057 + 0 0 0 4px #00000029，focus-visible 0 0 0 2px #fff + 0 0 0 4px #0072f5。
  */
-interface SelectProps extends Omit<React.ComponentProps<"select">, "size" | "prefix"> {
+export interface SelectProps extends Omit<React.ComponentProps<"select">, "size" | "prefix"> {
   /** 占位文案（未选择时显示，渲染为 disabled/hidden 的占位 option） */
   placeholder?: string;
   /** small 32px / 默认 36px / large 40px */
@@ -103,7 +103,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             role="alert"
             aria-atomic="true"
             className={cn(
-              "flex items-start text-[#cb2a2f] dark:text-[#ff6166]",
+              "flex items-start text-error-foreground",
               size === "large" ? "text-base leading-6" : "text-copy-13 leading-5",
             )}
           >

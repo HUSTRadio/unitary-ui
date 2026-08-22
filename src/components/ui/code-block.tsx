@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { CopyButton } from "@/components/ui/copy-button";
 import { highlightLines } from "@/lib/highlight";
 import { LanguageIcon } from "@/lib/language-icons";
+import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 
@@ -27,31 +28,35 @@ interface CodeBlockProps extends Omit<React.ComponentPropsWithoutRef<"div">, "ch
   v0?: "ask" | "build";
 }
 
+type CodeBlockHeaderProps = React.ComponentPropsWithoutRef<"div">;
+type CodeBlockContentProps = React.ComponentPropsWithoutRef<"pre">;
+
 function CodeBlockSwitcher({ config }: { config: CodeBlockSwitcher }) {
   const { t } = useI18n();
   return (
-    <div className="relative h-8">
-      <div
-        aria-hidden
+    <MenuContainer position="bottom-end">
+      <MenuButton
+        variant="unstyled"
         data-slot="code-block-switcher"
-        className="flex h-full cursor-pointer items-center gap-1 rounded-[5px] border-none bg-background-200 px-2 py-0 font-sans text-[13px] leading-none whitespace-nowrap text-muted-foreground transition-colors duration-200"
-      >
-        <span>{config.value}</span>
-        <ChevronDown className="size-3" aria-hidden />
-      </div>
-      <select
         aria-label={t("Select language")}
-        value={config.value}
-        onChange={(event) => config.onChange(event.target.value)}
-        className="absolute inset-0 cursor-pointer bg-gray-100 opacity-0"
+        className="flex h-8 items-center gap-1 rounded-[5px] bg-background-200 px-2 font-sans text-[13px] leading-none whitespace-nowrap text-muted-foreground transition-colors duration-150 hover:bg-gray-alpha-200 focus-ring"
       >
+        <span translate="no">{config.value}</span>
+        <ChevronDown className="size-3" aria-hidden />
+      </MenuButton>
+      <Menu stateful className="min-w-[var(--radix-dropdown-menu-trigger-width)]">
         {config.options.map((option) => (
-          <option key={option} value={option}>
+          <MenuItem
+            key={option}
+            active={option === config.value}
+            onSelect={() => config.onChange(option)}
+            translate="no"
+          >
             {option}
-          </option>
+          </MenuItem>
         ))}
-      </select>
-    </div>
+      </Menu>
+    </MenuContainer>
   );
 }
 
@@ -236,7 +241,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
 );
 CodeBlock.displayName = "CodeBlock";
 
-const CodeBlockHeader = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<"div">>(
+const CodeBlockHeader = React.forwardRef<HTMLDivElement, CodeBlockHeaderProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
@@ -251,7 +256,7 @@ const CodeBlockHeader = React.forwardRef<HTMLDivElement, React.ComponentPropsWit
 );
 CodeBlockHeader.displayName = "CodeBlockHeader";
 
-const CodeBlockContent = React.forwardRef<HTMLPreElement, React.ComponentPropsWithoutRef<"pre">>(
+const CodeBlockContent = React.forwardRef<HTMLPreElement, CodeBlockContentProps>(
   ({ className, ...props }, ref) => (
     <pre
       ref={ref}
@@ -264,4 +269,4 @@ const CodeBlockContent = React.forwardRef<HTMLPreElement, React.ComponentPropsWi
 CodeBlockContent.displayName = "CodeBlockContent";
 
 export { CodeBlock, CodeBlockHeader, CodeBlockContent };
-export type { CodeBlockProps, CodeBlockSwitcher };
+export type { CodeBlockProps, CodeBlockSwitcher, CodeBlockHeaderProps, CodeBlockContentProps };

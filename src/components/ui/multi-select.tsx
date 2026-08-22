@@ -14,14 +14,13 @@ import { Checkbox } from "./checkbox";
  * 再进入组合控件：上下键跨行、左右键在 checkbox/action 间切换。
  */
 
-interface MultiSelectRootProps {
+export interface MultiSelectRootProps extends React.ComponentProps<typeof PopoverPrimitive.Root> {
   className?: string;
-  children: React.ReactNode;
 }
 
-function MultiSelectRoot({ className, children }: MultiSelectRootProps) {
+function MultiSelectRoot({ className, children, ...props }: MultiSelectRootProps) {
   return (
-    <PopoverPrimitive.Root>
+    <PopoverPrimitive.Root {...props}>
       <div
         data-slot="multi-select-root"
         className={cn("relative w-fit max-w-full max-sm:w-full", className)}
@@ -32,9 +31,13 @@ function MultiSelectRoot({ className, children }: MultiSelectRootProps) {
   );
 }
 
+export type MultiSelectTriggerProps = React.ComponentPropsWithoutRef<
+  typeof PopoverPrimitive.Trigger
+>;
+
 const MultiSelectTrigger = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>
+  MultiSelectTriggerProps
 >(({ className, children, ...props }, ref) => {
   return (
     <PopoverPrimitive.Trigger
@@ -59,11 +62,13 @@ const MultiSelectTrigger = React.forwardRef<
 });
 MultiSelectTrigger.displayName = PopoverPrimitive.Trigger.displayName;
 
-type ContentProps = React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>;
+export type MultiSelectContentProps = React.ComponentPropsWithoutRef<
+  typeof PopoverPrimitive.Content
+>;
 
 const MultiSelectContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
-  ContentProps
+  MultiSelectContentProps
 >(
   (
     { className, align = "start", sideOffset = 8, children, onKeyDown, onOpenAutoFocus, ...props },
@@ -79,7 +84,9 @@ const MultiSelectContent = React.forwardRef<
       [ref],
     );
 
-    const handleOpenAutoFocus: NonNullable<ContentProps["onOpenAutoFocus"]> = (event) => {
+    const handleOpenAutoFocus: NonNullable<MultiSelectContentProps["onOpenAutoFocus"]> = (
+      event,
+    ) => {
       onOpenAutoFocus?.(event);
       if (event.defaultPrevented) return;
       event.preventDefault();
@@ -179,14 +186,16 @@ const MultiSelectContent = React.forwardRef<
 );
 MultiSelectContent.displayName = PopoverPrimitive.Content.displayName;
 
-interface MultiSelectRowProps {
+export interface MultiSelectRowProps {
   name: string;
   checked: boolean;
   onChange: () => void;
   onSelectOnly: () => void;
   onSelectAll: () => void;
-  selectedCount: number;
-  totalCount: number;
+  /** @deprecated Retained for backwards compatibility; row actions no longer depend on it. */
+  selectedCount?: number;
+  /** @deprecated Retained for backwards compatibility; row actions no longer depend on it. */
+  totalCount?: number;
   count?: number;
   className?: string;
 }
@@ -252,11 +261,4 @@ function MultiSelectRow({
   );
 }
 
-export {
-  MultiSelectRoot,
-  MultiSelectTrigger,
-  MultiSelectContent,
-  MultiSelectRow,
-  type MultiSelectRootProps,
-  type MultiSelectRowProps,
-};
+export { MultiSelectRoot, MultiSelectTrigger, MultiSelectContent, MultiSelectRow };

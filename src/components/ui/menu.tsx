@@ -5,7 +5,7 @@ import { ChevronDown, Lock } from "lucide-react";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-type MenuPosition =
+export type MenuPosition =
   | "bottom-start"
   | "bottom-end"
   | "top-start"
@@ -26,13 +26,11 @@ const MenuPositionContext = React.createContext<MenuPosition>("bottom-start");
  */
 const MenuStatefulContext = React.createContext(false);
 
-function MenuContainer({
-  position = "bottom-start",
-  children,
-  ...props
-}: React.ComponentProps<typeof MenuPrimitive.Root> & {
+export type MenuContainerProps = React.ComponentProps<typeof MenuPrimitive.Root> & {
   position?: MenuPosition;
-}) {
+};
+
+function MenuContainer({ position = "bottom-start", children, ...props }: MenuContainerProps) {
   return (
     <MenuPositionContext.Provider value={position}>
       <MenuPrimitive.Root {...props}>{children}</MenuPrimitive.Root>
@@ -40,7 +38,7 @@ function MenuContainer({
   );
 }
 
-interface MenuButtonProps extends Omit<ButtonProps, "type"> {
+export interface MenuButtonProps extends Omit<ButtonProps, "type"> {
   /** "unstyled" renders a plain button; otherwise passes visual type to Button */
   variant?: "unstyled" | ButtonProps["type"];
   showChevron?: boolean;
@@ -112,45 +110,48 @@ const positionProps: Record<
   "right-end": { side: "right", align: "end" },
 };
 
-const Menu = React.forwardRef<
-  React.ElementRef<typeof MenuPrimitive.Content>,
-  Omit<React.ComponentPropsWithoutRef<typeof MenuPrimitive.Content>, "width"> & {
-    width?: number | string;
-    /**
-     * 显式声明该菜单含持久状态项（如当前语言选中项）。
-     * 声明后：items 间获得 4px 间隙，且 MenuItem 的 active 属性生效；
-     * 不声明则保持官方默认零间隙（官方 Menu 实测 items 完全邻接）。
-     */
-    stateful?: boolean;
-  }
->(({ className, sideOffset = 4, style, width, stateful = false, ...props }, ref) => {
-  const position = React.useContext(MenuPositionContext);
+export type MenuContentProps = Omit<
+  React.ComponentPropsWithoutRef<typeof MenuPrimitive.Content>,
+  "width"
+> & {
+  width?: number | string;
+  /**
+   * 显式声明该菜单含持久状态项（如当前语言选中项）。
+   * 声明后 items 间获得 4px 间隙，且 MenuItem 的 active 属性生效。
+   */
+  stateful?: boolean;
+};
 
-  return (
-    <MenuStatefulContext.Provider value={stateful}>
-      <MenuPrimitive.Portal>
-        <MenuPrimitive.Content
-          ref={ref}
-          sideOffset={sideOffset}
-          {...positionProps[position]}
-          data-slot="menu"
-          data-stateful={stateful || undefined}
-          className={cn(
-            "z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-32 overflow-x-hidden overflow-y-auto rounded-[12px] bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none",
-            stateful && "flex flex-col gap-1",
-            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
-            className,
-          )}
-          style={{ ...style, width }}
-          {...props}
-        />
-      </MenuPrimitive.Portal>
-    </MenuStatefulContext.Provider>
-  );
-});
+const Menu = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Content>, MenuContentProps>(
+  ({ className, sideOffset = 4, style, width, stateful = false, ...props }, ref) => {
+    const position = React.useContext(MenuPositionContext);
+
+    return (
+      <MenuStatefulContext.Provider value={stateful}>
+        <MenuPrimitive.Portal>
+          <MenuPrimitive.Content
+            ref={ref}
+            sideOffset={sideOffset}
+            {...positionProps[position]}
+            data-slot="menu"
+            data-stateful={stateful || undefined}
+            className={cn(
+              "z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-32 overflow-x-hidden overflow-y-auto rounded-[12px] bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none",
+              stateful && "flex flex-col gap-1",
+              "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
+              className,
+            )}
+            style={{ ...style, width }}
+            {...props}
+          />
+        </MenuPrimitive.Portal>
+      </MenuStatefulContext.Provider>
+    );
+  },
+);
 Menu.displayName = "Menu";
 
-interface MenuItemProps extends Omit<
+export interface MenuItemProps extends Omit<
   React.ComponentPropsWithoutRef<typeof MenuPrimitive.Item>,
   "asChild" | "prefix"
 > {
@@ -166,7 +167,20 @@ interface MenuItemProps extends Omit<
 }
 
 const MenuItem = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Item>, MenuItemProps>(
-  ({ className, children, disabled, href, type = "default", prefix, suffix, active = false, ...props }, ref) => {
+  (
+    {
+      className,
+      children,
+      disabled,
+      href,
+      type = "default",
+      prefix,
+      suffix,
+      active = false,
+      ...props
+    },
+    ref,
+  ) => {
     const stateful = React.useContext(MenuStatefulContext);
     const isActive = stateful && active;
     const content = (
@@ -203,7 +217,7 @@ const MenuItem = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Item>, M
           "relative flex h-9 cursor-default select-none items-center gap-2 rounded-md px-2 text-label-14 text-foreground outline-none transition-colors data-highlighted:bg-gray-alpha-100 data-[disabled]:pointer-events-none data-[disabled]:text-muted-foreground data-[disabled]:opacity-60",
           isActive && "bg-gray-alpha-100",
           type === "error" &&
-            "text-[#cb2a2f] dark:text-[#ff6166] data-highlighted:bg-destructive data-highlighted:text-destructive-foreground",
+            "text-error-foreground data-highlighted:bg-destructive data-highlighted:text-destructive-foreground",
           className,
         )}
         {...props}
@@ -215,15 +229,18 @@ const MenuItem = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Item>, M
 );
 MenuItem.displayName = "MenuItem";
 
-const MenuLink = React.forwardRef<
-  React.ElementRef<typeof MenuPrimitive.Item>,
-  MenuItemProps & { href: string }
->((props, ref) => <MenuItem ref={ref} {...props} />);
+export type MenuLinkProps = MenuItemProps & { href: string };
+
+const MenuLink = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Item>, MenuLinkProps>(
+  (props, ref) => <MenuItem ref={ref} {...props} />,
+);
 MenuLink.displayName = "MenuLink";
+
+export type MenuItemLockedProps = Omit<MenuItemProps, "disabled" | "suffix">;
 
 const MenuItemLocked = React.forwardRef<
   React.ElementRef<typeof MenuPrimitive.Item>,
-  Omit<MenuItemProps, "disabled" | "suffix">
+  MenuItemLockedProps
 >(({ children, ...props }, ref) => (
   <MenuItem ref={ref} disabled suffix={<Lock aria-hidden />} {...props}>
     {children}
@@ -231,9 +248,11 @@ const MenuItemLocked = React.forwardRef<
 ));
 MenuItemLocked.displayName = "MenuItemLocked";
 
+export type MenuDividerProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Separator>;
+
 const MenuDivider = React.forwardRef<
   React.ElementRef<typeof MenuPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof MenuPrimitive.Separator>
+  MenuDividerProps
 >(({ className, ...props }, ref) => (
   <MenuPrimitive.Separator
     ref={ref}
@@ -244,15 +263,13 @@ const MenuDivider = React.forwardRef<
 ));
 MenuDivider.displayName = "MenuDivider";
 
-function MenuSection({
-  title,
-  children,
-  className,
-}: {
+export interface MenuSectionProps {
   title: string;
   children: React.ReactNode;
   className?: string;
-}) {
+}
+
+function MenuSection({ title, children, className }: MenuSectionProps) {
   return (
     <MenuPrimitive.Group className={className}>
       <MenuPrimitive.Label className="px-2 py-1.5 text-label-12 text-muted-foreground">

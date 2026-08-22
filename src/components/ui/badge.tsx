@@ -28,7 +28,7 @@ const badgeVariants = cva(
         blue: "bg-[#0062d1] text-white",
         purple: "bg-[#7820bc] text-white dark:bg-[#5f2e85]",
         amber: "bg-[#ffb224] text-black",
-        red: "bg-[#cb2a2f] text-white dark:bg-[#d93036]",
+        red: "bg-badge-red text-badge-red-foreground",
         pink: "bg-[#bd2864] text-white dark:bg-[#b31a57]",
         green: "bg-[#297a3a] text-white dark:bg-[#1a9338]",
         teal: "bg-[#067a6e] text-white dark:bg-[#0c9784]",
@@ -70,7 +70,7 @@ const badgeVariants = cva(
         variant: "red",
         contrast: "low",
         className:
-          "text-[#cb2a2f] dark:text-[#ff6166] before:bg-[oklch(from_var(--red-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--red-200)_0.27_c_h)]",
+          "text-badge-red-subtle-foreground before:bg-[oklch(from_var(--red-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--red-200)_0.27_c_h)]",
       },
       {
         variant: "pink",

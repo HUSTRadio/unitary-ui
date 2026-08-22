@@ -23,6 +23,11 @@ type CommandMenuProps = {
   setOpen: (open: boolean) => void;
 };
 
+type CommandMenuInputProps = React.ComponentPropsWithoutRef<typeof Command.Input>;
+type CommandMenuListProps = React.ComponentPropsWithoutRef<typeof Command.List>;
+type CommandMenuGroupProps = React.ComponentPropsWithoutRef<typeof Command.Group>;
+type CommandMenuDividerProps = React.ComponentPropsWithoutRef<typeof Command.Separator>;
+
 function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
   const { t } = useI18n();
   const [query, setQuery] = React.useState("");
@@ -75,7 +80,7 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
 
 const CommandMenuInput = React.forwardRef<
   React.ElementRef<typeof Command.Input>,
-  React.ComponentPropsWithoutRef<typeof Command.Input>
+  CommandMenuInputProps
 >(({ className, ...props }, ref) => {
   const { close, query, setQuery } = useCommandMenu();
   const { t } = useI18n();
@@ -106,7 +111,7 @@ CommandMenuInput.displayName = "CommandMenuInput";
 
 const CommandMenuList = React.forwardRef<
   React.ElementRef<typeof Command.List>,
-  React.ComponentPropsWithoutRef<typeof Command.List>
+  CommandMenuListProps
 >(({ className, children, ...props }, ref) => {
   const { query } = useCommandMenu();
   const { t } = useI18n();
@@ -167,7 +172,7 @@ CommandMenuItem.displayName = "CommandMenuItem";
 
 const CommandMenuGroup = React.forwardRef<
   React.ElementRef<typeof Command.Group>,
-  React.ComponentPropsWithoutRef<typeof Command.Group>
+  CommandMenuGroupProps
 >(({ className, ...props }, ref) => (
   <Command.Group
     ref={ref}
@@ -182,7 +187,7 @@ CommandMenuGroup.displayName = "CommandMenuGroup";
 
 const CommandMenuDivider = React.forwardRef<
   React.ElementRef<typeof Command.Separator>,
-  React.ComponentPropsWithoutRef<typeof Command.Separator>
+  CommandMenuDividerProps
 >(({ className, ...props }, ref) => (
   <Command.Separator
     ref={ref}
@@ -199,4 +204,12 @@ export {
   CommandMenuInput,
   CommandMenuItem,
   CommandMenuList,
+};
+export type {
+  CommandMenuProps,
+  CommandMenuInputProps,
+  CommandMenuListProps,
+  CommandMenuItemProps,
+  CommandMenuGroupProps,
+  CommandMenuDividerProps,
 };

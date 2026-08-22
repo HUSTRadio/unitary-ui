@@ -26,35 +26,27 @@ describe("KeyboardInput official API contract (G06 wave)", () => {
     expect(src).toMatch(/small\??:\s*boolean/);
   });
 
-  test("G06-KBD-01: only meta swaps to the word 'Ctrl' off-Mac; shift/alt/ctrl keep glyphs on all platforms", async () => {
+  test("G06-KBD-01: Windows uses symbolic Shift, Alt, and Ctrl mappings without shortcut spacing", async () => {
     const src = await read("src/components/ui/keyboard-input.tsx");
-    // meta is the only modifier with a platform branch (⌘ on Mac, 'Ctrl' elsewhere)
-    expect(src).toMatch(/meta \? \([\s\S]*?\{IS_MAC \? "⌘" : "Ctrl"\}[\s\S]*?\) : null/);
-    // shift/alt/ctrl must NOT have a platform branch — they always render the glyph
-    expect(src).not.toMatch(/shift && \(IS_MAC/);
-    expect(src).not.toMatch(/alt && \(IS_MAC/);
-    expect(src).not.toMatch(/ctrl && \(IS_MAC/);
+    // Windows mapping: Shift → ⇧, Alt → ⌥, Ctrl (meta) → ⌘.
+    expect(src).toContain(">⌘</span>");
     expect(src).toMatch(/shift \? <span>⇧<\/span> : null/);
     expect(src).toMatch(/alt \? <span>⌥<\/span> : null/);
     expect(src).toMatch(/ctrl \? <span>⌃<\/span> : null/);
-    // no non-Mac word fallbacks for shift/alt/ctrl
-    expect(src).not.toMatch(/shift && \(IS_MAC \? "⇧" : "Shift"\)/);
-    expect(src).not.toMatch(/alt && \(IS_MAC \? "⌥" : "Alt"\)/);
-    expect(src).not.toMatch(/ctrl && \(IS_MAC \? "⌃" : "Ctrl"\)/);
+    expect(src).not.toContain("Ctrl\\u00a0");
+    expect(src).not.toContain("Alt\\u00a0");
   });
 
-  test("G06-KBD-03: default kbd uses the official inline line box, minimum size, spacing, and sans font", async () => {
+  test("G06-KBD-03: default kbd uses the compact line box, minimum size, spacing, and mono font", async () => {
     const src = await read("src/components/ui/keyboard-input.tsx");
     expect(src).toContain("inline-block");
     expect(src).toContain("min-h-6 min-w-6");
     expect(src).toContain("!leading-[1.7em]");
     expect(src).toContain("ml-1");
-    expect(src).toContain("font-sans");
+    expect(src).toContain("font-mono");
     expect(src).toMatch(/text-sm/);
     expect(src).toMatch(/px-1\.5/);
-    // Geist Sans, NOT mono
-    expect(src).not.toMatch(/font-mono/);
-    expect(src).not.toMatch(/text-label-12-mono/);
+    expect(src).not.toContain("font-sans");
   });
 
   test("G06-KBD-05: kbd surface uses the official one-pixel outer shadow", async () => {
@@ -79,6 +71,19 @@ describe("KeyboardInput official API contract (G06 wave)", () => {
   test("small variant keeps the official compact size and two-pixel leading margin", async () => {
     const src = await read("src/components/ui/keyboard-input.tsx");
     expect(src).toContain('"ml-0.5 h-5 min-h-5 min-w-5 px-1 text-xs"');
+  });
+
+  test("plain variant supports borderless command shortcuts without bypassing platform modifiers", async () => {
+    const [src, demoCode, docs] = await Promise.all([
+      read("src/components/ui/keyboard-input.tsx"),
+      read("docs/geist/src/data/demo-code-batch4.ts"),
+      read("docs/geist/src/components/docs-components-page.tsx"),
+    ]);
+    expect(src).toMatch(/plain\??:\s*boolean/);
+    expect(src).toContain('"ml-0 min-h-0 min-w-0 bg-transparent px-0 shadow-none"');
+    expect(demoCode).toContain('"plain-command"');
+    expect(docs).toContain('data-demo-card="plain-command"');
+    expect(docs).toMatch(/<Kbd plain meta>\s*K\s*<\/Kbd>/);
   });
 
   test("G06-KBD-02: docs demo must not hardcode modifier glyphs — uses modifier props", async () => {

@@ -28,6 +28,13 @@ const RATINGS = [
 ] as const;
 
 type FeedbackRatingValue = (typeof RATINGS)[number]["value"];
+type FeedbackType = "inline";
+type FeedbackMetadata = Record<string, string>;
+type FeedbackSubmitHandler = (
+  rating: FeedbackRatingValue | undefined,
+  text: string,
+  metadata?: FeedbackMetadata,
+) => void;
 
 const TOPICS = [
   "AI",
@@ -41,7 +48,10 @@ const TOPICS = [
   "Marketplace and Integrations",
 ] as const;
 
-interface FeedbackProps {
+interface FeedbackProps extends Omit<
+  React.ComponentProps<"div">,
+  "onSubmit" | "defaultValue" | "prefix" | "suffix"
+> {
   /** trigger 文本（官方 label，Title Case，默认 "Feedback"） */
   label?: string;
   /** 评分行旁提示 header（官方 copy，sentence case） */
@@ -49,11 +59,11 @@ interface FeedbackProps {
   /** 演示态：不触发 onSubmit（官方 dryRun） */
   dryRun?: boolean;
   /** 内联变体（官方 type，trigger 固定 "Was this helpful?"） */
-  type?: "inline";
+  type?: FeedbackType;
   /** 显示预定义主题 Select（官方 showTopics） */
   showTopics?: boolean;
   /** 任意 key-value 元数据（官方 metadata，透传给 onSubmit） */
-  metadata?: Record<string, string>;
+  metadata?: FeedbackMetadata;
   /** trigger 前缀图标（官方 prefix） */
   prefix?: React.ReactNode;
   /** trigger 后缀图标（官方 suffix） */
@@ -61,11 +71,7 @@ interface FeedbackProps {
   /** 初始评分（非受控） */
   defaultValue?: FeedbackRatingValue;
   /** 提交回调（评分 + 文本 + 元数据含 topic） */
-  onSubmit?: (
-    rating: FeedbackRatingValue | undefined,
-    text: string,
-    metadata?: Record<string, string>,
-  ) => void;
+  onSubmit?: FeedbackSubmitHandler;
 }
 
 function Feedback({
@@ -81,8 +87,7 @@ function Feedback({
   onSubmit,
   className,
   ...props
-}: FeedbackProps &
-  Omit<React.ComponentProps<"div">, "onSubmit" | "defaultValue" | "prefix" | "suffix">) {
+}: FeedbackProps) {
   const { t } = useI18n();
   const [open, setOpen] = React.useState(false);
   const [rating, setRating] = React.useState<FeedbackRatingValue | undefined>(defaultValue);
@@ -229,4 +234,11 @@ function Feedback({
   );
 }
 
-export { Feedback, type FeedbackRatingValue };
+export { Feedback };
+export type {
+  FeedbackProps,
+  FeedbackRatingValue,
+  FeedbackType,
+  FeedbackMetadata,
+  FeedbackSubmitHandler,
+};

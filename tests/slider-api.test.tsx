@@ -7,11 +7,16 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import { Slider } from "../src/components/ui/slider";
+import { I18nProvider } from "../src/lib/i18n";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
-const renderSlider = (props: Record<string, unknown>) =>
-  renderToStaticMarkup(createElement(Slider, props));
+const renderSlider = (props: Record<string, unknown>, localized = false) =>
+  renderToStaticMarkup(
+    localized
+      ? createElement(I18nProvider, { locale: "zh-CN" }, createElement(Slider, props))
+      : createElement(Slider, props),
+  );
 
 describe("Slider live Geist contract", () => {
   test("documents all five live demos", async () => {
@@ -95,6 +100,17 @@ describe("Slider live Geist contract", () => {
     expect(range).toContain('aria-label="Ending range value"');
   });
 
+  test("localizes generated range input names without changing supplied labels", () => {
+    const localized = renderSlider(
+      { defaultValue: [50, 75], showStartInput: true, showEndInput: true, "aria-label": "范围" },
+      true,
+    );
+
+    expect(localized).toContain('aria-label="起始范围值"');
+    expect(localized).toContain('aria-label="结束范围值"');
+    expect(localized).toContain('aria-label="范围"');
+  });
+
   test("uses 48px value inputs and propagates disabled state", async () => {
     const source = await read("src/components/ui/slider.tsx");
     const markup = renderSlider({
@@ -111,7 +127,7 @@ describe("Slider live Geist contract", () => {
     expect(markup).toContain('data-slot="slider"');
   });
 
-  test("renders the official label and maps release commits to Radix", async () => {
+  test("renders the official label and composes canonical then deprecated commit callbacks", async () => {
     const source = await read("src/components/ui/slider.tsx");
     const committed = vi.fn();
     const markup = renderSlider({
@@ -121,6 +137,17 @@ describe("Slider live Geist contract", () => {
     });
 
     expect(markup).toContain("Drag then release");
-    expect(source).toContain("onValueCommit={onValueCommitted}");
+    expect(source).toContain("onValueCommit={handleValueCommit}");
+    expect(source).toMatch(/@deprecated[\s\S]*onValueCommitted\?:/);
+
+    const handler = source.slice(
+      source.indexOf("const handleValueCommit"),
+      source.indexOf("const updateValue"),
+    );
+    expect(handler.match(/onValueCommit\?\.\(nextValue\)/g)).toHaveLength(1);
+    expect(handler.match(/onValueCommitted\?\.\(nextValue\)/g)).toHaveLength(1);
+    expect(handler.indexOf("onValueCommit?.(nextValue)")).toBeLessThan(
+      handler.indexOf("onValueCommitted?.(nextValue)"),
+    );
   });
 });

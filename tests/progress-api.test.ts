@@ -23,9 +23,7 @@ describe("Progress label positions", () => {
   });
 
   test("label defaults to bottom-left (label after bar, items-start)", () => {
-    const html = renderToStaticMarkup(
-      createElement(Progress, { value: 30, label: "30%" }),
-    );
+    const html = renderToStaticMarkup(createElement(Progress, { value: 30, label: "30%" }));
     expect(html).toContain("text-copy-13");
     expect(html).toContain("flex-col gap-1.5 items-start");
     // bar 在 label 前（bottom 位置：条在上、字在下）

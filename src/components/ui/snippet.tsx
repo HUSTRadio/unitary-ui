@@ -25,9 +25,9 @@ import { useI18n } from "@/lib/i18n";
  * - 复制按钮：h-32px r-6px；点击→Copied + CopyCheck 图标→1.5s 还原
  */
 
-type SnippetType = "default" | "success" | "error" | "warning";
+export type SnippetType = "default" | "success" | "error" | "warning";
 
-interface SnippetProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface SnippetProps extends React.HTMLAttributes<HTMLDivElement> {
   /** 官方 API：要展示（并复制）的代码，数组为多行 */
   text: string | string[];
   /** 官方 API：容器宽度（number 视为 px） */
@@ -49,7 +49,7 @@ interface SnippetProps extends React.HTMLAttributes<HTMLDivElement> {
 const typeColor: Record<SnippetType, string> = {
   default: "text-foreground",
   success: "text-success",
-  error: "text-[#cb2a2f] dark:text-[#ff6166]",
+  error: "text-error-foreground",
   warning: "text-warning-action",
 };
 

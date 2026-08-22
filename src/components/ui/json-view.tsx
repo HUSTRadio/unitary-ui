@@ -4,11 +4,13 @@ import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 type JsonNodeType = "object" | "array" | "primitive";
+type JsonDiagnostic = "invalid-date" | "circular" | "max-depth" | "reading-keys" | "reading-value";
 
 interface JsonNode {
   key: string | null;
   value: unknown;
   primitiveText?: string;
+  diagnostic?: JsonDiagnostic;
   path: string;
   type: JsonNodeType;
   level: number;
@@ -35,7 +37,7 @@ function specialObjectText(value: unknown): string | undefined {
   return undefined;
 }
 
-interface JsonViewProps {
+export interface JsonViewProps {
   data: unknown;
   className?: string;
   /** Root is level 1. Zero collapses the root; one expands only the root. */
@@ -58,6 +60,7 @@ function buildTree(data: unknown): JsonNode {
     parentPath: string | null,
     posinset: number,
     setsize: number,
+    diagnostic?: JsonDiagnostic,
   ): JsonNode => {
     const type: JsonNodeType = !isContainer(value)
       ? "primitive"
@@ -75,8 +78,10 @@ function buildTree(data: unknown): JsonNode {
       setsize,
       parentPath,
       children: [],
+      diagnostic,
     };
-    node.primitiveText = specialObjectText(value);
+    node.primitiveText = diagnostic ? undefined : specialObjectText(value);
+    if (value instanceof Date && Number.isNaN(value.getTime())) node.diagnostic = "invalid-date";
     return node;
   };
 
@@ -96,12 +101,12 @@ function buildTree(data: unknown): JsonNode {
     const container = node.value as Record<string, unknown> | unknown[];
     if (ancestors.has(container as object)) {
       node.type = "primitive";
-      node.primitiveText = "[Circular]";
+      node.diagnostic = "circular";
       continue;
     }
     if (node.level >= MAX_TREE_DEPTH) {
       node.type = "primitive";
-      node.primitiveText = `[Max depth ${MAX_TREE_DEPTH} reached]`;
+      node.diagnostic = "max-depth";
       continue;
     }
 
@@ -115,7 +120,7 @@ function buildTree(data: unknown): JsonNode {
         : Object.keys(container);
     } catch {
       node.type = "primitive";
-      node.primitiveText = "[Thrown while reading keys]";
+      node.diagnostic = "reading-keys";
       ancestors.delete(container as object);
       stack.pop();
       continue;
@@ -123,10 +128,12 @@ function buildTree(data: unknown): JsonNode {
 
     node.children = keys.map((childKey, index) => {
       let childValue: unknown;
+      let childDiagnostic: JsonDiagnostic | undefined;
       try {
         childValue = container[childKey as keyof typeof container];
       } catch {
-        childValue = "[Thrown while reading value]";
+        childValue = undefined;
+        childDiagnostic = "reading-value";
       }
       const segment = Array.isArray(container) ? childKey : escapeJsonPointer(childKey);
       return makeNode(
@@ -137,6 +144,7 @@ function buildTree(data: unknown): JsonNode {
         node.path,
         index + 1,
         keys.length,
+        childDiagnostic,
       );
     });
 
@@ -226,11 +234,35 @@ function primitiveDisplay(value: unknown, override?: string): string {
   return String(value);
 }
 
-function getInlinePrimitiveChild(node: JsonNode): JsonNode | null {
+function diagnosticDisplay(diagnostic: JsonDiagnostic, t: ReturnType<typeof useI18n>["t"]): string {
+  switch (diagnostic) {
+    case "invalid-date":
+      return t("Invalid Date");
+    case "circular":
+      return t("[Circular]");
+    case "max-depth":
+      return t("[Max depth {maxDepth} reached]", { maxDepth: MAX_TREE_DEPTH });
+    case "reading-keys":
+      return t("[Thrown while reading keys]");
+    case "reading-value":
+      return t("[Thrown while reading value]");
+  }
+}
+
+function nodePrimitiveDisplay(node: JsonNode, t: ReturnType<typeof useI18n>["t"]): string {
+  return node.diagnostic
+    ? diagnosticDisplay(node.diagnostic, t)
+    : primitiveDisplay(node.value, node.primitiveText);
+}
+
+function getInlinePrimitiveChild(
+  node: JsonNode,
+  t: ReturnType<typeof useI18n>["t"],
+): JsonNode | null {
   if (node.type !== "object" || node.children.length !== 1) return null;
   const child = node.children[0];
   if (child.type !== "primitive") return null;
-  const display = primitiveDisplay(child.value, child.primitiveText);
+  const display = nodePrimitiveDisplay(child, t);
   if (display.includes("\n") || (child.key?.length ?? 0) + display.length > 64) return null;
   return child;
 }
@@ -238,20 +270,23 @@ function getInlinePrimitiveChild(node: JsonNode): JsonNode | null {
 function JsonPrimitiveValue({
   value,
   text,
+  diagnostic,
+  display,
   pattern,
 }: {
   value: unknown;
   text?: string;
+  diagnostic?: JsonDiagnostic;
+  display: string;
   pattern?: RegExp | null;
 }) {
-  const display = primitiveDisplay(value, text);
   if (value === null || typeof value === "number" || typeof value === "bigint") {
     return <span className="text-info">{highlightText(display, pattern)}</span>;
   }
   if (typeof value === "boolean") {
     return <span className="text-amber-900">{highlightText(display, pattern)}</span>;
   }
-  if (value === undefined || text?.startsWith("[")) {
+  if (diagnostic || value === undefined || text?.startsWith("[")) {
     return <span className="text-gray-900">{highlightText(display, pattern)}</span>;
   }
   return <span className="text-success">{highlightText(display, pattern)}</span>;
@@ -385,7 +420,7 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
     const container = node.type !== "primitive";
     const expandable = container && node.children.length > 0;
     const open = expandable && expanded.has(node.path);
-    const inlineChild = open ? getInlinePrimitiveChild(node) : null;
+    const inlineChild = open ? getInlinePrimitiveChild(node, t) : null;
     const openingBrace = node.type === "array" ? "[" : "{";
     const closingBrace = node.type === "array" ? "]" : "}";
     const comma = node.parentPath !== null && node.posinset < node.setsize ? "," : "";
@@ -406,8 +441,8 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
         aria-label={
           node.type === "primitive"
             ? node.key === null
-              ? primitiveDisplay(node.value, node.primitiveText)
-              : `${node.key}: ${primitiveDisplay(node.value, node.primitiveText)}`
+              ? nodePrimitiveDisplay(node, t)
+              : `${node.key}: ${nodePrimitiveDisplay(node, t)}`
             : node.key === null
               ? t("JSON {type}", { type: t(`JSON ${node.type}`) })
               : `${node.key}: ${t(`JSON ${node.type}`)}`
@@ -486,6 +521,8 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
               <JsonPrimitiveValue
                 value={node.value}
                 text={node.primitiveText}
+                diagnostic={node.diagnostic}
+                display={nodePrimitiveDisplay(node, t)}
                 pattern={highlightPattern}
               />
               {comma ? <span className="text-foreground">{comma}</span> : null}

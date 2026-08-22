@@ -3,11 +3,11 @@ import { Tooltip as TooltipPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 
-type TooltipPosition = "top" | "bottom" | "left" | "right";
-type TooltipBoxAlign = "left" | "center" | "right";
-type TooltipType = "default" | "success" | "error" | "warning" | "violet";
+export type TooltipPosition = "top" | "bottom" | "left" | "right";
+export type TooltipBoxAlign = "left" | "center" | "right";
+export type TooltipType = "default" | "success" | "error" | "warning" | "violet";
 
-interface TooltipProps {
+export interface TooltipProps {
   children: React.ReactNode;
   text: React.ReactNode;
   position?: TooltipPosition;
@@ -16,6 +16,7 @@ interface TooltipProps {
   tip?: boolean;
   center?: boolean;
   type?: TooltipType;
+  /** @deprecated 兼容内部组合用法；新代码应按条件决定是否渲染 Tooltip。 */
   disableTriggers?: boolean;
   className?: string;
 }
@@ -24,7 +25,10 @@ const tooltipColors: Record<TooltipType, { background: string; foreground: strin
   // Official default tooltip uses the normal surface: bg background-100 (light #fff / dark #0a0a0a) + gray-1000 text.
   default: { background: "var(--background-100)", foreground: "var(--foreground)" },
   success: { background: "var(--success)", foreground: "#ffffff" },
-  error: { background: "var(--destructive)", foreground: "#ffffff" },
+  error: {
+    background: "var(--destructive)",
+    foreground: "var(--destructive-foreground)",
+  },
   warning: { background: "var(--warning)", foreground: "#0a0a0a" },
   violet: { background: "var(--purple-700)", foreground: "#ffffff" },
 };

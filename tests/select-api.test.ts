@@ -8,13 +8,12 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
 
 describe("Select official API contract (G09 audit fixes)", () => {
-  test("G09-SELECT-01: error text is 13px/20px (leading-5) with official red, not --danger", async () => {
+  test("G09-SELECT-01: error text is 13px/20px (leading-5) with the dedicated inline-error token", async () => {
     const src = await read("src/components/ui/select.tsx");
     // Error message must NOT use the --danger token color (#e5484d via text-danger)
     expect(src).not.toMatch(/text-danger/);
-    // Official light color #cb2a2f (ds-red-900) and dark #ff6166
-    expect(src).toMatch(/#cb2a2f/);
-    expect(src).toMatch(/dark:text-\[#ff6166\]/);
+    // The component owns no literal: the shared token preserves official light/dark values.
+    expect(src).toMatch(/text-error-foreground/);
     // 13px font with 20px line-height (leading-5 overrides text-copy-13's 18px)
     expect(src).toMatch(/text-copy-13 leading-5/);
   });

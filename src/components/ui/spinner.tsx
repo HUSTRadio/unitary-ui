@@ -24,14 +24,11 @@ const spinnerSize = {
   "4xl": "size-14",
 } as const;
 
-function Spinner({
-  className,
-  size = "md",
-  "aria-hidden": ariaHidden,
-  ...props
-}: React.ComponentProps<typeof Loader2> & {
+export interface SpinnerProps extends Omit<React.ComponentProps<typeof Loader2>, "size"> {
   size?: keyof typeof spinnerSize;
-}) {
+}
+
+function Spinner({ className, size = "md", "aria-hidden": ariaHidden, ...props }: SpinnerProps) {
   const { t } = useI18n();
   const hidden = ariaHidden === true || ariaHidden === "true";
 

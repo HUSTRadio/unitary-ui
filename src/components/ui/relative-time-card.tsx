@@ -2,7 +2,8 @@ import * as React from "react";
 import { HoverCard as HoverCardPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
-import { defaultLocale, formatRelativeTime } from "@/lib/date-locale";
+import { formatRelativeTime } from "@/lib/date-locale";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * RelativeTimeCard — Geist 官方 RelativeTimeCard（docs/geist-markdown-refs/components/relative-time-card.md）。
@@ -25,7 +26,7 @@ function formatUtc(date: Date, locale: string): string {
   });
 }
 
-interface RelativeTimeCardProps {
+export interface RelativeTimeCardProps {
   /** Unix 毫秒时间戳（number，官方 API：勿传格式化字符串） */
   date: number;
   /** 浮层方位，默认 top */
@@ -43,8 +44,10 @@ function RelativeTimeCard({
   side = "top",
   className,
   children,
-  locale = defaultLocale(),
+  locale: localeProp,
 }: RelativeTimeCardProps) {
+  const { locale: frameworkLocale } = useI18n();
+  const locale = localeProp ?? (frameworkLocale === "en" ? "en-US" : frameworkLocale);
   const timestamp = new Date(date);
 
   return (

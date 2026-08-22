@@ -12,7 +12,7 @@ import { useI18n } from "@/lib/i18n";
  *   （按钮只认 direct children，多包一层布局节点会失效）
  * - 高度/宽度经 style 透传（number → px，string 原样）
  */
-interface ScrollerProps {
+export interface ScrollerProps {
   /** 容器高度（number px 或 string，如 "100%"） */
   height?: number | string;
   /** 容器宽度（number px 或 string，如 "100%"） */

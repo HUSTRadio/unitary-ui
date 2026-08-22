@@ -12,7 +12,7 @@ import { Spinner } from "./spinner";
  * 采用共享 Input 的 36px prefix / input / suffix slot：默认前缀为搜索图标，
  * loading 时替换为 Spinner；非空值显示 Esc 清除动作，空值且 cmdk 时显示 ⌘ K。
  */
-interface SearchInputProps extends Omit<React.ComponentProps<"input">, "prefix"> {
+export interface SearchInputProps extends Omit<React.ComponentProps<"input">, "prefix"> {
   /** 空值时显示 ⌘ K 提示；触屏设备隐藏。 */
   cmdk?: boolean;
   /** 用 Spinner 替换默认搜索前缀。 */

@@ -16,7 +16,10 @@ import { useI18n } from "@/lib/i18n";
  * ellipsis 为 true 时文本省略号截断（官方 geist-ellipsis 语义）；showTooltip 为 true 时按钮外包 Tooltip(text=textToCopy)。
  */
 
-interface TextWithCopyButtonProps extends React.ComponentProps<"button"> {
+export interface TextWithCopyButtonProps extends Omit<
+  React.ComponentProps<"button">,
+  "onClick" | "onCopy" | "onError" | "type"
+> {
   /** 要复制的文本（官方 textToCopy）；为空时渲染 null */
   textToCopy: string;
   /** 可见文本标签（官方 textLabel） */
@@ -31,6 +34,14 @@ interface TextWithCopyButtonProps extends React.ComponentProps<"button"> {
   as?: React.ElementType;
   /** 文本元素样式（官方 style，作用于文本元素） */
   style?: React.CSSProperties;
+  /**
+   * 按钮点击回调。组件先调用此回调；若回调 `preventDefault()`，则跳过复制与反馈。
+   */
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  /** 剪贴板写入成功后的回调。 */
+  onCopy?: (text: string) => void;
+  /** 剪贴板写入失败后的回调。 */
+  onError?: (error: unknown) => void;
 }
 
 function TextWithCopyButton({
@@ -42,6 +53,9 @@ function TextWithCopyButton({
   showTooltip = false,
   as: Tag = "p",
   style,
+  onClick,
+  onCopy,
+  onError,
 
   ...props
 }: TextWithCopyButtonProps) {
@@ -53,8 +67,9 @@ function TextWithCopyButton({
 
   React.useEffect(() => () => window.clearTimeout(timer.current), []);
 
-  const handleCopy = () => {
-    if (!textToCopy) return;
+  const handleCopy = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onClick?.(event);
+    if (event.defaultPrevented || !textToCopy) return;
 
     window.clearTimeout(timer.current);
     // 官方：点击立即显示成功图标（不等待 promise）；成功 toast.message，失败 toast.error。
@@ -62,8 +77,14 @@ function TextWithCopyButton({
 
     navigator.clipboard
       .writeText(textToCopy)
-      .then(() => toast.message({ text: resolvedSuccessMessage }))
-      .catch(() => toast.error(t("Failed to copy to clipboard")));
+      .then(() => {
+        toast.message({ text: resolvedSuccessMessage });
+        onCopy?.(textToCopy);
+      })
+      .catch((error: unknown) => {
+        toast.error(t("Failed to copy to clipboard"));
+        onError?.(error);
+      });
 
     // 官方 revert = 1000ms
     timer.current = window.setTimeout(() => setCopied(false), 1000);
@@ -71,6 +92,7 @@ function TextWithCopyButton({
 
   const button = (
     <button
+      {...props}
       type="button"
       data-slot="text-with-copy-button"
       onClick={handleCopy}
@@ -80,7 +102,6 @@ function TextWithCopyButton({
         "dark:text-[#eaeaea]",
         className,
       )}
-      {...props}
     >
       <Tag className={cn("text-inherit whitespace-nowrap", ellipsis && "truncate")} style={style}>
         {textLabel}

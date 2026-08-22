@@ -3,6 +3,7 @@ import { Slider as SliderPrimitive } from "radix-ui";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 /**
@@ -28,14 +29,17 @@ import { cn } from "@/lib/utils";
  *   Page Up/Down / Home/End 行为接管键盘操作，不要拦截这些按键。
  */
 
-interface SliderProps extends React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> {
+export interface SliderProps extends React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> {
   /** 官方 API：滑块可访问名称（渲染在轨道上方） */
   label?: string;
   /** 官方 API：显示起始值数值输入框 */
   showStartInput?: boolean;
   /** 官方 API：显示结束值数值输入框 */
   showEndInput?: boolean;
-  /** 官方 API：拖动释放后提交（等价 Radix onValueCommit） */
+  /**
+   * @deprecated 使用 Radix 兼容的 `onValueCommit`。迁移期间若两个回调同时存在，
+   * 组件会先调用 `onValueCommit`，再调用此别名，各一次。
+   */
   onValueCommitted?: (value: number[]) => void;
 }
 
@@ -106,6 +110,7 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
       showStartInput,
       showEndInput,
       onValueCommitted,
+      onValueCommit,
       value: valueProp,
       defaultValue,
       min,
@@ -115,9 +120,18 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
     },
     ref,
   ) => {
+    const { t } = useI18n();
     const value = valueProp ?? defaultValue ?? [min ?? 0];
     const rootId = React.useId();
     const thumbAriaLabel = props["aria-label"] ?? label;
+
+    const handleValueCommit = React.useCallback(
+      (nextValue: number[]) => {
+        onValueCommit?.(nextValue);
+        onValueCommitted?.(nextValue);
+      },
+      [onValueCommit, onValueCommitted],
+    );
 
     const updateValue = (index: number, next: number) => {
       const nextValues = value.map((item, i) => (i === index ? next : item));
@@ -134,7 +148,7 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
               min={min}
               max={max}
               disabled={disabled}
-              ariaLabel="Starting range value"
+              ariaLabel={t("Starting range value")}
               type="text"
               onChange={(next) => updateValue(0, next)}
             />
@@ -148,7 +162,7 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
               disabled={disabled}
               value={valueProp}
               defaultValue={defaultValue}
-              onValueCommit={onValueCommitted}
+              onValueCommit={handleValueCommit}
               data-slot="slider-control"
               className="relative flex h-2 min-w-54 touch-none items-center select-none data-[disabled]:cursor-not-allowed"
               {...props}
@@ -178,7 +192,7 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
               min={min}
               max={max}
               disabled={disabled}
-              ariaLabel="Ending range value"
+              ariaLabel={t("Ending range value")}
               onChange={(next) => updateValue(value.length - 1, next)}
             />
           )}

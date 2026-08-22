@@ -8,14 +8,16 @@ import { cn } from "@/lib/utils";
  * horizontal: h-px w-full；vertical: w-px h-full。
  * 颜色消费语义 token bg-gray-200（light #ebebeb / dark #1f1f1f）。
  */
+export type SeparatorProps = React.ComponentProps<typeof SeparatorPrimitive.Root> & {
+  orientation?: "horizontal" | "vertical";
+};
+
 function Separator({
   className,
   orientation = "horizontal",
   decorative = false,
   ...props
-}: React.ComponentProps<typeof SeparatorPrimitive.Root> & {
-  orientation?: "horizontal" | "vertical";
-}) {
+}: SeparatorProps) {
   return (
     <SeparatorPrimitive.Root
       data-slot="separator"

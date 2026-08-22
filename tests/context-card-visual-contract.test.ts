@@ -10,6 +10,7 @@ const docsSource = readFileSync(
   resolve(import.meta.dirname, "../docs/geist/src/components/docs-components-page.tsx"),
   "utf8",
 );
+const stylesSource = readFileSync(resolve(import.meta.dirname, "../src/styles/index.css"), "utf8");
 
 describe("Context Card visual parity contract", () => {
   test("uses the official 6px popover surface and dark-safe semantic tokens", () => {
@@ -30,6 +31,17 @@ describe("Context Card visual parity contract", () => {
     expect(source).toContain('data-slot="context-card-tip"');
     expect(source).toContain('fill="var(--background-100)"');
     expect(source).toContain('stroke="var(--context-card-tip-stroke)"');
+  });
+
+  test("aligns each arrow root directly to the popover border without an inward half-tip offset", () => {
+    expect(stylesSource).toContain("transform: translateX(-50%);");
+    expect(stylesSource).toContain("transform: translateX(-50%) rotate(180deg);");
+    expect(stylesSource).toContain("transform: translateY(-50%) rotate(-90deg);");
+    expect(stylesSource).toContain("transform: translateY(-50%) rotate(90deg);");
+    expect(stylesSource).not.toContain("translate(-50%, -3.5px)");
+    expect(stylesSource).not.toContain("translate(-50%, 3.5px)");
+    expect(stylesSource).not.toContain("translate(-3.5px, -50%)");
+    expect(stylesSource).not.toContain("translate(3.5px, -50%)");
   });
 
   test("alignment and render-prop demos use the official compact button and link classes", () => {

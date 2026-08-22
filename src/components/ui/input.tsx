@@ -176,7 +176,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             aria-atomic="true"
             data-slot="input-error"
             className={cn(
-              "mt-2 flex items-start text-[13px] leading-5 text-[#cb2a2f]",
+              "mt-2 flex items-start text-[13px] leading-5 text-error-foreground",
               size === "large" && "text-base leading-6",
             )}
           >

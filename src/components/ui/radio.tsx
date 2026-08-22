@@ -29,7 +29,7 @@ type RadioGroupContextValue = {
 
 const RadioGroupContext = React.createContext<RadioGroupContextValue>({});
 
-interface RadioProps extends Omit<React.ComponentProps<"input">, "type" | "size"> {
+export interface RadioProps extends Omit<React.ComponentProps<"input">, "type" | "size"> {
   /** 是否选中（受控）；组内自动从 RadioGroup.value 派生 */
   checked?: boolean;
   /** 选中变化回调（原生事件）；组内同时触发 RadioGroup.onChange(value) */
@@ -94,7 +94,7 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
 );
 Radio.displayName = "Radio";
 
-interface RadioGroupProps extends Pick<
+export interface RadioGroupProps extends Pick<
   React.ComponentProps<"div">,
   "id" | "aria-label" | "aria-describedby" | "className"
 > {
@@ -173,7 +173,7 @@ function RadioGroup({
   );
 }
 
-interface RadioGroupItemProps extends Omit<RadioProps, "checked" | "onChange"> {
+export interface RadioGroupItemProps extends Omit<RadioProps, "checked" | "onChange"> {
   /** 选项值 */
   value: string;
   /** 选项文案 */

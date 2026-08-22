@@ -6,18 +6,20 @@ import { cn } from "@/lib/utils";
 
 const CollapseContext = React.createContext(false);
 
+type CollapseSize = "default" | "small";
+type CollapseProps = React.ComponentProps<typeof CollapsiblePrimitive.Root> & {
+  size?: CollapseSize;
+};
+type CollapseTriggerProps = React.ComponentProps<typeof CollapsiblePrimitive.Trigger>;
+type CollapseContentProps = React.ComponentProps<typeof CollapsiblePrimitive.Content>;
+
 /**
  * Collapse — 折叠面板（Radix Collapsible）。
  * Collapse（根，size=default/small 控制标题 padding py-6/py-3）/ CollapseTrigger（h3 内，含 chevron）
  * / CollapseContent（内容）。
  * 官方关闭态保留内容节点，使用 height:0 + inert；展开时测量实际高度并做 200ms 过渡。
  */
-function Collapse({
-  size = "default",
-  className,
-  disabled = false,
-  ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.Root> & { size?: "default" | "small" }) {
+function Collapse({ size = "default", className, disabled = false, ...props }: CollapseProps) {
   return (
     <CollapseContext.Provider value={disabled}>
       <CollapsiblePrimitive.Root
@@ -30,11 +32,7 @@ function Collapse({
   );
 }
 
-function CollapseTrigger({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.Trigger>) {
+function CollapseTrigger({ className, children, ...props }: CollapseTriggerProps) {
   const disabled = React.useContext(CollapseContext);
   return (
     <CollapsiblePrimitive.Trigger
@@ -62,7 +60,7 @@ function CollapseContent({
   ref,
   style,
   ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.Content>) {
+}: CollapseContentProps) {
   const contentRef = React.useRef<HTMLDivElement>(null);
   const [height, setHeight] = React.useState(0);
   const [closed, setClosed] = React.useState(true);
@@ -118,3 +116,4 @@ function CollapseContent({
 }
 
 export { Collapse, CollapseTrigger, CollapseContent };
+export type { CollapseSize, CollapseProps, CollapseTriggerProps, CollapseContentProps };

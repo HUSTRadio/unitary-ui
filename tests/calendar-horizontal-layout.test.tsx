@@ -39,20 +39,23 @@ function mountCalendar() {
 }
 
 describe("Calendar horizontal layout", () => {
-  test("places Apply below Start/End inside the right controls column", () => {
+  test("anchors Apply and timezone to the bottom of the horizontal controls column", () => {
     mountCalendar();
 
     const controls = document.querySelector('[data-slot="calendar-range-controls"]');
+    const actions = document.querySelector('[data-slot="calendar-range-actions"]');
     const apply = [...document.querySelectorAll<HTMLButtonElement>("button")].find((button) =>
       button.textContent?.includes("Apply"),
     );
 
     expect(controls).not.toBeNull();
+    expect(controls?.className).toContain("self-stretch");
+    expect(actions?.className).toContain("mt-auto");
     expect(apply).toBeDefined();
     expect(controls?.contains(apply!)).toBe(true);
 
-    const start = controls?.querySelector('input[aria-labelledby="start-date"]');
-    const end = controls?.querySelector('input[aria-labelledby="end-date"]');
+    const start = controls?.querySelector('input[aria-label="Start date"]');
+    const end = controls?.querySelector('input[aria-label="End date"]');
     expect(start).not.toBeNull();
     expect(end).not.toBeNull();
     expect(start!.compareDocumentPosition(apply!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);

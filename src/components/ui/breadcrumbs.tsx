@@ -116,3 +116,4 @@ function BreadcrumbItem({
 }
 
 export { Breadcrumb, BreadcrumbItem };
+export type { BreadcrumbType, BreadcrumbProps, BreadcrumbItemProps };

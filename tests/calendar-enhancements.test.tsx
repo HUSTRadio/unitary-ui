@@ -68,7 +68,7 @@ describe("calendar enhancements", () => {
 
   test("date inputs are editable, centered and explain their format", () => {
     mount({ locale: "zh-CN", timeZone: "Asia/Shanghai" });
-    const input = document.querySelector<HTMLInputElement>('input[aria-labelledby="start-date"]')!;
+    const input = document.querySelector<HTMLInputElement>('input[aria-label="Start date"]')!;
     expect(input.readOnly).toBe(false);
     expect(input.placeholder).toBe("yyyy/MM/dd");
     expect(input.className).toContain("text-center");
@@ -76,7 +76,7 @@ describe("calendar enhancements", () => {
 
   test("invalid editable input keeps its value and exposes an accessible error", () => {
     mount({ locale: "zh-CN", timeZone: "Asia/Shanghai" });
-    const input = document.querySelector<HTMLInputElement>('input[aria-labelledby="start-date"]')!;
+    const input = document.querySelector<HTMLInputElement>('input[aria-label="Start date"]')!;
     act(() => {
       setInputValue(input, "2026/13/40");
       input.dispatchEvent(new FocusEvent("focusout", { bubbles: true }));
@@ -88,7 +88,7 @@ describe("calendar enhancements", () => {
 
   test("unpadded date input is parsed then rendered in the declared format", () => {
     mount({ locale: "zh-CN", timeZone: "Asia/Shanghai" });
-    const input = document.querySelector<HTMLInputElement>('input[aria-labelledby="start-date"]')!;
+    const input = document.querySelector<HTMLInputElement>('input[aria-label="Start date"]')!;
     act(() => {
       setInputValue(input, "2026/8/5");
       input.dispatchEvent(new FocusEvent("focusout", { bubbles: true }));
@@ -101,5 +101,14 @@ describe("calendar enhancements", () => {
     mount({}, true);
     expect(document.body.textContent).toContain("开始");
     expect(document.body.textContent).toContain("应用");
+    expect(document.querySelector('input[aria-label="开始日期"]')).not.toBeNull();
+    expect(document.querySelector('input[aria-label="结束时间"]')).not.toBeNull();
+    expect(document.querySelector('[aria-label="上一月"]')).not.toBeNull();
+    expect(document.body.textContent).toMatch(/\d{4}年\d{1,2}月/u);
+  });
+
+  test("uses an explicit calendar locale over the framework locale", () => {
+    mount({ locale: "en-US" }, true);
+    expect(document.body.textContent).toMatch(/[A-Z][a-z]+ \d{4}/u);
   });
 });

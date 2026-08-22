@@ -21,13 +21,21 @@ import { cn } from "@/lib/utils";
  * - 官方不内置关闭按钮；消费者用 <SheetClose asChild> 显式提供
  * - 动画：data-[state=open]:slide-in-from-<side>-5 / closed:slide-out-to-<side>-10
  */
-type SheetSide = "top" | "right" | "bottom" | "left";
+export type SheetSide = "top" | "right" | "bottom" | "left";
+export type SheetProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>;
+export type SheetTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>;
+export type SheetPortalProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Portal>;
+export type SheetOverlayProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>;
+export type SheetHeaderProps = React.HTMLAttributes<HTMLDivElement>;
+export type SheetTitleProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>;
+export type SheetDescriptionProps = React.ComponentPropsWithoutRef<
+  typeof DialogPrimitive.Description
+>;
+export type SheetFooterProps = React.HTMLAttributes<HTMLDivElement>;
+export type SheetCloseProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>;
 
 /** Sheet Root：官方默认 modal=false（Best Practices），可显式 <Sheet modal> 覆盖。 */
-const Sheet = ({
-  modal = false,
-  ...props
-}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) => (
+const Sheet = ({ modal = false, ...props }: SheetProps) => (
   <DialogPrimitive.Root modal={modal} {...props} />
 );
 Sheet.displayName = "Sheet";
@@ -38,7 +46,7 @@ const SheetClose = DialogPrimitive.Close;
 
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
+  SheetOverlayProps
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
     ref={ref}
@@ -62,7 +70,9 @@ const SIDE_STYLES: Record<SheetSide, string> = {
   left: "inset-y-0 left-0 h-full w-3/4 sm:max-w-sm data-[state=open]:slide-in-from-left-5 data-[state=closed]:slide-out-to-left-10",
 };
 
-interface SheetContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+export interface SheetContentProps extends React.ComponentPropsWithoutRef<
+  typeof DialogPrimitive.Content
+> {
   side?: SheetSide;
   /** 不渲染遮罩层（官方 noOverlay prop） */
   noOverlay?: boolean;
@@ -93,7 +103,7 @@ const SheetContent = React.forwardRef<
 ));
 SheetContent.displayName = DialogPrimitive.Content.displayName;
 
-const SheetHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+const SheetHeader = React.forwardRef<HTMLDivElement, SheetHeaderProps>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={cn("flex flex-col space-y-1.5 text-left", className)} {...props} />
   ),
@@ -102,7 +112,7 @@ SheetHeader.displayName = "SheetHeader";
 
 const SheetTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+  SheetTitleProps
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
@@ -114,7 +124,7 @@ SheetTitle.displayName = DialogPrimitive.Title.displayName;
 
 const SheetDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+  SheetDescriptionProps
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
@@ -124,7 +134,7 @@ const SheetDescription = React.forwardRef<
 ));
 SheetDescription.displayName = DialogPrimitive.Description.displayName;
 
-const SheetFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+const SheetFooter = React.forwardRef<HTMLDivElement, SheetFooterProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}

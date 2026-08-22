@@ -21,9 +21,9 @@ import { useI18n } from "@/lib/i18n";
  * 兼容旧 compound API：SplitButton + SplitButtonMain + SplitButtonMenu 仍可用。
  */
 
-type SplitButtonMenuAlignment = "bottom-start" | "bottom-end";
+export type SplitButtonMenuAlignment = "bottom-start" | "bottom-end";
 
-interface SplitButtonProps extends React.ComponentProps<"div"> {
+export interface SplitButtonProps extends React.ComponentProps<"div"> {
   /** 主按钮 props（官方 buttonProps） */
   buttonProps?: ButtonProps;
   /** 下拉触发按钮的无障碍标签（官方 menuButtonLabel） */
@@ -36,7 +36,7 @@ interface SplitButtonProps extends React.ComponentProps<"div"> {
   menuProps?: React.ComponentProps<typeof Menu>;
 }
 
-interface SplitButtonMenuItemProps {
+export interface SplitButtonMenuItemProps {
   /** 菜单项标题（官方 title，可为任意 ReactNode） */
   title?: React.ReactNode;
   /** 菜单项描述（官方 description，第二行 muted 小字） */
@@ -124,6 +124,7 @@ function SplitButton({
   );
 }
 
+/** @deprecated 使用 `SplitButton` 的 `buttonProps`/`menuItems` props API。 */
 function SplitButtonMain({ className, children, ...props }: ButtonProps) {
   return (
     <Button data-slot="split-button-main" className={cn("rounded-r-none", className)} {...props}>
@@ -132,7 +133,8 @@ function SplitButtonMain({ className, children, ...props }: ButtonProps) {
   );
 }
 
-interface SplitButtonMenuProps extends ButtonProps {
+/** @deprecated 使用 `SplitButton` 的 props API；保留此类型用于渐进迁移。 */
+export interface SplitButtonMenuProps extends ButtonProps {
   /** 下拉触发按钮的无障碍标签（aria-label） */
   menuLabel?: string;
   /** 下拉菜单对齐方式（"start" 对齐主按钮左缘，官方默认 bottom-start） */
@@ -143,6 +145,7 @@ interface SplitButtonMenuProps extends ButtonProps {
   children?: React.ReactNode;
 }
 
+/** @deprecated 使用 `SplitButton` 的 `menuButtonLabel`/`menuItems` props API。 */
 function SplitButtonMenu({
   className,
   children,

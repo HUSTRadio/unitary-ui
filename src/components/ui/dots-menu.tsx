@@ -31,6 +31,9 @@ interface DotsMenuProps extends React.ComponentProps<typeof MenuContainer> {
   contentClassName?: string;
 }
 
+type DotsMenuItemProps = React.ComponentProps<typeof MenuItem>;
+type DotsMenuSeparatorProps = React.ComponentProps<typeof MenuDivider>;
+
 function DotsMenu({
   iconSize = 18,
   disabled,
@@ -68,21 +71,21 @@ function DotsMenu({
   );
 }
 
-const DotsMenuItem = React.forwardRef<
-  React.ElementRef<typeof MenuItem>,
-  React.ComponentProps<typeof MenuItem>
->(({ className, ...props }, ref) => (
-  <MenuItem
-    ref={ref}
-    className={cn(
-      "h-9 rounded-[6px] px-2 text-sm hover:bg-gray-alpha-100 focus-visible:bg-gray-alpha-100 data-[highlighted]:bg-gray-alpha-100 data-[disabled]:text-gray-700 data-[disabled]:opacity-100",
-      className,
-    )}
-    {...props}
-  />
-));
+const DotsMenuItem = React.forwardRef<React.ElementRef<typeof MenuItem>, DotsMenuItemProps>(
+  ({ className, ...props }, ref) => (
+    <MenuItem
+      ref={ref}
+      className={cn(
+        "h-9 rounded-[6px] px-2 text-sm hover:bg-gray-alpha-100 focus-visible:bg-gray-alpha-100 data-[highlighted]:bg-gray-alpha-100 data-[disabled]:text-gray-700 data-[disabled]:opacity-100",
+        className,
+      )}
+      {...props}
+    />
+  ),
+);
 DotsMenuItem.displayName = "DotsMenuItem";
 
 const DotsMenuSeparator = MenuDivider;
 
 export { DotsMenu, DotsMenuItem, DotsMenuSeparator };
+export type { DotsMenuProps, DotsMenuItemProps, DotsMenuSeparatorProps };

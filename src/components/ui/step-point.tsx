@@ -10,6 +10,16 @@ import { cn } from "@/lib/utils";
 
 export type StepStatus = "idle" | "active" | "done" | "failed";
 
+export interface StepPointProps {
+  status: StepStatus;
+  children: React.ReactNode;
+}
+
+/** @deprecated 仅用于兼容 `StepDot`；新代码应使用 `StepPointProps`。 */
+export interface StepDotProps {
+  status: StepStatus;
+}
+
 const DOT_STYLES: Record<StepStatus, string> = {
   idle: "border-border-strong bg-background",
   active: "bg-progress text-white",
@@ -24,7 +34,8 @@ const TEXT_STYLES: Record<StepStatus, string> = {
   failed: "text-danger",
 };
 
-function StepDot({ status }: { status: StepStatus }) {
+/** @deprecated `StepDot` 是兼容性导出；新代码应使用完整的 `StepPoint`。 */
+function StepDot({ status }: StepDotProps) {
   return (
     <span
       className={cn(
@@ -40,7 +51,7 @@ function StepDot({ status }: { status: StepStatus }) {
   );
 }
 
-function StepPoint({ status, children }: { status: StepStatus; children: React.ReactNode }) {
+function StepPoint({ status, children }: StepPointProps) {
   return (
     <li className="flex items-center gap-3 py-[11px]">
       <StepDot status={status} />

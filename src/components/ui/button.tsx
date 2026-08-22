@@ -137,29 +137,20 @@ function Button({
       {...props}
     >
       {loading ? (
-        <span
-          className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5"
-          aria-hidden
-        >
+        <span className="mr-2 flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
           <Loader2 className="size-3.5 animate-spin" />
           <span className="sr-only">{t("Loading...")}</span>
         </span>
       ) : (
         prefix && (
-          <span
-            className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5"
-            aria-hidden
-          >
+          <span className="mr-2 flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
             {prefix}
           </span>
         )
       )}
-      {svgOnly ? children : <span className="inline-block truncate px-1.5">{children}</span>}
+      {svgOnly ? children : <span className="inline-block truncate">{children}</span>}
       {!loading && suffix && (
-        <span
-          className="ml-1 mr-0.5 flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5"
-          aria-hidden
-        >
+        <span className="ml-2 flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
           {suffix}
         </span>
       )}
@@ -218,29 +209,20 @@ function ButtonLink({
       {...props}
     >
       {loading ? (
-        <span
-          className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5"
-          aria-hidden
-        >
+        <span className="mr-2 flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
           <Loader2 className="size-3.5 animate-spin" />
           <span className="sr-only">{t("Loading...")}</span>
         </span>
       ) : (
         prefix && (
-          <span
-            className="mr-[3px] flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5"
-            aria-hidden
-          >
+          <span className="mr-2 flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
             {prefix}
           </span>
         )
       )}
-      {svgOnly ? children : <span className="inline-block truncate px-1.5">{children}</span>}
+      {svgOnly ? children : <span className="inline-block truncate">{children}</span>}
       {!loading && suffix && (
-        <span
-          className="ml-1 mr-0.5 flex min-w-5 shrink-0 items-center justify-center [&_svg]:size-3.5"
-          aria-hidden
-        >
+        <span className="ml-2 flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
           {suffix}
         </span>
       )}

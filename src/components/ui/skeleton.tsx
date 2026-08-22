@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 
 type Size = number | string;
 
-interface SkeletonProps extends React.ComponentProps<"div"> {
+export interface SkeletonProps extends React.ComponentProps<"div"> {
   /** 骨架宽度（number 视为 px） */
   width?: Size;
   /** 骨架高度（number 视为 px） */

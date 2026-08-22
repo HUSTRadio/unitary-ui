@@ -92,6 +92,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  /* Inline validation and alert copy has a distinct contrast target from destructive fills. */
+  --color-error-foreground: var(--error-foreground);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-input: var(--input);
@@ -124,6 +126,9 @@
   --color-button-error: var(--button-error);
   --color-button-error-foreground: var(--button-error-foreground);
   --color-button-error-hover: var(--button-error-hover);
+  --color-badge-red: var(--badge-red);
+  --color-badge-red-foreground: var(--badge-red-foreground);
+  --color-badge-red-subtle-foreground: var(--badge-red-subtle-foreground);
   --color-button-warning: var(--button-warning);
   --color-button-warning-foreground: var(--button-warning-foreground);
   --color-button-warning-hover: var(--button-warning-hover);
@@ -169,7 +174,7 @@
   /* LoadingDots 官方 blink 动画（1.4s ease infinite） */
   --animate-blink: blink 1.4s ease infinite;
 
-  /* CopyButton 对勾描边绘制动画（0.2s ease-out，配合图标 fade 使用） */
+  /* CopyButton 对勾描边绘制动画（0.2s ease-out，配合缩放淡入使用） */
   --animate-copy-check-draw: copy-check-draw 0.2s ease-out both;
 
   /* Geist 全色阶（colors.md 92 token 实测；gray-alpha 已在上面定义） */
@@ -304,6 +309,7 @@
   --danger: #e5484d; /* red-700 */
   --danger-soft: #fff5f5; /* red-100 */
   --danger-hover: #d12929; /* red-800 */
+  --error-foreground: #cb2a2f; /* inline error copy, red-900 */
   --info: #006efe; /* blue-700 */
   --info-soft: #ebf5ff; /* blue-100 */
   --progress: #006efe; /* blue-700 */
@@ -318,6 +324,9 @@
   --button-error: #da2f35;
   --button-error-foreground: #f5f5f5;
   --button-error-hover: #ae292f;
+  --badge-red: #cb2a2f;
+  --badge-red-foreground: #ffffff;
+  --badge-red-subtle-foreground: #cb2a2f;
   --button-warning: #ff990a;
   --button-warning-foreground: #0a0a0a;
   --button-warning-hover: #d27504;
@@ -580,6 +589,7 @@
   --danger: #e5484d; /* red-700 */
   --danger-soft: #381619; /* red-200 */
   --danger-hover: #d12929; /* red-800 */
+  --error-foreground: #ff6166; /* inline error copy, red-600 */
   --info: #006efe; /* blue-700 */
   --info-soft: #101f38; /* blue-200 */
   --progress: #006efe; /* blue-700 */
@@ -594,6 +604,9 @@
   --button-error: #d93036;
   --button-error-foreground: #ffffff;
   --button-error-hover: #ff6166;
+  --badge-red: #d93036;
+  --badge-red-foreground: #ffffff;
+  --badge-red-subtle-foreground: #ff6166;
   --button-warning: #ff990a;
   --button-warning-foreground: #0a0a0a;
   --button-warning-hover: #d27504;
@@ -1254,7 +1267,7 @@
   }
 }
 
-/* CopyButton 对勾描边绘制：lucide CopyCheck 首子元素即对勾笔画（path 长约 11.3），
+/* CopyButton 对勾描边绘制：lucide Check 首子元素即对勾笔画（path 长约 11.3），
    dash 16 覆盖全长，offset 16→0 画出对勾。不修改图标 SVG，仅外层样式驱动。 */
 @keyframes copy-check-draw {
   from {
@@ -1389,9 +1402,10 @@
 }
 
 /*
- * Context Card 箭头定位（官方实测：14×7，根部深入 content 覆盖卡片边框，
- * 底边不描 stroke，避免与卡片边框叠加成割裂的内框）。
- * 手动按 data-side 定位，尖端指向 trigger。
+ * Context Card 箭头定位（官方实测：14×7）。
+ * SVG path 的根线位于 viewBox -0.5px：直接贴合 popover 的 border-box 边缘时，
+ * 恰好覆盖 1px 外框的中心线，箭头两端与外框连续。不得再把箭头向卡片内部平移，
+ * 否则外框会从箭头根部下方穿过，形成断裂的双线。
  */
 [data-slot="context-card-tip"] {
   position: absolute;
@@ -1402,22 +1416,22 @@
 [data-slot="context-card-popover"][data-side="top"] [data-slot="context-card-tip"] {
   top: 100%;
   left: 50%;
-  transform: translate(-50%, -3.5px);
+  transform: translateX(-50%);
 }
 [data-slot="context-card-popover"][data-side="bottom"] [data-slot="context-card-tip"] {
   bottom: 100%;
   left: 50%;
-  transform: translate(-50%, 3.5px) rotate(180deg);
+  transform: translateX(-50%) rotate(180deg);
 }
 [data-slot="context-card-popover"][data-side="left"] [data-slot="context-card-tip"] {
   left: 100%;
   top: 50%;
-  transform: translate(-3.5px, -50%) rotate(-90deg);
+  transform: translateY(-50%) rotate(-90deg);
 }
 [data-slot="context-card-popover"][data-side="right"] [data-slot="context-card-tip"] {
   right: 100%;
   top: 50%;
-  transform: translate(3.5px, -50%) rotate(90deg);
+  transform: translateY(-50%) rotate(90deg);
 }
 
 /*

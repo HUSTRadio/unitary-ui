@@ -19,11 +19,22 @@ import { Label } from "./label";
  * - FieldSetLabel：复用 Label（cursor-pointer），绑定 FieldSetItem 内的控件
  * 颜色消费语义 token（--foreground），零 `dark:` 分支。
  */
-function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
+/** @deprecated 请改用卡片式 `Fieldset` 组合 API。 */
+type FieldSetProps = React.ComponentProps<"fieldset">;
+/** @deprecated 请改用 `FieldsetTitle`。 */
+type FieldSetLegendProps = React.ComponentProps<"legend">;
+/** @deprecated 请改用 `FieldsetContent`。 */
+type FieldSetItemProps = React.ComponentProps<"div">;
+/** @deprecated 请在 `FieldsetContent` 内使用正式表单 Label。 */
+type FieldSetLabelProps = React.ComponentProps<typeof Label>;
+
+/** @deprecated 请改用卡片式 `Fieldset` 组合 API。 */
+function FieldSet({ className, ...props }: FieldSetProps) {
   return <fieldset data-slot="fieldset" className={cn("min-w-0", className)} {...props} />;
 }
 
-function FieldSetLegend({ className, ...props }: React.ComponentProps<"legend">) {
+/** @deprecated 请改用 `FieldsetTitle`。 */
+function FieldSetLegend({ className, ...props }: FieldSetLegendProps) {
   return (
     <legend
       data-slot="fieldset-legend"
@@ -33,7 +44,8 @@ function FieldSetLegend({ className, ...props }: React.ComponentProps<"legend">)
   );
 }
 
-function FieldSetItem({ className, ...props }: React.ComponentProps<"div">) {
+/** @deprecated 请改用 `FieldsetContent`。 */
+function FieldSetItem({ className, ...props }: FieldSetItemProps) {
   return (
     <div
       data-slot="fieldset-item"
@@ -43,7 +55,8 @@ function FieldSetItem({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function FieldSetLabel({ className, ...props }: React.ComponentProps<typeof Label>) {
+/** @deprecated 请在 `FieldsetContent` 内使用正式表单 Label。 */
+function FieldSetLabel({ className, ...props }: FieldSetLabelProps) {
   return <Label data-slot="fieldset-label" className={cn(className)} {...props} />;
 }
 
@@ -77,6 +90,15 @@ interface FieldsetProps extends Omit<React.ComponentProps<"div">, "title"> {
   /** 副标题（等价于 FieldsetSubtitle 子部件） */
   subtitle?: React.ReactNode;
 }
+
+type FieldsetTitleProps = React.ComponentProps<"h4">;
+type FieldsetSubtitleProps = React.ComponentProps<"p">;
+type FieldsetFooterStatusProps = React.ComponentProps<"div">;
+type FieldsetFooterActionsProps = React.ComponentProps<"div">;
+type FieldsetFooterActionProps = React.ComponentProps<typeof Button>;
+type ErrorTextProps = React.ComponentProps<"span">;
+type WarningTextProps = React.ComponentProps<"span">;
+type DisabledWallProps = React.ComponentProps<"div">;
 
 function Fieldset({
   className,
@@ -135,7 +157,7 @@ function Fieldset({
   );
 }
 
-function FieldsetTitle({ className, ...props }: React.ComponentProps<"h4">) {
+function FieldsetTitle({ className, ...props }: FieldsetTitleProps) {
   return (
     <h4
       data-slot="fieldset-title"
@@ -148,7 +170,7 @@ function FieldsetTitle({ className, ...props }: React.ComponentProps<"h4">) {
   );
 }
 
-function FieldsetSubtitle({ className, ...props }: React.ComponentProps<"p">) {
+function FieldsetSubtitle({ className, ...props }: FieldsetSubtitleProps) {
   return (
     <p
       data-slot="fieldset-subtitle"
@@ -211,7 +233,7 @@ function FieldsetFooter({ className, highlight = false, ...props }: FieldsetFoot
   );
 }
 
-function FieldsetFooterStatus({ className, ...props }: React.ComponentProps<"div">) {
+function FieldsetFooterStatus({ className, ...props }: FieldsetFooterStatusProps) {
   return (
     <div
       data-slot="fieldset-footer-status"
@@ -221,7 +243,7 @@ function FieldsetFooterStatus({ className, ...props }: React.ComponentProps<"div
   );
 }
 
-function FieldsetFooterActions({ className, ...props }: React.ComponentProps<"div">) {
+function FieldsetFooterActions({ className, ...props }: FieldsetFooterActionsProps) {
   return (
     <div
       data-slot="fieldset-footer-actions"
@@ -234,7 +256,7 @@ function FieldsetFooterActions({ className, ...props }: React.ComponentProps<"di
   );
 }
 
-function FieldsetFooterAction({ className, ...props }: React.ComponentProps<typeof Button>) {
+function FieldsetFooterAction({ className, ...props }: FieldsetFooterActionProps) {
   return (
     <div data-slot="fieldset-footer-action" className={cn("mx-2 first:ml-0 last:mr-0", className)}>
       <Button typeName="button" size="small" type="secondary" {...props} />
@@ -243,13 +265,13 @@ function FieldsetFooterAction({ className, ...props }: React.ComponentProps<type
 }
 
 /* 官方辅助部件：ErrorText / WarningText（内容区错误/警告文案）、DisabledWall（内容区禁用墙） */
-function ErrorText({ className, ...props }: React.ComponentProps<"span">) {
+function ErrorText({ className, ...props }: ErrorTextProps) {
   return (
     <span data-slot="fieldset-error-text" className={cn("text-red-900", className)} {...props} />
   );
 }
 
-function WarningText({ className, ...props }: React.ComponentProps<"span">) {
+function WarningText({ className, ...props }: WarningTextProps) {
   return (
     <span
       data-slot="fieldset-warning-text"
@@ -259,7 +281,7 @@ function WarningText({ className, ...props }: React.ComponentProps<"span">) {
   );
 }
 
-function DisabledWall({ className, ...props }: React.ComponentProps<"div">) {
+function DisabledWall({ className, ...props }: DisabledWallProps) {
   return (
     <div
       aria-hidden
@@ -290,4 +312,16 @@ export {
   type FieldsetType,
   type FieldsetContentProps,
   type FieldsetFooterProps,
+  type FieldsetTitleProps,
+  type FieldsetSubtitleProps,
+  type FieldsetFooterStatusProps,
+  type FieldsetFooterActionsProps,
+  type FieldsetFooterActionProps,
+  type ErrorTextProps,
+  type WarningTextProps,
+  type DisabledWallProps,
+  type FieldSetProps,
+  type FieldSetLegendProps,
+  type FieldSetItemProps,
+  type FieldSetLabelProps,
 };

@@ -73,7 +73,7 @@ const NOTE_ICONS: Record<NoteVariant, React.ElementType> = {
   cyan: Info,
 };
 
-interface NoteProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface NoteProps extends React.ComponentProps<"div"> {
   variant?: NoteVariant;
   /** 填充柔和底色（官方 fill）。 */
   fill?: boolean;
@@ -137,11 +137,15 @@ function Note({
   );
 }
 
-function NoteContent({ className, ...props }: React.ComponentProps<"div">) {
+export type NoteContentProps = React.ComponentProps<"div">;
+
+function NoteContent({ className, ...props }: NoteContentProps) {
   return <div data-slot="note-content" className={cn("min-w-0 flex-1", className)} {...props} />;
 }
 
-function NoteLabel({ className, ...props }: React.ComponentProps<"span">) {
+export type NoteLabelProps = React.ComponentProps<"span">;
+
+function NoteLabel({ className, ...props }: NoteLabelProps) {
   return (
     <span
       data-slot="note-label"
@@ -151,7 +155,9 @@ function NoteLabel({ className, ...props }: React.ComponentProps<"span">) {
   );
 }
 
-function NoteAction({ className, ...props }: React.ComponentProps<"div">) {
+export type NoteActionProps = React.ComponentProps<"div">;
+
+function NoteAction({ className, ...props }: NoteActionProps) {
   return (
     <div
       data-slot="note-action"

@@ -15,7 +15,7 @@ import { useI18n } from "@/lib/i18n";
  * 展开后把焦点移到首个新揭示行。
  */
 
-interface ShowMoreProps extends Omit<React.ComponentProps<"button">, "children"> {
+export interface ShowMoreProps extends Omit<React.ComponentProps<"button">, "children"> {
   /** 官方 API：受控展开状态 */
   expanded?: boolean;
   /** 官方 API：无边框变体 */

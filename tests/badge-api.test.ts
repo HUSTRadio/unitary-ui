@@ -64,7 +64,7 @@ describe("Badge official subtle tint contract", () => {
       blue: "text-[#0068d6] dark:text-[#52a8ff]",
       purple: "text-[#7820bc] dark:text-[#bf7af0]",
       amber: "text-[#a35200] dark:text-[#f2a20d]",
-      red: "text-[#cb2a2f] dark:text-[#ff6166]",
+      red: "text-badge-red-subtle-foreground",
       pink: "text-[#bd2864] dark:text-[#f75f8f]",
       green: "text-[#297a3a] dark:text-[#62c073]",
       teal: "text-[#067a6e] dark:text-[#0ac7b4]",

@@ -37,6 +37,12 @@ const ModalTrigger = DialogPrimitive.Trigger;
 const ModalPortal = DialogPrimitive.Portal;
 const ModalClose = DialogPrimitive.Close;
 
+export type ModalProps = React.ComponentProps<typeof DialogPrimitive.Root>;
+export type ModalTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>;
+export type ModalPortalProps = React.ComponentProps<typeof DialogPrimitive.Portal>;
+export type ModalCloseProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>;
+export type ModalOverlayProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>;
+
 const ModalOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
@@ -53,12 +59,12 @@ const ModalOverlay = React.forwardRef<
 ));
 ModalOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
-interface ModalContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+export type ModalContentProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
   /** 渲染右上角关闭按钮（官方默认无 X，用 footer Cancel） */
   showCloseButton?: boolean;
   /** 内容区（body）额外类名；官方 sticky 变体用 pt-0 消除顶部内边距 */
   bodyClassName?: string;
-}
+};
 
 const ModalContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
@@ -136,16 +142,20 @@ const ModalContent = React.forwardRef<
 );
 ModalContent.displayName = DialogPrimitive.Content.displayName;
 
-const ModalHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+export type ModalHeaderProps = React.ComponentPropsWithoutRef<"div">;
+
+const ModalHeader = React.forwardRef<HTMLDivElement, ModalHeaderProps>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={cn("flex flex-col space-y-1.5 text-left", className)} {...props} />
   ),
 );
 ModalHeader.displayName = "ModalHeader";
 
+export type ModalTitleProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>;
+
 const ModalTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+  ModalTitleProps
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
@@ -155,9 +165,13 @@ const ModalTitle = React.forwardRef<
 ));
 ModalTitle.displayName = DialogPrimitive.Title.displayName;
 
+export type ModalDescriptionProps = React.ComponentPropsWithoutRef<
+  typeof DialogPrimitive.Description
+>;
+
 const ModalDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+  ModalDescriptionProps
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
@@ -167,7 +181,9 @@ const ModalDescription = React.forwardRef<
 ));
 ModalDescription.displayName = DialogPrimitive.Description.displayName;
 
-const ModalFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+export type ModalFooterProps = React.ComponentPropsWithoutRef<"div">;
+
+const ModalFooter = React.forwardRef<HTMLDivElement, ModalFooterProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
@@ -189,5 +205,4 @@ export {
   ModalDescription,
   ModalFooter,
   ModalClose,
-  type ModalContentProps,
 };

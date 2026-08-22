@@ -57,14 +57,14 @@ describe("Input official API contract (G06 audit fixes)", () => {
     expect(src).toContain("rounded-[6px]");
   });
 
-  test("G06-INPUT-06: error alert is mt-2 (8px) with color #cb2a2f", async () => {
+  test("G06-INPUT-06: error alert is mt-2 (8px) and consumes the inline-error semantic token", async () => {
     const src = await read("src/components/ui/input.tsx");
-    const alertStart = src.indexOf('role="alert"');
+    const alertStart = src.indexOf('data-slot="input-error"');
     expect(alertStart).toBeGreaterThan(-1);
-    const alertBlock = src.slice(alertStart, alertStart + 500);
+    const alertBlock = src.slice(alertStart, src.indexOf(")}\n", alertStart));
     expect(alertBlock).toMatch(/mt-2/);
     expect(alertBlock).not.toMatch(/mt-1\b/);
-    expect(alertBlock).toMatch(/#cb2a2f/);
+    expect(alertBlock).toMatch(/text-error-foreground/);
   });
 
   test("slider.tsx stays compatible with the Input API change", async () => {

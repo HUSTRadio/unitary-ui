@@ -1,45 +1,72 @@
 import * as React from "react";
-import { Copy, CopyCheck } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 
-interface CopyButtonProps extends React.ComponentProps<"button"> {
+interface CopyButtonProps extends Omit<React.ComponentProps<"button">, "onCopy" | "onError"> {
   /** 要复制的文本。 */
   textToCopy: string;
   /** 可访问名称；不渲染可见文本。 */
   label?: string;
+  /** 文本复制成功后触发。 */
+  onCopy?: (text: string) => void;
+  /** Clipboard API 与兼容回退均失败时触发。 */
+  onError?: (error: unknown) => void;
 }
 
 /**
  * CopyButton — 复制反馈动效：
- * 1. 点按：复制图标快速 fade out（120ms），同时对勾以描边绘制动画「打出来」（200ms，
- *    keyframes copy-check-draw 驱动 stroke-dashoffset，不修改 lucide SVG 内容）
- * 2. 约 1.2s 后：对勾 fade out，复制图标 fade in 还原
+ * 1. 点按：复制图标缩小淡出；延迟 60ms 后，单独的对勾以轻微 scale + 描边绘制进入。
+ *    不再将 CopyCheck 的文档轮廓与对勾一起切换，避免图形跳变。
+ * 2. 约 1.2s 后：对勾淡出、复制图标还原。
  * reduced-motion 下所有过渡降级为瞬时切换。
  */
-function CopyButton({ className, textToCopy, label = "Copy", ...props }: CopyButtonProps) {
+function CopyButton({
+  className,
+  textToCopy,
+  label = "Copy",
+  onClick,
+  onCopy,
+  onError,
+  ...props
+}: CopyButtonProps) {
   const { t } = useI18n();
   const [copied, setCopied] = React.useState(false);
   const timer = React.useRef<number | undefined>(undefined);
 
   React.useEffect(() => () => window.clearTimeout(timer.current), []);
 
-  const handleCopy = async () => {
+  const handleCopy = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    onClick?.(event);
+    if (event.defaultPrevented) return;
+
     try {
-      await navigator.clipboard.writeText(textToCopy);
-    } catch {
-      const textarea = document.createElement("textarea");
-      textarea.value = textToCopy;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      textarea.remove();
+      try {
+        if (!navigator.clipboard?.writeText) throw new Error("Clipboard API is unavailable");
+        await navigator.clipboard.writeText(textToCopy);
+      } catch (clipboardError) {
+        const textarea = document.createElement("textarea");
+        textarea.value = textToCopy;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        try {
+          textarea.select();
+          if (typeof document.execCommand !== "function" || !document.execCommand("copy")) {
+            throw clipboardError;
+          }
+        } finally {
+          textarea.remove();
+        }
+      }
+    } catch (error) {
+      onError?.(error);
+      return;
     }
 
     setCopied(true);
+    onCopy?.(textToCopy);
     window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => setCopied(false), 1200);
   };
@@ -56,24 +83,28 @@ function CopyButton({ className, textToCopy, label = "Copy", ...props }: CopyBut
       )}
       {...props}
     >
-      {/* 双图标常驻叠加，靠 opacity / 描边动画切换 */}
+      {/* 双图标常驻叠加，仅变换 opacity / transform，避免状态切换导致布局跳动。 */}
       <span className="relative flex size-4 items-center justify-center" aria-hidden>
         <span
           className={cn(
-            "absolute inset-0 flex items-center justify-center transition-opacity ease-in-out motion-reduce:transition-none",
-            copied ? "opacity-0 duration-100" : "opacity-100 duration-150",
+            "absolute inset-0 flex items-center justify-center transition-[opacity,transform] ease-out motion-reduce:transition-none",
+            copied
+              ? "scale-75 -rotate-6 opacity-0 duration-150"
+              : "scale-100 rotate-0 opacity-100 duration-150",
           )}
         >
           <Copy className="size-4" />
         </span>
         <span
           className={cn(
-            "absolute inset-0 flex items-center justify-center transition-opacity duration-150 ease-in-out motion-reduce:transition-none",
-            copied ? "opacity-100" : "opacity-0",
+            "absolute inset-0 flex items-center justify-center transition-[opacity,transform] ease-out motion-reduce:transition-none",
+            copied
+              ? "scale-100 rotate-0 opacity-100 delay-[60ms] duration-200"
+              : "scale-75 -rotate-6 opacity-0 duration-100",
             copied && "[&_svg_path:first-child]:animate-copy-check-draw",
           )}
         >
-          <CopyCheck className="size-4" />
+          <Check className="size-4" />
         </span>
       </span>
     </button>
@@ -81,3 +112,4 @@ function CopyButton({ className, textToCopy, label = "Copy", ...props }: CopyBut
 }
 
 export { CopyButton };
+export type { CopyButtonProps };

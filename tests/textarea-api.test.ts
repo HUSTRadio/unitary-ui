@@ -8,12 +8,12 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
 
 describe("Textarea official API contract (G12 audit fixes)", () => {
-  test("G12-TEXTAREA-01: error text is official #cb2a2f (light) / #ff6166 (dark), not --red-900 token", async () => {
+  test("G12-TEXTAREA-01: error text uses the dedicated inline-error token, not a raw red scale", async () => {
     const src = await read("src/components/ui/textarea.tsx");
     const alertStart = src.indexOf('role="alert"');
     expect(alertStart).toBeGreaterThan(-1);
     const alertBlock = src.slice(alertStart, alertStart + 400);
-    expect(alertBlock).toMatch(/text-\[#cb2a2f\] dark:text-\[#ff6166\]/);
+    expect(alertBlock).toMatch(/text-error-foreground/);
     expect(alertBlock).not.toMatch(/text-\[var\(--red-900\)\]/);
   });
 

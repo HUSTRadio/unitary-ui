@@ -17,7 +17,6 @@ import {
 } from "@/lib/date-time";
 import { useI18n } from "@/lib/i18n";
 import {
-  defaultLocale,
   getMonthTitle,
   getRelativeTimePresets,
   getWeekStartDay,
@@ -137,8 +136,23 @@ const COMBO_HINT_WRAP_CLASS = "flex flex-wrap mt-2 gap-1";
 const COMBO_HINT_BUTTON_CLASS =
   "text-[13px] hover:bg-[hsl(0,0%,87%)] dark-theme:hover:bg-[hsl(0,0%,30%)] px-1.5 h-5 inline-flex items-center font-[var(--font-mono)] bg-[var(--ds-gray-100)] border-none rounded-[4px] cursor-pointer text-[var(--ds-gray-1000)] focus-visible:outline-2 focus-visible:outline-gray-700";
 
+type CalendarSize = "medium" | "small";
+
+interface CalendarDateRange {
+  start: Date | null;
+  end: Date | null;
+}
+
+interface CalendarPreset {
+  text: string;
+  start: Date;
+  end: Date;
+}
+
+type CalendarPresets = Record<string, CalendarPreset>;
+
 interface CalendarComboboxProps {
-  size: "medium" | "small";
+  size: CalendarSize;
   /** 通栏模式：占满 --width（Select Period），否则为小方块（宽度随尺寸）。 */
   full?: boolean;
   /** 通栏模式下输入框是否带 w-[var(--width)]（官方 item3 有、item4 无）。 */
@@ -146,14 +160,14 @@ interface CalendarComboboxProps {
   placeholder?: string;
   label: string;
   /** 快速选择 preset 映射（官方 presets：{key: {text, start, end}}）。 */
-  presets?: Record<string, { text: string; start: Date; end: Date }>;
+  presets?: CalendarPresets;
   /** 受控选中值（preset text）。 */
   value?: string;
   onValueChange?: (value: string) => void;
   /** 默认选中 preset 索引（官方 presetIndex）。 */
   defaultIndex?: number;
   /** 语言 locale（BCP 47），驱动相对时间快捷按钮文案。 */
-  locale?: string;
+  locale: string;
 }
 
 function CalendarCombobox({
@@ -337,7 +351,7 @@ interface CalendarProps {
   className?: string;
   /** 触发按钮文案（官方 "Select Date Range"） */
   label?: string;
-  size?: "medium" | "small";
+  size?: CalendarSize;
   /** --width 值：触发按钮/骨架宽度（官方 default 250、紧凑排布 180） */
   width?: number;
   /** 渲染快速选择 Combobox */
@@ -355,9 +369,9 @@ interface CalendarProps {
   /** combobox 的 sr-only 标签文案（官方 "Combobox Menu"） */
   comboboxLabel?: string;
   /** 快速选择 preset 映射（官方 presets：{key: {text, start, end}}）。 */
-  presets?: Record<string, { text: string; start: Date; end: Date }>;
+  presets?: CalendarPresets;
   /** 选中日期范围变化回调（官方 onChange：preset 选中 / Apply / 日历点选均触发）。 */
-  onChange?: (range: { start: Date | null; end: Date | null }) => void;
+  onChange?: (range: CalendarDateRange) => void;
   /** 打开态横向布局（官方 horizontalLayout：日历在左、Start/End 在右） */
   horizontalLayout?: boolean;
   /** 紧凑排布（官方 compact：trigger 左圆角 + combobox 右圆角，宽 180） */
@@ -395,7 +409,7 @@ interface CalendarProps {
 
 function Calendar({
   className,
-  label = "Select Date Range",
+  label: labelProp,
   size = "medium",
   width = 250,
   showCombobox = false,
@@ -404,7 +418,7 @@ function Calendar({
   comboboxWide = false,
   comboboxPlaceholder = "",
   triggerClassName,
-  comboboxLabel = "Combobox Menu",
+  comboboxLabel: comboboxLabelProp,
   presets = {},
   horizontalLayout = false,
   compact = false,
@@ -413,7 +427,7 @@ function Calendar({
   presetIndex,
   minValue,
   maxValue,
-  locale = defaultLocale(),
+  locale: localeProp,
   timeZone,
   dateTimeFormat,
   timeFormat,
@@ -428,7 +442,10 @@ function Calendar({
   wrapMaxRows = 3,
   onChange,
 }: CalendarProps) {
-  const { t } = useI18n();
+  const { t, locale: frameworkLocale } = useI18n();
+  const locale = localeProp ?? (frameworkLocale === "en" ? "en-US" : frameworkLocale);
+  const label = labelProp ?? t("Select Date Range");
+  const comboboxLabel = comboboxLabelProp ?? t("Combobox Menu");
   const isSmall = size === "small";
   // compact/stacked 隐含 combobox + 排布（官方：compact 横向紧凑、stacked 纵向堆叠）
   const effectiveShowCombobox = showCombobox || compact || stacked;
@@ -461,9 +478,7 @@ function Calendar({
   const appliedLabel =
     applied.start && applied.end
       ? `${formatDateTime(applied.start, { locale, timeZone, dateTimeFormat })} – ${formatDateTime(applied.end, { locale, timeZone, dateTimeFormat })}`
-      : label === "Select Date Range"
-        ? t(label)
-        : label;
+      : label;
   const triggerStyle: React.CSSProperties = {
     ...(isSmall ? TRIGGER_SMALL_INLINE_STYLE : TRIGGER_INLINE_STYLE),
     ...(wrap
@@ -510,7 +525,7 @@ function Calendar({
           full={effectiveComboboxFull}
           wide={comboboxWide}
           placeholder={comboboxPlaceholder}
-          label={comboboxLabel === "Combobox Menu" ? t(comboboxLabel) : comboboxLabel}
+          label={comboboxLabel}
           presets={presets}
           defaultIndex={presetIndex}
           locale={locale}
@@ -615,7 +630,7 @@ function Calendar({
           full={effectiveComboboxFull}
           wide={comboboxWide}
           placeholder={comboboxPlaceholder}
-          label={comboboxLabel === "Combobox Menu" ? t(comboboxLabel) : comboboxLabel}
+          label={comboboxLabel}
           presets={presets}
           defaultIndex={presetIndex}
           locale={locale}
@@ -688,7 +703,7 @@ function CalendarPanel({
   pinnedTimezone,
   minValue,
   maxValue,
-  locale = defaultLocale(),
+  locale,
   timeZone: requestedTimeZone,
   dateTimeFormat,
   timeFormat,
@@ -701,7 +716,7 @@ function CalendarPanel({
   pinnedTimezone?: string;
   minValue?: Date;
   maxValue?: Date;
-  locale?: string;
+  locale: string;
   timeZone?: string;
   dateTimeFormat?: string;
   timeFormat?: string;
@@ -839,7 +854,7 @@ function CalendarPanel({
 
   return (
     <div className={PANEL_CONTENT_CLASS} style={colorStyle}>
-      <div className={horizontalLayout ? "flex flex-row items-start" : "flex flex-col"}>
+      <div className={horizontalLayout ? "flex flex-row items-stretch" : "flex flex-col"}>
         {/* 日历（上 / 左） */}
         <div className={horizontalLayout ? "min-w-0 flex-1" : ""}>
           <div
@@ -860,7 +875,7 @@ function CalendarPanel({
             </div>
             <button
               type="button"
-              aria-label={t("Previous")}
+              aria-label={t("Previous month")}
               className={NAV_BUTTON_CLASS}
               onClick={prevMonth}
             >
@@ -868,7 +883,7 @@ function CalendarPanel({
             </button>
             <button
               type="button"
-              aria-label={t("Next")}
+              aria-label={t("Next month")}
               className={NAV_BUTTON_CLASS}
               onClick={nextMonth}
             >
@@ -959,7 +974,7 @@ function CalendarPanel({
           data-slot="calendar-range-controls"
           className={
             horizontalLayout
-              ? "ml-3 flex w-60 shrink-0 flex-col border-l border-gray-alpha-200 pl-3"
+              ? "ml-3 flex w-60 shrink-0 self-stretch flex-col border-l border-gray-alpha-200 pl-3"
               : "-ml-3 -mr-3 mt-3 border-t border-gray-alpha-200 px-3 pt-3"
           }
         >
@@ -973,7 +988,7 @@ function CalendarPanel({
               <div className="flex gap-2">
                 <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
                   <input
-                    aria-labelledby="start-date"
+                    aria-label={t("Start date")}
                     placeholder={datePattern}
                     aria-invalid={inputErrors["start-date"] || undefined}
                     autoCapitalize="none"
@@ -998,7 +1013,7 @@ function CalendarPanel({
                 </div>
                 <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
                   <input
-                    aria-labelledby="time"
+                    aria-label={t("Start time")}
                     placeholder={clockPattern}
                     aria-invalid={inputErrors["start-time"] || undefined}
                     autoComplete="off"
@@ -1030,7 +1045,7 @@ function CalendarPanel({
               <div className="flex gap-2">
                 <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
                   <input
-                    aria-labelledby="end-date"
+                    aria-label={t("End date")}
                     placeholder={datePattern}
                     aria-invalid={inputErrors["end-date"] || undefined}
                     autoComplete="off"
@@ -1053,7 +1068,7 @@ function CalendarPanel({
                 </div>
                 <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
                   <input
-                    aria-labelledby="time"
+                    aria-label={t("End time")}
                     placeholder={clockPattern}
                     aria-invalid={inputErrors["end-time"] || undefined}
                     autoComplete="off"
@@ -1078,33 +1093,38 @@ function CalendarPanel({
             </div>
           </div>
 
-          {/* Apply（右侧区域底部，全宽；mt-3 为 Geist 12px 档） */}
-          <div className="mt-3" data-slot="calendar-apply">
-            <Button
-              className="w-full"
-              size="small"
-              type="secondary"
-              typeName="button"
-              onClick={() => {
-                const range = { start, end };
-                onApply?.(range);
-                onValueChange?.(range);
-              }}
-            >
-              {t("Apply")}
-              <span className="ml-2 text-xs" aria-hidden>
-                ↵
-              </span>
-            </Button>
-          </div>
+          {/* 横向布局时，操作组锚定至右列底部；纵向布局仍按表单流显示。 */}
+          <div
+            className={horizontalLayout ? "mt-auto pt-3" : "mt-3"}
+            data-slot="calendar-range-actions"
+          >
+            <div data-slot="calendar-apply">
+              <Button
+                className="w-full"
+                size="small"
+                type="secondary"
+                typeName="button"
+                onClick={() => {
+                  const range = { start, end };
+                  onApply?.(range);
+                  onValueChange?.(range);
+                }}
+              >
+                {t("Apply")}
+                <span className="ml-2 text-xs" aria-hidden>
+                  ↵
+                </span>
+              </Button>
+            </div>
 
-          {/* 时区选择器（mt-1 为 Geist 4px 档） */}
-          <div className="mt-1 flex justify-center">
-            <span className="text-xs text-gray-800">
-              {pinnedTimezone
-                ? t("Timezone: {timeZone}", { timeZone: pinnedTimezone })
-                : t("Local ({timeZone})", { timeZone })}
-            </span>
+            {/* 时区选择器（mt-1 为 Geist 4px 档） */}
+            <div className="mt-1 flex justify-center">
+              <span className="text-xs text-gray-800">
+                {pinnedTimezone
+                  ? t("Timezone: {timeZone}", { timeZone: pinnedTimezone })
+                  : t("Local ({timeZone})", { timeZone })}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -1119,3 +1139,4 @@ export {
   CALENDAR_ROW_REV_CLASS,
   TRIGGER_ROW_EXTRA_CLASS,
 };
+export type { CalendarDateRange, CalendarPreset, CalendarPresets, CalendarProps, CalendarSize };

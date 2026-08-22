@@ -115,7 +115,9 @@ function ProjectBanner({
 }
 
 /** 本地扩展：children 组合式内容容器（官方 API 用 icon/label/callToAction prop）。 */
-function ProjectBannerContent({ className, ...props }: React.ComponentProps<"div">) {
+export type ProjectBannerContentProps = React.ComponentProps<"div">;
+
+function ProjectBannerContent({ className, ...props }: ProjectBannerContentProps) {
   return (
     <div
       data-slot="project-banner-content"
@@ -132,7 +134,9 @@ function ProjectBannerContent({ className, ...props }: React.ComponentProps<"div
  * 本地扩展（官方按设计不可关闭）：仅当显式传入 onClick 时渲染关闭按钮；
  * 未传 onClick 时不渲染（避免死控件）。
  */
-function ProjectBannerClose({ className, onClick, ...props }: React.ComponentProps<typeof Button>) {
+export type ProjectBannerCloseProps = React.ComponentProps<typeof Button>;
+
+function ProjectBannerClose({ className, onClick, ...props }: ProjectBannerCloseProps) {
   const { t } = useI18n();
   if (!onClick) {
     return null;

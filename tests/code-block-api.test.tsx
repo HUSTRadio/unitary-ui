@@ -78,7 +78,7 @@ describe("CodeBlock official API contract", () => {
     expect(document.querySelector("[data-code-line] button")).toBeNull();
   });
 
-  test("renders a native select switcher and a tablist switcher", () => {
+  test("renders a themed menu switcher and a tablist switcher", () => {
     const onSelect = vi.fn();
     const { unmount } = (() => {
       const container = render(
@@ -94,12 +94,18 @@ describe("CodeBlock official API contract", () => {
       );
       return { unmount: () => container.remove() };
     })();
-    const select = document.querySelector<HTMLSelectElement>("select")!;
-    expect(select.className).toContain("opacity-0");
+    const trigger = document.querySelector<HTMLButtonElement>("[data-slot='code-block-switcher']")!;
+    expect(trigger.textContent).toContain("JavaScript");
     act(() => {
-      select.value = "TypeScript";
-      select.dispatchEvent(new Event("change", { bubbles: true }));
+      trigger.dispatchEvent(
+        new MouseEvent("pointerdown", { bubbles: true, button: 0, ctrlKey: false }),
+      );
     });
+    const option = [...document.querySelectorAll<HTMLElement>("[data-slot='menu-item']")].find(
+      (item) => item.textContent === "TypeScript",
+    )!;
+    expect(option).toBeTruthy();
+    act(() => option.dispatchEvent(new MouseEvent("click", { bubbles: true })));
     expect(onSelect).toHaveBeenCalledWith("TypeScript");
     unmount();
 

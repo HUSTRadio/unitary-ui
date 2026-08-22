@@ -40,14 +40,32 @@ describe("Video official single-track API contract", () => {
     }
   });
 
-  test("control bar matches official geometry: h-12 w-[85%] bottom-[5%], 40px play button, no aria-label", async () => {
+  test("control bar matches official geometry and exposes a localized play/pause name", async () => {
     const src = await read("src/components/ui/video.tsx");
     expect(src).toMatch(/h-12/);
     expect(src).toMatch(/w-\[85%\]/);
     expect(src).toMatch(/bottom-\[5%\]/);
     expect(src).toMatch(/size-10/);
-    // official play button has NO aria-label (it is a control)
-    expect(src).not.toMatch(/aria-label=\{playing \? "Pause" : "Play"\}/);
+    expect(src).toMatch(/aria-label=\{t\(playing \? "Pause video" : "Play video"\)\}/);
+  });
+
+  test("is a ref-forwarding native video wrapper that composes internal and external events", async () => {
+    const src = await read("src/components/ui/video.tsx");
+
+    expect(src).toMatch(/extends Omit<[\s\S]*React\.VideoHTMLAttributes<HTMLVideoElement>/);
+    expect(src).toMatch(/React\.forwardRef<HTMLVideoElement, VideoProps>/);
+    expect(src).toContain("...videoProps");
+    expect(src).toContain("ref={setVideoRef}");
+    expect(src).toMatch(/onClick\?\.\(event\);[\s\S]*event\.defaultPrevented/);
+    for (const handler of [
+      "onLoadedMetadata",
+      "onDurationChange",
+      "onTimeUpdate",
+      "onPlay",
+      "onPause",
+    ]) {
+      expect(src.match(new RegExp(`${handler}\\?\\.\\(event\\)`, "g"))).toHaveLength(1);
+    }
   });
 
   test("time is mm:ss ('00:00') 13px tabular-nums with padded minutes", async () => {

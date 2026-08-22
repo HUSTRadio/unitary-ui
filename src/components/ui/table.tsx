@@ -13,7 +13,26 @@ import { cn } from "@/lib/utils";
  * - 空列表渲染 Empty State；未知值渲染 —（页面层约定）
  */
 
-const TableRoot = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+export type TableRootProps = React.HTMLAttributes<HTMLDivElement>;
+export type TableProps = React.HTMLAttributes<HTMLTableElement>;
+export type TableColgroupProps = React.HTMLAttributes<HTMLTableColElement>;
+export type TableColProps = React.HTMLAttributes<HTMLTableColElement>;
+export type TableHeaderProps = React.HTMLAttributes<HTMLTableSectionElement>;
+export interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionElement> {
+  /** 斑马纹：奇数行背景色（官方 background-200 实色） */
+  striped?: boolean;
+  /** 行间 hairline 分隔（官方 gray-400 实色） */
+  bordered?: boolean;
+  /** 可交互：行 hover 背景（官方 gray-100） */
+  interactive?: boolean;
+}
+export type TableFooterProps = React.HTMLAttributes<HTMLTableSectionElement>;
+export type TableRowProps = React.HTMLAttributes<HTMLTableRowElement>;
+export type TableHeadProps = React.ThHTMLAttributes<HTMLTableCellElement>;
+export type TableCellProps = React.TdHTMLAttributes<HTMLTableCellElement>;
+export type TableCaptionProps = React.HTMLAttributes<HTMLTableCaptionElement>;
+
+const TableRoot = React.forwardRef<HTMLDivElement, TableRootProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
@@ -28,49 +47,38 @@ const TableRoot = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivE
 );
 TableRoot.displayName = "TableRoot";
 
-const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
-  ({ className, ...props }, ref) => (
-    <table
-      ref={ref}
-      className={cn(
-        "w-full caption-bottom border-collapse text-copy-14 text-muted-foreground",
-        className,
-      )}
-      {...props}
-    />
-  ),
-);
+const Table = React.forwardRef<HTMLTableElement, TableProps>(({ className, ...props }, ref) => (
+  <table
+    ref={ref}
+    className={cn(
+      "w-full caption-bottom border-collapse text-copy-14 text-muted-foreground",
+      className,
+    )}
+    {...props}
+  />
+));
 Table.displayName = "Table";
 
-const TableColgroup = React.forwardRef<
-  HTMLTableColElement,
-  React.HTMLAttributes<HTMLTableColElement>
->(({ className, ...props }, ref) => (
-  <colgroup ref={ref} className={cn("", className)} {...props} />
-));
+const TableColgroup = React.forwardRef<HTMLTableColElement, TableColgroupProps>(
+  ({ className, ...props }, ref) => <colgroup ref={ref} className={cn("", className)} {...props} />,
+);
 TableColgroup.displayName = "TableColgroup";
 
-const TableCol = React.forwardRef<HTMLTableColElement, React.HTMLAttributes<HTMLTableColElement>>(
+const TableCol = React.forwardRef<HTMLTableColElement, TableColProps>(
   ({ className, ...props }, ref) => <col ref={ref} className={cn("", className)} {...props} />,
 );
 TableCol.displayName = "TableCol";
 
-const TableHeader = React.forwardRef<
-  HTMLTableSectionElement,
-  React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn("[&_tr]:border-b [&_tr]:border-gray-400", className)} {...props} />
-));
+const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
+  ({ className, ...props }, ref) => (
+    <thead
+      ref={ref}
+      className={cn("[&_tr]:border-b [&_tr]:border-gray-400", className)}
+      {...props}
+    />
+  ),
+);
 TableHeader.displayName = "TableHeader";
-
-interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionElement> {
-  /** 斑马纹：奇数行背景色（官方 background-200 实色） */
-  striped?: boolean;
-  /** 行间 hairline 分隔（官方 gray-400 实色） */
-  bordered?: boolean;
-  /** 可交互：行 hover 背景（官方 gray-100） */
-  interactive?: boolean;
-}
 
 const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
   ({ className, striped, bordered, interactive, ...props }, ref) => (
@@ -89,19 +97,18 @@ const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
 );
 TableBody.displayName = "TableBody";
 
-const TableFooter = React.forwardRef<
-  HTMLTableSectionElement,
-  React.HTMLAttributes<HTMLTableSectionElement>
->(({ className, ...props }, ref) => (
-  <tfoot
-    ref={ref}
-    className={cn("border-t border-gray-400 font-medium [&>tr]:last:border-b-0", className)}
-    {...props}
-  />
-));
+const TableFooter = React.forwardRef<HTMLTableSectionElement, TableFooterProps>(
+  ({ className, ...props }, ref) => (
+    <tfoot
+      ref={ref}
+      className={cn("border-t border-gray-400 font-medium [&>tr]:last:border-b-0", className)}
+      {...props}
+    />
+  ),
+);
 TableFooter.displayName = "TableFooter";
 
-const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(
+const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   ({ className, ...props }, ref) => (
     <tr
       ref={ref}
@@ -112,46 +119,43 @@ const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTML
 );
 TableRow.displayName = "TableRow";
 
-const TableHead = React.forwardRef<
-  HTMLTableCellElement,
-  React.ThHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
-  <th
-    ref={ref}
-    className={cn(
-      "h-9 whitespace-nowrap px-2 text-left align-middle text-copy-14 font-medium text-muted-foreground last:text-right [&:has([role=checkbox])]:pr-0",
-      className,
-    )}
-    {...props}
-  />
-));
+const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
+  ({ className, ...props }, ref) => (
+    <th
+      ref={ref}
+      className={cn(
+        "h-9 whitespace-nowrap px-2 text-left align-middle text-copy-14 font-medium text-muted-foreground last:text-right [&:has([role=checkbox])]:pr-0",
+        className,
+      )}
+      {...props}
+    />
+  ),
+);
 TableHead.displayName = "TableHead";
 
-const TableCell = React.forwardRef<
-  HTMLTableCellElement,
-  React.TdHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
-  <td
-    ref={ref}
-    className={cn(
-      "whitespace-nowrap px-2 py-2.5 align-middle text-muted-foreground last:text-right [&:has([role=checkbox])]:pr-0",
-      className,
-    )}
-    {...props}
-  />
-));
+const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
+  ({ className, ...props }, ref) => (
+    <td
+      ref={ref}
+      className={cn(
+        "whitespace-nowrap px-2 py-2.5 align-middle text-muted-foreground last:text-right [&:has([role=checkbox])]:pr-0",
+        className,
+      )}
+      {...props}
+    />
+  ),
+);
 TableCell.displayName = "TableCell";
 
-const TableCaption = React.forwardRef<
-  HTMLTableCaptionElement,
-  React.HTMLAttributes<HTMLTableCaptionElement>
->(({ className, ...props }, ref) => (
-  <caption
-    ref={ref}
-    className={cn("mt-4 text-copy-13 text-muted-foreground", className)}
-    {...props}
-  />
-));
+const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCaptionProps>(
+  ({ className, ...props }, ref) => (
+    <caption
+      ref={ref}
+      className={cn("mt-4 text-copy-13 text-muted-foreground", className)}
+      {...props}
+    />
+  ),
+);
 TableCaption.displayName = "TableCaption";
 
 export {

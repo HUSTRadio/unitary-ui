@@ -11,10 +11,27 @@ import { cn } from "@/lib/utils";
  *
  * 官方实测几何（2026-08-08 computed + bbox，Light/Dark 一致）：
  * - 轨道：small 28×14 / medium 36×20 / large 40×24，圆角 14px；checked 蓝/琥珀/红，unchecked 灰
- * - 圆钮：11 / 17 / 21px，absolute left-[1.5px] top-1/2 -translate-y-1/2，checked 位移 14 / 16 / 16px
+ * - 圆钮：10 / 16 / 20px（依用户视觉反馈较官方值收紧 1px），absolute left-[1.5px] top-1/2 -translate-y-1/2，
+ *   checked 位移 15 / 17 / 17px；两端仍保留 1.5px 等距留白
  * - 边距 1.5px（非 2px，避免 125% DPI 下亚像素 .5 导致圆钮歪斜）
  * - 颜色全部消费语义 token，零 `dark:` 分支（Geist 原则：组件零主题分支）
  */
+
+export type ToggleProps = Omit<
+  React.ComponentProps<"input">,
+  "type" | "checked" | "onChange" | "size" | "children"
+> & {
+  checked?: boolean;
+  onChange?: () => void;
+  size?: "small" | "medium" | "large";
+  color?: "blue" | "amber" | "red";
+  labelCasing?: "title" | "normal";
+  direction?: "ltr" | "rtl";
+  icon?: { checked?: React.ReactNode; unchecked?: React.ReactNode };
+  thumbClassName?: string;
+  children?: React.ReactNode;
+};
+
 function Toggle({
   className,
   thumbClassName,
@@ -28,17 +45,7 @@ function Toggle({
   onChange,
   disabled,
   ...props
-}: Omit<React.ComponentProps<"input">, "type" | "checked" | "onChange" | "size" | "children"> & {
-  checked?: boolean;
-  onChange?: () => void;
-  size?: "small" | "medium" | "large";
-  color?: "blue" | "amber" | "red";
-  labelCasing?: "title" | "normal";
-  direction?: "ltr" | "rtl";
-  icon?: { checked?: React.ReactNode; unchecked?: React.ReactNode };
-  thumbClassName?: string;
-  children?: React.ReactNode;
-}) {
+}: ToggleProps) {
   const control = (
     <span className="relative inline-flex shrink-0">
       <input
@@ -71,9 +78,9 @@ function Toggle({
         className={cn(
           "pointer-events-none absolute top-1/2 left-[1.5px] block -translate-y-1/2 rounded-full border-gray-400 bg-[var(--toggle-thumb)] shadow-[0_0_3px_-1px_rgba(0,0,0,0.24),0_0_0.5px_rgba(0,0,0,0.16),-0.5px_2px_3px_-2px_rgba(0,0,0,0.36)] transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]",
           "peer-disabled:border-transparent peer-disabled:shadow-none peer-disabled:bg-[var(--toggle-disabled-thumb-unchecked)] peer-disabled:peer-checked:bg-[var(--toggle-disabled-thumb-checked)]",
-          size === "small" && "size-[11px] peer-checked:translate-x-[14px]",
-          size === "medium" && "size-[17px] peer-checked:translate-x-4",
-          size === "large" && "size-[21px] peer-checked:translate-x-4",
+          size === "small" && "size-2.5 peer-checked:translate-x-[15px]",
+          size === "medium" && "size-4 peer-checked:translate-x-[17px]",
+          size === "large" && "size-5 peer-checked:translate-x-[17px]",
           thumbClassName,
         )}
       >

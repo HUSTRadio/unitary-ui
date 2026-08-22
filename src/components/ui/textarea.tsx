@@ -91,7 +91,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             aria-atomic="true"
             data-geist-error=""
             className={cn(
-              "mt-2 flex items-start text-[13px] leading-5 text-[#cb2a2f] dark:text-[#ff6166]",
+              "mt-2 flex items-start text-[13px] leading-5 text-error-foreground",
               large && "text-base leading-6",
             )}
           >

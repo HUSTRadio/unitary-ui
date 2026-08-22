@@ -1,5 +1,5 @@
 /**
- * CopyButton 契约测试：复制反馈动效 = 复制图标快速 fade out + 对勾描边绘制动画，
+ * CopyButton 契约测试：复制反馈动效 = 复制图标缩小淡出 + 对勾描边绘制动画，
  * 随后对勾 fade out 切回复制图标。渲染断言 + 源码断言双轨。
  */
 import { describe, expect, test } from "vitest";
@@ -36,8 +36,10 @@ describe("CopyButton source contract", () => {
   test("check uses stroke draw animation class (no SVG content edits)", async () => {
     const src = await read("src/components/ui/copy-button.tsx");
     expect(src).toContain("[&_svg_path:first-child]:animate-copy-check-draw");
-    // 复制图标快速 fade out（120ms）与对勾淡入同刻发生
-    expect(src).toContain('copied ? "opacity-0 duration-100" : "opacity-100 duration-150"');
+    // 单独的对勾延迟进入，避免 CopyCheck 整体图形切换产生跳变。
+    expect(src).toContain('import { Check, Copy } from "lucide-react"');
+    expect(src).toContain('"scale-75 -rotate-6 opacity-0 duration-150"');
+    expect(src).toContain('"scale-100 rotate-0 opacity-100 delay-[60ms] duration-200"');
   });
 
   test("draw keyframes exist in global styles", async () => {

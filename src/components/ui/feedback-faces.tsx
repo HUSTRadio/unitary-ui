@@ -9,9 +9,11 @@ import * as React from "react";
  *   Love it! 爱心眼 = var(--ds-amber-800)。
  */
 
-type FaceProps = React.SVGProps<SVGSVGElement>;
+/** @deprecated 仅供 Feedback 内部使用；请使用 `Feedback` 组件。 */
+type FeedbackFaceProps = React.SVGProps<SVGSVGElement>;
 
-function FeedbackHateFace(props: FaceProps) {
+/** @deprecated 仅供 Feedback 内部使用；请使用 `Feedback` 组件。 */
+function FeedbackHateFace(props: FeedbackFaceProps) {
   return (
     <svg
       {...props}
@@ -37,7 +39,8 @@ function FeedbackHateFace(props: FaceProps) {
   );
 }
 
-function FeedbackNotGreatFace(props: FaceProps) {
+/** @deprecated 仅供 Feedback 内部使用；请使用 `Feedback` 组件。 */
+function FeedbackNotGreatFace(props: FeedbackFaceProps) {
   return (
     <svg
       {...props}
@@ -55,7 +58,8 @@ function FeedbackNotGreatFace(props: FaceProps) {
   );
 }
 
-function FeedbackOkayFace(props: FaceProps) {
+/** @deprecated 仅供 Feedback 内部使用；请使用 `Feedback` 组件。 */
+function FeedbackOkayFace(props: FeedbackFaceProps) {
   return (
     <svg
       {...props}
@@ -73,7 +77,8 @@ function FeedbackOkayFace(props: FaceProps) {
   );
 }
 
-function FeedbackLoveFace(props: FaceProps) {
+/** @deprecated 仅供 Feedback 内部使用；请使用 `Feedback` 组件。 */
+function FeedbackLoveFace(props: FeedbackFaceProps) {
   return (
     <svg
       {...props}
@@ -100,3 +105,4 @@ function FeedbackLoveFace(props: FaceProps) {
 }
 
 export { FeedbackHateFace, FeedbackLoveFace, FeedbackNotGreatFace, FeedbackOkayFace };
+export type { FeedbackFaceProps };
