@@ -3,6 +3,7 @@ import { MockFrame } from "react-mockframe";
 import "react-mockframe/styles/mockframe-iphones.css";
 
 import { cn } from "@/lib/utils";
+import { PhoneSafariChrome, PhoneStatusBar } from "./phone-chrome";
 
 /**
  * Phone — iPhone 17 mockup 包装（react-mockframe@1.1.0）。
@@ -171,6 +172,9 @@ const Phone = React.forwardRef<HTMLDivElement, PhoneProps>(
                 frameClassName,
               )}
             >
+              {/* screen 内三重叠层：内容 → 状态栏 → Safari chrome（均装饰性） */}
+              <PhoneStatusBar options={statusBar} />
+              <PhoneSafariChrome options={safari} />
               {children}
             </MockFrame>
           </div>

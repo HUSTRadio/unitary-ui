@@ -1471,3 +1471,32 @@
     transition: none !important;
   }
 }
+
+/*
+ * Phone 状态栏时间（iOS 状态栏观感）：
+ * Apple 平台命中 SF Pro；非 Apple 平台回退自托管的 HarmonyOS Sans / Sans SC，
+ * 配合 tabular-nums 防时间跳动，以及 fallback 的视觉补偿（字距 -0.12px、
+ * 0.25px 垂直校正）。
+ */
+.phone-status-time {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "HarmonyOS Sans",
+    "HarmonyOS Sans SC",
+    system-ui,
+    sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.12px;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+@supports not (font: -apple-system-body) {
+  /* 非 Apple 字体环境的垂直位置补偿 */
+  .phone-status-time {
+    transform: translateY(0.25px);
+  }
+}
