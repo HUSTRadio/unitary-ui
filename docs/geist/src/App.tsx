@@ -6,7 +6,7 @@ import { DocsPagination, FeedbackPanel } from "./components/docs-feedback";
 import { ComponentsPage } from "./components/docs-components-page";
 import { Toasts } from "@/components/ui/toast";
 import { IconsPage } from "./components/docs-icons";
-import { LifecycleAndHooksPage } from "./components/docs-api-reference";
+import { LifecycleAndHooksPage } from "./pages/lifecycle-and-hooks";
 import {
   ColorsPage,
   GridPage,
@@ -35,6 +35,10 @@ const PAGE_COMPONENTS: Record<string, ComponentType> = {
   "/grid": GridPage,
   "/components": ComponentsPage,
   "/icons": IconsPage,
+};
+
+/** 需要 language prop 的结构化内容页（i18n 走内容模型而非 JSX 内联三元）。 */
+const PAGE_CONTENT_COMPONENTS: Record<string, ComponentType<{ language: DocsLanguage }>> = {
   "/lifecycle-and-hooks": LifecycleAndHooksPage,
 };
 
@@ -71,6 +75,7 @@ export default function App() {
   const copy = SHELL_COPY[language];
   const Page =
     PAGE_COMPONENTS[pathname] ?? (pathname.startsWith("/components/") ? ComponentsPage : undefined);
+  const ContentPage = PAGE_CONTENT_COMPONENTS[pathname];
 
   useEffect(() => {
     document.title = getPageTitle(pathname, language);
@@ -100,6 +105,8 @@ export default function App() {
           <div className="px-6 xl:px-12">
             {Page ? (
               <Page />
+            ) : ContentPage ? (
+              <ContentPage language={language} />
             ) : (
               <>
                 <h1 className="text-heading-32 text-foreground">{copy.pageInProgress}</h1>
@@ -110,12 +117,12 @@ export default function App() {
             )}
 
             {/* 内容页页脚 - 反馈区 + Next 分页（官方文档站每个页面底部都有） */}
-            {Page && (
+            {Page || ContentPage ? (
               <div className="mt-16 border-t border-border pt-8">
                 <FeedbackPanel />
                 <DocsPagination />
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </main>
