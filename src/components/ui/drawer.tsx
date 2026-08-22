@@ -140,7 +140,7 @@ function DrawerPanel({
       data-swipe-direction="down"
       {...accessibilityProps}
       className={cn(
-        "fixed inset-x-0 bottom-0 z-[var(--ds-z-drawer)] w-full max-w-full min-h-[45px] touch-pan-y rounded-t-[10px] border-t bg-background outline-none",
+        "fixed inset-x-0 bottom-0 z-[var(--ds-z-drawer)] w-full max-w-full min-h-[45px] touch-pan-y rounded-t-[10px] border-t bg-background outline-none pb-[env(safe-area-inset-bottom)]",
         "max-h-[90dvh] overscroll-none",
         "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
         verticalScroll && "overflow-y-auto",
