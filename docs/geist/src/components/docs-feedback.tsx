@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, ChevronRight } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -12,8 +12,9 @@ import { useLanguage } from "../i18n/language";
  * 文档站页脚 — 反馈区 + Next 分页（docs/geist 专用）。
  * FeedbackPanel：胶囊「Give feedback」+ 4 emoji radio（原生 input sr-only + label），
  *   下方 Textarea + Send 按钮；本地 state 模拟提交，不真实上报。
- * DocsPagination：右下角 Next + 页名 + ChevronRight，按当前页计算下一项
- *   （Introduction → Colors → Typography → Materials → Components）。
+ * DocsPagination：左右双分页 — 左 Previous + 标题 + ChevronLeft，右标题 + Next + ChevronRight，
+ *   按当前页计算上/下一项（Introduction → Colors → Typography → Materials → Grid → Components）；
+ *   首页只 Next、末页只 Previous、中间页双显。
  */
 
 /* ================= FeedbackPanel ================= */
@@ -139,27 +140,52 @@ export function DocsPagination() {
   const { language } = useLanguage();
   const copy = SHELL_COPY[language];
   const index = currentPageIndex(pathname);
-  // 未知路径或已是最后一页（Components）→ 无下一页，不渲染
-  if (index < 0 || index >= PAGE_ORDER.length - 1) return null;
-  const next = PAGE_ORDER[index + 1];
+  // 未知路径 → 不渲染分页
+  if (index < 0) return null;
+  // 左右双分页：首页只 Next、末页只 Previous、中间 Previous + Next 双显
+  const previous = index > 0 ? PAGE_ORDER[index - 1] : null;
+  const next = index < PAGE_ORDER.length - 1 ? PAGE_ORDER[index + 1] : null;
 
   return (
-    <nav className="mt-8 flex justify-end" aria-label={copy.next}>
-      <NavLink
-        to={next.to}
-        className="group -mr-2 flex items-center gap-2 rounded-md px-2 py-1.5 outline-none focus-ring transition-colors hover:text-foreground"
-      >
-        <span className="flex flex-col items-end gap-0.5">
-          <span className="text-label-12 text-muted-foreground">{copy.next}</span>
-          <span className="text-label-16 font-medium text-foreground">
-            {copy.pageNames[next.label as keyof typeof copy.pageNames] ?? next.label}
+    <nav className="mt-8 flex items-center justify-between gap-4" aria-label={copy.next}>
+      {previous ? (
+        <NavLink
+          to={previous.to}
+          className="group -ml-2 flex items-center gap-2 rounded-md px-2 py-1.5 outline-none focus-ring transition-colors hover:text-foreground"
+        >
+          <ChevronLeft
+            className="size-4 text-muted-foreground transition-transform group-hover:-translate-x-0.5"
+            aria-hidden
+          />
+          <span className="flex flex-col items-start gap-0.5">
+            <span className="text-label-12 text-muted-foreground">{copy.previous}</span>
+            <span className="text-label-16 font-medium text-foreground">
+              {copy.pageNames[previous.label as keyof typeof copy.pageNames] ?? previous.label}
+            </span>
           </span>
-        </span>
-        <ChevronRight
-          className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5"
-          aria-hidden
-        />
-      </NavLink>
+        </NavLink>
+      ) : (
+        <span aria-hidden />
+      )}
+      {next ? (
+        <NavLink
+          to={next.to}
+          className="group -mr-2 flex items-center gap-2 rounded-md px-2 py-1.5 outline-none focus-ring transition-colors hover:text-foreground"
+        >
+          <span className="flex flex-col items-end gap-0.5">
+            <span className="text-label-12 text-muted-foreground">{copy.next}</span>
+            <span className="text-label-16 font-medium text-foreground">
+              {copy.pageNames[next.label as keyof typeof copy.pageNames] ?? next.label}
+            </span>
+          </span>
+          <ChevronRight
+            className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5"
+            aria-hidden
+          />
+        </NavLink>
+      ) : (
+        <span aria-hidden />
+      )}
     </nav>
   );
 }
