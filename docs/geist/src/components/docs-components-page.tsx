@@ -2702,6 +2702,37 @@ function ProgressDynamicDemo() {
   );
 }
 
+/** Progress Dynamic colors 交互演示：value 从 0 起步（对照官方 demo 双按钮），跨阈值时填充色实时切换 */
+function ProgressDynamicColorsDemo() {
+  const { language } = useLanguage();
+  const [value, setValue] = React.useState(0);
+  return (
+    <div className="flex w-full max-w-md flex-col items-start gap-6">
+      <Progress
+        value={value}
+        label={demoTextWithValues(language, "{value}%", { value })}
+        labelPosition="right"
+        aria-label={demoTextWithValues(language, "Dynamic colors progress {value}%", { value })}
+        colors={{
+          0: "var(--color-gray-1000)",
+          25: "var(--color-destructive)",
+          50: "var(--color-warning)",
+          75: "var(--color-pink-800)",
+          100: "var(--color-progress)",
+        }}
+      />
+      <div className="flex gap-2">
+        <Button type="default" size="small" onClick={() => setValue((v) => Math.min(100, v + 10))}>
+          {demoText(language, "Increase")}
+        </Button>
+        <Button type="secondary" size="small" onClick={() => setValue((v) => Math.max(0, v - 10))}>
+          {demoText(language, "Decrease")}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 function ProgressDemo() {
   const { language } = useLanguage();
   return (
@@ -9019,20 +9050,11 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               <Progress value={30} max={40} aria-label="Progress 30 of 40" />
             </div>
           </Section>
+          <Section title="Dynamic" code={sectionCode("Dynamic")}>
+            <ProgressDynamicDemo />
+          </Section>
           <Section title="Dynamic colors" code={sectionCode("Dynamic colors")}>
-            <div className="w-full max-w-md">
-              <Progress
-                value={50}
-                aria-label="Dynamic colors progress"
-                colors={{
-                  0: "var(--color-gray-1000)",
-                  25: "var(--color-destructive)",
-                  50: "var(--color-warning)",
-                  75: "var(--color-pink-800)",
-                  100: "var(--color-progress)",
-                }}
-              />
-            </div>
+            <ProgressDynamicColorsDemo />
           </Section>
           <Section title="Themed" code={sectionCode("Themed")}>
             <div className="flex w-full max-w-md flex-col gap-6">
@@ -9116,9 +9138,6 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
                 aria-label="Label bottom right"
               />
             </div>
-          </Section>
-          <Section title="Dynamic" code={sectionCode("Dynamic")}>
-            <ProgressDynamicDemo />
           </Section>
         </>
       );

@@ -291,19 +291,34 @@ import { Sparkles } from "lucide-react";
     "Custom max": `import { Progress } from "@/components/ui/progress";
 
 <Progress value={30} max={40} aria-label="Progress 30 of 40" />`,
-    "Dynamic colors": `import { Progress } from "@/components/ui/progress";
+    "Dynamic colors": `import { useState } from "react";
+import { Button, Progress } from "@/components/ui/progress";
 
-<Progress
-  value={50}
-  aria-label="Dynamic colors progress"
-  colors={{
-    0: "var(--color-gray-1000)",
-    25: "var(--color-destructive)",
-    50: "var(--color-warning)",
-    75: "var(--color-pink-600)",
-    100: "var(--color-progress)",
-  }}
-/>`,
+const [value, setValue] = useState(0);
+
+<div className="flex w-full max-w-md flex-col items-start gap-6">
+  <Progress
+    value={value}
+    label={\`\${value}%\`}
+    labelPosition="right"
+    aria-label="Dynamic colors progress"
+    colors={{
+      0: "var(--color-gray-1000)",
+      25: "var(--color-destructive)",
+      50: "var(--color-warning)",
+      75: "var(--color-pink-800)",
+      100: "var(--color-progress)",
+    }}
+  />
+  <div className="flex gap-2">
+    <Button type="default" size="small" onClick={() => setValue((v) => Math.min(100, v + 10))}>
+      Increase
+    </Button>
+    <Button type="secondary" size="small" onClick={() => setValue((v) => Math.max(0, v - 10))}>
+      Decrease
+    </Button>
+  </div>
+</div>`,
     Themed: `import { Progress } from "@/components/ui/progress";
 
 <div className="flex w-full max-w-md flex-col gap-6">
@@ -319,11 +334,11 @@ import { Sparkles } from "lucide-react";
   type="success"
   aria-label="Progress with stops"
   stops={[
-    { value: 10, tooltip: "10%" },
-    { value: 20, tooltip: "20%" },
-    { value: 30, tooltip: "30%" },
-    { value: 40, tooltip: "40%" },
-    { value: 50, tooltip: "50%" },
+    { value: 10, tooltip: "10%", ariaLabel: "Build complete" },
+    { value: 20, tooltip: "20%", ariaLabel: "Lint complete" },
+    { value: 30, tooltip: "30%", ariaLabel: "Unit tests complete" },
+    { value: 40, tooltip: "40%", ariaLabel: "Integration tests complete" },
+    { value: 50, tooltip: "50%", ariaLabel: "Deploy ready" },
   ]}
 />`,
     Widths: `import { Progress } from "@/components/ui/progress";
