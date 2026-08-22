@@ -24,7 +24,7 @@ describe("Select v2 API consumed across app & examples", () => {
   test("Select usages use onValueChange, not native onChange", async () => {
     for (const file of CONSUMERS) {
       const src = await read(file);
-      expect(src, file).not.toMatch(/<Select[\s\S]*?onChange=/);
+      expect(src, file).not.toMatch(/<Select[^>]*\bonChange=/);
     }
   });
 
