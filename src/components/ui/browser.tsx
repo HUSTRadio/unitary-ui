@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowLeft, ArrowRight, Copy, RefreshCw } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Copy, RefreshCw } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
@@ -10,9 +10,17 @@ interface BrowserProps extends React.ComponentProps<"div"> {
 
 function Browser({ address, className, children, ...props }: BrowserProps) {
   const { t } = useI18n();
+  const [copied, setCopied] = React.useState(false);
+  const timer = React.useRef<number | undefined>(undefined);
+
+  React.useEffect(() => () => window.clearTimeout(timer.current), []);
+
   const copyAddress = async () => {
     if (!address) return;
     await navigator.clipboard?.writeText(address);
+    setCopied(true);
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setCopied(false), 1200);
   };
 
   return (
@@ -42,17 +50,21 @@ function Browser({ address, className, children, ...props }: BrowserProps) {
         </div>
         <div className="flex min-w-0 flex-1 items-center justify-center gap-4">
           {address ? (
-            <div className="flex w-full items-center justify-between rounded-full border border-gray-400 bg-background-200 py-1 pr-1 pl-4 lg:max-w-xs">
+            <div className="relative flex w-full items-center rounded-full border border-gray-400 bg-background-200 py-1 px-7 lg:max-w-xs">
               <span className="min-w-0 flex-1 truncate text-center text-copy-13 text-gray-1000">
                 {address}
               </span>
               <button
                 type="button"
-                aria-label={t("Copy")}
+                aria-label={copied ? t("Copied") : t("Copy")}
                 onClick={() => void copyAddress()}
-                className="flex size-6 shrink-0 items-center justify-center rounded-[4px] outline-none hover:bg-gray-alpha-200"
+                className="absolute top-1/2 right-1 flex size-6 -translate-y-1/2 shrink-0 items-center justify-center rounded-full outline-none hover:bg-gray-alpha-200"
               >
-                <Copy aria-hidden className="size-3" />
+                {copied ? (
+                  <Check aria-hidden className="size-3" />
+                ) : (
+                  <Copy aria-hidden className="size-3" />
+                )}
               </button>
             </div>
           ) : null}
