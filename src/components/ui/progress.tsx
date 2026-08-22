@@ -148,9 +148,9 @@ function Progress({
                 <span tabIndex={0} className="absolute inset-0 outline-none focus-ring" />
               </Tooltip>
             ) : null}
-            <div className="pointer-events-none flex items-center justify-center">
-              <div className="h-full w-px bg-gray-alpha-600" />
-              <div className="h-full w-px bg-background-100" />
+            <div className="pointer-events-none flex h-full items-stretch justify-center">
+              <div className="w-px bg-gray-alpha-600" />
+              <div className="w-px bg-background-100" />
             </div>
           </div>
         );
