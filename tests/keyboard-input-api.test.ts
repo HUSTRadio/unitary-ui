@@ -30,9 +30,9 @@ describe("KeyboardInput official API contract (G06 wave)", () => {
     const src = await read("src/components/ui/keyboard-input.tsx");
     // Windows mapping: Shift → ⇧, Alt → ⌥, Ctrl (meta) → ⌘.
     expect(src).toContain(">⌘</span>");
-    expect(src).toMatch(/shift \? <span>⇧<\/span> : null/);
-    expect(src).toMatch(/alt \? <span>⌥<\/span> : null/);
-    expect(src).toMatch(/ctrl \? <span>⌃<\/span> : null/);
+    expect(src).toMatch(/shift \? <span className="inline-block min-w-\[1em\] text-center">⇧<\/span> : null/);
+    expect(src).toMatch(/alt \? <span className="inline-block min-w-\[1em\] text-center">⌥<\/span> : null/);
+    expect(src).toMatch(/ctrl \? <span className="inline-block min-w-\[1em\] text-center">⌃<\/span> : null/);
     expect(src).not.toContain("Ctrl\\u00a0");
     expect(src).not.toContain("Alt\\u00a0");
   });
@@ -61,10 +61,12 @@ describe("KeyboardInput official API contract (G06 wave)", () => {
   test("G06-KBD-04: multi-modifier renders as one pill with one span per modifier", async () => {
     const src = await read("src/components/ui/keyboard-input.tsx");
     expect(src).not.toMatch(/modifiers\.join/);
-    expect(src).toContain('style={{ display: "inline-block", minWidth: "1em" }}');
-    expect(src).toContain("{shift ? <span>⇧</span> : null}");
-    expect(src).toContain("{alt ? <span>⌥</span> : null}");
-    expect(src).toContain("{ctrl ? <span>⌃</span> : null}");
+    // 每个键位槽位统一 inline-block min-w-[1em]（含 meta 特例 inline style 已删除）。
+    expect(src).toContain('className="inline-block min-w-[1em] text-center"');
+    expect(src).toContain("{shift ? <span className=\"inline-block min-w-[1em] text-center\">⇧</span> : null}");
+    expect(src).toContain("{alt ? <span className=\"inline-block min-w-[1em] text-center\">⌥</span> : null}");
+    expect(src).toContain("{ctrl ? <span className=\"inline-block min-w-[1em] text-center\">⌃</span> : null}");
+    expect(src).not.toContain('style={{ display: "inline-block", minWidth: "1em" }}');
     expect(src).not.toMatch(/gap-0\.5/);
   });
 

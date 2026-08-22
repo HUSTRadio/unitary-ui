@@ -72,11 +72,14 @@ function Kbd({
       )}
       {...props}
     >
-      {meta ? <span style={{ display: "inline-block", minWidth: "1em" }}>⌘</span> : null}
-      {shift ? <span>⇧</span> : null}
-      {alt ? <span>⌥</span> : null}
-      {ctrl ? <span>⌃</span> : null}
-      {children != null ? <span>{children}</span> : null}
+      {/* 每个键位槽位统一 inline-block + min-w-[1em]，任意字体回退下符号/字符等宽。 */}
+      {meta ? <span className="inline-block min-w-[1em] text-center">⌘</span> : null}
+      {shift ? <span className="inline-block min-w-[1em] text-center">⇧</span> : null}
+      {alt ? <span className="inline-block min-w-[1em] text-center">⌥</span> : null}
+      {ctrl ? <span className="inline-block min-w-[1em] text-center">⌃</span> : null}
+      {children != null ? (
+        <span className="inline-block min-w-[1em] text-center">{children}</span>
+      ) : null}
     </kbd>
   );
 }
