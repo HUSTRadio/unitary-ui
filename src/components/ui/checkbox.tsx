@@ -15,6 +15,9 @@ import { cn } from "@/lib/utils";
  * - disabled：boolean
  * - children：label 文本（有 children 时渲染 <label>，点击区域扩展到 label）
  *
+ * 框架扩展（origin: extension，见文档站 API 参考表）：
+ * - defaultChecked：boolean（非受控初值；未传 checked 时内部状态自管理）
+ *
  * 视觉（官方实测）：
  * - box：16×16px、圆角 4px、边框 1px gray-700、bg background-100
  * - 勾选/半选：box bg = 前景色（light #171717 / dark #ededed）+ 背景色对勾/横线
@@ -25,20 +28,35 @@ import { cn } from "@/lib/utils";
 function Checkbox({
   className,
   checked,
+  defaultChecked,
   onChange,
   disabled,
   indeterminate,
   children,
   size = "sm",
   ...props
-}: Omit<React.ComponentProps<"input">, "type" | "checked" | "onChange" | "size" | "children"> & {
+}: Omit<
+  React.ComponentProps<"input">,
+  "type" | "checked" | "onChange" | "size" | "children" | "defaultChecked"
+> & {
   checked?: boolean;
+  defaultChecked?: boolean;
   onChange?: () => void;
   indeterminate?: boolean;
   size?: "sm" | "default" | "lg";
   children?: React.ReactNode;
 }) {
   const inputRef = React.useRef<HTMLInputElement>(null);
+
+  // 非受控模式：仅当未提供 checked 时启用内部状态（defaultChecked 为初值）
+  const [internalChecked, setInternalChecked] = React.useState(defaultChecked ?? false);
+  const isControlled = checked !== undefined;
+  const currentChecked = isControlled ? checked : internalChecked;
+
+  const handleChange = () => {
+    if (!isControlled) setInternalChecked((prev) => !prev);
+    onChange?.();
+  };
 
   // 原生 indeterminate 是 DOM 属性（非 HTML 属性），需 ref 同步
   React.useEffect(() => {
@@ -51,8 +69,8 @@ function Checkbox({
         ref={inputRef}
         type="checkbox"
         className="peer absolute inset-0 z-10 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed"
-        checked={checked}
-        onChange={onChange}
+        checked={currentChecked}
+        onChange={handleChange}
         disabled={disabled}
         {...props}
       />

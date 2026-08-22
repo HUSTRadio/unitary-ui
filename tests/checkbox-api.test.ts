@@ -70,4 +70,15 @@ describe("Checkbox official API contract (G02)", () => {
     expect(markup).toMatch(/<input[^>]*type="checkbox"/);
     expect(markup).toContain('aria-label="Subscribe"');
   });
+
+  test("defaultChecked is an explicit framework extension (not just prop passthrough)", async () => {
+    const src = await read("src/components/ui/checkbox.tsx");
+    // 显式类型声明：从 Omit 中排除默认透传，并单独声明 defaultChecked
+    expect(src).toMatch(
+      /Omit<\s*React\.ComponentProps<"input">,\s*"type" \| "checked" \| "onChange" \| "size" \| "children" \| "defaultChecked"\s*>/,
+    );
+    expect(src).toMatch(/defaultChecked\?: boolean/);
+    // 头注释记录其为框架扩展（「框架扩展」行在前，defaultChecked 行在后）
+    expect(src).toMatch(/框架扩展[\s\S]{0,80}defaultChecked/);
+  });
 });
