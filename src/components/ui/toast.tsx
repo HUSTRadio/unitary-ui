@@ -219,7 +219,7 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
               onClick={() => dismiss(toast.id)}
               className={cn(
                 "flex size-6 shrink-0 items-center justify-center rounded-[6px] outline-none hover:bg-gray-alpha-200 focus-ring",
-                toast.kind === "message" && "text-gray-900",
+                toast.kind === "message" && "text-gray-1000",
               )}
             >
               <X aria-hidden className="size-4" />
