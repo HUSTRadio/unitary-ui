@@ -9,6 +9,8 @@ export type ApiRow = {
   required?: boolean;
   defaultValue?: string;
   deprecated?: boolean;
+  /** official = 官方 API 原样（默认）；extension = 框架扩展（API 表渲染「框架扩展」徽标） */
+  origin?: "official" | "extension";
 };
 
 export type ComponentApi = {
@@ -124,11 +126,24 @@ const O = {
     [
       row("checked", "boolean", "Controlled checked state.", "受控选中状态。"),
       row(
-        "onCheckedChange",
-        "(checked: boolean) => void",
-        "Receives the new state.",
-        "接收新状态。",
+        "onChange",
+        "() => void",
+        "No-argument change callback (official). Toggle your own state.",
+        "无参数变更回调（官方）。自行切换状态。",
       ),
+      row(
+        "defaultChecked",
+        "boolean",
+        "Uncontrolled initial value (framework extension).",
+        "非受控初始值（框架扩展）。",
+        { origin: "extension" },
+      ),
+      row("indeterminate", "boolean", "Visual mixed state, not a third value.", "视觉半选态，非第三值。"),
+      row("disabled", "boolean", "Disables the checkbox.", "禁用复选框。"),
+      row("size", '"sm" | "default" | "lg"', "Control size (framework extension).", "控件尺寸（框架扩展）。", {
+        origin: "extension",
+        defaultValue: '"sm"',
+      }),
     ],
   ),
   choicebox: component(

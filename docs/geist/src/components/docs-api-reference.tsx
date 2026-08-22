@@ -24,6 +24,11 @@ function ApiTable({ rows }: { rows: ApiRow[] }) {
               <td className="px-3 py-2 align-top text-label-13 text-foreground">
                 <code translate="no">{item.name}</code>
                 {item.required ? <span className="ml-1 text-destructive">*</span> : null}
+                {item.origin === "extension" ? (
+                  <span className="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">
+                    {language === "zh-CN" ? "框架扩展" : "Extension"}
+                  </span>
+                ) : null}
                 {item.deprecated ? (
                   <span className="ml-2 text-label-12 text-muted-foreground">
                     {language === "zh-CN" ? "已弃用" : "Deprecated"}
