@@ -212,7 +212,11 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
         {wrapper}
       </label>
     ) : layout ? (
-      <div data-slot="clearable-input-field" style={layoutRootStyle(layout)} className="w-full min-w-0">
+      <div
+        data-slot="clearable-input-field"
+        style={layoutRootStyle(layout)}
+        className="w-full min-w-0"
+      >
         {wrapper}
       </div>
     ) : (

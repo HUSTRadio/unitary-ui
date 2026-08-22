@@ -132,7 +132,11 @@ const Phone = React.forwardRef<HTMLDivElement, PhoneProps>(
 
     /** 显式 zoom 优先；autoFit 只缩小、不放大超过 1 */
     const effectiveZoom =
-      zoom !== undefined ? zoom : autoFit && containerWidth !== null ? Math.min(1, containerWidth / frameWidth) : 1;
+      zoom !== undefined
+        ? zoom
+        : autoFit && containerWidth !== null
+          ? Math.min(1, containerWidth / frameWidth)
+          : 1;
     const scaledHeight = frameHeight * effectiveZoom;
 
     return (
@@ -166,9 +170,7 @@ const Phone = React.forwardRef<HTMLDivElement, PhoneProps>(
               hideNotch={!dynamicIsland}
               animated={animated}
               className={cn(
-                animated
-                  ? "phone-frame-animated"
-                  : "phone-frame-static",
+                animated ? "phone-frame-animated" : "phone-frame-static",
                 frameClassName,
               )}
             >
@@ -188,7 +190,13 @@ Phone.displayName = "Phone";
 export type PhoneScreenProps = React.ComponentProps<"div">;
 
 function PhoneScreen({ className, ...props }: PhoneScreenProps) {
-  return <div data-slot="phone-screen" className={cn("h-full w-full overflow-hidden", className)} {...props} />;
+  return (
+    <div
+      data-slot="phone-screen"
+      className={cn("h-full w-full overflow-hidden", className)}
+      {...props}
+    />
+  );
 }
 
 export {

@@ -41,7 +41,9 @@ describe("Select composite API (Radix popup)", () => {
     );
     expect(trigger().textContent).toBe("Select a fruit");
     act(() => trigger().click());
-    const items = document.querySelectorAll<HTMLElement>('[data-slot="select-content"] [role="option"]');
+    const items = document.querySelectorAll<HTMLElement>(
+      '[data-slot="select-content"] [role="option"]',
+    );
     expect(items.length).toBe(2);
     await act(async () => {
       items[0].click();
@@ -74,7 +76,9 @@ describe("Select composite API (Radix popup)", () => {
       </Select>,
     );
     act(() => trigger().click());
-    expect(document.querySelector('[data-slot="select-group-label"]')?.textContent).toBe("Framework");
+    expect(document.querySelector('[data-slot="select-group-label"]')?.textContent).toBe(
+      "Framework",
+    );
     expect(document.querySelector('[data-slot="select-separator"]')).toBeTruthy();
   });
 
@@ -88,7 +92,9 @@ describe("Select composite API (Radix popup)", () => {
       </Select>,
     );
     act(() => trigger().click());
-    const apple = document.querySelector<HTMLElement>('[data-slot="select-content"] [role="option"][data-disabled]');
+    const apple = document.querySelector<HTMLElement>(
+      '[data-slot="select-content"] [role="option"][data-disabled]',
+    );
     expect(apple).toBeTruthy();
     expect(apple!.textContent).toBe("Apple");
   });
@@ -106,7 +112,8 @@ describe("Select composite API (Radix popup)", () => {
         new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
       ),
     );
-    const listbox = () => document.querySelector('[data-slot="select-content"] [role="listbox"], #radix-«r1»');
+    const listbox = () =>
+      document.querySelector('[data-slot="select-content"] [role="listbox"], #radix-«r1»');
     await act(async () => {
       await Promise.resolve();
     });

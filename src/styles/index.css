@@ -1480,12 +1480,7 @@
  */
 .phone-status-time {
   font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "HarmonyOS Sans",
-    "HarmonyOS Sans SC",
-    system-ui,
-    sans-serif;
+    -apple-system, BlinkMacSystemFont, "HarmonyOS Sans", "HarmonyOS Sans SC", system-ui, sans-serif;
   font-size: 15px;
   font-weight: 600;
   line-height: 1;

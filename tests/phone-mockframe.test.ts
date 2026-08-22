@@ -42,17 +42,19 @@ describe("Phone react-mockframe contract", () => {
 
   test("zoom takes priority over autoFit; autoFit only shrinks (max 1)", async () => {
     const src = await read("src/components/ui/phone.tsx");
-    expect(src).toMatch(/zoom !== undefined \? zoom :/);
+    expect(src).toMatch(/zoom !== undefined\s*\?\s*zoom\s*:/);
     expect(src).toMatch(/Math\.min\(1, containerWidth \/ frameWidth\)/);
   });
 
   test("third-party transition:all is overridden; animated allows transform-only; reduced-motion kills transitions", async () => {
     const css = await read("src/styles/index.css");
-    expect(css).toMatch(/\.phone-frame-static\.mockframe,\n\.phone-frame-animated\.mockframe \{\n  transition: none !important;\n\}/);
+    expect(css).toMatch(
+      /\.phone-frame-static\.mockframe,\n\.phone-frame-animated\.mockframe \{\n  transition: none !important;\n\}/,
+    );
     expect(css).toMatch(/transition: transform 0\.2s ease-out !important;/);
     expect(css).toMatch(/prefers-reduced-motion: reduce/);
     const src = await read("src/components/ui/phone.tsx");
-    expect(src).toMatch(/animated\n\s+\?\s+"phone-frame-animated"/);
+    expect(src).toMatch(/animated\s+\?\s+"phone-frame-animated"/);
   });
 
   test("PhoneScreen drops fixed min-height/padding and fills the screen", async () => {

@@ -17,22 +17,27 @@ describe("inline error foreground semantic token", () => {
   });
 
   test("inline error copy consumes the semantic token instead of a utility literal", async () => {
-    const components = [
-      "error.tsx",
-      "error-card.tsx",
-      "input.tsx",
-      "select.tsx",
-      "textarea.tsx",
-      "menu.tsx",
-      "snippet.tsx",
-    ];
-
-    for (const component of components) {
+    // 内联渲染错误文案的组件必须使用语义 token 类
+    const inlineComponents = ["error.tsx", "error-card.tsx", "menu.tsx", "snippet.tsx"];
+    for (const component of inlineComponents) {
       const source = await read(`src/components/ui/${component}`);
       expect(source, component).toContain("text-error-foreground");
       expect(source, component).not.toContain("text-[#cb2a2f]");
       expect(source, component).not.toContain("dark:text-[#ff6166]");
     }
+
+    // 委托共享 FieldError 的组件：token 由 field-error.tsx 统一承载，且不得含工具类字面量
+    const delegatedComponents = ["input.tsx", "select.tsx", "textarea.tsx"];
+    for (const component of delegatedComponents) {
+      const source = await read(`src/components/ui/${component}`);
+      expect(source, component).toContain("FieldError");
+      expect(source, component).not.toContain("text-[#cb2a2f]");
+      expect(source, component).not.toContain("dark:text-[#ff6166]");
+    }
+
+    // 共享错误基础层本身承载语义 token
+    const fieldError = await read("src/components/ui/field-error.tsx");
+    expect(fieldError).toContain("text-error-foreground");
   });
 
   test("tooltip error composes destructive background and foreground semantics", async () => {

@@ -27,7 +27,10 @@ export interface SearchInputProps extends Omit<React.ComponentProps<"input">, "p
 }
 
 const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ className, cmdk, loading, prefix, layout, defaultValue = "", value, onChange, ...props }, ref) => {
+  (
+    { className, cmdk, loading, prefix, layout, defaultValue = "", value, onChange, ...props },
+    ref,
+  ) => {
     const { t } = useI18n();
     const [internalValue, setInternalValue] = React.useState(
       typeof defaultValue === "string" || typeof defaultValue === "number" ? defaultValue : "",

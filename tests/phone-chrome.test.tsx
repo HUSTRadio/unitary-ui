@@ -58,7 +58,9 @@ describe("Phone status bar & Safari chrome", () => {
     expect(bar.textContent).toContain("9:41");
     expect(bar.className).toContain("text-white");
     // battery fill width clamped: 150% input must not exceed the full-width rect (18 units at 100%)
-    const batteryRect = container.querySelector<SVGRectElement>('[data-battery-icon] rect:nth-child(2)')!;
+    const batteryRect = container.querySelector<SVGRectElement>(
+      "[data-battery-icon] rect:nth-child(2)",
+    )!;
     expect(Number(batteryRect.getAttribute("width"))).toBeLessThanOrEqual(18);
   });
 
@@ -92,7 +94,9 @@ describe("Phone status bar & Safari chrome", () => {
     let chrome = container.querySelector('[data-slot="phone-safari"]')!;
     expect(chrome.textContent).not.toContain("https://vercel.com/geist/phone/docs");
 
-    act(() => root.render(<Rerender url="  https://very-long.example.com/a/b/c/d/e/f/g/h/i/j/k  " />));
+    act(() =>
+      root.render(<Rerender url="  https://very-long.example.com/a/b/c/d/e/f/g/h/i/j/k  " />),
+    );
     chrome = container.querySelector('[data-slot="phone-safari"]')!;
     expect(chrome.textContent).toContain("…");
   });

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronDown, CircleAlert } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { Select as SelectPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
@@ -33,8 +33,10 @@ import { FieldError, FIELD_ERROR_RING } from "./field-error";
  *   error 环 #ee0000 + rgba(203,42,47,0.16)。
  */
 
-export interface SelectProps
-  extends Omit<React.ComponentProps<typeof SelectPrimitive.Root>, "dir"> {
+export interface SelectProps extends Omit<
+  React.ComponentProps<typeof SelectPrimitive.Root>,
+  "dir"
+> {
   /** 占位文案（未选择时显示在触发器上） */
   placeholder?: string;
   /** small 32px / 默认 36px / large 40px */
@@ -134,7 +136,11 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
     const describedBy = error ? errorId : undefined;
 
     return (
-      <div data-slot="select-field" className="block w-full min-w-0" style={layoutRootStyle(layout)}>
+      <div
+        data-slot="select-field"
+        className="block w-full min-w-0"
+        style={layoutRootStyle(layout)}
+      >
         <SelectPrimitive.Root {...props}>
           {label ? (
             <div

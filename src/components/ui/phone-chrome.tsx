@@ -53,7 +53,13 @@ function clampLevel(value: number, max: number): number {
 function CellularIcon({ level, ...props }: { level: number } & React.SVGProps<SVGSVGElement>) {
   const filled = clampLevel(level, 4);
   return (
-    <svg viewBox="0 0 18 12" aria-hidden="true" className="h-[11px] w-[17px]" fill="currentColor" {...props}>
+    <svg
+      viewBox="0 0 18 12"
+      aria-hidden="true"
+      className="h-[11px] w-[17px]"
+      fill="currentColor"
+      {...props}
+    >
       {[0, 1, 2, 3].map((i) => (
         <rect
           key={i}
@@ -72,7 +78,13 @@ function CellularIcon({ level, ...props }: { level: number } & React.SVGProps<SV
 function WifiIcon({ level, ...props }: { level: number } & React.SVGProps<SVGSVGElement>) {
   const filled = clampLevel(level, 3);
   return (
-    <svg viewBox="0 0 16 12" aria-hidden="true" className="h-[11px] w-[15px]" fill="currentColor" {...props}>
+    <svg
+      viewBox="0 0 16 12"
+      aria-hidden="true"
+      className="h-[11px] w-[15px]"
+      fill="currentColor"
+      {...props}
+    >
       {/* 三段圆弧以扇形近似：外/中/内 */}
       <path d="M8 10.8a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2Z" opacity={filled >= 1 ? 1 : 0.25} />
       <path
@@ -92,7 +104,16 @@ function BatteryIcon({ percent, ...props }: { percent: number } & React.SVGProps
   const innerWidth = Math.max(0, (clamped / 100) * 18);
   return (
     <svg viewBox="0 0 25 12" aria-hidden="true" className="h-[12px] w-[25px]" {...props}>
-      <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor" strokeOpacity="0.35" />
+      <rect
+        x="0.5"
+        y="0.5"
+        width="21"
+        height="11"
+        rx="3.5"
+        fill="none"
+        stroke="currentColor"
+        strokeOpacity="0.35"
+      />
       <rect x="2" y="2" width={innerWidth} height="8" rx="2" fill="currentColor" />
       <path d="M23 4v4a2.2 2.2 0 0 0 0-4Z" fill="currentColor" fillOpacity="0.4" />
     </svg>
@@ -168,28 +189,33 @@ export function PhoneSafariChrome({
   options: boolean | PhoneSafariOptions | undefined;
 }) {
   if (!options) return null;
-  const o: Required<PhoneSafariOptions> = options === true ? DEFAULT_SAFARI : { ...DEFAULT_SAFARI, ...options };
+  const o: Required<PhoneSafariOptions> =
+    options === true ? DEFAULT_SAFARI : { ...DEFAULT_SAFARI, ...options };
   const dark = o.appearance === "dark";
   const url = displayUrl(o.url);
 
   const panelBg = dark ? "bg-[#1c1c1e]/90" : "bg-background-200/90";
-  const panelClass = cn(
-    "pointer-events-none absolute inset-x-0 z-20 backdrop-blur-md",
-    panelBg,
-  );
+  const panelClass = cn("pointer-events-none absolute inset-x-0 z-20 backdrop-blur-md", panelBg);
 
   return (
     <div data-slot="phone-safari" aria-hidden="true">
       {o.layout === "top" && (
         <>
           <div className={cn(panelClass, "top-[50px] flex items-center gap-3 px-4 pb-2")}>
-            <span className={cn("h-[18px] w-[18px] rounded-full", dark ? "bg-white/70" : "bg-gray-900")} />
+            <span
+              className={cn("h-[18px] w-[18px] rounded-full", dark ? "bg-white/70" : "bg-gray-900")}
+            />
             <SafariUrlPill url={url} dark={dark} />
-            <span className={cn("size-[18px] rounded-full", dark ? "bg-white/70" : "bg-gray-900")} />
+            <span
+              className={cn("size-[18px] rounded-full", dark ? "bg-white/70" : "bg-gray-900")}
+            />
           </div>
           <div className={cn(panelClass, "bottom-0")}>
             <SafariButtonRow dark={dark} />
-            <div className="mx-auto mb-[6px] h-[5px] w-[130px] rounded-full bg-current opacity-40" style={{ color: dark ? "#fff" : "#000" }} />
+            <div
+              className="mx-auto mb-[6px] h-[5px] w-[130px] rounded-full bg-current opacity-40"
+              style={{ color: dark ? "#fff" : "#000" }}
+            />
           </div>
         </>
       )}
@@ -197,9 +223,19 @@ export function PhoneSafariChrome({
       {o.layout === "bottom" && (
         <div className={cn(panelClass, "bottom-0 px-3 pb-[8px] pt-2")}>
           <div className="mb-2 flex items-center gap-2">
-            <span className={cn("h-[18px] w-[18px] shrink-0 rounded-full", dark ? "bg-white/70" : "bg-gray-900")} />
+            <span
+              className={cn(
+                "h-[18px] w-[18px] shrink-0 rounded-full",
+                dark ? "bg-white/70" : "bg-gray-900",
+              )}
+            />
             <SafariUrlPill url={url} dark={dark} />
-            <span className={cn("size-[18px] shrink-0 rounded-full", dark ? "bg-white/70" : "bg-gray-900")} />
+            <span
+              className={cn(
+                "size-[18px] shrink-0 rounded-full",
+                dark ? "bg-white/70" : "bg-gray-900",
+              )}
+            />
           </div>
           <SafariButtonRow dark={dark} />
         </div>
@@ -207,7 +243,8 @@ export function PhoneSafariChrome({
 
       {o.layout === "compact" && (
         <div className={cn(panelClass, "bottom-0 pb-[8px] pt-2")}>
-          <span className="mx-auto flex h-[34px] w-auto items-center justify-around gap-6 rounded-full px-6"
+          <span
+            className="mx-auto flex h-[34px] w-auto items-center justify-around gap-6 rounded-full px-6"
             style={{
               background: dark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.07)",
               color: dark ? "#fff" : "#000",
@@ -221,7 +258,10 @@ export function PhoneSafariChrome({
             </span>
             <span className="h-[16px] w-[10px] rounded-[3px] border border-current opacity-80" />
           </span>
-          <div className="mx-auto mt-[6px] h-[5px] w-[130px] rounded-full" style={{ background: dark ? "#ffffff66" : "#00000066" }} />
+          <div
+            className="mx-auto mt-[6px] h-[5px] w-[130px] rounded-full"
+            style={{ background: dark ? "#ffffff66" : "#00000066" }}
+          />
         </div>
       )}
     </div>

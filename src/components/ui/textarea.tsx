@@ -65,7 +65,11 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     );
 
     return (
-      <div data-slot="textarea-field" className="block w-full min-w-0" style={layoutRootStyle(layout)}>
+      <div
+        data-slot="textarea-field"
+        className="block w-full min-w-0"
+        style={layoutRootStyle(layout)}
+      >
         {label ? (
           <label className="block cursor-text">
             <div className="mb-2 block max-w-full text-copy-13 capitalize text-gray-900">

@@ -32,7 +32,9 @@ describe("Textarea official API contract (G12 audit fixes)", () => {
     const src = await read("src/components/ui/textarea.tsx");
     expect(src).toMatch(/error && FIELD_ERROR_RING/);
     const shared = await read("src/components/ui/field-error.tsx");
-    expect(shared).toMatch(/shadow-\[0_0_0_1px_var\(--color-red-900\),0_0_0_4px_var\(--color-red-300\)\]/);
+    expect(shared).toMatch(
+      /shadow-\[0_0_0_1px_var\(--color-red-900\),0_0_0_4px_var\(--color-red-300\)\]/,
+    );
     expect(shared).toMatch(/var\(--color-red-500\)/);
   });
 
