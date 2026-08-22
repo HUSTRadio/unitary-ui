@@ -55,26 +55,26 @@ const icon = <ArrowUpCircle aria-hidden />;
     label: `import { Select } from "@/components/ui/select";
 
 <Select label="My label" placeholder="With label" />`,
-    "with-options": `import { Select } from "@/components/ui/select";
+    "with-options": `import { Select, SelectItem } from "@/components/ui/select";
 
 <Select aria-label="Fruit" placeholder="Select a fruit">
-  <option value="apple">Apple</option>
-  <option value="orange">Orange</option>
-  <option value="banana">Banana</option>
-  <option value="grape">Grape</option>
+  <SelectItem value="apple">Apple</SelectItem>
+  <SelectItem value="orange">Orange</SelectItem>
+  <SelectItem value="banana">Banana</SelectItem>
+  <SelectItem value="grape">Grape</SelectItem>
 </Select>
 <Select aria-label="Fruit with default value" defaultValue="banana" placeholder="With default value">
-  <option value="apple">Apple</option>
-  <option value="orange">Orange</option>
-  <option value="banana">Banana</option>
-  <option value="grape">Grape</option>
+  <SelectItem value="apple">Apple</SelectItem>
+  <SelectItem value="orange">Orange</SelectItem>
+  <SelectItem value="banana">Banana</SelectItem>
+  <SelectItem value="grape">Grape</SelectItem>
 </Select>`,
-    required: `import { Select } from "@/components/ui/select";
+    required: `import { Select, SelectItem } from "@/components/ui/select";
 
 <Select label="Required field" placeholder="Please select an option" required>
-  <option value="option1">Option 1</option>
-  <option value="option2">Option 2</option>
-  <option value="option3">Option 3</option>
+  <SelectItem value="option1">Option 1</SelectItem>
+  <SelectItem value="option2">Option 2</SelectItem>
+  <SelectItem value="option3">Option 3</SelectItem>
 </Select>`,
   },
   separator: {

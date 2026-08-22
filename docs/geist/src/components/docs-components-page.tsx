@@ -159,7 +159,7 @@ import { RelativeTimeCard } from "@/components/ui/relative-time-card";
 import { Scroller } from "@/components/ui/scroller";
 import { SearchInput } from "@/components/ui/search-input";
 import { Switch, SwitchControl } from "@/components/ui/switch";
-import { Select } from "@/components/ui/select";
+import { Select, SelectGroup, SelectItem, SelectSeparator } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -1777,23 +1777,23 @@ function SelectDemo() {
             <div className={sizesRowClass}>
               <div className={sizesColClass}>
                 <Select size="small" aria-label="Small" placeholder={demoText(language, "Small")}>
-                  <option>{demoText(language, "Option 1")}</option>
-                  <option>{demoText(language, "Option 2")}</option>
-                  <option>{demoText(language, "Option 3")}</option>
+                  <SelectItem value="Option 1">{demoText(language, "Option 1")}</SelectItem>
+                  <SelectItem value="Option 2">{demoText(language, "Option 2")}</SelectItem>
+                  <SelectItem value="Option 3">{demoText(language, "Option 3")}</SelectItem>
                 </Select>
               </div>
               <div className={sizesColClass}>
                 <Select aria-label="Default" placeholder={demoText(language, "Default")}>
-                  <option>{demoText(language, "Option 1")}</option>
-                  <option>{demoText(language, "Option 2")}</option>
-                  <option>{demoText(language, "Option 3")}</option>
+                  <SelectItem value="Option 1">{demoText(language, "Option 1")}</SelectItem>
+                  <SelectItem value="Option 2">{demoText(language, "Option 2")}</SelectItem>
+                  <SelectItem value="Option 3">{demoText(language, "Option 3")}</SelectItem>
                 </Select>
               </div>
               <div className={sizesColClass}>
                 <Select size="large" aria-label="Large" placeholder={demoText(language, "Large")}>
-                  <option>{demoText(language, "Option 1")}</option>
-                  <option>{demoText(language, "Option 2")}</option>
-                  <option>{demoText(language, "Option 3")}</option>
+                  <SelectItem value="Option 1">{demoText(language, "Option 1")}</SelectItem>
+                  <SelectItem value="Option 2">{demoText(language, "Option 2")}</SelectItem>
+                  <SelectItem value="Option 3">{demoText(language, "Option 3")}</SelectItem>
                 </Select>
               </div>
             </div>
@@ -1917,10 +1917,10 @@ function SelectDemo() {
             <div className="flex flex-col items-start gap-4 md:flex-row">
               <div>
                 <Select aria-label="Fruit" placeholder={demoText(language, "Select a fruit")}>
-                  <option>{demoText(language, "Apple")}</option>
-                  <option>{demoText(language, "Orange")}</option>
-                  <option>{demoText(language, "Banana")}</option>
-                  <option>{demoText(language, "Grape")}</option>
+                  <SelectItem value="Apple">{demoText(language, "Apple")}</SelectItem>
+                  <SelectItem value="Orange">{demoText(language, "Orange")}</SelectItem>
+                  <SelectItem value="Banana">{demoText(language, "Banana")}</SelectItem>
+                  <SelectItem value="Grape">{demoText(language, "Grape")}</SelectItem>
                 </Select>
               </div>
               <div>
@@ -1929,10 +1929,10 @@ function SelectDemo() {
                   defaultValue="Banana"
                   placeholder={demoText(language, "With default value")}
                 >
-                  <option>{demoText(language, "Apple")}</option>
-                  <option>{demoText(language, "Orange")}</option>
-                  <option>{demoText(language, "Banana")}</option>
-                  <option>{demoText(language, "Grape")}</option>
+                  <SelectItem value="Apple">{demoText(language, "Apple")}</SelectItem>
+                  <SelectItem value="Orange">{demoText(language, "Orange")}</SelectItem>
+                  <SelectItem value="Banana">{demoText(language, "Banana")}</SelectItem>
+                  <SelectItem value="Grape">{demoText(language, "Grape")}</SelectItem>
                 </Select>
               </div>
             </div>
@@ -1952,9 +1952,9 @@ function SelectDemo() {
               label={demoText(language, "Required field")}
               placeholder={demoText(language, "Please select an option")}
             >
-              <option>{demoText(language, "Option 1")}</option>
-              <option>{demoText(language, "Option 2")}</option>
-              <option>{demoText(language, "Option 3")}</option>
+              <SelectItem value="Option 1">{demoText(language, "Option 1")}</SelectItem>
+              <SelectItem value="Option 2">{demoText(language, "Option 2")}</SelectItem>
+              <SelectItem value="Option 3">{demoText(language, "Option 3")}</SelectItem>
             </Select>
           </div>
         </div>

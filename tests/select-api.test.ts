@@ -7,33 +7,52 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
 
-describe("Select official API contract (G09 audit fixes)", () => {
-  test("G09-SELECT-01: error text is 13px/20px (leading-5) with the dedicated inline-error token", async () => {
+describe("Select composite API contract (v2 Radix popup)", () => {
+  test("error text is 13px/20px with the shared FieldError layer and inline-error token", async () => {
     const src = await read("src/components/ui/select.tsx");
     // Error message must NOT use the --danger token color (#e5484d via text-danger)
     expect(src).not.toMatch(/text-danger/);
-    // The component owns no literal: the shared token preserves official light/dark values.
-    expect(src).toMatch(/text-error-foreground/);
+    // Error rendering delegates to the shared base layer
+    expect(src).toMatch(/import \{ FieldError, FIELD_ERROR_RING \} from "\.\/field-error"/);
+    const shared = await read("src/components/ui/field-error.tsx");
+    expect(shared).toMatch(/text-error-foreground/);
     // 13px font with 20px line-height (leading-5 overrides text-copy-13's 18px)
-    expect(src).toMatch(/text-copy-13 leading-5/);
+    expect(shared).toMatch(/text-copy-13 leading-5/);
   });
 
-  test("G09-SELECT-01: large size error text is 16px/24px (text-base leading-6)", async () => {
+  test("large size error text is 16px/24px", async () => {
+    const shared = await read("src/components/ui/field-error.tsx");
+    expect(shared).toMatch(/large && "text-base leading-6"/);
     const src = await read("src/components/ui/select.tsx");
-    expect(src).toMatch(/size === "large" \? "text-base leading-6"/);
+    expect(src).toMatch(/large=\{size === "large"\}/);
   });
 
-  test("G09-SELECT-01: error message keeps the non-large default at 13px/20px", async () => {
+  test("composite API: no native <option>/<optgroup>/onChange, exports Group/Separator/Item", async () => {
     const src = await read("src/components/ui/select.tsx");
-    expect(src).toMatch(/size === "large" \? "text-base leading-6" : "text-copy-13 leading-5"/);
+    // Native select children are rejected — Radix composites only
+    expect(src).not.toMatch(/<option/);
+    expect(src).not.toMatch(/\bonChange\b/);
+    expect(src).toMatch(/SelectPrimitive\.Group/);
+    expect(src).toMatch(/SelectPrimitive\.Separator/);
+    expect(src).toMatch(/SelectPrimitive\.Item/);
   });
 
-  test("label renders mb-2 on inner text div (8px gap, official structure)", async () => {
+  test("popup uses Geist menu material, 36px items, 2px viewport gaps, hidden form select", async () => {
     const src = await read("src/components/ui/select.tsx");
-    // mb-2 lives on the inner label text div, NOT on the <label> element
-    expect(src).toMatch(/<label className=\{cn\(className\)\}>/);
+    expect(src).toMatch(/material-menu/);
+    expect(src).toMatch(/h-9 cursor-pointer select-none items-center rounded-\[6px\]/);
+    expect(src).toMatch(/flex flex-col gap-0\.5/);
+    // Hidden native select keeps FormData / required / name semantics
+    expect(src).toMatch(/unstable_BubbleInput/);
+    // Portal + popper positioning
+    expect(src).toMatch(/SelectPrimitive\.Portal/);
+    expect(src).toMatch(/position="popper"/);
+  });
+
+  test("label renders mb-2 on inner text div (8px gap)", async () => {
+    const src = await read("src/components/ui/select.tsx");
     expect(src).toContain(
-      '<div className="mb-2 block max-w-full cursor-text text-[13px] text-gray-900 capitalize">',
+      '<div\n              data-slot="select-label"\n              className="mb-2 block max-w-full cursor-text text-[13px] text-gray-900 capitalize"\n            >',
     );
   });
 });
