@@ -79,12 +79,55 @@ export const DEMO_CODE_DIRECT: Record<string, Record<string, string>> = {
 <div className="w-full max-w-xs">
   <Phone>
     <PhoneScreen>
-      <div className="flex h-full items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
-        Mobile screenshot
-      </div>
+      {/* 截图/录屏承担可访问名称 */}
+      <img
+        src="/dashboard.png"
+        alt="Vercel dashboard on iPhone"
+        className="h-full w-full object-cover"
+      />
     </PhoneScreen>
   </Phone>
 </div>`,
+    Colors: `import { Phone, PhoneScreen } from "@/components/ui/phone";
+
+<div className="flex flex-wrap gap-6">
+  {(["black", "white", "mist-blue", "cosmic-orange"] as const).map((color) => (
+    <Phone key={color} color={color} statusBar={false} className="w-[140px]">
+      <PhoneScreen>
+        <div className="h-full w-full bg-gray-alpha-100" />
+      </PhoneScreen>
+    </Phone>
+  ))}
+</div>`,
+    "Dynamic Island": `import { Phone, PhoneScreen } from "@/components/ui/phone";
+
+<Phone dynamicIsland className="w-[260px]">
+  <PhoneScreen>
+    <div className="flex h-full items-center justify-center bg-gray-alpha-100" />
+  </PhoneScreen>
+</Phone>`,
+    "Status Bar": `import { Phone, PhoneScreen } from "@/components/ui/phone";
+
+<Phone statusBar={{ time: "9:41", battery: 72 }}>
+  <PhoneScreen>{/* screenshot */}</PhoneScreen>
+</Phone>
+<Phone statusBar={{ appearance: "dark" }}>
+  <PhoneScreen>{/* screenshot */}</PhoneScreen>
+</Phone>`,
+    "Safari Chrome": `import { Phone, PhoneScreen } from "@/components/ui/phone";
+
+const [layout, setLayout] = useState<"compact" | "bottom" | "top">("compact");
+
+<Phone safari={{ layout, url: "vercel.com/geist" }}>
+  <PhoneScreen>
+    <img src="/page.png" alt="Website shown in the Safari mockup" className="h-full w-full object-cover" />
+  </PhoneScreen>
+</Phone>`,
+    Landscape: `import { Phone, PhoneScreen } from "@/components/ui/phone";
+
+<Phone landscape>
+  <PhoneScreen>{/* landscape screenshot */}</PhoneScreen>
+</Phone>`,
   },
   "error-card": {
     Default: `import { Button } from "@/components/ui/button";

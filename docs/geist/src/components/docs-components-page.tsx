@@ -3793,22 +3793,142 @@ function JsonViewDemo() {
 
 function PhoneDemo() {
   const demoCode = (id: string) => DEMO_CODE.phone?.[id] ?? "";
+  const [safariLayout, setSafariLayout] = React.useState<"compact" | "bottom" | "top">("compact");
   return (
-    <div
-      className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-      data-demo-card="Composition"
-    >
-      <div className="w-full p-6" data-demo-container="Composition">
-        <Phone>
-          <PhoneScreen>
-            <div className="flex h-full items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
-              Mobile screenshot
-            </div>
-          </PhoneScreen>
-        </Phone>
+    <>
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="Composition"
+      >
+        <div className="w-full p-6" data-demo-container="Composition">
+          <Phone>
+            <PhoneScreen>
+              <img
+                src="https://picsum.photos/seed/geist-phone/393/852"
+                alt="Vercel dashboard on iPhone"
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+            </PhoneScreen>
+          </Phone>
+        </div>
+        <ShowCodeFooter code={demoCode("Composition")} />
       </div>
-      <ShowCodeFooter code={demoCode("Composition")} />
-    </div>
+
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="Colors"
+      >
+        <div className="w-full p-6" data-demo-container="Colors">
+          <div className="flex flex-wrap items-start justify-center gap-6">
+            {(["black", "white", "mist-blue", "cosmic-orange"] as const).map((color) => (
+              <div key={color} className="flex flex-col items-center gap-2">
+                <Phone color={color} statusBar={false} className="w-[140px]">
+                  <PhoneScreen>
+                    <div className="h-full w-full bg-gray-alpha-100" />
+                  </PhoneScreen>
+                </Phone>
+                <span className="text-copy-13 text-muted-foreground">{color}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("Colors")} />
+      </div>
+
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="Dynamic Island"
+      >
+        <div className="w-full p-6" data-demo-container="Dynamic Island">
+          <Phone dynamicIsland className="w-[260px]">
+            <PhoneScreen>
+              <div className="flex h-full items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
+                Mobile screenshot
+              </div>
+            </PhoneScreen>
+          </Phone>
+        </div>
+        <ShowCodeFooter code={demoCode("Dynamic Island")} />
+      </div>
+
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="Status Bar"
+      >
+        <div className="w-full p-6" data-demo-container="Status Bar">
+          <div className="flex flex-wrap items-start justify-center gap-6">
+            <Phone statusBar={{ time: "9:41", battery: 72 }}>
+              <PhoneScreen>
+                <div className="flex h-full items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
+                  Custom status
+                </div>
+              </PhoneScreen>
+            </Phone>
+            <Phone statusBar={{ appearance: "dark" }}>
+              <PhoneScreen>
+                <div className="flex h-full items-center justify-center bg-gray-900 text-copy-14 text-gray-1000">
+                  Dark appearance
+                </div>
+              </PhoneScreen>
+            </Phone>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("Status Bar")} />
+      </div>
+
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="Safari Chrome"
+      >
+        <div className="w-full p-6" data-demo-container="Safari Chrome">
+          <div className="mb-4 flex justify-center gap-2">
+            {(["compact", "bottom", "top"] as const).map((layout) => (
+              <button
+                key={layout}
+                type="button"
+                onClick={() => setSafariLayout(layout)}
+                className={
+                  "cursor-pointer rounded-[6px] px-3 py-1.5 text-copy-13 " +
+                  (safariLayout === layout
+                    ? "bg-gray-1000 text-background-100"
+                    : "bg-background-200 text-gray-900")
+                }
+              >
+                {layout}
+              </button>
+            ))}
+          </div>
+          <Phone safari={{ layout: safariLayout, url: "vercel.com/geist" }}>
+            <PhoneScreen>
+              <img
+                src="https://picsum.photos/seed/geist-safari/393/852"
+                alt="Website shown in the Safari mockup"
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+            </PhoneScreen>
+          </Phone>
+        </div>
+        <ShowCodeFooter code={demoCode("Safari Chrome")} />
+      </div>
+
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="Landscape"
+      >
+        <div className="w-full p-6" data-demo-container="Landscape">
+          <Phone landscape>
+            <PhoneScreen>
+              <div className="flex h-full items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
+                Landscape screenshot
+              </div>
+            </PhoneScreen>
+          </Phone>
+        </div>
+        <ShowCodeFooter code={demoCode("Landscape")} />
+      </div>
+    </>
   );
 }
 
