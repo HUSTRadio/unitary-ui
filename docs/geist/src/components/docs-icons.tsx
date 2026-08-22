@@ -115,161 +115,236 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { Checkbox } from "@/components/ui/checkbox";
+import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
+import { CopyButton } from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Modal, ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/ui/modal";
 import { useLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
 
+/** 图标库来源：lucide（矢量 stroke 图标）或 simple-icons（品牌 fill 图标，经 CDN 渲染）。 */
+type IconLib = "lucide" | "simple-icons";
+
+type IconEntry =
+  | { name: string; Icon: LucideIcon; lib: "lucide" }
+  | { name: string; slug: string; lib: "simple-icons" };
+
+/** 详情面板默认预览设置。 */
+type IconSettings = {
+  color: string;
+  size: number;
+  strokeWidth: number;
+  absoluteStrokeWidth: boolean;
+};
+
+const DEFAULT_SETTINGS: IconSettings = {
+  color: "#18181b",
+  size: 24,
+  strokeWidth: 2,
+  absoluteStrokeWidth: false,
+};
+
+/**
+ * simple-icons 品牌图标：经 CDN mask 渲染（背景色 = color，与 lucide 的 color 语义对齐）。
+ * 零依赖、随 currentColor 着色（语言图标组件同款方案）。
+ */
+function SimpleIconGlyph({
+  slug,
+  size,
+  color,
+  className,
+}: {
+  slug: string;
+  size?: number;
+  color?: string;
+  className?: string;
+}) {
+  const url = `https://cdn.simpleicons.org/${slug}`;
+  return (
+    <span
+      aria-hidden
+      className={className}
+      style={{
+        width: size,
+        height: size,
+        backgroundColor: color ?? "currentColor",
+        WebkitMaskImage: `url(${url})`,
+        WebkitMaskSize: "contain",
+        WebkitMaskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        maskImage: `url(${url})`,
+        maskSize: "contain",
+        maskRepeat: "no-repeat",
+        maskPosition: "center",
+      }}
+    />
+  );
+}
+
+function buildExampleCode(entry: IconEntry, settings: IconSettings): string {
+  const { color, size, strokeWidth, absoluteStrokeWidth } = settings;
+  if (entry.lib === "lucide") {
+    const props = [`size={${size}}`, `strokeWidth={${strokeWidth}}`];
+    if (absoluteStrokeWidth) props.push("absoluteStrokeWidth");
+    props.push(`color="${color}"`);
+    return `import { ${entry.name} } from "lucide-react";\n\n<${entry.name} ${props.join(" ")} />`;
+  }
+  const colorPath = color ? `/${color.replace("#", "")}` : "";
+  return `import { ${entry.slug} } from "simple-icons";\n\n<img\n  src="https://cdn.simpleicons.org/${entry.slug}${colorPath}"\n  width="${size}"\n  height="${size}"\n  alt="${entry.name}"\n/>`;
+}
+
 /**
  * Icons 页面（/icons）— 复刻 vercel.com/geist/icons 的图标集页：
- * 标题 + 描述 + 搜索过滤 + 响应式图标网格（图标 + 名称）。
- * 图标统一 lucide-react（AGENTS.md 约定），点击图标格复制图标名。
+ * 标题 + 描述 + 外链（lucide.dev / simpleicons.org）+ 搜索过滤 + 响应式图标网格。
+ * 点击图标打开详情面板：实时预览（color / size / strokeWidth / absoluteStrokeWidth，
+ * 后两者仅 lucide 生效）+ 示例代码生成 + 复制图标名。
+ * lucide 图标统一 lucide-react（AGENTS.md 约定）；simple-icons 经 CDN 渲染不装包。
  */
 
-const ICONS: { name: string; Icon: LucideIcon }[] = [
-  { name: "Search", Icon: Search },
-  { name: "Settings", Icon: Settings },
-  { name: "User", Icon: User },
-  { name: "Users", Icon: Users },
-  { name: "Home", Icon: Home },
-  { name: "Menu", Icon: Menu },
-  { name: "X", Icon: X },
-  { name: "Check", Icon: Check },
-  { name: "Plus", Icon: Plus },
-  { name: "Minus", Icon: Minus },
-  { name: "ChevronDown", Icon: ChevronDown },
-  { name: "ChevronUp", Icon: ChevronUp },
-  { name: "ChevronLeft", Icon: ChevronLeft },
-  { name: "ChevronRight", Icon: ChevronRight },
-  { name: "ArrowLeft", Icon: ArrowLeft },
-  { name: "ArrowRight", Icon: ArrowRight },
-  { name: "ArrowUp", Icon: ArrowUp },
-  { name: "ArrowDown", Icon: ArrowDown },
-  { name: "Copy", Icon: Copy },
-  { name: "Edit", Icon: Edit },
-  { name: "Trash", Icon: Trash },
-  { name: "Download", Icon: Download },
-  { name: "Upload", Icon: Upload },
-  { name: "Share", Icon: Share },
-  { name: "Link", Icon: Link },
-  { name: "ExternalLink", Icon: ExternalLink },
-  { name: "RotateCw", Icon: RotateCw },
-  { name: "ZoomIn", Icon: ZoomIn },
-  { name: "ZoomOut", Icon: ZoomOut },
-  { name: "Filter", Icon: Filter },
-  { name: "AlertCircle", Icon: AlertCircle },
-  { name: "AlertTriangle", Icon: AlertTriangle },
-  { name: "Info", Icon: Info },
-  { name: "HelpCircle", Icon: HelpCircle },
-  { name: "Loader2", Icon: Loader2 },
-  { name: "Eye", Icon: Eye },
-  { name: "EyeOff", Icon: EyeOff },
-  { name: "Star", Icon: Star },
-  { name: "Heart", Icon: Heart },
-  { name: "ThumbsUp", Icon: ThumbsUp },
-  { name: "Bookmark", Icon: Bookmark },
-  { name: "Flag", Icon: Flag },
-  { name: "Bell", Icon: Bell },
-  { name: "BellOff", Icon: BellOff },
-  { name: "File", Icon: File },
-  { name: "FileText", Icon: FileText },
-  { name: "Folder", Icon: Folder },
-  { name: "FolderPlus", Icon: FolderPlus },
-  { name: "Archive", Icon: Archive },
-  { name: "Mail", Icon: Mail },
-  { name: "MessageCircle", Icon: MessageCircle },
-  { name: "Send", Icon: Send },
-  { name: "Inbox", Icon: Inbox },
-  { name: "Image", Icon: Image },
-  { name: "Camera", Icon: Camera },
-  { name: "Music", Icon: Music },
-  { name: "Play", Icon: Play },
-  { name: "Pause", Icon: Pause },
-  { name: "Video", Icon: Video },
-  { name: "Mic", Icon: Mic },
-  { name: "Shield", Icon: Shield },
-  { name: "Lock", Icon: Lock },
-  { name: "Unlock", Icon: Unlock },
-  { name: "Key", Icon: Key },
-  { name: "Clock", Icon: Clock },
-  { name: "Calendar", Icon: Calendar },
-  { name: "Timer", Icon: Timer },
-  { name: "Hourglass", Icon: Hourglass },
-  { name: "MapPin", Icon: MapPin },
-  { name: "Navigation", Icon: Navigation },
-  { name: "Compass", Icon: Compass },
-  { name: "Globe", Icon: Globe },
-  { name: "Smartphone", Icon: Smartphone },
-  { name: "Monitor", Icon: Monitor },
-  { name: "Laptop", Icon: Laptop },
-  { name: "Wifi", Icon: Wifi },
-  { name: "Bluetooth", Icon: Bluetooth },
-  { name: "Battery", Icon: Battery },
-  { name: "Sun", Icon: Sun },
-  { name: "Moon", Icon: Moon },
-  { name: "Cloud", Icon: Cloud },
-  { name: "CloudUpload", Icon: CloudUpload },
-  { name: "CloudDownload", Icon: CloudDownload },
-  { name: "Droplet", Icon: Droplet },
-  { name: "Flame", Icon: Flame },
-  { name: "Zap", Icon: Zap },
-  { name: "Database", Icon: Database },
-  { name: "Terminal", Icon: Terminal },
-  { name: "Command", Icon: Command },
-  { name: "Code", Icon: Code },
-  { name: "Tag", Icon: Tag },
-  { name: "Wallet", Icon: Wallet },
-  { name: "CreditCard", Icon: CreditCard },
-  { name: "ShoppingCart", Icon: ShoppingCart },
-  { name: "Package", Icon: Package },
-  { name: "Truck", Icon: Truck },
-  { name: "Briefcase", Icon: Briefcase },
-  { name: "HardDrive", Icon: HardDrive },
-  { name: "Rocket", Icon: Rocket },
-  { name: "Sparkles", Icon: Sparkles },
-  { name: "Lightbulb", Icon: Lightbulb },
-  { name: "PenTool", Icon: PenTool },
-  { name: "Palette", Icon: Palette },
-  { name: "Layers", Icon: Layers },
-  { name: "Wrench", Icon: Wrench },
-  { name: "Power", Icon: Power },
-  { name: "Gift", Icon: Gift },
-  { name: "Award", Icon: Award },
-  { name: "Trophy", Icon: Trophy },
-  { name: "Target", Icon: Target },
-  { name: "TrendingUp", Icon: TrendingUp },
-  { name: "TrendingDown", Icon: TrendingDown },
+const ICONS: IconEntry[] = [
+{ name: "Search", Icon: Search, lib: "lucide" },
+  { name: "Settings", Icon: Settings, lib: "lucide" },
+  { name: "User", Icon: User, lib: "lucide" },
+  { name: "Users", Icon: Users, lib: "lucide" },
+  { name: "Home", Icon: Home, lib: "lucide" },
+  { name: "Menu", Icon: Menu, lib: "lucide" },
+  { name: "X", Icon: X, lib: "lucide" },
+  { name: "Check", Icon: Check, lib: "lucide" },
+  { name: "Plus", Icon: Plus, lib: "lucide" },
+  { name: "Minus", Icon: Minus, lib: "lucide" },
+  { name: "ChevronDown", Icon: ChevronDown, lib: "lucide" },
+  { name: "ChevronUp", Icon: ChevronUp, lib: "lucide" },
+  { name: "ChevronLeft", Icon: ChevronLeft, lib: "lucide" },
+  { name: "ChevronRight", Icon: ChevronRight, lib: "lucide" },
+  { name: "ArrowLeft", Icon: ArrowLeft, lib: "lucide" },
+  { name: "ArrowRight", Icon: ArrowRight, lib: "lucide" },
+  { name: "ArrowUp", Icon: ArrowUp, lib: "lucide" },
+  { name: "ArrowDown", Icon: ArrowDown, lib: "lucide" },
+  { name: "Copy", Icon: Copy, lib: "lucide" },
+  { name: "Edit", Icon: Edit, lib: "lucide" },
+  { name: "Trash", Icon: Trash, lib: "lucide" },
+  { name: "Download", Icon: Download, lib: "lucide" },
+  { name: "Upload", Icon: Upload, lib: "lucide" },
+  { name: "Share", Icon: Share, lib: "lucide" },
+  { name: "Link", Icon: Link, lib: "lucide" },
+  { name: "ExternalLink", Icon: ExternalLink, lib: "lucide" },
+  { name: "RotateCw", Icon: RotateCw, lib: "lucide" },
+  { name: "ZoomIn", Icon: ZoomIn, lib: "lucide" },
+  { name: "ZoomOut", Icon: ZoomOut, lib: "lucide" },
+  { name: "Filter", Icon: Filter, lib: "lucide" },
+  { name: "AlertCircle", Icon: AlertCircle, lib: "lucide" },
+  { name: "AlertTriangle", Icon: AlertTriangle, lib: "lucide" },
+  { name: "Info", Icon: Info, lib: "lucide" },
+  { name: "HelpCircle", Icon: HelpCircle, lib: "lucide" },
+  { name: "Loader2", Icon: Loader2, lib: "lucide" },
+  { name: "Eye", Icon: Eye, lib: "lucide" },
+  { name: "EyeOff", Icon: EyeOff, lib: "lucide" },
+  { name: "Star", Icon: Star, lib: "lucide" },
+  { name: "Heart", Icon: Heart, lib: "lucide" },
+  { name: "ThumbsUp", Icon: ThumbsUp, lib: "lucide" },
+  { name: "Bookmark", Icon: Bookmark, lib: "lucide" },
+  { name: "Flag", Icon: Flag, lib: "lucide" },
+  { name: "Bell", Icon: Bell, lib: "lucide" },
+  { name: "BellOff", Icon: BellOff, lib: "lucide" },
+  { name: "File", Icon: File, lib: "lucide" },
+  { name: "FileText", Icon: FileText, lib: "lucide" },
+  { name: "Folder", Icon: Folder, lib: "lucide" },
+  { name: "FolderPlus", Icon: FolderPlus, lib: "lucide" },
+  { name: "Archive", Icon: Archive, lib: "lucide" },
+  { name: "Mail", Icon: Mail, lib: "lucide" },
+  { name: "MessageCircle", Icon: MessageCircle, lib: "lucide" },
+  { name: "Send", Icon: Send, lib: "lucide" },
+  { name: "Inbox", Icon: Inbox, lib: "lucide" },
+  { name: "Image", Icon: Image, lib: "lucide" },
+  { name: "Camera", Icon: Camera, lib: "lucide" },
+  { name: "Music", Icon: Music, lib: "lucide" },
+  { name: "Play", Icon: Play, lib: "lucide" },
+  { name: "Pause", Icon: Pause, lib: "lucide" },
+  { name: "Video", Icon: Video, lib: "lucide" },
+  { name: "Mic", Icon: Mic, lib: "lucide" },
+  { name: "Shield", Icon: Shield, lib: "lucide" },
+  { name: "Lock", Icon: Lock, lib: "lucide" },
+  { name: "Unlock", Icon: Unlock, lib: "lucide" },
+  { name: "Key", Icon: Key, lib: "lucide" },
+  { name: "Clock", Icon: Clock, lib: "lucide" },
+  { name: "Calendar", Icon: Calendar, lib: "lucide" },
+  { name: "Timer", Icon: Timer, lib: "lucide" },
+  { name: "Hourglass", Icon: Hourglass, lib: "lucide" },
+  { name: "MapPin", Icon: MapPin, lib: "lucide" },
+  { name: "Navigation", Icon: Navigation, lib: "lucide" },
+  { name: "Compass", Icon: Compass, lib: "lucide" },
+  { name: "Globe", Icon: Globe, lib: "lucide" },
+  { name: "Smartphone", Icon: Smartphone, lib: "lucide" },
+  { name: "Monitor", Icon: Monitor, lib: "lucide" },
+  { name: "Laptop", Icon: Laptop, lib: "lucide" },
+  { name: "Wifi", Icon: Wifi, lib: "lucide" },
+  { name: "Bluetooth", Icon: Bluetooth, lib: "lucide" },
+  { name: "Battery", Icon: Battery, lib: "lucide" },
+  { name: "Sun", Icon: Sun, lib: "lucide" },
+  { name: "Moon", Icon: Moon, lib: "lucide" },
+  { name: "Cloud", Icon: Cloud, lib: "lucide" },
+  { name: "CloudUpload", Icon: CloudUpload, lib: "lucide" },
+  { name: "CloudDownload", Icon: CloudDownload, lib: "lucide" },
+  { name: "Droplet", Icon: Droplet, lib: "lucide" },
+  { name: "Flame", Icon: Flame, lib: "lucide" },
+  { name: "Zap", Icon: Zap, lib: "lucide" },
+  { name: "Database", Icon: Database, lib: "lucide" },
+  { name: "Terminal", Icon: Terminal, lib: "lucide" },
+  { name: "Command", Icon: Command, lib: "lucide" },
+  { name: "Code", Icon: Code, lib: "lucide" },
+  { name: "Tag", Icon: Tag, lib: "lucide" },
+  { name: "Wallet", Icon: Wallet, lib: "lucide" },
+  { name: "CreditCard", Icon: CreditCard, lib: "lucide" },
+  { name: "ShoppingCart", Icon: ShoppingCart, lib: "lucide" },
+  { name: "Package", Icon: Package, lib: "lucide" },
+  { name: "Truck", Icon: Truck, lib: "lucide" },
+  { name: "Briefcase", Icon: Briefcase, lib: "lucide" },
+  { name: "HardDrive", Icon: HardDrive, lib: "lucide" },
+  { name: "Rocket", Icon: Rocket, lib: "lucide" },
+  { name: "Sparkles", Icon: Sparkles, lib: "lucide" },
+  { name: "Lightbulb", Icon: Lightbulb, lib: "lucide" },
+  { name: "PenTool", Icon: PenTool, lib: "lucide" },
+  { name: "Palette", Icon: Palette, lib: "lucide" },
+  { name: "Layers", Icon: Layers, lib: "lucide" },
+  { name: "Wrench", Icon: Wrench, lib: "lucide" },
+  { name: "Power", Icon: Power, lib: "lucide" },
+  { name: "Gift", Icon: Gift, lib: "lucide" },
+  { name: "Award", Icon: Award, lib: "lucide" },
+  { name: "Trophy", Icon: Trophy, lib: "lucide" },
+  { name: "Target", Icon: Target, lib: "lucide" },
+  { name: "TrendingUp", Icon: TrendingUp, lib: "lucide" },
+  { name: "TrendingDown", Icon: TrendingDown, lib: "lucide" },
+  { name: "GitHub", slug: "github", lib: "simple-icons" },
+  { name: "Vercel", slug: "vercel", lib: "simple-icons" },
+  { name: "React", slug: "react", lib: "simple-icons" },
+  { name: "TypeScript", slug: "typescript", lib: "simple-icons" },
+  { name: "Tailwind CSS", slug: "tailwindcss", lib: "simple-icons" },
+  { name: "Next.js", slug: "nextdotjs", lib: "simple-icons" },
+  { name: "Docker", slug: "docker", lib: "simple-icons" },
+  { name: "Figma", slug: "figma", lib: "simple-icons" },
+  { name: "Node.js", slug: "nodedotjs", lib: "simple-icons" },
+  { name: "Python", slug: "python", lib: "simple-icons" },
+  { name: "Rust", slug: "rust", lib: "simple-icons" },
+  { name: "Linux", slug: "linux", lib: "simple-icons" },
 ];
 
 export function IconsPage() {
   const { language } = useLanguage();
   const [query, setQuery] = React.useState("");
-  const [copied, setCopied] = React.useState<string | null>(null);
-  const timer = React.useRef<number | undefined>(undefined);
-
-  React.useEffect(() => () => window.clearTimeout(timer.current), []);
+  const [selected, setSelected] = React.useState<IconEntry | null>(null);
+  const [settings, setSettings] = React.useState<IconSettings>(DEFAULT_SETTINGS);
 
   const normalized = query.trim().toLowerCase();
   const filtered = normalized
     ? ICONS.filter(({ name }) => name.toLowerCase().includes(normalized))
     : ICONS;
 
-  const handleCopy = async (name: string) => {
-    try {
-      await navigator.clipboard.writeText(name);
-    } catch {
-      const textarea = document.createElement("textarea");
-      textarea.value = name;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      textarea.remove();
-    }
-    setCopied(name);
-    window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(() => setCopied(null), 1200);
-  };
+  const isLucide = selected?.lib === "lucide";
+
+  const exampleCode = selected ? buildExampleCode(selected, settings) : "";
+  const libLabel = selected?.lib === "simple-icons" ? "simple-icons" : "lucide";
 
   return (
     <div>
@@ -279,6 +354,26 @@ export function IconsPage() {
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         {demoText(language, "Icon set tailored for developer tools.")}
       </p>
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-label-14">
+        <a
+          href="https://lucide.dev"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1 text-muted-foreground underline decoration-gray-alpha-400 underline-offset-4 transition-colors duration-150 hover:text-foreground"
+        >
+          lucide.dev
+          <ExternalLink className="size-3.5" aria-hidden />
+        </a>
+        <a
+          href="https://simpleicons.org"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1 text-muted-foreground underline decoration-gray-alpha-400 underline-offset-4 transition-colors duration-150 hover:text-foreground"
+        >
+          simpleicons.org
+          <ExternalLink className="size-3.5" aria-hidden />
+        </a>
+      </div>
 
       <div className="relative mt-8 max-w-xs" role="search">
         <Search
@@ -300,21 +395,150 @@ export function IconsPage() {
         </p>
       ) : (
         <div className="mt-8 grid grid-cols-3 gap-1 sm:grid-cols-4 md:grid-cols-6 xl:grid-cols-8">
-          {filtered.map(({ name, Icon }) => (
-            <button
-              key={name}
-              type="button"
-              onClick={() => handleCopy(name)}
-              title={name}
-              aria-label={`${name}${copied === name ? " — copied" : ""}`}
-              className="group flex flex-col items-center justify-center gap-2 rounded-md p-3 text-muted-foreground transition-colors duration-150 hover:bg-gray-alpha-100 hover:text-foreground"
-            >
-              <Icon className="size-5 transition-colors" strokeWidth={1.5} aria-hidden />
-              <span className="w-full truncate text-center text-label-12">{name}</span>
-            </button>
-          ))}
+          {filtered.map((entry) =>
+            entry.lib === "lucide" ? (
+              <button
+                key={entry.name}
+                type="button"
+                onClick={() => setSelected(entry)}
+                title={entry.name}
+                aria-label={entry.name}
+                className="group flex flex-col items-center justify-center gap-2 rounded-md p-3 text-muted-foreground transition-colors duration-150 hover:bg-gray-alpha-100 hover:text-foreground"
+              >
+                <entry.Icon className="size-5 transition-colors" strokeWidth={1.5} aria-hidden />
+                <span className="w-full truncate text-center text-label-12">{entry.name}</span>
+              </button>
+            ) : (
+              <button
+                key={entry.name}
+                type="button"
+                onClick={() => setSelected(entry)}
+                title={entry.name}
+                aria-label={`${entry.name} (simple-icons)`}
+                className="group flex flex-col items-center justify-center gap-2 rounded-md p-3 text-muted-foreground transition-colors duration-150 hover:bg-gray-alpha-100 hover:text-foreground"
+              >
+                <SimpleIconGlyph slug={entry.slug} className="size-5 transition-colors" />
+                <span className="w-full truncate text-center text-label-12">{entry.name}</span>
+              </button>
+            ),
+          )}
         </div>
       )}
+
+      <Modal open={selected !== null} onOpenChange={(open) => !open && setSelected(null)}>
+        {selected ? (
+          <ModalContent showCloseButton>
+            <ModalHeader>
+              <ModalTitle translate="no">{selected.name}</ModalTitle>
+              <p className="text-copy-14 text-muted-foreground">
+                <span className="rounded-sm border border-gray-alpha-400 px-1.5 py-0.5 text-label-12" translate="no">
+                  {libLabel}
+                </span>
+                <span className="ml-2">
+                  {isLucide
+                    ? demoText(language, "Stroke icon with configurable weight.")
+                    : demoText(language, "Brand icon rendered from the simple-icons CDN.")}
+                </span>
+              </p>
+            </ModalHeader>
+
+            <div className="mt-5 flex h-40 items-center justify-center rounded-[8px] border border-gray-alpha-400 bg-background-200">
+              {selected.lib === "lucide" ? (
+                <selected.Icon
+                  size={settings.size}
+                  strokeWidth={settings.strokeWidth}
+                  absoluteStrokeWidth={settings.absoluteStrokeWidth}
+                  color={settings.color}
+                  aria-hidden
+                />
+              ) : (
+                <SimpleIconGlyph slug={selected.slug} size={settings.size} color={settings.color} />
+              )}
+            </div>
+
+            <div className="mt-5 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
+              <div>
+                <Label id="icon-color" value={demoText(language, "Color")} />
+                <input
+                  id="icon-color"
+                  type="color"
+                  value={settings.color}
+                  onChange={(event) =>
+                    setSettings((prev) => ({ ...prev, color: event.target.value }))
+                  }
+                  className="h-8 w-full cursor-pointer rounded-[6px] border border-gray-alpha-400 bg-background-100 p-1"
+                />
+              </div>
+              <div>
+                <Label id="icon-size" value={demoText(language, "Size")} />
+                <Input
+                  id="icon-size"
+                  type="number"
+                  min={8}
+                  max={128}
+                  value={settings.size}
+                  onChange={(event) =>
+                    setSettings((prev) => ({ ...prev, size: Number(event.target.value) || 0 }))
+                  }
+                />
+              </div>
+              {isLucide ? (
+                <>
+                  <div>
+                    <Label id="icon-stroke-width" value={demoText(language, "Stroke Width")} />
+                    <Input
+                      id="icon-stroke-width"
+                      type="number"
+                      min={0.5}
+                      max={4}
+                      step={0.5}
+                      value={settings.strokeWidth}
+                      onChange={(event) =>
+                        setSettings((prev) => ({
+                          ...prev,
+                          strokeWidth: Number(event.target.value) || 0,
+                        }))
+                      }
+                    />
+                  </div>
+                  <div className="flex items-end">
+                    <label className="flex items-center gap-2 text-copy-14 text-muted-foreground">
+                      <Checkbox
+                        id="icon-absolute-stroke-width"
+                        checked={settings.absoluteStrokeWidth}
+                        onChange={() =>
+                          setSettings((prev) => ({
+                            ...prev,
+                            absoluteStrokeWidth: !prev.absoluteStrokeWidth,
+                          }))
+                        }
+                      />
+                      {demoText(language, "Absolute Stroke Width")}
+                    </label>
+                  </div>
+                </>
+              ) : null}
+            </div>
+
+            <div className="mt-5">
+              <p className="mb-2 text-label-13 text-muted-foreground">
+                {demoText(language, "Example")}
+              </p>
+              <CodeBlockComponent language="tsx" hideLineNumbers>
+                {exampleCode}
+              </CodeBlockComponent>
+            </div>
+
+            <ModalFooter>
+              <CopyButton
+                textToCopy={selected.name}
+                label={demoText(language, "Copy name")}
+                className="size-8 rounded-[5px] bg-background-200 shadow-none hover:bg-gray-alpha-200"
+              />
+            </ModalFooter>
+          </ModalContent>
+        ) : null}
+      </Modal>
     </div>
   );
 }
