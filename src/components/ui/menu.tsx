@@ -214,7 +214,7 @@ const MenuItem = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Item>, M
         data-type={type}
         data-active={isActive || undefined}
         className={cn(
-          "relative flex h-9 cursor-default select-none items-center gap-2 rounded-md px-2 text-label-14 text-foreground outline-none transition-colors data-highlighted:bg-gray-alpha-100 data-[disabled]:pointer-events-none data-[disabled]:text-muted-foreground data-[disabled]:opacity-60",
+          "relative flex h-9 cursor-default select-none items-center gap-2 rounded-md px-2 text-label-14 text-foreground outline-none transition-colors data-highlighted:bg-gray-alpha-100 data-[disabled]:pointer-events-none data-[disabled]:text-gray-700 data-[disabled]:opacity-100",
           isActive && "bg-gray-alpha-100",
           type === "error" &&
             "text-error-foreground data-highlighted:bg-destructive data-highlighted:text-destructive-foreground",
