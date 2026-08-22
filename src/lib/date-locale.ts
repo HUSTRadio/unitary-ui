@@ -98,13 +98,17 @@ export function getMonthTitle(date: Date, locale: string): string {
 
 /**
  * 相对时间短格式（官方单位与阈值，仅文案 locale 化）：
- * en → just now / 2m ago / 5h ago / Yesterday / 3d ago / 2w ago / 4mo ago / 1y ago；
- * zh → 刚刚 / 2分钟前 / 5小时前 / 昨天 / 3天前 / 2周前 / 4个月前 / 1年前。
+ * en → just now / 6s ago / 2m ago / 5h ago / Yesterday / 3d ago / 2w ago / 4mo ago / 1y ago；
+ * zh → 刚刚 / 6秒前 / 2分钟前 / 5小时前 / 昨天 / 3天前 / 2周前 / 4个月前 / 1年前。
  */
 export function formatRelativeTime(ms: number, locale: string): string {
   const zh = isZhLocale(locale);
   const elapsed = Date.now() - ms;
-  if (elapsed < MINUTE) return zh ? "刚刚" : "just now";
+  if (elapsed < 10_000) return zh ? "刚刚" : "just now";
+  if (elapsed < MINUTE) {
+    const n = Math.floor(elapsed / 1000);
+    return zh ? `${n}秒前` : `${n}s ago`;
+  }
   if (elapsed < HOUR) {
     const n = Math.floor(elapsed / MINUTE);
     return zh ? `${n}分钟前` : `${n}m ago`;
