@@ -14,16 +14,40 @@ import { useI18n } from "@/lib/i18n";
  * - children：自定义触发内容（官方用 <Button>Hover Me</Button>）；缺省渲染短相对时间文本
  * - 浮层材质复用 repo 语义 token（bg-popover / border-gray-alpha-400 / shadow-md），零 `dark:` 分支
  */
-function formatLocal(date: Date, locale: string): string {
-  return date.toLocaleString(locale, { dateStyle: "medium", timeStyle: "short" });
+/** 浮层日期/时间拆分展示（官方：日期行在左 label 块、时间值右对齐 mono）。 */
+function formatDateTimeParts(
+  date: Date,
+  locale: string,
+  timeZone?: string,
+): { date: string; time: string } {
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    ...(timeZone ? { timeZone } : {}),
+  };
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    ...(timeZone ? { timeZone } : {}),
+  };
+  return {
+    date: date.toLocaleDateString(locale, dateOptions),
+    time: date.toLocaleTimeString(locale, timeOptions),
+  };
 }
 
-function formatUtc(date: Date, locale: string): string {
-  return date.toLocaleString(locale, {
-    timeZone: "UTC",
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
+/** 本地时区短标签（官方浮层 Local 行左侧，如 "GMT+8"；不支持时回退 "Local"）。 */
+function getLocalTimeZoneLabel(date: Date, locale: string): string {
+  try {
+    const parts = new Intl.DateTimeFormat(locale, { timeZoneName: "shortOffset" }).formatToParts(
+      date,
+    );
+    return parts.find((part) => part.type === "timeZoneName")?.value ?? "Local";
+  } catch {
+    return "Local";
+  }
 }
 
 export interface RelativeTimeCardProps {
@@ -68,16 +92,41 @@ function RelativeTimeCard({
           sideOffset={6}
           align="start"
           className={cn(
-            "z-50 w-64 rounded-lg border border-gray-alpha-400 bg-popover px-3 py-2.5 text-popover-foreground shadow-md outline-none",
+            "z-50 min-w-[300px] rounded-lg border border-gray-alpha-400 bg-popover p-3 text-popover-foreground shadow-md outline-none",
             "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
             className,
           )}
         >
-          <div className="flex flex-col gap-0.5">
-            <span className="text-copy-14 text-foreground">{formatLocal(timestamp, locale)}</span>
-            <span className="text-copy-13 text-muted-foreground">
-              UTC {formatUtc(timestamp, locale)}
+          <div className="flex flex-col gap-3">
+            <span className="block text-[13px] leading-[19.5px] tabular-nums text-gray-900">
+              {formatRelativeTime(date, locale)}
             </span>
+            <div className="flex flex-col gap-2">
+              {[
+                {
+                  label: "UTC",
+                  ...formatDateTimeParts(timestamp, locale, "UTC"),
+                },
+                {
+                  label: getLocalTimeZoneLabel(timestamp, locale),
+                  ...formatDateTimeParts(timestamp, locale),
+                },
+              ].map((row) => (
+                <div
+                  key={row.label}
+                  data-slot="relative-time-card-row"
+                  className="flex items-center justify-between gap-3"
+                >
+                  <div className="flex items-center gap-1.5 text-copy-13 text-muted-foreground">
+                    <span>{row.label}</span>
+                    <span>{row.date}</span>
+                  </div>
+                  <span className="tabular-nums font-mono text-[12px] leading-[18px] text-gray-900">
+                    {row.time}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </HoverCardPrimitive.Content>
       </HoverCardPrimitive.Portal>
