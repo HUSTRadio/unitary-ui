@@ -9028,7 +9028,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
                   0: "var(--color-gray-1000)",
                   25: "var(--color-destructive)",
                   50: "var(--color-warning)",
-                  75: "var(--color-pink-600)",
+                  75: "var(--color-pink-800)",
                   100: "var(--color-progress)",
                 }}
               />

@@ -166,6 +166,17 @@ describe("Progress stops compatibility with labels", () => {
   });
 });
 
+describe("Progress Dynamic colors demo pink band (E1)", () => {
+  // 官方实测（vercel.com/geist/progress，双主题一致）：75 档 = --geist-highlight-pink = #ff0080。
+  // 本地 --color-pink-600（light #ff8ac4 / dark #921a4a）ΔE≈40 显著偏色；
+  // 最接近的现有 token 为 --color-pink-800 #d9216e（ΔE≈15.2，且双主题同值）。
+  test("docs Dynamic colors demo uses pink-800 (closest token to official #ff0080)", async () => {
+    const src = await read("docs/geist/src/components/docs-components-page.tsx");
+    expect(src).toContain('75: "var(--color-pink-800)"');
+    expect(src).not.toContain('75: "var(--color-pink-600)"');
+  });
+});
+
 describe("Progress stop ariaLabel (E4)", () => {
   test("stop ariaLabel renders as aria-label on the focusable trigger span", () => {
     const html = renderToStaticMarkup(
