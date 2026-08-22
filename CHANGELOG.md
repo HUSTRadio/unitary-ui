@@ -37,6 +37,12 @@ All notable changes to this project will be documented in this file.
 
 - `docs/geist/src/__tests__/parity-regression.test.ts`：14 项修复的源码断言回归测试（vitest），防止未来改动重新引入差异
 
+### Added — 框架扩展（有意偏离官方 Geist）
+
+> 官方 Vercel Geist 无对应实现；为满足本项目/平台可用性要求而添加，逐条注明偏离依据。
+
+- **Button 按压态 `active:`**：官方 Geist 有意不做 `:active` 按压样式，但 Apple HIG「Buttons」硬性要求自定义按钮必须提供按压态（"Always include a press state for a custom button"）。实心变体（default / error / warning）按压 `active:brightness-90`，表面变体（secondary / tertiary）按压 `active:bg-gray-alpha-300`。
+
 ### Not changed（YAGNI）
 
 - `--danger` token：保持 `#e5484d`（destructive-action-modal 按钮官方 `#da2f35` 已正确，改全局会破坏）

@@ -67,6 +67,21 @@ describe("Button official single-track API contract", () => {
     expect(src).not.toMatch(/\blg:\s/);
   });
 
+  test("press states: solid variants use active:brightness-90, surface variants active:bg-gray-alpha-300 (框架扩展)", async () => {
+    const src = await read("src/components/ui/button.tsx");
+    // 提取 cva type 变体键后的第一个带引号类串
+    const variantClasses = (name: string): string =>
+      src.match(new RegExp(`\\b${name}:\\s*\\n\\s*"([^"]*)"`))?.[1] ?? "";
+    // 实心变体：按压降亮度
+    for (const variant of ["default", "error", "warning"]) {
+      expect(variantClasses(variant)).toContain("active:brightness-90");
+    }
+    // 表面变体：按压加深灰底
+    for (const variant of ["secondary", "tertiary"]) {
+      expect(variantClasses(variant)).toContain("active:bg-gray-alpha-300");
+    }
+  });
+
   test("no consumer uses old variant names (destructive/outline/ghost)", async () => {
     const targets = [
       "src/App.tsx",

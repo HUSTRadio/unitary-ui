@@ -28,16 +28,17 @@ const buttonVariants = cva(
   {
     variants: {
       type: {
+        // 按压态 active: 为框架扩展（Apple HIG press-state 要求）；官方 Geist 无 :active 样式。
         default:
-          "bg-primary text-primary-foreground hover:bg-action-hover hover:text-primary-foreground",
+          "bg-primary text-primary-foreground hover:bg-action-hover hover:text-primary-foreground active:brightness-90",
         secondary:
-          "bg-background-100 text-foreground hover:bg-gray-alpha-200 hover:text-foreground",
+          "bg-background-100 text-foreground hover:bg-gray-alpha-200 hover:text-foreground active:bg-gray-alpha-300",
         tertiary:
-          "bg-transparent text-foreground hover:bg-gray-alpha-200 hover:text-foreground disabled:bg-transparent disabled:text-foreground disabled:opacity-50",
+          "bg-transparent text-foreground hover:bg-gray-alpha-200 hover:text-foreground disabled:bg-transparent disabled:text-foreground disabled:opacity-50 active:bg-gray-alpha-300",
         error:
-          "bg-button-error text-button-error-foreground hover:bg-button-error-hover hover:text-button-error-foreground",
+          "bg-button-error text-button-error-foreground hover:bg-button-error-hover hover:text-button-error-foreground active:brightness-90",
         warning:
-          "bg-button-warning text-button-warning-foreground hover:bg-button-warning-hover hover:text-button-warning-foreground",
+          "bg-button-warning text-button-warning-foreground hover:bg-button-warning-hover hover:text-button-warning-foreground active:brightness-90",
       },
       size: {
         tiny: "h-6 rounded-[4px] px-1.5 [&_svg]:size-3",
