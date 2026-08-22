@@ -73,7 +73,11 @@ function Tooltip({
               {
                 "--tooltip-background": colors.background,
                 "--tooltip-foreground": colors.foreground,
+                /* 官方 tooltip 材质：1px 边框（shadow-as-border）+ 轻投影；
+                   箭头描边与主体边框同源，保证气泡轮廓连续。 */
                 "--tooltip-tip-stroke": "var(--gray-alpha-400)",
+                boxShadow:
+                  "0 0 0 1px var(--gray-alpha-400), 0 1px 1px #00000005, 0 4px 8px #0000000a",
               } as React.CSSProperties
             }
             className={cn(
