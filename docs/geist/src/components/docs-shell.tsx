@@ -37,9 +37,12 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
             aria-label={copy.menuOpenAria}
             aria-haspopup="dialog"
             aria-expanded={menuOpen}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-gray-alpha-100 hover:text-foreground focus-ring lg:hidden"
+            className="group -m-1.5 shrink-0 rounded-md p-1.5 focus-ring lg:hidden"
           >
-            <MenuIcon className="size-4" aria-hidden />
+            {/* 视觉保持 32px，命中区经 -m-1.5 p-1.5 扩到 44px（Apple HIG ≥44pt / WCAG 2.5.8） */}
+            <span className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors group-hover:bg-gray-alpha-100 group-hover:text-foreground">
+              <MenuIcon className="size-4" aria-hidden />
+            </span>
           </button>
           <a href="#/" className="flex shrink-0 items-center gap-2" aria-label={copy.homeAria}>
             <svg viewBox="0 0 24 24" className="size-5 fill-foreground" aria-hidden>
@@ -74,9 +77,12 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               type="button"
               onClick={onSearchOpen}
               aria-label={copy.searchAria}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-gray-alpha-100 hover:text-foreground focus-ring lg:hidden"
+              className="group -m-1.5 shrink-0 rounded-md p-1.5 focus-ring lg:hidden"
             >
-              <Search className="size-4" aria-hidden />
+              {/* 视觉保持 32px，命中区扩到 44px（同汉堡按钮） */}
+              <span className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors group-hover:bg-gray-alpha-100 group-hover:text-foreground">
+                <Search className="size-4" aria-hidden />
+              </span>
             </button>
             <MenuContainer position="bottom-end">
               <MenuButton
