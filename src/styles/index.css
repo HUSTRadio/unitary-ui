@@ -1267,15 +1267,16 @@
   }
 }
 
-/* CopyButton 对勾描边绘制：lucide Check 首子元素即对勾笔画（path 长约 11.3），
-   dash 16 覆盖全长，offset 16→0 画出对勾。不修改图标 SVG，仅外层样式驱动。 */
+/* CopyButton 对勾描边绘制：lucide Check 首子元素即对勾笔画，浏览器 getTotalLength
+   实测全长 22.63（viewBox 坐标系）。dash 取 24（≥ 全长留余量），offset 24→0 完整画出对勾；
+   动画 fill-mode both 使结束态永久保持 offset 0。不修改图标 SVG，仅外层样式驱动。 */
 @keyframes copy-check-draw {
   from {
-    stroke-dasharray: 16;
-    stroke-dashoffset: 16;
+    stroke-dasharray: 24;
+    stroke-dashoffset: 24;
   }
   to {
-    stroke-dasharray: 16;
+    stroke-dasharray: 24;
     stroke-dashoffset: 0;
   }
 }
