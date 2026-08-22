@@ -62,7 +62,9 @@ export const DEMO_CODE: Record<string, Record<string, string>> = {
   comboboxWide
   comboboxLabel="Combobox Menu"
   comboboxPlaceholder="Select Period"
-  presets={["Last 3 Days", "Last 7 Days", "Last 14 Days", "Last Month"]}
+  presets={{
+    "last-7-days": { text: "Last 7 Days", start: new Date(2026, 7, 14), end: new Date(2026, 7, 21) },
+  }}
 />`,
     compact: `import { Calendar } from "@/components/ui/calendar";
 
@@ -70,7 +72,9 @@ export const DEMO_CODE: Record<string, Record<string, string>> = {
   label="Select Date Range"
   compact
   comboboxLabel="Combobox Menu"
-  presets={["Last 3 Days", "Last 7 Days", "Last 14 Days", "Last Month"]}
+  presets={{
+    "last-7-days": { text: "Last 7 Days", start: new Date(2026, 7, 14), end: new Date(2026, 7, 21) },
+  }}
 />`,
     stacked: `import { Calendar } from "@/components/ui/calendar";
 
@@ -79,7 +83,9 @@ export const DEMO_CODE: Record<string, Record<string, string>> = {
   stacked
   comboboxLabel="Combobox Menu"
   comboboxPlaceholder="Select Period"
-  presets={["Last 3 Days", "Last 7 Days", "Last 14 Days", "Last Month"]}
+  presets={{
+    "last-7-days": { text: "Last 7 Days", start: new Date(2026, 7, 14), end: new Date(2026, 7, 21) },
+  }}
 />`,
     "presets-default": `import { Calendar } from "@/components/ui/calendar";
 
@@ -91,8 +97,10 @@ export const DEMO_CODE: Record<string, Record<string, string>> = {
   comboboxWide
   comboboxLabel="Combobox Menu"
   comboboxPlaceholder="Select Period"
-  presets={["Last 3 Days", "Last 7 Days", "Last 14 Days", "Last Month"]}
-  presetIndex={2}
+  presets={{
+    "last-7-days": { text: "Last 7 Days", start: new Date(2026, 7, 14), end: new Date(2026, 7, 21) },
+  }}
+  presetIndex={0}
 />`,
     "min-max": `import { Calendar } from "@/components/ui/calendar";
 

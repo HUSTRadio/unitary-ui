@@ -273,7 +273,9 @@ export function IconsPage() {
 
   return (
     <div>
-      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">{demoText(language, "Icons")}</h1>
+      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">
+        {demoText(language, "Icons")}
+      </h1>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         {demoText(language, "Icon set tailored for developer tools.")}
       </p>

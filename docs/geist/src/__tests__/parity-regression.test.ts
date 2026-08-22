@@ -3,16 +3,20 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 describe("parity regression: 12 项差异", () => {
-  it("error 容器含 text-[#cb2a2f] dark:text-[#ff6166]（差异 #1）", () => {
+  it("error 容器消费 inline error 前景 token（差异 #1）", () => {
     const code = readFileSync(join(__dirname, "../../../../src/components/ui/error.tsx"), "utf8");
-    expect(code).toContain("text-[#cb2a2f]");
-    expect(code).toContain("dark:text-[#ff6166]");
+    const css = readFileSync(join(__dirname, "../../../../src/styles/index.css"), "utf8");
+    expect(code).toContain("text-error-foreground");
+    expect(css).toContain("--error-foreground: #cb2a2f");
+    expect(css).toContain("--error-foreground: #ff6166");
   });
 
-  it("error-card 容器含 text-[#cb2a2f] dark:text-[#ff6166]（差异 #2）", () => {
-    const code = readFileSync(join(__dirname, "../../../../src/components/ui/error-card.tsx"), "utf8");
-    expect(code).toContain("text-[#cb2a2f]");
-    expect(code).toContain("dark:text-[#ff6166]");
+  it("error-card 容器消费 inline error 前景 token（差异 #2）", () => {
+    const code = readFileSync(
+      join(__dirname, "../../../../src/components/ui/error-card.tsx"),
+      "utf8",
+    );
+    expect(code).toContain("text-error-foreground");
   });
 
   it("entity 描述含 text-muted-foreground（差异 #3）", () => {
@@ -21,12 +25,18 @@ describe("parity regression: 12 项差异", () => {
   });
 
   it("json-view 标点 span 含 text-foreground（差异 #4）", () => {
-    const code = readFileSync(join(__dirname, "../../../../src/components/ui/json-view.tsx"), "utf8");
+    const code = readFileSync(
+      join(__dirname, "../../../../src/components/ui/json-view.tsx"),
+      "utf8",
+    );
     expect(code).toContain("text-foreground");
   });
 
   it("textarea/input 含 text-black dark:text-white（差异 #5）", () => {
-    const taCode = readFileSync(join(__dirname, "../../../../src/components/ui/textarea.tsx"), "utf8");
+    const taCode = readFileSync(
+      join(__dirname, "../../../../src/components/ui/textarea.tsx"),
+      "utf8",
+    );
     const inCode = readFileSync(join(__dirname, "../../../../src/components/ui/input.tsx"), "utf8");
     expect(taCode).toContain("text-black dark:text-white");
     expect(inCode).toContain("text-black dark:text-white");
@@ -39,11 +49,14 @@ describe("parity regression: 12 项差异", () => {
 
   it("badge pill 变体含 text-black dark:text-white（差异 #7）", () => {
     const code = readFileSync(join(__dirname, "../../../../src/components/ui/badge.tsx"), "utf8");
-    expect(code).toContain("pill: \"bg-background text-black dark:text-white");
+    expect(code).toContain('pill: "bg-background text-black dark:text-white');
   });
 
   it("file-tree label 含 leading-7 text-center（差异 #8）", () => {
-    const code = readFileSync(join(__dirname, "../../../../src/components/ui/file-tree.tsx"), "utf8");
+    const code = readFileSync(
+      join(__dirname, "../../../../src/components/ui/file-tree.tsx"),
+      "utf8",
+    );
     expect(code).toContain("leading-7 text-center");
   });
 
@@ -53,14 +66,20 @@ describe("parity regression: 12 项差异", () => {
     expect(matches && matches.length).toBeGreaterThanOrEqual(2);
   });
 
-  it("drawer demo 按钮含 type=\"default\"（差异 #10）", () => {
-    const code = readFileSync(join(__dirname, "../../src/components/docs-components-page.tsx"), "utf8");
-    expect(code).toContain("type=\"default\"");
+  it('drawer demo 按钮含 type="default"（差异 #10）', () => {
+    const code = readFileSync(
+      join(__dirname, "../../src/components/docs-components-page.tsx"),
+      "utf8",
+    );
+    expect(code).toContain('type="default"');
   });
 
-  it("modal demo 按钮含 type=\"default\"（差异 #11）", () => {
-    const code = readFileSync(join(__dirname, "../../src/components/docs-components-page.tsx"), "utf8");
-    expect(code).toContain("type=\"default\"");
+  it('modal demo 按钮含 type="default"（差异 #11）', () => {
+    const code = readFileSync(
+      join(__dirname, "../../src/components/docs-components-page.tsx"),
+      "utf8",
+    );
+    expect(code).toContain('type="default"');
   });
 
   it("docs 页 H1 类含 text-heading-24 sm:text-heading-40（差异 #12）", () => {

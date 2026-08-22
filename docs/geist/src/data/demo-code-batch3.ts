@@ -58,7 +58,7 @@ export const DEMO_CODE_BATCH3: Record<string, Record<string, string>> = {
   },
   drawer: {
     default: `import { Button } from "@/components/ui/button";
-import { Drawer } from "@/components/ui/drawer";
+import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
 import { useState } from "react";
 
 const [open, setOpen] = useState(false);
@@ -68,12 +68,12 @@ const [open, setOpen] = useState(false);
 </Button>
 <Drawer show={open} onDismiss={() => setOpen(false)} verticalScroll>
   <div className="flex flex-col items-stretch justify-start gap-2 p-12">
-    <p className="text-center text-[18px] font-semibold leading-[24px]">A drawer title</p>
-    <p className="text-center text-copy-14">Drawer body</p>
+    <DrawerTitle className="text-center">A drawer title</DrawerTitle>
+    <DrawerDescription className="text-center">Drawer body</DrawerDescription>
   </div>
 </Drawer>`,
     "custom-height": `import { Button } from "@/components/ui/button";
-import { Drawer } from "@/components/ui/drawer";
+import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
 import { useState } from "react";
 
 const [open, setOpen] = useState(false);
@@ -83,8 +83,8 @@ const [open, setOpen] = useState(false);
 </Button>
 <Drawer height={200} show={open} onDismiss={() => setOpen(false)} verticalScroll>
   <div className="flex flex-col items-stretch justify-start gap-2 p-12">
-    <p className="text-center text-[18px] font-semibold leading-[24px]">A drawer title</p>
-    <p className="text-center text-copy-14">Drawer body</p>
+    <DrawerTitle className="text-center">A drawer title</DrawerTitle>
+    <DrawerDescription className="text-center">Drawer body</DrawerDescription>
   </div>
 </Drawer>`,
   },

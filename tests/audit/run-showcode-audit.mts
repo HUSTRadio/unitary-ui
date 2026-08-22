@@ -10,10 +10,7 @@ const report = await auditShowCode(root, DEMO_CODE);
 
 const outDir = path.join(root, ".hermes/audit");
 await mkdir(outDir, { recursive: true });
-await writeFile(
-  path.join(outDir, "showcode-audit-baseline.json"),
-  JSON.stringify(report, null, 2),
-);
+await writeFile(path.join(outDir, "showcode-audit-baseline.json"), JSON.stringify(report, null, 2));
 
 console.log("totalReferences:", report.totalReferences);
 console.log("ok:", report.okCount);

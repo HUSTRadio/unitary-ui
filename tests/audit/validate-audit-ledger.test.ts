@@ -302,7 +302,10 @@ describe("Geist audit evidence collector (Task 3: demo / state recipe / ancestry
 
   const runCollector = (extra: string[]) => {
     try {
-      const output = execFileSync(process.execPath, [collector, ...extra], { encoding: "utf8" });
+      const output = execFileSync(process.execPath, [collector, ...extra], {
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "pipe"],
+      });
       return {
         ok: true as const,
         config: JSON.parse(output),

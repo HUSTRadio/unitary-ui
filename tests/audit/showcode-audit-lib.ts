@@ -41,8 +41,7 @@ export function extractReferences(pageSource: string): { slug: string; id: strin
   const anchorLiteral =
     /const (?:demoCode|sectionCode) = \((?:id|title): string\) => DEMO_CODE(?:\.([\w-]+)|\["([\w-]+)"\])\?\.\[(?:id|title)\]/g;
   // 锚点 2：泛型 DEMO_CODE[name]（renderExtraSections 内，slug 由最近的 case 决定）
-  const anchorGeneric =
-    /const sectionCode = \(title: string\) => DEMO_CODE\[name\]\?\.\[title\]/g;
+  const anchorGeneric = /const sectionCode = \(title: string\) => DEMO_CODE\[name\]\?\.\[title\]/g;
   const caseMarks = [...pageSource.matchAll(/^\s*case "([^"]+)":/gm)].map((m) => ({
     slug: m[1],
     pos: m.index ?? 0,
@@ -88,8 +87,7 @@ export function extractReferences(pageSource: string): { slug: string; id: strin
   // B3: const demos = [{ id: "字面量" ... }] — 经 demoCode(demo.id) 消费
   // B4: card("字面量", ...) — 局部 card(id) 辅助函数
   // B5: const demoVariants = ["字面量", ...] — 经 demoCode(name) 消费
-  const dynamicCallPattern =
-    /(?:demoCode|sectionCode)\((?:id|demo\.id|demoId|name)\)/g;
+  const dynamicCallPattern = /(?:demoCode|sectionCode)\((?:id|demo\.id|demoId|name)\)/g;
   const simpleIdSources = [
     /<(?:Card|Section|ContextCardDemoCard) id="([^"]+)">/g,
     /demoId="([^"]+)"/g,

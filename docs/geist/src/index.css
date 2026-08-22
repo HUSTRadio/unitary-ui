@@ -9,3 +9,38 @@
  */
 @import "../../../src/styles/index.css";
 @source "../../../src/components";
+
+/* A live demo shows the standard form only. State/variant samples retain their
+   own titled sections below, so the same control is not repeated twice. */
+[data-demo-component="button"][data-demo-mode="live"]
+  [data-demo-card]:not([data-demo-card="sizes"]),
+[data-demo-component="switch"][data-demo-mode="live"]
+  [data-demo-card]:not([data-demo-card="default"]),
+[data-demo-component="toggle"][data-demo-mode="live"]
+  [data-demo-card]:not([data-demo-card="default"]),
+[data-demo-component="radio"][data-demo-mode="live"]
+  [data-demo-card]:not([data-demo-card="default"]),
+[data-demo-component="label"][data-demo-mode="live"]
+  [data-demo-card]:not([data-demo-card="default"]),
+[data-demo-component="collapse"][data-demo-mode="live"]
+  [data-demo-card]:not([data-demo-card="default"]),
+[data-demo-component="video"][data-demo-mode="live"]
+  [data-demo-card]:not([data-demo-card="default"]) {
+  display: none;
+}
+
+[data-demo-component="button"][data-demo-mode="states"] [data-demo-card="sizes"],
+[data-demo-component="button"][data-demo-mode="states"]
+  [data-demo-card="all-types-and-sizes-in-comparison"],
+[data-demo-component="button"][data-demo-mode="states"] [data-demo-card="prefix-and-suffix"] {
+  display: none;
+}
+
+[data-demo-component="checkbox"][data-demo-mode="live"] [data-demo-card="indeterminate"],
+[data-demo-component="select"][data-demo-mode="live"] [data-demo-card="with-options"],
+[data-demo-component="textarea"][data-demo-mode="live"] [data-demo-card="error"],
+[data-demo-component="textarea"][data-demo-mode="live"] [data-demo-card="sizes"],
+[data-demo-component="textarea"][data-demo-mode="live"] [data-demo-card="read-only"],
+[data-demo-component="textarea"][data-demo-mode="live"] [data-demo-card="rows"] {
+  display: none;
+}

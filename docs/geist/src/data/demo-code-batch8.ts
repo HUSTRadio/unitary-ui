@@ -600,8 +600,6 @@ const handleSelectAll = () => {
           onChange={() => handleItemToggle(item.id)}
           onSelectOnly={() => handleSelectOnly(item.id)}
           onSelectAll={handleSelectAll}
-          selectedCount={selectedItems.size}
-          totalCount={actionItems.length}
           count={item.count}
         />
       ))}
@@ -666,8 +664,6 @@ const handleSelectAll = () => {
           onChange={() => handleItemToggle(item.id)}
           onSelectOnly={() => handleSelectOnly(item.id)}
           onSelectAll={handleSelectAll}
-          selectedCount={selectedItems.size}
-          totalCount={keyboardShortcuts.length}
           count={item.count}
         />
       ))}
@@ -743,8 +739,6 @@ const handlePresetAdvanced = () => {
           onChange={() => handleItemToggle(item.id)}
           onSelectOnly={() => handleSelectOnly(item.id)}
           onSelectAll={handleSelectAll}
-          selectedCount={selectedItems.size}
-          totalCount={controlledItems.length}
           count={item.count}
         />
       ))}

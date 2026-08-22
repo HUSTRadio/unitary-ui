@@ -19,6 +19,9 @@ test("list sections without code prop", async () => {
       sections.push({ slug: nearest?.slug ?? "?", title: m[1] });
     }
   }
-  const lines = sections.map((s) => `${s.slug} | ${s.title}${DEMO_CODE[s.slug]?.[s.title] !== undefined ? " [数据有]" : " [数据缺]"}`);
+  const lines = sections.map(
+    (s) =>
+      `${s.slug} | ${s.title}${DEMO_CODE[s.slug]?.[s.title] !== undefined ? " [数据有]" : " [数据缺]"}`,
+  );
   expect(sections, `无 code 的 Section（${sections.length} 条）:\n` + lines.join("\n")).toEqual([]);
 });

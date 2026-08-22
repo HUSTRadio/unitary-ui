@@ -108,6 +108,9 @@ const icon = <ArrowUpCircle aria-hidden />;
     small: `import { Kbd } from "@/components/ui/keyboard-input";
 
 <Kbd small>/</Kbd>`,
+    "plain-command": `import { Kbd } from "@/components/ui/keyboard-input";
+
+<Kbd plain meta>K</Kbd>`,
   },
   label: {
     default: `import { Label } from "@/components/ui/label";

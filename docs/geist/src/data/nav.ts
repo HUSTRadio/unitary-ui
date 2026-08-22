@@ -37,6 +37,11 @@ export const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
+    title: "API",
+    titleZh: "API",
+    items: [{ label: "Lifecycle & Hooks", labelZh: "生命周期与钩子", to: "/lifecycle-and-hooks" }],
+  },
+  {
     title: "Components",
     titleZh: "组件",
     items: [...COMPONENTS]

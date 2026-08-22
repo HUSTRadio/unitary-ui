@@ -6,6 +6,7 @@ import { DocsPagination, FeedbackPanel } from "./components/docs-feedback";
 import { ComponentsPage } from "./components/docs-components-page";
 import { Toasts } from "@/components/ui/toast";
 import { IconsPage } from "./components/docs-icons";
+import { LifecycleAndHooksPage } from "./components/docs-api-reference";
 import {
   ColorsPage,
   GridPage,
@@ -34,6 +35,7 @@ const PAGE_COMPONENTS: Record<string, ComponentType> = {
   "/grid": GridPage,
   "/components": ComponentsPage,
   "/icons": IconsPage,
+  "/lifecycle-and-hooks": LifecycleAndHooksPage,
 };
 
 const PAGE_TITLES: Record<string, string> = {
@@ -45,6 +47,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/grid": "Grid",
   "/components": "Components",
   "/icons": "Icons",
+  "/lifecycle-and-hooks": "Lifecycle & Hooks",
 };
 
 function getPageTitle(pathname: string, language: DocsLanguage) {

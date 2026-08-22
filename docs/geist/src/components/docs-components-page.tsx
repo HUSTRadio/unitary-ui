@@ -109,7 +109,7 @@ import {
 } from "@/components/ui/error-card";
 import { Error } from "@/components/ui/error";
 import { Feedback } from "@/components/ui/feedback";
-import { Drawer } from "@/components/ui/drawer";
+import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
 import {
   DisabledWall,
   ErrorText,
@@ -125,7 +125,7 @@ import {
 } from "@/components/ui/fieldset";
 import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@/components/ui/file-tree";
 import { Gauge } from "@/components/ui/gauge";
-import { Grid, GridCell, GridCross, GridItem, GridPage, GridSystem } from "@/components/ui/grid";
+import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui/grid";
 import { Input } from "@/components/ui/input";
 import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view";
 import { Kbd } from "@/components/ui/keyboard-input";
@@ -193,6 +193,7 @@ import {
   TableFooter,
   TableHead,
   TableHeader,
+  TableRoot,
   TableRow,
 } from "@/components/ui/table";
 import { Tabs } from "@/components/ui/tabs";
@@ -205,6 +206,7 @@ import { Tooltip } from "@/components/ui/tooltip";
 import { Video } from "@/components/ui/video";
 
 import { COMPONENTS, type ComponentMeta } from "../data/components";
+import { ComponentApiReference } from "./docs-api-reference";
 import { DEMO_CODE } from "../data/demo-code";
 import { demoText, demoTextWithValues } from "../i18n/components-demo";
 import { type DocsLanguage, useLanguage } from "../i18n/language";
@@ -219,8 +221,27 @@ import { type DocsLanguage, useLanguage } from "../i18n/language";
 
 /* ---------- Demo 容器 ---------- */
 
-function DemoSection({ children }: { children: React.ReactNode }) {
-  return <div className="mt-6">{children}</div>;
+function DemoSection({
+  children,
+  componentName,
+}: {
+  children: React.ReactNode;
+  componentName?: string;
+}) {
+  return (
+    <div className="mt-6" data-demo-component={componentName} data-demo-mode="live">
+      {children}
+    </div>
+  );
+}
+
+/** Presents selected cards from an existing demo in a titled follow-up section. */
+function ComponentDemoCards({ name, children }: { name: string; children: React.ReactNode }) {
+  return (
+    <div data-demo-component={name} data-demo-mode="states">
+      {children}
+    </div>
+  );
 }
 
 function TableDemoCard({ children, code }: { children: React.ReactNode; code: string }) {
@@ -2170,24 +2191,26 @@ function TableDemo() {
       data-demo-card="Default"
     >
       <div className="w-full p-6" data-demo-container="Default">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Col 1</TableHead>
-              <TableHead>Col 2</TableHead>
-              <TableHead>Col 3</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {basicData.map((row) => (
-              <TableRow key={row.c1}>
-                <TableCell>{row.c1}</TableCell>
-                <TableCell>{row.c2}</TableCell>
-                <TableCell>{row.c3}</TableCell>
+        <TableRoot>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Col 1</TableHead>
+                <TableHead>Col 2</TableHead>
+                <TableHead>Col 3</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {basicData.map((row) => (
+                <TableRow key={row.c1}>
+                  <TableCell>{row.c1}</TableCell>
+                  <TableCell>{row.c2}</TableCell>
+                  <TableCell>{row.c3}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableRoot>
       </div>
       <ShowCodeFooter code={demoCode("Default")} />
     </div>
@@ -2792,10 +2815,10 @@ function DrawerDemo() {
 
   const drawerBody = (
     <div className="flex flex-col items-stretch justify-start gap-2 p-12">
-      <p className="text-center text-[18px] font-semibold leading-[24px]">
-        {demoText(language, "A drawer title")}
-      </p>
-      <p className="text-center text-copy-14">{demoText(language, "Drawer body")}</p>
+      <DrawerTitle className="text-center">{demoText(language, "A drawer title")}</DrawerTitle>
+      <DrawerDescription className="text-center">
+        {demoText(language, "Drawer body")}
+      </DrawerDescription>
     </div>
   );
 
@@ -3176,7 +3199,18 @@ function BrowserDemo() {
   );
 }
 
-function CalendarDemo() {
+type CalendarDemoExample =
+  | "default"
+  | "horizontal-layout"
+  | "sizes"
+  | "presets"
+  | "compact"
+  | "stacked"
+  | "presets-default"
+  | "min-max"
+  | "pinned-timezone";
+
+function CalendarDemo({ example = "default" }: { example?: CalendarDemoExample }) {
   const { language } = useLanguage();
   const triggerLabel = demoText(language, "Select Date Range");
   const periodLabel = demoText(language, "Select Period");
@@ -3185,14 +3219,32 @@ function CalendarDemo() {
   const presetTexts = (() => {
     const now = new Date();
     const startOfDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    const endOfDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
+    const endOfDay = (d: Date) =>
+      new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
     const subDays = (d: Date, n: number) => new Date(d.getTime() - n * 86_400_000);
-    const subMonths = (d: Date, n: number) => new Date(d.getFullYear(), d.getMonth() - n, d.getDate());
+    const subMonths = (d: Date, n: number) =>
+      new Date(d.getFullYear(), d.getMonth() - n, d.getDate());
     return {
-      "last-3-days": { text: demoText(language, "Last 3 Days"), start: startOfDay(subDays(now, 3)), end: endOfDay(now) },
-      "last-7-days": { text: demoText(language, "Last 7 Days"), start: startOfDay(subDays(now, 7)), end: endOfDay(now) },
-      "last-14-days": { text: demoText(language, "Last 14 Days"), start: startOfDay(subDays(now, 14)), end: endOfDay(now) },
-      "last-month": { text: demoText(language, "Last Month"), start: startOfDay(subMonths(now, 1)), end: endOfDay(now) },
+      "last-3-days": {
+        text: demoText(language, "Last 3 Days"),
+        start: startOfDay(subDays(now, 3)),
+        end: endOfDay(now),
+      },
+      "last-7-days": {
+        text: demoText(language, "Last 7 Days"),
+        start: startOfDay(subDays(now, 7)),
+        end: endOfDay(now),
+      },
+      "last-14-days": {
+        text: demoText(language, "Last 14 Days"),
+        start: startOfDay(subDays(now, 14)),
+        end: endOfDay(now),
+      },
+      "last-month": {
+        text: demoText(language, "Last Month"),
+        start: startOfDay(subMonths(now, 1)),
+        end: endOfDay(now),
+      },
     };
   })();
 
@@ -3259,157 +3311,175 @@ function CalendarDemo() {
 
   return (
     <div className="w-full max-w-[862px] space-y-6">
-      <div
-        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="default"
-      >
-        <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="default">
-            <div className="flex justify-center py-12">
-              <Calendar label={triggerLabel} />
-            </div>
-          </div>
-        </div>
-        <ShowCodeFooter code={demoCode("default")} />
-      </div>
-      <div
-        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="horizontal-layout"
-      >
-        <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="horizontal-layout">
-            <div className="flex justify-center py-12">
-              <Calendar label={triggerLabel} horizontalLayout />
-            </div>
-          </div>
-        </div>
-        <ShowCodeFooter code={demoCode("horizontal-layout")} />
-      </div>
-      <div
-        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="sizes"
-      >
-        <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="sizes">
-            <div className="py-12 space-y-12">
-              <div>
-                <p className="text-copy-14 text-gray-900 mb-4 font-mono">small</p>
-                <div className="flex flex-wrap items-start gap-x-4 gap-y-12">{smallItems}</div>
-              </div>
-              <div>
-                <p className="text-copy-14 text-gray-900 mb-4 font-mono">default / medium</p>
-                <div className="flex flex-wrap items-start gap-x-4 gap-y-12">{mediumItems}</div>
+      {example === "default" ? (
+        <div
+          className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+          data-demo-card="default"
+        >
+          <div className="flex w-full overflow-x-auto md:overflow-visible">
+            <div className="w-full p-6" data-demo-container="default">
+              <div className="flex justify-center py-12">
+                <Calendar label={triggerLabel} />
               </div>
             </div>
           </div>
+          <ShowCodeFooter code={demoCode("default")} />
         </div>
-        <ShowCodeFooter code={demoCode("sizes")} />
-      </div>
-      <div
-        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="presets"
-      >
-        <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="presets">
-            <div className="flex justify-center py-12">
-              <Calendar
-                label={triggerLabel}
-                showCombobox
-                comboboxFirst
-                comboboxFull
-                comboboxWide
-                comboboxLabel={comboboxLabel}
-                comboboxPlaceholder={periodLabel}
-                presets={presetTexts}
-              />
+      ) : null}
+      {example === "horizontal-layout" ? (
+        <div
+          className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+          data-demo-card="horizontal-layout"
+        >
+          <div className="flex w-full overflow-x-auto md:overflow-visible">
+            <div className="w-full p-6" data-demo-container="horizontal-layout">
+              <div className="flex justify-center py-12">
+                <Calendar label={triggerLabel} horizontalLayout />
+              </div>
             </div>
           </div>
+          <ShowCodeFooter code={demoCode("horizontal-layout")} />
         </div>
-        <ShowCodeFooter code={demoCode("presets")} />
-      </div>
-      <div
-        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="compact"
-      >
-        <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="compact">
-            <div className="flex justify-center py-12">
-              <Calendar
-                label={triggerLabel}
-                compact
-                comboboxLabel={comboboxLabel}
-                presets={presetTexts}
-              />
+      ) : null}
+      {example === "sizes" ? (
+        <div
+          className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+          data-demo-card="sizes"
+        >
+          <div className="flex w-full overflow-x-auto md:overflow-visible">
+            <div className="w-full p-6" data-demo-container="sizes">
+              <div className="py-12 space-y-12">
+                <div>
+                  <p className="text-copy-14 text-gray-900 mb-4 font-mono">small</p>
+                  <div className="flex flex-wrap items-start gap-x-4 gap-y-12">{smallItems}</div>
+                </div>
+                <div>
+                  <p className="text-copy-14 text-gray-900 mb-4 font-mono">default / medium</p>
+                  <div className="flex flex-wrap items-start gap-x-4 gap-y-12">{mediumItems}</div>
+                </div>
+              </div>
             </div>
           </div>
+          <ShowCodeFooter code={demoCode("sizes")} />
         </div>
-        <ShowCodeFooter code={demoCode("compact")} />
-      </div>
-      <div
-        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="stacked"
-      >
-        <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="stacked">
-            <div className="flex justify-center py-12">
-              <Calendar
-                label={triggerLabel}
-                stacked
-                comboboxLabel={comboboxLabel}
-                comboboxPlaceholder={periodLabel}
-                presets={presetTexts}
-              />
+      ) : null}
+      {example === "presets" ? (
+        <div
+          className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+          data-demo-card="presets"
+        >
+          <div className="flex w-full overflow-x-auto md:overflow-visible">
+            <div className="w-full p-6" data-demo-container="presets">
+              <div className="flex justify-center py-12">
+                <Calendar
+                  label={triggerLabel}
+                  showCombobox
+                  comboboxFirst
+                  comboboxFull
+                  comboboxWide
+                  comboboxLabel={comboboxLabel}
+                  comboboxPlaceholder={periodLabel}
+                  presets={presetTexts}
+                />
+              </div>
             </div>
           </div>
+          <ShowCodeFooter code={demoCode("presets")} />
         </div>
-        <ShowCodeFooter code={demoCode("stacked")} />
-      </div>
-      <div
-        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="presets-default"
-      >
-        <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="presets-default">
-            <div className="flex justify-center py-12">
-              <Calendar
-                label={triggerLabel}
-                stacked
-                comboboxLabel={comboboxLabel}
-                comboboxPlaceholder={periodLabel}
-                presets={presetTexts}
-                presetIndex={2}
-              />
+      ) : null}
+      {example === "compact" ? (
+        <div
+          className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+          data-demo-card="compact"
+        >
+          <div className="flex w-full overflow-x-auto md:overflow-visible">
+            <div className="w-full p-6" data-demo-container="compact">
+              <div className="flex justify-center py-12">
+                <Calendar
+                  label={triggerLabel}
+                  compact
+                  comboboxLabel={comboboxLabel}
+                  presets={presetTexts}
+                />
+              </div>
             </div>
           </div>
+          <ShowCodeFooter code={demoCode("compact")} />
         </div>
-        <ShowCodeFooter code={demoCode("presets-default")} />
-      </div>
-      <div
-        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="min-max"
-      >
-        <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="min-max">
-            <div className="flex justify-center py-12">
-              <Calendar label={triggerLabel} minValue={minDate} maxValue={maxDate} />
+      ) : null}
+      {example === "stacked" ? (
+        <div
+          className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+          data-demo-card="stacked"
+        >
+          <div className="flex w-full overflow-x-auto md:overflow-visible">
+            <div className="w-full p-6" data-demo-container="stacked">
+              <div className="flex justify-center py-12">
+                <Calendar
+                  label={triggerLabel}
+                  stacked
+                  comboboxLabel={comboboxLabel}
+                  comboboxPlaceholder={periodLabel}
+                  presets={presetTexts}
+                />
+              </div>
             </div>
           </div>
+          <ShowCodeFooter code={demoCode("stacked")} />
         </div>
-        <ShowCodeFooter code={demoCode("min-max")} />
-      </div>
-      <div
-        className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="pinned-timezone"
-      >
-        <div className="flex w-full overflow-x-auto md:overflow-visible">
-          <div className="w-full p-6" data-demo-container="pinned-timezone">
-            <div className="flex justify-center py-12">
-              <Calendar label={triggerLabel} pinnedTimezone="America/Los_Angeles" />
+      ) : null}
+      {example === "presets-default" ? (
+        <div
+          className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+          data-demo-card="presets-default"
+        >
+          <div className="flex w-full overflow-x-auto md:overflow-visible">
+            <div className="w-full p-6" data-demo-container="presets-default">
+              <div className="flex justify-center py-12">
+                <Calendar
+                  label={triggerLabel}
+                  stacked
+                  comboboxLabel={comboboxLabel}
+                  comboboxPlaceholder={periodLabel}
+                  presets={presetTexts}
+                  presetIndex={2}
+                />
+              </div>
             </div>
           </div>
+          <ShowCodeFooter code={demoCode("presets-default")} />
         </div>
-        <ShowCodeFooter code={demoCode("pinned-timezone")} />
-      </div>
+      ) : null}
+      {example === "min-max" ? (
+        <div
+          className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+          data-demo-card="min-max"
+        >
+          <div className="flex w-full overflow-x-auto md:overflow-visible">
+            <div className="w-full p-6" data-demo-container="min-max">
+              <div className="flex justify-center py-12">
+                <Calendar label={triggerLabel} minValue={minDate} maxValue={maxDate} />
+              </div>
+            </div>
+          </div>
+          <ShowCodeFooter code={demoCode("min-max")} />
+        </div>
+      ) : null}
+      {example === "pinned-timezone" ? (
+        <div
+          className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+          data-demo-card="pinned-timezone"
+        >
+          <div className="flex w-full overflow-x-auto md:overflow-visible">
+            <div className="w-full p-6" data-demo-container="pinned-timezone">
+              <div className="flex justify-center py-12">
+                <Calendar label={triggerLabel} pinnedTimezone="America/Los_Angeles" />
+              </div>
+            </div>
+          </div>
+          <ShowCodeFooter code={demoCode("pinned-timezone")} />
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -3692,48 +3762,18 @@ function CommandMenuDemo() {
 function GridDemo() {
   return (
     <div className="w-full max-w-2xl space-y-4">
-      <Grid columns={3} gap="md">
-        {[1, 2, 3, 4, 5, 6].map((n) => (
-          <div
-            key={n}
-            className="flex h-16 items-center justify-center rounded-md border border-gray-alpha-400 bg-gray-alpha-100 font-mono text-copy-14 text-muted-foreground"
-          >
-            {n}
-          </div>
-        ))}
-      </Grid>
-      <Grid columns={12} gap="sm">
-        <GridItem
-          span={6}
-          className="flex h-12 items-center justify-center rounded-md border border-gray-alpha-400 bg-gray-alpha-100 font-mono text-copy-14 text-muted-foreground"
-        >
-          span 6
-        </GridItem>
-        <GridItem
-          span={6}
-          className="flex h-12 items-center justify-center rounded-md border border-gray-alpha-400 bg-gray-alpha-100 font-mono text-copy-14 text-muted-foreground"
-        >
-          span 6
-        </GridItem>
-        <GridItem
-          span={4}
-          className="flex h-12 items-center justify-center rounded-md border border-gray-alpha-400 bg-gray-alpha-100 font-mono text-copy-14 text-muted-foreground"
-        >
-          span 4
-        </GridItem>
-        <GridItem
-          span={4}
-          className="flex h-12 items-center justify-center rounded-md border border-gray-alpha-400 bg-gray-alpha-100 font-mono text-copy-14 text-muted-foreground"
-        >
-          span 4
-        </GridItem>
-        <GridItem
-          span={4}
-          className="flex h-12 items-center justify-center rounded-md border border-gray-alpha-400 bg-gray-alpha-100 font-mono text-copy-14 text-muted-foreground"
-        >
-          span 4
-        </GridItem>
-      </Grid>
+      <GridSystem guideWidth={1} unstable_useContainer>
+        <Grid columns={3} rows={2}>
+          {[1, 2, 3, 4, 5, 6].map((n) => (
+            <GridCell
+              key={n}
+              className="flex h-16 items-center justify-center font-mono text-copy-14 text-muted-foreground"
+            >
+              {n}
+            </GridCell>
+          ))}
+        </Grid>
+      </GridSystem>
     </div>
   );
 }
@@ -4428,7 +4468,6 @@ function TextWithCopyButtonDemo() {
   );
 }
 
-
 function ContextCardDemoCard({
   id,
   code,
@@ -4884,6 +4923,22 @@ function KeyboardInputDemo() {
           </div>
         </div>
         <ShowCodeFooter code={demoCode("small")} />
+      </div>
+      <div
+        className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
+        data-demo-card="plain-command"
+      >
+        <div
+          className="flex h-[72px] w-full items-center overflow-x-auto md:overflow-visible"
+          data-demo-surface="plain-command"
+        >
+          <div className="w-full p-6" data-demo-container="plain-command">
+            <Kbd plain meta>
+              K
+            </Kbd>
+          </div>
+        </div>
+        <ShowCodeFooter code={demoCode("plain-command")} />
       </div>
     </div>
   );
@@ -6346,8 +6401,6 @@ function MultiSelectDemo() {
                   key={name}
                   name={name}
                   checked={selectedActions.has(name)}
-                  selectedCount={selectedActions.size}
-                  totalCount={actionItems.length}
                   onChange={() => toggle(setSelectedActions, name)}
                   onSelectOnly={() => setSelectedActions(new Set([name]))}
                   onSelectAll={() => setSelectedActions(new Set(actionItems))}
@@ -6375,8 +6428,6 @@ function MultiSelectDemo() {
                   key={name}
                   name={name}
                   checked={selectedCategories.has(name)}
-                  selectedCount={selectedCategories.size}
-                  totalCount={categories.length}
                   onChange={() => toggle(setSelectedCategories, name)}
                   onSelectOnly={() => setSelectedCategories(new Set([name]))}
                   onSelectAll={() => setSelectedCategories(new Set(categories))}
@@ -6408,8 +6459,6 @@ function MultiSelectDemo() {
                   key={item.id}
                   name={item.name}
                   checked={selectedFeatures.has(item.id)}
-                  selectedCount={selectedFeatures.size}
-                  totalCount={controlledItems.length}
                   onChange={() => toggle(setSelectedFeatures, item.id)}
                   onSelectOnly={() => setSelectedFeatures(new Set([item.id]))}
                   onSelectAll={() =>
@@ -6864,6 +6913,16 @@ function renderDemo(name: string): React.ReactNode {
 
 /* ---------- 额外分段（Sizes / Variants / States） ---------- */
 
+function ExampleSection({ title, children }: { title: string; children: React.ReactNode }) {
+  const { language } = useLanguage();
+  return (
+    <section className="mt-10">
+      <h2 className="text-heading-24 text-foreground">{demoText(language, title)}</h2>
+      <div className="mt-6">{children}</div>
+    </section>
+  );
+}
+
 function Section({
   title,
   children,
@@ -7230,35 +7289,37 @@ function VirtualizedTableDemo() {
   const rows = expanded ? 48 : 9;
   return (
     <div className="relative">
-      <Table>
-        <TableColgroup>
-          <TableCol className="w-[44%]" />
-          <TableCol className="w-[22%]" />
-          <TableCol className="w-[22%]" />
-          <TableCol className="w-[11%]" />
-        </TableColgroup>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Product</TableHead>
-            <TableHead>Usage</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Charge</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody interactive striped>
-          {Array.from({ length: rows }, (_, index) => {
-            const item = VIRTUALIZED_TABLE_ITEMS[index % VIRTUALIZED_TABLE_ITEMS.length];
-            return (
-              <TableRow key={`${item.product}-${index}`}>
-                <TableCell>{item.product}</TableCell>
-                <TableCell>{item.usage}</TableCell>
-                <TableCell>{item.price}</TableCell>
-                <TableCell className="tabular-nums">{item.charge}</TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
+      <TableRoot>
+        <Table>
+          <TableColgroup>
+            <TableCol className="w-[44%]" />
+            <TableCol className="w-[22%]" />
+            <TableCol className="w-[22%]" />
+            <TableCol className="w-[11%]" />
+          </TableColgroup>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Product</TableHead>
+              <TableHead>Usage</TableHead>
+              <TableHead>Price</TableHead>
+              <TableHead>Charge</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody interactive striped>
+            {Array.from({ length: rows }, (_, index) => {
+              const item = VIRTUALIZED_TABLE_ITEMS[index % VIRTUALIZED_TABLE_ITEMS.length];
+              return (
+                <TableRow key={`${item.product}-${index}`}>
+                  <TableCell>{item.product}</TableCell>
+                  <TableCell>{item.usage}</TableCell>
+                  <TableCell>{item.price}</TableCell>
+                  <TableCell className="tabular-nums">{item.charge}</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableRoot>
       {!expanded ? (
         <div className="from-background-100 pointer-events-none absolute bottom-0 left-0 h-[30%] w-full rounded bg-linear-to-t to-transparent opacity-80" />
       ) : null}
@@ -7276,19 +7337,6 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
     case "button":
       return (
         <>
-          <Section title="Sizes" code={sectionCode("Sizes")}>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-3">
-                <Button typeName="button" size="small">
-                  Small
-                </Button>
-                <Button typeName="button">Medium</Button>
-                <Button typeName="button" size="large">
-                  Large
-                </Button>
-              </div>
-            </div>
-          </Section>
           <Section title="Variants" code={sectionCode("Variants")}>
             <div className="flex flex-wrap items-center gap-3">
               <Button typeName="button">{demoText(language, "Default")}</Button>
@@ -7322,6 +7370,40 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               </Button>
             </div>
           </Section>
+          <ExampleSection title="States and Composition">
+            <ComponentDemoCards name="button">
+              <ButtonDemo />
+            </ComponentDemoCards>
+          </ExampleSection>
+        </>
+      );
+    case "calendar":
+      return (
+        <>
+          <ExampleSection title="Horizontal Layout">
+            <CalendarDemo example="horizontal-layout" />
+          </ExampleSection>
+          <ExampleSection title="Sizes">
+            <CalendarDemo example="sizes" />
+          </ExampleSection>
+          <ExampleSection title="Presets">
+            <CalendarDemo example="presets" />
+          </ExampleSection>
+          <ExampleSection title="Compact">
+            <CalendarDemo example="compact" />
+          </ExampleSection>
+          <ExampleSection title="Stacked">
+            <CalendarDemo example="stacked" />
+          </ExampleSection>
+          <ExampleSection title="Default Preset">
+            <CalendarDemo example="presets-default" />
+          </ExampleSection>
+          <ExampleSection title="Date Bounds">
+            <CalendarDemo example="min-max" />
+          </ExampleSection>
+          <ExampleSection title="Pinned Timezone">
+            <CalendarDemo example="pinned-timezone" />
+          </ExampleSection>
         </>
       );
     case "input":
@@ -8877,12 +8959,42 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
             <div className="flex w-full max-w-md flex-col gap-8">
               <Progress value={45} label="left" labelPosition="left" aria-label="Label left" />
               <Progress value={45} label="right" labelPosition="right" aria-label="Label right" />
-              <Progress value={45} label="top-left" labelPosition="top-left" aria-label="Label top left" />
-              <Progress value={45} label="top-center" labelPosition="top-center" aria-label="Label top center" />
-              <Progress value={45} label="top-right" labelPosition="top-right" aria-label="Label top right" />
-              <Progress value={45} label="bottom-left" labelPosition="bottom-left" aria-label="Label bottom left" />
-              <Progress value={45} label="bottom-center" labelPosition="bottom-center" aria-label="Label bottom center" />
-              <Progress value={45} label="bottom-right" labelPosition="bottom-right" aria-label="Label bottom right" />
+              <Progress
+                value={45}
+                label="top-left"
+                labelPosition="top-left"
+                aria-label="Label top left"
+              />
+              <Progress
+                value={45}
+                label="top-center"
+                labelPosition="top-center"
+                aria-label="Label top center"
+              />
+              <Progress
+                value={45}
+                label="top-right"
+                labelPosition="top-right"
+                aria-label="Label top right"
+              />
+              <Progress
+                value={45}
+                label="bottom-left"
+                labelPosition="bottom-left"
+                aria-label="Label bottom left"
+              />
+              <Progress
+                value={45}
+                label="bottom-center"
+                labelPosition="bottom-center"
+                aria-label="Label bottom center"
+              />
+              <Progress
+                value={45}
+                label="bottom-right"
+                labelPosition="bottom-right"
+                aria-label="Label bottom right"
+              />
             </div>
           </Section>
           <Section title="Dynamic" code={sectionCode("Dynamic")}>
@@ -9194,7 +9306,9 @@ function ComponentsOverview() {
   const { language } = useLanguage();
   return (
     <div>
-      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">{demoText(language, "Components")}</h1>
+      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">
+        {demoText(language, "Components")}
+      </h1>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         {demoText(language, "Building blocks for React applications.")}
       </p>
@@ -9259,10 +9373,12 @@ function ComponentDetail({ name }: { name: string }) {
 
       <section className="mt-10">
         <h2 className="text-heading-24 text-foreground">{demoText(language, "Live Demo")}</h2>
-        <DemoSection>{renderDemo(name)}</DemoSection>
+        <DemoSection componentName={name}>{renderDemo(name)}</DemoSection>
       </section>
 
       {renderExtraSections(name, language)}
+
+      <ComponentApiReference componentName={name} />
 
       {meta.bestPractices && meta.bestPractices.length > 0 && (
         <section className="mt-12">
@@ -9270,10 +9386,9 @@ function ComponentDetail({ name }: { name: string }) {
             {demoText(language, "Best Practices")}
           </h2>
           <ul className="mt-6 space-y-3">
-            {(
-              language === "zh-CN"
-                ? (meta.bestPracticesZh ?? meta.bestPractices)
-                : meta.bestPractices
+            {(language === "zh-CN"
+              ? (meta.bestPracticesZh ?? meta.bestPractices)
+              : meta.bestPractices
             ).map((bp, i) => (
               <li key={i} className="flex gap-3 text-copy-14 text-muted-foreground">
                 <span

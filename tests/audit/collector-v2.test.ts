@@ -94,6 +94,7 @@ const runCollector = (args: string[]) => {
     const stdout = execFileSync(process.execPath, [collector, ...args], {
       cwd: root,
       encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
     });
     return { ok: true as const, value: JSON.parse(stdout), error: "" };
   } catch (error) {
