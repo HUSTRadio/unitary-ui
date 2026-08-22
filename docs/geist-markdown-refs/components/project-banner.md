@@ -4,6 +4,8 @@ Used for temporary, project-wide notifications that require resolution
 
 <!-- GEIST-RENDER-METRICS-START -->
 
+> ⚠️ **2026-08-22 勘察修正（shard-F）**：下方 metrics 的「容器」几何/配色为**过期误采**（采到了外层 demo 卡片）。线上 vercel.com/geist/project-banner 实测：根元素为 `<aside>` **全宽条带**——radius 0、仅上下边框 `border-t/border-b`、`py-2`（8px 0px）、`min-h-[40px]`、高 40px，且 variant 决定整体着色三件套 `bg-{c}-100 border-{c}-400 text-{c}-900`（default=gray / success=blue / warning=amber / error=red）。dark 实测全量值存 shard-F 引用的 pb_all.json。CTA 部分的实测值（pad 4px 0px · r:2px · h:24px · 500 14px/20px · focus-visible banner 变量焦点环）与线上吻合，仍可信。
+
 > **渲染参数（官方页面实测）**
 >
 > **Light 主题**

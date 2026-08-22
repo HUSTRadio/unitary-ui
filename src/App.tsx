@@ -145,6 +145,18 @@ export default function App() {
               <div className="w-56">
                 <Input placeholder="禁用状态" disabled aria-label="禁用输入" />
               </div>
+              <div className="w-64">
+                <Input defaultValue="geist-style-framework" prefix="https://" suffix=".com" aria-label="前后缀输入" />
+              </div>
+              <div className="w-64">
+                <Input defaultValue="geist-style-framework" prefix="https://" suffix=".com" disabled aria-label="禁用前后缀输入" />
+              </div>
+              <div className="w-64">
+                <Input rounded defaultValue="42.5" prefix="$" suffix="USD" aria-label="胶囊前后缀输入" />
+              </div>
+              <div className="w-56">
+                <Input placeholder="禁用状态" disabled aria-label="禁用输入" />
+              </div>
               <div className="w-56">
                 <Select placeholder="选择类别" defaultValue="" aria-label="示例选择">
                   <SelectItem value="office">办公设备</SelectItem>
