@@ -24,7 +24,16 @@ import { cn } from "@/lib/utils";
  * ProjectBannerContent / ProjectBannerClose 为本地扩展（children 组合式用法），非官方 API。
  */
 
-type ProjectBannerVariant = "default" | "success" | "warning" | "error";
+/**
+ * 官方 default 的视觉即 gray 三件套（routine 项目级通知），
+ * "gray" 为语义别名，与 default 共用同一组 token。
+ */
+type ProjectBannerVariant =
+  | "default"
+  | "gray"
+  | "success"
+  | "warning"
+  | "error";
 
 interface ProjectBannerCallToAction {
   label: string;
@@ -33,7 +42,7 @@ interface ProjectBannerCallToAction {
 }
 
 interface ProjectBannerProps extends React.ComponentProps<"aside"> {
-  /** 严重度语义（官方 variant），决定 CTA 文字色与焦点语义。默认 gray。 */
+  /** 严重度语义（官方 variant），决定容器与 CTA 整体着色。default 视觉即 gray（routine 项目级通知）。 */
   variant?: ProjectBannerVariant;
   /** 16px 图标（官方 icon，aria-hidden，随 label 文字色） */
   icon?: React.ReactNode;
@@ -45,6 +54,7 @@ interface ProjectBannerProps extends React.ComponentProps<"aside"> {
 
 const CTA_VARIANT_CLASSES: Record<ProjectBannerVariant, string> = {
   default: "text-gray-1000 hover:text-gray-900 decoration-gray-500 hover:decoration-gray-500",
+  gray: "text-gray-1000 hover:text-gray-900 decoration-gray-500 hover:decoration-gray-500",
   success: "text-blue-1000 hover:text-blue-900 decoration-blue-400 hover:decoration-blue-500",
   warning: "text-amber-1000 hover:text-amber-900 decoration-amber-400 hover:decoration-amber-500",
   error: "text-red-1000 hover:text-red-900 decoration-red-400 hover:decoration-red-500",
@@ -53,6 +63,7 @@ const CTA_VARIANT_CLASSES: Record<ProjectBannerVariant, string> = {
 /** variant 决定根元素整体着色三件套（官方 default 视觉即 gray）。 */
 const ROOT_VARIANT_CLASSES: Record<ProjectBannerVariant, string> = {
   default: "bg-gray-100 border-gray-400 text-gray-900",
+  gray: "bg-gray-100 border-gray-400 text-gray-900",
   success: "bg-blue-100 border-blue-400 text-blue-900",
   warning: "bg-amber-100 border-amber-400 text-amber-900",
   error: "bg-red-100 border-red-400 text-red-900",
