@@ -306,13 +306,19 @@ const O = {
     [row("message", "ReactNode", "Actionable error message.", "可操作的错误信息。")],
   ),
   feedback: component(
-    ["Feedback"],
+    ["Feedback", "RatingPill"],
     [
       row(
         "onSubmit",
         "(value: FeedbackRatingValue) => void | Promise<void>",
         "Receives a production feedback rating.",
         "接收生产环境中的反馈评分。",
+      ),
+      row(
+        "defaultValue",
+        "RatingValue",
+        "Initial rating (uncontrolled). Rating bar capsule colors by tone: love → success / okay → gray / not-great → warning / hate → error.",
+        "初始评分（非受控）。胶囊评分条按语义色着色：love → success / okay → 灰色 / not-great → warning / hate → error。",
       ),
     ],
   ),
@@ -465,10 +471,18 @@ const O = {
       ),
     ],
   ),
-  phone: component(
-    ["Phone", "PhoneScreen"],
-    [row("children", "ReactNode", "Screen content.", "屏幕内容。")],
-  ),
+  phone: {
+    ...component(
+      ["Phone", "PhoneScreen"],
+      [row("children", "ReactNode", "Screen content.", "屏幕内容。")],
+    ),
+    notes: [
+      {
+        en: "Phone is mobile-only marketing chrome for screenshots and recordings.",
+        zh: "Phone 是移动端专用的营销外框，用于截图与录屏展示。",
+      },
+    ],
+  },
   pill: component(["Pill"], [row("children", "ReactNode", "Pill label.", "胶囊标签。")]),
   progress: component(
     ["Progress"],

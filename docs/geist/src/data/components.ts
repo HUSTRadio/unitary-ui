@@ -23,6 +23,8 @@ export interface ComponentMeta {
   bestPractices?: string[];
   /** 中文 Best Practices（zh-CN 模式优先使用，缺失回退英文） */
   bestPracticesZh?: string[];
+  /** 移动端专用（详情页标题与总览卡片渲染「仅移动端」Badge） */
+  mobileOnly?: boolean;
 }
 
 const COMPONENTS_EN: ComponentMeta[] = [
@@ -582,6 +584,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "手机外框",
     description: "Frames mobile screenshots inside a realistic phone shell.",
     official: "Phone",
+    mobileOnly: true,
     bestPractices: [
       "Use Phone as marketing chrome around mobile screenshots, recordings, and demo images on landing pages and docs.",
       "Don't render live mobile product UI inside the frame; the chrome implies a captured screen, not an interactive surface.",

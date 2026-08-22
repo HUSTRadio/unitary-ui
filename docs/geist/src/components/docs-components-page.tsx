@@ -4541,6 +4541,14 @@ function FeedbackDemo() {
           </Note>
         </div>
       </Card>
+      <Card id="Rating bar">
+        {/* 胶囊 rating bar：点开展开评分、点外收起；选中后胶囊以语义色着色（love 绿 / okay 灰 / not-great 黄 / hate 红） */}
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <Feedback label="vercel" dryRun defaultValue="love" />
+          <Feedback label="vercel" dryRun defaultValue="not-great" />
+          <Feedback label="vercel" dryRun defaultValue="hate" />
+        </div>
+      </Card>
       <Card id="Feedback with prefix">
         <Feedback dryRun label="vercel" prefix={<Flag className="size-4" />} />
       </Card>
@@ -9460,8 +9468,13 @@ function ComponentsOverview() {
             className="group block border-b border-r border-border p-6 transition-colors hover:bg-gray-alpha-100"
           >
             <p className="font-mono text-label-12 text-muted-foreground">{component.official}</p>
-            <h3 className="mt-1 text-label-16 font-medium text-foreground">
+            <h3 className="mt-1 flex flex-wrap items-center gap-1.5 text-label-16 font-medium text-foreground">
               {language === "zh-CN" ? (component.labelZh ?? component.label) : component.label}
+              {component.mobileOnly && (
+                <Badge size="sm" variant="gray">
+                  {demoText(language, "Mobile only")}
+                </Badge>
+              )}
             </h3>
             <p className="mt-1 text-copy-13 text-muted-foreground">
               {language === "zh-CN"
@@ -9505,6 +9518,11 @@ function ComponentDetail({ name }: { name: string }) {
         <span className="rounded-full border border-gray-alpha-400 px-2 py-0.5 font-mono text-label-12 text-muted-foreground">
           {meta.official}
         </span>
+        {meta.mobileOnly && (
+          <Badge size="sm" variant="gray">
+            {demoText(language, "Mobile only")}
+          </Badge>
+        )}
       </div>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         {language === "zh-CN" ? (meta.descriptionZh ?? meta.description) : meta.description}

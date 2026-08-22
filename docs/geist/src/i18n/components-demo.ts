@@ -482,6 +482,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "No component named {name} was found.": "未找到名为 {name} 的组件。",
     "Live Demo": "实时示例",
     "Best Practices": "最佳实践",
+    "Mobile only": "仅移动端",
     "Page Not Found": "页面未找到",
     Introduction: "介绍",
   },
