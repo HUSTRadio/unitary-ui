@@ -3,7 +3,7 @@ import { Bell, Save } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import { Select, SelectItem } from "@/components/ui/select";
 import { Toggle } from "@/components/ui/toggle";
 
 /** 设置面板示例 — material 分区 + Toggle 列表 + 保存动效。 */
@@ -69,18 +69,17 @@ export function SettingsExample() {
         <h3 className="mb-3 text-label-16 font-medium text-foreground">界面</h3>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
-            <label htmlFor="s-lang" className="text-label-14 text-foreground">
+            <label className="text-label-14 text-foreground">
               界面语言
             </label>
             <Select
-              id="s-lang"
               value={language}
-              onChange={(event) => setLanguage(event.target.value)}
+              onValueChange={setLanguage}
               aria-label="界面语言"
             >
-              <option value="zh">简体中文</option>
-              <option value="en">English</option>
-              <option value="ja">日本語</option>
+              <SelectItem value="zh">简体中文</SelectItem>
+              <SelectItem value="en">English</SelectItem>
+              <SelectItem value="ja">日本語</SelectItem>
             </Select>
           </div>
           <div className="space-y-1.5">
