@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Languages, Menu as MenuIcon, Search } from "lucide-react";
+import { Languages, Menu as MenuIcon, Search, X } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 import { Drawer } from "@/components/ui/drawer";
@@ -121,7 +121,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
         verticalScroll
         aria-label={copy.menuOpenAria}
       >
-        <DocsMobileNav onClose={() => setMenuOpen(false)} onSearchOpen={onSearchOpen} />
+        <DocsMobileNav onClose={() => setMenuOpen(false)} />
       </Drawer>
     </header>
   );
@@ -129,58 +129,88 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
 
 /* ---------- 窄屏 Drawer 导航 ---------- */
 
-function DocsMobileNav({
-  onClose,
-  onSearchOpen,
-}: {
-  onClose: () => void;
-  onSearchOpen: () => void;
-}) {
+function DocsMobileNav({ onClose }: { onClose: () => void }) {
   const { language } = useLanguage();
   const copy = SHELL_COPY[language];
+  const [filter, setFilter] = useState("");
+  const query = filter.trim().toLocaleLowerCase();
+  // 就地过滤：命中条目 label/labelZh（按当前语言）或分组标题的组保留，其余隐藏
+  const groups = query
+    ? NAV_GROUPS.map((group) => {
+        const groupTitle = language === "zh-CN" ? (group.titleZh ?? group.title) : group.title;
+        const items = group.items.filter((item) => {
+          const label = language === "zh-CN" ? (item.labelZh ?? item.label) : item.label;
+          return (
+            label.toLocaleLowerCase().includes(query) ||
+            groupTitle.toLocaleLowerCase().includes(query)
+          );
+        });
+        return items.length > 0 ? { ...group, items } : null;
+      }).filter((group): group is NavGroup => group !== null)
+    : NAV_GROUPS;
+  const hasResults = groups.some((group) => group.items.length > 0);
+
   return (
     <div className="px-6 pt-5 pb-6">
-      <button
-        type="button"
-        onClick={onSearchOpen}
-        aria-label={copy.searchAria}
-        className="mb-5 flex h-10 w-full items-center gap-2 rounded-md border border-border bg-background-200 px-3 text-left text-label-14 text-muted-foreground focus-ring"
-      >
-        <Search className="size-3.5 shrink-0" aria-hidden />
-        <span className="flex-1 truncate">{copy.mobileSearchPlaceholder}</span>
-        <kbd className="pointer-events-none rounded border border-border bg-surface px-1.5 py-0.5 text-label-12 text-muted-foreground">
-          Ctrl K
-        </kbd>
-      </button>
-      <nav className="flex flex-col gap-5" aria-label={copy.components}>
-        {NAV_GROUPS.map((group) => (
-          <div key={group.title}>
-            <p className="text-label-14 font-medium mb-1 pl-1 text-foreground">
-              {language === "zh-CN" ? (group.titleZh ?? group.title) : group.title}
-            </p>
-            <ul className="space-y-0.5">
-              {group.items.map((item) => (
-                <li key={item.to}>
-                  <NavLink
-                    to={item.to}
-                    onClick={onClose}
-                    className={({ isActive }) =>
-                      cn(
-                        "flex h-10 items-center gap-2.5 rounded-md px-3 py-1.5 text-copy-14 outline-none transition-colors",
-                        isActive
-                          ? "bg-gray-alpha-100 text-gray-1000"
-                          : "text-gray-900 hover:bg-gray-100",
-                      )
-                    }
-                  >
-                    {language === "zh-CN" ? (item.labelZh ?? item.label) : item.label}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </nav>
+      {/* 就地过滤输入（P1-1）：替代原「打开独立命令面板」的搜索行 */}
+      <div className="relative mb-5">
+        <Search
+          className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-muted-foreground"
+          aria-hidden
+        />
+        <Input
+          value={filter}
+          onChange={(event) => setFilter(event.target.value)}
+          placeholder={copy.mobileSearchPlaceholder}
+          aria-label={copy.searchAria}
+          className="pr-10 pl-9"
+        />
+        {filter ? (
+          <button
+            type="button"
+            onClick={() => setFilter("")}
+            aria-label={copy.searchClearAria}
+            className="absolute top-1/2 right-2 flex size-6 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-gray-alpha-100 hover:text-foreground focus-ring"
+          >
+            <X className="size-3.5" aria-hidden />
+          </button>
+        ) : null}
+      </div>
+      {hasResults ? (
+        <nav className="flex flex-col gap-5" aria-label={copy.components}>
+          {groups.map((group) => (
+            <div key={group.title}>
+              <p className="text-label-14 font-medium mb-1 pl-1 text-foreground">
+                {language === "zh-CN" ? (group.titleZh ?? group.title) : group.title}
+              </p>
+              <ul className="space-y-0.5">
+                {group.items.map((item) => (
+                  <li key={item.to}>
+                    <NavLink
+                      to={item.to}
+                      onClick={onClose}
+                      className={({ isActive }) =>
+                        cn(
+                          "flex h-10 items-center gap-2.5 rounded-md px-3 py-1.5 text-copy-14 outline-none transition-colors",
+                          isActive
+                            ? "bg-gray-alpha-100 text-gray-1000"
+                            : "text-gray-900 hover:bg-gray-100",
+                        )
+                      }
+                    >
+                      {language === "zh-CN" ? (item.labelZh ?? item.label) : item.label}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      ) : (
+        <p className="px-1 py-6 text-center text-copy-14 text-muted-foreground">
+          {copy.searchNoResults}
+        </p>
+      )}
     </div>
   );
 }
