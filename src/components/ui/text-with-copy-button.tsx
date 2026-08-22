@@ -2,6 +2,7 @@ import * as React from "react";
 import { Copy, CopyCheck } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { callWithCancelGuard } from "@/lib/cancel-guard";
 import { Tooltip } from "@/components/ui/tooltip";
 import { useToasts } from "@/components/ui/toast";
 import { useI18n } from "@/lib/i18n";
@@ -68,8 +69,7 @@ function TextWithCopyButton({
   React.useEffect(() => () => window.clearTimeout(timer.current), []);
 
   const handleCopy = (event: React.MouseEvent<HTMLButtonElement>) => {
-    onClick?.(event);
-    if (event.defaultPrevented || !textToCopy) return;
+    if (!textToCopy || !callWithCancelGuard(event, onClick)) return;
 
     window.clearTimeout(timer.current);
     // 官方：点击立即显示成功图标（不等待 promise）；成功 toast.message，失败 toast.error。

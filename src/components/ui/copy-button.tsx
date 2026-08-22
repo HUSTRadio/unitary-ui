@@ -2,6 +2,7 @@ import * as React from "react";
 import { Check, Copy } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { callWithCancelGuard } from "@/lib/cancel-guard";
 import { useI18n } from "@/lib/i18n";
 
 interface CopyButtonProps extends Omit<React.ComponentProps<"button">, "onCopy" | "onError"> {
@@ -38,8 +39,7 @@ function CopyButton({
   React.useEffect(() => () => window.clearTimeout(timer.current), []);
 
   const handleCopy = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    onClick?.(event);
-    if (event.defaultPrevented) return;
+    if (!callWithCancelGuard(event, onClick)) return;
 
     try {
       try {
