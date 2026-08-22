@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import { Select, SelectItem } from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -103,13 +103,13 @@ export function DataTableExample() {
         <Select
           className="w-32"
           value={filter}
-          onChange={(event) => setFilter(event.target.value)}
+          onValueChange={setFilter}
           aria-label="按状态筛选"
         >
-          <option value="all">全部</option>
-          <option value="available">可借</option>
-          <option value="borrowed">借出中</option>
-          <option value="maintenance">维修中</option>
+          <SelectItem value="all">全部</SelectItem>
+          <SelectItem value="available">可借</SelectItem>
+          <SelectItem value="borrowed">借出中</SelectItem>
+          <SelectItem value="maintenance">维修中</SelectItem>
         </Select>
       </div>
 
