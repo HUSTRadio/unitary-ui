@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Languages, Menu as MenuIcon, Search } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
@@ -25,6 +25,8 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
   const { language, setLanguage } = useLanguage();
   const copy = SHELL_COPY[language];
   const [menuOpen, setMenuOpen] = useState(false);
+  // 打开按钮 ref：Drawer 关闭后焦点返还到它（避免 Radix 自动聚焦面板后的竞态）
+  const menuButtonRef = useRef<HTMLButtonElement | null>(null);
 
   return (
     <header className="sticky top-0 z-40 mx-auto w-full max-w-[1220px]">
@@ -33,6 +35,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
         <div className="border-gray-alpha-400 flex grow items-center gap-4 py-4 pl-px lg:w-[237px] lg:grow-0 lg:border-r">
           <button
             type="button"
+            ref={menuButtonRef}
             onClick={() => setMenuOpen(true)}
             aria-label={copy.menuOpenAria}
             aria-haspopup="dialog"
@@ -114,6 +117,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
       <Drawer
         show={menuOpen}
         onDismiss={() => setMenuOpen(false)}
+        restoreFocusTo={menuButtonRef}
         verticalScroll
         aria-label={copy.menuOpenAria}
       >

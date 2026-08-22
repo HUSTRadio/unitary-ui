@@ -27,6 +27,13 @@ interface DrawerProps {
   show?: boolean;
   /** 关闭回调（Escape / 外点 / 下滑触发） */
   onDismiss?: () => void;
+  /**
+   * 关闭后焦点返还目标（通常为打开按钮的 ref）。
+   * 缺省时回退为「打开瞬间的 activeElement」——但 Radix onOpenAutoFocus 会把焦点
+   * 移入面板（子 effect 先于父 effect 执行），导致回退捕获到面板内元素、关闭时
+   * 该元素已卸载而返还失败；显式传入打开按钮可彻底规避该竞态。
+   */
+  restoreFocusTo?: React.RefObject<HTMLElement | null>;
   /** 面板高度（px）；不传则按内容自适应 */
   height?: number;
   /** 面板内部滚动（内容超出 max-h 时） */
@@ -82,6 +89,10 @@ function DrawerPanel({
   };
 
   React.useLayoutEffect(() => {
+    // 打开瞬间先以 translateY(100%) 渲染（与官方 Base UI data-starting-style 同帧），
+    // 下一帧直接改写 DOM 样式回到 0，由 transition 驱动与官方一致的滑入动画。
+    // 直接用 DOM 写入而非依赖 React 再渲染，避免 rAF 回调里的 setState 提交延迟
+    // 导致采集窗口内动画尚未起步（transform 卡在 translateY(100%)）。
     const raf = requestAnimationFrame(() => {
       setPhase("end");
       if (contentRef.current) {
@@ -114,6 +125,7 @@ function DrawerPanel({
   return (
     <DialogPrimitive.Content
       ref={contentRef}
+      tabIndex={-1}
       data-slot="drawer"
       data-swipe-direction="down"
       {...accessibilityProps}
@@ -140,6 +152,16 @@ function DrawerPanel({
       onPointerMove={handlePointerMove}
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
+      onOpenAutoFocus={(event) => {
+        // P0-3：打开时焦点显式移入面板首个可聚焦元素（搜索行/首链接）。
+        // 走 Radix 同步 onOpenAutoFocus（而非 rAF），后台标签页 rAF 被节流时也可靠。
+        event.preventDefault();
+        const panel = event.currentTarget as HTMLElement;
+        const firstFocusable = panel.querySelector<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        );
+        (firstFocusable ?? panel).focus();
+      }}
     >
       {children}
     </DialogPrimitive.Content>
@@ -149,6 +171,7 @@ function DrawerPanel({
 function Drawer({
   show,
   onDismiss,
+  restoreFocusTo,
   height,
   verticalScroll,
   className,
@@ -163,15 +186,20 @@ function Drawer({
   React.useEffect(() => {
     if (show && !wasShownRef.current) {
       restoreFocusRef.current =
-        document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        restoreFocusTo?.current instanceof HTMLElement
+          ? restoreFocusTo.current
+          : document.activeElement instanceof HTMLElement
+            ? document.activeElement
+            : null;
     } else if (!show && wasShownRef.current) {
       const target = restoreFocusRef.current;
-      window.requestAnimationFrame(() => {
+      // setTimeout 而非 rAF：后台标签页 rAF 会被挂起，setTimeout 仍会触发。
+      window.setTimeout(() => {
         if (target?.isConnected) target.focus();
-      });
+      }, 0);
     }
     wasShownRef.current = Boolean(show);
-  }, [show]);
+  }, [show, restoreFocusTo]);
 
   return (
     <DialogPrimitive.Root
