@@ -57,14 +57,19 @@ describe("Input official API contract (G06 audit fixes)", () => {
     expect(src).toContain("rounded-[6px]");
   });
 
-  test("G06-INPUT-06: error alert is mt-2 (8px) and consumes the inline-error semantic token", async () => {
+  test("G06-INPUT-06: error alert uses the shared FieldError base layer (4px gap, inline-error token)", async () => {
     const src = await read("src/components/ui/input.tsx");
-    const alertStart = src.indexOf('data-slot="input-error"');
-    expect(alertStart).toBeGreaterThan(-1);
-    const alertBlock = src.slice(alertStart, src.indexOf(")}\n", alertStart));
-    expect(alertBlock).toMatch(/mt-2/);
-    expect(alertBlock).not.toMatch(/mt-1\b/);
-    expect(alertBlock).toMatch(/text-error-foreground/);
+    // Error rendering is delegated to the shared base layer
+    expect(src).toMatch(/import \{ FieldError, FIELD_ERROR_RING, joinDescribedBy \}/);
+    expect(src).toMatch(/<FieldError id=\{errorId\}/);
+    // Error ring styling comes from the shared constant, not a local copy
+    expect(src).not.toMatch(/data-slot="input-error"/);
+    const shared = await read("src/components/ui/field-error.tsx");
+    // Unified control-to-message gap is 4px (mt-1); token stays semantic
+    expect(shared).toMatch(/mt-1 /);
+    expect(shared).not.toMatch(/\bmt-2\b/);
+    expect(shared).toMatch(/text-error-foreground/);
+    expect(shared).toMatch(/role="alert"/);
   });
 
   test("slider.tsx stays compatible with the Input API change", async () => {

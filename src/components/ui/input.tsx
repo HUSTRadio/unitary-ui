@@ -1,6 +1,8 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { layoutRootStyle, layoutSurfaceStyle, type ControlLayout } from "@/lib/control-layout";
+import { FieldError, FIELD_ERROR_RING, joinDescribedBy } from "./field-error";
 
 /**
  * Input — Geist 官方 Input 规范（vercel.com/geist/input 实时页面 + B3 复刻采集）。
@@ -11,14 +13,15 @@ import { cn } from "@/lib/utils";
  *   gray-alpha-600 + 4px rgba(0,0,0,0.16) 柔光（--input-focus-* token）
  * - disabled：input bg gray-100 + text gray-700（官方 disabled:bg-gray-100 /
  *   disabled:text-gray-700），wrapper cursor-not-allowed
- * - prefix/suffix：wrapper 内 label 式 chip（bg-background-200 + 分隔线 + px-3）；
- *   prefixStyling/suffixStyling=false 时 bg-background-100 + ml-px -mr-3（无分隔线）
+ * - prefix/suffix：wrapper 内 label 式 chip（bg-background-200 + 分隔线）；两侧外边距
+ *   12px（mx-3），与输入内容间距 8px（ml-2 / mr-2），无共用负边距补偿；
+ *   prefixStyling/suffixStyling=false 时 bg-background-100 无分隔线。
  * - rounded：wrapper rounded-full + mt-3（官方原样），input 同步 rounded-full
  * - label：<label> 包裹 text div（data-slot=input-label，13px/19.5px gray-900，
  *   capitalize + mb-2）与输入控件（官方 label[data-version=v1] 结构）
- * - error：1px red-900 边框 + 4px red-300 柔光（hover red-500、focus 保持 red-300），
- *   input aria-invalid + aria-describedby，下方 role="alert" 错误文案
- *   （mt-2 8px、13px/20px，large 16px/24px、#cb2a2f + 16×16 警告图标）
+ * - error：共享 FieldError 基础层（4px 间距、图标、排版、ARIA 统一），
+ *   input aria-invalid + aria-describedby
+ * - layout：ControlLayout——宽度三件套+flex 作用于字段根容器，高度三件套作用于 wrapper 表面
  */
 
 export type InputSize = "small" | "default" | "large";
@@ -27,7 +30,7 @@ export interface InputProps extends Omit<React.ComponentProps<"input">, "size" |
   /** 官方尺寸：small 32px / default 36px / large 40px（默认 default）；数字透传原生 size 属性 */
   size?: InputSize | number;
   /** 错误文案：传入后渲染红边框 + 红柔光 + aria-invalid + 下方 alert 错误信息 */
-  error?: string;
+  error?: React.ReactNode;
   /** 关联标签：渲染 <label htmlFor={id}>（官方 label[data-version=v1] 结构），未传 id 时自动生成 */
   label?: React.ReactNode;
   /** 前缀内容（icon 或字符串），渲染在输入内容之前 */
@@ -40,6 +43,8 @@ export interface InputProps extends Omit<React.ComponentProps<"input">, "size" |
   suffixStyling?: boolean;
   /** prefix/suffix 渲染为圆角 chip（wrapper rounded-full + mt-3，官方原样） */
   rounded?: boolean;
+  /** 统一尺寸 API：宽度/flex → 字段根容器；高度 → 控件表面 */
+  layout?: ControlLayout;
 }
 
 const INPUT_BASE = cn(
@@ -57,14 +62,8 @@ const WRAPPER_BASE = cn(
   "has-[input:disabled]:hover:shadow-[0_0_0_1px_var(--color-gray-alpha-400)]",
 );
 
-const ERROR_WRAPPER_CLASSES = cn(
-  "shadow-[0_0_0_1px_var(--color-red-900),0_0_0_4px_var(--color-red-300)]",
-  "hover:shadow-[0_0_0_1px_var(--color-red-900),0_0_0_4px_var(--color-red-500)]",
-  "focus-within:!shadow-[0_0_0_1px_var(--color-red-900),0_0_0_4px_var(--color-red-300)]",
-);
-
-/** prefixStyling/suffixStyling=false：官方 bg-background-100 + ml-px -mr-3（无分隔线） */
-const NO_STYLING_CLASSES = cn("ml-px -mr-3 bg-background-100");
+/** prefixStyling/suffixStyling=false：官方 bg-background-100 无分隔线（负边距补偿已删除） */
+const NO_STYLING_CLASSES = cn("bg-background-100");
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
@@ -79,6 +78,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       suffix,
       suffixStyling = true,
       rounded,
+      layout,
       id: idProp,
       ...props
     },
@@ -96,22 +96,23 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         data-geist-input-wrapper=""
         data-version="v1"
         data-slot="input-container"
+        style={layoutSurfaceStyle(layout)}
         className={cn(
           WRAPPER_BASE,
           height,
           radius,
           rounded && "mt-3 rounded-full",
-          error && ERROR_WRAPPER_CLASSES,
+          error && FIELD_ERROR_RING,
         )}
       >
         {prefix && (
           <span
             data-slot="input-prefix"
             className={cn(
-              "relative flex h-full shrink-0 items-center px-3 text-gray-700",
+              "flex h-full shrink-0 items-center text-gray-700",
               prefixStyling
-                ? "border-r border-gray-alpha-400 bg-background-200"
-                : NO_STYLING_CLASSES,
+                ? "ml-3 border-r border-gray-alpha-400 bg-background-200 pl-3 pr-2"
+                : cn(NO_STYLING_CLASSES, "ml-3 pl-3"),
             )}
           >
             {prefix}
@@ -123,13 +124,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           data-slot="input"
           aria-invalid={error ? true : false}
           aria-describedby={
-            error
-              ? [errorId, props["aria-describedby"]].filter(Boolean).join(" ")
-              : props["aria-describedby"]
+            error ? joinDescribedBy(errorId, props["aria-describedby"]) : props["aria-describedby"]
           }
           className={cn(
             INPUT_BASE,
-            "h-full",
+            "h-full flex-1 w-auto min-w-0",
+            prefix && "ml-2",
+            suffix && "mr-2",
             size === "large" ? "text-copy-16" : "text-copy-14",
             "file:border-0 file:bg-transparent file:text-copy-13 file:font-medium file:text-foreground",
             className,
@@ -142,10 +143,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <span
             data-slot="input-suffix"
             className={cn(
-              "relative flex h-full shrink-0 items-center px-3 text-gray-700",
+              "flex h-full shrink-0 items-center text-gray-700",
               suffixStyling
-                ? "border-l border-gray-alpha-400 bg-background-200"
-                : NO_STYLING_CLASSES,
+                ? "mr-3 border-l border-gray-alpha-400 bg-background-200 ml-2 pr-3"
+                : cn(NO_STYLING_CLASSES, "mr-3 pr-3"),
             )}
           >
             {suffix}
@@ -154,10 +155,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       </div>
     );
 
-    if (!error && !label) return control;
+    if (!error && !label && !layout) return control;
 
     return (
-      <div data-slot="input-field" className="block">
+      <div data-slot="input-field" className="block w-full min-w-0" style={layoutRootStyle(layout)}>
         {label && (
           <label htmlFor={id} className="block cursor-text">
             <div
@@ -169,30 +170,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
         {control}
-        {error && (
-          <p
-            id={errorId}
-            role="alert"
-            aria-atomic="true"
-            data-slot="input-error"
-            className={cn(
-              "mt-2 flex items-start text-[13px] leading-5 text-error-foreground",
-              size === "large" && "text-base leading-6",
-            )}
-          >
-            <span
-              className={cn(
-                "mr-2 mt-0.5 flex size-4 shrink-0 items-center",
-                size === "large" && "mt-1",
-              )}
-            >
-              <svg viewBox="0 0 16 16" aria-hidden="true" className="size-4" fill="currentColor">
-                <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5A5.5 5.5 0 1 1 2.5 8 5.51 5.51 0 0 1 8 2.5Zm-.75 4.25h1.5v5h-1.5v-5ZM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" />
-              </svg>
-            </span>
-            <span className="break-words">{error}</span>
-          </p>
-        )}
+        <FieldError id={errorId} large={size === "large"}>
+          {error}
+        </FieldError>
       </div>
     );
   },

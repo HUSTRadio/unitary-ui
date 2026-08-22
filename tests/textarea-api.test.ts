@@ -10,26 +10,30 @@ const read = (relativePath: string) => readFile(path.join(root, relativePath), "
 describe("Textarea official API contract (G12 audit fixes)", () => {
   test("G12-TEXTAREA-01: error text uses the dedicated inline-error token, not a raw red scale", async () => {
     const src = await read("src/components/ui/textarea.tsx");
-    const alertStart = src.indexOf('role="alert"');
-    expect(alertStart).toBeGreaterThan(-1);
-    const alertBlock = src.slice(alertStart, alertStart + 400);
-    expect(alertBlock).toMatch(/text-error-foreground/);
-    expect(alertBlock).not.toMatch(/text-\[var\(--red-900\)\]/);
+    // Error rendering delegates to the shared base layer
+    expect(src).toMatch(/import \{ FieldError, FIELD_ERROR_RING, joinDescribedBy \}/);
+    expect(src).toMatch(/<FieldError id=\{errorId\}/);
+    const shared = await read("src/components/ui/field-error.tsx");
+    expect(shared).toMatch(/text-error-foreground/);
+    expect(shared).not.toMatch(/text-\[var\(--red-900\)\]/);
   });
 
-  test("G12-TEXTAREA-01: error alert keeps mt-2 (8px), 13px/20px, large 16px/24px", async () => {
-    const src = await read("src/components/ui/textarea.tsx");
-    const alertStart = src.indexOf('role="alert"');
-    const alertBlock = src.slice(alertStart, alertStart + 400);
-    expect(alertBlock).toMatch(/mt-2/);
-    expect(alertBlock).toMatch(/text-\[13px\] leading-5/);
-    expect(alertBlock).toMatch(/large && "text-base leading-6"/);
+  test("G12-TEXTAREA-01: error alert uses shared 4px gap (mt-1), 13px/20px, large 16px/24px", async () => {
+    const shared = await read("src/components/ui/field-error.tsx");
+    // Unified control-to-message gap is 4px (mt-1)
+    expect(shared).toMatch(/\bmt-1 /);
+    expect(shared).not.toMatch(/\bmt-2\b/);
+    // 13px/20px default (text-copy-13 leading-5), large 16px/24px
+    expect(shared).toMatch(/text-copy-13 leading-5/);
+    expect(shared).toMatch(/large && "text-base leading-6"/);
   });
 
-  test("error ring unchanged: 1px red-900 + 4px red-300 glow (hover red-500)", async () => {
+  test("error ring comes from the shared constant: 1px red-900 + 4px red-300 glow (hover red-500)", async () => {
     const src = await read("src/components/ui/textarea.tsx");
-    expect(src).toMatch(/shadow-\[0_0_0_1px_var\(--red-900\),0_0_0_4px_var\(--red-300\)\]/);
-    expect(src).toMatch(/var\(--red-500\)/);
+    expect(src).toMatch(/error && FIELD_ERROR_RING/);
+    const shared = await read("src/components/ui/field-error.tsx");
+    expect(shared).toMatch(/shadow-\[0_0_0_1px_var\(--color-red-900\),0_0_0_4px_var\(--color-red-300\)\]/);
+    expect(shared).toMatch(/var\(--color-red-500\)/);
   });
 
   test("sizes small/medium/large: radius 6px/6px/8px, default medium, large 16px/24px", async () => {
@@ -50,9 +54,11 @@ describe("Textarea official API contract (G12 audit fixes)", () => {
   test("error wiring: aria-invalid + aria-describedby, role=alert, data-geist-error", async () => {
     const src = await read("src/components/ui/textarea.tsx");
     expect(src).toMatch(/aria-invalid=\{error \? true : undefined\}/);
-    expect(src).toMatch(/aria-describedby=\{error \? errorId : undefined\}/);
-    expect(src).toMatch(/role="alert"/);
-    expect(src).toMatch(/data-geist-error=""/);
+    // describedby joins the error id with any caller-provided value via the shared helper
+    expect(src).toMatch(/joinDescribedBy\(errorId, props\["aria-describedby"\]\)/);
+    const shared = await read("src/components/ui/field-error.tsx");
+    expect(shared).toMatch(/role="alert"/);
+    expect(shared).toMatch(/data-geist-error=""/);
   });
 
   test("exports Textarea with displayName", async () => {
