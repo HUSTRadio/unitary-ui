@@ -43,6 +43,10 @@ All notable changes to this project will be documented in this file.
 
 - **Button 按压态 `active:`**：官方 Geist 有意不做 `:active` 按压样式，但 Apple HIG「Buttons」硬性要求自定义按钮必须提供按压态（"Always include a press state for a custom button"）。实心变体（default / error / warning）按压 `active:brightness-90`，表面变体（secondary / tertiary）按压 `active:bg-gray-alpha-300`。
 
+- **Button 默认最小宽度（min-w = 高度 × 2.2）**：官方按钮无 min-width，宽度纯由 padding + 文本决定，短标签（尤其中文两字）会缩至宽高比 ~1.25 显得局促。定标官方 Upload 按钮自然比例（small 70/32=2.19、medium 78/36=2.17、large 92/40=2.30），size 四档 min-w 52/70/80/88px；svgOnly 以 `min-w-0` 覆盖保持正方形。长标签不受影响。
+
+- **Progress label / labelPosition（8 方位标签系统）与 animated 过渡（300ms ease-out）**：官方 Progress 无 label props 且填充无过渡（computed transition 0s）。本地扩展服务「Step 2 of 4 · Building」等场景；animated 有 motion-reduce 降级。
+
 ### Not changed（YAGNI）
 
 - `--danger` token：保持 `#e5484d`（destructive-action-modal 按钮官方 `#da2f35` 已正确，改全局会破坏）
