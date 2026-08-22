@@ -31,6 +31,8 @@ import { FieldError, FIELD_ERROR_RING } from "./field-error";
  *   reduced-motion 下弹层动画禁用。
  * - 颜色按官方实时实测值落地（light 1440×900）：ring 用 --gray-alpha-400，
  *   error 环 #ee0000 + rgba(203,42,47,0.16)。
+ * - Item hover/选中背景与文字色对齐 docs 侧边栏导航项：bg-gray-alpha-100 + text-gray-900
+ *   （docs-shell.tsx DocsSidebarLink）；item 间距保持 gap-0.5，不引入侧栏额外间距。
  */
 
 export interface SelectProps extends Omit<
@@ -98,8 +100,9 @@ const TRIGGER_SIZE_CLASS = {
 } as const;
 
 const ITEM_CLASS =
-  "relative flex h-9 cursor-pointer select-none items-center rounded-[6px] px-2 text-copy-14 " +
-  "outline-none data-[highlighted]:bg-background-200 data-[state=checked]:font-medium " +
+  "relative flex h-9 cursor-pointer select-none items-center rounded-[6px] px-2 text-copy-14 text-gray-900 " +
+  "outline-none data-[highlighted]:bg-gray-alpha-100 " +
+  "data-[state=checked]:bg-gray-alpha-100 data-[state=checked]:font-medium " +
   "data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
 
 /** SelectItem — 弹层选项（value 必填；内容渲染为 ItemText）。 */
