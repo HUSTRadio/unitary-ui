@@ -33,6 +33,12 @@ export type ProgressLabelPosition =
 export interface ProgressStop {
   value: number;
   tooltip?: string;
+  /**
+   * 无障碍名称，渲染到可聚焦触发 span 的 aria-label。
+   * 官方 Best Practices：每个 stop 都应命名（如 Build complete、Tests complete），
+   * 使进度条在不依赖视觉的情况下可导航。
+   */
+  ariaLabel?: string;
 }
 
 /** 官方 type 映射（--fg 值，实测）：success=blue-700、error=red-700、warning=amber-700、secondary=gray-700 */
@@ -145,7 +151,11 @@ function Progress({
           >
             {hasTooltip ? (
               <Tooltip text={stop.tooltip} position="top" tip={false}>
-                <span tabIndex={0} className="absolute inset-0 outline-none focus-ring" />
+                <span
+                  tabIndex={0}
+                  aria-label={stop.ariaLabel}
+                  className="absolute inset-0 outline-none focus-ring"
+                />
               </Tooltip>
             ) : null}
             <div className="pointer-events-none flex h-full items-stretch justify-center">
