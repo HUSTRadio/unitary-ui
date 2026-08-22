@@ -124,7 +124,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
     <th
       ref={ref}
       className={cn(
-        "h-9 whitespace-nowrap px-2 text-left align-middle text-copy-14 font-medium text-muted-foreground last:text-right [&:has([role=checkbox])]:pr-0",
+        "h-9 whitespace-nowrap px-2 text-left align-middle text-copy-14 font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
         className,
       )}
       {...props}
@@ -138,7 +138,7 @@ const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
     <td
       ref={ref}
       className={cn(
-        "whitespace-nowrap px-2 py-2.5 align-middle text-muted-foreground last:text-right [&:has([role=checkbox])]:pr-0",
+        "whitespace-nowrap px-2 py-2.5 text-left align-middle text-muted-foreground [&:has([role=checkbox])]:pr-0",
         className,
       )}
       {...props}

@@ -7464,7 +7464,7 @@ function VirtualizedTableDemo() {
                   <TableCell>{item.product}</TableCell>
                   <TableCell>{item.usage}</TableCell>
                   <TableCell>{item.price}</TableCell>
-                  <TableCell className="tabular-nums">{item.charge}</TableCell>
+                  <TableCell className="tabular-nums text-right">{item.charge}</TableCell>
                 </TableRow>
               );
             })}
@@ -8321,37 +8321,37 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
                   <TableCell>Brake Pads Set</TableCell>
                   <TableCell>100 sets</TableCell>
                   <TableCell>$50 per set</TableCell>
-                  <TableCell className="tabular-nums">$5,000.00</TableCell>
+                  <TableCell className="tabular-nums text-right">$5,000.00</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Oil Filters</TableCell>
                   <TableCell>200 filters</TableCell>
                   <TableCell>$10 per filter</TableCell>
-                  <TableCell className="tabular-nums">$2,000.00</TableCell>
+                  <TableCell className="tabular-nums text-right">$2,000.00</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Car Batteries</TableCell>
                   <TableCell>50 batteries</TableCell>
                   <TableCell>$100 per battery</TableCell>
-                  <TableCell className="tabular-nums">$5,000.00</TableCell>
+                  <TableCell className="tabular-nums text-right">$5,000.00</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Headlight Bulbs</TableCell>
                   <TableCell>300 bulbs</TableCell>
                   <TableCell>$15 per bulb</TableCell>
-                  <TableCell className="tabular-nums">$4,500.00</TableCell>
+                  <TableCell className="tabular-nums text-right">$4,500.00</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Windshield Wipers</TableCell>
                   <TableCell>250 pairs</TableCell>
                   <TableCell>$20 per pair</TableCell>
-                  <TableCell className="tabular-nums">$5,000.00</TableCell>
+                  <TableCell className="tabular-nums text-right">$5,000.00</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Spark Plugs</TableCell>
                   <TableCell>500 sets</TableCell>
                   <TableCell>$5 per set</TableCell>
-                  <TableCell className="tabular-nums">$2,500.00</TableCell>
+                  <TableCell className="tabular-nums text-right">$2,500.00</TableCell>
                 </TableRow>
               </TableBody>
               <TableFooter>
@@ -8359,7 +8359,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
                   <TableCell className="text-gray-1000 font-medium" colSpan={3}>
                     Subtotal
                   </TableCell>
-                  <TableCell className="text-gray-1000 font-medium tabular-nums">
+                  <TableCell className="text-gray-1000 font-medium tabular-nums text-right">
                     $24,000.00
                   </TableCell>
                 </TableRow>

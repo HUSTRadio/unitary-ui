@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] — 2026-08-20
 
+### Changed — Table 默认对齐（breaking）
+
+- **`TableHead` / `TableCell` 删除隐式 `last:text-right`**：此前每一行的最后一列被强制右对齐（组件基类硬编码），与官方 Geist 默认全左对齐不符，且让调用方无法让最后一列保持左对齐（`cn()` 后者不覆盖前者时产生幽灵右对齐）。现在默认显式 `text-left align-middle`，右对齐由调用方通过 `align="right"`（item 11 新增）或 `className="text-right"` 显式声明。
+  - 迁移：依赖旧隐式右对齐的数值列需自行补 `text-right` 或 `align="right"`（仓库内 docs 表格 demo 的 Charge 数值列已同步补 `text-right`）。
+
 ### Fixed — Geist parity 修复（14 项，现场 Playwright 验证）
 
 深度 parity 审计（74 组件全量采集 + 文本层对比 + 三轮子代理独立审核）确认的官方 Vercel Geist 差异修复：
