@@ -481,7 +481,14 @@ const O = {
   ),
   "project-banner": component(
     ["ProjectBanner", "ProjectBannerContent", "ProjectBannerClose"],
-    [row("variant", "ProjectBannerVariant", "Banner emphasis.", "横幅强调样式。")],
+    [
+      row(
+        "variant",
+        "ProjectBannerVariant",
+        "Banner emphasis.",
+        "横幅强调样式，决定整条横幅 bg/border/text 三件套：success=blue、warning=amber、error=red；default 视觉即 gray（routine 项目级通知），\"gray\" 为等价别名。官方按设计不可关闭，ProjectBannerClose 为本地扩展。",
+      ),
+    ],
   ),
   radio: component(
     ["Radio", "RadioGroup", "RadioGroupItem", "useRadio"],
