@@ -1404,9 +1404,10 @@
 
 /*
  * Context Card 箭头定位（官方实测：14×7）。
- * SVG path 的根线位于 viewBox -0.5px：直接贴合 popover 的 border-box 边缘时，
- * 恰好覆盖 1px 外框的中心线，箭头两端与外框连续。不得再把箭头向卡片内部平移，
- * 否则外框会从箭头根部下方穿过，形成断裂的双线。
+ * SVG path 的肩线位于 viewBox y=0.5：若 svg 贴齐 popover border-box 外缘，
+ * 肩线会渲染在卡片外缘之外 0-1px 的页面背景上，形成一条灰色横杠
+ * （stroke #dbdbdb 固定色 vs 卡片近乎透明的 gray-alpha-400 边框，格外醒目）。
+ * 四方向偏移各向内拉 1px，让肩线落进卡片 1px 边框带被覆盖。不得改 SVG path 数据。
  */
 [data-slot="context-card-tip"] {
   position: absolute;
@@ -1415,22 +1416,22 @@
   z-index: 999999999;
 }
 [data-slot="context-card-popover"][data-side="top"] [data-slot="context-card-tip"] {
-  top: 100%;
+  top: calc(100% - 1px);
   left: 50%;
   transform: translateX(-50%);
 }
 [data-slot="context-card-popover"][data-side="bottom"] [data-slot="context-card-tip"] {
-  bottom: 100%;
+  bottom: calc(100% - 1px);
   left: 50%;
   transform: translateX(-50%) rotate(180deg);
 }
 [data-slot="context-card-popover"][data-side="left"] [data-slot="context-card-tip"] {
-  left: 100%;
+  left: calc(100% - 1px);
   top: 50%;
   transform: translateY(-50%) rotate(-90deg);
 }
 [data-slot="context-card-popover"][data-side="right"] [data-slot="context-card-tip"] {
-  right: 100%;
+  right: calc(100% - 1px);
   top: 50%;
   transform: translateY(-50%) rotate(90deg);
 }
