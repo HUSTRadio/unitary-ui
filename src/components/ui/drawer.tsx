@@ -72,6 +72,16 @@ function DrawerPanel({
   ariaDescribedBy?: string;
 }) {
   const [dragY, setDragY] = React.useState(0);
+  // P1-5：prefers-reduced-motion 下过渡归零（WCAG 2.3.3 Animation from Interactions）
+  const [reducedMotion, setReducedMotion] = React.useState(
+    () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false,
+  );
+  React.useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onChange = () => setReducedMotion(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
   // 打开瞬间先以 translateY(100%) 渲染（与官方 Base UI data-starting-style 同帧），
   // 下一帧直接改写 DOM 样式回到 0，由 transition 驱动与官方一致的滑入动画。
   // 直接用 DOM 写入而非依赖 React 再渲染，避免 rAF 回调里的 setState 提交延迟
@@ -145,7 +155,11 @@ function DrawerPanel({
           "--drawer-frontmost-height": height ? `${height}px` : undefined,
           "--drawer-swipe-movement-y": `${dragY}px`,
           transform: phase === "start" ? "translateY(100%)" : `translateY(${dragY}px)`,
-          transition: dragging ? "none" : "transform 500ms cubic-bezier(0.32, 0.72, 0, 1)",
+          transition: dragging
+            ? "none"
+            : reducedMotion
+              ? "transform 0s linear"
+              : "transform 500ms cubic-bezier(0.32, 0.72, 0, 1)",
         } as React.CSSProperties
       }
       onPointerDown={handlePointerDown}
@@ -209,7 +223,7 @@ function Drawer({
       }}
     >
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--ds-z-drawer)] bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--ds-z-drawer)] bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none motion-reduce:transition-none" />
         <DrawerPanel
           onDismiss={onDismiss}
           height={height}
