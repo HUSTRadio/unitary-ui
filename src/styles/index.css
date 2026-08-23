@@ -1629,6 +1629,12 @@ html[data-font-tier="system"],
   }
 }
 
+/* ExpandPanel belowTopbar：面板只遮正文区时，topbar 保持可交互
+   （Radix Dialog 对应用根施加 pointer-events:none，此处恢复 navbar 子树） */
+body.expand-panel-below-topbar [data-slot="navbar"] {
+  pointer-events: auto;
+}
+
 @keyframes command-menu-scale-out {
   from {
     opacity: 1;

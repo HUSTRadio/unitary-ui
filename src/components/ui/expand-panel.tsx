@@ -108,10 +108,27 @@ function ExpandPanel({
     return () => window.removeEventListener("resize", measure);
   }, [side, horizontal, belowTopbar, anchorElement]);
 
+  // belowTopbar 模式：Radix Dialog 会对应用根节点施加 pointer-events:none（防外点交互），
+  // 但本模式要求 topbar 保持可交互——挂 body 标记类，由 CSS 恢复 navbar 子树指针事件。
+  React.useEffect(() => {
+    if (!belowTopbar) return;
+    document.body.classList.toggle("expand-panel-below-topbar", open === true);
+    return () => document.body.classList.remove("expand-panel-below-topbar");
+  }, [belowTopbar, open]);
+
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--ds-z-drawer)] bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none motion-reduce:transition-none" />
+        <DialogPrimitive.Overlay
+          data-below-topbar={belowTopbar || undefined}
+          className={cn(
+            "fixed z-[var(--ds-z-drawer)] bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none motion-reduce:transition-none",
+            belowTopbar
+              ? // 仅遮蔽正文区：遮罩顶边 = navbar 底边，topbar 保持可见可交互
+                "inset-x-0 bottom-0 top-[var(--expand-anchor-bottom,64px)]"
+              : "inset-0",
+          )}
+        />
         <DialogPrimitive.Content
           tabIndex={-1}
           data-slot="expand-panel"
