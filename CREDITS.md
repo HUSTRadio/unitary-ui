@@ -39,3 +39,24 @@
 - 仓库：<https://github.com/CVERInc/liquidframe>
 - 版权：CVERInc / liquidframe contributors（MIT）
 - 参考范围：Safari 三种 chrome 布局（compact/bottom/top）与安全区 inset 的组织方式；未安装依赖、未复制完整外框。其原脚本无网址修改 API，本项目改为声明式 React prop。
+
+## 7. JetBrains Maple Mono
+
+- 来源：JetBrains Maple Mono（JetBrains Mono + Maple Mono 融合，含 Nerd Font 图标）
+- 许可：OFL-1.1（SIL Open Font License v1.1）
+- 站点：<https://github.com/JetBrains/JetBrainsMono> / <https://github.com/subframe7536/Maple-font>
+- 使用范围：本框架自托管**分级子集**（latin / GB2312 一级 / GB2312 二级，三字重 9 个 woff2），unicode-range 按需加载。完整字体文件未打包，仅裁剪约 71-99% 体积用于代码/终端场景。OFL 许可允许修改、子集化与再分发，完整许可声明见字体文件内 name table 及 `THIRD_PARTY_NOTICES.md`。
+
+## 8. OPPO Sans 4.0
+
+- 来源：OPPO Sans 4.0（OPPO 官方品牌字体）
+- 许可：免费商用（官方条款「免费商用，不提供下载渠道」）
+- 站点：<https://www.oppoweb.com/sans/>
+- 使用范围：本框架仅自托管**分级子集**（~0.9MB/1.6MB，显著裁剪），**不含完整字体文件**。完整字体需用户自行从 OPPO 官方渠道获取并安装到系统，随后通过系统优先字体栈（`"OPPO Sans 4.0", "OPPO Sans 4.0 Subset", ...`）零下载使用。CSS 注释已注明授权边界，使用库者需自行确认合规。
+
+## 9. HarmonyOS Sans
+
+- 来源：HarmonyOS Sans（华为鸿蒙系统字体，含 SC 简体 / TC 繁体变量字体）
+- 许可：HarmonyOS Font License（免费商用，可修改、子集化、再分发）
+- 站点：<https://developer.huawei.com/consumer/cn/design/HarmonyOS-Sans/>
+- 使用范围：本框架自托管 SC/TC 可变字体（woff2-variations）与分级子集，作为 `data-font-tier="hmos"` 档位的兜底字体。字体基线已恢复原版以兼容 SC/TC 混用。
