@@ -58,7 +58,7 @@ import {
   Laptop,
   Layers,
   Lightbulb,
-  Link,
+  Link as LinkIcon,
   Loader2,
   Lock,
   Mail,
@@ -120,6 +120,7 @@ import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
 import { CopyButton } from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Link } from "@/components/ui/link";
 import { Modal, ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/ui/modal";
 import { useLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
@@ -228,7 +229,7 @@ const ICONS: IconEntry[] = [
   { name: "Download", Icon: Download, lib: "lucide" },
   { name: "Upload", Icon: Upload, lib: "lucide" },
   { name: "Share", Icon: Share, lib: "lucide" },
-  { name: "Link", Icon: Link, lib: "lucide" },
+  { name: "Link", Icon: LinkIcon, lib: "lucide" },
   { name: "ExternalLink", Icon: ExternalLink, lib: "lucide" },
   { name: "RotateCw", Icon: RotateCw, lib: "lucide" },
   { name: "ZoomIn", Icon: ZoomIn, lib: "lucide" },
@@ -355,24 +356,12 @@ export function IconsPage() {
         {demoText(language, "Icon set tailored for developer tools.")}
       </p>
       <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-label-14">
-        <a
-          href="https://lucide.dev"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-1 text-muted-foreground underline decoration-gray-alpha-400 underline-offset-4 transition-colors duration-150 hover:text-foreground"
-        >
+        <Link href="https://lucide.dev" className="text-muted-foreground">
           lucide.dev
-          <ExternalLink className="size-3.5" aria-hidden />
-        </a>
-        <a
-          href="https://simpleicons.org"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-1 text-muted-foreground underline decoration-gray-alpha-400 underline-offset-4 transition-colors duration-150 hover:text-foreground"
-        >
+        </Link>
+        <Link href="https://simpleicons.org" className="text-muted-foreground">
           simpleicons.org
-          <ExternalLink className="size-3.5" aria-hidden />
-        </a>
+        </Link>
       </div>
 
       <div className="relative mt-8 max-w-xs" role="search">

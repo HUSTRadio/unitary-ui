@@ -1,5 +1,6 @@
 import { DocsCardGrid } from "./docs-cards";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
 import {
   Table,
   TableBody,
@@ -28,6 +29,11 @@ export function IntroductionPage() {
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         {demoText(language, "Vercel design system for building consistent web experiences.")}
       </p>
+      <div className="mt-3 text-label-14">
+        <Link href="gh:HUSTRadio/unitary-ui">
+          {demoText(language, "GitHub Repository")}
+        </Link>
+      </div>
       <DocsCardGrid className="mt-10" />
     </div>
   );

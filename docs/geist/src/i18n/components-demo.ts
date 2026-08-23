@@ -492,6 +492,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Mobile only": "仅移动端",
     "Page Not Found": "页面未找到",
     Introduction: "介绍",
+    "GitHub Repository": "GitHub 仓库",
   },
   "en-US": {},
 };
