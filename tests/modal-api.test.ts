@@ -60,7 +60,7 @@ describe("Modal official API contract (G07-MODAL-01 fix)", () => {
 
   test("modal content responsive max-width + scrollable overflow (official)", async () => {
     const src = await read("src/components/ui/modal.tsx");
-    expect(src).toContain("max-[540px]:max-w-[calc(100vw-20px)]");
+    expect(src).toContain("max-modal:max-w-[calc(100vw-20px)]");
     expect(src).toContain("sm:overflow-hidden overflow-y-auto");
   });
 

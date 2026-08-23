@@ -262,6 +262,27 @@
   --color-teal-900: var(--teal-900);
 }
 
+/* =================================================================
+ * Breakpoints — Tailwind v4 tokens（Geist 网格制 + 组件窄屏档）
+ *
+ * 框架自定义断点（官方 Geist GridSystem 制：xs≤400 / sm 401-600 /
+ * smd 601-768 / md 769-960 / lg≥961），以及组件级窄屏档。
+ * 命名避开 Tailwind 默认 sm/md/lg/xl/2xl，不冲突。
+ * @theme static：同时发射到 :root（CSS 模块可引用 var(--breakpoint-*)）
+ * 并生成响应式变体（grid-xs: / max-grid-sm: 等）。
+ */
+@theme static {
+  /* Geist 网格制 */
+  --breakpoint-grid-xs: 25rem;   /* 400px  */
+  --breakpoint-grid-sm: 37.5rem; /* 600px  */
+  --breakpoint-grid-smd: 48rem;  /* 768px  */
+  --breakpoint-grid-md: 60rem;   /* 960px  */
+  --breakpoint-grid-lg: 80rem;   /* 1280px */
+  /* 组件级窄屏档 */
+  --breakpoint-modal: 33.75rem;  /* 540px — Modal 窄屏 */
+  --breakpoint-video: 62rem;     /* 992px — Video 窄屏 */
+}
+
 /* ============ Theme / Light — 34 semantic tokens ============ */
 :root {
   --radius: 0.375rem; /* 6px — Geist base surface radius */
@@ -1399,7 +1420,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: theme(--breakpoint-grid-sm)) {
   .command-menu-mobile[data-state="open"] {
     animation: command-menu-mobile-in 0.4s cubic-bezier(0.32, 0.72, 0, 1);
   }

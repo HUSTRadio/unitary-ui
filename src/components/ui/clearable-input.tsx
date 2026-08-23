@@ -164,7 +164,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
               <div
                 aria-label={t("Press Cmd + K to open the Command Menu")}
                 data-animate="false"
-                className="group clearable-input max-[960px]:hidden flex items-center justify-center gap-1 pr-2.5 font-medium"
+                className="group clearable-input max-grid-md:hidden flex items-center justify-center gap-1 pr-2.5 font-medium"
               >
                 <Kbd
                   small

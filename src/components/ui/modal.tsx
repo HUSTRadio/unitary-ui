@@ -14,7 +14,7 @@ import { useI18n } from "@/lib/i18n";
  *   overlay 本身透明；本地简化为 overlay 自身 bg-[#f2f2f2]/80 dark:bg-black/80（视觉等价）
  * - content 定位：官方 position:static 由 overlay flex 居中；本地 fixed top-50% left-50%
  *   -translate-x/y-1/2 居中（视觉等价）
- * - content：w-[540px] max-w-full max-[540px]:max-w-[calc(100vw-20px)] flex flex-col
+ * - content：w-[540px] max-w-full max-modal:max-w-[calc(100vw-20px)] flex flex-col
  *   rounded-[12px] bg-background-100 无 border，max-h-[min(800px,80vh)]（1440x900 下
  *   720px，sticky demo 全高即由此封顶），sm:overflow-hidden overflow-y-auto
  * - 阴影：shadow-[var(--ds-shadow-modal-elevated)]（双主题：light 边框层 #00000014 /
@@ -115,7 +115,7 @@ const ModalContent = React.forwardRef<
             className={cn(
               "fixed top-[50%] left-[50%] z-[300] flex min-h-0 w-[540px] max-w-full min-w-0 flex-col overflow-hidden rounded-[12px] bg-background-100 text-foreground outline-none",
               "max-h-[min(800px,80vh)]",
-              "max-[540px]:max-w-[calc(100vw-20px)]",
+              "max-modal:max-w-[calc(100vw-20px)]",
               "shadow-[var(--ds-shadow-modal-elevated)]",
               "-translate-x-1/2 -translate-y-1/2",
               "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",

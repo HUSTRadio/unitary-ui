@@ -9,7 +9,7 @@ import { useI18n } from "@/lib/i18n";
  * 容器：8px 圆角 + overflow-hidden + bg-black；video 元素填满固定宽高比容器。
  * 控制层（官方实测对齐）：
  * - bar：absolute bottom-[5%] w-[85%] h-12，bg-background rounded-md，tooltip 阴影，
- *   hover/focus 或窄屏（max-[992px]）下显示
+ *   hover/focus 或窄屏（max-video:）下显示
  * - play button：size-10（40px），svg 16x16，并提供本地化的播放/暂停可访问名称
  * - time：mm:ss（'00:00'）13px tabular-nums，当前时间 + 总时长
  * - progress：原生 <progress max={100}> h-1 rounded-[5px] + 可点击轨道 + size-2.5 拇指点
@@ -170,7 +170,7 @@ const Video = React.forwardRef<HTMLVideoElement, VideoProps>(
           <div
             role="region"
             aria-label={t("Video player")}
-            className="pointer-events-none absolute bottom-[5%] left-1/2 flex h-12 w-[85%] -translate-x-1/2 items-center rounded-md bg-background px-2 text-gray-1000 opacity-0 shadow-[var(--material-shadow-tooltip)] transition-all group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 max-[992px]:pointer-events-auto max-[992px]:opacity-100"
+            className="pointer-events-none absolute bottom-[5%] left-1/2 flex h-12 w-[85%] -translate-x-1/2 items-center rounded-md bg-background px-2 text-gray-1000 opacity-0 shadow-[var(--material-shadow-tooltip)] transition-all group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100 max-video:pointer-events-auto max-video:opacity-100"
           >
             <button
               type="button"

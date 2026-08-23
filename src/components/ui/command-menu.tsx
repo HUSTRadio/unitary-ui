@@ -54,7 +54,7 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
             event.preventDefault();
             requestAnimationFrame(() => document.body.focus());
           }}
-          className="command-menu-scale command-menu-mobile fixed top-[15%] left-1/2 z-100 w-[640px] -translate-x-1/2 overflow-hidden rounded-[12px] bg-background-100 outline-none max-[600px]:top-auto max-[600px]:bottom-0 max-[600px]:left-0 max-[600px]:h-[80vh] max-[600px]:max-h-[80vh] max-[600px]:w-full max-[600px]:max-w-full max-[600px]:translate-x-0 max-[600px]:overflow-auto max-[600px]:rounded-t-[8px] max-[600px]:rounded-b-none"
+          className="command-menu-scale command-menu-mobile fixed top-[15%] left-1/2 z-100 w-[640px] -translate-x-1/2 overflow-hidden rounded-[12px] bg-background-100 outline-none max-grid-sm:top-auto max-grid-sm:bottom-0 max-grid-sm:left-0 max-grid-sm:h-[80vh] max-grid-sm:max-h-[80vh] max-grid-sm:w-full max-grid-sm:max-w-full max-grid-sm:translate-x-0 max-grid-sm:overflow-auto max-grid-sm:rounded-t-[8px] max-grid-sm:rounded-b-none"
         >
           <h2 id={titleId} className="sr-only">
             {t("Command Menu")}

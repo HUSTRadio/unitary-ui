@@ -264,7 +264,8 @@
 }
 
 /* xs */
-@media screen and (max-width: 400px) {
+/* ≤400px = grid-xs (25rem) */
+@media (width <= 25rem) {
   .gridSystem {
     --horizontal-margin: 1rem;
   }
@@ -305,7 +306,8 @@
 }
 
 /* sm */
-@media screen and (min-width: 401px) and (max-width: 600px) {
+/* 401–600px = grid-sm (37.5rem) */
+@media (width > 25rem) and (width <= 37.5rem) {
   .gridSystem {
     --horizontal-margin: 1rem;
   }
@@ -346,7 +348,8 @@
 }
 
 /* smd */
-@media screen and (min-width: 601px) and (max-width: 768px) {
+/* 601–768px = grid-smd (48rem) */
+@media (width > 37.5rem) and (width <= 48rem) {
   .grid {
     --height: var(--smd-height, var(--md-height, var(--sm-height)));
     --grid-rows: var(--smd-grid-rows, var(--md-grid-rows, var(--sm-grid-rows)));
@@ -383,7 +386,8 @@
 }
 
 /* md */
-@media screen and (min-width: 769px) and (max-width: 960px) {
+/* 769–960px = grid-md (60rem) */
+@media (width > 48rem) and (width <= 60rem) {
   .grid {
     --height: var(--md-height, var(--smd-height, var(--sm-height)));
     --grid-rows: var(--md-grid-rows, var(--smd-grid-rows, var(--sm-grid-rows)));
@@ -420,7 +424,8 @@
 }
 
 /* lg */
-@media screen and (min-width: 961px) {
+/* ≥961px = grid-lg (80rem) */
+@media (width > 60rem) {
   .grid {
     --height: var(--lg-height, var(--md-height, var(--smd-height, var(--sm-height))));
     --grid-rows: var(

@@ -97,7 +97,7 @@ describe("ClearableInput official runtime contract", () => {
     expect(suffix.textContent).toContain("Esc");
     expect(suffix.textContent).toContain("⌘K");
     expect(suffix.querySelectorAll("kbd")).toHaveLength(2);
-    expect(suffix.firstElementChild?.className).toContain("max-[960px]:hidden");
+    expect(suffix.firstElementChild?.className).toContain("max-grid-md:hidden");
   });
 
   test("a value renders an aria-hidden inline Esc keycap clear segment", () => {
