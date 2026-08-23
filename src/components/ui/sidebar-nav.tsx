@@ -41,10 +41,12 @@ export function createNavigateHandler(
 }
 
 /**
- * Generic sidebar navigation. Visual contract translated from the docs-shell
- * DocsSidebar: active items use bg-gray-alpha-100 + text-gray-1000, inactive
- * items are text-gray-900 with hover:bg-gray-100. Width is intentionally not
- * constrained here — the outer layout owns the width.
+ * Generic sidebar navigation. Geometry mirrors vercel.com/geist (measured
+ * 2026-08-23, 1440px viewport):
+ * - nav item: h-10 (40px) row, text-copy-14, 2px gap between rows (space-y-0.5)
+ * - group heading: h-10 flex items-center, text-[14px] leading-5 font-medium
+ *   text-gray-900, mb-0.5
+ * - group spacing: 16px between groups (space-y-4 on the outer column)
  */
 export function SidebarNav({
   groups,
@@ -59,14 +61,18 @@ export function SidebarNav({
     <nav
       data-slot="sidebar-nav"
       aria-label={ariaLabel}
-      className={cn("flex flex-col", side === "left" ? "border-r" : "border-l", className)}
+      className={cn(
+        "flex flex-col gap-4",
+        side === "left" ? "border-r" : "border-l",
+        className,
+      )}
     >
       {groups.map((group) => (
         <div key={group.label} data-slot="sidebar-nav-group">
-          <div className="text-copy-13 text-gray-900 px-3 py-2 font-medium">
+          <div className="mb-0.5 flex h-10 items-center px-3 text-[14px] font-medium leading-5 text-gray-900">
             {group.label}
           </div>
-          <ul>
+          <ul className="space-y-0.5">
             {group.items.map((item) => {
               const active = activeTo === item.to;
               const Icon = item.icon;
@@ -77,7 +83,7 @@ export function SidebarNav({
                     aria-current={active ? "page" : undefined}
                     onClick={createNavigateHandler(onNavigate, item.to)}
                     className={cn(
-                      "flex items-center gap-2 rounded-md px-3 py-1.5 text-copy-13 outline-none",
+                      "flex h-10 items-center gap-2 rounded-md px-3 text-copy-14 outline-none",
                       active
                         ? "bg-gray-alpha-100 text-gray-1000"
                         : "text-gray-900 hover:bg-gray-100",
