@@ -127,7 +127,7 @@ export function PhoneStatusBar({
   island = false,
 }: {
   options: boolean | PhoneStatusBarOptions | undefined;
-  /** 灵动岛开启时切换为岛中心对齐几何（HIG：岛中心 ≈ top 29pt），默认关闭维持现状 */
+  /** 灵动岛开启时容器与库绘制岛条带重合（中心 36.5px），默认关闭维持现状 */
   island?: boolean;
 }) {
   if (options === false || options === undefined) return null;
@@ -142,10 +142,11 @@ export function PhoneStatusBar({
       aria-hidden="true"
       className={cn(
         "pointer-events-none absolute inset-x-0 z-20 flex items-center justify-between px-[27px]",
-        // 岛对齐几何：容器覆盖岛所在条带（top 11 + h 37 → 内容垂直居中于岛中心）；
+        // 岛对齐几何：容器与库绘制的岛条带完全重合（react-mockframe@1.1.0
+        // .iphone17 .dynamic-island = top:22px/height:29px → 中心 36.5px）；
         // 无岛时保持 54px 状态栏 + pt 校正的原几何（零回归）。
         island
-          ? "top-[11px] h-[37px]"
+          ? "top-[22px] h-[29px]"
           : "top-0 h-[54px] pt-[14px]",
         dark ? "text-white" : "text-black",
       )}

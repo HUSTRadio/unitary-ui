@@ -37,8 +37,8 @@ describe("Phone status bar × Dynamic Island alignment (HIG)", () => {
       </Device>,
     );
     const bar = queryStatusBar();
-    expect(bar.className).toContain("top-[11px]");
-    expect(bar.className).toContain("h-[37px]");
+    expect(bar.className).toContain("top-[22px]");
+    expect(bar.className).toContain("h-[29px]");
     // pt 校正只服务于无岛的 54px 几何，开岛后必须移除
     expect(bar.className).not.toContain("pt-[14px]");
   });
@@ -53,8 +53,8 @@ describe("Phone status bar × Dynamic Island alignment (HIG)", () => {
     expect(bar.className).toContain("top-0");
     expect(bar.className).toContain("h-[54px]");
     expect(bar.className).toContain("pt-[14px]");
-    expect(bar.className).not.toContain("top-[11px]");
-    expect(bar.className).not.toContain("h-[37px]");
+    expect(bar.className).not.toContain("top-[22px]");
+    expect(bar.className).not.toContain("h-[29px]");
   });
 
   test("时间文字加粗为 font-bold，保留 15px/tabular 字号链与 leading-none", () => {
