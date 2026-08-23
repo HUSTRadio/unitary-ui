@@ -151,10 +151,10 @@ export default function App() {
                 <Input placeholder="禁用状态" disabled aria-label="禁用输入" />
               </div>
               <div className="w-64">
-                <Input defaultValue="geist-style-framework" prefix="https://" suffix=".com" aria-label="前后缀输入" />
+                <Input defaultValue="@hustradio/unitary-ui" prefix="https://" suffix=".com" aria-label="前后缀输入" />
               </div>
               <div className="w-64">
-                <Input defaultValue="geist-style-framework" prefix="https://" suffix=".com" disabled aria-label="禁用前后缀输入" />
+                <Input defaultValue="@hustradio/unitary-ui" prefix="https://" suffix=".com" disabled aria-label="禁用前后缀输入" />
               </div>
               <div className="w-64">
                 <Input rounded defaultValue="42.5" prefix="$" suffix="USD" aria-label="胶囊前后缀输入" />

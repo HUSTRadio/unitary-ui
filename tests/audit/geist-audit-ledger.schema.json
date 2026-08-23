@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://github.com/HUSTRadio/geist-style-framework/tests/audit/geist-audit-ledger.schema.json",
+  "$id": "https://github.com/HUSTRadio/unitary-ui/tests/audit/geist-audit-ledger.schema.json",
   "title": "Geist replica audit ledger v2",
   "type": "object",
   "additionalProperties": false,

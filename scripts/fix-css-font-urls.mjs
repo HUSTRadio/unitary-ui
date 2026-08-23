@@ -7,7 +7,7 @@ import { join } from "node:path";
 const distDir = join(import.meta.dirname, "../dist");
 
 // 1. CSS 字体 URL 相对化
-const cssPath = join(distDir, "geist-style-framework.css");
+const cssPath = join(distDir, "unitary-ui.css");
 let css = readFileSync(cssPath, "utf8");
 const before = (css.match(/url\(\/fonts\//g) || []).length;
 css = css.replaceAll("url(/fonts/", "url(./fonts/");

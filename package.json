@@ -1,18 +1,18 @@
 {
-  "name": "geist-style-framework",
+  "name": "@hustradio/unitary-ui",
   "version": "0.1.0",
   "description": "Geist Style Framework — 兼容 Vercel Geist 设计系统的 React 组件库，含 token 体系、排版、材质、完整组件族与字体度量探针",
   "type": "module",
-  "main": "./dist/geist-style-framework.cjs",
-  "module": "./dist/geist-style-framework.es.js",
+  "main": "./dist/unitary-ui.cjs",
+  "module": "./dist/unitary-ui.es.js",
   "types": "./dist/types/lib/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/geist-style-framework.es.js",
-      "require": "./dist/geist-style-framework.cjs",
+      "import": "./dist/unitary-ui.es.js",
+      "require": "./dist/unitary-ui.cjs",
       "types": "./dist/types/lib/index.d.ts"
     },
-    "./styles.css": "./dist/geist-style-framework.css",
+    "./styles.css": "./dist/unitary-ui.css",
     "./package.json": "./package.json"
   },
   "files": [
@@ -86,10 +86,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/HUSTRadio/geist-style-framework"
+    "url": "https://github.com/HUSTRadio/unitary-ui"
   },
   "bugs": {
-    "url": "https://github.com/HUSTRadio/geist-style-framework/issues"
+    "url": "https://github.com/HUSTRadio/unitary-ui/issues"
   },
-  "homepage": "https://github.com/HUSTRadio/geist-style-framework#readme"
+  "homepage": "https://github.com/HUSTRadio/unitary-ui#readme"
 }

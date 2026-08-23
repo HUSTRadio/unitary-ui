@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://github.com/HUSTRadio/geist-style-framework/tests/audit/evidence-cell.schema.json",
+  "$id": "https://github.com/HUSTRadio/unitary-ui/tests/audit/evidence-cell.schema.json",
   "title": "Geist resolved evidence cell v2",
   "type": "object",
   "additionalProperties": false,

@@ -21,8 +21,8 @@ export default defineConfig(({ command, mode }) => {
             name: "GeistStyleFramework",
             fileName: (format) =>
               format === "cjs"
-                ? "geist-style-framework.cjs"
-                : "geist-style-framework.es.js",
+                ? "unitary-ui.cjs"
+                : "unitary-ui.es.js",
             formats: ["es", "cjs"],
           },
           rollupOptions: {

@@ -71,18 +71,18 @@ vp build
 
 ```bash
 # 1. 样式体系（含字体引用）
-cp -r geist-style-framework/src/styles/ <项目>/src/styles/
-cp -r geist-style-framework/public/fonts/ <项目>/public/fonts/
+cp -r unitary-ui/src/styles/ <项目>/src/styles/
+cp -r unitary-ui/public/fonts/ <项目>/public/fonts/
 
 # 2. 基础组件
-cp -r geist-style-framework/src/components/ui/ <项目>/src/components/ui/
+cp -r unitary-ui/src/components/ui/ <项目>/src/components/ui/
 
 # 3. 工具
-cp geist-style-framework/src/lib/utils.ts <项目>/src/lib/
-cp geist-style-framework/src/lib/theme.tsx <项目>/src/lib/
-cp geist-style-framework/src/lib/i18n.tsx <项目>/src/lib/
-cp geist-style-framework/src/lib/framework-messages.ts <项目>/src/lib/
-cp geist-style-framework/src/lib/date-time.ts <项目>/src/lib/
+cp unitary-ui/src/lib/utils.ts <项目>/src/lib/
+cp unitary-ui/src/lib/theme.tsx <项目>/src/lib/
+cp unitary-ui/src/lib/i18n.tsx <项目>/src/lib/
+cp unitary-ui/src/lib/framework-messages.ts <项目>/src/lib/
+cp unitary-ui/src/lib/date-time.ts <项目>/src/lib/
 ```
 
 然后在项目入口引入样式：
