@@ -192,7 +192,7 @@ export const Device = React.forwardRef<HTMLDivElement, DeviceProps>(
               )}
             >
               {/* screen 内三重叠层：内容 → 状态栏 → Safari chrome（均装饰性） */}
-              <PhoneStatusBar options={effectiveStatusBar} />
+              <PhoneStatusBar options={effectiveStatusBar} island={effectiveDynamicIsland} />
               <PhoneSafariChrome options={effectiveSafari} />
               {children}
             </MockFrame>

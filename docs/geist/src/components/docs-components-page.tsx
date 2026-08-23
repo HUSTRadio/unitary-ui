@@ -3949,7 +3949,7 @@ function PhoneDemo() {
         data-demo-card="Landscape"
       >
         <div className="w-full p-6" data-demo-container="Landscape">
-          <Phone landscape>
+          <Phone landscape dynamicIsland>
             <PhoneScreen>
               <div className="flex h-full items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
                 Landscape screenshot

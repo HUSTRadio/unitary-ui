@@ -124,8 +124,11 @@ function BatteryIcon({ percent, ...props }: { percent: number } & React.SVGProps
 
 export function PhoneStatusBar({
   options,
+  island = false,
 }: {
   options: boolean | PhoneStatusBarOptions | undefined;
+  /** 灵动岛开启时切换为岛中心对齐几何（HIG：岛中心 ≈ top 29pt），默认关闭维持现状 */
+  island?: boolean;
 }) {
   if (options === false || options === undefined) return null;
   const o: Required<PhoneStatusBarOptions> =
@@ -138,11 +141,16 @@ export function PhoneStatusBar({
       data-slot="phone-status-bar"
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-x-0 top-0 z-20 flex h-[54px] items-center justify-between px-[30px] pt-[14px]",
+        "pointer-events-none absolute inset-x-0 z-20 flex items-center justify-between px-[27px]",
+        // 岛对齐几何：容器覆盖岛所在条带（top 11 + h 37 → 内容垂直居中于岛中心）；
+        // 无岛时保持 54px 状态栏 + pt 校正的原几何（零回归）。
+        island
+          ? "top-[11px] h-[37px]"
+          : "top-0 h-[54px] pt-[14px]",
         dark ? "text-white" : "text-black",
       )}
     >
-      <span className="phone-status-time text-[15px] font-semibold leading-none">{o.time}</span>
+      <span className="phone-status-time text-[15px] font-bold leading-none">{o.time}</span>
       <span className="flex items-center gap-[6px]">
         <CellularIcon level={o.cellular} />
         <WifiIcon level={o.wifi} />
