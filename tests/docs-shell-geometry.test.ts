@@ -59,13 +59,14 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(shell).toContain("hidden w-[260px]");
   });
 
-  it("assembles HamburgerMenu as a topbar-anchored downward merged panel with flattened items", () => {
-    const menu = shell.match(/<HamburgerMenu[\s\S]*?\/>/)?.[0];
+  it("assembles HamburgerMenu as a left side-slide panel with flattened items (Task 4)", () => {
+    const menu = shell.match(/<HamburgerMenu(?![\w])[\s\S]*?\n {12}\/>/)?.[0];
     expect(menu).toBeDefined();
     expect(menu).toContain('anchor="topbar"');
-    expect(menu).toContain('direction="down"');
-    expect(menu).toContain('content="merged"');
+    expect(menu).toContain('direction="left"');
+    expect(menu).toContain("showCloseButton");
     expect(menu).toContain('maxExpandedHeight="100dvh"');
+    expect(menu).toContain('maxExpandedWidth="292px"');
     expect(menu).toContain("anchorElement={navbarEl}");
     expect(menu).toContain("items={menuItems}");
     expect(menu).toContain("open={menuOpen}");
@@ -79,7 +80,7 @@ describe("docs shell geometry — framework shell assembly", () => {
   it("双向锁：≥lg 无汉堡按钮、<lg 有汉堡按钮", () => {
     // 全文件唯一 HamburgerMenu 实例，且其触发器包在 lg:hidden 容器内 ——
     // 桌面端按钮不可见即无任何打开面板的路径；ExpandPanel 经 Portal 渲染不受显隐影响。
-    expect(shell.match(/<HamburgerMenu/g)).toHaveLength(1);
+    expect(shell.match(/<HamburgerMenu(?![\w])/g)).toHaveLength(1);
     const triggerWrap = shell.match(/<div[\s\S]{0,200}?className="lg:hidden"[\s\S]*?>\s*<HamburgerMenu/);
     expect(triggerWrap).not.toBeNull();
 
@@ -87,9 +88,9 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(shell).not.toContain("setMenuOpen(true)");
     expect(shell).not.toContain("@/components/ui/drawer");
 
-    // 窄屏搜索图标 lg:hidden；桌面搜索框仅 lg 显示
+    // 窄屏搜索图标 lg:hidden；桌面搜索框仅 lg 显示（工具行内的搜索按钮不算顶栏入口）
     const searchIconBlock = shell.match(
-      /<button[\s\S]*?aria-label=\{copy\.searchAria\}[\s\S]*?<\/button>/,
+      /<button[\s\S]*?aria-label=\{copy\.searchAria\}[\s\S]*?lg:hidden[\s\S]*?<\/button>/,
     )?.[0];
     expect(searchIconBlock).toContain("lg:hidden");
     expect(searchIconBlock).toContain("onClick={onSearchOpen}");
@@ -109,8 +110,8 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(app).toContain("lg:px-12");
   });
 
-  it("draws the view's right vertical boundary on the full content column", () => {
-    expect(app).toContain('className="min-w-0 border-r border-gray-alpha-400 py-10"');
+  it("draws the view's right vertical boundary on the content column at lg+ only (Task 4: 窄档去竖线)", () => {
+    expect(app).toContain('className="min-w-0 border-gray-alpha-400 py-10 lg:border-r"');
   });
 
   it("no longer mounts the docs Footer below <main>（Task 8：页脚已移除，main flex-1 撑满 min-h-screen）", () => {

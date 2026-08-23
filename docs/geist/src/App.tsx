@@ -133,8 +133,8 @@ export default function App() {
         className="mx-auto w-full max-w-[1220px] flex-1 lg:grid lg:grid-cols-[260px_1fr]"
       >
         <DocsSidebar />
-        <div className="min-w-0 border-r border-gray-alpha-400 py-10">
-          <div className="px-6 lg:px-12">
+        <div className="min-w-0 border-gray-alpha-400 py-10 lg:border-r">
+          <div className="px-6 lg:px-12 max-md:px-5">
             {Page ? (
               <Page />
             ) : ContentPage ? (

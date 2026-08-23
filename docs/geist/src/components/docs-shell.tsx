@@ -1,8 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Languages, Search } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { HamburgerMenu } from "@/components/ui/hamburger-menu";
+import {
+  HamburgerMenu,
+  type HamburgerMenuHandle,
+} from "@/components/ui/hamburger-menu";
 import { Input } from "@/components/ui/input";
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
 import { Navbar } from "@/components/ui/navbar";
@@ -30,6 +33,10 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
   const navigate = useNavigate();
   // 汉堡面板受控开关：导航后收回面板（与旧壳层 Drawer 行为一致）
   const [menuOpen, setMenuOpen] = useState(false);
+  // 搜索模式：<md 用焦点驱动工具行（搜索/主题/语言进面板首行），md–lg 无内建搜索
+  const searchMode: "query" | "toolbar" = "toolbar";
+  // 命令式句柄：手机端工具行搜索按钮 → openSearch()
+  const menuRef = useRef<HamburgerMenuHandle | null>(null);
   // 汉堡面板锚元素：navbar 根元素（面板从其底边延伸落下、与其同宽共享边框）
   const [navbarEl, setNavbarEl] = useState<HTMLElement | null>(null);
   useEffect(() => {
@@ -49,9 +56,9 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
 
   return (
     <Navbar scrollBehavior="pinned" className="mx-auto w-full max-w-[1220px]">
-      <div className="flex h-full w-full border-l border-r border-gray-alpha-400 pl-[22px] dark:border-[#242424]">
+      <div className="flex h-full w-full pl-[22px] dark:border-[#242424] max-lg:border-l-0 max-lg:border-r-0 max-md:grid max-md:grid-cols-[44px_1fr_44px] max-md:items-center max-md:pl-0">
         {/* 左区块：汉堡按钮（<lg 可见）+ Logo */}
-        <div className="border-gray-alpha-400 flex grow items-center gap-2 py-4 pl-px lg:w-[237px] lg:grow-0 lg:border-r">
+        <div className="border-gray-alpha-400 flex grow items-center gap-2 py-4 pl-px lg:w-[237px] lg:grow-0 lg:border-r max-md:py-0 max-md:pl-0">
           {/* 双向锁：容器 lg:hidden —— ≥lg 无汉堡按钮；ExpandPanel 经 Portal 渲染不受影响 */}
           <div
             className="lg:hidden"
@@ -63,12 +70,55 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
             }}
           >
             <HamburgerMenu
+              ref={menuRef}
               anchor="topbar"
               anchorElement={navbarEl}
-              direction="down"
-              content="merged"
+              direction="left"
+              showCloseButton
+              disableSearch={searchMode === "toolbar"}
+              searchMode={searchMode}
               maxExpandedHeight="100dvh"
-              maxExpandedWidth="100%"
+              maxExpandedWidth="292px"
+              toolbarLeft={
+                searchMode === "toolbar" ? (
+                  <button
+                    type="button"
+                    aria-label={copy.searchAria}
+                    onClick={() => menuRef.current?.openSearch()}
+                    className="inline-flex size-11 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-[var(--ds-gray-alpha-200)]"
+                  >
+                    <Search className="size-4" aria-hidden />
+                  </button>
+                ) : undefined
+              }
+              toolbarRight={
+                searchMode === "toolbar" ? (
+                  <>
+                    <ThemeSwitcher small />
+                    <MenuContainer position="bottom-end">
+                      <MenuButton
+                        variant="unstyled"
+                        aria-label={copy.languageAria}
+                        className="flex size-11 items-center justify-center rounded-md text-muted-foreground hover:bg-gray-alpha-100 hover:text-foreground focus-ring"
+                      >
+                        <Languages className="size-4 shrink-0" aria-hidden />
+                      </MenuButton>
+                      <Menu width={128} stateful aria-label={copy.languageLabel}>
+                        {LANGUAGE_OPTIONS.map((option) => (
+                          <MenuItem
+                            key={option.value}
+                            aria-current={option.value === language ? "true" : undefined}
+                            active={option.value === language}
+                            onSelect={() => setLanguage(option.value)}
+                          >
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </Menu>
+                    </MenuContainer>
+                  </>
+                ) : undefined
+              }
               items={menuItems}
               open={menuOpen}
               onOpenChange={setMenuOpen}
@@ -78,11 +128,15 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               }}
             />
           </div>
-          <a href="#/" className="flex shrink-0 items-center gap-2" aria-label={copy.homeAria}>
+          <a
+            href="#/"
+            className="flex shrink-0 items-center gap-2 max-md:justify-self-center max-sm:gap-0 sm:gap-2"
+            aria-label={copy.homeAria}
+          >
             <svg viewBox="0 0 24 24" className="size-6 fill-foreground" aria-hidden>
               <path d="M12 2.5 22.5 21h-21L12 2.5Z" />
             </svg>
-            <span className="hidden whitespace-nowrap text-heading-16 text-foreground sm:block">
+            <span className="whitespace-nowrap text-heading-16 text-foreground max-md:block">
               Unitary
             </span>
           </a>
