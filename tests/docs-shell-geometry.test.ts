@@ -8,25 +8,38 @@ const shell = readFileSync(
   "utf8",
 );
 
-describe("docs shell geometry — official Geist layout", () => {
-  it("limits width on <main> itself, not an inner wrapper", () => {
+describe("docs shell geometry — framework shell assembly", () => {
+  it("limits width on the navbar/main/footer containers, not an inner wrapper", () => {
     expect(app).toContain("max-w-[1220px]");
     expect(app).not.toContain("max-w-[1280px]");
+    expect(shell).toContain("max-w-[1220px]");
   });
 
-  it("uses lg:grid with sidebar + content columns at the shell breakpoint", () => {
+  it("wraps the banner content in <Navbar scrollBehavior=\"pinned\"> (framework component)", () => {
+    expect(shell).toContain('<Navbar scrollBehavior="pinned"');
+    // 顶栏内容仍保留：Logo / 搜索框 / 语言菜单 / 主题切换
+    expect(shell).toContain("<ThemeSwitcher />");
+    expect(shell).toContain("LANGUAGE_OPTIONS");
+    expect(shell.indexOf("LANGUAGE_OPTIONS")).toBeLessThan(shell.indexOf("<ThemeSwitcher />"));
+    expect(shell).toContain("flex items-center gap-2");
+    // 不再手写 sticky header 壳层（由 Navbar 组件负责）
+    expect(shell).not.toContain('header className="sticky top-0 z-40');
+  });
+
+  it("uses lg:grid with sidebar + content columns at the lg breakpoint", () => {
+    // 断点铁律：桌面/移动分界一律 lg:（1024px），禁止 xl
     expect(app).toContain("lg:grid lg:grid-cols-[260px_1fr]");
+    expect(app).not.toMatch(/\bxl:/);
+    expect(shell).not.toMatch(/\bxl:/);
   });
 
-  it("keeps vertical padding off <main> so sidebar borders start at banner bottom", () => {
-    // py-10 must be on the content column, NOT on main
+  it("keeps vertical padding off <main> so sidebar borders start at navbar bottom", () => {
     expect(app).not.toContain("flex-1 py-10 lg:grid");
     expect(app).toContain("border-gray-alpha-400 py-10");
   });
 
   it("uses the page canvas separately from Background 1 surfaces", () => {
     expect(app).toContain("bg-background");
-    expect(shell).toContain("bg-background");
   });
 
   it("uses the official dark page canvas and surface values", () => {
@@ -35,9 +48,61 @@ describe("docs shell geometry — official Geist layout", () => {
     expect(styles).toContain("--color-bg-surface: #0a0a0a;");
   });
 
-  it("keeps sidebar state colors on the official gray-alpha scale", () => {
-    expect(shell).toContain("bg-gray-alpha-100");
-    expect(shell).toContain("hover:bg-gray-alpha-100");
+  it("renders the desktop sidebar via SidebarNav inside the sticky 260px container", () => {
+    expect(shell).toContain("<SidebarNav");
+    expect(shell).toContain("activeTo={pathname}");
+    // 容器结构保持：260px 宽 + 双边界（aside border-l + nav border-r）+ lg sticky
+    expect(shell).toContain("w-[260px]");
+    expect(shell).toContain("border-l border-gray-alpha-400");
+    expect(shell).toContain("lg:sticky lg:top-16");
+    expect(shell).toContain("lg:h-[calc(100vh-4rem)]");
+    expect(shell).toContain("hidden w-[260px]");
+  });
+
+  it("assembles HamburgerMenu as a topbar-anchored downward merged panel with flattened items", () => {
+    const menu = shell.match(/<HamburgerMenu[\s\S]*?\/>/)?.[0];
+    expect(menu).toBeDefined();
+    expect(menu).toContain('anchor="topbar"');
+    expect(menu).toContain('direction="down"');
+    expect(menu).toContain('content="merged"');
+    expect(menu).toContain('maxExpandedHeight="100dvh"');
+    expect(menu).toContain("anchorElement={navbarEl}");
+    expect(menu).toContain("items={menuItems}");
+    expect(menu).toContain("open={menuOpen}");
+    expect(menu).toContain("onOpenChange={setMenuOpen}");
+    // 导航后收回面板（受控 open）
+    expect(menu).toContain("onNavigate={(to) => {");
+    // 数据源：NAV_GROUPS 扁平化 [{label, to}]
+    expect(shell).toContain("NAV_GROUPS.flatMap");
+  });
+
+  it("双向锁：≥lg 无汉堡按钮、<lg 有汉堡按钮", () => {
+    // 全文件唯一 HamburgerMenu 实例，且其触发器包在 lg:hidden 容器内 ——
+    // 桌面端按钮不可见即无任何打开面板的路径；ExpandPanel 经 Portal 渲染不受显隐影响。
+    expect(shell.match(/<HamburgerMenu/g)).toHaveLength(1);
+    const triggerWrap = shell.match(/<div[\s\S]{0,200}?className="lg:hidden"[\s\S]*?>\s*<HamburgerMenu/);
+    expect(triggerWrap).not.toBeNull();
+
+    // 无遗留的旧汉堡/Drawer 打开路径
+    expect(shell).not.toContain("setMenuOpen(true)");
+    expect(shell).not.toContain("@/components/ui/drawer");
+
+    // 窄屏搜索图标 lg:hidden；桌面搜索框仅 lg 显示
+    const searchIconBlock = shell.match(
+      /<button[\s\S]*?aria-label=\{copy\.searchAria\}[\s\S]*?<\/button>/,
+    )?.[0];
+    expect(searchIconBlock).toContain("lg:hidden");
+    expect(searchIconBlock).toContain("onClick={onSearchOpen}");
+    expect(shell).toContain('relative hidden lg:block" role="search"');
+  });
+
+  it("removes the static DocsMobileNav list (superseded by the HamburgerMenu panel)", () => {
+    expect(shell).not.toContain("DocsMobileNav");
+    // 死 i18n key 一并清理
+    const catalog = readFileSync(resolve(process.cwd(), "docs/geist/src/i18n/catalog.ts"), "utf8");
+    for (const dead of ["menuOpenAria", "menuCloseAria", "mobileSearchPlaceholder", "searchClearAria", "searchNoResults"]) {
+      expect(catalog).not.toContain(dead);
+    }
   });
 
   it("puts 48px gutter on the content column, not on <main>", () => {
@@ -48,48 +113,20 @@ describe("docs shell geometry — official Geist layout", () => {
     expect(app).toContain('className="min-w-0 border-r border-gray-alpha-400 py-10"');
   });
 
-  it("places the language menu immediately before the theme switcher", () => {
-    expect(shell).toContain("LANGUAGE_OPTIONS");
-    expect(shell).toContain("<ThemeSwitcher />");
-    expect(shell.indexOf("LANGUAGE_OPTIONS")).toBeLessThan(shell.indexOf("<ThemeSwitcher />"));
-    expect(shell).toContain("flex items-center gap-2");
-  });
-
-  it("uses the official 260px sidebar with dual borders at the lg breakpoint", () => {
-    expect(shell).toContain("w-[260px]");
-    expect(shell).toContain("border-l border-r border-gray-alpha-400");
-    expect(shell).toContain("lg:sticky");
-    expect(shell).toContain("lg:top-16");
-    expect(shell).toContain("lg:bottom-0");
-  });
-
-  it("uses full-size theme switcher (not small) in the banner", () => {
-    expect(shell).toContain("<ThemeSwitcher />");
-    expect(shell).not.toContain("ThemeSwitcher small");
-  });
-
-  it("caps banner width to match main", () => {
-    expect(shell).toContain("max-w-[1220px]");
-  });
-
-  it("locks the hamburger menu to narrow screens so desktop never shows it", () => {
-    // 桌面端（lg 起）不得出现汉堡按钮：汉堡按钮必须携带 lg:hidden，
-    // 且 menuOpen 只能被该汉堡按钮置真（桌面端按钮不可见即无任何打开 Drawer 的路径）。
-    const hamburger = shell.match(
-      /<button[\s\S]*?aria-label=\{copy\.menuOpenAria\}[\s\S]*?<\/button>/,
-    )?.[0];
-    expect(hamburger).toBeDefined();
-    expect(hamburger).toContain("lg:hidden");
-    expect(hamburger).toContain("onClick={() => setMenuOpen(true)}");
-
-    const setMenuOpenTrue = shell.match(/setMenuOpen\(true\)/g);
-    expect(setMenuOpenTrue).toEqual(["setMenuOpen(true)"]);
-
-    // 窄屏搜索图标同样 lg:hidden（桌面端用 lg:block 的搜索框）
-    const searchIconBlock = shell.match(
-      /<button[\s\S]*?aria-label=\{copy\.searchAria\}[\s\S]*?<\/button>/,
-    )?.[0];
-    expect(searchIconBlock).toContain("lg:hidden");
-    expect(searchIconBlock).toContain("onClick={onSearchOpen}");
+  it("mounts a three-column Footer with internal hash routes below <main>", () => {
+    expect(app).toMatch(/<\/main>\s*\{\/\* 页脚/);
+    expect(app).toContain("<Footer");
+    // 三列：组件 / 资源 / 关于，双语文案齐备，链接全部指向 docs 内部 hash 路由
+    expect(app).toContain('title: "组件"');
+    expect(app).toContain('title: "资源"');
+    expect(app).toContain('title: "关于"');
+    expect(app).toContain('title: "Components"');
+    expect(app).toContain('title: "Resources"');
+    expect(app).toContain('title: "About"');
+    expect(app).toContain('"#/components"');
+    expect(app).toContain('"#/"');
+    // 页脚链接不得指向外部站点
+    const footerBlock = app.slice(app.indexOf("FOOTER_COLUMNS"));
+    expect(footerBlock).not.toMatch(/href: "https?:/);
   });
 });

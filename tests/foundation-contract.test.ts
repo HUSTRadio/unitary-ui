@@ -99,8 +99,10 @@ describe("Geist foundation and docs shell contract", () => {
   test("docs shell consumes named Geist typography utilities", async () => {
     const shell = await read("docs/geist/src/components/docs-shell.tsx");
     expect(shell).not.toMatch(/text-\[\d+px\]|leading-\[?\d/);
-    const labelCount = shell.match(/text-label-14/g)?.length ?? 0;
-    const copyCount = shell.match(/text-copy-14/g)?.length ?? 0;
-    expect(labelCount + copyCount).toBeGreaterThanOrEqual(3);
+    // 壳层重构后导航链接排版移入 SidebarNav 组件；
+    // 契约改为统计壳层与其组装的导航组件中的命名排版工具（仍禁裸 px）。
+    const sidebarNav = await read("src/components/ui/sidebar-nav.tsx");
+    const count = (source: string) => (source.match(/text-(?:label|copy)-\d+/g) ?? []).length;
+    expect(count(shell) + count(sidebarNav)).toBeGreaterThanOrEqual(3);
   });
 });
