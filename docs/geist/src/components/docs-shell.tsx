@@ -58,7 +58,8 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
     <Navbar scrollBehavior="pinned" className="mx-auto w-full max-w-[1220px]">
       <div className="flex h-full w-full pl-[22px] dark:border-[#242424] max-lg:border-l-0 max-lg:border-r-0 max-md:grid max-md:grid-cols-[44px_1fr_44px] max-md:items-center max-md:pl-0">
         {/* 左区块：汉堡按钮（<lg 可见）+ Logo */}
-        <div className="border-gray-alpha-400 flex grow items-center gap-2 py-4 pl-px lg:w-[237px] lg:grow-0 lg:border-r max-md:py-0 max-md:pl-0">
+        <div className="border-gray-alpha-400 flex grow items-center gap-2 py-4 pl-px lg:w-[237px] lg:grow-0 lg:border-r max-md:contents">
+          {/* max-md:contents —— 左区块解体为 grid item：汉堡占第1列、品牌占第2列（居中） */}
           {/* 双向锁：容器 lg:hidden —— ≥lg 无汉堡按钮；ExpandPanel 经 Portal 渲染不受影响 */}
           <div
             className="lg:hidden"

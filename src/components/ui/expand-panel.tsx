@@ -47,7 +47,7 @@ const SIDES: readonly Side[] = ["top", "bottom", "left", "right"];
 const SIDE_CLASSES: Record<Side, string> = {
   // 只下圆角 = navbar 视觉延伸；顶部无圆角、贴住锚底边
   top: "fixed inset-x-0 top-[var(--expand-anchor-bottom,64px)] bottom-auto w-full rounded-b-lg border-b",
-  left: "fixed left-0 inset-y-0 h-full rounded-r-lg border-r",
+  left: "fixed left-0 inset-y-0 h-full w-[var(--expand-panel-width,auto)] min-w-64 rounded-r-lg border-r",
   right: "fixed right-0 inset-y-0 h-full rounded-l-lg border-l",
   bottom: "fixed inset-x-0 bottom-0 rounded-t-lg border-t",
 };
@@ -109,6 +109,11 @@ function ExpandPanel({
             {
               maxHeight: resolvedMaxHeight,
               maxWidth: resolvedMaxWidth,
+              // side=left/right 时把 maxWidth 同时作为目标宽度（侧滑面板应为固定宽卡片，
+              // 而非由内容撑开的窄条）；auto 值不注入，保持内容自适应
+              ...(horizontal && resolvedMaxWidth && resolvedMaxWidth !== "auto"
+                ? { width: resolvedMaxWidth }
+                : {}),
               ...anchorStyle,
             } as React.CSSProperties
           }
