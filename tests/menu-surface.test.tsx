@@ -22,10 +22,10 @@ import { Menu, MenuButton, MenuContainer, MenuDivider, MenuItem } from "@/compon
  * 由既有 MenuContainer/Radix 提供并已在 tests/menu.test.ts 覆盖，不在本文件断言。
  */
 describe("Menu surface contract (B0 menu-surface)", () => {
-  test("content surface uses material-menu: rounded 12px, padding 6px, shadow, no border", () => {
+  test("content surface uses material-menu: rounded 6px (HIG overlay token), padding 6px, shadow, no border", () => {
     const { content } = renderMenu();
     expect(content).not.toBeNull();
-    expect(content!.className).toContain("rounded-[12px]");
+    expect(content!.className).toContain("rounded-overlay");
     expect(content!.className).toContain("p-1.5");
     expect(content!.className).toContain("shadow-[var(--material-shadow-menu)]");
     // 官方无真实 border；border 由 --material-shadow-menu 的 1px 环承担
@@ -67,7 +67,7 @@ describe("Menu surface contract (B0 menu-surface)", () => {
     expect(item!.className).toContain("text-label-14");
     expect(item!.className).toContain("h-9");
     expect(item!.className).toContain("px-2");
-    expect(item!.className).toContain("rounded-md");
+    expect(item!.className).toContain("rounded-overlay-item");
     expect(item!.className).toContain("data-highlighted:bg-gray-alpha-100");
   });
 

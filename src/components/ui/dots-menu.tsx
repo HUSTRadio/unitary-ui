@@ -18,7 +18,7 @@ import { useI18n } from "@/lib/i18n";
  */
 
 const DOTS_MENU_CONTENT_CLASSES =
-  "min-w-[200px] rounded-[12px] border-0 bg-background p-1.5 shadow-[var(--material-shadow-menu)]";
+  "min-w-[200px] rounded-overlay border-0 bg-background p-1.5 shadow-[var(--material-shadow-menu)]";
 
 interface DotsMenuProps extends React.ComponentProps<typeof MenuContainer> {
   /** 图标尺寸（默认 18，官方实测） */
@@ -76,7 +76,7 @@ const DotsMenuItem = React.forwardRef<React.ElementRef<typeof MenuItem>, DotsMen
     <MenuItem
       ref={ref}
       className={cn(
-        "h-9 rounded-[6px] px-2 text-sm hover:bg-gray-alpha-100 focus-visible:bg-gray-alpha-100 data-[highlighted]:bg-gray-alpha-100 data-[disabled]:text-gray-700 data-[disabled]:opacity-100",
+        "h-9 rounded-overlay-item px-2 text-sm hover:bg-gray-alpha-100 focus-visible:bg-gray-alpha-100 data-[highlighted]:bg-gray-alpha-100 data-[disabled]:text-gray-700 data-[disabled]:opacity-100",
         className,
       )}
       {...props}

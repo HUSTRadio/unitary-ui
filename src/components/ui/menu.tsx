@@ -136,7 +136,7 @@ const Menu = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Content>, Me
             data-slot="menu"
             data-stateful={stateful || undefined}
             className={cn(
-              "z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-32 overflow-x-hidden overflow-y-auto rounded-[12px] bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none",
+              "z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-32 overflow-x-hidden overflow-y-auto rounded-overlay bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none",
               stateful && "flex flex-col gap-1",
               "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
               className,
@@ -214,7 +214,7 @@ const MenuItem = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Item>, M
         data-type={type}
         data-active={isActive || undefined}
         className={cn(
-          "relative flex h-9 cursor-default select-none items-center gap-2 rounded-md px-2 text-label-14 text-foreground outline-none transition-colors data-highlighted:bg-gray-alpha-100 data-[disabled]:pointer-events-none data-[disabled]:text-gray-700 data-[disabled]:opacity-100",
+          "relative flex h-9 cursor-default select-none items-center gap-2 rounded-overlay-item px-2 text-label-14 text-foreground outline-none transition-colors data-highlighted:bg-gray-alpha-100 data-[disabled]:pointer-events-none data-[disabled]:text-gray-700 data-[disabled]:opacity-100",
           isActive && "bg-gray-alpha-100",
           type === "error" &&
             "text-error-foreground data-highlighted:bg-destructive data-highlighted:text-destructive-foreground",

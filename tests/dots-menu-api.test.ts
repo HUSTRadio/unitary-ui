@@ -8,7 +8,7 @@ describe("Dots Menu official contract", () => {
     expect(source).toContain('aria-label={t("Menu")}');
     expect(source).toContain("size-8");
     expect(source).toContain("min-w-[200px]");
-    expect(source).toContain("rounded-[12px]");
+    expect(source).toContain("rounded-overlay");
     expect(source).toContain("p-1.5");
     expect(source).toContain("h-9");
   });

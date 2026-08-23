@@ -63,7 +63,7 @@ export default function App() {
     <div className="min-h-screen bg-background">
       <header className="flex h-16 items-center justify-between border-b border-border px-6">
         <div className="flex items-center gap-6">
-          <h1 className="text-heading-20 text-foreground">Unitary</h1>
+          <h1 className="text-heading-16 text-foreground">Unitary</h1>
           <nav className="hidden items-center gap-1 md:flex">
             {NAV.map((item) => (
               <button

@@ -421,8 +421,13 @@
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
   --radius-lg: 0.5rem; /* 8px — demo 卡片 / input large / hover card 浮层 */
-  --radius-xl: 0.75rem; /* 12px — menu / modal / combobox / feedback popover */
+  --radius-xl: 0.75rem; /* 12px — modal / feedback popover */
   --radius-pill: 9999px;
+
+  /* Apple HIG 浮层圆角（2026-08-23 起，替代官方 Geist 浮层 12px 口径）：
+     浮层容器 6px，容器内嵌套高亮项 4px（同心：6 − 容器 padding 光学差） */
+  --radius-overlay: var(--radius);
+  --radius-overlay-item: calc(var(--radius) - 2px);
 
   /* LoadingDots 官方 blink 动画（1.4s ease infinite） */
   --animate-blink: blink 1.4s ease infinite backwards;
