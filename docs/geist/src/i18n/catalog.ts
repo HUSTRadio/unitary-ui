@@ -8,7 +8,7 @@ export const LANGUAGE_OPTIONS: Array<{ value: DocsLanguage; label: string }> = [
 export const SHELL_COPY = {
   "zh-CN": {
     homeAria: "Unitary 首页",
-    searchPlaceholder: "搜索 Geist",
+    searchPlaceholder: "搜索 Unitary",
     searchAria: "搜索文档",
     languageAria: "选择语言",
     languageLabel: "语言",
@@ -39,7 +39,7 @@ export const SHELL_COPY = {
   },
   "en-US": {
     homeAria: "Unitary home",
-    searchPlaceholder: "Search Geist",
+    searchPlaceholder: "Search Unitary",
     searchAria: "Search documentation",
     languageAria: "Select language",
     languageLabel: "Language",

@@ -79,10 +79,10 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
             />
           </div>
           <a href="#/" className="flex shrink-0 items-center gap-2" aria-label={copy.homeAria}>
-            <svg viewBox="0 0 24 24" className="size-5 fill-foreground" aria-hidden>
+            <svg viewBox="0 0 24 24" className="size-6 fill-foreground" aria-hidden>
               <path d="M12 2.5 22.5 21h-21L12 2.5Z" />
             </svg>
-            <span className="hidden whitespace-nowrap text-label-14 font-medium text-foreground sm:block">
+            <span className="hidden whitespace-nowrap text-copy-16 text-foreground sm:block">
               Unitary
             </span>
           </a>
