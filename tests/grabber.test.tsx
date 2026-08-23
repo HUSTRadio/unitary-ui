@@ -32,8 +32,8 @@ describe("Grabber", () => {
     expect(markup).toContain('aria-valuemin="0"');
     expect(markup).toContain('aria-valuemax="2"');
     expect(markup).toContain('aria-valuenow="1"');
-    // 视觉条：官方 h-1 w-9 rounded-full bg-gray-alpha-500
-    expect(markup).toContain("h-1 w-9 rounded-full bg-gray-alpha-500");
+    // 视觉条：h-1 w-9 rounded-full；颜色 gray-700/dark:gray-600（WCAG ≥3:1 实测达标）
+    expect(markup).toContain("h-1 w-9 rounded-full bg-gray-700 dark:bg-gray-600");
     // 命中区扩展
     expect(markup).toContain("py-5 px-6 -my-5 -mx-6");
   });
