@@ -80,6 +80,8 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               searchMode={searchMode}
               maxExpandedHeight="100dvh"
               maxExpandedWidth="292px"
+              belowTopbar
+              staggerIn
               toolbarLeft={
                 searchMode === "toolbar" ? (
                   <button

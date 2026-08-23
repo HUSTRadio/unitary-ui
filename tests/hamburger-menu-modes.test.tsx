@@ -2,7 +2,7 @@
 import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { HamburgerMenu } from "../src/components/ui/hamburger-menu";
 
@@ -131,5 +131,55 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
     expect(navList.className).toContain("opacity-0");
     const active = document.activeElement;
     expect(active?.getAttribute("role")).toBe("searchbox");
+  });
+
+  it("staggerIn: first N items get stagger animation while active, later items none (Task 10)", () => {
+    vi.useFakeTimers();
+    const many = Array.from({ length: 14 }, (_, i) => ({
+      label: `Item ${i}`,
+      to: `/item-${i}`,
+    }));
+    act(() => {
+      root.render(
+        <HamburgerMenu anchor="topbar" items={many} staggerIn staggerCount={8} />,
+      );
+    });
+    // 打开前：无动画
+    expect(document.querySelectorAll("[data-staggered]")).toHaveLength(0);
+    act(() => {
+      document
+        .querySelector<HTMLButtonElement>('[data-slot="hamburger-trigger"]')!
+        .click();
+    });
+    // 动画期：仅前 8 项带 data-staggered，且列表禁点
+    const staggered = document.querySelectorAll("[data-staggered]");
+    expect(staggered).toHaveLength(8);
+    expect(staggered[0].style.animationDelay).toBe("0ms");
+    expect(staggered[7].style.animationDelay).toBe("280ms");
+    expect(
+      document.querySelector('[data-slot="menu-list"]')!.className,
+    ).toContain("pointer-events-none");
+    // 第 9 项及以后不参与动画（滚动后直接呈现）
+    expect(staggered[0].parentElement!.children[8].hasAttribute("data-staggered")).toBe(false);
+    // 动画完结：恢复可点，data-staggered 全部移除
+    act(() => {
+      vi.advanceTimersByTime(8 * 40 + 320 + 10);
+    });
+    expect(document.querySelectorAll("[data-staggered]")).toHaveLength(0);
+    expect(
+      document.querySelector('[data-slot="menu-list"]')!.className,
+    ).not.toContain("pointer-events-none");
+    vi.useRealTimers();
+  });
+
+  it("belowTopbar forwards to ExpandPanel data attribute (Task 10)", () => {
+    act(() => {
+      root.render(
+        <HamburgerMenu anchor="topbar" belowTopbar side="left" open />,
+      );
+    });
+    const panel = document.querySelector('[data-slot="expand-panel"]');
+    expect(panel).not.toBeNull();
+    expect(panel!.hasAttribute("data-below-topbar")).toBe(true);
   });
 });

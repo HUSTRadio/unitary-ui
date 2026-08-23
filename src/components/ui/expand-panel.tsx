@@ -22,6 +22,12 @@ type Side = "top" | "bottom" | "left" | "right";
 interface ExpandPanelProps {
   /** 展开来向 */
   side: Side;
+  /**
+   * 面板顶边下移到 anchor 底边（--expand-anchor-bottom，默认 64px），
+   * 只遮蔽正文区、不遮蔽 topbar。需配合 anchorElement（side=top 同源测量）或
+   * 依赖 64px 默认值使用；仅 side=left/right 有意义。
+   */
+  belowTopbar?: boolean;
   /** 受控打开状态（不传则非受控，配合 onOpenChange 使用） */
   open?: boolean;
   /** 开关回调（Esc / 外点关闭也会触发） */
@@ -47,7 +53,7 @@ const SIDES: readonly Side[] = ["top", "bottom", "left", "right"];
 const SIDE_CLASSES: Record<Side, string> = {
   // 只下圆角 = navbar 视觉延伸；顶部无圆角、贴住锚底边
   top: "fixed inset-x-0 top-[var(--expand-anchor-bottom,64px)] bottom-auto w-full rounded-b-lg border-b",
-  left: "fixed left-0 inset-y-0 h-full w-[var(--expand-panel-width,auto)] min-w-64 rounded-r-lg border-r",
+  left: "fixed left-0 inset-y-0 h-full w-[var(--expand-panel-width,auto)] min-w-64 rounded-r-lg border-r data-[below-topbar]:inset-y-auto data-[below-topbar]:bottom-0 data-[below-topbar]:h-auto data-[below-topbar]:top-[var(--expand-anchor-bottom,64px)] data-[below-topbar]:rounded-tl-none",
   right: "fixed right-0 inset-y-0 h-full rounded-l-lg border-l",
   bottom: "fixed inset-x-0 bottom-0 rounded-t-lg border-t",
 };
@@ -62,6 +68,7 @@ const SIDE_TRANSFORM_CLASSES: Record<Side, string> = {
 
 function ExpandPanel({
   side,
+  belowTopbar = false,
   open,
   onOpenChange,
   anchorElement,
@@ -76,25 +83,30 @@ function ExpandPanel({
   const resolvedMaxWidth = maxWidth ?? (horizontal ? "80vw" : undefined);
 
   // side=top + anchorElement：测量 anchor 底边/几何并注入 --expand-anchor-* 变量。
+  // belowTopbar（侧滑）复用同一测量源：面板顶边贴 anchor 底边 → topbar 不被遮蔽。
   const [anchorStyle, setAnchorStyle] = React.useState<Record<string, string>>({});
   React.useLayoutEffect(() => {
-    if (side !== "top" || !anchorElement) return;
+    if (!(side === "top" || (horizontal && belowTopbar)) || !anchorElement) return;
     const measure = () => {
       const rect = anchorElement.getBoundingClientRect();
       setAnchorStyle({
         "--expand-anchor-bottom": `${rect.bottom}px`,
         "--expand-anchor-width": `${rect.width}px`,
         "--expand-anchor-left": `${rect.left}px`,
-        top: `${rect.bottom}px`,
-        left: `${rect.left}px`,
-        width: `${rect.width}px`,
-        right: "auto",
+        ...(side === "top"
+          ? {
+              top: `${rect.bottom}px`,
+              left: `${rect.left}px`,
+              width: `${rect.width}px`,
+              right: "auto",
+            }
+          : {}),
       });
     };
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
-  }, [side, anchorElement]);
+  }, [side, horizontal, belowTopbar, anchorElement]);
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
@@ -104,6 +116,7 @@ function ExpandPanel({
           tabIndex={-1}
           data-slot="expand-panel"
           data-side={side}
+          data-below-topbar={belowTopbar || undefined}
           aria-label={ariaLabel}
           style={
             {

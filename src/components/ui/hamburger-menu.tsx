@@ -38,6 +38,18 @@ interface HamburgerMenuProps {
   maxExpandedHeight?: string;
   /** 展开态最大宽。@default "80vw" */
   maxExpandedWidth?: string;
+  /**
+   * 面板顶边下移到 navbar 底边（仅遮蔽正文区、topbar 保持可见可交互）。
+   * 仅 side=left/right 生效；需 anchorElement 提供测量源。
+   */
+  belowTopbar?: boolean;
+  /**
+   * 逐项浮现动画（stagger-in）：面板打开时前 staggerCount 个导航项依次淡入上移，
+   * 非线性缓动；动画期间列表禁点，完结后恢复。滚动后看到的后续项不参与动画。
+   */
+  staggerIn?: boolean;
+  /** 参与 stagger 动画的首屏项数（默认 8） */
+  staggerCount?: number;
   /** 导航/搜索合并或拆分展示。@default "merged" */
   content?: "merged" | "split";
   /** 过滤数据源 */
@@ -83,6 +95,9 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   direction,
   maxExpandedHeight = "100dvh",
   maxExpandedWidth = "80vw",
+  belowTopbar = false,
+  staggerIn = false,
+  staggerCount = 8,
   content = "merged",
   items,
   onNavigate,
@@ -105,6 +120,21 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
     searchMode === "toolbar" ? searchFocused : query.trim().length > 0;
 
   const inputRef = React.useRef<HTMLInputElement | null>(null);
+
+  // stagger-in：面板每次打开重播；动画进行中列表禁点，最后一项延迟结束后恢复。
+  // prefers-reduced-motion 下不启用（项直接呈现）。
+  const [staggerActive, setStaggerActive] = React.useState(false);
+  React.useEffect(() => {
+    if (!staggerIn || !isOpen) {
+      setStaggerActive(false);
+      return;
+    }
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    setStaggerActive(true);
+    const total = staggerCount * 40 + 320; // 40ms/项间隔 + 单项 320ms 动画时长
+    const timer = window.setTimeout(() => setStaggerActive(false), total);
+    return () => window.clearTimeout(timer);
+  }, [staggerIn, isOpen, staggerCount]);
 
   // 命令式句柄：进入搜索视图并聚焦输入框
   React.useImperativeHandle(ref, () => ({
@@ -142,6 +172,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
       </button>
       <ExpandPanel
         side={side}
+        belowTopbar={belowTopbar}
         open={isOpen}
         onOpenChange={setOpen}
         anchorElement={anchor === "topbar" ? (anchorElement ?? null) : null}
@@ -225,7 +256,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
           />
         ) : null}
 
-        {/* 导航列表区：搜索时收起（反向过渡还原） */}
+        {/* 导航列表区：搜索时收起（反向过渡还原）；stagger 动画期禁点 */}
         <nav data-slot="menu-nav" className="px-2 py-2">
           <ul
             data-slot="menu-list"
@@ -234,19 +265,35 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
               searching
                 ? "pointer-events-none max-h-0 opacity-0"
                 : "max-h-[60vh] opacity-100",
+              staggerActive && "pointer-events-none",
             )}
           >
-            {(items ?? []).map((item) => (
-              <li key={item.to}>
-                <a
-                  href={item.to}
-                  onClick={() => onNavigate?.(item.to)}
-                  className="block rounded-md px-3 py-2 text-copy-14 text-[var(--ds-gray-1000)] no-underline hover:bg-[var(--ds-gray-alpha-200)]"
+            {(items ?? []).map((item, index) => {
+              // 仅首屏可见的前 N 项参与逐项浮现；滚动后看到的后续项直接呈现
+              const staggered = staggerActive && index < staggerCount;
+              return (
+                <li
+                  key={item.to}
+                  style={
+                    staggered
+                      ? {
+                          animation: `hamburger-stagger-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both`,
+                          animationDelay: `${index * 40}ms`,
+                        }
+                      : undefined
+                  }
+                  data-staggered={staggered || undefined}
                 >
-                  {item.label}
-                </a>
-              </li>
-            ))}
+                  <a
+                    href={item.to}
+                    onClick={() => onNavigate?.(item.to)}
+                    className="block rounded-md px-3 py-2 text-copy-14 text-[var(--ds-gray-1000)] no-underline hover:bg-[var(--ds-gray-alpha-200)]"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
