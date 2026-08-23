@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] — 2026-08-23
+
+### Added — 导航壳层组件族（框架扩展）
+
+> 官方 Vercel Geist 无对应壳层实现；为满足本项目可复用应用壳层需求而添加。全部组件统一 500ms cubic-bezier(0.32,0.72,0,1) 动画曲线并带 motion-reduce 降级，受控/非受控双模。
+
+- **Navbar**：定位与外观全可配的顶栏（`<header data-slot="navbar">`）。关键可配项：`scrollBehavior`（static / pinned / auto-hide，默认 pinned）、`variant`（solid / transparent）、transparent 下 `solidOnScroll` 滚动后自动补色、`height`（默认 h-16）。
+- **SidebarNav**：通用侧边导航，渲染 nav>ul>li>a，激活项 aria-current="page"。关键可配项：`groups` 分组数据、`activeTo`、`onNavigate`、`side`（分隔边框侧，默认 left）。
+- **Footer**：通用页脚（上边框 gray-alpha-400 + py-8 + text-copy-13 muted）。关键可配项：`columns` 链接列、`slotLeading`/`slotTrailing` 具名槽位、`sticky` 视口底部吸附。
+- **HamburgerMenu**：汉堡触发 + ExpandPanel 展开 + 内建搜索过滤的复合组件。关键可配项：`anchor`（topbar 面板自顶栏底边延伸落下 / sidebar 自对侧滑入）、`direction`、`maxExpandedHeight`（默认 100dvh）/`maxExpandedWidth`（默认 80vw）、`content`（merged/split）、`items` 过滤数据源；搜索时列表收起、清空一键还原，「Ctrl K」提示仅精确指针设备渲染。
+- **ExpandPanel**：参数化四向展开容器（top/bottom/left/right），Radix Dialog 承载焦点陷阱/Esc/外点关闭。关键可配项：`anchorElement`（side=top 时面板对齐锚元素底边且同宽——「navbar 延伸」形态）、`maxHeight`/`maxWidth`。
+- **BottomSheet**：多档位底部弹层，拖拽跟手→松手吸附最近档位，背景点击/Esc 关闭。关键可配项：`detents` 档位（默认 [0.5, 1]）、`showIndicator`（automatic=多档位才显示指示条）、`gestures` 三手势独立开关（拖拽调高/上拉展开/下拉收起）。
+  - **BottomSheet 与 Grabber 遵循 Apple HIG grabber 规格**：36×5px 圆角指示条、mt-8px、命中区 ≥44px、点按循环档位（role="slider" + aria-valuemin/max/now），双主题对比度 ≥3:1（规格依据 `.hermes/plans/2026-08-23_011500-apple-hig-grabber-spec.md`）。
+
 ## [Unreleased] — 2026-08-20
 
 ### Changed — Table 默认对齐（breaking）
