@@ -15,6 +15,7 @@ import { Footer, type FooterColumn } from "@/components/ui/footer";
 import { Toasts } from "@/components/ui/toast";
 import { IconsPage } from "./components/docs-icons";
 import { LifecycleAndHooksPage } from "./pages/lifecycle-and-hooks";
+import { AppShellDemo } from "./components/patterns/app-shell-demo";
 import {
   ColorsPage,
   GridPage,
@@ -49,6 +50,7 @@ const PAGE_COMPONENTS: Record<string, ComponentType> = {
 /** 需要 language prop 的结构化内容页（i18n 走内容模型而非 JSX 内联三元）。 */
 const PAGE_CONTENT_COMPONENTS: Record<string, ComponentType<{ language: DocsLanguage }>> = {
   "/lifecycle-and-hooks": LifecycleAndHooksPage,
+  "/patterns/app-shell": AppShellDemo,
 };
 
 const PAGE_TITLES: Record<string, string> = {
@@ -61,6 +63,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/components": "Components",
   "/icons": "Icons",
   "/lifecycle-and-hooks": "Lifecycle & Hooks",
+  "/patterns/app-shell": "App Shell",
 };
 
 function getPageTitle(pathname: string, language: DocsLanguage) {

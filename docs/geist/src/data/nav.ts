@@ -1,4 +1,4 @@
-import { type LucideIcon } from "lucide-react";
+import { Smartphone, type LucideIcon } from "lucide-react";
 
 /**
  * 文档站侧栏导航数据（docs/geist 专用）。
@@ -51,5 +51,17 @@ export const NAV_GROUPS: NavGroup[] = [
         labelZh: component.labelZh,
         to: `/components/${component.name}`,
       })),
+  },
+  {
+    title: "Patterns",
+    titleZh: "模式",
+    items: [
+      {
+        label: "App Shell",
+        labelZh: "应用壳层",
+        to: "/patterns/app-shell",
+        icon: Smartphone,
+      },
+    ],
   },
 ];
