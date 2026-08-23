@@ -9,8 +9,14 @@ const read = (relativePath: string) => readFile(path.join(root, relativePath), "
 describe("Geist foundation and docs shell contract", () => {
   test("shared foundation exposes the required fonts, tokens, typography, materials and focus utilities", async () => {
     const css = await read("src/styles/index.css");
-    expect(css).toContain('font-family: "HarmonyOS Sans SC"');
+    // 自托管 @font-face 使用 Subset 后缀（系统优先：已装同名字体则用系统版，
+    // 未装才 fallback 子集）。系统名 + Subset 兜底同时出现在 --font-sans 栈。
+    expect(css).toContain('font-family: "HarmonyOS Sans SC Subset"');
+    expect(css).toContain('font-family: "HarmonyOS Sans TC Subset"');
+    expect(css).toContain('font-family: "OPPO Sans 4.0 Subset"');
     expect(css).toContain('font-family: "JetBrains Maple Mono"');
+    expect(css).toContain('"HarmonyOS Sans SC", "HarmonyOS Sans SC Subset"');
+    expect(css).toContain('"OPPO Sans 4.0", "OPPO Sans 4.0 Subset"');
     for (const token of [
       "--background-100",
       "--background-200",
@@ -83,6 +89,25 @@ describe("Geist foundation and docs shell contract", () => {
     expect(app).toContain("document.title");
     expect(app).toContain("Geist Style Framework");
     expect(app).toMatch(/pathname\.startsWith\("\/components\/"\)/);
+  });
+
+  test("font tier manual declaration + metrics probe contract (决策点2/3)", async () => {
+    const css = await read("src/styles/index.css");
+    // 手动声明档位：data-font-tier 切换字体栈（系统优先 + Subset 兜底）
+    expect(css).toContain('html[data-font-tier="hmos"]');
+    expect(css).toContain('html[data-font-tier="system"]');
+    expect(css).toContain('--font-metric-baseline, 0.25px');
+    // 探针模块导出 + 自注册 + 档位联动重测
+    const metrics = await read("src/lib/font-metrics.ts");
+    expect(metrics).toContain("export function probeFontMetrics");
+    expect(metrics).toContain("--font-metric-cjk-ratio");
+    expect(metrics).toContain("MutationObserver");
+    expect(metrics).toContain('attributeFilter: ["data-font-tier", "style"]');
+    // 主 App 与 docs 站都挂载探针
+    const app = await read("src/App.tsx");
+    expect(app).toContain("useFontMetrics");
+    const docsApp = await read("docs/geist/src/App.tsx");
+    expect(docsApp).toContain("useFontMetrics");
   });
 
   test("explicit theme owns one exact Background 1 browser chrome color", async () => {

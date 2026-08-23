@@ -7,6 +7,8 @@
  * Fonts: 国标分级自托管字体（GB 18030 体系，差集递增 + unicode-range 按需加载）
  * =================================================================
  * 默认栈 OPPO Sans 4.0 优先（决策点4），HMOS SC/TC 兜底（先 SC 后 TC）。
+ * 系统优先：@font-face 族名带 Subset 后缀，栈中系统名在前——本机已装同名字体
+ * 则零下载用系统完整版，未装才 fallback 到 Subset（unicode-range 分级按需加载）。
  * 每字体按中国大陆国标分级（差集递增），多个 @font-face 同 family 用
  * unicode-range 串联，浏览器只下载页面实际命中的分级文件：
  *   - L1: GB2312 一级汉字 (3755) + ASCII/Latin/符号 —— 日常 99%
@@ -19,7 +21,7 @@
  */
 /* OPPO Sans 4.0 L1 — GB2312 一级 + ASCII（默认主字体，官方 VF wght 100-700） */
 @font-face {
-  font-family: "OPPO Sans 4.0";
+  font-family: "OPPO Sans 4.0 Subset";
   src: url("/fonts/oppo-sans-l1-vf.woff2") format("woff2-variations");
   font-weight: 100 700;
   font-style: normal;
@@ -57,7 +59,7 @@
 
 /* OPPO Sans 4.0 L2 — GB2312 二级增补 */
 @font-face {
-  font-family: "OPPO Sans 4.0";
+  font-family: "OPPO Sans 4.0 Subset";
   src: url("/fonts/oppo-sans-l2-vf.woff2") format("woff2-variations");
   font-weight: 100 700;
   font-style: normal;
@@ -98,7 +100,7 @@
 
 /* OPPO Sans 4.0 L3 — GBK 增补（含繁体/生僻简字） */
 @font-face {
-  font-family: "OPPO Sans 4.0";
+  font-family: "OPPO Sans 4.0 Subset";
   src: url("/fonts/oppo-sans-l3-vf.woff2") format("woff2-variations");
   font-weight: 100 700;
   font-style: normal;
@@ -111,7 +113,7 @@
 
 /* HarmonyOS Sans SC L1 — GB2312 一级 + ASCII（HMOS 档位主字体） */
 @font-face {
-  font-family: "HarmonyOS Sans SC";
+  font-family: "HarmonyOS Sans SC Subset";
   src: url("/fonts/harmonyos-sans-sc-l1-vf.woff2") format("woff2-variations");
   font-weight: 40 900;
   font-style: normal;
@@ -150,7 +152,7 @@
 
 /* HarmonyOS Sans SC L2 — GB2312 二级增补 */
 @font-face {
-  font-family: "HarmonyOS Sans SC";
+  font-family: "HarmonyOS Sans SC Subset";
   src: url("/fonts/harmonyos-sans-sc-l2-vf.woff2") format("woff2-variations");
   font-weight: 40 900;
   font-style: normal;
@@ -191,7 +193,7 @@
 
 /* HarmonyOS Sans TC — SC 缺失差集（繁体/GBK 增补，仅繁体命中时下载） */
 @font-face {
-  font-family: "HarmonyOS Sans TC";
+  font-family: "HarmonyOS Sans TC Subset";
   src: url("/fonts/harmonyos-sans-tc-vf.woff2") format("woff2-variations");
   font-weight: 40 900;
   font-style: normal;
@@ -256,8 +258,9 @@
 
 @theme inline {
   --font-sans:
-    "OPPO Sans 4.0", "HarmonyOS Sans SC", "HarmonyOS Sans TC", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+    "OPPO Sans 4.0", "OPPO Sans 4.0 Subset", "HarmonyOS Sans SC", "HarmonyOS Sans SC Subset",
+    "HarmonyOS Sans TC", "HarmonyOS Sans TC Subset", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
   --font-mono:
     "JetBrains Maple Mono", ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo,
     Consolas, monospace;
@@ -449,6 +452,28 @@
   --color-teal-800: var(--teal-800);
   --color-teal-900: var(--teal-900);
 }
+/*
+ * 字体档位手动声明（决策点2：不搞自动切换，使用者手动声明用什么字体）。
+ * 使用库的人只需在根元素（<html> 或挂载容器）声明：
+ *   data-font-tier="oppo"    → OPPO Sans 4.0 优先（默认，系统名 + Subset 兜底）
+ *   data-font-tier="hmos"    → HarmonyOS Sans SC → TC（先 SC 后 TC fallback）
+ *   data-font-tier="system"  → 纯系统字体栈（不加载任何自托管字体）
+ * 未声明时 = oppo（系统优先：本机已装 OPPO 则零下载用系统完整版，未装才用 Subset）。
+ */
+html[data-font-tier="hmos"],
+[data-font-tier="hmos"] {
+  --font-sans:
+    "HarmonyOS Sans SC", "HarmonyOS Sans SC Subset", "HarmonyOS Sans TC", "HarmonyOS Sans TC Subset",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC",
+    sans-serif;
+}
+html[data-font-tier="system"],
+[data-font-tier="system"] {
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC",
+    "Microsoft YaHei", "Noto Sans SC", sans-serif;
+}
+
 
 /* =================================================================
  * Breakpoints — Tailwind v4 tokens（Geist 网格制 + 组件窄屏档）
@@ -1706,7 +1731,8 @@
  */
 .phone-status-time {
   font-family:
-    -apple-system, BlinkMacSystemFont, "HarmonyOS Sans", "HarmonyOS Sans SC", system-ui, sans-serif;
+    -apple-system, BlinkMacSystemFont, "HarmonyOS Sans", "HarmonyOS Sans SC",
+    "HarmonyOS Sans SC Subset", system-ui, sans-serif;
   font-size: 15px;
   font-weight: 600;
   line-height: 1;
@@ -1716,9 +1742,9 @@
 }
 
 @supports not (font: -apple-system-body) {
-  /* 非 Apple 字体环境的垂直位置补偿 */
+  /* 非 Apple 字体环境的垂直位置补偿：默认 0.25px，字体探针命中时用实测基线偏移 */
   .phone-status-time {
-    transform: translateY(0.25px);
+    transform: translateY(var(--font-metric-baseline, 0.25px));
   }
 }
 

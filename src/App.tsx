@@ -22,6 +22,7 @@ import { Tabs } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { Toggle } from "@/components/ui/toggle";
+import { useFontMetrics } from "@/lib/font-metrics";
 import { DataTableExample } from "@/examples/DataTableExample";
 import { FormExample } from "@/examples/FormExample";
 import { SettingsExample } from "@/examples/SettingsExample";
@@ -45,6 +46,10 @@ export default function App() {
   const [toggled, setToggled] = useState(true);
   const [segment, setSegment] = useState("all");
   const [tab, setTab] = useState("overview");
+
+  // 字体度量探针：字体就绪后测量 CJK:ASCII 比例/数字宽/基线偏移，
+  // 供 .phone-status-time 等三处消费点做换字体后的视觉补偿（决策点3）。
+  useFontMetrics();
 
   const NAV: { key: typeof page; label: string }[] = [
     { key: "components", label: "组件总览" },

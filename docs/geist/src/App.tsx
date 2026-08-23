@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/command-menu";
 import { Footer, type FooterColumn } from "@/components/ui/footer";
 import { Toasts } from "@/components/ui/toast";
+import { useFontMetrics } from "@/lib/font-metrics";
 import { IconsPage } from "./components/docs-icons";
 import { LifecycleAndHooksPage } from "./pages/lifecycle-and-hooks";
 import { AppShellDemo } from "./components/patterns/app-shell-demo";
@@ -141,6 +142,10 @@ export default function App() {
   const { language } = useLanguage();
   const copy = SHELL_COPY[language];
   const [cmdOpen, setCmdOpen] = useState(false);
+
+  // 字体度量探针：字体就绪后测量 CJK:ASCII/数字宽/基线偏移，
+  // 供 .phone-status-time 等消费点做换字体后的视觉补偿（决策点3）。
+  useFontMetrics();
   const Page =
     PAGE_COMPONENTS[pathname] ?? (pathname.startsWith("/components/") ? ComponentsPage : undefined);
   const ContentPage = PAGE_CONTENT_COMPONENTS[pathname];
