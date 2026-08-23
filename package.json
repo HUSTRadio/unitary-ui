@@ -1,14 +1,36 @@
 {
   "name": "geist-style-framework",
   "version": "0.1.0",
-  "private": true,
+  "description": "Geist Style Framework — 兼容 Vercel Geist 设计系统的 React 组件库，含 token 体系、排版、材质、完整组件族与字体度量探针",
   "type": "module",
+  "main": "./dist/geist-style-framework.cjs",
+  "module": "./dist/geist-style-framework.es.js",
+  "types": "./dist/types/lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/geist-style-framework.es.js",
+      "require": "./dist/geist-style-framework.cjs",
+      "types": "./dist/types/lib/index.d.ts"
+    },
+    "./styles.css": "./dist/geist-style-framework.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:lib": "tsc -p tsconfig.lib.json && tsc-alias -p tsconfig.lib.json && vite build --mode lib && node scripts/fix-css-font-urls.mjs",
     "lint": "oxlint",
     "test": "vitest run",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build:lib && pnpm run typecheck"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "dependencies": {
     "@date-fns/tz": "^1.5.0",
@@ -19,8 +41,6 @@
     "lucide-react": "^1.28.0",
     "prismjs": "^1.30.0",
     "radix-ui": "^1.6.7",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
     "react-mockframe": "1.1.0",
     "react-router-dom": "^7.18.2",
     "tailwind-merge": "^3.6.0",
@@ -38,6 +58,7 @@
     "jsdom": "^30.0.1",
     "oxlint": "^1.75.0",
     "tailwindcss": "^4.3.3",
+    "tsc-alias": "^1.9.2",
     "typescript": "~6.0.2",
     "vite": "^8.2.0",
     "vite-plus": "^0.2.8"
@@ -48,5 +69,27 @@
       "version": "11.20.0",
       "onFail": "download"
     }
-  }
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "keywords": [
+    "geist",
+    "design-system",
+    "react",
+    "components",
+    "tailwindcss",
+    "ui-kit",
+    "font-metrics"
+  ],
+  "author": "HUSTRadio",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HUSTRadio/geist-style-framework"
+  },
+  "bugs": {
+    "url": "https://github.com/HUSTRadio/geist-style-framework/issues"
+  },
+  "homepage": "https://github.com/HUSTRadio/geist-style-framework#readme"
 }

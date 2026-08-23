@@ -1,0 +1,126 @@
+// Geist Style Framework — Library Entry Point
+// 仅导出实际存在的公开 API
+
+// Styles (side-effect 导入，打包输出独立 styles.css)
+import "../styles/index.css";
+
+// Theme & i18n providers
+export { ThemeProvider, useTheme } from "./theme";
+export { I18nProvider, useI18n } from "./i18n";
+
+// Font metrics probe
+export { probeFontMetrics, useFontMetrics, measureFontMetrics, applyFontMetrics } from "./font-metrics";
+
+// Utility
+export { cn } from "./utils";
+
+// Components — Core (buttons, inputs, etc.)
+export { Button, ButtonLink, CustomButton, buttonVariants } from "@/components/ui/button";
+export type { ButtonProps, ButtonLinkProps, CustomButtonProps } from "@/components/ui/button";
+export { Input } from "@/components/ui/input";
+export type { InputProps, InputSize } from "@/components/ui/input";
+export { Select } from "@/components/ui/select";
+export type { SelectProps } from "@/components/ui/select";
+export { Switch, SwitchControl } from "@/components/ui/switch";
+export type { SwitchProps, SwitchControlProps, SwitchSize } from "@/components/ui/switch";
+export { Checkbox } from "@/components/ui/checkbox";
+export { Radio, RadioGroup, RadioGroupItem, useRadio } from "@/components/ui/radio";
+export type { RadioProps, RadioGroupProps, RadioGroupItemProps } from "@/components/ui/radio";
+export { Toggle } from "@/components/ui/toggle";
+export type { ToggleProps } from "@/components/ui/toggle";
+export { Tabs } from "@/components/ui/tabs";
+export type { TabsProps, TabsTab, TabsVariant } from "@/components/ui/tabs";
+export { Avatar, AvatarGroup, AvatarWithIcon, GitHubAvatar, GitLabAvatar, BitbucketAvatar } from "@/components/ui/avatar";
+export { Badge, badgeVariants } from "@/components/ui/badge";
+export { Separator } from "@/components/ui/separator";
+
+// Components — Feedback
+export { Toasts, useToasts } from "@/components/ui/toast";
+export type { ToastKind, ToastOptions, UseToastsReturn, ToastsProps } from "@/components/ui/toast";
+export { Tooltip } from "@/components/ui/tooltip";
+export type { TooltipProps, TooltipPosition, TooltipBoxAlign, TooltipType } from "@/components/ui/tooltip";
+export { Progress } from "@/components/ui/progress";
+export type { ProgressProps, ProgressType, ProgressLabelPosition, ProgressStop } from "@/components/ui/progress";
+export { Skeleton } from "@/components/ui/skeleton";
+export type { SkeletonProps } from "@/components/ui/skeleton";
+export { Spinner } from "@/components/ui/spinner";
+export type { SpinnerProps } from "@/components/ui/spinner";
+export { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
+
+// Components — Data Display
+export { Table, TableRoot, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption, TableColgroup, TableCol } from "@/components/ui/table";
+export type { TableProps, TableHeaderProps, TableBodyProps, TableFooterProps, TableHeadProps, TableRowProps, TableCellProps, TableCaptionProps, AlignH, AlignV, TableAlign, TableColorScheme, MaybeAlign } from "@/components/ui/table";
+export { Collapse } from "@/components/ui/collapse";
+export { CodeBlock } from "@/components/ui/code-block";
+export { Code } from "@/components/ui/code";
+export { CopyButton } from "@/components/ui/copy-button";
+export { Description } from "@/components/ui/description";
+export { Entity } from "@/components/ui/entity";
+export { ErrorCard } from "@/components/ui/error-card";
+export { JsonView } from "@/components/ui/json-view";
+export { Snippet } from "@/components/ui/snippet";
+
+// Components — Navigation
+export { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
+export type { BreadcrumbType, BreadcrumbProps, BreadcrumbItemProps } from "@/components/ui/breadcrumbs";
+export { Pagination } from "@/components/ui/pagination";
+export type { PaginationProps, PaginationRailLink } from "@/components/ui/pagination";
+export { SidebarNav } from "@/components/ui/sidebar-nav";
+export { Navbar } from "@/components/ui/navbar";
+export { Footer } from "@/components/ui/footer";
+export { CommandMenu } from "@/components/ui/command-menu";
+export { ContextMenu } from "@/components/ui/context-menu";
+export { DotsMenu, DotsMenuItem, DotsMenuSeparator } from "@/components/ui/dots-menu";
+export type { DotsMenuProps, DotsMenuItemProps, DotsMenuSeparatorProps } from "@/components/ui/dots-menu";
+export { StepPoint } from "@/components/ui/step-point";
+
+// Components — Overlay
+export { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from "@/components/ui/sheet";
+export type { SheetProps, SheetSide, SheetTriggerProps, SheetPortalProps, SheetOverlayProps, SheetHeaderProps, SheetTitleProps, SheetDescriptionProps, SheetFooterProps, SheetCloseProps, SheetContentProps } from "@/components/ui/sheet";
+export { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+export type { DrawerProps, DrawerTitleProps, DrawerDescriptionProps } from "@/components/ui/drawer";
+
+// Components — Form
+export { ClearableInput } from "@/components/ui/clearable-input";
+export { Combobox } from "@/components/ui/combobox";
+export { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
+export { SearchInput } from "@/components/ui/search-input";
+export { Slider } from "@/components/ui/slider";
+export type { SliderProps } from "@/components/ui/slider";
+
+// Components — Layout
+export { Grid, GridCell, GridCross, GridItem, GridPage, GridSystem } from "@/components/ui/grid";
+export { Scroller } from "@/components/ui/scroller";
+export type { ScrollerProps } from "@/components/ui/scroller";
+
+// Components — Mobile / Device
+export { Device, DeviceScreen } from "@/components/ui/device";
+export type { DeviceProps, DeviceScreenProps, PhoneStatusBarOptions, PhoneSafariOptions } from "@/components/ui/device";
+export { PhoneStatusBar, PhoneSafariChrome } from "@/components/ui/phone-chrome";
+export { BottomSheet } from "@/components/ui/bottom-sheet";
+export { HamburgerMenu } from "@/components/ui/hamburger-menu";
+export type { HamburgerMenuProps, MenuItem } from "@/components/ui/hamburger-menu";
+export { ExpandPanel } from "@/components/ui/expand-panel";
+
+// Components — Advanced
+export { RelativeTimeCard } from "@/components/ui/relative-time-card";
+export { FileTree } from "@/components/ui/file-tree";
+export { KeyboardInput } from "@/components/ui/keyboard-input";
+export { Video } from "@/components/ui/video";
+export { Browser } from "@/components/ui/browser";
+export { Book } from "@/components/ui/book";
+export { Gauge } from "@/components/ui/gauge";
+export { RatingPill } from "@/components/ui/rating-pill";
+export { LoadMoreButton } from "@/components/ui/load-more-button";
+export { ShowMore } from "@/components/ui/show-more";
+export { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
+export { ProjectBanner } from "@/components/ui/project-banner";
+export { SplitButton } from "@/components/ui/split-button";
+export { Note } from "@/components/ui/note";
+export { StatusDot } from "@/components/ui/status-dot";
+export { Pill } from "@/components/ui/pill";
+export { Banner } from "@/components/ui/banner";
+export { Grabber } from "@/components/ui/grabber";
+export { MiddleTruncate } from "@/components/ui/middle-truncate";
+export { MultiSelectRoot, MultiSelectTrigger, MultiSelectContent, MultiSelectRow } from "@/components/ui/multi-select";
+export type { MultiSelectRootProps, MultiSelectTriggerProps, MultiSelectContentProps, MultiSelectRowProps } from "@/components/ui/multi-select";

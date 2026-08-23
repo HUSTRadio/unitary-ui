@@ -85,7 +85,7 @@ const DotsMenuItem = React.forwardRef<React.ElementRef<typeof MenuItem>, DotsMen
 );
 DotsMenuItem.displayName = "DotsMenuItem";
 
-const DotsMenuSeparator = MenuDivider;
+const DotsMenuSeparator: React.ForwardRefExoticComponent<React.ComponentPropsWithoutRef<typeof MenuDivider> & { asChild?: boolean } & React.RefAttributes<HTMLDivElement>> = MenuDivider;
 
 export { DotsMenu, DotsMenuItem, DotsMenuSeparator };
 export type { DotsMenuProps, DotsMenuItemProps, DotsMenuSeparatorProps };
