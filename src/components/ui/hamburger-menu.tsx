@@ -138,7 +138,7 @@ function HamburgerMenu({
               onClick={() => setQuery("")}
               className="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-full text-[var(--ds-gray-700)] hover:bg-[var(--ds-gray-alpha-200)]"
             >
-              <HamburgerIcon open size={10} strokeWidth={1.5} />
+              <HamburgerIcon open size={10} />
             </button>
           ) : (
             <kbd className="hidden shrink-0 rounded border border-gray-alpha-400 px-1.5 py-0.5 text-xs text-[var(--ds-gray-700)] pointer-fine:inline-block">
