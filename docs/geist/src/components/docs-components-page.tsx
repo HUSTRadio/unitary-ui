@@ -26,6 +26,7 @@ import {
   Search,
   Shield,
   ShieldCheck,
+  Smartphone,
   Sparkles,
   Trash2,
   Triangle,
@@ -218,6 +219,11 @@ import { type DocsLanguage, useLanguage } from "../i18n/language";
  */
 
 /* ---------- 代码块 ---------- */
+
+/** mobileOnly 标注：灰色 Smartphone 图标（替代旧「仅移动端」胶囊 Badge）。 */
+function MobileOnlyMark({ language }: { language: string }) {
+  return <Smartphone className="size-4 text-gray-700" role="img" aria-label={demoText(language, "Mobile only")} />;
+}
 
 /* ---------- Demo 容器 ---------- */
 
@@ -9470,11 +9476,7 @@ function ComponentsOverview() {
             <p className="font-mono text-label-12 text-muted-foreground">{component.official}</p>
             <h3 className="mt-1 flex flex-wrap items-center gap-1.5 text-label-16 font-medium text-foreground">
               {language === "zh-CN" ? (component.labelZh ?? component.label) : component.label}
-              {component.mobileOnly && (
-                <Badge size="sm" variant="gray">
-                  {demoText(language, "Mobile only")}
-                </Badge>
-              )}
+              {component.mobileOnly && <MobileOnlyMark language={language} />}
             </h3>
             <p className="mt-1 text-copy-13 text-muted-foreground">
               {language === "zh-CN"
@@ -9518,11 +9520,7 @@ function ComponentDetail({ name }: { name: string }) {
         <span className="rounded-full border border-gray-alpha-400 px-2 py-0.5 font-mono text-label-12 text-muted-foreground">
           {meta.official}
         </span>
-        {meta.mobileOnly && (
-          <Badge size="sm" variant="gray">
-            {demoText(language, "Mobile only")}
-          </Badge>
-        )}
+        {meta.mobileOnly && <MobileOnlyMark language={language} />}
       </div>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         {language === "zh-CN" ? (meta.descriptionZh ?? meta.description) : meta.description}

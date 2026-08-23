@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { LayoutTemplate, Rows3, Smartphone } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { BottomSheet } from "@/components/ui/bottom-sheet";
 import { Footer } from "@/components/ui/footer";
 import { HamburgerMenu } from "@/components/ui/hamburger-menu";
@@ -383,14 +382,15 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
               </div>
             </section>
 
-            {/* mobileOnly 说明卡：Smartphone 图标 + 「移动端特化」Badge + 内嵌交互 demo */}
+            {/* mobileOnly 说明卡：Smartphone 图标 + 「移动端特化」标注 + 内嵌交互 demo */}
             <section id={SECTION_IDS[2]} className="scroll-mt-32 mt-10">
               <h2 className="text-heading-20 text-foreground">{copy.sectionMobile}</h2>
               <div className="border-gray-alpha-400 bg-background mt-4 rounded-md border p-4">
                 <div className="flex flex-wrap items-center gap-2">
-                  <Badge variant="blue" size="sm" icon={<Smartphone />}>
-                    {copy.mobileBadge}
-                  </Badge>
+                  <span className="flex items-center gap-1.5 text-gray-700">
+                    <Smartphone className="size-4" aria-hidden />
+                    <span className="text-label-14">{copy.mobileBadge}</span>
+                  </span>
                   <h3 className="text-label-16 font-medium text-foreground">
                     {copy.mobileOnlyCardHeading}
                   </h3>

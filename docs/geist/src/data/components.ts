@@ -23,7 +23,7 @@ export interface ComponentMeta {
   bestPractices?: string[];
   /** 中文 Best Practices（zh-CN 模式优先使用，缺失回退英文） */
   bestPracticesZh?: string[];
-  /** 移动端专用（详情页标题与总览卡片渲染「仅移动端」Badge） */
+  /** 仅移动端可用（详情页标题与总览卡片渲染灰色 Smartphone 图标） */
   mobileOnly?: boolean;
 }
 
@@ -334,6 +334,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "抽屉",
     description: "Displays content in a separate bottom view from the existing context.",
     official: "Drawer",
+    mobileOnly: true,
     bestPractices: [
       "Only use Drawer on small viewports. For a desktop side panel that keeps the page interactive, use Sheet; for a blocking decision, use Modal.",
       "Don’t use Drawer to confirm destructive actions. The lack of a fully blocking dim weakens the severity signal that delete and revoke flows need; route to Modal.",
@@ -584,7 +585,6 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "手机外框",
     description: "Frames mobile screenshots inside a realistic phone shell.",
     official: "Phone",
-    mobileOnly: true,
     bestPractices: [
       "Use Phone as marketing chrome around mobile screenshots, recordings, and demo images on landing pages and docs.",
       "Don't render live mobile product UI inside the frame; the chrome implies a captured screen, not an interactive surface.",
