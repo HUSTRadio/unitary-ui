@@ -2,7 +2,7 @@
 
 ## 框架定位
 
-本仓库是 **Geist 样式框架**（geist-style-framework）——基于 **shadcn/ui** 的**可复用前端样式基础设施**，视觉系统以 **Vercel Geist 设计系统**为基准。核心形态：
+本仓库是 **Unitary 样式框架**（unitary-ui，@hustradio/unitary-ui）——基于 **shadcn/ui** 的**可复用前端样式基础设施**，视觉系统以 **Vercel Geist 设计系统**为基准。核心形态：
 
 > 提供 Geist 视觉体系的**样式 token + 基础组件 + 规范快照**，供消费方项目直接复用；本仓库**不包含业务页面**，`src/App.tsx` 仅为 living styleguide 示例。
 
