@@ -2717,7 +2717,7 @@ function ProgressDynamicColorsDemo() {
           0: "var(--color-gray-1000)",
           25: "var(--color-destructive)",
           50: "var(--color-warning)",
-          75: "var(--color-pink-800)",
+          75: "#ff0080", /* 官方 --geist-highlight-pink 实测原值（本地 pink 色阶无精确对应，pink-800 #d9216e 色距 53.5） */
           100: "var(--color-progress)",
         }}
       />
