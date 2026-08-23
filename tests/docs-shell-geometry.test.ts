@@ -113,20 +113,8 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(app).toContain('className="min-w-0 border-r border-gray-alpha-400 py-10"');
   });
 
-  it("mounts a three-column Footer with internal hash routes below <main>", () => {
-    expect(app).toMatch(/<\/main>\s*\{\/\* 页脚/);
-    expect(app).toContain("<Footer");
-    // 三列：组件 / 资源 / 关于，双语文案齐备，链接全部指向 docs 内部 hash 路由
-    expect(app).toContain('title: "组件"');
-    expect(app).toContain('title: "资源"');
-    expect(app).toContain('title: "关于"');
-    expect(app).toContain('title: "Components"');
-    expect(app).toContain('title: "Resources"');
-    expect(app).toContain('title: "About"');
-    expect(app).toContain('"#/components"');
-    expect(app).toContain('"#/"');
-    // 页脚链接不得指向外部站点
-    const footerBlock = app.slice(app.indexOf("FOOTER_COLUMNS"));
-    expect(footerBlock).not.toMatch(/href: "https?:/);
+  it("no longer mounts the docs Footer below <main>（Task 8：页脚已移除，main flex-1 撑满 min-h-screen）", () => {
+    expect(app).not.toContain("<Footer");
+    expect(app).not.toContain("FOOTER_COLUMNS");
   });
 });

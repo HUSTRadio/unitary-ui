@@ -1,4 +1,4 @@
-import { Monitor, Moon, Sun } from "lucide-react";
+import { Monitor, Moon, Smartphone, Sun } from "lucide-react";
 
 import { useTheme, type ThemePreference } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -52,7 +52,15 @@ function ThemeSwitcher({ className, small = false, disabled = false }: ThemeSwit
                 "bg-background text-foreground shadow-[0_0_0_1px_var(--gray-alpha-400),0_2px_2px_rgba(0,0,0,0.12)]",
             )}
           >
-            <Icon className={small ? "size-3.5" : "size-4"} aria-hidden />
+            {/* system 选项双图标：窄视口（<md）显示 Smartphone，≥md 显示 Monitor */}
+            {value === "system" ? (
+              <>
+                <Monitor className={cn("hidden max-md:inline", small ? "size-3.5" : "size-4")} aria-hidden />
+                <Smartphone className={cn("md:hidden", small ? "size-3.5" : "size-4")} aria-hidden />
+              </>
+            ) : (
+              <Icon className={small ? "size-3.5" : "size-4"} aria-hidden />
+            )}
           </button>
         );
       })}

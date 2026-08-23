@@ -478,8 +478,8 @@ const O = {
     ),
     notes: [
       {
-        en: "Phone is mobile-only marketing chrome for screenshots and recordings.",
-        zh: "Phone 是移动端专用的营销外框，用于截图与录屏展示。",
+        en: "Phone is marketing chrome for framing mobile screenshots and recordings — not a mobile-only UI.",
+        zh: "Phone 是包裹手机截图与录屏的营销外框，并非移动端专属 UI。",
       },
     ],
   },

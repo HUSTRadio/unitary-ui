@@ -11,7 +11,6 @@ import {
   CommandMenuItem,
   CommandMenuList,
 } from "@/components/ui/command-menu";
-import { Footer, type FooterColumn } from "@/components/ui/footer";
 import { Toasts } from "@/components/ui/toast";
 import { useFontMetrics } from "@/lib/font-metrics";
 import { IconsPage } from "./components/docs-icons";
@@ -81,60 +80,6 @@ function getPageTitle(pathname: string, language: DocsLanguage) {
     : demoText(language, PAGE_TITLES[pathname] ?? "Page Not Found");
   return pageTitle === "Unitary" ? pageTitle : `${pageTitle} – Unitary`;
 }
-
-/** 页脚列内容（组件 / 资源 / 关于 三列，链接指向 docs 内部 hash 路由，i18n 双语）。 */
-const FOOTER_COLUMNS: Record<DocsLanguage, FooterColumn[]> = {
-  "zh-CN": [
-    {
-      title: "组件",
-      links: [
-        { label: "组件总览", href: "#/components" },
-        { label: "图标", href: "#/icons" },
-      ],
-    },
-    {
-      title: "资源",
-      links: [
-        { label: "颜色", href: "#/colors" },
-        { label: "排版", href: "#/typography" },
-        { label: "材质", href: "#/materials" },
-        { label: "网格", href: "#/grid" },
-      ],
-    },
-    {
-      title: "关于",
-      links: [
-        { label: "介绍", href: "#/" },
-        { label: "生命周期与钩子", href: "#/lifecycle-and-hooks" },
-      ],
-    },
-  ],
-  "en-US": [
-    {
-      title: "Components",
-      links: [
-        { label: "Components overview", href: "#/components" },
-        { label: "Icons", href: "#/icons" },
-      ],
-    },
-    {
-      title: "Resources",
-      links: [
-        { label: "Colors", href: "#/colors" },
-        { label: "Typography", href: "#/typography" },
-        { label: "Materials", href: "#/materials" },
-        { label: "Grid", href: "#/grid" },
-      ],
-    },
-    {
-      title: "About",
-      links: [
-        { label: "Introduction", href: "#/" },
-        { label: "Lifecycle & Hooks", href: "#/lifecycle-and-hooks" },
-      ],
-    },
-  ],
-};
 
 export default function App() {
   const { pathname } = useLocation();
@@ -213,21 +158,6 @@ export default function App() {
           </div>
         </div>
       </main>
-      {/* 页脚 — 组件 / 资源 / 关于 三列 + 品牌区 */}
-      <Footer
-        columns={FOOTER_COLUMNS[language]}
-        className="mx-auto w-full max-w-[1220px] px-6 lg:px-12"
-        slotLeading={
-          <div className="flex items-center gap-2">
-            <svg viewBox="0 0 24 24" className="size-4 fill-foreground" aria-hidden>
-              <path d="M12 2.5 22.5 21h-21L12 2.5Z" />
-            </svg>
-            <span className="text-copy-13 font-medium text-gray-1000">
-              Unitary
-            </span>
-          </div>
-        }
-      />
       <Toasts />
 
       {/* 全局命令面板 — NAV_GROUPS 跳转（搜索随查询过滤，选择即导航） */}
