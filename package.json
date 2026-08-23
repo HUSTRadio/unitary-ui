@@ -61,7 +61,8 @@
     "tsc-alias": "^1.9.2",
     "typescript": "~6.0.2",
     "vite": "^8.2.0",
-    "vite-plus": "^0.2.8"
+    "vite-plus": "^0.2.8",
+    "vitest": "4.1.10"
   },
   "devEngines": {
     "packageManager": {

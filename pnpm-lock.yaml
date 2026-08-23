@@ -295,6 +295,9 @@ importers:
       vite-plus:
         specifier: ^0.2.8
         version: 0.2.8(@types/node@24.13.3)(jiti@2.7.0)(jsdom@30.0.1)(typescript@6.0.3)(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))
+      vitest:
+        specifier: 4.1.10
+        version: 4.1.10(@types/node@24.13.3)(@vitest/browser-preview@4.1.10(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))(vitest@4.1.10))(jsdom@30.0.1)(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))
 
 packages:
 
@@ -4228,7 +4231,7 @@ snapshots:
       '@testing-library/dom': 10.4.1
       '@testing-library/user-event': 14.6.3(@testing-library/dom@10.4.1)
       '@vitest/browser': 4.1.10(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))(vitest@4.1.10)
-      vitest: 4.1.10(@types/node@24.13.3)(@vitest/browser-preview@4.1.10)(jsdom@30.0.1)(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))
+      vitest: 4.1.10(@types/node@24.13.3)(@vitest/browser-preview@4.1.10(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))(vitest@4.1.10))(jsdom@30.0.1)(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))
     transitivePeerDependencies:
       - bufferutil
       - msw
@@ -4244,7 +4247,7 @@ snapshots:
       pngjs: 7.0.0
       sirv: 3.0.2
       tinyrainbow: 3.1.1
-      vitest: 4.1.10(@types/node@24.13.3)(@vitest/browser-preview@4.1.10)(jsdom@30.0.1)(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))
+      vitest: 4.1.10(@types/node@24.13.3)(@vitest/browser-preview@4.1.10(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))(vitest@4.1.10))(jsdom@30.0.1)(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))
       ws: 8.21.2
     transitivePeerDependencies:
       - bufferutil
@@ -5175,7 +5178,7 @@ snapshots:
       oxfmt: 0.61.0(vite-plus@0.2.8(@types/node@24.13.3)(jiti@2.7.0)(jsdom@30.0.1)(typescript@6.0.3)(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0)))
       oxlint: 1.76.0(oxlint-tsgolint@7.0.2001)(vite-plus@0.2.8(@types/node@24.13.3)(jiti@2.7.0)(jsdom@30.0.1)(typescript@6.0.3)(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0)))
       oxlint-tsgolint: 7.0.2001
-      vitest: 4.1.10(@types/node@24.13.3)(@vitest/browser-preview@4.1.10)(jsdom@30.0.1)(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))
+      vitest: 4.1.10(@types/node@24.13.3)(@vitest/browser-preview@4.1.10(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))(vitest@4.1.10))(jsdom@30.0.1)(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))
     optionalDependencies:
       '@voidzero-dev/vite-plus-darwin-arm64': 0.2.8
       '@voidzero-dev/vite-plus-darwin-x64': 0.2.8
@@ -5228,7 +5231,7 @@ snapshots:
       fsevents: 2.3.3
       jiti: 2.7.0
 
-  vitest@4.1.10(@types/node@24.13.3)(@vitest/browser-preview@4.1.10)(jsdom@30.0.1)(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0)):
+  vitest@4.1.10(@types/node@24.13.3)(@vitest/browser-preview@4.1.10(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))(vitest@4.1.10))(jsdom@30.0.1)(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0)):
     dependencies:
       '@vitest/expect': 4.1.10
       '@vitest/mocker': 4.1.10(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0))
