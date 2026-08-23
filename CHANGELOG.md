@@ -4,7 +4,26 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] — 2026-08-23
 
-### Changed — SidebarNav 几何对齐官方（实测 2026-08-23 vercel.com/geist @1440px）
+### Changed — 系统优先字体栈 + 手动档位声明 + 字体度量探针
+
+- **@font-face 全部改名 Subset 后缀**（OPPO Sans 4.0 Subset / HarmonyOS Sans SC Subset / TC Subset），避免与本机同名系统字体冲突。CSS 规范里同名 @font-face 会遮蔽系统字体；实测改名后本机已装 OPPO Sans 4.0 / HarmonyOS Sans 的机器零下载直接命中系统完整版，未装机器才 fallback 到自托管分级子集（unicode-range 按需加载）。
+- **手动档位声明**：根元素 `data-font-tier="oppo|hmos|system"` 切换字体栈，不搞自动切换。默认 `oppo`（系统优先），`hmos` = HarmonyOS Sans SC → TC（先 SC 后 TC fallback），`system` = 纯系统字体栈（不加载任何自托管）。
+- **字体度量探针** `src/lib/font-metrics.ts`：`document.fonts.ready` 后 canvas 测量 CJK:ASCII 比例、数字最大宽、基线偏移，写入 `--font-metric-cjk-ratio` / `--font-metric-digit-w` / `--font-metric-baseline`，结果缓存 localStorage 与档位绑定。三处消费：
+  - `.phone-status-time`：基线校正 `translateY(var(--font-metric-baseline, 0.25px))`
+  - 表格数字列：`tabular-nums` + `--font-metric-digit-w` 列宽对齐
+  - 代码块：等宽不受档位影响（已验证）
+- 档位切换 `MutationObserver` 监听 `data-font-tier` / `style` 变化，防抖 120ms 重测（幂等：值不变不重写 style，避免循环）。
+
+### Added
+
+- `src/lib/font-metrics.ts`：字体度量探针模块（自注册 + `useFontMetrics` hook）。
+- `tests/foundation-contract.test.ts`：档位声明 + 度量探针契约测试（9 项全部通过）。
+
+### Noted — OPPO Sans 4.0 授权边界
+
+- OPPO Sans 4.0 官方条款为「免费商用但不提供下载渠道」。本框架仅自托管**分级子集**（~0.9MB/1.6MB，已显著裁剪），**不含完整字体文件**。完整字体需用户自行从 OPPO 官方渠道获取并安装到系统，随后通过系统优先栈零下载使用。CSS 注释已注明，使用库者需自行确认合规。
+
+## [Unreleased] — 2026-08-20
 
 - nav item：`py-1.5 text-copy-13`（30px 行高）→ `h-10 text-copy-14`（40px，官方 40px/14px/20px）
 - item 行间距：0 → `space-y-0.5`（官方 2px）
