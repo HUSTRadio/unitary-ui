@@ -297,18 +297,18 @@ async function main() {
   });
 
   test("collapse", "trigger opens and closes content", async () => {
-    await click(send, textButton("What is Geist Style Framework?"));
+    await click(send, textButton("What is Unitary?"));
     await expectValue(
       send,
       "collapse did not open",
-      `(${textButton("What is Geist Style Framework?")})?.getAttribute("aria-expanded")`,
+      `(${textButton("What is Unitary?")})?.getAttribute("aria-expanded")`,
       (v) => v === "true",
     );
-    await click(send, textButton("What is Geist Style Framework?"));
+    await click(send, textButton("What is Unitary?"));
     await expectValue(
       send,
       "collapse did not close",
-      `(${textButton("What is Geist Style Framework?")})?.getAttribute("aria-expanded")`,
+      `(${textButton("What is Unitary?")})?.getAttribute("aria-expanded")`,
       (v) => v === "false",
     );
   });

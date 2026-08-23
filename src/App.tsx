@@ -63,7 +63,7 @@ export default function App() {
     <div className="min-h-screen bg-background">
       <header className="flex h-16 items-center justify-between border-b border-border px-6">
         <div className="flex items-center gap-6">
-          <h1 className="text-heading-20 text-foreground">Geist Style Framework</h1>
+          <h1 className="text-heading-20 text-foreground">Unitary</h1>
           <nav className="hidden items-center gap-1 md:flex">
             {NAV.map((item) => (
               <button
@@ -287,7 +287,7 @@ export default function App() {
       </main>
 
       <footer className="border-t border-border px-6 py-4 text-label-12 text-muted-foreground">
-        Geist Style Framework · docs/geist-markdown-refs 规范快照 · 2026-08-08
+        Unitary · docs/geist-markdown-refs 规范快照 · 2026-08-08
       </footer>
     </div>
   );

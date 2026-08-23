@@ -379,7 +379,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "View Projects": "查看项目",
     "View Analytics": "查看分析",
     "This action cannot be undone.": "此操作无法撤销。",
-    "What is Geist Style Framework?": "什么是 Geist Style Framework？",
+    "What is Unitary?": "什么是 Unitary？",
     "A reusable React style foundation aligned with the Vercel Geist design system.":
       "与 Vercel Geist 设计系统对齐的可复用 React 样式基础。",
     "Big News": "重要消息",

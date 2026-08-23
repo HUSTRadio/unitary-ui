@@ -1,4 +1,4 @@
-# Geist Style Framework 文档站 — 问题记录
+# Unitary 文档站 — 问题记录
 
 > 目标界面：https://vercel.com/geist/introduction · 日期：2026-08-08
 > 摘要：本文记录文档站初版验收发现；当前 registry 和 Live Demo 已覆盖官方 72 个组件，另保留纯本地 Step Point。条目中的“当前状态”以 2026-08-09 迁移结果为准。

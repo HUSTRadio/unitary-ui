@@ -87,7 +87,7 @@ describe("Geist foundation and docs shell contract", () => {
   test("hash routes update a context-specific document title", async () => {
     const app = await read("docs/geist/src/App.tsx");
     expect(app).toContain("document.title");
-    expect(app).toContain("Geist Style Framework");
+    expect(app).toContain("Unitary");
     expect(app).toMatch(/pathname\.startsWith\("\/components\/"\)/);
   });
 

@@ -24,7 +24,7 @@ export function IntroductionPage() {
   const { language } = useLanguage();
   return (
     <div>
-      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">Geist Style Framework</h1>
+      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">Unitary</h1>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         {demoText(language, "Vercel design system for building consistent web experiences.")}
       </p>

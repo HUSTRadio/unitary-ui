@@ -6868,7 +6868,7 @@ function ShowMoreDemo() {
   const demoCode = (id: string) => DEMO_CODE["show-more"]?.[id] ?? "";
   const [expanded, setExpanded] = React.useState(false);
   const copy =
-    "Geist Style Framework provides reusable tokens, primitives, and component patterns for building consistent React interfaces in both light and dark themes.";
+    "Unitary provides reusable tokens, primitives, and component patterns for building consistent React interfaces in both light and dark themes.";
   const Card = ({ id, children }: { id: string; children: React.ReactNode }) => (
     <div
       className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"

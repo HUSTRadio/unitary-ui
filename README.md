@@ -1,4 +1,4 @@
-# Unitary UI
+# Unitary
 
 基于 **shadcn/ui** 的可复用 **Vercel Geist 样式框架**——样式 token 体系 + 基础组件 + 官方规范快照，供消费方项目直接复用。npm 包名 `@hustradio/unitary-ui`。
 

@@ -303,7 +303,7 @@
 }
 
 /*
- * Geist Style Framework — Theme Architecture (single canonical UI)
+ * Unitary — Theme Architecture (single canonical UI)
  * =================================================================
  * One canonical UI structure; Light / Dark are color schemes, not
  * separate screens. Theme/Light + Theme/Dark semantic token sets

@@ -83,7 +83,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               <path d="M12 2.5 22.5 21h-21L12 2.5Z" />
             </svg>
             <span className="hidden whitespace-nowrap text-label-14 font-medium text-foreground sm:block">
-              Geist Style Framework
+              Unitary
             </span>
           </a>
         </div>

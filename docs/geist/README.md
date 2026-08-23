@@ -1,4 +1,4 @@
-# docs/geist — Geist Style Framework 文档站
+# docs/geist — Unitary 文档站
 
 独立 Vite 应用，通过 alias（`@` → 根仓库 `src/`）与 CSS `@source` 直接消费根仓库的
 shadcn/ui 元件（`src/components/ui/*`）、Geist token/排版/材质（`src/styles/index.css`）

@@ -123,7 +123,7 @@ const DEMO_COPY = {
         ],
       },
     ],
-    footerLeading: "Geist Style Framework · Patterns",
+    footerLeading: "Unitary · Patterns",
     menuAriaLabelPrefix: "跳转到",
   },
   "en-US": {
@@ -218,7 +218,7 @@ const DEMO_COPY = {
         ],
       },
     ],
-    footerLeading: "Geist Style Framework · Patterns",
+    footerLeading: "Unitary · Patterns",
     menuAriaLabelPrefix: "Jump to",
   },
 };

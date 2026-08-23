@@ -1,7 +1,7 @@
 {
   "name": "@hustradio/unitary-ui",
   "version": "0.1.0",
-  "description": "Geist Style Framework — 兼容 Vercel Geist 设计系统的 React 组件库，含 token 体系、排版、材质、完整组件族与字体度量探针",
+  "description": "Unitary — 兼容 Vercel Geist 设计系统的 React 组件库，含 token 体系、排版、材质、完整组件族与字体度量探针",
   "type": "module",
   "main": "./dist/unitary-ui.cjs",
   "module": "./dist/unitary-ui.es.js",

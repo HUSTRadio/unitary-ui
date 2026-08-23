@@ -1,4 +1,4 @@
-// Geist Style Framework — Library Entry Point
+// Unitary — Library Entry Point
 // 仅导出实际存在的公开 API
 
 // Styles (side-effect 导入，打包输出独立 styles.css)

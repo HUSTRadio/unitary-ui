@@ -55,7 +55,7 @@ const PAGE_CONTENT_COMPONENTS: Record<string, ComponentType<{ language: DocsLang
 };
 
 const PAGE_TITLES: Record<string, string> = {
-  "/": "Geist Style Framework",
+  "/": "Unitary",
   "/introduction": "Introduction",
   "/colors": "Colors",
   "/typography": "Typography",
@@ -79,7 +79,7 @@ function getPageTitle(pathname: string, language: DocsLanguage) {
       ? (component.labelZh ?? component.label)
       : component.label
     : demoText(language, PAGE_TITLES[pathname] ?? "Page Not Found");
-  return pageTitle === "Geist Style Framework" ? pageTitle : `${pageTitle} – Geist Style Framework`;
+  return pageTitle === "Unitary" ? pageTitle : `${pageTitle} – Unitary`;
 }
 
 /** 页脚列内容（组件 / 资源 / 关于 三列，链接指向 docs 内部 hash 路由，i18n 双语）。 */
@@ -223,7 +223,7 @@ export default function App() {
               <path d="M12 2.5 22.5 21h-21L12 2.5Z" />
             </svg>
             <span className="text-copy-13 font-medium text-gray-1000">
-              Geist Style Framework
+              Unitary
             </span>
           </div>
         }
