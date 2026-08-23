@@ -1,6 +1,6 @@
-# Geist Style Framework
+# Unitary UI
 
-基于 **shadcn/ui** 的可复用 **Vercel Geist 样式框架**——样式 token 体系 + 基础组件 + 官方规范快照，供消费方项目直接复用。
+基于 **shadcn/ui** 的可复用 **Vercel Geist 样式框架**——样式 token 体系 + 基础组件 + 官方规范快照，供消费方项目直接复用。npm 包名 `@hustradio/unitary-ui`。
 
 > 从 [oa-frontend](https://github.com/HUSTRadio/oa-frontend) 抽离而来：该项目的 Geist 视觉基础设施（token / 组件 / 规范快照 / agent 约束）独立成库，业务页面留在原仓库。
 
