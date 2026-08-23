@@ -48,7 +48,26 @@ interface HamburgerMenuProps {
   open?: boolean;
   /** 开关回调 */
   onOpenChange?: (open: boolean) => void;
+  /** 面板第一行渲染 X 关闭按钮（几何与触发前汉堡图标视口重合） */
+  showCloseButton?: boolean;
+  /** 不渲染内建搜索行（次宽屏：顶栏已有搜索入口，避免重复） */
+  disableSearch?: boolean;
+  /**
+   * 搜索视图驱动方式。@default "query"
+   * - "query"：query 非空即搜索（旧形态，向后兼容）
+   * - "toolbar"：焦点驱动——输入框聚焦进入搜索、失焦退出（手机端）
+   */
+  searchMode?: "query" | "toolbar";
+  /** 面板首行左侧插槽（手机端放搜索按钮） */
+  toolbarLeft?: React.ReactNode;
+  /** 面板首行右侧插槽（手机端放主题/语言切换） */
+  toolbarRight?: React.ReactNode;
   className?: string;
+}
+
+/** ref 句柄：命令式打开搜索视图并聚焦输入框 */
+interface HamburgerMenuHandle {
+  openSearch: () => void;
 }
 
 const DIRECTION_TO_SIDE: Record<"down" | "left" | "right", Side> = {
@@ -57,7 +76,7 @@ const DIRECTION_TO_SIDE: Record<"down" | "left" | "right", Side> = {
   right: "right",
 };
 
-function HamburgerMenu({
+const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(function HamburgerMenu({
   icon,
   anchor,
   anchorElement,
@@ -69,13 +88,32 @@ function HamburgerMenu({
   onNavigate,
   open,
   onOpenChange,
+  showCloseButton = false,
+  disableSearch = false,
+  searchMode = "query",
+  toolbarLeft,
+  toolbarRight,
   className,
-}: HamburgerMenuProps) {
+}, ref) {
   const { t } = useI18n();
   const [internalOpen, setInternalOpen] = React.useState(false);
   const isOpen = open ?? internalOpen;
   const [query, setQuery] = React.useState("");
-  const searching = query.trim().length > 0;
+  const [searchFocused, setSearchFocused] = React.useState(false);
+  // 搜索视图判定：旧形态（有搜索行）按 query 驱动；工具行形态（手机端）按焦点驱动
+  const searching =
+    searchMode === "toolbar" ? searchFocused : query.trim().length > 0;
+
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+
+  // 命令式句柄：进入搜索视图并聚焦输入框
+  React.useImperativeHandle(ref, () => ({
+    openSearch: () => {
+      if (disableSearch) return;
+      setSearchFocused(true);
+      requestAnimationFrame(() => inputRef.current?.focus());
+    },
+  }));
 
   // 默认方向映射：topbar→down；sidebar 未显式指定时同样向下（文档建议传 right 对侧）
   const resolvedDirection = direction ?? "down";
@@ -116,7 +154,34 @@ function HamburgerMenu({
           className,
         )}
       >
-        {/* 搜索行 */}
+        {/* 首行工具栏（次宽屏：X 关闭钮；手机端：搜索/主题/语言工具行） */}
+        {(showCloseButton || toolbarLeft || toolbarRight) && (
+          <div
+            data-slot="panel-toolbar"
+            className="flex h-16 items-center justify-between border-b border-gray-alpha-400 pl-[23px] pr-4"
+          >
+            <div className="flex items-center">
+              {showCloseButton && (
+                <button
+                  type="button"
+                  data-slot="panel-close"
+                  aria-label={t("Close menu")}
+                  onClick={() => setOpen(false)}
+                  className="inline-flex size-11 cursor-pointer items-center justify-center rounded-md text-[var(--ds-gray-1000)] outline-none hover:bg-[var(--ds-gray-alpha-200)]"
+                >
+                  <HamburgerIcon open size={16} />
+                </button>
+              )}
+              {toolbarLeft}
+            </div>
+            {toolbarRight ? (
+              <div className="flex items-center gap-2">{toolbarRight}</div>
+            ) : null}
+          </div>
+        )}
+
+        {/* 搜索行（disableSearch 时不渲染） */}
+        {!disableSearch && (
         <div
           data-slot="menu-search"
           className="flex items-center gap-2 border-b border-gray-alpha-400 px-4 py-3"
@@ -128,6 +193,9 @@ function HamburgerMenu({
             placeholder={t("Search…")}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
+            onFocus={() => setSearchFocused(true)}
+            onBlur={() => setSearchFocused(false)}
+            ref={inputRef}
             className="h-9 flex-1 border-none bg-transparent text-copy-14 text-[var(--ds-gray-1000)] outline-none placeholder:text-[var(--ds-gray-700)]"
           />
           {searching ? (
@@ -146,6 +214,7 @@ function HamburgerMenu({
             </kbd>
           )}
         </div>
+        )}
 
         {/* split 模式视觉分隔标注（API 占位：搜索入口未来独立） */}
         {content === "split" ? (
@@ -204,7 +273,7 @@ function HamburgerMenu({
       </ExpandPanel>
     </>
   );
-}
+});
 
 export { HamburgerMenu };
-export type { HamburgerMenuProps, MenuItem };
+export type { HamburgerMenuProps, HamburgerMenuHandle, MenuItem };
