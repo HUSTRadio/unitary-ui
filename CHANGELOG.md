@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] — 2026-08-23
 
+### Changed — SidebarNav 几何对齐官方（实测 2026-08-23 vercel.com/geist @1440px）
+
+- nav item：`py-1.5 text-copy-13`（30px 行高）→ `h-10 text-copy-14`（40px，官方 40px/14px/20px）
+- item 行间距：0 → `space-y-0.5`（官方 2px）
+- 分组标题：`py-2 text-copy-13` → `h-10 flex items-center text-[14px] leading-5 font-medium mb-0.5`（官方同款）
+- 组间距：0 → `gap-4`（官方 space-y-4 = 16px）
+
+### Added — 框架扩展（有意偏离官方 Geist）：壳层断点 lg(1024px)
+
+> 官方 Geist 文档站侧栏断点为 xl(1200px)，实测 1100/1190px 视口均为移动形态。本地有意保持 **lg(1024px)**：目标使用环境包含 VS Code 内嵌浏览器（约 1100px），该宽度内容区足以承载常驻侧栏，落入汉堡形态会显著损伤可用性。依据用户明确指示（2026-08-23），覆盖「官方是唯一权威基准」原则的可用性例外。
+
 ### Added — 导航壳层组件族（框架扩展）
 
 > 官方 Vercel Geist 无对应壳层实现；为满足本项目可复用应用壳层需求而添加。全部组件统一 500ms cubic-bezier(0.32,0.72,0,1) 动画曲线并带 motion-reduce 降级，受控/非受控双模。
