@@ -42,11 +42,14 @@ export function createNavigateHandler(
 
 /**
  * Generic sidebar navigation. Geometry mirrors vercel.com/geist (measured
- * 2026-08-23, 1440px viewport):
- * - nav item: h-10 (40px) row, text-copy-14, 2px gap between rows (space-y-0.5)
- * - group heading: h-10 flex items-center, text-[14px] leading-5 font-medium
- *   text-gray-900, mb-0.5
- * - group spacing: 16px between groups (space-y-4 on the outer column)
+ * 2026-08-24, 1536px viewport):
+ * - sidebar 259px, padding 24px；item span: h-10(40px), text-copy-14, rounded-md,
+ *   px-3 + ml-[-8px]（左溢出 8px 进 padding，hover 背景与侧栏左缘留 16px 视觉对齐）
+ * - item 宽 = 内容区全宽 + 8px 左溢出（官方实测 212px）
+ * - hover: bg-gray-100；focus-visible: focus-ring（仅键盘）
+ * - group heading: h-10, text-copy-14 font-medium
+ * Apple HIG 优先级说明：HIG 未规定侧栏行几何 → fallback Geist 实测值；
+ * HIG 滚动条规范（overlay，不占布局）→ 侧栏滚动条不挤压内容宽度。
  */
 export function SidebarNav({
   groups,
@@ -83,7 +86,9 @@ export function SidebarNav({
                     aria-current={active ? "page" : undefined}
                     onClick={createNavigateHandler(onNavigate, item.to)}
                     className={cn(
-                      "flex h-10 items-center gap-2 rounded-md px-3 text-copy-14 outline-none",
+                      // 官方实测：item 左溢出 8px（ml-[-8px]）+ pl 补偿，hover 背景
+                      // 比文本区宽、与侧栏 padding 形成 16px 视觉左缘
+                      "-ml-2 flex h-10 items-center gap-2 rounded-md py-0 pr-3 pl-3 text-copy-14 outline-none",
                       active
                         ? "bg-gray-alpha-100 text-gray-1000"
                         : "text-gray-900 hover:bg-gray-100",

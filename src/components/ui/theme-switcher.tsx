@@ -30,7 +30,10 @@ function ThemeSwitcher({ className, small = false, disabled = false }: ThemeSwit
       role="radiogroup"
       aria-label={t("Display theme")}
       aria-disabled={disabled || undefined}
-      className={cn("inline-flex items-center rounded-full bg-gray-alpha-200 p-0.5", className)}
+      className={cn(
+        "relative inline-flex items-center rounded-full bg-gray-alpha-200 p-0.5",
+        className,
+      )}
     >
       {THEME_OPTIONS.map(({ value, label, icon: Icon }) => {
         const localizedLabel = t(label);
@@ -52,11 +55,25 @@ function ThemeSwitcher({ className, small = false, disabled = false }: ThemeSwit
                 "bg-background text-foreground shadow-[0_0_0_1px_var(--gray-alpha-400),0_2px_2px_rgba(0,0,0,0.12)]",
             )}
           >
-            {/* system 选项双图标：窄视口（<md）显示 Smartphone，≥md 显示 Monitor */}
+            {/* system 选项双图标：≥md 显示 Monitor，<md 显示 Smartphone。
+                用 visibility 而非 display 切换——本 webview 下 display 工具类
+                在 svg 上被 base 层 svg{display:block} 压制（层叠异常），visibility 无此问题 */}
             {value === "system" ? (
               <>
-                <Monitor className={cn("hidden max-md:inline", small ? "size-3.5" : "size-4")} aria-hidden />
-                <Smartphone className={cn("md:hidden", small ? "size-3.5" : "size-4")} aria-hidden />
+                <Monitor
+                  className={cn(
+                    small ? "size-3.5" : "size-4",
+                    "max-md:absolute max-md:invisible md:visible",
+                  )}
+                  aria-hidden
+                />
+                <Smartphone
+                  className={cn(
+                    small ? "size-3.5" : "size-4",
+                    "max-md:static md:absolute md:invisible",
+                  )}
+                  aria-hidden
+                />
               </>
             ) : (
               <Icon className={small ? "size-3.5" : "size-4"} aria-hidden />

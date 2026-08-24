@@ -1635,6 +1635,16 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
   pointer-events: auto;
 }
 
+/* 文档侧栏：overlay 式滚动条（Apple HIG：滚动条不占布局宽度），
+   悬浮时才显示 8px 细条，平时透明但保留滚动能力 */
+.docs-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+.docs-sidebar:hover {
+  scrollbar-color: var(--gray-alpha-400) transparent;
+}
+
 @keyframes command-menu-scale-out {
   from {
     opacity: 1;

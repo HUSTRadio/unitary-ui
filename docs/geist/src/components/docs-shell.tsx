@@ -226,7 +226,7 @@ function DocsSidebar() {
   );
 
   return (
-    <aside className="relative hidden w-[260px] shrink-0 self-start overflow-y-auto border-l border-gray-alpha-400 lg:sticky lg:top-16 lg:bottom-0 lg:block lg:h-[calc(100vh-4rem)]">
+    <aside className="docs-sidebar relative hidden w-[260px] shrink-0 self-start overflow-y-auto border-l border-gray-alpha-400 lg:sticky lg:top-16 lg:bottom-0 lg:block lg:h-[calc(100vh-4rem)]">
       <SidebarNav
         groups={groups}
         activeTo={pathname}

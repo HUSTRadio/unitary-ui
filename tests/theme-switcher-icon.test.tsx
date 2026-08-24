@@ -58,9 +58,10 @@ describe("ThemeSwitcher system icon", () => {
     expect(html).toContain("lucide-monitor");
     expect(html).toContain("lucide-smartphone");
 
-    // 手机图标仅在窄视口（<md）显示，桌面图标仅 ≥md 显示
-    expect(html).toMatch(/lucide-smartphone[^"]*md:hidden/);
-    expect(html).toMatch(/lucide-monitor[^"]*max-md:inline/);
+    // 手机图标仅在窄视口（<md）显示：max-md:static（占位占高度），md:absolute md:invisible（绝对定位+隐藏）
+    // 桌面图标仅 ≥md 显示：max-md:absolute max-md:invisible（隐藏占位），md:visible（可见）
+    expect(html).toMatch(/lucide-smartphone[^>]*max-md:static/);
+    expect(html).toMatch(/lucide-monitor[^>]*max-md:absolute/);
   });
 
   test("small variant keeps the same dual-icon behavior with size-3.5", () => {
