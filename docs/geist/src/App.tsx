@@ -135,7 +135,7 @@ export default function App() {
         className="mx-auto w-full max-w-[1220px] flex-1 lg:grid lg:grid-cols-[260px_1fr]"
       >
         <DocsSidebar />
-        <div className="min-w-0 border-gray-alpha-400 py-10 lg:border-r">
+        <div className="min-w-0 py-10">
           <div className="px-6 lg:px-12 max-md:px-5">
             {/* 页面级边界：单个页面/demo 崩溃只占位此区域，sidebar/topbar/其余导航继续可用；
                 resetKeys=pathname 路由切换自动重置重试 */}
