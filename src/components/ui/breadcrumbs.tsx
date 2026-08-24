@@ -71,7 +71,7 @@ function BreadcrumbItem({
         onClick={onClick as React.MouseEventHandler<HTMLButtonElement>}
         className={cn(
           "cursor-pointer truncate whitespace-nowrap break-normal rounded-sm border border-gray-alpha-400 bg-background-200 px-1.5 py-0.5",
-          "text-label-12 text-gray-900 transition-[color,border-color,background] duration-200",
+          "text-label-12 text-gray-900 transition-[color,border-color,background] duration-(--ds-duration-base)",
           "hover:bg-gray-200 hover:border-gray-alpha-500 hover:text-gray-1000 focus-ring",
           active && "text-gray-1000",
           disabled && "cursor-not-allowed text-gray-700",
@@ -88,7 +88,7 @@ function BreadcrumbItem({
       data-slot="breadcrumb-item"
       aria-current={active ? "page" : undefined}
       className={cn(
-        "flex items-center gap-1.5 text-label-14 cursor-pointer transition-colors duration-200",
+        "flex items-center gap-1.5 text-label-14 cursor-pointer transition-colors duration-(--ds-duration-base)",
         "text-gray-900 hover:text-gray-1000",
         "last-of-type:[&_svg]:hidden [&_svg]:text-gray-900",
         active && "text-gray-1000",

@@ -52,7 +52,7 @@ function Error({ className, label, size = "default", error, children, ...props }
                     href={error.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-0.5 font-medium underline underline-offset-2 transition-opacity duration-100 hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                    className="inline-flex items-center gap-0.5 font-medium underline underline-offset-2 transition-opacity duration-(--ds-duration-fast) hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
                   >
                     {error.action}
                     <ArrowUpRight className="size-4 shrink-0" aria-hidden />

@@ -152,7 +152,7 @@ function ExpandPanel({
             // 浏览器把横向/组合手势交给 body 导致内容反向。不设 overscroll-contain
             // （它在部分 WebView 上会反转拖拽方向，手指上拖内容反向下移）。
             "z-[var(--ds-z-drawer)] touch-pan-y overflow-y-auto bg-background shadow-lg outline-none",
-            "transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:!transition-none",
+            "transition-transform duration-(--ds-duration-slower) ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:!transition-none",
             SIDE_CLASSES[side],
             SIDE_TRANSFORM_CLASSES[side],
             className,

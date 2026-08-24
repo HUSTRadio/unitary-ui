@@ -277,7 +277,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
           <ul
             data-slot="menu-list"
             className={cn(
-              "list-none transition-opacity duration-300",
+              "list-none transition-opacity duration-(--ds-duration-slow)",
               searching
                 ? "pointer-events-none opacity-0 h-0 overflow-hidden"
                 : "opacity-100",

@@ -77,7 +77,7 @@ function Checkbox({
       <span
         aria-hidden
         className={cn(
-          "relative block rounded-[4px] border border-gray-700 bg-background-100 transition-colors duration-200",
+          "relative block rounded-[4px] border border-gray-700 bg-background-100 transition-colors duration-(--ds-duration-base)",
           "peer-checked:border-foreground peer-checked:bg-foreground",
           "peer-indeterminate:border-foreground peer-indeterminate:bg-foreground",
           "peer-focus:shadow-[var(--focus-ring-outline)]",

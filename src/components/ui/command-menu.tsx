@@ -100,7 +100,7 @@ const CommandMenuInput = React.forwardRef<
         type="button"
         aria-label={t("Close command menu")}
         onClick={close}
-        className="ml-auto hidden h-5 cursor-pointer items-center rounded-overlay-item border-none bg-background-100 px-1 py-0 text-xs text-gray-1000 shadow-[var(--material-shadow-base)] outline-none transition-[background] duration-200 [@media(hover:hover)_and_(pointer:fine)]:flex focus-visible:shadow-[var(--focus-ring-outline)] hover:bg-gray-100"
+        className="ml-auto hidden h-5 cursor-pointer items-center rounded-overlay-item border-none bg-background-100 px-1 py-0 text-xs text-gray-1000 shadow-[var(--material-shadow-base)] outline-none transition-[background] duration-(--ds-duration-base) [@media(hover:hover)_and_(pointer:fine)]:flex focus-visible:shadow-[var(--focus-ring-outline)] hover:bg-gray-100"
       >
         Esc
       </button>
@@ -120,7 +120,7 @@ const CommandMenuList = React.forwardRef<
       ref={ref}
       label={t("Suggestions")}
       className={cn(
-        "flex max-h-none overflow-y-auto p-2 transition-[height] duration-100 sm:block sm:max-h-[436px]",
+        "flex max-h-none overflow-y-auto p-2 transition-[height] duration-(--ds-duration-fast) sm:block sm:max-h-[436px]",
         className,
       )}
       {...props}

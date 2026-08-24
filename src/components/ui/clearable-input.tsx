@@ -117,7 +117,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
         style={layoutSurfaceStyle(layout)}
         className={cn(
           "flex h-9 w-full max-w-full items-center overflow-hidden rounded-lg bg-background-100 text-sm font-normal",
-          "shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] transition-all duration-150",
+          "shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] transition-all duration-(--ds-duration-fast)",
           "hover:shadow-[0_0_0_1px_var(--color-gray-alpha-500)] hover:has-[input:disabled]:shadow-[0_0_0_1px_var(--ds-gray-alpha-400)]",
           "focus-within:!shadow-[0_0_0_1px_var(--input-focus-border),0_0_0_4px_var(--input-focus-glow)]",
           "has-[input:disabled]:cursor-not-allowed has-[input:disabled]:bg-[var(--ds-gray-100)]",
@@ -187,7 +187,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
                 type="button"
                 tabIndex={disabled ? -1 : undefined}
                 onClick={handleClear}
-                className="pointer-coarse:hidden flex h-full max-w-full shrink-0 cursor-pointer items-center rounded-r-overlay-item border-0 bg-transparent px-2.5 font-inherit text-base text-[var(--ds-gray-700)] no-underline outline-none transition-[color,box-shadow,border-color] duration-150 ease-[ease] hover:text-foreground focus-visible:-outline-offset-1 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-[var(--ds-focus-color)] disabled:cursor-not-allowed"
+                className="pointer-coarse:hidden flex h-full max-w-full shrink-0 cursor-pointer items-center rounded-r-overlay-item border-0 bg-transparent px-2.5 font-inherit text-base text-[var(--ds-gray-700)] no-underline outline-none transition-[color,box-shadow,border-color] duration-(--ds-duration-fast) ease-[ease] hover:text-foreground focus-visible:-outline-offset-1 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-[var(--ds-focus-color)] disabled:cursor-not-allowed"
               >
                 <Kbd small className={cn(clearableKbdClass, clearButtonKbdClass)}>
                   Esc

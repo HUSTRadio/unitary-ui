@@ -181,7 +181,7 @@ function Gauge({
           className={cn(
             "fill-none",
             !primaryColor && (indeterminate ? "stroke-gray-alpha-400" : "stroke-progress"),
-            !indeterminate && "transition-[stroke-dasharray] duration-500 ease-out",
+            !indeterminate && "transition-[stroke-dasharray] duration-(--ds-duration-slower) ease-out",
           )}
         />
       </svg>

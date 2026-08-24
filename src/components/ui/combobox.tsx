@@ -104,20 +104,20 @@ const GROUP_SIZE_CLASS: Record<ComboboxSize, string> = {
 };
 
 const INPUT_CLASS =
-  "w-full h-(--ds-size-medium) bg-[var(--ds-background-100)] rounded-lg border-0 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] bg-clip-padding font-[var(--font-sans)] text-[var(--ds-gray-1000)] min-h-(--ds-size-medium) sm:min-h-0 appearance-none m-0 cursor-text outline-hidden py-0 pl-10 pr-9 placeholder:text-[var(--ds-gray-700)] transition-all duration-200 ease-in-out text-left truncate disabled:text-[var(--ds-gray-700)] disabled:bg-[var(--ds-gray-100)] disabled:cursor-not-allowed disabled:hover:!shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] focus:outline-hidden sm:focus:!shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] group-hover/combobox:shadow-[0_0_0_1px_var(--ds-gray-alpha-500)]";
+  "w-full h-(--ds-size-medium) bg-[var(--ds-background-100)] rounded-lg border-0 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] bg-clip-padding font-[var(--font-sans)] text-[var(--ds-gray-1000)] min-h-(--ds-size-medium) sm:min-h-0 appearance-none m-0 cursor-text outline-hidden py-0 pl-10 pr-9 placeholder:text-[var(--ds-gray-700)] transition-all duration-(--ds-duration-base) ease-in-out text-left truncate disabled:text-[var(--ds-gray-700)] disabled:bg-[var(--ds-gray-100)] disabled:cursor-not-allowed disabled:hover:!shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] focus:outline-hidden sm:focus:!shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] group-hover/combobox:shadow-[0_0_0_1px_var(--ds-gray-alpha-500)]";
 
 const CLEAR_BUTTON_CLASS =
-  "outline-hidden m-0 p-0 border-0 box-border text-base align-baseline no-underline [tap-highlight-color:transparent] select-none bg-none cursor-pointer inline-flex items-center justify-center !w-10 group-hover/combobox:text-[var(--geist-foreground)] disabled:cursor-not-allowed [&>span]:inline-flex [&>span]:items-center [&>span]:justify-center !mr-0 absolute -right-px top-1/2 text-[var(--ds-gray-700)] transform -translate-y-1/2 border-l-0 rounded-r-[5px] py-0 px-3 order-2 transition-all duration-150 ease-out w-auto focus-visible:ring-2 focus-visible:ring-[var(--ds-focus-color)] focus-visible:ring-offset-0";
+  "outline-hidden m-0 p-0 border-0 box-border text-base align-baseline no-underline [tap-highlight-color:transparent] select-none bg-none cursor-pointer inline-flex items-center justify-center !w-10 group-hover/combobox:text-[var(--geist-foreground)] disabled:cursor-not-allowed [&>span]:inline-flex [&>span]:items-center [&>span]:justify-center !mr-0 absolute -right-px top-1/2 text-[var(--ds-gray-700)] transform -translate-y-1/2 border-l-0 rounded-r-[5px] py-0 px-3 order-2 transition-all duration-(--ds-duration-fast) ease-out w-auto focus-visible:ring-2 focus-visible:ring-[var(--ds-focus-color)] focus-visible:ring-offset-0";
 
 const OPEN_BUTTON_CLASS =
-  "outline-hidden m-0 p-0 border-0 box-border text-base align-baseline no-underline [tap-highlight-color:transparent] select-none bg-none cursor-pointer inline-flex !w-10 group-hover/combobox:text-gray-1000 disabled:cursor-not-allowed disabled:text-[var(--ds-gray-700)] [&>span]:inline-flex items-center justify-center !mr-0 absolute -right-px top-1/2 text-[var(--ds-gray-700)] transform -translate-y-1/2 transition-colors duration-150 ease-in";
+  "outline-hidden m-0 p-0 border-0 box-border text-base align-baseline no-underline [tap-highlight-color:transparent] select-none bg-none cursor-pointer inline-flex !w-10 group-hover/combobox:text-gray-1000 disabled:cursor-not-allowed disabled:text-[var(--ds-gray-700)] [&>span]:inline-flex items-center justify-center !mr-0 absolute -right-px top-1/2 text-[var(--ds-gray-700)] transform -translate-y-1/2 transition-colors duration-(--ds-duration-fast) ease-in";
 
 const PANEL_CLASS =
   "m-0 p-1.5 outline-hidden bg-[var(--ds-background-100)] shadow-[0_0_0_1px_var(--ds-gray-alpha-400),0_2px_2px_0_rgba(0,0,0,0.04),0_8px_16px_-4px_rgba(0,0,0,0.04),0_0_0_1px_var(--ds-background-200)] rounded-overlay z-[2001] max-h-[210px] overflow-y-auto overflow-x-hidden [&>ul]:m-0 [&>ul]:p-0 [&>ul]:list-none";
 /** 面板为条件挂载 portal（关闭即卸载），关闭动画由 panelMounted 延迟卸载 150ms 承载 */
-const PANEL_ENTER_CLASS = "animate-in fade-in-0 zoom-in-95 duration-150 motion-reduce:animate-none";
+const PANEL_ENTER_CLASS = "animate-in fade-in-0 zoom-in-95 duration-(--ds-duration-fast) motion-reduce:animate-none";
 const PANEL_EXIT_CLASS =
-  "animate-out fade-out-0 zoom-out-95 duration-150 motion-reduce:animate-none";
+  "animate-out fade-out-0 zoom-out-95 duration-(--ds-duration-fast) motion-reduce:animate-none";
 
 const OPTION_BASE_CLASS =
   "flex items-center text-sm px-2 scroll-my-2 rounded-overlay-item cursor-pointer outline-hidden h-9";
@@ -442,7 +442,7 @@ function Combobox({
         )}
       >
         <ChevronDown
-          className="size-(--ds-control-decoration-size) rotate-0 transition-transform duration-150"
+          className="size-(--ds-control-decoration-size) rotate-0 transition-transform duration-(--ds-duration-fast)"
           aria-hidden
         />
       </button>
@@ -470,7 +470,7 @@ function Combobox({
       data-slot="combobox-root"
       style={rootStyle}
       className={cn(
-        "relative outline-hidden rounded-lg transition-shadow duration-200 focus-visible:shadow-[var(--ds-focus-ring)]",
+        "relative outline-hidden rounded-lg transition-shadow duration-(--ds-duration-base) focus-visible:shadow-[var(--ds-focus-ring)]",
         className,
       )}
       onClick={() => {

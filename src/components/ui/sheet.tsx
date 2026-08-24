@@ -89,8 +89,8 @@ const SheetContent = React.forwardRef<
       data-slot="sheet-content"
       className={cn(
         "fixed z-[var(--ds-z-drawer)] gap-4 bg-background-100 p-6 shadow-[var(--ds-shadow-modal-elevated)] transition ease-in-out focus:outline-none",
-        "data-[state=open]:animate-in data-[state=open]:duration-200 data-[state=open]:fade-in-0",
-        "data-[state=closed]:animate-out data-[state=closed]:duration-200 data-[state=closed]:fade-out-0",
+        "data-[state=open]:animate-in data-[state=open]:duration-(--ds-duration-base) data-[state=open]:fade-in-0",
+        "data-[state=closed]:animate-out data-[state=closed]:duration-(--ds-duration-base) data-[state=closed]:fade-out-0",
         SIDE_STYLES[side],
         className,
       )}

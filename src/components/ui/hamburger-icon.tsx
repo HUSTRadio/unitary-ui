@@ -40,7 +40,7 @@ export function HamburgerIcon({
   };
 
   const svgBase =
-    "absolute inset-0 h-full w-full transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none";
+    "absolute inset-0 h-full w-full transition-[opacity,transform] duration-(--ds-duration-slow) ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none";
 
   return (
     <span

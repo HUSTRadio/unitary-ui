@@ -57,7 +57,7 @@ const MultiSelectTrigger = React.forwardRef<
         <span className="-mx-0.5 flex h-[21px] transition-all">{children}</span>
       </span>
       <span className="ml-1 -mr-px flex size-[14px] shrink-0 transition-all">
-        <div className="size-[14px] text-gray-700 transition-[color,transform] duration-150 group-data-[state=open]/multi-select-trigger:rotate-180 motion-reduce:transition-none">
+        <div className="size-[14px] text-gray-700 transition-[color,transform] duration-(--ds-duration-fast) group-data-[state=open]/multi-select-trigger:rotate-180 motion-reduce:transition-none">
           <ChevronDown className="block size-[14px] transition-all" aria-hidden />
         </div>
       </span>
@@ -256,7 +256,7 @@ function MultiSelectRow({
           ) : null}
         </span>
         <span className="flex w-16 shrink-0 justify-end">
-          <span className="rounded-[4px] px-1 py-0.5 text-button-12 text-muted-foreground opacity-0 transition-opacity duration-150 group-hover/row:opacity-100 group-focus-within/row:opacity-100 motion-reduce:transition-none">
+          <span className="rounded-[4px] px-1 py-0.5 text-button-12 text-muted-foreground opacity-0 transition-opacity duration-(--ds-duration-fast) group-hover/row:opacity-100 group-focus-within/row:opacity-100 motion-reduce:transition-none">
             {action.label}
           </span>
         </span>
