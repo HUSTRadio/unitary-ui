@@ -97,6 +97,14 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(shell).toContain('relative hidden lg:block" role="search"');
   });
 
+  it("language menu and theme switcher are hidden on mobile topbar (drawer hosts them)", () => {
+    // 2026-08-24 新契约：移动端（<md）topbar 右区块只保留搜索入口，
+    // 语言/主题收敛进汉堡抽屉工具行（toolbarRight 已有等价副本），
+    // 消除 390px 视口下右簇 ~197px 的横向溢出。
+    const rightBlock = shell.slice(shell.indexOf("右区块"), shell.indexOf("</Navbar>"));
+    expect(rightBlock.match(/max-md:hidden/g)?.length).toBeGreaterThanOrEqual(2);
+  });
+
   it("removes the static DocsMobileNav list (superseded by the HamburgerMenu panel)", () => {
     expect(shell).not.toContain("DocsMobileNav");
     // 死 i18n key 一并清理

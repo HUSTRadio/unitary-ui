@@ -177,29 +177,35 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
                 <Search className="size-4" aria-hidden />
               </span>
             </button>
-            <MenuContainer position="bottom-end">
-              <MenuButton
-                variant="unstyled"
-                aria-label={copy.languageAria}
-                className="flex h-8 items-center gap-1.5 rounded-md px-2 text-label-13 text-muted-foreground hover:bg-gray-alpha-100 hover:text-foreground focus-ring"
-              >
-                <Languages className="size-3.5 shrink-0" aria-hidden />
-                {LANGUAGE_OPTIONS.find((option) => option.value === language)?.label}
-              </MenuButton>
-              <Menu width={128} stateful aria-label={copy.languageLabel}>
-                {LANGUAGE_OPTIONS.map((option) => (
-                  <MenuItem
-                    key={option.value}
-                    aria-current={option.value === language ? "true" : undefined}
-                    active={option.value === language}
-                    onSelect={() => setLanguage(option.value)}
-                  >
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </MenuContainer>
-            <ThemeSwitcher />
+            {/* 语言菜单：移动端（<md）收进抽屉工具行，topbar 仅 ≥md 显示 */}
+            <div className="max-md:hidden">
+              <MenuContainer position="bottom-end">
+                <MenuButton
+                  variant="unstyled"
+                  aria-label={copy.languageAria}
+                  className="flex h-8 items-center gap-1.5 rounded-md px-2 text-label-13 text-muted-foreground hover:bg-gray-alpha-100 hover:text-foreground focus-ring"
+                >
+                  <Languages className="size-3.5 shrink-0" aria-hidden />
+                  {LANGUAGE_OPTIONS.find((option) => option.value === language)?.label}
+                </MenuButton>
+                <Menu width={128} stateful aria-label={copy.languageLabel}>
+                  {LANGUAGE_OPTIONS.map((option) => (
+                    <MenuItem
+                      key={option.value}
+                      aria-current={option.value === language ? "true" : undefined}
+                      active={option.value === language}
+                      onSelect={() => setLanguage(option.value)}
+                    >
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </MenuContainer>
+            </div>
+            {/* 主题切换：同语言菜单，<md 收进抽屉工具行 */}
+            <div className="max-md:hidden">
+              <ThemeSwitcher />
+            </div>
           </div>
         </div>
       </div>
