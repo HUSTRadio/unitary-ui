@@ -253,6 +253,10 @@ function TypefacePreview() {
 
 /* ---------- 网格 ---------- */
 
+/* 陈列顺序与侧边栏（docs/geist/src/data/nav.ts）对齐：
+   Foundations 组按 Introduction → Icons → Colors → Typography → Materials → Grid；
+   Components 独立组紧随其后。首页卡片取 Foundations 的 Icons/Colors/Typeface/Materials
+   与 Components 组，顺序 = 侧边栏出现顺序。 */
 const DOC_CARDS: Omit<DocCardProps, "children">[] = [
   {
     href: "/icons",
@@ -260,14 +264,14 @@ const DOC_CARDS: Omit<DocCardProps, "children">[] = [
     description: "Icon set tailored for developer tools.",
   },
   {
-    href: "/components",
-    title: "Components",
-    description: "Building blocks for React applications.",
-  },
-  {
     href: "/colors",
     title: "Colors",
     description: "A high contrast, accessible color system.",
+  },
+  {
+    href: "/typography",
+    title: "Typeface",
+    description: "Specifically designed for developers and designers.",
   },
   {
     href: "/materials",
@@ -275,18 +279,18 @@ const DOC_CARDS: Omit<DocCardProps, "children">[] = [
     description: "Presets for radii, fills, strokes, and shadows.",
   },
   {
-    href: "/typography",
-    title: "Typeface",
-    description: "Specifically designed for developers and designers.",
+    href: "/components",
+    title: "Components",
+    description: "Building blocks for React applications.",
   },
 ];
 
 const CARD_PREVIEWS = [
   <IconsPreview key="icons" />,
-  <ComponentsPreview key="components" />,
   <ColorsPreview key="colors" />,
-  <MaterialsPreview key="materials" />,
   <TypefacePreview key="typeface" />,
+  <MaterialsPreview key="materials" />,
+  <ComponentsPreview key="components" />,
 ];
 
 /**

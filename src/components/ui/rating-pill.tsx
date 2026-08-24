@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Popover as PopoverPrimitive } from "radix-ui";
 
 import {
   FeedbackHateFace,
@@ -11,13 +10,16 @@ import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 /**
- * RatingPill — 胶囊评分条（item 12 设计决策，shard-D）。
+ * RatingPill — 官方 Geist 反馈胶囊（vercel.com 页脚「Was this helpful?」实测 2026-08-24）。
  *
- * 官方形态（vercel.com 站点页脚「Was this helpful?」实测）：一条胶囊 rating bar，
- * 收起为一行 trigger，点击展开 4 表情，点外部 / Escape 收起；选中后胶囊以对应语义色着色。
- * 本地实现基于 Radix Popover（modal=false），外点关闭由 onOpenChange 天然处理。
+ * 官方形态：单行胶囊内直接内嵌 4 个圆形表情按钮（无需点击展开）。
+ * - 胶囊：h-12 rounded-full bg-background-100 shadow-border-small，pl-4 pr-2 py-2
+ * - label 文本 + 4 个圆形(rounded-[50%]) 32px 表情按钮横排（gap-[1px]）
+ * - 点击表情即选中并提交：选中后胶囊按语义色着色（love→success 绿 / okay→gray /
+ *   not-great→warning 黄 / hate→error 红），着色只作用于容器不动 SVG fill
+ * - 完整反馈表单（copy / topics / textarea）由 Feedback 在胶囊下方渲染
  *
- * 语义色映射（用户要求四色，优于官方单色；着色只作用于容器，不动 feedback-faces SVG fill）：
+ * 语义色映射（用户要求四色，优于官方单色）：
  *   love      → success（--success 绿）
  *   okay      → neutral（gray 中性）
  *   not-great → warning（--warning 黄）
@@ -47,10 +49,7 @@ export const RATING_OPTIONS: ReadonlyArray<{
   { value: "love", label: "Love it!", tone: "success", icon: FeedbackLoveFace },
 ];
 
-/**
- * 胶囊 trigger 的语义色（soft：浅底 + 语义色文字/描边，避免与面部 SVG 固定强调色撞色）。
- * 未选中走默认中性胶囊（border-gray-alpha-400 bg-gray-alpha-100）。
- */
+/** 胶囊的语义色（选中时：浅底 + 语义色文字/描边，避免与面部 SVG 固定强调色撞色） */
 export const RATING_TONE_CAPSULE: Record<RatingTone, string> = {
   success: "border-success/40 bg-success-soft text-success",
   neutral: "border-gray-alpha-500 bg-gray-alpha-200 text-gray-900",
@@ -58,7 +57,7 @@ export const RATING_TONE_CAPSULE: Record<RatingTone, string> = {
   error: "border-danger/40 bg-danger-soft text-danger",
 };
 
-/** 展开面板内表情按钮的 hover 语义色（四档评分按钮各自着色） */
+/** 表情按钮的 hover 语义色（四档各自着色） */
 export const RATING_TONE_FACE_HOVER: Record<RatingTone, string> = {
   success: "hover:bg-success-soft hover:text-success",
   neutral: "hover:bg-gray-alpha-200 hover:text-gray-900",
@@ -66,7 +65,7 @@ export const RATING_TONE_FACE_HOVER: Record<RatingTone, string> = {
   error: "hover:bg-danger-soft hover:text-danger",
 };
 
-/** 展开面板内表情按钮的选中语义色 */
+/** 表情按钮的选中语义色 */
 export const RATING_TONE_FACE_SELECTED: Record<RatingTone, string> = {
   success: "bg-success-soft text-success",
   neutral: "bg-gray-alpha-200 text-gray-900",
@@ -75,27 +74,21 @@ export const RATING_TONE_FACE_SELECTED: Record<RatingTone, string> = {
 };
 
 interface RatingPillProps {
-  /** 胶囊 trigger 文案（收起态一行） */
+  /** 胶囊内 label 文本 */
   label: React.ReactNode;
-  /** trigger 前缀图标 */
+  /** label 前缀图标 */
   prefix?: React.ReactNode;
-  /** trigger 后缀图标 */
+  /** label 后缀图标 */
   suffix?: React.ReactNode;
   /** 受控选中评分 */
   value?: RatingValue;
   /** 非受控初始评分 */
   defaultValue?: RatingValue;
+  /** 评分变化回调（点击表情触发） */
   onValueChange?: (value: RatingValue) => void;
-  /** 受控展开态 */
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  /** 展开面板 body 内容（表情行上方：copy / topics / textarea 等） */
-  children?: React.ReactNode;
-  /** 展开面板 footer 右侧操作（Send 等） */
-  footerActions?: React.ReactNode;
-  /** 提供时，展开面板内容包裹在 <form> 内（footerActions 的 type="submit" 才能触发提交） */
-  onSubmit?: React.FormEventHandler<HTMLFormElement>;
-  /** 应用到胶囊 trigger 按钮 */
+  /** 点击表情提交回调（选中后触发，Feedback 用于组装 metadata） */
+  onSubmit?: (value: RatingValue) => void;
+  /** 应用到胶囊容器 */
   className?: string;
 }
 
@@ -106,10 +99,6 @@ function RatingPill({
   value,
   defaultValue,
   onValueChange,
-  open: openProp,
-  onOpenChange,
-  children,
-  footerActions,
   onSubmit,
   className,
 }: RatingPillProps) {
@@ -118,105 +107,71 @@ function RatingPill({
     defaultValue,
   );
 
-  // 传入 onValueChange/onOpenChange 即视为受控：value 为 undefined 时也以外部为准
-  // （Feedback 提交后 setRating(undefined) 复位，胶囊必须回到中性色）。
   const isRatingControlled = onValueChange !== undefined;
-  // open 受控需要 openProp 与 onOpenChange 同时存在；只传 onOpenChange（回调监听）
-  // 时仍走非受控内部 state，否则 open 恒为 undefined ?? false，Popover 永不打开。
-  const isOpenControlled = onOpenChange !== undefined && openProp !== undefined;
-  const [openState, setOpenState] = React.useState(false);
-  const open = isOpenControlled ? (openProp ?? false) : openState;
   const rating = isRatingControlled ? value : ratingInternal;
   const tone = rating ? RATING_TONE[rating] : undefined;
-  const SelectedFace = rating
-    ? RATING_OPTIONS.find((option) => option.value === rating)?.icon
-    : undefined;
-
-  const handleOpenChange = (next: boolean) => {
-    setOpenState(next);
-    onOpenChange?.(next);
-  };
 
   const handleSelect = (next: RatingValue) => {
     setRatingInternal(next);
     onValueChange?.(next);
+    onSubmit?.(next);
   };
 
   return (
-    <PopoverPrimitive.Root open={open} onOpenChange={handleOpenChange}>
-      <PopoverPrimitive.Trigger asChild>
-        <button
-          type="button"
-          aria-haspopup="dialog"
-          aria-expanded={open}
-          className={cn(
-            "outline-none inline-flex h-8 select-none items-center gap-1.5 rounded-full border px-3 text-[14px] font-medium leading-[21px] transition-colors duration-200 focus-ring",
-            tone
-              ? RATING_TONE_CAPSULE[tone]
-              : "border-gray-alpha-400 bg-gray-alpha-100 text-gray-900 hover:border-gray-alpha-500 hover:bg-gray-alpha-200",
-            className,
-          )}
-        >
-          {prefix ? (
-            <span className="shrink-0 inline-flex items-center justify-center [&>svg]:size-4">
-              {prefix}
-            </span>
-          ) : null}
-          {SelectedFace ? <SelectedFace aria-hidden className="size-4 shrink-0" /> : null}
-          <span className="truncate inline-block">{label}</span>
-          {suffix ? (
-            <span className="shrink-0 inline-flex items-center justify-center [&>svg]:size-4">
-              {suffix}
-            </span>
-          ) : null}
-        </button>
-      </PopoverPrimitive.Trigger>
-      <PopoverPrimitive.Portal>
-        <PopoverPrimitive.Content
-          role="dialog"
-          sideOffset={4}
-          className="w-[340px] rounded-xl bg-background-100 shadow-[0_0_0_1px_var(--ds-gray-alpha-400),0_4px_8px_rgba(0,0,0,0.08)] z-[300] outline-none animate-in fade-in-0 zoom-in-95 duration-150"
-        >
-          <form className="h-full" onSubmit={onSubmit}>
-            {children ? <div className="flex flex-col gap-2 p-2">{children}</div> : null}
-            <div className="flex items-center justify-between border-t border-gray-alpha-200 bg-gray-alpha-100 p-3">
-              <span
-                role="radiogroup"
-                aria-label={t("Feedback rating")}
-                className="flex items-center gap-[1px] text-gray-900"
-              >
-                {RATING_OPTIONS.map(
-                  ({ value: optionValue, label: ratingLabel, icon: Icon, tone: faceTone }) => {
-                    const selected = rating === optionValue;
-                    return (
-                      <button
-                        key={optionValue}
-                        type="button"
-                        role="radio"
-                        aria-checked={selected}
-                        aria-label={t("Select {rating} emoji", {
-                          rating: t(ratingLabel),
-                        })}
-                        onClick={() => handleSelect(optionValue)}
-                        className={cn(
-                          "flex size-8 items-center justify-center rounded-[50%] border-none bg-transparent p-0 transition-colors duration-200 focus-ring",
-                          RATING_TONE_FACE_HOVER[faceTone],
-                          selected && RATING_TONE_FACE_SELECTED[faceTone],
-                          "[&_svg]:size-4 [&_svg]:shrink-0",
-                        )}
-                      >
-                        <Icon aria-hidden />
-                      </button>
-                    );
-                  },
-                )}
-              </span>
-              {footerActions}
-            </div>
-          </form>
-        </PopoverPrimitive.Content>
-      </PopoverPrimitive.Portal>
-    </PopoverPrimitive.Root>
+    <div
+      data-slot="rating-pill"
+      className={cn(
+        // 官方形态：单行胶囊内嵌 4 表情（2026-08-24 实测：
+        // h-48(48px) rounded-full bg-white shadow-border-small pl-4 pr-2 py-2）
+        "inline-flex h-12 select-none items-center gap-3 rounded-full border bg-background-100 py-2 pr-2 pl-4",
+        "shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] transition-colors duration-200",
+        tone && RATING_TONE_CAPSULE[tone],
+        className,
+      )}
+    >
+      {prefix ? (
+        <span className="inline-flex shrink-0 items-center justify-center [&>svg]:size-4">
+          {prefix}
+        </span>
+      ) : null}
+      <span className="truncate text-[14px] font-medium leading-[21px] text-gray-900">
+        {label}
+      </span>
+      {suffix ? (
+        <span className="inline-flex shrink-0 items-center justify-center [&>svg]:size-4">
+          {suffix}
+        </span>
+      ) : null}
+      <span
+        role="radiogroup"
+        aria-label={t("Feedback rating")}
+        className="flex items-center gap-[1px] text-gray-900"
+      >
+        {RATING_OPTIONS.map(({ value: optionValue, label: ratingLabel, icon: Icon, tone: faceTone }) => {
+          const selected = rating === optionValue;
+          return (
+            <button
+              key={optionValue}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              aria-label={t("Select {rating} emoji", {
+                rating: t(ratingLabel),
+              })}
+              onClick={() => handleSelect(optionValue)}
+              className={cn(
+                "flex size-8 cursor-pointer items-center justify-center rounded-[50%] border-none bg-transparent p-0 outline-none transition-colors duration-200 focus-ring",
+                RATING_TONE_FACE_HOVER[faceTone],
+                selected && RATING_TONE_FACE_SELECTED[faceTone],
+                "[&_svg]:size-4 [&_svg]:shrink-0",
+              )}
+            >
+              <Icon aria-hidden />
+            </button>
+          );
+        })}
+      </span>
+    </div>
   );
 }
 

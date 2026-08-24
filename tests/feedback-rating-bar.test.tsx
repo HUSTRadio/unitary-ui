@@ -26,9 +26,9 @@ function mount(element: React.ReactElement) {
   return container;
 }
 
-/** 胶囊 trigger（aria-haspopup=dialog 的 button） */
-function capsule() {
-  return document.querySelector<HTMLButtonElement>("button[aria-haspopup='dialog']")!;
+/** 胶囊容器（data-slot=rating-pill） */
+function pill() {
+  return document.querySelector<HTMLElement>('[data-slot="rating-pill"]')!;
 }
 
 function radios() {
@@ -39,21 +39,7 @@ function radiogroup() {
   return document.querySelector<HTMLElement>('[role="radiogroup"]');
 }
 
-/** 模拟点外部（Radix Popover modal=false 通过 document pointerdown 关闭）。
- *  Radix 在 effect 里用 setTimeout(0) 挂 document 级 pointerdown 监听，jsdom 需先冲刷定时器。
- *  注意：Popover 传 deferPointerDownOutside=true → pointerdown(button=0) 后必须补发 click
- *  才会真正触发 onPointerDownOutside（模拟真实鼠标序列）。 */
-async function clickOutside() {
-  await act(async () => {
-    await new Promise((resolve) => setTimeout(resolve, 0));
-  });
-  act(() => {
-    document.body.dispatchEvent(new MouseEvent("pointerdown", { bubbles: true, button: 0 }));
-    document.body.dispatchEvent(new MouseEvent("click", { bubbles: true, button: 0 }));
-  });
-}
-
-describe("Feedback rating bar (item 12)", () => {
+describe("Feedback rating bar (item 12, 官方内嵌形态)", () => {
   test("RATING_TONE maps the four ratings to the four semantic colors", () => {
     expect(RATING_TONE).toEqual({
       love: "success",
@@ -63,33 +49,21 @@ describe("Feedback rating bar (item 12)", () => {
     });
   });
 
-  test("collapsed state renders a single capsule trigger and no radiogroup", () => {
+  test("官方形态：单行胶囊内直接内嵌 4 个表情（radiogroup 常显，无需点击展开）", () => {
     mount(<Feedback label="vercel" dryRun />);
-    const trigger = capsule();
-    expect(trigger).toBeTruthy();
-    // 胶囊形态：rounded-full + h-8（32px，对齐官方 h:32px 实测）
-    expect(trigger.className).toContain("rounded-full");
-    expect(trigger.className).toContain("h-8");
-    expect(trigger.textContent).toContain("vercel");
-    expect(radiogroup()).toBeNull();
-  });
-
-  test("clicking the capsule expands the 4-rating radiogroup; clicking outside collapses it", async () => {
-    mount(<Feedback label="vercel" dryRun />);
-    const trigger = capsule();
-    act(() => trigger.click());
+    const capsule = pill();
+    expect(capsule).toBeTruthy();
+    // 胶囊形态：rounded-full + h-12（48px，官方实测）
+    expect(capsule.className).toContain("rounded-full");
+    expect(capsule.className).toContain("h-12");
+    expect(capsule.textContent).toContain("vercel");
+    // 4 表情常显
     expect(radiogroup()).toBeTruthy();
     expect(radios()).toHaveLength(4);
-    // aria 语义：4 个 radio + radiogroup 标签
-    expect(radios()[0]?.getAttribute("aria-checked")).toBe("false");
-    // 点外部 → 收起
-    await clickOutside();
-    expect(radiogroup()).toBeNull();
   });
 
   test("each of the four rating buttons carries its own semantic color classes", () => {
     mount(<Feedback label="vercel" dryRun />);
-    act(() => capsule().click());
     const [hate, notGreat, okay, love] = radios();
     expect(hate.className).toContain("hover:bg-danger-soft"); // hate → error 红
     expect(notGreat.className).toContain("hover:bg-warning-soft"); // not-great → warning 黄
@@ -97,16 +71,14 @@ describe("Feedback rating bar (item 12)", () => {
     expect(love.className).toContain("hover:bg-success-soft"); // love → success 绿
   });
 
-  test("selecting love recolors the capsule trigger green and shows the face icon", () => {
+  test("selecting love recolors the capsule green and selects the radio", () => {
     mount(<Feedback label="vercel" dryRun />);
-    const trigger = capsule();
-    act(() => trigger.click());
+    const capsule = pill();
     act(() => radios()[3].click()); // love
-    expect(trigger.className).toContain("bg-success-soft");
-    expect(trigger.className).toContain("text-success");
-    expect(trigger.className).toContain("border-success/40");
-    // 选中表情图标渲染进胶囊
-    expect(trigger.querySelector("svg")).toBeTruthy();
+    expect(capsule.className).toContain("bg-success-soft");
+    expect(capsule.className).toContain("text-success");
+    expect(capsule.className).toContain("border-success/40");
+    expect(radios()[3].getAttribute("aria-checked")).toBe("true");
   });
 
   test("selecting hate colors the capsule error red; not-great → warning amber", () => {
@@ -116,43 +88,45 @@ describe("Feedback rating bar (item 12)", () => {
         <Feedback label="b" dryRun defaultValue="not-great" />
       </div>,
     );
-    const triggers = [...document.querySelectorAll<HTMLButtonElement>("button[aria-haspopup='dialog']")];
-    expect(triggers[0].className).toContain("bg-danger-soft");
-    expect(triggers[0].className).toContain("text-danger");
-    expect(triggers[1].className).toContain("bg-warning-soft");
-    expect(triggers[1].className).toContain("text-warning");
+    const capsules = [...document.querySelectorAll<HTMLElement>('[data-slot="rating-pill"]')];
+    expect(capsules[0].className).toContain("bg-danger-soft");
+    expect(capsules[0].className).toContain("text-danger");
+    expect(capsules[1].className).toContain("bg-warning-soft");
+    expect(capsules[1].className).toContain("text-warning");
   });
 
   test("okay (neutral) keeps the gray capsule", () => {
     mount(<Feedback label="vercel" dryRun defaultValue="okay" />);
-    const trigger = capsule();
-    expect(trigger.className).toContain("bg-gray-alpha-200");
-    expect(trigger.className).toContain("text-gray-900");
+    const capsule = pill();
+    expect(capsule.className).toContain("bg-gray-alpha-200");
+    expect(capsule.className).toContain("text-gray-900");
   });
 
-  test("submit closes the panel and resets the rating color back to neutral", () => {
+  test("submit closes the form panel and resets the rating color back to neutral", () => {
     const onSubmit = vi.fn();
     mount(<Feedback label="vercel" onSubmit={onSubmit} />);
-    const trigger = capsule();
-    act(() => trigger.click());
+    const capsule = pill();
+    // 选中表情 → 展开表单面板
     act(() => radios()[3].click()); // love
-    expect(trigger.className).toContain("text-success");
+    expect(capsule.className).toContain("text-success");
+    const form = document.querySelector<HTMLFormElement>("form");
+    expect(form).toBeTruthy();
     act(() => {
-      document.querySelector<HTMLFormElement>("form")?.requestSubmit();
+      form?.requestSubmit();
     });
     expect(onSubmit).toHaveBeenCalledWith("love", "", undefined);
-    expect(radiogroup()).toBeNull();
-    expect(trigger.className).not.toContain("text-success");
-    expect(trigger.className).not.toContain("bg-success-soft");
+    expect(document.querySelector("form")).toBeNull();
+    expect(capsule.className).not.toContain("text-success");
+    expect(capsule.className).not.toContain("bg-success-soft");
   });
 
-  test("RatingPill reports open/close via onOpenChange (outside click)", async () => {
-    const onOpenChange = vi.fn();
-    mount(<RatingPill label="Was this helpful?" onOpenChange={onOpenChange} />);
-    act(() => capsule().click());
-    expect(onOpenChange).toHaveBeenLastCalledWith(true);
-    await clickOutside();
-    expect(onOpenChange).toHaveBeenLastCalledWith(false);
+  test("RatingPill exposes value change via onValueChange and onSubmit", () => {
+    const onValueChange = vi.fn();
+    const onSubmit = vi.fn();
+    mount(<RatingPill label="Was this helpful?" onValueChange={onValueChange} onSubmit={onSubmit} />);
+    act(() => radios()[2].click()); // okay
+    expect(onValueChange).toHaveBeenCalledWith("okay");
+    expect(onSubmit).toHaveBeenCalledWith("okay");
   });
 
   test("four rating options expose value/label/tone/icon in order", () => {

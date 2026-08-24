@@ -33,8 +33,9 @@ function mount(localized = false) {
       ),
     ),
   );
-  const trigger = container.querySelector<HTMLButtonElement>("button")!;
-  act(() => trigger.click());
+  // 选中一个表情（love）→ 展开表单面板
+  const love = container.querySelector<HTMLButtonElement>('[role="radio"][aria-checked="false"]:last-child')!;
+  act(() => love.click());
 }
 
 describe("Feedback i18n", () => {
@@ -78,9 +79,10 @@ describe("Feedback i18n", () => {
         </I18nProvider>,
       ),
     );
-    const trigger = container.querySelector<HTMLButtonElement>("button")!;
-    expect(trigger.textContent).toContain("Report a bug");
-    act(() => trigger.click());
+    // label 在胶囊内，copy 在选中表情展开后出现
+    expect(container.textContent).toContain("Report a bug");
+    const love = container.querySelector<HTMLButtonElement>('[role="radio"][aria-checked="false"]:last-child')!;
+    act(() => love.click());
     expect(document.body.textContent).toContain("Tell us what happened");
   });
 });
