@@ -56,23 +56,27 @@ describe("Badge official subtle tint contract", () => {
     expect(lowVariant).not.toContain("gray-200");
   });
 
-  test("subtle text colors are preserved per variant", async () => {
+  test("subtle text colors are preserved per variant (palette tokens, no hardcoded hex)", async () => {
     const src = await read("src/components/ui/badge.tsx");
 
     const expectedText = {
       gray: "text-gray-1000",
-      blue: "text-[#0068d6] dark:text-[#52a8ff]",
-      purple: "text-[#7820bc] dark:text-[#bf7af0]",
-      amber: "text-[#a35200] dark:text-[#f2a20d]",
+      blue: "text-blue-900",
+      purple: "text-purple-800 dark:text-purple-900",
+      amber: "text-amber-900",
       red: "text-badge-red-subtle-foreground",
-      pink: "text-[#bd2864] dark:text-[#f75f8f]",
-      green: "text-[#297a3a] dark:text-[#62c073]",
-      teal: "text-[#067a6e] dark:text-[#0ac7b4]",
+      pink: "text-pink-800 dark:text-pink-900",
+      green: "text-green-900",
+      teal: "text-teal-900",
     } as const;
 
     for (const [color, textClass] of Object.entries(expectedText)) {
       const entry = subtleClassName(src, color);
       expect(entry, `${color}-subtle text color`).toContain(textClass);
+      // 语义色必须走 palette token，禁止硬编码 hex
+      expect(entry, `${color}-subtle must not hardcode hex`).not.toMatch(
+        /text-\[\#[0-9a-fA-F]{6}\]/,
+      );
     }
   });
 });

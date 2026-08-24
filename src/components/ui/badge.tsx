@@ -23,15 +23,16 @@ const badgeVariants = cva(
         lg: "h-8 gap-1.5 px-3 text-sm **:data-[slot=icon]:size-4 **:data-[slot=icon]:data-[glyph=circular]:-ml-1 **:data-[slot=icon]:has-[[data-glyph=circular]]:-ml-1",
       },
       variant: {
-        // 官方变体（vercel.com/geist/badge 实测色值，Light/Dark 均实测）
-        gray: "bg-[#4d4d4d] text-white dark:bg-[#454545]",
-        blue: "bg-[#0062d1] text-white",
-        purple: "bg-[#7820bc] text-white dark:bg-[#5f2e85]",
-        amber: "bg-[#ffb224] text-black",
+        // 官方变体色值 → palette token 映射（src/styles/index.css 双主题 token）：
+        // light/dark 各取与官方实测色最相近的档，保持深底亮字可读性。
+        gray: "bg-gray-900 text-white dark:bg-gray-500",
+        blue: "bg-blue-900 text-white dark:bg-blue-800",
+        purple: "bg-purple-800 text-white",
+        amber: "bg-amber-500 text-black dark:bg-amber-700",
         red: "bg-badge-red text-badge-red-foreground",
-        pink: "bg-[#bd2864] text-white dark:bg-[#b31a57]",
-        green: "bg-[#297a3a] text-white dark:bg-[#1a9338]",
-        teal: "bg-[#067a6e] text-white dark:bg-[#0c9784]",
+        pink: "bg-pink-800 text-white",
+        green: "bg-green-900 text-white dark:bg-green-800",
+        teal: "bg-teal-900 text-white dark:bg-teal-800",
         inverted: "bg-gray-1000 text-gray-100",
         trial: "bg-black text-white bg-linear-[135deg,#0070f3,#f81ce5]",
         turbo: "bg-black text-white bg-linear-[135deg,#ff1e56,#0096ff]",
@@ -52,19 +53,19 @@ const badgeVariants = cva(
         variant: "blue",
         contrast: "low",
         className:
-          "text-[#0068d6] dark:text-[#52a8ff] before:bg-[oklch(from_var(--blue-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--blue-200)_0.27_c_h)]",
+          "text-blue-900 before:bg-[oklch(from_var(--blue-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--blue-200)_0.27_c_h)]",
       },
       {
         variant: "purple",
         contrast: "low",
         className:
-          "text-[#7820bc] dark:text-[#bf7af0] before:bg-[oklch(from_var(--purple-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--purple-200)_0.27_c_h)]",
+          "text-purple-800 dark:text-purple-900 before:bg-[oklch(from_var(--purple-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--purple-200)_0.27_c_h)]",
       },
       {
         variant: "amber",
         contrast: "low",
         className:
-          "text-[#a35200] dark:text-[#f2a20d] before:bg-[oklch(from_var(--amber-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--amber-200)_0.27_c_h)]",
+          "text-amber-900 before:bg-[oklch(from_var(--amber-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--amber-200)_0.27_c_h)]",
       },
       {
         variant: "red",
@@ -76,19 +77,19 @@ const badgeVariants = cva(
         variant: "pink",
         contrast: "low",
         className:
-          "text-[#bd2864] dark:text-[#f75f8f] before:bg-[oklch(from_var(--pink-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--pink-200)_0.27_c_h)]",
+          "text-pink-800 dark:text-pink-900 before:bg-[oklch(from_var(--pink-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--pink-200)_0.27_c_h)]",
       },
       {
         variant: "green",
         contrast: "low",
         className:
-          "text-[#297a3a] dark:text-[#62c073] before:bg-[oklch(from_var(--green-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--green-200)_0.27_c_h)]",
+          "text-green-900 before:bg-[oklch(from_var(--green-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--green-200)_0.27_c_h)]",
       },
       {
         variant: "teal",
         contrast: "low",
         className:
-          "text-[#067a6e] dark:text-[#0ac7b4] before:bg-[oklch(from_var(--teal-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--teal-200)_0.27_c_h)]",
+          "text-teal-900 before:bg-[oklch(from_var(--teal-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--teal-200)_0.27_c_h)]",
       },
     ],
     defaultVariants: {

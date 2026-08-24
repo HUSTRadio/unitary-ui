@@ -117,11 +117,10 @@ import {
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
-import { CopyButton } from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "@/components/ui/link";
-import { Modal, ModalContent, ModalFooter, ModalHeader, ModalTitle } from "@/components/ui/modal";
+import { Modal, ModalContent, ModalHeader, ModalTitle } from "@/components/ui/modal";
 import { useLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
 
@@ -341,6 +340,8 @@ export function IconsPage() {
   const filtered = normalized
     ? ICONS.filter(({ name }) => name.toLowerCase().includes(normalized))
     : ICONS;
+  const lucideIcons = filtered.filter((e) => e.lib === "lucide");
+  const simpleIcons = filtered.filter((e) => e.lib === "simple-icons");
 
   const isLucide = selected?.lib === "lucide";
 
@@ -355,14 +356,6 @@ export function IconsPage() {
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         {demoText(language, "Icon set tailored for developer tools.")}
       </p>
-      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-label-14">
-        <Link href="https://lucide.dev" className="text-muted-foreground">
-          lucide.dev
-        </Link>
-        <Link href="https://simpleicons.org" className="text-muted-foreground">
-          simpleicons.org
-        </Link>
-      </div>
 
       <div className="relative mt-8 max-w-xs" role="search">
         <Search
@@ -383,34 +376,84 @@ export function IconsPage() {
           {demoText(language, "No icons match your search.")}
         </p>
       ) : (
-        <div className="mt-8 grid grid-cols-3 gap-1 sm:grid-cols-4 md:grid-cols-6 xl:grid-cols-8">
-          {filtered.map((entry) =>
-            entry.lib === "lucide" ? (
-              <button
-                key={entry.name}
-                type="button"
-                onClick={() => setSelected(entry)}
-                title={entry.name}
-                aria-label={entry.name}
-                className="group flex flex-col items-center justify-center gap-2 rounded-md p-3 text-muted-foreground transition-colors duration-150 hover:bg-gray-alpha-100 hover:text-foreground"
-              >
-                <entry.Icon className="size-5 transition-colors" strokeWidth={1.5} aria-hidden />
-                <span className="w-full truncate text-center text-label-12">{entry.name}</span>
-              </button>
+        <div className="mt-8 space-y-10">
+          {/* Lucide 分区 — 小标题 as link */}
+          <section>
+            <h2 className="text-heading-16 font-medium text-foreground">
+              <Link href="https://lucide.dev">Lucide</Link>
+            </h2>
+            <p className="mt-1 text-copy-14 text-muted-foreground">
+              {demoText(
+                language,
+                "Open-source stroke icons, tree-shakeable via lucide-react.",
+              )}
+            </p>
+            {lucideIcons.length === 0 ? (
+              <p className="mt-4 text-copy-14 text-muted-foreground">
+                {demoText(language, "No lucide icons match your search.")}
+              </p>
             ) : (
-              <button
-                key={entry.name}
-                type="button"
-                onClick={() => setSelected(entry)}
-                title={entry.name}
-                aria-label={`${entry.name} (simple-icons)`}
-                className="group flex flex-col items-center justify-center gap-2 rounded-md p-3 text-muted-foreground transition-colors duration-150 hover:bg-gray-alpha-100 hover:text-foreground"
-              >
-                <SimpleIconGlyph slug={entry.slug} className="size-5 transition-colors" />
-                <span className="w-full truncate text-center text-label-12">{entry.name}</span>
-              </button>
-            ),
-          )}
+              <div className="mt-4 grid grid-cols-3 gap-1 sm:grid-cols-4 md:grid-cols-6 xl:grid-cols-8">
+                {lucideIcons.map((entry) =>
+                  entry.lib === "lucide" ? (
+                    <button
+                      key={entry.name}
+                      type="button"
+                      onClick={() => setSelected(entry)}
+                      title={entry.name}
+                      aria-label={entry.name}
+                      className="group flex flex-col items-center justify-center gap-2 rounded-md p-3 text-muted-foreground transition-colors duration-150 hover:bg-gray-alpha-100 hover:text-foreground"
+                    >
+                      <entry.Icon className="size-5 transition-colors" strokeWidth={1.5} aria-hidden />
+                      <span className="w-full truncate text-center text-label-12">{entry.name}</span>
+                    </button>
+                  ) : null,
+                )}
+              </div>
+            )}
+          </section>
+
+          {/* Simple Icons 分区 — 小标题 as link + 品牌版权声明 */}
+          <section>
+            <h2 className="text-heading-16 font-medium text-foreground">
+              <Link href="https://simpleicons.org">Simple Icons</Link>
+            </h2>
+            <p className="mt-1 text-copy-14 text-muted-foreground">
+              {demoText(
+                language,
+                "Brand icons for popular products, rendered from the simple-icons CDN.",
+              )}
+            </p>
+            <p className="mt-2 max-w-xl text-copy-13 text-muted-foreground">
+              {demoText(
+                language,
+                "All brand names, logos, and icons are trademarks of their respective owners. Simple Icons is not affiliated with any of these brands, and the project makes no claim of ownership over them.",
+              )}
+            </p>
+            {simpleIcons.length === 0 ? (
+              <p className="mt-4 text-copy-14 text-muted-foreground">
+                {demoText(language, "No brand icons match your search.")}
+              </p>
+            ) : (
+              <div className="mt-4 grid grid-cols-3 gap-1 sm:grid-cols-4 md:grid-cols-6 xl:grid-cols-8">
+                {simpleIcons.map((entry) =>
+                  entry.lib === "simple-icons" ? (
+                    <button
+                      key={entry.name}
+                      type="button"
+                      onClick={() => setSelected(entry)}
+                      title={entry.name}
+                      aria-label={`${entry.name} (simple-icons)`}
+                      className="group flex flex-col items-center justify-center gap-2 rounded-md p-3 text-muted-foreground transition-colors duration-150 hover:bg-gray-alpha-100 hover:text-foreground"
+                    >
+                      <SimpleIconGlyph slug={entry.slug} className="size-5 transition-colors" />
+                      <span className="w-full truncate text-center text-label-12">{entry.name}</span>
+                    </button>
+                  ) : null,
+                )}
+              </div>
+            )}
+          </section>
         </div>
       )}
 
@@ -517,14 +560,6 @@ export function IconsPage() {
                 {exampleCode}
               </CodeBlockComponent>
             </div>
-
-            <ModalFooter>
-              <CopyButton
-                textToCopy={selected.name}
-                label={demoText(language, "Copy name")}
-                className="size-8 rounded-[5px] bg-background-200 shadow-none hover:bg-gray-alpha-200"
-              />
-            </ModalFooter>
           </ModalContent>
         ) : null}
       </Modal>

@@ -40,15 +40,24 @@ function portalContent(): Element | null {
 }
 
 describe("IconsPage detail panel (shard-C item 22)", () => {
-  test("renders external library links in the title area", async () => {
+  test("renders external library links as section headings", async () => {
     await render();
 
     const links = Array.from(container.querySelectorAll("a")).map((a) => a.getAttribute("href"));
     expect(links).toContain("https://lucide.dev");
     expect(links).toContain("https://simpleicons.org");
+    // 链接位于各分区小标题内（Lucide / Simple Icons as link）
+    const lucideHeading = Array.from(container.querySelectorAll("h2")).find(
+      (h) => h.textContent?.trim() === "Lucide",
+    );
+    const simpleHeading = Array.from(container.querySelectorAll("h2")).find(
+      (h) => h.textContent?.trim() === "Simple Icons",
+    );
+    expect(lucideHeading?.querySelector('a[href="https://lucide.dev"]')).toBeTruthy();
+    expect(simpleHeading?.querySelector('a[href="https://simpleicons.org"]')).toBeTruthy();
   });
 
-  test("clicking an icon opens the detail panel instead of copying", async () => {
+  test("clicking an icon opens the detail panel with code block (copy lives in code block only)", async () => {
     await render();
 
     const gridButtons = Array.from(container.querySelectorAll("button"));
@@ -63,11 +72,14 @@ describe("IconsPage detail panel (shard-C item 22)", () => {
     expect(portalContent()).not.toBeNull();
     const text = portalContent()!.textContent ?? "";
     expect(text).toContain("Search");
-    // 面板内提供复制名称（默认 zh-CN 文案 复制名称），而非点击网格即复制
-    const copyName = portalContent()!.querySelector<HTMLButtonElement>(
-      '[data-slot="copy-button"][aria-label="复制名称"]',
-    );
-    expect(copyName).not.toBeNull();
+    // 面板内提供示例代码块（自带复制），不再有独立的「复制名称」按钮
+    const exampleBlock = portalContent()!.querySelector('[data-slot="code-block"]');
+    expect(exampleBlock).toBeTruthy();
+    // 代码块自带的复制按钮保留（在代码块内）
+    const codeCopy = exampleBlock!.querySelector<HTMLButtonElement>('[data-slot="copy-button"]');
+    expect(codeCopy).toBeTruthy();
+    // 弹窗底部不应再有独立 Copy 按钮（ModalFooter 已移除）
+    expect(text).not.toContain("复制名称");
   });
 
   test("changing size updates the preview and generated code", async () => {
