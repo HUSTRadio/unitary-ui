@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
+import { Modal, ModalContent, ModalHeader, ModalTitle } from "@/components/ui/modal";
 import { RatingPill, type RatingValue } from "@/components/ui/rating-pill";
 import { Textarea } from "@/components/ui/textarea";
 import { SHELL_COPY } from "../i18n/catalog";
@@ -10,15 +11,13 @@ import { useLanguage } from "../i18n/language";
 
 /**
  * 文档站页脚 — 反馈区 + Next 分页（docs/geist 专用）。
- * FeedbackPanel：胶囊 rating bar（收起为一行「Was this helpful?」），点击展开 4 表情评分，
- *   选中后胶囊以语义色着色；展开面板内保留 Textarea + Send（本地 state 模拟提交，不真实上报）。
- *   — 复用库组件 RatingPill（与 Feedback 组件同一交互/着色，消除形态漂移）。
- * DocsPagination：左右双分页 — 左 Previous + 标题 + ChevronLeft，右标题 + Next + ChevronRight，
- *   按当前页计算上/下一项（Introduction → Colors → Typography → Materials → Grid → Components）；
- *   首页只 Next、末页只 Previous、中间页双显。
+ * FeedbackPanel：复刻 vercel.com/geist 官方浮层 Modal 形态：
+ *   - 居中 Modal（阴影+边框），顶部 "Give feedback" + 4 表情单行胶囊；
+ *   - 选中表情：蓝色圆底白图标，其余灰色轮廓；
+ *   - 大 Textarea + "M ↵ supported." 提示；
+ *   - 右下 Send 胶囊按钮（浅底深字）。
+ * DocsPagination：左右双分页（首页只 Next、末页只 Previous、中间双显）。
  */
-
-/* ================= FeedbackPanel ================= */
 
 export function FeedbackPanel() {
   const { language } = useLanguage();
@@ -30,32 +29,65 @@ export function FeedbackPanel() {
 
   return (
     <section aria-label={copy.feedbackQuestion}>
-      {/* 胶囊 rating bar — 官方形态：单行胶囊内嵌 4 表情；选中后展开 Textarea + Send */}
-      <RatingPill label={copy.feedbackQuestion} value={rating} onValueChange={setRating} onSubmit={() => setOpen(true)} />
-      {open ? (
-        <div className="mt-1">
-          <Textarea
-            placeholder={copy.feedbackPlaceholder}
-            value={comment}
-            onChange={(event) => setComment(event.target.value)}
-            disabled={sent}
+      {/* 触发按钮：点开 Modal */}
+      <Button
+        typeName="button"
+        size="small"
+        type="tertiary"
+        onClick={() => setOpen(true)}
+        className="group flex items-center gap-1.5 rounded-md px-2 py-1.5 text-label-14 text-muted-foreground hover:text-foreground"
+      >
+        <span>{copy.feedbackQuestion}</span>
+      </Button>
+
+      <Modal open={open} onOpenChange={setOpen}>
+        <ModalContent className="max-w-md">
+          <ModalHeader>
+            <ModalTitle className="text-heading-20 text-foreground">{copy.feedbackQuestion}</ModalTitle>
+          </ModalHeader>
+
+          {/* RatingPill：单行胶囊内嵌 4 表情 */}
+          <RatingPill
+            label="" // 已由 ModalTitle 承载
+            value={rating}
+            onValueChange={setRating}
+            onSubmit={() => setOpen(false)} // 选中即提交（官方即点即选）
           />
-          <div className="mt-1 flex items-center justify-end gap-2">
-            {sent ? (
-              <p className="text-label-12 text-muted-foreground">{copy.feedbackThanks}</p>
-            ) : null}
-            <Button
-              typeName="button"
-              size="small"
-              disabled={sent}
-              onClick={() => setSent(true)}
-              prefix={sent ? <Check className="size-3.5" aria-hidden /> : undefined}
-            >
-              {sent ? copy.feedbackSent : copy.feedbackSend}
-            </Button>
-          </div>
-        </div>
-      ) : null}
+
+          {!sent && (
+            <div className="mt-4">
+              <Textarea
+                placeholder={copy.feedbackPlaceholder}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                className="min-h-[100px]"
+              />
+              <p className="mt-2 text-label-12 text-muted-foreground">
+                <kbd className="inline-flex items-center gap-1 rounded border border-gray-alpha-400 bg-gray-alpha-100 px-1.5 py-0.5 text-xs text-muted-foreground font-mono">
+                  M
+                  <kbd className="ml-0.5 px-1 rounded bg-gray-alpha-200">↵</kbd>
+                </kbd>{" "}
+                supported.
+              </p>
+            </div>
+          )}
+
+          {sent ? (
+            <p className="mt-4 text-label-14 text-muted-foreground text-center">{copy.feedbackThanks}</p>
+          ) : (
+            <div className="mt-4 flex justify-end">
+              <Button
+                typeName="button"
+                size="small"
+                onClick={() => setSent(true)}
+                className="rounded-full bg-gray-alpha-100 text-foreground px-4 py-1.5"
+              >
+                {copy.feedbackSend}
+              </Button>
+            </div>
+          )}
+        </ModalContent>
+      </Modal>
     </section>
   );
 }

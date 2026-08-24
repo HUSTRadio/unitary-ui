@@ -24,7 +24,16 @@ import { demoText } from "../i18n/components-demo";
 export function IntroductionPage() {
   const { language } = useLanguage();
   return (
-    <div>
+    <div className="relative">
+      {/* 背景网格：复刻 vercel.com/geist/introduction — 9×2 细线网格，角落十字准星 */}
+      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
+        <div className="absolute inset-0 [background-image:linear-gradient(to_right,var(--color-gray-alpha-200)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-gray-alpha-200)_1px,transparent_1px)] [background-size:4rem_4rem]" />
+        {/* 角落十字准星 */}
+        <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-gray-alpha-300" />
+        <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-gray-alpha-300" />
+        <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-gray-alpha-300" />
+        <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-gray-alpha-300" />
+      </div>
       <h1 className="text-heading-24 sm:text-heading-40 text-foreground">Unitary</h1>
       <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
         {demoText(language, "Vercel design system for building consistent web experiences.")}
@@ -550,7 +559,7 @@ export function TypographyPage() {
             </code>
             <span
               className="truncate text-foreground"
-              style={{ fontFamily: '"OPPO Sans 4.0", sans-serif', fontSize: "clamp(1.5rem, 5vw, 3rem)", lineHeight: 1.15, letterSpacing: "-0.02em" }}
+              style={{ fontFamily: '"OPPO Sans 4.0", sans-serif', fontSize: "clamp(1.25rem, 3vw, 2rem)", lineHeight: 1.2, letterSpacing: "-0.02em" }}
             >
               {demoText(language, "敏捷开发，Unitary 设计系统。")}
             </span>
@@ -562,7 +571,7 @@ export function TypographyPage() {
             </code>
             <span
               className="truncate text-foreground"
-              style={{ fontFamily: '"HarmonyOS Sans SC", "HarmonyOS Sans SC Subset", sans-serif', fontSize: "clamp(1.5rem, 5vw, 3rem)", lineHeight: 1.15, letterSpacing: "-0.02em" }}
+              style={{ fontFamily: '"HarmonyOS Sans SC", "HarmonyOS Sans SC Subset", sans-serif', fontSize: "clamp(1.25rem, 3vw, 2rem)", lineHeight: 1.2, letterSpacing: "-0.02em" }}
             >
               {demoText(language, "设计出极致的美，简而有道。")}
             </span>
@@ -574,7 +583,7 @@ export function TypographyPage() {
             </code>
             <span
               className="truncate font-mono text-foreground"
-              style={{ fontSize: "clamp(1.25rem, 4vw, 2.5rem)", lineHeight: 1.2, letterSpacing: "-0.02em" }}
+              style={{ fontSize: "clamp(1.125rem, 2.5vw, 1.75rem)", lineHeight: 1.25, letterSpacing: "-0.02em" }}
             >
               {demoText(language, "const unitary = await design()")}
             </span>

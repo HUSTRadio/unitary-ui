@@ -211,7 +211,7 @@ function ColorsPreview() {
         <div
           key={bar.name}
           title={`${bar.name} · ${bar.value}`}
-          className="h-[72px] w-2 rounded-full"
+          className="relative h-[72px] w-[10px] rounded-full border border-gray-300"
           style={{ backgroundColor: bar.value }}
         />
       ))}
@@ -237,10 +237,13 @@ function MaterialsPreview() {
   );
 }
 
-/** Typeface — Sans / Mono 两个虚线字体盒 */
+/** Typeface — Sans / Mono 三字体虚线盒 */
 function TypefacePreview() {
   return (
-    <div className="flex w-full max-w-sm gap-3">
+    <div className="flex w-full max-w-md gap-3">
+      <div className="flex-1 rounded-md border border-dashed border-border px-4 py-6 text-center text-label-16 text-foreground">
+        OPPO Sans 4.0
+      </div>
       <div className="flex-1 rounded-md border border-dashed border-border px-4 py-6 text-center text-label-16 text-foreground">
         HarmonyOS Sans SC
       </div>
