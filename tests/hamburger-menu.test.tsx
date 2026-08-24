@@ -77,7 +77,7 @@ describe("HamburgerMenu", () => {
     });
     expect(panel().getAttribute("data-side")).toBe("top");
     // 延伸感：只下圆角 + 共享 border-b、顶部无圆角
-    expect(panel().className).toContain("rounded-b-lg");
+    expect(panel().className).toContain("rounded-b-overlay");
     expect(panel().className).toContain("rounded-t-none");
 
     act(() => root.unmount());
@@ -89,7 +89,7 @@ describe("HamburgerMenu", () => {
       ).click();
     });
     expect(panel().getAttribute("data-side")).toBe("right");
-    expect(panel().className).toContain("rounded-l-lg");
+    expect(panel().className).toContain("rounded-l-overlay");
   });
 
   it("trigger aria-expanded/aria-haspopup；受控 open 双模回调", () => {

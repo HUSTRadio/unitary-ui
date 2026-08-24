@@ -37,22 +37,22 @@ describe("ExpandPanel", () => {
     expect(top.className).toContain("top-[var(--expand-anchor-bottom,64px)]");
     expect(top.className).toContain("inset-x-0");
     expect(top.className).toContain("bottom-auto");
-    expect(top.className).toContain("rounded-b-lg");
+    expect(top.className).toContain("rounded-b-overlay");
     expect(top.className).not.toContain("rounded-t");
 
     const left = renderPanel(<ExpandPanel side="left" open />);
     expect(left.className).toContain("fixed left-0 inset-y-0");
-    expect(left.className).toContain("rounded-r-lg");
+    expect(left.className).toContain("rounded-r-overlay");
     expect(left.className).toContain("-translate-x-full");
 
     const right = renderPanel(<ExpandPanel side="right" open />);
     expect(right.className).toContain("fixed right-0 inset-y-0");
-    expect(right.className).toContain("rounded-l-lg");
+    expect(right.className).toContain("rounded-l-overlay");
     expect(right.className).toContain("translate-x-full");
 
     const bottom = renderPanel(<ExpandPanel side="bottom" open />);
     expect(bottom.className).toContain("fixed inset-x-0 bottom-0");
-    expect(bottom.className).toContain("rounded-t-lg");
+    expect(bottom.className).toContain("rounded-t-overlay");
     expect(bottom.className).toContain("translate-y-full");
   });
 

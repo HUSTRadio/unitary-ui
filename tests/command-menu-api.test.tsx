@@ -194,7 +194,7 @@ describe("CommandMenu official runtime contract", () => {
     expect(dialog.className).toContain("top-[15%]");
     expect(dialog.className).toContain("w-[640px]");
     expect(dialog.className).not.toContain("max-w-[calc(100vw-32px)]");
-    expect(dialog.className).toContain("rounded-[12px]");
+    expect(dialog.className).toContain("rounded-overlay");
     expect(dialog.className).toContain("command-menu-scale");
     expect(dialog.className).toContain("max-grid-sm:bottom-0");
     expect(dialog.className).toContain("max-grid-sm:left-0");
@@ -205,7 +205,7 @@ describe("CommandMenu official runtime contract", () => {
     expect(dialog.className).toContain("max-grid-sm:max-w-full");
     expect(dialog.className).toContain("max-grid-sm:translate-x-0");
     expect(dialog.className).toContain("max-grid-sm:rounded-b-none");
-    expect(dialog.className).toContain("max-grid-sm:rounded-t-[8px]");
+    expect(dialog.className).toContain("max-grid-sm:rounded-t-overlay");
     expect(dialog.className).toContain("max-grid-sm:overflow-auto");
     expect(dialog.className).toContain("command-menu-mobile");
     expect(input.className).toContain("text-base");
