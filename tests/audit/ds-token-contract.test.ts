@@ -66,7 +66,7 @@ describe("official --ds-* compatibility token map", () => {
 
   test("overrides exact dark-theme colors with persisted official values", async () => {
     const css = await readCss();
-    const dark = themeBlock(css, '.dark,\n[data-theme="dark"]');
+    const dark = themeBlock(css, ".dark,\r\n[data-theme=\"dark\"]");
 
     expectDeclarations(dark, {
       "--ds-gray-100": "var(--gray-100)",

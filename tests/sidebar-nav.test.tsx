@@ -62,9 +62,10 @@ describe("SidebarNav", () => {
     expect(markup.split('aria-current="page"').length - 1).toBe(1);
   });
 
-  it("side=left renders border-r, side=right renders border-l on the container", () => {
-    expect(navMarkup({ side: "left" })).toContain("border-r");
-    expect(navMarkup({ side: "left" })).not.toContain("border-l");
+  it("side=left renders no own divider (aside 持有定线), side=right renders border-l on the container", () => {
+    // sidebar 右分割线由 aside（sticky 定线）持有；SidebarNav 不再自带 border-r，
+    // 否则与 aside border-r 形成双线重叠且随内容滚动（回归修复 2026-08-25）
+    expect(navMarkup({ side: "left" })).not.toContain("border-r");
 
     expect(navMarkup({ side: "right" })).toContain("border-l");
     expect(navMarkup({ side: "right" })).not.toContain("border-r");

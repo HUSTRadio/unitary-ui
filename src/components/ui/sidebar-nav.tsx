@@ -66,7 +66,7 @@ export function SidebarNav({
       aria-label={ariaLabel}
       className={cn(
         "flex flex-col gap-4",
-        side === "left" ? "border-r" : "border-l",
+        side === "left" ? "" : "border-l",
         className,
       )}
     >

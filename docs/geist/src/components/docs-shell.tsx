@@ -60,7 +60,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
       {/* Navbar 容器本身即 1220px 居中 sticky 块（官方架构，回退 f08fd84 全宽化）：
           留白区透出页面底色；内层只做内容布局，不再重复 mx-auto/max-w。
           品牌区宽 = sidebar 宽(260) − 内容容器左 padding(22) = 238 → border-r 与 sidebar 右缘对齐 */}
-      <div className="flex h-full w-full pl-[22px] border-gray-alpha-400 lg:border-r max-lg:border-l-0 max-lg:border-r-0 max-md:grid max-md:grid-cols-[44px_1fr_44px] max-md:items-center max-md:pl-0">
+      <div className="flex h-full w-full pl-[22px] border-gray-alpha-400 lg:border-l lg:border-r max-lg:border-l-0 max-lg:border-r-0 max-md:grid max-md:grid-cols-[44px_1fr_44px] max-md:items-center max-md:pl-0">
         {/* 左区块：汉堡按钮（<lg 可见）+ Logo */}
         <div className="border-gray-alpha-400 flex grow items-center gap-2 py-4 pl-px lg:w-[238px] lg:grow-0 lg:border-r max-md:contents">
           {/* max-md:contents —— 左区块解体为 grid item：汉堡占第1列、品牌占第2列（居中） */}
