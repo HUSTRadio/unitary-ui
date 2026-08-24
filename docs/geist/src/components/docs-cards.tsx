@@ -62,16 +62,18 @@ function DocCard({ href, title, description, children }: DocCardProps) {
     >
       {/* 上半区：预览示意 */}
       <div className="flex h-40 items-center justify-center">{children}</div>
-      {/* 下半区：标题 + 描述 */}
-      <h3 className="mt-4 text-label-16 font-medium text-foreground">{title}</h3>
-      <p className="mt-1 text-copy-13 text-muted-foreground">{description}</p>
+      {/* 下半区：标题 + 描述（官方卡片标题 16px semibold → headline 档；描述 14px → copy-14） */}
+      <h3 className="mt-4 text-heading-16 text-foreground">{title}</h3>
+      <p className="mt-1 text-copy-14 text-muted-foreground">{description}</p>
     </a>
   );
 }
 
 /* ---------- 5 张预览卡 ---------- */
 
-/** Icons — 24 个 lucide 图标，8 列网格 */
+/** Icons — 24 个 lucide 图标，官方实测 8 列 × 3 行：16px 图标 / 26.7px cell 间距 /
+ * 左对齐（图标区左缘 = 卡片文字左缘）/ 垂直在预览区居中。
+ * mr-auto 抵消外层 justify-center，实现水平左贴齐且保持垂直居中。 */
 const ICON_PREVIEWS = [
   Search,
   Settings,
@@ -101,7 +103,7 @@ const ICON_PREVIEWS = [
 
 function IconsPreview() {
   return (
-    <div className="grid w-full max-w-xs grid-cols-8 gap-2 text-foreground">
+    <div className="mr-auto grid grid-cols-8 gap-x-[26.7px] gap-y-[26.7px] text-foreground">
       {ICON_PREVIEWS.map((Icon, i) => (
         <Icon key={i} className="size-4" strokeWidth={1.5} aria-hidden />
       ))}
@@ -188,11 +190,9 @@ function ComponentsPreview() {
   );
 }
 
-/**
- * Colors — 8 竖色条。
- * 色值来自 docs/geist-markdown-refs/foundations/colors.md（2026-08-08 抓取快照），
- * 700 档在 Dark/Light 双主题下同值，故直接写死 hex。
- */
+/** Colors — 8 根描边胶囊（官方实测 2026-08-24）：外胶囊 32×96 圆角 full /
+ * border 0.571429px gray-alpha-300（主题自适应，等效官方 dark 白14%/light 黑8%）/
+ * 内色条 8×72 在胶囊内居中（inset 12px）/ 胶囊间距 8.4px / 整组居中。 */
 const COLOR_BARS: { name: string; value: string }[] = [
   { name: "gray-700", value: "#8f8f8f" },
   { name: "blue-700", value: "#006efe" },
@@ -206,14 +206,18 @@ const COLOR_BARS: { name: string; value: string }[] = [
 
 function ColorsPreview() {
   return (
-    <div className="flex items-center gap-[3px]">
+    <div className="mx-auto flex items-center gap-[8.4px]">
       {COLOR_BARS.map((bar) => (
         <div
           key={bar.name}
           title={`${bar.name} · ${bar.value}`}
-          className="relative h-[72px] w-[10px] rounded-full border border-gray-300"
-          style={{ backgroundColor: bar.value }}
-        />
+          className="flex h-24 w-8 items-center justify-center rounded-full border-[0.571429px] border-gray-alpha-300"
+        >
+          <div
+            className="h-[72px] w-2 rounded-full"
+            style={{ backgroundColor: bar.value }}
+          />
+        </div>
       ))}
     </div>
   );
