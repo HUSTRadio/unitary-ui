@@ -48,7 +48,7 @@ describe("Slider live Geist contract", () => {
     expect(source).toContain("[&>span:has([data-slot=slider-thumb])]:-top-[3px]");
     expect(source).toContain("h-3.5 w-1.5 shrink-0 rounded-[1px]");
     expect(source).toContain("ring-1 ring-gray-alpha-500");
-    expect(source).toContain("transition-[scale] duration-100");
+    expect(source).toContain("transition-[scale] duration-(--ds-duration-fast)");
     expect(source).not.toContain("size-4 rounded-full border-2");
   });
 

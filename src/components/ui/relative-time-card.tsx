@@ -93,7 +93,7 @@ function RelativeTimeCard({
           align="start"
           className={cn(
             "z-50 min-w-[300px] rounded-lg border border-gray-alpha-400 bg-popover p-3 text-popover-foreground shadow-md outline-none",
-            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 duration-250 motion-reduce:animate-none",
+            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 duration-(--ds-duration-base) motion-reduce:animate-none",
             className,
           )}
         >

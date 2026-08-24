@@ -186,7 +186,7 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
             data-kind={toast.kind}
             className={cn(
               "pointer-events-auto absolute right-0 bottom-0 flex min-h-13 w-full items-start gap-3 rounded-xl bg-background-100 p-4 text-copy-14 text-gray-1000 shadow-[var(--material-shadow-menu)]",
-              "transition-all duration-[350ms] ease-[cubic-bezier(0.25,0.75,0.6,0.98)]",
+              "transition-all duration-(--ds-duration-slow) ease-[cubic-bezier(0.25,0.75,0.6,0.98)]",
               "animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:animate-none",
               "nth-last-[n+4]:opacity-0 nth-last-[n+4]:pointer-events-none",
               toast.kind === "success" && "bg-[#0072f5] text-white",

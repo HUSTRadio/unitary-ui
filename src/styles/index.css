@@ -565,6 +565,15 @@ html[data-font-tier="system"],
   /* 组件级窄屏档 */
   --breakpoint-modal: 33.75rem;  /* 540px — Modal 窄屏 */
   --breakpoint-video: 62rem;     /* 992px — Video 窄屏 */
+
+  /* 动画时长档位（Apple HIG 口径）：微交互/标准过渡/内容切换/大面积位移。
+     放 @theme static 保证无条件发射到 :root——消费方式是 duration-(--ds-duration-*)
+     这类 var() 引用（同 breakpoint 的发射理由），不走 utility 命名空间。
+     JS 侧引用 src/lib/motion.ts 同源常量，两处必须同步修改（注释互指）。 */
+  --ds-duration-fast: 150ms; /* 微交互：hover/focus/icon */
+  --ds-duration-base: 200ms; /* 标准过渡：颜色/边框/小位移 */
+  --ds-duration-slow: 300ms; /* 内容切换/展开收起 */
+  --ds-duration-slower: 500ms; /* 大面积位移：抽屉/侧滑 */
 }
 
 /* ============ Theme / Light — 34 semantic tokens ============ */

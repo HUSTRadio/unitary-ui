@@ -81,7 +81,7 @@ describe("Tooltip official single-track API contract", () => {
     expect(src).not.toMatch(/shadow-\[var\(--material-shadow-tooltip\)\]/);
     expect(src).toMatch(/sideOffset=\{10\}/);
     expect(src).toMatch(/delay \? 400 : 0/);
-    expect(src).toContain("data-[state=delayed-open]:duration-100");
+    expect(src).toContain("data-[state=delayed-open]:duration-(--ds-duration-fast)");
     expect(src).toContain("data-[state=delayed-open]:ease-in");
   });
 });

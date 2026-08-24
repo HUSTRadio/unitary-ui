@@ -78,7 +78,7 @@ function CopyButton({
       aria-label={copied ? t("Copied") : label === "Copy" ? t(label) : label}
       onClick={handleCopy}
       className={cn(
-        "inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-background p-0 text-sm font-medium text-foreground shadow-[0_0_0_1px_var(--color-gray-400)] outline-none transition-colors duration-150 hover:bg-gray-200 focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",
+        "inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-background p-0 text-sm font-medium text-foreground shadow-[0_0_0_1px_var(--color-gray-400)] outline-none transition-colors duration-(--ds-duration-fast) hover:bg-gray-200 focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",
         className,
       )}
       {...props}
@@ -89,8 +89,8 @@ function CopyButton({
           className={cn(
             "absolute inset-0 flex items-center justify-center transition-[opacity,transform] ease-out motion-reduce:transition-none",
             copied
-              ? "scale-75 -rotate-6 opacity-0 duration-150"
-              : "scale-100 rotate-0 opacity-100 duration-150",
+              ? "scale-75 -rotate-6 opacity-0 duration-(--ds-duration-fast)"
+              : "scale-100 rotate-0 opacity-100 duration-(--ds-duration-fast)",
           )}
         >
           <Copy className="size-4" />
@@ -99,8 +99,8 @@ function CopyButton({
           className={cn(
             "absolute inset-0 flex items-center justify-center transition-[opacity,transform] ease-out motion-reduce:transition-none",
             copied
-              ? "scale-100 rotate-0 opacity-100 delay-[60ms] duration-200"
-              : "scale-75 -rotate-6 opacity-0 duration-100",
+              ? "scale-100 rotate-0 opacity-100 delay-[60ms] duration-(--ds-duration-base)"
+              : "scale-75 -rotate-6 opacity-0 duration-(--ds-duration-fast)",
             copied && "[&_svg_path:first-child]:animate-copy-check-draw",
           )}
         >

@@ -124,7 +124,7 @@ function RatingPill({
         // 官方形态：单行胶囊内嵌 4 表情（2026-08-24 实测：
         // h-48(48px) rounded-full bg-white shadow-border-small pl-4 pr-2 py-2）
         "inline-flex h-12 select-none items-center gap-3 rounded-full border bg-background-100 py-2 pr-2 pl-4",
-        "shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] transition-colors duration-200",
+        "shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] transition-colors duration-(--ds-duration-base)",
         tone && RATING_TONE_CAPSULE[tone],
         className,
       )}
@@ -160,7 +160,7 @@ function RatingPill({
               })}
               onClick={() => handleSelect(optionValue)}
               className={cn(
-                "flex size-8 cursor-pointer items-center justify-center rounded-[50%] border-none bg-transparent p-0 outline-none transition-colors duration-200 focus-ring",
+                "flex size-8 cursor-pointer items-center justify-center rounded-[50%] border-none bg-transparent p-0 outline-none transition-colors duration-(--ds-duration-base) focus-ring",
                 RATING_TONE_FACE_HOVER[faceTone],
                 selected && RATING_TONE_FACE_SELECTED[faceTone],
                 "[&_svg]:size-4 [&_svg]:shrink-0",
