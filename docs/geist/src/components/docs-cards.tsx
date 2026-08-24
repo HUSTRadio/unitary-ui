@@ -71,7 +71,9 @@ function DocCard({ href, title, description, children }: DocCardProps) {
 
 /* ---------- 5 张预览卡 ---------- */
 
-/** Icons — 24 个 lucide 图标，8 列网格 */
+/** Icons — 24 个 lucide 图标，官方实测 8 列 × 3 行：16px 图标 / 26.7px cell 间距 /
+ * 左对齐（图标区左缘 = 卡片文字左缘）/ 垂直在预览区居中。
+ * mr-auto 抵消外层 justify-center，实现水平左贴齐且保持垂直居中。 */
 const ICON_PREVIEWS = [
   Search,
   Settings,
@@ -101,7 +103,7 @@ const ICON_PREVIEWS = [
 
 function IconsPreview() {
   return (
-    <div className="grid w-full max-w-xs grid-cols-8 gap-2 text-foreground">
+    <div className="mr-auto grid grid-cols-8 gap-x-[26.7px] gap-y-[26.7px] text-foreground">
       {ICON_PREVIEWS.map((Icon, i) => (
         <Icon key={i} className="size-4" strokeWidth={1.5} aria-hidden />
       ))}
