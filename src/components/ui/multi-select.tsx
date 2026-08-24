@@ -48,7 +48,7 @@ const MultiSelectTrigger = React.forwardRef<
       ref={ref}
       data-slot="multi-select-trigger"
       className={cn(
-        "multi-select-trigger group/multi-select-trigger relative flex h-9 w-full max-w-full touch-manipulation items-center justify-between rounded-[6px] border-0 bg-background-100 py-0 pr-[13px] pl-[10px] text-foreground shadow-[0_0_0_1px_var(--gray-400)] outline-none hover:shadow-[0_0_0_1px_var(--gray-alpha-500)] data-[state=open]:shadow-[0_0_0_1px_var(--gray-alpha-500)]",
+        "multi-select-trigger group/multi-select-trigger relative flex h-9 w-full max-w-full touch-manipulation items-center justify-between rounded-lg border-0 bg-background-100 py-0 pr-[13px] pl-[10px] text-foreground shadow-[0_0_0_1px_var(--gray-400)] outline-none hover:shadow-[0_0_0_1px_var(--gray-alpha-500)] data-[state=open]:shadow-[0_0_0_1px_var(--gray-alpha-500)]",
         className,
       )}
       {...props}

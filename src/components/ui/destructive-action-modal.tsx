@@ -211,7 +211,7 @@ function DestructiveActionModal({
                 type="submit"
                 disabled={!canConfirm || loading}
                 className={cn(
-                  "inline-flex h-8 shrink-0 items-center justify-center rounded-[6px] px-1.5 text-sm font-medium outline-none transition-colors focus-ring disabled:pointer-events-none",
+                  "inline-flex h-8 shrink-0 items-center justify-center rounded-lg px-1.5 text-sm font-medium outline-none transition-colors focus-ring disabled:pointer-events-none",
                   canConfirm && !loading
                     ? "bg-destructive text-destructive-foreground hover:bg-danger-hover hover:text-destructive-foreground"
                     : "bg-gray-100 text-gray-700",

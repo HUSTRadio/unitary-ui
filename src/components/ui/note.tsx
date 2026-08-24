@@ -113,12 +113,12 @@ function Note({
       role="note"
       data-disabled={disabled || undefined}
       className={cn(
-        "gap-3 rounded-md relative box-border flex w-full flex-wrap items-center border break-words",
+        "gap-3 rounded-lg relative box-border flex w-full flex-wrap items-center border break-words",
         "[&_a:not([data-geist-button])]:font-medium [&_a:not([data-geist-button])]:underline-offset-2 [&_a:not([data-geist-button]):hover]:underline",
         NOTE_VARIANT_STYLES[variant],
         fill && NOTE_FILL_STYLES[variant],
         NOTE_SIZE_STYLES[size],
-        actions.length > 0 && "sm:pr-2 max-sm:py-3 rounded-[10px]",
+        actions.length > 0 && "sm:pr-2 max-sm:py-3",
         disabled && NOTE_DISABLED_STYLES,
         className,
       )}

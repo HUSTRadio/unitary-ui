@@ -185,7 +185,7 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
             role="status"
             data-kind={toast.kind}
             className={cn(
-              "pointer-events-auto absolute right-0 bottom-0 flex min-h-13 w-full items-start gap-3 rounded-[12px] bg-background-100 p-4 text-copy-14 text-gray-1000 shadow-[var(--material-shadow-menu)]",
+              "pointer-events-auto absolute right-0 bottom-0 flex min-h-13 w-full items-start gap-3 rounded-xl bg-background-100 p-4 text-copy-14 text-gray-1000 shadow-[var(--material-shadow-menu)]",
               "transition-all duration-[350ms] ease-[cubic-bezier(0.25,0.75,0.6,0.98)]",
               "animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:animate-none",
               "nth-last-[n+4]:opacity-0 nth-last-[n+4]:pointer-events-none",
@@ -203,7 +203,7 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
             {actionLabel ? (
               <button
                 type="button"
-                className="shrink-0 rounded-[6px] px-2 py-0.5 text-label-14 font-medium outline-none hover:bg-gray-alpha-200 focus-ring"
+                className="shrink-0 rounded-lg px-2 py-0.5 text-label-14 font-medium outline-none hover:bg-gray-alpha-200 focus-ring"
                 onClick={() => {
                   action?.();
                   dismiss(toast.id);
@@ -218,7 +218,7 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
               aria-label={t("Dismiss notification")}
               onClick={() => dismiss(toast.id)}
               className={cn(
-                "flex size-6 shrink-0 items-center justify-center rounded-[6px] outline-none hover:bg-gray-alpha-200 focus-ring",
+                "flex size-6 shrink-0 items-center justify-center rounded-lg outline-none hover:bg-gray-alpha-200 focus-ring",
                 toast.kind === "message" && "text-gray-1000",
               )}
             >

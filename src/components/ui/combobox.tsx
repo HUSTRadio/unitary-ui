@@ -104,7 +104,7 @@ const GROUP_SIZE_CLASS: Record<ComboboxSize, string> = {
 };
 
 const INPUT_CLASS =
-  "w-full h-(--ds-size-medium) bg-[var(--ds-background-100)] rounded-md border-0 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] bg-clip-padding font-[var(--font-sans)] text-[var(--ds-gray-1000)] min-h-(--ds-size-medium) sm:min-h-0 appearance-none m-0 cursor-text outline-hidden py-0 pl-10 pr-9 placeholder:text-[var(--ds-gray-700)] transition-all duration-200 ease-in-out text-left truncate disabled:text-[var(--ds-gray-700)] disabled:bg-[var(--ds-gray-100)] disabled:cursor-not-allowed disabled:hover:!shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] focus:outline-hidden sm:focus:!shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] group-hover/combobox:shadow-[0_0_0_1px_var(--ds-gray-alpha-500)]";
+  "w-full h-(--ds-size-medium) bg-[var(--ds-background-100)] rounded-lg border-0 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] bg-clip-padding font-[var(--font-sans)] text-[var(--ds-gray-1000)] min-h-(--ds-size-medium) sm:min-h-0 appearance-none m-0 cursor-text outline-hidden py-0 pl-10 pr-9 placeholder:text-[var(--ds-gray-700)] transition-all duration-200 ease-in-out text-left truncate disabled:text-[var(--ds-gray-700)] disabled:bg-[var(--ds-gray-100)] disabled:cursor-not-allowed disabled:hover:!shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] focus:outline-hidden sm:focus:!shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] group-hover/combobox:shadow-[0_0_0_1px_var(--ds-gray-alpha-500)]";
 
 const CLEAR_BUTTON_CLASS =
   "outline-hidden m-0 p-0 border-0 box-border text-base align-baseline no-underline [tap-highlight-color:transparent] select-none bg-none cursor-pointer inline-flex items-center justify-center !w-10 group-hover/combobox:text-[var(--geist-foreground)] disabled:cursor-not-allowed [&>span]:inline-flex [&>span]:items-center [&>span]:justify-center !mr-0 absolute -right-px top-1/2 text-[var(--ds-gray-700)] transform -translate-y-1/2 border-l-0 rounded-r-[5px] py-0 px-3 order-2 transition-all duration-150 ease-out w-auto focus-visible:ring-2 focus-visible:ring-[var(--ds-focus-color)] focus-visible:ring-offset-0";
@@ -470,7 +470,7 @@ function Combobox({
       data-slot="combobox-root"
       style={rootStyle}
       className={cn(
-        "relative outline-hidden rounded-md transition-shadow duration-200 focus-visible:shadow-[var(--ds-focus-ring)]",
+        "relative outline-hidden rounded-lg transition-shadow duration-200 focus-visible:shadow-[var(--ds-focus-ring)]",
         className,
       )}
       onClick={() => {
