@@ -57,6 +57,7 @@ export { CopyButton } from "@/components/ui/copy-button";
 export { Description } from "@/components/ui/description";
 export { Entity } from "@/components/ui/entity";
 export { ErrorCard } from "@/components/ui/error-card";
+export { ErrorBoundary } from "@/components/ui/error-boundary";
 export { JsonView } from "@/components/ui/json-view";
 export { Snippet } from "@/components/ui/snippet";
 

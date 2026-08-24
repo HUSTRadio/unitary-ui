@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { DocsBanner, DocsSidebar } from "./components/docs-shell";
 import { DocsPagination, FeedbackPanel } from "./components/docs-feedback";
+import { Button } from "@/components/ui/button";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { ComponentsPage } from "./components/docs-components-page";
 import {
   CommandMenu,
@@ -135,18 +137,41 @@ export default function App() {
         <DocsSidebar />
         <div className="min-w-0 border-gray-alpha-400 py-10 lg:border-r">
           <div className="px-6 lg:px-12 max-md:px-5">
-            {Page ? (
-              <Page />
-            ) : ContentPage ? (
-              <ContentPage language={language} />
-            ) : (
-              <>
-                <h1 className="text-heading-32 text-foreground">{copy.pageInProgress}</h1>
-                <p className="mt-2 text-copy-14 text-muted-foreground">
-                  {copy.pageInProgressDescription(pathname)}
-                </p>
-              </>
-            )}
+            {/* 页面级边界：单个页面/demo 崩溃只占位此区域，sidebar/topbar/其余导航继续可用；
+                resetKeys=pathname 路由切换自动重置重试 */}
+            <ErrorBoundary
+              name={pathname}
+              resetKeys={[pathname]}
+              fallback={
+                <div className="py-16 text-center">
+                  <p className="text-heading-20 text-foreground">页面渲染失败</p>
+                  <p className="mt-2 text-copy-14 text-muted-foreground">
+                    此页面组件抛出了异常，其余功能不受影响。可刷新重试或返回首页。
+                  </p>
+                  <div className="mt-4 flex items-center justify-center gap-2">
+                    <Button typeName="button" size="small" onClick={() => window.location.reload()}>
+                      刷新
+                    </Button>
+                    <Button typeName="button" size="small" onClick={() => navigate("/")}>
+                      返回首页
+                    </Button>
+                  </div>
+                </div>
+              }
+            >
+              {Page ? (
+                <Page />
+              ) : ContentPage ? (
+                <ContentPage language={language} />
+              ) : (
+                <>
+                  <h1 className="text-heading-32 text-foreground">{copy.pageInProgress}</h1>
+                  <p className="mt-2 text-copy-14 text-muted-foreground">
+                    {copy.pageInProgressDescription(pathname)}
+                  </p>
+                </>
+              )}
+            </ErrorBoundary>
 
             {/* 内容页页脚 - 反馈区 + Next 分页（官方文档站每个页面底部都有） */}
             {Page || ContentPage ? (

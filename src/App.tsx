@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -101,13 +102,17 @@ export default function App() {
       </div>
 
       <main className="mx-auto max-w-6xl space-y-10 px-6 py-10">
-        {page === "form" && <FormExample />}
-        {page === "table" && <DataTableExample />}
-        {page === "workflow" && <WorkflowExample />}
-        {page === "settings" && <SettingsExample />}
+        {/* 页面级边界：单个示例页崩溃只占位该区域，导航/其余页面继续可用；切换页面自动重置 */}
+        <ErrorBoundary name={`styleguide:${page}`} resetKeys={[page]}>
+          {page === "form" && <FormExample />}
+          {page === "table" && <DataTableExample />}
+          {page === "workflow" && <WorkflowExample />}
+          {page === "settings" && <SettingsExample />}
+        </ErrorBoundary>
 
         {page === "components" && (
-          <>
+          <ErrorBoundary name="styleguide:components-overview">
+            <>
             {/* 排版 */}
             <section className="space-y-3">
               <h2 className="text-heading-24 text-foreground">排版 Typography</h2>
@@ -283,6 +288,7 @@ export default function App() {
               <div className="material-large p-4 text-label-14 text-foreground">material-large</div>
             </Section>
           </>
+          </ErrorBoundary>
         )}
       </main>
 
