@@ -15,6 +15,14 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(shell).toContain("max-w-[1220px]");
   });
 
+  it("wide navbar is a centered 1220 block (official architecture), not full-width", () => {
+    // 官方架构：Navbar 容器本身 sticky mx-auto max-w-[1220px]（非全宽条），
+    // 留白区透出页面底色；内层 div 不再重复 mx-auto/max-w（回退 f08fd84 全宽化）。
+    expect(shell).toMatch(/<Navbar[^>]*max-w-\[1220px\]/);
+    const inner = shell.slice(shell.indexOf("<Navbar"), shell.indexOf("</Navbar>"));
+    expect(inner).not.toMatch(/className="mx-auto flex h-full w-full max-w-\[1220px\]/);
+  });
+
   it("wraps the banner content in <Navbar scrollBehavior=\"pinned\"> (framework component)", () => {
     expect(shell).toContain('<Navbar scrollBehavior="pinned"');
     // 顶栏内容仍保留：Logo / 搜索框 / 语言菜单 / 主题切换
@@ -35,7 +43,8 @@ describe("docs shell geometry — framework shell assembly", () => {
 
   it("keeps vertical padding off <main> so sidebar borders start at navbar bottom", () => {
     expect(app).not.toContain("flex-1 py-10 lg:grid");
-    expect(app).toContain("border-gray-alpha-400 py-10");
+    // 内容列只留纵向 padding（分割线由 sidebar 双线承担，见下方连续主分割线契约）
+    expect(app).toContain('"min-w-0 py-10"');
   });
 
   it("uses the page canvas separately from Background 1 surfaces", () => {
@@ -51,9 +60,9 @@ describe("docs shell geometry — framework shell assembly", () => {
   it("renders the desktop sidebar via SidebarNav inside the sticky 260px container", () => {
     expect(shell).toContain("<SidebarNav");
     expect(shell).toContain("activeTo={pathname}");
-    // 容器结构保持：260px 宽 + 双边界（aside border-l + nav border-r）+ lg sticky
+    // 容器结构保持：260px 宽 + 左右双边界 + lg sticky
     expect(shell).toContain("w-[260px]");
-    expect(shell).toContain("border-l border-gray-alpha-400");
+    expect(shell).toContain("border-l border-r border-gray-alpha-400");
     expect(shell).toContain("lg:sticky lg:top-16");
     expect(shell).toContain("lg:h-[calc(100vh-4rem)]");
     expect(shell).toContain("hidden w-[260px]");
@@ -127,8 +136,16 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(app).toContain("lg:px-12");
   });
 
-  it("draws the view's right vertical boundary on the content column at lg+ only (Task 4: 窄档去竖线)", () => {
-    expect(app).toContain('className="min-w-0 border-gray-alpha-400 py-10 lg:border-r"');
+  it("draws no stray right vertical boundary on the content column (official: none at y>64)", () => {
+    // 回归根源之一（f08fd84）：contentCol lg:border-r 在正文右缘留下游离竖线——官方此处无线
+    expect(app).not.toMatch(/min-w-0[^"]*lg:border-r/);
+    expect(app).not.toContain('className="min-w-0 border-gray-alpha-400 py-10 lg:border-r"');
+  });
+
+  it("continuous main divider @x=363: sidebar carries border-r (docks with navbar brand borderR)", () => {
+    // 官方 x=363 是一条连续定线：navbar 段 = brand borderR（y=0..64），
+    // 正文段 = sidebar borderR（y=64..页底）。aside 必须双线 border-l + border-r。
+    expect(shell).toMatch(/<aside[^>]*border-l[^>]*border-r/);
   });
 
   it("no longer mounts the docs Footer below <main>（Task 8：页脚已移除，main flex-1 撑满 min-h-screen）", () => {
