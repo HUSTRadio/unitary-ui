@@ -1,4 +1,7 @@
 // @vitest-environment jsdom
+import { readFile } from "node:fs/promises";
+import * as path from "node:path";
+
 import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
@@ -181,5 +184,34 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
     const panel = document.querySelector('[data-slot="expand-panel"]');
     expect(panel).not.toBeNull();
     expect(panel!.hasAttribute("data-below-topbar")).toBe(true);
+  });
+
+  // Task 2（2026-08-24）：抽屉 81 项只有 ~13 项可达——list 自身 max-h-[60vh]+overflow-hidden
+  // 在 506px 硬裁剪，面板 scrollHeight===clientHeight 无从滚动。契约：nav 是唯一滚动容器。
+  describe("scroll reachability (Task 2)", () => {
+    const readSource = async () =>
+      readFile(
+        path.resolve(__dirname, "../src/components/ui/hamburger-menu.tsx"),
+        "utf8",
+      );
+
+    it("menu-nav is the flex-1 scroll container", async () => {
+      const src = await readSource();
+      expect(src).toMatch(
+        /<nav\s+data-slot="menu-nav"\s+className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-2"/,
+      );
+    });
+
+    it("list has no max-h clip — search collapse uses h-0 + opacity instead", async () => {
+      const src = await readSource();
+      expect(src).not.toContain("max-h-[60vh]");
+      expect(src).toContain('"pointer-events-none opacity-0 h-0 overflow-hidden"');
+      expect(src).toContain('"opacity-100"');
+    });
+
+    it("panel content is a flex column for non-top sides so flex-1 works", async () => {
+      const src = await readSource();
+      expect(src).toContain('side !== "top" && "flex flex-col"');
+    });
   });
 });

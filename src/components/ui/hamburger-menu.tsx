@@ -15,7 +15,7 @@ import { HamburgerIcon } from "./hamburger-icon";
  * - maxExpandedHeight 默认 100dvh；maxExpandedWidth 默认 80vw
  * - content："merged"|"split"（split 面板只渲染导航、搜索入口独立——当前两态
  *   均渲染搜索+导航，split 仅加视觉分隔标注，API 先占位）
- * - 内建搜索状态机：query 非空 → 导航列表区收起（opacity-0 max-h-0 过渡 300ms）
+ * - 内建搜索状态机：query 非空 → 导航列表区收起（opacity-0 h-0 过渡 300ms）
  *   + 结果区渲染；X 清空钮还原列表（反向过渡）；Ctrl K 提示仅 pointer-fine 渲染
  * - side=down(top)：面板与 navbar 同宽共享 border-b、顶部无圆角（延伸感关键）
  */
@@ -182,6 +182,8 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
         className={cn(
           // 延伸感：side=top 时与 navbar 同宽共享 border-b、顶部无圆角
           side === "top" && "rounded-t-none",
+          // flex column：让内层 menu-nav 的 flex-1 + min-h-0 滚动容器生效
+          side !== "top" && "flex flex-col",
           className,
         )}
       >
@@ -256,15 +258,19 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
           />
         ) : null}
 
-        {/* 导航列表区：搜索时收起（反向过渡还原）；stagger 动画期禁点 */}
-        <nav data-slot="menu-nav" className="px-2 py-2">
+        {/* 导航列表区：nav 是唯一滚动容器（min-h-0 flex-1 撑满剩余高度）；
+            搜索时列表收起（h-0 + opacity 过渡还原）；stagger 动画期禁点 */}
+        <nav
+          data-slot="menu-nav"
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-2"
+        >
           <ul
             data-slot="menu-list"
             className={cn(
-              "list-none overflow-hidden transition-all duration-300",
+              "list-none transition-opacity duration-300",
               searching
-                ? "pointer-events-none max-h-0 opacity-0"
-                : "max-h-[60vh] opacity-100",
+                ? "pointer-events-none opacity-0 h-0 overflow-hidden"
+                : "opacity-100",
               staggerActive && "pointer-events-none",
             )}
           >
