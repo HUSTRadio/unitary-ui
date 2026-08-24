@@ -72,8 +72,8 @@ export function SidebarNav({
     >
       {groups.map((group) => (
         <div key={group.label} data-slot="sidebar-nav-group">
-          {/* 标题与 item 文本对齐：同 item 一样左溢出 8px（ml-[-8px]）+ px-3 */}
-          <div className="mb-0.5 -ml-2 flex h-10 items-center px-3 text-[14px] font-medium leading-5 text-gray-900">
+          {/* 标题与 item 文本对齐：同 item 一样左右各溢出 4px（-mx-1）+ px-3 */}
+          <div className="mb-0.5 -mx-1 flex h-10 items-center px-3 text-[14px] font-medium leading-5 text-gray-900">
             {group.label}
           </div>
           <ul className="space-y-0.5">
@@ -87,9 +87,9 @@ export function SidebarNav({
                     aria-current={active ? "page" : undefined}
                     onClick={createNavigateHandler(onNavigate, item.to)}
                     className={cn(
-                      // 官方实测：item 左溢出 8px（ml-[-8px]）+ pl 补偿，hover 背景
-                      // 比文本区宽、与侧栏 padding 形成 16px 视觉左缘
-                      "-ml-2 flex h-10 items-center gap-2 rounded-md py-0 pr-3 pl-3 text-copy-14 outline-none",
+                      // hover 背景左右对称溢出 4px（-mx-1），按钮盒在侧栏内水平居中；
+                      // 文本仍从内容区 12px 缩进处起排（pl-3）
+                      "-mx-1 flex h-10 items-center gap-2 rounded-md py-0 px-3 text-copy-14 outline-none",
                       active
                         ? "bg-gray-alpha-100 text-gray-1000"
                         : "text-gray-900 hover:bg-gray-100",

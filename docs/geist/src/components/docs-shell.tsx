@@ -232,7 +232,7 @@ function DocsSidebar() {
         activeTo={pathname}
         onNavigate={(to) => navigate(to)}
         side="left"
-        className="h-full min-h-0 overflow-y-auto border-gray-alpha-400 px-6 pb-3.5 pt-4"
+        className="h-full min-h-0 border-gray-alpha-400 px-6 pb-3.5 pt-4"
       />
       <div
         className="from-background pointer-events-none absolute inset-x-0 top-0 h-4 bg-linear-to-b"
