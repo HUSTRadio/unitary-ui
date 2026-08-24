@@ -4,7 +4,7 @@ import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface LinkProps extends React.ComponentProps<"a"> {
-  /** 外链图标位置；默认 right */
+  /** 外链图标位置；默认 left（forge 品牌图标在文前更符合阅读习惯） */
   iconSide?: "left" | "right";
 }
 
