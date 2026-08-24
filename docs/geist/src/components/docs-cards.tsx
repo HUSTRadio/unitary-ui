@@ -62,9 +62,9 @@ function DocCard({ href, title, description, children }: DocCardProps) {
     >
       {/* 上半区：预览示意 */}
       <div className="flex h-40 items-center justify-center">{children}</div>
-      {/* 下半区：标题 + 描述 */}
-      <h3 className="mt-4 text-label-16 font-medium text-foreground">{title}</h3>
-      <p className="mt-1 text-copy-13 text-muted-foreground">{description}</p>
+      {/* 下半区：标题 + 描述（官方卡片标题 16px semibold → headline 档；描述 14px → copy-14） */}
+      <h3 className="mt-4 text-heading-16 text-foreground">{title}</h3>
+      <p className="mt-1 text-copy-14 text-muted-foreground">{description}</p>
     </a>
   );
 }
