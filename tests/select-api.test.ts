@@ -40,7 +40,7 @@ describe("Select composite API contract (v2 Radix popup)", () => {
   test("popup uses Geist menu material, 36px items, 2px viewport gaps, hidden form select", async () => {
     const src = await read("src/components/ui/select.tsx");
     expect(src).toMatch(/material-menu/);
-    expect(src).toMatch(/h-9 cursor-pointer select-none items-center rounded-\[6px\]/);
+    expect(src).toMatch(/h-9 cursor-pointer select-none items-center rounded-overlay-item/);
     expect(src).toMatch(/flex flex-col gap-0\.5/);
     // Hidden native select keeps FormData / required / name semantics
     expect(src).toMatch(/unstable_BubbleInput/);

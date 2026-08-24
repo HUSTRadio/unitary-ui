@@ -111,7 +111,7 @@ describe("ClearableInput official runtime contract", () => {
     expect(button.type).toBe("button");
     expect(button.className).toContain("pointer-coarse:hidden");
     expect(button.className).toContain("px-2.5");
-    expect(button.className).toContain("rounded-r-md");
+    expect(button.className).toContain("rounded-r-overlay-item");
     expect(button.className).toContain("focus-visible:outline-solid");
     expect(button.className).toContain("focus-visible:outline-[var(--ds-focus-color)]");
     expect(kbd.textContent).toBe("Esc");

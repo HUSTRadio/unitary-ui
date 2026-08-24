@@ -8,7 +8,7 @@ import { FieldError, FIELD_ERROR_RING, joinDescribedBy } from "./field-error";
  * Textarea — Geist 官方 Textarea 规范（live /geist/textarea 实测 2026-08-09 + B3 复刻采集）。
  * - 结构：wrapper（圆角 + 发丝线 shadow 环 + focus/error 光环）+ textarea（本体 r:0、border-none）
  * - 几何：pad 10px 12px、默认 min-h 100px（rows 存在时 min-h unset、高度由行数决定）、
- *   medium 14px/20px r:6px、large 16px/24px r:8px；
+ *   medium 14px/20px、large 16px/24px；圆角统一 8px（rounded-lg，Apple HIG 控件口径）
  *   disabled：bg gray-100 + fg gray-700 + placeholder gray-600
  * - error：共享 FieldError 基础层（4px 间距、图标、排版、ARIA 统一）+ 共享红色光环
  * - layout：ControlLayout——宽度三件套+flex 作用于字段根容器，高度三件套作用于 wrapper 表面
@@ -17,7 +17,7 @@ import { FieldError, FIELD_ERROR_RING, joinDescribedBy } from "./field-error";
 type TextareaSize = "small" | "medium" | "large";
 
 interface TextareaProps extends React.ComponentProps<"textarea"> {
-  /** 官方 size：small/medium/large（默认 medium）。large 字号 16px/24px、wrapper r:8px */
+  /** 官方 size：small/medium/large（默认 medium）。large 字号 16px/24px；wrapper 圆角统一 rounded-lg */
   size?: TextareaSize;
   /** 官方 error：传入内容时在字段下方渲染 inline 错误消息，并切换红色光环 */
   error?: React.ReactNode;
@@ -43,7 +43,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           "focus-within:!shadow-[0_0_0_1px_var(--gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]",
           "dark:focus-within:!shadow-[0_0_0_1px_var(--gray-alpha-600),0_0_0_4px_rgba(255,255,255,0.24)]",
           error && FIELD_ERROR_RING,
-          large ? "rounded-[8px]" : "rounded-[6px]",
+          "rounded-lg",
         )}
       >
         <textarea

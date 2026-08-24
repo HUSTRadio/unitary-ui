@@ -7,7 +7,7 @@ import { FieldError, FIELD_ERROR_RING, joinDescribedBy } from "./field-error";
 /**
  * Input — Geist 官方 Input 规范（vercel.com/geist/input 实时页面 + B3 复刻采集）。
  * - 尺寸：small 32px（h-8）/ default 36px（h-9，默认）/ large 40px（h-10）
- * - 圆角：small/default 6px（rounded-[6px]），large 8px（rounded-lg）
+ * - 圆角：统一 8px（rounded-lg，Apple HIG 标准控件口径，2026-08-24 起不再按尺寸区分）
  * - wrapper 透明、由 input 自身承载 background-100（官方结构）；边框 hairline 用
  *   shadow-[0_0_0_1px_gray-alpha-400]，hover 加深 gray-alpha-500，focus-within
  *   gray-alpha-600 + 4px rgba(0,0,0,0.16) 柔光（--input-focus-* token）
@@ -93,7 +93,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const id = label ? (idProp ?? generatedId) : idProp;
 
     const height = size === "small" ? "h-8" : size === "large" ? "h-10" : "h-9";
-    const radius = size === "large" ? "rounded-lg" : "rounded-[6px]";
+    const radius = "rounded-lg";
 
     const control = (
       <div
