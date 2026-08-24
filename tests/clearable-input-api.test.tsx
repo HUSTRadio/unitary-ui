@@ -197,7 +197,7 @@ describe("ClearableInput official runtime contract", () => {
       "focus-within:!shadow-[0_0_0_1px_var(--input-focus-border),0_0_0_4px_var(--input-focus-glow)]",
     );
     expect(wrapper.className).toContain("transition-all");
-    expect(wrapper.className).toContain("duration-150");
+    expect(wrapper.className).toContain("duration-(--ds-duration-fast)");
     expect(wrapper.className).not.toContain("border ");
     expect(input.className).toContain("disabled:bg-[var(--ds-gray-100)]");
     expect(input.className).toContain("disabled:text-[var(--ds-gray-700)]");

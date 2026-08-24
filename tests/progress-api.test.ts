@@ -133,7 +133,7 @@ describe("Progress animated transition", () => {
     // 属性中 & 被转义为 &amp;；webkit 与 moz 填充伪元素均带 width+background-color 过渡
     // （变色过渡：Dynamic colors 阈值切换时填充色随宽度平滑过渡）+ reduced-motion 降级
     expect(html).toContain("[&amp;::-webkit-progress-value]:transition-[width,background-color]");
-    expect(html).toContain("[&amp;::-webkit-progress-value]:duration-300");
+    expect(html).toContain("[&amp;::-webkit-progress-value]:duration-(--ds-duration-slow)");
     expect(html).toContain("[&amp;::-moz-progress-bar]:transition-[width,background-color]");
     expect(html).toContain("motion-reduce:transition-none");
   });

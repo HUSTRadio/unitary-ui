@@ -31,8 +31,8 @@ describe("relative-time-card contract (shard-G)", () => {
     expect(html).not.toContain("border-dotted");
   });
 
-  it("源码：动画 duration-250 + motion-reduce 禁动画（G3）", () => {
-    expect(source).toContain("duration-250");
+  it("源码：动画 duration-(--ds-duration-base) + motion-reduce 禁动画（G3）", () => {
+    expect(source).toContain("duration-(--ds-duration-base)");
     expect(source).toContain("motion-reduce:animate-none");
   });
 
