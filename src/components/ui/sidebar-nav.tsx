@@ -72,7 +72,8 @@ export function SidebarNav({
     >
       {groups.map((group) => (
         <div key={group.label} data-slot="sidebar-nav-group">
-          <div className="mb-0.5 flex h-10 items-center px-3 text-[14px] font-medium leading-5 text-gray-900">
+          {/* 标题与 item 文本对齐：同 item 一样左溢出 8px（ml-[-8px]）+ px-3 */}
+          <div className="mb-0.5 -ml-2 flex h-10 items-center px-3 text-[14px] font-medium leading-5 text-gray-900">
             {group.label}
           </div>
           <ul className="space-y-0.5">
