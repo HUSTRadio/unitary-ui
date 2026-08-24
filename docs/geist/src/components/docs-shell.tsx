@@ -151,7 +151,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
           </a>
         </div>
         {/* 右区块：Search + ThemeSwitcher */}
-        <div className="flex items-center justify-between p-4 lg:grow">
+        <div className="flex items-center justify-between p-4 max-md:p-0 lg:grow">
           <div className="relative hidden lg:block" role="search">
             <Search
               className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-muted-foreground"
@@ -174,7 +174,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               type="button"
               onClick={onSearchOpen}
               aria-label={copy.searchAria}
-              className="group -m-1.5 shrink-0 rounded-md p-1.5 focus-ring lg:hidden"
+              className="group -m-1.5 shrink-0 rounded-md p-1.5 focus-ring max-md:[margin-right:0px] lg:hidden"
             >
               {/* 视觉保持 32px，命中区扩到 44px（Apple HIG ≥44pt / WCAG 2.5.8） */}
               <span className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors group-hover:bg-gray-alpha-100 group-hover:text-foreground">
