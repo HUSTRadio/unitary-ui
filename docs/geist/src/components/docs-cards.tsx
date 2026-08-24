@@ -206,12 +206,12 @@ const COLOR_BARS: { name: string; value: string }[] = [
 
 function ColorsPreview() {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-[3px]">
       {COLOR_BARS.map((bar) => (
         <div
           key={bar.name}
           title={`${bar.name} · ${bar.value}`}
-          className="h-24 w-6 rounded"
+          className="h-[72px] w-2 rounded-full"
           style={{ backgroundColor: bar.value }}
         />
       ))}
