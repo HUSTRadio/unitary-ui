@@ -382,6 +382,10 @@
   --color-badge-red: var(--badge-red);
   --color-badge-red-foreground: var(--badge-red-foreground);
   --color-badge-red-subtle-foreground: var(--badge-red-subtle-foreground);
+  --color-badge-green: var(--badge-green);
+  --color-badge-green-foreground: var(--badge-green-foreground);
+  --color-badge-teal: var(--badge-teal);
+  --color-badge-teal-foreground: var(--badge-teal-foreground);
   --color-button-warning: var(--button-warning);
   --color-button-warning-foreground: var(--button-warning-foreground);
   --color-button-warning-hover: var(--button-warning-hover);
@@ -628,6 +632,12 @@ html[data-font-tier="system"],
   --badge-red: #cb2a2f;
   --badge-red-foreground: #ffffff;
   --badge-red-subtle-foreground: #cb2a2f;
+  /* Badge green/teal（方案 B 2026-08-24）：dark 主题下 green-900/teal-900 是亮色（色阶反转），
+     需专属 token 固定为深档 #267a3b/#0c7869，保证 dark 白字对比度 ≥4.5:1（light 同值）。 */
+  --badge-green: #267a3b;
+  --badge-green-foreground: #ffffff;
+  --badge-teal: #0c7869;
+  --badge-teal-foreground: #ffffff;
   --button-warning: #ff990a;
   --button-warning-foreground: #0a0a0a;
   --button-warning-hover: #d27504;

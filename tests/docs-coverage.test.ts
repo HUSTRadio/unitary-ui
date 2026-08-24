@@ -73,7 +73,8 @@ describe("Geist documentation coverage", () => {
       /\bToast(?:Provider|Viewport|Title|Description|Close|Action)\b/,
       /\bTooltip(?:Provider|Trigger|Content)\b|\bVideoControls\b/,
       /<Avatar[^>]*\bsize=["'](?:sm|default|lg)["']/,
-      /<Badge[^>]*\bvariant=["'](?:default|secondary|outline|ghost|destructive|success|warning|danger|info)["']/,
+      // outline 已是正式变体（2026-08-24 新增：仅框线无填充），故从废弃列表中移除
+      /<Badge[^>]*\bvariant=["'](?:default|secondary|ghost|destructive|success|warning|danger|info)["']/,
       /<CopyButton[^>]*\btext=|<Grid[^>]*\bcols=|<MiddleTruncate[^>]*\btext=/,
       /<Gauge[^>]*\bsize=["'](?:sm|md|lg)["']/,
       /<Label(?:\s|\n)[^>]*\bhtmlFor=|<Note[^>]*\bvariant=["']destructive["']/,

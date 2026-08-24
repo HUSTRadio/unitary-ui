@@ -7,9 +7,10 @@ import { cn } from "@/lib/utils";
 /**
  * Badge — 官方 @vercel/geistcn Badge 对齐实现（vercel.com/geist/badge 实测）。
  *
- * - 尺寸体系：sm h-5 / md h-6 / lg h-8，圆角全 pill，无 border（官方无透明边框）。
- * - 变体：gray/blue/purple/amber/red/pink/green/teal/inverted/trial/turbo/pill
- *   + contrast="low"（subtle 底色经 ::before 渲染，tint 取对应语义 *-200 token）。
+ * - 尺寸体系：sm h-5 / md h-6 / lg h-8，圆角全 pill（官方无透明边框）。
+ * - 变体：gray/blue/purple/amber/red/pink/green/teal/inverted/trial/turbo/pill/outline
+ *   + contrast="low"（subtle = 胶囊 + 纯文字无填充，官方 2026-08-24 实测）
+ *   + variant="outline"（仅框线无填充，文字与边框同 gray 系）
  */
 const badgeVariants = cva(
   "inline-flex shrink-0 items-center justify-center gap-1.25 whitespace-nowrap rounded-full py-0.5 font-medium capitalize tabular-nums tracking-normal " +
@@ -31,65 +32,67 @@ const badgeVariants = cva(
         amber: "bg-amber-500 text-black dark:bg-amber-700",
         red: "bg-badge-red text-badge-red-foreground",
         pink: "bg-pink-800 text-white",
-        green: "bg-green-900 text-white dark:bg-green-800",
-        teal: "bg-teal-900 text-white dark:bg-teal-800",
+        green: "bg-badge-green text-badge-green-foreground",
+        teal: "bg-badge-teal text-badge-teal-foreground",
         inverted: "bg-gray-1000 text-gray-100",
         trial: "bg-black text-white bg-linear-[135deg,#0070f3,#f81ce5]",
         turbo: "bg-black text-white bg-linear-[135deg,#ff1e56,#0096ff]",
         pill: "bg-background text-black dark:text-white ring-1 ring-gray-alpha-400 ring-inset hover:[a,button]:bg-gray-200",
+        // 仅框线（官方 badge 实测 2026-08-24：border 0.57px 半透明 + 透明底 + 文字同色系）。
+        // gray-alpha 边框在 light/dark 自适应；文字与边框同 gray 系（light #4d4d4d / dark #a1a1a1）。
+        outline:
+          "bg-transparent border border-gray-alpha-500 text-gray-900 dark:text-gray-400 dark:border-gray-alpha-500",
       },
       contrast: {
-        low: "relative bg-transparent before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:content-[''] before:mix-blend-multiply dark:before:mix-blend-screen",
+        // 官方 subtle（vercel.com/geist/badge dark 实测 2026-08-24）= 胶囊容器 + 纯文字，
+        // 无边框无填充背景无 before 层；文字色随主题（light 深 / dark 亮）。
+        // 必须补 dark:bg-transparent 抵消 variant 的 dark:bg-*（cva compound 是追加非覆盖）。
+        low: "relative bg-transparent dark:bg-transparent",
       },
     },
     compoundVariants: [
       {
         variant: "gray",
         contrast: "low",
-        className:
-          "text-gray-1000 before:bg-[oklch(from_var(--gray-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--gray-200)_0.27_c_h)]",
+        className: "text-gray-1000", // light #171717 / dark #ededed，官方完全一致
       },
       {
         variant: "blue",
         contrast: "low",
-        className:
-          "text-blue-900 before:bg-[oklch(from_var(--blue-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--blue-200)_0.27_c_h)]",
+        className: "text-blue-900", // light #0060d6 / dark #5ea2ff，≈官方 #0068d6/#52a8ff
       },
       {
         variant: "purple",
         contrast: "low",
         className:
-          "text-purple-800 dark:text-purple-900 before:bg-[oklch(from_var(--purple-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--purple-200)_0.27_c_h)]",
+          "text-purple-800 dark:text-purple-900", // light #773bb5 / dark #c57df0 ≈官方 #7820bc/#bf7af0
       },
       {
         variant: "amber",
         contrast: "low",
-        className:
-          "text-amber-900 before:bg-[oklch(from_var(--amber-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--amber-200)_0.27_c_h)]",
+        className: "text-amber-900", // light #a35200 / dark #ff9a00 ≈官方 #a35200/#f2a20d
       },
       {
         variant: "red",
         contrast: "low",
         className:
-          "text-badge-red-subtle-foreground before:bg-[oklch(from_var(--red-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--red-200)_0.27_c_h)]",
+          "text-badge-red-subtle-foreground", // light #cb2a2f / dark #ff6166，官方完全一致
       },
       {
         variant: "pink",
         contrast: "low",
         className:
-          "text-pink-800 dark:text-pink-900 before:bg-[oklch(from_var(--pink-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--pink-200)_0.27_c_h)]",
+          "text-pink-800 dark:text-pink-900", // light #d9216e / dark #ff66ad ≈官方 #bd2864/#f75f8f
       },
       {
         variant: "green",
         contrast: "low",
-        className:
-          "text-green-900 before:bg-[oklch(from_var(--green-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--green-200)_0.27_c_h)]",
+        className: "text-green-900", // light #267a3b / dark #6fe28d ≈官方 #297a3a/#62c073
       },
       {
         variant: "teal",
         contrast: "low",
-        className:
-          "text-teal-900 before:bg-[oklch(from_var(--teal-200)_0.94_c_h)] dark:before:bg-[oklch(from_var(--teal-200)_0.27_c_h)]",
+        className: "text-teal-900", // light #0c7869 / dark #12b5a1 ≈官方 #067a6e/#0ac7b4
       },
     ],
     defaultVariants: {

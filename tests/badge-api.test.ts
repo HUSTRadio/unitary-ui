@@ -7,9 +7,6 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
 
-// Semantic *-200 tokens that exist in src/styles/index.css (light + dark).
-const SUBTLE_VARIANTS = ["gray", "blue", "purple", "amber", "red", "pink", "green", "teal"];
-
 // Matches the className string of one contrast:low compound variant.
 // "s" flag lets "." span the newline between `className:` and the quoted string.
 function subtleClassName(src: string, color: string): string {
@@ -18,45 +15,30 @@ function subtleClassName(src: string, color: string): string {
   return match?.[1] ?? "";
 }
 
-describe("Badge official subtle tint contract", () => {
+describe("Badge official subtle contract (2026-08-24 实测 = 胶囊 + 纯文字无填充)", () => {
   test("badge.tsx exports Badge and badgeVariants", async () => {
     const src = await read("src/components/ui/badge.tsx");
     expect(src).toMatch(/export\s*\{[^}]*Badge\b[^}]*\}/);
     expect(src).toMatch(/export\s*\{[^}]*badgeVariants\b[^}]*\}/);
   });
 
-  test("each subtle variant tints its ::before from its own semantic *-200 token", async () => {
+  test("subtle variants have NO ::before tint layer (官方 subtle 无填充无淡色层)", async () => {
     const src = await read("src/components/ui/badge.tsx");
-
-    for (const color of SUBTLE_VARIANTS) {
-      const entry = subtleClassName(src, color);
-      expect(entry, `${color}-subtle compound variant must exist`).not.toBe("");
-      // Light tint: relative oklch from the *-200 token at 0.94 lightness.
-      expect(entry).toContain(`before:bg-[oklch(from_var(--${color}-200)_0.94_c_h)]`);
-      // Dark tint: same token at 0.27 lightness.
-      expect(entry).toContain(`dark:before:bg-[oklch(from_var(--${color}-200)_0.27_c_h)]`);
-    }
+    // 官方 subtle = 纯文字胶囊，无 before 层、无 mix-blend、无 oklch 底色
+    expect(src).not.toContain("before:bg-[oklch");
+    expect(src).not.toContain("before:mix-blend");
+    expect(src).not.toContain("before:rounded-full");
   });
 
-  test("no non-gray subtle variant falls back to the gray-200 fill", async () => {
-    const src = await read("src/components/ui/badge.tsx");
-
-    for (const color of SUBTLE_VARIANTS.filter((c) => c !== "gray")) {
-      const entry = subtleClassName(src, color);
-      expect(entry).not.toContain("--gray-200");
-    }
-  });
-
-  test("contrast.low base keeps structure but no hardcoded fill token", async () => {
+  test("contrast.low base keeps transparent bg in both themes (抵消 variant 实色底)", async () => {
     const src = await read("src/components/ui/badge.tsx");
     const lowVariant = src.match(/low: "([^"]*)"/)?.[1] ?? "";
-    expect(lowVariant).toContain("before:mix-blend-multiply");
-    expect(lowVariant).toContain("dark:before:mix-blend-screen");
-    expect(lowVariant).not.toContain("oklch");
-    expect(lowVariant).not.toContain("gray-200");
+    expect(lowVariant).toContain("bg-transparent");
+    // 关键：dark:bg-transparent 抵消 variant 的 dark:bg-*（cva compound 追加非覆盖）
+    expect(lowVariant).toContain("dark:bg-transparent");
   });
 
-  test("subtle text colors are preserved per variant (palette tokens, no hardcoded hex)", async () => {
+  test("subtle text colors follow official palette (light 深 / dark 亮，token 引用禁硬编码)", async () => {
     const src = await read("src/components/ui/badge.tsx");
 
     const expectedText = {
@@ -73,10 +55,35 @@ describe("Badge official subtle tint contract", () => {
     for (const [color, textClass] of Object.entries(expectedText)) {
       const entry = subtleClassName(src, color);
       expect(entry, `${color}-subtle text color`).toContain(textClass);
-      // 语义色必须走 palette token，禁止硬编码 hex
       expect(entry, `${color}-subtle must not hardcode hex`).not.toMatch(
         /text-\[\#[0-9a-fA-F]{6}\]/,
       );
     }
+  });
+});
+
+describe("Badge solid variants & outline (2026-08-24)", () => {
+  test("green/teal use badge-specific deep tokens (方案 B, dark 白字对比度 ≥4.5:1)", async () => {
+    const src = await read("src/components/ui/badge.tsx");
+    expect(src).toContain('green: "bg-badge-green text-badge-green-foreground"');
+    expect(src).toContain('teal: "bg-badge-teal text-badge-teal-foreground"');
+  });
+
+  test("badge-green/badge-teal tokens registered in @theme (bg-* utility 生成)", async () => {
+    const css = await read("src/styles/index.css");
+    expect(css).toContain("--badge-green: #267a3b");
+    expect(css).toContain("--badge-teal: #0c7869");
+    expect(css).toContain("--color-badge-green: var(--badge-green)");
+    expect(css).toContain("--color-badge-teal: var(--badge-teal)");
+  });
+
+  test("outline variant = transparent bg + border, text same gray family (官方实测)", async () => {
+    const src = await read("src/components/ui/badge.tsx");
+    // outline 定义跨行：outline:\n  "bg-transparent border border-gray-alpha-500 ..."
+    const outlineBlock = src.match(/outline:\s*"([^"]*)"/s)?.[1] ?? "";
+    expect(outlineBlock).toContain("bg-transparent");
+    expect(outlineBlock).toContain("border border-gray-alpha-500");
+    expect(outlineBlock).toContain("text-gray-900");
+    expect(outlineBlock).toContain("dark:text-gray-400");
   });
 });

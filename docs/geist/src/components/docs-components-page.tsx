@@ -8608,6 +8608,7 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
                 <Badge variant="inverted">Inverted</Badge>
                 <Badge variant="trial">Trial</Badge>
                 <Badge variant="turbo">Turborepo</Badge>
+                <Badge variant="outline">Outline</Badge>
               </div>
             </div>
           </Section>

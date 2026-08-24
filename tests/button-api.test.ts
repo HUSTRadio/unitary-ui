@@ -120,8 +120,8 @@ describe("Button official single-track API contract", () => {
     for (const file of allFiles) {
       if (!/\.(?:ts|tsx)$/.test(file)) continue;
       const source = await read(file);
-      // Check for old variant names in Button props
-      if (/variant=["'](?:destructive|outline|ghost)["']/.test(source)) {
+      // Check for old variant names in Button props（仅 <Button>，排除 <Badge> 等其它组件的同名 prop）
+      if (/<Button\b[^>]*variant=["'](?:destructive|outline|ghost)["']/.test(source)) {
         violations.push(`${file}: uses old variant name`);
       }
       // Check for old size names on Button (not Badge or other components)
