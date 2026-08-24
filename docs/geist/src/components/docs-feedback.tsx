@@ -5,7 +5,6 @@ import { NavLink, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { RatingPill, type RatingValue } from "@/components/ui/rating-pill";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
 import { SHELL_COPY } from "../i18n/catalog";
 import { useLanguage } from "../i18n/language";
 
@@ -27,27 +26,13 @@ export function FeedbackPanel() {
   const [rating, setRating] = useState<RatingValue | undefined>(undefined);
   const [comment, setComment] = useState("");
   const [sent, setSent] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <section aria-label={copy.feedbackQuestion}>
-      {/* 胶囊 rating bar — 收起为一行 trigger，点开展开评分、点外收起；选中后胶囊语义色着色 */}
-      <RatingPill
-        label={copy.feedbackQuestion}
-        value={rating}
-        onValueChange={setRating}
-        footerActions={
-          <Button
-            typeName="button"
-            size="small"
-            disabled={sent}
-            onClick={() => setSent(true)}
-            prefix={sent ? <Check className="size-3.5" aria-hidden /> : undefined}
-          >
-            {sent ? copy.feedbackSent : copy.feedbackSend}
-          </Button>
-        }
-      >
-        {/* 展开面板 body — 文本反馈（docs 场景保留 Textarea + Send） */}
+      {/* 胶囊 rating bar — 官方形态：单行胶囊内嵌 4 表情；选中后展开 Textarea + Send */}
+      <RatingPill label={copy.feedbackQuestion} value={rating} onValueChange={setRating} onSubmit={() => setOpen(true)} />
+      {open ? (
         <div className="mt-1">
           <Textarea
             placeholder={copy.feedbackPlaceholder}
@@ -55,11 +40,22 @@ export function FeedbackPanel() {
             onChange={(event) => setComment(event.target.value)}
             disabled={sent}
           />
-          {sent ? (
-            <p className="mt-1 text-label-12 text-muted-foreground">{copy.feedbackThanks}</p>
-          ) : null}
+          <div className="mt-1 flex items-center justify-end gap-2">
+            {sent ? (
+              <p className="text-label-12 text-muted-foreground">{copy.feedbackThanks}</p>
+            ) : null}
+            <Button
+              typeName="button"
+              size="small"
+              disabled={sent}
+              onClick={() => setSent(true)}
+              prefix={sent ? <Check className="size-3.5" aria-hidden /> : undefined}
+            >
+              {sent ? copy.feedbackSent : copy.feedbackSend}
+            </Button>
+          </div>
         </div>
-      </RatingPill>
+      ) : null}
     </section>
   );
 }

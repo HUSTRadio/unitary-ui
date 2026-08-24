@@ -126,6 +126,7 @@ import { demoText } from "../i18n/components-demo";
 
 /** 图标库来源：lucide（矢量 stroke 图标）或 simple-icons（品牌 fill 图标，经 CDN 渲染）。 */
 type IconLib = "lucide" | "simple-icons";
+export type { IconLib };
 
 type IconEntry =
   | { name: string; Icon: LucideIcon; lib: "lucide" }

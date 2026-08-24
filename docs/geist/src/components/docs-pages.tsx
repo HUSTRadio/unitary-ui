@@ -533,6 +533,55 @@ export function TypographyPage() {
         {demoText(language, "Rules of typesetting throughout the system.")}
       </p>
 
+      {/* Fonts — 项目内置字体展示：一个字体一行，动态字号防溢出（clamp） */}
+      <section className="mt-10">
+        <h2 className="text-heading-24 text-foreground">{demoText(language, "Fonts")}</h2>
+        <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
+          {demoText(
+            language,
+            "Three typefaces are bundled and subsetted into the framework: the default UI face, a Chinese-capable sans, and a mono for code.",
+          )}
+        </p>
+        <ul className="mt-6 divide-y divide-gray-alpha-400">
+          {/* OPPO Sans 4.0 — 默认 UI 字体（--font-sans 首选） */}
+          <li className="flex flex-col gap-1 py-5 sm:flex-row sm:items-baseline sm:gap-8">
+            <code className="w-52 shrink-0 font-mono text-label-12 text-muted-foreground">
+              OPPO Sans 4.0
+            </code>
+            <span
+              className="truncate text-foreground"
+              style={{ fontFamily: '"OPPO Sans 4.0", sans-serif', fontSize: "clamp(1.5rem, 5vw, 3rem)", lineHeight: 1.15, letterSpacing: "-0.02em" }}
+            >
+              {demoText(language, "敏捷开发，Unitary 设计系统。")}
+            </span>
+          </li>
+          {/* HarmonyOS Sans SC — 中文无衬线（--font-sans 中文兜底） */}
+          <li className="flex flex-col gap-1 py-5 sm:flex-row sm:items-baseline sm:gap-8">
+            <code className="w-52 shrink-0 font-mono text-label-12 text-muted-foreground">
+              HarmonyOS Sans SC
+            </code>
+            <span
+              className="truncate text-foreground"
+              style={{ fontFamily: '"HarmonyOS Sans SC", "HarmonyOS Sans SC Subset", sans-serif', fontSize: "clamp(1.5rem, 5vw, 3rem)", lineHeight: 1.15, letterSpacing: "-0.02em" }}
+            >
+              {demoText(language, "设计出极致的美，简而有道。")}
+            </span>
+          </li>
+          {/* JetBrains Maple Mono — 等宽（--font-mono 首选） */}
+          <li className="flex flex-col gap-1 py-5 sm:flex-row sm:items-baseline sm:gap-8">
+            <code className="w-52 shrink-0 font-mono text-label-12 text-muted-foreground">
+              JetBrains Maple Mono
+            </code>
+            <span
+              className="truncate font-mono text-foreground"
+              style={{ fontSize: "clamp(1.25rem, 4vw, 2.5rem)", lineHeight: 1.2, letterSpacing: "-0.02em" }}
+            >
+              {demoText(language, "const unitary = await design()")}
+            </span>
+          </li>
+        </ul>
+      </section>
+
       {/* Headings */}
       <section className="mt-10">
         <h2 className="text-heading-24 text-foreground">{demoText(language, "Headings")}</h2>
