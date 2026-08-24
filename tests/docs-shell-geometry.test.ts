@@ -15,6 +15,14 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(shell).toContain("max-w-[1220px]");
   });
 
+  it("wide navbar is a centered 1220 block (official architecture), not full-width", () => {
+    // 官方架构：Navbar 容器本身 sticky mx-auto max-w-[1220px]（非全宽条），
+    // 留白区透出页面底色；内层 div 不再重复 mx-auto/max-w（回退 f08fd84 全宽化）。
+    expect(shell).toMatch(/<Navbar[^>]*max-w-\[1220px\]/);
+    const inner = shell.slice(shell.indexOf("<Navbar"), shell.indexOf("</Navbar>"));
+    expect(inner).not.toMatch(/className="mx-auto flex h-full w-full max-w-\[1220px\]/);
+  });
+
   it("wraps the banner content in <Navbar scrollBehavior=\"pinned\"> (framework component)", () => {
     expect(shell).toContain('<Navbar scrollBehavior="pinned"');
     // 顶栏内容仍保留：Logo / 搜索框 / 语言菜单 / 主题切换
