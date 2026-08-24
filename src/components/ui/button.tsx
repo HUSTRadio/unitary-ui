@@ -24,7 +24,7 @@ import { useI18n } from "@/lib/i18n";
  */
 
 const buttonVariants = cva(
-  "relative inline-flex shrink-0 items-center justify-center rounded-md text-button-14 leading-[21px] font-medium whitespace-nowrap max-w-full transition-all outline-none focus-ring disabled:pointer-events-none disabled:bg-gray-100 disabled:text-gray-700 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:size-4",
+  "relative inline-flex shrink-0 items-center justify-center rounded-lg text-button-14 leading-[21px] font-medium whitespace-nowrap max-w-full transition-all outline-none focus-ring disabled:pointer-events-none disabled:bg-gray-100 disabled:text-gray-700 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:size-4",
   {
     variants: {
       type: {
@@ -43,10 +43,10 @@ const buttonVariants = cva(
       size: {
         // min-w 为框架扩展：默认最小宽度 = 高度 × 2.2（对齐官方 Upload 按钮宽高比，
         // 避免短标签尤其中文两字按钮过于局促）；svgOnly 以 min-w-0 覆盖保持正方形。
-        tiny: "h-6 rounded-[4px] px-1.5 min-w-[52px] [&_svg]:size-3",
-        small: "h-8 rounded-md px-1.5 min-w-[70px]",
+        tiny: "h-6 px-1.5 min-w-[52px] [&_svg]:size-3",
+        small: "h-8 px-1.5 min-w-[70px]",
         medium: "h-9 px-2.5 min-w-[80px]",
-        large: "h-10 rounded-[8px] px-3.5 min-w-[88px] text-button-16 leading-6",
+        large: "h-10 px-3.5 min-w-[88px] text-button-16 leading-6",
       },
       shape: {
         square: "",

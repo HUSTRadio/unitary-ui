@@ -143,7 +143,7 @@ function BottomSheet({
           data-slot="bottom-sheet"
           data-resizable={resizable ? "true" : undefined}
           className={cn(
-            "fixed inset-x-0 bottom-0 z-[var(--ds-z-drawer)] w-full max-w-full touch-pan-y rounded-t-[10px] border-t bg-background outline-none",
+            "fixed inset-x-0 bottom-0 z-[var(--ds-z-drawer)] w-full max-w-full touch-pan-y rounded-t-xl border-t bg-background outline-none",
             "pb-[env(safe-area-inset-bottom)] overscroll-none",
             dragging && "select-none",
             "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom motion-reduce:transition-none",

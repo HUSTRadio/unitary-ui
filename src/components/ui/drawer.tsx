@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
  * Drawer — Geist 官方 Drawer（docs/geist-markdown-refs/components/drawer.md 官方语义）。
  * 官方实测（2026-08-13 vercel.com/geist/drawer 实时 DOM/computed style）：
  * - 受控 API：show / onDismiss / height / verticalScroll（无 Trigger 子组件）
- * - 全宽底部 sheet（w-full，fixed inset-x-0 bottom-0），rounded-t-[8px]（实测
- *   computed 8px，官方类名写 10px 但被 geist-dialog 覆盖为 8px）、无 border-top
+ * - 全宽底部 sheet（w-full，fixed inset-x-0 bottom-0），rounded-t-xl（12px，Apple HIG
+ *   大容器口径；官方实测 computed 8px，2026-08-24 起归一到 token）、无 border-top
  *   （官方 border-t 类名存在但 computed border-top-width 为 0）、
  *   bg-background、max-h-[80dvh]（官方 geist-dialog 覆盖 90dvh 类为 80dvh）
  * - boxShadow 四层：ring 1px + 1px/2px + 8px -4px + 16px 24px -8px + 底 1px 白 ring
@@ -140,7 +140,7 @@ function DrawerPanel({
       data-swipe-direction="down"
       {...accessibilityProps}
       className={cn(
-        "fixed inset-x-0 bottom-0 z-[var(--ds-z-drawer)] w-full max-w-full min-h-[45px] touch-pan-y rounded-t-[10px] border-t bg-background outline-none pb-[env(safe-area-inset-bottom)]",
+        "fixed inset-x-0 bottom-0 z-[var(--ds-z-drawer)] w-full max-w-full min-h-[45px] touch-pan-y rounded-t-xl border-t bg-background outline-none pb-[env(safe-area-inset-bottom)]",
         "max-h-[90dvh] overscroll-none",
         "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
         verticalScroll && "overflow-y-auto",

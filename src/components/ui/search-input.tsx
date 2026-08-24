@@ -63,7 +63,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
         type="button"
         onClick={handleClear}
         aria-label={t("Clear search")}
-        className="pointer-coarse:hidden flex h-full cursor-pointer items-center rounded-r-[6px] border-0 bg-transparent px-2.5 text-gray-700 outline-none transition-colors duration-150 hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring"
+        className="pointer-coarse:hidden flex h-full cursor-pointer items-center rounded-r-overlay-item border-0 bg-transparent px-2.5 text-gray-700 outline-none transition-colors duration-150 hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring"
       >
         <Kbd small className="ml-0 font-medium text-gray-900">
           Esc

@@ -94,13 +94,13 @@ function SelectSeparator({
 }
 
 const TRIGGER_SIZE_CLASS = {
-  small: "h-8 rounded-[6px] text-[14px]",
-  default: "h-9 rounded-[6px] text-[14px] leading-5",
-  large: "h-10 rounded-[8px] text-[16px] leading-6",
+  small: "h-8 rounded-lg text-[14px]",
+  default: "h-9 rounded-lg text-[14px] leading-5",
+  large: "h-10 rounded-lg text-[16px] leading-6",
 } as const;
 
 const ITEM_CLASS =
-  "relative flex h-9 cursor-pointer select-none items-center rounded-[6px] px-2 text-copy-14 text-gray-900 " +
+  "relative flex h-9 cursor-pointer select-none items-center rounded-overlay-item px-2 text-copy-14 text-gray-900 " +
   "outline-none data-[highlighted]:bg-gray-alpha-100 " +
   "data-[state=checked]:bg-gray-alpha-100 data-[state=checked]:font-medium " +
   "data-[disabled]:pointer-events-none data-[disabled]:opacity-50";

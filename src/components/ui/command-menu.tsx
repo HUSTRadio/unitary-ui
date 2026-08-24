@@ -54,7 +54,7 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
             event.preventDefault();
             requestAnimationFrame(() => document.body.focus());
           }}
-          className="command-menu-scale command-menu-mobile fixed top-[15%] left-1/2 z-100 w-[640px] -translate-x-1/2 overflow-hidden rounded-[12px] bg-background-100 outline-none max-grid-sm:top-auto max-grid-sm:bottom-0 max-grid-sm:left-0 max-grid-sm:h-[80vh] max-grid-sm:max-h-[80vh] max-grid-sm:w-full max-grid-sm:max-w-full max-grid-sm:translate-x-0 max-grid-sm:overflow-auto max-grid-sm:rounded-t-[8px] max-grid-sm:rounded-b-none"
+          className="command-menu-scale command-menu-mobile fixed top-[15%] left-1/2 z-100 w-[640px] -translate-x-1/2 overflow-hidden rounded-overlay bg-background-100 outline-none max-grid-sm:top-auto max-grid-sm:bottom-0 max-grid-sm:left-0 max-grid-sm:h-[80vh] max-grid-sm:max-h-[80vh] max-grid-sm:w-full max-grid-sm:max-w-full max-grid-sm:translate-x-0 max-grid-sm:overflow-auto max-grid-sm:rounded-t-overlay max-grid-sm:rounded-b-none"
         >
           <h2 id={titleId} className="sr-only">
             {t("Command Menu")}
@@ -100,7 +100,7 @@ const CommandMenuInput = React.forwardRef<
         type="button"
         aria-label={t("Close command menu")}
         onClick={close}
-        className="ml-auto hidden h-5 cursor-pointer items-center rounded-sm border-none bg-background-100 px-1 py-0 text-xs text-gray-1000 shadow-[var(--material-shadow-base)] outline-none transition-[background] duration-200 [@media(hover:hover)_and_(pointer:fine)]:flex focus-visible:shadow-[var(--focus-ring-outline)] hover:bg-gray-100"
+        className="ml-auto hidden h-5 cursor-pointer items-center rounded-overlay-item border-none bg-background-100 px-1 py-0 text-xs text-gray-1000 shadow-[var(--material-shadow-base)] outline-none transition-[background] duration-200 [@media(hover:hover)_and_(pointer:fine)]:flex focus-visible:shadow-[var(--focus-ring-outline)] hover:bg-gray-100"
       >
         Esc
       </button>
@@ -156,7 +156,7 @@ const CommandMenuItem = React.forwardRef<
         close();
       }}
       className={cn(
-        "flex min-h-10 w-full cursor-pointer items-center gap-3 rounded-md px-2 py-0 text-copy-14 text-foreground outline-none sm:min-h-9",
+        "flex min-h-10 w-full cursor-pointer items-center gap-3 rounded-overlay-item px-2 py-0 text-copy-14 text-foreground outline-none sm:min-h-9",
         "data-[selected=true]:bg-gray-alpha-100 [@media(hover:hover)_and_(pointer:fine)]:data-[selected=true]:bg-gray-alpha-100",
         "data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
         className,

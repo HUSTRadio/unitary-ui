@@ -38,12 +38,13 @@ describe("Textarea official API contract (G12 audit fixes)", () => {
     expect(shared).toMatch(/var\(--color-red-500\)/);
   });
 
-  test("sizes small/medium/large: radius 6px/6px/8px, default medium, large 16px/24px", async () => {
+  test("sizes small/medium/large: unified rounded-lg (8px, HIG), default medium, large 16px/24px", async () => {
     const src = await read("src/components/ui/textarea.tsx");
     expect(src).toMatch(/type TextareaSize = "small" \| "medium" \| "large"/);
     expect(src).toMatch(/size = "medium"/);
-    expect(src).toMatch(/rounded-\[8px\]/);
-    expect(src).toMatch(/rounded-\[6px\]/);
+    expect(src).toContain('"rounded-lg"');
+    expect(src).not.toContain("rounded-[6px]");
+    expect(src).not.toContain("rounded-[8px]");
   });
 
   test("default height 100px; rows prop switches to h-auto", async () => {

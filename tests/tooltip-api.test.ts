@@ -77,7 +77,7 @@ describe("Tooltip official single-track API contract", () => {
   test("surface and behavior stay at official parity (250px, radius 8px, no shadow, sideOffset 10, 400ms delay + 100ms fade)", async () => {
     const src = await read("src/components/ui/tooltip.tsx");
     expect(src).toMatch(/max-w-\[250px\]/);
-    expect(src).toMatch(/rounded-\[8px\]/);
+    expect(src).toMatch(/rounded-overlay/);
     expect(src).not.toMatch(/shadow-\[var\(--material-shadow-tooltip\)\]/);
     expect(src).toMatch(/sideOffset=\{10\}/);
     expect(src).toMatch(/delay \? 400 : 0/);

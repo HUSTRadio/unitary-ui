@@ -50,11 +50,11 @@ describe("Input official API contract (G06 audit fixes)", () => {
     expect(src).toMatch(/data-slot="input-label"/);
   });
 
-  test("G06-INPUT-04: large size radius is rounded-lg (8px), small/default stay 6px", async () => {
+  test("G06-INPUT-04: all sizes use rounded-lg (8px, Apple HIG control radius)", async () => {
     const src = await read("src/components/ui/input.tsx");
-    expect(src).toMatch(/size === "large" \? "rounded-lg"/);
+    expect(src).toContain('const radius = "rounded-lg"');
     expect(src).toContain("rounded-lg");
-    expect(src).toContain("rounded-[6px]");
+    expect(src).not.toContain("rounded-[6px]");
   });
 
   test("G06-INPUT-06: error alert uses the shared FieldError base layer (4px gap, inline-error token)", async () => {

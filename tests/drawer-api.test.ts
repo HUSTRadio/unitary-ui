@@ -16,7 +16,7 @@ describe("Drawer official contract", () => {
   test("uses the official full-width bottom sheet surface", () => {
     expect(source).toContain("inset-x-0 bottom-0");
     expect(source).toContain("w-full");
-    expect(source).toContain("rounded-t-[10px]");
+    expect(source).toContain("rounded-t-xl");
     expect(source).toContain("border-t");
     expect(source).toContain("bg-background");
     expect(source).toContain("max-h-[90dvh]");
