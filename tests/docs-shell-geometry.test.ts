@@ -105,6 +105,15 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(rightBlock.match(/max-md:hidden/g)?.length).toBeGreaterThanOrEqual(2);
   });
 
+  it("drawer toolbar theme switcher buttons get >=44px touch targets via hit-area wrapper", () => {
+    // 2026-08-24 新契约：抽屉工具行的 <ThemeSwitcher small />（按钮实测 24×24）
+    // 外包命中扩展容器，把可点目标提升到 ≥44×44（Apple HIG / WCAG 2.5.8）。
+    const wrap = shell.match(
+      /<div className="\[\&_button\]:min-h-11[^"]*">\s*<ThemeSwitcher small \/>/,
+    );
+    expect(wrap).not.toBeNull();
+  });
+
   it("removes the static DocsMobileNav list (superseded by the HamburgerMenu panel)", () => {
     expect(shell).not.toContain("DocsMobileNav");
     // 死 i18n key 一并清理

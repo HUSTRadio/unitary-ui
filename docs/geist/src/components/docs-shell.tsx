@@ -99,7 +99,9 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               toolbarRight={
                 searchMode === "toolbar" ? (
                   <>
-                    <ThemeSwitcher small />
+                    <div className="[&_button]:min-h-11 [&_button]:min-w-11 [&_button]:px-1">
+                      <ThemeSwitcher small />
+                    </div>
                     <MenuContainer position="bottom-end">
                       <MenuButton
                         variant="unstyled"
