@@ -90,6 +90,11 @@ const DIRECTION_TO_SIDE: Record<"down" | "left" | "right", Side> = {
   right: "right",
 };
 
+// stagger-in 时序（Task 5b 提速，对齐 HIG 导航转场 0.3–0.4s 口径）：
+// 最后一项完成于 staggerCount*20+240 = 380ms（旧 40/320 为 600ms，-37%）
+const STAGGER_INTERVAL_MS = 20;
+const STAGGER_ITEM_DURATION_MS = 240;
+
 const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(function HamburgerMenu({
   icon,
   anchor,
@@ -134,7 +139,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
     }
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     setStaggerActive(true);
-    const total = staggerCount * 40 + 320; // 40ms/项间隔 + 单项 320ms 动画时长
+    const total = staggerCount * STAGGER_INTERVAL_MS + STAGGER_ITEM_DURATION_MS;
     const timer = window.setTimeout(() => setStaggerActive(false), total);
     return () => window.clearTimeout(timer);
   }, [staggerIn, isOpen, staggerCount]);
@@ -194,7 +199,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
         {(showCloseButton || toolbarLeft || toolbarRight) && (
           <div
             data-slot="panel-toolbar"
-            className="flex h-16 items-center justify-between border-b border-gray-alpha-400 pl-[23px] pr-4"
+            className="flex h-16 items-center justify-between border-b border-gray-alpha-400 pl-0 pr-4"
           >
             <div className="flex items-center">
               {showCloseButton && (
@@ -286,8 +291,8 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                   style={
                     staggered
                       ? {
-                          animation: `hamburger-stagger-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both`,
-                          animationDelay: `${index * 40}ms`,
+                          animation: `hamburger-stagger-in ${STAGGER_ITEM_DURATION_MS}ms cubic-bezier(0.16, 1, 0.3, 1) both`,
+                          animationDelay: `${index * STAGGER_INTERVAL_MS}ms`,
                         }
                       : undefined
                   }

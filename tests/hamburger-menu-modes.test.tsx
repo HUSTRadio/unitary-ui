@@ -158,15 +158,16 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
     const staggered = document.querySelectorAll("[data-staggered]");
     expect(staggered).toHaveLength(8);
     expect(staggered[0].style.animationDelay).toBe("0ms");
-    expect(staggered[7].style.animationDelay).toBe("280ms");
+    // Task 5b（2026-08-24）：stagger 提速——间隔 40→20ms
+    expect(staggered[7].style.animationDelay).toBe("140ms");
     expect(
       document.querySelector('[data-slot="menu-list"]')!.className,
     ).toContain("pointer-events-none");
     // 第 9 项及以后不参与动画（滚动后直接呈现）
     expect(staggered[0].parentElement!.children[8].hasAttribute("data-staggered")).toBe(false);
-    // 动画完结：恢复可点，data-staggered 全部移除
+    // 动画完结：恢复可点，data-staggered 全部移除（8*20+240=400ms 禁点解除）
     act(() => {
-      vi.advanceTimersByTime(8 * 40 + 320 + 10);
+      vi.advanceTimersByTime(8 * 20 + 240 + 10);
     });
     expect(document.querySelectorAll("[data-staggered]")).toHaveLength(0);
     expect(
@@ -270,6 +271,34 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
       );
       expect(result).not.toBeNull();
       expect(result!.className).toContain("bg-gray-alpha-100");
+    });
+  });
+
+  // Task 5（2026-08-24）：关闭钮与 topbar trigger 同轴 + stagger 提速
+  describe("close-button axis & stagger timing (Task 5)", () => {
+    it("toolbar has no left padding — close button aligns with topbar trigger", async () => {
+      const src = await readFile(
+        path.resolve(__dirname, "../src/components/ui/hamburger-menu.tsx"),
+        "utf8",
+      );
+      expect(src).not.toContain("pl-[23px]");
+      expect(src).toMatch(
+        /className="flex h-16 items-center justify-between border-b border-gray-alpha-400 pl-0 pr-4"/,
+      );
+    });
+
+    it("stagger constants are extracted and sped up (20ms interval / 240ms item)", async () => {
+      const src = await readFile(
+        path.resolve(__dirname, "../src/components/ui/hamburger-menu.tsx"),
+        "utf8",
+      );
+      expect(src).toContain("const STAGGER_INTERVAL_MS = 20;");
+      expect(src).toContain("const STAGGER_ITEM_DURATION_MS = 240;");
+      // 计时器与内联样式均引用常量，无魔法数残留
+      expect(src).toContain("staggerCount * STAGGER_INTERVAL_MS + STAGGER_ITEM_DURATION_MS");
+      expect(src).not.toMatch(/staggerCount \* 40/);
+      expect(src).not.toContain("+ 320");
+      expect(src).not.toContain("320ms");
     });
   });
 });
