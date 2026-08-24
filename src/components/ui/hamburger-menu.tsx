@@ -54,6 +54,8 @@ interface HamburgerMenuProps {
   content?: "merged" | "split";
   /** 过滤数据源 */
   items?: MenuItem[];
+  /** 当前激活路由（用于 aria-current="page" 与高亮，对齐桌面 sidebar active 态） */
+  activeTo?: string;
   /** 点击结果项回调（随后关闭面板） */
   onNavigate?: (to: string) => void;
   /** 受控打开状态（不传则非受控） */
@@ -100,6 +102,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   staggerCount = 8,
   content = "merged",
   items,
+  activeTo,
   onNavigate,
   open,
   onOpenChange,
@@ -292,8 +295,14 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                 >
                   <a
                     href={item.to}
+                    aria-current={item.to === activeTo ? "page" : undefined}
                     onClick={() => onNavigate?.(item.to)}
-                    className="block rounded-md px-3 py-2 text-copy-14 text-[var(--ds-gray-1000)] no-underline hover:bg-[var(--ds-gray-alpha-200)]"
+                    className={cn(
+                      "block rounded-md px-3 py-2 text-copy-14 no-underline hover:bg-[var(--ds-gray-alpha-200)]",
+                      item.to === activeTo
+                        ? "bg-gray-alpha-100 font-medium text-[var(--ds-gray-1000)]"
+                        : "text-[var(--ds-gray-1000)]",
+                    )}
                   >
                     {item.label}
                   </a>
@@ -311,11 +320,17 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                 <a
                   href={item.to}
                   data-slot="menu-result"
+                  aria-current={item.to === activeTo ? "page" : undefined}
                   onClick={() => {
                     onNavigate?.(item.to);
                     setOpen(false);
                   }}
-                  className="block rounded-md px-3 py-2 text-copy-14 text-[var(--ds-gray-1000)] no-underline hover:bg-[var(--ds-gray-alpha-200)]"
+                  className={cn(
+                    "block rounded-md px-3 py-2 text-copy-14 no-underline hover:bg-[var(--ds-gray-alpha-200)]",
+                    item.to === activeTo
+                      ? "bg-gray-alpha-100 font-medium text-[var(--ds-gray-1000)]"
+                      : "text-[var(--ds-gray-1000)]",
+                  )}
                 >
                   {item.label}
                 </a>

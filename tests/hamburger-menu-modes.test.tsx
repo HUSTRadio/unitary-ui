@@ -214,4 +214,62 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
       expect(src).toContain('side !== "top" && "flex flex-col"');
     });
   });
+
+  // Task 4（2026-08-24）：抽屉内无当前页指示——对齐桌面 sidebar active 态
+  describe("activeTo current-page indicator (Task 4)", () => {
+    const ICON_ITEMS = [{ label: "Icons", to: "/icons" }];
+
+    function renderActive(props: Partial<React.ComponentProps<typeof HamburgerMenu>> = {}) {
+      act(() => {
+        root.render(
+          <HamburgerMenu
+            anchor="topbar"
+            items={ICON_ITEMS}
+            open
+            activeTo="/icons"
+            {...props}
+          />,
+        );
+      });
+    }
+
+    it("marks the active list item with aria-current=page and painted background", () => {
+      renderActive();
+      const active = document.querySelector('a[aria-current="page"]');
+      expect(active).not.toBeNull();
+      expect(active!.textContent).toBe("Icons");
+      expect(active!.className).toContain("bg-gray-alpha-100");
+      // 非激活项不得带高亮/aria-current
+      expect(document.querySelectorAll('a[aria-current="page"]')).toHaveLength(1);
+    });
+
+    it("no activeTo → no aria-current anywhere", () => {
+      act(() => {
+        root.render(
+          <HamburgerMenu anchor="topbar" items={ICON_ITEMS} open />,
+        );
+      });
+      expect(document.querySelector('a[aria-current="page"]')).toBeNull();
+    });
+
+    it("search results carry the same indicator", () => {
+      renderActive({ query: undefined });
+      const input = document.querySelector(
+        '[data-slot="menu-search"] input',
+      ) as HTMLInputElement;
+      const setter = Object.getOwnPropertyDescriptor(
+        HTMLInputElement.prototype,
+        "value",
+      )!.set!;
+      act(() => {
+        setter.call(input, "ico");
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      });
+      const result = document.querySelector(
+        '[data-slot="menu-result"][aria-current="page"]',
+      );
+      expect(result).not.toBeNull();
+      expect(result!.className).toContain("bg-gray-alpha-100");
+    });
+  });
 });
