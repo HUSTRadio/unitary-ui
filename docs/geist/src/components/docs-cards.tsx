@@ -190,11 +190,9 @@ function ComponentsPreview() {
   );
 }
 
-/**
- * Colors — 8 竖色条。
- * 色值来自 docs/geist-markdown-refs/foundations/colors.md（2026-08-08 抓取快照），
- * 700 档在 Dark/Light 双主题下同值，故直接写死 hex。
- */
+/** Colors — 8 根描边胶囊（官方实测 2026-08-24）：外胶囊 32×96 圆角 full /
+ * border 0.571429px gray-alpha-300（主题自适应，等效官方 dark 白14%/light 黑8%）/
+ * 内色条 8×72 在胶囊内居中（inset 12px）/ 胶囊间距 8.4px / 整组居中。 */
 const COLOR_BARS: { name: string; value: string }[] = [
   { name: "gray-700", value: "#8f8f8f" },
   { name: "blue-700", value: "#006efe" },
@@ -208,14 +206,18 @@ const COLOR_BARS: { name: string; value: string }[] = [
 
 function ColorsPreview() {
   return (
-    <div className="flex items-center gap-[3px]">
+    <div className="mx-auto flex items-center gap-[8.4px]">
       {COLOR_BARS.map((bar) => (
         <div
           key={bar.name}
           title={`${bar.name} · ${bar.value}`}
-          className="relative h-[72px] w-[10px] rounded-full border border-gray-300"
-          style={{ backgroundColor: bar.value }}
-        />
+          className="flex h-24 w-8 items-center justify-center rounded-full border-[0.571429px] border-gray-alpha-300"
+        >
+          <div
+            className="h-[72px] w-2 rounded-full"
+            style={{ backgroundColor: bar.value }}
+          />
+        </div>
       ))}
     </div>
   );
