@@ -29,6 +29,7 @@ import { useLanguage } from "../i18n/language";
 
 function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
   const { language, setLanguage } = useLanguage();
+  const { pathname } = useLocation();
   const copy = SHELL_COPY[language];
   const navigate = useNavigate();
   // 汉堡面板受控开关：导航后收回面板（与旧壳层 Drawer 行为一致）
@@ -127,6 +128,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
                 ) : undefined
               }
               items={menuItems}
+              activeTo={pathname}
               open={menuOpen}
               onOpenChange={setMenuOpen}
               onNavigate={(to) => {
