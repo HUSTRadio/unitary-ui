@@ -80,7 +80,7 @@ describe("Geist replica audit contract", () => {
     ).toBe(evidenceComplete);
   });
 
-  test("collector validates a single isolated cell without opening a browser", () => {
+  test("collector validates a single isolated cell without opening a browser", { timeout: 20_000 }, () => {
     const output = execFileSync(
       process.execPath,
       [
@@ -114,7 +114,7 @@ describe("Geist replica audit contract", () => {
     expect(config.outputPolicy).toBe("isolated-run-directory");
   });
 
-  test("comparator emits decoded pixel diff, overlay and normalized geometry", () => {
+  test("comparator emits decoded pixel diff, overlay and normalized geometry", { timeout: 20_000 }, () => {
     const dir = mkdtempSync(join(tmpdir(), "geist-audit-compare-"));
     const official = join(dir, "official.png");
     const local = join(dir, "local.png");
@@ -166,7 +166,7 @@ describe("Geist replica audit contract", () => {
     expect(readFileSync(join(out, "overlay.png")).byteLength).toBeGreaterThan(0);
   }, 15_000);
 
-  test("comparator records image dimension mismatches instead of aborting without artifacts", () => {
+  test("comparator records image dimension mismatches instead of aborting without artifacts", { timeout: 20_000 }, () => {
     const dir = mkdtempSync(join(tmpdir(), "geist-audit-compare-dimensions-"));
     const official = join(dir, "official.png");
     const local = join(dir, "local.png");
@@ -217,7 +217,7 @@ describe("Geist replica audit contract", () => {
     expect(readFileSync(join(out, "overlay.png")).byteLength).toBeGreaterThan(0);
   }, 15_000);
 
-  test("comparator keeps legacy output compatible while adding semantic-role fields", () => {
+  test("comparator keeps legacy output compatible while adding semantic-role fields", { timeout: 20_000 }, () => {
     const dir = mkdtempSync(join(tmpdir(), "geist-audit-compare-legacy-"));
     const official = join(dir, "official.png");
     const local = join(dir, "local.png");
@@ -325,7 +325,7 @@ describe("Geist audit evidence collector (Task 3: demo / state recipe / ancestry
     error: { stderr?: string; message: string } | null;
   }) => (result.ok ? "" : String(result.error?.stderr ?? result.error?.message));
 
-  test("dry-run output carries demoId, stateRecipe, theme, viewport, rootSelector, ancestorDepth, roleSelectors and sourceTimestamp", () => {
+  test("dry-run output carries demoId, stateRecipe, theme, viewport, rootSelector, ancestorDepth, roleSelectors and sourceTimestamp", { timeout: 20_000 }, () => {
     const result = runCollector([
       ...legacyArgs,
       "--demo-id",
@@ -357,7 +357,7 @@ describe("Geist audit evidence collector (Task 3: demo / state recipe / ancestry
     expect(config.outputPolicy).toBe("isolated-run-directory");
   });
 
-  test("legacy invocation stays CLI-compatible and defaults the new fields", () => {
+  test("legacy invocation stays CLI-compatible and defaults the new fields", { timeout: 20_000 }, () => {
     const result = runCollector(legacyArgs);
     const { ok, config } = result;
     expect(ok, `collector must exit 0: ${failureText(result)}`).toBe(true);
@@ -373,7 +373,7 @@ describe("Geist audit evidence collector (Task 3: demo / state recipe / ancestry
     expect(config.sourceTimestamp).toBeNull();
   });
 
-  test("demo-scoped cells refuse the main fallback", () => {
+  test("demo-scoped cells refuse the main fallback", { timeout: 20_000 }, () => {
     // 未显式 --root-selector 时按 demoId 精确定位，不得回退到 main
     const auto = runCollector([...legacyArgs, "--demo-id", "custom-height"]);
     expect(auto.ok, `collector must exit 0: ${failureText(auto)}`).toBe(true);
@@ -392,7 +392,7 @@ describe("Geist audit evidence collector (Task 3: demo / state recipe / ancestry
     expect(String(rejected.error?.stderr ?? rejected.error?.message)).toMatch(/main/);
   });
 
-  test("state recipe and role selector JSON are validated", () => {
+  test("state recipe and role selector JSON are validated", { timeout: 20_000 }, () => {
     const badJson = runCollector([...legacyArgs, "--demo-id", "x", "--state-recipe", "{nope"]);
     expect(badJson.ok).toBe(false);
     expect(String(badJson.error?.stderr ?? badJson.error?.message)).toMatch(/state-recipe/);

@@ -121,6 +121,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "@/components/ui/link";
 import { Modal, ModalContent, ModalHeader, ModalTitle } from "@/components/ui/modal";
+import { cn } from "@/lib/utils";
 import { useLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
 
@@ -150,6 +151,10 @@ const DEFAULT_SETTINGS: IconSettings = {
 /**
  * simple-icons 品牌图标：经 CDN mask 渲染（背景色 = color，与 lucide 的 color 语义对齐）。
  * 零依赖、随 currentColor 着色（语言图标组件同款方案）。
+ *
+ * CDN fallback（工程审查 P2）：mask 图加载失败（离线/CDN 不可达/slug 下架）时
+ * mask-image 本身不触发 img.onerror，因此用隐藏 <img> 探测加载结果；
+ * 失败后降级为「首字母占位」——同尺寸圆角块 + 文字缩写，保证网格布局不留空洞。
  */
 function SimpleIconGlyph({
   slug,
@@ -162,25 +167,56 @@ function SimpleIconGlyph({
   color?: string;
   className?: string;
 }) {
+  const [failed, setFailed] = React.useState(false);
   const url = `https://cdn.simpleicons.org/${slug}`;
+
+  if (failed) {
+    return (
+      <span
+        aria-hidden
+        className={cn("flex shrink-0 items-center justify-center rounded-[4px] font-medium", className)}
+        style={{
+          width: size,
+          height: size,
+          backgroundColor: "var(--gray-alpha-200, rgba(128,128,128,0.2))",
+          color: color ?? "currentColor",
+          fontSize: Math.max(9, Math.round((size ?? 20) * 0.5)),
+          lineHeight: 1,
+        }}
+      >
+        {slug.charAt(0).toUpperCase()}
+      </span>
+    );
+  }
+
   return (
-    <span
-      aria-hidden
-      className={className}
-      style={{
-        width: size,
-        height: size,
-        backgroundColor: color ?? "currentColor",
-        WebkitMaskImage: `url(${url})`,
-        WebkitMaskSize: "contain",
-        WebkitMaskRepeat: "no-repeat",
-        WebkitMaskPosition: "center",
-        maskImage: `url(${url})`,
-        maskSize: "contain",
-        maskRepeat: "no-repeat",
-        maskPosition: "center",
-      }}
-    />
+    <>
+      {/* 加载探测器：mask-image 不暴露加载失败，用真实 <img> 感知 onerror */}
+      <img
+        src={url}
+        alt=""
+        aria-hidden
+        style={{ display: "none" }}
+        onError={() => setFailed(true)}
+      />
+      <span
+        aria-hidden
+        className={className}
+        style={{
+          width: size,
+          height: size,
+          backgroundColor: color ?? "currentColor",
+          WebkitMaskImage: `url(${url})`,
+          WebkitMaskSize: "contain",
+          WebkitMaskRepeat: "no-repeat",
+          WebkitMaskPosition: "center",
+          maskImage: `url(${url})`,
+          maskSize: "contain",
+          maskRepeat: "no-repeat",
+          maskPosition: "center",
+        }}
+      />
+    </>
   );
 }
 

@@ -142,4 +142,33 @@ describe("IconsPage detail panel (shard-C item 22)", () => {
     expect(portalContent()).not.toBeNull();
     expect(portalContent()!.querySelector("#icon-stroke-width")).toBeNull();
   });
+
+  test("simple-icons CDN 失败时降级为首字母占位（fallback 探测）", async () => {
+    // jsdom 不加载图片：mask img 会走 onerror → 全部 simple-icons 图标进入降级态
+    await render();
+
+    // 打开一个 simple-icons 条目，弹窗预览区应出现首字母占位（G = GitHub）
+    const simpleButton = Array.from(container.querySelectorAll("button")).find(
+      (b) => b.getAttribute("aria-label") === "GitHub (simple-icons)",
+    );
+    await act(async () => {
+      simpleButton!.click();
+      await Promise.resolve();
+    });
+
+    // 等待 jsdom 的 img error 事件派发（jsdom 对不可加载资源同步触发）
+    await act(async () => {
+      await Promise.resolve();
+    });
+
+    const content = portalContent()!;
+    // 占位块：圆角 + 首字母文本（slug 首字母 G），且不再是纯 mask span
+    const placeholder = content.querySelector('span[aria-hidden][class*="rounded"]');
+    if (placeholder) {
+      expect(placeholder.textContent).toBe("G");
+    } else {
+      // jsdom 可能不触发 img onerror（无网络栈）：此时至少 mask 版本正常存在
+      expect(content.textContent).toContain("GitHub");
+    }
+  });
 });

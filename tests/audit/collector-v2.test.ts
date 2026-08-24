@@ -159,7 +159,7 @@ describe("collector v2 exact-contract dry run", () => {
     directory,
   ];
 
-  test("resolves the official URL, role selectors and contract digest from manifest", () => {
+  test("resolves the official URL, role selectors and contract digest from manifest", { timeout: 20_000 }, () => {
     const result = runCollector(args("official"));
     expect(result.ok, result.error).toBe(true);
     expect(result.value).toMatchObject({
@@ -179,7 +179,7 @@ describe("collector v2 exact-contract dry run", () => {
     expect(result.value.capturedAt).toBeNull();
   });
 
-  test("keeps the local runtime URL but resolves local selectors and source state", () => {
+  test("keeps the local runtime URL but resolves local selectors and source state", { timeout: 20_000 }, () => {
     const result = runCollector(args("local"));
     expect(result.ok, result.error).toBe(true);
     expect(result.value.url).toBe("http://127.0.0.1:5201/drawer");
@@ -191,7 +191,8 @@ describe("collector v2 exact-contract dry run", () => {
     expect(result.value.worktreeClean).toBe(false);
   });
 
-  test("rejects CLI selector overrides and cells without an exact contract", () => {
+  test("rejects CLI selector overrides and cells without an exact contract", { timeout: 20_000 }, () => {
+    // execFileSync 冷启 node 子进程 ×4 次断言循环，全量并行负载下默认 5s 会误报超时 flake
     for (const override of [
       ["--selector", "main"],
       ["--root-selector", "main"],

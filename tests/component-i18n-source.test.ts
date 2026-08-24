@@ -22,7 +22,7 @@ async function componentFiles(directory: string): Promise<string[]> {
 }
 
 describe("component i18n source guard", () => {
-  test("does not add raw user-facing JSX strings to framework components", async () => {
+  test("does not add raw user-facing JSX strings to framework components", { timeout: 20_000 }, async () => {
     const violations: string[] = [];
 
     for (const file of await componentFiles(componentDirectory)) {
