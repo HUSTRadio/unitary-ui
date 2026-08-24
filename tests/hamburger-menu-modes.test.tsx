@@ -1,4 +1,7 @@
 // @vitest-environment jsdom
+import { readFile } from "node:fs/promises";
+import * as path from "node:path";
+
 import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
@@ -155,15 +158,16 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
     const staggered = document.querySelectorAll("[data-staggered]");
     expect(staggered).toHaveLength(8);
     expect(staggered[0].style.animationDelay).toBe("0ms");
-    expect(staggered[7].style.animationDelay).toBe("280ms");
+    // Task 5b（2026-08-24）：stagger 提速——间隔 40→20ms
+    expect(staggered[7].style.animationDelay).toBe("140ms");
     expect(
       document.querySelector('[data-slot="menu-list"]')!.className,
     ).toContain("pointer-events-none");
     // 第 9 项及以后不参与动画（滚动后直接呈现）
     expect(staggered[0].parentElement!.children[8].hasAttribute("data-staggered")).toBe(false);
-    // 动画完结：恢复可点，data-staggered 全部移除
+    // 动画完结：恢复可点，data-staggered 全部移除（8*20+240=400ms 禁点解除）
     act(() => {
-      vi.advanceTimersByTime(8 * 40 + 320 + 10);
+      vi.advanceTimersByTime(8 * 20 + 240 + 10);
     });
     expect(document.querySelectorAll("[data-staggered]")).toHaveLength(0);
     expect(
@@ -181,5 +185,120 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
     const panel = document.querySelector('[data-slot="expand-panel"]');
     expect(panel).not.toBeNull();
     expect(panel!.hasAttribute("data-below-topbar")).toBe(true);
+  });
+
+  // Task 2（2026-08-24）：抽屉 81 项只有 ~13 项可达——list 自身 max-h-[60vh]+overflow-hidden
+  // 在 506px 硬裁剪，面板 scrollHeight===clientHeight 无从滚动。契约：nav 是唯一滚动容器。
+  describe("scroll reachability (Task 2)", () => {
+    const readSource = async () =>
+      readFile(
+        path.resolve(__dirname, "../src/components/ui/hamburger-menu.tsx"),
+        "utf8",
+      );
+
+    it("menu-nav is the flex-1 scroll container", async () => {
+      const src = await readSource();
+      expect(src).toMatch(
+        /<nav\s+data-slot="menu-nav"\s+className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-2"/,
+      );
+    });
+
+    it("list has no max-h clip — search collapse uses h-0 + opacity instead", async () => {
+      const src = await readSource();
+      expect(src).not.toContain("max-h-[60vh]");
+      expect(src).toContain('"pointer-events-none opacity-0 h-0 overflow-hidden"');
+      expect(src).toContain('"opacity-100"');
+    });
+
+    it("panel content is a flex column for non-top sides so flex-1 works", async () => {
+      const src = await readSource();
+      expect(src).toContain('side !== "top" && "flex flex-col"');
+    });
+  });
+
+  // Task 4（2026-08-24）：抽屉内无当前页指示——对齐桌面 sidebar active 态
+  describe("activeTo current-page indicator (Task 4)", () => {
+    const ICON_ITEMS = [{ label: "Icons", to: "/icons" }];
+
+    function renderActive(props: Partial<React.ComponentProps<typeof HamburgerMenu>> = {}) {
+      act(() => {
+        root.render(
+          <HamburgerMenu
+            anchor="topbar"
+            items={ICON_ITEMS}
+            open
+            activeTo="/icons"
+            {...props}
+          />,
+        );
+      });
+    }
+
+    it("marks the active list item with aria-current=page and painted background", () => {
+      renderActive();
+      const active = document.querySelector('a[aria-current="page"]');
+      expect(active).not.toBeNull();
+      expect(active!.textContent).toBe("Icons");
+      expect(active!.className).toContain("bg-gray-alpha-100");
+      // 非激活项不得带高亮/aria-current
+      expect(document.querySelectorAll('a[aria-current="page"]')).toHaveLength(1);
+    });
+
+    it("no activeTo → no aria-current anywhere", () => {
+      act(() => {
+        root.render(
+          <HamburgerMenu anchor="topbar" items={ICON_ITEMS} open />,
+        );
+      });
+      expect(document.querySelector('a[aria-current="page"]')).toBeNull();
+    });
+
+    it("search results carry the same indicator", () => {
+      renderActive({ query: undefined });
+      const input = document.querySelector(
+        '[data-slot="menu-search"] input',
+      ) as HTMLInputElement;
+      const setter = Object.getOwnPropertyDescriptor(
+        HTMLInputElement.prototype,
+        "value",
+      )!.set!;
+      act(() => {
+        setter.call(input, "ico");
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      });
+      const result = document.querySelector(
+        '[data-slot="menu-result"][aria-current="page"]',
+      );
+      expect(result).not.toBeNull();
+      expect(result!.className).toContain("bg-gray-alpha-100");
+    });
+  });
+
+  // Task 5（2026-08-24）：关闭钮与 topbar trigger 同轴 + stagger 提速
+  describe("close-button axis & stagger timing (Task 5)", () => {
+    it("toolbar has no left padding — close button aligns with topbar trigger", async () => {
+      const src = await readFile(
+        path.resolve(__dirname, "../src/components/ui/hamburger-menu.tsx"),
+        "utf8",
+      );
+      expect(src).not.toContain("pl-[23px]");
+      expect(src).toMatch(
+        /className="flex h-16 items-center justify-between border-b border-gray-alpha-400 pl-0 pr-4"/,
+      );
+    });
+
+    it("stagger constants are extracted and sped up (20ms interval / 240ms item)", async () => {
+      const src = await readFile(
+        path.resolve(__dirname, "../src/components/ui/hamburger-menu.tsx"),
+        "utf8",
+      );
+      expect(src).toContain("const STAGGER_INTERVAL_MS = 20;");
+      expect(src).toContain("const STAGGER_ITEM_DURATION_MS = 240;");
+      // 计时器与内联样式均引用常量，无魔法数残留
+      expect(src).toContain("staggerCount * STAGGER_INTERVAL_MS + STAGGER_ITEM_DURATION_MS");
+      expect(src).not.toMatch(/staggerCount \* 40/);
+      expect(src).not.toContain("+ 320");
+      expect(src).not.toContain("320ms");
+    });
   });
 });

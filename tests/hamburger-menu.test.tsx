@@ -115,7 +115,7 @@ describe("HamburgerMenu", () => {
     ).toBe("true");
   });
 
-  it("搜索过滤：query 非空收起列表（opacity-0 max-h-0）并渲染结果区", () => {
+  it("搜索过滤：query 非空收起列表（opacity-0 h-0）并渲染结果区", () => {
     renderMenu(<HamburgerMenu anchor="topbar" items={ITEMS} />);
     act(() => {
       (document.querySelector('[data-slot="hamburger-trigger"]') as HTMLElement).click();
@@ -129,7 +129,9 @@ describe("HamburgerMenu", () => {
 
     const list = document.querySelector('[data-slot="menu-list"]')!;
     expect(list.className).toContain("opacity-0");
-    expect(list.className).toContain("max-h-0");
+    // Task 2（2026-08-24）：搜索收起过渡从 max-h-0 改为 h-0（nav 成为唯一滚动容器，list 去 max-h 裁剪）
+    expect(list.className).toContain("h-0");
+    expect(list.className).not.toContain("max-h-0");
     expect(list.className).toContain("overflow-hidden");
 
     // "b" 匹配 Button + Badge → 结果数 2

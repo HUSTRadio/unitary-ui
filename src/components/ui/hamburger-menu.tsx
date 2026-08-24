@@ -15,7 +15,7 @@ import { HamburgerIcon } from "./hamburger-icon";
  * - maxExpandedHeight 默认 100dvh；maxExpandedWidth 默认 80vw
  * - content："merged"|"split"（split 面板只渲染导航、搜索入口独立——当前两态
  *   均渲染搜索+导航，split 仅加视觉分隔标注，API 先占位）
- * - 内建搜索状态机：query 非空 → 导航列表区收起（opacity-0 max-h-0 过渡 300ms）
+ * - 内建搜索状态机：query 非空 → 导航列表区收起（opacity-0 h-0 过渡 300ms）
  *   + 结果区渲染；X 清空钮还原列表（反向过渡）；Ctrl K 提示仅 pointer-fine 渲染
  * - side=down(top)：面板与 navbar 同宽共享 border-b、顶部无圆角（延伸感关键）
  */
@@ -54,6 +54,8 @@ interface HamburgerMenuProps {
   content?: "merged" | "split";
   /** 过滤数据源 */
   items?: MenuItem[];
+  /** 当前激活路由（用于 aria-current="page" 与高亮，对齐桌面 sidebar active 态） */
+  activeTo?: string;
   /** 点击结果项回调（随后关闭面板） */
   onNavigate?: (to: string) => void;
   /** 受控打开状态（不传则非受控） */
@@ -88,6 +90,11 @@ const DIRECTION_TO_SIDE: Record<"down" | "left" | "right", Side> = {
   right: "right",
 };
 
+// stagger-in 时序（Task 5b 提速，对齐 HIG 导航转场 0.3–0.4s 口径）：
+// 最后一项完成于 staggerCount*20+240 = 380ms（旧 40/320 为 600ms，-37%）
+const STAGGER_INTERVAL_MS = 20;
+const STAGGER_ITEM_DURATION_MS = 240;
+
 const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(function HamburgerMenu({
   icon,
   anchor,
@@ -100,6 +107,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   staggerCount = 8,
   content = "merged",
   items,
+  activeTo,
   onNavigate,
   open,
   onOpenChange,
@@ -131,7 +139,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
     }
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     setStaggerActive(true);
-    const total = staggerCount * 40 + 320; // 40ms/项间隔 + 单项 320ms 动画时长
+    const total = staggerCount * STAGGER_INTERVAL_MS + STAGGER_ITEM_DURATION_MS;
     const timer = window.setTimeout(() => setStaggerActive(false), total);
     return () => window.clearTimeout(timer);
   }, [staggerIn, isOpen, staggerCount]);
@@ -182,6 +190,8 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
         className={cn(
           // 延伸感：side=top 时与 navbar 同宽共享 border-b、顶部无圆角
           side === "top" && "rounded-t-none",
+          // flex column：让内层 menu-nav 的 flex-1 + min-h-0 滚动容器生效
+          side !== "top" && "flex flex-col",
           className,
         )}
       >
@@ -189,7 +199,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
         {(showCloseButton || toolbarLeft || toolbarRight) && (
           <div
             data-slot="panel-toolbar"
-            className="flex h-16 items-center justify-between border-b border-gray-alpha-400 pl-[23px] pr-4"
+            className="flex h-16 items-center justify-between border-b border-gray-alpha-400 pl-0 pr-4"
           >
             <div className="flex items-center">
               {showCloseButton && (
@@ -256,15 +266,19 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
           />
         ) : null}
 
-        {/* 导航列表区：搜索时收起（反向过渡还原）；stagger 动画期禁点 */}
-        <nav data-slot="menu-nav" className="px-2 py-2">
+        {/* 导航列表区：nav 是唯一滚动容器（min-h-0 flex-1 撑满剩余高度）；
+            搜索时列表收起（h-0 + opacity 过渡还原）；stagger 动画期禁点 */}
+        <nav
+          data-slot="menu-nav"
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-2"
+        >
           <ul
             data-slot="menu-list"
             className={cn(
-              "list-none overflow-hidden transition-all duration-300",
+              "list-none transition-opacity duration-300",
               searching
-                ? "pointer-events-none max-h-0 opacity-0"
-                : "max-h-[60vh] opacity-100",
+                ? "pointer-events-none opacity-0 h-0 overflow-hidden"
+                : "opacity-100",
               staggerActive && "pointer-events-none",
             )}
           >
@@ -277,8 +291,8 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                   style={
                     staggered
                       ? {
-                          animation: `hamburger-stagger-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both`,
-                          animationDelay: `${index * 40}ms`,
+                          animation: `hamburger-stagger-in ${STAGGER_ITEM_DURATION_MS}ms cubic-bezier(0.16, 1, 0.3, 1) both`,
+                          animationDelay: `${index * STAGGER_INTERVAL_MS}ms`,
                         }
                       : undefined
                   }
@@ -286,8 +300,14 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                 >
                   <a
                     href={item.to}
+                    aria-current={item.to === activeTo ? "page" : undefined}
                     onClick={() => onNavigate?.(item.to)}
-                    className="block rounded-md px-3 py-2 text-copy-14 text-[var(--ds-gray-1000)] no-underline hover:bg-[var(--ds-gray-alpha-200)]"
+                    className={cn(
+                      "block rounded-md px-3 py-2 text-copy-14 no-underline hover:bg-[var(--ds-gray-alpha-200)]",
+                      item.to === activeTo
+                        ? "bg-gray-alpha-100 font-medium text-[var(--ds-gray-1000)]"
+                        : "text-[var(--ds-gray-1000)]",
+                    )}
                   >
                     {item.label}
                   </a>
@@ -305,11 +325,17 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                 <a
                   href={item.to}
                   data-slot="menu-result"
+                  aria-current={item.to === activeTo ? "page" : undefined}
                   onClick={() => {
                     onNavigate?.(item.to);
                     setOpen(false);
                   }}
-                  className="block rounded-md px-3 py-2 text-copy-14 text-[var(--ds-gray-1000)] no-underline hover:bg-[var(--ds-gray-alpha-200)]"
+                  className={cn(
+                    "block rounded-md px-3 py-2 text-copy-14 no-underline hover:bg-[var(--ds-gray-alpha-200)]",
+                    item.to === activeTo
+                      ? "bg-gray-alpha-100 font-medium text-[var(--ds-gray-1000)]"
+                      : "text-[var(--ds-gray-1000)]",
+                  )}
                 >
                   {item.label}
                 </a>
