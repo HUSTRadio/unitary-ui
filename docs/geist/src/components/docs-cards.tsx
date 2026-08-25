@@ -58,7 +58,7 @@ function DocCard({ href, title, description, children }: DocCardProps) {
   return (
     <a
       href={`#${href}`}
-      className="group block border-b border-border p-6 transition-colors duration-(--ds-duration-fast) hover:bg-gray-alpha-100 md:border-r"
+      className="group block border-b border-border p-6 transition-colors duration-(--uni-duration-fast) hover:bg-gray-alpha-100 md:border-r"
     >
       {/* 上半区：预览示意 */}
       <div className="flex h-40 items-center justify-center">{children}</div>

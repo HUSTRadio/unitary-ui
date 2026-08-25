@@ -566,33 +566,41 @@ html[data-font-tier="system"],
   --breakpoint-modal: 33.75rem;  /* 540px — Modal 窄屏 */
   --breakpoint-video: 62rem;     /* 992px — Video 窄屏 */
 
-  /* 动画时长档位（Apple HIG 口径）：微交互/标准过渡/内容切换/大面积位移。
-     放 @theme static 保证无条件发射到 :root——消费方式是 duration-(--ds-duration-*)
-     这类 var() 引用（同 breakpoint 的发射理由），不走 utility 命名空间。
-     JS 侧引用 src/lib/motion.ts 同源常量，两处必须同步修改（注释互指）。 */
-  --ds-duration-fast: 150ms; /* 微交互：hover/focus/icon */
-  --ds-duration-base: 200ms; /* 标准过渡：颜色/边框/小位移 */
-  --ds-duration-slow: 300ms; /* 内容切换/展开收起 */
-  --ds-duration-slower: 500ms; /* 大面积位移：抽屉/侧滑 */
+  /* 动画时长档位：微交互/标准过渡/内容切换/大面积位移。
+     放 @theme static 保证无条件发射到 :root；消费方式是 duration-(--uni-duration-*)。
+     JS 侧引用 src/lib/motion.ts 同源常量，两处必须同步修改。 */
+  --uni-duration-fast: 150ms;
+  --uni-duration-base: 200ms;
+  --uni-duration-slow: 300ms;
+  --uni-duration-slower: 500ms;
 
-  /* 字号体系（Apple HIG Text Styles 口径）。
-     Geist 命名 → HIG 语义映射：heading-32≈Title1 / heading-24≈Title2 / heading-20≈Title3 /
-     heading-16≈Headline / label-16≈Callout / label-14≈Subhead / label-13≈Footnote /
-     label-12≈Caption1 / copy-16≈Callout / copy-14≈Subhead / copy-13≈Footnote。
-     Geist 值与 HIG 不一致处，以 HIG 为准（用户决策 2026-08-24）。
-     display 为特例：官方 H1 实测 40px，HIG 无对应档（HIG 最大 Large Title 34px）。 */
-  --ds-text-large-title: 2.125rem; /* 34px */
-  --ds-text-title1: 1.75rem; /* 28px */
-  --ds-text-title2: 1.375rem; /* 22px */
-  --ds-text-title3: 1.25rem; /* 20px */
-  --ds-text-headline: 1.0625rem; /* 17px */
-  --ds-text-body: 1.0625rem; /* 17px */
-  --ds-text-callout: 1rem; /* 16px */
-  --ds-text-subhead: 0.9375rem; /* 15px */
-  --ds-text-footnote: 0.8125rem; /* 13px */
-  --ds-text-caption1: 0.75rem; /* 12px */
-  --ds-text-caption2: 0.6875rem; /* 11px */
-  --ds-text-display: 2.5rem; /* 40px — 官方 H1 实测，HIG 无对应档 */
+  /* 项目语义排版体系。尺寸和行高成对定义，utility 不再复制行高字面量。
+     34/41、28/34、22/28、20/25、17/22、16/21、15/20、13/18、12/16、11/13
+     是采用的跨平台内容尺度；display 是经页面实测保留的特殊展示级。 */
+  --uni-text-large-title: 2.125rem;
+  --uni-leading-large-title: 2.5625rem;
+  --uni-text-title1: 1.75rem;
+  --uni-leading-title1: 2.125rem;
+  --uni-text-title2: 1.375rem;
+  --uni-leading-title2: 1.75rem;
+  --uni-text-title3: 1.25rem;
+  --uni-leading-title3: 1.5625rem;
+  --uni-text-headline: 1.0625rem;
+  --uni-leading-headline: 1.375rem;
+  --uni-text-body: 1.0625rem;
+  --uni-leading-body: 1.375rem;
+  --uni-text-callout: 1rem;
+  --uni-leading-callout: 1.3125rem;
+  --uni-text-subhead: 0.9375rem;
+  --uni-leading-subhead: 1.25rem;
+  --uni-text-footnote: 0.8125rem;
+  --uni-leading-footnote: 1.125rem;
+  --uni-text-caption1: 0.75rem;
+  --uni-leading-caption1: 1rem;
+  --uni-text-caption2: 0.6875rem;
+  --uni-leading-caption2: 0.8125rem;
+  --uni-text-display: 2.5rem;
+  --uni-leading-display: 3rem;
 }
 
 /* ============ Theme / Light — 34 semantic tokens ============ */
@@ -1209,10 +1217,59 @@ html[data-font-tier="system"],
 }
 
 /*
+ * 项目语义排版 utilities：命名只描述内容角色，不暴露外部规范来源。
+ * 字重由具体语境或附加的 font-* utility 负责，避免把标题和正文的层级混在 token 中。
+ */
+@utility text-style-large-title {
+  font-size: var(--uni-text-large-title);
+  line-height: var(--uni-leading-large-title);
+}
+@utility text-style-title1 {
+  font-size: var(--uni-text-title1);
+  line-height: var(--uni-leading-title1);
+}
+@utility text-style-title2 {
+  font-size: var(--uni-text-title2);
+  line-height: var(--uni-leading-title2);
+}
+@utility text-style-title3 {
+  font-size: var(--uni-text-title3);
+  line-height: var(--uni-leading-title3);
+}
+@utility text-style-headline {
+  font-size: var(--uni-text-headline);
+  line-height: var(--uni-leading-headline);
+}
+@utility text-style-body {
+  font-size: var(--uni-text-body);
+  line-height: var(--uni-leading-body);
+}
+@utility text-style-callout {
+  font-size: var(--uni-text-callout);
+  line-height: var(--uni-leading-callout);
+}
+@utility text-style-subhead {
+  font-size: var(--uni-text-subhead);
+  line-height: var(--uni-leading-subhead);
+}
+@utility text-style-footnote {
+  font-size: var(--uni-text-footnote);
+  line-height: var(--uni-leading-footnote);
+}
+@utility text-style-caption1 {
+  font-size: var(--uni-text-caption1);
+  line-height: var(--uni-leading-caption1);
+}
+@utility text-style-caption2 {
+  font-size: var(--uni-text-caption2);
+  line-height: var(--uni-leading-caption2);
+}
+
+/*
  * Geist typography utilities
  * Named classes only — raw font-size/line-height/letter-spacing
  * must not appear in screen/component files.
- * 字号经 --ds-text-* HIG 语义 token 引用（@theme static 区定义，Apple HIG Text Styles 口径，
+ * 字号经 --uni-text-* HIG 语义 token 引用（@theme static 区定义，Apple HIG Text Styles 口径，
  * Geist 命名 → HIG 档映射见 token 注释）。行高为 HIG 配套值。
  * 例外（HIG 无对应档，保留 Geist 实测硬编码）：heading-72/64/56/48、heading-40（display 特例 token）、
  * label-20、label-18、description-title/content。
@@ -1245,64 +1302,64 @@ html[data-font-tier="system"],
 }
 @utility text-heading-40 {
   /* display 特例：官方 H1 实测 40px，HIG 无对应档（HIG 最大 Large Title 34px） */
-  font-size: var(--ds-text-display);
-  line-height: 3rem; /* 48px */
+  font-size: var(--uni-text-display);
+  line-height: var(--uni-leading-display); /* 48px */
   letter-spacing: -0.02em;
   font-weight: 600;
 }
 @utility text-heading-32 {
   /* ≈ HIG Title 1：28/34 */
-  font-size: var(--ds-text-title1);
-  line-height: 2.125rem; /* 34px — HIG 配套行高 */
+  font-size: var(--uni-text-title1);
+  line-height: var(--uni-leading-title1); /* 34px — HIG 配套行高 */
   letter-spacing: -0.02em;
   font-weight: 600;
 }
 @utility text-heading-24 {
   /* ≈ HIG Title 2：22/28 */
-  font-size: var(--ds-text-title2);
-  line-height: 1.75rem; /* 28px */
+  font-size: var(--uni-text-title2);
+  line-height: var(--uni-leading-title2); /* 28px */
   letter-spacing: -0.01em;
   font-weight: 600;
 }
 @utility text-heading-20 {
   /* = HIG Title 3：20/25 */
-  font-size: var(--ds-text-title3);
-  line-height: 1.5625rem; /* 25px */
+  font-size: var(--uni-text-title3);
+  line-height: var(--uni-leading-title3); /* 25px */
   letter-spacing: -0.01em;
   font-weight: 600;
 }
 @utility text-heading-16 {
   /* ≈ HIG Headline：17/22 semibold */
-  font-size: var(--ds-text-headline);
-  line-height: 1.375rem; /* 22px */
+  font-size: var(--uni-text-headline);
+  line-height: var(--uni-leading-headline); /* 22px */
   font-weight: 600;
   letter-spacing: -0.02em; /* 17px × -0.02，官方 heading 负 letterSpacing */
 }
 @utility text-heading-14 {
   /* ≈ HIG Subhead semibold：15/20 */
-  font-size: var(--ds-text-subhead);
-  line-height: 1.25rem; /* 20px */
+  font-size: var(--uni-text-subhead);
+  line-height: var(--uni-leading-subhead); /* 20px */
   font-weight: 600;
 }
 
 @utility text-button-16 {
   /* ≈ HIG Callout medium：16/21 weight 500 */
-  font-size: var(--ds-text-callout);
-  line-height: 1.3125rem; /* 21px */
+  font-size: var(--uni-text-callout);
+  line-height: var(--uni-leading-callout); /* 21px */
   font-weight: 500;
   letter-spacing: normal;
 }
 @utility text-button-14 {
   /* ≈ HIG Subhead medium：15/20 weight 500 */
-  font-size: var(--ds-text-subhead);
-  line-height: 1.25rem; /* 20px */
+  font-size: var(--uni-text-subhead);
+  line-height: var(--uni-leading-subhead); /* 20px */
   font-weight: 500;
   letter-spacing: normal;
 }
 @utility text-button-12 {
   /* = HIG Caption 1 medium：12/16 weight 500 */
-  font-size: var(--ds-text-caption1);
-  line-height: 1rem; /* 16px */
+  font-size: var(--uni-text-caption1);
+  line-height: var(--uni-leading-caption1); /* 16px */
   font-weight: 500;
   letter-spacing: normal;
 }
@@ -1320,26 +1377,26 @@ html[data-font-tier="system"],
 }
 @utility text-label-16 {
   /* = HIG Callout：16/21 */
-  font-size: var(--ds-text-callout);
-  line-height: 1.3125rem; /* 21px */
+  font-size: var(--uni-text-callout);
+  line-height: var(--uni-leading-callout); /* 21px */
   font-weight: 400;
 }
 @utility text-label-14 {
   /* ≈ HIG Subhead：15/20 */
-  font-size: var(--ds-text-subhead);
-  line-height: 1.25rem; /* 20px */
+  font-size: var(--uni-text-subhead);
+  line-height: var(--uni-leading-subhead); /* 20px */
   font-weight: 400;
 }
 @utility text-label-13 {
   /* = HIG Footnote：13/18 */
-  font-size: var(--ds-text-footnote);
-  line-height: 1.125rem; /* 18px */
+  font-size: var(--uni-text-footnote);
+  line-height: var(--uni-leading-footnote); /* 18px */
   font-weight: 400;
 }
 @utility text-label-12 {
   /* = HIG Caption 1：12/16 */
-  font-size: var(--ds-text-caption1);
-  line-height: 1rem; /* 16px */
+  font-size: var(--uni-text-caption1);
+  line-height: var(--uni-leading-caption1); /* 16px */
   font-weight: 400;
 }
 
@@ -1347,7 +1404,7 @@ html[data-font-tier="system"],
    字号随 HIG Caption 1 token。 */
 @utility text-toggle-label {
   color: var(--toggle-label);
-  font-size: var(--ds-text-caption1);
+  font-size: var(--uni-text-caption1);
   line-height: 1.125rem;
   font-weight: 500;
 }
@@ -1356,68 +1413,68 @@ html[data-font-tier="system"],
    而非 label-13 的紧凑 16px；此处显式对齐官方 checkbox 组件的实际行高。
    字号随 HIG Footnote token。 */
 @utility text-checkbox-label {
-  font-size: var(--ds-text-footnote);
+  font-size: var(--uni-text-footnote);
   line-height: 1.5em; /* 19.5px */
   font-weight: 400;
 }
 @utility text-label-14-mono {
-  font-size: var(--ds-text-subhead);
-  line-height: 1.25rem; /* 20px */
+  font-size: var(--uni-text-subhead);
+  line-height: var(--uni-leading-subhead); /* 20px */
   font-weight: 400;
   font-family: var(--font-mono);
 }
 @utility text-label-13-mono {
-  font-size: var(--ds-text-footnote);
-  line-height: 1.25rem; /* 20px — 官方 mono 行高与 sans 不同，保持 20px */
+  font-size: var(--uni-text-footnote);
+  line-height: var(--uni-leading-footnote); /* 20px — 官方 mono 行高与 sans 不同，保持 20px */
   font-weight: 400;
   font-family: var(--font-mono);
 }
 @utility text-label-12-mono {
-  font-size: var(--ds-text-caption1);
-  line-height: 1rem; /* 16px */
+  font-size: var(--uni-text-caption1);
+  line-height: var(--uni-leading-caption1); /* 16px */
   font-weight: 400;
   font-family: var(--font-mono);
 }
 
 @utility text-copy-24 {
   /* ≈ HIG Title 1：28/34 */
-  font-size: var(--ds-text-title1);
-  line-height: 2.125rem; /* 34px */
+  font-size: var(--uni-text-title1);
+  line-height: var(--uni-leading-title1); /* 34px */
   font-weight: 400;
 }
 @utility text-copy-20 {
   /* = HIG Title 3：20/25 */
-  font-size: var(--ds-text-title3);
-  line-height: 1.5625rem; /* 25px */
+  font-size: var(--uni-text-title3);
+  line-height: var(--uni-leading-title3); /* 25px */
   font-weight: 400;
 }
 @utility text-copy-18 {
   /* ≈ HIG Body：17/22 */
-  font-size: var(--ds-text-body);
-  line-height: 1.375rem; /* 22px */
+  font-size: var(--uni-text-body);
+  line-height: var(--uni-leading-body); /* 22px */
   font-weight: 400;
 }
 @utility text-copy-16 {
   /* = HIG Callout：16/21 */
-  font-size: var(--ds-text-callout);
-  line-height: 1.3125rem; /* 21px */
+  font-size: var(--uni-text-callout);
+  line-height: var(--uni-leading-callout); /* 21px */
   font-weight: 400;
 }
 @utility text-copy-14 {
   /* ≈ HIG Subhead：15/20 */
-  font-size: var(--ds-text-subhead);
-  line-height: 1.25rem; /* 20px */
+  font-size: var(--uni-text-subhead);
+  line-height: var(--uni-leading-subhead); /* 20px */
   font-weight: 400;
 }
 @utility text-copy-13 {
   /* = HIG Footnote：13/18 */
-  font-size: var(--ds-text-footnote);
-  line-height: 1.125rem; /* 18px */
+  font-size: var(--uni-text-footnote);
+  line-height: var(--uni-leading-footnote); /* 18px */
   font-weight: 400;
 }
 @utility text-copy-13-mono {
-  font-size: var(--ds-text-footnote);
-  line-height: 1.125rem; /* 18px */
+  font-size: var(--uni-text-footnote);
+  line-height: var(--uni-leading-footnote); /* 18px */
   font-weight: 400;
   font-family: var(--font-mono);
 }
@@ -1698,14 +1755,15 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
   pointer-events: auto;
 }
 
-/** 文档侧栏：overlay 式滚动条（Apple HIG：滚动条不占布局宽度）。
-   悬浮时显示 8px 细条，平时透明但保留滚动能力。 */
+/** 文档侧栏：该元素是唯一 scroll owner，保留原生 track/thumb 并为两侧预留稳定槽位。
+   轨道不充当列分割线；固定列边界由 aside 的 border-l / border-r 持有。 */
 .docs-sidebar {
   scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
+  scrollbar-color: var(--gray-alpha-400) transparent;
+  scrollbar-gutter: stable both-edges;
 }
 .docs-sidebar:hover {
-  scrollbar-color: var(--gray-alpha-400) transparent;
+  scrollbar-color: var(--gray-alpha-500) transparent;
 }
 .docs-sidebar::-webkit-scrollbar {
   width: 8px;
@@ -1716,12 +1774,12 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
 }
 .docs-sidebar::-webkit-scrollbar-thumb {
   background-color: var(--gray-alpha-400);
-  border-radius: 4px;
-  opacity: 0;
-  transition: opacity 0.2s ease;
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  background-clip: content-box;
 }
 .docs-sidebar:hover::-webkit-scrollbar-thumb {
-  opacity: 1;
+  background-color: var(--gray-alpha-500);
 }
 
 @keyframes command-menu-scale-out {

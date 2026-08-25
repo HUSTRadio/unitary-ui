@@ -125,7 +125,7 @@ function Feedback({
               aria-label={t("Product topic selection")}
               value={topic}
               onChange={(event) => setTopic(event.target.value)}
-              className="peer w-full cursor-pointer truncate appearance-none rounded-lg border-none bg-background-100 px-3 pr-9 text-[14px] leading-5 text-gray-1000 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] transition-[box-shadow] duration-(--ds-duration-base) h-9 hover:shadow-[0_0_0_1px_var(--ds-gray-alpha-500)] focus:outline-hidden focus:!shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]"
+              className="peer w-full cursor-pointer truncate appearance-none rounded-lg border-none bg-background-100 px-3 pr-9 text-[14px] leading-5 text-gray-1000 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] transition-[box-shadow] duration-(--uni-duration-base) h-9 hover:shadow-[0_0_0_1px_var(--ds-gray-alpha-500)] focus:outline-hidden focus:!shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]"
             >
               <option disabled value="">
                 {t("Select a topic...")}
@@ -142,7 +142,7 @@ function Feedback({
             onChange={(event) => setText(event.target.value)}
             placeholder={t("Your feedback...")}
             aria-label={t("Feedback")}
-            className="w-full resize-none appearance-none border-none bg-background-100 px-3 py-2.5 text-[14px] leading-5 text-foreground outline-none placeholder:text-muted-foreground shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] rounded-md transition-[box-shadow] duration-(--ds-duration-base) focus:shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)] h-[100px]"
+            className="w-full resize-none appearance-none border-none bg-background-100 px-3 py-2.5 text-[14px] leading-5 text-foreground outline-none placeholder:text-muted-foreground shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] rounded-md transition-[box-shadow] duration-(--uni-duration-base) focus:shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)] h-[100px]"
           />
           <div className="flex items-center justify-between gap-1">
             <div className="flex items-center justify-end gap-1 p-0 text-label-12 text-gray-900">

@@ -65,7 +65,7 @@ describe("Link", () => {
     expect(html).toContain("decoration-gray-alpha-400");
     expect(html).toContain("underline-offset-4");
     expect(html).toContain("transition-[color,opacity,text-decoration-color]");
-    expect(html).toContain("duration-(--ds-duration-fast)");
+    expect(html).toContain("duration-(--uni-duration-fast)");
     expect(html).toContain("hover:text-foreground");
   });
 
@@ -118,6 +118,6 @@ describe("Link", () => {
     expect(html).toContain("hover:decoration-gray-alpha-600");
     expect(html).toContain("active:opacity-80");
     expect(html).toContain("transition-[color,opacity,text-decoration-color]");
-    expect(html).toContain("duration-(--ds-duration-fast)");
+    expect(html).toContain("duration-(--uni-duration-fast)");
   });
 });

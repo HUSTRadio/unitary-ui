@@ -39,7 +39,7 @@ function CodeBlockSwitcher({ config }: { config: CodeBlockSwitcher }) {
         variant="unstyled"
         data-slot="code-block-switcher"
         aria-label={t("Select language")}
-        className="flex h-8 items-center gap-1 rounded-[5px] bg-background-200 px-2 font-sans text-[13px] leading-none whitespace-nowrap text-muted-foreground transition-colors duration-(--ds-duration-fast) hover:bg-gray-alpha-200 focus-ring"
+        className="flex h-8 items-center gap-1 rounded-[5px] bg-background-200 px-2 font-sans text-[13px] leading-none whitespace-nowrap text-muted-foreground transition-colors duration-(--uni-duration-fast) hover:bg-gray-alpha-200 focus-ring"
       >
         <span translate="no">{config.value}</span>
         <ChevronDown className="size-3" aria-hidden />
@@ -213,7 +213,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
               rel="noreferrer"
               role="link"
               data-slot="code-block-v0-link"
-              className="relative flex h-8 max-w-full items-center justify-center rounded-md bg-background-100 px-1.5 text-sm leading-[21px] font-medium text-gray-1000 no-underline shadow-[0_0_0_1px_var(--color-gray-400)] transition-[border-color,background,color,transform,box-shadow] duration-(--ds-duration-fast) ease-in-out hover:bg-gray-100 active:bg-gray-alpha-300"
+              className="relative flex h-8 max-w-full items-center justify-center rounded-md bg-background-100 px-1.5 text-sm leading-[21px] font-medium text-gray-1000 no-underline shadow-[0_0_0_1px_var(--color-gray-400)] transition-[border-color,background,color,transform,box-shadow] duration-(--uni-duration-fast) ease-in-out hover:bg-gray-100 active:bg-gray-alpha-300"
             >
               <span className="inline-block truncate px-1.5">
                 <span aria-hidden className="flex items-center gap-x-1">

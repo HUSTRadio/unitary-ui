@@ -59,7 +59,7 @@ function RailLink({
         alignRight ? "ml-auto pr-7 pl-2" : "pr-2 pl-7",
       )}
     >
-      <span className="mb-0.5 text-copy-13 text-gray-900 transition-colors duration-(--ds-duration-base) ease-in-out group-hover:text-foreground">
+      <span className="mb-0.5 text-copy-13 text-gray-900 transition-colors duration-(--uni-duration-base) ease-in-out group-hover:text-foreground">
         {alignRight ? t("Next page") : t("Previous page")}
       </span>
       <span className="relative flex [&>span]:inline-block [&>span]:max-w-[20em] [&>span]:truncate [&>span]:break-words">
@@ -67,7 +67,7 @@ function RailLink({
         <span
           aria-hidden
           className={cn(
-            "absolute mt-0.5 text-gray-900 transition-colors duration-(--ds-duration-base) ease-in-out group-hover:text-foreground",
+            "absolute mt-0.5 text-gray-900 transition-colors duration-(--uni-duration-base) ease-in-out group-hover:text-foreground",
             alignRight ? "-right-[26px]" : "-left-[26px]",
           )}
         >

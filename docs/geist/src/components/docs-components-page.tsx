@@ -401,7 +401,7 @@ function EmptyStateDemo() {
               </Button>
               <a
                 href="/"
-                className="inline-flex cursor-pointer items-center gap-0.5 text-label-14 text-muted-foreground transition-colors duration-(--ds-duration-fast) no-underline"
+                className="inline-flex cursor-pointer items-center gap-0.5 text-label-14 text-muted-foreground transition-colors duration-(--uni-duration-fast) no-underline"
               >
                 {demoText(language, "Learn more")}
                 <ArrowRight className="size-4" aria-hidden />

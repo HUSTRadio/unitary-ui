@@ -78,7 +78,7 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
           aria-hidden
           className={cn(
             "relative size-4 rounded-full border border-[var(--radio-color)] bg-background-100",
-            "transition-[border-color,background] duration-(--ds-duration-base) ease-in",
+            "transition-[border-color,background] duration-(--uni-duration-base) ease-in",
             "peer-focus:shadow-[var(--focus-ring-outline)]",
             "peer-enabled:peer-checked:[--radio-color:var(--gray-1000)]",
             "peer-disabled:[--radio-color:var(--gray-500)]",
@@ -86,7 +86,7 @@ const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
             "peer-disabled:peer-checked:![--radio-color:var(--gray-500)]",
           )}
         >
-          <span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 scale-0 rounded-full bg-[var(--radio-color)] transition-transform duration-(--ds-duration-fast) ease-in" />
+          <span className="absolute left-1/2 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 scale-0 rounded-full bg-[var(--radio-color)] transition-transform duration-(--uni-duration-fast) ease-in" />
         </span>
       </span>
     );

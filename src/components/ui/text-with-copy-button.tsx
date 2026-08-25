@@ -97,8 +97,8 @@ function TextWithCopyButton({
       data-slot="text-with-copy-button"
       onClick={handleCopy}
       className={cn(
-        "flex w-full cursor-pointer items-center justify-start gap-1.5 border-none bg-none p-0 text-[16px] leading-6 text-[#333333] outline-none transition-colors duration-(--ds-duration-fast) ease-in-out hover:text-foreground",
-        "[&_svg]:shrink-0 [&_svg]:text-gray-600 [&_svg]:transition-all [&_svg]:duration-(--ds-duration-fast) [&_svg]:ease-in-out hover:[&_svg]:text-foreground",
+        "flex w-full cursor-pointer items-center justify-start gap-1.5 border-none bg-none p-0 text-[16px] leading-6 text-[#333333] outline-none transition-colors duration-(--uni-duration-fast) ease-in-out hover:text-foreground",
+        "[&_svg]:shrink-0 [&_svg]:text-gray-600 [&_svg]:transition-all [&_svg]:duration-(--uni-duration-fast) [&_svg]:ease-in-out hover:[&_svg]:text-foreground",
         "dark:text-[#eaeaea]",
         className,
       )}
@@ -109,7 +109,7 @@ function TextWithCopyButton({
       <span className="relative flex size-4 shrink-0 items-center justify-center" aria-hidden>
         <span
           className={cn(
-            "absolute inset-0 flex items-center justify-center transition-all duration-(--ds-duration-fast)",
+            "absolute inset-0 flex items-center justify-center transition-all duration-(--uni-duration-fast)",
             copied ? "scale-50 opacity-0" : "scale-100 opacity-100",
           )}
         >
@@ -117,7 +117,7 @@ function TextWithCopyButton({
         </span>
         <span
           className={cn(
-            "absolute inset-0 flex items-center justify-center transition-all duration-(--ds-duration-fast)",
+            "absolute inset-0 flex items-center justify-center transition-all duration-(--uni-duration-fast)",
             copied ? "scale-100 opacity-100" : "scale-50 opacity-0",
           )}
         >

@@ -114,7 +114,7 @@ describe("(b) scrollBehavior：static / auto-hide", () => {
     expect(markup).toContain("inset-x-0");
     expect(markup).toContain("top-0");
     expect(markup).toContain("transition-transform");
-    expect(markup).toContain("duration-(--ds-duration-slow)");
+    expect(markup).toContain("duration-(--uni-duration-slow)");
     expect(markup).toContain("motion-reduce:transition-none");
   });
 

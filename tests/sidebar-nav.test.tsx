@@ -71,6 +71,14 @@ describe("SidebarNav", () => {
     expect(navMarkup({ side: "right" })).not.toContain("border-r");
   });
 
+  it("uses one shared semantic typography role and one inset contract for headings and items", () => {
+    const markup = navMarkup({});
+    expect(markup).toContain('data-slot="sidebar-nav-heading"');
+    expect(markup).toContain('data-slot="sidebar-nav-item"');
+    expect(markup).toMatch(/data-slot="sidebar-nav-heading"[^>]*class="[^"]*-mx-1[^"]*px-3[^"]*text-style-subhead[^"]*font-semibold/);
+    expect(markup).toMatch(/data-slot="sidebar-nav-item"[^>]*class="[^"]*-mx-1[^"]*px-3[^"]*text-style-subhead[^"]*font-normal/);
+  });
+
   it("does not constrain width (outer layer controls width)", () => {
     const markup = navMarkup({});
     expect(markup).not.toMatch(/\bw-\d+\b/);

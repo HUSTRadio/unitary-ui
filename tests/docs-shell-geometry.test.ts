@@ -68,6 +68,17 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(shell).toContain("hidden w-[260px]");
   });
 
+  it("keeps the sidebar as a real scroll owner with a visible native scrollbar", () => {
+    const styles = readFileSync(resolve(process.cwd(), "src/styles/index.css"), "utf8");
+    expect(shell).toMatch(/<aside[^>]*docs-sidebar[^>]*overflow-y-auto/);
+    expect(styles).toMatch(/\.docs-sidebar\s*\{[\s\S]*scrollbar-width:\s*thin;[\s\S]*scrollbar-color:\s*var\(--gray-alpha-400\)\s+transparent;[\s\S]*scrollbar-gutter:\s*stable both-edges;/);
+    expect(styles).toMatch(/\.docs-sidebar::\-webkit-scrollbar\s*\{[\s\S]*width:\s*8px;/);
+    expect(styles).toMatch(/\.docs-sidebar::\-webkit-scrollbar-thumb\s*\{[\s\S]*background-color:\s*var\(--gray-alpha-400\);[\s\S]*background-clip:\s*content-box;/);
+    expect(styles).not.toMatch(/\.docs-sidebar\s*\{[\s\S]*scrollbar-color:\s*transparent/);
+    const thumb = styles.match(/\.docs-sidebar::\-webkit-scrollbar-thumb\s*\{([^}]*)\}/)?.[1] ?? "";
+    expect(thumb).not.toMatch(/opacity:\s*0/);
+  });
+
   it("assembles HamburgerMenu as a left side-slide panel with flattened items (Task 4)", () => {
     const menu = shell.match(/<HamburgerMenu(?![\w])[\s\S]*?\n {12}\/>/)?.[0];
     expect(menu).toBeDefined();

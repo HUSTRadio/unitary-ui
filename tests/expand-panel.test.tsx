@@ -106,7 +106,7 @@ describe("ExpandPanel", () => {
     expect(markup).toContain("z-[var(--ds-z-drawer)]");
     const panel = document.querySelector('[data-slot="expand-panel"]')!;
     expect(panel.className).toContain("shadow-lg");
-    expect(panel.className).toContain("duration-(--ds-duration-slower)");
+    expect(panel.className).toContain("duration-(--uni-duration-slower)");
     expect(panel.className).toContain("ease-[cubic-bezier(0.32,0.72,0,1)]");
     expect(panel.className).toContain("motion-reduce:!transition-none");
     expect(panel.getAttribute("aria-label")).toBe("menu");

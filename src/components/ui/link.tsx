@@ -87,7 +87,7 @@ function Link({ href, iconSide = "right", children, className, ...props }: LinkP
         // hover → 前景提亮到 gray-1000；active → 轻按下透明度；
         // focus-visible → 项目统一 focus-ring 双环（仅键盘聚焦显示）
         "focus-ring rounded-[2px] underline decoration-gray-alpha-400 underline-offset-4",
-        "transition-[color,opacity,text-decoration-color] duration-(--ds-duration-fast) ease-out",
+        "transition-[color,opacity,text-decoration-color] duration-(--uni-duration-fast) ease-out",
         "hover:text-foreground hover:decoration-gray-alpha-600",
         "active:opacity-80",
         isExternal && "inline-flex items-center gap-1",

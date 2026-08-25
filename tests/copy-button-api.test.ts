@@ -21,7 +21,7 @@ describe("CopyButton icon layers", () => {
       createElement(CopyButton, { textToCopy: "lipsum", label: "copy text" }),
     );
     // 两个图标常驻叠加（非条件替换 DOM）
-    expect(html).toContain("opacity-100 duration-(--ds-duration-fast)"); // copy 初始可见
+    expect(html).toContain("opacity-100 duration-(--uni-duration-fast)"); // copy 初始可见
     expect(html).toContain("opacity-0"); // check 初始隐藏
     expect(html).not.toContain("animate-copy-check-draw"); // 未复制时不触发绘制动画
   });
@@ -38,8 +38,8 @@ describe("CopyButton source contract", () => {
     expect(src).toContain("[&_svg_path:first-child]:animate-copy-check-draw");
     // 单独的对勾延迟进入，避免 CopyCheck 整体图形切换产生跳变。
     expect(src).toContain('import { Check, Copy } from "lucide-react"');
-    expect(src).toContain('"scale-75 -rotate-6 opacity-0 duration-(--ds-duration-fast)"');
-    expect(src).toContain('"scale-100 rotate-0 opacity-100 delay-[60ms] duration-(--ds-duration-base)"');
+    expect(src).toContain('"scale-75 -rotate-6 opacity-0 duration-(--uni-duration-fast)"');
+    expect(src).toContain('"scale-100 rotate-0 opacity-100 delay-[60ms] duration-(--uni-duration-base)"');
   });
 
   test("draw keyframes exist in global styles", async () => {

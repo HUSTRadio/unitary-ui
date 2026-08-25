@@ -140,7 +140,7 @@ function ChoiceboxGroupItem({
     <label
       aria-selected={selected}
       className={cn(
-        "group/choicebox flex flex-1 list-none flex-col items-stretch justify-start overflow-hidden rounded-md border border-[var(--ds-gray-400)] transition-colors duration-(--ds-duration-fast) ease-in",
+        "group/choicebox flex flex-1 list-none flex-col items-stretch justify-start overflow-hidden rounded-md border border-[var(--ds-gray-400)] transition-colors duration-(--uni-duration-fast) ease-in",
         "has-checked:not-has-disabled:border-[var(--ds-blue-600)] hover:has-enabled:border-[var(--ds-gray-500)] hover:has-enabled:bg-[var(--ds-gray-100)] hover:has-checked:not-has-disabled:!border-[var(--ds-blue-600)]",
         "choicebox-focus",
         itemDisabled ? "cursor-not-allowed" : "cursor-pointer",
@@ -205,7 +205,7 @@ function ChoiceboxGroupItem({
               data-slot="choicebox-radio-indicator"
               className={cn(
                 "relative size-4 rounded-full border border-[var(--radio-color)] bg-[var(--ds-background-100)] [--radio-color:var(--ds-gray-500)]",
-                "transition-[border-color,background] duration-(--ds-duration-base) ease-in after:absolute after:left-1/2 after:top-1/2 after:block after:size-2 after:-translate-x-1/2 after:-translate-y-1/2 after:scale-0 after:rounded-full after:bg-[var(--radio-color)] after:transition-transform after:duration-(--ds-duration-fast) after:ease-in after:content-['']",
+                "transition-[border-color,background] duration-(--uni-duration-base) ease-in after:absolute after:left-1/2 after:top-1/2 after:block after:size-2 after:-translate-x-1/2 after:-translate-y-1/2 after:scale-0 after:rounded-full after:bg-[var(--radio-color)] after:transition-transform after:duration-(--uni-duration-fast) after:ease-in after:content-['']",
                 "peer-checked:[--radio-color:var(--ds-blue-900)] peer-checked:after:scale-100 peer-disabled:peer-checked:[--radio-color:var(--ds-gray-900)] peer-disabled:not-peer-checked:bg-[var(--ds-gray-100)] peer-disabled:text-[var(--ds-gray-500)]",
               )}
             />
@@ -231,7 +231,7 @@ function ChoiceboxGroupItem({
               aria-hidden="true"
               data-slot="choicebox-checkbox-indicator"
               className={cn(
-                "relative inline-flex size-4 items-center justify-center rounded-sm border border-[var(--ds-gray-500)] bg-[var(--ds-background-100)] text-[13px] transition-all duration-(--ds-duration-base)",
+                "relative inline-flex size-4 items-center justify-center rounded-sm border border-[var(--ds-gray-500)] bg-[var(--ds-background-100)] text-[13px] transition-all duration-(--uni-duration-base)",
                 "peer-checked:border-[var(--ds-blue-900)] peer-checked:bg-[var(--ds-blue-900)] peer-disabled:not-peer-checked:bg-[var(--ds-gray-100)] peer-disabled:peer-checked:border-[var(--gray-600)] peer-disabled:peer-checked:bg-[var(--gray-600)] peer-disabled:text-[var(--ds-gray-500)]",
               )}
             >

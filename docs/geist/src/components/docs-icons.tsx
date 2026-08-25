@@ -439,7 +439,7 @@ export function IconsPage() {
                       onClick={() => setSelected(entry)}
                       title={entry.name}
                       aria-label={entry.name}
-                      className="group flex flex-col items-center justify-center gap-2 rounded-md p-3 text-muted-foreground transition-colors duration-(--ds-duration-fast) hover:bg-gray-alpha-100 hover:text-foreground"
+                      className="group flex flex-col items-center justify-center gap-2 rounded-md p-3 text-muted-foreground transition-colors duration-(--uni-duration-fast) hover:bg-gray-alpha-100 hover:text-foreground"
                     >
                       <entry.Icon className="size-5 transition-colors" strokeWidth={1.5} aria-hidden />
                       <span className="w-full truncate text-center text-label-12">{entry.name}</span>
@@ -481,7 +481,7 @@ export function IconsPage() {
                       onClick={() => setSelected(entry)}
                       title={entry.name}
                       aria-label={`${entry.name} (simple-icons)`}
-                      className="group flex flex-col items-center justify-center gap-2 rounded-md p-3 text-muted-foreground transition-colors duration-(--ds-duration-fast) hover:bg-gray-alpha-100 hover:text-foreground"
+                      className="group flex flex-col items-center justify-center gap-2 rounded-md p-3 text-muted-foreground transition-colors duration-(--uni-duration-fast) hover:bg-gray-alpha-100 hover:text-foreground"
                     >
                       <SimpleIconGlyph slug={entry.slug} className="size-5 transition-colors" />
                       <span className="w-full truncate text-center text-label-12">{entry.name}</span>

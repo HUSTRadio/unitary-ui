@@ -163,7 +163,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
             style={layoutSurfaceStyle(layout)}
             className={cn(
               "group/select-trigger peer flex w-full max-w-full items-center border-none bg-background px-3 text-left text-gray-1000 outline-none",
-              "shadow-[0_0_0_1px_var(--gray-alpha-400)] transition-[box-shadow,color] duration-(--ds-duration-base)",
+              "shadow-[0_0_0_1px_var(--gray-alpha-400)] transition-[box-shadow,color] duration-(--uni-duration-base)",
               "hover:shadow-[0_0_0_1px_var(--gray-alpha-500)]",
               "focus:!shadow-[0_0_0_1px_#00000057,0_0_0_4px_#00000029] focus:outline-none",
               "data-[state=open]:!shadow-[0_0_0_1px_#00000057,0_0_0_4px_#00000029]",
@@ -200,7 +200,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
             ) : (
               <SelectPrimitive.Icon asChild>
                 <span aria-hidden="true" className="ml-2 inline-flex shrink-0 text-gray-700">
-                  <ChevronDown className="size-3.5 transition-transform duration-(--ds-duration-base) group-data-[state=open]/select-trigger:hidden" />
+                  <ChevronDown className="size-3.5 transition-transform duration-(--uni-duration-base) group-data-[state=open]/select-trigger:hidden" />
                 </span>
               </SelectPrimitive.Icon>
             )}
@@ -212,7 +212,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
               data-slot="select-content"
               className={cn(
                 "material-menu relative z-[2001] max-h-[min(var(--radix-select-content-available-height),376px)] min-w-(--radix-select-trigger-width) w-full overflow-y-auto overscroll-contain p-1 text-popover-foreground",
-                "animate-in fade-in-0 zoom-in-95 duration-(--ds-duration-fast) motion-reduce:animate-none",
+                "animate-in fade-in-0 zoom-in-95 duration-(--uni-duration-fast) motion-reduce:animate-none",
               )}
             >
               <SelectPrimitive.Viewport className="flex flex-col gap-0.5">

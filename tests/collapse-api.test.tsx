@@ -59,10 +59,10 @@ describe("Collapse live official contract", () => {
 
     expect(
       container.querySelector('[data-slot="collapse-trigger"] svg')?.getAttribute("class"),
-    ).toContain("duration-(--ds-duration-base)");
+    ).toContain("duration-(--uni-duration-base)");
     expect(
       container.querySelector('[data-slot="collapse-content"]')?.getAttribute("class"),
-    ).toContain("duration-(--ds-duration-base)");
+    ).toContain("duration-(--uni-duration-base)");
     expect(
       container.querySelector('[data-slot="collapse-content"]')?.getAttribute("class"),
     ).toContain("data-[state=open]:h-[var(--collapse-content-height)]");

@@ -85,7 +85,7 @@ function Avatar({
       role="img"
       aria-label={ariaLabel}
       className={cn(
-        "relative inline-block size-[var(--avatar-size)] shrink-0 overflow-hidden rounded-full align-top leading-[0] transition-[background] duration-(--ds-duration-base) ease-in-out",
+        "relative inline-block size-[var(--avatar-size)] shrink-0 overflow-hidden rounded-full align-top leading-[0] transition-[background] duration-(--uni-duration-base) ease-in-out",
         "after:pointer-events-none after:absolute after:inset-0 after:size-full after:rounded-full after:border after:border-gray-alpha-400 after:content-['']",
         hasVisual &&
           "before:pointer-events-none before:absolute before:inset-0 before:size-full before:animate-[geist-avatar-loading_1.4s_ease-in-out_infinite] before:bg-[linear-gradient(to_right_in_oklab,#fafafa,#eaeaea,#fafafa)] before:bg-[length:400%_100%] dark:before:bg-[linear-gradient(to_right_in_oklab,#111111,#333333,#111111)]",

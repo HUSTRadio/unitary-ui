@@ -180,7 +180,7 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
                     key={index}
                     data-slot="slider-thumb"
                     aria-label={thumbAriaLabel}
-                    className="relative block h-3.5 w-1.5 shrink-0 rounded-[1px] bg-white ring-1 ring-gray-alpha-500 transition-[scale] duration-(--ds-duration-fast) after:absolute after:-inset-2 focus-visible:scale-120 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-120 dark:ring-black"
+                    className="relative block h-3.5 w-1.5 shrink-0 rounded-[1px] bg-white ring-1 ring-gray-alpha-500 transition-[scale] duration-(--uni-duration-fast) after:absolute after:-inset-2 focus-visible:scale-120 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-120 dark:ring-black"
                   />
                 ))}
               </SliderPrimitive.Track>

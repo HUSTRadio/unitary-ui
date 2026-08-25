@@ -34,7 +34,7 @@ describe("Modal official API contract (G07-MODAL-01 fix)", () => {
     const src = await read("src/components/ui/modal.tsx");
     expect(src).toContain("data-[state=open]:fade-in-0");
     expect(src).toContain("data-[state=closed]:fade-out-0");
-    expect(src).toContain("duration-(--ds-duration-slow) ease-[cubic-bezier(0.175,0.885,0.32,1.1)]");
+    expect(src).toContain("duration-(--uni-duration-slow) ease-[cubic-bezier(0.175,0.885,0.32,1.1)]");
   });
 
   test("G07-MODAL-01: modal content keeps z-[300] so it stacks above the z-300 overlay", async () => {

@@ -59,6 +59,7 @@ export function SidebarNav({
   className,
 }: SidebarNavProps) {
   const ariaLabel = groups[0]?.label ?? "Sidebar navigation";
+  const sidebarRowInset = "-mx-1 px-3";
 
   return (
     <nav
@@ -72,8 +73,10 @@ export function SidebarNav({
     >
       {groups.map((group) => (
         <div key={group.label} data-slot="sidebar-nav-group">
-          {/* 标题与 item 文本对齐：同 item 一样左右各溢出 4px（-mx-1）+ px-3 */}
-          <div className="mb-0.5 -mx-1 flex h-10 items-center px-3 text-[14px] font-medium leading-5 text-gray-1000">
+          <div
+            data-slot="sidebar-nav-heading"
+            className={`${sidebarRowInset} mb-0.5 flex h-10 items-center text-style-subhead font-semibold text-gray-1000`}
+          >
             {group.label}
           </div>
           <ul className="space-y-0.5">
@@ -86,14 +89,12 @@ export function SidebarNav({
                     href={item.to}
                     aria-current={active ? "page" : undefined}
                     onClick={createNavigateHandler(onNavigate, item.to)}
-                    className={cn(
-                      // hover 背景左右对称溢出 4px（-mx-1），按钮盒在侧栏内水平居中；
-                      // 文本仍从内容区 12px 缩进处起排（pl-3）
-                      "-mx-1 flex h-10 items-center gap-2 rounded-md py-0 px-3 text-copy-14 outline-none",
+                    data-slot="sidebar-nav-item"
+                    className={`${sidebarRowInset} flex h-10 items-center gap-2 rounded-md py-0 text-style-subhead font-normal outline-none ${
                       active
                         ? "bg-gray-alpha-100 text-gray-1000"
-                        : "text-gray-900 hover:bg-gray-100",
-                    )}
+                        : "text-gray-900 hover:bg-gray-100"
+                    }`}
                   >
                     {Icon ? <Icon size={14} /> : null}
                     {item.label}
