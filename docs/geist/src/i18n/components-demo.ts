@@ -458,8 +458,59 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     Upload: "上传",
     "Loading...": "加载中…",
     Tertiary: "三级",
-    "12 Column Grid": "12 列网格",
+    // Grid docs page
     "Responsive Breakpoints": "响应式断点",
+    "A two-dimensional layout system with guide lines, cells, crosses, and breakpoints.":
+      "由辅助线、单元格、十字标记与断点组成的二维布局系统。",
+    "Use Grid when the guide lines themselves are part of the design — a visible two-dimensional layout, not generic spacing.":
+      "当辅助线本身是设计的一部分时才使用 Grid——它是可见的二维布局，不是通用间距工具。",
+    "For ordinary card lists without guide lines, use a plain CSS or Tailwind grid layout instead.":
+      "没有辅助线的普通卡片列表，请改用普通的 CSS/Tailwind grid 布局。",
+    "Avoid nesting grids more than one level deep.": "尽量避免超过一层 Grid 嵌套。",
+    "Give rows and columns explicitly for all three supported breakpoints (sm, md, lg) so every viewport gets a deliberate layout.":
+      "为全部三个支持断点（sm、md、lg）显式给出 rows 和 columns，让每个视口都有明确的布局。",
+    "A solid cell occludes the guide borders it strictly overlaps — debug mode reveals them dashed.":
+      "solid 单元格会遮挡其严格覆盖的辅助线边框——debug 模式下以虚线显示。",
+    'Hide a single axis of guides (hideGuides="row" or "column") only when it improves readability.':
+      '只有为了可读性才隐藏单轴辅助线（hideGuides="row" 或 "column"）。',
+    "Interactive semantics live in the cell content — guides, crosses, and pages are purely decorative and hidden from assistive technology.":
+      "交互语义放在单元格内容上——辅助线、十字与页面装饰对辅助技术隐藏。",
+    "Check guide contrast against cell backgrounds in both light and dark themes.":
+      "在浅色与深色主题下检查辅助线与单元格背景的对比度。",
+    "Empty Guides": "空辅助线",
+    "A Grid without cells renders only its guide lines. Set height so the empty surface stays visible.":
+      "没有单元格的 Grid 只渲染辅助线。设置 height 让空表面保持可见。",
+    "Basic Auto Flow": "基础自动排布",
+    "Cells without explicit placement flow into the tracks in DOM order.":
+      "未显式定位的单元格按 DOM 顺序流入轨道。",
+    "Solid Cells": "实心单元格",
+    "A solid cell paints over its area and hides the guide borders strictly inside its span.":
+      "solid 单元格会盖住自己的区域，并隐藏严格位于其跨度内部的辅助线边框。",
+    "columns and rows accept responsive objects; give values for sm, md, and lg explicitly.":
+      "columns 和 rows 接受响应式对象；请为 sm、md、lg 显式给值。",
+    "Responsive Clipping": "响应式裁剪",
+    "Cell placement accepts responsive objects too — a solid cell clips the guides of every breakpoint layer it covers.":
+      "单元格定位同样接受响应式对象——solid 单元格会裁剪它覆盖的每个断点层的辅助线。",
+    "Hiding Row Guides": "隐藏行辅助线",
+    'hideGuides="row" removes the horizontal guide borders.':
+      "hideGuides=\"row\" 移除水平方向的辅助线边框。",
+    "Hiding Column Guides": "隐藏列辅助线",
+    'hideGuides="column" removes the vertical guide borders.':
+      "hideGuides=\"column\" 移除垂直方向的辅助线边框。",
+    "Overlaying Cells": "叠放单元格",
+    "Cells can share tracks and overlap; stacking follows DOM order.":
+      "单元格可以共用轨道并叠放；堆叠顺序跟随 DOM 顺序。",
+    "Specific Clipping": "精确裁剪",
+    'Use explicit line ranges ("a/b") to clip exactly the guides under a span.':
+      "使用显式线号区间（\"a/b\"）精确裁剪某个跨度下的辅助线。",
+    Cross: "十字标记",
+    "GridCross marks an intersection of grid lines.": "GridCross 标记网格线的交点。",
+    "Dashed Cross": "虚线十字",
+    "Inside a GridSystem with dashedGuides, crosses render dashed as well.":
+      "在开启 dashedGuides 的 GridSystem 内，十字同样以虚线渲染。",
+    "Dashed GridPage": "虚线 GridPage",
+    "GridPage centers its content — combine it with dashedGuides for the blueprint look.":
+      "GridPage 将内容居中展示——配合 dashedGuides 即为蓝图观感。",
     "Presets for radius, fills, strokes and shadows.": "圆角、填充、描边与阴影的预设。",
     "Surface — on the page. Floating — above the page. Each block applies its material-* class and lists its radius, usage, and z-index.":
       "Surface 位于页面内，Floating 位于页面之上。每个方块应用对应 material-* 类，并标注圆角、用途与 z-index 层级。",
@@ -485,10 +536,6 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Designed for multiple lines of text, having a higher line height than Label.":
       "为多行文本设计，行高高于 Label。",
     "Used to introduce pages or sections.": "用于引出页面或章节。",
-    "The grid system uses a 12-column layout with configurable gaps and breakpoints.":
-      "网格系统采用 12 列布局，并支持配置间距和断点。",
-    "Breakpoints follow a mobile-first approach with sm, md, lg, xl, 2xl presets.":
-      "断点采用移动优先策略，提供 sm、md、lg、xl、2xl 预设。",
     Icons: "图标",
     Typeface: "字体",
     "Search icons…": "搜索图标…",

@@ -554,6 +554,7 @@ function GridCross({ className, column, row, ...props }: GridCrossProps) {
     <div
       data-grid-cross=""
       data-slot="grid-cross"
+      aria-hidden="true"
       className={cn(styles.cross, className)}
       style={{ "--cross-row": row, "--cross-column": column } as React.CSSProperties}
       {...props}

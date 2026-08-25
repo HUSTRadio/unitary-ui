@@ -329,3 +329,13 @@ describe("backward compatibility", () => {
     expect(markup).toContain("--grid-columns:3");
   });
 });
+
+describe("G06-GRID-06: decorative semantics", () => {
+  it("marks the GridCross root node as aria-hidden", () => {
+    const markup = renderToStaticMarkup(<GridCross column={1} row={1} />);
+    const rootTag = markup.match(/<div[^>]*data-grid-cross[^>]*>/)?.[0] ?? "";
+
+    expect(rootTag).not.toBe("");
+    expect(rootTag).toContain('aria-hidden="true"');
+  });
+});

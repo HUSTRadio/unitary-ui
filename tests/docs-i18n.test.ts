@@ -225,7 +225,7 @@ describe("docs language support", () => {
       "Buttons",
       "Label",
       "Copy",
-      "12 Column Grid",
+      "Empty Guides",
       "Responsive Breakpoints",
     ]) {
       expect(demoText("zh-CN", source), source).not.toBe(source);
