@@ -169,7 +169,7 @@ export function ColorsPage() {
               <h3 className="text-label-14 font-medium text-foreground">
                 {demoText(language, `Colors ${partition.range}: ${partition.label}`)}
               </h3>
-              <DocsParagraph className="mt-1.5 text-copy-13 text-muted-foreground">
+              <DocsParagraph className="mt-1.5">
                 {demoText(language, partition.usage)}
               </DocsParagraph>
               <div className="mt-3 flex overflow-hidden rounded-md">
