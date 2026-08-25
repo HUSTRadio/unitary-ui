@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { resolveInputModality, useInputModality } from "./input-modality";
 
-globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
 type MediaState = Record<string, boolean>;
 
@@ -153,7 +153,7 @@ describe("useInputModality", () => {
   });
 
   it("matchMedia change 监听触发后模态平滑切换，无需刷新", async () => {
-    const state = { "(pointer: fine)": true };
+    const state: MediaState = { "(pointer: fine)": true };
     const stub = stubMatchMedia(state);
     stub.install();
 
