@@ -82,8 +82,36 @@ describe("parity regression: 12 项差异", () => {
     expect(code).toContain('type="default"');
   });
 
-  it("docs 页 H1 类含 text-heading-24 sm:text-heading-40（差异 #12）", () => {
-    const code = readFileSync(join(__dirname, "../../src/components/docs-pages.tsx"), "utf8");
-    expect(code).toContain("text-heading-24 sm:text-heading-40");
+  it("docs 页 H1 由 DocsPageTitle 语义 owner 契约驱动（差异 #12）", () => {
+    // 1. docs-pages.tsx 实际渲染 DocsPageTitle（而非仅导入）
+    const pagesCode = readFileSync(
+      join(__dirname, "../../src/components/docs-pages.tsx"),
+      "utf8",
+    );
+    expect(pagesCode).toMatch(/<DocsPageTitle\b[^>]*>/);
+
+    // 2. docs-typography.tsx 将 DocsPageTitle 绑定到语义 h1、data-slot="docs-prose-title"、docs-prose-title class
+    const typoCode = readFileSync(
+      join(__dirname, "../../src/components/docs-typography.tsx"),
+      "utf8",
+    );
+    expect(typoCode).toContain('data-slot="docs-prose-title"');
+    expect(typoCode).toContain("docs-prose-title");
+    expect(typoCode).toMatch(/return\s+<h1\s/);
+
+    // 3. src/styles/index.css 定义 .docs-prose-title 使用 var(--uni-text-large-title) 和 var(--uni-leading-large-title)
+    const css = readFileSync(join(__dirname, "../../../../src/styles/index.css"), "utf8");
+    const ownerRule = css.match(/\.docs-prose-title\s*\{([\s\S]*?)\n\}/m);
+    expect(ownerRule, "missing .docs-prose-title owner rule").not.toBeNull();
+    const ruleBody = ownerRule?.[1] ?? "";
+    expect(ruleBody).toContain("font-size: var(--uni-text-large-title)");
+    expect(ruleBody).toContain("line-height: var(--uni-leading-large-title)");
+
+    // 4. 页面消费者的 DocsPageTitle 用法不直接带 text-heading-* 类（由 owner 统一管控）
+    const pageTitleUsages = pagesCode.match(/<DocsPageTitle\b[^>]*>/g) ?? [];
+    expect(pageTitleUsages.length).toBeGreaterThan(0);
+    for (const usage of pageTitleUsages) {
+      expect(usage).not.toMatch(/\btext-heading-\S+\b/);
+    }
   });
 });
