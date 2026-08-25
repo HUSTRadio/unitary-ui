@@ -463,6 +463,22 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Presets for radius, fills, strokes and shadows.": "圆角、填充、描边与阴影的预设。",
     "Surface — on the page. Floating — above the page. Each block applies its material-* class and lists its radius, usage, and z-index.":
       "Surface 位于页面内，Floating 位于页面之上。每个方块应用对应 material-* 类，并标注圆角、用途与 z-index 层级。",
+    "Surface — on the page. Floating — above the page. Each preset is an elevation visual contract; stacking order is managed by separate layer tokens, not by the material itself.":
+      "Surface 位于页面内，Floating 位于页面之上。每个预设都是 elevation 视觉契约；层叠顺序由独立的 layer token 管理，不由材质本身决定。",
+    "Surface": "表面",
+    "Floating": "浮层",
+    "On the page, in normal document flow. Choose the lowest elevation that reads clearly.":
+      "位于页面内、正常文档流中。选择能清晰表达层次所需的最低 elevation。",
+    "Above the page. Never stack the same material twice; shadows do not replace focus rings or ARIA semantics. Check separation in both themes.":
+      "位于页面之上。不要叠加同一材质；阴影不能替代 focus ring 或 ARIA 语义。请在双主题下检查分离度。",
+    "Base": "基础",
+    "Medium": "中型",
+    "Menu": "菜单",
+    "Fullscreen": "全屏",
+    "Everyday use. Radius 6px.": "日常使用。圆角 6px。",
+    "Slightly raised. Radius 6px.": "轻微抬升。圆角 6px。",
+    "Further raised. Radius 12px.": "进一步抬升。圆角 12px。",
+    "Biggest lift. Radius 16px.": "最大抬升。圆角 16px。",
     "Only to be used within components that render buttons.": "仅用于渲染按钮的组件内部。",
     "Designed for single-lines, and given ample line-height for highlighting & marrying up with icons.":
       "为单行文本设计，并提供充足行高以便突出显示并与图标对齐。",

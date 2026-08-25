@@ -1569,6 +1569,10 @@ html[data-font-tier="system"],
   background-color: var(--color-bg-surface);
   box-shadow: var(--material-shadow-large);
 }
+/* Tooltip 组件（tooltip.tsx）不消费此 utility：其阴影与 stem 描边同源
+   （--gray-alpha-400 + --tooltip-tip-stroke），且背景走 --tooltip-background
+   颜色 variant。此处保留官方 materials.md 的 canonical tooltip 预设供文档与
+   未来消费者使用；两套数值差异是有意的（variant 耦合），不要"统一"。 */
 @utility material-tooltip {
   border-radius: 6px;
   background-color: var(--color-bg-elevated);
@@ -1579,8 +1583,8 @@ html[data-font-tier="system"],
 }
 
 @utility material-menu {
-  border-radius: 12px;
-  background-color: var(--color-bg-elevated);
+  border-radius: var(--radius-overlay);
+  background-color: var(--color-bg-surface);
   box-shadow: var(--material-shadow-menu);
 }
 

@@ -576,77 +576,106 @@ function SpecimenRow({
 
 /* ================= Materials ================= */
 
-/** 材质数据 — 类名 / 圆角 / 用途提取自 materials.md 快照；z-index 为框架浮层约定 */
+/** 材质数据 — 类名 / 圆角 / 用途提取自 materials.md 快照；material=elevation 视觉契约，
+ *  stacking/层级由独立 layer token 管理（Task 9），文档不展示 z-index。 */
+
 interface MaterialSpec {
   className: string;
   name: string;
   radius: string;
   usage: string;
-  /** 表面材质在文档流内（auto）；浮层材质对齐框架 z-50 弹层带（同 dropdown/select） */
-  zIndex: string;
 }
 
-const MATERIALS: MaterialSpec[] = [
+const SURFACE_MATERIALS: MaterialSpec[] = [
   {
     className: "material-base",
     name: "Base",
     radius: "6px",
     usage: "Everyday use. Radius 6px.",
-    zIndex: "auto（文档流内）",
   },
   {
     className: "material-small",
     name: "Small",
     radius: "6px",
     usage: "Slightly raised. Radius 6px.",
-    zIndex: "auto（文档流内）",
   },
   {
     className: "material-medium",
     name: "Medium",
     radius: "12px",
     usage: "Further raised. Radius 12px.",
-    zIndex: "auto（文档流内）",
   },
   {
     className: "material-large",
     name: "Large",
     radius: "12px",
     usage: "Further raised. Radius 12px.",
-    zIndex: "auto（文档流内）",
   },
+];
+
+const FLOATING_MATERIALS: MaterialSpec[] = [
   {
     className: "material-tooltip",
     name: "Tooltip",
     radius: "6px",
     usage:
       "Lightest shadow. Corner 6px. Tooltips will be the only floating element with a triangular stem.",
-    zIndex: "50（浮层，同 dropdown/select）",
   },
   {
     className: "material-menu",
     name: "Menu",
     radius: "12px",
     usage: "Lift from page. Radius 12px.",
-    zIndex: "50（浮层，同 dropdown/select）",
   },
   {
     className: "material-modal",
     name: "Modal",
     radius: "12px",
     usage: "Further lift. Radius 12px.",
-    zIndex: "50（浮层，同 dropdown/select）",
   },
   {
     className: "material-fullscreen",
     name: "Fullscreen",
     radius: "16px",
     usage: "Biggest lift. Radius 16px.",
-    zIndex: "50（浮层，同 dropdown/select）",
   },
 ];
 
-/** Materials — 8 级材质方块（surface 4 级 + floating 4 级） */
+/** 单个材质卡：材质块叠在带纹理的底面上让阴影/描边可观察 */
+function MaterialCard({ material }: { material: MaterialSpec }) {
+  const { language } = useLanguage();
+  return (
+    <div className="min-w-0">
+      {/* 纹理底面：细网格 + 中性底色，让 hairline 描边与阴影可观察 */}
+      <div
+        aria-hidden
+        className="rounded-md border border-gray-alpha-300 bg-background p-4 [background-image:linear-gradient(to_right,var(--color-gray-alpha-200)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-gray-alpha-200)_1px,transparent_1px)] [background-size:8px_8px]"
+      >
+        <div className={cn(material.className, "flex h-24 items-end justify-end p-2")}>
+          <span className="font-mono text-label-12 text-muted-foreground">{material.className}</span>
+        </div>
+      </div>
+      <p className="mt-3 text-label-14 font-medium text-foreground">{demoText(language, material.name)}</p>
+      <p className="mt-1 text-copy-13 text-muted-foreground">{demoText(language, material.usage)}</p>
+      <dl className="mt-2 space-y-1">
+        <div className="flex gap-2">
+          <dt className="w-16 shrink-0 text-label-12 text-muted-foreground">
+            {demoText(language, "Class")}
+          </dt>
+          <dd className="font-mono text-label-12 text-foreground">{material.className}</dd>
+        </div>
+        <div className="flex gap-2">
+          <dt className="w-16 shrink-0 text-label-12 text-muted-foreground">
+            {demoText(language, "Radius")}
+          </dt>
+          <dd className="text-label-12 text-foreground">{material.radius}</dd>
+        </div>
+      </dl>
+    </div>
+  );
+}
+
+/** Materials — Surface（文档流内）与 Floating（浮层）两组；material=elevation 契约，不含 z-index */
 export function MaterialsPage() {
   const { language } = useLanguage();
   return (
@@ -659,37 +688,36 @@ export function MaterialsPage() {
       <DocsParagraph className="max-w-xl">
         {demoText(
           language,
-          "Surface — on the page. Floating — above the page. Each block applies its material-* class and lists its radius, usage, and z-index.",
+          "Surface — on the page. Floating — above the page. Each preset is an elevation visual contract; stacking order is managed by separate layer tokens, not by the material itself.",
         )}
       </DocsParagraph>
 
-      <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
-        {MATERIALS.map((m) => (
-          <div key={m.className} className="min-w-0">
-            <div className={cn(m.className, "h-32 w-full")} aria-hidden />
-            <p className="mt-3 text-label-14 font-medium text-foreground">{m.name}</p>
-            <p className="mt-1 text-copy-13 text-muted-foreground">{m.usage}</p>
-            <dl className="mt-2 space-y-1">
-              <div className="flex gap-2">
-                <dt className="w-16 shrink-0 text-label-12 text-muted-foreground">
-                  {demoText(language, "Class")}
-                </dt>
-                <dd className="font-mono text-label-12 text-foreground">{m.className}</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="w-16 shrink-0 text-label-12 text-muted-foreground">
-                  {demoText(language, "Radius")}
-                </dt>
-                <dd className="text-label-12 text-foreground">{m.radius}</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="w-16 shrink-0 text-label-12 text-muted-foreground">z-index</dt>
-                <dd className="text-label-12 text-foreground">{m.zIndex}</dd>
-              </div>
-            </dl>
-          </div>
-        ))}
-      </div>
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Surface")}</DocsSectionTitle>
+        <DocsParagraph className="max-w-xl">
+          {demoText(language, "On the page, in normal document flow. Choose the lowest elevation that reads clearly.")}
+        </DocsParagraph>
+        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          {SURFACE_MATERIALS.map((m) => (
+            <MaterialCard key={m.className} material={m} />
+          ))}
+        </div>
+      </DocsSection>
+
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Floating")}</DocsSectionTitle>
+        <DocsParagraph className="max-w-xl">
+          {demoText(
+            language,
+            "Above the page. Never stack the same material twice; shadows do not replace focus rings or ARIA semantics. Check separation in both themes.",
+          )}
+        </DocsParagraph>
+        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          {FLOATING_MATERIALS.map((m) => (
+            <MaterialCard key={m.className} material={m} />
+          ))}
+        </div>
+      </DocsSection>
     </div>
   );
 }
