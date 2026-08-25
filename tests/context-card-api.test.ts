@@ -9,7 +9,7 @@ const source = readFileSync(
 
 describe("Context Card official visual contract", () => {
   test("uses bordered fitted geometry, official radius, arrow, and portal layer", () => {
-    expect(source).toContain("z-[1000000]");
+    expect(source).toContain("z-[var(--uni-z-context-card)]"); // Task 9 token form of the locked 1000000
     expect(source).toContain("w-fit");
     expect(source).toContain("rounded-[6px]");
     expect(source).toContain("border-gray-alpha-400");

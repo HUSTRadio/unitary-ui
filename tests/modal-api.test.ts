@@ -18,7 +18,7 @@ describe("Modal official API contract (G07-MODAL-01 fix)", () => {
     // official live metrics: light rgb(242,242,242) / dark rgb(0,0,0) @ opacity 0.8
     expect(line).toContain("bg-[#f2f2f2]/80");
     expect(line).toContain("dark:bg-black/80");
-    expect(line).toContain("z-[300]");
+    expect(line).toContain("z-[var(--uni-z-modal)]"); // Task 9 token form of the locked 300
   });
 
   test("G07-MODAL-01: overlay has NO backdrop blur and no old black/50 z-50 scrim", async () => {
@@ -43,7 +43,7 @@ describe("Modal official API contract (G07-MODAL-01 fix)", () => {
       .split("\n")
       .find((line) => line.includes('"fixed top-[50%] left-[50%]'));
     expect(contentLine).toBeDefined();
-    expect(contentLine).toContain("z-[300]");
+    expect(contentLine).toContain("z-[var(--uni-z-modal)]"); // same stacking role as the overlay (300)
   });
 
   test("ModalContent forces aria-modal=true on the dialog content", async () => {
