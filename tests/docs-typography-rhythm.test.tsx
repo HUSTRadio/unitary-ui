@@ -31,51 +31,93 @@ afterEach(() => {
   container.remove();
 });
 
+function readOwnerRule(css: string, ownerClass: string) {
+  const rule = css.match(new RegExp(`\\.${ownerClass}\\s*\\{([\\s\\S]*?)\\n\\}`, "m"));
+  expect(rule, `missing .${ownerClass} owner rule`).not.toBeNull();
+  return rule?.[1] ?? "";
+}
+
 describe("docs typography rhythm owner", () => {
-  test("renders semantic docs prose elements with fixed slots, owner-controlled styles, and mergeable layout classes", () => {
+  test("keeps style and data-slot overrides out of every semantic prose owner while merging layout classes", () => {
+    const forgedStyle = { fontSize: "99px", lineHeight: "1px", margin: "99px", color: "red" };
+
     act(() => {
       root.render(
         <>
           <DocsPageTitle
             className="max-w-xl"
             data-slot="forged-title-slot"
-            style={{ fontSize: "99px", lineHeight: "1px", margin: "99px" }}
+            style={forgedStyle}
           >
             Title
           </DocsPageTitle>
-          <DocsPageLead>Lead</DocsPageLead>
-          <DocsSection>
-            <DocsSectionTitle>Section</DocsSectionTitle>
-            <DocsParagraph>Paragraph</DocsParagraph>
-            <DocsList>
-              <li>Item</li>
-            </DocsList>
+          <DocsPageLead
+            className="max-w-xl"
+            data-slot="forged-lead-slot"
+            style={forgedStyle}
+          >
+            Lead
+          </DocsPageLead>
+          <DocsSection
+            className="scroll-mt-8"
+            data-slot="forged-section-slot"
+            style={forgedStyle}
+          >
+            Section
           </DocsSection>
+          <DocsSectionTitle
+            className="max-w-xl"
+            data-slot="forged-heading-slot"
+            style={forgedStyle}
+          >
+            Heading
+          </DocsSectionTitle>
+          <DocsParagraph
+            className="max-w-xl"
+            data-slot="forged-paragraph-slot"
+            style={forgedStyle}
+          >
+            Paragraph
+          </DocsParagraph>
+          <DocsList className="list-disc" data-slot="forged-list-slot" style={forgedStyle}>
+            <li>Item</li>
+          </DocsList>
         </>,
       );
     });
 
-    for (const [slot, tag, className] of [
-      ["docs-prose-title", "H1", "docs-prose-title"],
-      ["docs-prose-lead", "P", "docs-prose-lead"],
-      ["docs-prose-section", "SECTION", "docs-prose-section"],
-      ["docs-prose-heading", "H2", "docs-prose-heading"],
-      ["docs-prose-paragraph", "P", "docs-prose-paragraph"],
-      ["docs-prose-list", "UL", "docs-prose-list"],
+    for (const [slot, tag, ownerClass, layoutClass] of [
+      ["docs-prose-title", "H1", "docs-prose-title", "max-w-xl"],
+      ["docs-prose-lead", "P", "docs-prose-lead", "max-w-xl"],
+      ["docs-prose-section", "SECTION", "docs-prose-section", "scroll-mt-8"],
+      ["docs-prose-heading", "H2", "docs-prose-heading", "max-w-xl"],
+      ["docs-prose-paragraph", "P", "docs-prose-paragraph", "max-w-xl"],
+      ["docs-prose-list", "UL", "docs-prose-list", "list-disc"],
     ] as const) {
       const element = document.querySelector(`[data-slot="${slot}"]`);
       expect(element).not.toBeNull();
       expect(element?.tagName).toBe(tag);
-      expect(element?.className).toContain(className);
+      expect(element?.getAttribute("style")).toBeNull();
+      expect(element?.getAttribute("data-slot")).toBe(slot);
+      expect(element?.className).toContain(ownerClass);
+      expect(element?.className).toContain(layoutClass);
     }
-
-    const title = document.querySelector('[data-slot="docs-prose-title"]');
-    expect(title?.getAttribute("style")).toBeNull();
-    expect(title?.getAttribute("data-slot")).toBe("docs-prose-title");
-    expect(title?.className).toContain("max-w-xl");
   });
 
-  test("requires prose owner consumers and prevents DocArticle from owning narrative typography", async () => {
+  test("makes narrative prose owners explicitly muted without muting headings", () => {
+    const stylesPath = "../src/styles/index.css";
+    const styles = readFileSync(new URL(stylesPath, import.meta.url), "utf8");
+
+    for (const ownerClass of ["docs-prose-lead", "docs-prose-paragraph", "docs-prose-list"]) {
+      expect(readOwnerRule(styles, ownerClass)).toContain("color: var(--muted-foreground);");
+    }
+
+    for (const ownerClass of ["docs-prose-title", "docs-prose-heading"]) {
+      expect(readOwnerRule(styles, ownerClass)).not.toContain("color: var(--muted-foreground);");
+    }
+  });
+
+  test("requires real semantic prose JSX consumers without direct legacy typography or color overrides", () => {
     const sources = [
       "../docs/geist/src/components/doc-content.tsx",
       "../docs/geist/src/components/docs-pages.tsx",
@@ -85,17 +127,21 @@ describe("docs typography rhythm owner", () => {
 
     const [docContent, docsPages, apiReference, componentsPage] = sources;
 
-    for (const forbiddenClass of ["text-heading-", "text-copy-", "mt-4", "mt-10", "space-y-3"]) {
-      expect(docContent).not.toContain(forbiddenClass);
-    }
-
     for (const [source, owners] of [
       [docContent, ["DocsPageTitle", "DocsPageLead", "DocsSection", "DocsSectionTitle", "DocsParagraph", "DocsList"]],
       [docsPages, ["DocsPageTitle", "DocsPageLead", "DocsSection", "DocsSectionTitle", "DocsParagraph", "DocsList"]],
       [apiReference, ["DocsSection", "DocsSectionTitle", "DocsParagraph"]],
       [componentsPage, ["DocsPageTitle", "DocsPageLead", "DocsSection", "DocsSectionTitle", "DocsList"]],
     ] as const) {
-      for (const owner of owners) expect(source).toContain(owner);
+      for (const owner of owners) {
+        expect(source.match(new RegExp(`<${owner}\\b[^>]*>`, "g"))).not.toBeNull();
+      }
+
+      const proseOwnerTags = source.match(/<Docs(?:PageTitle|PageLead|Section|SectionTitle|Paragraph|List)\b[^>]*>/g) ?? [];
+      expect(proseOwnerTags).not.toHaveLength(0);
+      for (const tag of proseOwnerTags) {
+        expect(tag).not.toMatch(/\b(?:text-(?:heading|copy)-\S+|text-(?:muted-)?foreground)\b/);
+      }
     }
   });
 });

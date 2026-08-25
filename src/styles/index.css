@@ -1285,6 +1285,7 @@ html[data-font-tier="system"],
   margin-block: var(--uni-doc-space-title-lead) 0;
   font-size: var(--uni-text-body);
   line-height: var(--uni-leading-body);
+  color: var(--muted-foreground);
 }
 
 .docs-prose-section {
@@ -1302,6 +1303,7 @@ html[data-font-tier="system"],
   margin-block: var(--uni-doc-space-paragraph) 0;
   font-size: var(--uni-text-body);
   line-height: var(--uni-leading-body);
+  color: var(--muted-foreground);
 }
 
 .docs-prose-list {
@@ -1309,6 +1311,7 @@ html[data-font-tier="system"],
   padding-inline-start: var(--uni-doc-list-indent);
   font-size: var(--uni-text-body);
   line-height: var(--uni-leading-body);
+  color: var(--muted-foreground);
 }
 
 .docs-prose-list > li + li {
