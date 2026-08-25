@@ -1,8 +1,8 @@
 import { test, expect } from "vitest";
-import { readFile } from "node:fs/promises";
+import { docsPageSource } from "./helpers/docs-page-source";
 
 test("全部无 code Section 位于 renderExtraSections 内", async () => {
-  const src = await readFile("docs/geist/src/components/docs-components-page.tsx", "utf8");
+  const src = docsPageSource;
   const extraStart = src.indexOf("function renderExtraSections(");
   // renderExtraSections 函数体结束：找它的右花括号（简化：找其后第一个顶层 function 定义）
   const nextFn = src.indexOf("\nfunction ", extraStart + 1);

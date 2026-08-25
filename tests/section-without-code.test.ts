@@ -1,9 +1,9 @@
 import { test, expect } from "vitest";
-import { readFile } from "node:fs/promises";
+import { docsPageSource } from "./helpers/docs-page-source";
 import { DEMO_CODE } from "../docs/geist/src/data/demo-code";
 
 test("list sections without code prop", async () => {
-  const src = await readFile("docs/geist/src/components/docs-components-page.tsx", "utf8");
+  const src = docsPageSource;
   const extraStart = src.indexOf("function renderExtraSections(");
   const caseMarks = [...src.matchAll(/case "([^"]+)":/g)]
     .filter((m) => (m.index ?? 0) > extraStart)

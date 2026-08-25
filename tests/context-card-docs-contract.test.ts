@@ -2,10 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
 
-const source = readFileSync(
-  resolve(import.meta.dirname, "../docs/geist/src/components/docs-components-page.tsx"),
-  "utf8",
-);
+import { docsPageSource as source } from "./helpers/docs-page-source";
 
 describe("Context Card official demo contract", () => {
   test("covers default, alignment, and render-prop demos with real triggers", () => {

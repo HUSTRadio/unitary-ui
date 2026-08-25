@@ -2,10 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-const source = readFileSync(
-  resolve(process.cwd(), "docs/geist/src/components/docs-components-page.tsx"),
-  "utf8",
-);
+import { docsPageSource as source } from "./helpers/docs-page-source";
 
 describe("Table docs demo card contract", () => {
   it("uses a dedicated full-width Table demo card", () => {
