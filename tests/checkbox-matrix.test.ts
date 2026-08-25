@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, test } from "vitest";
 
 const source = readFileSync(new URL("../src/components/ui/checkbox.tsx", import.meta.url), "utf8");
-const captureSource = readFileSync(new URL("./capture-visual-matrix.mjs", import.meta.url), "utf8");
+const captureSource = readFileSync(new URL("../scripts/capture-visual-matrix.mjs", import.meta.url), "utf8");
 
 describe("Checkbox official matrix contract", () => {
   test("supports default, checked, indeterminate, and disabled states", () => {

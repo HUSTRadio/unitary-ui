@@ -76,9 +76,9 @@ node_modules/.bin/tsc -p docs/geist/tsconfig.json --noEmit
 node_modules/.bin/oxlint src/ docs/geist/src/ tests/
 vp build
 node node_modules/vite/bin/vite.js build docs/geist --config docs/geist/vite.config.ts
-DOCS_URL=http://localhost:5201 node tests/runtime-docs-audit.mjs
-DOCS_URL=http://localhost:5201 node tests/runtime-interaction-audit.mjs
-DOCS_URL=http://localhost:5201 node tests/capture-visual-matrix.mjs
+DOCS_URL=http://localhost:5201 node scripts/runtime-docs-audit.mjs
+DOCS_URL=http://localhost:5201 node scripts/runtime-interaction-audit.mjs
+DOCS_URL=http://localhost:5201 node scripts/capture-visual-matrix.mjs
 ```
 
 视觉矩阵默认写入 `C:/Users/Leon/geist-acceptance/final-shots`，不进入 Git。
