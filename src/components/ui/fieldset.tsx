@@ -134,7 +134,7 @@ function Fieldset({
         data-slot="fieldset"
         data-fieldset-type={type}
         className={cn(
-          "group/fieldset material-base relative overflow-hidden rounded-[6px] [--geist-fieldset-title-color:var(--ds-gray-1000)]",
+          "group/fieldset material-base relative overflow-hidden rounded-[6px] [--geist-fieldset-title-color:var(--uni-gray-1000)]",
           type === "error" && "border border-red-400 shadow-none",
           type === "warning" && "border border-amber-400 shadow-none",
           className,

@@ -21,17 +21,17 @@ describe("Sheet official API contract", () => {
     const src = await read("src/components/ui/sheet.tsx");
     const line = src.split("\n").find((l) => l.includes('"fixed inset-0'));
     expect(line).toBeDefined();
-    expect(line).toContain("bg-[var(--ds-overlay-backdrop-color)]");
-    expect(line).toContain("opacity-[var(--ds-overlay-backdrop-opacity)]");
-    expect(line).toContain("z-[var(--ds-z-drawer)]");
+    expect(line).toContain("bg-[var(--uni-overlay-backdrop-color)]");
+    expect(line).toContain("opacity-[var(--uni-overlay-backdrop-opacity)]");
+    expect(line).toContain("z-[var(--uni-z-drawer)]");
     expect(line).not.toContain("bg-black/50");
   });
 
   test("SheetContent public surface: bg-background-100 + p-6 + elevated shadow token", async () => {
     const src = await read("src/components/ui/sheet.tsx");
     expect(src).toContain("bg-background-100 p-6");
-    expect(src).toContain("shadow-[var(--ds-shadow-modal-elevated)]");
-    expect(src).toContain("z-[var(--ds-z-drawer)]");
+    expect(src).toContain("shadow-[var(--uni-shadow-modal-elevated)]");
+    expect(src).toContain("z-[var(--uni-z-drawer)]");
     expect(src).toContain("ease-in-out");
   });
 

@@ -5,8 +5,8 @@ import * as React from "react";
  * 来源：2026-08-16 CDP 实测 vercel.com/geist/feedback 评分行 [role=radio] 内 SVG。
  * 约束：不拆解 path、不改 SVG 内容；内部 fill 原样——
  *   脸 = currentColor（继承按钮 text-gray-900），
- *   Hate it 泪痕 = var(--ds-blue-700)，
- *   Love it! 爱心眼 = var(--ds-amber-800)。
+ *   Hate it 泪痕 = var(--uni-blue-700)，
+ *   Love it! 爱心眼 = var(--uni-amber-800)。
  */
 
 /** @deprecated 仅供 Feedback 内部使用；请使用 `Feedback` 组件。 */
@@ -24,7 +24,7 @@ function FeedbackHateFace(props: FeedbackFaceProps) {
       style={{ color: "currentcolor" }}
     >
       <path
-        fill="var(--ds-blue-700)"
+        fill="var(--uni-blue-700)"
         fillRule="evenodd"
         d="M4 9v7h1.5V9zm8 0v7h-1.5V9z"
         clipRule="evenodd"
@@ -95,7 +95,7 @@ function FeedbackLoveFace(props: FeedbackFaceProps) {
         clipRule="evenodd"
       />
       <path
-        fill="var(--ds-amber-800)"
+        fill="var(--uni-amber-800)"
         fillRule="evenodd"
         d="M6.15 4.92 5.37 3.5 4.6 4.92l-1.6.3 1.12 1.17L3.9 8l1.47-.7 1.46.7-.2-1.6 1.11-1.18zm5.25 0-.78-1.42-.77 1.42-1.6.3 1.12 1.17L9.16 8l1.47-.7 1.46.7-.2-1.6L13 5.21z"
         clipRule="evenodd"

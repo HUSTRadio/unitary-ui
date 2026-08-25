@@ -51,9 +51,9 @@ describe("Modal official API contract (G07-MODAL-01 fix)", () => {
     expect(src).toMatch(/aria-modal="true"/);
   });
 
-  test("modal content uses --ds-shadow-modal-elevated token (dual-theme border layer), not hardcoded black", async () => {
+  test("modal content uses --uni-shadow-modal-elevated token (dual-theme border layer), not hardcoded black", async () => {
     const src = await read("src/components/ui/modal.tsx");
-    expect(src).toContain("shadow-[var(--ds-shadow-modal-elevated)]");
+    expect(src).toContain("shadow-[var(--uni-shadow-modal-elevated)]");
     expect(src).not.toContain("MODAL_SHADOW");
     expect(src).not.toMatch(/boxShadow/);
   });

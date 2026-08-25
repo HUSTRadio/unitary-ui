@@ -113,11 +113,11 @@ describe("ClearableInput official runtime contract", () => {
     expect(button.className).toContain("px-2.5");
     expect(button.className).toContain("rounded-r-overlay-item");
     expect(button.className).toContain("focus-visible:outline-solid");
-    expect(button.className).toContain("focus-visible:outline-[var(--ds-focus-color)]");
+    expect(button.className).toContain("focus-visible:outline-[var(--uni-focus-color)]");
     expect(kbd.textContent).toBe("Esc");
     expect(kbd.getAttribute("data-slot")).toBe("kbd");
     expect(kbd.className).toContain("font-sans!");
-    expect(kbd.className).toContain("text-[var(--ds-gray-900)]");
+    expect(kbd.className).toContain("text-[var(--uni-gray-900)]");
     expect(button.querySelector("svg")).toBeNull();
   });
 
@@ -178,10 +178,10 @@ describe("ClearableInput official runtime contract", () => {
     const suffix = container.querySelector<HTMLElement>("[data-geist-input-suffix]")!;
 
     expect(button.tabIndex).toBe(-1);
-    expect(suffix.className).toContain("bg-[var(--ds-gray-100)]");
+    expect(suffix.className).toContain("bg-[var(--uni-gray-100)]");
     expect(button.querySelector("kbd")!.className).toContain("bg-background-100");
-    expect(button.querySelector("kbd")!.className).toContain("text-[var(--ds-gray-900)]");
-    expect(button.querySelector("kbd")!.className).not.toContain("bg-[var(--ds-gray-100)]");
+    expect(button.querySelector("kbd")!.className).toContain("text-[var(--uni-gray-900)]");
+    expect(button.querySelector("kbd")!.className).not.toContain("bg-[var(--uni-gray-100)]");
     click(button);
     keydown(input, "Escape");
     expect(input.value).toBe("locked");
@@ -191,7 +191,7 @@ describe("ClearableInput official runtime contract", () => {
   test("surface classes use official ring, hover, focus, disabled and motion contracts", () => {
     const { input, wrapper } = renderInput({ defaultValue: "surface", disabled: true });
 
-    expect(wrapper.className).toContain("shadow-[0_0_0_1px_var(--ds-gray-alpha-400)]");
+    expect(wrapper.className).toContain("shadow-[0_0_0_1px_var(--uni-gray-alpha-400)]");
     expect(wrapper.className).toContain("hover:shadow-[0_0_0_1px_var(--color-gray-alpha-500)]");
     expect(wrapper.className).toContain(
       "focus-within:!shadow-[0_0_0_1px_var(--input-focus-border),0_0_0_4px_var(--input-focus-glow)]",
@@ -199,8 +199,8 @@ describe("ClearableInput official runtime contract", () => {
     expect(wrapper.className).toContain("transition-all");
     expect(wrapper.className).toContain("duration-(--uni-duration-fast)");
     expect(wrapper.className).not.toContain("border ");
-    expect(input.className).toContain("disabled:bg-[var(--ds-gray-100)]");
-    expect(input.className).toContain("disabled:text-[var(--ds-gray-700)]");
+    expect(input.className).toContain("disabled:bg-[var(--uni-gray-100)]");
+    expect(input.className).toContain("disabled:text-[var(--uni-gray-700)]");
     expect(input.className).toContain("placeholder:text-foreground/50");
     expect(input.className).toContain(
       "disabled:placeholder:!text-[var(--input-disabled-placeholder)]",

@@ -91,7 +91,7 @@ const CommandMenuInput = React.forwardRef<
         value={query}
         onValueChange={setQuery}
         className={cn(
-          "h-7 flex-1 border-none bg-transparent text-base text-[var(--ds-gray-1000)] outline-hidden placeholder:text-[var(--ds-gray-700)] sm:text-lg",
+          "h-7 flex-1 border-none bg-transparent text-base text-[var(--uni-gray-1000)] outline-hidden placeholder:text-[var(--uni-gray-700)] sm:text-lg",
           className,
         )}
         {...props}
@@ -177,7 +177,7 @@ const CommandMenuGroup = React.forwardRef<
   <Command.Group
     ref={ref}
     className={cn(
-      "[&_[cmdk-group-heading]]:flex [&_[cmdk-group-heading]]:h-9 [&_[cmdk-group-heading]]:items-center [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:text-[13px] [&_[cmdk-group-heading]]:leading-[1.5] [&_[cmdk-group-heading]]:text-[var(--ds-gray-900)]",
+      "[&_[cmdk-group-heading]]:flex [&_[cmdk-group-heading]]:h-9 [&_[cmdk-group-heading]]:items-center [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:text-[13px] [&_[cmdk-group-heading]]:leading-[1.5] [&_[cmdk-group-heading]]:text-[var(--uni-gray-900)]",
       className,
     )}
     {...props}
@@ -191,7 +191,7 @@ const CommandMenuDivider = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <Command.Separator
     ref={ref}
-    className={cn("my-2 -ml-2 h-px w-[calc(100%+16px)] bg-[var(--ds-gray-alpha-400)]", className)}
+    className={cn("my-2 -ml-2 h-px w-[calc(100%+16px)] bg-[var(--uni-gray-alpha-400)]", className)}
     {...props}
   />
 ));

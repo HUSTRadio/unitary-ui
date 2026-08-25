@@ -63,7 +63,7 @@ function Kbd({
         "inline-block rounded-[4px] py-0 text-center font-mono !leading-[1.7em] text-gray-1000 [&>span]:font-inherit",
         plain
           ? "ml-0 min-h-0 min-w-0 bg-transparent px-0 shadow-none"
-          : "bg-background-100 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)]",
+          : "bg-background-100 shadow-[0_0_0_1px_var(--uni-gray-alpha-400)]",
         !plain &&
           (small
             ? "ml-0.5 h-5 min-h-5 min-w-5 px-1 text-xs"

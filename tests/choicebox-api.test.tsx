@@ -128,7 +128,7 @@ describe("Choicebox official Group/Item contract (B1)", () => {
     expect(group.querySelector('svg path[d="M14 7L8.5 12.5L6 10"]')).not.toBeNull();
     const indicator = group.querySelector('[data-slot="choicebox-checkbox-indicator"]')!;
     expect(indicator.className).toContain("peer-disabled:peer-checked:bg-[var(--gray-600)]");
-    expect(indicator.className).not.toContain("var(--ds-gray-600)");
+    expect(indicator.className).not.toContain("var(--uni-gray-600)");
   });
 
   test("custom children render only for selected items", () => {
@@ -165,17 +165,17 @@ describe("Choicebox official Group/Item contract (B1)", () => {
     const tile = view.querySelector("ul > label")!;
     expect(tile.className).toContain("flex-1");
     expect(tile.className).toContain("rounded-md");
-    expect(tile.className).toContain("border-[var(--ds-gray-400)]");
-    expect(tile.className).toContain("hover:has-enabled:border-[var(--ds-gray-500)]");
+    expect(tile.className).toContain("border-[var(--uni-gray-400)]");
+    expect(tile.className).toContain("hover:has-enabled:border-[var(--uni-gray-500)]");
     expect(tile.className).toContain("choicebox-focus");
     expect(tile.className).not.toContain("min-h-");
     const option = tile.querySelector('[data-slot="choicebox-group-item-option"]')!;
-    expect(option.className).toContain("has-checked:not-has-disabled:bg-[var(--ds-blue-100)]");
+    expect(option.className).toContain("has-checked:not-has-disabled:bg-[var(--uni-blue-100)]");
     expect(option.className).toContain(
-      "hover:has-checked:not-has-disabled:!bg-[var(--ds-blue-200)]",
+      "hover:has-checked:not-has-disabled:!bg-[var(--uni-blue-200)]",
     );
     const indicator = tile.querySelector('[data-slot="choicebox-radio-indicator"]')!;
-    expect(indicator.className).toContain("[--radio-color:var(--ds-gray-500)]");
-    expect(indicator.className).toContain("peer-checked:[--radio-color:var(--ds-blue-900)]");
+    expect(indicator.className).toContain("[--radio-color:var(--uni-gray-500)]");
+    expect(indicator.className).toContain("peer-checked:[--radio-color:var(--uni-blue-900)]");
   });
 });

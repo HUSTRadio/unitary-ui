@@ -8,16 +8,15 @@ const normalizeNewlines = (value: string) => value.replace(/\r\n/g, "\n");
 const readCss = async () => normalizeNewlines(await readFile(path.join(root, "src/styles/index.css"), "utf8"));
 
 /**
- * Task 10 / Batch 0 `ds-token-map` contract.
+ * Project-owned token namespace contract.
  *
  * Values are frozen in docs/audits/geist-component-and-responsive-remediation-design.md §1.1
- * from persisted official runtime evidence. Only variables with exact values in both themes
- * are admitted here; Choicebox B1 adds gray-400/blue-200 from its persisted Light/Dark
- * runtime evidence. Feedback adds blue-700/amber-800 from its 2026-08-16 runtime evidence
- * (rating emoji SVG uses fill=var(--ds-blue-700) tears / var(--ds-amber-800) heart eyes).
- * Pending or conflicting names must remain undefined instead of guessed.
+ * from persisted runtime evidence. Only variables with exact values in both themes are
+ * admitted here; pending or conflicting names stay undefined rather than being guessed.
+ * `--uni-*` is the canonical project namespace; external reference implementations do not
+ * leak their namespace into this library's public tokens.
  */
-describe("official --ds-* compatibility token map", () => {
+describe("canonical --uni-* token map", () => {
   test("Choicebox focus utility uses the verified indigo outline without inventing ds-focus-ring", async () => {
     const css = await readCss();
     expect(css).toContain("@utility choicebox-focus");
@@ -30,11 +29,11 @@ describe("official --ds-* compatibility token map", () => {
     const light = themeBlock(css, ":root");
 
     expectDeclarations(light, {
-      "--ds-size-medium": "36px",
-      "--ds-control-decoration-size": "14px",
-      "--ds-focus-color": "#0072f5",
-      "--ds-popover-padding": "6px",
-      "--ds-popover-row-height": "36px",
+      "--uni-size-medium": "36px",
+      "--uni-control-decoration-size": "14px",
+      "--uni-focus-color": "#0072f5",
+      "--uni-popover-padding": "6px",
+      "--uni-popover-row-height": "36px",
     });
   });
 
@@ -43,25 +42,25 @@ describe("official --ds-* compatibility token map", () => {
     const light = themeBlock(css, ":root");
 
     expectDeclarations(light, {
-      "--ds-gray-100": "var(--gray-100)",
-      "--ds-gray-400": "hsl(0 0% 92%)",
-      "--ds-gray-500": "var(--gray-500)",
-      "--ds-gray-700": "var(--gray-700)",
-      "--ds-gray-900": "var(--gray-900)",
-      "--ds-gray-1000": "var(--gray-1000)",
-      "--ds-gray-alpha-400": "var(--gray-alpha-400)",
-      "--ds-gray-alpha-500": "var(--gray-alpha-500)",
-      "--ds-gray-alpha-300": "var(--gray-alpha-300)",
-      "--ds-gray-alpha-600": "var(--gray-alpha-600)",
-      "--ds-gray-600": "var(--gray-600)",
-      "--ds-shadow-menu": "var(--material-shadow-menu)",
-      "--ds-background-100": "var(--background-100)",
-      "--ds-blue-600": "#52aeff",
-      "--ds-blue-900": "#0068d6",
-      "--ds-blue-100": "#f0f7ff",
-      "--ds-blue-200": "hsl(210 100% 96%)",
-      "--ds-blue-700": "var(--blue-700)",
-      "--ds-amber-800": "var(--amber-800)",
+      "--uni-gray-100": "var(--gray-100)",
+      "--uni-gray-400": "hsl(0 0% 92%)",
+      "--uni-gray-500": "var(--gray-500)",
+      "--uni-gray-700": "var(--gray-700)",
+      "--uni-gray-900": "var(--gray-900)",
+      "--uni-gray-1000": "var(--gray-1000)",
+      "--uni-gray-alpha-400": "var(--gray-alpha-400)",
+      "--uni-gray-alpha-500": "var(--gray-alpha-500)",
+      "--uni-gray-alpha-300": "var(--gray-alpha-300)",
+      "--uni-gray-alpha-600": "var(--gray-alpha-600)",
+      "--uni-gray-600": "var(--gray-600)",
+      "--uni-shadow-menu": "var(--material-shadow-menu)",
+      "--uni-background-100": "var(--background-100)",
+      "--uni-blue-600": "#52aeff",
+      "--uni-blue-900": "#0068d6",
+      "--uni-blue-100": "#f0f7ff",
+      "--uni-blue-200": "hsl(210 100% 96%)",
+      "--uni-blue-700": "var(--blue-700)",
+      "--uni-amber-800": "var(--amber-800)",
     });
   });
 
@@ -70,35 +69,35 @@ describe("official --ds-* compatibility token map", () => {
     const dark = themeBlock(css, '.dark,\n[data-theme="dark"]');
 
     expectDeclarations(dark, {
-      "--ds-gray-100": "var(--gray-100)",
-      "--ds-gray-400": "hsl(0 0% 18%)",
-      "--ds-gray-500": "var(--gray-500)",
-      "--ds-gray-700": "var(--gray-700)",
-      "--ds-gray-900": "var(--gray-900)",
-      "--ds-gray-1000": "var(--gray-1000)",
-      "--ds-gray-alpha-400": "var(--gray-alpha-400)",
-      "--ds-gray-alpha-500": "var(--gray-alpha-500)",
-      "--ds-gray-alpha-300": "var(--gray-alpha-300)",
-      "--ds-gray-alpha-600": "var(--gray-alpha-600)",
-      "--ds-gray-600": "var(--gray-600)",
-      "--ds-shadow-menu": "var(--material-shadow-menu)",
-      "--ds-background-100": "var(--background-100)",
-      "--ds-blue-600": "#0091ff",
-      "--ds-blue-900": "#52a8ff",
-      "--ds-blue-100": "#0f1c2e",
-      "--ds-blue-200": "hsl(214 59% 15%)",
-      "--ds-blue-700": "var(--blue-700)",
-      "--ds-amber-800": "var(--amber-800)",
+      "--uni-gray-100": "var(--gray-100)",
+      "--uni-gray-400": "hsl(0 0% 18%)",
+      "--uni-gray-500": "var(--gray-500)",
+      "--uni-gray-700": "var(--gray-700)",
+      "--uni-gray-900": "var(--gray-900)",
+      "--uni-gray-1000": "var(--gray-1000)",
+      "--uni-gray-alpha-400": "var(--gray-alpha-400)",
+      "--uni-gray-alpha-500": "var(--gray-alpha-500)",
+      "--uni-gray-alpha-300": "var(--gray-alpha-300)",
+      "--uni-gray-alpha-600": "var(--gray-alpha-600)",
+      "--uni-gray-600": "var(--gray-600)",
+      "--uni-shadow-menu": "var(--material-shadow-menu)",
+      "--uni-background-100": "var(--background-100)",
+      "--uni-blue-600": "#0091ff",
+      "--uni-blue-900": "#52a8ff",
+      "--uni-blue-100": "#0f1c2e",
+      "--uni-blue-200": "hsl(214 59% 15%)",
+      "--uni-blue-700": "var(--blue-700)",
+      "--uni-amber-800": "var(--amber-800)",
     });
   });
 
   test("does not invent pending, single-theme or conflicting token values", async () => {
     const css = await readCss();
     for (const token of [
-      "--ds-focus-ring",
-      "--ds-shadow-modal",
-      "--ds-shadow-border-medium",
-      "--ds-gray-200",
+      "--uni-focus-ring",
+      "--uni-shadow-modal",
+      "--uni-shadow-border-medium",
+      "--uni-gray-200",
     ]) {
       expect(css).not.toMatch(new RegExp(`${escapeRegExp(token)}\\s*:`));
     }

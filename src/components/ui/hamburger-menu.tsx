@@ -176,7 +176,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
         aria-expanded={isOpen}
         aria-haspopup="dialog"
         onClick={() => setOpen(!isOpen)}
-        className="inline-flex h-11 min-w-11 cursor-pointer touch-manipulation items-center justify-center rounded-md p-3 text-[var(--ds-gray-1000)] outline-none hover:bg-[var(--ds-gray-alpha-200)]"
+        className="inline-flex h-11 min-w-11 cursor-pointer touch-manipulation items-center justify-center rounded-md p-3 text-[var(--uni-gray-1000)] outline-none hover:bg-[var(--uni-gray-alpha-200)]"
       >
         {icon ?? <HamburgerIcon open={isOpen} />}
       </button>
@@ -210,7 +210,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                   data-slot="panel-close"
                   aria-label={t("Close menu")}
                   onClick={() => setOpen(false)}
-                  className="inline-flex size-11 cursor-pointer items-center justify-center rounded-md text-[var(--ds-gray-1000)] outline-none hover:bg-[var(--ds-gray-alpha-200)]"
+                  className="inline-flex size-11 cursor-pointer items-center justify-center rounded-md text-[var(--uni-gray-1000)] outline-none hover:bg-[var(--uni-gray-alpha-200)]"
                 >
                   <HamburgerIcon open size={16} />
                 </button>
@@ -239,7 +239,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
             onFocus={() => setSearchFocused(true)}
             onBlur={() => setSearchFocused(false)}
             ref={inputRef}
-            className="h-9 flex-1 border-none bg-transparent text-copy-14 text-[var(--ds-gray-1000)] outline-none placeholder:text-[var(--ds-gray-700)]"
+            className="h-9 flex-1 border-none bg-transparent text-copy-14 text-[var(--uni-gray-1000)] outline-none placeholder:text-[var(--uni-gray-700)]"
           />
           {searching ? (
             <button
@@ -247,12 +247,12 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
               data-slot="search-clear"
               aria-label={t("Clear search")}
               onClick={() => setQuery("")}
-              className="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-full text-[var(--ds-gray-700)] hover:bg-[var(--ds-gray-alpha-200)]"
+              className="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-full text-[var(--uni-gray-700)] hover:bg-[var(--uni-gray-alpha-200)]"
             >
               <HamburgerIcon open size={10} />
             </button>
           ) : (
-            <kbd className="hidden shrink-0 rounded border border-gray-alpha-400 px-1.5 py-0.5 text-xs text-[var(--ds-gray-700)] pointer-fine:inline-block">
+            <kbd className="hidden shrink-0 rounded border border-gray-alpha-400 px-1.5 py-0.5 text-xs text-[var(--uni-gray-700)] pointer-fine:inline-block">
               {t("Ctrl K")}
             </kbd>
           )}
@@ -305,10 +305,10 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                     aria-current={item.to === activeTo ? "page" : undefined}
                     onClick={() => onNavigate?.(item.to)}
                     className={cn(
-                      "block rounded-md px-3 py-2 text-copy-14 no-underline hover:bg-[var(--ds-gray-alpha-200)]",
+                      "block rounded-md px-3 py-2 text-copy-14 no-underline hover:bg-[var(--uni-gray-alpha-200)]",
                       item.to === activeTo
-                        ? "bg-gray-alpha-100 font-medium text-[var(--ds-gray-1000)]"
-                        : "text-[var(--ds-gray-1000)]",
+                        ? "bg-gray-alpha-100 font-medium text-[var(--uni-gray-1000)]"
+                        : "text-[var(--uni-gray-1000)]",
                     )}
                   >
                     {item.label}
@@ -333,10 +333,10 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                     setOpen(false);
                   }}
                   className={cn(
-                    "block rounded-md px-3 py-2 text-copy-14 no-underline hover:bg-[var(--ds-gray-alpha-200)]",
+                    "block rounded-md px-3 py-2 text-copy-14 no-underline hover:bg-[var(--uni-gray-alpha-200)]",
                     item.to === activeTo
-                      ? "bg-gray-alpha-100 font-medium text-[var(--ds-gray-1000)]"
-                      : "text-[var(--ds-gray-1000)]",
+                      ? "bg-gray-alpha-100 font-medium text-[var(--uni-gray-1000)]"
+                      : "text-[var(--uni-gray-1000)]",
                   )}
                 >
                   {item.label}

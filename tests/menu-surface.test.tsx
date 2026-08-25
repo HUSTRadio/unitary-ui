@@ -10,8 +10,8 @@ import { Menu, MenuButton, MenuContainer, MenuDivider, MenuItem } from "@/compon
  *
  * 数值来源：官方实时 Context Menu 16/16 视口主题矩阵（phase-e/context-menu，
  * 2026-08-11 06:23Z）+ dots-menu 1440-light 实测 + materials 官方页（material-menu）。
- * - 浮层表面：radius 12px、padding 6px（--ds-popover-padding）、行高 36px
- *   （--ds-popover-row-height）、行圆角 6px、行水平 padding 0 8px。
+ * - 浮层表面：radius 12px、padding 6px（--uni-popover-padding）、行高 36px
+ *   （--uni-popover-row-height）、行圆角 6px、行水平 padding 0 8px。
  * - 阴影：--material-shadow-menu（1px 环 + 4 层 + 外环），不叠加真实 border。
  * - 文字：14px/20px/400（text-label-14）；颜色随语义 token（--popover-foreground）。
  * - 行高亮：Radix 属性为 `data-highlighted`（DropdownMenu 标记），官方视觉为
@@ -33,7 +33,7 @@ describe("Menu surface contract (B0 menu-surface)", () => {
     expect(content!.className).not.toContain("border-");
   });
 
-  test("content background is surface token (official --ds-background-100: light #ffffff / dark #0a0a0a)", () => {
+  test("content background is surface token (official --uni-background-100: light #ffffff / dark #0a0a0a)", () => {
     const { content } = renderMenu();
     expect(content!.className).toContain("bg-surface");
     expect(content!.className).toContain("text-foreground");

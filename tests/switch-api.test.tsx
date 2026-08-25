@@ -142,7 +142,7 @@ describe("Switch live official contract", () => {
 
   test("the root hairline consumes the theme-aware Geist alpha token", async () => {
     const css = await read("src/styles/index.css");
-    expect(css).toContain("box-shadow: 0 0 0 1px var(--ds-gray-alpha-400);");
+    expect(css).toContain("box-shadow: 0 0 0 1px var(--uni-gray-alpha-400);");
   });
 
   test("arrow keys auto-activate, skip disabled radios and wrap at group edges", async () => {

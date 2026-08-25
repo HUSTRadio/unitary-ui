@@ -680,9 +680,9 @@ html[data-font-tier="system"],
   /* misc */
   --overlay: #00000099;
   --color-focus-ring: #171717; /* gray-1000 */
-  --focus-ring-color: #0072f5; /* official --ds-focus-ring light */
+  --focus-ring-color: #0072f5; /* official --uni-focus-ring light */
 
-  /* 焦点环（官方 --ds-focus-ring 实测：2px 背景色描边 + 4px 主题焦点蓝） */
+  /* 焦点环（官方 --uni-focus-ring 实测：2px 背景色描边 + 4px 主题焦点蓝） */
   --focus-ring-outline: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--focus-ring-color);
 
   /* 表单控件 focus（官方 Input/Select/Textarea 实测：边框加深 + 同色系柔光，150ms 过渡） */
@@ -778,39 +778,39 @@ html[data-font-tier="system"],
   --teal-800: #0f8c7d;
   --teal-900: #0c7869;
 
-  /* 官方 --ds-* 兼容层（仅映射 Task 10 §1.1 已有双主题精确证据的变量） */
-  --ds-size-medium: 36px;
-  --ds-control-decoration-size: 14px;
-  --ds-focus-color: #0072f5;
-  --ds-popover-padding: 6px;
-  --ds-popover-row-height: 36px;
-  --ds-gray-100: var(--gray-100);
-  --ds-gray-400: hsl(0 0% 92%);
-  --ds-gray-500: var(--gray-500);
-  --ds-gray-700: var(--gray-700);
-  --ds-gray-900: var(--gray-900);
-  --ds-gray-1000: var(--gray-1000);
-  --ds-gray-alpha-400: var(--gray-alpha-400);
-  --ds-gray-alpha-500: var(--gray-alpha-500);
-  --ds-gray-alpha-300: var(--gray-alpha-300);
-  --ds-gray-alpha-600: var(--gray-alpha-600);
-  --ds-gray-600: var(--gray-600);
-  --ds-shadow-menu: var(--material-shadow-menu);
-  --ds-background-100: var(--background-100);
+  /* 官方 --uni-* 兼容层（仅映射 Task 10 §1.1 已有双主题精确证据的变量） */
+  --uni-size-medium: 36px;
+  --uni-control-decoration-size: 14px;
+  --uni-focus-color: #0072f5;
+  --uni-popover-padding: 6px;
+  --uni-popover-row-height: 36px;
+  --uni-gray-100: var(--gray-100);
+  --uni-gray-400: hsl(0 0% 92%);
+  --uni-gray-500: var(--gray-500);
+  --uni-gray-700: var(--gray-700);
+  --uni-gray-900: var(--gray-900);
+  --uni-gray-1000: var(--gray-1000);
+  --uni-gray-alpha-400: var(--gray-alpha-400);
+  --uni-gray-alpha-500: var(--gray-alpha-500);
+  --uni-gray-alpha-300: var(--gray-alpha-300);
+  --uni-gray-alpha-600: var(--gray-alpha-600);
+  --uni-gray-600: var(--gray-600);
+  --uni-shadow-menu: var(--material-shadow-menu);
+  --uni-background-100: var(--background-100);
   /* 官方运行时值与现有本地 blue scale 有差异，保留独立兼容值。 */
-  --ds-blue-600: #52aeff;
-  --ds-blue-900: #0068d6;
-  --ds-blue-100: #f0f7ff;
-  --ds-blue-200: hsl(210 100% 96%);
-  --ds-blue-700: var(--blue-700);
-  /* 语法高亮 token 色（官方 code-block/code 运行时 --ds-* 实测） */
-  --ds-pink-900: hsla(336, 65%, 45%, 1);
-  --ds-green-900: hsla(133, 50%, 32%, 1);
-  --ds-red-900: hsla(358, 66%, 48%, 1);
-  --ds-purple-900: hsla(274, 71%, 43%, 1);
-  --ds-amber-900: hsla(30, 100%, 32%, 1);
-  --ds-amber-800: var(--amber-800);
-  --ds-accents-5: #666;
+  --uni-blue-600: #52aeff;
+  --uni-blue-900: #0068d6;
+  --uni-blue-100: #f0f7ff;
+  --uni-blue-200: hsl(210 100% 96%);
+  --uni-blue-700: var(--blue-700);
+  /* 语法高亮 token 色（官方 code-block/code 运行时 --uni-* 实测） */
+  --uni-pink-900: hsla(336, 65%, 45%, 1);
+  --uni-green-900: hsla(133, 50%, 32%, 1);
+  --uni-red-900: hsla(358, 66%, 48%, 1);
+  --uni-purple-900: hsla(274, 71%, 43%, 1);
+  --uni-amber-900: hsla(30, 100%, 32%, 1);
+  --uni-amber-800: var(--amber-800);
+  --uni-accents-5: #666;
 
   /* Geist material-* 阴影（官方实测 light） */
   --material-shadow-base: rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgb(250, 250, 250) 0px 0px 0px 1px;
@@ -840,12 +840,12 @@ html[data-font-tier="system"],
     rgb(250, 250, 250) 0px 0px 0px 1px;
 
   /* Sheet 官方实测（2026-08-15）：overlay 遮罩 + 浮层阴影 + z 层级 */
-  --ds-overlay-backdrop-color: #f2f2f2;
-  --ds-overlay-backdrop-opacity: 0.8;
-  --ds-shadow-modal-elevated:
+  --uni-overlay-backdrop-color: #f2f2f2;
+  --uni-overlay-backdrop-opacity: 0.8;
+  --uni-shadow-modal-elevated:
     0px 0px 0px 1px #00000014, 0px 32px 72px -12px #0000000f, 0px 8px 32px -12px #00000014,
     0px 8px 24px -12px #0000001f;
-  --ds-z-drawer: 200;
+  --uni-z-drawer: 200;
 
   /* shadcn/ui alias roles -> semantic tokens (Light) */
   --toggle-thumb: #ffffff;
@@ -960,7 +960,7 @@ html[data-font-tier="system"],
   /* misc */
   --overlay: #000000b3;
   --color-focus-ring: #ededed; /* gray-1000 */
-  --focus-ring-color: #52a8ff; /* official --ds-focus-ring dark */
+  --focus-ring-color: #52a8ff; /* official --uni-focus-ring dark */
 
   /* 焦点环（Dark：2px 深色背景描边 + 4px 主题焦点蓝） */
   --focus-ring-outline: 0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--focus-ring-color);
@@ -1055,33 +1055,33 @@ html[data-font-tier="system"],
   --teal-800: #0f8c7d;
   --teal-900: #12b5a1;
 
-  /* 官方 --ds-* 兼容层：主题相关精确值 */
-  --ds-gray-100: var(--gray-100);
-  --ds-gray-400: hsl(0 0% 18%);
-  --ds-gray-500: var(--gray-500);
-  --ds-gray-700: var(--gray-700);
-  --ds-gray-900: var(--gray-900);
-  --ds-gray-1000: var(--gray-1000);
-  --ds-gray-alpha-400: var(--gray-alpha-400);
-  --ds-gray-alpha-500: var(--gray-alpha-500);
-  --ds-gray-alpha-300: var(--gray-alpha-300);
-  --ds-gray-alpha-600: var(--gray-alpha-600);
-  --ds-gray-600: var(--gray-600);
-  --ds-shadow-menu: var(--material-shadow-menu);
-  --ds-background-100: var(--background-100);
-  --ds-blue-600: #0091ff;
-  --ds-blue-900: #52a8ff;
-  --ds-blue-100: #0f1c2e;
-  --ds-blue-200: hsl(214 59% 15%);
-  --ds-blue-700: var(--blue-700);
-  /* 语法高亮 token 色（官方 code-block/code 运行时 --ds-* 实测） */
-  --ds-pink-900: hsla(341, 90%, 67%, 1);
-  --ds-green-900: hsla(131, 43%, 57%, 1);
-  --ds-red-900: hsla(358, 100%, 69%, 1);
-  --ds-purple-900: hsla(275, 80%, 71%, 1);
-  --ds-amber-900: hsla(39, 90%, 50%, 1);
-  --ds-amber-800: var(--amber-800);
-  --ds-accents-5: #888;
+  /* 官方 --uni-* 兼容层：主题相关精确值 */
+  --uni-gray-100: var(--gray-100);
+  --uni-gray-400: hsl(0 0% 18%);
+  --uni-gray-500: var(--gray-500);
+  --uni-gray-700: var(--gray-700);
+  --uni-gray-900: var(--gray-900);
+  --uni-gray-1000: var(--gray-1000);
+  --uni-gray-alpha-400: var(--gray-alpha-400);
+  --uni-gray-alpha-500: var(--gray-alpha-500);
+  --uni-gray-alpha-300: var(--gray-alpha-300);
+  --uni-gray-alpha-600: var(--gray-alpha-600);
+  --uni-gray-600: var(--gray-600);
+  --uni-shadow-menu: var(--material-shadow-menu);
+  --uni-background-100: var(--background-100);
+  --uni-blue-600: #0091ff;
+  --uni-blue-900: #52a8ff;
+  --uni-blue-100: #0f1c2e;
+  --uni-blue-200: hsl(214 59% 15%);
+  --uni-blue-700: var(--blue-700);
+  /* 语法高亮 token 色（官方 code-block/code 运行时 --uni-* 实测） */
+  --uni-pink-900: hsla(341, 90%, 67%, 1);
+  --uni-green-900: hsla(131, 43%, 57%, 1);
+  --uni-red-900: hsla(358, 100%, 69%, 1);
+  --uni-purple-900: hsla(275, 80%, 71%, 1);
+  --uni-amber-900: hsla(39, 90%, 50%, 1);
+  --uni-amber-800: var(--amber-800);
+  --uni-accents-5: #888;
 
   /* Geist material-* 阴影（官方实测 dark） */
   --material-shadow-base: rgba(255, 255, 255, 0.145) 0px 0px 0px 1px, rgb(0, 0, 0) 0px 0px 0px 1px;
@@ -1111,8 +1111,8 @@ html[data-font-tier="system"],
     rgb(0, 0, 0) 0px 0px 0px 1px;
 
   /* Sheet 官方实测（2026-08-15）：overlay 遮罩 + 浮层阴影（z 层级沿用 :root） */
-  --ds-overlay-backdrop-color: #000000;
-  --ds-shadow-modal-elevated:
+  --uni-overlay-backdrop-color: #000000;
+  --uni-shadow-modal-elevated:
     0 0 0 1px #ffffff24, 0px 32px 72px -12px #0000000f, 0px 8px 32px -12px #00000014,
     0px 8px 24px -12px #0000001f;
 
@@ -1523,7 +1523,7 @@ html[data-font-tier="system"],
   box-shadow: var(--material-shadow-tooltip);
 }
 @utility switch-ring {
-  box-shadow: 0 0 0 1px var(--ds-gray-alpha-400);
+  box-shadow: 0 0 0 1px var(--uni-gray-alpha-400);
 }
 
 @utility material-menu {
@@ -1571,7 +1571,7 @@ html[data-font-tier="system"],
 }
 
 /*
- * Geist 统一焦点环（官方 --ds-focus-ring 实测）
+ * Geist 统一焦点环（官方 --uni-focus-ring 实测）
  * 双环结构：2px 表面色描边（与背景分离）+ 4px 主题焦点蓝
  * （light #0072f5 / dark #52a8ff）。
  * 仅键盘聚焦（:focus-visible）显示：官方实测鼠标点击后无可见 ring，
@@ -1609,12 +1609,12 @@ html[data-font-tier="system"],
   }
 }
 
-/* CodeBlock 语法主题（官方 code-block-module 实测 token → --ds-* 映射） */
+/* CodeBlock 语法主题（官方 code-block-module 实测 token → --uni-* 映射） */
 [data-slot="code-block"] .token.comment,
 [data-slot="code-block"] .token.prolog,
 [data-slot="code-block"] .token.doctype,
 [data-slot="code-block"] .token.cdata {
-  color: var(--ds-gray-900);
+  color: var(--uni-gray-900);
 }
 [data-slot="code-block"] .token.string,
 [data-slot="code-block"] .token.attr-value,
@@ -1626,27 +1626,27 @@ html[data-font-tier="system"],
 [data-slot="code-block"] .token.tag,
 [data-slot="code-block"] .token.class-name,
 [data-slot="code-block"] .token.number {
-  color: var(--ds-green-900);
+  color: var(--uni-green-900);
 }
 [data-slot="code-block"] .token.keyword,
 [data-slot="code-block"] .token.selector {
-  color: var(--ds-pink-900);
+  color: var(--uni-pink-900);
 }
 [data-slot="code-block"] .token.property,
 [data-slot="code-block"] .token.entity {
-  color: var(--ds-red-900);
+  color: var(--uni-red-900);
 }
 [data-slot="code-block"] .token.function,
 [data-slot="code-block"] .token.attr-name,
 [data-slot="code-block"] .token.regex {
-  color: var(--ds-purple-900);
+  color: var(--uni-purple-900);
 }
 [data-slot="code-block"] .token.punctuation,
 [data-slot="code-block"] .token.operator {
-  color: var(--ds-gray-1000);
+  color: var(--uni-gray-1000);
 }
 [data-slot="code-block"] .token.tag.attr-value {
-  color: var(--ds-blue-900);
+  color: var(--uni-blue-900);
 }
 
 /* Code 语法主题（官方 syntax-theme-module 实测：function/tag/number 为蓝、attr-name 为 amber） */
@@ -1654,7 +1654,7 @@ html[data-font-tier="system"],
 [data-slot="code"] .token.prolog,
 [data-slot="code"] .token.doctype,
 [data-slot="code"] .token.cdata {
-  color: var(--ds-accents-5);
+  color: var(--uni-accents-5);
 }
 [data-slot="code"] .token.string,
 [data-slot="code"] .token.attr-value,
@@ -1663,31 +1663,31 @@ html[data-font-tier="system"],
 [data-slot="code"] .token.boolean,
 [data-slot="code"] .token.variable,
 [data-slot="code"] .token.constant {
-  color: var(--ds-green-900);
+  color: var(--uni-green-900);
 }
 [data-slot="code"] .token.keyword {
-  color: var(--ds-pink-900);
+  color: var(--uni-pink-900);
 }
 [data-slot="code"] .token.function,
 [data-slot="code"] .token.tag,
 [data-slot="code"] .token.class-name,
 [data-slot="code"] .token.number {
-  color: var(--ds-blue-900);
+  color: var(--uni-blue-900);
 }
 [data-slot="code"] .token.tag .token.punctuation {
-  color: var(--ds-blue-900);
+  color: var(--uni-blue-900);
 }
 [data-slot="code"] .token.property,
 [data-slot="code"] .token.entity {
-  color: var(--ds-red-900);
+  color: var(--uni-red-900);
 }
 [data-slot="code"] .token.attr-name,
 [data-slot="code"] .token.regex {
-  color: var(--ds-amber-900);
+  color: var(--uni-amber-900);
 }
 [data-slot="code"] .token.punctuation,
 [data-slot="code"] .token.operator {
-  color: var(--ds-gray-1000);
+  color: var(--uni-gray-1000);
 }
 
 /* LoadingDots 官方 blink 动画（1.4s ease infinite，opacity 0.2→1→0.2） */

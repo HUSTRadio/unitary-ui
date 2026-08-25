@@ -17,10 +17,10 @@ import { useI18n } from "@/lib/i18n";
  * - content：w-[540px] max-w-full max-modal:max-w-[calc(100vw-20px)] flex flex-col
  *   rounded-[12px]（现 rounded-xl token）bg-background-100 无 border，max-h-[min(800px,80vh)]（1440x900 下
  *   720px，sticky demo 全高即由此封顶），sm:overflow-hidden overflow-y-auto
- * - 阴影：shadow-[var(--ds-shadow-modal-elevated)]（双主题：light 边框层 #00000014 /
+ * - 阴影：shadow-[var(--uni-shadow-modal-elevated)]（双主题：light 边框层 #00000014 /
  *   dark #ffffff24，其余 3 层一致）
  * - 过渡：transition-[opacity,transform] 0.3s cubic-bezier(0.175,0.885,0.32,1.1)
- *   （官方 --ds-motion-overlay-duration/timing），无 animation
+ *   （官方 --uni-motion-overlay-duration/timing），无 animation
  * - 内容区：body（p-5 overflow-y-auto）承载 header/title/description/footer；
  *   sticky demo 通过 bodyClassName="pt-0" + className="sticky" 复刻
  *   [.sticky_&] 变体（dialog position:sticky、header/footer 粘性）
@@ -116,7 +116,7 @@ const ModalContent = React.forwardRef<
               "fixed top-[50%] left-[50%] z-[300] flex min-h-0 w-[540px] max-w-full min-w-0 flex-col overflow-hidden rounded-xl bg-background-100 text-foreground outline-none",
               "max-h-[min(800px,80vh)]",
               "max-modal:max-w-[calc(100vw-20px)]",
-              "shadow-[var(--ds-shadow-modal-elevated)]",
+              "shadow-[var(--uni-shadow-modal-elevated)]",
               "-translate-x-1/2 -translate-y-1/2",
               "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
               "transition-[opacity,transform] duration-(--uni-duration-slow) ease-[cubic-bezier(0.175,0.885,0.32,1.1)]",

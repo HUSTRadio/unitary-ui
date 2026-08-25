@@ -16,7 +16,7 @@ import { layoutRootStyle, layoutSurfaceStyle, type ControlLayout } from "@/lib/c
  * - wrapper text-sm font-normal（suffix/徽章继承 14px/20px）；
  * - 无 suffix 时 input 为末子：pr-0（官方 [&>:last-child]:pr-0）；
  * - input 文字色：无 suffix --geist-foreground（light #000 / dark #fff），
- *   有 suffix --themed-fg（= --ds-gray-1000，light #171717 / dark #ededed）；
+ *   有 suffix --themed-fg（= --uni-gray-1000，light #171717 / dark #ededed）；
  * - cmdk 徽章 kbd 结构与官方一致（kbd > span > [esc|cmd] 双绝对定位 span，
  *   min-w-5 固定 20px，esc span w-5 / cmd span w-3 对齐官方测量宽度）。
  */
@@ -31,7 +31,7 @@ type ClearableInputProps = Omit<React.ComponentProps<"input">, "size"> & {
   layout?: ControlLayout;
 };
 
-const clearableKbdClass = "font-sans! bg-background-100 text-[var(--ds-gray-900)]";
+const clearableKbdClass = "font-sans! bg-background-100 text-[var(--uni-gray-900)]";
 
 /** cmdk 徽章 kbd：官方 !flex + 无 justify（内容左对齐），min-w-5 固定宽度。 */
 const badgeKbdClass = "ml-0.5 !items-stretch !justify-start !leading-[1.7em] text-center";
@@ -117,10 +117,10 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
         style={layoutSurfaceStyle(layout)}
         className={cn(
           "flex h-9 w-full max-w-full items-center overflow-hidden rounded-lg bg-background-100 text-sm font-normal",
-          "shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] transition-all duration-(--uni-duration-fast)",
-          "hover:shadow-[0_0_0_1px_var(--color-gray-alpha-500)] hover:has-[input:disabled]:shadow-[0_0_0_1px_var(--ds-gray-alpha-400)]",
+          "shadow-[0_0_0_1px_var(--uni-gray-alpha-400)] transition-all duration-(--uni-duration-fast)",
+          "hover:shadow-[0_0_0_1px_var(--color-gray-alpha-500)] hover:has-[input:disabled]:shadow-[0_0_0_1px_var(--uni-gray-alpha-400)]",
           "focus-within:!shadow-[0_0_0_1px_var(--input-focus-border),0_0_0_4px_var(--input-focus-glow)]",
-          "has-[input:disabled]:cursor-not-allowed has-[input:disabled]:bg-[var(--ds-gray-100)]",
+          "has-[input:disabled]:cursor-not-allowed has-[input:disabled]:bg-[var(--uni-gray-100)]",
           className,
         )}
       >
@@ -143,10 +143,10 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
           className={cn(
             "order-1 flex h-full w-full min-w-0 appearance-none border-none bg-background-100 px-3 text-copy-14 outline-none",
             showSuffix
-              ? "rounded-r-none text-[var(--ds-gray-1000)]"
+              ? "rounded-r-none text-[var(--uni-gray-1000)]"
               : "text-black last:pr-0 dark:text-white",
             "placeholder:text-foreground/50 focus:outline-none",
-            "disabled:cursor-not-allowed disabled:bg-[var(--ds-gray-100)] disabled:text-[var(--ds-gray-700)] disabled:opacity-100 disabled:placeholder:!text-[var(--input-disabled-placeholder)]",
+            "disabled:cursor-not-allowed disabled:bg-[var(--uni-gray-100)] disabled:text-[var(--uni-gray-700)] disabled:opacity-100 disabled:placeholder:!text-[var(--input-disabled-placeholder)]",
           )}
         />
 
@@ -156,8 +156,8 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
             aria-hidden="true"
             data-geist-input-suffix=""
             className={cn(
-              "order-2 relative flex h-full shrink-0 items-center bg-background-100 pl-3 text-[var(--ds-gray-700)]",
-              disabled && "bg-[var(--ds-gray-100)]",
+              "order-2 relative flex h-full shrink-0 items-center bg-background-100 pl-3 text-[var(--uni-gray-700)]",
+              disabled && "bg-[var(--uni-gray-100)]",
             )}
           >
             {cmdk ? (
@@ -187,7 +187,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
                 type="button"
                 tabIndex={disabled ? -1 : undefined}
                 onClick={handleClear}
-                className="pointer-coarse:hidden flex h-full max-w-full shrink-0 cursor-pointer items-center rounded-r-overlay-item border-0 bg-transparent px-2.5 font-inherit text-base text-[var(--ds-gray-700)] no-underline outline-none transition-[color,box-shadow,border-color] duration-(--uni-duration-fast) ease-[ease] hover:text-foreground focus-visible:-outline-offset-1 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-[var(--ds-focus-color)] disabled:cursor-not-allowed"
+                className="pointer-coarse:hidden flex h-full max-w-full shrink-0 cursor-pointer items-center rounded-r-overlay-item border-0 bg-transparent px-2.5 font-inherit text-base text-[var(--uni-gray-700)] no-underline outline-none transition-[color,box-shadow,border-color] duration-(--uni-duration-fast) ease-[ease] hover:text-foreground focus-visible:-outline-offset-1 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-[var(--uni-focus-color)] disabled:cursor-not-allowed"
               >
                 <Kbd small className={cn(clearableKbdClass, clearButtonKbdClass)}>
                   Esc
@@ -206,7 +206,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
         className="block w-full max-w-full"
         style={layoutRootStyle(layout)}
       >
-        <div className="mb-2 block max-w-full cursor-text capitalize text-[13px] leading-[1.5] text-[var(--ds-gray-900)]">
+        <div className="mb-2 block max-w-full cursor-text capitalize text-[13px] leading-[1.5] text-[var(--uni-gray-900)]">
           {label}
         </div>
         {wrapper}

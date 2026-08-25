@@ -12,9 +12,9 @@ import { cn } from "@/lib/utils";
  * 组件默认值对齐官方实测（2026-08-15，vercel.com/geist/sheet，live DOM + computed）：
  * - modal 默认 false（官方 Best Practices「Sheet defaults to modal=false」；
  *   页面保持可交互、不锁滚动、outside-click 不关闭）
- * - overlay：bg-[var(--ds-overlay-backdrop-color)] @ opacity-0.8（light #f2f2f2 / dark #000）
- * - content 公共：gap-4 bg-background-100 p-6，fixed z-[var(--ds-z-drawer)]，
- *   shadow-[var(--ds-shadow-modal-elevated)]，transition ease-in-out
+ * - overlay：bg-[var(--uni-overlay-backdrop-color)] @ opacity-0.8（light #f2f2f2 / dark #000）
+ * - content 公共：gap-4 bg-background-100 p-6，fixed z-[var(--uni-z-drawer)]，
+ *   shadow-[var(--uni-shadow-modal-elevated)]，transition ease-in-out
  * - side 默认几何（组件默认值，非 demo 覆盖）：
  *   top/bottom：inset-x-0 全宽，无圆角无 margin
  *   right/left：inset-y-0 w-3/4 sm:max-w-sm h-full，无圆角无 margin
@@ -52,7 +52,7 @@ const SheetOverlay = React.forwardRef<
     ref={ref}
     data-slot="sheet-overlay"
     className={cn(
-      "fixed inset-0 z-[var(--ds-z-drawer)] bg-[var(--ds-overlay-backdrop-color)] opacity-[var(--ds-overlay-backdrop-opacity)]",
+      "fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-backdrop-color)] opacity-[var(--uni-overlay-backdrop-opacity)]",
       className,
     )}
     {...props}
@@ -88,7 +88,7 @@ const SheetContent = React.forwardRef<
       ref={ref}
       data-slot="sheet-content"
       className={cn(
-        "fixed z-[var(--ds-z-drawer)] gap-4 bg-background-100 p-6 shadow-[var(--ds-shadow-modal-elevated)] transition ease-in-out focus:outline-none",
+        "fixed z-[var(--uni-z-drawer)] gap-4 bg-background-100 p-6 shadow-[var(--uni-shadow-modal-elevated)] transition ease-in-out focus:outline-none",
         "data-[state=open]:animate-in data-[state=open]:duration-(--uni-duration-base) data-[state=open]:fade-in-0",
         "data-[state=closed]:animate-out data-[state=closed]:duration-(--uni-duration-base) data-[state=closed]:fade-out-0",
         SIDE_STYLES[side],

@@ -140,8 +140,8 @@ function ChoiceboxGroupItem({
     <label
       aria-selected={selected}
       className={cn(
-        "group/choicebox flex flex-1 list-none flex-col items-stretch justify-start overflow-hidden rounded-md border border-[var(--ds-gray-400)] transition-colors duration-(--uni-duration-fast) ease-in",
-        "has-checked:not-has-disabled:border-[var(--ds-blue-600)] hover:has-enabled:border-[var(--ds-gray-500)] hover:has-enabled:bg-[var(--ds-gray-100)] hover:has-checked:not-has-disabled:!border-[var(--ds-blue-600)]",
+        "group/choicebox flex flex-1 list-none flex-col items-stretch justify-start overflow-hidden rounded-md border border-[var(--uni-gray-400)] transition-colors duration-(--uni-duration-fast) ease-in",
+        "has-checked:not-has-disabled:border-[var(--uni-blue-600)] hover:has-enabled:border-[var(--uni-gray-500)] hover:has-enabled:bg-[var(--uni-gray-100)] hover:has-checked:not-has-disabled:!border-[var(--uni-blue-600)]",
         "choicebox-focus",
         itemDisabled ? "cursor-not-allowed" : "cursor-pointer",
         className,
@@ -152,8 +152,8 @@ function ChoiceboxGroupItem({
         className={cn(
           "flex flex-row items-center justify-between gap-6 p-3",
           (!selected || !children) && "h-full",
-          "has-checked:not-has-disabled:bg-[var(--ds-blue-100)] hover:has-checked:not-has-disabled:!bg-[var(--ds-blue-200)]",
-          selected && children && "border-b border-[var(--ds-blue-600)]",
+          "has-checked:not-has-disabled:bg-[var(--uni-blue-100)] hover:has-checked:not-has-disabled:!bg-[var(--uni-blue-200)]",
+          selected && children && "border-b border-[var(--uni-blue-600)]",
         )}
       >
         <span
@@ -165,8 +165,8 @@ function ChoiceboxGroupItem({
             data-slot="choicebox-group-item-title"
             className={cn(
               "text-sm font-medium leading-5",
-              selected && !itemDisabled && "text-[var(--ds-blue-900)]",
-              itemDisabled && "text-[var(--ds-gray-500)]",
+              selected && !itemDisabled && "text-[var(--uni-blue-900)]",
+              itemDisabled && "text-[var(--uni-gray-500)]",
             )}
           >
             {title}
@@ -175,9 +175,9 @@ function ChoiceboxGroupItem({
             id={descriptionId}
             data-slot="choicebox-group-item-description"
             className={cn(
-              "text-sm leading-5 text-[var(--ds-gray-900)] empty:hidden",
-              selected && !itemDisabled && "text-[var(--ds-blue-900)]",
-              itemDisabled && "text-[var(--ds-gray-500)]",
+              "text-sm leading-5 text-[var(--uni-gray-900)] empty:hidden",
+              selected && !itemDisabled && "text-[var(--uni-blue-900)]",
+              itemDisabled && "text-[var(--uni-gray-500)]",
             )}
           >
             {description}
@@ -204,9 +204,9 @@ function ChoiceboxGroupItem({
               aria-hidden="true"
               data-slot="choicebox-radio-indicator"
               className={cn(
-                "relative size-4 rounded-full border border-[var(--radio-color)] bg-[var(--ds-background-100)] [--radio-color:var(--ds-gray-500)]",
+                "relative size-4 rounded-full border border-[var(--radio-color)] bg-[var(--uni-background-100)] [--radio-color:var(--uni-gray-500)]",
                 "transition-[border-color,background] duration-(--uni-duration-base) ease-in after:absolute after:left-1/2 after:top-1/2 after:block after:size-2 after:-translate-x-1/2 after:-translate-y-1/2 after:scale-0 after:rounded-full after:bg-[var(--radio-color)] after:transition-transform after:duration-(--uni-duration-fast) after:ease-in after:content-['']",
-                "peer-checked:[--radio-color:var(--ds-blue-900)] peer-checked:after:scale-100 peer-disabled:peer-checked:[--radio-color:var(--ds-gray-900)] peer-disabled:not-peer-checked:bg-[var(--ds-gray-100)] peer-disabled:text-[var(--ds-gray-500)]",
+                "peer-checked:[--radio-color:var(--uni-blue-900)] peer-checked:after:scale-100 peer-disabled:peer-checked:[--radio-color:var(--uni-gray-900)] peer-disabled:not-peer-checked:bg-[var(--uni-gray-100)] peer-disabled:text-[var(--uni-gray-500)]",
               )}
             />
           </span>
@@ -231,13 +231,13 @@ function ChoiceboxGroupItem({
               aria-hidden="true"
               data-slot="choicebox-checkbox-indicator"
               className={cn(
-                "relative inline-flex size-4 items-center justify-center rounded-sm border border-[var(--ds-gray-500)] bg-[var(--ds-background-100)] text-[13px] transition-all duration-(--uni-duration-base)",
-                "peer-checked:border-[var(--ds-blue-900)] peer-checked:bg-[var(--ds-blue-900)] peer-disabled:not-peer-checked:bg-[var(--ds-gray-100)] peer-disabled:peer-checked:border-[var(--gray-600)] peer-disabled:peer-checked:bg-[var(--gray-600)] peer-disabled:text-[var(--ds-gray-500)]",
+                "relative inline-flex size-4 items-center justify-center rounded-sm border border-[var(--uni-gray-500)] bg-[var(--uni-background-100)] text-[13px] transition-all duration-(--uni-duration-base)",
+                "peer-checked:border-[var(--uni-blue-900)] peer-checked:bg-[var(--uni-blue-900)] peer-disabled:not-peer-checked:bg-[var(--uni-gray-100)] peer-disabled:peer-checked:border-[var(--gray-600)] peer-disabled:peer-checked:bg-[var(--gray-600)] peer-disabled:text-[var(--uni-gray-500)]",
               )}
             >
               <svg aria-hidden="true" fill="none" height="16" viewBox="0 0 20 20" width="16">
                 <path
-                  className={cn("stroke-[var(--ds-background-100)]", !selected && "invisible")}
+                  className={cn("stroke-[var(--uni-background-100)]", !selected && "invisible")}
                   d="M14 7L8.5 12.5L6 10"
                   strokeLinecap="round"
                   strokeLinejoin="round"

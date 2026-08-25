@@ -52,7 +52,7 @@ describe("KeyboardInput official API contract (G06 wave)", () => {
   test("G06-KBD-05: kbd surface uses the official one-pixel outer shadow", async () => {
     const src = await read("src/components/ui/keyboard-input.tsx");
     expect(src).toMatch(/bg-background-100/);
-    expect(src).toContain("shadow-[0_0_0_1px_var(--ds-gray-alpha-400)]");
+    expect(src).toContain("shadow-[0_0_0_1px_var(--uni-gray-alpha-400)]");
     expect(src).not.toContain("ring-inset");
     expect(src).not.toMatch(/bg-gray-alpha-200/);
     expect(src).not.toMatch(/border-gray-alpha-400/);

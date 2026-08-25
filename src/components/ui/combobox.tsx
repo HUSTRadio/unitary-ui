@@ -104,16 +104,16 @@ const GROUP_SIZE_CLASS: Record<ComboboxSize, string> = {
 };
 
 const INPUT_CLASS =
-  "w-full h-(--ds-size-medium) bg-[var(--ds-background-100)] rounded-lg border-0 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] bg-clip-padding font-[var(--font-sans)] text-[var(--ds-gray-1000)] min-h-(--ds-size-medium) sm:min-h-0 appearance-none m-0 cursor-text outline-hidden py-0 pl-10 pr-9 placeholder:text-[var(--ds-gray-700)] transition-all duration-(--uni-duration-base) ease-in-out text-left truncate disabled:text-[var(--ds-gray-700)] disabled:bg-[var(--ds-gray-100)] disabled:cursor-not-allowed disabled:hover:!shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] focus:outline-hidden sm:focus:!shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] group-hover/combobox:shadow-[0_0_0_1px_var(--ds-gray-alpha-500)]";
+  "w-full h-(--uni-size-medium) bg-[var(--uni-background-100)] rounded-lg border-0 shadow-[0_0_0_1px_var(--uni-gray-alpha-400)] bg-clip-padding font-[var(--font-sans)] text-[var(--uni-gray-1000)] min-h-(--uni-size-medium) sm:min-h-0 appearance-none m-0 cursor-text outline-hidden py-0 pl-10 pr-9 placeholder:text-[var(--uni-gray-700)] transition-all duration-(--uni-duration-base) ease-in-out text-left truncate disabled:text-[var(--uni-gray-700)] disabled:bg-[var(--uni-gray-100)] disabled:cursor-not-allowed disabled:hover:!shadow-[0_0_0_1px_var(--uni-gray-alpha-400)] focus:outline-hidden sm:focus:!shadow-[0_0_0_1px_var(--uni-gray-alpha-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] group-hover/combobox:shadow-[0_0_0_1px_var(--uni-gray-alpha-500)]";
 
 const CLEAR_BUTTON_CLASS =
-  "outline-hidden m-0 p-0 border-0 box-border text-base align-baseline no-underline [tap-highlight-color:transparent] select-none bg-none cursor-pointer inline-flex items-center justify-center !w-10 group-hover/combobox:text-[var(--geist-foreground)] disabled:cursor-not-allowed [&>span]:inline-flex [&>span]:items-center [&>span]:justify-center !mr-0 absolute -right-px top-1/2 text-[var(--ds-gray-700)] transform -translate-y-1/2 border-l-0 rounded-r-[5px] py-0 px-3 order-2 transition-all duration-(--uni-duration-fast) ease-out w-auto focus-visible:ring-2 focus-visible:ring-[var(--ds-focus-color)] focus-visible:ring-offset-0";
+  "outline-hidden m-0 p-0 border-0 box-border text-base align-baseline no-underline [tap-highlight-color:transparent] select-none bg-none cursor-pointer inline-flex items-center justify-center !w-10 group-hover/combobox:text-[var(--geist-foreground)] disabled:cursor-not-allowed [&>span]:inline-flex [&>span]:items-center [&>span]:justify-center !mr-0 absolute -right-px top-1/2 text-[var(--uni-gray-700)] transform -translate-y-1/2 border-l-0 rounded-r-[5px] py-0 px-3 order-2 transition-all duration-(--uni-duration-fast) ease-out w-auto focus-visible:ring-2 focus-visible:ring-[var(--uni-focus-color)] focus-visible:ring-offset-0";
 
 const OPEN_BUTTON_CLASS =
-  "outline-hidden m-0 p-0 border-0 box-border text-base align-baseline no-underline [tap-highlight-color:transparent] select-none bg-none cursor-pointer inline-flex !w-10 group-hover/combobox:text-gray-1000 disabled:cursor-not-allowed disabled:text-[var(--ds-gray-700)] [&>span]:inline-flex items-center justify-center !mr-0 absolute -right-px top-1/2 text-[var(--ds-gray-700)] transform -translate-y-1/2 transition-colors duration-(--uni-duration-fast) ease-in";
+  "outline-hidden m-0 p-0 border-0 box-border text-base align-baseline no-underline [tap-highlight-color:transparent] select-none bg-none cursor-pointer inline-flex !w-10 group-hover/combobox:text-gray-1000 disabled:cursor-not-allowed disabled:text-[var(--uni-gray-700)] [&>span]:inline-flex items-center justify-center !mr-0 absolute -right-px top-1/2 text-[var(--uni-gray-700)] transform -translate-y-1/2 transition-colors duration-(--uni-duration-fast) ease-in";
 
 const PANEL_CLASS =
-  "m-0 p-1.5 outline-hidden bg-[var(--ds-background-100)] shadow-[0_0_0_1px_var(--ds-gray-alpha-400),0_2px_2px_0_rgba(0,0,0,0.04),0_8px_16px_-4px_rgba(0,0,0,0.04),0_0_0_1px_var(--ds-background-200)] rounded-overlay z-[2001] max-h-[210px] overflow-y-auto overflow-x-hidden [&>ul]:m-0 [&>ul]:p-0 [&>ul]:list-none";
+  "m-0 p-1.5 outline-hidden bg-[var(--uni-background-100)] shadow-[0_0_0_1px_var(--uni-gray-alpha-400),0_2px_2px_0_rgba(0,0,0,0.04),0_8px_16px_-4px_rgba(0,0,0,0.04),0_0_0_1px_var(--uni-background-200)] rounded-overlay z-[2001] max-h-[210px] overflow-y-auto overflow-x-hidden [&>ul]:m-0 [&>ul]:p-0 [&>ul]:list-none";
 /** 面板为条件挂载 portal（关闭即卸载），关闭动画由 panelMounted 延迟卸载 150ms 承载 */
 const PANEL_ENTER_CLASS = "animate-in fade-in-0 zoom-in-95 duration-(--uni-duration-fast) motion-reduce:animate-none";
 const PANEL_EXIT_CLASS =
@@ -374,9 +374,9 @@ function Combobox({
           OPTION_BASE_CLASS,
           !meta?.ignoreDefaultHeight && "h-9",
           meta?.ignoreDefaultHeight && "min-h-9 h-auto",
-          inClosedList && "text-[var(--ds-gray-1000)]",
-          !inClosedList && isActive && "bg-[var(--gray-alpha-100)] text-[var(--ds-gray-1000)]",
-          !inClosedList && !isActive && "text-[var(--ds-gray-1000)]",
+          inClosedList && "text-[var(--uni-gray-1000)]",
+          !inClosedList && isActive && "bg-[var(--gray-alpha-100)] text-[var(--uni-gray-1000)]",
+          !inClosedList && !isActive && "text-[var(--uni-gray-1000)]",
         )}
         onMouseEnter={() => setActiveValue(itemValue)}
         onClick={() => selectValue(itemValue)}
@@ -392,7 +392,7 @@ function Combobox({
           </span>
         )}
         {!inClosedList && isSelected && (
-          <Check className="ml-auto size-(--ds-control-decoration-size) shrink-0" aria-hidden />
+          <Check className="ml-auto size-(--uni-control-decoration-size) shrink-0" aria-hidden />
         )}
         {meta?.suffix && (
           <span className="ml-2 inline-flex shrink-0 items-center">{meta.suffix}</span>
@@ -417,11 +417,11 @@ function Combobox({
         className={cn(
           CLEAR_BUTTON_CLASS,
           size === "small" && "!h-8",
-          size === "medium" && "!h-full h-(--ds-size-medium)",
+          size === "medium" && "!h-full h-(--uni-size-medium)",
           size === "large" && "!h-10",
         )}
       >
-        <X className="size-(--ds-control-decoration-size)" aria-hidden />
+        <X className="size-(--uni-control-decoration-size)" aria-hidden />
       </button>
     ) : null;
 
@@ -442,7 +442,7 @@ function Combobox({
         )}
       >
         <ChevronDown
-          className="size-(--ds-control-decoration-size) rotate-0 transition-transform duration-(--uni-duration-fast)"
+          className="size-(--uni-control-decoration-size) rotate-0 transition-transform duration-(--uni-duration-fast)"
           aria-hidden
         />
       </button>
@@ -470,7 +470,7 @@ function Combobox({
       data-slot="combobox-root"
       style={rootStyle}
       className={cn(
-        "relative outline-hidden rounded-lg transition-shadow duration-(--uni-duration-base) focus-visible:shadow-[var(--ds-focus-ring)]",
+        "relative outline-hidden rounded-lg transition-shadow duration-(--uni-duration-base) focus-visible:shadow-[var(--uni-focus-ring)]",
         className,
       )}
       onClick={() => {
@@ -489,10 +489,10 @@ function Combobox({
           aria-hidden="true"
           className={cn(
             "inline-flex items-center justify-center pointer-events-none absolute left-[13px] top-1/2 z-10 transform -translate-y-1/2",
-            errored ? "text-[var(--button-error)]" : "text-[var(--ds-gray-700)]",
+            errored ? "text-[var(--button-error)]" : "text-[var(--uni-gray-700)]",
           )}
         >
-          <Search className="size-(--ds-control-decoration-size)" aria-hidden />
+          <Search className="size-(--uni-control-decoration-size)" aria-hidden />
         </div>
         <input
           ref={inputRef}
@@ -546,7 +546,7 @@ function Combobox({
                 style={{ width: panelWidth }}
               >
                 {visibleValues.length === 0 && listMeta.emptyMessage ? (
-                  <p className="m-0 px-2 py-2 text-sm text-[var(--ds-gray-900)]">
+                  <p className="m-0 px-2 py-2 text-sm text-[var(--uni-gray-900)]">
                     {listMeta.emptyMessage}
                   </p>
                 ) : (

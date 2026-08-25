@@ -31,10 +31,10 @@ describe("Drawer official contract", () => {
   });
 
   test("lifts overlay and panel to the shared drawer z-index (official z=200)", () => {
-    expect(source).toContain('z-[var(--ds-z-drawer)]');
+    expect(source).toContain('z-[var(--uni-z-drawer)]');
     const overlay = source.match(/Overlay className="([^"]*)"/);
-    expect(overlay?.[1]).toContain("z-[var(--ds-z-drawer)]");
+    expect(overlay?.[1]).toContain("z-[var(--uni-z-drawer)]");
     const content = source.match(/"fixed inset-x-0 bottom-0 ([^"]*)"/);
-    expect(content?.[1]).toContain("z-[var(--ds-z-drawer)]");
+    expect(content?.[1]).toContain("z-[var(--uni-z-drawer)]");
   });
 });

@@ -95,7 +95,7 @@ describe("ExpandPanel", () => {
     expect(custom.style.maxWidth).toBe("50vw");
   });
 
-  it("遮罩 bg-black/40 + z-[var(--ds-z-drawer)]；面板 shadow-lg + 动画曲线类", () => {
+  it("遮罩 bg-black/40 + z-[var(--uni-z-drawer)]；面板 shadow-lg + 动画曲线类", () => {
     renderPanel(<ExpandPanel side="top" open aria-label="menu" />);
     const overlay = document.querySelector(
       '[data-slot="expand-panel"] ~ [data-radix-popper-content-wrapper] ~ *, [role="dialog"]',
@@ -103,7 +103,7 @@ describe("ExpandPanel", () => {
     void overlay;
     const markup = document.body.innerHTML;
     expect(markup).toContain("bg-black/40");
-    expect(markup).toContain("z-[var(--ds-z-drawer)]");
+    expect(markup).toContain("z-[var(--uni-z-drawer)]");
     const panel = document.querySelector('[data-slot="expand-panel"]')!;
     expect(panel.className).toContain("shadow-lg");
     expect(panel.className).toContain("duration-(--uni-duration-slower)");

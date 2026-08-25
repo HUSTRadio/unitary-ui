@@ -77,7 +77,7 @@ describe("(a) 默认渲染与 pinned 定位", () => {
     expect(markup).toContain("sticky");
     expect(markup).toContain("top-0");
     // 层级走 token 变量并带数字回退
-    expect(markup).toContain("z-[var(--ds-z-header,40)]");
+    expect(markup).toContain("z-[var(--uni-z-header,40)]");
   });
 
   test("children 渲染在 header 内部", () => {

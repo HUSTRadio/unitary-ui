@@ -81,9 +81,9 @@ describe("Toggle official API contract (G12)", () => {
     expect(src).toContain("text-toggle-label");
     expect(css).toContain("--toggle-label: #666666");
     expect(css).toContain("--toggle-label: #888888");
-    // HIG 字号迁移：font-size 由硬编码 0.75rem 改为 var(--ds-text-caption1)（同为 12px）
+    // HIG 字号迁移：font-size 由硬编码 0.75rem 改为 var(--uni-text-caption1)（同为 12px）
     expect(css).toMatch(
-      /@utility text-toggle-label \{[\s\S]*?font-size: var\(--ds-text-caption1\);[\s\S]*?line-height: 1\.125rem;[\s\S]*?font-weight: 500;/,
+      /@utility text-toggle-label \{[\s\S]*?font-size: var\(--uni-text-caption1\);[\s\S]*?line-height: 1\.125rem;[\s\S]*?font-weight: 500;/,
     );
     expect(toggleContract.roles["toggle-label"].selectors.default.local).toBe(
       '[data-demo-container="with-label"] label > span:first-child',

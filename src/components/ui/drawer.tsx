@@ -140,7 +140,7 @@ function DrawerPanel({
       data-swipe-direction="down"
       {...accessibilityProps}
       className={cn(
-        "fixed inset-x-0 bottom-0 z-[var(--ds-z-drawer)] w-full max-w-full min-h-[45px] touch-pan-y rounded-t-xl border-t bg-background outline-none pb-[env(safe-area-inset-bottom)]",
+        "fixed inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full min-h-[45px] touch-pan-y rounded-t-xl border-t bg-background outline-none pb-[env(safe-area-inset-bottom)]",
         "max-h-[90dvh] overscroll-none",
         "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
         verticalScroll && "overflow-y-auto",
@@ -223,7 +223,7 @@ function Drawer({
       }}
     >
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--ds-z-drawer)] bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none motion-reduce:transition-none" />
+        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none motion-reduce:transition-none" />
         <DrawerPanel
           onDismiss={onDismiss}
           height={height}

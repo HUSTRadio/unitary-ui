@@ -125,7 +125,7 @@ function Feedback({
               aria-label={t("Product topic selection")}
               value={topic}
               onChange={(event) => setTopic(event.target.value)}
-              className="peer w-full cursor-pointer truncate appearance-none rounded-lg border-none bg-background-100 px-3 pr-9 text-[14px] leading-5 text-gray-1000 shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] transition-[box-shadow] duration-(--uni-duration-base) h-9 hover:shadow-[0_0_0_1px_var(--ds-gray-alpha-500)] focus:outline-hidden focus:!shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]"
+              className="peer w-full cursor-pointer truncate appearance-none rounded-lg border-none bg-background-100 px-3 pr-9 text-[14px] leading-5 text-gray-1000 shadow-[0_0_0_1px_var(--uni-gray-alpha-400)] transition-[box-shadow] duration-(--uni-duration-base) h-9 hover:shadow-[0_0_0_1px_var(--uni-gray-alpha-500)] focus:outline-hidden focus:!shadow-[0_0_0_1px_var(--uni-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]"
             >
               <option disabled value="">
                 {t("Select a topic...")}
@@ -142,7 +142,7 @@ function Feedback({
             onChange={(event) => setText(event.target.value)}
             placeholder={t("Your feedback...")}
             aria-label={t("Feedback")}
-            className="w-full resize-none appearance-none border-none bg-background-100 px-3 py-2.5 text-[14px] leading-5 text-foreground outline-none placeholder:text-muted-foreground shadow-[0_0_0_1px_var(--ds-gray-alpha-400)] rounded-md transition-[box-shadow] duration-(--uni-duration-base) focus:shadow-[0_0_0_1px_var(--ds-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)] h-[100px]"
+            className="w-full resize-none appearance-none border-none bg-background-100 px-3 py-2.5 text-[14px] leading-5 text-foreground outline-none placeholder:text-muted-foreground shadow-[0_0_0_1px_var(--uni-gray-alpha-400)] rounded-md transition-[box-shadow] duration-(--uni-duration-base) focus:shadow-[0_0_0_1px_var(--uni-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)] h-[100px]"
           />
           <div className="flex items-center justify-between gap-1">
             <div className="flex items-center justify-end gap-1 p-0 text-label-12 text-gray-900">
@@ -157,7 +157,7 @@ function Feedback({
                 <path
                   clipRule="evenodd"
                   d="M19.5 1.25H2.5C1.80964 1.25 1.25 1.80964 1.25 2.5V11.5C1.25 12.1904 1.80964 12.75 2.5 12.75H19.5C20.1904 12.75 20.75 12.1904 20.75 11.5V2.5C20.75 1.80964 20.1904 1.25 19.5 1.25ZM2.5 0C1.11929 0 0 1.11929 0 2.5V11.5C0 12.8807 1.11929 14 2.5 14H19.5C20.8807 14 22 12.8807 22 11.5V2.5C22 1.11929 20.8807 0 19.5 0H2.5ZM3 3.5H4H4.25H4.6899L4.98715 3.82428L7 6.02011L9.01285 3.82428L9.3101 3.5H9.75H10H11V4.5V10.5H9V6.79807L7.73715 8.17572L7 8.97989L6.26285 8.17572L5 6.79807V10.5H3V4.5V3.5ZM15 7V3.5H17V7H19.5L17 9.5L16 10.5L15 9.5L12.5 7H15Z"
-                  fill="var(--ds-gray-700)"
+                  fill="var(--uni-gray-700)"
                   fillRule="evenodd"
                 />
               </svg>

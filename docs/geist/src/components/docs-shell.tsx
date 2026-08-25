@@ -92,7 +92,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
                     type="button"
                     aria-label={copy.searchAria}
                     onClick={() => menuRef.current?.openSearch()}
-                    className="inline-flex size-11 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-[var(--ds-gray-alpha-200)]"
+                    className="inline-flex size-11 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-[var(--uni-gray-alpha-200)]"
                   >
                     <Search className="size-4" aria-hidden />
                   </button>

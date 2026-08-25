@@ -18,8 +18,8 @@ describe("Checkbox official API contract (G02)", () => {
     const src = await read("src/components/ui/checkbox.tsx");
     expect(src).toContain("peer-hover:enabled:peer-not-checked:peer-not-indeterminate:bg-gray-200");
     expect(src).not.toContain("hover:border-foreground/40");
-    // Local token mapping: gray-200 (#f2f2f2 light), never the undefined --ds-gray-200 var
-    expect(src).not.toContain("var(--ds-gray-200)");
+    // Local token mapping: gray-200 (#f2f2f2 light), never the undefined --uni-gray-200 var
+    expect(src).not.toContain("var(--uni-gray-200)");
   });
 
   test("G02-CHK-01: SSR renders native input covering the box (official structure)", () => {
