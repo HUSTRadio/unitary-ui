@@ -217,6 +217,7 @@ import {
 import { DEMO_CODE } from "../data/demo-code";
 import { demoText, demoTextWithValues } from "../i18n/components-demo";
 import { type DocsLanguage, useLanguage } from "../i18n/language";
+import { useInputModality } from "@/lib/input-modality";
 
 /**
  * Components 文档页（docs/geist 专用）。
@@ -2850,11 +2851,53 @@ function CopyButtonDemo() {
   );
 }
 
+function DrawerModalityGuide({ pointerActive }: { pointerActive: boolean }) {
+  const { language } = useLanguage();
+  // 两卡都渲染，当前模态卡高亮 + 置前（order-first），避免环境差异导致快照缺卡
+  const cards = [
+    {
+      key: "pointer",
+      active: pointerActive,
+      text: demoText(language, "Desktop side panel: use SidePanel."),
+      hint: demoText(language, "Floating right/left panel for mouse & trackpad."),
+    },
+    {
+      key: "touch",
+      active: !pointerActive,
+      text: demoText(language, "Touch screen: use Drawer."),
+      hint: demoText(language, "Full-width bottom sheet with swipe-to-dismiss."),
+    },
+  ].sort((a, b) => Number(b.active) - Number(a.active));
+
+  return (
+    <div className="flex flex-col gap-3 sm:flex-row" data-demo-container="modality-guide">
+      {cards.map((card) => (
+        <div
+          key={card.key}
+          data-modality-card={card.key}
+          data-active={card.active}
+          className={
+            card.active
+              ? "order-first flex-1 rounded-[8px] border border-gray-alpha-800 bg-background-100 p-4"
+              : "order-last flex-1 rounded-[8px] border border-gray-alpha-400 bg-background-100 p-4"
+          }
+        >
+          <p className={card.active ? "text-copy-14 font-medium text-foreground" : "text-copy-14 text-foreground"}>
+            {card.text}
+          </p>
+          <p className="mt-1 text-copy-13 text-muted-foreground">{card.hint}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function DrawerDemo() {
   const demoCode = (id: string) => DEMO_CODE.drawer?.[id] ?? "";
   const { language } = useLanguage();
   const [open, setOpen] = React.useState(false);
   const [customOpen, setCustomOpen] = React.useState(false);
+  const modality = useInputModality();
 
   const drawerBody = (
     <div className="flex flex-col items-stretch justify-start gap-2 p-12">
@@ -2867,6 +2910,7 @@ function DrawerDemo() {
 
   return (
     <div className="w-full max-w-[862px] space-y-6">
+      <DrawerModalityGuide pointerActive={modality === "pointer"} />
       <div
         className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"

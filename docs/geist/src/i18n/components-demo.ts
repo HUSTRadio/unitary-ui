@@ -556,6 +556,12 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Page Not Found": "页面未找到",
     Introduction: "介绍",
     "GitHub Repository": "GitHub 仓库",
+
+    // Drawer / SidePanel 模态引导卡（DD-001c）
+    "Desktop side panel: use SidePanel.": "桌面侧板请用 SidePanel。",
+    "Floating right/left panel for mouse & trackpad.": "面向鼠标与触控板的右/左悬浮面板。",
+    "Touch screen: use Drawer.": "触屏抽屉请用 Drawer。",
+    "Full-width bottom sheet with swipe-to-dismiss.": "全宽底部抽屉，下拉手势关闭。",
   },
   "en-US": {},
 };

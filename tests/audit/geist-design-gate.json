@@ -258,7 +258,15 @@
       "slug": "drawer",
       "batch": "B1",
       "inventoryStatus": "live_enumeration_complete",
-      "gate": "TDD_READY",
+      "gate": "DUAL_MODALITY_PROVENANCE",
+      "modalityBaseline": {
+        "touch": { "source": "geist_official_measured", "status": "locked" },
+        "pointer": {
+          "component": "side-panel",
+          "source": "unitary_owned",
+          "references": ["tremor_floating_inset", "internal_material_contract"]
+        }
+      },
       "dimensions": {
         "officialCapabilities": "PASS",
         "api": "PASS",
@@ -272,6 +280,15 @@
       },
       "evidence": ["drawer/REPORT.md", "drawer/evidence/", "drawer/run.log"],
       "notes": "16/16 real-viewport x theme cells + full interaction matrix PASS; first invalid 375 official probes are isolated under evidence/invalid and excluded, verified redo-375 data is used. D1-D7 and Base UI contract remain"
+    },
+    {
+      "slug": "side-panel",
+      "batch": "B0_SHARED_LAYERS",
+      "inventoryStatus": "unitary_component",
+      "gate": "TDD_READY",
+      "provenance": "unitary_owned",
+      "references": ["tremor_floating_inset", "internal_material_contract"],
+      "notes": "DD-001b desktop side panel (pointer modality); no official Geist counterpart - registered as unitary-owned provenance entry"
     },
     {
       "slug": "empty-state",

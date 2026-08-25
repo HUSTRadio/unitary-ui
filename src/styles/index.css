@@ -853,6 +853,9 @@ html[data-font-tier="system"],
     0px 0px 0px 1px #00000014, 0px 32px 72px -12px #0000000f, 0px 8px 32px -12px #00000014,
     0px 8px 24px -12px #0000001f;
   --uni-z-drawer: 200;
+  /* DD-001 §7.1：桌面侧板宽度档（与 toast 上限 420px 一致的次级浮层宽度档；
+     light/dark 无差异，声明一次；组件消费 var(--uni-drawer-width)，禁写死 px） */
+  --uni-drawer-width: min(420px, 90vw);
   /* Overlay stacking roles — 原值保值迁移（Task 9）；material=elevation 视觉契约，
      stacking 由这些 role token 单独管理。数值不得在本任务中调整。 */
   --uni-z-menu: 50;
