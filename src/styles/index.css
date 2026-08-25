@@ -601,6 +601,14 @@ html[data-font-tier="system"],
   --uni-leading-caption2: 0.8125rem;
   --uni-text-display: 2.5rem;
   --uni-leading-display: 3rem;
+
+  /* Unitary docs rhythm：现有内容几何的语义 owner，不宣称外部规范来源。 */
+  --uni-doc-space-title-lead: 0.75rem;
+  --uni-doc-space-section: 2.5rem;
+  --uni-doc-space-heading-body: 1rem;
+  --uni-doc-space-paragraph: 1rem;
+  --uni-doc-space-list-item: 0.75rem;
+  --uni-doc-list-indent: 1.25rem;
 }
 
 /* ============ Theme / Light — 34 semantic tokens ============ */
@@ -1263,6 +1271,48 @@ html[data-font-tier="system"],
 @utility text-style-caption2 {
   font-size: var(--uni-text-caption2);
   line-height: var(--uni-leading-caption2);
+}
+
+/* Docs prose semantic owner: Unitary docs rhythm keeps article geometry source-neutral. */
+.docs-prose-title {
+  margin: 0;
+  font-size: var(--uni-text-large-title);
+  line-height: var(--uni-leading-large-title);
+  font-weight: 600;
+}
+
+.docs-prose-lead {
+  margin-block: var(--uni-doc-space-title-lead) 0;
+  font-size: var(--uni-text-body);
+  line-height: var(--uni-leading-body);
+}
+
+.docs-prose-section {
+  margin-block-start: var(--uni-doc-space-section);
+}
+
+.docs-prose-heading {
+  margin: 0;
+  font-size: var(--uni-text-title3);
+  line-height: var(--uni-leading-title3);
+  font-weight: 600;
+}
+
+.docs-prose-paragraph {
+  margin-block: var(--uni-doc-space-paragraph) 0;
+  font-size: var(--uni-text-body);
+  line-height: var(--uni-leading-body);
+}
+
+.docs-prose-list {
+  margin-block: var(--uni-doc-space-heading-body) 0;
+  padding-inline-start: var(--uni-doc-list-indent);
+  font-size: var(--uni-text-body);
+  line-height: var(--uni-leading-body);
+}
+
+.docs-prose-list > li + li {
+  margin-block-start: var(--uni-doc-space-list-item);
 }
 
 /*

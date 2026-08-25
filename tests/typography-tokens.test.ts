@@ -19,6 +19,21 @@ const textStyles = [
   ["caption2", "0.6875rem", "0.8125rem"],
 ] as const;
 
+const rhythm = [
+  ["--uni-doc-space-title-lead", "0.75rem"],
+  ["--uni-doc-space-section", "2.5rem"],
+  ["--uni-doc-space-heading-body", "1rem"],
+  ["--uni-doc-space-paragraph", "1rem"],
+  ["--uni-doc-space-list-item", "0.75rem"],
+  ["--uni-doc-list-indent", "1.25rem"],
+] as const;
+
+function themeStaticRule(css: string): string {
+  const match = css.match(/@theme static \{([\s\S]*?)\n\}/);
+  expect(match, "missing @theme static").not.toBeNull();
+  return match![1];
+}
+
 function utilityRule(css: string, name: string): string {
   const match = css.match(new RegExp(`@utility ${name} \\{([\\s\\S]*?)\\n\\}`));
   expect(match, `missing @utility ${name}`).not.toBeNull();
@@ -35,6 +50,19 @@ describe("typography tokens", () => {
     }
 
     expect(css).not.toContain("--ds-text-");
+  });
+
+  test("defines docs rhythm tokens in the static theme owner without source brands", async () => {
+    const css = await readFile(path.join(root, "src/styles/index.css"), "utf8");
+    const theme = themeStaticRule(css);
+
+    for (const [name, value] of rhythm) {
+      expect(theme).toContain(`${name}: ${value}`);
+    }
+
+    for (const forbiddenPrefix of ["--hig-", "--apple-", "--geist-", "--vercel-"]) {
+      expect(css).not.toContain(forbiddenPrefix);
+    }
   });
 
   test("text-style utilities pair each semantic size with its leading", async () => {
