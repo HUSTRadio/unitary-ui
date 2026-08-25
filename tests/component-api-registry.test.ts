@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import { COMPONENT_API } from "../docs/geist/src/data/component-api";
 import { COMPONENTS } from "../docs/geist/src/data/components";
-import { NAV_GROUPS } from "../docs/geist/src/data/nav";
+import { DOCS_ROUTE_GROUPS } from "../docs/geist/src/data/docs-routes";
 
 describe("component API registry", () => {
   it("has an API entry for every documented component", () => {
@@ -22,7 +22,7 @@ describe("component API registry", () => {
   });
 
   it("links the common lifecycle conventions and every component page to the registry UI", async () => {
-    expect(NAV_GROUPS.find((group) => group.title === "API")?.items).toEqual([
+    expect(DOCS_ROUTE_GROUPS.find((group) => group.id === "api")?.items).toEqual([
       expect.objectContaining({ to: "/lifecycle-and-hooks" }),
     ]);
     const source = await readFile("docs/geist/src/components/docs-components-page.tsx", "utf8");

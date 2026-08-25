@@ -1,13 +1,11 @@
-import { Smartphone, type LucideIcon } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+import { DOCS_ROUTE_GROUPS } from "./docs-routes";
 
 /**
- * 文档站侧栏导航数据（docs/geist 专用）。
- * 分组与条目对齐官方 Geist 文档站侧栏（foundations/components），
- * Components 组直接由组件 registry 生成，避免 metadata、路由和侧栏漂移。
+ * 文档站侧栏导航兼容投影（docs/geist 专用）。
+ * Route metadata、排序和 sidebar 可见性都由 docs-routes registry 管理。
  */
-
-import { COMPONENTS } from "./components";
-
 export interface NavItem {
   label: string;
   labelZh?: string;
@@ -23,45 +21,8 @@ export interface NavGroup {
   items: NavItem[];
 }
 
-export const NAV_GROUPS: NavGroup[] = [
-  {
-    title: "Foundations",
-    titleZh: "基础",
-    items: [
-      { label: "Introduction", labelZh: "介绍", to: "/" },
-      { label: "Icons", labelZh: "图标", to: "/icons" },
-      { label: "Colors", labelZh: "颜色", to: "/colors" },
-      { label: "Typography", labelZh: "排版", to: "/typography" },
-      { label: "Materials", labelZh: "材质", to: "/materials" },
-      { label: "Grid", labelZh: "网格", to: "/grid" },
-    ],
-  },
-  {
-    title: "API",
-    titleZh: "API",
-    items: [{ label: "Lifecycle & Hooks", labelZh: "生命周期与钩子", to: "/lifecycle-and-hooks" }],
-  },
-  {
-    title: "Components",
-    titleZh: "组件",
-    items: [...COMPONENTS]
-      .sort((left, right) => left.label.localeCompare(right.label, "en"))
-      .map((component) => ({
-        label: component.label,
-        labelZh: component.labelZh,
-        to: `/components/${component.name}`,
-      })),
-  },
-  {
-    title: "Patterns",
-    titleZh: "模式",
-    items: [
-      {
-        label: "App Shell",
-        labelZh: "应用壳层",
-        to: "/patterns/app-shell",
-        icon: Smartphone,
-      },
-    ],
-  },
-];
+export const NAV_GROUPS: NavGroup[] = DOCS_ROUTE_GROUPS.map((group) => ({
+  title: group.title,
+  titleZh: group.titleZh,
+  items: group.items.map(({ label, labelZh, to, icon }) => ({ label, labelZh, to, icon })),
+}));

@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import { NAV_GROUPS } from "../docs/geist/src/data/nav";
+import { DOCS_ROUTE_SEQUENCE } from "../docs/geist/src/data/docs-routes";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -41,8 +41,10 @@ describe("Geist documentation coverage", () => {
     expect([...official].filter((slug) => !demos.has(slug))).toEqual([]);
     expect([...metadata].filter((slug) => !official.has(slug))).toEqual(["step-point"]);
 
-    const componentNav = NAV_GROUPS.find((group) => group.title === "Components");
-    const labels = componentNav?.items.map((item) => item.label) ?? [];
+    const componentRoutes = DOCS_ROUTE_SEQUENCE.filter(
+      (route) => route.renderer.kind === "component-detail",
+    );
+    const labels = componentRoutes.map((route) => route.label);
     expect(labels).toEqual([...labels].sort((left, right) => left.localeCompare(right, "en")));
   });
 
