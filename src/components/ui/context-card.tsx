@@ -85,7 +85,7 @@ function ContextCardTrigger({
           sideOffset={sideOffset}
           data-slot="context-card-popover"
           className={cn(
-            "z-[1000000] w-fit rounded-[6px] border border-gray-alpha-400 bg-background-100 p-4 shadow-[var(--material-shadow-tooltip)] outline-none",
+            "z-[var(--uni-z-context-card)] w-fit rounded-[6px] border border-gray-alpha-400 bg-background-100 p-4 shadow-[var(--material-shadow-tooltip)] outline-none",
             "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
             className,
           )}

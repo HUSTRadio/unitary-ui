@@ -211,7 +211,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
               sideOffset={6}
               data-slot="select-content"
               className={cn(
-                "material-menu relative z-[2001] max-h-[min(var(--radix-select-content-available-height),376px)] min-w-(--radix-select-trigger-width) w-full overflow-y-auto overscroll-contain p-1 text-popover-foreground",
+                "material-menu relative z-[var(--uni-z-popover)] max-h-[min(var(--radix-select-content-available-height),376px)] min-w-(--radix-select-trigger-width) w-full overflow-y-auto overscroll-contain p-1 text-popover-foreground",
                 "animate-in fade-in-0 zoom-in-95 duration-(--uni-duration-fast) motion-reduce:animate-none",
               )}
             >

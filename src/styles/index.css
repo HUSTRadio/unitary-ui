@@ -853,6 +853,14 @@ html[data-font-tier="system"],
     0px 0px 0px 1px #00000014, 0px 32px 72px -12px #0000000f, 0px 8px 32px -12px #00000014,
     0px 8px 24px -12px #0000001f;
   --uni-z-drawer: 200;
+  /* Overlay stacking roles — 原值保值迁移（Task 9）；material=elevation 视觉契约，
+     stacking 由这些 role token 单独管理。数值不得在本任务中调整。 */
+  --uni-z-menu: 50;
+  --uni-z-modal: 300;
+  --uni-z-popover: 2001;
+  --uni-z-toast: 5000;
+  --uni-z-tooltip: 99999;
+  --uni-z-context-card: 1000000;
 
   /* shadcn/ui alias roles -> semantic tokens (Light) */
   --toggle-thumb: #ffffff;

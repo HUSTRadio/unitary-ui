@@ -136,7 +136,7 @@ const Menu = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Content>, Me
             data-slot="menu"
             data-stateful={stateful || undefined}
             className={cn(
-              "z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-32 overflow-x-hidden overflow-y-auto rounded-overlay bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none",
+              "z-[var(--uni-z-menu)] max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-32 overflow-x-hidden overflow-y-auto rounded-overlay bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none",
               stateful && "flex flex-col gap-1",
               "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
               className,

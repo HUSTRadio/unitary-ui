@@ -155,7 +155,7 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
       className={cn(
-        "pointer-events-none fixed right-[var(--toast-gap)] bottom-[var(--toast-gap)] z-[5000] m-0 w-[min(420px,calc(100vw-2*var(--toast-gap)))] p-0 outline-none",
+        "pointer-events-none fixed right-[var(--toast-gap)] bottom-[var(--toast-gap)] z-[var(--uni-z-toast)] m-0 w-[min(420px,calc(100vw-2*var(--toast-gap)))] p-0 outline-none",
         className,
       )}
       style={{ "--toast-gap": `${gap}px` } as React.CSSProperties}
