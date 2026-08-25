@@ -209,13 +209,13 @@ function MaterialsPreview() {
 function TypefacePreview() {
   return (
     <div className="flex w-full max-w-md gap-3">
-      <div className="flex-1 rounded-md border border-dashed border-border px-4 py-6 text-center text-label-16 text-foreground">
+      <div className="min-w-0 flex-1 break-words rounded-md border border-dashed border-border px-4 py-6 text-center text-label-16 text-foreground">
         OPPO Sans 4.0
       </div>
-      <div className="flex-1 rounded-md border border-dashed border-border px-4 py-6 text-center text-label-16 text-foreground">
+      <div className="min-w-0 flex-1 break-words rounded-md border border-dashed border-border px-4 py-6 text-center text-label-16 text-foreground">
         HarmonyOS Sans SC
       </div>
-      <div className="flex-1 rounded-md border border-dashed border-border px-4 py-6 text-center font-mono text-label-16 text-foreground">
+      <div className="min-w-0 flex-1 break-words rounded-md border border-dashed border-border px-4 py-6 text-center font-mono text-label-16 text-foreground">
         JetBrains Maple Mono
       </div>
     </div>

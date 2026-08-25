@@ -76,7 +76,7 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t("A Grid without cells renders only its guide lines. Set height so the empty surface stays visible.")}
         </DocsParagraph>
-        <div className="mt-6">
+        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
           <GridSystem>
             <Grid columns={6} rows={3} height={180} />
           </GridSystem>
@@ -88,7 +88,7 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t("Cells without explicit placement flow into the tracks in DOM order.")}
         </DocsParagraph>
-        <div className="mt-6">
+        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
           <GridSystem>
             <Grid columns={3} rows={2}>
               <GridCell>1</GridCell>
@@ -107,7 +107,7 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t("A solid cell paints over its area and hides the guide borders strictly inside its span.")}
         </DocsParagraph>
-        <div className="mt-6">
+        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
           <GridSystem>
             <Grid columns={3} rows={2}>
               <GridCell column="1/3" row="1" solid>
@@ -128,7 +128,7 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t("columns and rows accept responsive objects; give values for sm, md, and lg explicitly.")}
         </DocsParagraph>
-        <div className="mt-6">
+        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
           <GridSystem>
             <Grid columns={{ sm: 1, md: 2, lg: 3 }} rows={{ sm: 6, md: 3, lg: 2 }}>
               <GridCell>1</GridCell>
@@ -149,7 +149,7 @@ export function GridPage() {
             "Cell placement accepts responsive objects too — a solid cell clips the guides of every breakpoint layer it covers.",
           )}
         </DocsParagraph>
-        <div className="mt-6">
+        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
           <GridSystem>
             <Grid columns={{ sm: 1, md: 2, lg: 4 }} rows={{ sm: 4, md: 2, lg: 2 }}>
               <GridCell column={{ sm: "1", md: "1/3", lg: "1/3" }} row={{ sm: "1/3", md: 1 }} solid>
@@ -170,7 +170,7 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t('hideGuides="row" removes the horizontal guide borders.')}
         </DocsParagraph>
-        <div className="mt-6">
+        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
           <GridSystem>
             <Grid columns={3} rows={2} hideGuides="row" />
           </GridSystem>
@@ -182,7 +182,7 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t('hideGuides="column" removes the vertical guide borders.')}
         </DocsParagraph>
-        <div className="mt-6">
+        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
           <GridSystem>
             <Grid columns={3} rows={2} hideGuides="column" />
           </GridSystem>
@@ -194,7 +194,7 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t("Cells can share tracks and overlap; stacking follows DOM order.")}
         </DocsParagraph>
-        <div className="mt-6">
+        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
           <GridSystem>
             <Grid columns={4} rows={3}>
               <GridCell column="1/3" row="1/3">A</GridCell>
@@ -209,7 +209,7 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t('Use explicit line ranges ("a/b") to clip exactly the guides under a span.')}
         </DocsParagraph>
-        <div className="mt-6">
+        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
           <GridSystem>
             <Grid columns={3} rows={2}>
               <GridCell column="1/3" row="1" solid>
@@ -228,7 +228,7 @@ export function GridPage() {
       <DocsSection data-grid-demo="cross">
         <DocsSectionTitle>{t("Cross")}</DocsSectionTitle>
         <DocsParagraph className="max-w-xl">{t("GridCross marks an intersection of grid lines.")}</DocsParagraph>
-        <div className="mt-6">
+        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
           <GridSystem>
             <Grid columns={3} rows={2}>
               <GridCross column={2} row={1} />
@@ -248,7 +248,7 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t("Inside a GridSystem with dashedGuides, crosses render dashed as well.")}
         </DocsParagraph>
-        <div className="mt-6">
+        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
           <GridSystem dashedGuides>
             <Grid columns={3} rows={2}>
               <GridCross column={1} row={2} />
@@ -269,7 +269,7 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t("GridPage centers its content — combine it with dashedGuides for the blueprint look.")}
         </DocsParagraph>
-        <div className="mt-6">
+        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
           <GridPageFrame>
             <GridSystem dashedGuides>
               <Grid columns={4} rows={2} height={140} />

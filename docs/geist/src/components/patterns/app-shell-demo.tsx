@@ -344,7 +344,10 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
             {/* 可配项速查表 */}
             <section id={SECTION_IDS[1]} className="scroll-mt-32 mt-10">
               <h2 className="text-heading-20 text-foreground">{copy.sectionApi}</h2>
-              <div className="border-gray-alpha-400 mt-4 overflow-x-auto rounded-md border">
+              <div
+                data-slot="docs-local-scroll"
+                className="border-gray-alpha-400 mt-4 overflow-x-auto rounded-md border"
+              >
                 <table className="w-full border-collapse text-left">
                   <thead>
                     <tr className="border-gray-alpha-400 border-b">

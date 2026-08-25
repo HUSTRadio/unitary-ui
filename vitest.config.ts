@@ -24,6 +24,9 @@ export default {
       // git worktree 隔离工作区（parallel-subagent-driven-development）：
       // 其中的 tests/ 是旧代码快照，会被 vitest 重复收集导致套件数翻倍
       "**/.superpowers/**",
+      // Playwright 浏览器审计（由 `pnpm run test:docs-layout` 独立驱动，
+      // 依赖 @playwright/test 的 test 函数，vitest 收集会直接报错）
+      "tests/e2e/**",
     ],
   },
 };

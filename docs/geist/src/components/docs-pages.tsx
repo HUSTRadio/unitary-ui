@@ -697,7 +697,10 @@ export function MaterialsPage() {
         <DocsParagraph className="max-w-xl">
           {demoText(language, "On the page, in normal document flow. Choose the lowest elevation that reads clearly.")}
         </DocsParagraph>
-        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <div
+          data-material-group="surface"
+          className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4"
+        >
           {SURFACE_MATERIALS.map((m) => (
             <MaterialCard key={m.className} material={m} />
           ))}
@@ -712,7 +715,10 @@ export function MaterialsPage() {
             "Above the page. Never stack the same material twice; shadows do not replace focus rings or ARIA semantics. Check separation in both themes.",
           )}
         </DocsParagraph>
-        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <div
+          data-material-group="floating"
+          className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4"
+        >
           {FLOATING_MATERIALS.map((m) => (
             <MaterialCard key={m.className} material={m} />
           ))}

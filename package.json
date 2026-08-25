@@ -26,7 +26,8 @@
     "test": "vitest run",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "pnpm run build:lib && pnpm run typecheck"
+    "prepublishOnly": "pnpm run build:lib && pnpm run typecheck",
+    "test:docs-layout": "playwright test -c playwright.config.ts"
   },
   "peerDependencies": {
     "react": "^19.0.0",

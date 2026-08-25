@@ -23,3 +23,7 @@ dist/
 .plan/
 .superpowers/
 AGENTS.md
+
+# Playwright artifacts
+playwright-report/
+test-results/

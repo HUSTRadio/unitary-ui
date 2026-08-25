@@ -140,6 +140,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
           </div>
           <a
             href="#/"
+            data-slot="docs-topbar-brand"
             className="flex shrink-0 items-center gap-2 max-md:justify-self-center max-sm:gap-0 sm:gap-2"
             aria-label={copy.homeAria}
           >
@@ -153,7 +154,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
         </div>
         {/* 右区块：Search + ThemeSwitcher */}
         <div className="flex items-center justify-between p-4 max-md:p-0 lg:grow">
-          <div className="relative hidden lg:block" role="search">
+          <div className="relative hidden lg:block" role="search" data-slot="docs-desktop-search">
             <Search
               className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-muted-foreground"
               aria-hidden
@@ -170,7 +171,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               Ctrl K
             </kbd>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" data-slot="docs-topbar-actions">
             <button
               type="button"
               onClick={onSearchOpen}
@@ -239,7 +240,10 @@ function DocsSidebar() {
   );
 
   return (
-    <aside className="docs-sidebar relative hidden w-[260px] shrink-0 self-start overflow-y-auto border-l border-r border-gray-alpha-400 lg:sticky lg:top-16 lg:bottom-0 lg:block lg:h-[calc(100vh-4rem)]">
+    <aside
+      data-slot="docs-sidebar"
+      className="docs-sidebar relative hidden w-[260px] shrink-0 self-start overflow-y-auto border-l border-r border-gray-alpha-400 lg:sticky lg:top-16 lg:bottom-0 lg:block lg:h-[calc(100vh-4rem)]"
+    >
       <SidebarNav
         groups={groups}
         activeTo={pathname}

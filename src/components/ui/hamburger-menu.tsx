@@ -130,6 +130,18 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
     searchMode === "toolbar" ? searchFocused : query.trim().length > 0;
 
   const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const triggerRef = React.useRef<HTMLButtonElement | null>(null);
+  const wasOpenRef = React.useRef(isOpen);
+
+  // ExpandPanel uses a controlled Radix Root without Dialog.Trigger, so Radix
+  // cannot infer where focus should return. Preserve the documented menu
+  // contract explicitly for Escape, outside press, and close controls.
+  React.useEffect(() => {
+    if (wasOpenRef.current && !isOpen) {
+      triggerRef.current?.focus();
+    }
+    wasOpenRef.current = isOpen;
+  }, [isOpen]);
 
   // stagger-in：面板每次打开重播；动画进行中列表禁点，最后一项延迟结束后恢复。
   // prefers-reduced-motion 下不启用（项直接呈现）。
@@ -171,6 +183,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   return (
     <>
       <button
+        ref={triggerRef}
         type="button"
         data-slot="hamburger-trigger"
         aria-expanded={isOpen}

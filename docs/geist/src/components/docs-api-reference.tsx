@@ -8,7 +8,10 @@ function ApiTable({ rows }: { rows: ApiRow[] }) {
   if (rows.length === 0) return null;
 
   return (
-    <div className="mt-5 overflow-x-auto rounded-md border border-border">
+    <div
+      data-slot="docs-local-scroll"
+      className="mt-5 overflow-x-auto rounded-md border border-border"
+    >
       <table className="w-full min-w-[640px] text-left">
         <thead className="border-b border-border">
           <tr className="text-label-13 text-foreground">
@@ -89,7 +92,7 @@ export function ComponentApiReference({ componentName }: { componentName: string
           <span className="text-foreground">
             {language === "zh-CN" ? "原生属性：" : "Native props: "}
           </span>
-          <code translate="no">{api.extends}</code>
+          <code className="break-all" translate="no">{api.extends}</code>
         </DocsParagraph>
       ) : null}
 
