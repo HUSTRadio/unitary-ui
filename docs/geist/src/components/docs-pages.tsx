@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { DocsCardGrid } from "./docs-cards";
 import {
   DocsList,
@@ -9,16 +11,8 @@ import {
 } from "./docs-typography";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/components/ui/link";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRoot,
-  TableRow,
-} from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { FOUNDATION_COLOR_SCALES, type FoundationColor } from "../data/foundation-colors";
 import { useLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
 
@@ -58,230 +52,55 @@ export function IntroductionPage() {
 
 /* ================= Colors ================= */
 
-/**
- * 色阶数据 — 提取自 colors.md 快照「完整色板（Dark 主题）」。
- * 每色取 100/300/500/700/900/1000 六个关键档；700 档在 Dark/Light 双主题下同值。
- */
-interface ColorStep {
-  step: number;
-  hex: string;
+const FOUNDATION_COLORS = FOUNDATION_COLOR_SCALES.flatMap((scale) => scale.steps);
+
+function readComputedColor(token: FoundationColor["token"]) {
+  return getComputedStyle(document.documentElement).getPropertyValue(token).trim();
 }
 
-interface ColorScale {
-  name: string;
-  steps: ColorStep[];
+function readFoundationColorValues() {
+  return Object.fromEntries(
+    FOUNDATION_COLORS.map((color) => [color.token, readComputedColor(color.token)]),
+  );
 }
 
-const COLOR_SCALES: ColorScale[] = [
-  {
-    name: "gray",
-    steps: [
-      { step: 100, hex: "#1a1a1a" },
-      { step: 300, hex: "#292929" },
-      { step: 500, hex: "#454545" },
-      { step: 700, hex: "#8f8f8f" },
-      { step: 900, hex: "#a1a1a1" },
-      { step: 1000, hex: "#ededed" },
-    ],
-  },
-  {
-    name: "blue",
-    steps: [
-      { step: 100, hex: "#0f1e2e" },
-      { step: 300, hex: "#153058" },
-      { step: 500, hex: "#0d4a89" },
-      { step: 700, hex: "#006efe" },
-      { step: 900, hex: "#5ea2ff" },
-      { step: 1000, hex: "#f5faff" },
-    ],
-  },
-  {
-    name: "red",
-    steps: [
-      { step: 100, hex: "#2a1314" },
-      { step: 300, hex: "#561920" },
-      { step: 500, hex: "#82202b" },
-      { step: 700, hex: "#e5484d" },
-      { step: 900, hex: "#ff6369" },
-      { step: 1000, hex: "#fdf2f4" },
-    ],
-  },
-  {
-    name: "amber",
-    steps: [
-      { step: 100, hex: "#291a00" },
-      { step: 300, hex: "#4d2600" },
-      { step: 500, hex: "#70400b" },
-      { step: 700, hex: "#ffb224" },
-      { step: 900, hex: "#ff9a00" },
-      { step: 1000, hex: "#fff6e8" },
-    ],
-  },
-  {
-    name: "green",
-    steps: [
-      { step: 100, hex: "#0d220f" },
-      { step: 300, hex: "#143617" },
-      { step: 500, hex: "#1d6329" },
-      { step: 700, hex: "#46a758" },
-      { step: 900, hex: "#6fe28d" },
-      { step: 1000, hex: "#ecfdf0" },
-    ],
-  },
-  {
-    name: "teal",
-    steps: [
-      { step: 100, hex: "#04221d" },
-      { step: 300, hex: "#073b33" },
-      { step: 500, hex: "#0d5e55" },
-      { step: 700, hex: "#17a693" },
-      { step: 900, hex: "#12b5a1" },
-      { step: 1000, hex: "#ecfbf5" },
-    ],
-  },
-  {
-    name: "purple",
-    steps: [
-      { step: 100, hex: "#201527" },
-      { step: 300, hex: "#3d2050" },
-      { step: 500, hex: "#5b2d78" },
-      { step: 700, hex: "#8e4ec6" },
-      { step: 900, hex: "#c57df0" },
-      { step: 1000, hex: "#f8effc" },
-    ],
-  },
-  {
-    name: "pink",
-    steps: [
-      { step: 100, hex: "#2a1520" },
-      { step: 300, hex: "#4b1c30" },
-      { step: 500, hex: "#6e1e3c" },
-      { step: 700, hex: "#e93d82" },
-      { step: 900, hex: "#ff66ad" },
-      { step: 1000, hex: "#fdf1f7" },
-    ],
-  },
-];
+function useFoundationColorValues() {
+  const [values, setValues] = useState(readFoundationColorValues);
 
-/** 双主题色板（Dark/Light 各自一组全档）— gray-alpha 与 backgrounds（官方 10 色阶补全） */
-interface DualColorScale {
-  name: string;
-  dark: ColorStep[];
-  light: ColorStep[];
+  useEffect(() => {
+    const syncValues = () => setValues(readFoundationColorValues());
+    const observer = new MutationObserver(syncValues);
+
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+
+  return [values, () => setValues(readFoundationColorValues())] as const;
 }
 
-/** gray-alpha 全档（colors.md 快照，8 位 hex 保留 alpha 值） */
-const GRAY_ALPHA_SCALES: DualColorScale = {
-  name: "gray-alpha",
-  dark: [
-    { step: 100, hex: "#ffffff0f" },
-    { step: 200, hex: "#ffffff17" },
-    { step: 300, hex: "#ffffff21" },
-    { step: 400, hex: "#ffffff24" },
-    { step: 500, hex: "#ffffff3d" },
-    { step: 600, hex: "#ffffff82" },
-    { step: 700, hex: "#ffffff8a" },
-    { step: 800, hex: "#ffffff78" },
-    { step: 900, hex: "#ffffff9c" },
-    { step: 1000, hex: "#ffffffeb" },
-  ],
-  light: [
-    { step: 100, hex: "#0000000d" },
-    { step: 200, hex: "#00000014" },
-    { step: 300, hex: "#0000001a" },
-    { step: 400, hex: "#00000014" },
-    { step: 500, hex: "#00000036" },
-    { step: 600, hex: "#00000057" },
-    { step: 700, hex: "#00000070" },
-    { step: 800, hex: "#00000082" },
-    { step: 900, hex: "#000000b3" },
-    { step: 1000, hex: "#000000e8" },
-  ],
-};
-
-/** backgrounds 双档（页面与 UI 组件背景，官方 Background 1/2） */
-const BACKGROUND_SCALES: DualColorScale = {
-  name: "backgrounds",
-  dark: [
-    { step: 100, hex: "#0a0a0a" },
-    { step: 200, hex: "#000000" },
-  ],
-  light: [
-    { step: 100, hex: "#ffffff" },
-    { step: 200, hex: "#fafafa" },
-  ],
-};
-
-/** gray（Dark）全档查询表 — 用于 Colors 1–10 分区色板渲染 */
-const GRAY_DARK: Record<number, string> = {
-  100: "#1a1a1a",
-  200: "#1f1f1f",
-  300: "#292929",
-  400: "#2e2e2e",
-  500: "#454545",
-  600: "#878787",
-  700: "#8f8f8f",
-  800: "#7d7d7d",
-  900: "#a1a1a1",
-  1000: "#ededed",
-};
-
-/** Colors 1–10 角色分区（官方 foundations/colors.md）：组件背景 / 边框 / 高对比背景 / 文本与图标 */
-const COLOR_PARTITIONS: {
-  range: string;
-  heading: string;
-  description: string;
-  steps: number[];
-}[] = [
-  {
-    range: "1–3",
-    heading: "Component Backgrounds",
-    description:
-      "These three colors are designed for UI component backgrounds. If your UI component's default background is Background 1, you can use Color 1 as your hover background and Color 2 as your active background. On smaller UI elements like badges, you can use Color 2 or Color 3 as the background.",
-    steps: [100, 200, 300],
-  },
-  {
-    range: "4–6",
-    heading: "Borders",
-    description: "These three colors are designed for UI component borders.",
-    steps: [400, 500, 600],
-  },
-  {
-    range: "7–8",
-    heading: "High Contrast Backgrounds",
-    description: "These two colors are designed for high contrast UI component backgrounds.",
-    steps: [700, 800],
-  },
-  {
-    range: "9–10",
-    heading: "Text and Icons",
-    description: "These two colors are designed for accessible text and icons.",
-    steps: [900, 1000],
-  },
-];
-
-/** 语义 token — Light/Dark 值取自框架 src/styles/index.css 实际定义（与快照色阶同源） */
-interface SemanticToken {
-  token: string;
-  light: string;
-  dark: string;
-}
-
-const SEMANTIC_TOKENS: SemanticToken[] = [
-  { token: "background", light: "#ffffff", dark: "#0a0a0a" },
-  { token: "foreground", light: "#171717", dark: "#ededed" },
-  { token: "muted-foreground", light: "#4d4d4d", dark: "#a1a1a1" },
-  { token: "border", light: "#ebebeb", dark: "#2e2e2e" },
-  { token: "ring", light: "#171717", dark: "#ededed" },
-  { token: "primary", light: "#171717", dark: "#ededed" },
-  { token: "destructive", light: "#e5484d", dark: "#e5484d" },
-  { token: "success", light: "#46a758", dark: "#46a758" },
-  { token: "warning", light: "#ffb224", dark: "#ffb224" },
-];
-
-/** Colors — 色阶网格（官方 10 色阶）+ Backgrounds + Colors 1–10 分区 + 语义 token 表 */
+/** Colors — current theme token values, rendered from CSS custom properties. */
 export function ColorsPage() {
   const { language } = useLanguage();
+  const [values, syncValues] = useFoundationColorValues();
+  const [copyStatus, setCopyStatus] = useState("");
+
+  const copyColor = async (token: FoundationColor["token"]) => {
+    const value = readComputedColor(token);
+    syncValues();
+
+    if (!value || !navigator.clipboard?.writeText) {
+      setCopyStatus("Unable to copy color value.");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopyStatus("Copied color value.");
+    } catch {
+      setCopyStatus("Unable to copy color value.");
+    }
+  };
+
   return (
     <div>
       <DocsPageTitle>{demoText(language, "Colors")}</DocsPageTitle>
@@ -289,33 +108,32 @@ export function ColorsPage() {
         {demoText(language, "A high contrast, accessible color system.")}
       </DocsPageLead>
 
-      {/* 色阶网格 — 10 色阶：8 主色（Dark 关键档）+ gray-alpha / backgrounds（Dark+Light 全档） */}
       <DocsSection>
         <DocsSectionTitle>{demoText(language, "Scales")}</DocsSectionTitle>
         <DocsParagraph className="max-w-xl">
-          {demoText(
-            language,
-            "There are 10 color scales in the system. P3 colors are used on supported browsers and displays.",
-          )}
+          {demoText(language, "There are 10 color scales in the system. Each swatch shows the current theme value and can be copied.")}
         </DocsParagraph>
+        <p className="sr-only" role="status" aria-live="polite">
+          {copyStatus}
+        </p>
         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-          {COLOR_SCALES.map((scale) => (
-            <PaletteColumn key={scale.name} name={scale.name} steps={scale.steps} />
+          {FOUNDATION_COLOR_SCALES.map((scale) => (
+            <PaletteColumn
+              key={scale.label}
+              scale={scale}
+              values={values}
+              onCopy={copyColor}
+            />
           ))}
-          <PaletteColumn name="gray-alpha · dark" steps={GRAY_ALPHA_SCALES.dark} />
-          <PaletteColumn name="gray-alpha · light" steps={GRAY_ALPHA_SCALES.light} />
-          <PaletteColumn name="backgrounds · dark" steps={BACKGROUND_SCALES.dark} />
-          <PaletteColumn name="backgrounds · light" steps={BACKGROUND_SCALES.light} />
         </div>
       </DocsSection>
 
-      {/* Backgrounds — 页面与 UI 组件背景（官方 Background 1/2 说明） */}
       <DocsSection>
         <DocsSectionTitle>{demoText(language, "Backgrounds")}</DocsSectionTitle>
         <DocsParagraph className="max-w-xl">
           {demoText(
             language,
-            "There are two background colors for pages and UI components. In most instances, you should use Background 1—especially when color is being placed on top of the background. Background 2 should be used sparingly when a subtle background differentiation is needed.",
+            "There are two background colors for pages and UI components. In most instances, use Background 1—especially when color is placed on top of the background. Use Background 2 sparingly when subtle differentiation is needed.",
           )}
         </DocsParagraph>
         <DocsList className="list-disc pl-5">
@@ -323,111 +141,49 @@ export function ColorsPage() {
           <li>{demoText(language, "Background 2 — Secondary background")}</li>
         </DocsList>
       </DocsSection>
-
-      {/* Colors 1–10 角色分区 — 组件背景 / 边框 / 高对比背景 / 文本与图标 */}
-      <DocsSection>
-        <DocsSectionTitle>{demoText(language, "Colors 1–10")}</DocsSectionTitle>
-        <DocsParagraph className="max-w-xl">
-          {demoText(
-            language,
-            "The numbered color steps map to UI roles (gray scale steps, dark theme).",
-          )}
-        </DocsParagraph>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {COLOR_PARTITIONS.map((partition) => (
-            <div key={partition.range} className="rounded-md border border-gray-alpha-400 p-4">
-              <h3 className="text-label-14 font-medium text-foreground">
-                Colors {partition.range}: {demoText(language, partition.heading)}
-              </h3>
-              <p className="mt-1.5 text-copy-13 text-muted-foreground">
-                {demoText(language, partition.description)}
-              </p>
-              <div className="mt-3 flex overflow-hidden rounded-md">
-                {partition.steps.map((step) => (
-                  <div key={step} className="min-w-0 flex-1">
-                    <div className="h-12 w-full" style={{ backgroundColor: GRAY_DARK[step] }} />
-                    <div className="flex items-center justify-between border border-t-0 border-gray-alpha-400 bg-background px-1.5 py-0.5">
-                      <span className="text-label-12 text-muted-foreground">{step}</span>
-                      <span className="font-mono text-label-12 text-foreground">
-                        {GRAY_DARK[step]}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </DocsSection>
-
-      {/* 语义 token 表 */}
-      <DocsSection>
-        <DocsSectionTitle>{demoText(language, "Semantic Tokens")}</DocsSectionTitle>
-        <DocsParagraph className="max-w-xl">
-          shadcn/ui alias roles 映射到框架语义 token，业务状态绑定语义 token、不直接使用原始色阶。
-        </DocsParagraph>
-        <div className="mt-6 max-w-2xl">
-          <TableRoot>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Token</TableHead>
-                  <TableHead>{demoText(language, "Light")}</TableHead>
-                  <TableHead>{demoText(language, "Dark")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {SEMANTIC_TOKENS.map((t) => (
-                  <TableRow key={t.token}>
-                    <TableCell className="font-mono text-foreground">{t.token}</TableCell>
-                    <TableCell>
-                      <SwatchCell hex={t.light} />
-                    </TableCell>
-                    <TableCell>
-                      <SwatchCell hex={t.dark} />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableRoot>
-        </div>
-      </DocsSection>
     </div>
   );
 }
 
-/** 单列色板 — 名称 + 色阶列表（色块 + 档位/hex 标注） */
-function PaletteColumn({ name, steps }: { name: string; steps: ColorStep[] }) {
+function PaletteColumn({
+  scale,
+  values,
+  onCopy,
+}: {
+  scale: (typeof FOUNDATION_COLOR_SCALES)[number];
+  values: Record<string, string>;
+  onCopy: (token: FoundationColor["token"]) => Promise<void>;
+}) {
   return (
     <div className="min-w-0">
-      <p className="mb-2 text-label-14 font-medium text-foreground">{name}</p>
-      <ul className="space-y-2">
-        {steps.map((s) => (
-          <li key={s.step} className="overflow-hidden rounded-md">
-            <div className="h-10 w-full" style={{ backgroundColor: s.hex }} />
-            <div className="flex items-center justify-between border border-t-0 border-gray-alpha-400 bg-background px-2 py-1">
-              <span className="text-label-12 text-muted-foreground">{s.step}</span>
-              <span className="font-mono text-label-12 text-foreground">{s.hex}</span>
-            </div>
+      <p className="text-label-14 font-medium text-foreground">{scale.label}</p>
+      <p className="mt-1 text-copy-13 text-muted-foreground">{scale.usage}</p>
+      <ul className="mt-2 space-y-2">
+        {scale.steps.map((color) => (
+          <li key={color.token} className="overflow-hidden rounded-md">
+            <button
+              type="button"
+              data-color-token={color.token}
+              onClick={() => void onCopy(color.token)}
+              className="focus-ring block w-full overflow-hidden border border-gray-alpha-400 text-left"
+            >
+              <span
+                className="block h-10 w-full"
+                style={{ backgroundColor: `var(${color.token})` }}
+                aria-hidden
+              />
+              <span className="flex flex-col gap-0.5 bg-background px-2 py-1">
+                <span className="flex items-center justify-between text-label-12 text-muted-foreground">
+                  <span>{color.step}</span>
+                  <span className="font-mono">{color.token}</span>
+                </span>
+                <span className="font-mono text-label-12 text-foreground">{values[color.token] || "—"}</span>
+              </span>
+            </button>
           </li>
         ))}
       </ul>
     </div>
-  );
-}
-
-/** 表格内色块 + hex 标注 */
-function SwatchCell({ hex }: { hex: string }) {
-  return (
-    <span className="inline-flex items-center gap-2">
-      <span
-        className="size-4 shrink-0 rounded-sm border border-gray-alpha-400"
-        style={{ backgroundColor: hex }}
-        aria-hidden
-      />
-      <span className="font-mono text-copy-13 text-foreground">{hex}</span>
-    </span>
   );
 }
 
