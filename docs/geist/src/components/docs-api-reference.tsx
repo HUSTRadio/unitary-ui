@@ -1,6 +1,7 @@
 import { CodeBlock } from "@/components/ui/code-block";
 import { getComponentApi, type ApiRow } from "../data/component-api";
 import { useLanguage } from "../i18n/language";
+import { DocsParagraph, DocsSection, DocsSectionTitle } from "./docs-typography";
 
 function ApiTable({ rows }: { rows: ApiRow[] }) {
   const { language } = useLanguage();
@@ -66,13 +67,13 @@ export function ComponentApiReference({ componentName }: { componentName: string
   const title = language === "zh-CN" ? "API 参考" : "API Reference";
 
   return (
-    <section id="api-reference" className="mt-12 scroll-mt-8">
-      <h2 className="text-heading-24 text-foreground">{title}</h2>
-      <p className="mt-2 text-copy-14 text-muted-foreground">
+    <DocsSection id="api-reference" className="scroll-mt-8">
+      <DocsSectionTitle>{title}</DocsSectionTitle>
+      <DocsParagraph>
         {language === "zh-CN"
           ? "此页只列出稳定公开表面；原生属性请参阅对应元素类型。"
           : "This page lists the stable public surface. Refer to the underlying element type for inherited native attributes."}
-      </p>
+      </DocsParagraph>
 
       <div className="mt-6">
         <p className="mb-2 text-label-13 text-muted-foreground">
@@ -84,12 +85,12 @@ export function ComponentApiReference({ componentName }: { componentName: string
       </div>
 
       {api.extends ? (
-        <p className="mt-4 text-copy-13 text-muted-foreground">
+        <DocsParagraph>
           <span className="text-foreground">
             {language === "zh-CN" ? "原生属性：" : "Native props: "}
           </span>
           <code translate="no">{api.extends}</code>
-        </p>
+        </DocsParagraph>
       ) : null}
 
       {api.rows.length > 0 ? (
@@ -100,19 +101,17 @@ export function ComponentApiReference({ componentName }: { componentName: string
           <ApiTable rows={api.rows} />
         </>
       ) : (
-        <p className="mt-5 text-copy-13 text-muted-foreground">
+        <DocsParagraph>
           {language === "zh-CN"
             ? "该组件通过其导出项和组合子组件提供 API。"
             : "This component exposes its API through the listed exports and composition slots."}
-        </p>
+        </DocsParagraph>
       )}
 
       {api.notes?.map((note) => (
-        <p key={note.en} className="mt-4 text-copy-13 text-muted-foreground">
-          {language === "zh-CN" ? note.zh : note.en}
-        </p>
+        <DocsParagraph key={note.en}>{language === "zh-CN" ? note.zh : note.en}</DocsParagraph>
       ))}
-    </section>
+    </DocsSection>
   );
 }
 

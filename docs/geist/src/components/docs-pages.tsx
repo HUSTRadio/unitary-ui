@@ -1,4 +1,12 @@
 import { DocsCardGrid } from "./docs-cards";
+import {
+  DocsList,
+  DocsPageLead,
+  DocsPageTitle,
+  DocsParagraph,
+  DocsSection,
+  DocsSectionTitle,
+} from "./docs-typography";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/components/ui/link";
 import {
@@ -34,10 +42,10 @@ export function IntroductionPage() {
         <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-gray-alpha-300" />
         <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-gray-alpha-300" />
       </div>
-      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">Unitary</h1>
-      <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
+      <DocsPageTitle>Unitary</DocsPageTitle>
+      <DocsPageLead className="max-w-xl">
         {demoText(language, "Vercel design system for building consistent web experiences.")}
-      </p>
+      </DocsPageLead>
       <div className="mt-3 text-label-14">
         <Link href="gh:HUSTRadio/unitary-ui">
           {demoText(language, "GitHub Repository")}
@@ -276,22 +284,20 @@ export function ColorsPage() {
   const { language } = useLanguage();
   return (
     <div>
-      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">
-        {demoText(language, "Colors")}
-      </h1>
-      <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
+      <DocsPageTitle>{demoText(language, "Colors")}</DocsPageTitle>
+      <DocsPageLead className="max-w-xl">
         {demoText(language, "A high contrast, accessible color system.")}
-      </p>
+      </DocsPageLead>
 
       {/* 色阶网格 — 10 色阶：8 主色（Dark 关键档）+ gray-alpha / backgrounds（Dark+Light 全档） */}
-      <section className="mt-10">
-        <h2 className="text-heading-24 text-foreground">{demoText(language, "Scales")}</h2>
-        <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Scales")}</DocsSectionTitle>
+        <DocsParagraph className="max-w-xl">
           {demoText(
             language,
             "There are 10 color scales in the system. P3 colors are used on supported browsers and displays.",
           )}
-        </p>
+        </DocsParagraph>
         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {COLOR_SCALES.map((scale) => (
             <PaletteColumn key={scale.name} name={scale.name} steps={scale.steps} />
@@ -301,32 +307,32 @@ export function ColorsPage() {
           <PaletteColumn name="backgrounds · dark" steps={BACKGROUND_SCALES.dark} />
           <PaletteColumn name="backgrounds · light" steps={BACKGROUND_SCALES.light} />
         </div>
-      </section>
+      </DocsSection>
 
       {/* Backgrounds — 页面与 UI 组件背景（官方 Background 1/2 说明） */}
-      <section className="mt-12">
-        <h2 className="text-heading-24 text-foreground">{demoText(language, "Backgrounds")}</h2>
-        <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Backgrounds")}</DocsSectionTitle>
+        <DocsParagraph className="max-w-xl">
           {demoText(
             language,
             "There are two background colors for pages and UI components. In most instances, you should use Background 1—especially when color is being placed on top of the background. Background 2 should be used sparingly when a subtle background differentiation is needed.",
           )}
-        </p>
-        <ul className="mt-4 list-disc space-y-1 pl-5 text-copy-14 text-muted-foreground">
+        </DocsParagraph>
+        <DocsList className="list-disc pl-5">
           <li>{demoText(language, "Background 1 — Default element background")}</li>
           <li>{demoText(language, "Background 2 — Secondary background")}</li>
-        </ul>
-      </section>
+        </DocsList>
+      </DocsSection>
 
       {/* Colors 1–10 角色分区 — 组件背景 / 边框 / 高对比背景 / 文本与图标 */}
-      <section className="mt-12">
-        <h2 className="text-heading-24 text-foreground">{demoText(language, "Colors 1–10")}</h2>
-        <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Colors 1–10")}</DocsSectionTitle>
+        <DocsParagraph className="max-w-xl">
           {demoText(
             language,
             "The numbered color steps map to UI roles (gray scale steps, dark theme).",
           )}
-        </p>
+        </DocsParagraph>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           {COLOR_PARTITIONS.map((partition) => (
             <div key={partition.range} className="rounded-md border border-gray-alpha-400 p-4">
@@ -352,14 +358,14 @@ export function ColorsPage() {
             </div>
           ))}
         </div>
-      </section>
+      </DocsSection>
 
       {/* 语义 token 表 */}
-      <section className="mt-12">
-        <h2 className="text-heading-24 text-foreground">{demoText(language, "Semantic Tokens")}</h2>
-        <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Semantic Tokens")}</DocsSectionTitle>
+        <DocsParagraph className="max-w-xl">
           shadcn/ui alias roles 映射到框架语义 token，业务状态绑定语义 token、不直接使用原始色阶。
-        </p>
+        </DocsParagraph>
         <div className="mt-6 max-w-2xl">
           <TableRoot>
             <Table>
@@ -386,7 +392,7 @@ export function ColorsPage() {
             </Table>
           </TableRoot>
         </div>
-      </section>
+      </DocsSection>
     </div>
   );
 }
@@ -535,22 +541,20 @@ export function TypographyPage() {
   const { language } = useLanguage();
   return (
     <div>
-      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">
-        {demoText(language, "Typography")}
-      </h1>
-      <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
+      <DocsPageTitle>{demoText(language, "Typography")}</DocsPageTitle>
+      <DocsPageLead className="max-w-xl">
         {demoText(language, "Rules of typesetting throughout the system.")}
-      </p>
+      </DocsPageLead>
 
       {/* Fonts — 项目内置字体展示：一个字体一行，动态字号防溢出（clamp） */}
-      <section className="mt-10">
-        <h2 className="text-heading-24 text-foreground">{demoText(language, "Fonts")}</h2>
-        <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Fonts")}</DocsSectionTitle>
+        <DocsParagraph className="max-w-xl">
           {demoText(
             language,
             "Three typefaces are bundled and subsetted into the framework: the default UI face, a Chinese-capable sans, and a mono for code.",
           )}
-        </p>
+        </DocsParagraph>
         <ul className="mt-6 divide-y divide-gray-alpha-400">
           {/* OPPO Sans 4.0 — 默认 UI 字体（--font-sans 首选） */}
           <li className="flex flex-col gap-1 py-5 sm:flex-row sm:items-baseline sm:gap-8">
@@ -589,27 +593,25 @@ export function TypographyPage() {
             </span>
           </li>
         </ul>
-      </section>
+      </DocsSection>
 
       {/* Headings */}
-      <section className="mt-10">
-        <h2 className="text-heading-24 text-foreground">{demoText(language, "Headings")}</h2>
-        <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
-          {demoText(language, "Used to introduce pages or sections.")}
-        </p>
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Headings")}</DocsSectionTitle>
+        <DocsParagraph className="max-w-xl">{demoText(language, "Used to introduce pages or sections.")}</DocsParagraph>
         <ul className="mt-6 space-y-4">
           {HEADING_SPECIMENS.map((s) => (
             <SpecimenRow key={s.className} specimen={s} />
           ))}
         </ul>
-      </section>
+      </DocsSection>
 
       {/* Buttons */}
-      <section className="mt-12">
-        <h2 className="text-heading-24 text-foreground">{demoText(language, "Buttons")}</h2>
-        <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Buttons")}</DocsSectionTitle>
+        <DocsParagraph className="max-w-xl">
           {demoText(language, "Only to be used within components that render buttons.")}
-        </p>
+        </DocsParagraph>
         <ul className="mt-6 space-y-4">
           <SpecimenRow
             specimen={{ className: "text-button-16", label: "Button 16", sample: "Button 16" }}
@@ -628,43 +630,43 @@ export function TypographyPage() {
             renderAsButton
           />
         </ul>
-      </section>
+      </DocsSection>
 
       {/* Label */}
-      <section className="mt-12">
-        <h2 className="text-heading-24 text-foreground">{demoText(language, "Label")}</h2>
-        <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Label")}</DocsSectionTitle>
+        <DocsParagraph className="max-w-xl">
           {demoText(
             language,
             "Designed for single-lines, and given ample line-height for highlighting & marrying up with icons.",
           )}
-        </p>
+        </DocsParagraph>
         <ul className="mt-6 space-y-4">
           {LABEL_SPECIMENS.map((s) => (
             <SpecimenRow key={s.className} specimen={s} />
           ))}
         </ul>
-      </section>
+      </DocsSection>
 
       {/* Copy */}
-      <section className="mt-12">
-        <h2 className="text-heading-24 text-foreground">{demoText(language, "Copy")}</h2>
-        <p className="mt-2 max-w-xl text-copy-14 text-muted-foreground">
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Copy")}</DocsSectionTitle>
+        <DocsParagraph className="max-w-xl">
           {demoText(
             language,
             "Designed for multiple lines of text, having a higher line height than Label.",
           )}
-        </p>
+        </DocsParagraph>
         <ul className="mt-6 space-y-4">
           {COPY_SPECIMENS.map((s) => (
             <SpecimenRow key={s.className} specimen={s} />
           ))}
         </ul>
-        <p className="mt-4 max-w-xl text-copy-13 text-muted-foreground">
+        <DocsParagraph className="max-w-xl">
           缺口：快照仅定义 copy 的 13 Mono 变体（text-copy-13-mono）；text-copy-14-mono 等其余 mono
           变体在框架中不存在，需新增时在 index.css 补 @utility。
-        </p>
-      </section>
+        </DocsParagraph>
+      </DocsSection>
     </div>
   );
 }
@@ -773,19 +775,17 @@ export function MaterialsPage() {
   const { language } = useLanguage();
   return (
     <div>
-      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">
-        {demoText(language, "Materials")}
-      </h1>
-      <p className="mt-3 max-w-xl text-copy-16 text-muted-foreground">
+      <DocsPageTitle>{demoText(language, "Materials")}</DocsPageTitle>
+      <DocsPageLead className="max-w-xl">
         {demoText(language, "Presets for radii, fills, strokes, and shadows.")}
-      </p>
+      </DocsPageLead>
 
-      <p className="mt-6 max-w-xl text-copy-14 text-muted-foreground">
+      <DocsParagraph className="max-w-xl">
         {demoText(
           language,
           "Surface — on the page. Floating — above the page. Each block applies its material-* class and lists its radius, usage, and z-index.",
         )}
-      </p>
+      </DocsParagraph>
 
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
         {MATERIALS.map((m) => (
@@ -828,21 +828,19 @@ export function GridPage() {
   const { language } = useLanguage();
   return (
     <div>
-      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">
-        {demoText(language, "Grid")}
-      </h1>
-      <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
+      <DocsPageTitle>{demoText(language, "Grid")}</DocsPageTitle>
+      <DocsPageLead className="max-w-xl">
         {demoText(language, "A huge part of the new Vercel aesthetic.")}
-      </p>
+      </DocsPageLead>
 
-      <section className="mt-10">
-        <h2 className="text-heading-24 text-foreground">{demoText(language, "12 Column Grid")}</h2>
-        <p className="mt-3 text-copy-14 text-muted-foreground">
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "12 Column Grid")}</DocsSectionTitle>
+        <DocsParagraph>
           {demoText(
             language,
             "The grid system uses a 12-column layout with configurable gaps and breakpoints.",
           )}
-        </p>
+        </DocsParagraph>
         {/* 可视化 12 列网格 */}
         <div className="mt-6 grid grid-cols-12 gap-2">
           {Array.from({ length: 12 }, (_, i) => (
@@ -857,18 +855,16 @@ export function GridPage() {
             </div>
           ))}
         </div>
-      </section>
+      </DocsSection>
 
-      <section className="mt-12">
-        <h2 className="text-heading-24 text-foreground">
-          {demoText(language, "Responsive Breakpoints")}
-        </h2>
-        <p className="mt-3 text-copy-14 text-muted-foreground">
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Responsive Breakpoints")}</DocsSectionTitle>
+        <DocsParagraph>
           {demoText(
             language,
             "Breakpoints follow a mobile-first approach with sm, md, lg, xl, 2xl presets.",
           )}
-        </p>
+        </DocsParagraph>
         <div className="mt-6 overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background">
           <table className="w-full text-copy-14">
             <thead className="border-b border-gray-alpha-400">
@@ -895,7 +891,7 @@ export function GridPage() {
             </tbody>
           </table>
         </div>
-      </section>
+      </DocsSection>
     </div>
   );
 }

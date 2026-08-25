@@ -208,6 +208,13 @@ import { Video } from "@/components/ui/video";
 
 import { COMPONENTS, type ComponentMeta } from "../data/components";
 import { ComponentApiReference } from "./docs-api-reference";
+import {
+  DocsList,
+  DocsPageLead,
+  DocsPageTitle,
+  DocsSection,
+  DocsSectionTitle,
+} from "./docs-typography";
 import { DEMO_CODE } from "../data/demo-code";
 import { demoText, demoTextWithValues } from "../i18n/components-demo";
 import { type DocsLanguage, useLanguage } from "../i18n/language";
@@ -9460,12 +9467,10 @@ function ComponentsOverview() {
   const { language } = useLanguage();
   return (
     <div>
-      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">
-        {demoText(language, "Components")}
-      </h1>
-      <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
+      <DocsPageTitle>{demoText(language, "Components")}</DocsPageTitle>
+      <DocsPageLead className="max-w-xl">
         {demoText(language, "Building blocks for React applications.")}
-      </p>
+      </DocsPageLead>
 
       <div className="mt-10 grid grid-cols-1 border-t border-l border-border sm:grid-cols-2 xl:grid-cols-3">
         {COMPONENTS.map((component) => (
@@ -9501,12 +9506,10 @@ function ComponentDetail({ name }: { name: string }) {
     return (
       <div>
         <BackLink />
-        <h1 className="text-heading-24 sm:text-heading-40 text-foreground">
-          {demoText(language, "Component not found")}
-        </h1>
-        <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
+        <DocsPageTitle>{demoText(language, "Component not found")}</DocsPageTitle>
+        <DocsPageLead className="max-w-xl">
           {demoTextWithValues(language, "No component named {name} was found.", { name })}
-        </p>
+        </DocsPageLead>
       </div>
     );
   }
@@ -9515,38 +9518,36 @@ function ComponentDetail({ name }: { name: string }) {
     <div>
       <BackLink />
       <div className="mt-6 flex flex-wrap items-center gap-3">
-        <h1 className="text-heading-24 sm:text-heading-40 text-foreground">
+        <DocsPageTitle>
           {language === "zh-CN" ? (meta.labelZh ?? meta.label) : meta.label}
-        </h1>
+        </DocsPageTitle>
         <span className="rounded-full border border-gray-alpha-400 px-2 py-0.5 font-mono text-label-12 text-muted-foreground">
           {meta.official}
         </span>
         {meta.mobileOnly && <MobileOnlyMark language={language} />}
       </div>
-      <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
+      <DocsPageLead className="max-w-xl">
         {language === "zh-CN" ? (meta.descriptionZh ?? meta.description) : meta.description}
-      </p>
+      </DocsPageLead>
 
-      <section className="mt-10">
-        <h2 className="text-heading-24 text-foreground">{demoText(language, "Live Demo")}</h2>
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Live Demo")}</DocsSectionTitle>
         <DemoSection componentName={name}>{renderDemo(name)}</DemoSection>
-      </section>
+      </DocsSection>
 
       {renderExtraSections(name, language)}
 
       <ComponentApiReference componentName={name} />
 
       {meta.bestPractices && meta.bestPractices.length > 0 && (
-        <section className="mt-12">
-          <h2 className="text-heading-24 text-foreground">
-            {demoText(language, "Best Practices")}
-          </h2>
-          <ul className="mt-6 space-y-3">
+        <DocsSection>
+          <DocsSectionTitle>{demoText(language, "Best Practices")}</DocsSectionTitle>
+          <DocsList>
             {(language === "zh-CN"
               ? (meta.bestPracticesZh ?? meta.bestPractices)
               : meta.bestPractices
             ).map((bp, i) => (
-              <li key={i} className="flex gap-3 text-copy-14 text-muted-foreground">
+              <li key={i} className="flex gap-3">
                 <span
                   className="mt-1.5 size-1.5 shrink-0 rounded-full bg-muted-foreground"
                   aria-hidden
@@ -9554,8 +9555,8 @@ function ComponentDetail({ name }: { name: string }) {
                 {bp}
               </li>
             ))}
-          </ul>
-        </section>
+          </DocsList>
+        </DocsSection>
       )}
     </div>
   );

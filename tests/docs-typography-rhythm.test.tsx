@@ -1,4 +1,6 @@
 // @vitest-environment jsdom
+import { readFileSync } from "node:fs";
+
 import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
@@ -30,11 +32,17 @@ afterEach(() => {
 });
 
 describe("docs typography rhythm owner", () => {
-  test("renders semantic docs prose elements with their fixed slots and classes", () => {
+  test("renders semantic docs prose elements with fixed slots, owner-controlled styles, and mergeable layout classes", () => {
     act(() => {
       root.render(
         <>
-          <DocsPageTitle className="max-w-xl">Title</DocsPageTitle>
+          <DocsPageTitle
+            className="max-w-xl"
+            data-slot="forged-title-slot"
+            style={{ fontSize: "99px", lineHeight: "1px", margin: "99px" }}
+          >
+            Title
+          </DocsPageTitle>
           <DocsPageLead>Lead</DocsPageLead>
           <DocsSection>
             <DocsSectionTitle>Section</DocsSectionTitle>
@@ -61,8 +69,33 @@ describe("docs typography rhythm owner", () => {
       expect(element?.className).toContain(className);
     }
 
-    expect(document.querySelector('[data-slot="docs-prose-title"]')?.className).toContain(
-      "max-w-xl",
-    );
+    const title = document.querySelector('[data-slot="docs-prose-title"]');
+    expect(title?.getAttribute("style")).toBeNull();
+    expect(title?.getAttribute("data-slot")).toBe("docs-prose-title");
+    expect(title?.className).toContain("max-w-xl");
+  });
+
+  test("requires prose owner consumers and prevents DocArticle from owning narrative typography", async () => {
+    const sources = [
+      "../docs/geist/src/components/doc-content.tsx",
+      "../docs/geist/src/components/docs-pages.tsx",
+      "../docs/geist/src/components/docs-api-reference.tsx",
+      "../docs/geist/src/components/docs-components-page.tsx",
+    ].map((path) => readFileSync(new URL(path, import.meta.url), "utf8"));
+
+    const [docContent, docsPages, apiReference, componentsPage] = sources;
+
+    for (const forbiddenClass of ["text-heading-", "text-copy-", "mt-4", "mt-10", "space-y-3"]) {
+      expect(docContent).not.toContain(forbiddenClass);
+    }
+
+    for (const [source, owners] of [
+      [docContent, ["DocsPageTitle", "DocsPageLead", "DocsSection", "DocsSectionTitle", "DocsParagraph", "DocsList"]],
+      [docsPages, ["DocsPageTitle", "DocsPageLead", "DocsSection", "DocsSectionTitle", "DocsParagraph", "DocsList"]],
+      [apiReference, ["DocsSection", "DocsSectionTitle", "DocsParagraph"]],
+      [componentsPage, ["DocsPageTitle", "DocsPageLead", "DocsSection", "DocsSectionTitle", "DocsList"]],
+    ] as const) {
+      for (const owner of owners) expect(source).toContain(owner);
+    }
   });
 });

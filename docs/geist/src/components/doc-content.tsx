@@ -2,6 +2,15 @@ import type { ReactNode } from "react";
 
 import { Link } from "react-router-dom";
 
+import {
+  DocsList,
+  DocsPageLead,
+  DocsPageTitle,
+  DocsParagraph,
+  DocsSection,
+  DocsSectionTitle,
+} from "./docs-typography";
+
 /**
  * 文档站通用内容模型：把「页面文案」从 JSX 中拆出为纯数据，
  * 由 DocArticle 统一渲染。双语 = 同一结构的两份 Record<DocsLanguage, …>，
@@ -63,39 +72,33 @@ export function DocText({ runs }: { runs: DocInline[] }): ReactNode {
 function DocBlocks({ blocks }: { blocks: DocBlock[] }): ReactNode {
   return blocks.map((block, index) =>
     "p" in block ? (
-      <p key={index} className="mt-4 text-copy-14 text-muted-foreground">
+      <DocsParagraph key={index}>
         <DocText runs={block.p} />
-      </p>
+      </DocsParagraph>
     ) : (
-      <ul key={index} className="mt-4 space-y-3 text-copy-14 text-muted-foreground">
+      <DocsList key={index}>
         {block.ul.map((item, itemIndex) => (
           <li key={itemIndex}>
             <DocText runs={item} />
           </li>
         ))}
-      </ul>
+      </DocsList>
     ),
   );
 }
 
-/**
- * 文章排版（Geist 排版规范，见 docs/geist-markdown-refs/foundations/typography.md）：
- * - 页面标题 text-heading-24 sm:text-heading-40（全站惯例）
- * - 导语 text-copy-16；小节标题 text-heading-20；正文 text-copy-14
- * - 层级 40 → 24/16 → 20 → 14，避免相邻等级大幅跳跃
- */
 export function DocArticle({ content }: { content: DocPageContent }): ReactNode {
   return (
     <article className="max-w-3xl">
-      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">{content.title}</h1>
-      <p className="mt-3 text-copy-16 text-muted-foreground">
+      <DocsPageTitle>{content.title}</DocsPageTitle>
+      <DocsPageLead>
         <DocText runs={content.lead} />
-      </p>
+      </DocsPageLead>
       {content.sections.map((section) => (
-        <section key={section.heading} className="mt-10">
-          <h2 className="text-heading-20 text-foreground">{section.heading}</h2>
+        <DocsSection key={section.heading}>
+          <DocsSectionTitle>{section.heading}</DocsSectionTitle>
           <DocBlocks blocks={section.blocks} />
-        </section>
+        </DocsSection>
       ))}
     </article>
   );
