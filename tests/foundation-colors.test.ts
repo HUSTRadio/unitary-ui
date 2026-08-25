@@ -2,7 +2,11 @@ import { readFile } from "node:fs/promises";
 
 import { describe, expect, test } from "vitest";
 
-import { FOUNDATION_COLOR_SCALES } from "../docs/geist/src/data/foundation-colors";
+import {
+  FOUNDATION_COLOR_ROLE_PARTITIONS,
+  FOUNDATION_COLOR_SCALES,
+  SEMANTIC_COLOR_TOKENS,
+} from "../docs/geist/src/data/foundation-colors";
 
 const expectedScales = [
   ["Backgrounds", [100, 200]],
@@ -54,5 +58,35 @@ describe("foundation color metadata", () => {
     expect(staticStart).toBeGreaterThanOrEqual(0);
     expect(metadataTokens).toHaveLength(92);
     expect(metadataTokens.filter((token) => !staticOwner.includes(`${token}:`))).toEqual([]);
+  });
+
+  test("declares ordered source-neutral role and semantic token guidance", () => {
+    expect(
+      FOUNDATION_COLOR_ROLE_PARTITIONS.map((partition) => [
+        partition.range,
+        partition.label,
+        partition.steps.map((color) => color.token),
+      ]),
+    ).toEqual([
+      ["1–3", "Component backgrounds", ["--color-gray-100", "--color-gray-200", "--color-gray-300"]],
+      ["4–6", "Borders", ["--color-gray-400", "--color-gray-500", "--color-gray-600"]],
+      ["7–8", "High contrast backgrounds", ["--color-gray-700", "--color-gray-800"]],
+      ["9–10", "Text and icons", ["--color-gray-900", "--color-gray-1000"]],
+    ]);
+
+    expect(SEMANTIC_COLOR_TOKENS.map((semantic) => semantic.token)).toEqual([
+      "--background",
+      "--foreground",
+      "--muted-foreground",
+      "--border",
+      "--ring",
+      "--primary",
+      "--destructive",
+      "--success",
+      "--warning",
+    ]);
+    expect(JSON.stringify({ FOUNDATION_COLOR_ROLE_PARTITIONS, SEMANTIC_COLOR_TOKENS })).not.toMatch(
+      /#(?:[0-9a-f]{3,8})\b|\b(?:rgb|hsl|oklch)\(|display-p3/i,
+    );
   });
 });

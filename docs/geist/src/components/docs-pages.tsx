@@ -11,8 +11,23 @@ import {
 } from "./docs-typography";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/components/ui/link";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRoot,
+  TableRow,
+} from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { FOUNDATION_COLOR_SCALES, type FoundationColor } from "../data/foundation-colors";
+import {
+  FOUNDATION_COLOR_ROLE_PARTITIONS,
+  FOUNDATION_COLOR_SCALES,
+  SEMANTIC_COLOR_TOKENS,
+  type FoundationColor,
+  type SemanticColorToken,
+} from "../data/foundation-colors";
 import { useLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
 
@@ -53,35 +68,36 @@ export function IntroductionPage() {
 /* ================= Colors ================= */
 
 const FOUNDATION_COLORS = FOUNDATION_COLOR_SCALES.flatMap((scale) => scale.steps);
+const COLOR_TOKENS = [...FOUNDATION_COLORS, ...SEMANTIC_COLOR_TOKENS];
 
-function readComputedColor(token: FoundationColor["token"]) {
+function readComputedColor(token: FoundationColor["token"] | SemanticColorToken["token"]) {
   return getComputedStyle(document.documentElement).getPropertyValue(token).trim();
 }
 
-function readFoundationColorValues() {
+function readColorValues() {
   return Object.fromEntries(
-    FOUNDATION_COLORS.map((color) => [color.token, readComputedColor(color.token)]),
+    COLOR_TOKENS.map((color) => [color.token, readComputedColor(color.token)]),
   );
 }
 
-function useFoundationColorValues() {
-  const [values, setValues] = useState(readFoundationColorValues);
+function useColorValues() {
+  const [values, setValues] = useState(readColorValues);
 
   useEffect(() => {
-    const syncValues = () => setValues(readFoundationColorValues());
+    const syncValues = () => setValues(readColorValues());
     const observer = new MutationObserver(syncValues);
 
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     return () => observer.disconnect();
   }, []);
 
-  return [values, () => setValues(readFoundationColorValues())] as const;
+  return [values, () => setValues(readColorValues())] as const;
 }
 
 /** Colors — current theme token values, rendered from CSS custom properties. */
 export function ColorsPage() {
   const { language } = useLanguage();
-  const [values, syncValues] = useFoundationColorValues();
+  const [values, syncValues] = useColorValues();
   const [copyStatus, setCopyStatus] = useState("");
 
   const copyColor = async (token: FoundationColor["token"]) => {
@@ -141,6 +157,68 @@ export function ColorsPage() {
           <li>{demoText(language, "Background 2 — Secondary background")}</li>
         </DocsList>
       </DocsSection>
+
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Colors 1–10")}</DocsSectionTitle>
+        <DocsParagraph className="max-w-xl">
+          {demoText(language, "Numbered color steps group by their intended interface role.")}
+        </DocsParagraph>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {FOUNDATION_COLOR_ROLE_PARTITIONS.map((partition) => (
+            <section key={partition.range} className="rounded-md border border-gray-alpha-400 p-4">
+              <h3 className="text-label-14 font-medium text-foreground">
+                {demoText(language, `Colors ${partition.range}: ${partition.label}`)}
+              </h3>
+              <DocsParagraph className="mt-1.5 text-copy-13 text-muted-foreground">
+                {demoText(language, partition.usage)}
+              </DocsParagraph>
+              <div className="mt-3 flex overflow-hidden rounded-md">
+                {partition.steps.map((color) => (
+                  <RuntimeColorSwatch
+                    key={color.token}
+                    color={color}
+                    value={values[color.token]}
+                    dataRoleToken
+                  />
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </DocsSection>
+
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Semantic Tokens")}</DocsSectionTitle>
+        <DocsParagraph className="max-w-xl">
+          {demoText(language, "Semantic tokens communicate interface roles while resolving to the current theme value.")}
+        </DocsParagraph>
+        <div className="mt-6 max-w-3xl">
+          <TableRoot>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{demoText(language, "Token")}</TableHead>
+                  <TableHead>{demoText(language, "Role")}</TableHead>
+                  <TableHead>{demoText(language, "Usage")}</TableHead>
+                  <TableHead>{demoText(language, "Current value")}</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {SEMANTIC_COLOR_TOKENS.map((semantic) => (
+                  <TableRow key={semantic.token} data-semantic-token={semantic.token}>
+                    <TableCell className="font-mono text-foreground">{semantic.token}</TableCell>
+                    <TableCell className="text-foreground">{demoText(language, semantic.label)}</TableCell>
+                    <TableCell>{demoText(language, semantic.usage)}</TableCell>
+                    <TableCell>
+                      <SemanticColorValue token={semantic.token} value={values[semantic.token]} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableRoot>
+        </div>
+      </DocsSection>
     </div>
   );
 }
@@ -184,6 +262,48 @@ function PaletteColumn({
         ))}
       </ul>
     </div>
+  );
+}
+
+function RuntimeColorSwatch({
+  color,
+  value,
+  dataRoleToken = false,
+}: {
+  color: FoundationColor;
+  value: string | undefined;
+  dataRoleToken?: boolean;
+}) {
+  return (
+    <div
+      className="min-w-0 flex-1"
+      {...(dataRoleToken ? { "data-role-color-token": color.token } : {})}
+    >
+      <span className="block h-12 w-full" style={{ backgroundColor: `var(${color.token})` }} aria-hidden />
+      <span className="flex flex-col border border-t-0 border-gray-alpha-400 bg-background px-1.5 py-0.5">
+        <span className="text-label-12 text-muted-foreground">{color.step}</span>
+        <span className="font-mono text-label-12 text-foreground">{value || "—"}</span>
+      </span>
+    </div>
+  );
+}
+
+function SemanticColorValue({
+  token,
+  value,
+}: {
+  token: SemanticColorToken["token"];
+  value: string | undefined;
+}) {
+  return (
+    <span className="inline-flex items-center gap-2">
+      <span
+        className="size-4 shrink-0 rounded-sm border border-gray-alpha-400"
+        style={{ backgroundColor: `var(${token})` }}
+        aria-hidden
+      />
+      <span className="font-mono text-copy-13 text-foreground">{value || "—"}</span>
+    </span>
   );
 }
 

@@ -6,7 +6,10 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { ColorsPage } from "../docs/geist/src/components/docs-pages";
-import { FOUNDATION_COLOR_SCALES } from "../docs/geist/src/data/foundation-colors";
+import {
+  FOUNDATION_COLOR_SCALES,
+  SEMANTIC_COLOR_TOKENS,
+} from "../docs/geist/src/data/foundation-colors";
 import { LanguageProvider } from "../docs/geist/src/i18n/language";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
@@ -16,8 +19,8 @@ let root: Root;
 let writeText: ReturnType<typeof vi.fn>;
 let getPropertyValue: ReturnType<typeof vi.fn>;
 
-const colorValues = Object.fromEntries(
-  FOUNDATION_COLOR_SCALES.flatMap((scale) =>
+const colorValues = Object.fromEntries([
+  ...FOUNDATION_COLOR_SCALES.flatMap((scale) =>
     scale.steps.map((color) => [
       color.token,
       {
@@ -26,7 +29,14 @@ const colorValues = Object.fromEntries(
       },
     ]),
   ),
-);
+  ...SEMANTIC_COLOR_TOKENS.map((semantic) => [
+    semantic.token,
+    {
+      light: `#light-${semantic.token.slice(2)}`,
+      dark: `#dark-${semantic.token.slice(2)}`,
+    },
+  ]),
+]);
 
 beforeEach(() => {
   container = document.createElement("div");
@@ -105,8 +115,44 @@ describe("Colors foundation docs", () => {
     expect(blueSwatch().textContent).toContain("#dark-blue-700");
   });
 
+  test("renders role guidance and semantic rows from current runtime token values", async () => {
+    await renderColors();
+
+    // Default language is zh-CN; the page maps these headings through demoText.
+    expect(container.textContent).toContain("色彩 1–10");
+    expect(container.textContent).toContain("Component backgrounds");
+    expect(container.textContent).toContain("Text and icons");
+    expect(container.textContent).toContain("语义 Token");
+
+    const roleSwatch = container.querySelector<HTMLElement>('[data-role-color-token="--color-gray-100"]');
+    expect(roleSwatch?.textContent).toContain("#light-gray-100");
+    expect(roleSwatch?.querySelector<HTMLElement>("[aria-hidden]")?.style.backgroundColor).toBe(
+      "var(--color-gray-100)",
+    );
+
+    const semanticRow = container.querySelector<HTMLTableRowElement>('[data-semantic-token="--background"]');
+    expect(semanticRow?.textContent).toContain("#light-background");
+    expect(semanticRow?.querySelector<HTMLElement>("[aria-hidden]")?.style.backgroundColor).toBe(
+      "var(--background)",
+    );
+  });
+
+  test("recomputes semantic table values when the html theme class changes", async () => {
+    await renderColors();
+    const semanticRow = () => container.querySelector<HTMLTableRowElement>('[data-semantic-token="--background"]')!;
+    expect(semanticRow().textContent).toContain("#light-background");
+
+    await act(async () => {
+      document.documentElement.classList.add("dark");
+      await Promise.resolve();
+    });
+
+    expect(semanticRow().textContent).toContain("#dark-background");
+  });
+
   test("does not treat an unknown token as a valid computed color", () => {
     expect(getComputedStyle(document.documentElement).getPropertyValue("--color-unknown-700")).toBe("");
+    expect(getComputedStyle(document.documentElement).getPropertyValue("--unknown-semantic")).toBe("");
   });
 
   test("handles clipboard rejection with accessible status feedback", async () => {
