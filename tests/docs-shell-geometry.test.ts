@@ -136,10 +136,17 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(app).toContain("lg:px-12");
   });
 
-  it("draws no stray right vertical boundary on the content column (official: none at y>64)", () => {
-    // 回归根源之一（f08fd84）：contentCol lg:border-r 在正文右缘留下游离竖线——官方此处无线
-    expect(app).not.toMatch(/min-w-0[^"]*lg:border-r/);
-    expect(app).not.toContain('className="min-w-0 border-gray-alpha-400 py-10 lg:border-r"');
+  it("joins navbar and main outer rails at lg+ without placing a border on the scrolling content column", () => {
+    expect(shell).toMatch(/<Navbar[^>]*max-w-\[1220px\]/);
+    expect(shell).toMatch(/flex h-full w-full[^"]*lg:border-l[^"]*lg:border-r/);
+    expect(app).toMatch(/<main[\s\S]*?border-gray-alpha-400[\s\S]*?lg:border-r/);
+    expect(app).not.toMatch(/className="min-w-0[^"]*border-r/);
+  });
+
+  it("uses one shared page background for margins, sidebar and content", () => {
+    expect(app).toContain('className="flex min-h-screen flex-col bg-background"');
+    expect(app).not.toMatch(/bg-background-200/);
+    expect(app).not.toMatch(/className="min-w-0[^"]*bg-/);
   });
 
   it("continuous main divider @x=363: sidebar carries border-r (docks with navbar brand borderR)", () => {

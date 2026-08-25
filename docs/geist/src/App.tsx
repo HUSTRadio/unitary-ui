@@ -132,7 +132,7 @@ export default function App() {
       <main
         id="main-content"
         tabIndex={-1}
-        className="mx-auto w-full max-w-[1220px] flex-1 lg:grid lg:grid-cols-[260px_1fr]"
+        className="mx-auto w-full max-w-[1220px] flex-1 border-gray-alpha-400 lg:grid lg:grid-cols-[260px_1fr] lg:border-r"
       >
         <DocsSidebar />
         <div className="min-w-0 py-10">
