@@ -702,7 +702,7 @@
   "batches": {
     "B0_SHARED_LAYERS": {
       "entry": "TDD_READY",
-      "items": ["ds-token-map", "input-wrapper", "menu-surface", "tooltip-surface"],
+      "items": ["uni-token-map", "input-wrapper", "menu-surface", "tooltip-surface"],
       "notes": "input-wrapper is directly evidenced only for clearable-input; any extraction into input.tsx must first lock the existing public Input behavior with regression tests",
       "files": [
         "src/styles/index.css",
@@ -710,7 +710,7 @@
         "src/components/ui/menu.tsx",
         "src/components/ui/tooltip.tsx"
       ],
-      "tests": ["tests/audit/ds-token-contract.test.ts"],
+      "tests": ["tests/audit/uni-token-contract.test.ts"],
       "excluded": ["modal", "sheet", "dialog-primitive"]
     },
     "B1": {

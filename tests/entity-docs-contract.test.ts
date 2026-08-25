@@ -8,13 +8,31 @@ const source = readFileSync(
 );
 
 describe("Entity official demo contract", () => {
-  test("uses the theme-sensitive legacy list surface and divider colors", () => {
-    expect(source).toContain('"--geist-background": "var(--entity-list-background)"');
+  test("owns and consumes the theme-sensitive list surface locally", () => {
     expect(source).toContain('"--accents-2": "var(--entity-list-divider)"');
     expect(source).toContain("[--entity-list-background:var(--background-100)]");
     expect(source).toContain("dark:[--entity-list-background:var(--background-200)]");
     expect(source).toContain("[--entity-list-divider:#eaeaea]");
     expect(source).toContain("dark:[--entity-list-divider:#333333]");
+    expect(source).toContain("bg-[var(--entity-list-background)]");
+    expect(source).toContain("stroke-[var(--entity-list-background)]");
+  });
+
+  test("does not retain retired Entity variable shims", () => {
+    for (const retiredVariable of [
+      "--geist-gap-half",
+      "--geist-form-small-font",
+      "--geist-background",
+    ]) {
+      expect(source).not.toContain(retiredVariable);
+    }
+  });
+
+  test("keeps the local button geometry and 14px type behavior", () => {
+    expect(source).toContain("[--x-padding:6px]");
+    expect(source).toContain("!pl-[var(--x-padding)]");
+    expect(source).toContain("!pr-[var(--x-padding)]");
+    expect(source).toContain("text-[14px]");
   });
 
   test("keeps checkbox and column-class demo containers at auto min-width", () => {

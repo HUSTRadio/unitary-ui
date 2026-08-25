@@ -31,8 +31,8 @@ describe("project token namespace", () => {
     expect(matches.filter(({ source }) => source.includes("--ds-"))).toEqual([]);
   });
 
-  test("root runtime source does not retain the retired --geist-* prefix", async () => {
-    const files = await runtimeFiles(path.join(root, "src"));
+  test("runtime source does not retain the retired --geist-* prefix", async () => {
+    const files = (await Promise.all(runtimeRoots.map(runtimeFiles))).flat();
     const matches = await Promise.all(
       files.map(async (file) => ({
         file: path.relative(root, file),
@@ -40,6 +40,28 @@ describe("project token namespace", () => {
       })),
     );
 
-    expect(matches.filter(({ source }) => source.includes("--geist-"))).toEqual([]);
+    expect(
+      matches.filter(({ source }) => source.includes("--geist-")).map(({ file }) => file),
+    ).toEqual([]);
+  });
+
+  test("active B0 gate uses the uni token map contract", async () => {
+    const auditGate = JSON.parse(
+      await readFile(path.join(root, "tests/audit/geist-design-gate.json"), "utf8"),
+    ) as {
+      batches: {
+        B0_SHARED_LAYERS: {
+          items: string[];
+          tests: string[];
+        };
+      };
+    };
+    const b0 = auditGate.batches.B0_SHARED_LAYERS;
+
+    expect(b0.items).toContain("uni-token-map");
+    expect(b0.tests).toContain("tests/audit/uni-token-contract.test.ts");
+    await expect(
+      readFile(path.join(root, "tests/audit/uni-token-contract.test.ts"), "utf8"),
+    ).resolves.toBeTruthy();
   });
 });

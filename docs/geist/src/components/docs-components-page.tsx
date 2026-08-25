@@ -2729,7 +2729,7 @@ function ProgressDynamicColorsDemo() {
           0: "var(--color-gray-1000)",
           25: "var(--color-destructive)",
           50: "var(--color-warning)",
-          75: "#ff0080", /* 官方 --geist-highlight-pink 实测原值（本地 pink 色阶无精确对应，pink-800 #d9216e 色距 53.5） */
+          75: "#ff0080", /* 官方实测粉色原值；本地 pink 色阶无精确对应，pink-800 #d9216e 色距 53.5。 */
           100: "var(--color-progress)",
         }}
       />
@@ -5907,13 +5907,10 @@ function DescriptionDemo() {
 
 /* ------------------------------------------------------------------ */
 /* Entity demo — 官方 vercel.com/geist/entity 逐 demo 复刻（6 demos）。  */
-/* 官方 class 原样保留；官方 CSS 变量缺失时在卡片上以内联变量补齐。      */
+/* 保留必要的官方类布局；缺失的上游语义以组件局部变量适配。             */
 /* ------------------------------------------------------------------ */
 
 const ENTITY_DEMO_VARS = {
-  "--geist-gap-half": "6px",
-  "--geist-form-small-font": "14px",
-  "--geist-background": "var(--entity-list-background)",
   "--accents-1": "#fafafa",
   "--accents-2": "var(--entity-list-divider)",
   "--uni-shadow-border": "0 0 0 1px var(--uni-gray-alpha-400)",
@@ -5930,10 +5927,10 @@ const ENTITY_SKELETON_CLS =
   'block rounded-[5px] after:animate-loading-skeleton relative overflow-hidden after:content-[""] after:absolute after:inset-0 after:right-[-200%] after:bg-gradient-to-r after:from-gray-100 after:via-gray-200 after:to-gray-100 after:bg-[length:50%_100%] after:bg-[position:0_0]';
 
 const ENTITY_UL_CLS =
-  "bg-[var(--geist-background)] shadow-[var(--uni-shadow-border),0_4px_6px_rgba(0,0,0,0.04)] rounded-[5px] overflow-hidden list-none m-0 p-0 [&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-[color:var(--accents-2)] [&>button:not(:last-child)]:border-b! [&>button:not(:last-child)]:border-[color:var(--accents-2)]";
+  "bg-[var(--entity-list-background)] shadow-[var(--uni-shadow-border),0_4px_6px_rgba(0,0,0,0.04)] rounded-[5px] overflow-hidden list-none m-0 p-0 [&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-[color:var(--accents-2)] [&>button:not(:last-child)]:border-b! [&>button:not(:last-child)]:border-[color:var(--accents-2)]";
 
 const ENTITY_DECLINE_BTN_CLS =
-  "outline-none m-0 p-0 border-0 align-baseline no-underline group/trigger relative cursor-pointer select-none transform translate-z-0 flex text-[var(--themed-fg,_var(--uni-background-100))] bg-[var(--themed-bg,_var(--uni-gray-1000))] font-medium !px-(--geist-gap-half) max-w-full items-center justify-center transition-[border-color, background,color,transform,box-shadow] duration-[time:150ms] ease-in-out data-[focus]:shadow-[var(--uni-focus-ring)] [&_svg]:shrink-0 disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:text-[var(--uni-gray-700)] disabled:bg-[var(--uni-gray-100)] aria-disabled:text-[var(--uni-gray-700)] aria-disabled:bg-[var(--uni-gray-100)] disabled:![--themed-border:_var(--uni-gray-400)] [--x-padding:6px] [--height:32px] !pl-[var(--x-padding)] !pr-[var(--x-padding)] rounded-md [--themed-bg:_var(--uni-background-100)] shadow-[0_0_0_1px_var(--themed-border,_transparent)] [--themed-hover-bg:_var(--uni-gray-alpha-200)] [--themed-fg:_var(--uni-gray-1000)] [--themed-border:_var(--uni-gray-400)] data-[focus]:shadow-[0_0_0_1px_var(--themed-border,_transparent),0_0_0_2px_var(--uni-background-100),0_0_0_4px_var(--uni-focus-color)] data-[focus]:transition-none text-(length:--geist-form-small-font) [--spinner-size:16px] h-[var(--height)] data-hover:bg-[var(--uni-gray-100)] dark-theme:data-hover:bg-[var(--uni-gray-200)] data-hover:text-[var(--themed-fg)] data-hover:disabled:bg-[var(--uni-gray-100)]";
+  "outline-none m-0 p-0 border-0 align-baseline no-underline group/trigger relative cursor-pointer select-none transform translate-z-0 flex text-[var(--themed-fg,_var(--uni-background-100))] bg-[var(--themed-bg,_var(--uni-gray-1000))] font-medium max-w-full items-center justify-center transition-[border-color, background,color,transform,box-shadow] duration-[time:150ms] ease-in-out data-[focus]:shadow-[var(--uni-focus-ring)] [&_svg]:shrink-0 disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:text-[var(--uni-gray-700)] disabled:bg-[var(--uni-gray-100)] aria-disabled:text-[var(--uni-gray-700)] aria-disabled:bg-[var(--uni-gray-100)] disabled:![--themed-border:_var(--uni-gray-400)] [--x-padding:6px] [--height:32px] !pl-[var(--x-padding)] !pr-[var(--x-padding)] rounded-md [--themed-bg:_var(--uni-background-100)] shadow-[0_0_0_1px_var(--themed-border,_transparent)] [--themed-hover-bg:_var(--uni-gray-alpha-200)] [--themed-fg:_var(--uni-gray-1000)] [--themed-border:_var(--uni-gray-400)] data-[focus]:shadow-[0_0_0_1px_var(--themed-border,_transparent),0_0_0_2px_var(--uni-background-100),0_0_0_4px_var(--uni-focus-color)] data-[focus]:transition-none text-[14px] [--spinner-size:16px] h-[var(--height)] data-hover:bg-[var(--uni-gray-100)] dark-theme:data-hover:bg-[var(--uni-gray-200)] data-hover:text-[var(--themed-fg)] data-hover:disabled:bg-[var(--uni-gray-100)]";
 
 const ENTITY_CHECKBOX_ROW_CLS =
   "p-4 flex flex-col items-stretch justify-start flex-initial bg-inherit w-full text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-[var(--accents-1)]";
@@ -6106,7 +6103,7 @@ function EntityDemo() {
                           <span className={ENTITY_CHECKBOX_VISUAL_CLS}>
                             <svg fill="none" height="16" viewBox="0 0 20 20" width="16">
                               <path
-                                className="stroke-[var(--geist-background)]"
+                                className="stroke-[var(--entity-list-background)]"
                                 d="M14 7L8.5 12.5L6 10"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
