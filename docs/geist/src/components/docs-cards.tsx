@@ -3,7 +3,6 @@ import {
   Bell,
   Calendar,
   Camera,
-  Check,
   Clock,
   Copy,
   Download,
@@ -30,8 +29,6 @@ import {
   Users,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
@@ -111,80 +108,47 @@ function IconsPreview() {
   );
 }
 
-/** Components — mono 终端行 + Copy + 2 个 icon Button + Label/Value 输入组 */
+/** Components — mono 终端行 + Copy + 2 个视觉按钮 + Label/Value 视觉输入组 */
 const COPY_TEXT = "vp dev docs/geist";
 
 function ComponentsPreview() {
   const { language } = useLanguage();
-  const [copied, setCopied] = React.useState(false);
-  const timer = React.useRef<number | undefined>(undefined);
-
-  const handleCopy = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    try {
-      await navigator.clipboard.writeText(COPY_TEXT);
-    } catch {
-      // 降级：隐藏 textarea + execCommand（无 clipboard 权限的环境仍可复制并给出反馈）
-      const textarea = document.createElement("textarea");
-      textarea.value = COPY_TEXT;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      textarea.remove();
-    }
-    setCopied(true);
-    window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(() => setCopied(false), 1500);
-  };
-
-  React.useEffect(() => () => window.clearTimeout(timer.current), []);
 
   return (
-    <div className="flex w-full max-w-xs flex-col gap-2.5">
+    <div
+      aria-hidden="true"
+      data-slot="components-preview"
+      className="flex w-full max-w-xs flex-col gap-2.5"
+    >
       {/* 终端行 + Copy */}
       <div className="flex items-center gap-1 rounded-md border border-gray-alpha-400 bg-background py-1 pr-1 pl-2.5">
         <span className="min-w-0 flex-1 truncate text-label-14-mono text-foreground">
           $ {COPY_TEXT}
         </span>
-        <Button
-          typeName="button"
-          type="tertiary"
-          svgOnly
-          size="small"
-          aria-label={demoText(language, copied ? "Copied" : "Copy code")}
-          onClick={handleCopy}
-          className="shrink-0"
-        >
-          {copied ? (
-            <Check className="text-foreground" aria-hidden />
-          ) : (
-            <Copy className="text-muted-foreground" aria-hidden />
-          )}
-        </Button>
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-lg text-foreground">
+          <Copy className="size-4 text-muted-foreground" />
+        </span>
       </div>
-      {/* 2 个 icon Button（Collaborate / Shield 风格） */}
+      {/* 2 个视觉按钮（Collaborate / Shield 风格） */}
       <div className="flex items-center gap-2">
-        <Button
-          typeName="button"
-          type="secondary"
-          aria-label="Collaborate"
-          prefix={<Users aria-hidden />}
-        >
-          {demoText(language, "Collaborate")}
-        </Button>
-        <Button typeName="button" type="secondary" svgOnly size="medium" aria-label="Shield">
-          <Shield aria-hidden />
-        </Button>
+        <span className="inline-flex h-9 min-w-[80px] shrink-0 items-center justify-center rounded-lg bg-background-100 px-2.5 text-button-14 leading-[21px] font-medium text-foreground">
+          <span className="mr-2 flex size-3.5 shrink-0 items-center justify-center">
+            <Users className="size-4" />
+          </span>
+          <span className="inline-block truncate">{demoText(language, "Collaborate")}</span>
+        </span>
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-background-100 text-foreground">
+          <Shield className="size-4" />
+        </span>
       </div>
-      {/* Label / Value 输入组 */}
+      {/* Label / Value 视觉输入组 */}
       <div className="flex flex-col gap-1">
-        <label htmlFor="docs-preview-project" className="text-label-12 text-muted-foreground">
+        <span className="text-label-12 text-muted-foreground">
           {demoText(language, "Project name")}
-        </label>
-        <Input id="docs-preview-project" defaultValue="geist-docs" readOnly />
+        </span>
+        <div className="flex h-9 max-w-full items-center overflow-hidden rounded-lg bg-background-100 shadow-[0_0_0_1px_var(--color-gray-alpha-400)]">
+          <span className="w-full min-w-0 px-3 text-copy-14 text-black dark:text-white">geist-docs</span>
+        </div>
       </div>
     </div>
   );
