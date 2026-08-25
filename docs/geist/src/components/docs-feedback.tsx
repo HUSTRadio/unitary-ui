@@ -1,100 +1,83 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
-import { Button } from "@/components/ui/button";
-import { Modal, ModalContent, ModalHeader, ModalTitle } from "@/components/ui/modal";
 import { RatingPill, type RatingValue } from "@/components/ui/rating-pill";
 import { Textarea } from "@/components/ui/textarea";
 import { SHELL_COPY } from "../i18n/catalog";
 import { useLanguage } from "../i18n/language";
 
 /**
- * 文档站页脚 — 反馈区 + Next 分页（docs/geist 专用）。
- * FeedbackPanel：复刻 vercel.com/geist 官方浮层 Modal 形态：
- *   - 居中 Modal（阴影+边框），顶部 "Give feedback" + 4 表情单行胶囊；
- *   - 选中表情：蓝色圆底白图标，其余灰色轮廓；
- *   - 大 Textarea + "M ↵ supported." 提示；
- *   - 右下 Send 胶囊按钮（浅底深字）。
- * DocsPagination：左右双分页（首页只 Next、末页只 Previous、中间双显）。
+ * 文档站页脚反馈：评分胶囊始终可见；选择评分后在它上方打开局部 popup。
+ * 这里刻意不用 Modal：没有 backdrop、focus trap 或 body scroll lock。
  */
-
 export function FeedbackPanel() {
   const { language } = useLanguage();
   const copy = SHELL_COPY[language];
-  const [rating, setRating] = useState<RatingValue | undefined>(undefined);
+  const [rating, setRating] = useState<RatingValue>();
   const [comment, setComment] = useState("");
-  const [sent, setSent] = useState(false);
   const [open, setOpen] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const selectRating = (next: RatingValue) => {
+    setRating(next);
+    setSent(false);
+    setOpen(true);
+  };
 
   return (
-    <section aria-label={copy.feedbackQuestion}>
-      {/* 触发按钮：点开 Modal */}
-      <Button
-        typeName="button"
-        size="small"
-        type="tertiary"
-        onClick={() => setOpen(true)}
-        className="group flex items-center gap-1.5 rounded-md px-2 py-1.5 text-label-14 text-muted-foreground hover:text-foreground"
-      >
-        <span>{copy.feedbackQuestion}</span>
-      </Button>
+    <section className="relative inline-flex" data-slot="feedback-anchor" aria-label={copy.feedbackQuestion}>
+      <RatingPill label={copy.feedbackQuestion} value={rating} onValueChange={selectRating} />
 
-      <Modal open={open} onOpenChange={setOpen}>
-        <ModalContent className="max-w-md">
-          <ModalHeader>
-            <ModalTitle className="text-heading-20 text-foreground">{copy.feedbackQuestion}</ModalTitle>
-          </ModalHeader>
-
-          {/* RatingPill：单行胶囊内嵌 4 表情 */}
-          <RatingPill
-            label="" // 已由 ModalTitle 承载
-            value={rating}
-            onValueChange={setRating}
-            onSubmit={() => setOpen(false)} // 选中即提交（官方即点即选）
-          />
-
-          {!sent && (
-            <div className="mt-4">
-              <Textarea
-                placeholder={copy.feedbackPlaceholder}
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                className="min-h-[100px]"
-              />
-              <p className="mt-2 text-label-12 text-muted-foreground">
-                <kbd className="inline-flex items-center gap-1 rounded border border-gray-alpha-400 bg-gray-alpha-100 px-1.5 py-0.5 text-xs text-muted-foreground font-mono">
-                  M
-                  <kbd className="ml-0.5 px-1 rounded bg-gray-alpha-200">↵</kbd>
-                </kbd>{" "}
-                supported.
-              </p>
-            </div>
-          )}
+      {open ? (
+        <div
+          data-slot="feedback-popup"
+          role="dialog"
+          aria-label={copy.feedbackQuestion}
+          className="absolute bottom-full left-1/2 z-30 mb-3 w-[min(22rem,calc(100vw-2rem))] -translate-x-1/2 rounded-[var(--radius-xl)] border border-gray-alpha-400 bg-popover p-4 shadow-[var(--material-shadow-menu)]"
+        >
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-style-headline font-medium text-foreground">{copy.feedbackQuestion}</p>
+            <button
+              type="button"
+              aria-label="Close feedback"
+              onClick={() => setOpen(false)}
+              className="focus-ring inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-gray-alpha-200 hover:text-foreground"
+            >
+              <X className="size-4" aria-hidden />
+            </button>
+          </div>
 
           {sent ? (
-            <p className="mt-4 text-label-14 text-muted-foreground text-center">{copy.feedbackThanks}</p>
+            <p className="mt-3 text-style-callout text-muted-foreground">{copy.feedbackThanks}</p>
           ) : (
-            <div className="mt-4 flex justify-end">
-              <Button
-                typeName="button"
-                size="small"
-                onClick={() => setSent(true)}
-                className="rounded-full bg-gray-alpha-100 text-foreground px-4 py-1.5"
-              >
-                {copy.feedbackSend}
-              </Button>
-            </div>
+            <>
+              <Textarea
+                aria-label={copy.feedbackPlaceholder}
+                placeholder={copy.feedbackPlaceholder}
+                value={comment}
+                onChange={(event) => setComment(event.target.value)}
+                className="mt-3 min-h-[96px]"
+              />
+              <div className="mt-3 flex items-center justify-end">
+                <button
+                  type="button"
+                  onClick={() => setSent(true)}
+                  className="focus-ring rounded-full bg-gray-alpha-100 px-4 py-1.5 text-style-subhead font-medium text-foreground transition-colors hover:bg-gray-alpha-200"
+                >
+                  {copy.feedbackSend}
+                </button>
+              </div>
+            </>
           )}
-        </ModalContent>
-      </Modal>
+        </div>
+      ) : null}
     </section>
   );
 }
 
 /* ================= DocsPagination ================= */
 
-/** 内容页顺序 — 按当前页计算下一页 */
 const PAGE_ORDER: { to: string; label: string }[] = [
   { to: "/", label: "Introduction" },
   { to: "/colors", label: "Colors" },
@@ -104,7 +87,6 @@ const PAGE_ORDER: { to: string; label: string }[] = [
   { to: "/components", label: "Components" },
 ];
 
-/** 路径 → 内容页序号；未知路径返回 -1（不渲染分页） */
 function currentPageIndex(pathname: string): number {
   if (pathname === "/" || pathname === "/introduction") return 0;
   if (pathname === "/colors") return 1;
@@ -120,52 +102,57 @@ export function DocsPagination() {
   const { language } = useLanguage();
   const copy = SHELL_COPY[language];
   const index = currentPageIndex(pathname);
-  // 未知路径 → 不渲染分页
   if (index < 0) return null;
-  // 左右双分页：首页只 Next、末页只 Previous、中间 Previous + Next 双显
+
   const previous = index > 0 ? PAGE_ORDER[index - 1] : null;
   const next = index < PAGE_ORDER.length - 1 ? PAGE_ORDER[index + 1] : null;
 
   return (
-    <nav className="mt-8 flex items-center justify-between gap-4" aria-label={copy.next}>
-      {previous ? (
-        <NavLink
-          to={previous.to}
-          className="group -ml-2 flex items-center gap-2 rounded-md px-2 py-1.5 outline-none focus-ring transition-colors hover:text-foreground"
-        >
-          <ChevronLeft
-            className="size-4 text-muted-foreground transition-transform group-hover:-translate-x-0.5"
-            aria-hidden
-          />
-          <span className="flex flex-col items-start gap-0.5">
-            <span className="text-label-12 text-muted-foreground">{copy.previous}</span>
-            <span className="text-label-16 font-medium text-foreground">
-              {copy.pageNames[previous.label as keyof typeof copy.pageNames] ?? previous.label}
+    <nav
+      className="mt-8 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4 max-[480px]:grid-cols-2"
+      aria-label={copy.next}
+    >
+      <div className="col-start-2 justify-self-center max-[480px]:col-span-2 max-[480px]:col-start-1 max-[480px]:row-start-1">
+        <FeedbackPanel />
+      </div>
+      <div className="col-start-1 row-start-1 min-w-0 justify-self-start max-[480px]:row-start-2">
+        {previous ? (
+          <NavLink
+            to={previous.to}
+            className="group -ml-2 flex items-center gap-2 rounded-md px-2 py-1.5 outline-none focus-ring transition-colors hover:text-foreground"
+          >
+            <ChevronLeft
+              className="size-4 text-muted-foreground transition-transform group-hover:-translate-x-0.5"
+              aria-hidden
+            />
+            <span className="flex min-w-0 flex-col items-start gap-0.5">
+              <span className="text-label-12 text-muted-foreground">{copy.previous}</span>
+              <span className="truncate text-label-16 font-medium text-foreground">
+                {copy.pageNames[previous.label as keyof typeof copy.pageNames] ?? previous.label}
+              </span>
             </span>
-          </span>
-        </NavLink>
-      ) : (
-        <span aria-hidden />
-      )}
-      {next ? (
-        <NavLink
-          to={next.to}
-          className="group -mr-2 flex items-center gap-2 rounded-md px-2 py-1.5 outline-none focus-ring transition-colors hover:text-foreground"
-        >
-          <span className="flex flex-col items-end gap-0.5">
-            <span className="text-label-12 text-muted-foreground">{copy.next}</span>
-            <span className="text-label-16 font-medium text-foreground">
-              {copy.pageNames[next.label as keyof typeof copy.pageNames] ?? next.label}
+          </NavLink>
+        ) : null}
+      </div>
+      <div className="col-start-3 row-start-1 min-w-0 justify-self-end max-[480px]:col-start-2 max-[480px]:row-start-2">
+        {next ? (
+          <NavLink
+            to={next.to}
+            className="group -mr-2 flex items-center gap-2 rounded-md px-2 py-1.5 outline-none focus-ring transition-colors hover:text-foreground"
+          >
+            <span className="flex min-w-0 flex-col items-end gap-0.5">
+              <span className="text-label-12 text-muted-foreground">{copy.next}</span>
+              <span className="truncate text-label-16 font-medium text-foreground">
+                {copy.pageNames[next.label as keyof typeof copy.pageNames] ?? next.label}
+              </span>
             </span>
-          </span>
-          <ChevronRight
-            className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5"
-            aria-hidden
-          />
-        </NavLink>
-      ) : (
-        <span aria-hidden />
-      )}
+            <ChevronRight
+              className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5"
+              aria-hidden
+            />
+          </NavLink>
+        ) : null}
+      </div>
     </nav>
   );
 }

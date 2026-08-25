@@ -221,7 +221,7 @@ import { type DocsLanguage, useLanguage } from "../i18n/language";
 /* ---------- 代码块 ---------- */
 
 /** mobileOnly 标注：灰色 Smartphone 图标（替代旧「仅移动端」胶囊 Badge）。 */
-function MobileOnlyMark({ language }: { language: string }) {
+function MobileOnlyMark({ language }: { language: DocsLanguage }) {
   return <Smartphone className="size-4 text-gray-700" role="img" aria-label={demoText(language, "Mobile only")} />;
 }
 

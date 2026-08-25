@@ -2,7 +2,7 @@ import { useEffect, useState, type ComponentType } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { DocsBanner, DocsSidebar } from "./components/docs-shell";
-import { DocsPagination, FeedbackPanel } from "./components/docs-feedback";
+import { DocsPagination } from "./components/docs-feedback";
 import { Button } from "@/components/ui/button";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { ComponentsPage } from "./components/docs-components-page";
@@ -173,10 +173,9 @@ export default function App() {
               )}
             </ErrorBoundary>
 
-            {/* 内容页页脚 - 反馈区 + Next 分页（官方文档站每个页面底部都有） */}
+            {/* 内容页页脚：分页和默认可见的反馈胶囊共用同一布局行。 */}
             {Page || ContentPage ? (
               <div className="mt-16 border-t border-border pt-8">
-                <FeedbackPanel />
                 <DocsPagination />
               </div>
             ) : null}
