@@ -4,7 +4,8 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const readCss = () => readFile(path.join(root, "src/styles/index.css"), "utf8");
+const normalizeNewlines = (value: string) => value.replace(/\r\n/g, "\n");
+const readCss = async () => normalizeNewlines(await readFile(path.join(root, "src/styles/index.css"), "utf8"));
 
 /**
  * Task 10 / Batch 0 `ds-token-map` contract.
@@ -66,7 +67,7 @@ describe("official --ds-* compatibility token map", () => {
 
   test("overrides exact dark-theme colors with persisted official values", async () => {
     const css = await readCss();
-    const dark = themeBlock(css, ".dark,\r\n[data-theme=\"dark\"]");
+    const dark = themeBlock(css, '.dark,\n[data-theme="dark"]');
 
     expectDeclarations(dark, {
       "--ds-gray-100": "var(--gray-100)",
