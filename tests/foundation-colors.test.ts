@@ -42,4 +42,17 @@ describe("foundation color metadata", () => {
       /#(?:[0-9a-f]{3,8})\b|\b(?:rgb|hsl|oklch)\(|display-p3/i,
     );
   });
+
+  test("places every metadata alias in the static runtime-emission owner", async () => {
+    const css = await readFile("src/styles/index.css", "utf8");
+    const staticStart = css.indexOf("@theme static {");
+    const staticOwner = css.slice(staticStart, css.indexOf("\n}", staticStart));
+    const metadataTokens = FOUNDATION_COLOR_SCALES.flatMap((scale) =>
+      scale.steps.map((color) => color.token),
+    );
+
+    expect(staticStart).toBeGreaterThanOrEqual(0);
+    expect(metadataTokens).toHaveLength(92);
+    expect(metadataTokens.filter((token) => !staticOwner.includes(`${token}:`))).toEqual([]);
+  });
 });

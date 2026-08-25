@@ -6,6 +6,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { ColorsPage } from "../docs/geist/src/components/docs-pages";
+import { FOUNDATION_COLOR_SCALES } from "../docs/geist/src/data/foundation-colors";
 import { LanguageProvider } from "../docs/geist/src/i18n/language";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
@@ -13,15 +14,31 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 let container: HTMLDivElement;
 let root: Root;
 let writeText: ReturnType<typeof vi.fn>;
-let colorValue = "#light-value";
+let getPropertyValue: ReturnType<typeof vi.fn>;
+
+const colorValues = Object.fromEntries(
+  FOUNDATION_COLOR_SCALES.flatMap((scale) =>
+    scale.steps.map((color) => [
+      color.token,
+      {
+        light: `#light-${color.token.slice("--color-".length)}`,
+        dark: `#dark-${color.token.slice("--color-".length)}`,
+      },
+    ]),
+  ),
+);
 
 beforeEach(() => {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
   writeText = vi.fn().mockResolvedValue(undefined);
-  colorValue = "#light-value";
   document.documentElement.className = "";
+  getPropertyValue = vi.fn((token: string) => {
+    const value = colorValues[token];
+    if (!value) return "";
+    return document.documentElement.classList.contains("dark") ? value.dark : value.light;
+  });
 
   Object.defineProperty(navigator, "clipboard", {
     configurable: true,
@@ -30,7 +47,7 @@ beforeEach(() => {
   vi.spyOn(window, "getComputedStyle").mockImplementation(
     () =>
       ({
-        getPropertyValue: () => colorValue,
+        getPropertyValue,
       }) as CSSStyleDeclaration,
   );
 });
@@ -57,35 +74,39 @@ function blueSwatch() {
 }
 
 describe("Colors foundation docs", () => {
-  test("mounts keyboard-accessible token swatches that show and copy the live computed value", async () => {
+  test("mounts keyboard-accessible token swatches that show and copy the requested live value", async () => {
     await renderColors();
 
     const swatch = blueSwatch();
     expect(swatch).toBeInstanceOf(HTMLButtonElement);
     expect(swatch.type).toBe("button");
     expect(swatch.dataset.colorToken).toBe("--color-blue-700");
-    expect(swatch.textContent).toContain("#light-value");
+    expect(getPropertyValue).toHaveBeenCalledWith("--color-blue-700");
+    expect(swatch.textContent).toContain("#light-blue-700");
 
     await act(async () => {
       swatch.click();
       await Promise.resolve();
     });
 
-    expect(writeText).toHaveBeenCalledWith("#light-value");
+    expect(writeText).toHaveBeenCalledWith("#light-blue-700");
     expect(container.querySelector('[role="status"]')?.textContent).toMatch(/copied/i);
   });
 
-  test("recomputes displayed values when the html theme class changes", async () => {
+  test("recomputes the requested token when the html theme class changes", async () => {
     await renderColors();
-    expect(blueSwatch().textContent).toContain("#light-value");
+    expect(blueSwatch().textContent).toContain("#light-blue-700");
 
-    colorValue = "#dark-value";
     await act(async () => {
       document.documentElement.classList.add("dark");
       await Promise.resolve();
     });
 
-    expect(blueSwatch().textContent).toContain("#dark-value");
+    expect(blueSwatch().textContent).toContain("#dark-blue-700");
+  });
+
+  test("does not treat an unknown token as a valid computed color", () => {
+    expect(getComputedStyle(document.documentElement).getPropertyValue("--color-unknown-700")).toBe("");
   });
 
   test("handles clipboard rejection with accessible status feedback", async () => {
