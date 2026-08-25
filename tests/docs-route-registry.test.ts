@@ -63,4 +63,12 @@ describe("canonical docs route registry", () => {
       expect(adjacent.next?.to).toBe(DOCS_ROUTE_SEQUENCE[index + 1]?.to);
     });
   });
+
+  it("accepts every route renderer descriptor in App's typed renderer maps", () => {
+    for (const route of DOCS_ROUTE_SEQUENCE) {
+      expect(["static", "localized", "component-index", "component-detail"]).toContain(
+        route.renderer.kind,
+      );
+    }
+  });
 });

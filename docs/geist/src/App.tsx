@@ -25,63 +25,31 @@ import {
   MaterialsPage,
   TypographyPage,
 } from "./components/docs-pages";
-import { COMPONENTS } from "./data/components";
+import {
+  canonicalDocsPath,
+  getDocsRoute,
+  getDocsRouteLabel,
+  type LocalizedPageKey,
+  type StaticPageKey,
+} from "./data/docs-routes";
 import { NAV_GROUPS } from "./data/nav";
 import { SHELL_COPY } from "./i18n/catalog";
 import { demoText } from "./i18n/components-demo";
 import { useLanguage, type DocsLanguage } from "./i18n/language";
 
-/**
- * docs/geist 文档站布局壳 — Banner + Sidebar + 内容区。
- * 内容区按 hash 路由渲染：/ 与 /introduction 显示 Introduction 首页，
- * /colors /typography /materials 显示对应内容页，
- * /components 与 /components/:name 显示 Components 总览 / 元件详情，
- * 其余路由为占位。
- */
-const PAGE_COMPONENTS: Record<string, ComponentType> = {
-  "/": IntroductionPage,
-  "/introduction": IntroductionPage,
-  "/colors": ColorsPage,
-  "/typography": TypographyPage,
-  "/materials": MaterialsPage,
-  "/grid": GridPage,
-  "/components": ComponentsPage,
-  "/icons": IconsPage,
-};
+const STATIC_PAGE_COMPONENTS = {
+  introduction: IntroductionPage,
+  icons: IconsPage,
+  colors: ColorsPage,
+  typography: TypographyPage,
+  materials: MaterialsPage,
+  grid: GridPage,
+} satisfies Record<StaticPageKey, ComponentType>;
 
-/** 需要 language prop 的结构化内容页（i18n 走内容模型而非 JSX 内联三元）。 */
-const PAGE_CONTENT_COMPONENTS: Record<string, ComponentType<{ language: DocsLanguage }>> = {
-  "/lifecycle-and-hooks": LifecycleAndHooksPage,
-  "/patterns/app-shell": AppShellDemo,
-};
-
-const PAGE_TITLES: Record<string, string> = {
-  "/": "Unitary",
-  "/introduction": "Introduction",
-  "/colors": "Colors",
-  "/typography": "Typography",
-  "/materials": "Materials",
-  "/grid": "Grid",
-  "/components": "Components",
-  "/icons": "Icons",
-  "/lifecycle-and-hooks": "Lifecycle & Hooks",
-  "/patterns/app-shell": "App Shell",
-};
-
-function getPageTitle(pathname: string, language: DocsLanguage) {
-  const componentName = pathname.startsWith("/components/")
-    ? pathname.slice("/components/".length)
-    : undefined;
-  const component = componentName
-    ? COMPONENTS.find((candidate) => candidate.name === componentName)
-    : undefined;
-  const pageTitle = component
-    ? language === "zh-CN"
-      ? (component.labelZh ?? component.label)
-      : component.label
-    : demoText(language, PAGE_TITLES[pathname] ?? "Page Not Found");
-  return pageTitle === "Unitary" ? pageTitle : `${pageTitle} – Unitary`;
-}
+const LOCALIZED_PAGE_COMPONENTS = {
+  "lifecycle-and-hooks": LifecycleAndHooksPage,
+  "app-shell": AppShellDemo,
+} satisfies Record<LocalizedPageKey, ComponentType<{ language: DocsLanguage }>>;
 
 export default function App() {
   const { pathname } = useLocation();
@@ -93,13 +61,27 @@ export default function App() {
   // 字体度量探针：字体就绪后测量 CJK:ASCII/数字宽/基线偏移，
   // 供 .phone-status-time 等消费点做换字体后的视觉补偿（决策点3）。
   useFontMetrics();
-  const Page =
-    PAGE_COMPONENTS[pathname] ?? (pathname.startsWith("/components/") ? ComponentsPage : undefined);
-  const ContentPage = PAGE_CONTENT_COMPONENTS[pathname];
+  const canonicalPath = canonicalDocsPath(pathname);
+  const route = getDocsRoute(canonicalPath);
+  const StaticPage =
+    route?.renderer.kind === "static" ? STATIC_PAGE_COMPONENTS[route.renderer.page] : undefined;
+  const LocalizedPage =
+    route?.renderer.kind === "localized"
+      ? LOCALIZED_PAGE_COMPONENTS[route.renderer.page]
+      : undefined;
+  const isComponentsPage =
+    route?.renderer.kind === "component-index" || route?.renderer.kind === "component-detail";
 
   useEffect(() => {
-    document.title = getPageTitle(pathname, language);
+    document.title = route
+      ? canonicalPath === "/"
+        ? "Unitary"
+        : `${getDocsRouteLabel(route, language)} – Unitary`
+      : demoText(language, "Page Not Found");
     document.documentElement.lang = language;
+  }, [canonicalPath, language]);
+
+  useEffect(() => {
     // 路由切换滚动复位（item 21）：仅 pathname 变化时回到顶部，语言切换不触发
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -159,10 +141,12 @@ export default function App() {
                 </div>
               }
             >
-              {Page ? (
-                <Page />
-              ) : ContentPage ? (
-                <ContentPage language={language} />
+              {StaticPage ? (
+                <StaticPage />
+              ) : LocalizedPage ? (
+                <LocalizedPage language={language} />
+              ) : isComponentsPage ? (
+                <ComponentsPage />
               ) : (
                 <>
                   <h1 className="text-heading-32 text-foreground">{copy.pageInProgress}</h1>
@@ -174,7 +158,7 @@ export default function App() {
             </ErrorBoundary>
 
             {/* 内容页页脚：分页和默认可见的反馈胶囊共用同一布局行。 */}
-            {Page || ContentPage ? (
+            {route ? (
               <div className="mt-16 border-t border-border pt-8">
                 <DocsPagination />
               </div>

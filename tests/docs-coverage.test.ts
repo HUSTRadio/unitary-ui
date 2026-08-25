@@ -136,4 +136,13 @@ describe("Geist documentation coverage", () => {
     expect(demo).toContain('type="default"');
     expect(demo).not.toContain('type="secondary"');
   });
+
+  it("derives App rendering and titles from the canonical route registry", async () => {
+    const source = await read("docs/geist/src/App.tsx");
+
+    expect(source).not.toContain("PAGE_TITLES");
+    expect(source).not.toContain('"/introduction": IntroductionPage');
+    expect(source).toContain("const canonicalPath = canonicalDocsPath(pathname);");
+    expect(source).toContain("const route = getDocsRoute(canonicalPath);");
+  });
 });
