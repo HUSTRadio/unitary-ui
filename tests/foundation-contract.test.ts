@@ -84,11 +84,12 @@ describe("Geist foundation and docs shell contract", () => {
     expect(app).toMatch(/<main\s+id="main-content"\s+tabIndex=\{-1\}/);
   });
 
-  test("hash routes update a context-specific document title", async () => {
+  test("hash routes derive context-specific document titles from the canonical registry", async () => {
     const app = await read("docs/geist/src/App.tsx");
     expect(app).toContain("document.title");
     expect(app).toContain("Unitary");
-    expect(app).toMatch(/pathname\.startsWith\("\/components\/"\)/);
+    expect(app).toContain("getDocsRouteLabel(route, language)");
+    expect(app).toContain('route?.renderer.kind === "component-detail"');
   });
 
   test("font tier manual declaration + metrics probe contract (决策点2/3)", async () => {

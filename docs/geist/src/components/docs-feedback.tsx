@@ -4,6 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 
 import { RatingPill, type RatingValue } from "@/components/ui/rating-pill";
 import { Textarea } from "@/components/ui/textarea";
+import { getAdjacentDocsPages, getDocsRouteLabel } from "../data/docs-routes";
 import { SHELL_COPY } from "../i18n/catalog";
 import { useLanguage } from "../i18n/language";
 
@@ -78,39 +79,16 @@ export function FeedbackPanel() {
 
 /* ================= DocsPagination ================= */
 
-const PAGE_ORDER: { to: string; label: string }[] = [
-  { to: "/", label: "Introduction" },
-  { to: "/colors", label: "Colors" },
-  { to: "/typography", label: "Typography" },
-  { to: "/materials", label: "Materials" },
-  { to: "/grid", label: "Grid" },
-  { to: "/components", label: "Components" },
-];
-
-function currentPageIndex(pathname: string): number {
-  if (pathname === "/" || pathname === "/introduction") return 0;
-  if (pathname === "/colors") return 1;
-  if (pathname === "/typography") return 2;
-  if (pathname === "/materials") return 3;
-  if (pathname.startsWith("/grid")) return 4;
-  if (pathname.startsWith("/components")) return 5;
-  return -1;
-}
-
 export function DocsPagination() {
   const { pathname } = useLocation();
   const { language } = useLanguage();
   const copy = SHELL_COPY[language];
-  const index = currentPageIndex(pathname);
-  if (index < 0) return null;
-
-  const previous = index > 0 ? PAGE_ORDER[index - 1] : null;
-  const next = index < PAGE_ORDER.length - 1 ? PAGE_ORDER[index + 1] : null;
+  const { previous, next } = getAdjacentDocsPages(pathname);
 
   return (
     <nav
       className="mt-8 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4 max-[480px]:grid-cols-2"
-      aria-label={copy.next}
+      aria-label={copy.paginationAria}
     >
       <div className="col-start-2 justify-self-center max-[480px]:col-span-2 max-[480px]:col-start-1 max-[480px]:row-start-1">
         <FeedbackPanel />
@@ -128,7 +106,7 @@ export function DocsPagination() {
             <span className="flex min-w-0 flex-col items-start gap-0.5">
               <span className="text-label-12 text-muted-foreground">{copy.previous}</span>
               <span className="truncate text-label-16 font-medium text-foreground">
-                {copy.pageNames[previous.label as keyof typeof copy.pageNames] ?? previous.label}
+                {getDocsRouteLabel(previous, language)}
               </span>
             </span>
           </NavLink>
@@ -143,7 +121,7 @@ export function DocsPagination() {
             <span className="flex min-w-0 flex-col items-end gap-0.5">
               <span className="text-label-12 text-muted-foreground">{copy.next}</span>
               <span className="truncate text-label-16 font-medium text-foreground">
-                {copy.pageNames[next.label as keyof typeof copy.pageNames] ?? next.label}
+                {getDocsRouteLabel(next, language)}
               </span>
             </span>
             <ChevronRight

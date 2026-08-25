@@ -56,12 +56,19 @@ describe("canonical docs route registry", () => {
     );
   });
 
-  it("keeps adjacency symmetric across the complete sequence", () => {
+  it("keeps adjacency symmetric across every canonical route, aliases, and unknown paths", () => {
     DOCS_ROUTE_SEQUENCE.forEach((route, index) => {
       const adjacent = getAdjacentDocsPages(route.to);
       expect(adjacent.previous?.to).toBe(DOCS_ROUTE_SEQUENCE[index - 1]?.to);
       expect(adjacent.next?.to).toBe(DOCS_ROUTE_SEQUENCE[index + 1]?.to);
     });
+
+    expect(getAdjacentDocsPages("/introduction")).toEqual(getAdjacentDocsPages("/"));
+    expect(getAdjacentDocsPages("/introduction/")).toEqual(getAdjacentDocsPages("/"));
+
+    const unknown = getAdjacentDocsPages("/not-a-doc-route");
+    expect(unknown.previous).toBeUndefined();
+    expect(unknown.next).toBeUndefined();
   });
 
   it("accepts every route renderer descriptor in App's typed renderer maps", () => {

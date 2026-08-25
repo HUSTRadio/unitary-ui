@@ -28,14 +28,7 @@ export const SHELL_COPY = {
     feedbackNo: "没有帮助",
     previous: "上一页",
     next: "下一页",
-    pageNames: {
-      Introduction: "介绍",
-      Colors: "颜色",
-      Typography: "排版",
-      Materials: "材质",
-      Grid: "网格",
-      Components: "组件",
-    },
+    paginationAria: "文档分页",
   },
   "en-US": {
     homeAria: "Unitary home",
@@ -60,14 +53,7 @@ export const SHELL_COPY = {
     feedbackNo: "No",
     previous: "Previous",
     next: "Next",
-    pageNames: {
-      Introduction: "Introduction",
-      Colors: "Colors",
-      Typography: "Typography",
-      Materials: "Materials",
-      Grid: "Grid",
-      Components: "Components",
-    },
+    paginationAria: "Documentation pagination",
   },
 } as const;
 

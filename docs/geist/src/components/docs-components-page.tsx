@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useLocation } from "react-router-dom";
 import {
   Accessibility,
   ArrowDownCircle,
@@ -9578,16 +9577,12 @@ function BackLink() {
 /* ---------- 页面入口 ---------- */
 
 /**
- * 路由分发：/components → 总览；/components/:name → 详情。
- * App.tsx 的 PAGE_COMPONENTS 按前缀命中本组件，路径在此解析。
+ * Canonical route registry determines overview or detail mode and App.tsx passes the
+ * component detail descriptor's name explicitly.
  */
-export function ComponentsPage() {
-  const { pathname } = useLocation();
-  const match = pathname.match(/^\/components\/([^/]+)$/);
-  const name = match?.[1];
-
-  if (name) {
-    return <ComponentDetail name={name} />;
+export function ComponentsPage({ componentName }: { componentName?: string }) {
+  if (componentName) {
+    return <ComponentDetail name={componentName} />;
   }
   return <ComponentsOverview />;
 }

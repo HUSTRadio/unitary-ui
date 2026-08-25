@@ -71,6 +71,8 @@ export default function App() {
       : undefined;
   const isComponentsPage =
     route?.renderer.kind === "component-index" || route?.renderer.kind === "component-detail";
+  const componentName =
+    route?.renderer.kind === "component-detail" ? route.renderer.componentName : undefined;
 
   useEffect(() => {
     document.title = route
@@ -146,7 +148,7 @@ export default function App() {
               ) : LocalizedPage ? (
                 <LocalizedPage language={language} />
               ) : isComponentsPage ? (
-                <ComponentsPage />
+                <ComponentsPage componentName={componentName} />
               ) : (
                 <>
                   <h1 className="text-heading-32 text-foreground">{copy.pageInProgress}</h1>
