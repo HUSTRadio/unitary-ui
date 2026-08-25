@@ -30,4 +30,16 @@ describe("project token namespace", () => {
 
     expect(matches.filter(({ source }) => source.includes("--ds-"))).toEqual([]);
   });
+
+  test("root runtime source does not retain the retired --geist-* prefix", async () => {
+    const files = await runtimeFiles(path.join(root, "src"));
+    const matches = await Promise.all(
+      files.map(async (file) => ({
+        file: path.relative(root, file),
+        source: await readFile(file, "utf8"),
+      })),
+    );
+
+    expect(matches.filter(({ source }) => source.includes("--geist-"))).toEqual([]);
+  });
 });

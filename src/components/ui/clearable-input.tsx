@@ -15,7 +15,7 @@ import { layoutRootStyle, layoutSurfaceStyle, type ControlLayout } from "@/lib/c
  * 对齐官方 vercel.com/geist/clearable-input（G07 实测）：
  * - wrapper text-sm font-normal（suffix/徽章继承 14px/20px）；
  * - 无 suffix 时 input 为末子：pr-0（官方 [&>:last-child]:pr-0）；
- * - input 文字色：无 suffix --geist-foreground（light #000 / dark #fff），
+ * - input 文字色：无 suffix 映射为本地语义 --foreground（light #000 / dark #fff），
  *   有 suffix --themed-fg（= --uni-gray-1000，light #171717 / dark #ededed）；
  * - cmdk 徽章 kbd 结构与官方一致（kbd > span > [esc|cmd] 双绝对定位 span，
  *   min-w-5 固定 20px，esc span w-5 / cmd span w-3 对齐官方测量宽度）。
