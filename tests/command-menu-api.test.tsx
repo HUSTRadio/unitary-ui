@@ -133,7 +133,8 @@ describe("CommandMenu official runtime contract", () => {
     const empty = document.querySelector<HTMLElement>("[cmdk-empty]")!;
     expect(empty.getAttribute("role")).toBe("presentation");
     expect(empty.textContent).toBe('No results found for "missing command".');
-    expect(empty.className).toContain("text-left");
+    expect(empty.className).toContain("text-center");
+    expect(empty.className).not.toContain("text-left");
     expect(empty.className).toContain("text-copy-16");
     expect(empty.className).toContain("text-foreground");
   });

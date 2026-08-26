@@ -127,7 +127,7 @@ const CommandMenuList = React.forwardRef<
     >
       <Command.Empty
         role="presentation"
-        className="px-0 py-[30px] text-left text-copy-16 text-foreground"
+        className="px-0 py-[30px] text-center text-copy-16 text-foreground"
       >
         {t('No results found for "{query}".', { query })}
       </Command.Empty>
