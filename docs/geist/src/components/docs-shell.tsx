@@ -92,7 +92,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
                     type="button"
                     aria-label={copy.searchAria}
                     onClick={() => menuRef.current?.openSearch()}
-                    className="inline-flex size-11 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-[var(--uni-gray-alpha-200)]"
+                    className="inline-flex size-11 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-[var(--uni-gray-alpha-200)] md:hidden"
                   >
                     <Search className="size-4" aria-hidden />
                   </button>
@@ -100,7 +100,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               }
               toolbarRight={
                 searchMode === "toolbar" ? (
-                  <>
+                  <div className="flex items-center gap-2 md:hidden">
                     <div className="[&_button]:min-h-11 [&_button]:min-w-11 [&_button]:px-1">
                       <ThemeSwitcher small />
                     </div>
@@ -125,7 +125,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
                         ))}
                       </Menu>
                     </MenuContainer>
-                  </>
+                  </div>
                 ) : undefined
               }
               items={menuItems}
