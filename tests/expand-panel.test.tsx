@@ -44,6 +44,8 @@ describe("ExpandPanel", () => {
     expect(left.className).toContain("fixed left-0 inset-y-0");
     expect(left.className).toContain("rounded-r-overlay");
     expect(left.className).toContain("-translate-x-full");
+    expect(left.className).toContain("data-[state=open]:animate-in");
+    expect(left.className).toContain("data-[state=open]:slide-in-from-left");
 
     const right = renderPanel(<ExpandPanel side="right" open />);
     expect(right.className).toContain("fixed right-0 inset-y-0");
@@ -106,9 +108,11 @@ describe("ExpandPanel", () => {
     expect(markup).toContain("z-[var(--uni-z-drawer)]");
     const panel = document.querySelector('[data-slot="expand-panel"]')!;
     expect(panel.className).toContain("shadow-lg");
+    expect(panel.className).toContain("data-[state=open]:animate-in");
+    expect(panel.className).toContain("data-[state=closed]:animate-out");
     expect(panel.className).toContain("duration-(--uni-duration-slower)");
     expect(panel.className).toContain("ease-[cubic-bezier(0.32,0.72,0,1)]");
-    expect(panel.className).toContain("motion-reduce:!transition-none");
+    expect(panel.className).toContain("motion-reduce:animate-none");
     expect(panel.getAttribute("aria-label")).toBe("menu");
   });
 });

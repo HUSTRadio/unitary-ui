@@ -60,10 +60,10 @@ const SIDE_CLASSES: Record<Side, string> = {
 
 /** 初始收起方向 transform ↔ 展开 translate-0 */
 const SIDE_TRANSFORM_CLASSES: Record<Side, string> = {
-  top: "-translate-y-full data-[state=open]:translate-y-0",
-  bottom: "translate-y-full data-[state=open]:translate-y-0",
-  left: "-translate-x-full data-[state=open]:translate-x-0",
-  right: "translate-x-full data-[state=open]:translate-x-0",
+  top: "-translate-y-full data-[state=open]:translate-y-0 data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top",
+  bottom: "translate-y-full data-[state=open]:translate-y-0 data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
+  left: "-translate-x-full data-[state=open]:translate-x-0 data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left",
+  right: "translate-x-full data-[state=open]:translate-x-0 data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right",
 };
 
 function ExpandPanel({
@@ -152,7 +152,7 @@ function ExpandPanel({
             // 浏览器把横向/组合手势交给 body 导致内容反向。不设 overscroll-contain
             // （它在部分 WebView 上会反转拖拽方向，手指上拖内容反向下移）。
             "z-[var(--uni-z-drawer)] touch-pan-y overflow-y-auto bg-background shadow-lg outline-none",
-            "transition-transform duration-(--uni-duration-slower) ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:!transition-none",
+            "data-[state=open]:animate-in data-[state=closed]:animate-out duration-(--uni-duration-slower) ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:animate-none motion-reduce:!transition-none",
             SIDE_CLASSES[side],
             SIDE_TRANSFORM_CLASSES[side],
             className,
