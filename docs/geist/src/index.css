@@ -16,8 +16,6 @@
   [data-demo-card]:not([data-demo-card="sizes"]),
 [data-demo-component="switch"][data-demo-mode="live"]
   [data-demo-card]:not([data-demo-card="default"]),
-[data-demo-component="toggle"][data-demo-mode="live"]
-  [data-demo-card]:not([data-demo-card="default"]),
 [data-demo-component="radio"][data-demo-mode="live"]
   [data-demo-card]:not([data-demo-card="default"]),
 [data-demo-component="label"][data-demo-mode="live"]

@@ -706,12 +706,7 @@ const O = {
     ["Toggle"],
     [
       row("checked", "boolean", "Controlled on/off state.", "受控开关状态。"),
-      row(
-        "onCheckedChange",
-        "(checked: boolean) => void",
-        "Receives state changes.",
-        "接收状态变化。",
-      ),
+      row("onChange", "() => void", "Receives state changes.", "接收状态变化。"),
     ],
   ),
   tooltip: component(

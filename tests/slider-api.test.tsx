@@ -19,12 +19,13 @@ const renderSlider = (props: Record<string, unknown>, localized = false) =>
   );
 
 describe("Slider live Geist contract", () => {
-  test("documents all five live demos", async () => {
+  test("documents all six live demos", async () => {
     const docs = await read("docs/geist/src/components/docs-components-page.tsx");
     const manifest = await read("tests/audit/geist-audit-manifest.json");
 
     for (const id of [
       "default",
+      "step-max",
       "with-label",
       "range-with-inputs",
       "disabled-range-with-inputs",

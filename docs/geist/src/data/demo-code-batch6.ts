@@ -132,6 +132,9 @@ import { useState } from "react";
 const [value, setValue] = useState([50]);
 
 <Slider value={value} onValueChange={setValue} aria-label="Value" />`,
+    "step-max": `import { Slider } from "@/components/ui/slider";
+
+<Slider defaultValue={[20]} step={10} max={50} aria-label="Value in steps of 10" />`,
     "with-label": `import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 

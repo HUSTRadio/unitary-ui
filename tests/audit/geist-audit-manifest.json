@@ -9712,6 +9712,7 @@
       "inventoryStatus": "live_enumeration_complete",
       "variants": [
         "default",
+        "step-max",
         "with-label",
         "range-with-inputs",
         "disabled-range-with-inputs",
@@ -9721,6 +9722,9 @@
       "demos": [
         {
           "id": "default"
+        },
+        {
+          "id": "step-max"
         },
         {
           "id": "with-label"

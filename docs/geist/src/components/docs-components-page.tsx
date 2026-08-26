@@ -4093,6 +4093,14 @@ function SliderDemo() {
       ),
     },
     {
+      id: "step-max",
+      content: (
+        <form>
+          <Slider defaultValue={[20]} step={10} max={50} aria-label="Value in steps of 10" />
+        </form>
+      ),
+    },
+    {
       id: "with-label",
       content: (
         <form>
@@ -7215,78 +7223,6 @@ function RadioStandaloneDemo() {
   );
 }
 
-function ToggleColorDemo() {
-  const { language } = useLanguage();
-  const [checked, setChecked] = React.useState(false);
-
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-row flex-wrap items-center gap-6">
-        <Toggle
-          aria-label={demoText(language, "Enable Firewall")}
-          checked={checked}
-          color="amber"
-          onChange={() => setChecked(!checked)}
-        />
-        <Toggle
-          aria-label={demoText(language, "Enable Firewall")}
-          checked={checked}
-          color="red"
-          onChange={() => setChecked(!checked)}
-        />
-      </div>
-      <div className="flex flex-row flex-wrap items-center gap-6">
-        <Toggle
-          aria-label={demoText(language, "Enable Firewall")}
-          checked={checked}
-          color="amber"
-          onChange={() => setChecked(!checked)}
-          size="large"
-        />
-        <Toggle
-          aria-label={demoText(language, "Enable Firewall")}
-          checked={checked}
-          color="red"
-          onChange={() => setChecked(!checked)}
-          size="large"
-        />
-      </div>
-    </div>
-  );
-}
-
-function ToggleLabelDemo() {
-  const { language } = useLanguage();
-  const [checked, setChecked] = React.useState(false);
-  const label = demoText(language, "Enable Firewall");
-
-  return (
-    <div className="flex flex-col items-start justify-start gap-4">
-      <div className="flex flex-row flex-wrap items-center gap-6">
-        <Toggle checked={checked} onChange={() => setChecked(!checked)}>
-          {label}
-        </Toggle>
-        <Toggle checked={checked} direction="rtl" onChange={() => setChecked(!checked)}>
-          {label}
-        </Toggle>
-      </div>
-      <div className="flex flex-row flex-wrap items-center gap-6">
-        <Toggle checked={checked} onChange={() => setChecked(!checked)} size="large">
-          {label}
-        </Toggle>
-        <Toggle
-          checked={checked}
-          direction="rtl"
-          onChange={() => setChecked(!checked)}
-          size="large"
-        >
-          {label}
-        </Toggle>
-      </div>
-    </div>
-  );
-}
-
 /** Toast 额外演示分段 — 每个分段一个触发按钮（Toasts 视口由 App 根全局挂载） */
 function ToastExtraSections() {
   const sectionCode = (title: string) => DEMO_CODE.toast?.[title] ?? "";
@@ -7657,56 +7593,6 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               <option value="banana">Banana</option>
               <option value="grape">Grape</option>
             </Select>
-          </Section>
-        </>
-      );
-    case "toggle":
-      return (
-        <>
-          <Section title="Disabled" code={sectionCode("Disabled")}>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-3">
-                <Toggle
-                  aria-label={demoText(language, "Enable Firewall")}
-                  checked={false}
-                  readOnly
-                  disabled
-                />
-                <span className="text-copy-14 text-muted-foreground">Unchecked (disabled)</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Toggle
-                  aria-label={demoText(language, "Enable Firewall")}
-                  checked
-                  readOnly
-                  disabled
-                />
-                <span className="text-copy-14 text-muted-foreground">Checked (disabled)</span>
-              </div>
-            </div>
-          </Section>
-          <Section title="Sizes" code={sectionCode("Sizes")}>
-            <div className="flex flex-row flex-wrap items-center gap-6">
-              <Toggle aria-label={demoText(language, "Enable Firewall")} checked={false} readOnly />
-              <Toggle
-                aria-label={demoText(language, "Enable Firewall")}
-                checked={false}
-                readOnly
-                size="medium"
-              />
-              <Toggle
-                aria-label={demoText(language, "Enable Firewall")}
-                checked={false}
-                readOnly
-                size="large"
-              />
-            </div>
-          </Section>
-          <Section title="Custom Color" code={sectionCode("Custom Color")}>
-            <ToggleColorDemo />
-          </Section>
-          <Section title="With Label" code={sectionCode("With Label")}>
-            <ToggleLabelDemo />
           </Section>
         </>
       );
