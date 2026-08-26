@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -19,6 +19,32 @@ export function FeedbackPanel() {
   const [comment, setComment] = useState("");
   const [open, setOpen] = useState(false);
   const [sent, setSent] = useState(false);
+  const anchorRef = useRef<HTMLElement>(null);
+  const popupRef = useRef<HTMLDivElement>(null);
+
+  const closeFeedback = useCallback(() => {
+    setOpen(false);
+    setRating(undefined);
+    setSent(false);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!anchorRef.current?.contains(event.target as Node)) closeFeedback();
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeFeedback();
+    };
+    document.addEventListener("pointerdown", handlePointerDown, true);
+    document.addEventListener("keydown", handleKeyDown);
+    const frame = requestAnimationFrame(() => popupRef.current?.focus());
+    return () => {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("pointerdown", handlePointerDown, true);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [closeFeedback, open]);
 
   const selectRating = (next: RatingValue) => {
     setRating(next);
@@ -27,14 +53,26 @@ export function FeedbackPanel() {
   };
 
   return (
-    <section className="relative inline-flex" data-slot="feedback-anchor" aria-label={copy.feedbackQuestion}>
+    <section
+      ref={anchorRef}
+      className="relative inline-flex"
+      data-slot="feedback-anchor"
+      aria-label={copy.feedbackQuestion}
+    >
       <RatingPill label={copy.feedbackQuestion} value={rating} onValueChange={selectRating} />
 
       {open ? (
         <div
+          ref={popupRef}
           data-slot="feedback-popup"
           role="dialog"
+          tabIndex={-1}
           aria-label={copy.feedbackQuestion}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+              closeFeedback();
+            }
+          }}
           className="absolute bottom-full left-1/2 z-30 mb-3 w-[min(22rem,calc(100vw-2rem))] -translate-x-1/2 rounded-[var(--radius-xl)] border border-gray-alpha-400 bg-popover p-4 shadow-[var(--material-shadow-menu)]"
         >
           <div className="flex items-center justify-between gap-3">
@@ -42,7 +80,7 @@ export function FeedbackPanel() {
             <button
               type="button"
               aria-label="Close feedback"
-              onClick={() => setOpen(false)}
+              onClick={closeFeedback}
               className="focus-ring inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-gray-alpha-200 hover:text-foreground"
             >
               <X className="size-4" aria-hidden />

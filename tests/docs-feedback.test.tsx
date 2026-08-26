@@ -78,6 +78,49 @@ describe("docs feedback", () => {
     expect(document.body.style.overflow).toBe("");
   });
 
+  test("popup focus leaving the feedback card collapses it and clears the selected rating", async () => {
+    await render(<FeedbackPanel />);
+    const rating = container.querySelectorAll<HTMLButtonElement>('[role="radio"]')[3];
+    await act(async () => rating.click());
+
+    expect(rating.getAttribute("aria-checked")).toBe("true");
+    const popup = container.querySelector<HTMLElement>('[data-slot="feedback-popup"]')!;
+    const outside = document.createElement("button");
+    document.body.append(outside);
+
+    await act(async () => {
+      popup.dispatchEvent(
+        new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }),
+      );
+    });
+
+    expect(container.querySelector('[data-slot="feedback-popup"]')).toBeNull();
+    expect(
+      Array.from(container.querySelectorAll('[role="radio"]')).every(
+        (button) => button.getAttribute("aria-checked") === "false",
+      ),
+    ).toBe(true);
+    outside.remove();
+  });
+
+  test("outside pointer press and Escape both restore the original feedback pill", async () => {
+    await render(<FeedbackPanel />);
+    const selectLove = () =>
+      container.querySelectorAll<HTMLButtonElement>('[role="radio"]')[3].click();
+
+    await act(async () => selectLove());
+    await act(async () => {
+      document.body.dispatchEvent(new MouseEvent("pointerdown", { bubbles: true }));
+    });
+    expect(container.querySelector('[data-slot="feedback-popup"]')).toBeNull();
+
+    await act(async () => selectLove());
+    await act(async () => {
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    });
+    expect(container.querySelector('[data-slot="feedback-popup"]')).toBeNull();
+  });
+
   test("keeps previous, feedback and next in one desktop grid and moves feedback above paging on narrow screens", async () => {
     await render(
       <MemoryRouter initialEntries={["/colors"]}>
