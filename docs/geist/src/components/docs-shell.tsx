@@ -43,15 +43,16 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
   useEffect(() => {
     setNavbarEl(document.querySelector<HTMLElement>('[data-slot="navbar"]'));
   }, []);
-  // 过滤数据源：NAV_GROUPS 扁平化 [{label, to}]，label 随语言
-  const menuItems = useMemo(
+  // 保留 NAV_GROUPS 分组与小标题；label/title 均随语言
+  const menuGroups = useMemo(
     () =>
-      NAV_GROUPS.flatMap((group) =>
-        group.items.map((item) => ({
+      NAV_GROUPS.map((group) => ({
+        title: language === "zh-CN" ? (group.titleZh ?? group.title) : group.title,
+        items: group.items.map((item) => ({
           label: language === "zh-CN" ? (item.labelZh ?? item.label) : item.label,
           to: item.to,
         })),
-      ),
+      })),
     [language],
   );
 
@@ -128,7 +129,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
                   </div>
                 ) : undefined
               }
-              items={menuItems}
+              groups={menuGroups}
               activeTo={pathname}
               open={menuOpen}
               onOpenChange={setMenuOpen}

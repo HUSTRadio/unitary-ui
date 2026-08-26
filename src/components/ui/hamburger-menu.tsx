@@ -25,6 +25,11 @@ interface MenuItem {
   to: string;
 }
 
+interface MenuGroup {
+  title: string;
+  items: MenuItem[];
+}
+
 interface HamburgerMenuProps {
   /** 自定义触发图标；缺省用受控 open 的 HamburgerIcon（三叠↔叉号动画） */
   icon?: React.ReactNode;
@@ -54,6 +59,8 @@ interface HamburgerMenuProps {
   content?: "merged" | "split";
   /** 过滤数据源 */
   items?: MenuItem[];
+  /** 分组导航数据；传入时保留小标题，并作为搜索的统一数据源 */
+  groups?: MenuGroup[];
   /** 当前激活路由（用于 aria-current="page" 与高亮，对齐桌面 sidebar active 态） */
   activeTo?: string;
   /** 点击结果项回调（随后关闭面板） */
@@ -109,6 +116,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   staggerCount = 8,
   content = "merged",
   items,
+  groups,
   activeTo,
   onNavigate,
   open,
@@ -176,9 +184,14 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
     onOpenChange?.(next);
   };
 
+  const navigationGroups = groups ?? [{ title: "", items: items ?? [] }];
+  const navigationItems = groups?.flatMap((group) => group.items) ?? items ?? [];
   const normalized = query.trim().toLowerCase();
-  const results =
-    items?.filter((item) => item.label.toLowerCase().includes(normalized)) ?? [];
+  const results = navigationItems.filter((item) =>
+    item.label.toLowerCase().includes(normalized),
+  );
+  const groupIdPrefix = React.useId();
+  let navigationIndex = 0;
 
   return (
     <>
@@ -292,7 +305,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
           data-slot="menu-nav"
           className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-2"
         >
-          <ul
+          <div
             data-slot="menu-list"
             className={cn(
               "list-none transition-opacity duration-(--uni-duration-slow)",
@@ -302,39 +315,64 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
               staggerActive && "pointer-events-none",
             )}
           >
-            {(items ?? []).map((item, index) => {
-              // 仅首屏可见的前 N 项参与逐项浮现；滚动后看到的后续项直接呈现
-              const staggered = staggerActive && index < staggerCount;
+            {navigationGroups.map((group, groupIndex) => {
+              const headingId = group.title
+                ? `${groupIdPrefix}-group-${groupIndex}`
+                : undefined;
               return (
-                <li
-                  key={item.to}
-                  style={
-                    staggered
-                      ? {
-                          animation: `hamburger-stagger-in ${STAGGER_ITEM_DURATION_MS}ms cubic-bezier(0.16, 1, 0.3, 1) both`,
-                          animationDelay: `${index * STAGGER_INTERVAL_MS}ms`,
-                        }
-                      : undefined
-                  }
-                  data-staggered={staggered || undefined}
+                <section
+                  key={group.title || "navigation"}
+                  data-slot="menu-group"
+                  aria-labelledby={headingId}
                 >
-                  <a
-                    href={item.to}
-                    aria-current={item.to === activeTo ? "page" : undefined}
-                    onClick={() => onNavigate?.(item.to)}
-                    className={cn(
-                      "block rounded-md px-3 py-2 text-copy-14 no-underline hover:bg-[var(--uni-gray-alpha-200)]",
-                      item.to === activeTo
-                        ? "bg-gray-alpha-100 font-medium text-[var(--uni-gray-1000)]"
-                        : "text-[var(--uni-gray-1000)]",
-                    )}
-                  >
-                    {item.label}
-                  </a>
-                </li>
+                  {group.title ? (
+                    <h2
+                      id={headingId}
+                      data-slot="menu-group-heading"
+                      className="flex h-10 items-center px-3 text-style-subhead font-semibold text-gray-1000"
+                    >
+                      {group.title}
+                    </h2>
+                  ) : null}
+                  <ul className="space-y-0.5">
+                    {group.items.map((item) => {
+                      const itemIndex = navigationIndex++;
+                      // 仅首屏可见的前 N 项参与逐项浮现；滚动后看到的后续项直接呈现
+                      const staggered = staggerActive && itemIndex < staggerCount;
+                      return (
+                        <li
+                          key={item.to}
+                          style={
+                            staggered
+                              ? {
+                                  animation: `hamburger-stagger-in ${STAGGER_ITEM_DURATION_MS}ms cubic-bezier(0.16, 1, 0.3, 1) both`,
+                                  animationDelay: `${itemIndex * STAGGER_INTERVAL_MS}ms`,
+                                }
+                              : undefined
+                          }
+                          data-staggered={staggered || undefined}
+                        >
+                          <a
+                            href={item.to}
+                            aria-current={item.to === activeTo ? "page" : undefined}
+                            onClick={() => onNavigate?.(item.to)}
+                            className={cn(
+                              "block rounded-md px-3 py-2 text-copy-14 no-underline hover:bg-[var(--uni-gray-alpha-200)]",
+                              item.to === activeTo
+                                ? "bg-gray-alpha-100 font-medium text-[var(--uni-gray-1000)]"
+                                : "text-[var(--uni-gray-1000)]",
+                            )}
+                          >
+                            {item.label}
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </section>
               );
             })}
-          </ul>
+          </div>
         </nav>
 
         {/* 结果区：仅搜索中渲染 */}
@@ -369,4 +407,4 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
 });
 
 export { HamburgerMenu };
-export type { HamburgerMenuProps, HamburgerMenuHandle, MenuItem };
+export type { HamburgerMenuProps, HamburgerMenuHandle, MenuGroup, MenuItem };
