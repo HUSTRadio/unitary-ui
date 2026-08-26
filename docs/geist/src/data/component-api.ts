@@ -599,6 +599,20 @@ const O = {
     [
       row("value", "number[]", "Controlled value.", "受控值。"),
       row(
+        "marks",
+        'boolean | Array<{ value: number; label?: string }>',
+        "Tick marks: `true` generates one per step (max 50), or an explicit array.",
+        "刻度：`true` 按 step 自动生成（上限 50），或传入显式数组。",
+        { origin: "extension" },
+      ),
+      row(
+        "markLabelFormat",
+        "(value: number) => string",
+        "Formats labels for marks without an explicit label.",
+        "为未显式提供 label 的刻度格式化标签。",
+        { origin: "extension" },
+      ),
+      row(
         "onValueCommit",
         "(value: number[]) => void",
         "Canonical callback after a committed change.",

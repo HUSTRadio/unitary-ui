@@ -4096,7 +4096,13 @@ function SliderDemo() {
       id: "step-max",
       content: (
         <form>
-          <Slider defaultValue={[20]} step={10} max={50} aria-label="Value in steps of 10" />
+          <Slider
+            defaultValue={[20]}
+            step={10}
+            max={50}
+            marks
+            aria-label="Value in steps of 10"
+          />
         </form>
       ),
     },

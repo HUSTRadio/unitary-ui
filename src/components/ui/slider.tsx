@@ -29,6 +29,9 @@ import { cn } from "@/lib/utils";
  *   Page Up/Down / Home/End 行为接管键盘操作，不要拦截这些按键。
  */
 
+/** 单个刻度：value 为刻度值；label 显式给出时优先于 markLabelFormat。 */
+export type SliderMark = { value: number; label?: string };
+
 export interface SliderProps extends React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> {
   /** 官方 API：滑块可访问名称（渲染在轨道上方） */
   label?: string;
@@ -36,6 +39,16 @@ export interface SliderProps extends React.ComponentPropsWithoutRef<typeof Slide
   showStartInput?: boolean;
   /** 官方 API：显示结束值数值输入框 */
   showEndInput?: boolean;
+  /**
+   * 刻度。`true` = 按 step 在 min..max 上自动生成（超过 50 个时拒绝渲染并告警）；
+   * 数组 = 自定义刻度，可选 label。
+   */
+  marks?: boolean | SliderMark[];
+  /**
+   * 刻度标签格式化。对所有未显式提供 label 的刻度生效
+   * （自动生成的与自定义数组中无 label 的）。
+   */
+  markLabelFormat?: (value: number) => string;
   /**
    * @deprecated 使用 Radix 兼容的 `onValueCommit`。迁移期间若两个回调同时存在，
    * 组件会先调用 `onValueCommit`，再调用此别名，各一次。
@@ -87,7 +100,7 @@ function ValueInput({
       size="small"
       inputMode="numeric"
       aria-label={ariaLabel}
-      className="w-12 shrink-0 border-[var(--input-value-border)] text-[var(--input-value-foreground)] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+      className="w-12 shrink-0 text-center border-[var(--input-value-border)] text-[var(--input-value-foreground)] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       value={text}
       disabled={disabled}
       onChange={(event) => setText(event.target.value)}
@@ -109,6 +122,8 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
       label,
       showStartInput,
       showEndInput,
+      marks,
+      markLabelFormat,
       onValueCommitted,
       onValueCommit,
       value: valueProp,
@@ -124,6 +139,29 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
     const value = valueProp ?? defaultValue ?? [min ?? 0];
     const rootId = React.useId();
     const thumbAriaLabel = props["aria-label"] ?? label;
+    // min/max 是可选透传 props（Radix 默认 0/100），本地兜底避免 NaN 定位
+    const lo = min ?? 0;
+    const hi = max ?? 100;
+
+    const resolvedMarks: SliderMark[] = React.useMemo(() => {
+      if (marks === true) {
+        const stepValue = Math.max(props.step ?? 1, Number.EPSILON);
+        const count = Math.floor((hi - lo) / stepValue) + 1;
+        if (count > 50) {
+          console.warn(
+            `Slider: ${count} auto marks exceed the 50 limit; pass an explicit marks array instead.`,
+          );
+          return [];
+        }
+        return Array.from({ length: count }, (_, i) => ({ value: lo + i * stepValue }));
+      }
+      return Array.isArray(marks) ? marks : [];
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [marks, props.step, lo, hi]);
+
+    const hasLabeledMark = resolvedMarks.some(
+      (mark) => mark.label != null || markLabelFormat != null,
+    );
 
     const handleValueCommit = React.useCallback(
       (nextValue: number[]) => {
@@ -134,14 +172,31 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
     );
 
     const updateValue = (index: number, next: number) => {
+      // 双值 range 手动输入交叉钳制：start ≥ end 或 end ≤ start 时折叠为相等，
+      // 不静默交换另一个输入框的显示值（用户对自己刚键入的值有最高预期）。
+      if (value.length === 2) {
+        const lastIndex = value.length - 1;
+        if (index === 0 && next >= value[lastIndex]) {
+          props.onValueChange?.([next, next]);
+          return;
+        }
+        if (index === lastIndex && next <= value[0]) {
+          props.onValueChange?.([next, next]);
+          return;
+        }
+      }
       const nextValues = value.map((item, i) => (i === index ? next : item));
       props.onValueChange?.(nextValues);
     };
+    // {...props} 会把 onValueChange 同时透传给 Radix Root，导致手动输入后
+    // Radix 再以自己的 swap/clamp 结果发一次回调，覆盖我们的折叠值。
+    // 显式剥离，统一由 updateValue / handleValueCommit 路径发出。
+    const { onValueChange: _omittedOnValueChange, ...restProps } = props;
 
     return (
       <div data-slot="slider-field" className={cn("flex w-full flex-col", className)}>
         {label && <Label value={label} id={rootId} />}
-        <div className="flex w-full items-center gap-3">
+        <div className={cn("flex w-full items-center gap-3", hasLabeledMark && "pb-5")}>
           {showStartInput && (
             <ValueInput
               value={value[0]}
@@ -165,7 +220,7 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
               onValueCommit={handleValueCommit}
               data-slot="slider-control"
               className="relative flex h-2 min-w-54 touch-none items-center select-none data-[disabled]:cursor-not-allowed"
-              {...props}
+              {...restProps}
             >
               <SliderPrimitive.Track
                 data-slot="slider-track"
@@ -175,6 +230,33 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
                   data-slot="slider-indicator"
                   className="absolute h-full rounded-full bg-blue-700 select-none data-[disabled]:bg-gray-500"
                 />
+                {resolvedMarks.length > 0 && (
+                  <div
+                    aria-hidden="true"
+                    data-slot="slider-marks"
+                    className="pointer-events-none absolute inset-0"
+                  >
+                    {resolvedMarks.map((mark) => {
+                      const pct = ((mark.value - lo) / (hi - lo)) * 100;
+                      const label = mark.label ?? (markLabelFormat ? markLabelFormat(mark.value) : null);
+                      return (
+                        <div
+                          key={mark.value}
+                          data-slot="slider-mark"
+                          data-disabled={disabled ? "" : undefined}
+                          style={{ left: `${pct}%` }}
+                          className="absolute top-1/2 h-[4px] w-px -translate-x-1/2 -translate-y-1/2 bg-gray-500 data-[disabled]:bg-gray-300"
+                        >
+                          {label != null && (
+                            <span className="absolute left-1/2 top-[calc(50%+6px)] -translate-x-1/2 whitespace-nowrap text-label-12 text-gray-700">
+                              {label}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
                 {value.map((_, index) => (
                   <SliderPrimitive.Thumb
                     key={index}

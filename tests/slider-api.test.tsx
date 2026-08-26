@@ -155,3 +155,105 @@ describe("Slider live Geist contract", () => {
     );
   });
 });
+
+describe("Slider marks contract", () => {
+  test("marks={true} generates one mark per step across min..max with defaults when min/max omitted", () => {
+    // 显式 min/max/step: 0..50 step10 → 6 刻度
+    const stepped = renderSlider({ defaultValue: [20], min: 0, max: 50, step: 10, marks: true });
+    expect(stepped.match(/data-slot="slider-mark"/g)).toHaveLength(6);
+
+    // 未传 min/max：兜底 0..100，step 20 → 6 刻度，定位无 NaN
+    const defaulted = renderSlider({ defaultValue: [50], step: 20, marks: true });
+    expect(defaulted.match(/data-slot="slider-mark"/g)).toHaveLength(6);
+    expect(defaulted).not.toContain("NaN%");
+  });
+
+  test("custom marks render ticks and explicit labels win over markLabelFormat", () => {
+    const markup = renderSlider({
+      defaultValue: [30],
+      min: 0,
+      max: 100,
+      marks: [
+        { value: 20 },
+        { value: 50, label: "50%" },
+      ],
+      markLabelFormat: (value) => `${value}%`,
+    });
+
+    expect(markup.match(/data-slot="slider-mark"/g)).toHaveLength(2);
+    expect(markup).toContain("50%");
+    // value=20 无显式 label → 由 markLabelFormat 补 "20%"（显式 label 优先语义的反向验证：
+    // 两个刻度都拿到格式化标签；若 format 失效则 20% 缺失）
+    expect(markup).toContain(">20%</span>");
+    // 定位百分比：mark value=20 → left:20%
+    expect(markup).toContain("left:20%");
+    expect(markup).toContain("left:50%");
+  });
+
+  test("auto marks honor markLabelFormat labels", () => {
+    const markup = renderSlider({
+      defaultValue: [20],
+      min: 0,
+      max: 50,
+      step: 25,
+      marks: true,
+      markLabelFormat: (value) => `<${value}>`,
+    });
+    expect(markup).toContain("&lt;0&gt;");
+    expect(markup).toContain("&lt;25&gt;");
+    expect(markup).toContain("&lt;50&gt;");
+  });
+
+  test("auto marks beyond the 50-limit are refused with a console warning", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    try {
+      const markup = renderSlider({ defaultValue: [5], min: 0, max: 100, step: 1, marks: true });
+      expect(markup.match(/data-slot="slider-mark"/g)).toBeNull();
+      expect(warn).toHaveBeenCalledTimes(1);
+      expect(warn.mock.calls[0]?.[0]).toMatch(/50/);
+    } finally {
+      warn.mockRestore();
+    }
+  });
+
+  test("mark ticks use visible gray-500 tokens with disabled override and hide from a11y tree", () => {
+    const enabled = renderSlider({ defaultValue: [20], min: 0, max: 50, step: 10, marks: true });
+    expect(enabled).toContain('data-slot="slider-marks"');
+    expect(enabled).toContain("bg-gray-500");
+    expect(enabled).toContain("aria-hidden=\"true\"");
+    expect(enabled).toContain("pointer-events-none");
+
+    const disabled = renderSlider({
+      defaultValue: [20],
+      min: 0,
+      max: 50,
+      step: 10,
+      marks: true,
+      disabled: true,
+    });
+    expect(disabled).toContain("data-[disabled]:bg-gray-300");
+  });
+
+  test("labeled marks reserve layout space via pb-5 on the field row", () => {
+    const labeled = renderSlider({
+      defaultValue: [30],
+      min: 0,
+      max: 100,
+      marks: [{ value: 50, label: "50%" }],
+    });
+    expect(labeled).toContain("pb-5");
+
+    const unlabeled = renderSlider({
+      defaultValue: [30],
+      min: 0,
+      max: 100,
+      marks: [{ value: 50 }],
+    });
+    expect(unlabeled).not.toContain("pb-5");
+  });
+
+  test("value inputs center their numeric text", async () => {
+    const source = await read("src/components/ui/slider.tsx");
+    expect(source).toMatch(/w-12 shrink-0 text-center border-\[var\(--input-value-border\)\]/);
+  });
+});
