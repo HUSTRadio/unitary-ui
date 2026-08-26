@@ -189,9 +189,14 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
         aria-expanded={isOpen}
         aria-haspopup="dialog"
         onClick={() => setOpen(!isOpen)}
-        className="inline-flex h-11 min-w-11 cursor-pointer touch-manipulation items-center justify-center rounded-md p-3 text-[var(--uni-gray-1000)] outline-none hover:bg-[var(--uni-gray-alpha-200)]"
+        className="group inline-flex size-11 shrink-0 cursor-pointer touch-manipulation items-center justify-center rounded-md outline-none focus-ring"
       >
-        {icon ?? <HamburgerIcon open={isOpen} />}
+        <span
+          data-slot="hamburger-trigger-visual"
+          className="flex size-11 items-center justify-center rounded-md text-muted-foreground transition-colors group-hover:bg-gray-alpha-100 group-hover:text-foreground md:size-8"
+        >
+          {icon ?? <HamburgerIcon open={isOpen} />}
+        </span>
       </button>
       <ExpandPanel
         side={side}
