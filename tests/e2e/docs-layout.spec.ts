@@ -792,12 +792,17 @@ test.describe("drawer behaviors at mobile/tablet viewports", () => {
         el.scrollTop = el.scrollHeight;
       });
       await settle(page);
-      // 面板仍在视口内且可交互
-      const panelInView = await panel.evaluate((el) => {
-        const r = el.getBoundingClientRect();
-        return r.top >= 0 && r.left >= 0 && r.bottom <= window.innerHeight && r.right <= window.innerWidth;
-      });
-      expect(panelInView, "长页滚动后面板仍完整落在视口内").toBe(true);
+      // 面板动画收敛后仍在视口内且可交互；轮询避免把合法滑入过程误判为最终越界。
+      await expect
+        .poll(
+          () =>
+            panel.evaluate((el) => {
+              const r = el.getBoundingClientRect();
+              return r.top >= -1 && r.left >= -1 && r.bottom <= window.innerHeight + 1 && r.right <= window.innerWidth + 1;
+            }),
+          { message: "长页滚动后面板动画应收敛并完整落在视口内" },
+        )
+        .toBe(true);
 
       const closeButton = page.locator('[data-slot="panel-close"]');
       if ((await closeButton.count()) > 0) {
