@@ -79,7 +79,7 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(thumb).not.toMatch(/opacity:\s*0/);
   });
 
-  it("assembles HamburgerMenu as a left side-slide panel with flattened items (Task 4)", () => {
+  it("assembles HamburgerMenu as a left side-slide panel with grouped headings (Task 4)", () => {
     const menu = shell.match(/<HamburgerMenu(?![\w])[\s\S]*?\n {12}\/>/)?.[0];
     expect(menu).toBeDefined();
     expect(menu).toContain('anchor="topbar"');
@@ -88,13 +88,14 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(menu).toContain('maxExpandedHeight="100dvh"');
     expect(menu).toContain('maxExpandedWidth="292px"');
     expect(menu).toContain("anchorElement={navbarEl}");
-    expect(menu).toContain("items={menuItems}");
+    expect(menu).toContain("groups={menuGroups}");
     expect(menu).toContain("open={menuOpen}");
     expect(menu).toContain("onOpenChange={setMenuOpen}");
     // 导航后收回面板（受控 open）
     expect(menu).toContain("onNavigate={(to) => {");
-    // 数据源：NAV_GROUPS 扁平化 [{label, to}]
-    expect(shell).toContain("NAV_GROUPS.flatMap");
+    // 数据源：NAV_GROUPS 保留分组与标题
+    expect(shell).toContain("NAV_GROUPS.map");
+    expect(shell).not.toContain("NAV_GROUPS.flatMap");
   });
 
   it("双向锁：≥lg 无汉堡按钮、<lg 有汉堡按钮", () => {
