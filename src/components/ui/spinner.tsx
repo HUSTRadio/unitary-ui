@@ -24,24 +24,36 @@ const spinnerSize = {
   "4xl": "size-14",
 } as const;
 
-export interface SpinnerProps extends Omit<React.ComponentProps<typeof Loader2>, "size"> {
+export interface SpinnerProps extends Omit<React.ComponentPropsWithoutRef<"span">, "children"> {
   size?: keyof typeof spinnerSize;
+  /** Optional SVG-specific overrides; DOM trigger props always belong to the stable outer span. */
+  iconProps?: Omit<React.ComponentPropsWithoutRef<typeof Loader2>, "size">;
 }
 
-function Spinner({ className, size = "md", "aria-hidden": ariaHidden, ...props }: SpinnerProps) {
+const Spinner = React.forwardRef<HTMLSpanElement, SpinnerProps>(function Spinner(
+  { className, size = "md", "aria-hidden": ariaHidden, iconProps, ...props },
+  ref,
+) {
   const { t } = useI18n();
   const hidden = ariaHidden === true || ariaHidden === "true";
 
   return (
     <span
+      ref={ref}
       data-slot="spinner"
       role={hidden ? undefined : "status"}
-      className={cn("inline-flex", className)}
+      aria-hidden={ariaHidden}
+      className={cn("inline-flex items-center justify-center", spinnerSize[size], className)}
+      {...props}
     >
-      <Loader2 aria-hidden className={cn("animate-spin", spinnerSize[size])} {...props} />
+      <Loader2
+        aria-hidden
+        {...iconProps}
+        className={cn("size-full animate-spin", iconProps?.className)}
+      />
       {!hidden && <span className="sr-only">{t("Loading...")}</span>}
     </span>
   );
-}
+});
 
 export { Spinner };

@@ -1,5 +1,4 @@
 import { Button, type ButtonProps } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 
@@ -35,6 +34,7 @@ function LoadMoreButton({
     <Button
       typeName="button"
       type="secondary"
+      loading={loading}
       // 官方 h:36px · pad:0px 10px = Button 默认 size（medium），勿改回 sm
       disabled={disabled || loading}
       aria-busy={loading || undefined}
@@ -46,19 +46,12 @@ function LoadMoreButton({
         loading &&
           "border-[#f2f2f2] bg-[#f2f2f2] text-[#8f8f8f] hover:border-[#f2f2f2] hover:bg-[#f2f2f2] hover:text-[#8f8f8f] disabled:opacity-100 dark:border-[#1a1a1a] dark:bg-[#1a1a1a] dark:text-[#8f8f8f] dark:hover:border-[#1a1a1a] dark:hover:bg-[#1a1a1a] dark:hover:text-[#8f8f8f]",
         noBorderRadius && "rounded-none",
+        noGap && "[&_[data-slot=loading-icon]]:mr-0",
         className,
       )}
       {...props}
     >
-      {loading ? (
-        <>
-          <Spinner size="sm" aria-hidden />
-          {!noGap && <span className="ml-[3px]" aria-hidden />}
-          <span>{t("Loading...")}</span>
-        </>
-      ) : (
-        children
-      )}
+      {loading ? t("Loading...") : children}
     </Button>
   );
 }

@@ -1,10 +1,8 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Slot } from "radix-ui";
-import { Loader2 } from "lucide-react";
-
+import { LoadingIcon } from "@/components/ui/loading-icon";
 import { cn } from "@/lib/utils";
-import { useI18n } from "@/lib/i18n";
 
 /**
  * Button - Geist 官方 Button 单轨 API 实现。
@@ -116,7 +114,6 @@ function Button({
   children,
   ...props
 }: ButtonProps) {
-  const { t } = useI18n();
   const Comp = asChild ? Slot.Root : "button";
 
   const shadowClass = shadow ? "shadow-lg" : "";
@@ -140,10 +137,7 @@ function Button({
       {...props}
     >
       {loading ? (
-        <span className="mr-2 flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
-          <Loader2 className="size-3.5 animate-spin" />
-          <span className="sr-only">{t("Loading...")}</span>
-        </span>
+        <LoadingIcon className="mr-2" />
       ) : (
         prefix && (
           <span className="mr-2 flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
@@ -193,7 +187,6 @@ function ButtonLink({
   children,
   ...props
 }: ButtonLinkProps) {
-  const { t } = useI18n();
   const resolvedSize = size;
   return (
     <a
@@ -212,10 +205,7 @@ function ButtonLink({
       {...props}
     >
       {loading ? (
-        <span className="mr-2 flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
-          <Loader2 className="size-3.5 animate-spin" />
-          <span className="sr-only">{t("Loading...")}</span>
-        </span>
+        <LoadingIcon className="mr-2" />
       ) : (
         prefix && (
           <span className="mr-2 flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
