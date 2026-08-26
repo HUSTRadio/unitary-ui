@@ -49,6 +49,15 @@ describe("Select composite API contract (v2 Radix popup)", () => {
     expect(src).toMatch(/position="popper"/);
   });
 
+  test("checked item uses a right-side check and semibold text without persistent background", async () => {
+    const src = await read("src/components/ui/select.tsx");
+    expect(src).toMatch(/import \{ Check, ChevronDown \} from "lucide-react"/);
+    expect(src).toMatch(/SelectPrimitive\.ItemIndicator/);
+    expect(src).toMatch(/absolute right-2/);
+    expect(src).toMatch(/data-\[state=checked\]:font-semibold/);
+    expect(src).not.toMatch(/data-\[state=checked\]:bg-gray-alpha-100/);
+  });
+
   test("label renders mb-2 on inner text div (8px gap)", async () => {
     const src = await read("src/components/ui/select.tsx");
     expect(src).toContain(
