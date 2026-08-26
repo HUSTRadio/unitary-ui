@@ -138,6 +138,9 @@ describe("Slider live Geist contract", () => {
     });
 
     expect(markup).toContain("Drag then release");
+    const labelText = markup.match(/<div class="([^"]*)">Drag then release<\/div>/)?.[1];
+    expect(labelText).toContain("mb-2");
+    expect(labelText).not.toContain("mb-0");
     expect(source).toContain("onValueCommit={handleValueCommit}");
     expect(source).toMatch(/@deprecated[\s\S]*onValueCommitted\?:/);
 

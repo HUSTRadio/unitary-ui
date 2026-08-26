@@ -24,12 +24,12 @@ describe("Label official API contract (G06 audit fixes)", () => {
     expect(css).toMatch(/--gray-900:\s*#a1a1a1/);
   });
 
-  test("slider.tsx stays compatible with the Label color change", async () => {
+  test("slider.tsx inherits the canonical Label color and spacing", async () => {
     const slider = await read("src/components/ui/slider.tsx");
-    // Slider still renders the Label for its accessible name
+    // Slider still renders the shared Label for its accessible name and 8px field rhythm.
     expect(slider).toMatch(/from "@\/components\/ui\/label"/);
-    expect(slider).toMatch(/<Label value=\{label\} id=\{rootId\} className="mb-0" \/>/);
-    // Slider must not override the label color (no text-foreground/text-gray-* on the Label)
-    expect(slider).not.toMatch(/<Label[^>]*text-(foreground|gray-)/);
+    expect(slider).toMatch(/<Label value=\{label\} id=\{rootId\} \/>/);
+    // Slider must not override the canonical label color or bottom margin.
+    expect(slider).not.toMatch(/<Label[^>]*(?:text-(?:foreground|gray-)|mb-\d)/);
   });
 });
