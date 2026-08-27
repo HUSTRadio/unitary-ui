@@ -206,6 +206,8 @@ import { Tooltip } from "@/components/ui/tooltip";
 import { Video } from "@/components/ui/video";
 
 import { COMPONENTS, type ComponentMeta } from "../data/components";
+import { getComponentGuide } from "../content/component-guides";
+import { ComponentGuideSections } from "./component-guide-sections";
 import { ComponentApiReference } from "./docs-api-reference";
 import {
   DocsList,
@@ -9435,6 +9437,7 @@ function ComponentsOverview() {
 function ComponentDetail({ name }: { name: string }) {
   const { language } = useLanguage();
   const meta: ComponentMeta | undefined = COMPONENTS.find((component) => component.name === name);
+  const guide = getComponentGuide(name, language);
 
   if (!meta) {
     return (
@@ -9463,6 +9466,8 @@ function ComponentDetail({ name }: { name: string }) {
       <DocsPageLead className="max-w-xl">
         {language === "zh-CN" ? (meta.descriptionZh ?? meta.description) : meta.description}
       </DocsPageLead>
+
+      {guide && <ComponentGuideSections guide={guide} />}
 
       <DocsSection>
         <DocsSectionTitle>{demoText(language, "Live Demo")}</DocsSectionTitle>
