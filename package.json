@@ -27,7 +27,9 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "pnpm run build:lib && pnpm run typecheck",
-    "test:docs-layout": "playwright test -c playwright.config.ts"
+    "test:docs-layout": "playwright test -c playwright.config.ts",
+    "hooks:install": "node scripts/install-git-hooks.mjs",
+    "docs:agent:update": "node scripts/ai-docs-pre-push.mjs --manual"
   },
   "peerDependencies": {
     "react": "^19.0.0",
