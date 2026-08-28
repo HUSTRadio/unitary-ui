@@ -1,0 +1,183 @@
+# Clearable Input
+
+> Route: `/components/clearable-input`
+
+A text input with an inline Esc keycap that clears on pointer activation or Escape.
+
+[Back to Components](#/components)
+
+# Clearable Input
+
+Clearable Input
+
+A text input with an inline Esc keycap that clears on pointer activation or Escape.
+
+## When to use
+
+-   Users frequently need to reset the current value in search, filter, or short query fields.
+-   You need a fast way to clear the input without adding an extra button to the layout; the inline clear icon serves as a low-friction reset affordance.
+
+## When not to use
+
+-   When the field value must not be easily cleared, such as sensitive authentication credentials; use an explicit Delete button that requires confirmation instead.
+-   When users may want to partially retain long input; Middle Truncate is better suited for display-only truncation of long identifiers.
+
+## Examples
+
+### Default clearable input
+
+A base Clearable Input without a label, showing the input area and its inline clear keycap.
+
+### Clearable input with label
+
+Associates a visible label with the native input for screen reader access, while keeping the Escape clear accessible from the input itself.
+
+### Clearable input integrated with command menu
+
+Used as a search input in command menus like Command Menu, providing CmdK-style keyboard interaction patterns.
+
+### Disabled clearable input
+
+Displays the disabled visual state of the input; the entire field becomes inert, not just the clear icon.
+
+### Clearable input with clear callback
+
+Leverages the onChange handler to detect when the value is cleared, enabling custom post-clear logic such as resetting filtered results.
+
+## Accessibility
+
+-   Provide a visible label associated with the native input so screen readers announce the field name correctly.
+-   The clear icon is part of the input experience; Escape clears from the input itself without requiring an extra accessible element.
+
+## Controlled behavior
+
+-   Clearable Input's controlled behavior is driven by the parent input's value and onChange.
+-   Pass value and onChange to enable fully controlled mode; clearIconOnClick invokes onChange('') when the user clicks the clear icon.
+
+## Responsive behavior
+
+-   Width is controlled by the parent container or width prop; it can grow flexibly or switch between fixed size breakpoints.
+-   The clear keycap stays visible when inline space permits; on small viewports, if space is tight, only the Escape clear is retained.
+
+## Theme behavior
+
+-   Follows design system color variables to adapt border, text, and background colors automatically across themes.
+-   The clear icon's visibility adjusts based on contrast thresholds to remain usable in all themes.
+
+## Live Demo
+
+```tsx
+import { ClearableInput } from "@/components/ui/clearable-input";
+import { useState } from "react";
+
+const [value, setValue] = useState("");
+
+<ClearableInput
+  aria-label="Demo clearable input"
+  onChange={(e) => {
+    setValue(e.target.value);
+  }}
+  placeholder="Enter some text..."
+  value={value}
+/>
+```
+
+Email
+
+```tsx
+import { ClearableInput } from "@/components/ui/clearable-input";
+import { useState } from "react";
+
+const [value, setValue] = useState("");
+
+<ClearableInput
+  label="Email"
+  onChange={(e) => {
+    setValue(e.target.value);
+  }}
+  placeholder="Enter your email..."
+  value={value}
+/>
+```
+
+Esc⌘K
+
+```tsx
+import { ClearableInput } from "@/components/ui/clearable-input";
+import { useState } from "react";
+
+const [value, setValue] = useState("");
+
+<ClearableInput
+  aria-label="Search with cmdk"
+  cmdk
+  onChange={(e) => {
+    setValue(e.target.value);
+  }}
+  placeholder="Search..."
+  value={value}
+/>
+```
+
+```tsx
+import { ClearableInput } from "@/components/ui/clearable-input";
+import { useState } from "react";
+
+const [value, setValue] = useState("Some text");
+
+<ClearableInput
+  aria-label="Disabled clearable input"
+  disabled
+  onChange={(e) => {
+    setValue(e.target.value);
+  }}
+  placeholder="Enter some text..."
+  value={value}
+/>
+```
+
+Cleared 0 times
+
+```tsx
+import { ClearableInput } from "@/components/ui/clearable-input";
+import { useState } from "react";
+
+const [value, setValue] = useState("");
+const [clearCount, setClearCount] = useState(0);
+
+<div className="flex flex-col gap-2">
+  <ClearableInput
+    aria-label="Clearable input with callback"
+    onChange={(e) => {
+      setValue(e.target.value);
+    }}
+    onClear={() => {
+      setClearCount((prev) => prev + 1);
+    }}
+    placeholder="Enter some text and clear..."
+    value={value}
+  />
+  <p className="text-copy-14 text-gray-900">Cleared {clearCount} times</p>
+</div>
+```
+
+## API Reference
+
+This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+
+Import
+
+```tsx
+import { ClearableInput } from "@/components/ui/clearable-input"
+```
+
+Native props: `InputHTMLAttributes<HTMLInputElement>`
+
+### Props & callbacks
+
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onClear</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">() =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Called when the clear affordance is activated.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+
+## Best Practices
+
+-   Use Clearable Input for search, filter, and short query fields where resetting the current value is frequent.
+-   Associate visible labels with the native input, and keep Escape clearing available from the input itself.

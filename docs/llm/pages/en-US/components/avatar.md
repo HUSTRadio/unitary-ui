@@ -1,0 +1,318 @@
+# Avatar
+
+> Route: `/components/avatar`
+
+Represents a user or a team with an image or fallback.
+
+[Back to Components](#/components)
+
+# Avatar
+
+Avatar
+
+Represents a user or a team with an image or fallback.
+
+## When to use
+
+-   Use Avatar to represent a single user or team, displayed alongside name and role information.
+-   Use stacked Avatars to represent a group of people, such as team member lists or collections of commenters.
+-   Provide a fallback (initials, icon, or placeholder) so the avatar still reads when the image fails to load or is missing.
+
+## When not to use
+
+-   Do not repeat headshots inside cards or tables—prefer Entity rows or other structured layouts instead.
+-   Do not use Avatar for non-human entities (product logos, system icons)—use Icon or a generic placeholder for those.
+-   Do not use Avatar as a decorative background element; its semantic meaning is to represent a real person.
+
+## Examples
+
+### Sizes
+
+Showcases the sm, default, and lg preset sizes, matching dense rows, list mentions, and profile header contexts.
+
+### Fallback states
+
+Demonstrates the initials, custom icon, and placeholder fallback schemes when an image is unavailable.
+
+### Stacking and overlap
+
+Shows overlapped arrangement of multiple Avatars with fixed overlap spacing.
+
+## Accessibility
+
+-   Always set meaningful alt text so screen readers announce the name of the person the avatar depicts.
+-   Grouped stacks should carry an aria-label describing the total count to avoid redundant individual announcements.
+-   Initial-only fallback avatars should use high-contrast background colors to ensure text legibility.
+
+## Controlled behavior
+
+Not applicable: Avatar is a passive display component with no interactive state or controlled properties; fallback rendering is handled internally without external state control.
+
+## Responsive behavior
+
+-   Avatar size is specified explicitly via props rather than responsive breakpoints, keeping consistent appearance across all viewports.
+-   Stacked Avatars maintain their overlap order on narrow screens, showing at most four before collapsing the remainder into a +N numeric indicator.
+
+## Theme behavior
+
+-   Avatar colors and styles follow Geist theme variables (typography, color palette) and adapt automatically between dark and light modes.
+-   Placeholder blocks derive their color from a hash of the username by default, overridable via CSS variables.
+
+## Live Demo
+
+![Vercel](https://github.com/vercel.png)ALLG
+
+## Group
+
+![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=64)![Avatar for severinlandolt](https://github.com/severinlandolt.png?size=64)![Avatar for rauchg](https://github.com/rauchg.png?size=64)
+
+![Avatar for christopherkindl](https://github.com/christopherkindl.png?size=64)![Avatar for rauno](https://github.com/rauno.png?size=64)![Avatar for shuding](https://github.com/shuding.png?size=64)![Avatar for skllcrn](https://github.com/skllcrn.png?size=64)+2
+
+```tsx
+import { AvatarGroup } from "@/components/ui/avatar";
+
+<div className="flex flex-wrap items-center gap-4">
+  <AvatarGroup
+    members={[
+      { username: "evilrabbit" },
+      { username: "severinlandolt" },
+      { username: "rauchg" },
+    ]}
+    size={32}
+  />
+  <AvatarGroup
+    limit={4}
+    members={[
+      { username: "christopherkindl" },
+      { username: "rauno" },
+      { username: "shuding" },
+      { username: "skllcrn" },
+      { username: "almonk" },
+    ]}
+    size={32}
+  />
+</div>
+```
+
+## Stacking order
+
+![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=64)![Avatar for severinlandolt](https://github.com/severinlandolt.png?size=64)![Avatar for rauchg](https://github.com/rauchg.png?size=64)
+
+![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=64)![Avatar for severinlandolt](https://github.com/severinlandolt.png?size=64)![Avatar for rauchg](https://github.com/rauchg.png?size=64)
+
+```tsx
+import { AvatarGroup } from "@/components/ui/avatar";
+
+<div className="flex flex-wrap items-center gap-4">
+  <AvatarGroup
+    members={[
+      { username: "evilrabbit" },
+      { username: "severinlandolt" },
+      { username: "rauchg" },
+    ]}
+    size={32}
+  />
+  <AvatarGroup
+    reverse
+    members={[
+      { username: "evilrabbit" },
+      { username: "severinlandolt" },
+      { username: "rauchg" },
+    ]}
+    size={32}
+  />
+</div>
+```
+
+## Overlap
+
+![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=32)![Avatar for severinlandolt](https://github.com/severinlandolt.png?size=32)![Avatar for rauchg](https://github.com/rauchg.png?size=32)
+
+![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=48)![Avatar for severinlandolt](https://github.com/severinlandolt.png?size=48)![Avatar for rauchg](https://github.com/rauchg.png?size=48)
+
+![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=64)![Avatar for severinlandolt](https://github.com/severinlandolt.png?size=64)![Avatar for rauchg](https://github.com/rauchg.png?size=64)
+
+![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=96)![Avatar for severinlandolt](https://github.com/severinlandolt.png?size=96)![Avatar for rauchg](https://github.com/rauchg.png?size=96)
+
+```tsx
+import { AvatarGroup } from "@/components/ui/avatar";
+
+<div className="flex flex-wrap items-center gap-6">
+  <AvatarGroup
+    overlap="auto"
+    members={[
+      { username: "evilrabbit" },
+      { username: "severinlandolt" },
+      { username: "rauchg" },
+    ]}
+    size={16}
+  />
+  <AvatarGroup
+    overlap="auto"
+    members={[
+      { username: "evilrabbit" },
+      { username: "severinlandolt" },
+      { username: "rauchg" },
+    ]}
+    size={24}
+  />
+  <AvatarGroup
+    overlap="auto"
+    members={[
+      { username: "evilrabbit" },
+      { username: "severinlandolt" },
+      { username: "rauchg" },
+    ]}
+    size={32}
+  />
+  <AvatarGroup
+    overlap="auto"
+    members={[
+      { username: "evilrabbit" },
+      { username: "severinlandolt" },
+      { username: "rauchg" },
+    ]}
+    size={48}
+  />
+</div>
+```
+
+## Fixed overlap
+
+![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=48)![Avatar for severinlandolt](https://github.com/severinlandolt.png?size=48)![Avatar for rauchg](https://github.com/rauchg.png?size=48)
+
+![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=48)![Avatar for severinlandolt](https://github.com/severinlandolt.png?size=48)![Avatar for rauchg](https://github.com/rauchg.png?size=48)
+
+![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=48)![Avatar for severinlandolt](https://github.com/severinlandolt.png?size=48)![Avatar for rauchg](https://github.com/rauchg.png?size=48)
+
+```tsx
+import { AvatarGroup } from "@/components/ui/avatar";
+
+<div className="flex flex-wrap items-center gap-4">
+  <AvatarGroup
+    overlap={10}
+    members={[
+      { username: "evilrabbit" },
+      { username: "severinlandolt" },
+      { username: "rauchg" },
+    ]}
+    size={24}
+  />
+  <AvatarGroup
+    overlap={6}
+    members={[
+      { username: "evilrabbit" },
+      { username: "severinlandolt" },
+      { username: "rauchg" },
+    ]}
+    size={24}
+  />
+  <AvatarGroup
+    overlap={0}
+    members={[
+      { username: "evilrabbit" },
+      { username: "severinlandolt" },
+      { username: "rauchg" },
+    ]}
+    size={24}
+  />
+</div>
+```
+
+## Size
+
+![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=48)![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=64)![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=96)
+
+```tsx
+import { Avatar } from "@/components/ui/avatar";
+
+<div className="flex flex-wrap items-center gap-4">
+  <Avatar size={24} username="evilrabbit" />
+  <Avatar size={32} username="evilrabbit" />
+  <Avatar size={48} username="evilrabbit" />
+</div>
+```
+
+## Git
+
+![Avatar for rauchg](https://github.com/rauchg.png?size=64)![Avatar for severinlandolt](https://gitlab.com/severinlandolt.png?size=64)![Avatar for evilrabbit](https://bitbucket.org/evilrabbit/avatar/64)
+
+```tsx
+import { GitHubAvatar, GitLabAvatar, BitbucketAvatar } from "@/components/ui/avatar";
+
+<div className="flex flex-wrap items-center gap-4">
+  <GitHubAvatar size={32} username="rauchg" />
+  <GitLabAvatar size={32} username="severinlandolt" />
+  <BitbucketAvatar size={32} username="evilrabbit" />
+</div>
+```
+
+## With custom icon
+
+```tsx
+import { AvatarWithIcon } from "@/components/ui/avatar";
+import { ArrowDownCircle, CircleCheck, Clock } from "lucide-react";
+
+<div className="flex flex-wrap items-center gap-4">
+  <AvatarWithIcon
+    icon={<ArrowDownCircle className="size-3.5" aria-hidden />}
+    size={32}
+    iconBackground
+  />
+  <AvatarWithIcon
+    icon={<CircleCheck className="size-3.5" aria-hidden />}
+    size={32}
+    iconBackground
+  />
+  <AvatarWithIcon
+    icon={<Clock className="size-3.5" aria-hidden />}
+    size={32}
+    iconBackground
+  />
+</div>
+```
+
+## Letter
+
+SLEKCK
+
+```tsx
+import { Avatar } from "@/components/ui/avatar";
+
+<div className="flex flex-wrap items-center gap-4">
+  <Avatar letter="SL" placeholder size={32} />
+  <Avatar letter="EK" placeholder size={32} />
+  <Avatar letter="CK" placeholder size={32} />
+</div>
+```
+
+## Placeholder
+
+```tsx
+import { Avatar } from "@/components/ui/avatar";
+
+<Avatar placeholder size={90} />
+```
+
+## API Reference
+
+This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+
+Import
+
+```tsx
+import { Avatar, AvatarGroup, AvatarWithIcon } from "@/components/ui/avatar"
+```
+
+Native props: `ImgHTMLAttributes<HTMLImageElement>`
+
+### Props & callbacks
+
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">src</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Image source.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">alt</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Accessible image description.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">fallback</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Fallback shown when no image is available.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+
+## Best Practices
+
+-   Use Avatar to represent a single user or team. Stacked Avatars represent a group of people.
+-   Provide a fallback (initials, icon, or placeholder) so the avatar still reads when the image fails to load or is missing.
+-   Set a meaningful alt text so screen readers announce who the avatar depicts.
+-   Match the size to the context: sm for dense rows, default for lists and mentions, lg for profile headers.
