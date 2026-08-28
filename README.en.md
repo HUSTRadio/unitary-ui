@@ -46,6 +46,7 @@ import "@/styles/index.css";
 - Docs contract tests: `tests/component-doc-completeness.test.ts`, `tests/docs-i18n-parity.test.ts`
 - Official spec snapshot: `docs/geist-markdown-refs/`
 - Known issues list: `docs/geist-docs-findings.md`
+- Change history: [CHANGELOG.en.md](./CHANGELOG.en.md)
 
 ### Screenshots
 

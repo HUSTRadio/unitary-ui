@@ -46,6 +46,7 @@ import "@/styles/index.css";
 - 组件文档合同测试：`tests/component-doc-completeness.test.ts`、`tests/docs-i18n-parity.test.ts`
 - 官方规范快照：`docs/geist-markdown-refs/`
 - 已知问题清单：`docs/geist-docs-findings.md`
+- 变更记录：[CHANGELOG.md](./CHANGELOG.md)
 
 ### Screenshots
 
