@@ -14,13 +14,13 @@ Code
 
 ## 何时使用
 
--   在技术文档正文中引用单个代码标识符——环境变量名、函数名、类名或文件路径。
--   需要在段落或列表中对代码元素进行语法着色以提高可读性，同时保持文本流连贯。
+- 在技术文档正文中引用单个代码标识符——环境变量名、函数名、类名或文件路径。
+- 需要在段落或列表中对代码元素进行语法着色以提高可读性，同时保持文本流连贯。
 
 ## 何时不应使用
 
--   当需要展示多行源代码块时；请改用 Code Block，它带有边框、文件名头和可选的行号。
--   当内容不是有效的代码或标记语言时；Code 组件会应用代码着色样式，错误的内容会产生误导性的视觉效果。
+- 当需要展示多行源代码块时；请改用 Code Block，它带有边框、文件名头和可选的行号。
+- 当内容不是有效的代码或标记语言时；Code 组件会应用代码着色样式，错误的内容会产生误导性的视觉效果。
 
 ## 示例
 
@@ -46,7 +46,7 @@ Code
 
 ## 主题行为
 
--   语法高亮颜色遵循设计系统的代码颜色变量，支持浅色和深色主题下的正确显示。
+- 语法高亮颜色遵循设计系统的代码颜色变量，支持浅色和深色主题下的正确显示。
 
 ## 实时示例
 
@@ -68,7 +68,7 @@ import { Code, InlineCode } from "@/components/ui/code";
     Install with <InlineCode>npm i geist</InlineCode> and import the component.
   </p>
   <Code syntax="javascript">{`console.log("Hello")`}</Code>
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -78,7 +78,7 @@ import { Code, InlineCode } from "@/components/ui/code";
 导入
 
 ```tsx
-import { Code, InlineCode } from "@/components/ui/code"
+import { Code, InlineCode } from "@/components/ui/code";
 ```
 
 ### 属性与回调

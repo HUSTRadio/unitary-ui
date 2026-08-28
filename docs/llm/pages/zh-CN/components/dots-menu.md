@@ -14,14 +14,14 @@ Dots Menu
 
 ## 何时使用
 
--   行内、卡片或资源项上空间有限，需要展开更多相关操作时使用。
--   与 Context Menu 互补：Dots Menu 面向可见触发器和键盘/鼠标通用操作，右击快捷操作则由 Context Menu 承担。
+- 行内、卡片或资源项上空间有限，需要展开更多相关操作时使用。
+- 与 Context Menu 互补：Dots Menu 面向可见触发器和键盘/鼠标通用操作，右击快捷操作则由 Context Menu 承担。
 
 ## 何时不应使用
 
--   操作数量超过 10 项时应考虑使用 Split Button + Menu 分组或导航至独立的设置页面。
--   单一直达主操作不应使用 Dots Menu，应将最常用的行动放在最显眼的位置。
--   右键上下文操作应由 Context Menu 提供而非仅靠 Dots Menu。
+- 操作数量超过 10 项时应考虑使用 Split Button + Menu 分组或导航至独立的设置页面。
+- 单一直达主操作不应使用 Dots Menu，应将最常用的行动放在最显眼的位置。
+- 右键上下文操作应由 Context Menu 提供而非仅靠 Dots Menu。
 
 ## 示例
 
@@ -43,25 +43,25 @@ Dots Menu
 
 ## 无障碍
 
--   三点图标按钮需要明确的 aria-label 以便屏幕阅读器识别菜单功能。
--   菜单打开时通过 Escape 键关闭并返回焦点到触发器。
--   方向键在菜单项目间移动，Enter 或 Space 激活选中项。
+- 三点图标按钮需要明确的 aria-label 以便屏幕阅读器识别菜单功能。
+- 菜单打开时通过 Escape 键关闭并返回焦点到触发器。
+- 方向键在菜单项目间移动，Enter 或 Space 激活选中项。
 
 ## 受控行为
 
--   菜单打开状态由父组件控制，通过 open 属性管理显示与隐藏。
--   点击菜单项后自动关闭并执行对应动作，将焦点归还触发器。
--   受控模式下可通过编程方式打开或关闭菜单。
+- 菜单打开状态由父组件控制，通过 open 属性管理显示与隐藏。
+- 点击菜单项后自动关闭并执行对应动作，将焦点归还触发器。
+- 受控模式下可通过编程方式打开或关闭菜单。
 
 ## 响应式行为
 
--   位置策略 auto-flip 根据窗口边界自适应定位，避免在窄屏下内容裁剪。
--   大间距环境下菜单项目间距增大以提升触摸目标面积。
+- 位置策略 auto-flip 根据窗口边界自适应定位，避免在窄屏下内容裁剪。
+- 大间距环境下菜单项目间距增大以提升触摸目标面积。
 
 ## 主题行为
 
--   遵循应用主题系统渲染背景、边框和高亮颜色。
--   禁用状态的色调通过 CSS 变量从主题令牌获取，确保亮/暗模式一致。
+- 遵循应用主题系统渲染背景、边框和高亮颜色。
+- 禁用状态的色调通过 CSS 变量从主题令牌获取，确保亮/暗模式一致。
 
 ## 实时示例
 
@@ -72,7 +72,7 @@ import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
   <DotsMenuItem>View Build Logs</DotsMenuItem>
   <DotsMenuItem>View Projects</DotsMenuItem>
   <DotsMenuItem>View Analytics</DotsMenuItem>
-</DotsMenu>
+</DotsMenu>;
 ```
 
 ```tsx
@@ -94,7 +94,7 @@ import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
     <DotsMenuItem>View Projects</DotsMenuItem>
     <DotsMenuItem>View Analytics</DotsMenuItem>
   </DotsMenu>
-</div>
+</div>;
 ```
 
 ```tsx
@@ -104,7 +104,7 @@ import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
   <DotsMenuItem>View Build Logs</DotsMenuItem>
   <DotsMenuItem>View Projects</DotsMenuItem>
   <DotsMenuItem>View Analytics</DotsMenuItem>
-</DotsMenu>
+</DotsMenu>;
 ```
 
 ```tsx
@@ -114,7 +114,7 @@ import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
   <DotsMenuItem>View Build Logs</DotsMenuItem>
   <DotsMenuItem disabled>View Projects</DotsMenuItem>
   <DotsMenuItem>View Analytics</DotsMenuItem>
-</DotsMenu>
+</DotsMenu>;
 ```
 
 ## API 参考
@@ -124,7 +124,7 @@ import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
 导入
 
 ```tsx
-import { DotsMenu, DotsMenuItem, DotsMenuSeparator } from "@/components/ui/dots-menu"
+import { DotsMenu, DotsMenuItem, DotsMenuSeparator } from "@/components/ui/dots-menu";
 ```
 
 ### 属性与回调

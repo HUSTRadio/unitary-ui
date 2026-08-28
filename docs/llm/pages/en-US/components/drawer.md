@@ -14,14 +14,14 @@ Displays content in a separate bottom view from the existing context.
 
 ## When to use
 
--   On small viewports for short focused actions: a single form, a filter sheet, or a primary CTA paired with Cancel.
--   When you need to present auxiliary content while keeping the browsing context intact without requiring a desktop-side-panel–level persistent surface.
+- On small viewports for short focused actions: a single form, a filter sheet, or a primary CTA paired with Cancel.
+- When you need to present auxiliary content while keeping the browsing context intact without requiring a desktop-side-panel–level persistent surface.
 
 ## When not to use
 
--   Don't use Drawer to confirm destructive actions — the lack of a fully blocking dim weakens the severity signal delete and revoke flows need.
--   Use Sheet on desktop for persistent associated context instead of a Drawer.
--   Long multi-step forms should route to a dedicated page rather than squeezed into a Drawer.
+- Don't use Drawer to confirm destructive actions — the lack of a fully blocking dim weakens the severity signal delete and revoke flows need.
+- Use Sheet on desktop for persistent associated context instead of a Drawer.
+- Long multi-step forms should route to a dedicated page rather than squeezed into a Drawer.
 
 ## Examples
 
@@ -35,26 +35,26 @@ Controlling the drawer's viewport proportion via the custom height prop to match
 
 ## Accessibility
 
--   Focus is trapped inside the drawer while open and returned to the trigger element on close.
--   Escape closes the drawer, ensuring a complete keyboard exit path.
--   DrawerTitle should be a Title Case noun phrase naming the displayed resource entity.
+- Focus is trapped inside the drawer while open and returned to the trigger element on close.
+- Escape closes the drawer, ensuring a complete keyboard exit path.
+- DrawerTitle should be a Title Case noun phrase naming the displayed resource entity.
 
 ## Controlled behavior
 
--   The open state is fully controlled by the parent — internals do not manage open/close independently.
--   Close callbacks notify the parent to synchronize external state.
--   Body scroll is locked while open and restored on close.
+- The open state is fully controlled by the parent — internals do not manage open/close independently.
+- Close callbacks notify the parent to synchronize external state.
+- Body scroll is locked while open and restored on close.
 
 ## Responsive behavior
 
--   Designed for mobile — use only on small viewports; replace with Sheet on desktop.
--   Swipe-down gesture dismissal is supported natively for natural touchscreen interaction.
--   Custom height prop allows flexible adaptation to different content needs.
+- Designed for mobile — use only on small viewports; replace with Sheet on desktop.
+- Swipe-down gesture dismissal is supported natively for natural touchscreen interaction.
+- Custom height prop allows flexible adaptation to different content needs.
 
 ## Theme behavior
 
--   Backdrop shadow and divider colors follow the application theme.
--   Body scroll lock maintains proper contrast in both dark and light themes.
+- Backdrop shadow and divider colors follow the application theme.
+- Body scroll lock maintains proper contrast in both dark and light themes.
 
 ## Live Demo
 
@@ -109,7 +109,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer"
+import { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 ```
 
 ### Props & callbacks
@@ -118,10 +118,10 @@ import { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer"
 
 ## Best Practices
 
--   Only use Drawer on small viewports. For a desktop side panel that keeps the page interactive, use Sheet; for a blocking decision, use Modal.
--   Don’t use Drawer to confirm destructive actions. The lack of a fully blocking dim weakens the severity signal that delete and revoke flows need; route to Modal.
--   A Drawer is good for short focused mobile actions: a single form, a filter sheet, a primary CTA paired with Cancel.
--   Tap-outside and swipe-down dismiss by default; preserve both unless the form has dirty input.
--   DrawerTitle is a Title Case statement that names the entity (Deployment Details, Filter Logs). Body is sentence case prose with one primary Verb + Noun button and a literal Cancel.
--   Trap focus inside the drawer while open and return focus to the trigger on close. Escape closes the drawer.
--   Lock body scroll on open and restore it on close so iOS rubber-band scroll doesn’t leak through.
+- Only use Drawer on small viewports. For a desktop side panel that keeps the page interactive, use Sheet; for a blocking decision, use Modal.
+- Don’t use Drawer to confirm destructive actions. The lack of a fully blocking dim weakens the severity signal that delete and revoke flows need; route to Modal.
+- A Drawer is good for short focused mobile actions: a single form, a filter sheet, a primary CTA paired with Cancel.
+- Tap-outside and swipe-down dismiss by default; preserve both unless the form has dirty input.
+- DrawerTitle is a Title Case statement that names the entity (Deployment Details, Filter Logs). Body is sentence case prose with one primary Verb + Noun button and a literal Cancel.
+- Trap focus inside the drawer while open and return focus to the trigger on close. Escape closes the drawer.
+- Lock body scroll on open and restore it on close so iOS rubber-band scroll doesn’t leak through.

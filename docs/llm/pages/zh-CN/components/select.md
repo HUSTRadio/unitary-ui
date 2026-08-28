@@ -14,13 +14,13 @@ Select
 
 ## 何时使用
 
--   从简短固定的选项列表中快速选择一个值时，尤其适合大约十个以内的选项。
--   空间受限的设置面板、筛选器行或紧凑型表单中，需要使用下拉选择节省垂直空间。
+- 从简短固定的选项列表中快速选择一个值时，尤其适合大约十个以内的选项。
+- 空间受限的设置面板、筛选器行或紧凑型表单中，需要使用下拉选择节省垂直空间。
 
 ## 何时不应使用
 
--   面对需要从大量选项中通过输入筛选的场景，组合框（Combobox）更合适。
--   需要同时选择多个选项时，应使用多选控件（Multi Select）。
+- 面对需要从大量选项中通过输入筛选的场景，组合框（Combobox）更合适。
+- 需要同时选择多个选项时，应使用多选控件（Multi Select）。
 
 ## 示例
 
@@ -34,20 +34,20 @@ Select
 
 ## 无障碍
 
--   遵循 WAI-ARIA 的下拉列表语义，键盘用户可以流畅地上下遍历选项并通过 Enter 进行选择。
--   选中后屏幕阅读器会清晰地播报新的选项值及其对应的标签。
+- 遵循 WAI-ARIA 的下拉列表语义，键盘用户可以流畅地上下遍历选项并通过 Enter 进行选择。
+- 选中后屏幕阅读器会清晰地播报新的选项值及其对应的标签。
 
 ## 受控行为
 
--   通过 value 和 onChange 属性实现完全的外部状态控制，开发者可以精确管理选中的值和处理变更事件。
+- 通过 value 和 onChange 属性实现完全的外部状态控制，开发者可以精确管理选中的值和处理变更事件。
 
 ## 响应式行为
 
--   支持多种内置尺寸，在狭窄视口中可通过减小字号和间距保持可用性。
+- 支持多种内置尺寸，在狭窄视口中可通过减小字号和间距保持可用性。
 
 ## 主题行为
 
--   下拉弹出层的背景、边框和文字颜色随主题系统自动适配，确保暗色模式下同样可用。
+- 下拉弹出层的背景、边框和文字颜色随主题系统自动适配，确保暗色模式下同样可用。
 
 ## 实时示例
 
@@ -70,7 +70,7 @@ import { Select } from "@/components/ui/select";
     <option>Option 2</option>
     <option>Option 3</option>
   </Select>
-</div>
+</div>;
 ```
 
 ```tsx
@@ -83,13 +83,13 @@ const icon = <ArrowUpCircle aria-hidden />;
   <Select aria-label="Small" placeholder="Small" size="small" prefix={icon} suffix={icon} />
   <Select aria-label="Default" placeholder="Default" prefix={icon} suffix={icon} />
   <Select aria-label="Large" placeholder="Large" size="large" prefix={icon} suffix={icon} />
-</div>
+</div>;
 ```
 
 ```tsx
 import { Select } from "@/components/ui/select";
 
-<Select aria-label="Disabled" disabled placeholder="Disabled with placeholder" />
+<Select aria-label="Disabled" disabled placeholder="Disabled with placeholder" />;
 ```
 
 请选择一个值。
@@ -111,7 +111,7 @@ import { Select } from "@/components/ui/select";
 ```tsx
 import { Select } from "@/components/ui/select";
 
-<Select label="My label" placeholder="With label" />
+<Select label="My label" placeholder="With label" />;
 ```
 
 必填字段
@@ -123,7 +123,7 @@ import { Select, SelectItem } from "@/components/ui/select";
   <SelectItem value="option1">Option 1</SelectItem>
   <SelectItem value="option2">Option 2</SelectItem>
   <SelectItem value="option3">Option 3</SelectItem>
-</Select>
+</Select>;
 ```
 
 ## 带选项
@@ -136,7 +136,7 @@ import { Select } from "@/components/ui/select";
   <option value="orange">Orange</option>
   <option value="banana">Banana</option>
   <option value="grape">Grape</option>
-</Select>
+</Select>;
 ```
 
 ## API 参考
@@ -146,7 +146,7 @@ import { Select } from "@/components/ui/select";
 导入
 
 ```tsx
-import { Select } from "@/components/ui/select"
+import { Select } from "@/components/ui/select";
 ```
 
 ### 属性与回调
@@ -155,11 +155,11 @@ import { Select } from "@/components/ui/select"
 
 ## 最佳实践
 
--   短而固定的列表（约 10 项以内）用 <Select>，输入过滤没有增益；需要过滤时改用 Combobox。
--   一次可选多个值时用 MultiSelect；2–3 选项的分段选择用 Switch。
--   超过约 10 项用原生 <optgroup> 分组；Geist <Select> 没有 .Group 静态方法。
--   短选项首字母大写并匹配规范品牌（Next.js，而非 NextJS）；整个列表保持同一格调。
--   标签是简短的首字母大写名词（Framework、Region）；直接在 <Select> 上接受该 prop。
--   placeholder 面向动作（Select a framework），绝不用 Choose one…、Pick 或复述标签。
--   失焦时校验并向 error 传字符串；消息点名字段并以句号结尾（Select a framework.）。
--   不要用 Tooltip 包裹带标签的 <Select>；把提示放在兄弟图标按钮上，让标签保持被播报。
+- 短而固定的列表（约 10 项以内）用 <Select>，输入过滤没有增益；需要过滤时改用 Combobox。
+- 一次可选多个值时用 MultiSelect；2–3 选项的分段选择用 Switch。
+- 超过约 10 项用原生 <optgroup> 分组；Geist <Select> 没有 .Group 静态方法。
+- 短选项首字母大写并匹配规范品牌（Next.js，而非 NextJS）；整个列表保持同一格调。
+- 标签是简短的首字母大写名词（Framework、Region）；直接在 <Select> 上接受该 prop。
+- placeholder 面向动作（Select a framework），绝不用 Choose one…、Pick 或复述标签。
+- 失焦时校验并向 error 传字符串；消息点名字段并以句号结尾（Select a framework.）。
+- 不要用 Tooltip 包裹带标签的 <Select>；把提示放在兄弟图标按钮上，让标签保持被播报。

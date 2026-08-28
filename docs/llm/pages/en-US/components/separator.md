@@ -14,13 +14,13 @@ Divides content into visually distinct groups.
 
 ## When to use
 
--   When you need a visual divider between menu items, list sections, or layout blocks.
--   When a lightweight line conveys partitioning better than additional spacing layers alone.
+- When you need a visual divider between menu items, list sections, or layout blocks.
+- When a lightweight line conveys partitioning better than additional spacing layers alone.
 
 ## When not to use
 
--   When whitespace or background surface transitions already provide sufficient visual grouping.
--   When the separation carries semantic meaning for assistive technologies and the default decorative setting is insufficient.
+- When whitespace or background surface transitions already provide sufficient visual grouping.
+- When the separation carries semantic meaning for assistive technologies and the default decorative setting is insufficient.
 
 ## Examples
 
@@ -34,8 +34,8 @@ A vertical line filling the available height of a flex row, useful for spacing h
 
 ## Accessibility
 
--   Decorative by default (the decorative prop), so assistive tech ignores it.
--   Set decorative to false and provide an accessible name only when the separation is semantically meaningful.
+- Decorative by default (the decorative prop), so assistive tech ignores it.
+- Set decorative to false and provide an accessible name only when the separation is semantically meaningful.
 
 ## Controlled behavior
 
@@ -43,11 +43,11 @@ Not applicable: The separator is a purely presentational component with no inter
 
 ## Responsive behavior
 
--   Horizontal separators stretch to fill the container width; vertical ones grow to fill the flex item's available height.
+- Horizontal separators stretch to fill the container width; vertical ones grow to fill the flex item's available height.
 
 ## Theme behavior
 
--   Color inherits from theme CSS variables, adjusting automatically for stroke and contrast in dark themes.
+- Color inherits from theme CSS variables, adjusting automatically for stroke and contrast in dark themes.
 
 ## Live Demo
 
@@ -72,7 +72,7 @@ import { Separator } from "@/components/ui/separator";
     <h3 className="text-label-16">Section 2</h3>
     <p className="text-copy-14 text-gray-900">This is the second section of content.</p>
   </div>
-</div>
+</div>;
 ```
 
 Home
@@ -94,7 +94,7 @@ import { Separator } from "@/components/ui/separator";
   <p className="text-copy-14 text-gray-1000">Services</p>
   <Separator orientation="vertical" />
   <p className="text-copy-14 text-gray-1000">Contact</p>
-</div>
+</div>;
 ```
 
 #### Horizontal Separators
@@ -133,7 +133,7 @@ import { Separator } from "@/components/ui/separator";
       <span className="text-copy-14">Right</span>
     </div>
   </div>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -143,7 +143,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@/components/ui/separator";
 ```
 
 ### Props & callbacks
@@ -152,7 +152,7 @@ import { Separator } from "@/components/ui/separator"
 
 ## Best Practices
 
--   Use Separator to divide content into visually distinct groups, like between sections of a list or menu items.
--   Horizontal separators span the full width of their container; vertical ones fill the available height of a flex row.
--   Separators are decorative by default (decorative prop), so assistive tech ignores them. Set decorative={false} with an accessible name only when the separation is semantically meaningful.
--   Don’t overuse separators; grouping with white space or a background surface is often enough and reads cleaner.
+- Use Separator to divide content into visually distinct groups, like between sections of a list or menu items.
+- Horizontal separators span the full width of their container; vertical ones fill the available height of a flex row.
+- Separators are decorative by default (decorative prop), so assistive tech ignores them. Set decorative={false} with an accessible name only when the separation is semantically meaningful.
+- Don’t overuse separators; grouping with white space or a background surface is often enough and reads cleaner.

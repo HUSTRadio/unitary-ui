@@ -14,13 +14,13 @@ Copy Button
 
 ## 何时使用
 
--   需要将一个简短字符串原样复制到剪贴板，例如令牌（token）、命令行指令、唯一标识符 ID。
--   需要在复制完成后显示约 1.5 秒的打勾确认反馈，让用户明确感知复制操作已完成。
+- 需要将一个简短字符串原样复制到剪贴板，例如令牌（token）、命令行指令、唯一标识符 ID。
+- 需要在复制完成后显示约 1.5 秒的打勾确认反馈，让用户明确感知复制操作已完成。
 
 ## 何时不应使用
 
--   对于较长的代码块或多行文本，应使用完整的 Snippet 组件搭配其自带的复制功能，而不是单独使用 CopyButton。
--   不要在图标按钮上省略 aria-label；屏幕阅读器无法通过纯图标理解按钮的功能意图。
+- 对于较长的代码块或多行文本，应使用完整的 Snippet 组件搭配其自带的复制功能，而不是单独使用 CopyButton。
+- 不要在图标按钮上省略 aria-label；屏幕阅读器无法通过纯图标理解按钮的功能意图。
 
 ## 示例
 
@@ -30,9 +30,9 @@ Copy Button
 
 ## 无障碍
 
--   为图标-only 按钮设置 aria-label 属性，使屏幕阅读器宣布具体操作含义（如 'Copy deployment URL'），而不仅是图标本身。
--   优先使用 navigator.clipboard.writeText API，并附加隐藏的 textarea execCommand 降级方案，以兼容缺少剪贴板权限的环境。
--   复制成功后保留约 1.5 秒的打勾视觉反馈，之后重置回原始状态以便下一次点击。
+- 为图标-only 按钮设置 aria-label 属性，使屏幕阅读器宣布具体操作含义（如 'Copy deployment URL'），而不仅是图标本身。
+- 优先使用 navigator.clipboard.writeText API，并附加隐藏的 textarea execCommand 降级方案，以兼容缺少剪贴板权限的环境。
+- 复制成功后保留约 1.5 秒的打勾视觉反馈，之后重置回原始状态以便下一次点击。
 
 ## 受控行为
 
@@ -56,7 +56,7 @@ import { CopyButton } from "@/components/ui/copy-button";
 <div className="flex flex-wrap items-center gap-3">
   <CopyButton textToCopy="lipsum" />
   <span className="text-copy-13 text-muted-foreground">Click to copy “lipsum”</span>
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -66,7 +66,7 @@ import { CopyButton } from "@/components/ui/copy-button";
 导入
 
 ```tsx
-import { CopyButton } from "@/components/ui/copy-button"
+import { CopyButton } from "@/components/ui/copy-button";
 ```
 
 原生属性：`ButtonHTMLAttributes<HTMLButtonElement>`
@@ -77,7 +77,7 @@ import { CopyButton } from "@/components/ui/copy-button"
 
 ## 最佳实践
 
--   对用户逐字复制的单个短字符串（token、命令、ID）用 CopyButton。较长块配带自身复制功能的完整 Snippet。
--   复制成功后展示约 1.5s 的对勾反馈，让动作看起来已完成；下次点击前重置它。
--   纯图标按钮设置 aria-label，让屏幕阅读器播报动作（Copy deployment URL）而非仅播报图标。
--   优先 navigator.clipboard.writeText，并提供隐藏 textarea 的 execCommand 回退，以便剪贴板权限缺失时仍可复制。
+- 对用户逐字复制的单个短字符串（token、命令、ID）用 CopyButton。较长块配带自身复制功能的完整 Snippet。
+- 复制成功后展示约 1.5s 的对勾反馈，让动作看起来已完成；下次点击前重置它。
+- 纯图标按钮设置 aria-label，让屏幕阅读器播报动作（Copy deployment URL）而非仅播报图标。
+- 优先 navigator.clipboard.writeText，并提供隐藏 textarea 的 execCommand 回退，以便剪贴板权限缺失时仍可复制。

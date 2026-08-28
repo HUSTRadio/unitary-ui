@@ -14,15 +14,15 @@ Displays a runnable shell command or short code the user is meant to copy.
 
 ## When to use
 
--   Use Snippet for a runnable shell command the user is meant to copy; it ships with the prompt glyph and copy affordance built in.
--   For inline tokens (env var names, paths) use InlineCode, and for multi-line source use CodeBlock; one-liner commands belong in Snippet.
--   Pair Snippet with a CopyButton so users can grab the command without manually selecting text.
+- Use Snippet for a runnable shell command the user is meant to copy; it ships with the prompt glyph and copy affordance built in.
+- For inline tokens (env var names, paths) use InlineCode, and for multi-line source use CodeBlock; one-liner commands belong in Snippet.
+- Pair Snippet with a CopyButton so users can grab the command without manually selecting text.
 
 ## When not to use
 
--   Keep one command per Snippet; for longer scripts, switch to CodeBlock so users can read before they copy.
--   Do not use Snippet for pseudocode or pseudo-syntax examples in documentation—it should present real, pasteable commands.
--   Do not combine multiple commands in a single Snippet; each command should be its own independent Snippet to avoid copy confusion.
+- Keep one command per Snippet; for longer scripts, switch to CodeBlock so users can read before they copy.
+- Do not use Snippet for pseudocode or pseudo-syntax examples in documentation—it should present real, pasteable commands.
+- Do not combine multiple commands in a single Snippet; each command should be its own independent Snippet to avoid copy confusion.
 
 ## Examples
 
@@ -40,24 +40,24 @@ Showcases all Snippet variant styles and configuration options available.
 
 ## Accessibility
 
--   The Copy button must be an icon-only button with an explicit aria-label so screen readers announce the action intent (e.g., "Copy deployment URL").
--   Provide visual feedback (checkmark) for about 1.5 seconds after a successful copy, then reset before the next click.
--   Prefer navigator.clipboard.writeText with a hidden-textarea execCommand fallback so copying works where clipboard permissions are missing.
+- The Copy button must be an icon-only button with an explicit aria-label so screen readers announce the action intent (e.g., "Copy deployment URL").
+- Provide visual feedback (checkmark) for about 1.5 seconds after a successful copy, then reset before the next click.
+- Prefer navigator.clipboard.writeText with a hidden-textarea execCommand fallback so copying works where clipboard permissions are missing.
 
 ## Controlled behavior
 
--   Supports controlled copied-state (copied), letting developers programmatically manage the visibility and duration of copy feedback.
--   The callback prop allows executing additional business logic when the copy action fires.
+- Supports controlled copied-state (copied), letting developers programmatically manage the visibility and duration of copy feedback.
+- The callback prop allows executing additional business logic when the copy action fires.
 
 ## Responsive behavior
 
--   Snippet adjusts padding and font size automatically on narrow screens so command text is not overly compressed.
--   The copy button maintains consistent visibility and tap-target size across all screen widths.
+- Snippet adjusts padding and font size automatically on narrow screens so command text is not overly compressed.
+- The copy button maintains consistent visibility and tap-target size across all screen widths.
 
 ## Theme behavior
 
--   Snippet background, border, and text color follow theme variables, each mode having its own color palette.
--   The inverted variant is specifically optimized for dark backgrounds, ensuring contrast meets WCAG standards.
+- Snippet background, border, and text color follow theme variables, each mode having its own color palette.
+- The inverted variant is specifically optimized for dark backgrounds, ensuring contrast meets WCAG standards.
 
 ## Live Demo
 
@@ -66,7 +66,7 @@ Showcases all Snippet variant styles and configuration options available.
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet text="npm init next-app" width="300px" />
+<Snippet text="npm init next-app" width="300px" />;
 ```
 
 `$ npm init next-app`
@@ -74,7 +74,7 @@ import { Snippet } from "@/components/ui/snippet";
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet dark text="npm init next-app" width="300px" />
+<Snippet dark text="npm init next-app" width="300px" />;
 ```
 
 `$ cd project``$ now`
@@ -82,7 +82,7 @@ import { Snippet } from "@/components/ui/snippet";
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet text={["cd project", "now"]} width="100%" />
+<Snippet text={["cd project", "now"]} width="100%" />;
 ```
 
 `npm init next-app`
@@ -90,7 +90,7 @@ import { Snippet } from "@/components/ui/snippet";
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet prompt={false} text="npm init next-app" width="300px" />
+<Snippet prompt={false} text="npm init next-app" width="300px" />;
 ```
 
 `$ npm init next-app`
@@ -98,7 +98,7 @@ import { Snippet } from "@/components/ui/snippet";
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet onCopy={() => alert("You copied the text!")} text="npm init next-app" width="300px" />
+<Snippet onCopy={() => alert("You copied the text!")} text="npm init next-app" width="300px" />;
 ```
 
 `$ npm init next-app`
@@ -114,7 +114,7 @@ import { Snippet } from "@/components/ui/snippet";
   <Snippet text="npm init next-app" type="success" width="300px" />
   <Snippet text="npm init next-app" type="error" width="300px" />
   <Snippet text="npm init next-app" type="warning" width="300px" />
-</div>
+</div>;
 ```
 
 `$ npm init next-app`
@@ -177,7 +177,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Snippet } from "@/components/ui/snippet"
+import { Snippet } from "@/components/ui/snippet";
 ```
 
 ### Props & callbacks
@@ -186,7 +186,7 @@ import { Snippet } from "@/components/ui/snippet"
 
 ## Best Practices
 
--   Use Snippet for a runnable shell command the user is meant to copy. For inline tokens (env var names, paths) use InlineCode, and for multi-line source use CodeBlock.
--   Pass the command as text. The component renders any prompt itself; keep the copied payload in sync with what the user sees.
--   Keep one command per Snippet. For longer scripts, switch to CodeBlock so users can read before they copy.
--   Pair Snippet with a CopyButton affordance so users can grab the command without selecting text manually.
+- Use Snippet for a runnable shell command the user is meant to copy. For inline tokens (env var names, paths) use InlineCode, and for multi-line source use CodeBlock.
+- Pass the command as text. The component renders any prompt itself; keep the copied payload in sync with what the user sees.
+- Keep one command per Snippet. For longer scripts, switch to CodeBlock so users can read before they copy.
+- Pair Snippet with a CopyButton affordance so users can grab the command without selecting text manually.

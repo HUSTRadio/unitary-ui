@@ -14,13 +14,13 @@ JsonView
 
 ## 何时使用
 
--   用户需要检查、浏览、折叠展开或复制 JSON 对象/数组时，交互式查看是核心功能。
--   作为产品界面的一部分展示 API 返回的结构化数据，允许用户逐层探索数据结构。
+- 用户需要检查、浏览、折叠展开或复制 JSON 对象/数组时，交互式查看是核心功能。
+- 作为产品界面的一部分展示 API 返回的结构化数据，允许用户逐层探索数据结构。
 
 ## 何时不应使用
 
--   当数据是静态文档内容而非交互式产品界面时，应使用普通的代码块，JSON View 的交互特性是不必要的开销。
--   不要将已经 stringify 的 JSON 字符串传入 data 属性——应保持原始对象或数组格式以便组件正确渲染树形结构。
+- 当数据是静态文档内容而非交互式产品界面时，应使用普通的代码块，JSON View 的交互特性是不必要的开销。
+- 不要将已经 stringify 的 JSON 字符串传入 data 属性——应保持原始对象或数组格式以便组件正确渲染树形结构。
 
 ## 示例
 
@@ -42,23 +42,23 @@ JsonView
 
 ## 无障碍
 
--   JSON View 的可展开/折叠节点支持键盘导航，用户可以使用方向键和回车键来遍历整个数据结构。
--   每个节点都有语义化的角色和标签，屏幕阅读器可以正确播报层级和键值信息。
+- JSON View 的可展开/折叠节点支持键盘导航，用户可以使用方向键和回车键来遍历整个数据结构。
+- 每个节点都有语义化的角色和标签，屏幕阅读器可以正确播报层级和键值信息。
 
 ## 受控行为
 
--   通过 defaultExpandedDepth 或受控的 expandedKeys 来控制哪些节点默认展开，从而精确控制树的初始视图。
--   data prop 接受 JavaScript 对象或数组，组件内部管理展开/折叠状态并可对外暴露变更回调。
+- 通过 defaultExpandedDepth 或受控的 expandedKeys 来控制哪些节点默认展开，从而精确控制树的初始视图。
+- data prop 接受 JavaScript 对象或数组，组件内部管理展开/折叠状态并可对外暴露变更回调。
 
 ## 响应式行为
 
--   JSON 树在不同视口下会自动调整缩进和字体大小，确保在小屏上仍然可读且不产生不必要的水平滚动。
--   容器的最大高度会随着视口变化而调整，超出部分自动启用垂直滚动。
+- JSON 树在不同视口下会自动调整缩进和字体大小，确保在小屏上仍然可读且不产生不必要的水平滚动。
+- 容器的最大高度会随着视口变化而调整，超出部分自动启用垂直滚动。
 
 ## 主题行为
 
--   语法高亮的颜色方案跟随主题令牌，包括字符串、数字、布尔值、null 和键名的配色区分。
--   深色模式下所有颜色的对比度都经过调整，确保可访问性要求得到满足。
+- 语法高亮的颜色方案跟随主题令牌，包括字符串、数字、布尔值、null 和键名的配色区分。
+- 深色模式下所有颜色的对比度都经过调整，确保可访问性要求得到满足。
 
 ## 实时示例
 
@@ -69,7 +69,9 @@ JsonView
 ## 单行
 
 ```tsx
-{ foo: "bar" }
+{
+  foo: "bar";
+}
 ```
 
 ```tsx
@@ -79,13 +81,15 @@ const data = {
   foo: "bar",
 };
 
-<JsonView data={data} defaultExpandDepth={1} />
+<JsonView data={data} defaultExpandDepth={1} />;
 ```
 
 ## 换行
 
 ```tsx
-{browserApiUrl: "https://browser-api.vercel.sh/screenshot?url=https%3A%2F%2Fprocore-com-prod-f5vem4o6u-marketing-web-dev.vercel.app&width=1440&height=900&fullPage=true"}
+{
+  browserApiUrl: "https://browser-api.vercel.sh/screenshot?url=https%3A%2F%2Fprocore-com-prod-f5vem4o6u-marketing-web-dev.vercel.app&width=1440&height=900&fullPage=true";
+}
 ```
 
 ```tsx
@@ -96,7 +100,7 @@ const data = {
     "https://browser-api.vercel.sh/screenshot?url=https%3A%2F%2Fprocore-com-prod-f5vem4o6u-marketing-web-dev.vercel.app&width=1440&height=900&fullPage=true",
 };
 
-<JsonView data={data} defaultExpandDepth={1} />
+<JsonView data={data} defaultExpandDepth={1} />;
 ```
 
 ## 折叠
@@ -122,7 +126,7 @@ const data = {
   flags: ["enable-logs-json-rendering", "observability-panel"],
 };
 
-<JsonView data={data} defaultExpandDepth={0} />
+<JsonView data={data} defaultExpandDepth={0} />;
 ```
 
 ## 高亮
@@ -144,7 +148,7 @@ const data = {
 
 const highlightPattern = makeJsonViewHighlightPattern(["request", "failed"]);
 
-<JsonView data={data} defaultExpandDepth={1} highlightPattern={highlightPattern} />
+<JsonView data={data} defaultExpandDepth={1} highlightPattern={highlightPattern} />;
 ```
 
 ## API 参考
@@ -154,7 +158,7 @@ const highlightPattern = makeJsonViewHighlightPattern(["request", "failed"]);
 导入
 
 ```tsx
-import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view"
+import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view";
 ```
 
 ### 属性与回调
@@ -163,6 +167,6 @@ import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-vie
 
 ## 最佳实践
 
--   需要用户检查、扫读、折叠、展开、选择或复制的 JSON 对象或数组用 JSON View。
--   值是静态文档而非交互产品界面时用普通代码块。
--   源数据保持为对象或数组。传给 data 前不要预先 stringify JSON。
+- 需要用户检查、扫读、折叠、展开、选择或复制的 JSON 对象或数组用 JSON View。
+- 值是静态文档而非交互产品界面时用普通代码块。
+- 源数据保持为对象或数组。传给 data 前不要预先 stringify JSON。

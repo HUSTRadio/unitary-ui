@@ -14,13 +14,13 @@ A vertically stacked set of headings that each reveal a related section of conte
 
 ## When to use
 
--   Optional, advanced, or repetitive content that most users skip on most visits: FAQs, advanced settings, request payload previews.
--   When you need to accommodate large amounts of information on one page without burying the main content under the weight of exposition.
+- Optional, advanced, or repetitive content that most users skip on most visits: FAQs, advanced settings, request payload previews.
+- When you need to accommodate large amounts of information on one page without burying the main content under the weight of exposition.
 
 ## When not to use
 
--   When content is critical for every user; use page sections with regular headings instead. Collapsing essential content hides what the page is about.
--   Don't put primary destructive actions inside a closed Collapse; the user has to click twice to reach the warning, reducing safety.
+- When content is critical for every user; use page sections with regular headings instead. Collapsing essential content hides what the page is about.
+- Don't put primary destructive actions inside a closed Collapse; the user has to click twice to reach the warning, reducing safety.
 
 ## Examples
 
@@ -42,23 +42,23 @@ Small-size variant optimized for dense layouts or constrained spaces like sideba
 
 ## Accessibility
 
--   The trigger is a <button> with aria-expanded that flips on toggle, and aria-controls pointing at the content panel's id.
--   Panel content remains in the DOM even when closed (via hidden or visibility style), so search and find-in-page still locate it.
+- The trigger is a <button> with aria-expanded that flips on toggle, and aria-controls pointing at the content panel's id.
+- Panel content remains in the DOM even when closed (via hidden or visibility style), so search and find-in-page still locate it.
 
 ## Controlled behavior
 
--   Collapse supports externally controlled open state via the open prop and onChange callback; developers can manage which panels are expanded from the parent component.
--   In uncontrolled mode, internal state manages open/close toggling independently; controlled mode is recommended when multiple Collapses coexist on a page to precisely manage the expansion set.
+- Collapse supports externally controlled open state via the open prop and onChange callback; developers can manage which panels are expanded from the parent component.
+- In uncontrolled mode, internal state manages open/close toggling independently; controlled mode is recommended when multiple Collapses coexist on a page to precisely manage the expansion set.
 
 ## Responsive behavior
 
--   Collapse panels automatically increase touch target sizes on small viewports to ensure tap operability on mobile devices.
--   Multiple panel mode maintains consistent multi-selection behavior across screen sizes without altering the interaction logic due to layout changes.
+- Collapse panels automatically increase touch target sizes on small viewports to ensure tap operability on mobile devices.
+- Multiple panel mode maintains consistent multi-selection behavior across screen sizes without altering the interaction logic due to layout changes.
 
 ## Theme behavior
 
--   Transition animation speed, arrow direction icons, and other visual details stay consistent with design system tokens.
--   Divider and border colors adapt automatically across themes.
+- Transition animation speed, arrow direction icons, and other visual details stay consistent with design system tokens.
+- Divider and border colors adapt automatically across themes.
 
 ## Live Demo
 
@@ -115,24 +115,20 @@ import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/coll
 
 <div className="flex w-full max-w-md flex-col gap-3">
   <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
-    <CollapseTrigger className="text-label-14 text-foreground">
-      Question A
-    </CollapseTrigger>
+    <CollapseTrigger className="text-label-14 text-foreground">Question A</CollapseTrigger>
     <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-      incididunt ut labore et dolore magna aliqua.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua.
     </CollapseContent>
   </Collapse>
   <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
-    <CollapseTrigger className="text-label-14 text-foreground">
-      Question B
-    </CollapseTrigger>
+    <CollapseTrigger className="text-label-14 text-foreground">Question B</CollapseTrigger>
     <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-      fugiat nulla pariatur.
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+      pariatur.
     </CollapseContent>
   </Collapse>
-</div>
+</div>;
 ```
 
 ## Expanded
@@ -146,24 +142,20 @@ import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/coll
 
 <div className="flex w-full max-w-md flex-col gap-3">
   <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
-    <CollapseTrigger className="text-label-14 text-foreground">
-      Question A
-    </CollapseTrigger>
+    <CollapseTrigger className="text-label-14 text-foreground">Question A</CollapseTrigger>
     <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-      incididunt ut labore et dolore magna aliqua.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua.
     </CollapseContent>
   </Collapse>
   <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
-    <CollapseTrigger className="text-label-14 text-foreground">
-      Question B
-    </CollapseTrigger>
+    <CollapseTrigger className="text-label-14 text-foreground">Question B</CollapseTrigger>
     <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-      fugiat nulla pariatur.
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+      pariatur.
     </CollapseContent>
   </Collapse>
-</div>
+</div>;
 ```
 
 ## Multiple
@@ -177,24 +169,20 @@ import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/coll
 
 <div className="flex w-full max-w-md flex-col gap-3">
   <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
-    <CollapseTrigger className="text-label-14 text-foreground">
-      Question A
-    </CollapseTrigger>
+    <CollapseTrigger className="text-label-14 text-foreground">Question A</CollapseTrigger>
     <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-      incididunt ut labore et dolore magna aliqua.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua.
     </CollapseContent>
   </Collapse>
   <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
-    <CollapseTrigger className="text-label-14 text-foreground">
-      Question B
-    </CollapseTrigger>
+    <CollapseTrigger className="text-label-14 text-foreground">Question B</CollapseTrigger>
     <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-      fugiat nulla pariatur.
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+      pariatur.
     </CollapseContent>
   </Collapse>
-</div>
+</div>;
 ```
 
 ## Small
@@ -205,14 +193,12 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
 
 <Collapse className="w-full max-w-sm rounded-[8px] border border-gray-alpha-400 p-3">
-  <CollapseTrigger className="text-label-13 text-foreground">
-    Question A
-  </CollapseTrigger>
+  <CollapseTrigger className="text-label-13 text-foreground">Question A</CollapseTrigger>
   <CollapseContent className="pt-2 text-copy-13 text-muted-foreground">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-    incididunt ut labore et dolore magna aliqua.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+    labore et dolore magna aliqua.
   </CollapseContent>
-</Collapse>
+</Collapse>;
 ```
 
 ## API Reference
@@ -222,7 +208,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Collapse, CollapseTrigger, CollapseContent } from "@/components/ui/collapse"
+import { Collapse, CollapseTrigger, CollapseContent } from "@/components/ui/collapse";
 ```
 
 ### Props & callbacks
@@ -231,12 +217,12 @@ import { Collapse, CollapseTrigger, CollapseContent } from "@/components/ui/coll
 
 ## Best Practices
 
--   Use Collapse for optional, advanced, or repetitive content that most users skip on most visits (FAQ, advanced settings, request payload preview).
--   For top-level structure that every user reads, use page sections with regular headings; collapsing primary content hides what the page is about.
--   Default state is closed unless the first-time visitor must read the content to act.
--   Animate the open/close transition; jump-cuts make the page feel like it teleported.
--   Don’t nest Collapse more than one level deep. Two-level nesting hides too much and breaks the keyboard tab path.
--   Heading is Title Case and names the topic, not the action (Advanced Settings, not Show Advanced Settings).
--   Don’t put primary destructive actions inside a closed Collapse; the user has to click twice to reach the warning.
--   The trigger is a <button> with aria-expanded that flips on toggle and aria-controls pointing at the panel id.
--   Render the panel content in the DOM when closed (with hidden or visibility) so search and find-in-page still hit it; lazy-render only for expensive content.
+- Use Collapse for optional, advanced, or repetitive content that most users skip on most visits (FAQ, advanced settings, request payload preview).
+- For top-level structure that every user reads, use page sections with regular headings; collapsing primary content hides what the page is about.
+- Default state is closed unless the first-time visitor must read the content to act.
+- Animate the open/close transition; jump-cuts make the page feel like it teleported.
+- Don’t nest Collapse more than one level deep. Two-level nesting hides too much and breaks the keyboard tab path.
+- Heading is Title Case and names the topic, not the action (Advanced Settings, not Show Advanced Settings).
+- Don’t put primary destructive actions inside a closed Collapse; the user has to click twice to reach the warning.
+- The trigger is a <button> with aria-expanded that flips on toggle and aria-controls pointing at the panel id.
+- Render the panel content in the DOM when closed (with hidden or visibility) so search and find-in-page still hit it; lazy-render only for expensive content.

@@ -1,4 +1,5 @@
 // @vitest-environment node
+import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -8,6 +9,7 @@ import { DOCS_ROUTE_SEQUENCE } from "../docs/geist/src/data/docs-routes";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const LLM_DIR = path.join(ROOT, "docs", "llm");
+const VP_COMMAND = process.platform === "win32" ? "vp.exe" : "vp";
 
 function readIndex(): any {
   const indexPath = path.join(LLM_DIR, "index.json");
@@ -91,6 +93,15 @@ describe("LLM docs export contract", () => {
       }
     }
   });
+
+  it("生成语料符合仓库 formatter 合同", () => {
+    const result = spawnSync(VP_COMMAND, ["fmt", LLM_DIR, "--check"], {
+      cwd: ROOT,
+      encoding: "utf8",
+      shell: false,
+    });
+    expect(result.status, [result.stdout, result.stderr].filter(Boolean).join("\n")).toBe(0);
+  }, 30_000);
 
   it("sourceHash 与实际页面内容一致（无漂移）", async () => {
     const { createHash } = await import("node:crypto");

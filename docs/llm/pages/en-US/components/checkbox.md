@@ -14,15 +14,15 @@ Allows users to select one or more items from a group.
 
 ## When to use
 
--   Multi-select inside a list: table-row pickers, multi-pick filters, and opt-in preference groups.
--   Acknowledgments where the user must affirm a specific statement (terms of service, irreversible export).
--   A row-select checkbox with no visible label needs aria-label="Select {row name}" so the row stays identifiable out of context.
+- Multi-select inside a list: table-row pickers, multi-pick filters, and opt-in preference groups.
+- Acknowledgments where the user must affirm a specific statement (terms of service, irreversible export).
+- A row-select checkbox with no visible label needs aria-label="Select {row name}" so the row stays identifiable out of context.
 
 ## When not to use
 
--   For a single boolean setting like dark mode or password protection, use Toggle — the on/off mechanic is clearer than a lone checkbox.
--   Don't use checkboxes for mutually exclusive options; that's Radio/Choicebox territory.
--   Don't override the label/htmlFor association with a custom wrapper — the click target already extends to the label.
+- For a single boolean setting like dark mode or password protection, use Toggle — the on/off mechanic is clearer than a lone checkbox.
+- Don't use checkboxes for mutually exclusive options; that's Radio/Choicebox territory.
+- Don't override the label/htmlFor association with a custom wrapper — the click target already extends to the label.
 
 ## Examples
 
@@ -40,24 +40,24 @@ Disabled checkboxes still need a Tooltip naming the reason; a greyed box with no
 
 ## Accessibility
 
--   Wrap related checkboxes in a <fieldset> with a <legend> so screen readers announce the group name before each option.
--   Group label is a Title Case noun (Notifications, Required Permissions) without a trailing colon; acknowledgment labels are full sentences ending in a period.
--   Indeterminate copy names the partial count next to the group label (3 of 5 selected); never leave the dash state unlabeled.
+- Wrap related checkboxes in a <fieldset> with a <legend> so screen readers announce the group name before each option.
+- Group label is a Title Case noun (Notifications, Required Permissions) without a trailing colon; acknowledgment labels are full sentences ending in a period.
+- Indeterminate copy names the partial count next to the group label (3 of 5 selected); never leave the dash state unlabeled.
 
 ## Controlled behavior
 
--   Checked state is controlled by the parent; validation on required acknowledgments fires on submit, not on blur, so checking and unchecking shouldn't flash an error.
--   The parent computes and drives the indeterminate state from child selections.
+- Checked state is controlled by the parent; validation on required acknowledgments fires on submit, not on blur, so checking and unchecking shouldn't flash an error.
+- The parent computes and drives the indeterminate state from child selections.
 
 ## Responsive behavior
 
--   The click target already extends to the label, so no extra hit area is needed on mobile.
--   Long labels wrap instead of truncating.
+- The click target already extends to the label, so no extra hit area is needed on mobile.
+- Long labels wrap instead of truncating.
 
 ## Theme behavior
 
--   Checked fill, focus ring, and disabled greys follow theme variables.
--   Disabled and enabled states remain distinguishable in dark mode.
+- Checked fill, focus ring, and disabled greys follow theme variables.
+- Disabled and enabled states remain distinguishable in dark mode.
 
 ## Live Demo
 
@@ -71,7 +71,7 @@ const [checked, setChecked] = useState(false);
 
 <Checkbox checked={checked} onChange={(): void => setChecked((b) => !b)}>
   Option 1
-</Checkbox>
+</Checkbox>;
 ```
 
 DisabledDisabled CheckedDisabled Indeterminate
@@ -81,9 +81,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 <div className="flex flex-col items-stretch justify-start gap-4">
   <Checkbox disabled>Disabled</Checkbox>
-  <Checkbox checked readOnly disabled>Disabled Checked</Checkbox>
-  <Checkbox disabled indeterminate>Disabled Indeterminate</Checkbox>
-</div>
+  <Checkbox checked readOnly disabled>
+    Disabled Checked
+  </Checkbox>
+  <Checkbox disabled indeterminate>
+    Disabled Indeterminate
+  </Checkbox>
+</div>;
 ```
 
 Option 1
@@ -108,7 +112,7 @@ import { Checkbox } from "@/components/ui/checkbox";
     <Checkbox aria-label="Unchecked" />
     <span className="text-copy-14 text-muted-foreground">Unchecked</span>
   </label>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -118,7 +122,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Checkbox } from "@/components/ui/checkbox"
+import { Checkbox } from "@/components/ui/checkbox";
 ```
 
 ### Props & callbacks
@@ -127,15 +131,15 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 ## Best Practices
 
--   Multi-select inside a list, like table-row pickers, multi-pick filters, and opt-in preference groups.
--   Acknowledgments where the user must affirm a specific statement (terms of service, irreversible export).
--   For a single boolean setting like dark mode or password protection, use Toggle. The on/off mechanic is clearer there than a lone checkbox.
--   Indeterminate is a visual state, not a third value. Drive it from a parent that knows partial selection, and clear it as soon as every child is fully checked or unchecked.
--   Validation on a required acknowledgment fires on submit, not on blur, so checking and unchecking shouldn’t flash an error.
--   Disabled checkboxes still need a Tooltip naming the reason; a greyed box with no explanation reads as a bug.
--   Group label above a <fieldset> is a Title Case noun like Notifications or Required Permissions. No trailing colon.
--   Acknowledgment label is a full sentence ending in a period: I agree to the Terms of Service.
--   Indeterminate copy names the partial count next to the group label (3 of 5 selected). Never leave the dash state unlabeled.
--   Wrap related checkboxes in <fieldset> with a <legend> so screen readers announce the group name before each option.
--   Row-select checkbox in a table has no visible label. Set aria-label="Select {row name}" so the row stays identifiable out of context.
--   The click target already extends to the label. Don’t override the <label>/htmlFor association with a custom wrapper that breaks the click region.
+- Multi-select inside a list, like table-row pickers, multi-pick filters, and opt-in preference groups.
+- Acknowledgments where the user must affirm a specific statement (terms of service, irreversible export).
+- For a single boolean setting like dark mode or password protection, use Toggle. The on/off mechanic is clearer there than a lone checkbox.
+- Indeterminate is a visual state, not a third value. Drive it from a parent that knows partial selection, and clear it as soon as every child is fully checked or unchecked.
+- Validation on a required acknowledgment fires on submit, not on blur, so checking and unchecking shouldn’t flash an error.
+- Disabled checkboxes still need a Tooltip naming the reason; a greyed box with no explanation reads as a bug.
+- Group label above a <fieldset> is a Title Case noun like Notifications or Required Permissions. No trailing colon.
+- Acknowledgment label is a full sentence ending in a period: I agree to the Terms of Service.
+- Indeterminate copy names the partial count next to the group label (3 of 5 selected). Never leave the dash state unlabeled.
+- Wrap related checkboxes in <fieldset> with a <legend> so screen readers announce the group name before each option.
+- Row-select checkbox in a table has no visible label. Set aria-label="Select {row name}" so the row stays identifiable out of context.
+- The click target already extends to the label. Don’t override the <label>/htmlFor association with a custom wrapper that breaks the click region.

@@ -14,13 +14,13 @@ Code Block
 
 ## 何时使用
 
--   展示多行、需要语法着色的源代码，读者可能需要逐行扫描或复制粘贴。
--   当代码示例有明确的粘贴目的地时（如 app/page.tsx、vercel.json），利用文件名头增强上下文清晰度。
+- 展示多行、需要语法着色的源代码，读者可能需要逐行扫描或复制粘贴。
+- 当代码示例有明确的粘贴目的地时（如 app/page.tsx、vercel.json），利用文件名头增强上下文清晰度。
 
 ## 何时不应使用
 
--   对于单行内联代码标识符（环境变量名、函数名、文件路径），请使用 InlineCode 组件，它不会产生多余的边框占用。
--   当需要展示可运行的完整应用程序而不是代码片段时；请使用 Snippet 并配以复制按钮。
+- 对于单行内联代码标识符（环境变量名、函数名、文件路径），请使用 InlineCode 组件，它不会产生多余的边框占用。
+- 当需要展示可运行的完整应用程序而不是代码片段时；请使用 Snippet 并配以复制按钮。
 
 ## 示例
 
@@ -54,13 +54,13 @@ Code Block
 
 ## 响应式行为
 
--   代码块在小视口上使用水平滚动以避免换行破坏语法结构，同时保持行号的正确对齐。
--   文件名头和内容区域会根据可用宽度自适应间距，在大屏幕上保持紧凑的阅读节奏。
+- 代码块在小视口上使用水平滚动以避免换行破坏语法结构，同时保持行号的正确对齐。
+- 文件名头和内容区域会根据可用宽度自适应间距，在大屏幕上保持紧凑的阅读节奏。
 
 ## 主题行为
 
--   边框颜色、背景色和内边距随设计系统的颜色和令牌变量自动适配浅色与深色主题。
--   语法高亮颜色与主题的代码调色板保持一致，确保不同主题下的高对比度和可读性。
+- 边框颜色、背景色和内边距随设计系统的颜色和令牌变量自动适配浅色与深色主题。
+- 语法高亮颜色与主题的代码调色板保持一致，确保不同主题下的高对比度和可读性。
 
 ## 实时示例
 
@@ -99,7 +99,7 @@ function MyComponent(props) {
 
 <CodeBlock aria-label="Hello world" filename="Table.jsx" language="jsx">
   {code}
-</CodeBlock>
+</CodeBlock>;
 ```
 
 ```tsx
@@ -127,7 +127,7 @@ const code = `function MyComponent(props) {
 
 <CodeBlock aria-label="Hello world" language="jsx">
   {code}
-</CodeBlock>
+</CodeBlock>;
 ```
 
 highlighted.jsx
@@ -162,7 +162,7 @@ const code = `function MyComponent(props) {
   highlightedLinesNumbers={[1, 4]}
 >
   {code}
-</CodeBlock>
+</CodeBlock>;
 ```
 
 next.config.js
@@ -194,7 +194,7 @@ const code = `module.exports = {
   removedLinesNumbers={[2, 3, 4]}
 >
   {code}
-</CodeBlock>
+</CodeBlock>;
 ```
 
 ```tsx
@@ -220,20 +220,20 @@ const code = `function MyComponent(props) {
 
 <CodeBlock aria-label="Hello world" language="jsx" referencedLinesNumbers={[4]}>
   {code}
-</CodeBlock>
+</CodeBlock>;
 ```
 
 language-switcher.jsx
 
 ```tsx
 function MyComponent(props) {
-	return (
-	  <div>
-		<h1>Hello, {props.name}!</h1>
-		<p>Good to see you</p>
-	  </div>
-	);
-  }
+  return (
+    <div>
+      <h1>Hello, {props.name}!</h1>
+      <p>Good to see you</p>
+    </div>
+  );
+}
 ```
 
 ```tsx
@@ -273,13 +273,13 @@ language-switcher.jsx
 
 ```tsx
 function MyComponent(props) {
-	return (
-	  <div>
-		<h1>Hello, {props.name}!</h1>
-		<p>Good to see you</p>
-	  </div>
-	);
-  }
+  return (
+    <div>
+      <h1>Hello, {props.name}!</h1>
+      <p>Good to see you</p>
+    </div>
+  );
+}
 ```
 
 ```tsx
@@ -319,13 +319,13 @@ hidden-line-numbers.jsx
 
 ```tsx
 function MyComponent(props) {
-	return (
-	  <div>
-		<h1>Hello, {props.name}!</h1>
-		<p>Good to see you</p>
-	  </div>
-	);
-  }
+  return (
+    <div>
+      <h1>Hello, {props.name}!</h1>
+      <p>Good to see you</p>
+    </div>
+  );
+}
 ```
 
 ```tsx
@@ -347,7 +347,7 @@ const code = `function MyComponent(props) {
   hideLineNumbers
 >
   {code}
-</CodeBlock>
+</CodeBlock>;
 ```
 
 Table.jsx
@@ -363,7 +363,7 @@ function MyComponent(props) {
 }
 ```
 
-[询问向 v0 询问](https://v0.app/chat?q=function%20MyComponent\(props\)%20%7B%0A%20%20return%20\(%0A%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%3Ch1%3EHello%2C%20%7Bprops.name%7D!%3C%2Fh1%3E%0A%20%20%20%20%20%20%3Cp%3EThis%20is%20an%20example%20React%20component.%3C%2Fp%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20\)%3B%0A%7D)
+[询问向 v0 询问](<https://v0.app/chat?q=function%20MyComponent(props)%20%7B%0A%20%20return%20(%0A%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%3Ch1%3EHello%2C%20%7Bprops.name%7D!%3C%2Fh1%3E%0A%20%20%20%20%20%20%3Cp%3EThis%20is%20an%20example%20React%20component.%3C%2Fp%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20)%3B%0A%7D>)
 
 Table.jsx
 
@@ -378,7 +378,7 @@ function MyComponent(props) {
 }
 ```
 
-[在此处打开在 v0 中打开](https://v0.app/chat?q=function%20MyComponent\(props\)%20%7B%0A%20%20return%20\(%0A%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%3Ch1%3EHello%2C%20%7Bprops.name%7D!%3C%2Fh1%3E%0A%20%20%20%20%20%20%3Cp%3EThis%20is%20an%20example%20React%20component.%3C%2Fp%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20\)%3B%0A%7D)
+[在此处打开在 v0 中打开](<https://v0.app/chat?q=function%20MyComponent(props)%20%7B%0A%20%20return%20(%0A%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%3Ch1%3EHello%2C%20%7Bprops.name%7D!%3C%2Fh1%3E%0A%20%20%20%20%20%20%3Cp%3EThis%20is%20an%20example%20React%20component.%3C%2Fp%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20)%3B%0A%7D>)
 
 ```tsx
 import { CodeBlock } from "@/components/ui/code-block";
@@ -399,7 +399,7 @@ const code = `function MyComponent(props) {
   <CodeBlock aria-label="Hello world" filename="Table.jsx" language="jsx" v0="build">
     {code}
   </CodeBlock>
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -409,7 +409,7 @@ const code = `function MyComponent(props) {
 导入
 
 ```tsx
-import { CodeBlock, CodeBlockHeader, CodeBlockContent } from "@/components/ui/code-block"
+import { CodeBlock, CodeBlockHeader, CodeBlockContent } from "@/components/ui/code-block";
 ```
 
 ### 属性与回调
@@ -418,9 +418,9 @@ import { CodeBlock, CodeBlockHeader, CodeBlockContent } from "@/components/ui/co
 
 ## 最佳实践
 
--   对读者会扫读或粘贴的多行、语法高亮源码使用 CodeBlock。单个内联 token（环境变量名、函数名、文件路径）用 InlineCode。
--   可复制的 shell 命令或单行密钥揭示用 Snippet；它自带提示符符号与复制功能。
--   始终传入 language/syntax（tsx、bash、json、diff）。高亮是选择 CodeBlock 而非裸 pre 的首要原因。
--   只高亮讨论中的行；每行都高亮的效果等同没有高亮。
--   片段有粘贴目的地（app/page.tsx、vercel.json）时显示文件名标题；临时示例省略它。
--   片段保持可运行。不要把真实代码改写成伪语法，也不要给 shell 命令加 $ 前缀。
+- 对读者会扫读或粘贴的多行、语法高亮源码使用 CodeBlock。单个内联 token（环境变量名、函数名、文件路径）用 InlineCode。
+- 可复制的 shell 命令或单行密钥揭示用 Snippet；它自带提示符符号与复制功能。
+- 始终传入 language/syntax（tsx、bash、json、diff）。高亮是选择 CodeBlock 而非裸 pre 的首要原因。
+- 只高亮讨论中的行；每行都高亮的效果等同没有高亮。
+- 片段有粘贴目的地（app/page.tsx、vercel.json）时显示文件名标题；临时示例省略它。
+- 片段保持可运行。不要把真实代码改写成伪语法，也不要给 shell 命令加 $ 前缀。

@@ -14,15 +14,15 @@ Progress
 
 ## 何时使用
 
--   已知总量且可追踪确定性进度时使用 Progress，如文件上传、多步设置、构建步骤或批量删除操作。
--   搭配明确的工作描述和单位文本（如「正在上传 12/30 个文件」），让进度条不仅仅是一个抽象数字。
--   使用 max prop 传入真实的上限值（max={files.length}），而非硬编码 100，组件会基于 value / max 计算百分比。
+- 已知总量且可追踪确定性进度时使用 Progress，如文件上传、多步设置、构建步骤或批量删除操作。
+- 搭配明确的工作描述和单位文本（如「正在上传 12/30 个文件」），让进度条不仅仅是一个抽象数字。
+- 使用 max prop 传入真实的上限值（max={files.length}），而非硬编码 100，组件会基于 value / max 计算百分比。
 
 ## 何时不应使用
 
--   对于短时间的不确定等待（约 1-3 秒），使用 Spinner 而非 Progress，因为此时不存在已知进度。
--   对于内联文案中的等待提示（如 Saving…），使用 Loading Dots 而不是进度条。
--   不要用 Progress 展示一个没有明确上限的模糊概念——如果没有真实的总数，考虑使用仪表 Gauge。
+- 对于短时间的不确定等待（约 1-3 秒），使用 Spinner 而非 Progress，因为此时不存在已知进度。
+- 对于内联文案中的等待提示（如 Saving…），使用 Loading Dots 而不是进度条。
+- 不要用 Progress 展示一个没有明确上限的模糊概念——如果没有真实的总数，考虑使用仪表 Gauge。
 
 ## 示例
 
@@ -40,24 +40,24 @@ Progress
 
 ## 无障碍
 
--   Progress 组件设置 role="progressbar" 以及 aria-valuemin、aria-valuemax 和 aria-valuenow 属性，屏幕阅读器据此朗读当前进度值。
--   必须配合描述性文本一起使用，单独一个进度条对辅助技术来说不够自描述。
--   避免覆盖组件内置的 ARIA 角色和属性值，这些是 WCAG 合规的关键。
+- Progress 组件设置 role="progressbar" 以及 aria-valuemin、aria-valuemax 和 aria-valuenow 属性，屏幕阅读器据此朗读当前进度值。
+- 必须配合描述性文本一起使用，单独一个进度条对辅助技术来说不够自描述。
+- 避免覆盖组件内置的 ARIA 角色和属性值，这些是 WCAG 合规的关键。
 
 ## 受控行为
 
--   Progress 支持受控的 value 和 max props，开发者可在外部驱动进度变化并通过 onChange 回调响应。
--   动画过渡平滑流畅，value 变化时进度条以 CSS transition 从旧值渐变到新值，避免跳跃式变化。
+- Progress 支持受控的 value 和 max props，开发者可在外部驱动进度变化并通过 onChange 回调响应。
+- 动画过渡平滑流畅，value 变化时进度条以 CSS transition 从旧值渐变到新值，避免跳跃式变化。
 
 ## 响应式行为
 
--   进度条采用全宽布局，在任何视口下都填满父容器的可用宽度。
--   数值标签在各尺寸下保持清晰可读，窄屏上可能缩小字号以适应空间。
+- 进度条采用全宽布局，在任何视口下都填满父容器的可用宽度。
+- 数值标签在各尺寸下保持清晰可读，窄屏上可能缩小字号以适应空间。
 
 ## 主题行为
 
--   进度条的颜色和样式完全由主题变量控制，暗色模式和亮色模式下均有良好的对比度。
--   ThroughStop 子元素的定位和样式同样跟随主题适配，确保在所有变体中一致。
+- 进度条的颜色和样式完全由主题变量控制，暗色模式和亮色模式下均有良好的对比度。
+- ThroughStop 子元素的定位和样式同样跟随主题适配，确保在所有变体中一致。
 
 ## 实时示例
 
@@ -72,7 +72,7 @@ Progress
 ```tsx
 import { Progress } from "@/components/ui/progress";
 
-<Progress value={30} max={40} aria-label="Progress 30 of 40" />
+<Progress value={30} max={40} aria-label="Progress 30 of 40" />;
 ```
 
 ## 动态更新
@@ -107,10 +107,15 @@ const [animated, setAnimated] = useState(true);
     </Button>
   </div>
   <label className="flex items-center gap-2">
-    <Toggle checked={animated} onChange={() => setAnimated((v) => !v)} size="small" aria-label="Animated transition" />
+    <Toggle
+      checked={animated}
+      onChange={() => setAnimated((v) => !v)}
+      size="small"
+      aria-label="Animated transition"
+    />
     <span className="text-label-13 text-muted-foreground">Animated transition</span>
   </label>
-</div>
+</div>;
 ```
 
 ## 动态颜色
@@ -145,7 +150,7 @@ const [value, setValue] = useState(0);
       Decrease
     </Button>
   </div>
-</div>
+</div>;
 ```
 
 ## 主题化
@@ -158,7 +163,7 @@ import { Progress } from "@/components/ui/progress";
   <Progress type="error" value={10} aria-label="Error progress" />
   <Progress type="warning" value={40} aria-label="Warning progress" />
   <Progress type="secondary" value={70} aria-label="Secondary progress" />
-</div>
+</div>;
 ```
 
 ## 带刻度
@@ -177,7 +182,7 @@ import { Progress } from "@/components/ui/progress";
     { value: 40, tooltip: "40%", ariaLabel: "Integration tests complete" },
     { value: 50, tooltip: "50%", ariaLabel: "Deploy ready" },
   ]}
-/>
+/>;
 ```
 
 ## 宽度
@@ -191,7 +196,7 @@ import { Progress } from "@/components/ui/progress";
   <Progress value={60} width={300} aria-label="Progress width 300" />
   <Progress value={60} width="50%" aria-label="Progress width 50%" />
   <Progress value={60} width="100%" aria-label="Progress full width" />
-</div>
+</div>;
 ```
 
 ## 高度
@@ -204,7 +209,7 @@ import { Progress } from "@/components/ui/progress";
   <Progress value={60} height={10} aria-label="Progress height 10" />
   <Progress value={60} height={50} aria-label="Progress height 50" />
   <Progress value={60} height={200} aria-label="Progress height 200" />
-</div>
+</div>;
 ```
 
 ## 标签位置
@@ -232,12 +237,32 @@ import { Progress } from "@/components/ui/progress";
   <Progress value={45} label="left" labelPosition="left" aria-label="Label left" />
   <Progress value={45} label="right" labelPosition="right" aria-label="Label right" />
   <Progress value={45} label="top-left" labelPosition="top-left" aria-label="Label top left" />
-  <Progress value={45} label="top-center" labelPosition="top-center" aria-label="Label top center" />
+  <Progress
+    value={45}
+    label="top-center"
+    labelPosition="top-center"
+    aria-label="Label top center"
+  />
   <Progress value={45} label="top-right" labelPosition="top-right" aria-label="Label top right" />
-  <Progress value={45} label="bottom-left" labelPosition="bottom-left" aria-label="Label bottom left" />
-  <Progress value={45} label="bottom-center" labelPosition="bottom-center" aria-label="Label bottom center" />
-  <Progress value={45} label="bottom-right" labelPosition="bottom-right" aria-label="Label bottom right" />
-</div>
+  <Progress
+    value={45}
+    label="bottom-left"
+    labelPosition="bottom-left"
+    aria-label="Label bottom left"
+  />
+  <Progress
+    value={45}
+    label="bottom-center"
+    labelPosition="bottom-center"
+    aria-label="Label bottom center"
+  />
+  <Progress
+    value={45}
+    label="bottom-right"
+    labelPosition="bottom-right"
+    aria-label="Label bottom right"
+  />
+</div>;
 ```
 
 ## API 参考
@@ -247,7 +272,7 @@ import { Progress } from "@/components/ui/progress";
 导入
 
 ```tsx
-import { Progress } from "@/components/ui/progress"
+import { Progress } from "@/components/ui/progress";
 ```
 
 ### 属性与回调
@@ -256,7 +281,7 @@ import { Progress } from "@/components/ui/progress"
 
 ## 最佳实践
 
--   总量可知的确定性工作：文件上传、多步设置、构建步骤或批量删除。
--   短时不确定等待（~1–3s）用 Spinner；Saving 这类内联文案用 Loading Dots。
--   max 用真实上限（max={files.length}），而非硬编码 100。组件按 value / max 计算百分比。
--   进度条配点名工作与单位的文字：Uploading 12 of 30 files。单独的条不说明在推进什么。
+- 总量可知的确定性工作：文件上传、多步设置、构建步骤或批量删除。
+- 短时不确定等待（~1–3s）用 Spinner；Saving 这类内联文案用 Loading Dots。
+- max 用真实上限（max={files.length}），而非硬编码 100。组件按 value / max 计算百分比。
+- 进度条配点名工作与单位的文字：Uploading 12 of 30 files。单独的条不说明在推进什么。

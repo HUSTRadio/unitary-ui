@@ -14,13 +14,13 @@ Status Dot
 
 ## 何时使用
 
--   展示部署生命周期状态（QUEUED、BUILDING、READY、ERROR、CANCELED、DELETED）。
--   在表格行、列表卡片或命令面板中与文本状态标签并列使用。
+- 展示部署生命周期状态（QUEUED、BUILDING、READY、ERROR、CANCELED、DELETED）。
+- 在表格行、列表卡片或命令面板中与文本状态标签并列使用。
 
 ## 何时不应使用
 
--   非部署类的状态标记应使用 Badge（如 Workflow run、Queue message）。
--   当文本已经清晰命名了状态时，不需要再添加额外的状态圆点造成重复。
+- 非部署类的状态标记应使用 Badge（如 Workflow run、Queue message）。
+- 当文本已经清晰命名了状态时，不需要再添加额外的状态圆点造成重复。
 
 ## 示例
 
@@ -34,12 +34,12 @@ Status Dot
 
 ## 无障碍
 
--   当状态圆点旁边已有文本命名状态时，标记为 aria-hidden 避免屏幕阅读器重复播报。
--   BUILDING / QUEUED 状态的动画圆点应配合 prefers-reduced-motion 尊重用户的无障碍偏好。
+- 当状态圆点旁边已有文本命名状态时，标记为 aria-hidden 避免屏幕阅读器重复播报。
+- BUILDING / QUEUED 状态的动画圆点应配合 prefers-reduced-motion 尊重用户的无障碍偏好。
 
 ## 受控行为
 
--   通过 value prop 传入当前部署状态字符串；状态变更时圆点的颜色和动画会响应更新。
+- 通过 value prop 传入当前部署状态字符串；状态变更时圆点的颜色和动画会响应更新。
 
 ## 响应式行为
 
@@ -47,7 +47,7 @@ Status Dot
 
 ## 主题行为
 
--   状态圆点的颜色映射与主题联动：绿色表示就绪、红色表示错误、琥珀色表示警告、蓝色表示构建中等。
+- 状态圆点的颜色映射与主题联动：绿色表示就绪、红色表示错误、琥珀色表示警告、蓝色表示构建中等。
 
 ## 实时示例
 
@@ -60,7 +60,7 @@ import { StatusDot } from "@/components/ui/status-dot";
   <StatusDot state="ERROR" />
   <StatusDot state="READY" />
   <StatusDot state="CANCELED" />
-</div>
+</div>;
 ```
 
 排队中构建中错误就绪已取消
@@ -74,7 +74,7 @@ import { StatusDot } from "@/components/ui/status-dot";
   <StatusDot label state="ERROR" />
   <StatusDot label state="READY" />
   <StatusDot label state="CANCELED" />
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -84,7 +84,7 @@ import { StatusDot } from "@/components/ui/status-dot";
 导入
 
 ```tsx
-import { StatusDot } from "@/components/ui/status-dot"
+import { StatusDot } from "@/components/ui/status-dot";
 ```
 
 ### 属性与回调
@@ -93,8 +93,8 @@ import { StatusDot } from "@/components/ui/status-dot"
 
 ## 最佳实践
 
--   仅对部署生命周期状态用 Status Dot：QUEUED | BUILDING | READY | ERROR | CANCELED | DELETED。
--   非部署状态（Workflow 运行、Queue 消息、Sandbox、Cron 作业）用规范状态词汇的 Badge，而不是挪用圆点。
--   BUILDING 或 QUEUED 时圆点动画，部署到达终态后静止。不要在旁边另加 spinner。
--   不要在轮询 tick 上让颜色闪遍每个过渡状态；仅当 readyState 变化时更新。
--   当圆点内联在已点名状态的文字旁时标记 aria-hidden 装饰性，避免屏幕阅读器重复播报。
+- 仅对部署生命周期状态用 Status Dot：QUEUED | BUILDING | READY | ERROR | CANCELED | DELETED。
+- 非部署状态（Workflow 运行、Queue 消息、Sandbox、Cron 作业）用规范状态词汇的 Badge，而不是挪用圆点。
+- BUILDING 或 QUEUED 时圆点动画，部署到达终态后静止。不要在旁边另加 spinner。
+- 不要在轮询 tick 上让颜色闪遍每个过渡状态；仅当 readyState 变化时更新。
+- 当圆点内联在已点名状态的文字旁时标记 aria-hidden 装饰性，避免屏幕阅读器重复播报。

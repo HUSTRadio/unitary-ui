@@ -14,13 +14,13 @@ A bordered code block with a filename header for multi-line source.
 
 ## When to use
 
--   Displaying multi-line, syntax-highlighted source code that the reader needs to scan line by line or copy and paste.
--   When the code snippet has a known paste destination (like app/page.tsx or vercel.json), use the filename header to reinforce context clarity.
+- Displaying multi-line, syntax-highlighted source code that the reader needs to scan line by line or copy and paste.
+- When the code snippet has a known paste destination (like app/page.tsx or vercel.json), use the filename header to reinforce context clarity.
 
 ## When not to use
 
--   For single-line inline code identifiers (environment variable names, function names, file paths), use the InlineCode component, which avoids the unnecessary visual weight of a bordered block.
--   When presenting a runnable complete application rather than a code excerpt; use Snippet with its built-in copy affordance instead.
+- For single-line inline code identifiers (environment variable names, function names, file paths), use the InlineCode component, which avoids the unnecessary visual weight of a bordered block.
+- When presenting a runnable complete application rather than a code excerpt; use Snippet with its built-in copy affordance instead.
 
 ## Examples
 
@@ -54,13 +54,13 @@ Not applicable: Code Block is a pure presentation component with no value/onChan
 
 ## Responsive behavior
 
--   On small viewports, the code block scrolls horizontally to avoid line breaks that would break syntax readability, while maintaining correct line number alignment.
--   The filename header and content area adapt spacing based on available width, keeping a compact reading rhythm on wider screens.
+- On small viewports, the code block scrolls horizontally to avoid line breaks that would break syntax readability, while maintaining correct line number alignment.
+- The filename header and content area adapt spacing based on available width, keeping a compact reading rhythm on wider screens.
 
 ## Theme behavior
 
--   Border color, background color, and padding automatically adapt to light and dark themes via design system color tokens.
--   Syntax highlighting colors stay consistent with the theme's code palette, ensuring high contrast and readability across themes.
+- Border color, background color, and padding automatically adapt to light and dark themes via design system color tokens.
+- Syntax highlighting colors stay consistent with the theme's code palette, ensuring high contrast and readability across themes.
 
 ## Live Demo
 
@@ -99,7 +99,7 @@ function MyComponent(props) {
 
 <CodeBlock aria-label="Hello world" filename="Table.jsx" language="jsx">
   {code}
-</CodeBlock>
+</CodeBlock>;
 ```
 
 ```tsx
@@ -127,7 +127,7 @@ const code = `function MyComponent(props) {
 
 <CodeBlock aria-label="Hello world" language="jsx">
   {code}
-</CodeBlock>
+</CodeBlock>;
 ```
 
 highlighted.jsx
@@ -162,7 +162,7 @@ const code = `function MyComponent(props) {
   highlightedLinesNumbers={[1, 4]}
 >
   {code}
-</CodeBlock>
+</CodeBlock>;
 ```
 
 next.config.js
@@ -194,7 +194,7 @@ const code = `module.exports = {
   removedLinesNumbers={[2, 3, 4]}
 >
   {code}
-</CodeBlock>
+</CodeBlock>;
 ```
 
 ```tsx
@@ -220,20 +220,20 @@ const code = `function MyComponent(props) {
 
 <CodeBlock aria-label="Hello world" language="jsx" referencedLinesNumbers={[4]}>
   {code}
-</CodeBlock>
+</CodeBlock>;
 ```
 
 language-switcher.jsx
 
 ```tsx
 function MyComponent(props) {
-	return (
-	  <div>
-		<h1>Hello, {props.name}!</h1>
-		<p>Good to see you</p>
-	  </div>
-	);
-  }
+  return (
+    <div>
+      <h1>Hello, {props.name}!</h1>
+      <p>Good to see you</p>
+    </div>
+  );
+}
 ```
 
 ```tsx
@@ -273,13 +273,13 @@ language-switcher.jsx
 
 ```tsx
 function MyComponent(props) {
-	return (
-	  <div>
-		<h1>Hello, {props.name}!</h1>
-		<p>Good to see you</p>
-	  </div>
-	);
-  }
+  return (
+    <div>
+      <h1>Hello, {props.name}!</h1>
+      <p>Good to see you</p>
+    </div>
+  );
+}
 ```
 
 ```tsx
@@ -319,13 +319,13 @@ hidden-line-numbers.jsx
 
 ```tsx
 function MyComponent(props) {
-	return (
-	  <div>
-		<h1>Hello, {props.name}!</h1>
-		<p>Good to see you</p>
-	  </div>
-	);
-  }
+  return (
+    <div>
+      <h1>Hello, {props.name}!</h1>
+      <p>Good to see you</p>
+    </div>
+  );
+}
 ```
 
 ```tsx
@@ -347,7 +347,7 @@ const code = `function MyComponent(props) {
   hideLineNumbers
 >
   {code}
-</CodeBlock>
+</CodeBlock>;
 ```
 
 Table.jsx
@@ -363,7 +363,7 @@ function MyComponent(props) {
 }
 ```
 
-[AskAsk v0](https://v0.app/chat?q=function%20MyComponent\(props\)%20%7B%0A%20%20return%20\(%0A%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%3Ch1%3EHello%2C%20%7Bprops.name%7D!%3C%2Fh1%3E%0A%20%20%20%20%20%20%3Cp%3EThis%20is%20an%20example%20React%20component.%3C%2Fp%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20\)%3B%0A%7D)
+[AskAsk v0](<https://v0.app/chat?q=function%20MyComponent(props)%20%7B%0A%20%20return%20(%0A%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%3Ch1%3EHello%2C%20%7Bprops.name%7D!%3C%2Fh1%3E%0A%20%20%20%20%20%20%3Cp%3EThis%20is%20an%20example%20React%20component.%3C%2Fp%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20)%3B%0A%7D>)
 
 Table.jsx
 
@@ -378,7 +378,7 @@ function MyComponent(props) {
 }
 ```
 
-[Open inOpen in v0](https://v0.app/chat?q=function%20MyComponent\(props\)%20%7B%0A%20%20return%20\(%0A%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%3Ch1%3EHello%2C%20%7Bprops.name%7D!%3C%2Fh1%3E%0A%20%20%20%20%20%20%3Cp%3EThis%20is%20an%20example%20React%20component.%3C%2Fp%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20\)%3B%0A%7D)
+[Open inOpen in v0](<https://v0.app/chat?q=function%20MyComponent(props)%20%7B%0A%20%20return%20(%0A%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%3Ch1%3EHello%2C%20%7Bprops.name%7D!%3C%2Fh1%3E%0A%20%20%20%20%20%20%3Cp%3EThis%20is%20an%20example%20React%20component.%3C%2Fp%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20)%3B%0A%7D>)
 
 ```tsx
 import { CodeBlock } from "@/components/ui/code-block";
@@ -399,7 +399,7 @@ const code = `function MyComponent(props) {
   <CodeBlock aria-label="Hello world" filename="Table.jsx" language="jsx" v0="build">
     {code}
   </CodeBlock>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -409,7 +409,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { CodeBlock, CodeBlockHeader, CodeBlockContent } from "@/components/ui/code-block"
+import { CodeBlock, CodeBlockHeader, CodeBlockContent } from "@/components/ui/code-block";
 ```
 
 ### Props & callbacks
@@ -418,9 +418,9 @@ import { CodeBlock, CodeBlockHeader, CodeBlockContent } from "@/components/ui/co
 
 ## Best Practices
 
--   Use CodeBlock for multi-line, syntax-highlighted source the reader will scan or paste. For a single inline token (env var, function name, file path), use InlineCode.
--   Pick Snippet for a copy-to-clipboard shell command or one-line key reveal; it ships with the prompt glyph and copy affordance built in.
--   Always pass a language/syntax (tsx, bash, json, diff). Highlighting is the primary reason to choose CodeBlock over a plain <pre>.
--   Highlight only the lines under discussion. A block where every line is highlighted reads the same as no highlight at all.
--   Show the filename header when the snippet has a paste destination (app/page.tsx, vercel.json). Omit it for ephemeral examples.
--   Snippets stay runnable. Don't paraphrase real code into pseudo-syntax, and don't prepend $ to shell commands.
+- Use CodeBlock for multi-line, syntax-highlighted source the reader will scan or paste. For a single inline token (env var, function name, file path), use InlineCode.
+- Pick Snippet for a copy-to-clipboard shell command or one-line key reveal; it ships with the prompt glyph and copy affordance built in.
+- Always pass a language/syntax (tsx, bash, json, diff). Highlighting is the primary reason to choose CodeBlock over a plain <pre>.
+- Highlight only the lines under discussion. A block where every line is highlighted reads the same as no highlight at all.
+- Show the filename header when the snippet has a paste destination (app/page.tsx, vercel.json). Omit it for ephemeral examples.
+- Snippets stay runnable. Don't paraphrase real code into pseudo-syntax, and don't prepend $ to shell commands.

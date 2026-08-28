@@ -14,13 +14,13 @@ Sheet
 
 ## 何时使用
 
--   需要展示持久的关联上下文（如部署详情或成员档案）同时保持主页内容可交互时。
--   当需要一个有明确打开/关闭操作的侧边面板，比弹窗对话框更自然的展示方式。
+- 需要展示持久的关联上下文（如部署详情或成员档案）同时保持主页内容可交互时。
+- 当需要一个有明确打开/关闭操作的侧边面板，比弹窗对话框更自然的展示方式。
 
 ## 何时不应使用
 
--   当需要完全阻塞页面的决策确认时，请使用模态对话框（Modal）。
--   当需要确认破坏性操作时，默认的保持页面可交互会削弱严重程度提示。
+- 当需要完全阻塞页面的决策确认时，请使用模态对话框（Modal）。
+- 当需要确认破坏性操作时，默认的保持页面可交互会削弱严重程度提示。
 
 ## 示例
 
@@ -34,20 +34,20 @@ Sheet
 
 ## 无障碍
 
--   打开时键盘焦点被捕获到面板内，Escape 键关闭并返回原始焦点位置。
--   标题通过 aria-labelledby 关联，屏幕阅读器会在面板打开时播报标题内容。
+- 打开时键盘焦点被捕获到面板内，Escape 键关闭并返回原始焦点位置。
+- 标题通过 aria-labelledby 关联，屏幕阅读器会在面板打开时播报标题内容。
 
 ## 受控行为
 
--   支持通过外部状态（如 isOpen 变量）或回调函数控制面板的打开与关闭，适合构建复杂的交互模式。
+- 支持通过外部状态（如 isOpen 变量）或回调函数控制面板的打开与关闭，适合构建复杂的交互模式。
 
 ## 响应式行为
 
--   在大视口下固定在页面边缘展示，在小视口中可退化为全屏覆盖模式以适配移动端布局。
+- 在大视口下固定在页面边缘展示，在小视口中可退化为全屏覆盖模式以适配移动端布局。
 
 ## 主题行为
 
--   面板的背景色、边框和阴影均可自定义，并且能与应用的暗色主题无缝配合。
+- 面板的背景色、边框和阴影均可自定义，并且能与应用的暗色主题无缝配合。
 
 ## 实时示例
 
@@ -85,18 +85,12 @@ import {
       <Button typeName="button">Next</Button>
     </SheetFooter>
   </SheetContent>
-</Sheet>
+</Sheet>;
 ```
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 const sides = ["top", "right", "bottom", "left"] as const;
 
@@ -116,7 +110,7 @@ const sides = ["top", "right", "bottom", "left"] as const;
       </SheetContent>
     </Sheet>
   ))}
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -126,7 +120,13 @@ const sides = ["top", "right", "bottom", "left"] as const;
 导入
 
 ```tsx
-import { Sheet, SheetContent, SheetTitle, SheetDescription, SheetClose } from "@/components/ui/sheet"
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetDescription,
+  SheetClose,
+} from "@/components/ui/sheet";
 ```
 
 ### 属性与回调
@@ -135,12 +135,12 @@ import { Sheet, SheetContent, SheetTitle, SheetDescription, SheetClose } from "@
 
 ## 最佳实践
 
--   部署详情、日志行检查或成员资料这类持久关联上下文、且底层页面保持有用的场合用 Sheet。
--   需要阻断的决定用 Modal。仅移动端的底部面板用 Drawer。
--   不要用 Sheet 确认破坏性动作。默认保持页面可交互会削弱删除或撤销的严重性。
--   按触发器位置选 side：行检查器从右侧滑入，全局过滤从左侧。会话中途不要换边。
--   外部点击不自动关闭，所以始终渲染明确的关闭控件并响应 Escape。
--   标题首字母大写并命名实体（Deployment Details、Member Profile），而非页面动作。正文是偏阅读的散文。
--   Sheet 打开时困住焦点，关闭时还给触发器行，让键盘用户保持在列表中的位置。
--   用指向标题的 aria-labelledby 播报 sheet；仅当正文短且承载关键信息时配 aria-describedby。
--   提供标为 Close 的可见关闭按钮（或 aria-label="Close" 的图标按钮）；读屏用户需要稳定的关闭标签。
+- 部署详情、日志行检查或成员资料这类持久关联上下文、且底层页面保持有用的场合用 Sheet。
+- 需要阻断的决定用 Modal。仅移动端的底部面板用 Drawer。
+- 不要用 Sheet 确认破坏性动作。默认保持页面可交互会削弱删除或撤销的严重性。
+- 按触发器位置选 side：行检查器从右侧滑入，全局过滤从左侧。会话中途不要换边。
+- 外部点击不自动关闭，所以始终渲染明确的关闭控件并响应 Escape。
+- 标题首字母大写并命名实体（Deployment Details、Member Profile），而非页面动作。正文是偏阅读的散文。
+- Sheet 打开时困住焦点，关闭时还给触发器行，让键盘用户保持在列表中的位置。
+- 用指向标题的 aria-labelledby 播报 sheet；仅当正文短且承载关键信息时配 aria-describedby。
+- 提供标为 Close 的可见关闭按钮（或 aria-label="Close" 的图标按钮）；读屏用户需要稳定的关闭标签。

@@ -14,15 +14,15 @@ A prominent message that spans the full width of its container to announce impor
 
 ## When to use
 
--   Display global announcements, maintenance notices, or critical alerts at the top of a page or section start where user attention is needed.
--   Use Banner as a section-level error indicator when conveying semantic states with color and icons (success, warning, error).
--   When a message requires full content width and contextual framing (such as deployment status changes).
+- Display global announcements, maintenance notices, or critical alerts at the top of a page or section start where user attention is needed.
+- Use Banner as a section-level error indicator when conveying semantic states with color and icons (success, warning, error).
+- When a message requires full content width and contextual framing (such as deployment status changes).
 
 ## When not to use
 
--   Avoid using Banner for frequently changing dynamic info—consider Toast notifications instead, as they are lighter and persistible.
--   Do not stack more than two banners on one page; beyond that, switch to a collapse panel or info list.
--   Do not use Banner for form-level field validation errors—use ErrorText or the Input error prop instead.
+- Avoid using Banner for frequently changing dynamic info—consider Toast notifications instead, as they are lighter and persistible.
+- Do not stack more than two banners on one page; beyond that, switch to a collapse panel or info list.
+- Do not use Banner for form-level field validation errors—use ErrorText or the Input error prop instead.
 
 ## Examples
 
@@ -32,24 +32,24 @@ Displays the default Banner appearance with title and description text.
 
 ## Accessibility
 
--   Banner carries alert or status semantics so screen readers correctly recognize and announce its content.
--   Banner titles use a higher heading level (Heading 2 or 3), with description text following to maintain reading hierarchy.
--   Dismissable Banner buttons should have an explicit aria-label describing the close action.
+- Banner carries alert or status semantics so screen readers correctly recognize and announce its content.
+- Banner titles use a higher heading level (Heading 2 or 3), with description text following to maintain reading hierarchy.
+- Dismissable Banner buttons should have an explicit aria-label describing the close action.
 
 ## Controlled behavior
 
--   Banner supports programmatic control of open/collapsed state, allowing developers to decide when to auto-dismiss or manually intervene.
--   Focus returns to the trigger button after the close animation completes, maintaining keyboard user navigation continuity.
+- Banner supports programmatic control of open/collapsed state, allowing developers to decide when to auto-dismiss or manually intervene.
+- Focus returns to the trigger button after the close animation completes, maintaining keyboard user navigation continuity.
 
 ## Responsive behavior
 
--   Banner fills horizontally within its full-width container and adjusts padding and font scaling automatically on smaller screens.
--   On mobile devices, Banner height is reduced with content arranged in a stacked layout instead of inline.
+- Banner fills horizontally within its full-width container and adjusts padding and font scaling automatically on smaller screens.
+- On mobile devices, Banner height is reduced with content arranged in a stacked layout instead of inline.
 
 ## Theme behavior
 
--   Different semantic Banner types (success, warning, error) have corresponding color palettes in both dark and light modes.
--   Banner background and border colors are managed through theme variables, supporting global customization.
+- Different semantic Banner types (success, warning, error) have corresponding color palettes in both dark and light modes.
+- Banner background and border colors are managed through theme variables, supporting global customization.
 
 ## Live Demo
 
@@ -62,7 +62,7 @@ import { Banner } from "@/components/ui/banner";
 
 <Banner button={{ href: "#/components", content: "Read more" }}>
   <b>Big News</b> – New components finally available
-</Banner>
+</Banner>;
 ```
 
 ## API Reference
@@ -72,7 +72,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Banner } from "@/components/ui/banner"
+import { Banner } from "@/components/ui/banner";
 ```
 
 ### Props & callbacks

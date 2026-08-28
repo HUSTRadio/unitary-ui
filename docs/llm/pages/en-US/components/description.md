@@ -14,13 +14,13 @@ Displays key/value metadata pairs as a definition list.
 
 ## When to use
 
--   Present metadata as a definition list: a short Title Case key paired with a single value (e.g., 'Last Deployed', 'Region', 'Plan').
--   Need the <dl>/<dt>/<dd> semantic HTML structure recognized by screen readers, reading each key/value pair as one definition unit.
+- Present metadata as a definition list: a short Title Case key paired with a single value (e.g., 'Last Deployed', 'Region', 'Plan').
+- Need the <dl>/<dt>/<dd> semantic HTML structure recognized by screen readers, reading each key/value pair as one definition unit.
 
 ## When not to use
 
--   For inline help text below a form field, use the input's helper-text slot instead of the Description component.
--   Do not wrap the Description component in extra paragraph tags, as this breaks the definition list semantics.
+- For inline help text below a form field, use the input's helper-text slot instead of the Description component.
+- Do not wrap the Description component in extra paragraph tags, as this breaks the definition list semantics.
 
 ## Examples
 
@@ -38,9 +38,9 @@ Truncates overflow values with ellipsis display, paired with a tooltip to expand
 
 ## Accessibility
 
--   Geist renders <dl>/<dt>/<dd> native HTML definition list structure, where screen readers read each key-value pair as a definition unit.
--   Keys use Title Case noun format, values use sentence case unless they are literal identifiers, IDs, or timestamps that should be preserved verbatim.
--   Do not place interactive controls in the key slot; buttons, menus, and links belong in the value slot or parent layout.
+- Geist renders <dl>/<dt>/<dd> native HTML definition list structure, where screen readers read each key-value pair as a definition unit.
+- Keys use Title Case noun format, values use sentence case unless they are literal identifiers, IDs, or timestamps that should be preserved verbatim.
+- Do not place interactive controls in the key slot; buttons, menus, and links belong in the value slot or parent layout.
 
 ## Controlled behavior
 
@@ -67,7 +67,7 @@ import { Description } from "@/components/ui/description";
   content="Data about this section."
   title="Section Title"
   tooltip="Additional context about what this section refers to."
-/>
+/>;
 ```
 
 Section Title
@@ -82,7 +82,7 @@ import { Description } from "@/components/ui/description";
   right
   title="Section Title"
   tooltip="Additional context about what this section refers to."
-/>
+/>;
 ```
 
 Section Title
@@ -97,7 +97,7 @@ import { Description } from "@/components/ui/description";
   ellipsis
   title="Section Title"
   tooltip="Additional context about what this section refers to."
-/>
+/>;
 ```
 
 ## API Reference
@@ -107,7 +107,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Description } from "@/components/ui/description"
+import { Description } from "@/components/ui/description";
 ```
 
 ### Props & callbacks
@@ -116,8 +116,8 @@ import { Description } from "@/components/ui/description"
 
 ## Best Practices
 
--   Use <Description> for definition-list metadata: a short Title Case key paired with a single value (Last Deployed, Region, Plan). For inline help under a form field, use the input’s helper-text slot instead.
--   Geist renders <dl>/<dt>/<dd> so screen readers announce each key/value pair as a definition. Don’t wrap the component in extra paragraphs that break the list semantics.
--   Key is a Title Case noun (Last Deployed, Build Duration); value is sentence case unless it’s a literal identifier, ID, or timestamp that should be preserved verbatim.
--   Pass tooltip only when the key alone is ambiguous and a one-sentence definition resolves it. The tooltip text is sentence case and ends with a period.
--   Don’t put interactive controls in the key slot. Buttons, menus, and links belong in the value or the parent layout, not the label.
+- Use <Description> for definition-list metadata: a short Title Case key paired with a single value (Last Deployed, Region, Plan). For inline help under a form field, use the input’s helper-text slot instead.
+- Geist renders <dl>/<dt>/<dd> so screen readers announce each key/value pair as a definition. Don’t wrap the component in extra paragraphs that break the list semantics.
+- Key is a Title Case noun (Last Deployed, Build Duration); value is sentence case unless it’s a literal identifier, ID, or timestamp that should be preserved verbatim.
+- Pass tooltip only when the key alone is ambiguous and a one-sentence definition resolves it. The tooltip text is sentence case and ends with a period.
+- Don’t put interactive controls in the key slot. Buttons, menus, and links belong in the value or the parent layout, not the label.

@@ -14,15 +14,15 @@ A responsive book component.
 
 ## When to use
 
--   Use Book for marketing pages, docs landing covers, and changelog hero shots where content needs the metaphor of a labeled volume.
--   Use simple when the title carries the design; use stripe when an icon or color stripe adds category hierarchy.
--   Reserve the textured treatment for isolated hero shots used for single articles or chapter presentations.
+- Use Book for marketing pages, docs landing covers, and changelog hero shots where content needs the metaphor of a labeled volume.
+- Use simple when the title carries the design; use stripe when an icon or color stripe adds category hierarchy.
+- Reserve the textured treatment for isolated hero shots used for single articles or chapter presentations.
 
 ## When not to use
 
--   Do not use Book inside product info cards or dashboard tiles—it is too decorative for repeated UI rows.
--   Do not treat Book as an interactive content editor—it is a purely presentational frame with no editing capabilities.
--   In accessibility-first scenarios, do not use the cover as the primary content source—the cover should be treated as decorative chrome with the title surfaced via an underlying heading element.
+- Do not use Book inside product info cards or dashboard tiles—it is too decorative for repeated UI rows.
+- Do not treat Book as an interactive content editor—it is a purely presentational frame with no editing capabilities.
+- In accessibility-first scenarios, do not use the cover as the primary content source—the cover should be treated as decorative chrome with the title surfaced via an underlying heading element.
 
 ## Examples
 
@@ -40,9 +40,9 @@ Demonstrates replacing the built-in illustration and customizing colors for a pe
 
 ## Accessibility
 
--   Book's cover should be marked as decorative chrome with the title surfaced through an underlying heading element so screen readers do not double-announce.
--   Cover illustrations should have empty alt text (decorative=true) since meaning is already conveyed in the title.
--   Page thickness effects should not impact core content legibility and focus capability.
+- Book's cover should be marked as decorative chrome with the title surfaced through an underlying heading element so screen readers do not double-announce.
+- Cover illustrations should have empty alt text (decorative=true) since meaning is already conveyed in the title.
+- Page thickness effects should not impact core content legibility and focus capability.
 
 ## Controlled behavior
 
@@ -50,13 +50,13 @@ Not applicable: Book is a passive display component with no state transitions or
 
 ## Responsive behavior
 
--   Book uses responsive widths to preserve the cover proportion, scaling automatically without distortion across viewports.
--   On narrow screens, book title may shrink font size or enable multi-line wrapping while preserving the cover ratio integrity.
+- Book uses responsive widths to preserve the cover proportion, scaling automatically without distortion across viewports.
+- On narrow screens, book title may shrink font size or enable multi-line wrapping while preserving the cover ratio integrity.
 
 ## Theme behavior
 
--   Book's shadows, borders, and gradient effects follow theme variables, adapting automatically between dark and light modes.
--   Custom colors can override the default theme color via props to achieve brand consistency.
+- Book's shadows, borders, and gradient effects follow theme variables, adapting automatically between dark and light modes.
+- Custom colors can override the default theme color via props to achieve brand consistency.
 
 ## Live Demo
 
@@ -67,7 +67,7 @@ The user experience of the Frontend Cloud
 ```tsx
 import { Book } from "@/components/ui/book";
 
-<Book title="The user experience of the Frontend Cloud" />
+<Book title="The user experience of the Frontend Cloud" />;
 ```
 
 ### Variants
@@ -82,7 +82,7 @@ import { Book } from "@/components/ui/book";
 <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
   <Book title="The user experience of the Frontend Cloud" variant="simple" width={196} />
   <Book title="The user experience of the Frontend Cloud" variant="stripe" width={196} />
-</div>
+</div>;
 ```
 
 ### Custom color
@@ -98,14 +98,9 @@ import { Book } from "@/components/ui/book";
 
 <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
   <Book color="#9D2127" title="How Vercel improves your website's search engine ranking" />
-  <Book
-    color="#7DC1C1"
-    textColor="white"
-    title="Design Engineering at Vercel"
-    variant="simple"
-  />
+  <Book color="#7DC1C1" textColor="white" title="Design Engineering at Vercel" variant="simple" />
   <Book color="#FED954" title="The user experience of the Frontend Cloud" />
-</div>
+</div>;
 ```
 
 ### Custom icon
@@ -124,7 +119,7 @@ import { ArrowRight, Atom, Triangle } from "lucide-react";
   <Book icon={<Triangle className="size-4" aria-hidden />} title="Vercel Platform Guide" />
   <Book icon={<ArrowRight className="size-4" aria-hidden />} title="Next.js Documentation" />
   <Book icon={<Atom className="size-4" aria-hidden />} title="React Essentials" />
-</div>
+</div>;
 ```
 
 ### Custom illustration
@@ -147,7 +142,7 @@ import { ChartColumn, Waves } from "lucide-react";
     title="The user experience of the Frontend Cloud"
     variant="simple"
   />
-</div>
+</div>;
 ```
 
 ### Responsive
@@ -157,7 +152,7 @@ The user experience of the Frontend Cloud
 ```tsx
 import { Book } from "@/components/ui/book";
 
-<Book title="The user experience of the Frontend Cloud" width={{ sm: 150, md: 196 }} />
+<Book title="The user experience of the Frontend Cloud" width={{ sm: 150, md: 196 }} />;
 ```
 
 ### Width
@@ -175,7 +170,7 @@ import { Book } from "@/components/ui/book";
   <Book title="The user experience of the Frontend Cloud" width={300} />
   <Book title="The user experience of the Frontend Cloud" width={200} />
   <Book title="The user experience of the Frontend Cloud" width={150} />
-</div>
+</div>;
 ```
 
 ### Textured
@@ -218,7 +213,7 @@ import { Book } from "@/components/ui/book";
       variant="simple"
     />
   </div>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -228,7 +223,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Book } from "@/components/ui/book"
+import { Book } from "@/components/ui/book";
 ```
 
 ### Props & callbacks
@@ -237,8 +232,8 @@ import { Book } from "@/components/ui/book"
 
 ## Best Practices
 
--   Use Book for marketing pages, docs landing covers, and changelog hero shots where content needs the metaphor of a labeled volume.
--   For in-product cards and dashboard tiles, use Card; Book is too decorative for repeated UI rows.
--   Use simple when the title carries the design; use stripe when an icon or color stripe adds category hierarchy.
--   Use responsive widths to preserve the cover proportion, and reserve the textured treatment for isolated hero shots.
--   Treat the cover as decorative chrome and surface the title via the underlying heading element so screen readers don't double-announce.
+- Use Book for marketing pages, docs landing covers, and changelog hero shots where content needs the metaphor of a labeled volume.
+- For in-product cards and dashboard tiles, use Card; Book is too decorative for repeated UI rows.
+- Use simple when the title carries the design; use stripe when an icon or color stripe adds category hierarchy.
+- Use responsive widths to preserve the cover proportion, and reserve the textured treatment for isolated hero shots.
+- Treat the cover as decorative chrome and surface the title via the underlying heading element so screen readers don't double-announce.

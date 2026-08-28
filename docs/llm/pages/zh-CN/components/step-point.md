@@ -14,13 +14,13 @@ StepPoint
 
 ## 何时使用
 
--   引导用户完成多步流程（如设置向导、注册表单、部署配置）时显示步骤进度。
--   需要向用户传达线性任务的整体结构，以及当前位置和剩余步骤。
+- 引导用户完成多步流程（如设置向导、注册表单、部署配置）时显示步骤进度。
+- 需要向用户传达线性任务的整体结构，以及当前位置和剩余步骤。
 
 ## 何时不应使用
 
--   单次操作或无需分步的场景不使用步骤指示点。
--   当页面有多个独立子流程时，每个子流程应使用独立的步骤指示组件。
+- 单次操作或无需分步的场景不使用步骤指示点。
+- 当页面有多个独立子流程时，每个子流程应使用独立的步骤指示组件。
 
 ## 示例
 
@@ -34,16 +34,16 @@ StepPoint
 
 ## 无障碍
 
--   已完成和当前步骤的指示点应有清晰的焦点样式，键盘用户可以遍历所有步骤。
--   当前步骤应配合 aria-current 属性让屏幕阅读器知道用户所在位置。
+- 已完成和当前步骤的指示点应有清晰的焦点样式，键盘用户可以遍历所有步骤。
+- 当前步骤应配合 aria-current 属性让屏幕阅读器知道用户所在位置。
 
 ## 受控行为
 
--   通过 activeIndex 控制当前高亮的步骤索引，completedIndexes 数组标记已完成的步骤。
+- 通过 activeIndex 控制当前高亮的步骤索引，completedIndexes 数组标记已完成的步骤。
 
 ## 响应式行为
 
--   步骤指示点在窄视图中可以切换为垂直布局或隐藏非活跃步骤以节省空间。
+- 步骤指示点在窄视图中可以切换为垂直布局或隐藏非活跃步骤以节省空间。
 
 ## 主题行为
 
@@ -51,9 +51,9 @@ StepPoint
 
 ## 实时示例
 
--   Submitted
--   Under review
--   Approved
+- Submitted
+- Under review
+- Approved
 
 ```tsx
 import { StepPoint } from "@/components/ui/step-point";
@@ -62,7 +62,7 @@ import { StepPoint } from "@/components/ui/step-point";
   <StepPoint status="done">Submitted</StepPoint>
   <StepPoint status="active">Under review</StepPoint>
   <StepPoint status="idle">Approved</StepPoint>
-</ul>
+</ul>;
 ```
 
 ## API 参考
@@ -72,7 +72,7 @@ import { StepPoint } from "@/components/ui/step-point";
 导入
 
 ```tsx
-import { StepPoint } from "@/components/ui/step-point"
+import { StepPoint } from "@/components/ui/step-point";
 ```
 
 ### 属性与回调

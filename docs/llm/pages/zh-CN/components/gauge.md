@@ -14,14 +14,14 @@ Gauge
 
 ## 何时使用
 
--   在固定最大值的 0–100 比率中传达数值，例如配额使用率、构建缓存命中率、运行时间或计费周期消耗。
--   需要一个紧凑的视觉指标来替代数字文本以快速扫描页面时。
--   与进度条相比，这里关注的是整体容量中的占比而非任务完成进度。
+- 在固定最大值的 0–100 比率中传达数值，例如配额使用率、构建缓存命中率、运行时间或计费周期消耗。
+- 需要一个紧凑的视觉指标来替代数字文本以快速扫描页面时。
+- 与进度条相比，这里关注的是整体容量中的占比而非任务完成进度。
 
 ## 何时不应使用
 
--   确定性的任务进度（如文件上传、多步设置）应使用 Progress，因为它有已知总量和明确的完成语义。
--   二元或枚举状态请使用 Status Dot（部署状态）或 Badge（其他元数据），而非环形仪表。
+- 确定性的任务进度（如文件上传、多步设置）应使用 Progress，因为它有已知总量和明确的完成语义。
+- 二元或枚举状态请使用 Status Dot（部署状态）或 Badge（其他元数据），而非环形仪表。
 
 ## 示例
 
@@ -43,8 +43,8 @@ Gauge
 
 ## 无障碍
 
--   组件设置 role="progressbar"，并提供 aria-valuemin、aria-valuemax 和 aria-valuenow 属性，屏幕阅读器会正确播报当前进度。
--   必须始终为仪表盘搭配相邻标签或 Tooltip 来说明数值代表的内容；仅靠图形是自我说明不足的。
+- 组件设置 role="progressbar"，并提供 aria-valuemin、aria-valuemax 和 aria-valuenow 属性，屏幕阅读器会正确播报当前进度。
+- 必须始终为仪表盘搭配相邻标签或 Tooltip 来说明数值代表的内容；仅靠图形是自我说明不足的。
 
 ## 受控行为
 
@@ -52,13 +52,13 @@ Gauge
 
 ## 响应式行为
 
--   仪表盘弧线会在不同视口下自动适配宽度，确保在任何屏幕上都能清晰可读。
--   标签文字大小跟随容器缩放，在小屏设备上保持适当的对比度和可读性。
+- 仪表盘弧线会在不同视口下自动适配宽度，确保在任何屏幕上都能清晰可读。
+- 标签文字大小跟随容器缩放，在小屏设备上保持适当的对比度和可读性。
 
 ## 主题行为
 
--   弧线颜色和背景色遵循当前主题的颜色令牌，包括深色模式下的自动适配。
--   支持自定义渐变和描边颜色，可与设计系统的主题变量配合实现品牌一致性。
+- 弧线颜色和背景色遵循当前主题的颜色令牌，包括深色模式下的自动适配。
+- 支持自定义渐变和描边颜色，可与设计系统的主题变量配合实现品牌一致性。
 
 ## 实时示例
 
@@ -87,7 +87,7 @@ import { Gauge } from "@/components/ui/gauge";
   <Gauge showValue size="medium" value={100} />
   <Gauge showValue size="large" value={80} />
   <Gauge showValue size="large" value={100} />
-</div>
+</div>;
 ```
 
 ## 默认颜色刻度
@@ -99,7 +99,7 @@ import { Gauge } from "@/components/ui/gauge";
   <Gauge size="small" value={14} />
   <Gauge size="small" value={34} />
   <Gauge size="small" value={68} />
-</div>
+</div>;
 ```
 
 ## 自定义颜色范围
@@ -124,7 +124,7 @@ const PINK_SCALE = {
   {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((value) => (
     <Gauge key={value} colors={PINK_SCALE} size="small" value={value} />
   ))}
-</div>
+</div>;
 ```
 
 ## 自定义辅助颜色
@@ -138,7 +138,7 @@ import { Gauge } from "@/components/ui/gauge";
     size="medium"
     value={50}
   />
-</div>
+</div>;
 ```
 
 ## 弧线优先级
@@ -156,7 +156,7 @@ import { Gauge } from "@/components/ui/gauge";
     size="medium"
     value={50}
   />
-</div>
+</div>;
 ```
 
 ## 半选
@@ -169,7 +169,7 @@ import { Gauge } from "@/components/ui/gauge";
   <Gauge indeterminate size="small" value={25} />
   <Gauge indeterminate size="medium" value={25} />
   <Gauge indeterminate size="large" value={25} />
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -179,7 +179,7 @@ import { Gauge } from "@/components/ui/gauge";
 导入
 
 ```tsx
-import { Gauge } from "@/components/ui/gauge"
+import { Gauge } from "@/components/ui/gauge";
 ```
 
 ### 属性与回调
@@ -188,9 +188,9 @@ import { Gauge } from "@/components/ui/gauge"
 
 ## 最佳实践
 
--   对固定最大值做 0–100 比率、且比较是重点的场合（配额用量、构建缓存命中率、可用性、计费周期消耗）用 Gauge。
--   有已知总量的确定性任务进度（上传、多步设置）用 Progress。
--   二进制或枚举状态用 Status Dot（部署）或 Badge（其余）。
--   始终在 gauge 旁放相邻标签或 Tooltip，说明数字代表什么（Build Cache Hit Rate）。单独一个 gauge 无法自我描述。
--   不要把单位放进 children；标签承载单位（Uptime · 99.97%）。children 保留给图标覆盖层。
--   组件设置 role="progressbar" 及 aria-valuemin、aria-valuemax、aria-valuenow；不要覆盖它们。
+- 对固定最大值做 0–100 比率、且比较是重点的场合（配额用量、构建缓存命中率、可用性、计费周期消耗）用 Gauge。
+- 有已知总量的确定性任务进度（上传、多步设置）用 Progress。
+- 二进制或枚举状态用 Status Dot（部署）或 Badge（其余）。
+- 始终在 gauge 旁放相邻标签或 Tooltip，说明数字代表什么（Build Cache Hit Rate）。单独一个 gauge 无法自我描述。
+- 不要把单位放进 children；标签承载单位（Uptime · 99.97%）。children 保留给图标覆盖层。
+- 组件设置 role="progressbar" 及 aria-valuemin、aria-valuemax、aria-valuenow；不要覆盖它们。

@@ -14,13 +14,13 @@ Tooltip
 
 ## 何时使用
 
--   需要解释某事物的存在原因，而非事物本身是什么：可见标签命名该对象，工具提示补充限制条件、作用范围或数量上限。
--   图标按钮等小触发器需要额外的语境说明时，通过 Tooltip 在不扩展 UI 的前提下提供解释。
+- 需要解释某事物的存在原因，而非事物本身是什么：可见标签命名该对象，工具提示补充限制条件、作用范围或数量上限。
+- 图标按钮等小触发器需要额外的语境说明时，通过 Tooltip 在不扩展 UI 的前提下提供解释。
 
 ## 何时不应使用
 
--   不要将带有标签的 Input 包裹在 Tooltip 中——触发器落在 <label> 上，工具提示文本会成为屏幕阅读器的第二个不可见标签。应将帮助内容放在兄弟图标按钮上。
--   不要在工具提示中包含主要操作；触屏用户无法触及悬停显示的控件。主要操作应在可见 UI 中。
+- 不要将带有标签的 Input 包裹在 Tooltip 中——触发器落在 <label> 上，工具提示文本会成为屏幕阅读器的第二个不可见标签。应将帮助内容放在兄弟图标按钮上。
+- 不要在工具提示中包含主要操作；触屏用户无法触及悬停显示的控件。主要操作应在可见 UI 中。
 
 ## 示例
 
@@ -38,13 +38,13 @@ Tooltip
 
 ## 无障碍
 
--   Tooltip 在悬停和键盘焦点时打开，保留默认的 ~150ms 入场延迟以防止鼠标扫过时的闪烁。
--   Escape 键关闭 Tooltip 并将焦点返回到触发器；仅图标的触发器需配备命名操作的 aria-label。
+- Tooltip 在悬停和键盘焦点时打开，保留默认的 ~150ms 入场延迟以防止鼠标扫过时的闪烁。
+- Escape 键关闭 Tooltip 并将焦点返回到触发器；仅图标的触发器需配备命名操作的 aria-label。
 
 ## 受控行为
 
--   Tooltip 支持受控模式：通过 open state 和 onChange 精确控制显示与隐藏时机。
--   可以通过传入自定义触发元素来自定义 Tooltip 的挂载内容和交互行为。
+- Tooltip 支持受控模式：通过 open state 和 onChange 精确控制显示与隐藏时机。
+- 可以通过传入自定义触发元素来自定义 Tooltip 的挂载内容和交互行为。
 
 ## 响应式行为
 
@@ -52,7 +52,7 @@ Tooltip
 
 ## 主题行为
 
--   Tooltip 的背景和文字颜色跟随全局主题，支持深色/浅色模式切换；高亮类型可通过 type prop 覆盖。
+- Tooltip 的背景和文字颜色跟随全局主题，支持深色/浅色模式切换；高亮类型可通过 type prop 覆盖。
 
 ## 实时示例
 
@@ -90,7 +90,7 @@ import { Tooltip } from "@/components/ui/tooltip";
       <span>Right</span>
     </Tooltip>
   </div>
-</div>
+</div>;
 ```
 
 ## 盒模型对齐
@@ -230,7 +230,7 @@ import { Tooltip } from "@/components/ui/tooltip";
       <span>Right</span>
     </Tooltip>
   </div>
-</div>
+</div>;
 ```
 
 ## 自定义类型
@@ -267,7 +267,7 @@ import { Tooltip } from "@/components/ui/tooltip";
       <span>Right</span>
     </Tooltip>
   </div>
-</div>
+</div>;
 ```
 
 ## 组件
@@ -315,7 +315,7 @@ import { Tooltip } from "@/components/ui/tooltip";
       <span>Shortcut</span>
     </Tooltip>
   </div>
-</div>
+</div>;
 ```
 
 ## 其他
@@ -338,7 +338,7 @@ import { Tooltip } from "@/components/ui/tooltip";
       No center text
     </Tooltip>
   </div>
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -348,7 +348,7 @@ import { Tooltip } from "@/components/ui/tooltip";
 导入
 
 ```tsx
-import { Tooltip } from "@/components/ui/tooltip"
+import { Tooltip } from "@/components/ui/tooltip";
 ```
 
 ### 属性与回调
@@ -357,11 +357,11 @@ import { Tooltip } from "@/components/ui/tooltip"
 
 ## 最佳实践
 
--   用 Tooltip 解释事物为何存在，而非它是什么。可见标签命名事物；tooltip 补充约束、范围或限制。
--   Tooltip 在悬停与键盘聚焦时打开。保持默认约 150ms 进入延迟，避免扫过的鼠标造成闪烁。
--   不要用 Tooltip 包裹带标签的 Input。触发器落在 <label> 而非字段上，tooltip 文本成为屏幕阅读器的第二个隐形标签。把帮助放在兄弟图标按钮上。
--   把主动作留在 Tooltip 之外；触屏用户够不到悬停揭示的控件。
--   文本是一句或短语。句首大写；单一短语无句号。
--   纯图标触发器需要命名动作的 aria-label；Tooltip 正文补充上下文，不替代标签。
--   跳过复述可见标签的 tooltip（如 Rate Limit 按钮上的 text="Rate Limit"）；只会重复而不会补充。
--   Escape 关闭 tooltip 并把焦点还给触发器。
+- 用 Tooltip 解释事物为何存在，而非它是什么。可见标签命名事物；tooltip 补充约束、范围或限制。
+- Tooltip 在悬停与键盘聚焦时打开。保持默认约 150ms 进入延迟，避免扫过的鼠标造成闪烁。
+- 不要用 Tooltip 包裹带标签的 Input。触发器落在 <label> 而非字段上，tooltip 文本成为屏幕阅读器的第二个隐形标签。把帮助放在兄弟图标按钮上。
+- 把主动作留在 Tooltip 之外；触屏用户够不到悬停揭示的控件。
+- 文本是一句或短语。句首大写；单一短语无句号。
+- 纯图标触发器需要命名动作的 aria-label；Tooltip 正文补充上下文，不替代标签。
+- 跳过复述可见标签的 tooltip（如 Rate Limit 按钮上的 text="Rate Limit"）；只会重复而不会补充。
+- Escape 关闭 tooltip 并把焦点还给触发器。

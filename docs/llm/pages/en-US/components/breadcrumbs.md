@@ -14,15 +14,15 @@ Navigation aid that shows the user's location within a site's hierarchy.
 
 ## When to use
 
--   Display breadcrumb navigation in applications with multi-level structures to help users understand their current position and jump quickly to parent nodes.
--   Use Breadcrumbs when URL paths reflect resource hierarchy (e.g., /projects/space/documents) as a natural synchronization mechanism.
--   Place Breadcrumbs above the page title as a leading context guide.
+- Display breadcrumb navigation in applications with multi-level structures to help users understand their current position and jump quickly to parent nodes.
+- Use Breadcrumbs when URL paths reflect resource hierarchy (e.g., /projects/space/documents) as a natural synchronization mechanism.
+- Place Breadcrumbs above the page title as a leading context guide.
 
 ## When not to use
 
--   Do not overuse Breadcrumbs in flat structures—a simple page navigation menu suffices when there are only two path levels.
--   Do not use Breadcrumbs for displaying filter and sort options—they are not hierarchical; use a filter bar or tab toggle instead.
--   Do not force a full breadcrumb chain on mobile—in constrained space, truncate to non-core levels or use a drawer-based navigation.
+- Do not overuse Breadcrumbs in flat structures—a simple page navigation menu suffices when there are only two path levels.
+- Do not use Breadcrumbs for displaying filter and sort options—they are not hierarchical; use a filter bar or tab toggle instead.
+- Do not force a full breadcrumb chain on mobile—in constrained space, truncate to non-core levels or use a drawer-based navigation.
 
 ## Examples
 
@@ -36,9 +36,9 @@ Displays the active/disabled style for the last item to indicate the current pat
 
 ## Accessibility
 
--   Breadcrumbs wrap in a <nav> element with aria-label='Breadcrumb', helping screen readers identify it.
--   The final entry (active state) should not be linked and should carry aria-current='page'.
--   Disabled breadcrumb entries remain in the DOM but skip tabindex to ensure keyboard navigation consistency.
+- Breadcrumbs wrap in a <nav> element with aria-label='Breadcrumb', helping screen readers identify it.
+- The final entry (active state) should not be linked and should carry aria-current='page'.
+- Disabled breadcrumb entries remain in the DOM but skip tabindex to ensure keyboard navigation consistency.
 
 ## Controlled behavior
 
@@ -46,13 +46,13 @@ Not applicable: Breadcrumbs is a passive navigational indicator driven by routin
 
 ## Responsive behavior
 
--   Breadcrumbs auto-truncate middle levels (Home › … › Current) on narrow screens, keeping the final current position visible.
--   Separators maintain consistent spacing proportions across all screen sizes, ensuring readability is preserved during scaling.
+- Breadcrumbs auto-truncate middle levels (Home › … › Current) on narrow screens, keeping the final current position visible.
+- Separators maintain consistent spacing proportions across all screen sizes, ensuring readability is preserved during scaling.
 
 ## Theme behavior
 
--   Breadcrumb text color, hover state, and current-page highlight follow theme variable text palettes and focus indicators.
--   Separator colors also come from theme variables, ensuring sufficient contrast in both dark and light modes.
+- Breadcrumb text color, hover state, and current-page highlight follow theme variable text palettes and focus indicators.
+- Separator colors also come from theme variables, ensuring sufficient contrast in both dark and light modes.
 
 ## Live Demo
 
@@ -72,7 +72,7 @@ import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
     <BreadcrumbItem>Dashboard</BreadcrumbItem>
     <BreadcrumbItem>Overview</BreadcrumbItem>
   </Breadcrumb>
-</div>
+</div>;
 ```
 
 ## Active
@@ -84,7 +84,7 @@ import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
   <BreadcrumbItem>Home</BreadcrumbItem>
   <BreadcrumbItem active>Dashboard</BreadcrumbItem>
   <BreadcrumbItem>Overview</BreadcrumbItem>
-</Breadcrumb>
+</Breadcrumb>;
 ```
 
 ## Disabled
@@ -96,7 +96,7 @@ import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
   <BreadcrumbItem>Home</BreadcrumbItem>
   <BreadcrumbItem disabled>Dashboard</BreadcrumbItem>
   <BreadcrumbItem>Overview</BreadcrumbItem>
-</Breadcrumb>
+</Breadcrumb>;
 ```
 
 ## API Reference
@@ -106,7 +106,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs"
+import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 ```
 
 ### Props & callbacks

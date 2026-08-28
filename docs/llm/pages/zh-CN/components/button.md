@@ -14,15 +14,15 @@ Button
 
 ## 何时使用
 
--   用于会改变状态的动作：部署、保存、删除、轮换密钥；需要改变 URL 的导航请用 ButtonLink。
--   表单提交场景使用 typeName="submit"（注意 HTML type 属性在 typeName 上，而 type 控制视觉变体）。
--   同一行有多个相关动作时，改由 Menu 或 Split Button 承载，而不是堆叠多个按钮。
+- 用于会改变状态的动作：部署、保存、删除、轮换密钥；需要改变 URL 的导航请用 ButtonLink。
+- 表单提交场景使用 typeName="submit"（注意 HTML type 属性在 typeName 上，而 type 控制视觉变体）。
+- 同一行有多个相关动作时，改由 Menu 或 Split Button 承载，而不是堆叠多个按钮。
 
 ## 何时不应使用
 
--   不要用 type="success"/"ghost"/"violet" 这类不存在的取值；辅助动作用 secondary，危险确认用 error。
--   不要在按钮动作确实不可能发生之外的场景禁用按钮；禁用时必须配 Tooltip 说明原因。
--   纯图标按钮必须同时提供 svgOnly 与 aria-label（校验器会报错），且 aria-label 应描述动作与目标（复制部署 URL）而非图标本身。
+- 不要用 type="success"/"ghost"/"violet" 这类不存在的取值；辅助动作用 secondary，危险确认用 error。
+- 不要在按钮动作确实不可能发生之外的场景禁用按钮；禁用时必须配 Tooltip 说明原因。
+- 纯图标按钮必须同时提供 svgOnly 与 aria-label（校验器会报错），且 aria-label 应描述动作与目标（复制部署 URL）而非图标本身。
 
 ## 示例
 
@@ -48,24 +48,24 @@ Button
 
 ## 无障碍
 
--   loading 态保持按钮可聚焦并向辅助技术播报忙碌状态，优于手动替换为 spinner。
--   已有可见文本的按钮不要再设置 aria-label——它会覆盖可见标签，造成屏幕阅读器不一致。
--   禁用按钮必须配 Tooltip 说明原因，否则灰化按钮看起来像 bug。
+- loading 态保持按钮可聚焦并向辅助技术播报忙碌状态，优于手动替换为 spinner。
+- 已有可见文本的按钮不要再设置 aria-label——它会覆盖可见标签，造成屏幕阅读器不一致。
+- 禁用按钮必须配 Tooltip 说明原因，否则灰化按钮看起来像 bug。
 
 ## 受控行为
 
--   loading 与 disabled 由父组件完全受控，按钮自身不持有状态。
--   点击回调触发后由调用方决定何时解除 loading。
+- loading 与 disabled 由父组件完全受控，按钮自身不持有状态。
+- 点击回调触发后由调用方决定何时解除 loading。
 
 ## 响应式行为
 
--   小视口下优先收窄按钮标签文本而非换行；长动作名考虑缩写或移至菜单。
--   触摸场景选择更大的尺寸档位以保证命中区域。
+- 小视口下优先收窄按钮标签文本而非换行；长动作名考虑缩写或移至菜单。
+- 触摸场景选择更大的尺寸档位以保证命中区域。
 
 ## 主题行为
 
--   默认按钮即主要动作色；secondary 用于辅助动作，error 用于危险确认。
--   危险按钮遵循“动词 + 名词”命名并与 toast 一一对应（删除项目 → 项目已删除）。
+- 默认按钮即主要动作色；secondary 用于辅助动作，error 用于危险确认。
+- 危险按钮遵循“动词 + 名词”命名并与 toast 一一对应（删除项目 → 项目已删除）。
 
 ## 实时示例
 
@@ -73,10 +73,14 @@ Button
 import { Button } from "@/components/ui/button";
 
 <div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button size="small" typeName="button">Upload</Button>
+  <Button size="small" typeName="button">
+    Upload
+  </Button>
   <Button typeName="button">Upload</Button>
-  <Button size="large" typeName="button">Upload</Button>
-</div>
+  <Button size="large" typeName="button">
+    Upload
+  </Button>
+</div>;
 ```
 
 [Sign Up](#)
@@ -88,11 +92,19 @@ import { Button } from "@/components/ui/button";
 
 <div className="flex flex-wrap items-center gap-3">
   <Button typeName="button">Default</Button>
-  <Button type="secondary" typeName="button">Secondary</Button>
-  <Button type="tertiary" typeName="button">Outline</Button>
-  <Button type="tertiary" typeName="button">Ghost</Button>
-  <Button type="error" typeName="button">Destructive</Button>
-</div>
+  <Button type="secondary" typeName="button">
+    Secondary
+  </Button>
+  <Button type="tertiary" typeName="button">
+    Outline
+  </Button>
+  <Button type="tertiary" typeName="button">
+    Ghost
+  </Button>
+  <Button type="error" typeName="button">
+    Destructive
+  </Button>
+</div>;
 ```
 
 ## 前缀与后缀
@@ -102,11 +114,19 @@ import { Button } from "@/components/ui/button";
 import { Copy, Search } from "lucide-react";
 
 <div className="flex flex-wrap items-center gap-3">
-  <Button prefix={<Search />} typeName="button">Search</Button>
-  <Button prefix={<Copy />} type="secondary" typeName="button">Copy</Button>
-  <Button loading type="tertiary" typeName="button">Loading</Button>
-  <Button disabled typeName="button">Disabled</Button>
-</div>
+  <Button prefix={<Search />} typeName="button">
+    Search
+  </Button>
+  <Button prefix={<Copy />} type="secondary" typeName="button">
+    Copy
+  </Button>
+  <Button loading type="tertiary" typeName="button">
+    Loading
+  </Button>
+  <Button disabled typeName="button">
+    Disabled
+  </Button>
+</div>;
 ```
 
 ## 状态与组合
@@ -140,49 +160,77 @@ import { ArrowUp } from "lucide-react";
   <Button aria-label="Upload" shape="circle" size="large" svgOnly typeName="button">
     <ArrowUp />
   </Button>
-</div>
+</div>;
 ```
 
 ```tsx
 import { Button } from "@/components/ui/button";
 
 <div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button shadow shape="rounded" size="small" type="secondary" typeName="button">Upload</Button>
-  <Button shadow shape="rounded" type="secondary" typeName="button">Upload</Button>
-  <Button shadow shape="rounded" size="large" type="secondary" typeName="button">Upload</Button>
-</div>
+  <Button shadow shape="rounded" size="small" type="secondary" typeName="button">
+    Upload
+  </Button>
+  <Button shadow shape="rounded" type="secondary" typeName="button">
+    Upload
+  </Button>
+  <Button shadow shape="rounded" size="large" type="secondary" typeName="button">
+    Upload
+  </Button>
+</div>;
 ```
 
 ```tsx
 import { Button } from "@/components/ui/button";
 
 <div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button loading size="small" typeName="button">Upload</Button>
-  <Button loading typeName="button">Upload</Button>
-  <Button loading size="large" typeName="button">Upload</Button>
-</div>
+  <Button loading size="small" typeName="button">
+    Upload
+  </Button>
+  <Button loading typeName="button">
+    Upload
+  </Button>
+  <Button loading size="large" typeName="button">
+    Upload
+  </Button>
+</div>;
 ```
 
 ```tsx
 import { Button } from "@/components/ui/button";
 
 <div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button disabled size="small" typeName="button">Upload</Button>
-  <Button disabled typeName="button">Upload</Button>
-  <Button disabled size="large" typeName="button">Upload</Button>
-</div>
+  <Button disabled size="small" typeName="button">
+    Upload
+  </Button>
+  <Button disabled typeName="button">
+    Upload
+  </Button>
+  <Button disabled size="large" typeName="button">
+    Upload
+  </Button>
+</div>;
 ```
 
 ```tsx
 import { Button } from "@/components/ui/button";
 
 <div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button disabled typeName="button">Default</Button>
-  <Button disabled type="secondary" typeName="button">Secondary</Button>
-  <Button disabled type="tertiary" typeName="button">Tertiary</Button>
-  <Button disabled type="error" typeName="button">Error</Button>
-  <Button disabled type="warning" typeName="button">Warning</Button>
-</div>
+  <Button disabled typeName="button">
+    Default
+  </Button>
+  <Button disabled type="secondary" typeName="button">
+    Secondary
+  </Button>
+  <Button disabled type="tertiary" typeName="button">
+    Tertiary
+  </Button>
+  <Button disabled type="error" typeName="button">
+    Error
+  </Button>
+  <Button disabled type="warning" typeName="button">
+    Warning
+  </Button>
+</div>;
 ```
 
 [Sign Up](#)
@@ -192,7 +240,7 @@ import { ButtonLink } from "@/components/ui/button";
 
 <ButtonLink className="w-fit" href="#">
   Sign Up
-</ButtonLink>
+</ButtonLink>;
 ```
 
 ```tsx
@@ -219,7 +267,7 @@ import { CustomButton } from "@/components/ui/button";
   >
     Upgrade to Pro
   </CustomButton>
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -229,7 +277,7 @@ import { CustomButton } from "@/components/ui/button";
 导入
 
 ```tsx
-import { Button, ButtonLink, CustomButton, buttonVariants } from "@/components/ui/button"
+import { Button, ButtonLink, CustomButton, buttonVariants } from "@/components/ui/button";
 ```
 
 原生属性：`ButtonHTMLAttributes<HTMLButtonElement>`
@@ -240,12 +288,12 @@ import { Button, ButtonLink, CustomButton, buttonVariants } from "@/components/u
 
 ## 最佳实践
 
--   改变状态的动作（部署、保存、删除）用 Button；改变 URL 的导航用 ButtonLink。一行放不下多个相关动作时改用 Menu 或 Split Button。
--   用 loading 而不是替换成 spinner，这样按钮保持可聚焦，并向辅助技术播报忙碌状态。
--   默认 Button 是 primary。支持动作传 type="secondary"，破坏性确认传 type="error"。primary、success、ghost 和 violet 不是合法 type 值。
--   表单提交用 typeName="submit"。HTML type 属性位于 typeName 上，而非控制视觉变体的 type 上。
--   仅当动作当前确实不可能时（缺输入、权限不足）才禁用按钮，并配一个解释原因的 Tooltip。
--   标签首字母大写并写明结果：Deploy Project、Invite Member、Rotate Key。避免裸动词（Submit）与通用确认（OK、Confirm）。
--   破坏性按钮遵循 动词 + 名词，并 1:1 配对 toast：Delete Project 然后 Project deleted。模式切换按钮追加 Instead：Use a Recovery Code Instead。
--   纯图标按钮必须同时有 svgOnly 与 aria-label；缺少任何一个校验都会抛错。aria-label 命名动作与目标（Copy deployment URL），而不是图标（Copy）。
--   已有可见文字的按钮不要设置 aria-label；它会覆盖标签并造成读屏不一致。
+- 改变状态的动作（部署、保存、删除）用 Button；改变 URL 的导航用 ButtonLink。一行放不下多个相关动作时改用 Menu 或 Split Button。
+- 用 loading 而不是替换成 spinner，这样按钮保持可聚焦，并向辅助技术播报忙碌状态。
+- 默认 Button 是 primary。支持动作传 type="secondary"，破坏性确认传 type="error"。primary、success、ghost 和 violet 不是合法 type 值。
+- 表单提交用 typeName="submit"。HTML type 属性位于 typeName 上，而非控制视觉变体的 type 上。
+- 仅当动作当前确实不可能时（缺输入、权限不足）才禁用按钮，并配一个解释原因的 Tooltip。
+- 标签首字母大写并写明结果：Deploy Project、Invite Member、Rotate Key。避免裸动词（Submit）与通用确认（OK、Confirm）。
+- 破坏性按钮遵循 动词 + 名词，并 1:1 配对 toast：Delete Project 然后 Project deleted。模式切换按钮追加 Instead：Use a Recovery Code Instead。
+- 纯图标按钮必须同时有 svgOnly 与 aria-label；缺少任何一个校验都会抛错。aria-label 命名动作与目标（Copy deployment URL），而不是图标（Copy）。
+- 已有可见文字的按钮不要设置 aria-label；它会覆盖标签并造成读屏不一致。

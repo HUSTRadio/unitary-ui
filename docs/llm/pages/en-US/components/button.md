@@ -14,15 +14,15 @@ Triggers an action with configurable variants, sizes, and icons.
 
 ## When to use
 
--   Use Button for actions that mutate state (deploy, save, delete); use ButtonLink for navigation that changes the URL.
--   For form submits use typeName="submit" — the HTML type attribute lives on typeName, while type controls the visual variant.
--   When more than one related action shares a row, switch to a Menu or Split Button instead of stacking buttons.
+- Use Button for actions that mutate state (deploy, save, delete); use ButtonLink for navigation that changes the URL.
+- For form submits use typeName="submit" — the HTML type attribute lives on typeName, while type controls the visual variant.
+- When more than one related action shares a row, switch to a Menu or Split Button instead of stacking buttons.
 
 ## When not to use
 
--   Don't use nonexistent type values like success/ghost/violet; pass secondary for supporting actions and error for destructive confirmations.
--   Disable a button only when the action is impossible right now; pair disabling with a Tooltip that explains why.
--   Icon-only buttons require both svgOnly and aria-label (the validator throws); the aria-label names the action and target (Copy deployment URL), not the icon.
+- Don't use nonexistent type values like success/ghost/violet; pass secondary for supporting actions and error for destructive confirmations.
+- Disable a button only when the action is impossible right now; pair disabling with a Tooltip that explains why.
+- Icon-only buttons require both svgOnly and aria-label (the validator throws); the aria-label names the action and target (Copy deployment URL), not the icon.
 
 ## Examples
 
@@ -48,24 +48,24 @@ Places icons before or after the label to strengthen action recognition.
 
 ## Accessibility
 
--   The loading state keeps the button focusable and announces the busy state to assistive tech, unlike a swapped-in spinner.
--   Don't set aria-label on a button that already has visible text; it overrides the label and creates a screen-reader mismatch.
--   Disabled buttons need a Tooltip naming the reason; a greyed button without explanation reads as a bug.
+- The loading state keeps the button focusable and announces the busy state to assistive tech, unlike a swapped-in spinner.
+- Don't set aria-label on a button that already has visible text; it overrides the label and creates a screen-reader mismatch.
+- Disabled buttons need a Tooltip naming the reason; a greyed button without explanation reads as a bug.
 
 ## Controlled behavior
 
--   loading and disabled are fully controlled by the parent; the button holds no internal state.
--   The caller decides when to clear loading after the click callback fires.
+- loading and disabled are fully controlled by the parent; the button holds no internal state.
+- The caller decides when to clear loading after the click callback fires.
 
 ## Responsive behavior
 
--   On small viewports prefer shortening the label over wrapping; consider abbreviations or moving long actions into a menu.
--   Pick a larger size tier for touch contexts to keep hit areas comfortable.
+- On small viewports prefer shortening the label over wrapping; consider abbreviations or moving long actions into a menu.
+- Pick a larger size tier for touch contexts to keep hit areas comfortable.
 
 ## Theme behavior
 
--   Default Button is primary; secondary serves supporting actions and error serves destructive confirmations.
--   Destructive buttons follow Verb + Noun and pair 1:1 with their toast: Delete Project then Project deleted.
+- Default Button is primary; secondary serves supporting actions and error serves destructive confirmations.
+- Destructive buttons follow Verb + Noun and pair 1:1 with their toast: Delete Project then Project deleted.
 
 ## Live Demo
 
@@ -73,10 +73,14 @@ Places icons before or after the label to strengthen action recognition.
 import { Button } from "@/components/ui/button";
 
 <div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button size="small" typeName="button">Upload</Button>
+  <Button size="small" typeName="button">
+    Upload
+  </Button>
   <Button typeName="button">Upload</Button>
-  <Button size="large" typeName="button">Upload</Button>
-</div>
+  <Button size="large" typeName="button">
+    Upload
+  </Button>
+</div>;
 ```
 
 [Sign Up](#)
@@ -88,11 +92,19 @@ import { Button } from "@/components/ui/button";
 
 <div className="flex flex-wrap items-center gap-3">
   <Button typeName="button">Default</Button>
-  <Button type="secondary" typeName="button">Secondary</Button>
-  <Button type="tertiary" typeName="button">Outline</Button>
-  <Button type="tertiary" typeName="button">Ghost</Button>
-  <Button type="error" typeName="button">Destructive</Button>
-</div>
+  <Button type="secondary" typeName="button">
+    Secondary
+  </Button>
+  <Button type="tertiary" typeName="button">
+    Outline
+  </Button>
+  <Button type="tertiary" typeName="button">
+    Ghost
+  </Button>
+  <Button type="error" typeName="button">
+    Destructive
+  </Button>
+</div>;
 ```
 
 ## Prefix and Suffix
@@ -102,11 +114,19 @@ import { Button } from "@/components/ui/button";
 import { Copy, Search } from "lucide-react";
 
 <div className="flex flex-wrap items-center gap-3">
-  <Button prefix={<Search />} typeName="button">Search</Button>
-  <Button prefix={<Copy />} type="secondary" typeName="button">Copy</Button>
-  <Button loading type="tertiary" typeName="button">Loading</Button>
-  <Button disabled typeName="button">Disabled</Button>
-</div>
+  <Button prefix={<Search />} typeName="button">
+    Search
+  </Button>
+  <Button prefix={<Copy />} type="secondary" typeName="button">
+    Copy
+  </Button>
+  <Button loading type="tertiary" typeName="button">
+    Loading
+  </Button>
+  <Button disabled typeName="button">
+    Disabled
+  </Button>
+</div>;
 ```
 
 ## States and Composition
@@ -140,49 +160,77 @@ import { ArrowUp } from "lucide-react";
   <Button aria-label="Upload" shape="circle" size="large" svgOnly typeName="button">
     <ArrowUp />
   </Button>
-</div>
+</div>;
 ```
 
 ```tsx
 import { Button } from "@/components/ui/button";
 
 <div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button shadow shape="rounded" size="small" type="secondary" typeName="button">Upload</Button>
-  <Button shadow shape="rounded" type="secondary" typeName="button">Upload</Button>
-  <Button shadow shape="rounded" size="large" type="secondary" typeName="button">Upload</Button>
-</div>
+  <Button shadow shape="rounded" size="small" type="secondary" typeName="button">
+    Upload
+  </Button>
+  <Button shadow shape="rounded" type="secondary" typeName="button">
+    Upload
+  </Button>
+  <Button shadow shape="rounded" size="large" type="secondary" typeName="button">
+    Upload
+  </Button>
+</div>;
 ```
 
 ```tsx
 import { Button } from "@/components/ui/button";
 
 <div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button loading size="small" typeName="button">Upload</Button>
-  <Button loading typeName="button">Upload</Button>
-  <Button loading size="large" typeName="button">Upload</Button>
-</div>
+  <Button loading size="small" typeName="button">
+    Upload
+  </Button>
+  <Button loading typeName="button">
+    Upload
+  </Button>
+  <Button loading size="large" typeName="button">
+    Upload
+  </Button>
+</div>;
 ```
 
 ```tsx
 import { Button } from "@/components/ui/button";
 
 <div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button disabled size="small" typeName="button">Upload</Button>
-  <Button disabled typeName="button">Upload</Button>
-  <Button disabled size="large" typeName="button">Upload</Button>
-</div>
+  <Button disabled size="small" typeName="button">
+    Upload
+  </Button>
+  <Button disabled typeName="button">
+    Upload
+  </Button>
+  <Button disabled size="large" typeName="button">
+    Upload
+  </Button>
+</div>;
 ```
 
 ```tsx
 import { Button } from "@/components/ui/button";
 
 <div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button disabled typeName="button">Default</Button>
-  <Button disabled type="secondary" typeName="button">Secondary</Button>
-  <Button disabled type="tertiary" typeName="button">Tertiary</Button>
-  <Button disabled type="error" typeName="button">Error</Button>
-  <Button disabled type="warning" typeName="button">Warning</Button>
-</div>
+  <Button disabled typeName="button">
+    Default
+  </Button>
+  <Button disabled type="secondary" typeName="button">
+    Secondary
+  </Button>
+  <Button disabled type="tertiary" typeName="button">
+    Tertiary
+  </Button>
+  <Button disabled type="error" typeName="button">
+    Error
+  </Button>
+  <Button disabled type="warning" typeName="button">
+    Warning
+  </Button>
+</div>;
 ```
 
 [Sign Up](#)
@@ -192,7 +240,7 @@ import { ButtonLink } from "@/components/ui/button";
 
 <ButtonLink className="w-fit" href="#">
   Sign Up
-</ButtonLink>
+</ButtonLink>;
 ```
 
 ```tsx
@@ -219,7 +267,7 @@ import { CustomButton } from "@/components/ui/button";
   >
     Upgrade to Pro
   </CustomButton>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -229,7 +277,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Button, ButtonLink, CustomButton, buttonVariants } from "@/components/ui/button"
+import { Button, ButtonLink, CustomButton, buttonVariants } from "@/components/ui/button";
 ```
 
 Native props: `ButtonHTMLAttributes<HTMLButtonElement>`
@@ -240,12 +288,12 @@ Native props: `ButtonHTMLAttributes<HTMLButtonElement>`
 
 ## Best Practices
 
--   Use Button for actions that mutate state (deploy, save, delete); use ButtonLink for navigation that changes the URL. Switch to a Menu or Split Button when more than one related action shares a row.
--   Default Button is primary. Pass type="secondary" for the supporting action and type="error" for destructive confirmations. primary, success, ghost, and violet are not valid type values.
--   For form submits, use typeName="submit". The HTML type attribute lives on typeName, not on type, which controls the visual variant.
--   Pass loading instead of swapping in a spinner so the button stays focusable and announces the busy state to assistive tech.
--   Disable a button only when the action is impossible right now (missing input, insufficient permission); pair with a Tooltip that explains why.
--   Title Case the label and name what happens: Deploy Project, Invite Member, Rotate Key. Avoid bare verbs (Submit) and generic confirms (OK, Confirm).
--   Destructive buttons follow Verb + Noun and pair 1:1 with their toast: Delete Project then Project deleted. Mode-switch buttons append Instead: Use a Recovery Code Instead.
--   Icon-only buttons require both svgOnly and aria-label; the validator throws without them. The aria-label names the action and the target (Copy deployment URL), not the icon (Copy).
--   Don’t set aria-label on a button that already has visible text; it overrides the label and creates a screen-reader mismatch.
+- Use Button for actions that mutate state (deploy, save, delete); use ButtonLink for navigation that changes the URL. Switch to a Menu or Split Button when more than one related action shares a row.
+- Default Button is primary. Pass type="secondary" for the supporting action and type="error" for destructive confirmations. primary, success, ghost, and violet are not valid type values.
+- For form submits, use typeName="submit". The HTML type attribute lives on typeName, not on type, which controls the visual variant.
+- Pass loading instead of swapping in a spinner so the button stays focusable and announces the busy state to assistive tech.
+- Disable a button only when the action is impossible right now (missing input, insufficient permission); pair with a Tooltip that explains why.
+- Title Case the label and name what happens: Deploy Project, Invite Member, Rotate Key. Avoid bare verbs (Submit) and generic confirms (OK, Confirm).
+- Destructive buttons follow Verb + Noun and pair 1:1 with their toast: Delete Project then Project deleted. Mode-switch buttons append Instead: Use a Recovery Code Instead.
+- Icon-only buttons require both svgOnly and aria-label; the validator throws without them. The aria-label names the action and the target (Copy deployment URL), not the icon (Copy).
+- Don’t set aria-label on a button that already has visible text; it overrides the label and creates a screen-reader mismatch.

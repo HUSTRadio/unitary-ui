@@ -14,13 +14,13 @@ Phone
 
 ## 何时使用
 
--   在着陆页、文档和介绍页面中，围绕移动截图、录屏和演示图像使用 Phone 作为营销 chrome 框架。
--   需要向读者展示移动应用的实际外观和设计效果时，Phone 外框提供了逼真的模拟效果。
+- 在着陆页、文档和介绍页面中，围绕移动截图、录屏和演示图像使用 Phone 作为营销 chrome 框架。
+- 需要向读者展示移动应用的实际外观和设计效果时，Phone 外框提供了逼真的模拟效果。
 
 ## 何时不应使用
 
--   不要在外框内渲染真实的移动产品界面——chrome 暗示这是一个截图而非可交互的界面，误导用户以为可以点击操作。
--   如果只需要展示网页响应式效果，请使用 Browser 组件而非 Phone——Browser 更适合网页截图的展示。
+- 不要在外框内渲染真实的移动产品界面——chrome 暗示这是一个截图而非可交互的界面，误导用户以为可以点击操作。
+- 如果只需要展示网页响应式效果，请使用 Browser 组件而非 Phone——Browser 更适合网页截图的展示。
 
 ## 示例
 
@@ -38,8 +38,8 @@ Phone 外框提供多种配色方案，可根据页面主题选择合适的色�
 
 ## 无障碍
 
--   Phone 的外壳部分被标记为装饰性元素（aria-hidden），真正的可访问命名归属于内部的截图——屏幕阅读器会读取截图的替代文本。
--   为内部的移动截图设置有意义的 alt 文本，确保屏幕阅读器用户了解截图的内容和意义。
+- Phone 的外壳部分被标记为装饰性元素（aria-hidden），真正的可访问命名归属于内部的截图——屏幕阅读器会读取截图的替代文本。
+- 为内部的移动截图设置有意义的 alt 文本，确保屏幕阅读器用户了解截图的内容和意义。
 
 ## 受控行为
 
@@ -47,13 +47,13 @@ Phone 外框提供多种配色方案，可根据页面主题选择合适的色�
 
 ## 响应式行为
 
--   Phone 外框的比例在不同视口下保持不变，确保手机形状的视觉效果始终如一。
--   内部的截图区域会根据容器大小自动缩放，但在宽屏上通常建议限制最大宽度以避免过度拉伸。
+- Phone 外框的比例在不同视口下保持不变，确保手机形状的视觉效果始终如一。
+- 内部的截图区域会根据容器大小自动缩放，但在宽屏上通常建议限制最大宽度以避免过度拉伸。
 
 ## 主题行为
 
--   Phone 外框的颜色、阴影和圆角均从主题令牌获取，自动适配浅色和深色模式的对比度要求。
--   Safari Chrome 变体中的浏览器 UI 颜色也跟随主题，保持一致的视觉风格。
+- Phone 外框的颜色、阴影和圆角均从主题令牌获取，自动适配浅色和深色模式的对比度要求。
+- Safari Chrome 变体中的浏览器 UI 颜色也跟随主题，保持一致的视觉风格。
 
 ## 实时示例
 
@@ -75,7 +75,7 @@ import { Phone, PhoneScreen } from "@/components/ui/phone";
       />
     </PhoneScreen>
   </Phone>
-</div>
+</div>;
 ```
 
 black
@@ -97,7 +97,7 @@ import { Phone, PhoneScreen } from "@/components/ui/phone";
       </PhoneScreen>
     </Phone>
   ))}
-</div>
+</div>;
 ```
 
 08:00
@@ -111,7 +111,7 @@ import { Phone, PhoneScreen } from "@/components/ui/phone";
   <PhoneScreen>
     <div className="flex h-full items-center justify-center bg-gray-alpha-100" />
   </PhoneScreen>
-</Phone>
+</Phone>;
 ```
 
 9:41
@@ -146,9 +146,13 @@ const [layout, setLayout] = useState<"compact" | "bottom" | "top">("compact");
 
 <Phone safari={{ layout, url: "vercel.com/geist" }}>
   <PhoneScreen>
-    <img src="/page.png" alt="Website shown in the Safari mockup" className="h-full w-full object-cover" />
+    <img
+      src="/page.png"
+      alt="Website shown in the Safari mockup"
+      className="h-full w-full object-cover"
+    />
   </PhoneScreen>
-</Phone>
+</Phone>;
 ```
 
 08:00
@@ -160,7 +164,7 @@ import { Phone, PhoneScreen } from "@/components/ui/phone";
 
 <Phone landscape>
   <PhoneScreen>{/* landscape screenshot */}</PhoneScreen>
-</Phone>
+</Phone>;
 ```
 
 ## API 参考
@@ -170,7 +174,7 @@ import { Phone, PhoneScreen } from "@/components/ui/phone";
 导入
 
 ```tsx
-import { Phone, PhoneScreen } from "@/components/ui/phone"
+import { Phone, PhoneScreen } from "@/components/ui/phone";
 ```
 
 ### 属性与回调
@@ -181,6 +185,6 @@ Phone 是包裹手机截图与录屏的营销外框，并非移动端专属 UI�
 
 ## 最佳实践
 
--   落地页与文档里移动端截图、录屏与 demo 图周围的营销 chrome 用 Phone。
--   不要在框内渲染实时移动产品 UI；chrome 暗示的是捕获的屏幕，而非可交互界面。
--   把 chrome 视为装饰性（aria-hidden）；可访问命名属于内部截图。
+- 落地页与文档里移动端截图、录屏与 demo 图周围的营销 chrome 用 Phone。
+- 不要在框内渲染实时移动产品 UI；chrome 暗示的是捕获的屏幕，而非可交互界面。
+- 把 chrome 视为装饰性（aria-hidden）；可访问命名属于内部截图。

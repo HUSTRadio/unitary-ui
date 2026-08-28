@@ -14,13 +14,13 @@ Command Menu
 
 ## 何时使用
 
--   需要在应用中提供一个全局键盘快捷键（如 ⌘K / Ctrl+K）触发的命令面板来搜索资源、跳转页面或执行操作。
--   菜单项数量可能超过大约 30 条，需要按类型或最近使用分组为多个页面，以避免单平铺列表过长。
+- 需要在应用中提供一个全局键盘快捷键（如 ⌘K / Ctrl+K）触发的命令面板来搜索资源、跳转页面或执行操作。
+- 菜单项数量可能超过大约 30 条，需要按类型或最近使用分组为多个页面，以避免单平铺列表过长。
 
 ## 何时不应使用
 
--   如果菜单仅作用于单个可见触发元素上的上下文操作，应改用 Menu 组件；如果是行上右键操作，应改用 ContextMenu。
--   如果需要为页面内某个过滤输入复用相同的快捷键绑定，不要将 ⌘K/Ctrl+K 同时绑给普通输入框——它是全局快捷键。
+- 如果菜单仅作用于单个可见触发元素上的上下文操作，应改用 Menu 组件；如果是行上右键操作，应改用 ContextMenu。
+- 如果需要为页面内某个过滤输入复用相同的快捷键绑定，不要将 ⌘K/Ctrl+K 同时绑给普通输入框——它是全局快捷键。
 
 ## 示例
 
@@ -38,9 +38,9 @@ Command Menu
 
 ## 无障碍
 
--   在面板打开时将所有焦点 trap 锁定在覆盖层内部，按下 Escape 关闭面板并释放焦点回到触发器。
--   每个命令项都应提供清晰的 Title Case 动词短语描述（例如 'Deploy Project'），避免使用歧义词汇。
--   当输入为空时展示最近或默认项目集合，确保无输入状态下菜单仍然可用。
+- 在面板打开时将所有焦点 trap 锁定在覆盖层内部，按下 Escape 关闭面板并释放焦点回到触发器。
+- 每个命令项都应提供清晰的 Title Case 动词短语描述（例如 'Deploy Project'），避免使用歧义词汇。
+- 当输入为空时展示最近或默认项目集合，确保无输入状态下菜单仍然可用。
 
 ## 受控行为
 
@@ -195,7 +195,14 @@ export function Component() {
 导入
 
 ```tsx
-import { CommandMenu, CommandMenuInput, CommandMenuList, CommandMenuGroup, CommandMenuItem, CommandMenuDivider } from "@/components/ui/command-menu"
+import {
+  CommandMenu,
+  CommandMenuInput,
+  CommandMenuList,
+  CommandMenuGroup,
+  CommandMenuItem,
+  CommandMenuDivider,
+} from "@/components/ui/command-menu";
 ```
 
 ### 属性与回调
@@ -204,10 +211,10 @@ import { CommandMenu, CommandMenuInput, CommandMenuList, CommandMenuGroup, Comma
 
 ## 最佳实践
 
--   全局、键盘优先、跨应用查找资源并执行动作的命令面板用 CommandMenu。从可见触发器打开、作用于单个资源的菜单用 Menu；行上右键用 ContextMenu。
--   当单个扁平列表超过约 30 项或横跨多种资源类型时，按页分组（Projects、Team Settings）。
--   macOS 绑定 ⌘K，其他平台绑定 Ctrl+K。不要把这个绑定复用给页内过滤输入；它是全局快捷键。
--   浮层打开时把焦点困在其中，Escape 关闭，关闭时释放焦点。
--   输入为空时显示最近或默认项目集，让菜单在输入前就有用。
--   项子内容是首字母大写的动词短语（Deploy Project、Invite Team Member）。命令是执行而非浏览；避免 Go to project page 这类导航措辞。
--   组标题首字母大写、1–2 个词（Actions、Recent）。
+- 全局、键盘优先、跨应用查找资源并执行动作的命令面板用 CommandMenu。从可见触发器打开、作用于单个资源的菜单用 Menu；行上右键用 ContextMenu。
+- 当单个扁平列表超过约 30 项或横跨多种资源类型时，按页分组（Projects、Team Settings）。
+- macOS 绑定 ⌘K，其他平台绑定 Ctrl+K。不要把这个绑定复用给页内过滤输入；它是全局快捷键。
+- 浮层打开时把焦点困在其中，Escape 关闭，关闭时释放焦点。
+- 输入为空时显示最近或默认项目集，让菜单在输入前就有用。
+- 项子内容是首字母大写的动词短语（Deploy Project、Invite Team Member）。命令是执行而非浏览；避免 Go to project page 这类导航措辞。
+- 组标题首字母大写、1–2 个词（Actions、Recent）。

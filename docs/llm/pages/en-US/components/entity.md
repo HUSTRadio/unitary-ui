@@ -14,14 +14,14 @@ A structured row for an entity and its primary action.
 
 ## When to use
 
--   For one descriptive object with one primary row action, like a membership row, integration row, or resource detail row.
--   When you need media, content, and actions in stable columns so loading and selected states do not shift the row layout.
+- For one descriptive object with one primary row action, like a membership row, integration row, or resource detail row.
+- When you need media, content, and actions in stable columns so loading and selected states do not shift the row layout.
 
 ## When not to use
 
--   Use Table when rows share comparable columns — Entity is for single-object rows, not tabular comparison.
--   A key/value metadata block on a detail page should use Description, not Entity.
--   Empty lists should render Empty State outside the table rather than empty Entity rows.
+- Use Table when rows share comparable columns — Entity is for single-object rows, not tabular comparison.
+- A key/value metadata block on a detail page should use Description, not Entity.
+- Empty lists should render Empty State outside the table rather than empty Entity rows.
 
 ## Examples
 
@@ -43,9 +43,9 @@ Entity uses fill layout so columns stretch proportionally to adapt to container 
 
 ## Accessibility
 
--   Primary action buttons require clear aria-labels naming the specific action and target resource.
--   Each Entity row is organized as an independent semantic block for screen-reader-friendly line-by-line narration.
--   Action-area links and buttons should have adequate touch target sizes.
+- Primary action buttons require clear aria-labels naming the specific action and target resource.
+- Each Entity row is organized as an independent semantic block for screen-reader-friendly line-by-line narration.
+- Action-area links and buttons should have adequate touch target sizes.
 
 ## Controlled behavior
 
@@ -53,29 +53,35 @@ Not applicable: Entity is fundamentally a presentation row component and does no
 
 ## Responsive behavior
 
--   Columns collapse or hide secondary content on narrow screens, prioritizing core information.
--   Action buttons may convert to icon-only buttons on mobile to save space.
--   Relative widths of the media/content/action columns dynamically allocate based on available space.
+- Columns collapse or hide secondary content on narrow screens, prioritizing core information.
+- Action buttons may convert to icon-only buttons on mobile to save space.
+- Relative widths of the media/content/action columns dynamically allocate based on available space.
 
 ## Theme behavior
 
--   Row background, borders, and hover highlights follow the application's CSS token system.
--   Dividers and hover effects transition correctly between dark and light modes.
+- Row background, borders, and hover highlights follow the application's CSS token system.
+- Dividers and hover effects transition correctly between dark and light modes.
 
 ## Live Demo
 
--   ![Avatar for evilrabbit](https://vercel.com/api/www/avatar?s=64&u=evilrabbit "Avatar for evilrabbit")
+- ![Avatar for evilrabbit](https://vercel.com/api/www/avatar?s=64&u=evilrabbit "Avatar for evilrabbit")
 
-    Evil Rabbit
+  Evil Rabbit
 
-    Glenn Hitchcock (@gln)
+  Glenn Hitchcock (@gln)
 
-    Connected 1h ago
-
+  Connected 1h ago
 
 ```tsx
 import { Avatar } from "@/components/ui/avatar";
-import { Entity, EntityAction, EntityContent, EntityDescription, EntityMedia, EntityTitle } from "@/components/ui/entity";
+import {
+  Entity,
+  EntityAction,
+  EntityContent,
+  EntityDescription,
+  EntityMedia,
+  EntityTitle,
+} from "@/components/ui/entity";
 
 <Entity>
   <EntityMedia>
@@ -88,7 +94,7 @@ import { Entity, EntityAction, EntityContent, EntityDescription, EntityMedia, En
   <EntityAction>
     <p className="text-copy-14 text-gray-900">Connected 1h ago</p>
   </EntityAction>
-</Entity>
+</Entity>;
 ```
 
 ```tsx
@@ -104,25 +110,30 @@ import { Skeleton } from "@/components/ui/skeleton";
       <Skeleton height={20} width={68} />
     </div>
   </div>
-</Entity>
+</Entity>;
 ```
 
--   GitHub Desktop on MacBook Pro
+- GitHub Desktop on MacBook Pro
 
-    Last used just now
+  Last used just now
 
--   VS Code on Windows 11
+- VS Code on Windows 11
 
-    Last used 10min ago
+  Last used 10min ago
 
--   Terminal on Ubuntu 24.04
+- Terminal on Ubuntu 24.04
 
-    Last used 25min ago
-
+  Last used 25min ago
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import { Entity, EntityAction, EntityContent, EntityDescription, EntityTitle } from "@/components/ui/entity";
+import {
+  Entity,
+  EntityAction,
+  EntityContent,
+  EntityDescription,
+  EntityTitle,
+} from "@/components/ui/entity";
 
 <ul className="flex flex-col">
   <Entity>
@@ -158,12 +169,18 @@ import { Entity, EntityAction, EntityContent, EntityDescription, EntityTitle } f
       </Button>
     </EntityAction>
   </Entity>
-</ul>
+</ul>;
 ```
 
 ```tsx
 import { Checkbox } from "@/components/ui/checkbox";
-import { Entity, EntityContent, EntityDescription, EntityMedia, EntityTitle } from "@/components/ui/entity";
+import {
+  Entity,
+  EntityContent,
+  EntityDescription,
+  EntityMedia,
+  EntityTitle,
+} from "@/components/ui/entity";
 import { useState } from "react";
 
 const items = [
@@ -213,13 +230,12 @@ const handleCheckboxChange = (id: string): void => {
       </EntityContent>
     </Entity>
   ))}
-</ul>
+</ul>;
 ```
 
--   This is a simple description
+- This is a simple description
 
-    This is a simple description
-
+  This is a simple description
 
 ```tsx
 import { Entity, EntityContent, EntityDescription } from "@/components/ui/entity";
@@ -233,17 +249,22 @@ import { Entity, EntityContent, EntityDescription } from "@/components/ui/entity
       <EntityDescription>This is a simple description</EntityDescription>
     </EntityContent>
   </Entity>
-</ul>
+</ul>;
 ```
 
--   Entity with dashed borders
+- Entity with dashed borders
 
-    \[some action\]
-
+  \[some action\]
 
 ```tsx
 import { Avatar } from "@/components/ui/avatar";
-import { Entity, EntityAction, EntityContent, EntityDescription, EntityMedia } from "@/components/ui/entity";
+import {
+  Entity,
+  EntityAction,
+  EntityContent,
+  EntityDescription,
+  EntityMedia,
+} from "@/components/ui/entity";
 
 <ul className="flex flex-col">
   <Entity
@@ -260,7 +281,7 @@ import { Entity, EntityAction, EntityContent, EntityDescription, EntityMedia } f
       <span className="text-copy-14 text-gray-900">[some action]</span>
     </EntityAction>
   </Entity>
-</ul>
+</ul>;
 ```
 
 ## API Reference
@@ -270,7 +291,14 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Entity, EntityMedia, EntityContent, EntityTitle, EntityDescription, EntityAction } from "@/components/ui/entity"
+import {
+  Entity,
+  EntityMedia,
+  EntityContent,
+  EntityTitle,
+  EntityDescription,
+  EntityAction,
+} from "@/components/ui/entity";
 ```
 
 ### Props & callbacks
@@ -279,5 +307,5 @@ import { Entity, EntityMedia, EntityContent, EntityTitle, EntityDescription, Ent
 
 ## Best Practices
 
--   Use Entity for one descriptive object with one primary row action; use Table when rows share comparable columns.
--   Keep media, content, and actions in stable columns so loading and selected states do not shift the row.
+- Use Entity for one descriptive object with one primary row action; use Table when rows share comparable columns.
+- Keep media, content, and actions in stable columns so loading and selected states do not shift the row.

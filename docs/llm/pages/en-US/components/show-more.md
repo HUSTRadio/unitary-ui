@@ -14,15 +14,15 @@ Shows expanded or collapsed content with a progressive-disclosure trigger.
 
 ## When to use
 
--   Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.
--   Show enough rows to convey the shape of the list before truncating (5–10 typical); this helps users understand the full scope of hidden content.
--   Pair the trigger with the count of hidden items so the user knows the cost of expanding (e.g., "Show 12 More"), then swap to "Show Less" after expand. Title Case both labels.
+- Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.
+- Show enough rows to convey the shape of the list before truncating (5–10 typical); this helps users understand the full scope of hidden content.
+- Pair the trigger with the count of hidden items so the user knows the cost of expanding (e.g., "Show 12 More"), then swap to "Show Less" after expand. Title Case both labels.
 
 ## When not to use
 
--   For sibling pages of the same data set, use Pagination rather than ShowMore; for optional sections, use Collapse instead.
--   Do not use ShowMore when truncating only 2 rows—it feels performative. Always show at least 5 rows before truncating.
--   Do not cycle Show More then Show Less mid-flow on the same data set; collapsing rows after expansion scrolls them away from where the user was reading.
+- For sibling pages of the same data set, use Pagination rather than ShowMore; for optional sections, use Collapse instead.
+- Do not use ShowMore when truncating only 2 rows—it feels performative. Always show at least 5 rows before truncating.
+- Do not cycle Show More then Show Less mid-flow on the same data set; collapsing rows after expansion scrolls them away from where the user was reading.
 
 ## Examples
 
@@ -40,24 +40,24 @@ Demonstrates the clean borderless style, suitable for seamlessly blending into p
 
 ## Accessibility
 
--   The trigger must be a <button> with aria-expanded, paired with aria-controls pointing to the target list region.
--   After expansion, move focus to the first newly revealed row so screen-reader and keyboard users land directly in the new content.
--   Announce the content change with aria-live="polite" once expansion completes.
+- The trigger must be a <button> with aria-expanded, paired with aria-controls pointing to the target list region.
+- After expansion, move focus to the first newly revealed row so screen-reader and keyboard users land directly in the new content.
+- Announce the content change with aria-live="polite" once expansion completes.
 
 ## Controlled behavior
 
--   Supports programmatic control of open/collapsed state via controlled properties, allowing developers to decide when to auto-expand or collapse.
--   Focus shifts to the first new row after the expand animation completes, ensuring keyboard navigation continuity.
+- Supports programmatic control of open/collapsed state via controlled properties, allowing developers to decide when to auto-expand or collapse.
+- Focus shifts to the first new row after the expand animation completes, ensuring keyboard navigation continuity.
 
 ## Responsive behavior
 
--   ShowMore continues to display the truncation affordance even with few pre-rendered rows; on narrow screens each row adapts its width without overflowing.
--   The trigger button maintains a fixed minimum tap target size across all screen widths for reliable touch interaction.
+- ShowMore continues to display the truncation affordance even with few pre-rendered rows; on narrow screens each row adapts its width without overflowing.
+- The trigger button maintains a fixed minimum tap target size across all screen widths for reliable touch interaction.
 
 ## Theme behavior
 
--   Button colors, hover states, and highlights follow Geist theme variables, adapting automatically between dark and light modes.
--   Border color and background can be customized via props to maintain consistency with the global theme.
+- Button colors, hover states, and highlights follow Geist theme variables, adapting automatically between dark and light modes.
+- Border color and background can be customized via props to maintain consistency with the global theme.
 
 ## Live Demo
 
@@ -77,13 +77,13 @@ export function Component() {
 ```tsx
 import { ShowMore } from "@/components/ui/show-more";
 
-<ShowMore expanded />
+<ShowMore expanded />;
 ```
 
 ```tsx
 import { ShowMore } from "@/components/ui/show-more";
 
-<ShowMore noBorder />
+<ShowMore noBorder />;
 ```
 
 ## API Reference
@@ -93,7 +93,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { ShowMore } from "@/components/ui/show-more"
+import { ShowMore } from "@/components/ui/show-more";
 ```
 
 ### Props & callbacks
@@ -102,9 +102,9 @@ import { ShowMore } from "@/components/ui/show-more"
 
 ## Best Practices
 
--   Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.
--   Show enough rows to convey the shape of the list before truncating (5–10 typical). Truncating at 2 makes the affordance feel performative.
--   Pair the trigger with the count of hidden items so the user knows the cost of expanding (Show 12 More, then Show Less after expand). Title Case both labels.
--   Don’t cycle Show More then Show Less mid-flow on the same data set; collapsing rows after the user expanded them scrolls them away from where they were reading.
--   Render hidden rows in the DOM when the count is small so find-in-page works; lazy-load only when the dataset is large enough to hurt initial render.
--   The trigger is a <button> with aria-expanded and aria-controls pointing at the list. After expansion, move focus to the first newly revealed row so screen readers and keyboard users land in the new content.
+- Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.
+- Show enough rows to convey the shape of the list before truncating (5–10 typical). Truncating at 2 makes the affordance feel performative.
+- Pair the trigger with the count of hidden items so the user knows the cost of expanding (Show 12 More, then Show Less after expand). Title Case both labels.
+- Don’t cycle Show More then Show Less mid-flow on the same data set; collapsing rows after the user expanded them scrolls them away from where they were reading.
+- Render hidden rows in the DOM when the count is small so find-in-page works; lazy-load only when the dataset is large enough to hurt initial render.
+- The trigger is a <button> with aria-expanded and aria-controls pointing at the list. After expansion, move focus to the first newly revealed row so screen readers and keyboard users land in the new content.

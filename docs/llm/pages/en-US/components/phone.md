@@ -14,13 +14,13 @@ Frames mobile screenshots inside a realistic phone shell.
 
 ## When to use
 
--   Around mobile screenshots, recordings, and demo images on landing pages, docs, and introduction pages, using Phone as marketing chrome.
--   When you need to show readers what a mobile app looks and feels like — the Phone frame provides a realistic mockup effect.
+- Around mobile screenshots, recordings, and demo images on landing pages, docs, and introduction pages, using Phone as marketing chrome.
+- When you need to show readers what a mobile app looks and feels like — the Phone frame provides a realistic mockup effect.
 
 ## When not to use
 
--   Don't render live mobile product UI inside the frame; the chrome implies a captured screenshot, not an interactive surface, and misleads users into thinking they can tap.
--   If you only need to demonstrate web responsiveness, use the Browser component instead — Browser is better suited for webpage screenshots.
+- Don't render live mobile product UI inside the frame; the chrome implies a captured screenshot, not an interactive surface, and misleads users into thinking they can tap.
+- If you only need to demonstrate web responsiveness, use the Browser component instead — Browser is better suited for webpage screenshots.
 
 ## Examples
 
@@ -38,8 +38,8 @@ Enables the Dynamic Island variant to showcase the latest iPhone's notch feature
 
 ## Accessibility
 
--   The Phone chrome is marked as decorative (aria-hidden); accessible naming belongs on the inner screenshot — screen readers will read the alt text of the embedded screenshot.
--   Set meaningful alt text on the inner mobile screenshot so screen reader users understand the screenshot's content and purpose.
+- The Phone chrome is marked as decorative (aria-hidden); accessible naming belongs on the inner screenshot — screen readers will read the alt text of the embedded screenshot.
+- Set meaningful alt text on the inner mobile screenshot so screen reader users understand the screenshot's content and purpose.
 
 ## Controlled behavior
 
@@ -47,13 +47,13 @@ Not applicable: Phone is a purely presentational chrome component with no intern
 
 ## Responsive behavior
 
--   The Phone frame maintains its aspect ratio across viewports, ensuring the phone shape looks consistent regardless of screen size.
--   The inner screenshot area scales proportionally with the container, though on wide screens a max-width constraint is typically recommended to avoid excessive stretching.
+- The Phone frame maintains its aspect ratio across viewports, ensuring the phone shape looks consistent regardless of screen size.
+- The inner screenshot area scales proportionally with the container, though on wide screens a max-width constraint is typically recommended to avoid excessive stretching.
 
 ## Theme behavior
 
--   The Phone frame's color, shadow, and border-radius are drawn from theme tokens, automatically adapting to light and dark mode contrast requirements.
--   The Safari Chrome variant's browser UI colors also follow the theme, maintaining a consistent visual style.
+- The Phone frame's color, shadow, and border-radius are drawn from theme tokens, automatically adapting to light and dark mode contrast requirements.
+- The Safari Chrome variant's browser UI colors also follow the theme, maintaining a consistent visual style.
 
 ## Live Demo
 
@@ -75,7 +75,7 @@ import { Phone, PhoneScreen } from "@/components/ui/phone";
       />
     </PhoneScreen>
   </Phone>
-</div>
+</div>;
 ```
 
 black
@@ -97,7 +97,7 @@ import { Phone, PhoneScreen } from "@/components/ui/phone";
       </PhoneScreen>
     </Phone>
   ))}
-</div>
+</div>;
 ```
 
 08:00
@@ -111,7 +111,7 @@ import { Phone, PhoneScreen } from "@/components/ui/phone";
   <PhoneScreen>
     <div className="flex h-full items-center justify-center bg-gray-alpha-100" />
   </PhoneScreen>
-</Phone>
+</Phone>;
 ```
 
 9:41
@@ -146,9 +146,13 @@ const [layout, setLayout] = useState<"compact" | "bottom" | "top">("compact");
 
 <Phone safari={{ layout, url: "vercel.com/geist" }}>
   <PhoneScreen>
-    <img src="/page.png" alt="Website shown in the Safari mockup" className="h-full w-full object-cover" />
+    <img
+      src="/page.png"
+      alt="Website shown in the Safari mockup"
+      className="h-full w-full object-cover"
+    />
   </PhoneScreen>
-</Phone>
+</Phone>;
 ```
 
 08:00
@@ -160,7 +164,7 @@ import { Phone, PhoneScreen } from "@/components/ui/phone";
 
 <Phone landscape>
   <PhoneScreen>{/* landscape screenshot */}</PhoneScreen>
-</Phone>
+</Phone>;
 ```
 
 ## API Reference
@@ -170,7 +174,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Phone, PhoneScreen } from "@/components/ui/phone"
+import { Phone, PhoneScreen } from "@/components/ui/phone";
 ```
 
 ### Props & callbacks
@@ -181,6 +185,6 @@ Phone is marketing chrome for framing mobile screenshots and recordings — not 
 
 ## Best Practices
 
--   Use Phone as marketing chrome around mobile screenshots, recordings, and demo images on landing pages and docs.
--   Don't render live mobile product UI inside the frame; the chrome implies a captured screen, not an interactive surface.
--   Treat the chrome as decorative (aria-hidden); accessible naming belongs on the inner screenshot.
+- Use Phone as marketing chrome around mobile screenshots, recordings, and demo images on landing pages and docs.
+- Don't render live mobile product UI inside the frame; the chrome implies a captured screen, not an interactive surface.
+- Treat the chrome as decorative (aria-hidden); accessible naming belongs on the inner screenshot.

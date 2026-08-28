@@ -14,13 +14,13 @@ A menu for contextual actions, revealed on right click or long press.
 
 ## When to use
 
--   Provide right-click or long-press contextual shortcut action menus on rows, files, or canvas objects.
--   Mirror every menu action in both the right-click menu and a visible Menu trigger or row button, ensuring parity between mouse-only and keyboard-only users.
+- Provide right-click or long-press contextual shortcut action menus on rows, files, or canvas objects.
+- Mirror every menu action in both the right-click menu and a visible Menu trigger or row button, ensuring parity between mouse-only and keyboard-only users.
 
 ## When not to use
 
--   ContextMenu must never be the only entry point for an action—always mirror items in a visible Menu trigger or row button so keyboard users have equivalent access.
--   Suppress the native browser menu only on the trigger area, not the entire page.
+- ContextMenu must never be the only entry point for an action—always mirror items in a visible Menu trigger or row button so keyboard users have equivalent access.
+- Suppress the native browser menu only on the trigger area, not the entire page.
 
 ## Examples
 
@@ -42,9 +42,9 @@ Adds prefix icons and suffix labels to menu items, showing status indicators or 
 
 ## Accessibility
 
--   Set semantic aria-labels on each menu item to ensure screen readers correctly announce the action content.
--   Bind to right-click on desktop and long-press on touch; Shift+F10 on Windows/Linux opens the same menu without right-click.
--   Follow the same Title Case Verb + Noun format for menu items as Menu (e.g., 'Open in New Tab', 'Copy URL', 'Delete Deployment').
+- Set semantic aria-labels on each menu item to ensure screen readers correctly announce the action content.
+- Bind to right-click on desktop and long-press on touch; Shift+F10 on Windows/Linux opens the same menu without right-click.
+- Follow the same Title Case Verb + Noun format for menu items as Menu (e.g., 'Open in New Tab', 'Copy URL', 'Delete Deployment').
 
 ## Controlled behavior
 
@@ -84,7 +84,7 @@ import {
     <ContextMenuItem>Item Three</ContextMenuItem>
     <ContextMenuItem>Item Four</ContextMenuItem>
   </ContextMenuContent>
-</ContextMenu>
+</ContextMenu>;
 ```
 
 Right click here
@@ -111,7 +111,7 @@ import {
     <ContextMenuItem disabled>Item Three</ContextMenuItem>
     <ContextMenuItem>Item Four</ContextMenuItem>
   </ContextMenuContent>
-</ContextMenu>
+</ContextMenu>;
 ```
 
 Right click here
@@ -138,7 +138,7 @@ import {
     <ContextMenuItem href="/">Item Three</ContextMenuItem>
     <ContextMenuItem href="/">Item Four</ContextMenuItem>
   </ContextMenuContent>
-</ContextMenu>
+</ContextMenu>;
 ```
 
 Right click here
@@ -166,10 +166,18 @@ const icon = <Triangle className="size-4" aria-hidden />;
       </span>
     </ContextMenuTrigger>
     <ContextMenuContent className="w-[160px]">
-      <ContextMenuItem href="/" prefix={icon}>Item one</ContextMenuItem>
-      <ContextMenuItem href="/" prefix={icon}>Item Two</ContextMenuItem>
-      <ContextMenuItem href="/" prefix={icon}>Item Three</ContextMenuItem>
-      <ContextMenuItem href="/" prefix={icon}>Item Four</ContextMenuItem>
+      <ContextMenuItem href="/" prefix={icon}>
+        Item one
+      </ContextMenuItem>
+      <ContextMenuItem href="/" prefix={icon}>
+        Item Two
+      </ContextMenuItem>
+      <ContextMenuItem href="/" prefix={icon}>
+        Item Three
+      </ContextMenuItem>
+      <ContextMenuItem href="/" prefix={icon}>
+        Item Four
+      </ContextMenuItem>
     </ContextMenuContent>
   </ContextMenu>
   <ContextMenu>
@@ -181,13 +189,21 @@ const icon = <Triangle className="size-4" aria-hidden />;
       </span>
     </ContextMenuTrigger>
     <ContextMenuContent className="w-[160px]">
-      <ContextMenuItem href="/" suffix={icon}>Item one</ContextMenuItem>
-      <ContextMenuItem href="/" suffix={icon}>Item Two</ContextMenuItem>
-      <ContextMenuItem href="/" suffix={icon}>Item Three</ContextMenuItem>
-      <ContextMenuItem href="/" suffix={icon}>Item Four</ContextMenuItem>
+      <ContextMenuItem href="/" suffix={icon}>
+        Item one
+      </ContextMenuItem>
+      <ContextMenuItem href="/" suffix={icon}>
+        Item Two
+      </ContextMenuItem>
+      <ContextMenuItem href="/" suffix={icon}>
+        Item Three
+      </ContextMenuItem>
+      <ContextMenuItem href="/" suffix={icon}>
+        Item Four
+      </ContextMenuItem>
     </ContextMenuContent>
   </ContextMenu>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -197,7 +213,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { ContextMenu, ContextMenuItem, ContextMenuSeparator } from "@/components/ui/context-menu"
+import { ContextMenu, ContextMenuItem, ContextMenuSeparator } from "@/components/ui/context-menu";
 ```
 
 ### Props & callbacks
@@ -206,10 +222,10 @@ import { ContextMenu, ContextMenuItem, ContextMenuSeparator } from "@/components
 
 ## Best Practices
 
--   Use ContextMenu for power-user shortcuts on right-click or long-press over a row, file, or canvas object.
--   ContextMenu must never be the only entry point for an action. Mirror every item in a visible Menu trigger or row button so mouse-only and keyboard-only users have parity.
--   Bind to right-click on desktop and long-press on touch. Suppress the native browser menu only on the trigger area, not the whole page.
--   Close on activation, Escape, and outside-click. Don't close on hover-out.
--   Items follow the same rules as Menu: Title Case Verb + Noun (Open in New Tab, Copy URL, Delete Deployment). Bare verbs are wrong.
--   Group destructive items at the bottom with a divider and keep the destructive label Verb + Noun.
--   The keyboard menu key (Shift+F10 on Windows/Linux) opens the same menu without right-click.
+- Use ContextMenu for power-user shortcuts on right-click or long-press over a row, file, or canvas object.
+- ContextMenu must never be the only entry point for an action. Mirror every item in a visible Menu trigger or row button so mouse-only and keyboard-only users have parity.
+- Bind to right-click on desktop and long-press on touch. Suppress the native browser menu only on the trigger area, not the whole page.
+- Close on activation, Escape, and outside-click. Don't close on hover-out.
+- Items follow the same rules as Menu: Title Case Verb + Noun (Open in New Tab, Copy URL, Delete Deployment). Bare verbs are wrong.
+- Group destructive items at the bottom with a divider and keep the destructive label Verb + Noun.
+- The keyboard menu key (Shift+F10 on Windows/Linux) opens the same menu without right-click.

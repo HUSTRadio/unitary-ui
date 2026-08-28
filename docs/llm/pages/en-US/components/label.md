@@ -14,14 +14,14 @@ Accessible text label for form controls.
 
 ## When to use
 
--   When a visible text label needs to be associated with a form control so screen readers announce the field name.
--   By matching the label to the control via htmlFor and the control's id so clicking the label focuses the field.
--   Keep labels short Title Case nouns such as Project Name, Domain, and Environment Variable Name.
+- When a visible text label needs to be associated with a form control so screen readers announce the field name.
+- By matching the label to the control via htmlFor and the control's id so clicking the label focuses the field.
+- Keep labels short Title Case nouns such as Project Name, Domain, and Environment Variable Name.
 
 ## When not to use
 
--   Don't wrap a labelled Input in a Tooltip; put the explainer on a sibling icon button so the label stays announced to screen readers.
--   When no form control association or accessibility announcement is needed, use plain text paragraphs directly instead.
+- Don't wrap a labelled Input in a Tooltip; put the explainer on a sibling icon button so the label stays announced to screen readers.
+- When no form control association or accessibility announcement is needed, use plain text paragraphs directly instead.
 
 ## Examples
 
@@ -39,8 +39,8 @@ Use bypassCasing when the label text requires preserving specific capitalization
 
 ## Accessibility
 
--   Label associates with form controls via htmlFor/id pairing so screen readers correctly announce the field name, enabling users with disabilities to understand each field's purpose.
--   All labelled inputs must wire helper text through aria-describedby to associate supplementary instructions with the input control.
+- Label associates with form controls via htmlFor/id pairing so screen readers correctly announce the field name, enabling users with disabilities to understand each field's purpose.
+- All labelled inputs must wire helper text through aria-describedby to associate supplementary instructions with the input control.
 
 ## Controlled behavior
 
@@ -52,8 +52,8 @@ Not applicable: The Label component itself involves no responsive layout logic. 
 
 ## Theme behavior
 
--   Label text color is drawn from theme tokens, ensuring good readability and contrast in both light and dark modes.
--   Font size and weight follow the design system's typography scale, maintaining consistent visual hierarchy with adjacent inputs.
+- Label text color is drawn from theme tokens, ensuring good readability and contrast in both light and dark modes.
+- Font size and weight follow the design system's typography scale, maintaining consistent visual hierarchy with adjacent inputs.
 
 ## Live Demo
 
@@ -62,7 +62,7 @@ This is a label
 ```tsx
 import { Label } from "@/components/ui/label";
 
-<Label id="label-default" value="This is a label" />
+<Label id="label-default" value="This is a label" />;
 ```
 
 Email Address
@@ -79,12 +79,8 @@ import { Label } from "@/components/ui/label";
 
 <div className="flex w-full max-w-sm flex-col">
   <Label id="label-input" value="Email Address" withInput />
-  <Input
-    aria-labelledby="label-input"
-    id="label-input"
-    placeholder="Enter email address..."
-  />
-</div>
+  <Input aria-labelledby="label-input" id="label-input" placeholder="Enter email address..." />
+</div>;
 ```
 
 ## Bypass Casing
@@ -102,7 +98,7 @@ import { Label } from "@/components/ui/label";
     id="label-input-bypass"
     placeholder="Enter email address..."
   />
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -112,7 +108,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/label";
 ```
 
 Native props: `LabelHTMLAttributes<HTMLLabelElement>`
@@ -123,6 +119,6 @@ Native props: `LabelHTMLAttributes<HTMLLabelElement>`
 
 ## Best Practices
 
--   Use Label to associate a visible text label with a form control so screen readers announce the field name.
--   Match the label to the control via htmlFor and the control's id so clicking the label focuses the field.
--   Keep labels short Title Case nouns: Project Name, Domain, Environment Variable Name.
+- Use Label to associate a visible text label with a form control so screen readers announce the field name.
+- Match the label to the control via htmlFor and the control's id so clicking the label focuses the field.
+- Keep labels short Title Case nouns: Project Name, Domain, Environment Variable Name.

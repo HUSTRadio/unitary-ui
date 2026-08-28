@@ -14,15 +14,15 @@ Fieldset
 
 ## 何时使用
 
--   当需要将一组相关的表单控件归并为一个带有标题、支持文案和可选页脚的语义单元时使用。
--   在设置页面中组织功能分组，如通知设置、安全设置等，每组使用独立的 Fieldset。
--   当整个配置区块需要有统一的状态语义（如 type=error 或 type=warning）来传达整体级别的问题。
+- 当需要将一组相关的表单控件归并为一个带有标题、支持文案和可选页脚的语义单元时使用。
+- 在设置页面中组织功能分组，如通知设置、安全设置等，每组使用独立的 Fieldset。
+- 当整个配置区块需要有统一的状态语义（如 type=error 或 type=warning）来传达整体级别的问题。
 
 ## 何时不应使用
 
--   不要用 Fieldset 来构建非表单类的内容区块——它的语义是为表单控件分组设计的。
--   不要在一个 Fieldset 中混入过多不相干的选项——每组应保持话题的一致性，超过 6-8 项应考虑分组。
--   不要用手动构建的额外卡片外壳替代 FieldsetContent 和 FieldsetFooterActions 的标准子组件。
+- 不要用 Fieldset 来构建非表单类的内容区块——它的语义是为表单控件分组设计的。
+- 不要在一个 Fieldset 中混入过多不相干的选项——每组应保持话题的一致性，超过 6-8 项应考虑分组。
+- 不要用手动构建的额外卡片外壳替代 FieldsetContent 和 FieldsetFooterActions 的标准子组件。
 
 ## 示例
 
@@ -44,25 +44,25 @@ Fieldset
 
 ## 无障碍
 
--   Fieldset 的 legend（标题）会被屏幕阅读器在每个所属表单控件上自动朗读，帮助建立控件归属关系。
--   禁用的 Fieldset 内部控件虽然不可操作，但应保持在 DOM 中并使用 aria-disabled 标记以保持顺序。
--   错误和警告类型的 Fieldset 应在标题附近添加醒目的无障碍提示，如 aria-live 区域。
+- Fieldset 的 legend（标题）会被屏幕阅读器在每个所属表单控件上自动朗读，帮助建立控件归属关系。
+- 禁用的 Fieldset 内部控件虽然不可操作，但应保持在 DOM 中并使用 aria-disabled 标记以保持顺序。
+- 错误和警告类型的 Fieldset 应在标题附近添加醒目的无障碍提示，如 aria-live 区域。
 
 ## 受控行为
 
--   Fieldset 可以通过 disabled 属性整体控制所有内部子控件的启用/禁用状态，简化批量管理。
--   type 属性（error/warning）由调用方控制，用于传达整个配置区块的语义状态。
--   内部的 FieldsetContent 和 FieldsetFooterActions 子组件接受各自的受控 props 来自定义行为。
+- Fieldset 可以通过 disabled 属性整体控制所有内部子控件的启用/禁用状态，简化批量管理。
+- type 属性（error/warning）由调用方控制，用于传达整个配置区块的语义状态。
+- 内部的 FieldsetContent 和 FieldsetFooterActions 子组件接受各自的受控 props 来自定义行为。
 
 ## 响应式行为
 
--   Fieldset 内部表单控件在窄屏上垂直堆叠排列，在大屏上使用横向布局提升空间利用率。
--   标题文本在窄屏上可能缩减字号或允许换行，确保小视口下标题的可读性不被破坏。
+- Fieldset 内部表单控件在窄屏上垂直堆叠排列，在大屏上使用横向布局提升空间利用率。
+- 标题文本在窄屏上可能缩减字号或允许换行，确保小视口下标题的可读性不被破坏。
 
 ## 主题行为
 
--   Fieldset 的边框、分割线和标题强调色跟随应用的主题变量，在暗色/亮色模式下自动适配。
--   禁用状态的灰色调和半透明效果通过 CSS 变量从主题令牌获取，确保跨主题的视觉一致性。
+- Fieldset 的边框、分割线和标题强调色跟随应用的主题变量，在暗色/亮色模式下自动适配。
+- 禁用状态的灰色调和半透明效果通过 CSS 变量从主题令牌获取，确保跨主题的视觉一致性。
 
 ## 实时示例
 
@@ -102,7 +102,7 @@ import {
       <FieldsetFooterAction>Save Changes</FieldsetFooterAction>
     </FieldsetFooterActions>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Transfer Project
@@ -131,7 +131,7 @@ import {
       <span>You need additional permissions to transfer projects.</span>
     </FieldsetFooterStatus>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Privacy Policy
@@ -156,11 +156,10 @@ import {
   <FieldsetContent>
     <FieldsetTitle>Privacy Policy</FieldsetTitle>
     <FieldsetSubtitle>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam volutpat, nunc vel
-      ultrices sollicitudin, dolor eros volutpat ex, et sagittis sem enim in eros. Curabitur eu
-      consequat neque, non finibus odio. Donec vitae tellus eu mauris feugiat efficitur.
-      Maecenas blandit sit amet tellus vel blandit. Phasellus ultrices vulputate arcu, vel
-      dictum erat facilisis et.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam volutpat, nunc vel ultrices
+      sollicitudin, dolor eros volutpat ex, et sagittis sem enim in eros. Curabitur eu consequat
+      neque, non finibus odio. Donec vitae tellus eu mauris feugiat efficitur. Maecenas blandit sit
+      amet tellus vel blandit. Phasellus ultrices vulputate arcu, vel dictum erat facilisis et.
     </FieldsetSubtitle>
   </FieldsetContent>
   <FieldsetFooter>
@@ -172,7 +171,7 @@ import {
       <FieldsetFooterAction>Accept</FieldsetFooterAction>
     </FieldsetFooterActions>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Personal Information
@@ -239,9 +238,7 @@ import {
   <Fieldset>
     <FieldsetContent disabled>
       <FieldsetTitle>API Access</FieldsetTitle>
-      <FieldsetSubtitle>
-        Generate and manage API tokens for programmatic access
-      </FieldsetSubtitle>
+      <FieldsetSubtitle>Generate and manage API tokens for programmatic access</FieldsetSubtitle>
     </FieldsetContent>
     <FieldsetFooter highlight>
       <FieldsetFooterStatus>
@@ -249,7 +246,7 @@ import {
       </FieldsetFooterStatus>
     </FieldsetFooter>
   </Fieldset>
-</div>
+</div>;
 ```
 
 #### Account Information
@@ -272,7 +269,7 @@ import {
       ultricies, nisl nisl aliquam nisl.
     </FieldsetSubtitle>
   </FieldsetContent>
-</Fieldset>
+</Fieldset>;
 ```
 
 This fieldset contains only a subtitle with no title. It can be used for informational sections or supplementary content.
@@ -300,7 +297,7 @@ import {
       <span>Information only</span>
     </FieldsetFooterStatus>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### API Configuration
@@ -329,9 +326,7 @@ import {
     <FieldsetTitle>API Configuration</FieldsetTitle>
     <FieldsetSubtitle>Configure your API endpoint and authentication</FieldsetSubtitle>
     <div className="mt-4">
-      <ErrorText>
-        API key validation failed. Please check your credentials and try again.
-      </ErrorText>
+      <ErrorText>API key validation failed. Please check your credentials and try again.</ErrorText>
     </div>
   </FieldsetContent>
   <FieldsetFooter>
@@ -342,7 +337,7 @@ import {
       <FieldsetFooterAction>Verify API Connection</FieldsetFooterAction>
     </FieldsetFooterActions>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Database Settings
@@ -372,8 +367,8 @@ import {
     <FieldsetSubtitle>Configure your database connection parameters</FieldsetSubtitle>
     <div className="mt-4">
       <WarningText>
-        Changing these settings will require a restart of your application. Make sure to save
-        any pending work.
+        Changing these settings will require a restart of your application. Make sure to save any
+        pending work.
       </WarningText>
     </div>
   </FieldsetContent>
@@ -386,7 +381,7 @@ import {
       <FieldsetFooterAction>Apply Changes</FieldsetFooterAction>
     </FieldsetFooterActions>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Advanced Features
@@ -429,7 +424,7 @@ import {
       <span>Upgrade to a Pro plan to access these features.</span>
     </FieldsetFooterStatus>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Payment Failed
@@ -454,8 +449,8 @@ import {
   <FieldsetContent>
     <FieldsetTitle>Payment Failed</FieldsetTitle>
     <FieldsetSubtitle>
-      Your payment method was declined. Please update your billing information to continue using
-      the service.
+      Your payment method was declined. Please update your billing information to continue using the
+      service.
     </FieldsetSubtitle>
   </FieldsetContent>
   <FieldsetFooter>
@@ -467,7 +462,7 @@ import {
       <FieldsetFooterAction>Update Payment Method</FieldsetFooterAction>
     </FieldsetFooterActions>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Trial Ending Soon
@@ -505,7 +500,7 @@ import {
       <FieldsetFooterAction>Add Payment Method</FieldsetFooterAction>
     </FieldsetFooterActions>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 ## API 参考
@@ -515,7 +510,15 @@ import {
 导入
 
 ```tsx
-import { Fieldset, FieldsetTitle, FieldsetSubtitle, FieldsetContent, FieldsetFooter, FieldsetFooterStatus, FieldsetFooterAction } from "@/components/ui/fieldset"
+import {
+  Fieldset,
+  FieldsetTitle,
+  FieldsetSubtitle,
+  FieldsetContent,
+  FieldsetFooter,
+  FieldsetFooterStatus,
+  FieldsetFooterAction,
+} from "@/components/ui/fieldset";
 ```
 
 ### 属性与回调
@@ -524,7 +527,7 @@ import { Fieldset, FieldsetTitle, FieldsetSubtitle, FieldsetContent, FieldsetFoo
 
 ## 最佳实践
 
--   带标题、辅助文案和可选页脚状态/动作的单个设置界面用 Fieldset。
--   正文放 FieldsetContent、动作放 FieldsetFooterActions；不要手搭额外的卡片或页脚壳。
--   不可用区块用 disabled content 或 DisabledWall，同时保持说明性页脚可读。
--   仅当整个表面携带该语义状态时才用 type=error 或 type=warning；内联消息用 ErrorText 或 WarningText。
+- 带标题、辅助文案和可选页脚状态/动作的单个设置界面用 Fieldset。
+- 正文放 FieldsetContent、动作放 FieldsetFooterActions；不要手搭额外的卡片或页脚壳。
+- 不可用区块用 disabled content 或 DisabledWall，同时保持说明性页脚可读。
+- 仅当整个表面携带该语义状态时才用 type=error 或 type=warning；内联消息用 ErrorText 或 WarningText。

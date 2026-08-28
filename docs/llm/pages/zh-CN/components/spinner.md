@@ -14,15 +14,15 @@ Spinner
 
 ## 何时使用
 
--   对没有明确进度信息的单次进行中操作使用 Spinner，此时无法提供确定的百分比或时长。
--   在按钮上使用 loading 状态而非替换为 Spinner，这样忙碌的元素仍然可聚焦且可以向辅助技术广播忙闲状态。
--   为独立的 Spinner 配上文字标签或 aria-label，让加载状态被辅助技术正确播报。
+- 对没有明确进度信息的单次进行中操作使用 Spinner，此时无法提供确定的百分比或时长。
+- 在按钮上使用 loading 状态而非替换为 Spinner，这样忙碌的元素仍然可聚焦且可以向辅助技术广播忙闲状态。
+- 为独立的 Spinner 配上文字标签或 aria-label，让加载状态被辅助技术正确播报。
 
 ## 何时不应使用
 
--   已知持续时间或百分比的场景请使用 Progress 组件，而非 Spinner。
--   不要在同一行中将 Loading Dots 与其他动画指示器混用——这会造成视觉冲突并浪费资源。
--   部署生命周期的中间状态（BUILDING / QUEUED）应由 Status Dot 处理，不要额外添加 Spinner。
+- 已知持续时间或百分比的场景请使用 Progress 组件，而非 Spinner。
+- 不要在同一行中将 Loading Dots 与其他动画指示器混用——这会造成视觉冲突并浪费资源。
+- 部署生命周期的中间状态（BUILDING / QUEUED）应由 Status Dot 处理，不要额外添加 Spinner。
 
 ## 示例
 
@@ -32,9 +32,9 @@ Spinner
 
 ## 无障碍
 
--   独立的 Spinner 必须搭配 aria-label 或文字说明，告知用户当前在等待什么操作完成。
--   Spinner 本身是装饰性的，其含义应由相邻的文字或 aria-live 区域承担，避免空转的轮子被误认为可交互元素。
--   尊重 prefers-reduced-motion 设置，在低强度模式下降低旋转频率或停止动画。
+- 独立的 Spinner 必须搭配 aria-label 或文字说明，告知用户当前在等待什么操作完成。
+- Spinner 本身是装饰性的，其含义应由相邻的文字或 aria-live 区域承担，避免空转的轮子被误认为可交互元素。
+- 尊重 prefers-reduced-motion 设置，在低强度模式下降低旋转频率或停止动画。
 
 ## 受控行为
 
@@ -42,13 +42,13 @@ Spinner
 
 ## 响应式行为
 
--   Spinner 的尺寸通过 props 显式指定，在任何视口下都保持一致的视觉密度和可读性。
--   在不同密度的 UI 层级中（密集表格行 vs 全屏弹窗），Spinner 自动适配相应的大小比例。
+- Spinner 的尺寸通过 props 显式指定，在任何视口下都保持一致的视觉密度和可读性。
+- 在不同密度的 UI 层级中（密集表格行 vs 全屏弹窗），Spinner 自动适配相应的大小比例。
 
 ## 主题行为
 
--   Spinner 的颜色通过主题变量管理，暗色/亮色模式下自动选用合适的色彩保证对比度。
--   可通过 props 传入自定义颜色值，与品牌色系或特定语义保持一致。
+- Spinner 的颜色通过主题变量管理，暗色/亮色模式下自动选用合适的色彩保证对比度。
+- 可通过 props 传入自定义颜色值，与品牌色系或特定语义保持一致。
 
 ## 实时示例
 
@@ -96,7 +96,7 @@ import { Spinner } from "@/components/ui/spinner";
     <span className="w-24 text-copy-14 text-muted-foreground">Blue:</span>
     <Spinner className="text-blue-700" />
   </div>
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -106,7 +106,7 @@ import { Spinner } from "@/components/ui/spinner";
 导入
 
 ```tsx
-import { Spinner } from "@/components/ui/spinner"
+import { Spinner } from "@/components/ui/spinner";
 ```
 
 ### 属性与回调
@@ -115,7 +115,7 @@ import { Spinner } from "@/components/ui/spinner"
 
 ## 最佳实践
 
--   单个进行中的动作或没有已知进度可显示的确定性等待用 Spinner。
--   有已知时长或百分比时用 Progress 而非 spinner。
--   优先在动作控件本身上使用 loading 状态（如 Button loading），让忙碌元素保持可聚焦。
--   独立 Spinner 配文字标签或 aria-label，让加载状态被播报给辅助技术。
+- 单个进行中的动作或没有已知进度可显示的确定性等待用 Spinner。
+- 有已知时长或百分比时用 Progress 而非 spinner。
+- 优先在动作控件本身上使用 loading 状态（如 Button loading），让忙碌元素保持可聚焦。
+- 独立 Spinner 配文字标签或 aria-label，让加载状态被播报给辅助技术。

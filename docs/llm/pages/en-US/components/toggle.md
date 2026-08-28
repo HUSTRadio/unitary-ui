@@ -14,13 +14,13 @@ A switch for a single boolean setting.
 
 ## When to use
 
--   For a single boolean setting where ON takes effect right away (e.g., password protection, auto-cancel builds). Use Toggle instead of Checkbox for multi-select lists, or Switch for 2–3 mutually exclusive views.
--   When you need a clear on/off toggle for one independent setting presented alongside other form controls.
+- For a single boolean setting where ON takes effect right away (e.g., password protection, auto-cancel builds). Use Toggle instead of Checkbox for multi-select lists, or Switch for 2–3 mutually exclusive views.
+- When you need a clear on/off toggle for one independent setting presented alongside other form controls.
 
 ## When not to use
 
--   For selecting multiple items from a list; use Checkbox instead. Toggle only expresses a single on/off state.
--   For switching between two or more mutually exclusive views; use Switch instead. Toggle is designed for a single boolean setting.
+- For selecting multiple items from a list; use Checkbox instead. Toggle only expresses a single on/off state.
+- For switching between two or more mutually exclusive views; use Switch instead. Toggle is designed for a single boolean setting.
 
 ## Examples
 
@@ -42,13 +42,13 @@ Passes a Title Case label through children and pairs it with descriptive copy ex
 
 ## Accessibility
 
--   Provide an accessible name through children, aria-label, or aria-labelledby. Geist warns in development if all three are missing.
--   Set aria-label only when the visible label sits elsewhere on the row; otherwise let children carry both visual and screen-reader labels.
+- Provide an accessible name through children, aria-label, or aria-labelledby. Geist warns in development if all three are missing.
+- Set aria-label only when the visible label sits elsewhere on the row; otherwise let children carry both visual and screen-reader labels.
 
 ## Controlled behavior
 
--   checked is required and the component is controlled. Own the state and update it from onChange.
--   Persist on change and surface the result in a useToasts().success(…) toast (Password protection enabled); don't leave the user wondering whether the flip stuck.
+- checked is required and the component is controlled. Own the state and update it from onChange.
+- Persist on change and surface the result in a useToasts().success(…) toast (Password protection enabled); don't leave the user wondering whether the flip stuck.
 
 ## Responsive behavior
 
@@ -56,7 +56,7 @@ Not applicable: Toggle is a small boolean switch whose behavior and layout remai
 
 ## Theme behavior
 
--   Toggle follows the theme color system; the filled-on state color switches automatically with the current theme, ensuring sufficient contrast in all palette schemes.
+- Toggle follows the theme color system; the filled-on state color switches automatically with the current theme, ensuring sufficient contrast in all palette schemes.
 
 ## Live Demo
 
@@ -91,7 +91,7 @@ import { Toggle } from "@/components/ui/toggle";
 <div className="flex flex-col">
   <Toggle aria-label="Enable Firewall" checked={false} readOnly disabled />
   <Toggle aria-label="Enable Firewall" checked readOnly disabled />
-</div>
+</div>;
 ```
 
 ```tsx
@@ -101,7 +101,7 @@ import { Toggle } from "@/components/ui/toggle";
   <Toggle aria-label="Enable Firewall" checked={false} readOnly />
   <Toggle aria-label="Enable Firewall" checked={false} readOnly size="medium" />
   <Toggle aria-label="Enable Firewall" checked={false} readOnly size="large" />
-</div>
+</div>;
 ```
 
 ```tsx
@@ -260,7 +260,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Toggle } from "@/components/ui/toggle"
+import { Toggle } from "@/components/ui/toggle";
 ```
 
 ### Props & callbacks
@@ -269,12 +269,12 @@ import { Toggle } from "@/components/ui/toggle"
 
 ## Best Practices
 
--   Use Toggle for a single boolean setting where ON takes effect immediately, like Password Protection or Auto-Cancel Builds. Switch to Checkbox for a multi-select list, or to Switch for 2–3 mutually exclusive views.
--   checked is required and the component is controlled. Own the state and update it from onChange.
--   Persist on change and surface the result in a useToasts().success(…) toast (Password protection enabled); don’t leave the user wondering whether the flip stuck. Pair with a form footer only when the setting needs an explicit Save step.
--   Disable Toggle only when the action is impossible (missing plan, locked policy); pair with helper text or a Tooltip that names the resolver.
--   The label is children, not a label prop. Title Case noun phrase, 1–4 words, naming what is true when ON: Password Protection, not Enable Password Protection.
--   Render an optional one-sentence description as a sibling under the label that explains ON only. Don’t describe OFF; it’s the negation.
--   Keep labelCasing="title" (the default) so labels match other Title Case surfaces. Use labelCasing="normal" only when sentence-case content sits inline next to the toggle.
--   Provide an accessible name through children, aria-label, or aria-labelledby. Geist warns in development if all three are missing.
--   Set aria-label only when the visible label sits elsewhere on the row; otherwise let children carry it so sighted and screen-reader copy stay aligned.
+- Use Toggle for a single boolean setting where ON takes effect immediately, like Password Protection or Auto-Cancel Builds. Switch to Checkbox for a multi-select list, or to Switch for 2–3 mutually exclusive views.
+- checked is required and the component is controlled. Own the state and update it from onChange.
+- Persist on change and surface the result in a useToasts().success(…) toast (Password protection enabled); don’t leave the user wondering whether the flip stuck. Pair with a form footer only when the setting needs an explicit Save step.
+- Disable Toggle only when the action is impossible (missing plan, locked policy); pair with helper text or a Tooltip that names the resolver.
+- The label is children, not a label prop. Title Case noun phrase, 1–4 words, naming what is true when ON: Password Protection, not Enable Password Protection.
+- Render an optional one-sentence description as a sibling under the label that explains ON only. Don’t describe OFF; it’s the negation.
+- Keep labelCasing="title" (the default) so labels match other Title Case surfaces. Use labelCasing="normal" only when sentence-case content sits inline next to the toggle.
+- Provide an accessible name through children, aria-label, or aria-labelledby. Geist warns in development if all three are missing.
+- Set aria-label only when the visible label sits elsewhere on the row; otherwise let children carry it so sighted and screen-reader copy stay aligned.

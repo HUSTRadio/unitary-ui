@@ -14,15 +14,15 @@ Fills spaces when no content has been added yet or a view is empty.
 
 ## When to use
 
--   When a filtered list returns zero results (no-results variant) or a resource has not yet been created (blank slate variant).
--   When a user lands on a route they cannot view — render the permission denial variant full-page with navigation guidance.
--   For cleared states after completed work or finished downloads.
+- When a filtered list returns zero results (no-results variant) or a resource has not yet been created (blank slate variant).
+- When a user lands on a route they cannot view — render the permission denial variant full-page with navigation guidance.
+- For cleared states after completed work or finished downloads.
 
 ## When not to use
 
--   Don't put critical persistent warnings in Empty States — they vanish when the list populates; persistent warnings belong in a Note or the page header.
--   Normal loaded views with data should not show Empty State — asynchronously failed loads should use the Error component instead.
--   Three CTAs make an empty state bloated — cap at one primary plus one secondary action.
+- Don't put critical persistent warnings in Empty States — they vanish when the list populates; persistent warnings belong in a Note or the page header.
+- Normal loaded views with data should not show Empty State — asynchronously failed loads should use the Error component instead.
+- Three CTAs make an empty state bloated — cap at one primary plus one secondary action.
 
 ## Examples
 
@@ -40,9 +40,9 @@ An empty-state variant that provides additional context to help users understand
 
 ## Accessibility
 
--   Wrap the region in aria-live="polite" after an async filter change so screen readers announce the new state.
--   Title is Title Case; description is sentence case and adds new information instead of restating the title.
--   Decorative icons use aria-hidden; meaningful accessible names live in the text content.
+- Wrap the region in aria-live="polite" after an async filter change so screen readers announce the new state.
+- Title is Title Case; description is sentence case and adds new information instead of restating the title.
+- Decorative icons use aria-hidden; meaningful accessible names live in the text content.
 
 ## Controlled behavior
 
@@ -50,13 +50,13 @@ Not applicable: Empty State is a presentation-only component driven by whether t
 
 ## Responsive behavior
 
--   CTA buttons stack vertically on narrow screens and can sit horizontally aligned on wider viewports.
--   Illustration size and spacing scale down automatically to maintain readability at smaller breakpoints.
+- CTA buttons stack vertically on narrow screens and can sit horizontally aligned on wider viewports.
+- Illustration size and spacing scale down automatically to maintain readability at smaller breakpoints.
 
 ## Theme behavior
 
--   Color mapping follows semantic states — green for success, amber for warning, red for error.
--   Dark-mode illustration and text color combinations are specifically tuned for legibility.
+- Color mapping follows semantic states — green for success, amber for warning, red for error.
+- Dark-mode illustration and text color combinations are specifically tuned for legibility.
 
 ## Live Demo
 
@@ -72,7 +72,7 @@ import { ChartColumn } from "lucide-react";
   description="A message conveying the state of the product."
   icon={<EmptyStateIcon icon={<ChartColumn className="size-8" aria-hidden />} />}
   title="Title"
-/>
+/>;
 ```
 
 Title
@@ -87,7 +87,7 @@ import { ChartColumn } from "lucide-react";
   description="A message conveying the state of the product."
   icon={<EmptyStateIcon icon={<ChartColumn className="size-8" aria-hidden />} />}
   title="Title"
-/>
+/>;
 ```
 
 Title
@@ -116,7 +116,7 @@ import { ArrowRight, ChartColumn } from "lucide-react";
     Learn more
     <ArrowRight className="size-4" aria-hidden />
   </a>
-</EmptyState>
+</EmptyState>;
 ```
 
 ## API Reference
@@ -126,7 +126,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state"
+import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
 ```
 
 ### Props & callbacks
@@ -135,9 +135,9 @@ import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state"
 
 ## Best Practices
 
--   Pick the variant by what the user needs: no-results for a filtered list that returned zero rows, blank slate or informational for a resource the user hasn’t created, cleared for completed work, error for a failed load.
--   Render the permission and tier-denial variants full-page when the user lands on a route they can’t view.
--   Don’t put critical persistent warnings here. Empty states vanish when the list populates; persistent warnings belong in a Note or the page header.
--   title is Title Case; description is sentence case and adds new information instead of restating the title.
--   Cap at one primary CTA, plus one secondary. Three CTAs is a smell.
--   After an async filter change, wrap the region in aria-live="polite" so screen readers announce the new state.
+- Pick the variant by what the user needs: no-results for a filtered list that returned zero rows, blank slate or informational for a resource the user hasn’t created, cleared for completed work, error for a failed load.
+- Render the permission and tier-denial variants full-page when the user lands on a route they can’t view.
+- Don’t put critical persistent warnings here. Empty states vanish when the list populates; persistent warnings belong in a Note or the page header.
+- title is Title Case; description is sentence case and adds new information instead of restating the title.
+- Cap at one primary CTA, plus one secondary. Three CTAs is a smell.
+- After an async filter change, wrap the region in aria-live="polite" so screen readers announce the new state.

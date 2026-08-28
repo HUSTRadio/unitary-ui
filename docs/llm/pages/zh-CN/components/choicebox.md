@@ -14,13 +14,13 @@ Choicebox
 
 ## 何时使用
 
--   选项受益于更大的点击目标，并需要附带描述或图标时，用 Choicebox 替代普通 Radio。
--   互斥选择用单选模式，可叠加的选择用多选模式——不要在同一组内混用。
+- 选项受益于更大的点击目标，并需要附带描述或图标时，用 Choicebox 替代普通 Radio。
+- 互斥选择用单选模式，可叠加的选择用多选模式——不要在同一组内混用。
 
 ## 何时不应使用
 
--   选项超过 4–6 个时改用 Select 或 Combobox，避免单个字段让整页滚动。
--   选项只有纯文本短标签且没有细节要展示时，普通 Radio 更紧凑。
+- 选项超过 4–6 个时改用 Select 或 Combobox，避免单个字段让整页滚动。
+- 选项只有纯文本短标签且没有细节要展示时，普通 Radio 更紧凑。
 
 ## 示例
 
@@ -38,23 +38,23 @@ Choicebox
 
 ## 无障碍
 
--   卡片整体是点击目标，但键盘语义仍是 radio/checkbox：方向键在组内移动，空格切换。
--   选中态不能只靠边框颜色，需保留可被辅助技术读取的选中语义。
+- 卡片整体是点击目标，但键盘语义仍是 radio/checkbox：方向键在组内移动，空格切换。
+- 选中态不能只靠边框颜色，需保留可被辅助技术读取的选中语义。
 
 ## 受控行为
 
--   选中值由父组件受控；单选组内切换即时通知，多选组返回完整集合。
--   禁用项保留在焦点序列之外，不参与键盘遍历。
+- 选中值由父组件受控；单选组内切换即时通知，多选组返回完整集合。
+- 禁用项保留在焦点序列之外，不参与键盘遍历。
 
 ## 响应式行为
 
--   卡片网格随容器宽度自动折行；窄视口下退化为单列堆叠。
--   移动端保持足够卡片高度以充当舒适的大点击目标。
+- 卡片网格随容器宽度自动折行；窄视口下退化为单列堆叠。
+- 移动端保持足够卡片高度以充当舒适的大点击目标。
 
 ## 主题行为
 
--   选中边框、背景与描述文本颜色跟随主题变量。
--   暗色模式下选中卡片与未选中卡片保持清晰的层级差。
+- 选中边框、背景与描述文本颜色跟随主题变量。
+- 暗色模式下选中卡片与未选中卡片保持清晰的层级差。
 
 ## 实时示例
 
@@ -77,7 +77,7 @@ const [value, setValue] = useState("trial");
 >
   <ChoiceboxGroupItem description="Free for two weeks" title="Pro Trial" value="trial" />
   <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
-</ChoiceboxGroup>
+</ChoiceboxGroup>;
 ```
 
 Pro 试用两周免费
@@ -99,7 +99,7 @@ const [value, setValue] = useState([] as string[]);
 >
   <ChoiceboxGroupItem description="Free for two weeks" title="Pro Trial" value="trial" />
   <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
-</ChoiceboxGroup>
+</ChoiceboxGroup>;
 ```
 
 选项组已禁用
@@ -146,7 +146,7 @@ const [value2, setValue2] = useState([] as string[]);
     <ChoiceboxGroupItem description="Free for two weeks" disabled title="Pro Trial" value="trial" />
     <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
   </ChoiceboxGroup>
-</div>
+</div>;
 ```
 
 Pro 试用两周免费
@@ -179,7 +179,7 @@ const [value, setValue] = useState("trial");
       <Badge variant="blue">Pro</Badge>
     </div>
   </ChoiceboxGroupItem>
-</ChoiceboxGroup>
+</ChoiceboxGroup>;
 ```
 
 ## API 参考
@@ -189,7 +189,7 @@ const [value, setValue] = useState("trial");
 导入
 
 ```tsx
-import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox"
+import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
 ```
 
 ### 属性与回调
@@ -198,6 +198,6 @@ import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox"
 
 ## 最佳实践
 
--   当选项受益于更大的触控目标并带有说明或图标时使用 Choicebox。
--   互斥选项单选，可叠加选项多选；同一组内不要混用两种。
--   最多 4–6 个磁贴；超过则改用 Select 或 Combobox，避免页面为单个字段滚动。
+- 当选项受益于更大的触控目标并带有说明或图标时使用 Choicebox。
+- 互斥选项单选，可叠加选项多选；同一组内不要混用两种。
+- 最多 4–6 个磁贴；超过则改用 Select 或 Combobox，避免页面为单个字段滚动。

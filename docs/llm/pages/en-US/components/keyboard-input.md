@@ -14,13 +14,13 @@ Displays keyboard input that triggers an action.
 
 ## When to use
 
--   For shortcut hints inside prose, menu items, and button suffixes, letting users intuitively know the keyboard combination to trigger an action.
--   In long-form documentation narrating a shortcut, rendering keys as Kbd elements makes the document look professional and easy to scan.
+- For shortcut hints inside prose, menu items, and button suffixes, letting users intuitively know the keyboard combination to trigger an action.
+- In long-form documentation narrating a shortcut, rendering keys as Kbd elements makes the document look professional and easy to scan.
 
 ## When not to use
 
--   Don't spell out modifiers inside children; pass modifiers via boolean props (meta, shift, alt, ctrl) so the component swaps ⌘ for Ctrl on Windows and Linux.
--   Punctuation lives outside the element: period, comma, and or separators stay in surrounding prose so screen readers don't announce them as keys.
+- Don't spell out modifiers inside children; pass modifiers via boolean props (meta, shift, alt, ctrl) so the component swaps ⌘ for Ctrl on Windows and Linux.
+- Punctuation lives outside the element: period, comma, and or separators stay in surrounding prose so screen readers don't announce them as keys.
 
 ## Examples
 
@@ -42,8 +42,8 @@ Used for single keys or named keys without modifiers, such as Enter or Esc. The 
 
 ## Accessibility
 
--   Kbd elements use semantic keyboard roles so screen readers pronounce key names and modifier combinations correctly.
--   Cross-platform modifier key swapping ensures users on different operating systems receive consistent semantic understanding with assistive technology.
+- Kbd elements use semantic keyboard roles so screen readers pronounce key names and modifier combinations correctly.
+- Cross-platform modifier key swapping ensures users on different operating systems receive consistent semantic understanding with assistive technology.
 
 ## Controlled behavior
 
@@ -55,8 +55,8 @@ Not applicable: The Kbd component itself does not implement responsive layout lo
 
 ## Theme behavior
 
--   Background color, border, and text color of key badges are all drawn from theme tokens, ensuring good contrast and visual appearance in both light and dark modes.
--   Active state color transitions (when applicable) also follow theme specifications.
+- Background color, border, and text color of key badges are all drawn from theme tokens, ensuring good contrast and visual appearance in both light and dark modes.
+- Active state color transitions (when applicable) also follow theme specifications.
 
 ## Live Demo
 
@@ -70,7 +70,7 @@ import { Kbd } from "@/components/ui/keyboard-input";
   <Kbd shift />
   <Kbd alt />
   <Kbd ctrl />
-</>
+</>;
 ```
 
 ⌘⇧
@@ -78,7 +78,7 @@ import { Kbd } from "@/components/ui/keyboard-input";
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
 
-<Kbd meta shift />
+<Kbd meta shift />;
 ```
 
 /
@@ -86,7 +86,7 @@ import { Kbd } from "@/components/ui/keyboard-input";
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
 
-<Kbd small>/</Kbd>
+<Kbd small>/</Kbd>;
 ```
 
 ⌘K
@@ -94,7 +94,9 @@ import { Kbd } from "@/components/ui/keyboard-input";
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
 
-<Kbd plain meta>K</Kbd>
+<Kbd plain meta>
+  K
+</Kbd>;
 ```
 
 ## API Reference
@@ -104,7 +106,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input"
+import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input";
 ```
 
 ### Props & callbacks
@@ -113,8 +115,8 @@ import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input"
 
 ## Best Practices
 
--   Use Kbd for shortcut hints inside prose, menu items, and button suffixes. In long-form docs that narrate a shortcut, write the ⌘ K shortcut directly so the page renders the same when copied to plain text.
--   Pass modifiers via boolean props (meta, shift, alt, ctrl) so the component swaps ⌘ for Ctrl on Windows and Linux.
--   children is one key, digit, or named key (K, 7, Enter, Esc). Don't lowercase it, don't spell out modifiers inside, and don't pack a sentence into the element.
--   Use small inside dense surfaces like menu rows, command-bar items, or table cells where the default size crowds adjacent text.
--   Punctuation lives outside the element: period, comma, and or separators stay in surrounding prose so screen readers don't announce them as keys.
+- Use Kbd for shortcut hints inside prose, menu items, and button suffixes. In long-form docs that narrate a shortcut, write the ⌘ K shortcut directly so the page renders the same when copied to plain text.
+- Pass modifiers via boolean props (meta, shift, alt, ctrl) so the component swaps ⌘ for Ctrl on Windows and Linux.
+- children is one key, digit, or named key (K, 7, Enter, Esc). Don't lowercase it, don't spell out modifiers inside, and don't pack a sentence into the element.
+- Use small inside dense surfaces like menu rows, command-bar items, or table cells where the default size crowds adjacent text.
+- Punctuation lives outside the element: period, comma, and or separators stay in surrounding prose so screen readers don't announce them as keys.

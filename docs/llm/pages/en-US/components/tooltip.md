@@ -14,13 +14,13 @@ A floating label that appears on hover or focus.
 
 ## When to use
 
--   To explain why something exists, not what it is: the visible label names the thing; the tooltip adds the constraint, scope, or limit.
--   When icon-only triggers or compact UI elements need extra context without expanding the visible interface.
+- To explain why something exists, not what it is: the visible label names the thing; the tooltip adds the constraint, scope, or limit.
+- When icon-only triggers or compact UI elements need extra context without expanding the visible interface.
 
 ## When not to use
 
--   Don't wrap a labelled Input in a Tooltip. The trigger lands on the <label>, making the tooltip text a second invisible label for screen readers. Put help on a sibling icon button instead.
--   Don't put primary actions inside the Tooltip; touch users can't reach a hover-revealed control. Keep actions in the visible UI.
+- Don't wrap a labelled Input in a Tooltip. The trigger lands on the <label>, making the tooltip text a second invisible label for screen readers. Put help on a sibling icon button instead.
+- Don't put primary actions inside the Tooltip; touch users can't reach a hover-revealed control. Keep actions in the visible UI.
 
 ## Examples
 
@@ -38,13 +38,13 @@ Renders rich text or other React components inside the Tooltip, going beyond pla
 
 ## Accessibility
 
--   Tooltips open on hover and on keyboard focus. Keep the default ~150ms entry delay so the tooltip doesn't flicker on a sweeping mouse.
--   Escape closes the tooltip and returns focus to the trigger; icon-only triggers need an aria-label that names the action.
+- Tooltips open on hover and on keyboard focus. Keep the default ~150ms entry delay so the tooltip doesn't flicker on a sweeping mouse.
+- Escape closes the tooltip and returns focus to the trigger; icon-only triggers need an aria-label that names the action.
 
 ## Controlled behavior
 
--   Tooltip supports controlled mode: manage show/hide timing precisely through open state and onChange.
--   You can pass a custom trigger element to customize the mount point and interaction behavior of the Tooltip.
+- Tooltip supports controlled mode: manage show/hide timing precisely through open state and onChange.
+- You can pass a custom trigger element to customize the mount point and interaction behavior of the Tooltip.
 
 ## Responsive behavior
 
@@ -52,7 +52,7 @@ Not applicable: The Tooltip's popout position and size do not depend on viewport
 
 ## Theme behavior
 
--   Tooltip background and text color follow the global theme, supporting light/dark mode; highlight type can be overridden via the type prop.
+- Tooltip background and text color follow the global theme, supporting light/dark mode; highlight type can be overridden via the type prop.
 
 ## Live Demo
 
@@ -90,7 +90,7 @@ import { Tooltip } from "@/components/ui/tooltip";
       <span>Right</span>
     </Tooltip>
   </div>
-</div>
+</div>;
 ```
 
 ## Box align
@@ -230,7 +230,7 @@ import { Tooltip } from "@/components/ui/tooltip";
       <span>Right</span>
     </Tooltip>
   </div>
-</div>
+</div>;
 ```
 
 ## Custom type
@@ -267,7 +267,7 @@ import { Tooltip } from "@/components/ui/tooltip";
       <span>Right</span>
     </Tooltip>
   </div>
-</div>
+</div>;
 ```
 
 ## Components
@@ -315,7 +315,7 @@ import { Tooltip } from "@/components/ui/tooltip";
       <span>Shortcut</span>
     </Tooltip>
   </div>
-</div>
+</div>;
 ```
 
 ## Other
@@ -338,7 +338,7 @@ import { Tooltip } from "@/components/ui/tooltip";
       No center text
     </Tooltip>
   </div>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -348,7 +348,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Tooltip } from "@/components/ui/tooltip"
+import { Tooltip } from "@/components/ui/tooltip";
 ```
 
 ### Props & callbacks
@@ -357,11 +357,11 @@ import { Tooltip } from "@/components/ui/tooltip"
 
 ## Best Practices
 
--   Use a Tooltip to explain why something exists, not what it is. The visible label names the thing; the tooltip adds the constraint, scope, or limit.
--   Tooltips open on hover and on keyboard focus. Keep the default ~150ms entry delay so the tooltip doesn’t flicker on a sweeping mouse.
--   Don’t wrap a labelled Input in a Tooltip. The trigger lands on the <label>, not the field, and the tooltip text becomes a second invisible label for screen readers. Put help on a sibling icon button.
--   Keep primary actions outside the Tooltip; touch users can’t reach a hover-revealed control.
--   One sentence or fragment in text. Sentence case, no period for a single fragment.
--   Skip tooltips that repeat the visible label (text="Rate Limit" on a Rate Limit button) or describe the interaction (text="Click to override").
--   An icon-only trigger needs an aria-label that names the action; the Tooltip body adds context, it doesn’t replace the label.
--   Escape closes the tooltip and returns focus to the trigger.
+- Use a Tooltip to explain why something exists, not what it is. The visible label names the thing; the tooltip adds the constraint, scope, or limit.
+- Tooltips open on hover and on keyboard focus. Keep the default ~150ms entry delay so the tooltip doesn’t flicker on a sweeping mouse.
+- Don’t wrap a labelled Input in a Tooltip. The trigger lands on the <label>, not the field, and the tooltip text becomes a second invisible label for screen readers. Put help on a sibling icon button.
+- Keep primary actions outside the Tooltip; touch users can’t reach a hover-revealed control.
+- One sentence or fragment in text. Sentence case, no period for a single fragment.
+- Skip tooltips that repeat the visible label (text="Rate Limit" on a Rate Limit button) or describe the interaction (text="Click to override").
+- An icon-only trigger needs an aria-label that names the action; the Tooltip body adds context, it doesn’t replace the label.
+- Escape closes the tooltip and returns focus to the trigger.

@@ -14,13 +14,13 @@ A filterable list that supports multiple selections.
 
 ## When to use
 
--   When more than one option may be active, such as multi-value filters, tag selection, or multi-field configuration.
--   When selecting multiple entries from a long list benefits from the combination of search and scroll for complex selection tasks.
+- When more than one option may be active, such as multi-value filters, tag selection, or multi-field configuration.
+- When selecting multiple entries from a long list benefits from the combination of search and scroll for complex selection tasks.
 
 ## When not to use
 
--   When only a single searchable selection is needed, use Combobox; Multi Select's semantics are designed for multiple values and should not be mixed.
--   When there are very few (2–3) mutually exclusive options, a Toggle or Switch is more intuitive and doesn't require a complex dropdown-multi select component.
+- When only a single searchable selection is needed, use Combobox; Multi Select's semantics are designed for multiple values and should not be mixed.
+- When there are very few (2–3) mutually exclusive options, a Toggle or Switch is more intuitive and doesn't require a complex dropdown-multi select component.
 
 ## Examples
 
@@ -38,23 +38,23 @@ Binds Multi Select to a controlled selected array where the external layer manag
 
 ## Accessibility
 
--   Each checkbox option has an associated label, and screen readers correctly announce the name and selection state of each option.
--   Keyboard navigation supports arrow keys to move focus, space to toggle selection, and Escape to close the list, conforming to WAI-ARIA composite component standards.
+- Each checkbox option has an associated label, and screen readers correctly announce the name and selection state of each option.
+- Keyboard navigation supports arrow keys to move focus, space to toggle selection, and Escape to close the list, conforming to WAI-ARIA composite component standards.
 
 ## Controlled behavior
 
--   Fully controlled through value (selected array) and onChange callback; the parent can update the selection set at any time.
--   Supports defaultSelected for initializing uncontrolled state, syncing internal changes and notifying the parent externally.
+- Fully controlled through value (selected array) and onChange callback; the parent can update the selection set at any time.
+- Supports defaultSelected for initializing uncontrolled state, syncing internal changes and notifying the parent externally.
 
 ## Responsive behavior
 
--   Once the dropdown opens, width and position adjust automatically based on viewport size to prevent overflow on smaller screens.
--   The trigger summary text truncates or collapses gracefully at different sizes, maintaining a compact appearance.
+- Once the dropdown opens, width and position adjust automatically based on viewport size to prevent overflow on smaller screens.
+- The trigger summary text truncates or collapses gracefully at different sizes, maintaining a compact appearance.
 
 ## Theme behavior
 
--   Highlighted color, border, and background of selected items are drawn from theme tokens; contrast meets accessibility requirements in both light and dark modes.
--   Dropdown list background, scrollbar, and hover effects follow the current theme for a consistent visual style.
+- Highlighted color, border, and background of selected items are drawn from theme tokens; contrast meets accessibility requirements in both light and dark modes.
+- Dropdown list background, scrollbar, and hover effects follow the current theme for a consistent visual style.
 
 ## Live Demo
 
@@ -121,7 +121,7 @@ const handleSelectAll = () => {
   <p className="text-copy-14 text-gray-900">
     Hover over items to see action labels. Different actions appear based on selection state.
   </p>
-</div>
+</div>;
 ```
 
 Try keyboard navigation: ↑ ↓ for rows, ← → for checkbox/button focus, Tab to cycle through all elements
@@ -188,10 +188,10 @@ const handleSelectAll = () => {
     </MultiSelectContent>
   </MultiSelectRoot>
   <p className="text-copy-14 text-gray-900">
-    Try keyboard navigation: ↑ ↓ for rows, ← → for checkbox/button focus, Tab to cycle through
-    all elements
+    Try keyboard navigation: ↑ ↓ for rows, ← → for checkbox/button focus, Tab to cycle through all
+    elements
   </p>
-</div>
+</div>;
 ```
 
 , ,
@@ -295,7 +295,7 @@ const handlePresetAdvanced = () => {
       </button>
     </p>
   </div>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -305,7 +305,12 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { MultiSelectRoot, MultiSelectTrigger, MultiSelectContent, MultiSelectRow } from "@/components/ui/multi-select"
+import {
+  MultiSelectRoot,
+  MultiSelectTrigger,
+  MultiSelectContent,
+  MultiSelectRow,
+} from "@/components/ui/multi-select";
 ```
 
 ### Props & callbacks
@@ -314,5 +319,5 @@ import { MultiSelectRoot, MultiSelectTrigger, MultiSelectContent, MultiSelectRow
 
 ## Best Practices
 
--   Use Multi Select only when more than one option may be active; use Combobox for searchable single selection.
--   Keep the trigger summary concise and expose the full selection list inside the open control.
+- Use Multi Select only when more than one option may be active; use Combobox for searchable single selection.
+- Keep the trigger summary concise and expose the full selection list inside the open control.

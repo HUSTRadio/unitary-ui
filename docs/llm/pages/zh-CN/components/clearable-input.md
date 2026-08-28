@@ -14,13 +14,13 @@ Clearable Input
 
 ## 何时使用
 
--   用户在搜索、过滤或短查询字段中频繁需要清除当前输入值。
--   需要一种不增加额外按钮空间的快速回退方式，让用户一键还原到空白状态。
+- 用户在搜索、过滤或短查询字段中频繁需要清除当前输入值。
+- 需要一种不增加额外按钮空间的快速回退方式，让用户一键还原到空白状态。
 
 ## 何时不应使用
 
--   表单字段的值不应轻易被清除，比如关键身份验证信息；应使用明确的 Delete 按钮来确认删除操作。
--   当输入内容较长且用户可能希望部分保留时；截断和粘贴（Middle Truncate）更适合展示型场景。
+- 表单字段的值不应轻易被清除，比如关键身份验证信息；应使用明确的 Delete 按钮来确认删除操作。
+- 当输入内容较长且用户可能希望部分保留时；截断和粘贴（Middle Truncate）更适合展示型场景。
 
 ## 示例
 
@@ -46,23 +46,23 @@ Clearable Input
 
 ## 无障碍
 
--   为原生输入设置可见标签，确保屏幕阅读器能够正确读取。
--   清除按钮作为输入的一部分，不需要额外的 aria-label；Escape 键从输入本身即可触发清除。
+- 为原生输入设置可见标签，确保屏幕阅读器能够正确读取。
+- 清除按钮作为输入的一部分，不需要额外的 aria-label；Escape 键从输入本身即可触发清除。
 
 ## 受控行为
 
--   Clearable Input 受控行为由其父级 input 的值和 onChange 驱动。
--   传入 value 和 onChange 以实现完全受控模式；clearIconOnClick 在点击清除时调用 onChange(new String)。
+- Clearable Input 受控行为由其父级 input 的值和 onChange 驱动。
+- 传入 value 和 onChange 以实现完全受控模式；clearIconOnClick 在点击清除时调用 onChange(new String)。
 
 ## 响应式行为
 
--   宽度由父容器或 width prop 控制，可设置为 flex grow 或在固定尺寸间切换。
--   清除键帽在内联空间允许的情况下始终可见；在小视口上如果空间紧张可以仅保留 Escape 清除。
+- 宽度由父容器或 width prop 控制，可设置为 flex grow 或在固定尺寸间切换。
+- 清除键帽在内联空间允许的情况下始终可见；在小视口上如果空间紧张可以仅保留 Escape 清除。
 
 ## 主题行为
 
--   跟随设计系统颜色变量，在不同主题下自动适配边框、文字和背景颜色。
--   清除键帽的可见度基于对比度阈值自动调整。
+- 跟随设计系统颜色变量，在不同主题下自动适配边框、文字和背景颜色。
+- 清除键帽的可见度基于对比度阈值自动调整。
 
 ## 实时示例
 
@@ -79,7 +79,7 @@ const [value, setValue] = useState("");
   }}
   placeholder="Enter some text..."
   value={value}
-/>
+/>;
 ```
 
 邮箱
@@ -97,7 +97,7 @@ const [value, setValue] = useState("");
   }}
   placeholder="Enter your email..."
   value={value}
-/>
+/>;
 ```
 
 Esc⌘K
@@ -116,7 +116,7 @@ const [value, setValue] = useState("");
   }}
   placeholder="Search..."
   value={value}
-/>
+/>;
 ```
 
 ```tsx
@@ -133,7 +133,7 @@ const [value, setValue] = useState("Some text");
   }}
   placeholder="Enter some text..."
   value={value}
-/>
+/>;
 ```
 
 已清除 0 次
@@ -158,7 +158,7 @@ const [clearCount, setClearCount] = useState(0);
     value={value}
   />
   <p className="text-copy-14 text-gray-900">Cleared {clearCount} times</p>
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -168,7 +168,7 @@ const [clearCount, setClearCount] = useState(0);
 导入
 
 ```tsx
-import { ClearableInput } from "@/components/ui/clearable-input"
+import { ClearableInput } from "@/components/ui/clearable-input";
 ```
 
 原生属性：`InputHTMLAttributes<HTMLInputElement>`
@@ -179,5 +179,5 @@ import { ClearableInput } from "@/components/ui/clearable-input"
 
 ## 最佳实践
 
--   搜索、过滤和短查询字段（重置当前值很频繁）用 Clearable Input。
--   把可见标签关联到原生 input，并让 Escape 清除可从 input 本身触发。
+- 搜索、过滤和短查询字段（重置当前值很频繁）用 Clearable Input。
+- 把可见标签关联到原生 input，并让 Escape 清除可从 input 本身触发。

@@ -14,13 +14,13 @@ Combines a primary action with a short menu of related actions.
 
 ## When to use
 
--   When two or more related actions share the same row (e.g., 'Deploy' and 'Deploy to staging').
--   When you need to balance visibility and space — the main action is prominent while secondary variants live in a menu.
+- When two or more related actions share the same row (e.g., 'Deploy' and 'Deploy to staging').
+- When you need to balance visibility and space — the main action is prominent while secondary variants live in a menu.
 
 ## When not to use
 
--   When there are more than three related actions; use a regular Menu instead, because the split-button menu must not become a junk drawer.
--   When two actions are equally important; place two side-by-side Buttons rather than a primary-secondary hierarchy.
+- When there are more than three related actions; use a regular Menu instead, because the split-button menu must not become a junk drawer.
+- When two actions are equally important; place two side-by-side Buttons rather than a primary-secondary hierarchy.
 
 ## Examples
 
@@ -38,8 +38,8 @@ Displaying both text and icon alongside the button label simultaneously.
 
 ## Accessibility
 
--   The menu button should carry a descriptive aria-label (e.g. 'Deploy to staging') instead of relying solely on the chevron icon.
--   The main button is a normal focus element; when the menu opens, focus is trapped inside and Escape closes it while returning focus to the trigger.
+- The menu button should carry a descriptive aria-label (e.g. 'Deploy to staging') instead of relying solely on the chevron icon.
+- The main button is a normal focus element; when the menu opens, focus is trapped inside and Escape closes it while returning focus to the trigger.
 
 ## Controlled behavior
 
@@ -47,11 +47,11 @@ Not applicable: Split Button manages its own open/close internal state and does 
 
 ## Responsive behavior
 
--   On narrow viewports the split button retains full functionality, but the menu width flips automatically based on window bounds to avoid clipping.
+- On narrow viewports the split button retains full functionality, but the menu width flips automatically based on window bounds to avoid clipping.
 
 ## Theme behavior
 
--   The split button inherits the Button variant system (primary, secondary, error, etc.) so both parts stay visually consistent.
+- The split button inherits the Button variant system (primary, secondary, error, etc.) so both parts stay visually consistent.
 
 ## Live Demo
 
@@ -94,7 +94,7 @@ import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
   >
     Save (bottom-end)
   </SplitButton>
-</div>
+</div>;
 ```
 
 ## Icon
@@ -125,7 +125,7 @@ import { ExternalLink, Rocket } from "lucide-react";
   menuProps={{ width: 240 }}
 >
   Copy page
-</SplitButton>
+</SplitButton>;
 ```
 
 ## Title with Icon
@@ -169,7 +169,7 @@ import { CircleArrowUp, Save } from "lucide-react";
       ))}
     </div>
   ))}
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -179,7 +179,12 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { SplitButton, SplitButtonMain, SplitButtonMenu, SplitButtonMenuItem } from "@/components/ui/split-button"
+import {
+  SplitButton,
+  SplitButtonMain,
+  SplitButtonMenu,
+  SplitButtonMenuItem,
+} from "@/components/ui/split-button";
 ```
 
 ### Props & callbacks
@@ -188,5 +193,5 @@ import { SplitButton, SplitButtonMain, SplitButtonMenu, SplitButtonMenuItem } fr
 
 ## Best Practices
 
--   Keep the most common action on the main button and limit the menu to closely related variants.
--   Label the menu button with the target and purpose, not the chevron icon.
+- Keep the most common action on the main button and limit the menu to closely related variants.
+- Label the menu button with the target and purpose, not the chevron icon.

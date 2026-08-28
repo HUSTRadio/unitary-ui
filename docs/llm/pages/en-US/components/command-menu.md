@@ -14,13 +14,13 @@ Filters and launches keyboard-first actions in a modal command palette.
 
 ## When to use
 
--   Provide a global keyboard shortcut (⌘K on macOS, Ctrl+K elsewhere) triggered command palette to search resources, navigate pages, or execute actions across the application.
--   When menu item count could exceed roughly 30 items that would span multiple categories or recent usage, group them into separate pages rather than presenting a single flat list.
+- Provide a global keyboard shortcut (⌘K on macOS, Ctrl+K elsewhere) triggered command palette to search resources, navigate pages, or execute actions across the application.
+- When menu item count could exceed roughly 30 items that would span multiple categories or recent usage, group them into separate pages rather than presenting a single flat list.
 
 ## When not to use
 
--   If the menu only serves contextual actions on a single visible trigger element, use Menu instead; for right-click row actions, use ContextMenu.
--   Do not reuse the ⌘K/Ctrl+K binding for any in-page filter input—it is reserved as a global shortcut.
+- If the menu only serves contextual actions on a single visible trigger element, use Menu instead; for right-click row actions, use ContextMenu.
+- Do not reuse the ⌘K/Ctrl+K binding for any in-page filter input—it is reserved as a global shortcut.
 
 ## Examples
 
@@ -38,9 +38,9 @@ Adds suffix labels to command items to show auxiliary information such as keyboa
 
 ## Accessibility
 
--   Trap all focus inside the overlay while the panel is open; press Escape to close the panel and release focus back to the trigger.
--   Each command item should provide a clear Title Case verb phrase description (e.g., 'Deploy Project'), avoiding ambiguous phrasing.
--   Show a recent or default item set when the input is empty so the menu is useful before typing.
+- Trap all focus inside the overlay while the panel is open; press Escape to close the panel and release focus back to the trigger.
+- Each command item should provide a clear Title Case verb phrase description (e.g., 'Deploy Project'), avoiding ambiguous phrasing.
+- Show a recent or default item set when the input is empty so the menu is useful before typing.
 
 ## Controlled behavior
 
@@ -195,7 +195,14 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { CommandMenu, CommandMenuInput, CommandMenuList, CommandMenuGroup, CommandMenuItem, CommandMenuDivider } from "@/components/ui/command-menu"
+import {
+  CommandMenu,
+  CommandMenuInput,
+  CommandMenuList,
+  CommandMenuGroup,
+  CommandMenuItem,
+  CommandMenuDivider,
+} from "@/components/ui/command-menu";
 ```
 
 ### Props & callbacks
@@ -204,10 +211,10 @@ import { CommandMenu, CommandMenuInput, CommandMenuList, CommandMenuGroup, Comma
 
 ## Best Practices
 
--   Use CommandMenu for a global, keyboard-first command palette that finds resources and runs actions across the app. For a menu opened from a visible trigger on a single resource, use Menu; for right-click on a row, use ContextMenu.
--   Group items into pages (Projects, Team Settings) when a single flat list would exceed roughly 30 items or span multiple resource types.
--   Bind ⌘K on macOS and Ctrl+K elsewhere. Don't reuse the binding for any in-page filter input; it's a global shortcut.
--   Trap focus inside the overlay while it is open, close on Escape, and release focus when the palette closes.
--   Show a recent or default item set when the input is empty so the menu is useful before typing.
--   Item children are Title Case verb phrases (Deploy Project, Invite Team Member). Commands act, not browse; avoid navigation phrasing like Go to project page.
--   Group heading is Title Case, 1-2 words (Actions, Recent).
+- Use CommandMenu for a global, keyboard-first command palette that finds resources and runs actions across the app. For a menu opened from a visible trigger on a single resource, use Menu; for right-click on a row, use ContextMenu.
+- Group items into pages (Projects, Team Settings) when a single flat list would exceed roughly 30 items or span multiple resource types.
+- Bind ⌘K on macOS and Ctrl+K elsewhere. Don't reuse the binding for any in-page filter input; it's a global shortcut.
+- Trap focus inside the overlay while it is open, close on Escape, and release focus when the palette closes.
+- Show a recent or default item set when the input is empty so the menu is useful before typing.
+- Item children are Title Case verb phrases (Deploy Project, Invite Team Member). Commands act, not browse; avoid navigation phrasing like Go to project page.
+- Group heading is Title Case, 1-2 words (Actions, Recent).

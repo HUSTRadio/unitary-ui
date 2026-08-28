@@ -14,13 +14,13 @@ Presents a list of options in a dropdown.
 
 ## When to use
 
--   When selecting a single value from a short, fixed set of roughly ten options or fewer.
--   In constrained form layouts, settings panels, or filter rows where a dropdown saves vertical space.
+- When selecting a single value from a short, fixed set of roughly ten options or fewer.
+- In constrained form layouts, settings panels, or filter rows where a dropdown saves vertical space.
 
 ## When not to use
 
--   When filtering from a large, open-ended list where typing materially helps; Combobox is the right tool.
--   When users need to pick multiple values at once; use Multi Select for multi-value selection.
+- When filtering from a large, open-ended list where typing materially helps; Combobox is the right tool.
+- When users need to pick multiple values at once; use Multi Select for multi-value selection.
 
 ## Examples
 
@@ -34,20 +34,20 @@ An error message displayed below the Select after a validation failure.
 
 ## Accessibility
 
--   Follows WAI-ARIA dropdown-listbox semantics; keyboard users navigate options with arrow keys and activate with Enter.
--   After selection, the screen reader announces the chosen value and its label clearly.
+- Follows WAI-ARIA dropdown-listbox semantics; keyboard users navigate options with arrow keys and activate with Enter.
+- After selection, the screen reader announces the chosen value and its label clearly.
 
 ## Controlled behavior
 
--   Fully controllable via value and onChange props; developers manage the selected state and handle change events precisely.
+- Fully controllable via value and onChange props; developers manage the selected state and handle change events precisely.
 
 ## Responsive behavior
 
--   Built-in size variants adapt to narrow viewports by reducing font size and padding to remain usable.
+- Built-in size variants adapt to narrow viewports by reducing font size and padding to remain usable.
 
 ## Theme behavior
 
--   The dropdown popover inherits background, border, and text colors from the theme system, ensuring readability in dark mode.
+- The dropdown popover inherits background, border, and text colors from the theme system, ensuring readability in dark mode.
 
 ## Live Demo
 
@@ -70,7 +70,7 @@ import { Select } from "@/components/ui/select";
     <option>Option 2</option>
     <option>Option 3</option>
   </Select>
-</div>
+</div>;
 ```
 
 ```tsx
@@ -83,13 +83,13 @@ const icon = <ArrowUpCircle aria-hidden />;
   <Select aria-label="Small" placeholder="Small" size="small" prefix={icon} suffix={icon} />
   <Select aria-label="Default" placeholder="Default" prefix={icon} suffix={icon} />
   <Select aria-label="Large" placeholder="Large" size="large" prefix={icon} suffix={icon} />
-</div>
+</div>;
 ```
 
 ```tsx
 import { Select } from "@/components/ui/select";
 
-<Select aria-label="Disabled" disabled placeholder="Disabled with placeholder" />
+<Select aria-label="Disabled" disabled placeholder="Disabled with placeholder" />;
 ```
 
 Please select a value.
@@ -111,7 +111,7 @@ My label
 ```tsx
 import { Select } from "@/components/ui/select";
 
-<Select label="My label" placeholder="With label" />
+<Select label="My label" placeholder="With label" />;
 ```
 
 Required field
@@ -123,7 +123,7 @@ import { Select, SelectItem } from "@/components/ui/select";
   <SelectItem value="option1">Option 1</SelectItem>
   <SelectItem value="option2">Option 2</SelectItem>
   <SelectItem value="option3">Option 3</SelectItem>
-</Select>
+</Select>;
 ```
 
 ## With Options
@@ -136,7 +136,7 @@ import { Select } from "@/components/ui/select";
   <option value="orange">Orange</option>
   <option value="banana">Banana</option>
   <option value="grape">Grape</option>
-</Select>
+</Select>;
 ```
 
 ## API Reference
@@ -146,7 +146,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Select } from "@/components/ui/select"
+import { Select } from "@/components/ui/select";
 ```
 
 ### Props & callbacks
@@ -155,11 +155,11 @@ import { Select } from "@/components/ui/select"
 
 ## Best Practices
 
--   Pick <Select> for short, fixed lists (under ~10 items) where typing adds nothing; switch to Combobox once filtering helps.
--   Use MultiSelect when more than one value can be chosen at once; use Switch for a 2–3 option segmented choice.
--   Group options past ~10 items with native <optgroup>; Geist <Select> has no .Group static.
--   Options are Title Case when short and match canonical branding (Next.js, not NextJS); keep the same register across the list.
--   Label is a short Title Case noun (Framework, Region); accept the prop directly on <Select>.
--   Placeholder is action-oriented (Select a framework), never Choose one…, Pick, or the label restated.
--   Validate on blur and pass a string to error; messages name the field and end in a period (Select a framework.).
--   Don’t wrap a labelled <Select> in a Tooltip; put the hint on a sibling icon button so the label stays announced.
+- Pick <Select> for short, fixed lists (under ~10 items) where typing adds nothing; switch to Combobox once filtering helps.
+- Use MultiSelect when more than one value can be chosen at once; use Switch for a 2–3 option segmented choice.
+- Group options past ~10 items with native <optgroup>; Geist <Select> has no .Group static.
+- Options are Title Case when short and match canonical branding (Next.js, not NextJS); keep the same register across the list.
+- Label is a short Title Case noun (Framework, Region); accept the prop directly on <Select>.
+- Placeholder is action-oriented (Select a framework), never Choose one…, Pick, or the label restated.
+- Validate on blur and pass a string to error; messages name the field and end in a period (Select a framework.).
+- Don’t wrap a labelled <Select> in a Tooltip; put the hint on a sibling icon button so the label stays announced.

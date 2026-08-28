@@ -14,15 +14,15 @@ Provides a friendly, actionable message when an operation fails.
 
 ## When to use
 
--   When a section or page-level resource (like a panel, dashboard card, or route boundary) fails to load — use Error as the block-level failure indicator.
--   When a platform or system-level async request fails and needs a stable identifier (request ID, deployment ID) for the user or support team to trace the issue.
--   When you need to clearly tell the user what happened and what to do next — state what went wrong first, then how to resolve it.
+- When a section or page-level resource (like a panel, dashboard card, or route boundary) fails to load — use Error as the block-level failure indicator.
+- When a platform or system-level async request fails and needs a stable identifier (request ID, deployment ID) for the user or support team to trace the issue.
+- When you need to clearly tell the user what happened and what to do next — state what went wrong first, then how to resolve it.
 
 ## When not to use
 
--   Don't use for transient action failures — prefer toast.error() for brief operational feedback, as it is lighter-weight and auto-dismisses.
--   Don't use for field-level form validation — the error prop on Input is the correct choice for field errors, not this block-level component.
--   Don't fall back to Something Went Wrong as a generic title — name the specific resource that failed, such as Couldn't Load Deployments.
+- Don't use for transient action failures — prefer toast.error() for brief operational feedback, as it is lighter-weight and auto-dismisses.
+- Don't use for field-level form validation — the error prop on Input is the correct choice for field errors, not this block-level component.
+- Don't fall back to Something Went Wrong as a generic title — name the specific resource that failed, such as Couldn't Load Deployments.
 
 ## Examples
 
@@ -40,9 +40,9 @@ Shows passing an error object directly via prop to render the error state after 
 
 ## Accessibility
 
--   Wrap the error region in aria-live="polite" when the error appears asynchronously so screen readers announce the new state.
--   Use assertive for blocking errors that require immediate user attention, reserving polite for informational failures.
--   The error icon is decorative — set aria-hidden on it; meaning lives entirely in the accompanying text.
+- Wrap the error region in aria-live="polite" when the error appears asynchronously so screen readers announce the new state.
+- Use assertive for blocking errors that require immediate user attention, reserving polite for informational failures.
+- The error icon is decorative — set aria-hidden on it; meaning lives entirely in the accompanying text.
 
 ## Controlled behavior
 
@@ -50,13 +50,13 @@ Not applicable: Error is a presentation-only component driven by whether an erro
 
 ## Responsive behavior
 
--   Error renders horizontally within its full-width container, adjusting padding and font size automatically on smaller screens.
--   Stable identifiers (request IDs, etc.) may truncate visually on narrow viewports while preserving the full value in the title attribute for hover access.
+- Error renders horizontally within its full-width container, adjusting padding and font size automatically on smaller screens.
+- Stable identifiers (request IDs, etc.) may truncate visually on narrow viewports while preserving the full value in the title attribute for hover access.
 
 ## Theme behavior
 
--   Color mapping for semantic states (red for severe errors, amber for warnings) maintains sufficient contrast in both dark and light modes.
--   Background and border colors follow the Geist theme variables, supporting global theme customization via CSS tokens.
+- Color mapping for semantic states (red for severe errors, amber for warnings) maintains sufficient contrast in both dark and light modes.
+- Background and border colors follow the Geist theme variables, supporting global theme customization via CSS tokens.
 
 ## Live Demo
 
@@ -69,7 +69,7 @@ Deployment failed. Review the build logs and try again.
 ```tsx
 import { Error } from "@/components/ui/error";
 
-<Error label="Email Error">This email address is already in use.</Error>
+<Error label="Email Error">This email address is already in use.</Error>;
 ```
 
 ## No label
@@ -79,7 +79,7 @@ This email address is already in use.
 ```tsx
 import { Error } from "@/components/ui/error";
 
-<Error label={false}>This email address is already in use.</Error>
+<Error label={false}>This email address is already in use.</Error>;
 ```
 
 ## Sizes
@@ -97,7 +97,7 @@ import { Error } from "@/components/ui/error";
   <Error size="small">This email is in use.</Error>
   <Error>This email is in use.</Error>
   <Error size="large">This email is in use.</Error>
-</div>
+</div>;
 ```
 
 ## With an error property
@@ -113,7 +113,7 @@ import { Error } from "@/components/ui/error";
     action: "Contact Us",
     link: "https://vercel.com/contact",
   }}
-/>
+/>;
 ```
 
 ## API Reference
@@ -123,7 +123,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Error } from "@/components/ui/error"
+import { Error } from "@/components/ui/error";
 ```
 
 ### Props & callbacks
@@ -132,10 +132,10 @@ import { Error } from "@/components/ui/error"
 
 ## Best Practices
 
--   Use the Error component as a block surface when a section or page-level resource failed to load: a panel, a dashboard card, a route boundary.
--   Pick toasts.error() for transient action failures and the error prop on Input for field-level validation. Don't replace either with this block.
--   Always pair platform or system errors with a stable identifier (request ID, deployment ID, run ID, trace ID). Validation and permission denials are user-state and don't need an ID.
--   State what happened and what to do next, in that order. Cut apologetic preambles (Unfortunately, Oops, We're sorry).
--   Use Couldn't or Can't for user-state errors; use Failed to for system or infra errors. Unable to is banned.
--   Don't fall back to Something Went Wrong as a title; name the resource that failed (Couldn't Load Deployments).
--   When the error appears asynchronously after a failed fetch, wrap the region in aria-live="polite" so it's announced; reserve assertive for true blocking errors.
+- Use the Error component as a block surface when a section or page-level resource failed to load: a panel, a dashboard card, a route boundary.
+- Pick toasts.error() for transient action failures and the error prop on Input for field-level validation. Don't replace either with this block.
+- Always pair platform or system errors with a stable identifier (request ID, deployment ID, run ID, trace ID). Validation and permission denials are user-state and don't need an ID.
+- State what happened and what to do next, in that order. Cut apologetic preambles (Unfortunately, Oops, We're sorry).
+- Use Couldn't or Can't for user-state errors; use Failed to for system or infra errors. Unable to is banned.
+- Don't fall back to Something Went Wrong as a title; name the resource that failed (Couldn't Load Deployments).
+- When the error appears asynchronously after a failed fetch, wrap the region in aria-live="polite" so it's announced; reserve assertive for true blocking errors.

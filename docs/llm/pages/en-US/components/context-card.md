@@ -14,13 +14,13 @@ A floating card that appears on hover or focus, showing richer detail than a too
 
 ## When to use
 
--   Reveal entity metadata on hover or focus: a user detail near their avatar, build info next to a deployment name, or project stats beside a link.
--   The trigger is typically a name link or avatar in dense data tables; the card supplements with one identifying line and 2–4 Label: value metadata rows.
+- Reveal entity metadata on hover or focus: a user detail near their avatar, build info next to a deployment name, or project stats beside a link.
+- The trigger is typically a name link or avatar in dense data tables; the card supplements with one identifying line and 2–4 Label: value metadata rows.
 
 ## When not to use
 
--   For a one-line explanation without metadata rows, use Tooltip instead of Context Card.
--   Do not use Context Card to surface destructive actions—the panel can dismiss on cursor exit before the user commits.
+- For a one-line explanation without metadata rows, use Tooltip instead of Context Card.
+- Do not use Context Card to surface destructive actions—the panel can dismiss on cursor exit before the user commits.
 
 ## Examples
 
@@ -38,9 +38,9 @@ Fully customizes the internal rendering logic of the card through a render prop,
 
 ## Accessibility
 
--   The card should trap focus within its content when open; pressing Escape closes the card and returns focus to the trigger element.
--   The trigger retains its own accessible name—the card is supplementary and should not replace the trigger's accessible name.
--   Content in the card should not restate what the trigger already displays visibly, avoiding information redundancy.
+- The card should trap focus within its content when open; pressing Escape closes the card and returns focus to the trigger element.
+- The trigger retains its own accessible name—the card is supplementary and should not replace the trigger's accessible name.
+- Content in the card should not restate what the trigger already displays visibly, avoiding information redundancy.
 
 ## Controlled behavior
 
@@ -52,7 +52,7 @@ Not applicable: ContextCard is a floating overlay card rendered in a small area,
 
 ## Theme behavior
 
--   Context Card supports dark and light themes, with styles automatically adapting to the user's preferred color scheme following the Geist design system color tokens.
+- Context Card supports dark and light themes, with styles automatically adapting to the user's preferred color scheme following the Geist design system color tokens.
 
 ## Live Demo
 
@@ -107,7 +107,7 @@ const card = (
       <span>{label}</span>
     </ContextCardTrigger>
   ))}
-</>
+</>;
 ```
 
 ```tsx
@@ -156,7 +156,7 @@ const card = (
       }
     />
   ))}
-</>
+</>;
 ```
 
 [Rendered as a link](#render-prop)
@@ -197,7 +197,11 @@ const card = (
 <>
   <ContextCardTrigger
     content={card}
-    render={<Button type="default" typeName="button">Default wrapper</Button>}
+    render={
+      <Button type="default" typeName="button">
+        Default wrapper
+      </Button>
+    }
   />
   <ContextCardTrigger
     content={card}
@@ -207,7 +211,7 @@ const card = (
       </a>
     }
   />
-</>
+</>;
 ```
 
 ## API Reference
@@ -217,7 +221,16 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { ContextCard, ContextCardTrigger, ContextCardHeader, ContextCardTitle, ContextCardDescription, ContextCardAvatar, ContextCardBody, ContextCardFooter } from "@/components/ui/context-card"
+import {
+  ContextCard,
+  ContextCardTrigger,
+  ContextCardHeader,
+  ContextCardTitle,
+  ContextCardDescription,
+  ContextCardAvatar,
+  ContextCardBody,
+  ContextCardFooter,
+} from "@/components/ui/context-card";
 ```
 
 ### Props & callbacks
@@ -226,10 +239,10 @@ import { ContextCard, ContextCardTrigger, ContextCardHeader, ContextCardTitle, C
 
 ## Best Practices
 
--   Use Context Card to reveal entity metadata on hover or focus: a user, a deployment, a project, an API key. The trigger is usually a name link or avatar in dense data.
--   For a one-line explanation without metadata rows, use Tooltip. For long-form content, edit forms, or persistent navigation, route to a Drawer or a detail page.
--   Don't use Context Card to surface destructive actions; the panel can dismiss on cursor exit before the user commits.
--   Cap interactive content at one primary action (View Project, Open Settings). More than one CTA reads as a menu and belongs in a Menu.
--   Lead with the entity name as a Title Case heading and one identifying line in sentence case underneath, followed by 2–4 metadata rows of Label: value.
--   Don't restate what the trigger already showed. If the row already renders the deployment URL, don't repeat it as the first card line.
--   The trigger keeps its own accessible name; the card is supplementary and shouldn't replace it. Escape closes the card and returns focus to the trigger.
+- Use Context Card to reveal entity metadata on hover or focus: a user, a deployment, a project, an API key. The trigger is usually a name link or avatar in dense data.
+- For a one-line explanation without metadata rows, use Tooltip. For long-form content, edit forms, or persistent navigation, route to a Drawer or a detail page.
+- Don't use Context Card to surface destructive actions; the panel can dismiss on cursor exit before the user commits.
+- Cap interactive content at one primary action (View Project, Open Settings). More than one CTA reads as a menu and belongs in a Menu.
+- Lead with the entity name as a Title Case heading and one identifying line in sentence case underneath, followed by 2–4 metadata rows of Label: value.
+- Don't restate what the trigger already showed. If the row already renders the deployment URL, don't repeat it as the first card line.
+- The trigger keeps its own accessible name; the card is supplementary and shouldn't replace it. Escape closes the card and returns focus to the trigger.

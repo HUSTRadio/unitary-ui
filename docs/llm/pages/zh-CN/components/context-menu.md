@@ -14,13 +14,13 @@ Context Menu
 
 ## 何时使用
 
--   需要对行、文件或画布对象提供右键单击或长按触发的上下文快捷操作菜单。
--   需要为同一操作同时提供右键菜单入口和可见的菜单触发器（按钮/图标），确保鼠标用户和键盘用户都有等效访问路径。
+- 需要对行、文件或画布对象提供右键单击或长按触发的上下文快捷操作菜单。
+- 需要为同一操作同时提供右键菜单入口和可见的菜单触发器（按钮/图标），确保鼠标用户和键盘用户都有等效访问路径。
 
 ## 何时不应使用
 
--   ContextMenu 绝不能是唯一的操作入口；必须将其镜像到可见的 Menu 触发器或行按钮中，否则键盘用户将无法访问。
--   不要在页面上整个范围抑制原生浏览器菜单，只应在触发元素区域内抑制右键菜单。
+- ContextMenu 绝不能是唯一的操作入口；必须将其镜像到可见的 Menu 触发器或行按钮中，否则键盘用户将无法访问。
+- 不要在页面上整个范围抑制原生浏览器菜单，只应在触发元素区域内抑制右键菜单。
 
 ## 示例
 
@@ -42,9 +42,9 @@ Context Menu
 
 ## 无障碍
 
--   为每个菜单项设置语义化的 aria-label，确保屏幕阅读器能够正确朗读操作内容。
--   桌面端绑定右键点击，移动端绑定长按触发；Windows/Linux 下 Shift+F10 同样可以打开同一菜单。
--   在每个菜单项上使用 Title Case 动词 + 名词格式（例如 'Open in New Tab'、'Copy URL'、'Delete Deployment'）。
+- 为每个菜单项设置语义化的 aria-label，确保屏幕阅读器能够正确朗读操作内容。
+- 桌面端绑定右键点击，移动端绑定长按触发；Windows/Linux 下 Shift+F10 同样可以打开同一菜单。
+- 在每个菜单项上使用 Title Case 动词 + 名词格式（例如 'Open in New Tab'、'Copy URL'、'Delete Deployment'）。
 
 ## 受控行为
 
@@ -84,7 +84,7 @@ import {
     <ContextMenuItem>Item Three</ContextMenuItem>
     <ContextMenuItem>Item Four</ContextMenuItem>
   </ContextMenuContent>
-</ContextMenu>
+</ContextMenu>;
 ```
 
 在此处右键点击
@@ -111,7 +111,7 @@ import {
     <ContextMenuItem disabled>Item Three</ContextMenuItem>
     <ContextMenuItem>Item Four</ContextMenuItem>
   </ContextMenuContent>
-</ContextMenu>
+</ContextMenu>;
 ```
 
 在此处右键点击
@@ -138,7 +138,7 @@ import {
     <ContextMenuItem href="/">Item Three</ContextMenuItem>
     <ContextMenuItem href="/">Item Four</ContextMenuItem>
   </ContextMenuContent>
-</ContextMenu>
+</ContextMenu>;
 ```
 
 在此处右键点击
@@ -166,10 +166,18 @@ const icon = <Triangle className="size-4" aria-hidden />;
       </span>
     </ContextMenuTrigger>
     <ContextMenuContent className="w-[160px]">
-      <ContextMenuItem href="/" prefix={icon}>Item one</ContextMenuItem>
-      <ContextMenuItem href="/" prefix={icon}>Item Two</ContextMenuItem>
-      <ContextMenuItem href="/" prefix={icon}>Item Three</ContextMenuItem>
-      <ContextMenuItem href="/" prefix={icon}>Item Four</ContextMenuItem>
+      <ContextMenuItem href="/" prefix={icon}>
+        Item one
+      </ContextMenuItem>
+      <ContextMenuItem href="/" prefix={icon}>
+        Item Two
+      </ContextMenuItem>
+      <ContextMenuItem href="/" prefix={icon}>
+        Item Three
+      </ContextMenuItem>
+      <ContextMenuItem href="/" prefix={icon}>
+        Item Four
+      </ContextMenuItem>
     </ContextMenuContent>
   </ContextMenu>
   <ContextMenu>
@@ -181,13 +189,21 @@ const icon = <Triangle className="size-4" aria-hidden />;
       </span>
     </ContextMenuTrigger>
     <ContextMenuContent className="w-[160px]">
-      <ContextMenuItem href="/" suffix={icon}>Item one</ContextMenuItem>
-      <ContextMenuItem href="/" suffix={icon}>Item Two</ContextMenuItem>
-      <ContextMenuItem href="/" suffix={icon}>Item Three</ContextMenuItem>
-      <ContextMenuItem href="/" suffix={icon}>Item Four</ContextMenuItem>
+      <ContextMenuItem href="/" suffix={icon}>
+        Item one
+      </ContextMenuItem>
+      <ContextMenuItem href="/" suffix={icon}>
+        Item Two
+      </ContextMenuItem>
+      <ContextMenuItem href="/" suffix={icon}>
+        Item Three
+      </ContextMenuItem>
+      <ContextMenuItem href="/" suffix={icon}>
+        Item Four
+      </ContextMenuItem>
     </ContextMenuContent>
   </ContextMenu>
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -197,7 +213,7 @@ const icon = <Triangle className="size-4" aria-hidden />;
 导入
 
 ```tsx
-import { ContextMenu, ContextMenuItem, ContextMenuSeparator } from "@/components/ui/context-menu"
+import { ContextMenu, ContextMenuItem, ContextMenuSeparator } from "@/components/ui/context-menu";
 ```
 
 ### 属性与回调
@@ -206,10 +222,10 @@ import { ContextMenu, ContextMenuItem, ContextMenuSeparator } from "@/components
 
 ## 最佳实践
 
--   对行、文件或画布对象右键或长按触发的专家级快捷操作使用 ContextMenu。
--   ContextMenu 绝不能是动作的唯一入口。把每一项镜像到可见的 Menu 触发器或行按钮中，保证纯鼠标与纯键盘用户的能力对等。
--   桌面绑定右键、触屏绑定长按。只在触发器区域抑制浏览器原生菜单，不要整页抑制。
--   激活、Escape 与外部点击时关闭；悬停移出不关闭。
--   项规则与 Menu 相同：首字母大写动词 + 名词（Open in New Tab、Copy URL、Delete Deployment）。裸动词是错的。
--   破坏性项分组到底部并加分隔线，破坏性标签保持 动词 + 名词。
--   键盘菜单键（Windows/Linux 上为 Shift+F10）在无需右键的情况下打开同一菜单。
+- 对行、文件或画布对象右键或长按触发的专家级快捷操作使用 ContextMenu。
+- ContextMenu 绝不能是动作的唯一入口。把每一项镜像到可见的 Menu 触发器或行按钮中，保证纯鼠标与纯键盘用户的能力对等。
+- 桌面绑定右键、触屏绑定长按。只在触发器区域抑制浏览器原生菜单，不要整页抑制。
+- 激活、Escape 与外部点击时关闭；悬停移出不关闭。
+- 项规则与 Menu 相同：首字母大写动词 + 名词（Open in New Tab、Copy URL、Delete Deployment）。裸动词是错的。
+- 破坏性项分组到底部并加分隔线，破坏性标签保持 动词 + 名词。
+- 键盘菜单键（Windows/Linux 上为 Shift+F10）在无需右键的情况下打开同一菜单。

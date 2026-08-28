@@ -14,15 +14,15 @@ Confirms destructive actions with a red AlertTriangle header and a destructive c
 
 ## When to use
 
--   When the action is destructive and warrants friction — delete, rotate, revoke, disconnect, downgrade. The typed gate forces deliberate intent.
--   For reversible destructive actions too, when the consequence is serious enough to warrant a pause but still benefit from the typed gate.
--   When you need the user to type a confirmation phrase to prove their understanding of the consequences before proceeding.
+- When the action is destructive and warrants friction — delete, rotate, revoke, disconnect, downgrade. The typed gate forces deliberate intent.
+- For reversible destructive actions too, when the consequence is serious enough to warrant a pause but still benefit from the typed gate.
+- When you need the user to type a confirmation phrase to prove their understanding of the consequences before proceeding.
 
 ## When not to use
 
--   Routine confirmations such as save draft, discard changes, or close without saving should use a plain Modal — the typed gate reads as melodrama when the stakes are low.
--   Actions that only involve a light UI refresh or immediate undo don't merit an input barrier — use a non-blocking toast instead.
--   Non-blocking acknowledgments belong to Toast, not Modal — a destructive confirmation needs the blocking overlay.
+- Routine confirmations such as save draft, discard changes, or close without saving should use a plain Modal — the typed gate reads as melodrama when the stakes are low.
+- Actions that only involve a light UI refresh or immediate undo don't merit an input barrier — use a non-blocking toast instead.
+- Non-blocking acknowledgments belong to Toast, not Modal — a destructive confirmation needs the blocking overlay.
 
 ## Examples
 
@@ -44,25 +44,25 @@ Keep the modal open on API failure so the user can retry, rather than silently d
 
 ## Accessibility
 
--   The verification input gets focus on open so the user can start typing immediately; submit stays disabled until the value matches exactly.
--   Title should be a Title Case statement — never a question — e.g. Delete Project, not Delete this project?.
--   The loading state disables both buttons to prevent duplicate submissions.
+- The verification input gets focus on open so the user can start typing immediately; submit stays disabled until the value matches exactly.
+- Title should be a Title Case statement — never a question — e.g. Delete Project, not Delete this project?.
+- The loading state disables both buttons to prevent duplicate submissions.
 
 ## Controlled behavior
 
--   The caller owns open — do not self-dismiss from onConfirm; close after the API settles or keep open on error so the user can retry.
--   The loading property disables both buttons simultaneously, managed by the parent component.
--   The input field auto-focuses on open and continuously validates against the confirmation phrase.
+- The caller owns open — do not self-dismiss from onConfirm; close after the API settles or keep open on error so the user can retry.
+- The loading property disables both buttons simultaneously, managed by the parent component.
+- The input field auto-focuses on open and continuously validates against the confirmation phrase.
 
 ## Responsive behavior
 
--   On small screens the modal displays as a full-screen cover; on larger viewports it centers with appropriate margins.
--   Font sizes for the title and input field scale responsively across breakpoints.
+- On small screens the modal displays as a full-screen cover; on larger viewports it centers with appropriate margins.
+- Font sizes for the title and input field scale responsively across breakpoints.
 
 ## Theme behavior
 
--   Uses semantic variant coloring for destructive actions (red tones).
--   Dark/light theme switching preserves the red warning signal across all themes.
+- Uses semantic variant coloring for destructive actions (red tones).
+- Dark/light theme switching preserves the red warning signal across all themes.
 
 ## Live Demo
 
@@ -206,7 +206,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { DestructiveActionModal } from "@/components/ui/destructive-action-modal"
+import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
 ```
 
 ### Props & callbacks
@@ -215,10 +215,10 @@ import { DestructiveActionModal } from "@/components/ui/destructive-action-modal
 
 ## Best Practices
 
--   Reach for this over Modal when the action is destructive and warrants friction: delete, rotate, revoke, disconnect, downgrade. The typed gate forces deliberate intent.
--   Use it for reversible destructive actions too, when the consequence is serious enough to warrant a pause. Keep the typed gate; drop the irreversibility band.
--   Don't use for routine confirmations (save draft, discard changes, close without saving). The typed gate reads as melodrama when the stakes are low — use a plain Modal.
--   Title is Title Case, Verb + Noun, a statement — never a question. Delete Project, not Delete this project?.
--   confirmLabel matches the title 1:1. Never generic (Confirm, OK, Continue), never a bare verb (Delete).
--   loading disables both buttons. The caller owns open — do not self-dismiss from onConfirm. Close after the API settles, or keep open on error so the user can retry.
--   The verification input gets focus on open so the user can start typing immediately. Submit stays disabled until the value matches the verification phrase exactly.
+- Reach for this over Modal when the action is destructive and warrants friction: delete, rotate, revoke, disconnect, downgrade. The typed gate forces deliberate intent.
+- Use it for reversible destructive actions too, when the consequence is serious enough to warrant a pause. Keep the typed gate; drop the irreversibility band.
+- Don't use for routine confirmations (save draft, discard changes, close without saving). The typed gate reads as melodrama when the stakes are low — use a plain Modal.
+- Title is Title Case, Verb + Noun, a statement — never a question. Delete Project, not Delete this project?.
+- confirmLabel matches the title 1:1. Never generic (Confirm, OK, Continue), never a bare verb (Delete).
+- loading disables both buttons. The caller owns open — do not self-dismiss from onConfirm. Close after the API settles, or keep open on error so the user can retry.
+- The verification input gets focus on open so the user can start typing immediately. Submit stays disabled until the value matches the verification phrase exactly.

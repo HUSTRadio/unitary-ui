@@ -14,13 +14,13 @@ Grid
 
 ## 何时使用
 
--   需要在营销页面、文档首页和功能分解图中实现二维的单元格加引导线布局，其中引导线和单元格边框本身就是设计的一部分。
--   希望在不增加复杂嵌套的情况下对齐多个项目并保持视觉层次。
+- 需要在营销页面、文档首页和功能分解图中实现二维的单元格加引导线布局，其中引导线和单元格边框本身就是设计的一部分。
+- 希望在不增加复杂嵌套的情况下对齐多个项目并保持视觉层次。
 
 ## 何时不应使用
 
--   对于普通的 n 列响应式内容（卡片列表等），直接使用 Tailwind 的 grid-cols-\* 工具类即可；Grid 在没有引导线可见时属于过度设计。
--   不应嵌套超过一层 Grid，引导线的叠加会产生视觉噪音并破坏单元格的对齐计算。
+- 对于普通的 n 列响应式内容（卡片列表等），直接使用 Tailwind 的 grid-cols-\* 工具类即可；Grid 在没有引导线可见时属于过度设计。
+- 不应嵌套超过一层 Grid，引导线的叠加会产生视觉噪音并破坏单元格的对齐计算。
 
 ## 示例
 
@@ -50,13 +50,13 @@ Grid
 
 ## 响应式行为
 
--   Grid 组件内置响应式断点，在不同视口下自动调整列数和引导线的显示方式。
--   可以分别隐藏行引导线或列引导线以适应特定的布局需求，当两侧引导线都隐藏时通常意味着纯 Tailwind 网格更为合适。
+- Grid 组件内置响应式断点，在不同视口下自动调整列数和引导线的显示方式。
+- 可以分别隐藏行引导线或列引导线以适应特定的布局需求，当两侧引导线都隐藏时通常意味着纯 Tailwind 网格更为合适。
 
 ## 主题行为
 
--   网格线颜色和单元格背景色从主题令牌获取，确保浅色模式和深色模式下的正确对比度。
--   引导线粗细和样式（实线、虚线）可通过 props 调整并与设计系统的 Token 保持一致。
+- 网格线颜色和单元格背景色从主题令牌获取，确保浅色模式和深色模式下的正确对比度。
+- 引导线粗细和样式（实线、虚线）可通过 props 调整并与设计系统的 Token 保持一致。
 
 ## 实时示例
 
@@ -79,7 +79,7 @@ import { Grid, GridSystem } from "@/components/ui/grid";
 
 <GridSystem debug guideWidth={1} unstable_useContainer>
   <Grid columns={5} height="preserve-aspect-ratio" rows={2} />
-</GridSystem>
+</GridSystem>;
 ```
 
 ## 基础网格
@@ -105,7 +105,7 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
       <GridCell key={n}>{n}</GridCell>
     ))}
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## 实心单元格
@@ -132,7 +132,7 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
       5 + 6
     </GridCell>
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## 响应式网格
@@ -158,7 +158,7 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
       <GridCell key={n}>{n}</GridCell>
     ))}
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## 响应式参考线裁切
@@ -185,7 +185,7 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
       5 + 6
     </GridCell>
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## 隐藏行参考线
@@ -195,7 +195,7 @@ import { Grid, GridSystem } from "@/components/ui/grid";
 
 <GridSystem unstable_useContainer>
   <Grid columns={12} height="preserve-aspect-ratio" hideGuides="row" rows={3} />
-</GridSystem>
+</GridSystem>;
 ```
 
 ## 隐藏列参考线
@@ -205,7 +205,7 @@ import { Grid, GridSystem } from "@/components/ui/grid";
 
 <GridSystem unstable_useContainer>
   <Grid columns={12} height="preserve-aspect-ratio" hideGuides="column" rows={3} />
-</GridSystem>
+</GridSystem>;
 ```
 
 ## 重叠单元格
@@ -241,7 +241,7 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
       4
     </GridCell>
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## 特定参考线裁切
@@ -277,7 +277,7 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
       5
     </GridCell>
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## 带十字的网格
@@ -307,7 +307,7 @@ import { Grid, GridCell, GridCross, GridSystem } from "@/components/ui/grid";
       <GridCell key={n}>{n}</GridCell>
     ))}
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## 带十字的虚线网格
@@ -325,7 +325,7 @@ import { Grid, GridCell, GridCross, GridSystem } from "@/components/ui/grid";
     <GridCross column={1} row={2} />
     <GridCell>Content here</GridCell>
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## 带页面的虚线网格
@@ -345,7 +345,7 @@ import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui
       <GridCell>Content here</GridCell>
     </Grid>
   </GridSystem>
-</GridPage>
+</GridPage>;
 ```
 
 ## API 参考
@@ -355,7 +355,7 @@ import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui
 导入
 
 ```tsx
-import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui/grid"
+import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui/grid";
 ```
 
 ### 属性与回调
@@ -364,7 +364,7 @@ import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui
 
 ## 最佳实践
 
--   营销页、文档落地页和功能分解中的二维单元格与引导线布局（网格线、单元格边框是设计的一部分）用 Grid。
--   普通 n 列响应式内容（卡片、列表）直接用 Tailwind 的 grid grid-cols-\* 工具类；引导线不可见时 Grid 是过度设计。
--   Grid 嵌套不超过一层；引导线重叠看起来像视觉噪音并破坏单元格数学。
--   仅当隐藏行或列引导线确实提升清晰度时（单轴布局、hero 行）才隐藏。两者都隐藏通常说明用普通 Tailwind grid 才对。
+- 营销页、文档落地页和功能分解中的二维单元格与引导线布局（网格线、单元格边框是设计的一部分）用 Grid。
+- 普通 n 列响应式内容（卡片、列表）直接用 Tailwind 的 grid grid-cols-\* 工具类；引导线不可见时 Grid 是过度设计。
+- Grid 嵌套不超过一层；引导线重叠看起来像视觉噪音并破坏单元格数学。
+- 仅当隐藏行或列引导线确实提升清晰度时（单轴布局、hero 行）才隐藏。两者都隐藏通常说明用普通 Tailwind grid 才对。

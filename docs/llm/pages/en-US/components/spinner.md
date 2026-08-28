@@ -14,15 +14,15 @@ Indicates an in-progress operation.
 
 ## When to use
 
--   Use Spinner for a single in-flight action or indeterminate wait where there is no known progress to show.
--   Prefer a loading state on the action control itself (like Button loading) so the busy element stays focusable and announces the busy state to assistive tech.
--   Pair a standalone Spinner with a text label or aria-label so the loading state is announced to assistive tech.
+- Use Spinner for a single in-flight action or indeterminate wait where there is no known progress to show.
+- Prefer a loading state on the action control itself (like Button loading) so the busy element stays focusable and announces the busy state to assistive tech.
+- Pair a standalone Spinner with a text label or aria-label so the loading state is announced to assistive tech.
 
 ## When not to use
 
--   For a known duration or percentage, use Progress instead of a Spinner.
--   Do not pair Loading Dots with another animated indicator on the same line—this creates visual conflict and wastes resources.
--   Deployment lifecycle intermediate states (BUILDING / QUEUED) should be handled by Status Dot, not supplemented with a Spinner.
+- For a known duration or percentage, use Progress instead of a Spinner.
+- Do not pair Loading Dots with another animated indicator on the same line—this creates visual conflict and wastes resources.
+- Deployment lifecycle intermediate states (BUILDING / QUEUED) should be handled by Status Dot, not supplemented with a Spinner.
 
 ## Examples
 
@@ -32,9 +32,9 @@ Showcases different color variants of the Spinner for varying backgrounds and co
 
 ## Accessibility
 
--   A standalone Spinner must be accompanied by an aria-label or text description telling users what operation is waiting.
--   The Spinner itself is decorative; its meaning should be carried by adjacent text or an aria-live region—an idly spinning wheel should not be mistaken for an interactive element.
--   Respect prefers-reduced-motion to reduce rotation frequency or stop the animation entirely on low-intensity devices.
+- A standalone Spinner must be accompanied by an aria-label or text description telling users what operation is waiting.
+- The Spinner itself is decorative; its meaning should be carried by adjacent text or an aria-live region—an idly spinning wheel should not be mistaken for an interactive element.
+- Respect prefers-reduced-motion to reduce rotation frequency or stop the animation entirely on low-intensity devices.
 
 ## Controlled behavior
 
@@ -42,13 +42,13 @@ Not applicable: Spinner is a passive display component with no interactive state
 
 ## Responsive behavior
 
--   Spinner size is specified explicitly via props, keeping consistent visual density and legibility on any viewport.
--   In different UI density contexts (dense table rows vs. full-screen modals), the Spinner adapts to the appropriate proportional size.
+- Spinner size is specified explicitly via props, keeping consistent visual density and legibility on any viewport.
+- In different UI density contexts (dense table rows vs. full-screen modals), the Spinner adapts to the appropriate proportional size.
 
 ## Theme behavior
 
--   Spinner colors are managed through theme variables, automatically selecting appropriate hues for sufficient contrast in both dark and light modes.
--   Custom color values can be passed via props to align with brand palettes or specific semantic meanings.
+- Spinner colors are managed through theme variables, automatically selecting appropriate hues for sufficient contrast in both dark and light modes.
+- Custom color values can be passed via props to align with brand palettes or specific semantic meanings.
 
 ## Live Demo
 
@@ -96,7 +96,7 @@ import { Spinner } from "@/components/ui/spinner";
     <span className="w-24 text-copy-14 text-muted-foreground">Blue:</span>
     <Spinner className="text-blue-700" />
   </div>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -106,7 +106,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Spinner } from "@/components/ui/spinner"
+import { Spinner } from "@/components/ui/spinner";
 ```
 
 ### Props & callbacks
@@ -115,7 +115,7 @@ import { Spinner } from "@/components/ui/spinner"
 
 ## Best Practices
 
--   Use Spinner for a single in-flight action or indeterminate wait where there’s no known progress to show.
--   For a known duration or percentage, use Progress instead of a spinner.
--   Prefer a loading state on the action control itself (like Button loading) so the busy element stays focusable.
--   Pair a standalone Spinner with a text label or aria-label so the loading state is announced to assistive tech.
+- Use Spinner for a single in-flight action or indeterminate wait where there’s no known progress to show.
+- For a known duration or percentage, use Progress instead of a spinner.
+- Prefer a loading state on the action control itself (like Button loading) so the busy element stays focusable.
+- Pair a standalone Spinner with a text label or aria-label so the loading state is announced to assistive tech.

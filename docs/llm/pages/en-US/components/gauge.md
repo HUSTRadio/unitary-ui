@@ -14,14 +14,14 @@ A circular visual for conveying a percentage.
 
 ## When to use
 
--   In a 0–100 ratio against a fixed maximum where the comparison is the point, like quota usage, build cache hit rate, uptime, or billing-period consumption.
--   When you need a compact visual indicator to replace raw numbers for quick page scanning.
--   When the metric represents proportion of total capacity rather than task completion progress.
+- In a 0–100 ratio against a fixed maximum where the comparison is the point, like quota usage, build cache hit rate, uptime, or billing-period consumption.
+- When you need a compact visual indicator to replace raw numbers for quick page scanning.
+- When the metric represents proportion of total capacity rather than task completion progress.
 
 ## When not to use
 
--   For determinate task progress with a known total (uploads, multi-step setup), use Progress instead, as it conveys a clear completion semantics.
--   For binary or enumerated state, use Status Dot for deployments or Badge for other metadata.
+- For determinate task progress with a known total (uploads, multi-step setup), use Progress instead, as it conveys a clear completion semantics.
+- For binary or enumerated state, use Status Dot for deployments or Badge for other metadata.
 
 ## Examples
 
@@ -43,8 +43,8 @@ When data is loading and the specific percentage is not yet available, use a spi
 
 ## Accessibility
 
--   The component sets role="progressbar" with aria-valuemin, aria-valuemax, and aria-valuenow so screen readers announce the current progress correctly.
--   Always pair the gauge with an adjacent label or Tooltip naming what the number represents; the gauge alone is not self-describing.
+- The component sets role="progressbar" with aria-valuemin, aria-valuemax, and aria-valuenow so screen readers announce the current progress correctly.
+- Always pair the gauge with an adjacent label or Tooltip naming what the number represents; the gauge alone is not self-describing.
 
 ## Controlled behavior
 
@@ -52,13 +52,13 @@ Not applicable: Gauge is a purely presentational component that renders only the
 
 ## Responsive behavior
 
--   The gauge arc automatically adapts width across different viewports to ensure legibility on any screen size.
--   Label text scales with the container, maintaining appropriate contrast and readability on smaller devices.
+- The gauge arc automatically adapts width across different viewports to ensure legibility on any screen size.
+- Label text scales with the container, maintaining appropriate contrast and readability on smaller devices.
 
 ## Theme behavior
 
--   Arc colors and background colors follow the theme's color tokens, including automatic adaptation for dark mode.
--   Supports custom gradients and stroke colors that work with design system theme variables for brand consistency.
+- Arc colors and background colors follow the theme's color tokens, including automatic adaptation for dark mode.
+- Supports custom gradients and stroke colors that work with design system theme variables for brand consistency.
 
 ## Live Demo
 
@@ -87,7 +87,7 @@ import { Gauge } from "@/components/ui/gauge";
   <Gauge showValue size="medium" value={100} />
   <Gauge showValue size="large" value={80} />
   <Gauge showValue size="large" value={100} />
-</div>
+</div>;
 ```
 
 ## Default color scale
@@ -99,7 +99,7 @@ import { Gauge } from "@/components/ui/gauge";
   <Gauge size="small" value={14} />
   <Gauge size="small" value={34} />
   <Gauge size="small" value={68} />
-</div>
+</div>;
 ```
 
 ## Custom color range
@@ -124,7 +124,7 @@ const PINK_SCALE = {
   {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((value) => (
     <Gauge key={value} colors={PINK_SCALE} size="small" value={value} />
   ))}
-</div>
+</div>;
 ```
 
 ## Custom secondary color
@@ -138,7 +138,7 @@ import { Gauge } from "@/components/ui/gauge";
     size="medium"
     value={50}
   />
-</div>
+</div>;
 ```
 
 ## Arc priority
@@ -156,7 +156,7 @@ import { Gauge } from "@/components/ui/gauge";
     size="medium"
     value={50}
   />
-</div>
+</div>;
 ```
 
 ## Indeterminate
@@ -169,7 +169,7 @@ import { Gauge } from "@/components/ui/gauge";
   <Gauge indeterminate size="small" value={25} />
   <Gauge indeterminate size="medium" value={25} />
   <Gauge indeterminate size="large" value={25} />
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -179,7 +179,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Gauge } from "@/components/ui/gauge"
+import { Gauge } from "@/components/ui/gauge";
 ```
 
 ### Props & callbacks
@@ -188,9 +188,9 @@ import { Gauge } from "@/components/ui/gauge"
 
 ## Best Practices
 
--   A 0–100 ratio against a fixed maximum where the comparison is the point, like quota usage, build cache hit rate, uptime, or billing-period consumption.
--   For determinate task progress with a known total (uploads, multi-step setup), use Progress.
--   For binary or enumerated state, use Status Dot for deployments or Badge for everything else.
--   Always pair the gauge with an adjacent label or Tooltip naming what the number represents (Build Cache Hit Rate). The gauge alone is not self-describing.
--   Don't put units inside children; the label carries the unit (Uptime · 99.97%). children is reserved for an icon overlay.
--   The component sets role="progressbar" with aria-valuemin, aria-valuemax, and aria-valuenow. Don't override those.
+- A 0–100 ratio against a fixed maximum where the comparison is the point, like quota usage, build cache hit rate, uptime, or billing-period consumption.
+- For determinate task progress with a known total (uploads, multi-step setup), use Progress.
+- For binary or enumerated state, use Status Dot for deployments or Badge for everything else.
+- Always pair the gauge with an adjacent label or Tooltip naming what the number represents (Build Cache Hit Rate). The gauge alone is not self-describing.
+- Don't put units inside children; the label carries the unit (Uptime · 99.97%). children is reserved for an icon overlay.
+- The component sets role="progressbar" with aria-valuemin, aria-valuemax, and aria-valuenow. Don't override those.

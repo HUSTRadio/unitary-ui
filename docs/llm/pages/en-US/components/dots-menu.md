@@ -14,14 +14,14 @@ An overflow menu triggered by a three-dot icon that reveals additional actions i
 
 ## When to use
 
--   Where space is limited on rows, cards, or resource items and you need to surface additional related actions.
--   As a complement to Context Menu: Dots Menu handles visible triggers with keyboard/mouse parity, while right-click shortcuts are handled by Context Menu.
+- Where space is limited on rows, cards, or resource items and you need to surface additional related actions.
+- As a complement to Context Menu: Dots Menu handles visible triggers with keyboard/mouse parity, while right-click shortcuts are handled by Context Menu.
 
 ## When not to use
 
--   When there are more than 10 actions — consider using Split Button + Menu with grouping or navigate to a dedicated settings page.
--   The single most common action should not be buried in a Dots Menu — place it prominently.
--   Right-click contextual actions belong in Context Menu, not solely behind a Dots Menu trigger.
+- When there are more than 10 actions — consider using Split Button + Menu with grouping or navigate to a dedicated settings page.
+- The single most common action should not be buried in a Dots Menu — place it prominently.
+- Right-click contextual actions belong in Context Menu, not solely behind a Dots Menu trigger.
 
 ## Examples
 
@@ -43,25 +43,25 @@ Some menu items are disabled due to permissions or conditions, while others rema
 
 ## Accessibility
 
--   The three-dot icon button requires a clear aria-label so screen readers announce the menu purpose.
--   Escape closes the menu and returns focus to the trigger.
--   Arrow keys move focus through items; Enter or Space activates the selected item.
+- The three-dot icon button requires a clear aria-label so screen readers announce the menu purpose.
+- Escape closes the menu and returns focus to the trigger.
+- Arrow keys move focus through items; Enter or Space activates the selected item.
 
 ## Controlled behavior
 
--   Menu open state is controlled by the parent via the open prop for show and hide.
--   Items close automatically on activation and execute the corresponding action, returning focus to the trigger.
--   In controlled mode the menu can be opened or closed programmatically.
+- Menu open state is controlled by the parent via the open prop for show and hide.
+- Items close automatically on activation and execute the corresponding action, returning focus to the trigger.
+- In controlled mode the menu can be opened or closed programmatically.
 
 ## Responsive behavior
 
--   Position strategy auto-flips based on window bounds to avoid clipping on narrow viewports.
--   Touch targets expand in large-spacing environments for better tap accuracy.
+- Position strategy auto-flips based on window bounds to avoid clipping on narrow viewports.
+- Touch targets expand in large-spacing environments for better tap accuracy.
 
 ## Theme behavior
 
--   Background, border, and highlight colors follow the application theme system.
--   Disabled-state tones are sourced from CSS variables ensuring consistency across light and dark modes.
+- Background, border, and highlight colors follow the application theme system.
+- Disabled-state tones are sourced from CSS variables ensuring consistency across light and dark modes.
 
 ## Live Demo
 
@@ -72,7 +72,7 @@ import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
   <DotsMenuItem>View Build Logs</DotsMenuItem>
   <DotsMenuItem>View Projects</DotsMenuItem>
   <DotsMenuItem>View Analytics</DotsMenuItem>
-</DotsMenu>
+</DotsMenu>;
 ```
 
 ```tsx
@@ -94,7 +94,7 @@ import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
     <DotsMenuItem>View Projects</DotsMenuItem>
     <DotsMenuItem>View Analytics</DotsMenuItem>
   </DotsMenu>
-</div>
+</div>;
 ```
 
 ```tsx
@@ -104,7 +104,7 @@ import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
   <DotsMenuItem>View Build Logs</DotsMenuItem>
   <DotsMenuItem>View Projects</DotsMenuItem>
   <DotsMenuItem>View Analytics</DotsMenuItem>
-</DotsMenu>
+</DotsMenu>;
 ```
 
 ```tsx
@@ -114,7 +114,7 @@ import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
   <DotsMenuItem>View Build Logs</DotsMenuItem>
   <DotsMenuItem disabled>View Projects</DotsMenuItem>
   <DotsMenuItem>View Analytics</DotsMenuItem>
-</DotsMenu>
+</DotsMenu>;
 ```
 
 ## API Reference
@@ -124,7 +124,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { DotsMenu, DotsMenuItem, DotsMenuSeparator } from "@/components/ui/dots-menu"
+import { DotsMenu, DotsMenuItem, DotsMenuSeparator } from "@/components/ui/dots-menu";
 ```
 
 ### Props & callbacks

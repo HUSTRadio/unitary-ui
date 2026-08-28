@@ -14,13 +14,13 @@ Load More Button
 
 ## 何时使用
 
--   用户在信息流或数据列表中需要手动触发加载更多内容时，比自动加载更能让用户掌控浏览节奏。
--   列表内容分多页加载，需要在当前页面底部放置一个明确的加载更多入口来保持页面结构清晰。
+- 用户在信息流或数据列表中需要手动触发加载更多内容时，比自动加载更能让用户掌控浏览节奏。
+- 列表内容分多页加载，需要在当前页面底部放置一个明确的加载更多入口来保持页面结构清晰。
 
 ## 何时不应使用
 
--   如果可以使用无限滚动（监听视口位置自动加载），优先使用自动加载而非要求用户每次手动点击按钮。
--   对于固定数量的完整数据集，应使用编号分页器让用户可以自由跳转到任何页码，而不是仅支持向后追加。
+- 如果可以使用无限滚动（监听视口位置自动加载），优先使用自动加载而非要求用户每次手动点击按钮。
+- 对于固定数量的完整数据集，应使用编号分页器让用户可以自由跳转到任何页码，而不是仅支持向后追加。
 
 ## 示例
 
@@ -38,13 +38,13 @@ Load More Button
 
 ## 无障碍
 
--   按钮使用原生 <button> 元素，确保键盘用户可通过 Tab 导航和操作，并在加载状态下自动禁用以防止重复触发。
--   加载状态下的按钮会通过 aria-busy 告知屏幕阅读器当前正在加载新内容。
+- 按钮使用原生 <button> 元素，确保键盘用户可通过 Tab 导航和操作，并在加载状态下自动禁用以防止重复触发。
+- 加载状态下的按钮会通过 aria-busy 告知屏幕阅读器当前正在加载新内容。
 
 ## 受控行为
 
--   通过 loading prop 控制按钮的加载状态，调用方管理数据加载的生命周期并在完成时重置按钮状态。
--   可以通过 onClick 回调拦截点击事件来处理实际的数据加载逻辑，按钮本身不执行网络请求。
+- 通过 loading prop 控制按钮的加载状态，调用方管理数据加载的生命周期并在完成时重置按钮状态。
+- 可以通过 onClick 回调拦截点击事件来处理实际的数据加载逻辑，按钮本身不执行网络请求。
 
 ## 响应式行为
 
@@ -52,39 +52,39 @@ Load More Button
 
 ## 主题行为
 
--   按钮的背景色、边框和文字颜色均从主题令牌获取，包括深色模式下的自动适配和高对比度模式的特殊处理。
--   加载状态的渐变动画和禁用态的透明度遵循设计系统的交互反馈规范。
+- 按钮的背景色、边框和文字颜色均从主题令牌获取，包括深色模式下的自动适配和高对比度模式的特殊处理。
+- 加载状态的渐变动画和禁用态的透明度遵循设计系统的交互反馈规范。
 
 ## 实时示例
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton>Load More</LoadMoreButton>
+<LoadMoreButton>Load More</LoadMoreButton>;
 ```
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton loading>Loading...</LoadMoreButton>
+<LoadMoreButton loading>Loading...</LoadMoreButton>;
 ```
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton noGap>Load More</LoadMoreButton>
+<LoadMoreButton noGap>Load More</LoadMoreButton>;
 ```
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton noBorderRadius>Load More</LoadMoreButton>
+<LoadMoreButton noBorderRadius>Load More</LoadMoreButton>;
 ```
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton>Show More Results</LoadMoreButton>
+<LoadMoreButton>Show More Results</LoadMoreButton>;
 ```
 
 ## API 参考
@@ -94,7 +94,7 @@ import { LoadMoreButton } from "@/components/ui/load-more-button";
 导入
 
 ```tsx
-import { LoadMoreButton } from "@/components/ui/load-more-button"
+import { LoadMoreButton } from "@/components/ui/load-more-button";
 ```
 
 ### 属性与回调

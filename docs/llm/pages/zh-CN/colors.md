@@ -54,8 +54,8 @@ Supporting semantic emphasis.
 
 There are two background colors for pages and UI components. In most instances, use Background 1—especially when color is placed on top of the background. Use Background 2 sparingly when subtle differentiation is needed.
 
--   Background 1 — 默认元素背景
--   Background 2 — 次要背景
+- Background 1 — 默认元素背景
+- Background 2 — 次要背景
 
 ## 色彩 1–10
 

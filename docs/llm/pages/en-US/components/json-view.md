@@ -14,13 +14,13 @@ Renders JSON as a syntax-highlighted tree.
 
 ## When to use
 
--   When users need to inspect, browse, collapse/expand, or copy JSON objects or arrays; interactive viewing is the core requirement.
--   As part of a product interface presenting API response data, allowing users to explore the data structure layer by layer.
+- When users need to inspect, browse, collapse/expand, or copy JSON objects or arrays; interactive viewing is the core requirement.
+- As part of a product interface presenting API response data, allowing users to explore the data structure layer by layer.
 
 ## When not to use
 
--   When the value is static documentation rather than an interactive product surface, use a regular code block; JSON View's interactivity would be unnecessary overhead.
--   Keep the source data as an object or array. Do not pre-stringify JSON before passing it to data.
+- When the value is static documentation rather than an interactive product surface, use a regular code block; JSON View's interactivity would be unnecessary overhead.
+- Keep the source data as an object or array. Do not pre-stringify JSON before passing it to data.
 
 ## Examples
 
@@ -42,23 +42,23 @@ Highlight specific key paths within the JSON tree to help users quickly locate a
 
 ## Accessibility
 
--   Expandable and collapsible nodes in JSON View support keyboard navigation; users can traverse the entire data structure with arrow keys and Enter.
--   Every node has semantic roles and labels so screen readers can correctly announce hierarchy and key-value information.
+- Expandable and collapsible nodes in JSON View support keyboard navigation; users can traverse the entire data structure with arrow keys and Enter.
+- Every node has semantic roles and labels so screen readers can correctly announce hierarchy and key-value information.
 
 ## Controlled behavior
 
--   Control which nodes are expanded by default using defaultExpandedDepth or controlled expandedKeys, precisely controlling the tree's initial view.
--   The data prop accepts JavaScript objects or arrays; the component manages expand/collapse state internally and can expose change callbacks externally.
+- Control which nodes are expanded by default using defaultExpandedDepth or controlled expandedKeys, precisely controlling the tree's initial view.
+- The data prop accepts JavaScript objects or arrays; the component manages expand/collapse state internally and can expose change callbacks externally.
 
 ## Responsive behavior
 
--   The JSON tree automatically adjusts indentation and font size across viewports to remain readable on small screens without triggering unnecessary horizontal scrolling.
--   The container's max height adjusts with viewport changes, enabling vertical scrolling when content exceeds the visible area.
+- The JSON tree automatically adjusts indentation and font size across viewports to remain readable on small screens without triggering unnecessary horizontal scrolling.
+- The container's max height adjusts with viewport changes, enabling vertical scrolling when content exceeds the visible area.
 
 ## Theme behavior
 
--   Syntax highlighting color scheme follows theme tokens, distinguishing strings, numbers, booleans, nulls, and key names.
--   Dark mode adjusts all color contrasts to meet accessibility requirements.
+- Syntax highlighting color scheme follows theme tokens, distinguishing strings, numbers, booleans, nulls, and key names.
+- Dark mode adjusts all color contrasts to meet accessibility requirements.
 
 ## Live Demo
 
@@ -69,7 +69,9 @@ Highlight specific key paths within the JSON tree to help users quickly locate a
 ## Single line
 
 ```tsx
-{ foo: "bar" }
+{
+  foo: "bar";
+}
 ```
 
 ```tsx
@@ -79,13 +81,15 @@ const data = {
   foo: "bar",
 };
 
-<JsonView data={data} defaultExpandDepth={1} />
+<JsonView data={data} defaultExpandDepth={1} />;
 ```
 
 ## Wrapped
 
 ```tsx
-{browserApiUrl: "https://browser-api.vercel.sh/screenshot?url=https%3A%2F%2Fprocore-com-prod-f5vem4o6u-marketing-web-dev.vercel.app&width=1440&height=900&fullPage=true"}
+{
+  browserApiUrl: "https://browser-api.vercel.sh/screenshot?url=https%3A%2F%2Fprocore-com-prod-f5vem4o6u-marketing-web-dev.vercel.app&width=1440&height=900&fullPage=true";
+}
 ```
 
 ```tsx
@@ -96,7 +100,7 @@ const data = {
     "https://browser-api.vercel.sh/screenshot?url=https%3A%2F%2Fprocore-com-prod-f5vem4o6u-marketing-web-dev.vercel.app&width=1440&height=900&fullPage=true",
 };
 
-<JsonView data={data} defaultExpandDepth={1} />
+<JsonView data={data} defaultExpandDepth={1} />;
 ```
 
 ## Collapsed
@@ -122,7 +126,7 @@ const data = {
   flags: ["enable-logs-json-rendering", "observability-panel"],
 };
 
-<JsonView data={data} defaultExpandDepth={0} />
+<JsonView data={data} defaultExpandDepth={0} />;
 ```
 
 ## Highlighted
@@ -144,7 +148,7 @@ const data = {
 
 const highlightPattern = makeJsonViewHighlightPattern(["request", "failed"]);
 
-<JsonView data={data} defaultExpandDepth={1} highlightPattern={highlightPattern} />
+<JsonView data={data} defaultExpandDepth={1} highlightPattern={highlightPattern} />;
 ```
 
 ## API Reference
@@ -154,7 +158,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view"
+import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view";
 ```
 
 ### Props & callbacks
@@ -163,6 +167,6 @@ import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-vie
 
 ## Best Practices
 
--   Use JSON View for JSON objects or arrays that users need to inspect, scan, collapse, expand, select, or copy.
--   Use a regular code block when the value is static documentation, not an interactive product surface.
--   Keep the source data as an object or array. Do not pre-stringify JSON before passing it to data.
+- Use JSON View for JSON objects or arrays that users need to inspect, scan, collapse, expand, select, or copy.
+- Use a regular code block when the value is static documentation, not an interactive product surface.
+- Keep the source data as an object or array. Do not pre-stringify JSON before passing it to data.

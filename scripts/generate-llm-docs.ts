@@ -14,7 +14,7 @@
  * - 生成写入临时目录，成功后原子替换目标目录；
  * - 失败时打印 route 并以非零退出码结束。
  */
-import { spawn, type ChildProcess } from "node:child_process";
+import { spawn, spawnSync, type ChildProcess } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
   cpSync,
@@ -44,6 +44,7 @@ const LOCALES = ["zh-CN", "en-US"] as const;
 type Locale = (typeof LOCALES)[number];
 
 const CHECK_MODE = process.argv.includes("--check");
+const VP_COMMAND = process.platform === "win32" ? "vp.exe" : "vp";
 
 const COMPONENT_BY_NAME = new Map(COMPONENTS.map((component) => [component.name, component]));
 
@@ -82,13 +83,13 @@ async function startPreview(): Promise<{ child: ChildProcess | null; port: numbe
     return { child: null, port: PORT };
   }
   const child = spawn(
-    "vp",
+    VP_COMMAND,
     ["dev", "docs/geist", "--host", "127.0.0.1", "--port", String(PORT), "--strictPort"],
     {
       cwd: ROOT,
       stdio: "ignore",
       detached: false,
-      shell: process.platform === "win32",
+      shell: false,
     },
   );
   child.on("error", (error) => {
@@ -310,6 +311,46 @@ function writeOutput(outputs: RouteOutput[], targetDir: string): void {
   writeFileSync(path.join(targetDir, "index.json"), `${JSON.stringify(index, null, 2)}\n`, "utf8");
 }
 
+interface GeneratedIndexRoute {
+  locales: Record<Locale, string>;
+  sourceHash: Record<Locale, string>;
+}
+
+interface GeneratedIndex {
+  routes: GeneratedIndexRoute[];
+}
+
+function runFormatter(targetPath: string): void {
+  const result = spawnSync(VP_COMMAND, ["fmt", targetPath, "--write"], {
+    cwd: ROOT,
+    encoding: "utf8",
+    shell: false,
+  });
+  if (result.status !== 0) {
+    fail(
+      `formatter 失败 (${targetPath}): ${[result.stdout, result.stderr].filter(Boolean).join("\n")}`,
+    );
+  }
+}
+
+/** 格式化页面后重算 hash，保证 index 记录的是最终落盘字节。 */
+function formatOutput(targetDir: string): void {
+  const pagesDir = path.join(targetDir, "pages");
+  const indexPath = path.join(targetDir, "index.json");
+  runFormatter(pagesDir);
+
+  const index = JSON.parse(readFileSync(indexPath, "utf8")) as GeneratedIndex;
+  for (const route of index.routes) {
+    for (const locale of LOCALES) {
+      route.sourceHash[locale] = sha256(
+        readFileSync(path.join(targetDir, route.locales[locale]), "utf8"),
+      );
+    }
+  }
+  writeFileSync(indexPath, `${JSON.stringify(index, null, 2)}\n`, "utf8");
+  runFormatter(indexPath);
+}
+
 /** 逐字节比较两个目录下的 pages 与 index.json。 */
 function findDrift(generatedDir: string, currentDir: string): string[] {
   const drift: string[] = [];
@@ -351,6 +392,7 @@ async function main(): Promise<void> {
   mkdirSync(stagingDir, { recursive: true });
   try {
     writeOutput(outputs, stagingDir);
+    formatOutput(stagingDir);
 
     if (CHECK_MODE) {
       const drift = findDrift(stagingDir, LLM_DIR);

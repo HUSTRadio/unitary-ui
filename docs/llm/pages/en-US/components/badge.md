@@ -14,15 +14,15 @@ Small labels for statuses, counts, and metadata.
 
 ## When to use
 
--   Place short, scannable metadata labels next to the thing they describe: status, plan tier, environment, or role.
--   Showcase lifecycle stage labels (Alpha, Beta, Early Access) paired with a Tooltip noting any limitations.
--   Map meaning to color: green for healthy, red for error, amber for warning, blue for informational or production.
+- Place short, scannable metadata labels next to the thing they describe: status, plan tier, environment, or role.
+- Showcase lifecycle stage labels (Alpha, Beta, Early Access) paired with a Tooltip noting any limitations.
+- Map meaning to color: green for healthy, red for error, amber for warning, blue for informational or production.
 
 ## When not to use
 
--   Never make a Badge clickable—if the user needs to act on the value, promote it to a Button or link.
--   Never nest another Badge or multiple icons inside a Badge—one badge per row only.
--   Avoid stuffing sentences inside a Badge (Currently Active); the surrounding row supplies the context.
+- Never make a Badge clickable—if the user needs to act on the value, promote it to a Button or link.
+- Never nest another Badge or multiple icons inside a Badge—one badge per row only.
+- Avoid stuffing sentences inside a Badge (Currently Active); the surrounding row supplies the context.
 
 ## Examples
 
@@ -40,9 +40,9 @@ Showcases icon-plus-text Badges and the standalone dot variant (Status Dot).
 
 ## Accessibility
 
--   Icon-only or ambiguous badges should have a title attribute so screen readers announce the meaning.
--   Never rely on color alone; the text has to be readable without it.
--   Error-status badges should avoid low-contrast surfaces to ensure visibility.
+- Icon-only or ambiguous badges should have a title attribute so screen readers announce the meaning.
+- Never rely on color alone; the text has to be readable without it.
+- Error-status badges should avoid low-contrast surfaces to ensure visibility.
 
 ## Controlled behavior
 
@@ -50,13 +50,13 @@ Not applicable: Badge is a static label with no controlled behavior or interacti
 
 ## Responsive behavior
 
--   Badge uses compact inline typography that maintains consistent visual density on both narrow and wide screens.
--   Long text auto-wraps or truncates with ellipsis on narrow viewports, never overflowing its parent container.
+- Badge uses compact inline typography that maintains consistent visual density on both narrow and wide screens.
+- Long text auto-wraps or truncates with ellipsis on narrow viewports, never overflowing its parent container.
 
 ## Theme behavior
 
--   Each variant comes with a paired dark/light mode color set managed through theme variables.
--   The -subtle suffix tone lowers saturation of any variant on dense surfaces to reduce visual interference.
+- Each variant comes with a paired dark/light mode color set managed through theme variables.
+- The -subtle suffix tone lowers saturation of any variant on dense surfaces to reduce visual interference.
 
 ## Live Demo
 
@@ -139,7 +139,7 @@ import { Badge } from "@/components/ui/badge";
     <Badge variant="trial">Trial</Badge>
     <Badge variant="turbo">Turborepo</Badge>
   </div>
-</div>
+</div>;
 ```
 
 ## Sizes
@@ -153,7 +153,7 @@ import { Badge } from "@/components/ui/badge";
   <Badge size="sm">Small</Badge>
   <Badge size="md">Medium</Badge>
   <Badge size="lg">Large</Badge>
-</div>
+</div>;
 ```
 
 ## With icons
@@ -229,7 +229,7 @@ import { Shield } from "lucide-react";
       Green
     </Badge>
   </div>
-</div>
+</div>;
 ```
 
 ## Pill
@@ -265,7 +265,7 @@ import { Shield } from "lucide-react";
       Label
     </Badge>
   </div>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -275,7 +275,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Badge, badgeVariants } from "@/components/ui/badge"
+import { Badge, badgeVariants } from "@/components/ui/badge";
 ```
 
 Native props: `HTMLAttributes<HTMLSpanElement>`
@@ -286,12 +286,12 @@ Native props: `HTMLAttributes<HTMLSpanElement>`
 
 ## Best Practices
 
--   Use Badge for short, scannable metadata that sits next to the thing it describes: status, plan tier, environment, or role. One badge per row; two side by side is a sign the row needs a second column.
--   For a colored dot without text, use Status Dot. For clickable filter chips that toggle a query, use the pill variant or a small Button.
--   Badges are static labels. Don’t wire onClick onto them; promote to a Button or link if the user can act on the value.
--   Keep badge content to text or icon + text. Never stack two icons or a child Badge inside a Badge.
--   Pair lifecycle badges (Alpha, Beta, Early Access) with a Tooltip that names the limit, like Alpha: API may change before GA.
--   Title Case, one word when possible, two max: Active, Pending, Pro, Enterprise Trial. Match the canonical API or log term: Production not Prod, Deployed not Live, Canceled not Cancelled (the Vercel API uses one L).
--   Don’t add a checkmark icon for success states or an X for errors; the variant carries that signal. Map meaning to color: green for healthy, red for error, amber for warning, blue for informational or production, gray for neutral. The -subtle suffix tones any of them down on dense surfaces.
--   Skip stuffing sentences inside (Currently Active, You are on Pro); the surrounding row supplies the context.
--   Set title for icon-only or ambiguous badges so screen readers announce the meaning. Don’t rely on color alone; the text has to be readable without it.
+- Use Badge for short, scannable metadata that sits next to the thing it describes: status, plan tier, environment, or role. One badge per row; two side by side is a sign the row needs a second column.
+- For a colored dot without text, use Status Dot. For clickable filter chips that toggle a query, use the pill variant or a small Button.
+- Badges are static labels. Don’t wire onClick onto them; promote to a Button or link if the user can act on the value.
+- Keep badge content to text or icon + text. Never stack two icons or a child Badge inside a Badge.
+- Pair lifecycle badges (Alpha, Beta, Early Access) with a Tooltip that names the limit, like Alpha: API may change before GA.
+- Title Case, one word when possible, two max: Active, Pending, Pro, Enterprise Trial. Match the canonical API or log term: Production not Prod, Deployed not Live, Canceled not Cancelled (the Vercel API uses one L).
+- Don’t add a checkmark icon for success states or an X for errors; the variant carries that signal. Map meaning to color: green for healthy, red for error, amber for warning, blue for informational or production, gray for neutral. The -subtle suffix tones any of them down on dense surfaces.
+- Skip stuffing sentences inside (Currently Active, You are on Pro); the surrounding row supplies the context.
+- Set title for icon-only or ambiguous badges so screen readers announce the meaning. Don’t rely on color alone; the text has to be readable without it.

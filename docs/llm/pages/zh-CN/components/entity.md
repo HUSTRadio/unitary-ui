@@ -14,14 +14,14 @@ Entity
 
 ## 何时使用
 
--   展示单一描述性对象附带一个主操作行，例如成员行、集成行或资源详情行。
--   需要将媒体、内容和操作固定在稳定列中以保证加载和选中状态不会改变行的布局时。
+- 展示单一描述性对象附带一个主操作行，例如成员行、集成行或资源详情行。
+- 需要将媒体、内容和操作固定在稳定列中以保证加载和选中状态不会改变行的布局时。
 
 ## 何时不应使用
 
--   多行共享可比列的场景应使用 Table 而非 Entity，Table 更适合横向比较。
--   键/值元数据块应使用 Description 组件而非 Entity。
--   空列表数据应渲染 Empty State 而非空 Entity 行。
+- 多行共享可比列的场景应使用 Table 而非 Entity，Table 更适合横向比较。
+- 键/值元数据块应使用 Description 组件而非 Entity。
+- 空列表数据应渲染 Empty State 而非空 Entity 行。
 
 ## 示例
 
@@ -43,9 +43,9 @@ Entity 使用 fill 布局使各列按比例伸缩以适应容器宽度变化。
 
 ## 无障碍
 
--   主操作按钮需要明确的 aria-label 命名具体操作和目标资源。
--   每个 Entity 行作为独立语义区块组织，便于屏幕阅读器逐行播报。
--   操作区域中的链接和按钮应有足够的触摸目标尺寸。
+- 主操作按钮需要明确的 aria-label 命名具体操作和目标资源。
+- 每个 Entity 行作为独立语义区块组织，便于屏幕阅读器逐行播报。
+- 操作区域中的链接和按钮应有足够的触摸目标尺寸。
 
 ## 受控行为
 
@@ -53,29 +53,35 @@ Entity 使用 fill 布局使各列按比例伸缩以适应容器宽度变化。
 
 ## 响应式行为
 
--   窄屏下列自动折叠或隐藏次要内容，优先展示核心信息。
--   操作按钮在移动端可能转换为图标按钮以节省空间。
--   media/content/action 三列的相对宽度根据可用空间动态分配。
+- 窄屏下列自动折叠或隐藏次要内容，优先展示核心信息。
+- 操作按钮在移动端可能转换为图标按钮以节省空间。
+- media/content/action 三列的相对宽度根据可用空间动态分配。
 
 ## 主题行为
 
--   行的背景、边框和悬停高亮通过 CSS 令牌跟随主题系统。
--   分隔线和 hover 效果在暗色/亮色模式间正确转换。
+- 行的背景、边框和悬停高亮通过 CSS 令牌跟随主题系统。
+- 分隔线和 hover 效果在暗色/亮色模式间正确转换。
 
 ## 实时示例
 
--   ![Avatar for evilrabbit](https://vercel.com/api/www/avatar?s=64&u=evilrabbit "Avatar for evilrabbit")
+- ![Avatar for evilrabbit](https://vercel.com/api/www/avatar?s=64&u=evilrabbit "Avatar for evilrabbit")
 
-    Evil Rabbit
+  Evil Rabbit
 
-    Glenn Hitchcock (@gln)
+  Glenn Hitchcock (@gln)
 
-    1 小时前连接
-
+  1 小时前连接
 
 ```tsx
 import { Avatar } from "@/components/ui/avatar";
-import { Entity, EntityAction, EntityContent, EntityDescription, EntityMedia, EntityTitle } from "@/components/ui/entity";
+import {
+  Entity,
+  EntityAction,
+  EntityContent,
+  EntityDescription,
+  EntityMedia,
+  EntityTitle,
+} from "@/components/ui/entity";
 
 <Entity>
   <EntityMedia>
@@ -88,7 +94,7 @@ import { Entity, EntityAction, EntityContent, EntityDescription, EntityMedia, En
   <EntityAction>
     <p className="text-copy-14 text-gray-900">Connected 1h ago</p>
   </EntityAction>
-</Entity>
+</Entity>;
 ```
 
 ```tsx
@@ -104,25 +110,30 @@ import { Skeleton } from "@/components/ui/skeleton";
       <Skeleton height={20} width={68} />
     </div>
   </div>
-</Entity>
+</Entity>;
 ```
 
--   MacBook Pro 上的 GitHub Desktop
+- MacBook Pro 上的 GitHub Desktop
 
-    刚刚使用
+  刚刚使用
 
--   Windows 11 上的 VS Code
+- Windows 11 上的 VS Code
 
-    10 分钟前使用
+  10 分钟前使用
 
--   Ubuntu 24.04 上的终端
+- Ubuntu 24.04 上的终端
 
-    25 分钟前使用
-
+  25 分钟前使用
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import { Entity, EntityAction, EntityContent, EntityDescription, EntityTitle } from "@/components/ui/entity";
+import {
+  Entity,
+  EntityAction,
+  EntityContent,
+  EntityDescription,
+  EntityTitle,
+} from "@/components/ui/entity";
 
 <ul className="flex flex-col">
   <Entity>
@@ -158,12 +169,18 @@ import { Entity, EntityAction, EntityContent, EntityDescription, EntityTitle } f
       </Button>
     </EntityAction>
   </Entity>
-</ul>
+</ul>;
 ```
 
 ```tsx
 import { Checkbox } from "@/components/ui/checkbox";
-import { Entity, EntityContent, EntityDescription, EntityMedia, EntityTitle } from "@/components/ui/entity";
+import {
+  Entity,
+  EntityContent,
+  EntityDescription,
+  EntityMedia,
+  EntityTitle,
+} from "@/components/ui/entity";
 import { useState } from "react";
 
 const items = [
@@ -213,13 +230,12 @@ const handleCheckboxChange = (id: string): void => {
       </EntityContent>
     </Entity>
   ))}
-</ul>
+</ul>;
 ```
 
--   这是一个简单的描述
+- 这是一个简单的描述
 
-    这是一个简单的描述
-
+  这是一个简单的描述
 
 ```tsx
 import { Entity, EntityContent, EntityDescription } from "@/components/ui/entity";
@@ -233,17 +249,22 @@ import { Entity, EntityContent, EntityDescription } from "@/components/ui/entity
       <EntityDescription>This is a simple description</EntityDescription>
     </EntityContent>
   </Entity>
-</ul>
+</ul>;
 ```
 
--   带虚线边框的实体
+- 带虚线边框的实体
 
-    \[some action\]
-
+  \[some action\]
 
 ```tsx
 import { Avatar } from "@/components/ui/avatar";
-import { Entity, EntityAction, EntityContent, EntityDescription, EntityMedia } from "@/components/ui/entity";
+import {
+  Entity,
+  EntityAction,
+  EntityContent,
+  EntityDescription,
+  EntityMedia,
+} from "@/components/ui/entity";
 
 <ul className="flex flex-col">
   <Entity
@@ -260,7 +281,7 @@ import { Entity, EntityAction, EntityContent, EntityDescription, EntityMedia } f
       <span className="text-copy-14 text-gray-900">[some action]</span>
     </EntityAction>
   </Entity>
-</ul>
+</ul>;
 ```
 
 ## API 参考
@@ -270,7 +291,14 @@ import { Entity, EntityAction, EntityContent, EntityDescription, EntityMedia } f
 导入
 
 ```tsx
-import { Entity, EntityMedia, EntityContent, EntityTitle, EntityDescription, EntityAction } from "@/components/ui/entity"
+import {
+  Entity,
+  EntityMedia,
+  EntityContent,
+  EntityTitle,
+  EntityDescription,
+  EntityAction,
+} from "@/components/ui/entity";
 ```
 
 ### 属性与回调
@@ -279,5 +307,5 @@ import { Entity, EntityMedia, EntityContent, EntityTitle, EntityDescription, Ent
 
 ## 最佳实践
 
--   单个描述性对象配一个主要行动作用 Entity；行共享可比较列时用 Table。
--   把 media、content 与 actions 保持在稳定列，让加载与选中状态不移动行。
+- 单个描述性对象配一个主要行动作用 Entity；行共享可比较列时用 Table。
+- 把 media、content 与 actions 保持在稳定列，让加载与选中状态不移动行。

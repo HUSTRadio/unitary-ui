@@ -14,15 +14,15 @@ Displays a placeholder while content is loading.
 
 ## When to use
 
--   Show a Skeleton when async data fills a known layout: table rows, card grids, profile blocks, sidebars—preserving the eventual content's shape.
--   Set width and height to match the final content so the layout does not shift when data resolves, preventing Cumulative Layout Shift (CLS).
--   When loading multiple resources in batch, use a set of skeletons to simulate the real layout so users sense the system is processing.
+- Show a Skeleton when async data fills a known layout: table rows, card grids, profile blocks, sidebars—preserving the eventual content's shape.
+- Set width and height to match the final content so the layout does not shift when data resolves, preventing Cumulative Layout Shift (CLS).
+- When loading multiple resources in batch, use a set of skeletons to simulate the real layout so users sense the system is processing.
 
 ## When not to use
 
--   For a single in-flight action, use Spinner; for known progress, use Progress. Do not substitute Skeleton for these purpose-built indicators.
--   Do not use Skeletons on static pages or empty states—Skeleton only makes sense when there is subsequent content to load.
--   Do not use skeleton placeholders for unstructured or unpredictable content—its value lies in pre-knowing the layout's shape; otherwise it misleads.
+- For a single in-flight action, use Spinner; for known progress, use Progress. Do not substitute Skeleton for these purpose-built indicators.
+- Do not use Skeletons on static pages or empty states—Skeleton only makes sense when there is subsequent content to load.
+- Do not use skeleton placeholders for unstructured or unpredictable content—its value lies in pre-knowing the layout's shape; otherwise it misleads.
 
 ## Examples
 
@@ -40,9 +40,9 @@ Demonstrates nesting actual children inside a Skeleton for composite skeleton ef
 
 ## Accessibility
 
--   Wrap the loading region in aria-busy="true" and announce completion with aria-live="polite" on the destination container once data resolves.
--   Skeleton elements themselves are decorative and should not be read aloud by screen readers—the underlying content carries the real semantic meaning.
--   Respect prefers-reduced-motion on low-power devices to reduce or disable the pulse animation.
+- Wrap the loading region in aria-busy="true" and announce completion with aria-live="polite" on the destination container once data resolves.
+- Skeleton elements themselves are decorative and should not be read aloud by screen readers—the underlying content carries the real semantic meaning.
+- Respect prefers-reduced-motion on low-power devices to reduce or disable the pulse animation.
 
 ## Controlled behavior
 
@@ -50,26 +50,26 @@ Not applicable: Skeleton is a passive display component with no interactive stat
 
 ## Responsive behavior
 
--   Skeleton width and height scale proportionally with the container across viewports, maintaining reasonable ratios on any screen size.
--   On narrow screens multi-column skeletons automatically collapse to a single-column layout while preserving the overall placeholder pattern.
+- Skeleton width and height scale proportionally with the container across viewports, maintaining reasonable ratios on any screen size.
+- On narrow screens multi-column skeletons automatically collapse to a single-column layout while preserving the overall placeholder pattern.
 
 ## Theme behavior
 
--   Skeleton background color and pulse animation follow theme variables, providing appropriate contrast in both dark and light modes.
--   Skeleton colors can be overridden via CSS variables for brand customization or special-scenario differentiation.
+- Skeleton background color and pulse animation follow theme variables, providing appropriate contrast in both dark and light modes.
+- Skeleton colors can be overridden via CSS variables for brand customization or special-scenario differentiation.
 
 ## Live Demo
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton width={160} />
+<Skeleton width={160} />;
 ```
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton boxHeight={42} width={160} />
+<Skeleton boxHeight={42} width={160} />;
 ```
 
 ```tsx
@@ -84,7 +84,7 @@ import { Skeleton } from "@/components/ui/skeleton";
   <Skeleton show={false}>
     <Button typeName="button">Not hidden by skeleton</Button>
   </Skeleton>
-</div>
+</div>;
 ```
 
 ```tsx
@@ -99,25 +99,25 @@ import { Skeleton } from "@/components/ui/skeleton";
   <Skeleton height={100} width="100%">
     <Button typeName="button">Not hidden by Skeleton</Button>
   </Skeleton>
-</div>
+</div>;
 ```
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton pill width={48} />
+<Skeleton pill width={48} />;
 ```
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton boxHeight={48} height={48} rounded width={48} />
+<Skeleton boxHeight={48} height={48} rounded width={48} />;
 ```
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton boxHeight={48} height={48} squared width={48} />
+<Skeleton boxHeight={48} height={48} squared width={48} />;
 ```
 
 ```tsx
@@ -125,7 +125,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 <Skeleton animated={false} height={100} width="100%">
   {null}
-</Skeleton>
+</Skeleton>;
 ```
 
 Without button prop (default):
@@ -158,11 +158,13 @@ import { Skeleton } from "@/components/ui/skeleton";
         <Button typeName="button">Save</Button>
       </Skeleton>
       <Skeleton button>
-        <Button type="secondary" typeName="button">Cancel</Button>
+        <Button type="secondary" typeName="button">
+          Cancel
+        </Button>
       </Skeleton>
     </div>
   </div>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -172,7 +174,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton";
 ```
 
 ### Props & callbacks
@@ -181,8 +183,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 ## Best Practices
 
--   Show a Skeleton when async data fills a known layout: table rows, card grids, profile blocks, sidebars.
--   For a single in-flight action, use Spinner; for known progress, use Progress.
--   Set width and height to match the final content so the layout doesn’t shift when data resolves.
--   Wrap the loading region in aria-busy="true" and announce completion with aria-live="polite" on the destination container.
--   Respect prefers-reduced-motion for the pulse animation on low-power surfaces.
+- Show a Skeleton when async data fills a known layout: table rows, card grids, profile blocks, sidebars.
+- For a single in-flight action, use Spinner; for known progress, use Progress.
+- Set width and height to match the final content so the layout doesn’t shift when data resolves.
+- Wrap the loading region in aria-busy="true" and announce completion with aria-live="polite" on the destination container.
+- Respect prefers-reduced-motion for the pulse animation on low-power surfaces.

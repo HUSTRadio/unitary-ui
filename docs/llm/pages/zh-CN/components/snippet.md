@@ -14,15 +14,15 @@ Snippet
 
 ## 何时使用
 
--   为用户希望一键复制的运行型 shell 命令使用 Snippet，它自带提示符字符和复制辅助功能。
--   内联令牌（环境变量名、路径）应使用 InlineCode，多行源代码应使用 CodeBlock；单行短命令则使用 Snippet。
--   搭配 CopyButton 使用户无需手动选中即可获取命令，提升用户体验。
+- 为用户希望一键复制的运行型 shell 命令使用 Snippet，它自带提示符字符和复制辅助功能。
+- 内联令牌（环境变量名、路径）应使用 InlineCode，多行源代码应使用 CodeBlock；单行短命令则使用 Snippet。
+- 搭配 CopyButton 使用户无需手动选中即可获取命令，提升用户体验。
 
 ## 何时不应使用
 
--   每个 Snippet 只放一条命令——更长的脚本应切换到 CodeBlock，让用户先阅读再复制。
--   不要把 Snippet 用作文档中的伪代码或伪语法示例——它应该呈现真实的、可粘贴执行的命令。
--   不要在一个 Snippet 中组合多条命令——每条命令独立为一个 Snippet，避免复制混乱。
+- 每个 Snippet 只放一条命令——更长的脚本应切换到 CodeBlock，让用户先阅读再复制。
+- 不要把 Snippet 用作文档中的伪代码或伪语法示例——它应该呈现真实的、可粘贴执行的命令。
+- 不要在一个 Snippet 中组合多条命令——每条命令独立为一个 Snippet，避免复制混乱。
 
 ## 示例
 
@@ -40,24 +40,24 @@ Snippet
 
 ## 无障碍
 
--   复制按钮必须是 icon-only 按钮且带有明确的 aria-label，以便屏幕阅读器朗读操作意图（如“复制部署 URL”）。
--   Snippets 的文本内容应在复制成功后通过视觉反馈（勾选图标）确认，持续约 1.5 秒后重置。
--   优先使用 navigator.clipboard.writeText 并提供隐藏的 textarea execCommand 降级方案。
+- 复制按钮必须是 icon-only 按钮且带有明确的 aria-label，以便屏幕阅读器朗读操作意图（如“复制部署 URL”）。
+- Snippets 的文本内容应在复制成功后通过视觉反馈（勾选图标）确认，持续约 1.5 秒后重置。
+- 优先使用 navigator.clipboard.writeText 并提供隐藏的 textarea execCommand 降级方案。
 
 ## 受控行为
 
--   支持受控的已复制状态（copied），开发者可以编程式控制复制反馈的显示和隐藏。
--   回调函数允许在复制动作发生时执行额外的业务逻辑。
+- 支持受控的已复制状态（copied），开发者可以编程式控制复制反馈的显示和隐藏。
+- 回调函数允许在复制动作发生时执行额外的业务逻辑。
 
 ## 响应式行为
 
--   Snippet 在窄屏上自动调整内边距和字号，确保命令文本不会被过度压缩。
--   复制按钮在全屏幕上保持一致的可见性和点击区域大小。
+- Snippet 在窄屏上自动调整内边距和字号，确保命令文本不会被过度压缩。
+- 复制按钮在全屏幕上保持一致的可见性和点击区域大小。
 
 ## 主题行为
 
--   Snippet 的背景色、边框和文字颜色跟随主题变量，在暗色/亮色模式下各有对应的配色方案。
--   反色（inverted）变体专门针对暗色背景优化，确保对比度符合 WCAG 标准。
+- Snippet 的背景色、边框和文字颜色跟随主题变量，在暗色/亮色模式下各有对应的配色方案。
+- 反色（inverted）变体专门针对暗色背景优化，确保对比度符合 WCAG 标准。
 
 ## 实时示例
 
@@ -66,7 +66,7 @@ Snippet
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet text="npm init next-app" width="300px" />
+<Snippet text="npm init next-app" width="300px" />;
 ```
 
 `$ npm init next-app`
@@ -74,7 +74,7 @@ import { Snippet } from "@/components/ui/snippet";
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet dark text="npm init next-app" width="300px" />
+<Snippet dark text="npm init next-app" width="300px" />;
 ```
 
 `$ cd project``$ now`
@@ -82,7 +82,7 @@ import { Snippet } from "@/components/ui/snippet";
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet text={["cd project", "now"]} width="100%" />
+<Snippet text={["cd project", "now"]} width="100%" />;
 ```
 
 `npm init next-app`
@@ -90,7 +90,7 @@ import { Snippet } from "@/components/ui/snippet";
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet prompt={false} text="npm init next-app" width="300px" />
+<Snippet prompt={false} text="npm init next-app" width="300px" />;
 ```
 
 `$ npm init next-app`
@@ -98,7 +98,7 @@ import { Snippet } from "@/components/ui/snippet";
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet onCopy={() => alert("You copied the text!")} text="npm init next-app" width="300px" />
+<Snippet onCopy={() => alert("You copied the text!")} text="npm init next-app" width="300px" />;
 ```
 
 `$ npm init next-app`
@@ -114,7 +114,7 @@ import { Snippet } from "@/components/ui/snippet";
   <Snippet text="npm init next-app" type="success" width="300px" />
   <Snippet text="npm init next-app" type="error" width="300px" />
   <Snippet text="npm init next-app" type="warning" width="300px" />
-</div>
+</div>;
 ```
 
 `$ npm init next-app`
@@ -177,7 +177,7 @@ export function Component(): JSX.Element {
 导入
 
 ```tsx
-import { Snippet } from "@/components/ui/snippet"
+import { Snippet } from "@/components/ui/snippet";
 ```
 
 ### 属性与回调
@@ -186,7 +186,7 @@ import { Snippet } from "@/components/ui/snippet"
 
 ## 最佳实践
 
--   用户要复制的可运行 shell 命令用 Snippet。内联 token（环境变量名、路径）用 InlineCode，多行源码用 CodeBlock。
--   把命令作为文本传入。组件自行渲染提示符；让复制的负载与用户所见保持同步。
--   一个 Snippet 一条命令。较长脚本改用 CodeBlock，让用户复制前能阅读。
--   Snippet 配 CopyButton 功能，让用户无需手选文本即可取走命令。
+- 用户要复制的可运行 shell 命令用 Snippet。内联 token（环境变量名、路径）用 InlineCode，多行源码用 CodeBlock。
+- 把命令作为文本传入。组件自行渲染提示符；让复制的负载与用户所见保持同步。
+- 一个 Snippet 一条命令。较长脚本改用 CodeBlock，让用户复制前能阅读。
+- Snippet 配 CopyButton 功能，让用户无需手选文本即可取走命令。

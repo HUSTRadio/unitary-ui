@@ -14,13 +14,13 @@ Text With Copy Button
 
 ## 何时使用
 
--   展示一段短文本供用户快速复制，如令牌、命令、ID 或配置值等需要按原样使用的字符串。
--   需要在代码片段、终端命令或环境变量旁边提供便捷的复制操作时，作为内联辅助功能使用。
+- 展示一段短文本供用户快速复制，如令牌、命令、ID 或配置值等需要按原样使用的字符串。
+- 需要在代码片段、终端命令或环境变量旁边提供便捷的复制操作时，作为内联辅助功能使用。
 
 ## 何时不应使用
 
--   不要复制超过一行的长文本块——对于较长的代码块，优先使用 CodeBlock 或 Snippet 组件自带的复制按钮。
--   不要在不需要交互的纯展示场景中添加复制按钮——复制 affordance 应服务于实际需要复制内容的用户。
+- 不要复制超过一行的长文本块——对于较长的代码块，优先使用 CodeBlock 或 Snippet 组件自带的复制按钮。
+- 不要在不需要交互的纯展示场景中添加复制按钮——复制 affordance 应服务于实际需要复制内容的用户。
 
 ## 示例
 
@@ -34,9 +34,9 @@ Text With Copy Button
 
 ## 无障碍
 
--   复制按钮作为仅图标按钮时应设置 aria-label（如 'Copy deployment URL'），让屏幕阅读器准确描述操作目标。
--   复制成功后应有视觉反馈（约 1.5 秒的对勾提示），使操作结果对视觉用户清晰可辨。
--   优先使用 navigator.clipboard.writeText API，并保留 hidden-textarea execCommand 回退方案以兼容缺少剪贴板权限的环境。
+- 复制按钮作为仅图标按钮时应设置 aria-label（如 'Copy deployment URL'），让屏幕阅读器准确描述操作目标。
+- 复制成功后应有视觉反馈（约 1.5 秒的对勾提示），使操作结果对视觉用户清晰可辨。
+- 优先使用 navigator.clipboard.writeText API，并保留 hidden-textarea execCommand 回退方案以兼容缺少剪贴板权限的环境。
 
 ## 受控行为
 
@@ -44,13 +44,13 @@ Text With Copy Button
 
 ## 响应式行为
 
--   文本区域采用弹性宽度自适应，在小屏幕上自动压缩并可能触发省略号截断，复制按钮始终保持在文本末尾可见。
--   窄屏上复制按钮的点击热区保持足够大小（至少 44px），确保触屏用户的可操作性。
+- 文本区域采用弹性宽度自适应，在小屏幕上自动压缩并可能触发省略号截断，复制按钮始终保持在文本末尾可见。
+- 窄屏上复制按钮的点击热区保持足够大小（至少 44px），确保触屏用户的可操作性。
 
 ## 主题行为
 
--   文本颜色和复制按钮图标跟随主题变量更新，在暗色/亮色模式下均保持良好的对比度和可读性。
--   复制成功状态的视觉反馈（对勾图标）在不同主题下均有对应的颜色适配。
+- 文本颜色和复制按钮图标跟随主题变量更新，在暗色/亮色模式下均保持良好的对比度和可读性。
+- 复制成功状态的视觉反馈（对勾图标）在不同主题下均有对应的颜色适配。
 
 ## 实时示例
 
@@ -62,7 +62,7 @@ import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
   successMessage="Copied to clipboard"
   textLabel="Copy"
   textToCopy="lipsum"
-/>
+/>;
 ```
 
 ```tsx
@@ -73,7 +73,7 @@ import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
   successMessage="Copied hashed digest to clipboard"
   textLabel="Copy config digest"
   textToCopy="edgeConfigData.digest"
-/>
+/>;
 ```
 
 ## API 参考
@@ -83,7 +83,7 @@ import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
 导入
 
 ```tsx
-import { TextWithCopyButton } from "@/components/ui/text-with-copy-button"
+import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
 ```
 
 ### 属性与回调

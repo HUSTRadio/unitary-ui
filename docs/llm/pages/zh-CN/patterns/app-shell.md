@@ -42,10 +42,10 @@ Unitary · Patterns
 
 壳层组件
 
--   [Navbar 可配顶栏](#demo-api)
--   [SidebarNav 侧边导航](#demo-api)
+- [Navbar 可配顶栏](#demo-api)
+- [SidebarNav 侧边导航](#demo-api)
 
 移动端
 
--   [BottomSheet 弹层](#demo-mobile)
--   [Grabber 指示条](#demo-mobile)
+- [BottomSheet 弹层](#demo-mobile)
+- [Grabber 指示条](#demo-mobile)

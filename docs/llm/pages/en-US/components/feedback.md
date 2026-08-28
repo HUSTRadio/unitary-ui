@@ -14,15 +14,15 @@ Gathers an emoji rating and open text feedback.
 
 ## When to use
 
--   At the end of a page, documentation article, or completed workflow — collect feedback after the user has had time to form an opinion.
--   When lightweight emotional feedback (emoji rating) combined with optional detailed text comments is sufficient, without needing a full-form experience.
--   For targeted feedback collection on specific flows (e.g., Feedback on Imports, Report a Bug) to gather actionable improvement insights.
+- At the end of a page, documentation article, or completed workflow — collect feedback after the user has had time to form an opinion.
+- When lightweight emotional feedback (emoji rating) combined with optional detailed text comments is sufficient, without needing a full-form experience.
+- For targeted feedback collection on specific flows (e.g., Feedback on Imports, Report a Bug) to gather actionable improvement insights.
 
 ## When not to use
 
--   Don't front-load the feedback panel on a surface the user just opened — it derails the work that brought them there.
--   Don't use Feedback as a substitute for a support form, bug report intake, or NPS sampling — those have dedicated surfaces and tools.
--   Don't auto-open the feedback panel — keep it collapsed until the user explicitly clicks the trigger to avoid disrupting their workflow.
+- Don't front-load the feedback panel on a surface the user just opened — it derails the work that brought them there.
+- Don't use Feedback as a substitute for a support form, bug report intake, or NPS sampling — those have dedicated surfaces and tools.
+- Don't auto-open the feedback panel — keep it collapsed until the user explicitly clicks the trigger to avoid disrupting their workflow.
 
 ## Examples
 
@@ -40,26 +40,26 @@ Shows attaching contextual metadata alongside the feedback panel, helping the te
 
 ## Accessibility
 
--   Each emoji rating button should have an explicit aria-label so screen readers identify distinct emotional options.
--   On submit the panel closes and focus returns to the trigger button — the close itself serves as acknowledgment.
--   The optional text input should have a proper label association and aria-describedby for helper text.
+- Each emoji rating button should have an explicit aria-label so screen readers identify distinct emotional options.
+- On submit the panel closes and focus returns to the trigger button — the close itself serves as acknowledgment.
+- The optional text input should have a proper label association and aria-describedby for helper text.
 
 ## Controlled behavior
 
--   Panel open/collapsed state can be externally controlled via an open prop, enabling conditional opening logic.
--   On submission the panel auto-closes and returns focus to the trigger; callers can listen to the submit event to process collected data.
--   Supports preset initial rating values via controlled props for previously selected feedback state restoration.
+- Panel open/collapsed state can be externally controlled via an open prop, enabling conditional opening logic.
+- On submission the panel auto-closes and returns focus to the trigger; callers can listen to the submit event to process collected data.
+- Supports preset initial rating values via controlled props for previously selected feedback state restoration.
 
 ## Responsive behavior
 
--   On mobile the feedback panel presents as a bottom sheet (Drawer-style); on desktop it appears as a centered floating overlay.
--   Emoji rating buttons increase spacing on small screens for larger touch targets, ensuring mobile usability.
--   The text input area adapts its height within the full-width container, avoiding horizontal overflow on narrow viewports.
+- On mobile the feedback panel presents as a bottom sheet (Drawer-style); on desktop it appears as a centered floating overlay.
+- Emoji rating buttons increase spacing on small screens for larger touch targets, ensuring mobile usability.
+- The text input area adapts its height within the full-width container, avoiding horizontal overflow on narrow viewports.
 
 ## Theme behavior
 
--   Emoji color mapping (green for satisfied, yellow for neutral, red for dissatisfied) maintains readability in both dark and light modes.
--   Panel shadow, background, and border colors follow the Geist theme system, supporting global theme variable overrides.
+- Emoji color mapping (green for satisfied, yellow for neutral, red for dissatisfied) maintains readability in both dark and light modes.
+- Panel shadow, background, and border colors follow the Geist theme system, supporting global theme variable overrides.
 
 ## Live Demo
 
@@ -80,7 +80,7 @@ import { Note, NoteContent } from "@/components/ui/note";
       <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
     </Note>
   </div>
-</>
+</>;
 ```
 
 Was this helpful?
@@ -88,7 +88,7 @@ Was this helpful?
 ```tsx
 import { Feedback } from "@/components/ui/feedback";
 
-<Feedback dryRun label="vercel" type="inline" />
+<Feedback dryRun label="vercel" type="inline" />;
 ```
 
 vercel
@@ -108,7 +108,7 @@ import { Note, NoteContent } from "@/components/ui/note";
       <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
     </Note>
   </div>
-</>
+</>;
 ```
 
 vercel
@@ -136,7 +136,7 @@ import { Note, NoteContent } from "@/components/ui/note";
       <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
     </Note>
   </div>
-</>
+</>;
 ```
 
 vercel
@@ -156,7 +156,7 @@ import { Feedback } from "@/components/ui/feedback";
     <Feedback label="vercel" dryRun defaultValue="not-great" />
     <Feedback label="vercel" dryRun defaultValue="hate" />
   </div>
-</>
+</>;
 ```
 
 vercel
@@ -165,7 +165,7 @@ vercel
 import { Feedback } from "@/components/ui/feedback";
 import { Flag } from "lucide-react";
 
-<Feedback dryRun label="vercel" prefix={<Flag className="size-4" />} />
+<Feedback dryRun label="vercel" prefix={<Flag className="size-4" />} />;
 ```
 
 vercel
@@ -174,7 +174,7 @@ vercel
 import { Feedback } from "@/components/ui/feedback";
 import { Flag } from "lucide-react";
 
-<Feedback dryRun label="vercel" suffix={<Flag className="size-4" />} />
+<Feedback dryRun label="vercel" suffix={<Flag className="size-4" />} />;
 ```
 
 ## API Reference
@@ -184,7 +184,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Feedback, RatingPill } from "@/components/ui/feedback"
+import { Feedback, RatingPill } from "@/components/ui/feedback";
 ```
 
 ### Props & callbacks
@@ -193,9 +193,9 @@ import { Feedback, RatingPill } from "@/components/ui/feedback"
 
 ## Best Practices
 
--   Place Feedback at the end of a page, doc, or completed flow where the user has formed an opinion. Don't front-load it on a surface the user has only opened.
--   Keep the panel collapsed until the user clicks the trigger; auto-opening derails the work that prompted the feedback.
--   Submit closes the panel and returns focus to the trigger. Don't replace the panel with a generic acknowledgment toast; the close itself is the acknowledgment.
--   label is Title Case and short. Default Feedback is fine; override only when scoping to a flow: Feedback on Imports, Report a Bug. Don't end the label with ?.
--   copy overrides the prompt header next to the emoji row in sentence case (How did the import go?). Cut please and we're sorry.
--   Don't use Feedback as a substitute for a support form, a bug report intake, or NPS sampling. Those have dedicated surfaces.
+- Place Feedback at the end of a page, doc, or completed flow where the user has formed an opinion. Don't front-load it on a surface the user has only opened.
+- Keep the panel collapsed until the user clicks the trigger; auto-opening derails the work that prompted the feedback.
+- Submit closes the panel and returns focus to the trigger. Don't replace the panel with a generic acknowledgment toast; the close itself is the acknowledgment.
+- label is Title Case and short. Default Feedback is fine; override only when scoping to a flow: Feedback on Imports, Report a Bug. Don't end the label with ?.
+- copy overrides the prompt header next to the emoji row in sentence case (How did the import go?). Cut please and we're sorry.
+- Don't use Feedback as a substitute for a support form, a bug report intake, or NPS sampling. Those have dedicated surfaces.

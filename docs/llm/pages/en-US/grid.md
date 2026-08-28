@@ -8,14 +8,14 @@ A two-dimensional layout system with guide lines, cells, crosses, and breakpoint
 
 ## Best Practices
 
--   Use Grid when the guide lines themselves are part of the design — a visible two-dimensional layout, not generic spacing.
--   For ordinary card lists without guide lines, use a plain CSS or Tailwind grid layout instead.
--   Avoid nesting grids more than one level deep.
--   Give rows and columns explicitly for all three supported breakpoints (sm, md, lg) so every viewport gets a deliberate layout.
--   A solid cell occludes the guide borders it strictly overlaps — debug mode reveals them dashed.
--   Hide a single axis of guides (hideGuides="row" or "column") only when it improves readability.
--   Interactive semantics live in the cell content — guides, crosses, and pages are purely decorative and hidden from assistive technology.
--   Check guide contrast against cell backgrounds in both light and dark themes.
+- Use Grid when the guide lines themselves are part of the design — a visible two-dimensional layout, not generic spacing.
+- For ordinary card lists without guide lines, use a plain CSS or Tailwind grid layout instead.
+- Avoid nesting grids more than one level deep.
+- Give rows and columns explicitly for all three supported breakpoints (sm, md, lg) so every viewport gets a deliberate layout.
+- A solid cell occludes the guide borders it strictly overlaps — debug mode reveals them dashed.
+- Hide a single axis of guides (hideGuides="row" or "column") only when it improves readability.
+- Interactive semantics live in the cell content — guides, crosses, and pages are purely decorative and hidden from assistive technology.
+- Check guide contrast against cell backgrounds in both light and dark themes.
 
 ## Empty Guides
 

@@ -14,13 +14,13 @@ Displays an overflowing list of items.
 
 ## When to use
 
--   When you need to present an overflowing list of peer items in a single direction, such as chip rows, log streams, or tile grids.
--   When the container is smaller than the total content and users should discover clipped items through directional scrolling.
+- When you need to present an overflowing list of peer items in a single direction, such as chip rows, log streams, or tile grids.
+- When the container is smaller than the total content and users should discover clipped items through directional scrolling.
 
 ## When not to use
 
--   When items require free-form two-dimensional layout; a grid component serves that purpose better.
--   When the goal is purely visual separation rather than scrollable overflow; use a separator or spacing instead.
+- When items require free-form two-dimensional layout; a grid component serves that purpose better.
+- When the goal is purely visual separation rather than scrollable overflow; use a separator or spacing instead.
 
 ## Examples
 
@@ -34,8 +34,8 @@ Horizontally arranged tag cards suitable for filter chips rows or tile-style sho
 
 ## Accessibility
 
--   Each child item within the scroll area has independent semantics and an accessible name.
--   Tab order follows DOM order, so place items in reading order regardless of the scroll direction.
+- Each child item within the scroll area has independent semantics and an accessible name.
+- Tab order follows DOM order, so place items in reading order regardless of the scroll direction.
 
 ## Controlled behavior
 
@@ -43,11 +43,11 @@ Not applicable: The scroller is primarily passive in nature; its scroll position
 
 ## Responsive behavior
 
--   Can adapt the scroll axis based on viewport width: horizontal scrolling for wider screens, falling back to vertical or no scrolling on narrower viewports.
+- Can adapt the scroll axis based on viewport width: horizontal scrolling for wider screens, falling back to vertical or no scrolling on narrower viewports.
 
 ## Theme behavior
 
--   Supports custom border radius, shadows, and dark-mode adaptation on the scroll area; edge-fade masks can also be tweaked via styles.
+- Supports custom border radius, shadows, and dark-mode adaptation on the scroll area; edge-fade masks can also be tweaked via styles.
 
 ## Live Demo
 
@@ -74,15 +74,12 @@ import { Scroller } from "@/components/ui/scroller";
 
 <div className="w-full max-w-2xl">
   <Scroller height={220} overflow="y" width="100%">
-    <div
-      className="flex flex-col items-stretch justify-start gap-4"
-      style={{ width: 400 }}
-    >
+    <div className="flex flex-col items-stretch justify-start gap-4" style={{ width: 400 }}>
       <div className="h-64 w-64 bg-gray-1000" />
       <div className="h-64 w-64 bg-gray-1000" />
     </div>
   </Scroller>
-</div>
+</div>;
 ```
 
 ## Horizontal
@@ -92,17 +89,14 @@ import { Scroller } from "@/components/ui/scroller";
 
 <div className="w-full max-w-2xl">
   <Scroller height="100%" overflow="x" width="100%">
-    <div
-      className="flex flex-row items-stretch justify-start gap-4"
-      style={{ minWidth: "120%" }}
-    >
+    <div className="flex flex-row items-stretch justify-start gap-4" style={{ minWidth: "120%" }}>
       <div className="h-64 w-64 bg-gray-1000" />
       <div className="h-64 w-64 bg-gray-1000" />
       <div className="h-64 w-64 bg-gray-1000" />
       <div className="h-64 w-64 bg-gray-1000" />
     </div>
   </Scroller>
-</div>
+</div>;
 ```
 
 ## Free
@@ -118,7 +112,7 @@ import { Scroller } from "@/components/ui/scroller";
       ))}
     </div>
   </Scroller>
-</div>
+</div>;
 ```
 
 ## Vertical with buttons
@@ -132,7 +126,7 @@ import { Scroller } from "@/components/ui/scroller";
       <div key={i} className="h-60 w-96 shrink-0 bg-gray-1000" />
     ))}
   </Scroller>
-</div>
+</div>;
 ```
 
 ## Horizontal with buttons
@@ -141,18 +135,12 @@ import { Scroller } from "@/components/ui/scroller";
 import { Scroller } from "@/components/ui/scroller";
 
 <div className="flex w-full max-w-2xl flex-col gap-4">
-  <Scroller
-    childrenContainerClassName="gap-4"
-    height="100%"
-    overflow="x"
-    width="100%"
-    withButtons
-  >
+  <Scroller childrenContainerClassName="gap-4" height="100%" overflow="x" width="100%" withButtons>
     {Array.from({ length: 4 }, (_, i) => (
       <div key={i} className="h-64 w-96 shrink-0 bg-gray-1000" />
     ))}
   </Scroller>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -162,7 +150,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Scroller } from "@/components/ui/scroller"
+import { Scroller } from "@/components/ui/scroller";
 ```
 
 ### Props & callbacks
@@ -171,8 +159,8 @@ import { Scroller } from "@/components/ui/scroller"
 
 ## Best Practices
 
--   Use Scroller for an overflowing list of peer items along a single axis: chip rows, log streams, code snippets, command palettes.
--   Pick vertical for stacked feeds, horizontal for chip and tile rails, free only when content genuinely scrolls in both directions.
--   Show edge fade or shadow affordances on the clipped axis so users see there's more content past the viewport.
--   Keep item widths and gaps consistent in horizontal scrollers; ragged edges break the snap rhythm and make the rail feel broken.
--   Tab order follows DOM order, so place items in reading order regardless of visual scroll direction.
+- Use Scroller for an overflowing list of peer items along a single axis: chip rows, log streams, code snippets, command palettes.
+- Pick vertical for stacked feeds, horizontal for chip and tile rails, free only when content genuinely scrolls in both directions.
+- Show edge fade or shadow affordances on the clipped axis so users see there's more content past the viewport.
+- Keep item widths and gaps consistent in horizontal scrollers; ragged edges break the snap rhythm and make the rail feel broken.
+- Tab order follows DOM order, so place items in reading order regardless of visual scroll direction.

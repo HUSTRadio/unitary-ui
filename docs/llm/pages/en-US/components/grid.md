@@ -14,13 +14,13 @@ Displays elements in a grid layout.
 
 ## When to use
 
--   For two-dimensional cell-and-guide layouts in marketing pages, docs landing pages, and feature breakdowns where the rule lines and cell borders are part of the design.
--   When you want to align multiple items without excessive nesting while maintaining visual hierarchy.
+- For two-dimensional cell-and-guide layouts in marketing pages, docs landing pages, and feature breakdowns where the rule lines and cell borders are part of the design.
+- When you want to align multiple items without excessive nesting while maintaining visual hierarchy.
 
 ## When not to use
 
--   For plain n-column responsive content (cards, lists), use Tailwind grid grid-cols-\* utilities directly; Grid is overkill when guides aren't visible.
--   Don't nest Grids more than one level; the guide overlap reads as visual noise and breaks the cell math.
+- For plain n-column responsive content (cards, lists), use Tailwind grid grid-cols-\* utilities directly; Grid is overkill when guides aren't visible.
+- Don't nest Grids more than one level; the guide overlap reads as visual noise and breaks the cell math.
 
 ## Examples
 
@@ -50,13 +50,13 @@ Not applicable: As a layout container, Grid manages no internal state or user in
 
 ## Responsive behavior
 
--   The Grid component includes built-in responsive breakpoints that automatically adjust column counts and guide visibility across different viewports.
--   Row and column guides can be hidden independently to suit specific layout needs; hiding both usually means a plain Tailwind grid is the right tool.
+- The Grid component includes built-in responsive breakpoints that automatically adjust column counts and guide visibility across different viewports.
+- Row and column guides can be hidden independently to suit specific layout needs; hiding both usually means a plain Tailwind grid is the right tool.
 
 ## Theme behavior
 
--   Grid line colors and cell backgrounds are drawn from theme tokens, ensuring proper contrast in both light and dark modes.
--   Guide thickness and style (solid, dashed) are adjustable via props and stay consistent with design system tokens.
+- Grid line colors and cell backgrounds are drawn from theme tokens, ensuring proper contrast in both light and dark modes.
+- Guide thickness and style (solid, dashed) are adjustable via props and stay consistent with design system tokens.
 
 ## Live Demo
 
@@ -79,7 +79,7 @@ import { Grid, GridSystem } from "@/components/ui/grid";
 
 <GridSystem debug guideWidth={1} unstable_useContainer>
   <Grid columns={5} height="preserve-aspect-ratio" rows={2} />
-</GridSystem>
+</GridSystem>;
 ```
 
 ## Basic grid
@@ -105,7 +105,7 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
       <GridCell key={n}>{n}</GridCell>
     ))}
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## Solid cells
@@ -132,7 +132,7 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
       5 + 6
     </GridCell>
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## Responsive grid
@@ -158,7 +158,7 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
       <GridCell key={n}>{n}</GridCell>
     ))}
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## Responsive guide clipping
@@ -185,7 +185,7 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
       5 + 6
     </GridCell>
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## Hidden row guides
@@ -195,7 +195,7 @@ import { Grid, GridSystem } from "@/components/ui/grid";
 
 <GridSystem unstable_useContainer>
   <Grid columns={12} height="preserve-aspect-ratio" hideGuides="row" rows={3} />
-</GridSystem>
+</GridSystem>;
 ```
 
 ## Hidden column guides
@@ -205,7 +205,7 @@ import { Grid, GridSystem } from "@/components/ui/grid";
 
 <GridSystem unstable_useContainer>
   <Grid columns={12} height="preserve-aspect-ratio" hideGuides="column" rows={3} />
-</GridSystem>
+</GridSystem>;
 ```
 
 ## Overlaying cells
@@ -241,7 +241,7 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
       4
     </GridCell>
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## Specific guide clipping
@@ -277,7 +277,7 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
       5
     </GridCell>
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## Grid with cross
@@ -307,7 +307,7 @@ import { Grid, GridCell, GridCross, GridSystem } from "@/components/ui/grid";
       <GridCell key={n}>{n}</GridCell>
     ))}
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## Dashed grid with cross
@@ -325,7 +325,7 @@ import { Grid, GridCell, GridCross, GridSystem } from "@/components/ui/grid";
     <GridCross column={1} row={2} />
     <GridCell>Content here</GridCell>
   </Grid>
-</GridSystem>
+</GridSystem>;
 ```
 
 ## Dashed grid with grid page
@@ -345,7 +345,7 @@ import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui
       <GridCell>Content here</GridCell>
     </Grid>
   </GridSystem>
-</GridPage>
+</GridPage>;
 ```
 
 ## API Reference
@@ -355,7 +355,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui/grid"
+import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui/grid";
 ```
 
 ### Props & callbacks
@@ -364,7 +364,7 @@ import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui
 
 ## Best Practices
 
--   Use Grid for two-dimensional cell-and-guide layouts in marketing pages, docs landing pages, and feature breakdowns where the rule lines and cell borders are part of the design.
--   For plain n-column responsive content (cards, lists), use Tailwind grid grid-cols-\* utilities directly; Grid is overkill when guides aren't visible.
--   Don't nest Grids more than one level; the guide overlap reads as visual noise and breaks the cell math.
--   Hide row or column guides only when their absence improves clarity (single-axis layouts, hero rows). Hiding both usually means a plain Tailwind grid is the right tool.
+- Use Grid for two-dimensional cell-and-guide layouts in marketing pages, docs landing pages, and feature breakdowns where the rule lines and cell borders are part of the design.
+- For plain n-column responsive content (cards, lists), use Tailwind grid grid-cols-\* utilities directly; Grid is overkill when guides aren't visible.
+- Don't nest Grids more than one level; the guide overlap reads as visual noise and breaks the cell math.
+- Hide row or column guides only when their absence improves clarity (single-axis layouts, hero rows). Hiding both usually means a plain Tailwind grid is the right tool.

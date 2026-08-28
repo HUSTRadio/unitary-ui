@@ -14,13 +14,13 @@ Split Button
 
 ## 何时使用
 
--   两个或更多操作共享同一行且高度相关时（如 'Deploy' 和 'Deploy to staging'）。
--   需要平衡可见性和节省空间——主要操作需要醒目，次要变体以菜单形式呈现。
+- 两个或更多操作共享同一行且高度相关时（如 'Deploy' 和 'Deploy to staging'）。
+- 需要平衡可见性和节省空间——主要操作需要醒目，次要变体以菜单形式呈现。
 
 ## 何时不应使用
 
--   超过三个相关动作时使用 Menu 替代；拆分按钮的菜单不应成为垃圾箱。
--   当两个动作重要程度相当时，使用并排的两个 Button 而非主次分级。
+- 超过三个相关动作时使用 Menu 替代；拆分按钮的菜单不应成为垃圾箱。
+- 当两个动作重要程度相当时，使用并排的两个 Button 而非主次分级。
 
 ## 示例
 
@@ -38,8 +38,8 @@ Split Button
 
 ## 无障碍
 
--   菜单按钮应设置描述性 aria-label（如 'Deploy to staging'）而非仅用下三角图标。
--   主按钮为正常焦点元素，菜单打开后焦点锁定在项目内，Escape 关闭并返回触发元素。
+- 菜单按钮应设置描述性 aria-label（如 'Deploy to staging'）而非仅用下三角图标。
+- 主按钮为正常焦点元素，菜单打开后焦点锁定在项目内，Escape 关闭并返回触发元素。
 
 ## 受控行为
 
@@ -47,11 +47,11 @@ Split Button
 
 ## 响应式行为
 
--   在窄视图中拆分按钮保持完整功能，但菜单宽度随窗口边界自动翻转以避免裁切。
+- 在窄视图中拆分按钮保持完整功能，但菜单宽度随窗口边界自动翻转以避免裁切。
 
 ## 主题行为
 
--   拆分按钮继承 Button 的 variant 体系（primary、secondary、error 等），两个部分风格一致。
+- 拆分按钮继承 Button 的 variant 体系（primary、secondary、error 等），两个部分风格一致。
 
 ## 实时示例
 
@@ -94,7 +94,7 @@ import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
   >
     Save (bottom-end)
   </SplitButton>
-</div>
+</div>;
 ```
 
 ## 图标
@@ -125,7 +125,7 @@ import { ExternalLink, Rocket } from "lucide-react";
   menuProps={{ width: 240 }}
 >
   Copy page
-</SplitButton>
+</SplitButton>;
 ```
 
 ## 带图标标题
@@ -169,7 +169,7 @@ import { CircleArrowUp, Save } from "lucide-react";
       ))}
     </div>
   ))}
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -179,7 +179,12 @@ import { CircleArrowUp, Save } from "lucide-react";
 导入
 
 ```tsx
-import { SplitButton, SplitButtonMain, SplitButtonMenu, SplitButtonMenuItem } from "@/components/ui/split-button"
+import {
+  SplitButton,
+  SplitButtonMain,
+  SplitButtonMenu,
+  SplitButtonMenuItem,
+} from "@/components/ui/split-button";
 ```
 
 ### 属性与回调
@@ -188,5 +193,5 @@ import { SplitButton, SplitButtonMain, SplitButtonMenu, SplitButtonMenuItem } fr
 
 ## 最佳实践
 
--   把最常见的动作放在主按钮上，并把菜单限制为密切相关的变体。
--   用目标与用途命名菜单按钮，而非 chevron 图标。
+- 把最常见的动作放在主按钮上，并把菜单限制为密切相关的变体。
+- 用目标与用途命名菜单按钮，而非 chevron 图标。

@@ -14,13 +14,13 @@ Multi Select
 
 ## 何时使用
 
--   当可能需要激活多个选项时，例如多值过滤器、标签选择或多字段配置。
--   需要从较长选项中筛选出多个条目，搜索和滚动结合的交互方式更适合复杂选择任务。
+- 当可能需要激活多个选项时，例如多值过滤器、标签选择或多字段配置。
+- 需要从较长选项中筛选出多个条目，搜索和滚动结合的交互方式更适合复杂选择任务。
 
 ## 何时不应使用
 
--   当只需单选时可搜索列表时，请使用 Combobox——Multi Select 的语义是为多选设计的，不应混用。
--   当选项数量极少（如 2–3 个）且都是互斥选项时，使用 Toggle 或 Switch 更为直观，不必引入复杂的下拉多选组件。
+- 当只需单选时可搜索列表时，请使用 Combobox——Multi Select 的语义是为多选设计的，不应混用。
+- 当选项数量极少（如 2–3 个）且都是互斥选项时，使用 Toggle 或 Switch 更为直观，不必引入复杂的下拉多选组件。
 
 ## 示例
 
@@ -38,23 +38,23 @@ Multi Select
 
 ## 无障碍
 
--   每个复选选项都有语义化的 label 关联，屏幕阅读器能正确播报每个选项的名称及其选中状态。
--   键盘导航支持方向键移动焦点、空格键切换选中、Escape 关闭列表，符合 WAI-ARIA 复合组件规范。
+- 每个复选选项都有语义化的 label 关联，屏幕阅读器能正确播报每个选项的名称及其选中状态。
+- 键盘导航支持方向键移动焦点、空格键切换选中、Escape 关闭列表，符合 WAI-ARIA 复合组件规范。
 
 ## 受控行为
 
--   通过 value（已选数组）和 onChange 回调实现完全受控，父组件可在任意时刻更新选择集合。
--   支持 defaultSelected 初始化未受控状态，并在内部同步维护选中变化并通知外部。
+- 通过 value（已选数组）和 onChange 回调实现完全受控，父组件可在任意时刻更新选择集合。
+- 支持 defaultSelected 初始化未受控状态，并在内部同步维护选中变化并通知外部。
 
 ## 响应式行为
 
--   在下拉列表展开后会根据视口大小自动调整宽度及位置，确保在小屏设备上也不会溢出屏幕边界。
--   触发器的摘要文本在不同尺寸下会优雅截断或折叠，保持紧凑外观。
+- 在下拉列表展开后会根据视口大小自动调整宽度及位置，确保在小屏设备上也不会溢出屏幕边界。
+- 触发器的摘要文本在不同尺寸下会优雅截断或折叠，保持紧凑外观。
 
 ## 主题行为
 
--   选中项的高亮颜色、边框和背景均从主题令牌获取，浅色/深色模式下对比度均符合无障碍要求。
--   下拉列表的背景、滚动条和悬停效果跟随当前主题保持一致的视觉风格。
+- 选中项的高亮颜色、边框和背景均从主题令牌获取，浅色/深色模式下对比度均符合无障碍要求。
+- 下拉列表的背景、滚动条和悬停效果跟随当前主题保持一致的视觉风格。
 
 ## 实时示例
 
@@ -121,7 +121,7 @@ const handleSelectAll = () => {
   <p className="text-copy-14 text-gray-900">
     Hover over items to see action labels. Different actions appear based on selection state.
   </p>
-</div>
+</div>;
 ```
 
 Try keyboard navigation: ↑ ↓ for rows, ← → for checkbox/button focus, Tab to cycle through all elements
@@ -188,10 +188,10 @@ const handleSelectAll = () => {
     </MultiSelectContent>
   </MultiSelectRoot>
   <p className="text-copy-14 text-gray-900">
-    Try keyboard navigation: ↑ ↓ for rows, ← → for checkbox/button focus, Tab to cycle through
-    all elements
+    Try keyboard navigation: ↑ ↓ for rows, ← → for checkbox/button focus, Tab to cycle through all
+    elements
   </p>
-</div>
+</div>;
 ```
 
 , ,
@@ -295,7 +295,7 @@ const handlePresetAdvanced = () => {
       </button>
     </p>
   </div>
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -305,7 +305,12 @@ const handlePresetAdvanced = () => {
 导入
 
 ```tsx
-import { MultiSelectRoot, MultiSelectTrigger, MultiSelectContent, MultiSelectRow } from "@/components/ui/multi-select"
+import {
+  MultiSelectRoot,
+  MultiSelectTrigger,
+  MultiSelectContent,
+  MultiSelectRow,
+} from "@/components/ui/multi-select";
 ```
 
 ### 属性与回调
@@ -314,5 +319,5 @@ import { MultiSelectRoot, MultiSelectTrigger, MultiSelectContent, MultiSelectRow
 
 ## 最佳实践
 
--   仅当可同时激活多个选项时用 Multi Select；可搜索的单选用 Combobox。
--   保持触发器摘要简洁，并在打开控件内部暴露完整选择列表。
+- 仅当可同时激活多个选项时用 Multi Select；可搜索的单选用 Combobox。
+- 保持触发器摘要简洁，并在打开控件内部暴露完整选择列表。

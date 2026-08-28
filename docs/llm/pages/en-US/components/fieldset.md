@@ -14,15 +14,15 @@ Groups related form controls into a single semantic unit.
 
 ## When to use
 
--   When you need to group a set of related form controls into a single semantic unit with a title, supporting description, and optional footer area.
--   To organize functional groups on settings pages, such as notification settings, security settings, each in its own Fieldset.
--   When the entire configuration surface carries a unified semantic state (type=error or type=warning) to communicate system-level issues.
+- When you need to group a set of related form controls into a single semantic unit with a title, supporting description, and optional footer area.
+- To organize functional groups on settings pages, such as notification settings, security settings, each in its own Fieldset.
+- When the entire configuration surface carries a unified semantic state (type=error or type=warning) to communicate system-level issues.
 
 ## When not to use
 
--   Don't use Fieldset for non-form content blocks — its semantic purpose is specifically for grouping related form controls.
--   Don't mix too many unrelated options in a single Fieldset — each group should maintain topical coherence; consider splitting beyond 6–8 items.
--   Don't hand-build extra card shells around Fieldset — use the standard FieldsetContent and FieldsetFooterActions sub-components.
+- Don't use Fieldset for non-form content blocks — its semantic purpose is specifically for grouping related form controls.
+- Don't mix too many unrelated options in a single Fieldset — each group should maintain topical coherence; consider splitting beyond 6–8 items.
+- Don't hand-build extra card shells around Fieldset — use the standard FieldsetContent and FieldsetFooterActions sub-components.
 
 ## Examples
 
@@ -44,25 +44,25 @@ Demonstrates using DisabledWall to cover the entire content area while keeping t
 
 ## Accessibility
 
--   The Fieldset legend (title) is automatically announced by screen readers before each associated form control, establishing ownership context.
--   Disabled Fieldset internals remain in the DOM marked with aria-disabled to preserve tab order and reading sequence.
--   Fieldsets with error or warning types should include an accessible live region near the title to announce the semantic state.
+- The Fieldset legend (title) is automatically announced by screen readers before each associated form control, establishing ownership context.
+- Disabled Fieldset internals remain in the DOM marked with aria-disabled to preserve tab order and reading sequence.
+- Fieldsets with error or warning types should include an accessible live region near the title to announce the semantic state.
 
 ## Controlled behavior
 
--   The entire group of child controls can be enabled/disabled together via a disabled prop, simplifying batch management.
--   The type prop (error/warning) is controlled externally to convey the semantic state of the entire configuration surface.
--   Sub-components FieldsetContent and FieldsetFooterActions accept their own controlled props for customized behavior.
+- The entire group of child controls can be enabled/disabled together via a disabled prop, simplifying batch management.
+- The type prop (error/warning) is controlled externally to convey the semantic state of the entire configuration surface.
+- Sub-components FieldsetContent and FieldsetFooterActions accept their own controlled props for customized behavior.
 
 ## Responsive behavior
 
--   Internal form controls stack vertically on narrow screens and switch to horizontal layouts on wider viewports for better space utilization.
--   Title text may reduce font size or allow wrapping on narrow screens, preserving title legibility at smaller breakpoints.
+- Internal form controls stack vertically on narrow screens and switch to horizontal layouts on wider viewports for better space utilization.
+- Title text may reduce font size or allow wrapping on narrow screens, preserving title legibility at smaller breakpoints.
 
 ## Theme behavior
 
--   Fieldset borders, dividers, and title accent colors follow application theme variables, adapting automatically between dark and light modes.
--   Disabled-state grays and transparency effects are sourced from CSS variable tokens, ensuring visual consistency across themes.
+- Fieldset borders, dividers, and title accent colors follow application theme variables, adapting automatically between dark and light modes.
+- Disabled-state grays and transparency effects are sourced from CSS variable tokens, ensuring visual consistency across themes.
 
 ## Live Demo
 
@@ -102,7 +102,7 @@ import {
       <FieldsetFooterAction>Save Changes</FieldsetFooterAction>
     </FieldsetFooterActions>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Transfer Project
@@ -131,7 +131,7 @@ import {
       <span>You need additional permissions to transfer projects.</span>
     </FieldsetFooterStatus>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Privacy Policy
@@ -156,11 +156,10 @@ import {
   <FieldsetContent>
     <FieldsetTitle>Privacy Policy</FieldsetTitle>
     <FieldsetSubtitle>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam volutpat, nunc vel
-      ultrices sollicitudin, dolor eros volutpat ex, et sagittis sem enim in eros. Curabitur eu
-      consequat neque, non finibus odio. Donec vitae tellus eu mauris feugiat efficitur.
-      Maecenas blandit sit amet tellus vel blandit. Phasellus ultrices vulputate arcu, vel
-      dictum erat facilisis et.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam volutpat, nunc vel ultrices
+      sollicitudin, dolor eros volutpat ex, et sagittis sem enim in eros. Curabitur eu consequat
+      neque, non finibus odio. Donec vitae tellus eu mauris feugiat efficitur. Maecenas blandit sit
+      amet tellus vel blandit. Phasellus ultrices vulputate arcu, vel dictum erat facilisis et.
     </FieldsetSubtitle>
   </FieldsetContent>
   <FieldsetFooter>
@@ -172,7 +171,7 @@ import {
       <FieldsetFooterAction>Accept</FieldsetFooterAction>
     </FieldsetFooterActions>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Personal Information
@@ -239,9 +238,7 @@ import {
   <Fieldset>
     <FieldsetContent disabled>
       <FieldsetTitle>API Access</FieldsetTitle>
-      <FieldsetSubtitle>
-        Generate and manage API tokens for programmatic access
-      </FieldsetSubtitle>
+      <FieldsetSubtitle>Generate and manage API tokens for programmatic access</FieldsetSubtitle>
     </FieldsetContent>
     <FieldsetFooter highlight>
       <FieldsetFooterStatus>
@@ -249,7 +246,7 @@ import {
       </FieldsetFooterStatus>
     </FieldsetFooter>
   </Fieldset>
-</div>
+</div>;
 ```
 
 #### Account Information
@@ -272,7 +269,7 @@ import {
       ultricies, nisl nisl aliquam nisl.
     </FieldsetSubtitle>
   </FieldsetContent>
-</Fieldset>
+</Fieldset>;
 ```
 
 This fieldset contains only a subtitle with no title. It can be used for informational sections or supplementary content.
@@ -300,7 +297,7 @@ import {
       <span>Information only</span>
     </FieldsetFooterStatus>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### API Configuration
@@ -329,9 +326,7 @@ import {
     <FieldsetTitle>API Configuration</FieldsetTitle>
     <FieldsetSubtitle>Configure your API endpoint and authentication</FieldsetSubtitle>
     <div className="mt-4">
-      <ErrorText>
-        API key validation failed. Please check your credentials and try again.
-      </ErrorText>
+      <ErrorText>API key validation failed. Please check your credentials and try again.</ErrorText>
     </div>
   </FieldsetContent>
   <FieldsetFooter>
@@ -342,7 +337,7 @@ import {
       <FieldsetFooterAction>Verify API Connection</FieldsetFooterAction>
     </FieldsetFooterActions>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Database Settings
@@ -372,8 +367,8 @@ import {
     <FieldsetSubtitle>Configure your database connection parameters</FieldsetSubtitle>
     <div className="mt-4">
       <WarningText>
-        Changing these settings will require a restart of your application. Make sure to save
-        any pending work.
+        Changing these settings will require a restart of your application. Make sure to save any
+        pending work.
       </WarningText>
     </div>
   </FieldsetContent>
@@ -386,7 +381,7 @@ import {
       <FieldsetFooterAction>Apply Changes</FieldsetFooterAction>
     </FieldsetFooterActions>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Advanced Features
@@ -429,7 +424,7 @@ import {
       <span>Upgrade to a Pro plan to access these features.</span>
     </FieldsetFooterStatus>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Payment Failed
@@ -454,8 +449,8 @@ import {
   <FieldsetContent>
     <FieldsetTitle>Payment Failed</FieldsetTitle>
     <FieldsetSubtitle>
-      Your payment method was declined. Please update your billing information to continue using
-      the service.
+      Your payment method was declined. Please update your billing information to continue using the
+      service.
     </FieldsetSubtitle>
   </FieldsetContent>
   <FieldsetFooter>
@@ -467,7 +462,7 @@ import {
       <FieldsetFooterAction>Update Payment Method</FieldsetFooterAction>
     </FieldsetFooterActions>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 #### Trial Ending Soon
@@ -505,7 +500,7 @@ import {
       <FieldsetFooterAction>Add Payment Method</FieldsetFooterAction>
     </FieldsetFooterActions>
   </FieldsetFooter>
-</Fieldset>
+</Fieldset>;
 ```
 
 ## API Reference
@@ -515,7 +510,15 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Fieldset, FieldsetTitle, FieldsetSubtitle, FieldsetContent, FieldsetFooter, FieldsetFooterStatus, FieldsetFooterAction } from "@/components/ui/fieldset"
+import {
+  Fieldset,
+  FieldsetTitle,
+  FieldsetSubtitle,
+  FieldsetContent,
+  FieldsetFooter,
+  FieldsetFooterStatus,
+  FieldsetFooterAction,
+} from "@/components/ui/fieldset";
 ```
 
 ### Props & callbacks
@@ -524,7 +527,7 @@ import { Fieldset, FieldsetTitle, FieldsetSubtitle, FieldsetContent, FieldsetFoo
 
 ## Best Practices
 
--   Use Fieldset for one settings surface with a title, supporting copy, and optional footer status/actions.
--   Put body content in FieldsetContent and actions in FieldsetFooterActions; don't hand-build an extra card or footer shell.
--   Use disabled content or DisabledWall for unavailable sections while keeping the explanatory footer readable.
--   Use type=error or type=warning only when the whole surface carries that semantic state; use ErrorText or WarningText for inline messages.
+- Use Fieldset for one settings surface with a title, supporting copy, and optional footer status/actions.
+- Put body content in FieldsetContent and actions in FieldsetFooterActions; don't hand-build an extra card or footer shell.
+- Use disabled content or DisabledWall for unavailable sections while keeping the explanatory footer readable.
+- Use type=error or type=warning only when the whole surface carries that semantic state; use ErrorText or WarningText for inline messages.

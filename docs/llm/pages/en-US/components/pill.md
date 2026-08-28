@@ -14,15 +14,15 @@ Clickable filter chip for toggling a query or selection.
 
 ## When to use
 
--   Use Pill for clickable filter chips that toggle a query, as opposed to a static Badge.
--   Highlight the currently selected filter with variant="active" so sighted users see the active state without relying on color alone.
--   Wire onClick only when the pill can actually filter; ensure the interaction is meaningful.
+- Use Pill for clickable filter chips that toggle a query, as opposed to a static Badge.
+- Highlight the currently selected filter with variant="active" so sighted users see the active state without relying on color alone.
+- Wire onClick only when the pill can actually filter; ensure the interaction is meaningful.
 
 ## When not to use
 
--   Do not use Pill for purely presentational status labels—if no click interaction is needed, use Badge instead.
--   Do not bind onClick to elements that have no actual filtering capability; promote to a Badge if the element is display-only.
--   Do not stack more than four Pills in the same container—beyond that, consider switching to a select dropdown or combobox.
+- Do not use Pill for purely presentational status labels—if no click interaction is needed, use Badge instead.
+- Do not bind onClick to elements that have no actual filtering capability; promote to a Badge if the element is display-only.
+- Do not stack more than four Pills in the same container—beyond that, consider switching to a select dropdown or combobox.
 
 ## Examples
 
@@ -36,9 +36,9 @@ Demonstrates using variant="active" to highlight the currently selected filter, 
 
 ## Accessibility
 
--   When rendered as an interactive button, Pill should have a visible focus indicator so keyboard users can navigate via Tab and activate via Enter.
--   The active Pill should carry an aria-pressed (or equivalent) attribute to mark its selected state for screen reader announcement.
--   Icon-only Pills (no visible text) must have an aria-label set, otherwise screen readers cannot determine their purpose.
+- When rendered as an interactive button, Pill should have a visible focus indicator so keyboard users can navigate via Tab and activate via Enter.
+- The active Pill should carry an aria-pressed (or equivalent) attribute to mark its selected state for screen reader announcement.
+- Icon-only Pills (no visible text) must have an aria-label set, otherwise screen readers cannot determine their purpose.
 
 ## Controlled behavior
 
@@ -46,13 +46,13 @@ Not applicable: Pill itself has no controlled properties for internal state mana
 
 ## Responsive behavior
 
--   Pill padding and font size maintain a consistent compact ratio across all viewports, never overflowing the parent container on narrow screens.
--   A horizontal row of Pills supports horizontal scrolling or auto-wrapping on narrow screens to keep all options visible.
+- Pill padding and font size maintain a consistent compact ratio across all viewports, never overflowing the parent container on narrow screens.
+- A horizontal row of Pills supports horizontal scrolling or auto-wrapping on narrow screens to keep all options visible.
 
 ## Theme behavior
 
--   Each Pill variant (active vs default) has its own dark/light mode color pair that updates automatically with theme changes.
--   Background and border colors use semantic values from the theme palette, ensuring brand consistency.
+- Each Pill variant (active vs default) has its own dark/light mode color pair that updates automatically with theme changes.
+- Background and border colors use semantic values from the theme palette, ensuring brand consistency.
 
 ## Live Demo
 
@@ -73,7 +73,7 @@ const [active, setActive] = useState("all");
       {value}
     </Pill>
   ))}
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -83,7 +83,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Pill } from "@/components/ui/pill"
+import { Pill } from "@/components/ui/pill";
 ```
 
 ### Props & callbacks
@@ -92,6 +92,6 @@ import { Pill } from "@/components/ui/pill"
 
 ## Best Practices
 
--   Use Pill for clickable filter chips that toggle a query; for a static status label use Badge instead.
--   Pass variant="active" to highlight the currently selected filter so sighted users see the active state without color alone.
--   Wire onClick only when the pill can actually filter; otherwise promote to a Badge.
+- Use Pill for clickable filter chips that toggle a query; for a static status label use Badge instead.
+- Pass variant="active" to highlight the currently selected filter so sighted users see the active state without color alone.
+- Wire onClick only when the pill can actually filter; otherwise promote to a Badge.

@@ -14,13 +14,13 @@ A slider group for mutually exclusive view options.
 
 ## When to use
 
--   Switching between two or three mutually exclusive options (e.g., Source vs Output views).
--   When options are few and users frequently toggle between them with need for instant feedback.
+- Switching between two or three mutually exclusive options (e.g., Source vs Output views).
+- When options are few and users frequently toggle between them with need for instant feedback.
 
 ## When not to use
 
--   For boolean on/off toggles use Toggle instead; Switch implements radio semantics, not checkbox semantics.
--   Past 3 options or when labels grow beyond a couple of words, switch to Tabs or a Select.
+- For boolean on/off toggles use Toggle instead; Switch implements radio semantics, not checkbox semantics.
+- Past 3 options or when labels grow beyond a couple of words, switch to Tabs or a Select.
 
 ## Examples
 
@@ -38,21 +38,21 @@ Demonstrating the disabled appearance and why an option is unavailable.
 
 ## Accessibility
 
--   Every Switch.Control should carry an accessible name (even icon-only controls need a Tooltip plus an sr-only label).
--   Left/Right arrows move focus across options, Enter or Space activates, Escape exits.
+- Every Switch.Control should carry an accessible name (even icon-only controls need a Tooltip plus an sr-only label).
+- Left/Right arrows move focus across options, Enter or Space activates, Escape exits.
 
 ## Controlled behavior
 
--   Uses the checked prop for controlled state management with onChange callback to sync parent state.
--   A name prop must be assigned to the Switch group for radio-style mutual exclusion; defaultChecked determines the initial selected option.
+- Uses the checked prop for controlled state management with onChange callback to sync parent state.
+- A name prop must be assigned to the Switch group for radio-style mutual exclusion; defaultChecked determines the initial selected option.
 
 ## Responsive behavior
 
--   In full-width mode on narrow screens provides better touch targets; padding per control ensures the widest label fits without resizing the active pill.
+- In full-width mode on narrow screens provides better touch targets; padding per control ensures the widest label fits without resizing the active pill.
 
 ## Theme behavior
 
--   The active pill color follows theme tokens, maintaining consistent contrast in both light and dark modes.
+- The active pill color follows theme tokens, maintaining consistent contrast in both light and dark modes.
 
 ## Live Demo
 
@@ -66,7 +66,7 @@ import { Switch, SwitchControl } from "@/components/ui/switch";
 <Switch name="default">
   <SwitchControl defaultChecked label="Source" value="source" />
   <SwitchControl label="Output" value="output" />
-</Switch>
+</Switch>;
 ```
 
 Source
@@ -119,7 +119,7 @@ import { Switch, SwitchControl } from "@/components/ui/switch";
     <SwitchControl defaultChecked disabled label="Source" value="source" />
     <SwitchControl disabled label="Output" value="output" />
   </Switch>
-</div>
+</div>;
 ```
 
 ## Sizes
@@ -158,7 +158,7 @@ import { Switch, SwitchControl } from "@/components/ui/switch";
       <SwitchControl label="Output" value="output" />
     </Switch>
   </div>
-</div>
+</div>;
 ```
 
 ## Full width
@@ -173,7 +173,7 @@ import { Switch, SwitchControl } from "@/components/ui/switch";
 <Switch name="reference-full-width" style={{ width: "100%" }}>
   <SwitchControl defaultChecked label="Source" value="source" />
   <SwitchControl label="Output" value="output" />
-</Switch>
+</Switch>;
 ```
 
 ## Tooltip
@@ -195,7 +195,7 @@ import { Tooltip } from "@/components/ui/tooltip";
       <SwitchControl label="Output" size="large" value="output" />
     </Tooltip>
   </Switch>
-</div>
+</div>;
 ```
 
 ## Icon
@@ -219,38 +219,23 @@ import { Switch, SwitchControl } from "@/components/ui/switch";
 <div className="flex w-full flex-col lg:flex-row lg:flex-wrap">
   <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
     <Switch name="reference-icons-small" size="small">
-      <SwitchControl
-        defaultChecked
-        icon={<LayoutGrid />}
-        label="Source"
-        value="source"
-      />
+      <SwitchControl defaultChecked icon={<LayoutGrid />} label="Source" value="source" />
       <SwitchControl icon={<List />} label="Output" value="output" />
     </Switch>
   </div>
   <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
     <Switch name="reference-icons-default">
-      <SwitchControl
-        defaultChecked
-        icon={<LayoutGrid />}
-        label="Source"
-        value="source"
-      />
+      <SwitchControl defaultChecked icon={<LayoutGrid />} label="Source" value="source" />
       <SwitchControl icon={<List />} label="Output" value="output" />
     </Switch>
   </div>
   <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
     <Switch name="reference-icons-large" size="large">
-      <SwitchControl
-        defaultChecked
-        icon={<LayoutGrid />}
-        label="Source"
-        value="source"
-      />
+      <SwitchControl defaultChecked icon={<LayoutGrid />} label="Source" value="source" />
       <SwitchControl icon={<List />} label="Output" value="output" />
     </Switch>
   </div>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -260,7 +245,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Switch, SwitchControl } from "@/components/ui/switch"
+import { Switch, SwitchControl } from "@/components/ui/switch";
 ```
 
 ### Props & callbacks
@@ -269,12 +254,12 @@ import { Switch, SwitchControl } from "@/components/ui/switch"
 
 ## Best Practices
 
--   Use Switch as a segmented selector for 2–3 mutually exclusive options that show different views of the same surface, like Source vs Output.
--   For a boolean on/off setting, use Toggle. Switch implements radio semantics, so two options stay mutually exclusive rather than reading as a checkbox.
--   Past 3 options or when labels grow beyond a couple of words, switch to Tabs or a Select.
--   Pass a name so the underlying radios are grouped; without it, more than one option can appear selected at once.
--   Set defaultChecked (or controlled checked) on exactly one Switch.Control so the group has a defined initial state.
--   Pad each Switch.Control so the widest label fits without the active pill resizing on selection. Test with the longest copy in the set.
--   Title Case each Switch.Control label. Keep labels to one or two words and parallel: Source / Output, not Source / Show output.
--   Always provide a label on every Switch.Control, even when an icon carries the meaning, so screen readers announce the option. The component renders it as geist-sr-only for icon-only controls.
--   Pair an icon-only Switch with a Tooltip on each control so sighted users get the same label assistive tech receives.
+- Use Switch as a segmented selector for 2–3 mutually exclusive options that show different views of the same surface, like Source vs Output.
+- For a boolean on/off setting, use Toggle. Switch implements radio semantics, so two options stay mutually exclusive rather than reading as a checkbox.
+- Past 3 options or when labels grow beyond a couple of words, switch to Tabs or a Select.
+- Pass a name so the underlying radios are grouped; without it, more than one option can appear selected at once.
+- Set defaultChecked (or controlled checked) on exactly one Switch.Control so the group has a defined initial state.
+- Pad each Switch.Control so the widest label fits without the active pill resizing on selection. Test with the longest copy in the set.
+- Title Case each Switch.Control label. Keep labels to one or two words and parallel: Source / Output, not Source / Show output.
+- Always provide a label on every Switch.Control, even when an icon carries the meaning, so screen readers announce the option. The component renders it as geist-sr-only for icon-only controls.
+- Pair an icon-only Switch with a Tooltip on each control so sighted users get the same label assistive tech receives.

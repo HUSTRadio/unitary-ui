@@ -14,15 +14,15 @@ Avatar
 
 ## 何时使用
 
--   用 Avatar 表示单个用户或团队，并在头像旁显示姓名和角色信息。
--   使用堆叠（Stacked）Avatar 展示一组人员，如团队成员列表或评论者集合。
--   为图片加载失败或缺失的场景提供回退（如首字母、图标或占位色块），保证识别性。
+- 用 Avatar 表示单个用户或团队，并在头像旁显示姓名和角色信息。
+- 使用堆叠（Stacked）Avatar 展示一组人员，如团队成员列表或评论者集合。
+- 为图片加载失败或缺失的场景提供回退（如首字母、图标或占位色块），保证识别性。
 
 ## 何时不应使用
 
--   不需要在卡片、表格等组件内部重复渲染头像——优先用 Entity 行或其他结构化布局。
--   不要用 Avatar 展示非人物的实体（产品 logo、系统图标等），这些应使用 Icon 或通用占位符。
--   不要将 Avatar 用作装饰性背景元素；它的语义是表示一个真实的人。
+- 不需要在卡片、表格等组件内部重复渲染头像——优先用 Entity 行或其他结构化布局。
+- 不要用 Avatar 展示非人物的实体（产品 logo、系统图标等），这些应使用 Icon 或通用占位符。
+- 不要将 Avatar 用作装饰性背景元素；它的语义是表示一个真实的人。
 
 ## 示例
 
@@ -40,9 +40,9 @@ Avatar
 
 ## 无障碍
 
--   必须设置有意义的 alt 文本，以便屏幕阅读器朗读头像所代表的人物名称。
--   堆叠 Avatar 组应在容器上添加 aria-label 说明总人数，避免逐条朗读造成冗余。
--   无图回退的首字母头像应使用高对比度的背景色，确保文字可读。
+- 必须设置有意义的 alt 文本，以便屏幕阅读器朗读头像所代表的人物名称。
+- 堆叠 Avatar 组应在容器上添加 aria-label 说明总人数，避免逐条朗读造成冗余。
+- 无图回退的首字母头像应使用高对比度的背景色，确保文字可读。
 
 ## 受控行为
 
@@ -50,13 +50,13 @@ Avatar
 
 ## 响应式行为
 
--   Avatar 的尺寸通过 props 显式指定而非响应式断点，因此在任何视口下表现一致。
--   堆叠 Avatar 在窄屏上保持重叠顺序不变，最多显示四个后以 +N 数字汇总呈现剩余人数。
+- Avatar 的尺寸通过 props 显式指定而非响应式断点，因此在任何视口下表现一致。
+- 堆叠 Avatar 在窄屏上保持重叠顺序不变，最多显示四个后以 +N 数字汇总呈现剩余人数。
 
 ## 主题行为
 
--   Avatar 的颜色和样式跟随 Geist 主题变量（字体、色板），支持暗色/亮色模式自动适配。
--   占位色块默认从用户名哈希派生颜色，可通过 CSS 变量覆盖。
+- Avatar 的颜色和样式跟随 Geist 主题变量（字体、色板），支持暗色/亮色模式自动适配。
+- 占位色块默认从用户名哈希派生颜色，可通过 CSS 变量覆盖。
 
 ## 实时示例
 
@@ -73,11 +73,7 @@ import { AvatarGroup } from "@/components/ui/avatar";
 
 <div className="flex flex-wrap items-center gap-4">
   <AvatarGroup
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={32}
   />
   <AvatarGroup
@@ -91,7 +87,7 @@ import { AvatarGroup } from "@/components/ui/avatar";
     ]}
     size={32}
   />
-</div>
+</div>;
 ```
 
 ## 堆叠顺序
@@ -105,23 +101,15 @@ import { AvatarGroup } from "@/components/ui/avatar";
 
 <div className="flex flex-wrap items-center gap-4">
   <AvatarGroup
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={32}
   />
   <AvatarGroup
     reverse
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={32}
   />
-</div>
+</div>;
 ```
 
 ## 重叠
@@ -140,41 +128,25 @@ import { AvatarGroup } from "@/components/ui/avatar";
 <div className="flex flex-wrap items-center gap-6">
   <AvatarGroup
     overlap="auto"
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={16}
   />
   <AvatarGroup
     overlap="auto"
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={24}
   />
   <AvatarGroup
     overlap="auto"
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={32}
   />
   <AvatarGroup
     overlap="auto"
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={48}
   />
-</div>
+</div>;
 ```
 
 ## 固定重叠
@@ -191,32 +163,20 @@ import { AvatarGroup } from "@/components/ui/avatar";
 <div className="flex flex-wrap items-center gap-4">
   <AvatarGroup
     overlap={10}
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={24}
   />
   <AvatarGroup
     overlap={6}
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={24}
   />
   <AvatarGroup
     overlap={0}
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={24}
   />
-</div>
+</div>;
 ```
 
 ## 大小
@@ -230,7 +190,7 @@ import { Avatar } from "@/components/ui/avatar";
   <Avatar size={24} username="evilrabbit" />
   <Avatar size={32} username="evilrabbit" />
   <Avatar size={48} username="evilrabbit" />
-</div>
+</div>;
 ```
 
 ## Git
@@ -244,7 +204,7 @@ import { GitHubAvatar, GitLabAvatar, BitbucketAvatar } from "@/components/ui/ava
   <GitHubAvatar size={32} username="rauchg" />
   <GitLabAvatar size={32} username="severinlandolt" />
   <BitbucketAvatar size={32} username="evilrabbit" />
-</div>
+</div>;
 ```
 
 ## 自定义图标
@@ -264,12 +224,8 @@ import { ArrowDownCircle, CircleCheck, Clock } from "lucide-react";
     size={32}
     iconBackground
   />
-  <AvatarWithIcon
-    icon={<Clock className="size-3.5" aria-hidden />}
-    size={32}
-    iconBackground
-  />
-</div>
+  <AvatarWithIcon icon={<Clock className="size-3.5" aria-hidden />} size={32} iconBackground />
+</div>;
 ```
 
 ## 字母
@@ -283,7 +239,7 @@ import { Avatar } from "@/components/ui/avatar";
   <Avatar letter="SL" placeholder size={32} />
   <Avatar letter="EK" placeholder size={32} />
   <Avatar letter="CK" placeholder size={32} />
-</div>
+</div>;
 ```
 
 ## 占位符
@@ -291,7 +247,7 @@ import { Avatar } from "@/components/ui/avatar";
 ```tsx
 import { Avatar } from "@/components/ui/avatar";
 
-<Avatar placeholder size={90} />
+<Avatar placeholder size={90} />;
 ```
 
 ## API 参考
@@ -301,7 +257,7 @@ import { Avatar } from "@/components/ui/avatar";
 导入
 
 ```tsx
-import { Avatar, AvatarGroup, AvatarWithIcon } from "@/components/ui/avatar"
+import { Avatar, AvatarGroup, AvatarWithIcon } from "@/components/ui/avatar";
 ```
 
 原生属性：`ImgHTMLAttributes<HTMLImageElement>`
@@ -312,7 +268,7 @@ import { Avatar, AvatarGroup, AvatarWithIcon } from "@/components/ui/avatar"
 
 ## 最佳实践
 
--   使用 Avatar 表示单个用户或团队；堆叠的 Avatar 表示一组人。
--   提供回退内容（首字母、图标或占位符），以便图片加载失败或缺失时头像仍可识别。
--   设置有意义的 alt 文本，让屏幕阅读器读出头像代表谁。
--   按上下文选择尺寸：sm 用于密集行，default 用于列表和提及，lg 用于个人资料头部。
+- 使用 Avatar 表示单个用户或团队；堆叠的 Avatar 表示一组人。
+- 提供回退内容（首字母、图标或占位符），以便图片加载失败或缺失时头像仍可识别。
+- 设置有意义的 alt 文本，让屏幕阅读器读出头像代表谁。
+- 按上下文选择尺寸：sm 用于密集行，default 用于列表和提及，lg 用于个人资料头部。

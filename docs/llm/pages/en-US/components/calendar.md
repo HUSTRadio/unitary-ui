@@ -14,14 +14,14 @@ Displays a month calendar from which users can pick a date.
 
 ## When to use
 
--   Pick Calendar for analytics ranges and any picker where day-of-week and month context matter.
--   Set min and max to the data window so users can't pick outside the retention range.
--   Default to the user's locale and timezone; never silently render UTC for a US-Pacific viewer.
+- Pick Calendar for analytics ranges and any picker where day-of-week and month context matter.
+- Set min and max to the data window so users can't pick outside the retention range.
+- Default to the user's locale and timezone; never silently render UTC for a US-Pacific viewer.
 
 ## When not to use
 
--   For a single time-of-day pick without month context, use a lighter time input instead.
--   Don't embed Calendar as a read-only monthly display in content flow — its semantic role is a picker.
+- For a single time-of-day pick without month context, use a lighter time input instead.
+- Don't embed Calendar as a read-only monthly display in content flow — its semantic role is a picker.
 
 ## Examples
 
@@ -43,30 +43,30 @@ Pins the calendar to a specific timezone to avoid cross-timezone ambiguity.
 
 ## Accessibility
 
--   Date cells must be keyboard-traversable (arrow keys to move, Enter to confirm) with focus order matching visual order.
--   Selected and today states can't rely on color alone; they need screen-reader-detectable semantics.
+- Date cells must be keyboard-traversable (arrow keys to move, Enter to confirm) with focus order matching visual order.
+- Selected and today states can't rely on color alone; they need screen-reader-detectable semantics.
 
 ## Controlled behavior
 
--   The selected date is controlled by the parent; onChange reports the pick.
--   Month paging is internal view state and does not affect the controlled selection.
+- The selected date is controlled by the parent; onChange reports the pick.
+- Month paging is internal view state and does not affect the controlled selection.
 
 ## Responsive behavior
 
--   Horizontal, compact, and stacked layouts adapt the calendar to different container widths.
--   Prefer the compact layout on small viewports to reduce vertical footprint.
+- Horizontal, compact, and stacked layouts adapt the calendar to different container widths.
+- Prefer the compact layout on small viewports to reduce vertical footprint.
 
 ## Theme behavior
 
--   Today highlight, selection, and disabled-day colors all follow theme variables.
--   Selected dates keep sufficient contrast in dark mode.
+- Today highlight, selection, and disabled-day colors all follow theme variables.
+- Selected dates keep sufficient contrast in dark mode.
 
 ## Live Demo
 
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
 
-<Calendar label="Select Date Range" />
+<Calendar label="Select Date Range" />;
 ```
 
 ## Horizontal Layout
@@ -74,7 +74,7 @@ import { Calendar } from "@/components/ui/calendar";
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
 
-<Calendar label="Select Date Range" horizontalLayout />
+<Calendar label="Select Date Range" horizontalLayout />;
 ```
 
 ## Sizes
@@ -118,9 +118,13 @@ import { Calendar } from "@/components/ui/calendar";
   comboboxLabel="Combobox Menu"
   comboboxPlaceholder="Select Period"
   presets={{
-    "last-7-days": { text: "Last 7 Days", start: new Date(2026, 7, 14), end: new Date(2026, 7, 21) },
+    "last-7-days": {
+      text: "Last 7 Days",
+      start: new Date(2026, 7, 14),
+      end: new Date(2026, 7, 21),
+    },
   }}
-/>
+/>;
 ```
 
 ## Compact
@@ -135,9 +139,13 @@ import { Calendar } from "@/components/ui/calendar";
   compact
   comboboxLabel="Combobox Menu"
   presets={{
-    "last-7-days": { text: "Last 7 Days", start: new Date(2026, 7, 14), end: new Date(2026, 7, 21) },
+    "last-7-days": {
+      text: "Last 7 Days",
+      start: new Date(2026, 7, 14),
+      end: new Date(2026, 7, 21),
+    },
   }}
-/>
+/>;
 ```
 
 ## Stacked
@@ -153,9 +161,13 @@ import { Calendar } from "@/components/ui/calendar";
   comboboxLabel="Combobox Menu"
   comboboxPlaceholder="Select Period"
   presets={{
-    "last-7-days": { text: "Last 7 Days", start: new Date(2026, 7, 14), end: new Date(2026, 7, 21) },
+    "last-7-days": {
+      text: "Last 7 Days",
+      start: new Date(2026, 7, 14),
+      end: new Date(2026, 7, 21),
+    },
   }}
-/>
+/>;
 ```
 
 ## Default Preset
@@ -174,10 +186,14 @@ import { Calendar } from "@/components/ui/calendar";
   comboboxLabel="Combobox Menu"
   comboboxPlaceholder="Select Period"
   presets={{
-    "last-7-days": { text: "Last 7 Days", start: new Date(2026, 7, 14), end: new Date(2026, 7, 21) },
+    "last-7-days": {
+      text: "Last 7 Days",
+      start: new Date(2026, 7, 14),
+      end: new Date(2026, 7, 21),
+    },
   }}
   presetIndex={0}
-/>
+/>;
 ```
 
 ## Date Bounds
@@ -189,7 +205,7 @@ const now = new Date();
 const minDate = new Date(now.getFullYear(), now.getMonth() - 2, now.getDate());
 const maxDate = new Date(now.getFullYear(), now.getMonth() + 2, now.getDate());
 
-<Calendar label="Select Date Range" minValue={minDate} maxValue={maxDate} />
+<Calendar label="Select Date Range" minValue={minDate} maxValue={maxDate} />;
 ```
 
 ## Pinned Timezone
@@ -197,7 +213,7 @@ const maxDate = new Date(now.getFullYear(), now.getMonth() + 2, now.getDate());
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
 
-<Calendar label="Select Date Range" pinnedTimezone="America/Los_Angeles" />
+<Calendar label="Select Date Range" pinnedTimezone="America/Los_Angeles" />;
 ```
 
 ## API Reference
@@ -207,7 +223,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Calendar } from "@/components/ui/calendar"
+import { Calendar } from "@/components/ui/calendar";
 ```
 
 ### Props & callbacks
@@ -216,6 +232,6 @@ import { Calendar } from "@/components/ui/calendar"
 
 ## Best Practices
 
--   Pick Calendar for analytics ranges and any picker where day-of-week and month context matter.
--   Set min and max to the data window so users can't pick outside the retention range.
--   Default to the user's locale and timezone; never silently render UTC for a US-Pacific viewer.
+- Pick Calendar for analytics ranges and any picker where day-of-week and month context matter.
+- Set min and max to the data window so users can't pick outside the retention range.
+- Default to the user's locale and timezone; never silently render UTC for a US-Pacific viewer.

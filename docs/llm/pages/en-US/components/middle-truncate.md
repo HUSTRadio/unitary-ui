@@ -14,13 +14,13 @@ Preserves the beginning and end of long identifiers.
 
 ## When to use
 
--   When displaying long text such as file paths, URLs, hashes, and identifiers where both prefix and suffix carry identifying meaning.
--   When users need to quickly recognize a rough sense of the identifier's origin/target while preventing excessively long text from breaking layout neatness.
+- When displaying long text such as file paths, URLs, hashes, and identifiers where both prefix and suffix carry identifying meaning.
+- When users need to quickly recognize a rough sense of the identifier's origin/target while preventing excessively long text from breaking layout neatness.
 
 ## When not to use
 
--   When the entire string needs to be visible to the user (for precise copy-paste), don't truncate—provide the full value with a copy button or expand mechanism.
--   For plain text content where prefix and suffix are irrelevant, full display is friendlier than truncation.
+- When the entire string needs to be visible to the user (for precise copy-paste), don't truncate—provide the full value with a copy button or expand mechanism.
+- For plain text content where prefix and suffix are irrelevant, full display is friendlier than truncation.
 
 ## Examples
 
@@ -34,8 +34,8 @@ Expose the pre-truncated original full value through the title attribute or an a
 
 ## Accessibility
 
--   The truncated text exposes the complete original value via the title attribute or an adjacent copy affordance, ensuring screen reader users can access what was truncated.
--   Ellipsis characters are rendered using dedicated Unicode characters or CSS styles so they are correctly skipped by screen readers without causing extra reading interference.
+- The truncated text exposes the complete original value via the title attribute or an adjacent copy affordance, ensuring screen reader users can access what was truncated.
+- Ellipsis characters are rendered using dedicated Unicode characters or CSS styles so they are correctly skipped by screen readers without causing extra reading interference.
 
 ## Controlled behavior
 
@@ -58,7 +58,7 @@ import { MiddleTruncate } from "@/components/ui/middle-truncate";
 
 <div className="w-64 font-mono text-copy-13 text-foreground">
   <MiddleTruncate value="https://example.com/teams/hustradio/projects/unitary-ui/deployments/latest" />
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -68,7 +68,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { MiddleTruncate } from "@/components/ui/middle-truncate"
+import { MiddleTruncate } from "@/components/ui/middle-truncate";
 ```
 
 ### Props & callbacks
@@ -77,5 +77,5 @@ import { MiddleTruncate } from "@/components/ui/middle-truncate"
 
 ## Best Practices
 
--   Use Middle Truncate for paths, URLs, hashes, and identifiers where both prefix and suffix carry meaning.
--   Expose the full value through title or adjacent copy affordance; truncation must not destroy access to the source value.
+- Use Middle Truncate for paths, URLs, hashes, and identifiers where both prefix and suffix carry meaning.
+- Expose the full value through title or adjacent copy affordance; truncation must not destroy access to the source value.

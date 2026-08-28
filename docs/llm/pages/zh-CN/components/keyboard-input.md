@@ -14,13 +14,13 @@ Keyboard Input
 
 ## 何时使用
 
--   在正文文本、菜单项和按钮后缀中显示快捷键提示，让用户直观了解触发某个操作所需的键盘组合。
--   在长篇文档中叙述某个快捷操作时，用 Kbd 元素呈现按键样式使文档更加专业易读。
+- 在正文文本、菜单项和按钮后缀中显示快捷键提示，让用户直观了解触发某个操作所需的键盘组合。
+- 在长篇文档中叙述某个快捷操作时，用 Kbd 元素呈现按键样式使文档更加专业易读。
 
 ## 何时不应使用
 
--   不要将修饰键拼写出来放在 children 中——应通过 boolean props（meta、shift、alt、ctrl）来传递修饰键，组件会在 Windows/Linux 上将 ⌘ 自动替换为 Ctrl。
--   标点符号应放在 Kbd 元素之外，如句号、逗号和「或」分隔符保留在周围的正文中，以免屏幕阅读器将它们误报为按键名称。
+- 不要将修饰键拼写出来放在 children 中——应通过 boolean props（meta、shift、alt、ctrl）来传递修饰键，组件会在 Windows/Linux 上将 ⌘ 自动替换为 Ctrl。
+- 标点符号应放在 Kbd 元素之外，如句号、逗号和「或」分隔符保留在周围的正文中，以免屏幕阅读器将它们误报为按键名称。
 
 ## 示例
 
@@ -42,8 +42,8 @@ Keyboard Input
 
 ## 无障碍
 
--   Kbd 元素使用语义化的键盘角色，屏幕阅读器能正确播报按键名称及其修饰组合。
--   跨平台修饰键的自动替换确保不同操作系统上的用户使用同样的辅助设备能获得一致的语义理解。
+- Kbd 元素使用语义化的键盘角色，屏幕阅读器能正确播报按键名称及其修饰组合。
+- 跨平台修饰键的自动替换确保不同操作系统上的用户使用同样的辅助设备能获得一致的语义理解。
 
 ## 受控行为
 
@@ -55,8 +55,8 @@ Keyboard Input
 
 ## 主题行为
 
--   按键的背景色、边框和文字颜色均从主题令牌获取，确保在浅色和深色模式下都有良好的对比度和视觉效果。
--   激活状态（如果有的话）的颜色切换也遵循主题规范。
+- 按键的背景色、边框和文字颜色均从主题令牌获取，确保在浅色和深色模式下都有良好的对比度和视觉效果。
+- 激活状态（如果有的话）的颜色切换也遵循主题规范。
 
 ## 实时示例
 
@@ -70,7 +70,7 @@ import { Kbd } from "@/components/ui/keyboard-input";
   <Kbd shift />
   <Kbd alt />
   <Kbd ctrl />
-</>
+</>;
 ```
 
 ⌘⇧
@@ -78,7 +78,7 @@ import { Kbd } from "@/components/ui/keyboard-input";
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
 
-<Kbd meta shift />
+<Kbd meta shift />;
 ```
 
 /
@@ -86,7 +86,7 @@ import { Kbd } from "@/components/ui/keyboard-input";
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
 
-<Kbd small>/</Kbd>
+<Kbd small>/</Kbd>;
 ```
 
 ⌘K
@@ -94,7 +94,9 @@ import { Kbd } from "@/components/ui/keyboard-input";
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
 
-<Kbd plain meta>K</Kbd>
+<Kbd plain meta>
+  K
+</Kbd>;
 ```
 
 ## API 参考
@@ -104,7 +106,7 @@ import { Kbd } from "@/components/ui/keyboard-input";
 导入
 
 ```tsx
-import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input"
+import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input";
 ```
 
 ### 属性与回调
@@ -113,8 +115,8 @@ import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input"
 
 ## 最佳实践
 
--   散文、菜单项和按钮后缀中的快捷键提示用 Kbd。在叙述快捷键的长文文档里直接写 ⌘ K 快捷键，让页面复制到纯文本时也一致。
--   通过布尔 props（meta、shift、alt、ctrl）传修饰键，让组件在 Windows/Linux 上把 ⌘ 换成 Ctrl。
--   children 是一个键、数字或命名键（K、7、Enter、Esc）。不要小写它、不要把修饰键拼写进去、也不要把句子塞进元素。
--   密集表面（菜单行、命令栏项、表格单元格）里默认尺寸挤压相邻文本时用 small。
--   标点位于元素之外：句号、逗号、or 分隔符保留在周围散文里，避免屏幕阅读器把它们读成按键。
+- 散文、菜单项和按钮后缀中的快捷键提示用 Kbd。在叙述快捷键的长文文档里直接写 ⌘ K 快捷键，让页面复制到纯文本时也一致。
+- 通过布尔 props（meta、shift、alt、ctrl）传修饰键，让组件在 Windows/Linux 上把 ⌘ 换成 Ctrl。
+- children 是一个键、数字或命名键（K、7、Enter、Esc）。不要小写它、不要把修饰键拼写进去、也不要把句子塞进元素。
+- 密集表面（菜单行、命令栏项、表格单元格）里默认尺寸挤压相邻文本时用 small。
+- 标点位于元素之外：句号、逗号、or 分隔符保留在周围散文里，避免屏幕阅读器把它们读成按键。

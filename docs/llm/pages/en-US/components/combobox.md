@@ -14,13 +14,13 @@ A searchable single-select list.
 
 ## When to use
 
--   When filtering materially helps users find one option from a long list; for short fixed lists, Select is a better fit.
--   When you need to keep the selected value and search query distinct so reopening the list doesn't erase the prior selection.
+- When filtering materially helps users find one option from a long list; for short fixed lists, Select is a better fit.
+- When you need to keep the selected value and search query distinct so reopening the list doesn't erase the prior selection.
 
 ## When not to use
 
--   For simple binary choices (toggle on/off), use Toggle instead of Combobox; the interaction overhead is too heavy for a simple switch.
--   When users need to select multiple items; use Multi Select—Combobox is designed for single-selection only.
+- For simple binary choices (toggle on/off), use Toggle instead of Combobox; the interaction overhead is too heavy for a simple switch.
+- When users need to select multiple items; use Multi Select—Combobox is designed for single-selection only.
 
 ## Examples
 
@@ -54,29 +54,29 @@ Displays a red border and error message when the selection fails validation or i
 
 ## Accessibility
 
--   Combobox combines the semantics of an input with a list; keyboard navigation: Up/Down arrows move focus, Home/End jump to first/last item, Enter or Space activates.
--   Typeahead support: pressing a character jumps to the next item whose label starts with that character, allowing keyboard users to navigate efficiently.
+- Combobox combines the semantics of an input with a list; keyboard navigation: Up/Down arrows move focus, Home/End jump to first/last item, Enter or Space activates.
+- Typeahead support: pressing a character jumps to the next item whose label starts with that character, allowing keyboard users to navigate efficiently.
 
 ## Controlled behavior
 
--   Combobox supports both controlled and uncontrolled modes; in controlled mode, external value/query props and onChange callbacks provide full external state management.
--   The selected value and the search query are tracked independently so reopening the dropdown doesn't erase a previous selection.
+- Combobox supports both controlled and uncontrolled modes; in controlled mode, external value/query props and onChange callbacks provide full external state management.
+- The selected value and the search query are tracked independently so reopening the dropdown doesn't erase a previous selection.
 
 ## Responsive behavior
 
--   The dropdown list auto-positions based on window bounds to prevent overflow on narrow viewports.
--   Input width can switch between custom widths and full-width; the dropdown width adapts to follow the input box size.
+- The dropdown list auto-positions based on window bounds to prevent overflow on narrow viewports.
+- Input width can switch between custom widths and full-width; the dropdown width adapts to follow the input box size.
 
 ## Theme behavior
 
--   Borders, focus rings, selected-item backgrounds, and dropdown shadows all adapt automatically via design system color and token variables.
--   High-contrast color schemes in dark mode ensure readable text across all themes.
+- Borders, focus rings, selected-item backgrounds, and dropdown shadows all adapt automatically via design system color and token variables.
+- High-contrast color schemes in dark mode ensure readable text across all themes.
 
 ## Live Demo
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -88,12 +88,12 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
     <ComboboxOption value="b">Two</ComboboxOption>
     <ComboboxOption value="c">Three</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -108,12 +108,12 @@ const [value, setValue] = useState("b");
     <ComboboxOption value="b">Two</ComboboxOption>
     <ComboboxOption value="c">Three</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -125,20 +125,20 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
     <ComboboxOption value="b">Two</ComboboxOption>
     <ComboboxOption value="c">Three</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -182,24 +182,28 @@ const options = [
       ))}
     </ComboboxList>
   </Combobox>
-</div>
+</div>;
 ```
 
 Select your country
 
--   United States
--   Canada
--   United Kingdom
--   Germany
--   France
--   Japan
--   Australia
--   Brazil
+- United States
+- Canada
+- United Kingdom
+- Germany
+- France
+- Japan
+- Australia
+- Brazil
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 
-<Combobox label="Select your country" aria-label="Select your country" placeholder="Search countries…">
+<Combobox
+  label="Select your country"
+  aria-label="Select your country"
+  placeholder="Search countries…"
+>
   <ComboboxInput />
   <ComboboxList>
     <ComboboxOption value="us">United States</ComboboxOption>
@@ -211,12 +215,12 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
     <ComboboxOption value="au">Australia</ComboboxOption>
     <ComboboxOption value="br">Brazil</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -225,19 +229,25 @@ import { useState } from "react";
 const [value, setValue] = useState("two");
 
 // 选中后出现清除按钮（X），点击即清空并回调 onValueChange。
-<Combobox aria-label="Search" clearable onValueChange={setValue} placeholder="Search..." value={value}>
+<Combobox
+  aria-label="Search"
+  clearable
+  onValueChange={setValue}
+  placeholder="Search..."
+  value={value}
+>
   <ComboboxInput />
   <ComboboxList>
     <ComboboxOption value="one">One</ComboboxOption>
     <ComboboxOption value="two">Two</ComboboxOption>
     <ComboboxOption value="three">Three</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -249,12 +259,12 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
     <ComboboxOption value="b">Two</ComboboxOption>
     <ComboboxOption value="c">Three</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -266,12 +276,12 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
     <ComboboxOption value="b">Two</ComboboxOption>
     <ComboboxOption value="c">Three</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
--   Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
--   Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+- Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+- Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -293,7 +303,7 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
       id est laborum.
     </ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
 ```tsx
@@ -302,12 +312,12 @@ import { Combobox, ComboboxInput, ComboboxList } from "@/components/ui/combobox"
 <Combobox aria-label="Search" placeholder="Search..." width={256}>
   <ComboboxInput />
   <ComboboxList emptyMessage="Nothing to see here..." />
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -326,12 +336,12 @@ import { Triangle } from "lucide-react";
       Three
     </ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -350,7 +360,7 @@ import { Triangle } from "lucide-react";
       Three
     </ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
 ```tsx
@@ -479,7 +489,7 @@ const [search, setSearch] = useState("");
       </Combobox>
     </div>
   </SheetContent>
-</Sheet>
+</Sheet>;
 ```
 
 ## API Reference
@@ -489,7 +499,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox"
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 ```
 
 ### Props & callbacks
@@ -498,5 +508,5 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
 
 ## Best Practices
 
--   Use Combobox when filtering materially helps users find one option; use Select for short fixed lists.
--   Keep the selected value and search query distinct so reopening the list does not erase the selection.
+- Use Combobox when filtering materially helps users find one option; use Select for short fixed lists.
+- Keep the selected value and search query distinct so reopening the list does not erase the selection.

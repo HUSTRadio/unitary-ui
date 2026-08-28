@@ -54,8 +54,8 @@ Supporting semantic emphasis.
 
 There are two background colors for pages and UI components. In most instances, use Background 1—especially when color is placed on top of the background. Use Background 2 sparingly when subtle differentiation is needed.
 
--   Background 1 — Default element background
--   Background 2 — Secondary background
+- Background 1 — Default element background
+- Background 2 — Secondary background
 
 ## Colors 1–10
 

@@ -14,13 +14,13 @@ Displays content in a side panel that slides in from the edge of the screen.
 
 ## When to use
 
--   When presenting persistent associated context (deployment details, member profiles) while keeping the underlying page interactive.
--   When a side panel with explicit open and close affordances feels more natural than a center-modal dialog.
+- When presenting persistent associated context (deployment details, member profiles) while keeping the underlying page interactive.
+- When a side panel with explicit open and close affordances feels more natural than a center-modal dialog.
 
 ## When not to use
 
--   When a fully blocking decision overlay is required; use Modal for blocking interactions.
--   When confirming destructive actions; the default interactive page underneath weakens the severity signal.
+- When a fully blocking decision overlay is required; use Modal for blocking interactions.
+- When confirming destructive actions; the default interactive page underneath weakens the severity signal.
 
 ## Examples
 
@@ -34,20 +34,20 @@ Variants showing the sheet sliding from the left or the right, matching the trig
 
 ## Accessibility
 
--   Focus is trapped inside the panel while open; pressing Escape closes the panel and returns focus to the trigger.
--   The title is linked via aria-labelledby so screen readers announce it upon opening.
+- Focus is trapped inside the panel while open; pressing Escape closes the panel and returns focus to the trigger.
+- The title is linked via aria-labelledby so screen readers announce it upon opening.
 
 ## Controlled behavior
 
--   Open and close are managed through external state (e.g., an isOpen variable) or callback functions, supporting complex interaction patterns.
+- Open and close are managed through external state (e.g., an isOpen variable) or callback functions, supporting complex interaction patterns.
 
 ## Responsive behavior
 
--   On wide viewports the sheet sticks to the page edge; on small viewports it can fall back to a full-screen overlay for mobile layouts.
+- On wide viewports the sheet sticks to the page edge; on small viewports it can fall back to a full-screen overlay for mobile layouts.
 
 ## Theme behavior
 
--   The panel's background, borders, and shadows are fully customizable and integrate seamlessly with dark-theme systems.
+- The panel's background, borders, and shadows are fully customizable and integrate seamlessly with dark-theme systems.
 
 ## Live Demo
 
@@ -85,18 +85,12 @@ import {
       <Button typeName="button">Next</Button>
     </SheetFooter>
   </SheetContent>
-</Sheet>
+</Sheet>;
 ```
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 const sides = ["top", "right", "bottom", "left"] as const;
 
@@ -116,7 +110,7 @@ const sides = ["top", "right", "bottom", "left"] as const;
       </SheetContent>
     </Sheet>
   ))}
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -126,7 +120,13 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Sheet, SheetContent, SheetTitle, SheetDescription, SheetClose } from "@/components/ui/sheet"
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetDescription,
+  SheetClose,
+} from "@/components/ui/sheet";
 ```
 
 ### Props & callbacks
@@ -135,12 +135,12 @@ import { Sheet, SheetContent, SheetTitle, SheetDescription, SheetClose } from "@
 
 ## Best Practices
 
--   Use Sheet for persistent associated context like deployment details, log row inspection, or a member profile, where the underlying page stays useful.
--   For a blocking decision, use Modal. For a mobile-only bottom sheet, use Drawer.
--   Don’t use Sheet to confirm destructive actions. The default keeps the page interactive, which weakens severity for a delete or revoke.
--   Pick side from the trigger location: a row inspector slides from right, a global filter from left. Don’t change sides mid-session.
--   Outside-click does not auto-close, so always render an explicit close affordance and honor Escape.
--   Title is Title Case and names the entity (Deployment Details, Member Profile), not the page action. Body is read-mostly prose.
--   Trap focus inside the sheet while it’s open and return focus to the trigger row on close so keyboard users keep their place in the list.
--   Provide a visible close button labeled Close (or an icon button with aria-label="Close") since clicking outside doesn’t dismiss.
--   Announce the sheet with aria-labelledby pointing at the title; pair it with aria-describedby only when the body is short and load-bearing.
+- Use Sheet for persistent associated context like deployment details, log row inspection, or a member profile, where the underlying page stays useful.
+- For a blocking decision, use Modal. For a mobile-only bottom sheet, use Drawer.
+- Don’t use Sheet to confirm destructive actions. The default keeps the page interactive, which weakens severity for a delete or revoke.
+- Pick side from the trigger location: a row inspector slides from right, a global filter from left. Don’t change sides mid-session.
+- Outside-click does not auto-close, so always render an explicit close affordance and honor Escape.
+- Title is Title Case and names the entity (Deployment Details, Member Profile), not the page action. Body is read-mostly prose.
+- Trap focus inside the sheet while it’s open and return focus to the trigger row on close so keyboard users keep their place in the list.
+- Provide a visible close button labeled Close (or an icon button with aria-label="Close") since clicking outside doesn’t dismiss.
+- Announce the sheet with aria-labelledby pointing at the title; pair it with aria-describedby only when the body is short and load-bearing.

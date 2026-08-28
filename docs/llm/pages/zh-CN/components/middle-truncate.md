@@ -14,13 +14,13 @@ Middle Truncate
 
 ## 何时使用
 
--   需要展示文件路径、URL、哈希值和标识符等长文本时，同时保留前缀和后缀以便用户识别来源和目标。
--   用户需要既能快速识别标识符的大致含义（通过两端关键字符），又不会因为过长文本破坏布局整齐度时。
+- 需要展示文件路径、URL、哈希值和标识符等长文本时，同时保留前缀和后缀以便用户识别来源和目标。
+- 用户需要既能快速识别标识符的大致含义（通过两端关键字符），又不会因为过长文本破坏布局整齐度时。
 
 ## 何时不应使用
 
--   当整个字符串都需要被用户看到时（如需要精确复制粘贴），不应截断——应提供完整的副本按钮或其他展开机制。
--   对于不需要前缀后缀信息的纯文本内容，不需要使用截断——完整显示更友好。
+- 当整个字符串都需要被用户看到时（如需要精确复制粘贴），不应截断——应提供完整的副本按钮或其他展开机制。
+- 对于不需要前缀后缀信息的纯文本内容，不需要使用截断——完整显示更友好。
 
 ## 示例
 
@@ -34,8 +34,8 @@ Middle Truncate
 
 ## 无障碍
 
--   截断后的文本通过 title 属性或邻近的复制按钮暴露完整原始值，确保屏幕阅读用户可以获取被截断的部分。
--   省略号本身使用专门的 Unicode 字符或 CSS 样式呈现，使其在屏幕阅读时被正确跳过而不产生额外的朗读干扰。
+- 截断后的文本通过 title 属性或邻近的复制按钮暴露完整原始值，确保屏幕阅读用户可以获取被截断的部分。
+- 省略号本身使用专门的 Unicode 字符或 CSS 样式呈现，使其在屏幕阅读时被正确跳过而不产生额外的朗读干扰。
 
 ## 受控行为
 
@@ -58,7 +58,7 @@ import { MiddleTruncate } from "@/components/ui/middle-truncate";
 
 <div className="w-64 font-mono text-copy-13 text-foreground">
   <MiddleTruncate value="https://example.com/teams/hustradio/projects/unitary-ui/deployments/latest" />
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -68,7 +68,7 @@ import { MiddleTruncate } from "@/components/ui/middle-truncate";
 导入
 
 ```tsx
-import { MiddleTruncate } from "@/components/ui/middle-truncate"
+import { MiddleTruncate } from "@/components/ui/middle-truncate";
 ```
 
 ### 属性与回调
@@ -77,5 +77,5 @@ import { MiddleTruncate } from "@/components/ui/middle-truncate"
 
 ## 最佳实践
 
--   路径、URL、哈希和标识符（前缀与后缀都承载含义）用 Middle Truncate。
--   通过 title 或相邻复制功能暴露完整值；截断绝不能破坏对源值的访问。
+- 路径、URL、哈希和标识符（前缀与后缀都承载含义）用 Middle Truncate。
+- 通过 title 或相邻复制功能暴露完整值；截断绝不能破坏对源值的访问。

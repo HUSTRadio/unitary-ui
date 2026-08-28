@@ -42,10 +42,10 @@ Unitary · Patterns
 
 Shell components
 
--   [Navbar topbar](#demo-api)
--   [SidebarNav](#demo-api)
+- [Navbar topbar](#demo-api)
+- [SidebarNav](#demo-api)
 
 Mobile
 
--   [BottomSheet](#demo-mobile)
--   [Grabber](#demo-mobile)
+- [BottomSheet](#demo-mobile)
+- [Grabber](#demo-mobile)

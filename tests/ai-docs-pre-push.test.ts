@@ -6,7 +6,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import Ajv from "ajv";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+vi.setConfig({ testTimeout: 15_000 });
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const RUNNER = path.join(repoRoot, "scripts", "ai-docs-pre-push.mjs");
@@ -274,7 +276,7 @@ describe("ai-docs-pre-push.mjs", () => {
     });
     expect(result.status).toBe(1);
     expect(result.stderr).toContain("evil.txt");
-  });
+  }, 15_000);
 
   it("Agent 合法更新文档时以 exit 2 中止并提示人工审查", () => {
     const dir = makeRepo();

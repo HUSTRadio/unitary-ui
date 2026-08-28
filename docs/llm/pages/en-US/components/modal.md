@@ -14,15 +14,15 @@ Displays a dialog that interrupts the user.
 
 ## When to use
 
--   When a decision must block the rest of the page, such as confirming a deletion or transferring a project.
--   When you need to confirm destructive actions; Drawer and Sheet don't fully dim the page so they read as too soft for delete or revoke flows.
--   When the dialog needs to contain form inputs, a Combobox, or other complex interactive elements.
+- When a decision must block the rest of the page, such as confirming a deletion or transferring a project.
+- When you need to confirm destructive actions; Drawer and Sheet don't fully dim the page so they read as too soft for delete or revoke flows.
+- When the dialog needs to contain form inputs, a Combobox, or other complex interactive elements.
 
 ## When not to use
 
--   Skip Modal for routine create flows that have a dedicated page; route the user to the page instead.
--   For persistent associated context where the underlying page stays readable, use Sheet on desktop or Drawer on mobile.
--   Don't use Modal for low-stakes daily confirmations like saving drafts or discarding changes—the typed gate creates unnecessary friction.
+- Skip Modal for routine create flows that have a dedicated page; route the user to the page instead.
+- For persistent associated context where the underlying page stays readable, use Sheet on desktop or Drawer on mobile.
+- Don't use Modal for low-stakes daily confirmations like saving drafts or discarding changes—the typed gate creates unnecessary friction.
 
 ## Examples
 
@@ -44,24 +44,24 @@ Demonstrates disabling the primary action button within a Modal, typically used 
 
 ## Accessibility
 
--   Modal traps focus inside the dialog until closed, and returns focus to the trigger element, ensuring keyboard users don't lose their place on the page.
--   Sets aria-labelledby to the Modal.Title id so screen readers announce the title on open.
--   Enter must never trigger a destructive action without a typed confirmation; default focus should land on Cancel to prevent accidental triggers.
+- Modal traps focus inside the dialog until closed, and returns focus to the trigger element, ensuring keyboard users don't lose their place on the page.
+- Sets aria-labelledby to the Modal.Title id so screen readers announce the title on open.
+- Enter must never trigger a destructive action without a typed confirmation; default focus should land on Cancel to prevent accidental triggers.
 
 ## Controlled behavior
 
--   The parent controls the Modal's open/close state entirely through the open prop; close should happen after the API settles or stay open on error for retry.
--   Supports setting an initial focus target (e.g., focus-input-on-open) to direct focus into a specific input control inside the modal on open.
+- The parent controls the Modal's open/close state entirely through the open prop; close should happen after the API settles or stay open on error for retry.
+- Supports setting an initial focus target (e.g., focus-input-on-open) to direct focus into a specific input control inside the modal on open.
 
 ## Responsive behavior
 
--   On small viewports Modal can switch to a Sheet-like mobile bottom sheet behavior for smooth interaction on mobile devices.
--   Special handling for mobile input scenarios (like mobile-sheet-inputs) ensures the virtual keyboard doesn't obscure action buttons.
+- On small viewports Modal can switch to a Sheet-like mobile bottom sheet behavior for smooth interaction on mobile devices.
+- Special handling for mobile input scenarios (like mobile-sheet-inputs) ensures the virtual keyboard doesn't obscure action buttons.
 
 ## Theme behavior
 
--   Modal's backdrop overlay color, content background, and button colors all follow theme tokens, automatically adapting for light and dark modes.
--   Custom color schemes integrate seamlessly with design system token variables for consistent brand visuals.
+- Modal's backdrop overlay color, content background, and button colors all follow theme tokens, automatically adapting for light and dark modes.
+- Custom color schemes integrate seamlessly with design system token variables for consistent brand visuals.
 
 ## Live Demo
 
@@ -82,8 +82,8 @@ const [open, setOpen] = useState(false);
     <header className="mb-5">
       <h3 className="text-heading-20 text-foreground">Create Token</h3>
       <div className="mt-2 mb-1 text-copy-14 text-muted-foreground">
-        Enter a unique name for your token to differentiate it from other tokens and then select
-        the scope.
+        Enter a unique name for your token to differentiate it from other tokens and then select the
+        scope.
       </div>
     </header>
     <p className="text-copy-14">Some content contained within the modal.</p>
@@ -97,7 +97,7 @@ const [open, setOpen] = useState(false);
       </Button>
     </footer>
   </ModalContent>
-</Modal>
+</Modal>;
 ```
 
 ```tsx
@@ -141,7 +141,7 @@ const [open, setOpen] = useState(false);
       </Button>
     </footer>
   </ModalContent>
-</Modal>
+</Modal>;
 ```
 
 ```tsx
@@ -169,7 +169,7 @@ const [open, setOpen] = useState(false);
       </Button>
     </footer>
   </ModalContent>
-</Modal>
+</Modal>;
 ```
 
 ```tsx
@@ -206,7 +206,7 @@ const [open, setOpen] = useState(false);
       </Button>
     </footer>
   </ModalContent>
-</Modal>
+</Modal>;
 ```
 
 ```tsx
@@ -245,7 +245,7 @@ const [open, setOpen] = useState(false);
       </Button>
     </ModalFooter>
   </ModalContent>
-</Modal>
+</Modal>;
 ```
 
 ```tsx
@@ -292,7 +292,7 @@ const initialFocusRef = useRef<HTMLButtonElement>(null);
       </Button>
     </ModalFooter>
   </ModalContent>
-</Modal>
+</Modal>;
 ```
 
 ```tsx
@@ -350,7 +350,7 @@ const initialFocusRef = useRef<HTMLInputElement>(null);
       </Button>
     </ModalFooter>
   </ModalContent>
-</Modal>
+</Modal>;
 ```
 
 ```tsx
@@ -380,8 +380,8 @@ const [email, setEmail] = useState("");
     <ModalHeader>
       <ModalTitle>Invite Member</ModalTitle>
       <ModalDescription>
-        On a mobile viewport this opens as a bottom sheet. Verify that both inputs receive focus
-        and accept keyboard input.
+        On a mobile viewport this opens as a bottom sheet. Verify that both inputs receive focus and
+        accept keyboard input.
       </ModalDescription>
     </ModalHeader>
     <div className="flex flex-col gap-3">
@@ -408,17 +408,12 @@ const [email, setEmail] = useState("");
       </Button>
     </ModalFooter>
   </ModalContent>
-</Modal>
+</Modal>;
 ```
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxList,
-  ComboboxOption,
-} from "@/components/ui/combobox";
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 import {
   Modal,
   ModalContent,
@@ -482,7 +477,7 @@ const [region, setRegion] = useState<string | null>(null);
       </Button>
     </ModalFooter>
   </ModalContent>
-</Modal>
+</Modal>;
 ```
 
 ```tsx
@@ -539,7 +534,7 @@ const toasts = useToasts();
       </Button>
     </ModalFooter>
   </ModalContent>
-</Modal>
+</Modal>;
 ```
 
 ## API Reference
@@ -549,7 +544,13 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Modal, ModalContent, ModalTitle, ModalDescription, ModalClose } from "@/components/ui/modal"
+import {
+  Modal,
+  ModalContent,
+  ModalTitle,
+  ModalDescription,
+  ModalClose,
+} from "@/components/ui/modal";
 ```
 
 ### Props & callbacks
@@ -558,19 +559,19 @@ import { Modal, ModalContent, ModalTitle, ModalDescription, ModalClose } from "@
 
 ## Best Practices
 
--   Use Modal when a decision must block the rest of the page. For persistent associated context where the underlying page stays readable, use Sheet on desktop or Drawer on mobile.
--   Confirm destructive actions in a Modal. Drawer and Sheet don't fully dim the page, so they read as too soft for a delete or revoke.
--   Skip Modal for routine create flows that have a dedicated page; route to the page instead.
--   Default focus to Cancel on any destructive Modal. Enter must never trigger the destructive action without a typed confirmation.
--   Allow Escape and outside-click to dismiss non-destructive Modals; gate dismissal on destructive ones with unsaved input.
--   Trap focus inside the Modal while it's open and return focus to the trigger after close. Restore body scroll on the same tick the Modal unmounts.
--   For high-stakes destructive actions (delete production resource, rotate signing key, downgrade plan), gate the primary button on a typed match of the resource name.
--   Modal.Title is a Title Case statement, never a question. Transfer Project is correct; Transfer Project? is wrong.
--   Modal body copy is sentence case, 1-3 sentences. State the consequence first, then any cascade.
--   Primary button is Verb + Noun and matches the title verb (Transfer Project title pairs with Transfer Project button). Never Confirm, OK, or a bare verb on a destructive primary.
--   Cancel literal stays Cancel. Acknowledgment-only Modals (after a key reveal, after a one-time-show) use Done, never OK or Close.
--   Close irreversible bodies with This cannot be undone.; close cascade-only bodies with Some effects cannot be undone. Don't claim full irreversibility for a partial cascade.
--   Pair the success toast verb 1:1 with the primary button: Delete Project button, Project deleted toast.
--   Set aria-labelledby to the Modal.Title id so screen readers announce the title on open.
--   Keep the Cancel button literally Cancel so screen-reader users hear a stable dismissal label across destructive flows.
--   After an error inside the Modal, keep focus inside so the user can retry; after success, return focus to the trigger.
+- Use Modal when a decision must block the rest of the page. For persistent associated context where the underlying page stays readable, use Sheet on desktop or Drawer on mobile.
+- Confirm destructive actions in a Modal. Drawer and Sheet don't fully dim the page, so they read as too soft for a delete or revoke.
+- Skip Modal for routine create flows that have a dedicated page; route to the page instead.
+- Default focus to Cancel on any destructive Modal. Enter must never trigger the destructive action without a typed confirmation.
+- Allow Escape and outside-click to dismiss non-destructive Modals; gate dismissal on destructive ones with unsaved input.
+- Trap focus inside the Modal while it's open and return focus to the trigger after close. Restore body scroll on the same tick the Modal unmounts.
+- For high-stakes destructive actions (delete production resource, rotate signing key, downgrade plan), gate the primary button on a typed match of the resource name.
+- Modal.Title is a Title Case statement, never a question. Transfer Project is correct; Transfer Project? is wrong.
+- Modal body copy is sentence case, 1-3 sentences. State the consequence first, then any cascade.
+- Primary button is Verb + Noun and matches the title verb (Transfer Project title pairs with Transfer Project button). Never Confirm, OK, or a bare verb on a destructive primary.
+- Cancel literal stays Cancel. Acknowledgment-only Modals (after a key reveal, after a one-time-show) use Done, never OK or Close.
+- Close irreversible bodies with This cannot be undone.; close cascade-only bodies with Some effects cannot be undone. Don't claim full irreversibility for a partial cascade.
+- Pair the success toast verb 1:1 with the primary button: Delete Project button, Project deleted toast.
+- Set aria-labelledby to the Modal.Title id so screen readers announce the title on open.
+- Keep the Cancel button literally Cancel so screen-reader users hear a stable dismissal label across destructive flows.
+- After an error inside the Modal, keep focus inside so the user can retry; after success, return focus to the trigger.

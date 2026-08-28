@@ -14,13 +14,13 @@ Context Card
 
 ## 何时使用
 
--   需要在悬停或聚焦时揭示实体的元数据信息，例如用户头像旁的用户详情、部署名称旁的构建信息等。
--   触发器通常为密集数据中的名称链接或头像，需要补充一行识别信息和 2–4 行的 Label: value 元数据。
+- 需要在悬停或聚焦时揭示实体的元数据信息，例如用户头像旁的用户详情、部署名称旁的构建信息等。
+- 触发器通常为密集数据中的名称链接或头像，需要补充一行识别信息和 2–4 行的 Label: value 元数据。
 
 ## 何时不应使用
 
--   如果只需一行简要解释而不含多行元数据，应改用 Tooltip 而非 Context Card。
--   不要使用 Context Card 展示破坏性操作（如删除），因为鼠标移出可能导致面板在用户提交前被意外关闭。
+- 如果只需一行简要解释而不含多行元数据，应改用 Tooltip 而非 Context Card。
+- 不要使用 Context Card 展示破坏性操作（如删除），因为鼠标移出可能导致面板在用户提交前被意外关闭。
 
 ## 示例
 
@@ -38,9 +38,9 @@ Context Card
 
 ## 无障碍
 
--   卡片应在打开时将焦点 trap 锁定在其内容中，按下 Escape 关闭卡片并将焦点返回到触发元素。
--   触发元素保留自身的 accessible name；卡片是补充信息，不应替代触发元素的无障碍名称。
--   卡片内的内容不应重复触发元素已经展示的可见信息，避免信息冗余。
+- 卡片应在打开时将焦点 trap 锁定在其内容中，按下 Escape 关闭卡片并将焦点返回到触发元素。
+- 触发元素保留自身的 accessible name；卡片是补充信息，不应替代触发元素的无障碍名称。
+- 卡片内的内容不应重复触发元素已经展示的可见信息，避免信息冗余。
 
 ## 受控行为
 
@@ -52,7 +52,7 @@ Context Card
 
 ## 主题行为
 
--   上下文卡片支持深色/浅色主题，样式跟随 Geist 设计系统的颜色令牌自动适配用户偏好的配色方案。
+- 上下文卡片支持深色/浅色主题，样式跟随 Geist 设计系统的颜色令牌自动适配用户偏好的配色方案。
 
 ## 实时示例
 
@@ -107,7 +107,7 @@ const card = (
       <span>{label}</span>
     </ContextCardTrigger>
   ))}
-</>
+</>;
 ```
 
 ```tsx
@@ -156,7 +156,7 @@ const card = (
       }
     />
   ))}
-</>
+</>;
 ```
 
 [Rendered as a link](#render-prop)
@@ -197,7 +197,11 @@ const card = (
 <>
   <ContextCardTrigger
     content={card}
-    render={<Button type="default" typeName="button">Default wrapper</Button>}
+    render={
+      <Button type="default" typeName="button">
+        Default wrapper
+      </Button>
+    }
   />
   <ContextCardTrigger
     content={card}
@@ -207,7 +211,7 @@ const card = (
       </a>
     }
   />
-</>
+</>;
 ```
 
 ## API 参考
@@ -217,7 +221,16 @@ const card = (
 导入
 
 ```tsx
-import { ContextCard, ContextCardTrigger, ContextCardHeader, ContextCardTitle, ContextCardDescription, ContextCardAvatar, ContextCardBody, ContextCardFooter } from "@/components/ui/context-card"
+import {
+  ContextCard,
+  ContextCardTrigger,
+  ContextCardHeader,
+  ContextCardTitle,
+  ContextCardDescription,
+  ContextCardAvatar,
+  ContextCardBody,
+  ContextCardFooter,
+} from "@/components/ui/context-card";
 ```
 
 ### 属性与回调
@@ -226,10 +239,10 @@ import { ContextCard, ContextCardTrigger, ContextCardHeader, ContextCardTitle, C
 
 ## 最佳实践
 
--   悬停或聚焦时揭示实体元数据（用户、部署、项目、API 密钥）用 Context Card；触发器通常是密集数据里的名称链接或头像。
--   单行说明且无元数据行的场合用 Tooltip；长文、编辑表单或持久导航转到 Drawer 或详情页。
--   不要用 Context Card 呈现破坏性动作；光标移出时面板可能在用户提交前关闭。
--   交互内容限制为一个主动作（View Project、Open Settings）。多于一个 CTA 看起来像菜单，应放进 Menu。
--   以实体名称开头，作为首字母大写的标题，下接一行句首大写的识别信息，再跟 2–4 行 Label: value 元数据。
--   不要复述触发器已经显示的内容；如果该行已渲染部署 URL，不要作为卡片首行重复。
--   触发器保留自己的可访问名称；卡片是补充性的，不应取代它。Escape 关闭卡片并把焦点还给触发器。
+- 悬停或聚焦时揭示实体元数据（用户、部署、项目、API 密钥）用 Context Card；触发器通常是密集数据里的名称链接或头像。
+- 单行说明且无元数据行的场合用 Tooltip；长文、编辑表单或持久导航转到 Drawer 或详情页。
+- 不要用 Context Card 呈现破坏性动作；光标移出时面板可能在用户提交前关闭。
+- 交互内容限制为一个主动作（View Project、Open Settings）。多于一个 CTA 看起来像菜单，应放进 Menu。
+- 以实体名称开头，作为首字母大写的标题，下接一行句首大写的识别信息，再跟 2–4 行 Label: value 元数据。
+- 不要复述触发器已经显示的内容；如果该行已渲染部署 URL，不要作为卡片首行重复。
+- 触发器保留自己的可访问名称；卡片是补充性的，不应取代它。Escape 关闭卡片并把焦点还给触发器。

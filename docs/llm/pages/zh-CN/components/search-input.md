@@ -14,13 +14,13 @@ Search Input
 
 ## 何时使用
 
--   需要用户输入文本查询驱动结果过滤的场景。
--   需要一个带可视化搜索图标前缀、便于识别的输入控件。
+- 需要用户输入文本查询驱动结果过滤的场景。
+- 需要一个带可视化搜索图标前缀、便于识别的输入控件。
 
 ## 何时不应使用
 
--   用于普通表单输入（姓名、地址等），应使用通用 Input 组件。
--   仅需静态文字展示时，不应使用交互型输入控件。
+- 用于普通表单输入（姓名、地址等），应使用通用 Input 组件。
+- 仅需静态文字展示时，不应使用交互型输入控件。
 
 ## 示例
 
@@ -34,8 +34,8 @@ Search Input
 
 ## 无障碍
 
--   输入框拥有语义明确的类型（role=search）和可访问名称，方便屏幕阅读器识别用途。
--   应与可见标签或等效的可访问名称关联，以确保无障碍上下文完整。
+- 输入框拥有语义明确的类型（role=search）和可访问名称，方便屏幕阅读器识别用途。
+- 应与可见标签或等效的可访问名称关联，以确保无障碍上下文完整。
 
 ## 受控行为
 
@@ -43,11 +43,11 @@ Search Input
 
 ## 响应式行为
 
--   在不同视口宽度下自适应输入框宽度，保持可点击的命中区域。
+- 在不同视口宽度下自适应输入框宽度，保持可点击的命中区域。
 
 ## 主题行为
 
--   支持暗色模式下颜色反转，并可与整体品牌主题保持一致。
+- 支持暗色模式下颜色反转，并可与整体品牌主题保持一致。
 
 ## 实时示例
 
@@ -64,7 +64,7 @@ const [value, setValue] = useState("");
   }}
   placeholder="Enter some text..."
   value={value}
-/>
+/>;
 ```
 
 ⌘K
@@ -83,7 +83,7 @@ const [value, setValue] = useState("");
   }}
   placeholder="Enter some text..."
   value={value}
-/>
+/>;
 ```
 
 ⌘K
@@ -103,7 +103,7 @@ const [value, setValue] = useState("");
   }}
   placeholder="Enter some text..."
   value={value}
-/>
+/>;
 ```
 
 加载中
@@ -122,7 +122,7 @@ const [value, setValue] = useState("Project A");
   }}
   placeholder="Enter some text..."
   value={value}
-/>
+/>;
 ```
 
 ```tsx
@@ -140,7 +140,7 @@ const [value, setValue] = useState("");
   placeholder="Enter some text..."
   prefix={<Sparkles className="size-4" aria-hidden />}
   value={value}
-/>
+/>;
 ```
 
 ## API 参考
@@ -150,7 +150,7 @@ const [value, setValue] = useState("");
 导入
 
 ```tsx
-import { SearchInput } from "@/components/ui/search-input"
+import { SearchInput } from "@/components/ui/search-input";
 ```
 
 ### 属性与回调
@@ -159,5 +159,5 @@ import { SearchInput } from "@/components/ui/search-input"
 
 ## 最佳实践
 
--   查询驱动的过滤用 Search Input，而非普通表单文本输入。
--   提供可见标签或等效可访问名称，并在结果更新时保留查询。
+- 查询驱动的过滤用 Search Input，而非普通表单文本输入。
+- 提供可见标签或等效可访问名称，并在结果更新时保留查询。

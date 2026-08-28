@@ -14,14 +14,14 @@ Label
 
 ## 何时使用
 
--   需要将可见文字标签与表单控件关联时，让屏幕阅读器播报字段名称。
--   通过 htmlFor 和控制器的 id 匹配标签，使点击标签时聚焦对应输入框。
--   使用简短的 Title Case 名词作为标签文本，例如 Project Name、Domain、Environment Variable Name。
+- 需要将可见文字标签与表单控件关联时，让屏幕阅读器播报字段名称。
+- 通过 htmlFor 和控制器的 id 匹配标签，使点击标签时聚焦对应输入框。
+- 使用简短的 Title Case 名词作为标签文本，例如 Project Name、Domain、Environment Variable Name。
 
 ## 何时不应使用
 
--   不要将带标签的 Input 包裹在 Tooltip 中——应将解释说明放在旁边的图标按钮上，以确保标签能被屏幕阅读器正确播报。
--   当不需要关联表单控件且没有无障碍播报需求时，直接使用普通文本段落即可。
+- 不要将带标签的 Input 包裹在 Tooltip 中——应将解释说明放在旁边的图标按钮上，以确保标签能被屏幕阅读器正确播报。
+- 当不需要关联表单控件且没有无障碍播报需求时，直接使用普通文本段落即可。
 
 ## 示例
 
@@ -39,8 +39,8 @@ Label 与 Input 配合的正确用法：通过 htmlFor/id 配对实现点击标�
 
 ## 无障碍
 
--   Label 通过 htmlFor/id 与表单控件关联，屏幕阅读器能正确播报字段名称，确保残障用户可以理解每个字段的用途。
--   所有带标签的输入框都必须通过 aria-describedby 将辅助说明与输入控件关联起来。
+- Label 通过 htmlFor/id 与表单控件关联，屏幕阅读器能正确播报字段名称，确保残障用户可以理解每个字段的用途。
+- 所有带标签的输入框都必须通过 aria-describedby 将辅助说明与输入控件关联起来。
 
 ## 受控行为
 
@@ -52,8 +52,8 @@ Label 与 Input 配合的正确用法：通过 htmlFor/id 配对实现点击标�
 
 ## 主题行为
 
--   标签文字的颜色从主题令牌获取，确保浅色模式和深色模式下都有良好的可读性和对比度。
--   字体大小和字重遵循设计系统的排版规范，与相邻输入框保持一致的视觉层级。
+- 标签文字的颜色从主题令牌获取，确保浅色模式和深色模式下都有良好的可读性和对比度。
+- 字体大小和字重遵循设计系统的排版规范，与相邻输入框保持一致的视觉层级。
 
 ## 实时示例
 
@@ -62,7 +62,7 @@ Label 与 Input 配合的正确用法：通过 htmlFor/id 配对实现点击标�
 ```tsx
 import { Label } from "@/components/ui/label";
 
-<Label id="label-default" value="This is a label" />
+<Label id="label-default" value="This is a label" />;
 ```
 
 邮箱地址
@@ -79,12 +79,8 @@ import { Label } from "@/components/ui/label";
 
 <div className="flex w-full max-w-sm flex-col">
   <Label id="label-input" value="Email Address" withInput />
-  <Input
-    aria-labelledby="label-input"
-    id="label-input"
-    placeholder="Enter email address..."
-  />
-</div>
+  <Input aria-labelledby="label-input" id="label-input" placeholder="Enter email address..." />
+</div>;
 ```
 
 ## 忽略大小写
@@ -102,7 +98,7 @@ import { Label } from "@/components/ui/label";
     id="label-input-bypass"
     placeholder="Enter email address..."
   />
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -112,7 +108,7 @@ import { Label } from "@/components/ui/label";
 导入
 
 ```tsx
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/label";
 ```
 
 原生属性：`LabelHTMLAttributes<HTMLLabelElement>`
@@ -123,6 +119,6 @@ import { Label } from "@/components/ui/label"
 
 ## 最佳实践
 
--   用 Label 把可见文本标签关联到表单控件，让屏幕阅读器播报字段名。
--   通过 htmlFor 与控件的 id 匹配标签与控件，点击标签即可聚焦字段。
--   标签保持简短的首字母大写名词：Project Name、Domain、Environment Variable Name。
+- 用 Label 把可见文本标签关联到表单控件，让屏幕阅读器播报字段名。
+- 通过 htmlFor 与控件的 id 匹配标签与控件，点击标签即可聚焦字段。
+- 标签保持简短的首字母大写名词：Project Name、Domain、Environment Variable Name。

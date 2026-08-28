@@ -14,15 +14,15 @@ Skeleton
 
 ## 何时使用
 
--   当异步数据填充已知布局（表格行、卡片网格、个人资料模块、侧边栏）时，展示 Skeleton 作为加载占位符。
--   需要维持最终内容的宽高尺寸以避免布局抖动（CLS），骨架屏能精确匹配实际元素的形状和大小。
--   批量加载多个资源时，用一组骨架屏模拟真实布局，帮助用户感知系统正在处理。
+- 当异步数据填充已知布局（表格行、卡片网格、个人资料模块、侧边栏）时，展示 Skeleton 作为加载占位符。
+- 需要维持最终内容的宽高尺寸以避免布局抖动（CLS），骨架屏能精确匹配实际元素的形状和大小。
+- 批量加载多个资源时，用一组骨架屏模拟真实布局，帮助用户感知系统正在处理。
 
 ## 何时不应使用
 
--   单个正在进行的操作应使用 Spinner，有明确进度时使用 Progress，不要用 Skeleton 替代这些组件。
--   不需要在静态页面或无数据的页面上使用——Skeleton 仅在有后续内容要加载时有意义。
--   不要将骨架屏用于非结构化的随机内容——它的价值在于预知布局的形状，否则会产生误导。
+- 单个正在进行的操作应使用 Spinner，有明确进度时使用 Progress，不要用 Skeleton 替代这些组件。
+- 不需要在静态页面或无数据的页面上使用——Skeleton 仅在有后续内容要加载时有意义。
+- 不要将骨架屏用于非结构化的随机内容——它的价值在于预知布局的形状，否则会产生误导。
 
 ## 示例
 
@@ -40,9 +40,9 @@ Skeleton
 
 ## 无障碍
 
--   将加载区域包裹在 aria-busy="true" 中，并在数据就绪后用 aria-live="polite" 通知完成状态。
--   骨架屏本身是装饰性的，不应被屏幕阅读器逐条朗读——由底层内容提供真正的语义信息。
--   对于低功率设备，应尊重 prefers-reduced-motion，减少或禁用脉冲动画。
+- 将加载区域包裹在 aria-busy="true" 中，并在数据就绪后用 aria-live="polite" 通知完成状态。
+- 骨架屏本身是装饰性的，不应被屏幕阅读器逐条朗读——由底层内容提供真正的语义信息。
+- 对于低功率设备，应尊重 prefers-reduced-motion，减少或禁用脉冲动画。
 
 ## 受控行为
 
@@ -50,26 +50,26 @@ Skeleton
 
 ## 响应式行为
 
--   Skeleton 的宽度和高度可通过 props 动态响应容器尺寸，在不同视口下保持合理的比例。
--   窄屏上多列骨架会自动缩减为单列布局，但整体占位模式不变。
+- Skeleton 的宽度和高度可通过 props 动态响应容器尺寸，在不同视口下保持合理的比例。
+- 窄屏上多列骨架会自动缩减为单列布局，但整体占位模式不变。
 
 ## 主题行为
 
--   骨架屏的背景色和脉冲动画跟随主题变量，在暗色/亮色模式下均有合适的对比度。
--   可通过 CSS 变量覆盖骨架颜色，实现品牌定制或特殊场景下的差异化表现。
+- 骨架屏的背景色和脉冲动画跟随主题变量，在暗色/亮色模式下均有合适的对比度。
+- 可通过 CSS 变量覆盖骨架颜色，实现品牌定制或特殊场景下的差异化表现。
 
 ## 实时示例
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton width={160} />
+<Skeleton width={160} />;
 ```
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton boxHeight={42} width={160} />
+<Skeleton boxHeight={42} width={160} />;
 ```
 
 ```tsx
@@ -84,7 +84,7 @@ import { Skeleton } from "@/components/ui/skeleton";
   <Skeleton show={false}>
     <Button typeName="button">Not hidden by skeleton</Button>
   </Skeleton>
-</div>
+</div>;
 ```
 
 ```tsx
@@ -99,25 +99,25 @@ import { Skeleton } from "@/components/ui/skeleton";
   <Skeleton height={100} width="100%">
     <Button typeName="button">Not hidden by Skeleton</Button>
   </Skeleton>
-</div>
+</div>;
 ```
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton pill width={48} />
+<Skeleton pill width={48} />;
 ```
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton boxHeight={48} height={48} rounded width={48} />
+<Skeleton boxHeight={48} height={48} rounded width={48} />;
 ```
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton boxHeight={48} height={48} squared width={48} />
+<Skeleton boxHeight={48} height={48} squared width={48} />;
 ```
 
 ```tsx
@@ -125,7 +125,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 <Skeleton animated={false} height={100} width="100%">
   {null}
-</Skeleton>
+</Skeleton>;
 ```
 
 Without button prop (default):
@@ -158,11 +158,13 @@ import { Skeleton } from "@/components/ui/skeleton";
         <Button typeName="button">Save</Button>
       </Skeleton>
       <Skeleton button>
-        <Button type="secondary" typeName="button">Cancel</Button>
+        <Button type="secondary" typeName="button">
+          Cancel
+        </Button>
       </Skeleton>
     </div>
   </div>
-</div>
+</div>;
 ```
 
 ## API 参考
@@ -172,7 +174,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 导入
 
 ```tsx
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton";
 ```
 
 ### 属性与回调
@@ -181,8 +183,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 ## 最佳实践
 
--   异步数据填充已知布局时显示 Skeleton：表格行、卡片网格、资料块、侧栏。
--   单个进行中的动作用 Spinner；已知进度用 Progress。
--   width 与 height 匹配最终内容，让数据解析时布局不位移。
--   在低功耗表面尊重 prefers-reduced-motion 处理脉冲动画。
--   用 aria-busy="true" 包裹加载区域，并用 aria-live 播报完成。
+- 异步数据填充已知布局时显示 Skeleton：表格行、卡片网格、资料块、侧栏。
+- 单个进行中的动作用 Spinner；已知进度用 Progress。
+- width 与 height 匹配最终内容，让数据解析时布局不位移。
+- 在低功耗表面尊重 prefers-reduced-motion 处理脉冲动画。
+- 用 aria-busy="true" 包裹加载区域，并用 aria-live 播报完成。

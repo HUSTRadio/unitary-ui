@@ -14,13 +14,13 @@ A search field with a standard leading icon.
 
 ## When to use
 
--   When users need to enter text queries that drive result filtering.
--   When you want an input control with a visible search icon prefix for instant visual recognition.
+- When users need to enter text queries that drive result filtering.
+- When you want an input control with a visible search icon prefix for instant visual recognition.
 
 ## When not to use
 
--   For ordinary form text entry such as names or email addresses; use the generic Input component instead.
--   When only static text display is needed; do not use an interactive input control for that purpose.
+- For ordinary form text entry such as names or email addresses; use the generic Input component instead.
+- When only static text display is needed; do not use an interactive input control for that purpose.
 
 ## Examples
 
@@ -34,8 +34,8 @@ Shows a loading state while search results are updating, providing real-time fee
 
 ## Accessibility
 
--   The input carries semantic type (role=search) and an accessible name so screen readers understand its purpose.
--   Should be associated with a visible label or equivalent accessible name for full contextual announcement.
+- The input carries semantic type (role=search) and an accessible name so screen readers understand its purpose.
+- Should be associated with a visible label or equivalent accessible name for full contextual announcement.
 
 ## Controlled behavior
 
@@ -43,11 +43,11 @@ Not applicable: Search Input presents a query value primarily; controlled behavi
 
 ## Responsive behavior
 
--   Adapts its width fluidly across viewport sizes while maintaining an adequate hit area for tapping.
+- Adapts its width fluidly across viewport sizes while maintaining an adequate hit area for tapping.
 
 ## Theme behavior
 
--   Colors invert gracefully in dark mode and can stay consistent with overall brand theming.
+- Colors invert gracefully in dark mode and can stay consistent with overall brand theming.
 
 ## Live Demo
 
@@ -64,7 +64,7 @@ const [value, setValue] = useState("");
   }}
   placeholder="Enter some text..."
   value={value}
-/>
+/>;
 ```
 
 ⌘K
@@ -83,7 +83,7 @@ const [value, setValue] = useState("");
   }}
   placeholder="Enter some text..."
   value={value}
-/>
+/>;
 ```
 
 ⌘K
@@ -103,7 +103,7 @@ const [value, setValue] = useState("");
   }}
   placeholder="Enter some text..."
   value={value}
-/>
+/>;
 ```
 
 Loading...
@@ -122,7 +122,7 @@ const [value, setValue] = useState("Project A");
   }}
   placeholder="Enter some text..."
   value={value}
-/>
+/>;
 ```
 
 ```tsx
@@ -140,7 +140,7 @@ const [value, setValue] = useState("");
   placeholder="Enter some text..."
   prefix={<Sparkles className="size-4" aria-hidden />}
   value={value}
-/>
+/>;
 ```
 
 ## API Reference
@@ -150,7 +150,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { SearchInput } from "@/components/ui/search-input"
+import { SearchInput } from "@/components/ui/search-input";
 ```
 
 ### Props & callbacks
@@ -159,5 +159,5 @@ import { SearchInput } from "@/components/ui/search-input"
 
 ## Best Practices
 
--   Use Search Input for query-driven filtering, not for ordinary form text entry.
--   Provide a visible label or an equivalent accessible name and preserve the query while results update.
+- Use Search Input for query-driven filtering, not for ordinary form text entry.
+- Provide a visible label or an equivalent accessible name and preserve the query while results update.

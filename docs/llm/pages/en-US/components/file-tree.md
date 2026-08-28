@@ -14,15 +14,15 @@ Displays a hierarchical directory structure with expandable folders and files.
 
 ## When to use
 
--   When you need to show a project's file or directory hierarchy in documentation, examples, or preview panels.
--   When users need to expand and collapse folders to navigate a multi-level file system structure used for read-only display purposes.
--   In technical docs to illustrate project structures, config file locations, or hierarchical relationships of generated results.
+- When you need to show a project's file or directory hierarchy in documentation, examples, or preview panels.
+- When users need to expand and collapse folders to navigate a multi-level file system structure used for read-only display purposes.
+- In technical docs to illustrate project structures, config file locations, or hierarchical relationships of generated results.
 
 ## When not to use
 
--   Don't use for interactive file operations (rename, delete, upload) — a dedicated File Manager component is more appropriate.
--   When dealing with hundreds of files, consider a paginated or lazily-loaded file browser instead of rendering the entire tree at once.
--   Flat single-file display doesn't need File Tree — use CodeBlock or Snippet directly for individual file content.
+- Don't use for interactive file operations (rename, delete, upload) — a dedicated File Manager component is more appropriate.
+- When dealing with hundreds of files, consider a paginated or lazily-loaded file browser instead of rendering the entire tree at once.
+- Flat single-file display doesn't need File Tree — use CodeBlock or Snippet directly for individual file content.
 
 ## Examples
 
@@ -32,43 +32,37 @@ Displays the default file tree component with expandable folder nodes and file i
 
 ## Accessibility
 
--   Each expandable folder node should use a button element with aria-expanded to indicate current expand/collapse state for screen readers.
--   Keyboard navigation should support arrow keys (up/down for focus movement, left/right for expand/collapse), ensuring mouse-free usability.
--   File names should serve as the sole readable label of focusable elements — avoid relying on color or icons for conveying meaningful information.
+- Each expandable folder node should use a button element with aria-expanded to indicate current expand/collapse state for screen readers.
+- Keyboard navigation should support arrow keys (up/down for focus movement, left/right for expand/collapse), ensuring mouse-free usability.
+- File names should serve as the sole readable label of focusable elements — avoid relying on color or icons for conveying meaningful information.
 
 ## Controlled behavior
 
--   Expand/collapse state can be externally controlled via expandable props, supporting programmatic expansion of specific nodes.
--   Selected node state (where selection is supported) can sync via controlled props for multi-select or cross-component linkage.
--   Callers can listen to expand/collapse callback events to persist the tree's expanded state across sessions.
+- Expand/collapse state can be externally controlled via expandable props, supporting programmatic expansion of specific nodes.
+- Selected node state (where selection is supported) can sync via controlled props for multi-select or cross-component linkage.
+- Callers can listen to expand/collapse callback events to persist the tree's expanded state across sessions.
 
 ## Responsive behavior
 
--   On narrow screens the file tree may enable horizontal scrolling to accommodate long file names while maintaining indentation levels.
--   Folder expand/collapse buttons increase touch target size on small screens to ensure reliable finger-based interactions.
--   The file tree container supports overflow-auto behavior — excessively long paths won't break the layout boundaries.
+- On narrow screens the file tree may enable horizontal scrolling to accommodate long file names while maintaining indentation levels.
+- Folder expand/collapse buttons increase touch target size on small screens to ensure reliable finger-based interactions.
+- The file tree container supports overflow-auto behavior — excessively long paths won't break the layout boundaries.
 
 ## Theme behavior
 
--   File and folder icons change color with theme variables, maintaining visibility across dark and light modes.
--   Selection highlights and hover background colors follow the application's theme color spec, including focus indicator contrast ratios.
+- File and folder icons change color with theme variables, maintaining visibility across dark and light modes.
+- Selection highlights and hover background colors follow the application's theme color spec, including focus indicator contrast ratios.
 
 ## Live Demo
 
--   -   main.tsx
+- - main.tsx
 
-    -   dashboard.tsx
+  - dashboard.tsx
 
--   public
-
+- public
 
 ```tsx
-import {
-  FileTree,
-  FileTreeIcon,
-  FileTreeItem,
-  FileTreeLabel,
-} from "@/components/ui/file-tree";
+import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@/components/ui/file-tree";
 
 <div className="w-full max-w-xs">
   <FileTree>
@@ -85,7 +79,7 @@ import {
       <FileTreeLabel>public</FileTreeLabel>
     </FileTreeItem>
   </FileTree>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -95,7 +89,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { FileTree, FileTreeItem, FileTreeLabel, FileTreeIcon } from "@/components/ui/file-tree"
+import { FileTree, FileTreeItem, FileTreeLabel, FileTreeIcon } from "@/components/ui/file-tree";
 ```
 
 ### Props & callbacks

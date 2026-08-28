@@ -14,15 +14,15 @@ A single-line text field for user input.
 
 ## When to use
 
--   When the user needs to enter a single line of free-form text, such as project name, email address, API key, or domain.
--   When field-level validation with immediate feedback is needed to inform the user whether their input is valid.
--   As part of a form submitted together with other controls to a backend.
+- When the user needs to enter a single line of free-form text, such as project name, email address, API key, or domain.
+- When field-level validation with immediate feedback is needed to inform the user whether their input is valid.
+- As part of a form submitted together with other controls to a backend.
 
 ## When not to use
 
--   When content can wrap to multiple lines, use Textarea instead of Input, since Input's single-line semantics are unsuited for block text.
--   When the value comes from a known list the user filters by typing, use Combobox instead of free-form input.
--   Don't wrap a labelled <Input> in a Tooltip; put the explainer on a sibling icon button so the label stays announced.
+- When content can wrap to multiple lines, use Textarea instead of Input, since Input's single-line semantics are unsuited for block text.
+- When the value comes from a known list the user filters by typing, use Combobox instead of free-form input.
+- Don't wrap a labelled <Input> in a Tooltip; put the explainer on a sibling icon button so the label stays announced.
 
 ## Examples
 
@@ -44,23 +44,23 @@ Correct usage paired with a visible label and associated id, ensuring screen rea
 
 ## Accessibility
 
--   Input associates with its corresponding <Label> through htmlFor/id pairing so screen readers announce the field name correctly.
--   Error messages passed via the error prop are added to aria-describedby; helper text should also be linked through this mechanism.
+- Input associates with its corresponding <Label> through htmlFor/id pairing so screen readers announce the field name correctly.
+- Error messages passed via the error prop are added to aria-describedby; helper text should also be linked through this mechanism.
 
 ## Controlled behavior
 
--   Input accepts value and onChange for controlled behavior, or can be used uncontrolled via defaultValue initialization.
--   Trim leading and trailing whitespace before submit so example.com and example.com resolve to one value.
+- Input accepts value and onChange for controlled behavior, or can be used uncontrolled via defaultValue initialization.
+- Trim leading and trailing whitespace before submit so example.com and example.com resolve to one value.
 
 ## Responsive behavior
 
--   Input width auto-resizes across different viewports, ensuring adequate tap targets and readable font sizes on small screens.
--   Prefix and suffix elements adapt their positioning and alignment responsively to fit varying widths.
+- Input width auto-resizes across different viewports, ensuring adequate tap targets and readable font sizes on small screens.
+- Prefix and suffix elements adapt their positioning and alignment responsively to fit varying widths.
 
 ## Theme behavior
 
--   Border color, background, and focus state all follow theme tokens, including dark mode adaptation.
--   Error state red borders and normal state color distinction follow the design system's color specifications.
+- Border color, background, and focus state all follow theme tokens, including dark mode adaptation.
+- Error state red borders and normal state color distinction follow the design system's color specifications.
 
 ## Live Demo
 
@@ -71,7 +71,7 @@ import { Input } from "@/components/ui/input";
   <Input size="small" placeholder="Small" />
   <Input placeholder="Default" />
   <Input size="large" placeholder="Large" />
-</div>
+</div>;
 ```
 
 https://.com
@@ -96,7 +96,7 @@ const icon = <ArrowUpCircle aria-hidden />;
     suffixStyling={false}
   />
   <Input placeholder="Default" prefix="vercel/" suffix={icon} suffixStyling={false} />
-</div>
+</div>;
 ```
 
 https://.com
@@ -121,7 +121,7 @@ const icon = <ArrowUpCircle aria-hidden />;
     suffix={icon}
     suffixStyling={false}
   />
-</div>
+</div>;
 ```
 
 An error message.
@@ -137,7 +137,7 @@ import { Input } from "@/components/ui/input";
   <Input size="small" error="An error message." placeholder="long-error@gmail.com" />
   <Input error="An error message." placeholder="long-error@gmail.com" />
   <Input size="large" error="An error message." placeholder="long-error@gmail.com" />
-</div>
+</div>;
 ```
 
 Label
@@ -145,7 +145,7 @@ Label
 ```tsx
 import { Input } from "@/components/ui/input";
 
-<Input label="Label" placeholder="Label" />
+<Input label="Label" placeholder="Label" />;
 ```
 
 www..com
@@ -153,7 +153,7 @@ www..com
 ```tsx
 import { Input } from "@/components/ui/input";
 
-<Input rounded prefix="www." suffix=".com" placeholder="Label example" />
+<Input rounded prefix="www." suffix=".com" placeholder="Label example" />;
 ```
 
 www..com
@@ -168,7 +168,7 @@ import { Input } from "@/components/ui/input";
   suffix=".com"
   suffixStyling={false}
   placeholder="Label example"
-/>
+/>;
 ```
 
 ## States
@@ -180,7 +180,7 @@ import { Input } from "@/components/ui/input";
   <Input aria-label="Default" placeholder="Default" />
   <Input aria-label="Disabled" disabled placeholder="Disabled" />
   <Input aria-label="With value" defaultValue="geist-docs" placeholder="With value" />
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -190,7 +190,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 ```
 
 Native props: `InputHTMLAttributes<HTMLInputElement>`
@@ -201,18 +201,18 @@ Native props: `InputHTMLAttributes<HTMLInputElement>`
 
 ## Best Practices
 
--   Pick <Input> for a single line of free-form text such as names, domains, or tokens.
--   Switch to Textarea the moment content can wrap to multiple lines.
--   Use Combobox when the value comes from a known list the user filters by typing.
--   For an inline search box, set the search variant with a scoped placeholder like Search projects; don’t embed a <SearchInput> inside an unrelated form.
--   Validate on blur, not on every keystroke; surface the message by passing a string to error.
--   Trim leading and trailing whitespace before submit so example.com and example.com resolve to one value.
--   Keep the field focusable while saving; pair disabled with a spinner only when input is impossible.
--   Don’t wrap a labelled <Input> in a Tooltip; put the explainer on a sibling icon button so the label stays announced.
--   Labels are short Title Case nouns: Project Name, Domain, Environment Variable Name.
--   Placeholders show an example value (my-awesome-project, example.com), never instructions like Enter your project name.
--   Helper text is sentence case, one sentence with a trailing period, on a sibling element wired through aria-describedby.
--   Validation names the field and the constraint, ends in a period, and skips please (Project name is required., Code must be 6 digits.).
--   Passing a string to label requires id; the InputPropsWithStringLabelAndId union won’t compile without it and screen readers lose the association.
--   For icon-only affordances inside a row of inputs, use <Button shape="circle" svgOnly aria-label="…"> rather than an unlabeled icon.
--   A SearchInput placeholder names the scope (Search projects) so the role is clear without sighted context.
+- Pick <Input> for a single line of free-form text such as names, domains, or tokens.
+- Switch to Textarea the moment content can wrap to multiple lines.
+- Use Combobox when the value comes from a known list the user filters by typing.
+- For an inline search box, set the search variant with a scoped placeholder like Search projects; don’t embed a <SearchInput> inside an unrelated form.
+- Validate on blur, not on every keystroke; surface the message by passing a string to error.
+- Trim leading and trailing whitespace before submit so example.com and example.com resolve to one value.
+- Keep the field focusable while saving; pair disabled with a spinner only when input is impossible.
+- Don’t wrap a labelled <Input> in a Tooltip; put the explainer on a sibling icon button so the label stays announced.
+- Labels are short Title Case nouns: Project Name, Domain, Environment Variable Name.
+- Placeholders show an example value (my-awesome-project, example.com), never instructions like Enter your project name.
+- Helper text is sentence case, one sentence with a trailing period, on a sibling element wired through aria-describedby.
+- Validation names the field and the constraint, ends in a period, and skips please (Project name is required., Code must be 6 digits.).
+- Passing a string to label requires id; the InputPropsWithStringLabelAndId union won’t compile without it and screen readers lose the association.
+- For icon-only affordances inside a row of inputs, use <Button shape="circle" svgOnly aria-label="…"> rather than an unlabeled icon.
+- A SearchInput placeholder names the scope (Search projects) so the role is clear without sighted context.

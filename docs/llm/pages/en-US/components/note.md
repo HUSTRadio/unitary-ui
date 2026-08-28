@@ -14,14 +14,14 @@ Displays text that requires attention or provides additional information.
 
 ## When to use
 
--   For inline contextual feedback next to the field, card, or section it describes, such as a region change warning, rate-limit notice, or usage gauge.
--   When you need to display a persistent message inline until the underlying state changes, without escalating to a full-page banner or transient toast.
--   When conveying different types of feedback through semantic variants (destructive, warning, success).
+- For inline contextual feedback next to the field, card, or section it describes, such as a region change warning, rate-limit notice, or usage gauge.
+- When you need to display a persistent message inline until the underlying state changes, without escalating to a full-page banner or transient toast.
+- When conveying different types of feedback through semantic variants (destructive, warning, success).
 
 ## When not to use
 
--   Pick Banner when the message is page-level or system-wide and needs a CTA, Toast for transient acknowledgments, Modal for destructive confirmations.
--   One Note per concept. Stacking three Notes on a card means the page architecture, not the Note copy, is wrong.
+- Pick Banner when the message is page-level or system-wide and needs a CTA, Toast for transient acknowledgments, Modal for destructive confirmations.
+- One Note per concept. Stacking three Notes on a card means the page architecture, not the Note copy, is wrong.
 
 ## Examples
 
@@ -43,8 +43,8 @@ Replaces the default icon slot with a custom SVG icon to meet brand-specific vis
 
 ## Accessibility
 
--   Different variants (destructive, warning, success) convey semantics through color and icons, but color alone is insufficient — explicit text descriptions must accompany them.
--   A Note is persistent rather than transient; its content is announced immediately by screen readers on page load.
+- Different variants (destructive, warning, success) convey semantics through color and icons, but color alone is insufficient — explicit text descriptions must accompany them.
+- A Note is persistent rather than transient; its content is announced immediately by screen readers on page load.
 
 ## Controlled behavior
 
@@ -52,13 +52,13 @@ Not applicable: Note is a purely presentational notification component with no i
 
 ## Responsive behavior
 
--   Note's width adapts to its container, remaining legible and non-overflowing on narrow screens.
--   Size variants (small/large) can be selected based on the density requirements of the surrounding area.
+- Note's width adapts to its container, remaining legible and non-overflowing on narrow screens.
+- Size variants (small/large) can be selected based on the density requirements of the surrounding area.
 
 ## Theme behavior
 
--   Each semantic variant color (destructive, warning, success, secondary, violet, cyan) is drawn from theme tokens, automatically adapting for light and dark mode contrast.
--   Disabled Note state reduces opacity while retaining sufficient contrast for readability.
+- Each semantic variant color (destructive, warning, success, secondary, violet, cyan) is drawn from theme tokens, automatically adapting for light and dark mode contrast.
+- Disabled Note state reduces opacity while retaining sufficient contrast for readability.
 
 ## Live Demo
 
@@ -86,7 +86,7 @@ import { Note, NoteContent } from "@/components/ui/note";
   <Note>
     <NoteContent>A medium note.</NoteContent>
   </Note>
-</div>
+</div>;
 ```
 
 ## Action
@@ -110,8 +110,8 @@ import { Note, NoteAction, NoteContent } from "@/components/ui/note";
   </Note>
   <Note>
     <NoteContent>
-      This note details a large amount information that could potentially wrap into two
-      or more lines.
+      This note details a large amount information that could potentially wrap into two or more
+      lines.
     </NoteContent>
     <NoteAction>
       <Button typeName="button" size="small">
@@ -119,7 +119,7 @@ import { Note, NoteAction, NoteContent } from "@/components/ui/note";
       </Button>
     </NoteAction>
   </Note>
-</div>
+</div>;
 ```
 
 ## Secondary
@@ -133,7 +133,7 @@ import { Note, NoteContent } from "@/components/ui/note";
   <Note variant="secondary">
     <NoteContent>This note details some secondary information.</NoteContent>
   </Note>
-</div>
+</div>;
 ```
 
 ## Violet
@@ -145,7 +145,7 @@ import { Note, NoteContent } from "@/components/ui/note";
 
 <Note variant="violet">
   <NoteContent>This note details some violet information.</NoteContent>
-</Note>
+</Note>;
 ```
 
 ## Cyan
@@ -157,7 +157,7 @@ import { Note, NoteContent } from "@/components/ui/note";
 
 <Note variant="cyan">
   <NoteContent>This note details some cyan information.</NoteContent>
-</Note>
+</Note>;
 ```
 
 ## Disabled
@@ -177,7 +177,7 @@ import { Note, NoteAction, NoteContent } from "@/components/ui/note";
       </Button>
     </NoteAction>
   </Note>
-</div>
+</div>;
 ```
 
 ## Label
@@ -191,7 +191,7 @@ import { Note, NoteContent, NoteLabel } from "@/components/ui/note";
   <NoteContent>
     <NoteLabel>Region Change:</NoteLabel>Changing this region restarts all functions.
   </NoteContent>
-</Note>
+</Note>;
 ```
 
 ## Custom icon
@@ -211,7 +211,7 @@ import { Sparkles } from "lucide-react";
   <Note icon={null}>
     <NoteContent>Pass a null icon to render no icon at all.</NoteContent>
   </Note>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -221,7 +221,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Note, NoteContent, NoteAction, NoteLabel } from "@/components/ui/note"
+import { Note, NoteContent, NoteAction, NoteLabel } from "@/components/ui/note";
 ```
 
 ### Props & callbacks
@@ -230,9 +230,9 @@ import { Note, NoteContent, NoteAction, NoteLabel } from "@/components/ui/note"
 
 ## Best Practices
 
--   Use a Note for inline contextual feedback next to the field, card, or section it describes: a region change warning above a region picker, a rate-limit notice next to a usage gauge.
--   Pick Banner when the message is page-level or system-wide and needs a CTA, Toast for transient acknowledgments, Modal for destructive confirmations.
--   Choose variant by meaning: destructive for a problem the user must fix, warning for a consequence to acknowledge, success for a passed check; omit variant for the default info icon.
--   A Note is persistent until the underlying state changes; don’t add an ad hoc dismiss control because it competes with the message.
--   One Note per concept. Stacking three Notes on a card means the page architecture, not the Note copy, is wrong.
--   The body is one sentence in active voice that names the impact: Changing this region restarts all functions.
+- Use a Note for inline contextual feedback next to the field, card, or section it describes: a region change warning above a region picker, a rate-limit notice next to a usage gauge.
+- Pick Banner when the message is page-level or system-wide and needs a CTA, Toast for transient acknowledgments, Modal for destructive confirmations.
+- Choose variant by meaning: destructive for a problem the user must fix, warning for a consequence to acknowledge, success for a passed check; omit variant for the default info icon.
+- A Note is persistent until the underlying state changes; don’t add an ad hoc dismiss control because it competes with the message.
+- One Note per concept. Stacking three Notes on a card means the page architecture, not the Note copy, is wrong.
+- The body is one sentence in active voice that names the impact: Changing this region restarts all functions.

@@ -14,13 +14,13 @@ Marks progress through a multi-step flow.
 
 ## When to use
 
--   Guiding users through multi-step flows such as setup wizards, registration forms, or deployment configurations.
--   Communicating the overall structure of a linear task, current position, and remaining steps.
+- Guiding users through multi-step flows such as setup wizards, registration forms, or deployment configurations.
+- Communicating the overall structure of a linear task, current position, and remaining steps.
 
 ## When not to use
 
--   Single-action or step-less scenarios should not use a step-point indicator.
--   Multiple independent sub-flows on the same page each deserve their own step-point component.
+- Single-action or step-less scenarios should not use a step-point indicator.
+- Multiple independent sub-flows on the same page each deserve their own step-point component.
 
 ## Examples
 
@@ -34,16 +34,16 @@ Combining step indicators with content areas to demonstrate a complete guided fl
 
 ## Accessibility
 
--   Completed and active step indicators should have clear focus styles; keyboard users can tab through all steps.
--   The active step should carry an aria-current attribute so screen readers announce the user's position.
+- Completed and active step indicators should have clear focus styles; keyboard users can tab through all steps.
+- The active step should carry an aria-current attribute so screen readers announce the user's position.
 
 ## Controlled behavior
 
--   Controlled via activeIndex for the highlighted step and a completedIndexes array marking finished steps.
+- Controlled via activeIndex for the highlighted step and a completedIndexes array marking finished steps.
 
 ## Responsive behavior
 
--   On narrow viewports, step indicators can switch to vertical layout or hide inactive steps to save space.
+- On narrow viewports, step indicators can switch to vertical layout or hide inactive steps to save space.
 
 ## Theme behavior
 
@@ -51,9 +51,9 @@ Not applicable: Step points use fixed semantic colors (grey unvisited, brand act
 
 ## Live Demo
 
--   Submitted
--   Under review
--   Approved
+- Submitted
+- Under review
+- Approved
 
 ```tsx
 import { StepPoint } from "@/components/ui/step-point";
@@ -62,7 +62,7 @@ import { StepPoint } from "@/components/ui/step-point";
   <StepPoint status="done">Submitted</StepPoint>
   <StepPoint status="active">Under review</StepPoint>
   <StepPoint status="idle">Approved</StepPoint>
-</ul>
+</ul>;
 ```
 
 ## API Reference
@@ -72,7 +72,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { StepPoint } from "@/components/ui/step-point"
+import { StepPoint } from "@/components/ui/step-point";
 ```
 
 ### Props & callbacks

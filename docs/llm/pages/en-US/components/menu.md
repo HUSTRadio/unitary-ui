@@ -14,14 +14,14 @@ Displays a list of actions in a floating menu.
 
 ## When to use
 
--   When a discoverable trigger opens a list of actions on a single resource, such as a dots menu on a row or a dropdown on a primary entity.
--   When a user needs to perform multiple related operations (rename, duplicate, delete) on a resource (project, deployment, user) sharing the same context.
--   Use MenuSection to group actions by category, organizing related moves together for improved discoverability.
+- When a discoverable trigger opens a list of actions on a single resource, such as a dots menu on a row or a dropdown on a primary entity.
+- When a user needs to perform multiple related operations (rename, duplicate, delete) on a resource (project, deployment, user) sharing the same context.
+- Use MenuSection to group actions by category, organizing related moves together for improved discoverability.
 
 ## When not to use
 
--   For right-click or long-press, use ContextMenu. For global commands behind ⌘K, use CommandMenu. For two related primary actions, use a split button rather than burying the secondary action in a deep menu.
--   Cap the menu around 10 items. Past that, group with MenuSection or move secondary actions to a settings page to avoid an overly long popup.
+- For right-click or long-press, use ContextMenu. For global commands behind ⌘K, use CommandMenu. For two related primary actions, use a split button rather than burying the secondary action in a deep menu.
+- Cap the menu around 10 items. Past that, group with MenuSection or move secondary actions to a settings page to avoid an overly long popup.
 
 ## Examples
 
@@ -43,24 +43,24 @@ Use MenuItemLocked to display a lock icon and disabled state for permission-gate
 
 ## Accessibility
 
--   Up/Down arrows move focus through items, Home/End jump to the first and last items, and Enter or Space activates the selected item.
--   Typeahead jumps to the next item whose label starts with the typed character; the visible label comes first so typeahead matches what the user sees.
--   Return focus to the trigger on close so keyboard users keep their place in the row.
+- Up/Down arrows move focus through items, Home/End jump to the first and last items, and Enter or Space activates the selected item.
+- Typeahead jumps to the next item whose label starts with the typed character; the visible label comes first so typeahead matches what the user sees.
+- Return focus to the trigger on close so keyboard users keep their place in the row.
 
 ## Controlled behavior
 
--   Control menu open/close state via the open prop; the caller manages triggering conditions (other than hover) and closes the menu at appropriate times.
--   The menu closes automatically on item activation, Escape, and outside-click; it can also be closed programmatically.
+- Control menu open/close state via the open prop; the caller manages triggering conditions (other than hover) and closes the menu at appropriate times.
+- The menu closes automatically on item activation, Escape, and outside-click; it can also be closed programmatically.
 
 ## Responsive behavior
 
--   Menu position auto-flips based on window bounds (upward or downward pop-up) so it doesn't clip on narrow viewports due to hardcoded sides.
--   On small screens, the menu automatically adjusts its maximum width to fit available space, keeping all action items fully readable.
+- Menu position auto-flips based on window bounds (upward or downward pop-up) so it doesn't clip on narrow viewports due to hardcoded sides.
+- On small screens, the menu automatically adjusts its maximum width to fit available space, keeping all action items fully readable.
 
 ## Theme behavior
 
--   Menu background color, borders, and divider colors are drawn from theme tokens, ensuring proper contrast in both light and dark modes.
--   Hover, focus, and disabled states follow the design system's color guidelines, including special handling for high-contrast modes.
+- Menu background color, borders, and divider colors are drawn from theme tokens, ensuring proper contrast in both light and dark modes.
+- Hover, focus, and disabled states follow the design system's color guidelines, including special handling for high-contrast modes.
 
 ## Live Demo
 
@@ -78,7 +78,7 @@ import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu"
       Delete
     </MenuItem>
   </Menu>
-</MenuContainer>
+</MenuContainer>;
 ```
 
 ```tsx
@@ -97,7 +97,7 @@ import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu"
       Delete
     </MenuItem>
   </Menu>
-</MenuContainer>
+</MenuContainer>;
 ```
 
 ```tsx
@@ -115,17 +115,11 @@ import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu"
       Delete
     </MenuItem>
   </Menu>
-</MenuContainer>
+</MenuContainer>;
 ```
 
 ```tsx
-import {
-  Menu,
-  MenuButton,
-  MenuContainer,
-  MenuItem,
-  MenuItemLocked,
-} from "@/components/ui/menu";
+import { Menu, MenuButton, MenuContainer, MenuItem, MenuItemLocked } from "@/components/ui/menu";
 import { Tooltip } from "@/components/ui/tooltip";
 
 <MenuContainer>
@@ -137,7 +131,7 @@ import { Tooltip } from "@/components/ui/tooltip";
       <MenuItemLocked onClick={() => undefined}>Delete</MenuItemLocked>
     </Tooltip>
   </Menu>
-</MenuContainer>
+</MenuContainer>;
 ```
 
 ```tsx
@@ -150,7 +144,7 @@ import { Menu, MenuButton, MenuContainer, MenuLink } from "@/components/ui/menu"
     <MenuLink href="#">Two</MenuLink>
     <MenuLink href="#">Three</MenuLink>
   </Menu>
-</MenuContainer>
+</MenuContainer>;
 ```
 
 ```tsx
@@ -166,7 +160,7 @@ import { Avatar } from "@/components/ui/avatar";
     <MenuItem>Two</MenuItem>
     <MenuItem>Three</MenuItem>
   </Menu>
-</MenuContainer>
+</MenuContainer>;
 ```
 
 ```tsx
@@ -194,7 +188,7 @@ import { Accessibility, MoreHorizontal } from "lucide-react";
       <MenuItem suffix={<Accessibility />}>Right</MenuItem>
     </Menu>
   </MenuContainer>
-</div>
+</div>;
 ```
 
 ```tsx
@@ -206,7 +200,7 @@ import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu"
     <MenuItem>One</MenuItem>
     <MenuItem>Two</MenuItem>
   </Menu>
-</MenuContainer>
+</MenuContainer>;
 ```
 
 ```tsx
@@ -234,7 +228,7 @@ import {
       Delete
     </MenuItem>
   </Menu>
-</MenuContainer>
+</MenuContainer>;
 ```
 
 ## API Reference
@@ -244,7 +238,16 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { MenuContainer, MenuButton, Menu, MenuItem, MenuItemLocked, MenuLink, MenuDivider, MenuSection } from "@/components/ui/menu"
+import {
+  MenuContainer,
+  MenuButton,
+  Menu,
+  MenuItem,
+  MenuItemLocked,
+  MenuLink,
+  MenuDivider,
+  MenuSection,
+} from "@/components/ui/menu";
 ```
 
 ### Props & callbacks
@@ -253,17 +256,17 @@ import { MenuContainer, MenuButton, Menu, MenuItem, MenuItemLocked, MenuLink, Me
 
 ## Best Practices
 
--   Use Menu for a discoverable trigger that opens a list of actions on a single resource (a dots menu on a row, a dropdown on a primary entity).
--   For right-click or long-press on a row, use ContextMenu. For global commands behind ⌘K, use CommandMenu. For two related primary actions, use a split button rather than burying the secondary action.
--   Cap a Menu around 10 items. Past that, group with MenuSection or move secondary actions to a settings page.
--   Open on click, not hover; hover-open menus collide with screen readers and trackpad scrolls.
--   Position auto-flips based on window bounds; don’t hardcode a side that clips on narrow viewports.
--   Close on item activation, Escape, and outside-click. Don’t auto-close on a hover-out.
--   Use MenuItemLocked for permission-gated actions so the lock icon and disabled state explain why the row is inert.
--   Item children are Title Case Verb + Noun (Rename Project, Duplicate Deployment). Bare verbs like Rename or Edit are wrong outside obvious single-object context.
--   End an item with … only when activating it opens a follow-up dialog (Rename…, Transfer to Team…).
--   Group destructive items at the bottom, separated by a divider, and keep the destructive copy as Verb + Noun (Delete Project, never bare Delete).
--   Section headers (MenuSection title) are Title Case, 1–2 words (Workspace, Recent Projects).
--   Up/Down arrows move focus through items, Home/End jump to first/last, Enter or Space activates.
--   Typeahead jumps to the next item whose label starts with the typed character; keep the visible label first so typeahead matches what the user sees.
--   Return focus to the trigger on close so keyboard users keep their place in the row.
+- Use Menu for a discoverable trigger that opens a list of actions on a single resource (a dots menu on a row, a dropdown on a primary entity).
+- For right-click or long-press on a row, use ContextMenu. For global commands behind ⌘K, use CommandMenu. For two related primary actions, use a split button rather than burying the secondary action.
+- Cap a Menu around 10 items. Past that, group with MenuSection or move secondary actions to a settings page.
+- Open on click, not hover; hover-open menus collide with screen readers and trackpad scrolls.
+- Position auto-flips based on window bounds; don’t hardcode a side that clips on narrow viewports.
+- Close on item activation, Escape, and outside-click. Don’t auto-close on a hover-out.
+- Use MenuItemLocked for permission-gated actions so the lock icon and disabled state explain why the row is inert.
+- Item children are Title Case Verb + Noun (Rename Project, Duplicate Deployment). Bare verbs like Rename or Edit are wrong outside obvious single-object context.
+- End an item with … only when activating it opens a follow-up dialog (Rename…, Transfer to Team…).
+- Group destructive items at the bottom, separated by a divider, and keep the destructive copy as Verb + Noun (Delete Project, never bare Delete).
+- Section headers (MenuSection title) are Title Case, 1–2 words (Workspace, Recent Projects).
+- Up/Down arrows move focus through items, Home/End jump to first/last, Enter or Space activates.
+- Typeahead jumps to the next item whose label starts with the typed character; keep the visible label first so typeahead matches what the user sees.
+- Return focus to the trigger on close so keyboard users keep their place in the row.

@@ -14,15 +14,15 @@ Shows progress relative to a limit or a task.
 
 ## When to use
 
--   Use Progress for deterministic work whose total is knowable, such as file uploads, multi-step setup, build steps, or batch deletions.
--   Pair the bar with descriptive text naming the work and units (e.g., "Uploading 12 of 30 files") so the bar communicates more than an abstract number.
--   Pass max as the real ceiling (max={files.length}) rather than hardcoding 100; the component computes the percentage from value / max.
+- Use Progress for deterministic work whose total is knowable, such as file uploads, multi-step setup, build steps, or batch deletions.
+- Pair the bar with descriptive text naming the work and units (e.g., "Uploading 12 of 30 files") so the bar communicates more than an abstract number.
+- Pass max as the real ceiling (max={files.length}) rather than hardcoding 100; the component computes the percentage from value / max.
 
 ## When not to use
 
--   For short indeterminate waits (~1–3 seconds), use Spinner instead of Progress since there is no known progress to display.
--   For inline copy waiting indicators (like "Saving…"), use Loading Dots rather than a progress bar.
--   Do not use Progress for a vague concept with no defined upper bound—if there is no real total, consider using a Gauge.
+- For short indeterminate waits (~1–3 seconds), use Spinner instead of Progress since there is no known progress to display.
+- For inline copy waiting indicators (like "Saving…"), use Loading Dots rather than a progress bar.
+- Do not use Progress for a vague concept with no defined upper bound—if there is no real total, consider using a Gauge.
 
 ## Examples
 
@@ -40,24 +40,24 @@ Demonstrates marking specific milestone nodes on the progress bar, suitable for 
 
 ## Accessibility
 
--   The Progress component sets role="progressbar" along with aria-valuemin, aria-valuemax, and aria-valuenow so screen readers announce the current progress value.
--   Always pair the bar with descriptive text—a bare progress bar is not self-describing for assistive technology.
--   Do not override the built-in ARIA roles and values; these are critical for WCAG compliance.
+- The Progress component sets role="progressbar" along with aria-valuemin, aria-valuemax, and aria-valuenow so screen readers announce the current progress value.
+- Always pair the bar with descriptive text—a bare progress bar is not self-describing for assistive technology.
+- Do not override the built-in ARIA roles and values; these are critical for WCAG compliance.
 
 ## Controlled behavior
 
--   Progress accepts controlled value and max props; developers can drive progress changes externally and respond via onChange callbacks.
--   Animated transitions are smooth and fluid—the bar interpolates between old and new values via CSS transition, avoiding jump cuts.
+- Progress accepts controlled value and max props; developers can drive progress changes externally and respond via onChange callbacks.
+- Animated transitions are smooth and fluid—the bar interpolates between old and new values via CSS transition, avoiding jump cuts.
 
 ## Responsive behavior
 
--   The progress bar uses a full-width layout that fills the available width of its parent container at every viewport size.
--   Numeric labels remain legible at all sizes, possibly shrinking font on narrow viewports to fit within space.
+- The progress bar uses a full-width layout that fills the available width of its parent container at every viewport size.
+- Numeric labels remain legible at all sizes, possibly shrinking font on narrow viewports to fit within space.
 
 ## Theme behavior
 
--   Progress bar colors and styles are entirely governed by theme variables with good contrast ratios in both dark and light modes.
--   ThroughStop child positioning and styling follow theme adaptation to remain consistent across all variants.
+- Progress bar colors and styles are entirely governed by theme variables with good contrast ratios in both dark and light modes.
+- ThroughStop child positioning and styling follow theme adaptation to remain consistent across all variants.
 
 ## Live Demo
 
@@ -72,7 +72,7 @@ Demonstrates marking specific milestone nodes on the progress bar, suitable for 
 ```tsx
 import { Progress } from "@/components/ui/progress";
 
-<Progress value={30} max={40} aria-label="Progress 30 of 40" />
+<Progress value={30} max={40} aria-label="Progress 30 of 40" />;
 ```
 
 ## Dynamic
@@ -107,10 +107,15 @@ const [animated, setAnimated] = useState(true);
     </Button>
   </div>
   <label className="flex items-center gap-2">
-    <Toggle checked={animated} onChange={() => setAnimated((v) => !v)} size="small" aria-label="Animated transition" />
+    <Toggle
+      checked={animated}
+      onChange={() => setAnimated((v) => !v)}
+      size="small"
+      aria-label="Animated transition"
+    />
     <span className="text-label-13 text-muted-foreground">Animated transition</span>
   </label>
-</div>
+</div>;
 ```
 
 ## Dynamic colors
@@ -145,7 +150,7 @@ const [value, setValue] = useState(0);
       Decrease
     </Button>
   </div>
-</div>
+</div>;
 ```
 
 ## Themed
@@ -158,7 +163,7 @@ import { Progress } from "@/components/ui/progress";
   <Progress type="error" value={10} aria-label="Error progress" />
   <Progress type="warning" value={40} aria-label="Warning progress" />
   <Progress type="secondary" value={70} aria-label="Secondary progress" />
-</div>
+</div>;
 ```
 
 ## With Stops
@@ -177,7 +182,7 @@ import { Progress } from "@/components/ui/progress";
     { value: 40, tooltip: "40%", ariaLabel: "Integration tests complete" },
     { value: 50, tooltip: "50%", ariaLabel: "Deploy ready" },
   ]}
-/>
+/>;
 ```
 
 ## Widths
@@ -191,7 +196,7 @@ import { Progress } from "@/components/ui/progress";
   <Progress value={60} width={300} aria-label="Progress width 300" />
   <Progress value={60} width="50%" aria-label="Progress width 50%" />
   <Progress value={60} width="100%" aria-label="Progress full width" />
-</div>
+</div>;
 ```
 
 ## Heights
@@ -204,7 +209,7 @@ import { Progress } from "@/components/ui/progress";
   <Progress value={60} height={10} aria-label="Progress height 10" />
   <Progress value={60} height={50} aria-label="Progress height 50" />
   <Progress value={60} height={200} aria-label="Progress height 200" />
-</div>
+</div>;
 ```
 
 ## Label Positions
@@ -232,12 +237,32 @@ import { Progress } from "@/components/ui/progress";
   <Progress value={45} label="left" labelPosition="left" aria-label="Label left" />
   <Progress value={45} label="right" labelPosition="right" aria-label="Label right" />
   <Progress value={45} label="top-left" labelPosition="top-left" aria-label="Label top left" />
-  <Progress value={45} label="top-center" labelPosition="top-center" aria-label="Label top center" />
+  <Progress
+    value={45}
+    label="top-center"
+    labelPosition="top-center"
+    aria-label="Label top center"
+  />
   <Progress value={45} label="top-right" labelPosition="top-right" aria-label="Label top right" />
-  <Progress value={45} label="bottom-left" labelPosition="bottom-left" aria-label="Label bottom left" />
-  <Progress value={45} label="bottom-center" labelPosition="bottom-center" aria-label="Label bottom center" />
-  <Progress value={45} label="bottom-right" labelPosition="bottom-right" aria-label="Label bottom right" />
-</div>
+  <Progress
+    value={45}
+    label="bottom-left"
+    labelPosition="bottom-left"
+    aria-label="Label bottom left"
+  />
+  <Progress
+    value={45}
+    label="bottom-center"
+    labelPosition="bottom-center"
+    aria-label="Label bottom center"
+  />
+  <Progress
+    value={45}
+    label="bottom-right"
+    labelPosition="bottom-right"
+    aria-label="Label bottom right"
+  />
+</div>;
 ```
 
 ## API Reference
@@ -247,7 +272,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Progress } from "@/components/ui/progress"
+import { Progress } from "@/components/ui/progress";
 ```
 
 ### Props & callbacks
@@ -256,7 +281,7 @@ import { Progress } from "@/components/ui/progress"
 
 ## Best Practices
 
--   Determinate work whose total is knowable, like file uploads, multi-step setup, build steps, or batch deletions.
--   For short indeterminate waits (~1–3s), use Spinner; for inline copy like Saving, use Loading Dots.
--   Use max for the real ceiling (max={files.length}), not a hardcoded 100. The component computes the percentage from value / max.
--   Pair the bar with text naming the work and units: Uploading 12 of 30 files. The bar alone doesn’t say what’s progressing.
+- Determinate work whose total is knowable, like file uploads, multi-step setup, build steps, or batch deletions.
+- For short indeterminate waits (~1–3s), use Spinner; for inline copy like Saving, use Loading Dots.
+- Use max for the real ceiling (max={files.length}), not a hardcoded 100. The component computes the percentage from value / max.
+- Pair the bar with text naming the work and units: Uploading 12 of 30 files. The bar alone doesn’t say what’s progressing.

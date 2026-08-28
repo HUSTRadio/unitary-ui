@@ -14,13 +14,13 @@ A full-width button that appends more items to a paginated list.
 
 ## When to use
 
--   When users need to manually trigger loading more content in an information feed or data list, giving them control over browsing pace compared to auto-loading.
--   When list content loads in pages and a clear load-more entry point at the bottom keeps page structure readable and predictable.
+- When users need to manually trigger loading more content in an information feed or data list, giving them control over browsing pace compared to auto-loading.
+- When list content loads in pages and a clear load-more entry point at the bottom keeps page structure readable and predictable.
 
 ## When not to use
 
--   If infinite scroll (auto-loading on viewport intersection) is viable, prefer automatic loading over requiring manual button clicks each time.
--   For fixed-size complete datasets, use a numbered pager that lets users jump to any page directly instead of only supporting backward append.
+- If infinite scroll (auto-loading on viewport intersection) is viable, prefer automatic loading over requiring manual button clicks each time.
+- For fixed-size complete datasets, use a numbered pager that lets users jump to any page directly instead of only supporting backward append.
 
 ## Examples
 
@@ -38,13 +38,13 @@ Override the default loading text to match specific business context, such as Lo
 
 ## Accessibility
 
--   The button uses a native <button> element, ensuring keyboard users can Tab to navigate and activate, and is automatically disabled during loading to prevent duplicate submissions.
--   The loading state informs screen readers via aria-busy that new content is being fetched.
+- The button uses a native <button> element, ensuring keyboard users can Tab to navigate and activate, and is automatically disabled during loading to prevent duplicate submissions.
+- The loading state informs screen readers via aria-busy that new content is being fetched.
 
 ## Controlled behavior
 
--   The loading prop controls the button's loading state; the caller manages the data-fetch lifecycle and resets the button state upon completion.
--   An onClick callback allows interception of click events to handle the actual data loading logic; the button itself does not perform network requests.
+- The loading prop controls the button's loading state; the caller manages the data-fetch lifecycle and resets the button state upon completion.
+- An onClick callback allows interception of click events to handle the actual data loading logic; the button itself does not perform network requests.
 
 ## Responsive behavior
 
@@ -52,39 +52,39 @@ Not applicable: The Load More Button always occupies the container's full width.
 
 ## Theme behavior
 
--   Button background color, border, and text color are drawn from theme tokens, including automatic adaptation for dark mode and high-contrast mode handling.
--   Loading-state gradient animation and disabled-state opacity follow the design system's interaction feedback guidelines.
+- Button background color, border, and text color are drawn from theme tokens, including automatic adaptation for dark mode and high-contrast mode handling.
+- Loading-state gradient animation and disabled-state opacity follow the design system's interaction feedback guidelines.
 
 ## Live Demo
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton>Load More</LoadMoreButton>
+<LoadMoreButton>Load More</LoadMoreButton>;
 ```
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton loading>Loading...</LoadMoreButton>
+<LoadMoreButton loading>Loading...</LoadMoreButton>;
 ```
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton noGap>Load More</LoadMoreButton>
+<LoadMoreButton noGap>Load More</LoadMoreButton>;
 ```
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton noBorderRadius>Load More</LoadMoreButton>
+<LoadMoreButton noBorderRadius>Load More</LoadMoreButton>;
 ```
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton>Show More Results</LoadMoreButton>
+<LoadMoreButton>Show More Results</LoadMoreButton>;
 ```
 
 ## API Reference
@@ -94,7 +94,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { LoadMoreButton } from "@/components/ui/load-more-button"
+import { LoadMoreButton } from "@/components/ui/load-more-button";
 ```
 
 ### Props & callbacks

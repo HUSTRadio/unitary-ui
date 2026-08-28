@@ -14,13 +14,13 @@ Embeds a video with built-in playback controls.
 
 ## When to use
 
--   When embedding video clips on pages with out-of-the-box playback controls and lazy-loading performance optimization.
--   When displaying video content on marketing pages, documentation covers, or product demos while keeping visual consistency.
+- When embedding video clips on pages with out-of-the-box playback controls and lazy-loading performance optimization.
+- When displaying video content on marketing pages, documentation covers, or product demos while keeping visual consistency.
 
 ## When not to use
 
--   When you need full customization of video playback logic; consider dedicated third-party player libraries like Video.js or Plyr instead.
--   For static image scenarios; use Image instead of Video to avoid unnecessary network requests and resource consumption.
+- When you need full customization of video playback logic; consider dedicated third-party player libraries like Video.js or Plyr instead.
+- For static image scenarios; use Image instead of Video to avoid unnecessary network requests and resource consumption.
 
 ## Examples
 
@@ -34,8 +34,8 @@ Hides built-in playback controls for an immersive viewing experience, suitable f
 
 ## Accessibility
 
--   Video locks the inner aspect ratio so the container doesn't reflow while media loads; this matters equally for screen reader users and keyboard navigation.
--   For autoplay, respect prefers-reduced-motion and provide a paused poster fallback.
+- Video locks the inner aspect ratio so the container doesn't reflow while media loads; this matters equally for screen reader users and keyboard navigation.
+- For autoplay, respect prefers-reduced-motion and provide a paused poster fallback.
 
 ## Controlled behavior
 
@@ -43,7 +43,7 @@ Not applicable: Video is a presentational component focused on embedding and ren
 
 ## Responsive behavior
 
--   Video maintains a fixed aspect ratio on the inner media; the container adapts to parent width, preventing layout shift across viewports.
+- Video maintains a fixed aspect ratio on the inner media; the container adapts to parent width, preventing layout shift across viewports.
 
 ## Theme behavior
 
@@ -66,7 +66,7 @@ import { Video } from "@/components/ui/video";
 
 <div className="w-full min-w-0 max-w-[600px]">
   <Video height={582} lazy={false} loop={false} src="/demo.mp4" width={600} />
-</div>
+</div>;
 ```
 
 ## No Controls
@@ -76,7 +76,7 @@ import { Video } from "@/components/ui/video";
 
 <div className="w-full min-w-0 max-w-[600px]">
   <Video controls={false} height={582} lazy={false} src="/demo.mp4" width={600} />
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -86,7 +86,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Video } from "@/components/ui/video"
+import { Video } from "@/components/ui/video";
 ```
 
 Native props: `VideoHTMLAttributes<HTMLVideoElement>`
@@ -97,6 +97,6 @@ Native props: `VideoHTMLAttributes<HTMLVideoElement>`
 
 ## Best Practices
 
--   Use Video to embed clips with built-in playback controls and lazy loading support.
--   Lock the inner video aspect ratio so the container doesn't reflow while media loads.
--   For autoplay, respect prefers-reduced-motion and provide a paused poster fallback.
+- Use Video to embed clips with built-in playback controls and lazy loading support.
+- Lock the inner video aspect ratio so the container doesn't reflow while media loads.
+- For autoplay, respect prefers-reduced-motion and provide a paused poster fallback.

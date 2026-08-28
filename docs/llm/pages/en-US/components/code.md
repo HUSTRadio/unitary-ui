@@ -14,13 +14,13 @@ Display a snippet of code with syntax highlighting.
 
 ## When to use
 
--   Referencing a single code identifier within technical prose—environment variable names, function names, class names, or file paths.
--   Applying syntax coloring to code elements inline within paragraphs or lists to improve readability while keeping the text flow intact.
+- Referencing a single code identifier within technical prose—environment variable names, function names, class names, or file paths.
+- Applying syntax coloring to code elements inline within paragraphs or lists to improve readability while keeping the text flow intact.
 
 ## When not to use
 
--   When you need to display multi-line source code blocks; use Code Block instead, which ships with a border, filename header, and optional line numbers.
--   When the content is not valid code or markup; applying Code's syntax coloring to arbitrary text produces misleading visual effects.
+- When you need to display multi-line source code blocks; use Code Block instead, which ships with a border, filename header, and optional line numbers.
+- When the content is not valid code or markup; applying Code's syntax coloring to arbitrary text produces misleading visual effects.
 
 ## Examples
 
@@ -46,7 +46,7 @@ Not applicable: Code renders inline and does not control its own layout dimensio
 
 ## Theme behavior
 
--   Syntax highlighting colors follow the design system's code color tokens, displaying correctly under both light and dark themes.
+- Syntax highlighting colors follow the design system's code color tokens, displaying correctly under both light and dark themes.
 
 ## Live Demo
 
@@ -68,7 +68,7 @@ import { Code, InlineCode } from "@/components/ui/code";
     Install with <InlineCode>npm i geist</InlineCode> and import the component.
   </p>
   <Code syntax="javascript">{`console.log("Hello")`}</Code>
-</div>
+</div>;
 ```
 
 ## API Reference
@@ -78,7 +78,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Code, InlineCode } from "@/components/ui/code"
+import { Code, InlineCode } from "@/components/ui/code";
 ```
 
 ### Props & callbacks

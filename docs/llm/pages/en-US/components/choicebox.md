@@ -14,13 +14,13 @@ A larger form of Radio for choices with more detail.
 
 ## When to use
 
--   Use Choicebox when a choice benefits from a larger tap target plus a description or icon.
--   Single-select for mutually exclusive choices, multi-select for additive ones — don't mix the two within one group.
+- Use Choicebox when a choice benefits from a larger tap target plus a description or icon.
+- Single-select for mutually exclusive choices, multi-select for additive ones — don't mix the two within one group.
 
 ## When not to use
 
--   Past 4-6 tiles, switch to Select or Combobox so the page doesn't scroll for a single field.
--   When options are plain short text labels with no detail to show, a regular Radio is more compact.
+- Past 4-6 tiles, switch to Select or Combobox so the page doesn't scroll for a single field.
+- When options are plain short text labels with no detail to show, a regular Radio is more compact.
 
 ## Examples
 
@@ -38,23 +38,23 @@ Places custom content (icons, descriptions, badges) inside the tiles.
 
 ## Accessibility
 
--   The whole tile is the click target, but keyboard semantics stay radio/checkbox: arrow keys move within the group, Space toggles.
--   Selection can't rely on border color alone; keep a selected state that assistive tech can read.
+- The whole tile is the click target, but keyboard semantics stay radio/checkbox: arrow keys move within the group, Space toggles.
+- Selection can't rely on border color alone; keep a selected state that assistive tech can read.
 
 ## Controlled behavior
 
--   Selection is controlled by the parent; single-select reports the switch immediately, multi-select returns the full set.
--   Disabled items stay out of the focus order and keyboard traversal.
+- Selection is controlled by the parent; single-select reports the switch immediately, multi-select returns the full set.
+- Disabled items stay out of the focus order and keyboard traversal.
 
 ## Responsive behavior
 
--   The tile grid wraps with container width and degrades to a single stacked column on narrow viewports.
--   Tiles keep comfortable heights on mobile to serve as large tap targets.
+- The tile grid wraps with container width and degrades to a single stacked column on narrow viewports.
+- Tiles keep comfortable heights on mobile to serve as large tap targets.
 
 ## Theme behavior
 
--   Selected border, background, and description text colors follow theme variables.
--   Selected and unselected tiles keep a clear hierarchy difference in dark mode.
+- Selected border, background, and description text colors follow theme variables.
+- Selected and unselected tiles keep a clear hierarchy difference in dark mode.
 
 ## Live Demo
 
@@ -77,7 +77,7 @@ const [value, setValue] = useState("trial");
 >
   <ChoiceboxGroupItem description="Free for two weeks" title="Pro Trial" value="trial" />
   <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
-</ChoiceboxGroup>
+</ChoiceboxGroup>;
 ```
 
 Pro TrialFree for two weeks
@@ -99,7 +99,7 @@ const [value, setValue] = useState([] as string[]);
 >
   <ChoiceboxGroupItem description="Free for two weeks" title="Pro Trial" value="trial" />
   <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
-</ChoiceboxGroup>
+</ChoiceboxGroup>;
 ```
 
 Choicebox group disabled
@@ -146,7 +146,7 @@ const [value2, setValue2] = useState([] as string[]);
     <ChoiceboxGroupItem description="Free for two weeks" disabled title="Pro Trial" value="trial" />
     <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
   </ChoiceboxGroup>
-</div>
+</div>;
 ```
 
 Pro TrialFree for two weeks
@@ -179,7 +179,7 @@ const [value, setValue] = useState("trial");
       <Badge variant="blue">Pro</Badge>
     </div>
   </ChoiceboxGroupItem>
-</ChoiceboxGroup>
+</ChoiceboxGroup>;
 ```
 
 ## API Reference
@@ -189,7 +189,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox"
+import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
 ```
 
 ### Props & callbacks
@@ -198,6 +198,6 @@ import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox"
 
 ## Best Practices
 
--   Use Choicebox when a choice benefits from a larger tap target plus a description or icon.
--   Single-select for mutually exclusive choices, multi-select for additive ones. Don't mix the two within one group.
--   Cap at 4-6 tiles. Past that, switch to Select or Combobox so the page doesn't scroll for a single field.
+- Use Choicebox when a choice benefits from a larger tap target plus a description or icon.
+- Single-select for mutually exclusive choices, multi-select for additive ones. Don't mix the two within one group.
+- Cap at 4-6 tiles. Past that, switch to Select or Combobox so the page doesn't scroll for a single field.

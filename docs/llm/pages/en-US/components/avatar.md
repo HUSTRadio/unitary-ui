@@ -14,15 +14,15 @@ Represents a user or a team with an image or fallback.
 
 ## When to use
 
--   Use Avatar to represent a single user or team, displayed alongside name and role information.
--   Use stacked Avatars to represent a group of people, such as team member lists or collections of commenters.
--   Provide a fallback (initials, icon, or placeholder) so the avatar still reads when the image fails to load or is missing.
+- Use Avatar to represent a single user or team, displayed alongside name and role information.
+- Use stacked Avatars to represent a group of people, such as team member lists or collections of commenters.
+- Provide a fallback (initials, icon, or placeholder) so the avatar still reads when the image fails to load or is missing.
 
 ## When not to use
 
--   Do not repeat headshots inside cards or tables—prefer Entity rows or other structured layouts instead.
--   Do not use Avatar for non-human entities (product logos, system icons)—use Icon or a generic placeholder for those.
--   Do not use Avatar as a decorative background element; its semantic meaning is to represent a real person.
+- Do not repeat headshots inside cards or tables—prefer Entity rows or other structured layouts instead.
+- Do not use Avatar for non-human entities (product logos, system icons)—use Icon or a generic placeholder for those.
+- Do not use Avatar as a decorative background element; its semantic meaning is to represent a real person.
 
 ## Examples
 
@@ -40,9 +40,9 @@ Shows overlapped arrangement of multiple Avatars with fixed overlap spacing.
 
 ## Accessibility
 
--   Always set meaningful alt text so screen readers announce the name of the person the avatar depicts.
--   Grouped stacks should carry an aria-label describing the total count to avoid redundant individual announcements.
--   Initial-only fallback avatars should use high-contrast background colors to ensure text legibility.
+- Always set meaningful alt text so screen readers announce the name of the person the avatar depicts.
+- Grouped stacks should carry an aria-label describing the total count to avoid redundant individual announcements.
+- Initial-only fallback avatars should use high-contrast background colors to ensure text legibility.
 
 ## Controlled behavior
 
@@ -50,13 +50,13 @@ Not applicable: Avatar is a passive display component with no interactive state 
 
 ## Responsive behavior
 
--   Avatar size is specified explicitly via props rather than responsive breakpoints, keeping consistent appearance across all viewports.
--   Stacked Avatars maintain their overlap order on narrow screens, showing at most four before collapsing the remainder into a +N numeric indicator.
+- Avatar size is specified explicitly via props rather than responsive breakpoints, keeping consistent appearance across all viewports.
+- Stacked Avatars maintain their overlap order on narrow screens, showing at most four before collapsing the remainder into a +N numeric indicator.
 
 ## Theme behavior
 
--   Avatar colors and styles follow Geist theme variables (typography, color palette) and adapt automatically between dark and light modes.
--   Placeholder blocks derive their color from a hash of the username by default, overridable via CSS variables.
+- Avatar colors and styles follow Geist theme variables (typography, color palette) and adapt automatically between dark and light modes.
+- Placeholder blocks derive their color from a hash of the username by default, overridable via CSS variables.
 
 ## Live Demo
 
@@ -73,11 +73,7 @@ import { AvatarGroup } from "@/components/ui/avatar";
 
 <div className="flex flex-wrap items-center gap-4">
   <AvatarGroup
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={32}
   />
   <AvatarGroup
@@ -91,7 +87,7 @@ import { AvatarGroup } from "@/components/ui/avatar";
     ]}
     size={32}
   />
-</div>
+</div>;
 ```
 
 ## Stacking order
@@ -105,23 +101,15 @@ import { AvatarGroup } from "@/components/ui/avatar";
 
 <div className="flex flex-wrap items-center gap-4">
   <AvatarGroup
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={32}
   />
   <AvatarGroup
     reverse
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={32}
   />
-</div>
+</div>;
 ```
 
 ## Overlap
@@ -140,41 +128,25 @@ import { AvatarGroup } from "@/components/ui/avatar";
 <div className="flex flex-wrap items-center gap-6">
   <AvatarGroup
     overlap="auto"
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={16}
   />
   <AvatarGroup
     overlap="auto"
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={24}
   />
   <AvatarGroup
     overlap="auto"
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={32}
   />
   <AvatarGroup
     overlap="auto"
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={48}
   />
-</div>
+</div>;
 ```
 
 ## Fixed overlap
@@ -191,32 +163,20 @@ import { AvatarGroup } from "@/components/ui/avatar";
 <div className="flex flex-wrap items-center gap-4">
   <AvatarGroup
     overlap={10}
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={24}
   />
   <AvatarGroup
     overlap={6}
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={24}
   />
   <AvatarGroup
     overlap={0}
-    members={[
-      { username: "evilrabbit" },
-      { username: "severinlandolt" },
-      { username: "rauchg" },
-    ]}
+    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
     size={24}
   />
-</div>
+</div>;
 ```
 
 ## Size
@@ -230,7 +190,7 @@ import { Avatar } from "@/components/ui/avatar";
   <Avatar size={24} username="evilrabbit" />
   <Avatar size={32} username="evilrabbit" />
   <Avatar size={48} username="evilrabbit" />
-</div>
+</div>;
 ```
 
 ## Git
@@ -244,7 +204,7 @@ import { GitHubAvatar, GitLabAvatar, BitbucketAvatar } from "@/components/ui/ava
   <GitHubAvatar size={32} username="rauchg" />
   <GitLabAvatar size={32} username="severinlandolt" />
   <BitbucketAvatar size={32} username="evilrabbit" />
-</div>
+</div>;
 ```
 
 ## With custom icon
@@ -264,12 +224,8 @@ import { ArrowDownCircle, CircleCheck, Clock } from "lucide-react";
     size={32}
     iconBackground
   />
-  <AvatarWithIcon
-    icon={<Clock className="size-3.5" aria-hidden />}
-    size={32}
-    iconBackground
-  />
-</div>
+  <AvatarWithIcon icon={<Clock className="size-3.5" aria-hidden />} size={32} iconBackground />
+</div>;
 ```
 
 ## Letter
@@ -283,7 +239,7 @@ import { Avatar } from "@/components/ui/avatar";
   <Avatar letter="SL" placeholder size={32} />
   <Avatar letter="EK" placeholder size={32} />
   <Avatar letter="CK" placeholder size={32} />
-</div>
+</div>;
 ```
 
 ## Placeholder
@@ -291,7 +247,7 @@ import { Avatar } from "@/components/ui/avatar";
 ```tsx
 import { Avatar } from "@/components/ui/avatar";
 
-<Avatar placeholder size={90} />
+<Avatar placeholder size={90} />;
 ```
 
 ## API Reference
@@ -301,7 +257,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Avatar, AvatarGroup, AvatarWithIcon } from "@/components/ui/avatar"
+import { Avatar, AvatarGroup, AvatarWithIcon } from "@/components/ui/avatar";
 ```
 
 Native props: `ImgHTMLAttributes<HTMLImageElement>`
@@ -312,7 +268,7 @@ Native props: `ImgHTMLAttributes<HTMLImageElement>`
 
 ## Best Practices
 
--   Use Avatar to represent a single user or team. Stacked Avatars represent a group of people.
--   Provide a fallback (initials, icon, or placeholder) so the avatar still reads when the image fails to load or is missing.
--   Set a meaningful alt text so screen readers announce who the avatar depicts.
--   Match the size to the context: sm for dense rows, default for lists and mentions, lg for profile headers.
+- Use Avatar to represent a single user or team. Stacked Avatars represent a group of people.
+- Provide a fallback (initials, icon, or placeholder) so the avatar still reads when the image fails to load or is missing.
+- Set a meaningful alt text so screen readers announce who the avatar depicts.
+- Match the size to the context: sm for dense rows, default for lists and mentions, lg for profile headers.

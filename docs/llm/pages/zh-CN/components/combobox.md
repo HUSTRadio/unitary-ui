@@ -14,13 +14,13 @@ Combobox
 
 ## 何时使用
 
--   当一个选项列表很长，通过输入过滤能显著提升用户找到目标的效率时；对于短小有固定数量的列表，Select 更合适。
--   需要在选择的同时保持搜索查询的独立状态，这样重新打开列表不会擦除已选值。
+- 当一个选项列表很长，通过输入过滤能显著提升用户找到目标的效率时；对于短小有固定数量的列表，Select 更合适。
+- 需要在选择的同时保持搜索查询的独立状态，这样重新打开列表不会擦除已选值。
 
 ## 何时不应使用
 
--   对于简单的二元选择（开关/启用/禁用），应该使用 Toggle 而不是 Combobox；组合框的交互成本过高。
--   当用户需要从已知列表中多选时；请使用 Multi Select 组合框是单选专用组件。
+- 对于简单的二元选择（开关/启用/禁用），应该使用 Toggle 而不是 Combobox；组合框的交互成本过高。
+- 当用户需要从已知列表中多选时；请使用 Multi Select 组合框是单选专用组件。
 
 ## 示例
 
@@ -54,29 +54,29 @@ Label 与输入关联，保证辅助技术正确读出字段名称。
 
 ## 无障碍
 
--   Combobox 结合输入和列表的原生语义，支持键盘导航：上/下箭头移动焦点，Home/End 跳转首尾项，Enter 激活。
--   搜索建议具有类型 ahead 功能——按输入字符跳转到下一个匹配标签的项目，确保键盘用户也能高效定位选项。
+- Combobox 结合输入和列表的原生语义，支持键盘导航：上/下箭头移动焦点，Home/End 跳转首尾项，Enter 激活。
+- 搜索建议具有类型 ahead 功能——按输入字符跳转到下一个匹配标签的项目，确保键盘用户也能高效定位选项。
 
 ## 受控行为
 
--   Combobox 支持受控和非受控两种模式；受控模式下通过 value/query props 和 onChange 回调实现完全外部状态管理。
--   已选值和搜索查询被独立追踪，这样重新打开下拉列表时不会丢失之前的选择。
+- Combobox 支持受控和非受控两种模式；受控模式下通过 value/query props 和 onChange 回调实现完全外部状态管理。
+- 已选值和搜索查询被独立追踪，这样重新打开下拉列表时不会丢失之前的选择。
 
 ## 响应式行为
 
--   下拉列表根据窗口边界自动定位位置，避免在窄视口上溢出屏幕。
--   输入框宽度可在自定义宽度和全宽之间切换，下拉列表宽度也跟随输入框大小自适应。
+- 下拉列表根据窗口边界自动定位位置，避免在窄视口上溢出屏幕。
+- 输入框宽度可在自定义宽度和全宽之间切换，下拉列表宽度也跟随输入框大小自适应。
 
 ## 主题行为
 
--   边框、焦点环、选中项背景和下拉列表阴影均自动适配设计系统的颜色和令牌变量。
--   深色主题下的高对比度配色确保文本可阅读性。
+- 边框、焦点环、选中项背景和下拉列表阴影均自动适配设计系统的颜色和令牌变量。
+- 深色主题下的高对比度配色确保文本可阅读性。
 
 ## 实时示例
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -88,12 +88,12 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
     <ComboboxOption value="b">Two</ComboboxOption>
     <ComboboxOption value="c">Three</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -108,12 +108,12 @@ const [value, setValue] = useState("b");
     <ComboboxOption value="b">Two</ComboboxOption>
     <ComboboxOption value="c">Three</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -125,20 +125,20 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
     <ComboboxOption value="b">Two</ComboboxOption>
     <ComboboxOption value="c">Three</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -182,24 +182,28 @@ const options = [
       ))}
     </ComboboxList>
   </Combobox>
-</div>
+</div>;
 ```
 
 选择国家或地区
 
--   United States
--   Canada
--   United Kingdom
--   Germany
--   France
--   Japan
--   Australia
--   Brazil
+- United States
+- Canada
+- United Kingdom
+- Germany
+- France
+- Japan
+- Australia
+- Brazil
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 
-<Combobox label="Select your country" aria-label="Select your country" placeholder="Search countries…">
+<Combobox
+  label="Select your country"
+  aria-label="Select your country"
+  placeholder="Search countries…"
+>
   <ComboboxInput />
   <ComboboxList>
     <ComboboxOption value="us">United States</ComboboxOption>
@@ -211,12 +215,12 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
     <ComboboxOption value="au">Australia</ComboboxOption>
     <ComboboxOption value="br">Brazil</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -225,19 +229,25 @@ import { useState } from "react";
 const [value, setValue] = useState("two");
 
 // 选中后出现清除按钮（X），点击即清空并回调 onValueChange。
-<Combobox aria-label="Search" clearable onValueChange={setValue} placeholder="Search..." value={value}>
+<Combobox
+  aria-label="Search"
+  clearable
+  onValueChange={setValue}
+  placeholder="Search..."
+  value={value}
+>
   <ComboboxInput />
   <ComboboxList>
     <ComboboxOption value="one">One</ComboboxOption>
     <ComboboxOption value="two">Two</ComboboxOption>
     <ComboboxOption value="three">Three</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -249,12 +259,12 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
     <ComboboxOption value="b">Two</ComboboxOption>
     <ComboboxOption value="c">Three</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -266,12 +276,12 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
     <ComboboxOption value="b">Two</ComboboxOption>
     <ComboboxOption value="c">Three</ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
--   Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
--   Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+- Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+- Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -293,7 +303,7 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
       id est laborum.
     </ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
 ```tsx
@@ -302,12 +312,12 @@ import { Combobox, ComboboxInput, ComboboxList } from "@/components/ui/combobox"
 <Combobox aria-label="Search" placeholder="Search..." width={256}>
   <ComboboxInput />
   <ComboboxList emptyMessage="Nothing to see here..." />
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -326,12 +336,12 @@ import { Triangle } from "lucide-react";
       Three
     </ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
--   One
--   Two
--   Three
+- One
+- Two
+- Three
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
@@ -350,7 +360,7 @@ import { Triangle } from "lucide-react";
       Three
     </ComboboxOption>
   </ComboboxList>
-</Combobox>
+</Combobox>;
 ```
 
 ```tsx
@@ -479,7 +489,7 @@ const [search, setSearch] = useState("");
       </Combobox>
     </div>
   </SheetContent>
-</Sheet>
+</Sheet>;
 ```
 
 ## API 参考
@@ -489,7 +499,7 @@ const [search, setSearch] = useState("");
 导入
 
 ```tsx
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox"
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 ```
 
 ### 属性与回调
@@ -498,5 +508,5 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
 
 ## 最佳实践
 
--   过滤能显著帮助用户找到某一选项时用 Combobox；短而固定的列表用 Select。
--   让选中值与搜索查询保持独立，重开列表时不擦除选择。
+- 过滤能显著帮助用户找到某一选项时用 Combobox；短而固定的列表用 Select。
+- 让选中值与搜索查询保持独立，重开列表时不擦除选择。

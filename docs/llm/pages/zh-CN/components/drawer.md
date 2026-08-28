@@ -14,14 +14,14 @@ Drawer
 
 ## 何时使用
 
--   小视口中需要展示短聚焦动作，如单个表单、筛选面板或与 Cancel 配对的主 CTA。
--   需要在保留当前浏览上下文的同时呈现辅助内容，但不需要桌面端侧边栏那样的持久面板。
+- 小视口中需要展示短聚焦动作，如单个表单、筛选面板或与 Cancel 配对的主 CTA。
+- 需要在保留当前浏览上下文的同时呈现辅助内容，但不需要桌面端侧边栏那样的持久面板。
 
 ## 何时不应使用
 
--   确认危险操作时不要用 Drawer——缺乏完全遮挡的遮罩降低了删除和吊销流程所需的严重程度信号。
--   桌面端需要交互性侧面板时使用 Sheet 而非 Drawer。
--   长内容或多步骤表单应路由到独立页面而非塞入 Drawer。
+- 确认危险操作时不要用 Drawer——缺乏完全遮挡的遮罩降低了删除和吊销流程所需的严重程度信号。
+- 桌面端需要交互性侧面板时使用 Sheet 而非 Drawer。
+- 长内容或多步骤表单应路由到独立页面而非塞入 Drawer。
 
 ## 示例
 
@@ -35,26 +35,26 @@ Drawer
 
 ## 无障碍
 
--   Drawer 打开时捕获内部焦点，关闭后将焦点返回到触发器元素。
--   Escape 键关闭 Drawer，确保键盘用户的完整退出路径。
--   DrawerTitle 应为 Title Case 名词短语，命名所展示的资源实体。
+- Drawer 打开时捕获内部焦点，关闭后将焦点返回到触发器元素。
+- Escape 键关闭 Drawer，确保键盘用户的完整退出路径。
+- DrawerTitle 应为 Title Case 名词短语，命名所展示的资源实体。
 
 ## 受控行为
 
--   open 状态由父组件完全控制，内部不自行管理打开与关闭。
--   关闭时通过回调通知父组件以同步外部状态。
--   锁住 body 滚动以开放状态保持，恢复于关闭时。
+- open 状态由父组件完全控制，内部不自行管理打开与关闭。
+- 关闭时通过回调通知父组件以同步外部状态。
+- 锁住 body 滚动以开放状态保持，恢复于关闭时。
 
 ## 响应式行为
 
--   专为移动端设计——仅在小型视口中使用；桌面端替代为 Sheet。
--   Swipe-down 手势支持默认关闭行为，确保触屏设备的自然交互。
--   自定义高度 prop 可根据视口大小灵活适配内容。
+- 专为移动端设计——仅在小型视口中使用；桌面端替代为 Sheet。
+- Swipe-down 手势支持默认关闭行为，确保触屏设备的自然交互。
+- 自定义高度 prop 可根据视口大小灵活适配内容。
 
 ## 主题行为
 
--   背景层、阴影和分隔线颜色跟随应用主题。
--   Body 滚动锁定在暗色/亮色主题下均有正确的对比度表现。
+- 背景层、阴影和分隔线颜色跟随应用主题。
+- Body 滚动锁定在暗色/亮色主题下均有正确的对比度表现。
 
 ## 实时示例
 
@@ -109,7 +109,7 @@ const [open, setOpen] = useState(false);
 导入
 
 ```tsx
-import { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer"
+import { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 ```
 
 ### 属性与回调
@@ -118,10 +118,10 @@ import { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer"
 
 ## 最佳实践
 
--   仅在小视口使用 Drawer。桌面端保持页面可交互的侧栏用 Sheet；需要阻断的决定用 Modal。
--   不要用 Drawer 确认破坏性动作。缺少完全遮罩会削弱删除和撤销流程需要的严重性信号；改用 Modal。
--   Drawer 适合简短聚焦的移动端动作：单个表单、过滤面板、主 CTA 配 Cancel。
--   默认支持点击外部与下滑关闭；除非表单有未保存输入，否则都保留。
--   DrawerTitle 是命名实体的首字母大写陈述句（Deployment Details、Filter Logs）。正文是句首大写散文，配一个主 动词 + 名词 按钮和字面 Cancel。
--   打开时把焦点困在 drawer 内，关闭时还给触发器。Escape 关闭 drawer。
--   打开时锁定 body 滚动、关闭时恢复，避免 iOS 橡皮筋滚动泄漏。
+- 仅在小视口使用 Drawer。桌面端保持页面可交互的侧栏用 Sheet；需要阻断的决定用 Modal。
+- 不要用 Drawer 确认破坏性动作。缺少完全遮罩会削弱删除和撤销流程需要的严重性信号；改用 Modal。
+- Drawer 适合简短聚焦的移动端动作：单个表单、过滤面板、主 CTA 配 Cancel。
+- 默认支持点击外部与下滑关闭；除非表单有未保存输入，否则都保留。
+- DrawerTitle 是命名实体的首字母大写陈述句（Deployment Details、Filter Logs）。正文是句首大写散文，配一个主 动词 + 名词 按钮和字面 Cancel。
+- 打开时把焦点困在 drawer 内，关闭时还给触发器。Escape 关闭 drawer。
+- 打开时锁定 body 滚动、关闭时恢复，避免 iOS 橡皮筋滚动泄漏。
