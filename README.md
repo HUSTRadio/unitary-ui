@@ -1,117 +1,105 @@
-# Unitary
+# Unitary UI
 
-基于 **shadcn/ui** 的可复用 **Vercel Geist 样式框架**——样式 token 体系 + 基础组件 + 官方规范快照，供消费方项目直接复用。npm 包名 `@hustradio/unitary-ui`。
+[English version → README.en.md](./README.en.md)
 
-> 从 [oa-frontend](https://github.com/HUSTRadio/oa-frontend) 抽离而来：该项目的 Geist 视觉基础设施（token / 组件 / 规范快照 / agent 约束）独立成库，业务页面留在原仓库。
+基于 shadcn/ui 的可复用 **Vercel Geist 样式框架**——样式 token 体系 + 基础组件 + 官方规范快照，供消费方项目直接复用。npm 包名 `@hustradio/unitary-ui`，MIT 许可。
 
-## 内容
+## Features
 
-| 资产              | 路径                        | 说明                                                                                                                                                            |
-| ----------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 样式 token 体系   | `src/styles/index.css`      | Geist 双主题 34 语义 token + 82 全色阶 + 排版工具类 + material-* 材质 + focus-ring（官方实测值）                                                                |
-| 基础组件          | `src/components/ui/`        | 覆盖 72 个官方 Geist 组件，并保留本地 Step Point 扩展；文档 registry、路由与侧栏统一生成（零业务依赖）                                                          |
-| 工具              | `src/lib/`                  | `utils.ts`（cn）、`theme.tsx`（light/dark/system 三态主题系统）                                                                                                 |
-| 规范快照          | `docs/geist-markdown-refs/` | Vercel Geist 官方文档快照（foundations + 72 组件 + 渲染参数实测表 + 截图，13MB）                                                                                |
-| Agent 约束        | `AGENTS.md`                 | 框架通用开发约束（Geist 视觉规范 / Git 规范 / Vite+ 流程）                                                                                                      |
-| Living styleguide | `src/App.tsx`               | 组件总览 + 4 个组合示例导航                                                                                                                                     |
-| 组合示例          | `src/examples/`             | FormExample（表单校验/加载态）/ DataTableExample（表格+筛选+选择）/ WorkflowExample（审批步骤）/ SettingsExample（设置面板）                                    |
-| 文档站            | `docs/geist/`               | 复刻 Vercel Geist 官方文档站（Introduction/Colors/Typography/Materials/Brands/Components），`vp dev docs/geist` serve；问题清单见 `docs/geist-docs-findings.md` |
+- **Geist token 体系**：双主题（light/dark）语义 token + 全色阶 + 排版工具类 + 材质，全部对齐官方实测值（`src/styles/index.css`）
+- **基础组件**：`src/components/ui/` 覆盖官方 Geist 组件集与本地扩展，路由、侧栏、文档 registry 统一生成，零业务依赖
+- **规范快照**：`docs/geist-markdown-refs/` 冻结的 Vercel Geist 官方文档快照（foundations + 组件 + 渲染参数实测）
+- **Living styleguide**：`src/App.tsx` + 组合示例（表单 / 数据表格 / 审批流 / 设置面板）
+- **文档站**：`docs/geist/` 复刻官方文档站结构，中英双语、双主题，含每组件 API 表、实时 demo 与 Show Code
+- **LLM 参考语料**：`docs/llm/` 为每条文档路由生成简体中文（主）与英语（替代）的 Markdown 语料 + 机器可读索引
 
-## 效果图
-
-### 组件总览（Light）
-
-![组件总览](images/components-light.png)
-
-### JSON 查看器（Light / Dark）
-
-![JSON 查看器 Light](images/json-view-light.png)
-![JSON 查看器 Dark](images/json-view-dark.png)
-
-### 表单示例（Light / Dark）
-
-![表单示例](images/form-example.png)
-![表单示例 Dark](images/form-dark.png)
-
-### 数据表格（Light / Dark / 选中行）
-
-![数据表格](images/data-table.png)
-![数据表格 Dark](images/data-table-dark.png)
-![数据表格选中行](images/data-table-selected.png)
-
-### 审批流程（Light）
-
-![审批流程](images/workflow.png)
-
-### 设置面板（Light）
-
-![设置面板](images/settings.png)
-
-## 快速开始
+## Installation
 
 ```bash
-vp install
-vp dev             # living styleguide @ localhost
-vp dev docs/geist  # 文档站（复刻 Vercel Geist 官方文档站）
-vp check
-vp build
+pnpm add @hustradio/unitary-ui
 ```
 
-## 文档站（docs/geist）
+或作为样式基础层消费：复制 `src/styles/`、`src/components/ui/`、`src/lib/` 到你的项目。
 
-`docs/geist/` 是一个独立 Vite 应用，复刻 Vercel Geist 官方文档站结构：Introduction / Colors / Typography / Materials / Brands / Components（72 组件逐节 demo + Show Code）+ Icons，支持中英文切换与 light/dark 双主题。
+依赖：react / react-dom / radix-ui / lucide-react / class-variance-authority / clsx / tailwind-merge / tw-animate-css / date-fns / @date-fns/tz / @fontsource/maple-mono / tailwindcss（`@tailwindcss/vite`）。
 
-- 通过 alias 直接消费根仓库 `src/`（shadcn/ui 元件、样式、lib），不复制代码；字体等静态资源共享根仓库 `public/`
-- 启动：`vp dev docs/geist`（默认 http://localhost:5173）
-- 已知问题清单：`docs/geist-docs-findings.md`
+## Quick start
 
-## 消费方式
+```tsx
+import { Button } from "@hustradio/unitary-ui";
+import "@hustradio/unitary-ui/styles";
 
-消费方项目（如 oa-frontend）复制以下三部分即可获得完整 Geist 基础层：
-
-```bash
-# 1. 样式体系（含字体引用）
-cp -r unitary-ui/src/styles/ <项目>/src/styles/
-cp -r unitary-ui/public/fonts/ <项目>/public/fonts/
-
-# 2. 基础组件
-cp -r unitary-ui/src/components/ui/ <项目>/src/components/ui/
-
-# 3. 工具
-cp unitary-ui/src/lib/utils.ts <项目>/src/lib/
-cp unitary-ui/src/lib/theme.tsx <项目>/src/lib/
-cp unitary-ui/src/lib/i18n.tsx <项目>/src/lib/
-cp unitary-ui/src/lib/framework-messages.ts <项目>/src/lib/
-cp unitary-ui/src/lib/date-time.ts <项目>/src/lib/
+export function App() {
+  return <Button onClick={() => console.log("deploy")}>Deploy Project</Button>;
+}
 ```
 
-然后在项目入口引入样式：
+样式入口（直接消费源码时）：
 
 ```ts
 import "@/styles/index.css";
 ```
 
-依赖需求：react / react-dom / radix-ui / lucide-react / class-variance-authority / clsx / tailwind-merge / tw-animate-css / date-fns / @date-fns/tz / @fontsource/maple-mono / tailwindcss（`@tailwindcss/vite`）。
+## Documentation
 
-## 设计约束（消费方也适用）
+- 人类文档站：`vp dev docs/geist`（Introduction / Colors / Typography / Materials / Components，支持中英文与 light/dark 切换）
+- 组件文档合同测试：`tests/component-doc-completeness.test.ts`、`tests/docs-i18n-parity.test.ts`
+- 官方规范快照：`docs/geist-markdown-refs/`
+- 已知问题清单：`docs/geist-docs-findings.md`
 
-完整约束见 `AGENTS.md`。核心：
+### Screenshots
 
-- **Geist 是视觉权威**，shadcn/Radix 仅作行为与无障碍基础设施
-- 所有颜色走语义 token / 全色阶，禁止硬编码色值；双主题同语义角色
-- 排版只用命名类（`text-heading-*` / `text-button-*` / `text-label-*` / `text-copy-*`），数值见官方实测
-- 圆角：表面 6px / 浮层 12px / 全屏 16px；间距 = Tailwind 4px 倍数（Geist 官方尺度）
-- 焦点：可交互元素用 `focus-ring`（双环）；输入控件用 `input-focus-ring`（灰阶加深 + 柔光）
-- 实现组件视觉前，先查 `docs/geist-markdown-refs/components/<name>.md` 顶部「渲染参数」实测块
+| | Light | Dark |
+| --- | --- | --- |
+| 组件总览 | ![组件总览](images/components-light.png) | — |
+| JSON 查看器 | ![JSON 查看器 Light](images/json-view-light.png) | ![JSON 查看器 Dark](images/json-view-dark.png) |
+| 表单示例 | ![表单示例](images/form-example.png) | ![表单示例 Dark](images/form-dark.png) |
+| 数据表格 | ![数据表格](images/data-table.png) | ![数据表格 Dark](images/data-table-dark.png) |
+| 审批流程 | ![审批流程](images/workflow.png) | — |
+| 设置面板 | ![设置面板](images/settings.png) | — |
 
-## 注意事项
+## LLM / AI agent usage
 
-- **字体**：HarmonyOS Sans SC 为 GB2312 中文子集（面向中文 UI），国际场景需替换字体
-- **主题存储键**：`geist-theme-preference`（与 oa-frontend 的 `oa-theme-preference` 独立）
-- **docs/geist-markdown-refs 体积**：13MB 快照可裁剪（仅保留 `foundations/` + 常用组件）以减小仓库体积
-- **Git 签名**：本仓库沿用 oa-frontend 的 LeonhardtHUST GPG 键约定；公开协作时需泛化
-- **版本**：依赖与 oa-frontend 完全一致（radix-ui 一体化包 / lucide / tailwind v4），避免版本漂移
+以下指令文本在两个语言版本中保持英文不变，以免执行语义分叉：
+
+1. Read `AGENTS.md` first.
+2. Query `docs/llm/index.json` for the relevant route.
+3. Load only the matching Markdown pages.
+4. Verify component exports and TypeScript props in source.
+5. Never invent undocumented APIs.
+6. Run the documented checks before proposing a change.
+
+## Development
+
+```bash
+pnpm install
+pnpm dev                 # living styleguide
+vp dev docs/geist        # docs site
+pnpm test                # contract + unit tests
+pnpm typecheck
+vp run docs:llm:generate # regenerate LLM corpus after docs changes
+vp run docs:llm:check    # drift check (exit 0 = no drift)
+```
+
+贡献须知：提交前跑 `pnpm test` 与 `pnpm typecheck`；文档改动后必须重新生成 LLM 语料并保持双语对齐。禁止 `git add -A`，精确暂存。
+
+## Contributing
+
+1. 先读 `AGENTS.md` 的 task-to-source map，定位正确的源文件
+2. 组件改动必须同步更新：组件源码、registry 条目、API 行、demo、中文描述、双语 guide
+3. 文档改动后运行 `vp run docs:llm:generate` 与合同测试
+4. 提交信息用清晰的动词短语；不使用 --no-verify 绕过 hook
+
+## Security
+
+发现安全漏洞请通过仓库私有渠道报告，不要在公开 issue 中披露。本仓库不收集遥测数据；文档站的剪贴板权限仅用于复制代码片段。
+
+## Credits
+
+设计参考与第三方资产清单见 [`CREDITS.md`](./CREDITS.md)（简体中文）/ [`CREDITS.en.md`](./CREDITS.en.md)（English）。第三方代码与字体的完整许可声明见 [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) / [`THIRD_PARTY_NOTICES.en.md`](./THIRD_PARTY_NOTICES.en.md)。
 
 ## License
 
-Private — HUSTRadio 组织内部使用。
+MIT © 2026 HUSTRadio。简体中文阅读入口：[`LICENSE.zh-CN.md`](./LICENSE.zh-CN.md)（非官方、非约束性译文）；法律权威文本为英文 [`LICENSE`](./LICENSE)。
+
+第三方字体与代码不适用本许可证，其许可状态见上述 notices 文件。

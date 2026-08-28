@@ -16,7 +16,11 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "LICENSE.zh-CN.md",
+    "THIRD_PARTY_NOTICES.md",
+    "THIRD_PARTY_NOTICES.en.md"
   ],
   "scripts": {
     "dev": "vite",
