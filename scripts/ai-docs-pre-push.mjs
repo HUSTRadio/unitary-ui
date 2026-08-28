@@ -13,27 +13,44 @@
  * 退出码：
  *   0  无需更新或文档已同步且校验通过；
  *   1  配置/环境错误、越权写入、校验失败；
- *   2  Agent 产生合法文档改动，需人工审查后重新推送；
- *   3  紧急跳过（仅环境变量显式设置，打印高可见警告）。
+ *   2  Agent 产生合法文档改动，需人工审查后重新推送。
+ * 紧急跳过显式打印警告并返回 0，确保 Git 的 skip 通道语义可用。
  */
 
 import { spawn, spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
-const ROOT = process.env.UNITARY_DOCS_HOOK_REPO_ROOT ?? process.cwd();
+const ROOT = process.cwd();
 // 安全合同：schema 与固定 prompt 与版本化仓库绑定（脚本目录推导），
-// 不随 UNITARY_DOCS_HOOK_REPO_ROOT 漂移，防止本地配置替换安全指令。
+// 不接受环境变量替换工作根或安全指令。
 const SCRIPT_REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CONFIG_PATH = path.join(ROOT, "docs-agent.config.json");
 const SCHEMA_PATH = path.join(SCRIPT_REPO_ROOT, "docs-agent.schema.json");
 const PROMPT_PATH = path.join(SCRIPT_REPO_ROOT, "docs/llm/update-prompt.md");
 const CONFIG_OVERRIDE_ENV = "UNITARY_DOCS_AGENT_CONFIG";
 const SKIP_ENV = "UNITARY_DOCS_HOOK_SKIP";
-
-const REDACTED_URL_PATTERN = /(?:https:\/\/|git@)[^:\s]+:[^/\s]*@|(?:https:\/\/)[^/\s]*:[^/\s]*@/g;
+const TEST_MODE =
+  process.env.NODE_ENV === "test" && process.env.UNITARY_DOCS_AGENT_TEST_MODE === "1";
+const VP_COMMAND = process.platform === "win32" ? "vp.exe" : "vp";
+const FIXED_VALIDATION_COMMANDS = [
+  [VP_COMMAND, "run", "docs:llm:check"],
+  [
+    VP_COMMAND,
+    "exec",
+    "vitest",
+    "run",
+    "tests/component-api-registry.test.ts",
+    "tests/component-doc-completeness.test.ts",
+    "tests/changelog-contract.test.ts",
+    "tests/docs-i18n-parity.test.ts",
+    "tests/llm-docs-export.test.ts",
+    "tests/ai-docs-prompt-contract.test.ts",
+  ],
+];
 
 function fail(code, message) {
   process.stderr.write(`[ai-docs-pre-push] ${message}\n`);
@@ -55,7 +72,10 @@ function gitOrThrow(args, options) {
 }
 
 async function loadConfig() {
-  const configPath = process.env[CONFIG_OVERRIDE_ENV] ?? CONFIG_PATH;
+  if (!TEST_MODE && process.env[CONFIG_OVERRIDE_ENV]) {
+    fail(1, `${CONFIG_OVERRIDE_ENV} 仅允许测试使用；生产 hook 固定读取仓库配置。`);
+  }
+  const configPath = TEST_MODE ? (process.env[CONFIG_OVERRIDE_ENV] ?? CONFIG_PATH) : CONFIG_PATH;
   if (!existsSync(configPath)) {
     fail(1, `配置文件不存在: ${configPath}`);
   }
@@ -89,12 +109,23 @@ async function loadConfig() {
       "配置错误: agent.sandbox 与 agent.approvalMode 互斥（--approve-for-me 已隐含 workspace-write 沙箱），只能配置其一。",
     );
   }
+  if (!TEST_MODE) {
+    const agent = config.agent;
+    const productionTemplateValid =
+      agent.command === "codex" &&
+      agent.codexCli === true &&
+      JSON.stringify(agent.subcommand ?? ["exec"]) === JSON.stringify(["exec"]) &&
+      agent.sandbox === undefined &&
+      agent.approvalMode === "approve-for-me" &&
+      agent.ephemeral === true;
+    if (!productionTemplateValid) {
+      fail(
+        1,
+        "生产 hook 只允许固定 Codex exec 模板（codexCli、approve-for-me、ephemeral）；拒绝任意 executable 或参数模板。",
+      );
+    }
+  }
   return config;
-}
-
-function redactUrl(url) {
-  if (!url) return "(unknown)";
-  return url.replace(REDACTED_URL_PATTERN, "https://***@").replace(/\/\/([^/@]+)@/, "//***@");
 }
 
 function readPushedRefsFromStdin() {
@@ -119,11 +150,7 @@ function changedPathsBetween(remoteSha, localSha) {
   const base = /^0+$/.test(remoteSha)
     ? gitOrThrow(["rev-list", "--max-parents=0", localSha]).trim()
     : remoteSha;
-  const output = gitOrThrow(["diff", "--name-only", base, localSha]);
-  return output
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean);
+  return gitOrThrow(["diff", "--name-only", "-z", base, localSha]).split("\0").filter(Boolean);
 }
 
 function globToRegExp(glob) {
@@ -152,10 +179,9 @@ function matchesAny(filePath, globs) {
   });
 }
 
-function porcelainStatus(options = {}) {
+function statusEntries(options = {}) {
   const { includeUntracked = false } = options;
-  // 基线/比较口径使用 untracked-files=all：逐文件列出，避免目录级条目掩盖新增文件。
-  const args = ["status", "--porcelain=v1", "-z"];
+  const args = ["status", "--porcelain=v1", "-z", "--no-renames"];
   if (includeUntracked) args.push("--untracked-files=all");
   const output = gitOrThrow(args);
   const entries = [];
@@ -163,16 +189,73 @@ function porcelainStatus(options = {}) {
     if (!record) continue;
     const xy = record.slice(0, 2);
     const file = record.slice(3);
-    // 干净门口径：未跟踪文件（??）属于正常开发状态，不拦截；
-    // 基线比较口径：必须包含未跟踪文件，否则 Agent 新建文件无法被检测。
-    if (xy.startsWith("?") && !includeUntracked) continue;
-    if (xy.trim()) entries.push({ file });
+    if (xy === "??" && !includeUntracked) continue;
+    if (xy.trim()) entries.push({ xy, file });
   }
-  return entries.map((entry) => entry.file);
+  return entries;
+}
+
+function porcelainStatus(options = {}) {
+  return statusEntries(options).map((entry) => entry.file);
+}
+
+function hashFile(filePath) {
+  if (!existsSync(filePath)) return null;
+  return createHash("sha256").update(readFileSync(filePath)).digest("hex");
+}
+
+function snapshotUntrackedFiles() {
+  const snapshot = new Map();
+  for (const entry of statusEntries({ includeUntracked: true })) {
+    if (entry.xy === "??") snapshot.set(entry.file, hashFile(path.join(ROOT, entry.file)));
+  }
+  return snapshot;
+}
+
+function changedWorktreePaths(beforeUntracked) {
+  const afterEntries = statusEntries({ includeUntracked: true });
+  const changed = new Set();
+  const afterUntracked = new Set();
+  for (const entry of afterEntries) {
+    if (entry.xy !== "??") {
+      changed.add(entry.file);
+      continue;
+    }
+    afterUntracked.add(entry.file);
+    const currentHash = hashFile(path.join(ROOT, entry.file));
+    if (!beforeUntracked.has(entry.file) || beforeUntracked.get(entry.file) !== currentHash) {
+      changed.add(entry.file);
+    }
+  }
+  for (const file of beforeUntracked.keys()) {
+    if (!afterUntracked.has(file)) changed.add(file);
+  }
+  return [...changed];
+}
+
+function snapshotGitMetadata() {
+  const gitPaths = ["config", "index", "packed-refs"].map((name) =>
+    gitOrThrow(["rev-parse", "--git-path", name]).trim(),
+  );
+  return {
+    head: gitOrThrow(["rev-parse", "HEAD"]).trim(),
+    refs: gitOrThrow(["for-each-ref", "--format=%(refname) %(objectname)"]),
+    files: gitPaths.map((file) => [file, hashFile(path.resolve(ROOT, file))]),
+  };
+}
+
+function gitMetadataChanged(before, after) {
+  return JSON.stringify(before) !== JSON.stringify(after);
 }
 
 function buildAgentArgs(config, promptWithRefs) {
   const agent = config.agent;
+  if (!TEST_MODE) {
+    const args = ["exec", "-m", agent.model];
+    if (agent.reasoningEffort) args.push("-c", `model_reasoning_effort="${agent.reasoningEffort}"`);
+    args.push("--approve-for-me", "--ephemeral", "-C", ".", promptWithRefs);
+    return args;
+  }
   if (agent.codexCli) {
     const args = [...(agent.subcommand ?? ["exec"])];
     args.push("-m", agent.model);
@@ -189,13 +272,48 @@ function buildAgentArgs(config, promptWithRefs) {
   return [...(agent.subcommand ?? []), promptWithRefs];
 }
 
+function buildAgentEnvironment() {
+  const allowed = [
+    "PATH",
+    "PATHEXT",
+    "SYSTEMROOT",
+    "SystemRoot",
+    "WINDIR",
+    "COMSPEC",
+    "ComSpec",
+    "HOME",
+    "USERPROFILE",
+    "LOCALAPPDATA",
+    "APPDATA",
+    "TEMP",
+    "TMP",
+    "LANG",
+    "LC_ALL",
+    "TERM",
+    "NO_COLOR",
+    "FORCE_COLOR",
+  ];
+  const env = {};
+  for (const name of allowed) {
+    if (process.env[name] !== undefined) env[name] = process.env[name];
+  }
+  if (TEST_MODE) {
+    for (const [name, value] of Object.entries(process.env)) {
+      if (name.startsWith("FAKE_AGENT_") && value !== undefined) env[name] = value;
+    }
+  }
+  env.GIT_TERMINAL_PROMPT = "0";
+  env.GCM_INTERACTIVE = "never";
+  return env;
+}
+
 function runAgent(config, promptWithRefs) {
   const agent = config.agent;
   const args = buildAgentArgs(config, promptWithRefs);
-  const child = spawn(agent.command, args, {
+  const child = spawn(TEST_MODE ? agent.command : "codex", args, {
     cwd: ROOT,
     stdio: ["ignore", "pipe", "pipe"],
-    env: { ...process.env },
+    env: buildAgentEnvironment(),
   });
 
   let stdout = "";
@@ -225,12 +343,17 @@ function runAgent(config, promptWithRefs) {
   });
 }
 
-function runValidationCommands(config) {
-  for (const command of config.validationCommands ?? []) {
+function runValidationCommands() {
+  if (TEST_MODE) {
+    const status = Number(process.env.UNITARY_DOCS_AGENT_TEST_VALIDATION_EXIT ?? 0);
+    if (status !== 0) fail(1, `固定确定性校验失败（测试退出码 ${status}）。`);
+    return;
+  }
+  for (const command of FIXED_VALIDATION_COMMANDS) {
     const [cmd, ...args] = command;
-    const result = spawnSync(cmd, args, { cwd: ROOT, encoding: "utf8" });
+    const result = spawnSync(cmd, args, { cwd: ROOT, encoding: "utf8", env: process.env });
     if (result.status !== 0) {
-      fail(1, `确定性校验失败: ${command.join(" ")}\n${result.stdout}\n${result.stderr}`);
+      fail(1, `固定确定性校验失败: ${command.join(" ")}（退出码 ${result.status ?? "error"}）。`);
     }
   }
 }
@@ -243,7 +366,7 @@ async function main() {
       "[ai-docs-pre-push] ⚠️ 警告：UNITARY_DOCS_HOOK_SKIP=1 已设置，跳过 AI 文档同步。" +
         "这不代表验证通过；仅用于 Agent 服务中断的紧急通道。\n",
     );
-    process.exit(3);
+    process.exit(0);
   }
 
   const config = await loadConfig();
@@ -269,9 +392,11 @@ async function main() {
   let dynamicContext = "";
   if (!manual) {
     const refs = readPushedRefsFromStdin();
+    if (refs.length === 0) {
+      fail(1, "pre-push 未提供 ref 更新记录，拒绝在未知推送范围下运行。");
+    }
     const contextBlocks = [];
     for (const ref of refs) {
-      const remoteUrl = git(["remote", "get-url", "origin"]).stdout.trim();
       const changed = changedPathsBetween(ref.remoteSha, ref.localSha);
       const impact = changed.filter((file) => matchesAny(file, config.impactGlobs));
       if (impact.length === 0) {
@@ -281,7 +406,7 @@ async function main() {
       contextBlocks.push(
         [
           `REMOTE NAME: origin`,
-          `REMOTE URL (redacted): ${redactUrl(remoteUrl)}`,
+          `REMOTE URL (redacted): (omitted)`,
           `LOCAL REF / LOCAL SHA: ${ref.localRef} / ${ref.localSha}`,
           `REMOTE REF / REMOTE SHA: ${ref.remoteRef} / ${ref.remoteSha}`,
           `CHANGED PATHS:\n${changed.map((f) => `  ${f}`).join("\n") || "  (none)"}`,
@@ -300,33 +425,37 @@ async function main() {
 
   const promptWithRefs = fixedPrompt + dynamicContext;
 
-  // Agent 执行前基线（含未跟踪文件，确保能检出新建文件）。
-  const baseline = new Set(porcelainStatus({ includeUntracked: true }));
+  // Agent 执行前同时固定未跟踪文件内容和 Git 元数据。
+  const baselineUntracked = snapshotUntrackedFiles();
+  const baselineGitMetadata = snapshotGitMetadata();
 
   const result = await runAgent(config, promptWithRefs);
   if (!result.ok) {
-    fail(1, `Agent 退出码非零 (${result.code ?? "error"}): ${result.stderr.slice(-800)}`);
+    fail(1, `Agent 退出码非零 (${result.code ?? "error"})；原始输出已抑制，避免泄露凭据。`);
   }
 
-  // Agent 执行后比较写入范围。
-  const after = porcelainStatus({ includeUntracked: true });
-  const added = after.filter((file) => !baseline.has(file));
-  const unauthorized = added.filter((file) => !matchesAny(file, config.allowedWriteGlobs));
+  if (gitMetadataChanged(baselineGitMetadata, snapshotGitMetadata())) {
+    fail(1, "Agent 修改了 HEAD、refs、index 或仓库配置；拒绝自动提交/推送链路。 ");
+  }
+
+  // Agent 执行后比较 tracked 与既存/新增未跟踪文件内容。
+  const changedByAgent = changedWorktreePaths(baselineUntracked);
+  const unauthorized = changedByAgent.filter((file) => !matchesAny(file, config.allowedWriteGlobs));
   if (unauthorized.length > 0) {
     fail(1, `Agent 越权修改允许范围之外的路径:\n${unauthorized.map((f) => `  ${f}`).join("\n")}`);
   }
 
-  if (added.length > 0) {
-    runValidationCommands(config);
+  if (changedByAgent.length > 0) {
+    runValidationCommands();
     process.stderr.write(
-      `[ai-docs-pre-push] Agent 更新了以下文档，请审查并提交后重新推送:\n${added
+      `[ai-docs-pre-push] Agent 更新了以下文档，请审查并提交后重新推送:\n${changedByAgent
         .map((f) => `  ${f}`)
         .join("\n")}\n` + "本次 push 已中止；不会自动提交，也不会自动再次推送。\n",
     );
     process.exit(2);
   }
 
-  runValidationCommands(config);
+  runValidationCommands();
   process.stderr.write("[ai-docs-pre-push] 文档已同步，校验通过，放行。\n");
   process.exit(0);
 }

@@ -17,6 +17,18 @@ if (sleepMs > 0) {
   await new Promise((resolve) => setTimeout(resolve, sleepMs));
 }
 
+if (process.env.FAKE_AGENT_ASSERT_ENV_ABSENT) {
+  const variable = process.env.FAKE_AGENT_ASSERT_ENV_ABSENT;
+  if (process.env[variable] !== undefined) {
+    process.stderr.write(`unexpected inherited env: ${variable}\n`);
+    process.exit(11);
+  }
+}
+
+if (process.env.FAKE_AGENT_STDERR) {
+  process.stderr.write(`${process.env.FAKE_AGENT_STDERR}\n`);
+}
+
 if (process.env.FAKE_AGENT_DUMP_TOKEN === "1") {
   process.stdout.write("sk-fake-token-1234567890abcdef\n");
 }

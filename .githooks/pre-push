@@ -1,7 +1,4 @@
-#!/usr/bin/env sh
-# Unitary UI pre-push hook：执行可配置 AI 文档更新合同。
-# 安装方式（显式）：npm run install:hooks 或 node scripts/install-git-hooks.mjs
-# 跳过方式：--no-verify（git 原生）或 UNITARY_AI_DOCS_HOOK=skip。
-# Hook 本身不 commit、不 push；runner 负责配置校验、agent 运行与确定性校验命令。
-set -eu
-node "$(git rev-parse --show-toplevel)/scripts/ai-docs-pre-push.mjs" "$@"
+#!/bin/sh
+# 安装：vp run hooks:install
+# 紧急跳过：UNITARY_DOCS_HOOK_SKIP=1 git push
+exec node scripts/ai-docs-pre-push.mjs "$@"

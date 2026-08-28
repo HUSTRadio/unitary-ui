@@ -87,6 +87,8 @@ function runRunner(options: RunnerOptions) {
     timeout: 90_000,
     env: {
       ...process.env,
+      NODE_ENV: "test",
+      UNITARY_DOCS_AGENT_TEST_MODE: "1",
       UNITARY_DOCS_HOOK_REPO_ROOT: options.cwd,
       UNITARY_DOCS_AGENT_CONFIG: options.configPath,
       ...options.env,
@@ -182,6 +184,18 @@ describe("docs-agent.schema.json", () => {
     ).toBe(false);
   });
 
+  it("拒绝配置覆盖固定确定性校验", () => {
+    expect(
+      validate({
+        enabled: true,
+        agent: { command: "codex", model: "m" },
+        impactGlobs: ["src/**"],
+        allowedWriteGlobs: ["docs/**"],
+        validationCommands: [["sh", "-c", "exit 0"]],
+      }),
+    ).toBe(false);
+  });
+
   it("拒绝超时越界值", () => {
     expect(
       validate({
@@ -213,6 +227,44 @@ describe("ai-docs-pre-push.mjs 配置互斥", () => {
   });
 });
 
+describe("ai-docs-pre-push.mjs 生产配置边界", () => {
+  it("非测试模式只允许固定 Codex executable/template", () => {
+    const dir = makeRepo();
+    const marker = path.join(scratchDir(), "production-marker.txt");
+    writeFileSync(
+      path.join(dir, "docs-agent.config.json"),
+      JSON.stringify({
+        enabled: true,
+        agent: {
+          command: "node",
+          codexCli: false,
+          subcommand: [FAKE_AGENT],
+          model: "fake-model",
+        },
+        impactGlobs: ["src/**"],
+        allowedWriteGlobs: ["docs/**"],
+      }),
+    );
+    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
+      cwd: dir,
+      encoding: "utf8",
+    }).stdout.trim();
+    const result = spawnSync(process.execPath, [RUNNER], {
+      cwd: dir,
+      encoding: "utf8",
+      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
+      env: {
+        ...process.env,
+        UNITARY_DOCS_HOOK_REPO_ROOT: dir,
+        FAKE_AGENT_MARKER: marker,
+      },
+    });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("Codex");
+    expect(existsSync(marker)).toBe(false);
+  });
+});
+
 describe("ai-docs-pre-push.mjs", () => {
   it("跟踪文件有未提交改动时拒绝运行", () => {
     const dir = makeRepo();
@@ -241,11 +293,9 @@ describe("ai-docs-pre-push.mjs", () => {
     expect(existsSync(marker)).toBe(false);
   });
 
-  it("Agent 无写入且校验通过时 exit 0", () => {
+  it("Agent 无写入且固定校验通过时 exit 0", () => {
     const dir = makeRepo();
-    const configPath = writeConfig(dir, {
-      validationCommands: [[process.execPath, "-e", "process.exit(0)"]],
-    });
+    const configPath = writeConfig(dir);
     const marker = path.join(scratchDir(), "marker.txt");
     const sha = spawnSync("git", ["rev-parse", "HEAD"], {
       cwd: dir,
@@ -298,11 +348,9 @@ describe("ai-docs-pre-push.mjs", () => {
     expect(log.trim().split("\n")).toHaveLength(2);
   });
 
-  it("确定性校验命令失败时拒绝放行", () => {
+  it("固定确定性校验失败时拒绝放行", () => {
     const dir = makeRepo();
-    const configPath = writeConfig(dir, {
-      validationCommands: [[process.execPath, "-e", "process.exit(7)"]],
-    });
+    const configPath = writeConfig(dir);
     const sha = spawnSync("git", ["rev-parse", "HEAD"], {
       cwd: dir,
       encoding: "utf8",
@@ -311,12 +359,13 @@ describe("ai-docs-pre-push.mjs", () => {
       cwd: dir,
       configPath,
       input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
+      env: { UNITARY_DOCS_AGENT_TEST_VALIDATION_EXIT: "7" },
     });
     expect(result.status).toBe(1);
     expect(result.stderr).toContain("确定性校验失败");
   });
 
-  it("UNITARY_DOCS_HOOK_SKIP=1 时以 exit 3 跳过并打印警告", () => {
+  it("UNITARY_DOCS_HOOK_SKIP=1 时以 exit 0 跳过并打印警告", () => {
     const dir = makeRepo();
     const configPath = writeConfig(dir);
     const marker = path.join(scratchDir(), "marker.txt");
@@ -325,9 +374,51 @@ describe("ai-docs-pre-push.mjs", () => {
       configPath,
       env: { UNITARY_DOCS_HOOK_SKIP: "1", FAKE_AGENT_MARKER: marker },
     });
-    expect(result.status).toBe(3);
+    expect(result.status).toBe(0);
     expect(result.stderr).toContain("UNITARY_DOCS_HOOK_SKIP");
     expect(existsSync(marker)).toBe(false);
+  });
+
+  it("会检测 Agent 改写执行前已存在的未跟踪文件", () => {
+    const dir = makeRepo();
+    const configPath = writeConfig(dir, { allowedWriteGlobs: ["docs/**"] });
+    writeFileSync(path.join(dir, "local.txt"), "local baseline\n");
+    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
+      cwd: dir,
+      encoding: "utf8",
+    }).stdout.trim();
+    const result = runRunner({
+      cwd: dir,
+      configPath,
+      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
+      env: { FAKE_AGENT_TOUCH: "local.txt" },
+    });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("local.txt");
+  });
+
+  it("不把父进程秘密环境传给 Agent，也不回显 Agent 原始 stderr", () => {
+    const dir = makeRepo();
+    const configPath = writeConfig(dir);
+    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
+      cwd: dir,
+      encoding: "utf8",
+    }).stdout.trim();
+    const secret = "HOOK_SECRET_SENTINEL_42";
+    const result = runRunner({
+      cwd: dir,
+      configPath,
+      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
+      env: {
+        UNSAFE_TEST_SECRET: secret,
+        FAKE_AGENT_ASSERT_ENV_ABSENT: "UNSAFE_TEST_SECRET",
+        FAKE_AGENT_STDERR: secret,
+        FAKE_AGENT_EXIT: "9",
+      },
+    });
+    expect(result.status).toBe(1);
+    expect(result.stderr).not.toContain(secret);
+    expect(result.stderr).not.toContain("unexpected inherited env");
   });
 
   it("Agent 非零退出时整体失败", () => {
@@ -396,12 +487,19 @@ describe("ai-docs-pre-push.mjs", () => {
 });
 
 describe(".githooks/pre-push", () => {
-  it("存在、引用 runner 并使用 POSIX 换行", () => {
+  it("存在、引用 runner、使用 POSIX 换行且以 executable mode 跟踪", () => {
     const hookPath = path.join(repoRoot, ".githooks", "pre-push");
     const content = readFileSync(hookPath, "utf8");
+    const indexEntry = spawnSync("git", ["ls-files", "-s", ".githooks/pre-push"], {
+      cwd: repoRoot,
+      encoding: "utf8",
+    }).stdout;
     expect(content).toContain("ai-docs-pre-push.mjs");
+    expect(content).toContain("vp run hooks:install");
+    expect(content).toContain("UNITARY_DOCS_HOOK_SKIP=1");
     expect(content).not.toContain("\r\n");
     expect(content.includes("$@") || content.includes("${1:0}")).toBe(true);
+    expect(indexEntry).toMatch(/^100755 /);
   });
 });
 
