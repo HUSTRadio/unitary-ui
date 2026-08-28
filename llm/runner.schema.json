@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "runner.schema.json",
+  "title": "Unitary UI LLM runner configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "enabled", "agent"],
+  "properties": {
+    "$schema": { "type": "string", "const": "./runner.schema.json" },
+    "enabled": { "type": "boolean" },
+    "agent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["command", "model"],
+      "properties": {
+        "command": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._-]+$"
+        },
+        "codexCli": { "type": "boolean" },
+        "subcommand": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "model": { "type": "string", "minLength": 1 },
+        "reasoningEffort": {
+          "type": "string",
+          "enum": ["minimal", "low", "medium", "high"]
+        },
+        "sandbox": {
+          "type": "string",
+          "enum": ["read-only", "workspace-write"]
+        },
+        "approvalMode": {
+          "type": "string",
+          "enum": ["approve-for-me"]
+        },
+        "ephemeral": { "type": "boolean" },
+        "timeoutMs": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 3600000
+        }
+      }
+    }
+  }
+}

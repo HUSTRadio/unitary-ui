@@ -1,0 +1,7 @@
+{
+  "$schema": "./registry.schema.json",
+  "version": 1,
+  "tasks": {
+    "docs-update": "llm/tasks/docs-update/task.json"
+  }
+}
