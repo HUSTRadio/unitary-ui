@@ -59,6 +59,14 @@ import "@/styles/index.css";
 | 审批流程    | ![审批流程](images/workflow.png)                 | —                                              |
 | 设置面板    | ![设置面板](images/settings.png)                 | —                                              |
 
+以上示例图片由 Playwright 从真实 living styleguide 与文档站生成，而非手工制作。修改组件、组合示例、主题或布局后运行：
+
+```bash
+vp run docs:readme:screenshots
+```
+
+该命令会自行启动临时预览服务，以固定的 1440×900 视口重新生成 `images/` 中 README 引用的 light/dark 截图；提交前应人工检查图片差异。
+
 ## LLM / AI agent usage
 
 以下指令文本在两个语言版本中保持英文不变，以免执行语义分叉：
@@ -78,6 +86,7 @@ pnpm dev                 # living styleguide
 vp dev docs/geist        # docs site
 pnpm test                # contract + unit tests
 pnpm typecheck
+vp run docs:readme:screenshots # regenerate README example images
 vp run docs:llm:generate # regenerate LLM corpus after docs changes
 vp run docs:llm:check    # drift check (exit 0 = no drift)
 ```
@@ -88,7 +97,7 @@ vp run docs:llm:check    # drift check (exit 0 = no drift)
 
 1. 先读 `AGENTS.md` 的 task-to-source map，定位正确的源文件
 2. 组件改动必须同步更新：组件源码、registry 条目、API 行、demo、中文描述、双语 guide
-3. 文档改动后运行 `vp run docs:llm:generate` 与合同测试
+3. 组件示例、主题或布局改动后运行 `vp run docs:readme:screenshots`，文档改动后运行 `vp run docs:llm:generate`，并执行对应合同测试
 4. 提交信息用清晰的动词短语；不使用 --no-verify 绕过 hook
 
 ## Security

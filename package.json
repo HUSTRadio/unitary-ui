@@ -56,6 +56,7 @@
     "prepublishOnly": "pnpm run build:lib && pnpm run typecheck",
     "test:docs-layout": "playwright test -c playwright.config.ts",
     "hooks:install": "node scripts/install-git-hooks.mjs",
+    "docs:readme:screenshots": "node scripts/capture-readme-screenshots.mjs",
     "docs:llm:generate": "tsx scripts/generate-llm-docs.ts",
     "docs:llm:check": "tsx scripts/generate-llm-docs.ts --check",
     "docs:agent:update": "node scripts/ai-docs-pre-push.mjs --manual"

@@ -14,6 +14,7 @@
 - **可配置 AI 文档更新合同**：`docs-agent.config.json` + JSON Schema 定义 agent CLI / 模型 / 影响范围 / 允许写入范围；固定安全合同（固定英文更新指令、不读取不传凭据、不自动提交不推送、越权写入拒绝、合法文档改动中止推送待人工审查）；`.githooks/pre-push` + 显式安装器。
 - **MIT 许可证与归属**：英文 `LICENSE`（法律权威）+ 简体中文阅读入口 `LICENSE.zh-CN.md`（非官方、非约束性）；`CREDITS.md` / `CREDITS.en.md` 与 `THIRD_PARTY_NOTICES.md` / `THIRD_PARTY_NOTICES.en.md` 双语归属与第三方声明；npm 发布清单纳入许可证与第三方声明。
 - **双语 README**：`README.md`（简体中文）与 `README.en.md`（英语）面向开源用户与 LLM，含安装、最小用例、文档入口、LLM 使用流程、贡献与安全说明。
+- **README 示例图片生成器**：`docs:readme:screenshots` 自行启动临时预览服务，通过 Playwright 以固定 1440×900 视口生成 living styleguide 与 JSON View 的双主题示例图片。
 - **文档合同测试**：组件文档完整性、双语 parity、LLM 语料导出、许可证、README/AGENTS、changelog 合同。
 - 字体度量探针 `src/lib/font-metrics.ts`（自注册 + `useFontMetrics` hook）与档位契约测试。
 - 导航壳层组件族（框架扩展）：Navbar / SidebarNav / Footer / HamburgerMenu / ExpandPanel / BottomSheet，统一 500ms cubic-bezier(0.32,0.72,0,1) 动画与 motion-reduce 降级，受控/非受控双模。

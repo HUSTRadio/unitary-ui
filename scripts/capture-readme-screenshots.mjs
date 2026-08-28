@@ -1,180 +1,198 @@
+import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
+import http from "node:http";
+import net from "node:net";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const CDP_HTTP = process.env.CDP_HTTP ?? "http://127.0.0.1:9223";
-const APP_URL = process.env.APP_URL ?? "http://localhost:5202/";
-const OUT = process.env.README_SHOTS_OUT ?? "images";
+import { chromium } from "@playwright/test";
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const OUT = path.resolve(ROOT, process.env.README_SHOTS_OUT ?? "images");
 const WIDTH = 1440;
 const HEIGHT = 900;
+const VP_COMMAND = process.platform === "win32" ? "vp.exe" : "vp";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function openTarget() {
-  const target = await (
-    await fetch(`${CDP_HTTP}/json/new?${encodeURIComponent("about:blank")}`, { method: "PUT" })
-  ).json();
-  const ws = new WebSocket(target.webSocketDebuggerUrl);
-  await new Promise((resolve, reject) => {
-    ws.addEventListener("open", resolve, { once: true });
-    ws.addEventListener("error", reject, { once: true });
-  });
-  let id = 0;
-  const pending = new Map();
-  ws.addEventListener("message", (event) => {
-    const message = JSON.parse(event.data);
-    if (!message.id || !pending.has(message.id)) return;
-    const { resolve, reject, timer } = pending.get(message.id);
-    pending.delete(message.id);
-    clearTimeout(timer);
-    if (message.error) reject(new Error(message.error.message));
-    else resolve(message.result);
-  });
-  const send = (method, params = {}, timeout = 15_000) =>
-    new Promise((resolve, reject) => {
-      const messageId = ++id;
-      const timer = setTimeout(() => {
-        pending.delete(messageId);
-        reject(new Error(`CDP timeout: ${method}`));
-      }, timeout);
-      pending.set(messageId, { resolve, reject, timer });
-      ws.send(JSON.stringify({ id: messageId, method, params }));
+async function isServerUp(url) {
+  return new Promise((resolve) => {
+    const request = http.get(url, (response) => {
+      response.resume();
+      resolve(response.statusCode !== undefined);
     });
-  return { ws, send, targetId: target.id };
-}
-
-async function evaluate(send, expression) {
-  const result = await send("Runtime.evaluate", {
-    expression,
-    awaitPromise: true,
-    returnByValue: true,
+    request.on("error", () => resolve(false));
+    request.setTimeout(2000, () => {
+      request.destroy();
+      resolve(false);
+    });
   });
-  if (result.exceptionDetails) {
-    throw new Error(result.exceptionDetails.exception?.description ?? "Runtime.evaluate failed");
+}
+
+async function findAvailablePort(startPort) {
+  for (let port = startPort; port < startPort + 100; port += 1) {
+    const available = await new Promise((resolve) => {
+      const server = net.createServer();
+      server.once("error", () => resolve(false));
+      server.listen(port, "127.0.0.1", () => server.close(() => resolve(true)));
+    });
+    if (available) return port;
   }
-  return result.result.value;
+  throw new Error(`No local preview port available in ${startPort}-${startPort + 99}`);
 }
 
-async function waitFor(send, expression, label) {
-  for (let attempt = 0; attempt < 80; attempt += 1) {
-    if (await evaluate(send, expression)) return;
-    await sleep(50);
+async function startPreview(relativeArgs, startPort) {
+  const port = await findAvailablePort(startPort);
+  const url = `http://127.0.0.1:${port}`;
+  const child = spawn(
+    VP_COMMAND,
+    [...relativeArgs, "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
+    {
+      cwd: ROOT,
+      stdio: "ignore",
+      shell: false,
+    },
+  );
+
+  const deadline = Date.now() + 120_000;
+  while (Date.now() < deadline) {
+    if (child.exitCode !== null) {
+      throw new Error(
+        `Preview exited early with code ${child.exitCode}: ${relativeArgs.join(" ")}`,
+      );
+    }
+    if (await isServerUp(url)) return { child, url };
+    await sleep(500);
   }
-  throw new Error(`Timed out waiting for ${label}`);
+
+  child.kill();
+  throw new Error(`Preview did not become ready within 120 seconds: ${url}`);
 }
 
-async function setTheme(send, theme) {
-  await evaluate(
-    send,
-    `(() => {
-      const button = document.querySelector('header [role="radio"][aria-label=${JSON.stringify(theme === "dark" ? "Dark" : "Light")}]');
-      button?.click();
-      return Boolean(button);
-    })()`,
-  );
-  await waitFor(
-    send,
-    theme === "dark"
-      ? `document.documentElement.classList.contains("dark")`
-      : `!document.documentElement.classList.contains("dark")`,
-    `${theme} theme`,
-  );
-  await sleep(100);
+function stopPreview(child) {
+  if (child && child.exitCode === null && !child.killed) child.kill();
 }
 
-async function selectPage(send, label) {
-  const found = await evaluate(
-    send,
-    `(() => {
-      const button = [...document.querySelectorAll("header nav button")]
-        .find((node) => node.textContent?.trim() === ${JSON.stringify(label)});
-      button?.click();
-      return Boolean(button);
-    })()`,
-  );
-  if (!found) throw new Error(`Navigation button not found: ${label}`);
-  await waitFor(
-    send,
-    `[...document.querySelectorAll("header nav button")].some((node) => node.textContent?.trim() === ${JSON.stringify(label)} && node.classList.contains("bg-selected"))`,
-    `page ${label}`,
-  );
-  await evaluate(send, `scrollTo(0, 0)`);
-  await sleep(100);
-}
-
-async function screenshot(send, filename) {
-  await evaluate(send, `scrollTo(0, 0)`);
-  await sleep(80);
-  const result = await send("Page.captureScreenshot", {
-    format: "png",
-    fromSurface: true,
-    captureBeyondViewport: false,
-    clip: { x: 0, y: 0, width: WIDTH, height: HEIGHT, scale: 1 },
+async function settle(page) {
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
   });
-  await fs.writeFile(path.join(OUT, filename), Buffer.from(result.data, "base64"));
+  await page.addStyleTag({
+    content:
+      "*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}",
+  });
+  await page.waitForTimeout(500);
+}
+
+async function setTheme(page, theme) {
+  const button = page
+    .locator('[data-slot="theme-switcher"] [role="radio"]')
+    .nth(theme === "dark" ? 2 : 0);
+  await button.waitFor({ state: "visible" });
+  if ((await button.getAttribute("aria-checked")) !== "true") await button.click();
+  await page.waitForFunction(
+    (expectedTheme) =>
+      document.documentElement.classList.contains("dark") === (expectedTheme === "dark"),
+    theme,
+  );
+  await settle(page);
+}
+
+async function selectStyleguidePage(page, label) {
+  const button = page.getByRole("button", { name: label, exact: true });
+  await button.click();
+  await page.waitForFunction(
+    (expectedLabel) =>
+      [...document.querySelectorAll("header nav button")].some(
+        (node) =>
+          node.textContent?.trim() === expectedLabel && node.classList.contains("bg-selected"),
+      ),
+    label,
+  );
+  await page.evaluate(() => scrollTo(0, 0));
+  await settle(page);
+}
+
+async function screenshot(page, filename) {
+  await page.evaluate(() => scrollTo(0, 0));
+  await settle(page);
+  await page.screenshot({
+    path: path.join(OUT, filename),
+    animations: "disabled",
+    fullPage: false,
+  });
+}
+
+async function captureStyleguide(browser) {
+  const preview = await startPreview(["dev"], 5202);
+  try {
+    const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT } });
+    await page.goto(preview.url, { waitUntil: "networkidle" });
+    await page.locator("header nav").waitFor({ state: "visible" });
+
+    await setTheme(page, "light");
+    await selectStyleguidePage(page, "组件总览");
+    await screenshot(page, "components-light.png");
+
+    await selectStyleguidePage(page, "表单示例");
+    await screenshot(page, "form-example.png");
+    await setTheme(page, "dark");
+    await screenshot(page, "form-dark.png");
+
+    await setTheme(page, "light");
+    await selectStyleguidePage(page, "数据表格");
+    await screenshot(page, "data-table.png");
+    const checkbox = page.locator('input[type="checkbox"][aria-label="全选"]');
+    await checkbox.click();
+    await settle(page);
+    await screenshot(page, "data-table-selected.png");
+    await checkbox.click();
+    await setTheme(page, "dark");
+    await screenshot(page, "data-table-dark.png");
+
+    await setTheme(page, "light");
+    await selectStyleguidePage(page, "审批流程");
+    await screenshot(page, "workflow.png");
+
+    await selectStyleguidePage(page, "设置面板");
+    await screenshot(page, "settings.png");
+    await page.close();
+  } finally {
+    stopPreview(preview.child);
+  }
+}
+
+async function captureJsonView(browser) {
+  const preview = await startPreview(["dev", "docs/geist"], 5212);
+  try {
+    const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT } });
+    await page.goto(`${preview.url}/?lang=zh-CN#/components/json-view`, {
+      waitUntil: "networkidle",
+    });
+    await page.locator("#main-content").waitFor({ state: "visible" });
+
+    await setTheme(page, "light");
+    await screenshot(page, "json-view-light.png");
+    await setTheme(page, "dark");
+    await screenshot(page, "json-view-dark.png");
+    await page.close();
+  } finally {
+    stopPreview(preview.child);
+  }
 }
 
 async function main() {
   await fs.mkdir(OUT, { recursive: true });
-  const { ws, send, targetId } = await openTarget();
-  await send("Page.enable");
-  await send("Runtime.enable");
-  await send("Emulation.setDeviceMetricsOverride", {
-    width: WIDTH,
-    height: HEIGHT,
-    deviceScaleFactor: 1,
-    mobile: false,
-  });
-
+  const browser = await chromium.launch();
   try {
-    await send("Page.navigate", { url: APP_URL });
-    await waitFor(
-      send,
-      `Boolean(document.querySelector("header nav") && document.querySelector("main"))`,
-      "styleguide",
-    );
-
-    await setTheme(send, "light");
-    await selectPage(send, "组件总览");
-    await screenshot(send, "components-light.png");
-
-    await selectPage(send, "表单示例");
-    await screenshot(send, "form-example.png");
-    await setTheme(send, "dark");
-    await screenshot(send, "form-dark.png");
-
-    await setTheme(send, "light");
-    await selectPage(send, "数据表格");
-    await screenshot(send, "data-table.png");
-    const selected = await evaluate(
-      send,
-      `(() => {
-        const checkbox = document.querySelector('[role="checkbox"][aria-label^="选择 "]');
-        checkbox?.click();
-        return Boolean(checkbox);
-      })()`,
-    );
-    if (!selected) throw new Error("Data table row checkbox not found");
-    await sleep(100);
-    await screenshot(send, "data-table-selected.png");
-    await evaluate(
-      send,
-      `document.querySelector('[role="checkbox"][aria-label^="选择 "]')?.click()`,
-    );
-    await setTheme(send, "dark");
-    await screenshot(send, "data-table-dark.png");
-
-    await setTheme(send, "light");
-    await selectPage(send, "审批流程");
-    await screenshot(send, "workflow.png");
-
-    await selectPage(send, "设置面板");
-    await screenshot(send, "settings.png");
+    await captureStyleguide(browser);
+    await captureJsonView(browser);
   } finally {
-    ws.close();
-    await fetch(`${CDP_HTTP}/json/close/${targetId}`, { method: "PUT" }).catch(() => undefined);
+    await browser.close();
   }
 
-  console.log(JSON.stringify({ screenshots: 8, viewport: `${WIDTH}x${HEIGHT}`, out: OUT }));
+  console.log(JSON.stringify({ screenshots: 10, viewport: `${WIDTH}x${HEIGHT}`, out: OUT }));
 }
 
 main().catch((error) => {
