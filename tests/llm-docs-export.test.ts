@@ -24,6 +24,23 @@ function readPage(rel: string): string {
 }
 
 describe("LLM docs export contract", () => {
+  it("提供双语 corpus 入口并保持独占 preview 合同", () => {
+    const zh = readFileSync(path.join(LLM_DIR, "README.md"), "utf8");
+    const en = readFileSync(path.join(LLM_DIR, "README.en.md"), "utf8");
+    const generator = readFileSync(path.join(ROOT, "scripts", "generate-llm-docs.ts"), "utf8");
+
+    expect(zh).toContain("README.en.md");
+    expect(en).toContain("README.md");
+    for (const text of [zh, en]) {
+      expect(text).toContain("index.json");
+      expect(text).toContain("docs:llm:generate");
+      expect(text).toContain("docs:llm:check");
+      expect(text).toContain("docs/geist/src/data/docs-routes.ts");
+    }
+    expect(generator).not.toContain("复用已在运行的预览服务");
+    expect(generator).toContain("findAvailablePort");
+  });
+
   it("index.json 存在且路由与 canonical registry 一一对应", () => {
     const index = readIndex();
     expect(index.schemaVersion).toBe(1);
@@ -66,9 +83,12 @@ describe("LLM docs export contract", () => {
         expect(content, `${rel} 必须含标题`).toContain(
           locale === "zh-CN" ? route.title["zh-CN"] : route.title["en-US"],
         );
-        // 垃圾痕迹检测只针对代码块之外的正文；代码示例内的 `() => undefined` 是合法内容。
+        // 垃圾痕迹检测只针对自然语言正文；代码围栏与 translate=no 的 API 类型/默认值是合法机器文本。
         // "undefined behavior" 是固定英文技术措辞，予以豁免。
-        const prose = content.replace(/```[\s\S]*?```/g, "").replace(/undefined behavior/g, "");
+        const prose = content
+          .replace(/```[\s\S]*?```/g, "")
+          .replace(/<(?:code|td)[^>]*translate="no"[^>]*>[\s\S]*?<\/(?:code|td)>/g, "")
+          .replace(/undefined behavior/g, "");
         expect(prose, `${rel} 疑似泄漏 undefined 值`).not.toMatch(/\bundefined\b/);
         expect(prose).not.toContain("data-reactroot");
         expect(content).not.toMatch(/^#+\s*$/m); // 空标题

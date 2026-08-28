@@ -3,6 +3,10 @@ import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
 
 import { COMPONENT_API } from "../docs/geist/src/data/component-api";
+import {
+  COMPONENT_GUIDES_EN,
+  COMPONENT_GUIDES_ZH,
+} from "../docs/geist/src/content/component-guides";
 import { COMPONENTS } from "../docs/geist/src/data/components";
 import { DOCS_ROUTE_GROUPS } from "../docs/geist/src/data/docs-routes";
 
@@ -19,6 +23,47 @@ describe("component API registry", () => {
         `${name} exports blank API text`,
       ).toBe(true);
     }
+  });
+
+  it("matches the real public contracts for Button, Toast, Progress, and Feedback", () => {
+    const row = (component: keyof typeof COMPONENT_API, name: string) =>
+      COMPONENT_API[component].rows.find((entry) => entry.name === name);
+
+    expect(row("button", "type")).toMatchObject({
+      type: '"default" | "secondary" | "tertiary" | "error" | "warning"',
+      defaultValue: '"default"',
+    });
+    expect(row("button", "typeName")?.defaultValue).toBe('"submit"');
+    expect(row("button", "loading")?.description).toMatch(/disabl/i);
+
+    expect(COMPONENT_API.toast.rows.map(({ name, type }) => [name, type])).toEqual([
+      ["message", "(options: ToastOptions) => number"],
+      ["success", "(text: ReactNode) => number"],
+      ["warning", "(text: ReactNode) => number"],
+      ["error", "(text: ReactNode) => number"],
+      ["dismiss", "(id: number) => void"],
+    ]);
+
+    expect(row("progress", "value")?.type).toBe("number | null");
+    expect(row("progress", "value")?.description).toContain("null");
+    expect(row("progress", "indeterminate")).toBeUndefined();
+
+    expect(COMPONENT_API.feedback.exports).toEqual(["Feedback"]);
+    expect(row("feedback", "onSubmit")?.type).toBe(
+      "(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record<string, string>) => void",
+    );
+  });
+
+  it("does not claim unsupported Button focus or runtime validation behavior", () => {
+    const buttonMetadata = COMPONENTS.find(({ name }) => name === "button");
+    const text = JSON.stringify({
+      metadata: buttonMetadata,
+      zh: COMPONENT_GUIDES_ZH.button,
+      en: COMPONENT_GUIDES_EN.button,
+    });
+
+    expect(text).not.toMatch(/stays focusable|keeps the button focusable|保持按钮可聚焦/i);
+    expect(text).not.toMatch(/validator throws|校验器会报错/i);
   });
 
   it("links the common lifecycle conventions and every component page to the registry UI", async () => {

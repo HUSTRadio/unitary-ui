@@ -26,6 +26,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import http from "node:http";
+import net from "node:net";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -38,8 +39,7 @@ import { DOCS_ROUTE_SEQUENCE, type DocsRoute } from "../docs/geist/src/data/docs
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const LLM_DIR = path.join(ROOT, "docs", "llm");
-const PORT = 5212;
-const BASE_URL = `http://127.0.0.1:${PORT}`;
+const START_PORT = 5212;
 const LOCALES = ["zh-CN", "en-US"] as const;
 type Locale = (typeof LOCALES)[number];
 
@@ -77,14 +77,26 @@ async function isServerUp(url: string): Promise<boolean> {
   });
 }
 
-async function startPreview(): Promise<{ child: ChildProcess | null; port: number }> {
-  if (await isServerUp(BASE_URL)) {
-    log(`复用已在运行的预览服务 ${BASE_URL}`);
-    return { child: null, port: PORT };
+async function findAvailablePort(startPort: number): Promise<number> {
+  for (let port = startPort; port < startPort + 100; port++) {
+    const available = await new Promise<boolean>((resolve) => {
+      const server = net.createServer();
+      server.once("error", () => resolve(false));
+      server.listen(port, "127.0.0.1", () => {
+        server.close(() => resolve(true));
+      });
+    });
+    if (available) return port;
   }
+  fail(`找不到可用的本地预览端口（${startPort}-${startPort + 99}）`);
+}
+
+async function startPreview(): Promise<{ child: ChildProcess; port: number }> {
+  const port = await findAvailablePort(START_PORT);
+  const baseUrl = `http://127.0.0.1:${port}`;
   const child = spawn(
     VP_COMMAND,
-    ["dev", "docs/geist", "--host", "127.0.0.1", "--port", String(PORT), "--strictPort"],
+    ["dev", "docs/geist", "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
     {
       cwd: ROOT,
       stdio: "ignore",
@@ -97,11 +109,17 @@ async function startPreview(): Promise<{ child: ChildProcess | null; port: numbe
   });
   const deadline = Date.now() + 120_000;
   while (Date.now() < deadline) {
-    if (await isServerUp(BASE_URL)) return { child, port: PORT };
+    if (child.exitCode !== null) {
+      fail(`预览进程提前退出（exit ${child.exitCode}，port ${port}）`);
+    }
+    if (await isServerUp(baseUrl)) {
+      log(`已启动独占预览服务 ${baseUrl}`);
+      return { child, port };
+    }
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }
   stopPreview(child);
-  fail(`预览服务在 120 秒内未就绪（${BASE_URL}）`);
+  fail(`预览服务在 120 秒内未就绪（${baseUrl}）`);
 }
 
 function stopPreview(child: ChildProcess | null): void {
@@ -207,7 +225,8 @@ interface RouteOutput {
 }
 
 async function captureAllRoutes(): Promise<RouteOutput[]> {
-  const { child } = await startPreview();
+  const { child, port } = await startPreview();
+  const baseUrl = `http://127.0.0.1:${port}`;
   const outputs: RouteOutput[] = [];
   let browser: Awaited<ReturnType<typeof chromium.launch>> | null = null;
   try {
@@ -221,7 +240,7 @@ async function captureAllRoutes(): Promise<RouteOutput[]> {
     const pagesByRoute = new Map<string, Partial<Record<Locale, string>>>();
     for (const locale of LOCALES) {
       for (const route of DOCS_ROUTE_SEQUENCE) {
-        const url = `${BASE_URL}/?lang=${locale}#${route.to}`;
+        const url = `${baseUrl}/?lang=${locale}#${route.to}`;
         await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60_000 });
         await page.waitForSelector("#main-content", { timeout: 30_000 });
         // 等待 hash 路由挂载到位（hash 变化是客户端导航，需等渲染）。

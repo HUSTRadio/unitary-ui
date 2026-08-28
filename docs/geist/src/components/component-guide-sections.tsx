@@ -97,7 +97,7 @@ export function ComponentGuideSections({ guide }: { guide: ComponentGuide }): Re
               key={example.id}
               data-guide-example={example.id}
               data-guide-demo-key={example.demoKey}
-              className="rounded-lg border border-border p-4"
+              className="min-w-0 [overflow-wrap:anywhere] rounded-lg border border-border p-4"
             >
               <h3 className="text-label-14 font-medium text-foreground">{example.title}</h3>
               <DocsParagraph className="mt-1">{example.description}</DocsParagraph>

@@ -6637,7 +6637,7 @@ function MiddleTruncateDemo() {
       data-demo-card="Examples"
     >
       <div className="w-full p-6" data-demo-container="Examples">
-        <div className="w-64 font-mono text-copy-13 text-foreground">
+        <div className="w-64 max-w-full font-mono text-copy-13 text-foreground">
           <MiddleTruncate value="https://example.com/teams/hustradio/projects/unitary-ui/deployments/latest" />
         </div>
       </div>

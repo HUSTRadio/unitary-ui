@@ -22,7 +22,7 @@ Triggers an action with configurable variants, sizes, and icons.
 
 - Don't use nonexistent type values like success/ghost/violet; pass secondary for supporting actions and error for destructive confirmations.
 - Disable a button only when the action is impossible right now; pair disabling with a Tooltip that explains why.
-- Icon-only buttons require both svgOnly and aria-label (the validator throws); the aria-label names the action and target (Copy deployment URL), not the icon.
+- Icon-only buttons require both svgOnly and aria-label. The component does not validate this at runtime, so callers must supply a label naming the action and target (Copy deployment URL), not only the icon.
 
 ## Examples
 
@@ -36,7 +36,7 @@ Places every type and size side by side as a reference table for choosing varian
 
 ### Loading
 
-Pass loading instead of swapping in a spinner so the button stays focusable and announces the busy state.
+Pass loading instead of swapping in a spinner: the native button keeps its label, shows the loading icon, and stays disabled until the caller clears loading.
 
 ### Disabled
 
@@ -48,7 +48,7 @@ Places icons before or after the label to strengthen action recognition.
 
 ## Accessibility
 
-- The loading state keeps the button focusable and announces the busy state to assistive tech, unlike a swapped-in spinner.
+- The loading state preserves the label, shows the loading icon, and disables the native button; expose progress through another readable status surface when needed.
 - Don't set aria-label on a button that already has visible text; it overrides the label and creates a screen-reader mismatch.
 - Disabled buttons need a Tooltip naming the reason; a greyed button without explanation reads as a bug.
 
@@ -284,16 +284,16 @@ Native props: `ButtonHTMLAttributes<HTMLButtonElement>`
 
 ### Props & callbacks
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"secondary" | "error"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Visual intent. The default is the primary action.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"secondary"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">typeName</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"button" | "submit" | "reset"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Native button type.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"button"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">loading</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Keeps the button focusable while announcing progress.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default" | "secondary" | "tertiary" | "error" | "warning"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Visual variant.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">typeName</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"submit" | "button" | "reset"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Native button type.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"submit"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">loading</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Shows a spinner, preserves the label, and disables the native button.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
 
 ## Best Practices
 
 - Use Button for actions that mutate state (deploy, save, delete); use ButtonLink for navigation that changes the URL. Switch to a Menu or Split Button when more than one related action shares a row.
 - Default Button is primary. Pass type="secondary" for the supporting action and type="error" for destructive confirmations. primary, success, ghost, and violet are not valid type values.
 - For form submits, use typeName="submit". The HTML type attribute lives on typeName, not on type, which controls the visual variant.
-- Pass loading instead of swapping in a spinner so the button stays focusable and announces the busy state to assistive tech.
+- Pass loading instead of swapping in a spinner: the native button keeps its label, shows the loading icon, and becomes disabled until the caller clears loading.
 - Disable a button only when the action is impossible right now (missing input, insufficient permission); pair with a Tooltip that explains why.
 - Title Case the label and name what happens: Deploy Project, Invite Member, Rotate Key. Avoid bare verbs (Submit) and generic confirms (OK, Confirm).
 - Destructive buttons follow Verb + Noun and pair 1:1 with their toast: Delete Project then Project deleted. Mode-switch buttons append Instead: Use a Recovery Code Instead.
-- Icon-only buttons require both svgOnly and aria-label; the validator throws without them. The aria-label names the action and the target (Copy deployment URL), not the icon (Copy).
+- Icon-only buttons require both svgOnly and aria-label. The caller must supply the accessible label; the component does not validate it at runtime. Name the action and target (Copy deployment URL), not only the icon (Copy).
 - Don’t set aria-label on a button that already has visible text; it overrides the label and creates a screen-reader mismatch.

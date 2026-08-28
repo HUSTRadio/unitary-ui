@@ -22,7 +22,7 @@ Button
 
 - 不要用 type="success"/"ghost"/"violet" 这类不存在的取值；辅助动作用 secondary，危险确认用 error。
 - 不要在按钮动作确实不可能发生之外的场景禁用按钮；禁用时必须配 Tooltip 说明原因。
-- 纯图标按钮必须同时提供 svgOnly 与 aria-label（校验器会报错），且 aria-label 应描述动作与目标（复制部署 URL）而非图标本身。
+- 纯图标按钮必须同时提供 svgOnly 与 aria-label；组件不会在运行时校验，调用方必须提供描述动作与目标（复制部署 URL）的标签，而不是只写图标名。
 
 ## 示例
 
@@ -36,7 +36,7 @@ Button
 
 ### 加载态
 
-用 loading 属性替代手动换 spinner：按钮保持可聚焦，并向辅助技术播报忙碌状态。
+用 loading 属性替代手动换 spinner：原生按钮保留标签、显示加载图标，并在调用方清除 loading 前保持禁用。
 
 ### 禁用态
 
@@ -48,7 +48,7 @@ Button
 
 ## 无障碍
 
-- loading 态保持按钮可聚焦并向辅助技术播报忙碌状态，优于手动替换为 spinner。
+- loading 态保留标签、显示加载图标并禁用原生按钮；调用方应在其他可读区域提供进度说明。
 - 已有可见文本的按钮不要再设置 aria-label——它会覆盖可见标签，造成屏幕阅读器不一致。
 - 禁用按钮必须配 Tooltip 说明原因，否则灰化按钮看起来像 bug。
 
@@ -284,7 +284,7 @@ import { Button, ButtonLink, CustomButton, buttonVariants } from "@/components/u
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"secondary" | "error"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">视觉语义，默认是主操作。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"secondary"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">typeName</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"button" | "submit" | "reset"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">原生按钮 type。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"button"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">loading</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">在提示加载时保持按钮可聚焦。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default" | "secondary" | "tertiary" | "error" | "warning"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">视觉变体。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">typeName</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"submit" | "button" | "reset"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">原生按钮 type。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"submit"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">loading</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">显示加载图标、保留标签，并禁用原生按钮。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
 
 ## 最佳实践
 

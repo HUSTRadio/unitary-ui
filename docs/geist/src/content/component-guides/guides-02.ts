@@ -60,7 +60,7 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
     whenNotToUse: [
       '不要用 type="success"/"ghost"/"violet" 这类不存在的取值；辅助动作用 secondary，危险确认用 error。',
       "不要在按钮动作确实不可能发生之外的场景禁用按钮；禁用时必须配 Tooltip 说明原因。",
-      "纯图标按钮必须同时提供 svgOnly 与 aria-label（校验器会报错），且 aria-label 应描述动作与目标（复制部署 URL）而非图标本身。",
+      "纯图标按钮必须同时提供 svgOnly 与 aria-label；组件不会在运行时校验，调用方必须提供描述动作与目标（复制部署 URL）的标签，而不是只写图标名。",
     ],
     examples: [
       {
@@ -82,7 +82,7 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
         kind: "stateful",
         title: "加载态",
         description:
-          "用 loading 属性替代手动换 spinner：按钮保持可聚焦，并向辅助技术播报忙碌状态。",
+          "用 loading 属性替代手动换 spinner：原生按钮保留标签、显示加载图标，并在调用方清除 loading 前保持禁用。",
         demoKey: "loading",
       },
       {
@@ -103,7 +103,7 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "loading 态保持按钮可聚焦并向辅助技术播报忙碌状态，优于手动替换为 spinner。",
+        "loading 态保留标签、显示加载图标并禁用原生按钮；调用方应在其他可读区域提供进度说明。",
         "已有可见文本的按钮不要再设置 aria-label——它会覆盖可见标签，造成屏幕阅读器不一致。",
         "禁用按钮必须配 Tooltip 说明原因，否则灰化按钮看起来像 bug。",
       ],
@@ -397,7 +397,7 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
     whenNotToUse: [
       "Don't use nonexistent type values like success/ghost/violet; pass secondary for supporting actions and error for destructive confirmations.",
       "Disable a button only when the action is impossible right now; pair disabling with a Tooltip that explains why.",
-      "Icon-only buttons require both svgOnly and aria-label (the validator throws); the aria-label names the action and target (Copy deployment URL), not the icon.",
+      "Icon-only buttons require both svgOnly and aria-label. The component does not validate this at runtime, so callers must supply a label naming the action and target (Copy deployment URL), not only the icon.",
     ],
     examples: [
       {
@@ -420,7 +420,7 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
         kind: "stateful",
         title: "Loading",
         description:
-          "Pass loading instead of swapping in a spinner so the button stays focusable and announces the busy state.",
+          "Pass loading instead of swapping in a spinner: the native button keeps its label, shows the loading icon, and stays disabled until the caller clears loading.",
         demoKey: "loading",
       },
       {
@@ -442,7 +442,7 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "The loading state keeps the button focusable and announces the busy state to assistive tech, unlike a swapped-in spinner.",
+        "The loading state preserves the label, shows the loading icon, and disables the native button; expose progress through another readable status surface when needed.",
         "Don't set aria-label on a button that already has visible text; it overrides the label and creates a screen-reader mismatch.",
         "Disabled buttons need a Tooltip naming the reason; a greyed button without explanation reads as a bug.",
       ],
