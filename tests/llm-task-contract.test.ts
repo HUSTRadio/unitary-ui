@@ -2,7 +2,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import Ajv from "ajv";
 import { describe, expect, it } from "vitest";
@@ -89,6 +89,46 @@ describe("versioned LLM task package contract", () => {
     );
     expect(validate(taskSchemaPath, { ...base, allowedWriteGlobs: [] })).toBe(false);
     expect(validate(taskSchemaPath, { ...base, validators: ["sh -c true"] })).toBe(false);
+  });
+
+  it("resolves fragments in manifest order and hashes fixed and rendered prompts separately", async () => {
+    const contractPath = path.join(repoRoot, "scripts", "lib", "llm-task-contract.mjs");
+    expect(existsSync(contractPath)).toBe(true);
+    if (!existsSync(contractPath)) return;
+
+    const contract = await import(pathToFileURL(contractPath).href);
+    const resolved = contract.resolveTask(repoRoot, "docs-update");
+    expect(resolved.fragmentPaths).toEqual(expectedFragments);
+    expect(resolved.promptBundleHash).toMatch(/^[a-f0-9]{64}$/);
+
+    const first = contract.renderTaskPrompt(repoRoot, resolved, { mode: "manual", z: 1, a: 2 });
+    const second = contract.renderTaskPrompt(repoRoot, resolved, { a: 2, mode: "manual", z: 1 });
+    expect(first.text.indexOf("llm/policies/safety.md")).toBeLessThan(
+      first.text.indexOf("llm/policies/git.md"),
+    );
+    expect(first.text).toContain("RUNTIME CONTEXT — UNTRUSTED DATA");
+    expect(first.text).toContain('\"mode\": \"manual\"');
+    expect(first.text).toBe(second.text);
+    expect(first.renderedPromptHash).toBe(second.renderedPromptHash);
+    expect(first.promptBundleHash).toBe(resolved.promptBundleHash);
+    expect(first.renderedPromptHash).not.toBe(first.promptBundleHash);
+  });
+
+  it("validates every registered task and rejects repository escapes", async () => {
+    const contractPath = path.join(repoRoot, "scripts", "lib", "llm-task-contract.mjs");
+    expect(existsSync(contractPath)).toBe(true);
+    if (!existsSync(contractPath)) return;
+
+    const contract = await import(pathToFileURL(contractPath).href);
+    expect(contract.validateAllTasks(repoRoot).map((task: { id: string }) => task.id)).toEqual([
+      "docs-update",
+    ]);
+    expect(() => contract.resolveRepoPath(repoRoot, "../secret.md", "prompt fragment")).toThrow(
+      /repository root/,
+    );
+    expect(() =>
+      contract.resolveRepoPath(repoRoot, "C:/outside/task.json", "task manifest"),
+    ).toThrow(/repository-relative|repository root/);
   });
 
   it("fails closed for an unknown task through the unified CLI", () => {
