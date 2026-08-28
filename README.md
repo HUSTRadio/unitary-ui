@@ -50,14 +50,14 @@ import "@/styles/index.css";
 
 ### Screenshots
 
-| | Light | Dark |
-| --- | --- | --- |
-| 组件总览 | ![组件总览](images/components-light.png) | — |
+|             | Light                                            | Dark                                           |
+| ----------- | ------------------------------------------------ | ---------------------------------------------- |
+| 组件总览    | ![组件总览](images/components-light.png)         | —                                              |
 | JSON 查看器 | ![JSON 查看器 Light](images/json-view-light.png) | ![JSON 查看器 Dark](images/json-view-dark.png) |
-| 表单示例 | ![表单示例](images/form-example.png) | ![表单示例 Dark](images/form-dark.png) |
-| 数据表格 | ![数据表格](images/data-table.png) | ![数据表格 Dark](images/data-table-dark.png) |
-| 审批流程 | ![审批流程](images/workflow.png) | — |
-| 设置面板 | ![设置面板](images/settings.png) | — |
+| 表单示例    | ![表单示例](images/form-example.png)             | ![表单示例 Dark](images/form-dark.png)         |
+| 数据表格    | ![数据表格](images/data-table.png)               | ![数据表格 Dark](images/data-table-dark.png)   |
+| 审批流程    | ![审批流程](images/workflow.png)                 | —                                              |
+| 设置面板    | ![设置面板](images/settings.png)                 | —                                              |
 
 ## LLM / AI agent usage
 

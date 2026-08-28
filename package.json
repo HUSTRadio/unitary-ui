@@ -2,7 +2,36 @@
   "name": "@hustradio/unitary-ui",
   "version": "0.1.0",
   "description": "Unitary — 兼容 Vercel Geist 设计系统的 React 组件库，含 token 体系、排版、材质、完整组件族与字体度量探针",
+  "keywords": [
+    "components",
+    "design-system",
+    "font-metrics",
+    "geist",
+    "react",
+    "tailwindcss",
+    "ui-kit"
+  ],
+  "homepage": "https://github.com/HUSTRadio/unitary-ui#readme",
+  "bugs": {
+    "url": "https://github.com/HUSTRadio/unitary-ui/issues"
+  },
+  "license": "MIT",
+  "author": "HUSTRadio",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HUSTRadio/unitary-ui"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "LICENSE.zh-CN.md",
+    "THIRD_PARTY_NOTICES.md",
+    "THIRD_PARTY_NOTICES.en.md"
+  ],
   "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "main": "./dist/unitary-ui.cjs",
   "module": "./dist/unitary-ui.es.js",
   "types": "./dist/types/lib/index.d.ts",
@@ -15,13 +44,6 @@
     "./styles.css": "./dist/unitary-ui.css",
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist",
-    "LICENSE",
-    "LICENSE.zh-CN.md",
-    "THIRD_PARTY_NOTICES.md",
-    "THIRD_PARTY_NOTICES.en.md"
-  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -36,10 +58,6 @@
     "docs:llm:generate": "tsx scripts/generate-llm-docs.ts",
     "docs:llm:check": "tsx scripts/generate-llm-docs.ts --check",
     "docs:agent:update": "node scripts/ai-docs-pre-push.mjs --manual"
-  },
-  "peerDependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
   },
   "dependencies": {
     "@date-fns/tz": "^1.5.0",
@@ -77,33 +95,15 @@
     "vite-plus": "^0.2.8",
     "vitest": "4.1.10"
   },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
       "version": "11.20.0",
       "onFail": "download"
     }
-  },
-  "sideEffects": [
-    "**/*.css"
-  ],
-  "keywords": [
-    "geist",
-    "design-system",
-    "react",
-    "components",
-    "tailwindcss",
-    "ui-kit",
-    "font-metrics"
-  ],
-  "author": "HUSTRadio",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/HUSTRadio/unitary-ui"
-  },
-  "bugs": {
-    "url": "https://github.com/HUSTRadio/unitary-ui/issues"
-  },
-  "homepage": "https://github.com/HUSTRadio/unitary-ui#readme"
+  }
 }

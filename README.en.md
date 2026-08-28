@@ -50,14 +50,14 @@ import "@/styles/index.css";
 
 ### Screenshots
 
-| | Light | Dark |
-| --- | --- | --- |
-| Components overview | ![Components overview](images/components-light.png) | — |
-| JSON viewer | ![JSON viewer Light](images/json-view-light.png) | ![JSON viewer Dark](images/json-view-dark.png) |
-| Form example | ![Form example](images/form-example.png) | ![Form example Dark](images/form-dark.png) |
-| Data table | ![Data table](images/data-table.png) | ![Data table Dark](images/data-table-dark.png) |
-| Workflow | ![Workflow](images/workflow.png) | — |
-| Settings panel | ![Settings panel](images/settings.png) | — |
+|                     | Light                                               | Dark                                           |
+| ------------------- | --------------------------------------------------- | ---------------------------------------------- |
+| Components overview | ![Components overview](images/components-light.png) | —                                              |
+| JSON viewer         | ![JSON viewer Light](images/json-view-light.png)    | ![JSON viewer Dark](images/json-view-dark.png) |
+| Form example        | ![Form example](images/form-example.png)            | ![Form example Dark](images/form-dark.png)     |
+| Data table          | ![Data table](images/data-table.png)                | ![Data table Dark](images/data-table-dark.png) |
+| Workflow            | ![Workflow](images/workflow.png)                    | —                                              |
+| Settings panel      | ![Settings panel](images/settings.png)              | —                                              |
 
 ## LLM / AI agent usage
 

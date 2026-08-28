@@ -17,7 +17,7 @@ describe("License contract", () => {
     const license = read("LICENSE");
     expect(license).toContain("MIT License");
     expect(license).toContain("Permission is hereby granted, free of charge");
-    expect(license).toContain("THE SOFTWARE IS PROVIDED \"AS IS\"");
+    expect(license).toContain('THE SOFTWARE IS PROVIDED "AS IS"');
     expect(license).toContain("Copyright (c) 2026 HUSTRadio");
   });
 
@@ -40,9 +40,7 @@ describe("License contract", () => {
       const readme = read(file);
       expect(readme, `${file} 应链接 ${localeLink}`).toContain(localeLink);
       expect(readme, `${file} 应链接对应语言 Credits`).toMatch(/CREDITS(\.en)?\.md/);
-      expect(readme, `${file} 应链接对应语言 Notices`).toMatch(
-        /THIRD_PARTY_NOTICES(\.en)?\.md/,
-      );
+      expect(readme, `${file} 应链接对应语言 Notices`).toMatch(/THIRD_PARTY_NOTICES(\.en)?\.md/);
       // 语言切换链接
       expect(readme, `${file} 应提供语言切换`).toMatch(/README(\.en)?\.md/);
     }

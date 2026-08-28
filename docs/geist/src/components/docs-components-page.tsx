@@ -231,7 +231,13 @@ import { useInputModality } from "@/lib/input-modality";
 
 /** mobileOnly 标注：灰色 Smartphone 图标（替代旧「仅移动端」胶囊 Badge）。 */
 function MobileOnlyMark({ language }: { language: DocsLanguage }) {
-  return <Smartphone className="size-4 text-gray-700" role="img" aria-label={demoText(language, "Mobile only")} />;
+  return (
+    <Smartphone
+      className="size-4 text-gray-700"
+      role="img"
+      aria-label={demoText(language, "Mobile only")}
+    />
+  );
 }
 
 /* ---------- Demo 容器 ---------- */
@@ -2734,7 +2740,7 @@ function ProgressDynamicColorsDemo() {
           0: "var(--color-gray-1000)",
           25: "var(--color-destructive)",
           50: "var(--color-warning)",
-          75: "#ff0080", /* 官方实测粉色原值；本地 pink 色阶无精确对应，pink-800 #d9216e 色距 53.5。 */
+          75: "#ff0080" /* 官方实测粉色原值；本地 pink 色阶无精确对应，pink-800 #d9216e 色距 53.5。 */,
           100: "var(--color-progress)",
         }}
       />
@@ -2886,7 +2892,13 @@ function DrawerModalityGuide({ pointerActive }: { pointerActive: boolean }) {
               : "order-last flex-1 rounded-[8px] border border-gray-alpha-400 bg-background-100 p-4"
           }
         >
-          <p className={card.active ? "text-copy-14 font-medium text-foreground" : "text-copy-14 text-foreground"}>
+          <p
+            className={
+              card.active
+                ? "text-copy-14 font-medium text-foreground"
+                : "text-copy-14 text-foreground"
+            }
+          >
             {card.text}
           </p>
           <p className="mt-1 text-copy-13 text-muted-foreground">{card.hint}</p>
@@ -3028,7 +3040,10 @@ function SheetDemo() {
         className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="with-side"
       >
-        <div data-slot="docs-local-scroll" className="flex w-full overflow-x-auto md:overflow-visible">
+        <div
+          data-slot="docs-local-scroll"
+          className="flex w-full overflow-x-auto md:overflow-visible"
+        >
           <div className="w-full p-6" data-demo-container="with-side">
             <div className="flex items-center justify-center gap-4">
               <Sheet modal>
@@ -3100,7 +3115,11 @@ function SnippetDemo() {
       className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
-      <div data-slot="docs-local-scroll" className="w-full overflow-x-auto p-6" data-demo-container={id}>
+      <div
+        data-slot="docs-local-scroll"
+        className="w-full overflow-x-auto p-6"
+        data-demo-container={id}
+      >
         {children}
       </div>
       <ShowCodeFooter code={demoCode(id)} />
@@ -3436,10 +3455,13 @@ function CalendarDemo({ example = "default" }: { example?: CalendarDemoExample }
         <div
           className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
           data-demo-card="sizes"
+        >
+          <div
+            data-slot="docs-local-scroll"
+            className="flex w-full overflow-x-auto md:overflow-visible"
           >
-            <div data-slot="docs-local-scroll" className="flex w-full overflow-x-auto md:overflow-visible">
-              <div className="w-full p-6" data-demo-container="sizes">
-                <div className="py-12 space-y-12">
+            <div className="w-full p-6" data-demo-container="sizes">
+              <div className="py-12 space-y-12">
                 <div>
                   <p className="text-copy-14 text-gray-900 mb-4 font-mono">small</p>
                   <div className="flex flex-wrap items-start gap-x-4 gap-y-12">{smallItems}</div>
@@ -3891,7 +3913,11 @@ function PhoneDemo() {
         className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="Composition"
       >
-        <div data-slot="docs-local-scroll" className="w-full overflow-x-auto p-6" data-demo-container="Composition">
+        <div
+          data-slot="docs-local-scroll"
+          className="w-full overflow-x-auto p-6"
+          data-demo-container="Composition"
+        >
           <Phone>
             <PhoneScreen>
               <img
@@ -3910,7 +3936,11 @@ function PhoneDemo() {
         className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="Colors"
       >
-        <div data-slot="docs-local-scroll" className="w-full overflow-x-auto p-6" data-demo-container="Colors">
+        <div
+          data-slot="docs-local-scroll"
+          className="w-full overflow-x-auto p-6"
+          data-demo-container="Colors"
+        >
           <div className="flex flex-wrap items-start justify-center gap-6">
             {(["black", "white", "mist-blue", "cosmic-orange"] as const).map((color) => (
               <div key={color} className="flex flex-col items-center gap-2">
@@ -3931,7 +3961,11 @@ function PhoneDemo() {
         className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="Dynamic Island"
       >
-        <div data-slot="docs-local-scroll" className="w-full overflow-x-auto p-6" data-demo-container="Dynamic Island">
+        <div
+          data-slot="docs-local-scroll"
+          className="w-full overflow-x-auto p-6"
+          data-demo-container="Dynamic Island"
+        >
           <Phone dynamicIsland className="w-[260px]">
             <PhoneScreen>
               <div className="flex h-full items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
@@ -3947,7 +3981,11 @@ function PhoneDemo() {
         className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="Status Bar"
       >
-        <div data-slot="docs-local-scroll" className="w-full overflow-x-auto p-6" data-demo-container="Status Bar">
+        <div
+          data-slot="docs-local-scroll"
+          className="w-full overflow-x-auto p-6"
+          data-demo-container="Status Bar"
+        >
           <div className="flex flex-wrap items-start justify-center gap-6">
             <Phone statusBar={{ time: "9:41", battery: 72 }}>
               <PhoneScreen>
@@ -3972,7 +4010,11 @@ function PhoneDemo() {
         className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="Safari Chrome"
       >
-        <div data-slot="docs-local-scroll" className="w-full overflow-x-auto p-6" data-demo-container="Safari Chrome">
+        <div
+          data-slot="docs-local-scroll"
+          className="w-full overflow-x-auto p-6"
+          data-demo-container="Safari Chrome"
+        >
           <div className="mb-4 flex justify-center gap-2">
             {(["compact", "bottom", "top"] as const).map((layout) => (
               <button
@@ -4008,7 +4050,11 @@ function PhoneDemo() {
         className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="Landscape"
       >
-        <div data-slot="docs-local-scroll" className="w-full overflow-x-auto p-6" data-demo-container="Landscape">
+        <div
+          data-slot="docs-local-scroll"
+          className="w-full overflow-x-auto p-6"
+          data-demo-container="Landscape"
+        >
           <Phone landscape dynamicIsland>
             <PhoneScreen>
               <div className="flex h-full items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
@@ -4098,13 +4144,7 @@ function SliderDemo() {
       id: "step-max",
       content: (
         <form>
-          <Slider
-            defaultValue={[20]}
-            step={10}
-            max={50}
-            marks
-            aria-label="Value in steps of 10"
-          />
+          <Slider defaultValue={[20]} step={10} max={50} marks aria-label="Value in steps of 10" />
         </form>
       ),
     },
@@ -4560,7 +4600,11 @@ function FeedbackDemo() {
       className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
-      <div data-slot="docs-local-scroll" className="w-full overflow-x-auto p-6" data-demo-container={id}>
+      <div
+        data-slot="docs-local-scroll"
+        className="w-full overflow-x-auto p-6"
+        data-demo-container={id}
+      >
         {children}
       </div>
       <ShowCodeFooter code={demoCode(id)} />
@@ -4861,7 +4905,10 @@ function ContextMenuDemo() {
         className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="default"
       >
-        <div data-slot="docs-local-scroll" className="flex w-full overflow-x-auto md:overflow-visible">
+        <div
+          data-slot="docs-local-scroll"
+          className="flex w-full overflow-x-auto md:overflow-visible"
+        >
           <div className="w-full p-6" data-demo-container="default">
             <ContextMenu>
               <ContextMenuTrigger asChild>
@@ -4883,7 +4930,10 @@ function ContextMenuDemo() {
         className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="disabled-items"
       >
-        <div data-slot="docs-local-scroll" className="flex w-full overflow-x-auto md:overflow-visible">
+        <div
+          data-slot="docs-local-scroll"
+          className="flex w-full overflow-x-auto md:overflow-visible"
+        >
           <div className="w-full p-6" data-demo-container="disabled-items">
             <ContextMenu>
               <ContextMenuTrigger asChild>
@@ -4905,7 +4955,10 @@ function ContextMenuDemo() {
         className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="link-items"
       >
-        <div data-slot="docs-local-scroll" className="flex w-full overflow-x-auto md:overflow-visible">
+        <div
+          data-slot="docs-local-scroll"
+          className="flex w-full overflow-x-auto md:overflow-visible"
+        >
           <div className="w-full p-6" data-demo-container="link-items">
             <ContextMenu>
               <ContextMenuTrigger asChild>
@@ -4927,7 +4980,10 @@ function ContextMenuDemo() {
         className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="prefix-and-suffix"
       >
-        <div data-slot="docs-local-scroll" className="flex w-full overflow-x-auto md:overflow-visible">
+        <div
+          data-slot="docs-local-scroll"
+          className="flex w-full overflow-x-auto md:overflow-visible"
+        >
           <div className="w-full p-6" data-demo-container="prefix-and-suffix">
             <div className="flex flex-col items-stretch justify-start gap-6 md:flex-row flex-initial">
               <ContextMenu>
@@ -5543,7 +5599,10 @@ function ComboboxDemo() {
         className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="sizes"
       >
-        <div data-slot="docs-local-scroll" className="flex w-full overflow-x-auto md:overflow-visible">
+        <div
+          data-slot="docs-local-scroll"
+          className="flex w-full overflow-x-auto md:overflow-visible"
+        >
           <div className="w-full p-6" data-demo-container="sizes">
             <div className="flex flex-col md:flex-row items-stretch justify-start gap-4 flex-initial">
               <Combobox
@@ -5672,7 +5731,10 @@ function ComboboxDemo() {
         className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="custom-width-input"
       >
-        <div data-slot="docs-local-scroll" className="flex w-full overflow-x-auto md:overflow-visible">
+        <div
+          data-slot="docs-local-scroll"
+          className="flex w-full overflow-x-auto md:overflow-visible"
+        >
           <div className="w-full p-6" data-demo-container="custom-width-input">
             <Combobox aria-label={searchLabel} placeholder={searchPlaceholder} width={256}>
               <ComboboxInput />
@@ -5693,7 +5755,10 @@ function ComboboxDemo() {
         className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="custom-width-list"
       >
-        <div data-slot="docs-local-scroll" className="flex w-full overflow-x-auto md:overflow-visible">
+        <div
+          data-slot="docs-local-scroll"
+          className="flex w-full overflow-x-auto md:overflow-visible"
+        >
           <div className="w-full p-6" data-demo-container="custom-width-list">
             <Combobox aria-label={searchLabel} placeholder={searchPlaceholder} width={256}>
               <ComboboxInput />
@@ -5722,7 +5787,10 @@ function ComboboxDemo() {
         className="relative mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
         data-demo-card="custom-empty-message"
       >
-        <div data-slot="docs-local-scroll" className="flex w-full overflow-x-auto md:overflow-visible">
+        <div
+          data-slot="docs-local-scroll"
+          className="flex w-full overflow-x-auto md:overflow-visible"
+        >
           <div className="w-full p-6" data-demo-container="custom-empty-message">
             <Combobox aria-label={searchLabel} placeholder={searchPlaceholder} width={256}>
               <ComboboxInput />
