@@ -81,6 +81,14 @@ async function loadConfig() {
       .join("; ");
     fail(1, `配置不符合 docs-agent.schema.json: ${details}`);
   }
+  // --sandbox 与 --approve-for-me 互斥（approve-for-me 隐含 workspace-write 沙箱）。
+  // ajv strict 模式不允许在 not 中写 required，故在代码层校验。
+  if (config.agent?.sandbox && config.agent?.approvalMode) {
+    fail(
+      1,
+      "配置错误: agent.sandbox 与 agent.approvalMode 互斥（--approve-for-me 已隐含 workspace-write 沙箱），只能配置其一。",
+    );
+  }
   return config;
 }
 
@@ -169,7 +177,9 @@ function buildAgentArgs(config, promptWithRefs) {
     const args = [...(agent.subcommand ?? ["exec"])];
     args.push("-m", agent.model);
     if (agent.reasoningEffort) args.push("-c", `model_reasoning_effort="${agent.reasoningEffort}"`);
-    if (agent.sandbox) args.push("--sandbox", agent.sandbox);
+    // --approve-for-me 自身隐含 workspace-write 沙箱，与 --sandbox 互斥；
+    // 配置同时给出两者会被 schema 拒绝，这里仍做防御。
+    if (agent.sandbox && !agent.approvalMode) args.push("--sandbox", agent.sandbox);
     if (agent.approvalMode) args.push("--approve-for-me");
     if (agent.ephemeral) args.push("--ephemeral");
     args.push("-C", ".");

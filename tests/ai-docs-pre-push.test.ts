@@ -192,6 +192,25 @@ describe("docs-agent.schema.json", () => {
   });
 });
 
+describe("ai-docs-pre-push.mjs 配置互斥", () => {
+  it("agent.sandbox 与 agent.approvalMode 同时出现时拒绝运行", () => {
+    const dir = makeRepo();
+    const configPath = writeConfig(dir, {
+      agent: {
+        command: "node",
+        codexCli: false,
+        subcommand: [FAKE_AGENT],
+        model: "fake-model",
+        sandbox: "read-only",
+        approvalMode: "approve-for-me",
+      },
+    });
+    const result = runRunner({ cwd: dir, configPath, args: ["--manual"] });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("互斥");
+  });
+});
+
 describe("ai-docs-pre-push.mjs", () => {
   it("跟踪文件有未提交改动时拒绝运行", () => {
     const dir = makeRepo();
