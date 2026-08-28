@@ -99,6 +99,10 @@ vp run docs:llm:check    # drift check (exit 0 = no drift)
 
 设计参考与第三方资产清单见 [`CREDITS.md`](./CREDITS.md)（简体中文）/ [`CREDITS.en.md`](./CREDITS.en.md)（English）。第三方代码与字体的完整许可声明见 [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) / [`THIRD_PARTY_NOTICES.en.md`](./THIRD_PARTY_NOTICES.en.md)。
 
+## 字体再分发风险
+
+npm 包会包含全部 15 个经过裁剪的 webfont 子集：JetBrains Maple Mono 9 个、OPPO Sans 4.0 3 个、HarmonyOS Sans 3 个。Maple 子集按 OFL-1.1 分发，原文随包提供为 [`OFL-1.1.txt`](./OFL-1.1.txt)。OPPO Sans 与 HarmonyOS Sans 的现有公开材料能证明其字体来源及免费商用表述，但当前无法从仍可访问的官方页面完整复现对子集化、修改和再次分发的授权链；因此二次发布 npm 包或镜像这些字体前，发布者必须自行完成法务核验并承担相应风险。需要严格、可审计许可链的下游不应直接再分发这 6 个子集。
+
 ## License
 
 MIT © 2026 HUSTRadio。简体中文阅读入口：[`LICENSE.zh-CN.md`](./LICENSE.zh-CN.md)（非官方、非约束性译文）；法律权威文本为英文 [`LICENSE`](./LICENSE)。

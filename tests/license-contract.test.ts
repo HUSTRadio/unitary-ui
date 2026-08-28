@@ -90,4 +90,27 @@ describe("License contract", () => {
     const mapleSection = combined.split("Maple Mono")[1]?.slice(0, 800) ?? "";
     expect(mapleSection, "Maple Mono 应标注 OFL 而非 MIT").toMatch(/OFL|SIL Open Font/i);
   });
+
+  it("发布包携带 Maple OFL 原文，并在 README 披露其他字体子集的许可风险", () => {
+    const ofl = read("OFL-1.1.txt");
+    expect(ofl).toContain("SIL OPEN FONT LICENSE Version 1.1");
+    expect(ofl).toContain("The Maple Mono Project Authors");
+
+    const pkg = JSON.parse(read("package.json"));
+    expect(pkg.files).toContain("OFL-1.1.txt");
+
+    for (const file of ["README.md", "README.en.md"]) {
+      const readme = read(file);
+      expect(readme).toContain("OPPO Sans");
+      expect(readme).toContain("HarmonyOS Sans");
+      expect(readme).toMatch(/风险|risk/i);
+    }
+  });
+
+  it("库构建不发布 sourcemap，并把 npm 依赖保留为外部依赖", () => {
+    const vite = read("vite.config.ts");
+    expect(vite).toContain("const dependencies = Object.keys(pkg.dependencies ?? {})");
+    expect(vite).toContain("dependencies.some");
+    expect(vite).toMatch(/sourcemap:\s*false/);
+  });
 });

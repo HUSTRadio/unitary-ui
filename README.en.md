@@ -99,6 +99,10 @@ Report security vulnerabilities through the repository's private channel; do not
 
 Design references and third-party asset inventory: [`CREDITS.en.md`](./CREDITS.en.md) (English) / [`CREDITS.md`](./CREDITS.md) (Simplified Chinese primary). Full license notices for third-party code and fonts: [`THIRD_PARTY_NOTICES.en.md`](./THIRD_PARTY_NOTICES.en.md) / [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md).
 
+## Font redistribution risk
+
+The npm package includes all 15 processed webfont subsets: nine JetBrains Maple Mono files, three OPPO Sans 4.0 files, and three HarmonyOS Sans files. The Maple subsets are distributed under OFL-1.1, whose full text ships as [`OFL-1.1.txt`](./OFL-1.1.txt). Available public material establishes the origin and free-commercial-use statements for OPPO Sans and HarmonyOS Sans, but the current official pages do not provide a reproducible, complete authorization chain for subsetting, modification, and onward redistribution. Anyone republishing the npm package or mirroring these fonts must perform their own legal review and accepts that risk. Downstreams requiring a strict, auditable license chain should not redistribute those six subsets unchanged.
+
 ## License
 
 MIT © 2026 HUSTRadio. The legally authoritative text is the English [`LICENSE`](./LICENSE); see [`LICENSE.zh-CN.md`](./LICENSE.zh-CN.md) for an unofficial, non-binding Simplified Chinese reading guide.

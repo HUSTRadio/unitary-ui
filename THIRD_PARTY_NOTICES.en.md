@@ -123,28 +123,27 @@ SOFTWARE.
 
 ## Fonts (self-hosted tiered subsets)
 
-The fonts under `public/fonts/` in this repository are tiered subsets (charset-tiered woff2 files). The build copies them into `dist/fonts/` and rewrites the CSS references to relative paths, so **these subsets are distributed with the npm package** (`files` contains `dist`). Each font's license status is listed below; **none of them are covered by this repository's MIT license**:
+All 15 tiered woff2 subsets under `public/fonts/` are copied to `dist/fonts/` and distributed with the npm package. None are covered by this repository's MIT license. The publisher has explicitly chosen to retain every processed font and disclose the differing risks below in the README.
 
 ### JetBrains Maple Mono
 
 - Source: <https://github.com/JetBrains/JetBrainsMono> / <https://github.com/subframe7536/Maple-font>
-- License: SIL Open Font License 1.1 (OFL-1.1); full text at <https://openfontlicense.org/open-font-license-official-text/>
+- License: SIL Open Font License 1.1 (OFL-1.1); copyright notices and the full license text ship as [`OFL-1.1.txt`](./OFL-1.1.txt)
 - Usage: three weights across nine tiered subsets (latin / GB2312 level-1 / level-2), for code and terminal contexts
-- OFL-1.1 permits modification, subsetting, and redistribution, provided copyright and license notices are preserved and substantially modified versions are not released under reserved font names
-- Status: license chain complete; may be distributed with the repository
+- Status: the license text ships with the package; modification, subsetting, and redistribution are permitted under OFL-1.1
 
 ### OPPO Sans 4.0
 
-- Source: <https://www.oppoweb.com/sans/> (official OPPO brand font)
-- License: OPPO official terms "free for commercial use" (no public download channel provided by OPPO)
-- Usage: three tiered subsets (l1/l2/l3 variable fonts)
-- Status: subsets hosted solely on OPPO's public "free for commercial use" statement; full fonts must be obtained by users from OPPO's official channels. Distribution compliance depends on those official terms and must be confirmed by users
+- Source: official OPPO brand font; the previously public page is no longer available, and no reproducible official public download/license page is currently known
+- License evidence: retained official “free for commercial use” statement
+- Usage: three tiered variable-font subsets (l1/l2/l3) ship with the npm package
+- Risk: available public evidence does not fully cover subsetting, modification, and onward redistribution; republishers must perform their own legal review
 
 ### HarmonyOS Sans
 
-- Source: <https://developer.huawei.com/consumer/cn/design/HarmonyOS-Sans/>
-- License: HarmonyOS Font License (free for commercial use; modification, subsetting, and redistribution permitted)
-- Usage: SC Simplified / TC Traditional variable fonts (woff2-variations) and tiered subsets as the fallback tier for `data-font-tier="hmos"`
-- Status: redistributed under the official font license
+- Official resource page: <https://developer.huawei.com/consumer/en/design/resource>
+- License statement: HarmonyOS Font License (free for commercial use; modification, subsetting, and redistribution permitted)
+- Usage: three SC Simplified / TC Traditional tiered subsets ship with the npm package
+- Risk: the current resource page does not provide a license text fixed in this repository or a complete reproducible authorization chain; republishers must perform their own legal review
 
-> If a later audit finds that redistribution rights for any font cannot be confirmed from its official license, mark it BLOCKED and exclude it from the distribution list instead of assuming it is usable.
+> Downstreams requiring a strict, auditable license chain should not directly redistribute these six OPPO Sans and HarmonyOS Sans subsets.
