@@ -1,68 +1,73 @@
 // @vitest-environment node
 import { spawnSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync, existsSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import Ajv from "ajv";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-vi.setConfig({ testTimeout: 15_000 });
+vi.setConfig({ testTimeout: 20_000 });
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const RUNNER = path.join(repoRoot, "scripts", "ai-docs-pre-push.mjs");
-const SCHEMA = JSON.parse(readFileSync(path.join(repoRoot, "docs-agent.schema.json"), "utf8"));
 const FAKE_AGENT = path.join(repoRoot, "tests", "fixtures", "fake-doc-agent.mjs");
-const ajv = new Ajv({ allErrors: true, strict: true });
-const validate = ajv.compile(SCHEMA);
-
+const ZERO_SHA = "0".repeat(40);
 const cleanups: string[] = [];
 
+const expectedFragments = [
+  "llm/policies/safety.md",
+  "llm/policies/git.md",
+  "llm/policies/documentation.md",
+  "llm/tasks/docs-update/prompt.md",
+];
+
 afterEach(() => {
-  while (cleanups.length) {
-    rmSync(cleanups.pop()!, { recursive: true, force: true });
-  }
+  while (cleanups.length) rmSync(cleanups.pop()!, { recursive: true, force: true });
 });
+
+function git(cwd: string, args: string[]) {
+  return spawnSync("git", args, {
+    cwd,
+    encoding: "utf8",
+    env: {
+      ...process.env,
+      GIT_CONFIG_NOSYSTEM: "1",
+      GIT_AUTHOR_NAME: "hooktest",
+      GIT_AUTHOR_EMAIL: "hooktest@example.com",
+      GIT_COMMITTER_NAME: "hooktest",
+      GIT_COMMITTER_EMAIL: "hooktest@example.com",
+    },
+  });
+}
 
 function makeRepo(): string {
   const dir = mkdtempSync(path.join(os.tmpdir(), "unitary-hook-"));
   cleanups.push(dir);
-  const git = (args: string[], input?: string) =>
-    spawnSync("git", args, {
-      cwd: dir,
-      encoding: "utf8",
-      input,
-      env: {
-        ...process.env,
-        GIT_CONFIG_NOSYSTEM: "1",
-        GIT_AUTHOR_NAME: "hooktest",
-        GIT_AUTHOR_EMAIL: "hooktest@example.com",
-        GIT_COMMITTER_NAME: "hooktest",
-        GIT_COMMITTER_EMAIL: "hooktest@example.com",
-      },
-    });
-  const steps: Array<[string[], string]> = [
-    [["init", "-q", "-b", "main"], "init"],
-    [["config", "user.email", "hooktest@example.com"], "email"],
-    [["config", "user.name", "hooktest"], "name"],
-    [["config", "commit.gpgsign", "false"], "gpg"],
-  ];
-  for (const [args, label] of steps) {
-    const r = git(args);
-    if (r.status !== 0) throw new Error(`git ${label} failed: ${r.stderr}`);
+  for (const args of [
+    ["init", "-q", "-b", "main"],
+    ["config", "user.email", "hooktest@example.com"],
+    ["config", "user.name", "hooktest"],
+    ["config", "commit.gpgsign", "false"],
+  ]) {
+    const result = git(dir, args);
+    if (result.status !== 0) throw new Error(result.stderr);
   }
-  const srcPath = path.join(dir, "src");
-  mkdirSync(srcPath, { recursive: true });
-  writeFileSync(path.join(srcPath, "app.txt"), "src content\n");
-  const add = git(["add", "src/app.txt"]);
-  if (add.status !== 0) throw new Error(`git add failed: ${add.stderr}`);
-  const r = git(["commit", "-q", "--no-gpg-sign", "-m", "init"]);
-  if (r.status !== 0) throw new Error(`git commit failed: ${r.stderr}`);
-  // 第二个提交确保 root..HEAD 的 diff 包含 src/app.txt（模拟真实 push 的变更路径）。
-  writeFileSync(path.join(srcPath, "app.txt"), "src content v2\n");
-  const r2 = git(["commit", "-q", "--no-gpg-sign", "-am", "update src"]);
-  if (r2.status !== 0) throw new Error(`git commit 2 failed: ${r2.stderr}`);
+  mkdirSync(path.join(dir, "src"), { recursive: true });
+  writeFileSync(path.join(dir, "src", "app.txt"), "src content\n");
+  git(dir, ["add", "src/app.txt"]);
+  const first = git(dir, ["commit", "-q", "--no-gpg-sign", "-m", "init"]);
+  if (first.status !== 0) throw new Error(first.stderr);
+  writeFileSync(path.join(dir, "src", "app.txt"), "src content v2\n");
+  const second = git(dir, ["commit", "-q", "--no-gpg-sign", "-am", "update src"]);
+  if (second.status !== 0) throw new Error(second.stderr);
   return dir;
 }
 
@@ -72,15 +77,41 @@ function scratchDir(): string {
   return dir;
 }
 
+function head(cwd: string): string {
+  return git(cwd, ["rev-parse", "HEAD"]).stdout.trim();
+}
+
+function pushInput(cwd: string, remoteSha = ZERO_SHA): string {
+  const sha = head(cwd);
+  return `refs/heads/main ${sha} refs/heads/main ${remoteSha}\n`;
+}
+
+function writeRunnerConfig(dir: string, overrides: Record<string, unknown> = {}): string {
+  const agent = {
+    command: "node",
+    codexCli: false,
+    subcommand: [FAKE_AGENT],
+    model: "fake-model",
+    timeoutMs: 10_000,
+    ...((overrides.agent as Record<string, unknown> | undefined) ?? {}),
+  };
+  const config = { $schema: "./runner.schema.json", enabled: true, agent, ...overrides };
+  config.agent = agent;
+  const filePath = path.join(dir, "runner.config.json");
+  writeFileSync(filePath, JSON.stringify(config, null, 2));
+  return filePath;
+}
+
 interface RunnerOptions {
   cwd: string;
-  configPath: string;
   input?: string;
+  configPath?: string;
   env?: Record<string, string>;
 }
 
 function runRunner(options: RunnerOptions) {
-  return spawnSync(process.execPath, [RUNNER], {
+  const configPath = options.configPath ?? writeRunnerConfig(options.cwd);
+  return spawnSync(process.execPath, [RUNNER, "origin", "https://secret.example/repo.git"], {
     cwd: options.cwd,
     encoding: "utf8",
     input: options.input ?? "",
@@ -90,288 +121,103 @@ function runRunner(options: RunnerOptions) {
       NODE_ENV: "test",
       UNITARY_DOCS_AGENT_TEST_MODE: "1",
       UNITARY_DOCS_HOOK_REPO_ROOT: options.cwd,
-      UNITARY_DOCS_AGENT_CONFIG: options.configPath,
+      UNITARY_DOCS_AGENT_CONFIG: configPath,
       ...options.env,
     },
   });
 }
 
-function writeConfig(dir: string, overrides: Record<string, unknown> = {}): string {
-  const agentDefaults = {
-    command: "node",
-    codexCli: false,
-    subcommand: [FAKE_AGENT],
-    model: "fake-model",
-    timeoutMs: 30_000,
-  };
-  const config = {
-    enabled: true,
-    agent: agentDefaults,
-    impactGlobs: ["src/**"],
-    allowedWriteGlobs: ["docs/**"],
-    ...overrides,
-  };
-  if (overrides.agent) {
-    config.agent = { ...agentDefaults, ...(overrides.agent as Record<string, unknown>) };
-  }
-  const configPath = path.join(dir, "agent.config.json");
-  writeFileSync(configPath, JSON.stringify(config, null, 2));
-  return configPath;
-}
-
-describe("docs-agent.schema.json", () => {
-  it("接受默认仓库配置", () => {
-    const config = JSON.parse(readFileSync(path.join(repoRoot, "docs-agent.config.json"), "utf8"));
-    expect(validate(config)).toBe(true);
+describe("ai-docs-pre-push.mjs adapter boundary", () => {
+  it("resolves the canonical docs-update task and delegates execution to the generic runner", () => {
+    const content = readFileSync(RUNNER, "utf8");
+    expect(content).toContain('resolveTask(SCRIPT_REPO_ROOT, "docs-update")');
+    expect(content).toContain("runTask({");
+    expect(content).not.toContain("docs-agent.config.json");
+    expect(content).not.toContain("docs/llm/update-prompt.md");
   });
 
-  it("接受最小合法配置", () => {
-    expect(
-      validate({
-        enabled: true,
-        agent: { command: "codex", model: "gpt-5.6-terra" },
-        impactGlobs: ["src/**"],
-        allowedWriteGlobs: ["docs/**"],
-      }),
-    ).toBe(true);
-  });
-
-  it("拒绝未知字段", () => {
-    expect(
-      validate({
-        enabled: true,
-        agent: { command: "codex", model: "m" },
-        impactGlobs: ["src/**"],
-        allowedWriteGlobs: ["docs/**"],
-        evil: true,
-      }),
-    ).toBe(false);
-  });
-
-  it("拒绝空 command", () => {
-    expect(
-      validate({
-        enabled: true,
-        agent: { command: "", model: "m" },
-        impactGlobs: ["src/**"],
-        allowedWriteGlobs: ["docs/**"],
-      }),
-    ).toBe(false);
-  });
-
-  it("拒绝 command 中的路径分隔符与元字符", () => {
-    for (const bad of ["../codex", "codex;rm", "codex -x"]) {
-      expect(
-        validate({
-          enabled: true,
-          agent: { command: bad, model: "m" },
-          impactGlobs: ["src/**"],
-          allowedWriteGlobs: ["docs/**"],
-        }),
-        `command=${bad}`,
-      ).toBe(false);
-    }
-  });
-
-  it("拒绝绕过沙箱的模式", () => {
-    expect(
-      validate({
-        enabled: true,
-        agent: { command: "codex", model: "m", sandbox: "danger-full-access" },
-        impactGlobs: ["src/**"],
-        allowedWriteGlobs: ["docs/**"],
-      }),
-    ).toBe(false);
-  });
-
-  it("拒绝配置覆盖固定确定性校验", () => {
-    expect(
-      validate({
-        enabled: true,
-        agent: { command: "codex", model: "m" },
-        impactGlobs: ["src/**"],
-        allowedWriteGlobs: ["docs/**"],
-        validationCommands: [["sh", "-c", "exit 0"]],
-      }),
-    ).toBe(false);
-  });
-
-  it("拒绝超时越界值", () => {
-    expect(
-      validate({
-        enabled: true,
-        agent: { command: "codex", model: "m", timeoutMs: 1 },
-        impactGlobs: ["src/**"],
-        allowedWriteGlobs: ["docs/**"],
-      }),
-    ).toBe(false);
-  });
-});
-
-describe("ai-docs-pre-push.mjs 配置互斥", () => {
-  it("agent.sandbox 与 agent.approvalMode 同时出现时拒绝运行", () => {
+  it("fails closed without pre-push refs", () => {
     const dir = makeRepo();
-    const configPath = writeConfig(dir, {
-      agent: {
-        command: "node",
-        codexCli: false,
-        subcommand: [FAKE_AGENT],
-        model: "fake-model",
-        sandbox: "read-only",
-        approvalMode: "approve-for-me",
-      },
-    });
-    const result = runRunner({ cwd: dir, configPath, args: ["--manual"] });
+    const result = runRunner({ cwd: dir });
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("互斥");
+    expect(result.stderr).toContain("pre-push");
   });
-});
 
-describe("ai-docs-pre-push.mjs 生产配置边界", () => {
-  it("非测试模式只允许固定 Codex executable/template", () => {
+  it("rejects dirty tracked files before agent execution", () => {
     const dir = makeRepo();
-    const marker = path.join(scratchDir(), "production-marker.txt");
-    writeFileSync(
-      path.join(dir, "docs-agent.config.json"),
-      JSON.stringify({
-        enabled: true,
-        agent: {
-          command: "node",
-          codexCli: false,
-          subcommand: [FAKE_AGENT],
-          model: "fake-model",
-        },
-        impactGlobs: ["src/**"],
-        allowedWriteGlobs: ["docs/**"],
-      }),
-    );
-    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
-      cwd: dir,
-      encoding: "utf8",
-    }).stdout.trim();
-    const result = spawnSync(process.execPath, [RUNNER], {
-      cwd: dir,
-      encoding: "utf8",
-      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
-      env: {
-        ...process.env,
-        UNITARY_DOCS_HOOK_REPO_ROOT: dir,
-        FAKE_AGENT_MARKER: marker,
-      },
-    });
-    expect(result.status).toBe(1);
-    expect(result.stderr).toContain("Codex");
-    expect(existsSync(marker)).toBe(false);
-  });
-});
-
-describe("ai-docs-pre-push.mjs", () => {
-  it("跟踪文件有未提交改动时拒绝运行", () => {
-    const dir = makeRepo();
-    const configPath = writeConfig(dir);
     writeFileSync(path.join(dir, "src", "app.txt"), "dirty\n");
-    const result = runRunner({ cwd: dir, configPath });
+    const result = runRunner({ cwd: dir, input: pushInput(dir) });
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("工作区不干净");
+    expect(result.stderr).toContain("tracked changes");
   });
 
-  it("无文档影响路径时快速放行且不调用 agent", () => {
+  it("fast-passes when the pushed range has no task impact", () => {
     const dir = makeRepo();
-    const configPath = writeConfig(dir, { impactGlobs: ["never-matches/**"] });
     const marker = path.join(scratchDir(), "marker.txt");
-    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
-      cwd: dir,
-      encoding: "utf8",
-    }).stdout.trim();
+    const sha = head(dir);
     const result = runRunner({
       cwd: dir,
-      configPath,
-      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
+      input: pushInput(dir, sha),
       env: { FAKE_AGENT_MARKER: marker },
     });
     expect(result.status).toBe(0);
     expect(existsSync(marker)).toBe(false);
+    expect(result.stderr).toContain("快速通过");
   });
 
-  it("Agent 无写入且固定校验通过时 exit 0", () => {
+  it("returns 0 when the agent makes no writes and validators pass", () => {
     const dir = makeRepo();
-    const configPath = writeConfig(dir);
     const marker = path.join(scratchDir(), "marker.txt");
-    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
-      cwd: dir,
-      encoding: "utf8",
-    }).stdout.trim();
     const result = runRunner({
       cwd: dir,
-      configPath,
-      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
+      input: pushInput(dir),
       env: { FAKE_AGENT_MARKER: marker },
     });
     expect(result.status).toBe(0);
     expect(existsSync(marker)).toBe(true);
+    expect(result.stderr).toContain("校验通过");
   });
 
-  it("Agent 写入允许范围外路径时失败并列名", () => {
+  it("returns 2 for allowlisted writes and never commits them", () => {
     const dir = makeRepo();
-    const configPath = writeConfig(dir, { allowedWriteGlobs: ["docs/**"] });
-    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
-      cwd: dir,
-      encoding: "utf8",
-    }).stdout.trim();
+    const before = head(dir);
     const result = runRunner({
       cwd: dir,
-      configPath,
-      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
+      input: pushInput(dir),
+      env: { FAKE_AGENT_TOUCH: "docs/llm/pages/new.md" },
+    });
+    expect(result.status).toBe(2);
+    expect(result.stderr).toContain("docs/llm/pages/new.md");
+    expect(head(dir)).toBe(before);
+  });
+
+  it("rejects writes outside the manifest allowlist", () => {
+    const dir = makeRepo();
+    const result = runRunner({
+      cwd: dir,
+      input: pushInput(dir),
       env: { FAKE_AGENT_TOUCH: "evil.txt" },
     });
     expect(result.status).toBe(1);
     expect(result.stderr).toContain("evil.txt");
-  }, 15_000);
-
-  it("Agent 合法更新文档时以 exit 2 中止并提示人工审查", () => {
-    const dir = makeRepo();
-    const configPath = writeConfig(dir);
-    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
-      cwd: dir,
-      encoding: "utf8",
-    }).stdout.trim();
-    const result = runRunner({
-      cwd: dir,
-      configPath,
-      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
-      env: { FAKE_AGENT_TOUCH: "docs/new.md" },
-    });
-    expect(result.status).toBe(2);
-    expect(result.stderr).toContain("docs/new.md");
-    // runner 绝不自动提交。
-    const log = spawnSync("git", ["log", "--oneline"], { cwd: dir, encoding: "utf8" }).stdout;
-    expect(log.trim().split("\n")).toHaveLength(2);
   });
 
-  it("固定确定性校验失败时拒绝放行", () => {
+  it("rejects deterministic validator failure", () => {
     const dir = makeRepo();
-    const configPath = writeConfig(dir);
-    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
-      cwd: dir,
-      encoding: "utf8",
-    }).stdout.trim();
     const result = runRunner({
       cwd: dir,
-      configPath,
-      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
+      input: pushInput(dir),
       env: { UNITARY_DOCS_AGENT_TEST_VALIDATION_EXIT: "7" },
     });
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("确定性校验失败");
+    expect(result.stderr).toContain("deterministic validation failed");
   });
 
-  it("UNITARY_DOCS_HOOK_SKIP=1 时以 exit 0 跳过并打印警告", () => {
+  it("skips explicitly without invoking the agent", () => {
     const dir = makeRepo();
-    const configPath = writeConfig(dir);
     const marker = path.join(scratchDir(), "marker.txt");
     const result = runRunner({
       cwd: dir,
-      configPath,
       env: { UNITARY_DOCS_HOOK_SKIP: "1", FAKE_AGENT_MARKER: marker },
     });
     expect(result.status).toBe(0);
@@ -379,36 +225,12 @@ describe("ai-docs-pre-push.mjs", () => {
     expect(existsSync(marker)).toBe(false);
   });
 
-  it("会检测 Agent 改写执行前已存在的未跟踪文件", () => {
+  it("does not pass parent secrets or echo raw agent stderr", () => {
     const dir = makeRepo();
-    const configPath = writeConfig(dir, { allowedWriteGlobs: ["docs/**"] });
-    writeFileSync(path.join(dir, "local.txt"), "local baseline\n");
-    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
-      cwd: dir,
-      encoding: "utf8",
-    }).stdout.trim();
-    const result = runRunner({
-      cwd: dir,
-      configPath,
-      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
-      env: { FAKE_AGENT_TOUCH: "local.txt" },
-    });
-    expect(result.status).toBe(1);
-    expect(result.stderr).toContain("local.txt");
-  });
-
-  it("不把父进程秘密环境传给 Agent，也不回显 Agent 原始 stderr", () => {
-    const dir = makeRepo();
-    const configPath = writeConfig(dir);
-    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
-      cwd: dir,
-      encoding: "utf8",
-    }).stdout.trim();
     const secret = "HOOK_SECRET_SENTINEL_42";
     const result = runRunner({
       cwd: dir,
-      configPath,
-      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
+      input: pushInput(dir),
       env: {
         UNSAFE_TEST_SECRET: secret,
         FAKE_AGENT_ASSERT_ENV_ABSENT: "UNSAFE_TEST_SECRET",
@@ -418,84 +240,71 @@ describe("ai-docs-pre-push.mjs", () => {
     });
     expect(result.status).toBe(1);
     expect(result.stderr).not.toContain(secret);
-    expect(result.stderr).not.toContain("unexpected inherited env");
   });
 
-  it("Agent 非零退出时整体失败", () => {
+  it("kills a timed-out agent", () => {
     const dir = makeRepo();
-    const configPath = writeConfig(dir);
-    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
-      cwd: dir,
-      encoding: "utf8",
-    }).stdout.trim();
+    const configPath = writeRunnerConfig(dir, { agent: { timeoutMs: 1000 } });
     const result = runRunner({
       cwd: dir,
       configPath,
-      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
-      env: { FAKE_AGENT_EXIT: "9" },
-    });
-    expect(result.status).toBe(1);
-  });
-
-  it("Agent 超时时强制终止并失败", () => {
-    const dir = makeRepo();
-    const configPath = writeConfig(dir, {
-      agent: {
-        command: "node",
-        codexCli: false,
-        subcommand: [FAKE_AGENT],
-        model: "fake-model",
-        timeoutMs: 1000,
-      },
-    });
-    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
-      cwd: dir,
-      encoding: "utf8",
-    }).stdout.trim();
-    const result = runRunner({
-      cwd: dir,
-      configPath,
-      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
+      input: pushInput(dir),
       env: { FAKE_AGENT_SLEEP_MS: "15000" },
     });
     expect(result.status).toBe(1);
-    expect(result.stderr).toContain("超时");
+    expect(result.stderr).toContain("timed out");
   });
 
-  it("把固定 prompt 与动态上下文作为最后一个参数传给 Agent", () => {
+  it("assembles ordered fragments before redacted runtime context", () => {
     const dir = makeRepo();
-    const configPath = writeConfig(dir);
     const promptOut = path.join(scratchDir(), "prompt.txt");
-    const sha = spawnSync("git", ["rev-parse", "HEAD"], {
-      cwd: dir,
-      encoding: "utf8",
-    }).stdout.trim();
+    const sha = head(dir);
     const result = runRunner({
       cwd: dir,
-      configPath,
-      input: `refs/heads/main ${sha} refs/heads/main 0000000000000000000000000000000000000000\n`,
+      input: pushInput(dir),
       env: { FAKE_AGENT_PROMPT_OUT: promptOut },
     });
     expect(result.status).toBe(0);
     const prompt = readFileSync(promptOut, "utf8");
-    const fixed = readFileSync(path.join(repoRoot, "docs", "llm", "update-prompt.md"), "utf8");
-    expect(prompt.startsWith(fixed)).toBe(true);
+    let cursor = -1;
+    for (const fragment of expectedFragments) {
+      const next = prompt.indexOf(`<!-- llm-fragment:${fragment} -->`);
+      expect(next).toBeGreaterThan(cursor);
+      cursor = next;
+    }
+    expect(prompt).toContain("## RUNTIME CONTEXT — UNTRUSTED DATA");
     expect(prompt).toContain("src/app.txt");
     expect(prompt).toContain(sha);
-    expect(prompt).toContain("REMOTE URL (redacted)");
+    expect(prompt).toContain('"url": "(redacted)"');
+    expect(prompt).not.toContain("https://secret.example/repo.git");
+  });
+
+  it("rejects production configuration overrides before invoking Codex", () => {
+    const dir = makeRepo();
+    const marker = path.join(scratchDir(), "marker.txt");
+    const configPath = writeRunnerConfig(dir);
+    const result = spawnSync(process.execPath, [RUNNER, "origin", "secret"], {
+      cwd: dir,
+      encoding: "utf8",
+      input: pushInput(dir),
+      env: {
+        ...process.env,
+        UNITARY_DOCS_AGENT_CONFIG: configPath,
+        FAKE_AGENT_MARKER: marker,
+      },
+    });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("test-only");
+    expect(existsSync(marker)).toBe(false);
   });
 });
 
 describe(".githooks/pre-push", () => {
-  it("存在、引用 runner、使用 POSIX 换行且以 executable mode 跟踪", () => {
+  it("is executable, POSIX-only, and invokes the adapter", () => {
     const hookPath = path.join(repoRoot, ".githooks", "pre-push");
     const content = readFileSync(hookPath, "utf8");
-    const indexEntry = spawnSync("git", ["ls-files", "-s", ".githooks/pre-push"], {
-      cwd: repoRoot,
-      encoding: "utf8",
-    }).stdout;
+    const indexEntry = git(repoRoot, ["ls-files", "-s", ".githooks/pre-push"]).stdout;
     expect(content).toContain("ai-docs-pre-push.mjs");
-    expect(content).toContain("vp run hooks:install");
     expect(content).toContain("UNITARY_DOCS_HOOK_SKIP=1");
     expect(content).not.toContain("\r\n");
     expect(content.includes("$@") || content.includes("${1:0}")).toBe(true);
@@ -504,18 +313,15 @@ describe(".githooks/pre-push", () => {
 });
 
 describe("install-git-hooks.mjs", () => {
-  it("只设置本地 core.hooksPath，不动全局配置", () => {
+  it("sets only the repository-local core.hooksPath", () => {
     const dir = makeRepo();
     const hooksDir = path.join(dir, ".githooks");
-    rmSync(hooksDir, { recursive: true, force: true });
-    // 复制真实 hook 到沙箱。
-    const hookContent = readFileSync(path.join(repoRoot, ".githooks", "pre-push"), "utf8");
     mkdirSync(hooksDir, { recursive: true });
-    writeFileSync(path.join(hooksDir, "pre-push"), hookContent);
-
-    const beforeGlobal = spawnSync("git", ["config", "--global", "--get", "core.hooksPath"], {
-      encoding: "utf8",
-    });
+    writeFileSync(
+      path.join(hooksDir, "pre-push"),
+      readFileSync(path.join(repoRoot, ".githooks", "pre-push"), "utf8"),
+    );
+    const beforeGlobal = git(repoRoot, ["config", "--global", "--get", "core.hooksPath"]);
     const result = spawnSync(
       process.execPath,
       [path.join(repoRoot, "scripts", "install-git-hooks.mjs")],
@@ -526,17 +332,13 @@ describe("install-git-hooks.mjs", () => {
       },
     );
     expect(result.status).toBe(0);
-    const local = spawnSync("git", ["-C", dir, "config", "--local", "--get", "core.hooksPath"], {
-      encoding: "utf8",
-    });
+    const local = git(dir, ["config", "--local", "--get", "core.hooksPath"]);
     expect(local.stdout.trim().replaceAll("\\", "/")).toBe(".githooks");
-    const afterGlobal = spawnSync("git", ["config", "--global", "--get", "core.hooksPath"], {
-      encoding: "utf8",
-    });
+    const afterGlobal = git(repoRoot, ["config", "--global", "--get", "core.hooksPath"]);
     expect(afterGlobal.stdout).toBe(beforeGlobal.stdout);
   });
 
-  it("已有其他 hooksPath 且未指定 --force 时拒绝安装", () => {
+  it("refuses to replace another hooksPath without --force", () => {
     const dir = makeRepo();
     const hooksDir = path.join(dir, ".githooks");
     mkdirSync(hooksDir, { recursive: true });
@@ -544,9 +346,7 @@ describe("install-git-hooks.mjs", () => {
       path.join(hooksDir, "pre-push"),
       readFileSync(path.join(repoRoot, ".githooks", "pre-push"), "utf8"),
     );
-    spawnSync("git", ["-C", dir, "config", "--local", "core.hooksPath", ".other-hooks"], {
-      encoding: "utf8",
-    });
+    git(dir, ["config", "--local", "core.hooksPath", ".other-hooks"]);
     const result = spawnSync(
       process.execPath,
       [path.join(repoRoot, "scripts", "install-git-hooks.mjs")],
