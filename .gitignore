@@ -22,7 +22,6 @@ dist/
 .plans/
 .plan/
 .superpowers/
-AGENTS.md
 
 # Playwright artifacts
 playwright-report/

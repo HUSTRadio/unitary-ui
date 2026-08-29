@@ -1,0 +1,97 @@
+# 文件树
+
+> Route: `/components/file-tree`
+
+显示带可展开文件夹和文件的层级目录结构。
+
+[返回组件](#/components)
+
+# 文件树
+
+File Tree
+
+显示带可展开文件夹和文件的层级目录结构。
+
+## 何时使用
+
+- 需要在文档、示例或预览面板中展示项目的文件或目录层级结构时使用。
+- 当用户需要展开/折叠文件夹来浏览多层级文件系统，且结构是只读的展示用途时。
+- 在技术文档中演示项目结构、配置文件位置或生成结果的层次关系。
+
+## 何时不应使用
+
+- 不要用于需要交互式文件操作（重命名、删除、上传）的场景——应使用专门的 File Manager 组件。
+- 当文件数量极大（数百以上）时，考虑使用分页或懒加载的文件浏览器而非一次性渲染整棵树。
+- 扁平化的单一文件展示不需要 File Tree——直接使用 CodeBlock 或 Snippet 即可。
+
+## 示例
+
+### 默认文件树
+
+展示默认样式的文件树组件，包含可展开的文件夹节点和文件图标。
+
+## 无障碍
+
+- 每个可展开的文件夹节点应使用 button 元素并维护 aria-expanded 状态，以便屏幕阅读器识别当前展开/折叠状态。
+- 文件树内的导航应支持键盘方向键（上下移动焦点，左右展开/折叠），确保无鼠标用户的可用性。
+- 文件名称文本应作为焦点元素的唯一可读标签，避免依赖颜色或图标传递有意义的信息。
+
+## 受控行为
+
+- 展开/折叠状态可通过 expandable 属性外部控制，支持编程式地展开特定节点。
+- 选中节点（如有选框功能）可通过 controlled 属性同步外部状态变化，实现多选或联动。
+- 调用方可通过回调事件监听节点的展开和折叠操作，用于持久化树的展开状态。
+
+## 响应式行为
+
+- 在窄屏上文件树可能启用水平滚动以容纳过长的文件名，同时保持缩进层级不变。
+- 文件夹展开/折叠按钮在小屏幕上增大触摸目标尺寸以确保手指操作的可靠性。
+- 文件树容器支持 overflow-auto 行为，大尺寸的长路径不会撑破布局边界。
+
+## 主题行为
+
+- 文件图标和文件夹图标的颜色随主题变量变化，在暗色/亮色模式下保证可见性。
+- 选中态的高亮颜色和悬停状态的背景色遵循应用的主题色彩规范，包括焦点指示器的对比度。
+
+## 实时示例
+
+- - main.tsx
+
+  - dashboard.tsx
+
+- public
+
+```tsx
+import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@/components/ui/file-tree";
+
+<div className="w-full max-w-xs">
+  <FileTree>
+    <FileTreeItem>
+      <FileTreeIcon type="folder-open" />
+      <FileTreeLabel>app</FileTreeLabel>
+      <FileTreeItem>
+        <FileTreeIcon type="file" />
+        <FileTreeLabel>main.tsx</FileTreeLabel>
+      </FileTreeItem>
+    </FileTreeItem>
+    <FileTreeItem>
+      <FileTreeIcon type="folder" />
+      <FileTreeLabel>public</FileTreeLabel>
+    </FileTreeItem>
+  </FileTree>
+</div>;
+```
+
+## API 参考
+
+此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+
+导入
+
+```tsx
+import { FileTree, FileTreeItem, FileTreeLabel, FileTreeIcon } from "@/components/ui/file-tree";
+```
+
+### 属性与回调
+
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">open</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string[]</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">受控展开节点 ID。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultOpen</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string[]</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">初始展开节点 ID。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onOpenChange</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(ids: string[]) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">接收展开节点 ID。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>

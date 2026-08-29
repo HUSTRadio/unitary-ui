@@ -1,0 +1,1321 @@
+{
+  "schemaVersion": 1,
+  "framework": "Unitary UI",
+  "primaryLocale": "zh-CN",
+  "alternativeLocales": ["en-US"],
+  "canonicalSource": "docs/geist/src/data/docs-routes.ts",
+  "routes": [
+    {
+      "path": "/",
+      "title": {
+        "zh-CN": "介绍",
+        "en-US": "Introduction"
+      },
+      "category": "foundations",
+      "locales": {
+        "zh-CN": "pages/zh-CN/introduction.md",
+        "en-US": "pages/en-US/introduction.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:91e620db808dd4328c581ffd89179377567faddf66bafeb0b715c0eb322d6bc0",
+        "en-US": "sha256:5aa4579b6f27d6de28964d3625ac3fa2ec510aba35dce241b3c306324a293d50"
+      }
+    },
+    {
+      "path": "/icons",
+      "title": {
+        "zh-CN": "图标",
+        "en-US": "Icons"
+      },
+      "category": "foundations",
+      "locales": {
+        "zh-CN": "pages/zh-CN/icons.md",
+        "en-US": "pages/en-US/icons.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:dc4f77ef569f06d261ed77f2d0de6821be2086884d258d24b6e285c842890c94",
+        "en-US": "sha256:3ac13577197a907db40e0b952ecee230977a3dab1501bbc5d087df16e6daf24b"
+      }
+    },
+    {
+      "path": "/colors",
+      "title": {
+        "zh-CN": "颜色",
+        "en-US": "Colors"
+      },
+      "category": "foundations",
+      "locales": {
+        "zh-CN": "pages/zh-CN/colors.md",
+        "en-US": "pages/en-US/colors.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:77be47f183602e8f0fa3a1eebd4311ae1e04315151164109c87924d820da9603",
+        "en-US": "sha256:a32c46f6b2c74c6409192e56270cbafa11b183ad1f37ef18004154794b8fdb9b"
+      }
+    },
+    {
+      "path": "/typography",
+      "title": {
+        "zh-CN": "排版",
+        "en-US": "Typography"
+      },
+      "category": "foundations",
+      "locales": {
+        "zh-CN": "pages/zh-CN/typography.md",
+        "en-US": "pages/en-US/typography.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:22ad904b524cad7222943e318863e6d25aa9de0f648ac65686852f96d92ea973",
+        "en-US": "sha256:8aaf8a70d1770cf0dd16dc2bb09bdc2fdece2475584a678bf68450e94d9efffc"
+      }
+    },
+    {
+      "path": "/materials",
+      "title": {
+        "zh-CN": "材质",
+        "en-US": "Materials"
+      },
+      "category": "foundations",
+      "locales": {
+        "zh-CN": "pages/zh-CN/materials.md",
+        "en-US": "pages/en-US/materials.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:59d1560f2e1e7ef04adfe916e47fa50232c7454f8e8c5c03f166dfab20cd7f81",
+        "en-US": "sha256:ac40c7add6ddd22ab2fcd390530393a2ec5b27dac92cf8d0f6d5d592d430c4f2"
+      }
+    },
+    {
+      "path": "/grid",
+      "title": {
+        "zh-CN": "网格",
+        "en-US": "Grid"
+      },
+      "category": "foundations",
+      "locales": {
+        "zh-CN": "pages/zh-CN/grid.md",
+        "en-US": "pages/en-US/grid.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:a528356811dfb8e962eafd611cd8bc17767ad8f59103e917af2720b5b60c3418",
+        "en-US": "sha256:917bd22320e3f3f5b6a1479f0115eae5674c68243bfa286379a68571aa898bc5"
+      }
+    },
+    {
+      "path": "/lifecycle-and-hooks",
+      "title": {
+        "zh-CN": "生命周期与钩子",
+        "en-US": "Lifecycle & Hooks"
+      },
+      "category": "pattern",
+      "locales": {
+        "zh-CN": "pages/zh-CN/lifecycle-and-hooks.md",
+        "en-US": "pages/en-US/lifecycle-and-hooks.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:0208baca7b18fa1b95b103cbc3d8ced076c6b62f925b3a2c995d0e62e647d8a8",
+        "en-US": "sha256:0b29f3014547f4f387e60b87b90f4bc253f14cecaaab361b0518e0d5ab516922"
+      }
+    },
+    {
+      "path": "/components",
+      "title": {
+        "zh-CN": "组件",
+        "en-US": "Components"
+      },
+      "category": "components-index",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components.md",
+        "en-US": "pages/en-US/components.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:c0aa13fb07b5badccf9bfcc8930302aca0fcf9017e54aff88941604a117ee296",
+        "en-US": "sha256:50cc8060d58caa36a7fe564afd6183e91a98ea5028f5fc4761feb20fb4cb74ea"
+      }
+    },
+    {
+      "path": "/components/avatar",
+      "title": {
+        "zh-CN": "头像",
+        "en-US": "Avatar"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/avatar.md",
+        "en-US": "pages/en-US/components/avatar.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:cdf2210e58455c4fa351129378210c070e1095ef0c106e00fbeb5b982ae3339d",
+        "en-US": "sha256:aadbaa03d36d385f7a5034789a234a38874c5a28407025ca07d3037d2d9f73e0"
+      }
+    },
+    {
+      "path": "/components/badge",
+      "title": {
+        "zh-CN": "徽章",
+        "en-US": "Badge"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/badge.md",
+        "en-US": "pages/en-US/components/badge.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:9a4d3ec373c8901673948eb3124f58c11518b5d03ea3964986c036dca37fcfd3",
+        "en-US": "sha256:3a9cc5ba4d152f5a3d13a4ce00edf87b01d218342c847e5a14413fc3cb61361e"
+      }
+    },
+    {
+      "path": "/components/banner",
+      "title": {
+        "zh-CN": "横幅",
+        "en-US": "Banner"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/banner.md",
+        "en-US": "pages/en-US/components/banner.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:b148b142ff06f005d3559afae85584f362d100d86b0d7cfbb3de699b63acc1bc",
+        "en-US": "sha256:a1c02e0fd697408fbe9c9f84031b7e61aa0fb9c81f3a4f3325c0a1e5f3111974"
+      }
+    },
+    {
+      "path": "/components/book",
+      "title": {
+        "zh-CN": "手册",
+        "en-US": "Book"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/book.md",
+        "en-US": "pages/en-US/components/book.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:93f6c5afa7a595400e96a36deebbee2089c60566a186494a999b2c3037f9858b",
+        "en-US": "sha256:d1beeb8fd91fd2c4bcea4221cfabf729a48b7305d7f972df1540110bbcf44e75"
+      }
+    },
+    {
+      "path": "/components/breadcrumbs",
+      "title": {
+        "zh-CN": "面包屑",
+        "en-US": "Breadcrumbs"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/breadcrumbs.md",
+        "en-US": "pages/en-US/components/breadcrumbs.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:a9d172225aaa908d2c8d371f007149c294a147d571400b3ea430fb659d2dfd67",
+        "en-US": "sha256:fa8b292c4a506c0b5480e5e24c4a04a2d6735b0c4ba630e2d4a9ea3adfc8333c"
+      }
+    },
+    {
+      "path": "/components/browser",
+      "title": {
+        "zh-CN": "浏览器",
+        "en-US": "Browser"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/browser.md",
+        "en-US": "pages/en-US/components/browser.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:8ed0c49987a6a08b66b78e0d8a3b800e29bc8cd6cede2b49427afc9d8e98edaf",
+        "en-US": "sha256:d41b428732ba1494015474a5de360aa5ca51a0463a5a8a26dc1aca98ebbef696"
+      }
+    },
+    {
+      "path": "/components/button",
+      "title": {
+        "zh-CN": "按钮",
+        "en-US": "Button"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/button.md",
+        "en-US": "pages/en-US/components/button.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:26f4942bc9dfbb4fcd8da4d0be3d34e4cd5b21523548a33479ca13515c8e8e63",
+        "en-US": "sha256:6d2d141128eba2d0b04365f7b8c1cb1d6acca51b40694efb2a785f70b8c9f497"
+      }
+    },
+    {
+      "path": "/components/calendar",
+      "title": {
+        "zh-CN": "日历",
+        "en-US": "Calendar"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/calendar.md",
+        "en-US": "pages/en-US/components/calendar.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:36af0d256c001aaaf21deef6537ca8fe008fffd47d717396a580dd592cf0688e",
+        "en-US": "sha256:7ae85ebd290fcac5c7d34ab8062719f2f4bf4cdb9511ccde8f604aba2e991d7a"
+      }
+    },
+    {
+      "path": "/components/checkbox",
+      "title": {
+        "zh-CN": "复选框",
+        "en-US": "Checkbox"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/checkbox.md",
+        "en-US": "pages/en-US/components/checkbox.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:459dcc5236ae926fafb5e56ed5ef7336c626df9ffe2354c17a5c7142f0cbe9ce",
+        "en-US": "sha256:32371369f68c2b8353797082c3935ba840640bbad1d398e9ae675b51a2e33c93"
+      }
+    },
+    {
+      "path": "/components/choicebox",
+      "title": {
+        "zh-CN": "选择框",
+        "en-US": "Choicebox"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/choicebox.md",
+        "en-US": "pages/en-US/components/choicebox.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:a42aa7ca9d5fa2efd4673867a23f8cd3eac02abbf91fe910e0bdc45276aa6fa4",
+        "en-US": "sha256:5d4ae9c2cfa27f7e84d126d07076924b91657aa0deeed8a0f38853bdc20c8de6"
+      }
+    },
+    {
+      "path": "/components/clearable-input",
+      "title": {
+        "zh-CN": "可清空输入框",
+        "en-US": "Clearable Input"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/clearable-input.md",
+        "en-US": "pages/en-US/components/clearable-input.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:006619397f4d53c48c8aa80e04be09c3fbabdf1ccb1ab349e006fe8cd0240666",
+        "en-US": "sha256:1e8c87ed12ed0cb41a14e0c785715cc55ecb143de19c5d6211ab67e2c71d9e9d"
+      }
+    },
+    {
+      "path": "/components/code",
+      "title": {
+        "zh-CN": "代码",
+        "en-US": "Code"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/code.md",
+        "en-US": "pages/en-US/components/code.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:86467ed8f795b2060514dba7def5a742bbf64e98fa6dd16ffe1cc3941048c3c6",
+        "en-US": "sha256:1df2cf530ae7e97a7ec7940f2c632e3416c99b22e597f7f1678f277e07dd7a15"
+      }
+    },
+    {
+      "path": "/components/code-block",
+      "title": {
+        "zh-CN": "代码块",
+        "en-US": "Code Block"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/code-block.md",
+        "en-US": "pages/en-US/components/code-block.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:a424b30861bbe24c8bb883ba0ae8517bdaca132bb19f9836d6e439dccaf3a33b",
+        "en-US": "sha256:895e6a8e2b95ff378af984937aa3488df52c4085e11ec78568b12352448fc88b"
+      }
+    },
+    {
+      "path": "/components/collapse",
+      "title": {
+        "zh-CN": "折叠面板",
+        "en-US": "Collapse"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/collapse.md",
+        "en-US": "pages/en-US/components/collapse.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:c66457f966b1de91a09ef366556a109a9db1dab5bbd91ff7c23f8d24539e2ddc",
+        "en-US": "sha256:0ded2e973b94828c4e71430af8bfb2db78ad780b15e973e3bcf009b3bb37d27a"
+      }
+    },
+    {
+      "path": "/components/combobox",
+      "title": {
+        "zh-CN": "组合框",
+        "en-US": "Combobox"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/combobox.md",
+        "en-US": "pages/en-US/components/combobox.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:4a57bd504c2dbc2ebf9d69bf58554796a35acb28cd1a20f5db783a67a5c08b45",
+        "en-US": "sha256:3c509c253eaf19600407afdcafdd7abf5b312dae886a1c5b02f13f9c29ae29d4"
+      }
+    },
+    {
+      "path": "/components/command-menu",
+      "title": {
+        "zh-CN": "命令菜单",
+        "en-US": "Command Menu"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/command-menu.md",
+        "en-US": "pages/en-US/components/command-menu.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:670b356c519bd86380f73737a4cb8212879c8e4ef94c1002cc2676413cc20576",
+        "en-US": "sha256:9db092c39f010596058a523aadf5039ba661042ea60c177164e7bd5879ef1ded"
+      }
+    },
+    {
+      "path": "/components/context-card",
+      "title": {
+        "zh-CN": "上下文卡片",
+        "en-US": "Context Card"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/context-card.md",
+        "en-US": "pages/en-US/components/context-card.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:916c963890384520bb90f5024654d654077ef95b373b61777bebb9aea3f865e6",
+        "en-US": "sha256:5e396fdeb6c506144628f24e6711b44f98f75960dcefa92e6183149845db80fb"
+      }
+    },
+    {
+      "path": "/components/context-menu",
+      "title": {
+        "zh-CN": "右键菜单",
+        "en-US": "Context Menu"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/context-menu.md",
+        "en-US": "pages/en-US/components/context-menu.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:8902e93089d95249c620aec58cf61e8a3898df89e99c64bbdfdf5c4f6bd5df13",
+        "en-US": "sha256:b1c234e7a32908c5b6534fd694c0da25524288ff50ca09eed64feaa8985800e5"
+      }
+    },
+    {
+      "path": "/components/copy-button",
+      "title": {
+        "zh-CN": "复制按钮",
+        "en-US": "Copy Button"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/copy-button.md",
+        "en-US": "pages/en-US/components/copy-button.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:2036d04b7183edd5cfebc452f14e6a588e2169bcec59e7cf1c404f8615ac10d9",
+        "en-US": "sha256:c5b8b96940fd5051ec24d6f6225a9646484a9a458b19a6dd44f462d11df7c6e1"
+      }
+    },
+    {
+      "path": "/components/description",
+      "title": {
+        "zh-CN": "描述",
+        "en-US": "Description"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/description.md",
+        "en-US": "pages/en-US/components/description.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:ead5ca90baee2f45f8ac91758fbb9d42183796294f205e30c42be2c1ad77091b",
+        "en-US": "sha256:7e5c4da6354eb532616a8ab7c8a89ce1b3d5635dd69f70916a71ff59b3baabf6"
+      }
+    },
+    {
+      "path": "/components/destructive-action-modal",
+      "title": {
+        "zh-CN": "危险操作确认框",
+        "en-US": "Destructive Action Modal"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/destructive-action-modal.md",
+        "en-US": "pages/en-US/components/destructive-action-modal.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:a4c254085a0f917bda4ffe35902fff6a5e3011765dafe59fae571d3b13f10101",
+        "en-US": "sha256:64758131da417b2eb6dffc00c0164b20b9e2a4d3ad752901eeda9df0d44008bd"
+      }
+    },
+    {
+      "path": "/components/dots-menu",
+      "title": {
+        "zh-CN": "省略号菜单",
+        "en-US": "Dots Menu"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/dots-menu.md",
+        "en-US": "pages/en-US/components/dots-menu.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:924ec510a258278e1447cf9e714fa0f2c0f53c9df70359942133712fd7b5a074",
+        "en-US": "sha256:a37d923a945317dca076edd6e3a30f6a6684ea4fad2150ded0008be2daae3b6a"
+      }
+    },
+    {
+      "path": "/components/drawer",
+      "title": {
+        "zh-CN": "抽屉",
+        "en-US": "Drawer"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/drawer.md",
+        "en-US": "pages/en-US/components/drawer.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:4fc52258cd20c047dc887c3dfe71d79c11b02f5674cedd9c00c983a64d0df563",
+        "en-US": "sha256:71b3714bd756db568e4fe929bf4d453eeeaaedf4850eabe3111cf6a3f5dc7f77"
+      }
+    },
+    {
+      "path": "/components/empty-state",
+      "title": {
+        "zh-CN": "空状态",
+        "en-US": "Empty State"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/empty-state.md",
+        "en-US": "pages/en-US/components/empty-state.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:30ec9c5a5406eaca6c864aae4752e9b4cf875b4a1908f273ad938bc8d51d837d",
+        "en-US": "sha256:63ef8da5cadf497c4097ba86d04875e89ebd70e6021fc8f0f245447622d7c8fd"
+      }
+    },
+    {
+      "path": "/components/entity",
+      "title": {
+        "zh-CN": "实体",
+        "en-US": "Entity"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/entity.md",
+        "en-US": "pages/en-US/components/entity.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:0dbef96d70ca6a9c1e56186f55bf06efb00afc0be48c0b842e577f6b6c5ebbfb",
+        "en-US": "sha256:aef71bd2cdcd843d296716969a33ce412924e64567580a35e394d68f357ea5da"
+      }
+    },
+    {
+      "path": "/components/error",
+      "title": {
+        "zh-CN": "错误",
+        "en-US": "Error"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/error.md",
+        "en-US": "pages/en-US/components/error.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:10659a41ed4de0be83b7163e4290b1853d209ce4ed6bde969fd5002f5df3146d",
+        "en-US": "sha256:7e4d18ad1d46226856596e78075b44a5de9efdb74d870a75f2dae7dc844bca36"
+      }
+    },
+    {
+      "path": "/components/error-card",
+      "title": {
+        "zh-CN": "错误卡片",
+        "en-US": "Error Card"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/error-card.md",
+        "en-US": "pages/en-US/components/error-card.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:73a396360207b9b0230f6cc4c8ac05eb74e6fe2c14924c4b88701a5295c1e83e",
+        "en-US": "sha256:4782c970b23b6e7973cba88666ea3ba3d361f981962bc089e5b7e5dfbe710bfd"
+      }
+    },
+    {
+      "path": "/components/feedback",
+      "title": {
+        "zh-CN": "反馈",
+        "en-US": "Feedback"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/feedback.md",
+        "en-US": "pages/en-US/components/feedback.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:6cfec7e1c977756c1bdbe2b3e4f937c6204492535fd3aaa96852ffda1f6b1ebd",
+        "en-US": "sha256:fc52af01026544a4d061623911aec334175a2049bc406287802d953f51263b9d"
+      }
+    },
+    {
+      "path": "/components/fieldset",
+      "title": {
+        "zh-CN": "字段集",
+        "en-US": "Fieldset"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/fieldset.md",
+        "en-US": "pages/en-US/components/fieldset.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:6d2e084f3d5cb7aaaa54cbb2b800dfc8a627883ec00ef9512a01431529d06e5f",
+        "en-US": "sha256:498db3469d2042e414e1f66cca5875ce5280a9eff870d4b2a1a8fe7a53352bc7"
+      }
+    },
+    {
+      "path": "/components/file-tree",
+      "title": {
+        "zh-CN": "文件树",
+        "en-US": "File Tree"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/file-tree.md",
+        "en-US": "pages/en-US/components/file-tree.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:6acd25d4cf27b82d92515325839eeb1de2bd36174307b1f661ae3b9e777d2f92",
+        "en-US": "sha256:2160d4b2aa3fe61a8d18c0ed473e93e1889d1b83dc6adffc8c2b79f2f02cbe4e"
+      }
+    },
+    {
+      "path": "/components/gauge",
+      "title": {
+        "zh-CN": "仪表",
+        "en-US": "Gauge"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/gauge.md",
+        "en-US": "pages/en-US/components/gauge.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:9a9a03b8efac67cd240723c356928850f0471916f0ea862e2f0788d4fef3666f",
+        "en-US": "sha256:fd7ac108dddcdc61ea07a697e359fb9596c2bb0f9404161217b40f74c394d107"
+      }
+    },
+    {
+      "path": "/components/grid",
+      "title": {
+        "zh-CN": "栅格",
+        "en-US": "Grid"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/grid.md",
+        "en-US": "pages/en-US/components/grid.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:3c985b277cab2c159a579a3a60f1be5505b8842f526c4c42c7adfbc4cb376bdd",
+        "en-US": "sha256:9080bdd1a1a1983187cf3f29d7163dbb120f40f57d5d69edbee57dbeb270cf0f"
+      }
+    },
+    {
+      "path": "/components/input",
+      "title": {
+        "zh-CN": "输入框",
+        "en-US": "Input"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/input.md",
+        "en-US": "pages/en-US/components/input.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:d2b2b79efab50cd7e3e5405bdbf6bddfb16d628fdcf0ef8d18198d3efb2de47f",
+        "en-US": "sha256:2233f37e5bb393f48fa143f485cdd11f1718e0b2623c33a71edd3aaa3b34eb37"
+      }
+    },
+    {
+      "path": "/components/json-view",
+      "title": {
+        "zh-CN": "JSON 查看器",
+        "en-US": "JsonView"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/json-view.md",
+        "en-US": "pages/en-US/components/json-view.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:3408402cbefa525c8215cf5e4d2608241f73020a648337608727897b84cd9e78",
+        "en-US": "sha256:4b2d29eea87830ea78fb978e712d3ab5d6bac32ad5efedcb351555b34022a0ab"
+      }
+    },
+    {
+      "path": "/components/keyboard-input",
+      "title": {
+        "zh-CN": "键盘输入",
+        "en-US": "Keyboard Input"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/keyboard-input.md",
+        "en-US": "pages/en-US/components/keyboard-input.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:cd2ce732ccc177c2b8d8b4ef6ac91c38ba225cea35a406462f92bf31ab722eea",
+        "en-US": "sha256:671c232e913cabed1613100f74d10dbcb2b656025814d8874bcd2f4d79245246"
+      }
+    },
+    {
+      "path": "/components/label",
+      "title": {
+        "zh-CN": "标签",
+        "en-US": "Label"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/label.md",
+        "en-US": "pages/en-US/components/label.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:806616614d0175c6f5434f36ac8412cec83c8d7893fe9610ef27b7b2dfccea31",
+        "en-US": "sha256:0d77796c3af6f954b245aa69e7656393d07af74367ea77982931d7f91f0c9e54"
+      }
+    },
+    {
+      "path": "/components/load-more-button",
+      "title": {
+        "zh-CN": "加载更多按钮",
+        "en-US": "Load More Button"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/load-more-button.md",
+        "en-US": "pages/en-US/components/load-more-button.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:e1beb4f257c2f2ae06fe4bb70f48b6da32e832ad461714d0dfebaa607d7c151b",
+        "en-US": "sha256:08ef598d4af05124deafe815aa824fd7869ab34786882c4c450a14f46baf26ad"
+      }
+    },
+    {
+      "path": "/components/loading-dots",
+      "title": {
+        "zh-CN": "加载圆点",
+        "en-US": "Loading Dots"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/loading-dots.md",
+        "en-US": "pages/en-US/components/loading-dots.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:9ecb1083518794c4e2559764b814e70839293e466f6adfd0b82f471bf680cc27",
+        "en-US": "sha256:5056ae25101b60f7d249ad6a07f4ccbf7c16b0256ed51d89ae94e334a05207d2"
+      }
+    },
+    {
+      "path": "/components/menu",
+      "title": {
+        "zh-CN": "菜单",
+        "en-US": "Menu"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/menu.md",
+        "en-US": "pages/en-US/components/menu.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:e8e82b2a0db5189fa0b592e896c0484c7e459e404a10ea307959d3059b71caa2",
+        "en-US": "sha256:a90fc9b434d8b089aa47db1f5f019fd05947d6a36d007f88726f76b8e73bf57d"
+      }
+    },
+    {
+      "path": "/components/middle-truncate",
+      "title": {
+        "zh-CN": "中间截断",
+        "en-US": "Middle Truncate"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/middle-truncate.md",
+        "en-US": "pages/en-US/components/middle-truncate.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:0b4837417e546e34694ee8a518aabaeaaaef7b69e18d66f191f3b7219b57cf1a",
+        "en-US": "sha256:e1eab14c58a270377df3f05badc8a53bcb63ed90aa4fd71ee787e181ff1fff46"
+      }
+    },
+    {
+      "path": "/components/modal",
+      "title": {
+        "zh-CN": "模态框",
+        "en-US": "Modal"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/modal.md",
+        "en-US": "pages/en-US/components/modal.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:ae655f6fcb9e790f9a4b45b30cd145b72b78914b56f110fb327caf471d9ccc6c",
+        "en-US": "sha256:8a105784b4a035ad5004587020c4a18817bdbcbd62f954f4805c50f11a075b14"
+      }
+    },
+    {
+      "path": "/components/multi-select",
+      "title": {
+        "zh-CN": "多选",
+        "en-US": "Multi Select"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/multi-select.md",
+        "en-US": "pages/en-US/components/multi-select.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:3d6068fbc072a02fd907520bde7605ab032832a483e3671c498feb250eb3c9bd",
+        "en-US": "sha256:8b926ef077c65507a648b3442f472bf5b4f1a4189785cf5bacdf85fffaf5886b"
+      }
+    },
+    {
+      "path": "/components/note",
+      "title": {
+        "zh-CN": "注释",
+        "en-US": "Note"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/note.md",
+        "en-US": "pages/en-US/components/note.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:7a665781232784b707c50a5717b6f04213946c55a1bf0a0883d6756c88c0ae71",
+        "en-US": "sha256:0ff64c62289b6ba77dd25e71f27230266d91542bfea1d53aeb034da58e9e834b"
+      }
+    },
+    {
+      "path": "/components/pagination",
+      "title": {
+        "zh-CN": "分页",
+        "en-US": "Pagination"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/pagination.md",
+        "en-US": "pages/en-US/components/pagination.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:734b1ca8afa7782146dc5419bb72e7491739f2088a8f0f759413bbf56ace5dad",
+        "en-US": "sha256:b50bc3ef19a738054b846b0bfdb30259935833f8a531182ffdb24bd10964460c"
+      }
+    },
+    {
+      "path": "/components/phone",
+      "title": {
+        "zh-CN": "手机外框",
+        "en-US": "Phone"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/phone.md",
+        "en-US": "pages/en-US/components/phone.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:cf3d9680ad9bfff410ba00dc1dde79390cce6a7ea60a3ed8f5a6b5396dd4b711",
+        "en-US": "sha256:a8da1dca86d50895f4cf26fe330393bd1d3bfb59cc9413edff2020e4b9983f1e"
+      }
+    },
+    {
+      "path": "/components/pill",
+      "title": {
+        "zh-CN": "胶囊标签",
+        "en-US": "Pill"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/pill.md",
+        "en-US": "pages/en-US/components/pill.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:d14c94aa306dd8cf9bb8c929498382e8f59d0eabc4a48a6952ae4a25f23149be",
+        "en-US": "sha256:86642335fd50d6f669c5a7418a4b77e02e8533ac916be12bcf63afc06d1069a7"
+      }
+    },
+    {
+      "path": "/components/progress",
+      "title": {
+        "zh-CN": "进度条",
+        "en-US": "Progress"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/progress.md",
+        "en-US": "pages/en-US/components/progress.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:db544c51924d49df977837228f9943a9d81f381b04b301eb2dc3b40acee73cf0",
+        "en-US": "sha256:bcb75c993ac1f8fab058d915759e144b1e3969a8c813c7c68663b164e3426dda"
+      }
+    },
+    {
+      "path": "/components/project-banner",
+      "title": {
+        "zh-CN": "项目横幅",
+        "en-US": "Project Banner"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/project-banner.md",
+        "en-US": "pages/en-US/components/project-banner.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:21289fd6ea95305ae0b98857dba8bc07d1805e317457987a67ff04be401dba04",
+        "en-US": "sha256:f2fa0dc597bdf5f6f306142ab3eab61977064a3cf25614a00f6bc1418c24522a"
+      }
+    },
+    {
+      "path": "/components/radio",
+      "title": {
+        "zh-CN": "单选按钮",
+        "en-US": "Radio"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/radio.md",
+        "en-US": "pages/en-US/components/radio.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:ed2126cbea561e434a6eb80d02c17b7f1b5dae6bfb09dd725f8b7fc91fff66a1",
+        "en-US": "sha256:2d09bf02ae048f54c787613fd82e2c5614438102a8215d62d423e2087a8fd56d"
+      }
+    },
+    {
+      "path": "/components/relative-time-card",
+      "title": {
+        "zh-CN": "相对时间卡片",
+        "en-US": "Relative Time Card"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/relative-time-card.md",
+        "en-US": "pages/en-US/components/relative-time-card.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:17da09649a4cfa79bb18f27771e480669f130a646e10d18f8f77dcd3c2b0768b",
+        "en-US": "sha256:f0678a272f437d52d37112a795f6e235de9c040691c37506c838b39dd8bc9a92"
+      }
+    },
+    {
+      "path": "/components/scroller",
+      "title": {
+        "zh-CN": "滚动容器",
+        "en-US": "Scroller"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/scroller.md",
+        "en-US": "pages/en-US/components/scroller.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:de04d9c61f117eab6d8890e0381502775569083aef961cad0eedac3641c51da6",
+        "en-US": "sha256:061faec99bdd2dd90c4699da02072f1da7c4bbeadc95b12721ff7a950b093fca"
+      }
+    },
+    {
+      "path": "/components/search-input",
+      "title": {
+        "zh-CN": "搜索框",
+        "en-US": "Search Input"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/search-input.md",
+        "en-US": "pages/en-US/components/search-input.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:ec94ea54bf4b8f1fa35335d486073e41b39b534d995b1d70942fa58a96fb76ed",
+        "en-US": "sha256:5fa44cdc4a4ad44d2ed43cabeea39b1be94bd5a57c49561748384f7e1f24e2d2"
+      }
+    },
+    {
+      "path": "/components/select",
+      "title": {
+        "zh-CN": "下拉选择器",
+        "en-US": "Select"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/select.md",
+        "en-US": "pages/en-US/components/select.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:2955d0b73a885148b28e01bffdc66af1c0147f59ae8b1d6a9d2538f40fc3b297",
+        "en-US": "sha256:774a3515016677be5c9b79e94eea71bd133dfea4efc2952c2fcf7f38e5710b1f"
+      }
+    },
+    {
+      "path": "/components/separator",
+      "title": {
+        "zh-CN": "分隔线",
+        "en-US": "Separator"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/separator.md",
+        "en-US": "pages/en-US/components/separator.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:1cc83b4319ba923687f73f6f43e8e6788129502d764542914c75ba57cbe1c6af",
+        "en-US": "sha256:b6513e48c297ebfe80db458f8913aea3b7ac3c96412bb89045586feb20e0bb22"
+      }
+    },
+    {
+      "path": "/components/sheet",
+      "title": {
+        "zh-CN": "侧边面板",
+        "en-US": "Sheet"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/sheet.md",
+        "en-US": "pages/en-US/components/sheet.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:68d30274b45c7863c53ad8e90e37a35086b4ffc31c6f16acdbd6d54a498e07ce",
+        "en-US": "sha256:c1f6d3b1451c7ff1693c4926c21afd5067ef9a5df145cf4d312c6d1beb8abaab"
+      }
+    },
+    {
+      "path": "/components/show-more",
+      "title": {
+        "zh-CN": "显示更多",
+        "en-US": "Show More"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/show-more.md",
+        "en-US": "pages/en-US/components/show-more.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:2b67ad37eed346afca37bd6aa3cd6142a005f0841711965d9be538014a817bd1",
+        "en-US": "sha256:a2faf11bc42a6430100600e90a3e67a90062684e17add253897c8d9c16faa76a"
+      }
+    },
+    {
+      "path": "/components/skeleton",
+      "title": {
+        "zh-CN": "骨架屏",
+        "en-US": "Skeleton"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/skeleton.md",
+        "en-US": "pages/en-US/components/skeleton.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:1f602f93e8a8485dfb72063fd7009906d358af613b6bf308790ceb5d23f7babb",
+        "en-US": "sha256:d01b5f262093f6b5c96adbea98d248eb589504773507934ae07b73670cdbccc7"
+      }
+    },
+    {
+      "path": "/components/slider",
+      "title": {
+        "zh-CN": "滑块",
+        "en-US": "Slider"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/slider.md",
+        "en-US": "pages/en-US/components/slider.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:ee0ef7b1e6e67d4f60ab9ab69993e4c268dd0c1604ecf68a555ddb37a0227f39",
+        "en-US": "sha256:ceb40647f6b97029e69f04318fb4cad0971dc46caec0b5b2f9403b9e08763859"
+      }
+    },
+    {
+      "path": "/components/snippet",
+      "title": {
+        "zh-CN": "代码片段",
+        "en-US": "Snippet"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/snippet.md",
+        "en-US": "pages/en-US/components/snippet.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:400fdbafbe794fb70b7ede01c68afa9175f30be809e86cb6ddc55a14bd53b67e",
+        "en-US": "sha256:37ebe5d7f8a80ec0ec1fad996bdccb17ab34f8fbe76d297898aed148d4d1809a"
+      }
+    },
+    {
+      "path": "/components/spinner",
+      "title": {
+        "zh-CN": "加载指示器",
+        "en-US": "Spinner"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/spinner.md",
+        "en-US": "pages/en-US/components/spinner.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:b610d97de4315ac4d382d4e4153863dd1ed323cb87e7fee3cd9480113c2037d2",
+        "en-US": "sha256:44e68c1a4a912a5cee353e2dd80111b56621fde4805e88a0ea3818cd6121a2b6"
+      }
+    },
+    {
+      "path": "/components/split-button",
+      "title": {
+        "zh-CN": "拆分按钮",
+        "en-US": "Split Button"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/split-button.md",
+        "en-US": "pages/en-US/components/split-button.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:50a038106dc77c0aa0eccd550a3ea817aba53887726470a752b98c7b0e65df19",
+        "en-US": "sha256:3faf0799e159e80743d7138e38f03c9cccd854baef58a8c9fd8e8eca54886572"
+      }
+    },
+    {
+      "path": "/components/status-dot",
+      "title": {
+        "zh-CN": "状态圆点",
+        "en-US": "Status Dot"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/status-dot.md",
+        "en-US": "pages/en-US/components/status-dot.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:86a40ff24aad3d8bf533cc89de2d3fcc4543b240f841c0775704e8218701344a",
+        "en-US": "sha256:293642cd97eb3bf3ba64ae4f9c982e7c5d31fcb632c32ee427b1f76b2303bc8f"
+      }
+    },
+    {
+      "path": "/components/step-point",
+      "title": {
+        "zh-CN": "步骤指示点",
+        "en-US": "Step Point"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/step-point.md",
+        "en-US": "pages/en-US/components/step-point.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:2ed8b505ca3b6a595e29b69bd2ceb945f2eb42aabf170216083a4b3370f14551",
+        "en-US": "sha256:8fb11cd7c750fac1a4aa018b6a1db22c72b2dfdfe2cbdbf0320326d286208877"
+      }
+    },
+    {
+      "path": "/components/switch",
+      "title": {
+        "zh-CN": "分段选择",
+        "en-US": "Switch"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/switch.md",
+        "en-US": "pages/en-US/components/switch.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:189b4bdf5dfe726fe7e4c6837b7828ea83f3d127465e9bc5e2ddb0b9d33eb173",
+        "en-US": "sha256:bc339f02fc922f25a2a8bf605567ce924820d1bf94495068d4667ad5cd2846a6"
+      }
+    },
+    {
+      "path": "/components/table",
+      "title": {
+        "zh-CN": "表格",
+        "en-US": "Table"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/table.md",
+        "en-US": "pages/en-US/components/table.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:54d57f69583f9fc0d2ab093e5a9336fdc532deb958869b2be8e960810d506dbc",
+        "en-US": "sha256:19a32a42737dcf7034640902f15c5575774ad6578bce546f0c0d578e7b6210ff"
+      }
+    },
+    {
+      "path": "/components/tabs",
+      "title": {
+        "zh-CN": "标签页",
+        "en-US": "Tabs"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/tabs.md",
+        "en-US": "pages/en-US/components/tabs.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:5afb18209d054b3018d5aa0ea97a001b868a2c57bde0f929986ad46eb660fbf3",
+        "en-US": "sha256:17674f5838de43ff42746e17d3c7c86d5166c7b30e177368b7a0ac0701ea6077"
+      }
+    },
+    {
+      "path": "/components/text-with-copy-button",
+      "title": {
+        "zh-CN": "带复制按钮的文本",
+        "en-US": "Text With Copy Button"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/text-with-copy-button.md",
+        "en-US": "pages/en-US/components/text-with-copy-button.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:43144d0222d47f7cd2f2f81a9b6196e0dbd66b5616a24afba27e5544cd773f14",
+        "en-US": "sha256:995489e59f001c3ffb8459cc869f01ca2f7f2a9900ad475b66981715f9f869ee"
+      }
+    },
+    {
+      "path": "/components/textarea",
+      "title": {
+        "zh-CN": "多行文本域",
+        "en-US": "Textarea"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/textarea.md",
+        "en-US": "pages/en-US/components/textarea.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:fc78f1ee265cf4ba6431273ba5b2fd63c8c4cfb7a9c552ee6b86274d2a4dcf9d",
+        "en-US": "sha256:84dea71438246eb06b61923b09b66dd98dd623a41949d3b6c3c5a403d8ec676c"
+      }
+    },
+    {
+      "path": "/components/theme-switcher",
+      "title": {
+        "zh-CN": "主题切换器",
+        "en-US": "Theme Switcher"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/theme-switcher.md",
+        "en-US": "pages/en-US/components/theme-switcher.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:8e8fc4fcd1f1216b8e0049732aad4c9e1323e2f2ea5a3c18f69dcffb173c43f7",
+        "en-US": "sha256:84f5feb7685b8ad15f623cd6993165626b3784d5839c6829fb28c082a886cfcd"
+      }
+    },
+    {
+      "path": "/components/toast",
+      "title": {
+        "zh-CN": "轻提示",
+        "en-US": "Toast"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/toast.md",
+        "en-US": "pages/en-US/components/toast.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:6bc0faecff14eacd9595a9e6175b64163d4efb560fb0352b4dc888b53bcfa029",
+        "en-US": "sha256:e203b673c7eda9884a16230b6b7d0c02f0a898f0c8e0d0cf95c3d6f5fb13b9d3"
+      }
+    },
+    {
+      "path": "/components/toggle",
+      "title": {
+        "zh-CN": "开关",
+        "en-US": "Toggle"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/toggle.md",
+        "en-US": "pages/en-US/components/toggle.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:ea21d542ccc3e6f3335d0f1e4cf5b2d13da795a12a41482f16b0de78378ee703",
+        "en-US": "sha256:81a56499c6336ed9488517d86833286ad5b23cda0d563d4e3dd94fd52ca7da0f"
+      }
+    },
+    {
+      "path": "/components/tooltip",
+      "title": {
+        "zh-CN": "工具提示",
+        "en-US": "Tooltip"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/tooltip.md",
+        "en-US": "pages/en-US/components/tooltip.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:06fe60fee73044a2c91a2c1ef79839b73c88e2ab0c632919bf819282bfc7d427",
+        "en-US": "sha256:3ad7f80a1db6847984f8f79236bb31721b0e9f80c887c2cde66ba6197e488f38"
+      }
+    },
+    {
+      "path": "/components/video",
+      "title": {
+        "zh-CN": "视频",
+        "en-US": "Video"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/video.md",
+        "en-US": "pages/en-US/components/video.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:9f1cb801608ab9c6cb01a44539af2cfd8219c8bea970d1ce450e3688befd7157",
+        "en-US": "sha256:cbcedad8d31ce5dfd68da5eb8acc001af8e0ea6789d51dbadb1f6dade7eab508"
+      }
+    },
+    {
+      "path": "/patterns/app-shell",
+      "title": {
+        "zh-CN": "应用壳层",
+        "en-US": "App Shell"
+      },
+      "category": "pattern",
+      "locales": {
+        "zh-CN": "pages/zh-CN/patterns/app-shell.md",
+        "en-US": "pages/en-US/patterns/app-shell.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:962fefa47990d022c3ce8c85273a83e2281eb7f9d256602e01d11c1fcd85a7c4",
+        "en-US": "sha256:9586c0f1c4fb453743e4f6a3aea57da1c3263c99a42f5cf278061abcf8c88c09"
+      }
+    }
+  ]
+}

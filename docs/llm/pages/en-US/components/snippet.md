@@ -1,0 +1,192 @@
+# Snippet
+
+> Route: `/components/snippet`
+
+Displays a runnable shell command or short code the user is meant to copy.
+
+[Back to Components](#/components)
+
+# Snippet
+
+Snippet
+
+Displays a runnable shell command or short code the user is meant to copy.
+
+## When to use
+
+- Use Snippet for a runnable shell command the user is meant to copy; it ships with the prompt glyph and copy affordance built in.
+- For inline tokens (env var names, paths) use InlineCode, and for multi-line source use CodeBlock; one-liner commands belong in Snippet.
+- Pair Snippet with a CopyButton so users can grab the command without manually selecting text.
+
+## When not to use
+
+- Keep one command per Snippet; for longer scripts, switch to CodeBlock so users can read before they copy.
+- Do not use Snippet for pseudocode or pseudo-syntax examples in documentation—it should present real, pasteable commands.
+- Do not combine multiple commands in a single Snippet; each command should be its own independent Snippet to avoid copy confusion.
+
+## Examples
+
+### Default snippet
+
+Displays the default Snippet appearance with the prompt glyph and copy button.
+
+### Inverted variant
+
+Demonstrates the dark-background inverted variant for use in dark-themed code contexts.
+
+### All variants
+
+Showcases all Snippet variant styles and configuration options available.
+
+## Accessibility
+
+- The Copy button must be an icon-only button with an explicit aria-label so screen readers announce the action intent (e.g., "Copy deployment URL").
+- Provide visual feedback (checkmark) for about 1.5 seconds after a successful copy, then reset before the next click.
+- Prefer navigator.clipboard.writeText with a hidden-textarea execCommand fallback so copying works where clipboard permissions are missing.
+
+## Controlled behavior
+
+- Supports controlled copied-state (copied), letting developers programmatically manage the visibility and duration of copy feedback.
+- The callback prop allows executing additional business logic when the copy action fires.
+
+## Responsive behavior
+
+- Snippet adjusts padding and font size automatically on narrow screens so command text is not overly compressed.
+- The copy button maintains consistent visibility and tap-target size across all screen widths.
+
+## Theme behavior
+
+- Snippet background, border, and text color follow theme variables, each mode having its own color palette.
+- The inverted variant is specifically optimized for dark backgrounds, ensuring contrast meets WCAG standards.
+
+## Live Demo
+
+`$ npm init next-app`
+
+```tsx
+import { Snippet } from "@/components/ui/snippet";
+
+<Snippet text="npm init next-app" width="300px" />;
+```
+
+`$ npm init next-app`
+
+```tsx
+import { Snippet } from "@/components/ui/snippet";
+
+<Snippet dark text="npm init next-app" width="300px" />;
+```
+
+`$ cd project``$ now`
+
+```tsx
+import { Snippet } from "@/components/ui/snippet";
+
+<Snippet text={["cd project", "now"]} width="100%" />;
+```
+
+`npm init next-app`
+
+```tsx
+import { Snippet } from "@/components/ui/snippet";
+
+<Snippet prompt={false} text="npm init next-app" width="300px" />;
+```
+
+`$ npm init next-app`
+
+```tsx
+import { Snippet } from "@/components/ui/snippet";
+
+<Snippet onCopy={() => alert("You copied the text!")} text="npm init next-app" width="300px" />;
+```
+
+`$ npm init next-app`
+
+`$ npm init next-app`
+
+`$ npm init next-app`
+
+```tsx
+import { Snippet } from "@/components/ui/snippet";
+
+<div className="flex flex-col items-stretch justify-start gap-3 flex-initial">
+  <Snippet text="npm init next-app" type="success" width="300px" />
+  <Snippet text="npm init next-app" type="error" width="300px" />
+  <Snippet text="npm init next-app" type="warning" width="300px" />
+</div>;
+```
+
+`$ npm init next-app`
+
+```tsx
+"use client";
+
+import { useCallback, useRef, useState } from "react";
+import { ContextCardTrigger } from "@/components/ui/context-card";
+import { Snippet } from "@/components/ui/snippet";
+import type { JSX } from "react";
+
+const COPY_TEXT = `# About
+Template for a full-featured Next.js AI chatbot
+
+# Requirements
+This template uses the Vercel AI Gateway to access multiple AI models through a unified interface. The default model is OpenAI GPT-4.1 Mini, with support for Anthropic, Google, and xAI models.`;
+
+export function Component(): JSX.Element {
+  const [copied, setCopied] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
+
+  const handleCopy = useCallback(() => {
+    void navigator.clipboard.writeText(COPY_TEXT);
+    setCopied(true);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setCopied(false), 1000);
+  }, []);
+
+  return (
+    <ContextCardTrigger
+      content={<div className="text-copy-13-mono w-96 whitespace-pre-line">{COPY_TEXT}</div>}
+      side="top"
+    >
+      {/* <div> since we don't want to wrap a button around a button */}
+      <div
+        role="button"
+        tabIndex={0}
+        aria-label="copy content"
+        onClick={handleCopy}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleCopy();
+          }
+        }}
+        className="cursor-pointer"
+      >
+        <Snippet copied={copied} text="Copy install prompt" prompt={false} width="300px" />
+      </div>
+    </ContextCardTrigger>
+  );
+}
+```
+
+## API Reference
+
+This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+
+Import
+
+```tsx
+import { Snippet } from "@/components/ui/snippet";
+```
+
+### Props & callbacks
+
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">text</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Text available for copying.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onCopyError</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(error: unknown) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Handles a failed copy.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+
+## Best Practices
+
+- Use Snippet for a runnable shell command the user is meant to copy. For inline tokens (env var names, paths) use InlineCode, and for multi-line source use CodeBlock.
+- Pass the command as text. The component renders any prompt itself; keep the copied payload in sync with what the user sees.
+- Keep one command per Snippet. For longer scripts, switch to CodeBlock so users can read before they copy.
+- Pair Snippet with a CopyButton affordance so users can grab the command without selecting text manually.

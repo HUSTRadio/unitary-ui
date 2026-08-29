@@ -1,0 +1,42 @@
+{
+  "$schema": "../../task.schema.json",
+  "id": "docs-update",
+  "version": 1,
+  "description": "Synchronize bilingual human documentation and generated LLM references.",
+  "promptFragments": [
+    "llm/policies/safety.md",
+    "llm/policies/git.md",
+    "llm/policies/documentation.md",
+    "llm/tasks/docs-update/prompt.md"
+  ],
+  "contextProvider": "docs-push",
+  "impactGlobs": [
+    "src/**",
+    "docs/geist/**",
+    "package.json",
+    "README.md",
+    "README.en.md",
+    "CHANGELOG.md",
+    "CHANGELOG.en.md",
+    "AGENTS.md",
+    "CREDITS.md",
+    "CREDITS.en.md",
+    "THIRD_PARTY_NOTICES.md",
+    "THIRD_PARTY_NOTICES.en.md"
+  ],
+  "allowedWriteGlobs": [
+    "docs/geist/**",
+    "docs/llm/index.json",
+    "docs/llm/pages/**",
+    "README.md",
+    "README.en.md",
+    "CHANGELOG.md",
+    "CHANGELOG.en.md",
+    "AGENTS.md",
+    "CREDITS.md",
+    "CREDITS.en.md",
+    "THIRD_PARTY_NOTICES.md",
+    "THIRD_PARTY_NOTICES.en.md"
+  ],
+  "validators": ["docs-corpus", "docs-contracts"]
+}

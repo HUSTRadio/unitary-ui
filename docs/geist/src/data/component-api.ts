@@ -79,19 +79,19 @@ const O = {
     [
       row(
         "type",
-        '"secondary" | "error"',
-        "Visual intent. The default is the primary action.",
-        "视觉语义，默认是主操作。",
-        { defaultValue: '"secondary"' },
+        '"default" | "secondary" | "tertiary" | "error" | "warning"',
+        "Visual variant.",
+        "视觉变体。",
+        { defaultValue: '"default"' },
       ),
-      row("typeName", '"button" | "submit" | "reset"', "Native button type.", "原生按钮 type。", {
-        defaultValue: '"button"',
+      row("typeName", '"submit" | "button" | "reset"', "Native button type.", "原生按钮 type。", {
+        defaultValue: '"submit"',
       }),
       row(
         "loading",
         "boolean",
-        "Keeps the button focusable while announcing progress.",
-        "在提示加载时保持按钮可聚焦。",
+        "Shows a spinner, preserves the label, and disables the native button.",
+        "显示加载图标、保留标签，并禁用原生按钮。",
         { defaultValue: "false" },
       ),
     ],
@@ -138,12 +138,23 @@ const O = {
         "非受控初始值（框架扩展）。",
         { origin: "extension" },
       ),
-      row("indeterminate", "boolean", "Visual mixed state, not a third value.", "视觉半选态，非第三值。"),
+      row(
+        "indeterminate",
+        "boolean",
+        "Visual mixed state, not a third value.",
+        "视觉半选态，非第三值。",
+      ),
       row("disabled", "boolean", "Disables the checkbox.", "禁用复选框。"),
-      row("size", '"sm" | "default" | "lg"', "Control size (framework extension).", "控件尺寸（框架扩展）。", {
-        origin: "extension",
-        defaultValue: '"sm"',
-      }),
+      row(
+        "size",
+        '"sm" | "default" | "lg"',
+        "Control size (framework extension).",
+        "控件尺寸（框架扩展）。",
+        {
+          origin: "extension",
+          defaultValue: '"sm"',
+        },
+      ),
     ],
   ),
   choicebox: component(
@@ -306,13 +317,13 @@ const O = {
     [row("message", "ReactNode", "Actionable error message.", "可操作的错误信息。")],
   ),
   feedback: component(
-    ["Feedback", "RatingPill"],
+    ["Feedback"],
     [
       row(
         "onSubmit",
-        "(value: FeedbackRatingValue) => void | Promise<void>",
-        "Receives a production feedback rating.",
-        "接收生产环境中的反馈评分。",
+        "(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record<string, string>) => void",
+        "Receives the selected rating, feedback text, and optional metadata.",
+        "接收所选评分、反馈文本与可选元数据。",
       ),
       row(
         "defaultValue",
@@ -487,10 +498,12 @@ const O = {
   progress: component(
     ["Progress"],
     [
-      row("value", "number", "Known progress value.", "已知进度数值。"),
-      row("indeterminate", "boolean", "Use when progress is unknown.", "进度未知时使用。", {
-        defaultValue: "false",
-      }),
+      row(
+        "value",
+        "number | null",
+        "Known progress value; null or omission renders indeterminate progress.",
+        "已知进度数值；传 null 或省略时渲染不定进度。",
+      ),
     ],
   ),
   "project-banner": component(
@@ -500,7 +513,7 @@ const O = {
         "variant",
         "ProjectBannerVariant",
         "Banner emphasis.",
-        "横幅强调样式，决定整条横幅 bg/border/text 三件套：success=blue、warning=amber、error=red；default 视觉即 gray（routine 项目级通知），\"gray\" 为等价别名。官方按设计不可关闭，ProjectBannerClose 为本地扩展。",
+        '横幅强调样式，决定整条横幅 bg/border/text 三件套：success=blue、warning=amber、error=red；default 视觉即 gray（routine 项目级通知），"gray" 为等价别名。官方按设计不可关闭，ProjectBannerClose 为本地扩展。',
       ),
     ],
   ),
@@ -600,7 +613,7 @@ const O = {
       row("value", "number[]", "Controlled value.", "受控值。"),
       row(
         "marks",
-        'boolean | Array<{ value: number; label?: string }>',
+        "boolean | Array<{ value: number; label?: string }>",
         "Tick marks: `true` generates one per step (max 50), or an explicit array.",
         "刻度：`true` 按 step 自动生成（上限 50），或传入显式数组。",
         { origin: "extension" },
@@ -708,12 +721,15 @@ const O = {
     ["Toasts", "useToasts"],
     [
       row(
-        "addToast",
-        "(options: ToastOptions) => string",
-        "Creates a toast and returns its ID.",
-        "创建 Toast 并返回 ID。",
+        "message",
+        "(options: ToastOptions) => number",
+        "Creates a message toast and returns its numeric ID.",
+        "创建消息 Toast 并返回数字 ID。",
       ),
-      row("dismiss", "(id: string) => void", "Dismisses a toast by ID.", "按 ID 关闭 Toast。"),
+      row("success", "(text: ReactNode) => number", "Creates a success toast.", "创建成功 Toast。"),
+      row("warning", "(text: ReactNode) => number", "Creates a warning toast.", "创建警告 Toast。"),
+      row("error", "(text: ReactNode) => number", "Creates an error toast.", "创建错误 Toast。"),
+      row("dismiss", "(id: number) => void", "Dismisses a toast by ID.", "按 ID 关闭 Toast。"),
     ],
   ),
   toggle: component(
@@ -822,8 +838,8 @@ const O = {
       row(
         "activeTo",
         "string",
-        "`to` value of the currently active item; renders aria-current=\"page\".",
-        "当前激活项的 to 值；激活项渲染 aria-current=\"page\"。",
+        '`to` value of the currently active item; renders aria-current="page".',
+        '当前激活项的 to 值；激活项渲染 aria-current="page"。',
       ),
       row(
         "onNavigate",
@@ -861,9 +877,15 @@ const O = {
         "Content rendered after (right of) the columns.",
         "渲染在列区之后（右侧）的内容。",
       ),
-      row("sticky", "boolean", "Pins the footer to the viewport bottom.", "将 footer 吸附在视口底部。", {
-        defaultValue: "false",
-      }),
+      row(
+        "sticky",
+        "boolean",
+        "Pins the footer to the viewport bottom.",
+        "将 footer 吸附在视口底部。",
+        {
+          defaultValue: "false",
+        },
+      ),
     ],
   ),
   "hamburger-menu": component(
@@ -895,20 +917,12 @@ const O = {
         "展开方向；默认向下。",
         { defaultValue: '"down"' },
       ),
-      row(
-        "maxExpandedHeight",
-        "string",
-        "Maximum expanded height.",
-        "展开态最大高。",
-        { defaultValue: '"100dvh"' },
-      ),
-      row(
-        "maxExpandedWidth",
-        "string",
-        "Maximum expanded width.",
-        "展开态最大宽。",
-        { defaultValue: '"80vw"' },
-      ),
+      row("maxExpandedHeight", "string", "Maximum expanded height.", "展开态最大高。", {
+        defaultValue: '"100dvh"',
+      }),
+      row("maxExpandedWidth", "string", "Maximum expanded width.", "展开态最大宽。", {
+        defaultValue: '"80vw"',
+      }),
       row(
         "content",
         '"merged" | "split"',
@@ -928,13 +942,13 @@ const O = {
         "Called with the result item's `to`; the panel closes afterwards.",
         "点击结果项时以其 to 值调用，随后关闭面板。",
       ),
-      row("open", "boolean", "Controlled open state (uncontrolled when omitted).", "受控打开状态（不传则非受控）。"),
       row(
-        "onOpenChange",
-        "(open: boolean) => void",
-        "Open-state change callback.",
-        "开关回调。",
+        "open",
+        "boolean",
+        "Controlled open state (uncontrolled when omitted).",
+        "受控打开状态（不传则非受控）。",
       ),
+      row("onOpenChange", "(open: boolean) => void", "Open-state change callback.", "开关回调。"),
     ],
   ),
   "expand-panel": component(
@@ -947,7 +961,12 @@ const O = {
         "面板展开来向。",
         { required: true },
       ),
-      row("open", "boolean", "Controlled open state (uncontrolled when omitted).", "受控打开状态（不传则非受控）。"),
+      row(
+        "open",
+        "boolean",
+        "Controlled open state (uncontrolled when omitted).",
+        "受控打开状态（不传则非受控）。",
+      ),
       row(
         "onOpenChange",
         "(open: boolean) => void",
@@ -960,20 +979,12 @@ const O = {
         "side=top only: the panel's top edge aligns with this element's bottom and matches its width (the \"navbar extension\" effect).",
         "仅 side=top：面板顶边对齐该元素底边且同宽（「navbar 延伸落下」关键）。",
       ),
-      row(
-        "maxHeight",
-        "string",
-        "Panel max height.",
-        "面板最大高。",
-        { defaultValue: 'side=top → "100dvh"' },
-      ),
-      row(
-        "maxWidth",
-        "string",
-        "Panel max width.",
-        "面板最大宽。",
-        { defaultValue: '横向（left/right）→ "80vw"' },
-      ),
+      row("maxHeight", "string", "Panel max height.", "面板最大高。", {
+        defaultValue: 'side=top → "100dvh"',
+      }),
+      row("maxWidth", "string", "Panel max width.", "面板最大宽。", {
+        defaultValue: '横向（left/right）→ "80vw"',
+      }),
       row(
         "aria-label",
         "string",
@@ -1006,7 +1017,12 @@ const O = {
         "手势开关：拖拽调高 / 上拉越过最高档 / 低于最低档下拉关闭。",
         { defaultValue: "全开" },
       ),
-      row("open", "boolean", "Controlled open state (uncontrolled when omitted).", "受控打开状态（不传则非受控）。"),
+      row(
+        "open",
+        "boolean",
+        "Controlled open state (uncontrolled when omitted).",
+        "受控打开状态（不传则非受控）。",
+      ),
       row("onOpenChange", "(open: boolean) => void", "Open-state change callback.", "开关回调。"),
       row(
         "onDetentChange",

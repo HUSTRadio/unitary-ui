@@ -80,6 +80,25 @@ describe("MiddleTruncate width-adaptive truncation (G07-MT-01)", () => {
     expect(markup).toContain("text-copy-14"); // className 透传
   });
 
+  it("docs demo constrains its fixed width to the mobile content box", async () => {
+    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
+    const start = docs.indexOf("function MiddleTruncateDemo");
+    const end = docs.indexOf("function MultiSelectDemo", start);
+    const demo = docs.slice(start, end);
+
+    expect(start).toBeGreaterThanOrEqual(0);
+    expect(end).toBeGreaterThan(start);
+    expect(demo).toContain('className="w-64 max-w-full font-mono');
+  });
+
+  it("component guide cards can shrink long inline paths on narrow viewports", async () => {
+    const guideSections = await read("docs/geist/src/components/component-guide-sections.tsx");
+
+    expect(guideSections).toContain(
+      'className="min-w-0 [overflow-wrap:anywhere] rounded-lg border border-border p-4"',
+    );
+  });
+
   it("measures the PARENT container, not its own shrinking width (root cause)", async () => {
     const src = await read("src/components/ui/middle-truncate.tsx");
 

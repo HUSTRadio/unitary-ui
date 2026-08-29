@@ -1,7 +1,11 @@
 import path from "node:path";
+import { readFileSync } from "node:fs";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+
+const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8"));
+const dependencies = Object.keys(pkg.dependencies ?? {});
 
 export default defineConfig(({ mode }) => {
   const isLib = mode === "lib";
@@ -19,14 +23,13 @@ export default defineConfig(({ mode }) => {
           lib: {
             entry: path.resolve(import.meta.dirname, "src/lib/index.ts"),
             name: "GeistStyleFramework",
-            fileName: (format) =>
-              format === "cjs"
-                ? "unitary-ui.cjs"
-                : "unitary-ui.es.js",
+            fileName: (format) => (format === "cjs" ? "unitary-ui.cjs" : "unitary-ui.es.js"),
             formats: ["es", "cjs"],
           },
           rollupOptions: {
-            external: ["react", "react-dom", "react-dom/client", "react/jsx-runtime"],
+            external: (id) =>
+              ["react", "react-dom"].some((name) => id === name || id.startsWith(`${name}/`)) ||
+              dependencies.some((name) => id === name || id.startsWith(`${name}/`)),
             output: {
               globals: {
                 react: "React",
@@ -37,7 +40,7 @@ export default defineConfig(({ mode }) => {
             },
           },
           cssCodeSplit: false,
-          sourcemap: true,
+          sourcemap: false,
         }
       : {
           // App build (dev/preview)

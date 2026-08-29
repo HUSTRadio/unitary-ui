@@ -1,7 +1,7 @@
-// Post-build: 
+// Post-build:
 // 1. 把 dist CSS 里的 /fonts/ 绝对路径改为相对路径（npm 包消费场景）
 // 2. 删除 demo 演示资源（不属于库包）
-import { readFileSync, writeFileSync, rmSync } from "node:fs";
+import { readFileSync, writeFileSync, rmSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 const distDir = join(import.meta.dirname, "../dist");
@@ -14,15 +14,19 @@ css = css.replaceAll("url(/fonts/", "url(./fonts/");
 writeFileSync(cssPath, css);
 console.log(`css font urls rewritten: ${before} absolute → relative ./fonts/`);
 
-// 2. 删除 demo 资源
-for (const f of ["demo.mp4", "demo-poster.png"]) {
+// 2. 删除 demo / app build / sourcemap 资源
+for (const f of ["demo.mp4", "demo-poster.png", "index.html", "assets"]) {
   const p = join(distDir, f);
   try {
-    rmSync(p);
+    rmSync(p, { recursive: true, force: true });
     console.log(`removed ${f}`);
   } catch {
     // 不存在则忽略
   }
+}
+
+for (const file of readdirSync(distDir)) {
+  if (file.endsWith(".map")) rmSync(join(distDir, file));
 }
 
 // 3. 从 index.d.ts 移除 CSS side-effect import（消费端无 CSS 模块类型）
@@ -41,7 +45,11 @@ try {
     dts = '/// <reference path="../types/css.d.ts" />\n' + dts;
   }
   writeFileSync(dtsPath, dts);
-  console.log(before ? "index.d.ts: css side-effect import removed + reference injected" : "index.d.ts: no css import (clean)");
+  console.log(
+    before
+      ? "index.d.ts: css side-effect import removed + reference injected"
+      : "index.d.ts: no css import (clean)",
+  );
 } catch {
   console.log("index.d.ts not found, skipping css import removal");
 }

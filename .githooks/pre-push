@@ -1,0 +1,4 @@
+#!/bin/sh
+# 安装：vp run hooks:install
+# 紧急跳过：UNITARY_DOCS_HOOK_SKIP=1 git push
+exec node scripts/ai-docs-pre-push.mjs "$@"

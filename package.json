@@ -2,7 +2,37 @@
   "name": "@hustradio/unitary-ui",
   "version": "0.1.0",
   "description": "Unitary — 兼容 Vercel Geist 设计系统的 React 组件库，含 token 体系、排版、材质、完整组件族与字体度量探针",
+  "keywords": [
+    "components",
+    "design-system",
+    "font-metrics",
+    "geist",
+    "react",
+    "tailwindcss",
+    "ui-kit"
+  ],
+  "homepage": "https://github.com/HUSTRadio/unitary-ui#readme",
+  "bugs": {
+    "url": "https://github.com/HUSTRadio/unitary-ui/issues"
+  },
+  "license": "MIT",
+  "author": "HUSTRadio",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HUSTRadio/unitary-ui"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "LICENSE.zh-CN.md",
+    "OFL-1.1.txt",
+    "THIRD_PARTY_NOTICES.md",
+    "THIRD_PARTY_NOTICES.en.md"
+  ],
   "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "main": "./dist/unitary-ui.cjs",
   "module": "./dist/unitary-ui.es.js",
   "types": "./dist/types/lib/index.d.ts",
@@ -15,9 +45,6 @@
     "./styles.css": "./dist/unitary-ui.css",
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -27,11 +54,13 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "pnpm run build:lib && pnpm run typecheck",
-    "test:docs-layout": "playwright test -c playwright.config.ts"
-  },
-  "peerDependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "test:docs-layout": "playwright test -c playwright.config.ts",
+    "hooks:install": "node scripts/install-git-hooks.mjs",
+    "docs:readme:screenshots": "node scripts/capture-readme-screenshots.mjs",
+    "docs:llm:generate": "tsx scripts/generate-llm-docs.ts",
+    "docs:llm:check": "tsx scripts/generate-llm-docs.ts --check",
+    "llm": "node scripts/run-llm-task.mjs",
+    "docs:agent:update": "node scripts/run-llm-task.mjs docs-update --manual"
   },
   "dependencies": {
     "@date-fns/tz": "^1.5.0",
@@ -54,6 +83,7 @@
     "@types/prismjs": "^1.26.6",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "@types/turndown": "^5.0.6",
     "@vitejs/plugin-react": "^6.0.4",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
@@ -61,10 +91,16 @@
     "oxlint": "^1.75.0",
     "tailwindcss": "^4.3.3",
     "tsc-alias": "^1.9.2",
+    "tsx": "^4.23.12",
+    "turndown": "^7.2.4",
     "typescript": "~6.0.2",
     "vite": "^8.2.0",
     "vite-plus": "^0.2.8",
     "vitest": "4.1.10"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devEngines": {
     "packageManager": {
@@ -72,27 +108,5 @@
       "version": "11.20.0",
       "onFail": "download"
     }
-  },
-  "sideEffects": [
-    "**/*.css"
-  ],
-  "keywords": [
-    "geist",
-    "design-system",
-    "react",
-    "components",
-    "tailwindcss",
-    "ui-kit",
-    "font-metrics"
-  ],
-  "author": "HUSTRadio",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/HUSTRadio/unitary-ui"
-  },
-  "bugs": {
-    "url": "https://github.com/HUSTRadio/unitary-ui/issues"
-  },
-  "homepage": "https://github.com/HUSTRadio/unitary-ui#readme"
+  }
 }
