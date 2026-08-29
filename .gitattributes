@@ -1,5 +1,24 @@
-*.css  text eol=lf
-*.ts   text eol=lf
-*.tsx  text eol=lf
-*.json text eol=lf
-*.md   text eol=lf
+# Normalize every Git-detected text file to LF in the index and worktree.
+* text=auto eol=lf
+
+# Keep binary assets byte-for-byte unchanged.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.mp4 binary
+*.mov binary
+*.webm binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.7z binary
+*.exe binary
+*.dll binary
