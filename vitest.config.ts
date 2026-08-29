@@ -14,6 +14,9 @@ export default {
     },
   },
   test: {
+    // Windows full-suite runs perform many concurrent Git/filesystem operations;
+    // the Vitest 5 s default causes false timeouts under normal I/O contention.
+    testTimeout: 15_000,
     exclude: [
       "**/node_modules/**",
       "**/dist/**",
