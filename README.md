@@ -69,6 +69,8 @@ vp run docs:readme:screenshots
 
 ## LLM / AI agent usage
 
+版本化 LLM 任务包、提示词片段顺序与统一入口见 [`llm/README.md`](./llm/README.md)（中文）/ [`llm/README.en.md`](./llm/README.en.md)（English）。LLM 只需读取注册表、manifest 与其中列出的片段路径即可定位提示词，不要求先运行 `vp run`。
+
 以下指令文本在两个语言版本中保持英文不变，以免执行语义分叉：
 
 1. Read `AGENTS.md` first.

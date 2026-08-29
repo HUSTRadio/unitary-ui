@@ -69,6 +69,8 @@ The command starts temporary preview servers and regenerates the light/dark scre
 
 ## LLM / AI agent usage
 
+See [`llm/README.en.md`](./llm/README.en.md) (English) / [`llm/README.md`](./llm/README.md) (Simplified Chinese primary) for versioned LLM task packages, ordered prompt fragments, and the unified entry point. An LLM can locate prompts by reading the registry, manifest, and listed fragment paths; running `vp run` is not a discovery prerequisite.
+
 The instruction text below is kept in English in both locale versions to avoid semantic divergence:
 
 1. Read `AGENTS.md` first.

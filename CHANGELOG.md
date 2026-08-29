@@ -11,7 +11,7 @@
 - **双语组件指南注册表**：73 个组件全部具备简体中文（主）与英语（替代）结构化指南（何时使用 / 何时不应使用 / 示例索引 / 无障碍 / 受控行为 / 响应式 / 主题），示例引用真实存在的 demo key；接入组件文档页渲染。
 - **LLM 参考语料**：`docs/llm/` 为 82 条文档路由 × 2 语言生成 164 份 Markdown 页面与机器可读索引 `index.json`（含内容哈希）；`docs:llm:generate` / `docs:llm:check` 命令与漂移检查。
 - **LLM 语料说明**：新增 `docs/llm/README.md` 与英文替代版本，说明 canonical source、索引结构、生成与零漂移校验流程。
-- **可配置 AI 文档更新合同**：`docs-agent.config.json` + JSON Schema 定义 agent CLI / 模型 / 影响范围 / 允许写入范围；固定安全合同（固定英文更新指令、不读取不传凭据、不自动提交不推送、越权写入拒绝、合法文档改动中止推送待人工审查）；`.githooks/pre-push` + 显式安装器。
+- **版本化 LLM 任务包**：`llm/registry.json` 注册任务 manifest；安全、Git、文档策略与任务专属提示词按 manifest 顺序组装；统一 `llm` CLI 提供 list/check/dry-run/manual，pre-push 仅负责 Git ref 上下文适配。LLM 无需执行命令即可从 `AGENTS.md` 与 `llm/README.md` 直接定位提示词路径。
 - **MIT 许可证与归属**：英文 `LICENSE`（法律权威）+ 简体中文阅读入口 `LICENSE.zh-CN.md`（非官方、非约束性）；`CREDITS.md` / `CREDITS.en.md` 与 `THIRD_PARTY_NOTICES.md` / `THIRD_PARTY_NOTICES.en.md` 双语归属与第三方声明；npm 发布清单纳入许可证与第三方声明。
 - **双语 README**：`README.md`（简体中文）与 `README.en.md`（英语）面向开源用户与 LLM，含安装、最小用例、文档入口、LLM 使用流程、贡献与安全说明。
 - **README 示例图片生成器**：`docs:readme:screenshots` 自行启动临时预览服务，通过 Playwright 以固定 1440×900 视口生成 living styleguide 与 JSON View 的双主题示例图片。
