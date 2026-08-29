@@ -134,7 +134,10 @@ describe("generic LLM task runner", () => {
   it("returns status 2 for allowlisted writes without committing", async () => {
     const runner = await loadRunner();
     const dir = makeRepo();
-    const before = spawnSync("git", ["rev-parse", "HEAD"], { cwd: dir, encoding: "utf8" }).stdout.trim();
+    const before = spawnSync("git", ["rev-parse", "HEAD"], {
+      cwd: dir,
+      encoding: "utf8",
+    }).stdout.trim();
     const result = await runner.runTask({
       repoRoot: dir,
       resolvedTask: fakeTask(),
@@ -145,7 +148,10 @@ describe("generic LLM task runner", () => {
       testValidationExit: 0,
       writeRunRecord: false,
     });
-    const after = spawnSync("git", ["rev-parse", "HEAD"], { cwd: dir, encoding: "utf8" }).stdout.trim();
+    const after = spawnSync("git", ["rev-parse", "HEAD"], {
+      cwd: dir,
+      encoding: "utf8",
+    }).stdout.trim();
     expect(result.status).toBe(2);
     expect(result.changedPaths).toEqual(["docs/new.md"]);
     expect(after).toBe(before);

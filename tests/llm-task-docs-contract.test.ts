@@ -54,7 +54,12 @@ describe("LLM task documentation contract", () => {
   });
 
   it("links the task package from human and corpus documentation", () => {
-    for (const relativePath of ["README.md", "README.en.md", "docs/llm/README.md", "docs/llm/README.en.md"]) {
+    for (const relativePath of [
+      "README.md",
+      "README.en.md",
+      "docs/llm/README.md",
+      "docs/llm/README.en.md",
+    ]) {
       expect(read(relativePath), relativePath).toContain("llm/README");
     }
   });

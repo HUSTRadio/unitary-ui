@@ -257,7 +257,9 @@ function runAgent({ repoRoot, runnerConfig, prompt, testMode, testEnvironment })
 function runValidators(repoRoot, validatorIds, options = {}) {
   if (options.testMode) {
     if (Number(options.testValidationExit ?? 0) !== 0) {
-      throw new Error(`deterministic validation failed with test status ${options.testValidationExit}`);
+      throw new Error(
+        `deterministic validation failed with test status ${options.testValidationExit}`,
+      );
     }
     return validatorIds.map((id) => ({ id, status: 0 }));
   }
@@ -325,7 +327,9 @@ export async function runTask(options) {
 
   if (!agentResult.ok) {
     if (agentResult.timedOut) throw new Error("agent timed out");
-    throw new Error(`agent exited with status ${agentResult.code ?? "error"}; raw output suppressed`);
+    throw new Error(
+      `agent exited with status ${agentResult.code ?? "error"}; raw output suppressed`,
+    );
   }
 
   if (gitMetadataChanged(baselineMetadata, snapshotGitMetadata(repoRoot))) {

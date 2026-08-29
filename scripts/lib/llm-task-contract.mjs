@@ -66,7 +66,8 @@ export function resolveRepoPath(repoRoot, relativePath, label = "path") {
 function requireRegularFile(repoRoot, relativePath, label) {
   const absolute = resolveRepoPath(repoRoot, relativePath, label);
   if (!existsSync(absolute)) throw new Error(`${label} does not exist: ${relativePath}`);
-  if (!lstatSync(absolute).isFile()) throw new Error(`${label} is not a regular file: ${relativePath}`);
+  if (!lstatSync(absolute).isFile())
+    throw new Error(`${label} is not a regular file: ${relativePath}`);
   return absolute;
 }
 
@@ -79,11 +80,7 @@ export function loadRegistry(repoRoot) {
 export function loadRunnerConfig(repoRoot) {
   const configPath = requireRegularFile(repoRoot, RUNNER_CONFIG_PATH, "runner config");
   const schemaPath = requireRegularFile(repoRoot, RUNNER_SCHEMA_PATH, "runner schema");
-  const config = validateJson(
-    schemaPath,
-    readJson(configPath, "runner config"),
-    "runner config",
-  );
+  const config = validateJson(schemaPath, readJson(configPath, "runner config"), "runner config");
   if (config.agent?.sandbox && config.agent?.approvalMode) {
     throw new Error("runner config agent.sandbox and agent.approvalMode are mutually exclusive");
   }
@@ -178,7 +175,9 @@ export function validateAllTasks(repoRoot, options = {}) {
   const tasks = [];
   for (const taskId of Object.keys(registry.tasks).sort()) {
     const task = resolveTask(repoRoot, taskId);
-    const realManifest = realpathSync(resolveRepoPath(repoRoot, task.manifestPath, "task manifest"));
+    const realManifest = realpathSync(
+      resolveRepoPath(repoRoot, task.manifestPath, "task manifest"),
+    );
     if (manifestRealPaths.has(realManifest)) {
       throw new Error(`multiple registry IDs resolve to the same manifest: ${task.manifestPath}`);
     }

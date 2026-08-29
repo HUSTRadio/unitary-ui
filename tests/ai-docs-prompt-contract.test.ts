@@ -34,8 +34,12 @@ describe("AI documentation update prompt contract", () => {
   it("starts with changelog-first freshness review and keeps deterministic checks authoritative", () => {
     const prompt = assembledPrompt();
     expect(prompt).toContain("Read `CHANGELOG.md` and `CHANGELOG.en.md` first");
-    expect(prompt).toContain("Use the changelog as a fast freshness signal, never as sufficient proof");
-    expect(prompt).toContain("Run every deterministic generation and validation command supplied by the runner");
+    expect(prompt).toContain(
+      "Use the changelog as a fast freshness signal, never as sufficient proof",
+    );
+    expect(prompt).toContain(
+      "Run every deterministic generation and validation command supplied by the runner",
+    );
     expect(prompt).toContain("A changelog entry never overrides a failing deterministic check");
   });
 
@@ -46,7 +50,9 @@ describe("AI documentation update prompt contract", () => {
     expect(prompt).toContain("Never invent an API");
     expect(prompt).toContain("Simplified Chinese first");
     expect(prompt).toContain("equivalent English alternative");
-    expect(prompt).toContain("Modify only the allowlisted paths supplied by the resolved task manifest");
+    expect(prompt).toContain(
+      "Modify only the allowlisted paths supplied by the resolved task manifest",
+    );
   });
 
   it("forbids credentials, commits, and pushes", () => {

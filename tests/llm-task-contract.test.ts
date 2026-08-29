@@ -91,9 +91,7 @@ describe("versioned LLM task package contract", () => {
       validators: ["docs-corpus"],
     };
 
-    expect(validate(taskSchemaPath, { ...base, promptFragments: ["../../secret.md"] })).toBe(
-      false,
-    );
+    expect(validate(taskSchemaPath, { ...base, promptFragments: ["../../secret.md"] })).toBe(false);
     expect(validate(taskSchemaPath, { ...base, allowedWriteGlobs: [] })).toBe(false);
     expect(validate(taskSchemaPath, { ...base, validators: ["sh -c true"] })).toBe(false);
   });

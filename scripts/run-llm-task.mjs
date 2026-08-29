@@ -9,11 +9,7 @@ import {
   resolveTask,
   validateAllTasks,
 } from "./lib/llm-task-contract.mjs";
-import {
-  CONTEXT_PROVIDER_IDS,
-  VALIDATORS,
-  runTask,
-} from "./lib/llm-task-runner.mjs";
+import { CONTEXT_PROVIDER_IDS, VALIDATORS, runTask } from "./lib/llm-task-runner.mjs";
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const VALIDATOR_IDS = Object.freeze(Object.keys(VALIDATORS));
