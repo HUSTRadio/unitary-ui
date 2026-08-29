@@ -59,7 +59,8 @@
     "docs:readme:screenshots": "node scripts/capture-readme-screenshots.mjs",
     "docs:llm:generate": "tsx scripts/generate-llm-docs.ts",
     "docs:llm:check": "tsx scripts/generate-llm-docs.ts --check",
-    "docs:agent:update": "node scripts/ai-docs-pre-push.mjs --manual"
+    "llm": "node scripts/run-llm-task.mjs",
+    "docs:agent:update": "node scripts/run-llm-task.mjs docs-update --manual"
   },
   "dependencies": {
     "@date-fns/tz": "^1.5.0",

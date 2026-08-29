@@ -32,6 +32,13 @@ function validate(schemaPath: string, value: unknown): boolean {
   return ajv.compile(readJson(schemaPath))(value) as boolean;
 }
 
+function runCli(args: string[]) {
+  return spawnSync(process.execPath, [cliPath, ...args], {
+    cwd: repoRoot,
+    encoding: "utf8",
+  });
+}
+
 describe("versioned LLM task package contract", () => {
   it("provides the canonical registry, schemas, runner profile, and docs-update manifest", () => {
     for (const filePath of [
@@ -131,13 +138,53 @@ describe("versioned LLM task package contract", () => {
     ).toThrow(/repository-relative|repository root/);
   });
 
-  it("fails closed for an unknown task through the unified CLI", () => {
-    const result = spawnSync(process.execPath, [cliPath, "unknown-task", "--dry-run"], {
-      cwd: repoRoot,
-      encoding: "utf8",
-    });
+  it("lists and validates registered tasks without invoking an agent", () => {
+    const listed = runCli(["list"]);
+    expect(listed.status).toBe(0);
+    expect(listed.stdout).toContain("docs-update\tv1");
 
+    const vpStyle = runCli(["--", "list"]);
+    expect(vpStyle.status).toBe(0);
+    expect(vpStyle.stdout).toBe(listed.stdout);
+
+    const checked = runCli(["check"]);
+    expect(checked.status).toBe(0);
+    expect(checked.stdout).toContain("validated 1 LLM task");
+  });
+
+  it("produces byte-stable sanitized dry-run metadata", () => {
+    const first = runCli(["docs-update", "--dry-run"]);
+    const second = runCli(["docs-update", "--dry-run"]);
+    expect(first.status).toBe(0);
+    expect(second.status).toBe(0);
+    expect(first.stdout).toBe(second.stdout);
+
+    const metadata = JSON.parse(first.stdout) as {
+      task: string;
+      taskVersion: number;
+      fragmentPaths: string[];
+      promptBundleHash: string;
+      renderedPromptHash?: string;
+      agent: { command: string; model: string };
+    };
+    expect(metadata).toMatchObject({
+      task: "docs-update",
+      taskVersion: 1,
+      fragmentPaths: expectedFragments,
+      agent: { command: "codex", model: "gpt-5.6-terra" },
+    });
+    expect(metadata.promptBundleHash).toMatch(/^[a-f0-9]{64}$/);
+    expect(metadata.renderedPromptHash).toBeUndefined();
+    expect(first.stdout).not.toContain("RUNTIME CONTEXT");
+  });
+
+  it("fails closed for an unknown task and unknown options through the unified CLI", () => {
+    const result = runCli(["unknown-task", "--dry-run"]);
     expect(result.status).toBe(1);
     expect(result.stderr).toContain("unknown-task");
+
+    const unknownOption = runCli(["docs-update", "--unknown"]);
+    expect(unknownOption.status).toBe(1);
+    expect(unknownOption.stderr).toContain("--unknown");
   });
 });
