@@ -13,9 +13,17 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const repoRoot = process.env.UNITARY_INSTALL_HOOKS_REPO_ROOT
-  ? path.resolve(process.env.UNITARY_INSTALL_HOOKS_REPO_ROOT)
-  : path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const TEST_MODE =
+  process.env.NODE_ENV === "test" && process.env.UNITARY_INSTALL_HOOKS_TEST_MODE === "1";
+const rootOverride = process.env.UNITARY_INSTALL_HOOKS_REPO_ROOT;
+if (rootOverride && !TEST_MODE) {
+  console.error("[install-git-hooks] UNITARY_INSTALL_HOOKS_REPO_ROOT is test-only.");
+  process.exit(1);
+}
+const repoRoot =
+  TEST_MODE && rootOverride
+    ? path.resolve(rootOverride)
+    : path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const prePush = path.join(repoRoot, ".githooks", "pre-push");
 
 function fail(code, message) {
@@ -27,8 +35,8 @@ if (!existsSync(prePush)) {
   fail(1, "缺少 .githooks/pre-push，拒绝安装。");
 }
 const content = readFileSync(prePush, "utf8");
-if (!content.includes("ai-docs-pre-push.mjs")) {
-  fail(1, ".githooks/pre-push 内容不符合预期（未引用 runner），拒绝安装。");
+if (!content.includes("scripts/pre-push.mjs")) {
+  fail(1, ".githooks/pre-push 内容不符合预期（未引用统一 runner），拒绝安装。");
 }
 
 const probe = spawnSync("git", ["-C", repoRoot, "config", "--local", "--get", "core.hooksPath"], {

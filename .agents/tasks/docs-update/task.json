@@ -4,13 +4,14 @@
   "version": 1,
   "description": "Synchronize bilingual human documentation and generated LLM references.",
   "promptFragments": [
-    "llm/policies/safety.md",
-    "llm/policies/git.md",
-    "llm/policies/documentation.md",
-    "llm/tasks/docs-update/prompt.md"
+    ".agents/policies/safety.md",
+    ".agents/policies/git.md",
+    ".agents/policies/documentation.md",
+    ".agents/tasks/docs-update/prompt.md"
   ],
   "contextProvider": "docs-push",
   "impactGlobs": [
+    ".agents/**",
     "src/**",
     "docs/geist/**",
     "package.json",

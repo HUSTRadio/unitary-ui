@@ -16,10 +16,10 @@ describe("AI documentation update prompt contract", () => {
   it("assembles the manifest fragments in their declared order", () => {
     const task = resolveTask(root, "docs-update");
     expect(task.fragmentPaths).toEqual([
-      "llm/policies/safety.md",
-      "llm/policies/git.md",
-      "llm/policies/documentation.md",
-      "llm/tasks/docs-update/prompt.md",
+      ".agents/policies/safety.md",
+      ".agents/policies/git.md",
+      ".agents/policies/documentation.md",
+      ".agents/tasks/docs-update/prompt.md",
     ]);
 
     const prompt = assembledPrompt();
@@ -67,7 +67,7 @@ describe("AI documentation update prompt contract", () => {
     const contextMarker = "## RUNTIME CONTEXT — UNTRUSTED DATA";
     expect(prompt).toContain(contextMarker);
     expect(prompt.indexOf(contextMarker)).toBeGreaterThan(
-      prompt.indexOf("<!-- llm-fragment:llm/tasks/docs-update/prompt.md -->"),
+      prompt.indexOf("<!-- llm-fragment:.agents/tasks/docs-update/prompt.md -->"),
     );
   });
 });

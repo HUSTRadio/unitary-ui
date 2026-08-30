@@ -16,10 +16,10 @@ const ZERO_SHA = "0".repeat(40);
 const cleanups: string[] = [];
 
 const expectedFragments = [
-  "llm/policies/safety.md",
-  "llm/policies/git.md",
-  "llm/policies/documentation.md",
-  "llm/tasks/docs-update/prompt.md",
+  ".agents/policies/safety.md",
+  ".agents/policies/git.md",
+  ".agents/policies/documentation.md",
+  ".agents/tasks/docs-update/prompt.md",
 ];
 
 afterEach(() => {
@@ -60,6 +60,19 @@ function makeRepo(): string {
   if (first.status !== 0) throw new Error(first.stderr);
   writeFileSync(path.join(dir, "src", "app.txt"), "src content v2\n");
   const second = git(dir, ["commit", "-q", "--no-gpg-sign", "-am", "update src"]);
+  if (second.status !== 0) throw new Error(second.stderr);
+  return dir;
+}
+
+function makeRepoWithRootOnlyImpact(): string {
+  const dir = makeRepo();
+  const root = git(dir, ["rev-list", "--max-parents=0", "HEAD"]).stdout.trim();
+  const reset = git(dir, ["reset", "--hard", "-q", root]);
+  if (reset.status !== 0) throw new Error(reset.stderr);
+  mkdirSync(path.join(dir, "tests"), { recursive: true });
+  writeFileSync(path.join(dir, "tests", "only.txt"), "non-impact\n");
+  git(dir, ["add", "tests/only.txt"]);
+  const second = git(dir, ["commit", "-q", "--no-gpg-sign", "-m", "test: non-impact"]);
   if (second.status !== 0) throw new Error(second.stderr);
   return dir;
 }
@@ -125,6 +138,7 @@ describe("ai-docs-pre-push.mjs adapter boundary", () => {
     const content = readFileSync(RUNNER, "utf8");
     expect(content).toContain('resolveTask(SCRIPT_REPO_ROOT, "docs-update")');
     expect(content).toContain("runTask({");
+    expect(content).toContain("production uses .agents/runner.config.json");
     expect(content).not.toContain("docs-agent.config.json");
     expect(content).not.toContain("docs/llm/update-prompt.md");
   });
@@ -158,6 +172,68 @@ describe("ai-docs-pre-push.mjs adapter boundary", () => {
     expect(result.stderr).toContain("快速通过");
   });
 
+  it("rejects malformed ref records instead of silently dropping them", () => {
+    const dir = makeRepo();
+    const result = runRunner({
+      cwd: dir,
+      input: `malformed record\n${pushInput(dir)}`,
+    });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("malformed pre-push ref record");
+  });
+
+  it("fast-passes branch deletion without diffing against the zero object id", () => {
+    const dir = makeRepo();
+    const result = runRunner({
+      cwd: dir,
+      input: `refs/heads/main ${ZERO_SHA} refs/heads/main ${head(dir)}\n`,
+    });
+    expect(result.status).toBe(0);
+    expect(result.stderr).toContain("快速通过");
+  });
+
+  it("handles a mixed update and branch deletion without rejecting the deletion", () => {
+    const dir = makeRepo();
+    const marker = path.join(scratchDir(), "marker.txt");
+    const result = runRunner({
+      cwd: dir,
+      input: `${pushInput(dir)}refs/heads/delete-me ${ZERO_SHA} refs/heads/delete-me ${head(dir)}\n`,
+      env: { FAKE_AGENT_MARKER: marker },
+    });
+    expect(result.status).toBe(0);
+    expect(existsSync(marker)).toBe(true);
+  });
+
+  it("includes root commit paths for a new branch push", () => {
+    const dir = makeRepoWithRootOnlyImpact();
+    const marker = path.join(scratchDir(), "marker.txt");
+    const result = runRunner({
+      cwd: dir,
+      input: pushInput(dir),
+      env: { FAKE_AGENT_MARKER: marker },
+    });
+    expect(result.status).toBe(0);
+    expect(existsSync(marker)).toBe(true);
+  });
+
+  it("treats a renamed-away impact path as affected", () => {
+    const dir = makeRepo();
+    const remoteSha = head(dir);
+    mkdirSync(path.join(dir, "tests"), { recursive: true });
+    const rename = git(dir, ["mv", "src/app.txt", "tests/app.txt"]);
+    if (rename.status !== 0) throw new Error(rename.stderr);
+    const commit = git(dir, ["commit", "-q", "--no-gpg-sign", "-m", "refactor: move app"]);
+    if (commit.status !== 0) throw new Error(commit.stderr);
+    const marker = path.join(scratchDir(), "marker.txt");
+    const result = runRunner({
+      cwd: dir,
+      input: pushInput(dir, remoteSha),
+      env: { FAKE_AGENT_MARKER: marker },
+    });
+    expect(result.status).toBe(0);
+    expect(existsSync(marker)).toBe(true);
+  });
+
   it("returns 0 when the agent makes no writes and validators pass", () => {
     const dir = makeRepo();
     const marker = path.join(scratchDir(), "marker.txt");
@@ -169,6 +245,23 @@ describe("ai-docs-pre-push.mjs adapter boundary", () => {
     expect(result.status).toBe(0);
     expect(existsSync(marker)).toBe(true);
     expect(result.stderr).toContain("校验通过");
+  });
+
+  it("fails closed when the runner is disabled for an impacted push", () => {
+    const dir = makeRepo();
+    const configPath = writeRunnerConfig(dir, { enabled: false });
+    const result = runRunner({ cwd: dir, configPath, input: pushInput(dir) });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("LLM runner is disabled");
+  });
+
+  it("allows a disabled runner only when the pushed range has no task impact", () => {
+    const dir = makeRepo();
+    const configPath = writeRunnerConfig(dir, { enabled: false });
+    const sha = head(dir);
+    const result = runRunner({ cwd: dir, configPath, input: pushInput(dir, sha) });
+    expect(result.status).toBe(0);
+    expect(result.stderr).toContain("快速通过");
   });
 
   it("returns 2 for allowlisted writes and never commits them", () => {
@@ -293,11 +386,11 @@ describe("ai-docs-pre-push.mjs adapter boundary", () => {
 });
 
 describe(".githooks/pre-push", () => {
-  it("is executable, POSIX-only, and invokes the adapter", () => {
+  it("is executable, POSIX-only, and invokes the unified orchestrator", () => {
     const hookPath = path.join(repoRoot, ".githooks", "pre-push");
     const content = readFileSync(hookPath, "utf8");
     const indexEntry = git(repoRoot, ["ls-files", "-s", ".githooks/pre-push"]).stdout;
-    expect(content).toContain("ai-docs-pre-push.mjs");
+    expect(content).toContain("scripts/pre-push.mjs");
     expect(content).toContain("UNITARY_DOCS_HOOK_SKIP=1");
     expect(content).not.toContain("\r\n");
     expect(content.includes("$@") || content.includes("${1:0}")).toBe(true);
@@ -321,7 +414,12 @@ describe("install-git-hooks.mjs", () => {
       {
         cwd: dir,
         encoding: "utf8",
-        env: { ...process.env, UNITARY_INSTALL_HOOKS_REPO_ROOT: dir },
+        env: {
+          ...process.env,
+          NODE_ENV: "test",
+          UNITARY_INSTALL_HOOKS_TEST_MODE: "1",
+          UNITARY_INSTALL_HOOKS_REPO_ROOT: dir,
+        },
       },
     );
     expect(result.status).toBe(0);
@@ -346,10 +444,34 @@ describe("install-git-hooks.mjs", () => {
       {
         cwd: dir,
         encoding: "utf8",
-        env: { ...process.env, UNITARY_INSTALL_HOOKS_REPO_ROOT: dir },
+        env: {
+          ...process.env,
+          NODE_ENV: "test",
+          UNITARY_INSTALL_HOOKS_TEST_MODE: "1",
+          UNITARY_INSTALL_HOOKS_REPO_ROOT: dir,
+        },
       },
     );
     expect(result.status).toBe(1);
     expect(result.stderr).toContain("--force");
+  });
+
+  it("rejects the repository-root override outside explicit test mode", () => {
+    const dir = makeRepo();
+    const result = spawnSync(
+      process.execPath,
+      [path.join(repoRoot, "scripts", "install-git-hooks.mjs")],
+      {
+        cwd: repoRoot,
+        encoding: "utf8",
+        env: {
+          ...process.env,
+          NODE_ENV: "production",
+          UNITARY_INSTALL_HOOKS_REPO_ROOT: dir,
+        },
+      },
+    );
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("test-only");
   });
 });

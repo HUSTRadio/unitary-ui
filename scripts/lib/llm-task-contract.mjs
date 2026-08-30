@@ -4,11 +4,11 @@ import path from "node:path";
 
 import Ajv from "ajv";
 
-const REGISTRY_PATH = "llm/registry.json";
-const REGISTRY_SCHEMA_PATH = "llm/registry.schema.json";
-const RUNNER_CONFIG_PATH = "llm/runner.config.json";
-const RUNNER_SCHEMA_PATH = "llm/runner.schema.json";
-const TASK_SCHEMA_PATH = "llm/task.schema.json";
+const REGISTRY_PATH = ".agents/registry.json";
+const REGISTRY_SCHEMA_PATH = ".agents/registry.schema.json";
+const RUNNER_CONFIG_PATH = ".agents/runner.config.json";
+const RUNNER_SCHEMA_PATH = ".agents/runner.schema.json";
+const TASK_SCHEMA_PATH = ".agents/task.schema.json";
 
 function sha256(value) {
   return createHash("sha256").update(value).digest("hex");

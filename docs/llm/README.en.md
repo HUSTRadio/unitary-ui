@@ -11,7 +11,7 @@ This directory provides stable Markdown generated from the real documentation pa
 - English pages: `pages/en-US/**`
 - Canonical routes: `docs/geist/src/data/docs-routes.ts`
 - Canonical component source: `src/components/ui/**`
-- Versioned LLM task packages and prompt paths: [`../../llm/README.en.md`](../../llm/README.en.md)
+- Versioned LLM task packages and prompt paths: [`../../.agents/README.en.md`](../../.agents/README.en.md)
 
 `index.json` lists both locale paths, titles, categories, and SHA-256 values in canonical route order. Generated pages are not independent sources of truth. Fix the real component, route, API registry, demo, or guide first, then regenerate.
 

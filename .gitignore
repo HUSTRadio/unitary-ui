@@ -16,12 +16,13 @@ dist/
 .roo/
 .continue/
 .agent/
-.agents/
 .scratch/
 .tmp/
 .plans/
 .plan/
 .superpowers/
+
+# `.agents/` 是版本化的 canonical agent 任务包，必须纳入 Git。
 
 # Playwright artifacts
 playwright-report/

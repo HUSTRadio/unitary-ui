@@ -11,7 +11,7 @@
 - 英文页面：`pages/en-US/**`
 - canonical 路由：`docs/geist/src/data/docs-routes.ts`
 - canonical 组件实现：`src/components/ui/**`
-- 版本化 LLM 任务包与提示词路径：[`../../llm/README.md`](../../llm/README.md)
+- 版本化 LLM 任务包与提示词路径：[`../../.agents/README.md`](../../.agents/README.md)
 
 `index.json` 按 canonical 路由顺序列出两种语言的文件路径、标题、类别与 SHA-256。生成页不是独立事实源；若内容错误，应先修改真实组件、路由、API registry、demo 或 guide，再重新生成。
 

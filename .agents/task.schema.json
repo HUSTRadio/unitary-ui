@@ -29,7 +29,7 @@
       "uniqueItems": true,
       "items": {
         "type": "string",
-        "pattern": "^llm/[A-Za-z0-9._/-]+\\.md$"
+        "pattern": "^\\.agents/[A-Za-z0-9._/-]+\\.md$"
       }
     },
     "contextProvider": {

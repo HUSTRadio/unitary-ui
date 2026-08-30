@@ -6,10 +6,10 @@ import { describe, expect, it } from "vitest";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const fragmentPaths = [
-  "llm/policies/safety.md",
-  "llm/policies/git.md",
-  "llm/policies/documentation.md",
-  "llm/tasks/docs-update/prompt.md",
+  ".agents/policies/safety.md",
+  ".agents/policies/git.md",
+  ".agents/policies/documentation.md",
+  ".agents/tasks/docs-update/prompt.md",
 ];
 
 function read(relativePath: string): string {
@@ -17,8 +17,8 @@ function read(relativePath: string): string {
 }
 
 function expectLiteralDiscovery(content: string): void {
-  expect(content).toContain("llm/registry.json");
-  expect(content).toContain("llm/tasks/docs-update/task.json");
+  expect(content).toContain(".agents/registry.json");
+  expect(content).toContain(".agents/tasks/docs-update/task.json");
   let cursor = -1;
   for (const fragmentPath of fragmentPaths) {
     const next = content.indexOf(fragmentPath);
@@ -29,10 +29,10 @@ function expectLiteralDiscovery(content: string): void {
 
 describe("LLM task documentation contract", () => {
   it("provides bilingual task-package documentation", () => {
-    expect(existsSync(path.join(root, "llm", "README.md"))).toBe(true);
-    expect(existsSync(path.join(root, "llm", "README.en.md"))).toBe(true);
-    expect(read("llm/README.md")).toContain("README.en.md");
-    expect(read("llm/README.en.md")).toContain("README.md");
+    expect(existsSync(path.join(root, ".agents", "README.md"))).toBe(true);
+    expect(existsSync(path.join(root, ".agents", "README.en.md"))).toBe(true);
+    expect(read(".agents/README.md")).toContain("README.en.md");
+    expect(read(".agents/README.en.md")).toContain("README.md");
   });
 
   it("lets an LLM discover prompt fragments from AGENTS.md without running a command", () => {
@@ -43,8 +43,8 @@ describe("LLM task documentation contract", () => {
   });
 
   it("documents the same static discovery procedure and fragment order in both task READMEs", () => {
-    const zh = read("llm/README.md");
-    const en = read("llm/README.en.md");
+    const zh = read(".agents/README.md");
+    const en = read(".agents/README.en.md");
     expectLiteralDiscovery(zh);
     expectLiteralDiscovery(en);
     expect(zh).toContain("无需运行 `vp run`");
@@ -53,21 +53,22 @@ describe("LLM task documentation contract", () => {
     expect(en).toContain("runtime context");
   });
 
-  it("links the task package from human and corpus documentation", () => {
-    for (const relativePath of [
-      "README.md",
-      "README.en.md",
-      "docs/llm/README.md",
-      "docs/llm/README.en.md",
-    ]) {
-      expect(read(relativePath), relativePath).toContain("llm/README");
+  it("keeps human-facing READMEs concise while linking the task package from corpus documentation", () => {
+    for (const relativePath of ["README.md", "README.en.md"]) {
+      const readme = read(relativePath);
+      expect(readme, relativePath).toContain("AGENTS.md");
+      expect(readme, relativePath).not.toContain(".agents/README");
+    }
+
+    for (const relativePath of ["docs/llm/README.md", "docs/llm/README.en.md"]) {
+      expect(read(relativePath), relativePath).toContain(".agents/README");
     }
   });
 
   it("records the migration without retaining legacy configuration paths", () => {
     for (const relativePath of ["CHANGELOG.md", "CHANGELOG.en.md"]) {
       const changelog = read(relativePath);
-      expect(changelog).toContain("llm/registry.json");
+      expect(changelog).toContain(".agents/registry.json");
       expect(changelog).not.toContain("docs-agent.config.json");
       expect(changelog).not.toContain("docs/llm/update-prompt.md");
     }

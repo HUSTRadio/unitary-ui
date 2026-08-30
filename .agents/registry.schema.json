@@ -14,7 +14,7 @@
       "propertyNames": { "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
       "additionalProperties": {
         "type": "string",
-        "pattern": "^llm/tasks/[a-z0-9]+(?:-[a-z0-9]+)*/task\\.json$"
+        "pattern": "^\\.agents/tasks/[a-z0-9]+(?:-[a-z0-9]+)*/task\\.json$"
       }
     }
   }

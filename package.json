@@ -57,6 +57,7 @@
     "test:docs-layout": "playwright test -c playwright.config.ts",
     "hooks:install": "node scripts/install-git-hooks.mjs",
     "docs:readme:screenshots": "node scripts/capture-readme-screenshots.mjs",
+    "docs:readme:screenshots:check": "node scripts/capture-readme-screenshots.mjs --check",
     "docs:llm:generate": "tsx scripts/generate-llm-docs.ts",
     "docs:llm:check": "tsx scripts/generate-llm-docs.ts --check",
     "llm": "node scripts/run-llm-task.mjs",

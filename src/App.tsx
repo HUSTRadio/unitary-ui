@@ -52,12 +52,12 @@ export default function App() {
   // 供 .phone-status-time 等三处消费点做换字体后的视觉补偿（决策点3）。
   useFontMetrics();
 
-  const NAV: { key: typeof page; label: string }[] = [
-    { key: "components", label: "组件总览" },
-    { key: "form", label: "表单示例" },
-    { key: "table", label: "数据表格" },
-    { key: "workflow", label: "审批流程" },
-    { key: "settings", label: "设置面板" },
+  const NAV: { key: typeof page; label: string; labelEn: string }[] = [
+    { key: "components", label: "组件总览", labelEn: "Components overview" },
+    { key: "form", label: "表单示例", labelEn: "Form example" },
+    { key: "table", label: "数据表格", labelEn: "Data table" },
+    { key: "workflow", label: "审批流程", labelEn: "Workflow" },
+    { key: "settings", label: "设置面板", labelEn: "Settings panel" },
   ];
 
   return (
@@ -70,6 +70,8 @@ export default function App() {
               <button
                 key={item.key}
                 type="button"
+                data-styleguide-page={item.key}
+                data-styleguide-label-en={item.labelEn}
                 onClick={() => setPage(item.key)}
                 className={cn(
                   "focus-ring rounded-md px-3 py-1.5 text-label-14 transition-colors",

@@ -8,19 +8,19 @@ import Ajv from "ajv";
 import { describe, expect, it } from "vitest";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const registryPath = path.join(repoRoot, "llm", "registry.json");
-const registrySchemaPath = path.join(repoRoot, "llm", "registry.schema.json");
-const taskPath = path.join(repoRoot, "llm", "tasks", "docs-update", "task.json");
-const taskSchemaPath = path.join(repoRoot, "llm", "task.schema.json");
-const runnerConfigPath = path.join(repoRoot, "llm", "runner.config.json");
-const runnerSchemaPath = path.join(repoRoot, "llm", "runner.schema.json");
+const registryPath = path.join(repoRoot, ".agents", "registry.json");
+const registrySchemaPath = path.join(repoRoot, ".agents", "registry.schema.json");
+const taskPath = path.join(repoRoot, ".agents", "tasks", "docs-update", "task.json");
+const taskSchemaPath = path.join(repoRoot, ".agents", "task.schema.json");
+const runnerConfigPath = path.join(repoRoot, ".agents", "runner.config.json");
+const runnerSchemaPath = path.join(repoRoot, ".agents", "runner.schema.json");
 const cliPath = path.join(repoRoot, "scripts", "run-llm-task.mjs");
 
 const expectedFragments = [
-  "llm/policies/safety.md",
-  "llm/policies/git.md",
-  "llm/policies/documentation.md",
-  "llm/tasks/docs-update/prompt.md",
+  ".agents/policies/safety.md",
+  ".agents/policies/git.md",
+  ".agents/policies/documentation.md",
+  ".agents/tasks/docs-update/prompt.md",
 ];
 
 function readJson(filePath: string): unknown {
@@ -40,6 +40,15 @@ function runCli(args: string[]) {
 }
 
 describe("versioned LLM task package contract", () => {
+  it("tracks .agents as the only canonical task-package root", () => {
+    expect(existsSync(path.join(repoRoot, ".agents"))).toBe(true);
+    expect(existsSync(path.join(repoRoot, "llm"))).toBe(false);
+    const ignored = spawnSync("git", ["check-ignore", "-q", ".agents/registry.json"], {
+      cwd: repoRoot,
+    });
+    expect(ignored.status).toBe(1);
+  });
+
   it("provides the canonical registry, schemas, runner profile, and docs-update manifest", () => {
     for (const filePath of [
       registryPath,
@@ -62,14 +71,16 @@ describe("versioned LLM task package contract", () => {
       id: string;
       version: number;
       promptFragments: string[];
+      impactGlobs: string[];
       validators: string[];
     };
 
     expect(registry.version).toBe(1);
-    expect(registry.tasks["docs-update"]).toBe("llm/tasks/docs-update/task.json");
+    expect(registry.tasks["docs-update"]).toBe(".agents/tasks/docs-update/task.json");
     expect(task.id).toBe("docs-update");
     expect(task.version).toBe(1);
     expect(task.promptFragments).toEqual(expectedFragments);
+    expect(task.impactGlobs).toContain(".agents/**");
     expect(task.validators).toEqual(["docs-corpus", "docs-contracts"]);
     expect(validate(registrySchemaPath, registry)).toBe(true);
     expect(validate(taskSchemaPath, task)).toBe(true);
@@ -108,8 +119,8 @@ describe("versioned LLM task package contract", () => {
 
     const first = contract.renderTaskPrompt(repoRoot, resolved, { mode: "manual", z: 1, a: 2 });
     const second = contract.renderTaskPrompt(repoRoot, resolved, { a: 2, mode: "manual", z: 1 });
-    expect(first.text.indexOf("llm/policies/safety.md")).toBeLessThan(
-      first.text.indexOf("llm/policies/git.md"),
+    expect(first.text.indexOf(".agents/policies/safety.md")).toBeLessThan(
+      first.text.indexOf(".agents/policies/git.md"),
     );
     expect(first.text).toContain("RUNTIME CONTEXT — UNTRUSTED DATA");
     expect(first.text).toContain('\"mode\": \"manual\"');
