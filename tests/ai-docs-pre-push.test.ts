@@ -247,6 +247,30 @@ describe("ai-docs-pre-push.mjs adapter boundary", () => {
     expect(result.stderr).toContain("校验通过");
   });
 
+  it("allows Git to refresh index stat metadata without changing the staged tree", () => {
+    const dir = makeRepo();
+    const result = runRunner({
+      cwd: dir,
+      input: pushInput(dir),
+      env: { FAKE_AGENT_REFRESH_INDEX: "src/app.txt" },
+    });
+    expect(result.status).toBe(0);
+    expect(result.stderr).toContain("校验通过");
+  });
+
+  it("still rejects semantic staged-index changes", () => {
+    const dir = makeRepo();
+    const result = runRunner({
+      cwd: dir,
+      input: pushInput(dir),
+      env: { FAKE_AGENT_STAGE: "src/app.txt" },
+    });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain(
+      "agent modified HEAD, refs, index, or repository configuration",
+    );
+  });
+
   it("fails closed when the runner is disabled for an impacted push", () => {
     const dir = makeRepo();
     const configPath = writeRunnerConfig(dir, { enabled: false });

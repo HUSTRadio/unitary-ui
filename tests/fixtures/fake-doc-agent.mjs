@@ -4,10 +4,13 @@
  * 通过环境变量控制行为：
  *   FAKE_AGENT_EXIT        进程退出码（默认 0）
  *   FAKE_AGENT_TOUCH       逗号分隔的相对路径列表；对每个路径执行追加写入
+ *   FAKE_AGENT_REFRESH_INDEX  只刷新指定跟踪文件的 index stat 缓存
+ *   FAKE_AGENT_STAGE       修改并暂存指定跟踪文件
  *   FAKE_AGENT_SLEEP_MS    运行前等待毫秒（用于超时测试）
  *   FAKE_AGENT_DUMP_TOKEN  若为 1，向 stdout 打印伪造凭据（用于泄露检测）
  */
-import { appendFileSync, mkdirSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { appendFileSync, mkdirSync, statSync, utimesSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 
@@ -43,6 +46,20 @@ if (process.env.FAKE_AGENT_PROMPT_OUT) {
   appendFileSync(process.env.FAKE_AGENT_PROMPT_OUT, prompt);
 }
 
+if (process.env.FAKE_AGENT_REFRESH_INDEX) {
+  const target = path.join(root, process.env.FAKE_AGENT_REFRESH_INDEX);
+  const { atime } = statSync(target);
+  utimesSync(target, atime, new Date(Date.now() + 60_000));
+  const refreshed = spawnSync("git", ["status", "--porcelain"], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  if (refreshed.status !== 0) {
+    process.stderr.write(refreshed.stderr);
+    process.exit(refreshed.status ?? 12);
+  }
+}
+
 const touchList = (process.env.FAKE_AGENT_TOUCH ?? "")
   .split(",")
   .map((entry) => entry.trim())
@@ -52,6 +69,16 @@ for (const target of touchList) {
   const filePath = path.join(root, target);
   mkdirSync(path.dirname(filePath), { recursive: true });
   appendFileSync(filePath, `fake agent edit ${new Date().toISOString()}\n`);
+}
+
+if (process.env.FAKE_AGENT_STAGE) {
+  const target = process.env.FAKE_AGENT_STAGE;
+  appendFileSync(path.join(root, target), "fake staged edit\n");
+  const staged = spawnSync("git", ["add", "--", target], { cwd: root, encoding: "utf8" });
+  if (staged.status !== 0) {
+    process.stderr.write(staged.stderr);
+    process.exit(staged.status ?? 13);
+  }
 }
 
 process.stderr.write(`fake-doc-agent touched ${touchList.length} path(s)\n`);

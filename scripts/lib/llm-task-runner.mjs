@@ -119,12 +119,13 @@ function changedWorktreePaths(repoRoot, beforeUntracked) {
 }
 
 function snapshotGitMetadata(repoRoot) {
-  const gitPaths = ["config", "index", "packed-refs"].map((name) =>
+  const gitPaths = ["config", "packed-refs"].map((name) =>
     gitOrThrow(repoRoot, ["rev-parse", "--git-path", name]).trim(),
   );
   return {
     head: gitOrThrow(repoRoot, ["rev-parse", "HEAD"]).trim(),
     refs: gitOrThrow(repoRoot, ["for-each-ref", "--format=%(refname) %(objectname)"]),
+    index: gitOrThrow(repoRoot, ["ls-files", "--stage", "-v", "-z"]),
     files: gitPaths.map((file) => [file, hashFile(path.resolve(repoRoot, file))]),
   };
 }
