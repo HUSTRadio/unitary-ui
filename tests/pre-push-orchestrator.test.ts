@@ -167,7 +167,8 @@ describe("统一 pre-push 编排", () => {
     expect(existsSync(docsMarker)).toBe(true);
     expect(result.stderr).toContain("未完成：文档同步与确定性校验没有完成");
     expect(result.stderr).toContain("pnpm run llm -- check");
-    expect(result.stderr).toContain("pnpm run llm -- docs-update --manual");
+    expect(result.stderr).toContain("pnpm run docs:agent:update");
+    expect(result.stderr).not.toContain("pnpm run llm -- docs-update --manual");
     expect(result.stderr).toContain("修复并提交后重新执行 git push");
   });
 

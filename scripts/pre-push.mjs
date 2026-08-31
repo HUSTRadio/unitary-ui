@@ -179,7 +179,7 @@ function runDocsGate(input) {
   printRecovery("文档同步与确定性校验没有完成", [
     "阅读上方 ai-docs-pre-push 错误并修复对应问题",
     "pnpm run llm -- check",
-    "如需重新生成文档，执行 pnpm run llm -- docs-update --manual",
+    "如需同步文档与示例，执行 pnpm run docs:agent:update",
     "审查并提交生成的文档",
     "修复并提交后重新执行 git push",
   ]);

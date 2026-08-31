@@ -23,6 +23,8 @@ describe("pre-push Angular Commit 与截图影响分类", () => {
 
   it("真实视觉路径始终触发截图检查，不依赖提交信息是否正确", () => {
     for (const changedPath of [
+      "src/App.tsx",
+      "src/examples/FormExample.tsx",
       "src/components/ui/button.tsx",
       "src/lib/theme.ts",
       "public/fonts/oppo-sans-l1-vf.woff2",

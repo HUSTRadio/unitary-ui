@@ -80,7 +80,14 @@ async function loadRunner() {
 describe("generic LLM task runner", () => {
   it("owns fixed validator IDs instead of accepting command arrays from manifests", async () => {
     const runner = await loadRunner();
-    expect(Object.keys(runner.VALIDATORS).sort()).toEqual(["docs-contracts", "docs-corpus"]);
+    expect(Object.keys(runner.VALIDATORS).sort()).toEqual([
+      "docs-contracts",
+      "docs-corpus",
+      "styleguide-screenshots",
+    ]);
+    expect(runner.VALIDATORS["styleguide-screenshots"]).toEqual([
+      [expect.stringMatching(/^vp(?:\.exe)?$/), "run", "docs:readme:screenshots:check"],
+    ]);
     expect(runner.validateTaskCapabilities(fakeTask())).toBeUndefined();
     expect(() =>
       runner.validateTaskCapabilities({ ...fakeTask(), validators: ["sh-c-true"] }),

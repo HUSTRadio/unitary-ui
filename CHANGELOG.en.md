@@ -32,6 +32,7 @@ All notable changes to this project are documented in this file. The format foll
 - `AGENTS.md` is now a portable repository-level LLM entry point that links the canonical source, Geist docs, and `docs/llm/index.json`, without personal environment details, signing identities, or bindings to a specific Agent tool.
 - The versioned agent task package moved to top-level `.agents/` with no legacy-directory compatibility alias; runner, schema, prompt discovery, pre-push impact paths, contract tests, and Git ignore/line-ending policy now use the new path.
 - Pre-push now combines README screenshot drift detection with the existing documentation/LLM update gate in one orchestrator: real changed paths are the sole gate decision, while Angular/Conventional Commit type and scope are diagnostic signals that cannot override path impact. Screenshot drift regenerates managed files and aborts the push; every blocked push identifies the incomplete operation and prints recovery steps for human review, commit, and retry.
+- Living-styleguide examples now use the current component APIs and realistic action semantics. The bounded `docs-update` task may synchronize `src/App.tsx`, `src/examples/**`, and managed screenshots, with zero screenshot drift enforced as a deterministic validator.
 
 ### Fixed
 
@@ -39,3 +40,4 @@ All notable changes to this project are documented in this file. The format foll
 - Tooling fix: the AI docs runner now rejects configurations that set both `--sandbox` and `--approve-for-me` (the flags are mutually exclusive; approve-for-me implies the workspace-write sandbox).
 - Hook security hardening: production uses a fixed Codex template and deterministic validations, a minimal environment allowlist, suppressed raw Agent stderr, and checks for mutations to existing untracked files and Git metadata; the emergency skip returns a Git-compatible success code while retaining a prominent warning.
 - Documentation accuracy: corrected the Button, Toast, Progress, and Feedback API/guide descriptions to match real exports and props; capped the Middle Truncate demo on mobile and allowed long paths to wrap inside structured guide cards, eliminating horizontal overflow at a 320px viewport.
+- Input affixes now form a flush three-segment control while preserving the fixed role of styled affixes when disabled; Select now associates explicit or visible labels with its trigger. The examples also fix filtered bulk selection, reset actions, and table-header semantics.

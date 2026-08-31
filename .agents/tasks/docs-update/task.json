@@ -2,7 +2,7 @@
   "$schema": "../../task.schema.json",
   "id": "docs-update",
   "version": 1,
-  "description": "Synchronize bilingual human documentation and generated LLM references.",
+  "description": "Synchronize bilingual documentation, living demos, screenshots, and generated LLM references.",
   "promptFragments": [
     ".agents/policies/safety.md",
     ".agents/policies/git.md",
@@ -26,6 +26,9 @@
     "THIRD_PARTY_NOTICES.en.md"
   ],
   "allowedWriteGlobs": [
+    "src/App.tsx",
+    "src/examples/**",
+    "images/styleguide/**",
     "docs/geist/**",
     "docs/llm/index.json",
     "docs/llm/pages/**",
@@ -39,5 +42,5 @@
     "THIRD_PARTY_NOTICES.md",
     "THIRD_PARTY_NOTICES.en.md"
   ],
-  "validators": ["docs-corpus", "docs-contracts"]
+  "validators": ["docs-corpus", "docs-contracts", "styleguide-screenshots"]
 }

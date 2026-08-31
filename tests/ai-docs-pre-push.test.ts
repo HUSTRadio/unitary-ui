@@ -277,6 +277,26 @@ describe("ai-docs-pre-push.mjs adapter boundary", () => {
     expect(head(dir)).toBe(before);
   });
 
+  it("allows the update task to revise living demo pages without opening component runtime", () => {
+    const dir = makeRepo();
+    const demoResult = runRunner({
+      cwd: dir,
+      input: pushInput(dir),
+      env: { FAKE_AGENT_TOUCH: "src/examples/UpdatedDemo.tsx" },
+    });
+    expect(demoResult.status).toBe(2);
+    expect(demoResult.stderr).toContain("src/examples/UpdatedDemo.tsx");
+
+    rmSync(path.join(dir, "src", "examples"), { recursive: true, force: true });
+    const runtimeResult = runRunner({
+      cwd: dir,
+      input: pushInput(dir),
+      env: { FAKE_AGENT_TOUCH: "src/components/ui/button.tsx" },
+    });
+    expect(runtimeResult.status).toBe(1);
+    expect(runtimeResult.stderr).toContain("src/components/ui/button.tsx");
+  });
+
   it("rejects writes outside the manifest allowlist", () => {
     const dir = makeRepo();
     const result = runRunner({

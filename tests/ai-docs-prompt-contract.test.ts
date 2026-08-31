@@ -55,6 +55,21 @@ describe("AI documentation update prompt contract", () => {
     );
   });
 
+  it("includes living demo maintenance and screenshot drift in the update contract", () => {
+    const task = resolveTask(root, "docs-update");
+    expect(task.allowedWriteGlobs).toEqual(
+      expect.arrayContaining(["src/App.tsx", "src/examples/**", "images/styleguide/**"]),
+    );
+    expect(task.allowedWriteGlobs).not.toContain("src/components/**");
+    expect(task.validators).toContain("styleguide-screenshots");
+
+    const prompt = assembledPrompt();
+    expect(prompt).toContain("living demo pages in `src/App.tsx` and `src/examples/**`");
+    expect(prompt).toContain("pnpm run docs:readme:screenshots");
+    expect(prompt).toContain("pnpm run docs:readme:screenshots:check");
+    expect(prompt).toContain("Do not change component runtime behavior");
+  });
+
   it("forbids credentials, commits, and pushes", () => {
     const prompt = assembledPrompt();
     expect(prompt).toContain("Do not read or expose credentials");

@@ -24,6 +24,9 @@ export const VALIDATORS = Object.freeze({
       "tests/ai-docs-prompt-contract.test.ts",
     ],
   ]),
+  "styleguide-screenshots": Object.freeze([
+    [VP, "run", "docs:readme:screenshots:check"],
+  ]),
 });
 
 export const CONTEXT_PROVIDER_IDS = Object.freeze(["docs-push"]);

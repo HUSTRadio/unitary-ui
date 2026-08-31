@@ -81,7 +81,11 @@ describe("versioned LLM task package contract", () => {
     expect(task.version).toBe(1);
     expect(task.promptFragments).toEqual(expectedFragments);
     expect(task.impactGlobs).toContain(".agents/**");
-    expect(task.validators).toEqual(["docs-corpus", "docs-contracts"]);
+    expect(task.validators).toEqual([
+      "docs-corpus",
+      "docs-contracts",
+      "styleguide-screenshots",
+    ]);
     expect(validate(registrySchemaPath, registry)).toBe(true);
     expect(validate(taskSchemaPath, task)).toBe(true);
     expect(validate(runnerSchemaPath, readJson(runnerConfigPath))).toBe(true);
