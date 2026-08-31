@@ -271,6 +271,7 @@ import {
   ModalDescription,
   ModalFooter,
   ModalHeader,
+  ModalTrigger,
   ModalTitle,
 } from "@/components/ui/modal";
 import { useState } from "react";
@@ -307,6 +308,7 @@ import {
   ModalDescription,
   ModalFooter,
   ModalHeader,
+  ModalTrigger,
   ModalTitle,
 } from "@/components/ui/modal";
 import { useRef, useState } from "react";
@@ -352,6 +354,7 @@ import {
   ModalDescription,
   ModalFooter,
   ModalHeader,
+  ModalTrigger,
   ModalTitle,
 } from "@/components/ui/modal";
 import { useRef, useState } from "react";
@@ -407,6 +410,7 @@ import {
   ModalDescription,
   ModalFooter,
   ModalHeader,
+  ModalTrigger,
   ModalTitle,
 } from "@/components/ui/modal";
 import { useState } from "react";
@@ -467,6 +471,7 @@ import {
   ModalDescription,
   ModalFooter,
   ModalHeader,
+  ModalTrigger,
   ModalTitle,
 } from "@/components/ui/modal";
 import { useState } from "react";
@@ -532,6 +537,7 @@ import {
   ModalDescription,
   ModalFooter,
   ModalHeader,
+  ModalTrigger,
   ModalTitle,
 } from "@/components/ui/modal";
 import { useToasts } from "@/components/ui/toast";

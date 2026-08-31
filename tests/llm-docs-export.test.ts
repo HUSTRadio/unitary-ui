@@ -39,6 +39,16 @@ describe("LLM docs export contract", () => {
     }
     expect(generator).not.toContain("复用已在运行的预览服务");
     expect(generator).toContain("findAvailablePort");
+    expect(generator).toContain('[data-slot="video"]');
+  });
+
+  it("不把视频播放器的运行时计时状态写入静态语料", () => {
+    const videoPage = readFileSync(
+      path.join(LLM_DIR, "pages", "zh-CN", "components", "video.md"),
+      "utf8",
+    );
+
+    expect(videoPage).not.toMatch(/^\d{2}:\d{2}$/m);
   });
 
   it("index.json 存在且路由与 canonical registry 一一对应", () => {

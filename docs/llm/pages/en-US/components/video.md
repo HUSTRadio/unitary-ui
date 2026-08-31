@@ -51,15 +51,7 @@ Not applicable: Video renders the native HTML video element with OS/browser defa
 
 ## Live Demo
 
-00:00
-
-00:10
-
 ## No Loop
-
-00:00
-
-00:10
 
 ```tsx
 import { Video } from "@/components/ui/video";

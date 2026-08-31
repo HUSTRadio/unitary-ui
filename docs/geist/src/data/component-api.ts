@@ -36,22 +36,42 @@ const component = (exports: string[], rows: ApiRow[] = [], extendsType?: string)
 
 const O = {
   avatar: component(
-    ["Avatar", "AvatarGroup", "AvatarWithIcon"],
     [
+      "Avatar",
+      "AvatarGroup",
+      "AvatarWithIcon",
+      "GitHubAvatar",
+      "GitLabAvatar",
+      "BitbucketAvatar",
+    ],
+    [
+      row("size", "number", "Avatar diameter in pixels.", "头像直径（像素）。", {
+        defaultValue: "32",
+      }),
       row("src", "string", "Image source.", "图片地址。"),
       row("alt", "string", "Accessible image description.", "图片的无障碍说明。"),
-      row(
-        "fallback",
-        "ReactNode",
-        "Fallback shown when no image is available.",
-        "无图片时显示的后备内容。",
-      ),
+      row("username", "string", "GitHub username used as an image source.", "用作图片来源的 GitHub 用户名。"),
+      row("letter", "string", "One or two fallback initials.", "一到两个后备首字母。"),
+      row("placeholder", "boolean", "Shows the placeholder shell.", "显示占位外壳。"),
+      row("title", "string", "Entity name used for the accessible label.", "用作无障碍标签的实体名称。"),
     ],
-    "ImgHTMLAttributes<HTMLImageElement>",
+    "ComponentProps<typeof AvatarPrimitive.Root>",
   ),
   badge: component(
     ["Badge", "badgeVariants"],
-    [row("type", "BadgeType", "Semantic badge color.", "语义化徽章颜色。")],
+    [
+      row("variant", "BadgeVariant", "Visual badge variant.", "徽章视觉变体。", {
+        defaultValue: '"gray"',
+      }),
+      row("size", '"sm" | "md" | "lg"', "Badge size.", "徽章尺寸。", {
+        defaultValue: '"md"',
+      }),
+      row("contrast", '"low"', "Uses the low-contrast text treatment.", "使用低对比度文字样式。"),
+      row("icon", "ReactNode", "Optional leading icon.", "可选的前置图标。"),
+      row("asChild", "boolean", "Renders through the child element.", "通过子元素渲染。", {
+        defaultValue: "false",
+      }),
+    ],
     "HTMLAttributes<HTMLSpanElement>",
   ),
   banner: component(
@@ -63,7 +83,7 @@ const O = {
     ["Browser"],
     [
       row(
-        "url",
+        "address",
         "string",
         "Address displayed by the decorative browser chrome.",
         "装饰性浏览器框中显示的地址。",
@@ -180,7 +200,9 @@ const O = {
   "code-block": component(
     ["CodeBlock", "CodeBlockHeader", "CodeBlockContent"],
     [
-      row("code", "string", "Code rendered by the default content slot.", "默认内容槽展示的代码。"),
+      row("children", "string", "Code rendered by the default content slot.", "默认内容槽展示的代码。", {
+        required: true,
+      }),
       row("language", "string", "Language label for syntax highlighting.", "语法高亮的语言标签。"),
     ],
   ),
@@ -209,7 +231,7 @@ const O = {
     [
       row("open", "boolean", "Controlled dialog state.", "受控对话框状态。"),
       row(
-        "onOpenChange",
+        "setOpen",
         "(open: boolean) => void",
         "Called for open and close requests.",
         "请求打开或关闭时调用。",
@@ -282,18 +304,34 @@ const O = {
     ["DestructiveActionModal"],
     [
       row("open", "boolean", "Controlled dialog state.", "受控对话框状态。"),
+      row("onCancel", "() => void", "Handles cancellation and dismissal.", "处理取消与关闭。"),
       row(
         "onConfirm",
-        "() => void | Promise<void>",
+        "() => void",
         "Owns the destructive action.",
         "负责执行破坏性操作。",
-        { required: true },
       ),
+      row("title", "string", "Dialog title.", "对话框标题。", { required: true }),
+      row("description", "ReactNode", "Consequence description.", "后果说明。"),
+      row("confirmLabel", "string", "Confirmation button label.", "确认按钮文案。", { required: true }),
+      row("verificationPhrase", "string", "Exact phrase required to unlock confirmation.", "解锁确认所需精确输入的短语。", { required: true }),
+      row("verificationLabel", "string", "Noun used in the verification prompt.", "验证提示中使用的名词。"),
+      row("irreversibleDescription", "ReactNode", "Optional irreversible-action warning band.", "可选的不可撤销操作警告带。"),
+      row("loading", "boolean", "Disables both actions and shows progress.", "禁用两个操作并显示加载状态。", { defaultValue: "false" }),
+      row("error", "string | Error", "Inline confirmation error.", "行内确认错误。"),
     ],
   ),
   "dots-menu": component(
     ["DotsMenu", "DotsMenuItem", "DotsMenuSeparator"],
-    [row("align", '"start" | "center" | "end"', "Menu alignment.", "菜单对齐方式。")],
+    [
+      row("position", "MenuPosition", "Menu placement relative to the trigger.", "菜单相对触发器的位置。", {
+        defaultValue: '"bottom-end"',
+      }),
+      row("iconSize", "number", "Trigger icon size in pixels.", "触发器图标的像素尺寸。", {
+        defaultValue: "18",
+      }),
+      row("disabled", "boolean", "Disables the menu trigger.", "禁用菜单触发器。"),
+    ],
   ),
   drawer: component(
     ["Drawer", "DrawerTitle", "DrawerDescription"],
@@ -314,7 +352,15 @@ const O = {
   ),
   error: component(
     ["Error"],
-    [row("message", "ReactNode", "Actionable error message.", "可操作的错误信息。")],
+    [
+      row("children", "ReactNode", "Inline error content.", "行内错误内容。"),
+      row("label", "string | false", "Optional emphasized label; false hides it.", "可选的强调标签；false 时隐藏。"),
+      row("size", '"small" | "default" | "large"', "Error text size.", "错误文字尺寸。", {
+        defaultValue: '"default"',
+      }),
+      row("error", "{ message: string; action?: string; link?: string }", "Structured error with an optional external action.", "带可选外部操作的结构化错误。"),
+    ],
+    "ComponentProps<\"div\">",
   ),
   feedback: component(
     ["Feedback"],
@@ -348,21 +394,33 @@ const O = {
   "file-tree": component(
     ["FileTree", "FileTreeItem", "FileTreeLabel", "FileTreeIcon"],
     [
-      row("open", "string[]", "Controlled expanded node IDs.", "受控展开节点 ID。"),
-      row("defaultOpen", "string[]", "Initial expanded node IDs.", "初始展开节点 ID。"),
+      row("open", "boolean", "Controlled expansion state for FileTreeItem.", "FileTreeItem 的受控展开状态。"),
+      row("defaultOpen", "boolean", "Initial expansion state for FileTreeItem.", "FileTreeItem 的初始展开状态。"),
       row(
         "onOpenChange",
-        "(ids: string[]) => void",
-        "Receives expanded node IDs.",
-        "接收展开节点 ID。",
+        "(open: boolean) => void",
+        "Receives FileTreeItem expansion changes.",
+        "接收 FileTreeItem 展开状态变化。",
       ),
+      row("href", "string", "Renders a leaf FileTreeItem as a link.", "将叶子 FileTreeItem 渲染为链接。"),
+      row("type", '"file" | "folder" | "folder-open"', "FileTreeIcon glyph type.", "FileTreeIcon 图标类型。", { defaultValue: '"file"' }),
     ],
   ),
   gauge: component(
     ["Gauge"],
     [
       row("value", "number", "Current value.", "当前数值。", { required: true }),
-      row("max", "number", "Upper bound.", "上限。", { defaultValue: "100" }),
+      row("size", '"tiny" | "small" | "medium" | "large"', "Fixed gauge size preset.", "固定的仪表尺寸预设。", {
+        defaultValue: '"medium"',
+      }),
+      row("showValue", "boolean", "Shows the numeric value in the center.", "在中心显示数值。", {
+        defaultValue: "false",
+      }),
+      row("indeterminate", "boolean", "Shows a rotating indeterminate gauge.", "显示旋转的不定状态仪表。", {
+        defaultValue: "false",
+      }),
+      row("colors", "GaugeColors", "Threshold colors or a primary/secondary pair.", "阈值色表或主色/次色组合。"),
+      row("arcPriority", '"equal"', "Uses equal-priority primary and secondary arcs.", "使用同优先级的主弧与次弧。"),
     ],
   ),
   grid: component(
@@ -400,10 +458,11 @@ const O = {
   "json-view": component(
     ["JsonView", "makeJsonViewHighlightPattern"],
     [
-      row("value", "unknown", "JSON-compatible data to render.", "要展示的 JSON 兼容数据。", {
+      row("data", "unknown", "Data to render as a JSON tree.", "以 JSON 树展示的数据。", {
         required: true,
       }),
-      row("collapsed", "boolean", "Starts nested objects collapsed.", "初始折叠嵌套对象。"),
+      row("defaultExpandDepth", "number", "Initial expansion depth; zero collapses the root.", "初始展开深度；0 会折叠根节点。"),
+      row("highlightPattern", "RegExp | null", "Highlights matching keys and primitive values.", "高亮匹配的键与原始值。"),
     ],
   ),
   "keyboard-input": component(
@@ -412,7 +471,12 @@ const O = {
   ),
   label: component(
     ["Label"],
-    [row("htmlFor", "string", "Associates the label with a control ID.", "与控件 ID 关联。")],
+    [
+      row("id", "string", "ID of the associated input control.", "关联输入控件的 ID。", { required: true }),
+      row("value", "string", "Visible label text.", "可见标签文字。", { required: true }),
+      row("bypassCasing", "boolean", "Disables automatic capitalization.", "禁用自动首字母大写。"),
+      row("withInput", "boolean", "Deprecated compatibility marker.", "已弃用的兼容标记。", { deprecated: true }),
+    ],
     "LabelHTMLAttributes<HTMLLabelElement>",
   ),
   "load-more-button": component(
@@ -455,13 +519,24 @@ const O = {
   "middle-truncate": component(
     ["MiddleTruncate"],
     [
-      row("text", "string", "Text shortened through its middle.", "从中间缩短的文本。", {
+      row("value", "string", "Text shortened through its middle.", "从中间缩短的文本。", {
         required: true,
       }),
     ],
   ),
   modal: component(
-    ["Modal", "ModalContent", "ModalTitle", "ModalDescription", "ModalClose"],
+    [
+      "Modal",
+      "ModalTrigger",
+      "ModalPortal",
+      "ModalOverlay",
+      "ModalContent",
+      "ModalHeader",
+      "ModalTitle",
+      "ModalDescription",
+      "ModalFooter",
+      "ModalClose",
+    ],
     [
       row("open", "boolean", "Controlled dialog state.", "受控对话框状态。"),
       row("defaultOpen", "boolean", "Initial uncontrolled state.", "非受控初始状态。"),
@@ -471,6 +546,10 @@ const O = {
         "Receives open state changes.",
         "接收打开状态变化。",
       ),
+      row("showCloseButton", "boolean", "Shows the optional close button in ModalContent.", "在 ModalContent 中显示可选关闭按钮。", {
+        defaultValue: "false",
+      }),
+      row("bodyClassName", "string", "Additional class name for the ModalContent body.", "ModalContent 内容区的额外类名。"),
     ],
   ),
   "multi-select": component(
@@ -488,19 +567,30 @@ const O = {
   ),
   note: component(
     ["Note", "NoteContent", "NoteAction", "NoteLabel"],
-    [row("type", "NoteVariant", "Semantic note style.", "语义提示样式。")],
+    [
+      row("variant", "NoteVariant", "Semantic note style.", "语义提示样式。", {
+        defaultValue: '"default"',
+      }),
+      row("fill", "boolean", "Uses a soft filled background.", "使用柔和填充背景。", {
+        defaultValue: "false",
+      }),
+      row("size", '"small" | "medium"', "Note size.", "提示尺寸。", {
+        defaultValue: '"medium"',
+      }),
+      row("icon", "ReactNode | null", "Custom icon; null removes the icon.", "自定义图标；null 会移除图标。"),
+      row("disabled", "boolean", "Disables actions inside the note.", "禁用提示内的操作。", {
+        defaultValue: "false",
+      }),
+    ],
   ),
   pagination: component(
     ["Pagination"],
     [
-      row("page", "number", "Current page.", "当前页。"),
-      row(
-        "onPageChange",
-        "(page: number) => void",
-        "Receives navigation requests.",
-        "接收翻页请求。",
-      ),
+      row("previous", "PaginationRailLink", "Previous-page title and destination.", "上一页标题与目标地址。"),
+      row("next", "PaginationRailLink", "Next-page title and destination.", "下一页标题与目标地址。"),
+      row("children", "ReactNode", "Optional centered pagination content on wide screens.", "宽屏时可选的居中分页内容。"),
     ],
+    "ComponentProps<\"nav\">",
   ),
   phone: {
     ...component(
@@ -541,7 +631,7 @@ const O = {
     ["Radio", "RadioGroup", "RadioGroupItem", "useRadio"],
     [
       row("value", "string", "Controlled selected value.", "受控选择值。"),
-      row("onValueChange", "(value: string) => void", "Receives a new selection.", "接收新选择。"),
+      row("onChange", "(value: string) => void", "Receives a new group selection.", "接收单选组的新选择。"),
     ],
   ),
   "relative-time-card": component(
@@ -549,18 +639,25 @@ const O = {
     [
       row(
         "date",
-        "Date | string | number",
-        "Timestamp to format relative to now.",
-        "相对当前时间格式化的时间戳。",
+        "number",
+        "Unix timestamp in milliseconds to format relative to now.",
+        "相对当前时间格式化的 Unix 毫秒时间戳。",
+        { required: true },
       ),
+      row("side", '"top" | "right" | "bottom" | "left"', "Preferred hover-card side.", "悬浮卡片的优先方位。", { defaultValue: '"top"' }),
+      row("locale", "string", "BCP 47 locale for relative and absolute time.", "相对与绝对时间使用的 BCP 47 语言标签。"),
     ],
   ),
   scroller: component(
     ["Scroller"],
     [
-      row("orientation", '"horizontal" | "vertical"', "Scrollable axis.", "滚动轴。", {
-        defaultValue: '"horizontal"',
+      row("overflow", '"x" | "y" | "both"', "Scrollable axes.", "滚动轴。", {
+        defaultValue: '"x"',
       }),
+      row("height", "number | string", "Scroller height.", "滚动容器高度。", { defaultValue: '"100%"' }),
+      row("width", "number | string", "Scroller width.", "滚动容器宽度。", { defaultValue: '"100%"' }),
+      row("withButtons", "boolean", "Shows direct-child navigation buttons.", "显示按直接子元素导航的按钮。", { defaultValue: "false" }),
+      row("childrenContainerClassName", "string", "Class name for the scrolling children container.", "滚动子元素容器的类名。"),
     ],
   ),
   "search-input": component(
@@ -568,11 +665,14 @@ const O = {
     [
       row("value", "string", "Controlled query.", "受控搜索词。"),
       row(
-        "onValueChange",
-        "(value: string) => void",
-        "Receives query changes.",
-        "接收搜索词变化。",
+        "onChange",
+        "React.ChangeEventHandler<HTMLInputElement>",
+        "Receives native input change events.",
+        "接收原生输入变更事件。",
       ),
+      row("cmdk", "boolean", "Shows the Command-K hint while empty.", "空值时显示 Command-K 提示。"),
+      row("loading", "boolean", "Replaces the search icon with a spinner.", "用加载器替换搜索图标。"),
+      row("prefix", "ReactNode", "Custom leading content.", "自定义前置内容。"),
     ],
   ),
   select: component(
@@ -636,7 +736,12 @@ const O = {
   ),
   "show-more": component(
     ["ShowMore"],
-    [row("children", "ReactNode", "Content revealed on expansion.", "展开时显示的内容。")],
+    [
+      row("expanded", "boolean", "Controlled expanded state reflected by the label and arrow.", "由文案和箭头反映的受控展开状态。", { defaultValue: "false" }),
+      row("noBorder", "boolean", "Removes the trigger border.", "移除触发器边框。"),
+      row("onClick", "MouseEventHandler<HTMLButtonElement>", "Handles expansion requests.", "处理展开请求。"),
+    ],
+    "ButtonHTMLAttributes<HTMLButtonElement>",
   ),
   skeleton: component(
     ["Skeleton"],
@@ -685,13 +790,23 @@ const O = {
   snippet: component(
     ["Snippet"],
     [
-      row("text", "string", "Text available for copying.", "可复制的文本。"),
-      row("onCopyError", "(error: unknown) => void", "Handles a failed copy.", "处理复制失败。"),
+      row("text", "string | string[]", "Text available for copying; arrays render multiple lines.", "可复制的文本；数组会渲染为多行。", { required: true }),
+      row("width", "number | string", "Snippet width; numbers are pixels.", "代码片段宽度；数字按像素处理。"),
+      row("dark", "boolean", "Uses the inverted surface.", "使用反色表面。"),
+      row("prompt", "boolean", "Shows the shell prompt without copying it.", "显示但不复制 shell 提示符。", { defaultValue: "true" }),
+      row("onCopy", "() => void", "Called after copying succeeds.", "复制成功后调用。"),
+      row("type", "SnippetType", "Semantic text color.", "语义文字颜色。", { defaultValue: '"default"' }),
+      row("copied", "boolean", "Controlled copied state.", "受控的已复制状态。"),
+      row("copyText", "string", "Overrides the clipboard payload.", "覆盖剪贴板内容。"),
     ],
   ),
   spinner: component(
     ["Spinner"],
-    [row("size", "number | string", "Spinner dimensions.", "加载器尺寸。")],
+    [
+      row("size", '"sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl"', "Spinner size preset.", "加载器尺寸预设。", { defaultValue: '"md"' }),
+      row("iconProps", "ComponentProps<typeof Loader2>", "SVG-specific icon overrides.", "SVG 图标专用覆盖属性。"),
+      row("aria-hidden", "boolean | \"true\" | \"false\"", "Hides status semantics when another element already announces loading.", "已有其他元素播报加载状态时隐藏 status 语义。"),
+    ],
   ),
   "split-button": component(
     ["SplitButton", "SplitButtonMain", "SplitButtonMenu", "SplitButtonMenuItem"],
@@ -784,8 +899,14 @@ const O = {
   tooltip: component(
     ["Tooltip"],
     [
-      row("content", "ReactNode", "Supplemental explanation.", "补充说明。", { required: true }),
-      row("delayDuration", "number", "Delay before the tooltip opens.", "提示打开前的延迟。"),
+      row("children", "ReactNode", "Tooltip trigger.", "提示触发器。", { required: true }),
+      row("text", "ReactNode", "Supplemental explanation.", "补充说明。", { required: true }),
+      row("position", '"top" | "bottom" | "left" | "right"', "Preferred placement.", "优先放置方向。", { defaultValue: '"top"' }),
+      row("boxAlign", '"left" | "center" | "right"', "Tooltip alignment.", "提示框对齐方式。", { defaultValue: '"center"' }),
+      row("delay", "boolean | number", "Whether to delay opening or a custom delay in milliseconds.", "是否延迟打开，或自定义毫秒延迟。", { defaultValue: "true" }),
+      row("tip", "boolean", "Shows the arrow tip.", "显示箭头。", { defaultValue: "true" }),
+      row("center", "boolean", "Centers tooltip text.", "居中提示文字。", { defaultValue: "true" }),
+      row("type", "TooltipType", "Semantic tooltip color.", "语义提示颜色。", { defaultValue: '"default"' }),
     ],
   ),
   "theme-switcher": component(

@@ -51,15 +51,7 @@ Video
 
 ## 实时示例
 
-00:00
-
-00:10
-
 ## 不循环
-
-00:00
-
-00:10
 
 ```tsx
 import { Video } from "@/components/ui/video";

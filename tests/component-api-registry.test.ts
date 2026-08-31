@@ -8,6 +8,7 @@ import {
   COMPONENT_GUIDES_ZH,
 } from "../docs/geist/src/content/component-guides";
 import { COMPONENTS } from "../docs/geist/src/data/components";
+import { DEMO_CODE } from "../docs/geist/src/data/demo-code";
 import { DOCS_ROUTE_GROUPS } from "../docs/geist/src/data/docs-routes";
 
 describe("component API registry", () => {
@@ -63,6 +64,101 @@ describe("component API registry", () => {
     expect(row("select", "aria-labelledby")?.type).toBe("string");
     expect(row("input", "prefixStyling")?.defaultValue).toBe("true");
     expect(row("input", "suffixStyling")?.defaultValue).toBe("true");
+
+    expect(row("browser", "address")?.type).toBe("string");
+    expect(row("browser", "url")).toBeUndefined();
+    expect(row("code-block", "children")?.type).toBe("string");
+    expect(row("code-block", "code")).toBeUndefined();
+    expect(row("command-menu", "setOpen")?.type).toBe("(open: boolean) => void");
+    expect(row("command-menu", "onOpenChange")).toBeUndefined();
+
+    expect(row("badge", "variant")?.defaultValue).toBe('"gray"');
+    expect(row("badge", "type")).toBeUndefined();
+    expect(row("dots-menu", "position")?.type).toBe("MenuPosition");
+    expect(row("dots-menu", "align")).toBeUndefined();
+    expect(row("error", "children")?.type).toBe("ReactNode");
+    expect(row("error", "message")).toBeUndefined();
+    expect(row("gauge", "max")).toBeUndefined();
+    expect(row("json-view", "data")?.required).toBe(true);
+    expect(row("json-view", "value")).toBeUndefined();
+    expect(row("json-view", "collapsed")).toBeUndefined();
+    expect(row("label", "id")?.required).toBe(true);
+    expect(row("label", "value")?.required).toBe(true);
+    expect(row("label", "htmlFor")).toBeUndefined();
+    expect(row("middle-truncate", "value")?.required).toBe(true);
+    expect(row("middle-truncate", "text")).toBeUndefined();
+    expect(row("note", "variant")?.type).toBe("NoteVariant");
+    expect(row("note", "type")).toBeUndefined();
+    expect(row("pagination", "previous")?.type).toBe("PaginationRailLink");
+    expect(row("pagination", "next")?.type).toBe("PaginationRailLink");
+    expect(row("pagination", "page")).toBeUndefined();
+    expect(row("pagination", "onPageChange")).toBeUndefined();
+    expect(row("radio", "onChange")?.type).toBe("(value: string) => void");
+    expect(row("radio", "onValueChange")).toBeUndefined();
+    expect(row("relative-time-card", "date")?.type).toBe("number");
+    expect(row("relative-time-card", "date")?.required).toBe(true);
+    expect(row("scroller", "overflow")?.defaultValue).toBe('"x"');
+    expect(row("scroller", "orientation")).toBeUndefined();
+    expect(row("search-input", "onChange")?.type).toBe(
+      "React.ChangeEventHandler<HTMLInputElement>",
+    );
+    expect(row("search-input", "onValueChange")).toBeUndefined();
+
+    expect(COMPONENT_API.modal.exports).toEqual([
+      "Modal",
+      "ModalTrigger",
+      "ModalPortal",
+      "ModalOverlay",
+      "ModalContent",
+      "ModalHeader",
+      "ModalTitle",
+      "ModalDescription",
+      "ModalFooter",
+      "ModalClose",
+    ]);
+    expect(row("modal", "showCloseButton")?.type).toBe("boolean");
+    expect(row("modal", "bodyClassName")?.type).toBe("string");
+
+    expect(COMPONENT_API.avatar.exports).toEqual([
+      "Avatar",
+      "AvatarGroup",
+      "AvatarWithIcon",
+      "GitHubAvatar",
+      "GitLabAvatar",
+      "BitbucketAvatar",
+    ]);
+    expect(row("avatar", "size")?.type).toBe("number");
+    expect(row("avatar", "fallback")).toBeUndefined();
+    expect(row("destructive-action-modal", "title")?.required).toBe(true);
+    expect(row("destructive-action-modal", "confirmLabel")?.required).toBe(true);
+    expect(row("destructive-action-modal", "verificationPhrase")?.required).toBe(true);
+    expect(row("destructive-action-modal", "onConfirm")?.type).toBe("() => void");
+    expect(row("file-tree", "open")?.type).toBe("boolean");
+    expect(row("file-tree", "defaultOpen")?.type).toBe("boolean");
+    expect(row("file-tree", "onOpenChange")?.type).toBe("(open: boolean) => void");
+    expect(row("file-tree", "href")?.type).toBe("string");
+    expect(row("show-more", "expanded")?.type).toBe("boolean");
+    expect(row("show-more", "noBorder")?.type).toBe("boolean");
+    expect(row("show-more", "children")).toBeUndefined();
+    expect(row("snippet", "text")?.type).toBe("string | string[]");
+    expect(row("snippet", "onCopy")?.type).toBe("() => void");
+    expect(row("snippet", "onCopyError")).toBeUndefined();
+    expect(row("spinner", "size")?.type).toBe(
+      '"sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl"',
+    );
+    expect(row("tooltip", "text")?.required).toBe(true);
+    expect(row("tooltip", "content")).toBeUndefined();
+    expect(row("tooltip", "delay")?.type).toBe("boolean | number");
+    expect(row("tooltip", "delayDuration")).toBeUndefined();
+  });
+
+  it("imports every ModalTrigger used by a modal Show Code example", () => {
+    for (const [name, source] of Object.entries(DEMO_CODE.modal ?? {})) {
+      if (!source.includes("<ModalTrigger")) continue;
+      expect(source, `modal.${name} uses ModalTrigger without importing it`).toMatch(
+        /import\s*\{[^}]*\bModalTrigger\b[^}]*\}\s*from\s*["']@\/components\/ui\/modal["']/s,
+      );
+    }
   });
 
   it("does not claim unsupported Button focus or runtime validation behavior", () => {

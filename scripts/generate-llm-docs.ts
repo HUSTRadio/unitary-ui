@@ -158,8 +158,12 @@ function extractMainHtml(): string {
   for (const selector of ["script", "style", "svg", "nav", "aside", "form"]) {
     for (const el of Array.from(clone.querySelectorAll(selector))) el.remove();
   }
-  // 交互控件：按钮、输入、下拉、隐藏跳转链接。
-  for (const el of Array.from(clone.querySelectorAll("button, input, select, textarea"))) {
+  // 交互控件与运行时状态：表单控件、媒体播放器表面。
+  // Video 的计时文本会在媒体元数据加载前后从 00:00 变为实际时长，必须整体移除，
+  // 否则同一源码的连续生成会产生非确定性语料漂移；示例代码仍保留完整用法。
+  for (const el of Array.from(
+    clone.querySelectorAll('button, input, select, textarea, [data-slot="video"]'),
+  )) {
     el.remove();
   }
   // 空链接（图标链接/跳转链接移除后的残壳）与 skip 链接。
