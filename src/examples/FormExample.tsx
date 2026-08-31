@@ -40,76 +40,54 @@ export function FormExample() {
       </div>
 
       <div className="material-base space-y-4 p-5">
-        <div className="space-y-1.5">
-          <label htmlFor="f-name" className="text-label-14 text-foreground">
-            姓名 <span className="text-danger">*</span>
-          </label>
-          <Input
-            id="f-name"
-            placeholder="输入姓名"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            aria-invalid={nameError || undefined}
-          />
-          {nameError && <p className="text-copy-13 text-danger">姓名为必填项</p>}
-        </div>
+        <Input
+          id="f-name"
+          label="姓名（必填）"
+          placeholder="输入姓名"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          error={nameError ? "姓名为必填项。" : undefined}
+        />
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <div className="space-y-1.5">
-            <label htmlFor="f-email" className="text-label-14 text-foreground">
-              邮箱 <span className="text-danger">*</span>
-            </label>
-            <Input
-              id="f-email"
-              type="email"
-              placeholder="name@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              aria-invalid={emailError || undefined}
-            />
-            {emailError && <p className="text-copy-13 text-danger">邮箱格式不正确</p>}
-          </div>
-          <div className="space-y-1.5">
-            <label htmlFor="f-phone" className="text-label-14 text-foreground">
-              电话
-            </label>
-            <Input
-              id="f-phone"
-              placeholder="+86 138-0000-0000"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="space-y-1.5">
-          <label className="text-label-14 text-foreground">
-            部门
-          </label>
-          <Select
-            value={department}
-            onValueChange={setDepartment}
-            placeholder="选择部门"
-            aria-label="选择部门"
-          >
-            <SelectItem value="admin">行政组</SelectItem>
-            <SelectItem value="tech">技术组</SelectItem>
-            <SelectItem value="activity">活动组</SelectItem>
-            <SelectItem value="media">宣传组</SelectItem>
-          </Select>
-        </div>
-
-        <div className="space-y-1.5">
-          <label htmlFor="f-notes" className="text-label-14 text-foreground">
-            备注
-          </label>
-          <Textarea
-            id="f-notes"
-            placeholder="补充说明（可选）"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
+          <Input
+            id="f-email"
+            type="email"
+            label="邮箱（必填）"
+            placeholder="name@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            error={emailError ? "邮箱格式不正确。" : undefined}
+          />
+          <Input
+            id="f-phone"
+            label="电话"
+            placeholder="+86 138-0000-0000"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
           />
         </div>
+
+        <Select
+          label="部门"
+          value={department}
+          onValueChange={setDepartment}
+          placeholder="选择部门"
+          aria-label="选择部门"
+        >
+          <SelectItem value="admin">行政组</SelectItem>
+          <SelectItem value="tech">技术组</SelectItem>
+          <SelectItem value="activity">活动组</SelectItem>
+          <SelectItem value="media">宣传组</SelectItem>
+        </Select>
+
+        <Textarea
+          id="f-notes"
+          label="备注"
+          placeholder="补充说明（可选）"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+        />
 
         <div className="flex items-center justify-between rounded-md border border-border px-3 py-2.5">
           <div>
@@ -119,16 +97,16 @@ export function FormExample() {
           <Toggle checked={notify} onChange={() => setNotify(!notify)} aria-label="邮件通知" />
         </div>
 
-        <label className="flex items-center gap-2 text-label-14 text-foreground">
-          <Checkbox checked={terms} onChange={() => setTerms(!terms)} />
-          我已阅读并同意相关条款
-        </label>
+        <Checkbox checked={terms} onChange={() => setTerms(!terms)}>
+          我已阅读并同意相关条款。
+        </Checkbox>
 
         <div className="flex items-center gap-3 pt-1">
-          <Button onClick={handleSubmit} loading={submitting} disabled={!terms}>
-            提交
+          <Button typeName="button" onClick={handleSubmit} loading={submitting} disabled={!terms}>
+            提交成员信息
           </Button>
           <Button
+            typeName="button"
             type="tertiary"
             onClick={() => {
               setName("");
@@ -136,17 +114,20 @@ export function FormExample() {
               setPhone("");
               setDepartment("");
               setNotes("");
+              setNotify(true);
+              setTerms(false);
+              setSubmitting(false);
               setSubmitted(false);
             }}
           >
-            重置
+            重置表单
           </Button>
         </div>
       </div>
 
-      {/* 图标 + 禁用态补充 */}
+      {/* 禁用态补充 */}
       <div className="grid gap-4 sm:grid-cols-2">
-        <Input defaultValue="Leon" aria-label="只读示例" disabled />
+        <Input label="禁用输入" defaultValue="Leon" disabled />
         <div className="flex items-center gap-2 text-label-14 text-muted-foreground">
           <User className="size-4" aria-hidden /> 图标示意（lucide）
         </div>

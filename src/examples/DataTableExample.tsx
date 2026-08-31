@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
-import { Plus, Search } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
+import { SearchInput } from "@/components/ui/search-input";
 import { Select, SelectItem } from "@/components/ui/select";
 import {
   Table,
@@ -57,15 +57,17 @@ export function DataTableExample() {
     });
   }, [query, filter]);
 
-  const allChecked =
-    rows.length > 0 && rows.every((_, i) => selected.includes(ASSETS.indexOf(rows[i])));
+  const visibleIndexes = rows.map((row) => ASSETS.indexOf(row));
+  const visibleSelectedCount = visibleIndexes.filter((index) => selected.includes(index)).length;
+  const allChecked = visibleIndexes.length > 0 && visibleSelectedCount === visibleIndexes.length;
+  const partiallyChecked = visibleSelectedCount > 0 && !allChecked;
 
   function toggleAll() {
-    if (allChecked) {
-      setSelected([]);
-    } else {
-      setSelected(rows.map((row) => ASSETS.indexOf(row)));
-    }
+    setSelected((previous) =>
+      allChecked
+        ? previous.filter((index) => !visibleIndexes.includes(index))
+        : [...new Set([...previous, ...visibleIndexes])],
+    );
   }
 
   function toggleRow(index: number) {
@@ -83,25 +85,21 @@ export function DataTableExample() {
             {ASSETS.length} 项资产 · 已选择 {selected.length} 项
           </p>
         </div>
-        <Button prefix={<Plus className="size-3.5" aria-hidden />}>登记资产</Button>
+        <Button typeName="button" prefix={<Plus className="size-3.5" aria-hidden />}>
+          登记资产
+        </Button>
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
-        <div className="relative w-64">
-          <Search
-            className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
-            aria-hidden
-          />
-          <Input
-            className="pl-9"
-            placeholder="搜索名称、编号、类别"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            aria-label="搜索资产"
-          />
-        </div>
+        <SearchInput
+          layout={{ width: 256 }}
+          placeholder="搜索名称、编号、类别"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          aria-label="搜索资产"
+        />
         <Select
-          className="w-32"
+          layout={{ width: 128 }}
           value={filter}
           onValueChange={setFilter}
           aria-label="按状态筛选"
@@ -114,7 +112,7 @@ export function DataTableExample() {
       </div>
 
       <TableRoot>
-        <Table>
+        <Table headerRow>
           <TableHeader>
             <TableRow>
               <TableHead className="w-10">
@@ -122,7 +120,7 @@ export function DataTableExample() {
                   size="sm"
                   aria-label="全选"
                   checked={allChecked}
-                  indeterminate={!allChecked && selected.length > 0}
+                  indeterminate={partiallyChecked}
                   onChange={toggleAll}
                 />
               </TableHead>
@@ -159,8 +157,13 @@ export function DataTableExample() {
                     <Badge variant={meta.variant}>{meta.label}</Badge>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button type="tertiary" size="small">
-                      查看
+                    <Button
+                      typeName="button"
+                      type="tertiary"
+                      size="small"
+                      aria-label={`查看 ${asset.name}`}
+                    >
+                      查看资产
                     </Button>
                   </TableCell>
                 </TableRow>

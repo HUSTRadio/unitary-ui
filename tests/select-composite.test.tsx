@@ -32,6 +32,26 @@ function trigger(): HTMLButtonElement {
 }
 
 describe("Select composite API (Radix popup)", () => {
+  test("forwards explicit and visible labels to the trigger", () => {
+    mount(
+      <Select aria-label="Fruit picker" placeholder="Pick">
+        <SelectItem value="apple">Apple</SelectItem>
+      </Select>,
+    );
+    expect(trigger().getAttribute("aria-label")).toBe("Fruit picker");
+
+    act(() =>
+      root.render(
+        <Select label="Department" placeholder="Pick">
+          <SelectItem value="engineering">Engineering</SelectItem>
+        </Select>,
+      ),
+    );
+    const labelledBy = trigger().getAttribute("aria-labelledby");
+    expect(labelledBy).toBeTruthy();
+    expect(document.getElementById(labelledBy!)?.textContent).toBe("Department");
+  });
+
   test("uncontrolled: placeholder shows before selection, item click selects", async () => {
     mount(
       <Select aria-label="Fruit" placeholder="Select a fruit">

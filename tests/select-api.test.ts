@@ -61,7 +61,7 @@ describe("Select composite API contract (v2 Radix popup)", () => {
   test("label renders mb-2 on inner text div (8px gap)", async () => {
     const src = await read("src/components/ui/select.tsx");
     expect(src).toContain(
-      '<div\n              data-slot="select-label"\n              className="mb-2 block max-w-full cursor-text text-[13px] text-gray-900 capitalize"\n            >',
+      '<div\n              id={labelId}\n              data-slot="select-label"\n              className="mb-2 block max-w-full cursor-text text-[13px] text-gray-900 capitalize"\n            >',
     );
   });
 

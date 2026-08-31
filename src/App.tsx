@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { SearchInput } from "@/components/ui/search-input";
 import { Select, SelectItem } from "@/components/ui/select";
 import { Switch, SwitchControl } from "@/components/ui/switch";
 import { StepPoint } from "@/components/ui/step-point";
@@ -131,70 +132,101 @@ export default function App() {
                   Copy 16 正文 — 常规内容排版，<strong>强调文本用 Strong 修饰</strong>
                 </p>
                 <p className="text-label-14 text-muted-foreground">Label 14 — 菜单 / 标签文本</p>
-                <p className="text-copy-13-mono text-muted-foreground">NB-2024-0012（Mono 数字）</p>
+                <p className="text-copy-13-mono text-muted-foreground">
+                  NB-2024-0012（Mono 数字）
+                </p>
               </div>
             </section>
 
-            {/* 按钮 */}
+            {/* 按钮：用真实动作体现强调层级，避免把 API 名称直译成按钮文案。 */}
             <Section title="Button">
-              <Button>默认</Button>
-              <Button type="secondary">次要</Button>
-              <Button type="tertiary">三级</Button>
-              <Button type="error">错误</Button>
-              <Button type="warning">警告</Button>
-              <Button size="small">小号</Button>
-              <Button size="large">大号</Button>
-              <Button prefix={<Plus className="size-3.5" aria-hidden />}>带图标</Button>
-              <Button loading>加载中</Button>
-              <Button disabled>禁用</Button>
+              <Button typeName="button">部署项目</Button>
+              <Button typeName="button" type="secondary">
+                查看日志
+              </Button>
+              <Button typeName="button" type="tertiary">
+                更多操作
+              </Button>
+              <Button typeName="button" type="error">
+                删除项目
+              </Button>
+              <Button typeName="button" type="warning">
+                覆盖部署
+              </Button>
+              <Button typeName="button" size="small">
+                上传
+              </Button>
+              <Button typeName="button" size="large">
+                上传
+              </Button>
+              <Button typeName="button" prefix={<Plus className="size-3.5" aria-hidden />}>
+                创建项目
+              </Button>
+              <Button typeName="button" loading>
+                正在部署
+              </Button>
+              <Button typeName="button" disabled>
+                暂不可用
+              </Button>
             </Section>
 
             {/* 表单 */}
-            <Section title="Input / Textarea / Select / Checkbox / Toggle">
-              <div className="w-56">
-                <Input placeholder="搜索资产…" aria-label="示例输入" />
-              </div>
-              <div className="w-56">
-                <Input placeholder="禁用状态" disabled aria-label="禁用输入" />
-              </div>
-              <div className="w-64">
-                <Input defaultValue="@hustradio/unitary-ui" prefix="https://" suffix=".com" aria-label="前后缀输入" />
-              </div>
-              <div className="w-64">
-                <Input defaultValue="@hustradio/unitary-ui" prefix="https://" suffix=".com" disabled aria-label="禁用前后缀输入" />
-              </div>
-              <div className="w-64">
-                <Input rounded defaultValue="42.5" prefix="$" suffix="USD" aria-label="胶囊前后缀输入" />
-              </div>
-              <div className="w-56">
-                <Input placeholder="禁用状态" disabled aria-label="禁用输入" />
-              </div>
-              <div className="w-56">
-                <Select placeholder="选择类别" defaultValue="" aria-label="示例选择">
-                  <SelectItem value="office">办公设备</SelectItem>
-                  <SelectItem value="instrument">仪器设备</SelectItem>
-                  <SelectItem value="comms">通信设备</SelectItem>
-                </Select>
-              </div>
-              <div className="w-72">
-                <Textarea placeholder="备注…" aria-label="示例备注" />
-              </div>
-              <label className="flex items-center gap-2 text-label-14 text-foreground">
-                <Checkbox checked={checked} onChange={() => setChecked(!checked)} />
+            <Section title="SearchInput / Input / Textarea / Select / Checkbox / Toggle">
+              <SearchInput
+                layout={{ width: 224 }}
+                placeholder="搜索资产…"
+                aria-label="搜索资产"
+              />
+              <Input
+                layout={{ width: 224 }}
+                placeholder="禁用状态"
+                disabled
+                aria-label="禁用输入"
+              />
+              <Input
+                layout={{ width: 256 }}
+                defaultValue="hustradio"
+                prefix="https://"
+                suffix=".com"
+                aria-label="前后缀输入"
+              />
+              <Input
+                layout={{ width: 256 }}
+                defaultValue="hustradio"
+                prefix="https://"
+                suffix=".com"
+                disabled
+                aria-label="禁用前后缀输入"
+              />
+              <Input
+                layout={{ width: 256 }}
+                rounded
+                defaultValue="42.5"
+                prefix="$"
+                suffix="USD"
+                aria-label="胶囊前后缀输入"
+              />
+              <Select layout={{ width: 224 }} placeholder="选择类别" aria-label="示例选择">
+                <SelectItem value="office">办公设备</SelectItem>
+                <SelectItem value="instrument">仪器设备</SelectItem>
+                <SelectItem value="comms">通信设备</SelectItem>
+              </Select>
+              <Textarea layout={{ width: 288 }} placeholder="备注…" aria-label="示例备注" />
+              <Checkbox checked={checked} onChange={() => setChecked(!checked)}>
                 已选中
-              </label>
-              <div className="flex items-center gap-2 text-label-14 text-foreground">
-                <Toggle
-                  checked={toggled}
-                  onChange={() => setToggled(!toggled)}
-                  aria-label="示例开关"
-                />
-                开关
-              </div>
+              </Checkbox>
+              <Toggle
+                checked={toggled}
+                onChange={() => setToggled(!toggled)}
+                aria-label="自动更新"
+                labelCasing="normal"
+              >
+                自动更新
+              </Toggle>
             </Section>
 
             {/* 互斥视图切换 */}
-            <Section title="Switch">
+            <Section title="Switch（分段选择）">
               <Switch
                 name="asset-status"
                 value={segment}
@@ -209,7 +241,7 @@ export default function App() {
             </Section>
 
             {/* Tabs */}
-            <Section title="Tabs">
+            <Section title="Tabs（内容导航）">
               <Tabs
                 tabs={[
                   { value: "overview", title: "概览" },
@@ -227,23 +259,25 @@ export default function App() {
 
             {/* Badge / StepPoint */}
             <Section title="Badge / StepPoint">
-              <Badge variant="gray">默认</Badge>
+              <Badge variant="gray">草稿</Badge>
               <Badge variant="gray" contrast="low">
-                次要
+                内部
               </Badge>
-              <Badge variant="green">成功</Badge>
-              <Badge variant="blue">信息</Badge>
-              <Badge variant="amber">警告</Badge>
-              <Badge variant="red">危险</Badge>
-              <StepPoint status="done">第一步：填写信息</StepPoint>
-              <StepPoint status="active">第二步：审批中</StepPoint>
-              <StepPoint status="idle">第三步：待开始</StepPoint>
+              <Badge variant="green">运行中</Badge>
+              <Badge variant="blue">预览</Badge>
+              <Badge variant="amber">待处理</Badge>
+              <Badge variant="red">失败</Badge>
+              <ol role="list" className="m-0 w-full max-w-xs list-none p-0">
+                <StepPoint status="done">第一步：填写信息</StepPoint>
+                <StepPoint status="active">第二步：审批中</StepPoint>
+                <StepPoint status="idle">第三步：待开始</StepPoint>
+              </ol>
             </Section>
 
             {/* Table */}
             <Section title="Table">
               <TableRoot>
-                <Table>
+                <Table headerRow>
                   <TableHeader>
                     <TableRow>
                       <TableHead>资产</TableHead>
@@ -265,13 +299,14 @@ export default function App() {
                         </TableCell>
                         <TableCell className="text-muted-foreground">{row.status}</TableCell>
                         <TableCell>
-                          <a
-                            href="#"
-                            onClick={(e) => e.preventDefault()}
-                            className="focus-ring rounded-[4px] text-label-14 text-link underline-offset-4 hover:underline"
+                          <Button
+                            typeName="button"
+                            type="tertiary"
+                            size="small"
+                            aria-label={`查看 ${row.name}`}
                           >
-                            查看
-                          </a>
+                            查看资产
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -283,11 +318,15 @@ export default function App() {
             {/* 材质 */}
             <Section title="材质 Materials">
               <div className="material-base p-4 text-label-14 text-foreground">material-base</div>
-              <div className="material-small p-4 text-label-14 text-foreground">material-small</div>
+              <div className="material-small p-4 text-label-14 text-foreground">
+                material-small
+              </div>
               <div className="material-medium p-4 text-label-14 text-foreground">
                 material-medium
               </div>
-              <div className="material-large p-4 text-label-14 text-foreground">material-large</div>
+              <div className="material-large p-4 text-label-14 text-foreground">
+                material-large
+              </div>
             </Section>
           </>
           </ErrorBoundary>
@@ -295,7 +334,7 @@ export default function App() {
       </main>
 
       <footer className="border-t border-border px-6 py-4 text-label-12 text-muted-foreground">
-        Unitary · docs/geist-markdown-refs 规范快照 · 2026-08-08
+        Unitary · 组件示例与当前组件 API 同步
       </footer>
     </div>
   );

@@ -14,12 +14,14 @@ interface SettingRow {
   value: boolean;
 }
 
+const DEFAULT_SETTINGS: SettingRow[] = [
+  { key: "email", title: "邮件通知", description: "审批结果通过邮件发送", value: true },
+  { key: "push", title: "桌面推送", description: "实时提醒新待办", value: false },
+  { key: "weekly", title: "每周摘要", description: "每周一发送资产周报", value: true },
+];
+
 export function SettingsExample() {
-  const [rows, setRows] = useState<SettingRow[]>([
-    { key: "email", title: "邮件通知", description: "审批结果通过邮件发送", value: true },
-    { key: "push", title: "桌面推送", description: "实时提醒新待办", value: false },
-    { key: "weekly", title: "每周摘要", description: "每周一发送资产周报", value: true },
-  ]);
+  const [rows, setRows] = useState<SettingRow[]>(DEFAULT_SETTINGS);
   const [language, setLanguage] = useState("zh");
   const [saved, setSaved] = useState(false);
 
@@ -30,6 +32,12 @@ export function SettingsExample() {
   function handleSave() {
     setSaved(true);
     setTimeout(() => setSaved(false), 1500);
+  }
+
+  function handleReset() {
+    setRows(DEFAULT_SETTINGS.map((row) => ({ ...row })));
+    setLanguage("zh");
+    setSaved(false);
   }
 
   return (
@@ -68,35 +76,32 @@ export function SettingsExample() {
       <section className="material-base p-5">
         <h3 className="mb-3 text-label-16 font-medium text-foreground">界面</h3>
         <div className="grid gap-4 sm:grid-cols-2">
-          <div className="space-y-1.5">
-            <label className="text-label-14 text-foreground">
-              界面语言
-            </label>
-            <Select
-              value={language}
-              onValueChange={setLanguage}
-              aria-label="界面语言"
-            >
-              <SelectItem value="zh">简体中文</SelectItem>
-              <SelectItem value="en">English</SelectItem>
-              <SelectItem value="ja">日本語</SelectItem>
-            </Select>
-          </div>
-          <div className="space-y-1.5">
-            <label htmlFor="s-org" className="text-label-14 text-foreground">
-              组织名称
-            </label>
-            <Input id="s-org" defaultValue="HUST 无线电社团" />
-          </div>
+          <Select
+            label="界面语言"
+            value={language}
+            onValueChange={setLanguage}
+            aria-label="界面语言"
+          >
+            <SelectItem value="zh">简体中文</SelectItem>
+            <SelectItem value="en">English</SelectItem>
+            <SelectItem value="ja">日本語</SelectItem>
+          </Select>
+          <Input label="组织名称" id="s-org" defaultValue="HUST 无线电社团" />
         </div>
       </section>
 
       {/* 操作 */}
       <div className="flex items-center gap-3">
-        <Button onClick={handleSave} prefix={<Save className="size-3.5" aria-hidden />}>
+        <Button
+          typeName="button"
+          onClick={handleSave}
+          prefix={<Save className="size-3.5" aria-hidden />}
+        >
           {saved ? "已保存" : "保存更改"}
         </Button>
-        <Button type="tertiary">恢复默认</Button>
+        <Button typeName="button" type="tertiary" onClick={handleReset}>
+          恢复默认设置
+        </Button>
       </div>
     </div>
   );

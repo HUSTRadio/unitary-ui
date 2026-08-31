@@ -41,6 +41,10 @@ export interface SelectProps extends Omit<
 > {
   /** 透传到触发器表面的类名（触发按钮，非外层字段容器） */
   className?: string;
+  /** 直接命名触发按钮；优先于可见 label。 */
+  "aria-label"?: string;
+  /** 使用外部元素命名触发按钮；没有 aria-label 时优先于可见 label。 */
+  "aria-labelledby"?: string;
   /** 占位文案（未选择时显示在触发器上） */
   placeholder?: string;
   /** small 32px / 默认 36px / large 40px */
@@ -51,7 +55,7 @@ export interface SelectProps extends Omit<
   suffix?: React.ReactNode;
   /** 校验错误文案（命名字段并以句号结尾，如 "Please select a value."） */
   error?: React.ReactNode;
-  /** 字段标签（渲染为 label 内 13px capitalize 文本） */
+  /** 字段标签（13px 文本；通过 aria-labelledby 命名触发器） */
   label?: React.ReactNode;
   /** 统一尺寸 API：宽度/flex → 字段根容器；高度 → 触发器表面 */
   layout?: ControlLayout;
@@ -135,6 +139,8 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
       error,
       label,
       layout,
+      "aria-label": ariaLabel,
+      "aria-labelledby": ariaLabelledBy,
       children,
       ...props
     },
@@ -142,6 +148,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
   ) => {
     const { t } = useI18n();
     const errorId = React.useId();
+    const labelId = React.useId();
     const hasPrefix = prefix != null;
     const hasSuffix = suffix != null;
     const describedBy = error ? errorId : undefined;
@@ -155,6 +162,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
         <SelectPrimitive.Root {...props}>
           {label ? (
             <div
+              id={labelId}
               data-slot="select-label"
               className="mb-2 block max-w-full cursor-text text-[13px] text-gray-900 capitalize"
             >
@@ -164,6 +172,8 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
           <SelectPrimitive.Trigger
             ref={ref}
             data-slot="select-trigger"
+            aria-label={ariaLabel}
+            aria-labelledby={ariaLabelledBy ?? (!ariaLabel && label ? labelId : undefined)}
             aria-invalid={error ? true : undefined}
             aria-describedby={describedBy}
             style={layoutSurfaceStyle(layout)}
