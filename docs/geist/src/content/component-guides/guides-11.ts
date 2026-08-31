@@ -138,7 +138,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "通过 value 和 onChange 属性实现完全的外部状态控制，开发者可以精确管理选中的值和处理变更事件。",
+        "通过 value 和 onValueChange 属性实现完全的外部状态控制，也可通过 defaultValue 使用非受控初始值。",
       ],
     },
     responsiveBehavior: {
@@ -400,7 +400,7 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Fully controllable via value and onChange props; developers manage the selected state and handle change events precisely.",
+        "Fully controllable via value and onValueChange; defaultValue provides an uncontrolled initial value.",
       ],
     },
     responsiveBehavior: {

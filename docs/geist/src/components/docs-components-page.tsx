@@ -7664,10 +7664,10 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
               defaultValue="banana"
               aria-label={demoText(language, "Select fruit")}
             >
-              <option value="apple">Apple</option>
-              <option value="orange">Orange</option>
-              <option value="banana">Banana</option>
-              <option value="grape">Grape</option>
+              <SelectItem value="apple">Apple</SelectItem>
+              <SelectItem value="orange">Orange</SelectItem>
+              <SelectItem value="banana">Banana</SelectItem>
+              <SelectItem value="grape">Grape</SelectItem>
             </Select>
           </Section>
         </>

@@ -25,7 +25,7 @@ describe("component API registry", () => {
     }
   });
 
-  it("matches the real public contracts for Button, Toast, Progress, and Feedback", () => {
+  it("matches the real public contracts for representative components", () => {
     const row = (component: keyof typeof COMPONENT_API, name: string) =>
       COMPONENT_API[component].rows.find((entry) => entry.name === name);
 
@@ -52,6 +52,17 @@ describe("component API registry", () => {
     expect(row("feedback", "onSubmit")?.type).toBe(
       "(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record<string, string>) => void",
     );
+
+    expect(COMPONENT_API.select.exports).toEqual([
+      "Select",
+      "SelectItem",
+      "SelectGroup",
+      "SelectSeparator",
+    ]);
+    expect(row("select", "aria-label")?.type).toBe("string");
+    expect(row("select", "aria-labelledby")?.type).toBe("string");
+    expect(row("input", "prefixStyling")?.defaultValue).toBe("true");
+    expect(row("input", "suffixStyling")?.defaultValue).toBe("true");
   });
 
   it("does not claim unsupported Button focus or runtime validation behavior", () => {

@@ -190,14 +190,14 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
         kind: "advanced",
         title: "带标签的输入框",
         description:
-          "配合 visible label 和关联 id 的正确用法，确保屏幕阅读器能够建立标签与输入的关联，符合无障碍规范。",
+          "配合可见 label 的正确用法；组件会关联标签与输入，并在未提供 id 时自动生成。",
         demoKey: "label",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "Input 关联对应的 <Label> 通过 htmlFor/id 配对，确保屏幕阅读器能正确播报字段名称。",
+        "传入 label 时，Input 通过 htmlFor/id 关联标签与字段；未提供 id 时会自动生成。",
         "错误状态通过 error prop 传递的消息会被添加到 aria-describedby 中，帮助器文本也应通过此机制关联。",
       ],
     },
@@ -563,14 +563,14 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
         kind: "advanced",
         title: "Labeled input",
         description:
-          "Correct usage paired with a visible label and associated id, ensuring screen readers establish the label-to-input association and meet accessibility standards.",
+          "Correct usage paired with a visible label; the component associates the label and input and generates an id when one is not supplied.",
         demoKey: "label",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "Input associates with its corresponding <Label> through htmlFor/id pairing so screen readers announce the field name correctly.",
+        "When label is provided, Input associates the label and field through htmlFor/id; it generates an id when one is not supplied.",
         "Error messages passed via the error prop are added to aria-describedby; helper text should also be linked through this mechanism.",
       ],
     },

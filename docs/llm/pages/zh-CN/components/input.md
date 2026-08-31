@@ -40,11 +40,11 @@ Input
 
 ### 带标签的输入框
 
-配合 visible label 和关联 id 的正确用法，确保屏幕阅读器能够建立标签与输入的关联，符合无障碍规范。
+配合可见 label 的正确用法；组件会关联标签与输入，并在未提供 id 时自动生成。
 
 ## 无障碍
 
-- Input 关联对应的 <Label> 通过 htmlFor/id 配对，确保屏幕阅读器能正确播报字段名称。
+- 传入 label 时，Input 通过 htmlFor/id 关联标签与字段；未提供 id 时会自动生成。
 - 错误状态通过 error prop 传递的消息会被添加到 aria-describedby 中，帮助器文本也应通过此机制关联。
 
 ## 受控行为
@@ -197,14 +197,14 @@ import { Input } from "@/components/ui/input";
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">size</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"small" | "default" | "large"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">输入框尺寸。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">size</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"small" | "default" | "large" | number</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">输入框高度；数字会透传给原生 size 属性。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">error</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">字段下方渲染的校验消息。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">label</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">与输入框关联的可见标签。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">prefix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">输入框前缀装饰内容。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">prefixStyling</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">为前缀添加样式和分隔线。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">true</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">suffix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">输入框后缀装饰内容。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">suffixStyling</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">为后缀添加样式和分隔线。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">true</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">rounded</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">渲染胶囊形输入框表面。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">layout</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ControlLayout</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">应用共享控件布局契约。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## 最佳实践
 
 - 单行自由文本（名称、域名、token）用 <Input>。
 - 内容可能换行成多行的瞬间改用 Textarea。
 - 当值来自已知列表、用户通过输入过滤时用 Combobox。
-- 内联搜索框用 search 变体并带限定范围的 placeholder（Search projects）；不要把 <SearchInput> 嵌进无关表单。
+- 内联搜索框用 <SearchInput> 并带限定范围的 placeholder（Search projects）；不要把它嵌进无关表单。
 - 失焦时校验而非每次按键；通过向 error 传字符串显示消息。
 - 提交前修剪首尾空白，让 example.com 与 example.com 解析为同一值。
 - 保存期间保持字段可聚焦；仅当输入确实不可能时把 disabled 与 spinner 搭配。
@@ -213,6 +213,6 @@ import { Input } from "@/components/ui/input";
 - placeholder 展示示例值（my-awesome-project、example.com），绝不是 Enter your project name 这类指示。
 - 辅助文本句首大写、一句且带句号，放在经 aria-describedby 关联的兄弟元素上。
 - 校验消息点名字段与约束、以句号结尾并省略 please（Project name is required.、Code must be 6 digits.）。
-- 向 label 传字符串需要 id；缺少时 InputPropsWithStringLabelAndId 联合类型无法编译，屏幕阅读器也会失去关联。
+- 传入 label 会渲染关联标签，并在未提供 id 时自动生成；只有需要被其他元素引用字段时才显式提供 id。
 - SearchInput 的 placeholder 限定范围（Search projects），让无视觉上下文也能明确其角色。
 - 输入行内的纯图标功能用 <Button shape="circle" svgOnly>（如清除或显示/隐藏），保持控件行对齐。

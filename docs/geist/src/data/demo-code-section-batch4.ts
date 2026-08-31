@@ -46,13 +46,13 @@ import { Copy, Search } from "lucide-react";
 </div>`,
   },
   select: {
-    "With Options": `import { Select } from "@/components/ui/select";
+    "With Options": `import { Select, SelectItem } from "@/components/ui/select";
 
 <Select className="w-56" defaultValue="banana" aria-label="Select fruit">
-  <option value="apple">Apple</option>
-  <option value="orange">Orange</option>
-  <option value="banana">Banana</option>
-  <option value="grape">Grape</option>
+  <SelectItem value="apple">Apple</SelectItem>
+  <SelectItem value="orange">Orange</SelectItem>
+  <SelectItem value="banana">Banana</SelectItem>
+  <SelectItem value="grape">Grape</SelectItem>
 </Select>`,
   },
   checkbox: {

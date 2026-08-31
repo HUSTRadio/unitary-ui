@@ -39,7 +39,7 @@ An error message displayed below the Select after a validation failure.
 
 ## Controlled behavior
 
-- Fully controllable via value and onChange props; developers manage the selected state and handle change events precisely.
+- Fully controllable via value and onValueChange; defaultValue provides an uncontrolled initial value.
 
 ## Responsive behavior
 
@@ -52,23 +52,23 @@ An error message displayed below the Select after a validation failure.
 ## Live Demo
 
 ```tsx
-import { Select } from "@/components/ui/select";
+import { Select, SelectItem } from "@/components/ui/select";
 
 <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
   <Select aria-label="Small" placeholder="Small" size="small">
-    <option>Option 1</option>
-    <option>Option 2</option>
-    <option>Option 3</option>
+    <SelectItem value="option-1">Option 1</SelectItem>
+    <SelectItem value="option-2">Option 2</SelectItem>
+    <SelectItem value="option-3">Option 3</SelectItem>
   </Select>
   <Select aria-label="Default" placeholder="Default">
-    <option>Option 1</option>
-    <option>Option 2</option>
-    <option>Option 3</option>
+    <SelectItem value="option-1">Option 1</SelectItem>
+    <SelectItem value="option-2">Option 2</SelectItem>
+    <SelectItem value="option-3">Option 3</SelectItem>
   </Select>
   <Select aria-label="Large" placeholder="Large" size="large">
-    <option>Option 1</option>
-    <option>Option 2</option>
-    <option>Option 3</option>
+    <SelectItem value="option-1">Option 1</SelectItem>
+    <SelectItem value="option-2">Option 2</SelectItem>
+    <SelectItem value="option-3">Option 3</SelectItem>
   </Select>
 </div>;
 ```
@@ -129,13 +129,13 @@ import { Select, SelectItem } from "@/components/ui/select";
 ## With Options
 
 ```tsx
-import { Select } from "@/components/ui/select";
+import { Select, SelectItem } from "@/components/ui/select";
 
 <Select className="w-56" defaultValue="banana" aria-label="Select fruit">
-  <option value="apple">Apple</option>
-  <option value="orange">Orange</option>
-  <option value="banana">Banana</option>
-  <option value="grape">Grape</option>
+  <SelectItem value="apple">Apple</SelectItem>
+  <SelectItem value="orange">Orange</SelectItem>
+  <SelectItem value="banana">Banana</SelectItem>
+  <SelectItem value="grape">Grape</SelectItem>
 </Select>;
 ```
 
@@ -146,18 +146,20 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Select } from "@/components/ui/select";
+import { Select, SelectItem, SelectGroup, SelectSeparator } from "@/components/ui/select";
 ```
+
+Native props: `React.ComponentProps<typeof SelectPrimitive.Root>`
 
 ### Props & callbacks
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">value</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Controlled selected value.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onValueChange</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(value: string) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Receives selection changes.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">value</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Controlled selected value.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultValue</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Initial uncontrolled selected value.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onValueChange</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(value: string) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Receives selection changes.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">placeholder</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Text displayed when no value is selected.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">size</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"small" | "default" | "large"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Select trigger height and typography.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">label</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Visible label that names the trigger.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">aria-label</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Accessible name forwarded to the trigger.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">aria-labelledby</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">IDs of external elements that name the trigger.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">error</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Validation message rendered below the field.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">prefix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Leading trigger adornment.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">suffix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Trailing trigger adornment that replaces the chevron.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">layout</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ControlLayout</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Applies the shared control layout contract.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## Best Practices
 
 - Pick <Select> for short, fixed lists (under ~10 items) where typing adds nothing; switch to Combobox once filtering helps.
 - Use MultiSelect when more than one value can be chosen at once; use Switch for a 2–3 option segmented choice.
-- Group options past ~10 items with native <optgroup>; Geist <Select> has no .Group static.
+- Group related options with <SelectGroup label="…"> and separate groups with <SelectSeparator />; native <option> and <optgroup> children are not supported.
 - Options are Title Case when short and match canonical branding (Next.js, not NextJS); keep the same register across the list.
 - Label is a short Title Case noun (Framework, Region); accept the prop directly on <Select>.
 - Placeholder is action-oriented (Select a framework), never Choose one…, Pick, or the label restated.

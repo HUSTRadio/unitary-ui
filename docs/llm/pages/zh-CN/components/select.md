@@ -39,7 +39,7 @@ Select
 
 ## 受控行为
 
-- 通过 value 和 onChange 属性实现完全的外部状态控制，开发者可以精确管理选中的值和处理变更事件。
+- 通过 value 和 onValueChange 属性实现完全的外部状态控制，也可通过 defaultValue 使用非受控初始值。
 
 ## 响应式行为
 
@@ -52,23 +52,23 @@ Select
 ## 实时示例
 
 ```tsx
-import { Select } from "@/components/ui/select";
+import { Select, SelectItem } from "@/components/ui/select";
 
 <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
   <Select aria-label="Small" placeholder="Small" size="small">
-    <option>Option 1</option>
-    <option>Option 2</option>
-    <option>Option 3</option>
+    <SelectItem value="option-1">Option 1</SelectItem>
+    <SelectItem value="option-2">Option 2</SelectItem>
+    <SelectItem value="option-3">Option 3</SelectItem>
   </Select>
   <Select aria-label="Default" placeholder="Default">
-    <option>Option 1</option>
-    <option>Option 2</option>
-    <option>Option 3</option>
+    <SelectItem value="option-1">Option 1</SelectItem>
+    <SelectItem value="option-2">Option 2</SelectItem>
+    <SelectItem value="option-3">Option 3</SelectItem>
   </Select>
   <Select aria-label="Large" placeholder="Large" size="large">
-    <option>Option 1</option>
-    <option>Option 2</option>
-    <option>Option 3</option>
+    <SelectItem value="option-1">Option 1</SelectItem>
+    <SelectItem value="option-2">Option 2</SelectItem>
+    <SelectItem value="option-3">Option 3</SelectItem>
   </Select>
 </div>;
 ```
@@ -129,13 +129,13 @@ import { Select, SelectItem } from "@/components/ui/select";
 ## 带选项
 
 ```tsx
-import { Select } from "@/components/ui/select";
+import { Select, SelectItem } from "@/components/ui/select";
 
 <Select className="w-56" defaultValue="banana" aria-label="Select fruit">
-  <option value="apple">Apple</option>
-  <option value="orange">Orange</option>
-  <option value="banana">Banana</option>
-  <option value="grape">Grape</option>
+  <SelectItem value="apple">Apple</SelectItem>
+  <SelectItem value="orange">Orange</SelectItem>
+  <SelectItem value="banana">Banana</SelectItem>
+  <SelectItem value="grape">Grape</SelectItem>
 </Select>;
 ```
 
@@ -146,18 +146,20 @@ import { Select } from "@/components/ui/select";
 导入
 
 ```tsx
-import { Select } from "@/components/ui/select";
+import { Select, SelectItem, SelectGroup, SelectSeparator } from "@/components/ui/select";
 ```
+
+原生属性：`React.ComponentProps<typeof SelectPrimitive.Root>`
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">value</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">受控选择值。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onValueChange</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(value: string) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">接收选择变化。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">value</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">受控选择值。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultValue</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">非受控的初始选择值。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onValueChange</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(value: string) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">接收选择变化。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">placeholder</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">未选择值时显示的文本。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">size</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"small" | "default" | "large"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">选择触发器的高度和排版。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">label</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">为触发器命名的可见标签。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">aria-label</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">透传给触发器的无障碍名称。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">aria-labelledby</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">为触发器命名的外部元素 ID。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">error</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">字段下方渲染的校验消息。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">prefix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">触发器前缀装饰内容。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">suffix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">替代下拉箭头的触发器后缀装饰内容。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">layout</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ControlLayout</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">应用共享控件布局契约。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## 最佳实践
 
 - 短而固定的列表（约 10 项以内）用 <Select>，输入过滤没有增益；需要过滤时改用 Combobox。
 - 一次可选多个值时用 MultiSelect；2–3 选项的分段选择用 Switch。
-- 超过约 10 项用原生 <optgroup> 分组；Geist <Select> 没有 .Group 静态方法。
+- 相关选项用 <SelectGroup label="…"> 分组，组间用 <SelectSeparator /> 分隔；不支持原生 <option> 和 <optgroup> 子元素。
 - 短选项首字母大写并匹配规范品牌（Next.js，而非 NextJS）；整个列表保持同一格调。
 - 标签是简短的首字母大写名词（Framework、Region）；直接在 <Select> 上接受该 prop。
 - placeholder 面向动作（Select a framework），绝不用 Choose one…、Pick 或复述标签。

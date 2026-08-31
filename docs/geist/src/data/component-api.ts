@@ -374,7 +374,27 @@ const O = {
   ),
   input: component(
     ["Input"],
-    [row("size", '"small" | "default" | "large"', "Input size.", "输入框尺寸。")],
+    [
+      row(
+        "size",
+        '"small" | "default" | "large" | number',
+        "Input height; a number is forwarded to the native size attribute.",
+        "输入框高度；数字会透传给原生 size 属性。",
+        { defaultValue: '"default"' },
+      ),
+      row("error", "ReactNode", "Validation message rendered below the field.", "字段下方渲染的校验消息。"),
+      row("label", "ReactNode", "Visible label associated with the input.", "与输入框关联的可见标签。"),
+      row("prefix", "ReactNode", "Leading input adornment.", "输入框前缀装饰内容。"),
+      row("prefixStyling", "boolean", "Styles and separates the prefix.", "为前缀添加样式和分隔线。", {
+        defaultValue: "true",
+      }),
+      row("suffix", "ReactNode", "Trailing input adornment.", "输入框后缀装饰内容。"),
+      row("suffixStyling", "boolean", "Styles and separates the suffix.", "为后缀添加样式和分隔线。", {
+        defaultValue: "true",
+      }),
+      row("rounded", "boolean", "Renders a pill-shaped input surface.", "渲染胶囊形输入框表面。"),
+      row("layout", "ControlLayout", "Applies the shared control layout contract.", "应用共享控件布局契约。"),
+    ],
     "InputHTMLAttributes<HTMLInputElement>",
   ),
   "json-view": component(
@@ -556,16 +576,38 @@ const O = {
     ],
   ),
   select: component(
-    ["Select"],
+    ["Select", "SelectItem", "SelectGroup", "SelectSeparator"],
     [
       row("value", "string", "Controlled selected value.", "受控选择值。"),
+      row("defaultValue", "string", "Initial uncontrolled selected value.", "非受控的初始选择值。"),
       row(
         "onValueChange",
         "(value: string) => void",
         "Receives selection changes.",
         "接收选择变化。",
       ),
+      row("placeholder", "string", "Text displayed when no value is selected.", "未选择值时显示的文本。"),
+      row(
+        "size",
+        '"small" | "default" | "large"',
+        "Select trigger height and typography.",
+        "选择触发器的高度和排版。",
+        { defaultValue: '"default"' },
+      ),
+      row("label", "ReactNode", "Visible label that names the trigger.", "为触发器命名的可见标签。"),
+      row("aria-label", "string", "Accessible name forwarded to the trigger.", "透传给触发器的无障碍名称。"),
+      row(
+        "aria-labelledby",
+        "string",
+        "IDs of external elements that name the trigger.",
+        "为触发器命名的外部元素 ID。",
+      ),
+      row("error", "ReactNode", "Validation message rendered below the field.", "字段下方渲染的校验消息。"),
+      row("prefix", "ReactNode", "Leading trigger adornment.", "触发器前缀装饰内容。"),
+      row("suffix", "ReactNode", "Trailing trigger adornment that replaces the chevron.", "替代下拉箭头的触发器后缀装饰内容。"),
+      row("layout", "ControlLayout", "Applies the shared control layout contract.", "应用共享控件布局契约。"),
     ],
+    "React.ComponentProps<typeof SelectPrimitive.Root>",
   ),
   separator: component(
     ["Separator"],
