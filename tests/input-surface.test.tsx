@@ -79,23 +79,68 @@ describe("Input wrapper contract (B0 input-wrapper)", () => {
     expect(input!.getAttribute("aria-describedby")).toContain(alert!.id);
   });
 
-  test("disabled input chips follow the gray-100 body (no standalone gray block)", () => {
-    const { wrapper } = renderInput({
+  test("disabled state preserves styled affix roles and only merges plain affixes into the body", () => {
+    const styled = renderInput({
       disabled: true,
       prefix: "https://",
       suffix: ".com",
       onChange: () => {},
     });
-    expect(wrapper!.className).toContain(
+    const plain = renderInput({
+      disabled: true,
+      prefix: "https://",
+      prefixStyling: false,
+      suffix: ".com",
+      suffixStyling: false,
+      onChange: () => {},
+    });
+
+    expect(styled.prefix!.getAttribute("data-styling")).toBe("styled");
+    expect(styled.suffix!.getAttribute("data-styling")).toBe("styled");
+    expect(styled.prefix!.className).toContain("bg-background-200");
+    expect(styled.suffix!.className).toContain("bg-background-200");
+
+    expect(plain.prefix!.getAttribute("data-styling")).toBe("plain");
+    expect(plain.suffix!.getAttribute("data-styling")).toBe("plain");
+    expect(plain.wrapper!.className).toContain(
+      "has-[input:disabled]:[&_[data-slot=input-prefix][data-styling=plain]]:bg-gray-100",
+    );
+    expect(plain.wrapper!.className).toContain(
+      "has-[input:disabled]:[&_[data-slot=input-suffix][data-styling=plain]]:bg-gray-100",
+    );
+    expect(plain.wrapper!.className).not.toContain(
       "has-[input:disabled]:[&_[data-slot=input-prefix]]:bg-gray-100",
     );
-    expect(wrapper!.className).toContain(
+    expect(plain.wrapper!.className).not.toContain(
       "has-[input:disabled]:[&_[data-slot=input-suffix]]:bg-gray-100",
     );
   });
 
+  test("styled prefix, input, and suffix form one flush three-segment control", () => {
+    const { wrapper, prefix, input, suffix } = renderInput({
+      prefix: "https://",
+      suffix: ".com",
+      onChange: () => {},
+    });
+
+    expect(wrapper!.className).toContain("text-copy-14");
+    expect(prefix!.className).toContain("px-3");
+    expect(prefix!.className).toContain("border-r");
+    expect(suffix!.className).toContain("px-3");
+    expect(suffix!.className).toContain("border-l");
+
+    for (const segment of [prefix, input, suffix]) {
+      expect(segment!.className).not.toMatch(/(?:^|\s)m[lr]-\S+/);
+    }
+  });
+
   test("rounded variant chips sync the pill radius (no right-angle corners in capsule)", () => {
-    const { container } = renderInput({ rounded: true, prefix: "$", suffix: "USD", onChange: () => {} });
+    const { container } = renderInput({
+      rounded: true,
+      prefix: "$",
+      suffix: "USD",
+      onChange: () => {},
+    });
     const prefix = container.querySelector('[data-slot="input-prefix"]');
     const suffix = container.querySelector('[data-slot="input-suffix"]');
     expect(prefix!.className).toContain("rounded-full");
@@ -117,6 +162,8 @@ function renderInput(props: Record<string, unknown>) {
     field: container.querySelector('[data-slot="input-field"]'),
     label: container.querySelector("label"),
     input: container.querySelector('input[data-slot="input"]'),
+    prefix: container.querySelector('[data-slot="input-prefix"]'),
+    suffix: container.querySelector('[data-slot="input-suffix"]'),
     alert: container.querySelector('[role="alert"]'),
   };
 }
