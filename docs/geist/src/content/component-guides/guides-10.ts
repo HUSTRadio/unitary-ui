@@ -284,15 +284,15 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Relative Time Card 应将精确时间戳通过 aria-label 属性暴露给屏幕阅读器，即使视觉上只显示相对表达。",
-        '时间值的变化应包装在 aria-live="polite" 区域中，当时间刷新时辅助技术能够察觉变化。',
-        "使用 tabular nums（等宽数字）对齐数值列中的时间，方便跨行比较。",
+        "默认触发器只显示相对时间，精确的 UTC 与本地时间位于 HoverCard 中；关键时间信息不能只依赖悬停发现。",
+        "需要键盘访问精确时间时，应传入可聚焦的 children，并在邻近文本中提供等价信息。",
+        "组件不会自动刷新或创建实时播报区域；时间推进时由父组件更新 date 并重新渲染。",
       ],
     },
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Relative Time Card 是无交互的展示型组件，内部自动处理时间增量更新；接收外部时间值作为唯一输入，不支持受控行为。",
+        "Relative Time Card 在渲染时格式化传入的 date，没有内部计时器或受控状态；需要刷新时由父组件重新渲染。",
     },
     responsiveBehavior: {
       status: "covered",
@@ -606,15 +606,15 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Relative Time Card should expose the precise timestamp via aria-label even when visually displaying only the relative expression.",
-        'Time value changes should be wrapped in an aria-live="polite" region so assistive technology detects updates when time refreshes.',
-        "Use tabular nums to align numeric time values in columns for easier cross-row comparison.",
+        "The default trigger shows only relative time, while exact UTC and local timestamps live in the HoverCard; critical time information must not rely on hover alone.",
+        "When keyboard access to exact time is required, pass focusable children and provide equivalent nearby text.",
+        "The component does not refresh itself or create a live region; the parent updates date and re-renders as time advances.",
       ],
     },
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Relative Time Card is a passive display component that internally handles incremental time updates; it accepts an external time value as its sole input with no controlled behavior.",
+        "Relative Time Card formats the supplied date at render time and has no internal timer or controlled state; the parent re-renders when an update is needed.",
     },
     responsiveBehavior: {
       status: "covered",

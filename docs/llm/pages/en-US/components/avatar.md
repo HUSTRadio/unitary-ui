@@ -16,7 +16,7 @@ Represents a user or a team with an image or fallback.
 
 - Use Avatar to represent a single user or team, displayed alongside name and role information.
 - Use stacked Avatars to represent a group of people, such as team member lists or collections of commenters.
-- Provide a fallback (initials, icon, or placeholder) so the avatar still reads when the image fails to load or is missing.
+- Provide initials or a placeholder when an image fails or is missing; use AvatarWithIcon when an overlaid icon is required.
 
 ## When not to use
 
@@ -28,11 +28,11 @@ Represents a user or a team with an image or fallback.
 
 ### Sizes
 
-Showcases the sm, default, and lg preset sizes, matching dense rows, list mentions, and profile header contexts.
+Showcases numeric sizes such as 24, 32, and 48 px for dense rows, list mentions, and profile headers.
 
 ### Fallback states
 
-Demonstrates the initials, custom icon, and placeholder fallback schemes when an image is unavailable.
+Demonstrates initials and placeholder fallback schemes when an image is unavailable.
 
 ### Stacking and overlap
 
@@ -40,7 +40,7 @@ Shows overlapped arrangement of multiple Avatars with fixed overlap spacing.
 
 ## Accessibility
 
-- Always set meaningful alt text so screen readers announce the name of the person the avatar depicts.
+- Set meaningful alt text on image avatars; initials and placeholder avatars can expose the person's name through title.
 - Grouped stacks should carry an aria-label describing the total count to avoid redundant individual announcements.
 - Initial-only fallback avatars should use high-contrast background colors to ensure text legibility.
 
@@ -51,12 +51,12 @@ Not applicable: Avatar is a passive display component with no interactive state 
 ## Responsive behavior
 
 - Avatar size is specified explicitly via props rather than responsive breakpoints, keeping consistent appearance across all viewports.
-- Stacked Avatars maintain their overlap order on narrow screens, showing at most four before collapsing the remainder into a +N numeric indicator.
+- AvatarGroup only arranges overlap and does not truncate members; render an explicit summary Avatar when a +N indicator is needed.
 
 ## Theme behavior
 
-- Avatar colors and styles follow Geist theme variables (typography, color palette) and adapt automatically between dark and light modes.
-- Placeholder blocks derive their color from a hash of the username by default, overridable via CSS variables.
+- Avatar borders and loading states follow theme variables and adapt between dark and light modes.
+- Initial fallbacks use a fixed neutral surface; GitHub, GitLab, and Bitbucket avatars derive service image URLs from username.
 
 ## Live Demo
 

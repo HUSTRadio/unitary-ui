@@ -8,7 +8,7 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
     whenToUse: [
       "用 Avatar 表示单个用户或团队，并在头像旁显示姓名和角色信息。",
       "使用堆叠（Stacked）Avatar 展示一组人员，如团队成员列表或评论者集合。",
-      "为图片加载失败或缺失的场景提供回退（如首字母、图标或占位色块），保证识别性。",
+      "为图片加载失败或缺失的场景提供首字母或占位色块回退；需要叠加图标时使用 AvatarWithIcon。",
     ],
     whenNotToUse: [
       "不需要在卡片、表格等组件内部重复渲染头像——优先用 Entity 行或其他结构化布局。",
@@ -20,14 +20,14 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
         id: "size",
         kind: "minimal",
         title: "尺寸",
-        description: "展示 sm、default、lg 三种预设尺寸，匹配密集行、列表提及和档案页头的上下文。",
+        description: "展示 24、32、48 px 等数值尺寸，匹配密集行、列表提及和档案页头的上下文。",
         demoKey: "Size",
       },
       {
         id: "fallback",
         kind: "variant",
         title: "回退状态",
-        description: "演示当图片不可用时的首字母、自定义图标和占位色块回退方案。",
+        description: "演示当图片不可用时的首字母和占位色块回退方案。",
         demoKey: "Letter",
       },
       {
@@ -41,7 +41,7 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "必须设置有意义的 alt 文本，以便屏幕阅读器朗读头像所代表的人物名称。",
+        "图片头像应设置有意义的 alt 文本；首字母或占位色块头像可通过 title 提供人物名称。",
         "堆叠 Avatar 组应在容器上添加 aria-label 说明总人数，避免逐条朗读造成冗余。",
         "无图回退的首字母头像应使用高对比度的背景色，确保文字可读。",
       ],
@@ -55,14 +55,14 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Avatar 的尺寸通过 props 显式指定而非响应式断点，因此在任何视口下表现一致。",
-        "堆叠 Avatar 在窄屏上保持重叠顺序不变，最多显示四个后以 +N 数字汇总呈现剩余人数。",
+        "AvatarGroup 只负责重叠排列，不会自动截断成员；需要 +N 汇总时由调用方显式渲染一个汇总 Avatar。",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "Avatar 的颜色和样式跟随 Geist 主题变量（字体、色板），支持暗色/亮色模式自动适配。",
-        "占位色块默认从用户名哈希派生颜色，可通过 CSS 变量覆盖。",
+        "Avatar 的边框和加载状态跟随主题变量，支持暗色/亮色模式自动适配。",
+        "首字母回退使用固定的中性色表面；GitHub、GitLab、Bitbucket 头像根据 username 构造对应服务的图片 URL。",
       ],
     },
   },
@@ -136,7 +136,7 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
     summary: "一个横跨容器全宽的醒目消息区域，用于宣布重要信息。",
     whenToUse: [
       "在页面顶部或区块起始处展示全局公告、维护通知或关键提示，确保用户注意到。",
-      "需要用颜色和图标传达语义状态时（成功、警告、错误），使用 Banner 作为区域级别的错误提示。",
+      "当公告需要附带一个明确的链接式行动入口时，使用 Banner 的 button 配置提供 CTA。",
       "当消息需要跨越完整内容宽度并提供上下文时（如部署状态变更）。",
     ],
     whenNotToUse: [
@@ -149,37 +149,34 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
         id: "default",
         kind: "minimal",
         title: "默认横幅",
-        description: "展示默认的 Banner 外观，包含标题和描述文本。",
+        description: "展示默认的 Banner 消息文本，以及可选的链接式 CTA。",
         demoKey: "Default",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "Banner 的语义相当于 alert 或 status 角色，屏幕阅读器应正确识别并朗读其内容。",
-        "Banner 标题使用较高级别（Heading 2 或 3），描述文本紧跟其后以保持阅读层次。",
-        "可关闭的 Banner 按钮应有明确的 aria-label 描述关闭动作。",
+        "Banner 默认渲染为普通 div；仅在内容确实需要即时播报时，由调用方添加合适的语义角色。",
+        "消息文本应独立清晰，不能只依赖位置或颜色表达重要性。",
+        "链接式 CTA 的 content 应明确描述目标或动作。",
       ],
     },
     controlledBehavior: {
-      status: "covered",
-      content: [
-        "Banner 支持 open/collapsed 状态的可编程控制，开发者可以决定何时自动收起或手动干预。",
-        "关闭动画完成后返回焦点到触发按钮，保持键盘用户的导航连贯性。",
-      ],
+      status: "not-applicable",
+      reason: "Banner 不维护打开、折叠或关闭状态；显示时机与移除逻辑由父组件决定。",
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Banner 在全宽容器内水平铺满，在小屏幕上自动调整内边距和字号比例。",
-        "移动设备上 Banner 的高度降低，内容以堆叠布局替代行内布局。",
+        "Banner 填满父容器宽度，并通过 flex-wrap 在空间不足时换行。",
+        "组件没有断点级字号或高度变化；窄屏布局由内容宽度和父容器共同决定。",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "不同语义类型的 Banner（成功、警告、错误）在暗色/亮色模式下各有对应的配色方案。",
-        "Banner 的背景色和边框颜色通过主题变量管理，支持全局自定义。",
+        "Banner 外壳默认透明，文本和 CTA 使用主题令牌适配暗色与亮色模式。",
+        "组件没有内置成功、警告或错误变体；需要语义配色时由调用方组合样式和语义。",
       ],
     },
   },
@@ -315,7 +312,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
     whenToUse: [
       "Use Avatar to represent a single user or team, displayed alongside name and role information.",
       "Use stacked Avatars to represent a group of people, such as team member lists or collections of commenters.",
-      "Provide a fallback (initials, icon, or placeholder) so the avatar still reads when the image fails to load or is missing.",
+      "Provide initials or a placeholder when an image fails or is missing; use AvatarWithIcon when an overlaid icon is required.",
     ],
     whenNotToUse: [
       "Do not repeat headshots inside cards or tables—prefer Entity rows or other structured layouts instead.",
@@ -328,7 +325,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Sizes",
         description:
-          "Showcases the sm, default, and lg preset sizes, matching dense rows, list mentions, and profile header contexts.",
+          "Showcases numeric sizes such as 24, 32, and 48 px for dense rows, list mentions, and profile headers.",
         demoKey: "Size",
       },
       {
@@ -336,7 +333,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
         kind: "variant",
         title: "Fallback states",
         description:
-          "Demonstrates the initials, custom icon, and placeholder fallback schemes when an image is unavailable.",
+          "Demonstrates initials and placeholder fallback schemes when an image is unavailable.",
         demoKey: "Letter",
       },
       {
@@ -350,7 +347,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Always set meaningful alt text so screen readers announce the name of the person the avatar depicts.",
+        "Set meaningful alt text on image avatars; initials and placeholder avatars can expose the person's name through title.",
         "Grouped stacks should carry an aria-label describing the total count to avoid redundant individual announcements.",
         "Initial-only fallback avatars should use high-contrast background colors to ensure text legibility.",
       ],
@@ -364,14 +361,14 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Avatar size is specified explicitly via props rather than responsive breakpoints, keeping consistent appearance across all viewports.",
-        "Stacked Avatars maintain their overlap order on narrow screens, showing at most four before collapsing the remainder into a +N numeric indicator.",
+        "AvatarGroup only arranges overlap and does not truncate members; render an explicit summary Avatar when a +N indicator is needed.",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "Avatar colors and styles follow Geist theme variables (typography, color palette) and adapt automatically between dark and light modes.",
-        "Placeholder blocks derive their color from a hash of the username by default, overridable via CSS variables.",
+        "Avatar borders and loading states follow theme variables and adapt between dark and light modes.",
+        "Initial fallbacks use a fixed neutral surface; GitHub, GitLab, and Bitbucket avatars derive service image URLs from username.",
       ],
     },
   },
@@ -447,7 +444,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
       "A prominent message that spans the full width of its container to announce important information.",
     whenToUse: [
       "Display global announcements, maintenance notices, or critical alerts at the top of a page or section start where user attention is needed.",
-      "Use Banner as a section-level error indicator when conveying semantic states with color and icons (success, warning, error).",
+      "Use Banner's button configuration when an announcement needs one explicit linked call to action.",
       "When a message requires full content width and contextual framing (such as deployment status changes).",
     ],
     whenNotToUse: [
@@ -460,37 +457,34 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
         id: "default",
         kind: "minimal",
         title: "Default banner",
-        description: "Displays the default Banner appearance with title and description text.",
+        description: "Displays the default Banner message with an optional linked call to action.",
         demoKey: "Default",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "Banner carries alert or status semantics so screen readers correctly recognize and announce its content.",
-        "Banner titles use a higher heading level (Heading 2 or 3), with description text following to maintain reading hierarchy.",
-        "Dismissable Banner buttons should have an explicit aria-label describing the close action.",
+        "Banner renders a plain div by default; callers add an appropriate semantic role only when the message truly needs immediate announcement.",
+        "Message text should remain understandable without relying on placement or color alone.",
+        "The linked CTA content should clearly describe its destination or action.",
       ],
     },
     controlledBehavior: {
-      status: "covered",
-      content: [
-        "Banner supports programmatic control of open/collapsed state, allowing developers to decide when to auto-dismiss or manually intervene.",
-        "Focus returns to the trigger button after the close animation completes, maintaining keyboard user navigation continuity.",
-      ],
+      status: "not-applicable",
+      reason: "Banner has no open, collapsed, or dismissal state; its parent decides when to render or remove it.",
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Banner fills horizontally within its full-width container and adjusts padding and font scaling automatically on smaller screens.",
-        "On mobile devices, Banner height is reduced with content arranged in a stacked layout instead of inline.",
+        "Banner fills its parent width and uses flex-wrap when the message and CTA no longer fit on one line.",
+        "It has no breakpoint-specific font or height changes; narrow layouts follow content width and the parent container.",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "Different semantic Banner types (success, warning, error) have corresponding color palettes in both dark and light modes.",
-        "Banner background and border colors are managed through theme variables, supporting global customization.",
+        "The Banner shell is transparent by default, while text and CTA colors use theme tokens for light and dark modes.",
+        "There are no built-in success, warning, or error variants; callers compose semantic color and roles when needed.",
       ],
     },
   },

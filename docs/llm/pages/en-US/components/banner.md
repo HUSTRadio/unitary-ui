@@ -15,7 +15,7 @@ A prominent message that spans the full width of its container to announce impor
 ## When to use
 
 - Display global announcements, maintenance notices, or critical alerts at the top of a page or section start where user attention is needed.
-- Use Banner as a section-level error indicator when conveying semantic states with color and icons (success, warning, error).
+- Use Banner's button configuration when an announcement needs one explicit linked call to action.
 - When a message requires full content width and contextual framing (such as deployment status changes).
 
 ## When not to use
@@ -28,28 +28,27 @@ A prominent message that spans the full width of its container to announce impor
 
 ### Default banner
 
-Displays the default Banner appearance with title and description text.
+Displays the default Banner message with an optional linked call to action.
 
 ## Accessibility
 
-- Banner carries alert or status semantics so screen readers correctly recognize and announce its content.
-- Banner titles use a higher heading level (Heading 2 or 3), with description text following to maintain reading hierarchy.
-- Dismissable Banner buttons should have an explicit aria-label describing the close action.
+- Banner renders a plain div by default; callers add an appropriate semantic role only when the message truly needs immediate announcement.
+- Message text should remain understandable without relying on placement or color alone.
+- The linked CTA content should clearly describe its destination or action.
 
 ## Controlled behavior
 
-- Banner supports programmatic control of open/collapsed state, allowing developers to decide when to auto-dismiss or manually intervene.
-- Focus returns to the trigger button after the close animation completes, maintaining keyboard user navigation continuity.
+Not applicable: Banner has no open, collapsed, or dismissal state; its parent decides when to render or remove it.
 
 ## Responsive behavior
 
-- Banner fills horizontally within its full-width container and adjusts padding and font scaling automatically on smaller screens.
-- On mobile devices, Banner height is reduced with content arranged in a stacked layout instead of inline.
+- Banner fills its parent width and uses flex-wrap when the message and CTA no longer fit on one line.
+- It has no breakpoint-specific font or height changes; narrow layouts follow content width and the parent container.
 
 ## Theme behavior
 
-- Different semantic Banner types (success, warning, error) have corresponding color palettes in both dark and light modes.
-- Banner background and border colors are managed through theme variables, supporting global customization.
+- The Banner shell is transparent by default, while text and CTA colors use theme tokens for light and dark modes.
+- There are no built-in success, warning, or error variants; callers compose semantic color and roles when needed.
 
 ## Live Demo
 

@@ -37,7 +37,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
         kind: "stateful",
         title: "内联间距",
         description:
-          "通过 inset prop 控制 Modal 内部的内边距，适用于需要在紧凑空间中使用模态框但仍保持适当呼吸感的场景。",
+          "通过 className、bodyClassName 和内容容器组合内嵌表面；Modal 不提供名为 inset 的组件参数。",
         demoKey: "inset",
       },
       {
@@ -67,8 +67,8 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "在小视口下 Modal 可以切换为类似 Sheet 的移动底面板行为，确保移动设备上的操作体验流畅。",
-        "针对移动端的输入场景做了特殊处理（如 mobile-sheet-inputs），避免虚拟键盘遮挡操作按钮。",
+        "小视口下 Modal 仍保持居中，仅将宽度限制为视口减 20 px。",
+        "内容区域最高为 80vh 并可滚动；需要移动端底部面板时应改用 BottomSheet。",
       ],
     },
     themeBehavior: {
@@ -376,7 +376,7 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
         kind: "stateful",
         title: "Inset spacing",
         description:
-          "Controls internal padding via the inset prop, useful when you need a modal in tight spaces while still maintaining adequate breathing room around content.",
+          "Compose an inset surface with className, bodyClassName, and a content wrapper; Modal does not expose a component property named inset.",
         demoKey: "inset",
       },
       {
@@ -406,8 +406,8 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "On small viewports Modal can switch to a Sheet-like mobile bottom sheet behavior for smooth interaction on mobile devices.",
-        "Special handling for mobile input scenarios (like mobile-sheet-inputs) ensures the virtual keyboard doesn't obscure action buttons.",
+        "On small viewports Modal remains centered and limits its width to the viewport minus 20 px.",
+        "Content is capped at 80vh and scrolls; use BottomSheet when the experience should be a mobile bottom panel.",
       ],
     },
     themeBehavior: {

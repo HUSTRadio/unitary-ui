@@ -35,7 +35,7 @@ Define threshold segments to customize the arc's color distribution, useful when
 
 ### Arc priority
 
-Render multiple arcs on the same component with the outer arc overlaying the inner one, used to present a primary metric alongside a secondary metric simultaneously.
+Render primary and secondary progress segments on the same ring; arcPriority controls overlap order or equal segmentation.
 
 ### Indeterminate state
 
@@ -52,13 +52,12 @@ Not applicable: Gauge is a purely presentational component that renders only the
 
 ## Responsive behavior
 
-- The gauge arc automatically adapts width across different viewports to ensure legibility on any screen size.
-- Label text scales with the container, maintaining appropriate contrast and readability on smaller devices.
+Not applicable: Gauge uses four fixed sizes—tiny, small, medium, and large—and does not scale from the viewport or parent container.
 
 ## Theme behavior
 
-- Arc colors and background colors follow the theme's color tokens, including automatic adaptation for dark mode.
-- Supports custom gradients and stroke colors that work with design system theme variables for brand consistency.
+- The track follows theme tokens; default progress segments use fixed red, amber, and green thresholds.
+- colors accepts a threshold map or primary/secondary pair and can use ordinary CSS colors such as variables, but it does not parse gradients.
 
 ## Live Demo
 

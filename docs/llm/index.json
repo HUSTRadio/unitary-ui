@@ -145,8 +145,8 @@
         "en-US": "pages/en-US/components/avatar.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:15acbc165ea33dcfe2279a35ddc417a2b9531e175a31bdfae9439af433bdf446",
-        "en-US": "sha256:ef2a9c325f17130371f9653834b9602341475ba0b08d8979ec19571008562a32"
+        "zh-CN": "sha256:3df3932b74b3b1012a574d2eb72115965b99a32de4951b5a0026d325a417218c",
+        "en-US": "sha256:b75aeacc7d1bdb3bea95de410fe7a125194a6d0195d5450f2465f00c572602f6"
       }
     },
     {
@@ -177,8 +177,8 @@
         "en-US": "pages/en-US/components/banner.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:b148b142ff06f005d3559afae85584f362d100d86b0d7cfbb3de699b63acc1bc",
-        "en-US": "sha256:a1c02e0fd697408fbe9c9f84031b7e61aa0fb9c81f3a4f3325c0a1e5f3111974"
+        "zh-CN": "sha256:fdf551e202b1ce28a9b1120fc409e335f793f452917553e846cd7a6ae7729f63",
+        "en-US": "sha256:d50dbcf8841333e8e592c5b067cb6153f39eedf45942b3d35820ded1ad3dd892"
       }
     },
     {
@@ -625,8 +625,8 @@
         "en-US": "pages/en-US/components/gauge.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:e8732a681ba91021a75217b1344bfab6aa1ab8b4a7f5b90a4fa983759b1eee67",
-        "en-US": "sha256:ee15f1e65aad568f29332a4c4b4a06a098a47d17a66ac41632700aa2a21abc28"
+        "zh-CN": "sha256:30eacca1f8023b40e2f12762563cc223c09f0b352e507cdc516e29d61bfa3f0e",
+        "en-US": "sha256:aac623e5e8804907f28387c9dd2636ceba5a3c95657a1229d2d09661788b6826"
       }
     },
     {
@@ -785,8 +785,8 @@
         "en-US": "pages/en-US/components/modal.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:72d2fc8a7795d7cb66751967f76abfa0afcd052996d93e81350305ba3cd3a07b",
-        "en-US": "sha256:ecbcfcb8b873b0b8d9b72791b14104c50f4c03c16d63444e373f13b92b2f0e03"
+        "zh-CN": "sha256:97ad29a2e3b713820940f8af686fcbf19851be647b8ddaaa7005c3c03920214a",
+        "en-US": "sha256:fd1a8093d3b5da03fcd7ac412afbff8985e6e6684a3f5087396a0dda6d399642"
       }
     },
     {
@@ -929,8 +929,8 @@
         "en-US": "pages/en-US/components/relative-time-card.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:fc69278fb9901e9534ef03341c7780fff3046317297766edc4b291462d31c8a3",
-        "en-US": "sha256:4f5055febad869271052cdc41bb6b26fa5346757542520b0a9704b05aa27d37f"
+        "zh-CN": "sha256:2221680089a2636423a8b0654338001b5e921413aff09034bc8340af53c82ca3",
+        "en-US": "sha256:638e3a3e62c18b9b67aa45638b689e6cc340de6c4cdd5305f8f69b65e12c1eeb"
       }
     },
     {

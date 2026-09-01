@@ -173,6 +173,27 @@ describe("component API registry", () => {
     expect(text).not.toMatch(/validator throws|校验器会报错/i);
   });
 
+  it("does not claim unsupported component-guide behavior", () => {
+    const guideText = (slug: string) =>
+      JSON.stringify({ zh: COMPONENT_GUIDES_ZH[slug], en: COMPONENT_GUIDES_EN[slug] });
+
+    expect(guideText("avatar")).not.toMatch(
+      /sm、default、lg|sm, default, and lg|最多显示四个|at most four|用户名哈希|hash of the username/i,
+    );
+    expect(guideText("banner")).not.toMatch(
+      /open\/collapsed|carries alert or status semantics|语义相当于 alert 或 status|dismissable Banner|可关闭的 Banner|semantic Banner types|语义类型的 Banner/i,
+    );
+    expect(guideText("gauge")).not.toMatch(
+      /外圈覆盖内圈|outer arc overlaying the inner|automatically adapts width|自动适配宽度|supports custom gradients|支持自定义渐变/i,
+    );
+    expect(guideText("modal")).not.toMatch(
+      /via the inset prop|通过 inset prop|bottom sheet behavior|底面板行为|virtual keyboard.*obscure|虚拟键盘遮挡/i,
+    );
+    expect(guideText("relative-time-card")).not.toMatch(
+      /expose.*via aria-label|通过 aria-label 属性暴露|aria-live="polite"|internally handles incremental time updates|内部自动处理时间增量更新/i,
+    );
+  });
+
   it("links the common lifecycle conventions and every component page to the registry UI", async () => {
     expect(DOCS_ROUTE_GROUPS.find((group) => group.id === "api")?.items).toEqual([
       expect.objectContaining({ to: "/lifecycle-and-hooks" }),

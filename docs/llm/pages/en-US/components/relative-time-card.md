@@ -36,13 +36,13 @@ Demonstrates the floating tooltip interaction that switches from relative expres
 
 ## Accessibility
 
-- Relative Time Card should expose the precise timestamp via aria-label even when visually displaying only the relative expression.
-- Time value changes should be wrapped in an aria-live="polite" region so assistive technology detects updates when time refreshes.
-- Use tabular nums to align numeric time values in columns for easier cross-row comparison.
+- The default trigger shows only relative time, while exact UTC and local timestamps live in the HoverCard; critical time information must not rely on hover alone.
+- When keyboard access to exact time is required, pass focusable children and provide equivalent nearby text.
+- The component does not refresh itself or create a live region; the parent updates date and re-renders as time advances.
 
 ## Controlled behavior
 
-Not applicable: Relative Time Card is a passive display component that internally handles incremental time updates; it accepts an external time value as its sole input with no controlled behavior.
+Not applicable: Relative Time Card formats the supplied date at render time and has no internal timer or controlled state; the parent re-renders when an update is needed.
 
 ## Responsive behavior
 

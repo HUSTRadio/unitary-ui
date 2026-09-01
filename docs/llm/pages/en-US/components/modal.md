@@ -36,7 +36,7 @@ Uses the sticky variant to keep the bottom action bar pinned to the visible area
 
 ### Inset spacing
 
-Controls internal padding via the inset prop, useful when you need a modal in tight spaces while still maintaining adequate breathing room around content.
+Compose an inset surface with className, bodyClassName, and a content wrapper; Modal does not expose a component property named inset.
 
 ### Disabled actions
 
@@ -55,8 +55,8 @@ Demonstrates disabling the primary action button within a Modal, typically used 
 
 ## Responsive behavior
 
-- On small viewports Modal can switch to a Sheet-like mobile bottom sheet behavior for smooth interaction on mobile devices.
-- Special handling for mobile input scenarios (like mobile-sheet-inputs) ensures the virtual keyboard doesn't obscure action buttons.
+- On small viewports Modal remains centered and limits its width to the viewport minus 20 px.
+- Content is capped at 80vh and scrolls; use BottomSheet when the experience should be a mobile bottom panel.
 
 ## Theme behavior
 

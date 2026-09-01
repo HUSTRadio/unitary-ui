@@ -36,7 +36,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
         kind: "advanced",
         title: "弧线优先级",
         description:
-          "在同一组件上渲染多条弧线以展示多个度量，外圈覆盖内圈，用于同时呈现主指标与辅助指标的场景。",
+          "在同一圆环上渲染主、次两个进度段，用于同时呈现两个指标；arcPriority 决定覆盖顺序或等权分段。",
         demoKey: "Arc priority",
       },
       {
@@ -61,17 +61,14 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
         "Gauge 是一个纯展示型组件，只负责渲染给定的百分比值和颜色配置，没有内部交互状态概念。父组件通过传递 value 和其他 props 直接控制其外观。",
     },
     responsiveBehavior: {
-      status: "covered",
-      content: [
-        "仪表盘弧线会在不同视口下自动适配宽度，确保在任何屏幕上都能清晰可读。",
-        "标签文字大小跟随容器缩放，在小屏设备上保持适当的对比度和可读性。",
-      ],
+      status: "not-applicable",
+      reason: "Gauge 使用 tiny、small、medium、large 四个固定尺寸，不会根据视口或父容器自动缩放。",
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "弧线颜色和背景色遵循当前主题的颜色令牌，包括深色模式下的自动适配。",
-        "支持自定义渐变和描边颜色，可与设计系统的主题变量配合实现品牌一致性。",
+        "轨道颜色跟随主题令牌；默认进度段使用固定的红、琥珀和绿色阈值。",
+        "colors 可传阈值映射或主次颜色对，并可使用 CSS 变量等普通 CSS 颜色值，但不解析渐变。",
       ],
     },
   },
@@ -407,7 +404,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
         kind: "advanced",
         title: "Arc priority",
         description:
-          "Render multiple arcs on the same component with the outer arc overlaying the inner one, used to present a primary metric alongside a secondary metric simultaneously.",
+          "Render primary and secondary progress segments on the same ring; arcPriority controls overlap order or equal segmentation.",
         demoKey: "Arc priority",
       },
       {
@@ -432,17 +429,14 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
         "Gauge is a purely presentational component that renders only the given percentage value and color configuration. It has no internal interactive state concept; the parent controls appearance by passing value and other props directly.",
     },
     responsiveBehavior: {
-      status: "covered",
-      content: [
-        "The gauge arc automatically adapts width across different viewports to ensure legibility on any screen size.",
-        "Label text scales with the container, maintaining appropriate contrast and readability on smaller devices.",
-      ],
+      status: "not-applicable",
+      reason: "Gauge uses four fixed sizes—tiny, small, medium, and large—and does not scale from the viewport or parent container.",
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "Arc colors and background colors follow the theme's color tokens, including automatic adaptation for dark mode.",
-        "Supports custom gradients and stroke colors that work with design system theme variables for brand consistency.",
+        "The track follows theme tokens; default progress segments use fixed red, amber, and green thresholds.",
+        "colors accepts a threshold map or primary/secondary pair and can use ordinary CSS colors such as variables, but it does not parse gradients.",
       ],
     },
   },
