@@ -373,7 +373,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "触发器配隐藏项数量，让用户知道展开的成本（Show 12 More，展开后 Show Less）。两个标签都首字母大写。",
     "不要在同一个数据集上中途来回 Show More / Show Less；用户展开后折叠行会把他们从阅读位置滚走。",
     "数量少时在 DOM 中渲染隐藏行，让页内查找可用；仅当数据集大到影响初始渲染时才惰性加载。",
-    "触发器是带 aria-expanded 的 button，并用 aria-controls 指向列表。展开后把焦点移到首个新揭示的行，让屏幕阅读器和键盘用户落在新内容中。",
+    "触发器是带 aria-expanded 的 button；通过 aria-controls 指向被展开的区域。ShowMore 不管理目标内容、焦点移动或 live region。",
   ],
   skeleton: [
     "异步数据填充已知布局时显示 Skeleton：表格行、卡片网格、资料块、侧栏。",

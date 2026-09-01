@@ -41,13 +41,13 @@ Show More
 ## 无障碍
 
 - 触发按钮必须使用 <button> 元素并设置 aria-expanded，配合 aria-controls 指向目标列表区域。
-- 展开后将焦点移动到第一个新揭示的行，以便屏幕阅读器用户和键盘用户快速定位到新增内容。
-- 在展开完成后用 aria-live="polite" 通知辅助技术内容的变化。
+- 组件提供原生 button 和 aria-expanded；调用方应通过 aria-controls 将它关联到被展开的内容区域。
+- 组件不会移动焦点或创建 live region；如果新增内容必须被主动播报，应由调用方在内容区域实现。
 
 ## 受控行为
 
-- 支持通过受控属性编程式管理展开/收起状态，开发者可决定何时自动展开或折叠。
-- 展开动画完成后将焦点转移到第一条新行，确保键盘用户的导航连贯性。
+- expanded 决定按钮文案、箭头方向和 aria-expanded；onClick 等原生按钮事件由调用方更新外部状态。
+- 组件只渲染触发器，不管理目标内容、展开动画或焦点位置。
 
 ## 响应式行为
 
@@ -109,4 +109,4 @@ import { ShowMore } from "@/components/ui/show-more";
 - 触发器配隐藏项数量，让用户知道展开的成本（Show 12 More，展开后 Show Less）。两个标签都首字母大写。
 - 不要在同一个数据集上中途来回 Show More / Show Less；用户展开后折叠行会把他们从阅读位置滚走。
 - 数量少时在 DOM 中渲染隐藏行，让页内查找可用；仅当数据集大到影响初始渲染时才惰性加载。
-- 触发器是带 aria-expanded 的 button，并用 aria-controls 指向列表。展开后把焦点移到首个新揭示的行，让屏幕阅读器和键盘用户落在新内容中。
+- 触发器是带 aria-expanded 的 button；通过 aria-controls 指向被展开的区域。ShowMore 不管理目标内容、焦点移动或 live region。

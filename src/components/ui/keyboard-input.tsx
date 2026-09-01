@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
  * KeyboardInput 组合容器（⌘K 这类组合键），Kbd 为单个按键的 <kbd> 元素。
  *
  * Kbd 官方 API（官方文档实测）：
- * - meta / shift / alt / ctrl 布尔修饰符：跨平台统一使用符号；Windows 中 Shift / Alt / Ctrl 分别对应
- *   ⇧ / ⌥ / ⌘，显式 ctrl 保持 ⌃。
+ * - meta / shift / alt / ctrl 布尔修饰符分别渲染 ⌘ / ⇧ / ⌥ / ⌃；组件不检测操作系统，
+ *   调用方负责选择与目标平台快捷键一致的组合。
  * - 符号修饰键与后续按键保持紧凑（⌘K、⌥K），不插入空格。
  * - 多个修饰符渲染为同一个 pill（如 <Kbd meta shift /> → '⌘⇧'）。
  * - small：紧凑尺寸（20px 高、12px、padding 0 4px）。

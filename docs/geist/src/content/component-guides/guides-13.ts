@@ -253,8 +253,9 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
       ],
     },
     controlledBehavior: {
-      status: "covered",
-      content: [" sortable 列支持受控排序：通过 sortKey 和 sortOrder 控制当前排序字段和方向。"],
+      status: "not-applicable",
+      reason:
+        "Table 不提供内置排序状态或排序回调；需要排序时，由调用方在渲染前整理 rows，并自行给表头按钮添加状态和事件。",
     },
     responsiveBehavior: {
       status: "covered",
@@ -537,10 +538,9 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
       ],
     },
     controlledBehavior: {
-      status: "covered",
-      content: [
-        "Sortable columns support controlled sorting: sortKey and sortOrder control the current sort field and direction.",
-      ],
+      status: "not-applicable",
+      reason:
+        "Table does not provide built-in sorting state or callbacks. Sort rows before rendering and implement any sortable header buttons in caller code.",
     },
     responsiveBehavior: {
       status: "covered",

@@ -223,7 +223,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
   pagination: {
     slug: "pagination",
     locale: "zh-CN",
-    summary: "通过分页控件在数据集的编号页面之间进行顺序导航，适用于文章、帖子和步骤序列。",
+    summary: "通过上一个/下一个导航轨道在相邻内容页面间顺序移动，适用于文章、帖子和步骤序列。",
     whenToUse: [
       "在兄弟页面之间进行顺序导航（如文档文章、博客帖子、引导步骤），用户一次只阅读一页内容。",
       "作为上一个/下一个文档导航轨道，当用户需要在系列页面间前进或后退时。",
@@ -238,29 +238,27 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "默认分页",
         description:
-          "最基础的分页用法：渲染一组页码链接和一个上一个/下一个轨道，高亮当前活动页，其他页码为普通锚点链接。",
+          "最基础的分页用法：用 previous 和 next 渲染相邻页面链接；调用方可在中间 children 区域传入自定义导航内容。",
         demoKey: "Default",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        '当前页通过 isActive 属性渲染，带有 aria-current="page" 属性，屏幕阅读器会标注当前页码。',
-        "所有页码均为锚点按钮元素，支持键盘导航和回车跳转，确保无障碍用户能够流畅浏览。",
+        "组件渲染带 navigation 标签的 nav；Previous / Next 链接包含方向和目标标题的可访问名称。",
+        "如通过 children 添加页码或其他导航，调用方负责为当前项设置 aria-current 并保留原生链接语义。",
       ],
     },
     controlledBehavior: {
-      status: "covered",
-      content: [
-        "通过 activePage 属性控制当前活动页码，父组件可在页码变更时监听回调以更新路由或发起数据请求。",
-        "总页数可以通过 total 属性传入，组件会根据该值自动渲染对应的页码按钮组。",
-      ],
+      status: "not-applicable",
+      reason:
+        "Pagination 不管理当前页或总页数；previous、next 和可选 children 全部由调用方根据路由状态传入。",
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "在小视口下自动隐藏中间的页码按钮，仅保留第一个、最后一个和当前页附近的按钮以保持布局紧凑。",
-        "Previous / Next 按钮在序列首尾自动隐藏而不过度禁用，空轨道比暗淡的按钮看起来更干净。",
+        "中间的 children 导航区在 xl 以下隐藏，Previous / Next 轨道链接保持可见。",
+        "在序列首尾省略对应的 previous 或 next prop，组件会保留两端布局而不渲染不可用链接。",
       ],
     },
     themeBehavior: {
@@ -564,7 +562,7 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
     slug: "pagination",
     locale: "en-US",
     summary:
-      "Sequentially navigates through numbered pages of a dataset, ideal for articles, posts, and step sequences.",
+      "Sequentially navigates between adjacent content pages with previous and next rail links, ideal for articles, posts, and step sequences.",
     whenToUse: [
       "For sequential navigation between sibling pages (docs articles, blog posts, onboarding steps) where the user reads one page at a time.",
       "As a previous/next document rail when users need to advance or retreat through a series of pages.",
@@ -579,29 +577,27 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Default pagination",
         description:
-          "The most basic pagination usage: renders a set of page number links with a previous/next rail, highlights the currently active page, and keeps other pages as plain anchor links.",
+          "The basic pagination rail renders adjacent pages through previous and next; callers may supply custom navigation in the centered children area.",
         demoKey: "Default",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        'Current page is rendered with the isActive property and carries aria-current="page" so screen readers announce the current page number.',
-        "All page numbers are anchor button elements supporting keyboard navigation and Enter activation, ensuring accessibility for all users.",
+        "The component renders a labelled navigation region; Previous and Next links include accessible names with their destination titles.",
+        "When callers add page links through children, they are responsible for native link semantics and aria-current on the current item.",
       ],
     },
     controlledBehavior: {
-      status: "covered",
-      content: [
-        "Controls the currently active page through the activePage prop; the parent can listen to page change callbacks to update routing or trigger data requests.",
-        "Total page count is passed via the total prop, and the component auto-renders the corresponding set of page buttons.",
-      ],
+      status: "not-applicable",
+      reason:
+        "Pagination does not manage an active page or total count; the caller derives previous, next, and optional children from routing state.",
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "On small viewports automatically hides middle page buttons, keeping only the first, last, and pages near the current one for a compact layout.",
-        "Previous / Next buttons hide themselves at sequence start or end rather than being visually disabled; an empty rail reads cleaner than a dimmed link.",
+        "The centered children navigation area is hidden below xl, while the Previous and Next rail links remain available.",
+        "At the start or end of a sequence, omit the corresponding previous or next prop; the component preserves the rail layout without rendering a disabled link.",
       ],
     },
     themeBehavior: {

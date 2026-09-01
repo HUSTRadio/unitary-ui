@@ -19,14 +19,14 @@ Keyboard Input
 
 ## 何时不应使用
 
-- 不要将修饰键拼写出来放在 children 中——应通过 boolean props（meta、shift、alt、ctrl）来传递修饰键，组件会在 Windows/Linux 上将 ⌘ 自动替换为 Ctrl。
+- 不要将修饰键拼写出来放在 children 中——应通过 boolean props（meta、shift、alt、ctrl）明确选择要展示的符号；组件不会检测操作系统。
 - 标点符号应放在 Kbd 元素之外，如句号、逗号和「或」分隔符保留在周围的正文中，以免屏幕阅读器将它们误报为按键名称。
 
 ## 示例
 
 ### 修饰键组合
 
-使用 boolean props 传递修饰键，组件会跨平台自动渲染正确的符号：macOS 上显示 ⌘，Windows/Linux 上显示 Ctrl。
+使用 boolean props 明确传递修饰键：meta、shift、alt、ctrl 分别渲染 ⌘、⇧、⌥、⌃；调用方负责选择适合目标平台的提示。
 
 ### 多键组合
 
@@ -43,7 +43,7 @@ Keyboard Input
 ## 无障碍
 
 - Kbd 元素使用语义化的键盘角色，屏幕阅读器能正确播报按键名称及其修饰组合。
-- 跨平台修饰键的自动替换确保不同操作系统上的用户使用同样的辅助设备能获得一致的语义理解。
+- 修饰键由调用方显式选择；在面向特定平台的界面中，应传入与该平台快捷键一致的组合。
 
 ## 受控行为
 

@@ -47,7 +47,7 @@ Small-size variant optimized for dense layouts or constrained spaces like sideba
 
 ## Controlled behavior
 
-- Collapse supports externally controlled open state via the open prop and onChange callback; developers can manage which panels are expanded from the parent component.
+- Collapse supports externally controlled open state via the open prop and onOpenChange callback; developers can manage whether a panel is expanded from the parent component.
 - In uncontrolled mode, internal state manages open/close toggling independently; controlled mode is recommended when multiple Collapses coexist on a page to precisely manage the expansion set.
 
 ## Responsive behavior

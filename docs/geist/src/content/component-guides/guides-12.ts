@@ -42,15 +42,15 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "触发按钮必须使用 <button> 元素并设置 aria-expanded，配合 aria-controls 指向目标列表区域。",
-        "展开后将焦点移动到第一个新揭示的行，以便屏幕阅读器用户和键盘用户快速定位到新增内容。",
-        '在展开完成后用 aria-live="polite" 通知辅助技术内容的变化。',
+        "组件提供原生 button 和 aria-expanded；调用方应通过 aria-controls 将它关联到被展开的内容区域。",
+        "组件不会移动焦点或创建 live region；如果新增内容必须被主动播报，应由调用方在内容区域实现。",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
-        "支持通过受控属性编程式管理展开/收起状态，开发者可决定何时自动展开或折叠。",
-        "展开动画完成后将焦点转移到第一条新行，确保键盘用户的导航连贯性。",
+        "expanded 决定按钮文案、箭头方向和 aria-expanded；onClick 等原生按钮事件由调用方更新外部状态。",
+        "组件只渲染触发器，不管理目标内容、展开动画或焦点位置。",
       ],
     },
     responsiveBehavior: {
@@ -181,7 +181,7 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Slider 支持受控和非受控两种模式，开发者可通过 onChange 回调监听值的变化并更新外部状态。",
+        "Slider 支持受控和非受控两种模式；使用 onValueChange 监听连续变化，使用 onValueCommit 监听拖动结束后的提交值。",
         "禁用手柄会阻止任何键盘和鼠标输入，适合需要临时锁定设置的场景。",
       ],
     },
@@ -364,15 +364,15 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "The trigger must be a <button> with aria-expanded, paired with aria-controls pointing to the target list region.",
-        "After expansion, move focus to the first newly revealed row so screen-reader and keyboard users land directly in the new content.",
-        'Announce the content change with aria-live="polite" once expansion completes.',
+        "The component provides a native button and aria-expanded; callers should connect it to the revealed region with aria-controls.",
+        "The component does not move focus or create a live region. Add announcement behavior to the content region only when the product flow requires it.",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
-        "Supports programmatic control of open/collapsed state via controlled properties, allowing developers to decide when to auto-expand or collapse.",
-        "Focus shifts to the first new row after the expand animation completes, ensuring keyboard navigation continuity.",
+        "expanded controls the label, arrow direction, and aria-expanded; the caller updates external state through the native onClick handler.",
+        "ShowMore renders only the trigger and does not manage the target content, expansion animation, or focus position.",
       ],
     },
     responsiveBehavior: {
@@ -508,7 +508,7 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Slider supports both controlled and uncontrolled modes; developers can listen to value changes via the onChange callback and update external state.",
+        "Slider supports controlled and uncontrolled modes; use onValueChange for continuous updates and onValueCommit after a drag is committed.",
         "A disabled thumb prevents all keyboard and mouse input, useful for temporarily locking settings.",
       ],
     },

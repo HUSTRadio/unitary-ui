@@ -19,14 +19,14 @@ Displays keyboard input that triggers an action.
 
 ## When not to use
 
-- Don't spell out modifiers inside children; pass modifiers via boolean props (meta, shift, alt, ctrl) so the component swaps ⌘ for Ctrl on Windows and Linux.
+- Don't spell out modifiers inside children; use the boolean props (meta, shift, alt, ctrl) to choose the symbols explicitly. The component does not detect the operating system.
 - Punctuation lives outside the element: period, comma, and or separators stay in surrounding prose so screen readers don't announce them as keys.
 
 ## Examples
 
 ### Modifier keys
 
-Pass modifier keys via boolean props; the component auto-renders the correct symbol per platform: ⌘ on macOS, Ctrl on Windows/Linux.
+Pass modifier keys explicitly: meta, shift, alt, and ctrl render ⌘, ⇧, ⌥, and ⌃. The caller chooses the combination appropriate for the target platform.
 
 ### Key combination
 

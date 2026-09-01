@@ -35,8 +35,8 @@ Text With Copy Button
 ## 无障碍
 
 - 复制按钮作为仅图标按钮时应设置 aria-label（如 'Copy deployment URL'），让屏幕阅读器准确描述操作目标。
-- 复制成功后应有视觉反馈（约 1.5 秒的对勾提示），使操作结果对视觉用户清晰可辨。
-- 优先使用 navigator.clipboard.writeText API，并保留 hidden-textarea execCommand 回退方案以兼容缺少剪贴板权限的环境。
+- 复制成功后显示约 1 秒的对勾反馈，使操作结果对视觉用户清晰可辨。
+- 组件使用 navigator.clipboard.writeText；写入失败时显示错误 toast 并调用 onError，不会尝试 legacy execCommand 回退。
 
 ## 受控行为
 

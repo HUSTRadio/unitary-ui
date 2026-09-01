@@ -74,7 +74,7 @@ export { SidebarNav } from "@/components/ui/sidebar-nav";
 export { Navbar } from "@/components/ui/navbar";
 export { Footer } from "@/components/ui/footer";
 export { CommandMenu, CommandMenuInput, CommandMenuList, CommandMenuGroup, CommandMenuItem, CommandMenuDivider } from "@/components/ui/command-menu";
-export { ContextMenu, ContextMenuItem, ContextMenuSeparator } from "@/components/ui/context-menu";
+export { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuSeparator } from "@/components/ui/context-menu";
 export { MenuContainer, MenuButton, Menu, MenuItem, MenuItemLocked, MenuLink, MenuDivider, MenuSection } from "@/components/ui/menu";
 export { DotsMenu, DotsMenuItem, DotsMenuSeparator } from "@/components/ui/dots-menu";
 export type { DotsMenuProps, DotsMenuItemProps, DotsMenuSeparatorProps } from "@/components/ui/dots-menu";
@@ -98,7 +98,7 @@ export { Slider } from "@/components/ui/slider";
 export type { SliderProps } from "@/components/ui/slider";
 export { Textarea } from "@/components/ui/textarea";
 export { Label } from "@/components/ui/label";
-export { Fieldset, FieldsetTitle, FieldsetSubtitle, FieldsetContent, FieldsetFooter, FieldsetFooterStatus, FieldsetFooterAction } from "@/components/ui/fieldset";
+export { Fieldset, FieldsetTitle, FieldsetSubtitle, FieldsetContent, FieldsetFooter, FieldsetFooterStatus, FieldsetFooterActions, FieldsetFooterAction, ErrorText, WarningText, DisabledWall } from "@/components/ui/fieldset";
 
 // Components — Layout
 export { Grid, GridCell, GridCross, GridItem, GridPage, GridSystem } from "@/components/ui/grid";

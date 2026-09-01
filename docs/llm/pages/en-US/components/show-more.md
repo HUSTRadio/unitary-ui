@@ -41,13 +41,13 @@ Demonstrates the clean borderless style, suitable for seamlessly blending into p
 ## Accessibility
 
 - The trigger must be a <button> with aria-expanded, paired with aria-controls pointing to the target list region.
-- After expansion, move focus to the first newly revealed row so screen-reader and keyboard users land directly in the new content.
-- Announce the content change with aria-live="polite" once expansion completes.
+- The component provides a native button and aria-expanded; callers should connect it to the revealed region with aria-controls.
+- The component does not move focus or create a live region. Add announcement behavior to the content region only when the product flow requires it.
 
 ## Controlled behavior
 
-- Supports programmatic control of open/collapsed state via controlled properties, allowing developers to decide when to auto-expand or collapse.
-- Focus shifts to the first new row after the expand animation completes, ensuring keyboard navigation continuity.
+- expanded controls the label, arrow direction, and aria-expanded; the caller updates external state through the native onClick handler.
+- ShowMore renders only the trigger and does not manage the target content, expansion animation, or focus position.
 
 ## Responsive behavior
 
@@ -109,4 +109,4 @@ Native props: `ButtonHTMLAttributes<HTMLButtonElement>`
 - Pair the trigger with the count of hidden items so the user knows the cost of expanding (Show 12 More, then Show Less after expand). Title Case both labels.
 - Don’t cycle Show More then Show Less mid-flow on the same data set; collapsing rows after the user expanded them scrolls them away from where they were reading.
 - Render hidden rows in the DOM when the count is small so find-in-page works; lazy-load only when the dataset is large enough to hurt initial render.
-- The trigger is a <button> with aria-expanded and aria-controls pointing at the list. After expansion, move focus to the first newly revealed row so screen readers and keyboard users land in the new content.
+- The trigger is a <button> with aria-expanded; pass aria-controls to point at the revealed region. ShowMore does not manage that content, move focus, or create a live region.

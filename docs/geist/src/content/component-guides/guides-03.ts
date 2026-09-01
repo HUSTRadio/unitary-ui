@@ -253,7 +253,7 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Collapse 支持通过 open 受控模式和 onChange 回调实现外部状态管理，开发者可以在父组件中控制哪些面板处于展开状态。",
+        "Collapse 支持通过 open 受控模式和 onOpenChange 回调实现外部状态管理，开发者可以在父组件中控制面板是否展开。",
         "未受控使用时，内部状态自行维护开/关切换；推荐在有多个 Collapse 时使用受控模式以精确管理展开集合。",
       ],
     },
@@ -638,7 +638,7 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Collapse supports externally controlled open state via the open prop and onChange callback; developers can manage which panels are expanded from the parent component.",
+        "Collapse supports externally controlled open state via the open prop and onOpenChange callback; developers can manage whether a panel is expanded from the parent component.",
         "In uncontrolled mode, internal state manages open/close toggling independently; controlled mode is recommended when multiple Collapses coexist on a page to precisely manage the expansion set.",
       ],
     },

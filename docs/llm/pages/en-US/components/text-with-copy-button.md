@@ -35,8 +35,8 @@ Demonstrates the combined small size and tertiary variant, suitable for dense in
 ## Accessibility
 
 - Icon-only copy buttons should carry an aria-label (e.g. 'Copy deployment URL') so screen readers accurately describe the action target.
-- After a successful copy, show a checkmark feedback indicator for about 1.5 seconds so sighted users clearly perceive the result.
-- Prefer navigator.clipboard.writeText with a hidden-textarea execCommand fallback so copying works even where clipboard permissions are restricted.
+- After a successful copy, show a checkmark feedback indicator for about one second so sighted users clearly perceive the result.
+- The component uses navigator.clipboard.writeText; failures show an error toast and call onError rather than attempting a legacy execCommand fallback.
 
 ## Controlled behavior
 

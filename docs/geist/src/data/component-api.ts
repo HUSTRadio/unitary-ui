@@ -314,7 +314,13 @@ const O = {
     ],
   ),
   "context-menu": component(
-    ["ContextMenu", "ContextMenuItem", "ContextMenuSeparator"],
+    [
+      "ContextMenu",
+      "ContextMenuTrigger",
+      "ContextMenuContent",
+      "ContextMenuItem",
+      "ContextMenuSeparator",
+    ],
     [
       row("open", "boolean", "Controlled menu state.", "受控菜单状态。"),
       row(
@@ -323,6 +329,11 @@ const O = {
         "Receives menu state changes.",
         "接收菜单状态变化。",
       ),
+      row("inset", "boolean", "Indents a ContextMenuItem.", "缩进 ContextMenuItem。"),
+      row("value", "string", "Optional item value exposed as data-value.", "作为 data-value 暴露的可选菜单项值。"),
+      row("href", "string", "Renders a ContextMenuItem as a link.", "将 ContextMenuItem 渲染为链接。"),
+      row("prefix", "ReactNode", "Leading item content.", "菜单项前置内容。"),
+      row("suffix", "ReactNode", "Trailing item content.", "菜单项后置内容。"),
     ],
   ),
   "copy-button": component(
@@ -442,9 +453,25 @@ const O = {
       "FieldsetContent",
       "FieldsetFooter",
       "FieldsetFooterStatus",
+      "FieldsetFooterActions",
       "FieldsetFooterAction",
+      "ErrorText",
+      "WarningText",
+      "DisabledWall",
     ],
-    [row("legend", "ReactNode", "Accessible group label.", "无障碍分组标签。")],
+    [
+      row("type", "FieldsetType", "Visual tone for the card border and footer.", "卡片边框与页脚的视觉语气。", {
+        defaultValue: '"default"',
+      }),
+      row("title", "ReactNode", "Optional title rendered in FieldsetContent.", "在 FieldsetContent 中渲染的可选标题。"),
+      row("subtitle", "ReactNode", "Optional subtitle rendered below the title.", "渲染在标题下方的可选副标题。"),
+      row("disabled", "boolean", "Disables the FieldsetContent region with an interaction wall.", "通过交互遮罩禁用 FieldsetContent 内容区。", {
+        defaultValue: "false",
+      }),
+      row("highlight", "boolean", "Applies the highlighted FieldsetFooter background.", "为 FieldsetFooter 应用高亮背景。", {
+        defaultValue: "false",
+      }),
+    ],
   ),
   "file-tree": component(
     ["FileTree", "FileTreeItem", "FileTreeLabel", "FileTreeIcon"],
@@ -479,10 +506,25 @@ const O = {
     ],
   ),
   grid: component(
-    ["Grid", "GridCell", "GridCross", "GridPage", "GridSystem"],
+    ["Grid", "GridCell", "GridCross", "GridItem", "GridPage", "GridSystem"],
     [
       row("columns", "GridColumns", "Number of visible guide columns.", "可见参考列数量。"),
       row("rows", "GridRows", "Number of visible guide rows.", "可见参考行数量。"),
+      row("height", "GridHeight", "Grid height or responsive aspect-ratio behavior.", "栅格高度或响应式宽高比行为。"),
+      row("hideGuides", "GridHideGuides", "Hides row or column guides.", "隐藏行或列参考线。"),
+      row("gap", "GridGap", "Deprecated compatibility prop; guide spacing ignores it.", "已弃用的兼容属性；参考线间距不会使用该值。", {
+        deprecated: true,
+      }),
+      row("column", "GridCellPosition", "GridCell column placement.", "GridCell 的列位置。"),
+      row("row", "GridCellPosition", "GridCell row placement.", "GridCell 的行位置。"),
+      row("solid", "boolean", "Renders a solid GridCell surface.", "渲染实心 GridCell 表面。"),
+      row("debug", "boolean", "Shows GridSystem debug guides.", "显示 GridSystem 调试参考线。"),
+      row("dashedGuides", "boolean", "Uses dashed GridSystem guides.", "使用虚线 GridSystem 参考线。"),
+      row("guideWidth", "number", "Sets the GridSystem guide width.", "设置 GridSystem 参考线宽度。"),
+      row("unstable_useContainer", "boolean", "Enables the experimental container-query wrapper.", "启用实验性的容器查询包装器。"),
+      row("span", "GridCols", "Deprecated GridItem column span; use GridCell.column.", "已弃用的 GridItem 跨列值；请改用 GridCell.column。", {
+        deprecated: true,
+      }),
     ],
   ),
   input: component(
@@ -794,7 +836,16 @@ const O = {
     ],
   ),
   sheet: component(
-    ["Sheet", "SheetContent", "SheetTitle", "SheetDescription", "SheetClose"],
+    [
+      "Sheet",
+      "SheetTrigger",
+      "SheetContent",
+      "SheetHeader",
+      "SheetTitle",
+      "SheetDescription",
+      "SheetFooter",
+      "SheetClose",
+    ],
     [
       row("open", "boolean", "Controlled sheet state.", "受控面板状态。"),
       row(
@@ -804,6 +855,12 @@ const O = {
         "是否阻止外部交互。",
         { defaultValue: "false" },
       ),
+      row("side", "SheetSide", "Edge from which SheetContent enters.", "SheetContent 进入的屏幕边缘。", {
+        defaultValue: '"right"',
+      }),
+      row("noOverlay", "boolean", "Omits the SheetContent backdrop.", "不渲染 SheetContent 遮罩层。", {
+        defaultValue: "false",
+      }),
     ],
   ),
   "show-more": component(

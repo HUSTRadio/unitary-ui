@@ -43,8 +43,7 @@ Tooltip
 
 ## 受控行为
 
-- Tooltip 支持受控模式：通过 open state 和 onChange 精确控制显示与隐藏时机。
-- 可以通过传入自定义触发元素来自定义 Tooltip 的挂载内容和交互行为。
+不适用: Tooltip 由 hover 和 focus 触发，当前封装不暴露 open/onOpenChange；可通过 children 传入自定义触发元素。
 
 ## 响应式行为
 

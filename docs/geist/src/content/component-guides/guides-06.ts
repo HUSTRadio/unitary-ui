@@ -290,7 +290,7 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "每个可展开的文件夹节点应使用 button 元素并维护 aria-expanded 状态，以便屏幕阅读器识别当前展开/折叠状态。",
-        "文件树内的导航应支持键盘方向键（上下移动焦点，左右展开/折叠），确保无鼠标用户的可用性。",
+        "文件夹触发器是原生 button，可通过 Tab 聚焦并用 Enter 或 Space 展开/折叠；当前组件未实现树形方向键导航。",
         "文件名称文本应作为焦点元素的唯一可读标签，避免依赖颜色或图标传递有意义的信息。",
       ],
     },
@@ -625,7 +625,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Each expandable folder node should use a button element with aria-expanded to indicate current expand/collapse state for screen readers.",
-        "Keyboard navigation should support arrow keys (up/down for focus movement, left/right for expand/collapse), ensuring mouse-free usability.",
+        "Folder triggers are native buttons: use Tab to focus them and Enter or Space to expand or collapse. The component does not implement tree-style arrow-key navigation.",
         "File names should serve as the sole readable label of focusable elements — avoid relying on color or icons for conveying meaningful information.",
       ],
     },

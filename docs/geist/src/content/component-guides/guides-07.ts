@@ -223,9 +223,9 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
   "json-view": {
     slug: "json-view",
     locale: "zh-CN",
-    summary: "以语法高亮的树形结构渲染 JSON 数据，支持展开、折叠和复制操作。",
+    summary: "以语法高亮的树形结构渲染 JSON 数据，支持展开、折叠和键盘浏览。",
     whenToUse: [
-      "用户需要检查、浏览、折叠展开或复制 JSON 对象/数组时，交互式查看是核心功能。",
+      "用户需要检查、浏览或折叠展开 JSON 对象/数组时，交互式查看是核心功能。",
       "作为产品界面的一部分展示 API 返回的结构化数据，允许用户逐层探索数据结构。",
     ],
     whenNotToUse: [
@@ -303,7 +303,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
       "在长篇文档中叙述某个快捷操作时，用 Kbd 元素呈现按键样式使文档更加专业易读。",
     ],
     whenNotToUse: [
-      "不要将修饰键拼写出来放在 children 中——应通过 boolean props（meta、shift、alt、ctrl）来传递修饰键，组件会在 Windows/Linux 上将 ⌘ 自动替换为 Ctrl。",
+      "不要将修饰键拼写出来放在 children 中——应通过 boolean props（meta、shift、alt、ctrl）明确选择要展示的符号；组件不会检测操作系统。",
       "标点符号应放在 Kbd 元素之外，如句号、逗号和「或」分隔符保留在周围的正文中，以免屏幕阅读器将它们误报为按键名称。",
     ],
     examples: [
@@ -312,7 +312,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "修饰键组合",
         description:
-          "使用 boolean props 传递修饰键，组件会跨平台自动渲染正确的符号：macOS 上显示 ⌘，Windows/Linux 上显示 Ctrl。",
+          "使用 boolean props 明确传递修饰键：meta、shift、alt、ctrl 分别渲染 ⌘、⇧、⌥、⌃；调用方负责选择适合目标平台的提示。",
         demoKey: "modifiers",
       },
       {
@@ -344,7 +344,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Kbd 元素使用语义化的键盘角色，屏幕阅读器能正确播报按键名称及其修饰组合。",
-        "跨平台修饰键的自动替换确保不同操作系统上的用户使用同样的辅助设备能获得一致的语义理解。",
+        "修饰键由调用方显式选择；在面向特定平台的界面中，应传入与该平台快捷键一致的组合。",
       ],
     },
     controlledBehavior: {
@@ -594,9 +594,9 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
     slug: "json-view",
     locale: "en-US",
     summary:
-      "Renders JSON as a syntax-highlighted tree with expand, collapse, and copy capabilities.",
+      "Renders JSON as a syntax-highlighted tree with expand, collapse, and keyboard navigation.",
     whenToUse: [
-      "When users need to inspect, browse, collapse/expand, or copy JSON objects or arrays; interactive viewing is the core requirement.",
+      "When users need to inspect, browse, or collapse and expand JSON objects or arrays; interactive viewing is the core requirement.",
       "As part of a product interface presenting API response data, allowing users to explore the data structure layer by layer.",
     ],
     whenNotToUse: [
@@ -676,7 +676,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
       "In long-form documentation narrating a shortcut, rendering keys as Kbd elements makes the document look professional and easy to scan.",
     ],
     whenNotToUse: [
-      "Don't spell out modifiers inside children; pass modifiers via boolean props (meta, shift, alt, ctrl) so the component swaps ⌘ for Ctrl on Windows and Linux.",
+      "Don't spell out modifiers inside children; use the boolean props (meta, shift, alt, ctrl) to choose the symbols explicitly. The component does not detect the operating system.",
       "Punctuation lives outside the element: period, comma, and or separators stay in surrounding prose so screen readers don't announce them as keys.",
     ],
     examples: [
@@ -685,7 +685,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Modifier keys",
         description:
-          "Pass modifier keys via boolean props; the component auto-renders the correct symbol per platform: ⌘ on macOS, Ctrl on Windows/Linux.",
+          "Pass modifier keys explicitly: meta, shift, alt, and ctrl render ⌘, ⇧, ⌥, and ⌃. The caller chooses the combination appropriate for the target platform.",
         demoKey: "modifiers",
       },
       {

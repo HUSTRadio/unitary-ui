@@ -11,8 +11,8 @@ import { useI18n } from "@/lib/i18n";
  * 官方 API（受控触发器）：expanded / onClick / noBorder，渲染为白底 pill 按钮
  * （h-32px · pad 0 12px · 500 14px/21px · 1px hairline 边框，官方实测），
  * 文案 "Show More" / "Show Less"（Title Case）+ 方向箭头，aria-expanded 随状态切换。
- * 官方 Best Practices：触发器是 <button> 且带 aria-expanded / aria-controls；
- * 展开后把焦点移到首个新揭示行。
+ * 触发器是 <button> 且带 aria-expanded；调用方可通过原生 aria-controls 关联内容区域。
+ * 组件只渲染触发器，不管理目标内容、焦点移动或 live region。
  */
 
 export interface ShowMoreProps extends Omit<React.ComponentProps<"button">, "children"> {

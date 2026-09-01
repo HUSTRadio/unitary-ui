@@ -38,7 +38,7 @@ Fully customizes the internal rendering logic of the card through a render prop,
 
 ## Accessibility
 
-- The card should trap focus within its content when open; pressing Escape closes the card and returns focus to the trigger element.
+- ContextCard is a non-modal hover card and does not trap focus; keep the trigger focusable, and Escape can dismiss the floating card.
 - The trigger retains its own accessible name—the card is supplementary and should not replace the trigger's accessible name.
 - Content in the card should not restate what the trigger already displays visibly, avoiding information redundancy.
 

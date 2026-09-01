@@ -14,7 +14,7 @@ Renders JSON as a syntax-highlighted tree.
 
 ## When to use
 
-- When users need to inspect, browse, collapse/expand, or copy JSON objects or arrays; interactive viewing is the core requirement.
+- When users need to inspect, browse, or collapse and expand JSON objects or arrays; interactive viewing is the core requirement.
 - As part of a product interface presenting API response data, allowing users to explore the data structure layer by layer.
 
 ## When not to use

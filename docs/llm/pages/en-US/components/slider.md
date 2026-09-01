@@ -46,7 +46,7 @@ Demonstrates a Range Slider that displays the live value next to the track along
 
 ## Controlled behavior
 
-- Slider supports both controlled and uncontrolled modes; developers can listen to value changes via the onChange callback and update external state.
+- Slider supports controlled and uncontrolled modes; use onValueChange for continuous updates and onValueCommit after a drag is committed.
 - A disabled thumb prevents all keyboard and mouse input, useful for temporarily locking settings.
 
 ## Responsive behavior

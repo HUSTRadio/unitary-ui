@@ -5,7 +5,10 @@ import { describe, expect, it } from "vitest";
 
 import { COMPONENT_API } from "../docs/geist/src/data/component-api";
 
-function libraryValueExports(): Set<string> {
+function libraryValueExports(): {
+  all: Set<string>;
+  byComponent: Map<string, Set<string>>;
+} {
   const file = "src/lib/index.ts";
   const source = ts.createSourceFile(
     file,
@@ -14,22 +17,46 @@ function libraryValueExports(): Set<string> {
     true,
     ts.ScriptKind.TS,
   );
-  const names = new Set<string>();
+  const all = new Set<string>();
+  const byComponent = new Map<string, Set<string>>();
 
   for (const statement of source.statements) {
     if (!ts.isExportDeclaration(statement) || statement.isTypeOnly) continue;
     if (!statement.exportClause || !ts.isNamedExports(statement.exportClause)) continue;
+
+    const modulePath = statement.moduleSpecifier?.getText(source).slice(1, -1);
+    const component = modulePath?.match(/^@\/components\/ui\/(.+)$/)?.[1];
+    const componentExports = component
+      ? (byComponent.get(component) ?? new Set<string>())
+      : undefined;
+
     for (const specifier of statement.exportClause.elements) {
-      if (!specifier.isTypeOnly) names.add(specifier.name.text);
+      if (specifier.isTypeOnly) continue;
+      all.add(specifier.name.text);
+      componentExports?.add(specifier.name.text);
     }
+    if (component && componentExports) byComponent.set(component, componentExports);
   }
-  return names;
+  return { all, byComponent };
 }
 
 describe("library/docs public export parity", () => {
   it("exports every value advertised by component API docs from the package entry", () => {
-    const actual = libraryValueExports();
+    const { all } = libraryValueExports();
     const documented = [...new Set(Object.values(COMPONENT_API).flatMap((api) => api.exports))];
-    expect(documented.filter((name) => !actual.has(name))).toEqual([]);
+    expect(documented.filter((name) => !all.has(name))).toEqual([]);
+  });
+
+  it("documents every package-root value exported from a documented component module", () => {
+    const { byComponent } = libraryValueExports();
+
+    for (const [component, actual] of byComponent) {
+      const api = COMPONENT_API[component as keyof typeof COMPONENT_API];
+      if (!api) continue;
+      expect(
+        [...actual].filter((name) => !api.exports.includes(name)),
+        `${component} has undocumented package-root exports`,
+      ).toEqual([]);
+    }
   });
 });

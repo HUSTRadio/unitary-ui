@@ -33,7 +33,7 @@ Displays the default file tree component with expandable folder nodes and file i
 ## Accessibility
 
 - Each expandable folder node should use a button element with aria-expanded to indicate current expand/collapse state for screen readers.
-- Keyboard navigation should support arrow keys (up/down for focus movement, left/right for expand/collapse), ensuring mouse-free usability.
+- Folder triggers are native buttons: use Tab to focus them and Enter or Space to expand or collapse. The component does not implement tree-style arrow-key navigation.
 - File names should serve as the sole readable label of focusable elements — avoid relying on color or icons for conveying meaningful information.
 
 ## Controlled behavior

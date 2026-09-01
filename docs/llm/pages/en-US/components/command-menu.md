@@ -26,7 +26,7 @@ Filters and launches keyboard-first actions in a modal command palette.
 
 ### Basic command palette
 
-Renders a searchable command palette with default configuration, bound to the ⌘K global shortcut.
+Renders a searchable command palette whose visibility is controlled by the parent through open/setOpen; the app may bind a global shortcut separately.
 
 ### Command palette with dividers
 
@@ -44,7 +44,8 @@ Adds suffix labels to command items to show auxiliary information such as keyboa
 
 ## Controlled behavior
 
-Not applicable: CommandMenu manages its own visibility and selection state internally; it does not expose an external value/open controlled API. Actions are triggered by selecting commands rather than exposing a selection value.
+- CommandMenu requires the parent to provide open and setOpen; any global ⌘K / Ctrl+K listener is also implemented at the application layer.
+- Activating a command runs the caller-provided action; the component does not expose the current command as a controlled value.
 
 ## Responsive behavior
 

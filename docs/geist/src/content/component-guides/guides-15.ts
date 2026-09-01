@@ -113,11 +113,9 @@ export const GUIDES_15_ZH: Record<string, ComponentGuide> = {
       ],
     },
     controlledBehavior: {
-      status: "covered",
-      content: [
-        "Tooltip 支持受控模式：通过 open state 和 onChange 精确控制显示与隐藏时机。",
-        "可以通过传入自定义触发元素来自定义 Tooltip 的挂载内容和交互行为。",
-      ],
+      status: "not-applicable",
+      reason:
+        "Tooltip 由 hover 和 focus 触发，当前封装不暴露 open/onOpenChange；可通过 children 传入自定义触发元素。",
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -305,11 +303,9 @@ export const GUIDES_15_EN: Record<string, ComponentGuide> = {
       ],
     },
     controlledBehavior: {
-      status: "covered",
-      content: [
-        "Tooltip supports controlled mode: manage show/hide timing precisely through open state and onChange.",
-        "You can pass a custom trigger element to customize the mount point and interaction behavior of the Tooltip.",
-      ],
+      status: "not-applicable",
+      reason:
+        "Tooltip opens from hover and focus and does not expose open/onOpenChange in this wrapper; pass a custom trigger through children when needed.",
     },
     responsiveBehavior: {
       status: "not-applicable",

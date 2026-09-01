@@ -18,7 +18,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
         id: "cmd-default",
         kind: "minimal",
         title: "基本命令面板",
-        description: "使用默认配置渲染一个可搜索的命令面板，绑定 ⌘K 全局快捷键打开。",
+        description: "渲染一个可搜索的命令面板；父级通过 open/setOpen 控制显示，并可按应用需要另行绑定全局快捷键。",
         demoKey: "default",
       },
       {
@@ -45,9 +45,11 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
       ],
     },
     controlledBehavior: {
-      status: "not-applicable",
-      reason:
-        "CommandMenu 内部管理其可见性和选中状态，不提供外部 value/open 受控 API；通过点击命令项来触发动作，而非暴露选择值。",
+      status: "covered",
+      content: [
+        "CommandMenu 要求父级传入 open 和 setOpen 控制可见性；全局 ⌘K / Ctrl+K 监听也由应用层按需实现。",
+        "命令项激活后执行调用方提供的动作；组件不把当前命令作为受控 value 暴露。",
+      ],
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -98,7 +100,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "卡片应在打开时将焦点 trap 锁定在其内容中，按下 Escape 关闭卡片并将焦点返回到触发元素。",
+        "ContextCard 是非模态 Hover Card，不会把焦点锁定在卡片内；触发元素应保持可聚焦，Escape 可关闭浮层。",
         "触发元素保留自身的 accessible name；卡片是补充信息，不应替代触发元素的无障碍名称。",
         "卡片内的内容不应重复触发元素已经展示的可见信息，避免信息冗余。",
       ],
@@ -302,7 +304,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Basic command palette",
         description:
-          "Renders a searchable command palette with default configuration, bound to the ⌘K global shortcut.",
+          "Renders a searchable command palette whose visibility is controlled by the parent through open/setOpen; the app may bind a global shortcut separately.",
         demoKey: "default",
       },
       {
@@ -331,9 +333,11 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
       ],
     },
     controlledBehavior: {
-      status: "not-applicable",
-      reason:
-        "CommandMenu manages its own visibility and selection state internally; it does not expose an external value/open controlled API. Actions are triggered by selecting commands rather than exposing a selection value.",
+      status: "covered",
+      content: [
+        "CommandMenu requires the parent to provide open and setOpen; any global ⌘K / Ctrl+K listener is also implemented at the application layer.",
+        "Activating a command runs the caller-provided action; the component does not expose the current command as a controlled value.",
+      ],
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -388,7 +392,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "The card should trap focus within its content when open; pressing Escape closes the card and returns focus to the trigger element.",
+        "ContextCard is a non-modal hover card and does not trap focus; keep the trigger focusable, and Escape can dismiss the floating card.",
         "The trigger retains its own accessible name—the card is supplementary and should not replace the trigger's accessible name.",
         "Content in the card should not restate what the trigger already displays visibly, avoiding information redundancy.",
       ],

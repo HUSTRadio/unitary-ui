@@ -26,22 +26,21 @@ Navigates through numbered pages of a data set.
 
 ### Default pagination
 
-The most basic pagination usage: renders a set of page number links with a previous/next rail, highlights the currently active page, and keeps other pages as plain anchor links.
+The basic pagination rail renders adjacent pages through previous and next; callers may supply custom navigation in the centered children area.
 
 ## Accessibility
 
-- Current page is rendered with the isActive property and carries aria-current="page" so screen readers announce the current page number.
-- All page numbers are anchor button elements supporting keyboard navigation and Enter activation, ensuring accessibility for all users.
+- The component renders a labelled navigation region; Previous and Next links include accessible names with their destination titles.
+- When callers add page links through children, they are responsible for native link semantics and aria-current on the current item.
 
 ## Controlled behavior
 
-- Controls the currently active page through the activePage prop; the parent can listen to page change callbacks to update routing or trigger data requests.
-- Total page count is passed via the total prop, and the component auto-renders the corresponding set of page buttons.
+Not applicable: Pagination does not manage an active page or total count; the caller derives previous, next, and optional children from routing state.
 
 ## Responsive behavior
 
-- On small viewports automatically hides middle page buttons, keeping only the first, last, and pages near the current one for a compact layout.
-- Previous / Next buttons hide themselves at sequence start or end rather than being visually disabled; an empty rail reads cleaner than a dimmed link.
+- The centered children navigation area is hidden below xl, while the Previous and Next rail links remain available.
+- At the start or end of a sequence, omit the corresponding previous or next prop; the component preserves the rail layout without rendering a disabled link.
 
 ## Theme behavior
 

@@ -124,7 +124,8 @@ const [animated, setAnimated] = useState(true);
 
 ```tsx
 import { useState } from "react";
-import { Button, Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 const [value, setValue] = useState(0);
 

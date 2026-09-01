@@ -43,8 +43,7 @@ Renders rich text or other React components inside the Tooltip, going beyond pla
 
 ## Controlled behavior
 
-- Tooltip supports controlled mode: manage show/hide timing precisely through open state and onChange.
-- You can pass a custom trigger element to customize the mount point and interaction behavior of the Tooltip.
+Not applicable: Tooltip opens from hover and focus and does not expose open/onOpenChange in this wrapper; pass a custom trigger through children when needed.
 
 ## Responsive behavior
 

@@ -72,6 +72,60 @@ describe("component API registry", () => {
     expect(row("command-menu", "setOpen")?.type).toBe("(open: boolean) => void");
     expect(row("command-menu", "onOpenChange")).toBeUndefined();
 
+    expect(COMPONENT_API["context-menu"].exports).toEqual([
+      "ContextMenu",
+      "ContextMenuTrigger",
+      "ContextMenuContent",
+      "ContextMenuItem",
+      "ContextMenuSeparator",
+    ]);
+    expect(row("context-menu", "href")?.type).toBe("string");
+    expect(row("context-menu", "prefix")?.type).toBe("ReactNode");
+    expect(row("context-menu", "suffix")?.type).toBe("ReactNode");
+
+    expect(COMPONENT_API.fieldset.exports).toEqual([
+      "Fieldset",
+      "FieldsetTitle",
+      "FieldsetSubtitle",
+      "FieldsetContent",
+      "FieldsetFooter",
+      "FieldsetFooterStatus",
+      "FieldsetFooterActions",
+      "FieldsetFooterAction",
+      "ErrorText",
+      "WarningText",
+      "DisabledWall",
+    ]);
+    expect(row("fieldset", "type")?.type).toBe("FieldsetType");
+    expect(row("fieldset", "disabled")?.type).toBe("boolean");
+    expect(row("fieldset", "highlight")?.type).toBe("boolean");
+    expect(row("fieldset", "legend")).toBeUndefined();
+
+    expect(COMPONENT_API.grid.exports).toEqual([
+      "Grid",
+      "GridCell",
+      "GridCross",
+      "GridItem",
+      "GridPage",
+      "GridSystem",
+    ]);
+    expect(row("grid", "height")?.type).toBe("GridHeight");
+    expect(row("grid", "hideGuides")?.type).toBe("GridHideGuides");
+    expect(row("grid", "span")?.deprecated).toBe(true);
+
+    expect(COMPONENT_API.sheet.exports).toEqual([
+      "Sheet",
+      "SheetTrigger",
+      "SheetContent",
+      "SheetHeader",
+      "SheetTitle",
+      "SheetDescription",
+      "SheetFooter",
+      "SheetClose",
+    ]);
+    expect(row("sheet", "side")?.defaultValue).toBe('"right"');
+    expect(row("sheet", "noOverlay")?.defaultValue).toBe("false");
+
     expect(row("badge", "variant")?.defaultValue).toBe('"gray"');
     expect(row("badge", "type")).toBeUndefined();
     expect(row("dots-menu", "position")?.type).toBe("MenuPosition");
@@ -296,6 +350,30 @@ describe("component API registry", () => {
     );
     expect(guideText("multi-select")).not.toMatch(
       /filterable list|可过滤的多选列表|可筛选列表|aggregated summary|聚合摘要|value（已选数组）和 onChange|value \(selected array\) and onChange|via value and onChange|通过 value\/onChange|defaultSelected/i,
+    );
+    expect(guideText("command-menu")).not.toMatch(
+      /默认配置.*绑定 ⌘K 全局快捷键|default configuration, bound to the ⌘K global shortcut|does not expose an external value\/open|不提供外部 value\/open/i,
+    );
+    expect(guideText("context-card")).not.toMatch(/focus trap|焦点 trap/i);
+    expect(guideText("collapse")).not.toMatch(/open prop and onChange callback|open 属性和 onChange 回调/i);
+    expect(guideText("file-tree")).not.toMatch(
+      /上下方向键|左右方向键|Up\/Down arrows move focus|Left\/Right arrows collapse or expand/i,
+    );
+    expect(guideText("json-view")).not.toMatch(/copy capabilities|copy JSON|复制 JSON/i);
+    expect(guideText("keyboard-input")).not.toMatch(
+      /Windows\/Linux 上将 ⌘ 自动替换为 Ctrl|Windows\/Linux 上显示 Ctrl|Windows\/Linux renders Ctrl|automatically replaces.*Ctrl/i,
+    );
+    expect(guideText("pagination")).not.toMatch(
+      /activePage 属性|total 属性|activePage prop|total prop|auto-renders the corresponding set of page buttons|自动渲染对应的页码/i,
+    );
+    expect(guideText("show-more")).not.toMatch(
+      /焦点移动到第一个新揭示|焦点转移到第一条新行|aria-live="polite" 通知|move focus to the first newly revealed|aria-live="polite" announcement/i,
+    );
+    expect(guideText("slider")).not.toMatch(/through the onChange callback|通过 onChange 回调/i);
+    expect(guideText("table")).not.toMatch(/sortKey|sortOrder/i);
+    expect(guideText("tooltip")).not.toMatch(/open state and onChange|open 状态和 onChange/i);
+    expect(guideText("text-with-copy-button")).not.toMatch(
+      /hidden-textarea execCommand fallback|隐藏的 textarea execCommand 降级/i,
     );
   });
 

@@ -292,7 +292,8 @@ import { Sparkles } from "lucide-react";
 
 <Progress value={30} max={40} aria-label="Progress 30 of 40" />`,
     "Dynamic colors": `import { useState } from "react";
-import { Button, Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 const [value, setValue] = useState(0);
 

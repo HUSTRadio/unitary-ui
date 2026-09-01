@@ -39,7 +39,7 @@ Toggling the presence of border lines via the border prop.
 
 ## Controlled behavior
 
-- Sortable columns support controlled sorting: sortKey and sortOrder control the current sort field and direction.
+Not applicable: Table does not provide built-in sorting state or callbacks. Sort rows before rendering and implement any sortable header buttons in caller code.
 
 ## Responsive behavior
 
