@@ -45,7 +45,7 @@ const O = {
       "BitbucketAvatar",
     ],
     [
-      row("size", "number", "Avatar diameter in pixels.", "头像直径（像素）。", {
+      row("size", "number", "Avatar or AvatarGroup diameter in pixels.", "Avatar 或 AvatarGroup 的头像直径（像素）。", {
         defaultValue: "32",
       }),
       row("src", "string", "Image source.", "图片地址。"),
@@ -54,6 +54,20 @@ const O = {
       row("letter", "string", "One or two fallback initials.", "一到两个后备首字母。"),
       row("placeholder", "boolean", "Shows the placeholder shell.", "显示占位外壳。"),
       row("title", "string", "Entity name used for the accessible label.", "用作无障碍标签的实体名称。"),
+      row(
+        "members",
+        "AvatarGroupMember[]",
+        "Required AvatarGroup members.",
+        "AvatarGroup 必填的成员列表。",
+        { required: true },
+      ),
+      row("limit", "number", "Maximum AvatarGroup slots, including the +N summary when needed.", "AvatarGroup 的最大头像槽位数，超出时包含 +N 汇总头像。"),
+      row("overlap", '"auto" | number', "AvatarGroup overlap amount.", "AvatarGroup 的重叠量。", {
+        defaultValue: '"auto"',
+      }),
+      row("reverse", "boolean", "Reverses AvatarGroup overlap stacking order.", "反转 AvatarGroup 的重叠层叠顺序。", {
+        defaultValue: "false",
+      }),
     ],
     "ComponentProps<typeof AvatarPrimitive.Root>",
   ),

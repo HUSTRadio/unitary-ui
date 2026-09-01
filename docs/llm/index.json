@@ -145,8 +145,8 @@
         "en-US": "pages/en-US/components/avatar.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:3df3932b74b3b1012a574d2eb72115965b99a32de4951b5a0026d325a417218c",
-        "en-US": "sha256:b75aeacc7d1bdb3bea95de410fe7a125194a6d0195d5450f2465f00c572602f6"
+        "zh-CN": "sha256:8f178b0d5022094d5ae2b240b571eecfd13ef8de0e6382c530defad294ea5598",
+        "en-US": "sha256:8c7b80486c539bc12dd991139cc8595cd12b2d290151695fa1a6a8546456db30"
       }
     },
     {
@@ -177,8 +177,8 @@
         "en-US": "pages/en-US/components/banner.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:fdf551e202b1ce28a9b1120fc409e335f793f452917553e846cd7a6ae7729f63",
-        "en-US": "sha256:d50dbcf8841333e8e592c5b067cb6153f39eedf45942b3d35820ded1ad3dd892"
+        "zh-CN": "sha256:6089cd97e2f52da1a7db7f90fcc7a0e30cf227d75ed26585f2506d8b6785a250",
+        "en-US": "sha256:ef606add83fa83de8e2e408e1b873b71580f3ac4bd82ed96bbe494549efb2d2b"
       }
     },
     {
@@ -625,8 +625,8 @@
         "en-US": "pages/en-US/components/gauge.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:30eacca1f8023b40e2f12762563cc223c09f0b352e507cdc516e29d61bfa3f0e",
-        "en-US": "sha256:aac623e5e8804907f28387c9dd2636ceba5a3c95657a1229d2d09661788b6826"
+        "zh-CN": "sha256:b2948f3d7859e71086722321f0742ff4a38aac1e087213c0a6956e8b26d5777f",
+        "en-US": "sha256:8b12844f72d400f3a0b52fe6f67ccc779d6f6db5b22010e2c8dae68a288c1757"
       }
     },
     {
@@ -785,8 +785,8 @@
         "en-US": "pages/en-US/components/modal.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:97ad29a2e3b713820940f8af686fcbf19851be647b8ddaaa7005c3c03920214a",
-        "en-US": "sha256:fd1a8093d3b5da03fcd7ac412afbff8985e6e6684a3f5087396a0dda6d399642"
+        "zh-CN": "sha256:65c48e343cb58ac00d3b5d61827570994a5fc7626e658b6463bf21fa3c37c451",
+        "en-US": "sha256:4ae6b855df45123be73b90df3da61f0d117769df635b40171cef4b077b19ac79"
       }
     },
     {

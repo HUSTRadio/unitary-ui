@@ -55,7 +55,7 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Avatar 的尺寸通过 props 显式指定而非响应式断点，因此在任何视口下表现一致。",
-        "AvatarGroup 只负责重叠排列，不会自动截断成员；需要 +N 汇总时由调用方显式渲染一个汇总 Avatar。",
+        "AvatarGroup 在传入 limit 且成员超出限制时，自动以 +N Avatar 汇总其余成员；未传 limit 时会展示全部成员。",
       ],
     },
     themeBehavior: {
@@ -168,7 +168,7 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Banner 填满父容器宽度，并通过 flex-wrap 在空间不足时换行。",
+        "Banner 在父容器内占用可用宽度（最大 1080 px），并通过 flex-wrap 在空间不足时换行。",
         "组件没有断点级字号或高度变化；窄屏布局由内容宽度和父容器共同决定。",
       ],
     },
@@ -361,7 +361,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Avatar size is specified explicitly via props rather than responsive breakpoints, keeping consistent appearance across all viewports.",
-        "AvatarGroup only arranges overlap and does not truncate members; render an explicit summary Avatar when a +N indicator is needed.",
+        "When limit is set and members exceed it, AvatarGroup automatically summarizes the remainder in a +N Avatar; without limit, it shows every member.",
       ],
     },
     themeBehavior: {
@@ -476,7 +476,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Banner fills its parent width and uses flex-wrap when the message and CTA no longer fit on one line.",
+        "Banner takes the available parent width up to 1080 px and uses flex-wrap when the message and CTA no longer fit on one line.",
         "It has no breakpoint-specific font or height changes; narrow layouts follow content width and the parent container.",
       ],
     },

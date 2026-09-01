@@ -36,9 +36,9 @@ const COMPONENTS_EN: ComponentMeta[] = [
     official: "Avatar",
     bestPractices: [
       "Use Avatar to represent a single user or team. Stacked Avatars represent a group of people.",
-      "Provide a fallback (initials, icon, or placeholder) so the avatar still reads when the image fails to load or is missing.",
-      "Set a meaningful alt text so screen readers announce who the avatar depicts.",
-      "Match the size to the context: sm for dense rows, default for lists and mentions, lg for profile headers.",
+      "Provide initials or a placeholder so the avatar remains identifiable when an image is unavailable; use AvatarWithIcon for an icon avatar.",
+      "Set meaningful alt text on image avatars and title on initials or placeholder avatars so assistive technology can identify the entity.",
+      "Choose a numeric size appropriate to the context, such as 24 px for dense rows, 32 px for lists and mentions, or 48 px for profile headers.",
     ],
   },
   {
@@ -435,7 +435,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "For determinate task progress with a known total (uploads, multi-step setup), use Progress.",
       "For binary or enumerated state, use Status Dot for deployments or Badge for everything else.",
       "Always pair the gauge with an adjacent label or Tooltip naming what the number represents (Build Cache Hit Rate). The gauge alone is not self-describing.",
-      "Don't put units inside children; the label carries the unit (Uptime · 99.97%). children is reserved for an icon overlay.",
+      "Keep units in an adjacent label or Tooltip (Uptime · 99.97%); Gauge renders its own ring and optional numeric center value.",
       'The component sets role="progressbar" with aria-valuemin, aria-valuemax, and aria-valuenow. Don\'t override those.',
     ],
   },

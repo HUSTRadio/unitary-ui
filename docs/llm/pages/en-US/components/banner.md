@@ -42,7 +42,7 @@ Not applicable: Banner has no open, collapsed, or dismissal state; its parent de
 
 ## Responsive behavior
 
-- Banner fills its parent width and uses flex-wrap when the message and CTA no longer fit on one line.
+- Banner takes the available parent width up to 1080 px and uses flex-wrap when the message and CTA no longer fit on one line.
 - It has no breakpoint-specific font or height changes; narrow layouts follow content width and the parent container.
 
 ## Theme behavior

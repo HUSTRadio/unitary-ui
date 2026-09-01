@@ -35,7 +35,7 @@ Define threshold segments to customize the arc's color distribution, useful when
 
 ### Arc priority
 
-Render primary and secondary progress segments on the same ring; arcPriority controls overlap order or equal segmentation.
+Render primary and secondary progress segments on the same ring; with a secondary color, arcPriority="equal" distributes the two segments equally.
 
 ### Indeterminate state
 
@@ -191,5 +191,5 @@ import { Gauge } from "@/components/ui/gauge";
 - For determinate task progress with a known total (uploads, multi-step setup), use Progress.
 - For binary or enumerated state, use Status Dot for deployments or Badge for everything else.
 - Always pair the gauge with an adjacent label or Tooltip naming what the number represents (Build Cache Hit Rate). The gauge alone is not self-describing.
-- Don't put units inside children; the label carries the unit (Uptime · 99.97%). children is reserved for an icon overlay.
+- Keep units in an adjacent label or Tooltip (Uptime · 99.97%); Gauge renders its own ring and optional numeric center value.
 - The component sets role="progressbar" with aria-valuemin, aria-valuemax, and aria-valuenow. Don't override those.

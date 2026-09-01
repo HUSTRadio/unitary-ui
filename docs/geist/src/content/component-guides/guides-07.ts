@@ -36,7 +36,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
         kind: "advanced",
         title: "弧线优先级",
         description:
-          "在同一圆环上渲染主、次两个进度段，用于同时呈现两个指标；arcPriority 决定覆盖顺序或等权分段。",
+          "在同一圆环上渲染主、次两个进度段，用于同时呈现两个指标；传入第二种颜色时，arcPriority=\"equal\" 会让两段等权分布。",
         demoKey: "Arc priority",
       },
       {
@@ -404,7 +404,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
         kind: "advanced",
         title: "Arc priority",
         description:
-          "Render primary and secondary progress segments on the same ring; arcPriority controls overlap order or equal segmentation.",
+          "Render primary and secondary progress segments on the same ring; with a secondary color, arcPriority=\"equal\" distributes the two segments equally.",
         demoKey: "Arc priority",
       },
       {

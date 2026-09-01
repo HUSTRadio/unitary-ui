@@ -128,6 +128,13 @@ describe("component API registry", () => {
       "BitbucketAvatar",
     ]);
     expect(row("avatar", "size")?.type).toBe("number");
+    expect(row("avatar", "members")).toMatchObject({
+      type: "AvatarGroupMember[]",
+      required: true,
+    });
+    expect(row("avatar", "limit")?.type).toBe("number");
+    expect(row("avatar", "overlap")?.defaultValue).toBe('"auto"');
+    expect(row("avatar", "reverse")?.defaultValue).toBe("false");
     expect(row("avatar", "fallback")).toBeUndefined();
     expect(row("destructive-action-modal", "title")?.required).toBe(true);
     expect(row("destructive-action-modal", "confirmLabel")?.required).toBe(true);

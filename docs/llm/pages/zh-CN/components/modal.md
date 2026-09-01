@@ -330,8 +330,8 @@ const initialFocusRef = useRef<HTMLInputElement>(null);
     <ModalHeader>
       <ModalTitle>Invite Member</ModalTitle>
       <ModalDescription>
-        On both desktop and the mobile bottom sheet, the Name field receives focus when the Modal
-        opens so the user can start typing immediately.
+        On desktop and narrow viewports, the Name field receives focus when the Modal opens so the
+        user can start typing immediately.
       </ModalDescription>
     </ModalHeader>
     <div className="flex flex-col gap-3">
@@ -384,8 +384,8 @@ const [email, setEmail] = useState("");
     <ModalHeader>
       <ModalTitle>Invite Member</ModalTitle>
       <ModalDescription>
-        On a mobile viewport this opens as a bottom sheet. Verify that both inputs receive focus and
-        accept keyboard input.
+        On a mobile viewport this Modal remains centered. Verify that both inputs accept keyboard
+        input without exceeding the viewport width.
       </ModalDescription>
     </ModalHeader>
     <div className="flex flex-col gap-3">
