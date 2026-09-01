@@ -40,6 +40,7 @@ describe("LLM docs export contract", () => {
     expect(generator).not.toContain("复用已在运行的预览服务");
     expect(generator).toContain("findAvailablePort");
     expect(generator).toContain('[data-slot="video"]');
+    expect(generator).toContain('[data-demo-component="${route.renderer.componentName}"]');
   });
 
   it("不把视频播放器的运行时计时状态写入静态语料", () => {

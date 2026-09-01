@@ -251,6 +251,14 @@ async function captureAllRoutes(): Promise<RouteOutput[]> {
         await page
           .waitForFunction((to) => window.location.hash === `#${to}`, route.to, { timeout: 10_000 })
           .catch(() => undefined);
+        // HashRouter 会先更新 URL，再提交新页面内容；main 本身跨路由常驻，因此不能作为
+        // 组件详情已就绪的信号。等待当前组件的 demo 标记，防止抓到上一页的 API/示例。
+        if (route.renderer.kind === "component-detail") {
+          await page.waitForSelector(
+            `[data-demo-component="${route.renderer.componentName}"]`,
+            { timeout: 30_000 },
+          );
+        }
         // 展开折叠的代码块（Show code / 显示代码），让代码进入语义内容。
         // 只匹配 Show code 按钮，避免误点汉堡菜单/命令面板等其它折叠控件。
         const showCodeButtons = page.getByRole("button", { name: /^(显示代码|Show code)$/ });
