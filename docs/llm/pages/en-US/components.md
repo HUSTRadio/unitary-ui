@@ -340,7 +340,7 @@ Multi Select
 
 ### Multi Select
 
-A filterable list that supports multiple selections.
+A composed menu for selecting multiple externally managed options.
 
 ](#/components/multi-select)[
 

@@ -340,7 +340,7 @@ Multi Select
 
 ### 多选
 
-支持多项选择的可筛选列表。
+用于选择多个外部受控选项的组合菜单。
 
 ](#/components/multi-select)[
 

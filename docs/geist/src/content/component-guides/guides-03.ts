@@ -62,21 +62,21 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Clearable Input 受控行为由其父级 input 的值和 onChange 驱动。",
-        "传入 value 和 onChange 以实现完全受控模式；clearIconOnClick 在点击清除时调用 onChange(new String)。",
+        "传入 value 和 onChange 可实现完全受控模式；点击清除键帽或按 Escape 会沿原生 input 事件路径清空，并在之后调用可选的 onClear。",
       ],
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "宽度由父容器或 width prop 控制，可设置为 flex grow 或在固定尺寸间切换。",
-        "清除键帽在内联空间允许的情况下始终可见；在小视口上如果空间紧张可以仅保留 Escape 清除。",
+        "宽度由父容器或 layout 控制，可设置固定宽度、最大/最小宽度或 flex。",
+        "CmdK 快捷键后缀在窄视口隐藏；清除键帽按钮在粗指针设备隐藏，键盘用户仍可从输入框按 Escape 清空。",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
         "跟随设计系统颜色变量，在不同主题下自动适配边框、文字和背景颜色。",
-        "清除键帽的可见度基于对比度阈值自动调整。",
+        "清除键帽继承主题前景色，并在悬停和聚焦时使用同一套语义颜色令牌。",
       ],
     },
   },
@@ -296,7 +296,7 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
         id: "combobox-controlled",
         kind: "stateful",
         title: "受控组合框",
-        description: "通过外部控制的值和查询展示 Combobox 的受控用法，适用于集成到全局状态管理时。",
+        description: "通过 value 和 onValueChange 外部控制选中值；搜索查询仍由组件内部维护。",
         demoKey: "controlled",
       },
       {
@@ -310,7 +310,7 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
         id: "combobox-sizes",
         kind: "minimal",
         title: "不同尺寸的组合框",
-        description: "展示 Combobox 提供的尺寸变体（sm、default、lg），以便在不同密度场景中使用。",
+        description: "展示 Combobox 提供的尺寸变体（small、medium、large），以便在不同密度场景中使用。",
         demoKey: "sizes",
       },
       {
@@ -331,7 +331,7 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
         id: "combobox-errored",
         kind: "stateful",
         title: "带错误状态的组合框",
-        description: "在无效选择或验证失败时展示红色边框和错误提示。",
+        description: "在无效选择或验证失败时为输入文字和图标应用错误颜色；错误说明由页面另行提供。",
         demoKey: "errored",
       },
     ],
@@ -339,21 +339,21 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Combobox 结合输入和列表的原生语义，支持键盘导航：上/下箭头移动焦点，Home/End 跳转首尾项，Enter 激活。",
-        "搜索建议具有类型 ahead 功能——按输入字符跳转到下一个匹配标签的项目，确保键盘用户也能高效定位选项。",
+        "输入字符会实时过滤选项；打开后首个可见项高亮，筛选变化时高亮保持在可见集合内。",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
-        "Combobox 支持受控和非受控两种模式；受控模式下通过 value/query props 和 onChange 回调实现完全外部状态管理。",
-        "已选值和搜索查询被独立追踪，这样重新打开下拉列表时不会丢失之前的选择。",
+        "Combobox 的选中值支持 value/onValueChange 受控模式，也支持 defaultValue 非受控模式。",
+        "搜索查询由组件内部维护；ComboboxInput 的 onChange 可观察输入变化，但当前没有受控 query prop。",
       ],
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "下拉列表根据窗口边界自动定位位置，避免在窄视口上溢出屏幕。",
-        "输入框宽度可在自定义宽度和全宽之间切换，下拉列表宽度也跟随输入框大小自适应。",
+        "下拉列表固定放在输入框下方，并在滚动或窗口缩放时重新计算位置；当前不做碰撞翻转或边界避让。",
+        "输入框宽度可通过 layout 或兼容的 width prop 设置；下拉列表至少跟随输入框宽度，并可通过 maxWidth 扩大。",
       ],
     },
     themeBehavior: {
@@ -432,21 +432,21 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Clearable Input's controlled behavior is driven by the parent input's value and onChange.",
-        "Pass value and onChange to enable fully controlled mode; clearIconOnClick invokes onChange('') when the user clicks the clear icon.",
+        "Pass value and onChange for fully controlled mode; activating the clear keycap or pressing Escape clears through the native input event path, then calls optional onClear.",
       ],
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Width is controlled by the parent container or width prop; it can grow flexibly or switch between fixed size breakpoints.",
-        "The clear keycap stays visible when inline space permits; on small viewports, if space is tight, only the Escape clear is retained.",
+        "Width is controlled by the parent or layout, including fixed, min/max, and flex constraints.",
+        "The CmdK shortcut suffix hides on narrow viewports; the clear keycap button hides on coarse-pointer devices while keyboard users can still press Escape from the input.",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
         "Follows design system color variables to adapt border, text, and background colors automatically across themes.",
-        "The clear icon's visibility adjusts based on contrast thresholds to remain usable in all themes.",
+        "The clear keycap inherits semantic foreground colors and uses the same theme tokens for hover and focus states.",
       ],
     },
   },
@@ -684,7 +684,7 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
         kind: "stateful",
         title: "Controlled combobox",
         description:
-          "Shows controlled usage of Combobox with external value and query props, suitable for integrating with global state management.",
+          "Controls the selected value through value and onValueChange while the search query remains internal.",
         demoKey: "controlled",
       },
       {
@@ -700,7 +700,7 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Combobox with different sizes",
         description:
-          "Demonstrates the size variants (sm, default, lg) offered by Combobox for use in different density contexts.",
+          "Demonstrates the small, medium, and large Combobox sizes for different density contexts.",
         demoKey: "sizes",
       },
       {
@@ -724,29 +724,29 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
         kind: "stateful",
         title: "Errored combobox",
         description:
-          "Displays a red border and error message when the selection fails validation or is otherwise invalid.",
+          "Applies error colors to the input text and icons when validation fails; the page supplies any explanatory error message separately.",
         demoKey: "errored",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "Combobox combines the semantics of an input with a list; keyboard navigation: Up/Down arrows move focus, Home/End jump to first/last item, Enter or Space activates.",
-        "Typeahead support: pressing a character jumps to the next item whose label starts with that character, allowing keyboard users to navigate efficiently.",
+        "Combobox combines input and list semantics; Up/Down arrows move the highlight, Home/End jump to the first/last item, and Enter selects it.",
+        "Typing filters the option list in real time; the first visible item is highlighted on open and the highlight remains within the filtered set.",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
-        "Combobox supports both controlled and uncontrolled modes; in controlled mode, external value/query props and onChange callbacks provide full external state management.",
-        "The selected value and the search query are tracked independently so reopening the dropdown doesn't erase a previous selection.",
+        "The selected value supports controlled value/onValueChange and uncontrolled defaultValue modes.",
+        "The search query is internal; ComboboxInput onChange can observe typing, but there is currently no controlled query prop.",
       ],
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "The dropdown list auto-positions based on window bounds to prevent overflow on narrow viewports.",
-        "Input width can switch between custom widths and full-width; the dropdown width adapts to follow the input box size.",
+        "The dropdown is placed below the input and recomputes its fixed position on scroll or resize; it does not currently flip or avoid viewport collisions.",
+        "Input width comes from layout or the compatibility width prop; the list is at least as wide as the input and maxWidth can widen it.",
       ],
     },
     themeBehavior: {

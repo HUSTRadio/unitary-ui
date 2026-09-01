@@ -52,17 +52,17 @@ Leverages the onChange handler to detect when the value is cleared, enabling cus
 ## Controlled behavior
 
 - Clearable Input's controlled behavior is driven by the parent input's value and onChange.
-- Pass value and onChange to enable fully controlled mode; clearIconOnClick invokes onChange('') when the user clicks the clear icon.
+- Pass value and onChange for fully controlled mode; activating the clear keycap or pressing Escape clears through the native input event path, then calls optional onClear.
 
 ## Responsive behavior
 
-- Width is controlled by the parent container or width prop; it can grow flexibly or switch between fixed size breakpoints.
-- The clear keycap stays visible when inline space permits; on small viewports, if space is tight, only the Escape clear is retained.
+- Width is controlled by the parent or layout, including fixed, min/max, and flex constraints.
+- The CmdK shortcut suffix hides on narrow viewports; the clear keycap button hides on coarse-pointer devices while keyboard users can still press Escape from the input.
 
 ## Theme behavior
 
 - Follows design system color variables to adapt border, text, and background colors automatically across themes.
-- The clear icon's visibility adjusts based on contrast thresholds to remain usable in all themes.
+- The clear keycap inherits semantic foreground colors and uses the same theme tokens for hover and focus states.
 
 ## Live Demo
 
@@ -175,7 +175,7 @@ Native props: `InputHTMLAttributes<HTMLInputElement>`
 
 ### Props & callbacks
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onClear</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">() =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Called when the clear affordance is activated.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">label</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Visible label associated with the native input.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">cmdk</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Shows the desktop command-menu shortcut suffix.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onClear</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">() =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Called when the clear affordance is activated.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">layout</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ControlLayout</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Controls root width and input surface height constraints.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## Best Practices
 

@@ -2,7 +2,7 @@
 
 > Route: `/components/multi-select`
 
-A filterable list that supports multiple selections.
+A composed menu for selecting multiple externally managed options.
 
 [Back to Components](#/components)
 
@@ -10,12 +10,12 @@ A filterable list that supports multiple selections.
 
 Multi Select
 
-A filterable list that supports multiple selections.
+A composed menu for selecting multiple externally managed options.
 
 ## When to use
 
 - When more than one option may be active, such as multi-value filters, tag selection, or multi-field configuration.
-- When selecting multiple entries from a long list benefits from the combination of search and scroll for complex selection tasks.
+- When each row needs Only or Check All shortcuts and the page owns the selected state.
 
 ## When not to use
 
@@ -26,7 +26,7 @@ A filterable list that supports multiple selections.
 
 ### Select actions
 
-Shows built-in select action functionality within Multi Select, where users can check multiple items in the dropdown list and the component auto-maintains an aggregated summary of selected states.
+Shows MultiSelectRow toggle, select-only, and select-all callbacks; the page derives the trigger summary from external state.
 
 ### Keyboard navigation
 
@@ -34,22 +34,22 @@ Demonstrates navigating the option list via keyboard arrow keys, Tab, and Space 
 
 ### Controlled state
 
-Binds Multi Select to a controlled selected array where the external layer manages the selection set precisely via value and onChange, suitable for form submission or query synchronization.
+The page owns the selected array and passes checked, onChange, onSelectOnly, and onSelectAll to each row for form or query integration.
 
 ## Accessibility
 
-- Each checkbox option has an associated label, and screen readers correctly announce the name and selection state of each option.
-- Keyboard navigation supports arrow keys to move focus, space to toggle selection, and Escape to close the list, conforming to WAI-ARIA composite component standards.
+- Each row checkbox and shortcut action has an aria-label containing the option name, so screen readers distinguish toggle, select-only, and select-all actions.
+- Focus enters the dialog on open; Up/Down move across rows, Left/Right switch between checkbox and action, Tab cycles controls, and Popover handles Escape dismissal.
 
 ## Controlled behavior
 
-- Fully controlled through value (selected array) and onChange callback; the parent can update the selection set at any time.
-- Supports defaultSelected for initializing uncontrolled state, syncing internal changes and notifying the parent externally.
+- Multi Select does not own a selected array; the page passes checked and action callbacks to every MultiSelectRow.
+- MultiSelectRoot controls only popover visibility through Radix Root open/defaultOpen/onOpenChange props.
 
 ## Responsive behavior
 
-- Once the dropdown opens, width and position adjust automatically based on viewport size to prevent overflow on smaller screens.
-- The trigger summary text truncates or collapses gracefully at different sizes, maintaining a compact appearance.
+- The root fills available width on small screens; content is at least trigger-width and caps its scroll area to the available viewport height.
+- The trigger summary truncates to one line so long content cannot displace the trailing disclosure icon.
 
 ## Theme behavior
 
@@ -315,7 +315,7 @@ import {
 
 ### Props & callbacks
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">open</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Controlled popover state.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onOpenChange</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(open: boolean) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Receives popover state changes.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">checked</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Whether a row is selected.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">open</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Controlled popover state.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onOpenChange</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(open: boolean) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Receives popover state changes.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">className</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Additional classes for the root container.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">layout</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ControlLayout</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Controls root width and flex behavior.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">name</code><span class="ml-1 text-destructive">*</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Row label used for visible and accessible text.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">checked</code><span class="ml-1 text-destructive">*</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Whether a row is selected.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onChange</code><span class="ml-1 text-destructive">*</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">() =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Toggles the row selection.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onSelectOnly</code><span class="ml-1 text-destructive">*</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">() =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Selects only this row.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onSelectAll</code><span class="ml-1 text-destructive">*</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">() =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Selects all rows.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">count</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">number</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Optional count displayed beside the row name.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## Best Practices
 

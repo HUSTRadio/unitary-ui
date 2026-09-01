@@ -193,17 +193,51 @@ const O = {
   ),
   choicebox: component(
     ["ChoiceboxGroup", "ChoiceboxGroupItem"],
-    [row("value", "string | string[]", "Controlled selected value(s).", "受控选择值。")],
+    [
+      row("label", "string", "Accessible group label.", "选择组的无障碍标签。", {
+        required: true,
+      }),
+      row("type", '"radio" | "checkbox"', "Single- or multi-select group mode.", "单选或多选组模式。", {
+        required: true,
+      }),
+      row("value", "string | string[]", "Controlled selected value(s), matching the group type.", "与组模式匹配的受控选择值。", {
+        required: true,
+      }),
+      row("onChange", "((value: string) => void) | ((value: string[]) => void)", "Receives the next value shape for the selected group type.", "按所选组模式接收对应结构的新值。", {
+        required: true,
+      }),
+      row("listClassName", "string", "Controls the item list layout.", "控制选项列表布局。"),
+      row("showLabel", "boolean", "Renders the group label visibly.", "显示选择组标签。", {
+        defaultValue: "false",
+      }),
+      row("disabled", "boolean", "Disables every item in the group.", "禁用组内所有选项。", {
+        defaultValue: "false",
+      }),
+      row("required", "boolean", "Marks the group as required.", "将选择组标记为必填。", {
+        defaultValue: "false",
+      }),
+      row("title", "ReactNode", "Choicebox item title.", "Choicebox 选项标题。", {
+        required: true,
+      }),
+      row("description", "ReactNode", "Choicebox item description.", "Choicebox 选项描述。", {
+        required: true,
+      }),
+    ],
   ),
   "clearable-input": component(
     ["ClearableInput"],
     [
+      row("label", "string", "Visible label associated with the native input.", "与原生输入框关联的可见标签。"),
+      row("cmdk", "boolean", "Shows the desktop command-menu shortcut suffix.", "显示桌面端命令菜单快捷键后缀。", {
+        defaultValue: "false",
+      }),
       row(
         "onClear",
         "() => void",
         "Called when the clear affordance is activated.",
         "点击清除控件时调用。",
       ),
+      row("layout", "ControlLayout", "Controls root width and input surface height constraints.", "控制根容器宽度和输入表面高度约束。"),
     ],
     "InputHTMLAttributes<HTMLInputElement>",
   ),
@@ -310,8 +344,15 @@ const O = {
   description: component(
     ["Description"],
     [
-      row("title", "ReactNode", "Description term.", "描述术语。"),
-      row("children", "ReactNode", "Description value.", "描述值。"),
+      row("title", "string", "Description term.", "描述术语。", { required: true }),
+      row("content", "ReactNode", "Description value.", "描述值。", { required: true }),
+      row("tooltip", "string", "Optional explanation shown beside the term.", "显示在术语旁的可选解释。"),
+      row("right", "boolean", "Right-aligns the term and value.", "右对齐术语和值。", {
+        defaultValue: "false",
+      }),
+      row("ellipsis", "boolean", "Truncates overflowing term and value text.", "截断溢出的术语和值文本。", {
+        defaultValue: "false",
+      }),
     ],
   ),
   "destructive-action-modal": component(
@@ -576,7 +617,24 @@ const O = {
         "Receives popover state changes.",
         "接收浮层状态变化。",
       ),
-      row("checked", "boolean", "Whether a row is selected.", "行是否被选中。"),
+      row("className", "string", "Additional classes for the root container.", "根容器的附加类名。"),
+      row("layout", "ControlLayout", "Controls root width and flex behavior.", "控制根容器宽度和 flex 行为。"),
+      row("name", "string", "Row label used for visible and accessible text.", "用于可见文本和无障碍文本的行标签。", {
+        required: true,
+      }),
+      row("checked", "boolean", "Whether a row is selected.", "行是否被选中。", {
+        required: true,
+      }),
+      row("onChange", "() => void", "Toggles the row selection.", "切换行选择状态。", {
+        required: true,
+      }),
+      row("onSelectOnly", "() => void", "Selects only this row.", "仅选择当前行。", {
+        required: true,
+      }),
+      row("onSelectAll", "() => void", "Selects all rows.", "选择所有行。", {
+        required: true,
+      }),
+      row("count", "number", "Optional count displayed beside the row name.", "显示在行名称旁的可选计数。"),
     ],
   ),
   note: component(
@@ -825,21 +883,39 @@ const O = {
   "split-button": component(
     ["SplitButton", "SplitButtonMain", "SplitButtonMenu", "SplitButtonMenuItem"],
     [
-      row("onClick", "MouseEventHandler<HTMLButtonElement>", "Primary action.", "主操作。"),
-      row("menu", "ReactNode", "Secondary action menu.", "次级操作菜单。"),
+      row("buttonProps", "ButtonProps", "Props for the primary action button.", "主操作按钮属性。"),
+      row("menuButtonLabel", "string", "Accessible label for the menu trigger.", "菜单触发器的无障碍标签。", {
+        defaultValue: '"More options"',
+      }),
+      row("menuAlignment", "SplitButtonMenuAlignment", "Places the menu below the primary or menu button edge.", "将菜单对齐到主按钮或菜单按钮边缘。", {
+        defaultValue: '"bottom-start"',
+      }),
+      row("menuItems", "ReactNode", "Secondary menu items.", "次级菜单项。"),
+      row("menuProps", "ComponentProps<typeof Menu>", "Props forwarded to the menu surface.", "透传给菜单表面的属性。"),
+      row("title", "ReactNode", "Menu item title.", "菜单项标题。"),
+      row("description", "ReactNode", "Menu item description.", "菜单项描述。"),
+      row("icon", "ReactNode", "Menu item icon.", "菜单项图标。"),
+      row("menuItemProps", "Omit<ComponentProps<typeof MenuItem>, \"children\" | \"prefix\" | \"suffix\">", "Props forwarded to a menu item.", "透传给菜单项的属性。"),
     ],
   ),
   "status-dot": component(
     ["StatusDot"],
     [
       row("state", "StatusDotState", "Status represented by the dot.", "圆点表示的状态。", {
-        required: true,
+        defaultValue: '"QUEUED"',
       }),
+      row("label", "boolean", "Shows the localized status label beside the dot.", "在圆点旁显示本地化状态标签。", {
+        defaultValue: "false",
+      }),
+      row("titlePrefix", "string", "Overrides the subject used in the native title.", "覆盖原生 title 使用的主语。"),
     ],
   ),
   "step-point": component(
     ["StepPoint"],
-    [row("status", "StepStatus", "Step state.", "步骤状态。", { defaultValue: '"idle"' })],
+    [
+      row("status", "StepStatus", "Step state.", "步骤状态。", { required: true }),
+      row("children", "ReactNode", "Step label.", "步骤标签。", { required: true }),
+    ],
   ),
   switch: component(
     ["Switch", "SwitchControl"],
@@ -852,17 +928,31 @@ const O = {
     [
       "TableRoot",
       "Table",
+      "TableColgroup",
+      "TableCol",
       "TableHeader",
       "TableBody",
+      "TableFooter",
       "TableRow",
       "TableHead",
       "TableCell",
       "TableCaption",
     ],
     [
-      row("striped", "boolean", "Alternates row backgrounds.", "交替行背景。"),
-      row("bordered", "boolean", "Adds row separators.", "增加行分隔线。"),
-      row("interactive", "boolean", "Enables row hover affordance.", "启用行悬停反馈。"),
+      row("align", "MaybeAlign", "Default horizontal and vertical cell alignment.", "默认的单元格水平和垂直对齐。"),
+      row("rowHeight", 'number | "auto"', "Fixed row height in pixels or content-driven height.", "固定像素行高或内容自适应行高。", {
+        defaultValue: '"auto"',
+      }),
+      row("colWidth", '"auto" | "fit"', "Keeps responsive columns or measures and locks column widths once.", "保持响应式列宽，或测量后一次性锁定列宽。", {
+        defaultValue: '"auto"',
+      }),
+      row("colorScheme", "TableColorScheme", "Basic, striped, bordered, or interactive row treatment.", "基础、斑马纹、带边框或可交互行样式。"),
+      row("headerRow", "boolean", "Adds column-header scope semantics to the header row.", "为表头行添加列头 scope 语义。", {
+        defaultValue: "false",
+      }),
+      row("headerCol", "boolean", "Renders the first body column as row headers.", "将正文首列渲染为行头。", {
+        defaultValue: "false",
+      }),
     ],
   ),
   tabs: component(
@@ -885,7 +975,14 @@ const O = {
   ),
   textarea: component(
     ["Textarea"],
-    [row("size", "TextareaSize", "Textarea size.", "文本域尺寸。")],
+    [
+      row("size", "TextareaSize", "Textarea size.", "文本域尺寸。", {
+        defaultValue: '"medium"',
+      }),
+      row("error", "ReactNode", "Inline validation message and error styling.", "行内校验消息和错误样式。"),
+      row("label", "ReactNode", "Visible label wrapping the textarea surface.", "包裹文本域表面的可见标签。"),
+      row("layout", "ControlLayout", "Controls root width and surface height constraints.", "控制根容器宽度和表面高度约束。"),
+    ],
     "TextareaHTMLAttributes<HTMLTextAreaElement>",
   ),
   toast: component(
@@ -926,8 +1023,13 @@ const O = {
   "theme-switcher": component(
     ["ThemeSwitcher"],
     [
-      row("theme", '"light" | "dark" | "system"', "Current theme mode.", "当前主题模式。"),
-      row("onThemeChange", "(theme: Theme) => void", "Receives theme changes.", "接收主题变化。"),
+      row("className", "string", "Additional classes for the radiogroup.", "主题单选组的附加类名。"),
+      row("small", "boolean", "Uses compact theme option buttons.", "使用紧凑的主题选项按钮。", {
+        defaultValue: "false",
+      }),
+      row("disabled", "boolean", "Disables every theme option.", "禁用所有主题选项。", {
+        defaultValue: "false",
+      }),
     ],
   ),
   video: component(
@@ -946,13 +1048,38 @@ const O = {
   combobox: component(
     ["Combobox", "ComboboxInput", "ComboboxList", "ComboboxOption"],
     [
-      row("value", "string", "Controlled selected value.", "受控选择值。"),
+      row("value", "string | null", "Controlled selected value.", "受控选择值。"),
+      row("defaultValue", "string", "Initial uncontrolled selected value.", "非受控选择的初始值。", {
+        defaultValue: '""',
+      }),
       row(
         "onValueChange",
         "(value: string) => void",
         "Receives selection changes.",
         "接收选择变化。",
       ),
+      row("placeholder", "string", "Placeholder and fallback search prompt.", "占位文字和默认搜索提示。"),
+      row("aria-label", "string", "Accessible name for the search input.", "搜索输入框的无障碍名称。"),
+      row("label", "string", "Visible field label.", "可见字段标签。"),
+      row("disabled", "boolean", "Disables the combobox.", "禁用组合框。", {
+        defaultValue: "false",
+      }),
+      row("size", '"small" | "medium" | "large"', "Input surface size.", "输入表面尺寸。", {
+        defaultValue: '"medium"',
+      }),
+      row("errored", "boolean", "Uses error colors for the input surface.", "为输入表面使用错误颜色。", {
+        defaultValue: "false",
+      }),
+      row("clearable", "boolean", "Shows a clear button for a selected value.", "为已选值显示清除按钮。", {
+        defaultValue: "false",
+      }),
+      row("width", "number", "Legacy root width in pixels.", "兼容保留的根容器像素宽度。"),
+      row("layout", "ControlLayout", "Controls root and input surface dimensions.", "控制根容器和输入表面尺寸。"),
+      row("maxWidth", "number", "Minimum panel width beyond the trigger width.", "超出触发器宽度时的面板最小宽度。"),
+      row("emptyMessage", "string", "Message shown when filtering has no results.", "筛选无结果时显示的消息。"),
+      row("prefix", "ReactNode", "Option leading content.", "选项前置内容。"),
+      row("suffix", "ReactNode", "Option trailing content.", "选项后置内容。"),
+      row("ignoreDefaultHeight", "boolean", "Lets an option grow to fit multiline content.", "允许选项按多行内容自适应高度。"),
     ],
   ),
   entity: component(

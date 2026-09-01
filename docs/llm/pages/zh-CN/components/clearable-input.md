@@ -52,17 +52,17 @@ Clearable Input
 ## 受控行为
 
 - Clearable Input 受控行为由其父级 input 的值和 onChange 驱动。
-- 传入 value 和 onChange 以实现完全受控模式；clearIconOnClick 在点击清除时调用 onChange(new String)。
+- 传入 value 和 onChange 可实现完全受控模式；点击清除键帽或按 Escape 会沿原生 input 事件路径清空，并在之后调用可选的 onClear。
 
 ## 响应式行为
 
-- 宽度由父容器或 width prop 控制，可设置为 flex grow 或在固定尺寸间切换。
-- 清除键帽在内联空间允许的情况下始终可见；在小视口上如果空间紧张可以仅保留 Escape 清除。
+- 宽度由父容器或 layout 控制，可设置固定宽度、最大/最小宽度或 flex。
+- CmdK 快捷键后缀在窄视口隐藏；清除键帽按钮在粗指针设备隐藏，键盘用户仍可从输入框按 Escape 清空。
 
 ## 主题行为
 
 - 跟随设计系统颜色变量，在不同主题下自动适配边框、文字和背景颜色。
-- 清除键帽的可见度基于对比度阈值自动调整。
+- 清除键帽继承主题前景色，并在悬停和聚焦时使用同一套语义颜色令牌。
 
 ## 实时示例
 
@@ -175,7 +175,7 @@ import { ClearableInput } from "@/components/ui/clearable-input";
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onClear</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">() =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">点击清除控件时调用。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">label</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">与原生输入框关联的可见标签。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">cmdk</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">显示桌面端命令菜单快捷键后缀。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onClear</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">() =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">点击清除控件时调用。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">layout</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ControlLayout</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">控制根容器宽度和输入表面高度约束。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## 最佳实践
 

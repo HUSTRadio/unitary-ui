@@ -71,7 +71,7 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   entity: "用于实体及其主要操作的结构化行。",
   "error-card": "包含恢复指引的封闭错误状态。",
   "middle-truncate": "保留长标识符的开头和结尾。",
-  "multi-select": "支持多项选择的可筛选列表。",
+  "multi-select": "用于选择多个外部受控选项的组合菜单。",
   "relative-time-card": "显示带时间上下文的相对时间戳。",
   "search-input": "带标准前置图标的搜索字段。",
   "split-button": "将主要操作与一组简短的相关操作菜单组合。",

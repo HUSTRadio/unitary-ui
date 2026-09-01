@@ -82,10 +82,10 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
   "multi-select": {
     slug: "multi-select",
     locale: "zh-CN",
-    summary: "一个可过滤的多选列表，允许用户从一个预定义列表中同时选择多个选项。",
+    summary: "一个由触发器、弹出层和复选行组合而成的多选菜单。",
     whenToUse: [
       "当可能需要激活多个选项时，例如多值过滤器、标签选择或多字段配置。",
-      "需要从较长选项中筛选出多个条目，搜索和滚动结合的交互方式更适合复杂选择任务。",
+      "需要为每行提供“仅选择此项”或“选择全部”等快捷操作，并由页面拥有选择状态时。",
     ],
     whenNotToUse: [
       "当只需单选时可搜索列表时，请使用 Combobox——Multi Select 的语义是为多选设计的，不应混用。",
@@ -97,7 +97,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "选择操作",
         description:
-          "展示 Multi Select 中内置的选择操作功能，用户可以在弹出的选项列表中勾选多个条目，组件会自动维护已选状态的聚合摘要。",
+          "展示 MultiSelectRow 的切换、仅选择此项和选择全部回调；触发器摘要由页面根据外部状态生成。",
         demoKey: "select-actions",
       },
       {
@@ -113,29 +113,29 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
         kind: "advanced",
         title: "受控状态",
         description:
-          "将 Multi Select 绑定到受控的选中数组状态，外部通过 value/onChange 精确管理选择集，适合与表单提交或搜索查询联动。",
+          "页面维护选中数组，并把 checked、onChange、onSelectOnly 和 onSelectAll 传给各行，适合与表单提交或查询联动。",
         demoKey: "controlled-state",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "每个复选选项都有语义化的 label 关联，屏幕阅读器能正确播报每个选项的名称及其选中状态。",
-        "键盘导航支持方向键移动焦点、空格键切换选中、Escape 关闭列表，符合 WAI-ARIA 复合组件规范。",
+        "每行的复选框和快捷操作都有包含选项名称的 aria-label，屏幕阅读器可区分切换、仅选择此项和选择全部操作。",
+        "打开后焦点落在 dialog；上下键跨行，左右键在复选框与快捷操作间切换，Tab 在控件间循环，Escape 由 Popover 关闭浮层。",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
-        "通过 value（已选数组）和 onChange 回调实现完全受控，父组件可在任意时刻更新选择集合。",
-        "支持 defaultSelected 初始化未受控状态，并在内部同步维护选中变化并通知外部。",
+        "Multi Select 不拥有选中数组；页面把 checked 和各操作回调传给每个 MultiSelectRow。",
+        "MultiSelectRoot 仅通过 Radix Root 的 open/defaultOpen/onOpenChange 控制弹出层开闭。",
       ],
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "在下拉列表展开后会根据视口大小自动调整宽度及位置，确保在小屏设备上也不会溢出屏幕边界。",
-        "触发器的摘要文本在不同尺寸下会优雅截断或折叠，保持紧凑外观。",
+        "根容器在小屏下占满可用宽度；浮层至少与触发器等宽，并以可用视口高度限制滚动区域。",
+        "触发器摘要使用单行截断，超长内容不会挤压右侧展开图标。",
       ],
     },
     themeBehavior: {
@@ -421,11 +421,10 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
   "multi-select": {
     slug: "multi-select",
     locale: "en-US",
-    summary:
-      "A filterable list that supports selecting multiple options from a predefined set simultaneously.",
+    summary: "A multi-select menu composed from a trigger, popover content, and checkbox rows.",
     whenToUse: [
       "When more than one option may be active, such as multi-value filters, tag selection, or multi-field configuration.",
-      "When selecting multiple entries from a long list benefits from the combination of search and scroll for complex selection tasks.",
+      "When each row needs Only or Check All shortcuts and the page owns the selected state.",
     ],
     whenNotToUse: [
       "When only a single searchable selection is needed, use Combobox; Multi Select's semantics are designed for multiple values and should not be mixed.",
@@ -437,7 +436,7 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Select actions",
         description:
-          "Shows built-in select action functionality within Multi Select, where users can check multiple items in the dropdown list and the component auto-maintains an aggregated summary of selected states.",
+          "Shows MultiSelectRow toggle, select-only, and select-all callbacks; the page derives the trigger summary from external state.",
         demoKey: "select-actions",
       },
       {
@@ -453,29 +452,29 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
         kind: "advanced",
         title: "Controlled state",
         description:
-          "Binds Multi Select to a controlled selected array where the external layer manages the selection set precisely via value and onChange, suitable for form submission or query synchronization.",
+          "The page owns the selected array and passes checked, onChange, onSelectOnly, and onSelectAll to each row for form or query integration.",
         demoKey: "controlled-state",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "Each checkbox option has an associated label, and screen readers correctly announce the name and selection state of each option.",
-        "Keyboard navigation supports arrow keys to move focus, space to toggle selection, and Escape to close the list, conforming to WAI-ARIA composite component standards.",
+        "Each row checkbox and shortcut action has an aria-label containing the option name, so screen readers distinguish toggle, select-only, and select-all actions.",
+        "Focus enters the dialog on open; Up/Down move across rows, Left/Right switch between checkbox and action, Tab cycles controls, and Popover handles Escape dismissal.",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
-        "Fully controlled through value (selected array) and onChange callback; the parent can update the selection set at any time.",
-        "Supports defaultSelected for initializing uncontrolled state, syncing internal changes and notifying the parent externally.",
+        "Multi Select does not own a selected array; the page passes checked and action callbacks to every MultiSelectRow.",
+        "MultiSelectRoot controls only popover visibility through Radix Root open/defaultOpen/onOpenChange props.",
       ],
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Once the dropdown opens, width and position adjust automatically based on viewport size to prevent overflow on smaller screens.",
-        "The trigger summary text truncates or collapses gracefully at different sizes, maintaining a compact appearance.",
+        "The root fills available width on small screens; content is at least trigger-width and caps its scroll area to the available viewport height.",
+        "The trigger summary truncates to one line so long content cannot displace the trailing disclosure icon.",
       ],
     },
     themeBehavior: {

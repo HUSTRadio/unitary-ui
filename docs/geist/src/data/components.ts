@@ -1020,7 +1020,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "multi-select",
     label: "Multi Select",
     labelZh: "多选",
-    description: "A filterable list that supports multiple selections.",
+    description: "A composed menu for selecting multiple externally managed options.",
     official: "Multi Select",
     bestPractices: [
       "Use Multi Select only when more than one option may be active; use Combobox for searchable single selection.",

@@ -157,6 +157,91 @@ describe("component API registry", () => {
     expect(row("tooltip", "content")).toBeUndefined();
     expect(row("tooltip", "delay")?.type).toBe("boolean | number");
     expect(row("tooltip", "delayDuration")).toBeUndefined();
+
+    expect(row("choicebox", "label")?.required).toBe(true);
+    expect(row("choicebox", "type")?.type).toBe('"radio" | "checkbox"');
+    expect(row("choicebox", "onChange")?.required).toBe(true);
+    expect(row("choicebox", "title")?.required).toBe(true);
+    expect(row("choicebox", "description")?.required).toBe(true);
+
+    expect(row("split-button", "buttonProps")?.type).toBe("ButtonProps");
+    expect(row("split-button", "menuAlignment")?.defaultValue).toBe('"bottom-start"');
+    expect(row("split-button", "menuItems")?.type).toBe("ReactNode");
+    expect(row("split-button", "onClick")).toBeUndefined();
+    expect(row("split-button", "menu")).toBeUndefined();
+
+    expect(row("status-dot", "state")).toMatchObject({
+      type: "StatusDotState",
+      defaultValue: '"QUEUED"',
+    });
+    expect(row("status-dot", "state")?.required).toBeUndefined();
+    expect(row("status-dot", "label")?.type).toBe("boolean");
+    expect(row("status-dot", "titlePrefix")?.type).toBe("string");
+
+    expect(row("step-point", "status")?.required).toBe(true);
+    expect(row("step-point", "status")?.defaultValue).toBeUndefined();
+    expect(row("step-point", "children")?.required).toBe(true);
+
+    expect(COMPONENT_API.table.exports).toEqual([
+      "TableRoot",
+      "Table",
+      "TableColgroup",
+      "TableCol",
+      "TableHeader",
+      "TableBody",
+      "TableFooter",
+      "TableRow",
+      "TableHead",
+      "TableCell",
+      "TableCaption",
+    ]);
+    expect(row("table", "rowHeight")?.type).toBe('number | "auto"');
+    expect(row("table", "colWidth")?.type).toBe('"auto" | "fit"');
+    expect(row("table", "colorScheme")?.type).toBe("TableColorScheme");
+    expect(row("table", "headerRow")?.type).toBe("boolean");
+    expect(row("table", "headerCol")?.type).toBe("boolean");
+    expect(row("table", "striped")).toBeUndefined();
+
+    expect(row("textarea", "size")?.defaultValue).toBe('"medium"');
+    expect(row("textarea", "error")?.type).toBe("ReactNode");
+    expect(row("textarea", "label")?.type).toBe("ReactNode");
+    expect(row("textarea", "layout")?.type).toBe("ControlLayout");
+
+    expect(row("theme-switcher", "small")?.defaultValue).toBe("false");
+    expect(row("theme-switcher", "disabled")?.defaultValue).toBe("false");
+    expect(row("theme-switcher", "theme")).toBeUndefined();
+    expect(row("theme-switcher", "onThemeChange")).toBeUndefined();
+
+    expect(row("description", "title")).toMatchObject({ type: "string", required: true });
+    expect(row("description", "content")).toMatchObject({
+      type: "ReactNode",
+      required: true,
+    });
+    expect(row("description", "tooltip")?.type).toBe("string");
+    expect(row("description", "right")?.type).toBe("boolean");
+    expect(row("description", "ellipsis")?.type).toBe("boolean");
+    expect(row("description", "children")).toBeUndefined();
+
+    expect(row("clearable-input", "label")?.type).toBe("string");
+    expect(row("clearable-input", "cmdk")?.defaultValue).toBe("false");
+    expect(row("clearable-input", "layout")?.type).toBe("ControlLayout");
+
+    expect(row("combobox", "value")?.type).toBe("string | null");
+    expect(row("combobox", "defaultValue")?.type).toBe("string");
+    expect(row("combobox", "size")?.type).toBe('"small" | "medium" | "large"');
+    expect(row("combobox", "clearable")?.defaultValue).toBe("false");
+    expect(row("combobox", "errored")?.defaultValue).toBe("false");
+    expect(row("combobox", "layout")?.type).toBe("ControlLayout");
+    expect(row("combobox", "maxWidth")?.type).toBe("number");
+    expect(row("combobox", "emptyMessage")?.type).toBe("string");
+    expect(row("combobox", "ignoreDefaultHeight")?.type).toBe("boolean");
+
+    expect(row("multi-select", "layout")?.type).toBe("ControlLayout");
+    expect(row("multi-select", "checked")?.required).toBe(true);
+    expect(row("multi-select", "onChange")?.required).toBe(true);
+    expect(row("multi-select", "onSelectOnly")?.required).toBe(true);
+    expect(row("multi-select", "onSelectAll")?.required).toBe(true);
+    expect(row("multi-select", "count")?.type).toBe("number");
   });
 
   it("imports every ModalTrigger used by a modal Show Code example", () => {
@@ -182,7 +267,11 @@ describe("component API registry", () => {
 
   it("does not claim unsupported component-guide behavior", () => {
     const guideText = (slug: string) =>
-      JSON.stringify({ zh: COMPONENT_GUIDES_ZH[slug], en: COMPONENT_GUIDES_EN[slug] });
+      JSON.stringify({
+        metadata: COMPONENTS.find(({ name }) => name === slug),
+        zh: COMPONENT_GUIDES_ZH[slug],
+        en: COMPONENT_GUIDES_EN[slug],
+      });
 
     expect(guideText("avatar")).not.toMatch(
       /sm、default、lg|sm, default, and lg|最多显示四个|at most four|用户名哈希|hash of the username/i,
@@ -198,6 +287,15 @@ describe("component API registry", () => {
     );
     expect(guideText("relative-time-card")).not.toMatch(
       /expose.*via aria-label|通过 aria-label 属性暴露|aria-live="polite"|internally handles incremental time updates|内部自动处理时间增量更新/i,
+    );
+    expect(guideText("clearable-input")).not.toMatch(
+      /clearIconOnClick|width prop|contrast thresholds|对比度阈值/i,
+    );
+    expect(guideText("combobox")).not.toMatch(
+      /sm、default、lg|sm, default, lg|value\/query props|external value and query props|typeahead support|类型 ahead|auto-positions based on window bounds|根据窗口边界自动定位|red border and error message|红色边框和错误提示/i,
+    );
+    expect(guideText("multi-select")).not.toMatch(
+      /filterable list|可过滤的多选列表|可筛选列表|aggregated summary|聚合摘要|value（已选数组）和 onChange|value \(selected array\) and onChange|via value and onChange|通过 value\/onChange|defaultSelected/i,
     );
   });
 
