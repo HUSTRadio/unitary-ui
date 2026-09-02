@@ -76,6 +76,11 @@ describe("README 示例截图生成合同", () => {
     expect(generator).not.toContain("组件总览");
   });
 
+  it("Windows 清理时将 taskkill 的进程不存在状态视为已停止", () => {
+    const generator = read("scripts/capture-readme-screenshots.mjs");
+    expect(generator).toContain("taskkill.status === 128");
+  });
+
   it("README 顶部提供简洁语言入口与唯一 LLM 入口", () => {
     const zh = read("README.md");
     const en = read("README.en.md");

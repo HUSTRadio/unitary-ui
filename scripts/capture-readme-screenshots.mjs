@@ -74,7 +74,7 @@ function stopPreview(child) {
     const taskkill = spawnSync("taskkill.exe", ["/PID", String(child.pid), "/T", "/F"], {
       stdio: "ignore",
     });
-    if (!taskkill.error && taskkill.status === 0) return;
+    if (!taskkill.error && (taskkill.status === 0 || taskkill.status === 128)) return;
     try {
       if (child.kill()) return;
     } catch (error) {
