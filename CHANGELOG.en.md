@@ -8,9 +8,10 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Added
 
+- **BottomSheet and ErrorBoundary documentation**: adds package-root type exports for `BottomSheetProps` and `ErrorBoundaryProps`, plus bilingual API references, best practices, live examples, and LLM reference pages for both components.
 - **Public component exports and API references**: the package root now exports `ContextMenuTrigger`, `ContextMenuContent`, `FieldsetFooterActions`, `ErrorText`, `WarningText`, and `DisabledWall`; the component API registry, bilingual guides, and LLM reference synchronize those exports and their related implemented props.
-- **Bilingual component guide registry**: all 73 components have structured guides in Simplified Chinese (primary) and English (alternative) — when to use / when not to use / example index / accessibility / controlled behavior / responsive / theme — with examples referencing real existing demo keys; rendered on component docs pages.
-- **LLM reference corpus**: `docs/llm/` generates 164 Markdown pages (82 docs routes × 2 locales) plus the machine-readable `index.json` (with content hashes); `docs:llm:generate` / `docs:llm:check` commands with drift detection.
+- **Bilingual component guide registry**: all 75 components have structured guides in Simplified Chinese (primary) and English (alternative) — when to use / when not to use / example index / accessibility / controlled behavior / responsive / theme — with examples referencing real existing demo keys; rendered on component docs pages.
+- **LLM reference corpus**: `docs/llm/` generates 168 Markdown pages (84 docs routes × 2 locales) plus the machine-readable `index.json` (with content hashes); `docs:llm:generate` / `docs:llm:check` commands with drift detection.
 - **LLM corpus documentation**: added `docs/llm/README.md` and its English alternative covering the canonical source, index structure, generation, and zero-drift verification flow.
 - **Versioned LLM task packages**: `.agents/registry.json` registers task manifests; safety, Git, documentation, and task-specific prompt fragments are assembled in manifest order; the unified `llm` CLI provides list/check/dry-run/manual modes, while pre-push only adapts Git-ref context. An LLM can locate prompt paths directly from `AGENTS.md` and `.agents/README.en.md` without executing a command.
 - **MIT license and attribution**: English `LICENSE` (legally authoritative) + Simplified Chinese reading guide `LICENSE.zh-CN.md` (unofficial, non-binding); bilingual `CREDITS.md` / `CREDITS.en.md` and `THIRD_PARTY_NOTICES.md` / `THIRD_PARTY_NOTICES.en.md`; the npm publish manifest includes the license and third-party notices.
@@ -37,6 +38,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **AI docs pre-push teardown**: the runner now treats the Codex process `exit` as the execution boundary and closes its pipe readers, avoiding a wait-until-timeout when a helper keeps stdout/stderr handles open.
 - **Geist parity fixes (14 items, verified live with Playwright)**: inline error text converged to `--error-foreground`; `--link` corrected to official `#0072f5`; Entity description, JsonView punctuation, Textarea/Input text, and Badge pill text colors aligned with the official implementation; FileTree label and Video timestamp typography completed; Drawer/Modal trigger buttons changed to the default black-on-white; docs page H1 responsive sizing (24px mobile / 40px desktop).
 - Tooling fix: the AI docs runner now rejects configurations that set both `--sandbox` and `--approve-for-me` (the flags are mutually exclusive; approve-for-me implies the workspace-write sandbox).
 - Hook security hardening: production uses a fixed Codex template and deterministic validations, a minimal environment allowlist, suppressed raw Agent stderr, and checks for mutations to existing untracked files and Git metadata; the emergency skip returns a Git-compatible success code while retaining a prominent warning.

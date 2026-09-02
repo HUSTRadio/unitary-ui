@@ -8,9 +8,10 @@
 
 ### Added
 
+- **BottomSheet 与 ErrorBoundary 文档**：补全 `BottomSheetProps`、`ErrorBoundaryProps` 的包根类型导出，并为两个组件新增双语 API 参考、最佳实践、可运行示例与 LLM 参考页面。
 - **组件公共导出与 API 参考完善**：包根入口新增导出 `ContextMenuTrigger`、`ContextMenuContent`、`FieldsetFooterActions`、`ErrorText`、`WarningText` 与 `DisabledWall`；组件 API 注册表、双语指南与 LLM 参考同步覆盖这些导出及相关真实属性。
-- **双语组件指南注册表**：73 个组件全部具备简体中文（主）与英语（替代）结构化指南（何时使用 / 何时不应使用 / 示例索引 / 无障碍 / 受控行为 / 响应式 / 主题），示例引用真实存在的 demo key；接入组件文档页渲染。
-- **LLM 参考语料**：`docs/llm/` 为 82 条文档路由 × 2 语言生成 164 份 Markdown 页面与机器可读索引 `index.json`（含内容哈希）；`docs:llm:generate` / `docs:llm:check` 命令与漂移检查。
+- **双语组件指南注册表**：75 个组件全部具备简体中文（主）与英语（替代）结构化指南（何时使用 / 何时不应使用 / 示例索引 / 无障碍 / 受控行为 / 响应式 / 主题），示例引用真实存在的 demo key；接入组件文档页渲染。
+- **LLM 参考语料**：`docs/llm/` 为 84 条文档路由 × 2 语言生成 168 份 Markdown 页面与机器可读索引 `index.json`（含内容哈希）；`docs:llm:generate` / `docs:llm:check` 命令与漂移检查。
 - **LLM 语料说明**：新增 `docs/llm/README.md` 与英文替代版本，说明 canonical source、索引结构、生成与零漂移校验流程。
 - **版本化 LLM 任务包**：`.agents/registry.json` 注册任务 manifest；安全、Git、文档策略与任务专属提示词按 manifest 顺序组装；统一 `llm` CLI 提供 list/check/dry-run/manual，pre-push 仅负责 Git ref 上下文适配。LLM 无需执行命令即可从 `AGENTS.md` 与 `.agents/README.md` 直接定位提示词路径。
 - **MIT 许可证与归属**：英文 `LICENSE`（法律权威）+ 简体中文阅读入口 `LICENSE.zh-CN.md`（非官方、非约束性）；`CREDITS.md` / `CREDITS.en.md` 与 `THIRD_PARTY_NOTICES.md` / `THIRD_PARTY_NOTICES.en.md` 双语归属与第三方声明；npm 发布清单纳入许可证与第三方声明。
@@ -37,6 +38,7 @@
 
 ### Fixed
 
+- **AI 文档 pre-push 收尾**：runner 以 Codex 主进程 `exit` 作为完成边界并主动关闭管道读取端，避免遗留 helper 持有 stdout/stderr 时一直等待 `close` 到超时。
 - **Geist parity 修复（14 项，Playwright 现场验证）**：内联错误文字收敛为 `--error-foreground`；`--link` 修正为官方 `#0072f5`；Entity 描述、JsonView 标点、Textarea/Input 输入文字、Badge pill 文字颜色对齐官方；FileTree label 与 Video 时间戳排版补齐；Drawer/Modal 触发按钮改为默认黑底白字；文档页 H1 响应式字号（移动端 24px / 桌面 40px）。
 - 工具修复：AI 文档 runner 拒绝 `--sandbox` 与 `--approve-for-me` 同时配置（两标志互斥，approve-for-me 隐含 workspace-write 沙箱）。
 - Hook 安全加固：生产环境固定 Codex 模板与确定性校验，最小环境白名单，抑制 Agent 原始 stderr，并检测既存未跟踪文件及 Git 元数据改写；紧急 skip 返回 Git 可用的成功码并保留高可见警告。
