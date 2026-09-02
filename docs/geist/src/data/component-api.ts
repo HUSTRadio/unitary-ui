@@ -724,15 +724,97 @@ const O = {
     ],
     "ComponentProps<\"nav\">",
   ),
-  phone: {
+  device: {
     ...component(
-      ["Phone", "PhoneScreen"],
-      [row("children", "ReactNode", "Screen content.", "屏幕内容。")],
+      ["Device", "DeviceScreen"],
+      [
+        row("model", "DeviceModelId", "Registered device model.", "已注册的设备型号。", {
+          required: true,
+        }),
+        row(
+          "color",
+          "DeviceColor<M>",
+          "Body color supported by the selected model.",
+          "所选型号支持的机身颜色。",
+        ),
+        row(
+          "landscape",
+          "boolean",
+          "Rotates devices that support landscape.",
+          "将支持横屏的设备旋转为横向。",
+          {
+            defaultValue: "false",
+          },
+        ),
+        row(
+          "dynamicIsland",
+          'ChromeGate<M, "notch", boolean>',
+          "Shows the notch treatment on supported models.",
+          "在支持的型号上显示灵动岛装饰。",
+          {
+            defaultValue: "false",
+          },
+        ),
+        row(
+          "statusBar",
+          'ChromeGate<M, "status-bar", boolean | PhoneStatusBarOptions>',
+          "Shows or configures the decorative status bar on supported models.",
+          "在支持的型号上显示或配置装饰性状态栏。",
+          {
+            defaultValue: "true",
+          },
+        ),
+        row(
+          "safari",
+          'ChromeGate<M, "safari", boolean | PhoneSafariOptions>',
+          "Shows or configures decorative Safari chrome on supported models.",
+          "在支持的型号上显示或配置装饰性 Safari 外观。",
+          {
+            defaultValue: "false",
+          },
+        ),
+        row(
+          "autoFit",
+          "boolean",
+          "Shrinks the frame to fit narrow containers without enlarging it.",
+          "缩小外框以适配窄容器，但不会放大。",
+          {
+            defaultValue: "true",
+          },
+        ),
+        row(
+          "zoom",
+          "number",
+          "Explicit scale that takes precedence over autoFit.",
+          "优先于 autoFit 的显式缩放比例。",
+        ),
+        row(
+          "animated",
+          "boolean",
+          "Enables the short frame transform transition unless reduced motion is requested.",
+          "在未请求减少动效时启用短促的外框变换过渡。",
+          {
+            defaultValue: "false",
+          },
+        ),
+        row(
+          "frameClassName",
+          "string",
+          "Class name forwarded to the MockFrame root.",
+          "透传给 MockFrame 根元素的类名。",
+        ),
+        row(
+          "children",
+          "ReactNode",
+          "Screen content, normally wrapped in DeviceScreen.",
+          "屏幕内容，通常包裹在 DeviceScreen 中。",
+        ),
+      ],
     ),
     notes: [
       {
-        en: "Phone is marketing chrome for framing mobile screenshots and recordings — not a mobile-only UI.",
-        zh: "Phone 是包裹手机截图与录屏的营销外框，并非移动端专属 UI。",
+        en: "Phone remains a deprecated iPhone 17 alias for migration; new code should use Device with an explicit model.",
+        zh: "Phone 仅作为已废弃的 iPhone 17 迁移别名保留；新代码应使用显式 model 的 Device。",
       },
     ],
   },

@@ -23,16 +23,16 @@ function componentBlock(source: string, name: string): string {
   return next === -1 ? source.slice(start) : source.slice(start, start + 1 + next);
 }
 
-describe("phone mobileOnly contract", () => {
+describe("device mobileOnly contract", () => {
   test("ComponentMeta carries an optional mobileOnly flag with the Smartphone-icon doc comment", () => {
     expect(componentsSource).toMatch(/mobileOnly\?: boolean/);
     // 字段注释与新标注形态保持一致（灰色 Smartphone 图标，而非胶囊 Badge）
     expect(componentsSource).toContain("仅移动端可用（详情页标题与总览卡片渲染灰色 Smartphone 图标）");
   });
 
-  test("phone is NOT marked mobileOnly (marketing chrome, not mobile-only UI)", () => {
-    const phoneBlock = componentBlock(componentsSource, "phone");
-    expect(phoneBlock).not.toMatch(/mobileOnly:\s*true/);
+  test("device is NOT marked mobileOnly (marketing chrome, not mobile-only UI)", () => {
+    const deviceBlock = componentBlock(componentsSource, "device");
+    expect(deviceBlock).not.toMatch(/mobileOnly:\s*true/);
   });
 
   test("drawer IS marked mobileOnly", () => {

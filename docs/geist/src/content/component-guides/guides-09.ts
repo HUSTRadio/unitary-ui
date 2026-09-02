@@ -269,17 +269,18 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
       ],
     },
   },
-  phone: {
-    slug: "phone",
+  device: {
+    slug: "device",
     locale: "zh-CN",
-    summary: "用手机外壳框架包裹移动截图，适用于营销页面和技术文档中的移动端内容展示。",
+    summary: "用显式设备型号的外框包裹手机或平板截图，适合营销页面和技术文档中的产品展示。",
     whenToUse: [
-      "在着陆页、文档和介绍页面中，围绕移动截图、录屏和演示图像使用 Phone 作为营销 chrome 框架。",
-      "需要向读者展示移动应用的实际外观和设计效果时，Phone 外框提供了逼真的模拟效果。",
+      "在着陆页、文档和介绍页面中，用 Device 包裹手机或平板截图、录屏和演示图像。",
+      "同一套展示需要覆盖 iPhone、Pixel、Galaxy 或 iPad 等已注册设备型号时。",
     ],
     whenNotToUse: [
-      "不要在外框内渲染真实的移动产品界面——chrome 暗示这是一个截图而非可交互的界面，误导用户以为可以点击操作。",
-      "如果只需要展示网页响应式效果，请使用 Browser 组件而非 Phone——Browser 更适合网页截图的展示。",
+      "不要在外框内渲染实时产品界面；设备外框表达的是捕获画面，而非可交互界面。",
+      "如果只需要展示网页响应式效果，请使用 Browser 组件；它更适合网页截图。",
+      "新代码不要使用已废弃的 Phone 别名；它只用于迁移既有 iPhone 17 调用。",
     ],
     examples: [
       {
@@ -287,50 +288,50 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "组合结构",
         description:
-          "展示 Phone 组件的基本组合：一个 realistic 的手机外壳框架内嵌一张图片，包括状态栏、圆角和边框装饰。",
+          "使用必填 model 选择 iPhone 17，并用 DeviceScreen 包裹承担可访问名称的截图内容。",
         demoKey: "Composition",
       },
       {
-        id: "colors",
+        id: "models",
         kind: "variant",
-        title: "颜色变体",
+        title: "设备型号",
         description:
-          "Phone 外框提供多种配色方案，可根据页面主题选择合适的色调来增强整体设计的一致性。",
-        demoKey: "Colors",
+          "展示当前注册表中的 iPhone 17、Pixel 10、Galaxy S25 与 iPad Pro；非 iOS 型号关闭 iOS 专属状态栏。",
+        demoKey: "Models",
       },
       {
         id: "dynamic-island",
         kind: "variant",
         title: "灵动岛",
         description:
-          "启用 Dynamic Island 变体以展示最新款 iPhone 的灵动岛特征，适合面向现代 iOS 设备的营销材料。",
+          "仅在具备 notch 能力的型号上启用 dynamicIsland；不支持的型号会在开发环境告警并忽略。",
         demoKey: "Dynamic Island",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "Phone 的外壳部分被标记为装饰性元素（aria-hidden），真正的可访问命名归属于内部的截图——屏幕阅读器会读取截图的替代文本。",
-        "为内部的移动截图设置有意义的 alt 文本，确保屏幕阅读器用户了解截图的内容和意义。",
+        "设备外框、状态栏和 Safari chrome 是装饰层；真正的可访问名称由 DeviceScreen 内部的截图或录屏承担。",
+        "为内部截图设置有意义的 alt 文本，说明画面内容和用途。",
       ],
     },
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Phone 是一个纯展示型 chrome 组件，没有内部交互状态或用户交互能力。它负责提供手机外框的视觉效果，所有内容完全由传入的子元素和 props 决定。",
+        "Device 是展示型组件；model、color、chrome 选项和屏幕内容全部由 props 决定，不管理业务交互状态。",
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Phone 外框的比例在不同视口下保持不变，确保手机形状的视觉效果始终如一。",
-        "内部的截图区域会根据容器大小自动缩放，但在宽屏上通常建议限制最大宽度以避免过度拉伸。",
+        "autoFit 默认开启，通过 ResizeObserver 只缩小外框以适配窄容器，不会把设备放大到超过原始比例。",
+        "显式 zoom 优先于 autoFit；landscape 会交换外框宽高。",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "Phone 外框的颜色、阴影和圆角均从主题令牌获取，自动适配浅色和深色模式的对比度要求。",
-        "Safari Chrome 变体中的浏览器 UI 颜色也跟随主题，保持一致的视觉风格。",
+        "机身颜色来自所选 model 的注册表，不会随明暗主题自动切换。",
+        "支持的状态栏和 Safari chrome 可通过各自的 appearance 选项显式选择明暗外观。",
       ],
     },
   },
@@ -608,18 +609,19 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
       ],
     },
   },
-  phone: {
-    slug: "phone",
+  device: {
+    slug: "device",
     locale: "en-US",
     summary:
-      "Frames mobile screenshots inside a realistic phone shell, suited for showcasing mobile app designs on marketing pages and docs.",
+      "Frames phone or tablet screenshots inside an explicit registered device model for product showcases on marketing pages and docs.",
     whenToUse: [
-      "Around mobile screenshots, recordings, and demo images on landing pages, docs, and introduction pages, using Phone as marketing chrome.",
-      "When you need to show readers what a mobile app looks and feels like — the Phone frame provides a realistic mockup effect.",
+      "Around phone or tablet screenshots, recordings, and demo images on landing pages, docs, and introduction pages.",
+      "When one showcase must cover registered iPhone, Pixel, Galaxy, or iPad models through the same component contract.",
     ],
     whenNotToUse: [
-      "Don't render live mobile product UI inside the frame; the chrome implies a captured screenshot, not an interactive surface, and misleads users into thinking they can tap.",
-      "If you only need to demonstrate web responsiveness, use the Browser component instead — Browser is better suited for webpage screenshots.",
+      "Don't render live product UI inside the frame; device chrome implies a captured surface, not an interactive one.",
+      "Use Browser instead when the goal is to demonstrate responsive web pages.",
+      "Don't use the deprecated Phone alias in new code; it only supports migration of existing iPhone 17 call sites.",
     ],
     examples: [
       {
@@ -627,50 +629,50 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Composition",
         description:
-          "Showcases the basic composition of the Phone component: a realistic phone shell framing an inner image, including status bar, rounded corners, and bezel decorations.",
+          "Selects iPhone 17 through the required model prop and wraps the accessibly named screenshot in DeviceScreen.",
         demoKey: "Composition",
       },
       {
-        id: "colors",
+        id: "models",
         kind: "variant",
-        title: "Colors",
+        title: "Device models",
         description:
-          "Phone offers multiple color schemes for the outer frame, allowing you to pick a tone that matches your page theme for cohesive design consistency.",
-        demoKey: "Colors",
+          "Shows the registered iPhone 17, Pixel 10, Galaxy S25, and iPad Pro models; non-iOS models disable the iOS-only status bar.",
+        demoKey: "Models",
       },
       {
         id: "dynamic-island",
         kind: "variant",
         title: "Dynamic Island",
         description:
-          "Enables the Dynamic Island variant to showcase the latest iPhone's notch feature, ideal for marketing materials targeting modern iOS devices.",
+          "Enables dynamicIsland only on models with notch capability; unsupported models warn in development and ignore it.",
         demoKey: "Dynamic Island",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "The Phone chrome is marked as decorative (aria-hidden); accessible naming belongs on the inner screenshot — screen readers will read the alt text of the embedded screenshot.",
-        "Set meaningful alt text on the inner mobile screenshot so screen reader users understand the screenshot's content and purpose.",
+        "The device frame, status bar, and Safari chrome are decorative; accessible naming belongs on the screenshot or recording inside DeviceScreen.",
+        "Set meaningful alt text on inner screenshots so screen reader users understand the captured content and purpose.",
       ],
     },
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Phone is a purely presentational chrome component with no internal interactive state or user interaction capability. It provides the visual shell of a phone; all content is determined entirely by the child elements and props passed to it.",
+        "Device is presentational. Its model, color, chrome options, and screen content are all determined by props rather than internal product state.",
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "The Phone frame maintains its aspect ratio across viewports, ensuring the phone shape looks consistent regardless of screen size.",
-        "The inner screenshot area scales proportionally with the container, though on wide screens a max-width constraint is typically recommended to avoid excessive stretching.",
+        "autoFit uses ResizeObserver to shrink the frame for narrow containers without enlarging it beyond its original scale.",
+        "An explicit zoom takes precedence over autoFit; landscape swaps the frame dimensions.",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "The Phone frame's color, shadow, and border-radius are drawn from theme tokens, automatically adapting to light and dark mode contrast requirements.",
-        "The Safari Chrome variant's browser UI colors also follow the theme, maintaining a consistent visual style.",
+        "Body colors come from the selected model registry and do not switch automatically with the page theme.",
+        "Supported status-bar and Safari chrome can select light or dark appearance explicitly through their options.",
       ],
     },
   },

@@ -129,8 +129,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:5ca7afa36006773e281856b0649629e8d7c5a2bf780d75636d3e77922df19ce4",
-        "en-US": "sha256:2e0fab1712b5994811679b3ded3f0959511027f7e1a4059f5d591d22e4ac0759"
+        "zh-CN": "sha256:539b22be27c2d53899406b28681ca925ba27aa59947930c5c4b92daca419bfa5",
+        "en-US": "sha256:5f4cdf86b3db2388036110260f2e399caf3ca6efaaedb2dd7feec4c715484ad5"
       }
     },
     {
@@ -483,6 +483,22 @@
       "sourceHash": {
         "zh-CN": "sha256:ce4cc4fa69bd8867e6bfa736d860b15729a2bc0299c022ed2907dd3ec33e6056",
         "en-US": "sha256:7a882e5a64dc5e75ed339b49b3bdb502fa5e91ef2fdfc30153da192c329ff779"
+      }
+    },
+    {
+      "path": "/components/device",
+      "title": {
+        "zh-CN": "设备外框",
+        "en-US": "Device"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/device.md",
+        "en-US": "pages/en-US/components/device.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:16075262e27a0cbff753c2dc29555101ea079d92c23aa86ed870ac28ef680cb9",
+        "en-US": "sha256:bfbc92949dd50b9b43d45c83bbb462afbcc8b0b759e36fbefc3a4cc1bbc6f0c5"
       }
     },
     {
@@ -865,24 +881,8 @@
         "en-US": "pages/en-US/components/pagination.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:dd328468e306b44d26db639ce7a79cb09a2e1eeadbca985931f9bcefa9c82d34",
-        "en-US": "sha256:25158f30c265e4763fef1843a46ff637338e24723e4eb0571bad8a666008436c"
-      }
-    },
-    {
-      "path": "/components/phone",
-      "title": {
-        "zh-CN": "手机外框",
-        "en-US": "Phone"
-      },
-      "category": "component",
-      "locales": {
-        "zh-CN": "pages/zh-CN/components/phone.md",
-        "en-US": "pages/en-US/components/phone.md"
-      },
-      "sourceHash": {
-        "zh-CN": "sha256:cf3d9680ad9bfff410ba00dc1dde79390cce6a7ea60a3ed8f5a6b5396dd4b711",
-        "en-US": "sha256:a8da1dca86d50895f4cf26fe330393bd1d3bfb59cc9413edff2020e4b9983f1e"
+        "zh-CN": "sha256:6362e069b4307d7e5f0f1263e2b19ffa2b2011b5b942f21e418c7d9de9033c42",
+        "en-US": "sha256:55d0aac708257b477bc4e66c5a08aa4b33e51db6fa056fd418f13d2fb2b53031"
       }
     },
     {

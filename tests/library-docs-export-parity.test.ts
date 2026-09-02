@@ -83,6 +83,13 @@ describe("library/docs public export parity", () => {
 
   it("exports prop types for standalone public surfaces", () => {
     const types = libraryTypeExports();
-    expect([...types]).toEqual(expect.arrayContaining(["BottomSheetProps", "ErrorBoundaryProps"]));
+    expect([...types]).toEqual(
+      expect.arrayContaining([
+        "BottomSheetProps",
+        "DeviceProps",
+        "DeviceScreenProps",
+        "ErrorBoundaryProps",
+      ]),
+    );
   });
 });

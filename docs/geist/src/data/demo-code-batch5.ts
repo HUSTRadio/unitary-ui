@@ -9,7 +9,7 @@
  * - 每段源码含 import + 该区块的完整用法（官方 demo 代码映射到本地 API）。
  * - 图标用 lucide-react（`import { X } from "lucide-react"`），不用 @vercel/geistcn-assets。
  * - blockId 与 docs-components-page.tsx 里 data-demo-card 的 id 一致。
- * - 本地无 data-demo-card 区块的组件（pagination / phone / pill / progress /
+ * - 本地无 data-demo-card 区块的组件（pagination / device / pill / progress /
  *   project-banner / scroller）不在此映射中。
  */
 

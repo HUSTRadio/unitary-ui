@@ -42,7 +42,7 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   modal: "显示会中断用户流程的对话框。",
   note: "显示需要关注或提供附加信息的文本。",
   pagination: "在数据集的编号页面之间导航。",
-  phone: "将移动端截图置于逼真的手机外框中。",
+  device: "将手机或平板截图置于逼真的设备外框中。",
   pill: "用于切换查询或选择的可点击筛选标签。",
   progress: "显示相对于限制或任务的进度。",
   "project-banner": "用于需要解决的临时项目级通知。",

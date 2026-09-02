@@ -184,6 +184,14 @@ Confirms destructive actions with a red AlertTriangle header and a destructive c
 
 ](#/components/destructive-action-modal)[
 
+Phone
+
+### Device
+
+Frames screenshots inside realistic phone and tablet shells.
+
+](#/components/device)[
+
 Dots Menu
 
 ### Dots Menu
@@ -375,14 +383,6 @@ Pagination
 Navigates through numbered pages of a data set.
 
 ](#/components/pagination)[
-
-Phone
-
-### Phone
-
-Frames mobile screenshots inside a realistic phone shell.
-
-](#/components/phone)[
 
 Pill
 

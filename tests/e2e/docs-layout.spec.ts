@@ -821,7 +821,7 @@ test.describe("drawer behaviors at mobile/tablet viewports", () => {
 
 test.describe("visual evidence screenshots", () => {
   const shots: Array<[route: string, width: number, themes: Theme[]]> = [
-    ...(["/", "/components/phone"] as const).flatMap((route) =>
+    ...(["/", "/components/device"] as const).flatMap((route) =>
       VIEWPORTS.map(
         (v) => [route, v.width, [...THEMES]] as [string, number, Theme[]],
       ).filter(([, w]) => route === "/" || [1100, 768, 390, 320].includes(w)),

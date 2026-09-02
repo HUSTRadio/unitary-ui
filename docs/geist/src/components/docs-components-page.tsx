@@ -152,7 +152,7 @@ import {
 } from "@/components/ui/multi-select";
 import { Note, NoteAction, NoteContent, NoteLabel } from "@/components/ui/note";
 import { Pagination } from "@/components/ui/pagination";
-import { Phone, PhoneScreen } from "@/components/ui/phone";
+import { Device, DeviceScreen } from "@/components/ui/device";
 import { Pill } from "@/components/ui/pill";
 import { ProjectBanner } from "@/components/ui/project-banner";
 import { Progress } from "@/components/ui/progress";
@@ -352,7 +352,7 @@ function PaginationDemo() {
         <div className="w-full p-6" data-demo-container="Default">
           <Pagination
             previous={{ title: "Avatar", href: "#/components/avatar" }}
-            next={{ title: "Phone", href: "#/components/phone" }}
+            next={{ title: "Device", href: "#/components/device" }}
           />
         </div>
       </div>
@@ -3939,8 +3939,9 @@ function BottomSheetDemo() {
   );
 }
 
-function PhoneDemo() {
-  const demoCode = (id: string) => DEMO_CODE.phone?.[id] ?? "";
+function DeviceDemo() {
+  const demoCode = (id: string) => DEMO_CODE.device?.[id] ?? "";
+  const { language } = useLanguage();
   const [safariLayout, setSafariLayout] = React.useState<"compact" | "bottom" | "top">("compact");
   return (
     <>
@@ -3953,43 +3954,43 @@ function PhoneDemo() {
           className="w-full overflow-x-auto p-6"
           data-demo-container="Composition"
         >
-          <Phone>
-            <PhoneScreen>
+          <Device model="iphone-17">
+            <DeviceScreen>
               <img
                 src="https://picsum.photos/seed/geist-phone/393/852"
-                alt="Vercel dashboard on iPhone"
+                alt={demoText(language, "Vercel dashboard on iPhone")}
                 className="h-full w-full object-cover"
                 loading="lazy"
               />
-            </PhoneScreen>
-          </Phone>
+            </DeviceScreen>
+          </Device>
         </div>
         <ShowCodeFooter code={demoCode("Composition")} />
       </div>
 
       <div
         className="mt-4 xl:mt-7 rounded-[8px] border border-gray-alpha-400 bg-background-100"
-        data-demo-card="Colors"
+        data-demo-card="Models"
       >
         <div
           data-slot="docs-local-scroll"
           className="w-full overflow-x-auto p-6"
-          data-demo-container="Colors"
+          data-demo-container="Models"
         >
           <div className="flex flex-wrap items-start justify-center gap-6">
-            {(["black", "white", "mist-blue", "cosmic-orange"] as const).map((color) => (
-              <div key={color} className="flex flex-col items-center gap-2">
-                <Phone color={color} statusBar={false} className="w-[140px]">
-                  <PhoneScreen>
+            {(["iphone-17", "pixel-10", "galaxy-s25", "ipad-pro"] as const).map((model) => (
+              <div key={model} className="flex w-[150px] flex-col items-center gap-2">
+                <Device model={model} statusBar={model === "iphone-17"} className="w-[140px]">
+                  <DeviceScreen>
                     <div className="h-full w-full bg-gray-alpha-100" />
-                  </PhoneScreen>
-                </Phone>
-                <span className="text-copy-13 text-muted-foreground">{color}</span>
+                  </DeviceScreen>
+                </Device>
+                <span className="text-copy-13 text-muted-foreground">{model}</span>
               </div>
             ))}
           </div>
         </div>
-        <ShowCodeFooter code={demoCode("Colors")} />
+        <ShowCodeFooter code={demoCode("Models")} />
       </div>
 
       <div
@@ -4001,13 +4002,13 @@ function PhoneDemo() {
           className="w-full overflow-x-auto p-6"
           data-demo-container="Dynamic Island"
         >
-          <Phone dynamicIsland className="w-[260px]">
-            <PhoneScreen>
+          <Device model="iphone-17" dynamicIsland className="w-[260px]">
+            <DeviceScreen>
               <div className="flex h-full items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
-                Mobile screenshot
+                {demoText(language, "Mobile screenshot")}
               </div>
-            </PhoneScreen>
-          </Phone>
+            </DeviceScreen>
+          </Device>
         </div>
         <ShowCodeFooter code={demoCode("Dynamic Island")} />
       </div>
@@ -4022,20 +4023,20 @@ function PhoneDemo() {
           data-demo-container="Status Bar"
         >
           <div className="flex flex-wrap items-start justify-center gap-6">
-            <Phone statusBar={{ time: "9:41", battery: 72 }}>
-              <PhoneScreen>
+            <Device model="iphone-17" statusBar={{ time: "9:41", battery: 72 }}>
+              <DeviceScreen>
                 <div className="flex h-full items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
-                  Custom status
+                  {demoText(language, "Custom status")}
                 </div>
-              </PhoneScreen>
-            </Phone>
-            <Phone statusBar={{ appearance: "dark" }}>
-              <PhoneScreen>
+              </DeviceScreen>
+            </Device>
+            <Device model="iphone-17" statusBar={{ appearance: "dark" }}>
+              <DeviceScreen>
                 <div className="flex h-full items-center justify-center bg-gray-900 text-copy-14 text-gray-1000">
-                  Dark appearance
+                  {demoText(language, "Dark appearance")}
                 </div>
-              </PhoneScreen>
-            </Phone>
+              </DeviceScreen>
+            </Device>
           </div>
         </div>
         <ShowCodeFooter code={demoCode("Status Bar")} />
@@ -4067,16 +4068,16 @@ function PhoneDemo() {
               </button>
             ))}
           </div>
-          <Phone safari={{ layout: safariLayout, url: "vercel.com/geist" }}>
-            <PhoneScreen>
+          <Device model="iphone-17" safari={{ layout: safariLayout, url: "vercel.com/geist" }}>
+            <DeviceScreen>
               <img
                 src="https://picsum.photos/seed/geist-safari/393/852"
-                alt="Website shown in the Safari mockup"
+                alt={demoText(language, "Website shown in the Safari mockup")}
                 className="h-full w-full object-cover"
                 loading="lazy"
               />
-            </PhoneScreen>
-          </Phone>
+            </DeviceScreen>
+          </Device>
         </div>
         <ShowCodeFooter code={demoCode("Safari Chrome")} />
       </div>
@@ -4090,13 +4091,13 @@ function PhoneDemo() {
           className="w-full overflow-x-auto p-6"
           data-demo-container="Landscape"
         >
-          <Phone landscape dynamicIsland>
-            <PhoneScreen>
+          <Device model="iphone-17" landscape dynamicIsland>
+            <DeviceScreen>
               <div className="flex h-full items-center justify-center bg-gray-alpha-100 text-copy-14 text-muted-foreground">
-                Landscape screenshot
+                {demoText(language, "Landscape screenshot")}
               </div>
-            </PhoneScreen>
-          </Phone>
+            </DeviceScreen>
+          </Device>
         </div>
         <ShowCodeFooter code={demoCode("Landscape")} />
       </div>
@@ -7225,8 +7226,8 @@ function renderDemo(name: string): React.ReactNode {
       return <NoteDemo />;
     case "pagination":
       return <PaginationDemo />;
-    case "phone":
-      return <PhoneDemo />;
+    case "device":
+      return <DeviceDemo />;
     case "pill":
       return <PillDemo />;
     case "project-banner":

@@ -144,6 +144,18 @@ describe("component API registry", () => {
       "(error: Error, info: React.ErrorInfo) => void",
     );
 
+    expect(COMPONENT_API.device.exports).toEqual(["Device", "DeviceScreen"]);
+    expect(row("device", "model")).toMatchObject({
+      type: "DeviceModelId",
+      required: true,
+    });
+    expect(row("device", "color")?.type).toBe("DeviceColor<M>");
+    expect(row("device", "autoFit")?.defaultValue).toBe("true");
+    expect(row("device", "zoom")?.type).toBe("number");
+    expect(row("device", "statusBar")?.type).toContain("PhoneStatusBarOptions");
+    expect(row("device", "safari")?.type).toContain("PhoneSafariOptions");
+    expect("phone" in COMPONENT_API).toBe(false);
+
     expect(row("badge", "variant")?.defaultValue).toBe('"gray"');
     expect(row("badge", "type")).toBeUndefined();
     expect(row("dots-menu", "position")?.type).toBe("MenuPosition");

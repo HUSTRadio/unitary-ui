@@ -120,8 +120,11 @@ export const Device = React.forwardRef<HTMLDivElement, DeviceProps>(
 
     // 运行时 chrome 掩码检查：iOS 专属 prop 用于不支持的设备 → dev warn + 忽略
     const hasChrome = (cap: "status-bar" | "safari" | "notch") => def.chrome.has(cap);
-    const warnUnsupported = (cap: string, value: unknown) => {
-      if (import.meta.env?.DEV && value !== undefined && value !== false) {
+    const warnUnsupported = (
+      cap: "status-bar" | "safari" | "notch",
+      value: unknown,
+    ) => {
+      if (!hasChrome(cap) && import.meta.env?.DEV && value !== undefined && value !== false) {
         console.warn(`[Device] model="${model}" 不支持 "${cap}"（iOS 专属 chrome），已忽略。`);
       }
     };

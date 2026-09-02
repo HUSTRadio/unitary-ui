@@ -146,7 +146,11 @@ export function canonicalDocsPath(pathname: string): string {
   const withLeadingSlash = pathname.startsWith("/") ? pathname : `/${pathname}`;
   const withoutTrailingSlash =
     withLeadingSlash.length > 1 ? withLeadingSlash.replace(/\/+$/, "") : withLeadingSlash;
-  return withoutTrailingSlash === "/introduction" ? "/" : withoutTrailingSlash;
+  const aliases: Readonly<Record<string, string>> = {
+    "/introduction": "/",
+    "/components/phone": "/components/device",
+  };
+  return aliases[withoutTrailingSlash] ?? withoutTrailingSlash;
 }
 
 export function getDocsRoute(pathname: string): DocsRoute | undefined {

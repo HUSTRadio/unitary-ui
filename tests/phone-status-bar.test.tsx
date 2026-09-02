@@ -30,6 +30,28 @@ function queryStatusBar(): HTMLElement {
 }
 
 describe("Phone status bar × Dynamic Island alignment (HIG)", () => {
+  test("iPhone 17 支持的 chrome 不产生误报警告", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mount(
+      <Device model="iphone-17" dynamicIsland statusBar safari>
+        <div />
+      </Device>,
+    );
+
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  test("不支持 iOS chrome 的设备仍会在开发环境告警", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mount(
+      <Device model="pixel-10" statusBar={true as never}>
+        <div />
+      </Device>,
+    );
+
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('model="pixel-10" 不支持 "status-bar"'));
+  });
+
   test("dynamicIsland=true：容器改为岛中心对齐几何（top-11/h-37，去掉 pt 校正）", () => {
     mount(
       <Device model="iphone-17" dynamicIsland>

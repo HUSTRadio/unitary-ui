@@ -162,6 +162,12 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Striped table": "斑马纹表格",
     "Bordered table": "带边框表格",
     "Interactive table": "可交互表格",
+    "Mobile screenshot": "移动端截图",
+    "Custom status": "自定义状态",
+    "Dark appearance": "深色外观",
+    "Landscape screenshot": "横屏截图",
+    "Vercel dashboard on iPhone": "iPhone 中的 Vercel 仪表盘",
+    "Website shown in the Safari mockup": "Safari 模拟外观中显示的网站",
 
     // Headings and assistive labels outside Section
     "Custom color": "自定义颜色",

@@ -54,7 +54,7 @@ import { Pagination } from "@/components/ui/pagination";
 
 <Pagination
   previous={{ title: "Avatar", href: "#/components/avatar" }}
-  next={{ title: "Phone", href: "#/components/phone" }}
+  next={{ title: "Device", href: "#/components/device" }}
 />;
 ```
 

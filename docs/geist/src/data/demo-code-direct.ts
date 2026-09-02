@@ -70,64 +70,72 @@ export const DEMO_CODE_DIRECT: Record<string, Record<string, string>> = {
 
 <Pagination
   previous={{ title: "Avatar", href: "#/components/avatar" }}
-  next={{ title: "Phone", href: "#/components/phone" }}
+  next={{ title: "Device", href: "#/components/device" }}
 />`,
   },
-  phone: {
-    Composition: `import { Phone, PhoneScreen } from "@/components/ui/phone";
+  device: {
+    Composition: `import { Device, DeviceScreen } from "@/components/ui/device";
 
 <div className="w-full max-w-xs">
-  <Phone>
-    <PhoneScreen>
+  <Device model="iphone-17">
+    <DeviceScreen>
       {/* 截图/录屏承担可访问名称 */}
       <img
         src="/dashboard.png"
         alt="Vercel dashboard on iPhone"
         className="h-full w-full object-cover"
       />
-    </PhoneScreen>
-  </Phone>
+    </DeviceScreen>
+  </Device>
 </div>`,
-    Colors: `import { Phone, PhoneScreen } from "@/components/ui/phone";
+    Models: `import { Device, DeviceScreen } from "@/components/ui/device";
+
+const models = ["iphone-17", "pixel-10", "galaxy-s25", "ipad-pro"] as const;
 
 <div className="flex flex-wrap gap-6">
-  {(["black", "white", "mist-blue", "cosmic-orange"] as const).map((color) => (
-    <Phone key={color} color={color} statusBar={false} className="w-[140px]">
-      <PhoneScreen>
+  {models.map((model) => (
+    <Device
+      key={model}
+      model={model}
+      statusBar={model === "iphone-17"}
+      className="w-[140px]"
+    >
+      <DeviceScreen>
         <div className="h-full w-full bg-gray-alpha-100" />
-      </PhoneScreen>
-    </Phone>
+      </DeviceScreen>
+    </Device>
   ))}
 </div>`,
-    "Dynamic Island": `import { Phone, PhoneScreen } from "@/components/ui/phone";
+    "Dynamic Island": `import { Device, DeviceScreen } from "@/components/ui/device";
 
-<Phone dynamicIsland className="w-[260px]">
-  <PhoneScreen>
+<Device model="iphone-17" dynamicIsland className="w-[260px]">
+  <DeviceScreen>
     <div className="flex h-full items-center justify-center bg-gray-alpha-100" />
-  </PhoneScreen>
-</Phone>`,
-    "Status Bar": `import { Phone, PhoneScreen } from "@/components/ui/phone";
+  </DeviceScreen>
+</Device>`,
+    "Status Bar": `import { Device, DeviceScreen } from "@/components/ui/device";
 
-<Phone statusBar={{ time: "9:41", battery: 72 }}>
-  <PhoneScreen>{/* screenshot */}</PhoneScreen>
-</Phone>
-<Phone statusBar={{ appearance: "dark" }}>
-  <PhoneScreen>{/* screenshot */}</PhoneScreen>
-</Phone>`,
-    "Safari Chrome": `import { Phone, PhoneScreen } from "@/components/ui/phone";
+<Device model="iphone-17" statusBar={{ time: "9:41", battery: 72 }}>
+  <DeviceScreen>{/* screenshot */}</DeviceScreen>
+</Device>
+<Device model="iphone-17" statusBar={{ appearance: "dark" }}>
+  <DeviceScreen>{/* screenshot */}</DeviceScreen>
+</Device>`,
+    "Safari Chrome": `import { useState } from "react";
+import { Device, DeviceScreen } from "@/components/ui/device";
 
 const [layout, setLayout] = useState<"compact" | "bottom" | "top">("compact");
 
-<Phone safari={{ layout, url: "vercel.com/geist" }}>
-  <PhoneScreen>
+<Device model="iphone-17" safari={{ layout, url: "vercel.com/geist" }}>
+  <DeviceScreen>
     <img src="/page.png" alt="Website shown in the Safari mockup" className="h-full w-full object-cover" />
-  </PhoneScreen>
-</Phone>`,
-    Landscape: `import { Phone, PhoneScreen } from "@/components/ui/phone";
+  </DeviceScreen>
+</Device>`,
+    Landscape: `import { Device, DeviceScreen } from "@/components/ui/device";
 
-<Phone landscape>
-  <PhoneScreen>{/* landscape screenshot */}</PhoneScreen>
-</Phone>`,
+<Device model="iphone-17" landscape dynamicIsland>
+  <DeviceScreen>{/* landscape screenshot */}</DeviceScreen>
+</Device>`,
   },
   "error-card": {
     Default: `import { Button } from "@/components/ui/button";

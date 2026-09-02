@@ -184,6 +184,14 @@ Destructive Action Modal
 
 ](#/components/destructive-action-modal)[
 
+Phone
+
+### 设备外框
+
+将手机或平板截图置于逼真的设备外框中。
+
+](#/components/device)[
+
 Dots Menu
 
 ### 省略号菜单
@@ -375,14 +383,6 @@ Pagination
 在数据集的编号页面之间导航。
 
 ](#/components/pagination)[
-
-Phone
-
-### 手机外框
-
-将移动端截图置于逼真的手机外框中。
-
-](#/components/phone)[
 
 Pill
 

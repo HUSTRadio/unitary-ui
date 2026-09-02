@@ -14,8 +14,12 @@ async function read(relativePath: string) {
 describe("Geist documentation coverage", () => {
   it("registers and renders every official component snapshot", async () => {
     const referenceFiles = await readdir(path.join(root, "docs/geist-markdown-refs/components"));
+    const officialAliases = new Map([["phone", "device"]]);
     const official = new Set(
-      referenceFiles.filter((file) => file.endsWith(".md")).map((file) => file.slice(0, -3)),
+      referenceFiles
+        .filter((file) => file.endsWith(".md"))
+        .map((file) => file.slice(0, -3))
+        .map((slug) => officialAliases.get(slug) ?? slug),
     );
     const metadataSource = await read("docs/geist/src/data/components.ts");
     const demoSource = await read("docs/geist/src/components/docs-components-page.tsx");
@@ -50,6 +54,19 @@ describe("Geist documentation coverage", () => {
     );
     const labels = componentRoutes.map((route) => route.label);
     expect(labels).toEqual([...labels].sort((left, right) => left.localeCompare(right, "en")));
+  });
+
+  it("uses Device as the canonical docs surface while preserving the Phone URL alias", async () => {
+    const { canonicalDocsPath, getDocsRoute } = await import("../docs/geist/src/data/docs-routes");
+    const deviceRoute = getDocsRoute("/components/device");
+
+    expect(deviceRoute?.renderer).toEqual({
+      kind: "component-detail",
+      componentName: "device",
+    });
+    expect(canonicalDocsPath("/components/phone")).toBe("/components/device");
+    expect(getDocsRoute("/components/phone")).toBe(deviceRoute);
+    expect(DOCS_ROUTE_SEQUENCE.filter((route) => route.to === "/components/phone")).toEqual([]);
   });
 
   it("does not retain removed component APIs", { timeout: 15000 }, async () => {

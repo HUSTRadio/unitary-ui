@@ -26,6 +26,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Changed
 
+- **Device is now the canonical device-frame documentation surface**: the former Phone page is migrated to Device with iPhone, Pixel, Galaxy, and iPad models; the old `/components/phone` URL keeps a compatibility mapping, while the runtime `Phone` alias remains for migrating existing iPhone 17 call sites.
 - **Font stack strategy**: all @font-face rules renamed with Subset suffixes; system-first font stacks (machines with OPPO Sans / HarmonyOS Sans installed hit the system fonts with zero downloads, others fall back to self-hosted tiered subsets); manual tier declaration via root `data-font-tier="oppo|hmos|system"`; tier switches re-measure with a 120ms debounce (idempotent).
 - **Table default alignment (breaking)**: removed implicit `last:text-right` from `TableHead` / `TableCell`; everything is left-aligned by default, matching official Geist. Numeric columns relying on the old implicit right alignment must now use explicit `align="right"` or `text-right`.
 - Publish boundary: `files` now includes `LICENSE`, `LICENSE.zh-CN.md`, and the bilingual third-party notices; font subsets are distributed with `dist` (license status in THIRD_PARTY_NOTICES).
@@ -38,6 +39,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Device chrome capability warnings**: development warnings now fire only when the selected model truly lacks `statusBar`, `safari`, or `dynamicIsland`, avoiding false “ignored” warnings for valid iPhone 17 chrome options.
 - **AI docs pre-push teardown**: the runner now treats the Codex process `exit` as the execution boundary and closes its pipe readers, avoiding a wait-until-timeout when a helper keeps stdout/stderr handles open.
 - **Geist parity fixes (14 items, verified live with Playwright)**: inline error text converged to `--error-foreground`; `--link` corrected to official `#0072f5`; Entity description, JsonView punctuation, Textarea/Input text, and Badge pill text colors aligned with the official implementation; FileTree label and Video timestamp typography completed; Drawer/Modal trigger buttons changed to the default black-on-white; docs page H1 responsive sizing (24px mobile / 40px desktop).
 - Tooling fix: the AI docs runner now rejects configurations that set both `--sandbox` and `--approve-for-me` (the flags are mutually exclusive; approve-for-me implies the workspace-write sandbox).

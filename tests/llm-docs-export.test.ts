@@ -125,6 +125,16 @@ describe("LLM docs export contract", () => {
     }
   });
 
+  it("exports Device as the canonical page instead of the deprecated Phone alias", () => {
+    const index = readIndex();
+    expect(index.routes.some((route: any) => route.path === "/components/device")).toBe(true);
+    expect(index.routes.some((route: any) => route.path === "/components/phone")).toBe(false);
+    expect(existsSync(path.join(LLM_DIR, "pages", "zh-CN", "components", "device.md"))).toBe(true);
+    expect(existsSync(path.join(LLM_DIR, "pages", "en-US", "components", "device.md"))).toBe(true);
+    expect(existsSync(path.join(LLM_DIR, "pages", "zh-CN", "components", "phone.md"))).toBe(false);
+    expect(existsSync(path.join(LLM_DIR, "pages", "en-US", "components", "phone.md"))).toBe(false);
+  });
+
   it("生成语料符合仓库 formatter 合同", () => {
     const result = spawnSync(VP_COMMAND, ["fmt", LLM_DIR, "--check"], {
       cwd: ROOT,

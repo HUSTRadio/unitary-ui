@@ -301,10 +301,12 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     '用 isActive 标记当前页，使其渲染 aria-current="page" 且不渲染为链接。',
     "页面标签保持简短——数字或 1–2 个词。不要在链接内复述如 Page 3 of 10 这样的序号位置。",
   ],
-  phone: [
-    "落地页与文档里移动端截图、录屏与 demo 图周围的营销 chrome 用 Phone。",
-    "不要在框内渲染实时移动产品 UI；chrome 暗示的是捕获的屏幕，而非可交互界面。",
-    "把 chrome 视为装饰性（aria-hidden）；可访问命名属于内部截图。",
+  device: [
+    "在落地页和文档中，用 Device 包裹手机或平板截图、录屏与 demo 图。",
+    "显式选择已注册的 model；现有 iPhone 17 调用迁移期间才继续使用已废弃的 Phone 别名。",
+    "不要在外框内渲染实时产品 UI；设备外框表达的是捕获画面，而非可交互界面。",
+    "把设备 chrome 视为装饰层；可访问名称由内部截图或录屏承担。",
+    "仅对具备相应 chrome 能力的 model 使用 statusBar、safari 和 dynamicIsland。",
   ],
   pill: [
     "可点击、切换查询的过滤 chip 用 Pill；静态状态标签用 Badge。",
