@@ -26,6 +26,7 @@
 
 ### Changed
 
+- **包根公开面收敛（breaking）**：`ExpandPanel`、`Grabber`、`PhoneStatusBar` 与 `PhoneSafariChrome` 不再从包根导出，继续作为 HamburgerMenu、BottomSheet 与 Device 的内部实现；补齐 Navbar、SidebarNav、Footer 与 RatingPill 的公开 Props/数据类型导出，并移除未进入组件注册表的死 API 数据。
 - **Device 成为规范设备外框文档入口**：原 Phone 页面迁移为支持 iPhone、Pixel、Galaxy 与 iPad 型号的 Device 页面；旧 `/components/phone` URL 保留兼容映射，运行时 `Phone` 别名继续用于迁移现有 iPhone 17 调用。
 - **字体栈策略**：@font-face 全部改名 Subset 后缀，系统优先字体栈（已装 OPPO Sans / HarmonyOS Sans 零下载命中系统字体，未装回退自托管分级子集）；根元素 `data-font-tier="oppo|hmos|system"` 手动档位声明；档位切换防抖 120ms 重测（幂等）。
 - **Table 默认对齐（breaking）**：`TableHead` / `TableCell` 删除隐式 `last:text-right`，默认全左对齐与官方 Geist 一致；依赖旧隐式右对齐的数值列需显式 `align="right"` 或 `text-right`。

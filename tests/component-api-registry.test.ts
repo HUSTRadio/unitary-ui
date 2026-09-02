@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 
+import ts from "typescript";
 import { describe, expect, it } from "vitest";
 
 import { COMPONENT_API } from "../docs/geist/src/data/component-api";
@@ -14,6 +15,32 @@ import { DOCS_ROUTE_GROUPS } from "../docs/geist/src/data/docs-routes";
 describe("component API registry", () => {
   it("has an API entry for every documented component", () => {
     expect(Object.keys(COMPONENT_API).sort()).toEqual(COMPONENTS.map(({ name }) => name).sort());
+  });
+
+  it("does not retain unreachable raw API entries outside the component registry", async () => {
+    const file = "docs/geist/src/data/component-api.ts";
+    const source = ts.createSourceFile(
+      file,
+      await readFile(file, "utf8"),
+      ts.ScriptTarget.Latest,
+      true,
+      ts.ScriptKind.TS,
+    );
+    const declaration = source.statements
+      .filter(ts.isVariableStatement)
+      .flatMap((statement) => [...statement.declarationList.declarations])
+      .find((entry) => ts.isIdentifier(entry.name) && entry.name.text === "O");
+    const initializer = declaration?.initializer;
+    const object = initializer && ts.isSatisfiesExpression(initializer) ? initializer.expression : initializer;
+    expect(object && ts.isObjectLiteralExpression(object)).toBe(true);
+
+    const rawKeys = (object as ts.ObjectLiteralExpression).properties.flatMap((property) => {
+      if (!ts.isPropertyAssignment(property) || !property.name) return [];
+      if (ts.isIdentifier(property.name) || ts.isStringLiteral(property.name)) return [property.name.text];
+      return [];
+    });
+    const documented = new Set(COMPONENTS.map(({ name }) => name));
+    expect(rawKeys.filter((name) => !documented.has(name))).toEqual([]);
   });
 
   it("keeps every entry useful to a consumer", () => {

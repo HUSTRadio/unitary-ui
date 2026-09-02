@@ -26,6 +26,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Changed
 
+- **Package-root surface cleanup (breaking)**: `ExpandPanel`, `Grabber`, `PhoneStatusBar`, and `PhoneSafariChrome` are no longer exported from the package root and remain implementation details of HamburgerMenu, BottomSheet, and Device; Navbar, SidebarNav, Footer, and RatingPill now expose their public props/data types, and unreachable API registry data was removed.
 - **Device is now the canonical device-frame documentation surface**: the former Phone page is migrated to Device with iPhone, Pixel, Galaxy, and iPad models; the old `/components/phone` URL keeps a compatibility mapping, while the runtime `Phone` alias remains for migrating existing iPhone 17 call sites.
 - **Font stack strategy**: all @font-face rules renamed with Subset suffixes; system-first font stacks (machines with OPPO Sans / HarmonyOS Sans installed hit the system fonts with zero downloads, others fall back to self-hosted tiered subsets); manual tier declaration via root `data-font-tier="oppo|hmos|system"`; tier switches re-measure with a 120ms debounce (idempotent).
 - **Table default alignment (breaking)**: removed implicit `last:text-right` from `TableHead` / `TableCell`; everything is left-aligned by default, matching official Geist. Numeric columns relying on the old implicit right alignment must now use explicit `align="right"` or `text-right`.

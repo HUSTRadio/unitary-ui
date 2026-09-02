@@ -81,7 +81,7 @@ describe("library/docs public export parity", () => {
     }
   });
 
-  it("exports prop types for standalone public surfaces", () => {
+  it("exports prop types for standalone and pattern-companion public surfaces", () => {
     const types = libraryTypeExports();
     expect([...types]).toEqual(
       expect.arrayContaining([
@@ -89,7 +89,23 @@ describe("library/docs public export parity", () => {
         "DeviceProps",
         "DeviceScreenProps",
         "ErrorBoundaryProps",
+        "NavbarProps",
+        "SidebarNavProps",
+        "SidebarNavGroup",
+        "SidebarNavItem",
+        "FooterProps",
+        "FooterColumn",
+        "FooterLink",
+        "RatingPillProps",
+        "RatingValue",
       ]),
+    );
+  });
+
+  it("does not expose parent implementation details from the package root", () => {
+    const { all } = libraryValueExports();
+    expect([...all]).not.toEqual(
+      expect.arrayContaining(["ExpandPanel", "Grabber", "PhoneStatusBar", "PhoneSafariChrome"]),
     );
   });
 });

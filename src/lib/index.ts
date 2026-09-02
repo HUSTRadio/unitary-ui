@@ -72,8 +72,11 @@ export type { BreadcrumbType, BreadcrumbProps, BreadcrumbItemProps } from "@/com
 export { Pagination } from "@/components/ui/pagination";
 export type { PaginationProps, PaginationRailLink } from "@/components/ui/pagination";
 export { SidebarNav } from "@/components/ui/sidebar-nav";
+export type { SidebarNavProps, SidebarNavGroup, SidebarNavItem } from "@/components/ui/sidebar-nav";
 export { Navbar } from "@/components/ui/navbar";
+export type { NavbarProps } from "@/components/ui/navbar";
 export { Footer } from "@/components/ui/footer";
+export type { FooterProps, FooterColumn, FooterLink } from "@/components/ui/footer";
 export { CommandMenu, CommandMenuInput, CommandMenuList, CommandMenuGroup, CommandMenuItem, CommandMenuDivider } from "@/components/ui/command-menu";
 export { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuSeparator } from "@/components/ui/context-menu";
 export { MenuContainer, MenuButton, Menu, MenuItem, MenuItemLocked, MenuLink, MenuDivider, MenuSection } from "@/components/ui/menu";
@@ -109,13 +112,11 @@ export type { ScrollerProps } from "@/components/ui/scroller";
 // Components — Mobile / Device
 export { Device, DeviceScreen } from "@/components/ui/device";
 export type { DeviceProps, DeviceScreenProps, PhoneStatusBarOptions, PhoneSafariOptions } from "@/components/ui/device";
-export { PhoneStatusBar, PhoneSafariChrome } from "@/components/ui/phone-chrome";
 export { Phone, PhoneScreen } from "@/components/ui/phone";
 export { BottomSheet } from "@/components/ui/bottom-sheet";
 export type { BottomSheetProps } from "@/components/ui/bottom-sheet";
 export { HamburgerMenu } from "@/components/ui/hamburger-menu";
 export type { HamburgerMenuProps, MenuItem as HamburgerMenuItem } from "@/components/ui/hamburger-menu";
-export { ExpandPanel } from "@/components/ui/expand-panel";
 
 // Components — Advanced
 export { RelativeTimeCard } from "@/components/ui/relative-time-card";
@@ -126,6 +127,7 @@ export { Browser } from "@/components/ui/browser";
 export { Book } from "@/components/ui/book";
 export { Gauge } from "@/components/ui/gauge";
 export { RatingPill } from "@/components/ui/rating-pill";
+export type { RatingPillProps, RatingValue } from "@/components/ui/rating-pill";
 export { LoadMoreButton } from "@/components/ui/load-more-button";
 export { ShowMore } from "@/components/ui/show-more";
 export { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
@@ -135,7 +137,6 @@ export { Note, NoteContent, NoteAction, NoteLabel } from "@/components/ui/note";
 export { StatusDot } from "@/components/ui/status-dot";
 export { Pill } from "@/components/ui/pill";
 export { Banner } from "@/components/ui/banner";
-export { Grabber } from "@/components/ui/grabber";
 export { MiddleTruncate } from "@/components/ui/middle-truncate";
 export { MultiSelectRoot, MultiSelectTrigger, MultiSelectContent, MultiSelectRow } from "@/components/ui/multi-select";
 export { ThemeSwitcher } from "@/components/ui/theme-switcher";
