@@ -242,13 +242,13 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     '输入行内的纯图标功能用 <Button shape="circle" svgOnly>（如清除或显示/隐藏），保持控件行对齐。',
   ],
   "json-view": [
-    "需要用户检查、扫读、折叠、展开、选择或复制的 JSON 对象或数组用 JSON View。",
+    "需要用户检查、扫读、折叠或展开的 JSON 对象或数组用 JSON View；需要复制时另配复制控件。",
     "值是静态文档而非交互产品界面时用普通代码块。",
     "源数据保持为对象或数组。传给 data 前不要预先 stringify JSON。",
   ],
   "keyboard-input": [
     "散文、菜单项和按钮后缀中的快捷键提示用 Kbd。在叙述快捷键的长文文档里直接写 ⌘ K 快捷键，让页面复制到纯文本时也一致。",
-    "通过布尔 props（meta、shift、alt、ctrl）传修饰键，让组件在 Windows/Linux 上把 ⌘ 换成 Ctrl。",
+    "通过布尔 props（meta、shift、alt、ctrl）传修饰键。组件不检测操作系统，调用方应按目标平台选择 meta 或 ctrl。",
     "children 是一个键、数字或命名键（K、7、Enter、Esc）。不要小写它、不要把修饰键拼写进去、也不要把句子塞进元素。",
     "密集表面（菜单行、命令栏项、表格单元格）里默认尺寸挤压相邻文本时用 small。",
     "标点位于元素之外：句号、逗号、or 分隔符保留在周围散文里，避免屏幕阅读器把它们读成按键。",
@@ -298,7 +298,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "兄弟页面间的顺序导航（文档文章、博客帖子、引导步骤）用 Pagination。同一数据集内揭示更多行用 Show More 或数字分页器。",
     "作为上一篇/下一篇文档轨使用 Pagination；需要跳到编号页面时用数据表格专用分页器。",
     "序列首尾的 Previous / Next 槽位用隐藏而非禁用；空的导轨比一个无处可去的暗淡链接更干净。",
-    '用 isActive 标记当前页，使其渲染 aria-current="page" 且不渲染为链接。',
+    '通过 children 添加页码时，由调用方为当前项设置 aria-current="page" 并提供选中样式；Pagination 没有 isActive prop。',
     "页面标签保持简短——数字或 1–2 个词。不要在链接内复述如 Page 3 of 10 这样的序号位置。",
   ],
   device: [
@@ -384,7 +384,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
   "show-more": [
     "单个长列表或区块的渐进揭示用 ShowMore（近期活动、仓库分支、附加资源）。同一数据集的兄弟页面用 Pagination；可选区块用 Collapse。",
     "截断前展示足够行数来传达列表形态（通常 5–10）。截到 2 会让该机制显得做作。",
-    "触发器配隐藏项数量，让用户知道展开的成本（Show 12 More，展开后 Show Less）。两个标签都首字母大写。",
+    "ShowMore 使用固定的 Show More / Show Less 文案；隐藏项数量需要在相邻的调用方内容中展示。",
     "不要在同一个数据集上中途来回 Show More / Show Less；用户展开后折叠行会把他们从阅读位置滚走。",
     "数量少时在 DOM 中渲染隐藏行，让页内查找可用；仅当数据集大到影响初始渲染时才惰性加载。",
     "触发器是带 aria-expanded 的 button；通过 aria-controls 指向被展开的区域。ShowMore 不管理目标内容、焦点移动或 live region。",
@@ -400,7 +400,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "形状与邻近性比精度更重要的范围数字输入用 slider：带宽上限、透明度、音量、颜色通道。",
     "端口号或内存限制这类精确值，slider 配数字 Input；键盘用户默认输入。",
     "吸附到合理步长（1、5、10%），拖拽绝不产生 47.83291 这类值。min 与 max 夹到真实产品限制。",
-    "始终在轨道旁用 tabular nums 渲染实时值，并标注数字代表什么（Sample Rate · 44 kHz）。单独轨道无法自我描述。",
+    "需要精确值时启用 showStartInput/showEndInput，或由调用方在相邻区域渲染带单位的数值；label 只负责命名滑块。",
     "通过兄弟 <label htmlFor> 或 aria-label 给 slider 可访问名称，让原生方向键、Page Up/Down、Home/End 行为承担键盘工作。不要拦截这些键。",
   ],
   snippet: [
@@ -481,7 +481,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
   ],
   tooltip: [
     "用 Tooltip 解释事物为何存在，而非它是什么。可见标签命名事物；tooltip 补充约束、范围或限制。",
-    "Tooltip 在悬停与键盘聚焦时打开。保持默认约 150ms 进入延迟，避免扫过的鼠标造成闪烁。",
+    "Tooltip 在悬停与键盘聚焦时打开。默认进入延迟为 400ms；delay={false} 可取消，数字值可覆盖。",
     "不要用 Tooltip 包裹带标签的 Input。触发器落在 <label> 而非字段上，tooltip 文本成为屏幕阅读器的第二个隐形标签。把帮助放在兄弟图标按钮上。",
     "把主动作留在 Tooltip 之外；触屏用户够不到悬停揭示的控件。",
     "文本是一句或短语。句首大写；单一短语无句号。",

@@ -497,7 +497,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     description: "Renders JSON as a syntax-highlighted tree.",
     official: "JsonView",
     bestPractices: [
-      "Use JSON View for JSON objects or arrays that users need to inspect, scan, collapse, expand, select, or copy.",
+      "Use JSON View for JSON objects or arrays that users need to inspect, scan, collapse, or expand. Add a separate copy control when copying is required.",
       "Use a regular code block when the value is static documentation, not an interactive product surface.",
       "Keep the source data as an object or array. Do not pre-stringify JSON before passing it to data.",
     ],
@@ -510,7 +510,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     official: "Keyboard Input",
     bestPractices: [
       "Use Kbd for shortcut hints inside prose, menu items, and button suffixes. In long-form docs that narrate a shortcut, write the ⌘ K shortcut directly so the page renders the same when copied to plain text.",
-      "Pass modifiers via boolean props (meta, shift, alt, ctrl) so the component swaps ⌘ for Ctrl on Windows and Linux.",
+      "Pass modifiers via boolean props (meta, shift, alt, ctrl). The component does not detect the OS, so choose meta or ctrl for the target platform.",
       "children is one key, digit, or named key (K, 7, Enter, Esc). Don't lowercase it, don't spell out modifiers inside, and don't pack a sentence into the element.",
       "Use small inside dense surfaces like menu rows, command-bar items, or table cells where the default size crowds adjacent text.",
       "Punctuation lives outside the element: period, comma, and or separators stay in surrounding prose so screen readers don't announce them as keys.",
@@ -601,7 +601,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     bestPractices: [
       "Use Pagination for sequential navigation between sibling pages (docs articles, blog posts, onboarding steps). For revealing more rows of the same data set, use Show More or a numbered pager.",
       "Use Pagination as a previous/next document rail; use a data-table-specific pager when users must jump to numbered pages.",
-      'Mark the current page with isActive so it renders with aria-current="page" and the selected highlight; keep other links as plain anchors.',
+      'When children contain page links, mark the current one with aria-current="page" and style it in caller code; Pagination has no isActive prop.',
       "Hide the Previous / Next slot at the start or end of a sequence instead of disabling it; an empty rail reads cleaner than a dimmed link with nowhere to go.",
       "Keep page labels short — numbers or 1–2 words. Don’t restate ordinal positions like Page 3 of 10 inside a link.",
     ],
@@ -765,7 +765,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     bestPractices: [
       "Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.",
       "Show enough rows to convey the shape of the list before truncating (5–10 typical). Truncating at 2 makes the affordance feel performative.",
-      "Pair the trigger with the count of hidden items so the user knows the cost of expanding (Show 12 More, then Show Less after expand). Title Case both labels.",
+      'ShowMore uses fixed "Show More" / "Show Less" labels. Put any hidden-item count in adjacent caller-owned content.',
       "Don’t cycle Show More then Show Less mid-flow on the same data set; collapsing rows after the user expanded them scrolls them away from where they were reading.",
       "Render hidden rows in the DOM when the count is small so find-in-page works; lazy-load only when the dataset is large enough to hurt initial render.",
       "The trigger is a <button> with aria-expanded; pass aria-controls to point at the revealed region. ShowMore does not manage that content, move focus, or create a live region.",
@@ -795,7 +795,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "Use a slider for ranged numeric input where shape and proximity matter more than precision: bandwidth caps, opacity, audio volume, color channels.",
       "For exact values like a port number or memory limit, pair the slider with a numeric Input; keyboard users default to typing.",
       "Snap to a sensible step (1, 5, 10%) so dragging never produces values like 47.83291. Clamp min and max to real product limits.",
-      "Always render the live value next to the track in tabular nums, and label what the number represents (Sample Rate · 44 kHz). The track alone is not self-describing.",
+      "For exact values, enable showStartInput/showEndInput or render an adjacent caller-owned value with units. The label prop names the slider but does not display its value.",
       "Give the slider an accessible name through a sibling <label htmlFor> or aria-label, and let the native arrow-key, Page Up/Down, Home/End behavior do the keyboard work. Don't intercept those keys.",
     ],
   },
@@ -953,7 +953,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     official: "Tooltip",
     bestPractices: [
       "Use a Tooltip to explain why something exists, not what it is. The visible label names the thing; the tooltip adds the constraint, scope, or limit.",
-      "Tooltips open on hover and on keyboard focus. Keep the default ~150ms entry delay so the tooltip doesn’t flicker on a sweeping mouse.",
+      "Tooltips open on hover and keyboard focus. The default entry delay is 400ms; use delay={false} for none or pass a numeric override.",
       "Don’t wrap a labelled Input in a Tooltip. The trigger lands on the <label>, not the field, and the tooltip text becomes a second invisible label for screen readers. Put help on a sibling icon button.",
       "Keep primary actions outside the Tooltip; touch users can’t reach a hover-revealed control.",
       "One sentence or fragment in text. Sentence case, no period for a single fragment.",

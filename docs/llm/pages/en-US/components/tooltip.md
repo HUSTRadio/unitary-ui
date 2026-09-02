@@ -26,7 +26,7 @@ A floating label that appears on hover or focus.
 
 ### No delay
 
-Demonstrates removing the ~150ms entry delay so the Tooltip responds to hover instantly.
+Demonstrates setting delay={false} to remove the default 400ms entry delay so the Tooltip responds instantly.
 
 ### Alignment
 
@@ -38,7 +38,7 @@ Renders rich text or other React components inside the Tooltip, going beyond pla
 
 ## Accessibility
 
-- Tooltips open on hover and on keyboard focus. Keep the default ~150ms entry delay so the tooltip doesn't flicker on a sweeping mouse.
+- Tooltips open on hover and keyboard focus. The default entry delay is 400ms; set delay={false} for none or pass a number to override it.
 - Escape closes the tooltip and returns focus to the trigger; icon-only triggers need an aria-label that names the action.
 
 ## Controlled behavior
@@ -357,7 +357,7 @@ import { Tooltip } from "@/components/ui/tooltip";
 ## Best Practices
 
 - Use a Tooltip to explain why something exists, not what it is. The visible label names the thing; the tooltip adds the constraint, scope, or limit.
-- Tooltips open on hover and on keyboard focus. Keep the default ~150ms entry delay so the tooltip doesn’t flicker on a sweeping mouse.
+- Tooltips open on hover and keyboard focus. The default entry delay is 400ms; use delay={false} for none or pass a numeric override.
 - Don’t wrap a labelled Input in a Tooltip. The trigger lands on the <label>, not the field, and the tooltip text becomes a second invisible label for screen readers. Put help on a sibling icon button.
 - Keep primary actions outside the Tooltip; touch users can’t reach a hover-revealed control.
 - One sentence or fragment in text. Sentence case, no period for a single fragment.

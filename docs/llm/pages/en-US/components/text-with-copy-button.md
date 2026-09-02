@@ -28,9 +28,9 @@ Displays text alongside a button that copies it to the clipboard.
 
 Shows the default text-plus-copy-button layout with the copy icon positioned immediately to the right of the text.
 
-### Compact and tertiary
+### Ellipsized summary
 
-Demonstrates the combined small size and tertiary variant, suitable for dense inline rows.
+Uses ellipsis to truncate a longer configuration summary and gives the copy action a specific accessible label.
 
 ## Accessibility
 
@@ -44,8 +44,8 @@ Not applicable: TextWithCopyButton is a passive display component; copy behavior
 
 ## Responsive behavior
 
-- The text area uses flexible width and adapts to narrow screens by truncating with ellipsis while keeping the copy button visible at the end.
-- On touch devices, the copy button maintains a minimum 44px hit area to ensure operability for mobile users.
+- Text truncates only when ellipsis is passed explicitly; the default remains a single untruncated line.
+- The copy icon area is 16px and does not guarantee a 44px touch target. Add a larger caller-owned hit area for touch-heavy surfaces.
 
 ## Theme behavior
 

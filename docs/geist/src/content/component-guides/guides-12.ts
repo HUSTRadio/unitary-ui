@@ -8,7 +8,7 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
     whenToUse: [
       "对单个长列表或内容块进行渐进式披露，如最近活动、仓库分支、附件资源等。",
       "需要在截断前展示足够多的行数以传达列表形状（通常 5–10 行），让用户了解完整列表的全貌。",
-      "配合隐藏项数量提示用户展开的成本（“显示 12 条更多”，展开后变为“显示更少”）。",
+      "组件文案固定为“显示更多”/“显示更少”；如需提示隐藏项数量，应在相邻内容中由调用方展示。",
     ],
     whenNotToUse: [
       "同一数据集的平行分页应使用 Pagination 而非 ShowMore；可选区块应使用 Collapse。",
@@ -54,17 +54,15 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
       ],
     },
     responsiveBehavior: {
-      status: "covered",
-      content: [
-        "ShowMore 在前置行数较少时仍然展示截断提示，窄屏上每行内容自适应宽度而不会溢出。",
-        "触发按钮在全屏幕上保持固定的最小尺寸，确保触摸操作的可点性。",
-      ],
+      status: "not-applicable",
+      reason:
+        "ShowMore 只渲染固定 32px 高的触发按钮，不管理目标行的布局或断点行为；目标内容的响应式布局由调用方负责。",
     },
     themeBehavior: {
       status: "covered",
       content: [
         "按钮颜色、悬停态和高亮跟随 Geist 主题变量，暗色/亮色模式下自动适配。",
-        "可通过 props 自定义边框颜色和背景，与全局主题保持一致。",
+        "noBorder 只移除默认边框；没有专用的边框色或背景色 prop，额外视觉调整通过 className 完成。",
       ],
     },
   },
@@ -152,7 +150,7 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
         id: "default",
         kind: "minimal",
         title: "默认滑块",
-        description: "展示默认样式的 Range Slider，包含轨道、手柄和当前值。",
+        description: "展示默认样式的 Range Slider，包含轨道和手柄。",
         demoKey: "default",
       },
       {
@@ -166,7 +164,7 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
         id: "with-label",
         kind: "stateful",
         title: "带标签",
-        description: "展示实时显示当前值的 Range Slider，在轨道旁标注数值和单位。",
+        description: "展示通过 label prop 在轨道上方提供可见且可访问名称的 Range Slider。",
         demoKey: "with-label",
       },
     ],
@@ -174,29 +172,27 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "通过兄弟 <label htmlFor> 或 aria-label 给滑块提供无障碍名称，原生箭头键、Page Up/Down、Home/End 行为负责键盘操作。",
-        "实时数值旁边需标注该数值代表的含义（如“采样率 · 44 kHz”），帮助屏幕阅读器理解上下文。",
+        "需要精确值时显式启用 showStartInput / showEndInput，或由调用方在相邻区域渲染带单位的数值。",
         "禁用态的滑块仍需 tooltip 命名原因，以免用户困惑为什么无法调节。",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
-        "Slider 支持受控和非受控两种模式；使用 onValueChange 监听连续变化，使用 onValueCommit 监听拖动结束后的提交值。",
+        "Slider 接受 value/defaultValue；轨道拖动结束时使用 onValueCommit，onValueChange 当前只由可选数值输入路径调用。",
         "禁用手柄会阻止任何键盘和鼠标输入，适合需要临时锁定设置的场景。",
       ],
     },
     responsiveBehavior: {
-      status: "covered",
-      content: [
-        "滑块轨道在全屏幕上保持等比缩放，手柄点击区域在各视口下均符合最小触控目标要求。",
-        "窄屏时标签文字自动缩小字号，确保数值和单位不会换行溢出。",
-      ],
+      status: "not-applicable",
+      reason:
+        "轨道使用容器宽度，但组件不按断点缩放标签或保证 44px 触控目标；移动布局和额外命中区域由调用方验证。",
     },
     themeBehavior: {
       status: "covered",
       content: [
         "滑块轨道颜色、激活态背景和手柄样式跟随主题变量，暗色/亮色模式下各有对应配色。",
-        "可通过 props 自定义滑块颜色，与品牌主色调保持一致。",
+        "组件没有专用颜色 prop；品牌化需要在外层样式系统中覆盖相应类或令牌。",
       ],
     },
   },
@@ -328,7 +324,7 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
     whenToUse: [
       "Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.",
       "Show enough rows to convey the shape of the list before truncating (5–10 typical); this helps users understand the full scope of hidden content.",
-      'Pair the trigger with the count of hidden items so the user knows the cost of expanding (e.g., "Show 12 More"), then swap to "Show Less" after expand. Title Case both labels.',
+      'The component label is fixed to "Show More" / "Show Less". If hidden-item count matters, render that count in adjacent caller-owned content.',
     ],
     whenNotToUse: [
       "For sibling pages of the same data set, use Pagination rather than ShowMore; for optional sections, use Collapse instead.",
@@ -376,17 +372,15 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
       ],
     },
     responsiveBehavior: {
-      status: "covered",
-      content: [
-        "ShowMore continues to display the truncation affordance even with few pre-rendered rows; on narrow screens each row adapts its width without overflowing.",
-        "The trigger button maintains a fixed minimum tap target size across all screen widths for reliable touch interaction.",
-      ],
+      status: "not-applicable",
+      reason:
+        "ShowMore renders only a fixed 32px-high trigger. It does not manage target-row layout or breakpoint behavior; callers own the responsive content layout.",
     },
     themeBehavior: {
       status: "covered",
       content: [
         "Button colors, hover states, and highlights follow Geist theme variables, adapting automatically between dark and light modes.",
-        "Border color and background can be customized via props to maintain consistency with the global theme.",
+        "noBorder only removes the default border. There are no dedicated border-color or background props; use className for additional styling.",
       ],
     },
   },
@@ -478,7 +472,7 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Default slider",
         description:
-          "Displays a default-styled Range Slider with track, thumb, and current value indicator.",
+          "Displays a default-styled Range Slider with its track and thumb.",
         demoKey: "default",
       },
       {
@@ -493,7 +487,7 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
         kind: "stateful",
         title: "With label",
         description:
-          "Demonstrates a Range Slider that displays the live value next to the track alongside a unit label.",
+          "Demonstrates the label prop providing a visible and accessible name above the track.",
         demoKey: "with-label",
       },
     ],
@@ -501,29 +495,27 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Give the slider an accessible name through a sibling <label htmlFor> or aria-label; native arrow-key, Page Up/Down, Home/End behavior handles keyboard input.",
-        'Always render the live value next to the track with a label describing what the number represents (e.g., "Sample Rate · 44 kHz") so screen readers understand the context.',
+        "For exact values, explicitly enable showStartInput/showEndInput or render a caller-owned adjacent value with units.",
         "Disabled sliders still need a Tooltip naming the reason—a greyed slider with no explanation reads as a bug.",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
-        "Slider supports controlled and uncontrolled modes; use onValueChange for continuous updates and onValueCommit after a drag is committed.",
+        "Slider accepts value/defaultValue. Use onValueCommit after track interaction; onValueChange is currently emitted only by the optional numeric-input path.",
         "A disabled thumb prevents all keyboard and mouse input, useful for temporarily locking settings.",
       ],
     },
     responsiveBehavior: {
-      status: "covered",
-      content: [
-        "The slider track scales proportionally across all screen widths, and the thumb hit area meets minimum touch-target requirements on every viewport.",
-        "On narrow screens label text auto-sizes down to prevent the value and unit from wrapping or overflowing.",
-      ],
+      status: "not-applicable",
+      reason:
+        "The track fills its container, but the component does not resize labels at breakpoints or guarantee a 44px touch target. Validate mobile layout and hit area in caller code.",
     },
     themeBehavior: {
       status: "covered",
       content: [
         "Track color, active-fill background, and thumb styles follow theme variables, with corresponding palettes in both dark and light modes.",
-        "Custom colors can be passed via props to align with brand primary tones.",
+        "There is no dedicated color prop. Brand overrides belong in the surrounding style or token layer.",
       ],
     },
   },

@@ -127,20 +127,14 @@ const icon = <ArrowUpCircle aria-hidden />;
   },
   slider: {
     default: `import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
 
-const [value, setValue] = useState([50]);
-
-<Slider value={value} onValueChange={setValue} aria-label="Value" />`,
+<Slider defaultValue={[50]} aria-label="Value" />`,
     "step-max": `import { Slider } from "@/components/ui/slider";
 
 <Slider defaultValue={[20]} step={10} max={50} marks aria-label="Value in steps of 10" />`,
     "with-label": `import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
 
-const [value, setValue] = useState([40]);
-
-<Slider label="Volume" value={value} onValueChange={setValue} />`,
+<Slider label="Volume" defaultValue={[40]} />`,
     "range-with-inputs": `import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 
@@ -153,13 +147,11 @@ const [value, setValue] = useState([50, 75]);
     "commit-on-release": `import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 
-const [value, setValue] = useState([50]);
 const [committed, setCommitted] = useState<number | null>(null);
 
 <Slider
   label="Drag then release"
-  value={value}
-  onValueChange={setValue}
+  defaultValue={[50]}
   onValueCommitted={(value) => setCommitted(value[0] ?? null)}
 />
 <p className="mt-2 text-copy-13 text-gray-900">

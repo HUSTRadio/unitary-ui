@@ -28,7 +28,7 @@ An input to select a value from a given range.
 
 ### Default slider
 
-Displays a default-styled Range Slider with track, thumb, and current value indicator.
+Displays a default-styled Range Slider with its track and thumb.
 
 ### Step and maximum
 
@@ -36,38 +36,34 @@ Demonstrates a Range Slider with custom step sizes and bounds.
 
 ### With label
 
-Demonstrates a Range Slider that displays the live value next to the track alongside a unit label.
+Demonstrates the label prop providing a visible and accessible name above the track.
 
 ## Accessibility
 
 - Give the slider an accessible name through a sibling <label htmlFor> or aria-label; native arrow-key, Page Up/Down, Home/End behavior handles keyboard input.
-- Always render the live value next to the track with a label describing what the number represents (e.g., "Sample Rate · 44 kHz") so screen readers understand the context.
+- For exact values, explicitly enable showStartInput/showEndInput or render a caller-owned adjacent value with units.
 - Disabled sliders still need a Tooltip naming the reason—a greyed slider with no explanation reads as a bug.
 
 ## Controlled behavior
 
-- Slider supports controlled and uncontrolled modes; use onValueChange for continuous updates and onValueCommit after a drag is committed.
+- Slider accepts value/defaultValue. Use onValueCommit after track interaction; onValueChange is currently emitted only by the optional numeric-input path.
 - A disabled thumb prevents all keyboard and mouse input, useful for temporarily locking settings.
 
 ## Responsive behavior
 
-- The slider track scales proportionally across all screen widths, and the thumb hit area meets minimum touch-target requirements on every viewport.
-- On narrow screens label text auto-sizes down to prevent the value and unit from wrapping or overflowing.
+Not applicable: The track fills its container, but the component does not resize labels at breakpoints or guarantee a 44px touch target. Validate mobile layout and hit area in caller code.
 
 ## Theme behavior
 
 - Track color, active-fill background, and thumb styles follow theme variables, with corresponding palettes in both dark and light modes.
-- Custom colors can be passed via props to align with brand primary tones.
+- There is no dedicated color prop. Brand overrides belong in the surrounding style or token layer.
 
 ## Live Demo
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
 
-const [value, setValue] = useState([50]);
-
-<Slider value={value} onValueChange={setValue} aria-label="Value" />;
+<Slider defaultValue={[50]} aria-label="Value" />;
 ```
 
 ```tsx
@@ -78,11 +74,8 @@ import { Slider } from "@/components/ui/slider";
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
 
-const [value, setValue] = useState([40]);
-
-<Slider label="Volume" value={value} onValueChange={setValue} />;
+<Slider label="Volume" defaultValue={[40]} />;
 ```
 
 ```tsx
@@ -104,13 +97,11 @@ import { Slider } from "@/components/ui/slider";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 
-const [value, setValue] = useState([50]);
 const [committed, setCommitted] = useState<number | null>(null);
 
 <Slider
   label="Drag then release"
-  value={value}
-  onValueChange={setValue}
+  defaultValue={[50]}
   onValueCommitted={(value) => setCommitted(value[0] ?? null)}
 />
 <p className="mt-2 text-copy-13 text-gray-900">
@@ -137,5 +128,5 @@ import { Slider } from "@/components/ui/slider";
 - Use a slider for ranged numeric input where shape and proximity matter more than precision: bandwidth caps, opacity, audio volume, color channels.
 - For exact values like a port number or memory limit, pair the slider with a numeric Input; keyboard users default to typing.
 - Snap to a sensible step (1, 5, 10%) so dragging never produces values like 47.83291. Clamp min and max to real product limits.
-- Always render the live value next to the track in tabular nums, and label what the number represents (Sample Rate · 44 kHz). The track alone is not self-describing.
+- For exact values, enable showStartInput/showEndInput or render an adjacent caller-owned value with units. The label prop names the slider but does not display its value.
 - Give the slider an accessible name through a sibling <label htmlFor> or aria-label, and let the native arrow-key, Page Up/Down, Home/End behavior do the keyboard work. Don't intercept those keys.

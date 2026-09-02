@@ -87,7 +87,7 @@ export const GUIDES_15_ZH: Record<string, ComponentGuide> = {
         id: "tooltip-no-delay",
         kind: "minimal",
         title: "无延迟显示",
-        description: "展示如何通过 prop 去除 ~150ms 的入场延迟，使 Tooltip 立即响应悬停。",
+        description: "展示如何通过 delay={false} 去除默认 400ms 入场延迟，使 Tooltip 立即响应悬停。",
         demoKey: "No delay",
       },
       {
@@ -108,7 +108,7 @@ export const GUIDES_15_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Tooltip 在悬停和键盘焦点时打开，保留默认的 ~150ms 入场延迟以防止鼠标扫过时的闪烁。",
+        "Tooltip 在悬停和键盘焦点时打开；默认入场延迟为 400ms，可通过 delay={false} 取消或传入数字覆盖。",
         "Escape 键关闭 Tooltip 并将焦点返回到触发器；仅图标的触发器需配备命名操作的 aria-label。",
       ],
     },
@@ -275,7 +275,7 @@ export const GUIDES_15_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "No delay",
         description:
-          "Demonstrates removing the ~150ms entry delay so the Tooltip responds to hover instantly.",
+          "Demonstrates setting delay={false} to remove the default 400ms entry delay so the Tooltip responds instantly.",
         demoKey: "No delay",
       },
       {
@@ -298,7 +298,7 @@ export const GUIDES_15_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Tooltips open on hover and on keyboard focus. Keep the default ~150ms entry delay so the tooltip doesn't flicker on a sweeping mouse.",
+        "Tooltips open on hover and keyboard focus. The default entry delay is 400ms; set delay={false} for none or pass a number to override it.",
         "Escape closes the tooltip and returns focus to the trigger; icon-only triggers need an aria-label that names the action.",
       ],
     },

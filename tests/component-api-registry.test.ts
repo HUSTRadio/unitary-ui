@@ -364,6 +364,17 @@ describe("component API registry", () => {
     }
   });
 
+  it("keeps Slider track examples compatible with the implemented update paths", () => {
+    const slider = DEMO_CODE.slider;
+
+    for (const name of ["default", "with-label", "commit-on-release"] as const) {
+      expect(slider[name], `slider.${name} must not depend on track onValueChange`).not.toMatch(
+        /\bvalue=\{value\}[\s\S]*\bonValueChange=\{setValue\}/,
+      );
+    }
+    expect(slider["commit-on-release"]).toContain("defaultValue={[50]}");
+  });
+
   it("does not claim unsupported Button focus or runtime validation behavior", () => {
     const buttonMetadata = COMPONENTS.find(({ name }) => name === "button");
     const text = JSON.stringify({
@@ -416,21 +427,27 @@ describe("component API registry", () => {
     expect(guideText("file-tree")).not.toMatch(
       /上下方向键|左右方向键|Up\/Down arrows move focus|Left\/Right arrows collapse or expand/i,
     );
-    expect(guideText("json-view")).not.toMatch(/copy capabilities|copy JSON|复制 JSON/i);
+    expect(guideText("json-view")).not.toMatch(
+      /copy capabilities|copy JSON|复制 JSON|defaultExpandedDepth|controlled expandedKeys, precisely|受控的 expandedKeys 来控制|specific key paths|特定键路径|automatically adjusts indentation|自动调整缩进|container's max height adjusts|容器的最大高度会随着|adjusts all color contrasts|所有颜色的对比度都经过调整/i,
+    );
     expect(guideText("keyboard-input")).not.toMatch(
-      /Windows\/Linux 上将 ⌘ 自动替换为 Ctrl|Windows\/Linux 上显示 Ctrl|Windows\/Linux renders Ctrl|automatically replaces.*Ctrl/i,
+      /Windows\/Linux 上将 ⌘ 自动替换为 Ctrl|Windows\/Linux 上显示 Ctrl|Windows\/Linux renders Ctrl|automatically replaces.*Ctrl|swaps ⌘ for Ctrl|modifier key swapping/i,
     );
     expect(guideText("pagination")).not.toMatch(
-      /activePage 属性|total 属性|activePage prop|total prop|auto-renders the corresponding set of page buttons|自动渲染对应的页码/i,
+      /activePage 属性|total 属性|activePage prop|total prop|mark the current page with isActive|用 isActive 标记当前页|current page highlight background|当前页高亮的背景色|auto-renders the corresponding set of page buttons|自动渲染对应的页码/i,
     );
     expect(guideText("show-more")).not.toMatch(
-      /焦点移动到第一个新揭示|焦点转移到第一条新行|aria-live="polite" 通知|move focus to the first newly revealed|aria-live="polite" announcement/i,
+      /焦点移动到第一个新揭示|焦点转移到第一条新行|aria-live="polite" 通知|move focus to the first newly revealed|aria-live="polite" announcement|显示 12 条更多|Show 12 More|each row adapts|每行内容自适应|minimum tap target|固定的最小尺寸|border color and background can be customized via props|通过 props 自定义边框颜色和背景/i,
     );
-    expect(guideText("slider")).not.toMatch(/through the onChange callback|通过 onChange 回调/i);
-    expect(guideText("table")).not.toMatch(/sortKey|sortOrder/i);
-    expect(guideText("tooltip")).not.toMatch(/open state and onChange|open 状态和 onChange/i);
+    expect(guideText("slider")).not.toMatch(
+      /through the onChange callback|通过 onChange 回调|onValueChange for continuous|onValueChange 监听连续|live value next to the track|实时显示当前值|minimum touch-target|最小触控目标|label text auto-sizes|标签文字自动缩小|custom colors can be passed via props|通过 props 自定义滑块颜色/i,
+    );
+    expect(guideText("table")).not.toMatch(
+      /sortKey|sortOrder|border prop|sortable prop|sortable 属性|card-stack layout|卡片堆叠布局/i,
+    );
+    expect(guideText("tooltip")).not.toMatch(/open state and onChange|open 状态和 onChange|~150ms/i);
     expect(guideText("text-with-copy-button")).not.toMatch(
-      /hidden-textarea execCommand fallback|隐藏的 textarea execCommand 降级/i,
+      /hidden-textarea execCommand fallback|隐藏的 textarea execCommand 降级|small size and tertiary|小型尺寸和 tertiary|automatically.*ellipsis|自动压缩并可能触发省略号|minimum 44px|至少 44px/i,
     );
   });
 

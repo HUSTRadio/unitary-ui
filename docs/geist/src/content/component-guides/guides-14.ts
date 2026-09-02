@@ -92,8 +92,8 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
       {
         id: "small-tertiary",
         kind: "variant",
-        title: "紧凑与次要样式",
-        description: "演示小型尺寸和 tertiary 变体的组合使用，适用于密集行内场景。",
+        title: "省略号摘要",
+        description: "演示使用 ellipsis 截断较长的配置摘要，并提供明确的复制操作名称。",
         demoKey: "With Small and Tertiary",
       },
     ],
@@ -113,8 +113,8 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "文本区域采用弹性宽度自适应，在小屏幕上自动压缩并可能触发省略号截断，复制按钮始终保持在文本末尾可见。",
-        "窄屏上复制按钮的点击热区保持足够大小（至少 44px），确保触屏用户的可操作性。",
+        "只有显式传入 ellipsis 时文本才会截断；默认文本保持单行且不自动启用省略号。",
+        "复制图标区域为 16px，组件不保证 44px 触控目标；触屏场景应由调用方提供更大的外层命中区域。",
       ],
     },
     themeBehavior: {
@@ -417,9 +417,9 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
       {
         id: "small-tertiary",
         kind: "variant",
-        title: "Compact and tertiary",
+        title: "Ellipsized summary",
         description:
-          "Demonstrates the combined small size and tertiary variant, suitable for dense inline rows.",
+          "Uses ellipsis to truncate a longer configuration summary and gives the copy action a specific accessible label.",
         demoKey: "With Small and Tertiary",
       },
     ],
@@ -439,8 +439,8 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "The text area uses flexible width and adapts to narrow screens by truncating with ellipsis while keeping the copy button visible at the end.",
-        "On touch devices, the copy button maintains a minimum 44px hit area to ensure operability for mobile users.",
+        "Text truncates only when ellipsis is passed explicitly; the default remains a single untruncated line.",
+        "The copy icon area is 16px and does not guarantee a 44px touch target. Add a larger caller-owned hit area for touch-heavy surfaces.",
       ],
     },
     themeBehavior: {

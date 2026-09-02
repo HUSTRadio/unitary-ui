@@ -259,9 +259,9 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
       {
         id: "highlighted",
         kind: "advanced",
-        title: "高亮特定路径",
+        title: "高亮文本匹配",
         description:
-          "对 JSON 树中的特定键路径进行高亮标注，帮助用户快速定位和分析数据中的重要字段。",
+          "通过 highlightPattern 正则高亮键名或原始值中的匹配文本，帮助用户快速定位重要字段。",
         demoKey: "Highlighted",
       },
     ],
@@ -275,22 +275,20 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "通过 defaultExpandedDepth 或受控的 expandedKeys 来控制哪些节点默认展开，从而精确控制树的初始视图。",
-        "data prop 接受 JavaScript 对象或数组，组件内部管理展开/折叠状态并可对外暴露变更回调。",
+        "通过 defaultExpandDepth 设置初始展开深度；展开集合随后由组件内部管理。",
+        "组件不提供受控 expandedKeys 或展开变更回调；如需外部持有展开状态，应在调用方使用其他树组件。",
       ],
     },
     responsiveBehavior: {
-      status: "covered",
-      content: [
-        "JSON 树在不同视口下会自动调整缩进和字体大小，确保在小屏上仍然可读且不产生不必要的水平滚动。",
-        "容器的最大高度会随着视口变化而调整，超出部分自动启用垂直滚动。",
-      ],
+      status: "not-applicable",
+      reason:
+        "JsonView 使用固定字号和缩进，不设置随视口变化的最大高度或纵向滚动；需要这些约束时由调用方容器提供。",
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "语法高亮的颜色方案跟随主题令牌，包括字符串、数字、布尔值、null 和键名的配色区分。",
-        "深色模式下所有颜色的对比度都经过调整，确保可访问性要求得到满足。",
+        "树的基础文字和背景跟随主题；字符串、数字、布尔值和 null 使用组件定义的语法配色。",
+        "匹配文本使用固定黄色高亮，键名使用显式亮/暗色值；不要把它描述为可配置的完整主题令牌方案。",
       ],
     },
   },
@@ -631,9 +629,9 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
       {
         id: "highlighted",
         kind: "advanced",
-        title: "Highlighted path",
+        title: "Highlighted text matches",
         description:
-          "Highlight specific key paths within the JSON tree to help users quickly locate and analyze important fields in the data.",
+          "Use the highlightPattern regular expression to highlight matching text in key names or primitive values.",
         demoKey: "Highlighted",
       },
     ],
@@ -647,22 +645,20 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Control which nodes are expanded by default using defaultExpandedDepth or controlled expandedKeys, precisely controlling the tree's initial view.",
-        "The data prop accepts JavaScript objects or arrays; the component manages expand/collapse state internally and can expose change callbacks externally.",
+        "Set the initial expansion depth with defaultExpandDepth; the component manages the expanded set internally after that.",
+        "There is no controlled expandedKeys prop or expansion-change callback. Use another tree primitive when external expansion state is required.",
       ],
     },
     responsiveBehavior: {
-      status: "covered",
-      content: [
-        "The JSON tree automatically adjusts indentation and font size across viewports to remain readable on small screens without triggering unnecessary horizontal scrolling.",
-        "The container's max height adjusts with viewport changes, enabling vertical scrolling when content exceeds the visible area.",
-      ],
+      status: "not-applicable",
+      reason:
+        "JsonView uses fixed typography and indentation and does not add viewport-based max-height or vertical scrolling. Apply those constraints on a caller-owned container.",
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "Syntax highlighting color scheme follows theme tokens, distinguishing strings, numbers, booleans, nulls, and key names.",
-        "Dark mode adjusts all color contrasts to meet accessibility requirements.",
+        "Base text and background follow the theme, while strings, numbers, booleans, and nulls use component-defined syntax colors.",
+        "Matched text uses a fixed yellow highlight and keys use explicit light/dark values; this is not a fully configurable token palette.",
       ],
     },
   },
@@ -717,7 +713,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Kbd elements use semantic keyboard roles so screen readers pronounce key names and modifier combinations correctly.",
-        "Cross-platform modifier key swapping ensures users on different operating systems receive consistent semantic understanding with assistive technology.",
+        "The component does not detect the operating system or swap symbols. Callers must choose meta or ctrl for the target platform.",
       ],
     },
     controlledBehavior: {

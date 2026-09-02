@@ -16,7 +16,7 @@ Shows expanded or collapsed content with a progressive-disclosure trigger.
 
 - Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.
 - Show enough rows to convey the shape of the list before truncating (5–10 typical); this helps users understand the full scope of hidden content.
-- Pair the trigger with the count of hidden items so the user knows the cost of expanding (e.g., "Show 12 More"), then swap to "Show Less" after expand. Title Case both labels.
+- The component label is fixed to "Show More" / "Show Less". If hidden-item count matters, render that count in adjacent caller-owned content.
 
 ## When not to use
 
@@ -51,13 +51,12 @@ Demonstrates the clean borderless style, suitable for seamlessly blending into p
 
 ## Responsive behavior
 
-- ShowMore continues to display the truncation affordance even with few pre-rendered rows; on narrow screens each row adapts its width without overflowing.
-- The trigger button maintains a fixed minimum tap target size across all screen widths for reliable touch interaction.
+Not applicable: ShowMore renders only a fixed 32px-high trigger. It does not manage target-row layout or breakpoint behavior; callers own the responsive content layout.
 
 ## Theme behavior
 
 - Button colors, hover states, and highlights follow Geist theme variables, adapting automatically between dark and light modes.
-- Border color and background can be customized via props to maintain consistency with the global theme.
+- noBorder only removes the default border. There are no dedicated border-color or background props; use className for additional styling.
 
 ## Live Demo
 
@@ -106,7 +105,7 @@ Native props: `ButtonHTMLAttributes<HTMLButtonElement>`
 
 - Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.
 - Show enough rows to convey the shape of the list before truncating (5–10 typical). Truncating at 2 makes the affordance feel performative.
-- Pair the trigger with the count of hidden items so the user knows the cost of expanding (Show 12 More, then Show Less after expand). Title Case both labels.
+- ShowMore uses fixed "Show More" / "Show Less" labels. Put any hidden-item count in adjacent caller-owned content.
 - Don’t cycle Show More then Show Less mid-flow on the same data set; collapsing rows after the user expanded them scrolls them away from where they were reading.
 - Render hidden rows in the DOM when the count is small so find-in-page works; lazy-load only when the dataset is large enough to hurt initial render.
 - The trigger is a <button> with aria-expanded; pass aria-controls to point at the revealed region. ShowMore does not manage that content, move focus, or create a live region.

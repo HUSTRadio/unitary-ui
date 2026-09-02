@@ -241,14 +241,14 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
         id: "table-02",
         kind: "variant",
         title: "表格边框变体",
-        description: "通过 border prop 切换是否有边框线的外观差异。",
+        description: "通过 Table 的 colorScheme=\"bordered\" 显示行间分隔线。",
         demoKey: "Default",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "可排序列的头应该是 button 元素，sortable 属性使表头变成可点击的排序按钮。",
+        "需要排序时，由调用方在 TableHead 内渲染 button，并自行维护排序状态与 aria-sort。",
         "空单元格应填入 — 而不是 N/A 或空字符串，保证表格结构对齐。",
       ],
     },
@@ -259,7 +259,7 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
     },
     responsiveBehavior: {
       status: "covered",
-      content: ["窄视图中表格可以启用横向滚动，或切换为卡片堆叠布局以保持可读性。"],
+      content: ["TableRoot 在内容超宽时提供横向滚动；组件不会自动切换为卡片布局。"],
     },
     themeBehavior: {
       status: "covered",
@@ -526,14 +526,14 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
         id: "table-02",
         kind: "variant",
         title: "Table border variants",
-        description: "Toggling the presence of border lines via the border prop.",
+        description: 'Uses colorScheme="bordered" on Table to render row dividers.',
         demoKey: "Default",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "Sortable column headers are buttons enabled by the sortable prop; the visible label stays Title Case while the sort arrow is decorative.",
+        "For sortable columns, callers render a button inside TableHead and manage sorting state and aria-sort themselves.",
         "Empty cells should show an em dash (—), never N/A or an empty string, to keep table alignment correct.",
       ],
     },
@@ -545,7 +545,7 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "On narrow viewports the table can enable horizontal scrolling, or switch to a card-stack layout for readability.",
+        "TableRoot provides horizontal scrolling when content is wider than its container; the component does not switch to a card layout.",
       ],
     },
     themeBehavior: {

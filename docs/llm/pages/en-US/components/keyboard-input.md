@@ -43,7 +43,7 @@ Used for single keys or named keys without modifiers, such as Enter or Esc. The 
 ## Accessibility
 
 - Kbd elements use semantic keyboard roles so screen readers pronounce key names and modifier combinations correctly.
-- Cross-platform modifier key swapping ensures users on different operating systems receive consistent semantic understanding with assistive technology.
+- The component does not detect the operating system or swap symbols. Callers must choose meta or ctrl for the target platform.
 
 ## Controlled behavior
 
@@ -116,7 +116,7 @@ import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input";
 ## Best Practices
 
 - Use Kbd for shortcut hints inside prose, menu items, and button suffixes. In long-form docs that narrate a shortcut, write the ⌘ K shortcut directly so the page renders the same when copied to plain text.
-- Pass modifiers via boolean props (meta, shift, alt, ctrl) so the component swaps ⌘ for Ctrl on Windows and Linux.
+- Pass modifiers via boolean props (meta, shift, alt, ctrl). The component does not detect the OS, so choose meta or ctrl for the target platform.
 - children is one key, digit, or named key (K, 7, Enter, Esc). Don't lowercase it, don't spell out modifiers inside, and don't pack a sentence into the element.
 - Use small inside dense surfaces like menu rows, command-bar items, or table cells where the default size crowds adjacent text.
 - Punctuation lives outside the element: period, comma, and or separators stay in surrounding prose so screen readers don't announce them as keys.

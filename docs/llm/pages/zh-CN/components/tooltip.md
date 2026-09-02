@@ -26,7 +26,7 @@ Tooltip
 
 ### 无延迟显示
 
-展示如何通过 prop 去除 ~150ms 的入场延迟，使 Tooltip 立即响应悬停。
+展示如何通过 delay={false} 去除默认 400ms 入场延迟，使 Tooltip 立即响应悬停。
 
 ### 对齐方式
 
@@ -38,7 +38,7 @@ Tooltip
 
 ## 无障碍
 
-- Tooltip 在悬停和键盘焦点时打开，保留默认的 ~150ms 入场延迟以防止鼠标扫过时的闪烁。
+- Tooltip 在悬停和键盘焦点时打开；默认入场延迟为 400ms，可通过 delay={false} 取消或传入数字覆盖。
 - Escape 键关闭 Tooltip 并将焦点返回到触发器；仅图标的触发器需配备命名操作的 aria-label。
 
 ## 受控行为
@@ -357,7 +357,7 @@ import { Tooltip } from "@/components/ui/tooltip";
 ## 最佳实践
 
 - 用 Tooltip 解释事物为何存在，而非它是什么。可见标签命名事物；tooltip 补充约束、范围或限制。
-- Tooltip 在悬停与键盘聚焦时打开。保持默认约 150ms 进入延迟，避免扫过的鼠标造成闪烁。
+- Tooltip 在悬停与键盘聚焦时打开。默认进入延迟为 400ms；delay={false} 可取消，数字值可覆盖。
 - 不要用 Tooltip 包裹带标签的 Input。触发器落在 <label> 而非字段上，tooltip 文本成为屏幕阅读器的第二个隐形标签。把帮助放在兄弟图标按钮上。
 - 把主动作留在 Tooltip 之外；触屏用户够不到悬停揭示的控件。
 - 文本是一句或短语。句首大写；单一短语无句号。

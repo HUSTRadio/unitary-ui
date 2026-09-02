@@ -28,7 +28,7 @@ Slider
 
 ### 默认滑块
 
-展示默认样式的 Range Slider，包含轨道、手柄和当前值。
+展示默认样式的 Range Slider，包含轨道和手柄。
 
 ### 步长与最大值
 
@@ -36,38 +36,34 @@ Slider
 
 ### 带标签
 
-展示实时显示当前值的 Range Slider，在轨道旁标注数值和单位。
+展示通过 label prop 在轨道上方提供可见且可访问名称的 Range Slider。
 
 ## 无障碍
 
 - 通过兄弟 <label htmlFor> 或 aria-label 给滑块提供无障碍名称，原生箭头键、Page Up/Down、Home/End 行为负责键盘操作。
-- 实时数值旁边需标注该数值代表的含义（如“采样率 · 44 kHz”），帮助屏幕阅读器理解上下文。
+- 需要精确值时显式启用 showStartInput / showEndInput，或由调用方在相邻区域渲染带单位的数值。
 - 禁用态的滑块仍需 tooltip 命名原因，以免用户困惑为什么无法调节。
 
 ## 受控行为
 
-- Slider 支持受控和非受控两种模式；使用 onValueChange 监听连续变化，使用 onValueCommit 监听拖动结束后的提交值。
+- Slider 接受 value/defaultValue；轨道拖动结束时使用 onValueCommit，onValueChange 当前只由可选数值输入路径调用。
 - 禁用手柄会阻止任何键盘和鼠标输入，适合需要临时锁定设置的场景。
 
 ## 响应式行为
 
-- 滑块轨道在全屏幕上保持等比缩放，手柄点击区域在各视口下均符合最小触控目标要求。
-- 窄屏时标签文字自动缩小字号，确保数值和单位不会换行溢出。
+不适用: 轨道使用容器宽度，但组件不按断点缩放标签或保证 44px 触控目标；移动布局和额外命中区域由调用方验证。
 
 ## 主题行为
 
 - 滑块轨道颜色、激活态背景和手柄样式跟随主题变量，暗色/亮色模式下各有对应配色。
-- 可通过 props 自定义滑块颜色，与品牌主色调保持一致。
+- 组件没有专用颜色 prop；品牌化需要在外层样式系统中覆盖相应类或令牌。
 
 ## 实时示例
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
 
-const [value, setValue] = useState([50]);
-
-<Slider value={value} onValueChange={setValue} aria-label="Value" />;
+<Slider defaultValue={[50]} aria-label="Value" />;
 ```
 
 ```tsx
@@ -78,11 +74,8 @@ import { Slider } from "@/components/ui/slider";
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
 
-const [value, setValue] = useState([40]);
-
-<Slider label="Volume" value={value} onValueChange={setValue} />;
+<Slider label="Volume" defaultValue={[40]} />;
 ```
 
 ```tsx
@@ -104,13 +97,11 @@ import { Slider } from "@/components/ui/slider";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 
-const [value, setValue] = useState([50]);
 const [committed, setCommitted] = useState<number | null>(null);
 
 <Slider
   label="Drag then release"
-  value={value}
-  onValueChange={setValue}
+  defaultValue={[50]}
   onValueCommitted={(value) => setCommitted(value[0] ?? null)}
 />
 <p className="mt-2 text-copy-13 text-gray-900">
@@ -137,5 +128,5 @@ import { Slider } from "@/components/ui/slider";
 - 形状与邻近性比精度更重要的范围数字输入用 slider：带宽上限、透明度、音量、颜色通道。
 - 端口号或内存限制这类精确值，slider 配数字 Input；键盘用户默认输入。
 - 吸附到合理步长（1、5、10%），拖拽绝不产生 47.83291 这类值。min 与 max 夹到真实产品限制。
-- 始终在轨道旁用 tabular nums 渲染实时值，并标注数字代表什么（Sample Rate · 44 kHz）。单独轨道无法自我描述。
+- 需要精确值时启用 showStartInput/showEndInput，或由调用方在相邻区域渲染带单位的数值；label 只负责命名滑块。
 - 通过兄弟 <label htmlFor> 或 aria-label 给 slider 可访问名称，让原生方向键、Page Up/Down、Home/End 行为承担键盘工作。不要拦截这些键。

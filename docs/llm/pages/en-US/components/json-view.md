@@ -36,9 +36,9 @@ Long key names and values auto-wrap at container edges, avoiding horizontal scro
 
 Deeply nested nodes are collapsed by default to reduce initial render cost; users can progressively expand branches of interest for efficient browsing of large data structures.
 
-### Highlighted path
+### Highlighted text matches
 
-Highlight specific key paths within the JSON tree to help users quickly locate and analyze important fields in the data.
+Use the highlightPattern regular expression to highlight matching text in key names or primitive values.
 
 ## Accessibility
 
@@ -47,18 +47,17 @@ Highlight specific key paths within the JSON tree to help users quickly locate a
 
 ## Controlled behavior
 
-- Control which nodes are expanded by default using defaultExpandedDepth or controlled expandedKeys, precisely controlling the tree's initial view.
-- The data prop accepts JavaScript objects or arrays; the component manages expand/collapse state internally and can expose change callbacks externally.
+- Set the initial expansion depth with defaultExpandDepth; the component manages the expanded set internally after that.
+- There is no controlled expandedKeys prop or expansion-change callback. Use another tree primitive when external expansion state is required.
 
 ## Responsive behavior
 
-- The JSON tree automatically adjusts indentation and font size across viewports to remain readable on small screens without triggering unnecessary horizontal scrolling.
-- The container's max height adjusts with viewport changes, enabling vertical scrolling when content exceeds the visible area.
+Not applicable: JsonView uses fixed typography and indentation and does not add viewport-based max-height or vertical scrolling. Apply those constraints on a caller-owned container.
 
 ## Theme behavior
 
-- Syntax highlighting color scheme follows theme tokens, distinguishing strings, numbers, booleans, nulls, and key names.
-- Dark mode adjusts all color contrasts to meet accessibility requirements.
+- Base text and background follow the theme, while strings, numbers, booleans, and nulls use component-defined syntax colors.
+- Matched text uses a fixed yellow highlight and keys use explicit light/dark values; this is not a fully configurable token palette.
 
 ## Live Demo
 
@@ -167,6 +166,6 @@ import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-vie
 
 ## Best Practices
 
-- Use JSON View for JSON objects or arrays that users need to inspect, scan, collapse, expand, select, or copy.
+- Use JSON View for JSON objects or arrays that users need to inspect, scan, collapse, or expand. Add a separate copy control when copying is required.
 - Use a regular code block when the value is static documentation, not an interactive product surface.
 - Keep the source data as an object or array. Do not pre-stringify JSON before passing it to data.

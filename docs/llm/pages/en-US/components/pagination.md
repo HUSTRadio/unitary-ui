@@ -44,8 +44,8 @@ Not applicable: Pagination does not manage an active page or total count; the ca
 
 ## Theme behavior
 
-- The current page highlight background and text color follow theme tokens, remaining clear and discernible in dark mode.
-- Divider and alignment styles are drawn from theme tokens, staying consistent with the overall design system.
+- Previous and Next links, direction icons, and supporting text use theme colors.
+- The component does not render a current-page highlight. Callers style any page links supplied through children.
 
 ## Live Demo
 
@@ -78,6 +78,6 @@ Native props: `ComponentProps<"nav">`
 
 - Use Pagination for sequential navigation between sibling pages (docs articles, blog posts, onboarding steps). For revealing more rows of the same data set, use Show More or a numbered pager.
 - Use Pagination as a previous/next document rail; use a data-table-specific pager when users must jump to numbered pages.
-- Mark the current page with isActive so it renders with aria-current="page" and the selected highlight; keep other links as plain anchors.
+- When children contain page links, mark the current one with aria-current="page" and style it in caller code; Pagination has no isActive prop.
 - Hide the Previous / Next slot at the start or end of a sequence instead of disabling it; an empty rail reads cleaner than a dimmed link with nowhere to go.
 - Keep page labels short — numbers or 1–2 words. Don’t restate ordinal positions like Page 3 of 10 inside a link.

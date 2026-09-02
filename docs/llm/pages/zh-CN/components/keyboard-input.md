@@ -116,7 +116,7 @@ import { KeyboardInput, Kbd } from "@/components/ui/keyboard-input";
 ## 最佳实践
 
 - 散文、菜单项和按钮后缀中的快捷键提示用 Kbd。在叙述快捷键的长文文档里直接写 ⌘ K 快捷键，让页面复制到纯文本时也一致。
-- 通过布尔 props（meta、shift、alt、ctrl）传修饰键，让组件在 Windows/Linux 上把 ⌘ 换成 Ctrl。
+- 通过布尔 props（meta、shift、alt、ctrl）传修饰键。组件不检测操作系统，调用方应按目标平台选择 meta 或 ctrl。
 - children 是一个键、数字或命名键（K、7、Enter、Esc）。不要小写它、不要把修饰键拼写进去、也不要把句子塞进元素。
 - 密集表面（菜单行、命令栏项、表格单元格）里默认尺寸挤压相邻文本时用 small。
 - 标点位于元素之外：句号、逗号、or 分隔符保留在周围散文里，避免屏幕阅读器把它们读成按键。

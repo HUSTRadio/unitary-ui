@@ -44,8 +44,8 @@ Pagination
 
 ## 主题行为
 
-- 当前页高亮的背景色和文字颜色跟随主题令牌，在深色模式下也保持清晰可辨。
-- 分隔符和对齐样式均从主题令牌获取，与整体设计系统保持一致。
+- Previous / Next 链接、方向图标和辅助文字使用主题颜色。
+- 组件不渲染当前页高亮；通过 children 添加页码时，其选中样式由调用方负责。
 
 ## 实时示例
 
@@ -79,5 +79,5 @@ import { Pagination } from "@/components/ui/pagination";
 - 兄弟页面间的顺序导航（文档文章、博客帖子、引导步骤）用 Pagination。同一数据集内揭示更多行用 Show More 或数字分页器。
 - 作为上一篇/下一篇文档轨使用 Pagination；需要跳到编号页面时用数据表格专用分页器。
 - 序列首尾的 Previous / Next 槽位用隐藏而非禁用；空的导轨比一个无处可去的暗淡链接更干净。
-- 用 isActive 标记当前页，使其渲染 aria-current="page" 且不渲染为链接。
+- 通过 children 添加页码时，由调用方为当前项设置 aria-current="page" 并提供选中样式；Pagination 没有 isActive prop。
 - 页面标签保持简短——数字或 1–2 个词。不要在链接内复述如 Page 3 of 10 这样的序号位置。

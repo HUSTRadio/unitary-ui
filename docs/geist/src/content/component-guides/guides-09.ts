@@ -264,8 +264,8 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "当前页高亮的背景色和文字颜色跟随主题令牌，在深色模式下也保持清晰可辨。",
-        "分隔符和对齐样式均从主题令牌获取，与整体设计系统保持一致。",
+        "Previous / Next 链接、方向图标和辅助文字使用主题颜色。",
+        "组件不渲染当前页高亮；通过 children 添加页码时，其选中样式由调用方负责。",
       ],
     },
   },
@@ -604,8 +604,8 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "The current page highlight background and text color follow theme tokens, remaining clear and discernible in dark mode.",
-        "Divider and alignment styles are drawn from theme tokens, staying consistent with the overall design system.",
+        "Previous and Next links, direction icons, and supporting text use theme colors.",
+        "The component does not render a current-page highlight. Callers style any page links supplied through children.",
       ],
     },
   },

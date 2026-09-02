@@ -30,11 +30,11 @@ A standard header-body table structure showing the core usage pattern.
 
 ### Table border variants
 
-Toggling the presence of border lines via the border prop.
+Uses colorScheme="bordered" on Table to render row dividers.
 
 ## Accessibility
 
-- Sortable column headers are buttons enabled by the sortable prop; the visible label stays Title Case while the sort arrow is decorative.
+- For sortable columns, callers render a button inside TableHead and manage sorting state and aria-sort themselves.
 - Empty cells should show an em dash (—), never N/A or an empty string, to keep table alignment correct.
 
 ## Controlled behavior
@@ -43,7 +43,7 @@ Not applicable: Table does not provide built-in sorting state or callbacks. Sort
 
 ## Responsive behavior
 
-- On narrow viewports the table can enable horizontal scrolling, or switch to a card-stack layout for readability.
+- TableRoot provides horizontal scrolling when content is wider than its container; the component does not switch to a card layout.
 
 ## Theme behavior
 
