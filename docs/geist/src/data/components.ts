@@ -64,6 +64,20 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "bottom-sheet",
+    label: "Bottom Sheet",
+    labelZh: "底部弹层",
+    description: "Presents mobile actions or supporting content at draggable height detents.",
+    official: "Bottom Sheet",
+    mobileOnly: true,
+    bestPractices: [
+      "Use Bottom Sheet for mobile actions or supporting content that should preserve the current page context.",
+      "Choose a small set of meaningful detents and keep the initial detent large enough to reveal the sheet's purpose.",
+      "Keep primary actions visible without requiring a drag, and let Escape, the backdrop, or a downward dismissal close the sheet.",
+      "Use Modal for blocking desktop decisions and Sheet for edge panels that are not driven by vertical detents.",
+    ],
+  },
+  {
     name: "browser",
     label: "Browser",
     labelZh: "浏览器",
@@ -374,6 +388,19 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "Use Couldn't or Can't for user-state errors; use Failed to for system or infra errors. Unable to is banned.",
       "Don't fall back to Something Went Wrong as a title; name the resource that failed (Couldn't Load Deployments).",
       'When the error appears asynchronously after a failed fetch, wrap the region in aria-live="polite" so it\'s announced; reserve assertive for true blocking errors.',
+    ],
+  },
+  {
+    name: "error-boundary",
+    label: "Error Boundary",
+    labelZh: "错误边界",
+    description: "Contains React render failures and replaces the failed subtree with recovery UI.",
+    official: "Error Boundary",
+    bestPractices: [
+      "Place Error Boundary around route, section, or widget boundaries where one render failure should not unmount the whole application.",
+      "Provide recovery UI that names the failed region and offers a safe retry, reset, or navigation path.",
+      "Use resetKeys for route or data identities whose change should clear the captured render error.",
+      "Report failures through onError; render boundaries do not catch event-handler, asynchronous, or server-rendering errors.",
     ],
   },
   {

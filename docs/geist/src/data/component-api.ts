@@ -428,6 +428,24 @@ const O = {
     ],
     "ComponentProps<\"div\">",
   ),
+  "error-boundary": component(
+    ["ErrorBoundary"],
+    [
+      row("children", "ReactNode", "The render subtree protected by the boundary.", "由边界保护的渲染子树。", {
+        required: true,
+      }),
+      row("fallback", "ReactNode", "Custom recovery UI rendered after a captured error.", "捕获错误后渲染的自定义恢复界面。"),
+      row("resetKeys", "unknown[]", "Shallow-compared keys whose changes clear the captured error.", "浅比较的键；任一变化会清除已捕获错误。"),
+      row(
+        "onError",
+        "(error: Error, info: React.ErrorInfo) => void",
+        "Reports the captured render error and component stack.",
+        "上报捕获的渲染错误与组件栈。",
+      ),
+      row("name", "string", "Boundary name used in logs and the built-in fallback.", "用于日志和内置恢复界面的边界名称。"),
+      row("className", "string", "Class name applied to the built-in fallback only.", "仅应用于内置恢复界面的类名。"),
+    ],
+  ),
   feedback: component(
     ["Feedback"],
     [
@@ -1355,7 +1373,7 @@ const O = {
     ],
   ),
   "bottom-sheet": component(
-    ["BottomSheet", "snapToDetent"],
+    ["BottomSheet"],
     [
       row(
         "detents",

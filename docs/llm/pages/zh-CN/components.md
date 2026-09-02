@@ -40,6 +40,14 @@ Book
 
 ](#/components/book)[
 
+Bottom Sheet
+
+### 底部弹层
+
+以可拖拽高度档位展示移动端操作或辅助内容。
+
+](#/components/bottom-sheet)[
+
 Breadcrumbs
 
 ### 面包屑
@@ -215,6 +223,14 @@ Error
 在操作失败时提供友好且可执行的消息。
 
 ](#/components/error)[
+
+Error Boundary
+
+### 错误边界
+
+隔离 React 渲染失败，并以恢复界面替换出错子树。
+
+](#/components/error-boundary)[
 
 Error Card
 

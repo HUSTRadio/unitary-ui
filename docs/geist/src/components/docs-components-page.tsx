@@ -44,6 +44,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Banner } from "@/components/ui/banner";
 import { Book } from "@/components/ui/book";
+import { BottomSheet } from "@/components/ui/bottom-sheet";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 import { Browser } from "@/components/ui/browser";
 import { Button, ButtonLink, CustomButton } from "@/components/ui/button";
@@ -108,6 +109,7 @@ import {
   ErrorCardTitle,
 } from "@/components/ui/error-card";
 import { Error } from "@/components/ui/error";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { Feedback } from "@/components/ui/feedback";
 import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
 import {
@@ -3904,6 +3906,39 @@ function JsonViewDemo() {
   );
 }
 
+function BottomSheetDemo() {
+  const { language } = useLanguage();
+  const [open, setOpen] = React.useState(false);
+  return (
+    <div
+      className="w-full max-w-md rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      data-demo-card="default"
+    >
+      <div className="flex min-h-40 items-center justify-center p-6" data-demo-container="default">
+        <Button typeName="button" onClick={() => setOpen(true)}>
+          {demoText(language, "Open Deployment Actions")}
+        </Button>
+        <BottomSheet open={open} onOpenChange={setOpen} detents={[0.45, 0.8]}>
+          <div className="space-y-4 p-6">
+            <div>
+              <h2 className="text-heading-20 text-foreground">
+                {demoText(language, "Deployment Actions")}
+              </h2>
+              <p className="mt-1 text-copy-14 text-muted-foreground">
+                {demoText(language, "Choose what to do with the current deployment.")}
+              </p>
+            </div>
+            <Button typeName="button" onClick={() => setOpen(false)}>
+              {demoText(language, "Close Actions")}
+            </Button>
+          </div>
+        </BottomSheet>
+      </div>
+      <ShowCodeFooter code={DEMO_CODE["bottom-sheet"]?.default ?? ""} />
+    </div>
+  );
+}
+
 function PhoneDemo() {
   const demoCode = (id: string) => DEMO_CODE.phone?.[id] ?? "";
   const [safariLayout, setSafariLayout] = React.useState<"compact" | "bottom" | "top">("compact");
@@ -6329,6 +6364,46 @@ function EntityDemo() {
   );
 }
 
+function ErrorBoundaryCrash(): never {
+  throw new globalThis.Error("Deployment preview failed to render");
+}
+
+function ErrorBoundaryDemo() {
+  const { language } = useLanguage();
+  const [failed, setFailed] = React.useState(false);
+  return (
+    <div
+      className="w-full max-w-md rounded-[8px] border border-gray-alpha-400 bg-background-100 p-6"
+      data-demo-card="default"
+      data-demo-container="default"
+    >
+      <ErrorBoundary
+        key={failed ? "failed" : "ready"}
+        name={demoText(language, "Deployment Preview")}
+        fallback={
+          <div role="alert" className="space-y-3 rounded-[8px] border border-red-400 p-4">
+            <p className="text-copy-14 font-medium text-foreground">
+              {demoText(language, "Deployment Preview Failed")}
+            </p>
+            <Button typeName="button" onClick={() => setFailed(false)}>
+              {demoText(language, "Reload Deployment Preview")}
+            </Button>
+          </div>
+        }
+      >
+        {failed ? (
+          <ErrorBoundaryCrash />
+        ) : (
+          <Button typeName="button" onClick={() => setFailed(true)}>
+            {demoText(language, "Trigger Render Error")}
+          </Button>
+        )}
+      </ErrorBoundary>
+      <ShowCodeFooter code={DEMO_CODE["error-boundary"]?.default ?? ""} />
+    </div>
+  );
+}
+
 function ErrorDemo() {
   return <Error>Deployment failed. Review the build logs and try again.</Error>;
 }
@@ -7066,6 +7141,8 @@ function renderDemo(name: string): React.ReactNode {
       return <BannerDemo />;
     case "book":
       return <BookDemo />;
+    case "bottom-sheet":
+      return <BottomSheetDemo />;
     case "breadcrumbs":
       return <BreadcrumbsDemo />;
     case "browser":
@@ -7112,6 +7189,8 @@ function renderDemo(name: string): React.ReactNode {
       return <EntityDemo />;
     case "error":
       return <ErrorDemo />;
+    case "error-boundary":
+      return <ErrorBoundaryDemo />;
     case "error-card":
       return <ErrorCardDemo />;
     case "feedback":

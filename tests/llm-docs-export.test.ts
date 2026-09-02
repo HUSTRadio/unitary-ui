@@ -72,7 +72,7 @@ describe("LLM docs export contract", () => {
     expect(allPages.size).toBe(DOCS_ROUTE_SEQUENCE.length * 2);
   });
 
-  it("164 份页面文件全部存在且非空", () => {
+  it("168 份页面文件全部存在且非空", () => {
     const index = readIndex();
     let count = 0;
     for (const route of index.routes) {
@@ -82,7 +82,7 @@ describe("LLM docs export contract", () => {
         count++;
       }
     }
-    expect(count).toBe(164);
+    expect(count).toBe(168);
   });
 
   it("每页含 route、title、summary，且无垃圾痕迹", () => {
@@ -112,7 +112,7 @@ describe("LLM docs export contract", () => {
     const componentRoutes = index.routes.filter(
       (r: any) => r.path.startsWith("/components/") && r.path !== "/components",
     );
-    expect(componentRoutes.length).toBe(73);
+    expect(componentRoutes.length).toBe(75);
     for (const route of componentRoutes) {
       for (const rel of Object.values(route.locales) as string[]) {
         const content = readPage(rel);

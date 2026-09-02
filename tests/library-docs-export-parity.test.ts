@@ -40,6 +40,27 @@ function libraryValueExports(): {
   return { all, byComponent };
 }
 
+function libraryTypeExports(): Set<string> {
+  const file = "src/lib/index.ts";
+  const source = ts.createSourceFile(
+    file,
+    readFileSync(file, "utf8"),
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS,
+  );
+  const types = new Set<string>();
+
+  for (const statement of source.statements) {
+    if (!ts.isExportDeclaration(statement)) continue;
+    if (!statement.exportClause || !ts.isNamedExports(statement.exportClause)) continue;
+    for (const specifier of statement.exportClause.elements) {
+      if (statement.isTypeOnly || specifier.isTypeOnly) types.add(specifier.name.text);
+    }
+  }
+  return types;
+}
+
 describe("library/docs public export parity", () => {
   it("exports every value advertised by component API docs from the package entry", () => {
     const { all } = libraryValueExports();
@@ -58,5 +79,10 @@ describe("library/docs public export parity", () => {
         `${component} has undocumented package-root exports`,
       ).toEqual([]);
     }
+  });
+
+  it("exports prop types for standalone public surfaces", () => {
+    const types = libraryTypeExports();
+    expect([...types]).toEqual(expect.arrayContaining(["BottomSheetProps", "ErrorBoundaryProps"]));
   });
 });

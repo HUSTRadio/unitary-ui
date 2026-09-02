@@ -40,6 +40,14 @@ A responsive book component.
 
 ](#/components/book)[
 
+Bottom Sheet
+
+### Bottom Sheet
+
+Presents mobile actions or supporting content at draggable height detents.
+
+](#/components/bottom-sheet)[
+
 Breadcrumbs
 
 ### Breadcrumbs
@@ -215,6 +223,14 @@ Error
 Provides a friendly, actionable message when an operation fails.
 
 ](#/components/error)[
+
+Error Boundary
+
+### Error Boundary
+
+Contains React render failures and replaces the failed subtree with recovery UI.
+
+](#/components/error-boundary)[
 
 Error Card
 

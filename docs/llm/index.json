@@ -129,8 +129,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:cb4d4460f023e33f6b095a5cf73ea35f90ef2d214c8b1c336649d23f31240444",
-        "en-US": "sha256:901e17c515e8f696fd91169c4fc029ebaf0183ceb66c4bc3875b0948f0e144f7"
+        "zh-CN": "sha256:5ca7afa36006773e281856b0649629e8d7c5a2bf780d75636d3e77922df19ce4",
+        "en-US": "sha256:2e0fab1712b5994811679b3ded3f0959511027f7e1a4059f5d591d22e4ac0759"
       }
     },
     {
@@ -195,6 +195,22 @@
       "sourceHash": {
         "zh-CN": "sha256:93f6c5afa7a595400e96a36deebbee2089c60566a186494a999b2c3037f9858b",
         "en-US": "sha256:d1beeb8fd91fd2c4bcea4221cfabf729a48b7305d7f972df1540110bbcf44e75"
+      }
+    },
+    {
+      "path": "/components/bottom-sheet",
+      "title": {
+        "zh-CN": "底部弹层",
+        "en-US": "Bottom Sheet"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/bottom-sheet.md",
+        "en-US": "pages/en-US/components/bottom-sheet.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:9c20c85fced04de60e7b6fea48eba815b54fe9bdad870184d2d4eb462d484193",
+        "en-US": "sha256:d2be343a09a135938e190f7a6ac8e115e0836d21850e2950ea843f0d9745502e"
       }
     },
     {
@@ -547,6 +563,22 @@
       "sourceHash": {
         "zh-CN": "sha256:bd379fe843dbdba165c57803dabb634673af86590de06d472bf456ce8653b2ff",
         "en-US": "sha256:f5ac2304e304f602706e02ca7c2f612da9425f32fb7097c23af70acf9deef87b"
+      }
+    },
+    {
+      "path": "/components/error-boundary",
+      "title": {
+        "zh-CN": "错误边界",
+        "en-US": "Error Boundary"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/error-boundary.md",
+        "en-US": "pages/en-US/components/error-boundary.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:121dfb447c0332bc77cdbb1599f3e3cb29d9e71f3650b39bd057cf1a6924ea36",
+        "en-US": "sha256:473892f16c0f9c99023e6f06ce18ed60c813782dea29597dc2179e6ca9b86457"
       }
     },
     {

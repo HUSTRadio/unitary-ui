@@ -126,6 +126,24 @@ describe("component API registry", () => {
     expect(row("sheet", "side")?.defaultValue).toBe('"right"');
     expect(row("sheet", "noOverlay")?.defaultValue).toBe("false");
 
+    expect(COMPONENT_API["bottom-sheet"].exports).toEqual(["BottomSheet"]);
+    expect(row("bottom-sheet", "detents")?.defaultValue).toBe("[0.5, 1]");
+    expect(row("bottom-sheet", "showIndicator")?.defaultValue).toBe('"automatic"');
+    expect(row("bottom-sheet", "open")?.type).toBe("boolean");
+    expect(row("bottom-sheet", "onOpenChange")?.type).toBe("(open: boolean) => void");
+    expect(row("bottom-sheet", "onDetentChange")?.type).toBe("(index: number) => void");
+
+    expect(COMPONENT_API["error-boundary"].exports).toEqual(["ErrorBoundary"]);
+    expect(row("error-boundary", "children")).toMatchObject({
+      type: "ReactNode",
+      required: true,
+    });
+    expect(row("error-boundary", "fallback")?.type).toBe("ReactNode");
+    expect(row("error-boundary", "resetKeys")?.type).toBe("unknown[]");
+    expect(row("error-boundary", "onError")?.type).toBe(
+      "(error: Error, info: React.ErrorInfo) => void",
+    );
+
     expect(row("badge", "variant")?.defaultValue).toBe('"gray"');
     expect(row("badge", "type")).toBeUndefined();
     expect(row("dots-menu", "position")?.type).toBe("MenuPosition");

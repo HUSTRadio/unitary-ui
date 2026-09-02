@@ -60,6 +60,7 @@ export { Description } from "@/components/ui/description";
 export { Entity, EntityMedia, EntityContent, EntityTitle, EntityDescription, EntityAction } from "@/components/ui/entity";
 export { ErrorCard, ErrorCardTitle, ErrorCardDescription, ErrorCardAction } from "@/components/ui/error-card";
 export { ErrorBoundary } from "@/components/ui/error-boundary";
+export type { ErrorBoundaryProps } from "@/components/ui/error-boundary";
 export { Error } from "@/components/ui/error";
 export { Feedback } from "@/components/ui/feedback";
 export { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view";
@@ -111,6 +112,7 @@ export type { DeviceProps, DeviceScreenProps, PhoneStatusBarOptions, PhoneSafari
 export { PhoneStatusBar, PhoneSafariChrome } from "@/components/ui/phone-chrome";
 export { Phone, PhoneScreen } from "@/components/ui/phone";
 export { BottomSheet } from "@/components/ui/bottom-sheet";
+export type { BottomSheetProps } from "@/components/ui/bottom-sheet";
 export { HamburgerMenu } from "@/components/ui/hamburger-menu";
 export type { HamburgerMenuProps, MenuItem as HamburgerMenuItem } from "@/components/ui/hamburger-menu";
 export { ExpandPanel } from "@/components/ui/expand-panel";

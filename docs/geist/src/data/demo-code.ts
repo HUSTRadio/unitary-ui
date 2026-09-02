@@ -41,6 +41,72 @@ import { DEMO_CODE_SPLIT_BATCH13 } from "./demo-code-split-batch13";
 import { DEMO_CODE_SPLIT_BATCH14 } from "./demo-code-split-batch14";
 
 export const DEMO_CODE: Record<string, Record<string, string>> = {
+  "bottom-sheet": {
+    default: `import * as React from "react";
+import { BottomSheet } from "@/components/ui/bottom-sheet";
+import { Button } from "@/components/ui/button";
+
+export function BottomSheetExample() {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <>
+      <Button typeName="button" onClick={() => setOpen(true)}>
+        Open Deployment Actions
+      </Button>
+      <BottomSheet open={open} onOpenChange={setOpen} detents={[0.45, 0.8]}>
+        <div className="space-y-4 p-6">
+          <div>
+            <h2 className="font-semibold">Deployment Actions</h2>
+            <p className="text-sm text-muted-foreground">
+              Choose what to do with the current deployment.
+            </p>
+          </div>
+          <Button typeName="button" onClick={() => setOpen(false)}>
+            Close Actions
+          </Button>
+        </div>
+      </BottomSheet>
+    </>
+  );
+}`,
+  },
+  "error-boundary": {
+    default: `import * as React from "react";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
+import { Button } from "@/components/ui/button";
+
+function BrokenPreview(): never {
+  throw new Error("Deployment preview failed to render");
+}
+
+export function ErrorBoundaryExample() {
+  const [failed, setFailed] = React.useState(false);
+
+  return (
+    <ErrorBoundary
+      key={failed ? "failed" : "ready"}
+      name="Deployment Preview"
+      fallback={
+        <div role="alert" className="space-y-3 rounded-lg border p-4">
+          <p className="font-medium">Deployment Preview Failed</p>
+          <Button typeName="button" onClick={() => setFailed(false)}>
+            Reload Deployment Preview
+          </Button>
+        </div>
+      }
+    >
+      {failed ? (
+        <BrokenPreview />
+      ) : (
+        <Button typeName="button" onClick={() => setFailed(true)}>
+          Trigger Render Error
+        </Button>
+      )}
+    </ErrorBoundary>
+  );
+}`,
+  },
   calendar: {
     default: `import { Calendar } from "@/components/ui/calendar";
 

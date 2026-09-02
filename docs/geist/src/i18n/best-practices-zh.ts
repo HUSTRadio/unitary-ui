@@ -23,6 +23,12 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "使用响应式宽度保持封面比例；textured 处理仅用于独立的 hero 图。",
     "把封面视为装饰性 chrome，标题经由底层标题元素呈现，避免屏幕阅读器重复播报。",
   ],
+  "bottom-sheet": [
+    "移动端操作或辅助内容需要保留当前页面上下文时使用 Bottom Sheet。",
+    "只设置少量有意义的高度档位，并让初始档位足以展示弹层用途。",
+    "无需拖拽即可看见主要操作，并允许 Escape、遮罩点击或向下拖动关闭弹层。",
+    "阻断式桌面决策使用 Modal；不依赖垂直档位的边缘面板使用 Sheet。",
+  ],
   browser: [
     "在落地页、文档和 changelog 文章中，把 Browser 用作截图、demo 和录屏周围的营销 chrome。",
     "不要在 Browser 框内渲染真实产品 UI；chrome 暗示的是截图，而非可交互界面。",
@@ -183,6 +189,12 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "用户状态错误用 Couldn't 或 Can't；系统或基础设施错误用 Failed to。禁用 Unable to。",
     "标题不要回退成 Something Went Wrong；点名失败的资源（Couldn't Load Deployments）。",
     '取数失败后错误异步出现时，用 aria-live="polite" 包裹区域让其被播报；把 assertive 保留给真正阻塞的错误。',
+  ],
+  "error-boundary": [
+    "在路由、页面分区或组件边界使用 Error Boundary，避免单个渲染失败卸载整个应用。",
+    "恢复界面应说明哪个区域失败，并提供安全的重试、重置或导航出口。",
+    "当路由或数据标识变化应清除已捕获错误时，使用 resetKeys。",
+    "通过 onError 上报失败；渲染错误边界不会捕获事件处理器、异步回调或服务端渲染错误。",
   ],
   feedback: [
     "把 Feedback 放在页面、文档或已完成流程的末尾，此时用户已形成观点。不要把它前置到用户刚打开的界面上。",
