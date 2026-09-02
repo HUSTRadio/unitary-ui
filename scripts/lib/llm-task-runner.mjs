@@ -220,6 +220,39 @@ export function buildAgentEnvironment(sourceEnv = process.env, options = {}) {
   return env;
 }
 
+export function waitForAgentExit(child, timeoutMs, getOutput) {
+  let timedOut = false;
+  const timer = setTimeout(() => {
+    timedOut = true;
+    child.kill("SIGKILL");
+  }, timeoutMs);
+
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = (result) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      child.stdout.destroy();
+      child.stderr.destroy();
+      resolve(result);
+    };
+
+    child.once("error", (error) => {
+      const { stdout, stderr } = getOutput();
+      finish({ ok: false, code: null, error, stdout, stderr, timedOut });
+    });
+    // `close` waits for every process that inherited stdout/stderr. Codex can
+    // leave a helper holding those pipes after the CLI itself has exited, which
+    // makes pre-push wait until the outer timeout. The agent's own `exit` is the
+    // execution boundary; destroy our pipe readers once that process is done.
+    child.once("exit", (code) => {
+      const { stdout, stderr } = getOutput();
+      finish({ ok: code === 0 && !timedOut, code, error: null, stdout, stderr, timedOut });
+    });
+  });
+}
+
 function runAgent({ repoRoot, runnerConfig, prompt, testMode, testEnvironment }) {
   const agent = runnerConfig.agent;
   const args = buildAgentArgs(runnerConfig, prompt, { testMode });
@@ -239,23 +272,7 @@ function runAgent({ repoRoot, runnerConfig, prompt, testMode, testEnvironment })
     stderr += chunk.toString();
   });
 
-  const timeoutMs = agent.timeoutMs ?? 1800000;
-  let timedOut = false;
-  const timer = setTimeout(() => {
-    timedOut = true;
-    child.kill("SIGKILL");
-  }, timeoutMs);
-
-  return new Promise((resolve) => {
-    child.on("error", (error) => {
-      clearTimeout(timer);
-      resolve({ ok: false, code: null, error, stdout, stderr, timedOut });
-    });
-    child.on("close", (code) => {
-      clearTimeout(timer);
-      resolve({ ok: code === 0 && !timedOut, code, error: null, stdout, stderr, timedOut });
-    });
-  });
+  return waitForAgentExit(child, agent.timeoutMs ?? 1800000, () => ({ stdout, stderr }));
 }
 
 function runValidators(repoRoot, validatorIds, options = {}) {

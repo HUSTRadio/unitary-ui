@@ -1,8 +1,10 @@
 // @vitest-environment node
 import { spawnSync } from "node:child_process";
+import { EventEmitter } from "node:events";
 import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { PassThrough } from "node:stream";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { afterEach, describe, expect, it } from "vitest";
@@ -202,5 +204,24 @@ describe("generic LLM task runner", () => {
         writeRunRecord: false,
       }),
     ).rejects.toThrow(/agent exited with status 9/);
+  });
+
+  it("finishes on agent exit without waiting for a close event from inherited pipes", async () => {
+    const runner = await loadRunner();
+    const child = new EventEmitter() as EventEmitter & {
+      stdout: PassThrough;
+      stderr: PassThrough;
+      kill: () => boolean;
+    };
+    child.stdout = new PassThrough();
+    child.stderr = new PassThrough();
+    child.kill = () => true;
+
+    const result = runner.waitForAgentExit(child, 1_000, () => ({ stdout: "", stderr: "" }));
+    child.emit("exit", 0);
+
+    await expect(result).resolves.toMatchObject({ ok: true, code: 0, timedOut: false });
+    expect(child.stdout.destroyed).toBe(true);
+    expect(child.stderr.destroyed).toBe(true);
   });
 });
