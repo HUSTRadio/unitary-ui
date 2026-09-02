@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Added
 
+- **Public component exports and API references**: the package root now exports `ContextMenuTrigger`, `ContextMenuContent`, `FieldsetFooterActions`, `ErrorText`, `WarningText`, and `DisabledWall`; the component API registry, bilingual guides, and LLM reference synchronize those exports and their related implemented props.
 - **Bilingual component guide registry**: all 73 components have structured guides in Simplified Chinese (primary) and English (alternative) — when to use / when not to use / example index / accessibility / controlled behavior / responsive / theme — with examples referencing real existing demo keys; rendered on component docs pages.
 - **LLM reference corpus**: `docs/llm/` generates 164 Markdown pages (82 docs routes × 2 locales) plus the machine-readable `index.json` (with content hashes); `docs:llm:generate` / `docs:llm:check` commands with drift detection.
 - **LLM corpus documentation**: added `docs/llm/README.md` and its English alternative covering the canonical source, index structure, generation, and zero-drift verification flow.
