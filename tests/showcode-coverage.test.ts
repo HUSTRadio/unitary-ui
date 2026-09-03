@@ -28,9 +28,11 @@ describe("show code coverage contract", () => {
     const missing = report.missing.map((m) => `${m.slug}/${m.id}`);
     const empty = report.empty.map((e) => `${e.slug}/${e.id}`);
     const syntax = report.syntaxIssues.map((s) => `${s.slug}/${s.id}: ${s.message}`);
+    const orphanEntries = report.orphanEntries.map(({ slug, id }) => `${slug}/${id}`);
 
     expect(missing, `missing show code entries (${missing.length})`).toEqual([]);
     expect(empty, `empty show code entries (${empty.length})`).toEqual([]);
+    expect(orphanEntries, `orphan show code entries (${orphanEntries.length})`).toEqual([]);
     expect(syntax, `TSX syntax issues (${syntax.length})`).toEqual([]);
   }, 60000);
 });

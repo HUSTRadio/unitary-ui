@@ -5,7 +5,7 @@
  * 3. 类型：把条目写成独立 .tsx fixture + tsconfig（@ alias），交 tsc --noEmit（由调用方执行）
  */
 import { readFile } from "node:fs/promises";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import ts from "typescript";
 
@@ -139,6 +139,67 @@ export function extractReferences(pageSource: string): { slug: string; id: strin
     }
   }
 
+  // 调用点 C：直接传给 Show Code 的字面 DEMO_CODE 访问。
+  // 仅检查 ShowCode/ShowCodeFooter 的 code 属性，避免把变量、注释或其他 JSX 属性误算为消费。
+  const sourceFile = ts.createSourceFile(
+    PAGE_PATH,
+    pageSource,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  );
+  const literalMemberName = (node: ts.Node): string | null => {
+    if (ts.isPropertyAccessExpression(node)) return node.name.text;
+    if (ts.isElementAccessExpression(node) && ts.isStringLiteral(node.argumentExpression)) {
+      return node.argumentExpression.text;
+    }
+    return null;
+  };
+  const directDemoCodeReference = (node: ts.Node): { slug: string; id: string } | null => {
+    if (!ts.isPropertyAccessExpression(node) && !ts.isElementAccessExpression(node)) return null;
+    const id = literalMemberName(node);
+    const slugAccess = node.expression;
+    if (
+      id === null ||
+      (!ts.isPropertyAccessExpression(slugAccess) && !ts.isElementAccessExpression(slugAccess))
+    ) {
+      return null;
+    }
+    const slug = literalMemberName(slugAccess);
+    const root = slugAccess.expression;
+    return slug !== null && ts.isIdentifier(root) && root.text === "DEMO_CODE"
+      ? { slug, id }
+      : null;
+  };
+  const visit = (node: ts.Node): void => {
+    if (ts.isJsxSelfClosingElement(node) || ts.isJsxOpeningElement(node)) {
+      const tagName = node.tagName.getText(sourceFile);
+      if (tagName === "ShowCode" || tagName === "ShowCodeFooter") {
+        const codeAttribute = node.attributes.properties.find(
+          (attribute): attribute is ts.JsxAttribute =>
+            ts.isJsxAttribute(attribute) && attribute.name.getText(sourceFile) === "code",
+        );
+        const expression =
+          codeAttribute?.initializer && ts.isJsxExpression(codeAttribute.initializer)
+            ? codeAttribute.initializer.expression
+            : undefined;
+        if (expression) {
+          const findReference = (candidate: ts.Node): void => {
+            const reference = directDemoCodeReference(candidate);
+            if (reference) {
+              refs.push({ ...reference, pos: candidate.getStart(sourceFile) });
+              return;
+            }
+            ts.forEachChild(candidate, findReference);
+          };
+          findReference(expression);
+        }
+      }
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(sourceFile);
+
   // 去重
   const seen = new Set<string>();
   const unique: { slug: string; id: string }[] = [];
@@ -154,7 +215,7 @@ export function extractReferences(pageSource: string): { slug: string; id: strin
 
 /** 语法检查：条目作为 TSX 模块解析。
  * 文档片段风格（import 行 + 裸 JSX 用法，可能多根）是有意为之，
- * 故豁免 TS17001「JSX expressions must have one parent element」，
+ * 故豁免 TS2657「JSX expressions must have one parent element」，
  * 其余诊断视为真实语法错误。 */
 export function checkSyntax(entries: Record<string, Record<string, string>>): SyntaxIssue[] {
   const issues: SyntaxIssue[] = [];
@@ -225,20 +286,66 @@ export async function auditShowCode(
 }
 
 /** 把全部条目写成类型检查 fixture（每条目一个 .tsx + 一个 tsconfig） */
+export function buildTypecheckFixtureSource(slug: string, id: string, code: string): string {
+  const sourceFile = ts.createSourceFile(
+    `${slug}__${id}.tsx`,
+    code,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  );
+  const diagnostics = (sourceFile as unknown as { parseDiagnostics?: ts.Diagnostic[] })
+    .parseDiagnostics ?? [];
+  const fixtureHeader = `// show code fixture: ${slug}/${id}\n`;
+
+  if (diagnostics.length === 0) return `${fixtureHeader}${code}\nexport {};\n`;
+
+  if (diagnostics.some((diagnostic) => diagnostic.code !== 2657)) {
+    const codes = diagnostics.map((diagnostic) => `TS${diagnostic.code}`).join(", ");
+    throw new Error(`Cannot create typecheck fixture for ${slug}/${id}: ${codes}`);
+  }
+
+  const tail = sourceFile.statements.at(-1);
+  if (!tail || !ts.isExpressionStatement(tail)) {
+    throw new Error(`Cannot normalize TS2657 fixture for ${slug}/${id}: trailing JSX not found`);
+  }
+
+  const prefix = code.slice(0, tail.getStart(sourceFile));
+  const trailingJsx = code.slice(tail.getStart(sourceFile), tail.end);
+  const fixture = `${fixtureHeader}${prefix}<>\n${trailingJsx}\n</>;\nexport {};\n`;
+  const normalized = ts.createSourceFile(
+    `${slug}__${id}.tsx`,
+    fixture,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  );
+  const normalizedDiagnostics =
+    (normalized as unknown as { parseDiagnostics?: ts.Diagnostic[] }).parseDiagnostics ?? [];
+  if (normalizedDiagnostics.length > 0) {
+    const codes = normalizedDiagnostics.map((diagnostic) => `TS${diagnostic.code}`).join(", ");
+    throw new Error(`Cannot normalize TS2657 fixture for ${slug}/${id}: ${codes}`);
+  }
+
+  return fixture;
+}
+
+/** 把全部条目写成类型检查 fixture（每条目一个 .tsx + 一个 tsconfig） */
 export async function writeTypecheckFixtures(
   repoRoot: string,
   demoCode: Record<string, Record<string, string>>,
   outDir: string,
 ): Promise<{ fileCount: number; tsconfigPath: string }> {
+  await rm(outDir, { recursive: true, force: true });
   await mkdir(outDir, { recursive: true });
   let fileCount = 0;
   for (const [slug, blocks] of Object.entries(demoCode)) {
     for (const [id, code] of Object.entries(blocks)) {
       if (code.trim() === "") continue;
-      const safeId = id.replace(/[^\w-]/g, "_");
-      const filePath = path.join(outDir, `${slug}__${safeId}.tsx`);
-      // 顶层加 export {} 使片段成为模块；多根 JSX 是文档片段风格（类型检查层豁免 TS2657）
-      await writeFile(filePath, `// show code fixture: ${slug}/${id}\n${code}\nexport {};\n`);
+      const encodedSlug = Buffer.from(slug, "utf8").toString("hex");
+      const encodedId = Buffer.from(id, "utf8").toString("hex");
+      const filePath = path.join(outDir, `${encodedSlug}__${encodedId}.tsx`);
+      await writeFile(filePath, buildTypecheckFixtureSource(slug, id, code));
       fileCount++;
     }
   }
@@ -252,15 +359,17 @@ export async function writeTypecheckFixtures(
           lib: ["ES2022", "DOM", "DOM.Iterable"],
           module: "ESNext",
           moduleResolution: "bundler",
+          allowArbitraryExtensions: true,
           jsx: "react-jsx",
           strict: true,
           noEmit: true,
           skipLibCheck: true,
+          ignoreDeprecations: "6.0",
           baseUrl: repoRoot,
           paths: { "@/*": ["src/*"] },
-          types: ["react", "react-dom"],
+          types: ["react", "react-dom", "vite/client"],
         },
-        include: ["./*.tsx"],
+        include: ["./*.tsx", path.join(repoRoot, "src/types/**/*.d.ts")],
       },
       null,
       2,

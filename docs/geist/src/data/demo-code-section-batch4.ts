@@ -8,15 +8,6 @@
 
 export const DEMO_CODE_SECTION_BATCH4: Record<string, Record<string, string>> = {
   button: {
-    Sizes: `import { Button } from "@/components/ui/button";
-
-<div className="flex flex-col gap-4">
-  <div className="flex items-center gap-3">
-    <Button size="small" typeName="button">Small</Button>
-    <Button typeName="button">Medium</Button>
-    <Button size="large" typeName="button">Large</Button>
-  </div>
-</div>`,
     Variants: `import { Button } from "@/components/ui/button";
 
 <div className="flex flex-wrap items-center gap-3">
