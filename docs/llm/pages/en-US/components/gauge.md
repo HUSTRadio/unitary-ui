@@ -61,8 +61,6 @@ Not applicable: Gauge uses four fixed sizes—tiny, small, medium, and large—a
 
 ## Live Demo
 
-## Label
-
 80
 
 100
@@ -78,15 +76,19 @@ Not applicable: Gauge uses four fixed sizes—tiny, small, medium, and large—a
 ```tsx
 import { Gauge } from "@/components/ui/gauge";
 
-<div className="flex flex-row flex-wrap items-stretch justify-start gap-8">
-  <Gauge showValue size="tiny" value={80} />
-  <Gauge showValue size="small" value={80} />
-  <Gauge showValue size="small" value={100} />
-  <Gauge showValue size="medium" value={80} />
-  <Gauge showValue size="medium" value={100} />
-  <Gauge showValue size="large" value={80} />
-  <Gauge showValue size="large" value={100} />
-</div>;
+export function GaugeLabel0E66373FExample() {
+  return (
+    <div className="flex flex-row flex-wrap items-stretch justify-start gap-8">
+      <Gauge showValue size="tiny" value={80} />
+      <Gauge showValue size="small" value={80} />
+      <Gauge showValue size="small" value={100} />
+      <Gauge showValue size="medium" value={80} />
+      <Gauge showValue size="medium" value={100} />
+      <Gauge showValue size="large" value={80} />
+      <Gauge showValue size="large" value={100} />
+    </div>
+  );
+}
 ```
 
 ## Default color scale
@@ -94,11 +96,15 @@ import { Gauge } from "@/components/ui/gauge";
 ```tsx
 import { Gauge } from "@/components/ui/gauge";
 
-<div className="flex flex-row flex-wrap items-stretch justify-start gap-8">
-  <Gauge size="small" value={14} />
-  <Gauge size="small" value={34} />
-  <Gauge size="small" value={68} />
-</div>;
+export function GaugeDefaultColorScale4B7E0E9CExample() {
+  return (
+    <div className="flex flex-row flex-wrap items-stretch justify-start gap-8">
+      <Gauge size="small" value={14} />
+      <Gauge size="small" value={34} />
+      <Gauge size="small" value={68} />
+    </div>
+  );
+}
 ```
 
 ## Custom color range
@@ -106,24 +112,28 @@ import { Gauge } from "@/components/ui/gauge";
 ```tsx
 import { Gauge } from "@/components/ui/gauge";
 
-const PINK_SCALE = {
-  "0": "var(--pink-100)",
-  "10": "var(--pink-200)",
-  "20": "var(--pink-300)",
-  "30": "var(--pink-400)",
-  "50": "var(--pink-500)",
-  "60": "var(--pink-600)",
-  "70": "var(--pink-700)",
-  "80": "var(--pink-800)",
-  "90": "var(--pink-900)",
-  "100": "var(--pink-1000)",
-};
+export function GaugeCustomColorRange88183E94Example() {
+  const PINK_SCALE = {
+    "0": "var(--pink-100)",
+    "10": "var(--pink-200)",
+    "20": "var(--pink-300)",
+    "30": "var(--pink-400)",
+    "50": "var(--pink-500)",
+    "60": "var(--pink-600)",
+    "70": "var(--pink-700)",
+    "80": "var(--pink-800)",
+    "90": "var(--pink-900)",
+    "100": "var(--pink-1000)",
+  };
 
-<div className="flex flex-row flex-wrap items-stretch justify-start gap-2">
-  {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((value) => (
-    <Gauge key={value} colors={PINK_SCALE} size="small" value={value} />
-  ))}
-</div>;
+  return (
+    <div className="flex flex-row flex-wrap items-stretch justify-start gap-2">
+      {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((value) => (
+        <Gauge key={value} colors={PINK_SCALE} size="small" value={value} />
+      ))}
+    </div>
+  );
+}
 ```
 
 ## Custom secondary color
@@ -131,13 +141,17 @@ const PINK_SCALE = {
 ```tsx
 import { Gauge } from "@/components/ui/gauge";
 
-<div className="flex justify-start">
-  <Gauge
-    colors={{ primary: "var(--blue-700)", secondary: "var(--blue-300)" }}
-    size="medium"
-    value={50}
-  />
-</div>;
+export function GaugeCustomSecondaryColor34BA2682Example() {
+  return (
+    <div className="flex justify-start">
+      <Gauge
+        colors={{ primary: "var(--blue-700)", secondary: "var(--blue-300)" }}
+        size="medium"
+        value={50}
+      />
+    </div>
+  );
+}
 ```
 
 ## Arc priority
@@ -147,15 +161,19 @@ import { Gauge } from "@/components/ui/gauge";
 ```tsx
 import { Gauge } from "@/components/ui/gauge";
 
-<div className="flex justify-start">
-  <Gauge
-    arcPriority="equal"
-    colors={{ primary: "var(--blue-700)", secondary: "var(--red-700)" }}
-    showValue
-    size="medium"
-    value={50}
-  />
-</div>;
+export function GaugeArcPriorityAB3EBA95Example() {
+  return (
+    <div className="flex justify-start">
+      <Gauge
+        arcPriority="equal"
+        colors={{ primary: "var(--blue-700)", secondary: "var(--red-700)" }}
+        showValue
+        size="medium"
+        value={50}
+      />
+    </div>
+  );
+}
 ```
 
 ## Indeterminate
@@ -163,12 +181,16 @@ import { Gauge } from "@/components/ui/gauge";
 ```tsx
 import { Gauge } from "@/components/ui/gauge";
 
-<div className="flex flex-row flex-wrap items-stretch justify-start gap-2">
-  <Gauge indeterminate size="tiny" value={25} />
-  <Gauge indeterminate size="small" value={25} />
-  <Gauge indeterminate size="medium" value={25} />
-  <Gauge indeterminate size="large" value={25} />
-</div>;
+export function GaugeIndeterminateD5DB1EBAExample() {
+  return (
+    <div className="flex flex-row flex-wrap items-stretch justify-start gap-2">
+      <Gauge indeterminate size="tiny" value={25} />
+      <Gauge indeterminate size="small" value={25} />
+      <Gauge indeterminate size="medium" value={25} />
+      <Gauge indeterminate size="large" value={25} />
+    </div>
+  );
+}
 ```
 
 ## API Reference

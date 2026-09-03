@@ -57,17 +57,15 @@ Label 与 Input 配合的正确用法：通过 htmlFor/id 配对实现点击标�
 
 ## 实时示例
 
-这是一个标签
+This is a label
 
 ```tsx
 import { Label } from "@/components/ui/label";
 
-<Label id="label-default" value="This is a label" />;
+export function LabelDefault37A8EEC1Example() {
+  return <Label id="label-default" value="This is a label" />;
+}
 ```
-
-邮箱地址
-
-邮箱地址
 
 ## 带输入框
 
@@ -77,10 +75,14 @@ Email Address
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-<div className="flex w-full max-w-sm flex-col">
-  <Label id="label-input" value="Email Address" withInput />
-  <Input aria-labelledby="label-input" id="label-input" placeholder="Enter email address..." />
-</div>;
+export function LabelWithInput35FA6F50Example() {
+  return (
+    <div className="flex w-full max-w-sm flex-col">
+      <Label id="label-input" value="Email Address" withInput />
+      <Input aria-labelledby="label-input" id="label-input" placeholder="Enter email address..." />
+    </div>
+  );
+}
 ```
 
 ## 忽略大小写
@@ -91,14 +93,18 @@ Email address
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-<div className="flex w-full max-w-sm flex-col">
-  <Label bypassCasing id="label-input-bypass" value="Email address" withInput />
-  <Input
-    aria-labelledby="label-input-bypass"
-    id="label-input-bypass"
-    placeholder="Enter email address..."
-  />
-</div>;
+export function LabelBypassCasingB8D7E5E0Example() {
+  return (
+    <div className="flex w-full max-w-sm flex-col">
+      <Label bypassCasing id="label-input-bypass" value="Email address" withInput />
+      <Input
+        aria-labelledby="label-input-bypass"
+        id="label-input-bypass"
+        placeholder="Enter email address..."
+      />
+    </div>
+  );
+}
 ```
 
 ## API 参考

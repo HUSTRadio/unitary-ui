@@ -59,19 +59,29 @@ Demonstrates the small-size variant, ideal for dense chrome areas like footers a
 ```tsx
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
-<ThemeSwitcher />;
+export function ThemeSwitcherDefault21B111CBExample() {
+  return <ThemeSwitcher />;
+}
 ```
+
+## Small
 
 ```tsx
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
-<ThemeSwitcher small />;
+export function ThemeSwitcherSmall5263293FExample() {
+  return <ThemeSwitcher small />;
+}
 ```
+
+## Disabled
 
 ```tsx
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
-<ThemeSwitcher disabled />;
+export function ThemeSwitcherDisabled75081B59Example() {
+  return <ThemeSwitcher disabled />;
+}
 ```
 
 ## API Reference

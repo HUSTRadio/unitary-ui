@@ -70,35 +70,47 @@ Clearable Input
 import { ClearableInput } from "@/components/ui/clearable-input";
 import { useState } from "react";
 
-const [value, setValue] = useState("");
+export function ClearableInputDefault37A8EEC1Example() {
+  const [value, setValue] = useState("");
 
-<ClearableInput
-  aria-label="Demo clearable input"
-  onChange={(e) => {
-    setValue(e.target.value);
-  }}
-  placeholder="Enter some text..."
-  value={value}
-/>;
+  return (
+    <ClearableInput
+      aria-label="Demo clearable input"
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      placeholder="Enter some text..."
+      value={value}
+    />
+  );
+}
 ```
 
-邮箱
+## with-label
+
+Email
 
 ```tsx
 import { ClearableInput } from "@/components/ui/clearable-input";
 import { useState } from "react";
 
-const [value, setValue] = useState("");
+export function ClearableInputWithLabelBB9F6883Example() {
+  const [value, setValue] = useState("");
 
-<ClearableInput
-  label="Email"
-  onChange={(e) => {
-    setValue(e.target.value);
-  }}
-  placeholder="Enter your email..."
-  value={value}
-/>;
+  return (
+    <ClearableInput
+      label="Email"
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      placeholder="Enter your email..."
+      value={value}
+    />
+  );
+}
 ```
+
+## with-cmdk
 
 Esc⌘K
 
@@ -106,59 +118,76 @@ Esc⌘K
 import { ClearableInput } from "@/components/ui/clearable-input";
 import { useState } from "react";
 
-const [value, setValue] = useState("");
+export function ClearableInputWithCmdkC25FADFBExample() {
+  const [value, setValue] = useState("");
 
-<ClearableInput
-  aria-label="Search with cmdk"
-  cmdk
-  onChange={(e) => {
-    setValue(e.target.value);
-  }}
-  placeholder="Search..."
-  value={value}
-/>;
+  return (
+    <ClearableInput
+      aria-label="Search with cmdk"
+      cmdk
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      placeholder="Search..."
+      value={value}
+    />
+  );
+}
 ```
+
+## disabled
 
 ```tsx
 import { ClearableInput } from "@/components/ui/clearable-input";
 import { useState } from "react";
 
-const [value, setValue] = useState("Some text");
+export function ClearableInputDisabled17EB3C01Example() {
+  const [value, setValue] = useState("Some text");
 
-<ClearableInput
-  aria-label="Disabled clearable input"
-  disabled
-  onChange={(e) => {
-    setValue(e.target.value);
-  }}
-  placeholder="Enter some text..."
-  value={value}
-/>;
+  return (
+    <ClearableInput
+      aria-label="Disabled clearable input"
+      disabled
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      placeholder="Enter some text..."
+      value={value}
+    />
+  );
+}
 ```
 
-已清除 0 次
+## with-clear-callback
+
+Cleared 0 times
 
 ```tsx
 import { ClearableInput } from "@/components/ui/clearable-input";
 import { useState } from "react";
 
-const [value, setValue] = useState("");
-const [clearCount, setClearCount] = useState(0);
+export function ClearableInputWithClearCallback3538EFCAExample() {
+  const [value, setValue] = useState("");
 
-<div className="flex flex-col gap-2">
-  <ClearableInput
-    aria-label="Clearable input with callback"
-    onChange={(e) => {
-      setValue(e.target.value);
-    }}
-    onClear={() => {
-      setClearCount((prev) => prev + 1);
-    }}
-    placeholder="Enter some text and clear..."
-    value={value}
-  />
-  <p className="text-copy-14 text-gray-900">Cleared {clearCount} times</p>
-</div>;
+  const [clearCount, setClearCount] = useState(0);
+
+  return (
+    <div className="flex flex-col gap-2">
+      <ClearableInput
+        aria-label="Clearable input with callback"
+        onChange={(e) => {
+          setValue(e.target.value);
+        }}
+        onClear={() => {
+          setClearCount((prev) => prev + 1);
+        }}
+        placeholder="Enter some text and clear..."
+        value={value}
+      />
+      <p className="text-copy-14 text-gray-900">Cleared {clearCount} times</p>
+    </div>
+  );
+}
 ```
 
 ## API 参考

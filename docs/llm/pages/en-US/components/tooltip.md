@@ -55,8 +55,6 @@ Not applicable: The Tooltip's popout position and size do not depend on viewport
 
 ## Live Demo
 
-## No delay
-
 Top
 
 Bottom
@@ -68,28 +66,32 @@ Right
 ```tsx
 import { Tooltip } from "@/components/ui/tooltip";
 
-<div className="flex w-full flex-row flex-wrap">
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip delay={false} text="The Evil Rabbit Jumped over the Fence">
-      <span>Top</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip delay={false} position="bottom" text="The Evil Rabbit Jumped over the Fence">
-      <span>Bottom</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip delay={false} position="left" text="The Evil Rabbit Jumped over the Fence">
-      <span>Left</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip delay={false} position="right" text="The Evil Rabbit Jumped over the Fence">
-      <span>Right</span>
-    </Tooltip>
-  </div>
-</div>;
+export function TooltipNoDelay1EEF43B1Example() {
+  return (
+    <div className="flex w-full flex-row flex-wrap">
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip delay={false} text="The Evil Rabbit Jumped over the Fence">
+          <span>Top</span>
+        </Tooltip>
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip delay={false} position="bottom" text="The Evil Rabbit Jumped over the Fence">
+          <span>Bottom</span>
+        </Tooltip>
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip delay={false} position="left" text="The Evil Rabbit Jumped over the Fence">
+          <span>Left</span>
+        </Tooltip>
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip delay={false} position="right" text="The Evil Rabbit Jumped over the Fence">
+          <span>Right</span>
+        </Tooltip>
+      </div>
+    </div>
+  );
+}
 ```
 
 ## Box align
@@ -115,57 +117,63 @@ Right/Right
 ```tsx
 import { Tooltip } from "@/components/ui/tooltip";
 
-<div className="flex w-full flex-row flex-wrap">
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip boxAlign="left" position="bottom" text="The Evil Rabbit Jumped over the Fence">
-      <span>Bottom/Left</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip position="bottom" text="The Evil Rabbit Jumped over the Fence">
-      <span>Bottom/Center</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip boxAlign="right" position="bottom" text="The Evil Rabbit Jumped over the Fence">
-      <span>Bottom/Right</span>
-    </Tooltip>
-  </div>
-</div>
-<div className="flex w-full flex-row flex-wrap">
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip boxAlign="left" position="left" text="The Evil Rabbit Jumped over the Fence">
-      <span>Left/Left</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip position="left" text="The Evil Rabbit Jumped over the Fence">
-      <span>Left/Center</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip boxAlign="right" position="left" text="The Evil Rabbit Jumped over the Fence">
-      <span>Left/Right</span>
-    </Tooltip>
-  </div>
-</div>
-<div className="flex w-full flex-row flex-wrap">
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip boxAlign="left" position="right" text="The Evil Rabbit Jumped over the Fence">
-      <span>Right/Left</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip position="right" text="The Evil Rabbit Jumped over the Fence">
-      <span>Right/Center</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip boxAlign="right" position="right" text="The Evil Rabbit Jumped over the Fence">
-      <span>Right/Right</span>
-    </Tooltip>
-  </div>
-</div>
+export function TooltipBoxAlign42ACE5E0Example() {
+  return (
+    <>
+      <div className="flex w-full flex-row flex-wrap">
+        <div className="flex flex-1 flex-col items-center justify-center py-2">
+          <Tooltip boxAlign="left" position="bottom" text="The Evil Rabbit Jumped over the Fence">
+            <span>Bottom/Left</span>
+          </Tooltip>
+        </div>
+        <div className="flex flex-1 flex-col items-center justify-center py-2">
+          <Tooltip position="bottom" text="The Evil Rabbit Jumped over the Fence">
+            <span>Bottom/Center</span>
+          </Tooltip>
+        </div>
+        <div className="flex flex-1 flex-col items-center justify-center py-2">
+          <Tooltip boxAlign="right" position="bottom" text="The Evil Rabbit Jumped over the Fence">
+            <span>Bottom/Right</span>
+          </Tooltip>
+        </div>
+      </div>
+      <div className="flex w-full flex-row flex-wrap">
+        <div className="flex flex-1 flex-col items-center justify-center py-2">
+          <Tooltip boxAlign="left" position="left" text="The Evil Rabbit Jumped over the Fence">
+            <span>Left/Left</span>
+          </Tooltip>
+        </div>
+        <div className="flex flex-1 flex-col items-center justify-center py-2">
+          <Tooltip position="left" text="The Evil Rabbit Jumped over the Fence">
+            <span>Left/Center</span>
+          </Tooltip>
+        </div>
+        <div className="flex flex-1 flex-col items-center justify-center py-2">
+          <Tooltip boxAlign="right" position="left" text="The Evil Rabbit Jumped over the Fence">
+            <span>Left/Right</span>
+          </Tooltip>
+        </div>
+      </div>
+      <div className="flex w-full flex-row flex-wrap">
+        <div className="flex flex-1 flex-col items-center justify-center py-2">
+          <Tooltip boxAlign="left" position="right" text="The Evil Rabbit Jumped over the Fence">
+            <span>Right/Left</span>
+          </Tooltip>
+        </div>
+        <div className="flex flex-1 flex-col items-center justify-center py-2">
+          <Tooltip position="right" text="The Evil Rabbit Jumped over the Fence">
+            <span>Right/Center</span>
+          </Tooltip>
+        </div>
+        <div className="flex flex-1 flex-col items-center justify-center py-2">
+          <Tooltip boxAlign="right" position="right" text="The Evil Rabbit Jumped over the Fence">
+            <span>Right/Right</span>
+          </Tooltip>
+        </div>
+      </div>
+    </>
+  );
+}
 ```
 
 ## Custom content
@@ -181,55 +189,59 @@ Right
 ```tsx
 import { Tooltip } from "@/components/ui/tooltip";
 
-<div className="flex w-full flex-row flex-wrap">
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip
-      text={
-        <>
-          The <b>Evil Rabbit</b> Jumped over the <i>Fence</i>.
-        </>
-      }
-    >
-      <span>Top</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip
-      position="bottom"
-      text={
-        <>
-          The <b>Evil Rabbit</b> Jumped over the <i>Fence</i>.
-        </>
-      }
-    >
-      <span>Bottom</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip
-      position="left"
-      text={
-        <>
-          The <b>Evil Rabbit</b> Jumped over the <i>Fence</i>.
-        </>
-      }
-    >
-      <span>Left</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip
-      position="right"
-      text={
-        <>
-          The <b>Evil Rabbit</b> Jumped over the <i>Fence</i>.
-        </>
-      }
-    >
-      <span>Right</span>
-    </Tooltip>
-  </div>
-</div>;
+export function TooltipCustomContent61146064Example() {
+  return (
+    <div className="flex w-full flex-row flex-wrap">
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip
+          text={
+            <>
+              The <b>Evil Rabbit</b> Jumped over the <i>Fence</i>.
+            </>
+          }
+        >
+          <span>Top</span>
+        </Tooltip>
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip
+          position="bottom"
+          text={
+            <>
+              The <b>Evil Rabbit</b> Jumped over the <i>Fence</i>.
+            </>
+          }
+        >
+          <span>Bottom</span>
+        </Tooltip>
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip
+          position="left"
+          text={
+            <>
+              The <b>Evil Rabbit</b> Jumped over the <i>Fence</i>.
+            </>
+          }
+        >
+          <span>Left</span>
+        </Tooltip>
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip
+          position="right"
+          text={
+            <>
+              The <b>Evil Rabbit</b> Jumped over the <i>Fence</i>.
+            </>
+          }
+        >
+          <span>Right</span>
+        </Tooltip>
+      </div>
+    </div>
+  );
+}
 ```
 
 ## Custom type
@@ -245,28 +257,32 @@ Right
 ```tsx
 import { Tooltip } from "@/components/ui/tooltip";
 
-<div className="flex w-full flex-row flex-wrap">
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip text="The Evil Rabbit Jumped over the Fence" type="success">
-      <span>Top</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip position="bottom" text="The Evil Rabbit Jumped over the Fence" type="error">
-      <span>Bottom</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip position="left" text="The Evil Rabbit Jumped over the Fence" type="warning">
-      <span>Left</span>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip position="right" text="The Evil Rabbit Jumped over the Fence" type="violet">
-      <span>Right</span>
-    </Tooltip>
-  </div>
-</div>;
+export function TooltipCustomType2E67D6C7Example() {
+  return (
+    <div className="flex w-full flex-row flex-wrap">
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip text="The Evil Rabbit Jumped over the Fence" type="success">
+          <span>Top</span>
+        </Tooltip>
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip position="bottom" text="The Evil Rabbit Jumped over the Fence" type="error">
+          <span>Bottom</span>
+        </Tooltip>
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip position="left" text="The Evil Rabbit Jumped over the Fence" type="warning">
+          <span>Left</span>
+        </Tooltip>
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip position="right" text="The Evil Rabbit Jumped over the Fence" type="violet">
+          <span>Right</span>
+        </Tooltip>
+      </div>
+    </div>
+  );
+}
 ```
 
 ## Components
@@ -284,37 +300,41 @@ import { Kbd } from "@/components/ui/keyboard-input";
 import { Spinner } from "@/components/ui/spinner";
 import { Tooltip } from "@/components/ui/tooltip";
 
-<div className="flex w-full flex-row flex-wrap">
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip position="bottom" text="The Evil Rabbit Jumped over the Fence">
-      <Button size="small" typeName="button">
-        Bottom
-      </Button>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip position="left" text="The Evil Rabbit Jumped over the Fence">
-      <Badge size="sm">LEFT</Badge>
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip position="right" text="The Evil Rabbit Jumped over the Fence">
-      <Spinner />
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip
-      text={
-        <>
-          Search
-          <Kbd>/</Kbd>
-        </>
-      }
-    >
-      <span>Shortcut</span>
-    </Tooltip>
-  </div>
-</div>;
+export function TooltipComponentsA150CE22Example() {
+  return (
+    <div className="flex w-full flex-row flex-wrap">
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip position="bottom" text="The Evil Rabbit Jumped over the Fence">
+          <Button size="small" typeName="button">
+            Bottom
+          </Button>
+        </Tooltip>
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip position="left" text="The Evil Rabbit Jumped over the Fence">
+          <Badge size="sm">LEFT</Badge>
+        </Tooltip>
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip position="right" text="The Evil Rabbit Jumped over the Fence">
+          <Spinner />
+        </Tooltip>
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip
+          text={
+            <>
+              Search
+              <Kbd>/</Kbd>
+            </>
+          }
+        >
+          <span>Shortcut</span>
+        </Tooltip>
+      </div>
+    </div>
+  );
+}
 ```
 
 ## Other
@@ -326,18 +346,22 @@ No center text
 ```tsx
 import { Tooltip } from "@/components/ui/tooltip";
 
-<div className="flex w-full flex-row flex-wrap">
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip text="The Evil Rabbit Jumped over the Fence" tip={false}>
-      No tip indicator
-    </Tooltip>
-  </div>
-  <div className="flex flex-1 flex-col items-center justify-center py-2">
-    <Tooltip center={false} text="The Evil Rabbit Jumped over the Fence multiple times.">
-      No center text
-    </Tooltip>
-  </div>
-</div>;
+export function TooltipOtherF97E9DA0Example() {
+  return (
+    <div className="flex w-full flex-row flex-wrap">
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip text="The Evil Rabbit Jumped over the Fence" tip={false}>
+          No tip indicator
+        </Tooltip>
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center py-2">
+        <Tooltip center={false} text="The Evil Rabbit Jumped over the Fence multiple times.">
+          No center text
+        </Tooltip>
+      </div>
+    </div>
+  );
+}
 ```
 
 ## API Reference

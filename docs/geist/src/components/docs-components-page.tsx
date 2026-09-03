@@ -1,214 +1,13 @@
 import * as React from "react";
-import {
-  Accessibility,
-  ArrowDownCircle,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUp,
-  ChartColumn,
-  CircleCheck,
-  ChevronLeft,
-  ChevronRight,
-  CircleArrowUp,
-  Clock,
-  Copy,
-  ExternalLink,
-  Flag,
-  LayoutGrid,
-  List,
-  Lock,
-  LockOpen,
-  MoreHorizontal,
-  Rocket,
-  RotateCcw,
-  Save,
-  Search,
-  Shield,
-  ShieldCheck,
-  Smartphone,
-  Sparkles,
-  Trash2,
-  Triangle,
-  TriangleAlert,
-  X,
-} from "lucide-react";
+import { ArrowLeft, ChevronRight, Smartphone } from "lucide-react";
 
-import {
-  Avatar,
-  AvatarGroup,
-  AvatarWithIcon,
-  BitbucketAvatar,
-  GitHubAvatar,
-  GitLabAvatar,
-} from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Banner } from "@/components/ui/banner";
-import { Book } from "@/components/ui/book";
-import { BottomSheet } from "@/components/ui/bottom-sheet";
-import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
-import { Browser } from "@/components/ui/browser";
-import { Button, ButtonLink, CustomButton } from "@/components/ui/button";
-import { Calendar, CALENDAR_ROW_REV_CLASS } from "@/components/ui/calendar";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ClearableInput } from "@/components/ui/clearable-input";
-import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
-import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
-import { Code, InlineCode } from "@/components/ui/code";
 import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
-import {
-  CommandMenu,
-  CommandMenuDivider,
-  CommandMenuGroup,
-  CommandMenuInput,
-  CommandMenuItem,
-  CommandMenuList,
-} from "@/components/ui/command-menu";
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuTrigger,
-} from "@/components/ui/context-menu";
-import {
-  ContextCard,
-  ContextCardBody,
-  ContextCardDescription,
-  ContextCardFooter,
-  ContextCardHeader,
-  ContextCardTitle,
-  ContextCardTrigger,
-} from "@/components/ui/context-card";
-import { CopyButton } from "@/components/ui/copy-button";
-import { Description } from "@/components/ui/description";
-import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
-import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
-import {
-  Menu,
-  MenuButton,
-  MenuContainer,
-  MenuDivider,
-  MenuItem,
-  MenuItemLocked,
-  MenuLink,
-  MenuSection,
-} from "@/components/ui/menu";
-import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
-import {
-  Entity,
-  EntityAction,
-  EntityContent,
-  EntityDescription,
-  EntityMedia,
-  EntityTitle,
-} from "@/components/ui/entity";
-import {
-  ErrorCard,
-  ErrorCardAction,
-  ErrorCardDescription,
-  ErrorCardTitle,
-} from "@/components/ui/error-card";
-import { Error } from "@/components/ui/error";
-import { ErrorBoundary } from "@/components/ui/error-boundary";
-import { Feedback } from "@/components/ui/feedback";
-import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
-import {
-  DisabledWall,
-  ErrorText,
-  Fieldset,
-  FieldsetContent,
-  FieldsetFooter,
-  FieldsetFooterAction,
-  FieldsetFooterActions,
-  FieldsetFooterStatus,
-  FieldsetSubtitle,
-  FieldsetTitle,
-  WarningText,
-} from "@/components/ui/fieldset";
-import { FileTree, FileTreeIcon, FileTreeItem, FileTreeLabel } from "@/components/ui/file-tree";
-import { Gauge } from "@/components/ui/gauge";
-import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui/grid";
-import { Input } from "@/components/ui/input";
-import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view";
-import { Kbd } from "@/components/ui/keyboard-input";
-import { Label } from "@/components/ui/label";
-import { LoadMoreButton } from "@/components/ui/load-more-button";
-import { LoadingDots } from "@/components/ui/loading-dots";
-import { MiddleTruncate } from "@/components/ui/middle-truncate";
-import {
-  Modal,
-  ModalContent,
-  ModalDescription,
-  ModalFooter,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from "@/components/ui/modal";
-import {
-  MultiSelectContent,
-  MultiSelectRoot,
-  MultiSelectRow,
-  MultiSelectTrigger,
-} from "@/components/ui/multi-select";
-import { Note, NoteAction, NoteContent, NoteLabel } from "@/components/ui/note";
-import { Pagination } from "@/components/ui/pagination";
-import { Device, DeviceScreen } from "@/components/ui/device";
-import { Pill } from "@/components/ui/pill";
-import { ProjectBanner } from "@/components/ui/project-banner";
-import { Progress } from "@/components/ui/progress";
-import { Radio, RadioGroup, RadioGroupItem, useRadio } from "@/components/ui/radio";
-import { RelativeTimeCard } from "@/components/ui/relative-time-card";
-import { Scroller } from "@/components/ui/scroller";
-import { SearchInput } from "@/components/ui/search-input";
-import { Switch, SwitchControl } from "@/components/ui/switch";
-import { Select, SelectItem } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { ShowMore } from "@/components/ui/show-more";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Slider } from "@/components/ui/slider";
-import { Snippet } from "@/components/ui/snippet";
-import { Spinner } from "@/components/ui/spinner";
-import {
-  SplitButton,
-  SplitButtonMain,
-  SplitButtonMenu,
-  SplitButtonMenuItem,
-} from "@/components/ui/split-button";
-import { StatusDot } from "@/components/ui/status-dot";
-import { StepPoint } from "@/components/ui/step-point";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableCol,
-  TableColgroup,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRoot,
-  TableRow,
-} from "@/components/ui/table";
-import { Tabs } from "@/components/ui/tabs";
-import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
-import { Textarea } from "@/components/ui/textarea";
-import { ThemeSwitcher } from "@/components/ui/theme-switcher";
-import { Toggle } from "@/components/ui/toggle";
-import { useToasts } from "@/components/ui/toast";
-import { Tooltip } from "@/components/ui/tooltip";
-import { Video } from "@/components/ui/video";
 
-import { COMPONENTS, type ComponentMeta } from "../data/components";
 import { getComponentGuide } from "../content/component-guides";
+import { COMPONENTS, type ComponentMeta } from "../data/components";
+import { EXAMPLE_REGISTRY, type ExampleRecord } from "../examples/registry";
+import { demoText, demoTextWithValues } from "../i18n/components-demo";
+import { type DocsLanguage, useLanguage } from "../i18n/language";
 import { ComponentGuideSections } from "./component-guide-sections";
 import { ComponentApiReference } from "./docs-api-reference";
 import {
@@ -218,11 +17,6 @@ import {
   DocsSection,
   DocsSectionTitle,
 } from "./docs-typography";
-import { EXAMPLE_REGISTRY, type ExampleRecord } from "../examples/registry";
-
-import { demoText, demoTextWithValues } from "../i18n/components-demo";
-import { type DocsLanguage, useLanguage } from "../i18n/language";
-import { useInputModality } from "@/lib/input-modality";
 
 /**
  * Components 文档页（docs/geist 专用）。
@@ -258,7 +52,6 @@ function DemoSection({
     </div>
   );
 }
-
 
 function TableDemoCard({
   children,
@@ -320,59 +113,6 @@ function DemoShowCode({ code }: { code: string }) {
   );
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-type CalendarDemoExample =
-  | "default"
-  | "horizontal-layout"
-  | "sizes"
-  | "presets"
-  | "compact"
-  | "stacked"
-  | "presets-default"
-  | "min-max"
-  | "pinned-timezone";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /** 名称 → 实时 demo 渲染器（未命中的分支在调用前已拦截） */
 function primaryExample(records: readonly ExampleRecord[]): ExampleRecord | undefined {
   return records.find((record) => record.id === "default") ?? records[0];
@@ -389,7 +129,6 @@ function renderDemo(name: string): React.ReactNode {
     </TableDemoCard>
   );
 }
-
 
 function Section({
   title,
@@ -413,32 +152,13 @@ function Section({
   );
 }
 
-
-
-
-
-
-
-const VIRTUALIZED_TABLE_ITEMS = [
-  { product: "Brake Pads Set", usage: "100 sets", price: "$50 per set", charge: "$5,000.00" },
-  { product: "Oil Filters", usage: "200 filters", price: "$10 per filter", charge: "$2,000.00" },
-  {
-    product: "Car Batteries",
-    usage: "50 batteries",
-    price: "$100 per battery",
-    charge: "$5,000.00",
-  },
-  { product: "Headlight Bulbs", usage: "300 bulbs", price: "$15 per bulb", charge: "$4,500.00" },
-  { product: "Windshield Wipers", usage: "250 pairs", price: "$20 per pair", charge: "$5,000.00" },
-  { product: "Spark Plugs", usage: "500 sets", price: "$5 per set", charge: "$2,500.00" },
-];
-
-
 /** 名称 → 额外演示分段（Sizes / Variants / States），未命中的组件返回 null */
 function renderExtraSections(name: string, _language: DocsLanguage): React.ReactNode {
   const records = EXAMPLE_REGISTRY[name] ?? [];
   const primary = primaryExample(records);
-  const remaining = primary ? records.filter((record) => record !== primary) : records;
+  const remaining = primary
+    ? records.filter((record) => record !== primary && record.renderInSection !== false)
+    : records.filter((record) => record.renderInSection !== false);
   if (remaining.length === 0) return null;
   return (
     <>

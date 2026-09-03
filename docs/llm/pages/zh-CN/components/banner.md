@@ -59,9 +59,13 @@ Banner
 ```tsx
 import { Banner } from "@/components/ui/banner";
 
-<Banner button={{ href: "#/components", content: "Read more" }}>
-  <b>Big News</b> – New components finally available
-</Banner>;
+export function BannerDefault21B111CBExample() {
+  return (
+    <Banner button={{ href: "#/components", content: "Read more" }}>
+      <b>Big News</b> – New components finally available
+    </Banner>
+  );
+}
 ```
 
 ## API 参考

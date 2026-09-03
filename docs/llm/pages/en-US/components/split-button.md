@@ -55,46 +55,48 @@ Not applicable: Split Button manages its own open/close internal state and does 
 
 ## Live Demo
 
-## Menu Alignment
-
 ```tsx
 import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
 
-<div className="flex flex-wrap items-start gap-8">
-  <SplitButton
-    buttonProps={{ type: "default" }}
-    menuButtonLabel="Select save method"
-    menuItems={
-      <>
-        <SplitButtonMenuItem description="Save changes" title="Save" />
-        <SplitButtonMenuItem
-          description="Save changes and create a new production deployment"
-          title="Save + Redeploy"
-        />
-      </>
-    }
-    menuProps={{ width: 264 }}
-  >
-    Save (bottom-start)
-  </SplitButton>
-  <SplitButton
-    buttonProps={{ type: "secondary" }}
-    menuAlignment="bottom-end"
-    menuButtonLabel="Select save method"
-    menuItems={
-      <>
-        <SplitButtonMenuItem description="Save changes" title="Save" />
-        <SplitButtonMenuItem
-          description="Save changes and create a new production deployment"
-          title="Save + Redeploy"
-        />
-      </>
-    }
-    menuProps={{ width: 264 }}
-  >
-    Save (bottom-end)
-  </SplitButton>
-</div>;
+export function SplitButtonMenuAlignmentAE78EA5CExample() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <SplitButton
+        buttonProps={{ type: "default" }}
+        menuButtonLabel="Select save method"
+        menuItems={
+          <>
+            <SplitButtonMenuItem description="Save changes" title="Save" />
+            <SplitButtonMenuItem
+              description="Save changes and create a new production deployment"
+              title="Save + Redeploy"
+            />
+          </>
+        }
+        menuProps={{ width: 264 }}
+      >
+        Save (bottom-start)
+      </SplitButton>
+      <SplitButton
+        buttonProps={{ type: "secondary" }}
+        menuAlignment="bottom-end"
+        menuButtonLabel="Select save method"
+        menuItems={
+          <>
+            <SplitButtonMenuItem description="Save changes" title="Save" />
+            <SplitButtonMenuItem
+              description="Save changes and create a new production deployment"
+              title="Save + Redeploy"
+            />
+          </>
+        }
+        menuProps={{ width: 264 }}
+      >
+        Save (bottom-end)
+      </SplitButton>
+    </div>
+  );
+}
 ```
 
 ## Icon
@@ -103,29 +105,33 @@ import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
 import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
 import { ExternalLink, Rocket } from "lucide-react";
 
-<SplitButton
-  buttonProps={{ size: "small", type: "secondary" }}
-  menuButtonLabel="Copy page"
-  menuItems={[
-    <SplitButtonMenuItem
-      key="v0"
-      description="Open this page in v0"
-      menuItemProps={{ className: "w-[200px]" }}
-      title="Open in v0"
-      icon={<Rocket className="size-4" aria-hidden />}
-    />,
-    <SplitButtonMenuItem
-      key="chatgpt"
-      description="Open this page in ChatGPT"
-      menuItemProps={{ className: "w-[200px]" }}
-      title="Open in ChatGPT"
-      icon={<ExternalLink className="size-4" aria-hidden />}
-    />,
-  ]}
-  menuProps={{ width: 240 }}
->
-  Copy page
-</SplitButton>;
+export function SplitButtonIconA35ABCD6Example() {
+  return (
+    <SplitButton
+      buttonProps={{ size: "small", type: "secondary" }}
+      menuButtonLabel="Copy page"
+      menuItems={[
+        <SplitButtonMenuItem
+          key="v0"
+          description="Open this page in v0"
+          menuItemProps={{ className: "w-[200px]" }}
+          title="Open in v0"
+          icon={<Rocket className="size-4" aria-hidden />}
+        />,
+        <SplitButtonMenuItem
+          key="chatgpt"
+          description="Open this page in ChatGPT"
+          menuItemProps={{ className: "w-[200px]" }}
+          title="Open in ChatGPT"
+          icon={<ExternalLink className="size-4" aria-hidden />}
+        />,
+      ]}
+      menuProps={{ width: 240 }}
+    >
+      Copy page
+    </SplitButton>
+  );
+}
 ```
 
 ## Title with Icon
@@ -134,42 +140,46 @@ import { ExternalLink, Rocket } from "lucide-react";
 import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
 import { CircleArrowUp, Save } from "lucide-react";
 
-<div className="flex w-full flex-col gap-8">
-  {(["default", "secondary"] as const).map((variant) => (
-    <div key={variant} className="flex flex-row gap-1">
-      {(["small", "medium", "large"] as const).map((size) => (
-        <SplitButton
-          key={`${variant}-${size}`}
-          buttonProps={{ size, type: variant }}
-          menuButtonLabel="Select save method"
-          menuItems={
-            <>
-              <SplitButtonMenuItem
-                description="Save changes"
-                title={
-                  <span className="flex items-center gap-2">
-                    <Save className="size-4" aria-hidden /> Save
-                  </span>
-                }
-              />
-              <SplitButtonMenuItem
-                description="Save changes and create a new production deployment"
-                title={
-                  <span className="flex items-center gap-2">
-                    <CircleArrowUp className="size-4" aria-hidden /> Save + Redeploy
-                  </span>
-                }
-              />
-            </>
-          }
-          menuProps={{ width: 264 }}
-        >
-          Save
-        </SplitButton>
+export function SplitButtonTitleWithIcon9D4D6961Example() {
+  return (
+    <div className="flex w-full flex-col gap-8">
+      {(["default", "secondary"] as const).map((variant) => (
+        <div key={variant} className="flex flex-row gap-1">
+          {(["small", "medium", "large"] as const).map((size) => (
+            <SplitButton
+              key={`${variant}-${size}`}
+              buttonProps={{ size, type: variant }}
+              menuButtonLabel="Select save method"
+              menuItems={
+                <>
+                  <SplitButtonMenuItem
+                    description="Save changes"
+                    title={
+                      <span className="flex items-center gap-2">
+                        <Save className="size-4" aria-hidden /> Save
+                      </span>
+                    }
+                  />
+                  <SplitButtonMenuItem
+                    description="Save changes and create a new production deployment"
+                    title={
+                      <span className="flex items-center gap-2">
+                        <CircleArrowUp className="size-4" aria-hidden /> Save + Redeploy
+                      </span>
+                    }
+                  />
+                </>
+              }
+              menuProps={{ width: 264 }}
+            >
+              Save
+            </SplitButton>
+          ))}
+        </div>
       ))}
     </div>
-  ))}
-</div>;
+  );
+}
 ```
 
 ## API Reference

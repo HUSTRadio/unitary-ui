@@ -60,72 +60,94 @@ Project Banner
 import { ProjectBanner } from "@/components/ui/project-banner";
 import { ShieldCheck } from "lucide-react";
 
-<ProjectBanner
-  callToAction={{
-    label: "Disable",
-    href: "/",
-  }}
-  icon={<ShieldCheck className="shrink-0" />}
-  label={<>Attack Challenge Mode is enabled for this project</>}
-/>;
+export function ProjectBannerDefault21B111CBExample() {
+  return (
+    <ProjectBanner
+      callToAction={{
+        label: "Disable",
+        href: "/",
+      }}
+      icon={<ShieldCheck className="shrink-0" />}
+      label={<>Attack Challenge Mode is enabled for this project</>}
+    />
+  );
+}
 ```
+
+## 成功
 
 ```tsx
 import { ProjectBanner } from "@/components/ui/project-banner";
 import { ShieldCheck } from "lucide-react";
 
-<ProjectBanner
-  callToAction={{
-    label: "Disable",
-    href: "/",
-  }}
-  icon={<ShieldCheck className="shrink-0" />}
-  label={<>Attack Challenge Mode is enabled for this project</>}
-  variant="success"
-/>;
+export function ProjectBannerSuccessC88A0B90Example() {
+  return (
+    <ProjectBanner
+      callToAction={{
+        label: "Disable",
+        href: "/",
+      }}
+      icon={<ShieldCheck className="shrink-0" />}
+      label={<>Attack Challenge Mode is enabled for this project</>}
+      variant="success"
+    />
+  );
+}
 ```
+
+## 警告
 
 ```tsx
 import { ProjectBanner } from "@/components/ui/project-banner";
 import { Tooltip } from "@/components/ui/tooltip";
 import { RotateCcw } from "lucide-react";
 
-<ProjectBanner
-  callToAction={{
-    label: "Undo Rollback",
-    onClick: () => {
-      alert("Button clicked");
-    },
-  }}
-  icon={<RotateCcw />}
-  label={
-    <>
-      This project was rolled back by{" "}
-      <Tooltip
-        className="underline decoration-dashed underline-offset-[5px]"
-        text="Yesterday for project marketing-website"
-      >
-        @johnphamous
-      </Tooltip>
-    </>
-  }
-  variant="warning"
-/>;
+export function ProjectBannerWarningE981DDAEExample() {
+  return (
+    <ProjectBanner
+      callToAction={{
+        label: "Undo Rollback",
+        onClick: () => {
+          alert("Button clicked");
+        },
+      }}
+      icon={<RotateCcw />}
+      label={
+        <>
+          This project was rolled back by{" "}
+          <Tooltip
+            className="underline decoration-dashed underline-offset-[5px]"
+            text="Yesterday for project marketing-website"
+          >
+            @johnphamous
+          </Tooltip>
+        </>
+      }
+      variant="warning"
+    />
+  );
+}
 ```
+
+## 错误
 
 ```tsx
 import { ProjectBanner } from "@/components/ui/project-banner";
 import { TriangleAlert } from "lucide-react";
 
-<ProjectBanner
-  callToAction={{
-    label: "Add Credit Card",
-    href: "/$",
-  }}
-  icon={<TriangleAlert />}
-  label={<>Payment failed, update credit card information before your account is shut down</>}
-  variant="error"
-/>;
+export function ProjectBannerError54A0E8C1Example() {
+  return (
+    <ProjectBanner
+      callToAction={{
+        label: "Add Credit Card",
+        href: "/$",
+      }}
+      icon={<TriangleAlert />}
+      label={<>Payment failed, update credit card information before your account is shut down</>}
+      variant="error"
+    />
+  );
+}
 ```
 
 ## API 参考

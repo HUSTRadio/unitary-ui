@@ -523,6 +523,8 @@ import { TooltipComponentsA150CE22Example } from "./tooltip/components-a150ce22.
 import TooltipComponentsA150CE22ExampleSource from "./tooltip/components-a150ce22.example.tsx?example-source";
 import { TooltipOtherF97E9DA0Example } from "./tooltip/other-f97e9da0.example";
 import TooltipOtherF97E9DA0ExampleSource from "./tooltip/other-f97e9da0.example.tsx?example-source";
+import { VideoDefault37A8EEC1Example } from "./video/default-37a8eec1.example";
+import VideoDefault37A8EEC1ExampleSource from "./video/default-37a8eec1.example.tsx?example-source";
 import { VideoNoLoopAE976739Example } from "./video/no-loop-ae976739.example";
 import VideoNoLoopAE976739ExampleSource from "./video/no-loop-ae976739.example.tsx?example-source";
 import { VideoNoControlsA3B62E68Example } from "./video/no-controls-a3b62e68.example";
@@ -751,6 +753,7 @@ export interface ExampleRecord {
   id: string;
   Component: ComponentType;
   source: string;
+  renderInSection?: boolean;
 }
 
 export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
@@ -779,7 +782,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "button", id: "Prefix and Suffix", Component: ButtonPrefixAndSuffix1EFED9DEExample, source: ButtonPrefixAndSuffix1EFED9DEExampleSource },
   { slug: "checkbox", id: "default", Component: CheckboxDefault37A8EEC1Example, source: CheckboxDefault37A8EEC1ExampleSource },
   { slug: "checkbox", id: "disabled", Component: CheckboxDisabled17EB3C01Example, source: CheckboxDisabled17EB3C01ExampleSource },
-  { slug: "checkbox", id: "indeterminate", Component: CheckboxIndeterminateB38044CAExample, source: CheckboxIndeterminateB38044CAExampleSource },
+  { slug: "checkbox", id: "indeterminate", Component: CheckboxIndeterminateB38044CAExample, source: CheckboxIndeterminateB38044CAExampleSource, renderInSection: false },
   { slug: "checkbox", id: "Indeterminate", Component: CheckboxIndeterminateD5DB1EBAExample, source: CheckboxIndeterminateD5DB1EBAExampleSource },
   { slug: "choicebox", id: "single-select", Component: ChoiceboxSingleSelectF99FF34BExample, source: ChoiceboxSingleSelectF99FF34BExampleSource },
   { slug: "choicebox", id: "multi-select", Component: ChoiceboxMultiSelect294DCC0FExample, source: ChoiceboxMultiSelect294DCC0FExampleSource },
@@ -795,9 +798,9 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "code-block", id: "hidden-line-numbers", Component: CodeBlockHiddenLineNumbers3831A2F1Example, source: CodeBlockHiddenLineNumbers3831A2F1ExampleSource },
   { slug: "code-block", id: "open-in-v0", Component: CodeBlockOpenInV0CA6FBF0AExample, source: CodeBlockOpenInV0CA6FBF0AExampleSource },
   { slug: "collapse", id: "default", Component: CollapseDefault37A8EEC1Example, source: CollapseDefault37A8EEC1ExampleSource },
-  { slug: "collapse", id: "expanded", Component: CollapseExpanded691661B3Example, source: CollapseExpanded691661B3ExampleSource },
-  { slug: "collapse", id: "multiple", Component: CollapseMultiple3F8A7E66Example, source: CollapseMultiple3F8A7E66ExampleSource },
-  { slug: "collapse", id: "small", Component: CollapseSmall81DB8EBBExample, source: CollapseSmall81DB8EBBExampleSource },
+  { slug: "collapse", id: "expanded", Component: CollapseExpanded691661B3Example, source: CollapseExpanded691661B3ExampleSource, renderInSection: false },
+  { slug: "collapse", id: "multiple", Component: CollapseMultiple3F8A7E66Example, source: CollapseMultiple3F8A7E66ExampleSource, renderInSection: false },
+  { slug: "collapse", id: "small", Component: CollapseSmall81DB8EBBExample, source: CollapseSmall81DB8EBBExampleSource, renderInSection: false },
   { slug: "collapse", id: "Default", Component: CollapseDefault21B111CBExample, source: CollapseDefault21B111CBExampleSource },
   { slug: "collapse", id: "Expanded", Component: CollapseExpandedE72D5D8DExample, source: CollapseExpandedE72D5D8DExampleSource },
   { slug: "collapse", id: "Multiple", Component: CollapseMultiple14070FDBExample, source: CollapseMultiple14070FDBExampleSource },
@@ -845,8 +848,8 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "keyboard-input", id: "small", Component: KeyboardInputSmall81DB8EBBExample, source: KeyboardInputSmall81DB8EBBExampleSource },
   { slug: "keyboard-input", id: "plain-command", Component: KeyboardInputPlainCommand4E2140C6Example, source: KeyboardInputPlainCommand4E2140C6ExampleSource },
   { slug: "label", id: "default", Component: LabelDefault37A8EEC1Example, source: LabelDefault37A8EEC1ExampleSource },
-  { slug: "label", id: "with-input", Component: LabelWithInput854C60EDExample, source: LabelWithInput854C60EDExampleSource },
-  { slug: "label", id: "bypass-casing", Component: LabelBypassCasing87C1B03AExample, source: LabelBypassCasing87C1B03AExampleSource },
+  { slug: "label", id: "with-input", Component: LabelWithInput854C60EDExample, source: LabelWithInput854C60EDExampleSource, renderInSection: false },
+  { slug: "label", id: "bypass-casing", Component: LabelBypassCasing87C1B03AExample, source: LabelBypassCasing87C1B03AExampleSource, renderInSection: false },
   { slug: "label", id: "With Input", Component: LabelWithInput35FA6F50Example, source: LabelWithInput35FA6F50ExampleSource },
   { slug: "label", id: "Bypass Casing", Component: LabelBypassCasingB8D7E5E0Example, source: LabelBypassCasingB8D7E5E0ExampleSource },
   { slug: "modal", id: "default", Component: ModalDefault37A8EEC1Example, source: ModalDefault37A8EEC1ExampleSource },
@@ -860,20 +863,20 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "modal", id: "combobox-focus", Component: ModalComboboxFocus873C94F9Example, source: ModalComboboxFocus873C94F9ExampleSource },
   { slug: "modal", id: "toasts-focus-trap", Component: ModalToastsFocusTrap2DACB2BDExample, source: ModalToastsFocusTrap2DACB2BDExampleSource },
   { slug: "radio", id: "default", Component: RadioDefault37A8EEC1Example, source: RadioDefault37A8EEC1ExampleSource },
-  { slug: "radio", id: "radio-disabled", Component: RadioRadioDisabled234336B0Example, source: RadioRadioDisabled234336B0ExampleSource },
-  { slug: "radio", id: "radio-required", Component: RadioRadioRequiredE6F9B6F0Example, source: RadioRadioRequiredE6F9B6F0ExampleSource },
-  { slug: "radio", id: "radio-headless", Component: RadioRadioHeadless0839E6A8Example, source: RadioRadioHeadless0839E6A8ExampleSource },
-  { slug: "radio", id: "radio-standalone", Component: RadioRadioStandalone6B4C2AB0Example, source: RadioRadioStandalone6B4C2AB0ExampleSource },
+  { slug: "radio", id: "radio-disabled", Component: RadioRadioDisabled234336B0Example, source: RadioRadioDisabled234336B0ExampleSource, renderInSection: false },
+  { slug: "radio", id: "radio-required", Component: RadioRadioRequiredE6F9B6F0Example, source: RadioRadioRequiredE6F9B6F0ExampleSource, renderInSection: false },
+  { slug: "radio", id: "radio-headless", Component: RadioRadioHeadless0839E6A8Example, source: RadioRadioHeadless0839E6A8ExampleSource, renderInSection: false },
+  { slug: "radio", id: "radio-standalone", Component: RadioRadioStandalone6B4C2AB0Example, source: RadioRadioStandalone6B4C2AB0ExampleSource, renderInSection: false },
   { slug: "radio", id: "Radio disabled", Component: RadioRadioDisabled2226FEE4Example, source: RadioRadioDisabled2226FEE4ExampleSource },
   { slug: "radio", id: "Radio required", Component: RadioRadioRequired0BCA93F0Example, source: RadioRadioRequired0BCA93F0ExampleSource },
   { slug: "radio", id: "Radio headless", Component: RadioRadioHeadlessF2D8A0DBExample, source: RadioRadioHeadlessF2D8A0DBExampleSource },
   { slug: "radio", id: "Radio standalone", Component: RadioRadioStandalone65A01781Example, source: RadioRadioStandalone65A01781ExampleSource },
   { slug: "switch", id: "default", Component: SwitchDefault37A8EEC1Example, source: SwitchDefault37A8EEC1ExampleSource },
-  { slug: "switch", id: "disabled", Component: SwitchDisabled17EB3C01Example, source: SwitchDisabled17EB3C01ExampleSource },
-  { slug: "switch", id: "sizes", Component: SwitchSizes7C69F3FAExample, source: SwitchSizes7C69F3FAExampleSource },
-  { slug: "switch", id: "full-width", Component: SwitchFullWidthA7A37F3AExample, source: SwitchFullWidthA7A37F3AExampleSource },
-  { slug: "switch", id: "tooltip", Component: SwitchTooltip1FB69198Example, source: SwitchTooltip1FB69198ExampleSource },
-  { slug: "switch", id: "icon", Component: SwitchIconC2D4B446Example, source: SwitchIconC2D4B446ExampleSource },
+  { slug: "switch", id: "disabled", Component: SwitchDisabled17EB3C01Example, source: SwitchDisabled17EB3C01ExampleSource, renderInSection: false },
+  { slug: "switch", id: "sizes", Component: SwitchSizes7C69F3FAExample, source: SwitchSizes7C69F3FAExampleSource, renderInSection: false },
+  { slug: "switch", id: "full-width", Component: SwitchFullWidthA7A37F3AExample, source: SwitchFullWidthA7A37F3AExampleSource, renderInSection: false },
+  { slug: "switch", id: "tooltip", Component: SwitchTooltip1FB69198Example, source: SwitchTooltip1FB69198ExampleSource, renderInSection: false },
+  { slug: "switch", id: "icon", Component: SwitchIconC2D4B446Example, source: SwitchIconC2D4B446ExampleSource, renderInSection: false },
   { slug: "switch", id: "Disabled", Component: SwitchDisabled75081B59Example, source: SwitchDisabled75081B59ExampleSource },
   { slug: "switch", id: "Sizes", Component: SwitchSizes74A3978DExample, source: SwitchSizes74A3978DExampleSource },
   { slug: "switch", id: "Full width", Component: SwitchFullWidthD34008D2Example, source: SwitchFullWidthD34008D2ExampleSource },
@@ -886,7 +889,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "select", id: "disabled", Component: SelectDisabled17EB3C01Example, source: SelectDisabled17EB3C01ExampleSource },
   { slug: "select", id: "error", Component: SelectErrorCA00FCCFExample, source: SelectErrorCA00FCCFExampleSource },
   { slug: "select", id: "label", Component: SelectLabel1ACA80E8Example, source: SelectLabel1ACA80E8ExampleSource },
-  { slug: "select", id: "with-options", Component: SelectWithOptions0354C46FExample, source: SelectWithOptions0354C46FExampleSource },
+  { slug: "select", id: "with-options", Component: SelectWithOptions0354C46FExample, source: SelectWithOptions0354C46FExampleSource, renderInSection: false },
   { slug: "select", id: "required", Component: SelectRequiredD0A36305Example, source: SelectRequiredD0A36305ExampleSource },
   { slug: "select", id: "With Options", Component: SelectWithOptions1AADC401Example, source: SelectWithOptions1AADC401ExampleSource },
   { slug: "separator", id: "horizontal", Component: SeparatorHorizontal69B273A2Example, source: SeparatorHorizontal69B273A2ExampleSource },
@@ -900,10 +903,10 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "slider", id: "commit-on-release", Component: SliderCommitOnRelease97B1700EExample, source: SliderCommitOnRelease97B1700EExampleSource },
   { slug: "textarea", id: "default", Component: TextareaDefault37A8EEC1Example, source: TextareaDefault37A8EEC1ExampleSource },
   { slug: "textarea", id: "disabled", Component: TextareaDisabled17EB3C01Example, source: TextareaDisabled17EB3C01ExampleSource },
-  { slug: "textarea", id: "error", Component: TextareaErrorCA00FCCFExample, source: TextareaErrorCA00FCCFExampleSource },
-  { slug: "textarea", id: "sizes", Component: TextareaSizes7C69F3FAExample, source: TextareaSizes7C69F3FAExampleSource },
-  { slug: "textarea", id: "read-only", Component: TextareaReadOnly4FED3970Example, source: TextareaReadOnly4FED3970ExampleSource },
-  { slug: "textarea", id: "rows", Component: TextareaRowsBC51E9E6Example, source: TextareaRowsBC51E9E6ExampleSource },
+  { slug: "textarea", id: "error", Component: TextareaErrorCA00FCCFExample, source: TextareaErrorCA00FCCFExampleSource, renderInSection: false },
+  { slug: "textarea", id: "sizes", Component: TextareaSizes7C69F3FAExample, source: TextareaSizes7C69F3FAExampleSource, renderInSection: false },
+  { slug: "textarea", id: "read-only", Component: TextareaReadOnly4FED3970Example, source: TextareaReadOnly4FED3970ExampleSource, renderInSection: false },
+  { slug: "textarea", id: "rows", Component: TextareaRowsBC51E9E6Example, source: TextareaRowsBC51E9E6ExampleSource, renderInSection: false },
   { slug: "textarea", id: "Error", Component: TextareaError54A0E8C1Example, source: TextareaError54A0E8C1ExampleSource },
   { slug: "textarea", id: "Sizes", Component: TextareaSizes74A3978DExample, source: TextareaSizes74A3978DExampleSource },
   { slug: "textarea", id: "Read Only", Component: TextareaReadOnlyCA104850Example, source: TextareaReadOnlyCA104850ExampleSource },
@@ -1016,6 +1019,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "tooltip", id: "Custom type", Component: TooltipCustomType2E67D6C7Example, source: TooltipCustomType2E67D6C7ExampleSource },
   { slug: "tooltip", id: "Components", Component: TooltipComponentsA150CE22Example, source: TooltipComponentsA150CE22ExampleSource },
   { slug: "tooltip", id: "Other", Component: TooltipOtherF97E9DA0Example, source: TooltipOtherF97E9DA0ExampleSource },
+  { slug: "video", id: "default", Component: VideoDefault37A8EEC1Example, source: VideoDefault37A8EEC1ExampleSource },
   { slug: "video", id: "No Loop", Component: VideoNoLoopAE976739Example, source: VideoNoLoopAE976739ExampleSource },
   { slug: "video", id: "No Controls", Component: VideoNoControlsA3B62E68Example, source: VideoNoControlsA3B62E68ExampleSource },
   { slug: "split-button", id: "Menu Alignment", Component: SplitButtonMenuAlignmentAE78EA5CExample, source: SplitButtonMenuAlignmentAE78EA5CExampleSource },

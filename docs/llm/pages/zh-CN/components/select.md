@@ -54,76 +54,122 @@ Select
 ```tsx
 import { Select, SelectItem } from "@/components/ui/select";
 
-<div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-  <Select aria-label="Small" placeholder="Small" size="small">
-    <SelectItem value="option-1">Option 1</SelectItem>
-    <SelectItem value="option-2">Option 2</SelectItem>
-    <SelectItem value="option-3">Option 3</SelectItem>
-  </Select>
-  <Select aria-label="Default" placeholder="Default">
-    <SelectItem value="option-1">Option 1</SelectItem>
-    <SelectItem value="option-2">Option 2</SelectItem>
-    <SelectItem value="option-3">Option 3</SelectItem>
-  </Select>
-  <Select aria-label="Large" placeholder="Large" size="large">
-    <SelectItem value="option-1">Option 1</SelectItem>
-    <SelectItem value="option-2">Option 2</SelectItem>
-    <SelectItem value="option-3">Option 3</SelectItem>
-  </Select>
-</div>;
+export function SelectSizes7C69F3FAExample() {
+  return (
+    <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+      <Select aria-label="Small" placeholder="Small" size="small">
+        <SelectItem value="option-1">Option 1</SelectItem>
+        <SelectItem value="option-2">Option 2</SelectItem>
+        <SelectItem value="option-3">Option 3</SelectItem>
+      </Select>
+      <Select aria-label="Default" placeholder="Default">
+        <SelectItem value="option-1">Option 1</SelectItem>
+        <SelectItem value="option-2">Option 2</SelectItem>
+        <SelectItem value="option-3">Option 3</SelectItem>
+      </Select>
+      <Select aria-label="Large" placeholder="Large" size="large">
+        <SelectItem value="option-1">Option 1</SelectItem>
+        <SelectItem value="option-2">Option 2</SelectItem>
+        <SelectItem value="option-3">Option 3</SelectItem>
+      </Select>
+    </div>
+  );
+}
 ```
+
+## prefix-and-suffix
 
 ```tsx
 import { Select } from "@/components/ui/select";
 import { ArrowUpCircle } from "lucide-react";
 
-const icon = <ArrowUpCircle aria-hidden />;
+export function SelectPrefixAndSuffix99076368Example() {
+  const icon = <ArrowUpCircle aria-hidden />;
 
-<div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-  <Select aria-label="Small" placeholder="Small" size="small" prefix={icon} suffix={icon} />
-  <Select aria-label="Default" placeholder="Default" prefix={icon} suffix={icon} />
-  <Select aria-label="Large" placeholder="Large" size="large" prefix={icon} suffix={icon} />
-</div>;
+  return (
+    <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+      <Select aria-label="Small" placeholder="Small" size="small" prefix={icon} suffix={icon} />
+      <Select aria-label="Default" placeholder="Default" prefix={icon} suffix={icon} />
+      <Select aria-label="Large" placeholder="Large" size="large" prefix={icon} suffix={icon} />
+    </div>
+  );
+}
 ```
+
+## disabled
 
 ```tsx
 import { Select } from "@/components/ui/select";
 
-<Select aria-label="Disabled" disabled placeholder="Disabled with placeholder" />;
+export function SelectDisabled17EB3C01Example() {
+  return <Select aria-label="Disabled" disabled placeholder="Disabled with placeholder" />;
+}
 ```
 
-请选择一个值。
+## error
 
-请选择一个值。
+Please select a value.
 
-请选择一个值。
+Please select a value.
+
+Please select a value.
 
 ```tsx
 import { Select } from "@/components/ui/select";
 
-<Select aria-label="Small with error" error="Please select a value." placeholder="Small" size="small" />
-<Select aria-label="Default with error" error="Please select a value." placeholder="Default" />
-<Select aria-label="Large with error" error="Please select a value." placeholder="Large" size="large" />
+export function SelectErrorCA00FCCFExample() {
+  return (
+    <>
+      <Select
+        aria-label="Small with error"
+        error="Please select a value."
+        placeholder="Small"
+        size="small"
+      />
+      <Select
+        aria-label="Default with error"
+        error="Please select a value."
+        placeholder="Default"
+      />
+      <Select
+        aria-label="Large with error"
+        error="Please select a value."
+        placeholder="Large"
+        size="large"
+      />
+    </>
+  );
+}
 ```
 
-我的标签
+## label
+
+My label
 
 ```tsx
 import { Select } from "@/components/ui/select";
 
-<Select label="My label" placeholder="With label" />;
+export function SelectLabel1ACA80E8Example() {
+  return <Select label="My label" placeholder="With label" />;
+}
 ```
 
-必填字段
+## required
+
+Required field
 
 ```tsx
 import { Select, SelectItem } from "@/components/ui/select";
 
-<Select label="Required field" placeholder="Please select an option" required>
-  <SelectItem value="option1">Option 1</SelectItem>
-  <SelectItem value="option2">Option 2</SelectItem>
-  <SelectItem value="option3">Option 3</SelectItem>
-</Select>;
+export function SelectRequiredD0A36305Example() {
+  return (
+    <Select label="Required field" placeholder="Please select an option" required>
+      <SelectItem value="option1">Option 1</SelectItem>
+      <SelectItem value="option2">Option 2</SelectItem>
+      <SelectItem value="option3">Option 3</SelectItem>
+    </Select>
+  );
+}
 ```
 
 ## 带选项
@@ -131,12 +177,16 @@ import { Select, SelectItem } from "@/components/ui/select";
 ```tsx
 import { Select, SelectItem } from "@/components/ui/select";
 
-<Select className="w-56" defaultValue="banana" aria-label="Select fruit">
-  <SelectItem value="apple">Apple</SelectItem>
-  <SelectItem value="orange">Orange</SelectItem>
-  <SelectItem value="banana">Banana</SelectItem>
-  <SelectItem value="grape">Grape</SelectItem>
-</Select>;
+export function SelectWithOptions1AADC401Example() {
+  return (
+    <Select className="w-56" defaultValue="banana" aria-label="Select fruit">
+      <SelectItem value="apple">Apple</SelectItem>
+      <SelectItem value="orange">Orange</SelectItem>
+      <SelectItem value="banana">Banana</SelectItem>
+      <SelectItem value="grape">Grape</SelectItem>
+    </Select>
+  );
+}
 ```
 
 ## API 参考

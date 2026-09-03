@@ -69,23 +69,19 @@ Option 1Option 2
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
 import { useState } from "react";
 
-const [value, setValue] = useState("one");
+export function RadioDefault37A8EEC1Example() {
+  const [value, setValue] = useState("one");
 
-<RadioGroup label="Default Radio Example" onChange={setValue} value={value}>
-  <div className="flex flex-col items-stretch justify-start gap-6">
-    <RadioGroupItem value="one">Option 1</RadioGroupItem>
-    <RadioGroupItem value="two">Option 2</RadioGroupItem>
-  </div>
-</RadioGroup>;
+  return (
+    <RadioGroup label="Default Radio Example" onChange={setValue} value={value}>
+      <div className="flex flex-col items-stretch justify-start gap-6">
+        <RadioGroupItem value="one">Option 1</RadioGroupItem>
+        <RadioGroupItem value="two">Option 2</RadioGroupItem>
+      </div>
+    </RadioGroup>
+  );
+}
 ```
-
-Disabled Radio Example
-
-Option 1Option 2
-
-Option 1Option 2
-
-- Option 1
 
 ## Radio disabled
 
@@ -96,12 +92,16 @@ Option 1Option 2
 ```tsx
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
 
-<RadioGroup disabled label="Disabled Radio Example" defaultValue="one">
-  <div className="flex flex-col items-stretch justify-start gap-6">
-    <RadioGroupItem value="one">Option 1</RadioGroupItem>
-    <RadioGroupItem value="two">Option 2</RadioGroupItem>
-  </div>
-</RadioGroup>;
+export function RadioRadioDisabled2226FEE4Example() {
+  return (
+    <RadioGroup disabled label="Disabled Radio Example" defaultValue="one">
+      <div className="flex flex-col items-stretch justify-start gap-6">
+        <RadioGroupItem value="one">Option 1</RadioGroupItem>
+        <RadioGroupItem value="two">Option 2</RadioGroupItem>
+      </div>
+    </RadioGroup>
+  );
+}
 ```
 
 ## Radio required
@@ -110,15 +110,19 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio";
 
-<form className="flex flex-col items-start justify-start gap-6">
-  <RadioGroup label="Required Radio Example" required defaultValue="">
-    <div className="flex flex-col items-stretch justify-start gap-4">
-      <RadioGroupItem value="one">Option 1</RadioGroupItem>
-      <RadioGroupItem value="two">Option 2</RadioGroupItem>
-    </div>
-  </RadioGroup>
-  <Button size="small">Submit</Button>
-</form>;
+export function RadioRadioRequired0BCA93F0Example() {
+  return (
+    <form className="flex flex-col items-start justify-start gap-6">
+      <RadioGroup label="Required Radio Example" required defaultValue="">
+        <div className="flex flex-col items-stretch justify-start gap-4">
+          <RadioGroupItem value="one">Option 1</RadioGroupItem>
+          <RadioGroupItem value="two">Option 2</RadioGroupItem>
+        </div>
+      </RadioGroup>
+      <Button size="small">Submit</Button>
+    </form>
+  );
+}
 ```
 
 ## Radio headless
@@ -129,22 +133,28 @@ Option 1Option 2
 import { useState } from "react";
 import { RadioGroup, useRadio } from "@/components/ui/radio";
 
-const [value, setValue] = useState("one");
-const { component } = useRadio({ value: "one", disabled: false });
-const { component: component2 } = useRadio({ value: "two", disabled: false });
+export function RadioRadioHeadlessF2D8A0DBExample() {
+  const [value, setValue] = useState("one");
 
-<RadioGroup aria-label="Options" onChange={setValue} value={value}>
-  <div className="flex w-full min-w-56 flex-col items-stretch justify-start gap-6">
-    <label className="flex w-full items-center justify-between leading-6">
-      <span className="text-copy-13 leading-6 text-foreground">Option 1</span>
-      {component}
-    </label>
-    <label className="flex w-full items-center justify-between leading-6">
-      <span className="text-copy-13 leading-6 text-foreground">Option 2</span>
-      {component2}
-    </label>
-  </div>
-</RadioGroup>;
+  const { component } = useRadio({ value: "one", disabled: false });
+
+  const { component: component2 } = useRadio({ value: "two", disabled: false });
+
+  return (
+    <RadioGroup aria-label="Options" onChange={setValue} value={value}>
+      <div className="flex w-full min-w-56 flex-col items-stretch justify-start gap-6">
+        <label className="flex w-full items-center justify-between leading-6">
+          <span className="text-copy-13 leading-6 text-foreground">Option 1</span>
+          {component}
+        </label>
+        <label className="flex w-full items-center justify-between leading-6">
+          <span className="text-copy-13 leading-6 text-foreground">Option 2</span>
+          {component2}
+        </label>
+      </div>
+    </RadioGroup>
+  );
+}
 ```
 
 ## Radio standalone
@@ -154,10 +164,14 @@ const { component: component2 } = useRadio({ value: "two", disabled: false });
 ```tsx
 import { Radio } from "@/components/ui/radio";
 
-<li className="flex w-full items-center gap-2">
-  <span className="text-base leading-6 text-foreground">Option 1</span>
-  <Radio aria-label="Option 1" defaultChecked value="one" />
-</li>;
+export function RadioRadioStandalone65A01781Example() {
+  return (
+    <li className="flex w-full items-center gap-2">
+      <span className="text-base leading-6 text-foreground">Option 1</span>
+      <Radio aria-label="Option 1" defaultChecked value="one" />
+    </li>
+  );
+}
 ```
 
 ## API Reference

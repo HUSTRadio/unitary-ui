@@ -68,53 +68,75 @@ Dots Menu
 ```tsx
 import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
 
-<DotsMenu>
-  <DotsMenuItem>View Build Logs</DotsMenuItem>
-  <DotsMenuItem>View Projects</DotsMenuItem>
-  <DotsMenuItem>View Analytics</DotsMenuItem>
-</DotsMenu>;
+export function DotsMenuDefault37A8EEC1Example() {
+  return (
+    <DotsMenu>
+      <DotsMenuItem>View Build Logs</DotsMenuItem>
+      <DotsMenuItem>View Projects</DotsMenuItem>
+      <DotsMenuItem>View Analytics</DotsMenuItem>
+    </DotsMenu>
+  );
+}
 ```
+
+## sizes
 
 ```tsx
 import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
 
-<div className="flex items-start gap-6">
-  <DotsMenu iconSize={10}>
-    <DotsMenuItem>View Build Logs</DotsMenuItem>
-    <DotsMenuItem>View Projects</DotsMenuItem>
-    <DotsMenuItem>View Analytics</DotsMenuItem>
-  </DotsMenu>
-  <DotsMenu iconSize={12}>
-    <DotsMenuItem>View Build Logs</DotsMenuItem>
-    <DotsMenuItem>View Projects</DotsMenuItem>
-    <DotsMenuItem>View Analytics</DotsMenuItem>
-  </DotsMenu>
-  <DotsMenu iconSize={18}>
-    <DotsMenuItem>View Build Logs</DotsMenuItem>
-    <DotsMenuItem>View Projects</DotsMenuItem>
-    <DotsMenuItem>View Analytics</DotsMenuItem>
-  </DotsMenu>
-</div>;
+export function DotsMenuSizes7C69F3FAExample() {
+  return (
+    <div className="flex items-start gap-6">
+      <DotsMenu iconSize={10}>
+        <DotsMenuItem>View Build Logs</DotsMenuItem>
+        <DotsMenuItem>View Projects</DotsMenuItem>
+        <DotsMenuItem>View Analytics</DotsMenuItem>
+      </DotsMenu>
+      <DotsMenu iconSize={12}>
+        <DotsMenuItem>View Build Logs</DotsMenuItem>
+        <DotsMenuItem>View Projects</DotsMenuItem>
+        <DotsMenuItem>View Analytics</DotsMenuItem>
+      </DotsMenu>
+      <DotsMenu iconSize={18}>
+        <DotsMenuItem>View Build Logs</DotsMenuItem>
+        <DotsMenuItem>View Projects</DotsMenuItem>
+        <DotsMenuItem>View Analytics</DotsMenuItem>
+      </DotsMenu>
+    </div>
+  );
+}
 ```
+
+## disabled
 
 ```tsx
 import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
 
-<DotsMenu disabled>
-  <DotsMenuItem>View Build Logs</DotsMenuItem>
-  <DotsMenuItem>View Projects</DotsMenuItem>
-  <DotsMenuItem>View Analytics</DotsMenuItem>
-</DotsMenu>;
+export function DotsMenuDisabled17EB3C01Example() {
+  return (
+    <DotsMenu disabled>
+      <DotsMenuItem>View Build Logs</DotsMenuItem>
+      <DotsMenuItem>View Projects</DotsMenuItem>
+      <DotsMenuItem>View Analytics</DotsMenuItem>
+    </DotsMenu>
+  );
+}
 ```
+
+## disabled-menu-item
 
 ```tsx
 import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
 
-<DotsMenu>
-  <DotsMenuItem>View Build Logs</DotsMenuItem>
-  <DotsMenuItem disabled>View Projects</DotsMenuItem>
-  <DotsMenuItem>View Analytics</DotsMenuItem>
-</DotsMenu>;
+export function DotsMenuDisabledMenuItem717ABAD2Example() {
+  return (
+    <DotsMenu>
+      <DotsMenuItem>View Build Logs</DotsMenuItem>
+      <DotsMenuItem disabled>View Projects</DotsMenuItem>
+      <DotsMenuItem>View Analytics</DotsMenuItem>
+    </DotsMenu>
+  );
+}
 ```
 
 ## API 参考

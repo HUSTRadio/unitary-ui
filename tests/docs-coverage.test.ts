@@ -22,7 +22,6 @@ describe("Geist documentation coverage", () => {
         .map((slug) => officialAliases.get(slug) ?? slug),
     );
     const metadataSource = await read("docs/geist/src/data/components.ts");
-    const demoSource = await read("docs/geist/src/components/docs-components-page.tsx");
     const registrySource = await read("docs/geist/src/examples/registry.ts");
     const metadataNames = [...metadataSource.matchAll(/^ {4}name:\s*"([^"]+)",?$/gm)].map(
       (match) => match[1],
@@ -35,7 +34,7 @@ describe("Geist documentation coverage", () => {
     expect(official.size).toBe(72);
     expect(metadataNames).toHaveLength(75);
     expect(metadata.size).toBe(metadataNames.length);
-    expect(demoNames).toHaveLength(373);
+    expect(demoNames).toHaveLength(374);
     expect(demos.size).toBe(75);
     expect([...official].filter((slug) => !metadata.has(slug))).toEqual([]);
     expect([...official].filter((slug) => !demos.has(slug))).toEqual([]);

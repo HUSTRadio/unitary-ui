@@ -55,17 +55,23 @@ Not applicable: Search Input presents a query value primarily; controlled behavi
 import { SearchInput } from "@/components/ui/search-input";
 import { useState } from "react";
 
-const [value, setValue] = useState("");
+export function SearchInputDefault37A8EEC1Example() {
+  const [value, setValue] = useState("");
 
-<SearchInput
-  aria-label="Search"
-  onChange={(e) => {
-    setValue(e.target.value);
-  }}
-  placeholder="Enter some text..."
-  value={value}
-/>;
+  return (
+    <SearchInput
+      aria-label="Search"
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      placeholder="Enter some text..."
+      value={value}
+    />
+  );
+}
 ```
+
+## with-cmdk
 
 ⌘K
 
@@ -73,18 +79,24 @@ const [value, setValue] = useState("");
 import { SearchInput } from "@/components/ui/search-input";
 import { useState } from "react";
 
-const [value, setValue] = useState("");
+export function SearchInputWithCmdkC25FADFBExample() {
+  const [value, setValue] = useState("");
 
-<SearchInput
-  aria-label="Search"
-  cmdk
-  onChange={(e) => {
-    setValue(e.target.value);
-  }}
-  placeholder="Enter some text..."
-  value={value}
-/>;
+  return (
+    <SearchInput
+      aria-label="Search"
+      cmdk
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      placeholder="Enter some text..."
+      value={value}
+    />
+  );
+}
 ```
+
+## disabled
 
 ⌘K
 
@@ -92,19 +104,25 @@ const [value, setValue] = useState("");
 import { SearchInput } from "@/components/ui/search-input";
 import { useState } from "react";
 
-const [value, setValue] = useState("");
+export function SearchInputDisabled17EB3C01Example() {
+  const [value, setValue] = useState("");
 
-<SearchInput
-  aria-label="Search"
-  cmdk
-  disabled
-  onChange={(e) => {
-    setValue(e.target.value);
-  }}
-  placeholder="Enter some text..."
-  value={value}
-/>;
+  return (
+    <SearchInput
+      aria-label="Search"
+      cmdk
+      disabled
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      placeholder="Enter some text..."
+      value={value}
+    />
+  );
+}
 ```
+
+## loading
 
 Loading...
 
@@ -112,35 +130,45 @@ Loading...
 import { SearchInput } from "@/components/ui/search-input";
 import { useState } from "react";
 
-const [value, setValue] = useState("Project A");
+export function SearchInputLoadingB4A070A2Example() {
+  const [value, setValue] = useState("Project A");
 
-<SearchInput
-  aria-label="Search"
-  loading
-  onChange={(e) => {
-    setValue(e.target.value);
-  }}
-  placeholder="Enter some text..."
-  value={value}
-/>;
+  return (
+    <SearchInput
+      aria-label="Search"
+      loading
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      placeholder="Enter some text..."
+      value={value}
+    />
+  );
+}
 ```
+
+## custom-prefix
 
 ```tsx
 import { Sparkles } from "lucide-react";
 import { SearchInput } from "@/components/ui/search-input";
 import { useState } from "react";
 
-const [value, setValue] = useState("");
+export function SearchInputCustomPrefix3441EADCExample() {
+  const [value, setValue] = useState("");
 
-<SearchInput
-  aria-label="Search"
-  onChange={(e) => {
-    setValue(e.target.value);
-  }}
-  placeholder="Enter some text..."
-  prefix={<Sparkles className="size-4" aria-hidden />}
-  value={value}
-/>;
+  return (
+    <SearchInput
+      aria-label="Search"
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      placeholder="Enter some text..."
+      prefix={<Sparkles className="size-4" aria-hidden />}
+      value={value}
+    />
+  );
+}
 ```
 
 ## API Reference

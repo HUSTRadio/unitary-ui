@@ -76,39 +76,45 @@ import {
   ContextCardTrigger,
 } from "@/components/ui/context-card";
 
-const card = (
-  <ContextCard>
-    <ContextCardHeader>
-      <div className="size-8 shrink-0 rounded-full bg-gray-400" aria-hidden />
-      <div>
-        <ContextCardTitle>Acme Inc.</ContextCardTitle>
-        <ContextCardDescription>@acme · San Francisco</ContextCardDescription>
-      </div>
-    </ContextCardHeader>
-    <ContextCardBody>
-      <p className="text-copy-13 text-muted-foreground">Last Active: 2h ago</p>
-      <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
-    </ContextCardBody>
-    <ContextCardFooter>
-      <Button type="secondary" typeName="button" size="small">
-        View Project
-      </Button>
-    </ContextCardFooter>
-  </ContextCard>
-);
+export function ContextCardDefault37A8EEC1Example() {
+  const card = (
+    <ContextCard>
+      <ContextCardHeader>
+        <div className="size-8 shrink-0 rounded-full bg-gray-400" aria-hidden />
+        <div>
+          <ContextCardTitle>Acme Inc.</ContextCardTitle>
+          <ContextCardDescription>@acme · San Francisco</ContextCardDescription>
+        </div>
+      </ContextCardHeader>
+      <ContextCardBody>
+        <p className="text-copy-13 text-muted-foreground">Last Active: 2h ago</p>
+        <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
+      </ContextCardBody>
+      <ContextCardFooter>
+        <Button type="secondary" typeName="button" size="small">
+          View Project
+        </Button>
+      </ContextCardFooter>
+    </ContextCard>
+  );
 
-<>
-  {(["Top", "Bottom", "Left", "Right"] as const).map((label) => (
-    <ContextCardTrigger
-      key={label}
-      content={card}
-      side={label.toLowerCase() as "top" | "bottom" | "left" | "right"}
-    >
-      <span>{label}</span>
-    </ContextCardTrigger>
-  ))}
-</>;
+  return (
+    <>
+      {(["Top", "Bottom", "Left", "Right"] as const).map((label) => (
+        <ContextCardTrigger
+          key={label}
+          content={card}
+          side={label.toLowerCase() as "top" | "bottom" | "left" | "right"}
+        >
+          <span>{label}</span>
+        </ContextCardTrigger>
+      ))}
+    </>
+  );
+}
 ```
+
+## alignment
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -122,42 +128,48 @@ import {
   ContextCardTrigger,
 } from "@/components/ui/context-card";
 
-const card = (
-  <ContextCard>
-    <ContextCardHeader>
-      <div className="size-8 shrink-0 rounded-full bg-gray-400" aria-hidden />
-      <div>
-        <ContextCardTitle>Acme Inc.</ContextCardTitle>
-        <ContextCardDescription>@acme · San Francisco</ContextCardDescription>
-      </div>
-    </ContextCardHeader>
-    <ContextCardBody>
-      <p className="text-copy-13 text-muted-foreground">Last Active: 2h ago</p>
-      <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
-    </ContextCardBody>
-    <ContextCardFooter>
-      <Button type="secondary" typeName="button" size="small">
-        View Project
-      </Button>
-    </ContextCardFooter>
-  </ContextCard>
-);
-
-<>
-  {(["Start", "Center", "End"] as const).map((label) => (
-    <ContextCardTrigger
-      key={label}
-      content={card}
-      align={label.toLowerCase() as "start" | "center" | "end"}
-      render={
-        <Button type="default" typeName="button">
-          {label}
+export function ContextCardAlignment47CCB97AExample() {
+  const card = (
+    <ContextCard>
+      <ContextCardHeader>
+        <div className="size-8 shrink-0 rounded-full bg-gray-400" aria-hidden />
+        <div>
+          <ContextCardTitle>Acme Inc.</ContextCardTitle>
+          <ContextCardDescription>@acme · San Francisco</ContextCardDescription>
+        </div>
+      </ContextCardHeader>
+      <ContextCardBody>
+        <p className="text-copy-13 text-muted-foreground">Last Active: 2h ago</p>
+        <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
+      </ContextCardBody>
+      <ContextCardFooter>
+        <Button type="secondary" typeName="button" size="small">
+          View Project
         </Button>
-      }
-    />
-  ))}
-</>;
+      </ContextCardFooter>
+    </ContextCard>
+  );
+
+  return (
+    <>
+      {(["Start", "Center", "End"] as const).map((label) => (
+        <ContextCardTrigger
+          key={label}
+          content={card}
+          align={label.toLowerCase() as "start" | "center" | "end"}
+          render={
+            <Button type="default" typeName="button">
+              {label}
+            </Button>
+          }
+        />
+      ))}
+    </>
+  );
+}
 ```
+
+## render-prop
 
 [Rendered as a link](#render-prop)
 
@@ -173,45 +185,49 @@ import {
   ContextCardTrigger,
 } from "@/components/ui/context-card";
 
-const card = (
-  <ContextCard>
-    <ContextCardHeader>
-      <div className="size-8 shrink-0 rounded-full bg-gray-400" aria-hidden />
-      <div>
-        <ContextCardTitle>Acme Inc.</ContextCardTitle>
-        <ContextCardDescription>@acme · San Francisco</ContextCardDescription>
-      </div>
-    </ContextCardHeader>
-    <ContextCardBody>
-      <p className="text-copy-13 text-muted-foreground">Last Active: 2h ago</p>
-      <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
-    </ContextCardBody>
-    <ContextCardFooter>
-      <Button type="secondary" typeName="button" size="small">
-        View Project
-      </Button>
-    </ContextCardFooter>
-  </ContextCard>
-);
+export function ContextCardRenderProp84FF0355Example() {
+  const card = (
+    <ContextCard>
+      <ContextCardHeader>
+        <div className="size-8 shrink-0 rounded-full bg-gray-400" aria-hidden />
+        <div>
+          <ContextCardTitle>Acme Inc.</ContextCardTitle>
+          <ContextCardDescription>@acme · San Francisco</ContextCardDescription>
+        </div>
+      </ContextCardHeader>
+      <ContextCardBody>
+        <p className="text-copy-13 text-muted-foreground">Last Active: 2h ago</p>
+        <p className="text-copy-13 text-muted-foreground">Plan: Pro</p>
+      </ContextCardBody>
+      <ContextCardFooter>
+        <Button type="secondary" typeName="button" size="small">
+          View Project
+        </Button>
+      </ContextCardFooter>
+    </ContextCard>
+  );
 
-<>
-  <ContextCardTrigger
-    content={card}
-    render={
-      <Button type="default" typeName="button">
-        Default wrapper
-      </Button>
-    }
-  />
-  <ContextCardTrigger
-    content={card}
-    render={
-      <a href="#render-prop" className="text-blue-700 underline underline-offset-2">
-        Rendered as a link
-      </a>
-    }
-  />
-</>;
+  return (
+    <>
+      <ContextCardTrigger
+        content={card}
+        render={
+          <Button type="default" typeName="button">
+            Default wrapper
+          </Button>
+        }
+      />
+      <ContextCardTrigger
+        content={card}
+        render={
+          <a href="#render-prop" className="text-blue-700 underline underline-offset-2">
+            Rendered as a link
+          </a>
+        }
+      />
+    </>
+  );
+}
 ```
 
 ## API Reference

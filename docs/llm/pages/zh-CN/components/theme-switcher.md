@@ -59,19 +59,29 @@ Theme Switcher
 ```tsx
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
-<ThemeSwitcher />;
+export function ThemeSwitcherDefault21B111CBExample() {
+  return <ThemeSwitcher />;
+}
 ```
+
+## 小
 
 ```tsx
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
-<ThemeSwitcher small />;
+export function ThemeSwitcherSmall5263293FExample() {
+  return <ThemeSwitcher small />;
+}
 ```
+
+## 禁用
 
 ```tsx
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
-<ThemeSwitcher disabled />;
+export function ThemeSwitcherDisabled75081B59Example() {
+  return <ThemeSwitcher disabled />;
+}
 ```
 
 ## API 参考

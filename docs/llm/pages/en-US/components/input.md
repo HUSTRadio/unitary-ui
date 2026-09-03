@@ -67,12 +67,18 @@ Correct usage paired with a visible label; the component associates the label an
 ```tsx
 import { Input } from "@/components/ui/input";
 
-<div className="flex flex-col items-start justify-between gap-4 md:flex-row">
-  <Input size="small" placeholder="Small" />
-  <Input placeholder="Default" />
-  <Input size="large" placeholder="Large" />
-</div>;
+export function InputDefault37A8EEC1Example() {
+  return (
+    <div className="flex flex-col items-start justify-between gap-4 md:flex-row">
+      <Input size="small" placeholder="Small" />
+      <Input placeholder="Default" />
+      <Input size="large" placeholder="Large" />
+    </div>
+  );
+}
 ```
+
+## prefix-and-suffix
 
 https://.com
 
@@ -82,22 +88,28 @@ vercel/
 import { Input } from "@/components/ui/input";
 import { ArrowUpCircle } from "lucide-react";
 
-const icon = <ArrowUpCircle aria-hidden />;
+export function InputPrefixAndSuffix99076368Example() {
+  const icon = <ArrowUpCircle aria-hidden />;
 
-<div className="flex flex-col items-start justify-start gap-6">
-  <Input placeholder="Default" prefix={icon} />
-  <Input placeholder="Default" suffix={icon} />
-  <Input placeholder="Default" prefix="https://" suffix=".com" />
-  <Input
-    placeholder="Default"
-    prefix={icon}
-    prefixStyling={false}
-    suffix={icon}
-    suffixStyling={false}
-  />
-  <Input placeholder="Default" prefix="vercel/" suffix={icon} suffixStyling={false} />
-</div>;
+  return (
+    <div className="flex flex-col items-start justify-start gap-6">
+      <Input placeholder="Default" prefix={icon} />
+      <Input placeholder="Default" suffix={icon} />
+      <Input placeholder="Default" prefix="https://" suffix=".com" />
+      <Input
+        placeholder="Default"
+        prefix={icon}
+        prefixStyling={false}
+        suffix={icon}
+        suffixStyling={false}
+      />
+      <Input placeholder="Default" prefix="vercel/" suffix={icon} suffixStyling={false} />
+    </div>
+  );
+}
 ```
+
+## disabled
 
 https://.com
 
@@ -105,24 +117,35 @@ https://.com
 import { Input } from "@/components/ui/input";
 import { ArrowUpCircle } from "lucide-react";
 
-const icon = <ArrowUpCircle aria-hidden />;
+export function InputDisabled17EB3C01Example() {
+  const icon = <ArrowUpCircle aria-hidden />;
 
-<div className="flex flex-col items-start justify-start gap-4">
-  <Input disabled placeholder="Disabled with placeholder" />
-  <Input disabled defaultValue="Disabled with value" />
-  <Input disabled placeholder="Disabled with prefix" prefix={icon} />
-  <Input disabled placeholder="Disabled with suffix" suffix={icon} />
-  <Input disabled placeholder="Disabled with prefix and suffix" prefix="https://" suffix=".com" />
-  <Input
-    disabled
-    placeholder="Disabled with prefix and suffix"
-    prefix={icon}
-    prefixStyling={false}
-    suffix={icon}
-    suffixStyling={false}
-  />
-</div>;
+  return (
+    <div className="flex flex-col items-start justify-start gap-4">
+      <Input disabled placeholder="Disabled with placeholder" />
+      <Input disabled defaultValue="Disabled with value" />
+      <Input disabled placeholder="Disabled with prefix" prefix={icon} />
+      <Input disabled placeholder="Disabled with suffix" suffix={icon} />
+      <Input
+        disabled
+        placeholder="Disabled with prefix and suffix"
+        prefix="https://"
+        suffix=".com"
+      />
+      <Input
+        disabled
+        placeholder="Disabled with prefix and suffix"
+        prefix={icon}
+        prefixStyling={false}
+        suffix={icon}
+        suffixStyling={false}
+      />
+    </div>
+  );
+}
 ```
+
+## error
 
 An error message.
 
@@ -133,42 +156,60 @@ An error message.
 ```tsx
 import { Input } from "@/components/ui/input";
 
-<div className="flex flex-col items-start justify-start gap-8">
-  <Input size="small" error="An error message." placeholder="long-error@gmail.com" />
-  <Input error="An error message." placeholder="long-error@gmail.com" />
-  <Input size="large" error="An error message." placeholder="long-error@gmail.com" />
-</div>;
+export function InputErrorCA00FCCFExample() {
+  return (
+    <div className="flex flex-col items-start justify-start gap-8">
+      <Input size="small" error="An error message." placeholder="long-error@gmail.com" />
+      <Input error="An error message." placeholder="long-error@gmail.com" />
+      <Input size="large" error="An error message." placeholder="long-error@gmail.com" />
+    </div>
+  );
+}
 ```
+
+## label
 
 Label
 
 ```tsx
 import { Input } from "@/components/ui/input";
 
-<Input label="Label" placeholder="Label" />;
+export function InputLabel1ACA80E8Example() {
+  return <Input label="Label" placeholder="Label" />;
+}
 ```
+
+## rounded-prefix-and-suffix
 
 www..com
 
 ```tsx
 import { Input } from "@/components/ui/input";
 
-<Input rounded prefix="www." suffix=".com" placeholder="Label example" />;
+export function InputRoundedPrefixAndSuffix04A5C184Example() {
+  return <Input rounded prefix="www." suffix=".com" placeholder="Label example" />;
+}
 ```
+
+## rounded-prefix-and-suffix-without-styling
 
 www..com
 
 ```tsx
 import { Input } from "@/components/ui/input";
 
-<Input
-  rounded
-  prefix="www."
-  prefixStyling={false}
-  suffix=".com"
-  suffixStyling={false}
-  placeholder="Label example"
-/>;
+export function InputRoundedPrefixAndSuffixWithoutStyling437B8F06Example() {
+  return (
+    <Input
+      rounded
+      prefix="www."
+      prefixStyling={false}
+      suffix=".com"
+      suffixStyling={false}
+      placeholder="Label example"
+    />
+  );
+}
 ```
 
 ## States
@@ -176,11 +217,15 @@ import { Input } from "@/components/ui/input";
 ```tsx
 import { Input } from "@/components/ui/input";
 
-<div className="flex w-full max-w-md flex-col gap-3">
-  <Input aria-label="Default" placeholder="Default" />
-  <Input aria-label="Disabled" disabled placeholder="Disabled" />
-  <Input aria-label="With value" defaultValue="geist-docs" placeholder="With value" />
-</div>;
+export function InputStates2F6E9DAEExample() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-3">
+      <Input aria-label="Default" placeholder="Default" />
+      <Input aria-label="Disabled" disabled placeholder="Disabled" />
+      <Input aria-label="With value" defaultValue="geist-docs" placeholder="With value" />
+    </div>
+  );
+}
 ```
 
 ## API Reference

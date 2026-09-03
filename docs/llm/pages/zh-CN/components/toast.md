@@ -63,225 +63,258 @@ Toast
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import { Toasts, useToasts } from "@/components/ui/toast";
+import { useToasts } from "@/components/ui/toast";
 
-const toasts = useToasts();
+export function ToastDefault21B111CBExample() {
+  const toasts = useToasts();
 
-<>
-  <Button
-    typeName="button"
-    onClick={() => toasts.message({ text: "The Evil Rabbit jumped over the fence." })}
-  >
-    Show Toast
-  </Button>
-  <Toasts />
-</>;
+  return (
+    <>
+      <Button
+        typeName="button"
+        onClick={() => toasts.message({ text: "The Evil Rabbit jumped over the fence." })}
+      >
+        Show Toast
+      </Button>
+    </>
+  );
+}
 ```
 
 ## 多行
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import { Toasts, useToasts } from "@/components/ui/toast";
+import { useToasts } from "@/components/ui/toast";
 
-const toasts = useToasts();
+export function ToastMultiLine15F3E22CExample() {
+  const toasts = useToasts();
 
-<>
-  <Button
-    typeName="button"
-    onClick={() =>
-      toasts.message({
-        text: "The Evil Rabbit jumped over the fence. The Evil Rabbit jumped over the fence.",
-      })
-    }
-  >
-    Show Toast
-  </Button>
-  <Toasts />
-</>;
+  return (
+    <>
+      <Button
+        typeName="button"
+        onClick={() =>
+          toasts.message({
+            text: "The Evil Rabbit jumped over the fence. The Evil Rabbit jumped over the fence.",
+          })
+        }
+      >
+        Show Toast
+      </Button>
+    </>
+  );
+}
 ```
 
 ## 带 JSX
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import { Toasts, useToasts } from "@/components/ui/toast";
+import { useToasts } from "@/components/ui/toast";
 
-const toasts = useToasts();
+export function ToastWithJsx76A6D122Example() {
+  const toasts = useToasts();
 
-<>
-  <Button
-    typeName="button"
-    onClick={() =>
-      toasts.message({
-        text: (
-          <>
-            <span className="text-heading-14">The Evil Rabbit</span> jumped over the fence.
-          </>
-        ),
-        preserve: true,
-      })
-    }
-  >
-    Show Toast
-  </Button>
-  <Toasts />
-</>;
+  return (
+    <>
+      <Button
+        typeName="button"
+        onClick={() =>
+          toasts.message({
+            text: (
+              <>
+                <span className="text-heading-14">The Evil Rabbit</span> jumped over the fence.
+              </>
+            ),
+            preserve: true,
+          })
+        }
+      >
+        Show Toast
+      </Button>
+    </>
+  );
+}
 ```
 
 ## 带链接
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import { Toasts, useToasts } from "@/components/ui/toast";
+import { useToasts } from "@/components/ui/toast";
 
-const toasts = useToasts();
+export function ToastWithALink1C527727Example() {
+  const toasts = useToasts();
 
-<>
-  <Button
-    typeName="button"
-    onClick={() =>
-      toasts.message({
-        text: (
-          <>
-            The Evil Rabbit jumped over the{" "}
-            <a
-              href="#/components"
-              className="font-medium text-foreground underline underline-offset-4"
-            >
-              fence again
-            </a>
-            .
-          </>
-        ),
-        preserve: true,
-      })
-    }
-  >
-    Show Toast
-  </Button>
-  <Toasts />
-</>;
+  return (
+    <>
+      <Button
+        typeName="button"
+        onClick={() =>
+          toasts.message({
+            text: (
+              <>
+                The Evil Rabbit jumped over the{" "}
+                <a
+                  href="#/components"
+                  className="font-medium text-foreground underline underline-offset-4"
+                >
+                  fence again
+                </a>
+                .
+              </>
+            ),
+            preserve: true,
+          })
+        }
+      >
+        Show Toast
+      </Button>
+    </>
+  );
+}
 ```
 
 ## 保留
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import { Toasts, useToasts } from "@/components/ui/toast";
+import { useToasts } from "@/components/ui/toast";
 
-const toasts = useToasts();
+export function ToastPreserve25DFADC0Example() {
+  const toasts = useToasts();
 
-<>
-  <Button
-    typeName="button"
-    onClick={() =>
-      toasts.message({ text: "The Evil Rabbit jumped over the fence.", preserve: true })
-    }
-  >
-    Show Toast
-  </Button>
-  <Toasts />
-</>;
+  return (
+    <>
+      <Button
+        typeName="button"
+        onClick={() =>
+          toasts.message({ text: "The Evil Rabbit jumped over the fence.", preserve: true })
+        }
+      >
+        Show Toast
+      </Button>
+    </>
+  );
+}
 ```
 
 ## 操作
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import { Toasts, useToasts } from "@/components/ui/toast";
+import { useToasts } from "@/components/ui/toast";
 
-const toasts = useToasts();
+export function ToastAction64CFF131Example() {
+  const toasts = useToasts();
 
-<>
-  <Button
-    typeName="button"
-    onClick={() =>
-      toasts.message({ text: "The Evil Rabbit jumped over the fence.", action: "Undo" })
-    }
-  >
-    Show Toast
-  </Button>
-  <Toasts />
-</>;
+  return (
+    <>
+      <Button
+        typeName="button"
+        onClick={() =>
+          toasts.message({ text: "The Evil Rabbit jumped over the fence.", action: "Undo" })
+        }
+      >
+        Show Toast
+      </Button>
+    </>
+  );
+}
 ```
 
 ## 撤销
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import { Toasts, useToasts } from "@/components/ui/toast";
+import { useToasts } from "@/components/ui/toast";
 
-const toasts = useToasts();
+export function ToastUndoA8283ADEExample() {
+  const toasts = useToasts();
 
-<>
-  <Button
-    typeName="button"
-    onClick={() =>
-      toasts.message({
-        text: "The Evil Rabbit jumped over the fence.",
-        onUndoAction: () => undefined,
-      })
-    }
-  >
-    Show Toast
-  </Button>
-  <Toasts />
-</>;
+  return (
+    <>
+      <Button
+        typeName="button"
+        onClick={() =>
+          toasts.message({
+            text: "The Evil Rabbit jumped over the fence.",
+            onUndoAction: () => undefined,
+          })
+        }
+      >
+        Show Toast
+      </Button>
+    </>
+  );
+}
 ```
 
 ## 成功
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import { Toasts, useToasts } from "@/components/ui/toast";
+import { useToasts } from "@/components/ui/toast";
 
-const toasts = useToasts();
+export function ToastSuccessC88A0B90Example() {
+  const toasts = useToasts();
 
-<>
-  <Button
-    typeName="button"
-    onClick={() => toasts.success("The Evil Rabbit jumped over the fence.")}
-  >
-    Show Toast
-  </Button>
-  <Toasts />
-</>;
+  return (
+    <>
+      <Button
+        typeName="button"
+        onClick={() => toasts.success("The Evil Rabbit jumped over the fence.")}
+      >
+        Show Toast
+      </Button>
+    </>
+  );
+}
 ```
 
 ## 警告
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import { Toasts, useToasts } from "@/components/ui/toast";
+import { useToasts } from "@/components/ui/toast";
 
-const toasts = useToasts();
+export function ToastWarningE981DDAEExample() {
+  const toasts = useToasts();
 
-<>
-  <Button
-    typeName="button"
-    onClick={() => toasts.warning("The Evil Rabbit jumped over the fence.")}
-  >
-    Show Toast
-  </Button>
-  <Toasts />
-</>;
+  return (
+    <>
+      <Button
+        typeName="button"
+        onClick={() => toasts.warning("The Evil Rabbit jumped over the fence.")}
+      >
+        Show Toast
+      </Button>
+    </>
+  );
+}
 ```
 
 ## 错误
 
 ```tsx
 import { Button } from "@/components/ui/button";
-import { Toasts, useToasts } from "@/components/ui/toast";
+import { useToasts } from "@/components/ui/toast";
 
-const toasts = useToasts();
+export function ToastError54A0E8C1Example() {
+  const toasts = useToasts();
 
-<>
-  <Button typeName="button" onClick={() => toasts.error("The Evil Rabbit jumped over the fence.")}>
-    Show Toast
-  </Button>
-  <Toasts />
-</>;
+  return (
+    <>
+      <Button
+        typeName="button"
+        onClick={() => toasts.error("The Evil Rabbit jumped over the fence.")}
+      >
+        Show Toast
+      </Button>
+    </>
+  );
+}
 ```
 
 ## API 参考

@@ -60,117 +60,137 @@ Not applicable: Device is presentational. Its model, color, chrome options, and 
 
 08:00
 
-![Vercel dashboard on iPhone](https://picsum.photos/seed/geist-phone/393/852)
+![Vercel dashboard on iPhone](/dashboard.png)
 
 ```tsx
 import { Device, DeviceScreen } from "@/components/ui/device";
 
-<div className="w-full max-w-xs">
-  <Device model="iphone-17">
-    <DeviceScreen>
-      {/* 截图/录屏承担可访问名称 */}
-      <img
-        src="/dashboard.png"
-        alt="Vercel dashboard on iPhone"
-        className="h-full w-full object-cover"
-      />
-    </DeviceScreen>
-  </Device>
-</div>;
+export function DeviceComposition47FCA483Example() {
+  return (
+    <div className="w-full max-w-xs">
+      <Device model="iphone-17">
+        <DeviceScreen>
+          {/* 截图/录屏承担可访问名称 */}
+          <img
+            src="/dashboard.png"
+            alt="Vercel dashboard on iPhone"
+            className="h-full w-full object-cover"
+          />
+        </DeviceScreen>
+      </Device>
+    </div>
+  );
+}
 ```
+
+## Models
 
 08:00
 
-iphone-17
+```tsx
+import { Device, DeviceScreen } from "@/components/ui/device";
 
-pixel-10
+export function DeviceModelsD17D2D78Example() {
+  const models = ["iphone-17", "pixel-10", "galaxy-s25", "ipad-pro"] as const;
 
-galaxy-s25
+  return (
+    <div className="flex flex-wrap gap-6">
+      {models.map((model) => (
+        <Device key={model} model={model} statusBar={model === "iphone-17"} className="w-[140px]">
+          <DeviceScreen>
+            <div className="h-full w-full bg-gray-alpha-100" />
+          </DeviceScreen>
+        </Device>
+      ))}
+    </div>
+  );
+}
+```
 
-ipad-pro
+## Dynamic Island
+
+08:00
 
 ```tsx
 import { Device, DeviceScreen } from "@/components/ui/device";
 
-const models = ["iphone-17", "pixel-10", "galaxy-s25", "ipad-pro"] as const;
-
-<div className="flex flex-wrap gap-6">
-  {models.map((model) => (
-    <Device key={model} model={model} statusBar={model === "iphone-17"} className="w-[140px]">
+export function DeviceDynamicIsland8E97BE46Example() {
+  return (
+    <Device model="iphone-17" dynamicIsland className="w-[260px]">
       <DeviceScreen>
-        <div className="h-full w-full bg-gray-alpha-100" />
+        <div className="flex h-full items-center justify-center bg-gray-alpha-100" />
       </DeviceScreen>
     </Device>
-  ))}
-</div>;
+  );
+}
 ```
 
-08:00
-
-Mobile screenshot
-
-```tsx
-import { Device, DeviceScreen } from "@/components/ui/device";
-
-<Device model="iphone-17" dynamicIsland className="w-[260px]">
-  <DeviceScreen>
-    <div className="flex h-full items-center justify-center bg-gray-alpha-100" />
-  </DeviceScreen>
-</Device>;
-```
+## Status Bar
 
 9:41
 
-Custom status
-
 08:00
-
-Dark appearance
 
 ```tsx
 import { Device, DeviceScreen } from "@/components/ui/device";
 
-<Device model="iphone-17" statusBar={{ time: "9:41", battery: 72 }}>
-  <DeviceScreen>{/* screenshot */}</DeviceScreen>
-</Device>
-<Device model="iphone-17" statusBar={{ appearance: "dark" }}>
-  <DeviceScreen>{/* screenshot */}</DeviceScreen>
-</Device>
+export function DeviceStatusBar3EF6E901Example() {
+  return (
+    <>
+      <Device model="iphone-17" statusBar={{ time: "9:41", battery: 72 }}>
+        <DeviceScreen>{/* screenshot */}</DeviceScreen>
+      </Device>
+      <Device model="iphone-17" statusBar={{ appearance: "dark" }}>
+        <DeviceScreen>{/* screenshot */}</DeviceScreen>
+      </Device>
+    </>
+  );
+}
 ```
+
+## Safari Chrome
 
 08:00
 
 vercel.com/geist↻
 
-![Website shown in the Safari mockup](https://picsum.photos/seed/geist-safari/393/852)
+![Website shown in the Safari mockup](/page.png)
 
 ```tsx
 import { useState } from "react";
 import { Device, DeviceScreen } from "@/components/ui/device";
 
-const [layout, setLayout] = useState<"compact" | "bottom" | "top">("compact");
+export function DeviceSafariChrome0140AFFBExample() {
+  const [layout, setLayout] = useState<"compact" | "bottom" | "top">("compact");
 
-<Device model="iphone-17" safari={{ layout, url: "vercel.com/geist" }}>
-  <DeviceScreen>
-    <img
-      src="/page.png"
-      alt="Website shown in the Safari mockup"
-      className="h-full w-full object-cover"
-    />
-  </DeviceScreen>
-</Device>;
+  return (
+    <Device model="iphone-17" safari={{ layout, url: "vercel.com/geist" }}>
+      <DeviceScreen>
+        <img
+          src="/page.png"
+          alt="Website shown in the Safari mockup"
+          className="h-full w-full object-cover"
+        />
+      </DeviceScreen>
+    </Device>
+  );
+}
 ```
 
-08:00
+## Landscape
 
-Landscape screenshot
+08:00
 
 ```tsx
 import { Device, DeviceScreen } from "@/components/ui/device";
 
-<Device model="iphone-17" landscape dynamicIsland>
-  <DeviceScreen>{/* landscape screenshot */}</DeviceScreen>
-</Device>;
+export function DeviceLandscapeE658D3AEExample() {
+  return (
+    <Device model="iphone-17" landscape dynamicIsland>
+      <DeviceScreen>{/* landscape screenshot */}</DeviceScreen>
+    </Device>
+  );
+}
 ```
 
 ## API Reference

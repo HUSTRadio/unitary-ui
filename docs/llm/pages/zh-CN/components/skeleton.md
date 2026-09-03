@@ -63,70 +63,108 @@ Skeleton
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton width={160} />;
+export function SkeletonDefaultWithSetWidthD6DD99FEExample() {
+  return <Skeleton width={160} />;
+}
 ```
+
+## Default with box height
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton boxHeight={42} width={160} />;
+export function SkeletonDefaultWithBoxHeight3D00A453Example() {
+  return <Skeleton boxHeight={42} width={160} />;
+}
 ```
 
-```tsx
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-
-<div className="flex flex-col items-start justify-start gap-4 flex-initial">
-  <Skeleton>
-    <Button typeName="button">Hidden by skeleton</Button>
-  </Skeleton>
-
-  <Skeleton show={false}>
-    <Button typeName="button">Not hidden by skeleton</Button>
-  </Skeleton>
-</div>;
-```
+## Wrapping children
 
 ```tsx
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
-<div className="flex flex-col items-start justify-start gap-4 flex-initial">
-  <Skeleton height={100} width="100%">
-    {null}
-  </Skeleton>
+export function SkeletonWrappingChildrenC2461A19Example() {
+  return (
+    <div className="flex flex-col items-start justify-start gap-4 flex-initial">
+      <Skeleton>
+        <Button typeName="button">Hidden by skeleton</Button>
+      </Skeleton>
 
-  <Skeleton height={100} width="100%">
-    <Button typeName="button">Not hidden by Skeleton</Button>
-  </Skeleton>
-</div>;
+      <Skeleton show={false}>
+        <Button typeName="button">Not hidden by skeleton</Button>
+      </Skeleton>
+    </div>
+  );
+}
 ```
+
+## Wrapping children with fixed size
+
+```tsx
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+
+export function SkeletonWrappingChildrenWithFixedSize94B70C1BExample() {
+  return (
+    <div className="flex flex-col items-start justify-start gap-4 flex-initial">
+      <Skeleton height={100} width="100%">
+        {null}
+      </Skeleton>
+
+      <Skeleton height={100} width="100%">
+        <Button typeName="button">Not hidden by Skeleton</Button>
+      </Skeleton>
+    </div>
+  );
+}
+```
+
+## 胶囊
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton pill width={48} />;
+export function SkeletonPill9945C78BExample() {
+  return <Skeleton pill width={48} />;
+}
 ```
+
+## Rounded
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton boxHeight={48} height={48} rounded width={48} />;
+export function SkeletonRounded0A62CD80Example() {
+  return <Skeleton boxHeight={48} height={48} rounded width={48} />;
+}
 ```
+
+## Squared
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton boxHeight={48} height={48} squared width={48} />;
+export function SkeletonSquared053B9038Example() {
+  return <Skeleton boxHeight={48} height={48} squared width={48} />;
+}
 ```
+
+## No animation
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Skeleton animated={false} height={100} width="100%">
-  {null}
-</Skeleton>;
+export function SkeletonNoAnimation8DF7155EExample() {
+  return (
+    <Skeleton animated={false} height={100} width="100%">
+      {null}
+    </Skeleton>
+  );
+}
 ```
+
+## Button
 
 Without button prop (default):
 
@@ -138,33 +176,37 @@ Multiple buttons loading:
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
-<div className="flex flex-col gap-4">
-  <div className="flex flex-col gap-2">
-    <p className="text-label-14">Without button prop (default):</p>
-    <Skeleton height={32} width={120}>
-      <Button typeName="button">Loading...</Button>
-    </Skeleton>
-  </div>
-  <div className="flex flex-col gap-2">
-    <p className="text-label-14">With button prop (extends animation by 1px):</p>
-    <Skeleton button height={32} width={120}>
-      <Button typeName="button">Loading...</Button>
-    </Skeleton>
-  </div>
-  <div className="flex flex-col gap-2">
-    <p className="text-label-14">Multiple buttons loading:</p>
-    <div className="flex gap-3">
-      <Skeleton button>
-        <Button typeName="button">Save</Button>
-      </Skeleton>
-      <Skeleton button>
-        <Button type="secondary" typeName="button">
-          Cancel
-        </Button>
-      </Skeleton>
+export function SkeletonButton707EAB0CExample() {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <p className="text-label-14">Without button prop (default):</p>
+        <Skeleton height={32} width={120}>
+          <Button typeName="button">Loading...</Button>
+        </Skeleton>
+      </div>
+      <div className="flex flex-col gap-2">
+        <p className="text-label-14">With button prop (extends animation by 1px):</p>
+        <Skeleton button height={32} width={120}>
+          <Button typeName="button">Loading...</Button>
+        </Skeleton>
+      </div>
+      <div className="flex flex-col gap-2">
+        <p className="text-label-14">Multiple buttons loading:</p>
+        <div className="flex gap-3">
+          <Skeleton button>
+            <Button typeName="button">Save</Button>
+          </Skeleton>
+          <Skeleton button>
+            <Button type="secondary" typeName="button">
+              Cancel
+            </Button>
+          </Skeleton>
+        </div>
+      </div>
     </div>
-  </div>
-</div>;
+  );
+}
 ```
 
 ## API 参考

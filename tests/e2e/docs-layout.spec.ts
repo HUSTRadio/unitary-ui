@@ -2,7 +2,7 @@ import { mkdirSync, appendFileSync, readFileSync, writeFileSync, existsSync } fr
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { afterAll, expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 import { DOCS_ROUTE_SEQUENCE } from "../../docs/geist/src/data/docs-routes";
 
@@ -750,6 +750,32 @@ test.describe("floating layers above modal overlay", () => {
     // modal 本体可见（未被自身遮罩挡住）
     expect(await modalContent.isVisible(), "modal content 应可见").toBe(true);
     await page.keyboard.press("Escape");
+  });
+});
+
+/* ---------------- Registry rendering regressions ---------------- */
+
+test.describe("registry-driven component demos", () => {
+  test("video keeps a visible default live demo", async ({ page }) => {
+    await gotoRoute(page, "/components/video", { width: 1440, height: 900 });
+
+    const card = page.locator('[data-demo-component="video"] [data-demo-card="default"]');
+    await expect(card).toBeVisible();
+    await expect(card.locator("video")).toBeVisible();
+    const box = await card.boundingBox();
+    expect(box?.width).toBeGreaterThan(0);
+    expect(box?.height).toBeGreaterThan(0);
+  });
+
+  test("inventory-only switch examples do not duplicate titled sections", async ({ page }) => {
+    await gotoRoute(page, "/components/switch", { width: 1440, height: 900 });
+
+    for (const id of ["disabled", "sizes", "full-width", "tooltip", "icon"]) {
+      await expect(page.locator(`[data-demo-card="${id}"]`)).toHaveCount(0);
+    }
+    for (const id of ["Disabled", "Sizes", "Full width", "Tooltip", "Icon"]) {
+      await expect(page.locator(`[data-demo-card="${id}"]`)).toHaveCount(1);
+    }
   });
 });
 

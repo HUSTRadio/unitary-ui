@@ -71,7 +71,7 @@ import { Button } from "@/components/ui/button";
 import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
 import { useState } from "react";
 
-export function Component() {
+export function DestructiveActionModalDefault21B111CBExample() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -110,12 +110,14 @@ export function Component() {
 }
 ```
 
+## Reversible
+
 ```tsx
 import { Button } from "@/components/ui/button";
 import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
 import { useState } from "react";
 
-export function Component() {
+export function DestructiveActionModalReversible6E7D6697Example() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -137,12 +139,14 @@ export function Component() {
 }
 ```
 
+## 加载中
+
 ```tsx
 import { Button } from "@/components/ui/button";
 import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
 import { useState } from "react";
 
-export function Component() {
+export function DestructiveActionModalLoadingDC380888Example() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -169,12 +173,14 @@ export function Component() {
 }
 ```
 
+## 带错误
+
 ```tsx
 import { Button } from "@/components/ui/button";
 import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
 import { useState } from "react";
 
-export function Component() {
+export function DestructiveActionModalWithError3E9E4249Example() {
   const [open, setOpen] = useState(false);
 
   return (

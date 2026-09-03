@@ -57,7 +57,7 @@ function BrokenPreview(): never {
   throw new Error("Deployment preview failed to render");
 }
 
-export function ErrorBoundaryExample() {
+export function ErrorBoundaryDefault37A8EEC1Example() {
   const [failed, setFailed] = React.useState(false);
 
   return (

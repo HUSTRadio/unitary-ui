@@ -23,11 +23,11 @@ describe("show code coverage contract", () => {
     const exampleFiles = (await readdir(examplesRoot, { recursive: true })).filter((file) =>
       file.endsWith(".example.tsx"),
     );
-    expect(exampleFiles).toHaveLength(373);
+    expect(exampleFiles).toHaveLength(374);
 
     const registry = await readFile(path.join(examplesRoot, "registry.ts"), "utf8");
-    expect(registry.match(/from "\.\/.+\.example";/g)).toHaveLength(373);
-    expect(registry.match(/\.example\.tsx\?example-source";/g)).toHaveLength(373);
+    expect(registry.match(/from "\.\/.+\.example";/g)).toHaveLength(374);
+    expect(registry.match(/\.example\.tsx\?example-source";/g)).toHaveLength(374);
   });
 
   test("every demo block resolves to non-empty, syntactically valid code", async () => {

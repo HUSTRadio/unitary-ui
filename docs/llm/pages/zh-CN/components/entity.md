@@ -63,13 +63,13 @@ Entity 使用 fill 布局使各列按比例伸缩以适应容器宽度变化。
 
 ## 实时示例
 
-- ![Avatar for evilrabbit](https://vercel.com/api/www/avatar?s=64&u=evilrabbit "Avatar for evilrabbit")
+- ![用户 evilrabbit 的头像](https://github.com/evilrabbit.png?size=64)
 
   Evil Rabbit
 
   Glenn Hitchcock (@gln)
 
-  1 小时前连接
+  Connected 1h ago
 
 ```tsx
 import { Avatar } from "@/components/ui/avatar";
@@ -82,47 +82,59 @@ import {
   EntityTitle,
 } from "@/components/ui/entity";
 
-<Entity>
-  <EntityMedia>
-    <Avatar size={32} username="evilrabbit" />
-  </EntityMedia>
-  <EntityContent fill>
-    <EntityTitle>Evil Rabbit</EntityTitle>
-    <EntityDescription>Glenn Hitchcock (@gln)</EntityDescription>
-  </EntityContent>
-  <EntityAction>
-    <p className="text-copy-14 text-gray-900">Connected 1h ago</p>
-  </EntityAction>
-</Entity>;
+export function EntityDefault37A8EEC1Example() {
+  return (
+    <Entity>
+      <EntityMedia>
+        <Avatar size={32} username="evilrabbit" />
+      </EntityMedia>
+      <EntityContent fill>
+        <EntityTitle>Evil Rabbit</EntityTitle>
+        <EntityDescription>Glenn Hitchcock (@gln)</EntityDescription>
+      </EntityContent>
+      <EntityAction>
+        <p className="text-copy-14 text-gray-900">Connected 1h ago</p>
+      </EntityAction>
+    </Entity>
+  );
+}
 ```
+
+## entity-with-skeleton
 
 ```tsx
 import { Entity } from "@/components/ui/entity";
 import { Skeleton } from "@/components/ui/skeleton";
 
-<Entity>
-  <div className="flex flex-col items-stretch justify-start gap-2 flex-1">
-    <Skeleton height={20} width="100%" />
-    <div className="flex flex-row items-center justify-start gap-2 flex-initial">
-      <Skeleton height={20} width={70} />
-      <Skeleton height={20} width={60} />
-      <Skeleton height={20} width={68} />
-    </div>
-  </div>
-</Entity>;
+export function EntityEntityWithSkeleton02290A9AExample() {
+  return (
+    <Entity>
+      <div className="flex flex-col items-stretch justify-start gap-2 flex-1">
+        <Skeleton height={20} width="100%" />
+        <div className="flex flex-row items-center justify-start gap-2 flex-initial">
+          <Skeleton height={20} width={70} />
+          <Skeleton height={20} width={60} />
+          <Skeleton height={20} width={68} />
+        </div>
+      </div>
+    </Entity>
+  );
+}
 ```
 
-- MacBook Pro 上的 GitHub Desktop
+## entity-with-list
 
-  刚刚使用
+- GitHub Desktop on MacBook Pro
 
-- Windows 11 上的 VS Code
+  Last used just now
 
-  10 分钟前使用
+- VS Code on Windows 11
 
-- Ubuntu 24.04 上的终端
+  Last used 10min ago
 
-  25 分钟前使用
+- Terminal on Ubuntu 24.04
+
+  Last used 25min ago
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -134,42 +146,60 @@ import {
   EntityTitle,
 } from "@/components/ui/entity";
 
-<ul className="flex flex-col">
-  <Entity>
-    <EntityContent>
-      <EntityTitle>GitHub Desktop on MacBook Pro</EntityTitle>
-      <EntityDescription>Last used just now</EntityDescription>
-    </EntityContent>
-    <EntityAction>
-      <Button size="small" type="secondary">
-        Decline
-      </Button>
-    </EntityAction>
-  </Entity>
-  <Entity>
-    <EntityContent>
-      <EntityTitle>VS Code on Windows 11</EntityTitle>
-      <EntityDescription>Last used 10min ago</EntityDescription>
-    </EntityContent>
-    <EntityAction>
-      <Button size="small" type="secondary">
-        Decline
-      </Button>
-    </EntityAction>
-  </Entity>
-  <Entity>
-    <EntityContent>
-      <EntityTitle>Terminal on Ubuntu 24.04</EntityTitle>
-      <EntityDescription>Last used 25min ago</EntityDescription>
-    </EntityContent>
-    <EntityAction>
-      <Button size="small" type="secondary">
-        Decline
-      </Button>
-    </EntityAction>
-  </Entity>
-</ul>;
+export function EntityEntityWithListBD7895E8Example() {
+  return (
+    <ul className="flex flex-col">
+      <Entity>
+        <EntityContent>
+          <EntityTitle>GitHub Desktop on MacBook Pro</EntityTitle>
+          <EntityDescription>Last used just now</EntityDescription>
+        </EntityContent>
+        <EntityAction>
+          <Button size="small" type="secondary">
+            Decline
+          </Button>
+        </EntityAction>
+      </Entity>
+      <Entity>
+        <EntityContent>
+          <EntityTitle>VS Code on Windows 11</EntityTitle>
+          <EntityDescription>Last used 10min ago</EntityDescription>
+        </EntityContent>
+        <EntityAction>
+          <Button size="small" type="secondary">
+            Decline
+          </Button>
+        </EntityAction>
+      </Entity>
+      <Entity>
+        <EntityContent>
+          <EntityTitle>Terminal on Ubuntu 24.04</EntityTitle>
+          <EntityDescription>Last used 25min ago</EntityDescription>
+        </EntityContent>
+        <EntityAction>
+          <Button size="small" type="secondary">
+            Decline
+          </Button>
+        </EntityAction>
+      </Entity>
+    </ul>
+  );
+}
 ```
+
+## entity-with-list-and-checkbox
+
+- GitHub Desktop on MacBook Pro
+
+  Last used just now
+
+- VS Code on Windows 11
+
+  Last used 10min ago
+
+- Terminal on Ubuntu 24.04
+
+  Last used 25min ago
 
 ```tsx
 import { Checkbox } from "@/components/ui/checkbox";
@@ -182,76 +212,88 @@ import {
 } from "@/components/ui/entity";
 import { useState } from "react";
 
-const items = [
-  {
-    id: "github",
-    title: "GitHub Desktop on MacBook Pro",
-    description: "Last used just now",
-  },
-  {
-    id: "vscode",
-    title: "VS Code on Windows 11",
-    description: "Last used 10min ago",
-  },
-  {
-    id: "terminal",
-    title: "Terminal on Ubuntu 24.04",
-    description: "Last used 25min ago",
-  },
-];
+export function EntityEntityWithListAndCheckbox26EB60A8Example() {
+  const items = [
+    {
+      id: "github",
+      title: "GitHub Desktop on MacBook Pro",
+      description: "Last used just now",
+    },
+    {
+      id: "vscode",
+      title: "VS Code on Windows 11",
+      description: "Last used 10min ago",
+    },
+    {
+      id: "terminal",
+      title: "Terminal on Ubuntu 24.04",
+      description: "Last used 25min ago",
+    },
+  ];
 
-const [checkedStates, setCheckedStates] = useState<Record<string, boolean>>({
-  github: true,
-  vscode: false,
-  terminal: false,
-});
+  const [checkedStates, setCheckedStates] = useState<Record<string, boolean>>({
+    github: true,
+    vscode: false,
+    terminal: false,
+  });
 
-const handleCheckboxChange = (id: string): void => {
-  setCheckedStates((prev) => ({
-    ...prev,
-    [id]: !prev[id],
-  }));
-};
+  const handleCheckboxChange = (id: string): void => {
+    setCheckedStates((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
-<ul className="flex flex-col">
-  {items.map((item) => (
-    <Entity key={item.id} onClick={() => handleCheckboxChange(item.id)}>
-      <EntityMedia>
-        <Checkbox
-          aria-label={item.title}
-          checked={checkedStates[item.id]}
-          onChange={() => handleCheckboxChange(item.id)}
-        />
-      </EntityMedia>
-      <EntityContent>
-        <EntityTitle>{item.title}</EntityTitle>
-        <EntityDescription>{item.description}</EntityDescription>
-      </EntityContent>
-    </Entity>
-  ))}
-</ul>;
+  return (
+    <ul className="flex flex-col">
+      {items.map((item) => (
+        <Entity key={item.id} onClick={() => handleCheckboxChange(item.id)}>
+          <EntityMedia>
+            <Checkbox
+              aria-label={item.title}
+              checked={checkedStates[item.id]}
+              onChange={() => handleCheckboxChange(item.id)}
+            />
+          </EntityMedia>
+          <EntityContent>
+            <EntityTitle>{item.title}</EntityTitle>
+            <EntityDescription>{item.description}</EntityDescription>
+          </EntityContent>
+        </Entity>
+      ))}
+    </ul>
+  );
+}
 ```
 
-- 这是一个简单的描述
+## entity-with-fill
 
-  这是一个简单的描述
+- This is a simple description
+
+  This is a simple description
 
 ```tsx
 import { Entity, EntityContent, EntityDescription } from "@/components/ui/entity";
 
-<ul className="flex flex-col">
-  <Entity>
-    <EntityContent fill>
-      <EntityDescription>This is a simple description</EntityDescription>
-    </EntityContent>
-    <EntityContent>
-      <EntityDescription>This is a simple description</EntityDescription>
-    </EntityContent>
-  </Entity>
-</ul>;
+export function EntityEntityWithFill1C9008CFExample() {
+  return (
+    <ul className="flex flex-col">
+      <Entity>
+        <EntityContent fill>
+          <EntityDescription>This is a simple description</EntityDescription>
+        </EntityContent>
+        <EntityContent>
+          <EntityDescription>This is a simple description</EntityDescription>
+        </EntityContent>
+      </Entity>
+    </ul>
+  );
+}
 ```
 
-- 带虚线边框的实体
+## entity-with-column-class-names
+
+- Entity with dashed borders
 
   \[some action\]
 
@@ -265,22 +307,26 @@ import {
   EntityMedia,
 } from "@/components/ui/entity";
 
-<ul className="flex flex-col">
-  <Entity
-    leftClassName="border border-dashed border-gray-300 rounded-md p-2"
-    rightClassName="border border-dashed border-gray-300 rounded-md p-2"
-  >
-    <EntityMedia>
-      <Avatar placeholder size={50} />
-    </EntityMedia>
-    <EntityContent>
-      <EntityDescription>Entity with dashed borders</EntityDescription>
-    </EntityContent>
-    <EntityAction>
-      <span className="text-copy-14 text-gray-900">[some action]</span>
-    </EntityAction>
-  </Entity>
-</ul>;
+export function EntityEntityWithColumnClassNames71E7FBA7Example() {
+  return (
+    <ul className="flex flex-col">
+      <Entity
+        leftClassName="border border-dashed border-gray-300 rounded-md p-2"
+        rightClassName="border border-dashed border-gray-300 rounded-md p-2"
+      >
+        <EntityMedia>
+          <Avatar placeholder size={50} />
+        </EntityMedia>
+        <EntityContent>
+          <EntityDescription>Entity with dashed borders</EntityDescription>
+        </EntityContent>
+        <EntityAction>
+          <span className="text-copy-14 text-gray-900">[some action]</span>
+        </EntityAction>
+      </Entity>
+    </ul>
+  );
+}
 ```
 
 ## API 参考

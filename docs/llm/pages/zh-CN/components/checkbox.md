@@ -61,36 +61,44 @@ Checkbox
 
 ## 实时示例
 
-选项 1
+Option 1
 
 ```tsx
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 
-const [checked, setChecked] = useState(false);
+export function CheckboxDefault37A8EEC1Example() {
+  const [checked, setChecked] = useState(false);
 
-<Checkbox checked={checked} onChange={(): void => setChecked((b) => !b)}>
-  Option 1
-</Checkbox>;
+  return (
+    <Checkbox checked={checked} onChange={(): void => setChecked((b) => !b)}>
+      Option 1
+    </Checkbox>
+  );
+}
 ```
 
-禁用已禁用（已选中）已禁用（半选）
+## disabled
+
+DisabledDisabled CheckedDisabled Indeterminate
 
 ```tsx
 import { Checkbox } from "@/components/ui/checkbox";
 
-<div className="flex flex-col items-stretch justify-start gap-4">
-  <Checkbox disabled>Disabled</Checkbox>
-  <Checkbox checked readOnly disabled>
-    Disabled Checked
-  </Checkbox>
-  <Checkbox disabled indeterminate>
-    Disabled Indeterminate
-  </Checkbox>
-</div>;
+export function CheckboxDisabled17EB3C01Example() {
+  return (
+    <div className="flex flex-col items-stretch justify-start gap-4">
+      <Checkbox disabled>Disabled</Checkbox>
+      <Checkbox checked readOnly disabled>
+        Disabled Checked
+      </Checkbox>
+      <Checkbox disabled indeterminate>
+        Disabled Indeterminate
+      </Checkbox>
+    </div>
+  );
+}
 ```
-
-选项 1
 
 ## 半选
 
@@ -99,20 +107,24 @@ Indeterminate (partial selection)CheckedUnchecked
 ```tsx
 import { Checkbox } from "@/components/ui/checkbox";
 
-<div className="flex flex-col gap-3">
-  <label className="flex cursor-pointer items-center gap-2.5">
-    <Checkbox indeterminate aria-label="Indeterminate" />
-    <span className="text-copy-14 text-foreground">Indeterminate (partial selection)</span>
-  </label>
-  <label className="flex cursor-pointer items-center gap-2.5">
-    <Checkbox checked readOnly aria-label="Checked" />
-    <span className="text-copy-14 text-muted-foreground">Checked</span>
-  </label>
-  <label className="flex cursor-pointer items-center gap-2.5">
-    <Checkbox aria-label="Unchecked" />
-    <span className="text-copy-14 text-muted-foreground">Unchecked</span>
-  </label>
-</div>;
+export function CheckboxIndeterminateD5DB1EBAExample() {
+  return (
+    <div className="flex flex-col gap-3">
+      <label className="flex cursor-pointer items-center gap-2.5">
+        <Checkbox indeterminate aria-label="Indeterminate" />
+        <span className="text-copy-14 text-foreground">Indeterminate (partial selection)</span>
+      </label>
+      <label className="flex cursor-pointer items-center gap-2.5">
+        <Checkbox checked readOnly aria-label="Checked" />
+        <span className="text-copy-14 text-muted-foreground">Checked</span>
+      </label>
+      <label className="flex cursor-pointer items-center gap-2.5">
+        <Checkbox aria-label="Unchecked" />
+        <span className="text-copy-14 text-muted-foreground">Unchecked</span>
+      </label>
+    </div>
+  );
+}
 ```
 
 ## API 参考

@@ -56,48 +56,64 @@ Description
 
 ## 实时示例
 
-区块标题
+Section Title
 
-此区块的数据。
+Data about this section.
 
 ```tsx
 import { Description } from "@/components/ui/description";
 
-<Description
-  content="Data about this section."
-  title="Section Title"
-  tooltip="Additional context about what this section refers to."
-/>;
+export function DescriptionDefault37A8EEC1Example() {
+  return (
+    <Description
+      content="Data about this section."
+      title="Section Title"
+      tooltip="Additional context about what this section refers to."
+    />
+  );
+}
 ```
 
-区块标题
+## text-right
 
-此区块的数据。
+Section Title
+
+Data about this section.
 
 ```tsx
 import { Description } from "@/components/ui/description";
 
-<Description
-  content="Data about this section."
-  right
-  title="Section Title"
-  tooltip="Additional context about what this section refers to."
-/>;
+export function DescriptionTextRightFE5B1527Example() {
+  return (
+    <Description
+      content="Data about this section."
+      right
+      title="Section Title"
+      tooltip="Additional context about what this section refers to."
+    />
+  );
+}
 ```
 
-区块标题
+## ellipsis
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sed venenatis libero.
+Section Title
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sed venenatis libero. Phasellus consectetur turpis ac est pulvinar finibus. Mauris non tellus pretium, vehicula lectus sed, iaculis ex. Integer eu aliquet turpis. Cras sem nulla, commodo ut libero id, suscipit pulvinar lorem.
 
 ```tsx
 import { Description } from "@/components/ui/description";
 
-<Description
-  content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sed venenatis libero. Phasellus consectetur turpis ac est pulvinar finibus. Mauris non tellus pretium, vehicula lectus sed, iaculis ex. Integer eu aliquet turpis. Cras sem nulla, commodo ut libero id, suscipit pulvinar lorem."
-  ellipsis
-  title="Section Title"
-  tooltip="Additional context about what this section refers to."
-/>;
+export function DescriptionEllipsisB014A021Example() {
+  return (
+    <Description
+      content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sed venenatis libero. Phasellus consectetur turpis ac est pulvinar finibus. Mauris non tellus pretium, vehicula lectus sed, iaculis ex. Integer eu aliquet turpis. Cras sem nulla, commodo ut libero id, suscipit pulvinar lorem."
+      ellipsis
+      title="Section Title"
+      tooltip="Additional context about what this section refers to."
+    />
+  );
+}
 ```
 
 ## API 参考

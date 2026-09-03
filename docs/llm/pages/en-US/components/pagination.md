@@ -52,10 +52,14 @@ Not applicable: Pagination does not manage an active page or total count; the ca
 ```tsx
 import { Pagination } from "@/components/ui/pagination";
 
-<Pagination
-  previous={{ title: "Avatar", href: "#/components/avatar" }}
-  next={{ title: "Device", href: "#/components/device" }}
-/>;
+export function PaginationDefault21B111CBExample() {
+  return (
+    <Pagination
+      previous={{ title: "Avatar", href: "#/components/avatar" }}
+      next={{ title: "Device", href: "#/components/device" }}
+    />
+  );
+}
 ```
 
 ## API Reference

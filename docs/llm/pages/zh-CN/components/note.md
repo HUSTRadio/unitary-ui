@@ -62,16 +62,6 @@ Note 提供多种尺寸供选择，以适应不同的布局密度需求——紧
 
 ## 实时示例
 
-Changing this region restarts all functions.
-
-Deployment succeeded.
-
-Your plan has a usage limit.
-
-The API key is invalid.
-
-## 尺寸
-
 A small note.
 
 A medium note.
@@ -79,14 +69,18 @@ A medium note.
 ```tsx
 import { Note, NoteContent } from "@/components/ui/note";
 
-<div className="flex w-full flex-col gap-3">
-  <Note size="small">
-    <NoteContent>A small note.</NoteContent>
-  </Note>
-  <Note>
-    <NoteContent>A medium note.</NoteContent>
-  </Note>
-</div>;
+export function NoteSizes74A3978DExample() {
+  return (
+    <div className="flex w-full flex-col gap-3">
+      <Note size="small">
+        <NoteContent>A small note.</NoteContent>
+      </Note>
+      <Note>
+        <NoteContent>A medium note.</NoteContent>
+      </Note>
+    </div>
+  );
+}
 ```
 
 ## 操作
@@ -99,27 +93,31 @@ This note details a large amount information that could potentially wrap into tw
 import { Button } from "@/components/ui/button";
 import { Note, NoteAction, NoteContent } from "@/components/ui/note";
 
-<div className="flex w-full flex-col gap-3">
-  <Note>
-    <NoteContent>This note details some information.</NoteContent>
-    <NoteAction>
-      <Button typeName="button" size="small">
-        Upgrade
-      </Button>
-    </NoteAction>
-  </Note>
-  <Note>
-    <NoteContent>
-      This note details a large amount information that could potentially wrap into two or more
-      lines.
-    </NoteContent>
-    <NoteAction>
-      <Button typeName="button" size="small">
-        Upgrade
-      </Button>
-    </NoteAction>
-  </Note>
-</div>;
+export function NoteAction64CFF131Example() {
+  return (
+    <div className="flex w-full flex-col gap-3">
+      <Note>
+        <NoteContent>This note details some information.</NoteContent>
+        <NoteAction>
+          <Button typeName="button" size="small">
+            Upgrade
+          </Button>
+        </NoteAction>
+      </Note>
+      <Note>
+        <NoteContent>
+          This note details a large amount information that could potentially wrap into two or more
+          lines.
+        </NoteContent>
+        <NoteAction>
+          <Button typeName="button" size="small">
+            Upgrade
+          </Button>
+        </NoteAction>
+      </Note>
+    </div>
+  );
+}
 ```
 
 ## 次要
@@ -129,11 +127,15 @@ This note details some secondary information.
 ```tsx
 import { Note, NoteContent } from "@/components/ui/note";
 
-<div className="flex w-full flex-col gap-3">
-  <Note variant="secondary">
-    <NoteContent>This note details some secondary information.</NoteContent>
-  </Note>
-</div>;
+export function NoteSecondary62F2CCFFExample() {
+  return (
+    <div className="flex w-full flex-col gap-3">
+      <Note variant="secondary">
+        <NoteContent>This note details some secondary information.</NoteContent>
+      </Note>
+    </div>
+  );
+}
 ```
 
 ## 紫色
@@ -143,9 +145,13 @@ This note details some violet information.
 ```tsx
 import { Note, NoteContent } from "@/components/ui/note";
 
-<Note variant="violet">
-  <NoteContent>This note details some violet information.</NoteContent>
-</Note>;
+export function NoteViolet2A364288Example() {
+  return (
+    <Note variant="violet">
+      <NoteContent>This note details some violet information.</NoteContent>
+    </Note>
+  );
+}
 ```
 
 ## 青色
@@ -155,9 +161,13 @@ This note details some cyan information.
 ```tsx
 import { Note, NoteContent } from "@/components/ui/note";
 
-<Note variant="cyan">
-  <NoteContent>This note details some cyan information.</NoteContent>
-</Note>;
+export function NoteCyanE95BB222Example() {
+  return (
+    <Note variant="cyan">
+      <NoteContent>This note details some cyan information.</NoteContent>
+    </Note>
+  );
+}
 ```
 
 ## 禁用
@@ -168,16 +178,20 @@ This note details a warning.
 import { Button } from "@/components/ui/button";
 import { Note, NoteAction, NoteContent } from "@/components/ui/note";
 
-<div className="flex w-full flex-col gap-3">
-  <Note disabled fill variant="warning">
-    <NoteContent>This note details a warning.</NoteContent>
-    <NoteAction>
-      <Button typeName="button" size="small">
-        Upgrade
-      </Button>
-    </NoteAction>
-  </Note>
-</div>;
+export function NoteDisabled75081B59Example() {
+  return (
+    <div className="flex w-full flex-col gap-3">
+      <Note disabled fill variant="warning">
+        <NoteContent>This note details a warning.</NoteContent>
+        <NoteAction>
+          <Button typeName="button" size="small">
+            Upgrade
+          </Button>
+        </NoteAction>
+      </Note>
+    </div>
+  );
+}
 ```
 
 ## 标签
@@ -187,11 +201,15 @@ Region Change:Changing this region restarts all functions.
 ```tsx
 import { Note, NoteContent, NoteLabel } from "@/components/ui/note";
 
-<Note>
-  <NoteContent>
-    <NoteLabel>Region Change:</NoteLabel>Changing this region restarts all functions.
-  </NoteContent>
-</Note>;
+export function NoteLabel0E66373FExample() {
+  return (
+    <Note>
+      <NoteContent>
+        <NoteLabel>Region Change:</NoteLabel>Changing this region restarts all functions.
+      </NoteContent>
+    </Note>
+  );
+}
 ```
 
 ## 自定义图标
@@ -204,14 +222,18 @@ Pass a null icon to render no icon at all.
 import { Note, NoteContent } from "@/components/ui/note";
 import { Sparkles } from "lucide-react";
 
-<div className="flex w-full flex-col gap-3">
-  <Note icon={<Sparkles className="size-4" aria-hidden />}>
-    <NoteContent>A custom icon replaces the variant's default.</NoteContent>
-  </Note>
-  <Note icon={null}>
-    <NoteContent>Pass a null icon to render no icon at all.</NoteContent>
-  </Note>
-</div>;
+export function NoteCustomIconEE5755A2Example() {
+  return (
+    <div className="flex w-full flex-col gap-3">
+      <Note icon={<Sparkles className="size-4" aria-hidden />}>
+        <NoteContent>A custom icon replaces the variant's default.</NoteContent>
+      </Note>
+      <Note icon={null}>
+        <NoteContent>Pass a null icon to render no icon at all.</NoteContent>
+      </Note>
+    </div>
+  );
+}
 ```
 
 ## API 参考

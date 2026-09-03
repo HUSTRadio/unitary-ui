@@ -51,7 +51,7 @@ Table
 
 ## 实时示例
 
-<table class="w-full caption-bottom border-collapse text-copy-14 text-muted-foreground"><thead class="[&amp;_tr]:border-b [&amp;_tr]:border-gray-400"><tr class="transition-colors data-[state=selected]:bg-gray-100"><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 1</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 2</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 3</th></tr></thead><tbody class="[&amp;_td:first-child]:rounded-l-sm [&amp;_td:last-child]:rounded-r-sm"><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.3</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.3</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 3.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 3.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 3.3</td></tr></tbody></table>
+<table class="w-full caption-bottom border-collapse text-copy-14 text-muted-foreground"><thead class="[&amp;_tr]:border-b [&amp;_tr]:border-gray-400"><tr class="transition-colors data-[state=selected]:bg-gray-100"><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 1</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 2</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 3</th></tr></thead><tbody class="[&amp;_td:first-child]:rounded-l-sm [&amp;_td:last-child]:rounded-r-sm"><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.3</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.3</td></tr></tbody></table>
 
 ```tsx
 import {
@@ -64,29 +64,33 @@ import {
   TableRoot,
 } from "@/components/ui/table";
 
-<TableRoot>
-  <Table>
-    <TableHeader>
-      <TableRow>
-        <TableHead>Col 1</TableHead>
-        <TableHead>Col 2</TableHead>
-        <TableHead>Col 3</TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      <TableRow>
-        <TableCell>Value 1.1</TableCell>
-        <TableCell>Value 1.2</TableCell>
-        <TableCell>Value 1.3</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell>Value 2.1</TableCell>
-        <TableCell>Value 2.2</TableCell>
-        <TableCell>Value 2.3</TableCell>
-      </TableRow>
-    </TableBody>
-  </Table>
-</TableRoot>;
+export function TableDefault21B111CBExample() {
+  return (
+    <TableRoot>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Col 1</TableHead>
+            <TableHead>Col 2</TableHead>
+            <TableHead>Col 3</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>Value 1.1</TableCell>
+            <TableCell>Value 1.2</TableCell>
+            <TableCell>Value 1.3</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Value 2.1</TableCell>
+            <TableCell>Value 2.2</TableCell>
+            <TableCell>Value 2.3</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableRoot>
+  );
+}
 ```
 
 ## 斑马纹表格
@@ -94,9 +98,37 @@ import {
 <table class="w-full caption-bottom border-collapse text-copy-14 text-muted-foreground"><thead class="[&amp;_tr]:border-b [&amp;_tr]:border-gray-400"><tr class="transition-colors data-[state=selected]:bg-gray-100"><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 1</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 2</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 3</th></tr></thead><tbody class="[&amp;_td:first-child]:rounded-l-sm [&amp;_td:last-child]:rounded-r-sm [&amp;_tr:where(:nth-child(odd))]:bg-background-200"><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.3</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.3</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 3.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 3.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 3.3</td></tr></tbody></table>
 
 ```tsx
-<Table>
-  <TableBody striped>…</TableBody>
-</Table>
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+export function TableStripedExample() {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Col 1</TableHead>
+          <TableHead>Col 2</TableHead>
+          <TableHead>Col 3</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody striped>
+        {[1, 2, 3].map((row) => (
+          <TableRow key={row}>
+            <TableCell>Value {row}.1</TableCell>
+            <TableCell>Value {row}.2</TableCell>
+            <TableCell>Value {row}.3</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+}
 ```
 
 ## 带边框表格
@@ -104,9 +136,37 @@ import {
 <table class="w-full caption-bottom border-collapse text-copy-14 text-muted-foreground"><thead class="[&amp;_tr]:border-b [&amp;_tr]:border-gray-400"><tr class="transition-colors data-[state=selected]:bg-gray-100"><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 1</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 2</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 3</th></tr></thead><tbody class="[&amp;_td:first-child]:rounded-l-sm [&amp;_td:last-child]:rounded-r-sm [&amp;_tr]:border-b [&amp;_tr]:border-gray-400"><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.3</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.3</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 3.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 3.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 3.3</td></tr></tbody></table>
 
 ```tsx
-<Table>
-  <TableBody bordered>…</TableBody>
-</Table>
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+export function TableBorderedExample() {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Col 1</TableHead>
+          <TableHead>Col 2</TableHead>
+          <TableHead>Col 3</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody bordered>
+        {[1, 2, 3].map((row) => (
+          <TableRow key={row}>
+            <TableCell>Value {row}.1</TableCell>
+            <TableCell>Value {row}.2</TableCell>
+            <TableCell>Value {row}.3</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+}
 ```
 
 ## 可交互表格
@@ -114,17 +174,105 @@ import {
 <table class="w-full caption-bottom border-collapse text-copy-14 text-muted-foreground"><thead class="[&amp;_tr]:border-b [&amp;_tr]:border-gray-400"><tr class="transition-colors data-[state=selected]:bg-gray-100"><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 1</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 2</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Col 3</th></tr></thead><tbody class="[&amp;_td:first-child]:rounded-l-sm [&amp;_td:last-child]:rounded-r-sm [&amp;_tr]:transition-colors [&amp;_tr:hover]:bg-gray-100"><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 1.3</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 2.3</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 3.1</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 3.2</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Value 3.3</td></tr></tbody></table>
 
 ```tsx
-<Table>
-  <TableBody interactive>…</TableBody>
-</Table>
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+export function TableInteractiveExample() {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Col 1</TableHead>
+          <TableHead>Col 2</TableHead>
+          <TableHead>Col 3</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody interactive>
+        {[1, 2, 3].map((row) => (
+          <TableRow key={row}>
+            <TableCell>Value {row}.1</TableCell>
+            <TableCell>Value {row}.2</TableCell>
+            <TableCell>Value {row}.3</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+}
 ```
 
 ## 完整功能表格
 
-<table class="w-full caption-bottom border-collapse text-copy-14 text-muted-foreground"><colgroup class=""><col class="w-[44%]"><col class="w-[22%]"><col class="w-[22%]"><col class="w-[11%]"></colgroup><thead class="[&amp;_tr]:border-b [&amp;_tr]:border-gray-400"><tr class="transition-colors data-[state=selected]:bg-gray-100"><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Product</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Usage</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Price</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Charge</th></tr></thead><tbody class="[&amp;_td:first-child]:rounded-l-sm [&amp;_td:last-child]:rounded-r-sm [&amp;_tr:where(:nth-child(odd))]:bg-background-200 [&amp;_tr]:transition-colors [&amp;_tr:hover]:bg-gray-100"><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Brake Pads Set</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">100 sets</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$50 per set</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$5,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Oil Filters</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">200 filters</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$10 per filter</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$2,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Car Batteries</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">50 batteries</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$100 per battery</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$5,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Headlight Bulbs</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">300 bulbs</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$15 per bulb</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$4,500.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Windshield Wipers</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">250 pairs</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$20 per pair</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$5,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Spark Plugs</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">500 sets</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$5 per set</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$2,500.00</td></tr></tbody><tfoot class="border-t border-gray-400 font-medium [&amp;&gt;tr]:last:border-b-0"><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-gray-1000 font-medium" colspan="3">Subtotal</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 align-middle text-gray-1000 font-medium tabular-nums text-right">$24,000.00</td></tr></tfoot></table>
+<table class="w-full caption-bottom border-collapse text-copy-14 text-muted-foreground"><colgroup class=""><col class="w-[44%]"><col class="w-[22%]"><col class="w-[22%]"><col class="w-[11%]"></colgroup><thead class="[&amp;_tr]:border-b [&amp;_tr]:border-gray-400"><tr class="transition-colors data-[state=selected]:bg-gray-100"><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Product</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Usage</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Price</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Charge</th></tr></thead><tbody class="[&amp;_td:first-child]:rounded-l-sm [&amp;_td:last-child]:rounded-r-sm [&amp;_tr:where(:nth-child(odd))]:bg-background-200 [&amp;_tr]:transition-colors [&amp;_tr:hover]:bg-gray-100"><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Brake Pads Set</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">100 sets</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$50 per set</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$5,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Oil Filters</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">200 filters</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$10 per filter</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$2,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Car Batteries</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">50 batteries</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$100 per battery</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$5,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Headlight Bulbs</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">300 bulbs</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$15 per bulb</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$4,500.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Windshield Wipers</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">250 pairs</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$20 per pair</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$5,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Spark Plugs</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">500 sets</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$5 per set</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$2,500.00</td></tr></tbody><tfoot class="border-t border-gray-400 font-medium [&amp;&gt;tr]:last:border-b-0"><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-medium text-gray-1000" colspan="3">Subtotal</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 align-middle text-right font-medium tabular-nums text-gray-1000">$24,000.00</td></tr></tfoot></table>
 
 ```tsx
-<Table>…full featured rows…</Table>
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableCol,
+  TableColgroup,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+const items = [
+  ["Brake Pads Set", "100 sets", "$50 per set", "$5,000.00"],
+  ["Oil Filters", "200 filters", "$10 per filter", "$2,000.00"],
+  ["Car Batteries", "50 batteries", "$100 per battery", "$5,000.00"],
+  ["Headlight Bulbs", "300 bulbs", "$15 per bulb", "$4,500.00"],
+  ["Windshield Wipers", "250 pairs", "$20 per pair", "$5,000.00"],
+  ["Spark Plugs", "500 sets", "$5 per set", "$2,500.00"],
+] as const;
+
+export function TableFullFeaturedExample() {
+  return (
+    <Table>
+      <TableColgroup>
+        <TableCol className="w-[44%]" />
+        <TableCol className="w-[22%]" />
+        <TableCol className="w-[22%]" />
+        <TableCol className="w-[11%]" />
+      </TableColgroup>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Product</TableHead>
+          <TableHead>Usage</TableHead>
+          <TableHead>Price</TableHead>
+          <TableHead>Charge</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody interactive striped>
+        {items.map(([product, usage, price, charge]) => (
+          <TableRow key={product}>
+            <TableCell>{product}</TableCell>
+            <TableCell>{usage}</TableCell>
+            <TableCell>{price}</TableCell>
+            <TableCell className="tabular-nums text-right">{charge}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+      <TableFooter>
+        <TableRow>
+          <TableCell className="font-medium text-gray-1000" colSpan={3}>
+            Subtotal
+          </TableCell>
+          <TableCell className="text-right font-medium tabular-nums text-gray-1000">
+            $24,000.00
+          </TableCell>
+        </TableRow>
+      </TableFooter>
+    </Table>
+  );
+}
 ```
 
 ## 虚拟化表格
@@ -132,11 +280,71 @@ import {
 <table class="w-full caption-bottom border-collapse text-copy-14 text-muted-foreground"><colgroup class=""><col class="w-[44%]"><col class="w-[22%]"><col class="w-[22%]"><col class="w-[11%]"></colgroup><thead class="[&amp;_tr]:border-b [&amp;_tr]:border-gray-400"><tr class="transition-colors data-[state=selected]:bg-gray-100"><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Product</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Usage</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Price</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Charge</th></tr></thead><tbody class="[&amp;_td:first-child]:rounded-l-sm [&amp;_td:last-child]:rounded-r-sm [&amp;_tr:where(:nth-child(odd))]:bg-background-200 [&amp;_tr]:transition-colors [&amp;_tr:hover]:bg-gray-100"><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Brake Pads Set</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">100 sets</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$50 per set</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$5,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Oil Filters</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">200 filters</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$10 per filter</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$2,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Car Batteries</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">50 batteries</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$100 per battery</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$5,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Headlight Bulbs</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">300 bulbs</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$15 per bulb</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$4,500.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Windshield Wipers</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">250 pairs</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$20 per pair</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$5,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Spark Plugs</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">500 sets</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$5 per set</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$2,500.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Brake Pads Set</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">100 sets</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$50 per set</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$5,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Oil Filters</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">200 filters</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$10 per filter</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$2,000.00</td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100"><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Car Batteries</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">50 batteries</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">$100 per battery</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 align-middle tabular-nums text-right">$5,000.00</td></tr></tbody></table>
 
 ```tsx
-<Table>
-  <TableBody interactive striped>
-    …
-  </TableBody>
-</Table>
+import * as React from "react";
+import { ShowMore } from "@/components/ui/show-more";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableCol,
+  TableColgroup,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+const items = [
+  ["Brake Pads Set", "100 sets", "$50 per set", "$5,000.00"],
+  ["Oil Filters", "200 filters", "$10 per filter", "$2,000.00"],
+  ["Car Batteries", "50 batteries", "$100 per battery", "$5,000.00"],
+  ["Headlight Bulbs", "300 bulbs", "$15 per bulb", "$4,500.00"],
+  ["Windshield Wipers", "250 pairs", "$20 per pair", "$5,000.00"],
+  ["Spark Plugs", "500 sets", "$5 per set", "$2,500.00"],
+] as const;
+
+export function TableVirtualizedExample() {
+  const [expanded, setExpanded] = React.useState(false);
+  const rows = expanded ? 48 : 9;
+  return (
+    <div className="relative">
+      <Table>
+        <TableColgroup>
+          <TableCol className="w-[44%]" />
+          <TableCol className="w-[22%]" />
+          <TableCol className="w-[22%]" />
+          <TableCol className="w-[11%]" />
+        </TableColgroup>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Product</TableHead>
+            <TableHead>Usage</TableHead>
+            <TableHead>Price</TableHead>
+            <TableHead>Charge</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody interactive striped>
+          {Array.from({ length: rows }, (_, index) => {
+            const [product, usage, price, charge] = items[index % items.length];
+            return (
+              <TableRow key={`${product}-${index}`}>
+                <TableCell>{product}</TableCell>
+                <TableCell>{usage}</TableCell>
+                <TableCell>{price}</TableCell>
+                <TableCell className="tabular-nums text-right">{charge}</TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+      {!expanded ? (
+        <div className="pointer-events-none absolute bottom-0 left-0 h-[30%] w-full rounded bg-linear-to-t from-background-100 to-transparent opacity-80" />
+      ) : null}
+      <div className="flex justify-center pt-2">
+        <ShowMore expanded={expanded} noBorder onClick={() => setExpanded(!expanded)} />
+      </div>
+    </div>
+  );
+}
 ```
 
 ## API 参考

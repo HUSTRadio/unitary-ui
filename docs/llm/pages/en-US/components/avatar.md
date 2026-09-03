@@ -60,10 +60,6 @@ Not applicable: Avatar is a passive display component with no interactive state 
 
 ## Live Demo
 
-![Vercel](https://github.com/vercel.png)ALLG
-
-## Group
-
 ![Avatar for evilrabbit](https://github.com/evilrabbit.png?size=64)![Avatar for severinlandolt](https://github.com/severinlandolt.png?size=64)![Avatar for rauchg](https://github.com/rauchg.png?size=64)
 
 ![Avatar for christopherkindl](https://github.com/christopherkindl.png?size=64)![Avatar for rauno](https://github.com/rauno.png?size=64)![Avatar for shuding](https://github.com/shuding.png?size=64)![Avatar for skllcrn](https://github.com/skllcrn.png?size=64)+2
@@ -71,23 +67,31 @@ Not applicable: Avatar is a passive display component with no interactive state 
 ```tsx
 import { AvatarGroup } from "@/components/ui/avatar";
 
-<div className="flex flex-wrap items-center gap-4">
-  <AvatarGroup
-    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
-    size={32}
-  />
-  <AvatarGroup
-    limit={4}
-    members={[
-      { username: "christopherkindl" },
-      { username: "rauno" },
-      { username: "shuding" },
-      { username: "skllcrn" },
-      { username: "almonk" },
-    ]}
-    size={32}
-  />
-</div>;
+export function AvatarGroup34CA0E76Example() {
+  return (
+    <div className="flex flex-wrap items-center gap-4">
+      <AvatarGroup
+        members={[
+          { username: "evilrabbit" },
+          { username: "severinlandolt" },
+          { username: "rauchg" },
+        ]}
+        size={32}
+      />
+      <AvatarGroup
+        limit={4}
+        members={[
+          { username: "christopherkindl" },
+          { username: "rauno" },
+          { username: "shuding" },
+          { username: "skllcrn" },
+          { username: "almonk" },
+        ]}
+        size={32}
+      />
+    </div>
+  );
+}
 ```
 
 ## Stacking order
@@ -99,17 +103,29 @@ import { AvatarGroup } from "@/components/ui/avatar";
 ```tsx
 import { AvatarGroup } from "@/components/ui/avatar";
 
-<div className="flex flex-wrap items-center gap-4">
-  <AvatarGroup
-    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
-    size={32}
-  />
-  <AvatarGroup
-    reverse
-    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
-    size={32}
-  />
-</div>;
+export function AvatarStackingOrderD2DD6E34Example() {
+  return (
+    <div className="flex flex-wrap items-center gap-4">
+      <AvatarGroup
+        members={[
+          { username: "evilrabbit" },
+          { username: "severinlandolt" },
+          { username: "rauchg" },
+        ]}
+        size={32}
+      />
+      <AvatarGroup
+        reverse
+        members={[
+          { username: "evilrabbit" },
+          { username: "severinlandolt" },
+          { username: "rauchg" },
+        ]}
+        size={32}
+      />
+    </div>
+  );
+}
 ```
 
 ## Overlap
@@ -125,28 +141,48 @@ import { AvatarGroup } from "@/components/ui/avatar";
 ```tsx
 import { AvatarGroup } from "@/components/ui/avatar";
 
-<div className="flex flex-wrap items-center gap-6">
-  <AvatarGroup
-    overlap="auto"
-    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
-    size={16}
-  />
-  <AvatarGroup
-    overlap="auto"
-    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
-    size={24}
-  />
-  <AvatarGroup
-    overlap="auto"
-    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
-    size={32}
-  />
-  <AvatarGroup
-    overlap="auto"
-    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
-    size={48}
-  />
-</div>;
+export function AvatarOverlap38B163F9Example() {
+  return (
+    <div className="flex flex-wrap items-center gap-6">
+      <AvatarGroup
+        overlap="auto"
+        members={[
+          { username: "evilrabbit" },
+          { username: "severinlandolt" },
+          { username: "rauchg" },
+        ]}
+        size={16}
+      />
+      <AvatarGroup
+        overlap="auto"
+        members={[
+          { username: "evilrabbit" },
+          { username: "severinlandolt" },
+          { username: "rauchg" },
+        ]}
+        size={24}
+      />
+      <AvatarGroup
+        overlap="auto"
+        members={[
+          { username: "evilrabbit" },
+          { username: "severinlandolt" },
+          { username: "rauchg" },
+        ]}
+        size={32}
+      />
+      <AvatarGroup
+        overlap="auto"
+        members={[
+          { username: "evilrabbit" },
+          { username: "severinlandolt" },
+          { username: "rauchg" },
+        ]}
+        size={48}
+      />
+    </div>
+  );
+}
 ```
 
 ## Fixed overlap
@@ -160,23 +196,39 @@ import { AvatarGroup } from "@/components/ui/avatar";
 ```tsx
 import { AvatarGroup } from "@/components/ui/avatar";
 
-<div className="flex flex-wrap items-center gap-4">
-  <AvatarGroup
-    overlap={10}
-    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
-    size={24}
-  />
-  <AvatarGroup
-    overlap={6}
-    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
-    size={24}
-  />
-  <AvatarGroup
-    overlap={0}
-    members={[{ username: "evilrabbit" }, { username: "severinlandolt" }, { username: "rauchg" }]}
-    size={24}
-  />
-</div>;
+export function AvatarFixedOverlapD4FD80A3Example() {
+  return (
+    <div className="flex flex-wrap items-center gap-4">
+      <AvatarGroup
+        overlap={10}
+        members={[
+          { username: "evilrabbit" },
+          { username: "severinlandolt" },
+          { username: "rauchg" },
+        ]}
+        size={24}
+      />
+      <AvatarGroup
+        overlap={6}
+        members={[
+          { username: "evilrabbit" },
+          { username: "severinlandolt" },
+          { username: "rauchg" },
+        ]}
+        size={24}
+      />
+      <AvatarGroup
+        overlap={0}
+        members={[
+          { username: "evilrabbit" },
+          { username: "severinlandolt" },
+          { username: "rauchg" },
+        ]}
+        size={24}
+      />
+    </div>
+  );
+}
 ```
 
 ## Size
@@ -186,11 +238,15 @@ import { AvatarGroup } from "@/components/ui/avatar";
 ```tsx
 import { Avatar } from "@/components/ui/avatar";
 
-<div className="flex flex-wrap items-center gap-4">
-  <Avatar size={24} username="evilrabbit" />
-  <Avatar size={32} username="evilrabbit" />
-  <Avatar size={48} username="evilrabbit" />
-</div>;
+export function AvatarSize1AF85190Example() {
+  return (
+    <div className="flex flex-wrap items-center gap-4">
+      <Avatar size={24} username="evilrabbit" />
+      <Avatar size={32} username="evilrabbit" />
+      <Avatar size={48} username="evilrabbit" />
+    </div>
+  );
+}
 ```
 
 ## Git
@@ -200,11 +256,15 @@ import { Avatar } from "@/components/ui/avatar";
 ```tsx
 import { GitHubAvatar, GitLabAvatar, BitbucketAvatar } from "@/components/ui/avatar";
 
-<div className="flex flex-wrap items-center gap-4">
-  <GitHubAvatar size={32} username="rauchg" />
-  <GitLabAvatar size={32} username="severinlandolt" />
-  <BitbucketAvatar size={32} username="evilrabbit" />
-</div>;
+export function AvatarGitB949C922Example() {
+  return (
+    <div className="flex flex-wrap items-center gap-4">
+      <GitHubAvatar size={32} username="rauchg" />
+      <GitLabAvatar size={32} username="severinlandolt" />
+      <BitbucketAvatar size={32} username="evilrabbit" />
+    </div>
+  );
+}
 ```
 
 ## With custom icon
@@ -213,19 +273,23 @@ import { GitHubAvatar, GitLabAvatar, BitbucketAvatar } from "@/components/ui/ava
 import { AvatarWithIcon } from "@/components/ui/avatar";
 import { ArrowDownCircle, CircleCheck, Clock } from "lucide-react";
 
-<div className="flex flex-wrap items-center gap-4">
-  <AvatarWithIcon
-    icon={<ArrowDownCircle className="size-3.5" aria-hidden />}
-    size={32}
-    iconBackground
-  />
-  <AvatarWithIcon
-    icon={<CircleCheck className="size-3.5" aria-hidden />}
-    size={32}
-    iconBackground
-  />
-  <AvatarWithIcon icon={<Clock className="size-3.5" aria-hidden />} size={32} iconBackground />
-</div>;
+export function AvatarWithCustomIconECDC07D3Example() {
+  return (
+    <div className="flex flex-wrap items-center gap-4">
+      <AvatarWithIcon
+        icon={<ArrowDownCircle className="size-3.5" aria-hidden />}
+        size={32}
+        iconBackground
+      />
+      <AvatarWithIcon
+        icon={<CircleCheck className="size-3.5" aria-hidden />}
+        size={32}
+        iconBackground
+      />
+      <AvatarWithIcon icon={<Clock className="size-3.5" aria-hidden />} size={32} iconBackground />
+    </div>
+  );
+}
 ```
 
 ## Letter
@@ -235,11 +299,15 @@ SLEKCK
 ```tsx
 import { Avatar } from "@/components/ui/avatar";
 
-<div className="flex flex-wrap items-center gap-4">
-  <Avatar letter="SL" placeholder size={32} />
-  <Avatar letter="EK" placeholder size={32} />
-  <Avatar letter="CK" placeholder size={32} />
-</div>;
+export function AvatarLetter1BF163F2Example() {
+  return (
+    <div className="flex flex-wrap items-center gap-4">
+      <Avatar letter="SL" placeholder size={32} />
+      <Avatar letter="EK" placeholder size={32} />
+      <Avatar letter="CK" placeholder size={32} />
+    </div>
+  );
+}
 ```
 
 ## Placeholder
@@ -247,7 +315,9 @@ import { Avatar } from "@/components/ui/avatar";
 ```tsx
 import { Avatar } from "@/components/ui/avatar";
 
-<Avatar placeholder size={90} />;
+export function AvatarPlaceholderF4B24FEDExample() {
+  return <Avatar placeholder size={90} />;
+}
 ```
 
 ## API Reference

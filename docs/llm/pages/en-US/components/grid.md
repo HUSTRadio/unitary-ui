@@ -60,26 +60,16 @@ Not applicable: As a layout container, Grid manages no internal state or user in
 
 ## Live Demo
 
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-## Grid
-
 ```tsx
 import { Grid, GridSystem } from "@/components/ui/grid";
 
-<GridSystem debug guideWidth={1} unstable_useContainer>
-  <Grid columns={5} height="preserve-aspect-ratio" rows={2} />
-</GridSystem>;
+export function GridGrid0D7D12ACExample() {
+  return (
+    <GridSystem debug guideWidth={1} unstable_useContainer>
+      <Grid columns={5} height="preserve-aspect-ratio" rows={2} />
+    </GridSystem>
+  );
+}
 ```
 
 ## Basic grid
@@ -99,13 +89,17 @@ import { Grid, GridSystem } from "@/components/ui/grid";
 ```tsx
 import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
 
-<GridSystem guideWidth={1} unstable_useContainer>
-  <Grid columns={3} rows={2}>
-    {[1, 2, 3, 4, 5, 6].map((n) => (
-      <GridCell key={n}>{n}</GridCell>
-    ))}
-  </Grid>
-</GridSystem>;
+export function GridBasicGrid278AA3F9Example() {
+  return (
+    <GridSystem guideWidth={1} unstable_useContainer>
+      <Grid columns={3} rows={2}>
+        {[1, 2, 3, 4, 5, 6].map((n) => (
+          <GridCell key={n}>{n}</GridCell>
+        ))}
+      </Grid>
+    </GridSystem>
+  );
+}
 ```
 
 ## Solid cells
@@ -121,18 +115,22 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
 ```tsx
 import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
 
-<GridSystem guideWidth={1} unstable_useContainer>
-  <Grid columns={3} rows={2}>
-    <GridCell column="1/3" row="1" solid>
-      1 + 2
-    </GridCell>
-    <GridCell>3</GridCell>
-    <GridCell>4</GridCell>
-    <GridCell column="2/4" row="2" solid>
-      5 + 6
-    </GridCell>
-  </Grid>
-</GridSystem>;
+export function GridSolidCellsE676560CExample() {
+  return (
+    <GridSystem guideWidth={1} unstable_useContainer>
+      <Grid columns={3} rows={2}>
+        <GridCell column="1/3" row="1" solid>
+          1 + 2
+        </GridCell>
+        <GridCell>3</GridCell>
+        <GridCell>4</GridCell>
+        <GridCell column="2/4" row="2" solid>
+          5 + 6
+        </GridCell>
+      </Grid>
+    </GridSystem>
+  );
+}
 ```
 
 ## Responsive grid
@@ -152,13 +150,17 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
 ```tsx
 import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
 
-<GridSystem unstable_useContainer>
-  <Grid columns={{ sm: 1, md: 2, lg: 3 }} rows={{ sm: 6, md: 3, lg: 2 }}>
-    {[1, 2, 3, 4, 5, 6].map((n) => (
-      <GridCell key={n}>{n}</GridCell>
-    ))}
-  </Grid>
-</GridSystem>;
+export function GridResponsiveGrid8DF1FB3EExample() {
+  return (
+    <GridSystem unstable_useContainer>
+      <Grid columns={{ sm: 1, md: 2, lg: 3 }} rows={{ sm: 6, md: 3, lg: 2 }}>
+        {[1, 2, 3, 4, 5, 6].map((n) => (
+          <GridCell key={n}>{n}</GridCell>
+        ))}
+      </Grid>
+    </GridSystem>
+  );
+}
 ```
 
 ## Responsive guide clipping
@@ -174,18 +176,22 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
 ```tsx
 import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
 
-<GridSystem unstable_useContainer>
-  <Grid columns={{ sm: 1, md: 2, lg: 3 }} rows={{ sm: 6, md: 3, lg: 2 }}>
-    <GridCell column={{ sm: "1", md: "1/3" }} row={{ sm: "1/3", md: 1 }} solid>
-      1 + 2
-    </GridCell>
-    <GridCell>3</GridCell>
-    <GridCell>4</GridCell>
-    <GridCell column={{ sm: 1, md: "1/3", lg: "2/4" }} row={{ sm: "5/7", md: 3, lg: 2 }} solid>
-      5 + 6
-    </GridCell>
-  </Grid>
-</GridSystem>;
+export function GridResponsiveGuideClippingA58874D5Example() {
+  return (
+    <GridSystem unstable_useContainer>
+      <Grid columns={{ sm: 1, md: 2, lg: 3 }} rows={{ sm: 6, md: 3, lg: 2 }}>
+        <GridCell column={{ sm: "1", md: "1/3" }} row={{ sm: "1/3", md: 1 }} solid>
+          1 + 2
+        </GridCell>
+        <GridCell>3</GridCell>
+        <GridCell>4</GridCell>
+        <GridCell column={{ sm: 1, md: "1/3", lg: "2/4" }} row={{ sm: "5/7", md: 3, lg: 2 }} solid>
+          5 + 6
+        </GridCell>
+      </Grid>
+    </GridSystem>
+  );
+}
 ```
 
 ## Hidden row guides
@@ -193,9 +199,13 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
 ```tsx
 import { Grid, GridSystem } from "@/components/ui/grid";
 
-<GridSystem unstable_useContainer>
-  <Grid columns={12} height="preserve-aspect-ratio" hideGuides="row" rows={3} />
-</GridSystem>;
+export function GridHiddenRowGuides59338B9FExample() {
+  return (
+    <GridSystem unstable_useContainer>
+      <Grid columns={12} height="preserve-aspect-ratio" hideGuides="row" rows={3} />
+    </GridSystem>
+  );
+}
 ```
 
 ## Hidden column guides
@@ -203,9 +213,13 @@ import { Grid, GridSystem } from "@/components/ui/grid";
 ```tsx
 import { Grid, GridSystem } from "@/components/ui/grid";
 
-<GridSystem unstable_useContainer>
-  <Grid columns={12} height="preserve-aspect-ratio" hideGuides="column" rows={3} />
-</GridSystem>;
+export function GridHiddenColumnGuidesE1033A1BExample() {
+  return (
+    <GridSystem unstable_useContainer>
+      <Grid columns={12} height="preserve-aspect-ratio" hideGuides="column" rows={3} />
+    </GridSystem>
+  );
+}
 ```
 
 ## Overlaying cells
@@ -223,25 +237,29 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at felis
 ```tsx
 import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
 
-<GridSystem unstable_useContainer>
-  <Grid columns={12} rows={3}>
-    <GridCell column="1/3" row="1/3" solid>
-      1
-    </GridCell>
-    <GridCell column="2/4" row="2/4">
-      2
-    </GridCell>
-    <GridCell column="3/10" row="2/4">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at felis
-    </GridCell>
-    <GridCell column="7/12" row="1/-1" solid>
-      3
-    </GridCell>
-    <GridCell column="11/13" row="1/3" solid>
-      4
-    </GridCell>
-  </Grid>
-</GridSystem>;
+export function GridOverlayingCellsB9F603D6Example() {
+  return (
+    <GridSystem unstable_useContainer>
+      <Grid columns={12} rows={3}>
+        <GridCell column="1/3" row="1/3" solid>
+          1
+        </GridCell>
+        <GridCell column="2/4" row="2/4">
+          2
+        </GridCell>
+        <GridCell column="3/10" row="2/4">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at felis
+        </GridCell>
+        <GridCell column="7/12" row="1/-1" solid>
+          3
+        </GridCell>
+        <GridCell column="11/13" row="1/3" solid>
+          4
+        </GridCell>
+      </Grid>
+    </GridSystem>
+  );
+}
 ```
 
 ## Specific guide clipping
@@ -259,25 +277,29 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
 ```tsx
 import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
 
-<GridSystem guideWidth={1} unstable_useContainer>
-  <Grid columns={3} rows={4}>
-    <GridCell column="1/2" row="1/3" solid>
-      1
-    </GridCell>
-    <GridCell column="3/4" row="1/2" solid>
-      2
-    </GridCell>
-    <GridCell column="2/3" row="2/4">
-      3
-    </GridCell>
-    <GridCell column="1/2" row="4/5" solid>
-      4
-    </GridCell>
-    <GridCell column="3/4" row="3/5" solid>
-      5
-    </GridCell>
-  </Grid>
-</GridSystem>;
+export function GridSpecificGuideClipping4F529B64Example() {
+  return (
+    <GridSystem guideWidth={1} unstable_useContainer>
+      <Grid columns={3} rows={4}>
+        <GridCell column="1/2" row="1/3" solid>
+          1
+        </GridCell>
+        <GridCell column="3/4" row="1/2" solid>
+          2
+        </GridCell>
+        <GridCell column="2/3" row="2/4">
+          3
+        </GridCell>
+        <GridCell column="1/2" row="4/5" solid>
+          4
+        </GridCell>
+        <GridCell column="3/4" row="3/5" solid>
+          5
+        </GridCell>
+      </Grid>
+    </GridSystem>
+  );
+}
 ```
 
 ## Grid with cross
@@ -297,17 +319,21 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
 ```tsx
 import { Grid, GridCell, GridCross, GridSystem } from "@/components/ui/grid";
 
-<GridSystem guideWidth={1} unstable_useContainer>
-  <Grid columns={3} rows={2}>
-    <GridCross column={1} row={1} />
-    <GridCross column={4} row={1} />
-    <GridCross column={4} row={3} />
-    <GridCross column={1} row={3} />
-    {[1, 2, 3, 4, 5, 6].map((n) => (
-      <GridCell key={n}>{n}</GridCell>
-    ))}
-  </Grid>
-</GridSystem>;
+export function GridGridWithCross6A783E1BExample() {
+  return (
+    <GridSystem guideWidth={1} unstable_useContainer>
+      <Grid columns={3} rows={2}>
+        <GridCross column={1} row={1} />
+        <GridCross column={4} row={1} />
+        <GridCross column={4} row={3} />
+        <GridCross column={1} row={3} />
+        {[1, 2, 3, 4, 5, 6].map((n) => (
+          <GridCell key={n}>{n}</GridCell>
+        ))}
+      </Grid>
+    </GridSystem>
+  );
+}
 ```
 
 ## Dashed grid with cross
@@ -317,15 +343,19 @@ Content here
 ```tsx
 import { Grid, GridCell, GridCross, GridSystem } from "@/components/ui/grid";
 
-<GridSystem dashedGuides guideWidth={1} unstable_useContainer>
-  <Grid columns={1} rows={1}>
-    <GridCross column={1} row={1} />
-    <GridCross column={2} row={2} />
-    <GridCross column={2} row={1} />
-    <GridCross column={1} row={2} />
-    <GridCell>Content here</GridCell>
-  </Grid>
-</GridSystem>;
+export function GridDashedGridWithCrossB76B6591Example() {
+  return (
+    <GridSystem dashedGuides guideWidth={1} unstable_useContainer>
+      <Grid columns={1} rows={1}>
+        <GridCross column={1} row={1} />
+        <GridCross column={2} row={2} />
+        <GridCross column={2} row={1} />
+        <GridCross column={1} row={2} />
+        <GridCell>Content here</GridCell>
+      </Grid>
+    </GridSystem>
+  );
+}
 ```
 
 ## Dashed grid with grid page
@@ -335,17 +365,21 @@ Content here
 ```tsx
 import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui/grid";
 
-<GridPage>
-  <GridSystem dashedGuides guideWidth={1}>
-    <Grid columns={1} rows={1}>
-      <GridCross column={1} row={1} />
-      <GridCross column={2} row={2} />
-      <GridCross column={2} row={1} />
-      <GridCross column={1} row={2} />
-      <GridCell>Content here</GridCell>
-    </Grid>
-  </GridSystem>
-</GridPage>;
+export function GridDashedGridWithGridPageFA2E79AFExample() {
+  return (
+    <GridPage>
+      <GridSystem dashedGuides guideWidth={1}>
+        <Grid columns={1} rows={1}>
+          <GridCross column={1} row={1} />
+          <GridCross column={2} row={2} />
+          <GridCross column={2} row={1} />
+          <GridCross column={1} row={2} />
+          <GridCell>Content here</GridCell>
+        </Grid>
+      </GridSystem>
+    </GridPage>
+  );
+}
 ```
 
 ## API Reference

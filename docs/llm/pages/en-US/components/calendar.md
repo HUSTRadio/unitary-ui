@@ -66,154 +66,170 @@ Pins the calendar to a specific timezone to avoid cross-timezone ambiguity.
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
 
-<Calendar label="Select Date Range" />;
+export function CalendarDefault37A8EEC1Example() {
+  return <Calendar label="Select Date Range" />;
+}
 ```
 
-## Horizontal Layout
+## horizontal-layout
 
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
 
-<Calendar label="Select Date Range" horizontalLayout />;
+export function CalendarHorizontalLayout7E958EE5Example() {
+  return <Calendar label="Select Date Range" horizontalLayout />;
+}
 ```
 
-## Sizes
-
-small
-
-Combobox Menu
-
-Combobox Menu
-
-Combobox Menu
-
-default / medium
-
-Combobox Menu
-
-Combobox Menu
-
-Combobox Menu
+## sizes
 
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
 
-<Calendar label="Select Date Range" size="small" />
-<Calendar label="Select Date Range" />
+export function CalendarSizes7C69F3FAExample() {
+  return (
+    <>
+      <Calendar label="Select Date Range" size="small" />
+      <Calendar label="Select Date Range" />
+    </>
+  );
+}
 ```
 
-## Presets
+## presets
 
 Combobox Menu
 
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
 
-<Calendar
-  label="Select Date Range"
-  showCombobox
-  comboboxFirst
-  comboboxFull
-  comboboxWide
-  comboboxLabel="Combobox Menu"
-  comboboxPlaceholder="Select Period"
-  presets={{
-    "last-7-days": {
-      text: "Last 7 Days",
-      start: new Date(2026, 7, 14),
-      end: new Date(2026, 7, 21),
-    },
-  }}
-/>;
+export function CalendarPresets4700153DExample() {
+  return (
+    <Calendar
+      label="Select Date Range"
+      showCombobox
+      comboboxFirst
+      comboboxFull
+      comboboxWide
+      comboboxLabel="Combobox Menu"
+      comboboxPlaceholder="Select Period"
+      presets={{
+        "last-7-days": {
+          text: "Last 7 Days",
+          start: new Date(2026, 7, 14),
+          end: new Date(2026, 7, 21),
+        },
+      }}
+    />
+  );
+}
 ```
 
-## Compact
+## compact
 
 Combobox Menu
 
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
 
-<Calendar
-  label="Select Date Range"
-  compact
-  comboboxLabel="Combobox Menu"
-  presets={{
-    "last-7-days": {
-      text: "Last 7 Days",
-      start: new Date(2026, 7, 14),
-      end: new Date(2026, 7, 21),
-    },
-  }}
-/>;
+export function CalendarCompactB6B54201Example() {
+  return (
+    <Calendar
+      label="Select Date Range"
+      compact
+      comboboxLabel="Combobox Menu"
+      presets={{
+        "last-7-days": {
+          text: "Last 7 Days",
+          start: new Date(2026, 7, 14),
+          end: new Date(2026, 7, 21),
+        },
+      }}
+    />
+  );
+}
 ```
 
-## Stacked
+## stacked
 
 Combobox Menu
 
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
 
-<Calendar
-  label="Select Date Range"
-  stacked
-  comboboxLabel="Combobox Menu"
-  comboboxPlaceholder="Select Period"
-  presets={{
-    "last-7-days": {
-      text: "Last 7 Days",
-      start: new Date(2026, 7, 14),
-      end: new Date(2026, 7, 21),
-    },
-  }}
-/>;
+export function CalendarStacked62739DB4Example() {
+  return (
+    <Calendar
+      label="Select Date Range"
+      stacked
+      comboboxLabel="Combobox Menu"
+      comboboxPlaceholder="Select Period"
+      presets={{
+        "last-7-days": {
+          text: "Last 7 Days",
+          start: new Date(2026, 7, 14),
+          end: new Date(2026, 7, 21),
+        },
+      }}
+    />
+  );
+}
 ```
 
-## Default Preset
+## presets-default
 
 Combobox Menu
 
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
 
-<Calendar
-  label="Select Date Range"
-  showCombobox
-  comboboxFirst
-  comboboxFull
-  comboboxWide
-  comboboxLabel="Combobox Menu"
-  comboboxPlaceholder="Select Period"
-  presets={{
-    "last-7-days": {
-      text: "Last 7 Days",
-      start: new Date(2026, 7, 14),
-      end: new Date(2026, 7, 21),
-    },
-  }}
-  presetIndex={0}
-/>;
+export function CalendarPresetsDefault52146B29Example() {
+  return (
+    <Calendar
+      label="Select Date Range"
+      showCombobox
+      comboboxFirst
+      comboboxFull
+      comboboxWide
+      comboboxLabel="Combobox Menu"
+      comboboxPlaceholder="Select Period"
+      presets={{
+        "last-7-days": {
+          text: "Last 7 Days",
+          start: new Date(2026, 7, 14),
+          end: new Date(2026, 7, 21),
+        },
+      }}
+      presetIndex={0}
+    />
+  );
+}
 ```
 
-## Date Bounds
+## min-max
 
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
 
-const now = new Date();
-const minDate = new Date(now.getFullYear(), now.getMonth() - 2, now.getDate());
-const maxDate = new Date(now.getFullYear(), now.getMonth() + 2, now.getDate());
+export function CalendarMinMax133CB44DExample() {
+  const now = new Date();
 
-<Calendar label="Select Date Range" minValue={minDate} maxValue={maxDate} />;
+  const minDate = new Date(now.getFullYear(), now.getMonth() - 2, now.getDate());
+
+  const maxDate = new Date(now.getFullYear(), now.getMonth() + 2, now.getDate());
+
+  return <Calendar label="Select Date Range" minValue={minDate} maxValue={maxDate} />;
+}
 ```
 
-## Pinned Timezone
+## pinned-timezone
 
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
 
-<Calendar label="Select Date Range" pinnedTimezone="America/Los_Angeles" />;
+export function CalendarPinnedTimezoneEF9CAF79Example() {
+  return <Calendar label="Select Date Range" pinnedTimezone="America/Los_Angeles" />;
+}
 ```
 
 ## API Reference

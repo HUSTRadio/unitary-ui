@@ -57,23 +57,33 @@ Text With Copy Button
 ```tsx
 import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
 
-<TextWithCopyButton
-  ellipsis
-  successMessage="Copied to clipboard"
-  textLabel="Copy"
-  textToCopy="lipsum"
-/>;
+export function TextWithCopyButtonDefault21B111CBExample() {
+  return (
+    <TextWithCopyButton
+      ellipsis
+      successMessage="Copied to clipboard"
+      textLabel="Copy"
+      textToCopy="lipsum"
+    />
+  );
+}
 ```
+
+## With Small and Tertiary
 
 ```tsx
 import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
 
-<TextWithCopyButton
-  ellipsis
-  successMessage="Copied hashed digest to clipboard"
-  textLabel="Copy config digest"
-  textToCopy="edgeConfigData.digest"
-/>;
+export function TextWithCopyButtonWithSmallAndTertiary230FE3B9Example() {
+  return (
+    <TextWithCopyButton
+      ellipsis
+      successMessage="Copied hashed digest to clipboard"
+      textLabel="Copy config digest"
+      textToCopy="edgeConfigData.digest"
+    />
+  );
+}
 ```
 
 ## API 参考

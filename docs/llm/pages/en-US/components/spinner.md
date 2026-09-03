@@ -52,22 +52,6 @@ Not applicable: Spinner is a passive display component with no interactive state
 
 ## Live Demo
 
-Loading...sm
-
-Loading...md
-
-Loading...lg
-
-Loading...xl
-
-Loading...2xl
-
-Loading...3xl
-
-Loading...4xl
-
-## Colors
-
 Default:Loading...
 
 Red:Loading...
@@ -79,24 +63,28 @@ Blue:Loading...
 ```tsx
 import { Spinner } from "@/components/ui/spinner";
 
-<div className="flex flex-col gap-4">
-  <div className="flex items-center gap-4">
-    <span className="w-24 text-copy-14 text-muted-foreground">Default:</span>
-    <Spinner />
-  </div>
-  <div className="flex items-center gap-4">
-    <span className="w-24 text-copy-14 text-muted-foreground">Red:</span>
-    <Spinner className="text-red-700" />
-  </div>
-  <div className="flex items-center gap-4">
-    <span className="w-24 text-copy-14 text-muted-foreground">Green:</span>
-    <Spinner className="text-green-700" />
-  </div>
-  <div className="flex items-center gap-4">
-    <span className="w-24 text-copy-14 text-muted-foreground">Blue:</span>
-    <Spinner className="text-blue-700" />
-  </div>
-</div>;
+export function SpinnerColors88C45D9EExample() {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center gap-4">
+        <span className="w-24 text-copy-14 text-muted-foreground">Default:</span>
+        <Spinner />
+      </div>
+      <div className="flex items-center gap-4">
+        <span className="w-24 text-copy-14 text-muted-foreground">Red:</span>
+        <Spinner className="text-red-700" />
+      </div>
+      <div className="flex items-center gap-4">
+        <span className="w-24 text-copy-14 text-muted-foreground">Green:</span>
+        <Spinner className="text-green-700" />
+      </div>
+      <div className="flex items-center gap-4">
+        <span className="w-24 text-copy-14 text-muted-foreground">Blue:</span>
+        <Spinner className="text-blue-700" />
+      </div>
+    </div>
+  );
+}
 ```
 
 ## API Reference

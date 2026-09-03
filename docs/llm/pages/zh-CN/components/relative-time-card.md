@@ -61,7 +61,9 @@ Relative Time Card
 ```tsx
 import { RelativeTimeCard } from "@/components/ui/relative-time-card";
 
-<RelativeTimeCard date={Date.now() - 5 * 60 * 1000} />;
+export function RelativeTimeCardDefault21B111CBExample() {
+  return <RelativeTimeCard date={Date.now() - 5 * 60 * 1000} />;
+}
 ```
 
 ## API 参考

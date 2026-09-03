@@ -55,7 +55,7 @@ import * as React from "react";
 import { BottomSheet } from "@/components/ui/bottom-sheet";
 import { Button } from "@/components/ui/button";
 
-export function BottomSheetExample() {
+export function BottomSheetDefault37A8EEC1Example() {
   const [open, setOpen] = React.useState(false);
 
   return (

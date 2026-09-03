@@ -60,16 +60,14 @@ Not applicable: Error is a presentation-only component driven by whether an erro
 
 ## Live Demo
 
-Deployment failed. Review the build logs and try again.
-
-## Custom label
-
 **Email Error:**This email address is already in use.
 
 ```tsx
 import { Error } from "@/components/ui/error";
 
-<Error label="Email Error">This email address is already in use.</Error>;
+export function ErrorCustomLabel4BA9290BExample() {
+  return <Error label="Email Error">This email address is already in use.</Error>;
+}
 ```
 
 ## No label
@@ -79,7 +77,9 @@ This email address is already in use.
 ```tsx
 import { Error } from "@/components/ui/error";
 
-<Error label={false}>This email address is already in use.</Error>;
+export function ErrorNoLabelD6728773Example() {
+  return <Error label={false}>This email address is already in use.</Error>;
+}
 ```
 
 ## Sizes
@@ -93,11 +93,15 @@ This email is in use.
 ```tsx
 import { Error } from "@/components/ui/error";
 
-<div className="flex w-full flex-col items-stretch gap-6">
-  <Error size="small">This email is in use.</Error>
-  <Error>This email is in use.</Error>
-  <Error size="large">This email is in use.</Error>
-</div>;
+export function ErrorSizes74A3978DExample() {
+  return (
+    <div className="flex w-full flex-col items-stretch gap-6">
+      <Error size="small">This email is in use.</Error>
+      <Error>This email is in use.</Error>
+      <Error size="large">This email is in use.</Error>
+    </div>
+  );
+}
 ```
 
 ## With an error property
@@ -107,13 +111,17 @@ The request failed. [Contact Us](https://vercel.com/contact)
 ```tsx
 import { Error } from "@/components/ui/error";
 
-<Error
-  error={{
-    message: "The request failed.",
-    action: "Contact Us",
-    link: "https://vercel.com/contact",
-  }}
-/>;
+export function ErrorWithAnErrorProperty93A4DDA8Example() {
+  return (
+    <Error
+      error={{
+        message: "The request failed.",
+        action: "Contact Us",
+        link: "https://vercel.com/contact",
+      }}
+    />
+  );
+}
 ```
 
 ## API Reference
