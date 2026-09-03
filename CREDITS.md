@@ -9,6 +9,8 @@
 - 站点：<https://vercel.com/geist>
 - 性质：**设计规范参考**（非代码派生）。本框架的视觉权威——token 体系、排版、材质、组件行为、Best Practices 与 Web Interface Guidelines 均以其官方文档为基准。
 - 参考范围：整体视觉语言、颜色/排版/材质 token 角色、组件 API 形态与交互/无障碍约定。
+- 唯一基础参考调色盘：**Vercel Geist Colors**。基础色阶的证据快照是 `docs/geist-markdown-refs/foundations/colors.md`，运行时 owner 是 `src/styles/index.css`。
+- `--uni-*` 是语义映射层，不是第二套调色盘；Apple HIG 仅提供布局、行为和无障碍约束，不是第二套调色盘。用户强制 override 必须具名来源、理由和作用域。
 
 ## 2. Apple Human Interface Guidelines
 

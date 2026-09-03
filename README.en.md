@@ -51,6 +51,10 @@ export function App() {
 - Official specification snapshot: [`docs/geist-markdown-refs`](./docs/geist-markdown-refs)
 - Changelog: [`CHANGELOG.en.md`](./CHANGELOG.en.md)
 
+## Palette governance
+
+The sole foundation reference palette is **Vercel Geist Colors**. Its evidence snapshot is `docs/geist-markdown-refs/foundations/colors.md`; `src/styles/index.css` is the runtime owner of the foundation scales. `--uni-*` is a semantic mapping layer, not a second palette; Apple HIG supplies layout, behavior, and accessibility constraints only, not a second palette. A user-forced override must name its source, reason, and scope.
+
 ## Development
 
 ```bash
