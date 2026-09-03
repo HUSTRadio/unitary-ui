@@ -2360,7 +2360,11 @@ function TextareaDemo() {
           <div className="w-full p-6" data-demo-container="sizes">
             <div className="flex flex-col gap-6">
               <label>
-                <Textarea aria-label={demoText(language, "Textarea")} defaultValue={lorem} />
+                <Textarea
+                  size="small"
+                  aria-label={demoText(language, "Textarea")}
+                  defaultValue={lorem}
+                />
               </label>
               <label>
                 <Textarea aria-label={demoText(language, "Textarea")} defaultValue={lorem} />
@@ -7983,24 +7987,9 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
           </Section>
           <Section title="Sizes" code={sectionCode("Sizes")}>
             <div className="flex w-full max-w-md flex-col gap-6">
-              <Textarea
-                aria-label="Textarea"
-                defaultValue={LOREM_IPSUM}
-                size="small"
-                style={{ minHeight: 100 }}
-              />
-              <Textarea
-                aria-label="Textarea"
-                defaultValue={LOREM_IPSUM}
-                size="medium"
-                style={{ minHeight: 100 }}
-              />
-              <Textarea
-                aria-label="Textarea"
-                defaultValue={LOREM_IPSUM}
-                size="large"
-                style={{ minHeight: 100 }}
-              />
+              <Textarea aria-label="Textarea" defaultValue={LOREM_IPSUM} size="small" />
+              <Textarea aria-label="Textarea" defaultValue={LOREM_IPSUM} size="medium" />
+              <Textarea aria-label="Textarea" defaultValue={LOREM_IPSUM} size="large" />
             </div>
           </Section>
           <Section title="Read Only" code={sectionCode("Read Only")}>
