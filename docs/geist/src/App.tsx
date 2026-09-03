@@ -27,12 +27,13 @@ import {
 } from "./components/docs-pages";
 import {
   canonicalDocsPath,
+  DOCS_ROUTE_GROUPS,
   getDocsRoute,
   getDocsRouteLabel,
+  getRouteSearchText,
   type LocalizedPageKey,
   type StaticPageKey,
 } from "./data/docs-routes";
-import { NAV_GROUPS } from "./data/nav";
 import { SHELL_COPY } from "./i18n/catalog";
 import { demoText } from "./i18n/components-demo";
 import { useLanguage, type DocsLanguage } from "./i18n/language";
@@ -170,11 +171,11 @@ export default function App() {
       </main>
       <Toasts />
 
-      {/* 全局命令面板 — NAV_GROUPS 跳转（搜索随查询过滤，选择即导航） */}
+      {/* 全局命令面板 — canonical route registry 跳转（搜索随查询过滤，选择即导航） */}
       <CommandMenu open={cmdOpen} setOpen={setCmdOpen}>
         <CommandMenuInput placeholder={copy.searchPlaceholder} />
         <CommandMenuList>
-          {NAV_GROUPS.map((group) => (
+          {DOCS_ROUTE_GROUPS.map((group) => (
             <CommandMenuGroup
               key={group.title}
               heading={language === "zh-CN" ? (group.titleZh ?? group.title) : group.title}
@@ -182,7 +183,7 @@ export default function App() {
               {group.items.map((item) => (
                 <CommandMenuItem
                   key={item.to}
-                  value={`${group.title} ${item.label}`}
+                  value={getRouteSearchText(group, item)}
                   onSelect={() => navigate(item.to)}
                 >
                   {language === "zh-CN" ? (item.labelZh ?? item.label) : item.label}

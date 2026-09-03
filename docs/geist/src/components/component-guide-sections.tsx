@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 import type { Applicability, ComponentGuide, GuideLocale } from "../content/component-guide-schema";
-import { DocsList, DocsParagraph, DocsSection, DocsSectionTitle } from "./docs-typography";
+import { DocsBlock, DocsList, DocsParagraph, DocsSection, DocsSectionTitle } from "./docs-typography";
 
 const GUIDE_COPY = {
   "zh-CN": {
@@ -91,7 +91,7 @@ export function ComponentGuideSections({ guide }: { guide: ComponentGuide }): Re
 
       <DocsSection id="guide-examples-section" aria-labelledby="guide-examples">
         <DocsSectionTitle id="guide-examples">{copy.examples}</DocsSectionTitle>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <DocsBlock className="grid gap-3 sm:grid-cols-2">
           {guide.examples.map((example) => (
             <article
               key={example.id}
@@ -103,7 +103,7 @@ export function ComponentGuideSections({ guide }: { guide: ComponentGuide }): Re
               <DocsParagraph className="mt-1">{example.description}</DocsParagraph>
             </article>
           ))}
-        </div>
+        </DocsBlock>
       </DocsSection>
 
       <div className="grid gap-x-8 md:grid-cols-2">

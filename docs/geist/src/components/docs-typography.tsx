@@ -36,6 +36,14 @@ export function DocsSectionTitle({
   return <h2 {...props} data-slot="docs-prose-heading" className={cn("docs-prose-heading", className)} />;
 }
 
+export function DocsBlock({
+  className,
+  style: _style,
+  ...props
+}: ComponentProps<"div">): ReactNode {
+  return <div {...props} data-slot="docs-prose-block" className={cn("docs-prose-block", className)} />;
+}
+
 export function DocsParagraph({
   className,
   style: _style,
