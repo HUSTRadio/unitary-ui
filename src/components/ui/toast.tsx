@@ -189,9 +189,9 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
               "transition-all duration-(--uni-duration-slow) ease-[cubic-bezier(0.25,0.75,0.6,0.98)]",
               "animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:animate-none",
               "nth-last-[n+4]:opacity-0 nth-last-[n+4]:pointer-events-none",
-              toast.kind === "success" && "bg-[#0072f5] text-white",
-              toast.kind === "warning" && "bg-[#ff990a] text-[#0a0a0a]",
-              toast.kind === "error" && "bg-[#e5484d] text-white",
+              toast.kind === "success" && "bg-link text-white",
+              toast.kind === "warning" && "bg-button-warning text-button-warning-foreground",
+              toast.kind === "error" && "bg-danger text-danger-foreground",
             )}
             style={{
               transform: `translate3d(0, ${ty}px, ${tz}px) scale(${scale})`,
@@ -203,7 +203,8 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
             {actionLabel ? (
               <button
                 type="button"
-                className="shrink-0 rounded-lg px-2 py-0.5 text-label-14 font-medium outline-none hover:bg-gray-alpha-200 focus-ring"
+                data-slot="toast-action"
+                className="inline-flex h-8 items-center justify-center px-2.5 py-0 text-label-14 leading-5 font-medium shrink-0 rounded-lg outline-none hover:bg-gray-alpha-200 focus-ring"
                 onClick={() => {
                   action?.();
                   dismiss(toast.id);

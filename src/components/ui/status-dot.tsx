@@ -12,12 +12,12 @@ export interface StatusDotProps extends React.ComponentProps<"span"> {
 }
 
 const STATUS_DOT_STYLES: Record<StatusDotState, string> = {
-  QUEUED: "bg-[#eaeaea] dark:bg-[#333] animate-pulse",
-  BUILDING: "bg-[#f5a623] animate-pulse",
-  READY: "bg-[#50e3c2]",
-  ERROR: "bg-[#ee0000] dark:bg-[#ff0000]",
-  CANCELED: "bg-[#eaeaea] dark:bg-[#333]",
-  DELETED: "bg-[#eaeaea] dark:bg-[#333]",
+  QUEUED: "bg-blue-700 animate-pulse",
+  BUILDING: "bg-amber-900 animate-pulse",
+  READY: "bg-green-700",
+  ERROR: "bg-red-700",
+  CANCELED: "bg-gray-700",
+  DELETED: "bg-gray-900",
 };
 
 const STATUS_LABELS: Record<StatusDotState, string> = {

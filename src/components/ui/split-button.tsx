@@ -111,6 +111,7 @@ function SplitButton({
           data-slot="split-button-menu"
           variant={buttonProps?.type}
           size={buttonProps?.size}
+          svgOnly
           aria-label={menuButtonLabel === "More options" ? t(menuButtonLabel) : menuButtonLabel}
           className="rounded-l-none"
         >
@@ -169,6 +170,7 @@ function SplitButtonMenu({
         data-slot="split-button-menu"
         variant={variant}
         size={size}
+        svgOnly
         aria-label={menuLabel === "More options" ? t(menuLabel) : menuLabel}
         className={cn("rounded-l-none", className)}
         {...props}

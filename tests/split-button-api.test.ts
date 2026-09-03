@@ -171,6 +171,33 @@ describe("SplitButtonMenuItem title + description + icon (G11-SPLIT-04)", () => 
   });
 });
 
+describe("SplitButton icon-trigger geometry", () => {
+  it("uses svgOnly on both props and legacy MenuButton triggers", async () => {
+    const src = await read("src/components/ui/split-button.tsx");
+    const menuButtons = src.match(/<MenuButton[\s\S]*?<\/MenuButton>/g) ?? [];
+
+    expect(menuButtons).toHaveLength(2);
+    expect(menuButtons.every((menuButton) => menuButton.includes("svgOnly"))).toBe(true);
+  });
+
+  it.each([
+    ["tiny", "size-6 p-0 min-w-0"],
+    ["small", "size-8 p-0 min-w-0"],
+    ["medium", "size-9 p-0 min-w-0"],
+    ["large", "size-10 p-0 min-w-0"],
+  ] as const)("keeps the Button %s svgOnly size contract", (size, iconSizeClass) => {
+    const markup = renderToStaticMarkup(
+      React.createElement(
+        SplitButton,
+        { buttonProps: { size }, menuItems: React.createElement(SplitButtonMenuItem, { title: "Save" }) },
+        "Save",
+      ),
+    );
+
+    expect(markup).toContain(iconSizeClass);
+  });
+});
+
 describe("SplitButton backward compatibility with compound API", () => {
   it("still renders the legacy compound composition", () => {
     const markup = renderToStaticMarkup(
