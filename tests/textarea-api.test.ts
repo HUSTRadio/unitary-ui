@@ -47,10 +47,26 @@ describe("Textarea official API contract (G12 audit fixes)", () => {
     expect(src).not.toContain("rounded-[8px]");
   });
 
-  test("default height 100px; rows prop switches to h-auto", async () => {
+  test("size geometry uses the requested min-heights, padding, and typography", async () => {
     const src = await read("src/components/ui/textarea.tsx");
-    expect(src).toMatch(/props\.rows === undefined \? "h-\[100px\]" : "h-auto"/);
+
+    expect(src).toMatch(
+      /small:\s*\{\s*height: "h-\[80px\]",\s*className: "px-2 py-2\.5 text-copy-13 leading-5"\s*\}/,
+    );
+    expect(src).toMatch(
+      /medium:\s*\{\s*height: "h-\[100px\]",\s*className: "px-2\.5 py-3 text-copy-14 leading-5"\s*\}/,
+    );
+    expect(src).toMatch(
+      /large:\s*\{\s*height: "h-\[120px\]",\s*className: "px-3 py-3\.5 text-base leading-6"\s*\}/,
+    );
+  });
+
+  test("default height follows the selected size; rows prop still switches to h-auto", async () => {
+    const src = await read("src/components/ui/textarea.tsx");
+    expect(src).toMatch(/props\.rows === undefined \? TEXTAREA_SIZE_CLASSES\[size\]\.height : "h-auto"/);
+    expect(src).toMatch(/h-\[80px\]/);
     expect(src).toMatch(/h-\[100px\]/);
+    expect(src).toMatch(/h-\[120px\]/);
     expect(src).toMatch(/h-auto/);
   });
 

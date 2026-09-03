@@ -22,9 +22,9 @@ export interface StepDotProps {
 
 const DOT_STYLES: Record<StepStatus, string> = {
   idle: "border-border-strong bg-background",
-  active: "bg-progress text-white",
-  done: "bg-success text-white",
-  failed: "bg-danger text-white",
+  active: "border-progress bg-progress text-white",
+  done: "border-success bg-success text-white",
+  failed: "border-danger bg-danger text-white",
 };
 
 const TEXT_STYLES: Record<StepStatus, string> = {
@@ -38,6 +38,7 @@ const TEXT_STYLES: Record<StepStatus, string> = {
 function StepDot({ status }: StepDotProps) {
   return (
     <span
+      data-slot="step-dot"
       className={cn(
         "flex size-4 shrink-0 items-center justify-center rounded-full border text-[10px]",
         DOT_STYLES[status],
@@ -46,14 +47,16 @@ function StepDot({ status }: StepDotProps) {
     >
       {status === "done" && <Check className="size-2.5" strokeWidth={3} />}
       {status === "failed" && <X className="size-2.5" strokeWidth={3} />}
-      {status === "active" && <span className="size-1.5 rounded-full bg-white" />}
+      {status === "active" && (
+        <span className="block size-1.5 aspect-square shrink-0 rounded-full bg-white" />
+      )}
     </span>
   );
 }
 
 function StepPoint({ status, children }: StepPointProps) {
   return (
-    <li className="flex items-center gap-3 py-[11px]">
+    <li data-slot="step-point" className="flex items-center gap-3 py-[11px]">
       <StepDot status={status} />
       <span className={cn("text-copy-14", TEXT_STYLES[status])}>{children}</span>
     </li>

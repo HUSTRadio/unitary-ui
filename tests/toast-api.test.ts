@@ -8,14 +8,14 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
 
 describe("Toast official API contract (G12 audit fixes)", () => {
-  test("G12-TOAST-01: success/warning/error kinds use full-bleed colored background", async () => {
+  test("G12-TOAST-01: success/warning/error kinds use semantic status backgrounds", async () => {
     const src = await read("src/components/ui/toast.tsx");
-    // success: full-bleed blue #0072f5 + white text
-    expect(src).toContain('toast.kind === "success" && "bg-[#0072f5] text-white"');
-    // warning: full-bleed orange #ff990a + dark text (#0a0a0a matches --warning-foreground token)
-    expect(src).toContain('toast.kind === "warning" && "bg-[#ff990a] text-[#0a0a0a]"');
-    // error: full-bleed red #e5484d + white text
-    expect(src).toContain('toast.kind === "error" && "bg-[#e5484d] text-white"');
+    expect(src).toContain('toast.kind === "success" && "bg-link text-white"');
+    expect(src).toContain(
+      'toast.kind === "warning" && "bg-button-warning text-button-warning-foreground"',
+    );
+    expect(src).toContain('toast.kind === "error" && "bg-danger text-danger-foreground"');
+    expect(src).not.toMatch(/bg-\[#(?:0072f5|ff990a|e5484d)\]/);
   });
 
   test("G12-TOAST-01: message kind keeps the neutral bg-background-100 surface", async () => {
@@ -23,7 +23,7 @@ describe("Toast official API contract (G12 audit fixes)", () => {
     expect(src).toMatch(/bg-background-100/);
     // the neutral surface must be the base class, kinds only add on top
     const baseIndex = src.indexOf("bg-background-100");
-    const successIndex = src.indexOf("bg-[#0072f5]");
+    const successIndex = src.indexOf("bg-link");
     expect(baseIndex).toBeGreaterThan(-1);
     expect(successIndex).toBeGreaterThan(baseIndex);
   });
@@ -90,11 +90,11 @@ describe("Toast official API contract (G12 audit fixes)", () => {
     expect(toastDemo).not.toContain("Project deleted");
   });
 
-  test("toast action is a native focusable button and dismisses after invocation", async () => {
+  test("toast action has a stable slot, compact geometry, and dismisses after invocation", async () => {
     const src = await read("src/components/ui/toast.tsx");
     expect(src).toMatch(/const action = toast\.onUndoAction \?\? toast\.onAction/);
     expect(src).toMatch(
-      /<button[\s\S]*?onClick=\{\(\) => \{[\s\S]*?action\?\.\(\);[\s\S]*?dismiss\(toast\.id\);[\s\S]*?\}\}[\s\S]*?\{actionLabel\}[\s\S]*?<\/button>/,
+      /<button[\s\S]*?data-slot="toast-action"[\s\S]*?className="inline-flex h-8 items-center justify-center px-2\.5 py-0 text-label-14 leading-5 font-medium shrink-0 rounded-lg outline-none hover:bg-gray-alpha-200 focus-ring"[\s\S]*?onClick=\{\(\) => \{[\s\S]*?action\?\.\(\);[\s\S]*?dismiss\(toast\.id\);[\s\S]*?\}\}[\s\S]*?\{actionLabel\}[\s\S]*?<\/button>/,
     );
   });
 });
