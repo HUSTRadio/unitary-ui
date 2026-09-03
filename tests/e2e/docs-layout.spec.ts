@@ -670,7 +670,7 @@ test.describe("floating layers above modal overlay", () => {
 
     /* tooltip：hover 触发，内容可见 */
     await gotoRoute(page, "/components/tooltip", { width, height: 900 });
-    await page.getByRole("button", { name: "Hover me" }).first().hover();
+    await page.getByRole("button", { name: "Bottom" }).first().hover();
     const tooltip = page.getByRole("tooltip").first();
     await expect(tooltip, "tooltip 应在 hover 后可见").toBeVisible();
 

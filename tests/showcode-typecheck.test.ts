@@ -3,7 +3,7 @@ import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { expect, test } from "vitest";
 
-import { DEMO_CODE } from "../docs/geist/src/data/demo-code";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 import { writeTypecheckFixtures } from "./audit/showcode-audit-lib";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
@@ -14,7 +14,7 @@ test(
   "typecheck all show code fixtures",
   { timeout: 360000 },
   async () => {
-    const { fileCount, tsconfigPath } = await writeTypecheckFixtures(repoRoot, DEMO_CODE, outDir);
+    const { fileCount, tsconfigPath } = await writeTypecheckFixtures(repoRoot, EXAMPLE_SOURCE, outDir);
     console.log(`fixtures: ${fileCount} 个 → ${outDir}`);
 
     let stdout = "";

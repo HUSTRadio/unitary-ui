@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
 import { Radio, RadioGroup, RadioGroupItem, useRadio } from "../src/components/ui/radio";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(repoRoot, relativePath), "utf8");
@@ -57,17 +58,17 @@ describe("Radio live official contract", () => {
       "radio-standalone",
     ];
 
-    expect(expected.every((id) => docs.includes(`data-demo-card="${id}"`))).toBe(true);
-    expect(docs).toContain('name="radio-default"');
-    expect(docs).toContain('name="radio-disabled"');
-    expect(docs).toContain('name="radio-required"');
-    expect(docs).not.toContain('name="radio-name"');
-    expect(docs).toMatch(/<form[^>]*>[\s\S]*?<RadioGroup[\s\S]*?name="radio-required"/);
     expect(entry.inventoryStatus).toBe("live_enumeration_complete");
     expect(entry.demos.map((item: { id: string }) => item.id)).toEqual(expected);
     expect(entry.acceptanceContracts.map((item: { demoId: string }) => item.demoId)).toEqual(
       expected,
     );
+    const radio = EXAMPLE_SOURCE.radio;
+    for (const id of expected) {
+      expect(radio[id]).toBeDefined();
+      expect(radio[id]).toContain("export function");
+    }
+    expect(docs).toContain("EXAMPLE_REGISTRY[name]");
   });
 
   test("renders native radio inputs, labelled group and official visual structure", () => {

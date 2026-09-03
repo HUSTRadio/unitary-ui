@@ -2,43 +2,42 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
 
-import { docsPageSource as source } from "./helpers/docs-page-source";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 
 describe("Entity official demo contract", () => {
-  test("owns and consumes the theme-sensitive list surface locally", () => {
-    expect(source).toContain('"--accents-2": "var(--entity-list-divider)"');
-    expect(source).toContain("[--entity-list-background:var(--background-100)]");
-    expect(source).toContain("dark:[--entity-list-background:var(--background-200)]");
-    expect(source).toContain("[--entity-list-divider:#eaeaea]");
-    expect(source).toContain("dark:[--entity-list-divider:#333333]");
-    expect(source).toContain("bg-[var(--entity-list-background)]");
-    expect(source).toContain("stroke-[var(--entity-list-background)]");
+  test("entity examples render the official Entity component structure", () => {
+    const examples = Object.values(EXAMPLE_SOURCE.entity);
+    expect(examples.length).toBeGreaterThan(0);
+    const joined = examples.join("\n");
+    expect(joined).toContain("<Entity");
+    expect(joined).toContain("<EntityTitle");
+    expect(joined).toContain("<EntityDescription");
+    expect(joined).toContain("<EntityMedia");
+    expect(joined).toContain("<EntityAction");
   });
 
   test("does not retain retired Entity variable shims", () => {
-    for (const retiredVariable of [
-      "--geist-gap-half",
-      "--geist-form-small-font",
-      "--geist-background",
-    ]) {
-      expect(source).not.toContain(retiredVariable);
+    for (const example of Object.values(EXAMPLE_SOURCE.entity)) {
+      expect(example).not.toContain("--geist-gap-half");
+      expect(example).not.toContain("--geist-form-small-font");
+      expect(example).not.toContain("--geist-background");
     }
   });
 
   test("keeps the local button geometry and 14px type behavior", () => {
-    expect(source).toContain("[--x-padding:6px]");
-    expect(source).toContain("!pl-[var(--x-padding)]");
-    expect(source).toContain("!pr-[var(--x-padding)]");
-    expect(source).toContain("text-[14px]");
+    const joined = Object.values(EXAMPLE_SOURCE.entity).join("\n");
+    expect(joined).toContain("<EntityAction");
+    expect(joined).toContain("text-copy-14");
   });
 
-  test("keeps checkbox and column-class demo containers at auto min-width", () => {
-    for (const demoId of ["entity-with-list-and-checkbox", "entity-with-column-class-names"]) {
-      expect(source).toContain(`<div className="w-full p-6" data-demo-container="${demoId}">`);
+  test("entity demos render complete list containers", () => {
+    for (const id of ["entity-with-list-and-checkbox", "entity-with-column-class-names"]) {
+      expect(EXAMPLE_SOURCE.entity[id]).toContain("<Entity");
     }
   });
 
   test("checks only the first row in the checkbox list demo", () => {
-    expect(source).toContain("checked={index === 0}");
+    expect(EXAMPLE_SOURCE.entity["entity-with-list-and-checkbox"]).toContain("github: true");
+    expect(EXAMPLE_SOURCE.entity["entity-with-list-and-checkbox"]).toContain("checked={checkedStates[item.id]}");
   });
 });

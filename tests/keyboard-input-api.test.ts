@@ -3,6 +3,7 @@ import { describe, expect, test } from "vitest";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
@@ -76,52 +77,47 @@ describe("KeyboardInput official API contract (G06 wave)", () => {
   });
 
   test("plain variant supports borderless command shortcuts without bypassing platform modifiers", async () => {
-    const [src, demoCode, docs] = await Promise.all([
+    const [src, docs] = await Promise.all([
       read("src/components/ui/keyboard-input.tsx"),
-      read("docs/geist/src/data/demo-code-batch4.ts"),
       read("docs/geist/src/components/docs-components-page.tsx"),
     ]);
+    const example = EXAMPLE_SOURCE["keyboard-input"]["plain-command"];
     expect(src).toMatch(/plain\??:\s*boolean/);
     expect(src).toContain('"ml-0 min-h-0 min-w-0 bg-transparent px-0 shadow-none"');
-    expect(demoCode).toContain('"plain-command"');
-    expect(docs).toContain('data-demo-card="plain-command"');
-    expect(docs).toMatch(/<Kbd plain meta>\s*K\s*<\/Kbd>/);
+    expect(example).toContain("export function");
+    expect(example).toMatch(/<Kbd plain meta>\s*K\s*<\/Kbd>/);
+    expect(docs).toContain("EXAMPLE_REGISTRY[name]");
   });
 
-  test("G06-KBD-02: docs demo must not hardcode modifier glyphs — uses modifier props", async () => {
-    const demo = await read("docs/geist/src/components/docs-components-page.tsx");
-    const demoBody = demo.slice(
-      demo.indexOf("function KeyboardInputDemo"),
-      demo.indexOf("function BannerDemo"),
-    );
+  test("G06-KBD-02: docs demo must not hardcode modifier glyphs — uses modifier props", () => {
+    const [modifiers, combination] = [
+      EXAMPLE_SOURCE["keyboard-input"].modifiers,
+      EXAMPLE_SOURCE["keyboard-input"].combination,
+    ];
     // uses the modifier props
-    expect(demoBody).toMatch(/<Kbd meta\s*\/>/);
-    expect(demoBody).toMatch(/<Kbd shift\s*\/>/);
+    expect(modifiers).toMatch(/<Kbd meta\s*\/>/);
+    expect(modifiers).toMatch(/<Kbd shift\s*\/>/);
     // no hardcoded Mac glyph or spelled-out modifier words as children
-    expect(demoBody).not.toContain("⌘");
-    expect(demoBody).not.toContain("<Kbd>Shift</Kbd>");
-    expect(demoBody).not.toContain("<Kbd>Alt</Kbd>");
-    expect(demoBody).not.toContain("<Kbd>Ctrl</Kbd>");
+    for (const example of [modifiers, combination, EXAMPLE_SOURCE["keyboard-input"].small]) {
+      expect(example).not.toContain("⌘");
+      expect(example).not.toContain("<Kbd>Shift</Kbd>");
+      expect(example).not.toContain("<Kbd>Alt</Kbd>");
+      expect(example).not.toContain("<Kbd>Ctrl</Kbd>");
+    }
   });
 
-  test("docs mirror the three official Modifiers, Combination, and Small demos", async () => {
-    const demo = await read("docs/geist/src/components/docs-components-page.tsx");
-    const demoBody = demo.slice(
-      demo.indexOf("function KeyboardInputDemo"),
-      demo.indexOf("function BannerDemo"),
-    );
+  test("docs mirror the three official Modifiers, Combination, and Small demos", () => {
+    const { modifiers, combination, small } = EXAMPLE_SOURCE["keyboard-input"];
 
-    for (const id of ["modifiers", "combination", "small"]) {
-      expect(demoBody).toContain(`data-demo-card="${id}"`);
-      expect(demoBody).toContain(`data-demo-container="${id}"`);
+    expect(modifiers).toContain("<Kbd meta />");
+    expect(modifiers).toContain("<Kbd shift />");
+    expect(modifiers).toContain("<Kbd alt />");
+    expect(modifiers).toContain("<Kbd ctrl />");
+    expect(combination).toContain("<Kbd meta shift />");
+    expect(small).toContain("<Kbd small>/</Kbd>");
+    for (const example of [modifiers, combination, small]) {
+      expect(example).not.toContain("<KeyboardInput>");
     }
-    expect(demoBody).toContain("<Kbd meta />");
-    expect(demoBody).toContain("<Kbd shift />");
-    expect(demoBody).toContain("<Kbd alt />");
-    expect(demoBody).toContain("<Kbd ctrl />");
-    expect(demoBody).toContain("<Kbd meta shift />");
-    expect(demoBody).toContain("<Kbd small>/</Kbd>");
-    expect(demoBody).not.toContain("<KeyboardInput>");
   });
 
   test("audit manifest enumerates all three official demos", async () => {

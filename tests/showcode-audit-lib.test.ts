@@ -13,15 +13,15 @@ type FixtureHelpers = {
 const { buildTypecheckFixtureSource } = showCodeAudit as typeof showCodeAudit & FixtureHelpers;
 
 describe("show code audit helpers", () => {
-  test("extracts only direct literal DEMO_CODE references rendered by Show Code", () => {
+  test("extracts only direct literal EXAMPLE_SOURCE references rendered by Show Code", () => {
     const pageSource = `
-      <ShowCodeFooter code={DEMO_CODE["bottom-sheet"]?.default ?? ""} />
-      <ShowCodeFooter code={DEMO_CODE['error-boundary']?.['default'] ?? ''} />
-      <ShowCode code={DEMO_CODE?.button?.sizes ?? ""} />
-      <ShowCodeFooter code={DEMO_CODE.button?.sizes ?? ""} />
-      const cached = DEMO_CODE.modal?.controlled;
-      // <ShowCodeFooter code={DEMO_CODE.input?.default} />
-      <div data-code={DEMO_CODE.select?.default} />
+      <ShowCodeFooter code={EXAMPLE_SOURCE["bottom-sheet"]?.default ?? ""} />
+      <ShowCodeFooter code={EXAMPLE_SOURCE['error-boundary']?.['default'] ?? ''} />
+      <ShowCode code={EXAMPLE_SOURCE?.button?.sizes ?? ""} />
+      <ShowCodeFooter code={EXAMPLE_SOURCE.button?.sizes ?? ""} />
+      const cached = EXAMPLE_SOURCE.modal?.controlled;
+      // <ShowCodeFooter code={EXAMPLE_SOURCE.input?.default} />
+      <div data-code={EXAMPLE_SOURCE.select?.default} />
     `;
 
     expect(showCodeAudit.extractReferences(pageSource)).toEqual([

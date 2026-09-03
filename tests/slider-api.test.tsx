@@ -8,6 +8,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 import { Slider } from "../src/components/ui/slider";
 import { I18nProvider } from "../src/lib/i18n";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
@@ -31,9 +32,10 @@ describe("Slider live Geist contract", () => {
       "disabled-range-with-inputs",
       "commit-on-release",
     ]) {
-      expect(docs).toContain(`id: "${id}"`);
+      expect(EXAMPLE_SOURCE.slider[id]).toBeDefined();
       expect(manifest).toContain(`"id": "${id}"`);
     }
+    expect(docs).toContain("EXAMPLE_REGISTRY[name]");
   });
 
   test("uses the live 8px track and 6 by 14px rectangular thumb geometry", async () => {

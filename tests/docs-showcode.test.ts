@@ -10,9 +10,9 @@ const read = (relativePath: string) => readFile(path.join(root, relativePath), "
 const pagePath = "docs/geist/src/components/docs-components-page.tsx";
 
 describe("docs Show code footer", () => {
-  test("has a functional ShowCodeFooter with onClick toggle", async () => {
+  test("has a functional DemoShowCode with onClick toggle", async () => {
     const src = await read(pagePath);
-    expect(src).toMatch(/function ShowCodeFooter/);
+    expect(src).toMatch(/function DemoShowCode/);
     expect(src).toMatch(/setShowCode/);
     expect(src).toMatch(/onClick=\{\s*\(\) => setShowCode/);
     // expanded state rotates the chevron 90deg (official behavior), not -90deg
@@ -26,41 +26,24 @@ describe("docs Show code footer", () => {
     expect(src).not.toMatch(/\{footerBar\}/);
   });
 
-  test("every demo renders ShowCodeFooter with per-block DEMO_CODE source", async () => {
+  test("live demos and Show Code consume the same registry record", async () => {
     const src = await read(pagePath);
-    const demos = [
-      "ButtonDemo",
-      "InputDemo",
-      "ModalDemo",
-      "SwitchDemo",
-      "SelectDemo",
-      "SeparatorDemo",
-      "TextareaDemo",
-      "ToggleDemo",
-      "DrawerDemo",
-      "SheetDemo",
-      "CommandMenuDemo",
-      "ContextMenuDemo",
-      "DotsMenuDemo",
-      "ComboboxDemo",
-      "LabelDemo",
-      "RadioDemo",
-    ];
-    for (const demo of demos) {
-      expect(src).toMatch(new RegExp(`function ${demo}\\(\\)`));
-      expect(src).toMatch(new RegExp(`return <${demo} />;`));
-    }
-    expect(src).toMatch(/function renderDemo\(name: string\)/);
-    expect(src.match(/renderDemo\(name\)/g)).toHaveLength(1);
-    // 每个 demo 函数用 demoCode 查 DEMO_CODE（区块独立源码），不再统一传 meta.code
-    expect(
-      src.match(/const demoCode = \(id: string\) => DEMO_CODE/g)?.length,
-    ).toBeGreaterThanOrEqual(16);
-    expect(src.match(/<ShowCodeFooter code=\{code \?\? ""\} \/>/g)).toBeNull();
+    expect(src).toContain(
+      'import { EXAMPLE_REGISTRY, type ExampleRecord } from "../examples/registry";',
+    );
+    expect(src).toContain("const Example = record.Component;");
+    expect(src).toContain("<TableDemoCard id={record.id} code={record.source}>");
+    expect(src).toContain("<Example />");
+    expect(src).toContain("EXAMPLE_REGISTRY[name] ?? []");
+    expect(src).not.toContain("DEMO_CODE");
+    expect(src).not.toContain("demoCode(");
+    expect(src).not.toContain("sectionCode(");
   });
 
-  test("ModalDemo return container has vertical gap (space-y-6)", async () => {
-    const src = await read(pagePath);
-    expect(src).toMatch(/<div className="w-full max-w-\[862px\] space-y-6">/);
+  test("modal live demo examples keep official copyable content", async () => {
+    const modalExamples = await read("docs/geist/src/examples/modal/default-37a8eec1.example.tsx");
+    expect(modalExamples).toContain("export function");
+    expect(modalExamples).toContain("<Modal");
+    expect(modalExamples).toContain("<ModalTrigger");
   });
 });

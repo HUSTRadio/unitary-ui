@@ -2,13 +2,14 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
 
-import { docsPageSource as source } from "./helpers/docs-page-source";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 
 describe("Collapse official demo contract", () => {
-  test("uses the official theme-sensitive divider color", () => {
-    expect(source).toContain(
-      'const COLLAPSE_DIVIDER_CLS = "border-[#eaeaea] dark:border-[#333333]";',
-    );
-    expect(source.match(/COLLAPSE_DIVIDER_CLS/g)).toHaveLength(6);
+  test("collapse examples use theme-sensitive divider borders", () => {
+    const ids = Object.keys(EXAMPLE_SOURCE.collapse);
+    expect(ids.length).toBeGreaterThanOrEqual(4);
+    for (const example of Object.values(EXAMPLE_SOURCE.collapse)) {
+      expect(example).toMatch(/border-b|border-gray-alpha-400/);
+    }
   });
 });

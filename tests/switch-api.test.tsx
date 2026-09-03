@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
 import { Switch, SwitchControl } from "../src/components/ui/switch";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(repoRoot, relativePath), "utf8");
@@ -60,12 +61,17 @@ describe("Switch live official contract", () => {
     const entry = manifest.components.find((item: { slug: string }) => item.slug === "switch");
     const expected = ["default", "disabled", "sizes", "full-width", "tooltip", "icon"];
 
-    expect(expected.every((id) => docs.includes(`data-demo-card="${id}"`))).toBe(true);
     expect(entry.inventoryStatus).toBe("live_enumeration_complete");
     expect(entry.demos.map((item: { id: string }) => item.id)).toEqual(expected.map((id) => id));
     expect(entry.acceptanceContracts.map((item: { demoId: string }) => item.demoId)).toEqual(
       expected,
     );
+    const switchSource = EXAMPLE_SOURCE.switch;
+    for (const id of expected) {
+      expect(switchSource[id]).toBeDefined();
+      expect(switchSource[id]).toContain("export function");
+    }
+    expect(docs).toContain("EXAMPLE_REGISTRY[name]");
   });
 
   test("renders native radios inside labels with the official visible-control structure", () => {

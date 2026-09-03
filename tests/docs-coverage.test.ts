@@ -23,24 +23,20 @@ describe("Geist documentation coverage", () => {
     );
     const metadataSource = await read("docs/geist/src/data/components.ts");
     const demoSource = await read("docs/geist/src/components/docs-components-page.tsx");
+    const registrySource = await read("docs/geist/src/examples/registry.ts");
     const metadataNames = [...metadataSource.matchAll(/^ {4}name:\s*"([^"]+)",?$/gm)].map(
       (match) => match[1],
     );
-    const renderDemoSource = demoSource.slice(
-      demoSource.indexOf("function renderDemo("),
-      demoSource.indexOf("/* ---------- 额外分段"),
-    );
-    const demoNames = [...renderDemoSource.matchAll(/^ {4}case\s+"([^"]+)"\s*:/gm)].map(
-      (match) => match[1],
-    );
+    const registryRecords = [...registrySource.matchAll(/slug:\s*"([^"]+)",\s*id:\s*"([^"]+)"/g)];
+    const demoNames = registryRecords.map((match) => match[1]);
     const metadata = new Set(metadataNames);
     const demos = new Set(demoNames);
 
     expect(official.size).toBe(72);
     expect(metadataNames).toHaveLength(75);
     expect(metadata.size).toBe(metadataNames.length);
-    expect(demoNames).toHaveLength(75);
-    expect(demos.size).toBe(demoNames.length);
+    expect(demoNames).toHaveLength(373);
+    expect(demos.size).toBe(75);
     expect([...official].filter((slug) => !metadata.has(slug))).toEqual([]);
     expect([...official].filter((slug) => !demos.has(slug))).toEqual([]);
     expect([...metadata].filter((slug) => !official.has(slug)).sort()).toEqual([
@@ -127,20 +123,17 @@ describe("Geist documentation coverage", () => {
   });
 
   it("renders all three live Command Menu demo content contracts", async () => {
-    const source = await read("docs/geist/src/components/docs-components-page.tsx");
-    const demo = source.slice(
-      source.indexOf("function CommandMenuDemo("),
-      source.indexOf("function GridDemo()"),
-    );
+    const [defaultExample, withSuffixExample, withDividerExample] = await Promise.all([
+      read("docs/geist/src/examples/command-menu/default-37a8eec1.example.tsx"),
+      read("docs/geist/src/examples/command-menu/with-suffix-ed17650b.example.tsx"),
+      read("docs/geist/src/examples/command-menu/with-divider-5a6d5780.example.tsx"),
+    ]);
 
+    for (const text of ["Flags Explorer"]) {
+      expect(defaultExample).toContain(text);
+    }
     for (const text of [
-      "Flags Explorer",
-      "Item 1",
-      "Item 2",
-      "Item 3",
       "Group 2",
-      "Grouped Item 1",
-      "Grouped Item 2",
       "United States of America",
       "Switzerland",
       "Germany",
@@ -150,12 +143,15 @@ describe("Geist documentation coverage", () => {
       "AUT",
       "GER",
     ]) {
-      expect(demo).toContain(`demoText(language, "${text}")`);
+      expect(withSuffixExample).toContain(text);
     }
-    expect(demo).toContain("<CommandMenuDivider />");
-    expect(demo).toContain("key={name}");
-    expect(demo).toContain('type="default"');
-    expect(demo).not.toContain('type="secondary"');
+    for (const text of ["Item 1", "Item 2", "Item 3", "Grouped Item 1", "Grouped Item 2"]) {
+      expect(withDividerExample).toContain(text);
+    }
+    expect(withDividerExample).toContain("<CommandMenuDivider />");
+    expect(defaultExample).toContain('type="default"');
+    expect(withSuffixExample).toContain('type="default"');
+    expect(defaultExample).not.toContain('type="secondary"');
   });
 
   it("derives App rendering and titles from the canonical route registry", async () => {

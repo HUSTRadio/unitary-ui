@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+
 import { MultiSelectRow } from "../src/components/ui/multi-select";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -27,29 +29,28 @@ function renderRow(checked: boolean) {
 
 describe("Multi Select live Geist contract", () => {
   test("documents all three live demos", async () => {
-    const [docs, manifestSource] = await Promise.all([
-      read("docs/geist/src/components/docs-components-page.tsx"),
-      read("tests/audit/geist-audit-manifest.json"),
-    ]);
-    const manifest = JSON.parse(manifestSource) as {
-      components: Array<{
-        slug: string;
-        inventoryStatus?: string;
-        demos?: Array<{ id: string }>;
-      }>;
-    };
-    const component = manifest.components.find(({ slug }) => slug === "multi-select");
-    const demoIds = ["select-actions", "keyboard-navigation", "controlled-state"];
+      const [manifestSource] = await Promise.all([
+        read("tests/audit/geist-audit-manifest.json"),
+      ]);
+      const manifest = JSON.parse(manifestSource) as {
+        components: Array<{
+          slug: string;
+          inventoryStatus?: string;
+          demos?: Array<{ id: string }>;
+        }>;
+      };
+      const component = manifest.components.find(({ slug }) => slug === "multi-select");
+      const demoIds = ["select-actions", "keyboard-navigation", "controlled-state"];
 
-    expect(component?.inventoryStatus).toBe("live_enumeration_complete");
-    expect(component?.demos?.map(({ id }) => id)).toEqual(demoIds);
-    expect(docs).toContain("data-demo-card={id}");
-    expect(docs).toContain("data-demo-container={id}");
-    expect(docs).toContain('demoTextWithValues(language, "{count} selected"');
-    for (const id of demoIds) {
-      expect(docs).toContain(`"${id}"`);
-    }
-  });
+      expect(component?.inventoryStatus).toBe("live_enumeration_complete");
+      expect(component?.demos?.map(({ id }) => id)).toEqual(demoIds);
+      const multiSelectSource = EXAMPLE_SOURCE["multi-select"];
+      expect(multiSelectSource).toBeDefined();
+      for (const id of demoIds) {
+        expect(multiSelectSource[id]).toBeDefined();
+        expect(multiSelectSource[id]).toContain("export function");
+      }
+    });
 
   test("uses the live trigger and menu material geometry", async () => {
     const source = await read("src/components/ui/multi-select.tsx");

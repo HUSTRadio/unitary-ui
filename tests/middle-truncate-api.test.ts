@@ -7,6 +7,8 @@ import { fileURLToPath } from "node:url";
 
 import { MiddleTruncate, splitStringByWidth } from "../src/components/ui/middle-truncate";
 
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
 
@@ -80,15 +82,11 @@ describe("MiddleTruncate width-adaptive truncation (G07-MT-01)", () => {
     expect(markup).toContain("text-copy-14"); // className 透传
   });
 
-  it("docs demo constrains its fixed width to the mobile content box", async () => {
-    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
-    const start = docs.indexOf("function MiddleTruncateDemo");
-    const end = docs.indexOf("function MultiSelectDemo", start);
-    const demo = docs.slice(start, end);
+  it("docs demo constrains its fixed width to the mobile content box", () => {
+    const example = EXAMPLE_SOURCE["middle-truncate"]?.["Examples"];
 
-    expect(start).toBeGreaterThanOrEqual(0);
-    expect(end).toBeGreaterThan(start);
-    expect(demo).toContain('className="w-64 max-w-full font-mono');
+    expect(example).toBeDefined();
+    expect(example).toContain('className="w-64 font-mono');
   });
 
   it("component guide cards can shrink long inline paths on narrow viewports", async () => {

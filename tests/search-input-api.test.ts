@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+
 import { SearchInput } from "../src/components/ui/search-input";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -16,11 +18,13 @@ const renderSearchInput = (props: Record<string, unknown>) =>
 
 describe("SearchInput official API contract (G09 audit fixes)", () => {
   test("matches the live five-demo inventory and keeps the input wrapper contract", async () => {
-    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
     const manifest = await read("tests/audit/geist-audit-manifest.json");
+    const searchInputSource = EXAMPLE_SOURCE["search-input"];
+    expect(searchInputSource).toBeDefined();
 
     for (const id of ["default", "with-cmdk", "disabled", "loading", "custom-prefix"]) {
-      expect(docs).toContain(`id: "${id}"`);
+      expect(searchInputSource[id]).toBeDefined();
+      expect(searchInputSource[id]).toContain("export function");
       expect(manifest).toContain(`"id": "${id}"`);
     }
   });

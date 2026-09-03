@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 
 const source = readFileSync(
   resolve(import.meta.dirname, "../src/components/ui/context-card.tsx"),
@@ -45,15 +46,16 @@ describe("Context Card visual parity contract", () => {
   });
 
   test("alignment and render-prop demos use the official compact button and link classes", () => {
-    expect(docsSource).toContain('<Button type="default" typeName="button">');
-    expect(docsSource).toContain('className="text-blue-700 underline underline-offset-2"');
+    expect(EXAMPLE_SOURCE["context-card"].alignment).toContain('<Button type="default" typeName="button">');
+    expect(EXAMPLE_SOURCE["context-card"]["render-prop"]).toContain('className="text-blue-700 underline underline-offset-2"');
   });
 
-  test("Show code toggle is wired with real code content", () => {
+  test("Show code toggle is wired to the physical example source", () => {
     expect(docsSource).toContain("setShowCode");
     expect(docsSource).toContain("aria-controls={codeId}");
-    // Show code 内容来自 DEMO_CODE 查询（demoCode("default")），不再使用内联常量
-    expect(docsSource).toContain('demoCode("default")');
-    expect(docsSource).toContain('DEMO_CODE["context-card"]');
+    expect(docsSource).toContain("EXAMPLE_REGISTRY[name]");
+    expect(docsSource).toContain("code={record.source}");
+    expect(EXAMPLE_SOURCE["context-card"].default).toContain("export function");
+    expect(EXAMPLE_SOURCE["context-card"].default).toContain("<ContextCard");
   });
 });

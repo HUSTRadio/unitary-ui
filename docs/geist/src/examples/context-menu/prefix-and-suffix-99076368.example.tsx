@@ -1,0 +1,46 @@
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+import { Triangle } from "lucide-react";
+
+export function ContextMenuPrefixAndSuffix99076368Example() {
+  const icon = <Triangle className="size-4" aria-hidden />;
+
+  return (
+    <div className="flex flex-col items-stretch justify-start gap-6 md:flex-row">
+      <ContextMenu>
+        <ContextMenuTrigger asChild>
+          <span>
+            <div className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
+              Right click here
+            </div>
+          </span>
+        </ContextMenuTrigger>
+        <ContextMenuContent className="w-[160px]">
+          <ContextMenuItem href="/" prefix={icon}>Item one</ContextMenuItem>
+          <ContextMenuItem href="/" prefix={icon}>Item Two</ContextMenuItem>
+          <ContextMenuItem href="/" prefix={icon}>Item Three</ContextMenuItem>
+          <ContextMenuItem href="/" prefix={icon}>Item Four</ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+      <ContextMenu>
+        <ContextMenuTrigger asChild>
+          <span>
+            <div className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
+              Right click here
+            </div>
+          </span>
+        </ContextMenuTrigger>
+        <ContextMenuContent className="w-[160px]">
+          <ContextMenuItem href="/" suffix={icon}>Item one</ContextMenuItem>
+          <ContextMenuItem href="/" suffix={icon}>Item Two</ContextMenuItem>
+          <ContextMenuItem href="/" suffix={icon}>Item Three</ContextMenuItem>
+          <ContextMenuItem href="/" suffix={icon}>Item Four</ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+    </div>
+  );
+}

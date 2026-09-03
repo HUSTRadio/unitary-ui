@@ -3,6 +3,7 @@ import { describe, expect, test } from "vitest";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
@@ -79,15 +80,11 @@ describe("Toast official API contract (G12 audit fixes)", () => {
 
   test("default demo keeps the official neutral message instead of claiming an unrelated result", async () => {
     const docs = await read("docs/geist/src/components/docs-components-page.tsx");
-    const code = await read("docs/geist/src/data/demo-code-final.ts");
-    for (const source of [docs, code]) {
-      expect(source).toContain("The Evil Rabbit jumped over the fence.");
-    }
-    const toastDemo = docs.slice(
-      docs.indexOf("function ToastDemo()"),
-      docs.indexOf("function CopyButtonDemo()"),
-    );
-    expect(toastDemo).not.toContain("Project deleted");
+    const example = EXAMPLE_SOURCE.toast.Default;
+    expect(example).toContain("The Evil Rabbit jumped over the fence.");
+    expect(example).not.toContain("Project deleted");
+    expect(docs).toContain("EXAMPLE_REGISTRY[name]");
+    expect(docs).toContain("code={record.source}");
   });
 
   test("toast action has a stable slot, compact geometry, and dismisses after invocation", async () => {

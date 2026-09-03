@@ -1,22 +1,37 @@
 /**
  * Show code 红线契约（任务 0/1）：
- * - 每个 demoCode()/sectionCode() 引用必须解析到非空 DEMO_CODE 条目
- * - 每个 DEMO_CODE 条目必须 TSX 语法合法
+ * - 每个 demoCode()/sectionCode() 引用必须解析到非空 EXAMPLE_SOURCE 条目
+ * - 每个 EXAMPLE_SOURCE 条目必须 TSX 语法合法
  * 报告落盘 .hermes/audit/showcode-audit-baseline.json 供分批补齐跟踪。
  */
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { describe, expect, test } from "vitest";
 
-import { DEMO_CODE } from "../docs/geist/src/data/demo-code";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 import { auditShowCode } from "./audit/showcode-audit-lib";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 describe("show code coverage contract", () => {
+  test("uses only paired physical example modules", async () => {
+    const dataFiles = await readdir(path.join(root, "docs/geist/src/data"));
+    expect(dataFiles.filter((file) => /^demo-code.*\.ts$/.test(file))).toEqual([]);
+
+    const examplesRoot = path.join(root, "docs/geist/src/examples");
+    const exampleFiles = (await readdir(examplesRoot, { recursive: true })).filter((file) =>
+      file.endsWith(".example.tsx"),
+    );
+    expect(exampleFiles).toHaveLength(373);
+
+    const registry = await readFile(path.join(examplesRoot, "registry.ts"), "utf8");
+    expect(registry.match(/from "\.\/.+\.example";/g)).toHaveLength(373);
+    expect(registry.match(/\.example\.tsx\?example-source";/g)).toHaveLength(373);
+  });
+
   test("every demo block resolves to non-empty, syntactically valid code", async () => {
-    const report = await auditShowCode(root, DEMO_CODE);
+    const report = await auditShowCode(root, EXAMPLE_SOURCE);
 
     const outDir = path.join(root, ".hermes/audit");
     await mkdir(outDir, { recursive: true });

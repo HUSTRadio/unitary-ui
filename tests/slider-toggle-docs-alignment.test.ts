@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, test } from "vitest";
 
-import { DEMO_CODE } from "../docs/geist/src/data/demo-code";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 
 const root = process.cwd();
 const read = (relativePath: string) => readFile(path.resolve(root, relativePath), "utf8");
@@ -18,30 +18,28 @@ describe("Slider and Toggle docs alignment", () => {
     };
     const slider = manifest.components.find((component) => component.slug === "slider");
 
-    expect(docs).toContain('id: "step-max"');
-    expect(DEMO_CODE.slider["step-max"]).toContain("step={10}");
-    expect(DEMO_CODE.slider["step-max"]).toContain("max={50}");
+    expect(EXAMPLE_SOURCE.slider["step-max"]).toContain("step={10}");
+    expect(EXAMPLE_SOURCE.slider["step-max"]).toContain("max={50}");
+    expect(EXAMPLE_SOURCE.slider["step-max"]).toContain("export function");
     expect(slider?.variants).toContain("step-max");
     expect(slider?.demos.map((demo) => demo.id)).toContain("step-max");
   });
 
-  test("Toggle exposes only the five canonical lowercase demo-code keys", async () => {
-    const [docs, sectionBatch, docsCss, componentApi] = await Promise.all([
+  test("Toggle exposes only the five canonical lowercase physical examples", async () => {
+    const [docs, docsCss, componentApi] = await Promise.all([
       read("docs/geist/src/components/docs-components-page.tsx"),
-      read("docs/geist/src/data/demo-code-section-batch4.ts"),
       read("docs/geist/src/index.css"),
       read("docs/geist/src/data/component-api.ts"),
     ]);
 
-    expect(Object.keys(DEMO_CODE.toggle).sort()).toEqual([
+    expect(Object.keys(EXAMPLE_SOURCE.toggle).sort()).toEqual([
       "custom-color",
       "default",
       "disabled",
       "sizes",
       "with-label",
     ]);
-    expect(sectionBatch).not.toMatch(/\n\s*toggle:\s*\{/);
-    expect(docs.match(/case "toggle":/g)).toHaveLength(1);
+    expect(docs).toContain("EXAMPLE_REGISTRY[name]");
     expect(docs).not.toMatch(/function Toggle(?:Color|Label)Demo/);
     expect(docsCss).not.toContain('[data-demo-component="toggle"][data-demo-mode="live"]');
     const toggleApi = componentApi.slice(
