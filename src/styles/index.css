@@ -1309,6 +1309,10 @@ html[data-font-tier="system"],
   font-weight: 600;
 }
 
+.docs-prose-block {
+  margin-block: var(--uni-doc-space-heading-body);
+}
+
 .docs-prose-paragraph {
   margin-block: var(--uni-doc-space-paragraph) 0;
   font-size: var(--uni-text-body);
