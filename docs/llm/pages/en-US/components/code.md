@@ -14,27 +14,27 @@ Display a snippet of code with syntax highlighting.
 
 ## When to use
 
-- Referencing a single code identifier within technical prose—environment variable names, function names, class names, or file paths.
-- Applying syntax coloring to code elements inline within paragraphs or lists to improve readability while keeping the text flow intact.
+- Use Code for a lightweight block-level snippet and pass syntax to attach language highlighting.
+- Use the module's InlineCode export for variable names, function names, or file paths inside prose.
 
 ## When not to use
 
-- When you need to display multi-line source code blocks; use Code Block instead, which ships with a border, filename header, and optional line numbers.
+- Use the richer Code Block when the example needs a filename header, line numbers, or added/removed line treatment.
 - When the content is not valid code or markup; applying Code's syntax coloring to arbitrary text produces misleading visual effects.
 
 ## Examples
 
-### Default inline code
+### Block and inline code
 
-Renders syntax-highlighted single-line code inline within paragraph text.
+Shows block-level Code and InlineCode embedded in prose in one example.
 
-### Nested inline code within rich text structures
+### InlineCode in rich text
 
-Shows how the Code component maintains correct syntax coloring inside complex nested contexts like lists, links, and block quotes.
+Use InlineCode in lists, links, and block quotes without introducing a block-level container.
 
 ## Accessibility
 
-Not applicable: Code is a purely presentational element with no interactive controls; its semantic meaning is carried by the surrounding text, and no ARIA attributes are needed.
+Not applicable: Code renders <pre><code> semantics and InlineCode renders <code>; neither contains interactive controls or needs additional ARIA.
 
 ## Controlled behavior
 
@@ -42,7 +42,7 @@ Not applicable: Code is a read-only syntax highlighter with no value/onChange pr
 
 ## Responsive behavior
 
-Not applicable: Code renders inline and does not control its own layout dimensions; its responsive behavior is entirely inherited from the parent container's typographic rules.
+Not applicable: Code preserves preformatted content and uses overflow-x-auto when it exceeds the container; InlineCode follows the surrounding prose layout.
 
 ## Theme behavior
 

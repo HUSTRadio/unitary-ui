@@ -83,35 +83,35 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
   code: {
     slug: "code",
     locale: "zh-CN",
-    summary: "以内联代码形式展示语法高亮的代码片段，用于行内标识变量名、函数名、文件路径等。",
+    summary: "提供块级 Code 与行内 InlineCode：前者渲染可横向滚动的 <pre> 代码块，后者用于正文中的短代码标识。",
     whenToUse: [
-      "在技术文档正文中引用单个代码标识符——环境变量名、函数名、类名或文件路径。",
-      "需要在段落或列表中对代码元素进行语法着色以提高可读性，同时保持文本流连贯。",
+      "用 Code 展示轻量的块级代码片段，并通过 syntax 挂接语言高亮。",
+      "在正文中引用变量名、函数名或文件路径时使用同模块导出的 InlineCode。",
     ],
     whenNotToUse: [
-      "当需要展示多行源代码块时；请改用 Code Block，它带有边框、文件名头和可选的行号。",
+      "需要文件名头、行号或增删行标记时，请改用功能更完整的 Code Block。",
       "当内容不是有效的代码或标记语言时；Code 组件会应用代码着色样式，错误的内容会产生误导性的视觉效果。",
     ],
     examples: [
       {
         id: "code-default",
         kind: "minimal",
-        title: "默认内联代码",
-        description: "在段落中渲染语法高亮的单行代码片段。",
+        title: "块级与行内代码",
+        description: "在同一示例中展示块级 Code 和正文内的 InlineCode。",
         demoKey: "Default",
       },
       {
         id: "code-nested",
         kind: "variant",
-        title: "嵌套在富文本中的内联代码",
+        title: "富文本中的 InlineCode",
         description:
-          "展示 Code 组件如何在复杂的多层文本结构中保持语法着色的正确性，包括在列表、链接和引用块内的表现。",
+          "在列表、链接和引用块等富文本结构中使用 InlineCode，保持正文流不被块级容器打断。",
       },
     ],
     accessibility: {
       status: "not-applicable",
       reason:
-        "Code 是纯展示型元素，不包含交互控件；其语义意义由 surrounding text 承载，无需 ARIA 属性。",
+        "Code 输出 <pre><code> 语义，InlineCode 输出 <code>；两者均不包含交互控件，无需额外 ARIA。",
     },
     controlledBehavior: {
       status: "not-applicable",
@@ -119,7 +119,7 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
     },
     responsiveBehavior: {
       status: "not-applicable",
-      reason: "Code 以内联形式存在，不自行控制布局尺寸，其响应行为完全取决于父容器的排版规则。",
+      reason: "Code 使用 overflow-x-auto 保留预格式化内容并在溢出时横向滚动；InlineCode 则随父级正文排版。",
     },
     themeBehavior: {
       status: "covered",
@@ -454,35 +454,35 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
     slug: "code",
     locale: "en-US",
     summary:
-      "Displays a single inline code token with syntax highlighting, used for variable names, function names, file paths, etc.",
+      "Provides block-level Code and inline InlineCode: Code renders a horizontally scrollable <pre>, while InlineCode marks short identifiers in prose.",
     whenToUse: [
-      "Referencing a single code identifier within technical prose—environment variable names, function names, class names, or file paths.",
-      "Applying syntax coloring to code elements inline within paragraphs or lists to improve readability while keeping the text flow intact.",
+      "Use Code for a lightweight block-level snippet and pass syntax to attach language highlighting.",
+      "Use the module's InlineCode export for variable names, function names, or file paths inside prose.",
     ],
     whenNotToUse: [
-      "When you need to display multi-line source code blocks; use Code Block instead, which ships with a border, filename header, and optional line numbers.",
+      "Use the richer Code Block when the example needs a filename header, line numbers, or added/removed line treatment.",
       "When the content is not valid code or markup; applying Code's syntax coloring to arbitrary text produces misleading visual effects.",
     ],
     examples: [
       {
         id: "code-default",
         kind: "minimal",
-        title: "Default inline code",
-        description: "Renders syntax-highlighted single-line code inline within paragraph text.",
+        title: "Block and inline code",
+        description: "Shows block-level Code and InlineCode embedded in prose in one example.",
         demoKey: "Default",
       },
       {
         id: "code-nested",
         kind: "variant",
-        title: "Nested inline code within rich text structures",
+        title: "InlineCode in rich text",
         description:
-          "Shows how the Code component maintains correct syntax coloring inside complex nested contexts like lists, links, and block quotes.",
+          "Use InlineCode in lists, links, and block quotes without introducing a block-level container.",
       },
     ],
     accessibility: {
       status: "not-applicable",
       reason:
-        "Code is a purely presentational element with no interactive controls; its semantic meaning is carried by the surrounding text, and no ARIA attributes are needed.",
+        "Code renders <pre><code> semantics and InlineCode renders <code>; neither contains interactive controls or needs additional ARIA.",
     },
     controlledBehavior: {
       status: "not-applicable",
@@ -492,7 +492,7 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "not-applicable",
       reason:
-        "Code renders inline and does not control its own layout dimensions; its responsive behavior is entirely inherited from the parent container's typographic rules.",
+        "Code preserves preformatted content and uses overflow-x-auto when it exceeds the container; InlineCode follows the surrounding prose layout.",
     },
     themeBehavior: {
       status: "covered",

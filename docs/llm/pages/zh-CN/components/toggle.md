@@ -47,7 +47,7 @@ Toggle
 
 ## 受控行为
 
-- checked 是必填属性，组件受控。需在外部管理状态并通过 onChange 回调进行更新。
+- checked 在类型上可选；同时传入 checked 与 onChange 时由外部状态控制，也可使用继承的 defaultChecked 设置非受控初始状态。
 - 状态变更后应立即持久化并通过 toast 反馈结果（如"密码保护已启用"），避免用户不确定操作是否生效。
 
 ## 响应式行为
@@ -270,7 +270,7 @@ import { Toggle } from "@/components/ui/toggle";
 ## 最佳实践
 
 - 单个布尔设置且 ON 立即生效用 Toggle，如 Password Protection 或 Auto-Cancel Builds。多选列表用 Checkbox，2–3 互斥视图用 Switch。
-- checked 必填且组件受控。自己持有状态并从 onChange 更新。
+- checked 可选；同时传入 checked 与 onChange 时由调用方控制，也可用 defaultChecked 设置非受控初始状态。
 - 变更即持久化，并用 useToasts().success(…) 展示结果（Password protection enabled）；不要让用户怀疑开关是否生效。仅当设置需要显式 Save 步骤时才配表单页脚。
 - 仅当动作确实不可能时（缺套餐、策略锁定）禁用 Toggle；配说明解决方式的辅助文本或 Tooltip。
 - 标签是 children 而非 label prop。首字母大写名词短语、1–4 个词，命名 ON 时成立的状态：Password Protection，而非 Enable Password Protection。

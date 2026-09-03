@@ -43,8 +43,8 @@ Demonstrating the disabled appearance and why an option is unavailable.
 
 ## Controlled behavior
 
-- Uses the checked prop for controlled state management with onChange callback to sync parent state.
-- A name prop must be assigned to the Switch group for radio-style mutual exclusion; defaultChecked determines the initial selected option.
+- Control the Switch group with value and onValueChange; use defaultValue for an uncontrolled initial selection.
+- name is required on the Switch group to associate its mutually exclusive options; each Switch.Control identifies itself with value.
 
 ## Responsive behavior
 

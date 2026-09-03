@@ -28,7 +28,7 @@ A contained error state with recovery guidance.
 
 ### Default error card
 
-Displays the default Error Card structure with an error title, description, and a single recovery action button.
+Shows ErrorCard, title, description, and the ErrorCardAction layout slot; the caller supplies any recovery button.
 
 ## Accessibility
 
@@ -43,7 +43,7 @@ Not applicable: Error Card is a presentation component whose content and visibil
 ## Responsive behavior
 
 - Error Card adapts to its bounding container width, with inner elements wrapping vertically on narrow screens.
-- The recovery action button stretches to fill the container width on mobile, ensuring an adequately sized touch target.
+- ErrorCardAction is only a layout slot; the caller's control styles determine button width and mobile touch-target size.
 
 ## Theme behavior
 

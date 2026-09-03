@@ -14,8 +14,8 @@ Fills spaces when no content has been added yet or a view is empty.
 
 ## When to use
 
-- When a filtered list returns zero results (no-results variant) or a resource has not yet been created (blank slate variant).
-- When a user lands on a route they cannot view — render the permission denial variant full-page with navigation guidance.
+- When a filtered list returns zero results or a resource has not been created, pass scenario-specific copy, iconography, and actions.
+- When a user lands on a route they cannot view, the page layout can render EmptyState full-page with navigation guidance.
 - For cleared states after completed work or finished downloads.
 
 ## When not to use
@@ -28,7 +28,7 @@ Fills spaces when no content has been added yet or a view is empty.
 
 ### Empty state design framework
 
-The complete empty-state design methodology — pick the variant by user need (no-results, blank slate, informational).
+Compose title, description, icon, and actions for the user's need; these scenario names are not a built-in variant API.
 
 ### Blank slate
 
@@ -36,7 +36,7 @@ Initial empty state when no resources have been created, paired with a primary C
 
 ### Informational empty state
 
-An empty-state variant that provides additional context to help users understand the current state rather than waiting blindly.
+Uses the generic props and children to add context that helps users understand the current state rather than waiting blindly.
 
 ## Accessibility
 
@@ -135,8 +135,8 @@ import { EmptyState, EmptyStateIcon } from "@/components/ui/empty-state";
 
 ## Best Practices
 
-- Pick the variant by what the user needs: no-results for a filtered list that returned zero rows, blank slate or informational for a resource the user hasn’t created, cleared for completed work, error for a failed load.
-- Render the permission and tier-denial variants full-page when the user lands on a route they can’t view.
+- Compose the generic title, description, icon, and children for the scenario: zero search results, a blank slate, informational context, completed work, or a failed load.
+- Use the page layout to render permission and tier-denial empty states full-page when the user lands on a route they can’t view.
 - Don’t put critical persistent warnings here. Empty states vanish when the list populates; persistent warnings belong in a Note or the page header.
 - title is Title Case; description is sentence case and adds new information instead of restating the title.
 - Cap at one primary CTA, plus one secondary. Three CTAs is a smell.

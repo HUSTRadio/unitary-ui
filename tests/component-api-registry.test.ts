@@ -449,6 +449,58 @@ describe("component API registry", () => {
     expect(guideText("text-with-copy-button")).not.toMatch(
       /hidden-textarea execCommand fallback|隐藏的 textarea execCommand 降级|small size and tertiary|小型尺寸和 tertiary|automatically.*ellipsis|自动压缩并可能触发省略号|minimum 44px|至少 44px/i,
     );
+    expect(guideText("breadcrumbs")).not.toMatch(
+      /激活态.*不应是可链接的|active item.*should not be linkable/i,
+    );
+    expect(guideText("calendar")).not.toMatch(
+      /方向键移动、Enter 确认|Arrow keys move.*Enter confirms|选中日期由父组件受控|selected date is controlled by the parent/i,
+    );
+    expect(guideText("code")).not.toMatch(
+      /以内联代码形式|inline code presentation|默认内联代码|Default inline code/i,
+    );
+    expect(guideText("copy-button")).not.toMatch(/约 1\.5 秒|about 1\.5 seconds/i);
+    expect(guideText("empty-state")).not.toMatch(
+      /no-results 变体|blank slate.*变体|informational.*变体|no-results variant|blank-slate variant|informational variant/i,
+    );
+    expect(guideText("entity")).not.toMatch(
+      /窄屏下列自动折叠|操作按钮在移动端可能转换|三列的相对宽度.*动态分配|columns automatically collapse|action buttons may become icons|relative column widths dynamically/i,
+    );
+    expect(guideText("error-card")).not.toMatch(
+      /默认的 Error Card 结构.*恢复操作按钮|default Error Card structure.*recovery action button|recovery action button stretches|恢复操作按钮在全宽容器中占满/i,
+    );
+    expect(guideText("load-more-button")).not.toMatch(
+      /覆盖默认加载文案|override the default loading text/i,
+    );
+    expect(guideText("loading-dots")).not.toMatch(
+      /isLoading 状态决定|starts or stops.*loading state|determined by.*isLoading state/i,
+    );
+    expect(guideText("menu")).not.toMatch(
+      /会打开嵌套的子菜单|open nested sub-?menus?/i,
+    );
+    expect(guideText("pill")).not.toMatch(
+      /已激活的 Pill 应通过 aria-pressed|active Pill should carry an aria-pressed|支持水平滚动或自动换行|supports horizontal scrolling or auto-wrapping/i,
+    );
+    expect(guideText("project-banner")).not.toMatch(
+      /带有 alert 或 status 语义|carries alert or status semantics|设计上不可关闭|non-dismissible by design|组件.*自动.*aria-live="assertive"|automatically.*aria-live="assertive"/i,
+    );
+    expect(guideText("separator")).not.toMatch(
+      /默认作为装饰性|Decorative by default/i,
+    );
+    expect(guideText("skeleton")).not.toMatch(
+      /自动缩减为单列|automatically collapse to a single-column/i,
+    );
+    expect(guideText("switch")).not.toMatch(
+      /使用 checked 受控属性|Uses the checked prop for controlled state|onChange 回调同步父级|onChange callback to sync parent/i,
+    );
+    expect(guideText("tabs")).not.toMatch(
+      /selectedIndex|onChange 回调可用于响应标签切换|onChange callback responds to tab switch|自动调整间距和字号|automatically adjust spacing and font size/i,
+    );
+    expect(guideText("toggle")).not.toMatch(
+      /checked 是必填|checked is required/i,
+    );
+    expect(guideText("video")).not.toMatch(
+      /不提供 play\/pause\/seek|does not expose play\/pause\/seek|操作系统\/浏览器的默认控件|OS\/browser default controls/i,
+    );
   });
 
   it("links the common lifecycle conventions and every component page to the registry UI", async () => {

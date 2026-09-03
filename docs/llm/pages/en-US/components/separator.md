@@ -20,7 +20,7 @@ Divides content into visually distinct groups.
 ## When not to use
 
 - When whitespace or background surface transitions already provide sufficient visual grouping.
-- When the separation carries semantic meaning for assistive technologies and the default decorative setting is insufficient.
+- For a purely visual rule, set decorative={true} explicitly so it does not add unnecessary semantics.
 
 ## Examples
 
@@ -34,8 +34,8 @@ A vertical line filling the available height of a flex row, useful for spacing h
 
 ## Accessibility
 
-- Decorative by default (the decorative prop), so assistive tech ignores it.
-- Set decorative to false and provide an accessible name only when the separation is semantically meaningful.
+- The default decorative={false} exposes a semantic separator and its orientation to assistive technologies.
+- Set decorative={true} only for a purely visual rule that assistive technologies should ignore.
 
 ## Controlled behavior
 
@@ -154,5 +154,5 @@ import { Separator } from "@/components/ui/separator";
 
 - Use Separator to divide content into visually distinct groups, like between sections of a list or menu items.
 - Horizontal separators span the full width of their container; vertical ones fill the available height of a flex row.
-- Separators are decorative by default (decorative prop), so assistive tech ignores them. Set decorative={false} with an accessible name only when the separation is semantically meaningful.
+- Separators are semantic by default (decorative={false}). Set decorative={true} only for a purely visual rule that assistive technologies should ignore.
 - Don’t overuse separators; grouping with white space or a background surface is often enough and reads cleaner.

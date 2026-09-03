@@ -29,9 +29,9 @@ Displays a list of actions in a floating menu.
 
 The simplest menu usage: a trigger opens a set of action items, each in Title Case Verb+Noun format such as Rename Project or Duplicate Deployment.
 
-### With chevron
+### Trigger with chevron
 
-Add a chevron indicator to menu items that open nested sub-menus rather than executing actions directly, helping users anticipate the consequence of activation.
+Show a downward chevron on MenuButton to indicate that the trigger opens the current menu; nested submenu primitives are not provided.
 
 ### Disabled items
 

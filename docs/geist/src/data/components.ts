@@ -289,7 +289,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     official: "Copy Button",
     bestPractices: [
       "Use CopyButton for a single short string the user copies verbatim — a token, a command, an ID. For longer blocks, pair a full Snippet with its own copy affordance.",
-      "Show the checkmark feedback for about 1.5s after a successful copy so the action reads as done; reset it before the next click.",
+      "Show the checkmark feedback for about 1.2s after a successful copy so the action reads as done; reset it before the next click.",
       "Set aria-label on the icon-only button so screen readers announce the action (Copy deployment URL), not just the icon.",
       "Prefer navigator.clipboard.writeText with a hidden-textarea execCommand fallback so copying still works where clipboard permissions are missing.",
     ],
@@ -366,8 +366,8 @@ const COMPONENTS_EN: ComponentMeta[] = [
     description: "Fills spaces when no content has been added yet or a view is empty.",
     official: "Empty State",
     bestPractices: [
-      "Pick the variant by what the user needs: no-results for a filtered list that returned zero rows, blank slate or informational for a resource the user hasn’t created, cleared for completed work, error for a failed load.",
-      "Render the permission and tier-denial variants full-page when the user lands on a route they can’t view.",
+      "Compose the generic title, description, icon, and children for the scenario: zero search results, a blank slate, informational context, completed work, or a failed load.",
+      "Use the page layout to render permission and tier-denial empty states full-page when the user lands on a route they can’t view.",
       "Don’t put critical persistent warnings here. Empty states vanish when the list populates; persistent warnings belong in a Note or the page header.",
       "title is Title Case; description is sentence case and adds new information instead of restating the title.",
       "Cap at one primary CTA, plus one secondary. Three CTAs is a smell.",
@@ -655,7 +655,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "Use Project Banner for project-wide states that need resolution: overdue billing, an active rollback, attack mitigation, an expiring trial blocking deploys.",
       "Pick Note for inline contextual messages tied to a single field or card, Toast for transient acknowledgments, Modal for confirmations.",
       "Match variant to severity: error for critical downtime or payment-blocking states, warning for an exceptional state with non-immediate action, success for a positive temporary mitigation, gray for routine project-wide notices.",
-      "Project Banner is non-dismissible by design. If the message can be dismissed without resolving the underlying state, it isn't banner-worthy; move it to a Note.",
+      "ProjectBanner does not own dismiss state. When dismissal is appropriate, compose ProjectBannerClose with a caller-managed onClick; otherwise move ignorable messages to a Note.",
       "Show one Project Banner at a time. Stacking competing banners drowns the most urgent state.",
       "Always provide an action that resolves the state; a banner with no route is a dead end.",
       "label is one sentence in sentence case that names the impact; the action label is Title Case Verb + Noun (Update Payment Method, Review Tokens).",
@@ -752,7 +752,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     bestPractices: [
       "Use Separator to divide content into visually distinct groups, like between sections of a list or menu items.",
       "Horizontal separators span the full width of their container; vertical ones fill the available height of a flex row.",
-      "Separators are decorative by default (decorative prop), so assistive tech ignores them. Set decorative={false} with an accessible name only when the separation is semantically meaningful.",
+      "Separators are semantic by default (decorative={false}). Set decorative={true} only for a purely visual rule that assistive technologies should ignore.",
       "Don’t overuse separators; grouping with white space or a background surface is often enough and reads cleaner.",
     ],
   },
@@ -935,7 +935,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     official: "Toggle",
     bestPractices: [
       "Use Toggle for a single boolean setting where ON takes effect immediately, like Password Protection or Auto-Cancel Builds. Switch to Checkbox for a multi-select list, or to Switch for 2–3 mutually exclusive views.",
-      "checked is required and the component is controlled. Own the state and update it from onChange.",
+      "checked is optional. Pass checked with onChange for caller-controlled state, or use defaultChecked for an uncontrolled initial state.",
       "Persist on change and surface the result in a useToasts().success(…) toast (Password protection enabled); don’t leave the user wondering whether the flip stuck. Pair with a form footer only when the setting needs an explicit Save step.",
       "Disable Toggle only when the action is impossible (missing plan, locked policy); pair with helper text or a Tooltip that names the resolver.",
       "The label is children, not a label prop. Title Case noun phrase, 1–4 words, naming what is true when ON: Password Protection, not Enable Password Protection.",

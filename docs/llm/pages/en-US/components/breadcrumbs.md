@@ -37,7 +37,7 @@ Displays the active/disabled style for the last item to indicate the current pat
 ## Accessibility
 
 - Breadcrumbs wrap in a <nav> element with aria-label='Breadcrumb', helping screen readers identify it.
-- The final entry (active state) should not be linked and should carry aria-current='page'.
+- active adds aria-current='page' to the item. If href is also provided, the item still renders as a link; omit href when the current page must be inert.
 - Disabled breadcrumb entries remain in the DOM but skip tabindex to ensure keyboard navigation consistency.
 
 ## Controlled behavior

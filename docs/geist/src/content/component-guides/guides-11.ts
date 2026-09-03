@@ -160,7 +160,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
     ],
     whenNotToUse: [
       "如果空白间距或背景面的切换已能充分区分内容区块，则不需要额外添加分隔线。",
-      "当分隔对于辅助技术具有实际语义含义时，应避免默认装饰性设定。",
+      "如果分隔线只用于视觉装饰，请显式设置 decorative={true}，避免向辅助技术暴露多余语义。",
     ],
     examples: [
       {
@@ -181,8 +181,8 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "默认作为装饰性元素存在（decorative 属性），辅助技术会忽略它。",
-        "仅在分隔具有语义意义时，应将 decorative 设为 false 并提供可访问名称。",
+        "默认 decorative={false}，组件向辅助技术暴露语义分隔线及其方向。",
+        "仅用于视觉装饰时应显式设置 decorative={true}，让辅助技术忽略它。",
       ],
     },
     controlledBehavior: {
@@ -426,7 +426,7 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
     ],
     whenNotToUse: [
       "When whitespace or background surface transitions already provide sufficient visual grouping.",
-      "When the separation carries semantic meaning for assistive technologies and the default decorative setting is insufficient.",
+      "For a purely visual rule, set decorative={true} explicitly so it does not add unnecessary semantics.",
     ],
     examples: [
       {
@@ -449,8 +449,8 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Decorative by default (the decorative prop), so assistive tech ignores it.",
-        "Set decorative to false and provide an accessible name only when the separation is semantically meaningful.",
+        "The default decorative={false} exposes a semantic separator and its orientation to assistive technologies.",
+        "Set decorative={true} only for a purely visual rule that assistive technologies should ignore.",
       ],
     },
     controlledBehavior: {

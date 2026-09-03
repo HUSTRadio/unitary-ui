@@ -36,13 +36,13 @@ Project Banner
 
 ## 无障碍
 
-- Project Banner 带有 alert 或 status 语义，屏幕阅读器会在页面加载时正确识别并朗读其内容。
+- Project Banner 默认渲染普通 aside，不自动添加 alert/status；需要播报时由调用方传入 role 和 aria-live。
 - 横幅的行动按钮应有明确的 action 标签，遵循 Title Case Verb + Noun 格式（如 Update Payment Method）。
-- 当 Banner 涉及关键业务状态时，应使用 aria-live="assertive" 确保中断流程的通知被及时播报。
+- 关键业务状态可由调用方显式传入 role="alert" 或 aria-live="assertive"；组件不会根据 variant 自动推导。
 
 ## 受控行为
 
-不适用: Project Banner 设计上不可关闭（non-dismissible by design），除非底层状态得到解决；它不接受外部的 dismiss 受控属性。
+不适用: ProjectBanner 本身不管理 dismiss 状态；可组合 ProjectBannerClose，并在显式传入 onClick 时由调用方完成关闭逻辑。
 
 ## 响应式行为
 
@@ -151,7 +151,7 @@ import {
 - 需要解决的跨项目状态用 Project Banner：逾期的账单、进行中的回滚、攻击缓解、阻碍部署的到期试用。
 - 绑定单个字段或卡片的内联上下文消息用 Note，瞬态确认用 Toast，确认用 Modal。
 - 按严重度匹配变体：严重停机或支付阻断状态用 error、非即时动作的异常状态用 warning、正面临时缓解用 success、常规项目级通知用 gray。
-- Project Banner 设计上不可关闭。如果消息无需解决底层状态即可关闭，它就不值得 banner；移到 Note。
+- ProjectBanner 不管理 dismiss 状态。适合关闭时组合 ProjectBannerClose 并由调用方处理 onClick；可忽略消息则移到 Note。
 - 一次只显示一个 Project Banner。堆叠竞争的 banner 会淹没最紧急的状态。
 - 始终提供解决状态的动作；没有出路的 banner 是死胡同。
 - label 是句首大写、点名影响的单句；动作标签是首字母大写 动词 + 名词（Update Payment Method、Review Tokens）。

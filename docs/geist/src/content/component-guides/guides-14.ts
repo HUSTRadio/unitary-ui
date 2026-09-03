@@ -49,8 +49,8 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "通过 selectedIndex 属性编程式控制当前选中的标签页，允许外部状态驱动切换行为。",
-        "onChange 回调可用于响应标签切换事件，结合 URL 参数实现状态持久化。",
+        "通过必填的 selected 与 setSelected 控制当前标签；selected 使用标签项的 id，而不是数组索引。",
+        "需要 URL 持久化时，由调用方在 setSelected 更新路径中同步路由状态。",
         "禁用态的标签通过 disabled 属性隐藏交互能力，配合 Tooltip 说明禁用原因（权限不足或数据为空）。",
       ],
     },
@@ -58,7 +58,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "移动端建议限制在 3–4 个标签以内；超出范围应将次要视图移至 Menu 下拉中。",
-        "标签行在小屏幕上自动调整间距和字号，确保文字不溢出容器边界。",
+        "标签行保持固定字号和间距，并在内容超出可用宽度时提供水平滚动；组件不会自动压缩排版。",
       ],
     },
     themeBehavior: {
@@ -372,8 +372,8 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Control the active tab programmatically via the selectedIndex prop, allowing external state to drive tab transitions.",
-        "The onChange callback responds to tab switch events, enabling integration with URL parameter state persistence.",
+        "Control the active tab with the required selected and setSelected props; selected uses a tab item's id rather than its array index.",
+        "For URL persistence, synchronize route state from the caller's setSelected update path.",
         "Disabled tabs hide interactivity via the disabled prop and should be paired with a Tooltip explaining the constraint (permissions insufficient or empty data).",
       ],
     },
@@ -381,7 +381,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "On mobile, limit tabs to 3–4; beyond that, move secondary views behind a Menu dropdown.",
-        "Tab labels automatically adjust spacing and font size on narrow screens to prevent text overflow.",
+        "The tab row keeps fixed typography and gaps and scrolls horizontally when it exceeds the available width; it does not compress those styles automatically.",
       ],
     },
     themeBehavior: {

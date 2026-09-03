@@ -218,10 +218,10 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
   "empty-state": {
     slug: "empty-state",
     locale: "zh-CN",
-    summary: "当无内容已添加或视图为空时填充区域的组件，按场景选择变体以引导用户采取下一步行动。",
+    summary: "当无内容已添加或视图为空时填充区域的通用组件；场景差异由调用方通过标题、图标和 children 组合。",
     whenToUse: [
-      "列表过滤后返回零条结果时使用 no-results 变体，或资源尚未创建时使用 blank slate。",
-      "用户访问了其无权查看的路由时，以全屏方式渲染权限不足变体并提供导航建议。",
+      "列表过滤后返回零条结果或资源尚未创建时，由调用方传入相应标题、描述、图标和操作。",
+      "用户访问了其无权查看的路由时，可由页面布局全屏承载 EmptyState 并提供导航建议。",
       "数据完成加载后的清空视图或已完成工作的 cleared 状态。",
     ],
     whenNotToUse: [
@@ -235,7 +235,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
         kind: "advanced",
         title: "空状态设计框架",
         description:
-          "完整的空状态设计方法论——按用户需求选择变体（no-results、blank slate、informational）。",
+          "完整的空状态组合方法——按用户需求配置标题、描述、图标和操作；这些名称不是内置 variant API。",
         demoKey: "empty-state-design-framework",
       },
       {
@@ -249,7 +249,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
         id: "empty-state-informational",
         kind: "variant",
         title: "信息型空状态",
-        description: "向用户提供额外上下文信息的空状态变体，帮助理解当前状态而非盲目等待。",
+        description: "通过通用 props 和 children 补充上下文，帮助用户理解当前状态而非盲目等待。",
         demoKey: "informational",
       },
     ],
@@ -340,9 +340,8 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "窄屏下列自动折叠或隐藏次要内容，优先展示核心信息。",
-        "操作按钮在移动端可能转换为图标按钮以节省空间。",
-        "media/content/action 三列的相对宽度根据可用空间动态分配。",
+        "Entity 本身使用固定的 flex 行布局，不会在窄屏自动隐藏内容或把操作改为图标。",
+        "调用方可通过 className、leftClassName 和 rightClassName 添加断点、换行或隐藏策略。",
       ],
     },
     themeBehavior: {
@@ -581,10 +580,10 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "empty-state",
     locale: "en-US",
     summary:
-      "Fills areas when no content has been added or a view is empty — pick the variant by what the user needs and guide them toward the next step.",
+      "Fills an area when no content has been added or a view is empty. The caller composes each scenario from title, description, icon, and children.",
     whenToUse: [
-      "When a filtered list returns zero results (no-results variant) or a resource has not yet been created (blank slate variant).",
-      "When a user lands on a route they cannot view — render the permission denial variant full-page with navigation guidance.",
+      "When a filtered list returns zero results or a resource has not been created, pass scenario-specific copy, iconography, and actions.",
+      "When a user lands on a route they cannot view, the page layout can render EmptyState full-page with navigation guidance.",
       "For cleared states after completed work or finished downloads.",
     ],
     whenNotToUse: [
@@ -598,7 +597,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
         kind: "advanced",
         title: "Empty state design framework",
         description:
-          "The complete empty-state design methodology — pick the variant by user need (no-results, blank slate, informational).",
+          "Compose title, description, icon, and actions for the user's need; these scenario names are not a built-in variant API.",
         demoKey: "empty-state-design-framework",
       },
       {
@@ -614,7 +613,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
         kind: "variant",
         title: "Informational empty state",
         description:
-          "An empty-state variant that provides additional context to help users understand the current state rather than waiting blindly.",
+          "Uses the generic props and children to add context that helps users understand the current state rather than waiting blindly.",
         demoKey: "informational",
       },
     ],
@@ -710,9 +709,8 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Columns collapse or hide secondary content on narrow screens, prioritizing core information.",
-        "Action buttons may convert to icon-only buttons on mobile to save space.",
-        "Relative widths of the media/content/action columns dynamically allocate based on available space.",
+        "Entity uses a fixed flex row and does not automatically hide content or convert actions to icons on narrow screens.",
+        "Use className, leftClassName, and rightClassName to add application-specific breakpoints, wrapping, or visibility rules.",
       ],
     },
     themeBehavior: {

@@ -47,7 +47,7 @@ Passes a Title Case label through children and pairs it with descriptive copy ex
 
 ## Controlled behavior
 
-- checked is required and the component is controlled. Own the state and update it from onChange.
+- checked is optional in the type. Pass checked with onChange for caller-controlled state, or use the inherited defaultChecked for an uncontrolled initial state.
 - Persist on change and surface the result in a useToasts().success(…) toast (Password protection enabled); don't leave the user wondering whether the flip stuck.
 
 ## Responsive behavior
@@ -270,7 +270,7 @@ import { Toggle } from "@/components/ui/toggle";
 ## Best Practices
 
 - Use Toggle for a single boolean setting where ON takes effect immediately, like Password Protection or Auto-Cancel Builds. Switch to Checkbox for a multi-select list, or to Switch for 2–3 mutually exclusive views.
-- checked is required and the component is controlled. Own the state and update it from onChange.
+- checked is optional. Pass checked with onChange for caller-controlled state, or use defaultChecked for an uncontrolled initial state.
 - Persist on change and surface the result in a useToasts().success(…) toast (Password protection enabled); don’t leave the user wondering whether the flip stuck. Pair with a form footer only when the setting needs an explicit Save step.
 - Disable Toggle only when the action is impossible (missing plan, locked policy); pair with helper text or a Tooltip that names the resolver.
 - The label is children, not a label prop. Title Case noun phrase, 1–4 words, naming what is true when ON: Password Protection, not Enable Password Protection.

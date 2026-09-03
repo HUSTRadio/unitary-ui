@@ -39,7 +39,8 @@ Hides built-in playback controls for an immersive viewing experience, suitable f
 
 ## Controlled behavior
 
-Not applicable: Video is a presentational component focused on embedding and rendering video content; it does not expose play/pause/seek controlled APIs. Full media control should be implemented by a dedicated player library.
+- Video has no declarative playing or currentTime props; its custom controls synchronize playback state internally.
+- The component forwards an HTMLVideoElement ref, so callers can invoke play(), pause(), or assign currentTime for imperative media control.
 
 ## Responsive behavior
 
@@ -47,7 +48,7 @@ Not applicable: Video is a presentational component focused on embedding and ren
 
 ## Theme behavior
 
-Not applicable: Video renders the native HTML video element with OS/browser default controls; it does not directly participate in the application's theme color system.
+- With controls={true}, Video renders custom play, time, and progress controls whose background, text, and shadow use theme styles.
 
 ## Live Demo
 

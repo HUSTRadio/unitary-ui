@@ -43,13 +43,13 @@ Pins the calendar to a specific timezone to avoid cross-timezone ambiguity.
 
 ## Accessibility
 
-- Date cells must be keyboard-traversable (arrow keys to move, Enter to confirm) with focus order matching visual order.
-- Selected and today states can't rely on color alone; they need screen-reader-detectable semantics.
+- The date table exposes selection through gridcell and aria-selected. Date cells currently support click selection only; Arrow-key traversal and Enter confirmation are not implemented.
+- Add the missing keyboard interaction at the application layer, or use a date picker with roving focus when a complete keyboard grid is required.
 
 ## Controlled behavior
 
-- The selected date is controlled by the parent; onChange reports the pick.
-- Month paging is internal view state and does not affect the controlled selection.
+- Calendar stores the selected range internally. Presets, Apply, and date clicks update that state and report the result through onChange.
+- There is no external value/defaultValue selection contract; month paging is internal view state as well.
 
 ## Responsive behavior
 

@@ -53,9 +53,8 @@ Not applicable: Entity is fundamentally a presentation row component and does no
 
 ## Responsive behavior
 
-- Columns collapse or hide secondary content on narrow screens, prioritizing core information.
-- Action buttons may convert to icon-only buttons on mobile to save space.
-- Relative widths of the media/content/action columns dynamically allocate based on available space.
+- Entity uses a fixed flex row and does not automatically hide content or convert actions to icons on narrow screens.
+- Use className, leftClassName, and rightClassName to add application-specific breakpoints, wrapping, or visibility rules.
 
 ## Theme behavior
 

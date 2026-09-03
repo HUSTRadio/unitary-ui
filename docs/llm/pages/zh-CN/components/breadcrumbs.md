@@ -37,7 +37,7 @@ Breadcrumbs
 ## 无障碍
 
 - 面包屑包裹在 <nav> 元素中并带有 aria-label='Breadcrumb' 角色，帮助屏幕阅读器识别。
-- 当前页面的最后一个条目（激活态）不应是可链接的，应设置为 aria-current='page'。
+- active 会在条目上设置 aria-current='page'；若同时传入 href，条目仍会渲染为链接。需要不可点击的当前页时应省略 href。
 - 禁用态的面包屑项仍保留在 DOM 中但跳过 tabindex，确保键盘导航的一致性。
 
 ## 受控行为

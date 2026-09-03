@@ -202,8 +202,8 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "使用 checked 受控属性精确控制选中状态，配合 onChange 回调同步父级 state。",
-        "必须为 Switch 组分配一个 name 属性确保单选互斥；defaultChecked 确定初始选中项。",
+        "Switch 组通过 value 与 onValueChange 受控；非受控初始值使用 defaultValue。",
+        "name 是 Switch 组的必填属性，用于关联同一组互斥选项；每个 Switch.Control 通过自身 value 标识选项。",
       ],
     },
     responsiveBehavior: {
@@ -485,8 +485,8 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Uses the checked prop for controlled state management with onChange callback to sync parent state.",
-        "A name prop must be assigned to the Switch group for radio-style mutual exclusion; defaultChecked determines the initial selected option.",
+        "Control the Switch group with value and onValueChange; use defaultValue for an uncontrolled initial selection.",
+        "name is required on the Switch group to associate its mutually exclusive options; each Switch.Control identifies itself with value.",
       ],
     },
     responsiveBehavior: {

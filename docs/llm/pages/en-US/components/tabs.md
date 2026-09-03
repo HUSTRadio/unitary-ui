@@ -46,14 +46,14 @@ Demonstrates the Secondary mode for de-emphasized content grouping and less prom
 
 ## Controlled behavior
 
-- Control the active tab programmatically via the selectedIndex prop, allowing external state to drive tab transitions.
-- The onChange callback responds to tab switch events, enabling integration with URL parameter state persistence.
+- Control the active tab with the required selected and setSelected props; selected uses a tab item's id rather than its array index.
+- For URL persistence, synchronize route state from the caller's setSelected update path.
 - Disabled tabs hide interactivity via the disabled prop and should be paired with a Tooltip explaining the constraint (permissions insufficient or empty data).
 
 ## Responsive behavior
 
 - On mobile, limit tabs to 3–4; beyond that, move secondary views behind a Menu dropdown.
-- Tab labels automatically adjust spacing and font size on narrow screens to prevent text overflow.
+- The tab row keeps fixed typography and gaps and scrolls horizontally when it exceeds the available width; it does not compress those styles automatically.
 
 ## Theme behavior
 

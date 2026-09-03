@@ -50,8 +50,8 @@ Skeleton
 
 ## 响应式行为
 
-- Skeleton 的宽度和高度可通过 props 动态响应容器尺寸，在不同视口下保持合理的比例。
-- 窄屏上多列骨架会自动缩减为单列布局，但整体占位模式不变。
+- 通过 width、height、className 或 style 让单个 Skeleton 匹配最终内容尺寸。
+- Skeleton 不管理列表或网格布局；多列到单列的响应式切换由调用方容器负责。
 
 ## 主题行为
 

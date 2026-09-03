@@ -97,9 +97,9 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
       {
         id: "custom-text",
         kind: "variant",
-        title: "自定义文本",
+        title: "自定义空闲文案",
         description:
-          "允许覆盖默认加载文案以匹配具体的业务语境，例如「加载历史消息」「查看更多评论」等，提升用户体验的一致性。",
+          "children 可定制非加载状态的按钮文案；loading=true 时组件固定显示本地化的 Loading...。",
         demoKey: "Custom Text",
       },
     ],
@@ -172,7 +172,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Loading Dots 是一个纯展示型动画组件，只根据是否处于加载状态来触发或停止圆点的弹跳动画。它没有内部状态管理、事件处理或用户交互能力，所有行为由父组件控制的 isLoading 状态决定。",
+        "Loading Dots 没有 isLoading prop，挂载后始终渲染动画；调用方通过条件渲染决定何时显示，reduced-motion 偏好会禁用动画。",
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -212,9 +212,9 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
       {
         id: "with-chevron",
         kind: "variant",
-        title: "带箭头指示的菜单",
+        title: "带箭头的触发器",
         description:
-          "为菜单项添加展开箭头符号，表明该选项会打开嵌套的子菜单而非直接执行动作，帮助用户预判操作后果。",
+          "在 MenuButton 触发器上显示向下箭头，提示该按钮会打开当前菜单；组件不提供嵌套子菜单原语。",
         demoKey: "With chevron",
       },
       {
@@ -419,9 +419,9 @@ export const GUIDES_08_EN: Record<string, ComponentGuide> = {
       {
         id: "custom-text",
         kind: "variant",
-        title: "Custom text",
+        title: "Custom idle label",
         description:
-          "Override the default loading text to match specific business context, such as Load History Messages or View More Comments, improving consistency in user experience.",
+          "children customizes the idle button label. When loading=true, the component always shows the localized Loading... label.",
         demoKey: "Custom Text",
       },
     ],
@@ -495,7 +495,7 @@ export const GUIDES_08_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Loading Dots is a purely presentational animation component that starts or stops the dot bounce animation based solely on whether it is in a loading state. It has no internal state management, event handling, or user interaction capability; all behavior is determined by the parent component's isLoading state.",
+        "Loading Dots has no isLoading prop and animates whenever it is mounted. The caller conditionally renders it, while reduced-motion preferences disable the animation.",
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -536,9 +536,9 @@ export const GUIDES_08_EN: Record<string, ComponentGuide> = {
       {
         id: "with-chevron",
         kind: "variant",
-        title: "With chevron",
+        title: "Trigger with chevron",
         description:
-          "Add a chevron indicator to menu items that open nested sub-menus rather than executing actions directly, helping users anticipate the consequence of activation.",
+          "Show a downward chevron on MenuButton to indicate that the trigger opens the current menu; nested submenu primitives are not provided.",
         demoKey: "With chevron",
       },
       {

@@ -32,9 +32,9 @@ The most basic load-more button: spans full width with a standard loading state 
 
 The button enters a loading state showing a spinner indicator and disabled appearance, preventing duplicate requests while signaling to users that new content is being processed.
 
-### Custom text
+### Custom idle label
 
-Override the default loading text to match specific business context, such as Load History Messages or View More Comments, improving consistency in user experience.
+children customizes the idle button label. When loading=true, the component always shows the localized Loading... label.
 
 ## Accessibility
 

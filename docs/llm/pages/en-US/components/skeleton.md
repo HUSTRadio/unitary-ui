@@ -50,8 +50,8 @@ Not applicable: Skeleton is a passive display component with no interactive stat
 
 ## Responsive behavior
 
-- Skeleton width and height scale proportionally with the container across viewports, maintaining reasonable ratios on any screen size.
-- On narrow screens multi-column skeletons automatically collapse to a single-column layout while preserving the overall placeholder pattern.
+- Use width, height, className, or style to make each Skeleton match the final content dimensions.
+- Skeleton does not manage list or grid layout; the caller owns any responsive multi-column-to-single-column transition.
 
 ## Theme behavior
 

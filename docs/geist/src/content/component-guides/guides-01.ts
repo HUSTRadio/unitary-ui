@@ -279,7 +279,7 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "面包屑包裹在 <nav> 元素中并带有 aria-label='Breadcrumb' 角色，帮助屏幕阅读器识别。",
-        "当前页面的最后一个条目（激活态）不应是可链接的，应设置为 aria-current='page'。",
+        "active 会在条目上设置 aria-current='page'；若同时传入 href，条目仍会渲染为链接。需要不可点击的当前页时应省略 href。",
         "禁用态的面包屑项仍保留在 DOM 中但跳过 tabindex，确保键盘导航的一致性。",
       ],
     },
@@ -591,7 +591,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Breadcrumbs wrap in a <nav> element with aria-label='Breadcrumb', helping screen readers identify it.",
-        "The final entry (active state) should not be linked and should carry aria-current='page'.",
+        "active adds aria-current='page' to the item. If href is also provided, the item still renders as a link; omit href when the current page must be inert.",
         "Disabled breadcrumb entries remain in the DOM but skip tabindex to ensure keyboard navigation consistency.",
       ],
     },

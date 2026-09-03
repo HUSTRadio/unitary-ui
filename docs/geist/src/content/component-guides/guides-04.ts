@@ -189,7 +189,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
     summary: "将给定字符串复制到剪贴板并在复制成功后提供视觉反馈的图标按钮。",
     whenToUse: [
       "需要将一个简短字符串原样复制到剪贴板，例如令牌（token）、命令行指令、唯一标识符 ID。",
-      "需要在复制完成后显示约 1.5 秒的打勾确认反馈，让用户明确感知复制操作已完成。",
+      "需要在复制完成后显示约 1.2 秒的打勾确认反馈，让用户明确感知复制操作已完成。",
     ],
     whenNotToUse: [
       "对于较长的代码块或多行文本，应使用完整的 Snippet 组件搭配其自带的复制功能，而不是单独使用 CopyButton。",
@@ -209,7 +209,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
       content: [
         "为图标-only 按钮设置 aria-label 属性，使屏幕阅读器宣布具体操作含义（如 'Copy deployment URL'），而不仅是图标本身。",
         "优先使用 navigator.clipboard.writeText API，并附加隐藏的 textarea execCommand 降级方案，以兼容缺少剪贴板权限的环境。",
-        "复制成功后保留约 1.5 秒的打勾视觉反馈，之后重置回原始状态以便下一次点击。",
+        "复制成功后保留约 1.2 秒的打勾视觉反馈，之后重置回原始状态以便下一次点击。",
       ],
     },
     controlledBehavior: {
@@ -492,7 +492,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
       "Copies a given string to the clipboard and provides visual confirmation feedback after a successful copy operation.",
     whenToUse: [
       "Copy a short string verbatim to the clipboard, such as a token, a command-line instruction, or a unique identifier ID.",
-      "Display a checkmark confirmation feedback for about 1.5 seconds after copying succeeds, so the user clearly perceives the copy action is done.",
+      "Display a checkmark confirmation for about 1.2 seconds after copying succeeds, so the user clearly perceives the copy action is done.",
     ],
     whenNotToUse: [
       "For longer code blocks or multiline text, use a full Snippet component with its built-in copy affordance instead of a standalone CopyButton.",
@@ -513,7 +513,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
       content: [
         "Set the aria-label attribute on icon-only buttons so screen readers announce the specific action meaning (e.g., 'Copy deployment URL') rather than just the icon itself.",
         "Prefer navigator.clipboard.writeText API with a hidden-textarea execCommand fallback so copying still works where clipboard permissions are missing.",
-        "Retain a checkmark visual feedback for about 1.5 second after successful copy, then reset to the original state ready for next click.",
+        "Retain the checkmark feedback for about 1.2 seconds after a successful copy, then reset to the original state for the next click.",
       ],
     },
     controlledBehavior: {

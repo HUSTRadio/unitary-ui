@@ -37,7 +37,7 @@ Demonstrates using variant="active" to highlight the currently selected filter, 
 ## Accessibility
 
 - When rendered as an interactive button, Pill should have a visible focus indicator so keyboard users can navigate via Tab and activate via Enter.
-- The active Pill should carry an aria-pressed (or equivalent) attribute to mark its selected state for screen reader announcement.
+- variant="active" is visual only; the caller must also pass aria-pressed or an equivalent attribute for screen-reader selection state.
 - Icon-only Pills (no visible text) must have an aria-label set, otherwise screen readers cannot determine their purpose.
 
 ## Controlled behavior
@@ -47,7 +47,7 @@ Not applicable: Pill itself has no controlled properties for internal state mana
 ## Responsive behavior
 
 - Pill padding and font size maintain a consistent compact ratio across all viewports, never overflowing the parent container on narrow screens.
-- A horizontal row of Pills supports horizontal scrolling or auto-wrapping on narrow screens to keep all options visible.
+- Pill only renders one button; implement horizontal scrolling or wrapping on the caller-owned row container.
 
 ## Theme behavior
 

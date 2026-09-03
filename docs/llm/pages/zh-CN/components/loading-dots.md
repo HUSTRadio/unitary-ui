@@ -41,7 +41,7 @@ Loading Dots
 
 ## 受控行为
 
-不适用: Loading Dots 是一个纯展示型动画组件，只根据是否处于加载状态来触发或停止圆点的弹跳动画。它没有内部状态管理、事件处理或用户交互能力，所有行为由父组件控制的 isLoading 状态决定。
+不适用: Loading Dots 没有 isLoading prop，挂载后始终渲染动画；调用方通过条件渲染决定何时显示，reduced-motion 偏好会禁用动画。
 
 ## 响应式行为
 

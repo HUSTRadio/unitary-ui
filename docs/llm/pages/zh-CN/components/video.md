@@ -39,7 +39,8 @@ Video
 
 ## 受控行为
 
-不适用: Video 是一个展示型组件，主要负责嵌入和渲染视频内容，不提供 play/pause/seek 等受控 API 接口。完整的媒体控制应由第三方播放器库实现。
+- Video 没有声明式 playing 或 currentTime props；内部控制层自行同步播放状态。
+- 组件向外转发 HTMLVideoElement ref，调用方可通过 play()、pause() 和 currentTime 执行命令式媒体控制。
 
 ## 响应式行为
 
@@ -47,7 +48,7 @@ Video
 
 ## 主题行为
 
-不适用: Video 组件渲染的是 HTML 原生 video 元素及其操作系统/浏览器的默认控件，不直接参与应用的主题配色系统。
+- controls={true} 时组件渲染自定义播放按钮、时间和进度条；控制层的背景、文字和阴影使用主题样式。
 
 ## 实时示例
 

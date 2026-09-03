@@ -135,7 +135,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
   ],
   "copy-button": [
     "对用户逐字复制的单个短字符串（token、命令、ID）用 CopyButton。较长块配带自身复制功能的完整 Snippet。",
-    "复制成功后展示约 1.5s 的对勾反馈，让动作看起来已完成；下次点击前重置它。",
+    "复制成功后展示约 1.2s 的对勾反馈，让动作看起来已完成；下次点击前重置它。",
     "纯图标按钮设置 aria-label，让屏幕阅读器播报动作（Copy deployment URL）而非仅播报图标。",
     "优先 navigator.clipboard.writeText，并提供隐藏 textarea 的 execCommand 回退，以便剪贴板权限缺失时仍可复制。",
   ],
@@ -174,8 +174,8 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "打开时锁定 body 滚动、关闭时恢复，避免 iOS 橡皮筋滚动泄漏。",
   ],
   "empty-state": [
-    "按用户所需选择变体：过滤列表返回零行的 no-results、用户尚未创建资源的 blank slate 或 informational、已完成工作的 cleared、加载失败的 error。",
-    "当用户落在无权查看的路由时，全页渲染权限与套餐拒绝变体。",
+    "按场景组合通用的标题、描述、图标和 children：零条搜索结果、空白画布、信息说明、已完成工作或加载失败。",
+    "当用户落在无权查看的路由时，由页面布局全页承载权限与套餐拒绝空状态。",
     "不要在这里放关键持久警告。列表填充后空态会消失；持久警告属于 Note 或页头。",
     "title 首字母大写；description 句首大写并补充新信息，而非复述标题。",
     "最多一个主 CTA 加一个次 CTA。三个 CTA 是坏味道。",
@@ -323,7 +323,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "需要解决的跨项目状态用 Project Banner：逾期的账单、进行中的回滚、攻击缓解、阻碍部署的到期试用。",
     "绑定单个字段或卡片的内联上下文消息用 Note，瞬态确认用 Toast，确认用 Modal。",
     "按严重度匹配变体：严重停机或支付阻断状态用 error、非即时动作的异常状态用 warning、正面临时缓解用 success、常规项目级通知用 gray。",
-    "Project Banner 设计上不可关闭。如果消息无需解决底层状态即可关闭，它就不值得 banner；移到 Note。",
+    "ProjectBanner 不管理 dismiss 状态。适合关闭时组合 ProjectBannerClose 并由调用方处理 onClick；可忽略消息则移到 Note。",
     "一次只显示一个 Project Banner。堆叠竞争的 banner 会淹没最紧急的状态。",
     "始终提供解决状态的动作；没有出路的 banner 是死胡同。",
     "label 是句首大写、点名影响的单句；动作标签是首字母大写 动词 + 名词（Update Payment Method、Review Tokens）。",
@@ -378,7 +378,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
   separator: [
     "用 Separator 把内容分成视觉上不同的组，如列表区块之间或菜单项之间。",
     "水平分隔线横跨容器全宽；垂直分隔线填满 flex 行的可用高度。",
-    "分隔线默认装饰性（decorative prop），辅助技术忽略它们。仅当分隔语义上有意义时设 decorative={false} 并提供可访问名称。",
+    "分隔线默认具有语义（decorative={false}）。仅用于视觉装饰时设 decorative={true}，让辅助技术忽略它。",
     "不要过度使用分隔线；用空白或背景表面分组常常足够且更干净。",
   ],
   "show-more": [
@@ -470,7 +470,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
   ],
   toggle: [
     "单个布尔设置且 ON 立即生效用 Toggle，如 Password Protection 或 Auto-Cancel Builds。多选列表用 Checkbox，2–3 互斥视图用 Switch。",
-    "checked 必填且组件受控。自己持有状态并从 onChange 更新。",
+    "checked 可选；同时传入 checked 与 onChange 时由调用方控制，也可用 defaultChecked 设置非受控初始状态。",
     "变更即持久化，并用 useToasts().success(…) 展示结果（Password protection enabled）；不要让用户怀疑开关是否生效。仅当设置需要显式 Save 步骤时才配表单页脚。",
     "仅当动作确实不可能时（缺套餐、策略锁定）禁用 Toggle；配说明解决方式的辅助文本或 Tooltip。",
     "标签是 children 而非 label prop。首字母大写名词短语、1–4 个词，命名 ON 时成立的状态：Password Protection，而非 Enable Password Protection。",

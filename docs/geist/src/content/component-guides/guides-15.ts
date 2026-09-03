@@ -54,7 +54,7 @@ export const GUIDES_15_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "checked 是必填属性，组件受控。需在外部管理状态并通过 onChange 回调进行更新。",
+        "checked 在类型上可选；同时传入 checked 与 onChange 时由外部状态控制，也可使用继承的 defaultChecked 设置非受控初始状态。",
         '状态变更后应立即持久化并通过 toast 反馈结果（如"密码保护已启用"），避免用户不确定操作是否生效。',
       ],
     },
@@ -165,9 +165,11 @@ export const GUIDES_15_ZH: Record<string, ComponentGuide> = {
       ],
     },
     controlledBehavior: {
-      status: "not-applicable",
-      reason:
-        "Video 是一个展示型组件，主要负责嵌入和渲染视频内容，不提供 play/pause/seek 等受控 API 接口。完整的媒体控制应由第三方播放器库实现。",
+      status: "covered",
+      content: [
+        "Video 没有声明式 playing 或 currentTime props；内部控制层自行同步播放状态。",
+        "组件向外转发 HTMLVideoElement ref，调用方可通过 play()、pause() 和 currentTime 执行命令式媒体控制。",
+      ],
     },
     responsiveBehavior: {
       status: "covered",
@@ -176,9 +178,10 @@ export const GUIDES_15_ZH: Record<string, ComponentGuide> = {
       ],
     },
     themeBehavior: {
-      status: "not-applicable",
-      reason:
-        "Video 组件渲染的是 HTML 原生 video 元素及其操作系统/浏览器的默认控件，不直接参与应用的主题配色系统。",
+      status: "covered",
+      content: [
+        "controls={true} 时组件渲染自定义播放按钮、时间和进度条；控制层的背景、文字和阴影使用主题样式。",
+      ],
     },
   },
 };
@@ -240,7 +243,7 @@ export const GUIDES_15_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "checked is required and the component is controlled. Own the state and update it from onChange.",
+        "checked is optional in the type. Pass checked with onChange for caller-controlled state, or use the inherited defaultChecked for an uncontrolled initial state.",
         "Persist on change and surface the result in a useToasts().success(…) toast (Password protection enabled); don't leave the user wondering whether the flip stuck.",
       ],
     },
@@ -357,9 +360,11 @@ export const GUIDES_15_EN: Record<string, ComponentGuide> = {
       ],
     },
     controlledBehavior: {
-      status: "not-applicable",
-      reason:
-        "Video is a presentational component focused on embedding and rendering video content; it does not expose play/pause/seek controlled APIs. Full media control should be implemented by a dedicated player library.",
+      status: "covered",
+      content: [
+        "Video has no declarative playing or currentTime props; its custom controls synchronize playback state internally.",
+        "The component forwards an HTMLVideoElement ref, so callers can invoke play(), pause(), or assign currentTime for imperative media control.",
+      ],
     },
     responsiveBehavior: {
       status: "covered",
@@ -368,9 +373,10 @@ export const GUIDES_15_EN: Record<string, ComponentGuide> = {
       ],
     },
     themeBehavior: {
-      status: "not-applicable",
-      reason:
-        "Video renders the native HTML video element with OS/browser default controls; it does not directly participate in the application's theme color system.",
+      status: "covered",
+      content: [
+        "With controls={true}, Video renders custom play, time, and progress controls whose background, text, and shadow use theme styles.",
+      ],
     },
   },
 };

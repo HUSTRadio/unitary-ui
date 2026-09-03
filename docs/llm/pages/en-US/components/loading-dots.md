@@ -41,7 +41,7 @@ Append specific descriptive text before the dots—for example Saving, Deploying
 
 ## Controlled behavior
 
-Not applicable: Loading Dots is a purely presentational animation component that starts or stops the dot bounce animation based solely on whether it is in a loading state. It has no internal state management, event handling, or user interaction capability; all behavior is determined by the parent component's isLoading state.
+Not applicable: Loading Dots has no isLoading prop and animates whenever it is mounted. The caller conditionally renders it, while reduced-motion preferences disable the animation.
 
 ## Responsive behavior
 

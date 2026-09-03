@@ -35,7 +35,7 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Pill 作为可交互按钮渲染时应有清晰的焦点指示，键盘用户可通过 Tab 键导航并回车激活。",
-        "已激活的 Pill 应通过 aria-pressed 或等效属性标记其选中状态，便于屏幕阅读器播报。",
+        "variant=\"active\" 只改变视觉样式；调用方应同步传入 aria-pressed 或等效属性，让屏幕阅读器获知选中状态。",
         "图标化的 Pill（仅有图标无文字）必须设置 aria-label，否则屏幕阅读器无法获知其用途。",
       ],
     },
@@ -48,7 +48,7 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Pill 的内边距和字号在不同视口下保持一致的紧凑比例，窄屏上不溢出容器边界。",
-        "横向排列的一排 Pill 在窄屏上支持水平滚动或自动换行，确保所有选项始终可见。",
+        "Pill 只负责单个按钮；一排 Pill 的水平滚动或换行应由调用方容器实现。",
       ],
     },
     themeBehavior: {
@@ -159,15 +159,15 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Project Banner 带有 alert 或 status 语义，屏幕阅读器会在页面加载时正确识别并朗读其内容。",
+        "Project Banner 默认渲染普通 aside，不自动添加 alert/status；需要播报时由调用方传入 role 和 aria-live。",
         "横幅的行动按钮应有明确的 action 标签，遵循 Title Case Verb + Noun 格式（如 Update Payment Method）。",
-        '当 Banner 涉及关键业务状态时，应使用 aria-live="assertive" 确保中断流程的通知被及时播报。',
+        '关键业务状态可由调用方显式传入 role="alert" 或 aria-live="assertive"；组件不会根据 variant 自动推导。',
       ],
     },
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Project Banner 设计上不可关闭（non-dismissible by design），除非底层状态得到解决；它不接受外部的 dismiss 受控属性。",
+        "ProjectBanner 本身不管理 dismiss 状态；可组合 ProjectBannerClose，并在显式传入 onClick 时由调用方完成关闭逻辑。",
     },
     responsiveBehavior: {
       status: "covered",
@@ -348,7 +348,7 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "When rendered as an interactive button, Pill should have a visible focus indicator so keyboard users can navigate via Tab and activate via Enter.",
-        "The active Pill should carry an aria-pressed (or equivalent) attribute to mark its selected state for screen reader announcement.",
+        "variant=\"active\" is visual only; the caller must also pass aria-pressed or an equivalent attribute for screen-reader selection state.",
         "Icon-only Pills (no visible text) must have an aria-label set, otherwise screen readers cannot determine their purpose.",
       ],
     },
@@ -361,7 +361,7 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Pill padding and font size maintain a consistent compact ratio across all viewports, never overflowing the parent container on narrow screens.",
-        "A horizontal row of Pills supports horizontal scrolling or auto-wrapping on narrow screens to keep all options visible.",
+        "Pill only renders one button; implement horizontal scrolling or wrapping on the caller-owned row container.",
       ],
     },
     themeBehavior: {
@@ -476,15 +476,15 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Project Banner carries alert or status semantics, so screen readers correctly identify and announce its content on page load.",
+        "Project Banner renders a plain aside by default. Pass role and aria-live explicitly when the message needs alert or status announcement.",
         "Action buttons on the banner should have explicit action labels following the Title Case Verb + Noun pattern (e.g., Update Payment Method).",
-        'When the Banner involves a critical business state, use aria-live="assertive" to ensure interruptive notifications are announced promptly.',
+        'For critical business states, the caller can pass role="alert" or aria-live="assertive"; variant does not infer these attributes.',
       ],
     },
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Project Banner is non-dismissible by design—the message persists until the underlying state is resolved; it does not accept external dismiss-controlled properties.",
+        "ProjectBanner does not manage dismiss state. Compose ProjectBannerClose with an explicit onClick when the caller owns close behavior.",
     },
     responsiveBehavior: {
       status: "covered",

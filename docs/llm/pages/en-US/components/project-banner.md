@@ -36,13 +36,13 @@ Showcases the error variant for critical issues such as downtime or payment bloc
 
 ## Accessibility
 
-- Project Banner carries alert or status semantics, so screen readers correctly identify and announce its content on page load.
+- Project Banner renders a plain aside by default. Pass role and aria-live explicitly when the message needs alert or status announcement.
 - Action buttons on the banner should have explicit action labels following the Title Case Verb + Noun pattern (e.g., Update Payment Method).
-- When the Banner involves a critical business state, use aria-live="assertive" to ensure interruptive notifications are announced promptly.
+- For critical business states, the caller can pass role="alert" or aria-live="assertive"; variant does not infer these attributes.
 
 ## Controlled behavior
 
-Not applicable: Project Banner is non-dismissible by design—the message persists until the underlying state is resolved; it does not accept external dismiss-controlled properties.
+Not applicable: ProjectBanner does not manage dismiss state. Compose ProjectBannerClose with an explicit onClick when the caller owns close behavior.
 
 ## Responsive behavior
 
@@ -151,7 +151,7 @@ import {
 - Use Project Banner for project-wide states that need resolution: overdue billing, an active rollback, attack mitigation, an expiring trial blocking deploys.
 - Pick Note for inline contextual messages tied to a single field or card, Toast for transient acknowledgments, Modal for confirmations.
 - Match variant to severity: error for critical downtime or payment-blocking states, warning for an exceptional state with non-immediate action, success for a positive temporary mitigation, gray for routine project-wide notices.
-- Project Banner is non-dismissible by design. If the message can be dismissed without resolving the underlying state, it isn't banner-worthy; move it to a Note.
+- ProjectBanner does not own dismiss state. When dismissal is appropriate, compose ProjectBannerClose with a caller-managed onClick; otherwise move ignorable messages to a Note.
 - Show one Project Banner at a time. Stacking competing banners drowns the most urgent state.
 - Always provide an action that resolves the state; a banner with no route is a dead end.
 - label is one sentence in sentence case that names the impact; the action label is Title Case Verb + Noun (Update Payment Method, Review Tokens).

@@ -86,7 +86,7 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
         id: "error-card-default",
         kind: "minimal",
         title: "默认错误卡片",
-        description: "展示默认的 Error Card 结构，包含错误标题、描述和一个恢复操作按钮。",
+        description: "展示 ErrorCard、标题、描述和 ErrorCardAction 布局槽；具体恢复按钮由调用方传入。",
         demoKey: "Default",
       },
     ],
@@ -107,7 +107,7 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Error Card 在有界容器内自适应宽度，在小屏幕上内部元素自动换行排列。",
-        "恢复操作按钮在全宽容器中占满可用空间，确保移动端触摸目标的可达性。",
+        "ErrorCardAction 只提供布局槽；按钮宽度和移动端触摸目标由调用方提供的控件样式决定。",
       ],
     },
     themeBehavior: {
@@ -411,7 +411,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Default error card",
         description:
-          "Displays the default Error Card structure with an error title, description, and a single recovery action button.",
+          "Shows ErrorCard, title, description, and the ErrorCardAction layout slot; the caller supplies any recovery button.",
         demoKey: "Default",
       },
     ],
@@ -432,7 +432,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Error Card adapts to its bounding container width, with inner elements wrapping vertically on narrow screens.",
-        "The recovery action button stretches to fill the container width on mobile, ensuring an adequately sized touch target.",
+        "ErrorCardAction is only a layout slot; the caller's control styles determine button width and mobile touch-target size.",
       ],
     },
     themeBehavior: {

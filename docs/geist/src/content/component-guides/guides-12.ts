@@ -119,8 +119,8 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Skeleton 的宽度和高度可通过 props 动态响应容器尺寸，在不同视口下保持合理的比例。",
-        "窄屏上多列骨架会自动缩减为单列布局，但整体占位模式不变。",
+        "通过 width、height、className 或 style 让单个 Skeleton 匹配最终内容尺寸。",
+        "Skeleton 不管理列表或网格布局；多列到单列的响应式切换由调用方容器负责。",
       ],
     },
     themeBehavior: {
@@ -440,8 +440,8 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Skeleton width and height scale proportionally with the container across viewports, maintaining reasonable ratios on any screen size.",
-        "On narrow screens multi-column skeletons automatically collapse to a single-column layout while preserving the overall placeholder pattern.",
+        "Use width, height, className, or style to make each Skeleton match the final content dimensions.",
+        "Skeleton does not manage list or grid layout; the caller owns any responsive multi-column-to-single-column transition.",
       ],
     },
     themeBehavior: {

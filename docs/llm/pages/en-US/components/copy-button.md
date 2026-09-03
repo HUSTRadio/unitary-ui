@@ -15,7 +15,7 @@ Copies a given string to the clipboard and provides feedback when copied.
 ## When to use
 
 - Copy a short string verbatim to the clipboard, such as a token, a command-line instruction, or a unique identifier ID.
-- Display a checkmark confirmation feedback for about 1.5 seconds after copying succeeds, so the user clearly perceives the copy action is done.
+- Display a checkmark confirmation for about 1.2 seconds after copying succeeds, so the user clearly perceives the copy action is done.
 
 ## When not to use
 
@@ -32,7 +32,7 @@ Clicking copies specified text to the clipboard and shows a success feedback ico
 
 - Set the aria-label attribute on icon-only buttons so screen readers announce the specific action meaning (e.g., 'Copy deployment URL') rather than just the icon itself.
 - Prefer navigator.clipboard.writeText API with a hidden-textarea execCommand fallback so copying still works where clipboard permissions are missing.
-- Retain a checkmark visual feedback for about 1.5 second after successful copy, then reset to the original state ready for next click.
+- Retain the checkmark feedback for about 1.2 seconds after a successful copy, then reset to the original state for the next click.
 
 ## Controlled behavior
 
@@ -78,6 +78,6 @@ Native props: `ButtonHTMLAttributes<HTMLButtonElement>`
 ## Best Practices
 
 - Use CopyButton for a single short string the user copies verbatim — a token, a command, an ID. For longer blocks, pair a full Snippet with its own copy affordance.
-- Show the checkmark feedback for about 1.5s after a successful copy so the action reads as done; reset it before the next click.
+- Show the checkmark feedback for about 1.2s after a successful copy so the action reads as done; reset it before the next click.
 - Set aria-label on the icon-only button so screen readers announce the action (Copy deployment URL), not just the icon.
 - Prefer navigator.clipboard.writeText with a hidden-textarea execCommand fallback so copying still works where clipboard permissions are missing.
