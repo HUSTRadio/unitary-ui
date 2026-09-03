@@ -32,7 +32,10 @@ export type MaybeAlign = AlignH | TableAlign;
 
 export type TableColorScheme = "basic" | "striped" | "bordered" | "interactive";
 
-export interface TableRootProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface TableRootProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** 外框样式；默认 outline，none 仅保留滚动容器 */
+  frame?: "outline" | "none";
+}
 
 export interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
   /** 表格级默认对齐（经 context 下发，单元格级优先） */
@@ -43,6 +46,8 @@ export interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
   colWidth?: "auto" | "fit";
   /** 外观聚合（与 TableBody 三布尔二选一；basic 为全关） */
   colorScheme?: TableColorScheme;
+  /** 为每行第二列及以后单元格添加 inline-start 分隔线 */
+  columnDividers?: boolean;
   /** 标记首行为行头（TableHeader 的 th 加 scope="col"） */
   headerRow?: boolean;
   /** 标记首列为行头列（TableBody 首列 th scope="row" + 视觉强调） */
@@ -139,12 +144,13 @@ function resolveAlignClasses(
 }
 
 const TableRoot = React.forwardRef<HTMLDivElement, TableRootProps>(
-  ({ className, ...props }, ref) => (
+  ({ className, frame = "outline", ...props }, ref) => (
     <div
       ref={ref}
       data-slot="table-root"
       className={cn(
-        "relative w-full overflow-x-auto rounded-[8px] border border-gray-alpha-400 bg-background-100",
+        "relative w-full overflow-x-auto",
+        frame === "outline" && "rounded-[8px] border border-gray-alpha-400 bg-background-100",
         className,
       )}
       {...props}
@@ -161,6 +167,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
       rowHeight = "auto",
       colWidth = "auto",
       colorScheme,
+      columnDividers = false,
       headerRow = false,
       headerCol = false,
       style,
@@ -210,6 +217,8 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
             }}
             className={cn(
               "w-full caption-bottom border-collapse text-copy-14 text-muted-foreground",
+              columnDividers &&
+                "[&_tr>:not(:first-child)]:border-s [&_tr>:not(:first-child)]:border-gray-alpha-400",
               className,
             )}
             style={tableStyle}
