@@ -411,3 +411,35 @@ test("scrollable sidebar keeps equal 16px top and bottom content insets", async 
   expect(Math.abs(bottomInset - 16)).toBeLessThanOrEqual(0.5);
   expect(Math.abs(topInset - bottomInset)).toBeLessThanOrEqual(0.5);
 });
+
+test("continuous surface renders measured clip paths and keeps a circular fallback", async ({
+  page,
+}) => {
+  await openComponent(page, "continuous-surface");
+  const surfaces = page.locator('[data-slot="continuous-surface"]');
+  await expect(surfaces).toHaveCount(3);
+
+  const clipPaths = await surfaces.evaluateAll((nodes) =>
+    nodes.map((node) => {
+      const style = window.getComputedStyle(node);
+      return {
+        curve: node.getAttribute("data-curve"),
+        clip: style.clipPath,
+        fallback: style.borderRadius,
+      };
+    }),
+  );
+
+  for (const surface of clipPaths) {
+    // clip-path: path() lands only after ResizeObserver measured the box.
+    expect(surface.clip.startsWith("path("), `curve ${surface.curve}`).toBe(true);
+    expect(surface.fallback.startsWith("24px"), `curve ${surface.curve}`).toBe(true);
+  }
+
+  const superellipse = page.locator('[data-curve="superellipse"]');
+  await expect(superellipse).toHaveCount(1);
+  const superClip = await superellipse.evaluate(
+    (node) => window.getComputedStyle(node).clipPath,
+  );
+  expect(superClip.startsWith("path(")).toBe(true);
+});

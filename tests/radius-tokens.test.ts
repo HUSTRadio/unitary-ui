@@ -36,3 +36,27 @@ describe("overlay radius tokens (Apple HIG)", () => {
     }
   });
 });
+
+describe("Unitary shape token families", () => {
+  test("extends the stable radius scale through 28px without renaming existing tokens", () => {
+    expect(css).toContain("--radius-sm: calc(var(--radius) - 2px)");
+    expect(css).toContain("--radius-md: var(--radius)");
+    expect(css).toContain("--radius-lg: 0.5rem");
+    expect(css).toContain("--radius-xl: 0.75rem");
+    expect(css).toContain("--radius-2xl: 1rem");
+    expect(css).toContain("--radius-3xl: 1.25rem");
+    expect(css).toContain("--radius-4xl: 1.5rem");
+    expect(css).toContain("--radius-5xl: 1.75rem");
+  });
+
+  test("defines concentric, circle, and capsule semantics without brand names", () => {
+    const block = css.match(
+      /\/\* Shape families — Unitary team values \*\/[\s\S]*?\/\* End shape families \*\//,
+    )?.[0];
+    expect(block).toBeDefined();
+    expect(block).toContain("--radius-concentric-inset: 2px");
+    expect(block).toContain("--radius-circle: 50%");
+    expect(block).toContain("--radius-capsule: var(--radius-pill)");
+    expect(block).not.toMatch(/apple|ios|squircle/i);
+  });
+});

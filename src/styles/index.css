@@ -414,7 +414,17 @@
   --radius-md: var(--radius);
   --radius-lg: 0.5rem; /* 8px — demo 卡片 / input large / hover card 浮层 */
   --radius-xl: 0.75rem; /* 12px — modal / feedback popover */
+  --radius-2xl: 1rem; /* 16px — Unitary team value */
+  --radius-3xl: 1.25rem; /* 20px — Unitary team value */
+  --radius-4xl: 1.5rem; /* 24px — Unitary team value */
+  --radius-5xl: 1.75rem; /* 28px — Unitary team value */
   --radius-pill: 9999px;
+
+  /* Shape families — Unitary team values */
+  --radius-concentric-inset: 2px;
+  --radius-circle: 50%;
+  --radius-capsule: var(--radius-pill);
+  /* End shape families */
 
   /* Apple HIG 浮层圆角（2026-08-23 起，替代官方 Geist 浮层 12px 口径）：
      浮层容器 6px，容器内嵌套高亮项 4px（同心：6 − 容器 padding 光学差） */
@@ -600,6 +610,13 @@ html[data-font-tier="system"],
   --uni-leading-caption2: 0.8125rem;
   --uni-text-display: 2.5rem;
   --uni-leading-display: 3rem;
+
+  /* Mixed-script spacing references W3C CLReq; values are Unitary team choices. */
+  --uni-mixed-script-gap-ui: 0.125em;
+  --uni-mixed-script-gap-prose: 0.25em;
+  --uni-leading-compact: 1.35;
+  --uni-leading-prose: 1.55;
+  --uni-leading-reading: 1.7;
 
   /* Unitary docs rhythm：现有内容几何的语义 owner，不宣称外部规范来源。 */
   --uni-doc-space-title-lead: 0.75rem;
@@ -1283,6 +1300,34 @@ html[data-font-tier="system"],
   line-height: var(--uni-leading-caption2);
 }
 
+@utility leading-compact {
+  line-height: var(--uni-leading-compact);
+}
+@utility leading-prose {
+  line-height: var(--uni-leading-prose);
+}
+@utility leading-reading {
+  line-height: var(--uni-leading-reading);
+}
+@utility mixed-script-gap-ui {
+  margin-inline-start: var(--uni-mixed-script-gap-ui);
+}
+@utility mixed-script-gap-prose {
+  margin-inline-start: var(--uni-mixed-script-gap-prose);
+}
+
+/* Native CJK/Latin spacing is progressive; unsupported browsers keep authored text unchanged. */
+@supports (text-autospace: normal) {
+  .text-autospace {
+    text-autospace: normal;
+  }
+
+  [data-slot="docs-prose-paragraph"],
+  [data-slot="docs-prose-list"] {
+    text-autospace: normal;
+  }
+}
+
 /* Docs prose semantic owner: Unitary docs rhythm keeps article geometry source-neutral. */
 .docs-prose-title {
   margin: 0;
@@ -1316,7 +1361,7 @@ html[data-font-tier="system"],
 .docs-prose-paragraph {
   margin-block: var(--uni-doc-space-paragraph) 0;
   font-size: var(--uni-text-body);
-  line-height: var(--uni-leading-body);
+  line-height: var(--uni-leading-prose);
   color: var(--muted-foreground);
 }
 
@@ -1324,7 +1369,7 @@ html[data-font-tier="system"],
   margin-block: var(--uni-doc-space-heading-body) 0;
   padding-inline-start: var(--uni-doc-list-indent);
   font-size: var(--uni-text-body);
-  line-height: var(--uni-leading-body);
+  line-height: var(--uni-leading-prose);
   color: var(--muted-foreground);
 }
 

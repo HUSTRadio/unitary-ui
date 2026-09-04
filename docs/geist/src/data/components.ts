@@ -268,6 +268,21 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "continuous-surface",
+    label: "Continuous Surface",
+    labelZh: "连续曲率容器",
+    description:
+      "Clips a measured surface with independently derived continuous corners and a circular fallback.",
+    official: "Continuous Surface",
+    bestPractices: [
+      "Use ContinuousSurface for isolated cards or tiles where continuous curvature is a deliberate shape-system choice.",
+      "Keep the default exponent unless a documented shape token calls for another value; exponent 2 is the circular baseline.",
+      "Place shadows on a parent wrapper because clip-path clips the surface's own shadow.",
+      "Prefer continuous corners with straight sides for rectangular cards; reserve a full superellipse for near-square icon or avatar surfaces.",
+      "Keep border-radius as the fallback and avoid brand-specific curve names or copied platform paths.",
+    ],
+  },
+  {
     name: "description",
     label: "Description",
     labelZh: "描述",

@@ -129,8 +129,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:0d947cf681b3fb5fbc68f9b9723b000a426738eb8a3d1424fb8482acf138bd70",
-        "en-US": "sha256:258d087b4f1197ae983def84e6445d5c049f63c38e5e4462795fe7bd4a13b588"
+        "zh-CN": "sha256:bfa3b8d118ec7f6bd9ecbee36bb48db50f44e6d721512749354c98de895ce274",
+        "en-US": "sha256:be2f028d0f27fcc79244103bbfba11e38260fac16120e53a903907b4416e6116"
       }
     },
     {
@@ -435,6 +435,22 @@
       "sourceHash": {
         "zh-CN": "sha256:4e2a200c68be664984a7b951b5c247f6d8a56d1a88a6cdfee34f8ec2e408f149",
         "en-US": "sha256:b97cd01de580ae328edf4162445a75505de0a0bf717466dad662c6430c2cfef6"
+      }
+    },
+    {
+      "path": "/components/continuous-surface",
+      "title": {
+        "zh-CN": "连续曲率容器",
+        "en-US": "Continuous Surface"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/continuous-surface.md",
+        "en-US": "pages/en-US/components/continuous-surface.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:de770766fd782e8ccf1939ac4f59deaeeda2aadfd974eacd8d56dd8668548cc6",
+        "en-US": "sha256:a673b66e22fc62693494e960ac379f93dda47759d67c9b1d6944d8bace09b681"
       }
     },
     {

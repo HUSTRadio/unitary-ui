@@ -160,6 +160,14 @@ Context Menu
 
 ](#/components/context-menu)[
 
+Continuous Surface
+
+### 连续曲率容器
+
+通过自研连续曲率路径裁切自适应尺寸的表面，并保留普通圆角降级。
+
+](#/components/continuous-surface)[
+
 Copy Button
 
 ### 复制按钮

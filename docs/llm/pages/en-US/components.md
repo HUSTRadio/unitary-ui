@@ -160,6 +160,14 @@ A menu for contextual actions, revealed on right click or long press.
 
 ](#/components/context-menu)[
 
+Continuous Surface
+
+### Continuous Surface
+
+Clips a measured surface with independently derived continuous corners and a circular fallback.
+
+](#/components/continuous-surface)[
+
 Copy Button
 
 ### Copy Button
