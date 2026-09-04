@@ -25,6 +25,7 @@ describe("StepPoint state geometry", () => {
 
     expect(markup).toContain('data-slot="step-point"');
     expect(markup).toContain('data-slot="step-dot"');
+    expect(markup).toContain('data-slot="step-dot-active-inner"');
     expect(markup).toContain("block size-1.5 aspect-square shrink-0 rounded-full bg-white");
   });
 });

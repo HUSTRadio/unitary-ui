@@ -11,6 +11,7 @@ import { type DocsLanguage, useLanguage } from "../i18n/language";
 import { ComponentGuideSections } from "./component-guide-sections";
 import { ComponentApiReference } from "./docs-api-reference";
 import {
+  DocsBlock,
   DocsList,
   DocsPageLead,
   DocsPageTitle,
@@ -47,9 +48,9 @@ function DemoSection({
   componentName?: string;
 }) {
   return (
-    <div className="mt-6" data-demo-component={componentName} data-demo-mode="live">
+    <DocsBlock data-demo-component={componentName} data-demo-mode="live">
       {children}
-    </div>
+    </DocsBlock>
   );
 }
 
@@ -64,7 +65,7 @@ function TableDemoCard({
 }) {
   return (
     <div
-      className="mt-6 overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className="overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background-100"
       data-demo-card={id}
     >
       <div
@@ -141,14 +142,12 @@ function Section({
 }) {
   const { language } = useLanguage();
   return (
-    <section className="mt-10">
-      <h2 className="text-heading-24 text-foreground">{demoText(language, title)}</h2>
-      {code ? (
-        <TableDemoCard id={title} code={code}>{children}</TableDemoCard>
-      ) : (
-        <div className="mt-6">{children}</div>
-      )}
-    </section>
+    <DocsSection>
+      <DocsSectionTitle>{demoText(language, title)}</DocsSectionTitle>
+      <DocsBlock>
+        {code ? <TableDemoCard id={title} code={code}>{children}</TableDemoCard> : children}
+      </DocsBlock>
+    </DocsSection>
   );
 }
 

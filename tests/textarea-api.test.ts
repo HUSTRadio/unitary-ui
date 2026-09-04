@@ -51,13 +51,13 @@ describe("Textarea official API contract (G12 audit fixes)", () => {
     const src = await read("src/components/ui/textarea.tsx");
 
     expect(src).toMatch(
-      /small:\s*\{\s*height: "h-\[80px\]",\s*className: "px-2 py-2\.5 text-copy-13 leading-5"\s*\}/,
+      /small:\s*\{\s*height: "h-\[80px\]",\s*className: "px-2\.5 py-2 text-copy-13 leading-5"\s*\}/,
     );
     expect(src).toMatch(
-      /medium:\s*\{\s*height: "h-\[100px\]",\s*className: "px-2\.5 py-3 text-copy-14 leading-5"\s*\}/,
+      /medium:\s*\{\s*height: "h-\[100px\]",\s*className: "px-3 py-2\.5 text-copy-14 leading-5"\s*\}/,
     );
     expect(src).toMatch(
-      /large:\s*\{\s*height: "h-\[120px\]",\s*className: "px-3 py-3\.5 text-base leading-6"\s*\}/,
+      /large:\s*\{\s*height: "h-\[120px\]",\s*className: "px-3\.5 py-3 text-base leading-6"\s*\}/,
     );
   });
 

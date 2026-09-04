@@ -51,6 +51,11 @@ test("english search still works after switching ui to zh-CN", async ({ page }) 
   await searchAndSelect(page, "toast", /轻提示/);
 });
 
+test("chinese search works while the ui is en-US", async ({ page }) => {
+  await openHome(page, "en-US");
+  await searchAndSelect(page, "表格", /Table/i);
+});
+
 test("unknown term shows an empty state and escapes cleanly", async ({ page }) => {
   await openHome(page, "en-US");
   const input = await openCommandMenu(page);

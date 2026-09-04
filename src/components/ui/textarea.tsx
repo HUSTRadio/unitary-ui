@@ -28,9 +28,9 @@ interface TextareaProps extends React.ComponentProps<"textarea"> {
 }
 
 const TEXTAREA_SIZE_CLASSES: Record<TextareaSize, { height: string; className: string }> = {
-  small: { height: "h-[80px]", className: "px-2 py-2.5 text-copy-13 leading-5" },
-  medium: { height: "h-[100px]", className: "px-2.5 py-3 text-copy-14 leading-5" },
-  large: { height: "h-[120px]", className: "px-3 py-3.5 text-base leading-6" },
+  small: { height: "h-[80px]", className: "px-2.5 py-2 text-copy-13 leading-5" },
+  medium: { height: "h-[100px]", className: "px-3 py-2.5 text-copy-14 leading-5" },
+  large: { height: "h-[120px]", className: "px-3.5 py-3 text-base leading-6" },
 };
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(

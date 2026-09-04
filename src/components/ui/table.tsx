@@ -33,7 +33,7 @@ export type MaybeAlign = AlignH | TableAlign;
 export type TableColorScheme = "basic" | "striped" | "bordered" | "interactive";
 
 export interface TableRootProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** 外框样式；默认 outline，none 仅保留滚动容器 */
+  /** 外框样式；默认 outline，none 移除可见外框但保留圆角裁切和滚动 owner */
   frame?: "outline" | "none";
 }
 
@@ -149,8 +149,8 @@ const TableRoot = React.forwardRef<HTMLDivElement, TableRootProps>(
       ref={ref}
       data-slot="table-root"
       className={cn(
-        "relative w-full overflow-x-auto",
-        frame === "outline" && "rounded-[8px] border border-gray-alpha-400 bg-background-100",
+        "relative w-full overflow-x-auto rounded-[8px]",
+        frame === "outline" && "border border-gray-alpha-400 bg-background-100",
         className,
       )}
       {...props}

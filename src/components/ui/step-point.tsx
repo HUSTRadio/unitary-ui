@@ -48,7 +48,10 @@ function StepDot({ status }: StepDotProps) {
       {status === "done" && <Check className="size-2.5" strokeWidth={3} />}
       {status === "failed" && <X className="size-2.5" strokeWidth={3} />}
       {status === "active" && (
-        <span className="block size-1.5 aspect-square shrink-0 rounded-full bg-white" />
+        <span
+          data-slot="step-dot-active-inner"
+          className="block size-1.5 aspect-square shrink-0 rounded-full bg-white"
+        />
       )}
     </span>
   );

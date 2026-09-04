@@ -8,6 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableRoot,
 } from "@/components/ui/table";
 
 const items = [
@@ -21,41 +22,43 @@ const items = [
 
 export function TableFullFeaturedExample() {
   return (
-    <Table>
-      <TableColgroup>
-        <TableCol className="w-[44%]" />
-        <TableCol className="w-[22%]" />
-        <TableCol className="w-[22%]" />
-        <TableCol className="w-[11%]" />
-      </TableColgroup>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Product</TableHead>
-          <TableHead>Usage</TableHead>
-          <TableHead>Price</TableHead>
-          <TableHead>Charge</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody interactive striped>
-        {items.map(([product, usage, price, charge]) => (
-          <TableRow key={product}>
-            <TableCell>{product}</TableCell>
-            <TableCell>{usage}</TableCell>
-            <TableCell>{price}</TableCell>
-            <TableCell className="tabular-nums text-right">{charge}</TableCell>
+    <TableRoot frame="none">
+      <Table colorScheme="bordered" columnDividers>
+        <TableColgroup>
+          <TableCol className="w-[44%]" />
+          <TableCol className="w-[22%]" />
+          <TableCol className="w-[22%]" />
+          <TableCol className="w-[11%]" />
+        </TableColgroup>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Product</TableHead>
+            <TableHead>Usage</TableHead>
+            <TableHead>Price</TableHead>
+            <TableHead>Charge</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell className="font-medium text-gray-1000" colSpan={3}>
-            Subtotal
-          </TableCell>
-          <TableCell className="text-right font-medium tabular-nums text-gray-1000">
-            $24,000.00
-          </TableCell>
-        </TableRow>
-      </TableFooter>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {items.map(([product, usage, price, charge]) => (
+            <TableRow key={product}>
+              <TableCell>{product}</TableCell>
+              <TableCell>{usage}</TableCell>
+              <TableCell>{price}</TableCell>
+              <TableCell className="tabular-nums text-right">{charge}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell className="font-medium text-gray-1000" colSpan={3}>
+              Subtotal
+            </TableCell>
+            <TableCell className="text-right font-medium tabular-nums text-gray-1000">
+              $24,000.00
+            </TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </TableRoot>
   );
 }

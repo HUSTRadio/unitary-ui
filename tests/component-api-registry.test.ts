@@ -309,9 +309,20 @@ describe("component API registry", () => {
     expect(row("table", "rowHeight")?.type).toBe('number | "auto"');
     expect(row("table", "colWidth")?.type).toBe('"auto" | "fit"');
     expect(row("table", "colorScheme")?.type).toBe("TableColorScheme");
+    expect(row("table", "frame")).toMatchObject({
+      type: '"outline" | "none"',
+      defaultValue: '"outline"',
+    });
+    expect(row("table", "columnDividers")).toMatchObject({
+      type: "boolean",
+      defaultValue: "false",
+    });
     expect(row("table", "headerRow")?.type).toBe("boolean");
     expect(row("table", "headerCol")?.type).toBe("boolean");
     expect(row("table", "striped")).toBeUndefined();
+    expect(EXAMPLE_SOURCE.table.Default).toContain('frame="outline"');
+    expect(EXAMPLE_SOURCE.table["Full featured table"]).toContain('frame="none"');
+    expect(EXAMPLE_SOURCE.table["Full featured table"]).toContain("columnDividers");
 
     expect(row("textarea", "size")?.defaultValue).toBe('"medium"');
     expect(row("textarea", "error")?.type).toBe("ReactNode");

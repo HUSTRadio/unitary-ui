@@ -46,4 +46,35 @@ describe("example source Vite plugin", () => {
     const loaded = await plugin.load?.call({} as never, "button.example.tsx");
     expect(loaded).toBeNull();
   });
+
+  test.each([
+    ["empty source", "", /must not be empty/i],
+    ["invalid TSX", "export function Demo( {", /invalid TSX/i],
+    ["missing export", "const value = 1;\n", /exactly one exported function/i],
+    [
+      "duplicate exports",
+      "export function First() { return <div />; }\nexport function Second() { return <div />; }\n",
+      /exactly one exported function/i,
+    ],
+  ])("rejects %s", async (_caseName, source, message) => {
+    const directory = await mkdtemp(path.join(os.tmpdir(), "unitary-example-source-"));
+    tempDirs.push(directory);
+    const file = path.join(directory, "invalid.example.tsx");
+    await writeFile(file, source, "utf8");
+
+    const plugin = exampleSourcePlugin();
+    await expect(plugin.load?.call({} as never, `${file}?example-source`)).rejects.toThrow(message);
+  });
+
+  test("rejects a non-empty example-source query value", async () => {
+    const directory = await mkdtemp(path.join(os.tmpdir(), "unitary-example-source-"));
+    tempDirs.push(directory);
+    const file = path.join(directory, "button.example.tsx");
+    await writeFile(file, "export function Demo() { return <div />; }\n", "utf8");
+
+    const plugin = exampleSourcePlugin();
+    await expect(
+      plugin.load?.call({} as never, `${file}?example-source=false`),
+    ).rejects.toThrow(/invalid example-source query/i);
+  });
 });

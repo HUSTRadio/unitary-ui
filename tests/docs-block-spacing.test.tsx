@@ -63,4 +63,28 @@ describe("DocsBlock spacing owner", () => {
       ),
     );
   });
+
+  test("owns live demos, extra demo sections, and API content blocks", () => {
+    const componentsPage = readFileSync(
+      "docs/geist/src/components/docs-components-page.tsx",
+      "utf8",
+    );
+    const apiReference = readFileSync(
+      "docs/geist/src/components/docs-api-reference.tsx",
+      "utf8",
+    );
+
+    expect(componentsPage).toContain("DocsBlock");
+    expect(componentsPage).toMatch(
+      /<DocsBlock[^>]*data-demo-component=\{componentName\}[\s\S]*?\{children\}[\s\S]*?<\/DocsBlock>/,
+    );
+    expect(componentsPage).toMatch(
+      /<DocsSection>[\s\S]*?<DocsSectionTitle>[\s\S]*?<DocsBlock>[\s\S]*?<TableDemoCard/,
+    );
+    expect(componentsPage).not.toContain('className="mt-6"');
+
+    expect(apiReference).toContain("DocsBlock");
+    expect(apiReference).not.toContain('className="mt-5');
+    expect(apiReference).not.toContain('className="mt-6');
+  });
 });

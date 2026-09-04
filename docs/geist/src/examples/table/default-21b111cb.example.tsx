@@ -10,7 +10,7 @@ import {
 
 export function TableDefault21B111CBExample() {
   return (
-    <TableRoot>
+    <TableRoot frame="outline">
       <Table>
         <TableHeader>
           <TableRow>

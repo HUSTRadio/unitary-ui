@@ -1104,6 +1104,12 @@ const O = {
         defaultValue: '"auto"',
       }),
       row("colorScheme", "TableColorScheme", "Basic, striped, bordered, or interactive row treatment.", "基础、斑马纹、带边框或可交互行样式。"),
+      row("frame", '"outline" | "none"', "Controls the visible TableRoot outline while preserving its rounded overflow owner.", "控制 TableRoot 的可见外框，同时保留圆角溢出裁切 owner。", {
+        defaultValue: '"outline"',
+      }),
+      row("columnDividers", "boolean", "Adds logical inline-start dividers after the first cell in each row.", "为每行第二个及后续单元格添加逻辑 inline-start 列分隔线。", {
+        defaultValue: "false",
+      }),
       row("headerRow", "boolean", "Adds column-header scope semantics to the header row.", "为表头行添加列头 scope 语义。", {
         defaultValue: "false",
       }),

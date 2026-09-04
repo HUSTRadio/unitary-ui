@@ -1,7 +1,7 @@
 import { CodeBlock } from "@/components/ui/code-block";
 import { getComponentApi, type ApiRow } from "../data/component-api";
 import { useLanguage } from "../i18n/language";
-import { DocsParagraph, DocsSection, DocsSectionTitle } from "./docs-typography";
+import { DocsBlock, DocsParagraph, DocsSection, DocsSectionTitle } from "./docs-typography";
 
 function ApiTable({ rows }: { rows: ApiRow[] }) {
   const { language } = useLanguage();
@@ -10,7 +10,7 @@ function ApiTable({ rows }: { rows: ApiRow[] }) {
   return (
     <div
       data-slot="docs-local-scroll"
-      className="mt-5 overflow-x-auto rounded-md border border-border"
+      className="overflow-x-auto rounded-md border border-border"
     >
       <table className="w-full min-w-[640px] text-left">
         <thead className="border-b border-border">
@@ -78,14 +78,14 @@ export function ComponentApiReference({ componentName }: { componentName: string
           : "This page lists the stable public surface. Refer to the underlying element type for inherited native attributes."}
       </DocsParagraph>
 
-      <div className="mt-6">
+      <DocsBlock>
         <p className="mb-2 text-label-13 text-muted-foreground">
           {language === "zh-CN" ? "导入" : "Import"}
         </p>
         <CodeBlock language="tsx" hideLineNumbers>
           {`import { ${api.exports.join(", ")} } from "@/components/ui/${componentName}"`}
         </CodeBlock>
-      </div>
+      </DocsBlock>
 
       {api.extends ? (
         <DocsParagraph>
@@ -97,12 +97,14 @@ export function ComponentApiReference({ componentName }: { componentName: string
       ) : null}
 
       {api.rows.length > 0 ? (
-        <>
-          <h3 className="mt-8 text-heading-16 text-foreground">
+        <DocsSection>
+          <h3 className="text-heading-16 text-foreground">
             {language === "zh-CN" ? "属性与回调" : "Props & callbacks"}
           </h3>
-          <ApiTable rows={api.rows} />
-        </>
+          <DocsBlock>
+            <ApiTable rows={api.rows} />
+          </DocsBlock>
+        </DocsSection>
       ) : (
         <DocsParagraph>
           {language === "zh-CN"

@@ -79,7 +79,7 @@ describe("Table container contract", () => {
     const html = renderToStaticMarkup(React.createElement(TableRoot, { frame: "none" }));
 
     expect(html).toContain("overflow-x-auto");
-    expect(html).not.toContain("rounded-[8px]");
+    expect(html).toContain("rounded-[8px]");
     expect(html).not.toContain("border-gray-alpha-400");
     expect(html).not.toContain("bg-background-100");
   });
