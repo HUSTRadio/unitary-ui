@@ -31,6 +31,18 @@ export const VALIDATORS = Object.freeze({
 
 export const CONTEXT_PROVIDER_IDS = Object.freeze(["docs-push"]);
 
+/**
+ * Windows CreateProcess caps the whole command line near 32k characters. A
+ * first branch push renders the entire tree into the runtime context (~55k
+ * bytes here), which used to overflow argv and fail `spawn codex` with
+ * ENAMETOOLONG. Prompts above this threshold are delivered via stdin instead.
+ */
+export const PROMPT_STDIN_THRESHOLD = 8000;
+
+export function promptViaStdin(prompt) {
+  return prompt.length > PROMPT_STDIN_THRESHOLD;
+}
+
 function git(repoRoot, args, options = {}) {
   const result = spawnSync("git", args, { cwd: repoRoot, encoding: "utf8", ...options });
   if (result.error) throw result.error;
@@ -159,30 +171,34 @@ function assertProductionAgentTemplate(config) {
 }
 
 export function buildAgentArgs(config, prompt, options = {}) {
-  const { testMode = false } = options;
+  const { testMode = false, promptVia = "arg" } = options;
   const agent = config.agent;
   if (!testMode) {
     assertProductionAgentTemplate(config);
     const args = ["exec", "-m", agent.model];
     if (agent.reasoningEffort) {
-      args.push("-c", `model_reasoning_effort=\"${agent.reasoningEffort}\"`);
+      args.push("-c", `model_reasoning_effort="${agent.reasoningEffort}"`);
     }
-    args.push("--approve-for-me", "--ephemeral", "-C", ".", prompt);
+    args.push("--approve-for-me", "--ephemeral", "-C", ".");
+    if (promptVia === "arg") args.push(prompt);
     return args;
   }
 
   if (agent.codexCli) {
     const args = [...(agent.subcommand ?? ["exec"]), "-m", agent.model];
     if (agent.reasoningEffort) {
-      args.push("-c", `model_reasoning_effort=\"${agent.reasoningEffort}\"`);
+      args.push("-c", `model_reasoning_effort="${agent.reasoningEffort}"`);
     }
     if (agent.sandbox && !agent.approvalMode) args.push("--sandbox", agent.sandbox);
     if (agent.approvalMode) args.push("--approve-for-me");
     if (agent.ephemeral) args.push("--ephemeral");
-    args.push("-C", ".", prompt);
+    args.push("-C", ".");
+    if (promptVia === "arg") args.push(prompt);
     return args;
   }
-  return [...(agent.subcommand ?? []), prompt];
+  const args = [...(agent.subcommand ?? [])];
+  if (promptVia === "arg") args.push(prompt);
+  return args;
 }
 
 export function buildAgentEnvironment(sourceEnv = process.env, options = {}) {
@@ -255,13 +271,22 @@ export function waitForAgentExit(child, timeoutMs, getOutput) {
 
 function runAgent({ repoRoot, runnerConfig, prompt, testMode, testEnvironment }) {
   const agent = runnerConfig.agent;
-  const args = buildAgentArgs(runnerConfig, prompt, { testMode });
+  const viaStdin = promptViaStdin(prompt);
+  const args = buildAgentArgs(runnerConfig, prompt, {
+    testMode,
+    promptVia: viaStdin ? "stdin" : "arg",
+  });
   const sourceEnv = { ...process.env, ...(testEnvironment ?? {}) };
   const child = spawn(testMode ? agent.command : "codex", args, {
     cwd: repoRoot,
-    stdio: ["ignore", "pipe", "pipe"],
+    stdio: [viaStdin ? "pipe" : "ignore", "pipe", "pipe"],
     env: buildAgentEnvironment(sourceEnv, { testMode }),
   });
+
+  if (viaStdin) {
+    child.stdin.write(prompt);
+    child.stdin.end();
+  }
 
   let stdout = "";
   let stderr = "";

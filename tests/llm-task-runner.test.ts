@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { spawnSync } from "node:child_process";
 import { EventEmitter } from "node:events";
-import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { PassThrough } from "node:stream";
@@ -223,5 +223,73 @@ describe("generic LLM task runner", () => {
     await expect(result).resolves.toMatchObject({ ok: true, code: 0, timedOut: false });
     expect(child.stdout.destroyed).toBe(true);
     expect(child.stderr.destroyed).toBe(true);
+  });
+
+  it("routes oversized prompts through stdin instead of a command-line argument", async () => {
+    const runner = await loadRunner();
+    // Windows CreateProcess caps the command line near 32k; a first branch push
+    // renders the whole tree (~55k bytes) into the runtime context and used to
+    // fail `spawn codex` with ENAMETOOLONG.
+    expect(runner.promptViaStdin("small prompt")).toBe(false);
+    expect(runner.promptViaStdin("x".repeat(runner.PROMPT_STDIN_THRESHOLD + 1))).toBe(true);
+
+    const config = {
+      enabled: true,
+      agent: {
+        command: "codex",
+        codexCli: true,
+        subcommand: ["exec"],
+        model: "gpt-5.6-terra",
+        approvalMode: "approve-for-me",
+        ephemeral: true,
+      },
+    };
+    expect(runner.buildAgentArgs(config, "PROMPT", { promptVia: "stdin" })).toEqual([
+      "exec",
+      "-m",
+      "gpt-5.6-terra",
+      "--approve-for-me",
+      "--ephemeral",
+      "-C",
+      ".",
+    ]);
+    expect(runner.buildAgentArgs(config, "PROMPT", { promptVia: "arg" })).toEqual([
+      "exec",
+      "-m",
+      "gpt-5.6-terra",
+      "--approve-for-me",
+      "--ephemeral",
+      "-C",
+      ".",
+      "PROMPT",
+    ]);
+  });
+
+  it("delivers oversized runtime contexts to the agent through stdin", async () => {
+    const runner = await loadRunner();
+    const dir = makeRepo();
+    // Keep the capture file inside the task allowlist (docs/**) so the runner's
+    // path-audit does not flag the test artifact itself.
+    const promptOut = path.join(dir, "docs", "prompt-capture.txt");
+    // Pad the runtime context past the stdin threshold.
+    const runtimeContext = { mode: "test", padding: "y".repeat(runner.PROMPT_STDIN_THRESHOLD + 1) };
+    const result = await runner.runTask({
+      repoRoot: dir,
+      resolvedTask: fakeTask(),
+      runnerConfig: fakeConfig(),
+      runtimeContext,
+      testMode: true,
+      testEnvironment: {
+        FAKE_AGENT_TOUCH: "docs/new.md",
+        FAKE_AGENT_PROMPT_STDIN: "1",
+        FAKE_AGENT_PROMPT_OUT: promptOut,
+      },
+      testValidationExit: 0,
+      writeRunRecord: false,
+    });
+    expect(result.status).toBe(2);
+    const captured = readFileSync(promptOut, "utf8");
+    expect(captured).toContain("fixed prompt");
+    expect(captured).toContain(runtimeContext.padding.slice(0, 64));
   });
 });

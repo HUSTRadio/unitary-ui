@@ -41,9 +41,24 @@ if (process.env.FAKE_AGENT_MARKER) {
 }
 
 if (process.env.FAKE_AGENT_PROMPT_OUT) {
-  // codexCli=false 时，固定 prompt + 动态上下文作为最后一个参数传入。
-  const prompt = process.argv[process.argv.length - 1] ?? "";
-  appendFileSync(process.env.FAKE_AGENT_PROMPT_OUT, prompt);
+  // codexCli=false 时，固定 prompt + 动态上下文作为最后一个参数传入；
+  // FAKE_AGENT_PROMPT_STDIN=1 时改为从 stdin 读取（模拟超大 prompt 走 stdin）。
+  if (process.env.FAKE_AGENT_PROMPT_STDIN === "1") {
+    const stdin = await new Promise((resolve) => {
+      let data = "";
+      process.stdin.setEncoding("utf8");
+      process.stdin.on("data", (chunk) => {
+        data += chunk;
+      });
+      process.stdin.on("end", () => resolve(data));
+    });
+    mkdirSync(path.dirname(process.env.FAKE_AGENT_PROMPT_OUT), { recursive: true });
+    appendFileSync(process.env.FAKE_AGENT_PROMPT_OUT, stdin);
+  } else {
+    const prompt = process.argv[process.argv.length - 1] ?? "";
+    mkdirSync(path.dirname(process.env.FAKE_AGENT_PROMPT_OUT), { recursive: true });
+    appendFileSync(process.env.FAKE_AGENT_PROMPT_OUT, prompt);
+  }
 }
 
 if (process.env.FAKE_AGENT_REFRESH_INDEX) {
