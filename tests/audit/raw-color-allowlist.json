@@ -1,0 +1,605 @@
+{
+  "schemaVersion": 1,
+  "policy": "literal-level ledger. Every raw color literal occurrence in src/components + src/lib must appear here (files array covers every containing file). Every entry must still exist in code. Migration = move occurrence to semantic token, then delete the file from files[]. Empty files[] entries must be deleted.",
+  "totalOccurrences": 144,
+  "entries": [
+    {
+      "literal": "#000000",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/grid.module.css",
+        "src/components/ui/phone-chrome.tsx"
+      ]
+    },
+    {
+      "literal": "#00000005",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/tooltip.tsx"
+      ]
+    },
+    {
+      "literal": "#0000000a",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/tooltip.tsx"
+      ]
+    },
+    {
+      "literal": "#00000014",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/snippet.tsx"
+      ]
+    },
+    {
+      "literal": "#00000029",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/select.tsx"
+      ]
+    },
+    {
+      "literal": "#00000057",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/select.tsx"
+      ]
+    },
+    {
+      "literal": "#00000066",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/phone-chrome.tsx"
+      ]
+    },
+    {
+      "literal": "#0070f3",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "存在双主题完全等价的既有 token，属安全迁移候选（迁移后须从本账本对应文件的 files 数组移除）",
+      "files": [
+        "src/components/ui/badge.tsx",
+        "src/components/ui/book.tsx"
+      ]
+    },
+    {
+      "literal": "#0096ff",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/badge.tsx"
+      ]
+    },
+    {
+      "literal": "#0a0a0a",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/snippet.tsx",
+        "src/components/ui/tooltip.tsx",
+        "src/lib/theme.tsx"
+      ]
+    },
+    {
+      "literal": "#111111",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/avatar.tsx"
+      ]
+    },
+    {
+      "literal": "#171717",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/snippet.tsx",
+        "src/components/ui/toggle.tsx"
+      ]
+    },
+    {
+      "literal": "#1c1c1e",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/phone-chrome.tsx"
+      ]
+    },
+    {
+      "literal": "#1f1f1f",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "#28c840",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/browser.tsx"
+      ]
+    },
+    {
+      "literal": "#333333",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/avatar.tsx",
+        "src/components/ui/text-with-copy-button.tsx"
+      ]
+    },
+    {
+      "literal": "#444444",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/avatar.tsx"
+      ]
+    },
+    {
+      "literal": "#45a557",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/gauge.tsx"
+      ]
+    },
+    {
+      "literal": "#45dec4",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/book.tsx"
+      ]
+    },
+    {
+      "literal": "#999999",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/avatar.tsx",
+        "src/components/ui/input.tsx"
+      ]
+    },
+    {
+      "literal": "#9a9a9a",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "#c41562",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/json-view.tsx"
+      ]
+    },
+    {
+      "literal": "#da2f35",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/gauge.tsx"
+      ]
+    },
+    {
+      "literal": "#e5484d",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/book.tsx"
+      ]
+    },
+    {
+      "literal": "#eaeaea",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/avatar.tsx",
+        "src/components/ui/book.module.css",
+        "src/components/ui/text-with-copy-button.tsx"
+      ]
+    },
+    {
+      "literal": "#ee0000",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/select.tsx"
+      ]
+    },
+    {
+      "literal": "#efefef",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "#f2f2f2",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/modal.tsx",
+        "src/components/ui/snippet.tsx"
+      ]
+    },
+    {
+      "literal": "#f5b047",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/book.tsx"
+      ]
+    },
+    {
+      "literal": "#f5f5f5",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/fieldset.tsx"
+      ]
+    },
+    {
+      "literal": "#f81ce5",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/badge.tsx"
+      ]
+    },
+    {
+      "literal": "#fafafa",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/avatar.tsx",
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "#febc2e",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/browser.tsx"
+      ]
+    },
+    {
+      "literal": "#ff1e56",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/badge.tsx"
+      ]
+    },
+    {
+      "literal": "#ff518d",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/json-view.tsx"
+      ]
+    },
+    {
+      "literal": "#ff5f57",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/browser.tsx"
+      ]
+    },
+    {
+      "literal": "#ffb224",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "存在双主题完全等价的既有 token，属安全迁移候选（迁移后须从本账本对应文件的 files 数组移除）",
+      "files": [
+        "src/components/ui/gauge.tsx"
+      ]
+    },
+    {
+      "literal": "#ffe381",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/json-view.tsx"
+      ]
+    },
+    {
+      "literal": "#ffffff",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/book.module.css",
+        "src/components/ui/phone-chrome.tsx",
+        "src/components/ui/snippet.tsx",
+        "src/components/ui/tooltip.tsx",
+        "src/lib/theme.tsx"
+      ]
+    },
+    {
+      "literal": "#ffffff24",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "files": [
+        "src/components/ui/snippet.tsx"
+      ]
+    },
+    {
+      "literal": "#ffffff66",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "files": [
+        "src/components/ui/phone-chrome.tsx"
+      ]
+    },
+    {
+      "literal": "hsl(0,0%,30%)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/calendar.tsx"
+      ]
+    },
+    {
+      "literal": "hsl(0,0%,87%)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/calendar.tsx"
+      ]
+    },
+    {
+      "literal": "rgb(250, 250, 250)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/drawer.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(0, 0, 0, 0.02)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/book.module.css",
+        "src/components/ui/drawer.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(0, 0, 0, 0.03)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "rgba(0, 0, 0, 0.04)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/drawer.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(0, 0, 0, 0.05)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "rgba(0, 0, 0, 0.06)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/drawer.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(0, 0, 0, 0.08)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/book.module.css",
+        "src/components/ui/drawer.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(0, 0, 0, 0.1)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "rgba(0, 0, 0, 0.15)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "rgba(0, 0, 0, 0.2)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "rgba(0, 0, 0, 0.5)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "rgba(0,0,0,0)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/dots-menu.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(0,0,0,0.04)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/combobox.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(0,0,0,0.07)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/phone-chrome.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(0,0,0,0.08)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/feedback.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(0,0,0,0.12)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/theme-switcher.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(0,0,0,0.16)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/calendar.tsx",
+        "src/components/ui/combobox.tsx",
+        "src/components/ui/feedback.tsx",
+        "src/components/ui/textarea.tsx",
+        "src/components/ui/toggle.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(0,0,0,0.24)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/toggle.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(0,0,0,0.36)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/toggle.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(128,128,128,0.35)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/error-boundary.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(128,128,128,0.45)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/error-boundary.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(203,42,47,0.16)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/select.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(255, 255, 255, 0)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "rgba(255, 255, 255, 0.1)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "rgba(255, 255, 255, 0.25)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "rgba(255, 255, 255, 0.3)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/book.module.css"
+      ]
+    },
+    {
+      "literal": "rgba(255,255,255,0.15)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/phone-chrome.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(255,255,255,0.24)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/calendar.tsx",
+        "src/components/ui/textarea.tsx"
+      ]
+    },
+    {
+      "literal": "rgba(var(--debug-color-rgb)",
+      "source": "legacy-baseline-2026-09-04",
+      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
+      "files": [
+        "src/components/ui/grid.module.css"
+      ]
+    }
+  ]
+}

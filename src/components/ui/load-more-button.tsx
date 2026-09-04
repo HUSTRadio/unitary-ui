@@ -42,9 +42,10 @@ function LoadMoreButton({
       className={cn(
         "w-full",
         // loading 态官方禁用色：fg #8f8f8f · bg #f2f2f2（暗色 bg #1a1a1a），
-        // 覆盖 Button 默认的 disabled:opacity-50 同色透明方案
+        // 覆盖 Button 默认的 disabled:opacity-50 同色透明方案。
+        // 使用主题感知语义 token：gray-100（light #f2f2f2 / dark #1a1a1a）、gray-700（#8f8f8f 双主题恒定）。
         loading &&
-          "border-[#f2f2f2] bg-[#f2f2f2] text-[#8f8f8f] hover:border-[#f2f2f2] hover:bg-[#f2f2f2] hover:text-[#8f8f8f] disabled:opacity-100 dark:border-[#1a1a1a] dark:bg-[#1a1a1a] dark:text-[#8f8f8f] dark:hover:border-[#1a1a1a] dark:hover:bg-[#1a1a1a] dark:hover:text-[#8f8f8f]",
+          "border-gray-100 bg-gray-100 text-gray-700 hover:border-gray-100 hover:bg-gray-100 hover:text-gray-700 disabled:opacity-100",
         noBorderRadius && "rounded-none",
         noGap && "[&_[data-slot=loading-icon]]:mr-0",
         className,

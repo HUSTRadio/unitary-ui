@@ -8,6 +8,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Added
 
+- **Raw color governance gate**: adds `tests/raw-color-governance.test.ts` (4 tests) and `tests/audit/raw-color-allowlist.json` (72 legacy literals as the 2026-09-04 baseline) as a two-way ratchet allowlist that prevents new hard-coded color literals from entering component source.
 - **BottomSheet and ErrorBoundary documentation**: adds package-root type exports for `BottomSheetProps` and `ErrorBoundaryProps`, plus bilingual API references, best practices, live examples, and LLM reference pages for both components.
 - **Public component exports and API references**: the package root now exports `ContextMenuTrigger`, `ContextMenuContent`, `FieldsetFooterActions`, `ErrorText`, `WarningText`, and `DisabledWall`; the component API registry, bilingual guides, and LLM reference synchronize those exports and their related implemented props.
 - **Bilingual component guide registry**: all 75 components have structured guides in Simplified Chinese (primary) and English (alternative) — when to use / when not to use / example index / accessibility / controlled behavior / responsive / theme — with examples referencing real existing demo keys; rendered on component docs pages.
@@ -33,6 +34,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Changed
 
+- **`LoadMoreButton` color semanticization**: migrated 12 hard-coded gray raw literals in `src/components/ui/load-more-button.tsx` (`#f2f2f2` / `#8f8f8f` / `#1a1a1a`, including 6 `dark:` variants) to 2 theme-aware semantic tokens (`gray-100` in 5 places, `gray-700` in 3 places), removing all 6 `dark:` variants while keeping the light/dark render output visually equivalent.
 - **Package-root surface cleanup (breaking)**: `ExpandPanel`, `Grabber`, `PhoneStatusBar`, and `PhoneSafariChrome` are no longer exported from the package root and remain implementation details of HamburgerMenu, BottomSheet, and Device; Navbar, SidebarNav, Footer, and RatingPill now expose their public props/data types, and unreachable API registry data was removed.
 - **Device is now the canonical device-frame documentation surface**: the former Phone page is migrated to Device with iPhone, Pixel, Galaxy, and iPad models; the old `/components/phone` URL keeps a compatibility mapping, while the runtime `Phone` alias remains for migrating existing iPhone 17 call sites.
 - **Font stack strategy**: all @font-face rules renamed with Subset suffixes; system-first font stacks (machines with OPPO Sans / HarmonyOS Sans installed hit the system fonts with zero downloads, others fall back to self-hosted tiered subsets); manual tier declaration via root `data-font-tier="oppo|hmos|system"`; tier switches re-measure with a 120ms debounce (idempotent).
