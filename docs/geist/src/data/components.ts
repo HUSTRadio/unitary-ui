@@ -553,6 +553,21 @@ const COMPONENTS_EN: ComponentMeta[] = [
     official: "Load More Button",
   },
   {
+    name: "link",
+    label: "Link",
+    labelZh: "链接",
+    description:
+      "Navigates to internal or external destinations with platform-aware icon treatment.",
+    official: "Link",
+    bestPractices: [
+      "Use Link for inline navigation. Use Button or ButtonLink for prominent calls to action.",
+      "Relative paths stay in the current browsing context; HTTP(S) destinations open in a new tab with noreferrer.",
+      "Forge links show their platform brand icon before the label and omit the redundant ExternalLink indicator.",
+      "Generic external destinations keep the ExternalLink indicator after the label.",
+      "Use the gh: or github: shorthand only for GitHub owner/repository destinations.",
+    ],
+  },
+  {
     name: "modal",
     label: "Modal",
     labelZh: "模态框",

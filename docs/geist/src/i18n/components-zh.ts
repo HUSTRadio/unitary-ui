@@ -38,6 +38,7 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   "keyboard-input": "显示触发操作的键盘输入。",
   "loading-dots": "用三个跳动圆点表示后台操作正在运行。",
   label: "用于表单控件的无障碍文本标签。",
+  link: "导航到站内或外部目标，并按平台呈现对应图标。",
   "load-more-button": "向分页列表追加更多项目的全宽按钮。",
   modal: "显示会中断用户流程的对话框。",
   note: "显示需要关注或提供附加信息的文本。",

@@ -605,6 +605,20 @@ const O = {
       ),
     ],
   ),
+  link: component(
+    ["Link"],
+    [
+      row("href", "string", "Internal path, HTTP(S) URL, or gh:/github: shorthand.", "站内路径、HTTP(S) URL 或 gh:/github: 简写。"),
+      row(
+        "iconSide",
+        '"left" | "right"',
+        "Overrides icon placement; forge brands default left and generic external indicators default right.",
+        "覆盖图标位置；代码托管平台品牌默认左置，普通外链指示符默认右置。",
+      ),
+      row("children", "ReactNode", "Visible link label.", "可见链接文案。", { required: true }),
+    ],
+    "ComponentProps<\"a\">",
+  ),
   "loading-dots": component(
     ["LoadingDots"],
     [row("size", "LoadingDotsSize", "Dot size.", "圆点尺寸。")],

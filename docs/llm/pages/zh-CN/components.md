@@ -320,6 +320,14 @@ Label
 
 ](#/components/label)[
 
+Link
+
+### 链接
+
+导航到站内或外部目标，并按平台呈现对应图标。
+
+](#/components/link)[
+
 Load More Button
 
 ### 加载更多按钮

@@ -3,6 +3,8 @@ import { BottomSheetDefault37A8EEC1Example } from "./bottom-sheet/default-37a8ee
 import BottomSheetDefault37A8EEC1ExampleSource from "./bottom-sheet/default-37a8eec1.example.tsx?example-source";
 import { ErrorBoundaryDefault37A8EEC1Example } from "./error-boundary/default-37a8eec1.example";
 import ErrorBoundaryDefault37A8EEC1ExampleSource from "./error-boundary/default-37a8eec1.example.tsx?example-source";
+import { LinkDefault37A8EEC1Example } from "./link/default-37a8eec1.example";
+import LinkDefault37A8EEC1ExampleSource from "./link/default-37a8eec1.example.tsx?example-source";
 import { CalendarDefault37A8EEC1Example } from "./calendar/default-37a8eec1.example";
 import CalendarDefault37A8EEC1ExampleSource from "./calendar/default-37a8eec1.example.tsx?example-source";
 import { CalendarHorizontalLayout7E958EE5Example } from "./calendar/horizontal-layout-7e958ee5.example";
@@ -759,6 +761,7 @@ export interface ExampleRecord {
 export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "bottom-sheet", id: "default", Component: BottomSheetDefault37A8EEC1Example, source: BottomSheetDefault37A8EEC1ExampleSource },
   { slug: "error-boundary", id: "default", Component: ErrorBoundaryDefault37A8EEC1Example, source: ErrorBoundaryDefault37A8EEC1ExampleSource },
+  { slug: "link", id: "default", Component: LinkDefault37A8EEC1Example, source: LinkDefault37A8EEC1ExampleSource },
   { slug: "calendar", id: "default", Component: CalendarDefault37A8EEC1Example, source: CalendarDefault37A8EEC1ExampleSource },
   { slug: "calendar", id: "horizontal-layout", Component: CalendarHorizontalLayout7E958EE5Example, source: CalendarHorizontalLayout7E958EE5ExampleSource },
   { slug: "calendar", id: "sizes", Component: CalendarSizes7C69F3FAExample, source: CalendarSizes7C69F3FAExampleSource },

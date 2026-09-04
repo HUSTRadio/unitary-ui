@@ -71,6 +71,8 @@ export { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 export type { BreadcrumbType, BreadcrumbProps, BreadcrumbItemProps } from "@/components/ui/breadcrumbs";
 export { Pagination } from "@/components/ui/pagination";
 export type { PaginationProps, PaginationRailLink } from "@/components/ui/pagination";
+export { Link } from "@/components/ui/link";
+export type { LinkProps } from "@/components/ui/link";
 export { SidebarNav } from "@/components/ui/sidebar-nav";
 export type { SidebarNavProps, SidebarNavGroup, SidebarNavItem } from "@/components/ui/sidebar-nav";
 export { Navbar } from "@/components/ui/navbar";

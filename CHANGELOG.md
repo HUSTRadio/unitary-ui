@@ -8,6 +8,7 @@
 
 ### Added
 
+- **Link 独立文档页**：将 `Link` / `LinkProps` 加入包根公开导出，并补齐组件元数据、双语指南、可运行示例、API 参考与双语 LLM 页面；LLM corpus 扩为 85 条路由 × 2 语言 = 170 页。
 - **Raw color 治理门禁**：新增 `tests/raw-color-governance.test.ts`（4 条测试）与 `tests/audit/raw-color-allowlist.json`（72 条 2026-09-04 基线存量字面量）双向咬合白名单账本，防止组件源码引入新的硬编码颜色字面量。
 - **BottomSheet 与 ErrorBoundary 文档**：补全 `BottomSheetProps`、`ErrorBoundaryProps` 的包根类型导出，并为两个组件新增双语 API 参考、最佳实践、可运行示例与 LLM 参考页面。
 - **组件公共导出与 API 参考完善**：包根入口新增导出 `ContextMenuTrigger`、`ContextMenuContent`、`FieldsetFooterActions`、`ErrorText`、`WarningText` 与 `DisabledWall`；组件 API 注册表、双语指南与 LLM 参考同步覆盖这些导出及相关真实属性。
@@ -34,6 +35,7 @@
 
 ### Changed
 
+- **平台特化链接图标位置**：GitHub、GitLab、Gitee、Codeberg、Bitbucket、Forgejo 与 SourceHut 链接默认把品牌图标放在文案左侧，并继续省略冗余的 ExternalLink 指示符；普通 HTTP(S) 外链仍在文案右侧显示通用指示符，显式 `iconSide` 始终优先。
 - **`LoadMoreButton` 颜色语义化**：将 `src/components/ui/load-more-button.tsx` 中 12 处硬编码灰色 raw literal（`#f2f2f2` / `#8f8f8f` / `#1a1a1a` 等，含 6 个 `dark:` 变体）迁移为 2 个主题感知语义 token（`gray-100` 5 处、`gray-700` 3 处），同时移除 6 个 `dark:` 变体；双主题下渲染结果视觉等价。
 - **包根公开面收敛（breaking）**：`ExpandPanel`、`Grabber`、`PhoneStatusBar` 与 `PhoneSafariChrome` 不再从包根导出，继续作为 HamburgerMenu、BottomSheet 与 Device 的内部实现；补齐 Navbar、SidebarNav、Footer 与 RatingPill 的公开 Props/数据类型导出，并移除未进入组件注册表的死 API 数据。
 - **Device 成为规范设备外框文档入口**：原 Phone 页面迁移为支持 iPhone、Pixel、Galaxy 与 iPad 型号的 Device 页面；旧 `/components/phone` URL 保留兼容映射，运行时 `Phone` 别名继续用于迁移现有 iPhone 17 调用。
@@ -50,6 +52,8 @@
 
 ### Fixed
 
+- **可滚动侧栏端距**：文档侧栏导航从固定 `h-full` 改为可随内容增长的 `min-h-full`，并将首尾内容端距统一为 16px；Playwright 在初始位置与滚动到底后分别实测上下间距且要求误差 ≤0.5px。同步审计其他可滚动列表语义组件，其纵向 padding 已保持对称。
+- **BottomSheet 动画、圆角与页面稳定性**：补齐 `animate-in/out` 触发器，使底部弹出/收回真正执行 300ms 吸附曲线动画并尊重 `prefers-reduced-motion`；顶部圆角统一使用 overlay token；新增 Playwright 几何门禁，保证开合前后正文位置、页面滚动和视觉视口不发生位移。
 - **Textarea 尺寸 padding 计划值**：small/medium/large 的水平/垂直 padding 分别修正为 10/8、12/10、14/12 px，与设计稿一致。
 - **StepPoint active inner 稳定 data-slot**：活动状态内点增加 `data-slot="step-dot-active-inner"`，使 E2E 和测试能稳定定位。
 - **example-source 插件 fail-closed**：插件现在基于 TypeScript AST 验证 `.example.tsx` 源码，对空文件、语法错误、缺少导出、重复导出或无效查询执行 fail-closed。

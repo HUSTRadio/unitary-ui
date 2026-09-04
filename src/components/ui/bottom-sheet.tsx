@@ -143,10 +143,15 @@ function BottomSheet({
           data-slot="bottom-sheet"
           data-resizable={resizable ? "true" : undefined}
           className={cn(
-            "fixed inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full touch-pan-y rounded-t-xl border-t bg-background outline-none",
+            "fixed inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full touch-pan-y rounded-t-overlay border-t bg-background outline-none",
             "pb-[env(safe-area-inset-bottom)] overscroll-none",
             dragging && "select-none",
-            "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom motion-reduce:transition-none",
+            // 弹出/收起动画（tw-animate-css）：animate-in/out 是触发器，
+            // slide-in/out-from-bottom 设定位移变量；300ms 与拖拽吸附曲线一致。
+            "data-[state=open]:animate-in data-[state=closed]:animate-out",
+            "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
+            "duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
+            "motion-reduce:animate-none motion-reduce:transition-none",
             className,
           )}
           style={

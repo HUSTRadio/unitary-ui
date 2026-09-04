@@ -20,6 +20,7 @@ import { GUIDES_13_ZH, GUIDES_13_EN } from "./guides-13";
 import { GUIDES_14_ZH, GUIDES_14_EN } from "./guides-14";
 import { GUIDES_15_ZH, GUIDES_15_EN } from "./guides-15";
 import { GUIDES_16_ZH, GUIDES_16_EN } from "./guides-16";
+import { GUIDES_17_ZH, GUIDES_17_EN } from "./guides-17";
 
 const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
   GUIDES_01_ZH,
@@ -38,6 +39,7 @@ const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
   GUIDES_14_ZH,
   GUIDES_15_ZH,
   GUIDES_16_ZH,
+  GUIDES_17_ZH,
 ];
 
 const COMPONENT_GUIDES_EN_PARTS: Record<string, ComponentGuide>[] = [
@@ -57,6 +59,7 @@ const COMPONENT_GUIDES_EN_PARTS: Record<string, ComponentGuide>[] = [
   GUIDES_14_EN,
   GUIDES_15_EN,
   GUIDES_16_EN,
+  GUIDES_17_EN,
 ];
 
 export const COMPONENT_GUIDES_ZH: Record<string, ComponentGuide> = Object.assign(

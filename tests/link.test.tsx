@@ -18,7 +18,7 @@ describe("Link", () => {
     expect(html).toContain('href="https://github.com/vercel/geist"');
   });
 
-  it("treats gh: expansion as an external link: target=_blank + rel=noreferrer + brand icon", () => {
+  it("puts the forge brand icon before the label by default and omits ExternalLink", () => {
     const html = markupOf({ href: "gh:HUSTRadio/unitary-ui", children: "GitHub" });
     expect(html).toContain('target="_blank"');
     expect(html).toContain('rel="noreferrer"');
@@ -26,6 +26,10 @@ describe("Link", () => {
     expect(html).toContain("cdn.simpleicons.org/github");
     expect(html).toContain("mask-image");
     expect(html).not.toContain("<svg");
+    // Platform-specialized identity precedes the label by default.
+    const iconIdx = html.indexOf("mask-image");
+    const textIdx = html.indexOf("GitHub");
+    expect(iconIdx).toBeLessThan(textIdx);
   });
 
   it("marks plain http(s) external links and appends the icon on the right by default", () => {

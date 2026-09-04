@@ -32,15 +32,15 @@ describe("Geist documentation coverage", () => {
     const demos = new Set(demoNames);
 
     expect(official.size).toBe(72);
-    expect(metadataNames).toHaveLength(75);
     expect(metadata.size).toBe(metadataNames.length);
-    expect(demoNames).toHaveLength(374);
-    expect(demos.size).toBe(75);
+    expect(demos.size).toBe(metadata.size);
     expect([...official].filter((slug) => !metadata.has(slug))).toEqual([]);
     expect([...official].filter((slug) => !demos.has(slug))).toEqual([]);
+    expect([...metadata].filter((slug) => !demos.has(slug))).toEqual([]);
     expect([...metadata].filter((slug) => !official.has(slug)).sort()).toEqual([
       "bottom-sheet",
       "error-boundary",
+      "link",
       "step-point",
     ]);
 

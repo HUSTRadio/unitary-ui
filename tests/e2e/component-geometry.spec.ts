@@ -318,3 +318,96 @@ test("table column dividers are orthogonal to row separators", async ({ page }) 
   );
   expect(firstInlineStart).toBe("0px");
 });
+
+test("bottom sheet animates without moving the document", async ({ page }) => {
+  await openComponent(page, "bottom-sheet");
+  const trigger = page.getByRole("button", { name: /open deployment actions/i }).first();
+  await trigger.scrollIntoViewIfNeeded();
+
+  const measureDocument = () =>
+    page.evaluate(() => {
+      const main = document.getElementById("main-content")!.getBoundingClientRect();
+      return {
+        scrollY: window.scrollY,
+        mainTop: main.top,
+        mainLeft: main.left,
+        mainWidth: main.width,
+        visualViewportTop: window.visualViewport?.offsetTop ?? 0,
+      };
+    });
+
+  const before = await measureDocument();
+  await trigger.click();
+  const sheet = page.locator('[data-slot="bottom-sheet"]');
+  await expect(sheet).toBeVisible();
+  await page.waitForTimeout(350);
+  const afterOpen = await measureDocument();
+
+  expect(afterOpen).toEqual(before);
+  const styles = await sheet.evaluate((node) => {
+    const style = getComputedStyle(node);
+    return {
+      animationName: style.animationName,
+      animationDuration: style.animationDuration,
+      radius: style.borderRadius,
+    };
+  });
+  expect(styles.animationName).not.toBe("none");
+  expect(styles.animationDuration).toBe("0.3s");
+  expect(styles.radius).toBe("6px 6px 0px 0px");
+
+  await page.keyboard.press("Escape");
+  await expect(sheet).toBeHidden();
+  expect(await measureDocument()).toEqual(before);
+});
+
+test("link page places forge brands before labels and generic external indicators after", async ({
+  page,
+}) => {
+  await openComponent(page, "link");
+
+  const github = page.locator('a[href="https://github.com/HUSTRadio/unitary-ui"]').first();
+  const generic = page.locator('a[href="https://developer.mozilla.org"]').first();
+  await expect(github).toBeVisible();
+  await expect(generic).toBeVisible();
+
+  const githubOrder = await github.evaluate((anchor) => {
+    const icon = anchor.querySelector("span")!.getBoundingClientRect();
+    const range = document.createRange();
+    const text = [...anchor.childNodes].find((node) => node.nodeType === Node.TEXT_NODE)!;
+    range.selectNode(text);
+    const label = range.getBoundingClientRect();
+    return { iconRight: icon.right, labelLeft: label.left, svgCount: anchor.querySelectorAll("svg").length };
+  });
+  expect(githubOrder.iconRight).toBeLessThanOrEqual(githubOrder.labelLeft);
+  expect(githubOrder.svgCount).toBe(0);
+
+  const genericOrder = await generic.evaluate((anchor) => {
+    const icon = anchor.querySelector("svg")!.getBoundingClientRect();
+    const range = document.createRange();
+    const text = [...anchor.childNodes].find((node) => node.nodeType === Node.TEXT_NODE)!;
+    range.selectNode(text);
+    const label = range.getBoundingClientRect();
+    return { iconLeft: icon.left, labelRight: label.right };
+  });
+  expect(genericOrder.iconLeft).toBeGreaterThanOrEqual(genericOrder.labelRight);
+});
+
+test("scrollable sidebar keeps equal 16px top and bottom content insets", async ({ page }) => {
+  await openComponent(page, "link");
+  const sidebar = page.locator('[data-slot="docs-sidebar"]');
+  const firstHeading = sidebar.locator('[data-slot="sidebar-nav-heading"]').first();
+  const lastItem = sidebar.locator('[data-slot="sidebar-nav-item"]').last();
+
+  const initial = await Promise.all([rect(sidebar), rect(firstHeading)]);
+  const topInset = initial[1].y - initial[0].y;
+  expect(Math.abs(topInset - 16)).toBeLessThanOrEqual(0.5);
+
+  await sidebar.evaluate((node) => {
+    node.scrollTop = node.scrollHeight;
+  });
+  const scrolled = await Promise.all([rect(sidebar), rect(lastItem)]);
+  const bottomInset = scrolled[0].y + scrolled[0].height - (scrolled[1].y + scrolled[1].height);
+  expect(Math.abs(bottomInset - 16)).toBeLessThanOrEqual(0.5);
+  expect(Math.abs(topInset - bottomInset)).toBeLessThanOrEqual(0.5);
+});

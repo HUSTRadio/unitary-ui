@@ -68,10 +68,13 @@ function ForgeIcon({ slug }: { slug: string }) {
  * simpleicons 品牌图标，其余外链附 ExternalLink。站内相对路径保持普通锚点。
  * 按钮形态的外链请用 `<Button variant="link">`。
  */
-function Link({ href, iconSide = "right", children, className, ...props }: LinkProps) {
+function Link({ href, iconSide, children, className, ...props }: LinkProps) {
   const resolved = resolveHref(href);
   const isExternal = /^https?:\/\//i.test(resolved ?? "");
   const forgeSlug = resolved && isExternal ? resolveForge(resolved) : undefined;
+  // Brand identity belongs before the label; the generic ExternalLink indicator
+  // remains a trailing affordance. An explicit caller choice always wins.
+  const effectiveIconSide = iconSide ?? (forgeSlug ? "left" : "right");
   const icon = forgeSlug ? (
     <ForgeIcon slug={forgeSlug} />
   ) : (
@@ -95,9 +98,9 @@ function Link({ href, iconSide = "right", children, className, ...props }: LinkP
       )}
       {...props}
     >
-      {isExternal && iconSide === "left" && icon}
+      {isExternal && effectiveIconSide === "left" && icon}
       {children}
-      {isExternal && iconSide === "right" && icon}
+      {isExternal && effectiveIconSide === "right" && icon}
     </a>
   );
 }
