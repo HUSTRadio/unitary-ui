@@ -52,6 +52,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Scrollable sidebar end spacing**: replaces the docs sidebar navigation's fixed `h-full` with content-growing `min-h-full` and aligns the first/last content insets to 16px; Playwright measures both ends at the initial and maximum scroll positions with ≤0.5px tolerance. Other scrollable list-semantic components were audited and already retain symmetric vertical padding.
 - **BottomSheet motion, corners, and page stability**: adds the missing `animate-in/out` triggers so bottom entry and dismissal run the real 300ms snap-curve animation while respecting `prefers-reduced-motion`; aligns the top corners with the overlay token; adds a Playwright geometry gate that keeps document position, page scroll, and the visual viewport unchanged across open and close.
 - **Textarea size padding plan values**: small/medium/large horizontal/vertical padding corrected to 10/8, 12/10, 14/12 px respectively, matching the design spec.
 - **StepPoint active inner stable data-slot**: active inner dot now carries `data-slot="step-dot-active-inner"` so E2E and tests can target it stably.

@@ -392,3 +392,22 @@ test("link page places forge brands before labels and generic external indicator
   });
   expect(genericOrder.iconLeft).toBeGreaterThanOrEqual(genericOrder.labelRight);
 });
+
+test("scrollable sidebar keeps equal 16px top and bottom content insets", async ({ page }) => {
+  await openComponent(page, "link");
+  const sidebar = page.locator('[data-slot="docs-sidebar"]');
+  const firstHeading = sidebar.locator('[data-slot="sidebar-nav-heading"]').first();
+  const lastItem = sidebar.locator('[data-slot="sidebar-nav-item"]').last();
+
+  const initial = await Promise.all([rect(sidebar), rect(firstHeading)]);
+  const topInset = initial[1].y - initial[0].y;
+  expect(Math.abs(topInset - 16)).toBeLessThanOrEqual(0.5);
+
+  await sidebar.evaluate((node) => {
+    node.scrollTop = node.scrollHeight;
+  });
+  const scrolled = await Promise.all([rect(sidebar), rect(lastItem)]);
+  const bottomInset = scrolled[0].y + scrolled[0].height - (scrolled[1].y + scrolled[1].height);
+  expect(Math.abs(bottomInset - 16)).toBeLessThanOrEqual(0.5);
+  expect(Math.abs(topInset - bottomInset)).toBeLessThanOrEqual(0.5);
+});

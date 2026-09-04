@@ -79,6 +79,11 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(thumb).not.toMatch(/opacity:\s*0/);
   });
 
+  it("gives the scrollable sidebar equal 16px content insets at both ends", () => {
+    expect(shell).toContain('className="min-h-full border-gray-alpha-400 px-6 py-4"');
+    expect(shell).not.toContain('className="h-full min-h-0 border-gray-alpha-400 px-6 pb-3.5 pt-4"');
+  });
+
   it("assembles HamburgerMenu as a left side-slide panel with grouped headings (Task 4)", () => {
     const menu = shell.match(/<HamburgerMenu(?![\w])[\s\S]*?\n {12}\/>/)?.[0];
     expect(menu).toBeDefined();
