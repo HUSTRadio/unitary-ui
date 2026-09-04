@@ -96,4 +96,32 @@ describe("BottomSheet", () => {
     const resizable = document.querySelector('[data-slot="bottom-sheet"]')!;
     expect(resizable.getAttribute("data-resizable")).toBe("true");
   });
+
+  it("弹出/收起有真实动画：animate-in/out 触发器 + 底部位移 + 300ms snap 曲线", () => {
+    const markup = renderSheet(
+      <BottomSheet open>
+        <div>content</div>
+      </BottomSheet>,
+    );
+    // 触发器（tw-animate-css）：缺 animate-in/animate-out 时 slide-* 变量不生效
+    expect(markup).toContain("data-[state=open]:animate-in");
+    expect(markup).toContain("data-[state=closed]:animate-out");
+    // 底部进出位移变量 + 与拖拽吸附一致的 300ms cubic-bezier(0.32,0.72,0,1)
+    expect(markup).toContain("data-[state=open]:slide-in-from-bottom");
+    expect(markup).toContain("data-[state=closed]:slide-out-to-bottom");
+    expect(markup).toContain("duration-300");
+    expect(markup).toContain("cubic-bezier(0.32, 0.72, 0, 1)");
+    // reduced-motion 归零（WCAG 2.3.3）
+    expect(markup).toContain("motion-reduce:animate-none");
+  });
+
+  it("顶部圆角用 --radius-overlay token（与 CommandMenu 移动端 sheet 同族）", () => {
+    const markup = renderSheet(
+      <BottomSheet open>
+        <div>content</div>
+      </BottomSheet>,
+    );
+    expect(markup).toContain("rounded-t-overlay");
+    expect(markup).not.toContain("rounded-t-xl");
+  });
 });

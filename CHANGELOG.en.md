@@ -50,6 +50,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **BottomSheet motion, corners, and page stability**: adds the missing `animate-in/out` triggers so bottom entry and dismissal run the real 300ms snap-curve animation while respecting `prefers-reduced-motion`; aligns the top corners with the overlay token; adds a Playwright geometry gate that keeps document position, page scroll, and the visual viewport unchanged across open and close.
 - **Textarea size padding plan values**: small/medium/large horizontal/vertical padding corrected to 10/8, 12/10, 14/12 px respectively, matching the design spec.
 - **StepPoint active inner stable data-slot**: active inner dot now carries `data-slot="step-dot-active-inner"` so E2E and tests can target it stably.
 - **example-source plugin fail-closed**: the plugin now validates `.example.tsx` source with a TypeScript AST and fails closed on empty files, syntax errors, missing exports, duplicate exports, or invalid queries.

@@ -318,3 +318,45 @@ test("table column dividers are orthogonal to row separators", async ({ page }) 
   );
   expect(firstInlineStart).toBe("0px");
 });
+
+test("bottom sheet animates without moving the document", async ({ page }) => {
+  await openComponent(page, "bottom-sheet");
+  const trigger = page.getByRole("button", { name: /open deployment actions/i }).first();
+  await trigger.scrollIntoViewIfNeeded();
+
+  const measureDocument = () =>
+    page.evaluate(() => {
+      const main = document.getElementById("main-content")!.getBoundingClientRect();
+      return {
+        scrollY: window.scrollY,
+        mainTop: main.top,
+        mainLeft: main.left,
+        mainWidth: main.width,
+        visualViewportTop: window.visualViewport?.offsetTop ?? 0,
+      };
+    });
+
+  const before = await measureDocument();
+  await trigger.click();
+  const sheet = page.locator('[data-slot="bottom-sheet"]');
+  await expect(sheet).toBeVisible();
+  await page.waitForTimeout(350);
+  const afterOpen = await measureDocument();
+
+  expect(afterOpen).toEqual(before);
+  const styles = await sheet.evaluate((node) => {
+    const style = getComputedStyle(node);
+    return {
+      animationName: style.animationName,
+      animationDuration: style.animationDuration,
+      radius: style.borderRadius,
+    };
+  });
+  expect(styles.animationName).not.toBe("none");
+  expect(styles.animationDuration).toBe("0.3s");
+  expect(styles.radius).toBe("6px 6px 0px 0px");
+
+  await page.keyboard.press("Escape");
+  await expect(sheet).toBeHidden();
+  expect(await measureDocument()).toEqual(before);
+});
