@@ -258,6 +258,13 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "通过 htmlFor 与控件的 id 匹配标签与控件，点击标签即可聚焦字段。",
     "标签保持简短的首字母大写名词：Project Name、Domain、Environment Variable Name。",
   ],
+  link: [
+    "行内导航使用 Link；醒目的主要操作使用 Button 或 ButtonLink。",
+    "相对路径保留当前浏览上下文；HTTP(S) 目标在新标签页打开并带 noreferrer。",
+    "代码托管平台链接把品牌图标放在文案左侧，不再重复显示 ExternalLink 指示符。",
+    "普通外链仍在文案右侧保留 ExternalLink 指示符。",
+    "gh: 或 github: 简写仅用于 GitHub owner/repository 目标。",
+  ],
   "loading-dots": [
     "在文案中嵌入 Loading Dots 表示短时不确定等待，如 Saving<LoadingDots /> 或 Building<LoadingDots />。",
     "按钮上用 Button 的 loading prop，而不是往标签里塞圆点。",

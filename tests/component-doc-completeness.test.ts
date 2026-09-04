@@ -15,6 +15,12 @@ const requiredSections = [
 ] as const;
 
 describe("component guide completeness", () => {
+  it("documents the public Link component as its own page", () => {
+    expect(componentSlugs).toContain("link");
+    expect(COMPONENT_GUIDES_ZH.link?.slug).toBe("link");
+    expect(COMPONENT_GUIDES_EN.link?.slug).toBe("link");
+  });
+
   it("provides exactly one Chinese-primary and one English guide for every documented component", () => {
     expect(Object.keys(COMPONENT_GUIDES_ZH).sort()).toEqual(componentSlugs);
     expect(Object.keys(COMPONENT_GUIDES_EN).sort()).toEqual(componentSlugs);

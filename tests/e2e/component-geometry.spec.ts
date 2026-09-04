@@ -360,3 +360,35 @@ test("bottom sheet animates without moving the document", async ({ page }) => {
   await expect(sheet).toBeHidden();
   expect(await measureDocument()).toEqual(before);
 });
+
+test("link page places forge brands before labels and generic external indicators after", async ({
+  page,
+}) => {
+  await openComponent(page, "link");
+
+  const github = page.locator('a[href="https://github.com/HUSTRadio/unitary-ui"]').first();
+  const generic = page.locator('a[href="https://developer.mozilla.org"]').first();
+  await expect(github).toBeVisible();
+  await expect(generic).toBeVisible();
+
+  const githubOrder = await github.evaluate((anchor) => {
+    const icon = anchor.querySelector("span")!.getBoundingClientRect();
+    const range = document.createRange();
+    const text = [...anchor.childNodes].find((node) => node.nodeType === Node.TEXT_NODE)!;
+    range.selectNode(text);
+    const label = range.getBoundingClientRect();
+    return { iconRight: icon.right, labelLeft: label.left, svgCount: anchor.querySelectorAll("svg").length };
+  });
+  expect(githubOrder.iconRight).toBeLessThanOrEqual(githubOrder.labelLeft);
+  expect(githubOrder.svgCount).toBe(0);
+
+  const genericOrder = await generic.evaluate((anchor) => {
+    const icon = anchor.querySelector("svg")!.getBoundingClientRect();
+    const range = document.createRange();
+    const text = [...anchor.childNodes].find((node) => node.nodeType === Node.TEXT_NODE)!;
+    range.selectNode(text);
+    const label = range.getBoundingClientRect();
+    return { iconLeft: icon.left, labelRight: label.right };
+  });
+  expect(genericOrder.iconLeft).toBeGreaterThanOrEqual(genericOrder.labelRight);
+});

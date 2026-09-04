@@ -8,6 +8,7 @@
 
 ### Added
 
+- **Link 独立文档页**：将 `Link` / `LinkProps` 加入包根公开导出，并补齐组件元数据、双语指南、可运行示例、API 参考与双语 LLM 页面；LLM corpus 扩为 85 条路由 × 2 语言 = 170 页。
 - **Raw color 治理门禁**：新增 `tests/raw-color-governance.test.ts`（4 条测试）与 `tests/audit/raw-color-allowlist.json`（72 条 2026-09-04 基线存量字面量）双向咬合白名单账本，防止组件源码引入新的硬编码颜色字面量。
 - **BottomSheet 与 ErrorBoundary 文档**：补全 `BottomSheetProps`、`ErrorBoundaryProps` 的包根类型导出，并为两个组件新增双语 API 参考、最佳实践、可运行示例与 LLM 参考页面。
 - **组件公共导出与 API 参考完善**：包根入口新增导出 `ContextMenuTrigger`、`ContextMenuContent`、`FieldsetFooterActions`、`ErrorText`、`WarningText` 与 `DisabledWall`；组件 API 注册表、双语指南与 LLM 参考同步覆盖这些导出及相关真实属性。
@@ -34,6 +35,7 @@
 
 ### Changed
 
+- **平台特化链接图标位置**：GitHub、GitLab、Gitee、Codeberg、Bitbucket、Forgejo 与 SourceHut 链接默认把品牌图标放在文案左侧，并继续省略冗余的 ExternalLink 指示符；普通 HTTP(S) 外链仍在文案右侧显示通用指示符，显式 `iconSide` 始终优先。
 - **`LoadMoreButton` 颜色语义化**：将 `src/components/ui/load-more-button.tsx` 中 12 处硬编码灰色 raw literal（`#f2f2f2` / `#8f8f8f` / `#1a1a1a` 等，含 6 个 `dark:` 变体）迁移为 2 个主题感知语义 token（`gray-100` 5 处、`gray-700` 3 处），同时移除 6 个 `dark:` 变体；双主题下渲染结果视觉等价。
 - **包根公开面收敛（breaking）**：`ExpandPanel`、`Grabber`、`PhoneStatusBar` 与 `PhoneSafariChrome` 不再从包根导出，继续作为 HamburgerMenu、BottomSheet 与 Device 的内部实现；补齐 Navbar、SidebarNav、Footer 与 RatingPill 的公开 Props/数据类型导出，并移除未进入组件注册表的死 API 数据。
 - **Device 成为规范设备外框文档入口**：原 Phone 页面迁移为支持 iPhone、Pixel、Galaxy 与 iPad 型号的 Device 页面；旧 `/components/phone` URL 保留兼容映射，运行时 `Phone` 别名继续用于迁移现有 iPhone 17 调用。

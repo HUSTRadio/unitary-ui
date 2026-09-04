@@ -320,6 +320,14 @@ Accessible text label for form controls.
 
 ](#/components/label)[
 
+Link
+
+### Link
+
+Navigates to internal or external destinations with platform-aware icon treatment.
+
+](#/components/link)[
+
 Load More Button
 
 ### Load More Button

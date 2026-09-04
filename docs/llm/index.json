@@ -129,8 +129,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:539b22be27c2d53899406b28681ca925ba27aa59947930c5c4b92daca419bfa5",
-        "en-US": "sha256:5f4cdf86b3db2388036110260f2e399caf3ca6efaaedb2dd7feec4c715484ad5"
+        "zh-CN": "sha256:0d947cf681b3fb5fbc68f9b9723b000a426738eb8a3d1424fb8482acf138bd70",
+        "en-US": "sha256:258d087b4f1197ae983def84e6445d5c049f63c38e5e4462795fe7bd4a13b588"
       }
     },
     {
@@ -755,6 +755,22 @@
       "sourceHash": {
         "zh-CN": "sha256:c9f76f400e02b73705f9cbffd07f9a3a8a6923307ed869e3a92ff739415b4b04",
         "en-US": "sha256:4e8207399a00ec317daadd9ff553a60b5e97498b4863f240daa6b84518051c60"
+      }
+    },
+    {
+      "path": "/components/link",
+      "title": {
+        "zh-CN": "链接",
+        "en-US": "Link"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/link.md",
+        "en-US": "pages/en-US/components/link.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:7ccf58e544426c8e98190b2bdf9c6b5b56b974f9afecfbac88fb152ab760e159",
+        "en-US": "sha256:870532657b1b46045490e58d642ed588394c20c7282a77042ed60efa4b46f3db"
       }
     },
     {
