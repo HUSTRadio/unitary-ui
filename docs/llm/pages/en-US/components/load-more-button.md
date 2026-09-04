@@ -60,31 +60,49 @@ Not applicable: The Load More Button always occupies the container's full width.
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton>Load More</LoadMoreButton>;
+export function LoadMoreButtonDefault21B111CBExample() {
+  return <LoadMoreButton>Load More</LoadMoreButton>;
+}
 ```
+
+## Loading
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton loading>Loading...</LoadMoreButton>;
+export function LoadMoreButtonLoadingDC380888Example() {
+  return <LoadMoreButton loading>Loading...</LoadMoreButton>;
+}
 ```
+
+## No Gap
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton noGap>Load More</LoadMoreButton>;
+export function LoadMoreButtonNoGap7BF8EBE8Example() {
+  return <LoadMoreButton noGap>Load More</LoadMoreButton>;
+}
 ```
+
+## No Border Radius
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton noBorderRadius>Load More</LoadMoreButton>;
+export function LoadMoreButtonNoBorderRadius7DFF5DD3Example() {
+  return <LoadMoreButton noBorderRadius>Load More</LoadMoreButton>;
+}
 ```
+
+## Custom Text
 
 ```tsx
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
-<LoadMoreButton>Show More Results</LoadMoreButton>;
+export function LoadMoreButtonCustomTextCFD55183Example() {
+  return <LoadMoreButton>Show More Results</LoadMoreButton>;
+}
 ```
 
 ## API Reference

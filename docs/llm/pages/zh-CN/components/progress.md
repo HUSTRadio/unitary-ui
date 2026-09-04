@@ -61,61 +61,12 @@ Progress
 
 ## 实时示例
 
-30%
-
-60%
-
-90%
-
-## 自定义上限
-
 ```tsx
 import { Progress } from "@/components/ui/progress";
 
-<Progress value={30} max={40} aria-label="Progress 30 of 40" />;
-```
-
-## 动态更新
-
-40%
-
-过渡动画
-
-```tsx
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
-import { Toggle } from "@/components/ui/toggle";
-import { useState } from "react";
-
-const [value, setValue] = useState(40);
-const [animated, setAnimated] = useState(true);
-
-<div className="flex w-full max-w-md flex-col items-start gap-6">
-  <Progress
-    value={value}
-    label={`${value}%`}
-    labelPosition="right"
-    animated={animated}
-    aria-label="Dynamic progress"
-  />
-  <div className="flex gap-2">
-    <Button type="default" size="small" onClick={() => setValue((v) => Math.min(100, v + 10))}>
-      Increase
-    </Button>
-    <Button type="secondary" size="small" onClick={() => setValue((v) => Math.max(0, v - 10))}>
-      Decrease
-    </Button>
-  </div>
-  <label className="flex items-center gap-2">
-    <Toggle
-      checked={animated}
-      onChange={() => setAnimated((v) => !v)}
-      size="small"
-      aria-label="Animated transition"
-    />
-    <span className="text-label-13 text-muted-foreground">Animated transition</span>
-  </label>
-</div>;
+export function ProgressCustomMax6AE46D08Example() {
+  return <Progress value={30} max={40} aria-label="Progress 30 of 40" />;
+}
 ```
 
 ## 动态颜色
@@ -127,31 +78,35 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 
-const [value, setValue] = useState(0);
+export function ProgressDynamicColors88E87705Example() {
+  const [value, setValue] = useState(0);
 
-<div className="flex w-full max-w-md flex-col items-start gap-6">
-  <Progress
-    value={value}
-    label={`${value}%`}
-    labelPosition="right"
-    aria-label="Dynamic colors progress"
-    colors={{
-      0: "var(--color-gray-1000)",
-      25: "var(--color-destructive)",
-      50: "var(--color-warning)",
-      75: "var(--color-pink-800)",
-      100: "var(--color-progress)",
-    }}
-  />
-  <div className="flex gap-2">
-    <Button type="default" size="small" onClick={() => setValue((v) => Math.min(100, v + 10))}>
-      Increase
-    </Button>
-    <Button type="secondary" size="small" onClick={() => setValue((v) => Math.max(0, v - 10))}>
-      Decrease
-    </Button>
-  </div>
-</div>;
+  return (
+    <div className="flex w-full max-w-md flex-col items-start gap-6">
+      <Progress
+        value={value}
+        label={`${value}%`}
+        labelPosition="right"
+        aria-label="Dynamic colors progress"
+        colors={{
+          0: "var(--color-gray-1000)",
+          25: "var(--color-destructive)",
+          50: "var(--color-warning)",
+          75: "#ff0080",
+          100: "var(--color-progress)",
+        }}
+      />
+      <div className="flex gap-2">
+        <Button type="default" size="small" onClick={() => setValue((v) => Math.min(100, v + 10))}>
+          Increase
+        </Button>
+        <Button type="secondary" size="small" onClick={() => setValue((v) => Math.max(0, v - 10))}>
+          Decrease
+        </Button>
+      </div>
+    </div>
+  );
+}
 ```
 
 ## 主题化
@@ -159,12 +114,16 @@ const [value, setValue] = useState(0);
 ```tsx
 import { Progress } from "@/components/ui/progress";
 
-<div className="flex w-full max-w-md flex-col gap-6">
-  <Progress type="success" value={100} aria-label="Success progress" />
-  <Progress type="error" value={10} aria-label="Error progress" />
-  <Progress type="warning" value={40} aria-label="Warning progress" />
-  <Progress type="secondary" value={70} aria-label="Secondary progress" />
-</div>;
+export function ProgressThemed489AC184Example() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-6">
+      <Progress type="success" value={100} aria-label="Success progress" />
+      <Progress type="error" value={10} aria-label="Error progress" />
+      <Progress type="warning" value={40} aria-label="Warning progress" />
+      <Progress type="secondary" value={70} aria-label="Secondary progress" />
+    </div>
+  );
+}
 ```
 
 ## 带刻度
@@ -172,18 +131,22 @@ import { Progress } from "@/components/ui/progress";
 ```tsx
 import { Progress } from "@/components/ui/progress";
 
-<Progress
-  value={30}
-  type="success"
-  aria-label="Progress with stops"
-  stops={[
-    { value: 10, tooltip: "10%", ariaLabel: "Build complete" },
-    { value: 20, tooltip: "20%", ariaLabel: "Lint complete" },
-    { value: 30, tooltip: "30%", ariaLabel: "Unit tests complete" },
-    { value: 40, tooltip: "40%", ariaLabel: "Integration tests complete" },
-    { value: 50, tooltip: "50%", ariaLabel: "Deploy ready" },
-  ]}
-/>;
+export function ProgressWithStops45480676Example() {
+  return (
+    <Progress
+      value={30}
+      type="success"
+      aria-label="Progress with stops"
+      stops={[
+        { value: 10, tooltip: "10%", ariaLabel: "Build complete" },
+        { value: 20, tooltip: "20%", ariaLabel: "Lint complete" },
+        { value: 30, tooltip: "30%", ariaLabel: "Unit tests complete" },
+        { value: 40, tooltip: "40%", ariaLabel: "Integration tests complete" },
+        { value: 50, tooltip: "50%", ariaLabel: "Deploy ready" },
+      ]}
+    />
+  );
+}
 ```
 
 ## 宽度
@@ -191,13 +154,17 @@ import { Progress } from "@/components/ui/progress";
 ```tsx
 import { Progress } from "@/components/ui/progress";
 
-<div className="flex w-full max-w-md flex-col gap-6">
-  <Progress value={60} width={100} aria-label="Progress width 100" />
-  <Progress value={60} width={200} aria-label="Progress width 200" />
-  <Progress value={60} width={300} aria-label="Progress width 300" />
-  <Progress value={60} width="50%" aria-label="Progress width 50%" />
-  <Progress value={60} width="100%" aria-label="Progress full width" />
-</div>;
+export function ProgressWidthsB33DD987Example() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-6">
+      <Progress value={60} width={100} aria-label="Progress width 100" />
+      <Progress value={60} width={200} aria-label="Progress width 200" />
+      <Progress value={60} width={300} aria-label="Progress width 300" />
+      <Progress value={60} width="50%" aria-label="Progress width 50%" />
+      <Progress value={60} width="100%" aria-label="Progress full width" />
+    </div>
+  );
+}
 ```
 
 ## 高度
@@ -205,12 +172,16 @@ import { Progress } from "@/components/ui/progress";
 ```tsx
 import { Progress } from "@/components/ui/progress";
 
-<div className="flex w-full max-w-md flex-col gap-6">
-  <Progress value={60} height={4} aria-label="Progress height 4" />
-  <Progress value={60} height={10} aria-label="Progress height 10" />
-  <Progress value={60} height={50} aria-label="Progress height 50" />
-  <Progress value={60} height={200} aria-label="Progress height 200" />
-</div>;
+export function ProgressHeights9E0B6320Example() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-6">
+      <Progress value={60} height={4} aria-label="Progress height 4" />
+      <Progress value={60} height={10} aria-label="Progress height 10" />
+      <Progress value={60} height={50} aria-label="Progress height 50" />
+      <Progress value={60} height={200} aria-label="Progress height 200" />
+    </div>
+  );
+}
 ```
 
 ## 标签位置
@@ -234,36 +205,93 @@ bottom-right
 ```tsx
 import { Progress } from "@/components/ui/progress";
 
-<div className="flex w-full max-w-md flex-col gap-8">
-  <Progress value={45} label="left" labelPosition="left" aria-label="Label left" />
-  <Progress value={45} label="right" labelPosition="right" aria-label="Label right" />
-  <Progress value={45} label="top-left" labelPosition="top-left" aria-label="Label top left" />
-  <Progress
-    value={45}
-    label="top-center"
-    labelPosition="top-center"
-    aria-label="Label top center"
-  />
-  <Progress value={45} label="top-right" labelPosition="top-right" aria-label="Label top right" />
-  <Progress
-    value={45}
-    label="bottom-left"
-    labelPosition="bottom-left"
-    aria-label="Label bottom left"
-  />
-  <Progress
-    value={45}
-    label="bottom-center"
-    labelPosition="bottom-center"
-    aria-label="Label bottom center"
-  />
-  <Progress
-    value={45}
-    label="bottom-right"
-    labelPosition="bottom-right"
-    aria-label="Label bottom right"
-  />
-</div>;
+export function ProgressLabelPositionsF2E2D4C4Example() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-8">
+      <Progress value={45} label="left" labelPosition="left" aria-label="Label left" />
+      <Progress value={45} label="right" labelPosition="right" aria-label="Label right" />
+      <Progress value={45} label="top-left" labelPosition="top-left" aria-label="Label top left" />
+      <Progress
+        value={45}
+        label="top-center"
+        labelPosition="top-center"
+        aria-label="Label top center"
+      />
+      <Progress
+        value={45}
+        label="top-right"
+        labelPosition="top-right"
+        aria-label="Label top right"
+      />
+      <Progress
+        value={45}
+        label="bottom-left"
+        labelPosition="bottom-left"
+        aria-label="Label bottom left"
+      />
+      <Progress
+        value={45}
+        label="bottom-center"
+        labelPosition="bottom-center"
+        aria-label="Label bottom center"
+      />
+      <Progress
+        value={45}
+        label="bottom-right"
+        labelPosition="bottom-right"
+        aria-label="Label bottom right"
+      />
+    </div>
+  );
+}
+```
+
+## 动态更新
+
+40%
+
+Animated transition
+
+```tsx
+import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { Toggle } from "@/components/ui/toggle";
+import { useState } from "react";
+
+export function ProgressDynamicB6EE7B3EExample() {
+  const [value, setValue] = useState(40);
+
+  const [animated, setAnimated] = useState(true);
+
+  return (
+    <div className="flex w-full max-w-md flex-col items-start gap-6">
+      <Progress
+        value={value}
+        label={`${value}%`}
+        labelPosition="right"
+        animated={animated}
+        aria-label="Dynamic progress"
+      />
+      <div className="flex gap-2">
+        <Button type="default" size="small" onClick={() => setValue((v) => Math.min(100, v + 10))}>
+          Increase
+        </Button>
+        <Button type="secondary" size="small" onClick={() => setValue((v) => Math.max(0, v - 10))}>
+          Decrease
+        </Button>
+      </div>
+      <label className="flex items-center gap-2">
+        <Toggle
+          checked={animated}
+          onChange={() => setAnimated((v) => !v)}
+          size="small"
+          aria-label="Animated transition"
+        />
+        <span className="text-label-13 text-muted-foreground">Animated transition</span>
+      </label>
+    </div>
+  );
+}
 ```
 
 ## API 参考

@@ -69,40 +69,36 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 ```tsx
 import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
 
-<Collapse className="border-b">
-  <h3 className="text-[24px] font-semibold text-foreground">
-    <CollapseTrigger>Question A</CollapseTrigger>
-  </h3>
-  <CollapseContent>
-    <p className="mb-4 text-copy-16 text-muted-foreground">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-      ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </p>
-  </CollapseContent>
-</Collapse>
-<Collapse className="border-b">
-  <h3 className="text-[24px] font-semibold text-foreground">
-    <CollapseTrigger>Question B</CollapseTrigger>
-  </h3>
-  <CollapseContent>
-    <p className="mb-4 text-copy-16 text-muted-foreground">
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-      nulla pariatur.
-    </p>
-  </CollapseContent>
-</Collapse>
+export function CollapseDefault37A8EEC1Example() {
+  return (
+    <>
+      <Collapse className="border-b">
+        <h3 className="text-[24px] font-semibold text-foreground">
+          <CollapseTrigger>Question A</CollapseTrigger>
+        </h3>
+        <CollapseContent>
+          <p className="mb-4 text-copy-16 text-muted-foreground">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+        </CollapseContent>
+      </Collapse>
+      <Collapse className="border-b">
+        <h3 className="text-[24px] font-semibold text-foreground">
+          <CollapseTrigger>Question B</CollapseTrigger>
+        </h3>
+        <CollapseContent>
+          <p className="mb-4 text-copy-16 text-muted-foreground">
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur.
+          </p>
+        </CollapseContent>
+      </Collapse>
+    </>
+  );
+}
 ```
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 ## 默认
 
@@ -113,22 +109,26 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 ```tsx
 import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
 
-<div className="flex w-full max-w-md flex-col gap-3">
-  <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
-    <CollapseTrigger className="text-label-14 text-foreground">Question A</CollapseTrigger>
-    <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua.
-    </CollapseContent>
-  </Collapse>
-  <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
-    <CollapseTrigger className="text-label-14 text-foreground">Question B</CollapseTrigger>
-    <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur.
-    </CollapseContent>
-  </Collapse>
-</div>;
+export function CollapseDefault21B111CBExample() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-3">
+      <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
+        <CollapseTrigger className="text-label-14 text-foreground">Question A</CollapseTrigger>
+        <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </CollapseContent>
+      </Collapse>
+      <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
+        <CollapseTrigger className="text-label-14 text-foreground">Question B</CollapseTrigger>
+        <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+          nulla pariatur.
+        </CollapseContent>
+      </Collapse>
+    </div>
+  );
+}
 ```
 
 ## 展开
@@ -140,22 +140,26 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 ```tsx
 import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
 
-<div className="flex w-full max-w-md flex-col gap-3">
-  <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
-    <CollapseTrigger className="text-label-14 text-foreground">Question A</CollapseTrigger>
-    <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua.
-    </CollapseContent>
-  </Collapse>
-  <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
-    <CollapseTrigger className="text-label-14 text-foreground">Question B</CollapseTrigger>
-    <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur.
-    </CollapseContent>
-  </Collapse>
-</div>;
+export function CollapseExpandedE72D5D8DExample() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-3">
+      <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
+        <CollapseTrigger className="text-label-14 text-foreground">Question A</CollapseTrigger>
+        <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </CollapseContent>
+      </Collapse>
+      <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
+        <CollapseTrigger className="text-label-14 text-foreground">Question B</CollapseTrigger>
+        <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+          nulla pariatur.
+        </CollapseContent>
+      </Collapse>
+    </div>
+  );
+}
 ```
 
 ## 多项
@@ -167,22 +171,26 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 ```tsx
 import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
 
-<div className="flex w-full max-w-md flex-col gap-3">
-  <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
-    <CollapseTrigger className="text-label-14 text-foreground">Question A</CollapseTrigger>
-    <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua.
-    </CollapseContent>
-  </Collapse>
-  <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
-    <CollapseTrigger className="text-label-14 text-foreground">Question B</CollapseTrigger>
-    <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur.
-    </CollapseContent>
-  </Collapse>
-</div>;
+export function CollapseMultiple14070FDBExample() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-3">
+      <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
+        <CollapseTrigger className="text-label-14 text-foreground">Question A</CollapseTrigger>
+        <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </CollapseContent>
+      </Collapse>
+      <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
+        <CollapseTrigger className="text-label-14 text-foreground">Question B</CollapseTrigger>
+        <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+          nulla pariatur.
+        </CollapseContent>
+      </Collapse>
+    </div>
+  );
+}
 ```
 
 ## 小
@@ -192,13 +200,17 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 ```tsx
 import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
 
-<Collapse className="w-full max-w-sm rounded-[8px] border border-gray-alpha-400 p-3">
-  <CollapseTrigger className="text-label-13 text-foreground">Question A</CollapseTrigger>
-  <CollapseContent className="pt-2 text-copy-13 text-muted-foreground">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-    labore et dolore magna aliqua.
-  </CollapseContent>
-</Collapse>;
+export function CollapseSmall5263293FExample() {
+  return (
+    <Collapse className="w-full max-w-sm rounded-[8px] border border-gray-alpha-400 p-3">
+      <CollapseTrigger className="text-label-13 text-foreground">Question A</CollapseTrigger>
+      <CollapseContent className="pt-2 text-copy-13 text-muted-foreground">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+        labore et dolore magna aliqua.
+      </CollapseContent>
+    </Collapse>
+  );
+}
 ```
 
 ## API 参考

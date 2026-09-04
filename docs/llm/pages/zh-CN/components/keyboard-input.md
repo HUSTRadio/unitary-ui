@@ -65,38 +65,56 @@ Keyboard Input
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
 
-<>
-  <Kbd meta />
-  <Kbd shift />
-  <Kbd alt />
-  <Kbd ctrl />
-</>;
+export function KeyboardInputModifiers8527867BExample() {
+  return (
+    <>
+      <Kbd meta />
+      <Kbd shift />
+      <Kbd alt />
+      <Kbd ctrl />
+    </>
+  );
+}
 ```
+
+## combination
 
 ⌘⇧
 
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
 
-<Kbd meta shift />;
+export function KeyboardInputCombination5F3258EAExample() {
+  return <Kbd meta shift />;
+}
 ```
+
+## small
 
 /
 
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
 
-<Kbd small>/</Kbd>;
+export function KeyboardInputSmall81DB8EBBExample() {
+  return <Kbd small>/</Kbd>;
+}
 ```
+
+## plain-command
 
 ⌘K
 
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
 
-<Kbd plain meta>
-  K
-</Kbd>;
+export function KeyboardInputPlainCommand4E2140C6Example() {
+  return (
+    <Kbd plain meta>
+      K
+    </Kbd>
+  );
+}
 ```
 
 ## API 参考

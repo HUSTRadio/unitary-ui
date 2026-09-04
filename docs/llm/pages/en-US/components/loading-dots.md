@@ -57,21 +57,31 @@ Not applicable: As an inline element, Loading Dots scales with the current line'
 ```tsx
 import { LoadingDots } from "@/components/ui/loading-dots";
 
-<div className="flex flex-col items-start justify-between gap-6 flex-initial">
-  <LoadingDots size="sm" />
-  <LoadingDots size="md" />
-  <LoadingDots size="lg" />
-</div>;
+export function LoadingDotsDefault21B111CBExample() {
+  return (
+    <div className="flex flex-col items-start justify-between gap-6 flex-initial">
+      <LoadingDots size="sm" />
+      <LoadingDots size="md" />
+      <LoadingDots size="lg" />
+    </div>
+  );
+}
 ```
+
+## With text
 
 Loading
 
 ```tsx
 import { LoadingDots } from "@/components/ui/loading-dots";
 
-<LoadingDots size="md">
-  <p className="text-copy-14 text-gray-900">Loading</p>
-</LoadingDots>;
+export function LoadingDotsWithTextF00F2530Example() {
+  return (
+    <LoadingDots size="md">
+      <p className="text-copy-14 text-gray-900">Loading</p>
+    </LoadingDots>
+  );
+}
 ```
 
 ## API Reference

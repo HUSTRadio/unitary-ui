@@ -52,23 +52,23 @@ Not applicable: Code preserves preformatted content and uses overflow-x-auto whe
 
 Install with `npm i geist` and import the component.
 
-Use `type="error"` for destructive confirmations.
-
 ```tsx
-export function Component(): JSX.Element {
-  return <Snippet text="npm init next-app" width="300px" />;
-}
+console.log("Hello");
 ```
 
 ```tsx
 import { Code, InlineCode } from "@/components/ui/code";
 
-<div className="flex w-full max-w-2xl flex-col gap-3">
-  <p className="text-copy-14 text-muted-foreground">
-    Install with <InlineCode>npm i geist</InlineCode> and import the component.
-  </p>
-  <Code syntax="javascript">{`console.log("Hello")`}</Code>
-</div>;
+export function CodeDefault21B111CBExample() {
+  return (
+    <div className="flex w-full max-w-2xl flex-col gap-3">
+      <p className="text-copy-14 text-muted-foreground">
+        Install with <InlineCode>npm i geist</InlineCode> and import the component.
+      </p>
+      <Code syntax="javascript">{`console.log("Hello")`}</Code>
+    </div>
+  );
+}
 ```
 
 ## API Reference

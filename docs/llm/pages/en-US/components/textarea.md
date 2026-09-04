@@ -63,29 +63,31 @@ Demonstrates the error state with a red border and inline validation message dis
 ```tsx
 import { Textarea } from "@/components/ui/textarea";
 
-<Textarea
-  aria-label="Default"
-  placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-  style={{ minHeight: 100 }}
-/>;
+export function TextareaDefault37A8EEC1Example() {
+  return (
+    <Textarea
+      aria-label="Default"
+      placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    />
+  );
+}
 ```
+
+## disabled
 
 ```tsx
 import { Textarea } from "@/components/ui/textarea";
 
-<Textarea
-  aria-label="Disabled"
-  disabled
-  placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-  style={{ minHeight: 100 }}
-/>;
+export function TextareaDisabled17EB3C01Example() {
+  return (
+    <Textarea
+      aria-label="Disabled"
+      disabled
+      placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    />
+  );
+}
 ```
-
-There has been an error.
-
-There has been an error.
-
-There has been an error.
 
 ## Error
 
@@ -98,32 +100,33 @@ There has been an error.
 ```tsx
 import { Textarea } from "@/components/ui/textarea";
 
-const LOREM_IPSUM =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+export function TextareaError54A0E8C1Example() {
+  const LOREM_IPSUM =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
-<div className="flex w-full max-w-md flex-col gap-8">
-  <Textarea
-    aria-label="With error (small)"
-    defaultValue={LOREM_IPSUM}
-    error="There has been an error."
-    size="small"
-    style={{ minHeight: 100 }}
-  />
-  <Textarea
-    aria-label="With error (medium)"
-    defaultValue={LOREM_IPSUM}
-    error="There has been an error."
-    size="medium"
-    style={{ minHeight: 100 }}
-  />
-  <Textarea
-    aria-label="With error (large)"
-    defaultValue={LOREM_IPSUM}
-    error="There has been an error."
-    size="large"
-    style={{ minHeight: 100 }}
-  />
-</div>;
+  return (
+    <div className="flex w-full max-w-md flex-col gap-8">
+      <Textarea
+        aria-label="With error (small)"
+        defaultValue={LOREM_IPSUM}
+        error="There has been an error."
+        size="small"
+      />
+      <Textarea
+        aria-label="With error (medium)"
+        defaultValue={LOREM_IPSUM}
+        error="There has been an error."
+        size="medium"
+      />
+      <Textarea
+        aria-label="With error (large)"
+        defaultValue={LOREM_IPSUM}
+        error="There has been an error."
+        size="large"
+      />
+    </div>
+  );
+}
 ```
 
 ## Sizes
@@ -131,29 +134,18 @@ const LOREM_IPSUM =
 ```tsx
 import { Textarea } from "@/components/ui/textarea";
 
-const LOREM_IPSUM =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+export function TextareaSizes74A3978DExample() {
+  const LOREM_IPSUM =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
-<div className="flex w-full max-w-md flex-col gap-6">
-  <Textarea
-    aria-label="Textarea"
-    defaultValue={LOREM_IPSUM}
-    size="small"
-    style={{ minHeight: 100 }}
-  />
-  <Textarea
-    aria-label="Textarea"
-    defaultValue={LOREM_IPSUM}
-    size="medium"
-    style={{ minHeight: 100 }}
-  />
-  <Textarea
-    aria-label="Textarea"
-    defaultValue={LOREM_IPSUM}
-    size="large"
-    style={{ minHeight: 100 }}
-  />
-</div>;
+  return (
+    <div className="flex w-full max-w-md flex-col gap-6">
+      <Textarea aria-label="Textarea" defaultValue={LOREM_IPSUM} size="small" />
+      <Textarea aria-label="Textarea" defaultValue={LOREM_IPSUM} size="medium" />
+      <Textarea aria-label="Textarea" defaultValue={LOREM_IPSUM} size="large" />
+    </div>
+  );
+}
 ```
 
 ## Read Only
@@ -161,12 +153,16 @@ const LOREM_IPSUM =
 ```tsx
 import { Textarea } from "@/components/ui/textarea";
 
-const LOREM_IPSUM =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+export function TextareaReadOnlyCA104850Example() {
+  const LOREM_IPSUM =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
-<div className="flex w-full max-w-md flex-col">
-  <Textarea aria-label="Read only" defaultValue={LOREM_IPSUM} readOnly style={{ minHeight: 100 }} />
-</div>;
+  return (
+    <div className="flex w-full max-w-md flex-col">
+      <Textarea aria-label="Read only" defaultValue={LOREM_IPSUM} readOnly />
+    </div>
+  );
+}
 ```
 
 ## Rows
@@ -174,13 +170,17 @@ const LOREM_IPSUM =
 ```tsx
 import { Textarea } from "@/components/ui/textarea";
 
-<div className="flex w-full max-w-md flex-col">
-  <Textarea
-    aria-label="Textarea with fixed rows"
-    placeholder="Textarea with fixed number of rows"
-    rows={5}
-  />
-</div>;
+export function TextareaRows101F2FF3Example() {
+  return (
+    <div className="flex w-full max-w-md flex-col">
+      <Textarea
+        aria-label="Textarea with fixed rows"
+        placeholder="Textarea with fixed number of rows"
+        rows={5}
+      />
+    </div>
+  );
+}
 ```
 
 ## API Reference

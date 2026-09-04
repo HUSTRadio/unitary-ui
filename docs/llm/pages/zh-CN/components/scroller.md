@@ -51,35 +51,21 @@ Scroller
 
 ## 实时示例
 
-Item 1
-
-Item 2
-
-Item 3
-
-Item 4
-
-Item 5
-
-Item 6
-
-Item 7
-
-Item 8
-
-## 垂直
-
 ```tsx
 import { Scroller } from "@/components/ui/scroller";
 
-<div className="w-full max-w-2xl">
-  <Scroller height={220} overflow="y" width="100%">
-    <div className="flex flex-col items-stretch justify-start gap-4" style={{ width: 400 }}>
-      <div className="h-64 w-64 bg-gray-1000" />
-      <div className="h-64 w-64 bg-gray-1000" />
+export function ScrollerVertical727CD3A6Example() {
+  return (
+    <div className="w-full max-w-2xl">
+      <Scroller height={220} overflow="y" width="100%">
+        <div className="flex flex-col items-stretch justify-start gap-4" style={{ width: 400 }}>
+          <div className="h-64 w-64 bg-gray-1000" />
+          <div className="h-64 w-64 bg-gray-1000" />
+        </div>
+      </Scroller>
     </div>
-  </Scroller>
-</div>;
+  );
+}
 ```
 
 ## 水平
@@ -87,16 +73,23 @@ import { Scroller } from "@/components/ui/scroller";
 ```tsx
 import { Scroller } from "@/components/ui/scroller";
 
-<div className="w-full max-w-2xl">
-  <Scroller height="100%" overflow="x" width="100%">
-    <div className="flex flex-row items-stretch justify-start gap-4" style={{ minWidth: "120%" }}>
-      <div className="h-64 w-64 bg-gray-1000" />
-      <div className="h-64 w-64 bg-gray-1000" />
-      <div className="h-64 w-64 bg-gray-1000" />
-      <div className="h-64 w-64 bg-gray-1000" />
+export function ScrollerHorizontal0ABBA441Example() {
+  return (
+    <div className="w-full max-w-2xl">
+      <Scroller height="100%" overflow="x" width="100%">
+        <div
+          className="flex flex-row items-stretch justify-start gap-4"
+          style={{ minWidth: "120%" }}
+        >
+          <div className="h-64 w-64 bg-gray-1000" />
+          <div className="h-64 w-64 bg-gray-1000" />
+          <div className="h-64 w-64 bg-gray-1000" />
+          <div className="h-64 w-64 bg-gray-1000" />
+        </div>
+      </Scroller>
     </div>
-  </Scroller>
-</div>;
+  );
+}
 ```
 
 ## 自由
@@ -104,15 +97,19 @@ import { Scroller } from "@/components/ui/scroller";
 ```tsx
 import { Scroller } from "@/components/ui/scroller";
 
-<div className="w-full max-w-2xl">
-  <Scroller height={220} overflow="both" width="100%">
-    <div className="grid grid-flow-col grid-rows-2 gap-4">
-      {Array.from({ length: 6 }, (_, i) => (
-        <div key={i} className="h-96 w-96 bg-gray-1000" />
-      ))}
+export function ScrollerFreeF411A1FBExample() {
+  return (
+    <div className="w-full max-w-2xl">
+      <Scroller height={220} overflow="both" width="100%">
+        <div className="grid grid-flow-col grid-rows-2 gap-4">
+          {Array.from({ length: 6 }, (_, i) => (
+            <div key={i} className="h-96 w-96 bg-gray-1000" />
+          ))}
+        </div>
+      </Scroller>
     </div>
-  </Scroller>
-</div>;
+  );
+}
 ```
 
 ## 垂直布局（带按钮）
@@ -120,13 +117,17 @@ import { Scroller } from "@/components/ui/scroller";
 ```tsx
 import { Scroller } from "@/components/ui/scroller";
 
-<div className="flex max-w-full flex-col gap-4">
-  <Scroller childrenContainerClassName="gap-4" height={220} overflow="y" withButtons>
-    {Array.from({ length: 4 }, (_, i) => (
-      <div key={i} className="h-60 w-96 shrink-0 bg-gray-1000" />
-    ))}
-  </Scroller>
-</div>;
+export function ScrollerVerticalWithButtonsEB1E78D8Example() {
+  return (
+    <div className="flex max-w-full flex-col gap-4">
+      <Scroller childrenContainerClassName="gap-4" height={220} overflow="y" withButtons>
+        {Array.from({ length: 4 }, (_, i) => (
+          <div key={i} className="h-60 w-96 shrink-0 bg-gray-1000" />
+        ))}
+      </Scroller>
+    </div>
+  );
+}
 ```
 
 ## 水平布局（带按钮）
@@ -134,13 +135,23 @@ import { Scroller } from "@/components/ui/scroller";
 ```tsx
 import { Scroller } from "@/components/ui/scroller";
 
-<div className="flex w-full max-w-2xl flex-col gap-4">
-  <Scroller childrenContainerClassName="gap-4" height="100%" overflow="x" width="100%" withButtons>
-    {Array.from({ length: 4 }, (_, i) => (
-      <div key={i} className="h-64 w-96 shrink-0 bg-gray-1000" />
-    ))}
-  </Scroller>
-</div>;
+export function ScrollerHorizontalWithButtons29D25875Example() {
+  return (
+    <div className="flex w-full max-w-2xl flex-col gap-4">
+      <Scroller
+        childrenContainerClassName="gap-4"
+        height="100%"
+        overflow="x"
+        width="100%"
+        withButtons
+      >
+        {Array.from({ length: 4 }, (_, i) => (
+          <div key={i} className="h-64 w-96 shrink-0 bg-gray-1000" />
+        ))}
+      </Scroller>
+    </div>
+  );
+}
 ```
 
 ## API 参考

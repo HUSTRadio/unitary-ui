@@ -84,26 +84,32 @@ import {
   FieldsetTitle,
 } from "@/components/ui/fieldset";
 
-<Fieldset>
-  <FieldsetContent>
-    <FieldsetTitle>Account Settings</FieldsetTitle>
-    <FieldsetSubtitle>Manage your account preferences and settings</FieldsetSubtitle>
-  </FieldsetContent>
-  <FieldsetFooter>
-    <FieldsetFooterStatus>
-      <span>
-        Need help?{" "}
-        <a href="#" className="cursor-pointer text-link hover:underline">
-          View documentation
-        </a>
-      </span>
-    </FieldsetFooterStatus>
-    <FieldsetFooterActions>
-      <FieldsetFooterAction>Save Changes</FieldsetFooterAction>
-    </FieldsetFooterActions>
-  </FieldsetFooter>
-</Fieldset>;
+export function FieldsetDefault37A8EEC1Example() {
+  return (
+    <Fieldset>
+      <FieldsetContent>
+        <FieldsetTitle>Account Settings</FieldsetTitle>
+        <FieldsetSubtitle>Manage your account preferences and settings</FieldsetSubtitle>
+      </FieldsetContent>
+      <FieldsetFooter>
+        <FieldsetFooterStatus>
+          <span>
+            Need help?{" "}
+            <a href="#" className="cursor-pointer text-link hover:underline">
+              View documentation
+            </a>
+          </span>
+        </FieldsetFooterStatus>
+        <FieldsetFooterActions>
+          <FieldsetFooterAction>Save Changes</FieldsetFooterAction>
+        </FieldsetFooterActions>
+      </FieldsetFooter>
+    </Fieldset>
+  );
+}
 ```
+
+## disabled
 
 #### Transfer Project
 
@@ -121,18 +127,24 @@ import {
   FieldsetTitle,
 } from "@/components/ui/fieldset";
 
-<Fieldset>
-  <FieldsetContent disabled>
-    <FieldsetTitle>Transfer Project</FieldsetTitle>
-    <FieldsetSubtitle>Move this project to another team or account</FieldsetSubtitle>
-  </FieldsetContent>
-  <FieldsetFooter highlight>
-    <FieldsetFooterStatus>
-      <span>You need additional permissions to transfer projects.</span>
-    </FieldsetFooterStatus>
-  </FieldsetFooter>
-</Fieldset>;
+export function FieldsetDisabled17EB3C01Example() {
+  return (
+    <Fieldset>
+      <FieldsetContent disabled>
+        <FieldsetTitle>Transfer Project</FieldsetTitle>
+        <FieldsetSubtitle>Move this project to another team or account</FieldsetSubtitle>
+      </FieldsetContent>
+      <FieldsetFooter highlight>
+        <FieldsetFooterStatus>
+          <span>You need additional permissions to transfer projects.</span>
+        </FieldsetFooterStatus>
+      </FieldsetFooter>
+    </Fieldset>
+  );
+}
 ```
+
+## with-long-content
 
 #### Privacy Policy
 
@@ -152,27 +164,34 @@ import {
   FieldsetTitle,
 } from "@/components/ui/fieldset";
 
-<Fieldset>
-  <FieldsetContent>
-    <FieldsetTitle>Privacy Policy</FieldsetTitle>
-    <FieldsetSubtitle>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam volutpat, nunc vel ultrices
-      sollicitudin, dolor eros volutpat ex, et sagittis sem enim in eros. Curabitur eu consequat
-      neque, non finibus odio. Donec vitae tellus eu mauris feugiat efficitur. Maecenas blandit sit
-      amet tellus vel blandit. Phasellus ultrices vulputate arcu, vel dictum erat facilisis et.
-    </FieldsetSubtitle>
-  </FieldsetContent>
-  <FieldsetFooter>
-    <FieldsetFooterStatus>
-      <span>Last updated: March 10, 2025</span>
-    </FieldsetFooterStatus>
-    <FieldsetFooterActions>
-      <FieldsetFooterAction type="secondary">Decline</FieldsetFooterAction>
-      <FieldsetFooterAction>Accept</FieldsetFooterAction>
-    </FieldsetFooterActions>
-  </FieldsetFooter>
-</Fieldset>;
+export function FieldsetWithLongContent39C2ED17Example() {
+  return (
+    <Fieldset>
+      <FieldsetContent>
+        <FieldsetTitle>Privacy Policy</FieldsetTitle>
+        <FieldsetSubtitle>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam volutpat, nunc vel
+          ultrices sollicitudin, dolor eros volutpat ex, et sagittis sem enim in eros. Curabitur eu
+          consequat neque, non finibus odio. Donec vitae tellus eu mauris feugiat efficitur.
+          Maecenas blandit sit amet tellus vel blandit. Phasellus ultrices vulputate arcu, vel
+          dictum erat facilisis et.
+        </FieldsetSubtitle>
+      </FieldsetContent>
+      <FieldsetFooter>
+        <FieldsetFooterStatus>
+          <span>Last updated: March 10, 2025</span>
+        </FieldsetFooterStatus>
+        <FieldsetFooterActions>
+          <FieldsetFooterAction type="secondary">Decline</FieldsetFooterAction>
+          <FieldsetFooterAction>Accept</FieldsetFooterAction>
+        </FieldsetFooterActions>
+      </FieldsetFooter>
+    </Fieldset>
+  );
+}
 ```
+
+## multiple-fieldsets
 
 #### Personal Information
 
@@ -204,50 +223,58 @@ import {
   FieldsetTitle,
 } from "@/components/ui/fieldset";
 
-<div className="flex flex-col gap-6">
-  <Fieldset>
-    <FieldsetContent>
-      <FieldsetTitle>Personal Information</FieldsetTitle>
-      <FieldsetSubtitle>Update your name and contact details</FieldsetSubtitle>
-    </FieldsetContent>
-    <FieldsetFooter>
-      <FieldsetFooterStatus>
-        <span>This information will be publicly visible</span>
-      </FieldsetFooterStatus>
-      <FieldsetFooterActions>
-        <FieldsetFooterAction>Update</FieldsetFooterAction>
-      </FieldsetFooterActions>
-    </FieldsetFooter>
-  </Fieldset>
+export function FieldsetMultipleFieldsets9DD2DFF4Example() {
+  return (
+    <div className="flex flex-col gap-6">
+      <Fieldset>
+        <FieldsetContent>
+          <FieldsetTitle>Personal Information</FieldsetTitle>
+          <FieldsetSubtitle>Update your name and contact details</FieldsetSubtitle>
+        </FieldsetContent>
+        <FieldsetFooter>
+          <FieldsetFooterStatus>
+            <span>This information will be publicly visible</span>
+          </FieldsetFooterStatus>
+          <FieldsetFooterActions>
+            <FieldsetFooterAction>Update</FieldsetFooterAction>
+          </FieldsetFooterActions>
+        </FieldsetFooter>
+      </Fieldset>
 
-  <Fieldset>
-    <FieldsetContent>
-      <FieldsetTitle>Security</FieldsetTitle>
-      <FieldsetSubtitle>Manage your password and authentication methods</FieldsetSubtitle>
-    </FieldsetContent>
-    <FieldsetFooter>
-      <FieldsetFooterStatus>
-        <span>Last password change: 30 days ago</span>
-      </FieldsetFooterStatus>
-      <FieldsetFooterActions>
-        <FieldsetFooterAction>Change Password</FieldsetFooterAction>
-      </FieldsetFooterActions>
-    </FieldsetFooter>
-  </Fieldset>
+      <Fieldset>
+        <FieldsetContent>
+          <FieldsetTitle>Security</FieldsetTitle>
+          <FieldsetSubtitle>Manage your password and authentication methods</FieldsetSubtitle>
+        </FieldsetContent>
+        <FieldsetFooter>
+          <FieldsetFooterStatus>
+            <span>Last password change: 30 days ago</span>
+          </FieldsetFooterStatus>
+          <FieldsetFooterActions>
+            <FieldsetFooterAction>Change Password</FieldsetFooterAction>
+          </FieldsetFooterActions>
+        </FieldsetFooter>
+      </Fieldset>
 
-  <Fieldset>
-    <FieldsetContent disabled>
-      <FieldsetTitle>API Access</FieldsetTitle>
-      <FieldsetSubtitle>Generate and manage API tokens for programmatic access</FieldsetSubtitle>
-    </FieldsetContent>
-    <FieldsetFooter highlight>
-      <FieldsetFooterStatus>
-        <span>You need a Pro account to access API features.</span>
-      </FieldsetFooterStatus>
-    </FieldsetFooter>
-  </Fieldset>
-</div>;
+      <Fieldset>
+        <FieldsetContent disabled>
+          <FieldsetTitle>API Access</FieldsetTitle>
+          <FieldsetSubtitle>
+            Generate and manage API tokens for programmatic access
+          </FieldsetSubtitle>
+        </FieldsetContent>
+        <FieldsetFooter highlight>
+          <FieldsetFooterStatus>
+            <span>You need a Pro account to access API features.</span>
+          </FieldsetFooterStatus>
+        </FieldsetFooter>
+      </Fieldset>
+    </div>
+  );
+}
 ```
+
+## without-footer
 
 #### Account Information
 
@@ -261,16 +288,22 @@ import {
   FieldsetTitle,
 } from "@/components/ui/fieldset";
 
-<Fieldset>
-  <FieldsetContent>
-    <FieldsetTitle>Account Information</FieldsetTitle>
-    <FieldsetSubtitle>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam
-      ultricies, nisl nisl aliquam nisl.
-    </FieldsetSubtitle>
-  </FieldsetContent>
-</Fieldset>;
+export function FieldsetWithoutFooterED163245Example() {
+  return (
+    <Fieldset>
+      <FieldsetContent>
+        <FieldsetTitle>Account Information</FieldsetTitle>
+        <FieldsetSubtitle>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam
+          ultricies, nisl nisl aliquam nisl.
+        </FieldsetSubtitle>
+      </FieldsetContent>
+    </Fieldset>
+  );
+}
 ```
+
+## without-title
 
 This fieldset contains only a subtitle with no title. It can be used for informational sections or supplementary content.
 
@@ -285,20 +318,26 @@ import {
   FieldsetSubtitle,
 } from "@/components/ui/fieldset";
 
-<Fieldset>
-  <FieldsetContent>
-    <FieldsetSubtitle>
-      This fieldset contains only a subtitle with no title. It can be used for informational
-      sections or supplementary content.
-    </FieldsetSubtitle>
-  </FieldsetContent>
-  <FieldsetFooter>
-    <FieldsetFooterStatus>
-      <span>Information only</span>
-    </FieldsetFooterStatus>
-  </FieldsetFooter>
-</Fieldset>;
+export function FieldsetWithoutTitle2B0715C3Example() {
+  return (
+    <Fieldset>
+      <FieldsetContent>
+        <FieldsetSubtitle>
+          This fieldset contains only a subtitle with no title. It can be used for informational
+          sections or supplementary content.
+        </FieldsetSubtitle>
+      </FieldsetContent>
+      <FieldsetFooter>
+        <FieldsetFooterStatus>
+          <span>Information only</span>
+        </FieldsetFooterStatus>
+      </FieldsetFooter>
+    </Fieldset>
+  );
+}
 ```
+
+## with-error-text
 
 #### API Configuration
 
@@ -321,24 +360,32 @@ import {
   FieldsetTitle,
 } from "@/components/ui/fieldset";
 
-<Fieldset>
-  <FieldsetContent>
-    <FieldsetTitle>API Configuration</FieldsetTitle>
-    <FieldsetSubtitle>Configure your API endpoint and authentication</FieldsetSubtitle>
-    <div className="mt-4">
-      <ErrorText>API key validation failed. Please check your credentials and try again.</ErrorText>
-    </div>
-  </FieldsetContent>
-  <FieldsetFooter>
-    <FieldsetFooterStatus>
-      <span>Last checked: 5 minutes ago</span>
-    </FieldsetFooterStatus>
-    <FieldsetFooterActions>
-      <FieldsetFooterAction>Verify API Connection</FieldsetFooterAction>
-    </FieldsetFooterActions>
-  </FieldsetFooter>
-</Fieldset>;
+export function FieldsetWithErrorTextB52BED15Example() {
+  return (
+    <Fieldset>
+      <FieldsetContent>
+        <FieldsetTitle>API Configuration</FieldsetTitle>
+        <FieldsetSubtitle>Configure your API endpoint and authentication</FieldsetSubtitle>
+        <div className="mt-4">
+          <ErrorText>
+            API key validation failed. Please check your credentials and try again.
+          </ErrorText>
+        </div>
+      </FieldsetContent>
+      <FieldsetFooter>
+        <FieldsetFooterStatus>
+          <span>Last checked: 5 minutes ago</span>
+        </FieldsetFooterStatus>
+        <FieldsetFooterActions>
+          <FieldsetFooterAction>Verify API Connection</FieldsetFooterAction>
+        </FieldsetFooterActions>
+      </FieldsetFooter>
+    </Fieldset>
+  );
+}
 ```
+
+## with-warning-text
 
 #### Database Settings
 
@@ -361,28 +408,34 @@ import {
   WarningText,
 } from "@/components/ui/fieldset";
 
-<Fieldset>
-  <FieldsetContent>
-    <FieldsetTitle>Database Settings</FieldsetTitle>
-    <FieldsetSubtitle>Configure your database connection parameters</FieldsetSubtitle>
-    <div className="mt-4">
-      <WarningText>
-        Changing these settings will require a restart of your application. Make sure to save any
-        pending work.
-      </WarningText>
-    </div>
-  </FieldsetContent>
-  <FieldsetFooter>
-    <FieldsetFooterStatus>
-      <span>Current status: Connected</span>
-    </FieldsetFooterStatus>
-    <FieldsetFooterActions>
-      <FieldsetFooterAction type="secondary">Cancel</FieldsetFooterAction>
-      <FieldsetFooterAction>Apply Changes</FieldsetFooterAction>
-    </FieldsetFooterActions>
-  </FieldsetFooter>
-</Fieldset>;
+export function FieldsetWithWarningText16633F67Example() {
+  return (
+    <Fieldset>
+      <FieldsetContent>
+        <FieldsetTitle>Database Settings</FieldsetTitle>
+        <FieldsetSubtitle>Configure your database connection parameters</FieldsetSubtitle>
+        <div className="mt-4">
+          <WarningText>
+            Changing these settings will require a restart of your application. Make sure to save
+            any pending work.
+          </WarningText>
+        </div>
+      </FieldsetContent>
+      <FieldsetFooter>
+        <FieldsetFooterStatus>
+          <span>Current status: Connected</span>
+        </FieldsetFooterStatus>
+        <FieldsetFooterActions>
+          <FieldsetFooterAction type="secondary">Cancel</FieldsetFooterAction>
+          <FieldsetFooterAction>Apply Changes</FieldsetFooterAction>
+        </FieldsetFooterActions>
+      </FieldsetFooter>
+    </Fieldset>
+  );
+}
 ```
+
+## with-disabled-wall
 
 #### Advanced Features
 
@@ -405,27 +458,33 @@ import {
   FieldsetTitle,
 } from "@/components/ui/fieldset";
 
-<Fieldset>
-  <FieldsetContent disabled>
-    <FieldsetTitle>Advanced Features</FieldsetTitle>
-    <FieldsetSubtitle>Access premium capabilities and tools</FieldsetSubtitle>
-    <div className="relative mt-2 rounded-[6px] border border-gray-alpha-400 p-3">
-      <p className="text-copy-14">
-        This content is behind a disabled wall and not accessible to free users.
-      </p>
-      <p className="mt-2 text-copy-14">
-        It contains advanced configuration options and premium features.
-      </p>
-      <DisabledWall />
-    </div>
-  </FieldsetContent>
-  <FieldsetFooter highlight>
-    <FieldsetFooterStatus>
-      <span>Upgrade to a Pro plan to access these features.</span>
-    </FieldsetFooterStatus>
-  </FieldsetFooter>
-</Fieldset>;
+export function FieldsetWithDisabledWallB242E994Example() {
+  return (
+    <Fieldset>
+      <FieldsetContent disabled>
+        <FieldsetTitle>Advanced Features</FieldsetTitle>
+        <FieldsetSubtitle>Access premium capabilities and tools</FieldsetSubtitle>
+        <div className="relative mt-2 rounded-[6px] border border-gray-alpha-400 p-3">
+          <p className="text-copy-14">
+            This content is behind a disabled wall and not accessible to free users.
+          </p>
+          <p className="mt-2 text-copy-14">
+            It contains advanced configuration options and premium features.
+          </p>
+          <DisabledWall />
+        </div>
+      </FieldsetContent>
+      <FieldsetFooter highlight>
+        <FieldsetFooterStatus>
+          <span>Upgrade to a Pro plan to access these features.</span>
+        </FieldsetFooterStatus>
+      </FieldsetFooter>
+    </Fieldset>
+  );
+}
 ```
+
+## error-type
 
 #### Payment Failed
 
@@ -445,25 +504,31 @@ import {
   FieldsetTitle,
 } from "@/components/ui/fieldset";
 
-<Fieldset type="error">
-  <FieldsetContent>
-    <FieldsetTitle>Payment Failed</FieldsetTitle>
-    <FieldsetSubtitle>
-      Your payment method was declined. Please update your billing information to continue using the
-      service.
-    </FieldsetSubtitle>
-  </FieldsetContent>
-  <FieldsetFooter>
-    <FieldsetFooterStatus>
-      <span>Payment failed on February 10, 2026</span>
-    </FieldsetFooterStatus>
-    <FieldsetFooterActions>
-      <FieldsetFooterAction type="secondary">Contact Support</FieldsetFooterAction>
-      <FieldsetFooterAction>Update Payment Method</FieldsetFooterAction>
-    </FieldsetFooterActions>
-  </FieldsetFooter>
-</Fieldset>;
+export function FieldsetErrorType96E58B0DExample() {
+  return (
+    <Fieldset type="error">
+      <FieldsetContent>
+        <FieldsetTitle>Payment Failed</FieldsetTitle>
+        <FieldsetSubtitle>
+          Your payment method was declined. Please update your billing information to continue using
+          the service.
+        </FieldsetSubtitle>
+      </FieldsetContent>
+      <FieldsetFooter>
+        <FieldsetFooterStatus>
+          <span>Payment failed on February 10, 2026</span>
+        </FieldsetFooterStatus>
+        <FieldsetFooterActions>
+          <FieldsetFooterAction type="secondary">Contact Support</FieldsetFooterAction>
+          <FieldsetFooterAction>Update Payment Method</FieldsetFooterAction>
+        </FieldsetFooterActions>
+      </FieldsetFooter>
+    </Fieldset>
+  );
+}
 ```
+
+## warning-type
 
 #### Trial Ending Soon
 
@@ -483,24 +548,28 @@ import {
   FieldsetTitle,
 } from "@/components/ui/fieldset";
 
-<Fieldset type="warning">
-  <FieldsetContent>
-    <FieldsetTitle>Trial Ending Soon</FieldsetTitle>
-    <FieldsetSubtitle>
-      Your trial period will end in 3 days. Add a payment method to continue accessing premium
-      features without interruption.
-    </FieldsetSubtitle>
-  </FieldsetContent>
-  <FieldsetFooter>
-    <FieldsetFooterStatus>
-      <span>Trial expires: February 13, 2026</span>
-    </FieldsetFooterStatus>
-    <FieldsetFooterActions>
-      <FieldsetFooterAction type="secondary">Remind Me Later</FieldsetFooterAction>
-      <FieldsetFooterAction>Add Payment Method</FieldsetFooterAction>
-    </FieldsetFooterActions>
-  </FieldsetFooter>
-</Fieldset>;
+export function FieldsetWarningType82942353Example() {
+  return (
+    <Fieldset type="warning">
+      <FieldsetContent>
+        <FieldsetTitle>Trial Ending Soon</FieldsetTitle>
+        <FieldsetSubtitle>
+          Your trial period will end in 3 days. Add a payment method to continue accessing premium
+          features without interruption.
+        </FieldsetSubtitle>
+      </FieldsetContent>
+      <FieldsetFooter>
+        <FieldsetFooterStatus>
+          <span>Trial expires: February 13, 2026</span>
+        </FieldsetFooterStatus>
+        <FieldsetFooterActions>
+          <FieldsetFooterAction type="secondary">Remind Me Later</FieldsetFooterAction>
+          <FieldsetFooterAction>Add Payment Method</FieldsetFooterAction>
+        </FieldsetFooterActions>
+      </FieldsetFooter>
+    </Fieldset>
+  );
+}
 ```
 
 ## API 参考

@@ -51,89 +51,105 @@ Separator
 
 ## 实时示例
 
-### 第 1 节
+### Section 1
 
-这是第一部分内容。
+This is the first section of content.
 
-### 第 2 节
+### Section 2
 
-这是第二部分内容。
+This is the second section of content.
 
 ```tsx
 import { Separator } from "@/components/ui/separator";
 
-<div className="space-y-4">
-  <div>
-    <h3 className="text-label-16">Section 1</h3>
-    <p className="text-copy-14 text-gray-900">This is the first section of content.</p>
-  </div>
-  <Separator />
-  <div>
-    <h3 className="text-label-16">Section 2</h3>
-    <p className="text-copy-14 text-gray-900">This is the second section of content.</p>
-  </div>
-</div>;
+export function SeparatorHorizontal69B273A2Example() {
+  return (
+    <div className="space-y-4">
+      <div>
+        <h3 className="text-label-16">Section 1</h3>
+        <p className="text-copy-14 text-gray-900">This is the first section of content.</p>
+      </div>
+      <Separator />
+      <div>
+        <h3 className="text-label-16">Section 2</h3>
+        <p className="text-copy-14 text-gray-900">This is the second section of content.</p>
+      </div>
+    </div>
+  );
+}
 ```
 
-首页
+## vertical
 
-关于
+Home
 
-服务
+About
 
-联系
+Services
+
+Contact
 
 ```tsx
 import { Separator } from "@/components/ui/separator";
 
-<div className="flex h-8 items-center space-x-4">
-  <p className="text-copy-14 text-gray-1000">Home</p>
-  <Separator orientation="vertical" />
-  <p className="text-copy-14 text-gray-1000">About</p>
-  <Separator orientation="vertical" />
-  <p className="text-copy-14 text-gray-1000">Services</p>
-  <Separator orientation="vertical" />
-  <p className="text-copy-14 text-gray-1000">Contact</p>
-</div>;
+export function SeparatorVertical34DA5602Example() {
+  return (
+    <div className="flex h-8 items-center space-x-4">
+      <p className="text-copy-14 text-gray-1000">Home</p>
+      <Separator orientation="vertical" />
+      <p className="text-copy-14 text-gray-1000">About</p>
+      <Separator orientation="vertical" />
+      <p className="text-copy-14 text-gray-1000">Services</p>
+      <Separator orientation="vertical" />
+      <p className="text-copy-14 text-gray-1000">Contact</p>
+    </div>
+  );
+}
 ```
 
-#### 水平分隔线
+## orientation-variants
 
-分隔线上方内容
+#### Horizontal Separators
 
-分隔线下方内容
+Content above separator
 
-#### 垂直分隔线
+Content below separator
 
-左
+#### Vertical Separators
 
-居中
+Left
 
-右
+Center
+
+Right
 
 ```tsx
 import { Separator } from "@/components/ui/separator";
 
-<div className="space-y-8">
-  <div>
-    <h4 className="mb-2 text-label-14">Horizontal Separators</h4>
-    <div className="space-y-2">
-      <p className="text-copy-14">Content above separator</p>
-      <Separator orientation="horizontal" />
-      <p className="text-copy-14">Content below separator</p>
+export function SeparatorOrientationVariants25A5D06AExample() {
+  return (
+    <div className="space-y-8">
+      <div>
+        <h4 className="mb-2 text-label-14">Horizontal Separators</h4>
+        <div className="space-y-2">
+          <p className="text-copy-14">Content above separator</p>
+          <Separator orientation="horizontal" />
+          <p className="text-copy-14">Content below separator</p>
+        </div>
+      </div>
+      <div>
+        <h4 className="mb-2 text-label-14">Vertical Separators</h4>
+        <div className="flex h-6 items-center space-x-2">
+          <span className="text-copy-14">Left</span>
+          <Separator orientation="vertical" />
+          <span className="text-copy-14">Center</span>
+          <Separator orientation="vertical" />
+          <span className="text-copy-14">Right</span>
+        </div>
+      </div>
     </div>
-  </div>
-  <div>
-    <h4 className="mb-2 text-label-14">Vertical Separators</h4>
-    <div className="flex h-6 items-center space-x-2">
-      <span className="text-copy-14">Left</span>
-      <Separator orientation="vertical" />
-      <span className="text-copy-14">Center</span>
-      <Separator orientation="vertical" />
-      <span className="text-copy-14">Right</span>
-    </div>
-  </div>
-</div>;
+  );
+}
 ```
 
 ## API 参考

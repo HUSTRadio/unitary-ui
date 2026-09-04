@@ -62,26 +62,28 @@ Demonstrates the Secondary mode for de-emphasized content grouping and less prom
 
 ## Live Demo
 
-Building blocks for consistent web experiences.
-
 ```tsx
 import { Tabs } from "@/components/ui/tabs";
 import { useState } from "react";
 
-const [tab, setTab] = useState("overview");
+export function TabsDefault21B111CBExample() {
+  const [tab, setTab] = useState("overview");
 
-<div className="w-full max-w-xl">
-  <Tabs
-    tabs={[
-      { value: "overview", title: "Overview" },
-      { value: "usage", title: "Usage" },
-      { value: "api", title: "API" },
-    ]}
-    selected={tab}
-    setSelected={setTab}
-    ariaLabel="Component documentation"
-  />
-</div>;
+  return (
+    <div className="w-full max-w-xl">
+      <Tabs
+        tabs={[
+          { value: "overview", title: "Overview" },
+          { value: "usage", title: "Usage" },
+          { value: "api", title: "API" },
+        ]}
+        selected={tab}
+        setSelected={setTab}
+        ariaLabel="Component documentation"
+      />
+    </div>
+  );
+}
 ```
 
 ## Disabled
@@ -89,17 +91,21 @@ const [tab, setTab] = useState("overview");
 ```tsx
 import { Tabs } from "@/components/ui/tabs";
 
-<Tabs
-  disabled
-  selected="apple"
-  setSelected={() => {}}
-  tabs={[
-    { title: "Apple", value: "apple" },
-    { title: "Orange", value: "orange" },
-    { title: "Mango", value: "mango" },
-  ]}
-  ariaLabel="Disabled tabs"
-/>;
+export function TabsDisabled75081B59Example() {
+  return (
+    <Tabs
+      disabled
+      selected="apple"
+      setSelected={() => {}}
+      tabs={[
+        { title: "Apple", value: "apple" },
+        { title: "Orange", value: "orange" },
+        { title: "Mango", value: "mango" },
+      ]}
+      ariaLabel="Disabled tabs"
+    />
+  );
+}
 ```
 
 ## Disable specific tabs
@@ -107,16 +113,20 @@ import { Tabs } from "@/components/ui/tabs";
 ```tsx
 import { Tabs } from "@/components/ui/tabs";
 
-<Tabs
-  selected="apple"
-  setSelected={() => {}}
-  tabs={[
-    { title: "Apple", value: "apple" },
-    { title: "Orange", value: "orange" },
-    { title: "Mango", value: "mango", disabled: true, tooltip: "Mangos are not allowed" },
-  ]}
-  ariaLabel="Tabs with disabled tab"
-/>;
+export function TabsDisableSpecificTabsA4195A7DExample() {
+  return (
+    <Tabs
+      selected="apple"
+      setSelected={() => {}}
+      tabs={[
+        { title: "Apple", value: "apple" },
+        { title: "Orange", value: "orange" },
+        { title: "Mango", value: "mango", disabled: true, tooltip: "Mangos are not allowed" },
+      ]}
+      ariaLabel="Tabs with disabled tab"
+    />
+  );
+}
 ```
 
 ## With icons
@@ -125,16 +135,20 @@ import { Tabs } from "@/components/ui/tabs";
 import { Tabs } from "@/components/ui/tabs";
 import { LayoutGrid } from "lucide-react";
 
-<Tabs
-  selected="github"
-  setSelected={() => {}}
-  tabs={[
-    { title: "GitHub", value: "github", icon: <LayoutGrid className="size-4" aria-hidden /> },
-    { title: "GitLab", value: "gitlab" },
-    { title: "Bitbucket", value: "bitbucket" },
-  ]}
-  ariaLabel="Tabs with icons"
-/>;
+export function TabsWithIcons1F71F4BCExample() {
+  return (
+    <Tabs
+      selected="github"
+      setSelected={() => {}}
+      tabs={[
+        { title: "GitHub", value: "github", icon: <LayoutGrid className="size-4" aria-hidden /> },
+        { title: "GitLab", value: "gitlab" },
+        { title: "Bitbucket", value: "bitbucket" },
+      ]}
+      ariaLabel="Tabs with icons"
+    />
+  );
+}
 ```
 
 ## Secondary
@@ -142,17 +156,21 @@ import { LayoutGrid } from "lucide-react";
 ```tsx
 import { Tabs } from "@/components/ui/tabs";
 
-<Tabs
-  variant="secondary"
-  selected="github"
-  setSelected={() => {}}
-  tabs={[
-    { title: "GitHub", value: "github" },
-    { title: "GitLab", value: "gitlab" },
-    { title: "Bitbucket", value: "bitbucket", disabled: true },
-  ]}
-  ariaLabel="Secondary tabs"
-/>;
+export function TabsSecondary62F2CCFFExample() {
+  return (
+    <Tabs
+      variant="secondary"
+      selected="github"
+      setSelected={() => {}}
+      tabs={[
+        { title: "GitHub", value: "github" },
+        { title: "GitLab", value: "gitlab" },
+        { title: "Bitbucket", value: "bitbucket", disabled: true },
+      ]}
+      ariaLabel="Secondary tabs"
+    />
+  );
+}
 ```
 
 ## API Reference

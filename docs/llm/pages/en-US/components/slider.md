@@ -63,50 +63,84 @@ Not applicable: The track fills its container, but the component does not resize
 ```tsx
 import { Slider } from "@/components/ui/slider";
 
-<Slider defaultValue={[50]} aria-label="Value" />;
+export function SliderDefault37A8EEC1Example() {
+  return <Slider defaultValue={[50]} aria-label="Value" />;
+}
 ```
+
+## step-max
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
 
-<Slider defaultValue={[20]} step={10} max={50} marks aria-label="Value in steps of 10" />;
+export function SliderStepMax1112E58CExample() {
+  return <Slider defaultValue={[20]} step={10} max={50} marks aria-label="Value in steps of 10" />;
+}
 ```
+
+## with-label
+
+Volume
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
 
-<Slider label="Volume" defaultValue={[40]} />;
+export function SliderWithLabelBB9F6883Example() {
+  return <Slider label="Volume" defaultValue={[40]} />;
+}
 ```
+
+## range-with-inputs
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 
-const [value, setValue] = useState([50, 75]);
+export function SliderRangeWithInputs16EAD947Example() {
+  const [value, setValue] = useState([50, 75]);
 
-<Slider showStartInput showEndInput value={value} onValueChange={setValue} aria-label="Range" />;
+  return (
+    <Slider showStartInput showEndInput value={value} onValueChange={setValue} aria-label="Range" />
+  );
+}
 ```
+
+## disabled-range-with-inputs
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
 
-<Slider disabled showStartInput showEndInput value={[50, 75]} aria-label="Range" />;
+export function SliderDisabledRangeWithInputsFCA5E8B4Example() {
+  return <Slider disabled showStartInput showEndInput value={[50, 75]} aria-label="Range" />;
+}
 ```
+
+## commit-on-release
+
+Drag then release
+
+Last committed: —
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 
-const [committed, setCommitted] = useState<number | null>(null);
+export function SliderCommitOnRelease97B1700EExample() {
+  const [committed, setCommitted] = useState<number | null>(null);
 
-<Slider
-  label="Drag then release"
-  defaultValue={[50]}
-  onValueCommitted={(value) => setCommitted(value[0] ?? null)}
-/>
-<p className="mt-2 text-copy-13 text-gray-900">
-  Last committed: {committed === null ? "—" : committed}
-</p>
+  return (
+    <>
+      <Slider
+        label="Drag then release"
+        defaultValue={[50]}
+        onValueCommitted={(value) => setCommitted(value[0] ?? null)}
+      />
+      <p className="mt-2 text-copy-13 text-gray-900">
+        Last committed: {committed === null ? "—" : committed}
+      </p>
+    </>
+  );
+}
 ```
 
 ## API Reference

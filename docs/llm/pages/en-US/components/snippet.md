@@ -66,40 +66,62 @@ Showcases all Snippet variant styles and configuration options available.
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet text="npm init next-app" width="300px" />;
+export function SnippetDefault21B111CBExample() {
+  return <Snippet text="npm init next-app" width="300px" />;
+}
 ```
+
+## Inverted
 
 `$ npm init next-app`
 
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet dark text="npm init next-app" width="300px" />;
+export function SnippetInverted7A2F99B7Example() {
+  return <Snippet dark text="npm init next-app" width="300px" />;
+}
 ```
+
+## Multi line
 
 `$ cd project``$ now`
 
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet text={["cd project", "now"]} width="100%" />;
+export function SnippetMultiLine8E24895DExample() {
+  return <Snippet text={["cd project", "now"]} width="100%" />;
+}
 ```
+
+## No prompt
 
 `npm init next-app`
 
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet prompt={false} text="npm init next-app" width="300px" />;
+export function SnippetNoPromptFD175ECDExample() {
+  return <Snippet prompt={false} text="npm init next-app" width="300px" />;
+}
 ```
+
+## Callback
 
 `$ npm init next-app`
 
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<Snippet onCopy={() => alert("You copied the text!")} text="npm init next-app" width="300px" />;
+export function SnippetCallback32E8D276Example() {
+  return (
+    <Snippet onCopy={() => alert("You copied the text!")} text="npm init next-app" width="300px" />
+  );
+}
 ```
+
+## Variants
 
 `$ npm init next-app`
 
@@ -110,14 +132,20 @@ import { Snippet } from "@/components/ui/snippet";
 ```tsx
 import { Snippet } from "@/components/ui/snippet";
 
-<div className="flex flex-col items-stretch justify-start gap-3 flex-initial">
-  <Snippet text="npm init next-app" type="success" width="300px" />
-  <Snippet text="npm init next-app" type="error" width="300px" />
-  <Snippet text="npm init next-app" type="warning" width="300px" />
-</div>;
+export function SnippetVariants63D2643BExample() {
+  return (
+    <div className="flex flex-col items-stretch justify-start gap-3 flex-initial">
+      <Snippet text="npm init next-app" type="success" width="300px" />
+      <Snippet text="npm init next-app" type="error" width="300px" />
+      <Snippet text="npm init next-app" type="warning" width="300px" />
+    </div>
+  );
+}
 ```
 
-`$ npm init next-app`
+## Controlled Copied State
+
+`Copy install prompt`
 
 ```tsx
 "use client";
@@ -133,7 +161,7 @@ Template for a full-featured Next.js AI chatbot
 # Requirements
 This template uses the Vercel AI Gateway to access multiple AI models through a unified interface. The default model is OpenAI GPT-4.1 Mini, with support for Anthropic, Google, and xAI models.`;
 
-export function Component(): JSX.Element {
+export function SnippetControlledCopiedStateB953E7D9Example(): JSX.Element {
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
 

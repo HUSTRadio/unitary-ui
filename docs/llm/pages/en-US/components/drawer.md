@@ -58,48 +58,52 @@ Controlling the drawer's viewport proportion via the custom height prop to match
 
 ## Live Demo
 
-Desktop side panel: use SidePanel.
-
-Floating right/left panel for mouse & trackpad.
-
-Touch screen: use Drawer.
-
-Full-width bottom sheet with swipe-to-dismiss.
-
 ```tsx
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
 import { useState } from "react";
 
-const [open, setOpen] = useState(false);
+export function DrawerDefault37A8EEC1Example() {
+  const [open, setOpen] = useState(false);
 
-<Button type="secondary" onClick={() => setOpen(true)}>
-  Open
-</Button>
-<Drawer show={open} onDismiss={() => setOpen(false)} verticalScroll>
-  <div className="flex flex-col items-stretch justify-start gap-2 p-12">
-    <DrawerTitle className="text-center">A drawer title</DrawerTitle>
-    <DrawerDescription className="text-center">Drawer body</DrawerDescription>
-  </div>
-</Drawer>
+  return (
+    <>
+      <Button type="secondary" onClick={() => setOpen(true)}>
+        Open
+      </Button>
+      <Drawer show={open} onDismiss={() => setOpen(false)} verticalScroll>
+        <div className="flex flex-col items-stretch justify-start gap-2 p-12">
+          <DrawerTitle className="text-center">A drawer title</DrawerTitle>
+          <DrawerDescription className="text-center">Drawer body</DrawerDescription>
+        </div>
+      </Drawer>
+    </>
+  );
+}
 ```
 
+## custom-height
+
 ```tsx
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
 import { useState } from "react";
 
-const [open, setOpen] = useState(false);
+export function DrawerCustomHeight986065F9Example() {
+  const [open, setOpen] = useState(false);
 
-<Button onClick={() => setOpen(true)}>
-  Open
-</Button>
-<Drawer height={200} show={open} onDismiss={() => setOpen(false)} verticalScroll>
-  <div className="flex flex-col items-stretch justify-start gap-2 p-12">
-    <DrawerTitle className="text-center">A drawer title</DrawerTitle>
-    <DrawerDescription className="text-center">Drawer body</DrawerDescription>
-  </div>
-</Drawer>
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open</Button>
+      <Drawer height={200} show={open} onDismiss={() => setOpen(false)} verticalScroll>
+        <div className="flex flex-col items-stretch justify-start gap-2 p-12">
+          <DrawerTitle className="text-center">A drawer title</DrawerTitle>
+          <DrawerDescription className="text-center">Drawer body</DrawerDescription>
+        </div>
+      </Drawer>
+    </>
+  );
+}
 ```
 
 ## API Reference

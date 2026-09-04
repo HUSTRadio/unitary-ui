@@ -71,25 +71,35 @@ This example is hidden because it is intended for only desktop.
 import { Feedback } from "@/components/ui/feedback";
 import { Note, NoteContent } from "@/components/ui/note";
 
-<>
-  <div className="hidden justify-center xl:flex">
-    <Feedback label="vercel" dryRun />
-  </div>
-  <div className="flex justify-center xl:hidden">
-    <Note>
-      <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
-    </Note>
-  </div>
-</>;
+export function FeedbackDefault21B111CBExample() {
+  return (
+    <>
+      <div className="hidden justify-center xl:flex">
+        <Feedback label="vercel" dryRun />
+      </div>
+      <div className="flex justify-center xl:hidden">
+        <Note>
+          <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
+        </Note>
+      </div>
+    </>
+  );
+}
 ```
+
+## Inline
 
 Was this helpful?
 
 ```tsx
 import { Feedback } from "@/components/ui/feedback";
 
-<Feedback dryRun label="vercel" type="inline" />;
+export function FeedbackInline99ED40ACExample() {
+  return <Feedback dryRun label="vercel" type="inline" />;
+}
 ```
+
+## Feedback with Select
 
 vercel
 
@@ -99,17 +109,23 @@ This example is hidden because it is intended for only desktop.
 import { Feedback } from "@/components/ui/feedback";
 import { Note, NoteContent } from "@/components/ui/note";
 
-<>
-  <div className="hidden justify-center xl:flex">
-    <Feedback label="vercel" showTopics dryRun />
-  </div>
-  <div className="flex justify-center xl:hidden">
-    <Note>
-      <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
-    </Note>
-  </div>
-</>;
+export function FeedbackFeedbackWithSelectBF2A8F56Example() {
+  return (
+    <>
+      <div className="hidden justify-center xl:flex">
+        <Feedback label="vercel" showTopics dryRun />
+      </div>
+      <div className="flex justify-center xl:hidden">
+        <Note>
+          <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
+        </Note>
+      </div>
+    </>
+  );
+}
 ```
+
+## Feedback with metadata
 
 vercel
 
@@ -119,25 +135,31 @@ This example is hidden because it is intended for only desktop.
 import { Feedback } from "@/components/ui/feedback";
 import { Note, NoteContent } from "@/components/ui/note";
 
-<>
-  <div className="hidden justify-center xl:flex">
-    <Feedback
-      label="vercel"
-      dryRun
-      metadata={{
-        userId: "user_12345",
-        location: "post-checkout",
-        orderId: "order_123456",
-      }}
-    />
-  </div>
-  <div className="flex justify-center xl:hidden">
-    <Note>
-      <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
-    </Note>
-  </div>
-</>;
+export function FeedbackFeedbackWithMetadata6449A9ACExample() {
+  return (
+    <>
+      <div className="hidden justify-center xl:flex">
+        <Feedback
+          label="vercel"
+          dryRun
+          metadata={{
+            userId: "user_12345",
+            location: "post-checkout",
+            orderId: "order_123456",
+          }}
+        />
+      </div>
+      <div className="flex justify-center xl:hidden">
+        <Note>
+          <NoteContent>This example is hidden because it is intended for only desktop.</NoteContent>
+        </Note>
+      </div>
+    </>
+  );
+}
 ```
+
+## Rating bar
 
 vercel
 
@@ -148,16 +170,20 @@ vercel
 ```tsx
 import { Feedback } from "@/components/ui/feedback";
 
-// 胶囊 rating bar：收起为一行 trigger，点开展开评分、点外部收起；选中后胶囊以语义色着色
-// （love → success 绿 / okay → gray 中性 / not-great → warning 黄 / hate → error 红）
-<>
-  <div className="flex flex-wrap items-center justify-center gap-4">
-    <Feedback label="vercel" dryRun defaultValue="love" />
-    <Feedback label="vercel" dryRun defaultValue="not-great" />
-    <Feedback label="vercel" dryRun defaultValue="hate" />
-  </div>
-</>;
+export function FeedbackRatingBar253F979EExample() {
+  return (
+    <>
+      <div className="flex flex-wrap items-center justify-center gap-4">
+        <Feedback label="vercel" dryRun defaultValue="love" />
+        <Feedback label="vercel" dryRun defaultValue="not-great" />
+        <Feedback label="vercel" dryRun defaultValue="hate" />
+      </div>
+    </>
+  );
+}
 ```
+
+## Feedback with prefix
 
 vercel
 
@@ -165,8 +191,12 @@ vercel
 import { Feedback } from "@/components/ui/feedback";
 import { Flag } from "lucide-react";
 
-<Feedback dryRun label="vercel" prefix={<Flag className="size-4" />} />;
+export function FeedbackFeedbackWithPrefixEBD13739Example() {
+  return <Feedback dryRun label="vercel" prefix={<Flag className="size-4" />} />;
+}
 ```
+
+## Feedback with suffix
 
 vercel
 
@@ -174,7 +204,9 @@ vercel
 import { Feedback } from "@/components/ui/feedback";
 import { Flag } from "lucide-react";
 
-<Feedback dryRun label="vercel" suffix={<Flag className="size-4" />} />;
+export function FeedbackFeedbackWithSuffixE429255FExample() {
+  return <Feedback dryRun label="vercel" suffix={<Flag className="size-4" />} />;
+}
 ```
 
 ## API Reference

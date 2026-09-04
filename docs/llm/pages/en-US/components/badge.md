@@ -60,10 +60,6 @@ Not applicable: Badge is a static label with no controlled behavior or interacti
 
 ## Live Demo
 
-GrayBluePurpleAmberRedGreen
-
-## Variants
-
 GrayGray Subtle
 
 BlueBlue Subtle
@@ -85,61 +81,66 @@ InvertedTrialTurborepoOutline
 ```tsx
 import { Badge } from "@/components/ui/badge";
 
-<div className="flex flex-col gap-2">
-  <div className="flex flex-wrap items-center gap-1.5">
-    <Badge variant="gray">Gray</Badge>
-    <Badge variant="gray" contrast="low">
-      Gray Subtle
-    </Badge>
-  </div>
-  <div className="flex flex-wrap items-center gap-1.5">
-    <Badge variant="blue">Blue</Badge>
-    <Badge variant="blue" contrast="low">
-      Blue Subtle
-    </Badge>
-  </div>
-  <div className="flex flex-wrap items-center gap-1.5">
-    <Badge variant="purple">Purple</Badge>
-    <Badge variant="purple" contrast="low">
-      Purple Subtle
-    </Badge>
-  </div>
-  <div className="flex flex-wrap items-center gap-1.5">
-    <Badge variant="amber">Amber</Badge>
-    <Badge variant="amber" contrast="low">
-      Amber Subtle
-    </Badge>
-  </div>
-  <div className="flex flex-wrap items-center gap-1.5">
-    <Badge variant="red">Red</Badge>
-    <Badge variant="red" contrast="low">
-      Red Subtle
-    </Badge>
-  </div>
-  <div className="flex flex-wrap items-center gap-1.5">
-    <Badge variant="pink">Pink</Badge>
-    <Badge variant="pink" contrast="low">
-      Pink Subtle
-    </Badge>
-  </div>
-  <div className="flex flex-wrap items-center gap-1.5">
-    <Badge variant="green">Green</Badge>
-    <Badge variant="green" contrast="low">
-      Green Subtle
-    </Badge>
-  </div>
-  <div className="flex flex-wrap items-center gap-1.5">
-    <Badge variant="teal">Teal</Badge>
-    <Badge variant="teal" contrast="low">
-      Teal Subtle
-    </Badge>
-  </div>
-  <div className="flex flex-wrap items-center gap-1.5">
-    <Badge variant="inverted">Inverted</Badge>
-    <Badge variant="trial">Trial</Badge>
-    <Badge variant="turbo">Turborepo</Badge>
-  </div>
-</div>;
+export function BadgeVariants63D2643BExample() {
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-wrap items-center gap-1.5">
+        <Badge variant="gray">Gray</Badge>
+        <Badge variant="gray" contrast="low">
+          Gray Subtle
+        </Badge>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        <Badge variant="blue">Blue</Badge>
+        <Badge variant="blue" contrast="low">
+          Blue Subtle
+        </Badge>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        <Badge variant="purple">Purple</Badge>
+        <Badge variant="purple" contrast="low">
+          Purple Subtle
+        </Badge>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        <Badge variant="amber">Amber</Badge>
+        <Badge variant="amber" contrast="low">
+          Amber Subtle
+        </Badge>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        <Badge variant="red">Red</Badge>
+        <Badge variant="red" contrast="low">
+          Red Subtle
+        </Badge>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        <Badge variant="pink">Pink</Badge>
+        <Badge variant="pink" contrast="low">
+          Pink Subtle
+        </Badge>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        <Badge variant="green">Green</Badge>
+        <Badge variant="green" contrast="low">
+          Green Subtle
+        </Badge>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        <Badge variant="teal">Teal</Badge>
+        <Badge variant="teal" contrast="low">
+          Teal Subtle
+        </Badge>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        <Badge variant="inverted">Inverted</Badge>
+        <Badge variant="trial">Trial</Badge>
+        <Badge variant="turbo">Turborepo</Badge>
+        <Badge variant="outline">Outline</Badge>
+      </div>
+    </div>
+  );
+}
 ```
 
 ## Sizes
@@ -149,11 +150,15 @@ SmallMediumLarge
 ```tsx
 import { Badge } from "@/components/ui/badge";
 
-<div className="flex flex-wrap items-center gap-2">
-  <Badge size="sm">Small</Badge>
-  <Badge size="md">Medium</Badge>
-  <Badge size="lg">Large</Badge>
-</div>;
+export function BadgeSizes74A3978DExample() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Badge size="sm">Small</Badge>
+      <Badge size="md">Medium</Badge>
+      <Badge size="lg">Large</Badge>
+    </div>
+  );
+}
 ```
 
 ## With icons
@@ -168,68 +173,72 @@ GreenGreenGreenGreenGreenGreen
 import { Badge } from "@/components/ui/badge";
 import { Shield } from "lucide-react";
 
-<div className="flex flex-col gap-2">
-  <div className="flex flex-wrap items-center gap-1.5">
-    <Badge icon={<Shield aria-hidden />} size="lg" variant="gray">
-      Gray
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="md" variant="gray">
-      Gray
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="sm" variant="gray">
-      Gray
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="lg" variant="gray" contrast="low">
-      Gray
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="md" variant="gray" contrast="low">
-      Gray
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="sm" variant="gray" contrast="low">
-      Gray
-    </Badge>
-  </div>
-  <div className="flex flex-wrap items-center gap-1.5">
-    <Badge icon={<Shield aria-hidden />} size="lg" variant="blue">
-      Blue
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="md" variant="blue">
-      Blue
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="sm" variant="blue">
-      Blue
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="lg" variant="blue" contrast="low">
-      Blue
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="md" variant="blue" contrast="low">
-      Blue
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="sm" variant="blue" contrast="low">
-      Blue
-    </Badge>
-  </div>
-  <div className="flex flex-wrap items-center gap-1.5">
-    <Badge icon={<Shield aria-hidden />} size="lg" variant="green">
-      Green
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="md" variant="green">
-      Green
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="sm" variant="green">
-      Green
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="lg" variant="green" contrast="low">
-      Green
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="md" variant="green" contrast="low">
-      Green
-    </Badge>
-    <Badge icon={<Shield aria-hidden />} size="sm" variant="green" contrast="low">
-      Green
-    </Badge>
-  </div>
-</div>;
+export function BadgeWithIcons1F71F4BCExample() {
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-wrap items-center gap-1.5">
+        <Badge icon={<Shield aria-hidden />} size="lg" variant="gray">
+          Gray
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="md" variant="gray">
+          Gray
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="sm" variant="gray">
+          Gray
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="lg" variant="gray" contrast="low">
+          Gray
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="md" variant="gray" contrast="low">
+          Gray
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="sm" variant="gray" contrast="low">
+          Gray
+        </Badge>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        <Badge icon={<Shield aria-hidden />} size="lg" variant="blue">
+          Blue
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="md" variant="blue">
+          Blue
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="sm" variant="blue">
+          Blue
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="lg" variant="blue" contrast="low">
+          Blue
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="md" variant="blue" contrast="low">
+          Blue
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="sm" variant="blue" contrast="low">
+          Blue
+        </Badge>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        <Badge icon={<Shield aria-hidden />} size="lg" variant="green">
+          Green
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="md" variant="green">
+          Green
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="sm" variant="green">
+          Green
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="lg" variant="green" contrast="low">
+          Green
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="md" variant="green" contrast="low">
+          Green
+        </Badge>
+        <Badge icon={<Shield aria-hidden />} size="sm" variant="green" contrast="low">
+          Green
+        </Badge>
+      </div>
+    </div>
+  );
+}
 ```
 
 ## Pill
@@ -242,30 +251,34 @@ LabelLabelLabel
 import { Badge } from "@/components/ui/badge";
 import { Shield } from "lucide-react";
 
-<div className="flex flex-col gap-4">
-  <div className="flex flex-wrap items-center gap-2">
-    <Badge variant="pill" size="sm">
-      Label
-    </Badge>
-    <Badge variant="pill" size="md">
-      Label
-    </Badge>
-    <Badge variant="pill" size="lg">
-      Label
-    </Badge>
-  </div>
-  <div className="flex flex-wrap items-center gap-2">
-    <Badge variant="pill" size="sm" icon={<Shield aria-hidden />}>
-      Label
-    </Badge>
-    <Badge variant="pill" size="md" icon={<Shield aria-hidden />}>
-      Label
-    </Badge>
-    <Badge variant="pill" size="lg" icon={<Shield aria-hidden />}>
-      Label
-    </Badge>
-  </div>
-</div>;
+export function BadgePill9945C78BExample() {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-wrap items-center gap-2">
+        <Badge variant="pill" size="sm">
+          Label
+        </Badge>
+        <Badge variant="pill" size="md">
+          Label
+        </Badge>
+        <Badge variant="pill" size="lg">
+          Label
+        </Badge>
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <Badge variant="pill" size="sm" icon={<Shield aria-hidden />}>
+          Label
+        </Badge>
+        <Badge variant="pill" size="md" icon={<Shield aria-hidden />}>
+          Label
+        </Badge>
+        <Badge variant="pill" size="lg" icon={<Shield aria-hidden />}>
+          Label
+        </Badge>
+      </div>
+    </div>
+  );
+}
 ```
 
 ## API Reference

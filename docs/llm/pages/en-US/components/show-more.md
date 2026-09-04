@@ -60,29 +60,35 @@ Not applicable: ShowMore renders only a fixed 32px-high trigger. It does not man
 
 ## Live Demo
 
-Unitary provides reusable tokens, primitives, and component patterns for building consis…
-
 ```tsx
 import { ShowMore } from "@/components/ui/show-more";
 import { useState } from "react";
 
-export function Component() {
+export function ShowMoreDefault21B111CBExample() {
   const [expanded, setExpanded] = useState(false);
 
   return <ShowMore expanded={expanded} onClick={() => setExpanded(!expanded)} />;
 }
 ```
 
+## Expanded
+
 ```tsx
 import { ShowMore } from "@/components/ui/show-more";
 
-<ShowMore expanded />;
+export function ShowMoreExpandedE72D5D8DExample() {
+  return <ShowMore expanded />;
+}
 ```
 
+## No border
+
 ```tsx
 import { ShowMore } from "@/components/ui/show-more";
 
-<ShowMore noBorder />;
+export function ShowMoreNoBorder5DEDD0A8Example() {
+  return <ShowMore noBorder />;
+}
 ```
 
 ## API Reference

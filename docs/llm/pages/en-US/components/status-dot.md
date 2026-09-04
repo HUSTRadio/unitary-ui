@@ -54,27 +54,37 @@ Not applicable: The Status Dot is a purely decorative micro-interaction componen
 ```tsx
 import { StatusDot } from "@/components/ui/status-dot";
 
-<div className="flex flex-col items-stretch justify-start gap-6 flex-initial">
-  <StatusDot state="QUEUED" />
-  <StatusDot state="BUILDING" />
-  <StatusDot state="ERROR" />
-  <StatusDot state="READY" />
-  <StatusDot state="CANCELED" />
-</div>;
+export function StatusDotDefault21B111CBExample() {
+  return (
+    <div className="flex flex-col items-stretch justify-start gap-6 flex-initial">
+      <StatusDot state="QUEUED" />
+      <StatusDot state="BUILDING" />
+      <StatusDot state="ERROR" />
+      <StatusDot state="READY" />
+      <StatusDot state="CANCELED" />
+    </div>
+  );
+}
 ```
+
+## Label
 
 QueuedBuildingErrorReadyCanceled
 
 ```tsx
 import { StatusDot } from "@/components/ui/status-dot";
 
-<div className="flex flex-col items-stretch justify-start gap-6 flex-initial">
-  <StatusDot label state="QUEUED" />
-  <StatusDot label state="BUILDING" />
-  <StatusDot label state="ERROR" />
-  <StatusDot label state="READY" />
-  <StatusDot label state="CANCELED" />
-</div>;
+export function StatusDotLabel0E66373FExample() {
+  return (
+    <div className="flex flex-col items-stretch justify-start gap-6 flex-initial">
+      <StatusDot label state="QUEUED" />
+      <StatusDot label state="BUILDING" />
+      <StatusDot label state="ERROR" />
+      <StatusDot label state="READY" />
+      <StatusDot label state="CANCELED" />
+    </div>
+  );
+}
 ```
 
 ## API Reference

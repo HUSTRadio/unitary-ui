@@ -24,6 +24,7 @@ export interface DocsRoute {
   group: DocsGroupId;
   label: string;
   labelZh: string;
+  aliases?: readonly string[];
   sidebar: boolean;
   icon?: LucideIcon;
   renderer: DocsRenderer;
@@ -141,6 +142,17 @@ export const DOCS_ROUTE_GROUPS: readonly DocsRouteGroup[] = DOCS_GROUPS.map((gro
   ...group,
   items: DOCS_ROUTE_SEQUENCE.filter((route) => route.sidebar && route.group === group.id),
 }));
+
+export function getRouteSearchText(
+  group: Pick<DocsRouteGroup, "title" | "titleZh">,
+  item: Pick<DocsRoute, "label" | "labelZh" | "aliases">,
+): string {
+  return [group.title, group.titleZh, item.label, item.labelZh, ...(item.aliases ?? [])]
+    .join(" ")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
 export function canonicalDocsPath(pathname: string): string {
   const withLeadingSlash = pathname.startsWith("/") ? pathname : `/${pathname}`;

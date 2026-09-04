@@ -60,20 +60,24 @@ Not applicable: Pill itself has no controlled properties for internal state mana
 import { Pill } from "@/components/ui/pill";
 import { useState } from "react";
 
-const [active, setActive] = useState("all");
+export function PillDefault21B111CBExample() {
+  const [active, setActive] = useState("all");
 
-<div className="flex flex-wrap gap-2">
-  {(["all", "ready", "error"] as const).map((value) => (
-    <Pill
-      key={value}
-      variant={active === value ? "active" : "default"}
-      aria-pressed={active === value}
-      onClick={() => setActive(value)}
-    >
-      {value}
-    </Pill>
-  ))}
-</div>;
+  return (
+    <div className="flex flex-wrap gap-2">
+      {(["all", "ready", "error"] as const).map((value) => (
+        <Pill
+          key={value}
+          variant={active === value ? "active" : "default"}
+          aria-pressed={active === value}
+          onClick={() => setActive(value)}
+        >
+          {value}
+        </Pill>
+      ))}
+    </div>
+  );
+}
 ```
 
 ## API Reference

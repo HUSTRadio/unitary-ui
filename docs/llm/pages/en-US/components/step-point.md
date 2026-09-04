@@ -58,11 +58,15 @@ Not applicable: Step points use fixed semantic colors (grey unvisited, brand act
 ```tsx
 import { StepPoint } from "@/components/ui/step-point";
 
-<ul className="w-full max-w-xs">
-  <StepPoint status="done">Submitted</StepPoint>
-  <StepPoint status="active">Under review</StepPoint>
-  <StepPoint status="idle">Approved</StepPoint>
-</ul>;
+export function StepPointDefault21B111CBExample() {
+  return (
+    <ul className="w-full max-w-xs">
+      <StepPoint status="done">Submitted</StepPoint>
+      <StepPoint status="active">Under review</StepPoint>
+      <StepPoint status="idle">Approved</StepPoint>
+    </ul>
+  );
+}
 ```
 
 ## API Reference

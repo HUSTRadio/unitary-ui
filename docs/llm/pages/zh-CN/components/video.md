@@ -52,14 +52,30 @@ Video
 
 ## 实时示例
 
+```tsx
+import { Video } from "@/components/ui/video";
+
+export function VideoDefault37A8EEC1Example() {
+  return (
+    <div className="w-full min-w-0 max-w-[600px]">
+      <Video height={582} lazy={false} poster="/demo-poster.png" src="/demo.mp4" width={600} />
+    </div>
+  );
+}
+```
+
 ## 不循环
 
 ```tsx
 import { Video } from "@/components/ui/video";
 
-<div className="w-full min-w-0 max-w-[600px]">
-  <Video height={582} lazy={false} loop={false} src="/demo.mp4" width={600} />
-</div>;
+export function VideoNoLoopAE976739Example() {
+  return (
+    <div className="w-full min-w-0 max-w-[600px]">
+      <Video height={582} lazy={false} loop={false} src="/demo.mp4" width={600} />
+    </div>
+  );
+}
 ```
 
 ## 无控件
@@ -67,9 +83,13 @@ import { Video } from "@/components/ui/video";
 ```tsx
 import { Video } from "@/components/ui/video";
 
-<div className="w-full min-w-0 max-w-[600px]">
-  <Video controls={false} height={582} lazy={false} src="/demo.mp4" width={600} />
-</div>;
+export function VideoNoControlsA3B62E68Example() {
+  return (
+    <div className="w-full min-w-0 max-w-[600px]">
+      <Video controls={false} height={582} lazy={false} src="/demo.mp4" width={600} />
+    </div>
+  );
+}
 ```
 
 ## API 参考

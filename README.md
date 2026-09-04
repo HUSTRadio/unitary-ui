@@ -51,6 +51,10 @@ export function App() {
 - 官方规范快照：[`docs/geist-markdown-refs`](./docs/geist-markdown-refs)
 - 变更记录：[`CHANGELOG.md`](./CHANGELOG.md)
 
+## 调色盘治理
+
+唯一基础参考调色盘为 **Vercel Geist Colors**。基础色阶的证据快照是 `docs/geist-markdown-refs/foundations/colors.md`，运行时 owner 是 `src/styles/index.css`。`--uni-*` 是语义映射层，不是第二套调色盘；Apple HIG 仅提供布局、行为和无障碍约束，不是第二套调色盘。用户强制 override 必须具名来源、理由和作用域。
+
 ## Development
 
 ```bash

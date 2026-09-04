@@ -62,12 +62,6 @@ Not applicable: JsonView uses fixed typography and indentation and does not add 
 ## Live Demo
 
 ```tsx
-{deployment: { … },cached: false,durationMs: 42}
-```
-
-## Single line
-
-```tsx
 {
   foo: "bar";
 }
@@ -76,11 +70,13 @@ Not applicable: JsonView uses fixed typography and indentation and does not add 
 ```tsx
 import { JsonView } from "@/components/ui/json-view";
 
-const data = {
-  foo: "bar",
-};
+export function JsonViewSingleLineD66572A5Example() {
+  const data = {
+    foo: "bar",
+  };
 
-<JsonView data={data} defaultExpandDepth={1} />;
+  return <JsonView data={data} defaultExpandDepth={1} />;
+}
 ```
 
 ## Wrapped
@@ -94,12 +90,14 @@ const data = {
 ```tsx
 import { JsonView } from "@/components/ui/json-view";
 
-const data = {
-  browserApiUrl:
-    "https://browser-api.vercel.sh/screenshot?url=https%3A%2F%2Fprocore-com-prod-f5vem4o6u-marketing-web-dev.vercel.app&width=1440&height=900&fullPage=true",
-};
+export function JsonViewWrapped62540EE0Example() {
+  const data = {
+    browserApiUrl:
+      "https://browser-api.vercel.sh/screenshot?url=https%3A%2F%2Fprocore-com-prod-f5vem4o6u-marketing-web-dev.vercel.app&width=1440&height=900&fullPage=true",
+  };
 
-<JsonView data={data} defaultExpandDepth={1} />;
+  return <JsonView data={data} defaultExpandDepth={1} />;
+}
 ```
 
 ## Collapsed
@@ -111,21 +109,23 @@ const data = {
 ```tsx
 import { JsonView } from "@/components/ui/json-view";
 
-const data = {
-  trace: {
-    spanId: "span_7Qk9b4",
-    parentId: "span_root",
-    service: "api",
-  },
-  request: {
-    id: "req_00042",
-    path: "/api/projects",
-    method: "GET",
-  },
-  flags: ["enable-logs-json-rendering", "observability-panel"],
-};
+export function JsonViewCollapsedB322B652Example() {
+  const data = {
+    trace: {
+      spanId: "span_7Qk9b4",
+      parentId: "span_root",
+      service: "api",
+    },
+    request: {
+      id: "req_00042",
+      path: "/api/projects",
+      method: "GET",
+    },
+    flags: ["enable-logs-json-rendering", "observability-panel"],
+  };
 
-<JsonView data={data} defaultExpandDepth={0} />;
+  return <JsonView data={data} defaultExpandDepth={0} />;
+}
 ```
 
 ## Highlighted
@@ -137,17 +137,19 @@ const data = {
 ```tsx
 import { JsonView, makeJsonViewHighlightPattern } from "@/components/ui/json-view";
 
-const data = {
-  level: "error",
-  requestId: "req_00042",
-  deploymentId: "dpl_9WjH8QFQySx7",
-  message: "Deployment request failed",
-  statusCode: 500,
-};
+export function JsonViewHighlightedF00CEE7CExample() {
+  const data = {
+    level: "error",
+    requestId: "req_00042",
+    deploymentId: "dpl_9WjH8QFQySx7",
+    message: "Deployment request failed",
+    statusCode: 500,
+  };
 
-const highlightPattern = makeJsonViewHighlightPattern(["request", "failed"]);
+  const highlightPattern = makeJsonViewHighlightPattern(["request", "failed"]);
 
-<JsonView data={data} defaultExpandDepth={1} highlightPattern={highlightPattern} />;
+  return <JsonView data={data} defaultExpandDepth={1} highlightPattern={highlightPattern} />;
+}
 ```
 
 ## API Reference

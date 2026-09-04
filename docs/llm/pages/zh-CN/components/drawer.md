@@ -58,48 +58,52 @@ Drawer
 
 ## 实时示例
 
-桌面侧板请用 SidePanel。
-
-面向鼠标与触控板的右/左悬浮面板。
-
-触屏抽屉请用 Drawer。
-
-全宽底部抽屉，下拉手势关闭。
-
 ```tsx
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
 import { useState } from "react";
 
-const [open, setOpen] = useState(false);
+export function DrawerDefault37A8EEC1Example() {
+  const [open, setOpen] = useState(false);
 
-<Button type="secondary" onClick={() => setOpen(true)}>
-  Open
-</Button>
-<Drawer show={open} onDismiss={() => setOpen(false)} verticalScroll>
-  <div className="flex flex-col items-stretch justify-start gap-2 p-12">
-    <DrawerTitle className="text-center">A drawer title</DrawerTitle>
-    <DrawerDescription className="text-center">Drawer body</DrawerDescription>
-  </div>
-</Drawer>
+  return (
+    <>
+      <Button type="secondary" onClick={() => setOpen(true)}>
+        Open
+      </Button>
+      <Drawer show={open} onDismiss={() => setOpen(false)} verticalScroll>
+        <div className="flex flex-col items-stretch justify-start gap-2 p-12">
+          <DrawerTitle className="text-center">A drawer title</DrawerTitle>
+          <DrawerDescription className="text-center">Drawer body</DrawerDescription>
+        </div>
+      </Drawer>
+    </>
+  );
+}
 ```
 
+## custom-height
+
 ```tsx
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerDescription, DrawerTitle } from "@/components/ui/drawer";
 import { useState } from "react";
 
-const [open, setOpen] = useState(false);
+export function DrawerCustomHeight986065F9Example() {
+  const [open, setOpen] = useState(false);
 
-<Button onClick={() => setOpen(true)}>
-  Open
-</Button>
-<Drawer height={200} show={open} onDismiss={() => setOpen(false)} verticalScroll>
-  <div className="flex flex-col items-stretch justify-start gap-2 p-12">
-    <DrawerTitle className="text-center">A drawer title</DrawerTitle>
-    <DrawerDescription className="text-center">Drawer body</DrawerDescription>
-  </div>
-</Drawer>
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open</Button>
+      <Drawer height={200} show={open} onDismiss={() => setOpen(false)} verticalScroll>
+        <div className="flex flex-col items-stretch justify-start gap-2 p-12">
+          <DrawerTitle className="text-center">A drawer title</DrawerTitle>
+          <DrawerDescription className="text-center">Drawer body</DrawerDescription>
+        </div>
+      </Drawer>
+    </>
+  );
+}
 ```
 
 ## API 参考

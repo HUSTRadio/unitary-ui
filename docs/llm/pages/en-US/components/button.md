@@ -72,39 +72,313 @@ Places icons before or after the label to strengthen action recognition.
 ```tsx
 import { Button } from "@/components/ui/button";
 
-<div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button size="small" typeName="button">
-    Upload
-  </Button>
-  <Button typeName="button">Upload</Button>
-  <Button size="large" typeName="button">
-    Upload
-  </Button>
-</div>;
+export function ButtonSizes7C69F3FAExample() {
+  return (
+    <div className="flex flex-col items-start gap-4 md:flex-row">
+      <Button size="small" typeName="button">
+        Upload
+      </Button>
+      <Button typeName="button">Upload</Button>
+      <Button size="large" typeName="button">
+        Upload
+      </Button>
+    </div>
+  );
+}
 ```
 
+## all-types-and-sizes-in-comparison
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+export function ButtonAllTypesAndSizesInComparisonF6E8021DExample() {
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="flex items-center gap-3">
+        <Button size="small" type="default" typeName="button">
+          Upload
+        </Button>
+        <Button size="small" type="error" typeName="button">
+          Upload
+        </Button>
+        <Button size="small" type="warning" typeName="button">
+          Upload
+        </Button>
+        <Button size="small" type="secondary" typeName="button">
+          Upload
+        </Button>
+        <Button size="small" type="tertiary" typeName="button">
+          Upload
+        </Button>
+      </div>
+      <div className="flex items-center gap-3">
+        <Button type="default" typeName="button">
+          Upload
+        </Button>
+        <Button type="error" typeName="button">
+          Upload
+        </Button>
+        <Button type="warning" typeName="button">
+          Upload
+        </Button>
+        <Button type="secondary" typeName="button">
+          Upload
+        </Button>
+        <Button type="tertiary" typeName="button">
+          Upload
+        </Button>
+      </div>
+      <div className="flex items-center gap-3">
+        <Button size="large" type="default" typeName="button">
+          Upload
+        </Button>
+        <Button size="large" type="error" typeName="button">
+          Upload
+        </Button>
+        <Button size="large" type="warning" typeName="button">
+          Upload
+        </Button>
+        <Button size="large" type="secondary" typeName="button">
+          Upload
+        </Button>
+        <Button size="large" type="tertiary" typeName="button">
+          Upload
+        </Button>
+      </div>
+    </div>
+  );
+}
+```
+
+## shapes
+
+```tsx
+import { Button } from "@/components/ui/button";
+import { ArrowUp } from "lucide-react";
+
+export function ButtonShapesE729E861Example() {
+  return (
+    <div className="flex flex-col items-start gap-4 md:flex-row">
+      <Button aria-label="Upload" shape="square" size="tiny" svgOnly typeName="button">
+        <ArrowUp />
+      </Button>
+      <Button aria-label="Upload" shape="square" size="small" svgOnly typeName="button">
+        <ArrowUp />
+      </Button>
+      <Button aria-label="Upload" shape="square" svgOnly typeName="button">
+        <ArrowUp />
+      </Button>
+      <Button aria-label="Upload" shape="square" size="large" svgOnly typeName="button">
+        <ArrowUp />
+      </Button>
+      <Button aria-label="Upload" shape="circle" size="tiny" svgOnly typeName="button">
+        <ArrowUp />
+      </Button>
+      <Button aria-label="Upload" shape="circle" size="small" svgOnly typeName="button">
+        <ArrowUp />
+      </Button>
+      <Button aria-label="Upload" shape="circle" svgOnly typeName="button">
+        <ArrowUp />
+      </Button>
+      <Button aria-label="Upload" shape="circle" size="large" svgOnly typeName="button">
+        <ArrowUp />
+      </Button>
+    </div>
+  );
+}
+```
+
+## prefix-and-suffix
+
+```tsx
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+
+export function ButtonPrefixAndSuffix99076368Example() {
+  return (
+    <div className="flex flex-col items-start gap-4 md:flex-row">
+      <Button prefix={<ArrowLeft />} typeName="button">
+        Upload
+      </Button>
+      <Button suffix={<ArrowRight />} typeName="button">
+        Upload
+      </Button>
+      <Button prefix={<ArrowLeft />} suffix={<ArrowRight />} typeName="button">
+        Upload
+      </Button>
+    </div>
+  );
+}
+```
+
+## rounded
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+export function ButtonRounded01024DEEExample() {
+  return (
+    <div className="flex flex-col items-start gap-4 md:flex-row">
+      <Button shadow shape="rounded" size="small" type="secondary" typeName="button">
+        Upload
+      </Button>
+      <Button shadow shape="rounded" type="secondary" typeName="button">
+        Upload
+      </Button>
+      <Button shadow shape="rounded" size="large" type="secondary" typeName="button">
+        Upload
+      </Button>
+    </div>
+  );
+}
+```
+
+## loading
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+export function ButtonLoadingB4A070A2Example() {
+  return (
+    <div className="flex flex-col items-start gap-4 md:flex-row">
+      <Button loading size="small" typeName="button">
+        Upload
+      </Button>
+      <Button loading typeName="button">
+        Upload
+      </Button>
+      <Button loading size="large" typeName="button">
+        Upload
+      </Button>
+    </div>
+  );
+}
+```
+
+## disabled
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+export function ButtonDisabled17EB3C01Example() {
+  return (
+    <div className="flex flex-col items-start gap-4 md:flex-row">
+      <Button disabled size="small" typeName="button">
+        Upload
+      </Button>
+      <Button disabled typeName="button">
+        Upload
+      </Button>
+      <Button disabled size="large" typeName="button">
+        Upload
+      </Button>
+    </div>
+  );
+}
+```
+
+## disabled-variants
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+export function ButtonDisabledVariantsCB2C3BEAExample() {
+  return (
+    <div className="flex flex-col items-start gap-4 md:flex-row">
+      <Button disabled typeName="button">
+        Default
+      </Button>
+      <Button disabled type="secondary" typeName="button">
+        Secondary
+      </Button>
+      <Button disabled type="tertiary" typeName="button">
+        Tertiary
+      </Button>
+      <Button disabled type="error" typeName="button">
+        Error
+      </Button>
+      <Button disabled type="warning" typeName="button">
+        Warning
+      </Button>
+    </div>
+  );
+}
+```
+
+## link
+
 [Sign Up](#)
+
+```tsx
+import { ButtonLink } from "@/components/ui/button";
+
+export function ButtonLinkB1B1BDB4Example() {
+  return (
+    <ButtonLink className="w-fit" href="#">
+      Sign Up
+    </ButtonLink>
+  );
+}
+```
+
+## custom
+
+```tsx
+import { CustomButton } from "@/components/ui/button";
+
+export function ButtonCustom6CDFD271Example() {
+  return (
+    <div className="flex flex-col items-start gap-4 md:flex-row">
+      <CustomButton
+        active={{
+          foreground: "#fff",
+          background: "var(--blue-700)",
+          border: "var(--blue-700)",
+        }}
+        hover={{
+          foreground: "#fff",
+          background: "#0B7BFE",
+          border: "var(--blue-700)",
+        }}
+        normal={{
+          foreground: "#fff",
+          background: "var(--blue-700)",
+          border: "var(--blue-700)",
+        }}
+        width={160}
+      >
+        Upgrade to Pro
+      </CustomButton>
+    </div>
+  );
+}
+```
 
 ## Variants
 
 ```tsx
 import { Button } from "@/components/ui/button";
 
-<div className="flex flex-wrap items-center gap-3">
-  <Button typeName="button">Default</Button>
-  <Button type="secondary" typeName="button">
-    Secondary
-  </Button>
-  <Button type="tertiary" typeName="button">
-    Outline
-  </Button>
-  <Button type="tertiary" typeName="button">
-    Ghost
-  </Button>
-  <Button type="error" typeName="button">
-    Destructive
-  </Button>
-</div>;
+export function ButtonVariants63D2643BExample() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <Button typeName="button">Default</Button>
+      <Button type="secondary" typeName="button">
+        Secondary
+      </Button>
+      <Button type="tertiary" typeName="button">
+        Outline
+      </Button>
+      <Button type="tertiary" typeName="button">
+        Ghost
+      </Button>
+      <Button type="error" typeName="button">
+        Destructive
+      </Button>
+    </div>
+  );
+}
 ```
 
 ## Prefix and Suffix
@@ -113,161 +387,24 @@ import { Button } from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
 import { Copy, Search } from "lucide-react";
 
-<div className="flex flex-wrap items-center gap-3">
-  <Button prefix={<Search />} typeName="button">
-    Search
-  </Button>
-  <Button prefix={<Copy />} type="secondary" typeName="button">
-    Copy
-  </Button>
-  <Button loading type="tertiary" typeName="button">
-    Loading
-  </Button>
-  <Button disabled typeName="button">
-    Disabled
-  </Button>
-</div>;
-```
-
-## States and Composition
-
-```tsx
-import { Button } from "@/components/ui/button";
-import { ArrowUp } from "lucide-react";
-
-<div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button aria-label="Upload" shape="square" size="tiny" svgOnly typeName="button">
-    <ArrowUp />
-  </Button>
-  <Button aria-label="Upload" shape="square" size="small" svgOnly typeName="button">
-    <ArrowUp />
-  </Button>
-  <Button aria-label="Upload" shape="square" svgOnly typeName="button">
-    <ArrowUp />
-  </Button>
-  <Button aria-label="Upload" shape="square" size="large" svgOnly typeName="button">
-    <ArrowUp />
-  </Button>
-  <Button aria-label="Upload" shape="circle" size="tiny" svgOnly typeName="button">
-    <ArrowUp />
-  </Button>
-  <Button aria-label="Upload" shape="circle" size="small" svgOnly typeName="button">
-    <ArrowUp />
-  </Button>
-  <Button aria-label="Upload" shape="circle" svgOnly typeName="button">
-    <ArrowUp />
-  </Button>
-  <Button aria-label="Upload" shape="circle" size="large" svgOnly typeName="button">
-    <ArrowUp />
-  </Button>
-</div>;
-```
-
-```tsx
-import { Button } from "@/components/ui/button";
-
-<div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button shadow shape="rounded" size="small" type="secondary" typeName="button">
-    Upload
-  </Button>
-  <Button shadow shape="rounded" type="secondary" typeName="button">
-    Upload
-  </Button>
-  <Button shadow shape="rounded" size="large" type="secondary" typeName="button">
-    Upload
-  </Button>
-</div>;
-```
-
-```tsx
-import { Button } from "@/components/ui/button";
-
-<div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button loading size="small" typeName="button">
-    Upload
-  </Button>
-  <Button loading typeName="button">
-    Upload
-  </Button>
-  <Button loading size="large" typeName="button">
-    Upload
-  </Button>
-</div>;
-```
-
-```tsx
-import { Button } from "@/components/ui/button";
-
-<div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button disabled size="small" typeName="button">
-    Upload
-  </Button>
-  <Button disabled typeName="button">
-    Upload
-  </Button>
-  <Button disabled size="large" typeName="button">
-    Upload
-  </Button>
-</div>;
-```
-
-```tsx
-import { Button } from "@/components/ui/button";
-
-<div className="flex flex-col items-start gap-4 md:flex-row">
-  <Button disabled typeName="button">
-    Default
-  </Button>
-  <Button disabled type="secondary" typeName="button">
-    Secondary
-  </Button>
-  <Button disabled type="tertiary" typeName="button">
-    Tertiary
-  </Button>
-  <Button disabled type="error" typeName="button">
-    Error
-  </Button>
-  <Button disabled type="warning" typeName="button">
-    Warning
-  </Button>
-</div>;
-```
-
-[Sign Up](#)
-
-```tsx
-import { ButtonLink } from "@/components/ui/button";
-
-<ButtonLink className="w-fit" href="#">
-  Sign Up
-</ButtonLink>;
-```
-
-```tsx
-import { CustomButton } from "@/components/ui/button";
-
-<div className="flex flex-col items-start gap-4 md:flex-row">
-  <CustomButton
-    active={{
-      foreground: "#fff",
-      background: "var(--blue-700)",
-      border: "var(--blue-700)",
-    }}
-    hover={{
-      foreground: "#fff",
-      background: "#0B7BFE",
-      border: "var(--blue-700)",
-    }}
-    normal={{
-      foreground: "#fff",
-      background: "var(--blue-700)",
-      border: "var(--blue-700)",
-    }}
-    width={160}
-  >
-    Upgrade to Pro
-  </CustomButton>
-</div>;
+export function ButtonPrefixAndSuffix1EFED9DEExample() {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <Button prefix={<Search />} typeName="button">
+        Search
+      </Button>
+      <Button prefix={<Copy />} type="secondary" typeName="button">
+        Copy
+      </Button>
+      <Button loading type="tertiary" typeName="button">
+        Loading
+      </Button>
+      <Button disabled typeName="button">
+        Disabled
+      </Button>
+    </div>
+  );
+}
 ```
 
 ## API Reference

@@ -58,128 +58,156 @@ Choicebox
 
 ## 实时示例
 
-Pro 试用两周免费
+Pro TrialFree for two weeks
 
-Pro立即开始
-
-```tsx
-import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
-import { useState } from "react";
-
-const [value, setValue] = useState("trial");
-
-<ChoiceboxGroup
-  label="select a plan"
-  listClassName="flex-row"
-  onChange={setValue}
-  type="radio"
-  value={value}
->
-  <ChoiceboxGroupItem description="Free for two weeks" title="Pro Trial" value="trial" />
-  <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
-</ChoiceboxGroup>;
-```
-
-Pro 试用两周免费
-
-Pro立即开始
+ProGet started now
 
 ```tsx
 import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
 import { useState } from "react";
 
-const [value, setValue] = useState([] as string[]);
+export function ChoiceboxSingleSelectF99FF34BExample() {
+  const [value, setValue] = useState("trial");
 
-<ChoiceboxGroup
-  label="select a plan"
-  listClassName="flex-row"
-  onChange={setValue}
-  type="checkbox"
-  value={value}
->
-  <ChoiceboxGroupItem description="Free for two weeks" title="Pro Trial" value="trial" />
-  <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
-</ChoiceboxGroup>;
+  return (
+    <ChoiceboxGroup
+      label="select a plan"
+      listClassName="flex-row"
+      onChange={setValue}
+      type="radio"
+      value={value}
+    >
+      <ChoiceboxGroupItem description="Free for two weeks" title="Pro Trial" value="trial" />
+      <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
+    </ChoiceboxGroup>
+  );
+}
 ```
 
-选项组已禁用
+## multi-select
 
-Pro 试用两周免费
+Pro TrialFree for two weeks
 
-Pro立即开始
-
-单个输入已禁用
-
-Pro 试用两周免费
-
-Pro立即开始
+ProGet started now
 
 ```tsx
 import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
 import { useState } from "react";
 
-const [value, setValue] = useState("");
-const [value2, setValue2] = useState([] as string[]);
+export function ChoiceboxMultiSelect294DCC0FExample() {
+  const [value, setValue] = useState([] as string[]);
 
-<div className="flex flex-col items-stretch justify-start gap-6">
-  <ChoiceboxGroup
-    disabled
-    label="Choicebox group disabled"
-    listClassName="flex-row"
-    onChange={setValue}
-    showLabel
-    type="radio"
-    value={value}
-  >
-    <ChoiceboxGroupItem description="Free for two weeks" title="Pro Trial" value="trial" />
-    <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
-  </ChoiceboxGroup>
-
-  <ChoiceboxGroup
-    label="Single input disabled"
-    listClassName="flex-row"
-    onChange={setValue2}
-    showLabel
-    type="checkbox"
-    value={value2}
-  >
-    <ChoiceboxGroupItem description="Free for two weeks" disabled title="Pro Trial" value="trial" />
-    <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
-  </ChoiceboxGroup>
-</div>;
+  return (
+    <ChoiceboxGroup
+      label="select a plan"
+      listClassName="flex-row"
+      onChange={setValue}
+      type="checkbox"
+      value={value}
+    >
+      <ChoiceboxGroupItem description="Free for two weeks" title="Pro Trial" value="trial" />
+      <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
+    </ChoiceboxGroup>
+  );
+}
 ```
 
-Pro 试用两周免费
+## disabled
+
+Choicebox group disabled
+
+Pro TrialFree for two weeks
+
+ProGet started now
+
+Single input disabled
+
+Pro TrialFree for two weeks
+
+ProGet started now
+
+```tsx
+import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
+import { useState } from "react";
+
+export function ChoiceboxDisabled17EB3C01Example() {
+  const [value, setValue] = useState("");
+
+  const [value2, setValue2] = useState([] as string[]);
+
+  return (
+    <div className="flex flex-col items-stretch justify-start gap-6">
+      <ChoiceboxGroup
+        disabled
+        label="Choicebox group disabled"
+        listClassName="flex-row"
+        onChange={setValue}
+        showLabel
+        type="radio"
+        value={value}
+      >
+        <ChoiceboxGroupItem description="Free for two weeks" title="Pro Trial" value="trial" />
+        <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
+      </ChoiceboxGroup>
+
+      <ChoiceboxGroup
+        label="Single input disabled"
+        listClassName="flex-row"
+        onChange={setValue2}
+        showLabel
+        type="checkbox"
+        value={value2}
+      >
+        <ChoiceboxGroupItem
+          description="Free for two weeks"
+          disabled
+          title="Pro Trial"
+          value="trial"
+        />
+        <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro" />
+      </ChoiceboxGroup>
+    </div>
+  );
+}
+```
+
+## custom-content
+
+Pro TrialFree for two weeks
 
 Trial
 
-Pro立即开始
+ProGet started now
 
 ```tsx
 import { Badge } from "@/components/ui/badge";
 import { ChoiceboxGroup, ChoiceboxGroupItem } from "@/components/ui/choicebox";
 import { useState } from "react";
 
-const [value, setValue] = useState("trial");
+export function ChoiceboxCustomContent2D9A6A02Example() {
+  const [value, setValue] = useState("trial");
 
-<ChoiceboxGroup
-  label="select a plan"
-  listClassName="flex-row"
-  onChange={setValue}
-  type="radio"
-  value={value}
->
-  <ChoiceboxGroupItem description="Free for two weeks" title="Pro Trial" value="trial">
-    <div className="flex justify-center p-2">
-      <Badge variant="purple">Trial</Badge>
-    </div>
-  </ChoiceboxGroupItem>
-  <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro">
-    <div className="flex justify-center p-2">
-      <Badge variant="blue">Pro</Badge>
-    </div>
-  </ChoiceboxGroupItem>
-</ChoiceboxGroup>;
+  return (
+    <ChoiceboxGroup
+      label="select a plan"
+      listClassName="flex-row"
+      onChange={setValue}
+      type="radio"
+      value={value}
+    >
+      <ChoiceboxGroupItem description="Free for two weeks" title="Pro Trial" value="trial">
+        <div className="flex justify-center p-2">
+          <Badge variant="purple">Trial</Badge>
+        </div>
+      </ChoiceboxGroupItem>
+      <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro">
+        <div className="flex justify-center p-2">
+          <Badge variant="blue">Pro</Badge>
+        </div>
+      </ChoiceboxGroupItem>
+    </ChoiceboxGroup>
+  );
+}
 ```
 
 ## API 参考

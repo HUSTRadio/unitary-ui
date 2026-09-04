@@ -23,6 +23,13 @@
 - 壳层断点例外：侧栏断点保持 lg(1024px)（有意偏离官方 xl(1200px)，服务 VS Code 内嵌浏览器场景）。
 - Button 按压态（Apple HIG 要求）与默认最小宽度（min-w = 高度 × 2.2）；Progress label/labelPosition 8 方位标签与 300ms 过渡。
 - `docs/geist/src/__tests__/parity-regression.test.ts`：parity 修复的源码断言回归测试。
+- **Show Code 单源迁移（breaking）**：用物理 `.example.tsx` 文件替代手写的 `demo-code*.ts` 字符串真源；`docs/geist/src/examples/` 下 374 个可运行示例组件通过 `?example-source` 虚拟模块同时为实时渲染与展示源码提供唯一真源，并注册到 `EXAMPLE_REGISTRY`；同步删除 29 个 demo-code 分片。该变更改变文档示例的模块形式，依赖旧 `DEMO_CODE` 分片的下游引用需要迁移。
+- **文档演示库存保留（不重复渲染）**：示例注册表新增 `renderInSection` 元数据：20 条 primary-only 记录保留物理 `.example.tsx` 源码与 Show Code 可见性，但不再作为重复区块渲染（迁移曾引入 7 个组件的重复未本地化演示）；补回缺失的 Video default 示例，修复该路由 live demo 不可见与 LLM 文档爬取超时。
+- **16 px 文档节奏**：文档页中的 live demo、额外 demo 区与 API 参考区块统一通过 `DocsBlock` 作为 16 px 节奏 owner，消除零散的 `mt-5/mt-6/mt-8/mt-10`。
+- **命令搜索双语键盘流**：Command Menu 支持中英文关键词搜索，中文 UI 下仍可用英文关键词检索；新增上下键 + Enter 键盘选择、无结果空态与 Esc 关闭。
+- **组件几何验收 E2E**：新增 SplitButton minor 方形等高贴缝、StatusDot 五态色可分辨、StepPoint 外圈 16/内点 6 居中、Textarea 80/100/120 高度、Toast action 32 px 垂直居中等 Playwright 几何验收；随后扩充为尺寸矩阵（32/36/40）、深色主题状态点、Toast 48 px 最小高度与 420 px 最大宽度、16 px 节奏三点实测、Table 双 frame 圆角 owner 与列分隔线正交性，以及英文 UI 中文关键词命令搜索。
+- **调色盘治理**：将 Vercel Geist Colors 声明为唯一调色板来源；浅色主题 red-400/amber-400 对齐官方快照；新增 color-palette-governance 测试对双主题 92 色阶与 Geist 快照逐字节一致，并锁定基础色阶白名单。
+- **Table 扩展 API**：API 注册表新增 `TableRoot` 的 `frame` 与 `Table` 的 `columnDividers` 属性；`frame="none"` 时 `TableRoot` 仍保留 8 px 圆角 owner；示例补充无框与列分隔线展示。
 
 ### Changed
 
@@ -37,8 +44,14 @@
 - 版本化 agent 任务包硬迁移到顶层 `.agents/`，不保留旧目录兼容入口；runner、schema、prompt discovery、pre-push 影响路径、合同测试与 Git 忽略/换行策略同步使用新路径。
 - pre-push 将 README 截图漂移检查与既有文档 / LLM 更新 gate 合并为单一编排器：真实变更路径是唯一放行判定依据，Angular / Conventional Commit 的 type 与 scope 仅作为诊断信号，不能覆盖路径判断；截图漂移时自动生成受管文件并中止 push，所有阻断都会说明未完成的操作和恢复步骤，等待人工复核、提交并重推。
 - Living styleguide 示例改用当前组件 API 与真实动作语义；`docs-update` 任务现在可在受限范围内同步 `src/App.tsx`、`src/examples/**` 和受管截图，并将截图零漂移纳入确定性校验。
+- **AI 文档 pre-push 传输方式**：超过 8000 字符的 docs-update prompt 现在通过 `codex exec` 的 stdin 通道传输，修复 Windows 首次 push 时 `CreateProcess` 命令行超限导致的 `ENAMETOOLONG`。
 
 ### Fixed
+
+- **Textarea 尺寸 padding 计划值**：small/medium/large 的水平/垂直 padding 分别修正为 10/8、12/10、14/12 px，与设计稿一致。
+- **StepPoint active inner 稳定 data-slot**：活动状态内点增加 `data-slot="step-dot-active-inner"`，使 E2E 和测试能稳定定位。
+- **example-source 插件 fail-closed**：插件现在基于 TypeScript AST 验证 `.example.tsx` 源码，对空文件、语法错误、缺少导出、重复导出或无效查询执行 fail-closed。
+- **README workflow 截图重新生成**：基于当前 living styleguide 重新生成 workflow 截图，`docs:readme:screenshots:check` 零漂移。
 
 - **Device chrome 能力告警**：仅在所选型号确实不支持 `statusBar`、`safari` 或 `dynamicIsland` 时输出开发环境警告，避免 iPhone 17 的合法 chrome 配置被误报为已忽略。
 - **AI 文档 pre-push 收尾**：runner 以 Codex 主进程 `exit` 作为完成边界并主动关闭管道读取端，避免遗留 helper 持有 stdout/stderr 时一直等待 `close` 到超时。

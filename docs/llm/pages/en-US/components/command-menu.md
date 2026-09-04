@@ -68,7 +68,7 @@ import {
 } from "@/components/ui/command-menu";
 import { useState } from "react";
 
-export function Component() {
+export function CommandMenuDefault37A8EEC1Example() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -96,6 +96,8 @@ export function Component() {
 }
 ```
 
+## with-divider
+
 ```tsx
 import { Button } from "@/components/ui/button";
 import {
@@ -108,7 +110,7 @@ import {
 } from "@/components/ui/command-menu";
 import { useState } from "react";
 
-export function Component() {
+export function CommandMenuWithDivider5A6D5780Example() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -134,6 +136,8 @@ export function Component() {
 }
 ```
 
+## with-suffix
+
 ```tsx
 import { Button } from "@/components/ui/button";
 import {
@@ -146,7 +150,7 @@ import {
 import { CircleCheck } from "lucide-react";
 import { useState } from "react";
 
-export function Component() {
+export function CommandMenuWithSuffixED17650BExample() {
   const [open, setOpen] = useState(false);
 
   return (

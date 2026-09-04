@@ -10,6 +10,8 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+
 import { Progress } from "../src/components/ui/progress";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -170,11 +172,12 @@ describe("Progress stops compatibility with labels", () => {
 describe("Progress Dynamic colors demo pink band (E1)", () => {
   // 官方实测（vercel.com/geist/progress，双主题一致）：75 档 = --geist-highlight-pink = #ff0080。
   // 本地 pink 色阶无精确对应（pink-800 #d9216e 欧氏色距 53.5），2026-08-23 决定直接采用官方原值。
-  test("docs Dynamic colors demo uses official highlight-pink #ff0080 verbatim", async () => {
-    const src = await read("docs/geist/src/components/docs-components-page.tsx");
-    expect(src).toContain('75: "#ff0080"');
-    expect(src).not.toContain('75: "var(--color-pink-600)"');
-    expect(src).not.toContain('75: "var(--color-pink-800)"');
+  test("docs Dynamic colors demo uses official highlight-pink #ff0080 verbatim", () => {
+    const example = EXAMPLE_SOURCE["progress"]?.["Dynamic colors"];
+    expect(example).toBeDefined();
+    expect(example).toContain('75: "#ff0080"');
+    expect(example).not.toContain('75: "var(--color-pink-600)"');
+    expect(example).not.toContain('75: "var(--color-pink-800)"');
   });
 });
 

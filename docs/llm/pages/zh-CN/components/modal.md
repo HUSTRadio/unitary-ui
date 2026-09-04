@@ -70,35 +70,41 @@ import { Button } from "@/components/ui/button";
 import { Modal, ModalContent, ModalTrigger } from "@/components/ui/modal";
 import { useState } from "react";
 
-const [open, setOpen] = useState(false);
+export function ModalDefault37A8EEC1Example() {
+  const [open, setOpen] = useState(false);
 
-<Modal open={open} onOpenChange={setOpen}>
-  <ModalTrigger asChild>
-    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
-      Open Modal
-    </Button>
-  </ModalTrigger>
-  <ModalContent>
-    <header className="mb-5">
-      <h3 className="text-heading-20 text-foreground">Create Token</h3>
-      <div className="mt-2 mb-1 text-copy-14 text-muted-foreground">
-        Enter a unique name for your token to differentiate it from other tokens and then select the
-        scope.
-      </div>
-    </header>
-    <p className="text-copy-14">Some content contained within the modal.</p>
-    <div className="h-px w-full" aria-hidden />
-    <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
-      <Button size="small" typeName="button" type="secondary">
-        Cancel
-      </Button>
-      <Button size="small" typeName="button" type="default">
-        Submit
-      </Button>
-    </footer>
-  </ModalContent>
-</Modal>;
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger asChild>
+        <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+          Open Modal
+        </Button>
+      </ModalTrigger>
+      <ModalContent>
+        <header className="mb-5">
+          <h3 className="text-heading-20 text-foreground">Create Token</h3>
+          <div className="mt-2 mb-1 text-copy-14 text-muted-foreground">
+            Enter a unique name for your token to differentiate it from other tokens and then select
+            the scope.
+          </div>
+        </header>
+        <p className="text-copy-14">Some content contained within the modal.</p>
+        <div className="h-px w-full" aria-hidden />
+        <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
+          <Button size="small" typeName="button" type="secondary">
+            Cancel
+          </Button>
+          <Button size="small" typeName="button" type="default">
+            Submit
+          </Button>
+        </footer>
+      </ModalContent>
+    </Modal>
+  );
+}
 ```
+
+## sticky
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -106,196 +112,227 @@ import { Modal, ModalContent, ModalTrigger } from "@/components/ui/modal";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 
-const [open, setOpen] = useState(false);
+export function ModalSticky964A9431Example() {
+  const [open, setOpen] = useState(false);
 
-<Modal open={open} onOpenChange={setOpen}>
-  <ModalTrigger asChild>
-    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
-      Open Modal
-    </Button>
-  </ModalTrigger>
-  <ModalContent className="sticky" bodyClassName="pt-0">
-    <header className="sticky top-0 z-10 -mx-5 mb-5 flex items-center gap-2.5 bg-background-200 px-5 py-5">
-      <h3 className="text-heading-20 leading-6 text-foreground">Create Token</h3>
-    </header>
-    {Array.from({ length: 52 }).map((_, index) => (
-      <p key={index} className="text-copy-14">
-        Some content contained within the modal.
-      </p>
-    ))}
-    <div className="h-px w-full" aria-hidden />
-    <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
-      <Button size="small" typeName="button" type="secondary">
-        Cancel
-      </Button>
-      <Button
-        size="small"
-        typeName="button"
-        type="secondary"
-        prefix={<ChevronLeft className="size-3.5" aria-hidden />}
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger asChild>
+        <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+          Open Modal
+        </Button>
+      </ModalTrigger>
+      <ModalContent className="sticky" bodyClassName="pt-0">
+        <header className="sticky top-0 z-10 -mx-5 mb-5 flex items-center gap-2.5 bg-background-200 px-5 py-5">
+          <h3 className="text-heading-20 leading-6 text-foreground">Create Token</h3>
+        </header>
+        {Array.from({ length: 52 }).map((_, index) => (
+          <p key={index} className="text-copy-14">
+            Some content contained within the modal.
+          </p>
+        ))}
+        <div className="h-px w-full" aria-hidden />
+        <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
+          <Button size="small" typeName="button" type="secondary">
+            Cancel
+          </Button>
+          <Button
+            size="small"
+            typeName="button"
+            type="secondary"
+            prefix={<ChevronLeft className="size-3.5" aria-hidden />}
+          >
+            Previous
+          </Button>
+          <Button size="small" typeName="button" type="default">
+            Submit
+          </Button>
+        </footer>
+      </ModalContent>
+    </Modal>
+  );
+}
+```
+
+## single-button
+
+```tsx
+import { Button } from "@/components/ui/button";
+import { Modal, ModalContent, ModalTrigger } from "@/components/ui/modal";
+import { useState } from "react";
+
+export function ModalSingleButton15781DA6Example() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger asChild>
+        <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+          Open Modal
+        </Button>
+      </ModalTrigger>
+      <ModalContent className="sticky" bodyClassName="pt-0">
+        <header className="sticky top-0 z-10 -mx-5 mb-5 flex items-center gap-2.5 bg-background-200 px-5 py-5">
+          <h3 className="text-heading-20 leading-6 text-foreground">Create Token</h3>
+        </header>
+        <p className="text-copy-14">Some content contained within the modal.</p>
+        <div className="h-px w-full" aria-hidden />
+        <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
+          <Button size="small" typeName="button" type="secondary">
+            Cancel
+          </Button>
+        </footer>
+      </ModalContent>
+    </Modal>
+  );
+}
+```
+
+## inset
+
+```tsx
+import { Button } from "@/components/ui/button";
+import { Modal, ModalContent, ModalTrigger } from "@/components/ui/modal";
+import { useState } from "react";
+
+export function ModalInset2F0C8478Example() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger asChild>
+        <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+          Open Modal
+        </Button>
+      </ModalTrigger>
+      <ModalContent>
+        <header className="mb-5">
+          <h3 className="text-heading-20 text-foreground">Modal</h3>
+          <div className="mt-2 mb-1 text-copy-14 text-muted-foreground">This is a modal.</div>
+        </header>
+        <div className="mx-[-20px] border-y border-gray-400 bg-background-200 px-5 py-6">
+          <p className="text-copy-14">Content within the inset.</p>
+        </div>
+        <div className="pt-5">
+          <p className="text-copy-14">Content outside the inset.</p>
+        </div>
+        <div className="h-px w-full" aria-hidden />
+        <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
+          <Button size="small" typeName="button" type="secondary">
+            Cancel
+          </Button>
+          <Button size="small" typeName="button" type="default">
+            Submit
+          </Button>
+        </footer>
+      </ModalContent>
+    </Modal>
+  );
+}
+```
+
+## disabled-actions
+
+```tsx
+import { Button } from "@/components/ui/button";
+import {
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTrigger,
+  ModalTitle,
+} from "@/components/ui/modal";
+import { useState } from "react";
+
+export function ModalDisabledActions96FBF6AEExample() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger asChild>
+        <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+          Open Modal
+        </Button>
+      </ModalTrigger>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>Modal</ModalTitle>
+          <ModalDescription>This is a modal.</ModalDescription>
+        </ModalHeader>
+        <p className="text-copy-14">Some content contained within the modal.</p>
+        <div className="h-px w-full" aria-hidden />
+        <ModalFooter>
+          <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button typeName="button" disabled onClick={() => setOpen(false)}>
+            Submit
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+}
+```
+
+## control-initial-focus
+
+```tsx
+import { Button } from "@/components/ui/button";
+import {
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTrigger,
+  ModalTitle,
+} from "@/components/ui/modal";
+import { useRef, useState } from "react";
+
+export function ModalControlInitialFocus9DBB3C0DExample() {
+  const [open, setOpen] = useState(false);
+
+  const initialFocusRef = useRef<HTMLButtonElement>(null);
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger asChild>
+        <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+          Open Modal
+        </Button>
+      </ModalTrigger>
+      <ModalContent
+        onOpenAutoFocus={(event) => {
+          event.preventDefault();
+          initialFocusRef.current?.focus();
+        }}
       >
-        Previous
-      </Button>
-      <Button size="small" typeName="button" type="default">
-        Submit
-      </Button>
-    </footer>
-  </ModalContent>
-</Modal>;
+        <ModalHeader>
+          <ModalTitle>Initial Focus</ModalTitle>
+          <ModalDescription>
+            This Modal is set up to programmatically move the focus onto the Submit button, making
+            it possible to promptly continue with the Enter key.
+          </ModalDescription>
+        </ModalHeader>
+        <div className="h-px w-full" aria-hidden />
+        <ModalFooter>
+          <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button typeName="button" ref={initialFocusRef} onClick={() => setOpen(false)}>
+            Submit
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+}
 ```
 
-```tsx
-import { Button } from "@/components/ui/button";
-import { Modal, ModalContent, ModalTrigger } from "@/components/ui/modal";
-import { useState } from "react";
-
-const [open, setOpen] = useState(false);
-
-<Modal open={open} onOpenChange={setOpen}>
-  <ModalTrigger asChild>
-    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
-      Open Modal
-    </Button>
-  </ModalTrigger>
-  <ModalContent className="sticky" bodyClassName="pt-0">
-    <header className="sticky top-0 z-10 -mx-5 mb-5 flex items-center gap-2.5 bg-background-200 px-5 py-5">
-      <h3 className="text-heading-20 leading-6 text-foreground">Create Token</h3>
-    </header>
-    <p className="text-copy-14">Some content contained within the modal.</p>
-    <div className="h-px w-full" aria-hidden />
-    <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
-      <Button size="small" typeName="button" type="secondary">
-        Cancel
-      </Button>
-    </footer>
-  </ModalContent>
-</Modal>;
-```
-
-```tsx
-import { Button } from "@/components/ui/button";
-import { Modal, ModalContent, ModalTrigger } from "@/components/ui/modal";
-import { useState } from "react";
-
-const [open, setOpen] = useState(false);
-
-<Modal open={open} onOpenChange={setOpen}>
-  <ModalTrigger asChild>
-    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
-      Open Modal
-    </Button>
-  </ModalTrigger>
-  <ModalContent>
-    <header className="mb-5">
-      <h3 className="text-heading-20 text-foreground">Modal</h3>
-      <div className="mt-2 mb-1 text-copy-14 text-muted-foreground">This is a modal.</div>
-    </header>
-    <div className="mx-[-20px] border-y border-gray-400 bg-background-200 px-5 py-6">
-      <p className="text-copy-14">Content within the inset.</p>
-    </div>
-    <div className="pt-5">
-      <p className="text-copy-14">Content outside the inset.</p>
-    </div>
-    <div className="h-px w-full" aria-hidden />
-    <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
-      <Button size="small" typeName="button" type="secondary">
-        Cancel
-      </Button>
-      <Button size="small" typeName="button" type="default">
-        Submit
-      </Button>
-    </footer>
-  </ModalContent>
-</Modal>;
-```
-
-```tsx
-import { Button } from "@/components/ui/button";
-import {
-  Modal,
-  ModalContent,
-  ModalDescription,
-  ModalFooter,
-  ModalHeader,
-  ModalTrigger,
-  ModalTitle,
-} from "@/components/ui/modal";
-import { useState } from "react";
-
-const [open, setOpen] = useState(false);
-
-<Modal open={open} onOpenChange={setOpen}>
-  <ModalTrigger asChild>
-    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
-      Open Modal
-    </Button>
-  </ModalTrigger>
-  <ModalContent>
-    <ModalHeader>
-      <ModalTitle>Modal</ModalTitle>
-      <ModalDescription>This is a modal.</ModalDescription>
-    </ModalHeader>
-    <p className="text-copy-14">Some content contained within the modal.</p>
-    <div className="h-px w-full" aria-hidden />
-    <ModalFooter>
-      <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
-        Cancel
-      </Button>
-      <Button typeName="button" disabled onClick={() => setOpen(false)}>
-        Submit
-      </Button>
-    </ModalFooter>
-  </ModalContent>
-</Modal>;
-```
-
-```tsx
-import { Button } from "@/components/ui/button";
-import {
-  Modal,
-  ModalContent,
-  ModalDescription,
-  ModalFooter,
-  ModalHeader,
-  ModalTrigger,
-  ModalTitle,
-} from "@/components/ui/modal";
-import { useRef, useState } from "react";
-
-const [open, setOpen] = useState(false);
-const initialFocusRef = useRef<HTMLButtonElement>(null);
-
-<Modal open={open} onOpenChange={setOpen}>
-  <ModalTrigger asChild>
-    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
-      Open Modal
-    </Button>
-  </ModalTrigger>
-  <ModalContent
-    onOpenAutoFocus={(event) => {
-      event.preventDefault();
-      initialFocusRef.current?.focus();
-    }}
-  >
-    <ModalHeader>
-      <ModalTitle>Initial Focus</ModalTitle>
-      <ModalDescription>
-        This Modal is set up to programmatically move the focus onto the Submit button, making it
-        possible to promptly continue with the Enter key.
-      </ModalDescription>
-    </ModalHeader>
-    <div className="h-px w-full" aria-hidden />
-    <ModalFooter>
-      <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
-        Cancel
-      </Button>
-      <Button typeName="button" ref={initialFocusRef} onClick={() => setOpen(false)}>
-        Submit
-      </Button>
-    </ModalFooter>
-  </ModalContent>
-</Modal>;
-```
+## focus-input-on-open
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -311,50 +348,58 @@ import {
 } from "@/components/ui/modal";
 import { useRef, useState } from "react";
 
-const [open, setOpen] = useState(false);
-const [name, setName] = useState("");
-const initialFocusRef = useRef<HTMLInputElement>(null);
+export function ModalFocusInputOnOpenDB430094Example() {
+  const [open, setOpen] = useState(false);
 
-<Modal open={open} onOpenChange={setOpen}>
-  <ModalTrigger asChild>
-    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
-      Open Modal
-    </Button>
-  </ModalTrigger>
-  <ModalContent
-    onOpenAutoFocus={(event) => {
-      event.preventDefault();
-      initialFocusRef.current?.focus();
-    }}
-  >
-    <ModalHeader>
-      <ModalTitle>Invite Member</ModalTitle>
-      <ModalDescription>
-        On desktop and narrow viewports, the Name field receives focus when the Modal opens so the
-        user can start typing immediately.
-      </ModalDescription>
-    </ModalHeader>
-    <div className="flex flex-col gap-3">
-      <Input
-        label="Name"
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Jane Doe"
-        ref={initialFocusRef}
-        value={name}
-      />
-    </div>
-    <div className="h-px w-full" aria-hidden />
-    <ModalFooter>
-      <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
-        Cancel
-      </Button>
-      <Button typeName="button" onClick={() => setOpen(false)}>
-        Send Invite
-      </Button>
-    </ModalFooter>
-  </ModalContent>
-</Modal>;
+  const [name, setName] = useState("");
+
+  const initialFocusRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger asChild>
+        <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+          Open Modal
+        </Button>
+      </ModalTrigger>
+      <ModalContent
+        onOpenAutoFocus={(event) => {
+          event.preventDefault();
+          initialFocusRef.current?.focus();
+        }}
+      >
+        <ModalHeader>
+          <ModalTitle>Invite Member</ModalTitle>
+          <ModalDescription>
+            On desktop and narrow viewports, the Name field receives focus when the Modal opens so
+            the user can start typing immediately.
+          </ModalDescription>
+        </ModalHeader>
+        <div className="flex flex-col gap-3">
+          <Input
+            label="Name"
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Jane Doe"
+            ref={initialFocusRef}
+            value={name}
+          />
+        </div>
+        <div className="h-px w-full" aria-hidden />
+        <ModalFooter>
+          <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button typeName="button" onClick={() => setOpen(false)}>
+            Send Invite
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+}
 ```
+
+## mobile-sheet-inputs
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -370,50 +415,58 @@ import {
 } from "@/components/ui/modal";
 import { useState } from "react";
 
-const [open, setOpen] = useState(false);
-const [name, setName] = useState("");
-const [email, setEmail] = useState("");
+export function ModalMobileSheetInputsFAB5970DExample() {
+  const [open, setOpen] = useState(false);
 
-<Modal open={open} onOpenChange={setOpen}>
-  <ModalTrigger asChild>
-    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
-      Open Modal
-    </Button>
-  </ModalTrigger>
-  <ModalContent>
-    <ModalHeader>
-      <ModalTitle>Invite Member</ModalTitle>
-      <ModalDescription>
-        On a mobile viewport this Modal remains centered. Verify that both inputs accept keyboard
-        input without exceeding the viewport width.
-      </ModalDescription>
-    </ModalHeader>
-    <div className="flex flex-col gap-3">
-      <Input
-        label="Name"
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Jane Doe"
-        value={name}
-      />
-      <Input
-        label="Email"
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="jane@example.com"
-        value={email}
-      />
-    </div>
-    <div className="h-px w-full" aria-hidden />
-    <ModalFooter>
-      <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
-        Cancel
-      </Button>
-      <Button typeName="button" onClick={() => setOpen(false)}>
-        Send Invite
-      </Button>
-    </ModalFooter>
-  </ModalContent>
-</Modal>;
+  const [name, setName] = useState("");
+
+  const [email, setEmail] = useState("");
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger asChild>
+        <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+          Open Modal
+        </Button>
+      </ModalTrigger>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>Invite Member</ModalTitle>
+          <ModalDescription>
+            On a mobile viewport this Modal remains centered. Verify that both inputs accept
+            keyboard input without exceeding the viewport width.
+          </ModalDescription>
+        </ModalHeader>
+        <div className="flex flex-col gap-3">
+          <Input
+            label="Name"
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Jane Doe"
+            value={name}
+          />
+          <Input
+            label="Email"
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="jane@example.com"
+            value={email}
+          />
+        </div>
+        <div className="h-px w-full" aria-hidden />
+        <ModalFooter>
+          <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button typeName="button" onClick={() => setOpen(false)}>
+            Send Invite
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+}
 ```
+
+## combobox-focus
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -429,61 +482,68 @@ import {
 } from "@/components/ui/modal";
 import { useState } from "react";
 
-const regions = [
-  { value: "iad1", label: "Washington, D.C., USA (East) – iad1" },
-  { value: "sfo1", label: "San Francisco, USA (West) – sfo1" },
-  { value: "lhr1", label: "London, UK (London) – lhr1" },
-  { value: "fra1", label: "Frankfurt, Germany (Central EU) – fra1" },
-  { value: "sin1", label: "Singapore (Southeast Asia) – sin1" },
-];
+export function ModalComboboxFocus873C94F9Example() {
+  const regions = [
+    { value: "iad1", label: "Washington, D.C., USA (East) – iad1" },
+    { value: "sfo1", label: "San Francisco, USA (West) – sfo1" },
+    { value: "lhr1", label: "London, UK (London) – lhr1" },
+    { value: "fra1", label: "Frankfurt, Germany (Central EU) – fra1" },
+    { value: "sin1", label: "Singapore (Southeast Asia) – sin1" },
+  ];
 
-const [open, setOpen] = useState(false);
-const [region, setRegion] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
 
-<Modal open={open} onOpenChange={setOpen}>
-  <ModalTrigger asChild>
-    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
-      Open Modal
-    </Button>
-  </ModalTrigger>
-  <ModalContent>
-    <ModalHeader>
-      <ModalTitle>Create Database</ModalTitle>
-      <ModalDescription>
-        Choose a region for your database. Reads and writes will take place in this region.
-      </ModalDescription>
-    </ModalHeader>
-    <div className="mx-[-20px] border-t border-gray-400 bg-background-200 px-5 py-6">
-      <Combobox
-        aria-label="Region"
-        label="Region"
-        onValueChange={setRegion}
-        placeholder="Search regions..."
-        size="small"
-        value={region}
-      >
-        <ComboboxInput />
-        <ComboboxList>
-          {regions.map((option) => (
-            <ComboboxOption key={option.value} value={option.value}>
-              {option.label}
-            </ComboboxOption>
-          ))}
-        </ComboboxList>
-      </Combobox>
-    </div>
-    <div className="h-px w-full" aria-hidden />
-    <ModalFooter>
-      <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
-        Cancel
-      </Button>
-      <Button typeName="button" onClick={() => setOpen(false)}>
-        Create Database
-      </Button>
-    </ModalFooter>
-  </ModalContent>
-</Modal>;
+  const [region, setRegion] = useState<string | null>(null);
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger asChild>
+        <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+          Open Modal
+        </Button>
+      </ModalTrigger>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>Create Database</ModalTitle>
+          <ModalDescription>
+            Choose a region for your database. Reads and writes will take place in this region.
+          </ModalDescription>
+        </ModalHeader>
+        <div className="mx-[-20px] border-t border-gray-400 bg-background-200 px-5 py-6">
+          <Combobox
+            aria-label="Region"
+            label="Region"
+            onValueChange={setRegion}
+            placeholder="Search regions..."
+            size="small"
+            value={region}
+          >
+            <ComboboxInput />
+            <ComboboxList>
+              {regions.map((option) => (
+                <ComboboxOption key={option.value} value={option.value}>
+                  {option.label}
+                </ComboboxOption>
+              ))}
+            </ComboboxList>
+          </Combobox>
+        </div>
+        <div className="h-px w-full" aria-hidden />
+        <ModalFooter>
+          <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button typeName="button" onClick={() => setOpen(false)}>
+            Create Database
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+}
 ```
+
+## toasts-focus-trap
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -499,48 +559,53 @@ import {
 import { useToasts } from "@/components/ui/toast";
 import { useState } from "react";
 
-const [open, setOpen] = useState(false);
-const toasts = useToasts();
+export function ModalToastsFocusTrap2DACB2BDExample() {
+  const [open, setOpen] = useState(false);
 
-<Modal open={open} onOpenChange={setOpen}>
-  <ModalTrigger asChild>
-    <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
-      Open Modal
-    </Button>
-  </ModalTrigger>
-  <ModalContent>
-    <ModalHeader>
-      <ModalTitle>Toasts and Focus Trap</ModalTitle>
-      <ModalDescription>
-        The Modal traps focus, so Tab stays within it. Toasts still render above the Modal and
-        remain interactive — trigger one, then click its action. The Modal stays open and focus
-        returns to it.
-      </ModalDescription>
-    </ModalHeader>
-    <div className="flex flex-col gap-3">
-      <Button
-        onClick={() =>
-          toasts.message({
-            text: "Project link copied",
-            action: "Undo",
-            onAction: () => toasts.message({ text: "Copy reverted" }),
-          })
-        }
-        size="small"
-        type="secondary"
-        typeName="button"
-      >
-        Show Toast
-      </Button>
-    </div>
-    <div className="h-px w-full" aria-hidden />
-    <ModalFooter>
-      <Button typeName="button" onClick={() => setOpen(false)}>
-        Done
-      </Button>
-    </ModalFooter>
-  </ModalContent>
-</Modal>;
+  const toasts = useToasts();
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger asChild>
+        <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+          Open Modal
+        </Button>
+      </ModalTrigger>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>Toasts and Focus Trap</ModalTitle>
+          <ModalDescription>
+            The Modal traps focus, so Tab stays within it. Toasts still render above the Modal and
+            remain interactive — trigger one, then click its action. The Modal stays open and focus
+            returns to it.
+          </ModalDescription>
+        </ModalHeader>
+        <div className="flex flex-col gap-3">
+          <Button
+            onClick={() =>
+              toasts.message({
+                text: "Project link copied",
+                action: "Undo",
+                onAction: () => toasts.message({ text: "Copy reverted" }),
+              })
+            }
+            size="small"
+            type="secondary"
+            typeName="button"
+          >
+            Show Toast
+          </Button>
+        </div>
+        <div className="h-px w-full" aria-hidden />
+        <ModalFooter>
+          <Button typeName="button" onClick={() => setOpen(false)}>
+            Done
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+}
 ```
 
 ## API 参考

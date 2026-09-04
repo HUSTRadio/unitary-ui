@@ -8,6 +8,8 @@ This repository's implementation references and benefits from the following proj
 
 - Site: <https://vercel.com/geist>
 - Nature: **design-spec reference** (no code derivation). The visual authority of this framework — token system, typography, materials, component behavior, best practices, and Web Interface Guidelines all follow its official documentation.
+- Sole foundation reference palette: **Vercel Geist Colors**. Its evidence snapshot is `docs/geist-markdown-refs/foundations/colors.md`; `src/styles/index.css` is the runtime owner of the foundation scales.
+- `--uni-*` is a semantic mapping layer, not a second palette; Apple HIG supplies layout, behavior, and accessibility constraints only, not a second palette. A user-forced override must name its source, reason, and scope.
 
 ## 2. Apple Human Interface Guidelines
 

@@ -27,6 +27,12 @@ interface TextareaProps extends React.ComponentProps<"textarea"> {
   layout?: ControlLayout;
 }
 
+const TEXTAREA_SIZE_CLASSES: Record<TextareaSize, { height: string; className: string }> = {
+  small: { height: "h-[80px]", className: "px-2.5 py-2 text-copy-13 leading-5" },
+  medium: { height: "h-[100px]", className: "px-3 py-2.5 text-copy-14 leading-5" },
+  large: { height: "h-[120px]", className: "px-3.5 py-3 text-base leading-6" },
+};
+
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, size = "medium", error, label, layout, ...props }, ref) => {
     const large = size === "large";
@@ -52,11 +58,11 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? joinDescribedBy(errorId, props["aria-describedby"]) : undefined}
           className={cn(
-            "flex min-w-0 w-full resize-none border-none bg-background px-3 py-2.5 text-copy-14 text-black dark:text-white outline-none",
+            "flex min-w-0 w-full resize-none border-none bg-background text-black dark:text-white outline-none",
             "placeholder:text-muted-foreground",
             "disabled:cursor-not-allowed disabled:bg-[var(--gray-100)] disabled:text-[var(--gray-700)] disabled:placeholder:text-[var(--gray-600)]",
-            props.rows === undefined ? "h-[100px]" : "h-auto",
-            large && "text-base leading-6",
+            props.rows === undefined ? TEXTAREA_SIZE_CLASSES[size].height : "h-auto",
+            TEXTAREA_SIZE_CLASSES[size].className,
             className,
           )}
           {...props}

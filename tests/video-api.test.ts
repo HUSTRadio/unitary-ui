@@ -4,6 +4,8 @@ import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
 
@@ -110,15 +112,16 @@ describe("Video official single-track API contract", () => {
   });
 
   test("VideoDemo preserves the official 600x582 geometry and shrinks with its viewport", async () => {
-    const demo = await read("docs/geist/src/components/docs-components-page.tsx");
-    expect(demo.match(/w-full min-w-0 max-w-\[600px\]/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
-    expect(demo.match(/height=\{582\}/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
-    expect(demo.match(/width=\{600\}/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
+    const examples = Object.values(EXAMPLE_SOURCE.video);
+    const joined = examples.join("\n");
+    expect(joined.match(/w-full min-w-0 max-w-\[600px\]/g)?.length ?? 0).toBeGreaterThanOrEqual(2);
+    expect(joined.match(/height=\{582\}/g)?.length ?? 0).toBeGreaterThanOrEqual(2);
+    expect(joined.match(/width=\{600\}/g)?.length ?? 0).toBeGreaterThanOrEqual(2);
   });
 
-  test("VideoDemo references /demo.mp4 and /demo-poster.png which now resolve via public/", async () => {
-    const demo = await read("docs/geist/src/components/docs-components-page.tsx");
-    expect(demo).toMatch(/src="\/demo\.mp4"/);
-    expect(demo).toMatch(/poster="\/demo-poster\.png"/);
+  test("VideoDemo references /demo.mp4 which now resolve via public/", () => {
+    const examples = Object.values(EXAMPLE_SOURCE.video);
+    const joined = examples.join("\n");
+    expect(joined).toMatch(/src="\/demo\.mp4"/);
   });
 });

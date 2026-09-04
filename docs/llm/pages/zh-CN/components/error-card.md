@@ -66,13 +66,17 @@ import {
 } from "@/components/ui/error-card";
 import { Trash2 } from "lucide-react";
 
-<ErrorCard className="w-full max-w-md" icon={<Trash2 className="size-6" />}>
-  <ErrorCardTitle>No Credits Left</ErrorCardTitle>
-  <ErrorCardDescription>Add credits to continue deploying projects.</ErrorCardDescription>
-  <ErrorCardAction>
-    <Button>Add Credits</Button>
-  </ErrorCardAction>
-</ErrorCard>;
+export function ErrorCardDefault21B111CBExample() {
+  return (
+    <ErrorCard className="w-full max-w-md" icon={<Trash2 className="size-6" />}>
+      <ErrorCardTitle>No Credits Left</ErrorCardTitle>
+      <ErrorCardDescription>Add credits to continue deploying projects.</ErrorCardDescription>
+      <ErrorCardAction>
+        <Button>Add Credits</Button>
+      </ErrorCardAction>
+    </ErrorCard>
+  );
+}
 ```
 
 ## API 参考

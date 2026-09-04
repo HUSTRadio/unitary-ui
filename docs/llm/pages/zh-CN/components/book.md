@@ -60,32 +60,36 @@ Book
 
 ## 实时示例
 
-### 默认
+The user experience of the Frontend Cloud
+
+```tsx
+import { Book } from "@/components/ui/book";
+
+export function BookDefault21B111CBExample() {
+  return <Book title="The user experience of the Frontend Cloud" />;
+}
+```
+
+## 变体
+
+The user experience of the Frontend Cloud
 
 The user experience of the Frontend Cloud
 
 ```tsx
 import { Book } from "@/components/ui/book";
 
-<Book title="The user experience of the Frontend Cloud" />;
+export function BookVariants63D2643BExample() {
+  return (
+    <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
+      <Book title="The user experience of the Frontend Cloud" variant="simple" width={196} />
+      <Book title="The user experience of the Frontend Cloud" variant="stripe" width={196} />
+    </div>
+  );
+}
 ```
 
-### 变体
-
-The user experience of the Frontend Cloud
-
-The user experience of the Frontend Cloud
-
-```tsx
-import { Book } from "@/components/ui/book";
-
-<div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
-  <Book title="The user experience of the Frontend Cloud" variant="simple" width={196} />
-  <Book title="The user experience of the Frontend Cloud" variant="stripe" width={196} />
-</div>;
-```
-
-### 自定义颜色
+## 自定义颜色
 
 How Vercel improves your website's search engine ranking
 
@@ -96,33 +100,46 @@ The user experience of the Frontend Cloud
 ```tsx
 import { Book } from "@/components/ui/book";
 
-<div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
-  <Book color="#9D2127" title="How Vercel improves your website's search engine ranking" />
-  <Book color="#7DC1C1" textColor="white" title="Design Engineering at Vercel" variant="simple" />
-  <Book color="#FED954" title="The user experience of the Frontend Cloud" />
-</div>;
+export function BookCustomColorA5F69A18Example() {
+  return (
+    <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
+      <Book color="#9D2127" title="How Vercel improves your website's search engine ranking" />
+      <Book
+        color="#7DC1C1"
+        textColor="white"
+        title="Design Engineering at Vercel"
+        variant="simple"
+      />
+      <Book color="#FED954" title="The user experience of the Frontend Cloud" />
+    </div>
+  );
+}
 ```
 
-### 自定义图标
+## 自定义图标
 
 Vercel Platform Guide
 
 Next.js Documentation
 
-React Documentation
+React Essentials
 
 ```tsx
 import { Book } from "@/components/ui/book";
 import { ArrowRight, Atom, Triangle } from "lucide-react";
 
-<div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
-  <Book icon={<Triangle className="size-4" aria-hidden />} title="Vercel Platform Guide" />
-  <Book icon={<ArrowRight className="size-4" aria-hidden />} title="Next.js Documentation" />
-  <Book icon={<Atom className="size-4" aria-hidden />} title="React Essentials" />
-</div>;
+export function BookCustomIconEE5755A2Example() {
+  return (
+    <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
+      <Book icon={<Triangle className="size-4" aria-hidden />} title="Vercel Platform Guide" />
+      <Book icon={<ArrowRight className="size-4" aria-hidden />} title="Next.js Documentation" />
+      <Book icon={<Atom className="size-4" aria-hidden />} title="React Essentials" />
+    </div>
+  );
+}
 ```
 
-### Custom illustration
+## Custom illustration
 
 The user experience of the Frontend Cloud
 
@@ -132,30 +149,36 @@ The user experience of the Frontend Cloud
 import { Book } from "@/components/ui/book";
 import { ChartColumn, Waves } from "lucide-react";
 
-<div className="flex flex-row items-stretch justify-start gap-8 flex-initial">
-  <Book
-    illustration={<Waves className="size-8" aria-hidden />}
-    title="The user experience of the Frontend Cloud"
-  />
-  <Book
-    illustration={<ChartColumn className="size-8" aria-hidden />}
-    title="The user experience of the Frontend Cloud"
-    variant="simple"
-  />
-</div>;
+export function BookCustomIllustration79A95CD3Example() {
+  return (
+    <div className="flex flex-row items-stretch justify-start gap-8 flex-initial">
+      <Book
+        illustration={<Waves className="size-8" aria-hidden />}
+        title="The user experience of the Frontend Cloud"
+      />
+      <Book
+        illustration={<ChartColumn className="size-8" aria-hidden />}
+        title="The user experience of the Frontend Cloud"
+        variant="simple"
+      />
+    </div>
+  );
+}
 ```
 
-### Responsive
+## Responsive
 
 The user experience of the Frontend Cloud
 
 ```tsx
 import { Book } from "@/components/ui/book";
 
-<Book title="The user experience of the Frontend Cloud" width={{ sm: 150, md: 196 }} />;
+export function BookResponsiveDE779794Example() {
+  return <Book title="The user experience of the Frontend Cloud" width={{ sm: 150, md: 196 }} />;
+}
 ```
 
-### Width
+## Width
 
 The user experience of the Frontend Cloud
 
@@ -166,14 +189,24 @@ The user experience of the Frontend Cloud
 ```tsx
 import { Book } from "@/components/ui/book";
 
-<div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
-  <Book title="The user experience of the Frontend Cloud" width={300} />
-  <Book title="The user experience of the Frontend Cloud" width={200} />
-  <Book title="The user experience of the Frontend Cloud" width={150} />
-</div>;
+export function BookWidth3019947BExample() {
+  return (
+    <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
+      <Book title="The user experience of the Frontend Cloud" width={300} />
+      <Book title="The user experience of the Frontend Cloud" width={200} />
+      <Book title="The user experience of the Frontend Cloud" width={150} />
+    </div>
+  );
+}
 ```
 
-### Textured
+## Textured
+
+Design Engineering at Vercel
+
+Design Engineering at Vercel
+
+Design Engineering at Vercel
 
 Design Engineering at Vercel
 
@@ -184,36 +217,40 @@ Design Engineering at Vercel
 ```tsx
 import { Book } from "@/components/ui/book";
 
-<div className="flex flex-col items-stretch justify-start gap-12 flex-initial">
-  <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
-    <Book color="#7DC1C1" textured title="Design Engineering at Vercel" />
-    <Book color="#9D2127" textured title="Design Engineering at Vercel" />
-    <Book color="#FED954" textured title="Design Engineering at Vercel" />
-  </div>
-  <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
-    <Book
-      color="#7DC1C1"
-      textColor="white"
-      textured
-      title="Design Engineering at Vercel"
-      variant="simple"
-    />
-    <Book
-      color="#9D2127"
-      textColor="#ece4db"
-      textured
-      title="Design Engineering at Vercel"
-      variant="simple"
-    />
-    <Book
-      color="#FED954"
-      textColor="#9d3b05"
-      textured
-      title="Design Engineering at Vercel"
-      variant="simple"
-    />
-  </div>
-</div>;
+export function BookTexturedB29877FBExample() {
+  return (
+    <div className="flex flex-col items-stretch justify-start gap-12 flex-initial">
+      <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
+        <Book color="#7DC1C1" textured title="Design Engineering at Vercel" />
+        <Book color="#9D2127" textured title="Design Engineering at Vercel" />
+        <Book color="#FED954" textured title="Design Engineering at Vercel" />
+      </div>
+      <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
+        <Book
+          color="#7DC1C1"
+          textColor="white"
+          textured
+          title="Design Engineering at Vercel"
+          variant="simple"
+        />
+        <Book
+          color="#9D2127"
+          textColor="#ece4db"
+          textured
+          title="Design Engineering at Vercel"
+          variant="simple"
+        />
+        <Book
+          color="#FED954"
+          textColor="#9d3b05"
+          textured
+          title="Design Engineering at Vercel"
+          variant="simple"
+        />
+      </div>
+    </div>
+  );
+}
 ```
 
 ## API 参考

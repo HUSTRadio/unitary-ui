@@ -64,53 +64,63 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-<Sheet modal>
-  <SheetTrigger asChild>
-    <Button type="default" typeName="button">
-      Open Sheet
-    </Button>
-  </SheetTrigger>
-  <SheetContent className="m-3 h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] rounded-2xl bg-background-100 p-0 lg:w-[512px] sm:max-w-[auto] flex flex-col">
-    <SheetHeader className="p-6 text-left">
-      <SheetTitle>Sheet Title</SheetTitle>
-      <p className="text-copy-14 text-foreground">Sheet description</p>
-    </SheetHeader>
-    <SheetDescription className="px-6 py-4 text-copy-14">Sheet body</SheetDescription>
-    <SheetFooter className="p-6 gap-2 flex-row justify-end mt-auto">
-      <SheetClose asChild>
-        <Button type="secondary" typeName="button">
-          Close
+export function SheetDefault37A8EEC1Example() {
+  return (
+    <Sheet modal>
+      <SheetTrigger asChild>
+        <Button type="default" typeName="button">
+          Open Sheet
         </Button>
-      </SheetClose>
-      <Button typeName="button">Next</Button>
-    </SheetFooter>
-  </SheetContent>
-</Sheet>;
+      </SheetTrigger>
+      <SheetContent className="m-3 h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] rounded-2xl bg-background-100 p-0 lg:w-[512px] sm:max-w-[auto] flex flex-col">
+        <SheetHeader className="p-6 text-left">
+          <SheetTitle>Sheet Title</SheetTitle>
+          <p className="text-copy-14 text-foreground">Sheet description</p>
+        </SheetHeader>
+        <SheetDescription className="px-6 py-4 text-copy-14">Sheet body</SheetDescription>
+        <SheetFooter className="p-6 gap-2 flex-row justify-end mt-auto">
+          <SheetClose asChild>
+            <Button type="secondary" typeName="button">
+              Close
+            </Button>
+          </SheetClose>
+          <Button typeName="button">Next</Button>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  );
+}
 ```
+
+## with-side
 
 ```tsx
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
-const sides = ["top", "right", "bottom", "left"] as const;
+export function SheetWithSideCF31B857Example() {
+  const sides = ["top", "right", "bottom", "left"] as const;
 
-<div className="flex items-center justify-center gap-4">
-  {sides.map((side) => (
-    <Sheet key={side} modal>
-      <SheetTrigger asChild>
-        <Button type="default" typeName="button">
-          Open {side}
-        </Button>
-      </SheetTrigger>
-      <SheetContent side={side}>
-        <SheetHeader>
-          <SheetTitle>Sheet from {side}</SheetTitle>
-          <p className="text-copy-14 text-foreground">This sheet slides in from the {side}.</p>
-        </SheetHeader>
-      </SheetContent>
-    </Sheet>
-  ))}
-</div>;
+  return (
+    <div className="flex items-center justify-center gap-4">
+      {sides.map((side) => (
+        <Sheet key={side} modal>
+          <SheetTrigger asChild>
+            <Button type="default" typeName="button">
+              Open {side}
+            </Button>
+          </SheetTrigger>
+          <SheetContent side={side}>
+            <SheetHeader>
+              <SheetTitle>Sheet from {side}</SheetTitle>
+              <p className="text-copy-14 text-foreground">This sheet slides in from the {side}.</p>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>
+      ))}
+    </div>
+  );
+}
 ```
 
 ## API Reference

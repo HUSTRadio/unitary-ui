@@ -1,7 +1,7 @@
 /**
  * Show code 审计库：三层检查
- * 1. 覆盖：docs-components-page.tsx 中所有 demoCode()/sectionCode() 引用 → DEMO_CODE 解析结果（ok/missing/empty）
- * 2. 语法：DEMO_CODE 每条条目作为 TSX 解析，收集语法诊断
+ * 1. 覆盖：docs-components-page.tsx 中所有 demoCode()/sectionCode() 引用 → EXAMPLE_SOURCE 解析结果（ok/missing/empty）
+ * 2. 语法：EXAMPLE_SOURCE 每条条目作为 TSX 解析，收集语法诊断
  * 3. 类型：把条目写成独立 .tsx fixture + tsconfig（@ alias），交 tsc --noEmit（由调用方执行）
  */
 import { readFile } from "node:fs/promises";
@@ -39,9 +39,9 @@ export function extractReferences(pageSource: string): { slug: string; id: strin
 
   // 锚点 1：字面 slug 的 demoCode / sectionCode（点形式与方括号形式）
   const anchorLiteral =
-    /const (?:demoCode|sectionCode) = \((?:id|title): string\) => DEMO_CODE(?:\.([\w-]+)|\["([\w-]+)"\])\?\.\[(?:id|title)\]/g;
-  // 锚点 2：泛型 DEMO_CODE[name]（renderExtraSections 内，slug 由最近的 case 决定）
-  const anchorGeneric = /const sectionCode = \(title: string\) => DEMO_CODE\[name\]\?\.\[title\]/g;
+    /const (?:demoCode|sectionCode) = \((?:id|title): string\) => EXAMPLE_SOURCE(?:\.([\w-]+)|\["([\w-]+)"\])\?\.\[(?:id|title)\]/g;
+  // 锚点 2：泛型 EXAMPLE_SOURCE[name]（renderExtraSections 内，slug 由最近的 case 决定）
+  const anchorGeneric = /const sectionCode = \(title: string\) => EXAMPLE_SOURCE\[name\]\?\.\[title\]/g;
   const caseMarks = [...pageSource.matchAll(/^\s*case "([^"]+)":/gm)].map((m) => ({
     slug: m[1],
     pos: m.index ?? 0,
@@ -139,7 +139,7 @@ export function extractReferences(pageSource: string): { slug: string; id: strin
     }
   }
 
-  // 调用点 C：直接传给 Show Code 的字面 DEMO_CODE 访问。
+  // 调用点 C：直接传给 Show Code 的字面 EXAMPLE_SOURCE 访问。
   // 仅检查 ShowCode/ShowCodeFooter 的 code 属性，避免把变量、注释或其他 JSX 属性误算为消费。
   const sourceFile = ts.createSourceFile(
     PAGE_PATH,
@@ -167,7 +167,7 @@ export function extractReferences(pageSource: string): { slug: string; id: strin
     }
     const slug = literalMemberName(slugAccess);
     const root = slugAccess.expression;
-    return slug !== null && ts.isIdentifier(root) && root.text === "DEMO_CODE"
+    return slug !== null && ts.isIdentifier(root) && root.text === "EXAMPLE_SOURCE"
       ? { slug, id }
       : null;
   };
@@ -248,7 +248,15 @@ export async function auditShowCode(
   demoCode: Record<string, Record<string, string>>,
 ): Promise<AuditReport> {
   const pageSource = await readFile(path.join(repoRoot, PAGE_PATH), "utf8");
-  const refs = extractReferences(pageSource);
+  const registryDriven =
+    pageSource.includes("EXAMPLE_REGISTRY[name]") &&
+    pageSource.includes("record.Component") &&
+    pageSource.includes("record.source");
+  const refs = registryDriven
+    ? Object.entries(demoCode).flatMap(([slug, blocks]) =>
+        Object.keys(blocks).map((id) => ({ slug, id })),
+      )
+    : extractReferences(pageSource);
 
   const missing: { slug: string; id: string }[] = [];
   const empty: { slug: string; id: string }[] = [];
@@ -262,7 +270,7 @@ export async function auditShowCode(
     else okCount++;
   }
 
-  // 孤儿条目：DEMO_CODE 中存在但页面从未引用
+  // 孤儿条目：EXAMPLE_SOURCE 中存在但页面从未引用
   const orphanEntries: { slug: string; id: string }[] = [];
   let totalEntries = 0;
   for (const [slug, blocks] of Object.entries(demoCode)) {

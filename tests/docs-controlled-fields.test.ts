@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import ts from "typescript";
 import { describe, expect, test } from "vitest";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 
 const root = process.cwd();
 const docsPath = path.resolve(root, "docs/geist/src/components/docs-components-page.tsx");
@@ -48,19 +49,17 @@ describe("docs controlled field console contract", () => {
     expect(controlledDemoFieldsMissingReadOnly(source)).toEqual([]);
   });
 
-  test("copyable static checked examples are explicitly read-only", async () => {
-    const [batch1, batch7, batch4] = await Promise.all([
-      readFile(path.resolve(root, "docs/geist/src/data/demo-code-batch1.ts"), "utf8"),
-      readFile(path.resolve(root, "docs/geist/src/data/demo-code-batch7.ts"), "utf8"),
-      readFile(path.resolve(root, "docs/geist/src/data/demo-code-section-batch4.ts"), "utf8"),
-    ]);
+  test("copyable static checked examples are explicitly read-only", () => {
+    const copyableExamples = Object.values(EXAMPLE_SOURCE).flatMap((examples) =>
+      Object.values(examples),
+    );
+    const source = copyableExamples.join("\n");
 
-    expect(batch1).toContain("<Checkbox checked readOnly disabled>Disabled Checked</Checkbox>");
-    expect(batch7).toContain('<Toggle aria-label="Enable Firewall" checked readOnly disabled />');
-    expect(batch7).toContain(
+    expect(source).toContain("<Checkbox checked readOnly disabled>Disabled Checked</Checkbox>");
+    expect(source).toContain('<Toggle aria-label="Enable Firewall" checked readOnly disabled />');
+    expect(source).toContain(
       '<Toggle aria-label="Enable Firewall" checked={false} readOnly size="large" />',
     );
-    // Checkbox 只读示例已随 Usage 删除从 components.ts 迁移到 section-batch4
-    expect(batch4).toContain('<Checkbox checked readOnly aria-label="Checked" />');
+    expect(source).toContain('<Checkbox checked readOnly aria-label="Checked" />');
   });
 });

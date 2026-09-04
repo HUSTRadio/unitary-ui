@@ -9,7 +9,7 @@ import {
   COMPONENT_GUIDES_ZH,
 } from "../docs/geist/src/content/component-guides";
 import { COMPONENTS } from "../docs/geist/src/data/components";
-import { DEMO_CODE } from "../docs/geist/src/data/demo-code";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 import { DOCS_ROUTE_GROUPS } from "../docs/geist/src/data/docs-routes";
 
 describe("component API registry", () => {
@@ -309,9 +309,20 @@ describe("component API registry", () => {
     expect(row("table", "rowHeight")?.type).toBe('number | "auto"');
     expect(row("table", "colWidth")?.type).toBe('"auto" | "fit"');
     expect(row("table", "colorScheme")?.type).toBe("TableColorScheme");
+    expect(row("table", "frame")).toMatchObject({
+      type: '"outline" | "none"',
+      defaultValue: '"outline"',
+    });
+    expect(row("table", "columnDividers")).toMatchObject({
+      type: "boolean",
+      defaultValue: "false",
+    });
     expect(row("table", "headerRow")?.type).toBe("boolean");
     expect(row("table", "headerCol")?.type).toBe("boolean");
     expect(row("table", "striped")).toBeUndefined();
+    expect(EXAMPLE_SOURCE.table.Default).toContain('frame="outline"');
+    expect(EXAMPLE_SOURCE.table["Full featured table"]).toContain('frame="none"');
+    expect(EXAMPLE_SOURCE.table["Full featured table"]).toContain("columnDividers");
 
     expect(row("textarea", "size")?.defaultValue).toBe('"medium"');
     expect(row("textarea", "error")?.type).toBe("ReactNode");
@@ -356,7 +367,7 @@ describe("component API registry", () => {
   });
 
   it("imports every ModalTrigger used by a modal Show Code example", () => {
-    for (const [name, source] of Object.entries(DEMO_CODE.modal ?? {})) {
+    for (const [name, source] of Object.entries(EXAMPLE_SOURCE.modal ?? {})) {
       if (!source.includes("<ModalTrigger")) continue;
       expect(source, `modal.${name} uses ModalTrigger without importing it`).toMatch(
         /import\s*\{[^}]*\bModalTrigger\b[^}]*\}\s*from\s*["']@\/components\/ui\/modal["']/s,
@@ -365,7 +376,7 @@ describe("component API registry", () => {
   });
 
   it("keeps Slider track examples compatible with the implemented update paths", () => {
-    const slider = DEMO_CODE.slider;
+    const slider = EXAMPLE_SOURCE.slider;
 
     for (const name of ["default", "with-label", "commit-on-release"] as const) {
       expect(slider[name], `slider.${name} must not depend on track onValueChange`).not.toMatch(

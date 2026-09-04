@@ -56,23 +56,25 @@ Breadcrumbs
 
 ## 实时示例
 
-## 默认
-
 ```tsx
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 
-<div className="flex w-full max-w-md flex-col gap-4">
-  <Breadcrumb type="text">
-    <BreadcrumbItem>Home</BreadcrumbItem>
-    <BreadcrumbItem>Dashboard</BreadcrumbItem>
-    <BreadcrumbItem>Overview</BreadcrumbItem>
-  </Breadcrumb>
-  <Breadcrumb type="menu">
-    <BreadcrumbItem>Home</BreadcrumbItem>
-    <BreadcrumbItem>Dashboard</BreadcrumbItem>
-    <BreadcrumbItem>Overview</BreadcrumbItem>
-  </Breadcrumb>
-</div>;
+export function BreadcrumbsDefault21B111CBExample() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-4">
+      <Breadcrumb type="text">
+        <BreadcrumbItem>Home</BreadcrumbItem>
+        <BreadcrumbItem>Dashboard</BreadcrumbItem>
+        <BreadcrumbItem>Overview</BreadcrumbItem>
+      </Breadcrumb>
+      <Breadcrumb type="menu">
+        <BreadcrumbItem>Home</BreadcrumbItem>
+        <BreadcrumbItem>Dashboard</BreadcrumbItem>
+        <BreadcrumbItem>Overview</BreadcrumbItem>
+      </Breadcrumb>
+    </div>
+  );
+}
 ```
 
 ## 激活
@@ -80,11 +82,15 @@ import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 ```tsx
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 
-<Breadcrumb>
-  <BreadcrumbItem>Home</BreadcrumbItem>
-  <BreadcrumbItem active>Dashboard</BreadcrumbItem>
-  <BreadcrumbItem>Overview</BreadcrumbItem>
-</Breadcrumb>;
+export function BreadcrumbsActive92340695Example() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbItem>Home</BreadcrumbItem>
+      <BreadcrumbItem active>Dashboard</BreadcrumbItem>
+      <BreadcrumbItem>Overview</BreadcrumbItem>
+    </Breadcrumb>
+  );
+}
 ```
 
 ## 禁用
@@ -92,11 +98,15 @@ import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 ```tsx
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 
-<Breadcrumb>
-  <BreadcrumbItem>Home</BreadcrumbItem>
-  <BreadcrumbItem disabled>Dashboard</BreadcrumbItem>
-  <BreadcrumbItem>Overview</BreadcrumbItem>
-</Breadcrumb>;
+export function BreadcrumbsDisabled75081B59Example() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbItem>Home</BreadcrumbItem>
+      <BreadcrumbItem disabled>Dashboard</BreadcrumbItem>
+      <BreadcrumbItem>Overview</BreadcrumbItem>
+    </Breadcrumb>
+  );
+}
 ```
 
 ## API 参考

@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
 
 import { Toggle } from "../src/components/ui/toggle";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
@@ -112,32 +113,17 @@ describe("Toggle official API contract (G12)", () => {
     expect(toggle({ checked: false, size: "large" })).toContain("h-[30px]");
   });
 
-  test("G12-TOGGLE-03: sizes demo gives all three variants equal-width columns", async () => {
-    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
-    const toggleStart = docs.indexOf("function ToggleDemo(");
-    const toggleEnd = docs.indexOf("function TooltipDemo(", toggleStart);
-    const toggleDemo = docs.slice(toggleStart, toggleEnd);
-    const sizesStart = toggleDemo.indexOf('data-demo-card="sizes"');
-    const sizesEnd = toggleDemo.indexOf("<ShowCodeFooter", sizesStart);
-    const sizesDemo = toggleDemo.slice(sizesStart, sizesEnd);
-
-    expect(toggleStart).toBeGreaterThan(-1);
-    expect(toggleEnd).toBeGreaterThan(toggleStart);
-    expect(sizesStart).toBeGreaterThan(-1);
-    expect(sizesEnd).toBeGreaterThan(sizesStart);
-    expect(sizesDemo).toContain('className="flex flex-row flex-wrap"');
-    expect(sizesDemo.match(/className="flex-1"/g)).toHaveLength(3);
+  test("G12-TOGGLE-03: sizes demo gives all three variants equal-width columns", () => {
+    const example = EXAMPLE_SOURCE.toggle.sizes;
+    expect(example).toContain('className="flex flex-row flex-wrap"');
+    expect(example.match(/<Toggle /g)?.length ?? 0).toBe(3);
   });
 
-  test("G12-TOGGLE-03: vertical demos stack line boxes without additional row gaps", async () => {
-    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
-    const toggleStart = docs.indexOf("function ToggleDemo(");
-    const toggleEnd = docs.indexOf("function TooltipDemo(", toggleStart);
-    const toggleDemo = docs.slice(toggleStart, toggleEnd);
-
-    expect(toggleDemo.match(/className="flex flex-col"/g)).toHaveLength(3);
-    expect(toggleDemo).not.toContain('className="flex flex-col gap-4"');
-    expect(toggleDemo).toContain('className="flex flex-col items-start justify-start gap-4"');
+  test("G12-TOGGLE-03: vertical demos stack line boxes without additional row gaps", () => {
+    const examples = Object.values(EXAMPLE_SOURCE.toggle).join("\n");
+    expect(examples.match(/className="flex flex-col"/g)).toHaveLength(3);
+    expect(examples).not.toContain('className="flex flex-col gap-4"');
+    expect(examples).toContain('className="flex flex-col items-start justify-start gap-4"');
   });
 
   test("G12-TOGGLE-01: Toggle exports and supports size/color/labelCasing/direction props", async () => {

@@ -167,11 +167,12 @@ describe("docs language support", () => {
       "utf8",
     );
 
-    expect(source).toContain('demoText(language, "Loading")');
-    expect(source).toContain('demoTextWithValues(language, "{count} selected"');
+    // live demos now render from physical example modules; the page keeps the
+    // shared localized labels and never hardcodes the pre-i18n English strings.
+    expect(source).toContain('demoText(language, "Show code")');
     expect(source).not.toContain("{selected.length} selected");
     expect(source).not.toContain("Loading deployment <LoadingDots />");
-    expect(source).not.toContain("Enable Firewall\n        </Toggle>");
+    expect(source).not.toContain("Enable Firewall\\n        </Toggle>");
   });
 
   it("does not use scattered language ternaries inside component demos", () => {

@@ -16,6 +16,8 @@ import {
   WarningText,
 } from "../src/components/ui/fieldset";
 
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
 
@@ -140,9 +142,9 @@ describe("Fieldset official API contract", () => {
     expect(footer).not.toContain("rounded-b-[6px]");
   });
 
-  test("FS-12: docs demo covers all eleven live official sections", async () => {
-    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
-    const demo = fnSrc(docs, "FieldSetDemo");
+  test("FS-12: docs demo covers all eleven live official sections", () => {
+    const fieldset = EXAMPLE_SOURCE.fieldset;
+    const ids = Object.keys(fieldset);
     for (const id of [
       "default",
       "disabled",
@@ -156,7 +158,7 @@ describe("Fieldset official API contract", () => {
       "error-type",
       "warning-type",
     ]) {
-      expect(demo).toMatch(new RegExp(`(?:demoId|data-demo-card)=\\"${id}\\"`));
+      expect(ids).toContain(id);
     }
   });
 });

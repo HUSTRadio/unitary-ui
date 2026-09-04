@@ -81,15 +81,21 @@ Applies error colors to the input text and icons when validation fails; the page
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 
-<Combobox aria-label="Search" placeholder="Search...">
-  <ComboboxInput />
-  <ComboboxList>
-    <ComboboxOption value="a">One</ComboboxOption>
-    <ComboboxOption value="b">Two</ComboboxOption>
-    <ComboboxOption value="c">Three</ComboboxOption>
-  </ComboboxList>
-</Combobox>;
+export function ComboboxUncontrolledAB4CD2AEExample() {
+  return (
+    <Combobox aria-label="Search" placeholder="Search...">
+      <ComboboxInput />
+      <ComboboxList>
+        <ComboboxOption value="a">One</ComboboxOption>
+        <ComboboxOption value="b">Two</ComboboxOption>
+        <ComboboxOption value="c">Three</ComboboxOption>
+      </ComboboxList>
+    </Combobox>
+  );
+}
 ```
+
+## controlled
 
 - One
 - Two
@@ -99,17 +105,23 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 import { useState } from "react";
 
-const [value, setValue] = useState("b");
+export function ComboboxControlled71AD7238Example() {
+  const [value, setValue] = useState("b");
 
-<Combobox aria-label="Search" onValueChange={setValue} placeholder="Search..." value={value}>
-  <ComboboxInput />
-  <ComboboxList>
-    <ComboboxOption value="a">One</ComboboxOption>
-    <ComboboxOption value="b">Two</ComboboxOption>
-    <ComboboxOption value="c">Three</ComboboxOption>
-  </ComboboxList>
-</Combobox>;
+  return (
+    <Combobox aria-label="Search" onValueChange={setValue} placeholder="Search..." value={value}>
+      <ComboboxInput />
+      <ComboboxList>
+        <ComboboxOption value="a">One</ComboboxOption>
+        <ComboboxOption value="b">Two</ComboboxOption>
+        <ComboboxOption value="c">Three</ComboboxOption>
+      </ComboboxList>
+    </Combobox>
+  );
+}
 ```
+
+## disabled
 
 - One
 - Two
@@ -118,15 +130,21 @@ const [value, setValue] = useState("b");
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 
-<Combobox aria-label="Search" disabled placeholder="Search...">
-  <ComboboxInput />
-  <ComboboxList>
-    <ComboboxOption value="a">One</ComboboxOption>
-    <ComboboxOption value="b">Two</ComboboxOption>
-    <ComboboxOption value="c">Three</ComboboxOption>
-  </ComboboxList>
-</Combobox>;
+export function ComboboxDisabled17EB3C01Example() {
+  return (
+    <Combobox aria-label="Search" disabled placeholder="Search...">
+      <ComboboxInput />
+      <ComboboxList>
+        <ComboboxOption value="a">One</ComboboxOption>
+        <ComboboxOption value="b">Two</ComboboxOption>
+        <ComboboxOption value="c">Three</ComboboxOption>
+      </ComboboxList>
+    </Combobox>
+  );
+}
 ```
+
+## sizes
 
 - One
 - Two
@@ -143,47 +161,53 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 
-const options = [
-  { value: "a", label: "One" },
-  { value: "b", label: "Two" },
-  { value: "c", label: "Three" },
-];
+export function ComboboxSizes7C69F3FAExample() {
+  const options = [
+    { value: "a", label: "One" },
+    { value: "b", label: "Two" },
+    { value: "c", label: "Three" },
+  ];
 
-<div className="flex flex-col md:flex-row items-stretch justify-start gap-4 flex-initial">
-  <Combobox aria-label="Search" placeholder="Search..." size="small" className="w-[235px]">
-    <ComboboxInput />
-    <ComboboxList>
-      {options.map((option) => (
-        <ComboboxOption key={option.value} value={option.value}>
-          {option.label}
-        </ComboboxOption>
-      ))}
-    </ComboboxList>
-  </Combobox>
+  return (
+    <div className="flex flex-col md:flex-row items-stretch justify-start gap-4 flex-initial">
+      <Combobox aria-label="Search" placeholder="Search..." size="small" className="w-[235px]">
+        <ComboboxInput />
+        <ComboboxList>
+          {options.map((option) => (
+            <ComboboxOption key={option.value} value={option.value}>
+              {option.label}
+            </ComboboxOption>
+          ))}
+        </ComboboxList>
+      </Combobox>
 
-  <Combobox aria-label="Search" placeholder="Search..." className="w-[235px]">
-    <ComboboxInput />
-    <ComboboxList>
-      {options.map((option) => (
-        <ComboboxOption key={option.value} value={option.value}>
-          {option.label}
-        </ComboboxOption>
-      ))}
-    </ComboboxList>
-  </Combobox>
+      <Combobox aria-label="Search" placeholder="Search..." className="w-[235px]">
+        <ComboboxInput />
+        <ComboboxList>
+          {options.map((option) => (
+            <ComboboxOption key={option.value} value={option.value}>
+              {option.label}
+            </ComboboxOption>
+          ))}
+        </ComboboxList>
+      </Combobox>
 
-  <Combobox aria-label="Search" placeholder="Search..." size="large" className="w-[257px]">
-    <ComboboxInput />
-    <ComboboxList>
-      {options.map((option) => (
-        <ComboboxOption key={option.value} value={option.value}>
-          {option.label}
-        </ComboboxOption>
-      ))}
-    </ComboboxList>
-  </Combobox>
-</div>;
+      <Combobox aria-label="Search" placeholder="Search..." size="large" className="w-[257px]">
+        <ComboboxInput />
+        <ComboboxList>
+          {options.map((option) => (
+            <ComboboxOption key={option.value} value={option.value}>
+              {option.label}
+            </ComboboxOption>
+          ))}
+        </ComboboxList>
+      </Combobox>
+    </div>
+  );
+}
 ```
+
+## with-label
 
 Select your country
 
@@ -199,24 +223,30 @@ Select your country
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 
-<Combobox
-  label="Select your country"
-  aria-label="Select your country"
-  placeholder="Search countries…"
->
-  <ComboboxInput />
-  <ComboboxList>
-    <ComboboxOption value="us">United States</ComboboxOption>
-    <ComboboxOption value="ca">Canada</ComboboxOption>
-    <ComboboxOption value="uk">United Kingdom</ComboboxOption>
-    <ComboboxOption value="de">Germany</ComboboxOption>
-    <ComboboxOption value="fr">France</ComboboxOption>
-    <ComboboxOption value="jp">Japan</ComboboxOption>
-    <ComboboxOption value="au">Australia</ComboboxOption>
-    <ComboboxOption value="br">Brazil</ComboboxOption>
-  </ComboboxList>
-</Combobox>;
+export function ComboboxWithLabelBB9F6883Example() {
+  return (
+    <Combobox
+      label="Select your country"
+      aria-label="Select your country"
+      placeholder="Search countries…"
+    >
+      <ComboboxInput />
+      <ComboboxList>
+        <ComboboxOption value="us">United States</ComboboxOption>
+        <ComboboxOption value="ca">Canada</ComboboxOption>
+        <ComboboxOption value="uk">United Kingdom</ComboboxOption>
+        <ComboboxOption value="de">Germany</ComboboxOption>
+        <ComboboxOption value="fr">France</ComboboxOption>
+        <ComboboxOption value="jp">Japan</ComboboxOption>
+        <ComboboxOption value="au">Australia</ComboboxOption>
+        <ComboboxOption value="br">Brazil</ComboboxOption>
+      </ComboboxList>
+    </Combobox>
+  );
+}
 ```
+
+## clearable
 
 - One
 - Two
@@ -226,24 +256,29 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 import { useState } from "react";
 
-const [value, setValue] = useState("two");
+export function ComboboxClearable258DDE0FExample() {
+  const [value, setValue] = useState("two");
 
-// 选中后出现清除按钮（X），点击即清空并回调 onValueChange。
-<Combobox
-  aria-label="Search"
-  clearable
-  onValueChange={setValue}
-  placeholder="Search..."
-  value={value}
->
-  <ComboboxInput />
-  <ComboboxList>
-    <ComboboxOption value="one">One</ComboboxOption>
-    <ComboboxOption value="two">Two</ComboboxOption>
-    <ComboboxOption value="three">Three</ComboboxOption>
-  </ComboboxList>
-</Combobox>;
+  return (
+    <Combobox
+      aria-label="Search"
+      clearable
+      onValueChange={setValue}
+      placeholder="Search..."
+      value={value}
+    >
+      <ComboboxInput />
+      <ComboboxList>
+        <ComboboxOption value="one">One</ComboboxOption>
+        <ComboboxOption value="two">Two</ComboboxOption>
+        <ComboboxOption value="three">Three</ComboboxOption>
+      </ComboboxList>
+    </Combobox>
+  );
+}
 ```
+
+## errored
 
 - One
 - Two
@@ -252,15 +287,21 @@ const [value, setValue] = useState("two");
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 
-<Combobox aria-label="Search" errored placeholder="Search...">
-  <ComboboxInput />
-  <ComboboxList>
-    <ComboboxOption value="a">One</ComboboxOption>
-    <ComboboxOption value="b">Two</ComboboxOption>
-    <ComboboxOption value="c">Three</ComboboxOption>
-  </ComboboxList>
-</Combobox>;
+export function ComboboxErrored138BB025Example() {
+  return (
+    <Combobox aria-label="Search" errored placeholder="Search...">
+      <ComboboxInput />
+      <ComboboxList>
+        <ComboboxOption value="a">One</ComboboxOption>
+        <ComboboxOption value="b">Two</ComboboxOption>
+        <ComboboxOption value="c">Three</ComboboxOption>
+      </ComboboxList>
+    </Combobox>
+  );
+}
 ```
+
+## custom-width-input
 
 - One
 - Two
@@ -269,15 +310,21 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 
-<Combobox aria-label="Search" placeholder="Search..." width={256}>
-  <ComboboxInput />
-  <ComboboxList>
-    <ComboboxOption value="a">One</ComboboxOption>
-    <ComboboxOption value="b">Two</ComboboxOption>
-    <ComboboxOption value="c">Three</ComboboxOption>
-  </ComboboxList>
-</Combobox>;
+export function ComboboxCustomWidthInputC898F7ADExample() {
+  return (
+    <Combobox aria-label="Search" placeholder="Search..." width={256}>
+      <ComboboxInput />
+      <ComboboxList>
+        <ComboboxOption value="a">One</ComboboxOption>
+        <ComboboxOption value="b">Two</ComboboxOption>
+        <ComboboxOption value="c">Three</ComboboxOption>
+      </ComboboxList>
+    </Combobox>
+  );
+}
 ```
+
+## custom-width-list
 
 - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 - Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
@@ -286,34 +333,46 @@ import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/compone
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 
-<Combobox aria-label="Search" placeholder="Search..." width={256}>
-  <ComboboxInput />
-  <ComboboxList maxWidth={500}>
-    <ComboboxOption value="a">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua.
-    </ComboboxOption>
-    <ComboboxOption value="b">
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-      dolore eu fugiat nulla pariatur.
-    </ComboboxOption>
-    <ComboboxOption value="c">
-      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-      id est laborum.
-    </ComboboxOption>
-  </ComboboxList>
-</Combobox>;
+export function ComboboxCustomWidthList0695C952Example() {
+  return (
+    <Combobox aria-label="Search" placeholder="Search..." width={256}>
+      <ComboboxInput />
+      <ComboboxList maxWidth={500}>
+        <ComboboxOption value="a">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </ComboboxOption>
+        <ComboboxOption value="b">
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+          dolore eu fugiat nulla pariatur.
+        </ComboboxOption>
+        <ComboboxOption value="c">
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+          anim id est laborum.
+        </ComboboxOption>
+      </ComboboxList>
+    </Combobox>
+  );
+}
 ```
+
+## custom-empty-message
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList } from "@/components/ui/combobox";
 
-<Combobox aria-label="Search" placeholder="Search..." width={256}>
-  <ComboboxInput />
-  <ComboboxList emptyMessage="Nothing to see here..." />
-</Combobox>;
+export function ComboboxCustomEmptyMessage1DAF4719Example() {
+  return (
+    <Combobox aria-label="Search" placeholder="Search..." width={256}>
+      <ComboboxInput />
+      <ComboboxList emptyMessage="Nothing to see here..." />
+    </Combobox>
+  );
+}
 ```
+
+## with-prefix-icons
 
 - One
 - Two
@@ -323,21 +382,27 @@ import { Combobox, ComboboxInput, ComboboxList } from "@/components/ui/combobox"
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 import { Triangle } from "lucide-react";
 
-<Combobox aria-label="Search" className="w-fit" placeholder="Search...">
-  <ComboboxInput />
-  <ComboboxList>
-    <ComboboxOption value="a" prefix={<Triangle className="size-4" aria-hidden />}>
-      One
-    </ComboboxOption>
-    <ComboboxOption value="b" prefix={<Triangle className="size-4" aria-hidden />}>
-      Two
-    </ComboboxOption>
-    <ComboboxOption value="c" prefix={<Triangle className="size-4" aria-hidden />}>
-      Three
-    </ComboboxOption>
-  </ComboboxList>
-</Combobox>;
+export function ComboboxWithPrefixIcons033AD1CBExample() {
+  return (
+    <Combobox aria-label="Search" className="w-fit" placeholder="Search...">
+      <ComboboxInput />
+      <ComboboxList>
+        <ComboboxOption value="a" prefix={<Triangle className="size-4" aria-hidden />}>
+          One
+        </ComboboxOption>
+        <ComboboxOption value="b" prefix={<Triangle className="size-4" aria-hidden />}>
+          Two
+        </ComboboxOption>
+        <ComboboxOption value="c" prefix={<Triangle className="size-4" aria-hidden />}>
+          Three
+        </ComboboxOption>
+      </ComboboxList>
+    </Combobox>
+  );
+}
 ```
+
+## with-suffix-icons
 
 - One
 - Two
@@ -347,21 +412,27 @@ import { Triangle } from "lucide-react";
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from "@/components/ui/combobox";
 import { Triangle } from "lucide-react";
 
-<Combobox aria-label="Search" className="w-fit" placeholder="Search...">
-  <ComboboxInput />
-  <ComboboxList>
-    <ComboboxOption value="a" suffix={<Triangle className="size-4" aria-hidden />}>
-      One
-    </ComboboxOption>
-    <ComboboxOption value="b" suffix={<Triangle className="size-4" aria-hidden />}>
-      Two
-    </ComboboxOption>
-    <ComboboxOption value="c" suffix={<Triangle className="size-4" aria-hidden />}>
-      Three
-    </ComboboxOption>
-  </ComboboxList>
-</Combobox>;
+export function ComboboxWithSuffixIcons025A8424Example() {
+  return (
+    <Combobox aria-label="Search" className="w-fit" placeholder="Search...">
+      <ComboboxInput />
+      <ComboboxList>
+        <ComboboxOption value="a" suffix={<Triangle className="size-4" aria-hidden />}>
+          One
+        </ComboboxOption>
+        <ComboboxOption value="b" suffix={<Triangle className="size-4" aria-hidden />}>
+          Two
+        </ComboboxOption>
+        <ComboboxOption value="c" suffix={<Triangle className="size-4" aria-hidden />}>
+          Three
+        </ComboboxOption>
+      </ComboboxList>
+    </Combobox>
+  );
+}
 ```
+
+## used-inside-modal
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -376,56 +447,64 @@ import {
 } from "@/components/ui/modal";
 import { useState } from "react";
 
-const [open, setOpen] = useState(false);
+export function ComboboxUsedInsideModal1332CE87Example() {
+  const [open, setOpen] = useState(false);
 
-const options = [
-  { value: "a", label: "One" },
-  { value: "b", label: "Two" },
-  { value: "c", label: "Three" },
-];
+  const options = [
+    { value: "a", label: "One" },
+    { value: "b", label: "Two" },
+    { value: "c", label: "Three" },
+  ];
 
-<Button onClick={() => setOpen(true)} size="small" typeName="button">
-  Open Modal
-</Button>
-
-<Modal open={open} onOpenChange={setOpen}>
-  <ModalContent>
-    <ModalHeader>
-      <ModalTitle>Create Token</ModalTitle>
-      <ModalDescription>
-        Enter a unique name for your token to differentiate it from other tokens and then select
-        the scope.
-      </ModalDescription>
-    </ModalHeader>
-    <div className="mx-[-20px] border-t border-gray-400 bg-background-200 px-5 py-6">
-      <div className="flex flex-col gap-2.5">
-        <Combobox aria-label="Region" label="Region" placeholder="Search..." size="small">
-          <ComboboxInput />
-          <ComboboxList>
-            {options.map((option) => (
-              <ComboboxOption key={option.value} value={option.value}>
-                {option.label}
-              </ComboboxOption>
-            ))}
-          </ComboboxList>
-        </Combobox>
-        <p className="text-copy-13 text-gray-900">
-          This is the region where your database reads and writes will take place.
-        </p>
-      </div>
-    </div>
-    <div className="h-px w-full" aria-hidden />
-    <ModalFooter>
-      <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
-        Cancel
+  return (
+    <>
+      <Button onClick={() => setOpen(true)} size="small" typeName="button">
+        Open Modal
       </Button>
-      <Button typeName="button" onClick={() => setOpen(false)}>
-        Submit
-      </Button>
-    </ModalFooter>
-  </ModalContent>
-</Modal>
+
+      <Modal open={open} onOpenChange={setOpen}>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>Create Token</ModalTitle>
+            <ModalDescription>
+              Enter a unique name for your token to differentiate it from other tokens and then
+              select the scope.
+            </ModalDescription>
+          </ModalHeader>
+          <div className="mx-[-20px] border-t border-gray-400 bg-background-200 px-5 py-6">
+            <div className="flex flex-col gap-2.5">
+              <Combobox aria-label="Region" label="Region" placeholder="Search..." size="small">
+                <ComboboxInput />
+                <ComboboxList>
+                  {options.map((option) => (
+                    <ComboboxOption key={option.value} value={option.value}>
+                      {option.label}
+                    </ComboboxOption>
+                  ))}
+                </ComboboxList>
+              </Combobox>
+              <p className="text-copy-13 text-gray-900">
+                This is the region where your database reads and writes will take place.
+              </p>
+            </div>
+          </div>
+          <div className="h-px w-full" aria-hidden />
+          <ModalFooter>
+            <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button typeName="button" onClick={() => setOpen(false)}>
+              Submit
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
 ```
+
+## inside-sheet
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -434,62 +513,67 @@ import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/com
 import { X } from "lucide-react";
 import { useState } from "react";
 
-const SHARED_VARS = [
-  { key: "CONTENTFUL_MANAGEMENT_APP_INSTALLATION_ID", target: "Preview and Production" },
-  { key: "EXTENSION_AUTH_JWT_SECRET", target: "Development" },
-  { key: "DATABASE_URL", target: "Production" },
-  // ...
-];
+export function ComboboxInsideSheet95E13F11Example() {
+  const SHARED_VARS = [
+    { key: "CONTENTFUL_MANAGEMENT_APP_INSTALLATION_ID", target: "Preview and Production" },
+    { key: "EXTENSION_AUTH_JWT_SECRET", target: "Development" },
+    { key: "DATABASE_URL", target: "Production" },
+    // ...
+  ];
 
-const [linked, setLinked] = useState<string[]>([]);
-const [search, setSearch] = useState("");
+  const [linked, setLinked] = useState<string[]>([]);
 
-<Sheet modal>
-  <SheetTrigger asChild>
-    <Button size="small" typeName="button">
-      Link Shared Variable
-    </Button>
-  </SheetTrigger>
-  <SheetContent
-    side="right"
-    className="m-3 flex h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] max-w-3xl flex-col overflow-clip rounded-2xl bg-background-100 p-0 lg:w-5/6 sm:max-w-[auto]"
-  >
-    <div className="flex flex-shrink-0 items-center justify-between pt-3 pl-4 pr-3">
-      <SheetTitle className="text-heading-20">Link Shared Variable</SheetTitle>
-      <SheetClose asChild>
-        <Button aria-label="Close" shape="square" svgOnly type="tertiary" typeName="button">
-          <X className="size-4" aria-hidden />
+  const [search, setSearch] = useState("");
+
+  return (
+    <Sheet modal>
+      <SheetTrigger asChild>
+        <Button size="small" typeName="button">
+          Link Shared Variable
         </Button>
-      </SheetClose>
-    </div>
-    <p className="px-4 pb-2 text-copy-14 text-gray-900">
-      Changes to shared variables sync automatically across all linked projects.
-    </p>
-    <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-1">
-      <Combobox
-        aria-label="Search for shared environment variables"
-        placeholder="Search for shared environment variables…"
-        value={search}
+      </SheetTrigger>
+      <SheetContent
+        side="right"
+        className="m-3 flex h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] max-w-3xl flex-col overflow-clip rounded-2xl bg-background-100 p-0 lg:w-5/6 sm:max-w-[auto]"
       >
-        <ComboboxInput />
-        <ComboboxList>
-          {SHARED_VARS.filter((v) => !linked.includes(`${v.key}::${v.target}`)).map((v) => (
-            <ComboboxOption
-              ignoreDefaultHeight
-              key={`${v.key}::${v.target}`}
-              value={`${v.key}::${v.target}`}
-            >
-              <div className="flex flex-col items-stretch justify-start py-[15px] px-2">
-                <p className="font-mono text-sm font-medium">{v.key}</p>
-                <p className="mt-[3px] text-xs text-gray-900">{v.target}</p>
-              </div>
-            </ComboboxOption>
-          ))}
-        </ComboboxList>
-      </Combobox>
-    </div>
-  </SheetContent>
-</Sheet>;
+        <div className="flex flex-shrink-0 items-center justify-between pt-3 pl-4 pr-3">
+          <SheetTitle className="text-heading-20">Link Shared Variable</SheetTitle>
+          <SheetClose asChild>
+            <Button aria-label="Close" shape="square" svgOnly type="tertiary" typeName="button">
+              <X className="size-4" aria-hidden />
+            </Button>
+          </SheetClose>
+        </div>
+        <p className="px-4 pb-2 text-copy-14 text-gray-900">
+          Changes to shared variables sync automatically across all linked projects.
+        </p>
+        <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-1">
+          <Combobox
+            aria-label="Search for shared environment variables"
+            placeholder="Search for shared environment variables…"
+            value={search}
+          >
+            <ComboboxInput />
+            <ComboboxList>
+              {SHARED_VARS.filter((v) => !linked.includes(`${v.key}::${v.target}`)).map((v) => (
+                <ComboboxOption
+                  ignoreDefaultHeight
+                  key={`${v.key}::${v.target}`}
+                  value={`${v.key}::${v.target}`}
+                >
+                  <div className="flex flex-col items-stretch justify-start py-[15px] px-2">
+                    <p className="font-mono text-sm font-medium">{v.key}</p>
+                    <p className="mt-[3px] text-xs text-gray-900">{v.target}</p>
+                  </div>
+                </ComboboxOption>
+              ))}
+            </ComboboxList>
+          </Combobox>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
 ```
 
 ## API Reference

@@ -1,0 +1,26 @@
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+
+export function ContextMenuDefault37A8EEC1Example() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger asChild>
+        <span>
+          <div className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
+            Right click here
+          </div>
+        </span>
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-[160px]">
+        <ContextMenuItem>Item one</ContextMenuItem>
+        <ContextMenuItem>Item Two</ContextMenuItem>
+        <ContextMenuItem>Item Three</ContextMenuItem>
+        <ContextMenuItem>Item Four</ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  );
+}

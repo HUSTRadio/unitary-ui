@@ -64,7 +64,7 @@ Toggle
 import { Toggle } from "@/components/ui/toggle";
 import { useState } from "react";
 
-export function Component() {
+export function ToggleDefault37A8EEC1Example() {
   const [checked, setChecked] = useState(false);
   const [checked2, setChecked2] = useState(true);
 
@@ -85,31 +85,45 @@ export function Component() {
 }
 ```
 
-```tsx
-import { Toggle } from "@/components/ui/toggle";
-
-<div className="flex flex-col">
-  <Toggle aria-label="Enable Firewall" checked={false} readOnly disabled />
-  <Toggle aria-label="Enable Firewall" checked readOnly disabled />
-</div>;
-```
+## disabled
 
 ```tsx
 import { Toggle } from "@/components/ui/toggle";
 
-<div className="flex flex-row flex-wrap">
-  <Toggle aria-label="Enable Firewall" checked={false} readOnly />
-  <Toggle aria-label="Enable Firewall" checked={false} readOnly size="medium" />
-  <Toggle aria-label="Enable Firewall" checked={false} readOnly size="large" />
-</div>;
+export function ToggleDisabled17EB3C01Example() {
+  return (
+    <div className="flex flex-col">
+      <Toggle aria-label="Enable Firewall" checked={false} readOnly disabled />
+      <Toggle aria-label="Enable Firewall" checked readOnly disabled />
+    </div>
+  );
+}
 ```
+
+## sizes
+
+```tsx
+import { Toggle } from "@/components/ui/toggle";
+
+export function ToggleSizes7C69F3FAExample() {
+  return (
+    <div className="flex flex-row flex-wrap">
+      <Toggle aria-label="Enable Firewall" checked={false} readOnly />
+      <Toggle aria-label="Enable Firewall" checked={false} readOnly size="medium" />
+      <Toggle aria-label="Enable Firewall" checked={false} readOnly size="large" />
+    </div>
+  );
+}
+```
+
+## custom-color
 
 ```tsx
 import { Toggle } from "@/components/ui/toggle";
 import { Lock, LockOpen } from "lucide-react";
 import { useState } from "react";
 
-export function Component() {
+export function ToggleCustomColorB4B5B0F6Example() {
   const [checked, setChecked] = useState(false);
 
   return (
@@ -161,20 +175,22 @@ export function Component() {
 }
 ```
 
-启用防火墙启用防火墙
+## with-label
 
-启用防火墙启用防火墙
+Enable FirewallEnable Firewall
 
-启用防火墙启用防火墙
+Enable FirewallEnable Firewall
 
-启用防火墙启用防火墙
+Enable FirewallEnable Firewall
+
+Enable FirewallEnable Firewall
 
 ```tsx
 import { Toggle } from "@/components/ui/toggle";
 import { Lock, LockOpen } from "lucide-react";
 import { useState } from "react";
 
-export function Component() {
+export function ToggleWithLabelBB9F6883Example() {
   const [checked, setChecked] = useState(false);
 
   return (

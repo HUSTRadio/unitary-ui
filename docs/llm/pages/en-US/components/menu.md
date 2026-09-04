@@ -67,141 +67,189 @@ Use MenuItemLocked to display a lock icon and disabled state for permission-gate
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
 
-<MenuContainer>
-  <MenuButton>Actions</MenuButton>
-  <Menu width={200}>
-    <MenuItem onClick={() => undefined}>One</MenuItem>
-    <MenuItem onClick={() => undefined}>Two</MenuItem>
-    <MenuItem onClick={() => undefined}>Three</MenuItem>
-    <MenuItem href="https://vercel.com">Test for Link</MenuItem>
-    <MenuItem onClick={() => undefined} type="error">
-      Delete
-    </MenuItem>
-  </Menu>
-</MenuContainer>;
+export function MenuDefault21B111CBExample() {
+  return (
+    <MenuContainer>
+      <MenuButton>Actions</MenuButton>
+      <Menu width={200}>
+        <MenuItem onClick={() => undefined}>One</MenuItem>
+        <MenuItem onClick={() => undefined}>Two</MenuItem>
+        <MenuItem onClick={() => undefined}>Three</MenuItem>
+        <MenuItem href="https://vercel.com">Test for Link</MenuItem>
+        <MenuItem onClick={() => undefined} type="error">
+          Delete
+        </MenuItem>
+      </Menu>
+    </MenuContainer>
+  );
+}
 ```
+
+## With chevron
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
 
-<MenuContainer>
-  <MenuButton showChevron variant="secondary">
-    Actions
-  </MenuButton>
-  <Menu width={200}>
-    <MenuItem onClick={() => undefined}>One</MenuItem>
-    <MenuItem onClick={() => undefined}>Two</MenuItem>
-    <MenuItem onClick={() => undefined}>Three</MenuItem>
-    <MenuItem href="https://vercel.com">Test for Link</MenuItem>
-    <MenuItem onClick={() => undefined} type="error">
-      Delete
-    </MenuItem>
-  </Menu>
-</MenuContainer>;
+export function MenuWithChevron2CC766B6Example() {
+  return (
+    <MenuContainer>
+      <MenuButton showChevron variant="secondary">
+        Actions
+      </MenuButton>
+      <Menu width={200}>
+        <MenuItem onClick={() => undefined}>One</MenuItem>
+        <MenuItem onClick={() => undefined}>Two</MenuItem>
+        <MenuItem onClick={() => undefined}>Three</MenuItem>
+        <MenuItem href="https://vercel.com">Test for Link</MenuItem>
+        <MenuItem onClick={() => undefined} type="error">
+          Delete
+        </MenuItem>
+      </Menu>
+    </MenuContainer>
+  );
+}
 ```
+
+## Disabled items
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
 
-<MenuContainer>
-  <MenuButton>Actions</MenuButton>
-  <Menu width={200}>
-    <MenuItem onClick={() => undefined}>One</MenuItem>
-    <MenuItem onClick={() => undefined}>Two</MenuItem>
-    <MenuItem disabled onClick={() => undefined}>
-      Three
-    </MenuItem>
-    <MenuItem onClick={() => undefined} type="error">
-      Delete
-    </MenuItem>
-  </Menu>
-</MenuContainer>;
+export function MenuDisabledItems1BA9CD5EExample() {
+  return (
+    <MenuContainer>
+      <MenuButton>Actions</MenuButton>
+      <Menu width={200}>
+        <MenuItem onClick={() => undefined}>One</MenuItem>
+        <MenuItem onClick={() => undefined}>Two</MenuItem>
+        <MenuItem disabled onClick={() => undefined}>
+          Three
+        </MenuItem>
+        <MenuItem onClick={() => undefined} type="error">
+          Delete
+        </MenuItem>
+      </Menu>
+    </MenuContainer>
+  );
+}
 ```
+
+## Locked items
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuItem, MenuItemLocked } from "@/components/ui/menu";
 import { Tooltip } from "@/components/ui/tooltip";
 
-<MenuContainer>
-  <MenuButton>Actions</MenuButton>
-  <Menu width={200}>
-    <MenuItem onClick={() => undefined}>View Details</MenuItem>
-    <MenuItem onClick={() => undefined}>Edit</MenuItem>
-    <Tooltip className="w-full flex" text="You do not have the permissions to delete.">
-      <MenuItemLocked onClick={() => undefined}>Delete</MenuItemLocked>
-    </Tooltip>
-  </Menu>
-</MenuContainer>;
+export function MenuLockedItemsE410D1DAExample() {
+  return (
+    <MenuContainer>
+      <MenuButton>Actions</MenuButton>
+      <Menu width={200}>
+        <MenuItem onClick={() => undefined}>View Details</MenuItem>
+        <MenuItem onClick={() => undefined}>Edit</MenuItem>
+        <Tooltip className="w-full flex" text="You do not have the permissions to delete.">
+          <MenuItemLocked onClick={() => undefined}>Delete</MenuItemLocked>
+        </Tooltip>
+      </Menu>
+    </MenuContainer>
+  );
+}
 ```
+
+## Link items
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuLink } from "@/components/ui/menu";
 
-<MenuContainer>
-  <MenuButton>Links</MenuButton>
-  <Menu width={200}>
-    <MenuLink href="/design/menu#custom-trigger">One</MenuLink>
-    <MenuLink href="#">Two</MenuLink>
-    <MenuLink href="#">Three</MenuLink>
-  </Menu>
-</MenuContainer>;
+export function MenuLinkItems24C68D22Example() {
+  return (
+    <MenuContainer>
+      <MenuButton>Links</MenuButton>
+      <Menu width={200}>
+        <MenuLink href="/design/menu#custom-trigger">One</MenuLink>
+        <MenuLink href="#">Two</MenuLink>
+        <MenuLink href="#">Three</MenuLink>
+      </Menu>
+    </MenuContainer>
+  );
+}
 ```
+
+## Custom trigger
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
 import { Avatar } from "@/components/ui/avatar";
 
-<MenuContainer>
-  <MenuButton variant="unstyled">
-    <Avatar size={30} username="evilrabbit" />
-  </MenuButton>
-  <Menu width={200}>
-    <MenuItem>One</MenuItem>
-    <MenuItem>Two</MenuItem>
-    <MenuItem>Three</MenuItem>
-  </Menu>
-</MenuContainer>;
+export function MenuCustomTrigger74C52681Example() {
+  return (
+    <MenuContainer>
+      <MenuButton variant="unstyled">
+        <Avatar size={30} username="evilrabbit" />
+      </MenuButton>
+      <Menu width={200}>
+        <MenuItem>One</MenuItem>
+        <MenuItem>Two</MenuItem>
+        <MenuItem>Three</MenuItem>
+      </Menu>
+    </MenuContainer>
+  );
+}
 ```
+
+## Prefix and suffix
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
 import { Accessibility, MoreHorizontal } from "lucide-react";
 
-<div className="flex flex-row items-stretch justify-start gap-6 flex-initial">
-  <MenuContainer>
-    <MenuButton aria-label="Menu" shape="square" size="small" svgOnly variant="secondary">
-      <MoreHorizontal />
-    </MenuButton>
-    <Menu>
-      <MenuItem prefix={<Accessibility />}>Left</MenuItem>
-      <MenuItem prefix={<Accessibility />}>Center</MenuItem>
-      <MenuItem prefix={<Accessibility />}>Right</MenuItem>
-    </Menu>
-  </MenuContainer>
-  <MenuContainer>
-    <MenuButton aria-label="Menu" shape="square" size="small" svgOnly variant="secondary">
-      <MoreHorizontal />
-    </MenuButton>
-    <Menu>
-      <MenuItem suffix={<Accessibility />}>Left</MenuItem>
-      <MenuItem suffix={<Accessibility />}>Center</MenuItem>
-      <MenuItem suffix={<Accessibility />}>Right</MenuItem>
-    </Menu>
-  </MenuContainer>
-</div>;
+export function MenuPrefixAndSuffix60E081F0Example() {
+  return (
+    <div className="flex flex-row items-stretch justify-start gap-6 flex-initial">
+      <MenuContainer>
+        <MenuButton aria-label="Menu" shape="square" size="small" svgOnly variant="secondary">
+          <MoreHorizontal />
+        </MenuButton>
+        <Menu>
+          <MenuItem prefix={<Accessibility />}>Left</MenuItem>
+          <MenuItem prefix={<Accessibility />}>Center</MenuItem>
+          <MenuItem prefix={<Accessibility />}>Right</MenuItem>
+        </Menu>
+      </MenuContainer>
+      <MenuContainer>
+        <MenuButton aria-label="Menu" shape="square" size="small" svgOnly variant="secondary">
+          <MoreHorizontal />
+        </MenuButton>
+        <Menu>
+          <MenuItem suffix={<Accessibility />}>Left</MenuItem>
+          <MenuItem suffix={<Accessibility />}>Center</MenuItem>
+          <MenuItem suffix={<Accessibility />}>Right</MenuItem>
+        </Menu>
+      </MenuContainer>
+    </div>
+  );
+}
 ```
+
+## Menu position
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
 
-<MenuContainer position="left-start">
-  <MenuButton>Left Start</MenuButton>
-  <Menu width={200}>
-    <MenuItem>One</MenuItem>
-    <MenuItem>Two</MenuItem>
-  </Menu>
-</MenuContainer>;
+export function MenuMenuPosition55A3EF38Example() {
+  return (
+    <MenuContainer position="left-start">
+      <MenuButton>Left Start</MenuButton>
+      <Menu width={200}>
+        <MenuItem>One</MenuItem>
+        <MenuItem>Two</MenuItem>
+      </Menu>
+    </MenuContainer>
+  );
+}
 ```
+
+## With section
 
 ```tsx
 import {
@@ -214,21 +262,25 @@ import {
   MenuSection,
 } from "@/components/ui/menu";
 
-<MenuContainer>
-  <MenuButton>Actions</MenuButton>
-  <Menu width={200}>
-    <MenuSection title="Section">
-      <MenuItem onClick={() => undefined}>One</MenuItem>
-      <MenuItem onClick={() => undefined}>Two</MenuItem>
-    </MenuSection>
-    <MenuItem onClick={() => undefined}>Three</MenuItem>
-    <MenuItemLocked onClick={() => undefined}>Locked</MenuItemLocked>
-    <MenuDivider />
-    <MenuItem onClick={() => undefined} type="error">
-      Delete
-    </MenuItem>
-  </Menu>
-</MenuContainer>;
+export function MenuWithSection5563D2A4Example() {
+  return (
+    <MenuContainer>
+      <MenuButton>Actions</MenuButton>
+      <Menu width={200}>
+        <MenuSection title="Section">
+          <MenuItem onClick={() => undefined}>One</MenuItem>
+          <MenuItem onClick={() => undefined}>Two</MenuItem>
+        </MenuSection>
+        <MenuItem onClick={() => undefined}>Three</MenuItem>
+        <MenuItemLocked onClick={() => undefined}>Locked</MenuItemLocked>
+        <MenuDivider />
+        <MenuItem onClick={() => undefined} type="error">
+          Delete
+        </MenuItem>
+      </Menu>
+    </MenuContainer>
+  );
+}
 ```
 
 ## API Reference

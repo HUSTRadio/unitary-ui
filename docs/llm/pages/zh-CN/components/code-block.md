@@ -84,23 +84,29 @@ function MyComponent(props) {
 ```tsx
 import { CodeBlock } from "@/components/ui/code-block";
 
-const code = `// Usage:
-//   enabled by \`--debug-prerender\`
-//   route patterns: [id...] or [...id]
-//   NODE_OPTIONS='--debug-prerender' node
-function MyComponent(props) {
-  return (
-    <div>
-      <h1>Hello, {props.name}!</h1>
-      <p>This is an example React component.</p>
-    </div>
-  );
-}`;
+export function CodeBlockDefault37A8EEC1Example() {
+  const code = `// Usage:
+  //   enabled by \`--debug-prerender\`
+  //   route patterns: [id...] or [...id]
+  //   NODE_OPTIONS='--debug-prerender' node
+  function MyComponent(props) {
+    return (
+      <div>
+        <h1>Hello, {props.name}!</h1>
+        <p>This is an example React component.</p>
+      </div>
+    );
+  }`;
 
-<CodeBlock aria-label="Hello world" filename="Table.jsx" language="jsx">
-  {code}
-</CodeBlock>;
+  return (
+    <CodeBlock aria-label="Hello world" filename="Table.jsx" language="jsx">
+      {code}
+    </CodeBlock>
+  );
+}
 ```
+
+## no-filename
 
 ```tsx
 function MyComponent(props) {
@@ -116,19 +122,25 @@ function MyComponent(props) {
 ```tsx
 import { CodeBlock } from "@/components/ui/code-block";
 
-const code = `function MyComponent(props) {
-  return (
-    <div>
-      <h1>Hello, {props.name}!</h1>
-      <p>This is an example React component.</p>
-    </div>
-  );
-}`;
+export function CodeBlockNoFilenameC9029DC2Example() {
+  const code = `function MyComponent(props) {
+    return (
+      <div>
+        <h1>Hello, {props.name}!</h1>
+        <p>This is an example React component.</p>
+      </div>
+    );
+  }`;
 
-<CodeBlock aria-label="Hello world" language="jsx">
-  {code}
-</CodeBlock>;
+  return (
+    <CodeBlock aria-label="Hello world" language="jsx">
+      {code}
+    </CodeBlock>
+  );
+}
 ```
+
+## highlighted-lines
 
 highlighted.jsx
 
@@ -146,56 +158,68 @@ function MyComponent(props) {
 ```tsx
 import { CodeBlock } from "@/components/ui/code-block";
 
-const code = `function MyComponent(props) {
-  return (
-    <div>
-      <h1>Hello, {props.name}!</h1>
-      <p>This is an example React component.</p>
-    </div>
-  );
-}`;
+export function CodeBlockHighlightedLines610E38F8Example() {
+  const code = `function MyComponent(props) {
+    return (
+      <div>
+        <h1>Hello, {props.name}!</h1>
+        <p>This is an example React component.</p>
+      </div>
+    );
+  }`;
 
-<CodeBlock
-  aria-label="Hello world"
-  filename="highlighted.jsx"
-  language="jsx"
-  highlightedLinesNumbers={[1, 4]}
->
-  {code}
-</CodeBlock>;
+  return (
+    <CodeBlock
+      aria-label="Hello world"
+      filename="highlighted.jsx"
+      language="jsx"
+      highlightedLinesNumbers={[1, 4]}
+    >
+      {code}
+    </CodeBlock>
+  );
+}
 ```
+
+## added-removed-lines
 
 next.config.js
 
 ```tsx
 module.exports = {
--  experimental: {
--    appDir: true,
--  },
-+  appDir: true,
-}
+-    experimental: {
+-      appDir: true,
+-    },
++    appDir: true,
+  }
 ```
 
 ```tsx
 import { CodeBlock } from "@/components/ui/code-block";
 
-const code = `module.exports = {
-  experimental: {
+export function CodeBlockAddedRemovedLinesED9789E1Example() {
+  const code = `module.exports = {
+    experimental: {
+      appDir: true,
+    },
     appDir: true,
-  },
-  appDir: true,
-}`;
+  }`;
 
-<CodeBlock
-  aria-label="Hello world"
-  filename="next.config.js"
-  language="jsx"
-  addedLinesNumbers={[5]}
-  removedLinesNumbers={[2, 3, 4]}
->
-  {code}
-</CodeBlock>;
+  return (
+    <CodeBlock
+      aria-label="Hello world"
+      filename="next.config.js"
+      language="jsx"
+      addedLinesNumbers={[5]}
+      removedLinesNumbers={[2, 3, 4]}
+    >
+      {code}
+    </CodeBlock>
+  );
+}
 ```
+
+## referenced-lines
 
 ```tsx
 function MyComponent(props) {
@@ -210,18 +234,24 @@ function MyComponent(props) {
 ```tsx
 import { CodeBlock } from "@/components/ui/code-block";
 
-const code = `function MyComponent(props) {
-  return (
-    <div>
-      <h1>Count: {props.count}</h1>
-    </div>
-  );
-}`;
+export function CodeBlockReferencedLines009BBC04Example() {
+  const code = `function MyComponent(props) {
+    return (
+      <div>
+        <h1>Count: {props.count}</h1>
+      </div>
+    );
+  }`;
 
-<CodeBlock aria-label="Hello world" language="jsx" referencedLinesNumbers={[4]}>
-  {code}
-</CodeBlock>;
+  return (
+    <CodeBlock aria-label="Hello world" language="jsx" referencedLinesNumbers={[4]}>
+      {code}
+    </CodeBlock>
+  );
+}
 ```
+
+## language-switcher
 
 language-switcher.jsx
 
@@ -249,7 +279,7 @@ const code = `function MyComponent(props) {
   );
 }`;
 
-export function Component() {
+export function CodeBlockLanguageSwitcherEFBF544EExample() {
   const [language, setLanguage] = useState("JavaScript");
 
   return (
@@ -269,6 +299,8 @@ export function Component() {
 }
 ```
 
+## language-switcher-with-tabs
+
 language-switcher.jsx
 
 ```tsx
@@ -295,7 +327,7 @@ const code = `function MyComponent(props) {
   );
 }`;
 
-export function Component() {
+export function CodeBlockLanguageSwitcherWithTabs22834C2CExample() {
   const [language, setLanguage] = useState("JavaScript");
 
   return (
@@ -315,6 +347,8 @@ export function Component() {
 }
 ```
 
+## hidden-line-numbers
+
 hidden-line-numbers.jsx
 
 ```tsx
@@ -331,24 +365,30 @@ function MyComponent(props) {
 ```tsx
 import { CodeBlock } from "@/components/ui/code-block";
 
-const code = `function MyComponent(props) {
-  return (
-    <div>
-      <h1>Hello, {props.name}!</h1>
-      <p>Good to see you</p>
-    </div>
-  );
-}`;
+export function CodeBlockHiddenLineNumbers3831A2F1Example() {
+  const code = `function MyComponent(props) {
+    return (
+      <div>
+        <h1>Hello, {props.name}!</h1>
+        <p>Good to see you</p>
+      </div>
+    );
+  }`;
 
-<CodeBlock
-  aria-label="Hello world"
-  filename="hidden-line-numbers.jsx"
-  language="jsx"
-  hideLineNumbers
->
-  {code}
-</CodeBlock>;
+  return (
+    <CodeBlock
+      aria-label="Hello world"
+      filename="hidden-line-numbers.jsx"
+      language="jsx"
+      hideLineNumbers
+    >
+      {code}
+    </CodeBlock>
+  );
+}
 ```
+
+## open-in-v0
 
 Table.jsx
 
@@ -363,7 +403,7 @@ function MyComponent(props) {
 }
 ```
 
-[询问向 v0 询问](<https://v0.app/chat?q=function%20MyComponent(props)%20%7B%0A%20%20return%20(%0A%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%3Ch1%3EHello%2C%20%7Bprops.name%7D!%3C%2Fh1%3E%0A%20%20%20%20%20%20%3Cp%3EThis%20is%20an%20example%20React%20component.%3C%2Fp%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20)%3B%0A%7D>)
+[询问向 v0 询问](<https://v0.app/chat?q=function%20MyComponent(props)%20%7B%0A%20%20%20%20return%20(%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch1%3EHello%2C%20%7Bprops.name%7D!%3C%2Fh1%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThis%20is%20an%20example%20React%20component.%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20)%3B%0A%20%20%7D>)
 
 Table.jsx
 
@@ -378,28 +418,32 @@ function MyComponent(props) {
 }
 ```
 
-[在此处打开在 v0 中打开](<https://v0.app/chat?q=function%20MyComponent(props)%20%7B%0A%20%20return%20(%0A%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%3Ch1%3EHello%2C%20%7Bprops.name%7D!%3C%2Fh1%3E%0A%20%20%20%20%20%20%3Cp%3EThis%20is%20an%20example%20React%20component.%3C%2Fp%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20)%3B%0A%7D>)
+[在此处打开在 v0 中打开](<https://v0.app/chat?q=function%20MyComponent(props)%20%7B%0A%20%20%20%20return%20(%0A%20%20%20%20%20%20%3Cdiv%3E%0A%20%20%20%20%20%20%20%20%3Ch1%3EHello%2C%20%7Bprops.name%7D!%3C%2Fh1%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EThis%20is%20an%20example%20React%20component.%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20)%3B%0A%20%20%7D>)
 
 ```tsx
 import { CodeBlock } from "@/components/ui/code-block";
 
-const code = `function MyComponent(props) {
+export function CodeBlockOpenInV0CA6FBF0AExample() {
+  const code = `function MyComponent(props) {
+    return (
+      <div>
+        <h1>Hello, {props.name}!</h1>
+        <p>This is an example React component.</p>
+      </div>
+    );
+  }`;
+
   return (
-    <div>
-      <h1>Hello, {props.name}!</h1>
-      <p>This is an example React component.</p>
+    <div className="flex flex-col gap-4">
+      <CodeBlock aria-label="Hello world" filename="Table.jsx" language="jsx" v0="ask">
+        {code}
+      </CodeBlock>
+      <CodeBlock aria-label="Hello world" filename="Table.jsx" language="jsx" v0="build">
+        {code}
+      </CodeBlock>
     </div>
   );
-}`;
-
-<div className="flex flex-col gap-4">
-  <CodeBlock aria-label="Hello world" filename="Table.jsx" language="jsx" v0="ask">
-    {code}
-  </CodeBlock>
-  <CodeBlock aria-label="Hello world" filename="Table.jsx" language="jsx" v0="build">
-    {code}
-  </CodeBlock>
-</div>;
+}
 ```
 
 ## API 参考

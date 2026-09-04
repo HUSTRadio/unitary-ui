@@ -63,47 +63,15 @@ Output
 ```tsx
 import { Switch, SwitchControl } from "@/components/ui/switch";
 
-<Switch name="default">
-  <SwitchControl defaultChecked label="Source" value="source" />
-  <SwitchControl label="Output" value="output" />
-</Switch>;
+export function SwitchDefault37A8EEC1Example() {
+  return (
+    <Switch name="default">
+      <SwitchControl defaultChecked label="Source" value="source" />
+      <SwitchControl label="Output" value="output" />
+    </Switch>
+  );
+}
 ```
-
-Source
-
-Output
-
-Source
-
-Output
-
-Source
-
-Output
-
-Source
-
-Output
-
-Source
-
-Output
-
-Source
-
-Output
-
-Source
-
-Output
-
-Source
-
-Output
-
-Source
-
-Output
 
 ## 禁用
 
@@ -114,12 +82,16 @@ Output
 ```tsx
 import { Switch, SwitchControl } from "@/components/ui/switch";
 
-<div className="flex w-full max-w-md flex-col items-start">
-  <Switch name="reference-view-mode">
-    <SwitchControl defaultChecked disabled label="Source" value="source" />
-    <SwitchControl disabled label="Output" value="output" />
-  </Switch>
-</div>;
+export function SwitchDisabled75081B59Example() {
+  return (
+    <div className="flex w-full max-w-md flex-col items-start">
+      <Switch name="reference-view-mode">
+        <SwitchControl defaultChecked disabled label="Source" value="source" />
+        <SwitchControl disabled label="Output" value="output" />
+      </Switch>
+    </div>
+  );
+}
 ```
 
 ## 尺寸
@@ -139,26 +111,30 @@ Output
 ```tsx
 import { Switch, SwitchControl } from "@/components/ui/switch";
 
-<div className="flex w-full flex-col lg:flex-row lg:flex-wrap">
-  <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
-    <Switch name="reference-sizes-small" size="small">
-      <SwitchControl defaultChecked label="Source" value="source" />
-      <SwitchControl label="Output" value="output" />
-    </Switch>
-  </div>
-  <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
-    <Switch name="reference-sizes-default">
-      <SwitchControl defaultChecked label="Source" value="source" />
-      <SwitchControl label="Output" value="output" />
-    </Switch>
-  </div>
-  <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
-    <Switch name="reference-sizes-large" size="large">
-      <SwitchControl defaultChecked label="Source" value="source" />
-      <SwitchControl label="Output" value="output" />
-    </Switch>
-  </div>
-</div>;
+export function SwitchSizes74A3978DExample() {
+  return (
+    <div className="flex w-full flex-col lg:flex-row lg:flex-wrap">
+      <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+        <Switch name="reference-sizes-small" size="small">
+          <SwitchControl defaultChecked label="Source" value="source" />
+          <SwitchControl label="Output" value="output" />
+        </Switch>
+      </div>
+      <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+        <Switch name="reference-sizes-default">
+          <SwitchControl defaultChecked label="Source" value="source" />
+          <SwitchControl label="Output" value="output" />
+        </Switch>
+      </div>
+      <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+        <Switch name="reference-sizes-large" size="large">
+          <SwitchControl defaultChecked label="Source" value="source" />
+          <SwitchControl label="Output" value="output" />
+        </Switch>
+      </div>
+    </div>
+  );
+}
 ```
 
 ## 全宽
@@ -170,10 +146,14 @@ Output
 ```tsx
 import { Switch, SwitchControl } from "@/components/ui/switch";
 
-<Switch name="reference-full-width" style={{ width: "100%" }}>
-  <SwitchControl defaultChecked label="Source" value="source" />
-  <SwitchControl label="Output" value="output" />
-</Switch>;
+export function SwitchFullWidthD34008D2Example() {
+  return (
+    <Switch name="reference-full-width" style={{ width: "100%" }}>
+      <SwitchControl defaultChecked label="Source" value="source" />
+      <SwitchControl label="Output" value="output" />
+    </Switch>
+  );
+}
 ```
 
 ## 工具提示
@@ -186,16 +166,20 @@ Output
 import { Switch, SwitchControl } from "@/components/ui/switch";
 import { Tooltip } from "@/components/ui/tooltip";
 
-<div className="flex w-full max-w-md flex-col items-start">
-  <Switch name="reference-tooltip">
-    <Tooltip text="View Source">
-      <SwitchControl defaultChecked label="Source" size="large" value="source" />
-    </Tooltip>
-    <Tooltip text="View Output">
-      <SwitchControl label="Output" size="large" value="output" />
-    </Tooltip>
-  </Switch>
-</div>;
+export function SwitchTooltip20F12289Example() {
+  return (
+    <div className="flex w-full max-w-md flex-col items-start">
+      <Switch name="reference-tooltip">
+        <Tooltip text="View Source">
+          <SwitchControl defaultChecked label="Source" size="large" value="source" />
+        </Tooltip>
+        <Tooltip text="View Output">
+          <SwitchControl label="Output" size="large" value="output" />
+        </Tooltip>
+      </Switch>
+    </div>
+  );
+}
 ```
 
 ## 图标
@@ -216,26 +200,30 @@ Output
 import { LayoutGrid, List } from "lucide-react";
 import { Switch, SwitchControl } from "@/components/ui/switch";
 
-<div className="flex w-full flex-col lg:flex-row lg:flex-wrap">
-  <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
-    <Switch name="reference-icons-small" size="small">
-      <SwitchControl defaultChecked icon={<LayoutGrid />} label="Source" value="source" />
-      <SwitchControl icon={<List />} label="Output" value="output" />
-    </Switch>
-  </div>
-  <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
-    <Switch name="reference-icons-default">
-      <SwitchControl defaultChecked icon={<LayoutGrid />} label="Source" value="source" />
-      <SwitchControl icon={<List />} label="Output" value="output" />
-    </Switch>
-  </div>
-  <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
-    <Switch name="reference-icons-large" size="large">
-      <SwitchControl defaultChecked icon={<LayoutGrid />} label="Source" value="source" />
-      <SwitchControl icon={<List />} label="Output" value="output" />
-    </Switch>
-  </div>
-</div>;
+export function SwitchIconA35ABCD6Example() {
+  return (
+    <div className="flex w-full flex-col lg:flex-row lg:flex-wrap">
+      <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+        <Switch name="reference-icons-small" size="small">
+          <SwitchControl defaultChecked icon={<LayoutGrid />} label="Source" value="source" />
+          <SwitchControl icon={<List />} label="Output" value="output" />
+        </Switch>
+      </div>
+      <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+        <Switch name="reference-icons-default">
+          <SwitchControl defaultChecked icon={<LayoutGrid />} label="Source" value="source" />
+          <SwitchControl icon={<List />} label="Output" value="output" />
+        </Switch>
+      </div>
+      <div className="relative flex min-w-px max-w-full flex-1 flex-col items-start">
+        <Switch name="reference-icons-large" size="large">
+          <SwitchControl defaultChecked icon={<LayoutGrid />} label="Source" value="source" />
+          <SwitchControl icon={<List />} label="Output" value="output" />
+        </Switch>
+      </div>
+    </div>
+  );
+}
 ```
 
 ## API 参考

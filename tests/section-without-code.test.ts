@@ -1,6 +1,6 @@
 import { test, expect } from "vitest";
 import { docsPageSource } from "./helpers/docs-page-source";
-import { DEMO_CODE } from "../docs/geist/src/data/demo-code";
+import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
 
 test("list sections without code prop", async () => {
   const src = docsPageSource;
@@ -21,7 +21,7 @@ test("list sections without code prop", async () => {
   }
   const lines = sections.map(
     (s) =>
-      `${s.slug} | ${s.title}${DEMO_CODE[s.slug]?.[s.title] !== undefined ? " [数据有]" : " [数据缺]"}`,
+      `${s.slug} | ${s.title}${EXAMPLE_SOURCE[s.slug]?.[s.title] !== undefined ? " [数据有]" : " [数据缺]"}`,
   );
   expect(sections, `无 code 的 Section（${sections.length} 条）:\n` + lines.join("\n")).toEqual([]);
 });
