@@ -116,12 +116,25 @@ async function settle(page: Page) {
   });
 }
 
+let navigationSequence = 0;
+
+async function loadDocsRoute(page: Page, route: string) {
+  const url = `/?docs-layout-navigation=${++navigationSequence}#${route}`;
+  await page.goto(url);
+  try {
+    await page.locator('[data-slot="navbar"]').first().waitFor({
+      state: "visible",
+      timeout: 30_000,
+    });
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    throw new Error(`Docs shell did not become ready for route "${route}" (${url}): ${detail}`);
+  }
+}
+
 async function gotoRoute(page: Page, route: string, viewport: { width: number; height: number }) {
   await page.setViewportSize(viewport);
-  // hash 相同时 goto 不会重新加载；reload 强制整页重挂载，保证 init script 与几何干净
-  await page.goto(`/#${route}`);
-  await page.reload();
-  await page.waitForSelector('[data-slot="navbar"]');
+  await loadDocsRoute(page, route);
   await settle(page);
 }
 
@@ -528,8 +541,8 @@ function runChecks(
 
 const ALL_FAILURES: CheckFailure[] = [];
 
-/** 上一次加载的 route|theme；纯视口切换时无需整页 reload（CSS 断点即时重排） */
-let lastLoadedKey = "";
+/** 每个 page 上一次加载的 route|theme；纯视口切换时无需整页重挂载。 */
+const lastLoadedKeys = new WeakMap<Page, string>();
 
 async function auditCombo(
   page: Page,
@@ -538,12 +551,9 @@ async function auditCombo(
   viewport: { width: number; height: number },
 ) {
   await page.setViewportSize(viewport);
-  if (lastLoadedKey !== `${route}|${theme}`) {
-    // hash 相同时 goto 不会重新加载；reload 强制整页重挂载，保证 init script 与几何干净
-    await page.goto(`/#${route}`);
-    await page.reload();
-    await page.waitForSelector('[data-slot="navbar"]');
-    lastLoadedKey = `${route}|${theme}`;
+  if (lastLoadedKeys.get(page) !== `${route}|${theme}`) {
+    await loadDocsRoute(page, route);
+    lastLoadedKeys.set(page, `${route}|${theme}`);
   }
   await settle(page);
   const ev = await collectEvidence(page);

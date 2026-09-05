@@ -126,6 +126,13 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "破坏性项分组到底部并加分隔线，破坏性标签保持 动词 + 名词。",
     "键盘菜单键（Windows/Linux 上为 Shift+F10）在无需右键的情况下打开同一菜单。",
   ],
+  "continuous-surface": [
+    "仅在连续曲率属于明确设计系统语义时用于孤立卡片或磁贴，不要把它机械应用到所有容器。",
+    "默认指数为 Unitary 团队值 3；指数 2 是精确圆弧基线，其他参数应有明确的 shape token 依据。",
+    "阴影放在外层 wrapper 上，因为 clip-path 会裁掉元素自身的 box-shadow。",
+    "矩形卡片保留直边；完整 superellipse 只用于近方形图标或头像表面。",
+    "保留 border-radius 降级，不使用平台品牌曲线名，也不复制平台资源中的精确 path。",
+  ],
   description: [
     "定义列表式元数据用 <Description>：简短短语的首字母大写键配单个值（Last Deployed、Region、Plan）。表单字段下的内联帮助用 input 的 helper-text 插槽。",
     "Geist 渲染 <dl>/<dt>/<dd>，屏幕阅读器会把每个键值对读作定义。不要在组件外包额外段落破坏列表语义。",

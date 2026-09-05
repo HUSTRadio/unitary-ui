@@ -88,4 +88,41 @@ describe("typography tokens", () => {
       expect(rule).toContain(`line-height: var(--uni-leading-${style})`);
     }
   });
+
+  test("defines mixed-script spacing and long-form leading as Unitary tokens", async () => {
+    const css = await readFile(path.join(root, "src/styles/index.css"), "utf8");
+    const theme = themeStaticRule(css);
+
+    expect(theme).toContain("--uni-mixed-script-gap-ui: 0.125em");
+    expect(theme).toContain("--uni-mixed-script-gap-prose: 0.25em");
+    expect(theme).toContain("--uni-leading-compact: 1.35");
+    expect(theme).toContain("--uni-leading-prose: 1.55");
+    expect(theme).toContain("--uni-leading-reading: 1.7");
+    expect(css).toContain("W3C CLReq");
+  });
+
+  test("progressively enables native mixed-script autospace without changing body tracking", async () => {
+    const css = await readFile(path.join(root, "src/styles/index.css"), "utf8");
+    expect(css).toMatch(
+      /@supports \(text-autospace: normal\)\s*\{[\s\S]*?\.text-autospace\s*\{[\s\S]*?text-autospace:\s*normal/,
+    );
+    expect(utilityRule(css, "text-style-body")).not.toContain("letter-spacing");
+    expect(utilityRule(css, "text-heading-40")).toContain("letter-spacing: -0.02em");
+  });
+
+  test("uses prose leading and native autospace only for long docs copy", async () => {
+    const css = await readFile(path.join(root, "src/styles/index.css"), "utf8");
+    const paragraphRules = [...css.matchAll(/\.docs-prose-paragraph\s*\{([\s\S]*?)\}/g)].map(
+      (match) => match[1],
+    );
+    const listRules = [...css.matchAll(/\.docs-prose-list\s*\{([\s\S]*?)\}/g)].map(
+      (match) => match[1],
+    );
+
+    expect(paragraphRules.some((rule) => rule?.includes("line-height: var(--uni-leading-prose)"))).toBe(true);
+    expect(listRules.some((rule) => rule?.includes("line-height: var(--uni-leading-prose)"))).toBe(true);
+    expect(css).toMatch(
+      /@supports \(text-autospace: normal\)[\s\S]*?\[data-slot="docs-prose-paragraph"\],[\s\S]*?\[data-slot="docs-prose-list"\]\s*\{\s*text-autospace: normal;/,
+    );
+  });
 });

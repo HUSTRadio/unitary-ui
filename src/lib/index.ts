@@ -13,6 +13,15 @@ export { probeFontMetrics, useFontMetrics, measureFontMetrics, applyFontMetrics 
 
 // Utility
 export { cn } from "./utils";
+export {
+  CIRCULAR_CORNER_EXPONENT,
+  CONTINUOUS_CORNER_EXPONENT,
+  continuousCornerPath,
+  cornerCurvePoints,
+  superellipsePath,
+  useContinuousCorners,
+} from "./continuous-corner";
+export type { ContinuousCornerOptions, SuperellipseOptions } from "./continuous-corner";
 
 // Components — Core (buttons, inputs, etc.)
 export { Button, ButtonLink, CustomButton, buttonVariants } from "@/components/ui/button";
@@ -110,6 +119,8 @@ export { Fieldset, FieldsetTitle, FieldsetSubtitle, FieldsetContent, FieldsetFoo
 export { Grid, GridCell, GridCross, GridItem, GridPage, GridSystem } from "@/components/ui/grid";
 export { Scroller } from "@/components/ui/scroller";
 export type { ScrollerProps } from "@/components/ui/scroller";
+export { ContinuousSurface } from "@/components/ui/continuous-surface";
+export type { ContinuousSurfaceProps } from "@/components/ui/continuous-surface";
 
 // Components — Mobile / Device
 export { Device, DeviceScreen } from "@/components/ui/device";

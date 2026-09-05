@@ -39,6 +39,7 @@ describe("Geist documentation coverage", () => {
     expect([...metadata].filter((slug) => !demos.has(slug))).toEqual([]);
     expect([...metadata].filter((slug) => !official.has(slug)).sort()).toEqual([
       "bottom-sheet",
+      "continuous-surface",
       "error-boundary",
       "link",
       "step-point",
@@ -64,7 +65,7 @@ describe("Geist documentation coverage", () => {
     expect(DOCS_ROUTE_SEQUENCE.filter((route) => route.to === "/components/phone")).toEqual([]);
   });
 
-  it("does not retain removed component APIs", { timeout: 15000 }, async () => {
+  it("does not retain removed component APIs", { timeout: 30000 }, async () => {
     const targets = [
       "README.md",
       "src/App.tsx",

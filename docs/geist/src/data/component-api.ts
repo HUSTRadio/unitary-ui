@@ -336,6 +336,21 @@ const O = {
       row("suffix", "ReactNode", "Trailing item content.", "菜单项后置内容。"),
     ],
   ),
+  "continuous-surface": component(
+    ["ContinuousSurface"],
+    [
+      row("radius", "number", "Visual corner radius in CSS pixels.", "以 CSS 像素表示的视觉圆角半径。", {
+        defaultValue: "12",
+      }),
+      row("exponent", "number", "Curve exponent; 2 is circular.", "曲线指数；2 表示圆弧。", {
+        defaultValue: "3",
+      }),
+      row("samples", "number", "Line segments sampled per non-circular corner.", "每个非圆弧角的采样线段数。", {
+        defaultValue: "24",
+      }),
+    ],
+    "HTMLAttributes<HTMLDivElement>",
+  ),
   "copy-button": component(
     ["CopyButton"],
     [
