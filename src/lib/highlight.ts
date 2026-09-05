@@ -1,13 +1,13 @@
 import Prism from "prismjs";
 
 // 语言组件按依赖顺序加载：markup/javascript → jsx/typescript/json/bash
-import "prismjs/components/prism-markup";
-import "prismjs/components/prism-javascript";
-import "prismjs/components/prism-jsx";
-import "prismjs/components/prism-typescript";
-import "prismjs/components/prism-tsx";
-import "prismjs/components/prism-json";
-import "prismjs/components/prism-bash";
+import "prismjs/components/prism-markup.js";
+import "prismjs/components/prism-javascript.js";
+import "prismjs/components/prism-jsx.js";
+import "prismjs/components/prism-typescript.js";
+import "prismjs/components/prism-tsx.js";
+import "prismjs/components/prism-json.js";
+import "prismjs/components/prism-bash.js";
 
 /** 语言别名映射（消费方常用别名 → Prism 语言 key）。 */
 const LANGUAGE_ALIASES: Record<string, string> = {

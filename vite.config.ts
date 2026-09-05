@@ -28,9 +28,11 @@ export default defineConfig(({ mode }) => {
             formats: ["es", "cjs"],
           },
           rollupOptions: {
+            // Extract dependency CSS into styles.css instead of leaving Node to load it.
             external: (id) =>
-              ["react", "react-dom"].some((name) => id === name || id.startsWith(`${name}/`)) ||
-              dependencies.some((name) => id === name || id.startsWith(`${name}/`)),
+              !id.endsWith(".css") &&
+              (["react", "react-dom"].some((name) => id === name || id.startsWith(`${name}/`)) ||
+                dependencies.some((name) => id === name || id.startsWith(`${name}/`))),
             output: {
               globals: {
                 react: "React",

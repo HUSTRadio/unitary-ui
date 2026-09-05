@@ -31,6 +31,8 @@ export function App() {
 }
 ```
 
+包根入口支持裸 Node 的 ESM `import` 和 CommonJS `require`，无需 CSS loader。浏览器应用仍需显式导入 `@hustradio/unitary-ui/styles.css`；该文件包含 Device 的设备外框样式。Node 服务端不要直接导入 CSS 文件。
+
 ## Screenshots
 
 <!-- STYLEGUIDE_SCREENSHOTS_START -->
@@ -63,6 +65,15 @@ pnpm dev
 pnpm test
 pnpm typecheck
 ```
+
+发布前包级验证（`prepublishOnly` 自动执行）：
+
+```bash
+pnpm exec playwright install chromium
+pnpm run test:package
+```
+
+该命令重新构建库，使用独立 Node 进程验证 ESM/CJS 导入、SSR 与高亮，再用 Chromium 检查发布 CSS 的 Device 几何；不依赖源码 alias 或 CSS loader。
 
 ## Credits
 

@@ -56,6 +56,8 @@
 
 ### Fixed
 
+- **裸 Node 包入口兼容性**：Prism 语言子模块补齐 `.js` 扩展名；构建时将依赖 CSS 提取到现有 `styles.css`，不再由 ESM/CJS 入口加载 CSS。保持 Device 源码导入、组件 API 和浏览器消费方式不变。新增 `test:package` 并接入 `prepublishOnly`，覆盖裸 Node 导入、SSR、七种语言高亮、四类设备样式与 Chromium 几何回归。
+
 - **可滚动侧栏端距**：文档侧栏导航从固定 `h-full` 改为可随内容增长的 `min-h-full`，并将首尾内容端距统一为 16px；Playwright 在初始位置与滚动到底后分别实测上下间距且要求误差 ≤0.5px。同步审计其他可滚动列表语义组件，其纵向 padding 已保持对称。
 - **BottomSheet 动画、圆角与页面稳定性**：补齐 `animate-in/out` 触发器，使底部弹出/收回真正执行 300ms 吸附曲线动画并尊重 `prefers-reduced-motion`；顶部圆角统一使用 overlay token；新增 Playwright 几何门禁，保证开合前后正文位置、页面滚动和视觉视口不发生位移。
 - **Textarea 尺寸 padding 计划值**：small/medium/large 的水平/垂直 padding 分别修正为 10/8、12/10、14/12 px，与设计稿一致。
