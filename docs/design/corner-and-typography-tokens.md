@@ -60,11 +60,11 @@ y=r(1-\sin^{2/p}\varphi),\qquad
 $$
 
 - $p=2$ 精确退化为半径 $r$ 的普通圆弧；实现使用 SVG arc 命令，作为圆弧基准。
-- $p>2$ 与相邻直边保持 G1 切线连续，角部曲率向角点集中。
+- $p>2$ 的解析曲线与相邻直边保持 G1 切线连续，角部曲率向角点集中；实际 SVG path 使用有限线段近似，不声称折线本身具有严格连续曲率。
 - 默认 $p=3$ 是 Unitary 团队值；调用方可显式传参，但不应使用品牌化命名。
 - 整体 superellipse 只用于近方形 icon tile/avatar/logo 框。长宽比悬殊的卡片应使用带直边的 continuous corner，避免长边桶形。
 
-`ContinuousSurface` 用 `ResizeObserver` 生成 `clip-path: path(...)`。不支持或尚未测得尺寸时保留普通 `border-radius` 降级。`clip-path` 会裁掉元素自身阴影，所以阴影必须放在外层 wrapper。
+`ContinuousSurface` 用 `ResizeObserver` 观察本地 border-box 并生成 `clip-path: path(...)`，不使用受 transform 影响的视口尺寸。不支持或尚未测得尺寸时保留普通 `border-radius` 降级；增强后将其置零，避免背景再次被普通圆角裁切。CSS border 不会自动沿裁切轮廓描边。`clip-path` 会裁掉元素自身阴影，所以阴影必须放在外层 wrapper。
 
 ## 3. CJK / Latin 混排与行高
 

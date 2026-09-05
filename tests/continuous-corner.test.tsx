@@ -39,6 +39,21 @@ describe("continuous corner geometry", () => {
     expect(diagonal(3)).toBeLessThan(diagonal(2));
   });
 
+  test("pins curve endpoints even when high exponents amplify trig roundoff", () => {
+    const points = cornerCurvePoints(24, 100, 24);
+    expect(points[0]).toEqual([0, 24]);
+    expect(points.at(-1)).toEqual([24, 0]);
+    expect(superellipsePath(40, 30, { exponent: 100, samples: 8 }))
+      .toContain("L 20 30");
+  });
+
+  test.each([
+    { radius: 12, exponent: 2, samples: Number.NaN },
+    { radius: 0, samples: 1 },
+  ])("validates sample counts before special-case paths: %j", (options) => {
+    expect(() => continuousCornerPath(100, 60, options)).toThrow(RangeError);
+  });
+
   test("emits exact SVG arcs for the p=2 rounded-rectangle baseline", () => {
     const path = continuousCornerPath(100, 60, { radius: 12, exponent: 2 });
     expect(path).toBe(

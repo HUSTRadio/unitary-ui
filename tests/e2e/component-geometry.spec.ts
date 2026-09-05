@@ -412,7 +412,7 @@ test("scrollable sidebar keeps equal 16px top and bottom content insets", async 
   expect(Math.abs(topInset - bottomInset)).toBeLessThanOrEqual(0.5);
 });
 
-test("continuous surface renders measured clip paths and keeps a circular fallback", async ({
+test("continuous surface uses measured paths without a competing background radius", async ({
   page,
 }) => {
   await openComponent(page, "continuous-surface");
@@ -433,7 +433,7 @@ test("continuous surface renders measured clip paths and keeps a circular fallba
   for (const surface of clipPaths) {
     // clip-path: path() lands only after ResizeObserver measured the box.
     expect(surface.clip.startsWith("path("), `curve ${surface.curve}`).toBe(true);
-    expect(surface.fallback.startsWith("24px"), `curve ${surface.curve}`).toBe(true);
+    expect(surface.fallback, `curve ${surface.curve}`).toBe("0px");
   }
 
   const superellipse = page.locator('[data-curve="superellipse"]');
@@ -441,5 +441,5 @@ test("continuous surface renders measured clip paths and keeps a circular fallba
   const superClip = await superellipse.evaluate(
     (node) => window.getComputedStyle(node).clipPath,
   );
-  expect(superClip.startsWith("path(")).toBe(true);
+  expect(superClip.startsWith("url(")).toBe(true);
 });

@@ -81,6 +81,9 @@ export function cornerCurvePoints(
     ]);
   }
 
+  // cos(pi/2) is not exactly zero in floating point; small powers amplify it.
+  points[0] = [0, r];
+  points[steps] = [r, 0];
   return points;
 }
 
@@ -98,6 +101,7 @@ export function continuousCornerPath(
   const h = positive("height", height);
   const requestedRadius = nonNegative("radius", radius);
   const p = exponentAboveOne(exponent);
+  const steps = segmentCount("samples", samples, 2);
   const r = Math.min(requestedRadius, w / 2, h / 2);
 
   if (r === 0) {
@@ -120,7 +124,7 @@ export function continuousCornerPath(
     ].join(" ");
   }
 
-  const points = cornerCurvePoints(r, p, segmentCount("samples", samples, 2));
+  const points = cornerCurvePoints(r, p, steps);
   const topLeft = points;
   const topRight = points.map(([x, y]) => [w - x, y] as [number, number]).reverse();
   const bottomRight = points.map(([x, y]) => [w - x, h - y] as [number, number]);
@@ -162,8 +166,9 @@ export function superellipsePath(
 
   for (let index = 0; index < steps; index += 1) {
     const angle = (index / steps) * Math.PI * 2;
-    const cosine = Math.cos(angle);
-    const sine = Math.sin(angle);
+    const quarter = (index * 4) / steps;
+    const cosine = Number.isInteger(quarter) ? [1, 0, -1, 0][quarter]! : Math.cos(angle);
+    const sine = Number.isInteger(quarter) ? [0, 1, 0, -1][quarter]! : Math.sin(angle);
     points.push([
       halfWidth + halfWidth * Math.sign(cosine) * Math.abs(cosine) ** (2 / n),
       halfHeight + halfHeight * Math.sign(sine) * Math.abs(sine) ** (2 / n),
@@ -192,24 +197,39 @@ export function useContinuousCorners<T extends HTMLElement>(options: ContinuousC
     if (!element) return;
 
     const measure = () => {
-      const bounds = element.getBoundingClientRect();
-      if (bounds.width > 0 && bounds.height > 0) {
-        setSize({ width: bounds.width, height: bounds.height });
-      }
+      // clip-path coordinates are local CSS pixels, not transformed viewport bounds.
+      const computed = getComputedStyle(element);
+      const px = (value: string) => Number.parseFloat(value) || 0;
+      const extra = computed.boxSizing === "border-box" ? 0 : 1;
+      const width = px(computed.width) + extra * (
+        px(computed.paddingLeft) + px(computed.paddingRight) +
+        px(computed.borderLeftWidth) + px(computed.borderRightWidth)
+      );
+      const height = px(computed.height) + extra * (
+        px(computed.paddingTop) + px(computed.paddingBottom) +
+        px(computed.borderTopWidth) + px(computed.borderBottomWidth)
+      );
+      const next = width > 0 && height > 0 ? { width, height } : null;
+      setSize((previous) => previous?.width === next?.width && previous?.height === next?.height
+        ? previous : next);
     };
     measure();
 
     if (typeof ResizeObserver === "undefined") return;
     const observer = new ResizeObserver(measure);
-    observer.observe(element);
+    observer.observe(element, { box: "border-box" });
     return () => observer.disconnect();
   }, []);
 
   const style = React.useMemo<React.CSSProperties>(() => {
     const fallback: React.CSSProperties = { borderRadius: radius };
-    if (!size) return fallback;
+    if (!size || typeof CSS === "undefined" || !CSS.supports("clip-path", 'path("M 0 0 H 1 V 1 Z")')) {
+      return fallback;
+    }
     return {
-      ...fallback,
+      // A fallback radius would independently round the painted background,
+      // hiding the extra corner area supplied by the continuous path.
+      borderRadius: 0,
       clipPath: `path("${continuousCornerPath(size.width, size.height, {
         radius,
         exponent,

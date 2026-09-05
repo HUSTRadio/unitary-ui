@@ -8,6 +8,8 @@
 
 ### Added
 
+- **ContinuousSurface 合并前修正**：连续裁切增强后移除竞争的背景圆角；以本地 border-box 测量并观察边框尺寸变化，避免父级 transform 导致错误裁切；superellipse 示例使用归一化 SVG 裁切适配响应式磁贴；固定高指数曲线端点，并在特殊路径分支前统一校验采样参数。新增像素、缩放、边框变化与响应式命中回归测试。
+
 - **Shape family 与连续曲率**：`--radius-2xl/3xl/4xl/5xl`（16/20/24/28px）扩展固定 radius scale，新增 `--radius-concentric-inset` / `--radius-circle` / `--radius-capsule` 语义；新增 `src/lib/continuous-corner.ts`（自研幂函数族连续曲率：`cornerCurvePoints` / `continuousCornerPath` / `superellipsePath` / `useContinuousCorners`，p=2 精确退化为圆弧）与 `ContinuousSurface` 组件，全部从包根导出；双语指南、可运行示例、API 参考与 LLM 页面同步覆盖（86 条路由 × 2 语言 = 172 页）。默认连续曲率指数 3、曲线参数均为 Unitary 团队值，不使用平台品牌命名、不复制平台资源 path；数值归属见 `docs/design/corner-and-typography-tokens.md`。
 - **混排排版 token**：新增 `--uni-mixed-script-gap-ui`（0.125em）/ `--uni-mixed-script-gap-prose`（0.25em）混排间距与 `--uni-leading-compact/prose/reading`（1.35/1.55/1.7）长文本行高分层；`text-autospace: normal` 以 `@supports` 渐进增强应用于 `.text-autospace` 与文档正文（`.docs-prose-paragraph` / `.docs-prose-list` 同时升级至 1.55 行高），不支持的浏览器保持原文本不变。
 - **Link 独立文档页**：将 `Link` / `LinkProps` 加入包根公开导出，并补齐组件元数据、双语指南、可运行示例、API 参考与双语 LLM 页面；LLM corpus 扩为 85 条路由 × 2 语言 = 170 页。

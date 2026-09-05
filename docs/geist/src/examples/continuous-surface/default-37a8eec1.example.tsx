@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 import { ContinuousSurface } from "@/components/ui/continuous-surface";
 import { superellipsePath } from "@/lib/continuous-corner";
 
@@ -8,8 +10,16 @@ const curves = [
 ] as const;
 
 export function ContinuousSurfaceDefault37A8EEC1Example() {
+  const clipId = useId();
   return (
     <div className="grid gap-6 sm:grid-cols-4">
+      <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id={clipId} clipPathUnits="objectBoundingBox">
+            <path d={superellipsePath(1, 1, { exponent: 5 })} />
+          </clipPath>
+        </defs>
+      </svg>
       {curves.map((curve) => (
         <div key={curve.exponent} className="rounded-3xl shadow-lg">
           <ContinuousSurface
@@ -28,7 +38,7 @@ export function ContinuousSurfaceDefault37A8EEC1Example() {
           data-curve="superellipse"
           aria-label="Superellipse tile"
           className="flex aspect-[4/3] flex-col justify-end bg-gradient-to-br from-teal-600 to-blue-700 p-5 text-white"
-          style={{ clipPath: `path("${superellipsePath(400, 300, { exponent: 5 })}")` }}
+          style={{ clipPath: `url(#${clipId})` }}
         >
           <strong>Superellipse · n=5</strong>
           <span className="mt-1 text-sm text-white/80">Full curve, near-square surfaces</span>

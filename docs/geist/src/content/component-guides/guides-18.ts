@@ -39,14 +39,14 @@ export const GUIDES_18_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "ResizeObserver 在容器尺寸变化时重算路径，radius 自动限制为短边的一半。",
-        "SSR 首屏使用 border-radius，客户端取得尺寸后渐进增强为 clip-path path()。",
+        "ResizeObserver 观察本地 border-box，缩放父级不会改变路径坐标；radius 自动限制为短边的一半。",
+        "SSR 或不支持 path() 时使用 border-radius；增强后将普通圆角置零，避免背景双重裁切。",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "组件只负责形状；颜色、边框和阴影由调用方使用语义 token 提供。",
+        "组件只负责裁切；颜色由调用方提供。CSS border 不会自动沿路径描边，有限采样折线也不等于严格连续曲率。",
         "阴影必须放在外层 wrapper，因为 clip-path 会裁掉元素自身的 box-shadow。",
       ],
     },
@@ -92,14 +92,14 @@ export const GUIDES_18_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "ResizeObserver recomputes the path when the box changes, and the radius is capped at half the shorter side.",
-        "SSR starts with border-radius and progressively enhances to clip-path path() after client measurement.",
+        "ResizeObserver watches the local border-box, independent of ancestor transforms; the radius is capped at half the shorter side.",
+        "SSR and browsers without path() support use border-radius; enhancement resets that radius to avoid clipping the painted background twice.",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "The component owns shape only; callers provide color, border, and shadow through semantic tokens.",
+        "The component owns clipping; callers provide color. CSS borders do not trace the path, and finite line-segment sampling is not strictly continuous curvature.",
         "Place shadows on a parent wrapper because clip-path clips the surface's own box-shadow.",
       ],
     },

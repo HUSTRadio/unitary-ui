@@ -41,12 +41,12 @@ Continuous Surface
 
 ## 响应式行为
 
-- ResizeObserver 在容器尺寸变化时重算路径，radius 自动限制为短边的一半。
-- SSR 首屏使用 border-radius，客户端取得尺寸后渐进增强为 clip-path path()。
+- ResizeObserver 观察本地 border-box，缩放父级不会改变路径坐标；radius 自动限制为短边的一半。
+- SSR 或不支持 path() 时使用 border-radius；增强后将普通圆角置零，避免背景双重裁切。
 
 ## 主题行为
 
-- 组件只负责形状；颜色、边框和阴影由调用方使用语义 token 提供。
+- 组件只负责裁切；颜色由调用方提供。CSS border 不会自动沿路径描边，有限采样折线也不等于严格连续曲率。
 - 阴影必须放在外层 wrapper，因为 clip-path 会裁掉元素自身的 box-shadow。
 
 ## 实时示例
@@ -60,6 +60,8 @@ Continuous Surface
 **Superellipse · n=5**Full curve, near-square surfaces
 
 ```tsx
+import { useId } from "react";
+
 import { ContinuousSurface } from "@/components/ui/continuous-surface";
 import { superellipsePath } from "@/lib/continuous-corner";
 
@@ -70,8 +72,16 @@ const curves = [
 ] as const;
 
 export function ContinuousSurfaceDefault37A8EEC1Example() {
+  const clipId = useId();
   return (
     <div className="grid gap-6 sm:grid-cols-4">
+      <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id={clipId} clipPathUnits="objectBoundingBox">
+            <path d={superellipsePath(1, 1, { exponent: 5 })} />
+          </clipPath>
+        </defs>
+      </svg>
       {curves.map((curve) => (
         <div key={curve.exponent} className="rounded-3xl shadow-lg">
           <ContinuousSurface
@@ -90,7 +100,7 @@ export function ContinuousSurfaceDefault37A8EEC1Example() {
           data-curve="superellipse"
           aria-label="Superellipse tile"
           className="flex aspect-[4/3] flex-col justify-end bg-gradient-to-br from-teal-600 to-blue-700 p-5 text-white"
-          style={{ clipPath: `path("${superellipsePath(400, 300, { exponent: 5 })}")` }}
+          style={{ clipPath: `url(#${clipId})` }}
         >
           <strong>Superellipse · n=5</strong>
           <span className="mt-1 text-sm text-white/80">Full curve, near-square surfaces</span>
