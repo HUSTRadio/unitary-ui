@@ -51,12 +51,14 @@ describe("Unitary shape token families", () => {
 
   test("defines concentric, circle, and capsule semantics without brand names", () => {
     const block = css.match(
-      /\/\* Shape families — Unitary team values \*\/[\s\S]*?\/\* End shape families \*\//,
+      /\/\* Shape families — Unitary team values[\s\S]*?\/\* End shape families \*\//,
     )?.[0];
     expect(block).toBeDefined();
     expect(block).toContain("--radius-concentric-inset: 2px");
     expect(block).toContain("--radius-circle: 50%");
-    expect(block).toContain("--radius-capsule: var(--radius-pill)");
+    expect(block).toContain("--radius-circular: 50%");
+    expect(block).toContain("--radius-capsule: 9999px");
+    expect(block).toContain("--radius-continuous: var(--radius-md)");
     expect(block).not.toMatch(/apple|ios|squircle/i);
   });
 });
