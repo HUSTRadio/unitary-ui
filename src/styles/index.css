@@ -420,10 +420,19 @@
   --radius-5xl: 1.75rem; /* 28px — Unitary team value */
   --radius-pill: 9999px;
 
-  /* Shape families — Unitary team values */
+  /* Shape families — Unitary team values
+     - concentric / circle: stable since feat/corner-typography-alignment
+     - circular: preferred alias for circle (1:1 surfaces form a perfect disk)
+     - capsule: literal 9999px (not var(--radius-pill)) so getPropertyValue reads
+       the resolved value directly; pill alias remains for legacy utilities
+     - continuous: default token size for fallback border-radius; real continuous
+       corners use clip-path: path(...) from src/lib/continuous-corner.ts
+       (see docs/design/corner-and-typography-tokens.md §2.2) */
   --radius-concentric-inset: 2px;
   --radius-circle: 50%;
-  --radius-capsule: var(--radius-pill);
+  --radius-circular: 50%;
+  --radius-capsule: 9999px;
+  --radius-continuous: var(--radius-md);
   /* End shape families */
 
   /* Apple HIG 浮层圆角（2026-08-23 起，替代官方 Geist 浮层 12px 口径）：
