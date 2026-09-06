@@ -48,13 +48,8 @@ import type {
 } from "@/components/ui/note";
 import type { PaginationProps } from "@/components/ui/pagination";
 import { Phone, type PhoneProps, type PhoneScreenProps } from "@/components/ui/phone";
-import {
-  Device,
-  type DeviceProps,
-  type DeviceScreenProps,
-  DeviceScreen,
-} from "@/components/ui/device";
-import { type DeviceModelId, DEVICE_MODELS } from "@/lib/device-models";
+import type { DeviceProps, DeviceScreenProps } from "@/components/ui/device";
+import type { DeviceModelId } from "@/lib/device-models";
 import type { PillProps } from "@/components/ui/pill";
 import type {
   ProgressLabelPosition,

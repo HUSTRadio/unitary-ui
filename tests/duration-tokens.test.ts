@@ -18,12 +18,4 @@ describe("animation duration tokens", () => {
     }
     expect(css).not.toContain("--ds-duration-");
   });
-
-  test("motion.ts mirrors duration values for JavaScript consumers", async () => {
-    const ts = await readFile(path.join(root, "src/lib/motion.ts"), "utf8");
-    expect(ts).toContain("export const DURATION_FAST_MS = 150");
-    expect(ts).toContain("export const DURATION_BASE_MS = 200");
-    expect(ts).toContain("export const DURATION_SLOW_MS = 300");
-    expect(ts).toContain("export const DURATION_SLOWER_MS = 500");
-  });
 });

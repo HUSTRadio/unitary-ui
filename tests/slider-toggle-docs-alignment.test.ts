@@ -9,10 +9,7 @@ const read = (relativePath: string) => readFile(path.resolve(root, relativePath)
 
 describe("Slider and Toggle docs alignment", () => {
   test("Slider exposes the step-max demo in docs, copyable code, and the audit manifest", async () => {
-    const [docs, manifestSource] = await Promise.all([
-      read("docs/geist/src/components/docs-components-page.tsx"),
-      read("tests/audit/geist-audit-manifest.json"),
-    ]);
+    const manifestSource = await read("tests/audit/geist-audit-manifest.json");
     const manifest = JSON.parse(manifestSource) as {
       components: Array<{ slug: string; variants: string[]; demos: Array<{ id: string }> }>;
     };

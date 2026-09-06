@@ -100,7 +100,7 @@ const DIRECTION_TO_SIDE: Record<"down" | "left" | "right", Side> = {
 // stagger-in 时序（Task 5b 提速，对齐 HIG 导航转场 0.3–0.4s 口径）：
 // 最后一项完成于 staggerCount*20+240 = 380ms（旧 40/320 为 600ms，-37%）
 // stagger 是独立编排设计参数（非转场时长档位），保留本地不纳入 --uni-duration-* token；
-// 若未来出现第二处消费，再上移至 src/lib/motion.ts（YAGNI）。
+// 若未来出现第二处消费，再上移至共享 motion 模块（YAGNI）。
 const STAGGER_INTERVAL_MS = 20;
 const STAGGER_ITEM_DURATION_MS = 240;
 

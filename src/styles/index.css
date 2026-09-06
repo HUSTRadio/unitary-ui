@@ -586,7 +586,7 @@ html[data-font-tier="system"],
 
   /* 动画时长档位：微交互/标准过渡/内容切换/大面积位移。
      放 @theme static 保证无条件发射到 :root；消费方式是 duration-(--uni-duration-*)。
-     JS 侧引用 src/lib/motion.ts 同源常量，两处必须同步修改。 */
+     CSS token 是当前唯一真源；实际出现 JS 消费者后再抽象共享读取层。 */
   --uni-duration-fast: 150ms;
   --uni-duration-base: 200ms;
   --uni-duration-slow: 300ms;

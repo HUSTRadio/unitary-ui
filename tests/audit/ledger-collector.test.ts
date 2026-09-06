@@ -1,10 +1,9 @@
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { describe, expect, test } from "vitest";
 
-import { auditDir, readJson, root } from "./fixtures/ledger-fixture";
+import { auditDir, readJson } from "./fixtures/ledger-fixture";
 
 describe("Geist audit evidence collector (Task 3: demo / state recipe / ancestry / responsive fields)", () => {
   const collector = join(auditDir, "collect-replica-evidence.mjs");
