@@ -31,6 +31,8 @@ export function App() {
 }
 ```
 
+The package root supports native Node ESM `import` and CommonJS `require` without a CSS loader. Browser applications must still import `@hustradio/unitary-ui/styles.css` explicitly; this file includes Device frame styles. Do not import the CSS file directly in Node server code.
+
 ## Screenshots
 
 <!-- STYLEGUIDE_SCREENSHOTS_START -->
@@ -63,6 +65,15 @@ pnpm dev
 pnpm test
 pnpm typecheck
 ```
+
+Package validation before publishing (automatically run by `prepublishOnly`):
+
+```bash
+pnpm exec playwright install chromium
+pnpm run test:package
+```
+
+This rebuilds the library, checks ESM/CJS imports, SSR, and highlighting in separate Node processes, then verifies Device geometry with the published CSS in Chromium. It does not rely on source aliases or a CSS loader.
 
 ## Credits
 
