@@ -30,6 +30,12 @@ LLM 无需运行 `vp run`，只需读取仓库文档即可找到完整提示词�
 - `tasks/<task-id>/prompt.md`：任务专属步骤和完成条件。
 - `scripts/run-llm-task.mjs`：统一 CLI dispatcher。
 
+## 项目 Skill
+
+- `.agents/skills/unitary-ui-engineering/SKILL.md`：在重构或扩展 unitary-ui 时按需显式读取。
+- 根 `AGENTS.md` 是仓库贡献者的通用规则；task manifest 加载的 `.agents/policies/` 只约束对应任务。
+- 不支持项目 skill 自动发现的运行时仍可直接读取该文件。不要复制到多个目录，也不要据此声称运行时已经自动加载。
+
 manifest 只能声明已注册的校验器 ID，不能包含任意 shell 命令。固定提示词来自仓库内的版本化路径，不能由工作目录或环境变量替换。
 
 ## 统一入口

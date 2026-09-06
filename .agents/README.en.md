@@ -30,6 +30,12 @@ These paths are the canonical prompt discovery contract. The CLI validates or ex
 - `tasks/<task-id>/prompt.md`: task-specific procedure and completion criteria.
 - `scripts/run-llm-task.mjs`: unified CLI dispatcher.
 
+## Project skill
+
+- `.agents/skills/unitary-ui-engineering/SKILL.md`: read explicitly when refactoring or extending unitary-ui.
+- The root `AGENTS.md` contains general contributor rules; `.agents/policies/` loaded by a task manifest govern only that task.
+- Runtimes without project-skill discovery can still read this file directly. Do not copy it into multiple directories or claim that a runtime loaded it automatically without evidence.
+
 A manifest may name only code-owned validator IDs; it cannot provide arbitrary shell commands. Fixed prompts come from versioned repository paths and cannot be replaced through the working directory or environment variables.
 
 ## Unified entry point
