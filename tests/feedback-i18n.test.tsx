@@ -33,9 +33,9 @@ function mount(localized = false) {
       ),
     ),
   );
-  // 选中一个表情（love）→ 展开表单面板
-  const love = container.querySelector<HTMLButtonElement>('[role="radio"][aria-checked="false"]:last-child')!;
-  act(() => love.click());
+  // 默认变体先点击次级按钮，再在 portal 中呈现反馈表单。
+  const trigger = container.querySelector<HTMLButtonElement>('[data-slot="feedback-trigger"]')!;
+  act(() => trigger.click());
 }
 
 describe("Feedback i18n", () => {
@@ -79,10 +79,10 @@ describe("Feedback i18n", () => {
         </I18nProvider>,
       ),
     );
-    // label 在胶囊内，copy 在选中表情展开后出现
+    // label 在触发器内，copy 在打开 Popover 后出现。
     expect(container.textContent).toContain("Report a bug");
-    const love = container.querySelector<HTMLButtonElement>('[role="radio"][aria-checked="false"]:last-child')!;
-    act(() => love.click());
+    const trigger = container.querySelector<HTMLButtonElement>('[data-slot="feedback-trigger"]')!;
+    act(() => trigger.click());
     expect(document.body.textContent).toContain("Tell us what happened");
   });
 });

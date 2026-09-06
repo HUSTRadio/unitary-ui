@@ -22,17 +22,17 @@ Gathers an emoji rating and open text feedback.
 
 - Don't front-load the feedback panel on a surface the user just opened — it derails the work that brought them there.
 - Don't use Feedback as a substitute for a support form, bug report intake, or NPS sampling — those have dedicated surfaces and tools.
-- Don't auto-open the feedback panel — keep it collapsed until the user explicitly clicks the trigger to avoid disrupting their workflow.
+- Don't auto-open the form — keep the default as a button and Inline as a rating capsule until the user acts.
 
 ## Examples
 
 ### Default feedback panel
 
-Displays the default emoji-rating and optional text input in a collapsible feedback panel structure.
+Shows the default 32px secondary trigger opening a 340px anchored Popover.
 
 ### Inline feedback
 
-Demonstrates embedding the Feedback component within a row-level layout, suitable for instant post-interaction feedback.
+Shows the 274×48 rating capsule expanding into the feedback form in the same container.
 
 ### Feedback with metadata
 
@@ -41,29 +41,28 @@ Shows attaching contextual metadata alongside the feedback panel, helping the te
 ## Accessibility
 
 - Each emoji rating button should have an explicit aria-label so screen readers identify distinct emotional options.
-- On submit the panel closes and focus returns to the trigger button — the close itself serves as acknowledgment.
+- After default submission, the Popover closes and focus returns to its trigger; Inline does not introduce a fake modal focus trap.
 - The optional text input should have a proper label association and aria-describedby for helper text.
 
 ## Controlled behavior
 
-- Panel open/collapsed state can be externally controlled via an open prop, enabling conditional opening logic.
-- On submission the panel auto-closes and returns focus to the trigger; callers can listen to the submit event to process collected data.
-- Supports preset initial rating values via controlled props for previously selected feedback state restoration.
+- Dismissing the default Popover with Escape or an outside press preserves the current draft for reopening.
+- Inline collapses and clears its rating on Escape, outside press, or focus departure while preserving the text draft.
+- In dryRun mode Send neither invokes onSubmit nor closes; a real submit resets rating, text, and topic.
 
 ## Responsive behavior
 
-- On mobile the feedback panel presents as a bottom sheet (Drawer-style); on desktop it appears as a centered floating overlay.
-- Emoji rating buttons increase spacing on small screens for larger touch targets, ensuring mobile usability.
-- The text input area adapts its height within the full-width container, avoiding horizontal overflow on narrow viewports.
+- The default stays anchored to its trigger and Inline expands in place; neither switches to a Modal or Drawer.
+- The four emoji buttons retain 32px circular targets with a 1px gap across desktop and narrow viewports.
+- Default uses 340px and expanded Inline 336px, both capped to viewport width minus 32px to avoid horizontal overflow.
 
 ## Theme behavior
 
-- Emoji color mapping (green for satisfied, yellow for neutral, red for dissatisfied) maintains readability in both dark and light modes.
+- Every rating uses the same blue-300 background and blue-900 glyph emphasis; no non-official four-color emotion mapping is added.
+- The separately labeled Local RatingPill extension retains semantic four-tone capsules; it is not an official Feedback variant.
 - Panel shadow, background, and border colors follow the Geist theme system, supporting global theme variable overrides.
 
 ## Live Demo
-
-vercel
 
 This example is hidden because it is intended for only desktop.
 
@@ -95,13 +94,11 @@ Was this helpful?
 import { Feedback } from "@/components/ui/feedback";
 
 export function FeedbackInline99ED40ACExample() {
-  return <Feedback dryRun label="vercel" type="inline" />;
+  return <Feedback dryRun type="inline" />;
 }
 ```
 
 ## Feedback with Select
-
-vercel
 
 This example is hidden because it is intended for only desktop.
 
@@ -126,8 +123,6 @@ export function FeedbackFeedbackWithSelectBF2A8F56Example() {
 ```
 
 ## Feedback with metadata
-
-vercel
 
 This example is hidden because it is intended for only desktop.
 
@@ -159,33 +154,30 @@ export function FeedbackFeedbackWithMetadata6449A9ACExample() {
 }
 ```
 
-## Rating bar
+## Local RatingPill extension
 
-vercel
+Was this helpful?
 
-vercel
+Was this helpful?
 
-vercel
+Was this helpful?
 
 ```tsx
-import { Feedback } from "@/components/ui/feedback";
+import { RatingPill } from "@/components/ui/rating-pill";
 
+/** Local Unitary extension; not one of the six official Geist Feedback demos. */
 export function FeedbackRatingBar253F979EExample() {
   return (
-    <>
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        <Feedback label="vercel" dryRun defaultValue="love" />
-        <Feedback label="vercel" dryRun defaultValue="not-great" />
-        <Feedback label="vercel" dryRun defaultValue="hate" />
-      </div>
-    </>
+    <div className="flex flex-wrap items-center justify-center gap-4">
+      <RatingPill label="Was this helpful?" defaultValue="love" />
+      <RatingPill label="Was this helpful?" defaultValue="not-great" />
+      <RatingPill label="Was this helpful?" defaultValue="hate" />
+    </div>
   );
 }
 ```
 
 ## Feedback with prefix
-
-vercel
 
 ```tsx
 import { Feedback } from "@/components/ui/feedback";
@@ -197,8 +189,6 @@ export function FeedbackFeedbackWithPrefixEBD13739Example() {
 ```
 
 ## Feedback with suffix
-
-vercel
 
 ```tsx
 import { Feedback } from "@/components/ui/feedback";
@@ -221,13 +211,13 @@ import { Feedback } from "@/components/ui/feedback";
 
 ### Props & callbacks
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onSubmit</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record&lt;string, string&gt;) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Receives the selected rating, feedback text, and optional metadata.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultValue</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">RatingValue</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Initial rating (uncontrolled). Rating bar capsule colors by tone: love → success / okay → gray / not-great → warning / hate → error.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">label</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Text shown by the default secondary trigger.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"Feedback"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">copy</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Optional form copy; for Inline, replaces the capsule question.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">dryRun</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Demo mode: Send neither calls onSubmit nor closes the current surface.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"inline"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Uses the persistent rating capsule that expands in place.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">showTopics</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Shows the predefined product-topic selector.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">metadata</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">Record&lt;string, string&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Context forwarded to onSubmit.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">prefix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Content before the trigger or Inline question.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">suffix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Content after the trigger or Inline question.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultValue</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">RatingValue</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Initial uncontrolled rating; all ratings use the same blue selected state.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onSubmit</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record&lt;string, string&gt;) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Receives the rating, text, and optional metadata after a non-dry-run submission.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## Best Practices
 
 - Place Feedback at the end of a page, doc, or completed flow where the user has formed an opinion. Don't front-load it on a surface the user has only opened.
-- Keep the panel collapsed until the user clicks the trigger; auto-opening derails the work that prompted the feedback.
-- Submit closes the panel and returns focus to the trigger. Don't replace the panel with a generic acknowledgment toast; the close itself is the acknowledgment.
-- label is Title Case and short. Default Feedback is fine; override only when scoping to a flow: Feedback on Imports, Report a Bug. Don't end the label with ?.
-- copy overrides the prompt header next to the emoji row in sentence case (How did the import go?). Cut please and we're sorry.
+- Keep the form collapsed until the user acts: default Feedback starts as a secondary button, while Inline keeps only the rating capsule visible.
+- A real submit closes and resets the surface; dryRun deliberately keeps it open and does not invoke onSubmit.
+- label is Title Case and short on the default trigger. Feedback is fine; override only when scoping to a flow: Feedback on Imports, Report a Bug.
+- copy adds sentence-case form context in the default variant and replaces the question in Inline (How did the import go?). Cut please and we're sorry.
 - Don't use Feedback as a substitute for a support form, a bug report intake, or NPS sampling. Those have dedicated surfaces.

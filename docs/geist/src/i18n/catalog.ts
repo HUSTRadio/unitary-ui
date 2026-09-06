@@ -19,6 +19,7 @@ export const SHELL_COPY = {
     pageInProgress: "页面开发中",
     pageInProgressDescription: (pathname: string) => `该页面（${pathname}）由后续任务实现。`,
     feedbackQuestion: "这篇文档对你有帮助吗？",
+    feedbackLabel: "提供反馈",
     feedbackRating: "反馈评分",
     feedbackPlaceholder: "写下你的反馈……",
     feedbackSend: "发送",
@@ -44,6 +45,7 @@ export const SHELL_COPY = {
     pageInProgressDescription: (pathname: string) =>
       `This page (${pathname}) will be implemented later.`,
     feedbackQuestion: "Was this helpful?",
+    feedbackLabel: "Give feedback",
     feedbackRating: "Feedback rating",
     feedbackPlaceholder: "Your feedback...",
     feedbackSend: "Send",

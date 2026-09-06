@@ -208,14 +208,14 @@ function MaterialsPreview() {
 /** Typeface — Sans / Mono 三字体虚线盒 */
 function TypefacePreview() {
   return (
-    <div className="flex w-full max-w-md gap-3">
-      <div className="min-w-0 flex-1 break-words rounded-md border border-dashed border-border px-4 py-6 text-center text-label-16 text-foreground">
+    <div className="flex w-full max-w-md flex-col gap-3">
+      <div className="w-full rounded-md border border-dashed border-border px-4 py-3 text-center text-label-16 text-foreground">
         OPPO Sans 4.0
       </div>
-      <div className="min-w-0 flex-1 break-words rounded-md border border-dashed border-border px-4 py-6 text-center text-label-16 text-foreground">
+      <div className="w-full rounded-md border border-dashed border-border px-4 py-3 text-center text-label-16 text-foreground">
         HarmonyOS Sans SC
       </div>
-      <div className="min-w-0 flex-1 break-words rounded-md border border-dashed border-border px-4 py-6 text-center font-mono text-label-16 text-foreground">
+      <div className="w-full rounded-md border border-dashed border-border px-4 py-3 text-center font-mono text-label-16 text-foreground">
         JetBrains Maple Mono
       </div>
     </div>

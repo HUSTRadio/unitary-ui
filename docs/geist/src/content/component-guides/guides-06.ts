@@ -130,21 +130,21 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
     whenNotToUse: [
       "不要在用户刚打开的表面就前置反馈面板——这会干扰用户正在执行的主要任务。",
       "不要用 Feedback 替代支持表单、Bug 报告入口或 NPS 采样调查——这些场景有专门的界面和工具。",
-      "不要把反馈面板设为自动展开——它应当收起直到用户主动点击触发器，避免打断工作流。",
+      "不要自动展开表单——默认变体保持按钮状态，Inline 只常显评分胶囊，直到用户主动操作。",
     ],
     examples: [
       {
         id: "feedback-default",
         kind: "minimal",
         title: "默认反馈面板",
-        description: "展示默认的表情评分和可选文本输入的折叠式反馈面板结构。",
+        description: "展示 32px 次级按钮打开 340px 锚定 Popover 的默认反馈结构。",
         demoKey: "Default",
       },
       {
         id: "feedback-inline",
         kind: "variant",
         title: "行内反馈",
-        description: "演示将反馈组件嵌入到行级布局中的用法，适合列表项后的即时反馈。",
+        description: "展示 274×48 评分胶囊在选中表情后于同一容器内扩展为反馈表单。",
         demoKey: "Inline",
       },
       {
@@ -159,30 +159,31 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "表情评分按钮组应为每个选项提供明确的 aria-label 以便屏幕阅读器识别不同的情感选项。",
-        "提交后面板应关闭并将焦点返回到触发器按钮，完成本身即是一种确认反馈。",
+        "默认 Popover 提交后关闭并将焦点返回触发器；Inline 收起时不会制造虚假的弹窗焦点陷阱。",
         "可选的文本输入区域应有正确的 label 关联和 aria-describedby 辅助文本。",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
-        "反馈面板的展开/收起状态可由父组件通过 open 属性受控管理，实现条件式展开逻辑。",
-        "提交后自动关闭面板并返回焦点至触发器，调用方可监听提交事件以处理收集到的数据。",
-        "支持预填充初始评分值以实现个性化或之前已选择的反馈状态恢复。",
+        "默认 Popover 在 Escape 或外部点击关闭时保留当前草稿，重新打开后可继续编辑。",
+        "Inline 在 Escape、外部点击或焦点离开后收起并清空评分，同时保留文字草稿。",
+        "dryRun 下 Send 不调用 onSubmit，也不关闭界面；正常提交会复位评分、文字和主题。",
       ],
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "反馈面板在移动设备上从底部弹出（Drawer 样式），在桌面端居中显示为浮层面板。",
-        "表情评分按钮在小屏幕上增大间距以提升触摸目标面积，确保移动端可用性。",
-        "文本输入区域在全宽容器中自适应高度，在窄屏上不出现水平溢出。",
+        "默认 Popover 以触发器为锚点，Inline 始终在原位置展开；两者都不会切换成 Modal 或 Drawer。",
+        "四个表情按钮保持 32px 圆形点击区域和 1px 间距，与官方桌面及窄屏形态一致。",
+        "默认 340px、Inline 展开 336px，并受视口减 32px 的最大宽度约束，避免窄屏水平溢出。",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "表情评分的颜色映射（绿色满意、黄色中性、红色不满）在暗色/亮色模式下均保持良好的可读性。",
+        "所有评分统一使用 blue-300 背景和 blue-900 图形强调，不引入官方不存在的四色情绪语义。",
+        "Local RatingPill extension 单独保留四色语义胶囊；它不是官方 Feedback 变体，也不改变 Feedback 的蓝色状态。",
         "面板阴影、背景色和边框颜色遵循 Geist 主题系统，支持全局主题变量的覆盖。",
       ],
     },
@@ -456,7 +457,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
     whenNotToUse: [
       "Don't front-load the feedback panel on a surface the user just opened — it derails the work that brought them there.",
       "Don't use Feedback as a substitute for a support form, bug report intake, or NPS sampling — those have dedicated surfaces and tools.",
-      "Don't auto-open the feedback panel — keep it collapsed until the user explicitly clicks the trigger to avoid disrupting their workflow.",
+      "Don't auto-open the form — keep the default as a button and Inline as a rating capsule until the user acts.",
     ],
     examples: [
       {
@@ -464,7 +465,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Default feedback panel",
         description:
-          "Displays the default emoji-rating and optional text input in a collapsible feedback panel structure.",
+          "Shows the default 32px secondary trigger opening a 340px anchored Popover.",
         demoKey: "Default",
       },
       {
@@ -472,7 +473,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
         kind: "variant",
         title: "Inline feedback",
         description:
-          "Demonstrates embedding the Feedback component within a row-level layout, suitable for instant post-interaction feedback.",
+          "Shows the 274×48 rating capsule expanding into the feedback form in the same container.",
         demoKey: "Inline",
       },
       {
@@ -488,30 +489,31 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Each emoji rating button should have an explicit aria-label so screen readers identify distinct emotional options.",
-        "On submit the panel closes and focus returns to the trigger button — the close itself serves as acknowledgment.",
+        "After default submission, the Popover closes and focus returns to its trigger; Inline does not introduce a fake modal focus trap.",
         "The optional text input should have a proper label association and aria-describedby for helper text.",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
-        "Panel open/collapsed state can be externally controlled via an open prop, enabling conditional opening logic.",
-        "On submission the panel auto-closes and returns focus to the trigger; callers can listen to the submit event to process collected data.",
-        "Supports preset initial rating values via controlled props for previously selected feedback state restoration.",
+        "Dismissing the default Popover with Escape or an outside press preserves the current draft for reopening.",
+        "Inline collapses and clears its rating on Escape, outside press, or focus departure while preserving the text draft.",
+        "In dryRun mode Send neither invokes onSubmit nor closes; a real submit resets rating, text, and topic.",
       ],
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "On mobile the feedback panel presents as a bottom sheet (Drawer-style); on desktop it appears as a centered floating overlay.",
-        "Emoji rating buttons increase spacing on small screens for larger touch targets, ensuring mobile usability.",
-        "The text input area adapts its height within the full-width container, avoiding horizontal overflow on narrow viewports.",
+        "The default stays anchored to its trigger and Inline expands in place; neither switches to a Modal or Drawer.",
+        "The four emoji buttons retain 32px circular targets with a 1px gap across desktop and narrow viewports.",
+        "Default uses 340px and expanded Inline 336px, both capped to viewport width minus 32px to avoid horizontal overflow.",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "Emoji color mapping (green for satisfied, yellow for neutral, red for dissatisfied) maintains readability in both dark and light modes.",
+        "Every rating uses the same blue-300 background and blue-900 glyph emphasis; no non-official four-color emotion mapping is added.",
+        "The separately labeled Local RatingPill extension retains semantic four-tone capsules; it is not an official Feedback variant.",
         "Panel shadow, background, and border colors follow the Geist theme system, supporting global theme variable overrides.",
       ],
     },

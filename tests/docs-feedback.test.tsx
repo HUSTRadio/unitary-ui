@@ -65,36 +65,41 @@ describe("docs feedback", () => {
     expect(document.querySelector('[data-slot="modal-overlay"]')).toBeNull();
   });
 
-  test("rating opens an anchored local popup without a global overlay or scroll lock", async () => {
+  test("rating expands the anchored capsule in place without an overlay or scroll lock", async () => {
     await render(<FeedbackPanel />);
     const rating = container.querySelectorAll<HTMLButtonElement>('[role="radio"]')[3];
 
     await act(async () => rating.click());
 
-    const popup = container.querySelector<HTMLElement>('[data-slot="feedback-popup"]');
-    expect(popup?.getAttribute("role")).toBe("dialog");
-    expect(popup?.parentElement?.getAttribute("data-slot")).toBe("feedback-anchor");
+    const capsule = container.querySelector<HTMLElement>('[data-slot="rating-pill"]');
+    const formRegion = capsule?.querySelector<HTMLElement>('[data-slot="feedback-form-region"]');
+    expect(capsule?.getAttribute("data-state")).toBe("open");
+    expect(capsule?.className).toContain("w-[336px]");
+    expect(formRegion?.getAttribute("aria-hidden")).toBeNull();
     expect(document.querySelector('[data-slot="modal-overlay"]')).toBeNull();
     expect(document.body.style.overflow).toBe("");
   });
 
-  test("popup focus leaving the feedback card collapses it and clears the selected rating", async () => {
+  test("focus leaving the feedback capsule collapses it and clears the selected rating", async () => {
     await render(<FeedbackPanel />);
     const rating = container.querySelectorAll<HTMLButtonElement>('[role="radio"]')[3];
     await act(async () => rating.click());
 
     expect(rating.getAttribute("aria-checked")).toBe("true");
-    const popup = container.querySelector<HTMLElement>('[data-slot="feedback-popup"]')!;
+    const capsule = container.querySelector<HTMLElement>('[data-slot="rating-pill"]')!;
     const outside = document.createElement("button");
     document.body.append(outside);
 
     await act(async () => {
-      popup.dispatchEvent(
+      capsule.dispatchEvent(
         new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }),
       );
     });
 
-    expect(container.querySelector('[data-slot="feedback-popup"]')).toBeNull();
+    expect(capsule.getAttribute("data-state")).toBe("closed");
+    expect(
+      capsule.querySelector('[data-slot="feedback-form-region"]')?.getAttribute("aria-hidden"),
+    ).toBe("true");
     expect(
       Array.from(container.querySelectorAll('[role="radio"]')).every(
         (button) => button.getAttribute("aria-checked") === "false",
@@ -112,13 +117,17 @@ describe("docs feedback", () => {
     await act(async () => {
       document.body.dispatchEvent(new MouseEvent("pointerdown", { bubbles: true }));
     });
-    expect(container.querySelector('[data-slot="feedback-popup"]')).toBeNull();
+    expect(container.querySelector('[data-slot="rating-pill"]')?.getAttribute("data-state")).toBe(
+      "closed",
+    );
 
     await act(async () => selectLove());
     await act(async () => {
       document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
     });
-    expect(container.querySelector('[data-slot="feedback-popup"]')).toBeNull();
+    expect(container.querySelector('[data-slot="rating-pill"]')?.getAttribute("data-state")).toBe(
+      "closed",
+    );
   });
 
   test("keeps previous, feedback and next in one desktop grid and moves feedback above paging on narrow screens", async () => {
@@ -132,6 +141,9 @@ describe("docs feedback", () => {
     expect(nav.className).toContain("grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]");
     expect(nav.className).toContain("max-[480px]:grid-cols-2");
     expect(nav.getAttribute("aria-label")).toBe("文档分页");
+    const feedback = nav.querySelector('[data-slot="feedback-anchor"]');
+    expect(feedback?.getAttribute("aria-label")).toBe("这篇文档对你有帮助吗？");
+    expect(feedback?.textContent).toContain("提供反馈");
     expect(nav.textContent).toContain("上一页");
     expect(nav.textContent).toContain("下一页");
     expect(nav.querySelectorAll('[role="radio"]')).toHaveLength(4);

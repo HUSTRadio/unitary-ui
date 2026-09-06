@@ -464,17 +464,31 @@ const O = {
   feedback: component(
     ["Feedback"],
     [
-      row(
-        "onSubmit",
-        "(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record<string, string>) => void",
-        "Receives the selected rating, feedback text, and optional metadata.",
-        "接收所选评分、反馈文本与可选元数据。",
-      ),
+      row("label", "string", "Text shown by the default secondary trigger.", "默认次级触发按钮显示的文本。", {
+        defaultValue: '"Feedback"',
+      }),
+      row("copy", "string", "Optional form copy; for Inline, replaces the capsule question.", "可选表单文案；在 Inline 中替换胶囊问题文本。"),
+      row("dryRun", "boolean", "Demo mode: Send neither calls onSubmit nor closes the current surface.", "演示模式：Send 不调用 onSubmit，也不关闭当前界面。", {
+        defaultValue: "false",
+      }),
+      row("type", '"inline"', "Uses the persistent rating capsule that expands in place.", "使用常显评分胶囊，并在同一容器内展开。"),
+      row("showTopics", "boolean", "Shows the predefined product-topic selector.", "显示预定义的产品主题选择器。", {
+        defaultValue: "false",
+      }),
+      row("metadata", "Record<string, string>", "Context forwarded to onSubmit.", "透传给 onSubmit 的上下文。"),
+      row("prefix", "ReactNode", "Content before the trigger or Inline question.", "触发器或 Inline 问题文本之前的内容。"),
+      row("suffix", "ReactNode", "Content after the trigger or Inline question.", "触发器或 Inline 问题文本之后的内容。"),
       row(
         "defaultValue",
         "RatingValue",
-        "Initial rating (uncontrolled). Rating bar capsule colors by tone: love → success / okay → gray / not-great → warning / hate → error.",
-        "初始评分（非受控）。胶囊评分条按语义色着色：love → success / okay → 灰色 / not-great → warning / hate → error。",
+        "Initial uncontrolled rating; all ratings use the same blue selected state.",
+        "初始非受控评分；所有评分统一使用蓝色选中态。",
+      ),
+      row(
+        "onSubmit",
+        "(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record<string, string>) => void",
+        "Receives the rating, text, and optional metadata after a non-dry-run submission.",
+        "在非 dryRun 提交后接收评分、文本与可选元数据。",
       ),
     ],
   ),

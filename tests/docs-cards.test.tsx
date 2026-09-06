@@ -60,4 +60,21 @@ describe("Introduction Components preview", () => {
     expect(preview?.textContent).toContain("Project name");
     expect(preview?.textContent).toContain("geist-docs");
   });
+
+  test("stacks the three typeface names as full-width horizontal rows", async () => {
+    await render();
+
+    const oppo = Array.from(container.querySelectorAll("div")).find(
+      (element) => element.textContent?.trim() === "OPPO Sans 4.0",
+    );
+    const typefacePreview = oppo?.parentElement;
+
+    expect(typefacePreview).not.toBeNull();
+    expect(typefacePreview?.className).toContain("flex-col");
+    expect(Array.from(typefacePreview?.children ?? []).map((element) => element.textContent?.trim())).toEqual([
+      "OPPO Sans 4.0",
+      "HarmonyOS Sans SC",
+      "JetBrains Maple Mono",
+    ]);
+  });
 });

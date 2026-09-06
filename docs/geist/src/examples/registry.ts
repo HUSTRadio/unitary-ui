@@ -1100,7 +1100,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "feedback", id: "Inline", Component: FeedbackInline99ED40ACExample, source: FeedbackInline99ED40ACExampleSource },
   { slug: "feedback", id: "Feedback with Select", Component: FeedbackFeedbackWithSelectBF2A8F56Example, source: FeedbackFeedbackWithSelectBF2A8F56ExampleSource },
   { slug: "feedback", id: "Feedback with metadata", Component: FeedbackFeedbackWithMetadata6449A9ACExample, source: FeedbackFeedbackWithMetadata6449A9ACExampleSource },
-  { slug: "feedback", id: "Rating bar", Component: FeedbackRatingBar253F979EExample, source: FeedbackRatingBar253F979EExampleSource },
+  { slug: "feedback", id: "Local RatingPill extension", Component: FeedbackRatingBar253F979EExample, source: FeedbackRatingBar253F979EExampleSource },
   { slug: "feedback", id: "Feedback with prefix", Component: FeedbackFeedbackWithPrefixEBD13739Example, source: FeedbackFeedbackWithPrefixEBD13739ExampleSource },
   { slug: "feedback", id: "Feedback with suffix", Component: FeedbackFeedbackWithSuffixE429255FExample, source: FeedbackFeedbackWithSuffixE429255FExampleSource },
   { slug: "load-more-button", id: "Default", Component: LoadMoreButtonDefault21B111CBExample, source: LoadMoreButtonDefault21B111CBExampleSource },

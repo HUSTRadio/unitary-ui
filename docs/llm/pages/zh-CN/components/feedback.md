@@ -22,17 +22,17 @@ Feedback
 
 - 不要在用户刚打开的表面就前置反馈面板——这会干扰用户正在执行的主要任务。
 - 不要用 Feedback 替代支持表单、Bug 报告入口或 NPS 采样调查——这些场景有专门的界面和工具。
-- 不要把反馈面板设为自动展开——它应当收起直到用户主动点击触发器，避免打断工作流。
+- 不要自动展开表单——默认变体保持按钮状态，Inline 只常显评分胶囊，直到用户主动操作。
 
 ## 示例
 
 ### 默认反馈面板
 
-展示默认的表情评分和可选文本输入的折叠式反馈面板结构。
+展示 32px 次级按钮打开 340px 锚定 Popover 的默认反馈结构。
 
 ### 行内反馈
 
-演示将反馈组件嵌入到行级布局中的用法，适合列表项后的即时反馈。
+展示 274×48 评分胶囊在选中表情后于同一容器内扩展为反馈表单。
 
 ### 带元数据的反馈
 
@@ -41,29 +41,28 @@ Feedback
 ## 无障碍
 
 - 表情评分按钮组应为每个选项提供明确的 aria-label 以便屏幕阅读器识别不同的情感选项。
-- 提交后面板应关闭并将焦点返回到触发器按钮，完成本身即是一种确认反馈。
+- 默认 Popover 提交后关闭并将焦点返回触发器；Inline 收起时不会制造虚假的弹窗焦点陷阱。
 - 可选的文本输入区域应有正确的 label 关联和 aria-describedby 辅助文本。
 
 ## 受控行为
 
-- 反馈面板的展开/收起状态可由父组件通过 open 属性受控管理，实现条件式展开逻辑。
-- 提交后自动关闭面板并返回焦点至触发器，调用方可监听提交事件以处理收集到的数据。
-- 支持预填充初始评分值以实现个性化或之前已选择的反馈状态恢复。
+- 默认 Popover 在 Escape 或外部点击关闭时保留当前草稿，重新打开后可继续编辑。
+- Inline 在 Escape、外部点击或焦点离开后收起并清空评分，同时保留文字草稿。
+- dryRun 下 Send 不调用 onSubmit，也不关闭界面；正常提交会复位评分、文字和主题。
 
 ## 响应式行为
 
-- 反馈面板在移动设备上从底部弹出（Drawer 样式），在桌面端居中显示为浮层面板。
-- 表情评分按钮在小屏幕上增大间距以提升触摸目标面积，确保移动端可用性。
-- 文本输入区域在全宽容器中自适应高度，在窄屏上不出现水平溢出。
+- 默认 Popover 以触发器为锚点，Inline 始终在原位置展开；两者都不会切换成 Modal 或 Drawer。
+- 四个表情按钮保持 32px 圆形点击区域和 1px 间距，与官方桌面及窄屏形态一致。
+- 默认 340px、Inline 展开 336px，并受视口减 32px 的最大宽度约束，避免窄屏水平溢出。
 
 ## 主题行为
 
-- 表情评分的颜色映射（绿色满意、黄色中性、红色不满）在暗色/亮色模式下均保持良好的可读性。
+- 所有评分统一使用 blue-300 背景和 blue-900 图形强调，不引入官方不存在的四色情绪语义。
+- Local RatingPill extension 单独保留四色语义胶囊；它不是官方 Feedback 变体，也不改变 Feedback 的蓝色状态。
 - 面板阴影、背景色和边框颜色遵循 Geist 主题系统，支持全局主题变量的覆盖。
 
 ## 实时示例
-
-vercel
 
 This example is hidden because it is intended for only desktop.
 
@@ -95,13 +94,11 @@ export function FeedbackDefault21B111CBExample() {
 import { Feedback } from "@/components/ui/feedback";
 
 export function FeedbackInline99ED40ACExample() {
-  return <Feedback dryRun label="vercel" type="inline" />;
+  return <Feedback dryRun type="inline" />;
 }
 ```
 
 ## Feedback with Select
-
-vercel
 
 This example is hidden because it is intended for only desktop.
 
@@ -126,8 +123,6 @@ export function FeedbackFeedbackWithSelectBF2A8F56Example() {
 ```
 
 ## Feedback with metadata
-
-vercel
 
 This example is hidden because it is intended for only desktop.
 
@@ -159,33 +154,30 @@ export function FeedbackFeedbackWithMetadata6449A9ACExample() {
 }
 ```
 
-## Rating bar
+## Local RatingPill extension
 
-vercel
+Was this helpful?
 
-vercel
+Was this helpful?
 
-vercel
+Was this helpful?
 
 ```tsx
-import { Feedback } from "@/components/ui/feedback";
+import { RatingPill } from "@/components/ui/rating-pill";
 
+/** Local Unitary extension; not one of the six official Geist Feedback demos. */
 export function FeedbackRatingBar253F979EExample() {
   return (
-    <>
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        <Feedback label="vercel" dryRun defaultValue="love" />
-        <Feedback label="vercel" dryRun defaultValue="not-great" />
-        <Feedback label="vercel" dryRun defaultValue="hate" />
-      </div>
-    </>
+    <div className="flex flex-wrap items-center justify-center gap-4">
+      <RatingPill label="Was this helpful?" defaultValue="love" />
+      <RatingPill label="Was this helpful?" defaultValue="not-great" />
+      <RatingPill label="Was this helpful?" defaultValue="hate" />
+    </div>
   );
 }
 ```
 
 ## Feedback with prefix
-
-vercel
 
 ```tsx
 import { Feedback } from "@/components/ui/feedback";
@@ -197,8 +189,6 @@ export function FeedbackFeedbackWithPrefixEBD13739Example() {
 ```
 
 ## Feedback with suffix
-
-vercel
 
 ```tsx
 import { Feedback } from "@/components/ui/feedback";
@@ -221,7 +211,7 @@ import { Feedback } from "@/components/ui/feedback";
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onSubmit</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record&lt;string, string&gt;) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">接收所选评分、反馈文本与可选元数据。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultValue</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">RatingValue</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">初始评分（非受控）。胶囊评分条按语义色着色：love → success / okay → 灰色 / not-great → warning / hate → error。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">label</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">默认次级触发按钮显示的文本。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"Feedback"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">copy</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">可选表单文案；在 Inline 中替换胶囊问题文本。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">dryRun</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">演示模式：Send 不调用 onSubmit，也不关闭当前界面。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"inline"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">使用常显评分胶囊，并在同一容器内展开。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">showTopics</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">显示预定义的产品主题选择器。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">metadata</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">Record&lt;string, string&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">透传给 onSubmit 的上下文。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">prefix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">触发器或 Inline 问题文本之前的内容。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">suffix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">触发器或 Inline 问题文本之后的内容。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultValue</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">RatingValue</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">初始非受控评分；所有评分统一使用蓝色选中态。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onSubmit</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record&lt;string, string&gt;) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">在非 dryRun 提交后接收评分、文本与可选元数据。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## 最佳实践
 
