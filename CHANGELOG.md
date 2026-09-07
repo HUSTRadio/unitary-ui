@@ -39,6 +39,7 @@
 
 ### Changed
 
+- **Feedback 交互与公开 API**：默认变体改为由 32px 次级按钮触发的 340px 锚定 Popover，`type="inline"` 改为 274×48 评分胶囊并在原位展开至 336px；评分键盘导航、`dryRun` / `onSubmit` 提交语义与蓝色评分状态同步实际实现，独立 `RatingPill` 保留本地四色扩展。
 - **平台特化链接图标位置**：GitHub、GitLab、Gitee、Codeberg、Bitbucket、Forgejo 与 SourceHut 链接默认把品牌图标放在文案左侧，并继续省略冗余的 ExternalLink 指示符；普通 HTTP(S) 外链仍在文案右侧显示通用指示符，显式 `iconSide` 始终优先。
 - **`LoadMoreButton` 颜色语义化**：将 `src/components/ui/load-more-button.tsx` 中 12 处硬编码灰色 raw literal（`#f2f2f2` / `#8f8f8f` / `#1a1a1a` 等，含 6 个 `dark:` 变体）迁移为 2 个主题感知语义 token（`gray-100` 5 处、`gray-700` 3 处），同时移除 6 个 `dark:` 变体；双主题下渲染结果视觉等价。
 - **包根公开面收敛（breaking）**：`ExpandPanel`、`Grabber`、`PhoneStatusBar` 与 `PhoneSafariChrome` 不再从包根导出，继续作为 HamburgerMenu、BottomSheet 与 Device 的内部实现；补齐 Navbar、SidebarNav、Footer 与 RatingPill 的公开 Props/数据类型导出，并移除未进入组件注册表的死 API 数据。
@@ -56,6 +57,7 @@
 
 ### Fixed
 
+- **嵌套 Sheet 中的 Combobox 选项交互**：为挂载到 `document.body` 的 Combobox 面板显式恢复指针事件，使 modal Sheet 内的选项可正常点击；同步更新共享变量示例，使选中项从列表中移除并保持搜索输入可继续使用。
 - **裸 Node 包入口兼容性**：Prism 语言子模块补齐 `.js` 扩展名；构建时将依赖 CSS 提取到现有 `styles.css`，不再由 ESM/CJS 入口加载 CSS。保持 Device 源码导入、组件 API 和浏览器消费方式不变。新增 `test:package` 并接入 `prepublishOnly`，覆盖裸 Node 导入、SSR、七种语言高亮、四类设备样式与 Chromium 几何回归。
 
 - **可滚动侧栏端距**：文档侧栏导航从固定 `h-full` 改为可随内容增长的 `min-h-full`，并将首尾内容端距统一为 16px；Playwright 在初始位置与滚动到底后分别实测上下间距且要求误差 ≤0.5px。同步审计其他可滚动列表语义组件，其纵向 padding 已保持对称。
