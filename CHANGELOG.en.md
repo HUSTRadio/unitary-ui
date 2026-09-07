@@ -39,6 +39,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Changed
 
+- **Feedback interaction and public API**: the default variant now opens a 340px Popover from a 32px secondary trigger, while `type="inline"` uses a 274×48 rating capsule that expands in place to 336px; keyboard rating navigation, `dryRun` / `onSubmit` submission semantics, and blue rating states now match the implementation, while the standalone `RatingPill` keeps its local four-tone extension.
 - **Platform-specific link icon placement**: GitHub, GitLab, Gitee, Codeberg, Bitbucket, Forgejo, and SourceHut links now place the brand icon before the label by default and continue to omit the redundant ExternalLink indicator; generic HTTP(S) links retain a trailing generic indicator, while an explicit `iconSide` always wins.
 - **`LoadMoreButton` color semanticization**: migrated 12 hard-coded gray raw literals in `src/components/ui/load-more-button.tsx` (`#f2f2f2` / `#8f8f8f` / `#1a1a1a`, including 6 `dark:` variants) to 2 theme-aware semantic tokens (`gray-100` in 5 places, `gray-700` in 3 places), removing all 6 `dark:` variants while keeping the light/dark render output visually equivalent.
 - **Package-root surface cleanup (breaking)**: `ExpandPanel`, `Grabber`, `PhoneStatusBar`, and `PhoneSafariChrome` are no longer exported from the package root and remain implementation details of HamburgerMenu, BottomSheet, and Device; Navbar, SidebarNav, Footer, and RatingPill now expose their public props/data types, and unreachable API registry data was removed.
@@ -56,6 +57,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Combobox option interaction inside nested Sheets**: explicitly restores pointer events for the Combobox panel mounted under `document.body`, so options remain clickable inside a modal Sheet; the shared-variable example now removes selected items and keeps the search input ready for the next selection.
 - **Native Node package imports**: adds `.js` extensions to Prism language imports and extracts dependency CSS into the existing `styles.css` instead of loading CSS from the ESM/CJS entries. Preserves Device source imports, component APIs, and browser consumption. Adds `test:package` to `prepublishOnly`, covering native Node imports, SSR, seven highlighting grammars, four device CSS bundles, and Chromium geometry regressions.
 
 - **Scrollable sidebar end spacing**: replaces the docs sidebar navigation's fixed `h-full` with content-growing `min-h-full` and aligns the first/last content insets to 16px; Playwright measures both ends at the initial and maximum scroll positions with ≤0.5px tolerance. Other scrollable list-semantic components were audited and already retain symmetric vertical padding.

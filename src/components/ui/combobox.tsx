@@ -537,6 +537,9 @@ function Combobox({
                 left: 0,
                 transform: `translate(${position.x}px, ${position.y}px)`,
                 zIndex: "var(--uni-z-popover)",
+                // Radix modal roots disable pointer events outside their branch;
+                // this body portal must explicitly opt back in for nested Comboboxes.
+                pointerEvents: "auto",
               }}
             >
               <div

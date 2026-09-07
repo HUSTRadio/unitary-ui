@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "policy": "literal-level ledger. Every raw color literal occurrence in src/components + src/lib must appear here (files array covers every containing file). Every entry must still exist in code. Migration = move occurrence to semantic token, then delete the file from files[]. Empty files[] entries must be deleted.",
-  "totalOccurrences": 144,
+  "totalOccurrences": 143,
   "entries": [
     {
       "literal": "#000000",
@@ -474,14 +474,6 @@
       "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
       "files": [
         "src/components/ui/phone-chrome.tsx"
-      ]
-    },
-    {
-      "literal": "rgba(0,0,0,0.08)",
-      "source": "legacy-baseline-2026-09-04",
-      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
-      "files": [
-        "src/components/ui/feedback.tsx"
       ]
     },
     {

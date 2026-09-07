@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
 
-describe("Combobox official API contract (label semantics)", () => {
+describe("Combobox API contract", () => {
   test("label prop exists and renders mb-2 on inner text div (8px gap, official structure)", async () => {
     const src = await read("src/components/ui/combobox.tsx");
     const lines = src.split("\n");
@@ -33,5 +33,10 @@ describe("Combobox official API contract (label semantics)", () => {
     // input accessible name comes from "aria-label" prop (unchanged by label addition)
     expect(src).toMatch(/"aria-label"\?: string;/);
     expect(src).toMatch(/aria-label=\{searchLabel\}/);
+  });
+
+  test("portal remains interactive when nested in a modal Sheet", async () => {
+    const src = await read("src/components/ui/combobox.tsx");
+    expect(src).toContain('pointerEvents: "auto"');
   });
 });

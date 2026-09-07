@@ -14,8 +14,6 @@ export function ComboboxInsideSheet95E13F11Example() {
 
   const [linked, setLinked] = useState<string[]>([]);
 
-  const [search, setSearch] = useState("");
-
   return (
     <Sheet modal>
       <SheetTrigger asChild>
@@ -41,8 +39,11 @@ export function ComboboxInsideSheet95E13F11Example() {
         <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-1">
           <Combobox
             aria-label="Search for shared environment variables"
+            onValueChange={(value) =>
+              setLinked((current) => (current.includes(value) ? current : [...current, value]))
+            }
             placeholder="Search for shared environment variables…"
-            value={search}
+            value=""
           >
             <ComboboxInput />
             <ComboboxList>

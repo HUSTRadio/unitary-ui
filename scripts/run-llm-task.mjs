@@ -3,12 +3,7 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
-import {
-  loadRegistry,
-  loadRunnerConfig,
-  resolveTask,
-  validateAllTasks,
-} from "./lib/llm-task-contract.mjs";
+import { loadRunnerConfig, resolveTask, validateAllTasks } from "./lib/llm-task-contract.mjs";
 import { CONTEXT_PROVIDER_IDS, VALIDATORS, runTask } from "./lib/llm-task-runner.mjs";
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -42,6 +37,7 @@ function dryRunMetadata(task, runnerConfig) {
     agent: {
       command: runnerConfig.agent.command,
       model: runnerConfig.agent.model,
+      reasoningEffort: runnerConfig.agent.reasoningEffort,
     },
   };
 }

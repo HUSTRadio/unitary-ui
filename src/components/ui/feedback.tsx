@@ -1,20 +1,15 @@
 import * as React from "react";
+import { Popover } from "radix-ui";
 
-import { Button } from "@/components/ui/button";
-import { RatingPill, type RatingValue } from "@/components/ui/rating-pill";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { RatingButtons, type RatingValue } from "@/components/ui/rating-pill";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 /**
- * Feedback — 胶囊 rating bar + 文本反馈（docs/geist-markdown-refs/components/feedback.md + 实时 vercel.com/geist/feedback 实测）。
- * 官方形态：一条 rating bar（胶囊 trigger → 点击展开评分交互 → 点外部/Escape 收起）；选中后胶囊以语义色着色。
- * - label：trigger 文本（Title Case，默认 "Feedback"）；type="inline" 时 trigger 固定为 "Was this helpful?"
- * - copy：评分行旁提示 header（sentence case）；showTopics：预定义主题 Select；metadata：透传 key-value
- * - dryRun：演示态（不触发 onSubmit）；prefix/suffix：trigger 前后缀图标
- * - 4 表情（Hate it / Not great / It's okay / Love it!）官方 Geist 表情 SVG 整体引用（feedback-faces.tsx），
- *   每档独立语义色（love→success 绿 / okay→gray / not-great→warning 黄 / hate→error 红），着色只作用于胶囊容器
- * - 展开 panel w-[340px] rounded-xl；body（copy / topics / textarea / Markdown supported 提示）+ footer（表情行 + Send）
- * - 提交（Send）后关闭并归还焦点、复位评分/文本；dryRun 语义保留
+ * Feedback — 与实时 vercel.com/geist/feedback 对齐的默认 Popover 与 Inline 胶囊。
+ * 默认形态由 32px 次级按钮打开 340px 锚定表单；Inline 形态从 274×48 胶囊
+ * 在同一容器内展开至 336px。评分 hover/selected 统一使用官方蓝色语义。
  */
 type FeedbackRatingValue = RatingValue;
 type FeedbackType = "inline";
@@ -41,26 +36,134 @@ interface FeedbackProps extends Omit<
   React.ComponentProps<"div">,
   "onSubmit" | "defaultValue" | "prefix" | "suffix"
 > {
-  /** trigger 文本（官方 label，Title Case，默认 "Feedback"） */
   label?: string;
-  /** 评分行旁提示 header（官方 copy，sentence case） */
   copy?: string;
-  /** 演示态：不触发 onSubmit（官方 dryRun） */
   dryRun?: boolean;
-  /** 内联变体（官方 type，trigger 固定 "Was this helpful?"） */
   type?: FeedbackType;
-  /** 显示预定义主题 Select（官方 showTopics） */
   showTopics?: boolean;
-  /** 任意 key-value 元数据（官方 metadata，透传给 onSubmit） */
   metadata?: FeedbackMetadata;
-  /** trigger 前缀图标（官方 prefix） */
   prefix?: React.ReactNode;
-  /** trigger 后缀图标（官方 suffix） */
   suffix?: React.ReactNode;
-  /** 初始评分（非受控） */
   defaultValue?: FeedbackRatingValue;
-  /** 提交回调（评分 + 文本 + 元数据含 topic） */
   onSubmit?: FeedbackSubmitHandler;
+}
+
+interface FeedbackFormProps {
+  copy?: string;
+  dryRun: boolean;
+  includeRatings: boolean;
+  metadata?: FeedbackMetadata;
+  onSuccessfulSubmit: () => void;
+  onSubmit?: FeedbackSubmitHandler;
+  rating?: FeedbackRatingValue;
+  setRating: (rating: FeedbackRatingValue) => void;
+  showTopics: boolean;
+  text: string;
+  setText: (text: string) => void;
+  topic: string;
+  setTopic: (topic: string) => void;
+}
+
+function MarkdownSupported({ id }: { id: string }) {
+  const { t } = useI18n();
+  return (
+    <div
+      id={id}
+      data-slot="feedback-support"
+      className="flex h-4 items-center justify-end gap-1 text-[12px] leading-4 text-gray-900"
+    >
+      <svg aria-hidden fill="none" height="14" viewBox="0 0 22 14" width="22">
+        <path
+          clipRule="evenodd"
+          d="M19.5 1.25H2.5C1.80964 1.25 1.25 1.80964 1.25 2.5V11.5C1.25 12.1904 1.80964 12.75 2.5 12.75H19.5C20.1904 12.75 20.75 12.1904 20.75 11.5V2.5C20.75 1.80964 20.1904 1.25 19.5 1.25ZM2.5 0C1.11929 0 0 1.11929 0 2.5V11.5C0 12.8807 1.11929 14 2.5 14H19.5C20.8807 14 22 12.8807 22 11.5V2.5C22 1.11929 20.8807 0 19.5 0H2.5ZM3 3.5H4H4.25H4.6899L4.98715 3.82428L7 6.02011L9.01285 3.82428L9.3101 3.5H9.75H10H11V4.5V10.5H9V6.79807L7.73715 8.17572L7 8.97989L6.26285 8.17572L5 6.79807V10.5H3V4.5V3.5ZM15 7V3.5H17V7H19.5L17 9.5L16 10.5L15 9.5L12.5 7H15Z"
+          fill="var(--uni-gray-700)"
+          fillRule="evenodd"
+        />
+      </svg>
+      {t("supported.")}
+    </div>
+  );
+}
+
+function FeedbackForm({
+  copy,
+  dryRun,
+  includeRatings,
+  metadata,
+  onSuccessfulSubmit,
+  onSubmit,
+  rating,
+  setRating,
+  showTopics,
+  text,
+  setText,
+  topic,
+  setTopic,
+}: FeedbackFormProps) {
+  const { t } = useI18n();
+  const topicId = React.useId();
+  const supportId = React.useId();
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (dryRun) return;
+    onSubmit?.(rating, text, topic ? { ...metadata, topic } : metadata);
+    onSuccessfulSubmit();
+  };
+
+  return (
+    <form className="h-full" onSubmit={handleSubmit}>
+      <div data-slot="feedback-form-body" className="flex flex-col gap-2 p-2">
+        {copy ? <p className="px-1 text-copy-14 text-gray-900">{copy}</p> : null}
+        {showTopics ? (
+          <label className="sr-only" htmlFor={topicId}>
+            {t("Product topic selection")}
+          </label>
+        ) : null}
+        {showTopics ? (
+          <select
+            id={topicId}
+            aria-label={t("Product topic selection")}
+            value={topic}
+            onChange={(event) => setTopic(event.target.value)}
+            className="h-9 w-full cursor-pointer truncate appearance-none rounded-md border-none bg-background-100 px-3 pr-9 text-copy-14 text-gray-1000 shadow-[0_0_0_1px_var(--uni-gray-alpha-400)] outline-none transition-[box-shadow] duration-(--uni-duration-fast) hover:shadow-[0_0_0_1px_var(--uni-gray-alpha-500)] focus:shadow-[0_0_0_1px_var(--uni-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]"
+          >
+            <option disabled value="">
+              {t("Select a topic...")}
+            </option>
+            {TOPICS.map((topicName) => (
+              <option key={topicName} value={topicName}>
+                {t(topicName)}
+              </option>
+            ))}
+          </select>
+        ) : null}
+        <label className="block">
+          <span className="sr-only">{t("Feedback")}</span>
+          <span className="block w-full overflow-hidden rounded-md shadow-[0_0_0_1px_var(--uni-gray-alpha-400)] transition-[box-shadow] duration-(--uni-duration-fast) hover:shadow-[0_0_0_1px_var(--uni-gray-alpha-500)] focus-within:shadow-[0_0_0_1px_var(--uni-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]">
+            <textarea
+              data-slot="feedback-textarea"
+              aria-describedby={supportId}
+              value={text}
+              onChange={(event) => setText(event.target.value)}
+              placeholder={t("Your feedback...")}
+              className="block h-[100px] w-full resize-none appearance-none border-none bg-background-100 px-3 py-2.5 text-copy-14 text-foreground outline-none placeholder:text-muted-foreground"
+            />
+          </span>
+        </label>
+        <MarkdownSupported id={supportId} />
+      </div>
+      <div
+        data-slot="feedback-form-footer"
+        className="flex items-center justify-between border-t border-gray-200 bg-gray-100 p-3"
+      >
+        {includeRatings ? <RatingButtons value={rating} onValueChange={setRating} /> : <span />}
+        <Button typeName="submit" size="small" className="min-w-0">
+          {t("Send")}
+        </Button>
+      </div>
+    </form>
+  );
 }
 
 function Feedback({
@@ -78,97 +181,160 @@ function Feedback({
   ...props
 }: FeedbackProps) {
   const { t } = useI18n();
+  const isInline = type === "inline";
   const [open, setOpen] = React.useState(false);
   const [rating, setRating] = React.useState<FeedbackRatingValue | undefined>(defaultValue);
   const [text, setText] = React.useState("");
   const [topic, setTopic] = React.useState("");
+  const inlineRef = React.useRef<HTMLDivElement>(null);
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!dryRun) {
-      onSubmit?.(rating, text, topic ? { ...metadata, topic } : metadata);
-    }
+  const reset = React.useCallback(() => {
     setOpen(false);
     setRating(undefined);
     setText("");
     setTopic("");
+  }, []);
+
+  const closeInline = React.useCallback(() => {
+    setOpen(false);
+    setRating(undefined);
+    const activeElement = document.activeElement;
+    if (activeElement instanceof HTMLElement && inlineRef.current?.contains(activeElement)) {
+      activeElement.blur();
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (!isInline || !open) return;
+    const onPointerDown = (event: PointerEvent) => {
+      if (!inlineRef.current?.contains(event.target as Node)) closeInline();
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeInline();
+    };
+    document.addEventListener("pointerdown", onPointerDown, true);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown, true);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [closeInline, isInline, open]);
+
+  const formProps: FeedbackFormProps = {
+    copy: isInline ? undefined : copy,
+    dryRun,
+    includeRatings: !isInline,
+    metadata,
+    onSuccessfulSubmit: reset,
+    onSubmit,
+    rating,
+    setRating,
+    showTopics,
+    text,
+    setText,
+    topic,
+    setTopic,
   };
 
-  const isInline = type === "inline";
-  const pillLabel = isInline ? t("Was this helpful?") : (label ?? t("Feedback"));
+  if (isInline) {
+    const inlineLabel = copy ?? t("Was this helpful?");
+    return (
+      <div className={cn("w-fit", className)} data-feedback-inline="" {...props}>
+        <div
+          ref={inlineRef}
+          data-slot="rating-pill"
+          data-state={open ? "open" : "closed"}
+          onBlurCapture={(event) => {
+            if (
+              open &&
+              event.relatedTarget &&
+              !event.currentTarget.contains(event.relatedTarget as Node)
+            ) {
+              closeInline();
+            }
+          }}
+          className={cn(
+            "inline-flex flex-col overflow-hidden bg-background-100 shadow-[var(--material-shadow-menu)]",
+            "max-w-[calc(100vw-32px)] transition-[width,border-radius] duration-(--uni-duration-fast) ease-out motion-reduce:transition-none",
+            open ? "h-auto w-[336px] rounded-xl" : "h-12 w-[274px] rounded-full",
+          )}
+        >
+          <div
+            data-slot="feedback-inline-header"
+            className="flex h-12 w-full shrink-0 items-center gap-2 py-2 pr-2 pl-4"
+          >
+            {prefix ? (
+              <span className="inline-flex shrink-0 items-center justify-center [&>svg]:size-4">
+                {prefix}
+              </span>
+            ) : null}
+            <p className="truncate text-copy-14 text-gray-900">{inlineLabel}</p>
+            {suffix ? (
+              <span className="inline-flex shrink-0 items-center justify-center [&>svg]:size-4">
+                {suffix}
+              </span>
+            ) : null}
+            <RatingButtons
+              value={rating}
+              onValueChange={(nextRating) => {
+                setRating(nextRating);
+                setOpen(true);
+              }}
+            />
+          </div>
+          <div
+            data-slot="feedback-form-region"
+            aria-hidden={open ? undefined : "true"}
+            inert={!open}
+            className={cn(
+              "-mb-0.5 grid w-full transition-[grid-template-rows] duration-(--uni-duration-fast) ease-out motion-reduce:transition-none",
+              open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+            )}
+          >
+            <div className="min-h-0 overflow-hidden">
+              <FeedbackForm {...formProps} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={cn("w-fit", className)} {...props}>
-      <RatingPill
-        label={pillLabel}
-        prefix={prefix}
-        suffix={suffix}
-        value={rating}
-        onValueChange={setRating}
-        onSubmit={() => setOpen(true)}
-      />
-      {/* 内嵌表单区：选中表情后展开（copy / topics / textarea / Send） */}
-      {open ? (
-        <form
-          className="mt-2 flex w-[340px] flex-col gap-2 rounded-xl border border-gray-alpha-400 bg-background-100 p-2 shadow-[0_4px_8px_rgba(0,0,0,0.08)]"
-          onSubmit={handleSubmit}
+      <Popover.Root open={open} onOpenChange={setOpen}>
+        <Popover.Trigger
+          data-slot="feedback-trigger"
+          type="button"
+          className={buttonVariants({ type: "secondary", size: "small", className: "h-8" })}
         >
-          {copy ? <p className="px-1 text-label-14 text-gray-900">{copy}</p> : null}
-          {showTopics ? (
-            <label className="sr-only" htmlFor="feedback-topic">
-              {t("Product topic selection")}
-            </label>
+          {prefix ? (
+            <span className="mr-2 flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
+              {prefix}
+            </span>
           ) : null}
-          {showTopics ? (
-            <select
-              id="feedback-topic"
-              aria-label={t("Product topic selection")}
-              value={topic}
-              onChange={(event) => setTopic(event.target.value)}
-              className="peer w-full cursor-pointer truncate appearance-none rounded-lg border-none bg-background-100 px-3 pr-9 text-[14px] leading-5 text-gray-1000 shadow-[0_0_0_1px_var(--uni-gray-alpha-400)] transition-[box-shadow] duration-(--uni-duration-base) h-9 hover:shadow-[0_0_0_1px_var(--uni-gray-alpha-500)] focus:outline-hidden focus:!shadow-[0_0_0_1px_var(--uni-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]"
-            >
-              <option disabled value="">
-                {t("Select a topic...")}
-              </option>
-              {TOPICS.map((topicName) => (
-                <option key={topicName} value={topicName}>
-                  {t(topicName)}
-                </option>
-              ))}
-            </select>
+          <span className="inline-block truncate">{label ?? t("Feedback")}</span>
+          {suffix ? (
+            <span className="ml-2 flex size-3.5 shrink-0 items-center justify-center" aria-hidden>
+              {suffix}
+            </span>
           ) : null}
-          <textarea
-            value={text}
-            onChange={(event) => setText(event.target.value)}
-            placeholder={t("Your feedback...")}
-            aria-label={t("Feedback")}
-            className="w-full resize-none appearance-none border-none bg-background-100 px-3 py-2.5 text-[14px] leading-5 text-foreground outline-none placeholder:text-muted-foreground shadow-[0_0_0_1px_var(--uni-gray-alpha-400)] rounded-md transition-[box-shadow] duration-(--uni-duration-base) focus:shadow-[0_0_0_1px_var(--uni-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)] h-[100px]"
-          />
-          <div className="flex items-center justify-between gap-1">
-            <div className="flex items-center justify-end gap-1 p-0 text-label-12 text-gray-900">
-              <svg
-                aria-hidden
-                fill="none"
-                height="14"
-                viewBox="0 0 22 14"
-                width="22"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clipRule="evenodd"
-                  d="M19.5 1.25H2.5C1.80964 1.25 1.25 1.80964 1.25 2.5V11.5C1.25 12.1904 1.80964 12.75 2.5 12.75H19.5C20.1904 12.75 20.75 12.1904 20.75 11.5V2.5C20.75 1.80964 20.1904 1.25 19.5 1.25ZM2.5 0C1.11929 0 0 1.11929 0 2.5V11.5C0 12.8807 1.11929 14 2.5 14H19.5C20.8807 14 22 12.8807 22 11.5V2.5C22 1.11929 20.8807 0 19.5 0H2.5ZM3 3.5H4H4.25H4.6899L4.98715 3.82428L7 6.02011L9.01285 3.82428L9.3101 3.5H9.75H10H11V4.5V10.5H9V6.79807L7.73715 8.17572L7 8.97989L6.26285 8.17572L5 6.79807V10.5H3V4.5V3.5ZM15 7V3.5H17V7H19.5L17 9.5L16 10.5L15 9.5L12.5 7H15Z"
-                  fill="var(--uni-gray-700)"
-                  fillRule="evenodd"
-                />
-              </svg>
-              {t("supported.")}
-            </div>
-            <Button typeName="submit" size="small">
-              {t("Send")}
-            </Button>
-          </div>
-        </form>
-      ) : null}
+        </Popover.Trigger>
+        <Popover.Portal>
+          <Popover.Content
+            data-slot="feedback-popup"
+            role="dialog"
+            align="center"
+            sideOffset={8}
+            className={cn(
+              "z-50 w-[340px] max-w-[calc(100vw-32px)] overflow-hidden rounded-xl bg-background-100 shadow-[var(--material-shadow-menu)] outline-none",
+              "origin-(--radix-popover-content-transform-origin) data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 duration-(--uni-duration-fast) motion-reduce:animate-none",
+            )}
+          >
+            <FeedbackForm {...formProps} />
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
     </div>
   );
 }

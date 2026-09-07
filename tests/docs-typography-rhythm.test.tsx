@@ -117,6 +117,14 @@ describe("docs typography rhythm owner", () => {
     }
   });
 
+  test("does not indent unmarked prose lists by default", () => {
+    const stylesPath = "../src/styles/index.css";
+    const styles = readFileSync(new URL(stylesPath, import.meta.url), "utf8");
+    const listRule = readOwnerRule(styles, "docs-prose-list");
+
+    expect(listRule).not.toContain("padding-inline-start: var(--uni-doc-list-indent)");
+  });
+
   test("requires real semantic prose JSX consumers without direct legacy typography or color overrides", () => {
     const sources = [
       "../docs/geist/src/components/doc-content.tsx",

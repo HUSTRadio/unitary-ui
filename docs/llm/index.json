@@ -385,8 +385,8 @@
         "en-US": "pages/en-US/components/combobox.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:5dd56d9abf01c7c50e6977efaf9bd7f2058e8941d2c9e1246a9f807f55c5b590",
-        "en-US": "sha256:82811b6448ea74e22c7412a227dee655d2d13f6ed23d57c0bef7c7c8d5a6701d"
+        "zh-CN": "sha256:8cf106fa7cd2d72df7e288bf87942bb1ff685f161fe37fed5c9b78fbb2ea805f",
+        "en-US": "sha256:214f8fe732e54f47108e18d0cfe4e7df20b98843423b1b7e3d8e0165dc6e8a32"
       }
     },
     {
@@ -513,8 +513,8 @@
         "en-US": "pages/en-US/components/device.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:4018a7e025b1b4c2bcc448cefe509847eb7d1fb7d5ebdfd56aa6e02cbe90e663",
-        "en-US": "sha256:b4fc793ed399c64c42e169938572d11b4160f184fa68aac9d34450899a08fe12"
+        "zh-CN": "sha256:f2d02557d251a70a65aa8affc59eb4c0423a82f869e5392c936c043f4f3ccea0",
+        "en-US": "sha256:786155902e2a61e8117cf77193da31a2ad5182277100875dce9e16cc69f812ee"
       }
     },
     {
@@ -641,8 +641,8 @@
         "en-US": "pages/en-US/components/feedback.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:148f822f7d5b70e3af82ed204bcd3dc0435d36f30b33ae60ab0610697a08307a",
-        "en-US": "sha256:608ee9dc3f29caee05c508009c14c1d0a6f76872348a36d19db2d85bcbbaf732"
+        "zh-CN": "sha256:254d06eaa800932a25bd3f7ea1da7649d824ff2756afc711d36fdabed2c1a0d2",
+        "en-US": "sha256:c932c2eae89d300984d43289660c56cd5ed5ce128088d2e1b5d806d0e319f2e5"
       }
     },
     {

@@ -586,7 +586,7 @@ html[data-font-tier="system"],
 
   /* 动画时长档位：微交互/标准过渡/内容切换/大面积位移。
      放 @theme static 保证无条件发射到 :root；消费方式是 duration-(--uni-duration-*)。
-     JS 侧引用 src/lib/motion.ts 同源常量，两处必须同步修改。 */
+     CSS token 是当前唯一真源；实际出现 JS 消费者后再抽象共享读取层。 */
   --uni-duration-fast: 150ms;
   --uni-duration-base: 200ms;
   --uni-duration-slow: 300ms;
@@ -834,6 +834,8 @@ html[data-font-tier="system"],
   --uni-blue-600: #52aeff;
   --uni-blue-900: #0068d6;
   --uni-blue-100: #f0f7ff;
+  --uni-feedback-blue-300: #e0f0ff;
+  --uni-feedback-blue-900: #0068d6;
   --uni-blue-200: hsl(210 100% 96%);
   --uni-blue-700: var(--blue-700);
   /* 语法高亮 token 色（官方 code-block/code 运行时 --uni-* 实测） */
@@ -1116,6 +1118,8 @@ html[data-font-tier="system"],
   --uni-blue-600: #0091ff;
   --uni-blue-900: #52a8ff;
   --uni-blue-100: #0f1c2e;
+  --uni-feedback-blue-300: #0f2f57;
+  --uni-feedback-blue-900: #52a8ff;
   --uni-blue-200: hsl(214 59% 15%);
   --uni-blue-700: var(--blue-700);
   /* 语法高亮 token 色（官方 code-block/code 运行时 --uni-* 实测） */
@@ -1376,7 +1380,6 @@ html[data-font-tier="system"],
 
 .docs-prose-list {
   margin-block: var(--uni-doc-space-heading-body) 0;
-  padding-inline-start: var(--uni-doc-list-indent);
   font-size: var(--uni-text-body);
   line-height: var(--uni-leading-prose);
   color: var(--muted-foreground);
@@ -2084,6 +2087,16 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
   .phone-frame-animated.mockframe {
     transition: none !important;
   }
+}
+
+/* Feedback rating hover / selected state — official Geist runtime values. */
+.feedback-rating-option:is(:hover, [aria-checked="true"]) {
+  border-color: var(--uni-feedback-blue-300);
+  background: var(--uni-feedback-blue-300);
+}
+
+.feedback-rating-option:is(:hover, [aria-checked="true"]) svg path {
+  fill: var(--uni-feedback-blue-900);
 }
 
 /*

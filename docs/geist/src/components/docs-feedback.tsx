@@ -1,116 +1,23 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
-import { RatingPill, type RatingValue } from "@/components/ui/rating-pill";
-import { Textarea } from "@/components/ui/textarea";
+import { Feedback } from "@/components/ui/feedback";
 import { getAdjacentDocsPages, getDocsRouteLabel } from "../data/docs-routes";
 import { SHELL_COPY } from "../i18n/catalog";
 import { useLanguage } from "../i18n/language";
 
-/**
- * 文档站页脚反馈：评分胶囊始终可见；选择评分后在它上方打开局部 popup。
- * 这里刻意不用 Modal：没有 backdrop、focus trap 或 body scroll lock。
- */
+/** 文档站页脚直接消费公共 Inline Feedback，避免维护第二套状态机。 */
 export function FeedbackPanel() {
   const { language } = useLanguage();
   const copy = SHELL_COPY[language];
-  const [rating, setRating] = useState<RatingValue>();
-  const [comment, setComment] = useState("");
-  const [open, setOpen] = useState(false);
-  const [sent, setSent] = useState(false);
-  const anchorRef = useRef<HTMLElement>(null);
-  const popupRef = useRef<HTMLDivElement>(null);
-
-  const closeFeedback = useCallback(() => {
-    setOpen(false);
-    setRating(undefined);
-    setSent(false);
-  }, []);
-
-  useEffect(() => {
-    if (!open) return;
-    const handlePointerDown = (event: PointerEvent) => {
-      if (!anchorRef.current?.contains(event.target as Node)) closeFeedback();
-    };
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeFeedback();
-    };
-    document.addEventListener("pointerdown", handlePointerDown, true);
-    document.addEventListener("keydown", handleKeyDown);
-    const frame = requestAnimationFrame(() => popupRef.current?.focus());
-    return () => {
-      cancelAnimationFrame(frame);
-      document.removeEventListener("pointerdown", handlePointerDown, true);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [closeFeedback, open]);
-
-  const selectRating = (next: RatingValue) => {
-    setRating(next);
-    setSent(false);
-    setOpen(true);
-  };
 
   return (
     <section
-      ref={anchorRef}
       className="relative inline-flex"
       data-slot="feedback-anchor"
       aria-label={copy.feedbackQuestion}
     >
-      <RatingPill label={copy.feedbackQuestion} value={rating} onValueChange={selectRating} />
-
-      {open ? (
-        <div
-          ref={popupRef}
-          data-slot="feedback-popup"
-          role="dialog"
-          tabIndex={-1}
-          aria-label={copy.feedbackQuestion}
-          onBlur={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-              closeFeedback();
-            }
-          }}
-          className="absolute bottom-full left-1/2 z-30 mb-3 w-[min(22rem,calc(100vw-2rem))] -translate-x-1/2 rounded-[var(--radius-xl)] border border-gray-alpha-400 bg-popover p-4 shadow-[var(--material-shadow-menu)]"
-        >
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-style-headline font-medium text-foreground">{copy.feedbackQuestion}</p>
-            <button
-              type="button"
-              aria-label="Close feedback"
-              onClick={closeFeedback}
-              className="focus-ring inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-gray-alpha-200 hover:text-foreground"
-            >
-              <X className="size-4" aria-hidden />
-            </button>
-          </div>
-
-          {sent ? (
-            <p className="mt-3 text-style-callout text-muted-foreground">{copy.feedbackThanks}</p>
-          ) : (
-            <>
-              <Textarea
-                aria-label={copy.feedbackPlaceholder}
-                placeholder={copy.feedbackPlaceholder}
-                value={comment}
-                onChange={(event) => setComment(event.target.value)}
-                className="mt-3 min-h-[96px]"
-              />
-              <div className="mt-3 flex items-center justify-end">
-                <button
-                  type="button"
-                  onClick={() => setSent(true)}
-                  className="focus-ring rounded-full bg-gray-alpha-100 px-4 py-1.5 text-style-subhead font-medium text-foreground transition-colors hover:bg-gray-alpha-200"
-                >
-                  {copy.feedbackSend}
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-      ) : null}
+      <Feedback type="inline" copy={copy.feedbackLabel} onSubmit={() => undefined} />
     </section>
   );
 }
