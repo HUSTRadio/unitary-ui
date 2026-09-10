@@ -8,9 +8,15 @@ type BreadcrumbType = "text" | "menu";
 
 const BreadcrumbTypeContext = React.createContext<BreadcrumbType>("text");
 
-interface BreadcrumbProps extends React.ComponentProps<"nav"> {
-  type?: BreadcrumbType;
-}
+type BreadcrumbTextProps = React.ComponentProps<"nav"> & {
+  type?: "text";
+};
+
+type BreadcrumbMenuProps = React.ComponentProps<"div"> & {
+  type: "menu";
+};
+
+type BreadcrumbProps = BreadcrumbTextProps | BreadcrumbMenuProps;
 
 /**
  * Breadcrumb - 官方 @vercel/geistcn Breadcrumb 对齐实现（vercel.com/geist/breadcrumbs 实测）。
@@ -21,24 +27,32 @@ interface BreadcrumbProps extends React.ComponentProps<"nav"> {
  * - `type="menu"`：`<div class="flex gap-2">` 直接排布 `<button>`，按钮之间无 chevron
  *   分隔符（官方 menu 变体是独立 chip 按钮组，不用 nav/ol/li）。
  */
-function Breadcrumb({ type = "text", className, children, ...props }: BreadcrumbProps) {
+function Breadcrumb(props: BreadcrumbProps) {
   const { t } = useI18n();
-  return (
-    <BreadcrumbTypeContext.Provider value={type}>
-      {type === "menu" ? (
+
+  if (props.type === "menu") {
+    const { type: _type, className, children, ...menuProps } = props;
+    return (
+      <BreadcrumbTypeContext.Provider value="menu">
         <div
           data-slot="breadcrumb"
           role="navigation"
           aria-label={t("Breadcrumb")}
           className={cn("flex gap-2 max-sm:overflow-x-auto", className)}
+          {...menuProps}
         >
           {children}
         </div>
-      ) : (
-        <nav data-slot="breadcrumb" aria-label={t("Breadcrumb")} className={className} {...props}>
-          <ol className="flex list-none items-center gap-1.5 p-0">{children}</ol>
-        </nav>
-      )}
+      </BreadcrumbTypeContext.Provider>
+    );
+  }
+
+  const { type: _type, className, children, ...textProps } = props;
+  return (
+    <BreadcrumbTypeContext.Provider value="text">
+      <nav data-slot="breadcrumb" aria-label={t("Breadcrumb")} className={className} {...textProps}>
+        <ol className="flex list-none items-center gap-1.5 p-0">{children}</ol>
+      </nav>
     </BreadcrumbTypeContext.Provider>
   );
 }
@@ -62,6 +76,31 @@ function BreadcrumbItem({
   const type = React.useContext(BreadcrumbTypeContext);
 
   if (type === "menu") {
+    const menuClassName = cn(
+      "cursor-pointer truncate whitespace-nowrap break-normal rounded-sm border border-gray-alpha-400 bg-background-200 px-1.5 py-0.5",
+      "text-label-12 text-gray-900 transition-[color,border-color,background] duration-(--uni-duration-base)",
+      "hover:bg-gray-200 hover:border-gray-alpha-500 hover:text-gray-1000 focus-ring",
+      active && "text-gray-1000",
+      disabled && "cursor-not-allowed text-gray-700",
+      className,
+    );
+
+    if (href) {
+      return (
+        <a
+          href={disabled ? undefined : href}
+          data-slot="breadcrumb-item"
+          aria-current={active ? "page" : undefined}
+          aria-disabled={disabled || undefined}
+          tabIndex={disabled ? -1 : undefined}
+          onClick={disabled ? undefined : (onClick as React.MouseEventHandler<HTMLAnchorElement>)}
+          className={menuClassName}
+        >
+          {children}
+        </a>
+      );
+    }
+
     return (
       <button
         type="button"
@@ -69,14 +108,7 @@ function BreadcrumbItem({
         disabled={disabled}
         aria-current={active ? "page" : undefined}
         onClick={onClick as React.MouseEventHandler<HTMLButtonElement>}
-        className={cn(
-          "cursor-pointer truncate whitespace-nowrap break-normal rounded-sm border border-gray-alpha-400 bg-background-200 px-1.5 py-0.5",
-          "text-label-12 text-gray-900 transition-[color,border-color,background] duration-(--uni-duration-base)",
-          "hover:bg-gray-200 hover:border-gray-alpha-500 hover:text-gray-1000 focus-ring",
-          active && "text-gray-1000",
-          disabled && "cursor-not-allowed text-gray-700",
-          className,
-        )}
+        className={menuClassName}
       >
         {children}
       </button>

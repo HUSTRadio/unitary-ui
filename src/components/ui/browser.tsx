@@ -16,8 +16,12 @@ function Browser({ address, className, children, ...props }: BrowserProps) {
   React.useEffect(() => () => window.clearTimeout(timer.current), []);
 
   const copyAddress = async () => {
-    if (!address) return;
-    await navigator.clipboard?.writeText(address);
+    if (!address || !navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText(address);
+    } catch {
+      return;
+    }
     setCopied(true);
     window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => setCopied(false), 1200);

@@ -74,7 +74,6 @@ function ChoiceboxGroup({
       <div
         aria-label={showLabel ? undefined : (ariaLabel ?? label)}
         aria-labelledby={showLabel ? groupId : undefined}
-        aria-multiselectable={type === "checkbox"}
         aria-required={required}
         className={className}
         role={type === "radio" ? "radiogroup" : "group"}
@@ -90,14 +89,12 @@ function ChoiceboxGroup({
             </div>
           </label>
         ) : null}
-        <ul
-          className={cn(
-            "m-0 flex list-none items-stretch justify-stretch gap-3 p-0",
-            listClassName,
-          )}
+        <div
+          data-slot="choicebox-items"
+          className={cn("m-0 flex items-stretch justify-stretch gap-3 p-0", listClassName)}
         >
           {children}
-        </ul>
+        </div>
       </div>
     </ChoiceboxContext.Provider>
   );
@@ -138,7 +135,6 @@ function ChoiceboxGroupItem({
 
   return (
     <label
-      aria-selected={selected}
       className={cn(
         "group/choicebox flex flex-1 list-none flex-col items-stretch justify-start overflow-hidden rounded-md border border-[var(--uni-gray-400)] transition-colors duration-(--uni-duration-fast) ease-in",
         "has-checked:not-has-disabled:border-[var(--uni-blue-600)] hover:has-enabled:border-[var(--uni-gray-500)] hover:has-enabled:bg-[var(--uni-gray-100)] hover:has-checked:not-has-disabled:!border-[var(--uni-blue-600)]",

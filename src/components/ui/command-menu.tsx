@@ -33,6 +33,7 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
   const [query, setQuery] = React.useState("");
   const titleId = React.useId();
   const descriptionId = React.useId();
+  const lastFocusedRef = React.useRef<HTMLElement | null>(null);
   const close = React.useCallback(() => setOpen(false), [setOpen]);
 
   React.useEffect(() => {
@@ -50,9 +51,16 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
           data-slot="command-menu-content"
           aria-labelledby={titleId}
           aria-describedby={descriptionId}
+          onOpenAutoFocus={() => {
+            lastFocusedRef.current =
+              document.activeElement instanceof HTMLElement ? document.activeElement : null;
+          }}
           onCloseAutoFocus={(event) => {
-            event.preventDefault();
-            requestAnimationFrame(() => document.body.focus());
+            const previous = lastFocusedRef.current;
+            if (previous && previous.isConnected && previous !== document.body) {
+              event.preventDefault();
+              requestAnimationFrame(() => previous.focus());
+            }
           }}
           className="command-menu-scale command-menu-mobile fixed top-[15%] left-1/2 z-100 w-[640px] -translate-x-1/2 overflow-hidden rounded-overlay bg-background-100 outline-none max-grid-sm:top-auto max-grid-sm:bottom-0 max-grid-sm:left-0 max-grid-sm:h-[80vh] max-grid-sm:max-h-[80vh] max-grid-sm:w-full max-grid-sm:max-w-full max-grid-sm:translate-x-0 max-grid-sm:overflow-auto max-grid-sm:rounded-t-overlay max-grid-sm:rounded-b-none"
         >

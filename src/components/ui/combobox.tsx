@@ -278,11 +278,17 @@ function Combobox({
     };
   }, [open]);
 
-  const listId = `combobox-list-$glm-5.3_common`;
+  const generatedId = React.useId();
+  const listId = `combobox-list-${generatedId.replaceAll(":", "")}`;
   const optionId = (itemValue: string) => `${listId}-option-${itemValue}`;
 
   const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (visibleValues.length === 0) return;
+    const navigationKey = ["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key);
+    if (!open && navigationKey) setOpen(true);
+    if (visibleValues.length === 0) {
+      if (navigationKey) event.preventDefault();
+      return;
+    }
     const index = visibleValues.indexOf(activeValue);
     switch (event.key) {
       case "ArrowDown": {
@@ -306,7 +312,7 @@ function Combobox({
         break;
       }
       case "Enter": {
-        if (activeValue) {
+        if (open && activeValue) {
           event.preventDefault();
           selectValue(activeValue);
         }
@@ -524,7 +530,7 @@ function Combobox({
       {open ? (
         <div className="sr-only" role="status" aria-live="polite" />
       ) : (
-        <ul aria-hidden="true" className="hidden">
+        <ul id={listId} aria-hidden="true" className="hidden">
           {options}
         </ul>
       )}
@@ -549,11 +555,13 @@ function Combobox({
                 style={{ width: panelWidth }}
               >
                 {visibleValues.length === 0 && listMeta.emptyMessage ? (
-                  <p className="m-0 px-2 py-2 text-sm text-[var(--uni-gray-900)]">
-                    {listMeta.emptyMessage}
-                  </p>
+                  <div id={open ? listId : undefined} role={open ? "listbox" : undefined}>
+                    <p className="m-0 px-2 py-2 text-sm text-[var(--uni-gray-900)]">
+                      {listMeta.emptyMessage}
+                    </p>
+                  </div>
                 ) : (
-                  <ul role="listbox" data-slot="combobox-list">
+                  <ul id={open ? listId : undefined} role={open ? "listbox" : undefined} data-slot="combobox-list">
                     {options}
                   </ul>
                 )}

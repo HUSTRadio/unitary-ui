@@ -141,7 +141,7 @@ function DrawerPanel({
       {...accessibilityProps}
       className={cn(
         "fixed inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full min-h-[45px] touch-pan-y rounded-t-xl border-t bg-background outline-none pb-[env(safe-area-inset-bottom)]",
-        "max-h-[90dvh] overscroll-none",
+        "max-h-[80dvh] overscroll-none",
         "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
         verticalScroll && "overflow-y-auto",
         dragging && "select-none",

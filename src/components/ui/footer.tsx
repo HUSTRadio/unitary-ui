@@ -58,7 +58,7 @@ export function Footer({
                   </div>
                   <ul className="flex flex-col gap-2">
                     {column.links.map((link) => (
-                      <li key={link.href}>
+                      <li key={link.label}>
                         <a
                           href={link.href}
                           className="text-copy-13 text-gray-900 hover:text-gray-1000"

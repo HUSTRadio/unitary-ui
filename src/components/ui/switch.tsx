@@ -81,7 +81,12 @@ function SwitchControl({
   const isControlled = context.controlledValue !== undefined;
   const selectionProps = isControlled
     ? { checked: context.controlledValue === stringValue }
-    : { defaultChecked: defaultChecked || context.defaultValue === stringValue };
+    : {
+        defaultChecked:
+          context.defaultValue !== undefined
+            ? context.defaultValue === stringValue
+            : defaultChecked,
+      };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     onKeyDown?.(event);

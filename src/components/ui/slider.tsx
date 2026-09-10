@@ -163,13 +163,28 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
       (mark) => mark.label != null || markLabelFormat != null,
     );
 
-    const handleValueCommit = React.useCallback(
-      (nextValue: number[]) => {
-        onValueCommit?.(nextValue);
-        onValueCommitted?.(nextValue);
-      },
-      [onValueCommit, onValueCommitted],
-    );
+    const commitCallbacksRef = React.useRef({ onValueCommit, onValueCommitted });
+    commitCallbacksRef.current = { onValueCommit, onValueCommitted };
+    const pendingCommitRef = React.useRef<number[] | null>(null);
+    const commitScheduledRef = React.useRef(false);
+
+    const handleValueCommit = React.useCallback((nextValue: number[]) => {
+      // Radix commits keyboard changes from inside its state updater. React may
+      // replay that updater in StrictMode, so schedule outside render and
+      // collapse same-turn replays into one consumer notification.
+      pendingCommitRef.current = nextValue;
+      if (commitScheduledRef.current) return;
+      commitScheduledRef.current = true;
+      queueMicrotask(() => {
+        commitScheduledRef.current = false;
+        const committedValue = pendingCommitRef.current;
+        pendingCommitRef.current = null;
+        if (!committedValue) return;
+        const callbacks = commitCallbacksRef.current;
+        callbacks.onValueCommit?.(committedValue);
+        callbacks.onValueCommitted?.(committedValue);
+      });
+    }, []);
 
     const updateValue = (index: number, next: number) => {
       // 双值 range 手动输入交叉钳制：start ≥ end 或 end ≤ start 时折叠为相等，
@@ -188,10 +203,9 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
       const nextValues = value.map((item, i) => (i === index ? next : item));
       props.onValueChange?.(nextValues);
     };
-    // {...props} 会把 onValueChange 同时透传给 Radix Root，导致手动输入后
-    // Radix 再以自己的 swap/clamp 结果发一次回调，覆盖我们的折叠值。
-    // 显式剥离，统一由 updateValue / handleValueCommit 路径发出。
-    const { onValueChange: _omittedOnValueChange, ...restProps } = props;
+    // 手动输入通过 updateValue 应用双值交叉钳制；Radix 轨道、拖拽与键盘交互
+    // 仍必须直接获得消费者回调，否则受控滑块无法把新值交还给父组件。
+    const { onValueChange, ...restProps } = props;
 
     return (
       <div data-slot="slider-field" className={cn("flex w-full flex-col", className)}>
@@ -217,6 +231,7 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
               disabled={disabled}
               value={valueProp}
               defaultValue={defaultValue}
+              onValueChange={onValueChange}
               onValueCommit={handleValueCommit}
               data-slot="slider-control"
               className="relative flex h-2 min-w-54 touch-none items-center select-none data-[disabled]:cursor-not-allowed"

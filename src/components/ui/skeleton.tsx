@@ -78,7 +78,7 @@ function Skeleton({
       className={cn(
         "inline-flex flex-initial",
         show && [
-          animated && "animate-pulse",
+          animated && "animate-pulse motion-reduce:animate-none",
           "rounded-md bg-gray-alpha-200",
           pill && "rounded-full",
           rounded && "rounded-[8px]",

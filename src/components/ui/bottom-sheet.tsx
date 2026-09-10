@@ -82,6 +82,7 @@ function BottomSheet({
   );
 
   const [current, setCurrent] = React.useState(0);
+  const lastFocusedRef = React.useRef<HTMLElement | null>(null);
   // 拖拽中的实时比例（非受控瞬时态），null 表示未在拖拽
   const [dragRatio, setDragRatio] = React.useState<number | null>(null);
   const dragStart = React.useRef<{ y: number; ratio: number } | null>(null);
@@ -142,6 +143,17 @@ function BottomSheet({
           tabIndex={-1}
           data-slot="bottom-sheet"
           data-resizable={resizable ? "true" : undefined}
+          onOpenAutoFocus={() => {
+            lastFocusedRef.current =
+              document.activeElement instanceof HTMLElement ? document.activeElement : null;
+          }}
+          onCloseAutoFocus={(event) => {
+            const previous = lastFocusedRef.current;
+            if (previous && previous.isConnected && previous !== document.body) {
+              event.preventDefault();
+              requestAnimationFrame(() => previous.focus());
+            }
+          }}
           className={cn(
             "fixed inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full touch-pan-y rounded-t-overlay border-t bg-background outline-none",
             "pb-[env(safe-area-inset-bottom)] overscroll-none",

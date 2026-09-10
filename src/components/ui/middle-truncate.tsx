@@ -112,7 +112,11 @@ function MiddleTruncate({ className, style, value, ...props }: MiddleTruncatePro
 
   const resize = React.useCallback(() => {
     const node = ref.current;
-    if (!node || !fullText) return;
+    if (!node) return;
+    if (!fullText) {
+      setParts((prev) => (prev[0] === "" && prev[1] === "" ? prev : ["", ""]));
+      return;
+    }
     // 测量父容器而不是自身（见文件头 G07-MT-01 说明）；父容器宽度不受截断结果影响
     const parent = node.parentElement;
     if (!parent) return;

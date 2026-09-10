@@ -72,6 +72,7 @@ function ContextCardTrigger({
         ) : (
           <div
             data-slot="context-card-trigger"
+            tabIndex={0}
             className="inline-flex flex-[0_1_auto] cursor-pointer overflow-hidden outline-none focus-ring"
           >
             {trigger}

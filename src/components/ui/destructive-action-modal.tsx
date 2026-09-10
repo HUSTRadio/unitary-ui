@@ -86,6 +86,7 @@ function DestructiveActionModal({
 
   React.useEffect(() => {
     if (open && !wasOpenRef.current) {
+      setInput("");
       restoreFocusRef.current =
         document.activeElement instanceof HTMLElement ? document.activeElement : null;
     } else if (!open && wasOpenRef.current) {

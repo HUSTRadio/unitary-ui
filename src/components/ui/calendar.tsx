@@ -182,6 +182,8 @@ function CalendarCombobox({
   locale = "en-US",
 }: CalendarComboboxProps) {
   const { t } = useI18n();
+  const inputId = React.useId();
+  const labelId = React.useId();
   const sizeToken = size === "small" ? "small" : "medium";
   const presetEntries = Object.entries(presets);
   const [open, setOpen] = React.useState(false);
@@ -219,8 +221,8 @@ function CalendarCombobox({
       >
         <label
           cmdk-label=""
-          htmlFor="radix-calendar-combobox-input"
-          id="radix-calendar-combobox-label"
+          htmlFor={inputId}
+          id={labelId}
           style={SR_ONLY_LABEL_STYLE}
         >
           {label}
@@ -232,15 +234,14 @@ function CalendarCombobox({
               data-error="false"
               data-testid="calendar/combobox-input"
               placeholder={placeholder}
-              aria-controls="radix-calendar-combobox"
               cmdk-input=""
               autoComplete="off"
               autoCorrect="off"
               spellCheck="false"
               aria-autocomplete="list"
               role="combobox"
-              aria-labelledby="radix-calendar-combobox-label"
-              id="radix-calendar-combobox-input"
+              aria-labelledby={labelId}
+              id={inputId}
               type="text"
               readOnly
               value={currentValue}
@@ -542,11 +543,10 @@ function Calendar({
           <div className={groupClass}>
             <PopoverPrimitive.Trigger asChild>
               <button
-                type="submit"
+                type="button"
                 tabIndex={0}
                 data-react-aria-pressable="true"
                 aria-haspopup="dialog"
-                aria-controls="radix-calendar-trigger"
                 data-testid="calendar/trigger/button"
                 style={triggerStyle}
                 title={label}

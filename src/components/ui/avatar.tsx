@@ -56,26 +56,31 @@ function Avatar({
 }: AvatarProps) {
   const { t } = useI18n();
   const px = size;
-  const hasVisual = Boolean(src || username || letter || placeholder);
-  const hasImage = Boolean(src || username);
   const imgSrc = src ?? (username ? AVATAR_IMG_URL.github(username, px) : undefined);
+  const [failedSrc, setFailedSrc] = React.useState<string | null>(null);
+  const hasVisual = Boolean(src || username || letter || placeholder);
+  const hasImage = Boolean(imgSrc) && failedSrc !== imgSrc;
+  const fallbackText = letter ?? username?.slice(0, 2).toUpperCase() ?? "";
   const ariaLabel =
     title ??
     (placeholder
       ? t("Placeholder Avatar")
       : letter
         ? t("Avatar with initials: {letter}", { letter })
-        : undefined);
+        : username
+          ? t("Avatar for {username}", { username })
+          : undefined);
   const visual = hasImage ? (
     <img
       src={imgSrc}
       alt={alt ?? (username ? t("Avatar for {username}", { username }) : (title ?? ""))}
       loading="eager"
+      onError={() => setFailedSrc(imgSrc ?? null)}
       className="relative size-full h-full w-full max-w-full"
     />
   ) : hasVisual ? (
     <span className="flex h-full items-center justify-center bg-[#444444] font-medium text-white/50 dark:bg-[#999999]">
-      {letter ?? ""}
+      {fallbackText}
     </span>
   ) : null;
 

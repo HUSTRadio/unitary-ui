@@ -46,13 +46,18 @@ function Tooltip({
   disableTriggers = false,
   className,
 }: TooltipProps) {
-  const trigger = React.isValidElement(children) ? (
-    children
-  ) : (
-    <span tabIndex={0} className="inline-flex outline-none focus-ring">
-      {children}
-    </span>
-  );
+  const trigger =
+    React.isValidElement<{ tabIndex?: number; className?: string }>(children) &&
+    children.type !== React.Fragment ? (
+      React.cloneElement(children, {
+        tabIndex: children.props.tabIndex ?? 0,
+        className: cn("outline-none focus-ring", children.props.className),
+      })
+    ) : (
+      <span tabIndex={0} className="inline-flex outline-none focus-ring">
+        {children}
+      </span>
+    );
   const colors = tooltipColors[type];
   const delayDuration = typeof delay === "number" ? delay : delay ? 400 : 0;
   const tipClipId = React.useId();

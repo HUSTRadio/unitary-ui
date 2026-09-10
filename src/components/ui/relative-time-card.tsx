@@ -80,6 +80,7 @@ function RelativeTimeCard({
         {children ?? (
           <span
             data-slot="relative-time-card"
+            tabIndex={0}
             className="inline-flex cursor-pointer items-baseline whitespace-nowrap text-copy-14 text-foreground"
           >
             {formatRelativeTime(date, locale)}
