@@ -9,11 +9,9 @@ export function ContextMenuDefault37A8EEC1Example() {
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
-        <span>
-          <div className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
-            Right click here
-          </div>
-        </span>
+        <div tabIndex={0} aria-label="Context menu target" className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
+          Right click here
+        </div>
       </ContextMenuTrigger>
       <ContextMenuContent className="w-[160px]">
         <ContextMenuItem>Item one</ContextMenuItem>

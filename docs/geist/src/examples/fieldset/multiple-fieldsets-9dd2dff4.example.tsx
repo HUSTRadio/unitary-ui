@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Fieldset,
   FieldsetContent,
@@ -10,6 +11,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetMultipleFieldsets9DD2DFF4Example() {
+  const [message, setMessage] = useState("");
   return (
     <div className="flex flex-col gap-6">
       <Fieldset>
@@ -22,7 +24,7 @@ export function FieldsetMultipleFieldsets9DD2DFF4Example() {
             <span>This information will be publicly visible</span>
           </FieldsetFooterStatus>
           <FieldsetFooterActions>
-            <FieldsetFooterAction>Update</FieldsetFooterAction>
+            <FieldsetFooterAction onClick={() => setMessage("Profile updated")}>Update</FieldsetFooterAction>
           </FieldsetFooterActions>
         </FieldsetFooter>
       </Fieldset>
@@ -37,7 +39,7 @@ export function FieldsetMultipleFieldsets9DD2DFF4Example() {
             <span>Last password change: 30 days ago</span>
           </FieldsetFooterStatus>
           <FieldsetFooterActions>
-            <FieldsetFooterAction>Change Password</FieldsetFooterAction>
+            <FieldsetFooterAction onClick={() => setMessage("Password change requested")}>Change Password</FieldsetFooterAction>
           </FieldsetFooterActions>
         </FieldsetFooter>
       </Fieldset>
@@ -55,6 +57,7 @@ export function FieldsetMultipleFieldsets9DD2DFF4Example() {
           </FieldsetFooterStatus>
         </FieldsetFooter>
       </Fieldset>
+      <span role="status" aria-live="polite" className="sr-only">{message}</span>
     </div>
   );
 }

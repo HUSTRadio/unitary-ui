@@ -42,6 +42,7 @@ export function EntityEntityWithListAndCheckbox26EB60A8Example() {
             <Checkbox
               aria-label={item.title}
               checked={checkedStates[item.id]}
+              onClick={(event) => event.stopPropagation()}
               onChange={() => handleCheckboxChange(item.id)}
             />
           </EntityMedia>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   ErrorText,
   Fieldset,
@@ -11,6 +12,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetWithErrorTextB52BED15Example() {
+  const [message, setMessage] = useState("");
   return (
     <Fieldset>
       <FieldsetContent>
@@ -27,9 +29,10 @@ export function FieldsetWithErrorTextB52BED15Example() {
           <span>Last checked: 5 minutes ago</span>
         </FieldsetFooterStatus>
         <FieldsetFooterActions>
-          <FieldsetFooterAction>Verify API Connection</FieldsetFooterAction>
+          <FieldsetFooterAction onClick={() => setMessage("Connection verification requested")}>Verify API Connection</FieldsetFooterAction>
         </FieldsetFooterActions>
       </FieldsetFooter>
+      <span role="status" aria-live="polite" className="sr-only">{message}</span>
     </Fieldset>
   );
 }

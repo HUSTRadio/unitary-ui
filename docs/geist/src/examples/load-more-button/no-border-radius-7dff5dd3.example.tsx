@@ -1,7 +1,15 @@
+import { useState } from "react";
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
 export function LoadMoreButtonNoBorderRadius7DFF5DD3Example() {
+  const [count, setCount] = useState(3);
+
   return (
-    <LoadMoreButton noBorderRadius>Load More</LoadMoreButton>
+    <div className="flex w-full flex-col gap-3">
+      <p role="status" className="text-copy-13 text-gray-900">{count} results loaded</p>
+      <LoadMoreButton noBorderRadius onClick={() => setCount((value) => value + 3)}>
+        Load More
+      </LoadMoreButton>
+    </div>
   );
 }

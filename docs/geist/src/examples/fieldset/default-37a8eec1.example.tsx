@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Fieldset,
   FieldsetContent,
@@ -10,6 +11,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetDefault37A8EEC1Example() {
+  const [message, setMessage] = useState("");
   return (
     <Fieldset>
       <FieldsetContent>
@@ -20,15 +22,16 @@ export function FieldsetDefault37A8EEC1Example() {
         <FieldsetFooterStatus>
           <span>
             Need help?{" "}
-            <a href="#" className="cursor-pointer text-link hover:underline">
+            <a href="#/components/fieldset" className="cursor-pointer text-link hover:underline">
               View documentation
             </a>
           </span>
         </FieldsetFooterStatus>
         <FieldsetFooterActions>
-          <FieldsetFooterAction>Save Changes</FieldsetFooterAction>
+          <FieldsetFooterAction onClick={() => setMessage("Changes saved")}>Save Changes</FieldsetFooterAction>
         </FieldsetFooterActions>
       </FieldsetFooter>
+      <span role="status" aria-live="polite" className="sr-only">{message}</span>
     </Fieldset>
   );
 }

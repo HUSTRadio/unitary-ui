@@ -1,7 +1,15 @@
+import { useState } from "react";
 import { Snippet } from "@/components/ui/snippet";
 
 export function SnippetCallback32E8D276Example() {
+  const [message, setMessage] = useState("");
+
   return (
-    <Snippet onCopy={() => alert("You copied the text!")} text="npm init next-app" width="300px" />
+    <div className="flex flex-col gap-2">
+      <Snippet onCopy={() => setMessage("Copied npm init next-app")} text="npm init next-app" width="300px" />
+      <span role="status" className="text-copy-13 text-gray-900">
+        {message}
+      </span>
+    </div>
   );
 }

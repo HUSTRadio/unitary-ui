@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Fieldset,
   FieldsetContent,
@@ -10,6 +11,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetErrorType96E58B0DExample() {
+  const [message, setMessage] = useState("");
   return (
     <Fieldset type="error">
       <FieldsetContent>
@@ -24,10 +26,11 @@ export function FieldsetErrorType96E58B0DExample() {
           <span>Payment failed on February 10, 2026</span>
         </FieldsetFooterStatus>
         <FieldsetFooterActions>
-          <FieldsetFooterAction type="secondary">Contact Support</FieldsetFooterAction>
-          <FieldsetFooterAction>Update Payment Method</FieldsetFooterAction>
+          <FieldsetFooterAction type="secondary" onClick={() => setMessage("Support request opened")}>Contact Support</FieldsetFooterAction>
+          <FieldsetFooterAction onClick={() => setMessage("Payment update requested")}>Update Payment Method</FieldsetFooterAction>
         </FieldsetFooterActions>
       </FieldsetFooter>
+      <span role="status" aria-live="polite" className="sr-only">{message}</span>
     </Fieldset>
   );
 }

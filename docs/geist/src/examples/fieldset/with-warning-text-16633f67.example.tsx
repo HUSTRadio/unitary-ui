@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Fieldset,
   FieldsetContent,
@@ -11,6 +12,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetWithWarningText16633F67Example() {
+  const [message, setMessage] = useState("");
   return (
     <Fieldset>
       <FieldsetContent>
@@ -28,10 +30,11 @@ export function FieldsetWithWarningText16633F67Example() {
           <span>Current status: Connected</span>
         </FieldsetFooterStatus>
         <FieldsetFooterActions>
-          <FieldsetFooterAction type="secondary">Cancel</FieldsetFooterAction>
-          <FieldsetFooterAction>Apply Changes</FieldsetFooterAction>
+          <FieldsetFooterAction type="secondary" onClick={() => setMessage("Changes canceled")}>Cancel</FieldsetFooterAction>
+          <FieldsetFooterAction onClick={() => setMessage("Changes applied")}>Apply Changes</FieldsetFooterAction>
         </FieldsetFooterActions>
       </FieldsetFooter>
+      <span role="status" aria-live="polite" className="sr-only">{message}</span>
     </Fieldset>
   );
 }

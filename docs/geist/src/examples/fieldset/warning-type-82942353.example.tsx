@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Fieldset,
   FieldsetContent,
@@ -10,6 +11,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetWarningType82942353Example() {
+  const [message, setMessage] = useState("");
   return (
     <Fieldset type="warning">
       <FieldsetContent>
@@ -24,10 +26,11 @@ export function FieldsetWarningType82942353Example() {
           <span>Trial expires: February 13, 2026</span>
         </FieldsetFooterStatus>
         <FieldsetFooterActions>
-          <FieldsetFooterAction type="secondary">Remind Me Later</FieldsetFooterAction>
-          <FieldsetFooterAction>Add Payment Method</FieldsetFooterAction>
+          <FieldsetFooterAction type="secondary" onClick={() => setMessage("Reminder scheduled")}>Remind Me Later</FieldsetFooterAction>
+          <FieldsetFooterAction onClick={() => setMessage("Payment method flow opened")}>Add Payment Method</FieldsetFooterAction>
         </FieldsetFooterActions>
       </FieldsetFooter>
+      <span role="status" aria-live="polite" className="sr-only">{message}</span>
     </Fieldset>
   );
 }

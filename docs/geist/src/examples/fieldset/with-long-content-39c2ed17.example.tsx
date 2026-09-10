@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Fieldset,
   FieldsetContent,
@@ -10,6 +11,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetWithLongContent39C2ED17Example() {
+  const [message, setMessage] = useState("");
   return (
     <Fieldset>
       <FieldsetContent>
@@ -27,10 +29,11 @@ export function FieldsetWithLongContent39C2ED17Example() {
           <span>Last updated: March 10, 2025</span>
         </FieldsetFooterStatus>
         <FieldsetFooterActions>
-          <FieldsetFooterAction type="secondary">Decline</FieldsetFooterAction>
-          <FieldsetFooterAction>Accept</FieldsetFooterAction>
+          <FieldsetFooterAction type="secondary" onClick={() => setMessage("Privacy policy declined")}>Decline</FieldsetFooterAction>
+          <FieldsetFooterAction onClick={() => setMessage("Privacy policy accepted")}>Accept</FieldsetFooterAction>
         </FieldsetFooterActions>
       </FieldsetFooter>
+      <span role="status" aria-live="polite" className="sr-only">{message}</span>
     </Fieldset>
   );
 }

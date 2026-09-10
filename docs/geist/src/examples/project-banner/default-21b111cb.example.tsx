@@ -1,15 +1,19 @@
 import { ProjectBanner } from "@/components/ui/project-banner";
 import { ShieldCheck } from "lucide-react";
+import { useState } from "react";
 
 export function ProjectBannerDefault21B111CBExample() {
+  const [enabled, setEnabled] = useState(true);
+
   return (
     <ProjectBanner
-      callToAction={{
-        label: "Disable",
-        href: "/",
-      }}
+      callToAction={enabled ? { label: "Disable", onClick: () => setEnabled(false) } : undefined}
       icon={<ShieldCheck className="shrink-0" />}
-      label={<>Attack Challenge Mode is enabled for this project</>}
+      label={
+        <>
+          Attack Challenge Mode is {enabled ? "enabled" : "disabled"} for this project
+        </>
+      }
     />
   );
 }
