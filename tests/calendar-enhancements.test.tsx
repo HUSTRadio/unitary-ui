@@ -51,6 +51,56 @@ function setInputValue(input: HTMLInputElement, value: string) {
 }
 
 describe("calendar enhancements", () => {
+  test("multiple calendar comboboxes keep label and input ids instance-local", () => {
+    container = document.createElement("div");
+    document.body.append(container);
+    root = createRoot(container);
+    const presets = {
+      recent: { text: "Recent", start: new Date(2026, 0, 1), end: new Date(2026, 0, 7) },
+    };
+    act(() =>
+      root.render(
+        <>
+          <Calendar showCombobox presets={presets} comboboxLabel="First period" />
+          <Calendar showCombobox presets={presets} comboboxLabel="Second period" />
+        </>,
+      ),
+    );
+
+    const inputs = [...container.querySelectorAll<HTMLInputElement>('[data-testid="calendar/combobox-input"]')];
+    const labels = inputs.map((input) => document.getElementById(input.getAttribute("aria-labelledby")!));
+    expect(new Set(inputs.map((input) => input.id)).size).toBe(2);
+    expect(new Set(labels.map((label) => label?.id)).size).toBe(2);
+    expect(labels.map((label) => label?.textContent)).toEqual(["First period", "Second period"]);
+    expect(labels.every((label, index) => label?.getAttribute("for") === inputs[index]?.id)).toBe(true);
+  });
+
+  test("calendar trigger does not submit an enclosing form", () => {
+    const onSubmit = vi.fn((event: React.FormEvent) => event.preventDefault());
+    container = document.createElement("div");
+    document.body.append(container);
+    root = createRoot(container);
+    act(() =>
+      root.render(
+        <form onSubmit={onSubmit}>
+          <Calendar />
+        </form>,
+      ),
+    );
+
+    act(() =>
+      container.querySelector<HTMLButtonElement>('[data-testid="calendar/trigger/button"]')!.click(),
+    );
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
+
+  test("open trigger controls the mounted calendar dialog", () => {
+    const trigger = mount();
+    const controlledId = trigger.getAttribute("aria-controls");
+    expect(controlledId).toBeTruthy();
+    expect(document.getElementById(controlledId!)).not.toBeNull();
+  });
+
   test("wrap keeps date objects atomic and publishes all bounds", () => {
     const trigger = mount({
       wrap: true,

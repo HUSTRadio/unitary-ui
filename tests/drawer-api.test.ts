@@ -19,7 +19,7 @@ describe("Drawer official contract", () => {
     expect(source).toContain("rounded-t-xl");
     expect(source).toContain("border-t");
     expect(source).toContain("bg-background");
-    expect(source).toContain("max-h-[90dvh]");
+    expect(source).toContain('"max-h-[80dvh] overscroll-none"');
   });
 
   test("has overlay, bottom enter/exit motion, and swipe state hooks", () => {

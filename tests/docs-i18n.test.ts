@@ -3,7 +3,12 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { LANGUAGE_OPTIONS, SHELL_COPY } from "../docs/geist/src/i18n/catalog";
-import { DEMO_COPY, demoText, demoTextWithValues } from "../docs/geist/src/i18n/components-demo";
+import {
+  DEMO_COPY,
+  demoSectionTitle,
+  demoText,
+  demoTextWithValues,
+} from "../docs/geist/src/i18n/components-demo";
 import { readDocsLanguage } from "../docs/geist/src/i18n/language";
 
 describe("docs language support", () => {
@@ -40,6 +45,28 @@ describe("docs language support", () => {
     expect(demoText("zh-CN", "Show code")).toBe("显示代码");
     expect(demoText("zh-CN", "Delete Project")).toBe("删除项目");
     expect(demoText("zh-CN", "Select a framework")).toBe("选择框架");
+  });
+
+  it("turns registry ids into readable, translated section titles", () => {
+    expect(demoSectionTitle("zh-CN", "horizontal-layout")).toBe("横向布局");
+    expect(demoSectionTitle("en-US", "with-icons")).toBe("With icons");
+    expect(demoSectionTitle("en-US", "custom-empty-message")).toBe("Custom empty message");
+  });
+
+  it("localizes every registry section id shown in the Chinese docs", () => {
+    const source = readFileSync(
+      resolve(process.cwd(), "docs/geist/src/examples/registry.ts"),
+      "utf8",
+    );
+    const ids = new Set([...source.matchAll(/\bid:\s*"([^"]+)"/gu)].map((match) => match[1]));
+    const intentionallyUntranslated = new Set(["Git"]);
+
+    expect(ids.size).toBeGreaterThan(100);
+    for (const id of ids) {
+      if (!intentionallyUntranslated.has(id)) {
+        expect(demoSectionTitle("zh-CN", id), id).not.toBe(demoSectionTitle("en-US", id));
+      }
+    }
   });
 
   it("does not put code identifiers into the demo catalog", () => {

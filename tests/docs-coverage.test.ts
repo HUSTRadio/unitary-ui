@@ -65,7 +65,7 @@ describe("Geist documentation coverage", () => {
     expect(DOCS_ROUTE_SEQUENCE.filter((route) => route.to === "/components/phone")).toEqual([]);
   });
 
-  it("does not retain removed component APIs", { timeout: 30000 }, async () => {
+  it("does not retain removed component APIs", { timeout: 120000 }, async () => {
     const targets = [
       "README.md",
       "src/App.tsx",

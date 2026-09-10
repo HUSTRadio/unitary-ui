@@ -5,6 +5,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
 import { Select, SelectGroup, SelectItem, SelectSeparator } from "@/components/ui/select";
+import { I18nProvider } from "@/lib/i18n";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -50,6 +51,28 @@ describe("Select composite API (Radix popup)", () => {
     const labelledBy = trigger().getAttribute("aria-labelledby");
     expect(labelledBy).toBeTruthy();
     expect(document.getElementById(labelledBy!)?.textContent).toBe("Department");
+  });
+
+  test("localizes the built-in placeholder while preserving an explicit placeholder", () => {
+    mount(
+      <I18nProvider locale="zh-CN">
+        <Select aria-label="框架">
+          <SelectItem value="next">Next.js</SelectItem>
+        </Select>
+      </I18nProvider>,
+    );
+    expect(trigger().textContent).toBe("请选择…");
+
+    act(() =>
+      root.render(
+        <I18nProvider locale="zh-CN">
+          <Select aria-label="框架" placeholder="选择框架">
+            <SelectItem value="next">Next.js</SelectItem>
+          </Select>
+        </I18nProvider>,
+      ),
+    );
+    expect(trigger().textContent).toBe("选择框架");
   });
 
   test("uncontrolled: placeholder shows before selection, item click selects", async () => {

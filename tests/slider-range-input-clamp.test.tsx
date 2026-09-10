@@ -25,11 +25,13 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-function mount(props: React.ComponentProps<typeof Slider>) {
+function mount(props: React.ComponentProps<typeof Slider>, strict = false) {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
-  act(() => root.render(<Slider {...props} />));
+  act(() =>
+    root.render(strict ? <React.StrictMode><Slider {...props} /></React.StrictMode> : <Slider {...props} />),
+  );
 }
 
 function valueInputs(): HTMLInputElement[] {
@@ -118,7 +120,56 @@ describe("Slider range manual input cross clamp", () => {
     commitInput(only!, "80");
 
     // 单值滑块两个输入框都绑 index 0，正常写入不折叠
+    expect(onValueChange).toHaveBeenCalledTimes(1);
     expect(onValueChange).toHaveBeenCalledWith([80]);
+  });
+
+  test("controlled slider forwards Radix keyboard changes to onValueChange", () => {
+    const onValueChange = vi.fn();
+    mount({ value: [50], "aria-label": "Volume", onValueChange });
+
+    const thumb = container.querySelector<HTMLElement>('[data-slot="slider-thumb"]')!;
+    act(() => {
+      thumb.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+    });
+
+    expect(onValueChange).toHaveBeenCalledWith([51]);
+  });
+
+  test("defers keyboard commit callbacks beyond the Radix state updater", async () => {
+    const onValueCommit = vi.fn();
+    const onValueCommitted = vi.fn();
+    mount({ defaultValue: [50], "aria-label": "Volume", onValueCommit, onValueCommitted });
+
+    const thumb = container.querySelector<HTMLElement>('[data-slot="slider-thumb"]')!;
+    act(() => {
+      thumb.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+    });
+
+    // Radix invokes onValueCommit from inside its state updater for keyboard input.
+    // Deferring keeps consumer setState calls out of another component's render phase.
+    expect(onValueCommit).not.toHaveBeenCalled();
+    expect(onValueCommitted).not.toHaveBeenCalled();
+    await act(async () => Promise.resolve());
+    expect(onValueCommit).toHaveBeenCalledWith([51]);
+    expect(onValueCommitted).toHaveBeenCalledWith([51]);
+    expect(onValueCommit.mock.invocationCallOrder[0]).toBeLessThan(
+      onValueCommitted.mock.invocationCallOrder[0]!,
+    );
+  });
+
+  test("does not duplicate deferred commit callbacks in StrictMode", async () => {
+    const onValueCommitted = vi.fn();
+    mount({ defaultValue: [50], "aria-label": "Volume", onValueCommitted }, true);
+
+    const thumb = container.querySelector<HTMLElement>('[data-slot="slider-thumb"]')!;
+    act(() => {
+      thumb.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+    });
+    await act(async () => Promise.resolve());
+
+    expect(onValueCommitted).toHaveBeenCalledTimes(1);
+    expect(onValueCommitted).toHaveBeenCalledWith([51]);
   });
 
   test("collapsed value is reflected back into both inputs after commit", () => {

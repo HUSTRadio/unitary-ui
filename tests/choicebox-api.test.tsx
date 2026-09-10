@@ -31,7 +31,7 @@ afterEach(() => {
 });
 
 describe("Choicebox official Group/Item contract (B1)", () => {
-  test("radio renders official group > ul > label > option + sr-only input DOM", () => {
+  test("radio renders a valid group > item container > label + sr-only input DOM", () => {
     const view = mount(
       <ChoiceboxGroup
         label="Select a plan"
@@ -47,19 +47,20 @@ describe("Choicebox official Group/Item contract (B1)", () => {
     );
 
     const group = view.querySelector('[role="radiogroup"]')!;
-    expect(group.getAttribute("aria-multiselectable")).toBe("false");
+    expect(group.hasAttribute("aria-multiselectable")).toBe(false);
     expect(group.getAttribute("aria-required")).toBe("true");
     const groupLabel = group.querySelector(':scope > label[data-version="v1"]')!;
     const groupLabelText = groupLabel.firstElementChild!;
     expect(groupLabel.getAttribute("for")).toBe(groupLabelText.id);
     expect(group.getAttribute("aria-labelledby")).toBe(groupLabelText.id);
 
-    const list = group.querySelector(":scope > ul")!;
-    expect(list.className).toContain("items-stretch");
-    expect(list.className).toContain("gap-3");
-    const tiles = list.querySelectorAll(":scope > label");
+    const items = group.querySelector(':scope > [data-slot="choicebox-items"]')!;
+    expect(items.tagName).toBe("DIV");
+    expect(items.className).toContain("items-stretch");
+    expect(items.className).toContain("gap-3");
+    const tiles = items.querySelectorAll(":scope > label");
     expect(tiles).toHaveLength(2);
-    expect(tiles[0].getAttribute("aria-selected")).toBe("true");
+    expect(tiles[0].hasAttribute("aria-selected")).toBe(false);
 
     const option = tiles[0].querySelector('[data-slot="choicebox-group-item-option"]')!;
     const title = option.querySelector('[data-slot="choicebox-group-item-title"]')!;
@@ -121,7 +122,7 @@ describe("Choicebox official Group/Item contract (B1)", () => {
       </ChoiceboxGroup>,
     );
     const group = view.querySelector('[role="group"]')!;
-    expect(group.getAttribute("aria-multiselectable")).toBe("true");
+    expect(group.hasAttribute("aria-multiselectable")).toBe(false);
     const inputs = group.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
     expect(inputs).toHaveLength(2);
     expect([...inputs].every((input) => input.disabled)).toBe(true);
@@ -162,7 +163,7 @@ describe("Choicebox official Group/Item contract (B1)", () => {
         <ChoiceboxGroupItem description="Trial" title="Trial" value="trial" />
       </ChoiceboxGroup>,
     );
-    const tile = view.querySelector("ul > label")!;
+    const tile = view.querySelector('[data-slot="choicebox-items"] > label')!;
     expect(tile.className).toContain("flex-1");
     expect(tile.className).toContain("rounded-md");
     expect(tile.className).toContain("border-[var(--uni-gray-400)]");

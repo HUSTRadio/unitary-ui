@@ -40,4 +40,10 @@ describe("relative-time-card contract (shard-G)", () => {
     const html = renderToStaticMarkup(<RelativeTimeCard date={date} locale="en-US" />);
     expect(html).toContain("cursor-pointer");
   });
+
+  it("渲染：缺省触发器参与 Tab 键序（键盘可聚焦，focus 打开浮层）", () => {
+    const html = renderToStaticMarkup(<RelativeTimeCard date={date} locale="en-US" />);
+    expect(html).toContain('tabindex="0"');
+    expect(html).toContain('data-slot="relative-time-card"');
+  });
 });

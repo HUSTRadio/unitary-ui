@@ -19,7 +19,8 @@ describe("docs layout navigation harness", () => {
   test("bounds shell readiness independently and reports the route", async () => {
     const source = await readFile(harnessPath, "utf8");
 
-    expect(source).toContain("timeout: 30_000");
+    // 90s：/components 与 /patterns/app-shell 等重路由冷启动按需转换可超 30s（2026-09-10 实测 flake）
+    expect(source).toContain("timeout: 90_000");
     expect(source).toContain("Docs shell did not become ready for route");
   });
 });

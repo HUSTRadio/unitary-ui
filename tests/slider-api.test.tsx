@@ -150,10 +150,10 @@ describe("Slider live Geist contract", () => {
       source.indexOf("const handleValueCommit"),
       source.indexOf("const updateValue"),
     );
-    expect(handler.match(/onValueCommit\?\.\(nextValue\)/g)).toHaveLength(1);
-    expect(handler.match(/onValueCommitted\?\.\(nextValue\)/g)).toHaveLength(1);
-    expect(handler.indexOf("onValueCommit?.(nextValue)")).toBeLessThan(
-      handler.indexOf("onValueCommitted?.(nextValue)"),
+    expect(handler.match(/callbacks\.onValueCommit\?\.\(committedValue\)/g)).toHaveLength(1);
+    expect(handler.match(/callbacks\.onValueCommitted\?\.\(committedValue\)/g)).toHaveLength(1);
+    expect(handler.indexOf("callbacks.onValueCommit?.(committedValue)")).toBeLessThan(
+      handler.indexOf("callbacks.onValueCommitted?.(committedValue)"),
     );
   });
 });

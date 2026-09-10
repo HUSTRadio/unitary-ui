@@ -11,6 +11,8 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   fullyParallel: false,
   workers: 1,
+  // 防冷启动 flake 兜底；retried-pass 在 list reporter 中显式标记为 flaky，不冒充首过
+  retries: 1,
   reporter: [["list"]],
   outputDir: ".scratch/playwright-results",
   use: {

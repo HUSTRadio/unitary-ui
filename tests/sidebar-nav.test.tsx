@@ -101,6 +101,42 @@ describe("SidebarNav", () => {
     expect(markup).toMatch(/<a [^>]*>.*<\/a>/);
   });
 
+  it("leaves native anchor navigation intact when onNavigate is omitted", async () => {
+    const { createNavigateHandler } = await import(
+      "../src/components/ui/sidebar-nav"
+    );
+    const preventDefault = vi.fn();
+    const handler = createNavigateHandler(undefined, "/button");
+    handler({
+      preventDefault,
+    } as unknown as React.MouseEvent<HTMLAnchorElement>);
+    expect(preventDefault).not.toHaveBeenCalled();
+  });
+
+  it("keeps modifier-click native (new tab / window) even when onNavigate is provided", async () => {
+    const { createNavigateHandler } = await import(
+      "../src/components/ui/sidebar-nav"
+    );
+    const onNavigate = vi.fn();
+    for (const modifier of ["metaKey", "ctrlKey", "shiftKey", "altKey"] as const) {
+      const preventDefault = vi.fn();
+      const handler = createNavigateHandler(onNavigate, "/button");
+      handler({
+        preventDefault,
+        [modifier]: true,
+      } as unknown as React.MouseEvent<HTMLAnchorElement>);
+      expect(preventDefault).not.toHaveBeenCalled();
+      expect(onNavigate).not.toHaveBeenCalled();
+    }
+  });
+
+  it("applies the library focus-ring so keyboard focus is visible on items", () => {
+    const markup = renderToStaticMarkup(
+      <SidebarNav groups={[{ label: "Nav", items: [{ label: "Home", to: "/home" }] }]} />,
+    );
+    expect(markup).toContain('class="-mx-1 px-3 flex h-10 items-center gap-2 rounded-md py-0 text-style-subhead font-normal focus-ring');
+  });
+
   it("onNavigate receives the target `to` when an item is clicked", async () => {
     // renderToStaticMarkup cannot dispatch events; the module exports its
     // shared click-handler factory so the wiring stays unit-testable.

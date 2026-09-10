@@ -83,9 +83,14 @@ describe("Docs shell drawer nav tiers (md-lg dedup)", () => {
 
   test("close button stays available on all tiers", () => {
     renderBanner();
-    // showCloseButton 仍为 true —— 组件契约由 hamburger-menu 测试覆盖；
-    // 这里断言 shell 未把 showCloseButton 置 false
-    void container;
-    expect(true).toBe(true);
+    openDrawer();
+    const close = document.querySelector<HTMLButtonElement>('[data-slot="panel-close"]');
+    expect(close).not.toBeNull();
+    expect(close!.getAttribute("aria-label")).toBeTruthy();
+    act(() => close!.click());
+    expect(document.querySelector('[data-slot="panel-close"]')).toBeNull();
+    expect(
+      document.querySelector('[data-slot="hamburger-trigger"]')?.getAttribute("aria-expanded"),
+    ).toBe("false");
   });
 });

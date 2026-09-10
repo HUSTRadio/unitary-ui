@@ -149,7 +149,7 @@ describe("CommandMenu official runtime contract", () => {
     expect(setOpen).toHaveBeenCalledWith(false);
   });
 
-  test("renders Esc close affordance and closes without restoring trigger focus", () => {
+  test("renders Esc close affordance and closes the menu", () => {
     const { setOpen } = renderMenu();
     const input = document.querySelector<HTMLInputElement>("[cmdk-input]")!;
     const esc = document.querySelector<HTMLButtonElement>(
@@ -163,6 +163,40 @@ describe("CommandMenu official runtime contract", () => {
     expect(esc.querySelector("kbd")).toBeNull();
     keydown(input, "Escape");
     expect(setOpen).toHaveBeenCalledWith(false);
+  });
+
+  test("restores focus to the external trigger after Escape closes the controlled menu", async () => {
+    function Harness() {
+      const [open, setOpen] = React.useState(false);
+      return (
+        <>
+          <button type="button" onClick={() => setOpen(true)}>Open commands</button>
+          <CommandMenu open={open} setOpen={setOpen}>
+            <CommandMenuInput placeholder="What do you need?" />
+            <CommandMenuList>
+              <CommandMenuItem callback={() => {}}>Figma Import</CommandMenuItem>
+            </CommandMenuList>
+          </CommandMenu>
+        </>
+      );
+    }
+
+    const container = document.createElement("div");
+    document.body.append(container);
+    const root = createRoot(container);
+    act(() => root.render(<Harness />));
+    const trigger = container.querySelector<HTMLButtonElement>("button")!;
+    trigger.focus();
+    expect(document.activeElement).toBe(trigger);
+    act(() => trigger.click());
+    const input = document.querySelector<HTMLInputElement>("[cmdk-input]")!;
+    expect(document.activeElement).toBe(input);
+    keydown(input, "Escape");
+    await act(async () => new Promise((resolve) => requestAnimationFrame(() => resolve(undefined))));
+    expect(document.activeElement).toBe(trigger);
+
+    act(() => root.unmount());
+    container.remove();
   });
 
   test("group, divider and suffix use the official structures", () => {

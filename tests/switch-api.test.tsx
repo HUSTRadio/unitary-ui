@@ -94,6 +94,17 @@ describe("Switch live official contract", () => {
     expect(source.nextElementSibling?.textContent).toBe("Source");
   });
 
+  test("group defaultValue takes precedence over item defaultChecked", () => {
+    render(
+      <Switch defaultValue="output" name="conflicting-defaults">
+        <SwitchControl defaultChecked label="Source" value="source" />
+        <SwitchControl label="Output" value="output" />
+      </Switch>,
+    );
+
+    expect(checkedValues()).toEqual(["output"]);
+  });
+
   test("disabled state is carried by both native input and label", () => {
     render(
       <Switch name="disabled">

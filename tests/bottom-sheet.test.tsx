@@ -124,4 +124,28 @@ describe("BottomSheet", () => {
     expect(markup).toContain("rounded-t-overlay");
     expect(markup).not.toContain("rounded-t-xl");
   });
+
+  it("受控弹层关闭后把焦点归还给外部触发器", async () => {
+    function Harness() {
+      const [open, setOpen] = React.useState(false);
+      return (
+        <>
+          <button type="button" onClick={() => setOpen(true)}>Open sheet</button>
+          <BottomSheet open={open} onOpenChange={setOpen}>
+            <button type="button">Sheet action</button>
+          </BottomSheet>
+        </>
+      );
+    }
+
+    act(() => root.render(<Harness />));
+    const trigger = container.querySelector<HTMLButtonElement>("button")!;
+    trigger.focus();
+    act(() => trigger.click());
+    const action = document.querySelector<HTMLButtonElement>('[data-slot="bottom-sheet"] button:not([role="slider"])')!;
+    expect(action).toBeTruthy();
+    act(() => action.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true })));
+    await act(async () => new Promise((resolve) => requestAnimationFrame(() => resolve(undefined))));
+    expect(document.activeElement).toBe(trigger);
+  });
 });

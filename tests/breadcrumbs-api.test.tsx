@@ -27,6 +27,38 @@ describe("Breadcrumbs official API contract", () => {
     expect(markup).toContain("text-label-12");
   });
 
+  it("menu items with href render functional chip links", () => {
+    const markup = renderToStaticMarkup(
+      <Breadcrumb type="menu">
+        <BreadcrumbItem href="#/components">Components</BreadcrumbItem>
+      </Breadcrumb>,
+    );
+
+    expect(markup).toContain('<a href="#/components"');
+    expect(markup).toContain('data-slot="breadcrumb-item"');
+    expect(markup).not.toContain("<button");
+  });
+
+  it("types menu and text root props against their actual DOM elements without casts", async () => {
+    const source = await import("node:fs/promises").then(({ readFile }) =>
+      readFile(new URL("../src/components/ui/breadcrumbs.tsx", import.meta.url), "utf8"),
+    );
+
+    expect(source).toContain("type BreadcrumbProps = BreadcrumbTextProps | BreadcrumbMenuProps");
+    expect(source).not.toContain("props as BreadcrumbMenuProps");
+  });
+
+  it("menu variant forwards root DOM props and allows an explicit accessible name", () => {
+    const markup = renderToStaticMarkup(
+      <Breadcrumb type="menu" aria-label="Project path" data-testid="project-path">
+        <BreadcrumbItem>Home</BreadcrumbItem>
+      </Breadcrumb>,
+    );
+
+    expect(markup).toContain('aria-label="Project path"');
+    expect(markup).toContain('data-testid="project-path"');
+  });
+
   it("text variant renders nav > ol > li with cursor-pointer and chevron separators", () => {
     const markup = renderToStaticMarkup(
       <Breadcrumb type="text">

@@ -126,9 +126,11 @@ describe("Geist foundation and docs shell contract", () => {
     const shell = await read("docs/geist/src/components/docs-shell.tsx");
     expect(shell).not.toMatch(/text-\[\d+px\]|leading-\[?\d/);
     // 壳层重构后导航链接排版移入 SidebarNav 组件；
-    // 契约改为统计壳层与其组装的导航组件中的命名排版工具（仍禁裸 px）。
+    // 契约改为统计壳层与其组装的导航组件中的命名排版工具
+    // （text-label-*/text-copy-*/text-style-* 同为命名 Geist 排版工具，仍禁裸 px）。
     const sidebarNav = await read("src/components/ui/sidebar-nav.tsx");
-    const count = (source: string) => (source.match(/text-(?:label|copy)-\d+/g) ?? []).length;
+    const count = (source: string) =>
+      (source.match(/text-(?:label|copy|style)-(?:\d+|subhead|callout|footnote|caption1)/g) ?? []).length;
     expect(count(shell) + count(sidebarNav)).toBeGreaterThanOrEqual(3);
   });
 });

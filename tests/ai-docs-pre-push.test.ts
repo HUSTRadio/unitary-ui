@@ -7,7 +7,9 @@ import { fileURLToPath } from "node:url";
 
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-vi.setConfig({ testTimeout: 20_000 });
+// These integration tests create temporary git repositories and spawn Node processes.
+// Parallel full-suite load on Windows can exceed the default 20 s without indicating a product failure.
+vi.setConfig({ testTimeout: 60_000 });
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const RUNNER = path.join(repoRoot, "scripts", "ai-docs-pre-push.mjs");

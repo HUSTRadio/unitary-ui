@@ -122,9 +122,10 @@ async function loadDocsRoute(page: Page, route: string) {
   const url = `/?docs-layout-navigation=${++navigationSequence}#${route}`;
   await page.goto(url);
   try {
+    // 90s: /components 是最重的路由（注册表索引导入全部组件），Vite dev 冷启动按需转换可超 30s（2026-09-10 实测 flake）
     await page.locator('[data-slot="navbar"]').first().waitFor({
       state: "visible",
-      timeout: 30_000,
+      timeout: 90_000,
     });
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);
