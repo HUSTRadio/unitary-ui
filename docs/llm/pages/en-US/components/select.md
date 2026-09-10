@@ -77,7 +77,7 @@ export function SelectSizes7C69F3FAExample() {
 }
 ```
 
-## prefix-and-suffix
+## Prefix and suffix
 
 ```tsx
 import { Select } from "@/components/ui/select";
@@ -96,7 +96,7 @@ export function SelectPrefixAndSuffix99076368Example() {
 }
 ```
 
-## disabled
+## Disabled
 
 ```tsx
 import { Select } from "@/components/ui/select";
@@ -106,7 +106,7 @@ export function SelectDisabled17EB3C01Example() {
 }
 ```
 
-## error
+## Error
 
 Please select a value.
 
@@ -142,7 +142,7 @@ export function SelectErrorCA00FCCFExample() {
 }
 ```
 
-## label
+## Label
 
 My label
 
@@ -154,7 +154,7 @@ export function SelectLabel1ACA80E8Example() {
 }
 ```
 
-## required
+## Required
 
 Required field
 

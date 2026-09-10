@@ -15,7 +15,7 @@ Theme Switcher
 ## 何时使用
 
 - 作为应用中唯一的官方主题切换入口，放置在页脚或设置页面，提供简洁的主题选择。
-- 需要通过 next-themes 管理主题状态时，Theme Switcher 已内置了图标、语义标签和 System 模式检测。
+- 需要 Light / System / Dark 三态偏好切换时使用；组件内置图标、语义标签和 System 模式检测。
 
 ## 何时不应使用
 
@@ -35,14 +35,14 @@ Theme Switcher
 ## 无障碍
 
 - Theme Switcher 的每个选项都配有独立的 aria-label 描述，确保屏幕阅读器用户能准确了解可选的三种主题状态。
-- 组件生成的标签直接从 theme keys（light、system、dark）组合而来，保持与 next-themes 翻译机制一致，不做额外修改。
+- 组件以 role=radiogroup / role=radio + aria-checked 公开当前偏好，选项标签经框架 i18n（t()）本地化，与界面语言保持一致。
 - 当前激活的主题选项应有明确的焦点环和视觉选中状态标记，让键盘用户清楚看到当前的选择。
 
 ## 受控行为
 
-- Theme Switcher 通过 next-themes 读取和写入主题状态，应用根节点应在 GeistProvider 中包裹一次即可，无需将状态冗余映射到本地 React 状态。
-- 当 provider 设置了 forcedTheme 时控件自动禁用；手动设置 disabled 仅在需要预览只读态时使用。
-- 用户可以通过 onChange 回调拦截主题切换事件，但通常不建议在正常流程中干预——让 next-themes 自然管理即可。
+- Theme Switcher 通过框架自研的 ThemeProvider（src/lib/theme.tsx）读取和写入主题偏好；应用根节点用 ThemeProvider 包裹一次即可，无需把主题状态冗余映射到本地 React 状态。
+- 本库不依赖 next-themes：公开 API 仅有 className / small / disabled 三个 prop，没有 onChange 回调或 forcedTheme 概念。
+- 需要拦截主题切换（如跟随系统设置联动）时，直接消费 useTheme() 的 preference/setPreference，而不是包一层回调。
 
 ## 响应式行为
 

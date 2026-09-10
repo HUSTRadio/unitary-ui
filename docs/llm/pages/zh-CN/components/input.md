@@ -54,8 +54,8 @@ Input
 
 ## 响应式行为
 
-- 输入框宽度在不同视口下会自动伸缩，在小屏设备上确保足够的点击区域和可读的字号。
-- 前缀和后缀元素在不同尺寸下也会自适应调整位置和对齐方式。
+- Input 会遵循调用方提供的宽度与父容器约束；组件本身不包含视口断点或自动字号调整。
+- 前缀和后缀保持固定的内联布局；窄屏下的宽度、换行与重排由调用方容器负责。
 
 ## 主题行为
 
@@ -78,7 +78,7 @@ export function InputDefault37A8EEC1Example() {
 }
 ```
 
-## prefix-and-suffix
+## 前缀与后缀
 
 https://.com
 
@@ -109,7 +109,7 @@ export function InputPrefixAndSuffix99076368Example() {
 }
 ```
 
-## disabled
+## 禁用
 
 https://.com
 
@@ -145,7 +145,7 @@ export function InputDisabled17EB3C01Example() {
 }
 ```
 
-## error
+## 错误
 
 An error message.
 
@@ -167,7 +167,7 @@ export function InputErrorCA00FCCFExample() {
 }
 ```
 
-## label
+## 标签
 
 Label
 
@@ -179,7 +179,7 @@ export function InputLabel1ACA80E8Example() {
 }
 ```
 
-## rounded-prefix-and-suffix
+## 圆角前缀与后缀
 
 www..com
 
@@ -191,7 +191,7 @@ export function InputRoundedPrefixAndSuffix04A5C184Example() {
 }
 ```
 
-## rounded-prefix-and-suffix-without-styling
+## 圆角前缀与后缀（无装饰样式）
 
 www..com
 

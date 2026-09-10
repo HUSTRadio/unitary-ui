@@ -104,7 +104,7 @@ export function ModalDefault37A8EEC1Example() {
 }
 ```
 
-## sticky
+## Sticky
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -154,7 +154,7 @@ export function ModalSticky964A9431Example() {
 }
 ```
 
-## single-button
+## Single button
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -188,7 +188,7 @@ export function ModalSingleButton15781DA6Example() {
 }
 ```
 
-## inset
+## Inset
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -231,7 +231,7 @@ export function ModalInset2F0C8478Example() {
 }
 ```
 
-## disabled-actions
+## Disabled actions
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -277,7 +277,7 @@ export function ModalDisabledActions96FBF6AEExample() {
 }
 ```
 
-## control-initial-focus
+## Control initial focus
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -332,7 +332,7 @@ export function ModalControlInitialFocus9DBB3C0DExample() {
 }
 ```
 
-## focus-input-on-open
+## Focus input on open
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -399,7 +399,7 @@ export function ModalFocusInputOnOpenDB430094Example() {
 }
 ```
 
-## mobile-sheet-inputs
+## Mobile sheet inputs
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -466,7 +466,7 @@ export function ModalMobileSheetInputsFAB5970DExample() {
 }
 ```
 
-## combobox-focus
+## Combobox focus
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -543,7 +543,7 @@ export function ModalComboboxFocus873C94F9Example() {
 }
 ```
 
-## toasts-focus-trap
+## Toasts focus trap
 
 ```tsx
 import { Button } from "@/components/ui/button";

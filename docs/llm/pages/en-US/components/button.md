@@ -87,7 +87,7 @@ export function ButtonSizes7C69F3FAExample() {
 }
 ```
 
-## all-types-and-sizes-in-comparison
+## All types and sizes in comparison
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -151,7 +151,7 @@ export function ButtonAllTypesAndSizesInComparisonF6E8021DExample() {
 }
 ```
 
-## shapes
+## Shapes
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -189,7 +189,7 @@ export function ButtonShapesE729E861Example() {
 }
 ```
 
-## prefix-and-suffix
+## Prefix and suffix
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -212,7 +212,7 @@ export function ButtonPrefixAndSuffix99076368Example() {
 }
 ```
 
-## rounded
+## Rounded
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -234,7 +234,7 @@ export function ButtonRounded01024DEEExample() {
 }
 ```
 
-## loading
+## Loading
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -256,7 +256,7 @@ export function ButtonLoadingB4A070A2Example() {
 }
 ```
 
-## disabled
+## Disabled
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -278,7 +278,7 @@ export function ButtonDisabled17EB3C01Example() {
 }
 ```
 
-## disabled-variants
+## Disabled variants
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -306,23 +306,23 @@ export function ButtonDisabledVariantsCB2C3BEAExample() {
 }
 ```
 
-## link
+## Link
 
-[Sign Up](#)
+[Sign Up](https://vercel.com/signup)
 
 ```tsx
 import { ButtonLink } from "@/components/ui/button";
 
 export function ButtonLinkB1B1BDB4Example() {
   return (
-    <ButtonLink className="w-fit" href="#">
+    <ButtonLink className="w-fit" href="https://vercel.com/signup">
       Sign Up
     </ButtonLink>
   );
 }
 ```
 
-## custom
+## Custom
 
 ```tsx
 import { CustomButton } from "@/components/ui/button";

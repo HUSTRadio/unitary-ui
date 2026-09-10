@@ -37,7 +37,7 @@ Demonstrates the floating tooltip interaction that switches from relative expres
 ## Accessibility
 
 - The default trigger shows only relative time, while exact UTC and local timestamps live in the HoverCard; critical time information must not rely on hover alone.
-- When keyboard access to exact time is required, pass focusable children and provide equivalent nearby text.
+- The default trigger is Tab-focusable and opens the HoverCard; when supplying custom children, callers must still provide a focusable trigger.
 - The component does not refresh itself or create a live region; the parent updates date and re-renders as time advances.
 
 ## Controlled behavior

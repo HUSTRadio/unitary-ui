@@ -55,7 +55,7 @@ Menu
 ## 响应式行为
 
 - 菜单位置会根据窗口的边界自动翻转（如向上弹出或向下弹出），不会在窄视口中因硬编码侧边而裁剪。
-- 在小屏幕上，菜单会自动调整最大宽度以适配可用空间，保持所有操作项的完整可读性。
+- Radix 会做碰撞位移，但组件不自动设置小屏最大宽度；长内容的宽度与换行由调用方约束。
 
 ## 主题行为
 
@@ -85,7 +85,7 @@ export function MenuDefault21B111CBExample() {
 }
 ```
 
-## With chevron
+## 带下拉箭头
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
@@ -110,7 +110,7 @@ export function MenuWithChevron2CC766B6Example() {
 }
 ```
 
-## Disabled items
+## 禁用项
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
@@ -134,7 +134,7 @@ export function MenuDisabledItems1BA9CD5EExample() {
 }
 ```
 
-## Locked items
+## 锁定项
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuItem, MenuItemLocked } from "@/components/ui/menu";
@@ -156,7 +156,7 @@ export function MenuLockedItemsE410D1DAExample() {
 }
 ```
 
-## Link items
+## 链接菜单项
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuLink } from "@/components/ui/menu";
@@ -175,7 +175,7 @@ export function MenuLinkItems24C68D22Example() {
 }
 ```
 
-## Custom trigger
+## 自定义触发器
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
@@ -197,7 +197,7 @@ export function MenuCustomTrigger74C52681Example() {
 }
 ```
 
-## Prefix and suffix
+## 前缀与后缀
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
@@ -231,7 +231,7 @@ export function MenuPrefixAndSuffix60E081F0Example() {
 }
 ```
 
-## Menu position
+## 菜单位置
 
 ```tsx
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
@@ -249,7 +249,7 @@ export function MenuMenuPosition55A3EF38Example() {
 }
 ```
 
-## With section
+## 带分组小节
 
 ```tsx
 import {

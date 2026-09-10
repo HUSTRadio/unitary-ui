@@ -74,11 +74,13 @@ export function ContextMenuDefault37A8EEC1Example() {
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
-        <span>
-          <div className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
-            Right click here
-          </div>
-        </span>
+        <div
+          tabIndex={0}
+          aria-label="Context menu target"
+          className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000"
+        >
+          Right click here
+        </div>
       </ContextMenuTrigger>
       <ContextMenuContent className="w-[160px]">
         <ContextMenuItem>Item one</ContextMenuItem>
@@ -91,7 +93,7 @@ export function ContextMenuDefault37A8EEC1Example() {
 }
 ```
 
-## disabled-items
+## 禁用项
 
 Right click here
 
@@ -107,11 +109,13 @@ export function ContextMenuDisabledItems62FB7C5EExample() {
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
-        <span>
-          <div className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
-            Right click here
-          </div>
-        </span>
+        <div
+          tabIndex={0}
+          aria-label="Context menu target"
+          className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000"
+        >
+          Right click here
+        </div>
       </ContextMenuTrigger>
       <ContextMenuContent className="w-[160px]">
         <ContextMenuItem>Item one</ContextMenuItem>
@@ -124,7 +128,7 @@ export function ContextMenuDisabledItems62FB7C5EExample() {
 }
 ```
 
-## link-items
+## 链接菜单项
 
 Right click here
 
@@ -140,11 +144,13 @@ export function ContextMenuLinkItems2FF9F194Example() {
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
-        <span>
-          <div className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
-            Right click here
-          </div>
-        </span>
+        <div
+          tabIndex={0}
+          aria-label="Context menu target"
+          className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000"
+        >
+          Right click here
+        </div>
       </ContextMenuTrigger>
       <ContextMenuContent className="w-[160px]">
         <ContextMenuItem href="/">Item one</ContextMenuItem>
@@ -157,7 +163,7 @@ export function ContextMenuLinkItems2FF9F194Example() {
 }
 ```
 
-## prefix-and-suffix
+## 前缀与后缀
 
 Right click here
 
@@ -179,11 +185,13 @@ export function ContextMenuPrefixAndSuffix99076368Example() {
     <div className="flex flex-col items-stretch justify-start gap-6 md:flex-row">
       <ContextMenu>
         <ContextMenuTrigger asChild>
-          <span>
-            <div className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
-              Right click here
-            </div>
-          </span>
+          <div
+            tabIndex={0}
+            aria-label="Context menu target"
+            className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000"
+          >
+            Right click here
+          </div>
         </ContextMenuTrigger>
         <ContextMenuContent className="w-[160px]">
           <ContextMenuItem href="/" prefix={icon}>
@@ -202,11 +210,13 @@ export function ContextMenuPrefixAndSuffix99076368Example() {
       </ContextMenu>
       <ContextMenu>
         <ContextMenuTrigger asChild>
-          <span>
-            <div className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
-              Right click here
-            </div>
-          </span>
+          <div
+            tabIndex={0}
+            aria-label="Context menu target"
+            className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000"
+          >
+            Right click here
+          </div>
         </ContextMenuTrigger>
         <ContextMenuContent className="w-[160px]">
           <ContextMenuItem href="/" suffix={icon}>

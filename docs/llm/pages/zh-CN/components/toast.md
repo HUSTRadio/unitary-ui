@@ -45,7 +45,7 @@ Toast
 
 ## 受控行为
 
-- Toast 通过调用 useToasts() hook 的 .show() 方法编程式触发，可以在任何组件上下文中弹出一条消息。
+- Toast 通过 useToasts() hook 编程式触发：message / success / warning / error 各自对应一种消息类型，可在任何组件上下文中弹出一条消息。
 - 默认情况下 toast 会自动消失；传入 preserve={true} 时可防止自动关闭，要求用户先阅读或采取行动后再手动关闭。
 - 不同类型的 toast（.success(), .warning(), .error()）提供对应的语义化和色彩区分。
 
@@ -202,51 +202,109 @@ export function ToastPreserve25DFADC0Example() {
 
 ## 操作
 
+兔子位置：栅栏后面。
+
 ```tsx
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToasts } from "@/components/ui/toast";
+import { useI18n } from "@/lib/i18n";
+
+const COPY = {
+  en: {
+    behind: "Rabbit position: behind the fence.",
+    over: "Rabbit position: over the fence.",
+  },
+  "zh-CN": {
+    behind: "兔子位置：栅栏后面。",
+    over: "兔子位置：已跳过栅栏。",
+  },
+} as const;
 
 export function ToastAction64CFF131Example() {
   const toasts = useToasts();
+  const { locale } = useI18n();
+  const [jumped, setJumped] = useState(false);
+  const copy = COPY[locale];
 
   return (
-    <>
+    <div className="flex w-full flex-col gap-3">
       <Button
         typeName="button"
-        onClick={() =>
-          toasts.message({ text: "The Evil Rabbit jumped over the fence.", action: "Undo" })
-        }
+        onClick={() => {
+          setJumped(true);
+          toasts.message({
+            text: "The Evil Rabbit jumped over the fence.",
+            action: "Undo",
+            onAction: () => setJumped(false),
+          });
+        }}
       >
         Show Toast
       </Button>
-    </>
+      <p
+        className="text-copy-14 text-gray-900"
+        data-demo="fence-state"
+        data-position={jumped ? "over" : "behind"}
+      >
+        {jumped ? copy.over : copy.behind}
+      </p>
+    </div>
   );
 }
 ```
 
 ## 撤销
 
+兔子位置：栅栏后面。
+
 ```tsx
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToasts } from "@/components/ui/toast";
+import { useI18n } from "@/lib/i18n";
+
+const COPY = {
+  en: {
+    behind: "Rabbit position: behind the fence.",
+    over: "Rabbit position: over the fence.",
+  },
+  "zh-CN": {
+    behind: "兔子位置：栅栏后面。",
+    over: "兔子位置：已跳过栅栏。",
+  },
+} as const;
 
 export function ToastUndoA8283ADEExample() {
   const toasts = useToasts();
+  const { locale } = useI18n();
+  const [jumped, setJumped] = useState(false);
+  const copy = COPY[locale];
 
   return (
-    <>
+    <div className="flex w-full flex-col gap-3">
       <Button
         typeName="button"
-        onClick={() =>
+        onClick={() => {
+          setJumped(true);
+          // onUndoAction renders the localized built-in "Undo" label and keeps
+          // the toast on screen longer (7s) so the user can actually undo.
           toasts.message({
             text: "The Evil Rabbit jumped over the fence.",
-            onUndoAction: () => undefined,
-          })
-        }
+            onUndoAction: () => setJumped(false),
+          });
+        }}
       >
         Show Toast
       </Button>
-    </>
+      <p
+        className="text-copy-14 text-gray-900"
+        data-demo="fence-state"
+        data-position={jumped ? "over" : "behind"}
+      >
+        {jumped ? copy.over : copy.behind}
+      </p>
+    </div>
   );
 }
 ```

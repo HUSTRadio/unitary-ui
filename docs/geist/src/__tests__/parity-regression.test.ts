@@ -66,7 +66,7 @@ describe("parity regression: 12 项差异", () => {
     expect(matches && matches.length).toBeGreaterThanOrEqual(2);
   });
 
-  it('drawer demo 按钮含 type="default"（差异 #10）', () => {
+  it('drawer demo 按钮含 type="secondary"（差异 #10）', () => {
     const code = readFileSync(
       join(__dirname, "../../src/examples/drawer/default-37a8eec1.example.tsx"),
       "utf8",

@@ -107,7 +107,7 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Progress 支持受控的 value 和 max props，开发者可在外部驱动进度变化并通过 onChange 回调响应。",
+        "Progress 是由 value 和 max 驱动的纯展示组件；调用方更新 value，组件不提供 onChange 回调。",
         "动画过渡平滑流畅，value 变化时进度条以 CSS transition 从旧值渐变到新值，避免跳跃式变化。",
       ],
     },
@@ -115,7 +115,7 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "进度条采用全宽布局，在任何视口下都填满父容器的可用宽度。",
-        "数值标签在各尺寸下保持清晰可读，窄屏上可能缩小字号以适应空间。",
+        "组件不渲染数值标签；需要百分比或单位文本时由调用方在外部提供并负责窄屏布局。",
       ],
     },
     themeBehavior: {
@@ -172,8 +172,8 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Project Banner 横跨容器全宽，在小屏幕上自动调整内边距和字体缩放以保持可读性。",
-        "移动设备上横幅高度降低，行动按钮可能从行内改为堆叠布局以确保触控目标足够大。",
+        "Project Banner 横跨父容器宽度，但组件本身没有小屏字体或内边距断点。",
+        "移动端的高度、按钮堆叠与换行由调用方容器负责，组件不会自动重排操作区。",
       ],
     },
     themeBehavior: {
@@ -239,8 +239,8 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Radio 选项列表在窄屏上自动增加间距并为每个选项留出足够的触控目标尺寸。",
-        "垂直堆叠的 Radio 组在所有视口下保持一致的行高和内边距，不会出现挤压或溢出。",
+        "Radio 控件使用固定尺寸与间距，不会根据视口自动放大；触控目标和组选项间距由外层布局负责。",
+        "垂直堆叠的 Radio 组应由调用方设置行距和容器宽度，并在窄屏检查长标签换行。",
       ],
     },
     themeBehavior: {
@@ -285,7 +285,7 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "默认触发器只显示相对时间，精确的 UTC 与本地时间位于 HoverCard 中；关键时间信息不能只依赖悬停发现。",
-        "需要键盘访问精确时间时，应传入可聚焦的 children，并在邻近文本中提供等价信息。",
+        "默认触发器可通过 Tab 聚焦并打开 HoverCard；自定义 children 时，调用方仍需保证触发元素可聚焦。",
         "组件不会自动刷新或创建实时播报区域；时间推进时由父组件更新 date 并重新渲染。",
       ],
     },
@@ -423,7 +423,7 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Progress accepts controlled value and max props; developers can drive progress changes externally and respond via onChange callbacks.",
+        "Progress is a presentational component driven by value and max; callers update value, and the component does not emit an onChange callback.",
         "Animated transitions are smooth and fluid—the bar interpolates between old and new values via CSS transition, avoiding jump cuts.",
       ],
     },
@@ -431,7 +431,7 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "The progress bar uses a full-width layout that fills the available width of its parent container at every viewport size.",
-        "Numeric labels remain legible at all sizes, possibly shrinking font on narrow viewports to fit within space.",
+        "The component does not render a numeric label; callers provide percentage or unit copy and own its narrow-screen layout.",
       ],
     },
     themeBehavior: {
@@ -489,8 +489,8 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Project Banner spans the full width of its container and adjusts padding and font scaling automatically on smaller screens for readability.",
-        "On mobile devices, the banner height is reduced and action buttons may switch from inline to a stacked layout to ensure sufficient touch targets.",
+        "Project Banner spans its parent container, but it has no built-in small-screen typography or padding breakpoints.",
+        "Callers own mobile height, button stacking, and wrapping; the component does not automatically reflow the action area.",
       ],
     },
     themeBehavior: {
@@ -559,8 +559,8 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Radio option lists increase spacing on narrow screens and provide sufficiently large touch targets for each option.",
-        "Vertically stacked Radio groups maintain consistent line height and padding across all viewports without squishing or overflow.",
+        "Radio uses fixed control sizing and spacing rather than enlarging at viewport breakpoints; the outer layout owns touch targets and option gaps.",
+        "Callers should set vertical group spacing and container width, and verify long-label wrapping on narrow screens.",
       ],
     },
     themeBehavior: {
@@ -607,7 +607,7 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "The default trigger shows only relative time, while exact UTC and local timestamps live in the HoverCard; critical time information must not rely on hover alone.",
-        "When keyboard access to exact time is required, pass focusable children and provide equivalent nearby text.",
+        "The default trigger is Tab-focusable and opens the HoverCard; when supplying custom children, callers must still provide a focusable trigger.",
         "The component does not refresh itself or create a live region; the parent updates date and re-renders as time advances.",
       ],
     },

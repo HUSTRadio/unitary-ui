@@ -51,8 +51,8 @@ Showcases the RadioGroup's required marker and validation feedback to help users
 
 ## Responsive behavior
 
-- Radio option lists increase spacing on narrow screens and provide sufficiently large touch targets for each option.
-- Vertically stacked Radio groups maintain consistent line height and padding across all viewports without squishing or overflow.
+- Radio uses fixed control sizing and spacing rather than enlarging at viewport breakpoints; the outer layout owns touch targets and option gaps.
+- Callers should set vertical group spacing and container width, and verify long-label wrapping on narrow screens.
 
 ## Theme behavior
 

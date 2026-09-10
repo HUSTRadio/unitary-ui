@@ -79,7 +79,7 @@ export function EmptyStateEmptyStateDesignFrameworkFF959773Example() {
 }
 ```
 
-## blank-slate
+## 空白状态
 
 Title
 
@@ -100,7 +100,7 @@ export function EmptyStateBlankSlateE6F82752Example() {
 }
 ```
 
-## informational
+## 信息型空状态
 
 Title
 

@@ -15,7 +15,7 @@ Switches between light, dark, and system themes.
 ## When to use
 
 - As the sole canonical theme toggle in an app, placed in the footer or settings page for clean, centralized access.
-- When managing theme state via next-themes, Theme Switcher ships with built-in icons, semantic labels, and System mode detection.
+- For Light / System / Dark three-state preference switching; Theme Switcher ships with built-in icons, semantic labels, and System mode detection.
 
 ## When not to use
 
@@ -35,14 +35,14 @@ Demonstrates the small-size variant, ideal for dense chrome areas like footers a
 ## Accessibility
 
 - Each option in Theme Switcher carries its own aria-label describing the three theme states so screen-reader users understand their choices clearly.
-- Labels are composed directly from the theme keys (light, system, dark) so they stay translatable through next-themes without modification.
+- The control exposes the current preference via role=radiogroup / role=radio + aria-checked; option labels are localized through the framework i18n (t()) to match the UI language.
 - The currently selected option must have a clear focus ring and visual selection marker so keyboard users see the active choice.
 
 ## Controlled behavior
 
-- Theme Switcher reads from and writes to next-themes; wrap the app in GeistProvider once at the root without mirroring into local React state.
-- The control auto-disables when forcedTheme is set on the provider; manual disabled prop is for read-only previews only.
-- An onChange callback can intercept theme changes but is rarely needed—let next-themes manage the lifecycle naturally.
+- Theme Switcher reads from and writes to the framework's own ThemeProvider (src/lib/theme.tsx); wrap the app in ThemeProvider once at the root without mirroring into local React state.
+- The library does not depend on next-themes: the public API is just className / small / disabled—there is no onChange callback or forcedTheme concept.
+- To intercept theme changes (e.g. syncing with system settings), consume preference/setPreference from useTheme() directly instead of wrapping a callback.
 
 ## Responsive behavior
 
@@ -102,7 +102,7 @@ import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
 - Use Theme Switcher for the canonical Light / System / Dark control. Place it once per app, in the footer or settings, not duplicated across pages.
 - Pass small for dense chrome (footers, dropdowns); use the default size on a settings page where there’s room for the labels to breathe.
-- Theme Switcher reads from and writes to next-themes, so wrap the app in GeistProvider once at the root and don’t mirror its state into local React state.
-- The control auto-disables when forcedTheme is set on the provider; setting disabled manually is for read-only previews of the control itself.
+- Theme Switcher reads from and writes to the framework's own ThemeProvider (src/lib/theme.tsx), so wrap the app in ThemeProvider once at the root and don’t mirror its state into local React state.
+- The library does not depend on next-themes; the public API is just className / small / disabled, with no onChange callback or forcedTheme concept. To intercept changes, consume useTheme() directly.
 - Don’t rebuild a theme picker with Switch or three icon buttons. Theme Switcher already handles the icons, the aria-label per option, and System detection.
-- The component composes its own labels from the theme keys (light, system, dark); leave them alone so they stay translatable through next-themes.
+- Option labels are localized through the framework i18n (t()); keep them that way so the accessible names match the UI language.

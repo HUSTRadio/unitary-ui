@@ -69,7 +69,7 @@ export function TextWithCopyButtonDefault21B111CBExample() {
 }
 ```
 
-## With Small and Tertiary
+## 小号 + 三级按钮
 
 ```tsx
 import { TextWithCopyButton } from "@/components/ui/text-with-copy-button";

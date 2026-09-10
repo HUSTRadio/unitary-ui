@@ -84,7 +84,7 @@ export function ChoiceboxSingleSelectF99FF34BExample() {
 }
 ```
 
-## multi-select
+## 多选
 
 Pro TrialFree for two weeks
 
@@ -112,7 +112,7 @@ export function ChoiceboxMultiSelect294DCC0FExample() {
 }
 ```
 
-## disabled
+## 禁用
 
 Choicebox group disabled
 
@@ -171,7 +171,7 @@ export function ChoiceboxDisabled17EB3C01Example() {
 }
 ```
 
-## custom-content
+## 自定义内容
 
 Pro TrialFree for two weeks
 

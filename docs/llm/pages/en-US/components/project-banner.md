@@ -46,8 +46,8 @@ Not applicable: ProjectBanner does not manage dismiss state. Compose ProjectBann
 
 ## Responsive behavior
 
-- Project Banner spans the full width of its container and adjusts padding and font scaling automatically on smaller screens for readability.
-- On mobile devices, the banner height is reduced and action buttons may switch from inline to a stacked layout to ensure sufficient touch targets.
+- Project Banner spans its parent container, but it has no built-in small-screen typography or padding breakpoints.
+- Callers own mobile height, button stacking, and wrapping; the component does not automatically reflow the action area.
 
 ## Theme behavior
 
@@ -59,16 +59,16 @@ Not applicable: ProjectBanner does not manage dismiss state. Compose ProjectBann
 ```tsx
 import { ProjectBanner } from "@/components/ui/project-banner";
 import { ShieldCheck } from "lucide-react";
+import { useState } from "react";
 
 export function ProjectBannerDefault21B111CBExample() {
+  const [enabled, setEnabled] = useState(true);
+
   return (
     <ProjectBanner
-      callToAction={{
-        label: "Disable",
-        href: "/",
-      }}
+      callToAction={enabled ? { label: "Disable", onClick: () => setEnabled(false) } : undefined}
       icon={<ShieldCheck className="shrink-0" />}
-      label={<>Attack Challenge Mode is enabled for this project</>}
+      label={<>Attack Challenge Mode is {enabled ? "enabled" : "disabled"} for this project</>}
     />
   );
 }
@@ -79,16 +79,16 @@ export function ProjectBannerDefault21B111CBExample() {
 ```tsx
 import { ProjectBanner } from "@/components/ui/project-banner";
 import { ShieldCheck } from "lucide-react";
+import { useState } from "react";
 
 export function ProjectBannerSuccessC88A0B90Example() {
+  const [enabled, setEnabled] = useState(true);
+
   return (
     <ProjectBanner
-      callToAction={{
-        label: "Disable",
-        href: "/",
-      }}
+      callToAction={enabled ? { label: "Disable", onClick: () => setEnabled(false) } : undefined}
       icon={<ShieldCheck className="shrink-0" />}
-      label={<>Attack Challenge Mode is enabled for this project</>}
+      label={<>Attack Challenge Mode is {enabled ? "enabled" : "disabled"} for this project</>}
       variant="success"
     />
   );
@@ -101,27 +101,31 @@ export function ProjectBannerSuccessC88A0B90Example() {
 import { ProjectBanner } from "@/components/ui/project-banner";
 import { Tooltip } from "@/components/ui/tooltip";
 import { RotateCcw } from "lucide-react";
+import { useState } from "react";
 
 export function ProjectBannerWarningE981DDAEExample() {
+  const [restored, setRestored] = useState(false);
+
   return (
     <ProjectBanner
-      callToAction={{
-        label: "Undo Rollback",
-        onClick: () => {
-          alert("Button clicked");
-        },
-      }}
+      callToAction={
+        restored ? undefined : { label: "Undo Rollback", onClick: () => setRestored(true) }
+      }
       icon={<RotateCcw />}
       label={
-        <>
-          This project was rolled back by{" "}
-          <Tooltip
-            className="underline decoration-dashed underline-offset-[5px]"
-            text="Yesterday for project marketing-website"
-          >
-            @johnphamous
-          </Tooltip>
-        </>
+        restored ? (
+          <>Rollback restored</>
+        ) : (
+          <>
+            This project was rolled back by{" "}
+            <Tooltip
+              className="underline decoration-dashed underline-offset-[5px]"
+              text="Yesterday for project marketing-website"
+            >
+              @johnphamous
+            </Tooltip>
+          </>
+        )
       }
       variant="warning"
     />
@@ -134,16 +138,26 @@ export function ProjectBannerWarningE981DDAEExample() {
 ```tsx
 import { ProjectBanner } from "@/components/ui/project-banner";
 import { TriangleAlert } from "lucide-react";
+import { useState } from "react";
 
 export function ProjectBannerError54A0E8C1Example() {
+  const [requested, setRequested] = useState(false);
+
   return (
     <ProjectBanner
-      callToAction={{
-        label: "Add Credit Card",
-        href: "/$",
-      }}
+      callToAction={
+        requested
+          ? undefined
+          : { label: "Update Payment Method", onClick: () => setRequested(true) }
+      }
       icon={<TriangleAlert />}
-      label={<>Payment failed, update credit card information before your account is shut down</>}
+      label={
+        <>
+          {requested
+            ? "Payment method update requested"
+            : "Payment failed, update credit card information before your account is shut down"}
+        </>
+      }
       variant="error"
     />
   );

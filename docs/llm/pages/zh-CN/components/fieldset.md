@@ -70,9 +70,10 @@ Fieldset
 
 Manage your account preferences and settings
 
-Need help? [View documentation](#)
+Need help? [View documentation](#/components/fieldset)
 
 ```tsx
+import { useState } from "react";
 import {
   Fieldset,
   FieldsetContent,
@@ -85,6 +86,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetDefault37A8EEC1Example() {
+  const [message, setMessage] = useState("");
   return (
     <Fieldset>
       <FieldsetContent>
@@ -95,21 +97,26 @@ export function FieldsetDefault37A8EEC1Example() {
         <FieldsetFooterStatus>
           <span>
             Need help?{" "}
-            <a href="#" className="cursor-pointer text-link hover:underline">
+            <a href="#/components/fieldset" className="cursor-pointer text-link hover:underline">
               View documentation
             </a>
           </span>
         </FieldsetFooterStatus>
         <FieldsetFooterActions>
-          <FieldsetFooterAction>Save Changes</FieldsetFooterAction>
+          <FieldsetFooterAction onClick={() => setMessage("Changes saved")}>
+            Save Changes
+          </FieldsetFooterAction>
         </FieldsetFooterActions>
       </FieldsetFooter>
+      <span role="status" aria-live="polite" className="sr-only">
+        {message}
+      </span>
     </Fieldset>
   );
 }
 ```
 
-## disabled
+## 禁用
 
 #### Transfer Project
 
@@ -144,7 +151,7 @@ export function FieldsetDisabled17EB3C01Example() {
 }
 ```
 
-## with-long-content
+## 长内容
 
 #### Privacy Policy
 
@@ -153,6 +160,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam volutpat, nunc v
 Last updated: March 10, 2025
 
 ```tsx
+import { useState } from "react";
 import {
   Fieldset,
   FieldsetContent,
@@ -165,6 +173,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetWithLongContent39C2ED17Example() {
+  const [message, setMessage] = useState("");
   return (
     <Fieldset>
       <FieldsetContent>
@@ -182,16 +191,26 @@ export function FieldsetWithLongContent39C2ED17Example() {
           <span>Last updated: March 10, 2025</span>
         </FieldsetFooterStatus>
         <FieldsetFooterActions>
-          <FieldsetFooterAction type="secondary">Decline</FieldsetFooterAction>
-          <FieldsetFooterAction>Accept</FieldsetFooterAction>
+          <FieldsetFooterAction
+            type="secondary"
+            onClick={() => setMessage("Privacy policy declined")}
+          >
+            Decline
+          </FieldsetFooterAction>
+          <FieldsetFooterAction onClick={() => setMessage("Privacy policy accepted")}>
+            Accept
+          </FieldsetFooterAction>
         </FieldsetFooterActions>
       </FieldsetFooter>
+      <span role="status" aria-live="polite" className="sr-only">
+        {message}
+      </span>
     </Fieldset>
   );
 }
 ```
 
-## multiple-fieldsets
+## 多个表单字段组
 
 #### Personal Information
 
@@ -212,6 +231,7 @@ Generate and manage API tokens for programmatic access
 You need a Pro account to access API features.
 
 ```tsx
+import { useState } from "react";
 import {
   Fieldset,
   FieldsetContent,
@@ -224,6 +244,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetMultipleFieldsets9DD2DFF4Example() {
+  const [message, setMessage] = useState("");
   return (
     <div className="flex flex-col gap-6">
       <Fieldset>
@@ -236,7 +257,9 @@ export function FieldsetMultipleFieldsets9DD2DFF4Example() {
             <span>This information will be publicly visible</span>
           </FieldsetFooterStatus>
           <FieldsetFooterActions>
-            <FieldsetFooterAction>Update</FieldsetFooterAction>
+            <FieldsetFooterAction onClick={() => setMessage("Profile updated")}>
+              Update
+            </FieldsetFooterAction>
           </FieldsetFooterActions>
         </FieldsetFooter>
       </Fieldset>
@@ -251,7 +274,9 @@ export function FieldsetMultipleFieldsets9DD2DFF4Example() {
             <span>Last password change: 30 days ago</span>
           </FieldsetFooterStatus>
           <FieldsetFooterActions>
-            <FieldsetFooterAction>Change Password</FieldsetFooterAction>
+            <FieldsetFooterAction onClick={() => setMessage("Password change requested")}>
+              Change Password
+            </FieldsetFooterAction>
           </FieldsetFooterActions>
         </FieldsetFooter>
       </Fieldset>
@@ -269,12 +294,15 @@ export function FieldsetMultipleFieldsets9DD2DFF4Example() {
           </FieldsetFooterStatus>
         </FieldsetFooter>
       </Fieldset>
+      <span role="status" aria-live="polite" className="sr-only">
+        {message}
+      </span>
     </div>
   );
 }
 ```
 
-## without-footer
+## 不带底部栏
 
 #### Account Information
 
@@ -303,7 +331,7 @@ export function FieldsetWithoutFooterED163245Example() {
 }
 ```
 
-## without-title
+## 不带标题
 
 This fieldset contains only a subtitle with no title. It can be used for informational sections or supplementary content.
 
@@ -337,7 +365,7 @@ export function FieldsetWithoutTitle2B0715C3Example() {
 }
 ```
 
-## with-error-text
+## 带错误提示文字
 
 #### API Configuration
 
@@ -348,6 +376,7 @@ API key validation failed. Please check your credentials and try again.
 Last checked: 5 minutes ago
 
 ```tsx
+import { useState } from "react";
 import {
   ErrorText,
   Fieldset,
@@ -361,6 +390,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetWithErrorTextB52BED15Example() {
+  const [message, setMessage] = useState("");
   return (
     <Fieldset>
       <FieldsetContent>
@@ -377,15 +407,20 @@ export function FieldsetWithErrorTextB52BED15Example() {
           <span>Last checked: 5 minutes ago</span>
         </FieldsetFooterStatus>
         <FieldsetFooterActions>
-          <FieldsetFooterAction>Verify API Connection</FieldsetFooterAction>
+          <FieldsetFooterAction onClick={() => setMessage("Connection verification requested")}>
+            Verify API Connection
+          </FieldsetFooterAction>
         </FieldsetFooterActions>
       </FieldsetFooter>
+      <span role="status" aria-live="polite" className="sr-only">
+        {message}
+      </span>
     </Fieldset>
   );
 }
 ```
 
-## with-warning-text
+## 带警告提示文字
 
 #### Database Settings
 
@@ -396,6 +431,7 @@ Changing these settings will require a restart of your application. Make sure to
 Current status: Connected
 
 ```tsx
+import { useState } from "react";
 import {
   Fieldset,
   FieldsetContent,
@@ -409,6 +445,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetWithWarningText16633F67Example() {
+  const [message, setMessage] = useState("");
   return (
     <Fieldset>
       <FieldsetContent>
@@ -426,16 +463,23 @@ export function FieldsetWithWarningText16633F67Example() {
           <span>Current status: Connected</span>
         </FieldsetFooterStatus>
         <FieldsetFooterActions>
-          <FieldsetFooterAction type="secondary">Cancel</FieldsetFooterAction>
-          <FieldsetFooterAction>Apply Changes</FieldsetFooterAction>
+          <FieldsetFooterAction type="secondary" onClick={() => setMessage("Changes canceled")}>
+            Cancel
+          </FieldsetFooterAction>
+          <FieldsetFooterAction onClick={() => setMessage("Changes applied")}>
+            Apply Changes
+          </FieldsetFooterAction>
         </FieldsetFooterActions>
       </FieldsetFooter>
+      <span role="status" aria-live="polite" className="sr-only">
+        {message}
+      </span>
     </Fieldset>
   );
 }
 ```
 
-## with-disabled-wall
+## 禁用遮罩
 
 #### Advanced Features
 
@@ -484,7 +528,7 @@ export function FieldsetWithDisabledWallB242E994Example() {
 }
 ```
 
-## error-type
+## 错误类型
 
 #### Payment Failed
 
@@ -493,6 +537,7 @@ Your payment method was declined. Please update your billing information to cont
 Payment failed on February 10, 2026
 
 ```tsx
+import { useState } from "react";
 import {
   Fieldset,
   FieldsetContent,
@@ -505,6 +550,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetErrorType96E58B0DExample() {
+  const [message, setMessage] = useState("");
   return (
     <Fieldset type="error">
       <FieldsetContent>
@@ -519,16 +565,26 @@ export function FieldsetErrorType96E58B0DExample() {
           <span>Payment failed on February 10, 2026</span>
         </FieldsetFooterStatus>
         <FieldsetFooterActions>
-          <FieldsetFooterAction type="secondary">Contact Support</FieldsetFooterAction>
-          <FieldsetFooterAction>Update Payment Method</FieldsetFooterAction>
+          <FieldsetFooterAction
+            type="secondary"
+            onClick={() => setMessage("Support request opened")}
+          >
+            Contact Support
+          </FieldsetFooterAction>
+          <FieldsetFooterAction onClick={() => setMessage("Payment update requested")}>
+            Update Payment Method
+          </FieldsetFooterAction>
         </FieldsetFooterActions>
       </FieldsetFooter>
+      <span role="status" aria-live="polite" className="sr-only">
+        {message}
+      </span>
     </Fieldset>
   );
 }
 ```
 
-## warning-type
+## 警告状态类型
 
 #### Trial Ending Soon
 
@@ -537,6 +593,7 @@ Your trial period will end in 3 days. Add a payment method to continue accessing
 Trial expires: February 13, 2026
 
 ```tsx
+import { useState } from "react";
 import {
   Fieldset,
   FieldsetContent,
@@ -549,6 +606,7 @@ import {
 } from "@/components/ui/fieldset";
 
 export function FieldsetWarningType82942353Example() {
+  const [message, setMessage] = useState("");
   return (
     <Fieldset type="warning">
       <FieldsetContent>
@@ -563,10 +621,17 @@ export function FieldsetWarningType82942353Example() {
           <span>Trial expires: February 13, 2026</span>
         </FieldsetFooterStatus>
         <FieldsetFooterActions>
-          <FieldsetFooterAction type="secondary">Remind Me Later</FieldsetFooterAction>
-          <FieldsetFooterAction>Add Payment Method</FieldsetFooterAction>
+          <FieldsetFooterAction type="secondary" onClick={() => setMessage("Reminder scheduled")}>
+            Remind Me Later
+          </FieldsetFooterAction>
+          <FieldsetFooterAction onClick={() => setMessage("Payment method flow opened")}>
+            Add Payment Method
+          </FieldsetFooterAction>
         </FieldsetFooterActions>
       </FieldsetFooter>
+      <span role="status" aria-live="polite" className="sr-only">
+        {message}
+      </span>
     </Fieldset>
   );
 }

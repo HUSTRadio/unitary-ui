@@ -187,7 +187,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "文本域的边框、背景和文字颜色跟随主题变量变化，在暗色/亮色模式下各自有优化的配色方案。",
-        "错误状态的红色边框和警告状态的琥珀色边框在不同主题下均保证足够的对比度以确保可读性。",
+        "错误状态的红色边框（aria-invalid + error 变体）在不同主题下均保证足够的对比度以确保可读性；文本域没有独立的警告（warning）配色态。",
       ],
     },
   },
@@ -197,7 +197,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
     summary: "提供 Light / System / Dark 三种主题模式的切换控件，帮助用户自定义视觉偏好。",
     whenToUse: [
       "作为应用中唯一的官方主题切换入口，放置在页脚或设置页面，提供简洁的主题选择。",
-      "需要通过 next-themes 管理主题状态时，Theme Switcher 已内置了图标、语义标签和 System 模式检测。",
+      "需要 Light / System / Dark 三态偏好切换时使用；组件内置图标、语义标签和 System 模式检测。",
     ],
     whenNotToUse: [
       "不要在页面上多次重复放置主题切换器——Theme Switcher 应在整个应用中只出现一次，而不是每页各一份。",
@@ -223,16 +223,16 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Theme Switcher 的每个选项都配有独立的 aria-label 描述，确保屏幕阅读器用户能准确了解可选的三种主题状态。",
-        "组件生成的标签直接从 theme keys（light、system、dark）组合而来，保持与 next-themes 翻译机制一致，不做额外修改。",
+        "组件以 role=radiogroup / role=radio + aria-checked 公开当前偏好，选项标签经框架 i18n（t()）本地化，与界面语言保持一致。",
         "当前激活的主题选项应有明确的焦点环和视觉选中状态标记，让键盘用户清楚看到当前的选择。",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
-        "Theme Switcher 通过 next-themes 读取和写入主题状态，应用根节点应在 GeistProvider 中包裹一次即可，无需将状态冗余映射到本地 React 状态。",
-        "当 provider 设置了 forcedTheme 时控件自动禁用；手动设置 disabled 仅在需要预览只读态时使用。",
-        "用户可以通过 onChange 回调拦截主题切换事件，但通常不建议在正常流程中干预——让 next-themes 自然管理即可。",
+        "Theme Switcher 通过框架自研的 ThemeProvider（src/lib/theme.tsx）读取和写入主题偏好；应用根节点用 ThemeProvider 包裹一次即可，无需把主题状态冗余映射到本地 React 状态。",
+        "本库不依赖 next-themes：公开 API 仅有 className / small / disabled 三个 prop，没有 onChange 回调或 forcedTheme 概念。",
+        "需要拦截主题切换（如跟随系统设置联动）时，直接消费 useTheme() 的 preference/setPreference，而不是包一层回调。",
       ],
     },
     responsiveBehavior: {
@@ -297,7 +297,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Toast 通过调用 useToasts() hook 的 .show() 方法编程式触发，可以在任何组件上下文中弹出一条消息。",
+        "Toast 通过 useToasts() hook 编程式触发：message / success / warning / error 各自对应一种消息类型，可在任何组件上下文中弹出一条消息。",
         "默认情况下 toast 会自动消失；传入 preserve={true} 时可防止自动关闭，要求用户先阅读或采取行动后再手动关闭。",
         "不同类型的 toast（.success(), .warning(), .error()）提供对应的语义化和色彩区分。",
       ],
@@ -517,7 +517,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Textarea borders, background, and text color follow theme variables with optimized palettes for both dark and light modes.",
-        "Error-state red borders and warning-state amber borders maintain sufficient contrast across themes for legibility.",
+        "Error-state red borders (aria-invalid + error variant) maintain sufficient contrast across themes for legibility; the textarea has no separate warning color state.",
       ],
     },
   },
@@ -528,7 +528,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
       "Provides a Light / System / Dark theme switching control for users to customize their visual preference.",
     whenToUse: [
       "As the sole canonical theme toggle in an app, placed in the footer or settings page for clean, centralized access.",
-      "When managing theme state via next-themes, Theme Switcher ships with built-in icons, semantic labels, and System mode detection.",
+      "For Light / System / Dark three-state preference switching; Theme Switcher ships with built-in icons, semantic labels, and System mode detection.",
     ],
     whenNotToUse: [
       "Do not duplicate the theme switcher across pages—it should appear exactly once per app, not once per route.",
@@ -556,16 +556,16 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Each option in Theme Switcher carries its own aria-label describing the three theme states so screen-reader users understand their choices clearly.",
-        "Labels are composed directly from the theme keys (light, system, dark) so they stay translatable through next-themes without modification.",
+        "The control exposes the current preference via role=radiogroup / role=radio + aria-checked; option labels are localized through the framework i18n (t()) to match the UI language.",
         "The currently selected option must have a clear focus ring and visual selection marker so keyboard users see the active choice.",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
-        "Theme Switcher reads from and writes to next-themes; wrap the app in GeistProvider once at the root without mirroring into local React state.",
-        "The control auto-disables when forcedTheme is set on the provider; manual disabled prop is for read-only previews only.",
-        "An onChange callback can intercept theme changes but is rarely needed—let next-themes manage the lifecycle naturally.",
+        "Theme Switcher reads from and writes to the framework's own ThemeProvider (src/lib/theme.tsx); wrap the app in ThemeProvider once at the root without mirroring into local React state.",
+        "The library does not depend on next-themes: the public API is just className / small / disabled—there is no onChange callback or forcedTheme concept.",
+        "To intercept theme changes (e.g. syncing with system settings), consume preference/setPreference from useTheme() directly instead of wrapping a callback.",
       ],
     },
     responsiveBehavior: {
@@ -633,7 +633,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Trigger toasts programmatically by calling methods on the useToasts() hook (.show()), making it available in any component context.",
+        "Trigger toasts programmatically via the useToasts() hook—message / success / warning / error each map to a toast kind—available in any component context.",
         "Toasts auto-dismiss by default; pass preserve={true} to prevent auto-close, requiring the user to dismiss manually.",
         "Different toast types (.success(), .warning(), .error()) provide corresponding semantic styling and color differentiation.",
       ],

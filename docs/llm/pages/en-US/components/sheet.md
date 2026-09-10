@@ -34,7 +34,7 @@ Variants showing the sheet sliding from the left or the right, matching the trig
 
 ## Accessibility
 
-- Focus is trapped inside the panel while open; pressing Escape closes the panel and returns focus to the trigger.
+- Sheet defaults to modal=false: the page stays interactive, scrolling is unlocked, and outside clicks don't close it. Focus trapping and Escape-to-close only apply with an explicit <Sheet modal>, provided by Radix Dialog.
 - The title is linked via aria-labelledby so screen readers announce it upon opening.
 
 ## Controlled behavior
@@ -92,7 +92,7 @@ export function SheetDefault37A8EEC1Example() {
 }
 ```
 
-## with-side
+## With side
 
 ```tsx
 import { Button } from "@/components/ui/button";

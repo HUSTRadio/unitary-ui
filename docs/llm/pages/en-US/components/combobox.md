@@ -95,7 +95,7 @@ export function ComboboxUncontrolledAB4CD2AEExample() {
 }
 ```
 
-## controlled
+## Controlled
 
 - One
 - Two
@@ -121,7 +121,7 @@ export function ComboboxControlled71AD7238Example() {
 }
 ```
 
-## disabled
+## Disabled
 
 - One
 - Two
@@ -144,7 +144,7 @@ export function ComboboxDisabled17EB3C01Example() {
 }
 ```
 
-## sizes
+## Sizes
 
 - One
 - Two
@@ -207,7 +207,7 @@ export function ComboboxSizes7C69F3FAExample() {
 }
 ```
 
-## with-label
+## With label
 
 Select your country
 
@@ -246,7 +246,7 @@ export function ComboboxWithLabelBB9F6883Example() {
 }
 ```
 
-## clearable
+## Clearable
 
 - One
 - Two
@@ -278,7 +278,7 @@ export function ComboboxClearable258DDE0FExample() {
 }
 ```
 
-## errored
+## Errored
 
 - One
 - Two
@@ -301,7 +301,7 @@ export function ComboboxErrored138BB025Example() {
 }
 ```
 
-## custom-width-input
+## Custom width input
 
 - One
 - Two
@@ -324,7 +324,7 @@ export function ComboboxCustomWidthInputC898F7ADExample() {
 }
 ```
 
-## custom-width-list
+## Custom width list
 
 - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 - Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
@@ -357,7 +357,7 @@ export function ComboboxCustomWidthList0695C952Example() {
 }
 ```
 
-## custom-empty-message
+## Custom empty message
 
 ```tsx
 import { Combobox, ComboboxInput, ComboboxList } from "@/components/ui/combobox";
@@ -372,7 +372,7 @@ export function ComboboxCustomEmptyMessage1DAF4719Example() {
 }
 ```
 
-## with-prefix-icons
+## With prefix icons
 
 - One
 - Two
@@ -402,7 +402,7 @@ export function ComboboxWithPrefixIcons033AD1CBExample() {
 }
 ```
 
-## with-suffix-icons
+## With suffix icons
 
 - One
 - Two
@@ -432,7 +432,7 @@ export function ComboboxWithSuffixIcons025A8424Example() {
 }
 ```
 
-## used-inside-modal
+## Used inside modal
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -504,7 +504,7 @@ export function ComboboxUsedInsideModal1332CE87Example() {
 }
 ```
 
-## inside-sheet
+## Inside sheet
 
 ```tsx
 import { Button } from "@/components/ui/button";

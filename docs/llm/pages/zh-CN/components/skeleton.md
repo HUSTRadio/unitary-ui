@@ -68,7 +68,7 @@ export function SkeletonDefaultWithSetWidthD6DD99FEExample() {
 }
 ```
 
-## Default with box height
+## 默认样式（指定容器高度）
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
@@ -78,7 +78,7 @@ export function SkeletonDefaultWithBoxHeight3D00A453Example() {
 }
 ```
 
-## Wrapping children
+## 包裹子内容
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -99,7 +99,7 @@ export function SkeletonWrappingChildrenC2461A19Example() {
 }
 ```
 
-## Wrapping children with fixed size
+## 包裹固定尺寸的子内容
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -130,7 +130,7 @@ export function SkeletonPill9945C78BExample() {
 }
 ```
 
-## Rounded
+## 圆角
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
@@ -140,7 +140,7 @@ export function SkeletonRounded0A62CD80Example() {
 }
 ```
 
-## Squared
+## 直角
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
@@ -150,7 +150,7 @@ export function SkeletonSquared053B9038Example() {
 }
 ```
 
-## No animation
+## 无动画
 
 ```tsx
 import { Skeleton } from "@/components/ui/skeleton";
@@ -164,7 +164,7 @@ export function SkeletonNoAnimation8DF7155EExample() {
 }
 ```
 
-## Button
+## 按钮
 
 Without button prop (default):
 

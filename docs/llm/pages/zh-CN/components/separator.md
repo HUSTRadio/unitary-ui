@@ -79,7 +79,7 @@ export function SeparatorHorizontal69B273A2Example() {
 }
 ```
 
-## vertical
+## 垂直
 
 Home
 
@@ -107,7 +107,7 @@ export function SeparatorVertical34DA5602Example() {
 }
 ```
 
-## orientation-variants
+## 方向变体
 
 #### Horizontal Separators
 

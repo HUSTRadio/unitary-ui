@@ -43,7 +43,7 @@ Spinner
 ## 响应式行为
 
 - Spinner 的尺寸通过 props 显式指定，在任何视口下都保持一致的视觉密度和可读性。
-- 在不同密度的 UI 层级中（密集表格行 vs 全屏弹窗），Spinner 自动适配相应的大小比例。
+- Spinner 不自动选择大小：调用方通过 size prop（sm/md/lg/xl/2xl/3xl/4xl，对应 12–56px）显式指定，以匹配所在 UI 层级的密度。
 
 ## 主题行为
 

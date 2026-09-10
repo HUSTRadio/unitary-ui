@@ -114,7 +114,7 @@ export function ContextCardDefault37A8EEC1Example() {
 }
 ```
 
-## alignment
+## Alignment
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -169,7 +169,7 @@ export function ContextCardAlignment47CCB97AExample() {
 }
 ```
 
-## render-prop
+## Render prop
 
 [Rendered as a link](#render-prop)
 

@@ -56,7 +56,7 @@ Textarea
 ## 主题行为
 
 - 文本域的边框、背景和文字颜色跟随主题变量变化，在暗色/亮色模式下各自有优化的配色方案。
-- 错误状态的红色边框和警告状态的琥珀色边框在不同主题下均保证足够的对比度以确保可读性。
+- 错误状态的红色边框（aria-invalid + error 变体）在不同主题下均保证足够的对比度以确保可读性；文本域没有独立的警告（warning）配色态。
 
 ## 实时示例
 
@@ -73,7 +73,7 @@ export function TextareaDefault37A8EEC1Example() {
 }
 ```
 
-## disabled
+## 禁用
 
 ```tsx
 import { Textarea } from "@/components/ui/textarea";

@@ -81,7 +81,7 @@ export function ShowMoreExpandedE72D5D8DExample() {
 }
 ```
 
-## No border
+## 无边框
 
 ```tsx
 import { ShowMore } from "@/components/ui/show-more";

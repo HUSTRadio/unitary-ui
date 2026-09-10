@@ -208,8 +208,8 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "输入框宽度在不同视口下会自动伸缩，在小屏设备上确保足够的点击区域和可读的字号。",
-        "前缀和后缀元素在不同尺寸下也会自适应调整位置和对齐方式。",
+        "Input 会遵循调用方提供的宽度与父容器约束；组件本身不包含视口断点或自动字号调整。",
+        "前缀和后缀保持固定的内联布局；窄屏下的宽度、换行与重排由调用方容器负责。",
       ],
     },
     themeBehavior: {
@@ -268,7 +268,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "JSON View 的可展开/折叠节点支持键盘导航，用户可以使用方向键和回车键来遍历整个数据结构。",
+        "JSON View 的展开按钮可通过 Tab 聚焦，并用 Enter 或 Space 切换；组件不提供树级方向键漫游。",
         "每个节点都有语义化的角色和标签，屏幕阅读器可以正确播报层级和键值信息。",
       ],
     },
@@ -576,8 +576,8 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Input width auto-resizes across different viewports, ensuring adequate tap targets and readable font sizes on small screens.",
-        "Prefix and suffix elements adapt their positioning and alignment responsively to fit varying widths.",
+        "Input follows caller-provided width and parent constraints; it has no viewport breakpoint or automatic font-size behavior of its own.",
+        "Prefix and suffix keep a fixed inline layout; the caller owns narrow-screen width, wrapping, and reflow.",
       ],
     },
     themeBehavior: {
@@ -638,7 +638,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Expandable and collapsible nodes in JSON View support keyboard navigation; users can traverse the entire data structure with arrow keys and Enter.",
+        "JSON View disclosure buttons are reachable with Tab and toggle with Enter or Space; the component does not implement tree-level arrow-key roaming.",
         "Every node has semantic roles and labels so screen readers can correctly announce hierarchy and key-value information.",
       ],
     },

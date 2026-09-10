@@ -83,7 +83,7 @@ export function DeviceComposition47FCA483Example() {
 }
 ```
 
-## Models
+## 设备型号
 
 08:00
 
@@ -107,7 +107,7 @@ export function DeviceModelsD17D2D78Example() {
 }
 ```
 
-## Dynamic Island
+## 灵动岛
 
 08:00
 
@@ -125,7 +125,7 @@ export function DeviceDynamicIsland8E97BE46Example() {
 }
 ```
 
-## Status Bar
+## 设备状态栏
 
 9:41
 
@@ -148,7 +148,7 @@ export function DeviceStatusBar3EF6E901Example() {
 }
 ```
 
-## Safari Chrome
+## Safari 与 Chrome
 
 08:00
 
@@ -174,7 +174,7 @@ export function DeviceSafariChrome0140AFFBExample() {
 }
 ```
 
-## Landscape
+## 横屏
 
 08:00
 

@@ -54,8 +54,8 @@ Correct usage paired with a visible label; the component associates the label an
 
 ## Responsive behavior
 
-- Input width auto-resizes across different viewports, ensuring adequate tap targets and readable font sizes on small screens.
-- Prefix and suffix elements adapt their positioning and alignment responsively to fit varying widths.
+- Input follows caller-provided width and parent constraints; it has no viewport breakpoint or automatic font-size behavior of its own.
+- Prefix and suffix keep a fixed inline layout; the caller owns narrow-screen width, wrapping, and reflow.
 
 ## Theme behavior
 
@@ -78,7 +78,7 @@ export function InputDefault37A8EEC1Example() {
 }
 ```
 
-## prefix-and-suffix
+## Prefix and suffix
 
 https://.com
 
@@ -109,7 +109,7 @@ export function InputPrefixAndSuffix99076368Example() {
 }
 ```
 
-## disabled
+## Disabled
 
 https://.com
 
@@ -145,7 +145,7 @@ export function InputDisabled17EB3C01Example() {
 }
 ```
 
-## error
+## Error
 
 An error message.
 
@@ -167,7 +167,7 @@ export function InputErrorCA00FCCFExample() {
 }
 ```
 
-## label
+## Label
 
 Label
 
@@ -179,7 +179,7 @@ export function InputLabel1ACA80E8Example() {
 }
 ```
 
-## rounded-prefix-and-suffix
+## Rounded prefix and suffix
 
 www..com
 
@@ -191,7 +191,7 @@ export function InputRoundedPrefixAndSuffix04A5C184Example() {
 }
 ```
 
-## rounded-prefix-and-suffix-without-styling
+## Rounded prefix and suffix without styling
 
 www..com
 

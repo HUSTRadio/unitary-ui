@@ -229,7 +229,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "打开时键盘焦点被捕获到面板内，Escape 键关闭并返回原始焦点位置。",
+        "Sheet 默认 modal=false：页面保持可交互、不锁滚动、outside-click 不关闭。焦点捕获与 Escape 关闭仅在显式 <Sheet modal> 时由 Radix Dialog 提供。",
         "标题通过 aria-labelledby 关联，屏幕阅读器会在面板打开时播报标题内容。",
       ],
     },
@@ -505,7 +505,7 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Focus is trapped inside the panel while open; pressing Escape closes the panel and returns focus to the trigger.",
+        "Sheet defaults to modal=false: the page stays interactive, scrolling is unlocked, and outside clicks don't close it. Focus trapping and Escape-to-close only apply with an explicit <Sheet modal>, provided by Radix Dialog.",
         "The title is linked via aria-labelledby so screen readers announce it upon opening.",
       ],
     },

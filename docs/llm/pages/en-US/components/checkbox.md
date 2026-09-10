@@ -78,7 +78,7 @@ export function CheckboxDefault37A8EEC1Example() {
 }
 ```
 
-## disabled
+## Disabled
 
 DisabledDisabled CheckedDisabled Indeterminate
 

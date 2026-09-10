@@ -39,7 +39,7 @@ A readable text label alongside the dot for a dual information channel.
 
 ## Controlled behavior
 
-- The current deployment state string passed via the value prop drives the dot's color and animation changes reactively.
+- The current deployment state passed via the state prop (QUEUED/BUILDING/READY/ERROR/CANCELED/DELETED) drives the dot's color and animation changes reactively.
 
 ## Responsive behavior
 
@@ -47,7 +47,7 @@ Not applicable: The Status Dot is a purely decorative micro-interaction componen
 
 ## Theme behavior
 
-- The dot's color mapping is theme-aware: green for ready, red for error, amber for warning, blue for building.
+- The dot's color mapping is fixed: blue for queued, amber for building, green for ready, red for error, gray for canceled/deleted.
 
 ## Live Demo
 

@@ -46,7 +46,7 @@ Not applicable: Breadcrumbs is a passive navigational indicator driven by routin
 
 ## Responsive behavior
 
-- Breadcrumbs auto-truncate middle levels (Home › … › Current) on narrow screens, keeping the final current position visible.
+- On narrow screens, the component stays on one line and allows horizontal scrolling. Callers must explicitly construct an omitted-middle item when that presentation is needed.
 - Separators maintain consistent spacing proportions across all screen sizes, ensuring readability is preserved during scaling.
 
 ## Theme behavior
@@ -56,6 +56,8 @@ Not applicable: Breadcrumbs is a passive navigational indicator driven by routin
 
 ## Live Demo
 
+[Home](#/)[Dashboard](#/components)[Overview](#/components/breadcrumbs)
+
 ```tsx
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 
@@ -63,14 +65,14 @@ export function BreadcrumbsDefault21B111CBExample() {
   return (
     <div className="flex w-full max-w-md flex-col gap-4">
       <Breadcrumb type="text">
-        <BreadcrumbItem>Home</BreadcrumbItem>
-        <BreadcrumbItem>Dashboard</BreadcrumbItem>
-        <BreadcrumbItem>Overview</BreadcrumbItem>
+        <BreadcrumbItem href="#/">Home</BreadcrumbItem>
+        <BreadcrumbItem href="#/components">Dashboard</BreadcrumbItem>
+        <BreadcrumbItem href="#/components/breadcrumbs">Overview</BreadcrumbItem>
       </Breadcrumb>
       <Breadcrumb type="menu">
-        <BreadcrumbItem>Home</BreadcrumbItem>
-        <BreadcrumbItem>Dashboard</BreadcrumbItem>
-        <BreadcrumbItem>Overview</BreadcrumbItem>
+        <BreadcrumbItem href="#/">Home</BreadcrumbItem>
+        <BreadcrumbItem href="#/components">Dashboard</BreadcrumbItem>
+        <BreadcrumbItem href="#/components/breadcrumbs">Overview</BreadcrumbItem>
       </Breadcrumb>
     </div>
   );

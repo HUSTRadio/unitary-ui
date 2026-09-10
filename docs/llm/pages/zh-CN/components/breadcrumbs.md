@@ -46,7 +46,7 @@ Breadcrumbs
 
 ## 响应式行为
 
-- 面包屑在窄屏上自动截断中间层级（Home › ... › Current），保持最末端的当前位置可见。
+- 窄屏下组件保持单行并允许横向滚动；如需省略中间层级，调用方应显式构造对应条目。
 - 分隔符在各屏幕尺寸下保持一致的间距比例，确保可读性不因缩放而受损。
 
 ## 主题行为
@@ -56,6 +56,8 @@ Breadcrumbs
 
 ## 实时示例
 
+[Home](#/)[Dashboard](#/components)[Overview](#/components/breadcrumbs)
+
 ```tsx
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 
@@ -63,14 +65,14 @@ export function BreadcrumbsDefault21B111CBExample() {
   return (
     <div className="flex w-full max-w-md flex-col gap-4">
       <Breadcrumb type="text">
-        <BreadcrumbItem>Home</BreadcrumbItem>
-        <BreadcrumbItem>Dashboard</BreadcrumbItem>
-        <BreadcrumbItem>Overview</BreadcrumbItem>
+        <BreadcrumbItem href="#/">Home</BreadcrumbItem>
+        <BreadcrumbItem href="#/components">Dashboard</BreadcrumbItem>
+        <BreadcrumbItem href="#/components/breadcrumbs">Overview</BreadcrumbItem>
       </Breadcrumb>
       <Breadcrumb type="menu">
-        <BreadcrumbItem>Home</BreadcrumbItem>
-        <BreadcrumbItem>Dashboard</BreadcrumbItem>
-        <BreadcrumbItem>Overview</BreadcrumbItem>
+        <BreadcrumbItem href="#/">Home</BreadcrumbItem>
+        <BreadcrumbItem href="#/components">Dashboard</BreadcrumbItem>
+        <BreadcrumbItem href="#/components/breadcrumbs">Overview</BreadcrumbItem>
       </Breadcrumb>
     </div>
   );

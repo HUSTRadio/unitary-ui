@@ -42,7 +42,7 @@ Toggle
 
 ## 无障碍
 
-- 通过子节点、aria-label 或 aria-labelledby 提供可访问的名称；Geist 在开发环境中会在三者全部缺失时发出警告。
+- 通过子节点、aria-label 或 aria-labelledby 提供可访问的名称；本库实现不做运行时校验，三者全缺时不会发出警告，需调用方自行保证。
 - 当可见标签放置在别处时，才使用 aria-label；否则让子节点同时携带视觉和屏幕阅读器的标签。
 
 ## 受控行为
@@ -85,7 +85,7 @@ export function ToggleDefault37A8EEC1Example() {
 }
 ```
 
-## disabled
+## 禁用
 
 ```tsx
 import { Toggle } from "@/components/ui/toggle";
@@ -100,7 +100,7 @@ export function ToggleDisabled17EB3C01Example() {
 }
 ```
 
-## sizes
+## 尺寸
 
 ```tsx
 import { Toggle } from "@/components/ui/toggle";
@@ -116,7 +116,7 @@ export function ToggleSizes7C69F3FAExample() {
 }
 ```
 
-## custom-color
+## 自定义颜色
 
 ```tsx
 import { Toggle } from "@/components/ui/toggle";
@@ -175,7 +175,7 @@ export function ToggleCustomColorB4B5B0F6Example() {
 }
 ```
 
-## with-label
+## 带标签
 
 Enable FirewallEnable Firewall
 

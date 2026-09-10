@@ -10,9 +10,9 @@
 
 Three typefaces are bundled and subsetted into the framework: the default UI face, a Chinese-capable sans, and a mono for code.
 
-- `OPPO Sans 4.0`敏捷开发，Unitary 设计系统。
-- `HarmonyOS Sans SC`设计出极致的美，简而有道。
-- `JetBrains Maple Mono`const unitary = await design()
+- `OPPO Sans 4.0`山原旷其盈视，川泽纡其骇瞩。
+- `HarmonyOS Sans SC`纵一苇之所如，凌万顷之茫然。
+- `JetBrains Maple Mono`Together for a shared future.
 
 ## 标题
 
@@ -62,5 +62,3 @@ Three typefaces are bundled and subsetted into the framework: the default UI fac
 - `text-copy-14`Copy 14 with **Strong**
 - `text-copy-13`Copy 13
 - `text-copy-13-mono`Copy 13 Mono
-
-缺口：快照仅定义 copy 的 13 Mono 变体（text-copy-13-mono）；text-copy-14-mono 等其余 mono 变体在框架中不存在，需新增时在 index.css 补 @utility。

@@ -236,6 +236,22 @@ async function captureAllRoutes(): Promise<RouteOutput[]> {
   try {
     browser = await chromium.launch();
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    // Avatar demos use third-party profile endpoints whose success/404/latency varies
+    // between runs. Keep the rendered semantic image nodes deterministic for the
+    // generated corpus; fallback behavior is covered by the component browser tests.
+    const avatarHosts = new Set(["github.com", "gitlab.com", "bitbucket.org"]);
+    await context.route("**/*", async (route) => {
+      const request = route.request();
+      if (request.resourceType() === "image" && avatarHosts.has(new URL(request.url()).hostname)) {
+        await route.fulfill({
+          status: 200,
+          contentType: "image/gif",
+          body: Buffer.from("R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=", "base64"),
+        });
+        return;
+      }
+      await route.continue();
+    });
     const page = await context.newPage();
     const turndown = makeTurndown();
 

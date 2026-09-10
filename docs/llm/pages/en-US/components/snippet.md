@@ -51,7 +51,7 @@ Showcases all Snippet variant styles and configuration options available.
 
 ## Responsive behavior
 
-- Snippet adjusts padding and font size automatically on narrow screens so command text is not overly compressed.
+- Snippet keeps the same padding and font size on narrow screens; overlong command text scrolls horizontally inside the text area (min-w shrink from sm-) instead of scaling text down.
 - The copy button maintains consistent visibility and tap-target size across all screen widths.
 
 ## Theme behavior
@@ -112,11 +112,23 @@ export function SnippetNoPromptFD175ECDExample() {
 `$ npm init next-app`
 
 ```tsx
+import { useState } from "react";
 import { Snippet } from "@/components/ui/snippet";
 
 export function SnippetCallback32E8D276Example() {
+  const [message, setMessage] = useState("");
+
   return (
-    <Snippet onCopy={() => alert("You copied the text!")} text="npm init next-app" width="300px" />
+    <div className="flex flex-col gap-2">
+      <Snippet
+        onCopy={() => setMessage("Copied npm init next-app")}
+        text="npm init next-app"
+        width="300px"
+      />
+      <span role="status" className="text-copy-13 text-gray-900">
+        {message}
+      </span>
+    </div>
   );
 }
 ```
@@ -151,7 +163,6 @@ export function SnippetVariants63D2643BExample() {
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { ContextCardTrigger } from "@/components/ui/context-card";
 import { Snippet } from "@/components/ui/snippet";
 import type { JSX } from "react";
 
@@ -166,34 +177,20 @@ export function SnippetControlledCopiedStateB953E7D9Example(): JSX.Element {
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
 
   const handleCopy = useCallback(() => {
-    void navigator.clipboard.writeText(COPY_TEXT);
     setCopied(true);
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => setCopied(false), 1000);
   }, []);
 
   return (
-    <ContextCardTrigger
-      content={<div className="text-copy-13-mono w-96 whitespace-pre-line">{COPY_TEXT}</div>}
-      side="top"
-    >
-      {/* <div> since we don't want to wrap a button around a button */}
-      <div
-        role="button"
-        tabIndex={0}
-        aria-label="copy content"
-        onClick={handleCopy}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            handleCopy();
-          }
-        }}
-        className="cursor-pointer"
-      >
-        <Snippet copied={copied} text="Copy install prompt" prompt={false} width="300px" />
-      </div>
-    </ContextCardTrigger>
+    <Snippet
+      copied={copied}
+      copyText={COPY_TEXT}
+      onCopy={handleCopy}
+      text="Copy install prompt"
+      prompt={false}
+      width="300px"
+    />
   );
 }
 ```

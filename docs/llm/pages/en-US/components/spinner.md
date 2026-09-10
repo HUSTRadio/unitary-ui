@@ -43,7 +43,7 @@ Not applicable: Spinner is a passive display component with no interactive state
 ## Responsive behavior
 
 - Spinner size is specified explicitly via props, keeping consistent visual density and legibility on any viewport.
-- In different UI density contexts (dense table rows vs. full-screen modals), the Spinner adapts to the appropriate proportional size.
+- Spinner does not pick a size automatically: callers set it explicitly via the size prop (sm/md/lg/xl/2xl/3xl/4xl, 12–56px) to match the surrounding UI density.
 
 ## Theme behavior
 

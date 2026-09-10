@@ -130,7 +130,7 @@ export function MultiSelectSelectActionsC10A8A49Example() {
 }
 ```
 
-## keyboard-navigation
+## Keyboard navigation
 
 Try keyboard navigation: ↑ ↓ for rows, ← → for checkbox/button focus, Tab to cycle through all elements
 
@@ -206,7 +206,7 @@ export function MultiSelectKeyboardNavigationE44E91F8Example() {
 }
 ```
 
-## controlled-state
+## Controlled state
 
 , ,
 

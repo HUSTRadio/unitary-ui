@@ -5,7 +5,47 @@ import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { ThemeProvider } from "@/lib/theme";
 import App from "./App";
 import "./index.css";
-import { LanguageProvider } from "./i18n/language";
+import { LanguageProvider, readDocsLanguage } from "./i18n/language";
+import { SHELL_COPY } from "./i18n/catalog";
+
+function RootErrorFallback() {
+  const copy = SHELL_COPY[readDocsLanguage()];
+  return (
+    <div
+      role="alert"
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 12,
+        fontFamily: "system-ui, sans-serif",
+        background: "#0a0a0a",
+        color: "#ededed",
+      }}
+    >
+      <p style={{ fontSize: 18, fontWeight: 600, margin: 0 }}>{copy.rootErrorTitle}</p>
+      <p style={{ fontSize: 14, opacity: 0.7, margin: 0 }}>{copy.rootErrorDescription}</p>
+      <button
+        type="button"
+        onClick={() => window.location.reload()}
+        style={{
+          marginTop: 8,
+          padding: "8px 20px",
+          fontSize: 14,
+          cursor: "pointer",
+          borderRadius: 6,
+          border: "1px solid rgba(128,128,128,0.45)",
+          background: "transparent",
+          color: "inherit",
+        }}
+      >
+        {copy.refreshPage}
+      </button>
+    </div>
+  );
+}
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -13,43 +53,7 @@ createRoot(document.getElementById("root")!).render(
         页面崩溃不会到这里；此层只接 layout 骨架本身的异常） */}
     <ErrorBoundary
       name="docs-root"
-      fallback={
-        <div
-          role="alert"
-          style={{
-            minHeight: "100vh",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 12,
-            fontFamily: "system-ui, sans-serif",
-            background: "#0a0a0a",
-            color: "#ededed",
-          }}
-        >
-          <p style={{ fontSize: 18, fontWeight: 600, margin: 0 }}>文档站遇到意外错误</p>
-          <p style={{ fontSize: 14, opacity: 0.7, margin: 0 }}>
-            应用初始化失败，刷新通常可以恢复。
-          </p>
-          <button
-            type="button"
-            onClick={() => window.location.reload()}
-            style={{
-              marginTop: 8,
-              padding: "8px 20px",
-              fontSize: 14,
-              cursor: "pointer",
-              borderRadius: 6,
-              border: "1px solid rgba(128,128,128,0.45)",
-              background: "transparent",
-              color: "inherit",
-            }}
-          >
-            刷新页面
-          </button>
-        </div>
-      }
+      fallback={<RootErrorFallback />}
     >
       <ThemeProvider>
         <LanguageProvider>

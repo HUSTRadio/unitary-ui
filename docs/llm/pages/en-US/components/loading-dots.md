@@ -50,7 +50,7 @@ Not applicable: As an inline element, Loading Dots scales with the current line'
 ## Theme behavior
 
 - Dot colors are drawn from theme tokens, ensuring good contrast and visual clarity in both light and dark modes.
-- Honors prefers-reduced-motion to automatically reduce or disable the animation effect on systems where the user prefers reduced motion.
+- The dot animation currently always runs; applications that need prefers-reduced-motion support should provide a static alternative or an additional style.
 
 ## Live Demo
 

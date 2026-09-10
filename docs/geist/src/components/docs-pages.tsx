@@ -439,9 +439,9 @@ export function TypographyPage() {
             </code>
             <span
               className="truncate text-foreground"
-              style={{ fontFamily: '"OPPO Sans 4.0", sans-serif', fontSize: "clamp(1.25rem, 3vw, 2rem)", lineHeight: 1.2, letterSpacing: "-0.02em" }}
+              style={{ fontFamily: '"OPPO Sans 4.0", sans-serif', fontSize: "clamp(1.125rem, 2.5vw, 1.75rem)", lineHeight: 1.2, letterSpacing: "-0.02em" }}
             >
-              {demoText(language, "敏捷开发，Unitary 设计系统。")}
+              {demoText(language, "山原旷其盈视，川泽纡其骇瞩。")}
             </span>
           </li>
           {/* HarmonyOS Sans SC — 中文无衬线（--font-sans 中文兜底） */}
@@ -451,9 +451,9 @@ export function TypographyPage() {
             </code>
             <span
               className="truncate text-foreground"
-              style={{ fontFamily: '"HarmonyOS Sans SC", "HarmonyOS Sans SC Subset", sans-serif', fontSize: "clamp(1.25rem, 3vw, 2rem)", lineHeight: 1.2, letterSpacing: "-0.02em" }}
+              style={{ fontFamily: '"HarmonyOS Sans SC", "HarmonyOS Sans SC Subset", sans-serif', fontSize: "clamp(1.125rem, 2.5vw, 1.75rem)", lineHeight: 1.2, letterSpacing: "-0.02em" }}
             >
-              {demoText(language, "设计出极致的美，简而有道。")}
+              {demoText(language, "纵一苇之所如，凌万顷之茫然。")}
             </span>
           </li>
           {/* JetBrains Maple Mono — 等宽（--font-mono 首选） */}
@@ -463,9 +463,9 @@ export function TypographyPage() {
             </code>
             <span
               className="truncate font-mono text-foreground"
-              style={{ fontSize: "clamp(1.125rem, 2.5vw, 1.75rem)", lineHeight: 1.25, letterSpacing: "-0.02em" }}
+              style={{ fontSize: "clamp(1rem, 2vw, 1.5rem)", lineHeight: 1.25, letterSpacing: "-0.02em" }}
             >
-              {demoText(language, "const unitary = await design()")}
+              {demoText(language, "Together for a shared future.")}
             </span>
           </li>
         </ul>
@@ -538,10 +538,8 @@ export function TypographyPage() {
             <SpecimenRow key={s.className} specimen={s} />
           ))}
         </ul>
-        <DocsParagraph className="max-w-xl">
-          缺口：快照仅定义 copy 的 13 Mono 变体（text-copy-13-mono）；text-copy-14-mono 等其余 mono
-          变体在框架中不存在，需新增时在 index.css 补 @utility。
-        </DocsParagraph>
+        {/* The snapshot currently defines only text-copy-13-mono. Add further mono copy utilities
+            to index.css when the design system gains a documented use case for them. */}
       </DocsSection>
     </div>
   );

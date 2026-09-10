@@ -110,7 +110,7 @@ export function DestructiveActionModalDefault21B111CBExample() {
 }
 ```
 
-## Reversible
+## 可撤销操作
 
 ```tsx
 import { Button } from "@/components/ui/button";

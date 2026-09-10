@@ -104,7 +104,7 @@ export function ModalDefault37A8EEC1Example() {
 }
 ```
 
-## sticky
+## 吸顶标题栏
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -154,7 +154,7 @@ export function ModalSticky964A9431Example() {
 }
 ```
 
-## single-button
+## 单个按钮
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -188,7 +188,7 @@ export function ModalSingleButton15781DA6Example() {
 }
 ```
 
-## inset
+## 内嵌样式
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -231,7 +231,7 @@ export function ModalInset2F0C8478Example() {
 }
 ```
 
-## disabled-actions
+## 禁用操作按钮
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -277,7 +277,7 @@ export function ModalDisabledActions96FBF6AEExample() {
 }
 ```
 
-## control-initial-focus
+## 控件初始焦点
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -332,7 +332,7 @@ export function ModalControlInitialFocus9DBB3C0DExample() {
 }
 ```
 
-## focus-input-on-open
+## 打开时聚焦输入框
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -399,7 +399,7 @@ export function ModalFocusInputOnOpenDB430094Example() {
 }
 ```
 
-## mobile-sheet-inputs
+## 移动端底部弹层输入
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -466,7 +466,7 @@ export function ModalMobileSheetInputsFAB5970DExample() {
 }
 ```
 
-## combobox-focus
+## Combobox 聚焦
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -543,7 +543,7 @@ export function ModalComboboxFocus873C94F9Example() {
 }
 ```
 
-## toasts-focus-trap
+## Toast 与焦点陷阱
 
 ```tsx
 import { Button } from "@/components/ui/button";

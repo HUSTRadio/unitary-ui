@@ -45,7 +45,7 @@ Showcases the success-type toast (green indicator) indicating an operation compl
 
 ## Controlled behavior
 
-- Trigger toasts programmatically by calling methods on the useToasts() hook (.show()), making it available in any component context.
+- Trigger toasts programmatically via the useToasts() hook—message / success / warning / error each map to a toast kind—available in any component context.
 - Toasts auto-dismiss by default; pass preserve={true} to prevent auto-close, requiring the user to dismiss manually.
 - Different toast types (.success(), .warning(), .error()) provide corresponding semantic styling and color differentiation.
 
@@ -202,51 +202,109 @@ export function ToastPreserve25DFADC0Example() {
 
 ## Action
 
+Rabbit position: behind the fence.
+
 ```tsx
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToasts } from "@/components/ui/toast";
+import { useI18n } from "@/lib/i18n";
+
+const COPY = {
+  en: {
+    behind: "Rabbit position: behind the fence.",
+    over: "Rabbit position: over the fence.",
+  },
+  "zh-CN": {
+    behind: "兔子位置：栅栏后面。",
+    over: "兔子位置：已跳过栅栏。",
+  },
+} as const;
 
 export function ToastAction64CFF131Example() {
   const toasts = useToasts();
+  const { locale } = useI18n();
+  const [jumped, setJumped] = useState(false);
+  const copy = COPY[locale];
 
   return (
-    <>
+    <div className="flex w-full flex-col gap-3">
       <Button
         typeName="button"
-        onClick={() =>
-          toasts.message({ text: "The Evil Rabbit jumped over the fence.", action: "Undo" })
-        }
+        onClick={() => {
+          setJumped(true);
+          toasts.message({
+            text: "The Evil Rabbit jumped over the fence.",
+            action: "Undo",
+            onAction: () => setJumped(false),
+          });
+        }}
       >
         Show Toast
       </Button>
-    </>
+      <p
+        className="text-copy-14 text-gray-900"
+        data-demo="fence-state"
+        data-position={jumped ? "over" : "behind"}
+      >
+        {jumped ? copy.over : copy.behind}
+      </p>
+    </div>
   );
 }
 ```
 
 ## Undo
 
+Rabbit position: behind the fence.
+
 ```tsx
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToasts } from "@/components/ui/toast";
+import { useI18n } from "@/lib/i18n";
+
+const COPY = {
+  en: {
+    behind: "Rabbit position: behind the fence.",
+    over: "Rabbit position: over the fence.",
+  },
+  "zh-CN": {
+    behind: "兔子位置：栅栏后面。",
+    over: "兔子位置：已跳过栅栏。",
+  },
+} as const;
 
 export function ToastUndoA8283ADEExample() {
   const toasts = useToasts();
+  const { locale } = useI18n();
+  const [jumped, setJumped] = useState(false);
+  const copy = COPY[locale];
 
   return (
-    <>
+    <div className="flex w-full flex-col gap-3">
       <Button
         typeName="button"
-        onClick={() =>
+        onClick={() => {
+          setJumped(true);
+          // onUndoAction renders the localized built-in "Undo" label and keeps
+          // the toast on screen longer (7s) so the user can actually undo.
           toasts.message({
             text: "The Evil Rabbit jumped over the fence.",
-            onUndoAction: () => undefined,
-          })
-        }
+            onUndoAction: () => setJumped(false),
+          });
+        }}
       >
         Show Toast
       </Button>
-    </>
+      <p
+        className="text-copy-14 text-gray-900"
+        data-demo="fence-state"
+        data-position={jumped ? "over" : "behind"}
+      >
+        {jumped ? copy.over : copy.behind}
+      </p>
+    </div>
   );
 }
 ```

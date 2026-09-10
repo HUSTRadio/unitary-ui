@@ -42,7 +42,7 @@ Use the highlightPattern regular expression to highlight matching text in key na
 
 ## Accessibility
 
-- Expandable and collapsible nodes in JSON View support keyboard navigation; users can traverse the entire data structure with arrow keys and Enter.
+- JSON View disclosure buttons are reachable with Tab and toggle with Enter or Space; the component does not implement tree-level arrow-key roaming.
 - Every node has semantic roles and labels so screen readers can correctly announce hierarchy and key-value information.
 
 ## Controlled behavior

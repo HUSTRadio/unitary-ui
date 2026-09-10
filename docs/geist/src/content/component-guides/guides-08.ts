@@ -183,7 +183,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "圆点的颜色从主题令牌获取，确保浅色和深色模式下都具有良好的对比度和视觉效果。",
-        "尊重 prefers-reduced-motion 媒体查询，在用户偏好减少动画的系统上自动降低或禁用动画效果。",
+        "组件当前始终运行点状动画；若产品需要响应 prefers-reduced-motion，应由应用层提供静态替代或额外样式。",
       ],
     },
   },
@@ -253,7 +253,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "菜单位置会根据窗口的边界自动翻转（如向上弹出或向下弹出），不会在窄视口中因硬编码侧边而裁剪。",
-        "在小屏幕上，菜单会自动调整最大宽度以适配可用空间，保持所有操作项的完整可读性。",
+        "Radix 会做碰撞位移，但组件不自动设置小屏最大宽度；长内容的宽度与换行由调用方约束。",
       ],
     },
     themeBehavior: {
@@ -506,7 +506,7 @@ export const GUIDES_08_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Dot colors are drawn from theme tokens, ensuring good contrast and visual clarity in both light and dark modes.",
-        "Honors prefers-reduced-motion to automatically reduce or disable the animation effect on systems where the user prefers reduced motion.",
+        "The dot animation currently always runs; applications that need prefers-reduced-motion support should provide a static alternative or an additional style.",
       ],
     },
   },
@@ -577,7 +577,7 @@ export const GUIDES_08_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Menu position auto-flips based on window bounds (upward or downward pop-up) so it doesn't clip on narrow viewports due to hardcoded sides.",
-        "On small screens, the menu automatically adjusts its maximum width to fit available space, keeping all action items fully readable.",
+        "Radix shifts the menu to avoid collisions, but the component does not set a small-screen maximum width; callers own width and wrapping for long content.",
       ],
     },
     themeBehavior: {

@@ -139,7 +139,7 @@ export function BookCustomIconEE5755A2Example() {
 }
 ```
 
-## Custom illustration
+## 自定义插图
 
 The user experience of the Frontend Cloud
 
@@ -166,7 +166,7 @@ export function BookCustomIllustration79A95CD3Example() {
 }
 ```
 
-## Responsive
+## 响应式
 
 The user experience of the Frontend Cloud
 
@@ -178,7 +178,7 @@ export function BookResponsiveDE779794Example() {
 }
 ```
 
-## Width
+## 自定义宽度
 
 The user experience of the Frontend Cloud
 
@@ -200,7 +200,7 @@ export function BookWidth3019947BExample() {
 }
 ```
 
-## Textured
+## 纹理封面
 
 Design Engineering at Vercel
 

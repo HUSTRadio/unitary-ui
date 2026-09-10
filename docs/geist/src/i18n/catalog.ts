@@ -30,6 +30,13 @@ export const SHELL_COPY = {
     previous: "上一页",
     next: "下一页",
     paginationAria: "文档分页",
+    pageRenderFailed: "页面渲染失败",
+    pageRenderFailedDescription: "此页面组件抛出了异常，其余功能不受影响。可刷新重试或返回首页。",
+    refresh: "刷新",
+    returnHome: "返回首页",
+    rootErrorTitle: "文档站遇到意外错误",
+    rootErrorDescription: "应用初始化失败，刷新通常可以恢复。",
+    refreshPage: "刷新页面",
   },
   "en-US": {
     homeAria: "Unitary home",
@@ -56,6 +63,14 @@ export const SHELL_COPY = {
     previous: "Previous",
     next: "Next",
     paginationAria: "Documentation pagination",
+    pageRenderFailed: "Page rendering failed",
+    pageRenderFailedDescription:
+      "A component on this page threw an error. The rest of the documentation is unaffected. Refresh to retry or return home.",
+    refresh: "Refresh",
+    returnHome: "Return home",
+    rootErrorTitle: "The documentation encountered an unexpected error",
+    rootErrorDescription: "The application failed to initialize. Refreshing usually resolves it.",
+    refreshPage: "Refresh page",
   },
 } as const;
 

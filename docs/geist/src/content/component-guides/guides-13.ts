@@ -95,7 +95,7 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
     },
     controlledBehavior: {
       status: "covered",
-      content: ["通过 value prop 传入当前部署状态字符串；状态变更时圆点的颜色和动画会响应更新。"],
+      content: ["通过 state prop（QUEUED/BUILDING/READY/ERROR/CANCELED/DELETED）传入当前部署状态；状态变更时圆点的颜色和动画会响应更新。"],
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -104,7 +104,7 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "状态圆点的颜色映射与主题联动：绿色表示就绪、红色表示错误、琥珀色表示警告、蓝色表示构建中等。",
+        "状态圆点的颜色映射固定：蓝色表示排队中、琥珀色表示构建中、绿色表示就绪、红色表示错误、灰色表示已取消/已删除。",
       ],
     },
   },
@@ -125,31 +125,26 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
         id: "step-point-01",
         kind: "minimal",
         title: "默认步骤指示",
-        description: "标准的水平步骤指示点排列，展示默认的外观。",
-        demoKey: "Default",
-      },
-      {
-        id: "step-point-02",
-        kind: "advanced",
-        title: "完整多步流程",
-        description: "结合步骤指示点和内容区域展示完整的引导流程体验。",
+        description: "纵向步骤列表，用 status 标记已完成、进行中与未开始的步骤。",
         demoKey: "Default",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "已完成和当前步骤的指示点应有清晰的焦点样式，键盘用户可以遍历所有步骤。",
-        "当前步骤应配合 aria-current 属性让屏幕阅读器知道用户所在位置。",
+        "StepPoint 是纯展示组件：圆点 aria-hidden，状态语义由文本传达，不提供焦点或键盘遍历。",
+        "如需可交互的步骤导航（点击切换、aria-current），由调用方在外层列表项上自行实现。",
       ],
     },
     controlledBehavior: {
-      status: "covered",
-      content: ["通过 activeIndex 控制当前高亮的步骤索引，completedIndexes 数组标记已完成的步骤。"],
+      status: "not-applicable",
+      reason:
+        "StepPoint 无内部状态：每个步骤的当前态由调用方通过 status（idle/active/done/failed）逐一传入，不存在 activeIndex/completedIndexes 之类的组级受控 API。",
     },
     responsiveBehavior: {
-      status: "covered",
-      content: ["步骤指示点在窄视图中可以切换为垂直布局或隐藏非活跃步骤以节省空间。"],
+      status: "not-applicable",
+      reason:
+        "StepPoint 不自带布局决策：垂直或水平排列由外层列表容器决定（示例使用纵向 ul），窄屏调整属调用方职责。",
     },
     themeBehavior: {
       status: "not-applicable",
@@ -369,7 +364,7 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "The current deployment state string passed via the value prop drives the dot's color and animation changes reactively.",
+        "The current deployment state passed via the state prop (QUEUED/BUILDING/READY/ERROR/CANCELED/DELETED) drives the dot's color and animation changes reactively.",
       ],
     },
     responsiveBehavior: {
@@ -380,7 +375,7 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "The dot's color mapping is theme-aware: green for ready, red for error, amber for warning, blue for building.",
+        "The dot's color mapping is fixed: blue for queued, amber for building, green for ready, red for error, gray for canceled/deleted.",
       ],
     },
   },
@@ -402,36 +397,26 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Default step indicators",
         description:
-          "Standard horizontal arrangement of step points showing the default appearance.",
-        demoKey: "Default",
-      },
-      {
-        id: "step-point-02",
-        kind: "advanced",
-        title: "Full multi-step flow",
-        description:
-          "Combining step indicators with content areas to demonstrate a complete guided flow experience.",
+          "A vertical step list using status to mark completed, active, and pending steps.",
         demoKey: "Default",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "Completed and active step indicators should have clear focus styles; keyboard users can tab through all steps.",
-        "The active step should carry an aria-current attribute so screen readers announce the user's position.",
+        "StepPoint is purely presentational: the dot is aria-hidden, state semantics come from the text, and no focus or keyboard traversal is provided.",
+        "For interactive step navigation (click-to-switch, aria-current), callers implement it on the surrounding list items themselves.",
       ],
     },
     controlledBehavior: {
-      status: "covered",
-      content: [
-        "Controlled via activeIndex for the highlighted step and a completedIndexes array marking finished steps.",
-      ],
+      status: "not-applicable",
+      reason:
+        "StepPoint has no internal state: each step's current state is passed in per item via status (idle/active/done/failed); there is no group-level activeIndex/completedIndexes API.",
     },
     responsiveBehavior: {
-      status: "covered",
-      content: [
-        "On narrow viewports, step indicators can switch to vertical layout or hide inactive steps to save space.",
-      ],
+      status: "not-applicable",
+      reason:
+        "StepPoint makes no layout decisions: vertical vs horizontal arrangement is owned by the surrounding list container (the example uses a vertical ul); narrow-screen adjustments are the caller's responsibility.",
     },
     themeBehavior: {
       status: "not-applicable",

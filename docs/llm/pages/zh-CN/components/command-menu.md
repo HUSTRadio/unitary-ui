@@ -96,7 +96,7 @@ export function CommandMenuDefault37A8EEC1Example() {
 }
 ```
 
-## with-divider
+## 带分隔线
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -136,7 +136,7 @@ export function CommandMenuWithDivider5A6D5780Example() {
 }
 ```
 
-## with-suffix
+## 带后缀内容
 
 ```tsx
 import { Button } from "@/components/ui/button";

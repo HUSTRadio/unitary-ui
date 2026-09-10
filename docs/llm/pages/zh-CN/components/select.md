@@ -77,7 +77,7 @@ export function SelectSizes7C69F3FAExample() {
 }
 ```
 
-## prefix-and-suffix
+## 前缀与后缀
 
 ```tsx
 import { Select } from "@/components/ui/select";
@@ -96,7 +96,7 @@ export function SelectPrefixAndSuffix99076368Example() {
 }
 ```
 
-## disabled
+## 禁用
 
 ```tsx
 import { Select } from "@/components/ui/select";
@@ -106,7 +106,7 @@ export function SelectDisabled17EB3C01Example() {
 }
 ```
 
-## error
+## 错误
 
 Please select a value.
 
@@ -142,7 +142,7 @@ export function SelectErrorCA00FCCFExample() {
 }
 ```
 
-## label
+## 标签
 
 My label
 
@@ -154,7 +154,7 @@ export function SelectLabel1ACA80E8Example() {
 }
 ```
 
-## required
+## 必填
 
 Required field
 

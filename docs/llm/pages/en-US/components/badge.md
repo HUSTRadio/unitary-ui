@@ -28,11 +28,11 @@ Small labels for statuses, counts, and metadata.
 
 ### Variants
 
-Showcases subtle, neutral, warning, error, and primary color variants.
+Shows gray, blue, purple, amber, red, pink, green, and teal colors with low-contrast forms, plus inverted, trial, turbo, and outline variants.
 
 ### Sizes
 
-Showcases md and sm sizes for different layout densities.
+Shows sm, md, and lg sizes for different layout densities.
 
 ### With icons
 

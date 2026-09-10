@@ -106,7 +106,7 @@ export function ComponentGuideSections({ guide }: { guide: ComponentGuide }): Re
         </DocsBlock>
       </DocsSection>
 
-      <div className="grid gap-x-8 md:grid-cols-2">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-x-8 [overflow-wrap:anywhere] md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <ApplicabilitySection
           id="guide-accessibility"
           title={copy.accessibility}

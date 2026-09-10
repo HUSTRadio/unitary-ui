@@ -47,7 +47,7 @@ export const GUIDES_15_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "通过子节点、aria-label 或 aria-labelledby 提供可访问的名称；Geist 在开发环境中会在三者全部缺失时发出警告。",
+        "通过子节点、aria-label 或 aria-labelledby 提供可访问的名称；本库实现不做运行时校验，三者全缺时不会发出警告，需调用方自行保证。",
         "当可见标签放置在别处时，才使用 aria-label；否则让子节点同时携带视觉和屏幕阅读器的标签。",
       ],
     },
@@ -236,7 +236,7 @@ export const GUIDES_15_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Provide an accessible name through children, aria-label, or aria-labelledby. Geist warns in development if all three are missing.",
+        "Provide an accessible name through children, aria-label, or aria-labelledby. This library's implementation performs no runtime validation—it does not warn when all three are missing, so callers must guarantee a name.",
         "Set aria-label only when the visible label sits elsewhere on the row; otherwise let children carry both visual and screen-reader labels.",
       ],
     },

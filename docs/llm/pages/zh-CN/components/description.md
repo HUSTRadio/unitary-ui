@@ -74,7 +74,7 @@ export function DescriptionDefault37A8EEC1Example() {
 }
 ```
 
-## text-right
+## 内容右对齐
 
 Section Title
 
@@ -95,7 +95,7 @@ export function DescriptionTextRightFE5B1527Example() {
 }
 ```
 
-## ellipsis
+## 省略号截断
 
 Section Title
 

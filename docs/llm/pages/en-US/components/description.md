@@ -74,7 +74,7 @@ export function DescriptionDefault37A8EEC1Example() {
 }
 ```
 
-## text-right
+## Text right
 
 Section Title
 
@@ -95,7 +95,7 @@ export function DescriptionTextRightFE5B1527Example() {
 }
 ```
 
-## ellipsis
+## Ellipsis
 
 Section Title
 

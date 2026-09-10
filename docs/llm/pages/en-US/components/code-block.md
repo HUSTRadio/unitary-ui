@@ -106,7 +106,7 @@ export function CodeBlockDefault37A8EEC1Example() {
 }
 ```
 
-## no-filename
+## No filename
 
 ```tsx
 function MyComponent(props) {
@@ -140,7 +140,7 @@ export function CodeBlockNoFilenameC9029DC2Example() {
 }
 ```
 
-## highlighted-lines
+## Highlighted lines
 
 highlighted.jsx
 
@@ -181,7 +181,7 @@ export function CodeBlockHighlightedLines610E38F8Example() {
 }
 ```
 
-## added-removed-lines
+## Added removed lines
 
 next.config.js
 
@@ -219,7 +219,7 @@ export function CodeBlockAddedRemovedLinesED9789E1Example() {
 }
 ```
 
-## referenced-lines
+## Referenced lines
 
 ```tsx
 function MyComponent(props) {
@@ -251,7 +251,7 @@ export function CodeBlockReferencedLines009BBC04Example() {
 }
 ```
 
-## language-switcher
+## Language switcher
 
 language-switcher.jsx
 
@@ -299,7 +299,7 @@ export function CodeBlockLanguageSwitcherEFBF544EExample() {
 }
 ```
 
-## language-switcher-with-tabs
+## Language switcher with tabs
 
 language-switcher.jsx
 
@@ -347,7 +347,7 @@ export function CodeBlockLanguageSwitcherWithTabs22834C2CExample() {
 }
 ```
 
-## hidden-line-numbers
+## Hidden line numbers
 
 hidden-line-numbers.jsx
 
@@ -388,7 +388,7 @@ export function CodeBlockHiddenLineNumbers3831A2F1Example() {
 }
 ```
 
-## open-in-v0
+## Open in v0
 
 Table.jsx
 

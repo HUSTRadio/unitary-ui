@@ -77,7 +77,7 @@ export function KeyboardInputModifiers8527867BExample() {
 }
 ```
 
-## combination
+## Combination
 
 ⌘⇧
 
@@ -89,7 +89,7 @@ export function KeyboardInputCombination5F3258EAExample() {
 }
 ```
 
-## small
+## Small
 
 /
 
@@ -101,7 +101,7 @@ export function KeyboardInputSmall81DB8EBBExample() {
 }
 ```
 
-## plain-command
+## Plain command
 
 ⌘K
 

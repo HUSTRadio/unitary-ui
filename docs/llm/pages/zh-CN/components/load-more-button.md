@@ -57,11 +57,23 @@ children 可定制非加载状态的按钮文案；loading=true 时组件固定�
 
 ## 实时示例
 
+3 results loaded
+
 ```tsx
+import { useState } from "react";
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
 export function LoadMoreButtonDefault21B111CBExample() {
-  return <LoadMoreButton>Load More</LoadMoreButton>;
+  const [count, setCount] = useState(3);
+
+  return (
+    <div className="flex w-full flex-col gap-3">
+      <p role="status" className="text-copy-13 text-gray-900">
+        {count} results loaded
+      </p>
+      <LoadMoreButton onClick={() => setCount((value) => value + 3)}>Load More</LoadMoreButton>
+    </div>
+  );
 }
 ```
 
@@ -75,33 +87,75 @@ export function LoadMoreButtonLoadingDC380888Example() {
 }
 ```
 
-## No Gap
+## 无间距
+
+3 results loaded
 
 ```tsx
+import { useState } from "react";
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
 export function LoadMoreButtonNoGap7BF8EBE8Example() {
-  return <LoadMoreButton noGap>Load More</LoadMoreButton>;
+  const [count, setCount] = useState(3);
+
+  return (
+    <div className="flex w-full flex-col">
+      <p role="status" className="text-copy-13 text-gray-900">
+        {count} results loaded
+      </p>
+      <LoadMoreButton noGap onClick={() => setCount((value) => value + 3)}>
+        Load More
+      </LoadMoreButton>
+    </div>
+  );
 }
 ```
 
-## No Border Radius
+## 无圆角
+
+3 results loaded
 
 ```tsx
+import { useState } from "react";
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
 export function LoadMoreButtonNoBorderRadius7DFF5DD3Example() {
-  return <LoadMoreButton noBorderRadius>Load More</LoadMoreButton>;
+  const [count, setCount] = useState(3);
+
+  return (
+    <div className="flex w-full flex-col gap-3">
+      <p role="status" className="text-copy-13 text-gray-900">
+        {count} results loaded
+      </p>
+      <LoadMoreButton noBorderRadius onClick={() => setCount((value) => value + 3)}>
+        Load More
+      </LoadMoreButton>
+    </div>
+  );
 }
 ```
 
-## Custom Text
+## 自定义文案
+
+3 results loaded
 
 ```tsx
+import { useState } from "react";
 import { LoadMoreButton } from "@/components/ui/load-more-button";
 
 export function LoadMoreButtonCustomTextCFD55183Example() {
-  return <LoadMoreButton>Show More Results</LoadMoreButton>;
+  const [count, setCount] = useState(3);
+
+  return (
+    <div className="flex w-full flex-col gap-3">
+      <p role="status" className="text-copy-13 text-gray-900">
+        {count} results loaded
+      </p>
+      <LoadMoreButton onClick={() => setCount((value) => value + 3)}>
+        Show More Results
+      </LoadMoreButton>
+    </div>
+  );
 }
 ```
 

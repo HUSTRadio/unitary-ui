@@ -56,7 +56,7 @@ Demonstrates the error state with a red border and inline validation message dis
 ## Theme behavior
 
 - Textarea borders, background, and text color follow theme variables with optimized palettes for both dark and light modes.
-- Error-state red borders and warning-state amber borders maintain sufficient contrast across themes for legibility.
+- Error-state red borders (aria-invalid + error variant) maintain sufficient contrast across themes for legibility; the textarea has no separate warning color state.
 
 ## Live Demo
 
@@ -73,7 +73,7 @@ export function TextareaDefault37A8EEC1Example() {
 }
 ```
 
-## disabled
+## Disabled
 
 ```tsx
 import { Textarea } from "@/components/ui/textarea";

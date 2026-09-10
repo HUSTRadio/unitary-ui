@@ -71,7 +71,7 @@ export function SearchInputDefault37A8EEC1Example() {
 }
 ```
 
-## with-cmdk
+## 配合 cmdk 使用
 
 ⌘K
 
@@ -96,7 +96,7 @@ export function SearchInputWithCmdkC25FADFBExample() {
 }
 ```
 
-## disabled
+## 禁用
 
 ⌘K
 
@@ -122,7 +122,7 @@ export function SearchInputDisabled17EB3C01Example() {
 }
 ```
 
-## loading
+## 加载中
 
 加载中
 
@@ -147,7 +147,7 @@ export function SearchInputLoadingB4A070A2Example() {
 }
 ```
 
-## custom-prefix
+## 自定义前缀
 
 ```tsx
 import { Sparkles } from "lucide-react";

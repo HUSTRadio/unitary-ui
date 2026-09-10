@@ -86,7 +86,7 @@ export function ClearableInputDefault37A8EEC1Example() {
 }
 ```
 
-## with-label
+## 带标签
 
 Email
 
@@ -110,7 +110,7 @@ export function ClearableInputWithLabelBB9F6883Example() {
 }
 ```
 
-## with-cmdk
+## 配合 cmdk 使用
 
 Esc⌘K
 
@@ -135,7 +135,7 @@ export function ClearableInputWithCmdkC25FADFBExample() {
 }
 ```
 
-## disabled
+## 禁用
 
 ```tsx
 import { ClearableInput } from "@/components/ui/clearable-input";
@@ -158,7 +158,7 @@ export function ClearableInputDisabled17EB3C01Example() {
 }
 ```
 
-## with-clear-callback
+## 清除回调
 
 Cleared 0 times
 

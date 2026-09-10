@@ -96,7 +96,7 @@ export function CommandMenuDefault37A8EEC1Example() {
 }
 ```
 
-## with-divider
+## With divider
 
 ```tsx
 import { Button } from "@/components/ui/button";
@@ -136,7 +136,7 @@ export function CommandMenuWithDivider5A6D5780Example() {
 }
 ```
 
-## with-suffix
+## With suffix
 
 ```tsx
 import { Button } from "@/components/ui/button";

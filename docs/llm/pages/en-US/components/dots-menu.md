@@ -79,7 +79,7 @@ export function DotsMenuDefault37A8EEC1Example() {
 }
 ```
 
-## sizes
+## Sizes
 
 ```tsx
 import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
@@ -107,7 +107,7 @@ export function DotsMenuSizes7C69F3FAExample() {
 }
 ```
 
-## disabled
+## Disabled
 
 ```tsx
 import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";
@@ -123,7 +123,7 @@ export function DotsMenuDisabled17EB3C01Example() {
 }
 ```
 
-## disabled-menu-item
+## Disabled menu item
 
 ```tsx
 import { DotsMenu, DotsMenuItem } from "@/components/ui/dots-menu";

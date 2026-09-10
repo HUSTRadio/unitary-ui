@@ -85,14 +85,14 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
         id: "variants",
         kind: "minimal",
         title: "变体",
-        description: "展示 subtle、neutral、warning、error、primary 等不同颜色变体。",
+        description: "展示 gray、blue、purple、amber、red、pink、green、teal 等颜色及其低对比度样式，以及 inverted、trial、turbo、outline 变体。",
         demoKey: "Variants",
       },
       {
         id: "sizes",
         kind: "variant",
         title: "尺寸",
-        description: "展示 md 和 sm 两种尺寸，适用于不同密度的布局。",
+        description: "展示 sm、md 和 lg 三种尺寸，适用于不同密度的布局。",
         demoKey: "Sizes",
       },
       {
@@ -290,7 +290,7 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "面包屑在窄屏上自动截断中间层级（Home › ... › Current），保持最末端的当前位置可见。",
+        "窄屏下组件保持单行并允许横向滚动；如需省略中间层级，调用方应显式构造对应条目。",
         "分隔符在各屏幕尺寸下保持一致的间距比例，确保可读性不因缩放而受损。",
       ],
     },
@@ -391,14 +391,14 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
         id: "variants",
         kind: "minimal",
         title: "Variants",
-        description: "Showcases subtle, neutral, warning, error, and primary color variants.",
+        description: "Shows gray, blue, purple, amber, red, pink, green, and teal colors with low-contrast forms, plus inverted, trial, turbo, and outline variants.",
         demoKey: "Variants",
       },
       {
         id: "sizes",
         kind: "variant",
         title: "Sizes",
-        description: "Showcases md and sm sizes for different layout densities.",
+        description: "Shows sm, md, and lg sizes for different layout densities.",
         demoKey: "Sizes",
       },
       {
@@ -603,7 +603,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Breadcrumbs auto-truncate middle levels (Home › … › Current) on narrow screens, keeping the final current position visible.",
+        "On narrow screens, the component stays on one line and allows horizontal scrolling. Callers must explicitly construct an omitted-middle item when that presentation is needed.",
         "Separators maintain consistent spacing proportions across all screen sizes, ensuring readability is preserved during scaling.",
       ],
     },

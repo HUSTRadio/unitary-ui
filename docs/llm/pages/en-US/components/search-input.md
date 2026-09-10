@@ -71,7 +71,7 @@ export function SearchInputDefault37A8EEC1Example() {
 }
 ```
 
-## with-cmdk
+## With cmdk
 
 ⌘K
 
@@ -96,7 +96,7 @@ export function SearchInputWithCmdkC25FADFBExample() {
 }
 ```
 
-## disabled
+## Disabled
 
 ⌘K
 
@@ -122,7 +122,7 @@ export function SearchInputDisabled17EB3C01Example() {
 }
 ```
 
-## loading
+## Loading
 
 Loading...
 
@@ -147,7 +147,7 @@ export function SearchInputLoadingB4A070A2Example() {
 }
 ```
 
-## custom-prefix
+## Custom prefix
 
 ```tsx
 import { Sparkles } from "lucide-react";

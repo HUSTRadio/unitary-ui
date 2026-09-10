@@ -68,7 +68,7 @@ export function SliderDefault37A8EEC1Example() {
 }
 ```
 
-## step-max
+## 步进与最大值
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
@@ -78,7 +78,7 @@ export function SliderStepMax1112E58CExample() {
 }
 ```
 
-## with-label
+## 带标签
 
 Volume
 
@@ -90,7 +90,7 @@ export function SliderWithLabelBB9F6883Example() {
 }
 ```
 
-## range-with-inputs
+## 带输入框的范围滑块
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
@@ -105,7 +105,7 @@ export function SliderRangeWithInputs16EAD947Example() {
 }
 ```
 
-## disabled-range-with-inputs
+## 禁用区间滑块与输入框
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
@@ -115,7 +115,7 @@ export function SliderDisabledRangeWithInputsFCA5E8B4Example() {
 }
 ```
 
-## commit-on-release
+## 松开时才提交数值
 
 Drag then release
 

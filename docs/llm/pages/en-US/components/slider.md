@@ -68,7 +68,7 @@ export function SliderDefault37A8EEC1Example() {
 }
 ```
 
-## step-max
+## Step max
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
@@ -78,7 +78,7 @@ export function SliderStepMax1112E58CExample() {
 }
 ```
 
-## with-label
+## With label
 
 Volume
 
@@ -90,7 +90,7 @@ export function SliderWithLabelBB9F6883Example() {
 }
 ```
 
-## range-with-inputs
+## Range with inputs
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
@@ -105,7 +105,7 @@ export function SliderRangeWithInputs16EAD947Example() {
 }
 ```
 
-## disabled-range-with-inputs
+## Disabled range with inputs
 
 ```tsx
 import { Slider } from "@/components/ui/slider";
@@ -115,7 +115,7 @@ export function SliderDisabledRangeWithInputsFCA5E8B4Example() {
 }
 ```
 
-## commit-on-release
+## Commit on release
 
 Drag then release
 

@@ -251,7 +251,7 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Snippet 在窄屏上自动调整内边距和字号，确保命令文本不会被过度压缩。",
+        "Snippet 在窄屏上保持同一内边距与字号，命令文本过长时在文本区域内部横向滚动（sm- 起 min-w 收缩），不做字号降级。",
         "复制按钮在全屏幕上保持一致的可见性和点击区域大小。",
       ],
     },
@@ -303,7 +303,7 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Spinner 的尺寸通过 props 显式指定，在任何视口下都保持一致的视觉密度和可读性。",
-        "在不同密度的 UI 层级中（密集表格行 vs 全屏弹窗），Spinner 自动适配相应的大小比例。",
+        "Spinner 不自动选择大小：调用方通过 size prop（sm/md/lg/xl/2xl/3xl/4xl，对应 12–56px）显式指定，以匹配所在 UI 层级的密度。",
       ],
     },
     themeBehavior: {
@@ -576,7 +576,7 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Snippet adjusts padding and font size automatically on narrow screens so command text is not overly compressed.",
+        "Snippet keeps the same padding and font size on narrow screens; overlong command text scrolls horizontally inside the text area (min-w shrink from sm-) instead of scaling text down.",
         "The copy button maintains consistent visibility and tap-target size across all screen widths.",
       ],
     },
@@ -629,7 +629,7 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Spinner size is specified explicitly via props, keeping consistent visual density and legibility on any viewport.",
-        "In different UI density contexts (dense table rows vs. full-screen modals), the Spinner adapts to the appropriate proportional size.",
+        "Spinner does not pick a size automatically: callers set it explicitly via the size prop (sm/md/lg/xl/2xl/3xl/4xl, 12–56px) to match the surrounding UI density.",
       ],
     },
     themeBehavior: {

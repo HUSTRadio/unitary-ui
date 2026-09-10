@@ -129,16 +129,16 @@ export default function App() {
               resetKeys={[pathname]}
               fallback={
                 <div className="py-16 text-center">
-                  <p className="text-heading-20 text-foreground">页面渲染失败</p>
+                  <p className="text-heading-20 text-foreground">{copy.pageRenderFailed}</p>
                   <p className="mt-2 text-copy-14 text-muted-foreground">
-                    此页面组件抛出了异常，其余功能不受影响。可刷新重试或返回首页。
+                    {copy.pageRenderFailedDescription}
                   </p>
                   <div className="mt-4 flex items-center justify-center gap-2">
                     <Button typeName="button" size="small" onClick={() => window.location.reload()}>
-                      刷新
+                      {copy.refresh}
                     </Button>
                     <Button typeName="button" size="small" onClick={() => navigate("/")}>
-                      返回首页
+                      {copy.returnHome}
                     </Button>
                   </div>
                 </div>

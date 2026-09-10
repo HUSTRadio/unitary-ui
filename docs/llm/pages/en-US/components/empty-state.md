@@ -79,7 +79,7 @@ export function EmptyStateEmptyStateDesignFrameworkFF959773Example() {
 }
 ```
 
-## blank-slate
+## Blank slate
 
 Title
 
@@ -100,7 +100,7 @@ export function EmptyStateBlankSlateE6F82752Example() {
 }
 ```
 
-## informational
+## Informational
 
 Title
 

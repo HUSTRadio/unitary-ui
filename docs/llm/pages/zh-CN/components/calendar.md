@@ -71,7 +71,7 @@ export function CalendarDefault37A8EEC1Example() {
 }
 ```
 
-## horizontal-layout
+## 横向布局
 
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
@@ -81,7 +81,7 @@ export function CalendarHorizontalLayout7E958EE5Example() {
 }
 ```
 
-## sizes
+## 尺寸
 
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
@@ -96,7 +96,7 @@ export function CalendarSizes7C69F3FAExample() {
 }
 ```
 
-## presets
+## 预设范围
 
 Combobox Menu
 
@@ -125,7 +125,7 @@ export function CalendarPresets4700153DExample() {
 }
 ```
 
-## compact
+## 紧凑布局
 
 Combobox Menu
 
@@ -150,7 +150,7 @@ export function CalendarCompactB6B54201Example() {
 }
 ```
 
-## stacked
+## 堆叠布局
 
 Combobox Menu
 
@@ -176,7 +176,7 @@ export function CalendarStacked62739DB4Example() {
 }
 ```
 
-## presets-default
+## 默认预设
 
 Combobox Menu
 
@@ -206,7 +206,7 @@ export function CalendarPresetsDefault52146B29Example() {
 }
 ```
 
-## min-max
+## 最小/最大范围
 
 ```tsx
 import { Calendar } from "@/components/ui/calendar";
@@ -222,7 +222,7 @@ export function CalendarMinMax133CB44DExample() {
 }
 ```
 
-## pinned-timezone
+## 固定时区
 
 ```tsx
 import { Calendar } from "@/components/ui/calendar";

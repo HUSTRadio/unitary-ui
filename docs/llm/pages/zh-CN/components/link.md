@@ -50,7 +50,7 @@ Link
 
 ## 实时示例
 
-[Button documentation](/components/button)[GitHub repository](https://github.com/HUSTRadio/unitary-ui)[GitLab repository](https://gitlab.com/gitlab-org/gitlab)[MDN Web Docs](https://developer.mozilla.org)
+[Button documentation](#/components/button)[GitHub repository](https://github.com/HUSTRadio/unitary-ui)[GitLab repository](https://gitlab.com/gitlab-org/gitlab)[MDN Web Docs](https://developer.mozilla.org)
 
 ```tsx
 import { Link } from "@/components/ui/link";
@@ -58,7 +58,7 @@ import { Link } from "@/components/ui/link";
 export function LinkDefault37A8EEC1Example() {
   return (
     <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
-      <Link href="/components/button">Button documentation</Link>
+      <Link href="#/components/button">Button documentation</Link>
       <Link href="gh:HUSTRadio/unitary-ui">GitHub repository</Link>
       <Link href="https://gitlab.com/gitlab-org/gitlab">GitLab repository</Link>
       <Link href="https://developer.mozilla.org">MDN Web Docs</Link>

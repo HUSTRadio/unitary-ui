@@ -46,13 +46,13 @@ Demonstrates marking specific milestone nodes on the progress bar, suitable for 
 
 ## Controlled behavior
 
-- Progress accepts controlled value and max props; developers can drive progress changes externally and respond via onChange callbacks.
+- Progress is a presentational component driven by value and max; callers update value, and the component does not emit an onChange callback.
 - Animated transitions are smooth and fluid—the bar interpolates between old and new values via CSS transition, avoiding jump cuts.
 
 ## Responsive behavior
 
 - The progress bar uses a full-width layout that fills the available width of its parent container at every viewport size.
-- Numeric labels remain legible at all sizes, possibly shrinking font on narrow viewports to fit within space.
+- The component does not render a numeric label; callers provide percentage or unit copy and own its narrow-screen layout.
 
 ## Theme behavior
 

@@ -55,7 +55,7 @@ Use MenuItemLocked to display a lock icon and disabled state for permission-gate
 ## Responsive behavior
 
 - Menu position auto-flips based on window bounds (upward or downward pop-up) so it doesn't clip on narrow viewports due to hardcoded sides.
-- On small screens, the menu automatically adjusts its maximum width to fit available space, keeping all action items fully readable.
+- Radix shifts the menu to avoid collisions, but the component does not set a small-screen maximum width; callers own width and wrapping for long content.
 
 ## Theme behavior
 

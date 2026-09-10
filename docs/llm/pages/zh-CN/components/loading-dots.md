@@ -50,7 +50,7 @@ Loading Dots
 ## 主题行为
 
 - 圆点的颜色从主题令牌获取，确保浅色和深色模式下都具有良好的对比度和视觉效果。
-- 尊重 prefers-reduced-motion 媒体查询，在用户偏好减少动画的系统上自动降低或禁用动画效果。
+- 组件当前始终运行点状动画；若产品需要响应 prefers-reduced-motion，应由应用层提供静态替代或额外样式。
 
 ## 实时示例
 
@@ -68,7 +68,7 @@ export function LoadingDotsDefault21B111CBExample() {
 }
 ```
 
-## With text
+## 带加载文字
 
 Loading
 

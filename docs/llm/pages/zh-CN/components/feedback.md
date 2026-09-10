@@ -86,7 +86,7 @@ export function FeedbackDefault21B111CBExample() {
 }
 ```
 
-## Inline
+## 行内反馈
 
 这对你有帮助吗？
 
@@ -98,7 +98,7 @@ export function FeedbackInline99ED40ACExample() {
 }
 ```
 
-## Feedback with Select
+## 搭配 Select 的反馈
 
 This example is hidden because it is intended for only desktop.
 
@@ -122,7 +122,7 @@ export function FeedbackFeedbackWithSelectBF2A8F56Example() {
 }
 ```
 
-## Feedback with metadata
+## 带元数据的反馈
 
 This example is hidden because it is intended for only desktop.
 
@@ -154,7 +154,7 @@ export function FeedbackFeedbackWithMetadata6449A9ACExample() {
 }
 ```
 
-## Local RatingPill extension
+## 本地 RatingPill 扩展
 
 Was this helpful?
 
@@ -177,7 +177,7 @@ export function FeedbackRatingBar253F979EExample() {
 }
 ```
 
-## Feedback with prefix
+## 带前缀的反馈
 
 ```tsx
 import { Feedback } from "@/components/ui/feedback";
@@ -188,7 +188,7 @@ export function FeedbackFeedbackWithPrefixEBD13739Example() {
 }
 ```
 
-## Feedback with suffix
+## 带后缀的反馈
 
 ```tsx
 import { Feedback } from "@/components/ui/feedback";

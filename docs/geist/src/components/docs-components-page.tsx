@@ -6,7 +6,7 @@ import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
 import { getComponentGuide } from "../content/component-guides";
 import { COMPONENTS, type ComponentMeta } from "../data/components";
 import { EXAMPLE_REGISTRY, type ExampleRecord } from "../examples/registry";
-import { demoText, demoTextWithValues } from "../i18n/components-demo";
+import { demoSectionTitle, demoText, demoTextWithValues } from "../i18n/components-demo";
 import { type DocsLanguage, useLanguage } from "../i18n/language";
 import { ComponentGuideSections } from "./component-guide-sections";
 import { ComponentApiReference } from "./docs-api-reference";
@@ -143,7 +143,7 @@ function Section({
   const { language } = useLanguage();
   return (
     <DocsSection>
-      <DocsSectionTitle>{demoText(language, title)}</DocsSectionTitle>
+      <DocsSectionTitle>{demoSectionTitle(language, title)}</DocsSectionTitle>
       <DocsBlock>
         {code ? <TableDemoCard id={title} code={code}>{children}</TableDemoCard> : children}
       </DocsBlock>

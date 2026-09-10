@@ -20,9 +20,9 @@ cd docs/geist && npx tsc --noEmit
 ## 结构说明
 
 - `vite.config.ts`：`@` alias → 根 `src/`；`publicDir` → 根 `public/`（共享 HarmonyOS Sans SC woff2 等静态资源）
-- `src/index.css`：先 `@import "@fontsource/maple-mono/400.css"` / `500.css`（根样式只声明
-  font-family 名，不引入 @fontsource 包），再 `@import "../../../src/styles/index.css"`，
-  最后 `@source "../../../src/components"` 让 Tailwind v4 扫描根仓库元件类名
+- `src/index.css`：直接 `@import "../../../src/styles/index.css"`，复用根样式中自托管的
+  OPPO Sans、HarmonyOS Sans 与 JetBrains Maple Mono 分级 `@font-face`；随后通过
+  `@source "../../../src/components"` 让 Tailwind v4 扫描根仓库元件类名
 - `index.html`：复制根 `index.html` 的首帧防闪烁脚本（storage key `geist-theme-preference`）
 - `src/main.tsx`：`ThemeProvider`（来自根 `src/lib/theme.tsx`）+ `HashRouter` 挂载
 - `tsconfig.json`：extends 根 `tsconfig.app.json`，独立 `include: ["src"]`，`@/*` 指向根 `src/*`

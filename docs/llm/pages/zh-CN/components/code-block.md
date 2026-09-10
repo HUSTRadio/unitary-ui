@@ -106,7 +106,7 @@ export function CodeBlockDefault37A8EEC1Example() {
 }
 ```
 
-## no-filename
+## 不显示文件名
 
 ```tsx
 function MyComponent(props) {
@@ -140,7 +140,7 @@ export function CodeBlockNoFilenameC9029DC2Example() {
 }
 ```
 
-## highlighted-lines
+## 高亮指定行
 
 highlighted.jsx
 
@@ -181,7 +181,7 @@ export function CodeBlockHighlightedLines610E38F8Example() {
 }
 ```
 
-## added-removed-lines
+## 新增与删除行标记
 
 next.config.js
 
@@ -219,7 +219,7 @@ export function CodeBlockAddedRemovedLinesED9789E1Example() {
 }
 ```
 
-## referenced-lines
+## 引用行
 
 ```tsx
 function MyComponent(props) {
@@ -251,7 +251,7 @@ export function CodeBlockReferencedLines009BBC04Example() {
 }
 ```
 
-## language-switcher
+## 语言切换器
 
 language-switcher.jsx
 
@@ -299,7 +299,7 @@ export function CodeBlockLanguageSwitcherEFBF544EExample() {
 }
 ```
 
-## language-switcher-with-tabs
+## 带选项卡的语言切换器
 
 language-switcher.jsx
 
@@ -347,7 +347,7 @@ export function CodeBlockLanguageSwitcherWithTabs22834C2CExample() {
 }
 ```
 
-## hidden-line-numbers
+## 隐藏行号
 
 hidden-line-numbers.jsx
 
@@ -388,7 +388,7 @@ export function CodeBlockHiddenLineNumbers3831A2F1Example() {
 }
 ```
 
-## open-in-v0
+## 在 v0 中打开
 
 Table.jsx
 

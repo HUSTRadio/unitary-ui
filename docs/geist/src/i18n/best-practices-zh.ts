@@ -53,7 +53,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "仅当动作当前确实不可能时（缺输入、权限不足）才禁用按钮，并配一个解释原因的 Tooltip。",
     "标签首字母大写并写明结果：Deploy Project、Invite Member、Rotate Key。避免裸动词（Submit）与通用确认（OK、Confirm）。",
     "破坏性按钮遵循 动词 + 名词，并 1:1 配对 toast：Delete Project 然后 Project deleted。模式切换按钮追加 Instead：Use a Recovery Code Instead。",
-    "纯图标按钮必须同时有 svgOnly 与 aria-label；缺少任何一个校验都会抛错。aria-label 命名动作与目标（Copy deployment URL），而不是图标（Copy）。",
+    "纯图标按钮必须同时有 svgOnly 与 aria-label；调用方必须提供可访问标签，组件不会在运行时校验。aria-label 命名动作与目标（Copy deployment URL），而不是图标（Copy）。",
     "已有可见文字的按钮不要设置 aria-label；它会覆盖标签并造成读屏不一致。",
   ],
   calendar: [

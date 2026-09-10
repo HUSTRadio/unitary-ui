@@ -26,24 +26,20 @@ Marks progress through a multi-step flow.
 
 ### Default step indicators
 
-Standard horizontal arrangement of step points showing the default appearance.
-
-### Full multi-step flow
-
-Combining step indicators with content areas to demonstrate a complete guided flow experience.
+A vertical step list using status to mark completed, active, and pending steps.
 
 ## Accessibility
 
-- Completed and active step indicators should have clear focus styles; keyboard users can tab through all steps.
-- The active step should carry an aria-current attribute so screen readers announce the user's position.
+- StepPoint is purely presentational: the dot is aria-hidden, state semantics come from the text, and no focus or keyboard traversal is provided.
+- For interactive step navigation (click-to-switch, aria-current), callers implement it on the surrounding list items themselves.
 
 ## Controlled behavior
 
-- Controlled via activeIndex for the highlighted step and a completedIndexes array marking finished steps.
+Not applicable: StepPoint has no internal state: each step's current state is passed in per item via status (idle/active/done/failed); there is no group-level activeIndex/completedIndexes API.
 
 ## Responsive behavior
 
-- On narrow viewports, step indicators can switch to vertical layout or hide inactive steps to save space.
+Not applicable: StepPoint makes no layout decisions: vertical vs horizontal arrangement is owned by the surrounding list container (the example uses a vertical ul); narrow-screen adjustments are the caller's responsibility.
 
 ## Theme behavior
 

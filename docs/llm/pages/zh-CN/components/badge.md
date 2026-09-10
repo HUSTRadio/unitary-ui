@@ -28,11 +28,11 @@ Badge
 
 ### 变体
 
-展示 subtle、neutral、warning、error、primary 等不同颜色变体。
+展示 gray、blue、purple、amber、red、pink、green、teal 等颜色及其低对比度样式，以及 inverted、trial、turbo、outline 变体。
 
 ### 尺寸
 
-展示 md 和 sm 两种尺寸，适用于不同密度的布局。
+展示 sm、md 和 lg 三种尺寸，适用于不同密度的布局。
 
 ### 带图标
 

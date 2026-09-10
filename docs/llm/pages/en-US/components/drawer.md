@@ -82,7 +82,7 @@ export function DrawerDefault37A8EEC1Example() {
 }
 ```
 
-## custom-height
+## Custom height
 
 ```tsx
 import { Button } from "@/components/ui/button";

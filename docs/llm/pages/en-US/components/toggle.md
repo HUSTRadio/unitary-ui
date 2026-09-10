@@ -42,7 +42,7 @@ Passes a Title Case label through children and pairs it with descriptive copy ex
 
 ## Accessibility
 
-- Provide an accessible name through children, aria-label, or aria-labelledby. Geist warns in development if all three are missing.
+- Provide an accessible name through children, aria-label, or aria-labelledby. This library's implementation performs no runtime validation—it does not warn when all three are missing, so callers must guarantee a name.
 - Set aria-label only when the visible label sits elsewhere on the row; otherwise let children carry both visual and screen-reader labels.
 
 ## Controlled behavior
@@ -85,7 +85,7 @@ export function ToggleDefault37A8EEC1Example() {
 }
 ```
 
-## disabled
+## Disabled
 
 ```tsx
 import { Toggle } from "@/components/ui/toggle";
@@ -100,7 +100,7 @@ export function ToggleDisabled17EB3C01Example() {
 }
 ```
 
-## sizes
+## Sizes
 
 ```tsx
 import { Toggle } from "@/components/ui/toggle";
@@ -116,7 +116,7 @@ export function ToggleSizes7C69F3FAExample() {
 }
 ```
 
-## custom-color
+## Custom color
 
 ```tsx
 import { Toggle } from "@/components/ui/toggle";
@@ -175,7 +175,7 @@ export function ToggleCustomColorB4B5B0F6Example() {
 }
 ```
 
-## with-label
+## With label
 
 Enable FirewallEnable Firewall
 
