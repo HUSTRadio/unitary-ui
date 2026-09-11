@@ -173,7 +173,10 @@ export function buildAgentArgs(config, prompt, options = {}) {
   const agent = config.agent;
   if (!testMode) {
     assertProductionAgentTemplate(config);
-    const args = ["--print"];
+    // --no-extensions keeps the run hermetic. Extension-provided MCP servers
+    // can hold stdio open after the answer is printed, so pi never exits and
+    // pre-push stalls until the outer timeout.
+    const args = ["--print", "--no-extensions"];
     if (agent.provider) args.push("--provider", agent.provider);
     args.push("--model", agent.model);
     if (agent.thinking) {
@@ -185,7 +188,7 @@ export function buildAgentArgs(config, prompt, options = {}) {
   }
 
   if (agent.piCli) {
-    const args = [...(agent.subcommand ?? ["--print"])];
+    const args = [...(agent.subcommand ?? ["--print"]), "--no-extensions"];
     if (agent.provider) args.push("--provider", agent.provider);
     args.push("--model", agent.model);
     if (agent.thinking) {

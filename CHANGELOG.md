@@ -39,6 +39,7 @@
 
 ### Changed
 
+- **`BreadcrumbProps` 改为判别联合（类型变更）**：`type="text"`（默认）继续继承 `<nav>` 属性，`type="menu"` 改为继承 `<div>` 属性。此前 `type="menu"` 会同时接受 `<nav>` 与 `<div>` 两套属性，实际渲染的 `<div>` 会收到非法属性并冲刷外层传入的 `role` / `aria-*`；现在两种变体各自只暴露真实落地的属性。传 `type="menu"` 且依赖 `<nav>` 属性的调用方需要改用 `<div>` 属性或去掉多余属性。
 - **Feedback 交互与公开 API**：默认变体改为由 32px 次级按钮触发的 340px 锚定 Popover，`type="inline"` 改为 274×48 评分胶囊并在原位展开至 336px；评分键盘导航、`dryRun` / `onSubmit` 提交语义与蓝色评分状态同步实际实现，独立 `RatingPill` 保留本地四色扩展。
 - **平台特化链接图标位置**：GitHub、GitLab、Gitee、Codeberg、Bitbucket、Forgejo 与 SourceHut 链接默认把品牌图标放在文案左侧，并继续省略冗余的 ExternalLink 指示符；普通 HTTP(S) 外链仍在文案右侧显示通用指示符，显式 `iconSide` 始终优先。
 - **`LoadMoreButton` 颜色语义化**：将 `src/components/ui/load-more-button.tsx` 中 12 处硬编码灰色 raw literal（`#f2f2f2` / `#8f8f8f` / `#1a1a1a` 等，含 6 个 `dark:` 变体）迁移为 2 个主题感知语义 token（`gray-100` 5 处、`gray-700` 3 处），同时移除 6 个 `dark:` 变体；双主题下渲染结果视觉等价。
@@ -54,10 +55,11 @@
 - pre-push 将 README 截图漂移检查与既有文档 / LLM 更新 gate 合并为单一编排器：真实变更路径是唯一放行判定依据，Angular / Conventional Commit 的 type 与 scope 仅作为诊断信号，不能覆盖路径判断；截图漂移时自动生成受管文件并中止 push，所有阻断都会说明未完成的操作和恢复步骤，等待人工复核、提交并重推。
 - Living styleguide 示例改用当前组件 API 与真实动作语义；`docs-update` 任务现在可在受限范围内同步 `src/App.tsx`、`src/examples/**` 和受管截图，并将截图零漂移纳入确定性校验。
 - **AI 文档 pre-push 传输方式**：超过 8000 字符的 docs-update prompt 现在通过 `codex exec` 的 stdin 通道传输，修复 Windows 首次 push 时 `CreateProcess` 命令行超限导致的 `ENAMETOOLONG`。
-- **LLM 任务运行器改用 Pi**：`.agents/runner.config.json` 的 `agent` 由 Codex（`codex exec`）切换为 Pi Coding Agent（`pi --print`），配置字段相应改为 `piCli` / `provider` / `model` / `thinking` / `ephemeral`；`scripts/lib/llm-task-runner.mjs` 生成固定的 `pi --print` 参数模板并拒绝替换可执行文件，默认执行模型为 `deepseek/deepseek-flash`；移除仅适用于 Codex 的 `sandbox` / `approvalMode` 配置项及其 `--ephemeral` / `--approve-for-me` / `-C` 参数形态。
+- **LLM 任务运行器改用 Pi**：`.agents/runner.config.json` 的 `agent` 由 Codex（`codex exec`）切换为 Pi Coding Agent（`pi --print`），配置字段相应改为 `piCli` / `provider` / `model` / `thinking` / `ephemeral`；`scripts/lib/llm-task-runner.mjs` 生成固定的 `pi --print` 参数模板并拒绝替换可执行文件，默认执行模型为 `deepseek/deepseek-flash`；移除仅适用于 Codex 的 `sandbox` / `approvalMode` 配置项及其 `--ephemeral` / `--approve-for-me` / `-C` 参数形态。固定模板附加 `--no-extensions`：扩展提供的 MCP server 会在答题结束后继续占用 stdio，导致 `pi --print` 不退出、pre-push 卡死（实测默认模式 90s 未退出，附加后 3s 正常退出）。
 
 ### Fixed
 
+- **组件行为审计修复（20 个组件）**：按源码审计结论整改 `src/components/ui` 的交互、无障碍与状态缺陷——**Slider** 恢复把 `onValueChange` 透传给 Radix Root，受控滑块的拖拽与键盘操作重新能把新值交还父组件（此前被显式剥离，仅可选数值输入框会触发），commit 回调改在微任务中合并同一轮的重复调用，避免 StrictMode 下重复上报；**Combobox** 的列表 ID 改用 `React.useId`，同页多实例不再共用 `aria-controls`，面板关闭时上/下/Home/End 先展开列表，Enter 仅在面板打开且存在高亮项时提交；**Note** 的 `disabled` 同时写入 `aria-disabled` 与原生 `inert`，禁用态整块不进入无障碍树；**Breadcrumbs** 的 menu 型条目携带 `href` 时渲染为真实 `<a>`，恢复中键与修饰键新窗口打开；**Calendar** 的输入框/标签/`aria-controls` ID 改为实例唯一，触发按钮由 `type="submit"` 改为 `button`，消除同页多实例串扰与误提交表单；**Avatar** 在图片加载失败时回退到首字母/占位色块并参与 `aria-label`，不再残留破图；**Tooltip** 为不可交互的 children 自动补 `tabIndex=0` 与 focus ring；**ContextCard** 与 **RelativeTimeCard** 的默认触发器补 `tabIndex=0` 进入 Tab 序列；**CommandMenu** 与 **BottomSheet** 关闭后把焦点还给打开前的活动元素，而不是丢到 `document.body`；**MiddleTruncate** 在 `value` 清空时同步清空已渲染片段；**Switch** 非受控组中显式 `defaultValue` 优先于单项 `defaultChecked`；**Choicebox** 移除 `role="group"` 上的 `aria-multiselectable` 与标签上的 `aria-selected` 等非法 ARIA，并把列表容器由 `ul` 改为 `div`；**Browser** 在剪贴板不可用或写入失败时静默返回，不再停留在已复制态；**DestructiveActionModal** 每次打开重置校验输入；**Drawer** 面板最大高度由 `90dvh` 收紧为 `80dvh` 并启用 `overscroll-none`；**Skeleton** 动画分支补 `motion-reduce:animate-none`；**SidebarNav** 不再无条件 `preventDefault`，未提供 `onNavigate` 时保留浏览器默认跳转，并放行修饰键与已 `preventDefault` 的点击；**Footer** 列表 key 由 `href` 改为 `label`，消除重复 `href` 的 React key 冲突。
 - **嵌套 Sheet 中的 Combobox 选项交互**：为挂载到 `document.body` 的 Combobox 面板显式恢复指针事件，使 modal Sheet 内的选项可正常点击；同步更新共享变量示例，使选中项从列表中移除并保持搜索输入可继续使用。
 - **裸 Node 包入口兼容性**：Prism 语言子模块补齐 `.js` 扩展名；构建时将依赖 CSS 提取到现有 `styles.css`，不再由 ESM/CJS 入口加载 CSS。保持 Device 源码导入、组件 API 和浏览器消费方式不变。新增 `test:package` 并接入 `prepublishOnly`，覆盖裸 Node 导入、SSR、七种语言高亮、四类设备样式与 Chromium 几何回归。
 

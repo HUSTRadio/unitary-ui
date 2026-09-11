@@ -125,6 +125,7 @@ describe("generic LLM task runner", () => {
     };
     expect(runner.buildAgentArgs(config, "PROMPT")).toEqual([
       "--print",
+      "--no-extensions",
       "--provider",
       "deepseek",
       "--model",
@@ -246,6 +247,7 @@ describe("generic LLM task runner", () => {
     };
     expect(runner.buildAgentArgs(config, "PROMPT", { promptVia: "stdin" })).toEqual([
       "--print",
+      "--no-extensions",
       "--provider",
       "deepseek",
       "--model",
@@ -256,6 +258,7 @@ describe("generic LLM task runner", () => {
     ]);
     expect(runner.buildAgentArgs(config, "PROMPT", { promptVia: "arg" })).toEqual([
       "--print",
+      "--no-extensions",
       "--provider",
       "deepseek",
       "--model",
