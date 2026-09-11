@@ -28,7 +28,7 @@ Navigation aid that shows the user's location within a site's hierarchy.
 
 ### Default breadcrumbs
 
-Displays default breadcrumb navigation with separators and multiple hierarchy levels.
+Renders the same hierarchy as type='text' (a <nav> list with separators) and type='menu' (a chip button group).
 
 ### Active state
 
@@ -36,7 +36,7 @@ Displays the active/disabled style for the last item to indicate the current pat
 
 ## Accessibility
 
-- Breadcrumbs wrap in a <nav> element with aria-label='Breadcrumb', helping screen readers identify it.
+- type='text' (the default) renders a <nav> with aria-label='Breadcrumb'; type='menu' renders a <div> with role='navigation' and the same aria-label. Both surface as a navigation landmark to screen readers.
 - active adds aria-current='page' to the item. If href is also provided, the item still renders as a link; omit href when the current page must be inert.
 - Disabled breadcrumb entries remain in the DOM but skip tabindex to ensure keyboard navigation consistency.
 
@@ -123,4 +123,4 @@ import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 
 ### Props & callbacks
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">href</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Navigation destination for an item.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"text" | "menu"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Layout variant. "text" renders a &lt;nav&gt; with chevron separators; "menu" renders a role="navigation" &lt;div&gt; of chip buttons, so the native attributes each variant accepts also switch from &lt;nav&gt; to &lt;div&gt;.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"text"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">href</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Navigation destination for an item.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>

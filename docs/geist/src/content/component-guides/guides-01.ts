@@ -264,7 +264,8 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
         id: "default",
         kind: "minimal",
         title: "默认面包屑",
-        description: "展示默认的面包屑导航，包含分隔符和多级层级。",
+        description:
+          "以 type='text'（<nav> 列表 + 分隔符）与 type='menu'（芯片按钮组）两种变体呈现同一组层级。",
         demoKey: "Default",
       },
       {
@@ -278,7 +279,7 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "面包屑包裹在 <nav> 元素中并带有 aria-label='Breadcrumb' 角色，帮助屏幕阅读器识别。",
+        "type='text'（默认）渲染带 aria-label='Breadcrumb' 的 <nav>；type='menu' 渲染带 role='navigation' 与同一 aria-label 的 <div>，两者都对屏幕阅读器暴露为导航区域。",
         "active 会在条目上设置 aria-current='page'；若同时传入 href，条目仍会渲染为链接。需要不可点击的当前页时应省略 href。",
         "禁用态的面包屑项仍保留在 DOM 中但跳过 tabindex，确保键盘导航的一致性。",
       ],
@@ -575,7 +576,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Default breadcrumbs",
         description:
-          "Displays default breadcrumb navigation with separators and multiple hierarchy levels.",
+          "Renders the same hierarchy as type='text' (a <nav> list with separators) and type='menu' (a chip button group).",
         demoKey: "Default",
       },
       {
@@ -590,7 +591,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Breadcrumbs wrap in a <nav> element with aria-label='Breadcrumb', helping screen readers identify it.",
+        "type='text' (the default) renders a <nav> with aria-label='Breadcrumb'; type='menu' renders a <div> with role='navigation' and the same aria-label. Both surface as a navigation landmark to screen readers.",
         "active adds aria-current='page' to the item. If href is also provided, the item still renders as a link; omit href when the current page must be inert.",
         "Disabled breadcrumb entries remain in the DOM but skip tabindex to ensure keyboard navigation consistency.",
       ],

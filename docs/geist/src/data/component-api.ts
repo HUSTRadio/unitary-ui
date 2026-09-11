@@ -106,7 +106,16 @@ const O = {
   ),
   breadcrumbs: component(
     ["Breadcrumb", "BreadcrumbItem"],
-    [row("href", "string", "Navigation destination for an item.", "条目的导航目标。")],
+    [
+      row(
+        "type",
+        '"text" | "menu"',
+        'Layout variant. "text" renders a <nav> with chevron separators; "menu" renders a role="navigation" <div> of chip buttons, so the native attributes each variant accepts also switch from <nav> to <div>.',
+        '"text"：渲染 <nav> 与 chevron 分隔符；"menu"：渲染 role="navigation" 的 <div> 芯片按钮组，可传入的原生属性也从 <nav> 换成 <div>。',
+        { defaultValue: '"text"' },
+      ),
+      row("href", "string", "Navigation destination for an item.", "条目的导航目标。"),
+    ],
   ),
   button: component(
     ["Button", "ButtonLink", "CustomButton", "buttonVariants"],

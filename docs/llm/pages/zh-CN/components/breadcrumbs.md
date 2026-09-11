@@ -28,7 +28,7 @@ Breadcrumbs
 
 ### 默认面包屑
 
-展示默认的面包屑导航，包含分隔符和多级层级。
+以 type='text'（<nav> 列表 + 分隔符）与 type='menu'（芯片按钮组）两种变体呈现同一组层级。
 
 ### 激活状态
 
@@ -36,7 +36,7 @@ Breadcrumbs
 
 ## 无障碍
 
-- 面包屑包裹在 <nav> 元素中并带有 aria-label='Breadcrumb' 角色，帮助屏幕阅读器识别。
+- type='text'（默认）渲染带 aria-label='Breadcrumb' 的 <nav>；type='menu' 渲染带 role='navigation' 与同一 aria-label 的 <div>，两者都对屏幕阅读器暴露为导航区域。
 - active 会在条目上设置 aria-current='page'；若同时传入 href，条目仍会渲染为链接。需要不可点击的当前页时应省略 href。
 - 禁用态的面包屑项仍保留在 DOM 中但跳过 tabindex，确保键盘导航的一致性。
 
@@ -123,4 +123,4 @@ import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">href</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">条目的导航目标。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"text" | "menu"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">"text"：渲染 &lt;nav&gt; 与 chevron 分隔符；"menu"：渲染 role="navigation" 的 &lt;div&gt; 芯片按钮组，可传入的原生属性也从 &lt;nav&gt; 换成 &lt;div&gt;。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"text"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">href</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">条目的导航目标。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
