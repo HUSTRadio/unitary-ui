@@ -632,6 +632,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Language switcher with tabs": "带选项卡的语言切换器",
     "Link": "链接",
     "Link items": "链接菜单项",
+    "Feedback with topics": "带主题的反馈",
     "Local RatingPill extension": "本地 RatingPill 扩展",
     "Locked items": "锁定项",
     "Menu position": "菜单位置",

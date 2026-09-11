@@ -65,17 +65,24 @@ describe("docs feedback", () => {
     expect(document.querySelector('[data-slot="modal-overlay"]')).toBeNull();
   });
 
-  test("rating expands the anchored capsule in place without an overlay or scroll lock", async () => {
+  test("rating floats the form upward without an overlay, scroll lock or height change", async () => {
     await render(<FeedbackPanel />);
     const rating = container.querySelectorAll<HTMLButtonElement>('[role="radio"]')[3];
+    const anchorHeightBefore = container.querySelector<HTMLElement>('[data-feedback-inline]')
+      ?.getBoundingClientRect().height;
 
     await act(async () => rating.click());
 
     const capsule = container.querySelector<HTMLElement>('[data-slot="rating-pill"]');
     const formRegion = capsule?.querySelector<HTMLElement>('[data-slot="feedback-form-region"]');
     expect(capsule?.getAttribute("data-state")).toBe("open");
-    expect(capsule?.className).toContain("w-[336px]");
-    expect(formRegion?.getAttribute("aria-hidden")).toBeNull();
+    // 悬浮层脱离文档流，展开不改变胶囊/容器高度。
+    expect(formRegion?.className).toContain("absolute");
+    expect(formRegion?.className).toContain("bottom-full");
+    expect(capsule?.className).toContain("h-12");
+    const anchorHeightAfter = container.querySelector<HTMLElement>('[data-feedback-inline]')
+      ?.getBoundingClientRect().height;
+    expect(anchorHeightAfter).toBe(anchorHeightBefore);
     expect(document.querySelector('[data-slot="modal-overlay"]')).toBeNull();
     expect(document.body.style.overflow).toBe("");
   });
@@ -97,9 +104,10 @@ describe("docs feedback", () => {
     });
 
     expect(capsule.getAttribute("data-state")).toBe("closed");
+    // 收起会先播退出动画，动画期间节点仍在且标记为 closed。
     expect(
-      capsule.querySelector('[data-slot="feedback-form-region"]')?.getAttribute("aria-hidden"),
-    ).toBe("true");
+      capsule.querySelector('[data-slot="feedback-form-region"]')?.getAttribute("data-state"),
+    ).toBe("closed");
     expect(
       Array.from(container.querySelectorAll('[role="radio"]')).every(
         (button) => button.getAttribute("aria-checked") === "false",

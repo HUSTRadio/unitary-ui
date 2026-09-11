@@ -123,6 +123,35 @@ test.describe("Feedback official interaction and geometry", () => {
     ).toHaveValue("Preserve this draft");
   });
 
+  test("opens above the trigger instead of covering the work below it, and settles at its declared width", async ({
+    page,
+  }) => {
+    // 先把触发器滚到视口中部，保证上方有充足空间，避免把碰撞翻转误判为缺陷。
+    const trigger = page.locator('[data-demo-card="Default"] [data-slot="feedback-trigger"]');
+    await trigger.scrollIntoViewIfNeeded();
+    await page.evaluate(() => window.scrollBy(0, -200));
+    await trigger.click();
+    const popup = page.locator('[data-slot="feedback-popup"]');
+    await expect(popup).toBeVisible();
+    // 等 zoom-in-95 入场动画结束，否则读到的是 scale(0.95) 的中间宽度（340*0.95=323）。
+    await expect(page.locator("body")).toHaveCSS("overflow", "visible");
+    await page.waitForTimeout(400);
+
+    const [triggerBox, popupBox] = await Promise.all([trigger.boundingBox(), popup.boundingBox()]);
+    expect(triggerBox).not.toBeNull();
+    expect(popupBox).not.toBeNull();
+
+    // 向上弹出：弹层底边位于触发器顶边之上（含 8px sideOffset）。
+    expect((popupBox?.y ?? 0) + (popupBox?.height ?? 0)).toBeLessThanOrEqual((triggerBox?.y ?? 0) + 1);
+    await expect(popup).toHaveAttribute("data-side", "top");
+
+    // 动画结束后宽度必须等于声明值，且内容不被 overflow-hidden 裁切。
+    expect(popupBox?.width).toBeGreaterThanOrEqual(339);
+    expect(popupBox?.width).toBeLessThanOrEqual(341);
+    const clipped = await popup.evaluate((node) => node.scrollWidth - node.clientWidth);
+    expect(clipped).toBeLessThanOrEqual(1);
+  });
+
   test("Inline expands in place, clears rating on dismissal and preserves its draft", async ({
     page,
   }) => {
@@ -130,40 +159,69 @@ test.describe("Feedback official interaction and geometry", () => {
     const ratings = capsule.getByRole("radio");
     await expect(capsule).toHaveAttribute("data-state", "closed");
     const closedBox = await capsule.boundingBox();
-    expect(closedBox?.width).toBe(274);
     expect(closedBox?.height).toBe(48);
+    // 收起态宽度由内容决定（label 永不截断），不再固定 274px。
+    expect(closedBox?.width).toBeGreaterThanOrEqual(274);
+    const label = capsule.locator('[data-slot="feedback-inline-header"] p');
+    expect(await label.evaluate((node) => node.scrollWidth <= node.clientWidth + 1)).toBe(true);
 
     await ratings.last().click();
     await expect(capsule).toHaveAttribute("data-state", "open");
-    await expect.poll(async () => (await capsule.boundingBox())?.width).toBe(336);
+    // 悬浮表单向上展开，宽度 336px，且脱离文档流。
+    const region = capsule.locator('[data-slot="feedback-form-region"]');
+    await expect(region).toBeVisible();
+    await expect.poll(async () => (await region.boundingBox())?.width).toBe(336);
+    const [capsuleBox, regionBox] = await Promise.all([
+      capsule.boundingBox(),
+      region.boundingBox(),
+    ]);
+    // 悬浮层底边贴在胶囊顶边上方（mb-2 = 8px）。
+    expect(Math.abs((capsuleBox?.y ?? 0) - ((regionBox?.y ?? 0) + (regionBox?.height ?? 0)) - 8)).toBeLessThanOrEqual(1);
+    // 胶囊本体的垂直度量不因展开而变化：仍是 48px 单行胶囊。
+    expect(capsuleBox?.height).toBe(48);
+    // 圆角过渡 150ms，必须轮询到稳定值，否则读到的是中间帧（如 12.08px）。
     await expect
-      .poll(async () => (await capsule.boundingBox())?.height)
-      .toBeGreaterThanOrEqual(242);
-    expect((await capsule.boundingBox())?.height).toBeLessThanOrEqual(246);
-    expect(await capsule.evaluate((node) => getComputedStyle(node).borderRadius)).toBe("12px");
+      .poll(() => capsule.evaluate((node) => getComputedStyle(node).borderRadius))
+      .toBe("12px");
 
+    // 评分配色同样有过渡，轮询到稳定值再断言。
     const selected = ratings.last();
-    expect(await selected.evaluate((node) => getComputedStyle(node).backgroundColor)).toBe(
-      "rgb(224, 240, 255)",
-    );
-    expect(
-      await selected.locator("path").first().evaluate((node) => getComputedStyle(node).fill),
-    ).toBe("rgb(0, 104, 214)");
+    await expect
+      .poll(() => selected.evaluate((node) => getComputedStyle(node).backgroundColor))
+      .toBe("rgb(224, 240, 255)");
+    await expect
+      .poll(() => selected.locator("path").first().evaluate((node) => getComputedStyle(node).fill))
+      .toBe("rgb(0, 104, 214)");
+
+    // 表情行必须贴住 header 的右内边距，不得在右侧留下大块空档。
+    const rightGap = await capsule.evaluate((node) => {
+      const header = node.querySelector('[data-slot="feedback-inline-header"]')!;
+      const group = header.querySelector('[role="radiogroup"]')!;
+      const style = getComputedStyle(header);
+      return header.getBoundingClientRect().right - parseFloat(style.paddingRight) - group.getBoundingClientRect().right;
+    });
+    expect(rightGap).toBeLessThanOrEqual(1);
 
     const textarea = capsule.locator('[data-slot="feedback-textarea"]');
     await textarea.fill("Inline draft");
     await page.keyboard.press("Escape");
     await expect(capsule).toHaveAttribute("data-state", "closed");
     await expect.poll(async () => (await capsule.boundingBox())?.height).toBe(48);
+    // 收起是带动画的：退出动画期间悬浮层仍挂载并标记 closed。
+    const exiting = capsule.locator('[data-slot="feedback-form-region"]');
+    await expect(exiting).toHaveAttribute("data-state", "closed");
+    const exitAnim = await exiting.evaluate((node) => getComputedStyle(node).animationName);
+    expect(exitAnim).not.toBe("none");
+    // 动画结束后卸载。
+    await expect(exiting).toHaveCount(0);
     for (const radio of await ratings.all()) await expect(radio).toHaveAttribute("aria-checked", "false");
-    await expect(textarea).toHaveValue("Inline draft");
 
     await ratings.last().click();
     await expect(capsule).toHaveAttribute("data-state", "open");
-    await expect(textarea).toHaveValue("Inline draft");
+    await expect(capsule.locator('[data-slot="feedback-textarea"]')).toHaveValue("Inline draft");
   });
 
-  test("caps the expanded Inline width on narrow screens and honors reduced motion", async ({
+  test("caps the floating Inline form width on narrow screens and honors reduced motion", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 320, height: 800 });
@@ -171,11 +229,12 @@ test.describe("Feedback official interaction and geometry", () => {
     await page.goto("/#/components/feedback");
     const capsule = page.locator('[data-demo-card="Inline"] [data-slot="rating-pill"]');
     await capsule.getByRole("radio").last().click();
-    const box = await capsule.boundingBox();
+    const region = capsule.locator('[data-slot="feedback-form-region"]');
+    await expect(region).toBeVisible();
+    const box = await region.boundingBox();
+    // 悬浮层受视口减 32px 上限约束，320 视口下不超过 288px。
     expect(box?.width).toBeLessThanOrEqual(288);
-    expect(await capsule.evaluate((node) => getComputedStyle(node).transitionProperty)).toBe(
-      "none",
-    );
+    expect(await region.evaluate((node) => getComputedStyle(node).animationName)).toBe("none");
   });
 
   test("matches the measured selected colors in dark mode", async ({ page }) => {
@@ -234,5 +293,47 @@ test.describe("Feedback official interaction and geometry", () => {
     const label = footer.locator("p");
     await expect(label).toHaveText("提供反馈");
     expect(await label.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);
+  });
+
+  test("delivers the selected topic through onSubmit in a real browser submit", async ({ page }) => {
+    const card = page.locator('[data-demo-card="Feedback with topics"]');
+    await card.locator('[data-slot="feedback-trigger"]').click();
+    const popup = page.locator('[data-slot="feedback-popup"]');
+    await popup.locator("select").selectOption("Billing");
+    await popup.locator('[role="radio"]').nth(2).click();
+    await popup.locator('[data-slot="feedback-textarea"]').fill("Billing flow is clear");
+    await popup.locator('button[type="submit"]').click();
+
+    // 面板关闭即真实提交完成（非 dryRun），收据来自 onSubmit 实参。
+    await expect(popup).toHaveCount(0);
+    const receipt = card.locator('[data-slot="feedback-topics-receipt"]');
+    await expect(receipt).toContainText("rating=okay");
+    await expect(receipt).toContainText("topic=Billing");
+    await expect(receipt).toContainText("text=Billing flow is clear");
+    // topic 只走第 4 参，不会污染 metadata。
+    await expect(receipt).toContainText("metadata={}");
+  });
+
+  test("keeps the inline capsule open when only the window loses focus", async ({ page }) => {
+    await page.goto("/#/components/feedback");
+    const capsule = page.locator('[data-demo-card="Inline"] [data-slot="rating-pill"]');
+    await capsule.getByRole("radio").last().click();
+    await expect(capsule).toHaveAttribute("data-state", "open");
+
+    const textarea = capsule.locator('[data-slot="feedback-textarea"]');
+    await textarea.fill("Window blur draft");
+
+    // 只触发 window blur：焦点仍在 textarea 内，胶囊不应收起、评分不应被清空。
+    await page.evaluate(() => window.dispatchEvent(new Event("blur")));
+    await expect(capsule).toHaveAttribute("data-state", "open");
+    await expect(capsule.getByRole("radio").last()).toHaveAttribute("aria-checked", "true");
+
+    // 真实焦点外移仍然收起并清空评分，文字草稿保留。
+    await page.locator("body").click({ position: { x: 5, y: 5 } });
+    await expect(capsule).toHaveAttribute("data-state", "closed");
+    for (const radio of await capsule.getByRole("radio").all()) {
+      await expect(radio).toHaveAttribute("aria-checked", "false");
+    }
+    await expect(textarea).toHaveValue("Window blur draft");
   });
 });

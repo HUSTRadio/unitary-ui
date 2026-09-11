@@ -34,9 +34,17 @@ Feedback
 
 展示 274×48 评分胶囊在选中表情后于同一容器内扩展为反馈表单。
 
+### 带主题的反馈
+
+非 dryRun 的真实提交：选择主题后点 Send，页面下方会展示 onSubmit 实际收到的 rating、topic、metadata 与 text。
+
 ### 带元数据的反馈
 
 展示在反馈面板中附加上下文元数据的使用方式，帮助团队更好地了解反馈来源。
+
+### 本地 RatingPill 扩展
+
+本地扩展的四色语义评分胶囊；它不是官方 Feedback 变体，也不改变 Feedback 的蓝色状态。
 
 ## 无障碍
 
@@ -47,20 +55,24 @@ Feedback
 ## 受控行为
 
 - 默认 Popover 在 Escape 或外部点击关闭时保留当前草稿，重新打开后可继续编辑。
-- Inline 在 Escape、外部点击或焦点离开后收起并清空评分，同时保留文字草稿。
+- Inline 在 Escape、外部点击或焦点离开后收起并清空评分，同时保留文字草稿；窗口失焦（relatedTarget 为 null）时会先复核真实焦点位置，不会误判为离开而清空评分。
+- Inline 表单区向上悬浮展开（绝对定位），不参与父容器高度计算，展开与收起都不改变胶囊所在容器的垂直度量；收起同样是动画（宽高与圆角一起过渡）。
 - dryRun 下 Send 不调用 onSubmit，也不关闭界面；正常提交会复位评分、文字和主题。
+- topic 只由默认 Popover 的主题选择器产生，作为 onSubmit 第 4 个参数传出；默认不会写入 metadata，需要时用 includeTopicInMetadata 显式开启。
 
 ## 响应式行为
 
 - 默认 Popover 以触发器为锚点，Inline 始终在原位置展开；两者都不会切换成 Modal 或 Drawer。
 - 四个表情按钮保持 32px 圆形点击区域和 1px 间距，与官方桌面及窄屏形态一致。
 - 默认 340px、Inline 展开 336px，并受视口减 32px 的最大宽度约束，避免窄屏水平溢出。
+- Inline 收起态宽度由内容决定（label 永不截断），因此会随文案语言略微变化，不再固定为官方 274px；展开态固定 336px。
 
 ## 主题行为
 
 - 所有评分统一使用 blue-300 背景和 blue-900 图形强调，不引入官方不存在的四色情绪语义。
 - Local RatingPill extension 单独保留四色语义胶囊；它不是官方 Feedback 变体，也不改变 Feedback 的蓝色状态。
 - 面板阴影、背景色和边框颜色遵循 Geist 主题系统，支持全局主题变量的覆盖。
+- Inline 收起态圆角使用可插值的 --radius-capsule-interpolable，而非无穷大 pill 半径；后者在过渡到 12px 时会被浏览器钳制到最短边一半，导致展开过程圆角突跳。
 
 ## 实时示例
 
@@ -118,6 +130,41 @@ export function FeedbackFeedbackWithSelectBF2A8F56Example() {
         </Note>
       </div>
     </>
+  );
+}
+```
+
+## 带主题的反馈
+
+Submit the panel to see what onSubmit receives.
+
+```tsx
+import { useState } from "react";
+
+import { Feedback } from "@/components/ui/feedback";
+
+/**
+ * 非 dryRun 的主题演示：真实提交后才渲染收据，证明 topic 确实经 onSubmit 的第 4 个
+ * 参数交付（而不是被悄悄合并进 metadata）。
+ */
+export function FeedbackFeedbackWithTopics7C41E2ABExample() {
+  const [receipt, setReceipt] = useState<string | null>(null);
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <Feedback
+        label="vercel"
+        showTopics
+        onSubmit={(rating, text, metadata, topic) => {
+          setReceipt(
+            `rating=${rating ?? "none"} · topic=${topic ?? "none"} · metadata=${JSON.stringify(metadata ?? {})} · text=${text || "empty"}`,
+          );
+        }}
+      />
+      <output data-slot="feedback-topics-receipt" className="text-copy-13 text-muted-foreground">
+        {receipt ?? "Submit the panel to see what onSubmit receives."}
+      </output>
+    </div>
   );
 }
 ```
@@ -211,7 +258,7 @@ import { Feedback } from "@/components/ui/feedback";
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">label</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">默认次级触发按钮显示的文本。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"Feedback"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">copy</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">可选表单文案；在 Inline 中替换胶囊问题文本。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">dryRun</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">演示模式：Send 不调用 onSubmit，也不关闭当前界面。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"inline"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">使用常显评分胶囊，并在同一容器内展开。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">showTopics</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">显示预定义的产品主题选择器。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">metadata</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">Record&lt;string, string&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">透传给 onSubmit 的上下文。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">prefix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">触发器或 Inline 问题文本之前的内容。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">suffix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">触发器或 Inline 问题文本之后的内容。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultValue</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">RatingValue</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">初始非受控评分；所有评分统一使用蓝色选中态。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onSubmit</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record&lt;string, string&gt;) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">在非 dryRun 提交后接收评分、文本与可选元数据。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">label</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">默认次级触发按钮显示的文本。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"Feedback"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">copy</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">可选表单文案；在 Inline 中替换胶囊问题文本。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">dryRun</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">演示模式：Send 不调用 onSubmit，也不关闭当前界面。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"inline"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">使用常显评分胶囊，并在同一容器内展开。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">showTopics</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">显示预定义的产品主题选择器。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">topics</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">readonly string[]</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">显式主题选项；传入非空数组时无需 showTopics 也会渲染选择器。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">topic</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">受控主题值；与 onTopicChange 配对使用。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultTopic</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">非受控初始主题。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onTopicChange</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(topic: string) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">主题选择变化时调用。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">includeTopicInMetadata</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">额外把所选主题以 metadata.topic 合并进 onSubmit 第三个参数。默认 false，保证 metadata 与调用方传入内容完全一致。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">metadata</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">Record&lt;string, string&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">透传给 onSubmit 的上下文。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">prefix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">触发器或 Inline 问题文本之前的内容。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">suffix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">触发器或 Inline 问题文本之后的内容。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultValue</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">RatingValue</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">初始非受控评分；所有评分统一使用蓝色选中态。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onSubmit</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record&lt;string, string&gt;, topic?: string) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">在非 dryRun 提交后接收评分、文本、调用方 metadata 与所选主题。主题选择器只在默认 Popover 变体中渲染。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## 最佳实践
 

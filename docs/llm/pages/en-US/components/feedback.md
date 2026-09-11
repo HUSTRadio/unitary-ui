@@ -34,9 +34,17 @@ Shows the default 32px secondary trigger opening a 340px anchored Popover.
 
 Shows the 274×48 rating capsule expanding into the feedback form in the same container.
 
+### Feedback with topics
+
+A real, non-dryRun submit: pick a topic and press Send; the receipt below shows the rating, topic, metadata, and text that onSubmit actually received.
+
 ### Feedback with metadata
 
 Shows attaching contextual metadata alongside the feedback panel, helping the team understand the source and context of collected responses.
+
+### Local RatingPill extension
+
+The locally extended four-tone rating capsule; it is not an official Feedback variant and does not change Feedback's blue selected state.
 
 ## Accessibility
 
@@ -47,20 +55,24 @@ Shows attaching contextual metadata alongside the feedback panel, helping the te
 ## Controlled behavior
 
 - Dismissing the default Popover with Escape or an outside press preserves the current draft for reopening.
-- Inline collapses and clears its rating on Escape, outside press, or focus departure while preserving the text draft.
+- Inline collapses and clears its rating on Escape, outside press, or focus departure while preserving the text draft; a null relatedTarget (window blur) re-checks the real focus target first instead of clearing the rating by mistake.
+- The Inline form region expands upward as a floating layer (absolutely positioned), so it never participates in the parent height calculation: neither expanding nor collapsing changes the vertical metrics of the capsule's container. Collapsing is animated too, transitioning width, height, and radius together.
 - In dryRun mode Send neither invokes onSubmit nor closes; a real submit resets rating, text, and topic.
+- topic only comes from the default Popover's selector and is passed as the fourth onSubmit argument; it is not written into metadata unless includeTopicInMetadata is enabled.
 
 ## Responsive behavior
 
 - The default stays anchored to its trigger and Inline expands in place; neither switches to a Modal or Drawer.
 - The four emoji buttons retain 32px circular targets with a 1px gap across desktop and narrow viewports.
 - Default uses 340px and expanded Inline 336px, both capped to viewport width minus 32px to avoid horizontal overflow.
+- Collapsed Inline is content-sized so its label is never truncated, so it varies slightly by locale instead of being pinned to the official 274px; the expanded state stays at 336px.
 
 ## Theme behavior
 
 - Every rating uses the same blue-300 background and blue-900 glyph emphasis; no non-official four-color emotion mapping is added.
 - The separately labeled Local RatingPill extension retains semantic four-tone capsules; it is not an official Feedback variant.
 - Panel shadow, background, and border colors follow the Geist theme system, supporting global theme variable overrides.
+- Collapsed Inline uses the interpolatable --radius-capsule-interpolable rather than an effectively-infinite pill radius; the latter gets clamped to half the shortest edge, which makes the radius snap mid-expansion.
 
 ## Live Demo
 
@@ -118,6 +130,41 @@ export function FeedbackFeedbackWithSelectBF2A8F56Example() {
         </Note>
       </div>
     </>
+  );
+}
+```
+
+## Feedback with topics
+
+Submit the panel to see what onSubmit receives.
+
+```tsx
+import { useState } from "react";
+
+import { Feedback } from "@/components/ui/feedback";
+
+/**
+ * 非 dryRun 的主题演示：真实提交后才渲染收据，证明 topic 确实经 onSubmit 的第 4 个
+ * 参数交付（而不是被悄悄合并进 metadata）。
+ */
+export function FeedbackFeedbackWithTopics7C41E2ABExample() {
+  const [receipt, setReceipt] = useState<string | null>(null);
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <Feedback
+        label="vercel"
+        showTopics
+        onSubmit={(rating, text, metadata, topic) => {
+          setReceipt(
+            `rating=${rating ?? "none"} · topic=${topic ?? "none"} · metadata=${JSON.stringify(metadata ?? {})} · text=${text || "empty"}`,
+          );
+        }}
+      />
+      <output data-slot="feedback-topics-receipt" className="text-copy-13 text-muted-foreground">
+        {receipt ?? "Submit the panel to see what onSubmit receives."}
+      </output>
+    </div>
   );
 }
 ```
@@ -211,7 +258,7 @@ import { Feedback } from "@/components/ui/feedback";
 
 ### Props & callbacks
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">label</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Text shown by the default secondary trigger.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"Feedback"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">copy</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Optional form copy; for Inline, replaces the capsule question.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">dryRun</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Demo mode: Send neither calls onSubmit nor closes the current surface.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"inline"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Uses the persistent rating capsule that expands in place.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">showTopics</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Shows the predefined product-topic selector.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">metadata</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">Record&lt;string, string&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Context forwarded to onSubmit.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">prefix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Content before the trigger or Inline question.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">suffix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Content after the trigger or Inline question.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultValue</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">RatingValue</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Initial uncontrolled rating; all ratings use the same blue selected state.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onSubmit</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record&lt;string, string&gt;) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Receives the rating, text, and optional metadata after a non-dry-run submission.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">label</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Text shown by the default secondary trigger.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"Feedback"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">copy</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Optional form copy; for Inline, replaces the capsule question.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">dryRun</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Demo mode: Send neither calls onSubmit nor closes the current surface.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"inline"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Uses the persistent rating capsule that expands in place.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">showTopics</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Shows the predefined product-topic selector.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">topics</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">readonly string[]</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Explicit topic options; passing a non-empty array renders the selector without showTopics.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">topic</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Controlled topic value; pair with onTopicChange.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultTopic</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Initial uncontrolled topic.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onTopicChange</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(topic: string) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Called when the topic selection changes.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">includeTopicInMetadata</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Also merges the selected topic into the third onSubmit argument as metadata.topic. Default is false so metadata stays exactly what the caller passed.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">metadata</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">Record&lt;string, string&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Context forwarded to onSubmit.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">prefix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Content before the trigger or Inline question.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">suffix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Content after the trigger or Inline question.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultValue</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">RatingValue</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Initial uncontrolled rating; all ratings use the same blue selected state.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onSubmit</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record&lt;string, string&gt;, topic?: string) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Receives the rating, text, caller metadata, and the selected topic after a non-dry-run submission. The topic selector only renders in the default Popover variant.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## Best Practices
 

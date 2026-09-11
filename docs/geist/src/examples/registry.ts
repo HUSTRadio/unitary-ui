@@ -677,6 +677,8 @@ import { FeedbackFeedbackWithSelectBF2A8F56Example } from "./feedback/feedback-w
 import FeedbackFeedbackWithSelectBF2A8F56ExampleSource from "./feedback/feedback-with-select-bf2a8f56.example.tsx?example-source";
 import { FeedbackFeedbackWithMetadata6449A9ACExample } from "./feedback/feedback-with-metadata-6449a9ac.example";
 import FeedbackFeedbackWithMetadata6449A9ACExampleSource from "./feedback/feedback-with-metadata-6449a9ac.example.tsx?example-source";
+import { FeedbackFeedbackWithTopics7C41E2ABExample } from "./feedback/feedback-with-topics-7c41e2ab.example";
+import FeedbackFeedbackWithTopics7C41E2ABExampleSource from "./feedback/feedback-with-topics-7c41e2ab.example.tsx?example-source";
 import { FeedbackRatingBar253F979EExample } from "./feedback/rating-bar-253f979e.example";
 import FeedbackRatingBar253F979EExampleSource from "./feedback/rating-bar-253f979e.example.tsx?example-source";
 import { FeedbackFeedbackWithPrefixEBD13739Example } from "./feedback/feedback-with-prefix-ebd13739.example";
@@ -1099,6 +1101,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "feedback", id: "Default", Component: FeedbackDefault21B111CBExample, source: FeedbackDefault21B111CBExampleSource },
   { slug: "feedback", id: "Inline", Component: FeedbackInline99ED40ACExample, source: FeedbackInline99ED40ACExampleSource },
   { slug: "feedback", id: "Feedback with Select", Component: FeedbackFeedbackWithSelectBF2A8F56Example, source: FeedbackFeedbackWithSelectBF2A8F56ExampleSource },
+  { slug: "feedback", id: "Feedback with topics", Component: FeedbackFeedbackWithTopics7C41E2ABExample, source: FeedbackFeedbackWithTopics7C41E2ABExampleSource },
   { slug: "feedback", id: "Feedback with metadata", Component: FeedbackFeedbackWithMetadata6449A9ACExample, source: FeedbackFeedbackWithMetadata6449A9ACExampleSource },
   { slug: "feedback", id: "Local RatingPill extension", Component: FeedbackRatingBar253F979EExample, source: FeedbackRatingBar253F979EExampleSource },
   { slug: "feedback", id: "Feedback with prefix", Component: FeedbackFeedbackWithPrefixEBD13739Example, source: FeedbackFeedbackWithPrefixEBD13739ExampleSource },

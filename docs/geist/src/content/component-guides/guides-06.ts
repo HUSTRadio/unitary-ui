@@ -148,11 +148,26 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
         demoKey: "Inline",
       },
       {
+        id: "feedback-with-topics",
+        kind: "stateful",
+        title: "带主题的反馈",
+        description:
+          "非 dryRun 的真实提交：选择主题后点 Send，页面下方会展示 onSubmit 实际收到的 rating、topic、metadata 与 text。",
+        demoKey: "Feedback with topics",
+      },
+      {
         id: "feedback-with-metadata",
         kind: "advanced",
         title: "带元数据的反馈",
         description: "展示在反馈面板中附加上下文元数据的使用方式，帮助团队更好地了解反馈来源。",
         demoKey: "Feedback with metadata",
+      },
+      {
+        id: "feedback-local-rating-pill",
+        kind: "advanced",
+        title: "本地 RatingPill 扩展",
+        description: "本地扩展的四色语义评分胶囊；它不是官方 Feedback 变体，也不改变 Feedback 的蓝色状态。",
+        demoKey: "Local RatingPill extension",
       },
     ],
     accessibility: {
@@ -167,8 +182,10 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "默认 Popover 在 Escape 或外部点击关闭时保留当前草稿，重新打开后可继续编辑。",
-        "Inline 在 Escape、外部点击或焦点离开后收起并清空评分，同时保留文字草稿。",
+        "Inline 在 Escape、外部点击或焦点离开后收起并清空评分，同时保留文字草稿；窗口失焦（relatedTarget 为 null）时会先复核真实焦点位置，不会误判为离开而清空评分。",
+        "Inline 表单区向上悬浮展开（绝对定位），不参与父容器高度计算，展开与收起都不改变胶囊所在容器的垂直度量；收起同样是动画（宽高与圆角一起过渡）。",
         "dryRun 下 Send 不调用 onSubmit，也不关闭界面；正常提交会复位评分、文字和主题。",
+        "topic 只由默认 Popover 的主题选择器产生，作为 onSubmit 第 4 个参数传出；默认不会写入 metadata，需要时用 includeTopicInMetadata 显式开启。",
       ],
     },
     responsiveBehavior: {
@@ -177,6 +194,7 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
         "默认 Popover 以触发器为锚点，Inline 始终在原位置展开；两者都不会切换成 Modal 或 Drawer。",
         "四个表情按钮保持 32px 圆形点击区域和 1px 间距，与官方桌面及窄屏形态一致。",
         "默认 340px、Inline 展开 336px，并受视口减 32px 的最大宽度约束，避免窄屏水平溢出。",
+        "Inline 收起态宽度由内容决定（label 永不截断），因此会随文案语言略微变化，不再固定为官方 274px；展开态固定 336px。",
       ],
     },
     themeBehavior: {
@@ -185,6 +203,7 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
         "所有评分统一使用 blue-300 背景和 blue-900 图形强调，不引入官方不存在的四色情绪语义。",
         "Local RatingPill extension 单独保留四色语义胶囊；它不是官方 Feedback 变体，也不改变 Feedback 的蓝色状态。",
         "面板阴影、背景色和边框颜色遵循 Geist 主题系统，支持全局主题变量的覆盖。",
+        "Inline 收起态圆角使用可插值的 --radius-capsule-interpolable，而非无穷大 pill 半径；后者在过渡到 12px 时会被浏览器钳制到最短边一半，导致展开过程圆角突跳。",
       ],
     },
   },
@@ -477,12 +496,28 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
         demoKey: "Inline",
       },
       {
+        id: "feedback-with-topics",
+        kind: "stateful",
+        title: "Feedback with topics",
+        description:
+          "A real, non-dryRun submit: pick a topic and press Send; the receipt below shows the rating, topic, metadata, and text that onSubmit actually received.",
+        demoKey: "Feedback with topics",
+      },
+      {
         id: "feedback-with-metadata",
         kind: "advanced",
         title: "Feedback with metadata",
         description:
           "Shows attaching contextual metadata alongside the feedback panel, helping the team understand the source and context of collected responses.",
         demoKey: "Feedback with metadata",
+      },
+      {
+        id: "feedback-local-rating-pill",
+        kind: "advanced",
+        title: "Local RatingPill extension",
+        description:
+          "The locally extended four-tone rating capsule; it is not an official Feedback variant and does not change Feedback's blue selected state.",
+        demoKey: "Local RatingPill extension",
       },
     ],
     accessibility: {
@@ -497,8 +532,10 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Dismissing the default Popover with Escape or an outside press preserves the current draft for reopening.",
-        "Inline collapses and clears its rating on Escape, outside press, or focus departure while preserving the text draft.",
+        "Inline collapses and clears its rating on Escape, outside press, or focus departure while preserving the text draft; a null relatedTarget (window blur) re-checks the real focus target first instead of clearing the rating by mistake.",
+        "The Inline form region expands upward as a floating layer (absolutely positioned), so it never participates in the parent height calculation: neither expanding nor collapsing changes the vertical metrics of the capsule's container. Collapsing is animated too, transitioning width, height, and radius together.",
         "In dryRun mode Send neither invokes onSubmit nor closes; a real submit resets rating, text, and topic.",
+        "topic only comes from the default Popover's selector and is passed as the fourth onSubmit argument; it is not written into metadata unless includeTopicInMetadata is enabled.",
       ],
     },
     responsiveBehavior: {
@@ -507,6 +544,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
         "The default stays anchored to its trigger and Inline expands in place; neither switches to a Modal or Drawer.",
         "The four emoji buttons retain 32px circular targets with a 1px gap across desktop and narrow viewports.",
         "Default uses 340px and expanded Inline 336px, both capped to viewport width minus 32px to avoid horizontal overflow.",
+        "Collapsed Inline is content-sized so its label is never truncated, so it varies slightly by locale instead of being pinned to the official 274px; the expanded state stays at 336px.",
       ],
     },
     themeBehavior: {
@@ -515,6 +553,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
         "Every rating uses the same blue-300 background and blue-900 glyph emphasis; no non-official four-color emotion mapping is added.",
         "The separately labeled Local RatingPill extension retains semantic four-tone capsules; it is not an official Feedback variant.",
         "Panel shadow, background, and border colors follow the Geist theme system, supporting global theme variable overrides.",
+        "Collapsed Inline uses the interpolatable --radius-capsule-interpolable rather than an effectively-infinite pill radius; the latter gets clamped to half the shortest edge, which makes the radius snap mid-expansion.",
       ],
     },
   },
