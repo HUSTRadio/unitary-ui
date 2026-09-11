@@ -323,6 +323,31 @@ test.describe("Feedback official interaction and geometry", () => {
     expect(await label.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);
   });
 
+  test("centers the footer capsule horizontally in the pagination row", async ({ page }) => {
+    await page.goto("/#/grid");
+    const footer = page.locator('[data-slot="feedback-anchor"]');
+    await expect(footer).toBeVisible();
+
+    // 占位层必须撑出真实宽度：否则它塌陷为 0 宽，父级中间列也塌成 0 宽，
+    // 卡片只能从该点向右生长（此前实测偏右 111.5px）。
+    const offset = await footer.evaluate((node) => {
+      const pill = node.querySelector('[data-slot="rating-pill"]')!.getBoundingClientRect();
+      const row = (node.closest("nav") ?? node.parentElement!).getBoundingClientRect();
+      return pill.x + pill.width / 2 - (row.x + row.width / 2);
+    });
+    expect(Math.abs(offset)).toBeLessThanOrEqual(2);
+
+    // 展开后仍应围绕同一中心对称扩展。
+    await footer.getByRole("radio").last().click();
+    await page.waitForTimeout(400);
+    const openOffset = await footer.evaluate((node) => {
+      const pill = node.querySelector('[data-slot="rating-pill"]')!.getBoundingClientRect();
+      const row = (node.closest("nav") ?? node.parentElement!).getBoundingClientRect();
+      return pill.x + pill.width / 2 - (row.x + row.width / 2);
+    });
+    expect(Math.abs(openOffset)).toBeLessThanOrEqual(2);
+  });
+
   test("delivers the selected topic through onSubmit in a real browser submit", async ({ page }) => {
     const card = page.locator('[data-demo-card="Feedback with topics"]');
     await card.locator('[data-slot="feedback-trigger"]').click();

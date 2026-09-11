@@ -331,7 +331,17 @@ function Feedback({
        * 注意：祖先若带 overflow:hidden/auto 且上方空间不足会裁切浮层，
        * 调用方需保证容器不裁切（文档站 demo 已用 overflow-visible 例外）。
        */
-      <div className={cn("relative h-12", className)} data-feedback-inline="" {...props}>
+      /*
+       * 占位层必须有真实宽度：浮动卡片是绝对定位的，不贡献布局尺寸，
+       * 若不显式给出收起态宽度，占位层会塌成 0 宽 → 父级（页脚 grid 的中间列）
+       * 也塌成 0 宽，卡片只能从该点向右生长，视觉上表现为整体偏右。
+       */
+      <div
+        {...props}
+        className={cn("relative h-12", className)}
+        data-feedback-inline=""
+        style={{ ...props.style, width: collapsedWidth || undefined }}
+      >
         <div
           ref={inlineRef}
           data-slot="rating-pill"
