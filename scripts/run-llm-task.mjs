@@ -36,8 +36,9 @@ function dryRunMetadata(task, runnerConfig) {
     validators: task.validators,
     agent: {
       command: runnerConfig.agent.command,
+      provider: runnerConfig.agent.provider,
       model: runnerConfig.agent.model,
-      reasoningEffort: runnerConfig.agent.reasoningEffort,
+      thinking: runnerConfig.agent.thinking,
     },
   };
 }

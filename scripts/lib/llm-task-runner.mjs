@@ -34,7 +34,7 @@ export const CONTEXT_PROVIDER_IDS = Object.freeze(["docs-push"]);
 /**
  * Windows CreateProcess caps the whole command line near 32k characters. A
  * first branch push renders the entire tree into the runtime context (~55k
- * bytes here), which used to overflow argv and fail `spawn codex` with
+ * bytes here), which used to overflow argv and fail `spawn pi` with
  * ENAMETOOLONG. Prompts above this threshold are delivered via stdin instead.
  */
 export const PROMPT_STDIN_THRESHOLD = 8000;
@@ -157,15 +157,13 @@ export function validateTaskCapabilities(task) {
 function assertProductionAgentTemplate(config) {
   const agent = config.agent;
   const valid =
-    agent.command === "codex" &&
-    agent.codexCli === true &&
-    JSON.stringify(agent.subcommand ?? ["exec"]) === JSON.stringify(["exec"]) &&
-    agent.sandbox === undefined &&
-    agent.approvalMode === "approve-for-me" &&
+    agent.command === "pi" &&
+    agent.piCli === true &&
+    JSON.stringify(agent.subcommand ?? ["--print"]) === JSON.stringify(["--print"]) &&
     agent.ephemeral === true;
   if (!valid) {
     throw new Error(
-      "production execution requires the fixed Codex exec template with approve-for-me and ephemeral mode",
+      "production execution requires the fixed Pi print template with non-interactive and ephemeral mode",
     );
   }
 }
@@ -175,24 +173,25 @@ export function buildAgentArgs(config, prompt, options = {}) {
   const agent = config.agent;
   if (!testMode) {
     assertProductionAgentTemplate(config);
-    const args = ["exec", "-m", agent.model];
-    if (agent.reasoningEffort) {
-      args.push("-c", `model_reasoning_effort="${agent.reasoningEffort}"`);
+    const args = ["--print"];
+    if (agent.provider) args.push("--provider", agent.provider);
+    args.push("--model", agent.model);
+    if (agent.thinking) {
+      args.push("--thinking", agent.thinking);
     }
-    args.push("--approve-for-me", "--ephemeral", "-C", ".");
+    args.push("--no-session");
     if (promptVia === "arg") args.push(prompt);
     return args;
   }
 
-  if (agent.codexCli) {
-    const args = [...(agent.subcommand ?? ["exec"]), "-m", agent.model];
-    if (agent.reasoningEffort) {
-      args.push("-c", `model_reasoning_effort="${agent.reasoningEffort}"`);
+  if (agent.piCli) {
+    const args = [...(agent.subcommand ?? ["--print"])];
+    if (agent.provider) args.push("--provider", agent.provider);
+    args.push("--model", agent.model);
+    if (agent.thinking) {
+      args.push("--thinking", agent.thinking);
     }
-    if (agent.sandbox && !agent.approvalMode) args.push("--sandbox", agent.sandbox);
-    if (agent.approvalMode) args.push("--approve-for-me");
-    if (agent.ephemeral) args.push("--ephemeral");
-    args.push("-C", ".");
+    if (agent.ephemeral) args.push("--no-session");
     if (promptVia === "arg") args.push(prompt);
     return args;
   }
@@ -258,8 +257,8 @@ export function waitForAgentExit(child, timeoutMs, getOutput) {
       const { stdout, stderr } = getOutput();
       finish({ ok: false, code: null, error, stdout, stderr, timedOut });
     });
-    // `close` waits for every process that inherited stdout/stderr. Codex can
-    // leave a helper holding those pipes after the CLI itself has exited, which
+    // `close` waits for every process that inherited stdout/stderr. The agent
+    // CLI can leave a helper holding those pipes after it has exited, which
     // makes pre-push wait until the outer timeout. The agent's own `exit` is the
     // execution boundary; destroy our pipe readers once that process is done.
     child.once("exit", (code) => {
@@ -277,7 +276,7 @@ function runAgent({ repoRoot, runnerConfig, prompt, testMode, testEnvironment })
     promptVia: viaStdin ? "stdin" : "arg",
   });
   const sourceEnv = { ...process.env, ...(testEnvironment ?? {}) };
-  const child = spawn(testMode ? agent.command : "codex", args, {
+  const child = spawn(testMode ? agent.command : "pi", args, {
     cwd: repoRoot,
     stdio: [viaStdin ? "pipe" : "ignore", "pipe", "pipe"],
     env: buildAgentEnvironment(sourceEnv, { testMode }),

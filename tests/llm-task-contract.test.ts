@@ -178,13 +178,13 @@ describe("versioned LLM task package contract", () => {
       fragmentPaths: string[];
       promptBundleHash: string;
       renderedPromptHash?: string;
-      agent: { command: string; model: string; reasoningEffort: string };
+      agent: { command: string; provider: string; model: string; thinking: string };
     };
     expect(metadata).toMatchObject({
       task: "docs-update",
       taskVersion: 1,
       fragmentPaths: expectedFragments,
-      agent: { command: "codex", model: "gpt-5.6-luna", reasoningEffort: "high" },
+      agent: { command: "pi", provider: "deepseek", model: "deepseek-flash", thinking: "high" },
     });
     expect(metadata.promptBundleHash).toMatch(/^[a-f0-9]{64}$/);
     expect(metadata.renderedPromptHash).toBeUndefined();

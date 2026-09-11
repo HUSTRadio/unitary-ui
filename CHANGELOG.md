@@ -54,6 +54,7 @@
 - pre-push 将 README 截图漂移检查与既有文档 / LLM 更新 gate 合并为单一编排器：真实变更路径是唯一放行判定依据，Angular / Conventional Commit 的 type 与 scope 仅作为诊断信号，不能覆盖路径判断；截图漂移时自动生成受管文件并中止 push，所有阻断都会说明未完成的操作和恢复步骤，等待人工复核、提交并重推。
 - Living styleguide 示例改用当前组件 API 与真实动作语义；`docs-update` 任务现在可在受限范围内同步 `src/App.tsx`、`src/examples/**` 和受管截图，并将截图零漂移纳入确定性校验。
 - **AI 文档 pre-push 传输方式**：超过 8000 字符的 docs-update prompt 现在通过 `codex exec` 的 stdin 通道传输，修复 Windows 首次 push 时 `CreateProcess` 命令行超限导致的 `ENAMETOOLONG`。
+- **LLM 任务运行器改用 Pi**：`.agents/runner.config.json` 的 `agent` 由 Codex（`codex exec`）切换为 Pi Coding Agent（`pi --print`），配置字段相应改为 `piCli` / `provider` / `model` / `thinking` / `ephemeral`；`scripts/lib/llm-task-runner.mjs` 生成固定的 `pi --print` 参数模板并拒绝替换可执行文件，默认执行模型为 `deepseek/deepseek-flash`；移除仅适用于 Codex 的 `sandbox` / `approvalMode` 配置项及其 `--ephemeral` / `--approve-for-me` / `-C` 参数形态。
 
 ### Fixed
 

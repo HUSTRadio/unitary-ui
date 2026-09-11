@@ -97,7 +97,7 @@ function pushInput(cwd: string, remoteSha = ZERO_SHA): string {
 function writeRunnerConfig(dir: string, overrides: Record<string, unknown> = {}): string {
   const agent = {
     command: "node",
-    codexCli: false,
+    piCli: false,
     subcommand: [FAKE_AGENT],
     model: "fake-model",
     timeoutMs: 10_000,
@@ -411,7 +411,7 @@ describe("ai-docs-pre-push.mjs adapter boundary", () => {
     expect(prompt).not.toContain("https://secret.example/repo.git");
   });
 
-  it("rejects production configuration overrides before invoking Codex", () => {
+  it("rejects production configuration overrides before invoking Pi", () => {
     const dir = makeRepo();
     const marker = path.join(scratchDir(), "marker.txt");
     const configPath = writeRunnerConfig(dir);

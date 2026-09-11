@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * fake-doc-agent.mjs —— 测试用假 agent（模拟 codex exec 的参数形态）。
+ * fake-doc-agent.mjs —— 测试用假 agent（模拟 pi print 的参数形态）。
  * 通过环境变量控制行为：
  *   FAKE_AGENT_EXIT        进程退出码（默认 0）
  *   FAKE_AGENT_TOUCH       逗号分隔的相对路径列表；对每个路径执行追加写入
@@ -41,7 +41,7 @@ if (process.env.FAKE_AGENT_MARKER) {
 }
 
 if (process.env.FAKE_AGENT_PROMPT_OUT) {
-  // codexCli=false 时，固定 prompt + 动态上下文作为最后一个参数传入；
+  // piCli=false 时，固定 prompt + 动态上下文作为最后一个参数传入；
   // FAKE_AGENT_PROMPT_STDIN=1 时改为从 stdin 读取（模拟超大 prompt 走 stdin）。
   if (process.env.FAKE_AGENT_PROMPT_STDIN === "1") {
     const stdin = await new Promise((resolve) => {

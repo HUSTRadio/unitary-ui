@@ -18,23 +18,16 @@
           "minLength": 1,
           "pattern": "^[A-Za-z0-9._-]+$"
         },
-        "codexCli": { "type": "boolean" },
+        "piCli": { "type": "boolean" },
         "subcommand": {
           "type": "array",
           "items": { "type": "string", "minLength": 1 }
         },
+        "provider": { "type": "string", "minLength": 1 },
         "model": { "type": "string", "minLength": 1 },
-        "reasoningEffort": {
+        "thinking": {
           "type": "string",
-          "enum": ["minimal", "low", "medium", "high"]
-        },
-        "sandbox": {
-          "type": "string",
-          "enum": ["read-only", "workspace-write"]
-        },
-        "approvalMode": {
-          "type": "string",
-          "enum": ["approve-for-me"]
+          "enum": ["off", "minimal", "low", "medium", "high", "xhigh", "max"]
         },
         "ephemeral": { "type": "boolean" },
         "timeoutMs": {

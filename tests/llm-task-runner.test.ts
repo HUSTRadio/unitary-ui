@@ -55,7 +55,7 @@ function fakeConfig() {
     enabled: true,
     agent: {
       command: "node",
-      codexCli: false,
+      piCli: false,
       subcommand: [fakeAgent],
       model: "fake-model",
       timeoutMs: 10_000,
@@ -109,35 +109,34 @@ describe("generic LLM task runner", () => {
     expect(env.GIT_TERMINAL_PROMPT).toBe("0");
   });
 
-  it("uses the fixed production Codex template and rejects a substituted executable", async () => {
+  it("uses the fixed production Pi template and rejects a substituted executable", async () => {
     const runner = await loadRunner();
     const config = {
       enabled: true,
       agent: {
-        command: "codex",
-        codexCli: true,
-        subcommand: ["exec"],
-        model: "gpt-5.6-luna",
-        reasoningEffort: "high",
-        approvalMode: "approve-for-me",
+        command: "pi",
+        piCli: true,
+        subcommand: ["--print"],
+        provider: "deepseek",
+        model: "deepseek-flash",
+        thinking: "high",
         ephemeral: true,
       },
     };
     expect(runner.buildAgentArgs(config, "PROMPT")).toEqual([
-      "exec",
-      "-m",
-      "gpt-5.6-luna",
-      "-c",
-      'model_reasoning_effort="high"',
-      "--approve-for-me",
-      "--ephemeral",
-      "-C",
-      ".",
+      "--print",
+      "--provider",
+      "deepseek",
+      "--model",
+      "deepseek-flash",
+      "--thinking",
+      "high",
+      "--no-session",
       "PROMPT",
     ]);
     expect(() =>
       runner.buildAgentArgs({ ...config, agent: { ...config.agent, command: "node" } }, "PROMPT"),
-    ).toThrow(/fixed Codex/);
+    ).toThrow(/fixed Pi/);
   });
 
   it("returns status 2 for allowlisted writes without committing", async () => {
@@ -229,43 +228,41 @@ describe("generic LLM task runner", () => {
     const runner = await loadRunner();
     // Windows CreateProcess caps the command line near 32k; a first branch push
     // renders the whole tree (~55k bytes) into the runtime context and used to
-    // fail `spawn codex` with ENAMETOOLONG.
+    // fail `spawn pi` with ENAMETOOLONG.
     expect(runner.promptViaStdin("small prompt")).toBe(false);
     expect(runner.promptViaStdin("x".repeat(runner.PROMPT_STDIN_THRESHOLD + 1))).toBe(true);
 
     const config = {
       enabled: true,
       agent: {
-        command: "codex",
-        codexCli: true,
-        subcommand: ["exec"],
-        model: "gpt-5.6-luna",
-        reasoningEffort: "high",
-        approvalMode: "approve-for-me",
+        command: "pi",
+        piCli: true,
+        subcommand: ["--print"],
+        provider: "deepseek",
+        model: "deepseek-flash",
+        thinking: "high",
         ephemeral: true,
       },
     };
     expect(runner.buildAgentArgs(config, "PROMPT", { promptVia: "stdin" })).toEqual([
-      "exec",
-      "-m",
-      "gpt-5.6-luna",
-      "-c",
-      'model_reasoning_effort="high"',
-      "--approve-for-me",
-      "--ephemeral",
-      "-C",
-      ".",
+      "--print",
+      "--provider",
+      "deepseek",
+      "--model",
+      "deepseek-flash",
+      "--thinking",
+      "high",
+      "--no-session",
     ]);
     expect(runner.buildAgentArgs(config, "PROMPT", { promptVia: "arg" })).toEqual([
-      "exec",
-      "-m",
-      "gpt-5.6-luna",
-      "-c",
-      'model_reasoning_effort="high"',
-      "--approve-for-me",
-      "--ephemeral",
-      "-C",
-      ".",
+      "--print",
+      "--provider",
+      "deepseek",
+      "--model",
+      "deepseek-flash",
+      "--thinking",
+      "high",
+      "--no-session",
       "PROMPT",
     ]);
   });

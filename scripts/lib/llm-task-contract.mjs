@@ -81,9 +81,6 @@ export function loadRunnerConfig(repoRoot) {
   const configPath = requireRegularFile(repoRoot, RUNNER_CONFIG_PATH, "runner config");
   const schemaPath = requireRegularFile(repoRoot, RUNNER_SCHEMA_PATH, "runner schema");
   const config = validateJson(schemaPath, readJson(configPath, "runner config"), "runner config");
-  if (config.agent?.sandbox && config.agent?.approvalMode) {
-    throw new Error("runner config agent.sandbox and agent.approvalMode are mutually exclusive");
-  }
   return config;
 }
 
