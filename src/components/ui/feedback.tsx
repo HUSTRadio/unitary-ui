@@ -43,10 +43,10 @@ const TOPICS = [
 const EMPTY_TOPICS: readonly string[] = [];
 
 /**
- * Inline 悬浮表单的退出动画时长（ms）。必须与 --uni-duration-fast 保持同步：
- * 退出动画播完后才卸载节点，否则收起会在动画中途被切断。
+ * Inline 浮动卡片展开后的固定宽度（px）。收起态宽度由内容决定（header 自然宽度），
+ * 展开时以胶囊几何中心为原点对称扩展到该宽度。
  */
-const INLINE_EXIT_MS = 150;
+const INLINE_FLOATING_WIDTH = 336;
 
 /** 供调用方以 programming 方式复用官方主题清单（例如自建 topics 时作基集）。 */
 const FEEDBACK_TOPICS: readonly string[] = TOPICS;
@@ -248,24 +248,26 @@ function Feedback({
   );
 
   /**
-   * 悬浮层的卸载状态机：`open` 为真时渲染；`open` 转假后保持 `closing` 为真一个
-   * 动画时长，让退出动画播完再卸载。收起同样有动画，而不是瞬间消失。
+   * 收起态胶囊宽度：以 header 的自然内容宽度为准（header 恒为 w-fit，
+   * 不随卡片拉伸，因此展开/收起任意时刻都能测到真实值）。
+   * 展开卡片以「胶囊几何中心」为水平原点左右对称展开，需要这个值计算偏移。
    */
-  const [closing, setClosing] = React.useState(false);
-  const wasOpen = React.useRef(false);
+  const headerRef = React.useRef<HTMLDivElement>(null);
+  const [collapsedWidth, setCollapsedWidth] = React.useState(0);
 
-  React.useEffect(() => {
-    if (open) {
-      wasOpen.current = true;
-      setClosing(false);
-      return;
+  React.useLayoutEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    const measure = () => setCollapsedWidth(header.offsetWidth);
+    measure();
+    if (typeof ResizeObserver !== "undefined") {
+      const observer = new ResizeObserver(measure);
+      observer.observe(header);
+      return () => observer.disconnect();
     }
-    if (!wasOpen.current) return;
-    wasOpen.current = false;
-    setClosing(true);
-    const timer = window.setTimeout(() => setClosing(false), INLINE_EXIT_MS);
-    return () => window.clearTimeout(timer);
-  }, [open]);
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
 
   const reset = React.useCallback(() => {
     setOpen(false);
@@ -329,7 +331,7 @@ function Feedback({
        * 注意：祖先若带 overflow:hidden/auto 且上方空间不足会裁切浮层，
        * 调用方需保证容器不裁切（文档站 demo 已用 overflow-visible 例外）。
        */
-      <div className={cn("relative h-12 w-fit", className)} data-feedback-inline="" {...props}>
+      <div className={cn("relative h-12", className)} data-feedback-inline="" {...props}>
         <div
           ref={inlineRef}
           data-slot="rating-pill"
@@ -348,32 +350,42 @@ function Feedback({
             }
             if (!event.currentTarget.contains(nextFocus)) closeInline();
           }}
+          style={{
+            // 宽度用显式值而非 w-fit：fit-content 与固定值之间无法插值，
+            // 显式值才能让宽度参与过渡（收起时宽高同时非线性还原）。
+            width: open ? INLINE_FLOATING_WIDTH : collapsedWidth,
+            // 水平原点 = 收起胶囊的几何中心：left 偏移半个宽度差，
+            // 使展开时左右两缘对称向外扩展，而不是从左下角向右上角长。
+            left: open ? (collapsedWidth - INLINE_FLOATING_WIDTH) / 2 : 0,
+          }}
           className={cn(
             // 浮动层：bottom-0 贴占位底部，向上生长；flex-col 让 header 居顶、表单区在下。
-            "absolute bottom-0 left-0 flex flex-col bg-background-100 shadow-[var(--material-shadow-menu)]",
+            "absolute bottom-0 flex flex-col overflow-hidden bg-background-100 shadow-[var(--material-shadow-menu)]",
             // 窄屏收口：320px 视口下必须能退到 288px，否则会横向溢出。
             "max-w-[calc(100vw-32px)]",
             // 圆角必须用有限值：--radius-capsule / rounded-full 是“实际无穷大”，
             // 过渡到 rounded-xl 时会被浏览器钳制到 min(w,h)/2，末段出现半径突跳。
-            "rounded-capsule-interpolable transition-[width,border-radius] duration-(--uni-duration-fast) ease-out motion-reduce:transition-none",
-            // 展开态与浮层同宽（336px）；收起态宽度由内容决定，label 不截断。
-            open ? "w-[336px] rounded-xl" : "w-fit rounded-capsule-interpolable",
+            "rounded-capsule-interpolable",
+            // 宽度、水平位置与圆角共用同一条先快后缓曲线；高度由表单区的
+            // grid-rows 过渡驱动，两者时长/曲线一致 → 宽高同时非线性还原。
+            "transition-[width,left,border-radius] duration-(--uni-duration-fast) ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none",
+            open ? "rounded-xl" : "rounded-capsule-interpolable",
           )}
         >
+          {/* header 恒为 w-fit + mx-auto：收起态即胶囊自然宽度；展开态在 336px 卡片内
+              居中（与官方页脚浮层一致），且任意时刻都能测到自然宽度。 */}
           <div
+            ref={headerRef}
             data-slot="feedback-inline-header"
-            className="flex h-12 w-full shrink-0 items-center gap-2 py-2 pr-2 pl-4"
+            className="mx-auto flex h-12 w-fit shrink-0 items-center gap-2 py-2 pr-2 pl-4"
           >
             {prefix ? (
               <span className="inline-flex shrink-0 items-center justify-center [&>svg]:size-4">
                 {prefix}
               </span>
             ) : null}
-            {/* label 永不截断（无 truncate / whitespace-nowrap）。收起态宽度由内容决定；
-                展开态固定 336px 时由 min-w-0 保证不撑破容器。 */}
-            <p className="min-w-0 flex-1 text-copy-14 whitespace-nowrap text-gray-900">
-              {inlineLabel}
-            </p>
+            {/* label 永不截断（无 truncate / whitespace-nowrap）。 */}
+            <p className="min-w-0 text-copy-14 whitespace-nowrap text-gray-900">{inlineLabel}</p>
             {suffix ? (
               <span className="inline-flex shrink-0 items-center justify-center [&>svg]:size-4">
                 {suffix}
@@ -387,22 +399,22 @@ function Feedback({
               }}
             />
           </div>
-          {/* 表单区位于 header 之后，因此在 header 下方展开；容器整体向上生长。 */}
-          {open || closing ? (
-            <div
-              data-slot="feedback-form-region"
-              data-state={open ? "open" : "closed"}
-              className={cn(
-                "w-full overflow-hidden rounded-b-xl",
-                "duration-(--uni-duration-fast) ease-out motion-reduce:animate-none",
-                open
-                  ? "animate-in fade-in-0 slide-in-from-bottom-1"
-                  : "animate-out fade-out-0 slide-out-to-bottom-1 fill-mode-forwards",
-              )}
-            >
+          {/* 表单区常驻挂载，用 0fr→1fr 的 grid 行过渡实现高度动画：
+              收起时高度与宽度同时还原，不再出现「淡出后高度瞬间跳回」的突兀感。 */}
+          <div
+            data-slot="feedback-form-region"
+            data-state={open ? "open" : "closed"}
+            aria-hidden={open ? undefined : "true"}
+            inert={!open}
+            className={cn(
+              "grid w-full transition-[grid-template-rows] duration-(--uni-duration-fast) ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none",
+              open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+            )}
+          >
+            <div className="min-h-0 overflow-hidden">
               <FeedbackForm {...formProps} />
             </div>
-          ) : null}
+          </div>
         </div>
       </div>
     );

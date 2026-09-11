@@ -60,61 +60,58 @@ describe("Feedback official interaction model", () => {
     expect(document.querySelector('[data-slot="modal-overlay"]')).toBeNull();
   });
 
-  test("inline grows upward into a floating card without moving the capsule bottom", () => {
+  test("inline grows upward into a floating card centered on the capsule", () => {
     mount(<Feedback type="inline" dryRun />);
 
     const capsule = container.querySelector<HTMLElement>('[data-slot="rating-pill"]')!;
     // 浮动层：贴住占位底部（bottom-0），向上生长。
     expect(capsule.className).toContain("absolute");
     expect(capsule.className).toContain("bottom-0");
-    // 收起态宽度由内容决定（w-fit），不再固定 274px：label 永不截断。
-    expect(capsule.className).toContain("w-fit");
-    expect(capsule.className).not.toContain("w-[274px]");
     // 收起态必须是可插值的有限圆角 token，不能是 rounded-full / rounded-capsule，
     // 否则展开过渡会出现被钳制的半径突跳。
     expect(capsule.className).toContain("rounded-capsule-interpolable");
     expect(capsule.className).not.toMatch(/rounded-(?:full|capsule)(?![-\w])/);
+    // 宽度必须是显式 style 值（fit-content 无法插值），才能参与宽高同步过渡。
+    expect(capsule.className).toContain("transition-[width,left,border-radius]");
+    expect(capsule.style.left).toBe("0px");
     expect(capsule.textContent).toContain("Was this helpful?");
     expect(radios(capsule)).toHaveLength(4);
-    // 收起态不渲染表单区。
-    expect(capsule.querySelector('[data-slot="feedback-form-region"]')).toBeNull();
 
     act(() => radios(capsule)[3].click());
 
-    // 展开态：容器变为 336px 卡片，header 在上、表单区在下（连续容器向上生长）。
-    expect(capsule.className).toContain("w-[336px]");
+    // 展开态：宽度走 style（336px），left 偏移半个宽度差 → 以胶囊中心对称扩展。
+    expect(capsule.style.width).toBe("336px");
     expect(capsule.className).toContain("rounded-xl");
-    const region = capsule.querySelector<HTMLElement>('[data-slot="feedback-form-region"]')!;
-    expect(region).not.toBeNull();
-    expect(region.getAttribute("data-state")).toBe("open");
-    // header 必须排在表单区之前（DOM 顺序），展开后 header 位于浮层顶部。
     const header = capsule.querySelector<HTMLElement>('[data-slot="feedback-inline-header"]')!;
+    // header 恒为 w-fit + mx-auto：收起态即胶囊自然宽度，展开态在卡片内居中。
+    expect(header.className).toContain("w-fit");
+    expect(header.className).toContain("mx-auto");
+    // header 必须排在表单区之前（DOM 顺序），展开后 header 位于浮层顶部。
+    const region = capsule.querySelector<HTMLElement>('[data-slot="feedback-form-region"]')!;
     expect(header.compareDocumentPosition(region) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(region.getAttribute("data-state")).toBe("open");
     expect(radios(capsule)[3].getAttribute("aria-checked")).toBe("true");
   });
 
-  test("unmounts the floating form only after the collapse animation finishes", () => {
-    vi.useFakeTimers();
-    try {
-      mount(<Feedback type="inline" dryRun />);
-      act(() => radios(container)[3].click());
-      expect(container.querySelector('[data-slot="feedback-form-region"]')).not.toBeNull();
+  test("collapses in place with simultaneous width and height easing instead of unmounting", () => {
+    mount(<Feedback type="inline" dryRun />);
+    act(() => radios(container)[3].click());
+    const region = container.querySelector<HTMLElement>('[data-slot="feedback-form-region"]')!;
+    expect(region.getAttribute("data-state")).toBe("open");
 
-      // Escape 收起后，节点必须仍在，且带上退出动画状态。
-      act(() => {
-        document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
-      });
-      const region = container.querySelector<HTMLElement>('[data-slot="feedback-form-region"]');
-      expect(region).not.toBeNull();
-      expect(region?.getAttribute("data-state")).toBe("closed");
-      expect(region?.className).toContain("animate-out");
-
-      // 动画时长走完后才卸载。
-      act(() => vi.advanceTimersByTime(200));
-      expect(container.querySelector('[data-slot="feedback-form-region"]')).toBeNull();
-    } finally {
-      vi.useRealTimers();
-    }
+    // Escape 收起后表单区必须仍在（常驻挂载），高度由 grid-rows 1fr→0fr 过渡还原，
+    // 与卡片宽度过渡同步——不允许「淡出后高度瞬间跳回」。
+    act(() => {
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    });
+    expect(region.getAttribute("data-state")).toBe("closed");
+    expect(region.getAttribute("aria-hidden")).toBe("true");
+    expect(region.hasAttribute("inert")).toBe(true);
+    expect(region.className).toContain("grid-rows-[0fr]");
+    expect(region.className).toContain("transition-[grid-template-rows]");
+    // 曲线必须是先快后缓的非线性（与卡片宽度过渡共用同一条）。
+    expect(region.className).toContain("ease-[cubic-bezier(0.32,0.72,0,1)]");
+    expect(container.querySelector('[data-slot="feedback-form-region"]')).toBe(region);
   });
 
   test("uses measured light/dark blue hover and selected values for every rating", () => {
@@ -241,7 +238,7 @@ describe("Feedback official interaction model", () => {
 
     act(() => radios(capsule)[3].click());
     const region = capsule.querySelector<HTMLElement>('[data-slot="feedback-form-region"]')!;
-    // 表单区与胶囊同宽，视觉上连成一个卡片（不再是一张独立浮层）。
+    // 表单区与卡片同宽（w-full），高度由 grid 行过渡驱动。
     expect(region.className).toContain("w-full");
     // header 保持 48px 单行，位于浮层顶部。
     expect(header.className).toContain("h-12");

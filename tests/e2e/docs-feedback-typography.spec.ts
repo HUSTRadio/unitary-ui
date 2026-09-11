@@ -61,6 +61,9 @@ test.describe("docs typography geometry", () => {
       for (const width of [320, 390, 768, 1440]) {
         await page.setViewportSize({ width, height: 900 });
         await page.goto("/#/introduction");
+        // hash 路由 + 客户端渲染：goto 返回时 React 可能尚未挂载，
+        // 必先等目标内容出现，否则 evaluateAll 读到空数组造成假失败。
+        await page.getByText("OPPO Sans 4.0", { exact: true }).waitFor();
         const names = page
           .getByText("OPPO Sans 4.0", { exact: true })
           .locator("..")
@@ -79,6 +82,7 @@ test.describe("docs typography geometry", () => {
 
         await page.goto("/#/grid");
         const section = page.locator('[data-grid-demo="best-practices"]');
+        await section.waitFor();
         const [headingBox, itemBox] = await Promise.all([
           section.locator("h2").boundingBox(),
           section.locator("li").first().boundingBox(),
@@ -181,6 +185,13 @@ test.describe("Feedback official interaction and geometry", () => {
     expect(Math.abs((regionBox?.y ?? 0) - ((headerBox?.y ?? 0) + (headerBox?.height ?? 0)))).toBeLessThanOrEqual(1);
     // header 仍是 48px 单行。
     expect(headerBox?.height).toBe(48);
+    // 以收起胶囊的几何中心为水平原点：左右各扩展一半宽度差，中心偏移必须≈0。
+    const openCenter = (capsuleBox?.x ?? 0) + (capsuleBox?.width ?? 0) / 2;
+    const closedCenter = (closedBox?.x ?? 0) + (closedBox?.width ?? 0) / 2;
+    expect(Math.abs(openCenter - closedCenter)).toBeLessThanOrEqual(1);
+    const halfDelta = Math.abs(((capsuleBox?.width ?? 0) - (closedBox?.width ?? 0)) / 2);
+    // 对称扩展：卡片左缘向左移 halfDelta（右缘向右移同样距离），中心不动。
+    expect(Math.abs((closedBox?.x ?? 0) - (capsuleBox?.x ?? 0) - halfDelta)).toBeLessThanOrEqual(1);
     // 圆角过渡 150ms，必须轮询到稳定值，否则读到的是中间帧（如 12.08px）。
     await expect
       .poll(() => capsule.evaluate((node) => getComputedStyle(node).borderRadius))
@@ -208,14 +219,21 @@ test.describe("Feedback official interaction and geometry", () => {
     await textarea.fill("Inline draft");
     await page.keyboard.press("Escape");
     await expect(capsule).toHaveAttribute("data-state", "closed");
-    // 收起是带动画的：退出动画期间表单区仍挂载并标记 closed。
+    // 收起是宽高同步的非线性过渡：表单区常驻挂载，高度由 grid-rows 1fr→0fr 还原。
     const exiting = capsule.locator('[data-slot="feedback-form-region"]');
     await expect(exiting).toHaveAttribute("data-state", "closed");
-    const exitAnim = await exiting.evaluate((node) => getComputedStyle(node).animationName);
-    expect(exitAnim).not.toBe("none");
-    // 动画结束后卸载。
-    await expect(exiting).toHaveCount(0);
+    await expect(exiting).toHaveAttribute("aria-hidden", "true");
+    expect(await exiting.evaluate((node) => getComputedStyle(node).transitionProperty)).toContain(
+      "grid-template-rows",
+    );
+    // 过渡结束后高度回到 0 行，且卡片宽度/高度回到收起值。
+    await expect
+      .poll(() => exiting.evaluate((node) => getComputedStyle(node).gridTemplateRows))
+      .toBe("0px");
     for (const radio of await ratings.all()) await expect(radio).toHaveAttribute("aria-checked", "false");
+
+    // 文字草稿保留：表单区常驻挂载，直接读取即可。
+    await expect(textarea).toHaveValue("Inline draft");
 
     // 收起后胶囊回到 48px 单行，且容器底部相对占位层不变（向上生长、底边不动）。
     // 用「占位层底边 - 胶囊底边」的相对偏移，避免受页面滚动影响。
@@ -240,7 +258,11 @@ test.describe("Feedback official interaction and geometry", () => {
     const box = await region.boundingBox();
     // 悬浮层受视口减 32px 上限约束，320 视口下不超过 288px。
     expect(box?.width).toBeLessThanOrEqual(288);
-    expect(await region.evaluate((node) => getComputedStyle(node).animationName)).toBe("none");
+    // reduced motion：宽高/高度过渡全部禁用。
+    expect(await region.evaluate((node) => getComputedStyle(node).transitionProperty)).toBe("none");
+    expect(await capsule.evaluate((node) => getComputedStyle(node).transitionProperty)).toBe(
+      "none",
+    );
   });
 
   test("matches the measured selected colors in dark mode", async ({ page }) => {
@@ -341,11 +363,7 @@ test.describe("Feedback official interaction and geometry", () => {
       await expect(radio).toHaveAttribute("aria-checked", "false");
     }
 
-    // 文字草稿保留：收起动画结束后表单区会卸载，重新展开才能读到它。
-    await capsule.getByRole("radio").last().click();
-    await expect(capsule).toHaveAttribute("data-state", "open");
-    await expect(capsule.locator('[data-slot="feedback-textarea"]')).toHaveValue(
-      "Window blur draft",
-    );
+    // 文字草稿保留：表单区常驻挂载，收起后直接读取。
+    await expect(textarea).toHaveValue("Window blur draft");
   });
 });

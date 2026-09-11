@@ -56,7 +56,7 @@ The locally extended four-tone rating capsule; it is not an official Feedback va
 
 - Dismissing the default Popover with Escape or an outside press preserves the current draft for reopening.
 - Inline collapses and clears its rating on Escape, outside press, or focus departure while preserving the text draft; a null relatedTarget (window blur) re-checks the real focus target first instead of clearing the rating by mistake.
-- The Inline form region expands upward as a floating layer (absolutely positioned), so it never participates in the parent height calculation: neither expanding nor collapsing changes the vertical metrics of the capsule's container. Collapsing is animated too, transitioning width, height, and radius together.
+- The Inline form region expands upward as a floating layer (absolutely positioned), so it never participates in the parent height calculation: neither expanding nor collapsing changes the vertical metrics of the capsule's container. Expansion is horizontally centered on the collapsed capsule's geometric center — both edges move outward symmetrically — and collapsing restores width and height together along the same ease-out curve.
 - In dryRun mode Send neither invokes onSubmit nor closes; a real submit resets rating, text, and topic.
 - topic only comes from the default Popover's selector and is passed as the fourth onSubmit argument; it is not written into metadata unless includeTopicInMetadata is enabled.
 
@@ -106,7 +106,12 @@ Was this helpful?
 import { Feedback } from "@/components/ui/feedback";
 
 export function FeedbackInline99ED40ACExample() {
-  return <Feedback dryRun type="inline" />;
+  // 官方 demo 将胶囊在演示区水平居中（flex justify-center），保持一致。
+  return (
+    <div className="flex justify-center">
+      <Feedback dryRun type="inline" />
+    </div>
+  );
 }
 ```
 

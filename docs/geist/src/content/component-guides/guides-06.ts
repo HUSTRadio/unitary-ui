@@ -183,7 +183,7 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
       content: [
         "默认 Popover 在 Escape 或外部点击关闭时保留当前草稿，重新打开后可继续编辑。",
         "Inline 在 Escape、外部点击或焦点离开后收起并清空评分，同时保留文字草稿；窗口失焦（relatedTarget 为 null）时会先复核真实焦点位置，不会误判为离开而清空评分。",
-        "Inline 表单区向上悬浮展开（绝对定位），不参与父容器高度计算，展开与收起都不改变胶囊所在容器的垂直度量；收起同样是动画（宽高与圆角一起过渡）。",
+        "Inline 表单区向上悬浮展开（绝对定位），不参与父容器高度计算，展开与收起都不改变胶囊所在容器的垂直度量；展开以收起胶囊的几何中心为水平原点左右对称扩展，收起时宽度与高度按同一条先快后缓曲线同步还原。",
         "dryRun 下 Send 不调用 onSubmit，也不关闭界面；正常提交会复位评分、文字和主题。",
         "topic 只由默认 Popover 的主题选择器产生，作为 onSubmit 第 4 个参数传出；默认不会写入 metadata，需要时用 includeTopicInMetadata 显式开启。",
       ],
@@ -533,7 +533,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
       content: [
         "Dismissing the default Popover with Escape or an outside press preserves the current draft for reopening.",
         "Inline collapses and clears its rating on Escape, outside press, or focus departure while preserving the text draft; a null relatedTarget (window blur) re-checks the real focus target first instead of clearing the rating by mistake.",
-        "The Inline form region expands upward as a floating layer (absolutely positioned), so it never participates in the parent height calculation: neither expanding nor collapsing changes the vertical metrics of the capsule's container. Collapsing is animated too, transitioning width, height, and radius together.",
+        "The Inline form region expands upward as a floating layer (absolutely positioned), so it never participates in the parent height calculation: neither expanding nor collapsing changes the vertical metrics of the capsule's container. Expansion is horizontally centered on the collapsed capsule's geometric center — both edges move outward symmetrically — and collapsing restores width and height together along the same ease-out curve.",
         "In dryRun mode Send neither invokes onSubmit nor closes; a real submit resets rating, text, and topic.",
         "topic only comes from the default Popover's selector and is passed as the fourth onSubmit argument; it is not written into metadata unless includeTopicInMetadata is enabled.",
       ],
