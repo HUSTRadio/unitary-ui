@@ -41,6 +41,7 @@ Apple HIG 没有给出可直接移植到 Web 的统一圆角 token 表，也没�
 - `concentric`：内层半径约为外层半径减去实际 inset；已有 overlay 6/4px 对使用 2px 光学差。
 - `circular`：`--radius-circle: 50%`，只在等宽高表面形成圆。
 - `capsule`：`--radius-capsule` 复用无穷大 pill 半径，视觉结果等价于 $h/2$。
+- `capsule-interpolable`：`--radius-capsule-interpolable: 1.5rem`（24px），取值为动画表面**收起高度的一半**。**只用于需要过渡 `border-radius` 的表面。** `--radius-capsule` 与 `--radius-pill` 都是"实际无穷大"值，浏览器会把它们钳制到 $min(w,h)/2$；从无穷大过渡到有限半径时，约 99% 的过渡进度都停留在被钳制的同一视觉半径上，最后才瞬间跌到目标值，表现为可见的圆角突跳。有限值可让 `border-radius` 全程线性插值。静止形态与 `--radius-capsule` 视觉等价（都是 $h/2$ 半径的胶囊），因此可以安全替换。
 - `continuous`：由运行时数学 path 实现，不能用普通 `border-radius` 假装。
 
 ### 2.2 Continuous corner 数学

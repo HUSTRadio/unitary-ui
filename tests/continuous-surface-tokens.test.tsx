@@ -46,6 +46,8 @@ describe("Phase 6.1 — circular / capsule / continuous corner tokens", () => {
     expect(block).toContain("--radius-circular: 50%");
     expect(block).toContain("--radius-capsule: 9999px");
     expect(block).toContain("--radius-continuous: var(--radius-md)");
+    // Finite companion token for surfaces that animate border-radius.
+    expect(block).toContain("--radius-capsule-interpolable: 1.5rem");
   });
 
   test("CSS source exposes all three tokens in @theme inline (Tailwind v4 utility hook)", () => {

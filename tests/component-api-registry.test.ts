@@ -78,8 +78,13 @@ describe("component API registry", () => {
 
     expect(COMPONENT_API.feedback.exports).toEqual(["Feedback"]);
     expect(row("feedback", "onSubmit")?.type).toBe(
-      "(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record<string, string>) => void",
+      "(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record<string, string>, topic?: string) => void",
     );
+    expect(row("feedback", "topics")?.type).toBe("readonly string[]");
+    expect(row("feedback", "topic")?.type).toBe("string");
+    expect(row("feedback", "defaultTopic")?.type).toBe("string");
+    expect(row("feedback", "onTopicChange")?.type).toBe("(topic: string) => void");
+    expect(row("feedback", "includeTopicInMetadata")?.defaultValue).toBe("false");
 
     expect(COMPONENT_API.select.exports).toEqual([
       "Select",

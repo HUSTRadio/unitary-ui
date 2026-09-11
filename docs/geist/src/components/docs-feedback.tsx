@@ -17,7 +17,12 @@ export function FeedbackPanel() {
       data-slot="feedback-anchor"
       aria-label={copy.feedbackQuestion}
     >
-      <Feedback type="inline" copy={copy.feedbackLabel} onSubmit={() => undefined} />
+      <Feedback
+        type="inline"
+        copy={copy.feedbackLabel}
+        metadata={{ language }}
+        onSubmit={() => undefined}
+      />
     </section>
   );
 }

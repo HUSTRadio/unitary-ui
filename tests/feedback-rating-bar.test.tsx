@@ -60,25 +60,58 @@ describe("Feedback official interaction model", () => {
     expect(document.querySelector('[data-slot="modal-overlay"]')).toBeNull();
   });
 
-  test("inline starts as a 274 by 48 rating capsule and expands in place after rating", () => {
+  test("inline starts as a rating capsule and floats its form upward after rating", () => {
     mount(<Feedback type="inline" dryRun />);
 
     const capsule = container.querySelector<HTMLElement>('[data-slot="rating-pill"]')!;
-    expect(capsule.className).toContain("w-[274px]");
+    // 收起态宽度由内容决定（w-fit），不再固定 274px：label 永不截断。
+    expect(capsule.className).toContain("w-fit");
+    expect(capsule.className).not.toContain("w-[274px]");
     expect(capsule.className).toContain("h-12");
-    expect(capsule.className).toContain("rounded-full");
+    // 收起态必须是可插值的有限圆角 token，不能是 rounded-full / rounded-capsule，
+    // 否则展开过渡会出现被钳制的半径突跳。
+    expect(capsule.className).toContain("rounded-capsule-interpolable");
+    expect(capsule.className).not.toMatch(/rounded-(?:full|capsule)(?![-\w])/);
     expect(capsule.textContent).toContain("Was this helpful?");
     expect(radios(capsule)).toHaveLength(4);
-    expect(capsule.querySelector('[data-slot="feedback-form-region"]')?.getAttribute("aria-hidden")).toBe(
-      "true",
-    );
+    // 收起态不渲染悬浮表单。
+    expect(capsule.querySelector('[data-slot="feedback-form-region"]')).toBeNull();
 
     act(() => radios(capsule)[3].click());
 
-    expect(capsule.className).toContain("w-[336px]");
-    expect(capsule.className).toContain("rounded-xl");
-    expect(capsule.querySelector('[data-slot="feedback-form-region"]')?.getAttribute("aria-hidden")).toBeNull();
+    // 展开态：表单作为悬浮层出现，绝对定位到胶囊上方；胶囊本体宽度/高度不变。
+    const region = capsule.querySelector<HTMLElement>('[data-slot="feedback-form-region"]')!;
+    expect(region).not.toBeNull();
+    expect(region.className).toContain("absolute");
+    expect(region.className).toContain("bottom-full");
+    expect(region.className).toContain("w-[336px]");
+    expect(region.getAttribute("data-state")).toBe("open");
+    expect(capsule.className).toContain("h-12");
     expect(radios(capsule)[3].getAttribute("aria-checked")).toBe("true");
+  });
+
+  test("unmounts the floating form only after the collapse animation finishes", () => {
+    vi.useFakeTimers();
+    try {
+      mount(<Feedback type="inline" dryRun />);
+      act(() => radios(container)[3].click());
+      expect(container.querySelector('[data-slot="feedback-form-region"]')).not.toBeNull();
+
+      // Escape 收起后，节点必须仍在，且带上退出动画状态。
+      act(() => {
+        document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+      });
+      const region = container.querySelector<HTMLElement>('[data-slot="feedback-form-region"]');
+      expect(region).not.toBeNull();
+      expect(region?.getAttribute("data-state")).toBe("closed");
+      expect(region?.className).toContain("animate-out");
+
+      // 动画时长走完后才卸载。
+      act(() => vi.advanceTimersByTime(200));
+      expect(container.querySelector('[data-slot="feedback-form-region"]')).toBeNull();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   test("uses measured light/dark blue hover and selected values for every rating", () => {
@@ -131,7 +164,7 @@ describe("Feedback official interaction model", () => {
     });
     act(() => popup.querySelector<HTMLFormElement>("form")?.requestSubmit());
 
-    expect(onSubmit).toHaveBeenCalledWith("okay", "Useful docs", { source: "docs" });
+    expect(onSubmit).toHaveBeenCalledWith("okay", "Useful docs", { source: "docs" }, undefined);
     expect(document.querySelector('[data-slot="feedback-popup"]')).toBeNull();
     expect(trigger.getAttribute("data-state")).toBe("closed");
   });
@@ -185,5 +218,141 @@ describe("Feedback official interaction model", () => {
       "okay",
       "love",
     ]);
+  });
+
+  test("keeps the inline label untruncated and the floating form out of flow", () => {
+    mount(<Feedback type="inline" dryRun />);
+    const capsule = container.querySelector<HTMLElement>('[data-slot="rating-pill"]')!;
+    const header = capsule.querySelector<HTMLElement>('[data-slot="feedback-inline-header"]')!;
+    const label = header.querySelector("p")!;
+
+    // label 永不截断：不得使用 truncate，改用 whitespace-nowrap。
+    expect(label.className).not.toContain("truncate");
+    expect(label.className).toContain("whitespace-nowrap");
+    // 表情行不得被压缩。
+    expect(header.querySelector('[role="radiogroup"]')?.className).toContain("shrink-0");
+
+    act(() => radios(capsule)[3].click());
+    // 悬浮表单必须绝对定位（脱离文档流），否则会撑高父容器、破坏「悬浮」语义。
+    const region = capsule.querySelector<HTMLElement>('[data-slot="feedback-form-region"]')!;
+    expect(region.className).toContain("absolute");
+    expect(capsule.className).toContain("h-12");
+  });
+
+  test("passes the selected topic as the fourth onSubmit argument without polluting metadata", () => {
+    const onSubmit = vi.fn();
+    mount(<Feedback metadata={{ source: "docs" }} showTopics onSubmit={onSubmit} />);
+    openDefaultFeedback();
+    const popup = document.querySelector<HTMLElement>('[data-slot="feedback-popup"]')!;
+
+    const select = popup.querySelector<HTMLSelectElement>("select")!;
+    act(() => {
+      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set?.call(select, "AI");
+      select.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+    act(() => popup.querySelector<HTMLFormElement>("form")?.requestSubmit());
+
+    expect(onSubmit).toHaveBeenCalledWith(undefined, "", { source: "docs" }, "AI");
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+    const [, , metadata, reportedTopic] = onSubmit.mock.calls[0] as [unknown, string, unknown, string];
+    expect(metadata).toEqual({ source: "docs" });
+    expect(reportedTopic).toBe("AI");
+  });
+
+  test("only merges topic into metadata when includeTopicInMetadata is enabled", () => {
+    const onSubmit = vi.fn();
+    mount(
+      <Feedback metadata={{ source: "docs" }} showTopics includeTopicInMetadata onSubmit={onSubmit} />,
+    );
+    openDefaultFeedback();
+    const popup = document.querySelector<HTMLElement>('[data-slot="feedback-popup"]')!;
+
+    const select = popup.querySelector<HTMLSelectElement>("select")!;
+    act(() => {
+      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set?.call(select, "Billing");
+      select.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+    act(() => popup.querySelector<HTMLFormElement>("form")?.requestSubmit());
+
+    expect(onSubmit).toHaveBeenCalledWith(undefined, "", { source: "docs", topic: "Billing" }, "Billing");
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
+
+  test("renders a caller-supplied topics list without showTopics and reports its value", () => {
+    const onTopicChange = vi.fn();
+    mount(<Feedback topics={["Imports", "Exports"]} onTopicChange={onTopicChange} />);
+    openDefaultFeedback();
+    const popup = document.querySelector<HTMLElement>('[data-slot="feedback-popup"]')!;
+
+    const select = popup.querySelector<HTMLSelectElement>("select")!;
+    expect(Array.from(select.options).map((option) => option.value)).toEqual([
+      "",
+      "Imports",
+      "Exports",
+    ]);
+
+    act(() => {
+      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set?.call(select, "Exports");
+      select.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+
+    expect(onTopicChange).toHaveBeenCalledWith("Exports");
+  });
+
+  test("never renders the topic selector in the inline variant", () => {
+    mount(<Feedback type="inline" dryRun showTopics />);
+    act(() => radios(container)[3].click());
+
+    expect(container.querySelector("select")).toBeNull();
+  });
+
+  test("keeps the inline rating when focusout reports a null relatedTarget and focus stays inside", () => {
+    vi.useFakeTimers();
+    try {
+      mount(<Feedback type="inline" dryRun />);
+      act(() => radios(container)[3].click());
+      const capsule = container.querySelector<HTMLElement>('[data-slot="rating-pill"]')!;
+      const textarea = capsule.querySelector<HTMLTextAreaElement>("textarea")!;
+
+      act(() => {
+        textarea.focus();
+        capsule.dispatchEvent(
+          new FocusEvent("focusout", { bubbles: true, relatedTarget: null }),
+        );
+      });
+      act(() => vi.runAllTimers());
+
+      expect(capsule.getAttribute("data-state")).toBe("open");
+      expect(radios(capsule)[3].getAttribute("aria-checked")).toBe("true");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  test("still collapses the inline capsule when a null relatedTarget is followed by real focus loss", () => {
+    vi.useFakeTimers();
+    try {
+      mount(<Feedback type="inline" dryRun />);
+      act(() => radios(container)[3].click());
+      const capsule = container.querySelector<HTMLElement>('[data-slot="rating-pill"]')!;
+
+      act(() => {
+        capsule.dispatchEvent(
+          new FocusEvent("focusout", { bubbles: true, relatedTarget: null }),
+        );
+      });
+      const outside = document.createElement("button");
+      document.body.append(outside);
+      outside.focus();
+      act(() => vi.runAllTimers());
+
+      expect(capsule.getAttribute("data-state")).toBe("closed");
+      expect(radios(capsule).every((radio) => radio.getAttribute("aria-checked") === "false")).toBe(
+        true,
+      );
+      outside.remove();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

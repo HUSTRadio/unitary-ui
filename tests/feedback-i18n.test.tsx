@@ -50,6 +50,9 @@ describe("Feedback i18n", () => {
     expect(document.querySelector<HTMLButtonElement>('[role="radio"]')?.ariaLabel).toBe(
       "Select Hate it emoji",
     );
+    expect(document.querySelector('[data-slot="feedback-support"]')?.textContent).toBe(
+      "Markdown supported.",
+    );
   });
 
   test("localizes component-owned labels, topics, prompts, and aria text", () => {
@@ -65,6 +68,9 @@ describe("Feedback i18n", () => {
     expect(document.querySelector<HTMLSelectElement>("select")?.ariaLabel).toBe("产品主题选择");
     expect(document.querySelector<HTMLButtonElement>('[role="radio"]')?.ariaLabel).toBe(
       "选择“很不喜欢”表情",
+    );
+    expect(document.querySelector('[data-slot="feedback-support"]')?.textContent).toBe(
+      "支持 Markdown。",
     );
   });
 

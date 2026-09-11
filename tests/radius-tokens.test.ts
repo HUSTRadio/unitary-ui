@@ -61,4 +61,34 @@ describe("Unitary shape token families", () => {
     expect(block).toContain("--radius-continuous: var(--radius-md)");
     expect(block).not.toMatch(/apple|ios|squircle/i);
   });
+
+  test("declares a finite, interpolatable capsule radius for animated surfaces", () => {
+    const block = css.match(
+      /\/\* Shape families — Unitary team values[\s\S]*?\/\* End shape families \*\//,
+    )?.[0];
+    expect(block).toBeDefined();
+    // Must stay finite: animating to/from an effectively-infinite radius makes
+    // the browser clamp every intermediate value to min(w,h)/2 and then snap.
+    expect(block).toContain("--radius-capsule-interpolable: 1.5rem");
+    expect(block).not.toMatch(/--radius-capsule-interpolable:\s*(?:9999px|calc\(infinity)/);
+  });
+
+  test("never animates border-radius between an infinite capsule token and a finite one", () => {
+    // A transition property list that includes border-radius must not be paired
+    // with an effectively-infinite radius in the same animating surface.
+    const stripComments = (src: string) =>
+      src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/.*$/gm, "$1");
+    for (const file of ["feedback.tsx", "rating-pill.tsx"]) {
+      const raw = readFileSync(new URL(`../src/components/ui/${file}`, import.meta.url), "utf8");
+      const src = stripComments(raw);
+      const animatesRadius = /transition-\[[^\]]*border-radius[^\]]*\]/.test(src);
+      if (!animatesRadius) continue;
+      expect(src, `${file} must use the finite capsule token when animating radius`).toContain(
+        "rounded-capsule-interpolable",
+      );
+      expect(src, `${file} must not animate from rounded-full / rounded-capsule`).not.toMatch(
+        /rounded-(?:full|capsule)(?![-\w])/,
+      );
+    }
+  });
 });

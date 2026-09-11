@@ -88,7 +88,7 @@ function RatingButtons({ value, onValueChange, className, semanticTones = false 
       role="radiogroup"
       aria-orientation="horizontal"
       aria-label={t("Feedback rating")}
-      className={cn("flex items-center gap-[1px] text-gray-900", className)}
+      className={cn("flex shrink-0 items-center gap-[1px] text-gray-900", className)}
     >
       {RATING_OPTIONS.map(({ value: optionValue, label, tone, icon: Icon }, index) => (
         <button

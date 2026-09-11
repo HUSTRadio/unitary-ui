@@ -421,17 +421,25 @@
   --radius-pill: 9999px;
 
   /* Shape families — Unitary team values
-     - concentric / circle: stable since feat/corner-typography-alignment
-     - circular: preferred alias for circle (1:1 surfaces form a perfect disk)
-     - capsule: literal 9999px (not var(--radius-pill)) so getPropertyValue reads
-       the resolved value directly; pill alias remains for legacy utilities
-     - continuous: default token size for fallback border-radius; real continuous
-       corners use clip-path: path(...) from src/lib/continuous-corner.ts
-       (see docs/design/corner-and-typography-tokens.md §2.2) */
+    - concentric / circle: stable since feat/corner-typography-alignment
+    - circular: preferred alias for circle (1:1 surfaces form a perfect disk)
+    - capsule: literal 9999px (not var(--radius-pill)) so getPropertyValue reads
+      the resolved value directly; pill alias remains for legacy utilities
+    - capsule-interpolable: finite capsule radius for surfaces that ANIMATE
+      border-radius. `--radius-capsule` (9999px) and `--radius-pill` are
+      "effectively infinite": browsers clamp them to min(w,h)/2, so a
+      transition from them to a finite radius spends ~99% of its progress in
+      the clamped state and then snaps — a visible radius jump. This token is
+      declared finite so `border-radius` interpolates linearly. Set it to
+      half the collapsed height of the animating surface.
+    - continuous: default token size for fallback border-radius; real continuous
+      corners use clip-path: path(...) from src/lib/continuous-corner.ts
+      (see docs/design/corner-and-typography-tokens.md §2.2) */
   --radius-concentric-inset: 2px;
   --radius-circle: 50%;
   --radius-circular: 50%;
   --radius-capsule: 9999px;
+  --radius-capsule-interpolable: 1.5rem; /* 24px = half of the 48px capsule height */
   --radius-continuous: var(--radius-md);
   /* End shape families */
 
