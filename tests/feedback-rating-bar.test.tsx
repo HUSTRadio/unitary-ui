@@ -60,33 +60,36 @@ describe("Feedback official interaction model", () => {
     expect(document.querySelector('[data-slot="modal-overlay"]')).toBeNull();
   });
 
-  test("inline starts as a rating capsule and floats its form upward after rating", () => {
+  test("inline grows upward into a floating card without moving the capsule bottom", () => {
     mount(<Feedback type="inline" dryRun />);
 
     const capsule = container.querySelector<HTMLElement>('[data-slot="rating-pill"]')!;
+    // 浮动层：贴住占位底部（bottom-0），向上生长。
+    expect(capsule.className).toContain("absolute");
+    expect(capsule.className).toContain("bottom-0");
     // 收起态宽度由内容决定（w-fit），不再固定 274px：label 永不截断。
     expect(capsule.className).toContain("w-fit");
     expect(capsule.className).not.toContain("w-[274px]");
-    expect(capsule.className).toContain("h-12");
     // 收起态必须是可插值的有限圆角 token，不能是 rounded-full / rounded-capsule，
     // 否则展开过渡会出现被钳制的半径突跳。
     expect(capsule.className).toContain("rounded-capsule-interpolable");
     expect(capsule.className).not.toMatch(/rounded-(?:full|capsule)(?![-\w])/);
     expect(capsule.textContent).toContain("Was this helpful?");
     expect(radios(capsule)).toHaveLength(4);
-    // 收起态不渲染悬浮表单。
+    // 收起态不渲染表单区。
     expect(capsule.querySelector('[data-slot="feedback-form-region"]')).toBeNull();
 
     act(() => radios(capsule)[3].click());
 
-    // 展开态：表单作为悬浮层出现，绝对定位到胶囊上方；胶囊本体宽度/高度不变。
+    // 展开态：容器变为 336px 卡片，header 在上、表单区在下（连续容器向上生长）。
+    expect(capsule.className).toContain("w-[336px]");
+    expect(capsule.className).toContain("rounded-xl");
     const region = capsule.querySelector<HTMLElement>('[data-slot="feedback-form-region"]')!;
     expect(region).not.toBeNull();
-    expect(region.className).toContain("absolute");
-    expect(region.className).toContain("bottom-full");
-    expect(region.className).toContain("w-[336px]");
     expect(region.getAttribute("data-state")).toBe("open");
-    expect(capsule.className).toContain("h-12");
+    // header 必须排在表单区之前（DOM 顺序），展开后 header 位于浮层顶部。
+    const header = capsule.querySelector<HTMLElement>('[data-slot="feedback-inline-header"]')!;
+    expect(header.compareDocumentPosition(region) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(radios(capsule)[3].getAttribute("aria-checked")).toBe("true");
   });
 
@@ -220,7 +223,7 @@ describe("Feedback official interaction model", () => {
     ]);
   });
 
-  test("keeps the inline label untruncated and the floating form out of flow", () => {
+  test("keeps the inline label untruncated and the floating card out of flow", () => {
     mount(<Feedback type="inline" dryRun />);
     const capsule = container.querySelector<HTMLElement>('[data-slot="rating-pill"]')!;
     const header = capsule.querySelector<HTMLElement>('[data-slot="feedback-inline-header"]')!;
@@ -232,11 +235,16 @@ describe("Feedback official interaction model", () => {
     // 表情行不得被压缩。
     expect(header.querySelector('[role="radiogroup"]')?.className).toContain("shrink-0");
 
+    // 浮动卡片必须绝对定位（脱离文档流），否则会撑高父容器、破坏「浮动弹窗」语义。
+    expect(capsule.className).toContain("absolute");
+    expect(capsule.className).toContain("bottom-0");
+
     act(() => radios(capsule)[3].click());
-    // 悬浮表单必须绝对定位（脱离文档流），否则会撑高父容器、破坏「悬浮」语义。
     const region = capsule.querySelector<HTMLElement>('[data-slot="feedback-form-region"]')!;
-    expect(region.className).toContain("absolute");
-    expect(capsule.className).toContain("h-12");
+    // 表单区与胶囊同宽，视觉上连成一个卡片（不再是一张独立浮层）。
+    expect(region.className).toContain("w-full");
+    // header 保持 48px 单行，位于浮层顶部。
+    expect(header.className).toContain("h-12");
   });
 
   test("passes the selected topic as the fourth onSubmit argument without polluting metadata", () => {

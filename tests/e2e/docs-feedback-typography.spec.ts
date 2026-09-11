@@ -167,18 +167,20 @@ test.describe("Feedback official interaction and geometry", () => {
 
     await ratings.last().click();
     await expect(capsule).toHaveAttribute("data-state", "open");
-    // 悬浮表单向上展开，宽度 336px，且脱离文档流。
+    // 浮动卡片向上生长：宽度 336px，header 在顶部、表单区在其下。
     const region = capsule.locator('[data-slot="feedback-form-region"]');
     await expect(region).toBeVisible();
     await expect.poll(async () => (await region.boundingBox())?.width).toBe(336);
-    const [capsuleBox, regionBox] = await Promise.all([
+    const [capsuleBox, regionBox, headerBox] = await Promise.all([
       capsule.boundingBox(),
       region.boundingBox(),
+      capsule.locator('[data-slot="feedback-inline-header"]').boundingBox(),
     ]);
-    // 悬浮层底边贴在胶囊顶边上方（mb-2 = 8px）。
-    expect(Math.abs((capsuleBox?.y ?? 0) - ((regionBox?.y ?? 0) + (regionBox?.height ?? 0)) - 8)).toBeLessThanOrEqual(1);
-    // 胶囊本体的垂直度量不因展开而变化：仍是 48px 单行胶囊。
-    expect(capsuleBox?.height).toBe(48);
+    // header 位于浮层顶部，表单区紧接其下（无缝）。
+    expect((headerBox?.y ?? 0) - (capsuleBox?.y ?? 0)).toBeLessThanOrEqual(1);
+    expect(Math.abs((regionBox?.y ?? 0) - ((headerBox?.y ?? 0) + (headerBox?.height ?? 0)))).toBeLessThanOrEqual(1);
+    // header 仍是 48px 单行。
+    expect(headerBox?.height).toBe(48);
     // 圆角过渡 150ms，必须轮询到稳定值，否则读到的是中间帧（如 12.08px）。
     await expect
       .poll(() => capsule.evaluate((node) => getComputedStyle(node).borderRadius))
@@ -206,8 +208,7 @@ test.describe("Feedback official interaction and geometry", () => {
     await textarea.fill("Inline draft");
     await page.keyboard.press("Escape");
     await expect(capsule).toHaveAttribute("data-state", "closed");
-    await expect.poll(async () => (await capsule.boundingBox())?.height).toBe(48);
-    // 收起是带动画的：退出动画期间悬浮层仍挂载并标记 closed。
+    // 收起是带动画的：退出动画期间表单区仍挂载并标记 closed。
     const exiting = capsule.locator('[data-slot="feedback-form-region"]');
     await expect(exiting).toHaveAttribute("data-state", "closed");
     const exitAnim = await exiting.evaluate((node) => getComputedStyle(node).animationName);
@@ -216,9 +217,14 @@ test.describe("Feedback official interaction and geometry", () => {
     await expect(exiting).toHaveCount(0);
     for (const radio of await ratings.all()) await expect(radio).toHaveAttribute("aria-checked", "false");
 
-    await ratings.last().click();
-    await expect(capsule).toHaveAttribute("data-state", "open");
-    await expect(capsule.locator('[data-slot="feedback-textarea"]')).toHaveValue("Inline draft");
+    // 收起后胶囊回到 48px 单行，且容器底部相对占位层不变（向上生长、底边不动）。
+    // 用「占位层底边 - 胶囊底边」的相对偏移，避免受页面滚动影响。
+    await expect.poll(async () => (await capsule.boundingBox())?.height).toBe(48);
+    const collapsedOffset = await capsule.evaluate((node) => {
+      const anchor = node.parentElement!;
+      return anchor.getBoundingClientRect().bottom - node.getBoundingClientRect().bottom;
+    });
+    expect(Math.abs(collapsedOffset)).toBeLessThanOrEqual(1);
   });
 
   test("caps the floating Inline form width on narrow screens and honors reduced motion", async ({
@@ -328,12 +334,18 @@ test.describe("Feedback official interaction and geometry", () => {
     await expect(capsule).toHaveAttribute("data-state", "open");
     await expect(capsule.getByRole("radio").last()).toHaveAttribute("aria-checked", "true");
 
-    // 真实焦点外移仍然收起并清空评分，文字草稿保留。
+    // 真实焦点外移仍然收起并清空评分。
     await page.locator("body").click({ position: { x: 5, y: 5 } });
     await expect(capsule).toHaveAttribute("data-state", "closed");
     for (const radio of await capsule.getByRole("radio").all()) {
       await expect(radio).toHaveAttribute("aria-checked", "false");
     }
-    await expect(textarea).toHaveValue("Window blur draft");
+
+    // 文字草稿保留：收起动画结束后表单区会卸载，重新展开才能读到它。
+    await capsule.getByRole("radio").last().click();
+    await expect(capsule).toHaveAttribute("data-state", "open");
+    await expect(capsule.locator('[data-slot="feedback-textarea"]')).toHaveValue(
+      "Window blur draft",
+    );
   });
 });

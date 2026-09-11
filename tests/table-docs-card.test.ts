@@ -6,7 +6,11 @@ import { docsPageSource as source } from "./helpers/docs-page-source";
 describe("Table docs demo card contract", () => {
   it("uses a dedicated full-width Table demo card", () => {
     expect(source).toContain("function TableDemoCard");
-    expect(source).toContain('className="w-full overflow-x-auto p-6"');
+    // 默认横向滚动；白名单组件（如 feedback）改用 overflow-visible 以放行浮层。
+    expect(source).toContain("w-full p-6");
+    expect(source).toContain("overflow-x-auto");
+    expect(source).toContain("overflow-visible");
+    expect(source).toContain("DEMO_OVERFLOW_VISIBLE_SLUGS");
   });
 
   it("renders the official Show code footer as part of the card", () => {
@@ -29,7 +33,7 @@ describe("Table docs demo card contract", () => {
   it("table Live Demo pairs the component and source from one registry record", () => {
     expect(source).toContain("const record = primaryExample(EXAMPLE_REGISTRY[name] ?? []);");
     expect(source).toContain("const Example = record.Component;");
-    expect(source).toContain("<TableDemoCard id={record.id} code={record.source}>");
+    expect(source).toContain("<TableDemoCard id={record.id} code={record.source} slug={name}>");
     expect(EXAMPLE_SOURCE.table.Default).toContain("export function");
     expect(EXAMPLE_SOURCE.table.Default).toContain("<Table");
   });

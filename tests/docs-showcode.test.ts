@@ -33,7 +33,7 @@ describe("docs Show code footer", () => {
       'import { EXAMPLE_REGISTRY, type ExampleRecord } from "../examples/registry";',
     );
     expect(src).toContain("const Example = record.Component;");
-    expect(src).toContain("<TableDemoCard id={record.id} code={record.source}>");
+    expect(src).toContain("<TableDemoCard id={record.id} code={record.source} slug={name}>");
     expect(src).toContain("<Example />");
     expect(src).toContain("EXAMPLE_REGISTRY[name] ?? []");
     expect(src).not.toContain("DEMO_CODE");

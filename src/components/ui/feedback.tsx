@@ -193,7 +193,7 @@ function FeedbackForm({
       </div>
       <div
         data-slot="feedback-form-footer"
-        className="flex items-center justify-between border-t border-gray-200 bg-gray-100 p-3"
+        className="flex items-center justify-between border-t border-gray-200 p-3"
       >
         {includeRatings ? <RatingButtons value={rating} onValueChange={setRating} /> : <span />}
         <Button typeName="submit" size="small" className="min-w-0">
@@ -319,8 +319,17 @@ function Feedback({
   if (isInline) {
     const inlineLabel = copy ?? t("Was this helpful?");
     return (
-      // 外层只负责定位上下文：高度恒为胶囊的 48px，不随展开/收起变化。
-      <div className={cn("relative w-fit", className)} data-feedback-inline="" {...props}>
+      /*
+       * 浮动弹窗形态（对齐官方页脚行为）：
+       * - 外层 `relative h-12` 只做占位，恒定 48px，决定它在文档流中的位置；
+       * - 内层 `absolute bottom-0` 贴住占位底部，展开时整体向上生长，
+       *   因此既不推挤下方内容，也不改变父容器的垂直度量；
+       * - 内层是单一连续容器（header 在最上、表单区在下），展开即“胶囊变高成卡片”，
+       *   与官方页脚浮层一致：header 行升到顶部，内容向下依次排布。
+       * 注意：祖先若带 overflow:hidden/auto 且上方空间不足会裁切浮层，
+       * 调用方需保证容器不裁切（文档站 demo 已用 overflow-visible 例外）。
+       */
+      <div className={cn("relative h-12 w-fit", className)} data-feedback-inline="" {...props}>
         <div
           ref={inlineRef}
           data-slot="rating-pill"
@@ -340,14 +349,15 @@ function Feedback({
             if (!event.currentTarget.contains(nextFocus)) closeInline();
           }}
           className={cn(
-            // 只承担“胶囊本体”的视觉：内边距、圆角、底色、阴影。
-            // 文档流高度恒为 h-12，展开不从它身上取高度。
-            "relative flex h-12 w-fit shrink-0 items-center gap-2 bg-background-100 py-2 pr-2 pl-4",
-            "shadow-[var(--material-shadow-menu)]",
+            // 浮动层：bottom-0 贴占位底部，向上生长；flex-col 让 header 居顶、表单区在下。
+            "absolute bottom-0 left-0 flex flex-col bg-background-100 shadow-[var(--material-shadow-menu)]",
+            // 窄屏收口：320px 视口下必须能退到 288px，否则会横向溢出。
+            "max-w-[calc(100vw-32px)]",
             // 圆角必须用有限值：--radius-capsule / rounded-full 是“实际无穷大”，
             // 过渡到 rounded-xl 时会被浏览器钳制到 min(w,h)/2，末段出现半径突跳。
-            "rounded-capsule-interpolable transition-[border-radius] duration-(--uni-duration-fast) ease-out motion-reduce:transition-none",
-            open ? "rounded-xl" : "rounded-capsule-interpolable",
+            "rounded-capsule-interpolable transition-[width,border-radius] duration-(--uni-duration-fast) ease-out motion-reduce:transition-none",
+            // 展开态与浮层同宽（336px）；收起态宽度由内容决定，label 不截断。
+            open ? "w-[336px] rounded-xl" : "w-fit rounded-capsule-interpolable",
           )}
         >
           <div
@@ -359,10 +369,11 @@ function Feedback({
                 {prefix}
               </span>
             ) : null}
-            {/* label 永不截断（无 truncate / whitespace-nowrap）。
-                收起态胶囊是 w-fit，宽度由内容决定；展开态表单浮层另有固定宽度，
-                胶囊本身宽度保持不变（不参与展开视觉）。 */}
-            <p className="text-copy-14 whitespace-nowrap text-gray-900">{inlineLabel}</p>
+            {/* label 永不截断（无 truncate / whitespace-nowrap）。收起态宽度由内容决定；
+                展开态固定 336px 时由 min-w-0 保证不撑破容器。 */}
+            <p className="min-w-0 flex-1 text-copy-14 whitespace-nowrap text-gray-900">
+              {inlineLabel}
+            </p>
             {suffix ? (
               <span className="inline-flex shrink-0 items-center justify-center [&>svg]:size-4">
                 {suffix}
@@ -376,15 +387,13 @@ function Feedback({
               }}
             />
           </div>
-          {/* 悬浮表单：绝对定位到胶囊上方（bottom-full），脱离文档流，
-              因此展开/收起都不改变父容器与胶囊的垂直度量。
-              展开用 fade+slide 入场；收起时先播退出动画，动画结束后再卸载。 */}
+          {/* 表单区位于 header 之后，因此在 header 下方展开；容器整体向上生长。 */}
           {open || closing ? (
             <div
               data-slot="feedback-form-region"
               data-state={open ? "open" : "closed"}
               className={cn(
-                "absolute bottom-full left-0 mb-2 w-[336px] max-w-[calc(100vw-32px)] rounded-xl bg-background-100 shadow-[var(--material-shadow-menu)]",
+                "w-full overflow-hidden rounded-b-xl",
                 "duration-(--uni-duration-fast) ease-out motion-reduce:animate-none",
                 open
                   ? "animate-in fade-in-0 slide-in-from-bottom-1"

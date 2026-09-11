@@ -2,6 +2,7 @@ import * as React from "react";
 import { ArrowLeft, ChevronRight, Smartphone } from "lucide-react";
 
 import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
+import { cn } from "@/lib/utils";
 
 import { getComponentGuide } from "../content/component-guides";
 import { COMPONENTS, type ComponentMeta } from "../data/components";
@@ -54,24 +55,37 @@ function DemoSection({
   );
 }
 
+/**
+ * 部分组件的演示需要向上/向外浮出预览框（例如 Feedback 的 Inline 胶囊向上弹出表单），
+ * 这类组件必须解除预览框的 overflow 裁切，否则浮层会被静默切掉。
+ * 仅对白名单内的组件放开，避免其他 demo 意外溢出。
+ */
+const DEMO_OVERFLOW_VISIBLE_SLUGS = new Set<string>(["feedback"]);
+
 function TableDemoCard({
   children,
   code,
   id,
+  slug,
 }: {
   children: React.ReactNode;
   code: string;
   id?: string;
+  slug?: string;
 }) {
+  const allowOverflow = slug !== undefined && DEMO_OVERFLOW_VISIBLE_SLUGS.has(slug);
   return (
     <div
-      className="overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background-100"
+      className={cn(
+        "rounded-[8px] border border-gray-alpha-400 bg-background-100",
+        allowOverflow ? "overflow-visible" : "overflow-hidden",
+      )}
       data-demo-card={id}
     >
       <div
         data-slot="docs-local-scroll"
         data-demo-container={id}
-        className="w-full overflow-x-auto p-6"
+        className={cn("w-full p-6", allowOverflow ? "overflow-visible" : "overflow-x-auto")}
       >
         {children}
       </div>
@@ -125,7 +139,7 @@ function renderDemo(name: string): React.ReactNode {
   if (!record) return null;
   const Example = record.Component;
   return (
-    <TableDemoCard id={record.id} code={record.source}>
+    <TableDemoCard id={record.id} code={record.source} slug={name}>
       <Example />
     </TableDemoCard>
   );
@@ -135,17 +149,25 @@ function Section({
   title,
   children,
   code,
+  slug,
 }: {
   title: string;
   children: React.ReactNode;
   code?: string;
+  slug?: string;
 }) {
   const { language } = useLanguage();
   return (
     <DocsSection>
       <DocsSectionTitle>{demoSectionTitle(language, title)}</DocsSectionTitle>
       <DocsBlock>
-        {code ? <TableDemoCard id={title} code={code}>{children}</TableDemoCard> : children}
+        {code ? (
+          <TableDemoCard id={title} code={code} slug={slug}>
+            {children}
+          </TableDemoCard>
+        ) : (
+          children
+        )}
       </DocsBlock>
     </DocsSection>
   );
@@ -164,7 +186,12 @@ function renderExtraSections(name: string, _language: DocsLanguage): React.React
       {remaining.map((record) => {
         const Example = record.Component;
         return (
-          <Section key={`${record.slug}/${record.id}`} title={record.id} code={record.source}>
+          <Section
+            key={`${record.slug}/${record.id}`}
+            title={record.id}
+            code={record.source}
+            slug={name}
+          >
             <Example />
           </Section>
         );

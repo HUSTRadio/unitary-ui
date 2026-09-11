@@ -65,7 +65,7 @@ describe("docs feedback", () => {
     expect(document.querySelector('[data-slot="modal-overlay"]')).toBeNull();
   });
 
-  test("rating floats the form upward without an overlay, scroll lock or height change", async () => {
+  test("rating floats the card upward without an overlay, scroll lock or height change", async () => {
     await render(<FeedbackPanel />);
     const rating = container.querySelectorAll<HTMLButtonElement>('[role="radio"]')[3];
     const anchorHeightBefore = container.querySelector<HTMLElement>('[data-feedback-inline]')
@@ -76,10 +76,11 @@ describe("docs feedback", () => {
     const capsule = container.querySelector<HTMLElement>('[data-slot="rating-pill"]');
     const formRegion = capsule?.querySelector<HTMLElement>('[data-slot="feedback-form-region"]');
     expect(capsule?.getAttribute("data-state")).toBe("open");
-    // 悬浮层脱离文档流，展开不改变胶囊/容器高度。
-    expect(formRegion?.className).toContain("absolute");
-    expect(formRegion?.className).toContain("bottom-full");
-    expect(capsule?.className).toContain("h-12");
+    // 浮动卡片贴住占位底部、向上生长；脱离文档流，展开不改变容器高度。
+    expect(capsule?.className).toContain("absolute");
+    expect(capsule?.className).toContain("bottom-0");
+    // header 在上、表单区在下（DOM 顺序），视觉上是一个连续卡片。
+    expect(formRegion?.className).toContain("w-full");
     const anchorHeightAfter = container.querySelector<HTMLElement>('[data-feedback-inline]')
       ?.getBoundingClientRect().height;
     expect(anchorHeightAfter).toBe(anchorHeightBefore);
