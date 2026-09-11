@@ -328,6 +328,13 @@ test.describe("Feedback official interaction and geometry", () => {
     const footer = page.locator('[data-slot="feedback-anchor"]');
     await expect(footer).toBeVisible();
 
+    // feedback 列高度必须等于胶囊 48px：section 是 inline-flex，若父容器不是
+    // flex 容器，行盒会给它额外加约 6px，使页脚比胶囊高一截且与左右分列不等高。
+    const columnHeight = await footer.evaluate(
+      (node) => node.parentElement!.getBoundingClientRect().height,
+    );
+    expect(columnHeight).toBe(48);
+
     // 占位层必须撑出真实宽度：否则它塌陷为 0 宽，父级中间列也塌成 0 宽，
     // 卡片只能从该点向右生长（此前实测偏右 111.5px）。
     const offset = await footer.evaluate((node) => {
