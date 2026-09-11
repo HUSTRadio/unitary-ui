@@ -25,13 +25,14 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "浏览器窗框是装饰性元素，应携带 aria-hidden；实际语义由内部图片或视频承载。",
+        "窗框装饰（交通灯、前进/后退箭头等）应携带 aria-hidden；地址栏的复制按钮保留自身的可访问名称，实际语义由内部图片或视频承载。",
         "内部截图必须提供描述产品状态的替代文本，而不是复述窗框装饰。",
       ],
     },
     controlledBehavior: {
       status: "not-applicable",
-      reason: "Browser 是纯展示型框架组件，不管理任何交互状态。",
+      reason:
+        "Browser 不接受受控属性；地址栏的复制按钮只在内部维护短暂的已复制状态，调用方无需也无法从外部控制。",
     },
     responsiveBehavior: {
       status: "covered",
@@ -360,14 +361,14 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "The browser chrome is decorative and should carry aria-hidden; meaning lives on the inner image or video.",
+        "Decorative chrome (traffic lights, navigation arrows) should carry aria-hidden; the address-row copy button keeps its own accessible name, and meaning lives on the inner image or video.",
         "Inner screenshots need alt text describing the product state, not restating the decorative frame.",
       ],
     },
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Browser is a purely presentational frame component and manages no interaction state.",
+        "Browser accepts no controlled props; the address-row copy button keeps only a brief internal copied state that callers neither supply nor control.",
     },
     responsiveBehavior: {
       status: "covered",

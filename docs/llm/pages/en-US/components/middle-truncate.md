@@ -39,11 +39,11 @@ Expose the pre-truncated original full value through the title attribute or an a
 
 ## Controlled behavior
 
-Not applicable: Middle Truncate is a purely presentational component that applies ellipsis logic to a given string. It has no internal state management, user interaction, or event handling capability; all truncation behavior is determined by maxLen and optional prefix/suffix configuration.
+Not applicable: Middle Truncate takes a single value string and exposes no controlled value or event callbacks; the split is computed from the outer container's available width, so callers cannot prescribe a truncation length. When value becomes empty, the rendered head and tail fragments clear with it.
 
 ## Responsive behavior
 
-Not applicable: The Middle Truncate component's truncation logic is based on the maxLen parameter, not viewport dimensions. Its responsive behavior is determined by the width constraints of the outer container, and the component itself does not participate in layout adaptation.
+Not applicable: Middle Truncate relies on no viewport breakpoints: it observes its direct parent container and re-measures and re-truncates whenever that width changes. The component has no breakpoint rules of its own; width constraints come entirely from the surrounding layout.
 
 ## Theme behavior
 

@@ -30,12 +30,12 @@ Browser
 
 ## 无障碍
 
-- 浏览器窗框是装饰性元素，应携带 aria-hidden；实际语义由内部图片或视频承载。
+- 窗框装饰（交通灯、前进/后退箭头等）应携带 aria-hidden；地址栏的复制按钮保留自身的可访问名称，实际语义由内部图片或视频承载。
 - 内部截图必须提供描述产品状态的替代文本，而不是复述窗框装饰。
 
 ## 受控行为
 
-不适用: Browser 是纯展示型框架组件，不管理任何交互状态。
+不适用: Browser 不接受受控属性；地址栏的复制按钮只在内部维护短暂的已复制状态，调用方无需也无法从外部控制。
 
 ## 响应式行为
 
@@ -81,7 +81,7 @@ import { Browser } from "@/components/ui/browser";
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">address</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">装饰性浏览器框中显示的地址。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">address</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">浏览器框中显示的地址；附带复制按钮，复制成功后短暂显示已复制状态。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## 最佳实践
 

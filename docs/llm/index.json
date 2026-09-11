@@ -241,8 +241,8 @@
         "en-US": "pages/en-US/components/browser.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:21054d5bc3564e50514cafffd9002f3d05742d5c7bfd67f6913f084d4e912391",
-        "en-US": "sha256:0a3c2908b609657accfe19ac8b84730d927e8a4102d6e122864ebf7c3fc6082a"
+        "zh-CN": "sha256:7e9b4a79bb65b8d618753ef91099d59007d760eb89c15070b19b4849f53a8895",
+        "en-US": "sha256:5b39b69e530dcfd33d7d4ca5d57d13574bad355520cddfa356e4db3bb0689a33"
       }
     },
     {
@@ -849,8 +849,8 @@
         "en-US": "pages/en-US/components/middle-truncate.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:df7aa247428229c4b2a6dc7de7f4d2ef56f95e1fdfc9b6394c461daf1affa991",
-        "en-US": "sha256:f2fa22313144ad356c38744c9c577961676f1cb05a4fdc68ac27d2343fd655b4"
+        "zh-CN": "sha256:d4a37674338bd2f3aeef14a78841e9ef306e12c795496a4581c0ec66e7515c91",
+        "en-US": "sha256:8ab4fd788633a4bdbd46ffae2c53c57ecd71158e9159d058206d25b626457f45"
       }
     },
     {

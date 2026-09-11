@@ -30,12 +30,12 @@ Places a screenshot or demo inside the browser window frame, showing the standar
 
 ## Accessibility
 
-- The browser chrome is decorative and should carry aria-hidden; meaning lives on the inner image or video.
+- Decorative chrome (traffic lights, navigation arrows) should carry aria-hidden; the address-row copy button keeps its own accessible name, and meaning lives on the inner image or video.
 - Inner screenshots need alt text describing the product state, not restating the decorative frame.
 
 ## Controlled behavior
 
-Not applicable: Browser is a purely presentational frame component and manages no interaction state.
+Not applicable: Browser accepts no controlled props; the address-row copy button keeps only a brief internal copied state that callers neither supply nor control.
 
 ## Responsive behavior
 
@@ -81,7 +81,7 @@ import { Browser } from "@/components/ui/browser";
 
 ### Props & callbacks
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">address</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Address displayed by the decorative browser chrome.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">address</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Address shown in the browser chrome; renders a copy button that briefly reports the copied state.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## Best Practices
 

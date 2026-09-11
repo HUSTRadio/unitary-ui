@@ -99,8 +99,8 @@ const O = {
       row(
         "address",
         "string",
-        "Address displayed by the decorative browser chrome.",
-        "装饰性浏览器框中显示的地址。",
+        "Address shown in the browser chrome; renders a copy button that briefly reports the copied state.",
+        "浏览器框中显示的地址；附带复制按钮，复制成功后短暂显示已复制状态。",
       ),
     ],
   ),
