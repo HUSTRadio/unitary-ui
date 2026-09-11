@@ -506,10 +506,10 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
   "theme-switcher": [
     "规范 Light / System / Dark 控件用 Theme Switcher。每个应用放一次，页脚或设置里，不要跨页面重复。",
     "密集 chrome（页脚、下拉）传 small；设置页有标签呼吸空间时用默认尺寸。",
-    "Theme Switcher 读写 next-themes，所以应用根部包一次 GeistProvider，不要把它镜像到本地 React state。",
-    "provider 设置 forcedTheme 时控件自动禁用；手动 disabled 仅用于控件的只读预览。",
+    "Theme Switcher 读写框架自研的 ThemeProvider（src/lib/theme.tsx），所以应用根部包一次 ThemeProvider，不要把它镜像到本地 React state。",
+    "本库不依赖 next-themes：公开 API 仅有 className / small / disabled，没有 onChange 回调或 forcedTheme 概念；需要拦截变更时直接消费 useTheme()。",
     "不要用 Switch 或三个图标按钮重建主题选择器。Theme Switcher 已处理图标、每选项 aria-label 与 System 检测。",
-    "组件由主题键（light、system、dark）自行组合标签；保持原样以便经 next-themes 可翻译。",
+    "选项标签经框架 i18n（t()）本地化；保持这种写法，让可访问名称与界面语言一致。",
   ],
   video: [
     "内嵌播放控制与惰性加载支持的短片用 Video。",
