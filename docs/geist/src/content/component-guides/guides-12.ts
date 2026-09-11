@@ -179,7 +179,8 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Slider 接受 value/defaultValue；轨道拖动结束时使用 onValueCommit，onValueChange 当前只由可选数值输入路径调用。",
+        "Slider 接受 value/defaultValue：value 受控；onValueChange 在拖拽、键盘与可选数值输入路径都会触发，把新值交还父组件。",
+        "轨道交互结束后触发 onValueCommit（onValueCommitted 为兼容别名）；同一轮内的重复调用会被合并，便于在 StrictMode 下安全使用。",
         "禁用手柄会阻止任何键盘和鼠标输入，适合需要临时锁定设置的场景。",
       ],
     },
@@ -502,7 +503,8 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Slider accepts value/defaultValue. Use onValueCommit after track interaction; onValueChange is currently emitted only by the optional numeric-input path.",
+        "Slider accepts value/defaultValue: value is controlled, while onValueChange fires for drag, keyboard, and the optional numeric-input path and hands the new value back to the parent.",
+        "onValueCommit fires once a track interaction settles (onValueCommitted is a compatibility alias); repeated calls within the same turn are collapsed, making it safe under StrictMode.",
         "A disabled thumb prevents all keyboard and mouse input, useful for temporarily locking settings.",
       ],
     },

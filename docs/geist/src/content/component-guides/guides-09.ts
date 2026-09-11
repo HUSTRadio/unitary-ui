@@ -198,6 +198,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
       content: [
         "不同变体（destructive、warning、success）通过颜色和图标传递语义，但颜色本身不足以区分——必须搭配明确的文本说明。",
         "Note 不是临时通知——它是持久性的，屏幕阅读器会在页面加载时立即播报其内容。",
+        "禁用态（disabled）会同时设置 aria-disabled 与原生 inert，整块 Note 不可交互并从无障碍树中移除。",
       ],
     },
     controlledBehavior: {
@@ -537,6 +538,7 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
       content: [
         "Different variants (destructive, warning, success) convey semantics through color and icons, but color alone is insufficient — explicit text descriptions must accompany them.",
         "A Note is persistent rather than transient; its content is announced immediately by screen readers on page load.",
+        "The disabled state sets both aria-disabled and native inert, so the entire Note becomes non-interactive and leaves the accessibility tree.",
       ],
     },
     controlledBehavior: {

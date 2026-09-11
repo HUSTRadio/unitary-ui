@@ -338,7 +338,7 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Combobox 结合输入和列表的原生语义，支持键盘导航：上/下箭头移动焦点，Home/End 跳转首尾项，Enter 激活。",
+        "Combobox 结合输入和列表的原生语义，支持键盘导航：面板关闭时上/下/Home/End 会先展开列表，打开后上/下箭头移动高亮，Home/End 跳转首尾项，Enter 提交当前高亮项。",
         "输入字符会实时过滤选项；打开后首个可见项高亮，筛选变化时高亮保持在可见集合内。",
       ],
     },
@@ -731,7 +731,7 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Combobox combines input and list semantics; Up/Down arrows move the highlight, Home/End jump to the first/last item, and Enter selects it.",
+        "Combobox combines input and list semantics for keyboard use. While the panel is closed, Up/Down/Home/End open it first; once open, Up/Down move the highlight, Home/End jump to the first/last item, and Enter commits the highlighted item.",
         "Typing filters the option list in real time; the first visible item is highlighted on open and the highlight remains within the filtered set.",
       ],
     },

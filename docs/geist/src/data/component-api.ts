@@ -1031,6 +1031,12 @@ const O = {
     [
       row("value", "number[]", "Controlled value.", "受控值。"),
       row(
+        "onValueChange",
+        "(value: number[]) => void",
+        "Called for every value change from dragging, keyboard input, or the numeric inputs.",
+        "拖拽、键盘或数值输入导致的值变化都会调用。",
+      ),
+      row(
         "marks",
         "boolean | Array<{ value: number; label?: string }>",
         "Tick marks: `true` generates one per step (max 50), or an explicit array.",

@@ -54,7 +54,7 @@ Applies error colors to the input text and icons when validation fails; the page
 
 ## Accessibility
 
-- Combobox combines input and list semantics; Up/Down arrows move the highlight, Home/End jump to the first/last item, and Enter selects it.
+- Combobox combines input and list semantics for keyboard use. While the panel is closed, Up/Down/Home/End open it first; once open, Up/Down move the highlight, Home/End jump to the first/last item, and Enter commits the highlighted item.
 - Typing filters the option list in real time; the first visible item is highlighted on open and the highlight remains within the filtered set.
 
 ## Controlled behavior

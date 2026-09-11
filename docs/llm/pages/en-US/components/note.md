@@ -45,6 +45,7 @@ Replaces the default icon slot with a custom SVG icon to meet brand-specific vis
 
 - Different variants (destructive, warning, success) convey semantics through color and icons, but color alone is insufficient — explicit text descriptions must accompany them.
 - A Note is persistent rather than transient; its content is announced immediately by screen readers on page load.
+- The disabled state sets both aria-disabled and native inert, so the entire Note becomes non-interactive and leaves the accessibility tree.
 
 ## Controlled behavior
 

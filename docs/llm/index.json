@@ -385,8 +385,8 @@
         "en-US": "pages/en-US/components/combobox.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:47ac118b2afa51ebbaf06090eab651335ee28ec288e8145f1ca2b4362f8d984f",
-        "en-US": "sha256:07abde36d6bdcdfb1ad76078523aef4481e53eac48043e7cd91cac8ab14bc658"
+        "zh-CN": "sha256:0cb8389e8d0f89539d9c7abd243aa6c71fdc940fc481abc80be436170529d057",
+        "en-US": "sha256:5e19b550da578a5a0dfdd484dd21d13fa26aa0f18f44c8fd6e02c33c28293e4f"
       }
     },
     {
@@ -897,8 +897,8 @@
         "en-US": "pages/en-US/components/note.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:8ca42d604c3300517c5ebefdd79354056515e2c7d04a66bccb52452ebb2489ab",
-        "en-US": "sha256:c22e16b351a2589f643366a21f1d3fb750cdb4024874e067cffa87973d162ddf"
+        "zh-CN": "sha256:c1c880a3115edd7545e00cfe8793a4653e2ce347baa5c8c506377a91d62b494e",
+        "en-US": "sha256:826e756be18f1c862c71608b2de7de7b77c2a577cef27aa930730f802a513ef4"
       }
     },
     {
@@ -1121,8 +1121,8 @@
         "en-US": "pages/en-US/components/slider.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:5e5b031133242ab7be5c8f8f5b46074b00efaeb1243b9d5438291c16352c79ae",
-        "en-US": "sha256:0246d7051724f9fd7fe544622123c5ce52a624bac294e4eb470594e664fa7657"
+        "zh-CN": "sha256:704e1317e6fb0f1343ffa3b713bd836cde07011676b98f181bfb990406df50b0",
+        "en-US": "sha256:460c66068ba80d6448997f7f3e93c81dac8bbaeb16634b214c21158ba7c75a7d"
       }
     },
     {
