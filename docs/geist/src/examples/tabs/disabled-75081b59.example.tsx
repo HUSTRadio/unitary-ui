@@ -1,11 +1,14 @@
 import { Tabs } from "@/components/ui/tabs";
+import { useState } from "react";
 
 export function TabsDisabled75081B59Example() {
+  const [selected, setSelected] = useState("apple");
+
   return (
     <Tabs
       disabled
-      selected="apple"
-      setSelected={() => {}}
+      selected={selected}
+      setSelected={setSelected}
       tabs={[
         { title: "Apple", value: "apple" },
         { title: "Orange", value: "orange" },

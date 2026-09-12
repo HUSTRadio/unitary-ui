@@ -62,6 +62,7 @@
 
 ### Fixed
 
+- **Tabs 演示「未禁用标签页无响应」（修复）**：`Disable specific tabs`、`With icons`、`Secondary`、`Disabled` 四个演示把 `selected` 写成常量、`setSelected` 置为空函数，点击未禁用的 tab 只会移动焦点，选中态永远停在初始值（官方 demo 全部使用 `useState`）。现四个演示都改为 `useState` 受控，`Disable specific tabs` 里禁用的 Mango 仍然不可选。新增回归测试锁住「点击未禁用 tab 会切换选中态」这一契约。
 - **Table `Bordered table` 改名（中英双语）**：该演示用的是 `colorScheme="bordered"`，语义是**行间分隔线**，而容器外框由 `TableRoot` 的 `frame` 控制，且它本身没有包 `TableRoot`——旧名（英文 `Bordered table` / 中文「带边框表格」）描述的正是它**没有**的东西。现统一改为 `Row dividers` /「行间分隔线表格」，与 `columnDividers`（列分隔线）和指南用语一致；`colorScheme` 的中文说明同步由「带边框」改为「行间分隔线」。示例文件 `bordered.example.tsx` 重命名为 `row-dividers.example.tsx`，并改用非弃用的 `Table colorScheme="bordered"` 而不是 `TableBody` 上的 `bordered`。
 - **Feedback 主题选择器改用 Select 组件（视觉与无障碍一致性）**：默认 Popover 的主题下拉此前是浏览器原生 `<select>`，与仓库其余选择器的材质、圆角、高亮与键盘态不一致；现改为复用包内 `Select` / `SelectItem`（Radix），`aria-label`、`size="small"`、占位文案与主题本地化行为保持不变，选项继续由 `topics` / `showTopics` 驱动，`onSubmit` 第 4 个参数（topic）语义不变。同步把单元测试与 Playwright 用例从原生 `selectOption` / `toHaveValue` 改为真实点击触发器与 portal 选项，`tests/feedback-i18n.test.tsx` 改断言 `[data-slot="select-trigger"]` 的 `aria-label`。
 - **Feedback 支持文案与内联收起判定**：表单内的 Markdown 提示此前渲染为 `supported.`（英中两侧 key/value 同形，中文侧退化为「支持。」），现改为 `Markdown supported.` / 「支持 Markdown。」；Inline 胶囊的 `focusout` 在 `relatedTarget` 为 `null` 时不再与「焦点既不在容器内、也不是已知目标」混为一谈，而是延迟一拍复核真实焦点位置，窗口失焦时不再误清评分，真正的焦点外移仍会收起。

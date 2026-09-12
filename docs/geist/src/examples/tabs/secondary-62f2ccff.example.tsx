@@ -1,11 +1,14 @@
 import { Tabs } from "@/components/ui/tabs";
+import { useState } from "react";
 
 export function TabsSecondary62F2CCFFExample() {
+  const [selected, setSelected] = useState("github");
+
   return (
     <Tabs
       variant="secondary"
-      selected="github"
-      setSelected={() => {}}
+      selected={selected}
+      setSelected={setSelected}
       tabs={[
         { title: "GitHub", value: "github" },
         { title: "GitLab", value: "gitlab" },

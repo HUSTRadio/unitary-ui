@@ -1,10 +1,13 @@
 import { Tabs } from "@/components/ui/tabs";
+import { useState } from "react";
 
 export function TabsDisableSpecificTabsA4195A7DExample() {
+  const [selected, setSelected] = useState("apple");
+
   return (
     <Tabs
-      selected="apple"
-      setSelected={() => {}}
+      selected={selected}
+      setSelected={setSelected}
       tabs={[
         { title: "Apple", value: "apple" },
         { title: "Orange", value: "orange" },

@@ -90,13 +90,16 @@ export function TabsDefault21B111CBExample() {
 
 ```tsx
 import { Tabs } from "@/components/ui/tabs";
+import { useState } from "react";
 
 export function TabsDisabled75081B59Example() {
+  const [selected, setSelected] = useState("apple");
+
   return (
     <Tabs
       disabled
-      selected="apple"
-      setSelected={() => {}}
+      selected={selected}
+      setSelected={setSelected}
       tabs={[
         { title: "Apple", value: "apple" },
         { title: "Orange", value: "orange" },
@@ -112,12 +115,15 @@ export function TabsDisabled75081B59Example() {
 
 ```tsx
 import { Tabs } from "@/components/ui/tabs";
+import { useState } from "react";
 
 export function TabsDisableSpecificTabsA4195A7DExample() {
+  const [selected, setSelected] = useState("apple");
+
   return (
     <Tabs
-      selected="apple"
-      setSelected={() => {}}
+      selected={selected}
+      setSelected={setSelected}
       tabs={[
         { title: "Apple", value: "apple" },
         { title: "Orange", value: "orange" },
@@ -134,12 +140,15 @@ export function TabsDisableSpecificTabsA4195A7DExample() {
 ```tsx
 import { Tabs } from "@/components/ui/tabs";
 import { LayoutGrid } from "lucide-react";
+import { useState } from "react";
 
 export function TabsWithIcons1F71F4BCExample() {
+  const [selected, setSelected] = useState("github");
+
   return (
     <Tabs
-      selected="github"
-      setSelected={() => {}}
+      selected={selected}
+      setSelected={setSelected}
       tabs={[
         { title: "GitHub", value: "github", icon: <LayoutGrid className="size-4" aria-hidden /> },
         { title: "GitLab", value: "gitlab" },
@@ -155,13 +164,16 @@ export function TabsWithIcons1F71F4BCExample() {
 
 ```tsx
 import { Tabs } from "@/components/ui/tabs";
+import { useState } from "react";
 
 export function TabsSecondary62F2CCFFExample() {
+  const [selected, setSelected] = useState("github");
+
   return (
     <Tabs
       variant="secondary"
-      selected="github"
-      setSelected={() => {}}
+      selected={selected}
+      setSelected={setSelected}
       tabs={[
         { title: "GitHub", value: "github" },
         { title: "GitLab", value: "gitlab" },
