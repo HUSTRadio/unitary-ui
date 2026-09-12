@@ -1051,6 +1051,55 @@ const O = {
       ),
     ],
   ),
+  mask: component(
+    ["Mask"],
+    [
+      row(
+        "skeleton",
+        "ReactNode",
+        "Skeleton template for the masked state. Always mounted so the swap keeps one box.",
+        "遮罩态的骨架模板。始终挂载，保证切换前后盒子一致。",
+      ),
+      row(
+        "masked",
+        "boolean",
+        "Controlled masked state; the component never flips it on its own.",
+        "受控遮罩态；组件不会自行翻转。",
+      ),
+      row(
+        "defaultMasked",
+        "boolean",
+        "Initial masked state for uncontrolled use.",
+        "非受控初始遮罩态。",
+        { defaultValue: "false" },
+      ),
+      row(
+        "onMaskedChange",
+        "(masked: boolean) => void",
+        "Uncontrolled masked-state callback; there is no internal trigger while masked is unset.",
+        "非受控遮罩态回调；masked 未传时没有内部触发源。",
+      ),
+      row(
+        "label",
+        "string",
+        "Accessible name announced while the region is masked.",
+        "遮罩期间播报的可访问名称。",
+      ),
+      row(
+        "liveRegion",
+        "boolean",
+        "Announces completion through aria-live=\"polite\". Enable only for the region the load result belongs to.",
+        "经 aria-live=\"polite\" 宣告完成。仅在该区域是本次加载结果时开启。",
+        { defaultValue: "false" },
+      ),
+      row(
+        "overlay",
+        "ReactNode",
+        "Replaces skeleton as the masked overlay when a bespoke layer is needed.",
+        "需要自定义遮罩层时替代 skeleton。",
+      ),
+    ],
+  ),
   slider: component(
     ["Slider"],
     [

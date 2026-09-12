@@ -129,8 +129,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:bfa3b8d118ec7f6bd9ecbee36bb48db50f44e6d721512749354c98de895ce274",
-        "en-US": "sha256:be2f028d0f27fcc79244103bbfba11e38260fac16120e53a903907b4416e6116"
+        "zh-CN": "sha256:edf212b98cacf91ab41089c77717f477dac542603c49d17d555ed5da94ea24ee",
+        "en-US": "sha256:2b889093d35fc8bbcf26ea8a4aa7f89c262204a131499cf2507b53f18198d49f"
       }
     },
     {
@@ -822,6 +822,22 @@
       }
     },
     {
+      "path": "/components/mask",
+      "title": {
+        "zh-CN": "骨架遮罩",
+        "en-US": "Mask"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/mask.md",
+        "en-US": "pages/en-US/components/mask.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:9f6842decb961ef9035354c08cd93026b30ffce8b4a68f81851cc9ad6d507c42",
+        "en-US": "sha256:8c7ae91082accb20fd6857ee8f2493149fa524c2340490a1a386a1f5caf5539c"
+      }
+    },
+    {
       "path": "/components/menu",
       "title": {
         "zh-CN": "菜单",
@@ -1105,8 +1121,8 @@
         "en-US": "pages/en-US/components/skeleton.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:d89956c81f57390e3bc15db698bdc17f1ebe20aa762f32235c5058dc74edf80b",
-        "en-US": "sha256:e6cc9ddf0a1516ff39d5bf5da1ba6669ed3cb6c15c092de99d91c3176a053ffa"
+        "zh-CN": "sha256:3f48fcd692a0ea42509777bc06ac3d2087eaa728ba5b2560490b60ae8411b71a",
+        "en-US": "sha256:dba6eefc05e10d8b155a16ed23b1de2af4ecd3f3fdd838ccc4f0261237254e87"
       }
     },
     {

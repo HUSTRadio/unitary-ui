@@ -8,6 +8,8 @@
 
 ### Added
 
+- **Mask 骨架遮罩组件**：给一块真实内容指定骨架模板后，`masked` 开关整体切换成骨架屏、`unmask` 切回真实界面。与 `Skeleton` 组合而非条件渲染是刻意选择——`skeleton` 模板**始终挂载**，真实内容在遮罩期间以 `visibility: hidden` 保留原盒子（`inert` + `aria-hidden`，既进不了无障碍树也不会被 Tab 或点击命中），因此切换前后是同一个盒子，不存在宽度跳变。容器承担 `aria-busy` 与 `label` 可访问名称，`liveRegion` 可选开启完成播报（默认关闭，避免同页多遮罩区重复播报）。新增双语指南、API 参考、2 个可运行示例与 LLM 语料页面。
+
 - **Table 带外框变体演示**：新增 `Outlined table` /「带外框表格」示例，用 `TableRoot frame="outline"` + `colorScheme="bordered"` 展示真正的容器外框。它与 `Row dividers`（只有行间分隔线、不包 `TableRoot`）唯一的区别就是这层外框，两者并排即可看出 `frame` 控制的是什么；此前 `frame` 只在 `Default` 里隐式出现，没有独立演示。
 
 - **ContinuousSurface 合并前修正**：连续裁切增强后移除竞争的背景圆角；以本地 border-box 测量并观察边框尺寸变化，避免父级 transform 导致错误裁切；superellipse 示例使用归一化 SVG 裁切适配响应式磁贴；固定高指数曲线端点，并在特殊路径分支前统一校验采样参数。新增像素、缩放、边框变化与响应式命中回归测试。
@@ -62,6 +64,7 @@
 
 ### Fixed
 
+- **Skeleton 加载动画节奏（视觉变更）**：从 Tailwind 默认的 `animate-pulse`（2s 整块明暗呼吸）改为 **1.4s 流光带扫过**（新增 `--animate-skeleton-shimmer` + `@keyframes skeleton-shimmer`，-100%→100% 用元素自身宽度度量，因此任意宽度的骨架都恰好一个周期扫完一遍；前 45% 扫过、后 55% 保持纯净底色，留出可辨识的重复节奏而非持续闪光）。周期与同族 LoadingDots 的 blink 对齐，避免同屏两种加载节奏打架；流光带的水平位移比单纯明暗变化更明确地传达「数据正在流入这块区域」。渐变本体放在 `aria-hidden` 的装饰子层而不是 `::after`，使调用方用 `className` 覆盖外形时无需推导伪元素尺寸。Apple HIG「Loading」章节未规定帧率/时长，其要求是「不要空白等待、尽早显示占位内容并让用户看出正在进行」，本次改动按该语义收敛；`motion-reduce` 仍完全停用动画。
 - **Tabs 演示「未禁用标签页无响应」（修复）**：`Disable specific tabs`、`With icons`、`Secondary`、`Disabled` 四个演示把 `selected` 写成常量、`setSelected` 置为空函数，点击未禁用的 tab 只会移动焦点，选中态永远停在初始值（官方 demo 全部使用 `useState`）。现四个演示都改为 `useState` 受控，`Disable specific tabs` 里禁用的 Mango 仍然不可选。新增回归测试锁住「点击未禁用 tab 会切换选中态」这一契约。
 - **Table `Bordered table` 改名（中英双语）**：该演示用的是 `colorScheme="bordered"`，语义是**行间分隔线**，而容器外框由 `TableRoot` 的 `frame` 控制，且它本身没有包 `TableRoot`——旧名（英文 `Bordered table` / 中文「带边框表格」）描述的正是它**没有**的东西。现统一改为 `Row dividers` /「行间分隔线表格」，与 `columnDividers`（列分隔线）和指南用语一致；`colorScheme` 的中文说明同步由「带边框」改为「行间分隔线」。示例文件 `bordered.example.tsx` 重命名为 `row-dividers.example.tsx`，并改用非弃用的 `Table colorScheme="bordered"` 而不是 `TableBody` 上的 `bordered`。
 - **Feedback 主题选择器改用 Select 组件（视觉与无障碍一致性）**：默认 Popover 的主题下拉此前是浏览器原生 `<select>`，与仓库其余选择器的材质、圆角、高亮与键盘态不一致；现改为复用包内 `Select` / `SelectItem`（Radix），`aria-label`、`size="small"`、占位文案与主题本地化行为保持不变，选项继续由 `topics` / `showTopics` 驱动，`onSubmit` 第 4 个参数（topic）语义不变。同步把单元测试与 Playwright 用例从原生 `selectOption` / `toHaveValue` 改为真实点击触发器与 portal 选项，`tests/feedback-i18n.test.tsx` 改断言 `[data-slot="select-trigger"]` 的 `aria-label`。

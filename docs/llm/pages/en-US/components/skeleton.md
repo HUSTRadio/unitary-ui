@@ -55,7 +55,7 @@ Not applicable: Skeleton is a passive display component with no interactive stat
 
 ## Theme behavior
 
-- Skeleton background color and pulse animation follow theme variables, providing appropriate contrast in both dark and light modes.
+- Skeleton background color and its 1.4s shimmer animation follow theme variables, providing appropriate contrast in both dark and light modes.
 - Skeleton colors can be overridden via CSS variables for brand customization or special-scenario differentiation.
 
 ## Live Demo
@@ -229,4 +229,4 @@ import { Skeleton } from "@/components/ui/skeleton";
 - For a single in-flight action, use Spinner; for known progress, use Progress.
 - Set width and height to match the final content so the layout doesn’t shift when data resolves.
 - Wrap the loading region in aria-busy="true" and announce completion with aria-live="polite" on the destination container.
-- Respect prefers-reduced-motion for the pulse animation on low-power surfaces.
+- Respect prefers-reduced-motion for the shimmer animation on low-power surfaces.

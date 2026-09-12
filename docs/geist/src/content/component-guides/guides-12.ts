@@ -66,6 +66,67 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
       ],
     },
   },
+  mask: {
+    slug: "mask",
+    locale: "zh-CN",
+    summary: "给一块真实内容指定骨架模板，一个开关在骨架屏与真实界面之间切换。",
+    whenToUse: [
+      "区块布局已知，只需要在「加载中」与「已就绪」之间整体切换时，用 Mask 包住真实内容并传入 skeleton 模板。",
+      "需要在一次加载里同时遮住多个元素（表格行 + 工具栏 + 统计块）且它们必须共用同一套切换时机。",
+      "当真实内容已能渲染但数据还没到、又不想让用户看到半填充状态时，先 mask 住再 unmask。",
+    ],
+    whenNotToUse: [
+      "不要用 Mask 代替条件渲染——如果数据未就绪时该区域根本不该占位（例如整页为空），用 EmptyState 或直接不渲染。",
+      "单个正在进行的操作应使用 Spinner，有明确进度时使用 Progress。",
+      "不要在没有骨架模板的情况下使用——Mask 的价值在于切换前后盒子一致，缺了模板就退化成闪烁。",
+    ],
+    examples: [
+      {
+        id: "default",
+        kind: "minimal",
+        title: "受控切换",
+        description: "用 masked 受控开关在骨架模板与真实界面之间切换。",
+        demoKey: "Default",
+      },
+      {
+        id: "toggle",
+        kind: "advanced",
+        title: "可交互切换",
+        description: "由页面状态驱动 masked，演示真实界面在 unmask 后恢复交互。",
+        demoKey: "Controlled toggle",
+      },
+    ],
+    accessibility: {
+      status: "covered",
+      content: [
+        'masked 时容器带 aria-busy="true" 与 label 提供的可访问名称，屏幕阅读器能识别这块区域正在加载。',
+        "真实内容在遮罩期间保留占位但不进入无障碍树，也不会被 Tab 聚焦（inert + aria-hidden），因此不会出现「点到了看不见的按钮」。",
+        '只在确实是本次加载结果的那个区域打开 liveRegion，完成时经 aria-live="polite" 播报一次；同页多个遮罩区同时开启会重复播报。',
+        "所有骨架层都是装饰性的（aria-hidden），真正的语义由底层内容提供。",
+      ],
+    },
+    controlledBehavior: {
+      status: "covered",
+      content: [
+        "masked 是受控开关：组件永不自行翻转，加载完成与否由调用方（通常是解析数据的 promise）决定。",
+        "defaultMasked 提供非受控初始值；此时没有内部触发源，因此 onMaskedChange 不会产生可观察变化，需要可观察切换请用受控 masked。",
+      ],
+    },
+    responsiveBehavior: {
+      status: "covered",
+      content: [
+        "Mask 自身不做布局，尺寸完全由 children 与 skeleton 决定；两者形状一致是切换不位移的前提。",
+        "骨架模板应使用与真实内容相同的响应式尺寸（百分比宽度、grid 列数），而不是写死的像素值。",
+      ],
+    },
+    themeBehavior: {
+      status: "covered",
+      content: [
+        "遮罩层的颜色与动画来自 Skeleton 的主题变量，暗色/亮色模式下自动适配。",
+        "Mask 不引入独立配色，任何品牌化都通过传入的 skeleton 模板完成。",
+      ],
+    },
+  },
   skeleton: {
     slug: "skeleton",
     locale: "zh-CN",
@@ -108,7 +169,7 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
       content: [
         '将加载区域包裹在 aria-busy="true" 中，并在数据就绪后用 aria-live="polite" 通知完成状态。',
         "骨架屏本身是装饰性的，不应被屏幕阅读器逐条朗读——由底层内容提供真正的语义信息。",
-        "对于低功率设备，应尊重 prefers-reduced-motion，减少或禁用脉冲动画。",
+        "对于低功率设备，应尊重 prefers-reduced-motion，减少或禁用流光动画。",
       ],
     },
     controlledBehavior: {
@@ -385,6 +446,68 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
       ],
     },
   },
+  mask: {
+    slug: "mask",
+    locale: "en-US",
+    summary:
+      "Give a region a skeleton template, then switch it between the skeleton and the real interface with one flag.",
+    whenToUse: [
+      "Use Mask when the region's layout is known and you only need to switch the whole block between loading and ready.",
+      "When one load must cover several elements at once (table rows plus a toolbar plus a stat block) and they have to share a single switch.",
+      "When the real content can already render but the data has not arrived, and half-filled UI would be worse than a skeleton.",
+    ],
+    whenNotToUse: [
+      "Do not use Mask as a substitute for conditional rendering—if the region should not occupy space while loading (an empty page, for instance), use EmptyState or render nothing.",
+      "For a single in-flight action, use Spinner; for known progress, use Progress.",
+      "Do not use Mask without a skeleton template—its value is keeping one box across the swap, and without the template it degrades into a flash.",
+    ],
+    examples: [
+      {
+        id: "default",
+        kind: "minimal",
+        title: "Controlled switch",
+        description: "Drives the swap between skeleton template and real interface with the controlled masked flag.",
+        demoKey: "Default",
+      },
+      {
+        id: "toggle",
+        kind: "advanced",
+        title: "Interactive switch",
+        description: "Page state drives masked, showing the real interface regain interactivity after unmasking.",
+        demoKey: "Controlled toggle",
+      },
+    ],
+    accessibility: {
+      status: "covered",
+      content: [
+        'While masked, the container carries aria-busy="true" and the accessible name from label, so assistive technology can identify the region as loading.',
+        "The real content keeps its box but leaves the accessibility tree and cannot be focused while masked (inert plus aria-hidden), so a click can never land on an invisible control.",
+        'Enable liveRegion only on the region the load result belongs to; several masked regions announcing at once would repeat the same completion.',
+        "Every skeleton layer is decorative (aria-hidden); the real semantics come from the underlying content.",
+      ],
+    },
+    controlledBehavior: {
+      status: "covered",
+      content: [
+        "masked is a controlled flag: the component never flips it on its own, so the caller—typically the promise that resolves the data—decides when loading ends.",
+        "defaultMasked sets the initial value for uncontrolled use; there is no internal trigger in that mode, so onMaskedChange has nothing observable to fire from. Use controlled masked when the transition must be observable.",
+      ],
+    },
+    responsiveBehavior: {
+      status: "covered",
+      content: [
+        "Mask owns no layout: dimensions come entirely from children and skeleton, and matching their shapes is what keeps the swap from shifting.",
+        "Author the skeleton template with the same responsive sizing as the real content (percentage widths, matching grid columns) rather than fixed pixels.",
+      ],
+    },
+    themeBehavior: {
+      status: "covered",
+      content: [
+        "The overlay's color and animation come from Skeleton's theme variables and adapt to dark and light modes automatically.",
+        "Mask introduces no palette of its own; any branding happens inside the skeleton template you pass in.",
+      ],
+    },
+  },
   skeleton: {
     slug: "skeleton",
     locale: "en-US",
@@ -448,7 +571,7 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "Skeleton background color and pulse animation follow theme variables, providing appropriate contrast in both dark and light modes.",
+        "Skeleton background color and its 1.4s shimmer animation follow theme variables, providing appropriate contrast in both dark and light modes.",
         "Skeleton colors can be overridden via CSS variables for brand customization or special-scenario differentiation.",
       ],
     },

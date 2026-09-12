@@ -42,7 +42,7 @@ Skeleton
 
 - 将加载区域包裹在 aria-busy="true" 中，并在数据就绪后用 aria-live="polite" 通知完成状态。
 - 骨架屏本身是装饰性的，不应被屏幕阅读器逐条朗读——由底层内容提供真正的语义信息。
-- 对于低功率设备，应尊重 prefers-reduced-motion，减少或禁用脉冲动画。
+- 对于低功率设备，应尊重 prefers-reduced-motion，减少或禁用流光动画。
 
 ## 受控行为
 
@@ -228,5 +228,5 @@ import { Skeleton } from "@/components/ui/skeleton";
 - 异步数据填充已知布局时显示 Skeleton：表格行、卡片网格、资料块、侧栏。
 - 单个进行中的动作用 Spinner；已知进度用 Progress。
 - width 与 height 匹配最终内容，让数据解析时布局不位移。
-- 在低功耗表面尊重 prefers-reduced-motion 处理脉冲动画。
+- 在低功耗表面尊重 prefers-reduced-motion 处理流光动画。
 - 用 aria-busy="true" 包裹加载区域，并用 aria-live 播报完成。

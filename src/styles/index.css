@@ -451,6 +451,14 @@
   /* LoadingDots 官方 blink 动画（1.4s ease infinite） */
   --animate-blink: blink 1.4s ease infinite backwards;
 
+  /* Skeleton 骨架流光（1.4s ease-in-out infinite）。
+     语义：骨架屏要在**一个能被感知的周期内**反复重申「这块正在加载」——
+     首选实现是移动的流光带（shimmer），而不是整体呼吸的 pulse：
+     位移方向性天然表达「进行中」，且每 1.4s 完成一次可辨识的循环。
+     1.4s 与同族的 LoadingDots blink 同周期，避免同屏两种加载节奏打架。
+     用 ease-in-out（循环点速度为 0）而不是线性，避免首尾接缝突跳。 */
+  --animate-skeleton-shimmer: skeleton-shimmer 1.4s ease-in-out infinite;
+
   /* CopyButton 对勾描边绘制动画（0.2s ease-out，配合缩放淡入使用） */
   --animate-copy-check-draw: copy-check-draw 0.2s ease-out both;
 
@@ -1824,6 +1832,21 @@ html[data-font-tier="system"],
 [data-slot="code"] .token.punctuation,
 [data-slot="code"] .token.operator {
   color: var(--uni-gray-1000);
+}
+
+/* Skeleton 流光带扫过整块（-100% → 100% 用元素自身宽度度量，因此 200px 宽和
+   600px 宽的骨架都恰好一个周期扫完一遍，不做背景尺寸换算）。
+   一个周期内两段各有份额：前 45% 扫过、后 55% 保持纯净底色，
+   让「一块正在加载」的重复节奏有呼吸间隙，而不是持续闪光（防止被读成
+   静态装饰或警示闪烁）。比例写死在这一处，变节奏只改时长 token。 */
+@keyframes skeleton-shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  45%,
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* LoadingDots 官方 blink 动画（1.4s ease infinite，opacity 0.2→1→0.2） */

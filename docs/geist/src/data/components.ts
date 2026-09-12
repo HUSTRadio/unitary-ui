@@ -802,6 +802,26 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "mask",
+    label: "Mask",
+    labelZh: "骨架遮罩",
+    description: "Switches a region between its skeleton template and the real interface.",
+    descriptionZh: "在骨架模板与真实界面之间切换一块区域。",
+    official: "—",
+    bestPractices: [
+      "Use Mask when a region already has a known layout and you want one switch to swap it between skeleton and real content.",
+      "Give skeleton the shape of the real region instead of a generic block, so unmasking does not move anything.",
+      "Keep the mask state in the caller and drive it from the same promise that resolves the data; Mask never flips itself.",
+      "Turn liveRegion on only for the region the load result belongs to—a page with several masked regions would otherwise announce the same completion repeatedly.",
+    ],
+    bestPracticesZh: [
+      "当一块区域已经有确定布局、且希望用一个开关在骨架与真实内容之间切换时，使用 Mask。",
+      "让 skeleton 复刻真实区域的形状而不是一个通用色块，unmask 时就不会发生位移。",
+      "把遮罩状态留在调用方，并由同一个解析数据的 promise 驱动；Mask 不会自行翻转。",
+      "只在确实是本次加载结果的那个区域打开 liveRegion——否则同页多个遮罩区会重复播报同一次完成。",
+    ],
+  },
+  {
     name: "skeleton",
     label: "Skeleton",
     labelZh: "骨架屏",
@@ -812,7 +832,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "For a single in-flight action, use Spinner; for known progress, use Progress.",
       "Set width and height to match the final content so the layout doesn’t shift when data resolves.",
       'Wrap the loading region in aria-busy="true" and announce completion with aria-live="polite" on the destination container.',
-      "Respect prefers-reduced-motion for the pulse animation on low-power surfaces.",
+      "Respect prefers-reduced-motion for the shimmer animation on low-power surfaces.",
     ],
   },
   {

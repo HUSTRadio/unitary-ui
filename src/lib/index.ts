@@ -53,6 +53,8 @@ export { Progress } from "@/components/ui/progress";
 export type { ProgressProps, ProgressType, ProgressLabelPosition, ProgressStop } from "@/components/ui/progress";
 export { Skeleton } from "@/components/ui/skeleton";
 export type { SkeletonProps } from "@/components/ui/skeleton";
+export { Mask } from "@/components/ui/mask";
+export type { MaskProps } from "@/components/ui/mask";
 export { Spinner } from "@/components/ui/spinner";
 export { LoadingDots } from "@/components/ui/loading-dots";
 export type { SpinnerProps } from "@/components/ui/spinner";
