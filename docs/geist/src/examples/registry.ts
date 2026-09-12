@@ -745,8 +745,10 @@ import { TableDefault21B111CBExample } from "./table/default-21b111cb.example";
 import TableDefault21B111CBExampleSource from "./table/default-21b111cb.example.tsx?example-source";
 import { TableStripedExample } from "./table/striped.example";
 import TableStripedExampleSource from "./table/striped.example.tsx?example-source";
-import { TableBorderedExample } from "./table/bordered.example";
-import TableBorderedExampleSource from "./table/bordered.example.tsx?example-source";
+import { TableRowDividersExample } from "./table/row-dividers.example";
+import TableRowDividersExampleSource from "./table/row-dividers.example.tsx?example-source";
+import { TableOutlinedExample } from "./table/outlined.example";
+import TableOutlinedExampleSource from "./table/outlined.example.tsx?example-source";
 import { TableInteractiveExample } from "./table/interactive.example";
 import TableInteractiveExampleSource from "./table/interactive.example.tsx?example-source";
 import { TableFullFeaturedExample } from "./table/full-featured.example";
@@ -1136,7 +1138,8 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "text-with-copy-button", id: "With Small and Tertiary", Component: TextWithCopyButtonWithSmallAndTertiary230FE3B9Example, source: TextWithCopyButtonWithSmallAndTertiary230FE3B9ExampleSource },
   { slug: "table", id: "Default", Component: TableDefault21B111CBExample, source: TableDefault21B111CBExampleSource },
   { slug: "table", id: "Striped table", Component: TableStripedExample, source: TableStripedExampleSource },
-  { slug: "table", id: "Bordered table", Component: TableBorderedExample, source: TableBorderedExampleSource },
+  { slug: "table", id: "Row dividers", Component: TableRowDividersExample, source: TableRowDividersExampleSource },
+  { slug: "table", id: "Outlined table", Component: TableOutlinedExample, source: TableOutlinedExampleSource },
   { slug: "table", id: "Interactive table", Component: TableInteractiveExample, source: TableInteractiveExampleSource },
   { slug: "table", id: "Full featured table", Component: TableFullFeaturedExample, source: TableFullFeaturedExampleSource },
   { slug: "table", id: "Virtualized table", Component: TableVirtualizedExample, source: TableVirtualizedExampleSource },

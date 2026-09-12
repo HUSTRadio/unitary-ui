@@ -8,6 +8,8 @@
 
 ### Added
 
+- **Table 带外框变体演示**：新增 `Outlined table` /「带外框表格」示例，用 `TableRoot frame="outline"` + `colorScheme="bordered"` 展示真正的容器外框。它与 `Row dividers`（只有行间分隔线、不包 `TableRoot`）唯一的区别就是这层外框，两者并排即可看出 `frame` 控制的是什么；此前 `frame` 只在 `Default` 里隐式出现，没有独立演示。
+
 - **ContinuousSurface 合并前修正**：连续裁切增强后移除竞争的背景圆角；以本地 border-box 测量并观察边框尺寸变化，避免父级 transform 导致错误裁切；superellipse 示例使用归一化 SVG 裁切适配响应式磁贴；固定高指数曲线端点，并在特殊路径分支前统一校验采样参数。新增像素、缩放、边框变化与响应式命中回归测试。
 
 - **Shape family 与连续曲率**：`--radius-2xl/3xl/4xl/5xl`（16/20/24/28px）扩展固定 radius scale，新增 `--radius-concentric-inset` / `--radius-circle` / `--radius-capsule` 语义；新增 `src/lib/continuous-corner.ts`（自研幂函数族连续曲率：`cornerCurvePoints` / `continuousCornerPath` / `superellipsePath` / `useContinuousCorners`，p=2 精确退化为圆弧）与 `ContinuousSurface` 组件，全部从包根导出；双语指南、可运行示例、API 参考与 LLM 页面同步覆盖（86 条路由 × 2 语言 = 172 页）。默认连续曲率指数 3、曲线参数均为 Unitary 团队值，不使用平台品牌命名、不复制平台资源 path；数值归属见 `docs/design/corner-and-typography-tokens.md`。
@@ -60,6 +62,8 @@
 
 ### Fixed
 
+- **Table `Bordered table` 改名（中英双语）**：该演示用的是 `colorScheme="bordered"`，语义是**行间分隔线**，而容器外框由 `TableRoot` 的 `frame` 控制，且它本身没有包 `TableRoot`——旧名（英文 `Bordered table` / 中文「带边框表格」）描述的正是它**没有**的东西。现统一改为 `Row dividers` /「行间分隔线表格」，与 `columnDividers`（列分隔线）和指南用语一致；`colorScheme` 的中文说明同步由「带边框」改为「行间分隔线」。示例文件 `bordered.example.tsx` 重命名为 `row-dividers.example.tsx`，并改用非弃用的 `Table colorScheme="bordered"` 而不是 `TableBody` 上的 `bordered`。
+- **Feedback 主题选择器改用 Select 组件（视觉与无障碍一致性）**：默认 Popover 的主题下拉此前是浏览器原生 `<select>`，与仓库其余选择器的材质、圆角、高亮与键盘态不一致；现改为复用包内 `Select` / `SelectItem`（Radix），`aria-label`、`size="small"`、占位文案与主题本地化行为保持不变，选项继续由 `topics` / `showTopics` 驱动，`onSubmit` 第 4 个参数（topic）语义不变。同步把单元测试与 Playwright 用例从原生 `selectOption` / `toHaveValue` 改为真实点击触发器与 portal 选项，`tests/feedback-i18n.test.tsx` 改断言 `[data-slot="select-trigger"]` 的 `aria-label`。
 - **Feedback 支持文案与内联收起判定**：表单内的 Markdown 提示此前渲染为 `supported.`（英中两侧 key/value 同形，中文侧退化为「支持。」），现改为 `Markdown supported.` / 「支持 Markdown。」；Inline 胶囊的 `focusout` 在 `relatedTarget` 为 `null` 时不再与「焦点既不在容器内、也不是已知目标」混为一谈，而是延迟一拍复核真实焦点位置，窗口失焦时不再误清评分，真正的焦点外移仍会收起。
 - **Feedback Inline 胶囊几何（视觉变更）**：修复展开过程中的圆角突跳——收起态 `rounded-full` 解析为"实际无穷大"半径，浏览器会把每个中间值钳制到 `min(w,h)/2`，约 99% 的过渡进度停留在同一视觉半径上、末段再瞬间跌到 12px；现改用新增的可插值语义 token `--radius-capsule-interpolable`（24px = 48px 收起高度的一半），实测半径从 `24 → 20.06 → 17.57 → 15.78 → 13.48 → 12px` 全程线性。同时修复展开态右侧空档：header 内容此前左对齐堆积，336px 下表情行右侧空出 62~69px，现由 `flex-1` 的 label 吸收余量（表情行贴住右内边距 8px）。收起态宽度改为内容自适应（`w-fit`），**label 不再截断**（中文文案从 274px 截断 8px 变为 282.28px 完整显示），因此收起宽度不再固定为官方 274px，会随语言文案微幅变化；展开态仍为 336px。
 - **Feedback 主题演示（新增）**：新增非 `dryRun` 的 `Feedback with topics` 演示，真实提交后把 `onSubmit` 实参渲染成收据（rating / topic / metadata / text），使主题交付路径可被观察到；同步补 Playwright 用例，在真实 Chromium 中断言 topic 经第 4 参交付且不污染 `metadata`，并覆盖窗口失焦不误收起、真实焦点外移仍收起且保留草稿。

@@ -1177,7 +1177,7 @@ const O = {
       row("colWidth", '"auto" | "fit"', "Keeps responsive columns or measures and locks column widths once.", "保持响应式列宽，或测量后一次性锁定列宽。", {
         defaultValue: '"auto"',
       }),
-      row("colorScheme", "TableColorScheme", "Basic, striped, bordered, or interactive row treatment.", "基础、斑马纹、带边框或可交互行样式。"),
+      row("colorScheme", "TableColorScheme", "Basic, striped, bordered, or interactive row treatment.", "基础、斑马纹、行间分隔线或可交互行样式。"),
       row("frame", '"outline" | "none"', "Controls the visible TableRoot outline while preserving its rounded overflow owner.", "控制 TableRoot 的可见外框，同时保留圆角溢出裁切 owner。", {
         defaultValue: '"outline"',
       }),

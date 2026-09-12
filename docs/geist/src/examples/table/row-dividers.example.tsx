@@ -7,9 +7,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export function TableBorderedExample() {
+/**
+ * 行间分隔线：`colorScheme="bordered"` 只在**行与行之间**画 1px 发丝线。
+ * 容器外框是完全独立的另一件事，由 `TableRoot` 的 `frame` 控制——这里刻意不包
+ * `TableRoot`，因此只有行分隔线、没有外框；需要外框时请看 Outlined table。
+ */
+export function TableRowDividersExample() {
   return (
-    <Table>
+    <Table colorScheme="bordered">
       <TableHeader>
         <TableRow>
           <TableHead>Col 1</TableHead>
@@ -17,7 +22,7 @@ export function TableBorderedExample() {
           <TableHead>Col 3</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody bordered>
+      <TableBody>
         {[1, 2, 3].map((row) => (
           <TableRow key={row}>
             <TableCell>Value {row}.1</TableCell>

@@ -24,7 +24,15 @@ describe("Table docs demo card contract", () => {
 
   it("uses TableDemoCard for table variants", () => {
     expect(source).toContain("function TableDemoCard");
-    expect(Object.keys(EXAMPLE_SOURCE.table)).toHaveLength(6);
+    expect(Object.keys(EXAMPLE_SOURCE.table)).toHaveLength(7);
+    /*
+     * 命名契约：bordered 只表示**行间分隔线**，容器外框由 TableRoot 的 frame 提供。
+     * 旧名 Bordered table（带边框表格）描述的正是行分隔线变体没有的东西，
+     * 现在两者拆成 Row dividers（无外框）与 Outlined table（有外框）两个独立变体。
+     */
+    expect(EXAMPLE_SOURCE.table).not.toHaveProperty("Bordered table");
+    expect(EXAMPLE_SOURCE.table["Row dividers"]).not.toContain("<TableRoot");
+    expect(EXAMPLE_SOURCE.table["Outlined table"]).toContain('frame="outline"');
     for (const example of Object.values(EXAMPLE_SOURCE.table)) {
       expect(example).toContain("<Table");
     }

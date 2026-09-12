@@ -301,12 +301,18 @@ test.describe("Feedback official interaction and geometry", () => {
       /bg-success-soft/,
     );
 
-    const selectCard = page.locator('[data-demo-card="Feedback with Select"]');
-    await selectCard.locator('[data-slot="feedback-trigger"]').click();
-    const topicSelect = page.locator('[data-slot="feedback-popup"] select');
-    await topicSelect.selectOption("AI");
-    await expect(topicSelect).toHaveValue("AI");
-    await page.keyboard.press("Escape");
+   const selectCard = page.locator('[data-demo-card="Feedback with Select"]');
+   await selectCard.locator('[data-slot="feedback-trigger"]').click();
+   // 主题选择器已改为 Select 组件（Radix）：触发器是 [data-slot="select-trigger"]，选项以
+   // role="option" 渲染在 portal 的 select-content 里，需要真实点击而非原生 selectOption。
+   // 文档站默认 zh-CN，选项文案经框架 i18n 本地化（value=AI → label=人工智能）。
+   const topicTrigger = page.locator('[data-slot="feedback-popup"] [data-slot="select-trigger"]');
+   await topicTrigger.click();
+   await page
+     .locator('[data-slot="select-content"] [role="option"]', { hasText: "人工智能" })
+     .click({ timeout: 5000 });
+   await expect(topicTrigger).toContainText("人工智能");
+   await page.keyboard.press("Escape");
 
     await expect(
       page.locator('[data-demo-card="Feedback with metadata"] [data-slot="feedback-trigger"]'),
@@ -359,7 +365,12 @@ test.describe("Feedback official interaction and geometry", () => {
     const card = page.locator('[data-demo-card="Feedback with topics"]');
     await card.locator('[data-slot="feedback-trigger"]').click();
     const popup = page.locator('[data-slot="feedback-popup"]');
-    await popup.locator("select").selectOption("Billing");
+    // Radix Select：点开触发器后从 portal 的选项中点选。文档站默认 zh-CN，
+    // label 为「账单」，但传给 onValueChange / onSubmit 的仍是 value "Billing"。
+    await popup.locator('[data-slot="select-trigger"]').click();
+    await page
+      .locator('[data-slot="select-content"] [role="option"]', { hasText: "账单" })
+      .click({ timeout: 5000 });
     await popup.locator('[role="radio"]').nth(2).click();
     await popup.locator('[data-slot="feedback-textarea"]').fill("Billing flow is clear");
     await popup.locator('button[type="submit"]').click();

@@ -11,6 +11,9 @@ import { RATING_OPTIONS, RatingPill } from "@/components/ui/rating-pill";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
+// jsdom 未实现 scrollIntoView，Radix Select 高亮/聚焦时会调用。
+HTMLElement.prototype.scrollIntoView = vi.fn();
+
 let container: HTMLDivElement;
 let root: Root;
 
@@ -36,6 +39,37 @@ function openDefaultFeedback() {
   const trigger = container.querySelector<HTMLButtonElement>('[data-slot="feedback-trigger"]')!;
   act(() => trigger.click());
   return trigger;
+}
+
+/**
+ * 主题选择器已改为 Select 组件（Radix）：选项渲染在 portal 的 select-content 里，
+ * 且打开是异步的（需要 await act 让 Radix 的 effect 完成）。
+ */
+async function openTopicSelect(popup: HTMLElement): Promise<HTMLElement[]> {
+  const trigger = popup.querySelector<HTMLButtonElement>('[data-slot="select-trigger"]')!;
+  await act(async () => {
+    trigger.click();
+  });
+  return [
+    ...document.querySelectorAll<HTMLElement>('[data-slot="select-content"] [role="option"]'),
+  ];
+}
+
+/**
+ * 打开主题下拉并选中给定 value。
+ * 注意：Radix 的 value 只在内部 context 中传递，DOM 上没有 data-value，
+ * 因此按选项的可见文本匹配（测试默认 en-US locale，文案即原始 value）。
+ */
+async function selectTopic(popup: HTMLElement, value: string) {
+  const options = await openTopicSelect(popup);
+  const option = options.find((item) => item.textContent?.trim() === value);
+  expect(
+    option,
+    `topic option ${value} should exist, got ${options.map((o) => o.textContent?.trim())}`,
+  ).toBeTruthy();
+  await act(async () => {
+    option!.click();
+  });
 }
 
 describe("Feedback official interaction model", () => {
@@ -244,17 +278,13 @@ describe("Feedback official interaction model", () => {
     expect(header.className).toContain("h-12");
   });
 
-  test("passes the selected topic as the fourth onSubmit argument without polluting metadata", () => {
+  test("passes the selected topic as the fourth onSubmit argument without polluting metadata", async () => {
     const onSubmit = vi.fn();
     mount(<Feedback metadata={{ source: "docs" }} showTopics onSubmit={onSubmit} />);
     openDefaultFeedback();
     const popup = document.querySelector<HTMLElement>('[data-slot="feedback-popup"]')!;
 
-    const select = popup.querySelector<HTMLSelectElement>("select")!;
-    act(() => {
-      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set?.call(select, "AI");
-      select.dispatchEvent(new Event("change", { bubbles: true }));
-    });
+    await selectTopic(popup, "AI");
     act(() => popup.querySelector<HTMLFormElement>("form")?.requestSubmit());
 
     expect(onSubmit).toHaveBeenCalledWith(undefined, "", { source: "docs" }, "AI");
@@ -264,7 +294,7 @@ describe("Feedback official interaction model", () => {
     expect(reportedTopic).toBe("AI");
   });
 
-  test("only merges topic into metadata when includeTopicInMetadata is enabled", () => {
+  test("only merges topic into metadata when includeTopicInMetadata is enabled", async () => {
     const onSubmit = vi.fn();
     mount(
       <Feedback metadata={{ source: "docs" }} showTopics includeTopicInMetadata onSubmit={onSubmit} />,
@@ -272,33 +302,27 @@ describe("Feedback official interaction model", () => {
     openDefaultFeedback();
     const popup = document.querySelector<HTMLElement>('[data-slot="feedback-popup"]')!;
 
-    const select = popup.querySelector<HTMLSelectElement>("select")!;
-    act(() => {
-      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set?.call(select, "Billing");
-      select.dispatchEvent(new Event("change", { bubbles: true }));
-    });
+    await selectTopic(popup, "Billing");
     act(() => popup.querySelector<HTMLFormElement>("form")?.requestSubmit());
 
     expect(onSubmit).toHaveBeenCalledWith(undefined, "", { source: "docs", topic: "Billing" }, "Billing");
     expect(onSubmit).toHaveBeenCalledTimes(1);
   });
 
-  test("renders a caller-supplied topics list without showTopics and reports its value", () => {
+  test("renders a caller-supplied topics list without showTopics and reports its value", async () => {
     const onTopicChange = vi.fn();
     mount(<Feedback topics={["Imports", "Exports"]} onTopicChange={onTopicChange} />);
     openDefaultFeedback();
     const popup = document.querySelector<HTMLElement>('[data-slot="feedback-popup"]')!;
 
-    const select = popup.querySelector<HTMLSelectElement>("select")!;
-    expect(Array.from(select.options).map((option) => option.value)).toEqual([
-      "",
-      "Imports",
-      "Exports",
-    ]);
+    // 主题选择器是 Select 组件（Radix），不再有原生 <option>；
+    // 选项以 [role="option"] 渲染在 portal 的 select-content 里。
+    const options = await openTopicSelect(popup);
+    expect(options.map((option) => option.textContent?.trim())).toEqual(["Imports", "Exports"]);
 
-    act(() => {
-      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set?.call(select, "Exports");
-      select.dispatchEvent(new Event("change", { bubbles: true }));
+    const target = options.find((option) => option.textContent?.trim() === "Exports")!;
+    await act(async () => {
+      target.click();
     });
 
     expect(onTopicChange).toHaveBeenCalledWith("Exports");
@@ -308,7 +332,7 @@ describe("Feedback official interaction model", () => {
     mount(<Feedback type="inline" dryRun showTopics />);
     act(() => radios(container)[3].click());
 
-    expect(container.querySelector("select")).toBeNull();
+    expect(container.querySelector('[data-slot="select-trigger"]')).toBeNull();
   });
 
   test("keeps the inline rating when focusout reports a null relatedTarget and focus stays inside", () => {

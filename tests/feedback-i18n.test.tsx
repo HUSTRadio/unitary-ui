@@ -65,7 +65,10 @@ describe("Feedback i18n", () => {
     expect(document.querySelector<HTMLTextAreaElement>("textarea")?.placeholder).toBe(
       "请输入反馈…",
     );
-    expect(document.querySelector<HTMLSelectElement>("select")?.ariaLabel).toBe("产品主题选择");
+    // 主题选择器是 Select 组件（Radix），不再渲染原生 <select>。
+    expect(
+      document.querySelector<HTMLButtonElement>('[data-slot="select-trigger"]')?.ariaLabel,
+    ).toBe("产品主题选择");
     expect(document.querySelector<HTMLButtonElement>('[role="radio"]')?.ariaLabel).toBe(
       "选择“很不喜欢”表情",
     );

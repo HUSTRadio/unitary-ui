@@ -160,7 +160,10 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Virtualized table": "虚拟化表格",
     "Title with Icon": "带图标标题",
     "Striped table": "斑马纹表格",
-    "Bordered table": "带边框表格",
+    // bordered 是行样式（行间分隔线），不是容器外框（外框由 TableRoot 的 frame 提供）。
+    "Row dividers": "行间分隔线表格",
+    // 真正带外框的变体：外框由 TableRoot 的 frame="outline" 提供。
+    "Outlined table": "带外框表格",
     "Interactive table": "可交互表格",
     "Mobile screenshot": "移动端截图",
     "Custom status": "自定义状态",

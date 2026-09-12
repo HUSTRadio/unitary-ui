@@ -3,6 +3,7 @@ import { Popover } from "radix-ui";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import { RatingButtons, type RatingValue } from "@/components/ui/rating-pill";
+import { Select, SelectItem } from "@/components/ui/select";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -132,7 +133,6 @@ function FeedbackForm({
   topics,
 }: FeedbackFormProps) {
   const { t } = useI18n();
-  const topicId = React.useId();
   const supportId = React.useId();
   // topicOptions 已由 Feedback 按变体裁剪（Inline 恒为空数组），这里不再单看 showTopics。
   const showTopicSelect = topics.length > 0;
@@ -154,27 +154,20 @@ function FeedbackForm({
       <div data-slot="feedback-form-body" className="flex flex-col gap-2 p-2">
         {copy ? <p className="px-1 text-copy-14 text-gray-900">{copy}</p> : null}
         {showTopicSelect ? (
-          <label className="sr-only" htmlFor={topicId}>
-            {t("Product topic selection")}
-          </label>
-        ) : null}
-        {showTopicSelect ? (
-          <select
-            id={topicId}
+          <Select
+            data-slot="feedback-topic-select"
             aria-label={t("Product topic selection")}
+            placeholder={t("Select a topic...")}
+            size="small"
             value={topic ?? ""}
-            onChange={(event) => setTopic(event.target.value)}
-            className="h-9 w-full cursor-pointer truncate appearance-none rounded-md border-none bg-background-100 px-3 pr-9 text-copy-14 text-gray-1000 shadow-[0_0_0_1px_var(--uni-gray-alpha-400)] outline-none transition-[box-shadow] duration-(--uni-duration-fast) hover:shadow-[0_0_0_1px_var(--uni-gray-alpha-500)] focus:shadow-[0_0_0_1px_var(--uni-gray-alpha-600),0_0_0_4px_rgba(0,0,0,0.16)]"
+            onValueChange={setTopic}
           >
-            <option disabled value="">
-              {t("Select a topic...")}
-            </option>
             {(topics.length > 0 ? topics : TOPICS).map((topicName) => (
-              <option key={topicName} value={topicName}>
+              <SelectItem key={topicName} value={topicName}>
                 {t(topicName)}
-              </option>
+              </SelectItem>
             ))}
-          </select>
+          </Select>
         ) : null}
         <label className="block">
           <span className="sr-only">{t("Feedback")}</span>
