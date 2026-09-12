@@ -80,6 +80,35 @@ describe("continuous corner geometry", () => {
     expect(path.endsWith(" Z")).toBe(true);
   });
 
+  /*
+   * 回归：轴端点的精确性曾依赖浮点精确性。
+   * 旧实现用 `Number.isInteger(index * 4 / steps)` 判定"是否落在象限轴上"，
+   * 而 samples=96 时 index=24 的商是 0.9999999999999999 而不是 1，判定失败，
+   * 本该精确取到 (a, 0) 的端点被 Math.cos(π/2)≈6.1e-17 取代。指数 2/n 放大后，
+   * 路径端点出现可测量的偏移。这里用 96/12/24/48/8 全覆盖——它们正是会踩中
+   * 该边界的一组采样数。
+   */
+  test.each([8, 12, 24, 48, 96])(
+    "pins superellipse axis endpoints exactly for samples=%i",
+    (samples) => {
+      const path = superellipsePath(40, 30, { exponent: 5, samples });
+      /*
+       * 四个轴端点必须精确，而不是 6.1e-17 之类的残差。
+       * w=40 h=30 时 a=20、b=15，参数化 (a·|cos|^(2/n)·sgn, b·|sin|^(2/n)·sgn) 下
+       * 四个轴端点依次是：起点 (a, 0)=(20, 0)、(0, b)=(0, 15)、
+       * 顶点 (a, b)=(20, 30)、右端点 (w, b)=(40, 15)。
+       * 注意 (40, 30) 是包围盒右下角，不在超椭圆上——对角点应为 (37.411, 28.058)
+       * 这类介于角与轴之间的位置，不要写进断言。
+       * samples=96 时旧实现会让第 24 点的 (20, 30) 退化成 (20, 29.999999999999996)。
+       */
+      expect(path).toContain("20 30");
+      expect(path).toContain("0 15");
+      expect(path).toContain("40 15");
+      expect(path).toContain("20 0");
+      expect(path).not.toMatch(/\d\.\d+e-\d+/);
+    },
+  );
+
   test.each([
     () => cornerCurvePoints(-1, 3, 8),
     () => cornerCurvePoints(8, 1, 8),

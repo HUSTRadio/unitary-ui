@@ -149,7 +149,14 @@ export function continuousCornerPath(
   ].join(" ");
 }
 
-/** Generates a full superellipse path for near-square icon, avatar, or logo surfaces. */
+/**
+ * Generates a full superellipse |x/a|^n + |y/b|^n = 1 as a closed polyline.
+ *
+ * 参数化：对每个采样角 t 取 (a·|cos t|^(2/n)·sgn(cos t), b·|sin t|^(2/n)·sgn(sin t))。
+ * 采样按**角度均匀**，因此非方形（w≠h）时点的**分布**会随长宽比变化，但点始终落在
+ * 同一条超椭圆上；需要点沿弧长均匀时应改用弧长重参数化。方形 surface（图标、头像、
+ * logo）不受此影响。
+ */
 export function superellipsePath(
   width: number,
   height: number,
@@ -163,12 +170,26 @@ export function superellipsePath(
   const halfWidth = w / 2;
   const halfHeight = h / 2;
   const points: Array<[number, number]> = [];
+  const perQuadrant = steps / 4;
 
   for (let index = 0; index < steps; index += 1) {
     const angle = (index / steps) * Math.PI * 2;
-    const quarter = (index * 4) / steps;
-    const cosine = Number.isInteger(quarter) ? [1, 0, -1, 0][quarter]! : Math.cos(angle);
-    const sine = Number.isInteger(quarter) ? [0, 1, 0, -1][quarter]! : Math.sin(angle);
+    /*
+     * 只在真实经过四个象限轴（0 / 90 / 180 / 270 度）时把 cos/sin 钉成精确的
+     * 0 / ±1，其余角度交给 Math.cos / Math.sin。
+     *
+     * 此前用 `Number.isInteger(index * 4 / steps)` 判定，该写法依赖浮点精确性：
+     * samples=96 时第 24 个采样点的商是 0.9999999999999999 而不是 1，判定失败，
+     * 于是本该精确落在 (a, 0) / (0, b) 等端点上的采样点被 Math.cos(π/2)≈6.1e-17
+     * 取代，端点坐标在指数放大后出现可测量的偏移。取模判断不受浮点误差影响；
+     * segmentCount 保证 steps ≥ 8 且为整数，因此 perQuadrant 整除且非零。
+     */
+    const onAxis = index % perQuadrant === 0;
+    const quadrant = onAxis ? (index / perQuadrant) % 4 : -1;
+    const cosine =
+      quadrant === 0 ? 1 : quadrant === 1 ? 0 : quadrant === 2 ? -1 : quadrant === 3 ? 0 : Math.cos(angle);
+    const sine =
+      quadrant === 0 ? 0 : quadrant === 1 ? 1 : quadrant === 2 ? 0 : quadrant === 3 ? -1 : Math.sin(angle);
     points.push([
       halfWidth + halfWidth * Math.sign(cosine) * Math.abs(cosine) ** (2 / n),
       halfHeight + halfHeight * Math.sign(sine) * Math.abs(sine) ** (2 / n),
