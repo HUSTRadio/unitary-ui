@@ -8,7 +8,7 @@
 
 ### Added
 
-- **Mask 骨架遮罩组件**：给一块真实内容指定骨架模板后，`masked` 开关整体切换成骨架屏、`unmask` 切回真实界面。与 `Skeleton` 组合而非条件渲染是刻意选择——`skeleton` 模板**始终挂载**，真实内容在遮罩期间以 `visibility: hidden` 保留原盒子（`inert` + `aria-hidden`，既进不了无障碍树也不会被 Tab 或点击命中），因此切换前后是同一个盒子，不存在宽度跳变。容器承担 `aria-busy` 与 `label` 可访问名称，`liveRegion` 可选开启完成播报（默认关闭，避免同页多遮罩区重复播报）。新增双语指南、API 参考、2 个可运行示例与 LLM 语料页面。
+- **SkeletonMask 骨架遮罩组件**：给一块真实内容指定骨架模板后，`masked` 开关整体切换成骨架屏、`unmask` 切回真实界面。与 `Skeleton` 组合而非条件渲染是刻意选择——`skeleton` 模板**始终挂载**，真实内容在遮罩期间以 `visibility: hidden` 保留原盒子（`inert` + `aria-hidden`，既进不了无障碍树也不会被 Tab 或点击命中），因此切换前后是同一个盒子，不存在宽度跳变。容器承担 `aria-busy` 与 `label` 可访问名称，`liveRegion` 可选开启完成播报（默认关闭，避免同页多遮罩区重复播报）。它是框架扩展（官方 Geist 无对应组件），归档在 Skeleton 文档页共用同一份指南、API 参考与语料；两个用法示例（Usage / Controlled toggle）也作为 Skeleton 页的示例区块渲染。
 
 - **Table 带外框变体演示**：新增 `Outlined table` /「带外框表格」示例，用 `TableRoot frame="outline"` + `colorScheme="bordered"` 展示真正的容器外框。它与 `Row dividers`（只有行间分隔线、不包 `TableRoot`）唯一的区别就是这层外框，两者并排即可看出 `frame` 控制的是什么；此前 `frame` 只在 `Default` 里隐式出现，没有独立演示。
 

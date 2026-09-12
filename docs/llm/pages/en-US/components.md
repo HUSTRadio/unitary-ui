@@ -352,14 +352,6 @@ Indicates an action running in the background with three bouncing dots.
 
 ](#/components/loading-dots)[
 
-—
-
-### Mask
-
-Switches a region between its skeleton template and the real interface.
-
-](#/components/mask)[
-
 Menu
 
 ### Menu

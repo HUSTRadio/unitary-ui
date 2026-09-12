@@ -1,6 +1,6 @@
-import { Mask } from "@/components/ui/mask";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { SkeletonMask } from "@/components/ui/skeleton-mask";
 import { useState } from "react";
 
 const ROWS = [
@@ -39,12 +39,12 @@ function Table() {
   );
 }
 
-export function MaskToggle4D5A1E07Example() {
+export function SkeletonMaskControlledToggle4D5A1E07Example() {
   const [loading, setLoading] = useState(true);
 
   return (
     <div className="flex flex-col items-start gap-4">
-      <Mask
+      <SkeletonMask
         className="min-w-[320px]"
         label="Loading order lines"
         masked={loading}
@@ -52,7 +52,7 @@ export function MaskToggle4D5A1E07Example() {
         skeleton={<TableSkeleton />}
       >
         <Table />
-      </Mask>
+      </SkeletonMask>
       <Button size="small" onClick={() => setLoading((value) => !value)}>
         {loading ? "Unmask" : "Mask"}
       </Button>

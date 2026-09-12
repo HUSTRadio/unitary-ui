@@ -3,8 +3,11 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Mask — 骨架屏遮罩容器：给一块真实内容指定骨架模板后，mask 切换成骨架、unmask 切回真实界面。
- * 导出：Mask。
+ * SkeletonMask — 骨架屏遮罩容器：给一块真实内容指定骨架模板后，mask 切换成骨架、
+ * unmask 切回真实界面。导出：SkeletonMask。
+ *
+ * 无官方 Geist 对应组件（框架扩展）；与 `Skeleton` 同页归档，因为它的语义完全建立在
+ * Skeleton 的 children 契约之上（`show=true` 时以 visibility:hidden 保留布局）。
  *
  * 契约：
  * - `masked` 受控开关；`defaultMasked` + `onMaskedChange` 支持非受控用法。
@@ -19,17 +22,17 @@ import { cn } from "@/lib/utils";
  *   否则页面频繁刷新时会重复播报。
  *
  * ```tsx
- * <Mask
+ * <SkeletonMask
  *   masked={isLoading}
  *   label="Loading project summary"
  *   skeleton={<SummarySkeleton />}
  * >
  *   <Summary />
- * </Mask>
+ * </SkeletonMask>
  * ```
  */
 
-interface MaskProps extends Omit<React.ComponentProps<"div">, "children"> {
+interface SkeletonMaskProps extends Omit<React.ComponentProps<"div">, "children"> {
   /** 真实界面 */
   children?: React.ReactNode;
   /** 骨架模板（始终挂载，用于保持切换前后的盒子一致） */
@@ -54,7 +57,7 @@ interface MaskProps extends Omit<React.ComponentProps<"div">, "children"> {
   overlay?: React.ReactNode;
 }
 
-function Mask({
+function SkeletonMask({
   children,
   skeleton,
   masked,
@@ -65,15 +68,15 @@ function Mask({
   overlay,
   className,
   ...props
-}: MaskProps) {
+}: SkeletonMaskProps) {
   const isControlled = masked !== undefined;
-  // 非受控态在挂载后由 Mask 内部持有（组件不自行翻转，也没有内部触发源）。
+  // 非受控态在挂载后由组件内部持有（组件不自行翻转，也没有内部触发源）。
   const [uncontrolledMasked] = React.useState(defaultMasked);
   const isMasked = isControlled ? masked : uncontrolledMasked;
 
   return (
     <div
-      data-slot="mask"
+      data-slot="skeleton-mask"
       data-state={isMasked ? "masked" : "unmasked"}
       aria-busy={isMasked || undefined}
       aria-live={liveRegion && !isMasked ? "polite" : undefined}
@@ -81,7 +84,7 @@ function Mask({
       className={cn("relative", className)}
       {...props}
     >
-      <div data-slot="mask-content" inert={isMasked} aria-hidden={isMasked || undefined}>
+      <div data-slot="skeleton-mask-content" inert={isMasked} aria-hidden={isMasked || undefined}>
         {/*
          * 复用 Skeleton 的 children 语义做「不可见但保留盒子」：这里传 show=false 时
          * children 以 visibility:hidden 隐藏，与 masked 同向，因此 hide={isMasked}。
@@ -89,7 +92,7 @@ function Mask({
         <SkeletonSlot hide={isMasked}>{children}</SkeletonSlot>
       </div>
       {isMasked ? (
-        <div data-slot="mask-overlay" aria-hidden="true" className="absolute inset-0">
+        <div data-slot="skeleton-mask-overlay" aria-hidden="true" className="absolute inset-0">
           {overlay ?? skeleton}
         </div>
       ) : null}
@@ -99,14 +102,14 @@ function Mask({
 
 /**
  * 内部占位壳：与 `Skeleton` 的 children 处理保持一致（隐藏时以 `visibility: hidden`
- * 保留布局），但不带骨架底色与动画——遮罩层由 `Mask` 自己渲染。
+ * 保留布局），但不带骨架底色与动画——遮罩层由 `SkeletonMask` 自己渲染。
  */
 function SkeletonSlot({ hide, children }: { hide: boolean; children?: React.ReactNode }) {
   return (
-    <div className={cn("flex-initial", hide && "invisible")} data-slot="mask-placeholder">
+    <div className={cn("flex-initial", hide && "invisible")} data-slot="skeleton-mask-placeholder">
       {children}
     </div>
   );
 }
 
-export { Mask, type MaskProps };
+export { SkeletonMask, type SkeletonMaskProps };

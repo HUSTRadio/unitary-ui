@@ -1,7 +1,10 @@
-import { Mask } from "@/components/ui/mask";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SkeletonMask } from "@/components/ui/skeleton-mask";
 
-/** 骨架模板：与真实卡片同构（头像 40px + 两行文本），unmask 时不发生位移。 */
+/**
+ * SkeletonMask 用法：把「骨架模板」和「真实内容」一起交给它，由 masked 决定显示哪一侧。
+ * 骨架模板与真实卡片同构（头像 40px + 两行文本），因此 unmask 时不发生任何位移。
+ */
 function ProfileSkeleton() {
   return (
     <div className="flex w-[280px] items-center gap-3 rounded-[8px] border border-gray-alpha-400 p-3">
@@ -28,10 +31,12 @@ function ProfileCard() {
   );
 }
 
-export function MaskDefault21B111CBExample() {
+export function SkeletonMaskUsage21B111CBExample() {
+  // masked 由调用方持有（这里固定为遮罩态，静态展示两侧的对应关系）；
+  // 需要可交互的切换见 Controlled toggle 示例。
   return (
-    <Mask label="Loading profile" skeleton={<ProfileSkeleton />}>
+    <SkeletonMask label="Loading profile" masked skeleton={<ProfileSkeleton />}>
       <ProfileCard />
-    </Mask>
+    </SkeletonMask>
   );
 }

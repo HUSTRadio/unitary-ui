@@ -403,18 +403,13 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "数量少时在 DOM 中渲染隐藏行，让页内查找可用；仅当数据集大到影响初始渲染时才惰性加载。",
     "触发器是带 aria-expanded 的 button；通过 aria-controls 指向被展开的区域。ShowMore 不管理目标内容、焦点移动或 live region。",
   ],
-  mask: [
-    "一块区域已有确定布局、且希望用一个开关在骨架与真实内容之间切换时，使用 Mask。",
-    "让 skeleton 复刻真实区域的形状而不是一个通用色块，unmask 时就不会发生位移。",
-    "把遮罩状态留在调用方，并由同一个解析数据的 promise 驱动；Mask 不会自行翻转。",
-    "只在确实是本次加载结果的那个区域打开 liveRegion——否则同页多个遮罩区会重复播报同一次完成。",
-  ],
   skeleton: [
     "异步数据填充已知布局时显示 Skeleton：表格行、卡片网格、资料块、侧栏。",
     "单个进行中的动作用 Spinner；已知进度用 Progress。",
     "width 与 height 匹配最终内容，让数据解析时布局不位移。",
-    "在低功耗表面尊重 prefers-reduced-motion 处理流光动画。",
     '用 aria-busy="true" 包裹加载区域，并用 aria-live 播报完成。',
+    "在低功耗表面尊重 prefers-reduced-motion 处理流光动画。",
+    "SkeletonMask（框架扩展，同一文档页）把一整块区域在骨架模板与真实内容之间切换；让 skeleton 复刻真实区域的形状以便 unmask 时不位移，并把遮罩状态留在调用方。",
   ],
   slider: [
     "形状与邻近性比精度更重要的范围数字输入用 slider：带宽上限、透明度、音量、颜色通道。",

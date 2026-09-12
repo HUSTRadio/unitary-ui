@@ -55,7 +55,6 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   select: "在下拉列表中呈现选项。",
   separator: "将内容划分为视觉上不同的组。",
   "show-more": "通过渐进披露触发器展开或折叠内容。",
-  mask: "在骨架模板与真实界面之间切换一块区域。",
   skeleton: "在内容加载期间显示占位结构。",
   slider: "用于从给定范围中选择数值的输入控件。",
   snippet: "显示用户需要复制的可运行 Shell 命令或短代码。",

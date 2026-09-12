@@ -42,8 +42,6 @@ describe("Geist documentation coverage", () => {
       "continuous-surface",
       "error-boundary",
       "link",
-      // Mask 是框架扩展（骨架遮罩容器），没有对应的官方 Geist 组件。
-      "mask",
       "step-point",
     ]);
 

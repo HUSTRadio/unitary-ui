@@ -617,6 +617,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Error type": "错误类型",
     "Errored": "错误状态",
     "Examples": "示例",
+    // Skeleton 页上的 SkeletonMask 用法示例（框架扩展）；Usage 已在通用文案区定义。
     "Controlled toggle": "受控切换",
     "Feedback with metadata": "带元数据的反馈",
     "Feedback with prefix": "带前缀的反馈",

@@ -639,10 +639,10 @@ import { SkeletonNoAnimation8DF7155EExample } from "./skeleton/no-animation-8df7
 import SkeletonNoAnimation8DF7155EExampleSource from "./skeleton/no-animation-8df7155e.example.tsx?example-source";
 import { SkeletonButton707EAB0CExample } from "./skeleton/button-707eab0c.example";
 import SkeletonButton707EAB0CExampleSource from "./skeleton/button-707eab0c.example.tsx?example-source";
-import { MaskDefault21B111CBExample } from "./mask/default-21b111cb.example";
-import MaskDefault21B111CBExampleSource from "./mask/default-21b111cb.example.tsx?example-source";
-import { MaskToggle4D5A1E07Example } from "./mask/toggle-4d5a1e07.example";
-import MaskToggle4D5A1E07ExampleSource from "./mask/toggle-4d5a1e07.example.tsx?example-source";
+import { SkeletonMaskUsage21B111CBExample } from "./skeleton-mask/usage-21b111cb.example";
+import SkeletonMaskUsage21B111CBExampleSource from "./skeleton-mask/usage-21b111cb.example.tsx?example-source";
+import { SkeletonMaskControlledToggle4D5A1E07Example } from "./skeleton-mask/controlled-toggle-4d5a1e07.example";
+import SkeletonMaskControlledToggle4D5A1E07ExampleSource from "./skeleton-mask/controlled-toggle-4d5a1e07.example.tsx?example-source";
 import { BookDefault21B111CBExample } from "./book/default-21b111cb.example";
 import BookDefault21B111CBExampleSource from "./book/default-21b111cb.example.tsx?example-source";
 import { BookVariants63D2643BExample } from "./book/variants-63d2643b.example";
@@ -1089,8 +1089,9 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "skeleton", id: "Squared", Component: SkeletonSquared053B9038Example, source: SkeletonSquared053B9038ExampleSource },
   { slug: "skeleton", id: "No animation", Component: SkeletonNoAnimation8DF7155EExample, source: SkeletonNoAnimation8DF7155EExampleSource },
   { slug: "skeleton", id: "Button", Component: SkeletonButton707EAB0CExample, source: SkeletonButton707EAB0CExampleSource },
-  { slug: "mask", id: "Default", Component: MaskDefault21B111CBExample, source: MaskDefault21B111CBExampleSource },
-  { slug: "mask", id: "Controlled toggle", Component: MaskToggle4D5A1E07Example, source: MaskToggle4D5A1E07ExampleSource },
+  // Mask 是 Skeleton 的框架扩展，归档在 skeleton 文档页（官方无对应组件）。
+  { slug: "skeleton", id: "Usage", Component: SkeletonMaskUsage21B111CBExample, source: SkeletonMaskUsage21B111CBExampleSource },
+  { slug: "skeleton", id: "Controlled toggle", Component: SkeletonMaskControlledToggle4D5A1E07Example, source: SkeletonMaskControlledToggle4D5A1E07ExampleSource },
   { slug: "book", id: "Default", Component: BookDefault21B111CBExample, source: BookDefault21B111CBExampleSource },
   { slug: "book", id: "Variants", Component: BookVariants63D2643BExample, source: BookVariants63D2643BExampleSource },
   { slug: "book", id: "Custom color", Component: BookCustomColorA5F69A18Example, source: BookCustomColorA5F69A18ExampleSource },

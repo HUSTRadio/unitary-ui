@@ -352,14 +352,6 @@ Loading Dots
 
 ](#/components/loading-dots)[
 
-—
-
-### 骨架遮罩
-
-在骨架模板与真实界面之间切换一块区域。
-
-](#/components/mask)[
-
 Menu
 
 ### 菜单
