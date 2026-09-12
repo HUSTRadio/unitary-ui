@@ -47,7 +47,7 @@ export const GUIDES_18_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "组件只负责裁切；颜色由调用方提供。CSS border 不会自动沿路径描边，有限采样折线也不等于严格连续曲率。",
-        "阴影必须放在外层 wrapper，因为 clip-path 会裁掉元素自身的 box-shadow。",
+        "阴影放到外层 wrapper 并用 surface-shadow（drop-shadow），不要用 box-shadow：box-shadow 画的是包装自己的圆角矩形，与裁切后的形状脱节。",
       ],
     },
   },
@@ -100,7 +100,7 @@ export const GUIDES_18_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "The component owns clipping; callers provide color. CSS borders do not trace the path, and finite line-segment sampling is not strictly continuous curvature.",
-        "Place shadows on a parent wrapper because clip-path clips the surface's own box-shadow.",
+        "Put shadows on a parent wrapper using surface-shadow (drop-shadow), not box-shadow: a box-shadow draws the wrapper's own rounded rectangle and detaches from the clipped shape.",
       ],
     },
   },

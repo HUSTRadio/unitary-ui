@@ -78,3 +78,37 @@ test("superellipse demo clips in proportional coordinates at every tile size", a
     expect(hits).toEqual({ center: true, right: true, corner: false });
   }
 });
+
+test("superellipse shadow follows the clipped silhouette from the wrapper, not the wrapper box", async ({ page }) => {
+  await openSurface(page);
+  const tile = page.locator('[data-curve="superellipse"]');
+  await tile.scrollIntoViewIfNeeded();
+  // 阴影必须由外层包装的 drop-shadow 生成（它跟随被裁切子元素的实际 alpha）；
+  // 包装上的 box-shadow 画的是包装自己的圆角矩形，与超椭圆轮廓脱节。
+  // 挂在被裁切的同一元素上同样不行：clip-path 会连 filter 一起裁掉。
+  const readStyles = () =>
+    tile.evaluate((el) => {
+      const self = getComputedStyle(el);
+      const wrapper = getComputedStyle(el.parentElement as HTMLElement);
+      const tileBox = el.getBoundingClientRect();
+      const wrapperBox = (el.parentElement as HTMLElement).getBoundingClientRect();
+      return {
+        wrapperFilter: wrapper.filter,
+        wrapperBoxShadow: wrapper.boxShadow,
+        selfFilter: self.filter,
+        selfClipPath: self.clipPath,
+        tileWidth: tileBox.width,
+        tileHeight: tileBox.height,
+        wrapperWidth: wrapperBox.width,
+      };
+    });
+  await expect.poll(async () => (await readStyles()).wrapperFilter).toContain("drop-shadow(");
+  const styles = await readStyles();
+  expect(styles.wrapperBoxShadow).toBe("none");
+  expect(styles.selfFilter).toBe("none");
+  expect(styles.selfClipPath).not.toBe("none");
+  // 磁贴是 1:1、包装是 4:3，两者底片不重合 —— 包装上的 box-shadow 会露在两侧留白处，
+  // 这正是本契约要防的回归；若两者同形，本用例就区分不出两种投影了。
+  expect(Math.abs(styles.tileWidth - styles.tileHeight)).toBeLessThan(2);
+  expect(styles.wrapperWidth).toBeGreaterThan(styles.tileWidth + 20);
+});

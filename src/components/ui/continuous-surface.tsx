@@ -14,7 +14,9 @@ export interface ContinuousSurfaceProps extends React.ComponentPropsWithoutRef<"
 
 /**
  * A measured surface with independently derived continuous corners.
- * Put shadows on a parent wrapper because clip-path clips the element's own shadow.
+ * Put shadows on a parent wrapper with the `surface-shadow` utility (drop-shadow):
+ * clip-path clips the element's own box-shadow, and a box-shadow on the wrapper
+ * would draw the wrapper's own rounded rectangle instead of the clipped shape.
  */
 function ContinuousSurface({
   radius = 12,

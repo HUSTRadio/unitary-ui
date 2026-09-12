@@ -65,7 +65,7 @@ $$
 - 默认 $p=3$ 是 Unitary 团队值；调用方可显式传参，但不应使用品牌化命名。
 - 整体 superellipse 只用于近方形 icon tile/avatar/logo 框。长宽比悬殊的卡片应使用带直边的 continuous corner，避免长边桶形。
 
-`ContinuousSurface` 用 `ResizeObserver` 观察本地 border-box 并生成 `clip-path: path(...)`，不使用受 transform 影响的视口尺寸。不支持或尚未测得尺寸时保留普通 `border-radius` 降级；增强后将其置零，避免背景再次被普通圆角裁切。CSS border 不会自动沿裁切轮廓描边。`clip-path` 会裁掉元素自身阴影，所以阴影必须放在外层 wrapper。
+`ContinuousSurface` 用 `ResizeObserver` 观察本地 border-box 并生成 `clip-path: path(...)`，不使用受 transform 影响的视口尺寸。不支持或尚未测得尺寸时保留普通 `border-radius` 降级；增强后将其置零，避免背景再次被普通圆角裁切。CSS border 不会自动沿裁切轮廓描边。`clip-path` 会裁掉元素自身阴影，所以阴影必须放在外层 wrapper，并使用 `surface-shadow`（`filter: drop-shadow()`，由子元素渲染后的实际 alpha 生成、贴合裁切形状）；直接给 wrapper 加 `box-shadow` 画的是 wrapper 自己的圆角矩形盒，半径与形状不一致时会露出矩形底片。`drop-shadow()` 没有 spread 参数，只能表达外投影，无法还原 `material-*` 靠 box-shadow spread 画出的 1px hairline 描边（`0 0 0 1px` 外圈，非 `inset`）。
 
 ## 3. CJK / Latin 混排与行高
 

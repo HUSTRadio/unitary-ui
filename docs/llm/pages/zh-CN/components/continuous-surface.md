@@ -47,7 +47,7 @@ Continuous Surface
 ## 主题行为
 
 - 组件只负责裁切；颜色由调用方提供。CSS border 不会自动沿路径描边，有限采样折线也不等于严格连续曲率。
-- 阴影必须放在外层 wrapper，因为 clip-path 会裁掉元素自身的 box-shadow。
+- 阴影放到外层 wrapper 并用 surface-shadow（drop-shadow），不要用 box-shadow：box-shadow 画的是包装自己的圆角矩形，与裁切后的形状脱节。
 
 ## 实时示例
 
@@ -83,7 +83,11 @@ export function ContinuousSurfaceDefault37A8EEC1Example() {
         </defs>
       </svg>
       {curves.map((curve) => (
-        <div key={curve.exponent} className="rounded-3xl shadow-lg">
+        /*
+         * 阴影用 surface-shadow（drop-shadow）而不是 shadow-*：box-shadow 会画成
+         * 本包装的圆角矩形，与 ContinuousSurface 裁切后的形状脱节。
+         */
+        <div key={curve.exponent} className="surface-shadow">
           <ContinuousSurface
             data-curve={curve.exponent}
             radius={24}
@@ -96,16 +100,15 @@ export function ContinuousSurfaceDefault37A8EEC1Example() {
         </div>
       ))}
       {/*
-       * Superellipse 用 aspect-square：它是 |x/a|^n + |y/b|^n = 1 的整周采样，
-       * 采样按角度均匀，非方形时点的分布会被长宽比拉伸，整条曲线随之变形；
-       * 方形 surface 才让 n 只控制"角落有多圆"这一个变量。这里与其它三块的
-       * 对比是「整条曲线 vs 四面直边 + 圆角」，因此不强行统一宽高比。
+       * Superellipse 取正方形，且边长 = 其它卡片的**高度**（aspect-[4/3] 下为 0.75 列宽）：
+       * 这样四块高度一致、同时保持 1:1，让 n 只控制"角落有多圆"。
+       * 外层 aspect-[4/3] 负责对齐行高，内层 h-full + aspect-square 负责取正方形。
        */}
-      <div className="rounded-3xl shadow-lg">
+      <div className="surface-shadow flex aspect-[4/3] items-center justify-center">
         <div
           data-curve="superellipse"
           aria-label="Superellipse tile"
-          className="flex aspect-square flex-col justify-end bg-gradient-to-br from-teal-600 to-blue-700 p-5 text-white"
+          className="flex aspect-square h-full shrink-0 flex-col justify-end bg-gradient-to-br from-teal-600 to-blue-700 p-5 text-white"
           style={{ clipPath: `url(#${clipId})` }}
         >
           <strong>Superellipse · n=5</strong>
@@ -137,6 +140,6 @@ import { ContinuousSurface } from "@/components/ui/continuous-surface";
 
 - 仅在连续曲率属于明确设计系统语义时用于孤立卡片或磁贴，不要把它机械应用到所有容器。
 - 默认指数为 Unitary 团队值 3；指数 2 是精确圆弧基线，其他参数应有明确的 shape token 依据。
-- 阴影放在外层 wrapper 上，因为 clip-path 会裁掉元素自身的 box-shadow。
+- 阴影放在外层 wrapper 上并用 surface-shadow（drop-shadow），因为 clip-path 会裁掉元素自身的 box-shadow，而包装的 box-shadow 又会画成矩形盒。
 - 矩形卡片保留直边；完整 superellipse 只用于近方形图标或头像表面。
 - 保留 border-radius 降级，不使用平台品牌曲线名，也不复制平台资源中的精确 path。

@@ -277,7 +277,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     bestPractices: [
       "Use ContinuousSurface for isolated cards or tiles where continuous curvature is a deliberate shape-system choice.",
       "Keep the default exponent unless a documented shape token calls for another value; exponent 2 is the circular baseline.",
-      "Place shadows on a parent wrapper because clip-path clips the surface's own shadow.",
+      "Place shadows on a parent wrapper with surface-shadow (drop-shadow): clip-path clips the surface's own box-shadow, and the wrapper's box-shadow draws its own rectangular box.",
       "Prefer continuous corners with straight sides for rectangular cards; reserve a full superellipse for near-square icon or avatar surfaces.",
       "Keep border-radius as the fallback and avoid brand-specific curve names or copied platform paths.",
     ],

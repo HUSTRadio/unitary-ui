@@ -129,7 +129,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
   "continuous-surface": [
     "仅在连续曲率属于明确设计系统语义时用于孤立卡片或磁贴，不要把它机械应用到所有容器。",
     "默认指数为 Unitary 团队值 3；指数 2 是精确圆弧基线，其他参数应有明确的 shape token 依据。",
-    "阴影放在外层 wrapper 上，因为 clip-path 会裁掉元素自身的 box-shadow。",
+    "阴影放在外层 wrapper 上并用 surface-shadow（drop-shadow），因为 clip-path 会裁掉元素自身的 box-shadow，而包装的 box-shadow 又会画成矩形盒。",
     "矩形卡片保留直边；完整 superellipse 只用于近方形图标或头像表面。",
     "保留 border-radius 降级，不使用平台品牌曲线名，也不复制平台资源中的精确 path。",
   ],

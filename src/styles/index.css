@@ -1715,6 +1715,28 @@ html[data-font-tier="system"],
 }
 
 /*
+ * 被 clip-path 裁切的表面的阴影（ContinuousSurface / superellipse 等）。
+ *
+ * 为什么不能用 box-shadow：clip-path 会裁掉元素自身的阴影，所以调用方习惯把
+ * box-shadow 放到外层包装上。但外层包装的 box-shadow 画的是**包装自己的圆角矩形盒**，
+ * 不是子元素裁切后的形状。两者半径接近时（如圆角 24px vs rounded-3xl）看不出来，
+ * 形状一旦不同（超椭圆）阴影就与本体解耦，露出一层矩形底片。
+ *
+ * filter: drop-shadow() 由子元素渲染后的实际 alpha 生成，天然贴合裁切形状，所以必须
+ * 用在外层包装上（不能放在被裁切的同一元素上——clip-path 会连 filter 一起裁掉）。
+ *
+ * 代价：drop-shadow 只能表达外投影，无法还原 material-* 里用 box-shadow spread 画出的
+ * 1px hairline 外圈描边（`0 0 0 1px` + 浅色环）。需要完整材质时应改用未被裁切的表面。
+ *
+ * 注意：drop-shadow() 的语法是 <length>{2,3}（x / y / blur），**没有 spread 参数**，
+ * 照抄 box-shadow 的 `0 8px 16px -4px` 会让整条 filter 声明被解析器丢弃、阴影完全不
+ * 显示（lightningcss 不报错，只有浏览器会拒绝）。因此这里只保留偏移与模糊。
+ */
+@utility surface-shadow {
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.16)) drop-shadow(0 8px 16px rgb(0 0 0 / 0.24));
+}
+
+/*
  * Geist 统一焦点环（官方 --uni-focus-ring 实测）
  * 双环结构：2px 表面色描边（与背景分离）+ 4px 主题焦点蓝
  * （light #0072f5 / dark #52a8ff）。

@@ -21,7 +21,11 @@ export function ContinuousSurfaceDefault37A8EEC1Example() {
         </defs>
       </svg>
       {curves.map((curve) => (
-        <div key={curve.exponent} className="rounded-3xl shadow-lg">
+        /*
+         * 阴影用 surface-shadow（drop-shadow）而不是 shadow-*：box-shadow 会画成
+         * 本包装的圆角矩形，与 ContinuousSurface 裁切后的形状脱节。
+         */
+        <div key={curve.exponent} className="surface-shadow">
           <ContinuousSurface
             data-curve={curve.exponent}
             radius={24}
@@ -34,16 +38,15 @@ export function ContinuousSurfaceDefault37A8EEC1Example() {
         </div>
       ))}
       {/*
-       * Superellipse 用 aspect-square：它是 |x/a|^n + |y/b|^n = 1 的整周采样，
-       * 采样按角度均匀，非方形时点的分布会被长宽比拉伸，整条曲线随之变形；
-       * 方形 surface 才让 n 只控制"角落有多圆"这一个变量。这里与其它三块的
-       * 对比是「整条曲线 vs 四面直边 + 圆角」，因此不强行统一宽高比。
+       * Superellipse 取正方形，且边长 = 其它卡片的**高度**（aspect-[4/3] 下为 0.75 列宽）：
+       * 这样四块高度一致、同时保持 1:1，让 n 只控制"角落有多圆"。
+       * 外层 aspect-[4/3] 负责对齐行高，内层 h-full + aspect-square 负责取正方形。
        */}
-      <div className="rounded-3xl shadow-lg">
+      <div className="surface-shadow flex aspect-[4/3] items-center justify-center">
         <div
           data-curve="superellipse"
           aria-label="Superellipse tile"
-          className="flex aspect-square flex-col justify-end bg-gradient-to-br from-teal-600 to-blue-700 p-5 text-white"
+          className="flex aspect-square h-full shrink-0 flex-col justify-end bg-gradient-to-br from-teal-600 to-blue-700 p-5 text-white"
           style={{ clipPath: `url(#${clipId})` }}
         >
           <strong>Superellipse · n=5</strong>
