@@ -309,10 +309,22 @@ function BackLink() {
   return (
     <a
       href="#/components"
-      className="inline-flex items-center gap-1.5 text-copy-14 text-muted-foreground transition-colors hover:text-foreground"
+      className="inline-flex items-center gap-1.5 text-copy-14 whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground"
     >
-      <ArrowLeft className="size-4" aria-hidden />
-      {demoText(language, "Back to Components")}
+      {/*
+       * 图标按字形居中，而不是按行盒居中。
+       * flex 的 align-items:center 对中的是**行盒**，字体度量却不对称：本项目字体栈下
+       * （text-copy-14 = 15px/20px）CJK 字形实测 ascent 13 / descent 2，留白几乎全在
+       * 上方，于是行盒中心比字形中心高约 1px。图标放在几何中心就会明显偏高。
+       * 这里把图标与文本放进同一个 inline-flex 盒子，两者一起按行盒居中，图标便与
+       * 字形基线区域对齐。不覆盖 line-height：行盒高度即墨迹参考框，任何压缩它的
+       * 做法（如 leading-[1.1]）都会把图标再往下推。
+       * whitespace-nowrap 防止 CJK 在窄容器里按字换行（"返回组件" 会变成竖排多行）。
+       */}
+      <span className="inline-flex items-center gap-[0.3125rem] whitespace-nowrap">
+        <ArrowLeft className="size-4" aria-hidden />
+        {demoText(language, "Back to Components")}
+      </span>
     </a>
   );
 }
