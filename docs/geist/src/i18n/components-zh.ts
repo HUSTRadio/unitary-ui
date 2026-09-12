@@ -19,7 +19,7 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   "command-menu": "在模态命令面板中筛选并启动键盘优先的操作。",
   "context-card": "在悬停或聚焦时显示比 Tooltip 更丰富信息的浮动卡片。",
   "context-menu": "通过右键点击或长按显示上下文操作菜单。",
-  "continuous-surface": "通过自研连续曲率路径裁切自适应尺寸的表面，并保留普通圆角降级。",
+  "continuous-surface": "通过连续曲率路径裁切自适应尺寸的表面，并在路径不可用时保留普通圆角。",
   description: "以定义列表展示键值元数据。",
   "copy-button": "将指定字符串复制到剪贴板，并在完成后提供反馈。",
   "destructive-action-modal": "使用红色警告标题和破坏性确认按钮确认危险操作。",

@@ -31,7 +31,7 @@
 
 ## F4: CopyButton 组件缺失
 
-- **现象**：代码块（`docs-components-page.tsx`）与 Introduction 终端行（`docs-cards.tsx`）的 Copy 功能各自实现一份 icon-only Button + `navigator.clipboard` + execCommand 降级逻辑（两处重复 ~30 行）。
+- **现象**：代码块（`docs-components-page.tsx`）与 Introduction 终端行（`docs-cards.tsx`）的 Copy 功能各自维护一份 icon-only Button + `navigator.clipboard` + execCommand 降级逻辑（两处重复 ~30 行）。
 - **复现路径**：`/components/button` 详情页代码块右上角；首页 Components 卡终端行。
 - **期望**：一个 CopyButton 基础组件（复制 + 成功态反馈 + 降级）。
 - **影响**：中。两处重复实现，后续第三处使用会继续复制。
@@ -39,10 +39,10 @@
 
 ## F5: Radio 组件缺失
 
-- **现象**：反馈区 emoji radio 用原生 `<input type="radio" className="sr-only">` + `<label>` 组合（`docs-feedback.tsx`），`role="radiogroup"` 手写。
+- **现象**：反馈区 emoji radio 用原生 `<input type="radio" className="sr-only">` + `<label>` 组合（`docs-feedback.tsx`），`role="radiogroup"` 为逐条声明。
 - **复现路径**：任意页面底部 Give feedback 胶囊。
 - **期望**：框架提供 Radio 基础组件（Radix RadioGroup 封装 + Geist 样式）。
-- **影响**：低。原生 radio 语义正确（键盘方向键可操作，已实测 ArrowRight 正常移动选中）；仅样式层（选中 ring）手写。
+- **影响**：低。原生 radio 语义正确（键盘方向键可操作，已实测 ArrowRight 正常移动选中）；仅样式层（选中 ring）为本层自定义。
 - **建议**：新增 Radio 基础组件（radix-ui RadioGroup + Geist 视觉），反馈区改用。
 
 ## F6: 文档卡片 ≠ material 卡片
@@ -100,7 +100,7 @@
 
 ## F-radix-2: Menu destructive item（已解决）
 
-- **当前状态**：共享 `MenuItem` 暴露 `type="error"`，由包装层统一 destructive 颜色和焦点状态，不要求消费方手写 className。
+- **当前状态**：共享 `MenuItem` 暴露 `type="error"`，由包装层统一 destructive 颜色和焦点状态，不要求消费方自行传入 className。
 - **复现路径**：`docs-components-page.tsx` 的 Menu demo 使用 `MenuItem type="error"`。
 - **期望**：组件文档标注；或包装层补 variant。
 - **影响**：低。实现正确（实测 destructive 样式生效）。

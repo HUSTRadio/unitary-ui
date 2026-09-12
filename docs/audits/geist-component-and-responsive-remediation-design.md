@@ -137,7 +137,7 @@
 ### 2.3 Command Menu（B1）
 
 - **官方事实**（evidence-command-menu.md + STATUS.md）：cmdk 封装于 Radix Dialog；`data-testid="cmdk/root"`、cmdk-item/group/list/input/separator/group-heading、`data-selected`、`cmdkScaleIn/cmdkFadeIn/cmdkLoading/cmdk-empty`；打开即选中首项、焦点在 input；content 固定 `w-[640px] top-[15%]`；overlay `bg-background-100 opacity-80`；Esc 关闭焦点→BODY；输入 16/18px（sm:text-lg）h-7 flex-1 内含 Esc 提示钮；list `max-h-none sm:max-h-[436px]`；item `px-2 py-0 min-h 36/40px`、`data-[selected=true]` + hover 仅 `@media(hover:hover) and (pointer:fine)`；group heading 13px gray-900 h36 px2 aria-hidden；divider `role=separator my-2 -ml-2 h-[1px] w-[calc(100%+16px)] bg-gray-alpha-400`；sr-only description（aria-describedby）；sm(401px) 响应式变体。
-- **本地现状**：纯 Radix + 自写 DOM-focus 键盘轮换；无过滤/空态/aria 语义；overlay #0a0a0a 固定；w-full max-w-[640px] top-[85px]；无响应式 class；Esc 焦点回 trigger（与官方 BODY 不同）。
+- **本地现状**：纯 Radix + 自行实现的 DOM-focus 键盘轮换；无过滤/空态/aria 语义；overlay #0a0a0a 固定；w-full max-w-[640px] top-[85px]；无响应式 class；Esc 焦点回 trigger（与官方 BODY 不同）。
 - **目标 API**：引入 cmdk（或等价组合框语义）承载过滤/空态/选中；保持 Radix Dialog 壳；content 尺寸/offset/overlay/motion 按官方数值。**Breaking**：组件内部实现替换，公开 API（open/onOpenChange/items 等现有 props）保留并在测试中锁定。
 - **响应式**：官方 sm(401px) 变体（input 字号/条目高/listbox 布局/max-h）；375 视口 w-[640px] 溢出行为需复现（官方即溢出，本地不得“修好”它——除非加证据）。
 - **ARIA**：combobox/listbox/option、aria-selected、aria-expanded、aria-describedby。

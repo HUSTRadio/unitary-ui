@@ -49,7 +49,7 @@ const EMPTY_TOPICS: readonly string[] = [];
  */
 const INLINE_FLOATING_WIDTH = 336;
 
-/** 供调用方以 programming 方式复用官方主题清单（例如自建 topics 时作基集）。 */
+/** 供调用方以编程方式复用官方主题清单（例如自定义 topics 时作基集）。 */
 const FEEDBACK_TOPICS: readonly string[] = TOPICS;
 
 interface FeedbackProps extends Omit<

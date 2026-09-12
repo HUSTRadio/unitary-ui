@@ -129,7 +129,7 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:bfa3b8d118ec7f6bd9ecbee36bb48db50f44e6d721512749354c98de895ce274",
+        "zh-CN": "sha256:27aa20aec7d1e04fff303589a4d4b66398c60f083881ed63e2c8227410b93821",
         "en-US": "sha256:be2f028d0f27fcc79244103bbfba11e38260fac16120e53a903907b4416e6116"
       }
     },
@@ -449,7 +449,7 @@
         "en-US": "pages/en-US/components/continuous-surface.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:d66c9fa04227357665ea381be4ba89d9da227b3835fc1df7a5245df5142c4bc9",
+        "zh-CN": "sha256:085b27da9f219a2c7cf637113f2c6964aad4ee3fd5da1819e84f8e987fc272cf",
         "en-US": "sha256:e79a5f18f69e7a402cd9ebf2eaeaefa7c71af5b474a7e6efed565725b5cfb38a"
       }
     },
@@ -1297,7 +1297,7 @@
         "en-US": "pages/en-US/components/theme-switcher.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:e647cff23a96760b1e78595a76140abea63242c2a18f3eae779093aec8c44d2c",
+        "zh-CN": "sha256:36c3f6e561aa6563342eee7bd1a52fe147c1fee02c7935c6a5fc505513e56018",
         "en-US": "sha256:1e7c87f78236b89bb1c3d422f16de199a5ce1db55e2622da9407d6afbf0b0bd9"
       }
     },

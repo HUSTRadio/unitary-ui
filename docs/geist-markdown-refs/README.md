@@ -69,5 +69,5 @@ avatar, badge, banner, book, breadcrumbs, browser, button, calendar, checkbox, c
 
 - `geistcn-icons` 页面在官方已 307 重定向到 introduction（Vercel 已移除独立图标页），未保留。
 - `screenshots/` 为 light 主题；如需 dark 对照可重跑抓取脚本加 `--dark` 参数。
-- 渲染参数由 `geist-styles.js` 实测生成（2026-08-08），若官方样式更新可重跑刷新；table.md 另有手写参数表，两者可共存。
+- 渲染参数由 `geist-styles.js` 实测生成（2026-08-08），若官方样式更新可重跑刷新；table.md 另有独立维护的参数表，两者可共存。
 - 抓取脚本（临时）：`C:/Users/Leon/.hermes/cache/geist-crawl/geist-crawl.js` 与 `geist-styles.js`

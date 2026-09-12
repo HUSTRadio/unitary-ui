@@ -164,7 +164,7 @@ Continuous Surface
 
 ### 连续曲率容器
 
-通过自研连续曲率路径裁切自适应尺寸的表面，并保留普通圆角降级。
+通过连续曲率路径裁切自适应尺寸的表面，并在路径不可用时保留普通圆角。
 
 ](#/components/continuous-surface)[
 

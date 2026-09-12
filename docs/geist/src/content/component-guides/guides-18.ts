@@ -5,7 +5,7 @@ export const GUIDES_18_ZH: Record<string, ComponentGuide> = {
     slug: "continuous-surface",
     locale: "zh-CN",
     summary:
-      "ContinuousSurface 根据元素实时尺寸生成自研连续曲率裁切路径，并在 JavaScript 或 clip-path 不可用时保留普通圆角。",
+      "ContinuousSurface 根据元素实时尺寸生成连续曲率裁切路径，并在 JavaScript 或 clip-path 不可用时保留普通圆角。",
     whenToUse: [
       "用于孤立卡片、磁贴或近方形品牌无关表面，且形状确实属于设计系统语义时。",
       "矩形卡片使用保留直边的 continuousCornerPath；完整 superellipse 只用于近方形图标或头像。",

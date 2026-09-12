@@ -30,7 +30,7 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(shell).toContain("LANGUAGE_OPTIONS");
     expect(shell.indexOf("LANGUAGE_OPTIONS")).toBeLessThan(shell.indexOf("<ThemeSwitcher />"));
     expect(shell).toContain("flex items-center gap-2");
-    // 不再手写 sticky header 壳层（由 Navbar 组件负责）
+    // sticky header 壳层不再由本层自行维护（由 Navbar 组件负责）
     expect(shell).not.toContain('header className="sticky top-0 z-40');
   });
 

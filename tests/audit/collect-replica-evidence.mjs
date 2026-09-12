@@ -948,7 +948,7 @@ async function main() {
   if (config.schemaVersion === 2 && config.source === "local" && !config.worktreeClean) {
     throw new Error("Local acceptance evidence requires a clean worktree");
   }
-  // 官方与本地证据各自写入独立 run 目录，避免同一 out 根下互相覆盖
+  // 官方与本地证据分别写入独立 run 目录，避免同一 out 根下互相覆盖
   const runDir = path.join(config.out, "runs", config.source, config.runId);
   await fs.mkdir(runDir, { recursive: true });
   const statusFile = path.join(runDir, "producer-status.json");

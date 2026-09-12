@@ -57,7 +57,7 @@ schema 文件边界明确为：
 - `geist-audit-ledger.schema.json`：ledger v2；
 - `geist-audit-shared.schema.json`：status、classification、strict failure 和 approved exclusion 的共享 `$defs`。
 
-validator 必须用支持本地 `$ref` 的同一 Ajv 实例加载以上 schema；不能只在 TypeScript 测试里手写局部 shape 判断。fixture 必须逐个通过对应 schema 后才能参与行为测试。
+validator 必须用支持本地 `$ref` 的同一 Ajv 实例加载以上 schema；不能只在 TypeScript 测试里自行编写局部 shape 判断。fixture 必须逐个通过对应 schema 后才能参与行为测试。
 
 每个具备验收证据的组件通过 `acceptanceContracts` 声明精确到 `(demoId, variant, state)` 的合同。每个合同的 schema required 字段为：
 

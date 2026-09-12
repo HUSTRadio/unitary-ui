@@ -230,7 +230,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Theme Switcher 通过框架自研的 ThemeProvider（src/lib/theme.tsx）读取和写入主题偏好；应用根节点用 ThemeProvider 包裹一次即可，无需把主题状态冗余映射到本地 React 状态。",
+        "Theme Switcher 通过框架的 ThemeProvider（src/lib/theme.tsx）读取和写入主题偏好；应用根节点用 ThemeProvider 包裹一次即可，无需把主题状态冗余映射到本地 React 状态。",
         "本库不依赖 next-themes：公开 API 仅有 className / small / disabled 三个 prop，没有 onChange 回调或 forcedTheme 概念。",
         "需要拦截主题切换（如跟随系统设置联动）时，直接消费 useTheme() 的 preference/setPreference，而不是包一层回调。",
       ],
