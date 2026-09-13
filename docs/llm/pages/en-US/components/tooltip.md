@@ -323,10 +323,14 @@ export function TooltipComponentsA150CE22Example() {
       <div className="flex flex-1 flex-col items-center justify-center py-2">
         <Tooltip
           text={
-            <>
+            /* 键帽用 small 档（20px/12px）：tooltip 正文 13px，默认 24px 键帽比例失衡；
+               flex + gap-1.5 提供受控间距，ml-0 中和 Kbd 内联流的 ml-0.5，避免双重间隙。 */
+            <span className="inline-flex items-center gap-1.5">
               Search
-              <Kbd>/</Kbd>
-            </>
+              <Kbd small className="ml-0">
+                /
+              </Kbd>
+            </span>
           }
         >
           <span>Shortcut</span>
