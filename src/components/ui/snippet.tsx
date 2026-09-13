@@ -23,6 +23,13 @@ import { useI18n } from "@/lib/i18n";
  *   bg-background p-3
  * - 文本：font-mono text-copy-13 text-foreground
  * - 复制按钮：h-32px r-6px；点击→Copied + CopyCheck 图标→1.5s 还原
+ *
+ * dark（反色）= 整棵子树切换到相反 theme mode 的 color scheme（官方实测：
+ * 浅色主题反色为深底 #0a0a0a + 浅字 #f2f2f2；深色主题反色为浅底 #ffffff + 深字 #1a1a1a）。
+ * 主题级 token（--foreground / --gray-alpha-*）只随页面 scheme 解析、不会跟着容器翻转，
+ * 所以反色时内部一律 text-inherit 走容器色链，hover 用相反 scheme 的 gray-alpha-200 硬编码：
+ * 浅色页(#ffffff17 = dark --gray-alpha-200) / 深色页(#00000014 = light --gray-alpha-200)。
+ * 已知边界：type="success|error|warning" 的语义色 token 不随反色翻转（官方同为非翻转语义色）。
  */
 
 export type SnippetType = "default" | "success" | "error" | "warning";
@@ -54,7 +61,7 @@ const typeColor: Record<SnippetType, string> = {
 };
 
 const darkClasses =
-  "border-[#ffffff24] bg-[#0a0a0a] text-[#f2f2f2] dark:border-[#00000014] dark:bg-[#ffffff] dark:text-[#171717]";
+  "border-[#ffffff24] bg-[#0a0a0a] text-[#f2f2f2] dark:border-[#00000014] dark:bg-[#ffffff] dark:text-[#1a1a1a]";
 
 const toSize = (value: number | string) => (typeof value === "number" ? `${value}px` : value);
 
@@ -119,7 +126,13 @@ function Snippet({
         className={cn("min-w-0 flex-1", lines.length > 1 && "flex flex-col items-start gap-0.5")}
       >
         {lines.map((line, index) => (
-          <code key={index} className={cn("block font-mono text-copy-13", typeColor[type])}>
+          <code
+            key={index}
+            className={cn(
+              "block font-mono text-copy-13",
+              dark && type === "default" ? "text-inherit" : typeColor[type],
+            )}
+          >
             {prompt && (
               <span aria-hidden className="select-none">
                 {"$ "}
@@ -134,7 +147,10 @@ function Snippet({
         data-slot="snippet-copy"
         aria-label={t("Copy")}
         onClick={handleCopy}
-        className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-foreground transition-colors outline-none hover:bg-gray-alpha-200 focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0"
+        className={cn(
+          "inline-flex size-8 shrink-0 items-center justify-center rounded-md transition-colors outline-none focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+          dark ? "text-inherit hover:bg-[#ffffff17] dark:hover:bg-[#00000014]" : "text-foreground hover:bg-gray-alpha-200",
+        )}
       >
         {copied ? <CopyCheck className="text-success" aria-hidden /> : <Copy aria-hidden />}
         <span className="sr-only">{copied ? t("Copied") : t("Copy")}</span>
