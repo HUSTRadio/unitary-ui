@@ -144,7 +144,8 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
         id: "feedback-inline",
         kind: "variant",
         title: "行内反馈",
-        description: "展示 274×48 评分胶囊在选中表情后于同一容器内扩展为反馈表单。",
+        description:
+          "展示行内评分胶囊在选中表情后向上展开为反馈表单；收起态宽度随文案自适应，展开态为 336px。",
         demoKey: "Inline",
       },
       {
@@ -492,7 +493,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
         kind: "variant",
         title: "Inline feedback",
         description:
-          "Shows the 274×48 rating capsule expanding into the feedback form in the same container.",
+          "Shows the inline rating capsule expanding upward into the feedback form after a rating is chosen; the collapsed width is content-sized and the expanded card is 336px.",
         demoKey: "Inline",
       },
       {

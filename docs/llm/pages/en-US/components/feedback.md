@@ -32,7 +32,7 @@ Shows the default 32px secondary trigger opening a 340px anchored Popover.
 
 ### Inline feedback
 
-Shows the 274×48 rating capsule expanding into the feedback form in the same container.
+Shows the inline rating capsule expanding upward into the feedback form after a rating is chosen; the collapsed width is content-sized and the expanded card is 336px.
 
 ### Feedback with topics
 
