@@ -53,6 +53,10 @@ E
 
 F
 
+G
+
+H
+
 ## 响应式断点
 
 columns 和 rows 接受响应式对象；请为 sm、md、lg 显式给值。
@@ -147,4 +151,4 @@ GridCross 标记网格线的交点。
 
 ## 虚线 GridPage
 
-GridPage 将内容居中展示——配合 dashedGuides 即为蓝图观感。
+GridPage 给网格套一层页面级背景（background-200）并水平居中——配合 dashedGuides 时辅助线以虚线绘制。

@@ -49,8 +49,8 @@
         "en-US": "pages/en-US/colors.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:77be47f183602e8f0fa3a1eebd4311ae1e04315151164109c87924d820da9603",
-        "en-US": "sha256:a32c46f6b2c74c6409192e56270cbafa11b183ad1f37ef18004154794b8fdb9b"
+        "zh-CN": "sha256:c303780a0f2ad3699a66d825c7e5a904ab4136c87a591b30efddaeb3664012ad",
+        "en-US": "sha256:948d074b4204e0f67d0b42f76c6a09c45fe8c813d920522e540dc245e89f1867"
       }
     },
     {
@@ -97,8 +97,8 @@
         "en-US": "pages/en-US/grid.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:a528356811dfb8e962eafd611cd8bc17767ad8f59103e917af2720b5b60c3418",
-        "en-US": "sha256:917bd22320e3f3f5b6a1479f0115eae5674c68243bfa286379a68571aa898bc5"
+        "zh-CN": "sha256:5922b6402609ec9d31ffae24872e5a8532a81a6da7222f95c941a83a6cfea199",
+        "en-US": "sha256:53d920599838a7f76854c18bf4affafe6e082659e8b39e757398a424f262d553"
       }
     },
     {
@@ -1233,8 +1233,8 @@
         "en-US": "pages/en-US/components/table.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:e3e61809ed4ae7d848b3bd37d505858c7d046e102ead53c8b4ef5634ce8b7404",
-        "en-US": "sha256:adae6ae05774a057b25d515b422a621da0e46476292b43116867fdc5da64520a"
+        "zh-CN": "sha256:7be8e4f48a737ab971ad554169ff331b73b39469cc7b04dfb16951ff23a37cc7",
+        "en-US": "sha256:48bb7de05d99805e2970c1d914bcd6a93f946331bfb9ed6168f5fc33611cadbd"
       }
     },
     {

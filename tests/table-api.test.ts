@@ -129,6 +129,6 @@ describe("Table column dividers contract", () => {
     expect(html).toContain("[&amp;_tr&gt;:not(:first-child)]:border-s");
     expect(html).toContain("[&amp;_tr&gt;:not(:first-child)]:border-gray-alpha-400");
     expect(html).toContain("[&amp;_tr]:border-b");
-    expect(html).toContain("[&amp;_tr]:border-gray-400");
+    expect(html).toContain("[&amp;_tr]:border-gray-alpha-400");
   });
 });

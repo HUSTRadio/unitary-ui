@@ -11,22 +11,26 @@
   --guide-width: 1px;
   --horizontal-margin: 2rem;
   --grid-system-width: 100vw;
-  --guide-color: var(--gray-400);
+  /* 官方 Geist 实测：浅色 rgba(0,0,0,.08) / 深色 rgba(255,255,255,.14)，即 gray-alpha-400。
+     用 alpha 而非实色，辅助线才能随底色自适应（GridPage 的 background-200、solid 单元格、
+     以及库消费方自定的任意底色）。该 token 已按主题切换，故不再需要 .dark 覆盖。 */
+  --guide-color: var(--gray-alpha-400);
   --light-dashed-png: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAANklEQVQokWN8/fr1fwY0ICoqyoguhk0dE7oAKYARZiI223ABmB6KbKZI8yggEQzReGYcsIwBALk3HxGhdtdwAAAAAElFTkSuQmCC);
   --dark-dashed-png: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAANklEQVQokWOUl5f/z4AGHj58yIguhk0dE7oAKYARZiI223ABmB6KbKZI8yggEQzReGYcsIwBAA1NFYEXiwqfAAAAAElFTkSuQmCC);
 
   position: relative;
 }
 
-:global(.dark) .gridSystem {
-  --guide-color: var(--gray-200);
-}
-
 .gridSystem::before {
   position: absolute;
   inset: 0;
+  /* 四条边都按“网格线在 L、1px 边框画在 [L-1, L)”这一与辅助线相同的约定落位，
+     十字臂才会与外框/辅助线逐像素对齐。
+     注意 right 也要收一个 guide-width：--width 已把网格收窄 1px，若右边框不跟着收，
+     它会落在网格右侧额外 1px 处，右边缘（最末列线）的十字就会整体偏左 1px。 */
   top: calc(-1 * var(--guide-width));
   left: calc(-1 * var(--guide-width));
+  right: var(--guide-width);
   border: var(--guide-width) solid var(--guide-color);
   content: "";
   pointer-events: none;
@@ -77,7 +81,10 @@
   border-image: var(--dark-dashed-png) 1 round;
 }
 
-.dashedGuide {
+/* 用 .guide.dashedGuide 而非 .dashedGuide：.guide 的 border 简写会重置 border-image，
+   而且 .guide 在文件里更靠后，同权重时后者胜出 —— 浅色主题下虚线就被实线吃掉
+   （深色因为下面那条 .dark 覆盖权重更高才侥幸生效）。提高一级权重即可与书写顺序解耦。 */
+.guide.dashedGuide {
   border: var(--guide-width) dashed var(--guide-color);
   border-top: none;
   border-left: none;
@@ -116,7 +123,7 @@
 /* grid */
 .grid {
   --guide-width: 1px;
-  --guide-color: var(--gray-400);
+  --guide-color: var(--gray-alpha-400);
   --width: clamp(
     calc(var(--min-width) - var(--guide-width)),
     calc(var(--grid-system-width) - var(--guide-width) - (var(--horizontal-margin) * 2)),
@@ -138,13 +145,10 @@
   grid-template-rows: repeat(var(--grid-rows), var(--row-height));
 }
 
-:global(.dark) .grid {
-  --guide-color: var(--gray-200);
-}
-
-.gridSystem [data-grid] {
-  border-bottom: var(--guide-width) solid var(--guide-color);
-}
+/* 这里刻意不给 [data-grid] 单独画 border-bottom。
+   .gridSystem 的下边已由 .gridSystem::before 的四边外框负责，而且两者落在同一像素行；
+   用 alpha 的 --guide-color 时两笔会叠加成 ~15%（而非 8%），底边会比其它三边明显更重。
+   （旧的实色 #ebebeb 叠加后色值不变，所以这个重复曾经看不出来。） */
 
 /* guides: decorative lines drawn per cell corner; occluded by solid cells */
 .guides {
@@ -208,6 +212,15 @@
   position: absolute;
   border: var(--guide-width) solid var(--guide-color);
   border-width: 0;
+}
+
+/* dashedGuides 下十字臂也走同一套虚线贴图（此前十字恒为实线，与“虚线十字”的说明不符） */
+.systemDashed .crossLine {
+  border-image: var(--light-dashed-png) 2 round;
+}
+
+:global(.dark) .systemDashed .crossLine {
+  border-image: var(--dark-dashed-png) 2 round;
 }
 
 /* page */

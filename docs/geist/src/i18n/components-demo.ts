@@ -526,8 +526,8 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Inside a GridSystem with dashedGuides, crosses render dashed as well.":
       "在开启 dashedGuides 的 GridSystem 内，十字同样以虚线渲染。",
     "Dashed GridPage": "虚线 GridPage",
-    "GridPage centers its content — combine it with dashedGuides for the blueprint look.":
-      "GridPage 将内容居中展示——配合 dashedGuides 即为蓝图观感。",
+    "GridPage wraps the grid in a page-level background-200 surface and centers it horizontally — with dashedGuides the guides are drawn dashed.":
+      "GridPage 给网格套一层页面级背景（background-200）并水平居中——配合 dashedGuides 时辅助线以虚线绘制。",
     "Presets for radius, fills, strokes and shadows.": "圆角、填充、描边与阴影的预设。",
     "Surface — on the page. Floating — above the page. Each block applies its material-* class and lists its radius, usage, and z-index.":
       "Surface 位于页面内，Floating 位于页面之上。每个方块应用对应 material-* 类，并标注圆角、用途与 z-index 层级。",

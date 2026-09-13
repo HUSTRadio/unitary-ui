@@ -53,6 +53,10 @@ E
 
 F
 
+G
+
+H
+
 ## Responsive Breakpoints
 
 columns and rows accept responsive objects; give values for sm, md, and lg explicitly.
@@ -147,4 +151,4 @@ Inside a GridSystem with dashedGuides, crosses render dashed as well.
 
 ## Dashed GridPage
 
-GridPage centers its content — combine it with dashedGuides for the blueprint look.
+GridPage wraps the grid in a page-level background-200 surface and centers it horizontally — with dashedGuides the guides are drawn dashed.

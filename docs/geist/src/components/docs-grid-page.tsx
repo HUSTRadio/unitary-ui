@@ -26,6 +26,11 @@ import { demoText } from "../i18n/components-demo";
  * cross、dashed cross 与 dashed GridPage。
  * 只使用现有 props，不新增“仅为 docs”的 Grid API；
  * 无辅助线的普通卡片列表推荐原生 CSS/Tailwind grid。
+ *
+ * 每个示例的滚动容器都带 `p-4 -mx-4 -mb-4`：Grid 的外框与探出的十字都画在网格盒之外
+ * （gridSystem::before 的 top/left 为 -1px，GridCross 以交点为中心 inset 为负），
+ * 不留 padding 就会被 overflow 直接裁掉；负 margin 抵掉水平与底部内边距，
+ * 所以网格的尺寸与对齐位置与之前完全一致。
  */
 
 export function GridPage() {
@@ -76,8 +81,8 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t("A Grid without cells renders only its guide lines. Set height so the empty surface stays visible.")}
         </DocsParagraph>
-        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
-          <GridSystem>
+        <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
+          <GridSystem unstable_useContainer>
             <Grid columns={6} rows={3} height={180} />
           </GridSystem>
         </div>
@@ -88,8 +93,8 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t("Cells without explicit placement flow into the tracks in DOM order.")}
         </DocsParagraph>
-        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
-          <GridSystem>
+        <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
+          <GridSystem unstable_useContainer>
             <Grid columns={3} rows={2}>
               <GridCell>1</GridCell>
               <GridCell>2</GridCell>
@@ -107,9 +112,11 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t("A solid cell paints over its area and hides the guide borders strictly inside its span.")}
         </DocsParagraph>
-        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
-          <GridSystem>
-            <Grid columns={3} rows={2}>
+        <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
+          <GridSystem unstable_useContainer>
+            {/* A 跨 2 列 + B..H 共 7 个 = 9 个格位，正好铺满 3×3；
+                rows 也必须写 3，否则第 3 行整行没有辅助线。 */}
+            <Grid columns={3} rows={3}>
               <GridCell column="1/3" row="1" solid>
                 A
               </GridCell>
@@ -118,6 +125,8 @@ export function GridPage() {
               <GridCell>D</GridCell>
               <GridCell>E</GridCell>
               <GridCell>F</GridCell>
+              <GridCell>G</GridCell>
+              <GridCell>H</GridCell>
             </Grid>
           </GridSystem>
         </div>
@@ -128,8 +137,8 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t("columns and rows accept responsive objects; give values for sm, md, and lg explicitly.")}
         </DocsParagraph>
-        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
-          <GridSystem>
+        <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
+          <GridSystem unstable_useContainer>
             <Grid columns={{ sm: 1, md: 2, lg: 3 }} rows={{ sm: 6, md: 3, lg: 2 }}>
               <GridCell>1</GridCell>
               <GridCell>2</GridCell>
@@ -149,9 +158,11 @@ export function GridPage() {
             "Cell placement accepts responsive objects too — a solid cell clips the guides of every breakpoint layer it covers.",
           )}
         </DocsParagraph>
-        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
-          <GridSystem>
-            <Grid columns={{ sm: 1, md: 2, lg: 4 }} rows={{ sm: 4, md: 2, lg: 2 }}>
+        <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
+          <GridSystem unstable_useContainer>
+            {/* rows 要给“该断点下内容实际占用的行数”，否则辅助线只画到一半、底部几行没有网格线：
+                sm 1 列 → Feature 占 2 行 + 其余 5 格各 1 行 = 7；md 2 列 → 4；lg 4 列 → 2。 */}
+            <Grid columns={{ sm: 1, md: 2, lg: 4 }} rows={{ sm: 7, md: 4, lg: 2 }}>
               <GridCell column={{ sm: "1", md: "1/3", lg: "1/3" }} row={{ sm: "1/3", md: 1 }} solid>
                 Feature
               </GridCell>
@@ -170,9 +181,9 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t('hideGuides="row" removes the horizontal guide borders.')}
         </DocsParagraph>
-        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
-          <GridSystem>
-            <Grid columns={3} rows={2} hideGuides="row" />
+        <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
+          <GridSystem unstable_useContainer>
+            <Grid columns={12} rows={3} height="preserve-aspect-ratio" hideGuides="row" />
           </GridSystem>
         </div>
       </DocsSection>
@@ -182,9 +193,9 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t('hideGuides="column" removes the vertical guide borders.')}
         </DocsParagraph>
-        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
-          <GridSystem>
-            <Grid columns={3} rows={2} hideGuides="column" />
+        <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
+          <GridSystem unstable_useContainer>
+            <Grid columns={12} rows={3} height="preserve-aspect-ratio" hideGuides="column" />
           </GridSystem>
         </div>
       </DocsSection>
@@ -194,9 +205,14 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t("Cells can share tracks and overlap; stacking follows DOM order.")}
         </DocsParagraph>
-        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
-          <GridSystem>
-            <Grid columns={4} rows={3}>
+        <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
+          <GridSystem unstable_useContainer>
+            {/* 必须显式给 height：不给 height 时行高是 auto，跨行单元格的内容高度
+                会被均摊到它跨越的每一行（约 52px），小于单元格的 cell-padding(40px)，
+                文字就被 padding-top 顶到行线上。
+                315 / 3 行 = 105px，与本页其它示例的自动行高（cell-padding×2 + 文本行高）
+                一致；行高一致，标签才会像其它示例那样落在所在行的垂直中部。 */}
+            <Grid columns={4} rows={3} height={315}>
               <GridCell column="1/3" row="1/3">A</GridCell>
               <GridCell column="2/5" row="2/4">B</GridCell>
             </Grid>
@@ -209,8 +225,8 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t('Use explicit line ranges ("a/b") to clip exactly the guides under a span.')}
         </DocsParagraph>
-        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
-          <GridSystem>
+        <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
+          <GridSystem unstable_useContainer>
             <Grid columns={3} rows={2}>
               <GridCell column="1/3" row="1" solid>
                 1 + 2
@@ -228,10 +244,17 @@ export function GridPage() {
       <DocsSection data-grid-demo="cross">
         <DocsSectionTitle>{t("Cross")}</DocsSectionTitle>
         <DocsParagraph className="max-w-xl">{t("GridCross marks an intersection of grid lines.")}</DocsParagraph>
-        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
-          <GridSystem>
+        <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
+          <GridSystem unstable_useContainer>
             <Grid columns={3} rows={2}>
-              <GridCross column={2} row={1} />
+              {/* 标上该网格的全部交点：4 条列线（columns+1）× 3 条行线（rows+1）= 12 个。
+                  十字以交点为中心跨骑网格线（inset 为负），最外圈的会探出网格盒，
+                  由 docs-local-scroll 的 padding 留出可见空间。 */}
+              {[1, 2, 3, 4].flatMap((column) =>
+                [1, 2, 3].map((row) => (
+                  <GridCross key={`${column}-${row}`} column={column} row={row} />
+                )),
+              )}
               <GridCell>1</GridCell>
               <GridCell>2</GridCell>
               <GridCell>3</GridCell>
@@ -248,11 +271,15 @@ export function GridPage() {
         <DocsParagraph className="max-w-xl">
           {t("Inside a GridSystem with dashedGuides, crosses render dashed as well.")}
         </DocsParagraph>
-        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
-          <GridSystem dashedGuides>
+        <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
+          <GridSystem dashedGuides unstable_useContainer>
             <Grid columns={3} rows={2}>
-              <GridCross column={1} row={2} />
-              <GridCross column={3} row={2} />
+              {/* 与 Cross 示例对齐：同样标上全部 12 个交点，这里用于对比虚线渲染 */}
+              {[1, 2, 3, 4].flatMap((column) =>
+                [1, 2, 3].map((row) => (
+                  <GridCross key={`${column}-${row}`} column={column} row={row} />
+                )),
+              )}
               <GridCell>1</GridCell>
               <GridCell>2</GridCell>
               <GridCell>3</GridCell>
@@ -267,11 +294,13 @@ export function GridPage() {
       <DocsSection data-grid-demo="dashed-page">
         <DocsSectionTitle>{t("Dashed GridPage")}</DocsSectionTitle>
         <DocsParagraph className="max-w-xl">
-          {t("GridPage centers its content — combine it with dashedGuides for the blueprint look.")}
+          {t(
+            "GridPage wraps the grid in a page-level background-200 surface and centers it horizontally — with dashedGuides the guides are drawn dashed.",
+          )}
         </DocsParagraph>
-        <div data-slot="docs-local-scroll" className="mt-6 overflow-x-auto">
+        <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
           <GridPageFrame>
-            <GridSystem dashedGuides>
+            <GridSystem dashedGuides unstable_useContainer>
               <Grid columns={4} rows={2} height={140} />
             </GridSystem>
           </GridPageFrame>
