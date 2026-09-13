@@ -89,6 +89,8 @@ Feature
 
 7
 
+8
+
 ## Hiding Row Guides
 
 hideGuides="row" removes the horizontal guide borders.

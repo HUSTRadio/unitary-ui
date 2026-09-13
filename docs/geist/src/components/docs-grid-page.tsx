@@ -161,8 +161,8 @@ export function GridPage() {
         <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
           <GridSystem unstable_useContainer>
             {/* rows 要给“该断点下内容实际占用的行数”，否则辅助线只画到一半、底部几行没有网格线：
-                sm 1 列 → Feature 占 2 行 + 其余 5 格各 1 行 = 7；md 2 列 → 4；lg 4 列 → 2。 */}
-            <Grid columns={{ sm: 1, md: 2, lg: 4 }} rows={{ sm: 7, md: 4, lg: 2 }}>
+                sm 1 列 → Feature 占 2 行 + 其余 6 格各 1 行 = 8；md 2 列 → 4；lg 4 列 → 2。 */}
+            <Grid columns={{ sm: 1, md: 2, lg: 4 }} rows={{ sm: 8, md: 4, lg: 2 }}>
               <GridCell column={{ sm: "1", md: "1/3", lg: "1/3" }} row={{ sm: "1/3", md: 1 }} solid>
                 Feature
               </GridCell>
@@ -173,6 +173,7 @@ export function GridPage() {
               <GridCell>5</GridCell>
               <GridCell>6</GridCell>
               <GridCell>7</GridCell>
+              <GridCell>8</GridCell>
             </Grid>
           </GridSystem>
         </div>

@@ -89,6 +89,8 @@ Feature
 
 7
 
+8
+
 ## 隐藏行辅助线
 
 hideGuides="row" 移除水平方向的辅助线边框。
