@@ -102,7 +102,10 @@ function SplitButton({
         <Button
           data-slot="split-button-main"
           {...buttonProps}
-          className={cn("rounded-r-none", buttonProps?.className)}
+          // min-w-0：Button 的 min-w（高度×2.2）只针对独立按钮；split 两半若保留会让
+          // 短文案被居中撑开，右侧文字到 chevron 的间隙远大于左侧 padding（官方两半
+          // 均为内容宽 + 10px，无 min-width）。
+          className={cn("rounded-r-none min-w-0", buttonProps?.className)}
         >
           {children}
         </Button>
@@ -188,8 +191,19 @@ const SplitButtonMenuItem = React.forwardRef<
   React.ElementRef<typeof MenuItem>,
   SplitButtonMenuItemProps
 >(({ title, description, icon, menuItemProps }, ref) => (
-  <MenuItem ref={ref} prefix={icon} {...menuItemProps}>
-    <span className="flex min-w-0 flex-1 flex-col items-start">
+  <MenuItem
+    ref={ref}
+    prefix={icon}
+    {...menuItemProps}
+    className={cn(
+      // 两行条目（title + description）：MenuItem 默认固定 h-9，两行内容只剩 1px
+      // 呼吸、相邻条目贴死；改为自适应高度 + 上下 6px + 行间 2px。
+      // 图标 self-start + 1px 顶移对齐首行标题——items-center 会把图标吊在两行中间。
+      "h-auto min-h-9 py-1.5 [&>span:first-child]:self-start [&>span:first-child]:mt-px",
+      menuItemProps?.className,
+    )}
+  >
+    <span className="flex min-w-0 flex-1 flex-col items-start gap-0.5">
       <span className="min-w-0 max-w-full truncate text-label-13 text-foreground">{title}</span>
       {description ? (
         <span className="min-w-0 max-w-full truncate text-label-12 text-muted-foreground">

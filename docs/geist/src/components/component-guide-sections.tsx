@@ -100,7 +100,10 @@ export function ComponentGuideSections({ guide }: { guide: ComponentGuide }): Re
               className="min-w-0 [overflow-wrap:anywhere] rounded-lg border border-border p-4"
             >
               <h3 className="text-label-14 font-medium text-foreground">{example.title}</h3>
-              <DocsParagraph className="mt-1">{example.description}</DocsParagraph>
+              {/* 描述压回与标题同档（15px）：.docs-prose-paragraph 默认 body 17px，
+                  在小卡片里会比 15px 的子标题还大，层级倒挂；unlayered 的 prose 类
+                  优先级高于 utilities 层，须用 ! 才能覆盖字号。 */}
+              <DocsParagraph className="mt-1 text-label-14!">{example.description}</DocsParagraph>
             </article>
           ))}
         </DocsBlock>

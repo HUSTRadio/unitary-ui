@@ -152,21 +152,17 @@ export function SplitButtonTitleWithIcon9D4D6961Example() {
               menuButtonLabel="Select save method"
               menuItems={
                 <>
+                  {/* 图标必须走官方 icon prop（MenuItem prefix 槽）：嵌进 title 会让
+                      description 顶到图标正下方、不随图标缩进，两行排版错位。 */}
                   <SplitButtonMenuItem
                     description="Save changes"
-                    title={
-                      <span className="flex items-center gap-2">
-                        <Save className="size-4" aria-hidden /> Save
-                      </span>
-                    }
+                    icon={<Save className="size-4" aria-hidden />}
+                    title="Save"
                   />
                   <SplitButtonMenuItem
                     description="Save changes and create a new production deployment"
-                    title={
-                      <span className="flex items-center gap-2">
-                        <CircleArrowUp className="size-4" aria-hidden /> Save + Redeploy
-                      </span>
-                    }
+                    icon={<CircleArrowUp className="size-4" aria-hidden />}
+                    title="Save + Redeploy"
                   />
                 </>
               }
