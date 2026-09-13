@@ -8,9 +8,9 @@
 
 ### Added
 
-- **SkeletonMask 骨架遮罩组件**：给一块真实内容指定骨架模板后，`masked` 开关整体切换成骨架屏、`unmask` 切回真实界面。与 `Skeleton` 组合而非条件渲染是刻意选择——`skeleton` 模板**始终挂载**，真实内容在遮罩期间以 `visibility: hidden` 保留原盒子（`inert` + `aria-hidden`，既进不了无障碍树也不会被 Tab 或点击命中），因此切换前后是同一个盒子，不存在宽度跳变。容器承担 `aria-busy` 与 `label` 可访问名称，`liveRegion` 可选开启完成播报（默认关闭，避免同页多遮罩区重复播报）。它是框架扩展（官方 Geist 无对应组件），归档在 Skeleton 文档页共用同一份指南、API 参考与语料；两个用法示例（Usage / Controlled toggle）也作为 Skeleton 页的示例区块渲染。
+- **SkeletonMask 骨架遮罩组件**：给一块真实内容指定骨架模板后，`masked` 开关整体切换成骨架屏、`unmask` 切回真实界面。与 `Skeleton` 组合而非条件渲染是刻意选择——`skeleton` 模板**始终挂载**，真实内容在遮罩期间以 `visibility: hidden` 保留原盒子（`inert` + `aria-hidden`，既进不了无障碍树也不会被 Tab 或点击命中），因此切换前后是同一个盒子，不存在宽度跳变。容器承担 `aria-busy` 与 `label` 可访问名称，`liveRegion` 可选开启完成播报（默认关闭，避免同页多遮罩区重复播报）。它是框架扩展（官方 Geist 无对应组件），归档在 Skeleton 文档页共用同一份指南、API 参考与语料；从包根导出 `SkeletonMask` 与 `SkeletonMaskProps`，两个用法示例（Usage / Controlled toggle）也作为 Skeleton 页的示例区块渲染。
 
-- **Table 带外框变体演示**：新增 `Outlined table` /「带外框表格」示例，用 `TableRoot frame="outline"` + `colorScheme="bordered"` 展示真正的容器外框。它与 `Row dividers`（只有行间分隔线、不包 `TableRoot`）唯一的区别就是这层外框，两者并排即可看出 `frame` 控制的是什么；此前 `frame` 只在 `Default` 里隐式出现，没有独立演示。
+- **Table 带外框变体演示**：新增 `Outlined table` /「带外框表格」示例，用 `TableRoot frame="outline"` + `colorScheme="bordered"` 展示真正的容器外框。它与 `Row dividers`（只有行间分隔线、不包 `TableRoot`）唯一的区别就是这层外框，两者并排即可看出 `frame` 控制的是什么；此前 `frame` 只作为其它演示的附带属性出现，没有把外框本身当作单一变量的独立演示。
 
 - **ContinuousSurface 合并前修正**：连续裁切增强后移除竞争的背景圆角；以本地 border-box 测量并观察边框尺寸变化，避免父级 transform 导致错误裁切；superellipse 示例使用归一化 SVG 裁切适配响应式磁贴；固定高指数曲线端点，并在特殊路径分支前统一校验采样参数。新增像素、缩放、边框变化与响应式命中回归测试。
 
@@ -45,7 +45,7 @@
 
 - **`BreadcrumbProps` 改为判别联合（类型变更）**：`type="text"`（默认）继续继承 `<nav>` 属性，`type="menu"` 改为继承 `<div>` 属性。此前 `type="menu"` 会同时接受 `<nav>` 与 `<div>` 两套属性，实际渲染的 `<div>` 会收到非法属性并冲刷外层传入的 `role` / `aria-*`；现在两种变体各自只暴露真实落地的属性。传 `type="menu"` 且依赖 `<nav>` 属性的调用方需要改用 `<div>` 属性或去掉多余属性。
 - **Feedback 交互与公开 API**：默认变体改为由 32px 次级按钮触发的 340px 锚定 Popover，`type="inline"` 改为 274×48 评分胶囊并在原位展开至 336px；评分键盘导航、`dryRun` / `onSubmit` 提交语义与蓝色评分状态同步实际实现，独立 `RatingPill` 保留本地四色扩展。
-- **Feedback 主题（topic）契约补齐（API 变更）**：此前主题选择器只存在于内部 state，`onSubmit` 拿不到所选主题——只有默认 Popover 变体渲染该选择器，而唯一带 Select 的官方演示是 `dryRun`，因此没有任何路径能观测到 topic。现在 `onSubmit` 增加第 4 个参数 `topic?: string`；新增 `topics`（传入非空数组即渲染选择器，无需 `showTopics`）、`topic` / `defaultTopic` / `onTopicChange` 受控与非受控主题，以及 `includeTopicInMetadata`（默认 `false`，保持 `metadata` 与调用方传入内容逐字节一致）。Inline 变体按设计不渲染主题选择器，传入 `showTopics` 或 `topics` 时会被忽略；包根新增 `FEEDBACK_TOPICS` 导出。依赖「topic 自动写入 metadata」的调用方需改用第 4 参或显式打开 `includeTopicInMetadata`。
+- **Feedback 主题（topic）契约补齐（API 变更）**：此前主题选择器只存在于内部 state，`onSubmit` 拿不到所选主题——只有默认 Popover 变体渲染该选择器，而唯一带 Select 的官方演示是 `dryRun`，因此没有任何路径能观测到 topic。现在 `onSubmit` 增加第 4 个参数 `topic?: string`；新增 `topics`（传入非空数组即渲染选择器，无需 `showTopics`）、`topic` / `defaultTopic` / `onTopicChange` 受控与非受控主题，以及 `includeTopicInMetadata`（默认 `false`，保持 `metadata` 与调用方传入内容逐字节一致）。Inline 变体按设计不渲染主题选择器，传入 `showTopics` 或 `topics` 时会被忽略；主题清单常量 `FEEDBACK_TOPICS` 只在 `feedback` 模块内导出，包根公开面仍只转发 `Feedback`，因此消费者继续通过 `topics` / `showTopics` 使用官方主题清单。依赖「topic 自动写入 metadata」的调用方需改用第 4 参或显式打开 `includeTopicInMetadata`。
 - **平台特化链接图标位置**：GitHub、GitLab、Gitee、Codeberg、Bitbucket、Forgejo 与 SourceHut 链接默认把品牌图标放在文案左侧，并继续省略冗余的 ExternalLink 指示符；普通 HTTP(S) 外链仍在文案右侧显示通用指示符，显式 `iconSide` 始终优先。
 - **`LoadMoreButton` 颜色语义化**：将 `src/components/ui/load-more-button.tsx` 中 12 处硬编码灰色 raw literal（`#f2f2f2` / `#8f8f8f` / `#1a1a1a` 等，含 6 个 `dark:` 变体）迁移为 2 个主题感知语义 token（`gray-100` 5 处、`gray-700` 3 处），同时移除 6 个 `dark:` 变体；双主题下渲染结果视觉等价。
 - **包根公开面收敛（breaking）**：`ExpandPanel`、`Grabber`、`PhoneStatusBar` 与 `PhoneSafariChrome` 不再从包根导出，继续作为 HamburgerMenu、BottomSheet 与 Device 的内部实现；补齐 Navbar、SidebarNav、Footer 与 RatingPill 的公开 Props/数据类型导出，并移除未进入组件注册表的死 API 数据。
