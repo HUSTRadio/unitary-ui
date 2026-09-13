@@ -34,7 +34,7 @@ Using an icon inside the split button to enhance visual recognition of the actio
 
 ### Title with icon
 
-Displaying both text and icon alongside the button label simultaneously.
+Menu items take a leading icon through the icon prop, aligned with the first line of the title.
 
 ## Accessibility
 

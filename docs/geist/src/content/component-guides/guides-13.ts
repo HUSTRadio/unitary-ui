@@ -32,7 +32,7 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
         id: "split-btn-03",
         kind: "variant",
         title: "标题与图标组合",
-        description: "在按钮标签旁边同时显示文字和图标的用法。",
+        description: "菜单项通过 icon 属性在标题左侧加图标，两行条目中图标与首行标题对齐。",
         demoKey: "Title with Icon",
       },
     ],
@@ -296,7 +296,8 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
         id: "split-btn-03",
         kind: "variant",
         title: "Title with icon",
-        description: "Displaying both text and icon alongside the button label simultaneously.",
+        description:
+          "Menu items take a leading icon through the icon prop, aligned with the first line of the title.",
         demoKey: "Title with Icon",
       },
     ],
