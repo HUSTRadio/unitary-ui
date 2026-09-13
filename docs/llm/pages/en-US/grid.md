@@ -79,8 +79,6 @@ Cell placement accepts responsive objects too — a solid cell clips the guides 
 
 Feature
 
-2
-
 3
 
 4
@@ -88,6 +86,8 @@ Feature
 5
 
 6
+
+7
 
 ## Hiding Row Guides
 

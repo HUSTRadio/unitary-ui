@@ -166,11 +166,13 @@ export function GridPage() {
               <GridCell column={{ sm: "1", md: "1/3", lg: "1/3" }} row={{ sm: "1/3", md: 1 }} solid>
                 Feature
               </GridCell>
-              <GridCell>2</GridCell>
+              {/* 编号按“格位”算：Feature 占了前两个格位（1、2），所以其余从 3 起，
+                  与 specific-clipping 的 1 + 2 / 3 / 4 / 5 + 6 同一套规则。 */}
               <GridCell>3</GridCell>
               <GridCell>4</GridCell>
               <GridCell>5</GridCell>
               <GridCell>6</GridCell>
+              <GridCell>7</GridCell>
             </Grid>
           </GridSystem>
         </div>

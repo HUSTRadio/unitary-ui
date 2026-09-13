@@ -79,8 +79,6 @@ columns 和 rows 接受响应式对象；请为 sm、md、lg 显式给值。
 
 Feature
 
-2
-
 3
 
 4
@@ -88,6 +86,8 @@ Feature
 5
 
 6
+
+7
 
 ## 隐藏行辅助线
 
