@@ -246,7 +246,8 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
         id: "inverted",
         kind: "variant",
         title: "反色变体",
-        description: "展示深色背景的反色变体，适用于暗色主题的代码展示场景。",
+        description:
+          "展示 `dark` 反色变体：浅色主题下为深底浅字，深色主题下自动切换为浅底深字。",
         demoKey: "Inverted",
       },
       {
@@ -283,7 +284,8 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Snippet 的背景色、边框和文字颜色跟随主题变量，在暗色/亮色模式下各有对应的配色方案。",
-        "反色（inverted）变体专门针对暗色背景优化，确保对比度符合 WCAG 标准。",
+        "反色（`dark`）不是固定深色皮肤，而是把整棵子树切到相反 scheme 的 color scheme：浅色主题下为深底 `#0a0a0a` + 浅字 `#f2f2f2`，深色主题下为浅底 `#ffffff` + 深字 `#1a1a1a`，两种模式下都保持可读对比度。",
+        "默认类型（`type=\"default\"`）的代码文字与复制按钮用 `text-inherit` 跟随容器色链；`success` / `error` / `warning` 语义色不随反色翻转，与官方一致。",
       ],
     },
   },
@@ -595,7 +597,7 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
         kind: "variant",
         title: "Inverted variant",
         description:
-          "Demonstrates the dark-background inverted variant for use in dark-themed code contexts.",
+          "Demonstrates the `dark` inverted variant: a dark surface with light text in light theme, switching automatically to a light surface with dark text in dark theme.",
         demoKey: "Inverted",
       },
       {
@@ -632,7 +634,8 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Snippet background, border, and text color follow theme variables, each mode having its own color palette.",
-        "The inverted variant is specifically optimized for dark backgrounds, ensuring contrast meets WCAG standards.",
+        "Inverted (`dark`) is not a fixed dark skin: it switches the whole subtree to the opposite scheme's color scheme — a `#0a0a0a` surface with `#f2f2f2` text in light theme, and a `#ffffff` surface with `#1a1a1a` text in dark theme — staying readable in both modes.",
+        "Default (`type=\"default\"`) code text and the copy button use `text-inherit` to follow the container color chain, while `success` / `error` / `warning` semantic colors do not flip with inversion, matching the official component.",
       ],
     },
   },

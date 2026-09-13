@@ -32,7 +32,7 @@ Displays the default Snippet appearance with the prompt glyph and copy button.
 
 ### Inverted variant
 
-Demonstrates the dark-background inverted variant for use in dark-themed code contexts.
+Demonstrates the \`dark\` inverted variant: a dark surface with light text in light theme, switching automatically to a light surface with dark text in dark theme.
 
 ### All variants
 
@@ -57,7 +57,8 @@ Showcases all Snippet variant styles and configuration options available.
 ## Theme behavior
 
 - Snippet background, border, and text color follow theme variables, each mode having its own color palette.
-- The inverted variant is specifically optimized for dark backgrounds, ensuring contrast meets WCAG standards.
+- Inverted (\`dark\`) is not a fixed dark skin: it switches the whole subtree to the opposite scheme's color scheme — a \`#0a0a0a\` surface with \`#f2f2f2\` text in light theme, and a \`#ffffff\` surface with \`#1a1a1a\` text in dark theme — staying readable in both modes.
+- Default (\`type="default"\`) code text and the copy button use \`text-inherit\` to follow the container color chain, while \`success\` / \`error\` / \`warning\` semantic colors do not flip with inversion, matching the official component.
 
 ## Live Demo
 
