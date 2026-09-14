@@ -137,6 +137,9 @@ describe("LLM docs export contract", () => {
     expect(existsSync(path.join(LLM_DIR, "pages", "en-US", "components", "phone.md"))).toBe(false);
   });
 
+  // 实测（2026-09，Windows）：`vp fmt docs/llm --check` 格式化本体约 4.4s/175 文件，
+  // 但 vp 引导开销约 27s，整条命令墙钟 31.9s——30s 超时天生卡线，冷启动时会误判失败。
+  // 对齐仓库重用例口径（showcode-coverage 60s），断言本身不变：仍要求 fmt --check 退出码为 0。
   it("生成语料符合仓库 formatter 合同", () => {
     const result = spawnSync(VP_COMMAND, ["fmt", LLM_DIR, "--check"], {
       cwd: ROOT,
@@ -144,7 +147,7 @@ describe("LLM docs export contract", () => {
       shell: false,
     });
     expect(result.status, [result.stdout, result.stderr].filter(Boolean).join("\n")).toBe(0);
-  }, 30_000);
+  }, 60_000);
 
   it("sourceHash 与实际页面内容一致（无漂移）", async () => {
     const { createHash } = await import("node:crypto");
