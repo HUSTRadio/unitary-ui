@@ -47,7 +47,6 @@ export function ModalMobileSheetInputsFAB5970DExample() {
             value={email}
           />
         </div>
-        <div className="h-px w-full" aria-hidden />
         <ModalFooter>
           <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel

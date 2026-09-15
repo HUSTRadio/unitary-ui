@@ -8,10 +8,10 @@ export function ScrollerHorizontal0ABBA441Example() {
           className="flex flex-row items-stretch justify-start gap-4"
           style={{ minWidth: "120%" }}
         >
-          <div className="h-64 w-64 bg-gray-1000" />
-          <div className="h-64 w-64 bg-gray-1000" />
-          <div className="h-64 w-64 bg-gray-1000" />
-          <div className="h-64 w-64 bg-gray-1000" />
+          <div className="h-64 w-64 bg-primary" />
+          <div className="h-64 w-64 bg-primary" />
+          <div className="h-64 w-64 bg-primary" />
+          <div className="h-64 w-64 bg-primary" />
         </div>
       </Scroller>
     </div>

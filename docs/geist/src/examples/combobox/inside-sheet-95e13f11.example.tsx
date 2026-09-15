@@ -33,7 +33,7 @@ export function ComboboxInsideSheet95E13F11Example() {
             </Button>
           </SheetClose>
         </div>
-        <p className="px-4 pb-2 text-copy-14 text-gray-900">
+        <p className="px-4 pb-2 text-copy-14 text-muted-foreground">
           Changes to shared variables sync automatically across all linked projects.
         </p>
         <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-1">
@@ -55,7 +55,7 @@ export function ComboboxInsideSheet95E13F11Example() {
                 >
                   <div className="flex flex-col items-stretch justify-start py-[15px] px-2">
                     <p className="font-mono text-sm font-medium">{v.key}</p>
-                    <p className="mt-[3px] text-xs text-gray-900">{v.target}</p>
+                    <p className="mt-[3px] text-xs text-muted-foreground">{v.target}</p>
                   </div>
                 </ComboboxOption>
               ))}

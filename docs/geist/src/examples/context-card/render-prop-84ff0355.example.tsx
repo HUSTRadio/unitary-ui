@@ -32,19 +32,21 @@ export function ContextCardRenderProp84FF0355Example() {
   );
 
   return (
-    <>
+    <div className="flex items-center gap-8">
       <ContextCardTrigger
         content={card}
+        side="top"
         render={<Button type="default" typeName="button">Default wrapper</Button>}
       />
       <ContextCardTrigger
         content={card}
+        side="top"
         render={
           <a href="#render-prop" className="text-blue-700 underline underline-offset-2">
             Rendered as a link
           </a>
         }
       />
-    </>
+    </div>
   );
 }

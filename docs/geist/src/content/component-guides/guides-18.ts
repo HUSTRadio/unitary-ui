@@ -22,7 +22,7 @@ export const GUIDES_18_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "曲率对比",
         description: "对比精确圆弧 p=2、默认连续曲率 p=3 和强调曲率 p=5。",
-        demoKey: "Default",
+        demoKey: "default",
       },
     ],
     accessibility: {
@@ -75,7 +75,7 @@ export const GUIDES_18_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Curve comparison",
         description: "Compares the exact circular p=2 baseline, default p=3 continuous curve, and emphasized p=5 curve.",
-        demoKey: "Default",
+        demoKey: "default",
       },
     ],
     accessibility: {

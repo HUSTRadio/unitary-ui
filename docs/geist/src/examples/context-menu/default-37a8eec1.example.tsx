@@ -9,7 +9,7 @@ export function ContextMenuDefault37A8EEC1Example() {
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
-        <div tabIndex={0} aria-label="Context menu target" className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
+        <div tabIndex={0} aria-label="Context menu target" className="w-[300px] rounded-[4px] border border-dashed border-gray-alpha-600 py-[45px] text-center text-copy-14 text-foreground">
           Right click here
         </div>
       </ContextMenuTrigger>

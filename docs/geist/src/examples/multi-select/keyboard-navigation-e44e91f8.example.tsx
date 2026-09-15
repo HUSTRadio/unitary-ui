@@ -60,7 +60,7 @@ export function MultiSelectKeyboardNavigationE44E91F8Example() {
           ))}
         </MultiSelectContent>
       </MultiSelectRoot>
-      <p className="text-copy-14 text-gray-900">
+      <p className="text-copy-14 text-muted-foreground">
         Try keyboard navigation: ↑ ↓ for rows, ← → for checkbox/button focus, Tab to cycle through
         all elements
       </p>

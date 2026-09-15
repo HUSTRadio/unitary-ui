@@ -8,8 +8,8 @@ export function ScrollerVertical727CD3A6Example() {
           className="flex flex-col items-stretch justify-start gap-4"
           style={{ width: 400 }}
         >
-          <div className="h-64 w-64 bg-gray-1000" />
-          <div className="h-64 w-64 bg-gray-1000" />
+          <div className="h-64 w-64 bg-primary" />
+          <div className="h-64 w-64 bg-primary" />
         </div>
       </Scroller>
     </div>

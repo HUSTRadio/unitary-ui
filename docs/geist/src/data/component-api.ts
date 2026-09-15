@@ -137,6 +137,39 @@ const O = {
         "显示加载图标、保留标签，并禁用原生按钮。",
         { defaultValue: "false" },
       ),
+      row(
+        "size",
+        '"tiny" | "small" | "medium" | "large"',
+        "Control height and horizontal padding.",
+        "控制高度与水平内边距。",
+        { defaultValue: '"medium"' },
+      ),
+      row(
+        "shape",
+        '"square" | "circle" | "rounded"',
+        "Corner treatment; rounded pairs with shadow for marketing CTAs.",
+        "圆角形态；rounded 可配合 shadow 用于营销 CTA。",
+        { defaultValue: '"square"' },
+      ),
+      row(
+        "shadow",
+        "boolean",
+        'Marketing-page shadow (used with shape="rounded").',
+        "营销页阴影（配合 shape=\"rounded\"）。",
+        { defaultValue: "false" },
+      ),
+      row(
+        "svgOnly",
+        "boolean",
+        "Icon-only mode: collapses padding and requires aria-label.",
+        "图标按钮模式：collapse padding，需配合 aria-label。",
+        { defaultValue: "false" },
+      ),
+      row("prefix", "ReactNode", "Leading icon slot.", "前缀图标。"),
+      row("suffix", "ReactNode", "Trailing icon slot.", "后缀图标。"),
+      row("asChild", "boolean", "Renders as the child element (Slot).", "以子元素渲染（Slot）。", {
+        defaultValue: "false",
+      }),
     ],
     "ButtonHTMLAttributes<HTMLButtonElement>",
   ),
@@ -1202,6 +1235,12 @@ const O = {
   switch: component(
     ["Switch", "SwitchControl"],
     [
+      row(
+        "name",
+        "string",
+        "Form field name (required so the control participates in form submission).",
+        "表单字段名（必填，使控件参与表单提交）。",
+      ),
       row("value", "string", "Controlled selected option.", "受控选择项。"),
       row("onValueChange", "(value: string) => void", "Receives a new selection.", "接收新选择。"),
     ],

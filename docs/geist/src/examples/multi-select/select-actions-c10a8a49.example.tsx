@@ -57,7 +57,7 @@ export function MultiSelectSelectActionsC10A8A49Example() {
           ))}
         </MultiSelectContent>
       </MultiSelectRoot>
-      <p className="text-copy-14 text-gray-900">
+      <p className="text-copy-14 text-muted-foreground">
         Hover over items to see action labels. Different actions appear based on selection state.
       </p>
     </div>

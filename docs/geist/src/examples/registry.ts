@@ -47,8 +47,6 @@ import { ButtonCustom6CDFD271Example } from "./button/custom-6cdfd271.example";
 import ButtonCustom6CDFD271ExampleSource from "./button/custom-6cdfd271.example.tsx?example-source";
 import { ButtonVariants63D2643BExample } from "./button/variants-63d2643b.example";
 import ButtonVariants63D2643BExampleSource from "./button/variants-63d2643b.example.tsx?example-source";
-import { ButtonPrefixAndSuffix1EFED9DEExample } from "./button/prefix-and-suffix-1efed9de.example";
-import ButtonPrefixAndSuffix1EFED9DEExampleSource from "./button/prefix-and-suffix-1efed9de.example.tsx?example-source";
 import { CheckboxDefault37A8EEC1Example } from "./checkbox/default-37a8eec1.example";
 import CheckboxDefault37A8EEC1ExampleSource from "./checkbox/default-37a8eec1.example.tsx?example-source";
 import { CheckboxDisabled17EB3C01Example } from "./checkbox/disabled-17eb3c01.example";
@@ -91,8 +89,6 @@ import { CollapseMultiple3F8A7E66Example } from "./collapse/multiple-3f8a7e66.ex
 import CollapseMultiple3F8A7E66ExampleSource from "./collapse/multiple-3f8a7e66.example.tsx?example-source";
 import { CollapseSmall81DB8EBBExample } from "./collapse/small-81db8ebb.example";
 import CollapseSmall81DB8EBBExampleSource from "./collapse/small-81db8ebb.example.tsx?example-source";
-import { CollapseDefault21B111CBExample } from "./collapse/default-21b111cb.example";
-import CollapseDefault21B111CBExampleSource from "./collapse/default-21b111cb.example.tsx?example-source";
 import { CollapseExpandedE72D5D8DExample } from "./collapse/expanded-e72d5d8d.example";
 import CollapseExpandedE72D5D8DExampleSource from "./collapse/expanded-e72d5d8d.example.tsx?example-source";
 import { CollapseMultiple14070FDBExample } from "./collapse/multiple-14070fdb.example";
@@ -197,6 +193,8 @@ import { ModalDefault37A8EEC1Example } from "./modal/default-37a8eec1.example";
 import ModalDefault37A8EEC1ExampleSource from "./modal/default-37a8eec1.example.tsx?example-source";
 import { ModalSticky964A9431Example } from "./modal/sticky-964a9431.example";
 import ModalSticky964A9431ExampleSource from "./modal/sticky-964a9431.example.tsx?example-source";
+import { ModalCompactC4E1A90BExample } from "./modal/compact-c4e1a90b.example";
+import ModalCompactC4E1A90BExampleSource from "./modal/compact-c4e1a90b.example.tsx?example-source";
 import { ModalSingleButton15781DA6Example } from "./modal/single-button-15781da6.example";
 import ModalSingleButton15781DA6ExampleSource from "./modal/single-button-15781da6.example.tsx?example-source";
 import { ModalInset2F0C8478Example } from "./modal/inset-2f0c8478.example";
@@ -405,6 +403,8 @@ import { AvatarLetter1BF163F2Example } from "./avatar/letter-1bf163f2.example";
 import AvatarLetter1BF163F2ExampleSource from "./avatar/letter-1bf163f2.example.tsx?example-source";
 import { AvatarPlaceholderF4B24FEDExample } from "./avatar/placeholder-f4b24fed.example";
 import AvatarPlaceholderF4B24FEDExampleSource from "./avatar/placeholder-f4b24fed.example.tsx?example-source";
+import { AvatarCurvature8D2F4A71Example } from "./avatar/curvature-8d2f4a71.example";
+import AvatarCurvature8D2F4A71ExampleSource from "./avatar/curvature-8d2f4a71.example.tsx?example-source";
 import { BadgeVariants63D2643BExample } from "./badge/variants-63d2643b.example";
 import BadgeVariants63D2643BExampleSource from "./badge/variants-63d2643b.example.tsx?example-source";
 import { BadgeSizes74A3978DExample } from "./badge/sizes-74a3978d.example";
@@ -563,6 +563,8 @@ import { DeviceSafariChrome0140AFFBExample } from "./device/safari-chrome-0140af
 import DeviceSafariChrome0140AFFBExampleSource from "./device/safari-chrome-0140affb.example.tsx?example-source";
 import { DeviceLandscapeE658D3AEExample } from "./device/landscape-e658d3ae.example";
 import DeviceLandscapeE658D3AEExampleSource from "./device/landscape-e658d3ae.example.tsx?example-source";
+import { DeviceAppearance1C9D4B2EExample } from "./device/appearance-1c9d4b2e.example";
+import DeviceAppearance1C9D4B2EExampleSource from "./device/appearance-1c9d4b2e.example.tsx?example-source";
 import { ErrorCardDefault21B111CBExample } from "./error-card/default-21b111cb.example";
 import ErrorCardDefault21B111CBExampleSource from "./error-card/default-21b111cb.example.tsx?example-source";
 import { MiddleTruncateExamplesE68EE04DExample } from "./middle-truncate/examples-e68ee04d.example";
@@ -793,7 +795,6 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "button", id: "link", Component: ButtonLinkB1B1BDB4Example, source: ButtonLinkB1B1BDB4ExampleSource },
   { slug: "button", id: "custom", Component: ButtonCustom6CDFD271Example, source: ButtonCustom6CDFD271ExampleSource },
   { slug: "button", id: "Variants", Component: ButtonVariants63D2643BExample, source: ButtonVariants63D2643BExampleSource },
-  { slug: "button", id: "Prefix and Suffix", Component: ButtonPrefixAndSuffix1EFED9DEExample, source: ButtonPrefixAndSuffix1EFED9DEExampleSource },
   { slug: "checkbox", id: "default", Component: CheckboxDefault37A8EEC1Example, source: CheckboxDefault37A8EEC1ExampleSource },
   { slug: "checkbox", id: "disabled", Component: CheckboxDisabled17EB3C01Example, source: CheckboxDisabled17EB3C01ExampleSource },
   { slug: "checkbox", id: "indeterminate", Component: CheckboxIndeterminateB38044CAExample, source: CheckboxIndeterminateB38044CAExampleSource, renderInSection: false },
@@ -815,7 +816,6 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "collapse", id: "expanded", Component: CollapseExpanded691661B3Example, source: CollapseExpanded691661B3ExampleSource, renderInSection: false },
   { slug: "collapse", id: "multiple", Component: CollapseMultiple3F8A7E66Example, source: CollapseMultiple3F8A7E66ExampleSource, renderInSection: false },
   { slug: "collapse", id: "small", Component: CollapseSmall81DB8EBBExample, source: CollapseSmall81DB8EBBExampleSource, renderInSection: false },
-  { slug: "collapse", id: "Default", Component: CollapseDefault21B111CBExample, source: CollapseDefault21B111CBExampleSource },
   { slug: "collapse", id: "Expanded", Component: CollapseExpandedE72D5D8DExample, source: CollapseExpandedE72D5D8DExampleSource },
   { slug: "collapse", id: "Multiple", Component: CollapseMultiple14070FDBExample, source: CollapseMultiple14070FDBExampleSource },
   { slug: "collapse", id: "Small", Component: CollapseSmall5263293FExample, source: CollapseSmall5263293FExampleSource },
@@ -868,6 +868,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "label", id: "Bypass Casing", Component: LabelBypassCasingB8D7E5E0Example, source: LabelBypassCasingB8D7E5E0ExampleSource },
   { slug: "modal", id: "default", Component: ModalDefault37A8EEC1Example, source: ModalDefault37A8EEC1ExampleSource },
   { slug: "modal", id: "sticky", Component: ModalSticky964A9431Example, source: ModalSticky964A9431ExampleSource },
+  { slug: "modal", id: "Compact", Component: ModalCompactC4E1A90BExample, source: ModalCompactC4E1A90BExampleSource },
   { slug: "modal", id: "single-button", Component: ModalSingleButton15781DA6Example, source: ModalSingleButton15781DA6ExampleSource },
   { slug: "modal", id: "inset", Component: ModalInset2F0C8478Example, source: ModalInset2F0C8478ExampleSource },
   { slug: "modal", id: "disabled-actions", Component: ModalDisabledActions96FBF6AEExample, source: ModalDisabledActions96FBF6AEExampleSource },
@@ -972,6 +973,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "avatar", id: "With custom icon", Component: AvatarWithCustomIconECDC07D3Example, source: AvatarWithCustomIconECDC07D3ExampleSource },
   { slug: "avatar", id: "Letter", Component: AvatarLetter1BF163F2Example, source: AvatarLetter1BF163F2ExampleSource },
   { slug: "avatar", id: "Placeholder", Component: AvatarPlaceholderF4B24FEDExample, source: AvatarPlaceholderF4B24FEDExampleSource },
+  { slug: "avatar", id: "Curvature", Component: AvatarCurvature8D2F4A71Example, source: AvatarCurvature8D2F4A71ExampleSource },
   { slug: "badge", id: "Variants", Component: BadgeVariants63D2643BExample, source: BadgeVariants63D2643BExampleSource },
   { slug: "badge", id: "Sizes", Component: BadgeSizes74A3978DExample, source: BadgeSizes74A3978DExampleSource },
   { slug: "badge", id: "With icons", Component: BadgeWithIcons1F71F4BCExample, source: BadgeWithIcons1F71F4BCExampleSource },
@@ -1051,6 +1053,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "device", id: "Status Bar", Component: DeviceStatusBar3EF6E901Example, source: DeviceStatusBar3EF6E901ExampleSource },
   { slug: "device", id: "Safari Chrome", Component: DeviceSafariChrome0140AFFBExample, source: DeviceSafariChrome0140AFFBExampleSource },
   { slug: "device", id: "Landscape", Component: DeviceLandscapeE658D3AEExample, source: DeviceLandscapeE658D3AEExampleSource },
+  { slug: "device", id: "Appearance", Component: DeviceAppearance1C9D4B2EExample, source: DeviceAppearance1C9D4B2EExampleSource },
   { slug: "error-card", id: "Default", Component: ErrorCardDefault21B111CBExample, source: ErrorCardDefault21B111CBExampleSource },
   { slug: "middle-truncate", id: "Examples", Component: MiddleTruncateExamplesE68EE04DExample, source: MiddleTruncateExamplesE68EE04DExampleSource },
   { slug: "relative-time-card", id: "Default", Component: RelativeTimeCardDefault21B111CBExample, source: RelativeTimeCardDefault21B111CBExampleSource },

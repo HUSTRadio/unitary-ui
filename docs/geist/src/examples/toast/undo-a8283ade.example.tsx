@@ -37,7 +37,7 @@ export function ToastUndoA8283ADEExample() {
         Show Toast
       </Button>
       <p
-        className="text-copy-14 text-gray-900"
+        className="text-copy-14 text-muted-foreground"
         data-demo="fence-state"
         data-position={jumped ? "over" : "behind"}
       >

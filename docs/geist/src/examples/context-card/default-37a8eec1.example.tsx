@@ -32,7 +32,7 @@ export function ContextCardDefault37A8EEC1Example() {
   );
 
   return (
-    <>
+    <div className="flex flex-wrap items-center gap-4">
       {(["Top", "Bottom", "Left", "Right"] as const).map((label) => (
         <ContextCardTrigger
           key={label}
@@ -42,6 +42,6 @@ export function ContextCardDefault37A8EEC1Example() {
           <span>{label}</span>
         </ContextCardTrigger>
       ))}
-    </>
+    </div>
   );
 }

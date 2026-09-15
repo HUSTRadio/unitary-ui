@@ -26,7 +26,7 @@ export function NoteAction64CFF131Example() {
           </Button>
         </NoteAction>
       </Note>
-      <span role="status" aria-live="polite" className="min-h-5 text-copy-13 text-gray-900">
+      <span role="status" aria-live="polite" className="min-h-5 text-copy-13 text-muted-foreground">
         {message}
       </span>
     </div>

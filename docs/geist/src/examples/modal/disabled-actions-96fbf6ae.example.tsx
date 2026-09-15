@@ -26,7 +26,6 @@ export function ModalDisabledActions96FBF6AEExample() {
           <ModalDescription>This is a modal.</ModalDescription>
         </ModalHeader>
         <p className="text-copy-14">Some content contained within the modal.</p>
-        <div className="h-px w-full" aria-hidden />
         <ModalFooter>
           <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel

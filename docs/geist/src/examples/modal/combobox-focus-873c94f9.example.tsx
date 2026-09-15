@@ -62,7 +62,6 @@ export function ModalComboboxFocus873C94F9Example() {
             </ComboboxList>
           </Combobox>
         </div>
-        <div className="h-px w-full" aria-hidden />
         <ModalFooter>
           <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel

@@ -15,7 +15,7 @@ export function EntityEntityWithColumnClassNames71E7FBA7Example() {
           <EntityDescription>Entity with dashed borders</EntityDescription>
         </EntityContent>
         <EntityAction>
-          <span className="text-copy-14 text-gray-900">[some action]</span>
+          <span className="text-copy-14 text-muted-foreground">[some action]</span>
         </EntityAction>
       </Entity>
     </ul>

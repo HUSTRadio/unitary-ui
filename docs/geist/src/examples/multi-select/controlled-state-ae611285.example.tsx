@@ -72,7 +72,7 @@ export function MultiSelectControlledStateAE611285Example() {
       </MultiSelectRoot>
 
       <div className="flex flex-col gap-2 flex-wrap">
-        <p className="text-copy-14 text-gray-900">
+        <p className="text-copy-14 text-muted-foreground">
           <button
             type="button"
             className="cursor-pointer text-link hover:underline focus-ring"

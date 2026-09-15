@@ -13,7 +13,7 @@ export function ContextMenuPrefixAndSuffix99076368Example() {
     <div className="flex flex-col items-stretch justify-start gap-6 md:flex-row">
       <ContextMenu>
         <ContextMenuTrigger asChild>
-          <div tabIndex={0} aria-label="Context menu target" className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
+          <div tabIndex={0} aria-label="Context menu target" className="w-[300px] rounded-[4px] border border-dashed border-gray-alpha-600 py-[45px] text-center text-copy-14 text-foreground">
             Right click here
           </div>
         </ContextMenuTrigger>
@@ -26,7 +26,7 @@ export function ContextMenuPrefixAndSuffix99076368Example() {
       </ContextMenu>
       <ContextMenu>
         <ContextMenuTrigger asChild>
-          <div tabIndex={0} aria-label="Context menu target" className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000">
+          <div tabIndex={0} aria-label="Context menu target" className="w-[300px] rounded-[4px] border border-dashed border-gray-alpha-600 py-[45px] text-center text-copy-14 text-foreground">
             Right click here
           </div>
         </ContextMenuTrigger>

@@ -47,7 +47,6 @@ export function ModalFocusInputOnOpenDB430094Example() {
             value={name}
           />
         </div>
-        <div className="h-px w-full" aria-hidden />
         <ModalFooter>
           <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel

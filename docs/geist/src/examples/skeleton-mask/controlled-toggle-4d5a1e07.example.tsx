@@ -31,7 +31,7 @@ function Table() {
           key={product}
           className="flex items-center justify-between gap-4 border-b border-gray-alpha-400 py-2 text-copy-14 last:border-0"
         >
-          <span className="truncate text-gray-1000">{product}</span>
+          <span className="truncate text-foreground">{product}</span>
           <span className="shrink-0 tabular-nums text-muted-foreground">{charge}</span>
         </div>
       ))}

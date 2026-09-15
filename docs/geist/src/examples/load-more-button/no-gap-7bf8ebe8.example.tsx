@@ -6,7 +6,7 @@ export function LoadMoreButtonNoGap7BF8EBE8Example() {
 
   return (
     <div className="flex w-full flex-col">
-      <p role="status" className="text-copy-13 text-gray-900">{count} results loaded</p>
+      <p role="status" className="text-copy-13 text-muted-foreground">{count} results loaded</p>
       <LoadMoreButton noGap onClick={() => setCount((value) => value + 3)}>Load More</LoadMoreButton>
     </div>
   );

@@ -12,7 +12,7 @@ export function EntityDefault37A8EEC1Example() {
         <EntityDescription>Glenn Hitchcock (@gln)</EntityDescription>
       </EntityContent>
       <EntityAction>
-        <p className="text-copy-14 text-gray-900">Connected 1h ago</p>
+        <p className="text-copy-14 text-muted-foreground">Connected 1h ago</p>
       </EntityAction>
     </Entity>
   );

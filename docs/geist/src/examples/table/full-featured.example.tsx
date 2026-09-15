@@ -50,10 +50,10 @@ export function TableFullFeaturedExample() {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell className="font-medium text-gray-1000" colSpan={3}>
+            <TableCell className="font-medium text-foreground" colSpan={3}>
               Subtotal
             </TableCell>
-            <TableCell className="text-right font-medium tabular-nums text-gray-1000">
+            <TableCell className="text-right font-medium tabular-nums text-foreground">
               $24,000.00
             </TableCell>
           </TableRow>

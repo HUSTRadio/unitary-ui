@@ -48,7 +48,6 @@ export function ModalToastsFocusTrap2DACB2BDExample() {
             Show Toast
           </Button>
         </div>
-        <div className="h-px w-full" aria-hidden />
         <ModalFooter>
           <Button typeName="button" onClick={() => setOpen(false)}>
             Done

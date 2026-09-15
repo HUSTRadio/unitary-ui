@@ -11,7 +11,7 @@ export function ScrollerHorizontalWithButtons29D25875Example() {
         withButtons
       >
         {Array.from({ length: 4 }, (_, i) => (
-          <div key={i} className="h-64 w-96 shrink-0 bg-gray-1000" />
+          <div key={i} className="h-64 w-96 shrink-0 bg-primary" />
         ))}
       </Scroller>
     </div>

@@ -32,12 +32,13 @@ export function ContextCardAlignment47CCB97AExample() {
   );
 
   return (
-    <>
+    <div className="flex gap-4 items-center justify-center">
       {(["Start", "Center", "End"] as const).map((label) => (
         <ContextCardTrigger
           key={label}
           content={card}
           align={label.toLowerCase() as "start" | "center" | "end"}
+          side="bottom"
           render={
             <Button type="default" typeName="button">
               {label}
@@ -45,6 +46,6 @@ export function ContextCardAlignment47CCB97AExample() {
           }
         />
       ))}
-    </>
+    </div>
   );
 }

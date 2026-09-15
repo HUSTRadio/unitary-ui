@@ -35,7 +35,6 @@ export function ModalControlInitialFocus9DBB3C0DExample() {
             possible to promptly continue with the Enter key.
           </ModalDescription>
         </ModalHeader>
-        <div className="h-px w-full" aria-hidden />
         <ModalFooter>
           <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel

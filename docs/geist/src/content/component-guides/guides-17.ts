@@ -20,7 +20,7 @@ export const GUIDES_17_ZH: Record<string, ComponentGuide> = {
         title: "站内、平台与普通外链",
         description:
           "站内链接不附图标；代码托管平台把品牌图标放在左侧且不显示 ExternalLink；其他 HTTP(S) 外链在右侧显示通用外链指示符。",
-        demoKey: "Default",
+        demoKey: "default",
       },
     ],
     accessibility: {
@@ -73,7 +73,7 @@ export const GUIDES_17_EN: Record<string, ComponentGuide> = {
         title: "Internal, forge, and generic external links",
         description:
           "Internal links have no icon; forge links put the brand before the label and omit ExternalLink; other HTTP(S) links keep a generic trailing indicator.",
-        demoKey: "Default",
+        demoKey: "default",
       },
     ],
     accessibility: {

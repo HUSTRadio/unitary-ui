@@ -46,7 +46,7 @@ export function ComboboxUsedInsideModal1332CE87Example() {
                 ))}
               </ComboboxList>
             </Combobox>
-            <p className="text-copy-13 text-gray-900">
+            <p className="text-copy-13 text-muted-foreground">
               This is the region where your database reads and writes will take place.
             </p>
           </div>

@@ -24,7 +24,7 @@ function ProfileCard() {
         LR
       </span>
       <div className="flex min-w-0 flex-1 flex-col">
-        <p className="truncate text-label-14 text-gray-1000">Lena Roy</p>
+        <p className="truncate text-label-14 text-foreground">Lena Roy</p>
         <p className="truncate text-copy-13 text-muted-foreground">Staff engineer · Berlin</p>
       </div>
     </div>

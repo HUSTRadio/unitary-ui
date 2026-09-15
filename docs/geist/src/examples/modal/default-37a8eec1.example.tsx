@@ -12,7 +12,7 @@ export function ModalDefault37A8EEC1Example() {
           Open Modal
         </Button>
       </ModalTrigger>
-      <ModalContent>
+      <ModalContent bodyClassName="pb-0">
         <header className="mb-5">
           <h3 className="text-heading-20 text-foreground">Create Token</h3>
           <div className="mt-2 mb-1 text-copy-14 text-muted-foreground">
@@ -21,9 +21,8 @@ export function ModalDefault37A8EEC1Example() {
           </div>
         </header>
         <p className="text-copy-14">Some content contained within the modal.</p>
-        <div className="h-px w-full" aria-hidden />
-        <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
-          <Button size="small" typeName="button" type="secondary">
+        <footer className="sticky bottom-0 -mx-5 mt-5 flex shrink-0 items-center justify-between border-t border-gray-alpha-400 bg-background-100 px-5 py-4">
+          <Button size="small" typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel
           </Button>
           <Button size="small" typeName="button" type="default">
