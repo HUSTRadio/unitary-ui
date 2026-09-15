@@ -2,6 +2,7 @@ import * as React from "react";
 import { HoverCard as HoverCardPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
+import { TIP_ARROW_PATH } from "@/lib/tip-arrow";
 
 /**
  * ContextCard — Geist 官方 Context Card 规范（docs/geist-markdown-refs/components/context-card.md）。
@@ -86,8 +87,8 @@ function ContextCardTrigger({
           sideOffset={sideOffset}
           data-slot="context-card-popover"
           className={cn(
-            "z-[var(--uni-z-context-card)] w-fit rounded-[6px] border border-gray-alpha-400 bg-background-100 p-4 shadow-[var(--material-shadow-tooltip)] outline-none",
-            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+            "relative z-[var(--uni-z-context-card)] w-fit rounded-md border border-gray-alpha-400 bg-background-100 p-4 shadow-[var(--material-shadow-tooltip)] outline-none",
+            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 motion-reduce:animate-none",
             className,
           )}
         >
@@ -108,7 +109,7 @@ function ContextCardTrigger({
             aria-hidden
           >
             <path
-              d="M15 -0.5V0.5H12.9834L12.8184 0.508789C12.4377 0.550822 12.0853 0.738056 11.8359 1.03418L8.53027 4.95996C7.73114 5.90893 6.26886 5.90892 5.46973 4.95996L2.16406 1.03418C1.87905 0.695733 1.45907 0.5 1.0166 0.5H-1V-0.5H15Z"
+              d={TIP_ARROW_PATH}
               fill="var(--background-100)"
               stroke="var(--context-card-tip-stroke)"
             />

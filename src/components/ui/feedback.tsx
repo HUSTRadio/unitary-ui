@@ -371,7 +371,7 @@ function Feedback({
             "rounded-capsule-interpolable",
             // 宽度、水平位置与圆角共用同一条先快后缓曲线；高度由表单区的
             // grid-rows 过渡驱动，两者时长/曲线一致 → 宽高同时非线性还原。
-            "transition-[width,left,border-radius] duration-(--uni-duration-fast) ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none",
+            "transition-[width,left,border-radius] duration-(--uni-duration-fast) ease-snap motion-reduce:transition-none",
             open ? "rounded-xl" : "rounded-capsule-interpolable",
           )}
         >
@@ -410,7 +410,7 @@ function Feedback({
             aria-hidden={open ? undefined : "true"}
             inert={!open}
             className={cn(
-              "grid w-full transition-[grid-template-rows] duration-(--uni-duration-fast) ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none",
+              "grid w-full transition-[grid-template-rows] duration-(--uni-duration-fast) ease-snap motion-reduce:transition-none",
               open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
             )}
           >

@@ -11,7 +11,11 @@ import { cn } from "@/lib/utils";
  *   大容器口径；官方实测 computed 8px，2026-08-24 起归一到 token）、无 border-top
  *   （官方 border-t 类名存在但 computed border-top-width 为 0）、
  *   bg-background、max-h-[80dvh]（官方 geist-dialog 覆盖 90dvh 类为 80dvh）
- * - boxShadow 四层：ring 1px + 1px/2px + 8px -4px + 16px 24px -8px + 底 1px 白 ring
+ * - 阴影（box-shadow）：消费 --material-shadow-menu（与 Menu / ContextMenu / Toast 同族材质：
+ *   黑 8% 1px 环 + 1px/2px + 8px -4px + 16px 24px -8px + 内层环）。上方的官方实测
+ *   阴影是 light 口径，而该 token 在 :root/.dark 双主题定义：dark 下内层近白环被
+ *   覆盖为 rgba(255,255,255,0.145) + rgb(0,0,0)。因此阴影必须走 token，内联 light
+ *   字面量会绕过 .dark 覆盖，让暗色面板残留亮白 1px 描边。
  * - overlay bg-black/40（有暗化，实测 rgba(0,0,0,.4)），overlay 与 panel 同在
  *   fixed inset-0 层内（z-index 交给父层，panel 自身 z-index auto）
  * - height 生效为 --drawer-frontmost-height（实测 200px）
@@ -20,6 +24,10 @@ import { cn } from "@/lib/utils";
  * - 下滑手势关闭（--drawer-swipe-movement-y 驱动 transform，data-swipe-direction="down"）
  * - 无右上 X 关闭按钮；Escape / 外点 / 下滑关闭；body scroll 锁定 + 焦点返还（Radix）
  * 说明：官方基于 Base UI 实现；本组件基于 Radix Dialog 复刻同款行为与外观。
+ * 边界：本组件是官方 Drawer 的镜像，API 由官方文档固定（固定/自适应高度 + 仅受控
+ * show/onDismiss）。官方没有的「多档位拖拽吸附」由本地扩展 BottomSheet 承担；两者
+ * 外壳同族（同一 overlay 写法与 --uni-z-drawer），但保持为两个组件——合并会让这里
+ * 的 API 偏离官方契约。
  */
 
 interface DrawerProps {
@@ -140,7 +148,7 @@ function DrawerPanel({
       data-swipe-direction="down"
       {...accessibilityProps}
       className={cn(
-        "fixed inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full min-h-[45px] touch-pan-y rounded-t-xl border-t bg-background outline-none pb-[env(safe-area-inset-bottom)]",
+        "fixed inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full min-h-[45px] touch-pan-y rounded-t-xl border-t bg-background shadow-[var(--material-shadow-menu)] outline-none pb-[env(safe-area-inset-bottom)]",
         "max-h-[80dvh] overscroll-none",
         "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
         verticalScroll && "overflow-y-auto",
@@ -150,8 +158,6 @@ function DrawerPanel({
       style={
         {
           height: height ?? undefined,
-          boxShadow:
-            "rgba(0, 0, 0, 0.08) 0px 0px 0px 1px, rgba(0, 0, 0, 0.02) 0px 1px 1px 0px, rgba(0, 0, 0, 0.04) 0px 4px 8px -4px, rgba(0, 0, 0, 0.06) 0px 16px 24px -8px, rgb(250, 250, 250) 0px 0px 0px 1px",
           "--drawer-frontmost-height": height ? `${height}px` : undefined,
           "--drawer-swipe-movement-y": `${dragY}px`,
           transform: phase === "start" ? "translateY(100%)" : `translateY(${dragY}px)`,
@@ -159,7 +165,7 @@ function DrawerPanel({
             ? "none"
             : reducedMotion
               ? "transform 0s linear"
-              : "transform 500ms cubic-bezier(0.32, 0.72, 0, 1)",
+              : "transform 500ms var(--ease-snap)",
         } as React.CSSProperties
       }
       onPointerDown={handlePointerDown}

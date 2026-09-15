@@ -36,7 +36,7 @@ describe("HamburgerIcon", () => {
       // 过渡曲线与时长（自制 morph 动画契约）
       expect(markup).toContain("transition-[opacity,transform]");
       expect(markup).toContain("duration-(--uni-duration-slow)");
-      expect(markup).toContain("ease-[cubic-bezier(0.32,0.72,0,1)]");
+      expect(markup).toContain("ease-snap");
       expect(markup).toContain("motion-reduce:transition-none");
     }
 

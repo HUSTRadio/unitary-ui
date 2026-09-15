@@ -15,7 +15,7 @@ const stylesSource = readFileSync(resolve(import.meta.dirname, "../src/styles/in
 
 describe("Context Card visual parity contract", () => {
   test("uses the official 6px popover surface and dark-safe semantic tokens", () => {
-    expect(source).toContain("rounded-[6px]");
+    expect(source).toContain("rounded-md");
     expect(source).toContain("border-gray-alpha-400");
     expect(source).toContain("bg-background-100");
     expect(source).toContain("p-4");

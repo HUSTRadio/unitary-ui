@@ -87,7 +87,7 @@ describe("Multi Select live Geist contract", () => {
     expect(source).toContain("w-16");
     expect(source).toContain("text-label-14");
     expect(source).toContain("text-button-12");
-    expect(source).toContain("rounded-[4px]");
+    expect(source).toContain("rounded-sm");
     expect(source).not.toContain("px-2 py-1.5");
   });
 

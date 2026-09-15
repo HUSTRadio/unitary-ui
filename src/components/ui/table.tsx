@@ -149,7 +149,7 @@ const TableRoot = React.forwardRef<HTMLDivElement, TableRootProps>(
       ref={ref}
       data-slot="table-root"
       className={cn(
-        "relative w-full overflow-x-auto rounded-[8px]",
+        "relative w-full overflow-x-auto rounded-lg",
         frame === "outline" && "border border-gray-alpha-400 bg-background-100",
         className,
       )}

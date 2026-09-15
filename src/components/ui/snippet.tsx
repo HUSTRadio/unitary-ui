@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Copy, CopyCheck } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import { cn, toCssSize } from "@/lib/utils";
+import { copyTextToClipboard } from "@/lib/clipboard";
 import { useI18n } from "@/lib/i18n";
 
 /**
@@ -63,8 +64,6 @@ const typeColor: Record<SnippetType, string> = {
 const darkClasses =
   "border-[#ffffff24] bg-[#0a0a0a] text-[#f2f2f2] dark:border-[#00000014] dark:bg-[#ffffff] dark:text-[#1a1a1a]";
 
-const toSize = (value: number | string) => (typeof value === "number" ? `${value}px` : value);
-
 function Snippet({
   className,
   text,
@@ -91,17 +90,9 @@ function Snippet({
   const handleCopy = async () => {
     if (!payload) return;
     try {
-      await navigator.clipboard.writeText(payload);
+      await copyTextToClipboard(payload);
     } catch {
-      // 降级：隐藏 textarea + execCommand（无 clipboard 权限的环境仍可复制并给出反馈）
-      const textarea = document.createElement("textarea");
-      textarea.value = payload;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      textarea.remove();
+      // 尽力复制语义：无任何剪贴板通道时仍继续播报已复制（与 CopyButton 的"不谎报"策略相异，为组件各自产品语义）
     }
     if (copiedProp === undefined) {
       setInternalCopied(true);
@@ -115,11 +106,11 @@ function Snippet({
     <div
       data-slot="snippet"
       className={cn(
-        "flex items-center gap-2 rounded-[8px] border border-gray-alpha-400 bg-background p-3",
+        "flex items-center gap-2 rounded-lg border border-gray-alpha-400 bg-background p-3",
         dark && darkClasses,
         className,
       )}
-      style={width != null ? { width: toSize(width) } : undefined}
+      style={width != null ? { width: toCssSize(width) } : undefined}
       {...props}
     >
       <div
@@ -148,7 +139,7 @@ function Snippet({
         aria-label={t("Copy")}
         onClick={handleCopy}
         className={cn(
-          "inline-flex size-8 shrink-0 items-center justify-center rounded-md transition-colors outline-none focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+          "inline-flex size-8 shrink-0 items-center justify-center rounded-sm transition-colors outline-none focus-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
           dark ? "text-inherit hover:bg-[#ffffff17] dark:hover:bg-[#00000014]" : "text-foreground hover:bg-gray-alpha-200",
         )}
       >

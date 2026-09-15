@@ -37,4 +37,14 @@ describe("Drawer official contract", () => {
     const content = source.match(/"fixed inset-x-0 bottom-0 ([^"]*)"/);
     expect(content?.[1]).toContain("z-[var(--uni-z-drawer)]");
   });
+
+  test("consumes the shared material shadow token so the dark ring override applies", () => {
+    // --material-shadow-menu 在 :root 定义 light 内层近白环，在 .dark 覆盖为
+    // rgba(255,255,255,0.145) + rgb(0,0,0)。内联 light 字面量会绕过 .dark 覆盖，
+    // 使暗色主题的面板带上亮白 1px 描边（本次修复的回归守卫）。
+    const content = source.match(/"fixed inset-x-0 bottom-0 ([^"]*)"/);
+    expect(content?.[1]).toContain("shadow-[var(--material-shadow-menu)]");
+    expect(source).not.toMatch(/boxShadow/);
+    expect(source).not.toMatch(/rgb\(250,\s*250,\s*250\)/);
+  });
 });

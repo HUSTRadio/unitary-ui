@@ -3,6 +3,7 @@ import { Check, Copy } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { callWithCancelGuard } from "@/lib/cancel-guard";
+import { copyTextToClipboard } from "@/lib/clipboard";
 import { useI18n } from "@/lib/i18n";
 
 interface CopyButtonProps extends Omit<React.ComponentProps<"button">, "onCopy" | "onError"> {
@@ -42,24 +43,7 @@ function CopyButton({
     if (!callWithCancelGuard(event, onClick)) return;
 
     try {
-      try {
-        if (!navigator.clipboard?.writeText) throw new Error("Clipboard API is unavailable");
-        await navigator.clipboard.writeText(textToCopy);
-      } catch (clipboardError) {
-        const textarea = document.createElement("textarea");
-        textarea.value = textToCopy;
-        textarea.style.position = "fixed";
-        textarea.style.opacity = "0";
-        document.body.appendChild(textarea);
-        try {
-          textarea.select();
-          if (typeof document.execCommand !== "function" || !document.execCommand("copy")) {
-            throw clipboardError;
-          }
-        } finally {
-          textarea.remove();
-        }
-      }
+      await copyTextToClipboard(textToCopy);
     } catch (error) {
       onError?.(error);
       return;

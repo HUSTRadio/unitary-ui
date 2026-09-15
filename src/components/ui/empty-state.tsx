@@ -67,7 +67,7 @@ function EmptyStateIcon({ icon, className, children, ...props }: EmptyStateIconP
         aria-hidden="true"
         data-slot="empty-state-icon"
         className={cn(
-          "flex size-[54px] shrink-0 items-center justify-center rounded-[8px] border border-gray-alpha-400 bg-background p-[10px] text-muted-foreground",
+          "flex size-[54px] shrink-0 items-center justify-center rounded-lg border border-gray-alpha-400 bg-background p-[10px] text-muted-foreground",
           className,
         )}
       >

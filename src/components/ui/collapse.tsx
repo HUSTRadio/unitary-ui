@@ -48,7 +48,7 @@ function CollapseTrigger({ className, children, ...props }: CollapseTriggerProps
       <span className="flex items-center py-6 group-data-[size=small]:py-3">{children}</span>
       <ChevronDown
         aria-hidden
-        className="size-4 shrink-0 transition-transform duration-(--uni-duration-base) ease-in-out group-data-[state=open]:rotate-180"
+        className="size-4 shrink-0 transition-transform duration-(--uni-duration-base) ease-in-out group-data-[state=open]:rotate-180 motion-reduce:transition-none"
       />
     </CollapsiblePrimitive.Trigger>
   );
@@ -105,7 +105,7 @@ function CollapseContent({
         } as React.CSSProperties
       }
       className={cn(
-        "collapse-content-motion overflow-y-hidden transition-all duration-(--uni-duration-base) ease-in-out",
+        "collapse-content-motion overflow-y-hidden transition-all duration-(--uni-duration-base) ease-in-out motion-reduce:transition-none",
         "data-[state=closed]:h-0",
         "data-[state=open]:h-[var(--collapse-content-height)]",
         className,

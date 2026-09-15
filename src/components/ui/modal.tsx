@@ -51,7 +51,7 @@ const ModalOverlay = React.forwardRef<
     ref={ref}
     className={cn(
       "fixed inset-0 z-[var(--uni-z-modal)] flex flex-col items-center justify-center overflow-auto bg-[#f2f2f2]/80 dark:bg-black/80",
-      "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 duration-(--uni-duration-slow) ease-[cubic-bezier(0.175,0.885,0.32,1.1)] motion-reduce:animate-none",
+      "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 duration-(--uni-duration-slow) ease-pop motion-reduce:animate-none",
       className,
     )}
     {...props}
@@ -119,7 +119,7 @@ const ModalContent = React.forwardRef<
               "shadow-[var(--uni-shadow-modal-elevated)]",
               "-translate-x-1/2 -translate-y-1/2",
               "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-              "transition-[opacity,transform] duration-(--uni-duration-slow) ease-[cubic-bezier(0.175,0.885,0.32,1.1)]",
+              "transition-[opacity,transform] duration-(--uni-duration-slow) ease-pop motion-reduce:animate-none motion-reduce:transition-none",
               "sm:overflow-hidden overflow-y-auto",
               className,
             )}
@@ -187,7 +187,7 @@ const ModalFooter = React.forwardRef<HTMLDivElement, ModalFooterProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("mt-2 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", className)}
+      className={cn("mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", className)}
       {...props}
     />
   ),

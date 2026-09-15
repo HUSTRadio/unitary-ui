@@ -17,7 +17,7 @@ const toggle = (props: React.ComponentProps<typeof Toggle>) =>
 describe("Toggle official API contract (G12)", () => {
   test("track and thumb use the official 200ms standard easing", async () => {
     const src = await read("src/components/ui/toggle.tsx");
-    expect(src.match(/duration-\(--uni-duration-base\) ease-\[cubic-bezier\(0\.4,0,0\.2,1\)\]/g)).toHaveLength(2);
+    expect(src.match(/duration-\(--uni-duration-base\) ease-in-out/g)).toHaveLength(2);
   });
 
   test("thumb is visually compact while preserving 1.5px end margins in every size", async () => {

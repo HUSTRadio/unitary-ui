@@ -35,7 +35,7 @@ function Grabber({
       aria-valuenow={currentDetent}
       onClick={() => onCycleDetent?.()}
       className={cn(
-        "relative block w-full cursor-grab touch-none select-none active:cursor-grabbing",
+        "focus-ring relative block w-full cursor-grab touch-none select-none outline-none active:cursor-grabbing",
         // 命中区扩展到视觉条之外
         "py-5 px-6 -my-5 -mx-6",
         className,

@@ -144,7 +144,7 @@ describe("Feedback official interaction model", () => {
     expect(region.className).toContain("grid-rows-[0fr]");
     expect(region.className).toContain("transition-[grid-template-rows]");
     // 曲线必须是先快后缓的非线性（与卡片宽度过渡共用同一条）。
-    expect(region.className).toContain("ease-[cubic-bezier(0.32,0.72,0,1)]");
+    expect(region.className).toContain("ease-snap");
     expect(container.querySelector('[data-slot="feedback-form-region"]')).toBe(region);
   });
 

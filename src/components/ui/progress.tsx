@@ -114,10 +114,10 @@ function Progress({
       value={value ?? undefined}
       max={max}
       className={cn(
-        "block w-full appearance-none overflow-hidden rounded-[6px] border-0 bg-gray-200",
-        "[&::-webkit-progress-bar]:rounded-[6px] [&::-webkit-progress-bar]:bg-gray-200",
-        "[&::-webkit-progress-value]:rounded-[6px] [&::-webkit-progress-value]:bg-[var(--fg)]",
-        "[&::-moz-progress-bar]:rounded-[6px] [&::-moz-progress-bar]:bg-[var(--fg)]",
+        "block w-full appearance-none overflow-hidden rounded-md border-0 bg-gray-200",
+        "[&::-webkit-progress-bar]:rounded-md [&::-webkit-progress-bar]:bg-gray-200",
+        "[&::-webkit-progress-value]:rounded-md [&::-webkit-progress-value]:bg-[var(--fg)]",
+        "[&::-moz-progress-bar]:rounded-md [&::-moz-progress-bar]:bg-[var(--fg)]",
         hasStops &&
           "[&::-webkit-progress-value]:!rounded-none [&::-moz-progress-bar]:!rounded-none",
         animated &&

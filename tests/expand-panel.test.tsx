@@ -111,7 +111,7 @@ describe("ExpandPanel", () => {
     expect(panel.className).toContain("data-[state=open]:animate-in");
     expect(panel.className).toContain("data-[state=closed]:animate-out");
     expect(panel.className).toContain("duration-(--uni-duration-slower)");
-    expect(panel.className).toContain("ease-[cubic-bezier(0.32,0.72,0,1)]");
+    expect(panel.className).toContain("ease-snap");
     expect(panel.className).toContain("motion-reduce:animate-none");
     expect(panel.getAttribute("aria-label")).toBe("menu");
   });

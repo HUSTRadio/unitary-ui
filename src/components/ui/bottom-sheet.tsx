@@ -5,8 +5,18 @@ import { cn } from "@/lib/utils";
 import { Grabber } from "@/components/ui/grabber";
 
 /**
- * BottomSheet — 多档位（detent）底部弹层，基于 Radix Dialog 复刻
- * Geist Drawer 底部 sheet 外观（rounded-t / 四层 boxShadow / cubic-bezier(0.32,0.72,0,1)）。
+ * BottomSheet — 多档位（detent）底部弹层，本地扩展组件（官方 Geist 无对应页面）。
+ *
+ * 与 Drawer 的边界（有意保持两个组件，不合并）：Drawer 是官方 Drawer 的镜像，契约由
+ * 官方文档固定（固定/自适应高度 + 仅受控 show/onDismiss）；本组件只承载官方没有的
+ * 能力——多档位拖拽吸附，因此需要 detents/showIndicator/gestures 这组官方不存在的 API。
+ * 两者外壳同族，通过共享 token 对齐，而不是合并实现：
+ * - overlay：bg-black/40 + z-[var(--uni-z-drawer)]（与 Drawer 逐字相同）；
+ * - 面板圆角：rounded-t-overlay（与 CommandMenu 移动端 sheet 同族；Drawer 用 rounded-t-xl）。
+ * 与 Drawer 的差异（勿"对齐"成一致）：本组件面板不叠 --material-shadow-*（面板贴视口
+ * 底边、高度由档位驱动，浮层阴影属 Drawer 的固定高度语义），动画 300ms 与拖拽吸附曲线
+ * 一致（Drawer 官方实测为 500ms 滑入）。
+ *
  * - 面板高度 = detents[current] * 100dvh，由 CSS 变量 --sheet-h 驱动
  * - 面板顶缘跟手改高度 → 松手吸附最近档位（300ms cubic-bezier(0.32,0.72,0,1)）
  * - 低于最低档继续下拉且 collapseDown → onOpenChange(false)
@@ -162,7 +172,7 @@ function BottomSheet({
             // slide-in/out-from-bottom 设定位移变量；300ms 与拖拽吸附曲线一致。
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
-            "duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
+            "duration-300 ease-snap",
             "motion-reduce:animate-none motion-reduce:transition-none",
             className,
           )}
@@ -173,7 +183,7 @@ function BottomSheet({
               transition:
                 dragging || reducedMotion
                   ? "none"
-                  : "height 300ms cubic-bezier(0.32, 0.72, 0, 1)",
+                  : "height 300ms var(--ease-snap)",
             } as React.CSSProperties
           }
           onPointerDown={handlePointerDown}

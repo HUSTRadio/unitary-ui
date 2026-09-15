@@ -69,7 +69,7 @@ describe("Table container contract", () => {
   it("defaults TableRoot frame to the outlined surface", () => {
     const html = renderToStaticMarkup(React.createElement(TableRoot, null));
 
-    expect(html).toContain("rounded-[8px]");
+    expect(html).toContain("rounded-lg");
     expect(html).toContain("border");
     expect(html).toContain("border-gray-alpha-400");
     expect(html).toContain("bg-background-100");
@@ -79,7 +79,7 @@ describe("Table container contract", () => {
     const html = renderToStaticMarkup(React.createElement(TableRoot, { frame: "none" }));
 
     expect(html).toContain("overflow-x-auto");
-    expect(html).toContain("rounded-[8px]");
+    expect(html).toContain("rounded-lg");
     expect(html).not.toContain("border-gray-alpha-400");
     expect(html).not.toContain("bg-background-100");
   });

@@ -34,7 +34,7 @@ describe("CodeBlock official API contract", () => {
     );
     const block = document.querySelector<HTMLElement>("[data-slot='code-block']")!;
     const header = document.querySelector<HTMLElement>("[data-slot='code-block-header']")!;
-    expect(block.className).toContain("rounded-[6px]");
+    expect(block.className).toContain("rounded-md");
     expect(header.className).toContain("h-12");
     expect(header.textContent).toContain("example.ts");
     expect(header.textContent).not.toContain("typescript");
@@ -117,7 +117,50 @@ describe("CodeBlock official API contract", () => {
       </CodeBlock>,
     );
     expect(document.querySelector("[role='tablist']")).toBeTruthy();
-    expect(document.querySelectorAll("[role='tab']")).toHaveLength(2);
+    const tabs = [...document.querySelectorAll<HTMLButtonElement>("[role='tab']")];
+    expect(tabs).toHaveLength(2);
+    // 代码面板是 tabpanel，且与激活 tab 通过 id 关联（此前选项卡与内容完全没有关联）。
+    const panel = document.querySelector<HTMLElement>("[role='tabpanel']")!;
+    expect(panel.getAttribute("aria-labelledby")).toBe(tabs[0].id);
+    expect(tabs[0].getAttribute("aria-selected")).toBe("true");
+    // roving tabindex：只有激活 tab 可 Tab 聚焦，其余走方向键。
+    expect(tabs[0].getAttribute("tabindex")).toBe("0");
+    expect(tabs[1].getAttribute("tabindex")).toBe("-1");
+    act(() => tabs[1].dispatchEvent(new MouseEvent("click", { bubbles: true })));
+    expect(onSelect).toHaveBeenCalledWith("TypeScript");
+  });
+
+  test("tabs accept the official {label, value} options and switch with arrow keys", () => {
+    const onSelect = vi.fn();
+    render(
+      <CodeBlock
+        filename="language-switcher.tsx"
+        tabs={{
+          options: [
+            { label: "JavaScript", value: "jsx" },
+            { label: "TypeScript", value: "tsx" },
+          ],
+          value: "jsx",
+          onChange: onSelect,
+        }}
+      >
+        {code}
+      </CodeBlock>,
+    );
+    const tabs = [...document.querySelectorAll<HTMLButtonElement>("[role='tab']")];
+    // 官方形态：label 用于展示，value 用于匹配与回调，两者可以不同。
+    expect(tabs.map((tab) => tab.textContent)).toEqual(["JavaScript", "TypeScript"]);
+    expect(tabs[0].getAttribute("aria-selected")).toBe("true");
+    act(() => tabs[0].dispatchEvent(new MouseEvent("click", { bubbles: true })));
+    expect(onSelect).toHaveBeenCalledWith("jsx");
+    act(() => {
+      tabs[0].focus();
+      tabs[0].dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }),
+      );
+    });
+    expect(onSelect).toHaveBeenCalledWith("tsx");
+    expect(document.activeElement).toBe(tabs[1]);
   });
 
   test("renders headerless floating copy and v0 actions", () => {

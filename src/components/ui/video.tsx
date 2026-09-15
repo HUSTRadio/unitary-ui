@@ -121,7 +121,7 @@ const Video = React.forwardRef<HTMLVideoElement, VideoProps>(
     return (
       <div
         data-slot="video"
-        className={cn("group relative w-full overflow-hidden rounded-[8px] bg-black", className)}
+        className={cn("group relative w-full overflow-hidden rounded-lg bg-black", className)}
         style={{
           aspectRatio: width && height ? `${width} / ${height}` : undefined,
           maxWidth: width,

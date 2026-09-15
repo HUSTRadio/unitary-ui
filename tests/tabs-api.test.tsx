@@ -126,7 +126,7 @@ describe("Tabs — official DOM/ARIA contract", () => {
     const markup = renderToStaticMarkup(
       <Tabs selected="github" setSelected={() => {}} tabs={defaultTabs} variant="secondary" />,
     );
-    expect(markup).toContain("rounded-[6px]");
+    expect(markup).toContain("rounded-md");
     expect(markup).toContain("data-[state=active]:bg-foreground");
   });
 });

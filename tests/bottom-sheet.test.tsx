@@ -110,7 +110,7 @@ describe("BottomSheet", () => {
     expect(markup).toContain("data-[state=open]:slide-in-from-bottom");
     expect(markup).toContain("data-[state=closed]:slide-out-to-bottom");
     expect(markup).toContain("duration-300");
-    expect(markup).toContain("cubic-bezier(0.32, 0.72, 0, 1)");
+    expect(markup).toContain("var(--ease-snap)");
     // reduced-motion 归零（WCAG 2.3.3）
     expect(markup).toContain("motion-reduce:animate-none");
   });

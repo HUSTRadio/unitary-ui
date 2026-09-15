@@ -180,7 +180,7 @@ function SafariButtonRow({ dark }: { dark: boolean }) {
   // 装饰按钮：通用几何形状，非交互元素
   const dot = cn("h-[18px] w-[18px] rounded-full", dark ? "bg-white/80" : "bg-gray-900");
   const square = cn(
-    "h-[16px] w-[16px] rounded-[4px] border-[2px]",
+    "h-[16px] w-[16px] rounded-sm border-[2px]",
     dark ? "border-white/80" : "border-gray-900",
   );
   return (
@@ -261,7 +261,7 @@ export function PhoneSafariChrome({
           >
             <span className={cn("h-[16px] w-[16px] rounded-full bg-current opacity-80")} />
             <span className="flex items-center gap-1.5">
-              <span className="h-[14px] w-[14px] rounded-[4px] border-2 border-current opacity-80" />
+              <span className="h-[14px] w-[14px] rounded-sm border-2 border-current opacity-80" />
               <span className="max-w-[120px] truncate text-[13px] leading-none">{url}</span>
               <span className="text-[13px] leading-none opacity-60">↻</span>
             </span>

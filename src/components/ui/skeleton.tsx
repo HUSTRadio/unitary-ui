@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
+import { cn, toCssSize } from "@/lib/utils";
 
 /**
  * Skeleton — 加载占位骨架（docs/geist-markdown-refs/components/skeleton.md 官方语义）。
@@ -52,8 +52,6 @@ export interface SkeletonProps extends React.ComponentProps<"div"> {
   show?: boolean;
 }
 
-const toSize = (value: Size) => (typeof value === "number" ? `${value}px` : value);
-
 function Skeleton({
   className,
   width,
@@ -71,10 +69,10 @@ function Skeleton({
 }: SkeletonProps) {
   const boxStyle = React.useMemo<React.CSSProperties>(() => {
     const next: React.CSSProperties = {};
-    if (width != null) next.width = toSize(width);
+    if (width != null) next.width = toCssSize(width);
     const resolvedHeight = height ?? boxHeight;
     if (resolvedHeight != null) {
-      next.height = toSize(resolvedHeight);
+      next.height = toCssSize(resolvedHeight);
     } else if (children == null && width != null) {
       // 无 children 且只给宽度时，给一个文本行默认高度
       next.height = "16px";
@@ -94,7 +92,7 @@ function Skeleton({
           animated && "relative overflow-hidden motion-reduce:!animate-none",
           "rounded-md bg-gray-alpha-200",
           pill && "rounded-full",
-          rounded && "rounded-[8px]",
+          rounded && "rounded-lg",
           squared && "rounded-none",
           button && "border border-gray-alpha-400",
         ],

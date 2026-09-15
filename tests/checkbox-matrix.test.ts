@@ -14,7 +14,7 @@ describe("Checkbox official matrix contract", () => {
 
   test("keeps the official 16px default geometry and visible focus ring", () => {
     expect(source).toContain('size === "sm" && "size-4"');
-    expect(source).toContain("rounded-[4px]");
+    expect(source).toContain("rounded-sm");
     expect(source).toContain("focus-ring");
     expect(source).toContain("border-gray-700 bg-background-100");
     expect(source).not.toContain("border-gray-700 bg-background ");

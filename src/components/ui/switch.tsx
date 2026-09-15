@@ -38,10 +38,10 @@ function Switch({
         data-slot="switch"
         className={cn(
           "switch-ring flex items-stretch bg-background-100 p-1 [&>*]:h-full",
-          "rounded-[6px]",
+          "rounded-md",
           size === "small" && "h-8",
           size === "default" && "h-9",
-          size === "large" && "h-10 rounded-[8px]",
+          size === "large" && "h-10 rounded-lg",
           className,
         )}
         {...props}
@@ -144,15 +144,15 @@ function SwitchControl({
       <div
         data-slot="switch-control"
         className={cn(
-          "flex h-full flex-1 cursor-pointer items-center justify-center text-start text-gray-900 no-underline outline-none transition-all duration-(--uni-duration-base) ease-[cubic-bezier(0.4,0,0.2,1)]",
+          "flex h-full flex-1 cursor-pointer items-center justify-center text-start text-gray-900 no-underline outline-none transition-all duration-(--uni-duration-base) ease-in-out",
           "hover:text-gray-1000 peer-focus-visible:shadow-focus-ring",
-          "peer-checked:bg-gray-100 peer-checked:text-gray-1000 peer-checked:rounded-[4px]",
+          "peer-checked:bg-gray-100 peer-checked:text-gray-1000 peer-checked:rounded-sm",
           "peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed peer-disabled:!text-gray-800",
           icon && size !== "large" && "p-2 font-normal",
-          icon && size === "large" && "p-3 peer-checked:rounded-[6px]",
+          icon && size === "large" && "p-3 peer-checked:rounded-md",
           !icon &&
             size === "large" &&
-            "px-4 text-label-16 leading-6 font-medium peer-checked:rounded-[6px]",
+            "px-4 text-label-16 leading-6 font-medium peer-checked:rounded-md",
           !icon && size !== "large" && "px-3 text-label-14 leading-[21px] font-medium",
           className,
         )}

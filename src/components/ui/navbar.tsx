@@ -48,7 +48,7 @@ export function Navbar({
     scrollBehavior === "static"
       ? "relative"
       : scrollBehavior === "auto-hide"
-        ? "fixed inset-x-0 top-0 z-[var(--uni-z-header,40)] transition-transform duration-(--uni-duration-slow) ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
+        ? "fixed inset-x-0 top-0 z-[var(--uni-z-header,40)] transition-transform duration-(--uni-duration-slow) ease-snap motion-reduce:transition-none"
         : "sticky top-0 z-[var(--uni-z-header,40)]";
 
   const hidden = scrollBehavior === "auto-hide" && scrolledDown;

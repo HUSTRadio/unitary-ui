@@ -52,7 +52,7 @@ afterEach(() => {
 describe("Switch live official contract", () => {
   test("control transitions all selected-state properties over the official 200ms curve", async () => {
     const source = await read("src/components/ui/switch.tsx");
-    expect(source).toContain("transition-all duration-(--uni-duration-base) ease-[cubic-bezier(0.4,0,0.2,1)]");
+    expect(source).toContain("transition-all duration-(--uni-duration-base) ease-in-out");
   });
 
   test("inventory and docs cover all six live demos", async () => {

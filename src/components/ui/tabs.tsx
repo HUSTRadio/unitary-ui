@@ -71,7 +71,7 @@ const tabsTriggerClasses = (variant: TabsVariant) =>
   cn(
     "outline-none focus-ring",
     variant === "secondary"
-      ? "flex h-6 items-center justify-center whitespace-nowrap rounded-[6px] bg-gray-alpha-200 px-1.5 text-copy-13 text-foreground transition-colors data-[state=active]:bg-foreground data-[state=active]:text-background-100 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted-foreground"
+      ? "flex h-6 items-center justify-center whitespace-nowrap rounded-md bg-gray-alpha-200 px-1.5 text-copy-13 text-foreground transition-colors data-[state=active]:bg-foreground data-[state=active]:text-background-100 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted-foreground"
       : "flex -mb-px items-center justify-center whitespace-nowrap border-b-2 border-transparent px-0.5 py-3.5 text-copy-14 text-muted-foreground transition-colors hover:text-foreground data-[state=active]:border-foreground data-[state=active]:text-foreground disabled:cursor-not-allowed",
   );
 

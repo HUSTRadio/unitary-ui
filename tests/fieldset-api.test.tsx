@@ -90,7 +90,7 @@ describe("Fieldset official API contract", () => {
   test("FS-6: container radius 6px; no border by default; 1px colored border for error/warning", async () => {
     const src = await read("src/components/ui/fieldset.tsx");
     const fieldset = fnSrc(src, "Fieldset");
-    expect(fieldset).toContain("rounded-[6px]");
+    expect(fieldset).toContain("rounded-md");
     expect(fieldset).not.toContain("rounded-[8px]");
     // default type: no border class (no unconditional border)
     expect(fieldset).toMatch(/type === "error" && "border border-red-400 shadow-none"/);
@@ -130,7 +130,7 @@ describe("Fieldset official API contract", () => {
     const src = await read("src/components/ui/fieldset.tsx");
     const content = fnSrc(src, "FieldsetContent");
     expect(content).toContain("bg-background p-5");
-    expect(content).toContain("last:rounded-b-[6px]");
+    expect(content).toContain("last:rounded-b-md");
     expect(content).toContain("[&:has(>[data-slot=fieldset-subtitle]:last-child)]:pb-0");
     expect(content).not.toContain("flex flex-col gap-4");
   });
@@ -198,7 +198,7 @@ describe("Fieldset runtime rendering", () => {
         <FieldsetContent>content</FieldsetContent>
       </Fieldset>,
     );
-    expect(plain).toContain("rounded-[6px]");
+    expect(plain).toContain("rounded-md");
     expect(plain).not.toContain("border-gray-alpha-400");
     expect(plain).not.toContain("border border-red-400");
 

@@ -134,7 +134,7 @@ function Fieldset({
         data-slot="fieldset"
         data-fieldset-type={type}
         className={cn(
-          "group/fieldset material-base relative overflow-hidden rounded-[6px]",
+          "group/fieldset material-base relative overflow-hidden rounded-md",
           type === "error" && "border border-red-400 shadow-none",
           type === "warning" && "border border-amber-400 shadow-none",
           className,
@@ -195,7 +195,7 @@ function FieldsetContent({
     <div
       data-slot="fieldset-content"
       className={cn(
-        "relative rounded-t-[6px] bg-background p-5 [&:has(>[data-slot=fieldset-subtitle]:last-child)]:pb-0 first:rounded-t-[6px] last:rounded-b-[6px]",
+        "relative rounded-t-md bg-background p-5 [&:has(>[data-slot=fieldset-subtitle]:last-child)]:pb-0 first:rounded-t-md last:rounded-b-md",
         disabled && "text-gray-700",
         className,
       )}

@@ -345,7 +345,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                           style={
                             staggered
                               ? {
-                                  animation: `hamburger-stagger-in ${STAGGER_ITEM_DURATION_MS}ms cubic-bezier(0.16, 1, 0.3, 1) both`,
+                                  animation: `hamburger-stagger-in ${STAGGER_ITEM_DURATION_MS}ms var(--ease-stagger) both`,
                                   animationDelay: `${itemIndex * STAGGER_INTERVAL_MS}ms`,
                                 }
                               : undefined

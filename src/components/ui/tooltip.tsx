@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Tooltip as TooltipPrimitive } from "radix-ui";
 
+import { TIP_ARROW_PATH } from "@/lib/tip-arrow";
 import { cn } from "@/lib/utils";
 
 export type TooltipPosition = "top" | "bottom" | "left" | "right";
@@ -97,7 +98,7 @@ function Tooltip({
                 <svg width="14" height="7" viewBox="0 0 14 7" fill="none" aria-hidden>
                   <g clipPath={`url(#${tipClipId})`}>
                     <path
-                      d="M15 -0.5V0.5H12.9834L12.8184 0.508789C12.4377 0.550822 12.0853 0.738056 11.8359 1.03418L8.53027 4.95996C7.73114 5.90893 6.26886 5.90892 5.46973 4.95996L2.16406 1.03418C1.87905 0.695733 1.45907 0.5 1.0166 0.5H-1V-0.5H15Z"
+                      d={TIP_ARROW_PATH}
                       fill="var(--tooltip-background)"
                       stroke="var(--tooltip-tip-stroke)"
                     />

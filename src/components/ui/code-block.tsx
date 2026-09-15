@@ -8,11 +8,21 @@ import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu"
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 
+type CodeBlockSwitcherOption = string | { label: string; value: string };
+
 type CodeBlockSwitcher = {
-  options: string[];
+  options: CodeBlockSwitcherOption[];
   value: string;
   onChange: (value: string) => void;
 };
+
+// 官方 switcher/tabs 的 options 为 {label, value}[]（label 展示、value 回调）；
+// 本地历史上是 string[]，两种形态都收，内部统一归一为 {label, value}。
+function normalizeSwitcherOptions(options: CodeBlockSwitcherOption[]) {
+  return options.map((option) =>
+    typeof option === "string" ? { label: option, value: option } : option,
+  );
+}
 
 interface CodeBlockProps extends Omit<React.ComponentPropsWithoutRef<"div">, "children"> {
   children: string;
@@ -33,26 +43,28 @@ type CodeBlockContentProps = React.ComponentPropsWithoutRef<"pre">;
 
 function CodeBlockSwitcher({ config }: { config: CodeBlockSwitcher }) {
   const { t } = useI18n();
+  const options = normalizeSwitcherOptions(config.options);
+  const selected = options.find((option) => option.value === config.value);
   return (
     <MenuContainer position="bottom-end">
       <MenuButton
         variant="unstyled"
         data-slot="code-block-switcher"
         aria-label={t("Select language")}
-        className="flex h-8 items-center gap-1 rounded-[5px] bg-background-200 px-2 font-sans text-[13px] leading-none whitespace-nowrap text-muted-foreground transition-colors duration-(--uni-duration-fast) hover:bg-gray-alpha-200 focus-ring"
+        className="flex h-8 items-center gap-1 rounded-sm bg-background-200 px-2 font-sans text-[13px] leading-none whitespace-nowrap text-muted-foreground transition-colors duration-(--uni-duration-fast) hover:bg-gray-alpha-200 focus-ring"
       >
-        <span translate="no">{config.value}</span>
+        <span translate="no">{selected?.label ?? config.value}</span>
         <ChevronDown className="size-3" aria-hidden />
       </MenuButton>
       <Menu stateful className="min-w-[var(--radix-dropdown-menu-trigger-width)]">
-        {config.options.map((option) => (
+        {options.map((option) => (
           <MenuItem
-            key={option}
-            active={option === config.value}
-            onSelect={() => config.onChange(option)}
+            key={option.value}
+            active={option.value === config.value}
+            onSelect={() => config.onChange(option.value)}
             translate="no"
           >
-            {option}
+            {option.label}
           </MenuItem>
         ))}
       </Menu>
@@ -60,26 +72,61 @@ function CodeBlockSwitcher({ config }: { config: CodeBlockSwitcher }) {
   );
 }
 
-function CodeBlockTabs({ config }: { config: CodeBlockSwitcher }) {
+function CodeBlockTabs({ config, blockId }: { config: CodeBlockSwitcher; blockId: string }) {
+  const { t } = useI18n();
+  const options = normalizeSwitcherOptions(config.options);
+  const tabRefs = React.useRef<Array<HTMLButtonElement | null>>([]);
+  const activeIndex = Math.max(
+    0,
+    options.findIndex((option) => option.value === config.value),
+  );
+  // WAI-ARIA tabs（自动激活）：方向键移动焦点并切换，Home/End 跳到首尾。
+  const select = (index: number) => {
+    const next = (index + options.length) % options.length;
+    config.onChange(options[next].value);
+    tabRefs.current[next]?.focus();
+  };
   return (
     <div
       data-slot="code-block-tabs"
-      className="flex items-center justify-between overflow-auto border-b-0 bg-background-200 pb-0 pl-4 pt-3"
+      className="no-scrollbar flex items-center overflow-x-auto border-b border-gray-400 bg-background-200 px-4 py-2.5"
     >
       <div
         role="tablist"
-        className="no-scrollbar flex flex-nowrap items-center gap-2 overflow-auto pb-px"
+        aria-label={t("Select language")}
+        className="flex flex-nowrap items-center gap-2"
+        onKeyDown={(event) => {
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            select(activeIndex + 1);
+          } else if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            select(activeIndex - 1);
+          } else if (event.key === "Home") {
+            event.preventDefault();
+            select(0);
+          } else if (event.key === "End") {
+            event.preventDefault();
+            select(options.length - 1);
+          }
+        }}
       >
-        {config.options.map((option) => (
+        {options.map((option, index) => (
           <button
-            key={option}
+            key={option.value}
+            ref={(node) => {
+              tabRefs.current[index] = node;
+            }}
             type="button"
             role="tab"
-            aria-selected={option === config.value}
-            onClick={() => config.onChange(option)}
-            className="-mb-px flex h-6 shrink-0 cursor-pointer items-center rounded-md bg-gray-alpha-200 px-1.5 text-[13px] text-gray-1000 outline-none aria-selected:bg-gray-1000 aria-selected:text-background-100"
+            id={`${blockId}-tab-${index}`}
+            aria-selected={index === activeIndex}
+            aria-controls={`${blockId}-tabpanel`}
+            tabIndex={index === activeIndex ? 0 : -1}
+            onClick={() => config.onChange(option.value)}
+            className="flex h-6 shrink-0 cursor-pointer items-center whitespace-nowrap rounded-md bg-gray-alpha-200 px-1.5 text-[13px] text-gray-1000 outline-none aria-selected:bg-gray-1000 aria-selected:text-background-100 focus-ring"
           >
-            {option}
+            {option.label}
           </button>
         ))}
       </div>
@@ -110,6 +157,11 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
     const blockId = React.useId().replaceAll(":", "");
     const highlightedLines = highlightLines(code.replace(/\n$/, ""), language);
     const hasHeader = Boolean(filename || switcher);
+    const tabsOptions = tabs ? normalizeSwitcherOptions(tabs.options) : [];
+    const activeTabIndex = Math.max(
+      0,
+      tabsOptions.findIndex((option) => option.value === tabs?.value),
+    );
     const v0Href = `https://v0.app/chat?q=${encodeURIComponent(code)}`;
 
     return (
@@ -118,12 +170,12 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
         data-slot="code-block"
         data-language={language}
         className={cn(
-          "group relative overflow-hidden rounded-[6px] border border-gray-400",
+          "group relative overflow-hidden rounded-md border border-gray-400",
           className,
         )}
         {...props}
       >
-        {tabs ? <CodeBlockTabs config={tabs} /> : null}
+        {tabs ? <CodeBlockTabs config={tabs} blockId={blockId} /> : null}
         {hasHeader ? (
           <CodeBlockHeader>
             <div className="m-0 flex min-w-0 items-center gap-2 text-[13px] leading-[19.5px] text-muted-foreground">
@@ -142,7 +194,7 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
               <CopyButton
                 textToCopy={code}
                 label={t("Copy to clipboard")}
-                className="size-8 rounded-[5px] bg-transparent shadow-none hover:bg-gray-alpha-200"
+                className="size-8 rounded-sm bg-transparent shadow-none hover:bg-gray-alpha-200"
               />
             </span>
           </CodeBlockHeader>
@@ -153,7 +205,15 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
             className="absolute top-4 right-4 z-10 size-8 rounded-[5px] bg-background-200 opacity-0 shadow-none group-hover:opacity-100 focus:opacity-100"
           />
         )}
-        <CodeBlockContent>
+        <CodeBlockContent
+          {...(tabs
+            ? {
+                id: `${blockId}-tabpanel`,
+                role: "tabpanel",
+                "aria-labelledby": `${blockId}-tab-${activeTabIndex}`,
+              }
+            : {})}
+        >
           <code
             className={cn(
               "prism-code block font-mono text-[13px] leading-[20px]",
@@ -269,4 +329,10 @@ const CodeBlockContent = React.forwardRef<HTMLPreElement, CodeBlockContentProps>
 CodeBlockContent.displayName = "CodeBlockContent";
 
 export { CodeBlock, CodeBlockHeader, CodeBlockContent };
-export type { CodeBlockProps, CodeBlockSwitcher, CodeBlockHeaderProps, CodeBlockContentProps };
+export type {
+  CodeBlockProps,
+  CodeBlockSwitcher,
+  CodeBlockSwitcherOption,
+  CodeBlockHeaderProps,
+  CodeBlockContentProps,
+};

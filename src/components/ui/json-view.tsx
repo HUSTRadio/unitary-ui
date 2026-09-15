@@ -451,7 +451,7 @@ function JsonView({ data, className, defaultExpandDepth = 1, highlightPattern }:
         onFocus={(event) => {
           if (event.currentTarget === event.target) setFocusedPath(node.path);
         }}
-        className={cn("focus-ring rounded-[4px] outline-none", inline ? "inline" : "block")}
+        className={cn("focus-ring rounded-sm outline-none", inline ? "inline" : "block")}
       >
         <span
           data-slot="json-view-row"

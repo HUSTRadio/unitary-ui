@@ -226,7 +226,7 @@ function MultiSelectRow({
     >
       <div
         data-slot="multi-select-checkbox-target"
-        className="flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-[4px]"
+        className="flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-sm"
         onClick={(event) => {
           if (event.target === event.currentTarget) onChange();
         }}
@@ -247,7 +247,7 @@ function MultiSelectRow({
         tabIndex={-1}
         onClick={action.run}
         aria-label={`${name}. ${action.label}`}
-        className="flex h-7 min-w-0 flex-1 touch-manipulation items-center justify-between rounded-[4px] p-1 text-left outline-none hover:bg-gray-alpha-200 focus-visible:bg-gray-alpha-200"
+        className="flex h-7 min-w-0 flex-1 touch-manipulation items-center justify-between rounded-sm p-1 text-left outline-none hover:bg-gray-alpha-200 focus-visible:bg-gray-alpha-200"
       >
         <span className="flex min-w-0 items-center gap-2 text-label-14 text-foreground">
           <span className="truncate">{name}</span>
@@ -256,7 +256,7 @@ function MultiSelectRow({
           ) : null}
         </span>
         <span className="flex w-16 shrink-0 justify-end">
-          <span className="rounded-[4px] px-1 py-0.5 text-button-12 text-muted-foreground opacity-0 transition-opacity duration-(--uni-duration-fast) group-hover/row:opacity-100 group-focus-within/row:opacity-100 motion-reduce:transition-none">
+          <span className="rounded-sm px-1 py-0.5 text-button-12 text-muted-foreground opacity-0 transition-opacity duration-(--uni-duration-fast) group-hover/row:opacity-100 group-focus-within/row:opacity-100 motion-reduce:transition-none">
             {action.label}
           </span>
         </span>
