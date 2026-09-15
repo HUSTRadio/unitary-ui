@@ -84,6 +84,8 @@ describe("Badge solid variants & outline (2026-08-24)", () => {
     expect(outlineBlock).toContain("bg-transparent");
     expect(outlineBlock).toContain("border border-gray-alpha-500");
     expect(outlineBlock).toContain("text-gray-900");
-    expect(outlineBlock).toContain("dark:text-gray-400");
+    // gray-900 token 亮暗自动翻转（亮 #4d4d4d / 暗 #a1a1a1）；禁止 dark:text-gray-400——
+    // 暗色下 gray-400 是深灰档 #2e2e2e（供边框），会破坏文字可读性（2026-09-15 Playwright 实测）。
+    expect(outlineBlock).not.toContain("dark:text-gray-400");
   });
 });

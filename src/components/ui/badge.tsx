@@ -39,9 +39,9 @@ const badgeVariants = cva(
         turbo: "bg-black text-white bg-linear-[135deg,#ff1e56,#0096ff]",
         pill: "bg-background text-black dark:text-white ring-1 ring-gray-alpha-400 ring-inset hover:[a,button]:bg-gray-200",
         // 仅框线（官方 badge 实测 2026-08-24：border 0.57px 半透明 + 透明底 + 文字同色系）。
-        // gray-alpha 边框在 light/dark 自适应；文字与边框同 gray 系（light #4d4d4d / dark #a1a1a1）。
-        outline:
-          "bg-transparent border border-gray-alpha-500 text-gray-900 dark:text-gray-400 dark:border-gray-alpha-500",
+        // Geist gray token 亮暗语义自动翻转（gray-900：亮 #4d4d4d / 暗 #a1a1a1；gray-alpha-500：亮 21% 黑 / 暗 24% 白），无需 dark: 覆盖。
+        // 禁止 dark:text-gray-400——暗色下 gray-400 是 #2e2e2e 深灰档（供边框），会破坏文字可读性。
+        outline: "bg-transparent border border-gray-alpha-500 text-gray-900",
       },
       contrast: {
         // 官方 subtle（vercel.com/geist/badge dark 实测 2026-08-24）= 胶囊容器 + 纯文字，

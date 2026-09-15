@@ -50,3 +50,8 @@ const mergeClasses = extendTailwindMerge<GeistTypographyGroup>({
 export function cn(...inputs: ClassValue[]) {
   return mergeClasses(clsx(inputs));
 }
+
+/** number → px 字符串；字符串原样返回（组件 width/height 双形态输入的标准化，snippet / skeleton 共用）。 */
+export function toCssSize(value: number | string) {
+  return typeof value === "number" ? `${value}px` : value;
+}

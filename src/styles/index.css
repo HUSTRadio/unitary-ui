@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark *, [data-theme="dark"] *));
 
 /*
  * Fonts: 国标分级自托管字体（GB 18030 体系，差集递增 + unicode-range 按需加载）
@@ -608,6 +608,13 @@ html[data-font-tier="system"],
   --uni-duration-slow: 300ms;
   --uni-duration-slower: 500ms;
 
+  /* Easing 曲线族：收敛组件内硬编码 cubic-bezier（值与原字面量严格相等）。
+     放 @theme static 生成 ease-* 工具类，同时发射到 :root 供内联 style var() 消费。 */
+  --ease-snap: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-pop: cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  --ease-stagger: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-toast: cubic-bezier(0.25, 0.75, 0.6, 0.98);
+
   /* 项目语义排版体系。尺寸和行高成对定义，utility 不再复制行高字面量。
      34/41、28/34、22/28、20/25、17/22、16/21、15/20、13/18、12/16、11/13
      是采用的跨平台内容尺度；display 是经页面实测保留的特殊展示级。 */
@@ -736,6 +743,15 @@ html[data-font-tier="system"],
 
   /* 表单控件 focus（官方 Input/Select/Textarea 实测：边框加深 + 同色系柔光，150ms 过渡） */
   --input-focus-border: rgba(0, 0, 0, 0.34);
+
+  /* banner CTA 焦点色（原尾部 :root 块合并至此，值不变） */
+  --banner-focus-color: var(--focus-ring-color);
+
+  /* CodeBlock diff 高亮（原尾部 :root 块合并至此，值不变） */
+  --code-highlight: #e0f0ff;
+  --code-added: #daf6da;
+  --code-removed: #ffe6e6;
+  --code-referenced: #fef0cd;
   --input-focus-glow: rgba(0, 0, 0, 0.16);
   --input-disabled-placeholder: #999999;
   --input-value-border: var(--gray-200);
@@ -754,7 +770,8 @@ html[data-font-tier="system"],
   --amber-900: #a35200;
   --background-100: #ffffff;
   --background-200: #fafafa;
-  /* Context Card 箭头描边：官方实测固定 #dbdbdb（light/dark 均如此）。 */
+  /* Context Card 箭头描边：light 官方实测 #dbdbdb；dark 需与卡片边框（gray-alpha-400）同源，
+     否则亮灰描边在暗色下刺眼且与边框断开。 */
   --context-card-tip-stroke: #dbdbdb;
   --blue-100: #ebf5ff;
   --blue-1000: #00264d;
@@ -839,6 +856,7 @@ html[data-font-tier="system"],
   --uni-gray-700: var(--gray-700);
   --uni-gray-900: var(--gray-900);
   --uni-gray-1000: var(--gray-1000);
+  --uni-gray-alpha-200: var(--gray-alpha-200);
   --uni-gray-alpha-400: var(--gray-alpha-400);
   --uni-gray-alpha-500: var(--gray-alpha-500);
   --uni-gray-alpha-300: var(--gray-alpha-300);
@@ -1029,6 +1047,14 @@ html[data-font-tier="system"],
 
   /* 表单控件 focus（官方实测 dark：白 alpha 边框加深 + 柔光） */
   --input-focus-border: rgba(255, 255, 255, 0.51);
+
+  /* context-card tip 描边 + CodeBlock diff 暗值（原尾部 .dark 单匹配块合并至此，值不变；
+     并入主块后纯 [data-theme="dark"] 切换者也能拿到这些值） */
+  --context-card-tip-stroke: var(--gray-alpha-500);
+  --code-highlight: #0f2f57;
+  --code-added: #12361b;
+  --code-removed: #561a1e;
+  --code-referenced: #4d2a00;
   --input-focus-glow: rgba(255, 255, 255, 0.24);
   --input-disabled-placeholder: #444444;
   --input-value-foreground: var(--color-white);
@@ -1124,6 +1150,7 @@ html[data-font-tier="system"],
   --uni-gray-700: var(--gray-700);
   --uni-gray-900: var(--gray-900);
   --uni-gray-1000: var(--gray-1000);
+  --uni-gray-alpha-200: var(--gray-alpha-200);
   --uni-gray-alpha-400: var(--gray-alpha-400);
   --uni-gray-alpha-500: var(--gray-alpha-500);
   --uni-gray-alpha-300: var(--gray-alpha-300);
@@ -1682,7 +1709,7 @@ html[data-font-tier="system"],
   line-height: 1.3125rem;
   font-weight: 400;
   letter-spacing: normal;
-  transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: 150ms ease-in-out;
 
   &:focus {
     box-shadow: var(--focus-ring-outline);
@@ -1758,9 +1785,6 @@ html[data-font-tier="system"],
  * 即「banner 专用焦点色覆盖 + focus-ring 双环兜底」。--banner-focus-color 随 variant
  * 由组件内联设置（project-banner.tsx 按色组给值），此处只定义 utility 与回退变量。
  */
-:root {
-  --banner-focus-color: var(--focus-ring-color);
-}
 @utility shadow-focus-ring {
   &:focus-visible {
     box-shadow: 0 0 0 2px var(--banner-focus-color, var(--focus-ring-color)), var(--focus-ring-outline);
@@ -2026,38 +2050,24 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
   }
 }
 
-:root {
-  --code-highlight: #e0f0ff;
-  --code-added: #daf6da;
-  --code-removed: #ffe6e6;
-  --code-referenced: #fef0cd;
-}
-
-.dark {
-  --code-highlight: #0f2f57;
-  --code-added: #12361b;
-  --code-removed: #561a1e;
-  --code-referenced: #4d2a00;
-}
-
 @utility command-menu-scale {
   box-shadow: var(--material-shadow-modal);
 
   &[data-state="open"] {
-    animation: command-menu-scale-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    animation: command-menu-scale-in 0.3s var(--ease-pop);
   }
 
   &[data-state="closed"] {
-    animation: command-menu-scale-out 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    animation: command-menu-scale-out 0.3s var(--ease-pop);
   }
 }
 
 @media (max-width: theme(--breakpoint-grid-sm)) {
   .command-menu-mobile[data-state="open"] {
-    animation: command-menu-mobile-in 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+    animation: command-menu-mobile-in 0.4s var(--ease-snap);
   }
   .command-menu-mobile[data-state="closed"] {
-    animation: command-menu-mobile-out 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+    animation: command-menu-mobile-out 0.4s var(--ease-snap);
   }
 }
 
@@ -2111,8 +2121,8 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
  */
 @utility input-focus-ring {
   transition:
-    border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
   &:focus-visible,
   &:focus {
     border-color: var(--input-focus-border);

@@ -476,7 +476,7 @@ function Combobox({
       data-slot="combobox-root"
       style={rootStyle}
       className={cn(
-        "relative outline-hidden rounded-lg transition-shadow duration-(--uni-duration-base) focus-visible:shadow-[var(--uni-focus-ring)]",
+        "focus-ring relative outline-hidden rounded-lg transition-shadow duration-(--uni-duration-base)",
         className,
       )}
       onClick={() => {
