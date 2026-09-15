@@ -352,7 +352,7 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "下拉列表固定放在输入框下方，并在滚动或窗口缩放时重新计算位置；当前不做碰撞翻转或边界避让。",
+        "下拉列表默认放在输入框下方 8px 并左对齐输入表面；视口空间不足时自动翻转并避让边界，滚动或窗口缩放时实时跟随。",
         "输入框宽度可通过 layout 或兼容的 width prop 设置；下拉列表至少跟随输入框宽度，并可通过 maxWidth 扩大。",
       ],
     },
@@ -745,7 +745,7 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "The dropdown is placed below the input and recomputes its fixed position on scroll or resize; it does not currently flip or avoid viewport collisions.",
+        "The dropdown sits 8px below the input, start-aligned with the input surface; it flips and avoids viewport edges when space is insufficient, and tracks scroll and resize in real time.",
         "Input width comes from layout or the compatibility width prop; the list is at least as wide as the input and maxWidth can widen it.",
       ],
     },
