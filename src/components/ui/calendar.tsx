@@ -1,27 +1,11 @@
 import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Popover as PopoverPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { resolveRangeColors, type RangeColorScheme } from "@/lib/calendar-colors";
-import {
-  defaultDateFmt,
-  defaultTimeFmt,
-  formatDateTime,
-  formatTimeOfDay,
-  parseDateTime,
-  parseTimeOfDay,
-  resolveTimeZone,
-  setTimeOfDay,
-} from "@/lib/date-time";
+import { type RangeColorScheme } from "@/lib/calendar-colors";
+import { formatDateTime } from "@/lib/date-time";
 import { useI18n } from "@/lib/i18n";
-import {
-  getMonthTitle,
-  getRelativeTimePresets,
-  getWeekStartDay,
-  getWeekdayLabels,
-} from "@/lib/date-locale";
+import { getRelativeTimePresets } from "@/lib/date-locale";
 
 /**
  * Calendar — 日期范围选择器（对应官方 geist Calendar，关闭态视觉复刻）。
@@ -37,103 +21,37 @@ import {
  * - 文本 span.truncate 由按钮 [&>span]:nth-[2]:w-full 撑满剩余宽度（不依赖字体度量）；
  * - 骨架 span[data-geist-skeleton] 常驻（加载占位，包裹触发按钮）。
  */
-const SKELETON_CLASS =
-  "rounded-[5px] after:animate-loading-skeleton block relative after:absolute after:inset-0 after:right-[-200%] after:bg-gradient-to-r after:from-gray-100 after:via-gray-200 after:to-gray-100 after:bg-[length:50%_100%] after:bg-[position:0_0] visible overflow-visible after:content-none after:invisible";
-
-const TRIGGER_MEDIUM_CLASS =
-  "outline-none m-0 p-0 border-0 align-baseline no-underline group/trigger relative cursor-pointer select-none transform translate-z-0 flex text-[var(--themed-fg,_var(--uni-background-100))] bg-[var(--themed-bg,_var(--uni-gray-1000))] max-w-full items-center justify-center transition-[border-color, background,color,transform,box-shadow] ease-in-out data-[focus]:shadow-[var(--uni-focus-ring)] [&_svg]:shrink-0 disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:text-[var(--uni-gray-700)] disabled:bg-[var(--uni-gray-100)] aria-disabled:text-[var(--uni-gray-700)] aria-disabled:bg-[var(--uni-gray-100)] disabled:![--themed-border:_var(--uni-gray-400)] [--x-padding:10px] [--height:var(--uni-size-medium)] text-[14px] !pl-[var(--x-padding)] !pr-[var(--x-padding)] rounded-md [--themed-bg:_var(--uni-background-100)] shadow-[0_0_0_1px_var(--themed-border,_transparent)] [--themed-hover-bg:_var(--uni-gray-alpha-200)] [--themed-fg:_var(--uni-gray-1000)] [--themed-border:_var(--uni-gray-400)] data-[focus]:shadow-[0_0_0_1px_var(--themed-border,_transparent),0_0_0_2px_var(--uni-background-100),0_0_0_4px_var(--uni-focus-color)] data-[focus]:transition-none h-[var(--height)] text-gray-700! dark-theme:data-[focus]:!shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] data-[focus]:!shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] dark-theme:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] hover:z-1 hover:cursor-pointer group-hover/calendar:shadow-[0_0_0_1px_var(--uni-gray-500)] font-normal !text-[14px] [&>span:nth-of-type(2)]:pl-1.5 [&>span:nth-of-type(2)]:pr-1.5 [&>span]:nth-[2]:pr-5 [&>span]:nth-[2]:w-full !font-normal transition-[box-shadow] duration-(--uni-duration-fast) w-[var(--width)]";
-
-const TRIGGER_SMALL_CLASS =
-  "outline-none m-0 p-0 border-0 align-baseline no-underline group/trigger relative cursor-pointer select-none transform translate-z-0 flex text-[var(--themed-fg,_var(--uni-background-100))] bg-[var(--themed-bg,_var(--uni-gray-1000))] max-w-full items-center justify-center transition-[border-color, background,color,transform,box-shadow] ease-in-out data-[focus]:shadow-[var(--uni-focus-ring)] [&_svg]:shrink-0 disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:text-[var(--uni-gray-700)] disabled:bg-[var(--uni-gray-100)] aria-disabled:text-[var(--uni-gray-700)] aria-disabled:bg-[var(--uni-gray-100)] disabled:![--themed-border:_var(--uni-gray-400)] [--x-padding:6px] [--height:32px] !pl-[var(--x-padding)] !pr-[var(--x-padding)] rounded-md [--themed-bg:_var(--uni-background-100)] shadow-[0_0_0_1px_var(--themed-border,_transparent)] [--themed-hover-bg:_var(--uni-gray-alpha-200)] [--themed-fg:_var(--uni-gray-1000)] [--themed-border:_var(--uni-gray-400)] data-[focus]:shadow-[0_0_0_1px_var(--themed-border,_transparent),0_0_0_2px_var(--uni-background-100),0_0_0_4px_var(--uni-focus-color)] data-[focus]:transition-none [--spinner-size:16px] h-[var(--height)] text-gray-700! dark-theme:data-[focus]:!shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] data-[focus]:!shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] dark-theme:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] hover:z-1 hover:cursor-pointer group-hover/calendar:shadow-[0_0_0_1px_var(--uni-gray-500)] font-normal !text-[14px] [&>span:nth-of-type(2)]:pl-1.5 [&>span:nth-of-type(2)]:pr-1.5 [&>span]:nth-[2]:pr-5 [&>span]:nth-[2]:w-full !font-normal transition-[box-shadow] duration-(--uni-duration-fast) w-[var(--width)]";
-
-/** 紧凑排布（trigger 左侧圆角、combobox 右侧圆角）时 trigger 按钮附加类（官方原样）。 */
-const TRIGGER_ROW_EXTRA_CLASS = "rounded-l-none [&_button]:rounded-l-none [&_button]:border-l";
-
-const ICON_SPAN_CLASS =
-  "mr-[3px] min-w-5 shrink-0 flex items-center justify-center [&_svg[data-slot=geist-icon]]:size-(--uni-control-decoration-size)";
-
-const ICON_SVG_CLASS = "size-(--uni-control-decoration-size) -mt-px";
-
-const TEXT_SPAN_CLASS = "truncate inline-block px-1.5";
-
-/** 触发按钮 inline style（官方原样）。 */
-const TRIGGER_INLINE_STYLE = {
-  display: "flex",
-  justifyContent: "space-between",
-  textAlign: "left",
-  fontWeight: 400,
-} as React.CSSProperties;
-
-/** 小号触发按钮 inline style：额外固定高度（官方原样，--uni-size-small 由根节点注入）。 */
-const TRIGGER_SMALL_INLINE_STYLE = {
-  ...TRIGGER_INLINE_STYLE,
-  height: "var(--uni-size-small)",
-  minHeight: "var(--uni-size-small)",
-} as React.CSSProperties;
-
-/** cmdk Combobox 根节点类（官方原样；高度按尺寸追加）。 */
-const COMBO_ROOT_CLASS =
-  "relative flex [&_[data-radix-popper-content-wrapper]]:!absolute [&_[data-radix-popper-content-wrapper]]:!transform-none [&_[data-radix-popper-content-wrapper]]:!opacity-100";
-
-/** sr-only 标签 inline style（官方原样）。 */
-const SR_ONLY_LABEL_STYLE: React.CSSProperties = {
-  position: "absolute",
-  width: 1,
-  height: 1,
-  padding: 0,
-  margin: -1,
-  overflow: "hidden",
-  clip: "rect(0, 0, 0, 0)",
-  whiteSpace: "nowrap",
-  borderWidth: 0,
-};
-
-const CHEVRON_SVG_CLASS =
-  "size-(--uni-control-decoration-size) right-3 pointer-events-none absolute top-1/2 z-10 -translate-y-1/2 transition duration-(--uni-duration-fast)";
-
-const CHEVRON_SVG_SMALL_CLASS =
-  "size-(--uni-control-decoration-size) pointer-events-none absolute top-1/2 z-10 -translate-y-1/2 transition duration-(--uni-duration-fast) right-[9px]";
-
-const CIRCULAR_SVG_CLASS =
-  "pointer-events-none absolute z-10 size-(--uni-control-decoration-size) top-[9px] left-[9px]";
-
-const CIRCULAR_SVG_MEDIUM_CLASS =
-  "pointer-events-none absolute left-[13px] z-10 size-(--uni-control-decoration-size) top-[11px]";
-
-/** 小方块 combobox 左分隔线（官方原样）。 */
-const DIVIDER_SQUARE_CLASS =
-  "absolute -top-px -bottom-px z-[1] w-px bg-[var(--uni-gray-900)] opacity-0 transition-opacity duration-(--uni-duration-fast) right-auto left-px";
-
-/** 通栏 combobox 右分隔线（官方原样）。 */
-const DIVIDER_FULL_CLASS =
-  "absolute -top-px -right-px -bottom-px z-[1] w-px bg-[var(--uni-gray-900)] opacity-0 transition-opacity duration-(--uni-duration-fast)";
-
-const GEIST_ICON_ATTRS = {
-  viewBox: "0 0 16 16",
-  height: 16,
-  width: 16,
-  "data-slot": "geist-icon",
-} as const;
-
-/** combobox 弹出菜单（官方 cmdk-root：grid 容器 + p-2 group + h-9 item，2026-08-16 实测）。 */
-const COMBO_MENU_CLASS =
-  "grid bg-[var(--uni-background-100)] rounded-[8px] shadow-[var(--uni-shadow-menu)] overflow-hidden z-[99999999]";
-
-const COMBO_GROUP_CLASS = "p-2";
-
-const COMBO_ITEM_CLASS =
-  "max-sm:h-12 max-sm:text-[16px] h-9 text-[14px] px-2 rounded-[5px] flex scroll-m-2 cursor-pointer items-center font-normal text-[var(--uni-gray-1000)] hover:bg-[var(--uni-gray-alpha-300)]";
-
-/** 官方右列「Type relative times」相对时间快捷按钮（showHints，2026-08-16 实测；文案 locale 化）。 */
-
-const COMBO_HINT_COL_CLASS = "p-4 pr-[30px]";
-
-const COMBO_HINT_TITLE_CLASS = "text-copy-14 text-gray-900";
-
-const COMBO_HINT_WRAP_CLASS = "flex flex-wrap mt-2 gap-1";
-
-const COMBO_HINT_BUTTON_CLASS =
-  "text-[13px] hover:bg-[hsl(0,0%,87%)] dark-theme:hover:bg-[hsl(0,0%,30%)] px-1.5 h-5 inline-flex items-center font-[var(--font-mono)] bg-[var(--uni-gray-100)] border-none rounded-[4px] cursor-pointer text-[var(--uni-gray-1000)] focus-visible:outline-2 focus-visible:outline-gray-700";
+import {
+  CALENDAR_ROW_CLASS,
+  CALENDAR_ROW_REV_CLASS,
+  CHEVRON_SVG_CLASS,
+  CHEVRON_SVG_SMALL_CLASS,
+  CIRCULAR_SVG_CLASS,
+  CIRCULAR_SVG_MEDIUM_CLASS,
+  COMBO_GROUP_CLASS,
+  COMBO_HINT_BUTTON_CLASS,
+  COMBO_HINT_COL_CLASS,
+  COMBO_HINT_TITLE_CLASS,
+  COMBO_HINT_WRAP_CLASS,
+  COMBO_ITEM_CLASS,
+  COMBO_MENU_CLASS,
+  COMBO_ROOT_CLASS,
+  DIVIDER_FULL_CLASS,
+  DIVIDER_SQUARE_CLASS,
+  GEIST_ICON_ATTRS,
+  ICON_SPAN_CLASS,
+  ICON_SVG_CLASS,
+  SKELETON_CLASS,
+  SR_ONLY_LABEL_STYLE,
+  TEXT_SPAN_CLASS,
+  TRIGGER_INLINE_STYLE,
+  TRIGGER_MEDIUM_CLASS,
+  TRIGGER_ROW_EXTRA_CLASS,
+  TRIGGER_SMALL_CLASS,
+  TRIGGER_SMALL_INLINE_STYLE,
+  calendarColClass,
+} from "./calendar-classes";
+import { CalendarPanel } from "./calendar-panel";
 
 type CalendarSize = "medium" | "small";
 
@@ -200,14 +118,14 @@ function CalendarCombobox({
   const inputClass = full
     ? size === "small"
       ? wide
-        ? "peer/comboboxInput rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark-theme:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none w-[var(--width)] text-[var(--uni-gray-700)] h-(--uni-size-small) px-[34px]"
-        : "peer/comboboxInput rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark-theme:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none text-[var(--uni-gray-700)] h-(--uni-size-small) px-[34px]"
+        ? "peer/comboboxInput rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none w-[var(--width)] text-[var(--uni-gray-700)] h-(--uni-size-small) px-[34px]"
+        : "peer/comboboxInput rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none text-[var(--uni-gray-700)] h-(--uni-size-small) px-[34px]"
       : wide
-        ? "peer/comboboxInput px-9 h-(--uni-size-medium) rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark-theme:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none w-[var(--width)] text-[var(--uni-gray-700)]"
-        : "peer/comboboxInput px-9 h-(--uni-size-medium) rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark-theme:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none text-[var(--uni-gray-700)]"
+        ? "peer/comboboxInput px-9 h-(--uni-size-medium) rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none w-[var(--width)] text-[var(--uni-gray-700)]"
+        : "peer/comboboxInput px-9 h-(--uni-size-medium) rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none text-[var(--uni-gray-700)]"
     : size === "small"
-      ? "peer/comboboxInput px-9 rounded-[5px] rounded-r-none text-[14px] font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] outline-none relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] font-normal [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark-theme:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] pl-2 !rounded-l-none !rounded-r-[5px] text-[var(--uni-gray-700)] h-(--uni-size-small) pr-[34px]"
-      : "peer/comboboxInput px-9 h-(--uni-size-medium) rounded-[5px] rounded-r-none text-[14px] font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] outline-none relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] font-normal [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark-theme:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] pl-2 !rounded-l-none !rounded-r-[5px] text-[var(--uni-gray-700)]";
+      ? "peer/comboboxInput px-9 rounded-[5px] rounded-r-none text-[14px] font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] outline-none relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] font-normal [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] pl-2 !rounded-l-none !rounded-r-[5px] text-[var(--uni-gray-700)] h-(--uni-size-small) pr-[34px]"
+      : "peer/comboboxInput px-9 h-(--uni-size-medium) rounded-[5px] rounded-r-none text-[14px] font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] outline-none relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] font-normal [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] pl-2 !rounded-l-none !rounded-r-[5px] text-[var(--uni-gray-700)]";
 
   const chevronClass = size === "small" ? CHEVRON_SVG_SMALL_CLASS : CHEVRON_SVG_CLASS;
   const circularClass = size === "small" ? CIRCULAR_SVG_CLASS : CIRCULAR_SVG_MEDIUM_CLASS;
@@ -598,7 +516,7 @@ function Calendar({
             sideOffset={4}
             data-slot="calendar-popover"
             className={cn(
-              "group/popover z-30 overflow-x-hidden overflow-y-auto rounded-[12px] bg-[var(--uni-background-100)] shadow-[var(--uni-shadow-menu)] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
+              "group/popover z-30 overflow-x-hidden overflow-y-auto rounded-xl bg-[var(--uni-background-100)] shadow-[var(--uni-shadow-menu)] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
               horizontalLayout ? "w-[520px]" : "w-[280px]",
             )}
           >
@@ -636,497 +554,6 @@ function Calendar({
           onValueChange={handlePresetSelect}
         />
       )}
-    </div>
-  );
-}
-
-/** 官方紧凑排布根类：trigger 左侧圆角 + combobox 右侧圆角（compact / sizes item2）。 */
-const CALENDAR_ROW_CLASS =
-  "flex items-center [&_[data-geist-button]]:rounded-l-[5px] [&_[data-geist-button]]:rounded-r-none [&_[data-geist-select]]:rounded-l-none [&_[data-geist-select]]:rounded-r-[5px] [&_input]:rounded-l-[5px] [&_input]:rounded-r-none";
-
-/** 官方反向排布根类：combobox 左侧圆角 + trigger 右侧圆角（sizes item4）。 */
-const CALENDAR_ROW_REV_CLASS =
-  "flex items-center [&_[data-geist-button]]:rounded-l-none [&_[data-geist-button]]:rounded-r-[5px] [&_input]:rounded-l-[5px] [&_input]:rounded-r-none";
-
-/** 官方纵向排布根类：combobox 在上、trigger 在下（sizes item3）。 */
-function calendarColClass(size: "medium" | "small"): string {
-  return `[&_[data-geist-button]]:transform-none [&_[data-geist-button]]:rounded-[5px] [&_[data-geist-button]]:rounded-t-none [&_[data-geist-button]]:text-[1rem] inline-flex flex-col [&_[data-geist-button]]:!rounded-[5px] [&_[data-geist-button]]:!rounded-t-none h-(--uni-size-${size}) [&_[data-geist-select]_select]:rounded-t [&_[data-geist-select]_select]:rounded-br-none [&_[data-geist-select]_select]:rounded-bl-none`;
-}
-
-/* ---------- 打开态 Popover（官方 date range picker，2026-08-15 实测） ---------- */
-
-/** 当月 42 格日期（从当月 1 号所在周的 weekStart 开始，覆盖 6 周）。 */
-function monthGrid(viewYear: number, viewMonth: number, weekStart: number): Date[] {
-  const first = new Date(viewYear, viewMonth, 1);
-  const start = new Date(first);
-  start.setDate(first.getDate() - ((first.getDay() - weekStart + 7) % 7));
-  return Array.from({ length: 42 }, (_, i) => {
-    const d = new Date(start);
-    d.setDate(start.getDate() + i);
-    return d;
-  });
-}
-
-function sameDay(a: Date, b: Date): boolean {
-  return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
-  );
-}
-
-const PANEL_CONTENT_CLASS = "relative rounded-[6px] p-(--padding) [--padding:_12px]";
-
-const START_END_LABEL_CLASS =
-  "block text-[13px] max-w-full text-gray-900 cursor-text capitalize mb-0";
-
-const DATE_INPUT_WRAP_CLASS =
-  "flex max-w-full transition-all duration-(--uni-duration-fast) shadow-[0_0_0_1px_var(--uni-gray-alpha-400)] overflow-hidden font-normal rounded-md [&>input]:h-8 text-sm [&>input]:px-3 has-[:focus]:!shadow-[0_0_0_1px_var(--uni-gray-alpha-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] dark-theme:has-[:focus]:!shadow-[0_0_0_1px_var(--uni-gray-alpha-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] hover:shadow-[0_0_0_1px_var(--uni-gray-alpha-500)]";
-
-const DATE_INPUT_CLASS =
-  "inline-flex appearance-none min-w-0 w-full border-none bg-background-100 text-[var(--foreground)] outline-none focus:outline-none disabled:bg-[var(--uni-gray-100)] disabled:text-[var(--uni-gray-700)] disabled:cursor-not-allowed [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
-
-const NAV_BUTTON_CLASS =
-  "p-0.5 active:bg-gray-300 flex aspect-square shrink-0 items-center rounded-full bg-transparent text-[var(--uni-gray-700)] hover:text-[var(--uni-gray-1000)] disabled:cursor-not-allowed disabled:text-[var(--uni-gray-700)]";
-
-const GRID_TABLE_CLASS = "relative block table-fixed border-collapse w-full";
-const GRID_HEAD_TR_CLASS = "last:mb-0 flex flex-nowrap mt-4 mb-2";
-const GRID_HEAD_TH_CLASS =
-  "p-0 font-normal flex-1 text-center text-[0.75rem] text-[var(--uni-gray-900)] uppercase";
-const GRID_BODY_CLASS = "block !mt-2";
-const GRID_ROW_CLASS = "last:mb-0 flex flex-nowrap my-2";
-const GRID_CELL_CLASS = "flex-1 flex justify-center size-8 p-0 text-center";
-
-function CalendarPanel({
-  horizontalLayout = false,
-  pinnedTimezone,
-  minValue,
-  maxValue,
-  locale,
-  timeZone: requestedTimeZone,
-  dateTimeFormat,
-  timeFormat,
-  colorScheme,
-  onApply,
-  value,
-  onValueChange,
-}: {
-  horizontalLayout?: boolean;
-  pinnedTimezone?: string;
-  minValue?: Date;
-  maxValue?: Date;
-  locale: string;
-  timeZone?: string;
-  dateTimeFormat?: string;
-  timeFormat?: string;
-  colorScheme?: Partial<RangeColorScheme>;
-  /** 点击 Apply 时回调选中的日期范围（官方 onChange 语义）。 */
-  onApply?: (range: { start: Date | null; end: Date | null }) => void;
-  /** 外部受控范围（preset 选中 / 父组件回填），变化时同步内部选中态。 */
-  value?: { start: Date | null; end: Date | null };
-  /** 内部点选 / 范围变化回调。 */
-  onValueChange?: (range: { start: Date | null; end: Date | null }) => void;
-}) {
-  const { t } = useI18n();
-  const today = new Date();
-  const [viewYear, setViewYear] = React.useState(today.getFullYear());
-  const [viewMonth, setViewMonth] = React.useState(today.getMonth());
-  const [start, setStart] = React.useState<Date | null>(null);
-  const [end, setEnd] = React.useState<Date | null>(null);
-  const [inputs, setInputs] = React.useState<Record<string, string>>({});
-  const [inputErrors, setInputErrors] = React.useState<Record<string, boolean>>({});
-
-  // 外部受控范围（preset 选中）变化时同步内部选中态
-  React.useEffect(() => {
-    if (value && (value.start || value.end)) {
-      setStart(value.start);
-      setEnd(value.end);
-    }
-  }, [value?.start, value?.end]);
-
-  const timeZone = pinnedTimezone ?? resolveTimeZone(requestedTimeZone);
-  const datePattern = dateTimeFormat ?? defaultDateFmt(locale, timeZone);
-  const clockPattern = timeFormat ?? defaultTimeFmt();
-  const colors = resolveRangeColors(colorScheme);
-  const colorStyle = {
-    "--calendar-range-selected-bg": colors.selectedBg,
-    "--calendar-range-selected-fg": colors.selectedFg,
-    "--calendar-range-soft-bg": colors.softBg,
-    "--calendar-range-soft-fg": colors.softFg,
-  } as React.CSSProperties;
-
-  const getDateInput = (field: "start" | "end") => {
-    const selected = field === "start" ? start : end;
-    return (
-      inputs[`${field}-date`] ??
-      (selected ? formatDateTime(selected, { locale, timeZone, dateTimeFormat: datePattern }) : "")
-    );
-  };
-  const getTimeInput = (field: "start" | "end") => {
-    const selected = field === "start" ? start : end;
-    return (
-      inputs[`${field}-time`] ??
-      (selected
-        ? formatTimeOfDay(selected, { timeZone, timeFormat: clockPattern })
-        : field === "end"
-          ? "23:59"
-          : "00:00")
-    );
-  };
-  const setInput = (key: string, value: string) =>
-    setInputs((current) => ({ ...current, [key]: value }));
-  const setInputError = (key: string, invalid: boolean) =>
-    setInputErrors((current) => ({ ...current, [key]: invalid }));
-  const updateDate = (field: "start" | "end", raw: string) => {
-    const key = `${field}-date`;
-    const parsed = parseDateTime(raw, { locale, timeZone, dateTimeFormat: datePattern });
-    if (!parsed) {
-      setInputError(key, true);
-      return;
-    }
-    const time = parseTimeOfDay(getTimeInput(field), clockPattern) ?? {
-      hours: field === "end" ? 23 : 0,
-      minutes: 0,
-    };
-    const next = setTimeOfDay(parsed, time, timeZone);
-    if (field === "start") setStart(next);
-    else setEnd(next);
-    setInputs((values) => {
-      const nextValues = { ...values };
-      delete nextValues[key];
-      return nextValues;
-    });
-    setInputError(key, false);
-  };
-  const updateTime = (field: "start" | "end", raw: string) => {
-    const key = `${field}-time`;
-    const time = parseTimeOfDay(raw, clockPattern);
-    const current = field === "start" ? start : end;
-    if (!time || !current) {
-      setInputError(key, true);
-      return;
-    }
-    const next = setTimeOfDay(current, time, timeZone);
-    if (field === "start") setStart(next);
-    else setEnd(next);
-    setInputs((values) => {
-      const nextValues = { ...values };
-      delete nextValues[key];
-      return nextValues;
-    });
-    setInputError(key, false);
-  };
-
-  const cells = monthGrid(viewYear, viewMonth, getWeekStartDay(locale));
-
-  const selectDate = (d: Date) => {
-    let next: { start: Date | null; end: Date | null };
-    if (!start || (start && end)) {
-      next = { start: d, end: null };
-    } else if (d < start) {
-      next = { start: d, end: start };
-    } else {
-      next = { start, end: d };
-    }
-    setStart(next.start);
-    setEnd(next.end);
-    onValueChange?.(next);
-  };
-
-  const isStart = (d: Date) => (start ? sameDay(d, start) : false);
-  const isEnd = (d: Date) => (end ? sameDay(d, end) : false);
-  const inRange = (d: Date) => !!(start && end && d > start && d < end);
-  const isSelected = (d: Date) => isStart(d) || isEnd(d) || inRange(d);
-  const isDisabled = (d: Date) =>
-    (minValue !== undefined && d < minValue) || (maxValue !== undefined && d > maxValue);
-
-  const prevMonth = () => {
-    const m = new Date(viewYear, viewMonth - 1, 1);
-    setViewYear(m.getFullYear());
-    setViewMonth(m.getMonth());
-  };
-  const nextMonth = () => {
-    const m = new Date(viewYear, viewMonth + 1, 1);
-    setViewYear(m.getFullYear());
-    setViewMonth(m.getMonth());
-  };
-
-  return (
-    <div className={PANEL_CONTENT_CLASS} style={colorStyle}>
-      <div className={horizontalLayout ? "flex flex-row items-stretch" : "flex flex-col"}>
-        {/* 日历（上 / 左） */}
-        <div className={horizontalLayout ? "min-w-0 flex-1" : ""}>
-          <div
-            className="flex flex-row items-center justify-between"
-            style={{ margin: "-3px 0px" }}
-          >
-            <div
-              style={{
-                overflow: "hidden",
-                marginLeft: "-16px",
-                paddingLeft: "16px",
-                flex: "1 1 0%",
-              }}
-            >
-              <h2 className="m-0 font-medium text-gray-1000 block w-fit max-w-full text-[14px]">
-                {getMonthTitle(new Date(viewYear, viewMonth, 1), locale)}
-              </h2>
-            </div>
-            <button
-              type="button"
-              aria-label={t("Previous month")}
-              className={NAV_BUTTON_CLASS}
-              onClick={prevMonth}
-            >
-              <ChevronLeft className="size-4" />
-            </button>
-            <button
-              type="button"
-              aria-label={t("Next month")}
-              className={NAV_BUTTON_CLASS}
-              onClick={nextMonth}
-            >
-              <ChevronRight className="size-4" />
-            </button>
-          </div>
-          <table className={GRID_TABLE_CLASS}>
-            <caption className="sr-only">{t("Calendar")}</caption>
-            <thead className="block">
-              <tr className={GRID_HEAD_TR_CLASS}>
-                {getWeekdayLabels(locale).map((d, i) => (
-                  <th key={i} className={GRID_HEAD_TH_CLASS}>
-                    {d}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className={GRID_BODY_CLASS}>
-              {Array.from({ length: 6 }, (_, week) => (
-                <tr key={week} className={GRID_ROW_CLASS}>
-                  {cells.slice(week * 7, week * 7 + 7).map((d, i) => {
-                    const idx = week * 7 + i;
-                    const inMonth = d.getMonth() === viewMonth;
-                    const selected = isSelected(d);
-                    const startDay = isStart(d);
-                    const endDay = isEnd(d);
-                    const disabled = isDisabled(d);
-                    // 连续区间：同行内区间段两端圆角、中间无圆角（几何圆角，非 start/end 语义）
-                    const inSel = !!(start && end && d >= start && d <= end);
-                    const leftIn =
-                      i > 0 && !!(start && end && cells[idx - 1] >= start && cells[idx - 1] <= end);
-                    const rightIn =
-                      i < 6 && !!(start && end && cells[idx + 1] >= start && cells[idx + 1] <= end);
-                    const isLeftEdge = inSel && !leftIn;
-                    const isRightEdge = inSel && !rightIn;
-                    const rounded = !inSel
-                      ? "rounded-[5px]"
-                      : isLeftEdge && isRightEdge
-                        ? "rounded-[5px]"
-                        : isLeftEdge
-                          ? "rounded-l-[5px] rounded-r-none"
-                          : isRightEdge
-                            ? "rounded-r-[5px] rounded-l-none"
-                            : "rounded-none";
-                    return (
-                      <td
-                        key={i}
-                        role="gridcell"
-                        aria-selected={selected}
-                        className={GRID_CELL_CLASS}
-                      >
-                        <span
-                          role="button"
-                          tabIndex={-1}
-                          aria-label={d.toLocaleDateString(locale)}
-                          aria-disabled={disabled || undefined}
-                          data-testid={`calendar/cell/date-${d.getDate()}`}
-                          className={cn(
-                            "z-[1] outline-none block h-9 w-full text-[14px] font-normal text-center border border-transparent m-0 leading-9 transition-[background-color,border-radius] duration-(--uni-duration-fast)",
-                            rounded,
-                            disabled ? "cursor-not-allowed text-gray-500" : "cursor-pointer",
-                            !disabled &&
-                              (startDay || endDay
-                                ? "bg-[var(--calendar-range-selected-bg)] !text-[var(--calendar-range-selected-fg)]"
-                                : inRange(d)
-                                  ? "bg-[var(--calendar-range-soft-bg)] text-[var(--calendar-range-soft-fg)]"
-                                  : inMonth
-                                    ? "text-gray-1000"
-                                    : "text-gray-700"),
-                          )}
-                          onClick={() => {
-                            if (!disabled) selectDate(d);
-                          }}
-                        >
-                          {d.getDate()}
-                        </span>
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Start / End（横向：右列 border-l；纵向：上分割线） */}
-        <div
-          data-slot="calendar-range-controls"
-          className={
-            horizontalLayout
-              ? "ml-3 flex w-60 shrink-0 self-stretch flex-col border-l border-gray-alpha-200 pl-3"
-              : "-ml-3 -mr-3 mt-3 border-t border-gray-alpha-200 px-3 pt-3"
-          }
-        >
-          <div className="space-y-2">
-            <div>
-              <div className="mb-1 flex items-center justify-between">
-                <label>
-                  <div className={START_END_LABEL_CLASS}>{t("Start")}</div>
-                </label>
-              </div>
-              <div className="flex gap-2">
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
-                  <input
-                    aria-label={t("Start date")}
-                    placeholder={datePattern}
-                    aria-invalid={inputErrors["start-date"] || undefined}
-                    autoCapitalize="none"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    className={cn(
-                      DATE_INPUT_CLASS,
-                      "text-center",
-                      inputErrors["start-date"] &&
-                        "!shadow-[0_0_0_1px_var(--danger),0_0_0_4px_color-mix(in_srgb,var(--danger)_20%,transparent)]",
-                    )}
-                    data-geist-input=""
-                    spellCheck="false"
-                    type="text"
-                    value={getDateInput("start")}
-                    onChange={(event) => setInput("start-date", event.target.value)}
-                    onBlur={(event) => updateDate("start", event.target.value)}
-                    onKeyDown={(event) => {
-                      if (event.key === "Enter") updateDate("start", event.currentTarget.value);
-                    }}
-                  />
-                </div>
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
-                  <input
-                    aria-label={t("Start time")}
-                    placeholder={clockPattern}
-                    aria-invalid={inputErrors["start-time"] || undefined}
-                    autoComplete="off"
-                    className={cn(
-                      DATE_INPUT_CLASS,
-                      "text-center",
-                      inputErrors["start-time"] &&
-                        "!shadow-[0_0_0_1px_var(--danger),0_0_0_4px_color-mix(in_srgb,var(--danger)_20%,transparent)]",
-                    )}
-                    data-geist-input=""
-                    spellCheck="false"
-                    type="text"
-                    value={getTimeInput("start")}
-                    onChange={(event) => setInput("start-time", event.target.value)}
-                    onBlur={(event) => updateTime("start", event.target.value)}
-                    onKeyDown={(event) => {
-                      if (event.key === "Enter") updateTime("start", event.currentTarget.value);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className="mb-1 flex items-center justify-between">
-                <label>
-                  <div className={START_END_LABEL_CLASS}>{t("End")}</div>
-                </label>
-              </div>
-              <div className="flex gap-2">
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
-                  <input
-                    aria-label={t("End date")}
-                    placeholder={datePattern}
-                    aria-invalid={inputErrors["end-date"] || undefined}
-                    autoComplete="off"
-                    className={cn(
-                      DATE_INPUT_CLASS,
-                      "text-center",
-                      inputErrors["end-date"] &&
-                        "!shadow-[0_0_0_1px_var(--danger),0_0_0_4px_color-mix(in_srgb,var(--danger)_20%,transparent)]",
-                    )}
-                    data-geist-input=""
-                    spellCheck="false"
-                    type="text"
-                    value={getDateInput("end")}
-                    onChange={(event) => setInput("end-date", event.target.value)}
-                    onBlur={(event) => updateDate("end", event.target.value)}
-                    onKeyDown={(event) => {
-                      if (event.key === "Enter") updateDate("end", event.currentTarget.value);
-                    }}
-                  />
-                </div>
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
-                  <input
-                    aria-label={t("End time")}
-                    placeholder={clockPattern}
-                    aria-invalid={inputErrors["end-time"] || undefined}
-                    autoComplete="off"
-                    className={cn(
-                      DATE_INPUT_CLASS,
-                      "text-center",
-                      inputErrors["end-time"] &&
-                        "!shadow-[0_0_0_1px_var(--danger),0_0_0_4px_color-mix(in_srgb,var(--danger)_20%,transparent)]",
-                    )}
-                    data-geist-input=""
-                    spellCheck="false"
-                    type="text"
-                    value={getTimeInput("end")}
-                    onChange={(event) => setInput("end-time", event.target.value)}
-                    onBlur={(event) => updateTime("end", event.target.value)}
-                    onKeyDown={(event) => {
-                      if (event.key === "Enter") updateTime("end", event.currentTarget.value);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 横向布局时，操作组锚定至右列底部；纵向布局仍按表单流显示。 */}
-          <div
-            className={horizontalLayout ? "mt-auto pt-3" : "mt-3"}
-            data-slot="calendar-range-actions"
-          >
-            <div data-slot="calendar-apply">
-              <Button
-                className="w-full"
-                size="small"
-                type="secondary"
-                typeName="button"
-                onClick={() => {
-                  const range = { start, end };
-                  onApply?.(range);
-                  onValueChange?.(range);
-                }}
-              >
-                {t("Apply")}
-                <span className="ml-2 text-xs" aria-hidden>
-                  ↵
-                </span>
-              </Button>
-            </div>
-
-            {/* 时区选择器（mt-1 为 Geist 4px 档） */}
-            <div className="mt-1 flex justify-center">
-              <span className="text-xs text-gray-800">
-                {pinnedTimezone
-                  ? t("Timezone: {timeZone}", { timeZone: pinnedTimezone })
-                  : t("Local ({timeZone})", { timeZone })}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

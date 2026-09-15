@@ -100,8 +100,15 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
-        "src/components/ui/snippet.tsx",
         "src/components/ui/toggle.tsx"
+      ]
+    },
+    {
+      "literal": "#1a1a1a",
+      "source": "snippet-inverted-dark-scheme-2026-09-14",
+      "reason": "反色（dark scheme）子树的文字色，与 dark 主题 --gray-100（#1a1a1a）同值；待 snippet 迁移为 dark:text-gray-100 后从账本移除",
+      "files": [
+        "src/components/ui/snippet.tsx"
       ]
     },
     {
@@ -166,8 +173,7 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
-        "src/components/ui/avatar.tsx",
-        "src/components/ui/input.tsx"
+        "src/components/ui/avatar.tsx"
       ]
     },
     {
@@ -331,6 +337,14 @@
       ]
     },
     {
+      "literal": "#ffffff17",
+      "source": "snippet-inverted-dark-scheme-2026-09-14",
+      "reason": "反色（dark scheme）子树的 hover 遮罩，与 dark 主题 --gray-alpha-200（#ffffff17）同值；待迁移为 hover:bg-gray-alpha-200 后从账本移除",
+      "files": [
+        "src/components/ui/snippet.tsx"
+      ]
+    },
+    {
       "literal": "#ffffff24",
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
@@ -351,7 +365,7 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
       "files": [
-        "src/components/ui/calendar.tsx"
+        "src/components/ui/calendar-classes.ts"
       ]
     },
     {
@@ -359,15 +373,7 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
       "files": [
-        "src/components/ui/calendar.tsx"
-      ]
-    },
-    {
-      "literal": "rgb(250, 250, 250)",
-      "source": "legacy-baseline-2026-09-04",
-      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
-      "files": [
-        "src/components/ui/drawer.tsx"
+        "src/components/ui/calendar-classes.ts"
       ]
     },
     {
@@ -375,8 +381,7 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
       "files": [
-        "src/components/ui/book.module.css",
-        "src/components/ui/drawer.tsx"
+        "src/components/ui/book.module.css"
       ]
     },
     {
@@ -388,14 +393,6 @@
       ]
     },
     {
-      "literal": "rgba(0, 0, 0, 0.04)",
-      "source": "legacy-baseline-2026-09-04",
-      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
-      "files": [
-        "src/components/ui/drawer.tsx"
-      ]
-    },
-    {
       "literal": "rgba(0, 0, 0, 0.05)",
       "source": "legacy-baseline-2026-09-04",
       "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
@@ -404,20 +401,11 @@
       ]
     },
     {
-      "literal": "rgba(0, 0, 0, 0.06)",
-      "source": "legacy-baseline-2026-09-04",
-      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
-      "files": [
-        "src/components/ui/drawer.tsx"
-      ]
-    },
-    {
       "literal": "rgba(0, 0, 0, 0.08)",
       "source": "legacy-baseline-2026-09-04",
       "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
       "files": [
-        "src/components/ui/book.module.css",
-        "src/components/ui/drawer.tsx"
+        "src/components/ui/book.module.css"
       ]
     },
     {
@@ -490,6 +478,7 @@
       "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
       "files": [
         "src/components/ui/calendar.tsx",
+        "src/components/ui/calendar-classes.ts",
         "src/components/ui/combobox.tsx",
         "src/components/ui/feedback.tsx",
         "src/components/ui/textarea.tsx",
@@ -582,6 +571,7 @@
       "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
       "files": [
         "src/components/ui/calendar.tsx",
+        "src/components/ui/calendar-classes.ts",
         "src/components/ui/textarea.tsx"
       ]
     },
