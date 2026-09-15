@@ -1,6 +1,6 @@
 import * as React from "react";
-import { createPortal } from "react-dom";
 import { Check, ChevronDown, Search, X } from "lucide-react";
+import { Popover as PopoverPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
@@ -12,8 +12,12 @@ import { layoutRootStyle, layoutSurfaceStyle, type ControlLayout } from "@/lib/c
  * DOM 结构（与官方一致，采集证据对齐）：
  * - 根 div[role=combobox]（aria-controls/aria-expanded/aria-haspopup/aria-owns）
  *   - div.group/combobox（搜索图标 + 输入框 + 清除按钮 + 展开按钮）
- *   - ul（关闭态：隐藏列表；打开态：portal 面板内的 ul[role=listbox]，根内替换为 div.sr-only）
- * - 打开态：positioner(fixed) > 面板 div[role=dialog] > ul[role=listbox] > li[role=option]
+ *   - ul（关闭态：隐藏列表；打开态：Radix Popover Portal 面板内的 ul[role=listbox]，根内替换为 div.sr-only）
+ * - 打开态：Radix Popover Portal > 面板 div[role=dialog] > ul[role=listbox] > li[role=option]
+ *
+ * 弹层定位由 Radix Popover 承载：左对齐输入表面（align=start）、下方 8px（sideOffset=8）、
+ * 宽度联动 --radix-popover-trigger-width；视口空间不足自动翻转/避让（avoidCollisions），
+ * 滚动/resize 实时跟随。进出场动画经 data-state 切换，由 Radix Presence 等待动画播完再卸载。
  *
  * 行为：
  * - 点击输入框/展开按钮打开；Escape / 点击外部 / 选中 / 清除 关闭
@@ -114,10 +118,9 @@ const OPEN_BUTTON_CLASS =
 
 const PANEL_CLASS =
   "m-0 p-1.5 outline-hidden bg-[var(--uni-background-100)] shadow-[0_0_0_1px_var(--uni-gray-alpha-400),0_2px_2px_0_rgba(0,0,0,0.04),0_8px_16px_-4px_rgba(0,0,0,0.04),0_0_0_1px_var(--uni-background-200)] rounded-overlay z-[var(--uni-z-popover)] max-h-[210px] overflow-y-auto overflow-x-hidden [&>ul]:m-0 [&>ul]:p-0 [&>ul]:list-none";
-/** 面板为条件挂载 portal（关闭即卸载），关闭动画由 panelMounted 延迟卸载 150ms 承载 */
-const PANEL_ENTER_CLASS = "animate-in fade-in-0 zoom-in-95 duration-(--uni-duration-fast) motion-reduce:animate-none";
-const PANEL_EXIT_CLASS =
-  "animate-out fade-out-0 zoom-out-95 duration-(--uni-duration-fast) motion-reduce:animate-none";
+/** 进出场动画经 data-state 切换：Radix Presence 检测关闭动画播完后才卸载面板 */
+const PANEL_STATE_CLASS =
+  "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 duration-(--uni-duration-fast) motion-reduce:animate-none";
 
 const OPTION_BASE_CLASS =
   "flex items-center text-sm px-2 scroll-my-2 rounded-overlay-item cursor-pointer outline-hidden h-9";
@@ -154,29 +157,10 @@ function Combobox({
   const placeholder = placeholderProp ?? t("Search…");
   const searchLabel = searchLabelProp ?? t("Search");
   const [open, setOpen] = React.useState(false);
-  /** 关闭后延迟卸载面板 150ms，让退出动画播完再卸载（条件挂载 portal 无 data-state） */
-  const [panelMounted, setPanelMounted] = React.useState(false);
-  const [panelClosing, setPanelClosing] = React.useState(false);
-  React.useEffect(() => {
-    if (open) {
-      setPanelMounted(true);
-      setPanelClosing(false);
-      return;
-    }
-    if (!panelMounted) return;
-    setPanelClosing(true);
-    const timer = window.setTimeout(() => {
-      setPanelMounted(false);
-      setPanelClosing(false);
-    }, 150);
-    return () => window.clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
   const [query, setQuery] = React.useState("");
   const [internalValue, setInternalValue] = React.useState(defaultValue);
   const [activeValue, setActiveValue] = React.useState("");
   const [itemsVersion, setItemsVersion] = React.useState(0);
-  const [position, setPosition] = React.useState({ x: 0, y: 0, width: 0 });
   const [listMeta, setListMeta] = React.useState<{
     maxWidth?: number;
     emptyMessage?: string;
@@ -188,7 +172,6 @@ function Combobox({
   const rootRef = React.useRef<HTMLDivElement>(null);
   const groupRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const panelRef = React.useRef<HTMLDivElement>(null);
   const value = valueProp !== undefined ? valueProp : internalValue;
 
   const handleValueChange = (next: string) => {
@@ -240,42 +223,11 @@ function Combobox({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, itemsVersion]);
 
-  /** 打开时聚焦输入框并计算面板位置（官方：面板左对齐输入框、下方 8px，x 取整） */
+  /** 打开时聚焦输入框（定位/碰撞避让/滚动跟随/Esc/外部点击关闭均由 Radix Popover 承载） */
   React.useEffect(() => {
     if (!open) return;
     inputRef.current?.focus();
-    const update = () => {
-      const trigger = groupRef.current;
-      if (!trigger) return;
-      const rect = trigger.getBoundingClientRect();
-      setPosition({ x: Math.round(rect.left), y: Math.round(rect.bottom) + 8, width: rect.width });
-    };
-    update();
-    window.addEventListener("scroll", update, true);
-    window.addEventListener("resize", update);
-    return () => {
-      window.removeEventListener("scroll", update, true);
-      window.removeEventListener("resize", update);
-    };
-  }, [open]);
-
-  /** Escape 关闭 + 点击外部关闭 */
-  React.useEffect(() => {
-    if (!open) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
-    };
-    const onPointerDown = (event: PointerEvent) => {
-      const target = event.target as Node;
-      if (rootRef.current?.contains(target) || panelRef.current?.contains(target)) return;
-      setOpen(false);
-    };
-    document.addEventListener("keydown", onKeyDown);
-    document.addEventListener("pointerdown", onPointerDown);
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.removeEventListener("pointerdown", onPointerDown);
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   const generatedId = React.useId();
@@ -454,10 +406,6 @@ function Combobox({
       </button>
     ) : null;
 
-  const panelWidth = listMeta.maxWidth
-    ? Math.max(position.width, listMeta.maxWidth)
-    : position.width;
-
   /** layout.width 优先；兼容保留的 width prop（数字 px）次之 */
   const rootStyle = {
     ...layoutRootStyle(layout),
@@ -483,6 +431,8 @@ function Combobox({
         if (!open) setOpen(true);
       }}
     >
+      {/* 弹层定位锚点 = 输入表面（virtualRef 不产出 DOM，宽度联动走 anchor 变量） */}
+      <PopoverPrimitive.Anchor virtualRef={groupRef} />
       <div
         ref={groupRef}
         style={layoutSurfaceStyle(layout)}
@@ -534,64 +484,64 @@ function Combobox({
           {options}
         </ul>
       )}
-      {panelMounted
-        ? createPortal(
-            <div
-              style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                transform: `translate(${position.x}px, ${position.y}px)`,
-                zIndex: "var(--uni-z-popover)",
-                // Radix modal roots disable pointer events outside their branch;
-                // this body portal must explicitly opt back in for nested Comboboxes.
-                pointerEvents: "auto",
-              }}
-            >
-              <div
-                ref={panelRef}
-                role="dialog"
-                className={cn(PANEL_CLASS, panelClosing ? PANEL_EXIT_CLASS : PANEL_ENTER_CLASS)}
-                style={{ width: panelWidth }}
-              >
-                {visibleValues.length === 0 && listMeta.emptyMessage ? (
-                  <div id={open ? listId : undefined} role={open ? "listbox" : undefined}>
-                    <p className="m-0 px-2 py-2 text-sm text-[var(--uni-gray-900)]">
-                      {listMeta.emptyMessage}
-                    </p>
-                  </div>
-                ) : (
-                  <ul id={open ? listId : undefined} role={open ? "listbox" : undefined} data-slot="combobox-list">
-                    {options}
-                  </ul>
-                )}
-              </div>
-            </div>,
-            document.body,
-          )
-        : null}
+      <PopoverPrimitive.Portal>
+        <PopoverPrimitive.Content
+          align="start"
+          sideOffset={8}
+          onOpenAutoFocus={(event) => event.preventDefault()}
+          /* 点输入表面不关面板（沿用原 pointerdown 判定）；失焦不关；Esc 走 Radix 默认关闭 */
+          onPointerDownOutside={(event) => {
+            const target = event.detail.originalEvent.target as Node | null;
+            if (target && rootRef.current?.contains(target)) event.preventDefault();
+          }}
+          onFocusOutside={(event) => event.preventDefault()}
+          className={cn(PANEL_CLASS, PANEL_STATE_CLASS)}
+          style={{
+            width: "var(--radix-popover-trigger-width)",
+            ...(listMeta.maxWidth ? { minWidth: `${listMeta.maxWidth}px` } : undefined),
+            zIndex: "var(--uni-z-popover)",
+            // Radix modal roots disable pointer events outside their branch;
+            // this body portal must explicitly opt back in for nested Comboboxes.
+            pointerEvents: "auto",
+          }}
+        >
+          {visibleValues.length === 0 && listMeta.emptyMessage ? (
+            <div id={open ? listId : undefined} role={open ? "listbox" : undefined}>
+              <p className="m-0 px-2 py-2 text-sm text-[var(--uni-gray-900)]">
+                {listMeta.emptyMessage}
+              </p>
+            </div>
+          ) : (
+            <ul id={open ? listId : undefined} role={open ? "listbox" : undefined} data-slot="combobox-list">
+              {options}
+            </ul>
+          )}
+        </PopoverPrimitive.Content>
+      </PopoverPrimitive.Portal>
     </div>
   );
 
   return (
     <ListMetaContext.Provider value={{ registerList, registerInput }}>
       <ComboboxContext.Provider value={ctx}>
-        {label ? (
-          <label className="block cursor-text">
-            <div className="mb-2 block max-w-full cursor-text text-[13px] text-gray-900 capitalize">
-              {label}
-            </div>
-            {/* 注册容器：ComboboxInput/ComboboxList/ComboboxOption 在此挂载并注册选项 */}
-            {children}
-            {comboboxRoot}
-          </label>
-        ) : (
-          <>
-            {/* 注册容器：ComboboxInput/ComboboxList/ComboboxOption 在此挂载并注册选项 */}
-            {children}
-            {comboboxRoot}
-          </>
-        )}
+        <PopoverPrimitive.Root open={open} onOpenChange={setOpen}>
+          {label ? (
+            <label className="block cursor-text">
+              <div className="mb-2 block max-w-full cursor-text text-[13px] text-gray-900 capitalize">
+                {label}
+              </div>
+              {/* 注册容器：ComboboxInput/ComboboxList/ComboboxOption 在此挂载并注册选项 */}
+              {children}
+              {comboboxRoot}
+            </label>
+          ) : (
+            <>
+              {/* 注册容器：ComboboxInput/ComboboxList/ComboboxOption 在此挂载并注册选项 */}
+              {children}
+              {comboboxRoot}
+            </>
+          )}
+        </PopoverPrimitive.Root>
       </ComboboxContext.Provider>
     </ListMetaContext.Provider>
   );
