@@ -28,7 +28,7 @@ import {
   type FoundationColor,
   type SemanticColorToken,
 } from "../data/foundation-colors";
-import { useLanguage } from "../i18n/language";
+import { useLanguage, type DocsLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
 
 /**
@@ -105,15 +105,15 @@ export function ColorsPage() {
     syncValues();
 
     if (!value || !navigator.clipboard?.writeText) {
-      setCopyStatus("Unable to copy color value.");
+      setCopyStatus(demoText(language, "Unable to copy color value."));
       return;
     }
 
     try {
       await navigator.clipboard.writeText(value);
-      setCopyStatus("Copied color value.");
+      setCopyStatus(demoText(language, "Copied color value."));
     } catch {
-      setCopyStatus("Unable to copy color value.");
+      setCopyStatus(demoText(language, "Unable to copy color value."));
     }
   };
 
@@ -132,11 +132,12 @@ export function ColorsPage() {
         <p className="sr-only" role="status" aria-live="polite">
           {copyStatus}
         </p>
-        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <div className="mt-6 space-y-4">
           {FOUNDATION_COLOR_SCALES.map((scale) => (
-            <PaletteColumn
+            <PaletteRow
               key={scale.label}
               scale={scale}
+              language={language}
               values={values}
               onCopy={copyColor}
             />
@@ -223,44 +224,48 @@ export function ColorsPage() {
   );
 }
 
-function PaletteColumn({
+function PaletteRow({
   scale,
+  language,
   values,
   onCopy,
 }: {
   scale: (typeof FOUNDATION_COLOR_SCALES)[number];
+  language: DocsLanguage;
   values: Record<string, string>;
   onCopy: (token: FoundationColor["token"]) => Promise<void>;
 }) {
   return (
-    <div className="min-w-0">
-      <p className="text-label-14 font-medium text-foreground">{scale.label}</p>
-      <p className="mt-1 text-copy-13 text-muted-foreground">{scale.usage}</p>
-      <ul className="mt-2 space-y-2">
+    <div className="flex flex-col gap-2 sm:flex-row sm:gap-4">
+      <div className="sm:w-40 sm:shrink-0">
+        <p className="text-label-14 font-medium text-foreground">{demoText(language, scale.label)}</p>
+        <p className="mt-0.5 text-copy-13 text-muted-foreground">{demoText(language, scale.usage)}</p>
+      </div>
+      {/* 一个色阶一行：10 档横向成条；token 全文交给 title，卡内只留 step 与实时值 */}
+      <div className="flex min-w-0 flex-1 overflow-hidden rounded-md border border-gray-alpha-400">
         {scale.steps.map((color) => (
-          <li key={color.token} className="overflow-hidden rounded-md">
-            <button
-              type="button"
-              data-color-token={color.token}
-              onClick={() => void onCopy(color.token)}
-              className="focus-ring block w-full overflow-hidden border border-gray-alpha-400 text-left"
-            >
-              <span
-                className="block h-10 w-full"
-                style={{ backgroundColor: `var(${color.token})` }}
-                aria-hidden
-              />
-              <span className="flex flex-col gap-0.5 bg-background px-2 py-1">
-                <span className="flex items-center justify-between text-label-12 text-muted-foreground">
-                  <span>{color.step}</span>
-                  <span className="font-mono">{color.token}</span>
-                </span>
-                <span className="font-mono text-label-12 text-foreground">{values[color.token] || "—"}</span>
+          <button
+            key={color.token}
+            type="button"
+            data-color-token={color.token}
+            onClick={() => void onCopy(color.token)}
+            title={color.token}
+            className="focus-ring min-w-0 flex-1 border-r border-gray-alpha-400 text-left last:border-r-0"
+          >
+            <span
+              className="block h-10 w-full"
+              style={{ backgroundColor: `var(${color.token})` }}
+              aria-hidden
+            />
+            <span className="flex flex-col border-t border-gray-alpha-400 bg-background px-1 py-1">
+              <span className="text-label-12 text-muted-foreground">{color.step}</span>
+              <span className="truncate font-mono text-label-12 text-foreground">
+                {values[color.token] || "—"}
               </span>
-            </button>
-          </li>
+            </span>
+          </button>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

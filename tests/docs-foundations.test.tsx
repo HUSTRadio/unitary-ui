@@ -100,7 +100,7 @@ describe("Colors foundation docs", () => {
     });
 
     expect(writeText).toHaveBeenCalledWith("#light-blue-700");
-    expect(container.querySelector('[role="status"]')?.textContent).toMatch(/copied/i);
+    expect(container.querySelector('[role="status"]')?.textContent).toMatch(/已复制/);
   });
 
   test("recomputes the requested token when the html theme class changes", async () => {
@@ -120,8 +120,8 @@ describe("Colors foundation docs", () => {
 
     // Default language is zh-CN; the page maps these headings through demoText.
     expect(container.textContent).toContain("色彩 1–10");
-    expect(container.textContent).toContain("Component backgrounds");
-    expect(container.textContent).toContain("Text and icons");
+    expect(container.textContent).toContain("组件背景");
+    expect(container.textContent).toContain("文本与图标");
     expect(container.textContent).toContain("语义 Token");
 
     const roleSwatch = container.querySelector<HTMLElement>('[data-role-color-token="--color-gray-100"]');
@@ -164,7 +164,7 @@ describe("Colors foundation docs", () => {
       await Promise.resolve();
     });
 
-    expect(container.querySelector('[role="status"]')?.textContent).toMatch(/unable to copy/i);
+    expect(container.querySelector('[role="status"]')?.textContent).toMatch(/无法复制/);
   });
 
   test("removes raw color tables and unsupported P3 claims from the Colors page source", async () => {
