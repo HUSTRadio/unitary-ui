@@ -70,7 +70,7 @@ const ROOT_VARIANT_CLASSES: Record<ProjectBannerVariant, string> = {
 };
 
 const CTA_BASE_CLASS =
-  "rounded-xs cursor-pointer border-none bg-transparent px-0 py-1 font-sans h-6 my-[-1px] font-medium underline underline-offset-[5px] outline-none focus-visible:!shadow-[var(--banner-focus-color)] focus-visible:shadow-focus-ring text-[14px] leading-5";
+  "rounded-xs cursor-pointer border-none bg-transparent px-0 py-0.5 font-sans font-medium underline underline-offset-[5px] outline-none focus-visible:!shadow-[var(--banner-focus-color)] focus-visible:shadow-focus-ring text-[14px] leading-5";
 
 function ProjectBanner({
   className,

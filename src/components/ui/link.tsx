@@ -41,11 +41,11 @@ function resolveForge(href: string): string | undefined {
 }
 
 /** simpleicons 品牌图标：mask 出形状 + currentColor 填充（单色，随文字色）。 */
-function ForgeIcon({ slug }: { slug: string }) {
+function ForgeIcon({ slug, className }: { slug: string; className?: string }) {
   return (
     <span
       aria-hidden
-      className="size-3.5 shrink-0 text-gray-700"
+      className={cn("inline-block size-3.5 shrink-0 align-middle text-gray-700", className)}
       style={{
         backgroundColor: "currentColor",
         WebkitMaskImage: `url(https://cdn.simpleicons.org/${slug})`,
@@ -75,10 +75,17 @@ function Link({ href, iconSide, children, className, ...props }: LinkProps) {
   // Brand identity belongs before the label; the generic ExternalLink indicator
   // remains a trailing affordance. An explicit caller choice always wins.
   const effectiveIconSide = iconSide ?? (forgeSlug ? "left" : "right");
+  // 外链图标走纯 inline 排版 + align-middle：
+  // 若用 inline-flex 承载「图标 + 文字」，flex 盒基线取自首个子项（图标无文本 → 合成基线），
+  // 会使链接文字相对周围文本整体上移 1px。inline 排版的基线天然与周围文本一致。
+  const iconClassName = cn(
+    "inline-block size-3.5 shrink-0 align-middle text-gray-700",
+    effectiveIconSide === "left" ? "mr-1" : "ml-1",
+  );
   const icon = forgeSlug ? (
-    <ForgeIcon slug={forgeSlug} />
+    <ForgeIcon slug={forgeSlug} className={iconClassName} />
   ) : (
-    <ExternalLink aria-hidden className="size-3.5 shrink-0 text-gray-700" />
+    <ExternalLink aria-hidden className={iconClassName} />
   );
 
   return (
@@ -93,7 +100,6 @@ function Link({ href, iconSide, children, className, ...props }: LinkProps) {
         "transition-[color,opacity,text-decoration-color] duration-(--uni-duration-fast) ease-out",
         "hover:text-foreground hover:decoration-gray-alpha-600",
         "active:opacity-80",
-        isExternal && "inline-flex items-center gap-1",
         className,
       )}
       {...props}
