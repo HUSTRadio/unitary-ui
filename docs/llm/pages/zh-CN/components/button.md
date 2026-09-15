@@ -381,32 +381,6 @@ export function ButtonVariants63D2643BExample() {
 }
 ```
 
-## 前缀与后缀
-
-```tsx
-import { Button } from "@/components/ui/button";
-import { Copy, Search } from "lucide-react";
-
-export function ButtonPrefixAndSuffix1EFED9DEExample() {
-  return (
-    <div className="flex flex-wrap items-center gap-3">
-      <Button prefix={<Search />} typeName="button">
-        Search
-      </Button>
-      <Button prefix={<Copy />} type="secondary" typeName="button">
-        Copy
-      </Button>
-      <Button loading type="tertiary" typeName="button">
-        Loading
-      </Button>
-      <Button disabled typeName="button">
-        Disabled
-      </Button>
-    </div>
-  );
-}
-```
-
 ## API 参考
 
 此页只列出稳定公开表面；原生属性请参阅对应元素类型。
@@ -421,7 +395,7 @@ import { Button, ButtonLink, CustomButton, buttonVariants } from "@/components/u
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default" | "secondary" | "tertiary" | "error" | "warning"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">视觉变体。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">typeName</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"submit" | "button" | "reset"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">原生按钮 type。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"submit"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">loading</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">显示加载图标、保留标签，并禁用原生按钮。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default" | "secondary" | "tertiary" | "error" | "warning"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">视觉变体。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">typeName</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"submit" | "button" | "reset"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">原生按钮 type。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"submit"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">loading</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">显示加载图标、保留标签，并禁用原生按钮。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">size</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"tiny" | "small" | "medium" | "large"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">控制高度与水平内边距。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"medium"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">shape</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"square" | "circle" | "rounded"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">圆角形态；rounded 可配合 shadow 用于营销 CTA。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"square"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">shadow</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">营销页阴影（配合 shape="rounded"）。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">svgOnly</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">图标按钮模式：collapse padding，需配合 aria-label。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">prefix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">前缀图标。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">suffix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">后缀图标。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">asChild</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">以子元素渲染（Slot）。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
 
 ## 最佳实践
 

@@ -259,7 +259,7 @@ function ProfileCard() {
         LR
       </span>
       <div className="flex min-w-0 flex-1 flex-col">
-        <p className="truncate text-label-14 text-gray-1000">Lena Roy</p>
+        <p className="truncate text-label-14 text-foreground">Lena Roy</p>
         <p className="truncate text-copy-13 text-muted-foreground">Staff engineer · Berlin</p>
       </div>
     </div>
@@ -319,7 +319,7 @@ function Table() {
           key={product}
           className="flex items-center justify-between gap-4 border-b border-gray-alpha-400 py-2 text-copy-14 last:border-0"
         >
-          <span className="truncate text-gray-1000">{product}</span>
+          <span className="truncate text-foreground">{product}</span>
           <span className="shrink-0 tabular-nums text-muted-foreground">{charge}</span>
         </div>
       ))}

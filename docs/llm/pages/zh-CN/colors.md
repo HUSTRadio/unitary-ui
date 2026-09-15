@@ -8,62 +8,62 @@
 
 ## 色阶
 
-There are 10 color scales in the system. Each swatch shows the current theme value and can be copied.
+系统共 10 个色阶。每个色卡展示当前主题取值，点击即可复制。
 
-Backgrounds
+背景
 
-Page and component surfaces.
+页面与组件表面。
 
-Gray
+灰
 
-Neutral UI, text, and icons.
+中性 UI、文本与图标。
 
-Gray alpha
+灰（透明）
 
-Translucent borders, dividers, and overlays.
+半透明边框、分隔线与遮罩。
 
-Blue
+蓝
 
-Informational and primary emphasis.
+信息提示与主要强调。
 
-Red
+红
 
-Destructive and error states.
+破坏性操作与错误状态。
 
-Amber
+琥珀
 
-Warning states.
+警告状态。
 
-Green
+绿
 
-Success states.
+成功状态。
 
-Teal
+青
 
-Supporting semantic emphasis.
+辅助语义强调。
 
-Purple
+紫
 
-Supporting semantic emphasis.
+辅助语义强调。
 
-Pink
+粉
 
-Supporting semantic emphasis.
+辅助语义强调。
 
 ## 背景
 
-There are two background colors for pages and UI components. In most instances, use Background 1—especially when color is placed on top of the background. Use Background 2 sparingly when subtle differentiation is needed.
+页面与 UI 组件使用两种背景色。多数情况下使用 Background 1——尤其是当颜色叠加在背景之上时；仅在需要细微区分时少量使用 Background 2。
 
 - Background 1 — 默认元素背景
 - Background 2 — 次要背景
 
 ## 色彩 1–10
 
-Numbered color steps group by their intended interface role.
+数字色阶按其界面角色分组。
 
-### Colors 1–3: Component backgrounds
+### 色彩 1–3：组件背景
 
-Use for component fills and layered interaction states.
+用于组件填充与分层交互状态。
 
 100#f2f2f2
 
@@ -71,9 +71,9 @@ Use for component fills and layered interaction states.
 
 300#e6e6e6
 
-### Colors 4–6: Borders
+### 色彩 4–6：边框
 
-Use for structural borders and separators.
+用于结构性边框与分隔线。
 
 400#ebebeb
 
@@ -81,17 +81,17 @@ Use for structural borders and separators.
 
 600#a8a8a8
 
-### Colors 7–8: High contrast backgrounds
+### 色彩 7–8：高对比背景
 
-Use for high-emphasis component backgrounds.
+用于高强调的组件背景。
 
 700#8f8f8f
 
 800#7d7d7d
 
-### Colors 9–10: Text and icons
+### 色彩 9–10：文本与图标
 
-Use for accessible text and icon contrast.
+用于无障碍的文本与图标对比。
 
 900#4d4d4d
 
@@ -99,6 +99,6 @@ Use for accessible text and icon contrast.
 
 ## 语义 Token
 
-Semantic tokens communicate interface roles while resolving to the current theme value.
+语义 Token 表达界面角色，同时解析为当前主题取值。
 
-<table class="w-full caption-bottom border-collapse text-copy-14 text-muted-foreground"><thead class="[&amp;_tr]:border-b [&amp;_tr]:border-gray-alpha-400"><tr class="transition-colors data-[state=selected]:bg-gray-100"><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Token</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Role</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">用法</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Current value</th></tr></thead><tbody class="[&amp;_td:first-child]:rounded-l-sm [&amp;_td:last-child]:rounded-r-sm"><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--background"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--background</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">Canvas</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Primary page and component surface.</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--background);"></span><span class="font-mono text-copy-13 text-foreground">#ffffff</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--foreground"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--foreground</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">Content</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Primary text and icon color.</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--foreground);"></span><span class="font-mono text-copy-13 text-foreground">#171717</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--muted-foreground"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--muted-foreground</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">Muted content</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Supporting text and icons.</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--muted-foreground);"></span><span class="font-mono text-copy-13 text-foreground">#4d4d4d</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--border"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--border</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">Border</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Structural borders and separators.</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--border);"></span><span class="font-mono text-copy-13 text-foreground">#ebebeb</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--ring"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--ring</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">Focus ring</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Visible keyboard focus indication.</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--ring);"></span><span class="font-mono text-copy-13 text-foreground">#171717</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--primary"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--primary</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">Primary action</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Primary interactive emphasis.</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--primary);"></span><span class="font-mono text-copy-13 text-foreground">#171717</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--destructive"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--destructive</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">危险</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Destructive actions and error states.</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--destructive);"></span><span class="font-mono text-copy-13 text-foreground">#e5484d</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--success"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--success</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">成功</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Successful outcomes and confirmations.</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--success);"></span><span class="font-mono text-copy-13 text-foreground">#46a758</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--warning"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--warning</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">警告</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Warnings that need attention.</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--warning);"></span><span class="font-mono text-copy-13 text-foreground">#ffb224</span></span></td></tr></tbody></table>
+<table class="w-full caption-bottom border-collapse text-copy-14 text-muted-foreground"><thead class="[&amp;_tr]:border-b [&amp;_tr]:border-gray-alpha-400"><tr class="transition-colors data-[state=selected]:bg-gray-100"><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">Token</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">角色</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">用法</th><th class="h-9 whitespace-nowrap px-2 text-copy-14 font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">当前取值</th></tr></thead><tbody class="[&amp;_td:first-child]:rounded-l-sm [&amp;_td:last-child]:rounded-r-sm"><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--background"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--background</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">画布</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">页面与组件的主要表面。</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--background);"></span><span class="font-mono text-copy-13 text-foreground">#ffffff</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--foreground"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--foreground</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">内容</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">主要文本与图标颜色。</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--foreground);"></span><span class="font-mono text-copy-13 text-foreground">#171717</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--muted-foreground"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--muted-foreground</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">次要内容</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">辅助文本与图标。</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--muted-foreground);"></span><span class="font-mono text-copy-13 text-foreground">#4d4d4d</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--border"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--border</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">边框</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">结构性边框与分隔线。</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--border);"></span><span class="font-mono text-copy-13 text-foreground">#ebebeb</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--ring"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--ring</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">焦点环</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">清晰可见的键盘焦点指示。</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--ring);"></span><span class="font-mono text-copy-13 text-foreground">#171717</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--primary"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--primary</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">主要操作</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">主要交互强调。</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--primary);"></span><span class="font-mono text-copy-13 text-foreground">#171717</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--destructive"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--destructive</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">危险</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">破坏性操作与错误状态。</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--destructive);"></span><span class="font-mono text-copy-13 text-foreground">#e5484d</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--success"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--success</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">成功</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">成功结果与确认。</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--success);"></span><span class="font-mono text-copy-13 text-foreground">#46a758</span></span></td></tr><tr class="transition-colors data-[state=selected]:bg-gray-100" data-semantic-token="--warning"><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle font-mono text-foreground">--warning</td><td class="whitespace-nowrap px-2 py-2.5 [&amp;:has([role=checkbox])]:pr-0 text-left align-middle text-foreground">警告</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle">需要关注的警告。</td><td class="whitespace-nowrap px-2 py-2.5 text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 text-left align-middle"><span class="inline-flex items-center gap-2"><span class="size-4 shrink-0 rounded-sm border border-gray-alpha-400" aria-hidden="true" style="background-color: var(--warning);"></span><span class="font-mono text-copy-13 text-foreground">#ffb224</span></span></td></tr></tbody></table>

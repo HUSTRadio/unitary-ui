@@ -184,7 +184,7 @@ export function ClearableInputWithClearCallback3538EFCAExample() {
         placeholder="Enter some text and clear..."
         value={value}
       />
-      <p className="text-copy-14 text-gray-900">Cleared {clearCount} times</p>
+      <p className="text-copy-14 text-muted-foreground">Cleared {clearCount} times</p>
     </div>
   );
 }

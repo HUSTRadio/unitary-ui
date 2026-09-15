@@ -77,7 +77,7 @@ export function ContextMenuDefault37A8EEC1Example() {
         <div
           tabIndex={0}
           aria-label="Context menu target"
-          className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000"
+          className="w-[300px] rounded-[4px] border border-dashed border-gray-alpha-600 py-[45px] text-center text-copy-14 text-foreground"
         >
           Right click here
         </div>
@@ -112,7 +112,7 @@ export function ContextMenuDisabledItems62FB7C5EExample() {
         <div
           tabIndex={0}
           aria-label="Context menu target"
-          className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000"
+          className="w-[300px] rounded-[4px] border border-dashed border-gray-alpha-600 py-[45px] text-center text-copy-14 text-foreground"
         >
           Right click here
         </div>
@@ -147,7 +147,7 @@ export function ContextMenuLinkItems2FF9F194Example() {
         <div
           tabIndex={0}
           aria-label="Context menu target"
-          className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000"
+          className="w-[300px] rounded-[4px] border border-dashed border-gray-alpha-600 py-[45px] text-center text-copy-14 text-foreground"
         >
           Right click here
         </div>
@@ -188,7 +188,7 @@ export function ContextMenuPrefixAndSuffix99076368Example() {
           <div
             tabIndex={0}
             aria-label="Context menu target"
-            className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000"
+            className="w-[300px] rounded-[4px] border border-dashed border-gray-alpha-600 py-[45px] text-center text-copy-14 text-foreground"
           >
             Right click here
           </div>
@@ -213,7 +213,7 @@ export function ContextMenuPrefixAndSuffix99076368Example() {
           <div
             tabIndex={0}
             aria-label="Context menu target"
-            className="w-[300px] rounded-[4px] border border-dashed border-[rgba(0,0,0,0.34)] py-[45px] text-center text-copy-14 text-gray-1000"
+            className="w-[300px] rounded-[4px] border border-dashed border-gray-alpha-600 py-[45px] text-center text-copy-14 text-foreground"
           >
             Right click here
           </div>

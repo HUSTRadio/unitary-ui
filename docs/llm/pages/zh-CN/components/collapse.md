@@ -100,37 +100,6 @@ export function CollapseDefault37A8EEC1Example() {
 }
 ```
 
-## 默认
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-
-```tsx
-import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
-
-export function CollapseDefault21B111CBExample() {
-  return (
-    <div className="flex w-full max-w-md flex-col gap-3">
-      <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
-        <CollapseTrigger className="text-label-14 text-foreground">Question A</CollapseTrigger>
-        <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua.
-        </CollapseContent>
-      </Collapse>
-      <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
-        <CollapseTrigger className="text-label-14 text-foreground">Question B</CollapseTrigger>
-        <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-          nulla pariatur.
-        </CollapseContent>
-      </Collapse>
-    </div>
-  );
-}
-```
-
 ## 展开
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -143,16 +112,16 @@ import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/coll
 export function CollapseExpandedE72D5D8DExample() {
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
-      <Collapse className="rounded-[8px] border border-gray-alpha-400 p-4">
+      <Collapse size="small" className="rounded-[8px] border border-gray-alpha-400 p-4">
         <CollapseTrigger className="text-label-14 text-foreground">Question A</CollapseTrigger>
-        <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+        <CollapseContent className="pt-2 text-copy-14 text-muted-foreground">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
           ut labore et dolore magna aliqua.
         </CollapseContent>
       </Collapse>
-      <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
+      <Collapse size="small" defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
         <CollapseTrigger className="text-label-14 text-foreground">Question B</CollapseTrigger>
-        <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+        <CollapseContent className="pt-2 text-copy-14 text-muted-foreground">
           Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
           nulla pariatur.
         </CollapseContent>
@@ -174,16 +143,16 @@ import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/coll
 export function CollapseMultiple14070FDBExample() {
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
-      <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
+      <Collapse size="small" defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
         <CollapseTrigger className="text-label-14 text-foreground">Question A</CollapseTrigger>
-        <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+        <CollapseContent className="pt-2 text-copy-14 text-muted-foreground">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
           ut labore et dolore magna aliqua.
         </CollapseContent>
       </Collapse>
-      <Collapse defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
+      <Collapse size="small" defaultOpen className="rounded-[8px] border border-gray-alpha-400 p-4">
         <CollapseTrigger className="text-label-14 text-foreground">Question B</CollapseTrigger>
-        <CollapseContent className="pt-3 text-copy-14 text-muted-foreground">
+        <CollapseContent className="pt-2 text-copy-14 text-muted-foreground">
           Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
           nulla pariatur.
         </CollapseContent>
@@ -202,9 +171,12 @@ import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/coll
 
 export function CollapseSmall5263293FExample() {
   return (
-    <Collapse className="w-full max-w-sm rounded-[8px] border border-gray-alpha-400 p-3">
+    <Collapse
+      size="small"
+      className="w-full max-w-sm rounded-[8px] border border-gray-alpha-400 p-3"
+    >
       <CollapseTrigger className="text-label-13 text-foreground">Question A</CollapseTrigger>
-      <CollapseContent className="pt-2 text-copy-13 text-muted-foreground">
+      <CollapseContent className="pt-1.5 text-copy-13 text-muted-foreground">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
         labore et dolore magna aliqua.
       </CollapseContent>

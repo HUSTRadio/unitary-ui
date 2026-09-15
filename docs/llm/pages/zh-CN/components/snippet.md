@@ -126,7 +126,7 @@ export function SnippetCallback32E8D276Example() {
         text="npm init next-app"
         width="300px"
       />
-      <span role="status" className="text-copy-13 text-gray-900">
+      <span role="status" className="text-copy-13 text-muted-foreground">
         {message}
       </span>
     </div>

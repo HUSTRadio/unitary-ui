@@ -122,7 +122,7 @@ export function MultiSelectSelectActionsC10A8A49Example() {
           ))}
         </MultiSelectContent>
       </MultiSelectRoot>
-      <p className="text-copy-14 text-gray-900">
+      <p className="text-copy-14 text-muted-foreground">
         Hover over items to see action labels. Different actions appear based on selection state.
       </p>
     </div>
@@ -197,7 +197,7 @@ export function MultiSelectKeyboardNavigationE44E91F8Example() {
           ))}
         </MultiSelectContent>
       </MultiSelectRoot>
-      <p className="text-copy-14 text-gray-900">
+      <p className="text-copy-14 text-muted-foreground">
         Try keyboard navigation: ↑ ↓ for rows, ← → for checkbox/button focus, Tab to cycle through
         all elements
       </p>
@@ -285,7 +285,7 @@ export function MultiSelectControlledStateAE611285Example() {
       </MultiSelectRoot>
 
       <div className="flex flex-col gap-2 flex-wrap">
-        <p className="text-copy-14 text-gray-900">
+        <p className="text-copy-14 text-muted-foreground">
           <button
             type="button"
             className="cursor-pointer text-link hover:underline focus-ring"

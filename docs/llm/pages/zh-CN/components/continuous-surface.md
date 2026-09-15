@@ -92,7 +92,7 @@ export function ContinuousSurfaceDefault37A8EEC1Example() {
             data-curve={curve.exponent}
             radius={24}
             exponent={curve.exponent}
-            className="flex aspect-[4/3] flex-col justify-end bg-gradient-to-br from-blue-600 to-purple-700 p-5 text-white"
+            className="flex aspect-[4/3] flex-col justify-end bg-gradient-to-br from-blue-700 to-purple-700 p-5 text-white"
           >
             <strong>{curve.label}</strong>
             <span className="mt-1 text-sm text-white/80">Straight sides, measured corners</span>
@@ -108,7 +108,7 @@ export function ContinuousSurfaceDefault37A8EEC1Example() {
         <div
           data-curve="superellipse"
           aria-label="Superellipse tile"
-          className="flex aspect-square h-full shrink-0 flex-col justify-end bg-gradient-to-br from-teal-600 to-blue-700 p-5 text-white"
+          className="flex aspect-square h-full shrink-0 flex-col justify-end bg-gradient-to-br from-teal-700 to-blue-700 p-5 text-white"
           style={{ clipPath: `url(#${clipId})` }}
         >
           <strong>Superellipse · n=5</strong>

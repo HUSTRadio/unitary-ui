@@ -68,7 +68,7 @@ export function LoadMoreButtonDefault21B111CBExample() {
 
   return (
     <div className="flex w-full flex-col gap-3">
-      <p role="status" className="text-copy-13 text-gray-900">
+      <p role="status" className="text-copy-13 text-muted-foreground">
         {count} results loaded
       </p>
       <LoadMoreButton onClick={() => setCount((value) => value + 3)}>Load More</LoadMoreButton>
@@ -100,7 +100,7 @@ export function LoadMoreButtonNoGap7BF8EBE8Example() {
 
   return (
     <div className="flex w-full flex-col">
-      <p role="status" className="text-copy-13 text-gray-900">
+      <p role="status" className="text-copy-13 text-muted-foreground">
         {count} results loaded
       </p>
       <LoadMoreButton noGap onClick={() => setCount((value) => value + 3)}>
@@ -124,7 +124,7 @@ export function LoadMoreButtonNoBorderRadius7DFF5DD3Example() {
 
   return (
     <div className="flex w-full flex-col gap-3">
-      <p role="status" className="text-copy-13 text-gray-900">
+      <p role="status" className="text-copy-13 text-muted-foreground">
         {count} results loaded
       </p>
       <LoadMoreButton noBorderRadius onClick={() => setCount((value) => value + 3)}>
@@ -148,7 +148,7 @@ export function LoadMoreButtonCustomTextCFD55183Example() {
 
   return (
     <div className="flex w-full flex-col gap-3">
-      <p role="status" className="text-copy-13 text-gray-900">
+      <p role="status" className="text-copy-13 text-muted-foreground">
         {count} results loaded
       </p>
       <LoadMoreButton onClick={() => setCount((value) => value + 3)}>

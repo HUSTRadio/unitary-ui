@@ -80,7 +80,7 @@ export function ModalDefault37A8EEC1Example() {
           Open Modal
         </Button>
       </ModalTrigger>
-      <ModalContent>
+      <ModalContent bodyClassName="pb-0">
         <header className="mb-5">
           <h3 className="text-heading-20 text-foreground">Create Token</h3>
           <div className="mt-2 mb-1 text-copy-14 text-muted-foreground">
@@ -89,9 +89,8 @@ export function ModalDefault37A8EEC1Example() {
           </div>
         </header>
         <p className="text-copy-14">Some content contained within the modal.</p>
-        <div className="h-px w-full" aria-hidden />
-        <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
-          <Button size="small" typeName="button" type="secondary">
+        <footer className="sticky bottom-0 -mx-5 mt-5 flex shrink-0 items-center justify-between border-t border-gray-alpha-400 bg-background-100 px-5 py-4">
+          <Button size="small" typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel
           </Button>
           <Button size="small" typeName="button" type="default">
@@ -122,8 +121,8 @@ export function ModalSticky964A9431Example() {
           Open Modal
         </Button>
       </ModalTrigger>
-      <ModalContent className="sticky" bodyClassName="pt-0">
-        <header className="sticky top-0 z-10 -mx-5 mb-5 flex items-center gap-2.5 bg-background-200 px-5 py-5">
+      <ModalContent className="sticky" bodyClassName="pt-0 pb-0">
+        <header className="sticky top-0 z-10 -mx-5 mb-5 flex items-center gap-2.5 border-b border-gray-alpha-400 bg-background-100 px-5 py-5">
           <h3 className="text-heading-20 leading-6 text-foreground">Create Token</h3>
         </header>
         {Array.from({ length: 52 }).map((_, index) => (
@@ -131,9 +130,8 @@ export function ModalSticky964A9431Example() {
             Some content contained within the modal.
           </p>
         ))}
-        <div className="h-px w-full" aria-hidden />
-        <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
-          <Button size="small" typeName="button" type="secondary">
+        <footer className="sticky bottom-0 -mx-5 mt-5 flex shrink-0 items-center justify-between border-t border-gray-alpha-400 bg-background-100 px-5 py-4">
+          <Button size="small" typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel
           </Button>
           <Button
@@ -143,6 +141,47 @@ export function ModalSticky964A9431Example() {
             prefix={<ChevronLeft className="size-3.5" aria-hidden />}
           >
             Previous
+          </Button>
+          <Button size="small" typeName="button" type="default">
+            Submit
+          </Button>
+        </footer>
+      </ModalContent>
+    </Modal>
+  );
+}
+```
+
+## 紧凑布局
+
+```tsx
+import { Button } from "@/components/ui/button";
+import { Modal, ModalContent, ModalTrigger } from "@/components/ui/modal";
+import { useState } from "react";
+
+export function ModalCompactC4E1A90BExample() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger asChild>
+        <Button typeName="button" type="secondary" onClick={() => setOpen(true)}>
+          Open Modal
+        </Button>
+      </ModalTrigger>
+      {/* 紧凑变体：body padding p-5(20px) → p-4(16px)，header/footer 内边距同步各压半档 */}
+      <ModalContent bodyClassName="p-4 pb-0">
+        <header className="mb-2">
+          <h3 className="text-heading-20 text-foreground">Create Token</h3>
+          <div className="mt-1 text-copy-14 text-muted-foreground">
+            Enter a unique name for your token to differentiate it from other tokens and then select
+            the scope.
+          </div>
+        </header>
+        <p className="text-copy-14">Some content contained within the modal.</p>
+        <footer className="sticky bottom-0 -mx-4 mt-3 flex shrink-0 items-center justify-between border-t border-gray-alpha-400 bg-background-100 px-4 py-3">
+          <Button size="small" typeName="button" type="secondary" onClick={() => setOpen(false)}>
+            Cancel
           </Button>
           <Button size="small" typeName="button" type="default">
             Submit
@@ -171,14 +210,13 @@ export function ModalSingleButton15781DA6Example() {
           Open Modal
         </Button>
       </ModalTrigger>
-      <ModalContent className="sticky" bodyClassName="pt-0">
-        <header className="sticky top-0 z-10 -mx-5 mb-5 flex items-center gap-2.5 bg-background-200 px-5 py-5">
+      <ModalContent className="sticky" bodyClassName="pt-0 pb-0">
+        <header className="sticky top-0 z-10 -mx-5 mb-5 flex items-center gap-2.5 border-b border-gray-alpha-400 bg-background-100 px-5 py-5">
           <h3 className="text-heading-20 leading-6 text-foreground">Create Token</h3>
         </header>
         <p className="text-copy-14">Some content contained within the modal.</p>
-        <div className="h-px w-full" aria-hidden />
-        <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
-          <Button size="small" typeName="button" type="secondary">
+        <footer className="sticky bottom-0 -mx-5 mt-5 flex shrink-0 items-center justify-between border-t border-gray-alpha-400 bg-background-100 px-5 py-4">
+          <Button size="small" typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel
           </Button>
         </footer>
@@ -205,7 +243,7 @@ export function ModalInset2F0C8478Example() {
           Open Modal
         </Button>
       </ModalTrigger>
-      <ModalContent>
+      <ModalContent bodyClassName="pb-0">
         <header className="mb-5">
           <h3 className="text-heading-20 text-foreground">Modal</h3>
           <div className="mt-2 mb-1 text-copy-14 text-muted-foreground">This is a modal.</div>
@@ -216,9 +254,8 @@ export function ModalInset2F0C8478Example() {
         <div className="pt-5">
           <p className="text-copy-14">Content outside the inset.</p>
         </div>
-        <div className="h-px w-full" aria-hidden />
-        <footer className="sticky bottom-0 -mx-5 flex shrink-0 justify-between bg-background-200 p-3">
-          <Button size="small" typeName="button" type="secondary">
+        <footer className="sticky bottom-0 -mx-5 mt-5 flex shrink-0 items-center justify-between border-t border-gray-alpha-400 bg-background-100 px-5 py-4">
+          <Button size="small" typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel
           </Button>
           <Button size="small" typeName="button" type="default">
@@ -262,7 +299,6 @@ export function ModalDisabledActions96FBF6AEExample() {
           <ModalDescription>This is a modal.</ModalDescription>
         </ModalHeader>
         <p className="text-copy-14">Some content contained within the modal.</p>
-        <div className="h-px w-full" aria-hidden />
         <ModalFooter>
           <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel
@@ -317,7 +353,6 @@ export function ModalControlInitialFocus9DBB3C0DExample() {
             it possible to promptly continue with the Enter key.
           </ModalDescription>
         </ModalHeader>
-        <div className="h-px w-full" aria-hidden />
         <ModalFooter>
           <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel
@@ -384,7 +419,6 @@ export function ModalFocusInputOnOpenDB430094Example() {
             value={name}
           />
         </div>
-        <div className="h-px w-full" aria-hidden />
         <ModalFooter>
           <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel
@@ -451,7 +485,6 @@ export function ModalMobileSheetInputsFAB5970DExample() {
             value={email}
           />
         </div>
-        <div className="h-px w-full" aria-hidden />
         <ModalFooter>
           <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel
@@ -528,7 +561,6 @@ export function ModalComboboxFocus873C94F9Example() {
             </ComboboxList>
           </Combobox>
         </div>
-        <div className="h-px w-full" aria-hidden />
         <ModalFooter>
           <Button typeName="button" type="secondary" onClick={() => setOpen(false)}>
             Cancel
@@ -596,7 +628,6 @@ export function ModalToastsFocusTrap2DACB2BDExample() {
             Show Toast
           </Button>
         </div>
-        <div className="h-px w-full" aria-hidden />
         <ModalFooter>
           <Button typeName="button" onClick={() => setOpen(false)}>
             Done

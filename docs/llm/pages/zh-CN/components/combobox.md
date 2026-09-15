@@ -64,7 +64,7 @@ Label 与输入关联，保证辅助技术正确读出字段名称。
 
 ## 响应式行为
 
-- 下拉列表固定放在输入框下方，并在滚动或窗口缩放时重新计算位置；当前不做碰撞翻转或边界避让。
+- 下拉列表默认放在输入框下方 8px 并左对齐输入表面；视口空间不足时自动翻转并避让边界，滚动或窗口缩放时实时跟随。
 - 输入框宽度可通过 layout 或兼容的 width prop 设置；下拉列表至少跟随输入框宽度，并可通过 maxWidth 扩大。
 
 ## 主题行为
@@ -483,7 +483,7 @@ export function ComboboxUsedInsideModal1332CE87Example() {
                   ))}
                 </ComboboxList>
               </Combobox>
-              <p className="text-copy-13 text-gray-900">
+              <p className="text-copy-13 text-muted-foreground">
                 This is the region where your database reads and writes will take place.
               </p>
             </div>
@@ -542,7 +542,7 @@ export function ComboboxInsideSheet95E13F11Example() {
             </Button>
           </SheetClose>
         </div>
-        <p className="px-4 pb-2 text-copy-14 text-gray-900">
+        <p className="px-4 pb-2 text-copy-14 text-muted-foreground">
           Changes to shared variables sync automatically across all linked projects.
         </p>
         <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-1">
@@ -564,7 +564,7 @@ export function ComboboxInsideSheet95E13F11Example() {
                 >
                   <div className="flex flex-col items-stretch justify-start py-[15px] px-2">
                     <p className="font-mono text-sm font-medium">{v.key}</p>
-                    <p className="mt-[3px] text-xs text-gray-900">{v.target}</p>
+                    <p className="mt-[3px] text-xs text-muted-foreground">{v.target}</p>
                   </div>
                 </ComboboxOption>
               ))}

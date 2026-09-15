@@ -277,17 +277,17 @@ export function AvatarWithCustomIconECDC07D3Example() {
   return (
     <div className="flex flex-wrap items-center gap-4">
       <AvatarWithIcon
-        icon={<ArrowDownCircle className="size-3.5 text-gray-900" aria-hidden />}
+        icon={<ArrowDownCircle className="size-3.5 text-muted-foreground" aria-hidden />}
         size={32}
         iconBackground
       />
       <AvatarWithIcon
-        icon={<CircleCheck className="size-3.5 text-gray-900" aria-hidden />}
+        icon={<CircleCheck className="size-3.5 text-muted-foreground" aria-hidden />}
         size={32}
         iconBackground
       />
       <AvatarWithIcon
-        icon={<Clock className="size-3.5 text-gray-900" aria-hidden />}
+        icon={<Clock className="size-3.5 text-muted-foreground" aria-hidden />}
         size={32}
         iconBackground
       />
@@ -321,6 +321,78 @@ import { Avatar } from "@/components/ui/avatar";
 
 export function AvatarPlaceholderF4B24FEDExample() {
   return <Avatar placeholder size={90} />;
+}
+```
+
+## 曲率
+
+![用户 evilrabbit 的头像](https://github.com/evilrabbit.png?size=160)Default · circle
+
+![用户 evilrabbit 的头像](https://github.com/evilrabbit.png?size=160)
+
+Circular · p = 2
+
+![用户 evilrabbit 的头像](https://github.com/evilrabbit.png?size=160)
+
+Continuous · p = 3
+
+![用户 evilrabbit 的头像](https://github.com/evilrabbit.png?size=160)
+
+Emphasized · p = 5
+
+![用户 evilrabbit 的头像](https://github.com/evilrabbit.png?size=160)
+
+Superellipse · n = 5
+
+```tsx
+import { useId } from "react";
+import { Avatar } from "@/components/ui/avatar";
+import { ContinuousSurface } from "@/components/ui/continuous-surface";
+import { superellipsePath } from "@/lib/continuous-corner";
+
+const CURVATURE_VARIANTS = [
+  { label: "Circular · p = 2", exponent: 2 },
+  { label: "Continuous · p = 3", exponent: 3 },
+  { label: "Emphasized · p = 5", exponent: 5 },
+];
+
+export function AvatarCurvature8D2F4A71Example() {
+  const clipId = `avatar-superellipse-${useId().replace(/[^a-zA-Z0-9]/g, "")}`;
+  const squareAvatar = "rounded-none after:rounded-none after:border-transparent";
+
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <div className="flex flex-col items-center gap-3">
+        <Avatar size={80} username="evilrabbit" />
+        <span className="text-label-13 text-muted-foreground">Default · circle</span>
+      </div>
+      {CURVATURE_VARIANTS.map((variant) => (
+        <div key={variant.exponent} className="flex flex-col items-center gap-3">
+          <ContinuousSurface
+            radius={16}
+            exponent={variant.exponent}
+            className="size-20 overflow-hidden"
+          >
+            <Avatar size={80} username="evilrabbit" className={squareAvatar} />
+          </ContinuousSurface>
+          <span className="text-label-13 text-muted-foreground">{variant.label}</span>
+        </div>
+      ))}
+      <div className="flex flex-col items-center gap-3">
+        <div className="size-20 overflow-hidden" style={{ clipPath: `url(#${clipId})` }}>
+          <Avatar size={80} username="evilrabbit" className={squareAvatar} />
+        </div>
+        <span className="text-label-13 text-muted-foreground">Superellipse · n = 5</span>
+        <svg aria-hidden width="0" height="0">
+          <defs>
+            <clipPath id={clipId} clipPathUnits="objectBoundingBox">
+              <path transform="scale(0.0125)" d={superellipsePath(80, 80, { exponent: 5 })} />
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
+    </div>
+  );
 }
 ```
 

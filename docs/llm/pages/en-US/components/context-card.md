@@ -99,7 +99,7 @@ export function ContextCardDefault37A8EEC1Example() {
   );
 
   return (
-    <>
+    <div className="flex flex-wrap items-center gap-4">
       {(["Top", "Bottom", "Left", "Right"] as const).map((label) => (
         <ContextCardTrigger
           key={label}
@@ -109,7 +109,7 @@ export function ContextCardDefault37A8EEC1Example() {
           <span>{label}</span>
         </ContextCardTrigger>
       ))}
-    </>
+    </div>
   );
 }
 ```
@@ -151,12 +151,13 @@ export function ContextCardAlignment47CCB97AExample() {
   );
 
   return (
-    <>
+    <div className="flex gap-4 items-center justify-center">
       {(["Start", "Center", "End"] as const).map((label) => (
         <ContextCardTrigger
           key={label}
           content={card}
           align={label.toLowerCase() as "start" | "center" | "end"}
+          side="bottom"
           render={
             <Button type="default" typeName="button">
               {label}
@@ -164,7 +165,7 @@ export function ContextCardAlignment47CCB97AExample() {
           }
         />
       ))}
-    </>
+    </div>
   );
 }
 ```
@@ -208,9 +209,10 @@ export function ContextCardRenderProp84FF0355Example() {
   );
 
   return (
-    <>
+    <div className="flex items-center gap-8">
       <ContextCardTrigger
         content={card}
+        side="top"
         render={
           <Button type="default" typeName="button">
             Default wrapper
@@ -219,13 +221,14 @@ export function ContextCardRenderProp84FF0355Example() {
       />
       <ContextCardTrigger
         content={card}
+        side="top"
         render={
           <a href="#render-prop" className="text-blue-700 underline underline-offset-2">
             Rendered as a link
           </a>
         }
       />
-    </>
+    </div>
   );
 }
 ```

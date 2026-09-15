@@ -381,32 +381,6 @@ export function ButtonVariants63D2643BExample() {
 }
 ```
 
-## Prefix and Suffix
-
-```tsx
-import { Button } from "@/components/ui/button";
-import { Copy, Search } from "lucide-react";
-
-export function ButtonPrefixAndSuffix1EFED9DEExample() {
-  return (
-    <div className="flex flex-wrap items-center gap-3">
-      <Button prefix={<Search />} typeName="button">
-        Search
-      </Button>
-      <Button prefix={<Copy />} type="secondary" typeName="button">
-        Copy
-      </Button>
-      <Button loading type="tertiary" typeName="button">
-        Loading
-      </Button>
-      <Button disabled typeName="button">
-        Disabled
-      </Button>
-    </div>
-  );
-}
-```
-
 ## API Reference
 
 This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
@@ -421,7 +395,7 @@ Native props: `ButtonHTMLAttributes<HTMLButtonElement>`
 
 ### Props & callbacks
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default" | "secondary" | "tertiary" | "error" | "warning"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Visual variant.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">typeName</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"submit" | "button" | "reset"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Native button type.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"submit"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">loading</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Shows a spinner, preserves the label, and disables the native button.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">type</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default" | "secondary" | "tertiary" | "error" | "warning"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Visual variant.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">typeName</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"submit" | "button" | "reset"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Native button type.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"submit"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">loading</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Shows a spinner, preserves the label, and disables the native button.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">size</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"tiny" | "small" | "medium" | "large"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Control height and horizontal padding.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"medium"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">shape</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"square" | "circle" | "rounded"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Corner treatment; rounded pairs with shadow for marketing CTAs.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"square"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">shadow</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Marketing-page shadow (used with shape="rounded").</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">svgOnly</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Icon-only mode: collapses padding and requires aria-label.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">prefix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Leading icon slot.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">suffix</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Trailing icon slot.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">asChild</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Renders as the child element (Slot).</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
 
 ## Best Practices
 

@@ -64,7 +64,7 @@ Applies error colors to the input text and icons when validation fails; the page
 
 ## Responsive behavior
 
-- The dropdown is placed below the input and recomputes its fixed position on scroll or resize; it does not currently flip or avoid viewport collisions.
+- The dropdown sits 8px below the input, start-aligned with the input surface; it flips and avoids viewport edges when space is insufficient, and tracks scroll and resize in real time.
 - Input width comes from layout or the compatibility width prop; the list is at least as wide as the input and maxWidth can widen it.
 
 ## Theme behavior
@@ -483,7 +483,7 @@ export function ComboboxUsedInsideModal1332CE87Example() {
                   ))}
                 </ComboboxList>
               </Combobox>
-              <p className="text-copy-13 text-gray-900">
+              <p className="text-copy-13 text-muted-foreground">
                 This is the region where your database reads and writes will take place.
               </p>
             </div>
@@ -542,7 +542,7 @@ export function ComboboxInsideSheet95E13F11Example() {
             </Button>
           </SheetClose>
         </div>
-        <p className="px-4 pb-2 text-copy-14 text-gray-900">
+        <p className="px-4 pb-2 text-copy-14 text-muted-foreground">
           Changes to shared variables sync automatically across all linked projects.
         </p>
         <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-1">
@@ -564,7 +564,7 @@ export function ComboboxInsideSheet95E13F11Example() {
                 >
                   <div className="flex flex-col items-stretch justify-start py-[15px] px-2">
                     <p className="font-mono text-sm font-medium">{v.key}</p>
-                    <p className="mt-[3px] text-xs text-gray-900">{v.target}</p>
+                    <p className="mt-[3px] text-xs text-muted-foreground">{v.target}</p>
                   </div>
                 </ComboboxOption>
               ))}

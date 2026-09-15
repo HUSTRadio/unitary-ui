@@ -136,7 +136,7 @@ export function SliderCommitOnRelease97B1700EExample() {
         defaultValue={[50]}
         onValueCommitted={(value) => setCommitted(value[0] ?? null)}
       />
-      <p className="mt-2 text-copy-13 text-gray-900">
+      <p className="mt-2 text-copy-13 text-muted-foreground">
         Last committed: {committed === null ? "—" : committed}
       </p>
     </>
