@@ -26,7 +26,9 @@ export default defineConfig({
     },
   },
   webServer: {
-    command: "vp dev docs/geist --host 127.0.0.1 --port 5211 --strictPort",
+    // vp（vite-plus@0.x）是单点依赖：启动失败时回退到原生 vite dev
+    command:
+      "vp dev docs/geist --host 127.0.0.1 --port 5211 --strictPort || vite dev docs/geist --host 127.0.0.1 --port 5211 --strictPort",
     cwd: process.cwd(),
     url: "http://127.0.0.1:5211",
     reuseExistingServer: false,
