@@ -1,0 +1,50 @@
+name: E2E Nightly
+
+on:
+  schedule:
+    # UTC 18:00 = 北京时间 02:00（每晚）
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-nightly
+  cancel-in-progress: false
+
+jobs:
+  e2e:
+    name: Playwright docs-layout
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.20.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      # e2e 约 15 分钟串行，不阻塞 PR（PR 门禁见 ci.yml）
+      - name: Run e2e
+        run: pnpm test:docs-layout
+
+      - name: Upload artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: .scratch/playwright-results
+          retention-days: 7
+          if-no-files-found: ignore

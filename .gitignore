@@ -1,9 +1,11 @@
 node_modules/
 dist/
+coverage/
 *.tgz
 .env
 .hermes/
 *.local
+*.log
 .DS_Store
 
 # Agent 工作目录 / 工具本地状态（不入库）
@@ -16,8 +18,10 @@ dist/
 .roo/
 .continue/
 .agent/
+.codebuddy/
 .scratch/
 .tmp/
+*.tmp.*
 .plans/
 .plan/
 .superpowers/
