@@ -402,6 +402,56 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       ],
     },
   },
+  "activity-view": {
+    slug: "activity-view",
+    locale: "zh-CN",
+    summary: "底部分享面板：横向滚动的分享目标网格 + 操作列表 + 取消行，复用 BottomSheet 容器。",
+    whenToUse: [
+      "需要从当前内容分享到多个目标（app、服务）时。",
+      "需要把复制、打印、存储等操作与分享目标放在同一个底部面板时。",
+    ],
+    whenNotToUse: [
+      "需要多档位可拖拽的底部弹层——直接用 BottomSheet。",
+      "需要常驻的工具栏操作——用 Toolbar 而非一次性面板。",
+    ],
+    examples: [
+      {
+        id: "activity-view-default",
+        kind: "minimal",
+        title: "默认活动视图",
+        description: "分享按钮唤起底部面板：目标网格、操作列表与取消行。",
+        demoKey: "default",
+      },
+    ],
+    accessibility: {
+      status: "covered",
+      content: [
+        "面板复用 Radix Dialog：焦点进入面板、Esc 与外部点击关闭、关闭后焦点归还触发元素。",
+        "每个目标与操作都是带可见名称的原生 button，破坏性操作仅用颜色加语义标签区分。",
+      ],
+    },
+    controlledBehavior: {
+      status: "covered",
+      content: [
+        "open 与 onOpenChange 完全受控；选中目标或操作后触发回调并自动关闭。",
+        "标题可自定义，传 null 则不渲染标题行。",
+      ],
+    },
+    responsiveBehavior: {
+      status: "covered",
+      content: [
+        "目标区横向滚动，超出面板宽度时保持单行动线。",
+        "面板占视口高度 60%，底部留出安全区内边距。",
+      ],
+    },
+    themeBehavior: {
+      status: "covered",
+      content: [
+        "面板背景、图标块底色与文字色跟随主题 Token。",
+        "破坏性操作使用错误色 token，暗色模式下保持对比度。",
+      ],
+    },
+  },
 };
 
 export const GUIDES_05_EN: Record<string, ComponentGuide> = {
@@ -820,6 +870,58 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       content: [
         "Capsule background, dividers, and text colors follow theme tokens and keep contrast in dark mode.",
         "The scale-and-fade entrance is disabled under prefers-reduced-motion.",
+      ],
+    },
+  },
+  "activity-view": {
+    slug: "activity-view",
+    locale: "en-US",
+    summary:
+      "A bottom share sheet: a horizontally scrolling grid of share targets, an action list, and a cancel row, built on the BottomSheet container.",
+    whenToUse: [
+      "When the current content can be shared to several targets such as apps or services.",
+      "When copy, print, or save actions belong in the same bottom panel as the share targets.",
+    ],
+    whenNotToUse: [
+      "For a draggable multi-detent bottom layer — use BottomSheet directly.",
+      "For always-available toolbar actions — use a toolbar instead of a one-shot panel.",
+    ],
+    examples: [
+      {
+        id: "activity-view-default",
+        kind: "minimal",
+        title: "Default activity view",
+        description:
+          "A share button opens the bottom panel with a target grid, an action list, and a cancel row.",
+        demoKey: "default",
+      },
+    ],
+    accessibility: {
+      status: "covered",
+      content: [
+        "The panel reuses the Radix dialog: focus moves into the panel, Escape and outside clicks close it, and focus returns to the trigger.",
+        "Every target and action is a native button with a visible name; destructive actions differ by color and wording, not color alone.",
+      ],
+    },
+    controlledBehavior: {
+      status: "covered",
+      content: [
+        "open and onOpenChange are fully controlled; picking a target or action runs the callback and closes the panel.",
+        "The title is customizable; pass null to drop the title row entirely.",
+      ],
+    },
+    responsiveBehavior: {
+      status: "covered",
+      content: [
+        "The target row scrolls horizontally so targets stay on a single line when they overflow.",
+        "The panel takes 60% of the viewport height and reserves bottom safe-area padding.",
+      ],
+    },
+    themeBehavior: {
+      status: "covered",
+      content: [
+        "Panel background, icon tile color, and text colors follow theme tokens.",
+        "Destructive actions use the error color token and keep contrast in dark mode.",
       ],
     },
   },

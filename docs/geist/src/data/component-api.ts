@@ -466,6 +466,45 @@ const O = {
     ],
     undefined,
   ),
+  "activity-view": component(
+    ["ActivityView"],
+    [
+      row("open", "boolean", "Controlled open state.", "受控打开状态。", { required: true }),
+      row(
+        "onOpenChange",
+        "(open: boolean) => void",
+        "Receives open state changes.",
+        "接收打开状态变化。",
+        { required: true },
+      ),
+      row(
+        "targets",
+        "readonly ActivityTarget[]",
+        "Share targets rendered as a horizontally scrolling grid.",
+        "以横向滚动网格渲染的分享目标。",
+      ),
+      row(
+        "actions",
+        "readonly ActivityAction[]",
+        "Action rows rendered beneath the targets.",
+        "渲染在目标下方的操作行。",
+      ),
+      row(
+        "title",
+        "ReactNode",
+        "Panel title; pass null to omit the title row.",
+        "面板标题；传 null 则不渲染标题行。",
+      ),
+      row(
+        "showCancel",
+        "boolean",
+        "Renders the trailing cancel row.",
+        "渲染底部取消行。",
+        { defaultValue: "true" },
+      ),
+    ],
+    undefined,
+  ),
   "continuous-surface": component(
     ["ContinuousSurface"],
     [

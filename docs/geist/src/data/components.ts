@@ -349,6 +349,19 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "activity-view",
+    label: "Activity View",
+    labelZh: "活动视图",
+    description:
+      "A bottom share sheet with a grid of share targets and a list of actions.",
+    official: "Activity View",
+    bestPractices: [
+      "Use ActivityView for one-shot share or action flows; it closes itself after a target or action is picked.",
+      "Keep target names short—they truncate to one line beneath a 48px icon tile.",
+      "Put destructive actions at the bottom of the action list and keep their labels Verb + Noun.",
+    ],
+  },
+  {
     name: "menu",
     label: "Menu",
     labelZh: "菜单",

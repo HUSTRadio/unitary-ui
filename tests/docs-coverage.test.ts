@@ -38,6 +38,7 @@ describe("Geist documentation coverage", () => {
     expect([...official].filter((slug) => !demos.has(slug))).toEqual([]);
     expect([...metadata].filter((slug) => !demos.has(slug))).toEqual([]);
     expect([...metadata].filter((slug) => !official.has(slug)).sort()).toEqual([
+      "activity-view",
       "bottom-sheet",
       "continuous-surface",
       "edit-menu",
