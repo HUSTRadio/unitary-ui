@@ -472,7 +472,7 @@
         "keyboard-input-9ada93f/comparison-small/",
         "keyboard-input-9ada93f/final-contact-sheet.png"
       ],
-      "notes": "B3 复刻闭环；3 live demo（modifiers/combination/small），strict/style/ARIA failures 均为 0，normalized geometry 0、无 missing path；raw FAIL 仅来自获准 Geist Sans→HarmonyOS Sans 字体/宿主宽度映射（最大 Kbd 字宽差 1.8125px、默认基线差 1px），最终视觉复核无实质差异"
+      "notes": "B3 复刻闭环；3 live demo（modifiers/combination/small），strict/style/ARIA failures 均为 0，normalized geometry 0、无 missing path；raw FAIL 仅来自获准 Geist Sans→HarmonyOS Sans 字体/宿主宽度映射（最大 Kbd 字宽差 1.8125px、默认基线差 1px），最终视觉复核无实质差异；2026-09 按所有者指示键帽排版 Apple 化（正方形键帽邻接，偏离 Geist 单 pill 基线，API 不变），固化于 tests/keyboard-input.test.tsx"
     },
     {
       "slug": "label",
