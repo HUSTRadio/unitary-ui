@@ -9,6 +9,7 @@ import { SidebarNav, type SidebarNavGroup } from "@/components/ui/sidebar-nav";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
 import type { DocsLanguage } from "../../i18n/language";
+import { DocsPageLead, DocsPageTitle } from "../docs-typography";
 
 /**
  * App Shell 全页连贯式 pattern demo（/patterns/app-shell）。
@@ -266,12 +267,13 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
 
   return (
     <div>
-      <h1 className="text-heading-32 text-foreground">{copy.title}</h1>
-      <p className="mt-3 max-w-[720px] text-copy-14 text-muted-foreground">{copy.lead}</p>
+      <DocsPageTitle>{copy.title}</DocsPageTitle>
+      <DocsPageLead className="max-w-[720px]">{copy.lead}</DocsPageLead>
 
       {/* ===== 自包含 mini 壳层（页面本身即活文档） ===== */}
       <div
         ref={frameRef}
+        data-slot="app-shell-demo"
         className="border-gray-alpha-400 mt-8 overflow-clip rounded-lg border"
       >
         {/* --- Topbar：Logo 文本 + ThemeSwitcher + trailing HamburgerMenu --- */}

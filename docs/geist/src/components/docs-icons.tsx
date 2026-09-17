@@ -124,6 +124,12 @@ import { Modal, ModalContent, ModalHeader, ModalTitle } from "@/components/ui/mo
 import { cn } from "@/lib/utils";
 import { useLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
+import {
+  DocsPageLead,
+  DocsPageTitle,
+  DocsParagraph,
+  DocsSectionTitle,
+} from "./docs-typography";
 
 /** 图标库来源：lucide（矢量 stroke 图标）或 simple-icons（品牌 fill 图标，经 CDN 渲染）。 */
 type IconLib = "lucide" | "simple-icons";
@@ -387,12 +393,10 @@ export function IconsPage() {
 
   return (
     <div>
-      <h1 className="text-heading-24 sm:text-heading-40 text-foreground">
-        {demoText(language, "Icons")}
-      </h1>
-      <p className="mt-3 max-w-xl text-copy-20 text-muted-foreground">
+      <DocsPageTitle>{demoText(language, "Icons")}</DocsPageTitle>
+      <DocsPageLead className="max-w-xl">
         {demoText(language, "Icon set tailored for developer tools.")}
-      </p>
+      </DocsPageLead>
 
       <div className="relative mt-8 max-w-xs" role="search">
         <Search
@@ -409,26 +413,24 @@ export function IconsPage() {
       </div>
 
       {filtered.length === 0 ? (
-        <p className="mt-10 text-copy-14 text-muted-foreground">
-          {demoText(language, "No icons match your search.")}
-        </p>
+        <DocsParagraph>{demoText(language, "No icons match your search.")}</DocsParagraph>
       ) : (
         <div className="mt-8 space-y-10">
           {/* Lucide 分区 — 小标题 as link */}
           <section>
-            <h2 className="text-heading-16 font-medium text-foreground">
+            <DocsSectionTitle>
               <Link href="https://lucide.dev">Lucide</Link>
-            </h2>
-            <p className="mt-1 text-copy-14 text-muted-foreground">
+            </DocsSectionTitle>
+            <DocsParagraph>
               {demoText(
                 language,
                 "Open-source stroke icons, tree-shakeable via lucide-react.",
               )}
-            </p>
+            </DocsParagraph>
             {lucideIcons.length === 0 ? (
-              <p className="mt-4 text-copy-14 text-muted-foreground">
+              <DocsParagraph>
                 {demoText(language, "No lucide icons match your search.")}
-              </p>
+              </DocsParagraph>
             ) : (
               <div className="mt-4 grid grid-cols-3 gap-1 sm:grid-cols-4 md:grid-cols-6 xl:grid-cols-8">
                 {lucideIcons.map((entry) =>
@@ -452,25 +454,26 @@ export function IconsPage() {
 
           {/* Simple Icons 分区 — 小标题 as link + 品牌版权声明 */}
           <section>
-            <h2 className="text-heading-16 font-medium text-foreground">
+            <DocsSectionTitle>
               <Link href="https://simpleicons.org">Simple Icons</Link>
-            </h2>
-            <p className="mt-1 text-copy-14 text-muted-foreground">
+            </DocsSectionTitle>
+            <DocsParagraph>
               {demoText(
                 language,
                 "Brand icons for popular products, rendered from the simple-icons CDN.",
               )}
-            </p>
-            <p className="mt-2 max-w-xl text-copy-13 text-muted-foreground">
+            </DocsParagraph>
+            {/* 版权附注：legal 小字，属局部体系而非文章正文，以 data-slot 显式标记 */}
+            <p data-slot="legal-note" className="mt-2 max-w-xl text-copy-13 text-muted-foreground">
               {demoText(
                 language,
                 "All brand names, logos, and icons are trademarks of their respective owners. Simple Icons is not affiliated with any of these brands, and the project makes no claim of ownership over them.",
               )}
             </p>
             {simpleIcons.length === 0 ? (
-              <p className="mt-4 text-copy-14 text-muted-foreground">
+              <DocsParagraph>
                 {demoText(language, "No brand icons match your search.")}
-              </p>
+              </DocsParagraph>
             ) : (
               <div className="mt-4 grid grid-cols-3 gap-1 sm:grid-cols-4 md:grid-cols-6 xl:grid-cols-8">
                 {simpleIcons.map((entry) =>

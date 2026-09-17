@@ -25,6 +25,7 @@ import {
   MaterialsPage,
   TypographyPage,
 } from "./components/docs-pages";
+import { DocsPageTitle, DocsParagraph } from "./components/docs-typography";
 import {
   canonicalDocsPath,
   DOCS_ROUTE_GROUPS,
@@ -128,7 +129,7 @@ export default function App() {
               name={pathname}
               resetKeys={[pathname]}
               fallback={
-                <div className="py-16 text-center">
+                <div data-slot="page-render-error" className="py-16 text-center">
                   <p className="text-heading-20 text-foreground">{copy.pageRenderFailed}</p>
                   <p className="mt-2 text-copy-14 text-muted-foreground">
                     {copy.pageRenderFailedDescription}
@@ -152,11 +153,10 @@ export default function App() {
                 <ComponentsPage componentName={componentName} />
               ) : (
                 <>
-                  <h1 className="text-heading-32 text-foreground">{copy.pageInProgress}</h1>
-                  <p className="mt-2 text-copy-14 text-muted-foreground">
-                    {copy.pageInProgressDescription(pathname)}
-                  </p>
+                  <DocsPageTitle>{copy.pageInProgress}</DocsPageTitle>
+                  <DocsParagraph>{copy.pageInProgressDescription(pathname)}</DocsParagraph>
                 </>
+
               )}
             </ErrorBoundary>
 

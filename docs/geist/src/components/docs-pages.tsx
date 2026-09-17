@@ -235,6 +235,8 @@ function PaletteRow({
   values: Record<string, string>;
   onCopy: (token: FoundationColor["token"]) => Promise<void>;
 }) {
+  // 10 档色阶在窄屏（<sm）降为 5 列两行，保证卡内 hex 值完整可读（响应式审计 Minor-1）；卡数 ≤5 的行无需降列
+  const wrapsOnNarrow = scale.steps.length > 5;
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:gap-4">
       <div className="sm:w-40 sm:shrink-0">
@@ -242,29 +244,43 @@ function PaletteRow({
         <p className="mt-0.5 text-copy-13 text-muted-foreground">{demoText(language, scale.usage)}</p>
       </div>
       {/* 一个色阶一行：10 档横向成条；token 全文交给 title，卡内只留 step 与实时值 */}
-      <div className="flex min-w-0 flex-1 overflow-hidden rounded-md border border-gray-alpha-400">
-        {scale.steps.map((color) => (
-          <button
-            key={color.token}
-            type="button"
-            data-color-token={color.token}
-            onClick={() => void onCopy(color.token)}
-            title={color.token}
-            className="focus-ring min-w-0 flex-1 border-r border-gray-alpha-400 text-left last:border-r-0"
-          >
-            <span
-              className="block h-10 w-full"
-              style={{ backgroundColor: `var(${color.token})` }}
-              aria-hidden
-            />
-            <span className="flex flex-col border-t border-gray-alpha-400 bg-background px-1 py-1">
-              <span className="text-label-12 text-muted-foreground">{color.step}</span>
-              <span className="truncate font-mono text-label-12 text-foreground">
-                {values[color.token] || "—"}
+      <div
+        className={cn(
+          "min-w-0 flex-1 overflow-hidden rounded-md border border-gray-alpha-400",
+          wrapsOnNarrow ? "grid grid-cols-5 sm:flex" : "flex",
+        )}
+      >
+        {scale.steps.map((color) => {
+          const value = values[color.token];
+          return (
+            <button
+              key={color.token}
+              type="button"
+              data-color-token={color.token}
+              onClick={() => void onCopy(color.token)}
+              title={value ? `${color.token} · ${value}` : color.token}
+              className={cn(
+                "focus-ring min-w-0 flex-1 border-r border-gray-alpha-400 text-left last:border-r-0",
+                wrapsOnNarrow &&
+                  // 两行模式：行尾（第 5n 张）卡去右边框，末行（倒数 5 张）卡去下边框，行间由下边框分隔
+                  "max-sm:border-b max-sm:[&:nth-child(5n)]:border-r-0 max-sm:[&:nth-last-child(-n+5)]:border-b-0",
+              )}
+            >
+              <span
+                className="block h-10 w-full"
+                style={{ backgroundColor: `var(${color.token})` }}
+                aria-hidden
+              />
+              <span className="flex flex-col border-t border-gray-alpha-400 bg-background px-0.5 py-1">
+                <span className="text-label-12 text-muted-foreground">{color.step}</span>
+                {/* 紧凑显示：卡内省略 # 前缀（title 提供完整值），10 列均分下 6 位 hex 才放得下 */}
+                <span className="truncate font-mono text-label-12 text-foreground">
+                  {value ? value.replace(/^#/, "") : "—"}
+                </span>
               </span>
-            </span>
-          </button>
-        ))}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -287,7 +303,7 @@ function RuntimeColorSwatch({
       <span className="block h-12 w-full" style={{ backgroundColor: `var(${color.token})` }} aria-hidden />
       <span className="flex flex-col border border-t-0 border-gray-alpha-400 bg-background px-1.5 py-0.5">
         <span className="text-label-12 text-muted-foreground">{color.step}</span>
-        <span className="font-mono text-label-12 text-foreground">{value || "—"}</span>
+        <span className="font-mono text-label-12 text-foreground">{value ? value.replace(/^#/, "") : "—"}</span>
       </span>
     </div>
   );

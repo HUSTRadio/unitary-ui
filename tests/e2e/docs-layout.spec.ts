@@ -664,7 +664,11 @@ test.describe("/colors clipboard contract", () => {
         token,
       );
       const displayed = (await swatch.locator("span").last().innerText()).trim();
-      expect(displayed, "swatch 显示值应等于该 token 的 computed value").toBe(expected);
+      // 紧凑显示约定：卡内 hex 可省略 # 前缀（title 与剪贴板始终是完整值），比较时前缀无关
+      expect(
+        displayed.replace(/^#/, ""),
+        "swatch 显示值应等于该 token 的 computed value（前缀无关）",
+      ).toBe(expected.replace(/^#/, ""));
       const clipped = await page.evaluate(() => navigator.clipboard.readText());
       expect(clipped, "Clipboard 写入值应等于该 token 的 computed value").toBe(expected);
     });

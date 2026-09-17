@@ -216,6 +216,7 @@ function ComponentsOverview() {
           <a
             key={component.name}
             href={`#/components/${component.name}`}
+            data-slot="docs-card"
             className="group block border-b border-r border-border p-6 transition-colors hover:bg-gray-alpha-100"
           >
             <p className="font-mono text-label-12 text-muted-foreground">{component.official}</p>
