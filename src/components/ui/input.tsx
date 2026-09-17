@@ -117,7 +117,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             data-slot="input-prefix"
             data-styling={prefixStyling ? "styled" : "plain"}
             className={cn(
-              "flex h-full shrink-0 items-center px-3 text-gray-700",
+              // [&_svg]:size-4 对齐全仓库图标 16px 惯例（button/menu/tabs 等 22 处），
+              // 防止 lucide 默认 24px 图标在 32-36px 高的输入框里被放大
+              "flex h-full shrink-0 items-center px-3 text-gray-700 [&_svg]:size-4 [&_svg]:shrink-0",
               rounded && "rounded-full",
               prefixStyling
                 ? "border-r border-gray-alpha-400 bg-background-200"
@@ -151,7 +153,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             data-slot="input-suffix"
             data-styling={suffixStyling ? "styled" : "plain"}
             className={cn(
-              "flex h-full shrink-0 items-center px-3 text-gray-700",
+              "flex h-full shrink-0 items-center px-3 text-gray-700 [&_svg]:size-4 [&_svg]:shrink-0",
               rounded && "rounded-full",
               suffixStyling
                 ? "border-l border-gray-alpha-400 bg-background-200"
