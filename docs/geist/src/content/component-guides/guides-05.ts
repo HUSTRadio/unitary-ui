@@ -503,6 +503,57 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       ],
     },
   },
+  toolbar: {
+    slug: "toolbar",
+    locale: "zh-CN",
+    summary: "窗口级工具操作条：leading / center / trailing 三段分组，空间不足时按组折叠进溢出菜单。",
+    whenToUse: [
+      "需要窗口级命令组（导航、视图切换、收尾动作）并希望空间不足自动折叠时。",
+      "需要把工具项按语义分成前、中、后三段时。",
+    ],
+    whenNotToUse: [
+      "页面级导航链接与滚动行为——用 Navbar。",
+      "应用级命令菜单（带快捷键与子菜单）——用 MenuBar。",
+    ],
+    examples: [
+      {
+        id: "toolbar-default",
+        kind: "minimal",
+        title: "默认工具栏",
+        description: "前中后三组工具项，缩小容器后组折叠进尾部溢出菜单。",
+        demoKey: "default",
+      },
+    ],
+    accessibility: {
+      status: "covered",
+      content: [
+        "工具项是带无障碍名称的原生 button；仅图标显示时 label 仍作为 aria-label。",
+        "选中态通过 aria-pressed 暴露，不依赖颜色单通道传达。",
+        "溢出菜单复用 DotsMenu，键盘可达。",
+      ],
+    },
+    controlledBehavior: {
+      status: "covered",
+      content: [
+        "折叠状态由容器内部测量自管（可通过 collapse=false 关闭），不暴露受控开关。",
+        "工具项激活由 onSelect 回调驱动，选中态由调用方传入 active。",
+      ],
+    },
+    responsiveBehavior: {
+      status: "covered",
+      content: [
+        "空间不足时可折叠组整组收起，组内 ToolbarItem 进入溢出菜单。",
+        "展开启用 24px 滞回，避免临界宽度下反复折叠。",
+      ],
+    },
+    themeBehavior: {
+      status: "covered",
+      content: [
+        "工具栏使用 background 与描边 token，暗色模式下自动切换。",
+        "项的高亮、选中与禁用态均使用灰阶 alpha token。",
+      ],
+    },
+  },
 };
 
 export const GUIDES_05_EN: Record<string, ComponentGuide> = {
@@ -1026,6 +1077,59 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       content: [
         "The bar and its surfaces use surface and border tokens that switch automatically in dark mode.",
         "The surface's scale entrance is disabled under prefers-reduced-motion.",
+      ],
+    },
+  },
+  toolbar: {
+    slug: "toolbar",
+    locale: "en-US",
+    summary:
+      "A window-level bar of tool items grouped into leading, center, and trailing slots that collapse group by group into an overflow menu.",
+    whenToUse: [
+      "For window-level command groups (navigation, view switching, finishing actions) that should collapse when space runs out.",
+      "When tool items need a semantic front, middle, and back split.",
+    ],
+    whenNotToUse: [
+      "For page-level navigation links and scroll behavior — use Navbar.",
+      "For application-level command menus with shortcuts and submenus — use MenuBar.",
+    ],
+    examples: [
+      {
+        id: "toolbar-default",
+        kind: "minimal",
+        title: "Default toolbar",
+        description:
+          "Three groups of tool items; narrow the container and the groups collapse into the trailing overflow menu.",
+        demoKey: "default",
+      },
+    ],
+    accessibility: {
+      status: "covered",
+      content: [
+        "Tool items are native buttons with an accessible name; in icon-only mode the label still becomes the aria-label.",
+        "The selected state is exposed through aria-pressed rather than color alone.",
+        "The overflow menu reuses DotsMenu and stays keyboard reachable.",
+      ],
+    },
+    controlledBehavior: {
+      status: "covered",
+      content: [
+        "Collapse state is measured internally (turn it off with collapse=false) and is not a controlled prop.",
+        "Activation runs the onSelect callback; the selected state comes from the caller's active prop.",
+      ],
+    },
+    responsiveBehavior: {
+      status: "covered",
+      content: [
+        "Collapsible groups fold away as a unit and their ToolbarItems move into the overflow menu.",
+        "Expanding uses a 24px hysteresis band so the bar does not flap at the threshold width.",
+      ],
+    },
+    themeBehavior: {
+      status: "covered",
+      content: [
+        "The bar uses background and border tokens that switch automatically in dark mode.",
+        "Hover, selected, and disabled states all use grayscale alpha tokens.",
       ],
     },
   },

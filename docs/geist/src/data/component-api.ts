@@ -534,6 +534,36 @@ const O = {
     ],
     undefined,
   ),
+  toolbar: component(
+    ["Toolbar", "ToolbarGroup", "ToolbarItem"],
+    [
+      row(
+        "collapse",
+        "boolean",
+        "Collapses collapsible groups into an overflow menu when space runs out.",
+        "空间不足时把可折叠组收进溢出菜单。",
+        { defaultValue: "true" },
+      ),
+      row("slot", "ToolbarSlot", "Group placement: leading, center, or trailing.", "组的位置：leading、center 或 trailing。", {
+        defaultValue: '"leading"',
+      }),
+      row(
+        "collapsible",
+        "boolean",
+        "Whether the group collapses when the toolbar runs out of space.",
+        "空间不足时该组是否折叠。",
+        { defaultValue: "true" },
+      ),
+      row("label", "ReactNode", "Item label, reused as the overflow menu item text and accessible name.", "项名称；折叠后作为溢出菜单文案与无障碍名称。", {
+        required: true,
+      }),
+      row("icon", "ReactNode", "Leading 16px icon of a tool item.", "工具项的行首图标（16px 档）。"),
+      row("iconOnly", "boolean", "Hides the label visually but keeps it as the accessible name.", "隐藏可见文案，但仍作为无障碍名称。"),
+      row("active", "boolean", "Marks the item as the current selection.", "标记该项为当前选中。"),
+      row("onSelect", "() => void", "Runs when the item is activated.", "项被激活时触发。"),
+    ],
+    undefined,
+  ),
   "continuous-surface": component(
     ["ContinuousSurface"],
     [

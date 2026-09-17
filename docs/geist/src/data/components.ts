@@ -376,6 +376,20 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "toolbar",
+    label: "Toolbar",
+    labelZh: "工具栏",
+    description:
+      "A window-level bar of grouped tool items that collapses into an overflow menu.",
+    official: "Toolbar",
+    bestPractices: [
+      "Use Toolbar for window-level command groups; use Navbar for page-level navigation links.",
+      "Put navigation in the leading group, the current view switch in the center group, and finishing commands in the trailing group.",
+      "Only ToolbarItem enters the overflow menu—arbitrary controls stay in their group, so keep collapsible groups made of ToolbarItem.",
+      "Prefer disabled items over hidden ones so a command never disappears without explanation.",
+    ],
+  },
+  {
     name: "menu",
     label: "Menu",
     labelZh: "菜单",

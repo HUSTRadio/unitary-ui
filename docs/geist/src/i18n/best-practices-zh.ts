@@ -143,6 +143,12 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "快捷键文本只做展示——按键绑定由调用方自己完成，避免展示与实际行为脱节。",
     "命令不可用时保持 disabled 而不是隐藏，让命令在菜单中仍可被发现。",
   ],
+  toolbar: [
+    "窗口级命令组用 Toolbar；页面级导航链接用 Navbar。",
+    "导航放 leading 组、当前视图切换放 center 组、收尾命令放 trailing 组。",
+    "只有 ToolbarItem 会进入溢出菜单——任意控件留在组内，因此可折叠组应由 ToolbarItem 组成。",
+    "优先使用 disabled 而不是隐藏，避免命令无解释地消失。",
+  ],
   "continuous-surface": [
     "仅在连续曲率属于明确设计系统语义时用于孤立卡片或磁贴，不要把它机械应用到所有容器。",
     "默认指数为 Unitary 团队值 3；指数 2 是精确圆弧基线，其他参数应有明确的 shape token 依据。",

@@ -46,6 +46,7 @@ describe("Geist documentation coverage", () => {
       "link",
       "menu-bar",
       "step-point",
+      "toolbar",
     ]);
 
     const componentRoutes = DOCS_ROUTE_SEQUENCE.filter(
