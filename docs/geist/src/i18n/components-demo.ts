@@ -763,6 +763,11 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Wrapping children": "包裹子内容",
     "Wrapping children with fixed size": "包裹固定尺寸的子内容",
 
+    // HIG 新增示例（编辑菜单 / 快速操作 / 弹出按钮 / 下拉卡片）
+    "quick-actions": "快速操作",
+    "pop-up-button": "弹出按钮",
+    "pull-down-card": "下拉卡片",
+
     // Drawer / SidePanel 模态引导卡（DD-001c）
     "Desktop side panel: use SidePanel.": "桌面侧板请用 SidePanel。",
     "Floating right/left panel for mouse & trackpad.": "面向鼠标与触控板的右/左悬浮面板。",

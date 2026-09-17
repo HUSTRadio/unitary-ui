@@ -178,6 +178,86 @@ export function SplitButtonTitleWithIcon9D4D6961Example() {
 }
 ```
 
+## pull-down-card
+
+No command yet.
+
+```tsx
+import * as React from "react";
+
+import {
+  SplitButton,
+  SplitButtonMenuItem,
+  type SplitButtonExpandCorner,
+} from "@/components/ui/split-button";
+
+const CORNERS: readonly SplitButtonExpandCorner[] = [
+  "top-left",
+  "top-right",
+  "bottom-left",
+  "bottom-right",
+];
+
+/**
+ * Pull-down Button —— split-button 的悬浮卡片变体：
+ * 卡片锚定按钮的 expandCorner 角，向对向展开（动画原点即该角）。
+ */
+export function SplitButtonPullDownCard6B3F1D80Example() {
+  const [corner, setCorner] = React.useState<SplitButtonExpandCorner>("top-left");
+  const [log, setLog] = React.useState("No command yet.");
+
+  const items = (
+    <>
+      <SplitButtonMenuItem
+        title="New file"
+        description="Create a blank file"
+        menuItemProps={{ onClick: () => setLog("New file") }}
+      />
+      <SplitButtonMenuItem
+        title="New folder"
+        description="Create an empty folder"
+        menuItemProps={{ onClick: () => setLog("New folder") }}
+      />
+      <SplitButtonMenuItem
+        title="Import…"
+        description="Bring in an existing project"
+        menuItemProps={{ onClick: () => setLog("Import…") }}
+      />
+    </>
+  );
+
+  return (
+    <div className="flex w-full flex-col items-start gap-4">
+      <SplitButton
+        variant="pulldown"
+        expandCorner={corner}
+        buttonProps={{ type: "secondary", onClick: () => setLog("New file (default)") }}
+        menuItems={items}
+      >
+        New
+      </SplitButton>
+      <div className="flex flex-wrap gap-1">
+        {CORNERS.map((value) => (
+          <button
+            key={value}
+            type="button"
+            onClick={() => setCorner(value)}
+            className={
+              value === corner
+                ? "rounded-md bg-gray-alpha-200 px-2 py-1 text-label-13 text-gray-1000"
+                : "rounded-md px-2 py-1 text-label-13 text-gray-900 hover:bg-gray-alpha-100"
+            }
+          >
+            {value}
+          </button>
+        ))}
+      </div>
+      <p className="text-copy-13 text-gray-900">{log}</p>
+    </div>
+  );
+}
+```
+
 ## API Reference
 
 This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
@@ -195,7 +275,7 @@ import {
 
 ### Props & callbacks
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">buttonProps</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ButtonProps</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Props for the primary action button.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuButtonLabel</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Accessible label for the menu trigger.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"More options"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuAlignment</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">SplitButtonMenuAlignment</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Places the menu below the primary or menu button edge.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"bottom-start"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuItems</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Secondary menu items.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuProps</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ComponentProps&lt;typeof Menu&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Props forwarded to the menu surface.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">title</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Menu item title.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">description</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Menu item description.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">icon</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Menu item icon.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuItemProps</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">Omit&lt;ComponentProps&lt;typeof MenuItem&gt;, "children" | "prefix" | "suffix"&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Props forwarded to a menu item.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">buttonProps</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ButtonProps</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Props for the primary action button.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuButtonLabel</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Accessible label for the menu trigger.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"More options"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuAlignment</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">SplitButtonMenuAlignment</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Places the menu below the primary or menu button edge.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"bottom-start"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">variant</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">SplitButtonVariant</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">"split" renders a button plus menu list; "pulldown" renders a floating card that expands from a corner.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"split"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">expandCorner</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">SplitButtonExpandCorner</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Corner the pulldown card stays anchored to; the card expands toward the opposite corner.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"top-left"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuItems</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Secondary menu items.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuProps</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ComponentProps&lt;typeof Menu&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Props forwarded to the menu surface.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">title</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Menu item title.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">description</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Menu item description.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">icon</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Menu item icon.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuItemProps</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">Omit&lt;ComponentProps&lt;typeof MenuItem&gt;, "children" | "prefix" | "suffix"&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Props forwarded to a menu item.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## Best Practices
 

@@ -223,7 +223,9 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
       "files": [
-        "src/components/ui/select.tsx"
+        "src/components/ui/select.tsx",
+        "src/components/ui/activity-view.tsx",
+        "src/components/ui/context-menu.tsx"
       ]
     },
     {

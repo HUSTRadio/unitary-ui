@@ -189,6 +189,36 @@ export function SelectWithOptions1AADC401Example() {
 }
 ```
 
+## 弹出按钮
+
+Current value: automatic
+
+```tsx
+import * as React from "react";
+
+import { Select, SelectItem } from "@/components/ui/select";
+
+/**
+ * Pop-up Button（macOS NSPopUpButton）——Select 的 HIG 用法：
+ * 触发器显示当前选中值，打开菜单即高亮当前项。无需单独的 pop-up 组件。
+ */
+export function SelectPopUpButton5C7E2A91Example() {
+  const [value, setValue] = React.useState("automatic");
+
+  return (
+    <div className="flex w-full max-w-[240px] flex-col gap-2">
+      <Select value={value} onValueChange={setValue} size="small" aria-label="Refresh interval">
+        <SelectItem value="automatic">Automatic</SelectItem>
+        <SelectItem value="every-hour">Every hour</SelectItem>
+        <SelectItem value="every-day">Every day</SelectItem>
+        <SelectItem value="manually">Manually</SelectItem>
+      </Select>
+      <p className="text-copy-13 text-gray-900">Current value: {value}</p>
+    </div>
+  );
+}
+```
+
 ## API 参考
 
 此页只列出稳定公开表面；原生属性请参阅对应元素类型。
@@ -215,3 +245,4 @@ import { Select, SelectItem, SelectGroup, SelectSeparator } from "@/components/u
 - placeholder 面向动作（Select a framework），绝不用 Choose one…、Pick 或复述标签。
 - 失焦时校验并向 error 传字符串；消息点名字段并以句号结尾（Select a framework.）。
 - 不要用 Tooltip 包裹带标签的 <Select>；把提示放在兄弟图标按钮上，让标签保持被播报。
+- 作为弹出按钮（macOS NSPopUpButton）使用时，触发器显示当前值、菜单打开即高亮当前项——Select 已具备该行为，无需另立组件。

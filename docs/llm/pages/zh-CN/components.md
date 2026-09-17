@@ -8,6 +8,14 @@
 
 [
 
+Activity View
+
+### 活动视图
+
+带分享目标网格与操作列表的底部分享面板。
+
+](#/components/activity-view)[
+
 Avatar
 
 ### 头像
@@ -216,6 +224,14 @@ Drawer
 
 ](#/components/drawer)[
 
+Edit Menu
+
+### 编辑菜单
+
+在存在文本选区时浮现的横向胶囊式编辑操作条。
+
+](#/components/edit-menu)[
+
 Empty State
 
 ### 空状态
@@ -360,6 +376,14 @@ Menu
 
 ](#/components/menu)[
 
+Menu Bar
+
+### 菜单栏
+
+横向排列的应用菜单栏，支持快捷键、子菜单与勾选项。
+
+](#/components/menu-bar)[
+
 Middle Truncate
 
 ### 中间截断
@@ -439,6 +463,14 @@ Relative Time Card
 显示带时间上下文的相对时间戳。
 
 ](#/components/relative-time-card)[
+
+Safe Area
+
+### 安全区
+
+让内容避开设备安全区（圆角、刘海、系统栏）的间距容器。
+
+](#/components/safe-area)[
 
 Scroller
 
@@ -528,6 +560,14 @@ Split Button
 
 ](#/components/split-button)[
 
+Stack
+
+### 堆叠
+
+按单一方向堆叠子元素并统一间距档的 flex 预设容器。
+
+](#/components/stack)[
+
 Status Dot
 
 ### 状态圆点
@@ -607,6 +647,14 @@ Toggle
 用于单个布尔设置的开关。
 
 ](#/components/toggle)[
+
+Toolbar
+
+### 工具栏
+
+分组排列的窗口级工具操作条，空间不足时折叠为溢出菜单。
+
+](#/components/toolbar)[
 
 Tooltip
 

@@ -8,6 +8,14 @@ Building blocks for React applications.
 
 [
 
+Activity View
+
+### Activity View
+
+A bottom share sheet with a grid of share targets and a list of actions.
+
+](#/components/activity-view)[
+
 Avatar
 
 ### Avatar
@@ -216,6 +224,14 @@ Displays content in a separate bottom view from the existing context.
 
 ](#/components/drawer)[
 
+Edit Menu
+
+### Edit Menu
+
+A floating capsule toolbar of edit actions that appears over an active text selection.
+
+](#/components/edit-menu)[
+
 Empty State
 
 ### Empty State
@@ -360,6 +376,14 @@ Displays a list of actions in a floating menu.
 
 ](#/components/menu)[
 
+Menu Bar
+
+### Menu Bar
+
+A horizontal bar of application menus with keyboard shortcuts, submenus, and checkable items.
+
+](#/components/menu-bar)[
+
 Middle Truncate
 
 ### Middle Truncate
@@ -439,6 +463,14 @@ Relative Time Card
 Shows a relative timestamp with temporal context.
 
 ](#/components/relative-time-card)[
+
+Safe Area
+
+### Safe Area
+
+A spacing container that keeps content clear of device safe areas.
+
+](#/components/safe-area)[
 
 Scroller
 
@@ -528,6 +560,14 @@ Combines a primary action with a short menu of related actions.
 
 ](#/components/split-button)[
 
+Stack
+
+### Stack
+
+A flex preset that stacks children in one direction with a shared spacing step.
+
+](#/components/stack)[
+
 Status Dot
 
 ### Status Dot
@@ -607,6 +647,14 @@ Toggle
 A switch for a single boolean setting.
 
 ](#/components/toggle)[
+
+Toolbar
+
+### Toolbar
+
+A window-level bar of grouped tool items that collapses into an overflow menu.
+
+](#/components/toolbar)[
 
 Tooltip
 

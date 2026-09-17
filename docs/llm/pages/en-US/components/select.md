@@ -189,6 +189,36 @@ export function SelectWithOptions1AADC401Example() {
 }
 ```
 
+## pop-up-button
+
+Current value: automatic
+
+```tsx
+import * as React from "react";
+
+import { Select, SelectItem } from "@/components/ui/select";
+
+/**
+ * Pop-up Button（macOS NSPopUpButton）——Select 的 HIG 用法：
+ * 触发器显示当前选中值，打开菜单即高亮当前项。无需单独的 pop-up 组件。
+ */
+export function SelectPopUpButton5C7E2A91Example() {
+  const [value, setValue] = React.useState("automatic");
+
+  return (
+    <div className="flex w-full max-w-[240px] flex-col gap-2">
+      <Select value={value} onValueChange={setValue} size="small" aria-label="Refresh interval">
+        <SelectItem value="automatic">Automatic</SelectItem>
+        <SelectItem value="every-hour">Every hour</SelectItem>
+        <SelectItem value="every-day">Every day</SelectItem>
+        <SelectItem value="manually">Manually</SelectItem>
+      </Select>
+      <p className="text-copy-13 text-gray-900">Current value: {value}</p>
+    </div>
+  );
+}
+```
+
 ## API Reference
 
 This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
@@ -215,3 +245,4 @@ Native props: `React.ComponentProps<typeof SelectPrimitive.Root>`
 - Placeholder is action-oriented (Select a framework), never Choose one…, Pick, or the label restated.
 - Validate on blur and pass a string to error; messages name the field and end in a period (Select a framework.).
 - Don’t wrap a labelled <Select> in a Tooltip; put the hint on a sibling icon button so the label stays announced.
+- Used as a pop-up button (macOS NSPopUpButton), the trigger shows the current value and the menu highlights it on open—Select already does this, so don’t add a separate pop-up component.

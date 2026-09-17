@@ -178,6 +178,86 @@ export function SplitButtonTitleWithIcon9D4D6961Example() {
 }
 ```
 
+## 下拉卡片
+
+No command yet.
+
+```tsx
+import * as React from "react";
+
+import {
+  SplitButton,
+  SplitButtonMenuItem,
+  type SplitButtonExpandCorner,
+} from "@/components/ui/split-button";
+
+const CORNERS: readonly SplitButtonExpandCorner[] = [
+  "top-left",
+  "top-right",
+  "bottom-left",
+  "bottom-right",
+];
+
+/**
+ * Pull-down Button —— split-button 的悬浮卡片变体：
+ * 卡片锚定按钮的 expandCorner 角，向对向展开（动画原点即该角）。
+ */
+export function SplitButtonPullDownCard6B3F1D80Example() {
+  const [corner, setCorner] = React.useState<SplitButtonExpandCorner>("top-left");
+  const [log, setLog] = React.useState("No command yet.");
+
+  const items = (
+    <>
+      <SplitButtonMenuItem
+        title="New file"
+        description="Create a blank file"
+        menuItemProps={{ onClick: () => setLog("New file") }}
+      />
+      <SplitButtonMenuItem
+        title="New folder"
+        description="Create an empty folder"
+        menuItemProps={{ onClick: () => setLog("New folder") }}
+      />
+      <SplitButtonMenuItem
+        title="Import…"
+        description="Bring in an existing project"
+        menuItemProps={{ onClick: () => setLog("Import…") }}
+      />
+    </>
+  );
+
+  return (
+    <div className="flex w-full flex-col items-start gap-4">
+      <SplitButton
+        variant="pulldown"
+        expandCorner={corner}
+        buttonProps={{ type: "secondary", onClick: () => setLog("New file (default)") }}
+        menuItems={items}
+      >
+        New
+      </SplitButton>
+      <div className="flex flex-wrap gap-1">
+        {CORNERS.map((value) => (
+          <button
+            key={value}
+            type="button"
+            onClick={() => setCorner(value)}
+            className={
+              value === corner
+                ? "rounded-md bg-gray-alpha-200 px-2 py-1 text-label-13 text-gray-1000"
+                : "rounded-md px-2 py-1 text-label-13 text-gray-900 hover:bg-gray-alpha-100"
+            }
+          >
+            {value}
+          </button>
+        ))}
+      </div>
+      <p className="text-copy-13 text-gray-900">{log}</p>
+    </div>
+  );
+}
+```
+
 ## API 参考
 
 此页只列出稳定公开表面；原生属性请参阅对应元素类型。
@@ -195,7 +275,7 @@ import {
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">buttonProps</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ButtonProps</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">主操作按钮属性。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuButtonLabel</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">菜单触发器的无障碍标签。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"More options"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuAlignment</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">SplitButtonMenuAlignment</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">将菜单对齐到主按钮或菜单按钮边缘。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"bottom-start"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuItems</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">次级菜单项。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuProps</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ComponentProps&lt;typeof Menu&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">透传给菜单表面的属性。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">title</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">菜单项标题。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">description</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">菜单项描述。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">icon</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">菜单项图标。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuItemProps</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">Omit&lt;ComponentProps&lt;typeof MenuItem&gt;, "children" | "prefix" | "suffix"&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">透传给菜单项的属性。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">buttonProps</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ButtonProps</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">主操作按钮属性。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuButtonLabel</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">菜单触发器的无障碍标签。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"More options"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuAlignment</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">SplitButtonMenuAlignment</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">将菜单对齐到主按钮或菜单按钮边缘。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"bottom-start"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">variant</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">SplitButtonVariant</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">split 渲染按钮加菜单列表；pulldown 渲染从指定角展开的悬浮卡片。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"split"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">expandCorner</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">SplitButtonExpandCorner</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">pulldown 卡片锚定的角；卡片朝对角方向展开。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"top-left"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuItems</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">次级菜单项。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuProps</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ComponentProps&lt;typeof Menu&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">透传给菜单表面的属性。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">title</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">菜单项标题。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">description</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">菜单项描述。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">icon</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">菜单项图标。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">menuItemProps</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">Omit&lt;ComponentProps&lt;typeof MenuItem&gt;, "children" | "prefix" | "suffix"&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">透传给菜单项的属性。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
 ## 最佳实践
 

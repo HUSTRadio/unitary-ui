@@ -96,16 +96,19 @@ describe("SplitButton menu alignment under the primary button (G11-SPLIT-02)", (
     // edge lands on the primary button's left edge (official default alignment)
     expect(src).toContain("alignOffset");
     expect(src).toMatch(/useElementWidth\(triggerRef\)/);
+    // pulldown 时位置由 expandCorner 推导，但对齐规则不变：start 对齐仍偏移一个触发器宽度
     expect(src).toMatch(
-      /alignOffset\s*=\s*menuAlignment === ["']bottom-end["'] \? 0 : -triggerWidth/,
+      /alignOffset\s*=\s*position\.endsWith\(["']-end["']\) \? 0 : -triggerWidth/,
     );
-    // bottom-end keeps the menu flush to the group's right edge (no offset)
-    expect(src).toMatch(/menuAlignment === ["']bottom-end["'] \? 0 : -triggerWidth/);
+    // end 对齐时菜单贴整组右缘（不偏移）
+    expect(src).toMatch(/position\.endsWith\(["']-end["']\) \? 0 : -triggerWidth/);
   });
 
-  it("passes menuAlignment through to the Menu position context", async () => {
+  it("passes the resolved position through to the Menu position context", async () => {
     const src = await read("src/components/ui/split-button.tsx");
-    expect(src).toMatch(/<MenuContainer position=\{menuAlignment\}>/);
+    expect(src).toMatch(/<MenuContainer position=\{position\}>/);
+    // pulldown 变体：位置来自展开角映射表
+    expect(src).toContain("EXPAND_CORNER_PROPS[expandCorner].position");
   });
 });
 
