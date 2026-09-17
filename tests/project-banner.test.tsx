@@ -77,10 +77,13 @@ describe("ProjectBanner", () => {
       />,
     );
 
-    expect(markup).toContain(
+    // 修复后的正确结构：焦点色按 variant 内联设置（shadow-focus-ring utility 消费 --banner-focus-color）；
+    // 旧的 focus-visible:!shadow-[var(--banner-focus-color)] 把纯颜色当 box-shadow，属无效声明且压制兜底环，不得回归
+    expect(markup).toContain("focus-visible:shadow-focus-ring");
+    expect(markup).toContain("[--banner-focus-color:var(--gray-1000)]");
+    expect(markup).not.toContain(
       "focus-visible:!shadow-[var(--banner-focus-color)]",
     );
-    expect(markup).toContain("focus-visible:shadow-focus-ring");
     expect(markup).toContain("font-sans");
     expect(markup).toContain("border-none");
     expect(markup).not.toMatch(/(^| )focus-ring( |$)/);

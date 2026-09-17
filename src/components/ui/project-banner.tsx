@@ -53,11 +53,17 @@ interface ProjectBannerProps extends React.ComponentProps<"aside"> {
 }
 
 const CTA_VARIANT_CLASSES: Record<ProjectBannerVariant, string> = {
-  default: "text-gray-1000 hover:text-gray-900 decoration-gray-500 hover:decoration-gray-500",
-  gray: "text-gray-1000 hover:text-gray-900 decoration-gray-500 hover:decoration-gray-500",
-  success: "text-blue-1000 hover:text-blue-900 decoration-blue-400 hover:decoration-blue-500",
-  warning: "text-amber-1000 hover:text-amber-900 decoration-amber-400 hover:decoration-amber-500",
-  error: "text-red-1000 hover:text-red-900 decoration-red-400 hover:decoration-red-500",
+  // 官方模式：基态 decoration-{c}-400，hover 升 500 级（default/gray 此前基态即 500 且 hover 不变，已对齐）
+  // 焦点色按色组内联设置（shadow-focus-ring 消费 --banner-focus-color，随 variant 取 1000 级）
+  default:
+    "text-gray-1000 hover:text-gray-900 decoration-gray-400 hover:decoration-gray-500 [--banner-focus-color:var(--gray-1000)]",
+  gray: "text-gray-1000 hover:text-gray-900 decoration-gray-400 hover:decoration-gray-500 [--banner-focus-color:var(--gray-1000)]",
+  success:
+    "text-blue-1000 hover:text-blue-900 decoration-blue-400 hover:decoration-blue-500 [--banner-focus-color:var(--blue-1000)]",
+  warning:
+    "text-amber-1000 hover:text-amber-900 decoration-amber-400 hover:decoration-amber-500 [--banner-focus-color:var(--amber-1000)]",
+  error:
+    "text-red-1000 hover:text-red-900 decoration-red-400 hover:decoration-red-500 [--banner-focus-color:var(--red-1000)]",
 };
 
 /** variant 决定根元素整体着色三件套（官方 default 视觉即 gray）。 */
@@ -70,7 +76,9 @@ const ROOT_VARIANT_CLASSES: Record<ProjectBannerVariant, string> = {
 };
 
 const CTA_BASE_CLASS =
-  "rounded-xs cursor-pointer border-none bg-transparent px-0 py-0.5 font-sans font-medium underline underline-offset-[5px] outline-none focus-visible:!shadow-[var(--banner-focus-color)] focus-visible:shadow-focus-ring text-[14px] leading-5";
+  // banner 专用焦点环：shadow-focus-ring 内部消费 --banner-focus-color 并叠加 focus-ring 双环兜底；
+  // 此前的 focus-visible:!shadow-[var(--banner-focus-color)] 把纯颜色当 box-shadow，属无效声明且压制了兜底环
+  "rounded-xs cursor-pointer border-none bg-transparent px-0 py-0.5 font-sans font-medium underline underline-offset-[5px] outline-none focus-visible:shadow-focus-ring text-[14px] leading-5";
 
 function ProjectBanner({
   className,
