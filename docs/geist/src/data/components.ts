@@ -335,6 +335,20 @@ const COMPONENTS_EN: ComponentMeta[] = [
     official: "Dots Menu",
   },
   {
+    name: "edit-menu",
+    label: "Edit Menu",
+    labelZh: "编辑菜单",
+    description:
+      "A floating capsule toolbar of edit actions that appears over an active text selection.",
+    official: "Edit Menu",
+    bestPractices: [
+      "Use EditMenu for actions on the current text selection; use ContextMenu for actions on an object revealed by right-click or long-press.",
+      "Only pass callbacks for the actions you implement—EditMenu omits standard actions without a handler instead of showing an inert item.",
+      "Treat Cut as copy plus a caller-side deletion: the component copies the selection and then hands the text to onCut.",
+      "Let Paste stay in the caller's hands: read the clipboard yourself instead of granting the component read permission.",
+    ],
+  },
+  {
     name: "menu",
     label: "Menu",
     labelZh: "菜单",

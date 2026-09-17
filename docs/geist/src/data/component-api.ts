@@ -378,6 +378,69 @@ const O = {
       row("suffix", "ReactNode", "Trailing item content.", "菜单项后置内容。"),
     ],
   ),
+  "edit-menu": component(
+    ["EditMenu"],
+    [
+      row(
+        "children",
+        "ReactNode",
+        "Selectable content the menu watches for a text selection.",
+        "组件监听文本选区的可选中内容。",
+        { required: true },
+      ),
+      row(
+        "standardActions",
+        "readonly EditMenuStandardAction[]",
+        "Enabled standard actions and their order; defaults to cut, copy, paste, selectAll, lookUp, share.",
+        "启用的标准操作及其顺序；默认为 cut、copy、paste、selectAll、lookUp、share。",
+      ),
+      row(
+        "actions",
+        "readonly EditMenuAction[]",
+        "Custom actions appended after the standard actions behind a divider.",
+        "追加在标准操作之后、以分隔线隔开的自定义操作。",
+      ),
+      row(
+        "onCut",
+        "(text: string) => void",
+        "Receives the selection after it is copied; perform the deletion yourself.",
+        "复制选区后收到文本，删除动作由调用方执行。",
+      ),
+      row(
+        "onCopy",
+        "(text: string) => void",
+        "Receives the selection after the component copies it.",
+        "组件复制选区后收到文本。",
+      ),
+      row(
+        "onPaste",
+        "() => void",
+        "Paste handler; the component does not read the clipboard for you.",
+        "粘贴回调；组件不会替你读取剪贴板。",
+      ),
+      row("onSelectAll", "() => void", "Selects all content in the container.", "全选容器内的内容。"),
+      row(
+        "onLookUp",
+        "(text: string) => void",
+        "Look up handler for the current selection.",
+        "查询当前选区。",
+      ),
+      row(
+        "onShare",
+        "(text: string) => void",
+        "Share handler for the current selection.",
+        "共享当前选区。",
+      ),
+      row(
+        "offset",
+        "number",
+        "Gap in pixels between the capsule and the selection.",
+        "胶囊与选区之间的间距（像素）。",
+        { defaultValue: "8" },
+      ),
+    ],
+    undefined,
+  ),
   "continuous-surface": component(
     ["ContinuousSurface"],
     [

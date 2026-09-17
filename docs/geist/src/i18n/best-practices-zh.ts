@@ -126,6 +126,12 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "破坏性项分组到底部并加分隔线，破坏性标签保持 动词 + 名词。",
     "键盘菜单键（Windows/Linux 上为 Shift+F10）在无需右键的情况下打开同一菜单。",
   ],
+  "edit-menu": [
+    "对当前文本选区执行操作使用 EditMenu；对右键或长按唤出的对象操作使用 ContextMenu。",
+    "只为真正实现了的操作传入回调——EditMenu 会省略没有回调的标准操作，而不是显示一个点了没反应的项。",
+    "Cut 视为“复制 + 调用方删除”：组件复制选区文本，再把文本交给 onCut 处理删除。",
+    "Paste 交给调用方自行读取剪贴板，避免为组件申请剪贴板读权限。",
+  ],
   "continuous-surface": [
     "仅在连续曲率属于明确设计系统语义时用于孤立卡片或磁贴，不要把它机械应用到所有容器。",
     "默认指数为 Unitary 团队值 3；指数 2 是精确圆弧基线，其他参数应有明确的 shape token 依据。",

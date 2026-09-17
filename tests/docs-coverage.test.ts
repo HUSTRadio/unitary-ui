@@ -40,6 +40,7 @@ describe("Geist documentation coverage", () => {
     expect([...metadata].filter((slug) => !official.has(slug)).sort()).toEqual([
       "bottom-sheet",
       "continuous-surface",
+      "edit-menu",
       "error-boundary",
       "link",
       "step-point",

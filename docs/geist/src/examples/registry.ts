@@ -763,6 +763,8 @@ import { TableFullFeaturedExample } from "./table/full-featured.example";
 import TableFullFeaturedExampleSource from "./table/full-featured.example.tsx?example-source";
 import { TableVirtualizedExample } from "./table/virtualized.example";
 import TableVirtualizedExampleSource from "./table/virtualized.example.tsx?example-source";
+import { EditMenuDefault3F2A9C71Example } from "./edit-menu/default-3f2a9c71.example";
+import EditMenuDefault3F2A9C71ExampleSource from "./edit-menu/default-3f2a9c71.example.tsx?example-source";
 
 export interface ExampleRecord {
   slug: string;
@@ -1156,6 +1158,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "table", id: "Interactive table", Component: TableInteractiveExample, source: TableInteractiveExampleSource },
   { slug: "table", id: "Full featured table", Component: TableFullFeaturedExample, source: TableFullFeaturedExampleSource },
   { slug: "table", id: "Virtualized table", Component: TableVirtualizedExample, source: TableVirtualizedExampleSource },
+  { slug: "edit-menu", id: "default", Component: EditMenuDefault3F2A9C71Example, source: EditMenuDefault3F2A9C71ExampleSource },
 ];
 
 export const EXAMPLE_REGISTRY: Readonly<Record<string, readonly ExampleRecord[]>> = EXAMPLE_RECORDS.reduce<Record<string, ExampleRecord[]>>(

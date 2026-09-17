@@ -352,6 +352,56 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       ],
     },
   },
+  "edit-menu": {
+    slug: "edit-menu",
+    locale: "zh-CN",
+    summary: "选区驱动的横向胶囊编辑工具条，在容器内出现有效文本选区时浮现于选区上方。",
+    whenToUse: [
+      "需要对当前选中的文本执行剪切、复制、粘贴、全选、查询或共享时。",
+      "希望操作条紧贴选区、随选区消失而隐藏时。",
+    ],
+    whenNotToUse: [
+      "对某个对象（行、文件、画布元素）执行操作——那是 ContextMenu 的场景。",
+      "需要常驻可见的编辑按钮组，而不是随选区浮现的浮层。",
+    ],
+    examples: [
+      {
+        id: "edit-menu-default",
+        kind: "minimal",
+        title: "默认编辑菜单",
+        description: "选中文本后浮现胶囊工具条，并提供剪切、复制、粘贴、全选、查询与共享。",
+        demoKey: "default",
+      },
+    ],
+    accessibility: {
+      status: "covered",
+      content: [
+        "胶囊容器使用 role=\"toolbar\" 并带 aria-label，每个操作是可聚焦的原生 button。",
+        "Escape 关闭胶囊；点击胶囊不会清除当前选区。",
+      ],
+    },
+    controlledBehavior: {
+      status: "covered",
+      content: [
+        "组件自行监听选区，调用方只需提供各操作回调；未提供回调的标准操作不会渲染。",
+        "Cut 由组件复制文本后交给 onCut，删除动作由调用方执行。",
+      ],
+    },
+    responsiveBehavior: {
+      status: "covered",
+      content: [
+        "上方空间不足时翻转到选区下方，水平方向居中于选区并 clamp 进视口。",
+        "滚动与视口缩放时收起，避免浮层与选区脱节。",
+      ],
+    },
+    themeBehavior: {
+      status: "covered",
+      content: [
+        "胶囊背景、分隔线与文字色跟随主题 Token，暗色模式下保持对比度。",
+        "入场缩放淡入动画在 prefers-reduced-motion 下禁用。",
+      ],
+    },
+  },
 };
 
 export const GUIDES_05_EN: Record<string, ComponentGuide> = {
@@ -718,6 +768,58 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       content: [
         "Row background, borders, and hover highlights follow the application's CSS token system.",
         "Dividers and hover effects transition correctly between dark and light modes.",
+      ],
+    },
+  },
+  "edit-menu": {
+    slug: "edit-menu",
+    locale: "en-US",
+    summary:
+      "A selection-driven horizontal capsule toolbar of edit actions that floats above the active text selection inside the container.",
+    whenToUse: [
+      "When you need cut, copy, paste, select all, look up, or share for the current text selection.",
+      "When the toolbar should hug the selection and disappear as soon as the selection does.",
+    ],
+    whenNotToUse: [
+      "For actions on an object such as a row, file, or canvas element — that is ContextMenu.",
+      "For an always-visible edit button group rather than a floating layer tied to a selection.",
+    ],
+    examples: [
+      {
+        id: "edit-menu-default",
+        kind: "minimal",
+        title: "Default edit menu",
+        description:
+          "Selecting text reveals the capsule with cut, copy, paste, select all, look up, and share.",
+        demoKey: "default",
+      },
+    ],
+    accessibility: {
+      status: "covered",
+      content: [
+        "The capsule uses role=\"toolbar\" with an aria-label, and every action is a focusable native button.",
+        "Escape closes the capsule; pressing the capsule never clears the current selection.",
+      ],
+    },
+    controlledBehavior: {
+      status: "covered",
+      content: [
+        "The component watches the selection itself; callers only supply handlers, and standard actions without a handler are not rendered.",
+        "Cut copies the text for you and then hands it to onCut, which performs the deletion.",
+      ],
+    },
+    responsiveBehavior: {
+      status: "covered",
+      content: [
+        "It flips below the selection when there is no room above and clamps horizontally inside the viewport.",
+        "It collapses on scroll and viewport resize so the capsule never drifts away from the selection.",
+      ],
+    },
+    themeBehavior: {
+      status: "covered",
+      content: [
+        "Capsule background, dividers, and text colors follow theme tokens and keep contrast in dark mode.",
+        "The scale-and-fade entrance is disabled under prefers-reduced-motion.",
       ],
     },
   },

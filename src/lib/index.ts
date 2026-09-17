@@ -92,6 +92,8 @@ export { Footer } from "@/components/ui/footer";
 export type { FooterProps, FooterColumn, FooterLink } from "@/components/ui/footer";
 export { CommandMenu, CommandMenuInput, CommandMenuList, CommandMenuGroup, CommandMenuItem, CommandMenuDivider } from "@/components/ui/command-menu";
 export { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuSeparator } from "@/components/ui/context-menu";
+export { EditMenu } from "@/components/ui/edit-menu";
+export type { EditMenuAction, EditMenuProps, EditMenuStandardAction } from "@/components/ui/edit-menu";
 export { MenuContainer, MenuButton, Menu, MenuItem, MenuItemLocked, MenuLink, MenuDivider, MenuSection } from "@/components/ui/menu";
 export { DotsMenu, DotsMenuItem, DotsMenuSeparator } from "@/components/ui/dots-menu";
 export type { DotsMenuProps, DotsMenuItemProps, DotsMenuSeparatorProps } from "@/components/ui/dots-menu";
