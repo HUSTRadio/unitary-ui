@@ -95,6 +95,8 @@ export { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, C
 export type { ContextMenuQuickActionsContentProps, ContextMenuQuickActionsItemProps } from "@/components/ui/context-menu";
 export { EditMenu } from "@/components/ui/edit-menu";
 export { ActivityView } from "@/components/ui/activity-view";
+export { MenuBar, MenuBarMenu, MenuBarTrigger, MenuBarContent, MenuBarItem, MenuBarCheckboxItem, MenuBarSeparator, MenuBarSub, MenuBarSubTrigger, MenuBarSubContent } from "@/components/ui/menu-bar";
+export type { MenuBarItemProps, MenuBarCheckboxItemProps } from "@/components/ui/menu-bar";
 export type { ActivityAction, ActivityTarget, ActivityViewProps } from "@/components/ui/activity-view";
 export type { EditMenuAction, EditMenuProps, EditMenuStandardAction } from "@/components/ui/edit-menu";
 export { MenuContainer, MenuButton, Menu, MenuItem, MenuItemLocked, MenuLink, MenuDivider, MenuSection } from "@/components/ui/menu";

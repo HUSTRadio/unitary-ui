@@ -505,6 +505,35 @@ const O = {
     ],
     undefined,
   ),
+  "menu-bar": component(
+    [
+      "MenuBar",
+      "MenuBarMenu",
+      "MenuBarTrigger",
+      "MenuBarContent",
+      "MenuBarItem",
+      "MenuBarCheckboxItem",
+      "MenuBarSeparator",
+      "MenuBarSub",
+      "MenuBarSubTrigger",
+      "MenuBarSubContent",
+    ],
+    [
+      row("shortcut", "ReactNode", "Right-aligned shortcut hint; display only, no key binding.", "右对齐快捷键提示；仅展示，不绑定按键。"),
+      row("inset", "boolean", "Indents a MenuBarItem to align with checkbox items.", "缩进 MenuBarItem 以与勾选项对齐。"),
+      row("checked", "boolean", "Checked state of a MenuBarCheckboxItem.", "MenuBarCheckboxItem 的勾选状态。", {
+        defaultValue: "false",
+      }),
+      row(
+        "onCheckedChange",
+        "(checked: boolean) => void",
+        "Receives checkbox item state changes.",
+        "接收勾选项状态变化。",
+      ),
+      row("disabled", "boolean", "Keeps a command visible but inert.", "保持命令可见但不可操作。"),
+    ],
+    undefined,
+  ),
   "continuous-surface": component(
     ["ContinuousSurface"],
     [

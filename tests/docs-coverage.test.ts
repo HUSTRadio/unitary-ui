@@ -44,6 +44,7 @@ describe("Geist documentation coverage", () => {
       "edit-menu",
       "error-boundary",
       "link",
+      "menu-bar",
       "step-point",
     ]);
 

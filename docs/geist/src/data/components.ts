@@ -362,6 +362,20 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "menu-bar",
+    label: "Menu Bar",
+    labelZh: "菜单栏",
+    description:
+      "A horizontal bar of application menus with keyboard shortcuts, submenus, and checkable items.",
+    official: "Menu Bar",
+    bestPractices: [
+      "Use MenuBar for application-level commands; use Navbar for page-level navigation links.",
+      "Every destructive command belongs in a menu item with a verb phrase, never as a bare top-level menu.",
+      "Shortcut text is display only—bind the keys yourself so the shortcut and the command can never drift apart.",
+      "Let items go disabled instead of hiding them, so the command stays discoverable in its menu.",
+    ],
+  },
+  {
     name: "menu",
     label: "Menu",
     labelZh: "菜单",

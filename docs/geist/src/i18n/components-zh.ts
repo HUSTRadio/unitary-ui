@@ -21,6 +21,7 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   "context-menu": "通过右键点击或长按显示上下文操作菜单。",
   "edit-menu": "在存在文本选区时浮现的横向胶囊式编辑操作条。",
   "activity-view": "带分享目标网格与操作列表的底部分享面板。",
+  "menu-bar": "横向排列的应用菜单栏，支持快捷键、子菜单与勾选项。",
   "continuous-surface": "通过连续曲率路径裁切自适应尺寸的表面，并在路径不可用时保留普通圆角。",
   description: "以定义列表展示键值元数据。",
   "copy-button": "将指定字符串复制到剪贴板，并在完成后提供反馈。",

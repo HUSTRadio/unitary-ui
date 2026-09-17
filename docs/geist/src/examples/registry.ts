@@ -773,6 +773,8 @@ import { SplitButtonPullDownCard6B3F1D80Example } from "./split-button/pull-down
 import SplitButtonPullDownCard6B3F1D80ExampleSource from "./split-button/pull-down-card-6b3f1d80.example.tsx?example-source";
 import { ActivityViewDefault9E4C2B57Example } from "./activity-view/default-9e4c2b57.example";
 import ActivityViewDefault9E4C2B57ExampleSource from "./activity-view/default-9e4c2b57.example.tsx?example-source";
+import { MenuBarDefault1D7F3C05Example } from "./menu-bar/default-1d7f3c05.example";
+import MenuBarDefault1D7F3C05ExampleSource from "./menu-bar/default-1d7f3c05.example.tsx?example-source";
 
 export interface ExampleRecord {
   slug: string;
@@ -1171,6 +1173,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "select", id: "pop-up-button", Component: SelectPopUpButton5C7E2A91Example, source: SelectPopUpButton5C7E2A91ExampleSource },
   { slug: "split-button", id: "pull-down-card", Component: SplitButtonPullDownCard6B3F1D80Example, source: SplitButtonPullDownCard6B3F1D80ExampleSource },
   { slug: "activity-view", id: "default", Component: ActivityViewDefault9E4C2B57Example, source: ActivityViewDefault9E4C2B57ExampleSource },
+  { slug: "menu-bar", id: "default", Component: MenuBarDefault1D7F3C05Example, source: MenuBarDefault1D7F3C05ExampleSource },
 ];
 
 export const EXAMPLE_REGISTRY: Readonly<Record<string, readonly ExampleRecord[]>> = EXAMPLE_RECORDS.reduce<Record<string, ExampleRecord[]>>(

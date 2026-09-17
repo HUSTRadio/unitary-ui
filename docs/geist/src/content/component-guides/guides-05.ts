@@ -452,6 +452,57 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       ],
     },
   },
+  "menu-bar": {
+    slug: "menu-bar",
+    locale: "zh-CN",
+    summary: "横向应用菜单栏：顶级菜单、右对齐快捷键、子菜单与勾选项，键盘模型由 Radix Menubar 提供。",
+    whenToUse: [
+      "需要应用级命令集合（File / Edit / View）并展示键盘快捷键时。",
+      "需要多级子菜单或可勾选的视图开关时。",
+    ],
+    whenNotToUse: [
+      "页面级导航链接与滚动行为——用 Navbar。",
+      "单命令的溢出操作——用 DotsMenu 或 Menu。",
+    ],
+    examples: [
+      {
+        id: "menu-bar-default",
+        kind: "minimal",
+        title: "默认菜单栏",
+        description: "File / Edit / View 三个顶级菜单，含快捷键、子菜单、勾选态与禁用项。",
+        demoKey: "default",
+      },
+    ],
+    accessibility: {
+      status: "covered",
+      content: [
+        "Radix Menubar 提供 role=menubar 与完整键盘模型：左右切顶级菜单、上下进菜单项、Esc 逐级关闭。",
+        "快捷键文本标为 aria-hidden，仅作视觉提示，不干扰读屏播报命令名。",
+        "禁用项保持可见并带 aria-disabled，命令仍可被发现。",
+      ],
+    },
+    controlledBehavior: {
+      status: "covered",
+      content: [
+        "菜单开合由 Radix 自管；勾选项通过 checked 与 onCheckedChange 受控。",
+        "组件不注册全局快捷键监听，按键绑定由调用方自行接入。",
+      ],
+    },
+    responsiveBehavior: {
+      status: "covered",
+      content: [
+        "顶级菜单横向排列，宽度不足时容器横向滚动。",
+        "菜单浮层在视口内碰撞翻转，最大高度受限后可滚动。",
+      ],
+    },
+    themeBehavior: {
+      status: "covered",
+      content: [
+        "菜单栏与浮层使用 surface 与描边 token，暗色模式下自动切换。",
+        "浮层入场缩放在 prefers-reduced-motion 下禁用。",
+      ],
+    },
+  },
 };
 
 export const GUIDES_05_EN: Record<string, ComponentGuide> = {
@@ -922,6 +973,59 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       content: [
         "Panel background, icon tile color, and text colors follow theme tokens.",
         "Destructive actions use the error color token and keep contrast in dark mode.",
+      ],
+    },
+  },
+  "menu-bar": {
+    slug: "menu-bar",
+    locale: "en-US",
+    summary:
+      "A horizontal application menu bar with top-level menus, right-aligned shortcuts, submenus, and checkable items, backed by the Radix Menubar keyboard model.",
+    whenToUse: [
+      "For application-level command sets (File / Edit / View) that expose keyboard shortcuts.",
+      "For multi-level submenus or checkable view toggles.",
+    ],
+    whenNotToUse: [
+      "For page-level navigation links and scroll behavior — use Navbar.",
+      "For a single command's overflow actions — use DotsMenu or Menu.",
+    ],
+    examples: [
+      {
+        id: "menu-bar-default",
+        kind: "minimal",
+        title: "Default menu bar",
+        description:
+          "File, Edit, and View menus with shortcuts, a submenu, a checkbox item, and a disabled item.",
+        demoKey: "default",
+      },
+    ],
+    accessibility: {
+      status: "covered",
+      content: [
+        "Radix Menubar supplies role=menubar and the full keyboard model: arrow keys move between top-level menus and items, Escape closes one level at a time.",
+        "Shortcut text is aria-hidden so screen readers announce the command name, not the key hint.",
+        "Disabled items stay visible with aria-disabled so the command remains discoverable.",
+      ],
+    },
+    controlledBehavior: {
+      status: "covered",
+      content: [
+        "Menu open state is managed by Radix; checkbox items are controlled through checked and onCheckedChange.",
+        "The component registers no global key handlers — you wire up the real shortcuts yourself.",
+      ],
+    },
+    responsiveBehavior: {
+      status: "covered",
+      content: [
+        "Top-level menus sit in a row and the bar scrolls horizontally when space runs out.",
+        "Menu surfaces flip on viewport collision and scroll once they hit the max height.",
+      ],
+    },
+    themeBehavior: {
+      status: "covered",
+      content: [
+        "The bar and its surfaces use surface and border tokens that switch automatically in dark mode.",
+        "The surface's scale entrance is disabled under prefers-reduced-motion.",
       ],
     },
   },
