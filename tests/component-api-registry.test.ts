@@ -110,6 +110,8 @@ describe("component API registry", () => {
       "ContextMenuContent",
       "ContextMenuItem",
       "ContextMenuSeparator",
+      "ContextMenuQuickActionsContent",
+      "ContextMenuQuickActionsItem",
     ]);
     expect(row("context-menu", "href")?.type).toBe("string");
     expect(row("context-menu", "prefix")?.type).toBe("ReactNode");

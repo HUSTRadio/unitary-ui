@@ -765,6 +765,8 @@ import { TableVirtualizedExample } from "./table/virtualized.example";
 import TableVirtualizedExampleSource from "./table/virtualized.example.tsx?example-source";
 import { EditMenuDefault3F2A9C71Example } from "./edit-menu/default-3f2a9c71.example";
 import EditMenuDefault3F2A9C71ExampleSource from "./edit-menu/default-3f2a9c71.example.tsx?example-source";
+import { ContextMenuQuickActions8D41B0E7Example } from "./context-menu/quick-actions-8d41b0e7.example";
+import ContextMenuQuickActions8D41B0E7ExampleSource from "./context-menu/quick-actions-8d41b0e7.example.tsx?example-source";
 
 export interface ExampleRecord {
   slug: string;
@@ -1159,6 +1161,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "table", id: "Full featured table", Component: TableFullFeaturedExample, source: TableFullFeaturedExampleSource },
   { slug: "table", id: "Virtualized table", Component: TableVirtualizedExample, source: TableVirtualizedExampleSource },
   { slug: "edit-menu", id: "default", Component: EditMenuDefault3F2A9C71Example, source: EditMenuDefault3F2A9C71ExampleSource },
+  { slug: "context-menu", id: "quick-actions", Component: ContextMenuQuickActions8D41B0E7Example, source: ContextMenuQuickActions8D41B0E7ExampleSource },
 ];
 
 export const EXAMPLE_REGISTRY: Readonly<Record<string, readonly ExampleRecord[]>> = EXAMPLE_RECORDS.reduce<Record<string, ExampleRecord[]>>(

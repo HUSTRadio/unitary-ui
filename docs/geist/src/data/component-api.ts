@@ -362,6 +362,8 @@ const O = {
       "ContextMenuContent",
       "ContextMenuItem",
       "ContextMenuSeparator",
+      "ContextMenuQuickActionsContent",
+      "ContextMenuQuickActionsItem",
     ],
     [
       row("open", "boolean", "Controlled menu state.", "受控菜单状态。"),
@@ -376,6 +378,29 @@ const O = {
       row("href", "string", "Renders a ContextMenuItem as a link.", "将 ContextMenuItem 渲染为链接。"),
       row("prefix", "ReactNode", "Leading item content.", "菜单项前置内容。"),
       row("suffix", "ReactNode", "Trailing item content.", "菜单项后置内容。"),
+      row(
+        "width",
+        "number",
+        "Width in pixels of the Quick Actions list.",
+        "Quick Actions 列表宽度（像素）。",
+        { defaultValue: "224" },
+      ),
+      row(
+        "backdropBlur",
+        "boolean",
+        "Whether the Quick Actions list renders a blurred backdrop.",
+        "Quick Actions 列表是否渲染背景模糊遮罩。",
+        { defaultValue: "true" },
+      ),
+      row("icon", "ReactNode", "Leading 20px icon of a Quick Actions item.", "Quick Actions 项的行首图标（20px 档）。"),
+      row("title", "ReactNode", "Primary label of a Quick Actions item.", "Quick Actions 项的主标题。"),
+      row("subtitle", "ReactNode", "Secondary muted line of a Quick Actions item.", "Quick Actions 项的次要说明行。"),
+      row(
+        "destructive",
+        "boolean",
+        "Marks a system item such as Remove App in red.",
+        "将系统项（如“移除 App”）标红。",
+      ),
     ],
   ),
   "edit-menu": component(
