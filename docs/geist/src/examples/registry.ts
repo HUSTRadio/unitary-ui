@@ -581,6 +581,8 @@ import { TabsWithIcons1F71F4BCExample } from "./tabs/with-icons-1f71f4bc.example
 import TabsWithIcons1F71F4BCExampleSource from "./tabs/with-icons-1f71f4bc.example.tsx?example-source";
 import { TabsSecondary62F2CCFFExample } from "./tabs/secondary-62f2ccff.example";
 import TabsSecondary62F2CCFFExampleSource from "./tabs/secondary-62f2ccff.example.tsx?example-source";
+import { TabsCompactB6B54201Example } from "./tabs/compact-b6b54201.example";
+import TabsCompactB6B54201ExampleSource from "./tabs/compact-b6b54201.example.tsx?example-source";
 import { ToastDefault21B111CBExample } from "./toast/default-21b111cb.example";
 import ToastDefault21B111CBExampleSource from "./toast/default-21b111cb.example.tsx?example-source";
 import { ToastMultiLine15F3E22CExample } from "./toast/multi-line-15f3e22c.example";
@@ -1062,6 +1064,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "tabs", id: "Disable specific tabs", Component: TabsDisableSpecificTabsA4195A7DExample, source: TabsDisableSpecificTabsA4195A7DExampleSource },
   { slug: "tabs", id: "With icons", Component: TabsWithIcons1F71F4BCExample, source: TabsWithIcons1F71F4BCExampleSource },
   { slug: "tabs", id: "Secondary", Component: TabsSecondary62F2CCFFExample, source: TabsSecondary62F2CCFFExampleSource },
+  { slug: "tabs", id: "Compact", Component: TabsCompactB6B54201Example, source: TabsCompactB6B54201ExampleSource },
   { slug: "toast", id: "Default", Component: ToastDefault21B111CBExample, source: ToastDefault21B111CBExampleSource },
   { slug: "toast", id: "Multi-line", Component: ToastMultiLine15F3E22CExample, source: ToastMultiLine15F3E22CExampleSource },
   { slug: "toast", id: "With jsx", Component: ToastWithJsx76A6D122Example, source: ToastWithJsx76A6D122ExampleSource },

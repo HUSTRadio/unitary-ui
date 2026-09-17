@@ -19,12 +19,14 @@ function Harness({
   initial = "apple",
   tabs = defaultTabs,
   variant,
+  compact,
   disabled,
   ariaLabel,
 }: {
   initial?: string;
   tabs?: TabsTab[];
   variant?: TabsVariant;
+  compact?: boolean;
   disabled?: boolean;
   ariaLabel?: string;
 }) {
@@ -35,6 +37,7 @@ function Harness({
       setSelected={setSelected}
       tabs={tabs}
       variant={variant}
+      compact={compact}
       disabled={disabled}
       ariaLabel={ariaLabel}
     />
@@ -128,6 +131,56 @@ describe("Tabs — official DOM/ARIA contract", () => {
     );
     expect(markup).toContain("rounded-md");
     expect(markup).toContain("data-[state=active]:bg-foreground");
+  });
+});
+
+describe("Tabs — compact variant (owner extension: spacing/height halved)", () => {
+  it("halves primary tab gap and vertical padding (24→12 gap, 14→8 pad, 50→38 height)", () => {
+    const markup = renderToStaticMarkup(
+      <Tabs selected="apple" setSelected={() => {}} tabs={defaultTabs} compact />,
+    );
+    // tablist 间距收半档，基准 gap-6 不得残留
+    expect(markup).toContain("gap-3");
+    expect(markup).not.toContain("gap-6");
+    // trigger 垂直 pad 14→8（高 50→38），基准 py-3.5 不得残留
+    expect(markup).toContain("py-2");
+    expect(markup).not.toContain("py-3.5");
+    // 字号与选中态保持
+    expect(markup).toContain("text-copy-14");
+    expect(markup).toContain("data-[state=active]:border-foreground");
+  });
+
+  it("halves secondary tab gap and pill height (8→4 gap, 24→20 pill)", () => {
+    const markup = renderToStaticMarkup(
+      <Tabs
+        selected="apple"
+        setSelected={() => {}}
+        tabs={defaultTabs}
+        variant="secondary"
+        compact
+      />,
+    );
+    // tablist 间距收半档，基准 gap-2 不得残留
+    expect(markup).toContain("gap-1");
+    expect(markup).not.toContain("gap-2");
+    // pill 高 24→20，基准 h-6 不得残留
+    expect(markup).toContain("h-5");
+    expect(markup).not.toContain("h-6");
+    // pill 字号保持
+    expect(markup).toContain("text-copy-13");
+  });
+
+  it("keeps official baseline metrics when compact is off (regression)", () => {
+    const markup = renderToStaticMarkup(
+      <Tabs selected="apple" setSelected={() => {}} tabs={defaultTabs} />,
+    );
+    expect(markup).toContain("gap-6");
+    expect(markup).toContain("py-3.5");
+    const secondary = renderToStaticMarkup(
+      <Tabs selected="apple" setSelected={() => {}} tabs={defaultTabs} variant="secondary" />,
+    );
+    expect(secondary).toContain("gap-2");
+    expect(secondary).toContain("h-6");
   });
 });
 

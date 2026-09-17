@@ -11,6 +11,10 @@ import { Tooltip } from "@/components/ui/tooltip";
  *   新聚焦的 tab（禁用 tab 跳过），Enter/Space 仍可激活当前聚焦 tab
  * - variant="secondary"：24px pill，r6px，pad 0 6px，400 13px；选中 bg gray-1000/text background-100；
  *   未选中 bg gray-alpha-200；禁用 bg gray-200/text gray-900
+ * - compact（所有者自有扩展，官方无此规范，与 variant 正交叠加）：tab 间距与
+ *   垂直高度收半档——primary tab 间距 24→12、上下 pad 14→8（tab 高 50→38）；
+ *   secondary tab 间距 8→4、pill 高 24→20。字号/图标/选中态均不变，适合密集
+ *   表面（卡片头、面板内嵌 tab）
  * - 禁用 tab 配 tooltip 说明约束（官方 tabs[].tooltip 语义）
  */
 
@@ -32,6 +36,8 @@ interface TabsProps {
   setSelected: (value: string) => void;
   /** primary（下划线）/ secondary（pill），默认 primary */
   variant?: TabsVariant;
+  /** 紧凑：tab 间距与垂直高度收半档（与 variant 正交，见头注释规格） */
+  compact?: boolean;
   /** 官方 API：整组禁用 */
   disabled?: boolean;
   /** tablist 无障碍标签（无可见标题时必填） */
@@ -45,6 +51,7 @@ function Tabs({
   selected,
   setSelected,
   variant = "primary",
+  compact,
   disabled,
   ariaLabel,
 }: TabsProps) {
@@ -54,6 +61,7 @@ function Tabs({
       selected={selected}
       setSelected={setSelected}
       variant={variant}
+      compact={compact}
       disabled={disabled}
       ariaLabel={ariaLabel}
       className={className}
@@ -61,18 +69,23 @@ function Tabs({
   );
 }
 
-const tabsListClasses = (variant: TabsVariant) =>
+const tabsListClasses = (variant: TabsVariant, compact?: boolean) =>
   cn(
     "group flex flex-nowrap items-center gap-6 overflow-x-auto pb-px shadow-[0_-1px_0_var(--gray-200)_inset]",
     variant === "secondary" && "gap-2 shadow-none",
+    // compact 间距收半档：primary 24→12、secondary 8→4（twMerge 覆盖上方基准 gap）
+    compact && (variant === "secondary" ? "gap-1" : "gap-3"),
   );
 
-const tabsTriggerClasses = (variant: TabsVariant) =>
+const tabsTriggerClasses = (variant: TabsVariant, compact?: boolean) =>
   cn(
     "outline-none focus-ring",
     variant === "secondary"
       ? "flex h-6 items-center justify-center whitespace-nowrap rounded-md bg-gray-alpha-200 px-1.5 text-copy-13 text-foreground transition-colors data-[state=active]:bg-foreground data-[state=active]:text-background-100 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted-foreground"
       : "flex -mb-px items-center justify-center whitespace-nowrap border-b-2 border-transparent px-0.5 py-3.5 text-copy-14 text-muted-foreground transition-colors hover:text-foreground data-[state=active]:border-foreground data-[state=active]:text-foreground disabled:cursor-not-allowed",
+    // compact 垂直高度收半档：primary 上下 pad 14→8（tab 高 50→38）、secondary
+    // pill 高 24→20（twMerge 覆盖上方基准 py/h）
+    compact && (variant === "secondary" ? "h-5" : "py-2"),
   );
 
 /** 官方 API 模式：selected/setSelected/tabs[]；auto activation 键盘语义（方向键/Home/End 移动焦点即激活，禁用跳过） */
@@ -81,6 +94,7 @@ function OfficialTabs({
   selected,
   setSelected,
   variant = "primary",
+  compact,
   disabled,
   ariaLabel,
   className,
@@ -89,6 +103,7 @@ function OfficialTabs({
   selected: string;
   setSelected: (value: string) => void;
   variant?: TabsVariant;
+  compact?: boolean;
   disabled?: boolean;
   ariaLabel?: string;
   className?: string;
@@ -153,7 +168,7 @@ function OfficialTabs({
       aria-label={ariaLabel}
       onKeyDown={handleKeyDown}
       data-slot="tabs"
-      className={cn(tabsListClasses(variant), className)}
+      className={cn(tabsListClasses(variant, compact), className)}
     >
       {tabs.map((tab, index) => {
         const isSelected = selected === tab.value;
@@ -173,7 +188,10 @@ function OfficialTabs({
             tabIndex={index === focusedIndex ? 0 : -1}
             onClick={() => activate(index)}
             onFocus={() => setFocusedIndex(index)}
-            className={cn(tabsTriggerClasses(variant), isDisabled && "cursor-not-allowed")}
+            className={cn(
+              tabsTriggerClasses(variant, compact),
+              isDisabled && "cursor-not-allowed",
+            )}
           >
             {tab.icon ? (
               <span
