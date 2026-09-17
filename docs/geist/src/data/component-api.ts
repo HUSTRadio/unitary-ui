@@ -1293,6 +1293,12 @@ const O = {
       row("menuAlignment", "SplitButtonMenuAlignment", "Places the menu below the primary or menu button edge.", "将菜单对齐到主按钮或菜单按钮边缘。", {
         defaultValue: '"bottom-start"',
       }),
+      row("variant", "SplitButtonVariant", "\"split\" renders a button plus menu list; \"pulldown\" renders a floating card that expands from a corner.", "split 渲染按钮加菜单列表；pulldown 渲染从指定角展开的悬浮卡片。", {
+        defaultValue: '"split"',
+      }),
+      row("expandCorner", "SplitButtonExpandCorner", "Corner the pulldown card stays anchored to; the card expands toward the opposite corner.", "pulldown 卡片锚定的角；卡片朝对角方向展开。", {
+        defaultValue: '"top-left"',
+      }),
       row("menuItems", "ReactNode", "Secondary menu items.", "次级菜单项。"),
       row("menuProps", "ComponentProps<typeof Menu>", "Props forwarded to the menu surface.", "透传给菜单表面的属性。"),
       row("title", "ReactNode", "Menu item title.", "菜单项标题。"),

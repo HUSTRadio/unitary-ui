@@ -767,6 +767,10 @@ import { EditMenuDefault3F2A9C71Example } from "./edit-menu/default-3f2a9c71.exa
 import EditMenuDefault3F2A9C71ExampleSource from "./edit-menu/default-3f2a9c71.example.tsx?example-source";
 import { ContextMenuQuickActions8D41B0E7Example } from "./context-menu/quick-actions-8d41b0e7.example";
 import ContextMenuQuickActions8D41B0E7ExampleSource from "./context-menu/quick-actions-8d41b0e7.example.tsx?example-source";
+import { SelectPopUpButton5C7E2A91Example } from "./select/pop-up-button-5c7e2a91.example";
+import SelectPopUpButton5C7E2A91ExampleSource from "./select/pop-up-button-5c7e2a91.example.tsx?example-source";
+import { SplitButtonPullDownCard6B3F1D80Example } from "./split-button/pull-down-card-6b3f1d80.example";
+import SplitButtonPullDownCard6B3F1D80ExampleSource from "./split-button/pull-down-card-6b3f1d80.example.tsx?example-source";
 
 export interface ExampleRecord {
   slug: string;
@@ -1162,6 +1166,8 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "table", id: "Virtualized table", Component: TableVirtualizedExample, source: TableVirtualizedExampleSource },
   { slug: "edit-menu", id: "default", Component: EditMenuDefault3F2A9C71Example, source: EditMenuDefault3F2A9C71ExampleSource },
   { slug: "context-menu", id: "quick-actions", Component: ContextMenuQuickActions8D41B0E7Example, source: ContextMenuQuickActions8D41B0E7ExampleSource },
+  { slug: "select", id: "pop-up-button", Component: SelectPopUpButton5C7E2A91Example, source: SelectPopUpButton5C7E2A91ExampleSource },
+  { slug: "split-button", id: "pull-down-card", Component: SplitButtonPullDownCard6B3F1D80Example, source: SplitButtonPullDownCard6B3F1D80ExampleSource },
 ];
 
 export const EXAMPLE_REGISTRY: Readonly<Record<string, readonly ExampleRecord[]>> = EXAMPLE_RECORDS.reduce<Record<string, ExampleRecord[]>>(

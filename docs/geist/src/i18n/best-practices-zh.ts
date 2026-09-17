@@ -394,6 +394,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "placeholder 面向动作（Select a framework），绝不用 Choose one…、Pick 或复述标签。",
     "失焦时校验并向 error 传字符串；消息点名字段并以句号结尾（Select a framework.）。",
     "不要用 Tooltip 包裹带标签的 <Select>；把提示放在兄弟图标按钮上，让标签保持被播报。",
+    "作为弹出按钮（macOS NSPopUpButton）使用时，触发器显示当前值、菜单打开即高亮当前项——Select 已具备该行为，无需另立组件。",
   ],
   separator: [
     "用 Separator 把内容分成视觉上不同的组，如列表区块之间或菜单项之间。",

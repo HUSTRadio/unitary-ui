@@ -2,7 +2,7 @@ import * as React from "react";
 import { ChevronDown } from "lucide-react";
 
 import { Button, type ButtonProps } from "@/components/ui/button";
-import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
+import { Menu, MenuButton, MenuContainer, MenuItem, type MenuPosition } from "@/components/ui/menu";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 
@@ -23,7 +23,43 @@ import { useI18n } from "@/lib/i18n";
 
 export type SplitButtonMenuAlignment = "bottom-start" | "bottom-end";
 
+/**
+ * 变体形态：
+ * - `split`：官方按钮 + 菜单列表形态（下拉菜单贴在按钮下方）。
+ * - `pulldown`：HIG Pull-down Button 的**悬浮卡片**变体——卡片锚定按钮的
+ *   `expandCorner` 角，向对角方向展开（transform-origin 即该角 + 缩放入场）。
+ */
+export type SplitButtonVariant = "split" | "pulldown";
+
+/** pulldown 卡片的展开角：卡片固定该角，向对向展开。 */
+export type SplitButtonExpandCorner = "top-left" | "top-right" | "bottom-left" | "bottom-right";
+
+/**
+ * 展开角 → 菜单定位 + 动画原点。
+ * - top-left：卡片在按钮下方、左对齐，从左上角向右下展开（常规下拉观感）
+ * - top-right：卡片在按钮下方、右对齐，从右上角向左下展开
+ * - bottom-left：卡片在按钮上方、左对齐，从左下角向右上展开
+ * - bottom-right：卡片在按钮上方、右对齐，从右下角向左上展开
+ */
+const EXPAND_CORNER_PROPS: Record<
+  SplitButtonExpandCorner,
+  { position: MenuPosition; origin: string }
+> = {
+  "top-left": { position: "bottom-start", origin: "origin-top-left" },
+  "top-right": { position: "bottom-end", origin: "origin-top-right" },
+  "bottom-left": { position: "top-start", origin: "origin-bottom-left" },
+  "bottom-right": { position: "top-end", origin: "origin-bottom-right" },
+};
+
 export interface SplitButtonProps extends React.ComponentProps<"div"> {
+  /**
+   * 形态变体（默认 "split"）：
+   * - `split`：按钮 + 菜单列表（菜单贴在按钮下方）。
+   * - `pulldown`：悬浮卡片，从 `expandCorner` 角向对向展开。
+   */
+  variant?: SplitButtonVariant;
+  /** pulldown 卡片的展开角（split 模式忽略），默认 "top-left" */
+  expandCorner?: SplitButtonExpandCorner;
   /** 主按钮 props（官方 buttonProps） */
   buttonProps?: ButtonProps;
   /** 下拉触发按钮的无障碍标签（官方 menuButtonLabel） */
@@ -68,6 +104,8 @@ function useElementWidth(ref: React.RefObject<HTMLElement | null>): number {
 function SplitButton({
   className,
   children,
+  variant = "split",
+  expandCorner = "top-left",
   buttonProps,
   menuButtonLabel = "More options",
   menuAlignment = "bottom-start",
@@ -92,12 +130,18 @@ function SplitButton({
     );
   }
 
-  // bottom-start 时把菜单左缘从触发按钮左缘再左移一个触发按钮宽度，
+  const isPulldown = variant === "pulldown";
+  // pulldown 卡片的方向由展开角决定；split 仍用官方 menuAlignment。
+  const position: MenuPosition = isPulldown
+    ? EXPAND_CORNER_PROPS[expandCorner].position
+    : menuAlignment;
+
+  // start 对齐时把菜单左缘从触发按钮左缘再左移一个触发按钮宽度，
   // 使菜单锚定在主按钮下方（官方 Best Practices：默认对齐主按钮）。
-  const alignOffset = menuAlignment === "bottom-end" ? 0 : -triggerWidth;
+  const alignOffset = position.endsWith("-end") ? 0 : -triggerWidth;
 
   return (
-    <MenuContainer position={menuAlignment}>
+    <MenuContainer position={position}>
       <div data-slot="split-button" className={cn("flex rounded-md", className)} {...props}>
         <Button
           data-slot="split-button-main"
@@ -121,7 +165,16 @@ function SplitButton({
           <ChevronDown className="size-3.5" aria-hidden />
         </MenuButton>
       </div>
-      <Menu alignOffset={alignOffset} {...menuProps}>
+      <Menu
+        alignOffset={alignOffset}
+        sideOffset={isPulldown ? 6 : undefined}
+        {...menuProps}
+        className={cn(
+          // pulldown：卡片化内边距 + 动画原点固定在锚定角，卡片向对向展开
+          isPulldown && cn("p-2", EXPAND_CORNER_PROPS[expandCorner].origin),
+          menuProps?.className,
+        )}
+      >
         {menuItems}
       </Menu>
     </MenuContainer>

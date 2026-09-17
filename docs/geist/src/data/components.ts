@@ -785,6 +785,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "Placeholder is action-oriented (Select a framework), never Choose one…, Pick, or the label restated.",
       "Validate on blur and pass a string to error; messages name the field and end in a period (Select a framework.).",
       "Don’t wrap a labelled <Select> in a Tooltip; put the hint on a sibling icon button so the label stays announced.",
+      "Used as a pop-up button (macOS NSPopUpButton), the trigger shows the current value and the menu highlights it on open—Select already does this, so don’t add a separate pop-up component.",
     ],
   },
   {
