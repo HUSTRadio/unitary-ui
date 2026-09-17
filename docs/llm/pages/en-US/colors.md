@@ -65,37 +65,37 @@ Numbered color steps group by their intended interface role.
 
 Use for component fills and layered interaction states.
 
-100#f2f2f2
+100f2f2f2
 
-200#ebebeb
+200ebebeb
 
-300#e6e6e6
+300e6e6e6
 
 ### Colors 4–6: Borders
 
 Use for structural borders and separators.
 
-400#ebebeb
+400ebebeb
 
-500#c9c9c9
+500c9c9c9
 
-600#a8a8a8
+600a8a8a8
 
 ### Colors 7–8: High contrast backgrounds
 
 Use for high-emphasis component backgrounds.
 
-700#8f8f8f
+7008f8f8f
 
-800#7d7d7d
+8007d7d7d
 
 ### Colors 9–10: Text and icons
 
 Use for accessible text and icon contrast.
 
-900#4d4d4d
+9004d4d4d
 
-1000#171717
+1000171717
 
 ## Semantic Tokens
 

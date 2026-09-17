@@ -49,8 +49,8 @@
         "en-US": "pages/en-US/colors.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:e93abd6bed2c2e24eab65ec02057b3ff42db13c82e9e8f7abda2361736e318cc",
-        "en-US": "sha256:948d074b4204e0f67d0b42f76c6a09c45fe8c813d920522e540dc245e89f1867"
+        "zh-CN": "sha256:f6af4b257c34c6039167b873385c8c5b7ff2b0f457124fa1886e1201cfebea85",
+        "en-US": "sha256:e88d36526a4237ec0c98eec5af135ba50dfd8e7816936f854a15f424cb1ef68f"
       }
     },
     {
@@ -753,8 +753,8 @@
         "en-US": "pages/en-US/components/keyboard-input.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:0f975cd56c1afe71f2e2f01136368fa40c7bbd72344ef2c874eee58b3797f095",
-        "en-US": "sha256:295502752aa82ed27681785a7a7a5a422f15c7da5478a799ae9afd7333698c08"
+        "zh-CN": "sha256:f973f579c1f7569833805bdcff0777192918548dbdf9e921e1e7be7967cfa883",
+        "en-US": "sha256:067baa594a249b7e11436b7f43e071776d8eb38cf55b67042f32a757a6d5e4a5"
       }
     },
     {
@@ -1249,8 +1249,8 @@
         "en-US": "pages/en-US/components/tabs.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:82c129a470ce5b64cadb91e136f16494188370d950a94f788265e23152613510",
-        "en-US": "sha256:1e3f5d695f0ad7d0063ef681399737c4a7907df7ff6fce516fd69078acb802d9"
+        "zh-CN": "sha256:a25875d611b14f916e75347bb59ad283e2781bd283d0367d3380db6395c142c4",
+        "en-US": "sha256:143302cea7a5f8cd84aa6cea07d76c44e964a2ad4f8c50fdc6823270f2fe9bbf"
       }
     },
     {

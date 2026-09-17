@@ -60,7 +60,7 @@ Not applicable: The Kbd component itself does not implement responsive layout lo
 
 ## Live Demo
 
-⌘⇧⌥⌃
+
 
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
@@ -79,7 +79,7 @@ export function KeyboardInputModifiers8527867BExample() {
 
 ## Combination
 
-⌘⇧
+
 
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
@@ -103,7 +103,7 @@ export function KeyboardInputSmall81DB8EBBExample() {
 
 ## Plain command
 
-⌘K
+K
 
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";

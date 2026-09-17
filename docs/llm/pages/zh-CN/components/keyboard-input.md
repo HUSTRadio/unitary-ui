@@ -60,7 +60,7 @@ Keyboard Input
 
 ## 实时示例
 
-⌘⇧⌥⌃
+
 
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
@@ -79,7 +79,7 @@ export function KeyboardInputModifiers8527867BExample() {
 
 ## 组合按键
 
-⌘⇧
+
 
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
@@ -103,7 +103,7 @@ export function KeyboardInputSmall81DB8EBBExample() {
 
 ## 纯文本命令
 
-⌘K
+K
 
 ```tsx
 import { Kbd } from "@/components/ui/keyboard-input";
