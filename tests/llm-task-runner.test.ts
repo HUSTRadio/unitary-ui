@@ -109,35 +109,34 @@ describe("generic LLM task runner", () => {
     expect(env.GIT_TERMINAL_PROMPT).toBe("0");
   });
 
-  it("uses the fixed production Pi template and rejects a substituted executable", async () => {
+  it("uses the fixed production Codex exec template and rejects a substituted executable", async () => {
     const runner = await loadRunner();
     const config = {
       enabled: true,
       agent: {
-        command: "pi",
-        piCli: true,
-        subcommand: ["--print"],
-        provider: "deepseek",
-        model: "deepseek-flash",
-        thinking: "high",
+        command: "codex",
+        codexCli: true,
+        model: "gpt-5.6-sol",
+        thinking: "medium",
         ephemeral: true,
       },
     };
     expect(runner.buildAgentArgs(config, "PROMPT")).toEqual([
-      "--print",
-      "--no-extensions",
-      "--provider",
-      "deepseek",
+      "exec",
+      "--sandbox",
+      "workspace-write",
+      "--skip-git-repo-check",
+      "--color",
+      "never",
       "--model",
-      "deepseek-flash",
-      "--thinking",
-      "high",
-      "--no-session",
+      "gpt-5.6-sol",
+      "-c",
+      'model_reasoning_effort="medium"',
       "PROMPT",
     ]);
     expect(() =>
       runner.buildAgentArgs({ ...config, agent: { ...config.agent, command: "node" } }, "PROMPT"),
-    ).toThrow(/fixed Pi/);
+    ).toThrow(/fixed Codex/);
   });
 
   it("returns status 2 for allowlisted writes without committing", async () => {
@@ -229,43 +228,44 @@ describe("generic LLM task runner", () => {
     const runner = await loadRunner();
     // Windows CreateProcess caps the command line near 32k; a first branch push
     // renders the whole tree (~55k bytes) into the runtime context and used to
-    // fail `spawn pi` with ENAMETOOLONG.
+    // fail `spawn codex` with ENAMETOOLONG.
     expect(runner.promptViaStdin("small prompt")).toBe(false);
     expect(runner.promptViaStdin("x".repeat(runner.PROMPT_STDIN_THRESHOLD + 1))).toBe(true);
 
     const config = {
       enabled: true,
       agent: {
-        command: "pi",
-        piCli: true,
-        subcommand: ["--print"],
-        provider: "deepseek",
-        model: "deepseek-flash",
-        thinking: "high",
+        command: "codex",
+        codexCli: true,
+        model: "gpt-5.6-sol",
+        thinking: "medium",
         ephemeral: true,
       },
     };
+    // stdin 模式：codex exec 无位置参数时自动读 stdin，不传 PROMPT
     expect(runner.buildAgentArgs(config, "PROMPT", { promptVia: "stdin" })).toEqual([
-      "--print",
-      "--no-extensions",
-      "--provider",
-      "deepseek",
+      "exec",
+      "--sandbox",
+      "workspace-write",
+      "--skip-git-repo-check",
+      "--color",
+      "never",
       "--model",
-      "deepseek-flash",
-      "--thinking",
-      "high",
-      "--no-session",
+      "gpt-5.6-sol",
+      "-c",
+      'model_reasoning_effort="medium"',
     ]);
     expect(runner.buildAgentArgs(config, "PROMPT", { promptVia: "arg" })).toEqual([
-      "--print",
-      "--no-extensions",
-      "--provider",
-      "deepseek",
+      "exec",
+      "--sandbox",
+      "workspace-write",
+      "--skip-git-repo-check",
+      "--color",
+      "never",
       "--model",
-      "deepseek-flash",
-      "--thinking",
-      "high",
-      "--no-session",
+      "gpt-5.6-sol",
+      "-c",
+      'model_reasoning_effort="medium"',
       "PROMPT",
     ]);
   });

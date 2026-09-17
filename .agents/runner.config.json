@@ -2,12 +2,10 @@
   "$schema": "./runner.schema.json",
   "enabled": true,
   "agent": {
-    "command": "pi",
-    "piCli": true,
-    "subcommand": ["--print"],
-    "provider": "deepseek",
-    "model": "deepseek-flash",
-    "thinking": "high",
+    "command": "codex",
+    "codexCli": true,
+    "model": "gpt-5.6-sol",
+    "thinking": "medium",
     "ephemeral": true,
     "timeoutMs": 1800000
   }

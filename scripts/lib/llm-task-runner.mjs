@@ -7,6 +7,8 @@ import process from "node:process";
 import { renderTaskPrompt } from "./llm-task-contract.mjs";
 
 const VP = process.platform === "win32" ? "vp.exe" : "vp";
+// 生产生成方：Codex CLI（npm 全局包在 Windows 上是 .cmd shim，spawn 无 shell 时必须带扩展名）
+const AGENT_COMMAND = process.platform === "win32" ? "codex.cmd" : "codex";
 
 export const VALIDATORS = Object.freeze({
   "docs-corpus": Object.freeze([[VP, "run", "docs:llm:check"]]),
@@ -34,7 +36,7 @@ export const CONTEXT_PROVIDER_IDS = Object.freeze(["docs-push"]);
 /**
  * Windows CreateProcess caps the whole command line near 32k characters. A
  * first branch push renders the entire tree into the runtime context (~55k
- * bytes here), which used to overflow argv and fail `spawn pi` with
+ * bytes here), which used to overflow argv and fail `spawn codex` with
  * ENAMETOOLONG. Prompts above this threshold are delivered via stdin instead.
  */
 export const PROMPT_STDIN_THRESHOLD = 8000;
@@ -156,14 +158,10 @@ export function validateTaskCapabilities(task) {
 
 function assertProductionAgentTemplate(config) {
   const agent = config.agent;
-  const valid =
-    agent.command === "pi" &&
-    agent.piCli === true &&
-    JSON.stringify(agent.subcommand ?? ["--print"]) === JSON.stringify(["--print"]) &&
-    agent.ephemeral === true;
+  const valid = agent.command === "codex" && agent.codexCli === true && agent.ephemeral === true;
   if (!valid) {
     throw new Error(
-      "production execution requires the fixed Pi print template with non-interactive and ephemeral mode",
+      "production execution requires the fixed Codex exec template with non-interactive and ephemeral mode",
     );
   }
 }
@@ -173,28 +171,29 @@ export function buildAgentArgs(config, prompt, options = {}) {
   const agent = config.agent;
   if (!testMode) {
     assertProductionAgentTemplate(config);
-    // --no-extensions keeps the run hermetic. Extension-provided MCP servers
-    // can hold stdio open after the answer is printed, so pi never exits and
-    // pre-push stalls until the outer timeout.
-    const args = ["--print", "--no-extensions"];
-    if (agent.provider) args.push("--provider", agent.provider);
+    // Codex exec 模板：非交互一次性执行（exec 自身即 ephemeral，无持久会话旗标）。
+    // - workspace-write：任务允许写 allowlist 内文件（docs/** 等）
+    // - --color never：stdout 被 runner 捕获，禁用 ANSI 防污染
+    // - reasoning effort 经 -c model_reasoning_effort 覆盖（Codex 无 --thinking 旗标）
+    // - prompt：arg 模式作位置参数；stdin 模式不传位置参数——codex exec 无位置
+    //   参数时自动从 stdin 读取，与 PROMPT_STDIN_THRESHOLD 机制天然兼容
+    const args = ["exec", "--sandbox", "workspace-write", "--skip-git-repo-check", "--color", "never"];
+    if (agent.provider) args.push("-c", `model_provider="${agent.provider}"`);
     args.push("--model", agent.model);
     if (agent.thinking) {
-      args.push("--thinking", agent.thinking);
+      args.push("-c", `model_reasoning_effort="${agent.thinking}"`);
     }
-    args.push("--no-session");
     if (promptVia === "arg") args.push(prompt);
     return args;
   }
 
-  if (agent.piCli) {
-    const args = [...(agent.subcommand ?? ["--print"]), "--no-extensions"];
-    if (agent.provider) args.push("--provider", agent.provider);
+  if (agent.codexCli) {
+    const args = ["exec", "--sandbox", "workspace-write", "--skip-git-repo-check", "--color", "never"];
+    if (agent.provider) args.push("-c", `model_provider="${agent.provider}"`);
     args.push("--model", agent.model);
     if (agent.thinking) {
-      args.push("--thinking", agent.thinking);
+      args.push("-c", `model_reasoning_effort="${agent.thinking}"`);
     }
-    if (agent.ephemeral) args.push("--no-session");
     if (promptVia === "arg") args.push(prompt);
     return args;
   }
@@ -279,7 +278,7 @@ function runAgent({ repoRoot, runnerConfig, prompt, testMode, testEnvironment })
     promptVia: viaStdin ? "stdin" : "arg",
   });
   const sourceEnv = { ...process.env, ...(testEnvironment ?? {}) };
-  const child = spawn(testMode ? agent.command : "pi", args, {
+  const child = spawn(testMode ? agent.command : AGENT_COMMAND, args, {
     cwd: repoRoot,
     stdio: [viaStdin ? "pipe" : "ignore", "pipe", "pipe"],
     env: buildAgentEnvironment(sourceEnv, { testMode }),

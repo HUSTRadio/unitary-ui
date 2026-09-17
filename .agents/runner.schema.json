@@ -19,6 +19,7 @@
           "pattern": "^[A-Za-z0-9._-]+$"
         },
         "piCli": { "type": "boolean" },
+        "codexCli": { "type": "boolean" },
         "subcommand": {
           "type": "array",
           "items": { "type": "string", "minLength": 1 }
