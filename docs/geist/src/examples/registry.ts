@@ -777,6 +777,10 @@ import { MenuBarDefault1D7F3C05Example } from "./menu-bar/default-1d7f3c05.examp
 import MenuBarDefault1D7F3C05ExampleSource from "./menu-bar/default-1d7f3c05.example.tsx?example-source";
 import { ToolbarDefault4A8E7C22Example } from "./toolbar/default-4a8e7c22.example";
 import ToolbarDefault4A8E7C22ExampleSource from "./toolbar/default-4a8e7c22.example.tsx?example-source";
+import { SafeAreaDefault2C9F5A41Example } from "./safe-area/default-2c9f5a41.example";
+import SafeAreaDefault2C9F5A41ExampleSource from "./safe-area/default-2c9f5a41.example.tsx?example-source";
+import { StackDefault7E1B84D3Example } from "./stack/default-7e1b84d3.example";
+import StackDefault7E1B84D3ExampleSource from "./stack/default-7e1b84d3.example.tsx?example-source";
 
 export interface ExampleRecord {
   slug: string;
@@ -1177,6 +1181,8 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "activity-view", id: "default", Component: ActivityViewDefault9E4C2B57Example, source: ActivityViewDefault9E4C2B57ExampleSource },
   { slug: "menu-bar", id: "default", Component: MenuBarDefault1D7F3C05Example, source: MenuBarDefault1D7F3C05ExampleSource },
   { slug: "toolbar", id: "default", Component: ToolbarDefault4A8E7C22Example, source: ToolbarDefault4A8E7C22ExampleSource },
+  { slug: "safe-area", id: "default", Component: SafeAreaDefault2C9F5A41Example, source: SafeAreaDefault2C9F5A41ExampleSource },
+  { slug: "stack", id: "default", Component: StackDefault7E1B84D3Example, source: StackDefault7E1B84D3ExampleSource },
 ];
 
 export const EXAMPLE_REGISTRY: Readonly<Record<string, readonly ExampleRecord[]>> = EXAMPLE_RECORDS.reduce<Record<string, ExampleRecord[]>>(

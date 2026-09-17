@@ -564,6 +564,51 @@ const O = {
     ],
     undefined,
   ),
+  "safe-area": component(
+    ["SafeArea"],
+    [
+      row(
+        "edges",
+        "SafeAreaEdge | readonly SafeAreaEdge[]",
+        "Edges that receive safe-area padding; \"all\" covers every side.",
+        "应用安全区边距的边；all 表示四边。",
+        { defaultValue: '"all"' },
+      ),
+      row(
+        "padding",
+        "LayoutSpacing",
+        "Spacing step used as the minimum inset, compared against env(safe-area-inset-*).",
+        "作为最小内边距的间距档，与 env(safe-area-inset-*) 取较大值。",
+        { defaultValue: '"md"' },
+      ),
+    ],
+    undefined,
+  ),
+  stack: component(
+    ["Stack"],
+    [
+      row("direction", "\"row\" | \"column\"", "Stacking direction.", "堆叠方向。", {
+        defaultValue: '"column"',
+      }),
+      row("gap", "LayoutSpacing", "Spacing step between children.", "子项之间的间距档。", {
+        defaultValue: '"md"',
+      }),
+      row(
+        "align",
+        "\"start\" | \"center\" | \"end\" | \"stretch\" | \"baseline\"",
+        "Cross-axis alignment.",
+        "交叉轴对齐。",
+      ),
+      row(
+        "justify",
+        "\"start\" | \"center\" | \"end\" | \"between\"",
+        "Main-axis distribution.",
+        "主轴分布。",
+      ),
+      row("wrap", "boolean", "Allows children to wrap onto multiple lines.", "允许子项换行。"),
+    ],
+    undefined,
+  ),
   "continuous-surface": component(
     ["ContinuousSurface"],
     [

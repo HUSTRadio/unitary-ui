@@ -3,7 +3,7 @@ import { Smartphone, type LucideIcon } from "lucide-react";
 import { COMPONENTS } from "./components";
 import type { DocsLanguage } from "../i18n/language";
 
-export type DocsGroupId = "foundations" | "api" | "components" | "patterns";
+export type DocsGroupId = "foundations" | "layout" | "api" | "components" | "patterns";
 export type StaticPageKey =
   | "introduction"
   | "icons"
@@ -39,6 +39,7 @@ export interface DocsRouteGroup {
 
 const DOCS_GROUPS: readonly Omit<DocsRouteGroup, "items">[] = [
   { id: "foundations", title: "Foundations", titleZh: "基础" },
+  { id: "layout", title: "Layout & Organization", titleZh: "排版与布局" },
   { id: "api", title: "API", titleZh: "API" },
   { id: "components", title: "Components", titleZh: "组件" },
   { id: "patterns", title: "Patterns", titleZh: "模式" },
@@ -71,7 +72,7 @@ const STATIC_DOCS_ROUTES: readonly DocsRoute[] = [
   },
   {
     to: "/typography",
-    group: "foundations",
+    group: "layout",
     label: "Typography",
     labelZh: "排版",
     sidebar: true,
@@ -87,7 +88,7 @@ const STATIC_DOCS_ROUTES: readonly DocsRoute[] = [
   },
   {
     to: "/grid",
-    group: "foundations",
+    group: "layout",
     label: "Grid",
     labelZh: "网格",
     sidebar: true,
@@ -111,11 +112,17 @@ const STATIC_DOCS_ROUTES: readonly DocsRoute[] = [
   },
 ];
 
+/**
+ * 布局原语归入「排版与布局」（Layout & Organization）分组，与 Typography / Grid 静态页同级；
+ * 其余组件页仍在「组件」分组。
+ */
+const LAYOUT_COMPONENT_NAMES: ReadonlySet<string> = new Set(["safe-area", "stack"]);
+
 const COMPONENT_DETAIL_ROUTES: readonly DocsRoute[] = [...COMPONENTS]
   .sort((left, right) => left.label.localeCompare(right.label, "en"))
   .map((component) => ({
     to: `/components/${component.name}`,
-    group: "components",
+    group: LAYOUT_COMPONENT_NAMES.has(component.name) ? "layout" : "components",
     label: component.label,
     labelZh: component.labelZh ?? component.label,
     sidebar: true,
@@ -132,11 +139,20 @@ const APP_SHELL_ROUTE: DocsRoute = {
   renderer: { kind: "localized", page: "app-shell" },
 };
 
-export const DOCS_ROUTE_SEQUENCE: readonly DocsRoute[] = [
+const ALL_DOCS_ROUTES: readonly DocsRoute[] = [
   ...STATIC_DOCS_ROUTES,
   ...COMPONENT_DETAIL_ROUTES,
   APP_SHELL_ROUTE,
 ];
+
+/**
+ * 序列按**分组顺序**投影，而不是"静态页 → 组件页 → 模式页"：
+ * 这样侧栏分组、上下页相邻与搜索顺序始终是同一个顺序，
+ * 新增分组（如"排版与布局"）不会让三者错位。
+ */
+export const DOCS_ROUTE_SEQUENCE: readonly DocsRoute[] = DOCS_GROUPS.flatMap((group) =>
+  ALL_DOCS_ROUTES.filter((route) => route.group === group.id),
+);
 
 export const DOCS_ROUTE_GROUPS: readonly DocsRouteGroup[] = DOCS_GROUPS.map((group) => ({
   ...group,

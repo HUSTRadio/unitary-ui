@@ -99,6 +99,8 @@ export { MenuBar, MenuBarMenu, MenuBarTrigger, MenuBarContent, MenuBarItem, Menu
 export type { MenuBarItemProps, MenuBarCheckboxItemProps } from "@/components/ui/menu-bar";
 export { Toolbar, ToolbarGroup, ToolbarItem } from "@/components/ui/toolbar";
 export type { ToolbarProps, ToolbarGroupProps, ToolbarItemProps, ToolbarSlot } from "@/components/ui/toolbar";
+export { SafeArea, Stack } from "@/components/ui/layout";
+export type { SafeAreaProps, StackProps, LayoutSpacing, SafeAreaEdge } from "@/components/ui/layout";
 export type { ActivityAction, ActivityTarget, ActivityViewProps } from "@/components/ui/activity-view";
 export type { EditMenuAction, EditMenuProps, EditMenuStandardAction } from "@/components/ui/edit-menu";
 export { MenuContainer, MenuButton, Menu, MenuItem, MenuItemLocked, MenuLink, MenuDivider, MenuSection } from "@/components/ui/menu";

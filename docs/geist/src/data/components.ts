@@ -376,6 +376,22 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "safe-area",
+    label: "Safe Area",
+    labelZh: "安全区",
+    description:
+      "A spacing container that keeps content clear of device safe areas.",
+    official: "Safe Area",
+  },
+  {
+    name: "stack",
+    label: "Stack",
+    labelZh: "堆叠",
+    description:
+      "A flex preset that stacks children in one direction with a shared spacing step.",
+    official: "Stack",
+  },
+  {
     name: "toolbar",
     label: "Toolbar",
     labelZh: "工具栏",

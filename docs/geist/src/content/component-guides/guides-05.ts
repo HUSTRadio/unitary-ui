@@ -554,6 +554,85 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       ],
     },
   },
+  "safe-area": {
+    slug: "safe-area",
+    locale: "zh-CN",
+    summary: "安全区间距容器：内边距取「间距档」与设备安全区 env(safe-area-inset-*) 的较大值。",
+    whenToUse: [
+      "内容需要避开圆角、刘海或系统栏时。",
+      "需要为页面四周统一最小内边距时。",
+    ],
+    whenNotToUse: [
+      "需要栅格或多列布局——用 Grid。",
+      "需要滚动容器或吸附行为——用 Scroller。",
+    ],
+    examples: [
+      {
+        id: "safe-area-default",
+        kind: "minimal",
+        title: "默认安全区",
+        description: "上下两边应用安全区边距，内容不被系统栏遮挡。",
+        demoKey: "default",
+      },
+    ],
+    accessibility: {
+      status: "not-applicable",
+      reason: "纯布局容器：不含交互与 ARIA 角色，可访问性由内部内容决定。",
+    },
+    controlledBehavior: {
+      status: "not-applicable",
+      reason: "无状态：只输出内边距，不接收也不持有任何状态。",
+    },
+    responsiveBehavior: {
+      status: "covered",
+      content: [
+        "内边距与设备安全区取较大值，设备旋转或系统栏变化时自动跟随。",
+        "可按边启用：只给需要的边（如仅上下）应用安全区。",
+      ],
+    },
+    themeBehavior: {
+      status: "not-applicable",
+      reason: "只输出内边距，不消费颜色 token，因此不随主题变化。",
+    },
+  },
+  stack: {
+    slug: "stack",
+    locale: "zh-CN",
+    summary: "方向 + 间距堆叠：语义化的 flex 预设，用统一间距档替代随机的 gap 值。",
+    whenToUse: [
+      "需要把子元素按单一方向排列并统一间距时。",
+      "希望间距来自设计系统的档位而非临时数值时。",
+    ],
+    whenNotToUse: [
+      "需要栅格、列宽或不规则排布——用 Grid。",
+      "需要滚动、吸附或虚拟列表——用 Scroller。",
+    ],
+    examples: [
+      {
+        id: "stack-default",
+        kind: "minimal",
+        title: "默认堆叠",
+        description: "纵向堆叠两组行：一组居中对齐，一组两端对齐。",
+        demoKey: "default",
+      },
+    ],
+    accessibility: {
+      status: "not-applicable",
+      reason: "纯布局容器：不改变内容的语义与可访问性树。",
+    },
+    controlledBehavior: {
+      status: "not-applicable",
+      reason: "无状态：方向、间距与对齐均由 props 直接决定。",
+    },
+    responsiveBehavior: {
+      status: "not-applicable",
+      reason: "方向固定，不随断点变化；需要响应式时由调用方传入 className 或断点类。",
+    },
+    themeBehavior: {
+      status: "not-applicable",
+      reason: "只输出 flex 与间距，不消费颜色 token，因此不随主题变化。",
+    },
+  },
 };
 
 export const GUIDES_05_EN: Record<string, ComponentGuide> = {
@@ -1131,6 +1210,88 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
         "The bar uses background and border tokens that switch automatically in dark mode.",
         "Hover, selected, and disabled states all use grayscale alpha tokens.",
       ],
+    },
+  },
+  "safe-area": {
+    slug: "safe-area",
+    locale: "en-US",
+    summary:
+      "A spacing container whose padding is the larger of the spacing step and the device safe area (env(safe-area-inset-*)).",
+    whenToUse: [
+      "When content must stay clear of rounded corners, notches, or system bars.",
+      "When a page needs one consistent minimum inset on all sides.",
+    ],
+    whenNotToUse: [
+      "For grid or multi-column layout — use Grid.",
+      "For scrolling or snapping behavior — use Scroller.",
+    ],
+    examples: [
+      {
+        id: "safe-area-default",
+        kind: "minimal",
+        title: "Default safe area",
+        description:
+          "Safe-area padding on the top and bottom edges keeps content clear of system bars.",
+        demoKey: "default",
+      },
+    ],
+    accessibility: {
+      status: "not-applicable",
+      reason: "A pure layout container: no interaction and no ARIA role; accessibility comes from its content.",
+    },
+    controlledBehavior: {
+      status: "not-applicable",
+      reason: "Stateless — it only emits padding and holds no state of its own.",
+    },
+    responsiveBehavior: {
+      status: "covered",
+      content: [
+        "Padding takes the larger of the spacing step and the device safe area, so it follows rotation and system bar changes.",
+        "Edges are opt-in: apply the safe area only where it is needed, such as top and bottom.",
+      ],
+    },
+    themeBehavior: {
+      status: "not-applicable",
+      reason: "It only emits padding and consumes no color tokens, so it does not vary by theme.",
+    },
+  },
+  stack: {
+    slug: "stack",
+    locale: "en-US",
+    summary:
+      "A flex preset that stacks children in one direction using a shared spacing step instead of ad-hoc gap values.",
+    whenToUse: [
+      "When children line up in a single direction with one consistent gap.",
+      "When spacing should come from design-system steps rather than arbitrary numbers.",
+    ],
+    whenNotToUse: [
+      "For grids, column widths, or irregular placement — use Grid.",
+      "For scrolling, snapping, or virtualized lists — use Scroller.",
+    ],
+    examples: [
+      {
+        id: "stack-default",
+        kind: "minimal",
+        title: "Default stack",
+        description: "A column stack of two rows: one centered, one justified to the ends.",
+        demoKey: "default",
+      },
+    ],
+    accessibility: {
+      status: "not-applicable",
+      reason: "A pure layout container: it does not change the semantics or the accessibility tree of its content.",
+    },
+    controlledBehavior: {
+      status: "not-applicable",
+      reason: "Stateless — direction, gap, and alignment come directly from props.",
+    },
+    responsiveBehavior: {
+      status: "not-applicable",
+      reason: "The direction is fixed and does not change at breakpoints; pass className or breakpoint classes for responsive behavior.",
+    },
+    themeBehavior: {
+      status: "not-applicable",
+      reason: "It only emits flex and spacing and consumes no color tokens, so it does not vary by theme.",
     },
   },
 };

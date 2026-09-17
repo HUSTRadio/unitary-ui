@@ -45,12 +45,16 @@ describe("Geist documentation coverage", () => {
       "error-boundary",
       "link",
       "menu-bar",
+      "safe-area",
+      "stack",
       "step-point",
       "toolbar",
     ]);
 
+    // 字母序只约束「组件」分组内部：布局原语（safe-area / stack）属于
+    // 「排版与布局」分组，与 Typography / Grid 静态页同级，不参与该排序。
     const componentRoutes = DOCS_ROUTE_SEQUENCE.filter(
-      (route) => route.renderer.kind === "component-detail",
+      (route) => route.renderer.kind === "component-detail" && route.group === "components",
     );
     const labels = componentRoutes.map((route) => route.label);
     expect(labels).toEqual([...labels].sort((left, right) => left.localeCompare(right, "en")));
