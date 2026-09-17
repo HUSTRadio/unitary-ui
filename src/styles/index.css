@@ -2205,19 +2205,31 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
   font-family:
     -apple-system, BlinkMacSystemFont, "HarmonyOS Sans", "HarmonyOS Sans SC",
     "HarmonyOS Sans SC Subset", system-ui, sans-serif;
-  font-size: 15px;
-  font-weight: 700;
+  /* 对齐 iOS 官方（灵动岛机型真机实测）：SF Pro Semibold 17pt */
+  font-size: 17px;
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.12px;
+  letter-spacing: -0.14px;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1;
 }
 
 @supports not (font: -apple-system-body) {
-  /* 非 Apple 字体环境的垂直位置补偿：默认 0.25px，字体探针命中时用实测基线偏移 */
+  /* 非 Apple 字体环境的垂直位置补偿：默认 -0.5px（17px HarmonyOS Sans 实测，
+     字形视觉中心比行盒中心低 0.5px）；字体探针命中时用实测基线偏移覆盖 */
   .phone-status-time {
-    transform: translateY(var(--font-metric-baseline, 0.25px));
+    transform: translateY(var(--font-metric-baseline, -0.5px));
   }
+  /* 时间冒号光学对齐：HarmonyOS Sans 冒号字形偏下（17px 实测 +2px），上移与数字对齐；
+     SF Pro 冒号光学居中，Apple 环境无需校正（不套用本规则） */
+  .phone-status-colon {
+    transform: translateY(var(--font-metric-colon, -2px));
+  }
+}
+
+/* 冒号 span 基础形态（transform 仅在非 Apple 环境套用） */
+.phone-status-colon {
+  display: inline-block;
 }
 
 /*

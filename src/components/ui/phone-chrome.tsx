@@ -56,7 +56,7 @@ function CellularIcon({ level, ...props }: { level: number } & React.SVGProps<SV
     <svg
       viewBox="0 0 18 12"
       aria-hidden="true"
-      className="h-[11px] w-[17px]"
+      className="h-3 w-[18px]"
       fill="currentColor"
       {...props}
     >
@@ -81,7 +81,7 @@ function WifiIcon({ level, ...props }: { level: number } & React.SVGProps<SVGSVG
     <svg
       viewBox="0 0 16 12"
       aria-hidden="true"
-      className="h-[11px] w-[15px]"
+      className="h-3 w-4"
       fill="currentColor"
       {...props}
     >
@@ -122,12 +122,30 @@ function BatteryIcon({ percent, ...props }: { percent: number } & React.SVGProps
 
 /* ---------------- 状态栏 ---------------- */
 
+/** 时间渲染：冒号独立 token（.phone-status-colon 消费 --font-metric-colon 做光学对齐） */
+function TimeText({ value }: { value: string }) {
+  const parts = value.split(/([:])/);
+  return (
+    <>
+      {parts.map((part, i) =>
+        part === ":" ? (
+          <span key={i} className="phone-status-colon">
+            :
+          </span>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  );
+}
+
 export function PhoneStatusBar({
   options,
   island = false,
 }: {
   options: boolean | PhoneStatusBarOptions | undefined;
-  /** 灵动岛开启时容器与库绘制岛条带重合（中心 36.5px），默认关闭维持现状 */
+  /** 灵动岛开启时容器与库绘制岛条带同轴（岛中心 = 屏幕坐标 24.5px = 外框坐标 36.5px），默认关闭维持现状 */
   island?: boolean;
 }) {
   if (options === false || options === undefined) return null;
@@ -141,18 +159,25 @@ export function PhoneStatusBar({
       data-slot="phone-status-bar"
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-x-0 z-20 flex items-center justify-between px-[27px]",
-        // 岛对齐几何：容器与库绘制的岛条带完全重合（react-mockframe@1.1.0
-        // .iphone17 .dynamic-island = top:22px/height:29px → 中心 36.5px）；
-        // 无岛时保持 54px 状态栏 + pt 校正的原几何（零回归）。
+        "pointer-events-none absolute inset-x-0 z-20 flex items-center justify-between pl-[27px] pr-[22px]",
+        // 岛对齐几何：MockFrame 的 .dynamic-island 挂在**外框层**（anatomy 渲染于
+        // .screen 之前），top:22px/height:29px 相对 .mockframe；本组件渲染在 .screen
+        // 屏幕层内，屏幕因 bezel(12px) 整体下移——top 须取 22−12=10px 才与岛同轴
+        // （岛中心 = 外框 36.5px = 屏幕 24.5px）。此前把两个 top 值当同一参照系
+        // （22px），状态栏比岛低 12px。
+        // 基线说明：font-metrics 的 --font-metric-baseline 公式已修正为"字形视觉
+        // 中心 vs 行盒中心"（17px HarmonyOS Sans 实测 −0.5px 上移），两种模式统一
+        // 消费，无需再按模式归零。
         island
-          ? "top-[22px] h-[29px]"
-          : "top-0 h-[54px] pt-[14px]",
+          ? "top-[10px] h-[29px]"
+          : "top-0 h-[54px] pt-[13px]",
         dark ? "text-white" : "text-black",
       )}
     >
-      <span className="phone-status-time text-[15px] font-bold leading-none">{o.time}</span>
-      <span className="flex items-center gap-[6px]">
+      <span className="phone-status-time text-[17px] font-semibold leading-none">
+        <TimeText value={o.time} />
+      </span>
+      <span className="flex items-center gap-[5px]">
         <CellularIcon level={o.cellular} />
         <WifiIcon level={o.wifi} />
         <BatteryIcon data-battery-icon="" percent={battery} />

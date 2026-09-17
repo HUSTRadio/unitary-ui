@@ -17,7 +17,15 @@ import { useEffect } from "react";
  * 无需挂在特定 React 组件；useFontMetrics 保留供显式控制时使用（幂等）。
  */
 
-export const FONT_METRIC_CACHE_KEY = "geist-font-metrics-v1";
+export const FONT_METRIC_CACHE_KEY = "geist-font-metrics-v2";
+
+/**
+ * 状态栏时间字体栈（与 .phone-status-time 一致）。
+ * 基线/冒号度量必须对时间自己的字体栈做——--font-sans 档位栈（OPPO Sans 等）
+ * 的度量对时间渲染无效。
+ */
+const STATUS_TIME_STACK =
+  '-apple-system, BlinkMacSystemFont, "HarmonyOS Sans", "HarmonyOS Sans SC", "HarmonyOS Sans SC Subset", system-ui, sans-serif';
 
 const PROBE_CJK = "中";
 const PROBE_ASCII = "H";
@@ -27,9 +35,31 @@ const MIN_PROBE_SIZE = 4;
 interface FontMetrics {
   cjkRatio: number;
   digitWidth: number;
+  /** 时间垂直校正 px（translateY 语义，负 = 上移）：数字墨迹视觉中心 − 行盒中心 */
   baseline: number;
+  /** 时间冒号垂直校正 px（translateY 语义，负 = 上移）：数字墨迹中心 − 冒号墨迹中心 */
+  colon: number;
   /** 测量时的有效 font-family（用于缓存失效判断） */
   family: string;
+}
+
+/**
+ * 状态栏时间的基线/冒号度量（17px semibold，与 .phone-status-time 渲染一致）。
+ *
+ * 旧 baseline 公式（16 − capAscent）量纲错误——cap 顶隙不是基线偏移，曾致时间被
+ * 整体下推 ~4px。正确语义：让字形墨迹视觉中心与行盒几何中心重合所需的 translateY。
+ * 冒号：SF Pro 光学居中（Apple 环境无需校正）；HarmonyOS Sans 冒号字形偏下
+ * （17px 实测 +2px），需要上移与数字对齐。
+ */
+function measureTimeInk(ctx: CanvasRenderingContext2D): { baseline: number; colon: number } | null {
+  ctx.font = `600 17px ${STATUS_TIME_STACK}`;
+  const digit = ctx.measureText("0");
+  const colon = ctx.measureText(":");
+  if (digit.actualBoundingBoxAscent == null || colon.actualBoundingBoxAscent == null) return null;
+  const digitCenter = (digit.actualBoundingBoxDescent - digit.actualBoundingBoxAscent) / 2;
+  const colonCenter = (colon.actualBoundingBoxDescent - colon.actualBoundingBoxAscent) / 2;
+  const lineCenter = (digit.fontBoundingBoxDescent - digit.fontBoundingBoxAscent) / 2;
+  return { baseline: lineCenter - digitCenter, colon: digitCenter - colonCenter };
 }
 
 /** 计算当前生效字体的度量。 */
@@ -48,11 +78,11 @@ export function measureFontMetrics(
     for (const ch of PROBE_DIGITS) {
       digitWidth = Math.max(digitWidth, ctx.measureText(ch).width);
     }
-    const box = ctx.measureText("H");
-    const topGap = box.actualBoundingBoxAscent != null ? 16 - box.actualBoundingBoxAscent : 0;
     if (cjk <= 0 || ascii <= 0 || digitWidth <= 0) return null;
     if (cjk < MIN_PROBE_SIZE || ascii < MIN_PROBE_SIZE || digitWidth < MIN_PROBE_SIZE) return null;
-    return { cjkRatio: cjk / ascii, digitWidth, baseline: topGap, family: fontStack };
+    const timeInk = measureTimeInk(ctx);
+    if (!timeInk || !Number.isFinite(timeInk.baseline) || !Number.isFinite(timeInk.colon)) return null;
+    return { cjkRatio: cjk / ascii, digitWidth, ...timeInk, family: fontStack };
   } catch {
     return null;
   }
@@ -69,6 +99,7 @@ export function applyFontMetrics(metrics: FontMetrics): void {
   set("--font-metric-cjk-ratio", metrics.cjkRatio.toFixed(3));
   set("--font-metric-digit-w", `${metrics.digitWidth.toFixed(2)}px`);
   set("--font-metric-baseline", `${metrics.baseline.toFixed(2)}px`);
+  set("--font-metric-colon", `${metrics.colon.toFixed(2)}px`);
 }
 
 function readCache(family: string): FontMetrics | null {
