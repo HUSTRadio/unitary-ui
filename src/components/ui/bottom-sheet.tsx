@@ -18,7 +18,8 @@ import { Grabber } from "@/components/ui/grabber";
  * 一致（Drawer 官方实测为 500ms 滑入）。
  *
  * - 面板高度 = detents[current] * 100dvh，由 CSS 变量 --sheet-h 驱动
- * - 面板顶缘跟手改高度 → 松手吸附最近档位（300ms cubic-bezier(0.32,0.72,0,1)）
+ * - 面板顶缘跟手改高度：**向上拖展开更高档，向下拖收起**（松手吸附最近档位，
+ *   300ms cubic-bezier(0.32,0.72,0,1)）
  * - 低于最低档继续下拉且 collapseDown → onOpenChange(false)
  * - 背景点击 / Esc 关闭（Radix 自带）；motion-reduce 时 transition-none
  */
@@ -109,8 +110,11 @@ function BottomSheet({
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
     if (!dragStart.current || typeof window === "undefined") return;
+    // 面板贴底、高度向上生长：手指**向上**拖 → 高度增大（展开更高档）；
+    // 手指**向下**拖 → 高度减小（顶缘跟随手指下移），低于最低档继续下拉 → 松手关闭。
+    // 因此位移取负号——下拉（clientY 增大）必须让 ratio 变小。
     let next =
-      dragStart.current.ratio +
+      dragStart.current.ratio -
       (event.clientY - dragStart.current.y) / window.innerHeight;
     if (gestures?.expandUp === false) next = Math.min(next, detents[detents.length - 1]!);
     setDragRatio(Math.max(0.05, next));

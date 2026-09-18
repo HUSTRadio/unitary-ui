@@ -148,4 +148,32 @@ describe("BottomSheet", () => {
     await act(async () => new Promise((resolve) => requestAnimationFrame(() => resolve(undefined))));
     expect(document.activeElement).toBe(trigger);
   });
+
+  it("拖拽方向跟手：向下拉面板变矮、向上拉增高（顶缘跟随手指）", () => {
+    renderSheet(
+      <BottomSheet open detents={[0.5, 1]}>
+        <div>content</div>
+      </BottomSheet>,
+    );
+    const panel = document.querySelector('[data-slot="bottom-sheet"]') as HTMLElement;
+    // jsdom 无 Pointer Capture API
+    panel.setPointerCapture = () => {};
+    const ratioOf = () => parseFloat(panel.style.getPropertyValue("--sheet-h"));
+
+    // 起始 0.5（50dvh）：向下拖 100px → 高度变小（顶缘随手指下移）
+    act(() => panel.dispatchEvent(new MouseEvent("pointerdown", { clientY: 384, bubbles: true })));
+    act(() =>
+      panel.dispatchEvent(new MouseEvent("pointermove", { clientY: 484, bubbles: true })),
+    );
+    expect(ratioOf()).toBeCloseTo(50 - (100 / window.innerHeight) * 100, 5);
+    act(() => panel.dispatchEvent(new MouseEvent("pointerup", { bubbles: true })));
+
+    // 再次按下向上拖 100px → 高度变大（展开更高档）
+    act(() => panel.dispatchEvent(new MouseEvent("pointerdown", { clientY: 484, bubbles: true })));
+    act(() =>
+      panel.dispatchEvent(new MouseEvent("pointermove", { clientY: 384, bubbles: true })),
+    );
+    expect(ratioOf()).toBeCloseTo(50 + (100 / window.innerHeight) * 100, 5);
+    act(() => panel.dispatchEvent(new MouseEvent("pointerup", { bubbles: true })));
+  });
 });
