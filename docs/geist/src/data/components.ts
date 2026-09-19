@@ -75,7 +75,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "Choose a small set of meaningful detents and keep the initial detent large enough to reveal the sheet's purpose.",
       "Keep primary actions visible without requiring a drag, and let Escape, the backdrop, or a downward dismissal close the sheet.",
       "Use Modal for blocking desktop decisions and Sheet for edge panels that are not driven by vertical detents.",
-      "For a share-target grid or a one-shot action list, use ActivityView — it is built on this component with detents and gestures disabled.",
+      "For a share-target grid or a one-shot action list, use ActivityView — it is built on this component at a single 0.6 detent.",
     ],
   },
   {
@@ -360,7 +360,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "Use ActivityView for one-shot share or action flows; it closes itself after a target or action is picked.",
       "Keep target names short—they truncate to one line beneath a 48px icon tile.",
       "Put destructive actions at the bottom of the action list and keep their labels Verb + Noun.",
-      "ActivityView wraps BottomSheet at a fixed 0.6 detent with gestures off — reach for BottomSheet directly when you need draggable detents (or pass sheetProps to override).",
+      "ActivityView wraps BottomSheet at a fixed 0.6 detent and keeps pull-down dismissal — reach for BottomSheet directly when you need draggable detents (or pass sheetProps to override).",
     ],
   },
   {
