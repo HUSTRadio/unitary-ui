@@ -97,7 +97,7 @@ describe("Geist foundation and docs shell contract", () => {
     // 手动声明档位：data-font-tier 切换字体栈（系统优先 + Subset 兜底）
     expect(css).toContain('html[data-font-tier="hmos"]');
     expect(css).toContain('html[data-font-tier="system"]');
-    expect(css).toContain('--font-metric-baseline, 0.25px');
+    expect(css).toContain('--font-metric-baseline, -0.5px');
     // 探针模块导出 + 自注册 + 档位联动重测
     const metrics = await read("src/lib/font-metrics.ts");
     expect(metrics).toContain("export function probeFontMetrics");

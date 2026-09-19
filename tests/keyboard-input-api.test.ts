@@ -30,23 +30,29 @@ describe("KeyboardInput official API contract (G06 wave)", () => {
   test("G06-KBD-01: Windows uses symbolic Shift, Alt, and Ctrl mappings without shortcut spacing", async () => {
     const src = await read("src/components/ui/keyboard-input.tsx");
     // Windows mapping: Shift → ⇧, Alt → ⌥, Ctrl (meta) → ⌘.
-    expect(src).toContain(">⌘</span>");
-    expect(src).toMatch(/shift \? <span className="inline-block min-w-\[1em\] text-center">⇧<\/span> : null/);
-    expect(src).toMatch(/alt \? <span className="inline-block min-w-\[1em\] text-center">⌥<\/span> : null/);
-    expect(src).toMatch(/ctrl \? <span className="inline-block min-w-\[1em\] text-center">⌃<\/span> : null/);
+    // 33dce90 起 Apple 键帽基线：修饰符渲染为 Material Symbols Rounded 键帽图标
+    // （PUA codepoint + msr-keycap 字体），不再内联 Unicode 字形文本。
+    expect(src).toContain('meta: "\\uEAE7"'); // ⌘ keyboard_command_key
+    expect(src).toContain('shift: "\\uE5F2"'); // ⇧ shift
+    expect(src).toContain('alt: "\\uEAE8"'); // ⌥ keyboard_option_key
+    expect(src).toContain('ctrl: "\\uEAE6"'); // ⌃ keyboard_control_key
+    // PUA 字形对读屏不可读：修饰符槽 aria-hidden，键名槽不隐藏
+    expect(src).toContain("aria-hidden={slot.modifier ? true : undefined}");
     expect(src).not.toContain("Ctrl\\u00a0");
     expect(src).not.toContain("Alt\\u00a0");
   });
 
-  test("G06-KBD-03: default kbd uses the compact line box, minimum size, spacing, and mono font", async () => {
+  test("G06-KBD-03: default kbd uses the compact line box, square keycap geometry, and system font", async () => {
     const src = await read("src/components/ui/keyboard-input.tsx");
-    expect(src).toContain("inline-block");
-    expect(src).toContain("min-h-6 min-w-6");
-    expect(src).toContain("!leading-[1.7em]");
-    expect(src).toContain("ml-1");
-    expect(src).toContain("font-mono");
-    expect(src).toMatch(/text-sm/);
-    expect(src).toMatch(/px-1\.5/);
+    // Apple 键帽：高度锁定 24px 方块；等宽网格 wrapper（列宽 = 组内最宽槽位，零硬编码）；
+    // 键名继承文档主字体（[font-family:inherit] 覆盖 preflight 的 mono 预设）。
+    expect(src).toContain("inline-grid grid-flow-col auto-cols-[1fr]");
+    expect(src).toContain("[font-family:inherit]");
+    expect(src).not.toContain("font-mono");
+    expect(src).toContain('"h-6 rounded-sm px-1 text-base"');
+    expect(src).toContain("whitespace-nowrap");
+    expect(src).toContain("leading-none");
+    expect(src).toContain('!plain && (small ? "ml-0.5" : "ml-1")');
     expect(src).not.toContain("font-sans");
   });
 
@@ -59,21 +65,21 @@ describe("KeyboardInput official API contract (G06 wave)", () => {
     expect(src).not.toMatch(/border-gray-alpha-400/);
   });
 
-  test("G06-KBD-04: multi-modifier renders as one pill with one span per modifier", async () => {
+  test("G06-KBD-04: multi-modifier renders adjacent keycap slots, one slot per modifier", async () => {
     const src = await read("src/components/ui/keyboard-input.tsx");
     expect(src).not.toMatch(/modifiers\.join/);
-    // 每个键位槽位统一 inline-block min-w-[1em]（含 meta 特例 inline style 已删除）。
-    expect(src).toContain('className="inline-block min-w-[1em] text-center"');
-    expect(src).toContain("{shift ? <span className=\"inline-block min-w-[1em] text-center\">⇧</span> : null}");
-    expect(src).toContain("{alt ? <span className=\"inline-block min-w-[1em] text-center\">⌥</span> : null}");
-    expect(src).toContain("{ctrl ? <span className=\"inline-block min-w-[1em] text-center\">⌃</span> : null}");
+    // 每个键位一个 kbd-key 槽位（slots 数组驱动），键名 children 占独立槽位
+    expect(src).toContain('data-slot="kbd-key"');
+    expect(src).toContain('slots.push({ char: MODIFIER_GLYPHS.meta, modifier: "meta" })');
+    expect(src).toContain("if (children != null) slots.push({ char: children, modifier: null })");
+    // 邻接间隙：有框键帽 4px（Apple 菜单 ≈0.25em 字间间隙），plain 纯文本 1px 微缝
+    expect(src).toContain('plain ? "gap-[1px]" : "gap-[4px]"');
     expect(src).not.toContain('style={{ display: "inline-block", minWidth: "1em" }}');
-    expect(src).not.toMatch(/gap-0\.5/);
   });
 
-  test("small variant keeps the official compact size and two-pixel leading margin", async () => {
+  test("small variant keeps the compact 20px square keycap for dense surfaces", async () => {
     const src = await read("src/components/ui/keyboard-input.tsx");
-    expect(src).toContain('"ml-0.5 h-5 min-h-5 min-w-5 px-1 text-xs"');
+    expect(src).toContain('"h-5 rounded-sm px-1 text-xs"');
   });
 
   test("plain variant supports borderless command shortcuts without bypassing platform modifiers", async () => {
@@ -83,7 +89,8 @@ describe("KeyboardInput official API contract (G06 wave)", () => {
     ]);
     const example = EXAMPLE_SOURCE["keyboard-input"]["plain-command"];
     expect(src).toMatch(/plain\??:\s*boolean/);
-    expect(src).toContain('"ml-0 min-h-0 min-w-0 bg-transparent px-0 shadow-none"');
+    expect(src).toContain('"bg-transparent shadow-none"');
+    expect(src).toContain('"gap-[1px]"');
     expect(example).toContain("export function");
     expect(example).toMatch(/<Kbd plain meta>\s*K\s*<\/Kbd>/);
     expect(docs).toContain("EXAMPLE_REGISTRY[name]");

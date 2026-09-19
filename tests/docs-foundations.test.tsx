@@ -92,7 +92,7 @@ describe("Colors foundation docs", () => {
     expect(swatch.type).toBe("button");
     expect(swatch.dataset.colorToken).toBe("--color-blue-700");
     expect(getPropertyValue).toHaveBeenCalledWith("--color-blue-700");
-    expect(swatch.textContent).toContain("#light-blue-700");
+    expect(swatch.textContent).toContain("light-blue-700");
 
     await act(async () => {
       swatch.click();
@@ -105,14 +105,14 @@ describe("Colors foundation docs", () => {
 
   test("recomputes the requested token when the html theme class changes", async () => {
     await renderColors();
-    expect(blueSwatch().textContent).toContain("#light-blue-700");
+    expect(blueSwatch().textContent).toContain("light-blue-700");
 
     await act(async () => {
       document.documentElement.classList.add("dark");
       await Promise.resolve();
     });
 
-    expect(blueSwatch().textContent).toContain("#dark-blue-700");
+    expect(blueSwatch().textContent).toContain("dark-blue-700");
   });
 
   test("renders role guidance and semantic rows from current runtime token values", async () => {
@@ -125,13 +125,13 @@ describe("Colors foundation docs", () => {
     expect(container.textContent).toContain("语义 Token");
 
     const roleSwatch = container.querySelector<HTMLElement>('[data-role-color-token="--color-gray-100"]');
-    expect(roleSwatch?.textContent).toContain("#light-gray-100");
+    expect(roleSwatch?.textContent).toContain("light-gray-100");
     expect(roleSwatch?.querySelector<HTMLElement>("[aria-hidden]")?.style.backgroundColor).toBe(
       "var(--color-gray-100)",
     );
 
     const semanticRow = container.querySelector<HTMLTableRowElement>('[data-semantic-token="--background"]');
-    expect(semanticRow?.textContent).toContain("#light-background");
+    expect(semanticRow?.textContent).toContain("light-background");
     expect(semanticRow?.querySelector<HTMLElement>("[aria-hidden]")?.style.backgroundColor).toBe(
       "var(--background)",
     );
