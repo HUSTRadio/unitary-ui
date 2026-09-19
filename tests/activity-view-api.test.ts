@@ -23,6 +23,9 @@ describe("Activity View contract", () => {
     expect(source).toContain('data-slot="activity-view-cancel"');
     expect(source).toContain("overflow-x-auto");
     expect(source).toContain("size-12");
+    // 操作组是卡片化分组列表：容器圆角描边收住行背景（hover 不通栏越界），行间分隔线
+    expect(source).toContain("overflow-hidden rounded-overlay border border-gray-alpha-400");
+    expect(source).toContain('i > 0 && "border-t border-gray-alpha-400"');
   });
 
   test("closes after a one-shot activity and localizes its labels", () => {
