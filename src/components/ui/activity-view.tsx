@@ -105,8 +105,12 @@ function ActivityView({
       )}
     >
       {title !== null ? (
-        // 面板标题是说明性文字（copy 系列），不是控件标签（label 系列）
-        <h2 data-slot="activity-view-title" className="text-copy-14 text-gray-1000">
+        // 面板标题是说明性文字（copy 系列），不是控件标签（label 系列）；
+        // HIG 分享面板的标题在面板顶部居中显示
+        <h2
+          data-slot="activity-view-title"
+          className="text-center text-copy-14 text-gray-1000"
+        >
           {title ?? t("Share")}
         </h2>
       ) : null}
