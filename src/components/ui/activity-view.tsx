@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { BottomSheet } from "@/components/ui/bottom-sheet";
+import { BottomSheet, type BottomSheetProps } from "@/components/ui/bottom-sheet";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -58,6 +58,11 @@ export interface ActivityViewProps {
   title?: React.ReactNode;
   /** 底部取消行，默认 true */
   showCancel?: boolean;
+  /**
+   * 透传给底层 BottomSheet（放在默认配置之后展开，可覆盖 detents / showIndicator /
+   * gestures 等）。需要多档位拖拽或自定义面板高度时用；多数场景保持默认即可。
+   */
+  sheetProps?: Partial<Omit<BottomSheetProps, "open" | "onOpenChange" | "children">>;
   className?: string;
 }
 
@@ -68,6 +73,7 @@ function ActivityView({
   actions,
   title,
   showCancel = true,
+  sheetProps,
   className,
 }: ActivityViewProps) {
   const { t } = useI18n();
@@ -88,10 +94,19 @@ function ActivityView({
       detents={[0.6]}
       showIndicator={false}
       gestures={{ resize: false, expandUp: false }}
-      className={cn("flex flex-col gap-4 overflow-y-auto px-4 pt-4", className)}
+      {...sheetProps}
+      className={cn(
+        // pb-4 与 pt-4 对称（此前底部仅 safe-area，取消行贴边）；取消行 mt-auto
+        // 贴面板底部（HIG 分享面板的取消行固定在下缘），内容不足时中间留白、
+        // 底部不悬空。
+        "flex flex-col gap-4 overflow-y-auto px-4 pt-4 pb-4",
+        className,
+        sheetProps?.className,
+      )}
     >
       {title !== null ? (
-        <h2 data-slot="activity-view-title" className="text-label-14 text-gray-1000">
+        // 面板标题是说明性文字（copy 系列），不是控件标签（label 系列）
+        <h2 data-slot="activity-view-title" className="text-copy-14 text-gray-1000">
           {title ?? t("Share")}
         </h2>
       ) : null}
@@ -114,7 +129,9 @@ function ActivityView({
               >
                 {target.icon}
               </span>
-              <span className="w-full truncate text-center text-copy-13 text-gray-900">
+              {/* 目标名是按钮标签：对齐控件标签惯例（label 系列 + 主文字色，
+                  同 menu-bar trigger / toolbar item） */}
+              <span className="w-full truncate text-center text-label-13 text-gray-1000">
                 {target.title}
               </span>
             </button>
@@ -153,7 +170,7 @@ function ActivityView({
           type="button"
           data-slot="activity-view-cancel"
           onClick={close}
-          className="h-11 rounded-overlay-item text-label-14 text-gray-1000 outline-none transition-colors hover:bg-gray-alpha-100"
+          className="mt-auto h-11 shrink-0 rounded-overlay-item text-label-14 text-gray-1000 outline-none transition-colors hover:bg-gray-alpha-100"
         >
           {t("Cancel")}
         </button>

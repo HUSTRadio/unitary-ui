@@ -28,6 +28,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "只设置少量有意义的高度档位，并让初始档位足以展示弹层用途。",
     "无需拖拽即可看见主要操作，并允许 Escape、遮罩点击或向下拖动关闭弹层。",
     "阻断式桌面决策使用 Modal；不依赖垂直档位的边缘面板使用 Sheet。",
+    "分享目标网格或一次性操作列表使用 ActivityView——它基于本组件构建，并关闭了档位与手势。",
   ],
   browser: [
     "在落地页、文档和 changelog 文章中，把 Browser 用作截图、demo 和录屏周围的营销 chrome。",
@@ -136,6 +137,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "一次性分享或操作流使用 ActivityView；选中目标或操作后面板自行关闭。",
     "目标名称保持简短——48px 图标下方只显示一行，超出截断。",
     "破坏性操作放在操作列表末尾，标签保持 动词 + 名词。",
+    "ActivityView 是固定 0.6 档位、关闭手势的 BottomSheet 封装；需要可拖拽档位时直接用 BottomSheet（也可用 sheetProps 覆盖）。",
   ],
   "menu-bar": [
     "应用级命令用 MenuBar；页面级导航链接用 Navbar。",

@@ -502,6 +502,12 @@ const O = {
         "渲染底部取消行。",
         { defaultValue: "true" },
       ),
+      row(
+        "sheetProps",
+        "Partial<BottomSheetProps>",
+        "Pass-through to the underlying BottomSheet; overrides the default detents, gestures, and indicator.",
+        "透传给底层 BottomSheet；可覆盖默认的档位、手势与指示条配置。",
+      ),
     ],
     undefined,
   ),

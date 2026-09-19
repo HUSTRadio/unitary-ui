@@ -9,7 +9,9 @@ const source = readFileSync(
 /** ActivityView —— HIG 活动视图（分享面板）：目标网格 + 操作列表，复用 BottomSheet 容器。 */
 describe("Activity View contract", () => {
   test("reuses the bottom sheet container instead of a second dialog", () => {
-    expect(source).toContain('import { BottomSheet } from "@/components/ui/bottom-sheet"');
+    expect(source).toContain(
+      'import { BottomSheet, type BottomSheetProps } from "@/components/ui/bottom-sheet"',
+    );
     expect(source).toContain("detents={[0.6]}");
     expect(source).toContain("showIndicator={false}");
     expect(source).toContain("gestures={{ resize: false, expandUp: false }}");
@@ -32,5 +34,16 @@ describe("Activity View contract", () => {
 
   test("marks destructive actions in red", () => {
     expect(source).toContain('action.destructive ? "text-[#ee0000]" : "text-gray-1000"');
+  });
+
+  test("forwards sheetProps without weakening the one-shot defaults", () => {
+    expect(source).toContain("sheetProps?: Partial<Omit<BottomSheetProps");
+    expect(source).toContain("{...sheetProps}");
+    // 透传展开在默认配置之后，但一次性活动契约的默认值保持不变
+    expect(source).toContain("detents={[0.6]}");
+    expect(source).toContain("gestures={{ resize: false, expandUp: false }}");
+    // 取消行贴面板底部（HIG 分享面板），底部内边距与顶部对称
+    expect(source).toContain("mt-auto h-11 shrink-0");
+    expect(source).toContain("px-4 pt-4 pb-4");
   });
 });
