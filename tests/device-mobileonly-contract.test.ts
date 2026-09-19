@@ -40,6 +40,11 @@ describe("device mobileOnly contract", () => {
     expect(drawerBlock).toMatch(/mobileOnly:\s*true/);
   });
 
+  test("bottom-sheet and activity-view ARE marked mobileOnly", () => {
+    expect(componentBlock(componentsSource, "bottom-sheet")).toMatch(/mobileOnly:\s*true/);
+    expect(componentBlock(componentsSource, "activity-view")).toMatch(/mobileOnly:\s*true/);
+  });
+
   test("detail page and overview card render MobileOnlyMark instead of a badge", () => {
     expect(pageSource).toContain("meta.mobileOnly &&");
     expect(pageSource).toContain("component.mobileOnly &&");
