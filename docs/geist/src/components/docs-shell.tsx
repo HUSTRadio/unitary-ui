@@ -160,13 +160,21 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-muted-foreground"
               aria-hidden
             />
+            {/* 入口只由点击/键盘打开：CommandMenu 关闭时按 HIG 把焦点还给触发元素，
+                若触发元素用 onFocus 打开（此前的 readOnly + onFocus），焦点归还
+                会立刻再次打开面板，形成「ESC/点空白关闭 → 立即重开」的死循环。 */}
             <Input
               placeholder={copy.searchPlaceholder}
               aria-label={copy.searchAria}
               readOnly
-              onFocus={onSearchOpen}
               onClick={onSearchOpen}
-              className="pr-14 pl-9"
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  onSearchOpen();
+                }
+              }}
+              className="cursor-pointer pr-14 pl-9"
             />
             <kbd className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 rounded border border-border bg-surface px-1.5 py-0.5 text-label-12 text-muted-foreground">
               Ctrl K

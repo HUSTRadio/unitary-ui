@@ -123,6 +123,17 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(shell).toContain('relative hidden lg:block" role="search"');
   });
 
+  it("opens the desktop search from click or keyboard, never from focus", () => {
+    // CommandMenu 关闭时按 HIG 把焦点归还给触发元素；若触发元素用 onFocus 打开，
+    // 焦点归还会立刻重开面板——表现为「ESC / 点空白关闭 → 立即重开」的死循环。
+    const desktopSearchBlock = shell.match(
+      /data-slot="docs-desktop-search"[\s\S]*?data-slot="docs-topbar-actions"/,
+    )?.[0];
+    expect(desktopSearchBlock).toBeDefined();
+    expect(desktopSearchBlock).toContain("onClick={onSearchOpen}");
+    expect(desktopSearchBlock).not.toContain("onFocus={onSearchOpen}");
+  });
+
   it("language menu and theme switcher are hidden on mobile topbar (drawer hosts them)", () => {
     // 2026-08-24 新契约：移动端（<md）topbar 右区块只保留搜索入口，
     // 语言/主题收敛进汉堡抽屉工具行（toolbarRight 已有等价副本），
