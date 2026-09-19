@@ -140,21 +140,16 @@ function ActivityView({
       ) : null}
 
       {actions && actions.length > 0 ? (
-        // 操作组 = 卡片化分组列表（HIG：操作与分享目标是两个视觉组）：
-        // 容器圆角描边收住行背景（此前行的 hover 灰底通栏到面板边缘、圆角不可见），
-        // 行间细分隔线，行的激活态不再越出容器。
-        <div
-          data-slot="activity-view-actions"
-          className="overflow-hidden rounded-overlay border border-gray-alpha-400"
-        >
-          {actions.map((action, i) => (
+        // 操作组（HIG：操作与分享目标是两个视觉组）无描边框：容器只负责用圆角 +
+        // overflow 收住行的激活态背景，避免 hover 灰底通栏到面板边缘。
+        <div data-slot="activity-view-actions" className="overflow-hidden rounded-overlay">
+          {actions.map((action) => (
             <button
               key={action.id}
               type="button"
               onClick={() => run(action.onSelect)}
               className={cn(
                 "flex h-11 w-full items-center gap-3 px-3 text-left text-label-14 outline-none transition-colors hover:bg-gray-alpha-100 focus-visible:bg-gray-alpha-100",
-                i > 0 && "border-t border-gray-alpha-400",
                 action.destructive ? "text-[#ee0000]" : "text-gray-1000",
               )}
             >
