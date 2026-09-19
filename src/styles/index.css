@@ -1428,7 +1428,10 @@ html[data-font-tier="system"],
 .docs-prose-lead {
   margin-block: var(--uni-doc-space-title-lead) 0;
   font-size: var(--uni-text-body);
-  line-height: var(--uni-leading-body);
+  /* 与正文（--uni-leading-prose = 1.55）同节奏：--uni-leading-body（22px）是
+     Latin 官方值，中文 17px 的自然字形盒（≈23px）会溢出它，且与正文段落
+     （26.35px）相邻时行距肉眼跳变——docs 正文一律跟随 prose 节奏。 */
+  line-height: var(--uni-leading-prose);
   color: var(--muted-foreground);
 }
 
@@ -1625,7 +1628,7 @@ html[data-font-tier="system"],
 }
 @utility text-label-13-mono {
   font-size: var(--uni-text-footnote);
-  line-height: var(--uni-leading-footnote); /* 20px — 官方 mono 行高与 sans 不同，保持 20px */
+  line-height: var(--uni-leading-footnote); /* 18px（HIG Footnote 13/18）；盒低于正文 strut，不会撑大行高 */
   font-weight: 400;
   font-family: var(--font-mono);
 }
