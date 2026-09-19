@@ -148,6 +148,11 @@ function Kbd({
               // 自适应；transform 只改渲染、不影响 wrapper 的 flex 布局居中。
               // Material Symbols 图标 metrics 对称（已居中），无需校正。
               "inline-block",
+              // 修饰符图标按 em 收窄到键名字母的墨迹高度：Material Symbols 字形铺满
+              // em 框（ink = 1em），而 OPPO Sans cap 系字母墨迹仅 ≈0.8125em（实测
+              // 16px 字号下 K 的 ink 13px）——不收窄则图标比字母高 23%，即便两者
+              // 墨迹中心对齐，也会因上缘更高、基线更低而看起来"没对齐"。
+              slot.modifier && "text-[0.8125em]",
               !slot.modifier && "-translate-y-[0.0625em]",
             )}
           >

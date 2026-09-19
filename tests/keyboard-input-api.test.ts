@@ -82,6 +82,14 @@ describe("KeyboardInput official API contract (G06 wave)", () => {
     expect(src).toContain('"h-5 rounded-sm px-1 text-xs"');
   });
 
+  test("modifier glyphs are narrowed to the key letter ink height (0.8125em)", async () => {
+    const src = await read("src/components/ui/keyboard-input.tsx");
+    // 实测：Material Symbols 字形铺满 em 框（ink = 1em），OPPO Sans cap 系字母墨迹
+    // 仅 ≈0.8125em（16px 字号下 K 的 ink 为 13px）——不收窄则图标比字母高 23%，
+    // 即便墨迹中心对齐（实测差 0）也会因上缘更高、基线更低而看起来"没对齐"。
+    expect(src).toContain('slot.modifier && "text-[0.8125em]"');
+  });
+
   test("plain variant supports borderless command shortcuts without bypassing platform modifiers", async () => {
     const [src, docs] = await Promise.all([
       read("src/components/ui/keyboard-input.tsx"),
