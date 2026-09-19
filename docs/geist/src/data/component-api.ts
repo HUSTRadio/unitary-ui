@@ -1003,6 +1003,13 @@ const O = {
         defaultValue: "false",
       }),
       row("bodyClassName", "string", "Additional class name for the ModalContent body.", "ModalContent 内容区的额外类名。"),
+      row(
+        "placement",
+        '"center" | "top"',
+        'Center zooms in place; "top" pins the dialog to the viewport top edge and drops in from above (macOS sheet).',
+        'center 原地缩放淡入；top 贴视口顶边并自顶部下落入场（macOS sheet 语义）。',
+        { defaultValue: '"center"' },
+      ),
     ],
   ),
   "multi-select": component(

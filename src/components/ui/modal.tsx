@@ -14,6 +14,9 @@ import { useI18n } from "@/lib/i18n";
  *   overlay 本身透明；本地简化为 overlay 自身 bg-[#f2f2f2]/80 dark:bg-black/80（视觉等价）
  * - content 定位：官方 position:static 由 overlay flex 居中；本地 fixed top-50% left-50%
  *   -translate-x/y-1/2 居中（视觉等价）
+ * - placement：`center`（默认，居中 + 中心缩放淡入，官方基线）|
+ *   `top`（吸顶形态：贴视口顶边、上圆角归零，**自顶部下落入场**——macOS sheet 语义；
+ *   入场/出场用位移淡入，配合 sticky header/footer 的长内容表单）
  * - content：w-[540px] max-w-full max-modal:max-w-[calc(100vw-20px)] flex flex-col
  *   rounded-[12px]（现 rounded-xl token）bg-background-100 无 border，max-h-[min(800px,80vh)]（1440x900 下
  *   720px，sticky demo 全高即由此封顶），sm:overflow-hidden overflow-y-auto
@@ -64,6 +67,34 @@ export type ModalContentProps = React.ComponentPropsWithoutRef<typeof DialogPrim
   showCloseButton?: boolean;
   /** 内容区（body）额外类名；官方 sticky 变体用 pt-0 消除顶部内边距 */
   bodyClassName?: string;
+  /**
+   * 形态与入场方向（默认 "center"）：
+   * - `center`：几何居中，中心缩放淡入（官方 Geist 基线）。
+   * - `top`：**吸顶**——贴视口顶边、上圆角归零，自顶部下落入场（macOS sheet 语义），
+   *   与内容区 sticky header/footer 搭配用于长表单。
+   */
+  placement?: ModalPlacement;
+};
+
+export type ModalPlacement = "center" | "top";
+
+/**
+ * 形态类（定位 + 圆角 + 入场/出场动画）：
+ * - center：`-translate-x/y-1/2` 居中，zoom 缩放淡入（官方基线，保持既有观感）。
+ * - top：`top-0` 吸顶 + `-translate-x-1/2` 水平居中，`slide-in-from-top-*` 位移淡入，
+ *   读作"从顶部滑落"；上圆角归零贴合视口顶边（下圆角保留）。
+ * 两个形态的 `translate` 用 Tailwind 4 的 translate 属性（独立于 keyframe 的 transform），
+ * 因此与 tw-animate-css 的缩放/位移互不覆盖。
+ */
+const PLACEMENT_CLASS: Record<ModalPlacement, string> = {
+  center: cn(
+    "top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl",
+    "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+  ),
+  top: cn(
+    "top-0 left-1/2 -translate-x-1/2 rounded-t-none rounded-b-xl",
+    "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-top-8 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-8",
+  ),
 };
 
 const ModalContent = React.forwardRef<
@@ -74,6 +105,7 @@ const ModalContent = React.forwardRef<
     {
       className,
       bodyClassName,
+      placement = "center",
       children,
       showCloseButton = false,
       onOpenAutoFocus,
@@ -113,12 +145,11 @@ const ModalContent = React.forwardRef<
             }}
             style={style}
             className={cn(
-              "fixed top-[50%] left-[50%] z-[var(--uni-z-modal)] flex min-h-0 w-[540px] max-w-full min-w-0 flex-col overflow-hidden rounded-xl bg-background-100 text-foreground outline-none",
+              "fixed z-[var(--uni-z-modal)] flex min-h-0 w-[540px] max-w-full min-w-0 flex-col overflow-hidden bg-background-100 text-foreground outline-none",
               "max-h-[min(800px,80vh)]",
               "max-modal:max-w-[calc(100vw-20px)]",
               "shadow-[var(--uni-shadow-modal-elevated)]",
-              "-translate-x-1/2 -translate-y-1/2",
-              "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+              PLACEMENT_CLASS[placement],
               "transition-[opacity,transform] duration-(--uni-duration-slow) ease-pop motion-reduce:animate-none motion-reduce:transition-none",
               "sm:overflow-hidden overflow-y-auto",
               className,

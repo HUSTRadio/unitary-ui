@@ -13,7 +13,7 @@ export function ModalSticky964A9431Example() {
           Open Modal
         </Button>
       </ModalTrigger>
-      <ModalContent className="sticky" bodyClassName="pt-0 pb-0">
+      <ModalContent placement="top" bodyClassName="pt-0 pb-0">
         <header className="sticky top-0 z-10 -mx-5 mb-5 flex items-center gap-2.5 border-b border-gray-alpha-400 bg-background-100 px-5 py-5">
           <h3 className="text-heading-20 leading-6 text-foreground">Create Token</h3>
         </header>

@@ -114,6 +114,7 @@ export type { SheetProps, SheetSide, SheetTriggerProps, SheetPortalProps, SheetO
 export { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 export type { DrawerProps, DrawerTitleProps, DrawerDescriptionProps } from "@/components/ui/drawer";
 export { Modal, ModalTrigger, ModalPortal, ModalOverlay, ModalContent, ModalHeader, ModalTitle, ModalDescription, ModalFooter, ModalClose } from "@/components/ui/modal";
+export type { ModalContentProps, ModalPlacement } from "@/components/ui/modal";
 export { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
 export { ContextCard, ContextCardTrigger, ContextCardHeader, ContextCardTitle, ContextCardDescription, ContextCardAvatar, ContextCardBody, ContextCardFooter } from "@/components/ui/context-card";
 

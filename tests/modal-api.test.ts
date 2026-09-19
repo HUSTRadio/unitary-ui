@@ -41,9 +41,21 @@ describe("Modal official API contract (G07-MODAL-01 fix)", () => {
     const src = await read("src/components/ui/modal.tsx");
     const contentLine = src
       .split("\n")
-      .find((line) => line.includes('"fixed top-[50%] left-[50%]'));
-    expect(contentLine).toBeDefined();
-    expect(contentLine).toContain("z-[var(--uni-z-modal)]"); // same stacking role as the overlay (300)
+      .find((line) => line.includes('"fixed z-[var(--uni-z-modal)]'));
+    expect(contentLine).toBeDefined(); // same stacking role as the overlay (300)
+  });
+
+  test("placement splits geometry and entrance direction (center zooms, top drops from the top edge)", async () => {
+    const src = await read("src/components/ui/modal.tsx");
+    // center：居中 + 中心缩放淡入（官方基线，既有观感不变）
+    expect(src).toContain('"top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 rounded-xl"');
+    expect(src).toContain("data-[state=open]:zoom-in-95");
+    // top：吸顶（贴视口顶边、上圆角归零）+ 自顶部下落入场（macOS sheet 语义）
+    expect(src).toContain('"top-0 left-1/2 -translate-x-1/2 rounded-t-none rounded-b-xl"');
+    expect(src).toContain("data-[state=open]:slide-in-from-top-8");
+    expect(src).toContain("data-[state=closed]:slide-out-to-top-8");
+    // 手势与动效仍受 prefers-reduced-motion 降级
+    expect(src).toContain("motion-reduce:animate-none");
   });
 
   test("ModalContent forces aria-modal=true on the dialog content", async () => {

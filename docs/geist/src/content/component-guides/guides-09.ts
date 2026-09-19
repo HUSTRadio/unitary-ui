@@ -29,7 +29,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
         kind: "variant",
         title: "粘性模式",
         description:
-          "使用 sticky 变体让 Modal 的底部操作栏始终固定在可视区域底部，即使内容区域很长也能确保操作按钮随时可点击。",
+          "使用 placement=\"top\" 的吸顶形态：Modal 贴视口顶边、上圆角归零，并自顶部下落入场（macOS sheet 语义）；底部操作栏始终固定在可视区域底部，即使内容区域很长也能确保操作按钮随时可点击。",
         demoKey: "sticky",
       },
       {
@@ -368,7 +368,7 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
         kind: "variant",
         title: "Sticky mode",
         description:
-          "Uses the sticky variant to keep the bottom action bar pinned to the visible area at all times, ensuring action buttons remain clickable even when content overflows.",
+          'Uses the placement="top" form: the dialog pins to the viewport top edge with squared top corners and drops in from above (macOS sheet), while the bottom action bar stays pinned to the visible area so the actions remain clickable even when content overflows.',
         demoKey: "sticky",
       },
       {

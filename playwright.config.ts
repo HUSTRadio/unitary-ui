@@ -31,7 +31,10 @@ export default defineConfig({
       "vp dev docs/geist --host 127.0.0.1 --port 5211 --strictPort || vite dev docs/geist --host 127.0.0.1 --port 5211 --strictPort",
     cwd: process.cwd(),
     url: "http://127.0.0.1:5211",
-    reuseExistingServer: false,
+    // 默认仍由 Playwright 独占启动/回收（审计的确定性）；本地迭代视觉核查时
+    // 先手动起一个常驻 5211 dev server，再用 PW_REUSE_SERVER=1 复用，
+    // 省去每次 ~1min 的 vite 冷启动。
+    reuseExistingServer: process.env.PW_REUSE_SERVER === "1",
     timeout: 120_000,
   },
 });
