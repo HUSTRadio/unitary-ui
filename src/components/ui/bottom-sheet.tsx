@@ -19,7 +19,8 @@ import { Grabber } from "@/components/ui/grabber";
  *
  * - 面板高度 = detents[current] * 100dvh，由 CSS 变量 --sheet-h 驱动
  * - 面板顶缘跟手改高度：**向上拖展开更高档，向下拖收起**（松手吸附最近档位，
- *   300ms cubic-bezier(0.32,0.72,0,1)）
+ *   300ms cubic-bezier(0.32,0.72,0,1)）；拖拽只从 Grabber 指示条启动，
+ *   面板内容区不受 pointer capture 劫持（内部按钮的 click 正常派发）
  * - 低于最低档继续下拉且 collapseDown → onOpenChange(false)
  * - 背景点击 / Esc 关闭（Radix 自带）；motion-reduce 时 transition-none
  */
@@ -97,25 +98,31 @@ function BottomSheet({
   // 拖拽中的实时比例（非受控瞬时态），null 表示未在拖拽
   const [dragRatio, setDragRatio] = React.useState<number | null>(null);
   const dragStart = React.useRef<{ y: number; ratio: number } | null>(null);
+  // 拖拽发生过位移（>4px）时，松手后的合成 click 不是"点击切档"，需跳过
+  const dragMoved = React.useRef(false);
 
   const resizable = gestures?.resize !== false;
   const dragging = dragRatio !== null;
   const ratio = dragRatio ?? detents[current]!;
 
-  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+  // 拖拽手势只挂在 Grabber 上（见渲染处）：若挂在面板 Content 上并 setPointerCapture，
+  // pointerup 会被重定向到面板，浏览器不再给内部按钮派发 click——demo 的关闭按钮
+  // 曾因此"点了没反应"。
+  const handleGrabberPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
     if (!resizable || event.button !== 0) return;
     dragStart.current = { y: event.clientY, ratio: detents[current]! };
+    dragMoved.current = false;
     event.currentTarget.setPointerCapture(event.pointerId);
   };
 
-  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+  const handleGrabberPointerMove = (event: React.PointerEvent<HTMLButtonElement>) => {
     if (!dragStart.current || typeof window === "undefined") return;
     // 面板贴底、高度向上生长：手指**向上**拖 → 高度增大（展开更高档）；
     // 手指**向下**拖 → 高度减小（顶缘跟随手指下移），低于最低档继续下拉 → 松手关闭。
     // 因此位移取负号——下拉（clientY 增大）必须让 ratio 变小。
-    let next =
-      dragStart.current.ratio -
-      (event.clientY - dragStart.current.y) / window.innerHeight;
+    const delta = event.clientY - dragStart.current.y;
+    if (Math.abs(delta) > 4) dragMoved.current = true;
+    let next = dragStart.current.ratio - delta / window.innerHeight;
     if (gestures?.expandUp === false) next = Math.min(next, detents[detents.length - 1]!);
     setDragRatio(Math.max(0.05, next));
   };
@@ -156,7 +163,7 @@ function BottomSheet({
         <DialogPrimitive.Content
           tabIndex={-1}
           data-slot="bottom-sheet"
-          data-resizable={resizable ? "true" : undefined}
+          data-resizable={resizable && showGrabber ? "true" : undefined}
           onOpenAutoFocus={() => {
             lastFocusedRef.current =
               document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -189,17 +196,22 @@ function BottomSheet({
                   ? "none"
                   : "height 300ms var(--ease-snap)",
             } as React.CSSProperties
-          }
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={endDrag}
-          onPointerCancel={endDrag}
-        >
+            }
+            >
           {showGrabber && (
             <Grabber
               detentCount={detents.length}
               currentDetent={current}
+              onPointerDown={handleGrabberPointerDown}
+              onPointerMove={handleGrabberPointerMove}
+              onPointerUp={endDrag}
+              onPointerCancel={endDrag}
               onCycleDetent={() => {
+                // 拖拽松手后的合成 click 不是"点击切档"
+                if (dragMoved.current) {
+                  dragMoved.current = false;
+                  return;
+                }
                 const idx = (current + 1) % detents.length;
                 setCurrent(idx);
                 onDetentChange?.(idx);

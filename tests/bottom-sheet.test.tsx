@@ -1,4 +1,6 @@
 // @vitest-environment jsdom
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
@@ -156,24 +158,36 @@ describe("BottomSheet", () => {
       </BottomSheet>,
     );
     const panel = document.querySelector('[data-slot="bottom-sheet"]') as HTMLElement;
+    const grabber = panel.querySelector<HTMLElement>('[data-slot="grabber"]')!;
     // jsdom 无 Pointer Capture API
-    panel.setPointerCapture = () => {};
+    grabber.setPointerCapture = () => {};
     const ratioOf = () => parseFloat(panel.style.getPropertyValue("--sheet-h"));
 
     // 起始 0.5（50dvh）：向下拖 100px → 高度变小（顶缘随手指下移）
-    act(() => panel.dispatchEvent(new MouseEvent("pointerdown", { clientY: 384, bubbles: true })));
+    act(() => grabber.dispatchEvent(new MouseEvent("pointerdown", { clientY: 24, bubbles: true })));
     act(() =>
-      panel.dispatchEvent(new MouseEvent("pointermove", { clientY: 484, bubbles: true })),
+      grabber.dispatchEvent(new MouseEvent("pointermove", { clientY: 124, bubbles: true })),
     );
     expect(ratioOf()).toBeCloseTo(50 - (100 / window.innerHeight) * 100, 5);
-    act(() => panel.dispatchEvent(new MouseEvent("pointerup", { bubbles: true })));
+    act(() => grabber.dispatchEvent(new MouseEvent("pointerup", { bubbles: true })));
 
     // 再次按下向上拖 100px → 高度变大（展开更高档）
-    act(() => panel.dispatchEvent(new MouseEvent("pointerdown", { clientY: 484, bubbles: true })));
+    act(() => grabber.dispatchEvent(new MouseEvent("pointerdown", { clientY: 124, bubbles: true })));
     act(() =>
-      panel.dispatchEvent(new MouseEvent("pointermove", { clientY: 384, bubbles: true })),
+      grabber.dispatchEvent(new MouseEvent("pointermove", { clientY: 24, bubbles: true })),
     );
     expect(ratioOf()).toBeCloseTo(50 + (100 / window.innerHeight) * 100, 5);
-    act(() => panel.dispatchEvent(new MouseEvent("pointerup", { bubbles: true })));
+    act(() => grabber.dispatchEvent(new MouseEvent("pointerup", { bubbles: true })));
+  });
+
+  it("拖拽手势只挂 grabber：面板内容区的按钮 click 不被 pointer capture 吞掉", () => {
+    const source = readFileSync(
+      path.join(process.cwd(), "src/components/ui/bottom-sheet.tsx"),
+      "utf8",
+    );
+    expect(source).toContain("onPointerDown={handleGrabberPointerDown}");
+    // 回归保护：旧实现把手势挂在面板 Content 上，setPointerCapture 将 pointerup
+    // 重定向到面板，浏览器不再给内容区按钮派发 click（Close Actions 曾因此失效）
+    expect(source).not.toContain("onPointerDown={handlePointerDown}");
   });
 });
