@@ -380,15 +380,21 @@ function Feedback({
           <div
             ref={headerRef}
             data-slot="feedback-inline-header"
-            className="mx-auto flex h-12 w-fit shrink-0 items-center gap-2 py-2 pr-2 pl-4"
+            // 水平节奏统一为 17px（= 按钮内 8px 衬距 + 9px 间距，即表情之间的墨迹间距）：
+            // 左内边距、文字→图标、图标之间、右内边距四处一致（此前 16/16/17/16）。
+            className="mx-auto flex h-12 w-fit shrink-0 items-center gap-[9px] py-2 pr-[9px] pl-[17px]"
           >
             {prefix ? (
               <span className="inline-flex shrink-0 items-center justify-center [&>svg]:size-4">
                 {prefix}
               </span>
             ) : null}
-            {/* label 永不截断（无 truncate / whitespace-nowrap）。 */}
-            <p className="min-w-0 text-copy-14 whitespace-nowrap text-gray-900">{inlineLabel}</p>
+            {/* label 永不截断（无 truncate / whitespace-nowrap）。
+                -translate-y-[0.5px]：中文字形墨迹中心实测比 16px 图标的墨迹中心低
+                0.5px（15px 字号下 ink ascent 13 / descent 2），校准后两者视中线重合。 */}
+            <p className="min-w-0 -translate-y-[0.5px] text-copy-14 whitespace-nowrap text-gray-900">
+              {inlineLabel}
+            </p>
             {suffix ? (
               <span className="inline-flex shrink-0 items-center justify-center [&>svg]:size-4">
                 {suffix}

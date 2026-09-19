@@ -159,7 +159,9 @@ function RatingPill(props: RatingPillProps) {
     <div
       data-slot="rating-pill"
       className={cn(
-        "inline-flex h-12 select-none items-center gap-3 rounded-full border bg-background-100 py-2 pr-2 pl-4",
+        // 水平节奏 17px（= 按钮内 8px 衬距 + 9px 间距，即表情之间的墨迹间距）：
+        // 左内边距 / 文字→图标 / 图标之间 / 右内边距四处一致。
+        "inline-flex h-12 select-none items-center gap-[9px] rounded-full border bg-background-100 py-2 pr-[9px] pl-[17px]",
         "shadow-[0_0_0_1px_var(--uni-gray-alpha-400)] transition-colors duration-(--uni-duration-base)",
         tone && RATING_TONE_CAPSULE[tone],
         className,
@@ -170,7 +172,11 @@ function RatingPill(props: RatingPillProps) {
           {prefix}
         </span>
       ) : null}
-      <span className="truncate text-[14px] font-medium leading-[21px] text-gray-900">{label}</span>
+      {/* -translate-y-[0.5px]：中文字形墨迹中心比同排 16px 图标墨迹中心低 0.5px，
+          校准后两者视中线重合。 */}
+      <span className="-translate-y-[0.5px] truncate text-[14px] font-medium leading-[21px] text-gray-900">
+        {label}
+      </span>
       {suffix ? (
         <span className="inline-flex shrink-0 items-center justify-center [&>svg]:size-4">
           {suffix}
