@@ -16,6 +16,8 @@ import { cn } from "@/lib/utils";
  * 与 BottomSheet 的关系：BottomSheet 只提供"多档位底部弹层容器"，
  * 本组件是它的**内容层**——分享目标与操作列表的排布语义，两者不合并。
  * 选择任意目标或操作后触发回调并关闭面板（HIG：活动是一次性动作）。
+ * 手势：渲染触控指示条并支持下拉关闭（单档位 0.6，不支持上拉展开）；
+ * 需要多档位拖拽或去掉指示条时用 sheetProps 覆盖。
  *
  * ```tsx
  * <ActivityView
@@ -92,18 +94,24 @@ function ActivityView({
       open={open}
       onOpenChange={onOpenChange}
       detents={[0.6]}
-      showIndicator={false}
-      gestures={{ resize: false, expandUp: false }}
+      // 指示条 + 下拉关闭（HIG：分享面板可下拉收起）；单档位下 resize 只表现为
+      // “跟手下拉 → 松手回弹或关闭”，expandUp:false 把上拉锁在最高档。
+      showIndicator
+      gestures={{ expandUp: false }}
       {...sheetProps}
-      className={cn(
-        // pb-4 与 pt-4 对称（此前底部仅 safe-area，取消行贴边）；取消行 mt-auto
-        // 贴面板底部（HIG 分享面板的取消行固定在下缘），内容不足时中间留白、
-        // 底部不悬空。
-        "flex flex-col gap-4 overflow-y-auto px-4 pt-4 pb-4",
-        className,
-        sheetProps?.className,
-      )}
+      // 面板 Content 不带内边距：触控指示条相对面板全宽真居中，且不受内容区
+      // 滚动条宽度影响；内边距由下方内容 wrapper 承担。
+      // pt-1.5 使指示条与面板顶缘的间距（15px）与指示条到标题的间距（16px）均衡
+      className={cn("flex flex-col pt-1.5", sheetProps?.className)}
     >
+      <div
+        className={cn(
+          // pb-4 与 pt-4 对称；取消行 mt-auto 贴内容区底部（HIG 分享面板的取消行
+          // 固定在下缘），内容不足时中间留白、底部不悬空。
+          "flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-4 pt-4 pb-4",
+          className,
+        )}
+      >
       {title !== null ? (
         // 面板标题是说明性文字（copy 系列），不是控件标签（label 系列）；
         // HIG 分享面板的标题在面板顶部居中显示
@@ -181,6 +189,7 @@ function ActivityView({
           {t("Cancel")}
         </button>
       ) : null}
+      </div>
     </BottomSheet>
   );
 }

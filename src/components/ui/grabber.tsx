@@ -52,8 +52,10 @@ function Grabber({
       onPointerCancel={onPointerCancel}
       onClick={() => onCycleDetent?.()}
       className={cn(
-        "focus-ring relative block w-full cursor-grab touch-none select-none outline-none active:cursor-grabbing",
-        // 命中区扩展到视觉条之外
+        // 命中区扩展到视觉条之外：block（width:auto）+ 负 margin 自动拉宽、中心
+        // 不偏移——w-full（显式 width:100%）配 -mx-6 会把整盒左移 24px（width 不
+        // 随负 margin 拉伸），指示条因此偏左，故必须用 width:auto 的拉宽方式。
+        "focus-ring relative block cursor-grab touch-none select-none outline-none active:cursor-grabbing",
         "py-5 px-6 -my-5 -mx-6",
         className,
       )}
