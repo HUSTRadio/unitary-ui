@@ -101,3 +101,4 @@ import { BottomSheet } from "@/components/ui/bottom-sheet";
 - 只设置少量有意义的高度档位，并让初始档位足以展示弹层用途。
 - 无需拖拽即可看见主要操作，并允许 Escape、遮罩点击或向下拖动关闭弹层。
 - 阻断式桌面决策使用 Modal；不依赖垂直档位的边缘面板使用 Sheet。
+- 分享目标网格或一次性操作列表使用 ActivityView——它基于本组件构建，固定单个 0.6 档位。

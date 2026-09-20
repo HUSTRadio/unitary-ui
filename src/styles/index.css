@@ -481,16 +481,17 @@
   --radius-overlay: var(--radius);
   --radius-overlay-item: calc(var(--radius) - 2px);
 
-  /* LoadingDots 官方 blink 动画（1.4s ease infinite） */
-  --animate-blink: blink 1.4s ease infinite backwards;
+  /* LoadingDots 官方 blink 动画（1.4s ease infinite；周期走 --uni-loop-standard） */
+  --animate-blink: blink var(--uni-loop-standard) ease infinite backwards;
 
   /* Skeleton 骨架流光（1.4s ease-in-out infinite）。
      语义：骨架屏要在**一个能被感知的周期内**反复重申「这块正在加载」——
      首选实现是移动的流光带（shimmer），而不是整体呼吸的 pulse：
      位移方向性天然表达「进行中」，且每 1.4s 完成一次可辨识的循环。
      1.4s 与同族的 LoadingDots blink 同周期，避免同屏两种加载节奏打架。
-     用 ease-in-out（循环点速度为 0）而不是线性，避免首尾接缝突跳。 */
-  --animate-skeleton-shimmer: skeleton-shimmer 1.4s ease-in-out infinite;
+     用 ease-in-out（循环点速度为 0）而不是线性，避免首尾接缝突跳。
+     周期由 --uni-loop-standard 统一（2026-09-20 起）。 */
+  --animate-skeleton-shimmer: skeleton-shimmer var(--uni-loop-standard) ease-in-out infinite;
 
   /* CopyButton 对勾描边绘制动画（0.2s ease-out，配合缩放淡入使用） */
   --animate-copy-check-draw: copy-check-draw 0.2s ease-out both;
@@ -635,11 +636,36 @@ html[data-font-tier="system"],
 
   /* 动画时长档位：微交互/标准过渡/内容切换/大面积位移。
      放 @theme static 保证无条件发射到 :root；消费方式是 duration-(--uni-duration-*)。
-     CSS token 是当前唯一真源；实际出现 JS 消费者后再抽象共享读取层。 */
+     CSS token 是当前唯一真源；实际出现 JS 消费者后再抽象共享读取层。
+     取值依据（2026-09-20 全量动效审核，docs/audits/motion-duration-audit-2026-09-20.md）：
+     - fast 150ms：项目基线。高频微反馈保持短促（HIG Motion「Aim for brevity and
+       precision in feedback animations」），并与 Tailwind transition-* 隐式默认同值，
+       下方 --default-transition-duration 绑定后零观感变化。
+     - base 250ms：Apple 平台实现层公开惯例——Core Animation 隐式事务默认时长约
+       0.25s（业界长期观测值，现行 Apple 文档未标注数值）。原 200ms。
+     - slow 350ms：Apple 平台实现层公开惯例——UIKit 导航推/弹转场约 0.35s（社区
+       实测惯例，非官方文档数值）。原 300ms。
+     - slower 500ms：项目基线。大面积位移（drawer/expand-panel）；Geist Drawer
+       官方实现为 500ms 滑入。 */
   --uni-duration-fast: 150ms;
-  --uni-duration-base: 200ms;
-  --uni-duration-slow: 300ms;
+  --uni-duration-base: 250ms;
+  --uni-duration-slow: 350ms;
   --uni-duration-slower: 500ms;
+
+  /* 语义别名族：按交互语义消费、指向档位，供后续组件迁移替换字面量
+     （duration-(--uni-motion-*) 或内联 var(--uni-motion-*)）。 */
+  --uni-motion-feedback: var(--uni-duration-fast);      /* 高频微反馈：颜色/阴影/图标 */
+  --uni-motion-state: var(--uni-duration-base);         /* 状态变化：开关/选中/折叠 */
+  --uni-motion-overlay: var(--uni-duration-slow);       /* 浮层与模态出入场 */
+  --uni-motion-expansive: var(--uni-duration-slower);   /* 大面积位移：drawer/expand-panel */
+
+  /* 循环动画周期族：骨架流光与 LoadingDots blink 共用节奏（原均为 1.4s 字面量）。
+     周期时长是「加载语义」而非「过渡档位」，独立命名族。 */
+  --uni-loop-standard: 1400ms;
+
+  /* Tailwind 隐式默认时长绑定到 fast 档：全仓裸 transition-*（不带 duration-*
+     类）统一纳入 token 体系；与原隐式默认 150ms 同值，零观感变化。 */
+  --default-transition-duration: var(--uni-duration-fast);
 
   /* Easing 曲线族：收敛组件内硬编码 cubic-bezier（值与原字面量严格相等）。
      放 @theme static 生成 ease-* 工具类，同时发射到 :root 供内联 style var() 消费。 */

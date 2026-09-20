@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "policy": "literal-level ledger. Every animation/transition duration literal occurrence in src/components + src/lib + src/styles + docs/geist/src code dirs must appear here (files array covers every containing file). Every entry must still exist in code. Migration = replace the occurrence with a --uni-duration-* / --uni-motion-* tier token (or --uni-loop-* for looping periods), then remove the file from files[]. Delay/dwell/auto-dismiss timing values and --animate-* definition-internal literals are out of scope (see docs/audits/motion-duration-audit-2026-09-20.md).",
+  "entries": [
+    {
+      "literal": "0s",
+      "source": "motion-baseline-2026-09-20",
+      "reason": "drawer 拖拽跟手阶段 transform 即时跟随，刻意为 0（非档位缺失）",
+      "files": ["src/components/ui/drawer.tsx"]
+    },
+    {
+      "literal": "0.01ms",
+      "source": "motion-baseline-2026-09-20",
+      "reason": "prefers-reduced-motion 全局兜底（近乎禁用动画），刻意极小",
+      "files": ["src/styles/index.css"]
+    },
+    {
+      "literal": "0.15s",
+      "source": "motion-baseline-2026-09-20",
+      "reason": "input-focus-ring 焦点环过渡；与 fast(150ms) 同值，迁移时替换",
+      "files": ["src/styles/index.css"]
+    },
+    {
+      "literal": "0.2s",
+      "source": "motion-baseline-2026-09-20",
+      "reason": "phone-frame transform 过渡；对应旧 base 200ms，迁移时归并档位",
+      "files": ["src/styles/index.css"]
+    },
+    {
+      "literal": "0.3s",
+      "source": "motion-baseline-2026-09-20",
+      "reason": "command-menu 浮层 overlay/scale keyframes；迁移时归并 overlay 档",
+      "files": ["src/styles/index.css"]
+    },
+    {
+      "literal": "0.4s",
+      "source": "motion-baseline-2026-09-20",
+      "reason": "command-menu 移动端 sheet keyframes；迁移时按大面积位移归并",
+      "files": ["src/styles/index.css"]
+    },
+    {
+      "literal": "150ms",
+      "source": "motion-baseline-2026-09-20",
+      "reason": "search-input 输入框缩放与 multi-select-trigger 过渡；与 fast 同值，迁移时替换",
+      "files": ["src/components/ui/search-input.tsx", "src/styles/index.css"]
+    },
+    {
+      "literal": "200ms",
+      "source": "motion-baseline-2026-09-20",
+      "reason": "collapse-content-motion 对 Radix 内联 0s 的强制覆盖；对应旧 base，迁移时归并 state 档",
+      "files": ["src/styles/index.css"]
+    },
+    {
+      "literal": "250ms",
+      "source": "motion-baseline-2026-09-20",
+      "reason": "book.module.css 翻页 transform 过渡；与新 base(250ms) 同值，迁移时替换",
+      "files": ["src/components/ui/book.module.css"]
+    },
+    {
+      "literal": "300ms",
+      "source": "motion-baseline-2026-09-20",
+      "reason": "bottom-sheet 吸附时长（工具类 + 内联 height 过渡）；对应旧 slow，迁移时归并 overlay 档",
+      "files": ["src/components/ui/bottom-sheet.tsx"]
+    },
+    {
+      "literal": "500ms",
+      "source": "motion-baseline-2026-09-20",
+      "reason": "drawer 滑入吸附时长（内联 transform）；与 slower 同值，迁移时替换",
+      "files": ["src/components/ui/drawer.tsx"]
+    },
+    {
+      "literal": "2s",
+      "source": "motion-baseline-2026-09-20",
+      "reason": "grid.module.css 调试可视化 keyframes（debug*Disappear），仅调试态，非产品动效",
+      "files": ["src/components/ui/grid.module.css"]
+    }
+  ]
+}

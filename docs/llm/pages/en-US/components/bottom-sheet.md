@@ -101,3 +101,4 @@ import { BottomSheet } from "@/components/ui/bottom-sheet";
 - Choose a small set of meaningful detents and keep the initial detent large enough to reveal the sheet's purpose.
 - Keep primary actions visible without requiring a drag, and let Escape, the backdrop, or a downward dismissal close the sheet.
 - Use Modal for blocking desktop decisions and Sheet for edge panels that are not driven by vertical detents.
+- For a share-target grid or a one-shot action list, use ActivityView — it is built on this component at a single 0.6 detent.

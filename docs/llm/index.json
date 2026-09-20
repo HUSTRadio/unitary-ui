@@ -177,8 +177,8 @@
         "en-US": "pages/en-US/components/activity-view.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:5470533baf92366fdb3f527e0d605d1d9dafee1a1e76edfd4382e382e11727d3",
-        "en-US": "sha256:5c7caa70cd9226e615822021a223fd836e2d23a8189e246e68b5ee711d8ef352"
+        "zh-CN": "sha256:146bc90843f1041e3b2952afeca38a78587ce3039c359cd94d5af3665c47804c",
+        "en-US": "sha256:bf3705d02b9c3f4571929c5745d81989c69499ebbab116a5ef592f462799e6da"
       }
     },
     {
@@ -257,8 +257,8 @@
         "en-US": "pages/en-US/components/bottom-sheet.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:9b4e6f2f4ee573d4b3a729b89ed5dc003dcf07f546152bfda23e87ff9bd7c2aa",
-        "en-US": "sha256:fcdd4fb389a5a7509d6e1ec291bfd71089f3a118f65ed4e43ddd00f0e859e224"
+        "zh-CN": "sha256:5163cee0263345a555f655db6051fa54d4383cc3fb2febf5500843737fec6c62",
+        "en-US": "sha256:c5a59f55015e4d93365257ce86b2222a0f071de89feeb5ec63a3d81b21bf90a5"
       }
     },
     {
@@ -945,8 +945,8 @@
         "en-US": "pages/en-US/components/modal.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:59a1cf05468db5eb5ddabcc9819f114e124482dee70941dac27468d29a659bb0",
-        "en-US": "sha256:29c21cbb25d7b36a6dd0af7d1c8a643ad561cf63df5ddfaad6dc9fef0a9d3015"
+        "zh-CN": "sha256:135ff6b141e019440bc07fa0cc946b423b28a2c789a65243a90cca87efff023e",
+        "en-US": "sha256:014ddc87b636943ebc09432b9e102fb09a02ea5b1158faeeb4c9ac25c9b6e2e8"
       }
     },
     {
