@@ -7,8 +7,52 @@ import process from "node:process";
 import { renderTaskPrompt } from "./llm-task-contract.mjs";
 
 const VP = process.platform === "win32" ? "vp.exe" : "vp";
-// 生产生成方：Codex CLI（npm 全局包在 Windows 上是 .cmd shim，spawn 无 shell 时必须带扩展名）
-const AGENT_COMMAND = process.platform === "win32" ? "codex.cmd" : "codex";
+// 生产生成方：Codex CLI。
+// Windows 上不能无 shell spawn .cmd/.bat shim：Node ≥ 20.12.2（CVE-2024-27980）对
+// 该形态一律抛 EINVAL，而 shell:true 又会打开 cmd 元字符注入面。生产路径统一先经
+// resolveWindowsAgentCommand() 解析出原生可执行文件再 spawn，解析失败 fail-closed。
+const AGENT_COMMAND = "codex";
+
+const AGENT_PROBE_ENV_NAMES = [
+  "PATH",
+  "PATHEXT",
+  "SYSTEMROOT",
+  "SystemRoot",
+  "COMSPEC",
+  "ComSpec",
+  "TEMP",
+  "TMP",
+];
+
+/**
+ * 在 Windows 上把裸命令名解析为原生可执行文件（.exe/.com）。
+ * CreateProcess 对裸命令名自动补 .exe，但不会执行 .cmd/.bat shim。用 where 解析，
+ * 仅命中 shim 时抛错并 fail-closed，而不是退回 shell 派生。`sourceEnv` 只取定位
+ * 所需的少量变量；测试可注入受控 PATH。非 Windows 平台不得调用本函数。
+ */
+export function resolveWindowsAgentCommand(command, sourceEnv = process.env) {
+  const env = {};
+  for (const name of AGENT_PROBE_ENV_NAMES) {
+    if (sourceEnv[name] !== undefined) env[name] = sourceEnv[name];
+  }
+  const systemRoot = env.SystemRoot ?? env.SYSTEMROOT ?? "C:\\Windows";
+  const where = path.join(systemRoot, "System32", "where.exe");
+  const result = spawnSync(where, [command], { encoding: "utf8", env });
+  if (result.status !== 0) return command;
+  const candidates = result.stdout
+    .split(/\r?\n/)
+    .map((entry) => entry.trim())
+    .filter(Boolean);
+  const executable = candidates.find((entry) => /\.(exe|com)$/i.test(entry));
+  if (!executable) {
+    throw new Error(
+      `${command} 在 PATH 上只有 .cmd/.bat shim；Node ≥ 20.12.2 禁止无 shell spawn ` +
+        "（CVE-2024-27980），且不能为绕过限制引入 shell 注入面。" +
+        `请安装原生 ${command} 可执行文件，或显式设置 UNITARY_DOCS_HOOK_SKIP=1 紧急跳过。`,
+    );
+  }
+  return executable;
+}
 
 export const VALIDATORS = Object.freeze({
   "docs-corpus": Object.freeze([[VP, "run", "docs:llm:check"]]),
@@ -278,7 +322,12 @@ function runAgent({ repoRoot, runnerConfig, prompt, testMode, testEnvironment })
     promptVia: viaStdin ? "stdin" : "arg",
   });
   const sourceEnv = { ...process.env, ...(testEnvironment ?? {}) };
-  const child = spawn(testMode ? agent.command : AGENT_COMMAND, args, {
+  const agentExecutable = testMode
+    ? agent.command
+    : process.platform === "win32"
+      ? resolveWindowsAgentCommand(AGENT_COMMAND, sourceEnv)
+      : AGENT_COMMAND;
+  const child = spawn(agentExecutable, args, {
     cwd: repoRoot,
     stdio: [viaStdin ? "pipe" : "ignore", "pipe", "pipe"],
     env: buildAgentEnvironment(sourceEnv, { testMode }),

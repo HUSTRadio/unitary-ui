@@ -7,6 +7,8 @@ import { fileURLToPath } from "node:url";
 
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { resolveWindowsAgentCommand } from "../scripts/lib/llm-task-runner.mjs";
+
 // These integration tests create temporary git repositories and spawn Node processes.
 // Parallel full-suite load on Windows can exceed the default 20 s without indicating a product failure.
 vi.setConfig({ testTimeout: 60_000 });
@@ -428,6 +430,34 @@ describe("ai-docs-pre-push.mjs adapter boundary", () => {
     expect(result.status).toBe(1);
     expect(result.stderr).toContain("test-only");
     expect(existsSync(marker)).toBe(false);
+  });
+});
+
+// Node ≥ 20.12.2（CVE-2024-27980）禁止无 shell spawn .cmd/.bat；命令选择必须在
+// 生产路径上解析原生可执行文件，shim-only 时 fail-closed，而不是退回 shell 派生。
+describe.skipIf(process.platform !== "win32")("resolveWindowsAgentCommand (win32 command selection)", () => {
+  it("resolves the native executable and skips .cmd/.bat shims", () => {
+    const dir = mkdtempSync(path.join(os.tmpdir(), "unitary-agent-resolve-"));
+    cleanups.push(dir);
+    writeFileSync(path.join(dir, "codex.exe"), "binary");
+    writeFileSync(path.join(dir, "codex.cmd"), "@echo off\r\n");
+    const resolved = resolveWindowsAgentCommand("codex", { ...process.env, PATH: dir });
+    expect(resolved.toLowerCase()).toBe(path.join(dir, "codex.exe").toLowerCase());
+  });
+
+  it("fails closed instead of shelling out when only a .cmd shim is found", () => {
+    const dir = mkdtempSync(path.join(os.tmpdir(), "unitary-agent-resolve-"));
+    cleanups.push(dir);
+    writeFileSync(path.join(dir, "codex.cmd"), "@echo off\r\n");
+    expect(() => resolveWindowsAgentCommand("codex", { ...process.env, PATH: dir })).toThrow(
+      /CVE-2024-27980/,
+    );
+  });
+
+  it("falls back to the bare command so spawn reports ENOENT when nothing is found", () => {
+    const dir = mkdtempSync(path.join(os.tmpdir(), "unitary-agent-resolve-"));
+    cleanups.push(dir);
+    expect(resolveWindowsAgentCommand("codex", { ...process.env, PATH: dir })).toBe("codex");
   });
 });
 
