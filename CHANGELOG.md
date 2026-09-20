@@ -8,6 +8,10 @@
 
 ### Added
 
+- **HIG 交互组件族**：新增并从包根导出 `ActivityView`（分享目标、操作列表、取消行与可覆盖的 `sheetProps`）、`EditMenu`（选区驱动的编辑工具条）、`MenuBar`（含菜单、复选项、分隔线与子菜单）、`Toolbar` / `ToolbarGroup` / `ToolbarItem`（三段布局与组级溢出折叠），以及 Context Menu 的 `ContextMenuQuickActionsContent` / `ContextMenuQuickActionsItem` 触屏长按变体；组件元数据、双语指南、可运行示例、API 注册表与 LLM 参考页同步覆盖。
+- **布局原语**：新增并从包根导出 `SafeArea` 与 `Stack`，包含 `SafeAreaProps`、`StackProps`、`LayoutSpacing` 与 `SafeAreaEdge` 类型；前者按边应用安全区 inset，后者提供受 token 约束的纵向/横向间距、对齐、换行与响应式方向。
+- **组件变体 API**：`ModalContent` 新增 `placement="center" | "top"`（默认 `center`，`top` 为贴顶下落的 sheet 形态）并导出 `ModalContentProps` / `ModalPlacement`；`SplitButton` 新增 `variant="split" | "pulldown"` 与 `expandCorner`；`Tabs` 新增与 primary/secondary 正交的 `compact` 密度；Select 文档新增 pop-up button 用法，并配套补齐双语 API、演示与回归测试。
+- **动效时长治理**：基础时长档位收敛为 `--uni-duration-fast/base/slow/slower`（150/250/350/500ms），新增 `--uni-motion-feedback/state/overlay/expansive` 语义别名与 `--uni-loop-standard`（1400ms）；Tailwind 默认 transition 绑定 fast 档，循环动画与裸时长由治理测试和显式 allowlist 纳管。
 - **SkeletonMask 骨架遮罩组件**：给一块真实内容指定骨架模板后，`masked` 开关整体切换成骨架屏、`unmask` 切回真实界面。与 `Skeleton` 组合而非条件渲染是刻意选择——`skeleton` 模板**始终挂载**，真实内容在遮罩期间以 `visibility: hidden` 保留原盒子（`inert` + `aria-hidden`，既进不了无障碍树也不会被 Tab 或点击命中），因此切换前后是同一个盒子，不存在宽度跳变。容器承担 `aria-busy` 与 `label` 可访问名称，`liveRegion` 可选开启完成播报（默认关闭，避免同页多遮罩区重复播报）。它是框架扩展（官方 Geist 无对应组件），归档在 Skeleton 文档页共用同一份指南、API 参考与语料；从包根导出 `SkeletonMask` 与 `SkeletonMaskProps`，两个用法示例（Usage / Controlled toggle）也作为 Skeleton 页的示例区块渲染。
 
 - **Table 带外框变体演示**：新增 `Outlined table` /「带外框表格」示例，用 `TableRoot frame="outline"` + `colorScheme="bordered"` 展示真正的容器外框。它与 `Row dividers`（只有行间分隔线、不包 `TableRoot`）唯一的区别就是这层外框，两者并排即可看出 `frame` 控制的是什么；此前 `frame` 只作为其它演示的附带属性出现，没有把外框本身当作单一变量的独立演示。
@@ -43,6 +47,10 @@
 
 ### Changed
 
+- **主题与弹层交互修正**：修复暗色主题 token 被后续浅色块静默覆盖的问题并合并主题声明；Combobox 弹层迁移到 Radix Popover，获得碰撞翻转与视口边界避让；BottomSheet 拖拽仅从指示条启动，内容区按钮恢复点击，同时拖拽方向与面板高度跟手（下拉变矮、上拉展开）。
+- **排版与控件几何收敛**：修正 Link 与正文基线、Input prefix/suffix 的 16px 图标尺寸、KeyboardInput 修饰符图标的字母墨迹高度与等宽排版、Phone 状态栏同轴/时间冒号/iOS 字号、ProjectBanner CTA 的基态与 hover 层级、Modal 标题/描述/页脚几何，以及文档 lead 与正文的行高节奏；Feedback 评分胶囊统一 17px 水平节奏并校准中文字形墨迹垂直中心。
+- **文档命令面板打开语义**：搜索入口不再因输入框获得焦点自动打开，只响应明确的点击/键盘触发；关闭命令面板后不会因焦点归还而立即重开。
+- **类型检查、CI 与文档任务执行**：`typecheck` 改为真实执行 `tsc -b` 并纳入 tests tsconfig，新增最小 PR CI 与 nightly E2E；docs-update runner 使用固定 Codex CLI 模板，Windows 下解析原生可执行文件以避免 Node `spawn .cmd` 的 `EINVAL`，最长执行时间与 schema 上限统一为 60 分钟。
 - **`BreadcrumbProps` 改为判别联合（类型变更）**：`type="text"`（默认）继续继承 `<nav>` 属性，`type="menu"` 改为继承 `<div>` 属性。此前 `type="menu"` 会同时接受 `<nav>` 与 `<div>` 两套属性，实际渲染的 `<div>` 会收到非法属性并冲刷外层传入的 `role` / `aria-*`；现在两种变体各自只暴露真实落地的属性。传 `type="menu"` 且依赖 `<nav>` 属性的调用方需要改用 `<div>` 属性或去掉多余属性。
 - **Feedback 交互与公开 API**：默认变体改为由 32px 次级按钮触发的 340px 锚定 Popover，`type="inline"` 改为 274×48 评分胶囊并在原位展开至 336px；评分键盘导航、`dryRun` / `onSubmit` 提交语义与蓝色评分状态同步实际实现，独立 `RatingPill` 保留本地四色扩展。
 - **Feedback 主题（topic）契约补齐（API 变更）**：此前主题选择器只存在于内部 state，`onSubmit` 拿不到所选主题——只有默认 Popover 变体渲染该选择器，而唯一带 Select 的官方演示是 `dryRun`，因此没有任何路径能观测到 topic。现在 `onSubmit` 增加第 4 个参数 `topic?: string`；新增 `topics`（传入非空数组即渲染选择器，无需 `showTopics`）、`topic` / `defaultTopic` / `onTopicChange` 受控与非受控主题，以及 `includeTopicInMetadata`（默认 `false`，保持 `metadata` 与调用方传入内容逐字节一致）。Inline 变体按设计不渲染主题选择器，传入 `showTopics` 或 `topics` 时会被忽略；主题清单常量 `FEEDBACK_TOPICS` 只在 `feedback` 模块内导出，包根公开面仍只转发 `Feedback`，因此消费者继续通过 `topics` / `showTopics` 使用官方主题清单。依赖「topic 自动写入 metadata」的调用方需改用第 4 参或显式打开 `includeTopicInMetadata`。
