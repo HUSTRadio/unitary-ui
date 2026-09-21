@@ -209,8 +209,8 @@
         "en-US": "pages/en-US/components/context-menu.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:15b334ddd49fc6e77234caa53811ccc72fbc50a8db9b65816dbaa55f0b415c1a",
-        "en-US": "sha256:844878bf974c97b1d5b70ce07ba3b83061cdf1c7755ba753ebda5ccf604d72ab"
+        "zh-CN": "sha256:9e519e2a5eb3a7fcfc74304e191383b090aef592e41b7287ee5823feed7d3587",
+        "en-US": "sha256:1313bfe61109f9f98a9121645876f95b09f72abbc40284b092a1163da65eb707"
       }
     },
     {
@@ -1665,8 +1665,8 @@
         "en-US": "pages/en-US/patterns/app-shell.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:b619e2fe7f43edba33af52cd9afea85d06ef42719e0b4c91d0d4b5c4427fd1dc",
-        "en-US": "sha256:4bff30efb21caed614f9d2d29781c55f9157906ed949e039d858868d78017793"
+        "zh-CN": "sha256:e856efe2d64969c9736496f04066f04d12baf3c6cbf4e263aa1b3403c2e9f731",
+        "en-US": "sha256:268dbee858fda2fc0a25b1dfec8cf7c8edd16a19109d56c964239b82bc119d00"
       }
     }
   ]

@@ -40,6 +40,10 @@ Includes link-type options in the menu that navigate to a target page instead of
 
 Adds prefix icons and suffix labels to menu items, showing status indicators or auxiliary information to enhance operability.
 
+### Quick Actions
+
+A fixed-width vertical Quick Actions list on long-press (or right-click): large icons with subtitles over a blurred backdrop, with the destructive system item separated at the bottom.
+
 ## Accessibility
 
 - Set semantic aria-labels on each menu item to ensure screen readers correctly announce the action content.

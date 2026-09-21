@@ -1,12 +1,38 @@
 import { useEffect, useRef, useState } from "react";
-import { LayoutTemplate, Rows3, Smartphone } from "lucide-react";
+import {
+  AppWindow,
+  ArrowLeft,
+  ArrowRight,
+  FileText,
+  Folder,
+  Image as ImageIcon,
+  LayoutGrid,
+  LayoutTemplate,
+  List,
+  RefreshCw,
+  Rows3,
+  Settings2,
+  Share2,
+  Smartphone,
+} from "lucide-react";
 
 import { BottomSheet } from "@/components/ui/bottom-sheet";
+import { Browser } from "@/components/ui/browser";
 import { Footer } from "@/components/ui/footer";
 import { HamburgerMenu } from "@/components/ui/hamburger-menu";
+import {
+  MenuBar,
+  MenuBarCheckboxItem,
+  MenuBarContent,
+  MenuBarItem,
+  MenuBarMenu,
+  MenuBarSeparator,
+  MenuBarTrigger,
+} from "@/components/ui/menu-bar";
 import { Navbar } from "@/components/ui/navbar";
 import { SidebarNav, type SidebarNavGroup } from "@/components/ui/sidebar-nav";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
+import { Toolbar, ToolbarGroup, ToolbarItem } from "@/components/ui/toolbar";
 
 import type { DocsLanguage } from "../../i18n/language";
 import { DocsPageLead, DocsPageTitle } from "../docs-typography";
@@ -28,6 +54,18 @@ interface ApiRowCopy {
   prop: string;
   defaultValue: string;
   description: string;
+}
+
+/** 浏览器窗口形态演示里的单个菜单项（分隔线无 label）。 */
+type WindowMenuItemCopy =
+  | { type: "item"; label: string; shortcut?: string }
+  | { type: "separator" }
+  | { type: "checkbox"; label: string; shortcut?: string }
+  | { type: "disabled"; label: string; shortcut?: string };
+
+interface WindowMenuCopy {
+  label: string;
+  items: WindowMenuItemCopy[];
 }
 
 const DEMO_COPY = {
@@ -110,7 +148,90 @@ const DEMO_COPY = {
         defaultValue: "— · false",
         description: "链接列数组；sticky 吸底。slotLeading/slotTrailing 自由插槽",
       },
+      {
+        component: "MenuBar",
+        prop: "MenuBarItem.shortcut · inset",
+        defaultValue: "— · false",
+        description: "右对齐快捷键（仅展示，不绑定按键）；inset 使无图标项与勾选项对齐",
+      },
+      {
+        component: "MenuBar",
+        prop: "MenuBarCheckboxItem · MenuBarSub",
+        defaultValue: "— · —",
+        description: "勾选项（ItemIndicator 打勾）+ 子菜单（SubTrigger 右向箭头，逐级展开）",
+      },
+      {
+        component: "Toolbar",
+        prop: "ToolbarGroup.slot · collapsible",
+        defaultValue: '"leading" · true',
+        description: "leading / center / trailing 三段排布；空间不足时整组折叠进尾部溢出菜单",
+      },
+      {
+        component: "Toolbar",
+        prop: "ToolbarItem.iconOnly · active",
+        defaultValue: "false · —",
+        description: "仅图标（无障碍名仍取 label）；active 呈选中态，用于分段切换",
+      },
     ] as ApiRowCopy[],
+    sectionWindow: "应用菜单栏与工具栏",
+    windowLead:
+      "MenuBar 承担应用级命令（File / Edit / View，含右对齐快捷键、分隔线、勾选项与禁用态），Toolbar 承担窗口级工具操作组（三段排布、空间不足时整组折叠进溢出菜单、分段切换）。两者组合即为浏览器窗口形态的应用外壳：菜单栏在上、工具栏紧随其下。",
+    windowAddress: "unitary-ui.app/editor",
+    menuBarAriaLabel: "应用菜单",
+    windowMenus: [
+      {
+        label: "文件",
+        items: [
+          { type: "item", label: "新建窗口", shortcut: "⌘N" },
+          { type: "item", label: "打开…", shortcut: "⌘O" },
+          { type: "separator" },
+          { type: "item", label: "保存", shortcut: "⌘S" },
+          { type: "item", label: "导出为 PDF…", shortcut: "⇧⌘E" },
+          { type: "separator" },
+          { type: "item", label: "关闭窗口", shortcut: "⌘W" },
+        ],
+      },
+      {
+        label: "编辑",
+        items: [
+          { type: "item", label: "撤销", shortcut: "⌘Z" },
+          { type: "item", label: "重做", shortcut: "⇧⌘Z" },
+          { type: "separator" },
+          { type: "item", label: "剪切", shortcut: "⌘X" },
+          { type: "item", label: "拷贝", shortcut: "⌘C" },
+          { type: "item", label: "粘贴", shortcut: "⌘V" },
+          { type: "separator" },
+          { type: "disabled", label: "查找与替换", shortcut: "⌘F" },
+        ],
+      },
+      {
+        label: "显示",
+        items: [
+          { type: "checkbox", label: "显示侧边栏", shortcut: "⌘\\" },
+          { type: "checkbox", label: "显示隐藏文件", shortcut: "⇧⌘." },
+          { type: "separator" },
+          { type: "item", label: "放大", shortcut: "⌘+" },
+          { type: "item", label: "缩小", shortcut: "⌘-" },
+        ],
+      },
+    ] as WindowMenuCopy[],
+    windowToolbar: {
+      back: "后退",
+      forward: "前进",
+      reload: "刷新",
+      gridMode: "网格视图",
+      listMode: "列表视图",
+      share: "分享",
+    },
+    windowStatusPrefix: "最近命令：",
+    windowStatusIdle: "尚未触发",
+    windowPreviewTitle: "窗口内容区",
+    windowPreviewItems: [
+      { name: "设计规范.md", meta: "Markdown · 12 KB" },
+      { name: "组件清单.xlsx", meta: "表格 · 48 KB" },
+      { name: "首页草图.png", meta: "图片 · 2.4 MB" },
+      { name: "发布配置.json", meta: "配置 · 1 KB" },
+    ],
     sectionMobile: "移动端特化",
     mobileBadge: "移动端特化",
     mobileOnlyCardHeading: "BottomSheet 多档位弹层",
@@ -219,7 +340,90 @@ const DEMO_COPY = {
         defaultValue: "— · false",
         description: "Link column array; sticky viewport pinning. slotLeading/slotTrailing free slots",
       },
+      {
+        component: "MenuBar",
+        prop: "MenuBarItem.shortcut · inset",
+        defaultValue: "— · false",
+        description: "Right-aligned shortcut (display only, not bound); inset aligns icon-less items with checkable ones",
+      },
+      {
+        component: "MenuBar",
+        prop: "MenuBarCheckboxItem · MenuBarSub",
+        defaultValue: "— · —",
+        description: "Checkable item (ItemIndicator check) + submenu (SubTrigger chevron, nested levels)",
+      },
+      {
+        component: "Toolbar",
+        prop: "ToolbarGroup.slot · collapsible",
+        defaultValue: '"leading" · true',
+        description: "leading / center / trailing three-slot layout; whole groups collapse into the trailing overflow menu when space runs out",
+      },
+      {
+        component: "Toolbar",
+        prop: "ToolbarItem.iconOnly · active",
+        defaultValue: "false · —",
+        description: "Icon-only (accessible name still from label); active renders the selected state for segmented toggles",
+      },
     ] as ApiRowCopy[],
+    sectionWindow: "Menu bar and toolbar",
+    windowLead:
+      "MenuBar owns application-level commands (File / Edit / View, with right-aligned shortcuts, separators, checkable and disabled items); Toolbar owns the window-level action groups (three-slot layout, whole-group collapse into an overflow menu, segmented toggle). Composed together they form the browser-window application shell: menu bar on top, toolbar directly beneath.",
+    windowAddress: "unitary-ui.app/editor",
+    menuBarAriaLabel: "Application menu",
+    windowMenus: [
+      {
+        label: "File",
+        items: [
+          { type: "item", label: "New Window", shortcut: "⌘N" },
+          { type: "item", label: "Open…", shortcut: "⌘O" },
+          { type: "separator" },
+          { type: "item", label: "Save", shortcut: "⌘S" },
+          { type: "item", label: "Export as PDF…", shortcut: "⇧⌘E" },
+          { type: "separator" },
+          { type: "item", label: "Close Window", shortcut: "⌘W" },
+        ],
+      },
+      {
+        label: "Edit",
+        items: [
+          { type: "item", label: "Undo", shortcut: "⌘Z" },
+          { type: "item", label: "Redo", shortcut: "⇧⌘Z" },
+          { type: "separator" },
+          { type: "item", label: "Cut", shortcut: "⌘X" },
+          { type: "item", label: "Copy", shortcut: "⌘C" },
+          { type: "item", label: "Paste", shortcut: "⌘V" },
+          { type: "separator" },
+          { type: "disabled", label: "Find and Replace", shortcut: "⌘F" },
+        ],
+      },
+      {
+        label: "View",
+        items: [
+          { type: "checkbox", label: "Show Sidebar", shortcut: "⌘\\" },
+          { type: "checkbox", label: "Show Hidden Files", shortcut: "⇧⌘." },
+          { type: "separator" },
+          { type: "item", label: "Zoom In", shortcut: "⌘+" },
+          { type: "item", label: "Zoom Out", shortcut: "⌘-" },
+        ],
+      },
+    ] as WindowMenuCopy[],
+    windowToolbar: {
+      back: "Back",
+      forward: "Forward",
+      reload: "Reload",
+      gridMode: "Grid view",
+      listMode: "List view",
+      share: "Share",
+    },
+    windowStatusPrefix: "Last command: ",
+    windowStatusIdle: "none yet",
+    windowPreviewTitle: "Window content",
+    windowPreviewItems: [
+      { name: "design-spec.md", meta: "Markdown · 12 KB" },
+      { name: "components.xlsx", meta: "Sheet · 48 KB" },
+      { name: "hero-sketch.png", meta: "Image · 2.4 MB" },
+      { name: "release.json", meta: "Config · 1 KB" },
+    ],
     sectionMobile: "Mobile only",
     mobileBadge: "Mobile only",
     mobileOnlyCardHeading: "BottomSheet multi-detent sheet",
@@ -252,7 +456,10 @@ const DEMO_COPY = {
 type DemoCopy = (typeof DEMO_COPY)["zh-CN"];
 
 /** mini 壳层的锚点导航数据（SidebarNav 与 HamburgerMenu 共用同一组锚点）。 */
-const SECTION_IDS = ["demo-overview", "demo-api", "demo-mobile"] as const;
+const SECTION_IDS = ["demo-overview", "demo-api", "demo-window", "demo-mobile"] as const;
+
+/** 窗口内容区预览项图标：按下标循环，避免在文案目录里写死组件引用。 */
+const WINDOW_PREVIEW_ICONS = [FileText, Folder, ImageIcon, Settings2] as const;
 
 function buildSidebarGroups(copy: DemoCopy): SidebarNavGroup[] {
   return [
@@ -265,8 +472,12 @@ function buildSidebarGroups(copy: DemoCopy): SidebarNavGroup[] {
       items: [{ label: copy.sectionApi, to: `#${SECTION_IDS[1]}`, icon: Rows3 }],
     },
     {
+      label: copy.sectionWindow,
+      items: [{ label: copy.sectionWindow, to: `#${SECTION_IDS[2]}`, icon: AppWindow }],
+    },
+    {
       label: copy.sectionMobile,
-      items: [{ label: copy.sectionMobile, to: `#${SECTION_IDS[2]}`, icon: Smartphone }],
+      items: [{ label: copy.sectionMobile, to: `#${SECTION_IDS[3]}`, icon: Smartphone }],
     },
   ];
 }
@@ -275,6 +486,10 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
   const copy = DEMO_COPY[language];
   const [activeAnchor, setActiveAnchor] = useState<string>(`#${SECTION_IDS[0]}`);
   const [sheetOpen, setSheetOpen] = useState(false);
+  // 浏览器窗口形态演示的本地状态：勾选态按「菜单下标-项下标」记录，避免依赖可见文案
+  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [lastAction, setLastAction] = useState<string | null>(null);
   // mini navbar 根元素：HamburgerMenu side=top 面板从其底边延伸落下
   const frameRef = useRef<HTMLDivElement | null>(null);
   const [navbarEl, setNavbarEl] = useState<HTMLElement | null>(null);
@@ -332,7 +547,8 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
                 items={[
                   { label: copy.sectionOverview, to: `#${SECTION_IDS[0]}` },
                   { label: copy.sectionApi, to: `#${SECTION_IDS[1]}` },
-                  { label: copy.sectionMobile, to: `#${SECTION_IDS[2]}` },
+                  { label: copy.sectionWindow, to: `#${SECTION_IDS[2]}` },
+                  { label: copy.sectionMobile, to: `#${SECTION_IDS[3]}` },
                 ]}
                 onNavigate={(to) => handleAnchorNavigate(to)}
               />
@@ -413,8 +629,171 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
               </div>
             </section>
 
-            {/* mobileOnly 说明卡：Smartphone 图标 + 「移动端特化」标注 + 内嵌交互 demo */}
+            {/* MenuBar + Toolbar 组合演示：浏览器窗口形态的应用外壳 */}
             <section id={SECTION_IDS[2]} className="scroll-mt-32 mt-10">
+              <h2 className="text-heading-20 text-foreground">{copy.sectionWindow}</h2>
+              <p className="text-copy-13 mt-2 text-muted-foreground">{copy.windowLead}</p>
+
+              <Browser address={copy.windowAddress} className="mt-4">
+                <div className="bg-background-100 px-3 pt-3 pb-3 md:px-4">
+                  <MenuBar aria-label={copy.menuBarAriaLabel}>
+                    {copy.windowMenus.map((menu, menuIndex) => (
+                      <MenuBarMenu key={menu.label}>
+                        <MenuBarTrigger>{menu.label}</MenuBarTrigger>
+                        <MenuBarContent>
+                          {menu.items.map((item, itemIndex) => {
+                            const itemKey = `${menuIndex}-${itemIndex}`;
+                            if (item.type === "separator") {
+                              return <MenuBarSeparator key={itemKey} />;
+                            }
+                            if (item.type === "checkbox") {
+                              return (
+                                <MenuBarCheckboxItem
+                                  key={itemKey}
+                                  checked={checkedItems[itemKey] ?? false}
+                                  shortcut={item.shortcut}
+                                  onCheckedChange={(value) => {
+                                    setCheckedItems((prev) => ({
+                                      ...prev,
+                                      [itemKey]: value === true,
+                                    }));
+                                    setLastAction(item.label);
+                                  }}
+                                >
+                                  {item.label}
+                                </MenuBarCheckboxItem>
+                              );
+                            }
+                            return (
+                              <MenuBarItem
+                                key={itemKey}
+                                disabled={item.type === "disabled"}
+                                shortcut={item.shortcut}
+                                onSelect={() => setLastAction(item.label)}
+                              >
+                                {item.label}
+                              </MenuBarItem>
+                            );
+                          })}
+                        </MenuBarContent>
+                      </MenuBarMenu>
+                    ))}
+                  </MenuBar>
+
+                  <Toolbar className="mt-3 bg-background-100">
+                    <ToolbarGroup slot="leading">
+                      <ToolbarItem
+                        iconOnly
+                        icon={<ArrowLeft />}
+                        label={copy.windowToolbar.back}
+                        onSelect={() => setLastAction(copy.windowToolbar.back)}
+                      />
+                      <ToolbarItem
+                        iconOnly
+                        icon={<ArrowRight />}
+                        label={copy.windowToolbar.forward}
+                        onSelect={() => setLastAction(copy.windowToolbar.forward)}
+                      />
+                      <ToolbarItem
+                        iconOnly
+                        icon={<RefreshCw />}
+                        label={copy.windowToolbar.reload}
+                        onSelect={() => setLastAction(copy.windowToolbar.reload)}
+                      />
+                    </ToolbarGroup>
+                    <ToolbarGroup slot="center">
+                      <ToolbarItem
+                        iconOnly
+                        icon={<LayoutGrid />}
+                        label={copy.windowToolbar.gridMode}
+                        active={viewMode === "grid"}
+                        onSelect={() => {
+                          setViewMode("grid");
+                          setLastAction(copy.windowToolbar.gridMode);
+                        }}
+                      />
+                      <ToolbarItem
+                        iconOnly
+                        icon={<List />}
+                        label={copy.windowToolbar.listMode}
+                        active={viewMode === "list"}
+                        onSelect={() => {
+                          setViewMode("list");
+                          setLastAction(copy.windowToolbar.listMode);
+                        }}
+                      />
+                    </ToolbarGroup>
+                    <ToolbarGroup slot="trailing">
+                      <ToolbarItem
+                        icon={<Share2 />}
+                        label={copy.windowToolbar.share}
+                        onSelect={() => setLastAction(copy.windowToolbar.share)}
+                      />
+                    </ToolbarGroup>
+                  </Toolbar>
+                </div>
+
+                {/* 内容区：网格 / 列表两种排布，让 Toolbar 的分段切换可见 */}
+                <div
+                  data-slot="window-preview"
+                  data-view-mode={viewMode}
+                  className="bg-background px-4 py-4 md:px-5"
+                >
+                  <h3 className="text-label-13 font-medium text-muted-foreground">
+                    {copy.windowPreviewTitle}
+                  </h3>
+                  {viewMode === "grid" ? (
+                    <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                      {copy.windowPreviewItems.map((item, index) => {
+                        const Icon = WINDOW_PREVIEW_ICONS[index % WINDOW_PREVIEW_ICONS.length];
+                        return (
+                          <li
+                            key={item.name}
+                            data-slot="window-preview-item"
+                            className="border-gray-alpha-400 bg-background-100 flex flex-col items-center gap-1.5 rounded-md border p-3 text-center"
+                          >
+                            <Icon className="text-gray-900 size-5" aria-hidden />
+                            <span className="text-copy-13 text-foreground">{item.name}</span>
+                            <span className="text-label-12 text-muted-foreground">{item.meta}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    <ul className="border-gray-alpha-400 divide-gray-alpha-400 mt-3 divide-y overflow-hidden rounded-md border">
+                      {copy.windowPreviewItems.map((item, index) => {
+                        const Icon = WINDOW_PREVIEW_ICONS[index % WINDOW_PREVIEW_ICONS.length];
+                        return (
+                          <li
+                            key={item.name}
+                            data-slot="window-preview-item"
+                            className="flex items-center gap-3 px-3 py-2"
+                          >
+                            <Icon className="text-gray-900 size-4 shrink-0" aria-hidden />
+                            <span className="text-copy-13 text-foreground">{item.name}</span>
+                            <span className="text-label-12 ml-auto text-muted-foreground">
+                              {item.meta}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+
+                <div className="bg-background flex min-h-[112px] items-center px-4 py-6 md:px-5">
+                  <p className="text-copy-13 text-muted-foreground">
+                    {copy.windowStatusPrefix}
+                    <span className="font-mono text-foreground">
+                      {lastAction ?? copy.windowStatusIdle}
+                    </span>
+                  </p>
+                </div>
+              </Browser>
+            </section>
+
+            {/* mobileOnly 说明卡：Smartphone 图标 + 「移动端特化」标注 + 内嵌交互 demo */}
+            <section id={SECTION_IDS[3]} className="scroll-mt-32 mt-10">
               <h2 className="text-heading-20 text-foreground">{copy.sectionMobile}</h2>
               <div className="border-gray-alpha-400 bg-background mt-4 rounded-md border p-4">
                 <div className="flex flex-wrap items-center gap-2">
