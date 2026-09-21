@@ -28,6 +28,7 @@ const PAGE_COMPONENTS = [
   "components/docs-components-page.tsx",
   "components/patterns/app-shell-demo.tsx",
   "pages/lifecycle-and-hooks.tsx",
+  "pages/charts-gallery.tsx",
 ] as const;
 
 describe("prose owner parity: 页面级排版必须走语义 owner", () => {

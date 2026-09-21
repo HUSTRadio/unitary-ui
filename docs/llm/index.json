@@ -161,8 +161,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:1228840cc0340019e51900e3b8ba672cf5068fd949ef95bc2f079d72daf22c6e",
-        "en-US": "sha256:5d98d08f818178de7fb86e3bce06e43a717599f30a86b1c7e7a568239fad7eea"
+        "zh-CN": "sha256:9db00a0d078e265429cbc4f681b769926db8e4a9fb7c92471ef7346dc45aeed4",
+        "en-US": "sha256:f575a7733b7c9a2a76fa6f2968dfc1a52bc09cafdeacba5dc7c32524a9211a72"
       }
     },
     {
@@ -737,8 +737,8 @@
         "en-US": "pages/en-US/components/badge.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:13e092c1ba1f5b74338e399a6c27bbe5424a3310a26534eb8836446f9a089df3",
-        "en-US": "sha256:f275089e4fa5fa4a8df46935584cdee098aac026e3e9b1c8bc9be419abba1bec"
+        "zh-CN": "sha256:da51226688024b6c844b2f96f0aef3197c878fb2f5f2c9c8c2742fa4a391a5e8",
+        "en-US": "sha256:ea29bc80d8fb01d8239e5ecb6040c00bb70d242c212598f8dd493c499d1d790d"
       }
     },
     {
@@ -1121,8 +1121,8 @@
         "en-US": "pages/en-US/components/collapse.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:b6418b3012a40823ae34697055ca78d563cb01bf8b248bc4f94bcc5a9131b302",
-        "en-US": "sha256:5d9b04e1f283a22bc4450fc8ff5ef8b7bafd9068437003d1e6c625859fedc703"
+        "zh-CN": "sha256:cc7b6f61c9d446e13de03bcb7e870c9238615204c281940a9d794214b5a9698e",
+        "en-US": "sha256:b9e28b70825ae96913b7705dfcbe43edfbffc1279c3ed02d9bf223942c93170e"
       }
     },
     {
@@ -1206,6 +1206,22 @@
       }
     },
     {
+      "path": "/components/responsive-drawer",
+      "title": {
+        "zh-CN": "响应式抽屉",
+        "en-US": "Responsive Drawer"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/responsive-drawer.md",
+        "en-US": "pages/en-US/components/responsive-drawer.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:b5afe2e92207c95f1af78cdc86b33f5b0f7de8aa82aa7ecf0baa3ee03b122749",
+        "en-US": "sha256:8fd8ad2e38edca6c5308f30ba37052542def3be4154259a6e32eee2c60940af1"
+      }
+    },
+    {
       "path": "/components/scroller",
       "title": {
         "zh-CN": "滚动容器",
@@ -1233,8 +1249,8 @@
         "en-US": "pages/en-US/components/separator.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:869f72de9e27ceca0989e5a9274cacb6a948bc8c63a85851922837aefc0fc562",
-        "en-US": "sha256:90863b8cee00ad2667cf8ff9a98a3cdd8d0e5f9eb905c803d0aba6a45b1ea0e5"
+        "zh-CN": "sha256:96f9b440a71ef42192fed485b19e3cfe229ba003c295a27ff1259c7f600e7c91",
+        "en-US": "sha256:5920f163f023f392d738e15cd9a74d92ea65e776867fa7680f98f5269b1f0bfc"
       }
     },
     {
@@ -1459,6 +1475,182 @@
       "sourceHash": {
         "zh-CN": "sha256:9c3da06e93dd199ecf632bedbd1db489587546ed503f8fbede25bc9bd0e9304b",
         "en-US": "sha256:9872d8f5b122d6a553671a3bf66318ed5c2808eff2e59927868e23a8deb52626"
+      }
+    },
+    {
+      "path": "/charts/area-chart",
+      "title": {
+        "zh-CN": "面积图",
+        "en-US": "Area Chart"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/charts/area-chart.md",
+        "en-US": "pages/en-US/charts/area-chart.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:4f8f1ec947fc0b1b7b2381bf32c439433127df188ceb8a232ce6cc5498b55786",
+        "en-US": "sha256:440939c5abb7ff789ea28ff231869528ce1fb71d0b15fb72ff41e55837cb5c6d"
+      }
+    },
+    {
+      "path": "/charts/bar-chart",
+      "title": {
+        "zh-CN": "柱状图",
+        "en-US": "Bar Chart"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/charts/bar-chart.md",
+        "en-US": "pages/en-US/charts/bar-chart.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:a553afad4c93a838161d1af5a16d756654465d8988c42fc43e9237629495dfd3",
+        "en-US": "sha256:bbe1fb1ea25a5bee930d0f6090ff2f75027782737e9ff2d6fd967017e555ccab"
+      }
+    },
+    {
+      "path": "/charts/bar-list",
+      "title": {
+        "zh-CN": "条形列表",
+        "en-US": "Bar List"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/charts/bar-list.md",
+        "en-US": "pages/en-US/charts/bar-list.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:d430de72e389402e9158ff5c6956c68f93500b41c83e3ca6796673ce6cc41d93",
+        "en-US": "sha256:bec7b2a062d3fb7bafca40c99d5154bb1cd06d894a8c1653a79d46a480fac289"
+      }
+    },
+    {
+      "path": "/charts/category-bar",
+      "title": {
+        "zh-CN": "分类条",
+        "en-US": "Category Bar"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/charts/category-bar.md",
+        "en-US": "pages/en-US/charts/category-bar.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:e0f5725552143971585a0b2e6eeb254f3502a7b5fbb53a6fb6e38b69a2e0f94c",
+        "en-US": "sha256:e6fe22f1d3008950d0ffdee165b4aff16f3a44ed28f4515157be7ea50ef1d8cf"
+      }
+    },
+    {
+      "path": "/charts/combo-chart",
+      "title": {
+        "zh-CN": "组合图",
+        "en-US": "Combo Chart"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/charts/combo-chart.md",
+        "en-US": "pages/en-US/charts/combo-chart.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:a55445cc8271c0357b7480addbe321221a52db21ec15fa4b0fee7240524d800a",
+        "en-US": "sha256:df5c3f3308fae12b57c51157cd75c244a7b93b75ce14935e11c05338690871fb"
+      }
+    },
+    {
+      "path": "/charts/donut-chart",
+      "title": {
+        "zh-CN": "环形图",
+        "en-US": "Donut Chart"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/charts/donut-chart.md",
+        "en-US": "pages/en-US/charts/donut-chart.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:6c84c6c1d5117da86c386a5823c4ceba6a2156c0a94f021191c5b2e85d53afc3",
+        "en-US": "sha256:726856d2a0cc545d11114c79e16e2e8923f930906d8401cf519a59641a650bcc"
+      }
+    },
+    {
+      "path": "/charts/line-chart",
+      "title": {
+        "zh-CN": "折线图",
+        "en-US": "Line Chart"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/charts/line-chart.md",
+        "en-US": "pages/en-US/charts/line-chart.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:b6c5c6c7bdb93a8def826bde2f8c0dae75f0a874ff250c5c1aecfab034e51e75",
+        "en-US": "sha256:52cf08c78a7a68a0b03009fb65fd287d33c6ce589d37a125e8ab5316ed0b467d"
+      }
+    },
+    {
+      "path": "/charts/progress-circle",
+      "title": {
+        "zh-CN": "进度环",
+        "en-US": "Progress Circle"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/charts/progress-circle.md",
+        "en-US": "pages/en-US/charts/progress-circle.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:ff7e100206347c49d5cf25919e4095df8c232490824ce8e6feae67c4034054c3",
+        "en-US": "sha256:15722bb134ab56c76b2b7c4163207bdb18e5f77966f928b14ce3c0f6aadf4c04"
+      }
+    },
+    {
+      "path": "/charts/spark-chart",
+      "title": {
+        "zh-CN": "迷你趋势图",
+        "en-US": "Spark Chart"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/charts/spark-chart.md",
+        "en-US": "pages/en-US/charts/spark-chart.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:2800aea3b595b4e7f176ead5bf57462c2cfa172107f80f6f253dd76b24b7d08d",
+        "en-US": "sha256:9d7f1e3815d9d48e54975cfc15cee2f1b205d54584783de38fc23cb46b44597c"
+      }
+    },
+    {
+      "path": "/charts/tracker",
+      "title": {
+        "zh-CN": "状态跟踪条",
+        "en-US": "Tracker"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/charts/tracker.md",
+        "en-US": "pages/en-US/charts/tracker.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:de6fc79289e1ee39affcb952af46c9c19e04c0d79d20a6afe89e945184766e8f",
+        "en-US": "sha256:fbf8bc317fd189232d345d4e611d54140414dc34e55275f6bfd2395fc38638bc"
+      }
+    },
+    {
+      "path": "/charts",
+      "title": {
+        "zh-CN": "图表",
+        "en-US": "Charts"
+      },
+      "category": "pattern",
+      "locales": {
+        "zh-CN": "pages/zh-CN/charts.md",
+        "en-US": "pages/en-US/charts.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:6758d76edc51ca45fc0550892ee652f5bc2bc88e310b9c7bb67b17242c532336",
+        "en-US": "sha256:af79db9db1b359078a3d3ea64012f942639874b3f8f16fb2ebfc20d8df9d9f2a"
       }
     },
     {

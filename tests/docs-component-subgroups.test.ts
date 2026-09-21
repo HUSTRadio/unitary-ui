@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
 
 import { COMPONENTS } from "../docs/geist/src/data/components";
-import { DOCS_ROUTE_GROUPS } from "../docs/geist/src/data/docs-routes";
+import { CHART_COMPONENT_NAMES, DOCS_ROUTE_GROUPS } from "../docs/geist/src/data/docs-routes";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -21,8 +21,14 @@ const EXPECTED_SUBGROUP_IDS = [
   "mobile",
 ];
 
-/** 布局原语归入「排版与布局」分组，不属于「组件」区块。 */
+/** 布局原语归入「排版与布局」分组，图表组件归入「图表」分组，都不属于「组件」区块。 */
 const LAYOUT_COMPONENT_NAMES = new Set(["safe-area", "stack"]);
+
+/** 「组件」区块只收常规组件页（布局原语与图表另列分组）。 */
+const REGULAR_COMPONENTS = COMPONENTS.filter(
+  (component) =>
+    !LAYOUT_COMPONENT_NAMES.has(component.name) && !CHART_COMPONENT_NAMES.has(component.name),
+);
 
 function componentsGroup() {
   const group = DOCS_ROUTE_GROUPS.find((entry) => entry.id === "components");
@@ -45,13 +51,11 @@ describe("docs components second-level categories", () => {
     }
   });
 
-  test("covers every component page exactly once and leaves layout primitives out", () => {
+  test("covers every component page exactly once and leaves layout primitives and charts out", () => {
     const paths = componentsGroup().items.map((item) => item.to);
     expect(new Set(paths).size, "组件区块出现重复路由").toBe(paths.length);
     expect([...paths].sort()).toEqual(
-      COMPONENTS.filter((component) => !LAYOUT_COMPONENT_NAMES.has(component.name))
-        .map((component) => componentPath(component.name))
-        .sort(),
+      REGULAR_COMPONENTS.map((component) => componentPath(component.name)).sort(),
     );
   });
 

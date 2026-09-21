@@ -2,6 +2,18 @@ import type { ComponentMeta } from "../data/components";
 import COMPONENT_BEST_PRACTICES_ZH from "./best-practices-zh";
 
 const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
+  /* Charts —— 图表分组 */
+  "area-chart": "渲染分层面积趋势，支持堆叠与百分比变体。",
+  "bar-chart": "渲染类目柱状系列，支持堆叠、百分比与垂直布局。",
+  "line-chart": "渲染连续折线趋势，支持可选坐标轴标题。",
+  "combo-chart": "在同一图表中组合柱与折线系列，可选双轴。",
+  "donut-chart": "渲染部分占整体的环形（或饼形）图，可选中心指标。",
+  "spark-chart": "渲染内联迷你趋势图（面积、折线或柱形）。",
+  "category-bar": "渲染分段横向条，展示各部分占总体的比例。",
+  "bar-list": "渲染排名列表，每行携带等比条形与数值。",
+  tracker: "渲染状态块序列，用于事件时间线或可用性历史。",
+  "progress-circle": "渲染圆形进度指示器，可选中心指标。",
+  "responsive-drawer": "一个抽屉承载手机贴底与桌面贴右两种形态，可选底部拖拽档位。",
   avatar: "使用图片或回退内容表示用户或团队。",
   banner: "横跨容器完整宽度的醒目消息，用于发布重要信息。",
   book: "响应式书籍封面组件。",

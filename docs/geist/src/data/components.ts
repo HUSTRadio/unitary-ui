@@ -28,6 +28,127 @@ export interface ComponentMeta {
 }
 
 const COMPONENTS_EN: ComponentMeta[] = [
+  /* Charts —— 图表分组（Tremor Raw 内置，路由 /charts/<name>） */
+  {
+    name: "area-chart",
+    label: "Area Chart",
+    labelZh: "面积图",
+    description: "Renders layered area series for trends over time, with stacked and percent variants.",
+    official: "Tremor Raw",
+    bestPractices: [
+      "Use AreaChart for trend composition over time; switch to type=\"stacked\" or \"percent\" when totals or shares matter more than individual series.",
+      "Keep ResponsiveContainer height explicit (default h-80) so the chart never collapses to zero height.",
+      "Provide valueFormatter for unit or currency rendering so axes and tooltips stay consistent.",
+    ],
+  },
+  {
+    name: "bar-chart",
+    label: "Bar Chart",
+    labelZh: "柱状图",
+    description: "Renders categorical bar series with stacked, percent, and vertical layouts.",
+    official: "Tremor Raw",
+    bestPractices: [
+      "Use BarChart for comparisons across categories; use layout=\"vertical\" when category labels are long.",
+      "Limit the number of categories per series so bars remain readable on narrow containers.",
+      "Use type=\"percent\" to communicate share-of-total instead of absolute values.",
+    ],
+  },
+  {
+    name: "line-chart",
+    label: "Line Chart",
+    labelZh: "折线图",
+    description: "Renders connected line series for continuous trends with optional axis titles.",
+    official: "Tremor Raw",
+    bestPractices: [
+      "Use LineChart for continuous trends where the area fill of AreaChart would add visual noise.",
+      "Add xAxisLabel / yAxisLabel when the data dimensions are not self-evident from the index values.",
+      "Prefer 2-4 series; beyond that, consider small multiples or a table instead.",
+    ],
+  },
+  {
+    name: "combo-chart",
+    label: "Combo Chart",
+    labelZh: "组合图",
+    description: "Combines bar and line series in one chart, optionally on two axes.",
+    official: "Tremor Raw",
+    bestPractices: [
+      "Use ComboChart when two related metrics (e.g. revenue and margin) share the same category axis.",
+      "Enable enableBiaxial when the two series have incompatible value ranges.",
+      "Give both series explicit colors so the legend and tooltip stay distinguishable.",
+    ],
+  },
+  {
+    name: "donut-chart",
+    label: "Donut Chart",
+    labelZh: "环形图",
+    description: "Renders a part-to-whole donut (or pie) with an optional center metric.",
+    official: "Tremor Raw",
+    bestPractices: [
+      "Use DonutChart with five or fewer slices; move the rest into an \"Other\" bucket.",
+      "Center children (value + label) communicate the primary metric without requiring a tooltip.",
+      "Use variant=\"pie\" only when the center metric is not needed.",
+    ],
+  },
+  {
+    name: "spark-chart",
+    label: "Spark Chart",
+    labelZh: "迷你趋势图",
+    description: "Renders tiny inline sparklines (area, line, or bar) for at-a-glance trends.",
+    official: "Tremor Raw",
+    bestPractices: [
+      "Use SparkAreaChart / SparkLineChart / SparkBarChart inside cards and table cells, not as standalone charts.",
+      "Keep exactly one category per spark chart; multiple series defeat the compact form.",
+      "Pair the spark with an explicit numeric value so the shape never has to carry the exact number.",
+    ],
+  },
+  {
+    name: "category-bar",
+    label: "Category Bar",
+    labelZh: "分类条",
+    description: "Renders a segmented horizontal bar showing shares of a total.",
+    official: "Tremor Raw",
+    bestPractices: [
+      "Use CategoryBar for compact share-of-total context where a donut would be too heavy.",
+      "Keep values normalized to a meaningful total; the component renders proportional widths.",
+      "Limit to 3-5 segments so each remains visually distinguishable.",
+    ],
+  },
+  {
+    name: "bar-list",
+    label: "Bar List",
+    labelZh: "条形列表",
+    description: "Renders a ranked list where each row carries a proportional bar and value.",
+    official: "Tremor Raw",
+    bestPractices: [
+      "Use BarList for ranked comparisons that benefit from row context (name + value + link).",
+      "Provide valueFormatter for units such as currency or percentages.",
+      "Use showAnimation sparingly; static bars read fine and reduce motion cost.",
+    ],
+  },
+  {
+    name: "tracker",
+    label: "Tracker",
+    labelZh: "状态跟踪条",
+    description: "Renders a sequence of status blocks for event timelines or uptime history.",
+    official: "Tremor Raw",
+    bestPractices: [
+      "Use Tracker for discrete event history (uptime, CI runs), not continuous metrics.",
+      "Pair each block color with a tooltip so color never carries meaning alone.",
+      "Keep the block count reasonable for the container width; long histories scroll horizontally.",
+    ],
+  },
+  {
+    name: "progress-circle",
+    label: "Progress Circle",
+    labelZh: "进度环",
+    description: "Renders a circular progress indicator with an optional center metric.",
+    official: "Tremor Raw",
+    bestPractices: [
+      "Use ProgressCircle for a single ratio (completion, capacity); use Gauge for dial-style metrics.",
+      "Put the concrete value as children so the number is readable without color cues.",
+      "The track uses muted tokens; avoid recoloring it away from the design system palette.",
+    ],
+  },
   {
     name: "avatar",
     label: "Avatar",
@@ -347,6 +468,20 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "Only pass callbacks for the actions you implement—EditMenu omits standard actions without a handler instead of showing an inert item.",
       "Treat Cut as copy plus a caller-side deletion: the component copies the selection and then hands the text to onCut.",
       "Let Paste stay in the caller's hands: read the clipboard yourself instead of granting the component read permission.",
+    ],
+  },
+  {
+    name: "responsive-drawer",
+    label: "Responsive Drawer",
+    labelZh: "响应式抽屉",
+    description:
+      "One drawer that docks to the bottom on phones and to the side on desktop, with optional detents.",
+    official: "Responsive Drawer",
+    bestPractices: [
+      "Reach for ResponsiveDrawer when the same information architecture has to work on phone and desktop; keep the mirrored Drawer / Sheet / BottomSheet for their fixed contracts.",
+      "Turn on responsive instead of branching in app code: below 640px it uses the bottom geometry, above it docks to the right edge with 8px inset.",
+      "Add detents (plus the automatic grabber) only for bottom geometry — a side panel has no drag affordance by design.",
+      "Use the built-in Header for the title/description pair and the close button, and let Body own scrolling so the footer stays reachable.",
     ],
   },
   {

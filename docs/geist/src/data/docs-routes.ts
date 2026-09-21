@@ -3,7 +3,7 @@ import { Smartphone, type LucideIcon } from "lucide-react";
 import { COMPONENTS, type ComponentMeta } from "./components";
 import type { DocsLanguage } from "../i18n/language";
 
-export type DocsGroupId = "foundations" | "layout" | "api" | "components" | "patterns";
+export type DocsGroupId = "foundations" | "layout" | "api" | "components" | "charts" | "patterns";
 export type StaticPageKey =
   | "introduction"
   | "icons"
@@ -11,7 +11,7 @@ export type StaticPageKey =
   | "typography"
   | "materials"
   | "grid";
-export type LocalizedPageKey = "lifecycle-and-hooks" | "app-shell";
+export type LocalizedPageKey = "lifecycle-and-hooks" | "app-shell" | "charts";
 
 /** 条目状态标记（侧栏 / 汉堡面板右端胶囊的色调）。 */
 export type DocsRouteStatus = "new" | "updated";
@@ -61,6 +61,7 @@ const DOCS_GROUPS: readonly Omit<DocsRouteGroup, "items">[] = [
   { id: "layout", title: "Layout & Organization", titleZh: "排版与布局" },
   { id: "api", title: "API", titleZh: "API" },
   { id: "components", title: "Components", titleZh: "组件" },
+  { id: "charts", title: "Charts", titleZh: "图表" },
   { id: "patterns", title: "Patterns", titleZh: "模式" },
 ];
 
@@ -136,6 +137,23 @@ const STATIC_DOCS_ROUTES: readonly DocsRoute[] = [
  * 其余组件页仍在「组件」分组。
  */
 const LAYOUT_COMPONENT_NAMES: ReadonlySet<string> = new Set(["safe-area", "stack"]);
+
+/**
+ * 图表组件（Tremor Raw 内置）归入「图表」（Charts）顶级分组，路由挂在 /charts/<name>，
+ * 不参与「组件」区块的二级分类（componentSubgroupId 对其不适用）。
+ */
+export const CHART_COMPONENT_NAMES: ReadonlySet<string> = new Set([
+  "area-chart",
+  "bar-chart",
+  "line-chart",
+  "combo-chart",
+  "donut-chart",
+  "spark-chart",
+  "category-bar",
+  "bar-list",
+  "tracker",
+  "progress-circle",
+]);
 
 /**
  * 「组件」区块的二级分类（按元件职责划分的功能域）。
@@ -238,6 +256,7 @@ const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> 
   "destructive-action-modal": "overlays",
   grid: "overlays",
   modal: "overlays",
+  "responsive-drawer": "overlays",
   scroller: "overlays",
   separator: "overlays",
   sheet: "overlays",
@@ -280,8 +299,10 @@ function componentSubgroupRank(component: ComponentMeta): number {
 /**
  * 组件页排序键。布局原语不属于「组件」区块的二级分类，统一取 -1 排在最前——
  * 它们最终归入 layout 分组，与其他分组的相对顺序由 DOCS_ROUTE_SEQUENCE 的分组投影决定。
+ * 图表组件同理不参与二级分类，取 COMPONENT_SUBGROUPS.length + 1 排在末位，归入 charts 分组。
  */
 function componentSortRank(component: ComponentMeta): number {
+  if (CHART_COMPONENT_NAMES.has(component.name)) return COMPONENT_SUBGROUPS.length + 1;
   return LAYOUT_COMPONENT_NAMES.has(component.name) ? -1 : componentSubgroupRank(component);
 }
 
@@ -291,17 +312,26 @@ const COMPONENT_DETAIL_ROUTES: readonly DocsRoute[] = [...COMPONENTS]
     return rankDelta !== 0 ? rankDelta : left.label.localeCompare(right.label, "en");
   })
   .map((component) => ({
-    to: `/components/${component.name}`,
-    group: LAYOUT_COMPONENT_NAMES.has(component.name) ? "layout" : "components",
+    to: CHART_COMPONENT_NAMES.has(component.name)
+      ? `/charts/${component.name}`
+      : `/components/${component.name}`,
+    group: CHART_COMPONENT_NAMES.has(component.name)
+      ? "charts"
+      : LAYOUT_COMPONENT_NAMES.has(component.name)
+        ? "layout"
+        : "components",
     label: component.label,
     labelZh: component.labelZh ?? component.label,
     sidebar: true,
     renderer: { kind: "component-detail", componentName: component.name },
   }));
 
-/** 组件页路径 → 二级分类（切分「组件」区块时使用；布局原语不在此列）。 */
+/** 组件页路径 → 二级分类（切分「组件」区块时使用；布局原语与图表组件不在此列）。 */
 const COMPONENT_SUBGROUP_BY_PATH: ReadonlyMap<string, ComponentSubgroupId> = new Map(
-  COMPONENTS.filter((component) => !LAYOUT_COMPONENT_NAMES.has(component.name)).map((component) => [
+  COMPONENTS.filter(
+    (component) =>
+      !LAYOUT_COMPONENT_NAMES.has(component.name) && !CHART_COMPONENT_NAMES.has(component.name),
+  ).map((component) => [
     `/components/${component.name}`,
     componentSubgroupId(component),
   ]),
@@ -317,10 +347,21 @@ const APP_SHELL_ROUTE: DocsRoute = {
   renderer: { kind: "localized", page: "app-shell" },
 };
 
+/** 图表分组首页：画廊式索引页（/charts），逐组件详情页在 COMPONENT_DETAIL_ROUTES 中生成。 */
+const CHART_GALLERY_ROUTE: DocsRoute = {
+  to: "/charts",
+  group: "charts",
+  label: "Charts",
+  labelZh: "图表",
+  sidebar: true,
+  renderer: { kind: "localized", page: "charts" },
+};
+
 const ALL_DOCS_ROUTES: readonly DocsRoute[] = [
   ...STATIC_DOCS_ROUTES,
   ...COMPONENT_DETAIL_ROUTES,
   APP_SHELL_ROUTE,
+  CHART_GALLERY_ROUTE,
 ];
 
 /**
@@ -338,6 +379,17 @@ const DOCS_ROUTE_STATUS: Readonly<Record<string, DocsRouteStatus>> = {
   "/components/safe-area": "new",
   "/components/modal": "updated",
   "/components/tabs": "updated",
+  "/charts": "new",
+  "/charts/area-chart": "new",
+  "/charts/bar-chart": "new",
+  "/charts/line-chart": "new",
+  "/charts/combo-chart": "new",
+  "/charts/donut-chart": "new",
+  "/charts/spark-chart": "new",
+  "/charts/category-bar": "new",
+  "/charts/bar-list": "new",
+  "/charts/tracker": "new",
+  "/charts/progress-circle": "new",
 };
 
 /**

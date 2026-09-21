@@ -39,16 +39,27 @@ describe("Geist documentation coverage", () => {
     expect([...metadata].filter((slug) => !demos.has(slug))).toEqual([]);
     expect([...metadata].filter((slug) => !official.has(slug)).sort()).toEqual([
       "activity-view",
+      "area-chart",
+      "bar-chart",
+      "bar-list",
       "bottom-sheet",
+      "category-bar",
+      "combo-chart",
       "continuous-surface",
+      "donut-chart",
       "edit-menu",
       "error-boundary",
+      "line-chart",
       "link",
       "menu-bar",
+      "progress-circle",
+      "responsive-drawer",
       "safe-area",
+      "spark-chart",
       "stack",
       "step-point",
       "toolbar",
+      "tracker",
     ]);
 
     // 字母序只约束二级分类内部：布局原语（safe-area / stack）属于「排版与布局」分组，

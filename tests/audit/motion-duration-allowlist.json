@@ -45,12 +45,6 @@
       "files": ["src/components/ui/search-input.tsx", "src/styles/index.css"]
     },
     {
-      "literal": "200ms",
-      "source": "motion-baseline-2026-09-20",
-      "reason": "collapse-content-motion 对 Radix 内联 0s 的强制覆盖；对应旧 base，迁移时归并 state 档",
-      "files": ["src/styles/index.css"]
-    },
-    {
       "literal": "250ms",
       "source": "motion-baseline-2026-09-20",
       "reason": "book.module.css 翻页 transform 过渡；与新 base(250ms) 同值，迁移时替换",
@@ -60,7 +54,7 @@
       "literal": "300ms",
       "source": "motion-baseline-2026-09-20",
       "reason": "bottom-sheet 吸附时长（工具类 + 内联 height 过渡）；对应旧 slow，迁移时归并 overlay 档",
-      "files": ["src/components/ui/bottom-sheet.tsx"]
+      "files": ["src/components/ui/bottom-sheet.tsx", "src/components/ui/responsive-drawer.tsx"]
     },
     {
       "literal": "500ms",

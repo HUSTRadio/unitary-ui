@@ -16,6 +16,14 @@ Activity View
 
 ](#/components/activity-view)[
 
+Tremor Raw
+
+### 面积图
+
+渲染分层面积趋势，支持堆叠与百分比变体。
+
+](#/components/area-chart)[
+
 Avatar
 
 ### 头像
@@ -39,6 +47,22 @@ Banner
 横跨容器完整宽度的醒目消息，用于发布重要信息。
 
 ](#/components/banner)[
+
+Tremor Raw
+
+### 柱状图
+
+渲染类目柱状系列，支持堆叠、百分比与垂直布局。
+
+](#/components/bar-chart)[
+
+Tremor Raw
+
+### 条形列表
+
+渲染排名列表，每行携带等比条形与数值。
+
+](#/components/bar-list)[
 
 Book
 
@@ -88,6 +112,14 @@ Calendar
 
 ](#/components/calendar)[
 
+Tremor Raw
+
+### 分类条
+
+渲染分段横向条，展示各部分占总体的比例。
+
+](#/components/category-bar)[
+
 Checkbox
 
 ### 复选框
@@ -135,6 +167,14 @@ Collapse
 垂直排列标题，每个标题可展开相关内容。
 
 ](#/components/collapse)[
+
+Tremor Raw
+
+### 组合图
+
+在同一图表中组合柱与折线系列，可选双轴。
+
+](#/components/combo-chart)[
 
 Combobox
 
@@ -207,6 +247,14 @@ Phone
 将手机或平板截图置于逼真的设备外框中。
 
 ](#/components/device)[
+
+Tremor Raw
+
+### 环形图
+
+渲染部分占整体的环形（或饼形）图，可选中心指标。
+
+](#/components/donut-chart)[
 
 Dots Menu
 
@@ -344,6 +392,14 @@ Label
 
 ](#/components/label)[
 
+Tremor Raw
+
+### 折线图
+
+渲染连续折线趋势，支持可选坐标轴标题。
+
+](#/components/line-chart)[
+
 Link
 
 ### 链接
@@ -440,6 +496,14 @@ Progress
 
 ](#/components/progress)[
 
+Tremor Raw
+
+### 进度环
+
+渲染圆形进度指示器，可选中心指标。
+
+](#/components/progress-circle)[
+
 Project Banner
 
 ### 项目横幅
@@ -463,6 +527,14 @@ Relative Time Card
 显示带时间上下文的相对时间戳。
 
 ](#/components/relative-time-card)[
+
+Responsive Drawer
+
+### 响应式抽屉
+
+一个抽屉承载手机贴底与桌面贴右两种形态，可选底部拖拽档位。
+
+](#/components/responsive-drawer)[
 
 Safe Area
 
@@ -543,6 +615,14 @@ Snippet
 显示用户需要复制的可运行 Shell 命令或短代码。
 
 ](#/components/snippet)[
+
+Tremor Raw
+
+### 迷你趋势图
+
+渲染内联迷你趋势图（面积、折线或柱形）。
+
+](#/components/spark-chart)[
 
 Spinner
 
@@ -663,6 +743,14 @@ Tooltip
 在悬停或聚焦时显示的浮动标签。
 
 ](#/components/tooltip)[
+
+Tremor Raw
+
+### 状态跟踪条
+
+渲染状态块序列，用于事件时间线或可用性历史。
+
+](#/components/tracker)[
 
 Video
 

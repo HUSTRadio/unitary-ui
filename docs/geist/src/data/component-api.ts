@@ -35,6 +35,129 @@ const component = (exports: string[], rows: ApiRow[] = [], extendsType?: string)
 });
 
 const O = {
+  /* Charts —— 图表分组（Tremor Raw 内置，/charts/<name>） */
+  "area-chart": component(
+    ["AreaChart"],
+    [
+      row("data", "Record<string, any>[]", "Data records; one point per index value.", "数据记录；每个索引值一条。", { required: true }),
+      row("index", "string", "Field used for the x axis.", "x 轴所用字段。", { required: true }),
+      row("categories", "string[]", "Series field names rendered as stacked areas.", "渲染为面积系列的字段名。", { required: true }),
+      row("colors", "AvailableChartColorsKeys[]", "Series palette order.", "系列取色顺序。", { defaultValue: "AvailableChartColors" }),
+      row("type", '"default" | "stacked" | "percent"', "Series composition mode.", "系列组合模式。", { defaultValue: '"default"' }),
+      row("fill", '"gradient" | "solid" | "none"', "Area fill treatment.", "面积填充形态。", { defaultValue: '"gradient"' }),
+      row("valueFormatter", "(value: number) => string", "Formats axis and tooltip values.", "格式化坐标轴与提示数值。"),
+      row("onValueChange", "(value: AreaChartEventProps) => void", "Reports dot / legend interactions.", "回报数据点 / 图例交互。"),
+      row("customTooltip", "React.ComponentType<TooltipProps>", "Replaces the built-in tooltip card.", "替换内置提示卡片。"),
+    ],
+    "React.HTMLAttributes<HTMLDivElement>",
+  ),
+  "bar-chart": component(
+    ["BarChart"],
+    [
+      row("data", "Record<string, any>[]", "Data records; one point per index value.", "数据记录；每个索引值一条。", { required: true }),
+      row("index", "string", "Field used for the category axis.", "类目轴所用字段。", { required: true }),
+      row("categories", "string[]", "Series field names rendered as bars.", "渲染为柱系列的字段名。", { required: true }),
+      row("type", '"default" | "stacked" | "percent"', "Bar composition mode.", "柱状组合模式。", { defaultValue: '"default"' }),
+      row("layout", '"horizontal" | "vertical"', "Bar orientation.", "柱状方向。", { defaultValue: '"horizontal"' }),
+      row("colors", "AvailableChartColorsKeys[]", "Series palette order.", "系列取色顺序。", { defaultValue: "AvailableChartColors" }),
+      row("valueFormatter", "(value: number) => string", "Formats axis and tooltip values.", "格式化坐标轴与提示数值。"),
+      row("onValueChange", "(value: BarChartEventProps) => void", "Reports bar / legend interactions.", "回报柱 / 图例交互。"),
+      row("customTooltip", "React.ComponentType<TooltipProps>", "Replaces the built-in tooltip card.", "替换内置提示卡片。"),
+    ],
+    "React.HTMLAttributes<HTMLDivElement>",
+  ),
+  "line-chart": component(
+    ["LineChart"],
+    [
+      row("data", "Record<string, any>[]", "Data records; one point per index value.", "数据记录；每个索引值一条。", { required: true }),
+      row("index", "string", "Field used for the x axis.", "x 轴所用字段。", { required: true }),
+      row("categories", "string[]", "Series field names rendered as lines.", "渲染为折线的字段名。", { required: true }),
+      row("connectNulls", "boolean", "Bridges missing values in a series.", "跨接系列中的缺失值。", { defaultValue: "false" }),
+      row("xAxisLabel", "string", "Optional x axis title.", "可选的 x 轴标题。"),
+      row("yAxisLabel", "string", "Optional y axis title.", "可选的 y 轴标题。"),
+      row("valueFormatter", "(value: number) => string", "Formats axis and tooltip values.", "格式化坐标轴与提示数值。"),
+      row("onValueChange", "(value: LineChartEventProps) => void", "Reports dot / legend interactions.", "回报数据点 / 图例交互。"),
+      row("customTooltip", "React.ComponentType<TooltipProps>", "Replaces the built-in tooltip card.", "替换内置提示卡片。"),
+    ],
+    "React.HTMLAttributes<HTMLDivElement>",
+  ),
+  "combo-chart": component(
+    ["ComboChart"],
+    [
+      row("data", "Record<string, any>[]", "Data records; one point per index value.", "数据记录；每个索引值一条。", { required: true }),
+      row("index", "string", "Field used for the category axis.", "类目轴所用字段。", { required: true }),
+      row("barSeries", "ChartSeries & { type?: \"default\" | \"stacked\" }", "Bar series config (categories, colors, valueFormatter, axis).", "柱系列配置（categories、colors、valueFormatter、轴）。", { required: true }),
+      row("lineSeries", "ChartSeries & { connectNulls?: boolean }", "Line series config.", "折线系列配置。"),
+      row("enableBiaxial", "boolean", "Renders the line series on a second y axis.", "将折线系列渲染到第二 y 轴。", { defaultValue: "false" }),
+      row("onValueChange", "(value: ComboChartEventProps) => void", "Reports bar / dot / legend interactions.", "回报柱 / 数据点 / 图例交互。"),
+      row("customTooltip", "React.ComponentType<TooltipProps>", "Replaces the built-in tooltip card.", "替换内置提示卡片。"),
+    ],
+    "React.HTMLAttributes<HTMLDivElement>",
+  ),
+  "donut-chart": component(
+    ["DonutChart"],
+    [
+      row("data", "any[]", "Data records; one slice per record.", "数据记录；每条一个扇区。", { required: true }),
+      row("category", "string", "Field used for slice labels.", "扇区标签所用字段。", { required: true }),
+      row("value", "string", "Field used for slice sizes.", "扇区大小所用字段。", { required: true }),
+      row("variant", '"donut" | "pie"', "Ring or full pie rendering.", "环形或完整饼形渲染。", { defaultValue: '"donut"' }),
+      row("valueFormatter", "(value: number) => string", "Formats tooltip values.", "格式化提示数值。"),
+      row("onValueChange", "(value: DonutChartEventProps) => void", "Reports slice / legend interactions.", "回报扇区 / 图例交互。"),
+      row("children", "React.ReactNode", "Center metric (donut variant only).", "中心指标（仅 donut 形态）。"),
+      row("customTooltip", "React.ComponentType<TooltipProps>", "Replaces the built-in tooltip card.", "替换内置提示卡片。"),
+    ],
+  ),
+  "spark-chart": component(
+    ["SparkAreaChart", "SparkLineChart", "SparkBarChart"],
+    [
+      row("data", "Record<string, any>[]", "Data records; one point per index value.", "数据记录；每个索引值一条。", { required: true }),
+      row("index", "string", "Field used for the x axis.", "x 轴所用字段。", { required: true }),
+      row("categories", "string[]", "Single-series field name.", "单系列字段名。", { required: true }),
+      row("colors", "AvailableChartColorsKeys[]", "Series color.", "系列颜色。", { defaultValue: "AvailableChartColors" }),
+    ],
+    "React.HTMLAttributes<HTMLDivElement>",
+  ),
+  "category-bar": component(
+    ["CategoryBar"],
+    [
+      row("values", "number[]", "Segment values; widths are proportional to the total.", "分段数值；宽度按总和等比分配。", { required: true }),
+      row("colors", "AvailableChartColorsKeys[]", "Segment palette order.", "分段取色顺序。", { defaultValue: "AvailableChartColors" }),
+      row("marker", "{ value: number; tooltip?: string; className?: string }", "Optional marker with hover tooltip.", "可选标记及其悬停提示。"),
+      row("showLabels", "boolean", "Shows cumulative value labels.", "显示累计数值标签。", { defaultValue: "true" }),
+    ],
+    "React.HTMLAttributes<HTMLDivElement>",
+  ),
+  "bar-list": component(
+    ["BarList"],
+    [
+      row("data", "{ name: string; value: number; href?: string; icon?: React.ElementType; key?: string }[]", "Ranked entries to render.", "待渲染的排名条目。", { required: true }),
+      row("color", "AvailableChartColorsKeys", "Bar color.", "条形颜色。", { defaultValue: '"gray"' }),
+      row("valueFormatter", "(value: number) => string", "Formats the trailing value.", "格式化行尾数值。"),
+      row("showAnimation", "boolean", "Animates bars on mount.", "挂载时播放条形动画。", { defaultValue: "false" }),
+      row("sortOrder", '"ascending" | "descending" | "none"', "Sorts entries by value.", "按数值排序条目。", { defaultValue: '"descending"' }),
+    ],
+    "React.HTMLAttributes<HTMLDivElement>",
+  ),
+  tracker: component(
+    ["Tracker"],
+    [
+      row("data", "TrackerBlockProps[]", "Status blocks rendered left to right.", "从左到右渲染的状态块。", { required: true }),
+      row("children", "React.ReactNode", "Optional overlay content.", "可选的覆盖内容。"),
+    ],
+    "React.HTMLAttributes<HTMLDivElement>",
+  ),
+  "progress-circle": component(
+    ["ProgressCircle"],
+    [
+      row("value", "number", "Current progress value.", "当前进度值。", { required: true }),
+      row("max", "number", "Value that means 100%.", "视为 100% 的值。", { defaultValue: "100" }),
+      row("radius", "number", "Circle radius in pixels.", "圆环半径（像素）。", { required: true }),
+      row("strokeWidth", "number", "Ring stroke thickness.", "圆环描边宽度。", { defaultValue: "6" }),
+      row("color", "AvailableChartColorsKeys", "Ring color.", "圆环颜色。", { defaultValue: '"blue"' }),
+      row("children", "React.ReactNode", "Center content (value, label).", "中心内容（数值、标签）。"),
+    ],
+    "React.HTMLAttributes<HTMLDivElement>",
+  ),
   avatar: component(
     [
       "Avatar",
@@ -77,10 +200,24 @@ const O = {
       row("variant", "BadgeVariant", "Visual badge variant.", "徽章视觉变体。", {
         defaultValue: '"gray"',
       }),
-      row("size", '"sm" | "md" | "lg"', "Badge size.", "徽章尺寸。", {
+      row(
+        "shape",
+        '"pill" | "rounded"',
+        "Full pill or rounded rectangle (4px radius).",
+        "全圆胶囊或圆角矩形（4px 半径）。",
+        {
+          defaultValue: '"pill"',
+        },
+      ),
+      row("size", '"compact" | "sm" | "md" | "lg"', "Badge size.", "徽章尺寸。", {
         defaultValue: '"md"',
       }),
-      row("contrast", '"low"', "Uses the low-contrast text treatment.", "使用低对比度文字样式。"),
+      row(
+        "contrast",
+        '"low" | "soft"',
+        "Low-contrast text treatment, or a soft tinted fill.",
+        "低对比度文字样式，或柔和底色档。",
+      ),
       row("icon", "ReactNode", "Optional leading icon.", "可选的前置图标。"),
       row("asChild", "boolean", "Renders through the child element.", "通过子元素渲染。", {
         defaultValue: "false",
@@ -307,6 +444,32 @@ const O = {
         "Called when expansion changes.",
         "展开状态变化时调用。",
       ),
+      row("size", '"default" | "small" | "bare"', "Trigger padding scale.", "触发器内边距档位。", {
+        defaultValue: '"default"',
+      }),
+      row(
+        "icon",
+        '"chevron" | "plus"',
+        "Indicator glyph; plus rotates 45° into an × when open.",
+        "指示图标；plus 展开时旋转 45° 变 ×。",
+        { defaultValue: '"chevron"' },
+      ),
+      row(
+        "indicatorAlign",
+        '"inline" | "end"',
+        "Indicator placement: inline sits right after the title, end pushes it to the row's trailing edge.",
+        "指示图标位置：inline 紧跟标题，end 推到行尾右对齐。",
+        { defaultValue: '"end"' },
+      ),
+      row(
+        "as",
+        "ElementType",
+        "Trigger element. A non-button element renders a plain disclosure (role=button + Enter/Space) with no button chrome.",
+        "触发元素类型。非按钮元素渲染无按钮外观的披露控件（role=button + Enter/Space）。",
+      ),
+      row("disabled", "boolean", "Blocks toggling and dims the row.", "阻止展开并整行变淡。", {
+        defaultValue: "false",
+      }),
     ],
   ),
   "command-menu": component(
@@ -704,6 +867,72 @@ const O = {
         "按 Escape、点击外部或执行关闭手势后调用。",
       ),
       row("height", "number", "Optional panel height in pixels.", "可选的面板像素高度。"),
+    ],
+  ),
+  "responsive-drawer": component(
+    [
+      "ResponsiveDrawer",
+      "ResponsiveDrawerTrigger",
+      "ResponsiveDrawerContent",
+      "ResponsiveDrawerHeader",
+      "ResponsiveDrawerTitle",
+      "ResponsiveDrawerDescription",
+      "ResponsiveDrawerBody",
+      "ResponsiveDrawerFooter",
+      "ResponsiveDrawerClose",
+    ],
+    [
+      row("open", "boolean", "Controlled open state.", "受控打开状态。"),
+      row("defaultOpen", "boolean", "Initial uncontrolled state.", "非受控初始状态。"),
+      row(
+        "onOpenChange",
+        "(open: boolean) => void",
+        "Called when the drawer opens or closes.",
+        "抽屉打开或关闭时调用。",
+      ),
+      row(
+        "responsive",
+        "boolean",
+        "Bottom geometry below 640px and a right panel above it; takes precedence over placement.",
+        "640px 以下用底部形态、以上用右侧面板；优先于 placement。",
+        { defaultValue: "false" },
+      ),
+      row(
+        "placement",
+        '"bottom" | "right" | "left" | "top"',
+        "Fixed edge for the panel.",
+        "面板固定贴靠的边。",
+        { defaultValue: '"right"' },
+      ),
+      row(
+        "detents",
+        "number[]",
+        "Bottom height steps as viewport ratios; ignored by side placements.",
+        "底部形态的高度档位（占视口比例）；侧栏形态忽略。",
+        { defaultValue: "[0.5, 1]" },
+      ),
+      row(
+        "showIndicator",
+        '"automatic" | boolean',
+        "Drag indicator policy; automatic renders it for multiple detents.",
+        "拖拽指示条策略；automatic 在多档位时渲染。",
+        { defaultValue: '"automatic"' },
+      ),
+      row(
+        "gestures",
+        "{ resize?: boolean; expandUp?: boolean; collapseDown?: boolean }",
+        "Toggles for the bottom drag gestures.",
+        "底部拖拽手势开关。",
+      ),
+      row("size", '"sm" | "md" | "lg"', "Side panel width step.", "侧栏面板宽度档位。", {
+        defaultValue: '"md"',
+      }),
+      row(
+        "onDetentChange",
+        "(index: number) => void",
+        "Called after the panel snaps to a detent.",
+        "面板吸附到档位后调用。",
+      ),
     ],
   ),
   "empty-state": component(
@@ -1277,6 +1506,13 @@ const O = {
         "Visual separator orientation.",
         "视觉分隔线方向。",
         { defaultValue: '"horizontal"' },
+      ),
+      row(
+        "length",
+        '"full" | "short"',
+        "Length scale: full spans the available length, short renders a 40px stub for dense lists.",
+        "长度档位：full 占满可用长度，short 是 40px 短线（密集列表的分组提示）。",
+        { defaultValue: '"full"' },
       ),
     ],
   ),

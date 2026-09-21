@@ -32,7 +32,11 @@ Shows gray, blue, purple, amber, red, pink, green, and teal colors with low-cont
 
 ### Sizes
 
-Shows sm, md, and lg sizes for different layout densities.
+Shows compact, sm, md, and lg sizes for different layout densities.
+
+### Rounded rectangle & compact
+
+The shape="rounded" (4px radius) + size="compact" (20px tall) + contrast="soft" combination used by dense navigation status markers.
 
 ### With icons
 
@@ -145,7 +149,7 @@ export function BadgeVariants63D2643BExample() {
 
 ## Sizes
 
-SmallMediumLarge
+CompactSmallMediumLarge
 
 ```tsx
 import { Badge } from "@/components/ui/badge";
@@ -153,6 +157,7 @@ import { Badge } from "@/components/ui/badge";
 export function BadgeSizes74A3978DExample() {
   return (
     <div className="flex flex-wrap items-center gap-2">
+      <Badge size="compact">Compact</Badge>
       <Badge size="sm">Small</Badge>
       <Badge size="md">Medium</Badge>
       <Badge size="lg">Large</Badge>
@@ -281,6 +286,65 @@ export function BadgePill9945C78BExample() {
 }
 ```
 
+## Compact rounded
+
+UpdatedNewHealthyWarningFailed
+
+Pill compactRounded compactRounded mdWith icon
+
+```tsx
+import { Badge } from "@/components/ui/badge";
+import { Bell } from "lucide-react";
+
+/**
+ * 圆角矩形 + compact（+ soft 底色）：导航状态标记这类密集场景的标准组合。
+ * 与全圆胶囊（默认）对照，几何只有圆角与内边距两处差异。
+ */
+export function BadgeCompactRounded7C41E2A8Example() {
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <Badge shape="rounded" size="compact" variant="gray" contrast="soft">
+          Updated
+        </Badge>
+        <Badge shape="rounded" size="compact" variant="blue" contrast="soft">
+          New
+        </Badge>
+        <Badge shape="rounded" size="compact" variant="green" contrast="soft">
+          Healthy
+        </Badge>
+        <Badge shape="rounded" size="compact" variant="amber" contrast="soft">
+          Warning
+        </Badge>
+        <Badge shape="rounded" size="compact" variant="red" contrast="soft">
+          Failed
+        </Badge>
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <Badge shape="pill" size="compact" variant="blue" contrast="soft">
+          Pill compact
+        </Badge>
+        <Badge shape="rounded" size="compact" variant="blue">
+          Rounded compact
+        </Badge>
+        <Badge shape="rounded" variant="blue" contrast="soft">
+          Rounded md
+        </Badge>
+        <Badge
+          shape="rounded"
+          size="compact"
+          variant="blue"
+          contrast="soft"
+          icon={<Bell aria-hidden />}
+        >
+          With icon
+        </Badge>
+      </div>
+    </div>
+  );
+}
+```
+
 ## API Reference
 
 This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
@@ -295,7 +359,7 @@ Native props: `HTMLAttributes<HTMLSpanElement>`
 
 ### Props & callbacks
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">variant</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">BadgeVariant</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Visual badge variant.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"gray"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">size</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"sm" | "md" | "lg"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Badge size.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"md"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">contrast</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"low"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Uses the low-contrast text treatment.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">icon</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Optional leading icon.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">asChild</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Renders through the child element.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">variant</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">BadgeVariant</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Visual badge variant.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"gray"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">shape</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"pill" | "rounded"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Full pill or rounded rectangle (4px radius).</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"pill"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">size</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"compact" | "sm" | "md" | "lg"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Badge size.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"md"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">contrast</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"low" | "soft"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Low-contrast text treatment, or a soft tinted fill.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">icon</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Optional leading icon.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">asChild</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Renders through the child element.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
 
 ## Best Practices
 

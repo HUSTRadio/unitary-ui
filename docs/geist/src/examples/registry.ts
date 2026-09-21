@@ -89,6 +89,10 @@ import { CollapseMultiple3F8A7E66Example } from "./collapse/multiple-3f8a7e66.ex
 import CollapseMultiple3F8A7E66ExampleSource from "./collapse/multiple-3f8a7e66.example.tsx?example-source";
 import { CollapseSmall81DB8EBBExample } from "./collapse/small-81db8ebb.example";
 import CollapseSmall81DB8EBBExampleSource from "./collapse/small-81db8ebb.example.tsx?example-source";
+import { CollapsePlus9C4E1A7BExample } from "./collapse/plus-9c4e1a7b.example";
+import CollapsePlus9C4E1A7BExampleSource from "./collapse/plus-9c4e1a7b.example.tsx?example-source";
+import { CollapseDisabled2F7D5B6EExample } from "./collapse/disabled-2f7d5b6e.example";
+import CollapseDisabled2F7D5B6EExampleSource from "./collapse/disabled-2f7d5b6e.example.tsx?example-source";
 import { CollapseExpandedE72D5D8DExample } from "./collapse/expanded-e72d5d8d.example";
 import CollapseExpandedE72D5D8DExampleSource from "./collapse/expanded-e72d5d8d.example.tsx?example-source";
 import { CollapseMultiple14070FDBExample } from "./collapse/multiple-14070fdb.example";
@@ -229,6 +233,12 @@ import { RadioRadioHeadlessF2D8A0DBExample } from "./radio/radio-headless-f2d8a0
 import RadioRadioHeadlessF2D8A0DBExampleSource from "./radio/radio-headless-f2d8a0db.example.tsx?example-source";
 import { RadioRadioStandalone65A01781Example } from "./radio/radio-standalone-65a01781.example";
 import RadioRadioStandalone65A01781ExampleSource from "./radio/radio-standalone-65a01781.example.tsx?example-source";
+import { ResponsiveDrawerDefault9F2C7A41Example } from "./responsive-drawer/default-9f2c7a41.example";
+import ResponsiveDrawerDefault9F2C7A41ExampleSource from "./responsive-drawer/default-9f2c7a41.example.tsx?example-source";
+import { ResponsiveDrawerResponsive4B8E1D6CExample } from "./responsive-drawer/responsive-4b8e1d6c.example";
+import ResponsiveDrawerResponsive4B8E1D6CExampleSource from "./responsive-drawer/responsive-4b8e1d6c.example.tsx?example-source";
+import { ResponsiveDrawerDetents7A3F5E92Example } from "./responsive-drawer/detents-7a3f5e92.example";
+import ResponsiveDrawerDetents7A3F5E92ExampleSource from "./responsive-drawer/detents-7a3f5e92.example.tsx?example-source";
 import { SwitchDefault37A8EEC1Example } from "./switch/default-37a8eec1.example";
 import SwitchDefault37A8EEC1ExampleSource from "./switch/default-37a8eec1.example.tsx?example-source";
 import { SwitchDisabled17EB3C01Example } from "./switch/disabled-17eb3c01.example";
@@ -413,6 +423,8 @@ import { BadgeWithIcons1F71F4BCExample } from "./badge/with-icons-1f71f4bc.examp
 import BadgeWithIcons1F71F4BCExampleSource from "./badge/with-icons-1f71f4bc.example.tsx?example-source";
 import { BadgePill9945C78BExample } from "./badge/pill-9945c78b.example";
 import BadgePill9945C78BExampleSource from "./badge/pill-9945c78b.example.tsx?example-source";
+import { BadgeCompactRounded7C41E2A8Example } from "./badge/compact-rounded-7c41e2a8.example";
+import BadgeCompactRounded7C41E2A8ExampleSource from "./badge/compact-rounded-7c41e2a8.example.tsx?example-source";
 import { BreadcrumbsDefault21B111CBExample } from "./breadcrumbs/default-21b111cb.example";
 import BreadcrumbsDefault21B111CBExampleSource from "./breadcrumbs/default-21b111cb.example.tsx?example-source";
 import { BreadcrumbsActive92340695Example } from "./breadcrumbs/active-92340695.example";
@@ -781,6 +793,44 @@ import { SafeAreaDefault2C9F5A41Example } from "./safe-area/default-2c9f5a41.exa
 import SafeAreaDefault2C9F5A41ExampleSource from "./safe-area/default-2c9f5a41.example.tsx?example-source";
 import { StackDefault7E1B84D3Example } from "./stack/default-7e1b84d3.example";
 import StackDefault7E1B84D3ExampleSource from "./stack/default-7e1b84d3.example.tsx?example-source";
+import { AreaChartDefault37A8EEC1Example } from "./area-chart/default-37a8eec1.example";
+import AreaChartDefault37A8EEC1ExampleSource from "./area-chart/default-37a8eec1.example.tsx?example-source";
+import { AreaChartStacked5E4F2A9BExample } from "./area-chart/stacked-5e4f2a9b.example";
+import AreaChartStacked5E4F2A9BExampleSource from "./area-chart/stacked-5e4f2a9b.example.tsx?example-source";
+import { AreaChartCustomTooltip8C1D4E7FExample } from "./area-chart/custom-tooltip-8c1d4e7f.example";
+import AreaChartCustomTooltip8C1D4E7FExampleSource from "./area-chart/custom-tooltip-8c1d4e7f.example.tsx?example-source";
+import { AreaChartChartCardE6B2D9F1Example } from "./area-chart/chart-card-e6b2d9f1.example";
+import AreaChartChartCardE6B2D9F1ExampleSource from "./area-chart/chart-card-e6b2d9f1.example.tsx?example-source";
+import { BarChartDefault37A8EEC1Example } from "./bar-chart/default-37a8eec1.example";
+import BarChartDefault37A8EEC1ExampleSource from "./bar-chart/default-37a8eec1.example.tsx?example-source";
+import { BarChartStacked6B2E8D3AExample } from "./bar-chart/stacked-6b2e8d3a.example";
+import BarChartStacked6B2E8D3AExampleSource from "./bar-chart/stacked-6b2e8d3a.example.tsx?example-source";
+import { BarChartVertical9F0A3C5EExample } from "./bar-chart/vertical-9f0a3c5e.example";
+import BarChartVertical9F0A3C5EExampleSource from "./bar-chart/vertical-9f0a3c5e.example.tsx?example-source";
+import { LineChartDefault37A8EEC1Example } from "./line-chart/default-37a8eec1.example";
+import LineChartDefault37A8EEC1ExampleSource from "./line-chart/default-37a8eec1.example.tsx?example-source";
+import { LineChartCustomTooltip4D7B2E8AExample } from "./line-chart/custom-tooltip-4d7b2e8a.example";
+import LineChartCustomTooltip4D7B2E8AExampleSource from "./line-chart/custom-tooltip-4d7b2e8a.example.tsx?example-source";
+import { ComboChartDefault37A8EEC1Example } from "./combo-chart/default-37a8eec1.example";
+import ComboChartDefault37A8EEC1ExampleSource from "./combo-chart/default-37a8eec1.example.tsx?example-source";
+import { ComboChartBiaxial2A9F5C3EExample } from "./combo-chart/biaxial-2a9f5c3e.example";
+import ComboChartBiaxial2A9F5C3EExampleSource from "./combo-chart/biaxial-2a9f5c3e.example.tsx?example-source";
+import { DonutChartDefault37A8EEC1Example } from "./donut-chart/default-37a8eec1.example";
+import DonutChartDefault37A8EEC1ExampleSource from "./donut-chart/default-37a8eec1.example.tsx?example-source";
+import { DonutChartPie7E3C1B6DExample } from "./donut-chart/pie-7e3c1b6d.example";
+import DonutChartPie7E3C1B6DExampleSource from "./donut-chart/pie-7e3c1b6d.example.tsx?example-source";
+import { SparkChartDefault37A8EEC1Example } from "./spark-chart/default-37a8eec1.example";
+import SparkChartDefault37A8EEC1ExampleSource from "./spark-chart/default-37a8eec1.example.tsx?example-source";
+import { SparkChartKpiCardC3F1A8D4Example } from "./spark-chart/kpi-card-c3f1a8d4.example";
+import SparkChartKpiCardC3F1A8D4ExampleSource from "./spark-chart/kpi-card-c3f1a8d4.example.tsx?example-source";
+import { CategoryBarDefault37A8EEC1Example } from "./category-bar/default-37a8eec1.example";
+import CategoryBarDefault37A8EEC1ExampleSource from "./category-bar/default-37a8eec1.example.tsx?example-source";
+import { BarListDefault37A8EEC1Example } from "./bar-list/default-37a8eec1.example";
+import BarListDefault37A8EEC1ExampleSource from "./bar-list/default-37a8eec1.example.tsx?example-source";
+import { TrackerDefault37A8EEC1Example } from "./tracker/default-37a8eec1.example";
+import TrackerDefault37A8EEC1ExampleSource from "./tracker/default-37a8eec1.example.tsx?example-source";
+import { ProgressCircleDefault37A8EEC1Example } from "./progress-circle/default-37a8eec1.example";
+import ProgressCircleDefault37A8EEC1ExampleSource from "./progress-circle/default-37a8eec1.example.tsx?example-source";
 
 export interface ExampleRecord {
   slug: string;
@@ -836,6 +886,8 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "collapse", id: "expanded", Component: CollapseExpanded691661B3Example, source: CollapseExpanded691661B3ExampleSource, renderInSection: false },
   { slug: "collapse", id: "multiple", Component: CollapseMultiple3F8A7E66Example, source: CollapseMultiple3F8A7E66ExampleSource, renderInSection: false },
   { slug: "collapse", id: "small", Component: CollapseSmall81DB8EBBExample, source: CollapseSmall81DB8EBBExampleSource, renderInSection: false },
+  { slug: "collapse", id: "plus", Component: CollapsePlus9C4E1A7BExample, source: CollapsePlus9C4E1A7BExampleSource },
+  { slug: "collapse", id: "disabled", Component: CollapseDisabled2F7D5B6EExample, source: CollapseDisabled2F7D5B6EExampleSource },
   { slug: "collapse", id: "Expanded", Component: CollapseExpandedE72D5D8DExample, source: CollapseExpandedE72D5D8DExampleSource },
   { slug: "collapse", id: "Multiple", Component: CollapseMultiple14070FDBExample, source: CollapseMultiple14070FDBExampleSource },
   { slug: "collapse", id: "Small", Component: CollapseSmall5263293FExample, source: CollapseSmall5263293FExampleSource },
@@ -855,6 +907,9 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "dots-menu", id: "disabled-menu-item", Component: DotsMenuDisabledMenuItem717ABAD2Example, source: DotsMenuDisabledMenuItem717ABAD2ExampleSource },
   { slug: "drawer", id: "default", Component: DrawerDefault37A8EEC1Example, source: DrawerDefault37A8EEC1ExampleSource },
   { slug: "drawer", id: "custom-height", Component: DrawerCustomHeight986065F9Example, source: DrawerCustomHeight986065F9ExampleSource },
+  { slug: "responsive-drawer", id: "default", Component: ResponsiveDrawerDefault9F2C7A41Example, source: ResponsiveDrawerDefault9F2C7A41ExampleSource },
+  { slug: "responsive-drawer", id: "responsive", Component: ResponsiveDrawerResponsive4B8E1D6CExample, source: ResponsiveDrawerResponsive4B8E1D6CExampleSource },
+  { slug: "responsive-drawer", id: "detents", Component: ResponsiveDrawerDetents7A3F5E92Example, source: ResponsiveDrawerDetents7A3F5E92ExampleSource },
   { slug: "empty-state", id: "empty-state-design-framework", Component: EmptyStateEmptyStateDesignFrameworkFF959773Example, source: EmptyStateEmptyStateDesignFrameworkFF959773ExampleSource },
   { slug: "empty-state", id: "blank-slate", Component: EmptyStateBlankSlateE6F82752Example, source: EmptyStateBlankSlateE6F82752ExampleSource },
   { slug: "empty-state", id: "informational", Component: EmptyStateInformationalBE8ED055Example, source: EmptyStateInformationalBE8ED055ExampleSource },
@@ -998,6 +1053,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "badge", id: "Sizes", Component: BadgeSizes74A3978DExample, source: BadgeSizes74A3978DExampleSource },
   { slug: "badge", id: "With icons", Component: BadgeWithIcons1F71F4BCExample, source: BadgeWithIcons1F71F4BCExampleSource },
   { slug: "badge", id: "Pill", Component: BadgePill9945C78BExample, source: BadgePill9945C78BExampleSource },
+  { slug: "badge", id: "Compact rounded", Component: BadgeCompactRounded7C41E2A8Example, source: BadgeCompactRounded7C41E2A8ExampleSource },
   { slug: "breadcrumbs", id: "Default", Component: BreadcrumbsDefault21B111CBExample, source: BreadcrumbsDefault21B111CBExampleSource },
   { slug: "breadcrumbs", id: "Active", Component: BreadcrumbsActive92340695Example, source: BreadcrumbsActive92340695ExampleSource },
   { slug: "breadcrumbs", id: "Disabled", Component: BreadcrumbsDisabled75081B59Example, source: BreadcrumbsDisabled75081B59ExampleSource },
@@ -1183,6 +1239,26 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "toolbar", id: "default", Component: ToolbarDefault4A8E7C22Example, source: ToolbarDefault4A8E7C22ExampleSource },
   { slug: "safe-area", id: "default", Component: SafeAreaDefault2C9F5A41Example, source: SafeAreaDefault2C9F5A41ExampleSource },
   { slug: "stack", id: "default", Component: StackDefault7E1B84D3Example, source: StackDefault7E1B84D3ExampleSource },
+  { slug: "area-chart", id: "default", Component: AreaChartDefault37A8EEC1Example, source: AreaChartDefault37A8EEC1ExampleSource },
+  { slug: "area-chart", id: "stacked", Component: AreaChartStacked5E4F2A9BExample, source: AreaChartStacked5E4F2A9BExampleSource },
+  { slug: "area-chart", id: "custom-tooltip", Component: AreaChartCustomTooltip8C1D4E7FExample, source: AreaChartCustomTooltip8C1D4E7FExampleSource },
+  { slug: "area-chart", id: "chart-card", Component: AreaChartChartCardE6B2D9F1Example, source: AreaChartChartCardE6B2D9F1ExampleSource },
+
+  { slug: "bar-chart", id: "default", Component: BarChartDefault37A8EEC1Example, source: BarChartDefault37A8EEC1ExampleSource },
+  { slug: "bar-chart", id: "stacked", Component: BarChartStacked6B2E8D3AExample, source: BarChartStacked6B2E8D3AExampleSource },
+  { slug: "bar-chart", id: "vertical", Component: BarChartVertical9F0A3C5EExample, source: BarChartVertical9F0A3C5EExampleSource },
+  { slug: "line-chart", id: "default", Component: LineChartDefault37A8EEC1Example, source: LineChartDefault37A8EEC1ExampleSource },
+  { slug: "line-chart", id: "custom-tooltip", Component: LineChartCustomTooltip4D7B2E8AExample, source: LineChartCustomTooltip4D7B2E8AExampleSource },
+  { slug: "combo-chart", id: "default", Component: ComboChartDefault37A8EEC1Example, source: ComboChartDefault37A8EEC1ExampleSource },
+  { slug: "combo-chart", id: "biaxial", Component: ComboChartBiaxial2A9F5C3EExample, source: ComboChartBiaxial2A9F5C3EExampleSource },
+  { slug: "donut-chart", id: "default", Component: DonutChartDefault37A8EEC1Example, source: DonutChartDefault37A8EEC1ExampleSource },
+  { slug: "donut-chart", id: "pie", Component: DonutChartPie7E3C1B6DExample, source: DonutChartPie7E3C1B6DExampleSource },
+  { slug: "spark-chart", id: "default", Component: SparkChartDefault37A8EEC1Example, source: SparkChartDefault37A8EEC1ExampleSource },
+  { slug: "spark-chart", id: "kpi-card", Component: SparkChartKpiCardC3F1A8D4Example, source: SparkChartKpiCardC3F1A8D4ExampleSource },
+  { slug: "category-bar", id: "default", Component: CategoryBarDefault37A8EEC1Example, source: CategoryBarDefault37A8EEC1ExampleSource },
+  { slug: "bar-list", id: "default", Component: BarListDefault37A8EEC1Example, source: BarListDefault37A8EEC1ExampleSource },
+  { slug: "tracker", id: "default", Component: TrackerDefault37A8EEC1Example, source: TrackerDefault37A8EEC1ExampleSource },
+  { slug: "progress-circle", id: "default", Component: ProgressCircleDefault37A8EEC1Example, source: ProgressCircleDefault37A8EEC1ExampleSource },
 ];
 
 export const EXAMPLE_REGISTRY: Readonly<Record<string, readonly ExampleRecord[]>> = EXAMPLE_RECORDS.reduce<Record<string, ExampleRecord[]>>(

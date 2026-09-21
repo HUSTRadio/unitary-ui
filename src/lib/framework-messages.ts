@@ -2,6 +2,8 @@ export const FRAMEWORK_MESSAGES = {
   en: {
     "Loading...": "Loading...",
     Close: "Close",
+    "Category bar": "Category bar",
+    "Progress circle": "Progress circle",
     Copy: "Copy",
     Copied: "Copied",
     "Dismiss notification": "Dismiss notification",
@@ -140,6 +142,8 @@ export const FRAMEWORK_MESSAGES = {
   "zh-CN": {
     "Loading...": "加载中",
     Close: "关闭",
+    "Category bar": "分类条",
+    "Progress circle": "进度环",
     Copy: "复制",
     Copied: "已复制",
     "Dismiss notification": "关闭通知",

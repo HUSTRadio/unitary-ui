@@ -855,7 +855,9 @@ const ComboChart = React.forwardRef<HTMLDivElement, ComboChartProps>(
               )}
             </XAxis>
             <YAxis
-              yAxisId={enableBiaxial ? "left" : undefined}
+              // recharts 2.15：显式传 undefined 会把轴 id 覆盖为 undefined，与默认 id 0 的
+              // Bar/Line 查找不一致（Could not find yAxis by id "0"）。故仅在双轴时声明 id。
+              {...(enableBiaxial ? { yAxisId: "left" } : {})}
               width={mergedBarSeries.yAxisWidth}
               hide={!mergedBarSeries.showYAxis}
               axisLine={false}
@@ -1010,7 +1012,7 @@ const ComboChart = React.forwardRef<HTMLDivElement, ComboChartProps>(
             ) : null}
             {mergedBarSeries.categories.map((category) => (
               <Bar
-                yAxisId={enableBiaxial ? "left" : undefined}
+                {...(enableBiaxial ? { yAxisId: "left" } : {})}
                 className={cn(
                   getColorClassName(
                     barCategoryColors.get(category) as AvailableChartColorsKeys,
@@ -1035,7 +1037,7 @@ const ComboChart = React.forwardRef<HTMLDivElement, ComboChartProps>(
             {onValueChange
               ? mergedLineSeries.categories.map((category) => (
                   <Line
-                    yAxisId={enableBiaxial ? "right" : undefined}
+                    {...(enableBiaxial ? { yAxisId: "right" } : {})}
                     className={cn("cursor-pointer")}
                     strokeOpacity={0}
                     key={category}
@@ -1058,7 +1060,7 @@ const ComboChart = React.forwardRef<HTMLDivElement, ComboChartProps>(
               : null}
             {mergedLineSeries.categories.map((category) => (
               <Line
-                yAxisId={enableBiaxial ? "right" : undefined}
+                {...(enableBiaxial ? { yAxisId: "right" } : {})}
                 className={cn(
                   getColorClassName(
                     lineCategoryColors.get(

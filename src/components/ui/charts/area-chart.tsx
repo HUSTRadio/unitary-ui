@@ -820,8 +820,7 @@ const AreaChart = React.forwardRef<HTMLDivElement, AreaChartProps>(
             {categories.map((category) => {
               const categoryId = `${areaId}-${category.replace(/[^a-zA-Z0-9]/g, "")}`
               return (
-                <React.Fragment key={category}>
-                  <defs key={category}>
+                <defs key={`gradient-${category}`}>
                     <linearGradient
                       key={category}
                       className={cn(
@@ -846,7 +845,13 @@ const AreaChart = React.forwardRef<HTMLDivElement, AreaChartProps>(
                       })}
                     </linearGradient>
                   </defs>
-                  <Area
+              )
+            })}
+            {/* recharts 2.15 不识别 Fragment 内层的图形子元素：defs 与 Area 分列两次遍历 */}
+            {categories.map((category) => {
+              const categoryId = `${areaId}-${category.replace(/[^a-zA-Z0-9]/g, "")}`
+              return (
+                <Area
                     className={cn(
                       getColorClassName(
                         categoryColors.get(
@@ -954,7 +959,6 @@ const AreaChart = React.forwardRef<HTMLDivElement, AreaChartProps>(
                     stackId={stacked ? "stack" : undefined}
                     fill={`url(#${categoryId})`}
                   />
-                </React.Fragment>
               )
             })}
             {/* hidden lines to increase clickable target area */}

@@ -242,6 +242,22 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
         description: "小尺寸变体，适用于密集布局或侧边栏等空间受限的场景。",
         demoKey: "small",
       },
+      {
+        id: "collapse-plus",
+        kind: "variant",
+        title: "加号图标的折叠面板",
+        description:
+          "icon=\"plus\" 时指示图标展开逆时针旋转 45° 变成 ×（高频微反馈档位），适合 FAQ 这类「展开更多」的语义。",
+        demoKey: "plus",
+      },
+      {
+        id: "collapse-disabled",
+        kind: "advanced",
+        title: "禁用状态的折叠面板",
+        description:
+          "disabled 时整行（文本与图标）降不透明度并切换 not-allowed 光标，aria-disabled 与阻止展开的语义保持不变。",
+        demoKey: "disabled",
+      },
     ],
     accessibility: {
       status: "covered",
@@ -626,6 +642,22 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
         description:
           "Small-size variant optimized for dense layouts or constrained spaces like sidebars where vertical room is limited.",
         demoKey: "small",
+      },
+      {
+        id: "collapse-plus",
+        kind: "variant",
+        title: "Plus-icon collapse panel",
+        description:
+          "With icon=\"plus\" the indicator rotates 45° counter-clockwise into an × (high-frequency feedback tier), matching the \"reveal more\" reading of FAQ panels.",
+        demoKey: "plus",
+      },
+      {
+        id: "collapse-disabled",
+        kind: "advanced",
+        title: "Disabled collapse panel",
+        description:
+          "When disabled, the whole row (text and icon) drops opacity and switches to a not-allowed cursor; aria-disabled and the blocked toggle semantics stay intact.",
+        demoKey: "disabled",
       },
     ],
     accessibility: {

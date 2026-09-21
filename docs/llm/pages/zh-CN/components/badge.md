@@ -32,7 +32,11 @@ Badge
 
 ### 尺寸
 
-展示 sm、md 和 lg 三种尺寸，适用于不同密度的布局。
+展示 compact、sm、md 和 lg 四种尺寸，适用于不同密度的布局。
+
+### 圆角矩形与紧凑档
+
+shape="rounded"（4px 圆角矩形）+ size="compact"（20px 高）+ contrast="soft"（柔和底色）的组合，用于导航状态标记等密集场景。
 
 ### 带图标
 
@@ -145,7 +149,7 @@ export function BadgeVariants63D2643BExample() {
 
 ## 尺寸
 
-SmallMediumLarge
+CompactSmallMediumLarge
 
 ```tsx
 import { Badge } from "@/components/ui/badge";
@@ -153,6 +157,7 @@ import { Badge } from "@/components/ui/badge";
 export function BadgeSizes74A3978DExample() {
   return (
     <div className="flex flex-wrap items-center gap-2">
+      <Badge size="compact">Compact</Badge>
       <Badge size="sm">Small</Badge>
       <Badge size="md">Medium</Badge>
       <Badge size="lg">Large</Badge>
@@ -281,6 +286,65 @@ export function BadgePill9945C78BExample() {
 }
 ```
 
+## 圆角矩形与紧凑档
+
+UpdatedNewHealthyWarningFailed
+
+Pill compactRounded compactRounded mdWith icon
+
+```tsx
+import { Badge } from "@/components/ui/badge";
+import { Bell } from "lucide-react";
+
+/**
+ * 圆角矩形 + compact（+ soft 底色）：导航状态标记这类密集场景的标准组合。
+ * 与全圆胶囊（默认）对照，几何只有圆角与内边距两处差异。
+ */
+export function BadgeCompactRounded7C41E2A8Example() {
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <Badge shape="rounded" size="compact" variant="gray" contrast="soft">
+          Updated
+        </Badge>
+        <Badge shape="rounded" size="compact" variant="blue" contrast="soft">
+          New
+        </Badge>
+        <Badge shape="rounded" size="compact" variant="green" contrast="soft">
+          Healthy
+        </Badge>
+        <Badge shape="rounded" size="compact" variant="amber" contrast="soft">
+          Warning
+        </Badge>
+        <Badge shape="rounded" size="compact" variant="red" contrast="soft">
+          Failed
+        </Badge>
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <Badge shape="pill" size="compact" variant="blue" contrast="soft">
+          Pill compact
+        </Badge>
+        <Badge shape="rounded" size="compact" variant="blue">
+          Rounded compact
+        </Badge>
+        <Badge shape="rounded" variant="blue" contrast="soft">
+          Rounded md
+        </Badge>
+        <Badge
+          shape="rounded"
+          size="compact"
+          variant="blue"
+          contrast="soft"
+          icon={<Bell aria-hidden />}
+        >
+          With icon
+        </Badge>
+      </div>
+    </div>
+  );
+}
+```
+
 ## API 参考
 
 此页只列出稳定公开表面；原生属性请参阅对应元素类型。
@@ -295,7 +359,7 @@ import { Badge, badgeVariants } from "@/components/ui/badge";
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">variant</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">BadgeVariant</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">徽章视觉变体。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"gray"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">size</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"sm" | "md" | "lg"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">徽章尺寸。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"md"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">contrast</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"low"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">使用低对比度文字样式。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">icon</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">可选的前置图标。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">asChild</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">通过子元素渲染。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">variant</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">BadgeVariant</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">徽章视觉变体。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"gray"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">shape</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"pill" | "rounded"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">全圆胶囊或圆角矩形（4px 半径）。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"pill"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">size</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"compact" | "sm" | "md" | "lg"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">徽章尺寸。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"md"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">contrast</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"low" | "soft"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">低对比度文字样式，或柔和底色档。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">icon</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">可选的前置图标。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">asChild</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">通过子元素渲染。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
 
 ## 最佳实践
 

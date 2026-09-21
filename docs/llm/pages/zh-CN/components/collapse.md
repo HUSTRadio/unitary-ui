@@ -40,6 +40,14 @@ multiple 模式下，用户可以同时展开多个面板而关闭其他面板�
 
 小尺寸变体，适用于密集布局或侧边栏等空间受限的场景。
 
+### 加号图标的折叠面板
+
+icon="plus" 时指示图标展开逆时针旋转 45° 变成 ×（高频微反馈档位），适合 FAQ 这类「展开更多」的语义。
+
+### 禁用状态的折叠面板
+
+disabled 时整行（文本与图标）降不透明度并切换 not-allowed 光标，aria-disabled 与阻止展开的语义保持不变。
+
 ## 无障碍
 
 - 触发器是 <button> 元素，配有 aria-expanded 属性在切换时翻转，以及 aria-controls 指向内容区域的 ID。
@@ -92,6 +100,80 @@ export function CollapseDefault37A8EEC1Example() {
           <p className="mb-4 text-copy-16 text-muted-foreground">
             Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
             nulla pariatur.
+          </p>
+        </CollapseContent>
+      </Collapse>
+    </>
+  );
+}
+```
+
+## 加号
+
+Plus 图标展开时逆时针旋转 45° 变成 ×，收起时回到加号，适合 FAQ 这类「展开更多」的语义。
+
+旋转走高频微反馈档位（--uni-motion-feedback），与悬停、颜色变化保持同一节奏。
+
+```tsx
+import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
+
+export function CollapsePlus9C4E1A7BExample() {
+  return (
+    <>
+      <Collapse icon="plus" className="border-b">
+        <h3 className="text-[24px] font-semibold text-foreground">
+          <CollapseTrigger>Question A</CollapseTrigger>
+        </h3>
+        <CollapseContent>
+          <p className="mb-4 text-copy-16 text-muted-foreground">
+            Plus 图标展开时逆时针旋转 45° 变成 ×，收起时回到加号，适合 FAQ 这类「展开更多」的语义。
+          </p>
+        </CollapseContent>
+      </Collapse>
+      <Collapse icon="plus" className="border-b" defaultOpen>
+        <h3 className="text-[24px] font-semibold text-foreground">
+          <CollapseTrigger>Question B</CollapseTrigger>
+        </h3>
+        <CollapseContent>
+          <p className="mb-4 text-copy-16 text-muted-foreground">
+            旋转走高频微反馈档位（--uni-motion-feedback），与悬停、颜色变化保持同一节奏。
+          </p>
+        </CollapseContent>
+      </Collapse>
+    </>
+  );
+}
+```
+
+## 禁用
+
+正常状态：触发器可聚焦、可点击，键盘聚焦时显示内嵌焦点环。
+
+不可达内容：禁用态触发器整体降不透明度并切换为 not-allowed 光标，点击不会展开。
+
+```tsx
+import { Collapse, CollapseContent, CollapseTrigger } from "@/components/ui/collapse";
+
+export function CollapseDisabled2F7D5B6EExample() {
+  return (
+    <>
+      <Collapse className="border-b">
+        <h3 className="text-[24px] font-semibold text-foreground">
+          <CollapseTrigger>Question A</CollapseTrigger>
+        </h3>
+        <CollapseContent>
+          <p className="mb-4 text-copy-16 text-muted-foreground">
+            正常状态：触发器可聚焦、可点击，键盘聚焦时显示内嵌焦点环。
+          </p>
+        </CollapseContent>
+      </Collapse>
+      <Collapse className="border-b" disabled>
+        <h3 className="text-[24px] font-semibold text-foreground">
+          <CollapseTrigger>Question B</CollapseTrigger>
+        </h3>
+        <CollapseContent>
+          <p className="mb-4 text-copy-16 text-muted-foreground">
+            不可达内容：禁用态触发器整体降不透明度并切换为 not-allowed 光标，点击不会展开。
           </p>
         </CollapseContent>
       </Collapse>
@@ -197,7 +279,7 @@ import { Collapse, CollapseTrigger, CollapseContent } from "@/components/ui/coll
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">open</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">受控展开状态。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultOpen</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">非受控初始状态。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onOpenChange</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(open: boolean) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">展开状态变化时调用。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">open</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">受控展开状态。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultOpen</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">非受控初始状态。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onOpenChange</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(open: boolean) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">展开状态变化时调用。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">size</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default" | "small" | "bare"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">触发器内边距档位。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"default"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">icon</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"chevron" | "plus"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">指示图标；plus 展开时旋转 45° 变 ×。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"chevron"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">indicatorAlign</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"inline" | "end"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">指示图标位置：inline 紧跟标题，end 推到行尾右对齐。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"end"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">as</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ElementType</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">触发元素类型。非按钮元素渲染无按钮外观的披露控件（role=button + Enter/Space）。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">disabled</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">阻止展开并整行变淡。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
 
 ## 最佳实践
 

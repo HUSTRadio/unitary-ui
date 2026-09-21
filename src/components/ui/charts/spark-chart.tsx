@@ -107,8 +107,7 @@ const SparkAreaChart = React.forwardRef<HTMLDivElement, SparkAreaChartProps>(
             {categories.map((category) => {
               const categoryId = `${areaId}-${category.replace(/[^a-zA-Z0-9]/g, "")}`
               return (
-                <React.Fragment key={category}>
-                  <defs>
+                <defs key={`gradient-${category}`}>
                     <linearGradient
                       key={category}
                       className={cn(
@@ -128,7 +127,13 @@ const SparkAreaChart = React.forwardRef<HTMLDivElement, SparkAreaChartProps>(
                       {getFillContent(fill)}
                     </linearGradient>
                   </defs>
-                  <Area
+              )
+            })}
+            {/* recharts 2.15 不识别 Fragment 内层的图形子元素：defs 与 Area 分列两次遍历 */}
+            {categories.map((category) => {
+              const categoryId = `${areaId}-${category.replace(/[^a-zA-Z0-9]/g, "")}`
+              return (
+                <Area
                     className={cn(
                       getColorClassName(
                         categoryColors.get(
@@ -151,7 +156,6 @@ const SparkAreaChart = React.forwardRef<HTMLDivElement, SparkAreaChartProps>(
                     stackId={stacked ? "stack" : undefined}
                     fill={`url(#${categoryId})`}
                   />
-                </React.Fragment>
               )
             })}
           </RechartsAreaChart>

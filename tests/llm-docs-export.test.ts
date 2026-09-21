@@ -109,8 +109,11 @@ describe("LLM docs export contract", () => {
 
   it("组件页含 API、最佳实践与至少一个代码围栏", () => {
     const index = readIndex();
+    // 图表组件族的详情页挂在 /charts/<name>，与 /components/<name> 同属 component-detail 渲染器
     const componentRoutes = index.routes.filter(
-      (r: any) => r.path.startsWith("/components/") && r.path !== "/components",
+      (r: any) =>
+        (r.path.startsWith("/components/") && r.path !== "/components") ||
+        r.path.startsWith("/charts/"),
     );
     expect(componentRoutes.length).toBe(
       DOCS_ROUTE_SEQUENCE.filter((route) => route.renderer.kind === "component-detail").length,

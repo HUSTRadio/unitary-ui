@@ -16,6 +16,14 @@ A bottom share sheet with a grid of share targets and a list of actions.
 
 ](#/components/activity-view)[
 
+Tremor Raw
+
+### Area Chart
+
+Renders layered area series for trends over time, with stacked and percent variants.
+
+](#/components/area-chart)[
+
 Avatar
 
 ### Avatar
@@ -39,6 +47,22 @@ Banner
 A prominent message that spans the full width of its container to announce important information.
 
 ](#/components/banner)[
+
+Tremor Raw
+
+### Bar Chart
+
+Renders categorical bar series with stacked, percent, and vertical layouts.
+
+](#/components/bar-chart)[
+
+Tremor Raw
+
+### Bar List
+
+Renders a ranked list where each row carries a proportional bar and value.
+
+](#/components/bar-list)[
 
 Book
 
@@ -88,6 +112,14 @@ Displays a month calendar from which users can pick a date.
 
 ](#/components/calendar)[
 
+Tremor Raw
+
+### Category Bar
+
+Renders a segmented horizontal bar showing shares of a total.
+
+](#/components/category-bar)[
+
 Checkbox
 
 ### Checkbox
@@ -135,6 +167,14 @@ Collapse
 A vertically stacked set of headings that each reveal a related section of content.
 
 ](#/components/collapse)[
+
+Tremor Raw
+
+### Combo Chart
+
+Combines bar and line series in one chart, optionally on two axes.
+
+](#/components/combo-chart)[
 
 Combobox
 
@@ -207,6 +247,14 @@ Phone
 Frames screenshots inside realistic phone and tablet shells.
 
 ](#/components/device)[
+
+Tremor Raw
+
+### Donut Chart
+
+Renders a part-to-whole donut (or pie) with an optional center metric.
+
+](#/components/donut-chart)[
 
 Dots Menu
 
@@ -344,6 +392,14 @@ Accessible text label for form controls.
 
 ](#/components/label)[
 
+Tremor Raw
+
+### Line Chart
+
+Renders connected line series for continuous trends with optional axis titles.
+
+](#/components/line-chart)[
+
 Link
 
 ### Link
@@ -440,6 +496,14 @@ Shows progress relative to a limit or a task.
 
 ](#/components/progress)[
 
+Tremor Raw
+
+### Progress Circle
+
+Renders a circular progress indicator with an optional center metric.
+
+](#/components/progress-circle)[
+
 Project Banner
 
 ### Project Banner
@@ -463,6 +527,14 @@ Relative Time Card
 Shows a relative timestamp with temporal context.
 
 ](#/components/relative-time-card)[
+
+Responsive Drawer
+
+### Responsive Drawer
+
+One drawer that docks to the bottom on phones and to the side on desktop, with optional detents.
+
+](#/components/responsive-drawer)[
 
 Safe Area
 
@@ -543,6 +615,14 @@ Snippet
 Displays a runnable shell command or short code the user is meant to copy.
 
 ](#/components/snippet)[
+
+Tremor Raw
+
+### Spark Chart
+
+Renders tiny inline sparklines (area, line, or bar) for at-a-glance trends.
+
+](#/components/spark-chart)[
 
 Spinner
 
@@ -663,6 +743,14 @@ Tooltip
 A floating label that appears on hover or focus.
 
 ](#/components/tooltip)[
+
+Tremor Raw
+
+### Tracker
+
+Renders a sequence of status blocks for event timelines or uptime history.
+
+](#/components/tracker)[
 
 Video
 

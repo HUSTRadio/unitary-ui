@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { COMPONENTS } from "../docs/geist/src/data/components";
 import { NAV_GROUPS } from "../docs/geist/src/data/nav";
 import {
+  CHART_COMPONENT_NAMES,
   DOCS_ROUTE_GROUPS,
   DOCS_ROUTE_SEQUENCE,
   canonicalDocsPath,
@@ -32,7 +33,11 @@ describe("canonical docs route registry", () => {
       .map((route) => route.to)
       .sort();
     expect(componentPaths).toEqual(
-      COMPONENTS.map((component) => `/components/${component.name}`).sort(),
+      COMPONENTS.map((component) =>
+        CHART_COMPONENT_NAMES.has(component.name)
+          ? `/charts/${component.name}`
+          : `/components/${component.name}`,
+      ).sort(),
     );
   });
 

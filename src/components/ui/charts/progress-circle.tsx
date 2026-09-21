@@ -5,6 +5,7 @@
 import React from "react"
 
 import { cn } from "@/lib/utils"
+import { useI18n } from "@/lib/i18n"
 
 const progressCircleVariants = {
   default: {
@@ -57,6 +58,7 @@ const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>(
     }: ProgressCircleProps,
     forwardedRef,
   ) => {
+    const { t } = useI18n()
     const safeValue = Math.min(max, Math.max(value, 0))
     const normalizedRadius = radius - strokeWidth / 2
     const circumference = normalizedRadius * 2 * Math.PI
@@ -68,7 +70,7 @@ const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>(
         data-slot="progress-circle"
         className="relative"
         role="progressbar"
-        aria-label="Progress circle"
+        aria-label={t("Progress circle")}
         aria-valuenow={value}
         aria-valuemin={0}
         aria-valuemax={max}

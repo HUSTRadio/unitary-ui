@@ -7,6 +7,7 @@ import React from "react"
 import { HoverCard as HoverCardPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
+import { useI18n } from "@/lib/i18n"
 
 import {
   AvailableChartColors,
@@ -129,6 +130,7 @@ const CategoryBar = React.forwardRef<HTMLDivElement, CategoryBarProps>(
     },
     forwardedRef,
   ) => {
+    const { t } = useI18n()
     const markerBgColor = React.useMemo(
       () => getMarkerBgColor(marker?.value, values, colors),
       [marker, values, colors],
@@ -168,7 +170,7 @@ const CategoryBar = React.forwardRef<HTMLDivElement, CategoryBarProps>(
         ref={forwardedRef}
         data-slot="category-bar"
         className={cn(className)}
-        aria-label="Category bar"
+        aria-label={t("Category bar")}
         aria-valuenow={marker?.value}
         {...props}
       >

@@ -511,12 +511,19 @@ html[data-font-tier="hmos"],
     "HarmonyOS Sans SC", "HarmonyOS Sans SC Subset", "HarmonyOS Sans TC", "HarmonyOS Sans TC Subset",
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC",
     sans-serif;
+  /* 墨迹补偿是按 OPPO Sans 4.0 实测校准的字体专属量：本档位没有等价实测，
+     不套用别的字体的补偿值（宁可不动），显式归零。 */
+  --uni-ink-shift: 0em;
+  --uni-ink-shift-cjk: 0em;
 }
 html[data-font-tier="system"],
 [data-font-tier="system"] {
   --font-sans:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC",
     "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  /* 系统字体栈跨平台不可枚举，不做统一光学补偿。 */
+  --uni-ink-shift: 0em;
+  --uni-ink-shift-cjk: 0em;
 }
 
 
@@ -699,6 +706,18 @@ html[data-font-tier="system"],
   --uni-leading-caption1: 1rem;
   --uni-text-caption2: 0.6875rem;
   --uni-leading-caption2: 0.8125rem;
+
+  /* 导航标签排版 token：一级小标题 / 二级小标题 / 菜单项共用同一字号层级
+     （侧栏标签统一字号），层级差由文字缩进与字重承担。
+     三个角色各自保留 token 名，便于将来按角色单独调整；字号来源仍是上面的
+     内容尺度（Subhead 15/20），因此这里只做角色别名，不引入新数值。 */
+  --uni-text-nav-heading: var(--uni-text-subhead);
+  --uni-leading-nav-heading: var(--uni-leading-subhead);
+  --uni-text-nav-subheading: var(--uni-text-subhead);
+  --uni-leading-nav-subheading: var(--uni-leading-subhead);
+  --uni-text-nav-item: var(--uni-text-subhead);
+  --uni-leading-nav-item: var(--uni-leading-subhead);
+
   --uni-text-display: 2.5rem;
   --uni-leading-display: 3rem;
 
@@ -716,6 +735,36 @@ html[data-font-tier="system"],
   --uni-doc-space-paragraph: 1rem;
   --uni-doc-space-list-item: 0.75rem;
   --uni-doc-list-indent: 1.25rem;
+
+  /* 导航层级节奏（侧栏与移动端面板共用）：层次感由「小标题向条目药丸左缘对齐」
+     承担，垂直节奏只负责分组的呼吸感——父级到第一个小组略紧（6px），
+     兄弟小组之间略松（4+1+4 = 9px）。取值都落在标准间距尺上。 */
+  --uni-nav-space-parent: 0.375rem; /* 6px — 一级小标题 → 第一个二级小组 */
+  --uni-nav-space-sibling: 0.25rem; /* 4px — 二级小组短分割线上下留白（组间 4+1+4 = 9px） */
+
+  /* 导航条目行几何（Apple HIG）：指针场景 36px 行高（HIG macOS 列表行 24–32pt 之上
+     留一档舒适余量）；触控（移动面板）44px = HIG 最小命中区 44×44pt。
+     行距由组件的 space-y 承担（标准间距尺 4px）。 */
+  --uni-nav-item-height: 2.25rem;
+  --uni-nav-item-height-touch: 2.75rem;
+
+  /* 字形墨迹垂直基线补偿（负值 = 上移）：行盒几何居中 ≠ 字形墨迹视觉居中。
+     项目字体栈默认档 OPPO Sans 4.0 的 ascent/descent 不对称（cap 系 ≈0.0625em，
+     fontBoundingBox 实测 16/4 ≈ 4:1），`items-center` 只居中行盒，墨迹整体偏下；
+     偏移量同时取决于「哪一类字形」（同一字体下 canvas 实测）：
+       拉丁 x-height 词 ≈0.17em（14px 桌面实测 2.4px，最重）
+       拉丁 cap 词     ≈0.07em（≈1px）
+       CJK 字          ≈0.033em（15px 实测 0.5px，墨迹几乎铺满 em）
+     因此按两类消费点各给一个 token（都随字号等比缩放，不用 px 硬编码）：
+       --uni-ink-shift       拉丁为主的标签：Pill / Badge（14px ≈ 1.5px，取 x-height
+                             与 cap 之间的实测折中，残差 ≤1px）
+       --uni-ink-shift-cjk   CJK 为主的标签：导航行、标题（15px ≈ 0.5px）
+     两种消费方式：
+       1) 只位移文字（图标/容器几何不变）→ `ink-shift` / `ink-shift-cjk` utility；
+       2) 容器固定高、内容整体上提且总高不变 → calc 内边距法（见 Pill / Badge）。
+     非 oppo 档位由下方 data-font-tier 段覆盖。 */
+  --uni-ink-shift: -0.107em;
+  --uni-ink-shift-cjk: -0.033em;
 }
 
 /* ============ Theme / Light — 34 semantic tokens ============ */
@@ -1415,6 +1464,21 @@ html[data-font-tier="system"],
   line-height: var(--uni-leading-caption2);
 }
 
+/* 导航标签：一级小标题 / 二级小标题 / 菜单项。三者共用同一字号层级
+   （见 @theme 的 nav token），字重与缩进由具体组件承担。 */
+@utility text-style-nav-heading {
+  font-size: var(--uni-text-nav-heading);
+  line-height: var(--uni-leading-nav-heading);
+}
+@utility text-style-nav-subheading {
+  font-size: var(--uni-text-nav-subheading);
+  line-height: var(--uni-leading-nav-subheading);
+}
+@utility text-style-nav-item {
+  font-size: var(--uni-text-nav-item);
+  line-height: var(--uni-leading-nav-item);
+}
+
 @utility leading-compact {
   line-height: var(--uni-leading-compact);
 }
@@ -1429,6 +1493,36 @@ html[data-font-tier="system"],
 }
 @utility mixed-script-gap-prose {
   margin-inline-start: var(--uni-mixed-script-gap-prose);
+}
+
+/* 字形墨迹垂直基线补偿（值见 @theme 的 --uni-ink-shift / --uni-ink-shift-cjk）：
+   只位移文字本身（相对定位），行盒与容器几何保持不变——适合行内标签；
+   需要「容器内内容整体上移且总高不变」时用 calc 内边距法（见 Pill / Badge）。
+   ink-shift = 拉丁标签档；ink-shift-cjk = 中文字形档。 */
+@utility ink-shift {
+  position: relative;
+  inset-block-start: var(--uni-ink-shift);
+}
+@utility ink-shift-cjk {
+  position: relative;
+  inset-block-start: var(--uni-ink-shift-cjk);
+}
+
+/* 导航层级节奏（值见 @theme 的 --uni-nav-space-*）：
+   parent = 一级小标题到子级的间距；sibling = 二级小组短分割线的上下留白。 */
+@utility nav-space-parent {
+  margin-bottom: var(--uni-nav-space-parent);
+}
+@utility nav-space-sibling {
+  margin-block: var(--uni-nav-space-sibling);
+}
+
+/* 导航条目行高（值见 @theme 的 --uni-nav-item-height*）。 */
+@utility nav-item-row {
+  height: var(--uni-nav-item-height);
+}
+@utility nav-item-row-touch {
+  height: var(--uni-nav-item-height-touch);
 }
 
 /* Native CJK/Latin spacing is progressive; unsupported browsers keep authored text unchanged. */
@@ -1792,9 +1886,10 @@ html[data-font-tier="system"],
   box-shadow: var(--material-shadow-modal);
 }
 
-/* Force-mounted Radix content gets an inline 0s transition during presence setup. */
+/* Force-mounted Radix content gets an inline 0s transition during presence setup.
+   时长跟折叠语义档位（--uni-motion-state = 250ms），与组件类上的 duration token 保持一致。 */
 @utility collapse-content-motion {
-  transition-duration: 200ms !important;
+  transition-duration: var(--uni-motion-state) !important;
 }
 
 @utility material-fullscreen {

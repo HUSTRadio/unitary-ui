@@ -17,6 +17,7 @@ import { Toasts } from "@/components/ui/toast";
 import { useFontMetrics } from "@/lib/font-metrics";
 import { IconsPage } from "./components/docs-icons";
 import { LifecycleAndHooksPage } from "./pages/lifecycle-and-hooks";
+import { ChartsGalleryPage } from "./pages/charts-gallery";
 import { AppShellDemo } from "./components/patterns/app-shell-demo";
 import {
   ColorsPage,
@@ -51,6 +52,7 @@ const STATIC_PAGE_COMPONENTS = {
 const LOCALIZED_PAGE_COMPONENTS = {
   "lifecycle-and-hooks": LifecycleAndHooksPage,
   "app-shell": AppShellDemo,
+  charts: ChartsGalleryPage,
 } satisfies Record<LocalizedPageKey, ComponentType<{ language: DocsLanguage }>>;
 
 export default function App() {

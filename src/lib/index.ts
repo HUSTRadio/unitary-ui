@@ -119,6 +119,23 @@ export { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescri
 export type { SheetProps, SheetSide, SheetTriggerProps, SheetPortalProps, SheetOverlayProps, SheetHeaderProps, SheetTitleProps, SheetDescriptionProps, SheetFooterProps, SheetCloseProps, SheetContentProps } from "@/components/ui/sheet";
 export { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 export type { DrawerProps, DrawerTitleProps, DrawerDescriptionProps } from "@/components/ui/drawer";
+export {
+  ResponsiveDrawer,
+  ResponsiveDrawerTrigger,
+  ResponsiveDrawerContent,
+  ResponsiveDrawerHeader,
+  ResponsiveDrawerTitle,
+  ResponsiveDrawerDescription,
+  ResponsiveDrawerBody,
+  ResponsiveDrawerFooter,
+  ResponsiveDrawerClose,
+} from "@/components/ui/responsive-drawer";
+export type {
+  ResponsiveDrawerProps,
+  ResponsiveDrawerPlacement,
+  ResponsiveDrawerSize,
+  ResponsiveDrawerGestureOptions,
+} from "@/components/ui/responsive-drawer";
 export { Modal, ModalTrigger, ModalPortal, ModalOverlay, ModalContent, ModalHeader, ModalTitle, ModalDescription, ModalFooter, ModalClose } from "@/components/ui/modal";
 export type { ModalContentProps, ModalPlacement } from "@/components/ui/modal";
 export { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
