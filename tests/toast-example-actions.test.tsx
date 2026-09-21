@@ -7,7 +7,7 @@
 import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { Toasts } from "@/components/ui/toast";
 import { LanguageProvider } from "../docs/geist/src/i18n/language";
@@ -15,6 +15,14 @@ import { ToastAction64CFF131Example } from "../docs/geist/src/examples/toast/act
 import { ToastUndoA8283ADEExample } from "../docs/geist/src/examples/toast/undo-a8283ade.example";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+
+// 关闭现在会先驻留一个退场过渡（约 350ms）再出栈，用例需要可控推进计时器。
+beforeEach(() => {
+  vi.useFakeTimers();
+});
+afterEach(() => {
+  vi.useRealTimers();
+});
 
 let container: HTMLDivElement;
 let root: Root;
@@ -47,6 +55,10 @@ function drainToasts() {
   document.querySelectorAll('[data-slot="toasts"] li').forEach((li) => {
     const close = li.querySelector<HTMLButtonElement>('[data-slot="toast-close"]');
     if (close) act(() => close.click());
+  });
+  // 关闭会驻留一个退场过渡；推进计时器让条目真正出栈，避免污染后续用例
+  act(() => {
+    vi.advanceTimersByTime(400);
   });
 }
 
@@ -98,6 +110,9 @@ describe.each([
     // the toast carries the raw action label from `action: "Undo"`
     clickToastAction("Undo");
     expect(fencePosition()).toBe("behind");
+    act(() => {
+      vi.advanceTimersByTime(400);
+    });
     expect(document.querySelectorAll('[data-slot="toasts"] li').length).toBe(0);
   });
 
@@ -109,6 +124,9 @@ describe.each([
     // onUndoAction renders t("Undo") -> localized label, not a raw string
     clickToastAction(undoLabel);
     expect(fencePosition()).toBe("behind");
+    act(() => {
+      vi.advanceTimersByTime(400);
+    });
     expect(document.querySelectorAll('[data-slot="toasts"] li').length).toBe(0);
   });
 });

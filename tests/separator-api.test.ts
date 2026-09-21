@@ -34,3 +34,24 @@ describe("Separator official API contract (G09 audit fixes)", () => {
     expect(css).toMatch(/--gray-200:\s*#1f1f1f/);
   });
 });
+
+describe("Separator length scale (2026-09-21)", () => {
+  test("length defaults to full and exposes data-length for both orientations", async () => {
+    const src = await read("src/components/ui/separator.tsx");
+    expect(src).toMatch(/length\s*=\s*"full"/);
+    expect(src).toMatch(/data-length=\{length\}/);
+    // horizontal: h-px + w-full / w-10；vertical: w-px + h-full / h-10
+    expect(src).toMatch(/"h-px"/);
+    expect(src).toMatch(/"w-px"/);
+    expect(src).toMatch(/"w-full"/);
+    expect(src).toMatch(/"w-10"/);
+    expect(src).toMatch(/"h-full"/);
+    expect(src).toMatch(/"h-10"/);
+  });
+
+  test("length=short is documented as a 40px stub for dense lists", async () => {
+    const src = await read("src/components/ui/separator.tsx");
+    expect(src).toContain("40px");
+    expect(src).toMatch(/length\?: SeparatorLength/);
+  });
+});

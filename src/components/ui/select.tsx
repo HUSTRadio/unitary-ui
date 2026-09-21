@@ -216,7 +216,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
             ) : (
               <SelectPrimitive.Icon asChild>
                 <span aria-hidden="true" className="ml-2 inline-flex shrink-0 text-gray-700">
-                  <ChevronDown className="size-3.5 transition-transform duration-(--uni-duration-base) group-data-[state=open]/select-trigger:hidden" />
+                  <ChevronDown className="size-3.5 transition-transform duration-(--uni-motion-feedback) ease-snap group-data-[state=open]/select-trigger:rotate-180 motion-reduce:transition-none" />
                 </span>
               </SelectPrimitive.Icon>
             )}
@@ -228,7 +228,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
               data-slot="select-content"
               className={cn(
                 "material-menu relative z-[var(--uni-z-popover)] max-h-[min(var(--radix-select-content-available-height),376px)] min-w-(--radix-select-trigger-width) w-full overflow-y-auto overscroll-contain p-1 text-popover-foreground",
-                "animate-in fade-in-0 zoom-in-95 duration-(--uni-duration-fast) motion-reduce:animate-none",
+                "animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 duration-(--uni-duration-fast) motion-reduce:animate-none",
               )}
             >
               <SelectPrimitive.Viewport className="flex flex-col gap-0.5">

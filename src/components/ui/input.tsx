@@ -14,10 +14,12 @@ import { FieldError, FIELD_ERROR_RING, joinDescribedBy } from "./field-error";
  * - disabled：input bg gray-100 + text gray-700（官方 disabled:bg-gray-100 /
  *   disabled:text-gray-700），styled prefix/suffix 保留 background-200 的固定修饰语义；
  *   plain prefix/suffix 才跟随 input 合并为 gray-100；wrapper cursor-not-allowed
- * - prefix/suffix：wrapper 内三段无缝拼接；装饰段 px-3，styled 时使用
- *   bg-background-200 + 单侧 1px 分隔线；各段之间无正 margin。
- *   prefixStyling=false 时用 -mr-3 与 input 的左 padding 重叠，suffixStyling=false
- *   保持 bg-background-100 且无分隔线。
+ * - prefix/suffix：wrapper 内三段无缝拼接；装饰段外侧留白 px-3，紧邻分隔线的一侧
+ *   缩半档（12 → 10px = pr-2.5/pl-2.5，input 侧的 pl/pr 同步缩半档），
+ *   让「前缀｜分隔线｜值｜分隔线｜后缀」分隔线两侧的文字留空一致且更紧凑；
+ *   styled 时使用 bg-background-200 + 单侧 1px 分隔线；各段之间无正 margin。
+ *   prefixStyling=false 时用 -mr-3 与 input 的左 padding 重叠（外侧留白维持 12px），
+ *   suffixStyling=false 保持 bg-background-100 且无分隔线。
  * - rounded：wrapper rounded-full + mt-3（官方原样），input 同步 rounded-full
  * - label：<label> 包裹 text div（data-slot=input-label，13px/19.5px gray-900，
  *   capitalize + mb-2）与输入控件（官方 label[data-version=v1] 结构）
@@ -50,7 +52,7 @@ export interface InputProps extends Omit<React.ComponentProps<"input">, "size" |
 }
 
 const INPUT_BASE = cn(
-  "inline-flex w-full min-w-0 appearance-none border-none bg-background-100 px-3 text-black dark:text-white outline-none",
+  "inline-flex w-full min-w-0 appearance-none border-none bg-background-100 text-black dark:text-white outline-none",
   "placeholder:text-gray-700",
   "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-700 disabled:placeholder:text-(--input-disabled-placeholder)",
 );
@@ -119,11 +121,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className={cn(
               // [&_svg]:size-4 对齐全仓库图标 16px 惯例（button/menu/tabs 等 22 处），
               // 防止 lucide 默认 24px 图标在 32-36px 高的输入框里被放大
-              "flex h-full shrink-0 items-center px-3 text-gray-700 [&_svg]:size-4 [&_svg]:shrink-0",
+              "flex h-full shrink-0 items-center text-gray-700 [&_svg]:size-4 [&_svg]:shrink-0",
               rounded && "rounded-full",
+              // 外侧维持 12px；分隔线一侧缩半档到 10px（与 input 的 pl-2.5 合起来两侧一致）
               prefixStyling
-                ? "border-r border-gray-alpha-400 bg-background-200"
-                : cn(NO_STYLING_CLASSES, "-mr-3"),
+                ? "border-r border-gray-alpha-400 bg-background-200 pl-3 pr-2.5"
+                : cn(NO_STYLING_CLASSES, "-mr-3", "px-3"),
             )}
           >
             {prefix}
@@ -140,6 +143,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className={cn(
             INPUT_BASE,
             "h-full flex-1 w-auto min-w-0",
+            // 紧邻 styled affix 的一侧缩半档（12 → 10px）：与装饰段的 pr-2.5 / pl-2.5 对称
+            prefix && prefixStyling ? "pl-2.5" : "pl-3",
+            suffix && suffixStyling ? "pr-2.5" : "pr-3",
             size === "large" ? "text-copy-16" : "text-copy-14",
             "file:border-0 file:bg-transparent file:text-copy-13 file:font-medium file:text-foreground",
             className,
@@ -153,11 +159,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             data-slot="input-suffix"
             data-styling={suffixStyling ? "styled" : "plain"}
             className={cn(
-              "flex h-full shrink-0 items-center px-3 text-gray-700 [&_svg]:size-4 [&_svg]:shrink-0",
+              "flex h-full shrink-0 items-center text-gray-700 [&_svg]:size-4 [&_svg]:shrink-0",
               rounded && "rounded-full",
               suffixStyling
-                ? "border-l border-gray-alpha-400 bg-background-200"
-                : NO_STYLING_CLASSES,
+                ? "border-l border-gray-alpha-400 bg-background-200 pl-2.5 pr-3"
+                : cn(NO_STYLING_CLASSES, "px-3"),
             )}
           >
             {suffix}

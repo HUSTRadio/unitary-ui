@@ -413,10 +413,11 @@ test("scrollable sidebar keeps equal 16px top and bottom content insets", async 
 });
 
 /**
- * 侧栏 Tremor 观感实测（2026-09-21）：行高 32px、圆角 6px、左右内缩 14px，
- * 选中态 = 药丸底色 + 左侧 2×16px 指示条。
+ * 侧栏观感实测（2026-09-21 修订）：条目行 36px（HIG 指针行高，token
+ * --uni-nav-item-height）、圆角 6px、左右内缩 14px；小标题对齐药丸左缘（不内缩，
+ * 条目标签再内缩 14px 读层级）；选中态 = 药丸底色 + 左侧 2×16px 指示条。
  */
-test("sidebar rows keep the measured 32px rhythm with aligned indicator and icon", async ({
+test("sidebar rows keep the HIG 36px rhythm with aligned heading, indicator and icon", async ({
   page,
 }) => {
   await openComponent(page, "link");
@@ -439,6 +440,8 @@ test("sidebar rows keep the measured 32px rhythm with aligned indicator and icon
     const withIcon = items.find((item) => item.querySelector("svg"));
     const indicator = active?.querySelector('[data-slot="sidebar-nav-indicator"]');
     const icon = withIcon?.querySelector("svg");
+    const headingLabel = headings[0]?.querySelector("span");
+    const itemLabel = withIcon?.querySelector("span.truncate");
 
     return {
       itemCount: items.length,
@@ -452,22 +455,31 @@ test("sidebar rows keep the measured 32px rhythm with aligned indicator and icon
       indicatorBox: box(indicator),
       iconBox: box(icon),
       iconItemBox: box(withIcon),
+      firstItemBox: box(items[0]),
+      headingLabelBox: box(headingLabel),
+      itemLabelBox: box(itemLabel),
     };
   });
 
   expect(metrics.itemCount).toBeGreaterThan(20);
-  expect(metrics.heights).toEqual([32]);
+  // 条目行 36px（HIG 指针行高 token）；小标题行仍是 32px 标签行
+  expect(metrics.heights).toEqual([36]);
   expect(metrics.headingHeights).toEqual([32]);
   expect(metrics.radius).toBe("6px");
-  expect(metrics.padding).toBe("6px 14px");
+  // 行高由 token 高度承担，左右内缩仍是 14px
+  expect(metrics.padding).toBe("0px 14px");
 
-  // 指示条 2×16，垂直居中，距药丸左缘 6px
+  // 层级靠对齐：小标题文字左缘 = 条目药丸左缘；条目标签再内缩 14px
+  expect(Math.abs(metrics.headingLabelBox!.x - metrics.firstItemBox!.x)).toBeLessThanOrEqual(0.5);
+  expect(Math.abs(metrics.itemLabelBox!.x - (metrics.iconItemBox!.x + 38))).toBeLessThanOrEqual(0.5);
+
+  // 指示条 2×16，垂直居中，距药丸左缘 8px（2026-09-21 右移 2px，避免贴住药丸边缘）
   expect(metrics.indicatorBox?.w).toBe(2);
   expect(metrics.indicatorBox?.h).toBe(16);
   const activeCenter = metrics.activeBox!.y + metrics.activeBox!.h / 2;
   const indicatorCenter = metrics.indicatorBox!.y + metrics.indicatorBox!.h / 2;
   expect(Math.abs(activeCenter - indicatorCenter)).toBeLessThanOrEqual(0.5);
-  expect(Math.abs(metrics.indicatorBox!.x - (metrics.activeBox!.x + 6))).toBeLessThanOrEqual(0.5);
+  expect(Math.abs(metrics.indicatorBox!.x - (metrics.activeBox!.x + 8))).toBeLessThanOrEqual(0.5);
 
   // 图标 16px，垂直居中，与 14px 左内缩同轴
   expect(metrics.iconBox?.w).toBe(16);
@@ -478,16 +490,77 @@ test("sidebar rows keep the measured 32px rhythm with aligned indicator and icon
   expect(Math.abs(metrics.iconBox!.x - (metrics.iconItemBox!.x + 14))).toBeLessThanOrEqual(0.5);
 });
 
-test("sidebar status badge is 20px tall and flush with the row's trailing padding", async ({
+/**
+ * 侧栏层级节奏（2026-09-21 修订）：层次感由「小标题对齐药丸左缘」承担，垂直节奏只
+ * 负责分组呼吸感——一级标题到首个小标题 6px，二级小组之间 9px（40×1 短分割线上下
+ * 各 4px），分割线左缘与小标题同轴。
+ */
+test("sidebar subgroup rhythm: 6px to the first subgroup, 9px between subgroups, headings on the pill edge", async ({
+  page,
+}) => {
+  await openComponent(page, "link");
+  const sidebar = page.locator('[data-slot="docs-sidebar"]');
+
+  const metrics = await sidebar.evaluate((node) => {
+    const round = (value: number) => Math.round(value * 100) / 100;
+    const groups = Array.from(
+      node.querySelectorAll<HTMLElement>('[data-slot="sidebar-nav-group"]'),
+    );
+    const group = groups.find((candidate) =>
+      candidate.querySelector('[data-slot="sidebar-nav-subgroup"]'),
+    );
+    if (!group) return null;
+
+    const heading = group.querySelector<HTMLElement>('[data-slot="sidebar-nav-heading"]')!;
+    const subheadings = Array.from(
+      group.querySelectorAll<HTMLElement>('[data-slot="sidebar-nav-subheading"]'),
+    );
+    const divider = group.querySelector<HTMLElement>('[data-slot="sidebar-nav-subgroup-divider"]');
+    if (subheadings.length < 2 || !divider) return null;
+
+    const dividerRect = divider.getBoundingClientRect();
+    const lastItemBeforeDivider = Array.from(
+      group.querySelectorAll<HTMLElement>('[data-slot="sidebar-nav-item"]'),
+    )
+      .map((item) => item.getBoundingClientRect())
+      .filter((rect) => rect.bottom <= dividerRect.top)
+      .pop();
+
+    return {
+      parentToChild: round(subheadings[0].getBoundingClientRect().top - heading.getBoundingClientRect().bottom),
+      sibling: round(
+        subheadings[1].getBoundingClientRect().top -
+          (lastItemBeforeDivider?.bottom ?? dividerRect.bottom),
+      ),
+      dividerWidth: round(dividerRect.width),
+      dividerHeight: round(dividerRect.height),
+      dividerX: round(dividerRect.x),
+      headingLabelX: round(heading.querySelector("span")!.getBoundingClientRect().x),
+      subheadingLabelX: round(subheadings[0].querySelector("span")!.getBoundingClientRect().x),
+    };
+  });
+
+  expect(metrics).not.toBeNull();
+  expect(metrics!.dividerWidth).toBe(40);
+  expect(metrics!.dividerHeight).toBe(1);
+  // token 档位：parent 6px（--uni-nav-space-parent）、sibling 4 + 1 + 4 = 9px
+  expect(metrics!.parentToChild).toBe(6);
+  expect(metrics!.sibling).toBe(9);
+  // 层次感来自对齐：一级小标题、二级小标题、分割线三者左缘同轴（都在药丸左缘）
+  expect(Math.abs(metrics!.headingLabelX - metrics!.subheadingLabelX)).toBeLessThanOrEqual(0.5);
+  expect(Math.abs(metrics!.headingLabelX - metrics!.dividerX)).toBeLessThanOrEqual(0.5);
+});
+
+test("sidebar status badge is the standard compact rounded Badge, 20px tall and flush with the row's trailing padding", async ({
   page,
 }) => {
   // menu-bar 在 registry 里带 new 标记，用于验证胶囊的真实落点
   await openComponent(page, "menu-bar");
   const sidebar = page.locator('[data-slot="docs-sidebar"]');
-  await expect(sidebar.locator('[data-slot="nav-status-badge"]').first()).toBeVisible();
+  await expect(sidebar.locator('[data-slot="badge"]').first()).toBeVisible();
 
   const geometry = await sidebar.evaluate((node) => {
-    const badge = node.querySelector<HTMLElement>('[data-slot="nav-status-badge"]');
+    const badge = node.querySelector<HTMLElement>('[data-slot="badge"]');
     const item = badge?.closest<HTMLElement>('[data-slot="sidebar-nav-item"]');
     if (!badge || !item) return null;
     const badgeRect = badge.getBoundingClientRect();
@@ -496,7 +569,9 @@ test("sidebar status badge is 20px tall and flush with the row's trailing paddin
     const round = (value: number) => Math.round(value * 100) / 100;
     return {
       height: round(badgeRect.height),
-      tone: badge.dataset.tone ?? null,
+      variant: badge.dataset.variant ?? null,
+      shape: badge.dataset.shape ?? null,
+      radius: getComputedStyle(badge).borderRadius,
       itemWidth: round(itemRect.width),
       paddingRight: itemStyle.paddingRight,
       badgeRightOffset: round(badgeRect.right - itemRect.left),
@@ -505,8 +580,11 @@ test("sidebar status badge is 20px tall and flush with the row's trailing paddin
   });
 
   expect(geometry).not.toBeNull();
+  // 标准 Badge 档位：compact（20px 高）+ rounded（4px 圆角矩形）+ blue soft
   expect(geometry!.height).toBe(20);
-  expect(geometry!.tone).toBe("new");
+  expect(geometry!.variant).toBe("blue");
+  expect(geometry!.shape).toBe("rounded");
+  expect(geometry!.radius).toBe("4px");
   expect(geometry!.paddingRight).toBe("14px");
   // 右缘对齐：胶囊右缘 = 药丸右缘 − 行右内缩
   expect(

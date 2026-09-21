@@ -19,7 +19,8 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
  *   （light 0.34/0.16，dark 0.51/0.24）。
  * - hover：ring 加深至 --color-gray-alpha-500。
  * - 官方无真实 border（border 由 box-shadow ring 承担）。
- * - input：h36px（default size）、text-sm 字号、px-3；placeholder 前景 50%。
+ * - input：h36px（default size）、text-sm 字号、外侧留白 12px（px-3）；
+ *   紧邻 styled affix 分隔线的一侧缩半档到 10px（pl-2.5/pr-2.5）；placeholder 前景 50%。
  *
  * 本切片只锁定 input.tsx 的 wrapper 契约（data 属性 + ring 结构）；ClearableInput
  * 的 kbd Esc 清除控件属于组件级 Task（B1），不在本文件断言。
@@ -124,14 +125,42 @@ describe("Input wrapper contract (B0 input-wrapper)", () => {
     });
 
     expect(wrapper!.className).toContain("text-copy-14");
-    expect(prefix!.className).toContain("px-3");
+    // 分隔线两侧的文字留空各缩半档（12 → 10px）：装饰段外侧仍是 12px
+    expect(prefix!.className).toContain("pl-3 pr-2.5");
     expect(prefix!.className).toContain("border-r");
-    expect(suffix!.className).toContain("px-3");
+    expect(suffix!.className).toContain("pl-2.5 pr-3");
     expect(suffix!.className).toContain("border-l");
+    expect(input!.className).toContain("pl-2.5");
+    expect(input!.className).toContain("pr-2.5");
 
     for (const segment of [prefix, input, suffix]) {
       expect(segment!.className).not.toMatch(/(?:^|\s)m[lr]-\S+/);
     }
+  });
+
+  test("bare input keeps the 12px outer padding", () => {
+    const { input } = renderInput({});
+    expect(input!.className).toContain("pl-3");
+    expect(input!.className).toContain("pr-3");
+    expect(input!.className).not.toContain("pl-2.5");
+    expect(input!.className).not.toContain("pr-2.5");
+  });
+
+  test("plain affixes keep 12px spacing and only cancel the input padding on the prefix side", () => {
+    const { prefix, input, suffix } = renderInput({
+      prefix: "https://",
+      prefixStyling: false,
+      suffix: ".com",
+      suffixStyling: false,
+      onChange: () => {},
+    });
+
+    expect(prefix!.className).toContain("px-3");
+    expect(prefix!.className).toContain("-mr-3");
+    expect(suffix!.className).toContain("px-3");
+    // 无分隔线 → 不做半档收缩，input 仍是 12px
+    expect(input!.className).toContain("pl-3");
+    expect(input!.className).toContain("pr-3");
   });
 
   test("rounded variant chips sync the pill radius (no right-angle corners in capsule)", () => {

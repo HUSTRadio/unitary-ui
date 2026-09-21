@@ -18,19 +18,46 @@ export interface ToastOptions {
 interface ToastRecord extends ToastOptions {
   id: number;
   kind: ToastKind;
+  /** 退场中：保留节点播放退场过渡，过渡结束后才从记录中移除 */
+  exiting?: boolean;
 }
 
 let nextToastId = 1;
 let toastRecords: ToastRecord[] = [];
 const toastListeners = new Set<() => void>();
 
+/** 退场驻留时长：与条目 class 的 transition-all duration-(--uni-duration-slow)（350ms）一致 */
+const TOAST_EXIT_MS = 350;
+/** 退场位移：与入场 slide-in-from-bottom-2（8px）镜像 */
+const TOAST_EXIT_SLIDE = 8;
+
+function removeToast(id: number) {
+  const next = toastRecords.filter((toast) => toast.id !== id);
+  if (next.length === toastRecords.length) return;
+  toastRecords = next;
+  publish();
+}
+
 function publish() {
   toastListeners.forEach((listener) => listener());
 }
 
+/**
+ * 关闭：先标记退场并保留节点一个过渡时长（Apple 对称过渡——有入必有出），
+ * 过渡结束后再真正移除。直接 filter 会让条目瞬间消失，退场动画无从播放。
+ */
 function dismiss(id: number) {
-  toastRecords = toastRecords.filter((toast) => toast.id !== id);
+  const target = toastRecords.find((toast) => toast.id === id);
+  if (!target || target.exiting) return;
+  if (typeof window === "undefined") {
+    removeToast(id);
+    return;
+  }
+  toastRecords = toastRecords.map((toast) =>
+    toast.id === id ? { ...toast, exiting: true } : toast,
+  );
   publish();
+  window.setTimeout(() => removeToast(id), TOAST_EXIT_MS);
 }
 
 function addToast(kind: ToastKind, options: ToastOptions | React.ReactNode) {
@@ -109,7 +136,7 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
 
   React.useEffect(() => {
     records.forEach((toast) => {
-      if (toast.preserve || timers.current.has(toast.id)) return;
+      if (toast.preserve || toast.exiting || timers.current.has(toast.id)) return;
       const duration = toast.duration ?? (toast.onUndoAction ? 7000 : 3500);
       timers.current.set(
         toast.id,
@@ -184,17 +211,19 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
             }}
             role="status"
             data-kind={toast.kind}
+            data-exiting={toast.exiting ? "" : undefined}
             className={cn(
               "pointer-events-auto absolute right-0 bottom-0 flex min-h-13 w-full items-start gap-3 rounded-xl bg-background-100 p-4 text-copy-14 text-gray-1000 shadow-[var(--material-shadow-menu)]",
               "transition-all duration-(--uni-duration-slow) ease-toast",
               "animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:animate-none",
               "nth-last-[n+4]:opacity-0 nth-last-[n+4]:pointer-events-none",
+              toast.exiting && "pointer-events-none opacity-0",
               toast.kind === "success" && "bg-link text-white",
               toast.kind === "warning" && "bg-button-warning text-button-warning-foreground",
               toast.kind === "error" && "bg-danger text-danger-foreground",
             )}
             style={{
-              transform: `translate3d(0, ${ty}px, ${tz}px) scale(${scale})`,
+              transform: `translate3d(0, ${toast.exiting ? ty + TOAST_EXIT_SLIDE : ty}px, ${tz}px) scale(${scale})`,
               zIndex: i + 1,
             }}
           >

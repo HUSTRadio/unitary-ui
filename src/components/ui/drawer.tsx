@@ -19,8 +19,11 @@ import { cn } from "@/lib/utils";
  * - overlay bg-black/40（有暗化，实测 rgba(0,0,0,.4)），overlay 与 panel 同在
  *   fixed inset-0 层内（z-index 交给父层，panel 自身 z-index auto）
  * - height 生效为 --drawer-frontmost-height（实测 200px）
- * - 打开动画：transform 0.5s cubic-bezier(0.32, 0.72, 0, 1)，从 translateY(100%)
- *   滑入（Base UI data-starting-style 同帧机制）；无 keyframe animation
+ * - 出入场：slide-in-from-bottom / slide-out-to-bottom，500ms + ease-snap（官方
+ *   0.5s cubic-bezier(0.32,0.72,0,1) 同值）。官方在 Base UI 上走 transition 机制；
+ *   本项目基于 Radix，Presence 只监听 animationend（不等待 transition），transition
+ *   方案退出会被瞬时卸载，故改用等价的 tw-animate-css keyframe（与 Sheet /
+ *   ResponsiveDrawer 同族）。
  * - 下滑手势关闭（--drawer-swipe-movement-y 驱动 transform，data-swipe-direction="down"）
  * - 无右上 X 关闭按钮；Escape / 外点 / 下滑关闭；body scroll 锁定 + 焦点返还（Radix）
  * 说明：官方基于 Base UI 实现；本组件基于 Radix Dialog 复刻同款行为与外观。
@@ -90,12 +93,10 @@ function DrawerPanel({
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, []);
-  // 打开瞬间先以 translateY(100%) 渲染（与官方 Base UI data-starting-style 同帧），
-  // 下一帧直接改写 DOM 样式回到 0，由 transition 驱动与官方一致的滑入动画。
-  // 直接用 DOM 写入而非依赖 React 再渲染，避免 rAF 回调里的 setState 提交延迟
-  // 导致采集窗口内动画尚未起步（transform 卡在 translateY(100%)）。
-  const [phase, setPhase] = React.useState<"start" | "end">("start");
-  const contentRef = React.useRef<HTMLDivElement | null>(null);
+  // 出入场由 tw-animate-css keyframe（slide-in-from-bottom / slide-out-to-bottom）驱动：
+  // Radix Presence 只监听 animationend，用 transition 做退出会被瞬时卸载，故对齐
+  // Sheet / ResponsiveDrawer 的 keyframe 方案。内联 transform 仅承载拖拽位移——
+  // keyframe 生效期间动画优先级高于内联样式，动画结束（fill-mode: none）后内联接管。
   const startY = React.useRef<number | null>(null);
   const dragging = dragY > 0;
   const accessibilityProps = {
@@ -105,20 +106,6 @@ function DrawerPanel({
       : {}),
     ...(ariaDescribedBy !== undefined ? { "aria-describedby": ariaDescribedBy } : {}),
   };
-
-  React.useLayoutEffect(() => {
-    // 打开瞬间先以 translateY(100%) 渲染（与官方 Base UI data-starting-style 同帧），
-    // 下一帧直接改写 DOM 样式回到 0，由 transition 驱动与官方一致的滑入动画。
-    // 直接用 DOM 写入而非依赖 React 再渲染，避免 rAF 回调里的 setState 提交延迟
-    // 导致采集窗口内动画尚未起步（transform 卡在 translateY(100%)）。
-    const raf = requestAnimationFrame(() => {
-      setPhase("end");
-      if (contentRef.current) {
-        contentRef.current.style.transform = "translateY(0px)";
-      }
-    });
-    return () => cancelAnimationFrame(raf);
-  }, []);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if (event.button !== 0) return;
@@ -142,7 +129,6 @@ function DrawerPanel({
 
   return (
     <DialogPrimitive.Content
-      ref={contentRef}
       tabIndex={-1}
       data-slot="drawer"
       data-swipe-direction="down"
@@ -150,7 +136,9 @@ function DrawerPanel({
       className={cn(
         "fixed inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full min-h-[45px] touch-pan-y rounded-t-xl border-t bg-background shadow-[var(--material-shadow-menu)] outline-none pb-[env(safe-area-inset-bottom)]",
         "max-h-[80dvh] overscroll-none",
+        "data-[state=open]:animate-in data-[state=closed]:animate-out",
         "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
+        "duration-(--uni-motion-expansive) ease-snap motion-reduce:animate-none",
         verticalScroll && "overflow-y-auto",
         dragging && "select-none",
         className,
@@ -160,7 +148,7 @@ function DrawerPanel({
           height: height ?? undefined,
           "--drawer-frontmost-height": height ? `${height}px` : undefined,
           "--drawer-swipe-movement-y": `${dragY}px`,
-          transform: phase === "start" ? "translateY(100%)" : `translateY(${dragY}px)`,
+          transform: `translateY(${dragY}px)`,
           transition: dragging
             ? "none"
             : reducedMotion

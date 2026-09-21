@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { ExpandPanel, type Side } from "./expand-panel";
 import { HamburgerIcon } from "./hamburger-icon";
 import { NavStatusBadge, type NavStatusTone } from "./nav-status-badge";
+import { Separator } from "./separator";
 
 /**
  * HamburgerMenu — 复合导航组件：HamburgerIcon(trigger) + ExpandPanel(展开容器)
@@ -338,7 +339,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                 : undefined;
               // stagger 索引按分组内条目的扁平顺序递增（子分类不打断首屏时序）
               const renderItems = (groupItems: MenuItem[]) => (
-                <ul className="space-y-0.5">
+                <ul className="space-y-1">
                   {groupItems.map((item) => {
                     const itemIndex = navigationIndex++;
                     // 仅首屏可见的前 N 项参与逐项浮现；滚动后看到的后续项直接呈现
@@ -361,8 +362,8 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                           aria-current={item.to === activeTo ? "page" : undefined}
                           onClick={() => onNavigate?.(item.to)}
                           className={cn(
-                            // 与桌面侧栏同一套视觉语言：32px 紧凑行 + 灰色药丸 + 左侧指示条
-                            "relative flex items-center gap-2 rounded-md px-3.5 py-1.5 text-style-subhead no-underline",
+                            // 与桌面侧栏同一套视觉语言 + HIG 触控行高（44px = 最小命中区）
+                            "relative flex items-center gap-2 rounded-md px-3.5 nav-item-row-touch text-style-nav-item no-underline",
                             item.to === activeTo
                               ? "bg-gray-100 font-medium text-gray-1000"
                               : "text-gray-900 hover:bg-gray-100 hover:text-gray-1000",
@@ -372,10 +373,10 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                             <span
                               aria-hidden
                               data-slot="menu-item-indicator"
-                              className="absolute top-1/2 left-1.5 h-4 w-0.5 -translate-y-1/2 rounded-full bg-gray-900"
+                              className="absolute top-1/2 left-2 h-4 w-0.5 -translate-y-1/2 rounded-full bg-gray-900"
                             />
                           ) : null}
-                          <span className="truncate">{item.label}</span>
+                          <span className="truncate ink-shift-cjk">{item.label}</span>
                           {item.badge ? (
                             <NavStatusBadge className="ml-auto" {...item.badge} />
                           ) : null}
@@ -395,23 +396,34 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                     <h2
                       id={headingId}
                       data-slot="menu-group-heading"
-                      className="flex h-8 items-center px-3.5 text-style-subhead font-semibold tracking-wide text-gray-1000"
+                      className="nav-space-parent flex h-8 items-center text-style-nav-heading font-semibold tracking-wide text-gray-1000"
                     >
-                      {group.title}
+                      <span className="truncate ink-shift-cjk">{group.title}</span>
                     </h2>
                   ) : null}
                   {group.subgroups ? (
-                    <div className="space-y-2">
-                      {group.subgroups.map((subgroup) => (
-                        <div key={subgroup.title} data-slot="menu-subgroup">
-                          <h3
-                            data-slot="menu-subgroup-heading"
-                            className="flex h-7 items-center px-3.5 text-style-footnote font-medium text-gray-900"
-                          >
-                            {subgroup.title}
-                          </h3>
-                          {renderItems(subgroup.items)}
-                        </div>
+                    // 与桌面侧栏同一节奏 token：一级标题 nav-space-parent，二级小组 40px 短分割线 + nav-space-sibling
+                    <div>
+                      {group.subgroups.map((subgroup, index) => (
+                        <React.Fragment key={subgroup.title}>
+                          {index > 0 ? (
+                            <Separator
+                              decorative
+                              length="short"
+                              data-slot="menu-subgroup-divider"
+                              className="nav-space-sibling bg-gray-alpha-400"
+                            />
+                          ) : null}
+                          <div data-slot="menu-subgroup">
+                            <h3
+                              data-slot="menu-subgroup-heading"
+                              className="flex h-7 items-center text-style-nav-subheading font-medium text-gray-900"
+                            >
+                              <span className="truncate ink-shift-cjk">{subgroup.title}</span>
+                            </h3>
+                            {renderItems(subgroup.items)}
+                          </div>
+                        </React.Fragment>
                       ))}
                     </div>
                   ) : (
@@ -425,7 +437,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
 
         {/* 结果区：仅搜索中渲染 */}
         {searching ? (
-          <ul data-slot="menu-results" className="list-none px-2 pb-2">
+          <ul data-slot="menu-results" className="list-none space-y-1 px-2 pb-2">
             {results.map((item) => (
               <li key={item.to}>
                 <a
@@ -438,7 +450,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                   }}
                   className={cn(
                     // 结果项与列表项同一行几何（搜索是同一批路由的另一种呈现）
-                    "relative flex items-center gap-2 rounded-md px-3.5 py-1.5 text-style-subhead no-underline",
+                    "relative flex items-center gap-2 rounded-md px-3.5 nav-item-row-touch text-style-nav-item no-underline",
                     item.to === activeTo
                       ? "bg-gray-100 font-medium text-gray-1000"
                       : "text-gray-900 hover:bg-gray-100 hover:text-gray-1000",
@@ -448,10 +460,10 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                     <span
                       aria-hidden
                       data-slot="menu-item-indicator"
-                      className="absolute top-1/2 left-1.5 h-4 w-0.5 -translate-y-1/2 rounded-full bg-gray-900"
+                      className="absolute top-1/2 left-2 h-4 w-0.5 -translate-y-1/2 rounded-full bg-gray-900"
                     />
                   ) : null}
-                  <span className="truncate">{item.label}</span>
+                  <span className="truncate ink-shift-cjk">{item.label}</span>
                   {item.badge ? <NavStatusBadge className="ml-auto" {...item.badge} /> : null}
                 </a>
               </li>
