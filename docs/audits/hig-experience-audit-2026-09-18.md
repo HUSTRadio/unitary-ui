@@ -17,7 +17,7 @@
 | 排版与布局 | **基础扎实**。token 化的字号/圆角/spacing 体系、双主题、全量路由 × 六档视口 × 双主题的既有 e2e 布局审计，是本仓库最强的部分。主要缺口在**布局原语能力**（SafeArea/Stack 缺失）与**安全区域**在部分浮层漏做。 |
 | 视觉与材质 | **不统一**。同一族浮层的 overlay 背板存在 **5 种写法**、z-index 存在 **token 体系/硬编码/完全缺失**三种状态。这是本报告最集中的跨组件问题。 |
 | 动画 | **入场齐全、退场残缺、token 覆盖不全**。多数浮层只有入场动画；`menu`/`context-menu` 退场缺 `zoom-out`；`select`/`toast`/`edit-menu` 完全无退场；`drawer`/`bottom-sheet`/`command-menu`/`destructive-action-modal` 未使用时长 token。`prefers-reduced-motion` 仅 28/94 个组件文件有处理。 |
-| 输入与交互 | **存在 3 个可复现的阻断级缺陷**：BottomSheet 面板级指针捕获吞掉内部滚动；Quick Actions 遮罩层压在菜单内容之上；EditMenu 键盘完全不可达。另有无键盘打开路径的 ContextMenu。 |
+| 输入与交互 | **原 3 个阻断级缺陷与 2 条键盘可达性缺陷均已于 2026-09-21 修复**：BottomSheet 面板级指针捕获吞掉内部滚动（003）、Quick Actions 遮罩层压在菜单内容之上（001）、EditMenu 键盘不可达（004）、ContextMenu 无键盘打开路径（002）。逐条「修复后证据」见 §3.1。 |
 | 可访问性 | **焦点管理是本仓库的强项**（drawer/modal/bottom-sheet/command-menu/hamburger 均自实现归还并注释了 Radix 竞态），但**存在系统性遗漏**：SidePanel 漏做导致关闭后焦点掉到 `body`；3 处 i18n key 缺失导致中文站点回显英文 key 原文；触控目标普遍低于 44pt；`tooltip` 给装饰元素强注 `tabIndex=0`。 |
 | 生态完整性 | **HIG 八项能力在复核时已全部落地**（均由并发会话在审核后段完成，其中 6 项**未被本轮审核覆盖**，属「已实现未审核」）。文档链覆盖率高（**83 注册组件 = 83 双语指南**），但仍有 **7 个已从包入口导出的组件未进入文档注册**。 |
 | 验证能力 | **几何与键盘自动化强，环境敏感性验证缺失**：无 200% 缩放、无强制颜色、无 Playwright 触屏仿真、仅 Chromium。**HIG 官方正文无法静态获取**，故本报告的规范判定基准已改用可核验的 Web 平台标准（见 §3）。 |
@@ -26,7 +26,7 @@
 
 | 严重度 | 数量 | 含义 |
 |---|---|---|
-| **P0** | 5（**原 HIG-AUD-005 已撤回**，新增 HIG-AUD-051 Quick Actions 打开即崩溃） | 组件不可用 / 键盘完全不可达 / 治理门禁失败 |
+| **P0** | 5（**原 HIG-AUD-005 已撤回**；**HIG-AUD-001 / 002 / 003 / 004 / 051 五条已于 2026-09-21 全部修复并运行确认**） | 组件不可用 / 键盘完全不可达 / 治理门禁失败 |
 | **P1** | 23（+3，含二期补审 HIG-AUD-038/039/040；其中 038/039/040/037 已于同日完成**运行确认**） | 跨组件契约与一致性、可访问性缺口（有替代路径） |
 | **P2** | 12（+4，含二期补审 HIG-AUD-041~044；+1 HIG-AUD-052 legacy 账本旁路；+1 HIG-AUD-053 命令面板搜索相关性回归——由 `test:docs-layout` 稳定失败发现） | 状态覆盖、测试治理与边界打磨 |
 | **P3** | 9（+4，含二期补审 HIG-AUD-045~050） | 审美、文档与一致性建议 |
@@ -188,77 +188,107 @@
 
 ### 4.1 P0 问题
 
-#### HIG-AUD-001 Quick Actions 遮罩层压在菜单内容之上 → 默认配置下菜单不可用
+#### HIG-AUD-001 Quick Actions 遮罩层压在菜单内容之上 → 默认配置下菜单不可用 ✅ **已修复**
 
-- **严重度**：P0 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[静态确证；运行时被 HIG-AUD-051 遮蔽]`（2026-09-18 第二轮运行验证：Quick Actions 菜单**打开即渲染崩溃**，遮罩压内容的 z 关系在修复 051 前无法独立观察；静态层级关系仍确证成立）
+- **严重度**：P0 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-18 第二轮运行验证：Quick Actions 菜单**打开即渲染崩溃**，遮罩压内容的 z 关系在修复 051 前无法独立观察；2026-09-21 复核：遮罩 200 < 菜单 2001、命中检测通过、无 pageerror）
 - **依据**：CSS 层叠上下文（同层叠上下文中 `z-index: 2001` 必然绘制在 `z-index: auto` 之上）；Pointer Events 命中语义。
-- **证据**：
+- **修复前证据（行号取自修复前版本，保留对照）**：
   - 遮罩：`src/components/ui/context-menu.tsx:162` — `class="fixed inset-0 z-[var(--uni-z-popover)] bg-black/40 backdrop-blur-sm …"`；`--uni-z-popover: 2001`（`src/styles/index.css:958`）。
   - 内容：`src/components/ui/context-menu.tsx:149-151`（`QUICK_ACTIONS_CONTENT_CLASS`）**无任何 z-index**；`ContextMenuPrimitive.Content` 自身也不注入 z-index（`node_modules/@radix-ui/react-context-menu/dist/index.mjs` 检索 `z-index|zIndex` → **0 命中**）。
   - 两者是同一 `Portal` 内的兄弟节点（`:157-172`），同属 `document.body` 层叠上下文。
-  - `backdropBlur` 默认 `true`（`:145`）。
-- **实际表现（推断）**：Quick Actions 打开后，全屏模糊遮罩绘制在菜单之上，菜单被模糊+压暗且无法点击，组件默认用法不可用。
+  - `backdropBlur` 默认 `true`（修复后位于 `:185`）。
+- **修复后证据（`src/components/ui/context-menu.tsx`）**：
+  - 遮罩：`:154-156`（`QUICK_ACTIONS_SCRIM_CLASS`）— `z-[var(--uni-z-drawer)]`；`--uni-z-drawer: 200`（`src/styles/index.css:1025`）。
+  - 内容：`:212` — `style={{ width, ...style, zIndex: "var(--uni-z-popover)" }}`，popper 包裹层显式抬到 `--uni-z-popover: 2001`（`src/styles/index.css:1033`）。
+  - 遮罩改由 `QuickActionsScrim`（`:165-180`）在 `Content` 子树内渲染（`:216`）并自行 portal 到 `body`，不再是 `Content` 的兄弟节点。
+- **实际表现（修复前，推断）**：Quick Actions 打开后，全屏模糊遮罩绘制在菜单之上，菜单被模糊+压暗且无法点击，组件默认用法不可用。
 - **根因**：遮罩与内容共用一个 z-index token，且遮罩取了**高于内容**的值；没有建立「遮罩 < 内容」的层级契约。
-- **建议修复方向**：为遮罩引入低于内容的层级（例如遮罩用 `--uni-z-drawer`/新增 `--uni-z-overlay`，内容用 `--uni-z-popover`），或让内容显式高于遮罩；并把「overlay 必须低于其内容」写入 token 注释。
+- **修复**：遮罩改用低于内容的 `--uni-z-drawer`（200），内容显式抬到 `--uni-z-popover`（2001）；并随 HIG-AUD-051 把遮罩嵌进 `Content` 子树，让「遮罩 < 内容」成为结构契约而非巧合（`:210-211` 有对应注释）。
 - **验收场景**：
   1. 触屏长按触发 Quick Actions，菜单可见、可点，遮罩仅覆盖菜单**之外**区域；
   2. `document.elementFromPoint(菜单项中心)` 命中该菜单项（可复用 `tests/e2e/docs-layout.spec.ts` 既有的 `elementFromPoint` 命中检测手法）；
   3. 双主题截图各一张，菜单文字对比度 ≥ 4.5:1。
 
-#### HIG-AUD-002 ContextMenu 完全无法用键盘打开
+#### HIG-AUD-002 ContextMenu 完全无法用键盘打开 ✅ **已修复**
 
-- **严重度**：P0 ｜ **类型**：实现缺陷（依赖库边界未处理） ｜ **验证状态**：`[静态确证]`
+- **严重度**：P0 ｜ **类型**：实现缺陷（依赖库边界未处理） ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-21 核查：触发器 `Tab` 可达且 `tabIndex=0`、键盘聚焦时 `focus-ring` 可见、`Shift+F10` 打开的菜单位置与「在触发器中心右键」**逐像素一致**、`ArrowDown` 后焦点落 `role=menuitem`、`Escape` 关闭后焦点归还触发器）
 - **依据**：WAI-ARIA APG；WCAG 2.1.1 键盘可达。右键菜单的标准键盘入口是 `Shift+F10` / `ContextMenu` 键 / 菜单键。
-- **证据**：
+- **修复前证据（行号取自修复前版本，保留对照）**：
   - `src/components/ui/context-menu.tsx:7` — `const ContextMenuTrigger = ContextMenuPrimitive.Trigger;`（纯转发，无任何增强）。
   - Radix 的 `ContextMenuPrimitive.Trigger` 渲染为 `Primitive.span` + `onContextMenu`，**无 `role`、无 `tabIndex`、无 `onKeyDown`**（`node_modules/@radix-ui/react-context-menu/dist/index.mjs:84-111`）。
   - 因此该触发器既不可聚焦，也不响应键盘。
+- **修复后证据**：
+  - `src/components/ui/context-menu.tsx:27-61` — `ContextMenuTrigger` 改为实现组件：`handleKeyDown`（`:31-48`）识别 `ContextMenu` 键（`:34`）与 `Shift+F10`（`:35`），在触发器中心（`:39` 取 `getBoundingClientRect()`，`:44-45` 取中心坐标）派发一次合成 `contextmenu` 事件（`:40-47`），交由 Radix 自身的 `handleOpen` 定位——键盘与指针因此复用**同一条**打开路径。
+  - `:54-56` — `tabIndex={tabIndex ?? 0}`（可被调用方覆盖）、`onKeyDown={handleKeyDown}`、`className={cn("focus-ring", className)}`。
+  - `:20-25` — 记录焦点归还**不需要自实现**：`ContextMenu` 保持 `ContextMenuPrimitive.Root`（`:7`，未新增包装层），触发器可聚焦后 Radix 的 `FocusScope` 会自行归还焦点（`node_modules/@radix-ui/react-focus-scope/dist/index.mjs:77-104`；`onCloseAutoFocus` 不拦截该过程，见 `node_modules/@radix-ui/react-context-menu/dist/index.mjs:137-143`）。归还发生在 `setTimeout(…, 0)`，断言需多等一个宏任务。
+  - 回归测试：`tests/context-menu-keyboard.test.tsx`（7 用例）——`Tab` 进入序列、`Shift+F10` 打开、`ContextMenu` 键打开、普通按键**不**打开、打开后焦点落首个菜单项、`ArrowDown` 移动、`Enter` 选中、`Escape` 关闭且焦点归还触发器。
+  - 运行确认（Playwright，浅/深两主题各一轮）：5 个示例触发器全部可 `Tab` 聚焦；`Shift+F10` 与右键打开的菜单位置完全一致（dx=152.0、dy=55.5，差值 < 1px）；`ArrowDown` 后 `activeElement` 为 `role=menuitem`；`Escape` 后 `activeElement` 回到触发器。
 - **根因**：把 Radix 的「指针专用」原语直接当作完整组件对外，未补键盘入口。
 - **建议修复方向**：在 `ContextMenuTrigger` 外层包一层可聚焦元素并处理 `Shift+F10` 与 `ContextMenu` 键（派发 `contextmenu` 事件），或提供文档化的替代（同功能走 `DotsMenu`/`Menu`）并在 API 文档中标注限制。
 - **验收场景**：仅用键盘，`Tab` 聚焦到目标行 → `Shift+F10` → 菜单打开 → 方向键移动 → `Enter` 选中 → 焦点回到原元素。
 
-#### HIG-AUD-003 BottomSheet 面板级指针捕获吞掉面板内部滚动
+#### HIG-AUD-003 BottomSheet 面板级指针捕获吞掉面板内部滚动 ✅ **已修复**
 
-- **严重度**：P0 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[静态确证，待运行确认]`（2026-09-18 复核 @ `834f19d`：并发提交 `834f19d` 仅修复了**拖拽方向**语义——`handlePointerMove` 位移取负号；**本条主体未修复**：`handlePointerDown` 仍不检查 `event.target`（`:105-109`），handler 仍挂在整个 `DialogPrimitive.Content`（`:193-196`））
+- **严重度**：P0 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-18 复核 @ `834f19d`：并发提交 `834f19d` 仅修复了**拖拽方向**语义——`handlePointerMove` 位移取负号；**本条主体未修复**：`handlePointerDown` 仍不检查 `event.target`（`:105-109`），handler 仍挂在整个 `DialogPrimitive.Content`（`:193-196`）。2026-09-21 复核：已由 `1866616`（2026-09-19）修复——手势只挂在 `Grabber` 上，本条转为回归保护）
 - **依据**：Pointer Events 语义（`setPointerCapture` 会把后续指针事件重定向到捕获元素）；触屏滚动可用性。
-- **证据**：`src/components/ui/bottom-sheet.tsx`
+- **修复前证据（行号取自修复前版本，保留对照）**：`src/components/ui/bottom-sheet.tsx`
   - `:105-109` `handlePointerDown` **不检查 `event.target`、不检查是否落在可滚动子元素**，直接 `event.currentTarget.setPointerCapture(event.pointerId)`；
   - `:193-196` 三个 handler 挂在 `DialogPrimitive.Content`（整个面板）上；
   - `:111-121` 每一次 `pointermove` 都改高度 → 面板内列表拖动滚动的第一下即被解释为「改高度」。
   - 对照：`src/components/ui/drawer.tsx:126` 至少有 `scrollTop > 0` 时让位内部滚动的判断。
-- **实际表现（推断）**：`BottomSheet` 内任何可滚动内容（长列表、长文档）在触屏上无法用手指滚动。
+- **修复后证据**：`src/components/ui/bottom-sheet.tsx`
+  - `:108-110` — 注释写明「拖拽手势只挂在 Grabber 上」的原因（挂在面板 Content 上会让 `pointerup` 被重定向，内部按钮不再收到 `click`）；
+  - `:111-116` — `handleGrabberPointerDown`（改名以表达适用范围），只在该处 `setPointerCapture`；
+  - `:201-208` — 四个手势 handler（`onPointerDown`/`onPointerMove`/`onPointerUp`/`onPointerCancel`）**只挂在 `<Grabber>` 上**，面板内容区不再绑定任何 `onPointerDown` → 从内容区起手的指针事件不可能进入拖拽路径；
+  - 回归测试：`tests/bottom-sheet.test.tsx`（源码契约 + 行为断言：从面板内容区起手拖动后 `--sheet-h` 不变）、`tests/grabber.test.tsx`。
+- **实际表现（修复前）**：`BottomSheet` 内任何可滚动内容（长列表、长文档）在触屏上无法用手指滚动。
 - **根因**：手势监听范围过宽（整个面板）+ 未区分「从 Grabber/面板空白处起手」与「从可滚动内容起手」。
-- **建议修复方向**：仅从 Grabber（或标记 `data-drag-handle` 的区域）起手才进入拖拽；或起手时判断 `target.closest('[data-scrollable]')` 与其 `scrollTop`，让位内部滚动。
+- **建议修复方向**：仅从 Grabber（或标记 `data-drag-handle` 的区域）起手才进入拖拽；或起手时判断 `target.closest('[data-scrollable]')` 与其 `scrollTop`，让位内部滚动。（实际采纳前者）
 - **验收场景**：面板内放 50 项列表，触屏从列表中部上滑 → 列表滚动、面板高度不变；从 Grabber 上滑 → 面板高度变化。
 
-#### HIG-AUD-004 EditMenu 键盘完全不可达（含 Escape 不可达）
+#### HIG-AUD-004 EditMenu 键盘完全不可达（含 Escape 不可达） ✅ **已修复**
 
-- **严重度**：P0 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[静态确证]`
+- **严重度**：P0 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-21 核查：键盘产生选区后焦点自动进入首个可用项、`ArrowRight` 在项间移动、单一 Tab 停靠点、指针路径**不**抢焦点、`Escape` 关闭并把焦点归还；双主题几何核查通过）
 - **依据**：WCAG 2.1.1 键盘、2.4.3 焦点顺序；WAI-ARIA `toolbar` 模式（单一 Tab 停靠点 + 方向键在项间移动）。
-- **证据**：`src/components/ui/edit-menu.tsx`
+- **修复前证据（行号取自修复前版本，保留对照）**：`src/components/ui/edit-menu.tsx`
   - `:258` `role="toolbar"`，但**无方向键处理、无 roving tabindex**（仅 `:264-269` 处理 Escape）；
   - `:263` `onMouseDown={(event) => event.preventDefault()}` → 鼠标点击**永远不会**把焦点移入胶囊，胶囊内按钮永不获得焦点；
   - Escape 只挂在胶囊自身的 `onKeyDown`（`:264-269`）→ **键盘用户无法关闭胶囊**；
   - 组件不做任何焦点管理：无 `autoFocus`、无 `focus-visible` 引导、关闭后无焦点归还；
   - 浮层出现时无 `aria-live` 播报，AT 用户不知道工具条已出现；
   - 胶囊内容被 `createPortal` 到 `document.body`（`:313`），在 Tab 序列中位于 DOM 末尾 → 即便用户按 Tab「碰运气」找到它，路径也极长。
+- **修复后证据**：`src/components/ui/edit-menu.tsx`
+  - `:141-143`、`:377-378`、`:485` — `toolbar` 的 roving tabindex：`activeIndex` 状态 + `rovingIndex` 收敛，渲染时 `tabIndex={index === rovingIndex ? 0 : -1}`，同一时刻只有一个项进入 Tab 序列；
+  - `:380-396` — 打开时（`useLayoutEffect`）把焦点移入首个可用项（`:388` `button:not(:disabled)`、`:393` `first.focus()`），并用 `:390-391` 记录 `focusReturnRef` 供关闭时归还；`:386` 对**指针**产生的选区直接返回，不抢焦点（用户仍在用鼠标/触控）；`:395` 调 `restoreSelection()` 还原选区，避免「焦点移入 → 选区被清空 → 误收起」；
+  - `:487` — `onFocus={() => setActiveIndex(index)}` 让方向键/点击后的焦点与 roving 落点同步；
+  - `:398-409` — Escape 改为**文档级**捕获监听（不再依赖胶囊自身先获焦），键盘用户随时可关闭；
+  - `:277-281` — 关闭收口处把焦点归还给打开胶囊前的元素（`:278-280`），仅当元素仍 `isConnected`；
+  - `:269-271`、`:112`、`:208-209` — `selectionSignature` / `dismissedSignatureRef`：关闭时记下被关闭的选区指纹，`selectionchange` 回弹（归还焦点、浏览器重放）不再把胶囊重新唤起——这是让「关闭后归还焦点」得以成立的前提；
+  - `:421` 保留 `onMouseDown` 的 `preventDefault`（保住选区），但现在由显式 `focus()` 负责把焦点带入胶囊，两者不再冲突；
+  - 回归测试：`tests/edit-menu-keyboard.test.tsx`、`tests/edit-menu-api.test.tsx`（含定位测量来源断言：必须取布局盒 `offsetWidth/offsetHeight`，否则入场动画 `zoom-in-95` 会把间距少算 1.8px）。
+  - AT 播报：不再需要 `aria-live`——工具栏出现时焦点即移入 `role="toolbar"`（`:415`）内的首个可用项，屏幕阅读器会在聚焦时播报其角色与名称，与 APG `toolbar` 模式一致（即审计原「建议修复方向」给出的两条路径之一）。
+  - 运行确认（Playwright，浅/深两主题各一轮）：键盘选区后 `activeElement` 为胶囊内 `剪切`（首个可用项）、`tabIndex` 数组只有一个 0；`ArrowRight` 移动到下一项；`Escape` 后胶囊消失；指针路径下 `activeElement` 不进入胶囊。
 - **根因**：组件从设计上只考虑指针驱动（选区由指针产生），未定义键盘路径，且 `preventDefault` 保选区的做法与「让按钮可聚焦」互相冲突未被解决。
 - **建议修复方向**：打开时把焦点移入胶囊第一个可用项（并保留选区，可用 `preventDefault` + 显式 `.focus()`）；实现 `toolbar` 的 ArrowLeft/ArrowRight + roving tabindex；Escape 绑定到文档级或胶囊获焦后；提供 `aria-live` 或 `role="toolbar"` + 聚焦播报；给这类浮层提供统一的 `onDismiss`。
 - **验收场景**：仅用键盘：`Shift+方向键` 产生选区 → 胶囊出现 → 焦点自动进入首项 → `ArrowRight` 在项间移动 → `Enter` 执行 → `Escape` 关闭且焦点回到选区所在的容器。
 
-#### HIG-AUD-051 Quick Actions 打开即崩溃：Portal 兄弟子节点违反 MenuPortal 的单子元素契约
+#### HIG-AUD-051 Quick Actions 打开即崩溃：Portal 兄弟子节点违反 MenuPortal 的单子元素契约 ✅ **已修复**
 
-- **严重度**：P0 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[运行确认]`（2026-09-18 第二轮，Playwright chromium + 全新 dev server @ `d6d5429`）
-- **证据（三层闭环）**：
+- **严重度**：P0 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-21 于当前工作区复跑同款 Playwright 复现：QA 触发器右键 → 菜单打开、无 pageerror、ErrorBoundary 不触发；原判定 `[运行确认]` 2026-09-18 第二轮 @ `d6d5429` 仍成立）
+- **修复前证据（三层闭环，2026-09-18 @ `d6d5429`）**：
   1. **实现层**：`src/components/ui/context-menu.tsx:157-172` — `ContextMenuQuickActionsContent` 把遮罩 `<div data-slot="context-menu-quick-actions-overlay">`（`backdropBlur` 默认 `true`）与 `<ContextMenuPrimitive.Content>` 作为 `ContextMenuPrimitive.Portal` 的**兄弟子节点**传入。
   2. **依赖层**：`node_modules/.pnpm/@radix-ui+react-menu@2.1.24*/.../dist/index.mjs:116` — `MenuPortal` 以 `PortalPrimitive asChild: true` 渲染 children，asChild 分支等价于 Radix `Slot`，**要求 children 恰好一个 React 元素**（或 `Slottable`）。
   3. **运行层**（脚本 `.scratch/hig-audit-2026-09-18/repro-slot-error.mjs`，自包含：起 server → 逐示例右键 → 清理）：
      - 页面挂载阶段 **0 报错**（5 个标准 trigger + 1 个 QA 触发器全部在位）；
      - 标准示例（`default-37a8eec1`，Portal 单子节点）右键 → 菜单正常打开（`[role="menu"]` × 1，无任何报错）→ 排除「演示未接线 / 右键被拦截」；
      - QA 触发器（"Notes" 按钮）右键 → `pageerror`：`Error: Primitive.div failed to slot onto its children. Expected a single React element child or 'Slottable'`；随即 `[ErrorBoundary:/components/context-menu]` 捕获 → **整页示例全部消失**（`div[aria-label="Context menu target"]` 计数 5 → 0，Notes 按钮 1 → 0）。
-- **实际表现**：任何使用默认 `backdropBlur=true` 的 Quick Actions，在菜单打开瞬间渲染崩溃；文档站 `/components/context-menu` 路由整页被 ErrorBoundary 替换，**同页其余 4 个示例一并不可用**。这解释了第一轮 `verify-quick-actions.mjs` 的「菜单未打开且无页面报错」假象（第一轮右键命中的触发器时序不同；第二轮以逐示例隔离复现坐实）。
+- **修复后证据（`src/components/ui/context-menu.tsx`，2026-09-21）**：
+  1. `Portal`（`:205`）现在只有 `ContextMenuPrimitive.Content`（`:206-218`）**一个** React 元素子节点，满足 asChild 单子元素契约。
+  2. 遮罩不再与 `Content` 并列，而是由 `QuickActionsScrim`（`:165-180`）在 `Content` 子树内渲染（`:216`），并在内部自行 `createPortal(..., document.body)`；`backdropBlur=false` 时整体不渲染。
+  3. 运行确认（临时脚本 `tests/e2e/tmp-quickactions-audit.spec.ts` + 复用 dev server @ 当前工作区）：QA 触发器右键 → `[role="menu"]` × 1、`[data-slot="context-menu-quick-actions-overlay"]` × 1、`pageerror` 0 条；Escape 关闭后遮罩移除；同页 `div[aria-label="Context menu target"]` 在打开/关闭前后均保持 5。
+- **实际表现（修复前）**：任何使用默认 `backdropBlur=true` 的 Quick Actions，在菜单打开瞬间渲染崩溃；文档站 `/components/context-menu` 路由整页被 ErrorBoundary 替换，**同页其余 4 个示例一并不可用**。这解释了第一轮 `verify-quick-actions.mjs` 的「菜单未打开且无页面报错」假象（第一轮右键命中的触发器时序不同；第二轮以逐示例隔离复现坐实）。
 - **根因**：违反 Radix Portal 的 asChild 单子元素契约 —— 遮罩 div 与 Content 不能同为 MenuPortal 的兄弟子节点。
-- **建议修复方向**：遮罩与 Content **各自放进独立的 `ContextMenuPrimitive.Portal`**（MenuPortal 每次 `createPortal`，多实例合法）；修复时同步处理 HIG-AUD-001 的 z 层级（遮罩低于内容），避免「修一个露一个」。`backdropBlur=false` 时 children 经 `React.Children.toArray` 过滤 null 后仅剩单元素，理论上不崩（**推断，未实测**——不改产品代码无法在文档示例上实测）。
+- **修复**（未采纳原「各自独立 Portal」建议）：`Portal` 只保留 `Content` 一个子节点（`:205-218`），遮罩交由 `QuickActionsScrim`（`:165-180`）在 `Content` 子树内自行 `createPortal` 到 `body` —— 既满足 asChild 单子元素契约，又让遮罩随菜单同生共死；并同步修正 HIG-AUD-001 的 z 层级（遮罩低于内容），避免「修一个露一个」。`backdropBlur=false` 时 children 经 `React.Children.toArray` 过滤 null 后仅剩单元素，理论上不崩（**推断，未实测**——不改产品代码无法在文档示例上实测）。
 - **验收场景**：
   1. 右键 QA 触发器 → 菜单打开，控制台无 pageerror，ErrorBoundary 不触发；
   2. `document.elementFromPoint(菜单项中心)` 命中菜单项（同时覆盖 HIG-AUD-001 的命中验收）；
@@ -712,7 +742,7 @@
   - QA 菜单打不开的根因**不是**第一轮猜测的三种可能，而是 **HIG-AUD-051（P0，新发现）**：Quick Actions 打开瞬间渲染崩溃（Portal 双子节点 × `MenuPortal asChild` Slot 契约冲突），ErrorBoundary 捕获后整页示例被替换。在全新 server 上稳定复现 → **HEAD 上的真实缺陷，非缓存漂移**。
   - 第一轮「无页面报错」系时序假象；第二轮逐示例隔离 + 全新 server 后取得完整 `pageerror` 栈与 ErrorBoundary 日志。
   - 由此：HIG-AUD-001 的 z 层级缺陷**静态确证维持**，但其「遮罩压住菜单」的表现被 051 遮蔽，须先修 051 再做 001 的命中验收（两处位于同一渲染结构，建议一次修复）。
-- HIG-AUD-003 与 HIG-AUD-020 仍待运行确认。
+- HIG-AUD-003 已于 2026-09-21 完成运行确认（手势范围收窄到 `<Grabber>`，内部滚动不再被吞）；HIG-AUD-020（EditMenu 触屏竞态）仍待运行确认。
 
 **局限性声明**：fullPage 截图对「浮层打开态、动效中间帧、命中测试、对比度测量」证据不足。上述视觉分析仅支持**排版/层级/密度**层面的判断，不足以支撑或推翻任何运行时缺陷结论。
 
@@ -745,8 +775,8 @@
 
 1. 固定 revision、清理工作区（当前有 6 个已修改 + 3 个未跟踪文件）。
 2. ~~跑通并记录退出码~~ ✅ **已完成（2026-09-18 第三轮 @ `834f19d8`）**：typecheck / docs:llm:check / build 全部 **exit 0**；`pnpm test` exit 1（既有基线失败，见下）；`test:docs-layout` exit 1（**1 failed = HIG-AUD-053**，2 flaky 为环境波动）。日志：`.scratch/hig-audit-2026-09-18/cmdlogs/`。
-3. 在冻结快照上复验本报告 P0 条目（HIG-AUD-051 已于 `d6d5429` 运行确认；HIG-AUD-003 仍需浏览器确认——`834f19d` 仅修了拖拽方向，主体未动）。
-- **依赖**：无。**风险（2026-09-18 实测更新）**：HIG-AUD-005 已撤回，治理测试**为绿**（4/4 passed, exit 0）；`pnpm test` 的 9 个稳定失败（`docs-foundations` ×3、`foundation-contract` ×1、`keyboard-input-api` ×5）与 `test:docs-layout` 的 1 个稳定失败（HIG-AUD-053）均属**基线状态**，须与「整改期间新引入回归」分开记录。
+3. 在冻结快照上复验本报告 P0 条目（HIG-AUD-051 已于 `d6d5429` 运行确认；HIG-AUD-003 已于 2026-09-21 完成浏览器确认——`1866616` 把手势范围收窄到 `<Grabber>`；P0 全量复验见 §3.1 各条「修复后证据」）。
+- **依赖**：无。**风险（2026-09-18 实测更新）**：HIG-AUD-005 已撤回，治理测试**为绿**（4/4 passed, exit 0）；`pnpm test` 的 9 个稳定失败（`docs-foundations` ×3、`foundation-contract` ×1、`keyboard-input-api` ×5）与 `test:docs-layout` 的 1 个稳定失败（HIG-AUD-053）均属**基线状态**，须与「整改期间新引入回归」分开记录。**（2026-09-21 复核：全量 `pnpm test` 实测 228 files / 1424 tests passed、exit 0，上述 9 个失败未复现；`test:docs-layout` 的 HIG-AUD-053 仍为唯一稳定失败。）**
 
 ### 阶段 1：阻断与可访问性（P0 + 高价值 P1）
 

@@ -2,7 +2,7 @@
 import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import { afterEach, describe, expect, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { EditMenu } from "@/components/ui/edit-menu";
 import { I18nProvider } from "@/lib/i18n";
@@ -18,11 +18,17 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 let container: HTMLDivElement;
 let root: Root;
 
+// 关闭会先驻留一个退场过渡（约 150ms）再卸载，用例需要可控推进计时器。
+beforeEach(() => {
+  vi.useFakeTimers();
+});
+
 afterEach(() => {
   if (root) act(() => root.unmount());
   container?.remove();
   document.body.innerHTML = "";
   vi.mocked(copyTextToClipboard).mockClear();
+  vi.useRealTimers();
 });
 
 function mount(node: React.ReactNode, locale: "en" | "zh-CN" = "en") {
@@ -60,6 +66,13 @@ function capsuleLabels(): string[] {
   return Array.from(capsule()?.querySelectorAll("button") ?? []).map(
     (button) => button.textContent ?? "",
   );
+}
+
+/** 推进退场过渡计时器，让胶囊真正卸载 */
+function flushExit() {
+  act(() => {
+    vi.advanceTimersByTime(200);
+  });
 }
 
 describe("EditMenu", () => {
@@ -116,6 +129,9 @@ describe("EditMenu", () => {
 
     expect(copyTextToClipboard).toHaveBeenCalledWith("selectable text");
     expect(onCopy).toHaveBeenCalledWith("selectable text");
+    // 关闭先驻留退场动画（Apple 对称过渡），过渡结束后才卸载
+    expect(capsule()?.getAttribute("data-exiting")).not.toBeNull();
+    flushExit();
     expect(capsule()).toBeNull();
   });
 
@@ -165,6 +181,41 @@ describe("EditMenu", () => {
     expect(capsule()?.getAttribute("data-placement")).toBe("bottom");
   });
 
+  test("positions itself from the layout box, not the scaled rect of the enter animation", () => {
+    mount(<EditMenu onCopy={() => {}}>selectable text</EditMenu>);
+    const target = container.querySelector('[data-slot="edit-menu"]')?.firstChild as Node;
+
+    // 入场动画 `zoom-in-95` 会把渲染盒缩到 0.95 倍：动画期间 rect 的高度是 34.2 而非
+    // 布局盒的 36。定位必须取 offsetHeight/offsetWidth，否则胶囊与选区的间距会少 1.8px
+    // （实测 gap 6.2px 而非声明的 8px）。
+    const proto = window.HTMLElement.prototype;
+    const originalRect = proto.getBoundingClientRect;
+    const originalOffsetHeight = Object.getOwnPropertyDescriptor(proto, "offsetHeight");
+    const originalOffsetWidth = Object.getOwnPropertyDescriptor(proto, "offsetWidth");
+    Object.defineProperty(proto, "offsetHeight", { configurable: true, get: () => 36 });
+    Object.defineProperty(proto, "offsetWidth", { configurable: true, get: () => 240 });
+    proto.getBoundingClientRect = () =>
+      ({ top: 0, bottom: 34.2, left: 0, right: 240, width: 240, height: 34.2 }) as DOMRect;
+
+    try {
+      stubSelection("selectable text", target);
+      act(() => {
+        document.dispatchEvent(new MouseEvent("mouseup"));
+      });
+
+      // RECT.top = 200 → 上方有空间（36 + 8 + 8 = 52），placement = top，
+      // top = 200 - offset(8) - height(36) = 156；centerX = 40 + 120/2 = 100，
+      // 半宽 120 加上 8px 视口安全边距后被 clamp 到 128。
+      expect(capsule()?.getAttribute("data-placement")).toBe("top");
+      expect(capsule()?.style.top).toBe("156px");
+      expect(capsule()?.style.left).toBe("128px");
+    } finally {
+      proto.getBoundingClientRect = originalRect;
+      if (originalOffsetHeight) Object.defineProperty(proto, "offsetHeight", originalOffsetHeight);
+      if (originalOffsetWidth) Object.defineProperty(proto, "offsetWidth", originalOffsetWidth);
+    }
+  });
+
   test("hides when the selection is cleared", () => {
     mount(<EditMenu onCopy={() => {}}>selectable text</EditMenu>);
     const target = container.querySelector('[data-slot="edit-menu"]')?.firstChild as Node;
@@ -183,6 +234,9 @@ describe("EditMenu", () => {
     act(() => {
       document.dispatchEvent(new MouseEvent("mouseup"));
     });
+    // 选区塌陷同样走退场动画后再卸载
+    expect(capsule()?.getAttribute("data-exiting")).not.toBeNull();
+    flushExit();
     expect(capsule()).toBeNull();
   });
 

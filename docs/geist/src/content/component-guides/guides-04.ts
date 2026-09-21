@@ -161,6 +161,14 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
         description: "为菜单项添加前缀和后缀，显示图标、状态指示或辅助信息以增强可操作性。",
         demoKey: "prefix-and-suffix",
       },
+      {
+        id: "ctxmenu-quick-actions",
+        kind: "advanced",
+        title: "快速操作",
+        description:
+          "触屏长按（或桌面右键）卡片弹出定宽竖排的快速操作列表：大图标 + 副标题，背景模糊遮罩，底部破坏性系统项用分隔线隔开。",
+        demoKey: "quick-actions",
+      },
     ],
     accessibility: {
       status: "covered",
@@ -459,6 +467,14 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
         description:
           "Adds prefix icons and suffix labels to menu items, showing status indicators or auxiliary information to enhance operability.",
         demoKey: "prefix-and-suffix",
+      },
+      {
+        id: "ctxmenu-quick-actions",
+        kind: "advanced",
+        title: "Quick Actions",
+        description:
+          "A fixed-width vertical Quick Actions list on long-press (or right-click): large icons with subtitles over a blurred backdrop, with the destructive system item separated at the bottom.",
+        demoKey: "quick-actions",
       },
     ],
     accessibility: {

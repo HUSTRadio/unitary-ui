@@ -1,10 +1,64 @@
 import * as React from "react";
+import { createPortal, flushSync } from "react-dom";
 import { ContextMenu as ContextMenuPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 
 const ContextMenu = ContextMenuPrimitive.Root;
-const ContextMenuTrigger = ContextMenuPrimitive.Trigger;
+
+/**
+ * HIG-AUD-002：Radix 的 `ContextMenu.Trigger` 是**指针专用**原语——渲染为无 `role`、
+ * 无 `tabIndex`、无 `onKeyDown` 的 `Primitive.span`，只绑定 `onContextMenu`
+ * （`node_modules/@radix-ui/react-context-menu/dist/index.mjs:84-111`）。
+ * 因此键盘用户**完全无法**打开右键菜单（WCAG 2.1.1 键盘可达）。
+ *
+ * 这里补上 APG 的标准键盘入口（与 Radix 官方文档给出的用法一致）：
+ * - 触发器默认可聚焦（`tabIndex` 默认 0，调用方显式传入可覆盖）；
+ * - `Shift+F10` 与 `ContextMenu` 键在触发器中心派发一次合成 `contextmenu` 事件，
+ *   交由 Radix 自身的 `handleOpen`（读 `event.clientX/clientY`）定位并打开。
+ *
+ * 焦点归还**无需额外实现**：只要触发器本身可聚焦，Radix 的 `FocusScope` 就会记下
+ * 「展开前的焦点元素」并在关闭后归还给它
+ * （`node_modules/@radix-ui/react-focus-scope/dist/index.mjs:77-104`；
+ * ContextMenu 的 `onCloseAutoFocus` 并不拦截该过程，
+ * 见 `node_modules/@radix-ui/react-context-menu/dist/index.mjs:137-143`）。
+ * 注意该归还在 `setTimeout(…, 0)` 中执行，断言焦点归还的测试必须多等一个宏任务。
+ */
+const ContextMenuTrigger = React.forwardRef<
+  React.ElementRef<typeof ContextMenuPrimitive.Trigger>,
+  ContextMenuTriggerProps
+>(({ asChild, tabIndex, onKeyDown, className, ...props }, ref) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    onKeyDown?.(event);
+    if (event.defaultPrevented) return;
+    const isContextMenuKey = event.key === "ContextMenu";
+    const isShiftF10 = event.shiftKey && event.key === "F10";
+    if (!isContextMenuKey && !isShiftF10) return;
+    event.preventDefault();
+    const target = event.currentTarget;
+    const rect = target.getBoundingClientRect();
+    target.dispatchEvent(
+      new MouseEvent("contextmenu", {
+        bubbles: true,
+        cancelable: true,
+        clientX: rect.left + rect.width / 2,
+        clientY: rect.top + rect.height / 2,
+      }),
+    );
+  };
+
+  return (
+    <ContextMenuPrimitive.Trigger
+      ref={ref}
+      asChild={asChild}
+      tabIndex={tabIndex ?? 0}
+      onKeyDown={handleKeyDown}
+      className={cn("focus-ring", className)}
+      {...props}
+    />
+  );
+});
+ContextMenuTrigger.displayName = "ContextMenuTrigger";
 
 type ContextMenuProps = React.ComponentProps<typeof ContextMenuPrimitive.Root>;
 type ContextMenuTriggerProps = React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Trigger>;
@@ -150,27 +204,74 @@ const QUICK_ACTIONS_CONTENT_CLASS =
   "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 " +
   "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none";
 
+const QUICK_ACTIONS_SCRIM_CLASS =
+  "fixed inset-0 z-[var(--uni-z-drawer)] bg-black/40 backdrop-blur-sm " +
+  "duration-(--uni-motion-feedback) ease-snap motion-reduce:animate-none";
+
+/**
+ * Quick Actions 背景遮罩。
+ *
+ * 必须挂在 `Content` 的 React 子树里（再 portal 到 body 以避开 popper 的 transform 包含块），
+ * 而不能和 `Content` 并列挂在 `Portal` 下 —— 原因见 `ContextMenuQuickActionsContent`。
+ * 这样遮罩与菜单同生共死，并跟随菜单的 animationstart 同步淡出。
+ */
+function QuickActionsScrim({ exiting }: { exiting: boolean }) {
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
+    <div
+      aria-hidden="true"
+      data-slot="context-menu-quick-actions-overlay"
+      data-exiting={exiting ? "" : undefined}
+      className={cn(
+        QUICK_ACTIONS_SCRIM_CLASS,
+        exiting ? "animate-out fade-out-0" : "animate-in fade-in-0",
+      )}
+    />,
+    document.body,
+  );
+}
+
 const ContextMenuQuickActionsContent = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.Content>,
   ContextMenuQuickActionsContentProps
->(({ className, width = 224, backdropBlur = true, style, ...props }, ref) => (
-  <ContextMenuPrimitive.Portal>
-    {backdropBlur ? (
-      <div
-        aria-hidden="true"
-        data-slot="context-menu-quick-actions-overlay"
-        className="fixed inset-0 z-[var(--uni-z-popover)] bg-black/40 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in-0 motion-reduce:animate-none"
-      />
-    ) : null}
-    <ContextMenuPrimitive.Content
-      ref={ref}
-      onContextMenu={(event) => event.preventDefault()}
-      style={{ width, ...style }}
-      className={cn(QUICK_ACTIONS_CONTENT_CLASS, className)}
-      {...props}
-    />
-  </ContextMenuPrimitive.Portal>
-));
+>(({ className, width = 224, backdropBlur = true, style, children, onAnimationStart, ...props }, ref) => {
+  // 遮罩不能与 Content 并列挂在 Portal 下：Radix MenuPortal 的 Presence 把 ref 挂到 Portal 的
+  // 「唯一子元素」上（Portal asChild → Slot，Slot 只绑定单子节点）。一旦出现并列兄弟节点，
+  // ref 就无处可挂，`context.open` 转 false 时 Presence 判定「无动画」并同步卸载整个 Portal：
+  // Content 的 animate-out 与遮罩自身的退场会一起失效（并列渲染还会直接抛 Slot 报错）。
+  // 因此把遮罩嵌进 Content —— 菜单退场恢复对称，遮罩与菜单同生共死。
+  const [scrimExiting, setScrimExiting] = React.useState(false);
+
+  const handleAnimationStart = (event: React.AnimationEvent<HTMLDivElement>) => {
+    // 只认 Content 自身的 enter/exit；冒泡自遮罩的事件忽略，避免自激。
+    // flushSync：动画事件属于连续事件，默认会被并发调度推迟一帧以上，
+    // 实测遮罩会滞后菜单约 70ms 才开始淡出；同步刷新才能与菜单严丝合缝。
+    if (event.target === event.currentTarget) {
+      if (event.animationName === "exit") flushSync(() => setScrimExiting(true));
+      else if (event.animationName === "enter") flushSync(() => setScrimExiting(false));
+    }
+    onAnimationStart?.(event);
+  };
+
+  return (
+    <ContextMenuPrimitive.Portal>
+      <ContextMenuPrimitive.Content
+        ref={ref}
+        onContextMenu={(event) => event.preventDefault()}
+        onAnimationStart={handleAnimationStart}
+        // Radix PopperContent 会让 popper 包裹层继承 Content 的计算 z-index。
+        // 这里显式抬到 --uni-z-popover，遮罩才能稳定停在菜单之下、页面之上。
+        style={{ width, ...style, zIndex: "var(--uni-z-popover)" }}
+        className={cn(QUICK_ACTIONS_CONTENT_CLASS, className)}
+        {...props}
+      >
+        {backdropBlur ? <QuickActionsScrim exiting={scrimExiting} /> : null}
+        {children}
+      </ContextMenuPrimitive.Content>
+    </ContextMenuPrimitive.Portal>
+  );
+});
 ContextMenuQuickActionsContent.displayName = "ContextMenuQuickActionsContent";
 
 interface ContextMenuQuickActionsItemProps

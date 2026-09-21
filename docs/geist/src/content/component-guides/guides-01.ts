@@ -92,8 +92,16 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
         id: "sizes",
         kind: "variant",
         title: "尺寸",
-        description: "展示 sm、md 和 lg 三种尺寸，适用于不同密度的布局。",
+        description: "展示 compact、sm、md 和 lg 四种尺寸，适用于不同密度的布局。",
         demoKey: "Sizes",
+      },
+      {
+        id: "compact-rounded",
+        kind: "variant",
+        title: "圆角矩形与紧凑档",
+        description:
+          'shape="rounded"（4px 圆角矩形）+ size="compact"（20px 高）+ contrast="soft"（柔和底色）的组合，用于导航状态标记等密集场景。',
+        demoKey: "Compact rounded",
       },
       {
         id: "icons",
@@ -399,8 +407,16 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
         id: "sizes",
         kind: "variant",
         title: "Sizes",
-        description: "Shows sm, md, and lg sizes for different layout densities.",
+        description: "Shows compact, sm, md, and lg sizes for different layout densities.",
         demoKey: "Sizes",
+      },
+      {
+        id: "compact-rounded",
+        kind: "variant",
+        title: "Rounded rectangle & compact",
+        description:
+          'The shape="rounded" (4px radius) + size="compact" (20px tall) + contrast="soft" combination used by dense navigation status markers.',
+        demoKey: "Compact rounded",
       },
       {
         id: "icons",

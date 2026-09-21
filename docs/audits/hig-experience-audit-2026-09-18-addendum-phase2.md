@@ -55,7 +55,7 @@
 | 可访问性 | MenuBar 复用 Radix Menubar（APG 键盘模型）✓、pull-down 保持 `role="menu"` ✓、ActivityView 操作行 44px ✓；但 ActivityView 面板**无可访问名称**。 |
 | 测试质量 | **5 个新增测试全部是「源码字符串契约」**，断言实现文本而非行为，且把待修缺陷固化成契约 → 违反 `AGENTS.md` 的测试期望。 |
 
-**新增问题**：P1 × 3、P2 × 4、P3 × 6。（同日第二、三轮运行验证另在主报告 §4.1 新增 **P0 HIG-AUD-051**（Quick Actions 打开即崩溃）、**P2 HIG-AUD-052**（legacy 账本旁路，HIG-AUD-005 撤回后的实质残留）与 **P2 HIG-AUD-053**（命令面板搜索相关性回归，`test:docs-layout` 稳定失败发现），并撤回 HIG-AUD-005 的 P0 判定，见 §5A。）
+**新增问题**：P1 × 3、P2 × 4、P3 × 6。（同日第二、三轮运行验证另在主报告 §4.1 新增 **P0 HIG-AUD-051**（Quick Actions 打开即崩溃，**已于 2026-09-21 修复**，并连带修复 HIG-AUD-001）、**P2 HIG-AUD-052**（legacy 账本旁路，HIG-AUD-005 撤回后的实质残留）与 **P2 HIG-AUD-053**（命令面板搜索相关性回归，`test:docs-layout` 稳定失败发现），并撤回 HIG-AUD-005 的 P0 判定，见 §5A。）
 
 ---
 
@@ -218,7 +218,7 @@
 
 **附带发现（记入主报告 §4.1）**：
 
-- **HIG-AUD-051（P0，新发现）**：`ContextMenuQuickActionsContent` 的 Portal 兄弟子节点（遮罩 div + Content）违反 `@radix-ui/react-menu@2.1.24` `MenuPortal` 的 `asChild` 单子元素契约 → Quick Actions **打开即渲染崩溃**，ErrorBoundary 捕获后 `/components/context-menu` **整页示例被替换**。这也是主报告第一轮 QA 运行验证「菜单未打开且无报错」的真正原因（第一轮为时序假象；第二轮逐示例隔离后在全新 server 上稳定复现并取得完整错误栈）。根因、证据链与修复方向见主报告 §4.1 HIG-AUD-051。
+- **HIG-AUD-051（P0，新发现；已于 2026-09-21 修复）**：`ContextMenuQuickActionsContent` 的 Portal 兄弟子节点（遮罩 div + Content）违反 `@radix-ui/react-menu@2.1.24` `MenuPortal` 的 `asChild` 单子元素契约 → Quick Actions **打开即渲染崩溃**，ErrorBoundary 捕获后 `/components/context-menu` **整页示例被替换**。这也是主报告第一轮 QA 运行验证「菜单未打开且无报错」的真正原因（第一轮为时序假象；第二轮逐示例隔离后在全新 server 上稳定复现并取得完整错误栈）。根因、证据链与修复方向见主报告 §4.1 HIG-AUD-051。
 - **HIG-AUD-005 撤回**：治理测试实际为绿（4/4 passed, exit 0），账本已注册全部 3 个文件；初版判定读取了过时快照。实质残留（legacy `files[]` 只增不减旁路）记为 **HIG-AUD-052（P2）**。
 
 **命令退出码（主报告 HIG-VER-08 部分，第三轮 @ `834f19d8` 全部取得）**：

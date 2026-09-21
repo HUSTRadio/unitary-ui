@@ -190,4 +190,36 @@ describe("BottomSheet", () => {
     // 重定向到面板，浏览器不再给内容区按钮派发 click（Close Actions 曾因此失效）
     expect(source).not.toContain("onPointerDown={handlePointerDown}");
   });
+
+  it("HIG-AUD-003：从面板内容区起手的指针拖动不改高度（手势只认 grabber）", () => {
+    renderSheet(
+      <BottomSheet open detents={[0.5, 1]}>
+        <div data-testid="sheet-scroller" style={{ overflowY: "auto" }}>
+          <ul>
+            {Array.from({ length: 50 }, (_, index) => (
+              <li key={index}>Row {index}</li>
+            ))}
+          </ul>
+        </div>
+      </BottomSheet>,
+    );
+    const panel = document.querySelector('[data-slot="bottom-sheet"]') as HTMLElement;
+    const scroller = panel.querySelector<HTMLElement>('[data-testid="sheet-scroller"]')!;
+    const ratioOf = () => parseFloat(panel.style.getPropertyValue("--sheet-h"));
+    const before = ratioOf();
+
+    // 手指从列表中部上滑：面板高度必须保持不变（内部滚动才是这段手势的归属）
+    act(() => {
+      scroller.dispatchEvent(new MouseEvent("pointerdown", { clientY: 300, bubbles: true }));
+    });
+    act(() => {
+      scroller.dispatchEvent(new MouseEvent("pointermove", { clientY: 120, bubbles: true }));
+    });
+    act(() => {
+      scroller.dispatchEvent(new MouseEvent("pointerup", { bubbles: true }));
+    });
+
+    expect(ratioOf()).toBe(before);
+    expect(panel.style.transition).toContain("height");
+  });
 });
