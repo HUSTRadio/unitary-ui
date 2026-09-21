@@ -75,6 +75,78 @@ describe("typography tokens", () => {
     }
   });
 
+  test("nav label roles (heading / subheading / item) alias one shared size and pair leading", async () => {
+    const css = await readFile(path.join(root, "src/styles/index.css"), "utf8");
+    const theme = themeStaticRule(css);
+
+    for (const role of ["heading", "subheading", "item"] as const) {
+      // 侧栏三级标签统一字号：角色 token 只是内容尺度的别名，不引入新数值
+      expect(theme).toContain(`--uni-text-nav-${role}: var(--uni-text-subhead)`);
+      expect(theme).toContain(`--uni-leading-nav-${role}: var(--uni-leading-subhead)`);
+
+      const rule = utilityRule(css, `text-style-nav-${role}`);
+      expect(rule).toContain(`font-size: var(--uni-text-nav-${role})`);
+      expect(rule).toContain(`line-height: var(--uni-leading-nav-${role})`);
+    }
+
+    // 层级节奏与条目行高同样走 token（HIG：指针 36px / 触控 44px）
+    expect(theme).toContain("--uni-nav-space-parent: 0.375rem");
+    expect(theme).toContain("--uni-nav-space-sibling: 0.25rem");
+    expect(theme).toContain("--uni-nav-item-height: 2.25rem");
+    expect(theme).toContain("--uni-nav-item-height-touch: 2.75rem");
+    expect(utilityRule(css, "nav-space-parent")).toContain(
+      "margin-bottom: var(--uni-nav-space-parent)",
+    );
+    expect(utilityRule(css, "nav-space-sibling")).toContain(
+      "margin-block: var(--uni-nav-space-sibling)",
+    );
+    expect(utilityRule(css, "nav-item-row")).toContain("height: var(--uni-nav-item-height)");
+    expect(utilityRule(css, "nav-item-row-touch")).toContain(
+      "height: var(--uni-nav-item-height-touch)",
+    );
+  });
+
+  test("ink baseline shift is one OPPO Sans token, zeroed for other font tiers", async () => {
+    const css = await readFile(path.join(root, "src/styles/index.css"), "utf8");
+    const theme = themeStaticRule(css);
+
+    // OPPO Sans 4.0 的墨迹补偿量：两档 token、em 单位（随字号等比缩放）
+    expect(theme).toContain("--uni-ink-shift: -0.107em");
+    expect(theme).toContain("--uni-ink-shift-cjk: -0.033em");
+    // 非 oppo 档位显式归零（避免过补偿）
+    const hmosBlock = css.match(/\[data-font-tier="hmos"\]\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
+    const systemBlock = css.match(/\[data-font-tier="system"\]\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
+    for (const block of [hmosBlock, systemBlock]) {
+      expect(block).toContain("--uni-ink-shift: 0em");
+      expect(block).toContain("--uni-ink-shift-cjk: 0em");
+    }
+    // 只位移文字、不改行盒：相对定位 + 逻辑块向起点
+    for (const [utility, token] of [
+      ["ink-shift", "--uni-ink-shift"],
+      ["ink-shift-cjk", "--uni-ink-shift-cjk"],
+    ] as const) {
+      const rule = utilityRule(css, utility);
+      expect(rule).toContain("position: relative");
+      expect(rule).toContain(`inset-block-start: var(${token})`);
+    }
+  });
+
+  test("ink compensation consumers use the token instead of hard-coded shifts", async () => {
+    // Pill / Badge：固定高容器用 calc 内边距法（上下和不变 → 高度不变）
+    for (const file of ["src/components/ui/pill.tsx", "src/components/ui/badge.tsx"]) {
+      const src = await readFile(path.join(root, file), "utf8");
+      expect(src, file).toContain("var(--uni-ink-shift)");
+      expect(src, file).not.toMatch(/pt-\[2\.5px\]|pb-\[5\.5px\]/);
+    }
+
+    // rating-pill / feedback：中文字形档位移主体是「文字」而非图标
+    for (const file of ["src/components/ui/rating-pill.tsx", "src/components/ui/feedback.tsx"]) {
+      const src = await readFile(path.join(root, file), "utf8");
+      expect(src, file).toContain("ink-shift-cjk");
+      expect(src, file).not.toContain("translate-y-[0.5px]");
+    }
+  });
+
   test("legacy numeric utilities stay compatible through the canonical tokens", async () => {
     const css = await readFile(path.join(root, "src/styles/index.css"), "utf8");
 

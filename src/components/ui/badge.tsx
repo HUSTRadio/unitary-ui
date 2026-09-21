@@ -7,18 +7,31 @@ import { cn } from "@/lib/utils";
 /**
  * Badge — 官方 @vercel/geistcn Badge 对齐实现（vercel.com/geist/badge 实测）。
  *
- * - 尺寸体系：sm h-5 / md h-6 / lg h-8，圆角全 pill（官方无透明边框）。
+ * - 尺寸体系：compact h-5 / sm h-5 / md h-6 / lg h-8（官方无透明边框）。
+ * - 形状：shape="pill"（默认，全圆胶囊）/ shape="rounded"（圆角矩形 4px 半径，
+ *   密集列表与导航状态标记用）。
  * - 变体：gray/blue/purple/amber/red/pink/green/teal/inverted/trial/turbo/pill/outline
  *   + contrast="low"（subtle = 胶囊 + 纯文字无填充，官方 2026-08-24 实测）
+ *   + contrast="soft"（柔和底色档 = 色调 100 档底 + 900 档文字，token 明暗自动翻转）
  *   + variant="outline"（仅框线无填充，文字与边框同 gray 系）
  */
 const badgeVariants = cva(
-  "inline-flex shrink-0 items-center justify-center gap-1.25 whitespace-nowrap rounded-full py-0.5 font-medium capitalize tabular-nums tracking-normal " +
+  // 垂直光学补偿走共享 token（--uni-ink-shift）：calc 内边距法让文字墨迹上移
+  // token 值、上下内边距和不变 → 高度与 py-0.5 完全相同（其它档位 token = 0）。
+  "inline-flex shrink-0 items-center justify-center gap-1.25 whitespace-nowrap pt-[calc(2px+var(--uni-ink-shift))] pb-[calc(2px-var(--uni-ink-shift))] font-medium capitalize tabular-nums tracking-normal " +
     "**:data-[slot=icon]:block **:data-[slot=icon]:shrink-0 " +
     "**:data-[slot=icon]:data-[glyph=circular]:-ml-1.75 **:data-[slot=icon]:has-[[data-glyph=circular]]:-ml-1.75 has-[[data-glyph=circular]]:pr-2.5",
   {
     variants: {
+      shape: {
+        pill: "rounded-full",
+        // 圆角矩形档：4px 半径（rounded-sm），不改变其余几何（官方默认仍是全圆胶囊）
+        rounded: "rounded-sm",
+      },
       size: {
+        // compact：12/16 文字 + 6px 横向内边距 → 20px 高；密集场景（导航状态标记）默认档
+        compact:
+          "h-5 gap-1 px-1.5 text-[12px]/[16px] **:data-[slot=icon]:size-3 **:data-[slot=icon]:-ml-0.5 **:data-[slot=icon]:data-[glyph=circular]:-ml-1 **:data-[slot=icon]:has-[[data-glyph=circular]]:-ml-1",
         sm: "h-5 gap-1 px-2 text-[11px]/[20px] tracking-[0.2px] **:data-[slot=icon]:size-3 **:data-[slot=icon]:-ml-0.5 **:data-[slot=icon]:data-[glyph=circular]:-ml-1 **:data-[slot=icon]:has-[[data-glyph=circular]]:-ml-1",
         md: "h-6 gap-1.25 px-3 text-[12px]/[24px] **:data-[slot=icon]:size-3.5 **:data-[slot=icon]:-ml-1 **:data-[slot=icon]:data-[glyph=circular]:-ml-1.75 **:data-[slot=icon]:has-[[data-glyph=circular]]:-ml-1.75 has-[[data-glyph=circular]]:pr-2.5",
         lg: "h-8 gap-1.5 px-3 text-sm **:data-[slot=icon]:size-4 **:data-[slot=icon]:data-[glyph=circular]:-ml-1 **:data-[slot=icon]:has-[[data-glyph=circular]]:-ml-1",
@@ -48,6 +61,9 @@ const badgeVariants = cva(
         // 无边框无填充背景无 before 层；文字色随主题（light 深 / dark 亮）。
         // 必须补 dark:bg-transparent 抵消 variant 的 dark:bg-*（cva compound 是追加非覆盖）。
         low: "relative bg-transparent dark:bg-transparent",
+        // soft：柔和底色档（导航状态标记等密集场景）= 色调 100 档底 + 900 档文字，
+        // 底色/文字 token 明暗自动翻转，因此无需 dark: 覆盖；具体色值见下方 compound。
+        soft: "",
       },
     },
     compoundVariants: [
@@ -94,10 +110,53 @@ const badgeVariants = cva(
         contrast: "low",
         className: "text-teal-900", // light #0c7869 / dark #12b5a1 ≈官方 #067a6e/#0ac7b4
       },
+      // contrast="soft"：柔和底色档（色调 100 档底 + 900 档文字）。
+      // 100/900 两档 token 在明暗主题各自取值，故与 low 一样不需要 dark: 覆盖。
+      {
+        variant: "gray",
+        contrast: "soft",
+        className: "bg-gray-100 text-gray-900", // light #f2f2f2/#4d4d4d；dark #1a1a1a/#a1a1a1
+      },
+      {
+        variant: "blue",
+        contrast: "soft",
+        className: "bg-blue-100 text-blue-900", // light #ebf5ff/#0060d6；dark #0f1e2e/#5ea2ff
+      },
+      {
+        variant: "purple",
+        contrast: "soft",
+        className: "bg-purple-100 text-purple-900",
+      },
+      {
+        variant: "amber",
+        contrast: "soft",
+        className: "bg-amber-100 text-amber-900",
+      },
+      {
+        variant: "red",
+        contrast: "soft",
+        className: "bg-red-100 text-red-900",
+      },
+      {
+        variant: "pink",
+        contrast: "soft",
+        className: "bg-pink-100 text-pink-900",
+      },
+      {
+        variant: "green",
+        contrast: "soft",
+        className: "bg-green-100 text-green-900",
+      },
+      {
+        variant: "teal",
+        contrast: "soft",
+        className: "bg-teal-100 text-teal-900",
+      },
     ],
     defaultVariants: {
       variant: "gray",
       size: "md",
+      shape: "pill",
     },
   },
 );
@@ -106,6 +165,7 @@ function Badge({
   className,
   variant = "gray",
   size = "md",
+  shape = "pill",
   contrast,
   icon,
   asChild = false,
@@ -127,7 +187,8 @@ function Badge({
     <Comp
       data-slot="badge"
       data-variant={variant}
-      className={cn(badgeVariants({ variant, size, contrast }), className)}
+      data-shape={shape}
+      className={cn(badgeVariants({ variant, size, shape, contrast }), className)}
       {...props}
     >
       {iconNode}

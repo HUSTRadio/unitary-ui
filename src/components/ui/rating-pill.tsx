@@ -172,9 +172,11 @@ function RatingPill(props: RatingPillProps) {
           {prefix}
         </span>
       ) : null}
-      {/* -translate-y-[0.5px]：中文字形墨迹中心比同排 16px 图标墨迹中心低 0.5px，
-          校准后两者视中线重合。 */}
-      <span className="-translate-y-[0.5px] truncate text-[14px] font-medium leading-[21px] text-gray-900">
+      {/* 光学校准只作用于文字，不动图标：问题是「中文字形墨迹中心比同行基线盒中心
+          低」，16px lucide 图标是对称图形、几何居中即光学居中，抬图标会把整组内容
+          一起推离行中心。补偿量走共享 token --uni-ink-shift-cjk（中文字形档，
+          14px ≈ 0.46px），不再硬编码 0.5px。 */}
+      <span className="ink-shift-cjk truncate text-[14px] font-medium leading-[21px] text-gray-900">
         {label}
       </span>
       {suffix ? (

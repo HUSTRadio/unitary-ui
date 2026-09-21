@@ -1,11 +1,12 @@
 import * as React from "react";
 import type { MouseEvent } from "react";
-import { Collapsible as CollapsiblePrimitive } from "radix-ui";
-import { ChevronDown, type LucideIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+import { Collapse, CollapseContent, CollapseTrigger } from "./collapse";
 import { NavStatusBadge, type NavStatusTone } from "./nav-status-badge";
+import { Separator } from "./separator";
 
 /** 条目右端状态胶囊（对齐 Tremor 文档侧栏的 `Updated` 徽标形态）。 */
 export interface SidebarNavBadge {
@@ -90,22 +91,55 @@ export function createNavigateHandler(
 /*
  * 行几何与配色：vercel.com/geist 侧栏实测（2026-08-24）→ Tremor 文档站侧栏实测
  * （2026-09-21，1440px，明暗双主题 computed styles）后的 Unitary token 落点：
- * - 条目行：rounded-md + py-1.5(6px) + HIG Subhead(15/20) → 行高 32px（Tremor 实测 32px）
- * - 行内缩：-mx-1 px-3.5（两侧各外扩 4px，文字左内缩 14px；Tremor pl-3.5 同值）
+ * - 条目行：rounded-md + nav-item-row(36px, HIG 指针行高) + 导航条目字号
+ *   text-style-nav-item(15/20)；行距 space-y-1(4px)
+ *   （Tremor 原为 32px/2px，太紧凑 → 按 HIG 放宽）
+ * - 行内缩：条目 -mx-1 px-3.5（药丸两侧各外扩 4px，文字左内缩 14px；Tremor pl-3.5 同值）；
+ *   小标题一律不内缩，文字左缘 = 药丸左缘
  * - 默认文字 text-gray-900（light #4d4d4d ≈ Tremor gray-600；dark #a1a1a1 ≈ Tremor gray-400）
  * - 悬停 bg-gray-100 + text-gray-1000（Tremor hover:bg-gray-100 + hover:text-gray-800）
  * - 选中 = 与悬停同底色 + 强化文字 + 左侧 2×16px 指示条（Tremor 签名式做法，无独立底色）
- * - 分组标题 text-style-subhead font-semibold tracking-wide + text-gray-1000
+ * - 三级标签统一字号（text-style-nav-heading / -subheading / -item 同一 15/20，
+ *   见 src/styles/index.css 的 nav token）
+ * - 层次感来自对齐：一级/二级小标题都对齐到条目药丸左缘，条目标签再内缩 14px
+ *   → 标题永远在读层级的外侧
+ * - 二级小组靠 40px 短水平分割线（左缘与小标题同轴）+ 上下留白区分；
+ *   垂直节奏「一级→首组 6px」＜「组间 9px」：分组之间呼吸更松
+ * - 行高 token：--uni-nav-item-height 36px（指针）/ --uni-nav-item-height-touch
+ *   44px（触控面板 = HIG 最小命中区 44×44pt）
+ * - 分组标题 font-semibold tracking-wide + text-gray-1000
  *   （Tremor：text-sm font-semibold tracking-wide text-gray-800，标题强于条目）
  * - 状态胶囊 text-label-12 + rounded-sm + px-1.5 py-0.5（Tremor：text-xs 500 + px-1.5 py-0.5）
  * Apple HIG 优先级说明：HIG 未规定侧栏行几何 → fallback 实测值；
  * HIG 滚动条规范（overlay，不占布局）→ 侧栏滚动条不挤压内容宽度。
  */
 
-/** 行内缩契约：标题行与条目行共用，保证文字左缘对齐。 */
-const ROW_INSET = "-mx-1 px-3.5";
-const HEADING_BASE = `${ROW_INSET} flex h-8 items-center gap-2 rounded-md text-style-subhead font-semibold tracking-wide text-gray-1000 focus-ring`;
-const ITEM_BASE = `${ROW_INSET} relative flex items-center gap-2 rounded-md py-1.5 text-style-subhead focus-ring`;
+/** 条目行内缩契约：药丸两侧各外扩 4px、文字左内缩 14px。 */
+const ITEM_INSET = "-mx-1 px-3.5";
+/**
+ * 分组内容包裹：px-1 恰好抵消条目的 -mx-1 → 药丸左缘落在内容盒边缘；同时保证
+ * 内容不横向溢出（CollapseContent 的 overflow-y:hidden 会把 overflow-x 算成 auto，
+ * 越界会冒出横向滚动条）。
+ */
+const GROUP_BODY_INSET = "px-1";
+/** 包裹内的二级小标题：用 -mx-1 回到药丸左缘（与条目、分割线同轴）。 */
+const SUBHEADING_INSET = "-mx-1";
+/** 一级小标题在包裹之外（Collapse 触发器），无需抵消，本身就落在药丸左缘。 */
+const HEADING_BASE = `nav-space-parent flex h-8 items-center gap-2 rounded-md text-style-nav-heading font-semibold tracking-wide text-gray-1000 focus-ring`;
+const ITEM_BASE = `${ITEM_INSET} nav-item-row relative flex items-center gap-2 rounded-md text-style-nav-item focus-ring`;
+/**
+ * 二级小组分隔契约：复用标准 `Separator`（radix 分隔线组件），
+ * 长度由 `length="short"` 提供（40px，刻意短于行宽——它只是分组提示，
+ * 不与条目药丸/选中条抢视觉）；本组件只负责骨架之外的三件事：
+ * 左缘与小标题同轴（-ml-1）、上下留白（nav-space-sibling）、
+ * 颜色跟外壳分隔线同 token（gray-alpha-400，而非 Separator 默认的 gray-200）。
+ *
+ * 垂直节奏取值来自标准 token（见 src/styles/index.css）：
+ *   一级小标题 → 第一个二级小组 = 6px（--uni-nav-space-parent）
+ *   二级小组 ↔ 二级小组         = 9px（--uni-nav-space-sibling 上下各 4px + 1px 线）
+ * 浏览器实测断言见 tests/e2e/component-geometry.spec.ts。
+ */
+const SUBGROUP_DIVIDER = "-ml-1 nav-space-sibling bg-gray-alpha-400";
 
 /** 折叠记忆读取：存储不可用时静默降级为「无记忆」。 */
 function readCollapsedGroups(key: string): Set<string> {
@@ -204,7 +238,7 @@ export function SidebarNav({
   }, []);
 
   const renderItems = (items: SidebarNavItem[]) => (
-    <ul className="space-y-0.5">
+    <ul className="space-y-1">
       {items.map((item) => {
         const active = activeTo === item.to;
         const Icon = item.icon;
@@ -227,11 +261,11 @@ export function SidebarNav({
                 <span
                   aria-hidden
                   data-slot="sidebar-nav-indicator"
-                  className="absolute top-1/2 left-1.5 h-4 w-0.5 -translate-y-1/2 rounded-full bg-gray-900"
+                  className="absolute top-1/2 left-2 h-4 w-0.5 -translate-y-1/2 rounded-full bg-gray-900"
                 />
               ) : null}
               {Icon ? <Icon size={16} className="shrink-0" aria-hidden /> : null}
-              <span className="truncate">{item.label}</span>
+              <span className="truncate ink-shift-cjk">{item.label}</span>
               {badge ? (
                 <NavStatusBadge className="ml-auto" label={badge.label} tone={badge.tone} />
               ) : null}
@@ -242,25 +276,39 @@ export function SidebarNav({
     </ul>
   );
 
-  const renderGroupBody = (group: SidebarNavGroup) =>
-    group.subgroups ? (
-      <div className="space-y-2">
-        {group.subgroups.map((subgroup) => (
-          <div key={subgroup.label} data-slot="sidebar-nav-subgroup">
-            {/* 二级小标题：比一级 heading 低一档字号 + 次级文本色，条目几何保持不变 */}
-            <div
-              data-slot="sidebar-nav-subheading"
-              className={`${ROW_INSET} flex h-7 items-center text-style-footnote font-medium text-gray-900`}
-            >
-              {subgroup.label}
-            </div>
-            {renderItems(subgroup.items)}
-          </div>
-        ))}
-      </div>
-    ) : (
-      renderItems(group.items)
-    );
+  const renderGroupBody = (group: SidebarNavGroup) => (
+    <div className={GROUP_BODY_INSET}>
+      {group.subgroups ? (
+        /* 二级小组：组间短水平分割线 + 上下留白区分，不做水平缩进层级 */
+        <div>
+          {group.subgroups.map((subgroup, index) => (
+            <React.Fragment key={subgroup.label}>
+              {index > 0 ? (
+                <Separator
+                  decorative
+                  length="short"
+                  data-slot="sidebar-nav-subgroup-divider"
+                  className={SUBGROUP_DIVIDER}
+                />
+              ) : null}
+              <div data-slot="sidebar-nav-subgroup">
+                {/* 二级小标题：与一级 heading 同字号（统一字号），靠字重 + 次级色分层 */}
+                <div
+                  data-slot="sidebar-nav-subheading"
+                  className={`${SUBHEADING_INSET} flex h-7 items-center text-style-nav-subheading font-medium text-gray-900`}
+                >
+                  <span className="truncate ink-shift-cjk">{subgroup.label}</span>
+                </div>
+                {renderItems(subgroup.items)}
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
+      ) : (
+        renderItems(group.items)
+      )}
+    </div>
+  );
 
   return (
     <nav
@@ -275,7 +323,7 @@ export function SidebarNav({
           return (
             <div key={id} data-slot="sidebar-nav-group">
               <div data-slot="sidebar-nav-heading" className={HEADING_BASE}>
-                {group.label}
+                <span className="truncate ink-shift-cjk">{group.label}</span>
               </div>
               {renderGroupBody(group)}
             </div>
@@ -284,39 +332,34 @@ export function SidebarNav({
 
         const open = !collapsed.has(id);
         return (
-          <CollapsiblePrimitive.Root
+          /*
+           * 折叠行为直接用标准 Collapse（Radix Collapsible，见 collapse.tsx）：
+           * - 受控 open + onOpenChange：折叠记忆/路由自动展开仍由本组件持有；
+           * - CollapseTrigger as="div"：不是 button 元素、没有按钮外观（无底色/边框/
+           *   悬停药丸），只有 disclosure 语义与键盘开关；
+           * - size="bare"：去掉标题内边距，行几何回到侧栏自己的 h-8 契约；
+           * - indicatorAlign="inline"：chevron 紧跟标题（要行尾右对齐时改 "end"）；
+           * - CollapseContent：保留内容节点 + 折叠态 inert，不卸载上百条链接。
+           */
+          <Collapse
             key={id}
             data-slot="sidebar-nav-group"
             open={open}
             onOpenChange={(next) => handleGroupOpenChange(id, next)}
+            size="bare"
+            indicatorAlign="inline"
           >
-            <CollapsiblePrimitive.Trigger
+            <CollapseTrigger
+              as="div"
               data-slot="sidebar-nav-heading"
-              className={cn(HEADING_BASE, "cursor-pointer hover:bg-gray-100")}
+              className={cn(HEADING_BASE, "select-none")}
             >
-              <span className="truncate">{group.label}</span>
-              <ChevronDown
-                aria-hidden
-                className={cn(
-                  "size-4 shrink-0 text-gray-900 transition-transform duration-(--uni-duration-base) ease-in-out motion-reduce:transition-none",
-                  open && "rotate-180",
-                )}
-              />
-            </CollapsiblePrimitive.Trigger>
-            {/* 保留内容节点（forceMount）+ grid-rows 过渡：不卸载上百条链接、不打断 Tab 序；
-                折叠态用 inert 退出可访问性树与焦点序（与 collapse.tsx 同款技法）。 */}
-            <CollapsiblePrimitive.Content
-              data-slot="sidebar-nav-content"
-              forceMount
-              inert={open ? undefined : true}
-              className={cn(
-                "grid transition-[grid-template-rows] duration-(--uni-duration-base) ease-in-out motion-reduce:transition-none",
-                open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
-              )}
-            >
-              <div className="overflow-hidden">{renderGroupBody(group)}</div>
-            </CollapsiblePrimitive.Content>
-          </CollapsiblePrimitive.Root>
+              <span className="truncate ink-shift-cjk">{group.label}</span>
+            </CollapseTrigger>
+            <CollapseContent data-slot="sidebar-nav-content" aria-label={group.label}>
+              {renderGroupBody(group)}
+            </CollapseContent>
+          </Collapse>
         );
       })}
     </nav>

@@ -390,9 +390,11 @@ function Feedback({
               </span>
             ) : null}
             {/* label 永不截断（无 truncate / whitespace-nowrap）。
-                -translate-y-[0.5px]：中文字形墨迹中心实测比 16px 图标的墨迹中心低
-                0.5px（15px 字号下 ink ascent 13 / descent 2），校准后两者视中线重合。 */}
-            <p className="min-w-0 -translate-y-[0.5px] text-copy-14 whitespace-nowrap text-gray-900">
+                光学校准只作用于文字、不动图标：问题是「中文字形墨迹中心比 16px 对称
+                图标的视中线低」（15px 实测 ink ascent 13 / descent 2 ≈ 0.5px），
+                图标本身几何居中即光学居中，抬图标会把整组内容推离行中心。
+                补偿量走共享 token --uni-ink-shift-cjk（中文字形档，15px ≈ 0.5px）。 */}
+            <p className="ink-shift-cjk min-w-0 text-copy-14 whitespace-nowrap text-gray-900">
               {inlineLabel}
             </p>
             {suffix ? (

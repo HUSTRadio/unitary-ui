@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
 
+import { Badge } from "./badge";
+
 /** 导航条目状态标记的色调：`new` 蓝色档，`updated` 中性灰档。 */
 export type NavStatusTone = "new" | "updated";
 
@@ -11,39 +13,47 @@ export interface NavStatusBadgeProps {
 }
 
 /**
- * 色调 → token（Geist 灰阶/蓝色阶在明暗两套 token 下自动翻转，无需 dark: 覆盖）：
- * - new：light bg #ebf5ff + text #0060d6；dark bg #0f1e2e + text #5ea2ff
- * - updated：light bg #f2f2f2 + text #4d4d4d；dark bg #1a1a1a + text #a1a1a1
+ * 色调 → 标准 Badge 档位映射（不再自持样式）：
+ * - new → variant="blue"：light bg #ebf5ff + text #0060d6；dark bg #0f1e2e + text #5ea2ff
+ * - updated → variant="gray"：light bg #f2f2f2 + text #4d4d4d；dark bg #1a1a1a + text #a1a1a1
  */
-const TONE_CLASS: Record<NavStatusTone, string> = {
-  new: "bg-blue-100 text-blue-900",
-  updated: "bg-gray-100 text-gray-900",
+const TONE_VARIANT: Record<NavStatusTone, "blue" | "gray"> = {
+  new: "blue",
+  updated: "gray",
 };
 
 /**
- * NavStatusBadge — 导航条目右端的状态胶囊。
+ * 标签含 CJK 字形时切到中文字形档的墨迹补偿。
+ * 同一枚 Badge 在 zh 下渲染「新增」、在 en 下渲染「New」——两者字形类不同
+ * （CJK 墨迹几乎铺满 em，约 0.033em；拉丁 x-height 词约 0.17em），
+ * Badge 的默认档（拉丁折中值）会把中文标签顶高约 1px，这里按实际标签切换。
+ */
+const CJK_PATTERN = /[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF]/;
+
+/**
+ * NavStatusBadge — 导航条目右端的状态标记。
  *
- * 几何对齐 Tremor 文档侧栏的 `Updated` 徽标（实测 2026-09-21）：
- * `rounded-sm` + `px-1.5 py-0.5` + HIG Caption 1（12/16）+ font-medium，
- * 无边框（实测无 border，2px padding × 2 + 16px 行高 = 20px 高）、
- * 紧贴条目文字右侧（由调用方用 `ml-auto` 推到行尾）。
- *
- * 内部视觉原子：SidebarNav 与 HamburgerMenu 共用，避免两侧观感漂移；
- * 不进入包根公开面（与 hamburger-icon 同级的内部实现）。
+ * 视觉完全由标准 `Badge` 承担：`shape="rounded"`（圆角矩形 4px）+ `size="compact"`
+ * （20px 高 / 12-16 文字 / 6px 横向内边距）+ `contrast="soft"`（柔和底色档）；
+ * 本组件只保留「导航状态色调 → Badge 档位」的映射，桌面侧栏与移动面板共用，
+ * 两侧观感不会再各自漂移。不进入包根公开面（与 hamburger-icon 同级的内部实现）。
  */
 function NavStatusBadge({ label, tone = "new", className }: NavStatusBadgeProps) {
   return (
-    <span
-      data-slot="nav-status-badge"
+    <Badge
       data-tone={tone}
+      shape="rounded"
+      size="compact"
+      variant={TONE_VARIANT[tone]}
+      contrast="soft"
       className={cn(
-        "inline-flex shrink-0 items-center rounded-sm px-1.5 py-0.5 text-label-12 font-medium whitespace-nowrap",
-        TONE_CLASS[tone],
+        "font-medium",
+        CJK_PATTERN.test(label) && "[--uni-ink-shift:var(--uni-ink-shift-cjk)]",
         className,
       )}
     >
       {label}
-    </span>
+    </Badge>
   );
 }
 
