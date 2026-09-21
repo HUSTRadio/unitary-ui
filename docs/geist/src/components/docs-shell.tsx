@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/sidebar-nav";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
+import { UnitaryLogoHorizontal } from "./unitary-logo";
+
 import type { DocsRouteStatus } from "../data/docs-routes";
 import { NAV_GROUPS } from "../data/nav";
 import { LANGUAGE_OPTIONS, SHELL_COPY, type ShellCopy } from "../i18n/catalog";
@@ -175,15 +177,13 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
           <a
             href="#/"
             data-slot="docs-topbar-brand"
-            className="flex shrink-0 items-center gap-2 max-md:justify-self-center max-sm:gap-0 sm:gap-2"
+            className="flex shrink-0 items-center max-md:justify-self-center"
             aria-label={copy.homeAria}
           >
-            <svg viewBox="0 0 24 24" className="size-6 fill-foreground" aria-hidden>
-              <path d="M12 2.5 22.5 21h-21L12 2.5Z" />
-            </svg>
-            <span className="whitespace-nowrap text-heading-16 text-foreground max-md:block">
-              Unitary
-            </span>
+            {/* 横版品牌 Logo：mark 蓝块 + D-DIN Pro "Unitary" 轮廓一体成型，
+                替代原先「三角图标 + 文字」组合；高 24px 时 cap 高 ≈16.6px，
+                与原 text-heading-16 视觉字号衔接 */}
+            <UnitaryLogoHorizontal className="h-6 w-auto" />
           </a>
         </div>
         {/* 右区块：Search + ThemeSwitcher */}
