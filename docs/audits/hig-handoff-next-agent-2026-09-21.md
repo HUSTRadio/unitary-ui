@@ -106,7 +106,7 @@
 | PLAN §六 readme:截图 | `readme:screenshots`(+`:check`) **无执行证据**，与 HIG 新页无绑定 | `PLAN-HIG-COMPONENTS.md:92` | ✅ 已闭环：`99f2a3b` 重生成 PNG；`docs:readme:screenshots:check` 5 页 × 2 主题通过 |
 | PLAN §十一.3 / G3 | Quick Actions **触屏长按仿真验证未做** | `PLAN-HIG-COMPONENTS.md:321` | ✅ 已闭环：新增永久回归 `tests/e2e/context-menu-quick-actions-touch.spec.ts`（CDP `Input.dispatchTouchEvent` 真实 touch），`2 passed (12.6s)`；断言长按 900ms 后遮罩可见且 `backdrop-filter: blur(8px)`、菜单计算宽 `224px`，短按 150ms（阈值 700ms 以下）不打开。**注意**：Radix `ContextMenuTrigger` 的触屏长按是自实现 `setTimeout(handleOpen, 700)`，**不派发原生 `contextmenu`** |
 | PLAN §十一.4 / G4 | **backdrop-blur 材质 token 未新增**，仍是字面量 `bg-black/40 backdrop-blur-sm` | `PLAN-HIG-COMPONENTS.md:322`；`context-menu.tsx:154-156` | ✅ 已闭环：新增 `--uni-overlay-backdrop-blur: 8px`（`src/styles/index.css` 遮罩 token 组），`context-menu.tsx` 与 `destructive-action-modal.tsx` 改走 `backdrop-blur-(--uni-overlay-backdrop-blur)`；真实浏览器双主题实测计算值 `blur(8px)`、遮罩色仍 40% / 50% |
-| PLAN M1–M4 门禁 | `pnpm test` exit 1（9 基线失败）、`test:docs-layout` exit 1、lint 无证据 | `…-addendum-phase2.md:225-227` | 🟡 部分闭环：`typecheck`、`build`、`lint`（0 error）、`pnpm test` 均 exit 0；`test:docs-layout` **仍未能取到汇总行**（进程在前台窗口内被中断） |
+| PLAN M1–M4 门禁 | `pnpm test` exit 1（9 基线失败）、`test:docs-layout` exit 1、lint 无证据 | `…-addendum-phase2.md:225-227` | 🟡 部分闭环：`typecheck`、`build`、`lint`（0 error）、`pnpm test` 均 exit 0；`test:docs-layout` **仍未能取到可信汇总行**（2026-09-22 三次尝试全部被环境阻断，证据见 §4 末两行与 §7）。**唯一稳定复现的真实失败是 HIG-AUD-053**：`tests/e2e/command-search.spec.ts:49` 在两次不同 server 状态的运行中均 `fail + retry fail` |
 
 ### 批次 C：P1（24 条）
 
@@ -143,6 +143,8 @@
 | **IDE safe-delete shim** | 单次删除 > **500** 文件被拦：`Safe delete needs confirmation for this bulk deletion (629 item(s), threshold 500)`。`docs:llm:generate` 会先 `rmSync(docs/llm/pages)`，因此**必然失败** | 需**人工在 IDE 中确认/手动删除**后才可重跑；**不要**重试，也不要改写成删除父目录/逐个删除/换脚本——shim 明确禁止规避 |
 | 同类历史案例 | 删 `.scratch/playwright-results` 时同样被拦（主报告 `:866`、增补 `:228`、矩阵 `:375` 均记为「环境干扰非产品缺陷」） | 先清 `.scratch` 子目录再跑 Playwright |
 | **Vitest 被判定为 watch 命令** | `pnpm exec vitest run …` 直接执行时 harness 判定 `isWatchCommand: true`，输出为空/超时 | 重定向到日志再读：`… > .scratch\vitest-audit.log 2>&1; Get-Content .scratch\vitest-audit.log -Tail 45` |
+| **共享的外置 dev server 会中途掉线（2026-09-22 实测）** | `PW_REUSE_SERVER=1` 复用外部 dev server 跑到 `component routes chunk 4/11` 时该 server 消失，其后 71 个用例全部 `page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:5211/…`，最后 `51 passed (19.3m)`——**这不是有效结论**，只是级联假失败 | 门禁运行**不要**依赖外置 server，用 Playwright 默认的独占启动；`PW_REUSE_SERVER=1` 只用于本地人工视觉核查 |
+| **同一 5211 被多份 Playwright 运行共享（2026-09-22 实测）** | 环境里另有一份 `playwright test -c playwright.config.ts`（`cli.js test -c playwright.config.ts`，02:47:50 起）持有 dev server 并在跑；两份 `full registry matrix` 同时打同一 server 后，`docs-layout.spec.ts:619` 的 `static routes (light)` 直接撞满用例上限：`x 49 … (15.2m)`，门禁无法产出可信汇总 | 跑前确认独占：`Get-NetTCPConnection -LocalPort 5211 -State Listen` 取 `OwningProcess`，再 `Get-CimInstance Win32_Process -Filter "ProcessId=<pid>"` 看命令是否 `vite … dev docs/geist --port 5211`；同时清点 `cli.js test -c playwright.config.ts` 进程数。确认是遗留/多余的运行后**需人工确认**再 `taskkill /T /F /PID <pid>`（本会话的 `taskkill` 请求因审批弹窗不可见而超时，未能执行） |
 | Playwright / 子进程超时 | `tests/llm-task-runner.test.ts`（超时）、`tests/showcode-typecheck.test.ts`（safe-delete ETIMEDOUT）为已知 flaky | 单独重跑确认，不要当成回归 |
 | **仓库被并发会话写入** | 矩阵 `:6` 记录审核期间仓库被并发写入（`b68d3f0 → … → 5d173ca`） | 每次开工先 `git status` 重新确认基线，不要沿用本交付书的状态 |
 
@@ -178,7 +180,7 @@
 | `pnpm run typecheck` | exit 0 | 本轮已验证为 0 |
 | `pnpm exec vitest run <定向文件>` | exit 0 | 需重定向到日志文件读取（§4） |
 | `pnpm run test` | **exit 0（2026-09-21 实测）** | **228 files / 1424 tests passed**。此前的「9 个基线失败 / 3 文件」（`docs-foundations`、`foundation-contract`、`keyboard-input-api`）在本轮全量重跑中**未复现**，已随会话推进消除；见 §9 订正 |
-| `pnpm run test:docs-layout` | **当前 exit 1**（1 failed，含 HIG-AUD-053） | 布局改动必须跑 |
+| `pnpm run test:docs-layout` | **2026-09-22 未能取到可信汇总行**；历史记录为 exit 1（1 failed，含 HIG-AUD-053） | 布局改动必须跑，且**必须独占运行**：跑前先确认没有另一份 `playwright test -c playwright.config.ts` 持有 5211 dev server（探测命令见 §4 新增两行），否则 `full registry matrix` 会逐项撞 15 分钟用例上限 |
 | `pnpm run docs:llm:check` | **当前 exit 1**（3 处漂移） | **已暂缓**；解除后需先人工清 `docs/llm/pages` 再 `docs:llm:generate` |
 | `pnpm run build` | exit 0 | 计划文档记录为绿 |
 | `pnpm run lint` | **exit 0（2026-09-21 实测）** | oxlint：**0 errors / 16 warnings**（872 files / 96 rules）；16 条 warning 为既有存量，非本轮引入 |
@@ -209,6 +211,7 @@
    - 主报告 §4.5 `:663-670` 的「结论」列仍写「审核未覆盖」，同段 `:663-664` 声明以补充报告为准 → 表内文字已过时；
    - `PLAN-HIG-COMPONENTS.md:3` 状态仍为「待确认」，`:296` 的「safe-area.tsx / stack.tsx 执行时定」实际已合并为 `layout.tsx`，均未回填。
 7. **`docs/llm/` 语料当前与文档源不一致**（3 处漂移），属已知且**用户已暂缓**。
+8. **`test:docs-layout` 的可信汇总行本轮（2026-09-22）仍未取得**：三次尝试分别被「外置 server 掉线级联」「`5211 already used`」「并发运行共享 server 致 15 分钟超时」阻断（细节见 §4 末两行）。可确认的只有：**HIG-AUD-053 稳定复现**（`tests/e2e/command-search.spec.ts:49`；断言 `expect(page.getByRole("heading", { level: 1 })).toContainText(expectedHeading)` 失败，两次运行均 fail + retry fail）；其余 `51 passed` 之类的中间数字**不得**当作门禁结论。上一次“有效”记录仍是文档里的「exit 1 / 1 failed」，未在本轮复核。
 
 ---
 
