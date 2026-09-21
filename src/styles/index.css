@@ -1019,6 +1019,11 @@ html[data-font-tier="system"],
   /* Sheet 官方实测（2026-08-15）：overlay 遮罩 + 浮层阴影 + z 层级 */
   --uni-overlay-backdrop-color: #f2f2f2;
   --uni-overlay-backdrop-opacity: 0.8;
+  /* 遮罩模糊强度的显式开关（HIG-AUD-010 建议口径）：0px 即「不模糊」。
+     light/dark 无差异，声明一次（同 opacity）；组件消费
+     backdrop-blur-(--uni-overlay-backdrop-blur)，禁止再写 backdrop-blur-* 档位字面量。
+     取值对齐迁移前的 backdrop-blur-sm（Tailwind v4 里 --blur-sm = 8px，不是 v3 的 4px）。 */
+  --uni-overlay-backdrop-blur: 8px;
   --uni-shadow-modal-elevated:
     0px 0px 0px 1px #00000014, 0px 32px 72px -12px #0000000f, 0px 8px 32px -12px #00000014,
     0px 8px 24px -12px #0000001f;

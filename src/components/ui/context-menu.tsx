@@ -205,7 +205,7 @@ const QUICK_ACTIONS_CONTENT_CLASS =
   "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none";
 
 const QUICK_ACTIONS_SCRIM_CLASS =
-  "fixed inset-0 z-[var(--uni-z-drawer)] bg-black/40 backdrop-blur-sm " +
+  "fixed inset-0 z-[var(--uni-z-drawer)] bg-black/40 backdrop-blur-(--uni-overlay-backdrop-blur) " +
   "duration-(--uni-motion-feedback) ease-snap motion-reduce:animate-none";
 
 /**

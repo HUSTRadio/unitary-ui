@@ -37,7 +37,7 @@ describe("Context Menu Quick Actions variant", () => {
   test("pairs the variant with a blurred backdrop", () => {
     expect(source).toContain("backdropBlur = true");
     expect(source).toContain("data-slot=\"context-menu-quick-actions-overlay\"");
-    expect(source).toContain("bg-black/40 backdrop-blur-sm");
+    expect(source).toContain("bg-black/40 backdrop-blur-(--uni-overlay-backdrop-blur)");
     expect(source).toContain("motion-reduce:animate-none");
   });
 
