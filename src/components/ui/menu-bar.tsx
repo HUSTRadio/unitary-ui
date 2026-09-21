@@ -70,7 +70,8 @@ const MenuBar = React.forwardRef<
 ));
 MenuBar.displayName = "MenuBar";
 
-const MenuBarMenu = MenubarPrimitive.Menu;
+// 显式注解避免 TS2883：inferred 类型引用了 radix 内部 Scope，无法在 .d.ts 中命名
+const MenuBarMenu: typeof MenubarPrimitive.Menu = MenubarPrimitive.Menu;
 
 const MenuBarTrigger = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Trigger>,

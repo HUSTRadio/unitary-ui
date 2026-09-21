@@ -64,3 +64,15 @@
 - 许可：HarmonyOS Font License（免费商用，可修改、子集化、再分发）
 - 官方资源页：<https://developer.huawei.com/consumer/en/design/resource>
 - 使用范围：本框架自托管 SC/TC 可变字体（woff2-variations）与分级子集，作为 `data-font-tier="hmos"` 档位的兜底字体。3 个子集随 npm 包提供；当前官方资源页提供字体下载，但未提供可固定到本仓库的许可原文和对子集再次分发的完整证据，二次发布者须自行完成法务核验。
+
+## 10. Tremor Raw
+
+- 仓库：<https://github.com/tremorlabs/tremor>
+- 版权：© Tremor contributors（Apache-2.0，完整声明见 `THIRD_PARTY_NOTICES.md`）
+- 参考范围：图表组件族（`src/components/ui/charts/`）以 Tremor Raw v1.0.0 源码为基线，按其官方推荐的源码复制方式内置；本地适配仅限类名 token 化、字体系统对齐与图标/工具替换，交互与数据契约保持上游一致。
+
+## 11. recharts
+
+- 仓库：<https://github.com/recharts/recharts>
+- 版权：© 2016-2024 Recharts Group（MIT，完整声明见 `THIRD_PARTY_NOTICES.md`）
+- 参考范围：npm 运行时依赖，作为内置图表组件的渲染底层；本仓库未修改其源码。

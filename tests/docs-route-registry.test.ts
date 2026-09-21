@@ -49,11 +49,58 @@ describe("canonical docs route registry", () => {
   it("keeps NAV_GROUPS as an exact registry compatibility projection", () => {
     expect(NAV_GROUPS).toEqual(
       DOCS_ROUTE_GROUPS.map((group) => ({
+        // 分组稳定 id：侧栏折叠状态的记忆键（与语言无关）
+        id: group.id,
         title: group.title,
         titleZh: group.titleZh,
-        items: group.items.map(({ label, labelZh, to, icon }) => ({ label, labelZh, to, icon })),
+        items: group.items.map(({ label, labelZh, to, icon, status }) => ({
+          label,
+          labelZh,
+          to,
+          icon,
+          status,
+        })),
+        ...(group.subgroups
+          ? {
+              subgroups: group.subgroups.map((subgroup) => ({
+                title: subgroup.title,
+                titleZh: subgroup.titleZh,
+                items: subgroup.items.map(({ label, labelZh, to, icon, status }) => ({
+                  label,
+                  labelZh,
+                  to,
+                  icon,
+                  status,
+                })),
+              })),
+            }
+          : {}),
       })),
     );
+  });
+
+  it("splits the components sidebar section into ordered second-level categories", () => {
+    const components = DOCS_ROUTE_GROUPS.find((group) => group.id === "components");
+    expect(components?.subgroups?.map((subgroup) => subgroup.id)).toEqual([
+      "actions",
+      "forms",
+      "navigation",
+      "data-display",
+      "feedback",
+      "overlays",
+      "content",
+      "mobile",
+    ]);
+
+    // 二级分类的拼接结果必须与分组扁平序列逐项一致（顺序即侧栏顺序）
+    expect(components?.subgroups?.flatMap((subgroup) => subgroup.items.map((item) => item.to))).toEqual(
+      components?.items.map((item) => item.to),
+    );
+
+    // 只有「组件」区块有二级分类
+    expect(
+      DOCS_ROUTE_GROUPS.filter((group) => group.subgroups !== undefined).map((group) => group.id),
+    ).toEqual(["components"]);
   });
 
   it("keeps adjacency symmetric across every canonical route, aliases, and unknown paths", () => {

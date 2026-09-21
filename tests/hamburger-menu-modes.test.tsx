@@ -239,7 +239,10 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
       const active = document.querySelector('a[aria-current="page"]');
       expect(active).not.toBeNull();
       expect(active!.textContent).toBe("Icons");
-      expect(active!.className).toContain("bg-gray-alpha-100");
+      // 选中态 = 与悬停同底色（Tremor 签名式）+ 左侧指示条，文字由 gray-1000 承担强调
+      expect(active!.className).toContain("bg-gray-100");
+      expect(active!.className).toContain("text-gray-1000");
+      expect(active!.querySelector('[data-slot="menu-item-indicator"]')).not.toBeNull();
       // 非激活项不得带高亮/aria-current
       expect(document.querySelectorAll('a[aria-current="page"]')).toHaveLength(1);
     });
@@ -270,7 +273,8 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
         '[data-slot="menu-result"][aria-current="page"]',
       );
       expect(result).not.toBeNull();
-      expect(result!.className).toContain("bg-gray-alpha-100");
+      expect(result!.className).toContain("bg-gray-100");
+      expect(result!.querySelector('[data-slot="menu-item-indicator"]')).not.toBeNull();
     });
   });
 

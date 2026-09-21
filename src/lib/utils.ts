@@ -1,7 +1,12 @@
 import { clsx, type ClassValue } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
 
-type GeistTypographyGroup = "geist-heading" | "geist-button" | "geist-label" | "geist-copy";
+type GeistTypographyGroup =
+  | "geist-heading"
+  | "geist-button"
+  | "geist-label"
+  | "geist-copy"
+  | "geist-style";
 
 const mergeClasses = extendTailwindMerge<GeistTypographyGroup>({
   extend: {
@@ -41,6 +46,26 @@ const mergeClasses = extendTailwindMerge<GeistTypographyGroup>({
       "geist-copy": [
         {
           text: ["copy-13", "copy-13-mono", "copy-14", "copy-16", "copy-18", "copy-20", "copy-24"],
+        },
+      ],
+      /* HIG 文本样式族（@utility text-style-*）。未登记时会被 tailwind-merge 的
+         「任意 text-* = 文本色」兜底规则吃掉：cn("text-style-subhead …", "text-gray-900")
+         会静默丢弃字号/行高。与 label/copy/heading 族同级登记。 */
+      "geist-style": [
+        {
+          text: [
+            "style-large-title",
+            "style-title1",
+            "style-title2",
+            "style-title3",
+            "style-headline",
+            "style-body",
+            "style-callout",
+            "style-subhead",
+            "style-footnote",
+            "style-caption1",
+            "style-caption2",
+          ],
         },
       ],
     },

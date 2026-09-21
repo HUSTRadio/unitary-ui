@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import { DOCS_ROUTE_SEQUENCE } from "../docs/geist/src/data/docs-routes";
+import { DOCS_ROUTE_GROUPS, DOCS_ROUTE_SEQUENCE } from "../docs/geist/src/data/docs-routes";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -51,13 +51,19 @@ describe("Geist documentation coverage", () => {
       "toolbar",
     ]);
 
-    // 字母序只约束「组件」分组内部：布局原语（safe-area / stack）属于
-    // 「排版与布局」分组，与 Typography / Grid 静态页同级，不参与该排序。
-    const componentRoutes = DOCS_ROUTE_SEQUENCE.filter(
-      (route) => route.renderer.kind === "component-detail" && route.group === "components",
-    );
-    const labels = componentRoutes.map((route) => route.label);
-    expect(labels).toEqual([...labels].sort((left, right) => left.localeCompare(right, "en")));
+    // 字母序只约束二级分类内部：布局原语（safe-area / stack）属于「排版与布局」分组，
+    // 与 Typography / Grid 静态页同级，不参与该排序；「组件」区块先按功能域分类再按字母序。
+    const componentsGroup = DOCS_ROUTE_GROUPS.find((group) => group.id === "components");
+    const subgroups = componentsGroup?.subgroups ?? [];
+    expect(subgroups.length).toBeGreaterThan(0);
+    for (const subgroup of subgroups) {
+      const labels = subgroup.items.map((route) => route.label);
+      expect(labels, `${subgroup.id} 未按字母序排列`).toEqual(
+        [...labels].sort((left, right) => left.localeCompare(right, "en")),
+      );
+    }
+    // 分类只切分「组件」分组，不新增或遗漏组件页
+    expect(subgroups.flatMap((subgroup) => subgroup.items)).toEqual(componentsGroup?.items);
   });
 
   it("uses Device as the canonical docs surface while preserving the Phone URL alias", async () => {

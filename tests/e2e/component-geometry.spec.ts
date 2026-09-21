@@ -412,6 +412,159 @@ test("scrollable sidebar keeps equal 16px top and bottom content insets", async 
   expect(Math.abs(topInset - bottomInset)).toBeLessThanOrEqual(0.5);
 });
 
+/**
+ * 侧栏 Tremor 观感实测（2026-09-21）：行高 32px、圆角 6px、左右内缩 14px，
+ * 选中态 = 药丸底色 + 左侧 2×16px 指示条。
+ */
+test("sidebar rows keep the measured 32px rhythm with aligned indicator and icon", async ({
+  page,
+}) => {
+  await openComponent(page, "link");
+  const sidebar = page.locator('[data-slot="docs-sidebar"]');
+
+  const metrics = await sidebar.evaluate((node) => {
+    const round = (value: number) => Math.round(value * 100) / 100;
+    const box = (element: Element | null | undefined) => {
+      if (!element) return null;
+      const r = element.getBoundingClientRect();
+      return { x: round(r.x), y: round(r.y), w: round(r.width), h: round(r.height) };
+    };
+    const items = Array.from(
+      node.querySelectorAll<HTMLElement>('[data-slot="sidebar-nav-item"]'),
+    );
+    const headings = Array.from(
+      node.querySelectorAll<HTMLElement>('[data-slot="sidebar-nav-heading"]'),
+    );
+    const active = items.find((item) => item.getAttribute("aria-current") === "page");
+    const withIcon = items.find((item) => item.querySelector("svg"));
+    const indicator = active?.querySelector('[data-slot="sidebar-nav-indicator"]');
+    const icon = withIcon?.querySelector("svg");
+
+    return {
+      itemCount: items.length,
+      heights: [...new Set(items.map((item) => Math.round(item.getBoundingClientRect().height)))],
+      headingHeights: [
+        ...new Set(headings.map((heading) => Math.round(heading.getBoundingClientRect().height))),
+      ],
+      radius: items[0] ? getComputedStyle(items[0]).borderRadius : null,
+      padding: items[0] ? getComputedStyle(items[0]).padding : null,
+      activeBox: box(active),
+      indicatorBox: box(indicator),
+      iconBox: box(icon),
+      iconItemBox: box(withIcon),
+    };
+  });
+
+  expect(metrics.itemCount).toBeGreaterThan(20);
+  expect(metrics.heights).toEqual([32]);
+  expect(metrics.headingHeights).toEqual([32]);
+  expect(metrics.radius).toBe("6px");
+  expect(metrics.padding).toBe("6px 14px");
+
+  // 指示条 2×16，垂直居中，距药丸左缘 6px
+  expect(metrics.indicatorBox?.w).toBe(2);
+  expect(metrics.indicatorBox?.h).toBe(16);
+  const activeCenter = metrics.activeBox!.y + metrics.activeBox!.h / 2;
+  const indicatorCenter = metrics.indicatorBox!.y + metrics.indicatorBox!.h / 2;
+  expect(Math.abs(activeCenter - indicatorCenter)).toBeLessThanOrEqual(0.5);
+  expect(Math.abs(metrics.indicatorBox!.x - (metrics.activeBox!.x + 6))).toBeLessThanOrEqual(0.5);
+
+  // 图标 16px，垂直居中，与 14px 左内缩同轴
+  expect(metrics.iconBox?.w).toBe(16);
+  expect(metrics.iconBox?.h).toBe(16);
+  const iconCenter = metrics.iconBox!.y + metrics.iconBox!.h / 2;
+  const rowCenter = metrics.iconItemBox!.y + metrics.iconItemBox!.h / 2;
+  expect(Math.abs(iconCenter - rowCenter)).toBeLessThanOrEqual(0.5);
+  expect(Math.abs(metrics.iconBox!.x - (metrics.iconItemBox!.x + 14))).toBeLessThanOrEqual(0.5);
+});
+
+test("sidebar status badge is 20px tall and flush with the row's trailing padding", async ({
+  page,
+}) => {
+  // menu-bar 在 registry 里带 new 标记，用于验证胶囊的真实落点
+  await openComponent(page, "menu-bar");
+  const sidebar = page.locator('[data-slot="docs-sidebar"]');
+  await expect(sidebar.locator('[data-slot="nav-status-badge"]').first()).toBeVisible();
+
+  const geometry = await sidebar.evaluate((node) => {
+    const badge = node.querySelector<HTMLElement>('[data-slot="nav-status-badge"]');
+    const item = badge?.closest<HTMLElement>('[data-slot="sidebar-nav-item"]');
+    if (!badge || !item) return null;
+    const badgeRect = badge.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+    const itemStyle = getComputedStyle(item);
+    const round = (value: number) => Math.round(value * 100) / 100;
+    return {
+      height: round(badgeRect.height),
+      tone: badge.dataset.tone ?? null,
+      itemWidth: round(itemRect.width),
+      paddingRight: itemStyle.paddingRight,
+      badgeRightOffset: round(badgeRect.right - itemRect.left),
+      labelTruncated: badge.previousElementSibling?.className.includes("truncate") ?? false,
+    };
+  });
+
+  expect(geometry).not.toBeNull();
+  expect(geometry!.height).toBe(20);
+  expect(geometry!.tone).toBe("new");
+  expect(geometry!.paddingRight).toBe("14px");
+  // 右缘对齐：胶囊右缘 = 药丸右缘 − 行右内缩
+  expect(
+    Math.abs(geometry!.badgeRightOffset - (geometry!.itemWidth - 14)),
+  ).toBeLessThanOrEqual(0.5);
+  // 胶囊挤在行尾时标签仍可截断，长标签不会把胶囊顶出可视区
+  expect(geometry!.labelTruncated).toBe(true);
+});
+
+test("collapsing a sidebar group removes its rows, keeps the nodes, and is remembered", async ({
+  page,
+}) => {
+  await openComponent(page, "link");
+  const sidebar = page.locator('[data-slot="docs-sidebar"]');
+
+  const probe = () =>
+    sidebar.evaluate((node) => {
+      const headings = Array.from(
+        node.querySelectorAll<HTMLElement>('[data-slot="sidebar-nav-heading"]'),
+      );
+      const group = headings[0].closest('[data-slot="sidebar-nav-group"]');
+      const content = group?.querySelector<HTMLElement>('[data-slot="sidebar-nav-content"]');
+      const round = (value: number) => Math.round(value * 100) / 100;
+      return {
+        expanded: headings[0].getAttribute("aria-expanded"),
+        contentHeight: round(content?.getBoundingClientRect().height ?? -1),
+        links: content?.querySelectorAll("a").length ?? 0,
+        inert: content?.hasAttribute("inert") ?? false,
+        contentRows: content?.textContent?.trim().length ?? 0,
+        nextHeadingTop: round(headings[1].getBoundingClientRect().top),
+      };
+    });
+
+  const expanded = await probe();
+  expect(expanded.expanded).toBe("true");
+  expect(expanded.contentHeight).toBeGreaterThan(0);
+
+  await sidebar.locator('[data-slot="sidebar-nav-heading"]').first().click();
+  await page.waitForTimeout(400);
+  const collapsed = await probe();
+
+  expect(collapsed.expanded).toBe("false");
+  expect(collapsed.contentHeight).toBeLessThanOrEqual(0.5);
+  // 折叠只收起自身行：链接仍保留在 DOM（forceMount），但退出焦点序
+  expect(collapsed.links).toBe(expanded.links);
+  expect(collapsed.inert).toBe(true);
+  // 后续分组标题上移，不与折叠区重叠
+  expect(collapsed.nextHeadingTop).toBeLessThan(expanded.nextHeadingTop);
+
+  // 折叠结果被记住：重载后仍是折叠态
+  await page.reload();
+  await page.waitForSelector('[data-slot="docs-sidebar"] [data-slot="sidebar-nav-heading"]');
+  await page.waitForTimeout(300);
+  const restored = await probe();
+  expect(restored.expanded).toBe("false");
+  expect(restored.contentHeight).toBeLessThanOrEqual(0.5);
+});
+
 test("continuous surface uses measured paths without a competing background radius", async ({
   page,
 }) => {

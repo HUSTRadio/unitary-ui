@@ -85,7 +85,13 @@ export type { PaginationProps, PaginationRailLink } from "@/components/ui/pagina
 export { Link } from "@/components/ui/link";
 export type { LinkProps } from "@/components/ui/link";
 export { SidebarNav } from "@/components/ui/sidebar-nav";
-export type { SidebarNavProps, SidebarNavGroup, SidebarNavItem } from "@/components/ui/sidebar-nav";
+export type {
+  SidebarNavProps,
+  SidebarNavGroup,
+  SidebarNavItem,
+  SidebarNavSubgroup,
+  SidebarNavBadge,
+} from "@/components/ui/sidebar-nav";
 export { Navbar } from "@/components/ui/navbar";
 export type { NavbarProps } from "@/components/ui/navbar";
 export { Footer } from "@/components/ui/footer";
@@ -143,7 +149,11 @@ export { Phone, PhoneScreen } from "@/components/ui/phone";
 export { BottomSheet } from "@/components/ui/bottom-sheet";
 export type { BottomSheetProps } from "@/components/ui/bottom-sheet";
 export { HamburgerMenu } from "@/components/ui/hamburger-menu";
-export type { HamburgerMenuProps, MenuItem as HamburgerMenuItem } from "@/components/ui/hamburger-menu";
+export type {
+  HamburgerMenuProps,
+  MenuItem as HamburgerMenuItem,
+  MenuSubgroup as HamburgerMenuSubgroup,
+} from "@/components/ui/hamburger-menu";
 
 // Components — Advanced
 export { RelativeTimeCard } from "@/components/ui/relative-time-card";
@@ -168,3 +178,27 @@ export { MiddleTruncate } from "@/components/ui/middle-truncate";
 export { MultiSelectRoot, MultiSelectTrigger, MultiSelectContent, MultiSelectRow } from "@/components/ui/multi-select";
 export { ThemeSwitcher } from "@/components/ui/theme-switcher";
 export type { MultiSelectRootProps, MultiSelectTriggerProps, MultiSelectContentProps, MultiSelectRowProps } from "@/components/ui/multi-select";
+
+// Components — Charts (Tremor Raw 源码内置，Apache-2.0；本地适配语义 token 与字体系统)
+export { AreaChart } from "@/components/ui/charts/area-chart";
+export type { AreaChartProps, AreaChartEventProps, TooltipProps as AreaChartTooltipProps } from "@/components/ui/charts/area-chart";
+export { BarChart } from "@/components/ui/charts/bar-chart";
+export type { BarChartProps, BarChartEventProps, TooltipProps as BarChartTooltipProps } from "@/components/ui/charts/bar-chart";
+export { LineChart } from "@/components/ui/charts/line-chart";
+export type { LineChartProps, LineChartEventProps, TooltipProps as LineChartTooltipProps } from "@/components/ui/charts/line-chart";
+export { ComboChart } from "@/components/ui/charts/combo-chart";
+export type { ComboChartProps, ComboChartEventProps, TooltipProps as ComboChartTooltipProps } from "@/components/ui/charts/combo-chart";
+export { DonutChart } from "@/components/ui/charts/donut-chart";
+export type { DonutChartProps, DonutChartEventProps, DonutChartVariant, TooltipProps as DonutChartTooltipProps } from "@/components/ui/charts/donut-chart";
+export { SparkAreaChart, SparkLineChart, SparkBarChart } from "@/components/ui/charts/spark-chart";
+export type { SparkAreaChartProps, SparkLineChartProps, SparkBarChartProps } from "@/components/ui/charts/spark-chart";
+export { CategoryBar } from "@/components/ui/charts/category-bar";
+export type { CategoryBarProps } from "@/components/ui/charts/category-bar";
+export { BarList } from "@/components/ui/charts/bar-list";
+export type { BarListProps } from "@/components/ui/charts/bar-list";
+export { Tracker } from "@/components/ui/charts/tracker";
+export type { TrackerProps, TrackerBlockProps } from "@/components/ui/charts/tracker";
+export { ProgressCircle } from "@/components/ui/charts/progress-circle";
+export type { ProgressCircleProps, ProgressCircleVariant } from "@/components/ui/charts/progress-circle";
+export { AvailableChartColors, constructCategoryColors, getColorClassName } from "@/components/ui/charts/chart-colors";
+export type { AvailableChartColorsKeys, ColorUtility } from "@/components/ui/charts/chart-colors";

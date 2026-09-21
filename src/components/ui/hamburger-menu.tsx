@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 import { ExpandPanel, type Side } from "./expand-panel";
 import { HamburgerIcon } from "./hamburger-icon";
+import { NavStatusBadge, type NavStatusTone } from "./nav-status-badge";
 
 /**
  * HamburgerMenu — 复合导航组件：HamburgerIcon(trigger) + ExpandPanel(展开容器)
@@ -20,14 +21,30 @@ import { HamburgerIcon } from "./hamburger-icon";
  * - side=down(top)：面板与 navbar 同宽共享 border-b、顶部无圆角（延伸感关键）
  */
 
+/** 条目右端状态胶囊（与桌面侧栏共用 NavStatusBadge 原子）。 */
+interface MenuItemBadge {
+  label: string;
+  tone?: NavStatusTone;
+}
+
 interface MenuItem {
   label: string;
   to: string;
+  badge?: MenuItemBadge;
+}
+
+/** 分组内的二级分类条目。 */
+interface MenuSubgroup {
+  title: string;
+  items: MenuItem[];
 }
 
 interface MenuGroup {
   title: string;
+  /** 分组内全部条目（扁平）；有 subgroups 时是其顺序一致的投影，搜索始终按此扁平序匹配。 */
   items: MenuItem[];
+  /** 可选的二级分类；存在时按分类渲染二级小标题。 */
+  subgroups?: MenuSubgroup[];
 }
 
 interface HamburgerMenuProps {
@@ -59,7 +76,7 @@ interface HamburgerMenuProps {
   content?: "merged" | "split";
   /** 过滤数据源 */
   items?: MenuItem[];
-  /** 分组导航数据；传入时保留小标题，并作为搜索的统一数据源 */
+  /** 分组导航数据；传入时保留小标题（含可选二级分类），并作为搜索的统一数据源 */
   groups?: MenuGroup[];
   /** 当前激活路由（用于 aria-current="page" 与高亮，对齐桌面 sidebar active 态） */
   activeTo?: string;
@@ -319,6 +336,55 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
               const headingId = group.title
                 ? `${groupIdPrefix}-group-${groupIndex}`
                 : undefined;
+              // stagger 索引按分组内条目的扁平顺序递增（子分类不打断首屏时序）
+              const renderItems = (groupItems: MenuItem[]) => (
+                <ul className="space-y-0.5">
+                  {groupItems.map((item) => {
+                    const itemIndex = navigationIndex++;
+                    // 仅首屏可见的前 N 项参与逐项浮现；滚动后看到的后续项直接呈现
+                    const staggered = staggerActive && itemIndex < staggerCount;
+                    return (
+                      <li
+                        key={item.to}
+                        style={
+                          staggered
+                            ? {
+                                animation: `hamburger-stagger-in ${STAGGER_ITEM_DURATION_MS}ms var(--ease-stagger) both`,
+                                animationDelay: `${itemIndex * STAGGER_INTERVAL_MS}ms`,
+                              }
+                            : undefined
+                        }
+                        data-staggered={staggered || undefined}
+                      >
+                        <a
+                          href={item.to}
+                          aria-current={item.to === activeTo ? "page" : undefined}
+                          onClick={() => onNavigate?.(item.to)}
+                          className={cn(
+                            // 与桌面侧栏同一套视觉语言：32px 紧凑行 + 灰色药丸 + 左侧指示条
+                            "relative flex items-center gap-2 rounded-md px-3.5 py-1.5 text-style-subhead no-underline",
+                            item.to === activeTo
+                              ? "bg-gray-100 font-medium text-gray-1000"
+                              : "text-gray-900 hover:bg-gray-100 hover:text-gray-1000",
+                          )}
+                        >
+                          {item.to === activeTo ? (
+                            <span
+                              aria-hidden
+                              data-slot="menu-item-indicator"
+                              className="absolute top-1/2 left-1.5 h-4 w-0.5 -translate-y-1/2 rounded-full bg-gray-900"
+                            />
+                          ) : null}
+                          <span className="truncate">{item.label}</span>
+                          {item.badge ? (
+                            <NavStatusBadge className="ml-auto" {...item.badge} />
+                          ) : null}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              );
               return (
                 <section
                   key={group.title || "navigation"}
@@ -329,46 +395,28 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                     <h2
                       id={headingId}
                       data-slot="menu-group-heading"
-                      className="flex h-10 items-center px-3 text-style-subhead font-semibold text-gray-1000"
+                      className="flex h-8 items-center px-3.5 text-style-subhead font-semibold tracking-wide text-gray-1000"
                     >
                       {group.title}
                     </h2>
                   ) : null}
-                  <ul className="space-y-0.5">
-                    {group.items.map((item) => {
-                      const itemIndex = navigationIndex++;
-                      // 仅首屏可见的前 N 项参与逐项浮现；滚动后看到的后续项直接呈现
-                      const staggered = staggerActive && itemIndex < staggerCount;
-                      return (
-                        <li
-                          key={item.to}
-                          style={
-                            staggered
-                              ? {
-                                  animation: `hamburger-stagger-in ${STAGGER_ITEM_DURATION_MS}ms var(--ease-stagger) both`,
-                                  animationDelay: `${itemIndex * STAGGER_INTERVAL_MS}ms`,
-                                }
-                              : undefined
-                          }
-                          data-staggered={staggered || undefined}
-                        >
-                          <a
-                            href={item.to}
-                            aria-current={item.to === activeTo ? "page" : undefined}
-                            onClick={() => onNavigate?.(item.to)}
-                            className={cn(
-                              "block rounded-md px-3 py-2 text-copy-14 no-underline hover:bg-[var(--uni-gray-alpha-200)]",
-                              item.to === activeTo
-                                ? "bg-gray-alpha-100 font-medium text-[var(--uni-gray-1000)]"
-                                : "text-[var(--uni-gray-1000)]",
-                            )}
+                  {group.subgroups ? (
+                    <div className="space-y-2">
+                      {group.subgroups.map((subgroup) => (
+                        <div key={subgroup.title} data-slot="menu-subgroup">
+                          <h3
+                            data-slot="menu-subgroup-heading"
+                            className="flex h-7 items-center px-3.5 text-style-footnote font-medium text-gray-900"
                           >
-                            {item.label}
-                          </a>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                            {subgroup.title}
+                          </h3>
+                          {renderItems(subgroup.items)}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    renderItems(group.items)
+                  )}
                 </section>
               );
             })}
@@ -389,13 +437,22 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                     setOpen(false);
                   }}
                   className={cn(
-                    "block rounded-md px-3 py-2 text-copy-14 no-underline hover:bg-[var(--uni-gray-alpha-200)]",
+                    // 结果项与列表项同一行几何（搜索是同一批路由的另一种呈现）
+                    "relative flex items-center gap-2 rounded-md px-3.5 py-1.5 text-style-subhead no-underline",
                     item.to === activeTo
-                      ? "bg-gray-alpha-100 font-medium text-[var(--uni-gray-1000)]"
-                      : "text-[var(--uni-gray-1000)]",
+                      ? "bg-gray-100 font-medium text-gray-1000"
+                      : "text-gray-900 hover:bg-gray-100 hover:text-gray-1000",
                   )}
                 >
-                  {item.label}
+                  {item.to === activeTo ? (
+                    <span
+                      aria-hidden
+                      data-slot="menu-item-indicator"
+                      className="absolute top-1/2 left-1.5 h-4 w-0.5 -translate-y-1/2 rounded-full bg-gray-900"
+                    />
+                  ) : null}
+                  <span className="truncate">{item.label}</span>
+                  {item.badge ? <NavStatusBadge className="ml-auto" {...item.badge} /> : null}
                 </a>
               </li>
             ))}
@@ -407,4 +464,4 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
 });
 
 export { HamburgerMenu };
-export type { HamburgerMenuProps, HamburgerMenuHandle, MenuGroup, MenuItem };
+export type { HamburgerMenuProps, HamburgerMenuHandle, MenuGroup, MenuItem, MenuSubgroup };

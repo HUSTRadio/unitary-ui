@@ -62,3 +62,15 @@ This repository's implementation references and benefits from the following proj
 - License: HarmonyOS Font License (free for commercial use; modification, subsetting, and redistribution permitted)
 - Official resource page: <https://developer.huawei.com/consumer/en/design/resource>
 - Usage: three self-hosted SC/TC variable-font subsets ship in the npm package as the fallback tier for `data-font-tier="hmos"`. The current official resource page provides the font download but not a license text fixed in this repository or a complete reproducible record for onward subset redistribution; republishers must perform their own legal review.
+
+## 10. Tremor Raw
+
+- Repository: <https://github.com/tremorlabs/tremor>
+- Copyright: © Tremor contributors (Apache-2.0; full notice in [`THIRD_PARTY_NOTICES.en.md`](./THIRD_PARTY_NOTICES.en.md))
+- Usage: the chart component family (`src/components/ui/charts/`) is vendored from Tremor Raw v1.0.0 under its official source-copy distribution model. Local adaptations are limited to token-based class names, alignment with this project's typography system, and icon/utility replacements; interaction and data contracts stay upstream-identical.
+
+## 11. recharts
+
+- Repository: <https://github.com/recharts/recharts>
+- Copyright: © 2016-2024 Recharts Group (MIT; full notice in [`THIRD_PARTY_NOTICES.en.md`](./THIRD_PARTY_NOTICES.en.md))
+- Usage: npm runtime dependency serving as the rendering engine beneath the vendored chart components; its source is not modified in this repository.
