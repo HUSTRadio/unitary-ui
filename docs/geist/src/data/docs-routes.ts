@@ -1,6 +1,6 @@
 import { Smartphone, type LucideIcon } from "lucide-react";
 
-import { COMPONENTS } from "./components";
+import { COMPONENTS, type ComponentMeta } from "./components";
 import type { DocsLanguage } from "../i18n/language";
 
 export type DocsGroupId = "foundations" | "layout" | "api" | "components" | "patterns";
@@ -12,6 +12,9 @@ export type StaticPageKey =
   | "materials"
   | "grid";
 export type LocalizedPageKey = "lifecycle-and-hooks" | "app-shell";
+
+/** 条目状态标记（侧栏 / 汉堡面板右端胶囊的色调）。 */
+export type DocsRouteStatus = "new" | "updated";
 
 export type DocsRenderer =
   | { kind: "static"; page: StaticPageKey }
@@ -27,14 +30,30 @@ export interface DocsRoute {
   aliases?: readonly string[];
   sidebar: boolean;
   icon?: LucideIcon;
+  /** 最近版本新增/更新的状态标记（决定侧栏与汉堡面板是否渲染状态胶囊）。 */
+  status?: DocsRouteStatus;
   renderer: DocsRenderer;
+}
+
+/**
+ * 分组内的二级分类（当前只有「组件」区块使用）。
+ * `items` 与所属分组的扁平序列保持同一相对顺序，二级分类只是同一批路由的再切分。
+ */
+export interface DocsRouteSubgroup {
+  id: string;
+  title: string;
+  titleZh: string;
+  items: readonly DocsRoute[];
 }
 
 export interface DocsRouteGroup {
   id: DocsGroupId;
   title: string;
   titleZh: string;
+  /** 分组内 sidebar 可见路由的扁平序列（顺序即侧栏顺序）。 */
   items: readonly DocsRoute[];
+  /** 二级分类；存在时 `items` 是其扁平投影（顺序一致）。 */
+  subgroups?: readonly DocsRouteSubgroup[];
 }
 
 const DOCS_GROUPS: readonly Omit<DocsRouteGroup, "items">[] = [
@@ -118,8 +137,159 @@ const STATIC_DOCS_ROUTES: readonly DocsRoute[] = [
  */
 const LAYOUT_COMPONENT_NAMES: ReadonlySet<string> = new Set(["safe-area", "stack"]);
 
+/**
+ * 「组件」区块的二级分类（按元件职责划分的功能域）。
+ * 数组顺序即侧栏顺序，也是组件页在 DOCS_ROUTE_SEQUENCE 中的相邻顺序。
+ */
+const COMPONENT_SUBGROUPS = [
+  { id: "actions", title: "Actions", titleZh: "操作" },
+  { id: "forms", title: "Forms & Input", titleZh: "表单与输入" },
+  { id: "navigation", title: "Navigation", titleZh: "导航" },
+  { id: "data-display", title: "Data Display", titleZh: "数据展示" },
+  { id: "feedback", title: "Feedback & Status", titleZh: "反馈与状态" },
+  { id: "overlays", title: "Overlays & Containers", titleZh: "浮层与容器" },
+  { id: "content", title: "Content & Media", titleZh: "内容与媒体" },
+  { id: "mobile", title: "Mobile only", titleZh: "仅移动端" },
+] as const satisfies readonly Omit<DocsRouteSubgroup, "items">[];
+
+export type ComponentSubgroupId = (typeof COMPONENT_SUBGROUPS)[number]["id"];
+
+/** 仅移动端可用的元件统一收进末位二级分类（来源为 ComponentMeta.mobileOnly）。 */
+const MOBILE_ONLY_SUBGROUP_ID: ComponentSubgroupId = "mobile";
+
+/**
+ * 非移动端元件 → 二级分类。标记 mobileOnly 的元件**不**写在此表，
+ * 由 componentSubgroupId 依据 ComponentMeta.mobileOnly 统一归入「仅移动端」。
+ */
+const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> = {
+  /* Actions —— 触发动作、命令与菜单 */
+  button: "actions",
+  "command-menu": "actions",
+  "context-menu": "actions",
+  "copy-button": "actions",
+  "dots-menu": "actions",
+  "edit-menu": "actions",
+  link: "actions",
+  "load-more-button": "actions",
+  menu: "actions",
+  "menu-bar": "actions",
+  "show-more": "actions",
+  "split-button": "actions",
+  toolbar: "actions",
+
+  /* Forms & Input —— 表单控件与输入 */
+  calendar: "forms",
+  checkbox: "forms",
+  choicebox: "forms",
+  "clearable-input": "forms",
+  combobox: "forms",
+  fieldset: "forms",
+  input: "forms",
+  "keyboard-input": "forms",
+  label: "forms",
+  "multi-select": "forms",
+  radio: "forms",
+  "search-input": "forms",
+  select: "forms",
+  slider: "forms",
+  switch: "forms",
+  textarea: "forms",
+  "theme-switcher": "forms",
+  toggle: "forms",
+
+  /* Navigation —— 位置与视图切换 */
+  breadcrumbs: "navigation",
+  pagination: "navigation",
+  tabs: "navigation",
+
+  /* Data Display —— 数据、状态与标识的展示 */
+  avatar: "data-display",
+  badge: "data-display",
+  description: "data-display",
+  entity: "data-display",
+  "file-tree": "data-display",
+  gauge: "data-display",
+  "json-view": "data-display",
+  "middle-truncate": "data-display",
+  pill: "data-display",
+  progress: "data-display",
+  "relative-time-card": "data-display",
+  "status-dot": "data-display",
+  "step-point": "data-display",
+  table: "data-display",
+  "text-with-copy-button": "data-display",
+
+  /* Feedback & Status —— 加载、空态、错误与用户反馈 */
+  "empty-state": "feedback",
+  error: "feedback",
+  "error-boundary": "feedback",
+  "error-card": "feedback",
+  feedback: "feedback",
+  "loading-dots": "feedback",
+  skeleton: "feedback",
+  spinner: "feedback",
+  toast: "feedback",
+  tooltip: "feedback",
+
+  /* Overlays & Containers —— 浮层与容器基元 */
+  collapse: "overlays",
+  "context-card": "overlays",
+  "continuous-surface": "overlays",
+  "destructive-action-modal": "overlays",
+  grid: "overlays",
+  modal: "overlays",
+  scroller: "overlays",
+  separator: "overlays",
+  sheet: "overlays",
+
+  /* Content & Media —— 内容排版、代码与拟真外框 */
+  banner: "content",
+  book: "content",
+  browser: "content",
+  code: "content",
+  "code-block": "content",
+  device: "content",
+  note: "content",
+  "project-banner": "content",
+  snippet: "content",
+  video: "content",
+};
+
+/** 元件所属二级分类；mobileOnly 优先，非移动端必须显式归类（缺失即 fail-closed）。 */
+function componentSubgroupId(component: ComponentMeta): ComponentSubgroupId {
+  if (component.mobileOnly) return MOBILE_ONLY_SUBGROUP_ID;
+  const subgroupId = COMPONENT_SUBGROUP_BY_NAME[component.name];
+  if (!subgroupId) {
+    throw new Error(
+      `元件「${component.name}」缺少「组件」区块二级分类：请在 docs-routes.ts 的 COMPONENT_SUBGROUP_BY_NAME 中归类。`,
+    );
+  }
+  return subgroupId;
+}
+
+/** 二级分类在侧栏中的序号；同时决定组件页在 canonical 序列中的相邻顺序。 */
+function componentSubgroupRank(component: ComponentMeta): number {
+  const subgroupId = componentSubgroupId(component);
+  const rank = COMPONENT_SUBGROUPS.findIndex((subgroup) => subgroup.id === subgroupId);
+  if (rank === -1) {
+    throw new Error(`未知的「组件」二级分类：${subgroupId}`);
+  }
+  return rank;
+}
+
+/**
+ * 组件页排序键。布局原语不属于「组件」区块的二级分类，统一取 -1 排在最前——
+ * 它们最终归入 layout 分组，与其他分组的相对顺序由 DOCS_ROUTE_SEQUENCE 的分组投影决定。
+ */
+function componentSortRank(component: ComponentMeta): number {
+  return LAYOUT_COMPONENT_NAMES.has(component.name) ? -1 : componentSubgroupRank(component);
+}
+
 const COMPONENT_DETAIL_ROUTES: readonly DocsRoute[] = [...COMPONENTS]
-  .sort((left, right) => left.label.localeCompare(right.label, "en"))
+  .sort((left, right) => {
+    const rankDelta = componentSortRank(left) - componentSortRank(right);
+    return rankDelta !== 0 ? rankDelta : left.label.localeCompare(right.label, "en");
+  })
   .map((component) => ({
     to: `/components/${component.name}`,
     group: LAYOUT_COMPONENT_NAMES.has(component.name) ? "layout" : "components",
@@ -128,6 +298,14 @@ const COMPONENT_DETAIL_ROUTES: readonly DocsRoute[] = [...COMPONENTS]
     sidebar: true,
     renderer: { kind: "component-detail", componentName: component.name },
   }));
+
+/** 组件页路径 → 二级分类（切分「组件」区块时使用；布局原语不在此列）。 */
+const COMPONENT_SUBGROUP_BY_PATH: ReadonlyMap<string, ComponentSubgroupId> = new Map(
+  COMPONENTS.filter((component) => !LAYOUT_COMPONENT_NAMES.has(component.name)).map((component) => [
+    `/components/${component.name}`,
+    componentSubgroupId(component),
+  ]),
+);
 
 const APP_SHELL_ROUTE: DocsRoute = {
   to: "/patterns/app-shell",
@@ -146,18 +324,50 @@ const ALL_DOCS_ROUTES: readonly DocsRoute[] = [
 ];
 
 /**
+ * 条目状态标记表 —— 只登记 CHANGELOG 里真正新增或更新过公开面/文档的页面，
+ * 未登记的页面一律不带胶囊（侧栏节奏优先，不做全量打标）：
+ * - new：《HIG 交互组件族》（MenuBar / Toolbar）、《Shape family 与连续曲率》（ContinuousSurface）、
+ *   《布局原语》（SafeArea）
+ * - updated：《组件变体 API》（Modal 新增 placement、Tabs 新增 compact 密度）
+ * 键为 canonical 路由（布局原语的 path 仍是 /components/*，归组见 COMPONENT_DETAIL_ROUTES）。
+ */
+const DOCS_ROUTE_STATUS: Readonly<Record<string, DocsRouteStatus>> = {
+  "/components/menu-bar": "new",
+  "/components/toolbar": "new",
+  "/components/continuous-surface": "new",
+  "/components/safe-area": "new",
+  "/components/modal": "updated",
+  "/components/tabs": "updated",
+};
+
+/**
  * 序列按**分组顺序**投影，而不是"静态页 → 组件页 → 模式页"：
  * 这样侧栏分组、上下页相邻与搜索顺序始终是同一个顺序，
  * 新增分组（如"排版与布局"）不会让三者错位。
+ * 状态标记在此统一附加，保证侧栏、汉堡面板与搜索看到同一份路由对象。
  */
 export const DOCS_ROUTE_SEQUENCE: readonly DocsRoute[] = DOCS_GROUPS.flatMap((group) =>
-  ALL_DOCS_ROUTES.filter((route) => route.group === group.id),
+  ALL_DOCS_ROUTES.filter((route) => route.group === group.id).map((route) => {
+    const status = DOCS_ROUTE_STATUS[route.to];
+    return status ? { ...route, status } : route;
+  }),
 );
 
-export const DOCS_ROUTE_GROUPS: readonly DocsRouteGroup[] = DOCS_GROUPS.map((group) => ({
-  ...group,
-  items: DOCS_ROUTE_SEQUENCE.filter((route) => route.sidebar && route.group === group.id),
-}));
+export const DOCS_ROUTE_GROUPS: readonly DocsRouteGroup[] = DOCS_GROUPS.map((group) => {
+  const items = DOCS_ROUTE_SEQUENCE.filter((route) => route.sidebar && route.group === group.id);
+  if (group.id !== "components") return { ...group, items };
+  // 「组件」区块按二级分类再切分：items 仍是扁平投影，顺序与 subgroups 的拼接结果一致。
+  return {
+    ...group,
+    items,
+    subgroups: COMPONENT_SUBGROUPS.map((subgroup) => ({
+      id: subgroup.id,
+      title: subgroup.title,
+      titleZh: subgroup.titleZh,
+      items: items.filter((route) => COMPONENT_SUBGROUP_BY_PATH.get(route.to) === subgroup.id),
+    })).filter((subgroup) => subgroup.items.length > 0),
+  };
+});
 
 export function getRouteSearchText(
   group: Pick<DocsRouteGroup, "title" | "titleZh">,

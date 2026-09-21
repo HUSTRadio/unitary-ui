@@ -42,7 +42,7 @@ const DEMO_COPY = {
       },
       {
         heading: "SidebarNav",
-        body: "通用侧边导航：groups 分组数据、activeTo 高亮当前项、side 控制分隔边。宽度由外层布局控制，lg 断点起显示。",
+        body: "通用侧边导航：groups 分组数据、activeTo 高亮当前项、side 控制分隔边，条目可带右侧状态胶囊。打开 collapsible 后分组标题可点击开合。宽度由外层布局控制，lg 断点起显示。",
       },
       {
         heading: "HamburgerMenu",
@@ -73,6 +73,18 @@ const DEMO_COPY = {
         prop: "groups · activeTo · side",
         defaultValue: "— · — · \"left\"",
         description: "分组数据源、当前高亮项（aria-current=\"page\"）、分隔边方向",
+      },
+      {
+        component: "SidebarNav",
+        prop: "collapsible · persistKey",
+        defaultValue: "false · —",
+        description: "分组标题可点击开合；persistKey 记忆折叠状态（localStorage，当前页所在分组始终展开）",
+      },
+      {
+        component: "SidebarNav",
+        prop: "items[].badge",
+        defaultValue: "—",
+        description: "条目右端状态胶囊：{ label, tone: \"new\" | \"updated\" }；桌面侧栏与移动端面板同一视觉",
       },
       {
         component: "HamburgerMenu",
@@ -137,7 +149,7 @@ const DEMO_COPY = {
       },
       {
         heading: "SidebarNav",
-        body: "Generic sidebar navigation: grouped data, activeTo highlights the current item, side picks the separator edge. Width is owned by the outer layout; visible from the lg breakpoint.",
+        body: "Generic sidebar navigation: grouped data, activeTo highlights the current item, side picks the separator edge, and items can carry a trailing status pill. With collapsible on, group headings toggle open and closed. Width is owned by the outer layout; visible from the lg breakpoint.",
       },
       {
         heading: "HamburgerMenu",
@@ -168,6 +180,20 @@ const DEMO_COPY = {
         prop: "groups · activeTo · side",
         defaultValue: "— · — · \"left\"",
         description: "Grouped data source, active item (aria-current=\"page\"), separator edge",
+      },
+      {
+        component: "SidebarNav",
+        prop: "collapsible · persistKey",
+        defaultValue: "false · —",
+        description:
+          "Group headings toggle on click; persistKey remembers collapsed groups (localStorage, the active group always stays open)",
+      },
+      {
+        component: "SidebarNav",
+        prop: "items[].badge",
+        defaultValue: "—",
+        description:
+          "Trailing status pill per item: { label, tone: \"new\" | \"updated\" }; same visual in the desktop sidebar and the mobile panel",
       },
       {
         component: "HamburgerMenu",

@@ -15,6 +15,9 @@ export const SHELL_COPY = {
     themeAria: "显示主题",
     foundations: "基础",
     components: "组件",
+    /* 侧栏/汉堡条目状态胶囊文案（对应 docs-routes 的 DocsRouteStatus） */
+    itemBadgeNew: "新增",
+    itemBadgeUpdated: "已更新",
     skip: "跳转到正文",
     pageInProgress: "页面开发中",
     pageInProgressDescription: (pathname: string) => `该页面（${pathname}）由后续任务实现。`,
@@ -47,6 +50,9 @@ export const SHELL_COPY = {
     themeAria: "Display theme",
     foundations: "Foundations",
     components: "Components",
+    /* 侧栏/汉堡条目状态胶囊文案（对应 docs-routes 的 DocsRouteStatus） */
+    itemBadgeNew: "New",
+    itemBadgeUpdated: "Updated",
     skip: "Skip to content",
     pageInProgress: "Page in progress",
     pageInProgressDescription: (pathname: string) =>

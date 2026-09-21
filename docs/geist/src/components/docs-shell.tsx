@@ -9,11 +9,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
 import { Navbar } from "@/components/ui/navbar";
-import { SidebarNav, type SidebarNavGroup } from "@/components/ui/sidebar-nav";
+import {
+  SidebarNav,
+  type SidebarNavBadge,
+  type SidebarNavGroup,
+} from "@/components/ui/sidebar-nav";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
+import type { DocsRouteStatus } from "../data/docs-routes";
 import { NAV_GROUPS } from "../data/nav";
-import { LANGUAGE_OPTIONS, SHELL_COPY } from "../i18n/catalog";
+import { LANGUAGE_OPTIONS, SHELL_COPY, type ShellCopy } from "../i18n/catalog";
 import { useLanguage } from "../i18n/language";
 
 /**
@@ -26,6 +31,20 @@ import { useLanguage } from "../i18n/language";
  */
 
 /* ---------- Navbar ---------- */
+/**
+ * 桌面侧栏分组折叠状态的记忆键（localStorage）。
+ * 键名与组件库无关：记忆是文档站自身的偏好，组件只负责读写。
+ */
+const SIDEBAR_COLLAPSE_KEY = "unitary.docs.sidebar.collapsed-groups";
+
+/** registry 的状态标记 → 条目右端胶囊（色调随标记，文案随语言）。 */
+function statusBadge(
+  status: DocsRouteStatus | undefined,
+  copy: ShellCopy,
+): SidebarNavBadge | undefined {
+  if (!status) return undefined;
+  return { tone: status, label: status === "new" ? copy.itemBadgeNew : copy.itemBadgeUpdated };
+}
 
 function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
   const { language, setLanguage } = useLanguage();
@@ -43,7 +62,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
   useEffect(() => {
     setNavbarEl(document.querySelector<HTMLElement>('[data-slot="navbar"]'));
   }, []);
-  // 保留 NAV_GROUPS 分组与小标题；label/title 均随语言
+  // 保留 NAV_GROUPS 分组、二级分类与小标题；label/title 均随语言
   const menuGroups = useMemo(
     () =>
       NAV_GROUPS.map((group) => ({
@@ -51,9 +70,23 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
         items: group.items.map((item) => ({
           label: language === "zh-CN" ? (item.labelZh ?? item.label) : item.label,
           to: item.to,
+          badge: statusBadge(item.status, copy),
         })),
+        ...(group.subgroups
+          ? {
+              subgroups: group.subgroups.map((subgroup) => ({
+                title:
+                  language === "zh-CN" ? (subgroup.titleZh ?? subgroup.title) : subgroup.title,
+                items: subgroup.items.map((item) => ({
+                  label: language === "zh-CN" ? (item.labelZh ?? item.label) : item.label,
+                  to: item.to,
+                  badge: statusBadge(item.status, copy),
+                })),
+              })),
+            }
+          : {}),
       })),
-    [language],
+    [copy, language],
   );
 
   return (
@@ -234,18 +267,35 @@ function DocsSidebar() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { language } = useLanguage();
-  // NAV_GROUPS → SidebarNav 数据模型（label/title 随语言）
+  const copy = SHELL_COPY[language];
+  // NAV_GROUPS → SidebarNav 数据模型（label/title 随语言，二级分类与状态胶囊一并投影）
   const groups: SidebarNavGroup[] = useMemo(
     () =>
       NAV_GROUPS.map((group) => ({
+        id: group.id,
         label: language === "zh-CN" ? (group.titleZh ?? group.title) : group.title,
         items: group.items.map((item) => ({
           label: language === "zh-CN" ? (item.labelZh ?? item.label) : item.label,
           to: item.to,
           icon: item.icon,
+          badge: statusBadge(item.status, copy),
         })),
+        ...(group.subgroups
+          ? {
+              subgroups: group.subgroups.map((subgroup) => ({
+                label:
+                  language === "zh-CN" ? (subgroup.titleZh ?? subgroup.title) : subgroup.title,
+                items: subgroup.items.map((item) => ({
+                  label: language === "zh-CN" ? (item.labelZh ?? item.label) : item.label,
+                  to: item.to,
+                  icon: item.icon,
+                  badge: statusBadge(item.status, copy),
+                })),
+              })),
+            }
+          : {}),
       })),
-    [language],
+    [copy, language],
   );
 
   return (
@@ -258,6 +308,8 @@ function DocsSidebar() {
         activeTo={pathname}
         onNavigate={(to) => navigate(to)}
         side="left"
+        collapsible
+        persistKey={SIDEBAR_COLLAPSE_KEY}
         className="min-h-full border-gray-alpha-400 px-6 py-4"
       />
       <div

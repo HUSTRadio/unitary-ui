@@ -15,6 +15,13 @@ const README_EN = path.join(ROOT, "README.en.md");
 const WIDTH = 1440;
 const HEIGHT = 900;
 const VP_COMMAND = process.platform === "win32" ? "vp.exe" : "vp";
+/**
+ * 首屏导航预算。根 styleguide 的 dev 冷启动要按需转换全部示例模块，
+ * 实测（2026-09-21，1440x900）：26s 才渲染出导航、30.3s 才 networkidle——
+ * Playwright 默认 30s 恰好卡线，表现为「page.goto Timeout 30000ms exceeded」。
+ * 与 playwright.config.ts 的重路由 90s / dev server 120s 口径一致放宽。
+ */
+const NAVIGATION_TIMEOUT_MS = 120_000;
 const CHECK = process.argv.includes("--check");
 const BLOCK_START = "<!-- STYLEGUIDE_SCREENSHOTS_START -->";
 const BLOCK_END = "<!-- STYLEGUIDE_SCREENSHOTS_END -->";
@@ -157,8 +164,11 @@ async function capture(outputDir) {
   try {
     browser = await chromium.launch();
     const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT } });
-    await page.goto(preview.url, { waitUntil: "networkidle" });
-    await page.locator("header nav").waitFor({ state: "visible" });
+    await page.goto(preview.url, {
+      waitUntil: "networkidle",
+      timeout: NAVIGATION_TIMEOUT_MS,
+    });
+    await page.locator("header nav").waitFor({ state: "visible", timeout: NAVIGATION_TIMEOUT_MS });
     const pages = await discoverPages(page);
 
     for (const item of pages) {
