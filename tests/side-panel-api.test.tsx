@@ -143,3 +143,108 @@ describe("SidePanel API contract（DD-001b）", () => {
     expect(source).not.toContain("onPointerDown");
   });
 });
+
+describe("SidePanel 焦点与模态语义（HIG-AUD-006/007）", () => {
+  /** 受控 harness：外部 trigger + 页面内容 + 受控面板（对齐真实用法 show/onDismiss）。 */
+  function Harness({
+    noOverlay = false,
+    children,
+  }: {
+    noOverlay?: boolean;
+    children?: React.ReactNode;
+  }) {
+    const [show, setShow] = React.useState(false);
+    return (
+      <>
+        <button type="button" id="sp-trigger" onClick={() => setShow(true)}>
+          open panel
+        </button>
+        <main id="sp-page">page content</main>
+        <SidePanel show={show} noOverlay={noOverlay} onDismiss={() => setShow(false)}>
+          {children ?? "panel body"}
+        </SidePanel>
+      </>
+    );
+  }
+
+  function openViaTrigger() {
+    const trigger = document.querySelector<HTMLButtonElement>("#sp-trigger")!;
+    act(() => {
+      trigger.focus();
+      trigger.click();
+    });
+  }
+
+  function pressEscape() {
+    act(() => {
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    });
+  }
+
+  /** 焦点归还走 setTimeout(0)（后台标签页 rAF 挂起的 drawer 先例），等真实定时器排空。 */
+  async function flushTimers() {
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 16));
+    });
+  }
+
+  it("HIG-AUD-006：Escape 关闭后焦点归还触发元素（而非 body）", async () => {
+    renderPanel(<Harness />);
+    const trigger = document.querySelector<HTMLButtonElement>("#sp-trigger")!;
+    openViaTrigger();
+    expect(document.querySelector('[data-slot="side-panel-content"]')).not.toBeNull();
+    pressEscape();
+    await flushTimers();
+    expect(document.querySelector('[data-slot="side-panel-content"]')).toBeNull();
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it("HIG-AUD-006：显式关闭按钮路径同样归还焦点", async () => {
+    renderPanel(
+      <Harness>
+        <SidePanelClose asChild>
+          <button type="button">close</button>
+        </SidePanelClose>
+      </Harness>,
+    );
+    const trigger = document.querySelector<HTMLButtonElement>("#sp-trigger")!;
+    // 先聚焦 trigger 再打开（真实用户路径），onOpenAutoFocus 记录的才是 trigger
+    openViaTrigger();
+    const close = [...document.querySelectorAll("button")].find((b) =>
+      b.textContent?.includes("close"),
+    )!;
+    act(() => {
+      close.dispatchEvent(new window.MouseEvent("click", { bubbles: true }));
+    });
+    await flushTimers();
+    expect(document.querySelector('[data-slot="side-panel-content"]')).toBeNull();
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it("HIG-AUD-007：noOverlay 非模态——不锁 body 滚动、不遮蔽外部内容、Escape 仍关闭", async () => {
+    renderPanel(<Harness noOverlay />);
+    openViaTrigger();
+    expect(document.querySelector('[data-slot="side-panel-content"]')).not.toBeNull();
+    // react-remove-scroll 未锁定 body（data-scroll-locked 是库内 CSS 消费的锁标记）
+    expect(document.body.hasAttribute("data-scroll-locked")).toBe(false);
+    // hideOthers 未给外部内容加 aria-hidden
+    expect(document.querySelector("#sp-page")!.closest("[aria-hidden='true']")).toBeNull();
+    // Escape 仍触发 onDismiss（面板卸载 = onDismiss → setShow(false) 生效）
+    pressEscape();
+    await flushTimers();
+    expect(document.querySelector('[data-slot="side-panel-content"]')).toBeNull();
+  });
+
+  it("HIG-AUD-007 对照：默认模式保持模态语义（锁滚动 + 遮蔽外部内容）", () => {
+    renderPanel(<Harness />);
+    openViaTrigger();
+    expect(document.querySelector('[data-slot="side-panel-content"]')).not.toBeNull();
+    // react-remove-scroll 锁定 body（data-scroll-locked；styles/index.css 消费此属性）
+    expect(document.body.hasAttribute("data-scroll-locked")).toBe(true);
+    // hideOthers 遮蔽面板之外的内容（容器被 aria-hidden，面板内容不被遮蔽）
+    const page = document.querySelector("#sp-page")!;
+    expect(page.closest("[aria-hidden='true']")).not.toBeNull();
+    const panel = document.querySelector('[data-slot="side-panel-content"]')!;
+    expect(panel.closest("[aria-hidden='true']")).toBeNull();
+  });
+});

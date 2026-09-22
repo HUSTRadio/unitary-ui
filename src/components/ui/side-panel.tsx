@@ -22,12 +22,16 @@ import { cn } from "@/lib/utils";
  *   motion-reduce:animate-none（WCAG 2.3.3）；
  * - Overlay：bg-[var(--uni-overlay-backdrop-color)] @
  *   opacity-[var(--uni-overlay-backdrop-opacity)]（对齐 sheet 的 token 化 overlay，
- *   不用 drawer 的 bg-black/40 直搬）；noOverlay=true 跳过渲染 Overlay——
- *   此时面板不锁交互、页面保持可操作由消费者负责（同 sheet 语义）；
+ *   不用 drawer 的 bg-black/40 直搬）；noOverlay=true 跳过渲染 Overlay，并同步以
+ *   modal={false} 运行（Radix 非模态：不锁 body 滚动、不 hideOthers 遮蔽外部内容、
+ *   无焦点陷阱，页面保持可操作；外点仍触发 onDismiss，是否关闭由消费者决定）
+ *   ——HIG-AUD-007；
  * - 关闭：Esc / overlay 点击走 Radix 默认；SidePanelClose = DialogPrimitive.Close；
- * - 焦点：Radix 默认管理（Drawer 的 restoreFocusTo 是其特有机制，此处不做，
- *   保持最小 API）；无拖拽手势代码——不捕获指针、不跟踪拖拽位移，关闭只走
- *   Esc / overlay 点击 / 显式关闭按钮。
+ * - 焦点：受控 API 无 Trigger，Radix 默认归还依赖 triggerRef（无 Trigger 时焦点
+ *   落 body），故与 modal/bottom-sheet 同款自实现归还：打开瞬间（Radix 移动焦点
+ *   之前）记录 activeElement，关闭时 setTimeout 归还（不用 rAF——后台标签页会挂
+ *   起，drawer 先例）——HIG-AUD-006；无拖拽手势代码——不捕获指针、不跟踪拖拽
+ *   位移，关闭只走 Esc / overlay 点击 / 显式关闭按钮。
  */
 
 export interface SidePanelProps
@@ -38,7 +42,7 @@ export interface SidePanelProps
   onDismiss?: () => void;
   /** 悬浮方向；默认 right */
   side?: "right" | "left";
-  /** 不渲染遮罩层（复用 sheet 先例语义；非模态用法由消费者自行保证可交互） */
+  /** 不渲染遮罩层并降为非模态（modal=false：不锁滚动、不遮蔽外部内容、无焦点陷阱；外点仍触发 onDismiss） */
   noOverlay?: boolean;
   /** 面板 className */
   className?: string;
@@ -76,23 +80,42 @@ SidePanelOverlay.displayName = DialogPrimitive.Overlay.displayName;
 const SidePanelContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & { side?: "right" | "left" }
->(({ className, children, side = "right", ...props }, ref) => (
-  <DialogPrimitive.Content
-    ref={ref}
-    data-slot="side-panel-content"
-    className={cn(
-      "material-medium fixed inset-y-4 z-[var(--uni-z-drawer)] w-[var(--uni-drawer-width)] overflow-y-auto outline-none",
-      "data-[state=open]:animate-in data-[state=open]:duration-(--uni-duration-base) data-[state=open]:fade-in-0",
-      "data-[state=closed]:animate-out data-[state=closed]:duration-(--uni-duration-base) data-[state=closed]:fade-out-0",
-      "motion-reduce:animate-none motion-reduce:transition-none",
-      SIDE_STYLES[side],
-      className,
-    )}
-    {...props}
-  >
-    {children}
-  </DialogPrimitive.Content>
-));
+>(({ className, children, side = "right", ...props }, ref) => {
+  // HIG-AUD-006：受控 API 无 Trigger，Radix 关闭时的默认归还依赖 triggerRef，
+  // 无 Trigger 时焦点落到 <body>。与 modal.tsx 同款自实现：onOpenAutoFocus 在
+  // Radix 把焦点移入面板之前派发，此刻记录的 activeElement 即触发元素。
+  const lastFocusedRef = React.useRef<HTMLElement | null>(null);
+
+  return (
+    <DialogPrimitive.Content
+      ref={ref}
+      data-slot="side-panel-content"
+      className={cn(
+        "material-medium fixed inset-y-4 z-[var(--uni-z-drawer)] w-[var(--uni-drawer-width)] overflow-y-auto outline-none",
+        "data-[state=open]:animate-in data-[state=open]:duration-(--uni-duration-base) data-[state=open]:fade-in-0",
+        "data-[state=closed]:animate-out data-[state=closed]:duration-(--uni-duration-base) data-[state=closed]:fade-out-0",
+        "motion-reduce:animate-none motion-reduce:transition-none",
+        SIDE_STYLES[side],
+        className,
+      )}
+      {...props}
+      onOpenAutoFocus={() => {
+        lastFocusedRef.current =
+          document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      }}
+      onCloseAutoFocus={(event) => {
+        const previous = lastFocusedRef.current;
+        if (previous && previous.isConnected && previous !== document.body) {
+          event.preventDefault();
+          // setTimeout 而非 rAF：后台标签页 rAF 会被挂起（drawer 先例）。
+          window.setTimeout(() => previous.focus(), 0);
+        }
+      }}
+    >
+      {children}
+    </DialogPrimitive.Content>
+  );
+});
 SidePanelContent.displayName = DialogPrimitive.Content.displayName;
 
 function SidePanel({
@@ -107,6 +130,11 @@ function SidePanel({
   return (
     <DialogPrimitive.Root
       open={show}
+      // HIG-AUD-007：noOverlay 时降为非模态（Radix modal=false：不锁 body 滚动、
+      // 不 hideOthers 遮蔽外部内容、无焦点陷阱），兑现「页面保持可操作」契约；
+      // 外点仍触发 onDismiss，是否真的关闭由消费者决定。{...rootProps} 在后，
+      // 消费者显式传 modal 时仍可覆盖。
+      modal={!noOverlay}
       onOpenChange={(next) => {
         if (!next) onDismiss?.();
       }}
