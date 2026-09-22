@@ -63,9 +63,9 @@
 
 ### 3.1 P1
 
-#### HIG-AUD-038 MenuBar 的菜单没有可用高度约束 → 长菜单溢出视口，尾部项不可达
+#### HIG-AUD-038 MenuBar 的菜单没有可用高度约束 → 长菜单溢出视口，尾部项不可达 ✅ 已修复（2026-09-22）
 
-- **严重度**：P1 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[静态确证]`
+- **严重度**：P1 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-22，修复与复测记录见 §5D）
 - **证据**：
   - `src/components/ui/menu-bar.tsx:36-39` `MENU_BAR_SURFACE` 含 `overflow-x-hidden overflow-y-auto`，但**没有任何 `max-h-*`**（我检索该文件 `max-h|available-height` → **0 命中**）。
   - 对照同仓库的正确做法：`src/components/ui/menu.tsx:139` 使用 `max-h-[var(--radix-dropdown-menu-content-available-height)]`。
@@ -73,7 +73,8 @@
 - **实际表现（推断）**：菜单内容高于视口时，元素以 `height: auto` 撑出视口下沿；由于 Radix 菜单在 modal 模式下锁定 body 滚动，**超出部分既不可滚动到、也不可点击**。项目符号菜单（如 20 项的 "File"）在 390/320 视口下必然触发。
 - **根因**：菜单面板样式在两个组件间复制（`menu.tsx` 与 `menu-bar.tsx`），复制时丢了高度约束这一条。
 - **建议修复方向**：给 `MENU_BAR_SURFACE` 补 `max-h-[var(--radix-menubar-content-available-height)]`（SubContent 对应 `--radix-menubar-sub-content-available-height`），并抽出与 `menu.tsx` 共享的「菜单表面」常量，避免再次分叉。
-- **验收场景**：在 320×700 视口打开一个 20 项的 MenuBar 菜单 → 菜单完整可见（可滚动），最后一项可达并可点击。
+  - **修复时实况修正**：`@radix-ui/react-menubar` **不为 SubContent 生成** `--radix-menubar-sub-content-available-height`（dist 实测 0 命中，运行时 `getPropertyValue` 为空），`@radix-ui/react-menu` 也不暴露任何 available 变量；SubContent 实际采用 `--radix-popper-available-height`（与 react-dropdown-menu SubContent 的官方 re-namespace 做法语义一致）。共享常量抽取未做（最小改动，避免跨文件连带），留待债务台账。
+- **验收场景**：在 320×700 视口打开一个 20 项的 MenuBar 菜单 → 菜单完整可见（可滚动），最后一项可达并可点击。✅ 已按此场景落为永久回归（§5D）。
 
 #### HIG-AUD-039 Toolbar 折叠时静默丢弃非 `ToolbarItem` 内容，且丢失 `disabled` 态
 
@@ -161,7 +162,7 @@
 | **HIG-AUD-046** | `SafeArea` 的档位表与 `Stack` 的 gap 表是**两份平行知识** | `layout.tsx:22-28`（`SPACING_VALUE`）与 `:30-36`（`STACK_GAP_CLASS`）。当前二者数值一致（gap-1=0.25rem=`calc(var(--spacing)*1)`，…，gap-8=2rem），但改档位需同时改两处 | 由单一常量派生两者，或加守护测试断言二者同步 |
 | **HIG-AUD-047** | MenuBar 的快捷键是「不可用的承诺」 | `menu-bar.tsx:46-55`：快捷键仅展示且 `aria-hidden="true"`；组件不绑定按键（`:18`）。视觉用户看到 `⌘N` 会以为可用 | 文档明确「仅展示」；或提供 `onShortcut` 由调用方接线；不建议对视觉用户展示未绑定的快捷键 |
 | **HIG-AUD-048** | pull-down 允许卡片出现在按钮**上方**，与「pull-down（下拉）」隐喻相悖 | `split-button.tsx:44-52`：`bottom-left`/`bottom-right` → `top-start`/`top-end`。默认 `top-left`（卡片在下方）✓ 正确 | 文档标注「上方展开用于工具栏位于底部等场景」，或收窄可选角 |
-| **HIG-AUD-049** | ActivityView 图标瓦片 48px，HIG 正文建议约 70×70px | `activity-view.tsx:113` `size-12`（48px）+ `:113` `[&_svg]:size-5`（20px）；HIG §3.1 `activity-views.md`「center it in an area measuring about **70x70 pixels**」 | **Web 适配判断，非缺陷**：需设计决策记录（HIG 的 70×70 是 iOS 点/像素语境；Web 48px 更贴合 Geist 密度）。建议在组件注释中写明取舍 |
+| **HIG-AUD-049** | ActivityView 图标瓦片 48px，HIG 正文建议约 70×70px | `activity-view.tsx:113` `size-12`（48px）+ `:113` `[&_svg]:size-5`（20px）；HIG §3.1 `activity-views.md`「center it in an area measuring about **70x70 pixels**」 | **Web 适配判断，非缺陷**：需设计决策记录（HIG 的 70×70 是 iOS 点/像素语境；Web 48px 更贴合 Geist 密度）。~~建议在组件注释中写明取舍~~ → **已于 2026-09-22 关闭**：设计决策注释已落 `activity-view.tsx`（瓦片 `size-12` 处），布局无改动 |
 | **HIG-AUD-050** | `collectCollapsedItems` 不展平 Fragment，用 `<>…</>` 包裹分组时收集失败 | `toolbar.tsx:83,87` `React.Children.forEach` | 递归展平 Fragment，或文档禁止用 Fragment 包裹分组 |
 
 ---
@@ -240,7 +241,7 @@
 
 | 组件 | 指南声称（zh / en 双语同述） | 实现实况（已运行确认） | 定性 |
 |---|---|---|---|
-| **MenuBar** | 「菜单浮层在视口内碰撞翻转，**最大高度受限后可滚动**」（`guides-05.ts:495`）/ "scroll once they hit the max height"（`:1151`） | HIG-AUD-038：`MENU_BAR_SURFACE` 无 `max-h-*`，40 项菜单底边 y=2005（视口 844，溢出 1161px），`maxHeight: none`，不可滚动 | **文档与实现矛盾**（HIG-DOC-05 同类，受 038 修复影响） |
+| **MenuBar** | 「菜单浮层在视口内碰撞翻转，**最大高度受限后可滚动**」（`guides-05.ts:495`）/ "scroll once they hit the max height"（`:1151`） | HIG-AUD-038：`MENU_BAR_SURFACE` 无 `max-h-*`，40 项菜单底边 y=2005（视口 844，溢出 1161px），`maxHeight: none`，不可滚动 | **文档与实现矛盾**（HIG-DOC-05 同类）——**已于 2026-09-22 随 HIG-AUD-038 修复消解**：实现现消费 available-height 变量，指南表述恢复真实，双语正文无需改动（见 §5D） |
 | **Toolbar** | 「选中态通过 **aria-pressed** 暴露」（`:531`）/ "exposed through aria-pressed"（`:1189`） | HIG-AUD-039：折叠进溢出菜单后 6 个溢出项**全部丢失** `aria-pressed` / `data-active` / `disabled`（未折叠的本体路径未单独实测） | **文档与实现矛盾**（受 039 修复影响；修复后指南即恢复真实） |
 | **pull-down 变体** | —（`guides-13.ts` split-button 双语指南**完全未提及** pull-down 变体：无 `expandCorner` 说明、无变体示例、无卡片化形态差异） | `split-button.tsx:44-52` 已实现 `expandCorner` 四角；HIG-AUD-048 建议的「上方展开场景」文档不存在 | **文档缺口**：二期变体无用户文档（注册链存在但正文零覆盖） |
 
@@ -264,3 +265,61 @@
 - 本次**只读**：未修改 `src/`、`docs/geist/` 或任何测试；未新增或修改公共 API；未 commit、未 push。
 - 本轮**新增文件仅限本文件**。
 - 所有结论基于**冻结时刻的源码文本**；仓库在审核期间持续变动，复验前请先固定 commit。
+
+---
+
+## 5C. 聚合门禁首轮可信运行的三条断言分诊（2026-09-22）
+
+聚合门禁修复（§5A）后首次可信运行（见 `hig-handoff-next-agent-2026-09-21.md` §7.1）暴露 3 条断言失败，经双主题实测分诊闭环：
+
+- **HIG-AUD-054（P2，新发现；已于 2026-09-22 修复）**：`/components/feedback` @320 根级横向溢出（`documentElement.scrollWidth 330 > 320`，light + dark）。
+  - **根因**：Inline demo 收起态胶囊自然宽 285px；占位层（`data-feedback-inline`）作为 flex item 被容器（demo 卡 `p-6` 内容区 230px）压缩，而内层**绝对定位**胶囊不参与 shrink、保持 285px，demo 卡 `overflow-visible` 不裁切 → 胶囊右缘突破视口 10px。
+  - **修复**：占位层加 `shrink-0`（`src/components/ui/feedback.tsx`）。压缩解除后 `justify-center` 容器令占位层两侧对称溢出，LTR 下左侧溢出不产生滚动宽度，胶囊完整可见。
+  - **修复后实测**：双主题 @320 `rootScrollWidth = clientWidth = 320`，胶囊 18–303px（左右留白 18/17px 对称）。
+  - **回归**：`test:docs-layout` 的 `no-root-horizontal-overflow`（/components/feedback @320 × 双主题）。
+- **`colors-computed-value-contract`（18 行，仅 dark 观测）→ 断言缺陷，非产品缺陷（已修）**：卡内紧凑显示按约定省略 `#` 前缀（完整值在 `title` 与剪贴板，clipboard 契约测试本就前缀无关比较），断言误用全等。实测 92 个 swatch 双主题「前缀无关」比较全部一致（真实漂移 0）。「仅 dark」为观测假象：light 静态路由运行环境卡死，证据随 Playwright worker 隔离丢失。修复：断言改前缀无关比较（`tests/e2e/docs-layout.spec.ts` 9a）。
+- **`grid-responsive-columns`（≥1024，仅 dark 观测）→ 断言缺陷，非产品缺陷（已修）**：`responsive-breakpoints` demo 使用 `unstable_useContainer`，断点按**容器**宽度解析：视口 1440 时容器（`grid-system-wrapper`）仅 863px → md 层（769–960）→ 2 列为正确行为；断言误按视口宽度预期 3 列。「仅 dark」同为观测假象。修复：断言改容器感知——采集容器宽度与 Grid 内联断点变量，按与 `grid.module.css` `@media`/`@container` 一致的阈值（xs≤400 / sm 401–600 / smd 601–768 / md 769–960 / lg≥961）与 fallback 链推导预期列数（`docs-layout.spec.ts` 11）。双主题 × 6 视口全 PASS。
+- **复跑记录（2026-09-22，修复后定向门禁）**：`tsc -b` 通过；定向 vitest（`feedback-rating-bar` + `docs-feedback`）2 文件 / 29 测试通过；`docs-feedback-typography.spec.ts` 13 通过（1.3m）；`docs-layout --grep "component routes chunk 7"`（含 /components/feedback，双主题 @320）2 通过（1.4m）；`docs-layout --grep "static routes \(dark\)"`（含 /colors、/grid 断言修正）1 通过（1.3m）。全绿。
+- **遗留（未修）**：`aggregate layout audit gate` 的重试掩蔽缺陷（Playwright 重试重启 worker → 进程内 `ALL_FAILURES` 清空 → 首败重过被记 flaky）仍在。三处断言源头修复后当前已无被掩盖对象，但机制性风险未消除；建议后续把失败清单持久化到文件（如 JSONL 证据文件）而非 worker 内存。
+
+**门禁复跑证据（2026-09-22，均为独占 dev server 依次运行）**：
+
+- `pnpm run typecheck` → **exit 0**。
+- `pnpm exec vitest run tests/feedback-rating-bar.test.tsx tests/docs-feedback.test.tsx` → **2 files / 29 tests passed，exit 0**。
+- `pnpm exec playwright test tests/e2e/docs-feedback-typography.spec.ts` → **13 passed (1.3m)，exit 0**（胶囊几何专项未受 `shrink-0` 影响）。
+- `pnpm exec playwright test tests/e2e/docs-layout.spec.ts --grep 'component routes chunk 7'` → **2 passed (1.4m)，exit 0**（feedback 在 84 个组件路由中索引 55 → chunk 7/11；含 `/components/feedback` @320 双主题 `no-root-horizontal-overflow` 回归）。
+- `pnpm exec playwright test tests/e2e/docs-layout.spec.ts --grep 'static routes \(dark\)'` → **1 passed (1.3m)，exit 0**（含 `/colors` 6 视口 × 3 token 原 18 行、`/grid` ≥1024 原失败项，经断言修正后全绿）。
+- 双主题视觉核查（临时 Playwright 探针，跑完即删）：feedback @320 胶囊 18–303px 完整可见（左右留白 18/17px 对称）、`rootScrollWidth = clientWidth = 320`；`/grid` 双主题 × 6 视口按容器感知预期全 PASS；`/colors` 92 swatch 双主题前缀无关全一致。
+- 原始日志：`.scratch/gate-{typecheck,vitest,e2e-feedback,layout-chunk7,layout-static-dark}.log`。
+
+---
+
+## 5D. HIG-AUD-038 修复记录（2026-09-22）
+
+- **修复**：`src/components/ui/menu-bar.tsx` — `MenuBarContent` 补 `max-h-[var(--radix-menubar-content-available-height)]`；`MenuBarSubContent` 补 `max-h-[var(--radix-popper-available-height)]`（两处均在组件 `cn()` 处而非共享常量——顶级与子菜单可用变量不同）。
+- **变量名实况（修复时实测修正原建议）**：
+  - `@radix-ui/react-menubar` dist 仅生成 `--radix-menubar-content-available-width/height`（顶级 Content 包装层 re-namespace 自 `--radix-popper-available-*`）；
+  - **不生成** `--radix-menubar-sub-content-available-height`（dist 0 命中；运行时 `getPropertyValue` 为空 → 原建议该变量对 SubContent 无效）；
+  - `@radix-ui/react-menu` 不暴露任何 available 变量（dist 0 命中）；
+  - SubContent 元素上唯一可用约束源为 popper 原生 `--radix-popper-available-height`，与 `react-dropdown-menu` SubContent 的官方 re-namespace 做法语义一致。
+- **回归**：新增永久回归 `tests/e2e/menu-bar-content-height.spec.ts`（2 用例）：320×700 注入 20 合成项后断言 ① 顶级菜单 `maxHeight ≠ none`、底边 ≤ 视口、`scrollHeight > clientHeight`、滚到底后尾部原生项（Export 子菜单触发器）可见可点击；② 子菜单同样受约束且可滚动。**注意**：Radix Menubar 顶级触发器 `role="menuitem"`（非 `button`）。
+- **修复后实测（几何，双主题 × 320×700 / 1280×800）**：
+  - 顶级菜单：`maxHeight=335.56px`（320 视口）/ `386px`（1280×800），bottom 恰达视口底（与 `menu.tsx` dropdown 同语义），双主题几何完全一致；
+  - 子菜单：`maxHeight=700px/800px`（popper cross-axis 退化值）+ `avoidCollisions` shift 将其整体移入视口（实测 top=0、bottom=700），可滚动、完整可见。
+- **视觉核查（临时 Playwright 探针，跑完即删）**：双主题 × 双视口几何采集如上；`bottomGap=0` 为全库菜单统一形态（available-height 语义），未加 `collisionPadding`（与 `menu.tsx` 保持一致）。
+- **附带发现（补强 HIG-AUD-044 证据，未修）**：320 宽视口下子菜单横向 `rightGap=-107px`（left=235, right=427, 视口 320）——父菜单（49–241px）左右两侧均放不下 192px 宽子菜单，popper 选右侧溢出。属 044「子菜单碰撞翻转后溢出视口」范围，本轮不扩。
+- **门禁**：`pnpm run typecheck` → exit 0；`pnpm exec vitest run tests/menu-bar-api.test.ts` → 5/5 passed；回归 e2e `menu-bar-content-height.spec.ts` → **2 passed**；`docs-layout --grep 'component routes chunk 2/11'`（含 /components/menu-bar，双主题 @320）→ **2 passed (2.2m)**。
+- **HIG-DOC-05 关联**：§5B 所记「指南声称最大高度受限可滚动 vs 实现无约束」矛盾随本修复消解，双语指南正文无需改动。
+
+---
+
+## 5E. HIG-AUD-006/007 修复记录（2026-09-22，SidePanel 成对处理）
+
+- **修复**：`src/components/ui/side-panel.tsx` —
+  - **006（焦点归还）**：`SidePanelContent` 内部 `lastFocusedRef` + `onOpenAutoFocus` 记录（该事件在 Radix 把焦点移入面板**之前**派发，此刻的 `activeElement` 即触发元素——比 drawer 的 effect 模式时序更准）+ `onCloseAutoFocus` 里 `preventDefault()` 后 `setTimeout` 归还（不用 rAF——后台标签页会挂起，drawer 注释的先例教训）。与 modal.tsx/bottom-sheet.tsx 的库内惯例同款；未导出 `SidePanelTrigger`（台账建议 (a) 与 HIG-AUD-024 的「导出 vs 内部化」决策纠缠，本轮不扩）。
+  - **007（noOverlay 语义）**：`DialogPrimitive.Root` 补 `modal={!noOverlay}`——noOverlay 时不锁 body 滚动、不 `hideOthers` 遮蔽外部内容、无焦点陷阱，「页面保持可操作」契约兑现；外点仍触发 `onDismiss`（受控语义：是否真的关闭由消费者决定），不加 sheet 式 `onPointerDownOutside preventDefault`（那是 sheet 的常驻语义，不强加）。`{...rootProps}` 在后：消费者显式传 `modal` 仍可覆盖派生值。
+  - 注释块与 `noOverlay` prop JSDoc 同步改写（原「焦点：Radix 默认管理」「页面保持可操作由消费者负责」的错误表述一并修正）。
+- **回归**：`tests/side-panel-api.test.tsx` 追加 4 个行为用例（12/12 passed）：Escape / 显式关闭按钮两路径的焦点归还（`activeElement === trigger`）；noOverlay 无 `data-scroll-locked` + 无 aria-hidden 遮蔽 + Escape 仍关闭；默认模式对照（有锁 + 有遮蔽，模态语义保持）。**断言经验**：jsdom 下 react-remove-scroll 不设 `body.style.overflow`（假阳性陷阱），真实锁标记是 `data-scroll-locked` 属性（`styles/index.css:2364` 正是消费它）；Radix 外点（pointerdown outside）在 jsdom 手动 dispatch 下不触发，须真实浏览器验证。
+- **真实浏览器核查（临时探针，跑完即删）**：SidePanel 无 docs 路由（024 未决），探针经 vite dev `/@fs/` 绝对路径动态 import harness（dev server root 是 `docs/geist`，URL 相对 root，仓库根文件须 `/@fs/`；点目录 `.scratch` vite 不服务），在真实页面挂载受控面板。双主题（light/dark）结果一致：Escape 后 `activeElement = 触发按钮`；模态模式 `data-scroll-locked: true`；noOverlay 模式 `data-scroll-locked: false` + `elementFromPoint@40%` 命中页面内容 + 外部内容无 aria-hidden + **真实指针外点**触发 onDismiss 关闭。
+- **门禁**：`pnpm run typecheck` → exit 0；`vitest run tests/side-panel-api.test.tsx` → **12/12 passed**；docs-layout 不涉及（SidePanel 无路由）。
+- **连带面**：HIG-AUD-024（未导出/未注册）未动；R5 根因（「Radix 默认」以偏概全）自此消除一处实例，其余组件既有自实现归还不受影响。

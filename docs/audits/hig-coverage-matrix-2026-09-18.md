@@ -150,7 +150,7 @@
 | `sheet` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-010（正面：overlay 已 token 化）、012；**面板缺 `safe-area-inset-bottom`** |
 | `drawer` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-010、012、019；**正面：焦点归还实现带竞态注释，是本仓库的范本** |
 | `bottom-sheet` | ✔ | ✔ | ✔ | ✔ | ⚠ **HIG-AUD-003（P0，✅ 已修复）**、008、010、012、018、022、026 |
-| `side-panel` | — | — | — | — | ⚠ HIG-AUD-006、007、024（未导出、无注册/指南/示例） |
+| `side-panel` | — | — | — | — | ⚠ ~~HIG-AUD-006、007~~（**已于 2026-09-22 修复并运行确认**，增补 §5E）、024（未导出、无注册/指南/示例） |
 | `modal` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-010、026；**正面：唯一进出场对称 + token 完整 + `aria-modal`** |
 | `context-card` | ✔ | ✔ | ✔ | ✔ | ✔（进出场对称 + `zoom-out-95` ✓） |
 | `popover`（`feedback` 内） | — | — | — | — | ⚠ HIG-AUD-009 |
@@ -197,7 +197,7 @@
 | `hamburger-icon.tsx` | ✔ 内部辅助 |
 | `loading-icon.tsx` | ✔ 内部辅助（`button` 消费） |
 | `phone-chrome.tsx` | ✔ 内部辅助 |
-| `side-panel.tsx` | ⚠ HIG-AUD-006、007、024（未导出，但被测试与 design-gate 当公共组件） |
+| `side-panel.tsx` | ⚠ HIG-AUD-006、007（**已于 2026-09-22 修复并运行确认**，增补 §5E）、024（未导出，但被测试与 design-gate 当公共组件） |
 
 ### B.9 复核后新增的 HIG 能力组件（**✅ 已补审**）
 
@@ -242,7 +242,7 @@
 | Home Screen Quick Actions | **已实现，形态不完整** | `context-menu.tsx:118-241` | 竖排大图标 + 副标题 + 破坏性项已具备；**默认遮罩压住内容（P0，✅ 已于 2026-09-21 修复）**；按 HIG 正文缺「系统尾项」；HIG 正文未提及模糊/图标动画 → HIG-AUD-001、037、HIG-GAP-07 |
 | Pop-up Buttons | **已实现（= Select + 文档对齐）** | `select.tsx`；示例 `examples/select/pop-up-button-*.example.tsx` | 整合方向与 HIG 正文一致（Pop-up 承载互斥选项，动作类走 Pull-down）；移动端形态缺口 → HIG-AUD-027 |
 | Pull-Down Buttons | **已实现**（复核后） | `split-button.tsx` 变体；`tests/pull-down-button-api.test.ts` | **已补审**：默认角正确、保持 `role="menu"` 语义（加分项）；缺破坏性二次确认、退场动画不对称、测试为字符串契约 → HIG-AUD-037、011/012、041、048 |
-| The Menu Bar | **已实现**（复核后） | `src/components/ui/menu-bar.tsx`；`src/lib/index.ts:98-99`；注册 `components.ts:365-377` | **已补审**：复用 Radix Menubar（APG 键盘模型，加分项）；**菜单无可用高度约束致长菜单尾部不可达（P1）**、层级偏低、触控目标 28px → HIG-AUD-038、044、013、047 |
+| The Menu Bar | **已实现**（复核后） | `src/components/ui/menu-bar.tsx`；`src/lib/index.ts:98-99`；注册 `components.ts:365-377` | **已补审**：复用 Radix Menubar（APG 键盘模型，加分项）；~~菜单无可用高度约束致长菜单尾部不可达（P1）~~（**HIG-AUD-038 已于 2026-09-22 修复并运行确认**，增补 §5D）、层级偏低、触控目标 28px → HIG-AUD-044、013、047 |
 | Toolbars | **已实现**（复核后） | `src/components/ui/toolbar.tsx`；`src/lib/index.ts:100-101`；注册 `components.ts:395-398` | **已补审**：24px 滞回与组级折叠是好设计（加分项）；**折叠静默丢弃非 ToolbarItem 内容且 `disabled` 失效（P1）** → HIG-AUD-039、050、013 |
 | Activity Views | **已实现**（复核后） | `src/components/ui/activity-view.tsx`；`src/lib/index.ts:97,104`；注册 `components.ts:352-363` | **已补审**：操作行 44px、一次性动作语义、不在面板内做进度提示均符合 HIG 正文（加分项）；**面板无可访问名称（P1）**、治理违规、滚动无提示、固定单档 → HIG-AUD-040、005、042、043、049 |
 | 横向：Menus / 按钮 / 选择控件 / 文本框 / 搜索 | 已覆盖 | menu / dots-menu / split-button / select / checkbox / radio / switch / toggle / slider / input / textarea / search-input / combobox / multi-select | 形态与状态基本齐备；缺口集中在浮层状态覆盖（loading/empty）与触控目标 → HIG-AUD-013、025 |
@@ -275,7 +275,7 @@
 | 键盘（Tab / 方向键 / Enter / Space） | **部分覆盖** | Radix 覆盖大部分；**2 处硬缺口**：MultiSelect Tab 循环、Grabber `slider` 无键盘 → HIG-AUD-016、022（ContextMenu 无打开路径、EditMenu 不可达已于 2026-09-21 修复：002、004） |
 | 键盘（Escape 关闭） | 已覆盖 | L1 组件均由 Radix 或自实现覆盖（EditMenu 原只把 Escape 挂在胶囊自身，2026-09-21 改为文档级监听，见 HIG-AUD-004） |
 | 焦点可见性 | 已覆盖 | `focus-ring` utility + `focus-visible` 统一 |
-| 焦点恢复 | **部分覆盖** | 6 个组件自实现（drawer/modal/bottom-sheet/command-menu/hamburger/destructive），**SidePanel 漏做** → HIG-AUD-006 |
+| 焦点恢复 | **部分覆盖** | 6 个组件自实现（drawer/modal/bottom-sheet/command-menu/hamburger/destructive），**SidePanel 漏做**（→ HIG-AUD-006，**已于 2026-09-22 修复**，自实现归还并入此列，共 7 个，增补 §5E） |
 | 触屏（tap） | **部分覆盖** | 无 Playwright 触屏仿真证据 → HIG-VER-03 |
 | 触屏（长按） | **部分覆盖** | Quick Actions 依赖 Radix 内建 700ms 长按；遮罩层压住内容（✅ 已于 2026-09-21 修复）→ HIG-AUD-001；仍无 Playwright 触屏仿真证据 |
 | 触屏（手势：拖拽/下滑/滚动） | **部分覆盖** | Drawer 下滑 ✓、BottomSheet 拖档 ✓（**吞内部滚动已由 `1866616` 修复**，见 HIG-AUD-003）；EditMenu 触屏竞态仍开放 → HIG-AUD-020 |
@@ -311,8 +311,8 @@
 | HIG-AUD-004 | P0（✅ 已于 2026-09-21 修复） | `edit-menu` |
 | HIG-AUD-005 | **P0 判定已撤回**（主报告改为 P2 等价；实质残留改记为 HIG-AUD-052） | `context-menu`、`activity-view`、（迁移源）`select` |
 | HIG-AUD-051 | P0（✅ 已于 2026-09-21 修复） | `context-menu`（Quick Actions 变体） |
-| HIG-AUD-006 | P1 | `side-panel` |
-| HIG-AUD-007 | P1 | `side-panel` |
+| HIG-AUD-006 | P1 | `side-panel`——**已修复（2026-09-22，运行确认，增补 §5E）** |
+| HIG-AUD-007 | P1 | `side-panel`——**已修复（2026-09-22，运行确认，增补 §5E）** |
 | HIG-AUD-008 | P1 | `hamburger-menu`、`grabber`、（根因）`framework-messages`/`i18n` |
 | HIG-AUD-009 | P1 | `destructive-action-modal`、`command-menu`、`multi-select`、`context-menu`、`feedback`、`calendar` |
 | HIG-AUD-010 | P1 | `sheet`、`side-panel`、`drawer`、`bottom-sheet`、`expand-panel`、`context-menu`、`destructive-action-modal`、`modal`、`command-menu` |
@@ -343,7 +343,7 @@
 | HIG-AUD-035 | P3 | `destructive-action-modal`、`context-menu`、`sheet`、`side-panel`、`drawer`、`bottom-sheet`、`modal`、`command-menu` |
 | HIG-AUD-036 | P1 | `edit-menu`（指针设备下的形态与 HIG iPadOS 指引不同） |
 | HIG-AUD-037 | P1 | `context-menu`（Quick Actions）、`split-button`（pull-down 变体）、`activity-view` |
-| HIG-AUD-038 | P1 | `menu-bar`（菜单无可用高度约束 → 长菜单尾部不可达） |
+| HIG-AUD-038 | P1 | `menu-bar`（菜单无可用高度约束 → 长菜单尾部不可达）——**已修复（2026-09-22，运行确认，增补 §5D）** |
 | HIG-AUD-039 | P1 | `toolbar`（折叠静默丢弃非 ToolbarItem 内容；`disabled` 在溢出菜单中失效） |
 | HIG-AUD-040 | P1 | `activity-view`（+ 根因在 `bottom-sheet`：面板无可访问名称） |
 | HIG-AUD-041 | P2 | 二期 5 个测试文件（`menu-bar-api` / `toolbar-api` / `layout-api` / `activity-view-api` / `pull-down-button-api`） |

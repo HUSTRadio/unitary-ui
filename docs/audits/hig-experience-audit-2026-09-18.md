@@ -27,7 +27,7 @@
 | 严重度 | 数量 | 含义 |
 |---|---|---|
 | **P0** | 5（**原 HIG-AUD-005 已撤回**；**HIG-AUD-001 / 002 / 003 / 004 / 051 五条已于 2026-09-21 全部修复并运行确认**） | 组件不可用 / 键盘完全不可达 / 治理门禁失败 |
-| **P1** | 23（+3，含二期补审 HIG-AUD-038/039/040；其中 038/039/040/037 已于同日完成**运行确认**） | 跨组件契约与一致性、可访问性缺口（有替代路径） |
+| **P1** | 23（+3，含二期补审 HIG-AUD-038/039/040；其中 038/039/040/037 已于同日完成**运行确认**；**038 已于 2026-09-22 修复并运行确认**（增补 §5D）；**006/007 亦已于 2026-09-22 成对修复并运行确认**（增补 §5E）） | 跨组件契约与一致性、可访问性缺口（有替代路径） |
 | **P2** | 12（+4，含二期补审 HIG-AUD-041~044；+1 HIG-AUD-052 legacy 账本旁路；+1 HIG-AUD-053 命令面板搜索相关性回归——由 `test:docs-layout` 稳定失败发现） | 状态覆盖、测试治理与边界打磨 |
 | **P3** | 9（+4，含二期补审 HIG-AUD-045~050） | 审美、文档与一致性建议 |
 | 能力缺口 | **0 项未落地**；HIG 八项已全部落地且**已全部补审**（补审结论见 addendum）；仍存形态不完整项（HIG-GAP-07） | 见 §4.5 与补充报告 |
@@ -326,9 +326,9 @@
 
 ### 4.2 P1 问题
 
-#### HIG-AUD-006 SidePanel 关闭后焦点丢失到 `body`，且文件注释与实现矛盾
+#### HIG-AUD-006 SidePanel 关闭后焦点丢失到 `body`，且文件注释与实现矛盾 ✅ 已修复（2026-09-22）
 
-- **严重度**：P1 ｜ **类型**：实现缺陷 + 文档问题 ｜ **验证状态**：`[静态确证]` + `[待运行验证]`（Radix 行为）
+- **严重度**：P1 ｜ **类型**：实现缺陷 + 文档问题 ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-22，修复与复测记录见增补 §5E）
 - **证据**：
   - `src/components/ui/side-panel.tsx:155` 导出清单**不含 Trigger**；`:33-46` 的 API 只有 `show/onDismiss/side/noOverlay`。
   - `:76-95` `SidePanelContent` **无 `tabIndex`、无任何焦点归还逻辑**。
@@ -337,17 +337,19 @@
   - 对照实现：`drawer.tsx:203-222`、`bottom-sheet.tsx:156-166`、`modal.tsx:90,99-113`、`command-menu.tsx:54-64`、`hamburger-menu.tsx:140-152` 均自实现了归还，并注释了同一个 Radix 竞态。
 - **根因**：把「Radix 默认管理焦点」当成普适结论，但该结论只在**存在 Trigger** 时成立；SidePanel 无 Trigger。
 - **建议修复方向**：二选一——(a) 导出 `SidePanelTrigger`（推荐，语义最正）；(b) 参照 drawer 自实现 `restoreFocusTo`。同时修正 `:28-30` 注释。
-- **验收场景**：打开面板 → `Escape` 关闭 → `document.activeElement` 回到打开前的触发按钮（非 `body`）。
+  - **修复时实况**：采 (b)（与库内 modal/bottom-sheet 同款自实现，(a) 与 HIG-AUD-024 的导出决策纠缠故不扩）；`onOpenAutoFocus` 记录（Radix 移动焦点前派发，比 drawer 的 effect 时序更准）+ `onCloseAutoFocus` preventDefault + `setTimeout` 归还（非 rAF，后台标签页 rAF 挂起——drawer 先例）。
+- **验收场景**：打开面板 → `Escape` 关闭 → `document.activeElement` 回到打开前的触发按钮（非 `body`）。✅ 已按此场景落为回归（vitest + 双主题浏览器探针，见 §5E）。
 
-#### HIG-AUD-007 SidePanel `noOverlay` 的语义与注释 / 实现不一致
+#### HIG-AUD-007 SidePanel `noOverlay` 的语义与注释 / 实现不一致 ✅ 已修复（2026-09-22）
 
-- **严重度**：P1 ｜ **类型**：实现缺陷 + 文档问题
+- **严重度**：P1 ｜ **类型**：实现缺陷 + 文档问题 ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-22，修复与复测记录见增补 §5E）
 - **证据**：
   - 注释 `src/components/ui/side-panel.tsx:25-26`：「`noOverlay=true` 跳过渲染 Overlay——此时面板不锁交互、页面保持可操作由消费者负责」。
   - 实现 `:108-121`：`noOverlay` 只跳过 `<SidePanelOverlay />` 的渲染；`DialogPrimitive.Root` 仍以 **modal 默认（true）** 运行 → Radix 仍锁 body 滚动并 `hideOthers` 遮蔽外部内容。
   - 对照：`sheet.tsx:97` 通过 `onPointerDownOutside preventDefault` + 非 modal 才真正实现了「页面可交互」。
 - **建议修复方向**：`noOverlay` 时同步切到非模态（`modal={false}`）并处理外点语义；或改注释、改 API 名（例如 `hideOverlay`）以匹配真实行为。
-- **验收场景**：`noOverlay` 打开时，背景页面可滚动、可点击（用 `elementFromPoint` 校验）。
+  - **修复时实况**：采 `modal={!noOverlay}`（`{...rootProps}` 在后，消费者显式传 `modal` 仍可覆盖）；外点仍触发 `onDismiss`（受控语义：是否关闭由消费者决定），不加 `onPointerDownOutside preventDefault`（sheet 的常驻语义不强加给 SidePanel）。
+- **验收场景**：`noOverlay` 打开时，背景页面可滚动、可点击（用 `elementFromPoint` 校验）。✅ 已按此场景落为回归（vitest + 双主题浏览器探针：`elementFromPoint` 命中页面内容、`data-scroll-locked`/`aria-hidden` 均无，见 §5E）。
 
 #### HIG-AUD-008 i18n key 缺失 3 处 → 中文站点回显英文 key 原文
 
