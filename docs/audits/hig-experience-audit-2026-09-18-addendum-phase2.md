@@ -323,3 +323,33 @@
 - **真实浏览器核查（临时探针，跑完即删）**：SidePanel 无 docs 路由（024 未决），探针经 vite dev `/@fs/` 绝对路径动态 import harness（dev server root 是 `docs/geist`，URL 相对 root，仓库根文件须 `/@fs/`；点目录 `.scratch` vite 不服务），在真实页面挂载受控面板。双主题（light/dark）结果一致：Escape 后 `activeElement = 触发按钮`；模态模式 `data-scroll-locked: true`；noOverlay 模式 `data-scroll-locked: false` + `elementFromPoint@40%` 命中页面内容 + 外部内容无 aria-hidden + **真实指针外点**触发 onDismiss 关闭。
 - **门禁**：`pnpm run typecheck` → exit 0；`vitest run tests/side-panel-api.test.tsx` → **12/12 passed**；docs-layout 不涉及（SidePanel 无路由）。
 - **连带面**：HIG-AUD-024（未导出/未注册）未动；R5 根因（「Radix 默认」以偏概全）自此消除一处实例，其余组件既有自实现归还不受影响。
+
+---
+
+## 5F. HIG-AUD-055 修复记录（2026-09-23，移动导航面板三处视觉缺陷）
+
+**来源**：用户实测反馈（2026-09-23，`<lg` 汉堡导航面板展开态截图）——① 关闭按钮重复；② 外框不应有圆角；③ 内部几乎贴着边沿。三项同源（同一面板、同一批次），合并为一条。
+
+- **改动前实测（临时 Playwright 探针 @390×844 / 900×800，双主题）**：
+  - **① 关闭入口重复**：`[data-slot="panel-close"]`（面板首行 X，`x=0, y=73.5, 44×44`）与 `[data-slot="hamburger-trigger"]`（topbar 触发按钮，打开态同为 X，`x=0, y=9.5, 44×44`）**x 完全相同**、垂直相距 64px（belowTopbar 面板顶边 = navbar 底边）→ 两个同功能关闭控件上下相邻。原 `showCloseButton` JSDoc 所称「几何与触发前汉堡图标视口重合」是**面板覆盖 topbar**（非 belowTopbar）的形态；belowTopbar 下 topbar 保持可见，重合前提不成立。
+  - **② 贴合边圆角**：面板实测 `border-radius` = `tl 0 / tr 6px / br 6px / bl 0`，而 belowTopbar 下顶边贴 navbar 底边、底边贴视口底、左边贴视口左缘——三边贴合，圆角只会在接缝处留下缺口。原 `data-[below-topbar]:rounded-tl-none` 无效（`side=left` 本就无左圆角）。
+  - **③ 内容贴边**：`menu-nav` 水平内边距 8px（`px-2`）→ 分组标题 `x=8`、条目高亮块 `x=8`、条目文字左缘 22px；同面板 toolbar 右内边距 16px、桌面 sidebar `px-6`(24px)，移动面板明显更贴边。
+- **修复**：
+  | 文件 | 改动 |
+  |---|---|
+  | `src/components/ui/hamburger-menu.tsx` | `renderCloseButton = showCloseButton && !belowTopbar`（belowTopbar 下 topbar 可见可交互，触发按钮即关闭控件）；toolbar 左内边距随关闭按钮取 `pl-0` / `pl-4`；触发按钮补 `aria-label`（打开态 `t("Close menu")` / 关闭态 `t("Menu")`——`HamburgerIcon` 是 `aria-hidden`，此前该按钮**无任何可访问名称**，实测 `aria-label=null`）；`menu-nav` / `menu-results` 水平内边距 `px-2` → `px-4` |
+  | `src/components/ui/expand-panel.tsx` | `SIDE_CLASSES.left` 的 `data-[below-topbar]:rounded-tl-none` → `data-[below-topbar]:rounded-none`（含文件头 left 分支说明） |
+  | `docs/geist/src/components/docs-shell.tsx` | 不再传 `showCloseButton`；传 `className="[&>[data-slot=panel-toolbar]]:md:hidden"`——≥md 时 topbar 已有搜索/主题/语言入口、slots 无内容，工具行整行隐藏（否则留下 64px 空行）；slots 内容去掉各自的 `md:hidden`（隐藏意图收敛为行级唯一真相） |
+- **修复后实测（同探针，双主题 × 双视口，两主题数值完全一致）**：
+  - `panel-close` 计数 **0**；触发按钮 `aria-label="Close menu"`（打开态）；
+  - 面板四角 `border-radius` 全 **0px**；
+  - `menu-nav` padding-left **16px**，分组标题 `x=16`，条目高亮块 `x=16 / 宽 259`（右缘 275，与 toolbar 右端同栅格；改前 8 / 275）；
+  - `390` 工具行 `display:flex`（搜索 + 主题 + 语言）；`900` 工具行 `display:none` 且 `menu-nav` 上移至面板顶（`y=64`；改前 128）。
+- **回归**：`tests/hamburger-menu-modes.test.tsx`（belowTopbar 抑制关闭按钮 + 触发按钮可访问名随开合翻转 + `menu-nav` 类名断言更新）、`tests/docs-shell-nav-tiers.test.tsx`（**重写**为「关闭控件 = topbar 触发按钮」「工具行是 md 隐藏唯一宿主」——原「close button stays available on all tiers」断言面板内必须有 X，与新契约直接冲突）、`tests/docs-shell-geometry.test.ts`（组装断言由「含 showCloseButton」改为「不含」+ 工具行 md 隐藏）。定向 **6 files / 53 tests 全绿**。
+- **门禁**：`pnpm run typecheck` → **exit 0**；`pnpm run lint` → **0 error / 16 warning（存量）**；定向 vitest **6 files / 53 tests passed**；`playwright test tests/e2e/docs-layout.spec.ts --grep "drawer behaviors"` → **3 passed (49.8s)**（768×1024 / 390×844 / 320×700：打开、`aria-current`、长页滚动、Escape 焦点归还、关闭；该用例已有 `panel-close` 计数分支，关闭后自动走 Escape 路径，无需改动）。
+- **全量 `pnpm test` 基线对照（重要）**：`8 failed / 221 passed (229 files)`，失败文件 = `tests/audit/{comparator-context, comparator-exemptions, comparator-icon, comparator-provenance, comparator-v3, ledger-comparator, ledger-consumers}` + `tests/showcode-typecheck.test.ts`。**均为既有失败 / flaky，与本轮改动无关**，证据：
+  - `git stash` 移除本轮全部改动后重跑这 8 个文件 → **7 failed / 1 passed**（唯一通过者即 `showcode-typecheck`）⇒ 7 个 `tests/audit/*` 在基线下同样失败；
+  - `tests/showcode-typecheck.test.ts` 单独复跑 → **1 passed**（fixtures 416 个、`tsc exit 0`、0 错误）⇒ 全量并发下的子进程超时 flaky（交付书 §4 已记录该文件为「已知 flaky」）。
+  - 注：交付书 §7 记录的「228 files / 1424 tests passed（exit 0，2026-09-21）」在本次全量重跑中**未复现**；`tests/audit/*` 的 7 文件失败属该日期之后的基线漂移，需后续单独分诊（不在本轮范围）。
+- **连带面**：`belowTopbar` 下 `showCloseButton` 语义收窄已写入 props JSDoc（其他消费者若依赖该组合需改用触发按钮）；`side=right` 分支无 below-topbar 定位类（既存不一致，本轮未动，无消费方）。
+- **台账落点**：本文件 §5F、矩阵 `:359`、交付书 §1。主报告未登记（与 `054` 同——`054` 的主报告/矩阵补登记仍为交付书 §9 第 9 项未决缺口）。

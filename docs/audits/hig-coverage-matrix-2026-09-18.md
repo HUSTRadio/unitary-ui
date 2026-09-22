@@ -356,6 +356,7 @@
 | HIG-AUD-048 | P3 | `split-button`（pull-down 允许卡片出现在按钮上方） |
 | HIG-AUD-049 | P3 | `activity-view`（图标瓦片 48px vs HIG 正文 ~70×70，Web 适配判断） |
 | HIG-AUD-050 | P3 | `toolbar`（Fragment 包裹分组时收集失败） |
+| HIG-AUD-055 | P2 | 文档站移动导航面板（`hamburger-menu` + `expand-panel`，经 `docs-shell` 组装）：关闭按钮与 topbar 触发按钮重复 / belowTopbar 贴合三边的圆角 / 内容内边距贴边——**已修复（2026-09-23，运行确认，增补 §5F）** |
 
 **共享根因映射**（主报告 §5）：R1 → 001/009/010/035；R2 → 005/010/031/032/033；R3 → 011/012/019/034；R4 → 002/004/015/016/022；R5 → 006/007；R6 → 003；R7 → 008；R8 → 013/029；R9 → 017/018/025；R10 → HIG-AUD-BASE-01/HIG-DOC-04/005。
 
