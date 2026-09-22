@@ -353,3 +353,26 @@
   - 注：交付书 §7 记录的「228 files / 1424 tests passed（exit 0，2026-09-21）」在本次全量重跑中**未复现**；`tests/audit/*` 的 7 文件失败属该日期之后的基线漂移，需后续单独分诊（不在本轮范围）。
 - **连带面**：`belowTopbar` 下 `showCloseButton` 语义收窄已写入 props JSDoc（其他消费者若依赖该组合需改用触发按钮）；`side=right` 分支无 below-topbar 定位类（既存不一致，本轮未动，无消费方）。
 - **台账落点**：本文件 §5F、矩阵 `:359`、交付书 §1。主报告未登记（与 `054` 同——`054` 的主报告/矩阵补登记仍为交付书 §9 第 9 项未决缺口）。
+
+---
+
+## 5G. HIG-AUD-040 修复记录（2026-09-23，ActivityView 面板可访问名称）
+
+**来源**：交付书批次 C 推荐起手 `037`/`039`/`040` 中改动面最小、验证最直接的一条（纯附加 a11y 属性，不改视觉与交互）。
+
+- **改动前证据（增补 §5B 所记运行确认，2026-09-22）**：面板为 BottomSheet 的 `DialogPrimitive.Content`（`role="dialog"`），`aria-label: null`、`aria-labelledby: null`；内部渲染 `<h2 data-slot="activity-view-title">` 但 `id=""` → 无可访问名称，屏幕阅读器只播报「dialog」。
+- **根因（两处）**：
+  1. `BottomSheet` 未提供命名能力——Content 上无 `aria-label` / `aria-labelledby`（`bottom-sheet.tsx`）；
+  2. `ActivityView` 渲染标题却未生成 id、未关联容器（`activity-view.tsx`）；`title=null` 时更无任何命名来源。
+- **修复**：
+  | 文件 | 改动 |
+  |---|---|
+  | `src/components/ui/bottom-sheet.tsx` | 新增可选 `"aria-label"` / `"aria-labelledby"` props（对齐 `drawer.tsx` / `destructive-action-modal.tsx` 的命名透传惯例），落到 `DialogPrimitive.Content`；两者皆不传时渲染行为不变（**向后兼容：现有消费方零行为变化**） |
+  | `src/components/ui/activity-view.tsx` | `React.useId()` 生成 `titleId`；标题行 `<h2 id={titleId}>`；BottomSheet 传 `aria-labelledby={title !== null ? titleId : undefined}`、`aria-label={title === null ? t("Share") : undefined}`（置于 `{...sheetProps}` 之前，消费者仍可显式覆盖） |
+  | `docs/geist/src/data/component-api.ts` | bottom-sheet 条目登记两个新 props（双语行） |
+- **回归**：新增 `tests/activity-view-a11y.test.tsx`（4 用例：默认标题 `aria-labelledby` 指向非空 id 且不双重命名 / 自定义标题 / `title=null` 回退 `aria-label` 且无标题行 / `sheetProps` 转义覆盖仍在）；`tests/bottom-sheet.test.tsx` 追 1 用例（aria 透传 + IDREF 可解析）；`tests/component-api-registry.test.ts` 追 2 断言。定向 **4 files / 30 tests 全绿**。
+- **真实浏览器核查（临时探针，跑完即删；390×844 × 双主题）**：`/#/components/activity-view` → Share 按钮打开面板 → `aria-labelledby="_r_e_"` 解析到标题文本「共享」、`aria-label=null`（不双重命名）、**控制台无 Radix「DialogContent requires a DialogTitle」警告**（改动前面板无任何名称，该警告在场）；双主题数值一致；截图确认面板视觉无回归。
+- **门禁**：`pnpm run typecheck` → **exit 0**；`pnpm run lint` → **0 error / 16 warning（存量）**；定向 vitest **4 files / 30 tests passed**。文档链：`docs/llm/pages/{zh-CN,en-US}/components/bottom-sheet.md` 的 API 表（`:96`）将因 registry 新增两行产生漂移，并入既有的 3 处暂缓漂移，待解除后 `docs:llm:generate` 一并生成（该命令受 safe-delete 阻断需人工确认，见交付书 §9.7）；指南正文未改——accessibility 段未声称面板名称，不构成矛盾。
+- **全量 `pnpm test` 对照（重要）**：`12 failed / 218 passed (230 files)`。与 055 建立的基线（8 failed）差异 4 个文件，**单独复跑全部通过** ⇒ 并发资源型 flaky，与本轮无关：`tests/button-api.test.ts`（扫描消费者 variant 用法的用例全量下 15.3s、单跑毫秒级通过）、`tests/audit/evidence-v2.test.ts`（git/hash 遍历用例全量下 18.4s、单跑通过）、`tests/llm-task-runner.test.ts` 与 `tests/pre-push-orchestrator.test.ts`（交付书 §4 已记录为已知 flaky）。7 个稳定基线失败（`tests/audit/comparator-*` / `ledger-*`）不变——根因已确认为这些用例 `execFileSync("python", …)` 调用对比脚本（环境类，`ledger-consumers.test.ts:125/146/177` 等）。
+- **连带面**：`bottom-sheet` 示例与 `app-shell-demo` 的面板未自行命名（能力已提供，属消费者责任，本轮不扩）；HIG-AUD-016（MultiSelect 无名 dialog）为同类系统性问题，未动。
+- **台账落点**：本文件 §5G、矩阵 P 清单、交付书 §1 + §2。
