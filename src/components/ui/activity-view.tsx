@@ -135,6 +135,10 @@ function ActivityView({
               onClick={() => run(target.onSelect)}
               className="flex w-16 shrink-0 flex-col items-center gap-1.5 outline-none"
             >
+              {/* 图标瓦片 48px（icon 20px）是刻意的 Web 适配取舍，非对 HIG 的偏离：
+                  HIG 正文的 "about 70x70 pixels"（activity-views.md §3.1）是 iOS
+                  点/触屏语境；Web 按 Geist 密度收敛到 48px，与本页瓦片列的节奏一致。
+                  设计决策记录（HIG-AUD-049，2026-09-22 判定非缺陷关闭）。 */}
               <span
                 aria-hidden="true"
                 className="flex size-12 items-center justify-center rounded-[14px] bg-gray-alpha-100 text-gray-1000 [&_svg]:size-5"
