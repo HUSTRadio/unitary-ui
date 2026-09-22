@@ -331,7 +331,12 @@ function Feedback({
        */
       <div
         {...props}
-        className={cn("relative h-12", className)}
+        // shrink-0：占位层是 flex item，默认可被容器压缩到 collapsedWidth 以下；而内层
+        // 胶囊是绝对定位、不参与 shrink，仍保持 collapsedWidth → 两者脱钩后胶囊右缘
+        // 突破视口，造成根级横向溢出（/components/feedback @320 实测 scrollWidth 330 > 320）。
+        // 禁止压缩后，居中的 flex 容器（justify-center，官方 demo 形态）让占位层向两侧
+        // 对称溢出：左侧溢出在 LTR 下不产生滚动宽度，胶囊完整可见且根节点零溢出。
+        className={cn("relative h-12 shrink-0", className)}
         data-feedback-inline=""
         style={{ ...props.style, width: collapsedWidth || undefined }}
       >
