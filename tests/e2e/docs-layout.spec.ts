@@ -91,6 +91,10 @@ interface LayoutEvidence {
     crossCount: number;
     responsiveColumns: number | null;
     responsiveRows: number | null;
+    /** unstable_useContainer 时容器（grid-system-wrapper）的宽度；否则 null（按视口断点解析）。 */
+    responsiveContainerWidth: number | null;
+    /** Grid 内联断点变量（--{xs,sm,smd,md,lg}-grid-columns）的当前值，未设置为 ""。 */
+    responsiveColumnsVars: Record<string, string> | null;
     clipping: Array<{ section: string; guideCount: number; hiddenEdges: number }>;
   };
 }
@@ -109,7 +113,12 @@ interface CheckFailure {
 
 async function settle(page: Page) {
   await page.evaluate(async () => {
-    await document.fonts.ready;
+    // 字体就绪只是「尽力等待」：冷启动时字体请求可能长期 pending，无限等待会吞掉整条用例
+    // （2026-09-22 实测：整条 static routes 撞满 15 分钟上限，页面却始终无 JS 异常）。
+    await Promise.race([
+      document.fonts.ready,
+      new Promise<void>((resolve) => setTimeout(resolve, 15_000)),
+    ]);
     await new Promise<void>((resolve) =>
       requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
     );
@@ -120,17 +129,26 @@ let navigationSequence = 0;
 
 async function loadDocsRoute(page: Page, route: string) {
   const url = `/?docs-layout-navigation=${++navigationSequence}#${route}`;
-  await page.goto(url);
-  try {
-    // 90s: /components 是最重的路由（注册表索引导入全部组件），Vite dev 冷启动按需转换可超 30s（2026-09-10 实测 flake）
-    await page.locator('[data-slot="navbar"]').first().waitFor({
-      state: "visible",
-      timeout: 90_000,
-    });
-  } catch (error) {
-    const detail = error instanceof Error ? error.message : String(error);
-    throw new Error(`Docs shell did not become ready for route "${route}" (${url}): ${detail}`);
+  const navbar = page.locator('[data-slot="navbar"]').first();
+  // 整页导航偶发悬挂（独立复核 2 次复现，见交付书 §4）：goto 与本页就绪各自设上限，
+  // 超时后清空文档重来一次；仍失败才报错。断言与采集逻辑不变，只把「无限等待」改成「有界重试」。
+  let lastError: unknown = null;
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    try {
+      await page.goto(url, { timeout: 60_000 });
+      // 90s: /components 是最重的路由（注册表索引导入全部组件），Vite dev 冷启动按需转换可超 30s（2026-09-10 实测 flake）
+      await navbar.waitFor({ state: "visible", timeout: 90_000 });
+      return;
+    } catch (error) {
+      lastError = error;
+      if (attempt === 1) {
+        // 复位也要有上限：悬挂中的页面可能连 about:blank 都进不去
+        await page.goto("about:blank", { timeout: 15_000 }).catch(() => {});
+      }
+    }
   }
+  const detail = lastError instanceof Error ? lastError.message : String(lastError);
+  throw new Error(`Docs shell did not become ready for route "${route}" (${url}): ${detail}`);
 }
 
 async function gotoRoute(page: Page, route: string, viewport: { width: number; height: number }) {
@@ -329,6 +347,11 @@ async function collectEvidence(page: Page): Promise<Omit<LayoutEvidence, "route"
         '[data-grid-demo="responsive-breakpoints"] [data-slot="grid"]',
       );
       const responsiveStyle = responsive ? getComputedStyle(responsive) : null;
+      // unstable_useContainer 演示：断点按容器宽度解析（容器 = grid-system-wrapper，
+      // container-type: inline-size）。视口 1440 时容器仅约 863px → 落 md 层。
+      const responsiveContainer = document.querySelector<HTMLElement>(
+        '[data-grid-demo="responsive-breakpoints"] [data-slot="grid-system-wrapper"]',
+      );
       const clipping = ["responsive-clipping", "specific-clipping"].map((section) => {
         const guides = Array.from(
           document.querySelectorAll<HTMLElement>(
@@ -354,6 +377,15 @@ async function collectEvidence(page: Page): Promise<Omit<LayoutEvidence, "route"
           : null,
         responsiveRows: responsiveStyle
           ? responsiveStyle.gridTemplateRows.split(" ").filter(Boolean).length
+          : null,
+        responsiveContainerWidth: responsiveContainer ? responsiveContainer.clientWidth : null,
+        responsiveColumnsVars: responsiveStyle
+          ? (Object.fromEntries(
+              (["xs", "sm", "smd", "md", "lg"] as const).map((key) => [
+                key,
+                responsiveStyle.getPropertyValue(`--${key}-grid-columns`).trim(),
+              ]),
+            ) as Record<string, string>)
           : null,
         clipping,
       };
@@ -484,13 +516,15 @@ function runChecks(
     fail("no-page-in-progress-copy", "页面出现 pageInProgress 文案");
   }
 
-  // 9a. /colors 显示值 == computed 值（Clipboard 真值在专项测试）
+  // 9a. /colors 显示值 == computed 值（Clipboard 真值在专项测试）。
+  // 紧凑显示约定：卡内 hex 省略 # 前缀（title 与剪贴板始终是完整值，见
+  // docs-pages.tsx 的 swatch 渲染与下方 clipboard 契约测试），因此按前缀无关比较。
   if (ev.colorsSample) {
     for (const sample of ev.colorsSample) {
-      if (sample.displayed !== sample.computed) {
+      if (sample.displayed.replace(/^#/, "") !== sample.computed.replace(/^#/, "")) {
         fail(
           "colors-computed-value-contract",
-          `swatch ${sample.token} 显示值 "${sample.displayed}" ≠ computed "${sample.computed}"`,
+          `swatch ${sample.token} 显示值 "${sample.displayed}" ≠ computed "${sample.computed}"（前缀无关比较）`,
         );
       }
     }
@@ -509,17 +543,43 @@ function runChecks(
     }
   }
 
-  // 11. /grid 真实 Grid DOM + responsive 列数符合 API（sm:1 md:2 lg:3）
+  // 11. /grid 真实 Grid DOM + responsive 列数符合 API（断点层与 fallback 链镜像
+  //     grid.module.css 的 @media/@container 规则：xs≤400 / sm 401–600 / smd 601–768 /
+  //     md 769–960 / lg≥961）。unstable_useContainer 的演示按容器宽度解析断点，
+  //     其余按视口宽度；预期列数取 Grid 内联断点变量沿 fallback 链的首个定义值。
   if (ev.gridStats) {
     if (ev.gridStats.gridCount === 0) {
       fail("grid-real-dom", "页面未渲染任何真实 Grid DOM");
     }
     if (ev.gridStats.responsiveColumns !== null) {
-      const expected = width >= 1024 ? 3 : width >= 640 ? 2 : 1;
+      const effectiveWidth = ev.gridStats.responsiveContainerWidth ?? width;
+      const chain =
+        effectiveWidth >= 961
+          ? ["lg", "md", "smd", "sm"]
+          : effectiveWidth >= 769
+            ? ["md", "smd", "sm"]
+            : effectiveWidth >= 601
+              ? ["smd", "md", "sm"]
+              : effectiveWidth >= 401
+                ? ["sm"]
+                : ["xs", "sm"];
+      const vars = ev.gridStats.responsiveColumnsVars ?? {};
+      const resolved = chain
+        .map((key) => vars[key])
+        .find((value) => value !== undefined && value !== "");
+      const expected =
+        resolved != null
+          ? Number(resolved)
+          : width >= 1024
+            ? 3
+            : width >= 640
+              ? 2
+              : 1;
       if (ev.gridStats.responsiveColumns !== expected) {
         fail(
           "grid-responsive-columns",
-          `responsive-breakpoints 列数 ${ev.gridStats.responsiveColumns} ≠ 预期 ${expected}`,
+          `responsive-breakpoints 列数 ${ev.gridStats.responsiveColumns} ≠ 预期 ${expected}` +
+            `（${ev.gridStats.responsiveContainerWidth != null ? `容器 ${ev.gridStats.responsiveContainerWidth}px` : `视口 ${width}px`} → ${chain[0]} 层）`,
           ev.gridStats.responsiveColumns,
           '[data-grid-demo="responsive-breakpoints"] [data-slot="grid"]',
         );
@@ -616,14 +676,19 @@ test.describe("docs layout audit — full registry matrix", () => {
         await setTheme(page, theme);
       });
 
-      test(`static routes (${theme})`, async ({ page }) => {
-        test.setTimeout(15 * 60_000);
-        for (const route of STATIC_ROUTES) {
-          for (const viewport of VIEWPORTS) {
-            await auditCombo(page, route, theme, viewport);
+      // 静态路由同样分块（与 component routes 一致）：同一个 page 累计加载约 18 条路由后，
+      // 该页渲染进程会失去响应——JSONL 停在 108 组合处不再增长，`page.evaluate` 永不返回
+      // （2026-09-22 两次独立复现；见交付书 §4）。分块后每个用例使用全新 page/context。
+      for (const [index, group] of chunk(STATIC_ROUTES, 8).entries()) {
+        test(`static routes chunk ${index + 1}/${Math.ceil(STATIC_ROUTES.length / 8)} (${theme})`, async ({ page }) => {
+          test.setTimeout(15 * 60_000);
+          for (const route of group) {
+            for (const viewport of VIEWPORTS) {
+              await auditCombo(page, route, theme, viewport);
+            }
           }
-        }
-      });
+        });
+      }
 
       for (const [index, group] of chunk(COMPONENT_ROUTES, 8).entries()) {
         test(`component routes chunk ${index + 1}/${Math.ceil(COMPONENT_ROUTES.length / 8)} (${theme})`, async ({ page }) => {
