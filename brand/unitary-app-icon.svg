@@ -2,9 +2,11 @@
   <title id="unitary-app-icon-title">Unitary app icon</title>
   <!--
     iOS / iPadOS App Icon 变体：1024 画布、满出血、不透明、不加圆角（遮罩由系统施加）。
-    符号几何与 unitary-mark.svg 完全一致：图形框 768 @ (128, 128)，描边 165.888（= 文字主干 × 1.5），
-    交汇点 local (763.30, 384)，R = 1236.09，miter 连接 + 框裁切，
-    左上/左下拐角两边等长（117.367 / 117.367），右缘竖直切面 = 165.888 = stroke width。
+    符号几何与 unitary-mark.svg 完全一致（字形版；弧线描边版见 git f5f03a9）：
+    图形框 768 @ (128, 128)，符号为 D-DIN Pro Exp Bold 的 ">"（U+003E）字形轮廓，
+    等轴缩放（font-size = 1737.557）后墨迹 750.62 × 768 居中于框，颜色 #FFFFFF。
+    横版 Logo 中同一字形与字标同字号（F = 289.8551）排布，见 unitary-logo-horizontal.svg。
+    原描边几何（R / Vx / 拐角裁切 / 右缘切面）在字形版中已不适用。
     导出 PNG 时请关闭 Alpha 通道（App Store 要求）。
   -->
   <defs>
@@ -16,13 +18,8 @@
   <g clip-path="url(#unitary-app-icon-box)">
     <g transform="translate(128 128)">
       <path
-        d="M 0 0 A 1236.09 1236.09 0 0 0 763.3 384 A 1236.09 1236.09 0 0 0 0 768"
-        fill="none"
-        stroke="#FFFFFF"
-        stroke-width="165.888"
-        stroke-linecap="butt"
-        stroke-linejoin="miter"
-        stroke-miterlimit="12"
+        d="M8.69 768L8.69 566.44L491.73 384L8.69 199.82L8.69 0L759.31 293.65L759.31 472.62Z"
+        fill="#FFFFFF"
       />
     </g>
   </g>
