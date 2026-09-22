@@ -376,3 +376,27 @@
 - **全量 `pnpm test` 对照（重要）**：`12 failed / 218 passed (230 files)`。与 055 建立的基线（8 failed）差异 4 个文件，**单独复跑全部通过** ⇒ 并发资源型 flaky，与本轮无关：`tests/button-api.test.ts`（扫描消费者 variant 用法的用例全量下 15.3s、单跑毫秒级通过）、`tests/audit/evidence-v2.test.ts`（git/hash 遍历用例全量下 18.4s、单跑通过）、`tests/llm-task-runner.test.ts` 与 `tests/pre-push-orchestrator.test.ts`（交付书 §4 已记录为已知 flaky）。7 个稳定基线失败（`tests/audit/comparator-*` / `ledger-*`）不变——根因已确认为这些用例 `execFileSync("python", …)` 调用对比脚本（环境类，`ledger-consumers.test.ts:125/146/177` 等）。
 - **连带面**：`bottom-sheet` 示例与 `app-shell-demo` 的面板未自行命名（能力已提供，属消费者责任，本轮不扩）；HIG-AUD-016（MultiSelect 无名 dialog）为同类系统性问题，未动。
 - **台账落点**：本文件 §5G、矩阵 P 清单、交付书 §1 + §2。
+
+---
+
+## 5H. HIG-AUD-039 修复记录（2026-09-23，Toolbar 折叠状态透传与混合内容组）
+
+**来源**：交付书批次 C 推荐起手（`037`/`039`/`040`；`040` 已于同日修复，见 §5G）。同代码面顺带闭环 **HIG-AUD-050**（Fragment 展平，P3）。
+
+- **改动前证据（增补 §5B 运行确认，2026-09-22）**：320px 折叠后 6 个溢出项**全部丢失** `aria-pressed` / `data-active` / `disabled`；`CollapsedItem` 仅携带 `label/icon/onSelect`，收集器只认 `node.type === ToolbarItem`。
+- **根因（三处，同一代码面）**：
+  1. **状态丢失**：溢出菜单项不带 `disabled` / `active` → 「界面禁用、菜单可点」与「选中态消失」的分裂；
+  2. **混合内容组静默消失**：`ToolbarGroup` 折叠时整组 `return null`，而收集器只认 ToolbarItem → 组内搜索框 / MenuButton / 自定义控件既不可见也无溢出入口；
+  3. **Fragment 不展平（= HIG-AUD-050）**：`React.Children.forEach` 不递归 → `<>…</>` 包裹分组或条目时收集失败。
+- **修复（`src/components/ui/toolbar.tsx`）**：
+  | 缺陷 | 改动 |
+  |---|---|
+  | ① 状态透传 | `CollapsedItem` 增 `disabled` / `active`；收集时复制；溢出项渲染 `disabled={item.disabled}`、`data-active`、`aria-current="true"`（active）与常驻高亮 className（溢出菜单是命令菜单、非 stateful，故不走 `MenuItem` 的 active 机制） |
+  | ② 混合内容组 | 新增 `isCollapsibleGroup()`：显式 `collapsible` 优先；未指定时仅当组内全部是 ToolbarItem 才折叠。收集器与 `ToolbarGroup` 渲染共用同一判定；**`ToolbarGroup` 函数签名的 `collapsible = true` 默认值必须移除**——否则两处输入不一致（本轮实测踩坑：收集器读原始 props=undefined、组件读解构值=true → 组被折叠且溢出菜单为空） |
+  | ② 补充 | 显式 `collapsible={true}` 且组内含非 ToolbarItem 内容 → `import.meta.env.DEV` 下 `console.warn`（对齐 device.tsx 先例），不再静默消失 |
+  | ③ Fragment | 新增 `flattenChildren()`（递归展平 Fragment / 数组），收集器顶层与组内均改用；`hasOnlyToolbarItems()` 同基于展平结果 |
+- **回归**：新增 `tests/toolbar-collapse.test.tsx`（6 用例，jsdom + mock ResizeObserver/布局触发折叠）：溢出项保留 disabled/active、点击禁用项不触发 onSelect、混合组默认常驻且无溢出入口、显式 `collapsible={false}` 对照、Fragment 包裹收集、显式折叠 + 混合内容 dev 告警。`tests/toolbar-api.test.ts` 源码契约同步（新增 039/050 两组断言，原 `if (groupProps.collapsible === false) return;` 断言更新为 `isCollapsibleGroup`）。定向 **3 files / 19 tests 全绿**。
+- **真实浏览器核查（临时探针，跑完即删；320×700 × 双主题）**：`/#/patterns/app-shell` 折叠后溢出菜单 **6 项**（同页 `[role="menuitem"]` 查询另有 3 项为 MenuBar 顶级触发器——038 已记录该 role 实况）；**`网格视图` 项 `data-active="true"` + `aria-current="true"`**（修复前该项状态在菜单中完全丢失），其余项正确为 null；双主题一致；截图确认 active 项在菜单中带常驻高亮。
+- **门禁**：`pnpm run typecheck` → **exit 0**；`pnpm run lint` → **0 error / 16 warning（存量）**；定向 vitest **3 files / 19 tests 全绿**。文档链：guides-05（zh/en）的 accessibility 与 responsiveBehavior 段同步新契约；`component-api.ts` 的 `collapsible` 行改述（默认按内容决定，去掉 `defaultValue: "true"`）→ `docs/llm/pages/{zh-CN,en-US}/components/toolbar.md` 将产生漂移，并入暂缓集合（同 §5G 说明）。
+- **连带面**：**HIG-AUD-050 随本轮一并闭环**（同代码面）；`013`（ToolbarItem 32px 触控目标）未动；`025`（溢出菜单空态）未动；`041`（toolbar-api 源码字符串契约）顺势补强为 039/050 的契约断言。
+- **台账落点**：本文件 §5H、矩阵 `039`/`050` 行、交付书 §1 + §2。
