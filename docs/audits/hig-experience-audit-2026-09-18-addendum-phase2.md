@@ -400,3 +400,31 @@
 - **门禁**：`pnpm run typecheck` → **exit 0**；`pnpm run lint` → **0 error / 16 warning（存量）**；定向 vitest **3 files / 19 tests 全绿**。文档链：guides-05（zh/en）的 accessibility 与 responsiveBehavior 段同步新契约；`component-api.ts` 的 `collapsible` 行改述（默认按内容决定，去掉 `defaultValue: "true"`）→ `docs/llm/pages/{zh-CN,en-US}/components/toolbar.md` 将产生漂移，并入暂缓集合（同 §5G 说明）。
 - **连带面**：**HIG-AUD-050 随本轮一并闭环**（同代码面）；`013`（ToolbarItem 32px 触控目标）未动；`025`（溢出菜单空态）未动；`041`（toolbar-api 源码字符串契约）顺势补强为 039/050 的契约断言。
 - **台账落点**：本文件 §5H、矩阵 `039`/`050` 行、交付书 §1 + §2。
+
+---
+
+## 5I. HIG-AUD-037 修复记录（2026-09-23，破坏性项「红字 + 二次确认」成对）
+
+**来源**：交付书批次 C 推荐起手最后一条（`037`/`039`/`040` 三条至此全部闭环）。
+
+- **改动前证据（主报告 §4.2 + 增补运行确认 2026-09-22）**：`destructive` 只做红字，`onSelect` 直接执行；运行确认点「屏蔽用户」→ `dialogCount: 0`、日志直接记录；三处示例（Quick Actions / ActivityView / pull-down）全部示范「直接执行」。
+- **HIG 依据（`pull-down-buttons.md`）**：破坏性项需「红字 + 请用户确认意图」——确认应出现在**菜单之外的异位**且需刻意关闭（action sheet / alert），「help people avoid losing data by mistake」。
+- **方案裁决（本轮定案）**：**不内建确认浮层**，采用「组件只给红色语义 + 消费方串接确认 + 示例演示 + JSDoc/指南写明约定」：
+  1. HIG 允许 action sheet **或 alert**，形态选择应留给消费方；
+  2. 仓库既有 `DestructiveActionModal` 的 `verificationPhrase` 为**必填**（输入资源名的高门控），不适合「移除 App」级确认，内建会把语义与形态一起锁死；
+  3. 内建需在 Radix 菜单卸载后维持浮层（状态提到 Root + 新依赖），复杂度与耦合不成比例。
+  台账原建议的「至少让 examples 演示确认流程」即本方案下界，本轮取「示例 + 组件 JSDoc 契约 + 三处指南」完整形态。
+- **改动**：
+  | 文件 | 改动 |
+  |---|---|
+  | `docs/geist/src/examples/context-menu/quick-actions-8d41b0e7.example.tsx` | Remove App → 打开 Modal 确认（标题/描述/取消/红色确认按钮）；取消不动、确认才 `setLog` |
+  | `docs/geist/src/examples/activity-view/default-9e4c2b57.example.tsx` | Block User → 面板关闭（一次性活动）+ Modal 确认；同上两路径 |
+  | `src/components/ui/context-menu.tsx` | `ContextMenuQuickActionsItem.destructive` JSDoc：组件只负责红色语义，确认由消费方在 `onSelect` 串接（菜单之外、可取消） |
+  | `src/components/ui/activity-view.tsx` | `ActivityAction.destructive` 同款 JSDoc |
+  | `src/components/ui/split-button.tsx` | `SplitButtonMenuItemProps.menuItemProps` JSDoc 补破坏性约定（`type: "error"` 红字 + 消费方确认），覆盖 pull-down 变体 |
+  | guides-04 / guides-05 / guides-13（zh+en） | accessibility 段补「破坏性项需二次确认」条；context-menu 示例描述补「点击后先弹确认浮层」 |
+- **回归（永久）**：新增 `tests/e2e/quick-actions-destructive-confirm.spec.ts`（2 用例，真实浏览器）：① Quick Actions —— 右键唤起 → 破坏项**红字断言**（`rgb(238, 0, 0)`）→ 点击弹确认（未确认前状态不变）→ **取消**后状态不变 → 再次**确认**后才写入结果；② ActivityView —— 点破坏操作 → 面板关闭 + 确认浮层出现 → 取消无副作用 → 确认后写入结果。实测 **2 passed (29.6s)**。
+- **双主题视觉核查（临时探针，跑完即删）**：Modal 确认浮层双主题形态正确（标题/描述/取消左·红色破坏动作右）。**探针踩坑**：ActivityView 面板本身即 `role="dialog"`，退场动画期间与 Modal 共存 → `[role="dialog"]` 严格模式冲突，须用 `[data-slot="modal-content"]` 精确定位（永久 e2e 因先等面板卸载故不受影响）。
+- **门禁**：`pnpm run typecheck` → **exit 0**；`pnpm run lint` → **0 error / 16 warning（存量）**；定向 vitest（styleguide-examples / quick-actions-api / activity-view-api）**3 files 全绿**；e2e **2 passed**。文档链：guides-04/05/13 双语 + 两个示例 → `docs/llm` 的 context-menu / activity-view / split-button 页将产生漂移，并入暂缓集合（同 §5G/§5H）。
+- **连带面（未动）**：`split-button` 的 pull-down 示例未新增破坏性项（037 未涉及；矩阵 `:212` 记为「pull-down 变体本条未审核」），约定已写入其 JSDoc 与指南；`031`（破坏色 token）未动——本轮 e2e 把 `text-[#ee0000]` 红字固化为断言的一部分，token 化时需同步该断言。
+- **台账落点**：本文件 §5I、矩阵 `037` 行、交付书 §1 + §2。

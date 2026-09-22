@@ -342,7 +342,7 @@
 | HIG-AUD-034 | P3 | `edit-menu` |
 | HIG-AUD-035 | P3 | `destructive-action-modal`、`context-menu`、`sheet`、`side-panel`、`drawer`、`bottom-sheet`、`modal`、`command-menu` |
 | HIG-AUD-036 | P1 | `edit-menu`（指针设备下的形态与 HIG iPadOS 指引不同） |
-| HIG-AUD-037 | P1 | `context-menu`（Quick Actions）、`split-button`（pull-down 变体）、`activity-view` |
+| HIG-AUD-037 | P1 | `context-menu`（Quick Actions）、`split-button`（pull-down 变体）、`activity-view`——**已修复（2026-09-23，运行确认 + 永久 e2e，增补 §5I）** |
 | HIG-AUD-038 | P1 | `menu-bar`（菜单无可用高度约束 → 长菜单尾部不可达）——**已修复（2026-09-22，运行确认，增补 §5D）** |
 | HIG-AUD-039 | P1 | `toolbar`（折叠静默丢弃非 ToolbarItem 内容；`disabled` 在溢出菜单中失效）——**已修复（2026-09-23，运行确认，增补 §5H）** |
 | HIG-AUD-040 | P1 | `activity-view`（+ 根因在 `bottom-sheet`：面板无可访问名称）——**已修复（2026-09-23，运行确认，增补 §5G）** |
