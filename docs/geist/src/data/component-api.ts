@@ -719,9 +719,8 @@ const O = {
       row(
         "collapsible",
         "boolean",
-        "Whether the group collapses when the toolbar runs out of space.",
-        "空间不足时该组是否折叠。",
-        { defaultValue: "true" },
+        "Whether the group collapses when space runs out. Defaults by content: only all-ToolbarItem groups collapse; groups holding a search field, MenuButton, or custom controls stay in place.",
+        "空间不足时该组是否折叠。未指定时按组内容决定：组内全部是 ToolbarItem 才折叠，含搜索框 / MenuButton / 自定义控件时保持常驻。",
       ),
       row("label", "ReactNode", "Item label, reused as the overflow menu item text and accessible name.", "项名称；折叠后作为溢出菜单文案与无障碍名称。", {
         required: true,

@@ -529,7 +529,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       content: [
         "工具项是带无障碍名称的原生 button；仅图标显示时 label 仍作为 aria-label。",
         "选中态通过 aria-pressed 暴露，不依赖颜色单通道传达。",
-        "溢出菜单复用 DotsMenu，键盘可达。",
+        "溢出菜单复用 DotsMenu，键盘可达；禁用与选中状态一并透传到菜单项（disabled 不可点、aria-current 标记当前档）。",
       ],
     },
     controlledBehavior: {
@@ -542,7 +542,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "空间不足时可折叠组整组收起，组内 ToolbarItem 进入溢出菜单。",
+        "空间不足时可折叠组整组收起，组内 ToolbarItem 进入溢出菜单；含搜索框 / MenuButton 等非 ToolbarItem 内容的组保持常驻（这类内容没有溢出入口）。",
         "展开启用 24px 滞回，避免临界宽度下反复折叠。",
       ],
     },
@@ -1187,7 +1187,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       content: [
         "Tool items are native buttons with an accessible name; in icon-only mode the label still becomes the aria-label.",
         "The selected state is exposed through aria-pressed rather than color alone.",
-        "The overflow menu reuses DotsMenu and stays keyboard reachable.",
+        "The overflow menu reuses DotsMenu and stays keyboard reachable; disabled and selected states carry over to its items (disabled is not actionable, aria-current marks the current option).",
       ],
     },
     controlledBehavior: {
@@ -1200,7 +1200,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Collapsible groups fold away as a unit and their ToolbarItems move into the overflow menu.",
+        "Collapsible groups fold away as a unit and their ToolbarItems move into the overflow menu; groups holding non-ToolbarItem content such as a search field stay in place because that content has no overflow entry point.",
         "Expanding uses a 24px hysteresis band so the bar does not flap at the threshold width.",
       ],
     },
