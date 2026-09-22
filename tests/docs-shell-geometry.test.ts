@@ -89,7 +89,11 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(menu).toBeDefined();
     expect(menu).toContain('anchor="topbar"');
     expect(menu).toContain('direction="left"');
-    expect(menu).toContain("showCloseButton");
+    // 2026-09-23：belowTopbar 下关闭控件由 topbar 触发按钮承担，面板内不再渲染 X
+    // （否则两个 X 垂直相邻重复）；工具行整行 md 起隐藏（≥md 入口由 topbar 提供）。
+    // 断言按「属性行」匹配：注释里的 prop 名不计入。
+    expect(menu).not.toMatch(/\n\s+showCloseButton(?=\s|\n)/);
+    expect(menu).toContain("[&>[data-slot=panel-toolbar]]:md:hidden");
     expect(menu).toContain('maxExpandedHeight="100dvh"');
     expect(menu).toContain('maxExpandedWidth="292px"');
     expect(menu).toContain("anchorElement={navbarEl}");

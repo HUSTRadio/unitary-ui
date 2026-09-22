@@ -27,7 +27,8 @@ import { useLanguage } from "../i18n/language";
  * 文档站外壳 — Navbar + Sidebar（框架组件组装层）。
  * Navbar：<Navbar scrollBehavior="pinned"> 内组织 Logo / 搜索框 / 语言菜单 /
  *   主题切换；<lg 显示 HamburgerMenu（topbar 延伸落下 + 内建搜索过滤），
- *   ≥lg 隐藏（桌面形态无汉堡）。
+ *   ≥lg 隐藏（桌面形态无汉堡）。面板工具行（搜索/主题/语言）只在 <md 渲染，
+ *   md 起该行整行隐藏——topbar 自身已有这些入口，且关闭控件由触发按钮承担。
  * Sidebar：lg 断点起常驻的 <SidebarNav>；260px 宽与 sticky 容器由本层控制，
  *   组件只出导航内容。
  */
@@ -55,7 +56,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
   const navigate = useNavigate();
   // 汉堡面板受控开关：导航后收回面板（与旧壳层 Drawer 行为一致）
   const [menuOpen, setMenuOpen] = useState(false);
-  // 搜索模式：<md 用焦点驱动工具行（搜索/主题/语言进面板首行），md–lg 无内建搜索
+  // 搜索模式：<md 用焦点驱动工具行（搜索/主题/语言进面板首行，md 起整行隐藏）
   const searchMode: "query" | "toolbar" = "toolbar";
   // 命令式句柄：手机端工具行搜索按钮 → openSearch()
   const menuRef = useRef<HamburgerMenuHandle | null>(null);
@@ -115,7 +116,12 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               anchor="topbar"
               anchorElement={navbarEl}
               direction="left"
-              showCloseButton
+              /* belowTopbar 下不传 showCloseButton：topbar 保持可见可交互，其触发
+                 按钮在打开态即为关闭控件（组件契约同样忽略该 prop），面板内再加
+                 一个 X 会与它垂直相邻、功能重复。
+                 md 起整行隐藏工具行：≥md 时 topbar 已提供搜索/主题/语言入口，
+                 slots 在该区间无内容，不隐藏会留下 64px 空行。 */
+              className="[&>[data-slot=panel-toolbar]]:md:hidden"
               disableSearch={searchMode === "toolbar"}
               searchMode={searchMode}
               maxExpandedHeight="100dvh"
@@ -128,7 +134,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
                     type="button"
                     aria-label={copy.searchAria}
                     onClick={() => menuRef.current?.openSearch()}
-                    className="inline-flex size-11 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-[var(--uni-gray-alpha-200)] md:hidden"
+                    className="inline-flex size-11 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-[var(--uni-gray-alpha-200)]"
                   >
                     <Search className="size-4" aria-hidden />
                   </button>
@@ -136,7 +142,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               }
               toolbarRight={
                 searchMode === "toolbar" ? (
-                  <div className="flex items-center gap-2 md:hidden">
+                  <div className="flex items-center gap-2">
                     <div className="[&_button]:min-h-11 [&_button]:min-w-11 [&_button]:px-1">
                       <ThemeSwitcher small />
                     </div>

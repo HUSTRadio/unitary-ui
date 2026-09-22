@@ -187,6 +187,38 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
     expect(panel!.hasAttribute("data-below-topbar")).toBe(true);
   });
 
+  // 用户实测（2026-09-23，390 视口）：belowTopbar 下面板首行的 X 与 topbar 触发按钮
+  // （打开态同为 X，x 坐标相同、垂直相距 64px）构成重复关闭入口。契约：belowTopbar
+  // 时 topbar 保持可见可交互，触发按钮即关闭控件，面板内不再渲染第二个。
+  it("belowTopbar suppresses showCloseButton — trigger is the single close control", () => {
+    renderMenu({
+      belowTopbar: true,
+      side: "left",
+      showCloseButton: true,
+      toolbarLeft: <button data-testid="tl">L</button>,
+      toolbarRight: <button data-testid="tr">R</button>,
+    });
+    expect(document.querySelector('[data-slot="panel-close"]')).toBeNull();
+    // 工具行本身仍在（slots 有内容），且左内边距与右端对称（关闭按钮缺席时不再贴边）
+    const toolbar = document.querySelector('[data-slot="panel-toolbar"]');
+    expect(toolbar).not.toBeNull();
+    expect(toolbar!.className).toContain("pl-4");
+    expect(toolbar!.querySelector('[data-testid="tl"]')).not.toBeNull();
+    expect(toolbar!.querySelector('[data-testid="tr"]')).not.toBeNull();
+  });
+
+  it("trigger exposes an accessible name that flips with the open state", () => {
+    act(() => {
+      root.render(<HamburgerMenu anchor="topbar" items={ITEMS} />);
+    });
+    const trigger = () =>
+      document.querySelector<HTMLButtonElement>('[data-slot="hamburger-trigger"]')!;
+    // 图标本身 aria-hidden，若无 aria-label 则按钮无可访问名称
+    expect(trigger().getAttribute("aria-label")).toBe("Menu");
+    act(() => trigger().click());
+    expect(trigger().getAttribute("aria-label")).toBe("Close menu");
+  });
+
   // Task 2（2026-08-24）：抽屉 81 项只有 ~13 项可达——list 自身 max-h-[60vh]+overflow-hidden
   // 在 506px 硬裁剪，面板 scrollHeight===clientHeight 无从滚动。契约：nav 是唯一滚动容器。
   describe("scroll reachability (Task 2)", () => {
@@ -198,8 +230,9 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
 
     it("menu-nav is the flex-1 scroll container", async () => {
       const src = await readSource();
+      // px-4：列表容器水平内边距与 toolbar 的 pr-4 同一栅格（8px 时分组标题贴面板左缘）
       expect(src).toMatch(
-        /<nav\s+data-slot="menu-nav"\s+className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-2"/,
+        /<nav\s+data-slot="menu-nav"\s+className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-2"/,
       );
     });
 
@@ -280,15 +313,18 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
 
   // Task 5（2026-08-24）：关闭钮与 topbar trigger 同轴 + stagger 提速
   describe("close-button axis & stagger timing (Task 5)", () => {
-    it("toolbar has no left padding — close button aligns with topbar trigger", async () => {
+    it("toolbar keeps the close button on the trigger axis, else symmetric insets", async () => {
       const src = await readFile(
         path.resolve(__dirname, "../src/components/ui/hamburger-menu.tsx"),
         "utf8",
       );
       expect(src).not.toContain("pl-[23px]");
+      // 有关闭按钮时 pl-0（与 topbar trigger 同轴）；无关闭按钮时 pl-4 与右端 pr-4 对称
+      // （2026-09-23：belowTopbar 抑制关闭按钮后，首个 slot 不再贴边）
       expect(src).toMatch(
-        /className="flex h-16 items-center justify-between border-b border-gray-alpha-400 pl-0 pr-4"/,
+        /"flex h-16 items-center justify-between border-b border-gray-alpha-400 pr-4"/,
       );
+      expect(src).toContain('renderCloseButton ? "pl-0" : "pl-4"');
     });
 
     it("stagger constants are extracted and sped up (20ms interval / 240ms item)", async () => {

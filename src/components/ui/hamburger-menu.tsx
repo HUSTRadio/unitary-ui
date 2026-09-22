@@ -20,6 +20,10 @@ import { Separator } from "./separator";
  * - 内建搜索状态机：query 非空 → 导航列表区收起（opacity-0 h-0 过渡 300ms）
  *   + 结果区渲染；X 清空钮还原列表（反向过渡）；Ctrl K 提示仅 pointer-fine 渲染
  * - side=down(top)：面板与 navbar 同宽共享 border-b、顶部无圆角（延伸感关键）
+ * - belowTopbar：面板顶边下移到 topbar 底边、topbar 保持可见可交互——此时触发按钮
+ *   在打开态即是关闭控件，故面板内不再渲染 showCloseButton 指定的关闭按钮（否则
+ *   两个功能相同的 X 垂直相邻，构成重复关闭入口）；toolbar 行相应左右各 16px 内边距。
+ * - 触发行高 44px（HIG 触控），列表容器水平内边距 16px（与 toolbar 的 pr-4 同一栅格）
  */
 
 /** 条目右端状态胶囊（与桌面侧栏共用 NavStatusBadge 原子）。 */
@@ -87,7 +91,11 @@ interface HamburgerMenuProps {
   open?: boolean;
   /** 开关回调 */
   onOpenChange?: (open: boolean) => void;
-  /** 面板第一行渲染 X 关闭按钮（几何与触发前汉堡图标视口重合） */
+  /**
+   * 面板第一行渲染 X 关闭按钮（几何与触发前汉堡图标视口重合）。
+   * belowTopbar 时忽略：该模式下 topbar 保持可见可交互，触发按钮在打开态已经是
+   * 关闭控件，面板内再渲染会形成两个垂直相邻、功能相同的关闭入口。
+   */
   showCloseButton?: boolean;
   /** 不渲染内建搜索行（次宽屏：顶栏已有搜索入口，避免重复） */
   disableSearch?: boolean;
@@ -202,6 +210,10 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
     onOpenChange?.(next);
   };
 
+  // belowTopbar 下 topbar 可见可交互，其触发按钮打开态即关闭控件；
+  // 面板内不再渲染第二个关闭入口（见 showCloseButton 契约）。
+  const renderCloseButton = showCloseButton && !belowTopbar;
+
   const navigationGroups = groups ?? [{ title: "", items: items ?? [] }];
   const navigationItems = groups?.flatMap((group) => group.items) ?? items ?? [];
   const normalized = query.trim().toLowerCase();
@@ -219,6 +231,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
         data-slot="hamburger-trigger"
         aria-expanded={isOpen}
         aria-haspopup="dialog"
+        aria-label={isOpen ? t("Close menu") : t("Menu")}
         onClick={() => setOpen(!isOpen)}
         className="group inline-flex size-11 shrink-0 cursor-pointer touch-manipulation items-center justify-center rounded-md outline-none focus-ring"
       >
@@ -247,13 +260,18 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
         )}
       >
         {/* 首行工具栏（次宽屏：X 关闭钮；手机端：搜索/主题/语言工具行） */}
-        {(showCloseButton || toolbarLeft || toolbarRight) && (
+        {(renderCloseButton || toolbarLeft || toolbarRight) && (
           <div
             data-slot="panel-toolbar"
-            className="flex h-16 items-center justify-between border-b border-gray-alpha-400 pl-0 pr-4"
+            className={cn(
+              "flex h-16 items-center justify-between border-b border-gray-alpha-400 pr-4",
+              // 关闭按钮需与触发前汉堡图标视口重合（贴边 pl-0）；无关闭按钮时
+              // 与右端 pr-4 对称，避免首个 slot 贴边
+              renderCloseButton ? "pl-0" : "pl-4",
+            )}
           >
             <div className="flex items-center">
-              {showCloseButton && (
+              {renderCloseButton && (
                 <button
                   type="button"
                   data-slot="panel-close"
@@ -321,7 +339,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
             搜索时列表收起（h-0 + opacity 过渡还原）；stagger 动画期禁点 */}
         <nav
           data-slot="menu-nav"
-          className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-2"
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-2"
         >
           <div
             data-slot="menu-list"
@@ -437,7 +455,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
 
         {/* 结果区：仅搜索中渲染 */}
         {searching ? (
-          <ul data-slot="menu-results" className="list-none space-y-1 px-2 pb-2">
+          <ul data-slot="menu-results" className="list-none space-y-1 px-4 pb-2">
             {results.map((item) => (
               <li key={item.to}>
                 <a

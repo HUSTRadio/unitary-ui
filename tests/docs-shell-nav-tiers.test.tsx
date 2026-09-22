@@ -1,4 +1,7 @@
 // @vitest-environment jsdom
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
 import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
@@ -24,6 +27,11 @@ if (!window.matchMedia) {
     dispatchEvent: () => false,
   })) as unknown as typeof window.matchMedia;
 }
+
+const shell = readFileSync(
+  resolve(process.cwd(), "docs/geist/src/components/docs-shell.tsx"),
+  "utf8",
+);
 
 let container: HTMLDivElement;
 let root: Root;
@@ -59,38 +67,42 @@ function openDrawer() {
   });
 }
 
-describe("Docs shell drawer nav tiers (md-lg dedup)", () => {
-  test("drawer search button is visible on mobile and hidden from md upward", () => {
-    renderBanner();
-    openDrawer();
-    // 面板内搜索按钮（toolbarLeft）：移动端显示、md 起隐藏。
-    const drawerSearch = Array.from(
-      document.querySelectorAll<HTMLButtonElement>("button"),
-    ).filter((button) => /inline-flex/.test(button.className) && /md:hidden/.test(button.className));
-    expect(drawerSearch.length).toBeGreaterThanOrEqual(1);
-    expect(drawerSearch[0]!.getAttribute("aria-label")).toBeTruthy();
+describe("Docs shell drawer nav tiers (md+ dedup)", () => {
+  // 2026-09-23 契约：工具行（搜索/主题/语言）的 md 隐藏由行级规则统一承担，
+  // 行内 slots 不再各自带 md:hidden —— 同一意图只保留一处表达。
+  test("the toolbar row is the single owner of the md-hidden rule", () => {
+    expect(shell).toContain("[&>[data-slot=panel-toolbar]]:md:hidden");
+    expect(shell).not.toContain('hover:bg-[var(--uni-gray-alpha-200)] md:hidden');
+    expect(shell).not.toContain('className="flex items-center gap-2 md:hidden"');
   });
 
-  test("drawer theme and language tools are hidden from md upward", () => {
+  test("drawer toolbar hosts the labeled mobile slots", () => {
     renderBanner();
     openDrawer();
-    // toolbarRight 包装容器：hidden md:flex
-    const wrapped = Array.from(document.querySelectorAll("div")).filter((el) =>
-      /(^|\s)flex(\s|$)/.test(el.className) && /md:hidden/.test(el.className),
-    );
-    expect(wrapped.length).toBeGreaterThanOrEqual(1);
+    const toolbar = document.querySelector('[data-slot="panel-toolbar"]');
+    expect(toolbar).not.toBeNull();
+    // slots 内容在 <md 渲染（md 起的隐藏交给行级规则）
+    expect(toolbar!.className).not.toContain("md:hidden");
+    const labeled = toolbar!.querySelectorAll("button[aria-label]");
+    expect(labeled.length).toBeGreaterThanOrEqual(1);
   });
 
-  test("close button stays available on all tiers", () => {
+  // belowTopbar 下 topbar 保持可见可交互，其触发按钮打开态即关闭控件；
+  // 面板内再渲染一个 X 会与它垂直相邻、功能重复（用户实测 390 视口）。
+  test("close control is the topbar trigger — no second X inside the panel", () => {
     renderBanner();
     openDrawer();
-    const close = document.querySelector<HTMLButtonElement>('[data-slot="panel-close"]');
-    expect(close).not.toBeNull();
-    expect(close!.getAttribute("aria-label")).toBeTruthy();
-    act(() => close!.click());
+    expect(document.querySelector('[data-slot="expand-panel"]')).not.toBeNull();
     expect(document.querySelector('[data-slot="panel-close"]')).toBeNull();
-    expect(
-      document.querySelector('[data-slot="hamburger-trigger"]')?.getAttribute("aria-expanded"),
-    ).toBe("false");
+
+    const trigger = document.querySelector<HTMLButtonElement>(
+      '[data-slot="hamburger-trigger"]',
+    )!;
+    expect(trigger.getAttribute("aria-label")).toBeTruthy();
+    expect(trigger.getAttribute("aria-expanded")).toBe("true");
+
+    act(() => trigger.click());
+    expect(document.querySelector('[data-slot="expand-panel"]')).toBeNull();
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
   });
 });

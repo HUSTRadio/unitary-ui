@@ -10,7 +10,9 @@ import { cn } from "@/lib/utils";
  *            只下圆角（rounded-b-overlay，HIG 浮层 6px）=「topbar 延伸落下」；anchorElement 存在时
  *            JS 测量 anchor.getBoundingClientRect().bottom 注入 CSS 变量
  *            --expand-anchor-bottom，面板宽度 = anchor 宽度。
- *   left   → fixed left-0 inset-y-0 rounded-r-overlay，初始 -translate-x-full
+ *   left   → fixed left-0 inset-y-0 rounded-r-overlay，初始 -translate-x-full；
+ *            belowTopbar 时顶/底/左三边贴合（anchor 底边、视口底、视口左缘），
+ *            故该分支降为 rounded-none（贴合边的圆角只会留下缺口）
  *   right  → 镜像（right-0 rounded-l-overlay translate-x-full）
  *   bottom → 等价 Drawer 形态（inset-x-0 bottom-0 rounded-t-overlay）
  * - 动画统一 500ms cubic-bezier(0.32,0.72,0,1)，motion-reduce:!transition-none。
@@ -53,7 +55,10 @@ const SIDES: readonly Side[] = ["top", "bottom", "left", "right"];
 const SIDE_CLASSES: Record<Side, string> = {
   // 只下圆角 = navbar 视觉延伸；顶部无圆角、贴住锚底边
   top: "fixed inset-x-0 top-[var(--expand-anchor-bottom,64px)] bottom-auto w-full rounded-b-overlay border-b",
-  left: "fixed left-0 inset-y-0 h-full w-[var(--expand-panel-width,auto)] min-w-64 rounded-r-overlay border-r data-[below-topbar]:inset-y-auto data-[below-topbar]:bottom-0 data-[below-topbar]:h-auto data-[below-topbar]:top-[var(--expand-anchor-bottom,64px)] data-[below-topbar]:rounded-tl-none",
+  // belowTopbar：顶边贴 anchor 底边、底边贴视口底、左边贴视口左缘——三边贴合，
+  // 圆角只会在接缝处留下缺口，故降为全直角（用户实测：tr/br 各 6px 时与 topbar
+  // 底边、屏幕底边形成割裂）
+  left: "fixed left-0 inset-y-0 h-full w-[var(--expand-panel-width,auto)] min-w-64 rounded-r-overlay border-r data-[below-topbar]:inset-y-auto data-[below-topbar]:bottom-0 data-[below-topbar]:h-auto data-[below-topbar]:top-[var(--expand-anchor-bottom,64px)] data-[below-topbar]:rounded-none",
   right: "fixed right-0 inset-y-0 h-full rounded-l-overlay border-l",
   bottom: "fixed inset-x-0 bottom-0 rounded-t-overlay border-t",
 };
