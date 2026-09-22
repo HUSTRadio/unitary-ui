@@ -15,10 +15,10 @@ export function UnitaryLogoHorizontal({ className }: { className?: string }) {
         <g clipPath="url(#unitary-logo-h-clip)">
           <g transform="scale(0.3255208333333333)">
             <path
-              d="M 0 0 A 1264.09 1264.09 0 0 0 764.14 384 A 1264.09 1264.09 0 0 0 0 768"
+              d="M 0 0 A 1236.09 1236.09 0 0 0 763.3 384 A 1236.09 1236.09 0 0 0 0 768"
               fill="none"
               className="stroke-[#0D47A1] dark:stroke-white"
-              strokeWidth="128"
+              strokeWidth="165.888"
               strokeLinecap="butt"
               strokeLinejoin="miter"
               strokeMiterlimit="12"

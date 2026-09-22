@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -244.64 1307.41 289.28" role="img" aria-label="Unitary">
   <title>Unitary</title>
-  <!-- 左=mark(墨迹高250, 描边128=41.7px) 右=D-DIN Pro Exp Bold "Unitary"轮廓; cap 200, gap 100, OFL-1.1
-       mark 几何: V=(764.14,384) R=1264.09 θA=46.452° θV=6.910° 矢高74.52 右缘切面=128 -->
+  <!-- 左=mark(墨迹高250, 描边165.888=54px=文字主干36px×1.5) 右=D-DIN Pro Exp Bold "Unitary"轮廓; cap 200, gap 100, OFL-1.1
+       mark 几何: V=(763.3,384) R=1236.09 θA=46.926° θV=6.486° 矢高76.18 右缘切面=165.888 -->
   <svg x="0" y="-225" width="250" height="250" viewBox="0 0 250 250">
     <defs><clipPath id="clip0"><rect width="250" height="250" /></clipPath></defs>
     <g clip-path="url(#clip0)"><g transform="scale(0.3255208333333333)">
-      <path d="M 0 0 A 1264.094909959096 1264.094909959096 0 0 0 764.14 384 A 1264.094909959096 1264.094909959096 0 0 0 0 768"
-        fill="none" stroke="#0D47A1" stroke-width="128" stroke-linecap="butt"
+      <path d="M 0 0 A 1236.0924782131794 1236.0924782131794 0 0 0 763.3 384 A 1236.0924782131794 1236.0924782131794 0 0 0 0 768"
+        fill="none" stroke="#0D47A1" stroke-width="165.888" stroke-linecap="butt"
         stroke-linejoin="miter" stroke-miterlimit="12" />
     </g></g>
   </svg>
