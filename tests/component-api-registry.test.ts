@@ -166,6 +166,9 @@ describe("component API registry", () => {
     expect(row("bottom-sheet", "open")?.type).toBe("boolean");
     expect(row("bottom-sheet", "onOpenChange")?.type).toBe("(open: boolean) => void");
     expect(row("bottom-sheet", "onDetentChange")?.type).toBe("(index: number) => void");
+    // HIG-AUD-040：面板命名能力（aria-label 回退 / aria-labelledby 关联）
+    expect(row("bottom-sheet", "aria-label")?.type).toBe("string");
+    expect(row("bottom-sheet", "aria-labelledby")?.type).toBe("string");
 
     expect(COMPONENT_API["error-boundary"].exports).toEqual(["ErrorBoundary"]);
     expect(row("error-boundary", "children")).toMatchObject({

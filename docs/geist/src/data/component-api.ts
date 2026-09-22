@@ -1940,6 +1940,18 @@ const O = {
         "Called with the detent index after the sheet snaps.",
         "吸附完成后以档位下标调用。",
       ),
+      row(
+        "aria-label",
+        "string",
+        "Accessible name for the panel when no visible heading exists.",
+        "无可见标题时提供面板的可访问名称。",
+      ),
+      row(
+        "aria-labelledby",
+        "string",
+        "Names the panel from an external element, such as a heading rendered by the content layer.",
+        "关联外部元素命名面板（如内容层渲染的标题所带的 id）。",
+      ),
     ],
   ),
 } satisfies Record<string, ComponentApi>;

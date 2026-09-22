@@ -127,6 +127,29 @@ describe("BottomSheet", () => {
     expect(markup).not.toContain("rounded-t-xl");
   });
 
+  it("HIG-AUD-040：aria-label / aria-labelledby 透传到面板 Content", () => {
+    renderSheet(
+      <BottomSheet open aria-label="Share">
+        <div>content</div>
+      </BottomSheet>,
+    );
+    const panel = document.querySelector('[data-slot="bottom-sheet"]')!;
+    expect(panel.getAttribute("aria-label")).toBe("Share");
+    expect(panel.hasAttribute("aria-labelledby")).toBe(false);
+
+    act(() => root.unmount());
+    root = createRoot(container);
+    renderSheet(
+      <BottomSheet open aria-labelledby="sheet-title">
+        <h2 id="sheet-title">Title</h2>
+      </BottomSheet>,
+    );
+    const labelled = document.querySelector('[data-slot="bottom-sheet"]')!;
+    expect(labelled.getAttribute("aria-labelledby")).toBe("sheet-title");
+    // 关联目标真实存在于 DOM（IDREF 可解析）
+    expect(document.getElementById("sheet-title")).not.toBeNull();
+  });
+
   it("受控弹层关闭后把焦点归还给外部触发器", async () => {
     function Harness() {
       const [open, setOpen] = React.useState(false);

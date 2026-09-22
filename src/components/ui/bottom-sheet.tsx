@@ -63,6 +63,10 @@ interface BottomSheetProps {
   onOpenChange?: (open: boolean) => void;
   /** 吸附后档位变化回调 */
   onDetentChange?: (index: number) => void;
+  /** 无可见标题时提供面板的可访问名称（HIG-AUD-040：Dialog 内容必须有名称）。 */
+  "aria-label"?: string;
+  /** 关联外部元素命名面板——如内容层渲染的标题所带的 id（ActivityView 即此用法）。 */
+  "aria-labelledby"?: string;
   className?: string;
   children?: React.ReactNode;
 }
@@ -74,6 +78,8 @@ function BottomSheet({
   open: openProp,
   onOpenChange,
   onDetentChange,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
   className,
   children,
 }: BottomSheetProps) {
@@ -164,6 +170,8 @@ function BottomSheet({
           tabIndex={-1}
           data-slot="bottom-sheet"
           data-resizable={resizable && showGrabber ? "true" : undefined}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
           onOpenAutoFocus={() => {
             lastFocusedRef.current =
               document.activeElement instanceof HTMLElement ? document.activeElement : null;

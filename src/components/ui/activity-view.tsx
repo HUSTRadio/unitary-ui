@@ -15,6 +15,9 @@ import { cn } from "@/lib/utils";
  *
  * 与 BottomSheet 的关系：BottomSheet 只提供"多档位底部弹层容器"，
  * 本组件是它的**内容层**——分享目标与操作列表的排布语义，两者不合并。
+ * 可访问名称（HIG-AUD-040）：面板由可见标题命名（aria-labelledby → 标题 id）；
+ * title=null 不渲染标题行时回退 aria-label。两个命名属性经 BottomSheet 的
+ * aria-label / aria-labelledby 透传到 Dialog 内容上。
  * 选择任意目标或操作后触发回调并关闭面板（HIG：活动是一次性动作）。
  * 手势：渲染触控指示条并支持下拉关闭（单档位 0.6，不支持上拉展开）；
  * 需要多档位拖拽或去掉指示条时用 sheetProps 覆盖。
@@ -79,6 +82,9 @@ function ActivityView({
   className,
 }: ActivityViewProps) {
   const { t } = useI18n();
+  // HIG-AUD-040：面板（Radix Dialog 内容）必须可被命名。有可见标题时用
+  // aria-labelledby 关联标题 id；title=null 不渲染标题行时回退 aria-label。
+  const titleId = React.useId();
   const close = React.useCallback(() => onOpenChange(false), [onOpenChange]);
   /** 活动是一次性动作：执行后即关闭面板。 */
   const run = React.useCallback(
@@ -98,6 +104,10 @@ function ActivityView({
       // “跟手下拉 → 松手回弹或关闭”，expandUp:false 把上拉锁在最高档。
       showIndicator
       gestures={{ expandUp: false }}
+      // 面板命名（HIG-AUD-040）：标题行存在时关联其 id；title=null 不渲染标题行时
+      // 回退为 aria-label。放在 {...sheetProps} 之前——消费者仍可显式覆盖。
+      aria-labelledby={title !== null ? titleId : undefined}
+      aria-label={title === null ? t("Share") : undefined}
       {...sheetProps}
       // 面板 Content 不带内边距：触控指示条相对面板全宽真居中，且不受内容区
       // 滚动条宽度影响；内边距由下方内容 wrapper 承担。
@@ -116,6 +126,7 @@ function ActivityView({
         // 面板标题是说明性文字（copy 系列），不是控件标签（label 系列）；
         // HIG 分享面板的标题在面板顶部居中显示
         <h2
+          id={titleId}
           data-slot="activity-view-title"
           className="text-center text-copy-14 text-gray-1000"
         >
