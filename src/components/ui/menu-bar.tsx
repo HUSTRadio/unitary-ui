@@ -98,7 +98,13 @@ const MenuBarContent = React.forwardRef<
     <MenubarPrimitive.Content
       ref={ref}
       data-slot="menu-bar-content"
-      className={cn(MENU_BAR_SURFACE, className)}
+      className={cn(
+        MENU_BAR_SURFACE,
+        // HIG-AUD-038：长菜单必须受可用高度约束（与 menu.tsx 的做法一致），
+        // 否则溢出视口下沿，且 Menubar modal 锁 body 滚动后尾部菜单项不可达。
+        "max-h-[var(--radix-menubar-content-available-height)]",
+        className,
+      )}
       {...props}
     />
   </MenubarPrimitive.Portal>
@@ -200,7 +206,17 @@ const MenuBarSubContent = React.forwardRef<
   <MenubarPrimitive.SubContent
     ref={ref}
     data-slot="menu-bar-sub-content"
-    className={cn(MENU_BAR_SURFACE, className)}
+    className={cn(
+      MENU_BAR_SURFACE,
+      // HIG-AUD-038：子菜单同样受可用高度约束。注意：@radix-ui/react-menubar
+      // 不为 SubContent 生成 `--radix-menubar-sub-content-available-height`
+      // （运行时实测为空），且 @radix-ui/react-menu 不暴露任何 available 变量；
+      // popper 原生变量 `--radix-popper-available-height` 是子菜单元素上唯一
+      // 可用的约束源，与 react-dropdown-menu SubContent 的官方 re-namespace
+      // 做法（var(--radix-popper-available-height)）语义一致。
+      "max-h-[var(--radix-popper-available-height)]",
+      className,
+    )}
     {...props}
   />
 ));
