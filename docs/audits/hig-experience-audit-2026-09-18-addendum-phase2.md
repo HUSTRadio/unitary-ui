@@ -428,3 +428,28 @@
 - **门禁**：`pnpm run typecheck` → **exit 0**；`pnpm run lint` → **0 error / 16 warning（存量）**；定向 vitest（styleguide-examples / quick-actions-api / activity-view-api）**3 files 全绿**；e2e **2 passed**。文档链：guides-04/05/13 双语 + 两个示例 → `docs/llm` 的 context-menu / activity-view / split-button 页将产生漂移，并入暂缓集合（同 §5G/§5H）。
 - **连带面（未动）**：`split-button` 的 pull-down 示例未新增破坏性项（037 未涉及；矩阵 `:212` 记为「pull-down 变体本条未审核」），约定已写入其 JSDoc 与指南；`031`（破坏色 token）未动——本轮 e2e 把 `text-[#ee0000]` 红字固化为断言的一部分，token 化时需同步该断言。
 - **台账落点**：本文件 §5I、矩阵 `037` 行、交付书 §1 + §2。
+
+---
+
+## 5J. HIG-AUD-013 修复记录（2026-09-23，触屏命中区 ≥44×44）
+
+**来源**：交付书批次 C 推荐起手收敛后的首条（横跨 11 个组件）。
+
+- **改动前证据（主报告 §4.2 013 表 + 增补扩充）**：MenuItem 36px、DotsMenu 触发 32px、Select 项 36px、MultiSelect 行 28px、Toast 关闭 24px / action 32px、ThemeSwitcher 24/32px、汉堡搜索清除 28px、DestructiveActionModal 按钮 32px、EditMenu 胶囊 28px；增补扩充：MenuBarTrigger 28px、ToolbarItem 32px。主报告方向「视觉尺寸不变 + 命中区外扩」；验收「e2e 在 320/390 断言 ≥44×44」。
+- **方案裁决（触屏媒体查询）**：
+  - 密集行布局（菜单/列表项）**不能**用伪元素外扩——相邻项命中区会重叠（行距 28–36px < 44px），制造误触；伪元素模式只适用于四周有余量的独立控件（`multi-select.tsx:240`、`slider.tsx:280` 先例）。
+  - 采用 `pointer-coarse:` 变体：**触屏下 `min-h-11`/`min-w-11` 抬到 44×44，桌面维持 Geist 原视觉**。依据：HIG 44pt 针对触屏；WCAG 2.5.8（AA）桌面仅需 24×24，36px 菜单项已达标——无条件放大既偏离 Geist 规范也无据。
+  - 实测（临时探针）：Playwright **`hasTouch: true` 即触发 `(pointer: coarse)`**（**无需 isMobile**，避免移动 UA 副作用）；桌面 context 为 `fine`。
+  - 命中区统一 44 档：行类只补高度；短标签/图标/胶囊同时补宽度（实测 MenuBarTrigger「编辑」仅 **35.7px** 宽，只补高度不达标）。
+- **改动（13 处声明 / 11 个组件文件）**：`menu.tsx`(MenuItem)、`dots-menu.tsx`(触发)、`select.tsx`(触发器三档 + Item，4 处)、`multi-select.tsx`(行 + 触发器)、`toast.tsx`(action + 关闭)、`theme-switcher.tsx`(24/32px 圆形)、`destructive-action-modal.tsx`(确认主按钮)、`edit-menu.tsx`(胶囊)、`menu-bar.tsx`(Trigger)、`toolbar.tsx`(Item)、`hamburger-menu.tsx`(搜索清除)——行类 `pointer-coarse:min-h-11`；短标签/图标按钮 `pointer-coarse:min-h-11 pointer-coarse:min-w-11`。
+- **回归**：
+  - **源码契约** `tests/touch-targets-contract.test.ts`（15 断言）：逐组件锁定声明 + 仅允许 44 档 + 多处覆盖计数（Select ≥4 / Toast ≥2 / MultiSelect ≥2）；
+  - **e2e 门禁** `tests/e2e/touch-targets.spec.ts`（**9 用例 → 9 passed (33.6s)**）：触屏 context 实测 `boundingBox` ≥44×44——宽视口（1024 / iPad 形态）覆盖 ToolbarItem / MenuBarTrigger / MultiSelect 触发器 / Select 触发器 / ThemeSwitcher / DotsMenu / 菜单项 / MultiSelect 行（下拉内）；窄视口（390）覆盖 Toolbar 折叠后的溢出菜单项。
+- **门禁**：`pnpm run typecheck` → **exit 0**；`pnpm run lint` → **0 error / 16 warning（存量）**；契约测试 **1 file passed**；e2e **9 passed (33.6s)**；双主题视觉核查（触屏形态截图，跑完即删）通过——菜单项/工具项更高、更接近 iOS 观感，暗色正常。
+- **e2e 踩坑（已写入 spec 注释）**：
+  1. **`actionTimeout` 必须显式设置**——项目 config 未设（默认 0 = 无限），元素缺失时 `boundingBox()` **无限等待**并撞满 15 分钟用例上限（首轮实测：第一个用例卡满 15.0m）；
+  2. **视口选择**：窄屏（390）下 Toolbar 项移入溢出菜单 → `toolbar-item` 不存在，静态测量必须在宽视口做；
+  3. **Radix 浮层 zoom-in 动画**：菜单项在中间帧实测 42.5 / 43.4px（<44）→ 测量前等动画收敛（600ms）；
+  4. docs 站汉堡面板传 `disableSearch` → `search-clear` 在该路径不可达，其命中区由源码契约覆盖。
+- **连带面（未动）**：`029`（移动断点零散，与 013 共享 R8 根因）未动；`027`（Select 缺移动贴底形态）未动——主报告路线 2.5「触控目标统一策略」原依赖 027 的形态决策，本轮以「桌面视觉零变化 + 触屏命中区提升」**绕开该依赖**，无需等 027；`031`（破坏色 token）未动。
+- **台账落点**：本文件 §5J、矩阵 `013` 相关行、交付书 §1 + §2。
