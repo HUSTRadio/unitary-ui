@@ -427,7 +427,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "面板复用 Radix Dialog：焦点进入面板、Esc 与外部点击关闭、关闭后焦点归还触发元素。",
-        "每个目标与操作都是带可见名称的原生 button，破坏性操作仅用颜色加语义标签区分。",
+        "每个目标与操作都是带可见名称的原生 button；破坏性操作以红色语义区分，并在执行前请用户确认（确认浮层出现在面板之外、可取消——示例的 Block User 流程）。",
       ],
     },
     controlledBehavior: {
@@ -1081,7 +1081,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "The panel reuses the Radix dialog: focus moves into the panel, Escape and outside clicks close it, and focus returns to the trigger.",
-        "Every target and action is a native button with a visible name; destructive actions differ by color and wording, not color alone.",
+        "Every target and action is a native button with a visible name; destructive actions carry red semantics and ask for confirmation before running (the confirmation appears outside the panel and can be cancelled — the Block User flow in the example).",
       ],
     },
     controlledBehavior: {

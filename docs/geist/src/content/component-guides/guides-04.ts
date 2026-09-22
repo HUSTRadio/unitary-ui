@@ -166,7 +166,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
         kind: "advanced",
         title: "快速操作",
         description:
-          "触屏长按（或桌面右键）卡片弹出定宽竖排的快速操作列表：大图标 + 副标题，背景模糊遮罩，底部破坏性系统项用分隔线隔开。",
+          "触屏长按（或桌面右键）卡片弹出定宽竖排的快速操作列表：大图标 + 副标题，背景模糊遮罩，底部破坏性系统项用分隔线隔开，点击后先弹确认浮层（可取消）。",
         demoKey: "quick-actions",
       },
     ],
@@ -176,6 +176,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
         "为每个菜单项设置语义化的 aria-label，确保屏幕阅读器能够正确朗读操作内容。",
         "桌面端绑定右键点击，移动端绑定长按触发；Windows/Linux 下 Shift+F10 同样可以打开同一菜单。",
         "在每个菜单项上使用 Title Case 动词 + 名词格式（例如 'Open in New Tab'、'Copy URL'、'Delete Deployment'）。",
+        "破坏性系统项用红色语义标记，并在执行前请用户确认：确认浮层出现在菜单之外的独立位置、可取消（示例的 Remove App 流程）——HIG 要求红字与确认成对。",
       ],
     },
     controlledBehavior: {
@@ -473,7 +474,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
         kind: "advanced",
         title: "Quick Actions",
         description:
-          "A fixed-width vertical Quick Actions list on long-press (or right-click): large icons with subtitles over a blurred backdrop, with the destructive system item separated at the bottom.",
+          "A fixed-width vertical Quick Actions list on long-press (or right-click): large icons with subtitles over a blurred backdrop, with the destructive system item separated at the bottom and its confirmation opened before it runs.",
         demoKey: "quick-actions",
       },
     ],
@@ -483,6 +484,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
         "Set semantic aria-labels on each menu item to ensure screen readers correctly announce the action content.",
         "Bind to right-click on desktop and long-press on touch; Shift+F10 on Windows/Linux opens the same menu without right-click.",
         "Follow the same Title Case Verb + Noun format for menu items as Menu (e.g., 'Open in New Tab', 'Copy URL', 'Delete Deployment').",
+        "Destructive system items carry red semantics and ask for confirmation before running: the confirmation appears outside the menu and can be cancelled (the Remove App flow in the example) — HIG requires the red text and the confirmation as a pair.",
       ],
     },
     controlledBehavior: {

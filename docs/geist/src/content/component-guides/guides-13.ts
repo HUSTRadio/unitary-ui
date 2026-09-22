@@ -41,6 +41,7 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
       content: [
         "菜单按钮应设置描述性 aria-label（如 'Deploy to staging'）而非仅用下三角图标。",
         "主按钮为正常焦点元素，菜单打开后焦点锁定在项目内，Escape 关闭并返回触发元素。",
+        "破坏性菜单项经 menuItemProps.type=\"error\" 标红，并在执行前请用户确认：确认浮层由调用方在 onClick 中串接，出现在菜单之外、可取消。",
       ],
     },
     controlledBehavior: {
@@ -306,6 +307,7 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
       content: [
         "The menu button should carry a descriptive aria-label (e.g. 'Deploy to staging') instead of relying solely on the chevron icon.",
         "The main button is a normal focus element; when the menu opens, focus is trapped inside and Escape closes it while returning focus to the trigger.",
+        "Destructive menu items turn red via menuItemProps.type=\"error\" and ask for confirmation before running: the caller wires the confirmation panel in onClick, and it appears outside the menu with a cancel path.",
       ],
     },
     controlledBehavior: {

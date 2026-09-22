@@ -285,7 +285,14 @@ interface ContextMenuQuickActionsItemProps
   title: React.ReactNode;
   /** 副标题（13px muted） */
   subtitle?: React.ReactNode;
-  /** 破坏性项（系统尾项，如"移除 App"） */
+  /**
+   * 破坏性项（系统尾项，如"移除 App"），渲染为红字。
+   *
+   * 按 HIG（pull-down-buttons）破坏性操作需「红字 + 二次确认」成对：本组件只负责
+   * 红色语义与分隔位置，**确认浮层由消费方在 `onSelect` 中串接**——确认应出现在
+   * 菜单之外的独立位置并可取消（参见 Quick Actions 示例的 Remove App 流程，
+   * HIG-AUD-037）。直接执行会使用户误触即不可恢复。
+   */
   destructive?: boolean;
 }
 

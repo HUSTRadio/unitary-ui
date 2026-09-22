@@ -79,7 +79,12 @@ export interface SplitButtonMenuItemProps {
   description?: React.ReactNode;
   /** 可选图标（官方 icon） */
   icon?: React.ReactNode;
-  /** 透传给 MenuItem 的 props（官方 menuItemProps：onClick / className / disabled 等） */
+  /**
+   * 透传给 MenuItem 的 props（官方 menuItemProps：onClick / className / disabled 等）。
+   * 破坏性项经 `type: "error"` 标红；按 HIG（pull-down-buttons）破坏性操作还需二次
+   * 确认——确认浮层由消费方在 `onClick` 中串接（出现在菜单之外、可取消），
+   * HIG-AUD-037。
+   */
   menuItemProps?: Omit<React.ComponentProps<typeof MenuItem>, "children" | "prefix" | "suffix">;
 }
 

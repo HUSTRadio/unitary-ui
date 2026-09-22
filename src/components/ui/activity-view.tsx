@@ -47,7 +47,11 @@ export interface ActivityAction {
   icon?: React.ReactNode;
   title: React.ReactNode;
   onSelect: () => void;
-  /** 破坏性操作（标红） */
+  /**
+   * 破坏性操作（标红）。按 HIG，破坏性动作应在执行前请用户确认：本组件只负责
+   * 红色语义，**确认浮层由消费方在 `onSelect` 中串接**（出现在面板之外的独立
+   * 位置、可取消；参见默认示例的 Block User 流程，HIG-AUD-037）。
+   */
   destructive?: boolean;
 }
 
