@@ -233,7 +233,8 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
               <button
                 type="button"
                 data-slot="toast-action"
-                className="inline-flex h-8 items-center justify-center px-2.5 py-0 text-label-14 leading-5 font-medium shrink-0 rounded-lg outline-none hover:bg-gray-alpha-200 focus-ring"
+                // pointer-coarse：触屏命中区 ≥44×44（HIG-AUD-013）；桌面维持 32px 视觉
+                className="inline-flex h-8 items-center justify-center px-2.5 py-0 text-label-14 leading-5 font-medium shrink-0 rounded-lg outline-none hover:bg-gray-alpha-200 focus-ring pointer-coarse:min-h-11 pointer-coarse:min-w-11"
                 onClick={() => {
                   action?.();
                   dismiss(toast.id);
@@ -248,7 +249,8 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
               aria-label={t("Dismiss notification")}
               onClick={() => dismiss(toast.id)}
               className={cn(
-                "flex size-6 shrink-0 items-center justify-center rounded-lg outline-none hover:bg-gray-alpha-200 focus-ring",
+                // pointer-coarse：触屏命中区 ≥44×44（HIG-AUD-013）；桌面维持 24px 视觉
+                "flex size-6 shrink-0 items-center justify-center rounded-lg outline-none hover:bg-gray-alpha-200 focus-ring pointer-coarse:min-h-11 pointer-coarse:min-w-11",
                 toast.kind === "message" && "text-gray-1000",
               )}
             >

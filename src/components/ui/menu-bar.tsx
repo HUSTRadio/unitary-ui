@@ -81,7 +81,9 @@ const MenuBarTrigger = React.forwardRef<
     ref={ref}
     data-slot="menu-bar-trigger"
     className={cn(
-      "flex h-7 shrink-0 cursor-pointer select-none items-center rounded-md px-2 text-label-13 text-gray-1000 outline-none transition-colors",
+      // pointer-coarse：触屏命中区 ≥44×44（HIG-AUD-013）；桌面维持 28px 视觉。
+      // 补 min-w：短标签（如「编辑」）宽度约 36px，不补宽则不达 44
+      "flex h-7 shrink-0 cursor-pointer select-none items-center rounded-md px-2 text-label-13 text-gray-1000 outline-none transition-colors pointer-coarse:min-h-11 pointer-coarse:min-w-11",
       "hover:bg-gray-alpha-100 data-[state=open]:bg-gray-alpha-200 data-[disabled]:pointer-events-none data-[disabled]:text-gray-700",
       className,
     )}

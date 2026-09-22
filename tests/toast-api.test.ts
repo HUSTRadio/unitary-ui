@@ -91,7 +91,8 @@ describe("Toast official API contract (G12 audit fixes)", () => {
     const src = await read("src/components/ui/toast.tsx");
     expect(src).toMatch(/const action = toast\.onUndoAction \?\? toast\.onAction/);
     expect(src).toMatch(
-      /<button[\s\S]*?data-slot="toast-action"[\s\S]*?className="inline-flex h-8 items-center justify-center px-2\.5 py-0 text-label-14 leading-5 font-medium shrink-0 rounded-lg outline-none hover:bg-gray-alpha-200 focus-ring"[\s\S]*?onClick=\{\(\) => \{[\s\S]*?action\?\.\(\);[\s\S]*?dismiss\(toast\.id\);[\s\S]*?\}\}[\s\S]*?\{actionLabel\}[\s\S]*?<\/button>/,
+      // pointer-coarse:* 为 HIG-AUD-013 的触屏命中区声明（桌面维持 32px 视觉）
+      /<button[\s\S]*?data-slot="toast-action"[\s\S]*?className="inline-flex h-8 items-center justify-center px-2\.5 py-0 text-label-14 leading-5 font-medium shrink-0 rounded-lg outline-none hover:bg-gray-alpha-200 focus-ring pointer-coarse:min-h-11 pointer-coarse:min-w-11"[\s\S]*?onClick=\{\(\) => \{[\s\S]*?action\?\.\(\);[\s\S]*?dismiss\(toast\.id\);[\s\S]*?\}\}[\s\S]*?\{actionLabel\}[\s\S]*?<\/button>/,
     );
   });
 });

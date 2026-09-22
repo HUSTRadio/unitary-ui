@@ -487,7 +487,8 @@ function EditMenu({
               onFocus={() => setActiveIndex(index)}
               onClick={() => runAction(() => item.onSelect(displaySelection.text))}
               className={cn(
-                "flex h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2.5 text-label-13 text-gray-1000 outline-none transition-colors",
+                // pointer-coarse：触屏命中区 ≥44×44（HIG-AUD-013）；桌面维持 28px 胶囊
+                "flex h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2.5 text-label-13 text-gray-1000 outline-none transition-colors pointer-coarse:min-h-11 pointer-coarse:min-w-11",
                 "hover:bg-gray-alpha-100 focus-visible:bg-gray-alpha-100",
                 "disabled:pointer-events-none disabled:text-gray-700",
               )}

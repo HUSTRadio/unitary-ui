@@ -276,7 +276,8 @@ function ToolbarItem({
       data-slot="toolbar-item"
       data-active={active || undefined}
       className={cn(
-        "flex h-8 shrink-0 items-center gap-1.5 rounded-md px-2 text-label-13 text-gray-1000 outline-none transition-colors",
+        // pointer-coarse：触屏命中区 ≥44×44（HIG-AUD-013）；桌面维持 32px 视觉
+        "flex h-8 shrink-0 items-center gap-1.5 rounded-md px-2 text-label-13 text-gray-1000 outline-none transition-colors pointer-coarse:min-h-11 pointer-coarse:min-w-11",
         "hover:bg-gray-alpha-100 focus-visible:bg-gray-alpha-100",
         active && "bg-gray-alpha-200",
         "disabled:pointer-events-none disabled:text-gray-700",

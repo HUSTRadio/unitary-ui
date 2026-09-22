@@ -48,7 +48,8 @@ const MultiSelectTrigger = React.forwardRef<
       ref={ref}
       data-slot="multi-select-trigger"
       className={cn(
-        "multi-select-trigger group/multi-select-trigger relative flex h-9 w-full max-w-full touch-manipulation items-center justify-between rounded-lg border-0 bg-background-100 py-0 pr-[13px] pl-[10px] text-foreground shadow-[0_0_0_1px_var(--gray-400)] outline-none hover:shadow-[0_0_0_1px_var(--gray-alpha-500)] data-[state=open]:shadow-[0_0_0_1px_var(--gray-alpha-500)]",
+        // pointer-coarse：触屏命中区 ≥44（HIG-AUD-013）；桌面维持 36px 触发器
+        "multi-select-trigger group/multi-select-trigger relative flex h-9 w-full max-w-full touch-manipulation items-center justify-between rounded-lg border-0 bg-background-100 py-0 pr-[13px] pl-[10px] text-foreground shadow-[0_0_0_1px_var(--gray-400)] outline-none hover:shadow-[0_0_0_1px_var(--gray-alpha-500)] data-[state=open]:shadow-[0_0_0_1px_var(--gray-alpha-500)] pointer-coarse:min-h-11",
         className,
       )}
       {...props}
@@ -222,7 +223,11 @@ function MultiSelectRow({
     <div
       data-slot="multi-select-row"
       data-multi-select-row
-      className={cn("group/row flex h-7 items-center", className)}
+      className={cn(
+        // pointer-coarse：触屏命中区 ≥44（HIG-AUD-013）；桌面维持 28px 行高
+        "group/row flex h-7 items-center pointer-coarse:min-h-11",
+        className,
+      )}
     >
       <div
         data-slot="multi-select-checkbox-target"

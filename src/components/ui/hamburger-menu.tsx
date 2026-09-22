@@ -314,7 +314,8 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
               data-slot="search-clear"
               aria-label={t("Clear search")}
               onClick={() => setQuery("")}
-              className="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-full text-[var(--uni-gray-700)] hover:bg-[var(--uni-gray-alpha-200)]"
+              // pointer-coarse：触屏命中区 ≥44×44（HIG-AUD-013）；桌面维持 28px 视觉
+              className="inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-full text-[var(--uni-gray-700)] hover:bg-[var(--uni-gray-alpha-200)] pointer-coarse:min-h-11 pointer-coarse:min-w-11"
             >
               <HamburgerIcon open size={10} />
             </button>

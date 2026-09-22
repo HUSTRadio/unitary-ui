@@ -212,7 +212,8 @@ function DestructiveActionModal({
                 type="submit"
                 disabled={!canConfirm || loading}
                 className={cn(
-                  "inline-flex h-8 shrink-0 items-center justify-center rounded-lg px-1.5 text-sm font-medium outline-none transition-colors focus-ring disabled:pointer-events-none",
+                  // pointer-coarse：触屏命中区 ≥44×44（HIG-AUD-013）；桌面维持 32px 视觉
+                  "inline-flex h-8 shrink-0 items-center justify-center rounded-lg px-1.5 text-sm font-medium outline-none transition-colors focus-ring disabled:pointer-events-none pointer-coarse:min-h-11 pointer-coarse:min-w-11",
                   canConfirm && !loading
                     ? "bg-destructive text-destructive-foreground hover:bg-danger-hover hover:text-destructive-foreground"
                     : "bg-gray-100 text-gray-700",

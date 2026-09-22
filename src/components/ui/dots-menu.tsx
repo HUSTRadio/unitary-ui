@@ -60,7 +60,8 @@ function DotsMenu({
             : undefined
         }
         className={cn(
-          "relative flex size-8 max-w-full shrink-0 items-center justify-center rounded-lg text-sm font-medium leading-[21px] text-foreground outline-none transition-colors hover:bg-gray-alpha-200 data-[state=open]:bg-gray-alpha-200 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50",
+          // pointer-coarse：触屏命中区抬到 44×44（HIG-AUD-013）；桌面维持 32px 视觉
+          "relative flex size-8 max-w-full shrink-0 items-center justify-center rounded-lg text-sm font-medium leading-[21px] text-foreground outline-none transition-colors hover:bg-gray-alpha-200 data-[state=open]:bg-gray-alpha-200 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50 pointer-coarse:min-h-11 pointer-coarse:min-w-11",
           className,
         )}
       >
