@@ -492,13 +492,21 @@
 - **建议修复方向**：热区改为真正可聚焦元素（或复用 `Checkbox` 并取消 `tabIndex={-1}`）；移除 Tab 循环（保留 `Escape` + 外点）；给 dialog 补可访问名称。
 - **验收场景**：仅用键盘完成「打开面板 → Tab 遍历所有行与操作 → Tab 离开面板」；`role="dialog"` 有可访问名称。
 
-#### HIG-AUD-017 无「路由变化即关闭浮层」机制
+#### HIG-AUD-017 无「路由变化即关闭浮层」机制 ✅ 已修复（2026-09-23，增补 §5N）
 
-- **严重度**：P1 ｜ **类型**：实现缺陷
-- **证据**：全仓库**无** `useLocation` / `useNavigate` / `popstate` 监听（唯一相关的是 `hamburger-menu.tsx:358` 的 `onNavigate` 回调，且该回调**只调用不关闭**面板，`:358` 未触发 `setOpen(false)`）。文档站路由切换后，已打开的浮层不会自动收起。
+- **严重度**：P1 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-23，修复与复测记录见增补 §5N）
+- **证据（行号取自修复前版本，保留对照）**：全仓库**无** `useLocation` / `useNavigate` / `popstate` 监听（唯一相关的是 `hamburger-menu.tsx:358` 的 `onNavigate` 回调，且该回调**只调用不关闭**面板，`:358` 未触发 `setOpen(false)`；修复时实测该列表项在 `:379-402`）。文档站路由切换后，已打开的浮层不会自动收起。
 - **影响**：在文档站内通过浮层内的链接导航（例如 ContextMenu 的 `href` 项、HamburgerMenu 的导航列表）后，浮层残留。
 - **建议修复方向**：在组件库层提供可选的路由感知（或文档消费方统一在路由变化时关闭）；至少为带 `href` 的菜单项在选中后关闭。
 - **验收场景**：在 HamburgerMenu 中点击导航项 → 面板关闭且路由已切换。
+
+- **修复记录（2026-09-23，增补 §5N）**：
+  - **组件层契约修正（条目要求的「至少为带 href 的菜单项在选中后关闭」）**：`hamburger-menu.tsx:379-395` 的导航列表项点击此前只调 `onNavigate`、**不关面板**——与同文件搜索结果项（`:466-469`）及 prop 注释「随后关闭面板」互相矛盾，且**无任何测试覆盖**。现统一为「激活即关闭」，并按 `sidebar-nav.createNavigateHandler` 的既有语义**保留修饰键 / 中键**（新标签页意图不关面板）；`onNavigate` 调用时机不变，避免改动消费方导航链路。
+  - **库层「可选路由感知」（条目建议方向）**：新增 `src/lib/navigation.ts` 导出 `useDismissOnNavigate(onDismiss, enabled?)`——监听 `hashchange` + `popstate`，**不耦合任何路由库**，内部 ref 转发保证始终调最新闭包；并从包入口 `src/lib/index.ts` 导出。库内浮层**默认不自动关闭**（保持既有行为），由消费方显式接入。
+  - **文档消费方接入**：`docs/geist/src/components/docs-shell.tsx`（汉堡面板）与 `docs/geist/src/App.tsx`（命令面板）各接一行 → 覆盖前进/后退、程序化 navigate、浮层外链接等**没有点击回调**的路由变化。
+  - 回归：`tests/hamburger-menu-groups.test.tsx` 新增 2 用例（条目激活关闭 / 修饰键保留面板）；新增 `tests/navigation-dismiss.test.tsx`（4 用例：两类事件 / `enabled=false` / 卸载解绑 / 无陈旧闭包）；新增永久 e2e `tests/e2e/overlay-route-dismiss.spec.ts`（**2 passed**：点击条目关闭+路由切换、浏览器后退关闭）。
+  - **守护有效性（变异测试）**：停用 `docs-shell.tsx` 的接入 → e2e「浏览器后退关闭」失败（面板仍可见）而「点击条目关闭」仍通过 → 两条路径各自独立生效；恢复后 2 passed。
+  - **未验证项**：`context-menu.tsx:124-140`、`menu.tsx:208-227`（含 `dots-menu`/`menu-bar` 透传）的 `href` 条目依赖 Radix `Item` 的 select-关闭（仓库无显式处理），本轮未改动、未做浏览器实测 → 见交付书 §9。
 
 #### HIG-AUD-018 受控能力缺口（open / detent / 状态源不可控）
 

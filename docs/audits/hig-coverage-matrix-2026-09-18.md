@@ -134,7 +134,7 @@
 | `navbar` | ✔ | — | — | — | ⚠ HIG-AUD-023 |
 | `footer` | ✔ | — | — | — | ⚠ HIG-AUD-023 |
 | `command-menu` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-009、012、026、030 |
-| `hamburger-menu` | ✔ | — | — | — | ⚠ ~~HIG-AUD-008~~（**✅ 2026-09-23**：`Close menu`/`Ctrl K` 补齐 + 键集同构编译期约束，增补 §5M）、017、023、025 |
+| `hamburger-menu` | ✔ | — | — | — | ⚠ ~~HIG-AUD-008~~（**✅ 2026-09-23**：`Close menu`/`Ctrl K` 补齐 + 键集同构编译期约束，增补 §5M）、~~017~~（**✅ 2026-09-23**：导航条目激活即关闭 + 库层 `useDismissOnNavigate`，增补 §5N）、023、025 |
 | `menu` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-011、012、013、025 |
 | `dots-menu` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-011、012、013、032 |
 | `context-menu` | ✔ | ✔ | ✔ | ✔ | ⚠ **HIG-AUD-001（P0，✅ 已修复）**、**002（P0，✅ 已修复）**、005、009、010、011、012、025、031 |
@@ -322,7 +322,7 @@
 | HIG-AUD-014 | P1 | `toast` |
 | HIG-AUD-015 | P1 | `tooltip` |
 | HIG-AUD-016 | P1 | `multi-select` |
-| HIG-AUD-017 | P1 | `hamburger-menu`、`context-menu`（href 项）、全部浮层 |
+| HIG-AUD-017 | P1 | `hamburger-menu`、`context-menu`（href 项，**未改动**：依赖 Radix Item 默认关闭，未实测）、全部浮层——**已修复（2026-09-23，导航条目激活即关闭 + 库层 `useDismissOnNavigate` + 文档消费方接入 + e2e 2 passed + 变异测试，增补 §5N）** |
 | HIG-AUD-018 | P1 | `combobox`、`bottom-sheet`、`toast`、`split-button` |
 | HIG-AUD-019 | P1 | `drawer`（**经复核不成立**：`drawer.tsx:142` 早有 reduce 类）、`theme-switcher`、`combobox`、+ 66 个文件无组件级处理——**已修复（2026-09-23，22 浮层 kill switch 改 important 形式 + e2e 8 passed + 覆盖契约，根因见增补 §5L）** |
 | HIG-AUD-020 | P1 | `edit-menu` |

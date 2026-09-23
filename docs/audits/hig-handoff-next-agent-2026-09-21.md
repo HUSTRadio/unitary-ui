@@ -1,6 +1,6 @@
 # Unitary UI · HIG 工作交付书（给下一个 Agent）
 
-- **生成时间**：2026-09-21 ｜ **最近修订**：2026-09-23（HIG-AUD-010/019、008 修复完成并运行确认，并已提交 `1045dd0`（fix，010/019）+ `5d63437`（fix，008），台账随本次 docs 提交入库、**未 push**；上一批 HIG-AUD-009/011/012 为 `8d528b8` + `0ed630a`；本文件按最新进度全文对账）
+- **生成时间**：2026-09-21 ｜ **最近修订**：2026-09-23（HIG-AUD-010/019、008 已提交（`1045dd0` / `5d63437`，台账 `4b725d3` / `a1b8efa`）；**HIG-AUD-017 修复完成并运行确认、尚未提交**；再上一批 HIG-AUD-009/011/012 为 `8d528b8` + `0ed630a`；本文件按最新进度全文对账）
 - **工作区**：`d:/Projects/GitHub/HUSTRadio/unitary-ui`
 - **仓库状态**：分支 `master`，领先 `origin/master` **83** commits；**0 staged、0 未提交改动**（截至 2026-09-23，`git status --short` 仅剩未跟踪 `.tmp-logo/`；开工时以 `git status` 为准）
 - **口径**：只记**可核对的静态事实**与**已验证命令输出**；推断处显式标注；未能核实的条目集中列在 §9。
@@ -75,6 +75,7 @@
 | **HIG-AUD-010**（Overlay 背板 5 种写法，P1，一致性）已于 2026-09-23 修复并运行确认 | **方案裁决（与条目原建议不同）**：5 种写法实为**两种有官方出处的遮罩角色**（表面洗色 `#f2f2f2`/`#000`@0.8 = 官方 Modal scrim + 官方 Sheet overlay；暗化 `rgba(0,0,0,.4)` = 官方 Drawer overlay）→ 不做「全迁 backdrop 族」（会破坏 Drawer 官方 parity），改为**两族并行登记**：新增 `--uni-overlay-scrim-color`（alpha 内联，护 `backdrop-filter` 合成）与合成色 `--uni-overlay-backdrop`（`color-mix`，供 Content 是 Overlay 子节点的 modal，避免元素 opacity 把内容一起降透明）；7 处写法收敛、computed 零变化，唯 `destructive-action-modal` 孤例 `bg-black/50`→0.4；`command-menu` 保持 design-gate 冻结的官方 cmdk 写法（单列例外，契约锁定）。验收 grep 为空。回归：新增 `tests/overlay-backdrop-tokens.test.ts`（6 用例）+ 同步 9 个旧断言测试 + `raw-color-allowlist` 清账。**探针（跑完即删，双主题 12 passed）**：旧写法与 token **渲染像素逐字节等价**、族内 computed 一致（`rgba(0,0,0,0.4)`）、modal 遮罩满覆盖 + 卡片精确居中 + 内容未被降透明。台账落点：增补 §5L、主报告 `010`、矩阵 `:229`/`:150-154`/`:318` |
 | **HIG-AUD-019**（reduced-motion 覆盖不完整，P1，WCAG 2.3.3）已于 2026-09-23 修复并运行确认 | **根因（本轮新发现）**：`data-[state=open]:animate-in` 的 specificity 0,2,0 **压过**单类名 `motion-reduce:animate-none`（0,1,0）→ 22 个 tw-animate 浮层的组件级 reduce 类**一直是空操作**，实际只有全局 `0.01ms !important` 兜底（原审核「28 文件包含 motion-reduce」属**虚假覆盖**）。修复：animation kill switch 统一 **`motion-reduce:animate-none!`**（末尾 important；`skeleton` 的 v3 前缀写法归一）；过渡侧实测 plain `motion-reduce:transition-none` 已生效、无需 important；点名缺口 `theme-switcher`/`combobox` 补齐，**`drawer` 面板缺口经复核不成立**（行号漂移）。回归：永久 e2e `tests/e2e/reduced-motion.spec.ts`（**8 passed**：reduce 下 modal/quick-actions/bottom-sheet/command-menu 的 computed `animation-name: none` + 功能正常）+ `tests/reduced-motion-coverage.test.ts`（5 用例，含免动画清单与全局兜底冻结）。**环境教训**：`test.use({reducedMotion})` 在本项目配置下不生效，须用 `page.emulateMedia()`。台账落点：增补 §5L、主报告 `019`、矩阵 `:232`/`:327`、motion 审核 §5/§8 |
 | **HIG-AUD-008**（i18n key 缺失 3 处，P1）已于 2026-09-23 修复并运行确认 | **补齐 3 key**（en/zh 双侧行序镜像）：`"Close menu"`→`关闭菜单`（`hamburger-menu.tsx:234,278`）、`"Ctrl K"`→两侧同值（`:324` 的 `<kbd>`，快捷键不翻译）、`"Resize height"`→`调整高度`（`grabber.tsx:45`，**key 由中文改英文写法**，修掉英文站显示中文）。**根因修复**：`framework-messages.ts` 增 `FrameworkMessageKey`，`i18n.tsx` 把 locale 消息表注解为 `Record<FrameworkMessageKey, string>` → 缺 key 变**编译错误**（不再靠人工同步）。回归：`component-i18n-source` 新增键集双向相等 + 钉住 3 key + **全 `src` 扫描 `t("…")` 字面量 key 存在性**（补上让 3 key 漏过的缺口；含条件分支/模板前缀族 + 收集器健康度断言）；`framework-i18n` 增 grabber 双语言断言；`grabber.test.tsx:31` 旧中文断言更新。**变异测试证明守护有效**（删 zh 一个 key → tsc TS2322 + 键集 + 调用点扫描三道同时报警）。**探针 4 passed**：bottom-sheet grabber `调整高度`/`Resize height`、导航面板 `菜单→关闭菜单`/`Menu→Close menu` 且无 key 原文回显。全 `src` 扫描确认这三处即全部缺失项。台账落点：增补 §5M、主报告 `008`、矩阵 `:137`/`:196`/`:316` |
+| **HIG-AUD-017**（无路由变化即关闭浮层机制，P1，机制性）已于 2026-09-23 修复并运行确认 | **组件层**：`hamburger-menu.tsx:379-395` 导航列表项此前只调 `onNavigate` **不关面板**（与同文件搜索结果项 `:466-469` 及 prop 注释矛盾、且无测试覆盖）→ 统一「激活即关闭」，保留修饰键/中键（新标签页）语义，`onNavigate` 时机不变。**库层**：新增 `src/lib/navigation.ts` 的 `useDismissOnNavigate`（`hashchange` + `popstate`，不耦合路由库）并从包入口导出；库内浮层默认不自动关闭，由消费方接入。**文档消费方**：`docs-shell`（面板）+ `App.tsx`（命令面板）各接一行 → 覆盖前进/后退与程序化导航。回归：`hamburger-menu-groups` 增 2 用例、新增 `navigation-dismiss`（4 用例）、新增永久 e2e `tests/e2e/overlay-route-dismiss.spec.ts`（**2 passed**）。**变异测试**：停用消费方接入 → 「后退关闭」用例失败而「点击条目」仍过，证明两条路径各自独立生效。**未验证**：`context-menu`/`menu` 的 `href` 条目依赖 Radix Item 默认关闭（未实测），见 §9。台账落点：增补 §5N、主报告 `017`、矩阵 `:137` |
 | 三份审核文档已同步标注 | 主报告、增补、矩阵均已改；原「修复前证据」段落**保留作对照**，仅加注「行号取自修复前版本」 |
 | 临时复现脚本已删除 | `tests/e2e/` 现有 **9 个永久 spec**（`command-search` / `component-geometry` / `context-menu-quick-actions-touch` / `continuous-surface-review` / `docs-feedback-typography` / `docs-layout` / `menu-bar-content-height` / `quick-actions-destructive-confirm` / `touch-targets`），**无 audit 临时 spec**（含 009/011/012 会话探针，一并跑完即删）；`.scratch/` 整体由 `.gitignore:22` 忽略 |
 | 已验证明令（最新轮次 = 2026-09-23 009/011/012 会话） | `pnpm run typecheck` → **exit 0**；`pnpm run lint`（oxlint）→ **0 errors / 16 warnings（存量）**；定向 `vitest run` → **23 files / 184 tests passed**；`typecheck:tests` 命中项均为存量（见批次 F）。**注意**：全量 `pnpm test` 自 2026-09-23 起的当前实测为 **exit 1**（基线构成见 §7，非单轮引入）；2026-09-21 的历史记录为 228 files / 1424 tests passed |
@@ -85,9 +86,9 @@
 
 | 口径 | 总数 | 已完成 | **剩余** |
 |---|---|---|---|
-| **HIG-AUD 问题（主报告 ∪ 增补 并集）** | **54**（新增 054） | **20**（001–005、006/007、008、009/011/012、010、013、019、037、038、039、040、051、054；另 `049` 判非缺陷关闭；2026-09-23 批次已并入） | **33** |
+| **HIG-AUD 问题（主报告 ∪ 增补 并集）** | **54**（新增 054） | **21**（001–005、006/007、008、009/011/012、010、013、017、019、037、038、039、040、051、054；另 `049` 判非缺陷关闭；2026-09-23 批次已并入） | **32** |
 | ├ P0 | 6（含 1 条判定撤回） | 5 | **0** |
-| ├ P1 | 24 | 13（006/007、008、009/011/012、010、013、019、037、038、039、040，2026-09-22~23） | **11** |
+| ├ P1 | 24 | 14（006/007、008、009/011/012、010、013、017、019、037、038、039、040，2026-09-22~23） | **10** |
 | ├ P2 | 13（新增 054） | 1（054） | **12** |
 | └ P3 | 11 | 1（050，随 039 成对修复） | **9** |
 | **PLAN-HIG-COMPONENTS 交付项** | **90** | 67 完成 / 18 部分 / 5 缺失 | **23** |
@@ -96,7 +97,7 @@
 
 计划完成度三口径（子代理统计，附证据链）：**产物存在性 ≈ 93%**、**加权 ≈ 84%**、**逐项严格判定 ≈ 74%**。三者必须与「验证缺口」一起读，否则会高估。
 
-> **口径已对账（2026-09-23，按 ID 级重算）**：P0 6/5/0、P1 24/13/11、P2 13/1/12、P3 11/1/9；合计 已完成 20 + `049` 判非缺陷关闭 1 + 剩余 33 = 54，与总行自洽。历史注记：`005` 改记为 `052`（P2）、`049` 关闭，均已计入上述口径；`010`/`019` 于 2026-09-23 修复（增补 §5L）、`008` 于 2026-09-23 修复（增补 §5M）。
+> **口径已对账（2026-09-23，按 ID 级重算）**：P0 6/5/0、P1 24/14/10、P2 13/1/12、P3 11/1/9；合计 已完成 21 + `049` 判非缺陷关闭 1 + 剩余 32 = 54，与总行自洽。历史注记：`005` 改记为 `052`（P2）、`049` 关闭，均已计入上述口径；`010`/`019` 于 2026-09-23 修复（增补 §5L）、`008` 同日修复（增补 §5M）、`017` 同日修复（增补 §5N，**待提交**）。
 
 > **门禁新发现（2026-09-22 已闭环）**：`test:docs-layout` 首轮 `aggregate` 报出 3 条断言失败（详见 §7.1）→ 分诊结论：**1 条真实产品缺陷**（`/components/feedback` @320 横向溢出，记为 **HIG-AUD-054**，已修复并计入上表）+ **2 条断言缺陷**（`/colors` 前缀无关比较、`/grid` 容器断点预期，均已修）。
 
@@ -124,15 +125,15 @@
 | PLAN §十一.4 / G4 | **backdrop-blur 材质 token 未新增**，仍是字面量 `bg-black/40 backdrop-blur-sm` | `PLAN-HIG-COMPONENTS.md:322`；`context-menu.tsx:154-156` | ✅ 已闭环：新增 `--uni-overlay-backdrop-blur: 8px`（`src/styles/index.css` 遮罩 token 组），`context-menu.tsx` 与 `destructive-action-modal.tsx` 改走 `backdrop-blur-(--uni-overlay-backdrop-blur)`；真实浏览器双主题实测计算值 `blur(8px)`、遮罩色仍 40% / 50% |
 | PLAN M1–M4 门禁 | `pnpm test` exit 1（9 基线失败）、`test:docs-layout` exit 1、lint 无证据 | `…-addendum-phase2.md:225-227` | ✅ **汇总口径已闭环（2026-09-22 04:21，独占运行）**：`typecheck`、`build`、`lint`（0 error）、`pnpm test`（228 files / 1424 tests）均 exit 0；**`test:docs-layout` 可信汇总行已取得** → `2 failed / 1 flaky / 119 passed (42.8m)`，exit 1。failed = `command-search.spec.ts:49`（HIG-AUD-053，已知基线）+ `docs-layout.spec.ts:619` `static routes (light)`（环境卡死，见 §4）；flaky = `docs-layout.spec.ts:642` `aggregate layout audit gate`（首轮 3 条**真实**断言失败，重试被清空掩盖，见 §7.1） |
 
-### 批次 C：P1（剩余 11 条；`038`、`006`/`007`、`013`、`037`、`039`、`040`、`009`/`011`/`012`、`010`、`019`、`008` 已修复，见 §1）
+### 批次 C：P1（剩余 10 条；`038`、`006`/`007`、`013`、`037`、`039`、`040`、`009`/`011`/`012`、`010`、`019`、`008`、`017` 已修复，见 §1）
 
-`014` Toast Tab 序列/计时 ｜ `015` Tooltip 强注 tabIndex ｜ `016` MultiSelect 热区/Tab 锁 ｜ `017` 无路由关闭浮层机制 ｜ `018` 受控能力缺口 ｜ `020` EditMenu 触屏缺陷 ｜ `021` EditMenu 定位/语义边界 ｜ `022` Grabber slider 无键盘 ｜ `023` 7 个导出组件未注册 ｜ `024` SidePanel 未导出/被门禁 ｜ `036` EditMenu 指针设备形态
+`014` Toast Tab 序列/计时 ｜ `015` Tooltip 强注 tabIndex ｜ `016` MultiSelect 热区/Tab 锁 ｜ `018` 受控能力缺口 ｜ `020` EditMenu 触屏缺陷 ｜ `021` EditMenu 定位/语义边界 ｜ `022` Grabber slider 无键盘 ｜ `023` 7 个导出组件未注册 ｜ `024` SidePanel 未导出/被门禁 ｜ `036` EditMenu 指针设备形态
 
 > `009`/`011`/`012` 的受影响清单已扩充到 MenuBar / Toolbar / pull-down（**已于 2026-09-23 修复，见 §1**）；`013`/`018`/`025` 的扩充清单改动时注意连带面。
 >
 > `010`/`019` **已于 2026-09-23 修复并运行确认**（§1、增补 §5L）。两条目都带**口径教训**：`010` 的「5 种写法」实为两种官方遮罩角色（不可简单合并）；`019` 的「28 个文件包含 motion-reduce」实为虚假覆盖（specificity 压过，文件数达标 ≠ 生效）。改动其连带面（`--uni-overlay-*` 族、`motion-reduce:` 写法）前先读增补 §5L。
 
-> **枚举已完成（2026-09-22 晚，subagent 交叉核对主报告 §4.2 + 矩阵 + 增补 + 本交付书；2026-09-23 更新）**：未修 P1 = 上面 12 条（008、014–024 连续 + 036；`038`、`006`/`007`、`013`、`037`、`039`、`040`、`009`/`011`/`012`、`010`、`019` 已修）。口径提示：主报告 §1.2 按 P1 计 23 条（原口径），与本清单差 6，**以本清单并集为准**；`037` 在主报告的状态列未回填（增补已升级 [运行确认]），属时序差。推荐起手顺序（2026-09-23 再刷新）：**`017`/`018`**（浮层路由关闭机制 + 受控能力缺口；机制性强、可协同）→ 其余按编号推进；`014`/`015`/`016` 为组件内独立小修，可并行。**方法教训（两轮各得一条）**：① 凡「覆盖率/一致性」类结论必须落到运行时断言，不得只看文件级计数或字面量 grep（`019` 的虚假覆盖即由此产生）；② 缺 key / 缺声明类问题则相反——**静态扫描 + 编译期约束**才是正解（`008`），且新增守护必须做**变异测试**证明它真的会报警。
+> **枚举已完成（2026-09-22 晚，subagent 交叉核对主报告 §4.2 + 矩阵 + 增补 + 本交付书；2026-09-23 更新）**：未修 P1 = 上面 10 条（014、015、016、018、020–024、036；`038`、`006`/`007`、`013`、`037`、`039`、`040`、`009`/`011`/`012`、`010`、`019`、`008`、`017` 已修）。口径提示：主报告 §1.2 按 P1 计 23 条（原口径），与本清单差 6，**以本清单并集为准**；`037` 在主报告的状态列未回填（增补已升级 [运行确认]），属时序差。推荐起手顺序（2026-09-23 三刷）：**`018`**（受控能力缺口——API 契约，含 Combobox `open`、BottomSheet detent、Toasts 受控 store、SplitButton `menuButtonDisabled`，属「新增 props + 契约测试」型任务）→ `014`/`015`/`016` 组件内独立小修（可并行）→ 其余按编号推进。**方法教训（三轮各得一条）**：① 凡「覆盖率/一致性」类结论必须落到运行时断言，不得只看文件级计数或字面量 grep（`019` 的虚假覆盖即由此产生）；② 缺 key / 缺声明类问题则相反——**静态扫描 + 编译期约束**才是正解（`008`），且新增守护必须做**变异测试**证明它真的会报警；③ 机制类条目（`017`）先拆「组件层契约」与「库层原语 + 消费方接入」两层分别验证，变异测试可定位每条路径的真实承担者。
 
 ### 批次 D：P2（12 条）
 
@@ -278,6 +279,15 @@
 - 临时浏览器探针（跑完即删，4 passed (26.8s)）：见增补 §5M。
 - **本轮新增方法论**：新增「守护类测试」必须做**变异测试**（故意破坏一次并确认报警），否则无法区分「守护有效」与「守护恒真」——与 §7.3 的「文件级计数 ≠ 生效」是同一类风险的两面。
 
+### 7.5 2026-09-23 会话门禁记录（HIG-AUD-017）
+
+- `pnpm run typecheck`（`tsc -b`）→ **exit 0**；`pnpm run lint`（oxlint）→ **0 errors / 16 warnings（存量）**。
+- 定向 vitest（5 文件）→ **5 files / 55 tests passed**：新增 `navigation-dismiss`(4) 与 `hamburger-menu-groups`(+2 用例)；另 `hamburger-menu`、`hamburger-menu-modes`、`docs-shell-geometry` 一并复跑通过。
+- 永久 e2e：`pnpm exec playwright test -c playwright.config.ts tests/e2e/overlay-route-dismiss.spec.ts` → **2 passed (30.9s)**（① 点击条目关闭 + 路由切换；② 浏览器后退关闭）。
+- **变异测试（守护有效性）**：停用 `docs-shell.tsx` 的 `useDismissOnNavigate` 接入 → 「浏览器后退关闭」用例 **失败**（`not.toBeVisible()` 超时、面板仍可见），而「点击条目关闭」仍通过 → 证明两条路径**各自独立生效**（组件层契约 vs 库层原语 + 消费方接入）；恢复后复跑 2 passed。
+- 全量 `pnpm test` → exit 1，`Test Files 9 failed | 226 passed (235)`：7 个 `tests/audit/*`（python 环境类）为文档基线；`tests/button-api.test.ts`、`tests/showcode-typecheck.test.ts`、**`tests/llm-task-runner.test.ts`** 为并发 flaky——三者**单跑均通过**（`llm-task-runner` 本轮单跑 **1 file / 9 tests passed**，16.3s；全量中它跑满 51.5s 才失败，属资源竞争型抖动）。**结论：无新增回归。**
+- **基线清单更新**：把 `tests/llm-task-runner.test.ts`（spawn 重型、9 用例）并入「并发 flaky，须单跑复验」名单，与 `button-api` / `showcode-typecheck` 同类。
+
 ---
 
 ## 8. 强制纪律（仓库规则 + 用户长期记忆）
@@ -308,11 +318,12 @@
 10. **静态路由用例改名与调用方式（2026-09-22 harness 修复的副作用）**：`static routes (${theme})` → `static routes chunk k/3 (${theme})`（`docs-layout.spec.ts:683`，`aggregate` 在 `:707`）。因此**旧文档/日志里 `-g 'static routes \(dark\)'` 之类的命令已不再匹配任何用例**（增补 §5C 引用的该命令即属此类，属历史记录，重跑请改用 `-g 'static routes chunk'`）。另：命令行传含 `|` 的 grep 会被中间层截断，多条件筛选需把 `grep` 写进配置文件。
 11. **「覆盖率」类结论不得只看文件级计数（2026-09-23 HIG-AUD-019 的教训）**：`src/components/ui` 里「多少文件包含 `motion-reduce`」与「reduce 下是否真的不播动画」是两件事——`data-[state=*]:animate-in/out`（specificity 0,2,0）压过单类名 reduce 工具类，故此前 22 个浮层的组件级保护**全是空操作**（审核原文的「28 个文件」因此是虚假覆盖）。今后同类结论必须落到运行时断言（`tests/e2e/reduced-motion.spec.ts`）。
 12. **HIG-AUD-010 的验收口径已被本轮修订**（增补 §5L）：由「所有浮层同一个 token」改为「**族内一致**（backdrop 族 / scrim 族）+ 组件层无颜色字面量」，因为两族各有官方实测出处；照原口径「全迁 backdrop 族」会破坏 Drawer 官方 parity。改 `--uni-overlay-*` 族或 `motion-reduce:` 写法前先读 §5L。
-13. **i18n 键集约束的覆盖边界（HIG-AUD-008，增补 §5M）**：编译期约束只覆盖「locale ↔ locale」漂移；「组件 ↔ key」漂移（组件用了字典里根本没有的 key）由 `tests/component-i18n-source.test.ts` 的静态扫描在**测试期**守护。`t()` 参数**未**收窄为 `FrameworkMessageKey`——现有 5 处动态 key 调用（`t(topicName)`、`t(label)`、`t(menuButtonLabel)`、`t(STATUS_LABELS[state])`、`` t(`JSON ${node.type}`) ``）会被误伤，收窄前需先把它们改成显式联合类型（属可选债务）。另：文档站导航面板不渲染搜索行，`"Search"`/`"Search…"`/`"Ctrl K"` 无浏览器级证据（前两者由键集 + 静态扫描守护；`"Ctrl K"` 两侧同值，浏览器断言本身无区分度）。
+13. **浮层内 `href` 条目的「Radix 自动关闭」未经实测（HIG-AUD-017 遗留面）**：`context-menu.tsx:124-140`、`menu.tsx:208-227`（含 `dots-menu`、`menu-bar` 透传路径）在带 `href` 时渲染 `asChild` + `<a>`，仓库**无任何显式关闭代码**，关闭行为被推断来自 Radix `Item` 的 select 语义。本轮**未改动、未做浏览器实测**；若后续验证不成立，需在这两处补 `onSelect` 关闭（做法同 `hamburger-menu` 的组件层修复）。
+14. **i18n 键集约束的覆盖边界（HIG-AUD-008，增补 §5M）**：编译期约束只覆盖「locale ↔ locale」漂移；「组件 ↔ key」漂移（组件用了字典里根本没有的 key）由 `tests/component-i18n-source.test.ts` 的静态扫描在**测试期**守护。`t()` 参数**未**收窄为 `FrameworkMessageKey`——现有 5 处动态 key 调用（`t(topicName)`、`t(label)`、`t(menuButtonLabel)`、`t(STATUS_LABELS[state])`、`` t(`JSON ${node.type}`) ``）会被误伤，收窄前需先把它们改成显式联合类型（属可选债务）。另：文档站导航面板不渲染搜索行，`"Search"`/`"Search…"`/`"Ctrl K"` 无浏览器级证据（前两者由键集 + 静态扫描守护；`"Ctrl K"` 两侧同值，浏览器断言本身无区分度）。
 
 ---
 
 ## 10. 交接时的一句话总结
 
-> 截至 2026-09-23（最近修订 = HIG-AUD-010/019 + 008 两个会话）：累计修复 **20/54** 个审核问题（按 ID 计：P0 001–005、051 **清零**；P1 006/007、**008**、009/011/012、**010**、013、**019**、037/038/039/040；P2 054；P3 050；另 **`049` 判非缺陷关闭**）。**010/019/008 的实现 + 测试已提交**（`1045dd0` fix 43 files +580/−74、`5d63437` fix 6 files +156/−6），台账随本次 `docs(hig)` 提交入库，**未 push**（上一批为 `8d528b8` fix + `0ed630a` docs）。**余下 33 条审核问题（无开放 P0；批次 C 剩 11 条 P1，推荐起手 `017`/`018`，见批次 C 节注）、计划缺口、14 条债务**构成下一阶段主体工作量；动效账本 12→7。门禁侧：typecheck（`tsc -b`）exit 0 / lint 0 errors（16 warnings 存量）/ 定向 vitest 18·112（010/019）+ 13·80（008）全绿 / 新增 e2e `tests/e2e/reduced-motion.spec.ts` **8 passed**（§7.3、§7.4）。**三轮三条硬教训**：① `test.use({ reducedMotion })` 在本项目配置下不生效，必须用 `page.emulateMedia()`；②「文件级覆盖计数」不等于「生效」（specificity 压过）；③ 新增守护测试必须做**变异测试**（`008`：删一个 zh key，编译期 + 键集 + 调用点扫描三道同时报警）。`test:docs-layout` 可信汇总行 `2 failed / 1 flaky / 119 passed`，静态路由卡死与 3 条断言失败**已分诊闭环**（§7.1）→ 矩阵内**唯一稳定红点 = HIG-AUD-053**；该门禁的**重试仍会静默掩盖失败**（机制未修，遗留项）；全量 `pnpm test` 当前 exit 1（基线构成见 §7，非单轮引入）。LLM 语料重生成与真机验证因环境/用户指令暂缓。**做任何枚举前先派 subagent，否则本任务会在中途因上下文耗尽而失败。**
+> 截至 2026-09-23（最近修订 = HIG-AUD-010/019、008、017 三个会话）：累计修复 **21/54** 个审核问题（按 ID 计：P0 001–005、051 **清零**；P1 006/007、**008**、009/011/012、**010**、013、**017**、**019**、037/038/039/040；P2 054；P3 050；另 **`049` 判非缺陷关闭**）。**010/019/008 已提交**（`1045dd0` fix 43 files、`5d63437` fix 6 files，台账 `4b725d3` + `a1b8efa`）；**017 的实现 + 测试 + 台账改动尚未提交**，**未 push**。**余下 32 条审核问题（无开放 P0；批次 C 剩 10 条 P1，推荐起手 `018`，见批次 C 节注）、计划缺口、14 条债务**构成下一阶段主体工作量；动效账本 12→7。门禁侧：typecheck（`tsc -b`）exit 0 / lint 0 errors（16 warnings 存量）/ 定向 vitest 18·112（010/019）+ 13·80（008）+ 5·55（017）全绿 / 新增 e2e：`reduced-motion` **8 passed**、`overlay-route-dismiss` **2 passed**（§7.3~§7.5）。**三轮四条硬教训**：① `test.use({ reducedMotion })` 在本项目配置下不生效，必须用 `page.emulateMedia()`；②「文件级覆盖计数」不等于「生效」（specificity 压过）；③ 新增守护测试必须做**变异测试**（`008`：删一个 zh key，三道守护同时报警）；④ 机制类条目要拆「组件层契约 / 库层原语 + 消费方接入」分别验证——`017` 的变异测试表明两条路径确实各由不同代码承担。**并发 flaky 名单**（单跑复验即过）：`button-api`、`showcode-typecheck`、`llm-task-runner`。`test:docs-layout` 可信汇总行 `2 failed / 1 flaky / 119 passed` → 矩阵内**唯一稳定红点 = HIG-AUD-053**；该门禁的**重试仍会静默掩盖失败**（机制未修，遗留项）；全量 `pnpm test` 当前 exit 1（基线构成见 §7，非单轮引入）。LLM 语料重生成与真机验证因环境/用户指令暂缓。**做任何枚举前先派 subagent，否则本任务会在中途因上下文耗尽而失败。**
 

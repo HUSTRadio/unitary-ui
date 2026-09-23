@@ -522,3 +522,22 @@
 - **已知限制（写入交付书 §9）**：编译期约束覆盖「locale ↔ locale」漂移；「组件 ↔ key」漂移由静态扫描在**测试期**守护——`t()` 参数**未**收窄为键集，因为现有 5 处动态 key 调用（`t(topicName)`、`t(label)`、`t(menuButtonLabel)`、`t(STATUS_LABELS[state])`、`` t(`JSON ${node.type}`) ``）会被误伤，需先改造调用点类型（后续可选债务）。
 - **文档链**：未改 props/API/示例/路由；`docs/geist` 双语 guide 与 LLM 语料不涉及（语料按批次 G 仍暂缓）。
 - **台账落点**：本文件 §5M、主报告 `008` 条目（标题 + 验证状态 + 修复记录）、矩阵 `:137`/`:196`/`:316`、交付书 §1/§2/批次 C/§7.4/§9/§10。
+
+---
+
+## 5N. HIG-AUD-017 修复记录（2026-09-23，导航即关闭浮层）
+
+**来源**：交付书批次 C 推荐起手（`017`/`018` 中的机制性一条）。**基线校正**：条目行号已漂移（`hamburger-menu.tsx:358` → 实测列表项在 `:379-402`），key 事实不变；另经 subagent 取证确认「库内 `href` 条目**无任何显式关闭代码**，依赖 Radix `Item` 的 select 语义」。
+
+- **组件层契约修正（审计明确要求的「至少为带 href 的菜单项在选中后关闭」）**：`hamburger-menu.tsx:379-395` 的导航列表项点击此前只调 `onNavigate`、**不关面板**（与同文件搜索结果项 `:466-469` 以及 prop 注释「随后关闭面板」都不一致）→ 现统一「激活即关闭」，并按 `sidebar-nav.createNavigateHandler` 的既有语义**保留修饰键 / 中键**（新标签页意图不关面板）；`onNavigate` 的调用时机保持不变（不改消费方导航链路——文档站正是靠它交给 react-router）。
+- **库层「可选路由感知」（条目建议方向）**：新增 `src/lib/navigation.ts` 导出 `useDismissOnNavigate(onDismiss, enabled?)`——监听 `hashchange` + `popstate`，**不耦合任何路由库**（库不能假设消费方用 react-router / next / 自研路由），内部用 ref 转发保证始终调最新闭包；并从 `src/lib/index.ts` 导出。**库内浮层默认不自动关闭**（保持既有行为，AGENTS.md「除非任务要求否则不改运行时行为」），由消费方显式接入。
+- **文档消费方接入**：`docs/geist/src/components/docs-shell.tsx`（汉堡面板 `setMenuOpen(false)`）与 `docs/geist/src/App.tsx`（命令面板 `setCmdOpen(false)`）各一行 → 覆盖前进/后退、程序化 navigate、浮层外链接等**没有点击回调**的路由变化。
+- **回归**：
+  - `tests/hamburger-menu-groups.test.tsx` 新增 2 用例：分组条目激活 → `onNavigate(to)` 且 `onOpenChange(false)`；修饰键激活 → 保留面板（`onOpenChange` 未被调 false）。该文件此前只断言过链接文本与 `aria-labelledby`，**列表项关闭路径无任何覆盖**（也是本条目此前无人发现的直接原因）。
+  - 新增 `tests/navigation-dismiss.test.tsx`（4 用例）：`hashchange` + `popstate` 均触发 / `enabled=false` 不订阅 / 卸载后解绑（无泄漏回调）/ 重渲染后调最新回调（无陈旧闭包）。
+  - 新增永久 e2e `tests/e2e/overlay-route-dismiss.spec.ts`（**2 passed**）：① 点击导航条目 → 面板关闭且路由已切换（验收场景原文）；② 浏览器后退 → 面板关闭。
+- **守护有效性（变异测试）**：临时停用 `docs-shell.tsx` 的接入 → e2e「浏览器后退关闭」**失败**（`not.toBeVisible()` 超时，面板仍可见），而「点击条目关闭」仍通过 → 证明两条路径**各自独立生效**（组件层修复 vs 原语接入），恢复后 `2 passed`。
+- **未验证项（写入交付书 §9）**：`context-menu.tsx:124-140`、`menu.tsx:208-227`（含 `dots-menu`/`menu-bar` 透传路径）的 `href` 条目**依赖 Radix `Item` 的 select-关闭**，仓库无显式处理、本轮也未做浏览器实测 → 未纳入修复面，列为不确证项。
+- **门禁**：`pnpm run typecheck`（`tsc -b`）exit 0；`pnpm run lint` **0 errors / 16 warnings（存量）**；定向 vitest **5 files / 55 tests passed**（`navigation-dismiss`、`hamburger-menu-groups`、`hamburger-menu`、`hamburger-menu-modes`、`docs-shell-geometry`）；e2e `overlay-route-dismiss` **2 passed**；全量 `pnpm run test` 见交付书 §7.5（与文档基线一致）。
+- **文档链**：改动含 `docs/geist/src` 两处消费方接线（非 props/API/示例/路由变化）→ `docs/geist/src/data` 与双语 guides 无需同步；LLM 语料按批次 G 仍暂缓。
+- **台账落点**：本文件 §5N、主报告 `017` 条目（标题 + 验证状态 + 修复记录）、矩阵 `:137` 与 017 受影响行、交付书 §1/§2/批次 C/§7.5/§9/§10。
