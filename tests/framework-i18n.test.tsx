@@ -6,6 +6,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import { DestructiveActionModal } from "@/components/ui/destructive-action-modal";
+import { Grabber } from "@/components/ui/grabber";
 import { Pagination } from "@/components/ui/pagination";
 import { RelativeTimeCard } from "@/components/ui/relative-time-card";
 import { Video } from "@/components/ui/video";
@@ -68,6 +69,17 @@ describe("framework i18n completeness", () => {
     const time = Date.now() - 2 * 60_000;
     expect(localize(<RelativeTimeCard date={time} />)).toContain("2分钟前");
     expect(localize(<RelativeTimeCard date={time} locale="en-US" />)).toContain("2m ago");
+  });
+
+  test("localizes the grabber handle name (HIG-AUD-008)", () => {
+    const english = renderToStaticMarkup(<Grabber detentCount={3} currentDetent={0} />);
+
+    // 默认（无 Provider）回退 en；HIG-AUD-008 前该处用的是中文 key `t("调整高度")`，
+    // 中文站与英文站的取值因此都错位（英文站显示中文）。
+    expect(english).toContain('aria-label="Resize height"');
+    expect(localize(<Grabber detentCount={3} currentDetent={0} />)).toContain(
+      'aria-label="调整高度"',
+    );
   });
 
   test("gives the video playback button a localized dynamic name", () => {

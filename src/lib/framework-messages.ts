@@ -9,6 +9,7 @@ export const FRAMEWORK_MESSAGES = {
     "Dismiss notification": "Dismiss notification",
     "Clear search": "Clear search",
     "Press Command K to open the Command Menu": "Press Command K to open the Command Menu",
+    "Ctrl K": "Ctrl K",
     "Command Menu": "Command Menu",
     "Use the command menu to navigate through available actions.":
       "Use the command menu to navigate through available actions.",
@@ -17,6 +18,7 @@ export const FRAMEWORK_MESSAGES = {
     'No results found for "{query}".': 'No results found for "{query}".',
     "More options": "More options",
     Menu: "Menu",
+    "Close menu": "Close menu",
     Breadcrumb: "Breadcrumb",
     pagination: "pagination",
     "Display theme": "Display theme",
@@ -73,6 +75,7 @@ export const FRAMEWORK_MESSAGES = {
     "Scroll down": "Scroll down",
     "Scroll left": "Scroll left",
     "Scroll right": "Scroll right",
+    "Resize height": "Resize height",
     "Show More": "Show More",
     "Show Less": "Show Less",
     "This deployment": "This deployment",
@@ -149,6 +152,7 @@ export const FRAMEWORK_MESSAGES = {
     "Dismiss notification": "关闭通知",
     "Clear search": "清除搜索",
     "Press Command K to open the Command Menu": "按 Command K 打开命令菜单",
+    "Ctrl K": "Ctrl K",
     "Command Menu": "命令菜单",
     "Use the command menu to navigate through available actions.": "使用命令菜单浏览可用操作。",
     "Close command menu": "关闭命令菜单",
@@ -156,6 +160,7 @@ export const FRAMEWORK_MESSAGES = {
     'No results found for "{query}".': "未找到“{query}”的结果。",
     "More options": "更多选项",
     Menu: "菜单",
+    "Close menu": "关闭菜单",
     Breadcrumb: "面包屑",
     pagination: "分页",
     "Display theme": "显示主题",
@@ -212,6 +217,7 @@ export const FRAMEWORK_MESSAGES = {
     "Scroll down": "向下滚动",
     "Scroll left": "向左滚动",
     "Scroll right": "向右滚动",
+    "Resize height": "调整高度",
     "Show More": "显示更多",
     "Show Less": "收起",
     "This deployment": "此部署",
@@ -280,3 +286,11 @@ export const FRAMEWORK_MESSAGES = {
 } as const;
 
 export type FrameworkLocale = keyof typeof FRAMEWORK_MESSAGES;
+
+/**
+ * HIG-AUD-008：框架文案键集（`en` 为真源）。
+ * 两个 locale 的**键集同构在编译期**由 `i18n.tsx` 的 `Record<FrameworkMessageKey, string>`
+ * 注解保证——任一 locale 缺 key（含拼写差异）都是编译错误；
+ * 组件内使用的字面量 key 是否存在，由 `tests/component-i18n-source.test.ts` 静态扫描守护。
+ */
+export type FrameworkMessageKey = keyof typeof FRAMEWORK_MESSAGES.en;

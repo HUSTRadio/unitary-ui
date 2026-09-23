@@ -28,7 +28,9 @@ describe("Grabber", () => {
 
     // slider role + aria 三件套
     expect(markup).toContain('role="slider"');
-    expect(markup).toContain('aria-label="调整高度"');
+    // HIG-AUD-008：key 由中文改为英文写法后，默认（无 Provider 回退 en）取值应为英文；
+    // 中文站取值见 tests/framework-i18n.test.tsx
+    expect(markup).toContain('aria-label="Resize height"');
     expect(markup).toContain('aria-valuemin="0"');
     expect(markup).toContain('aria-valuemax="2"');
     expect(markup).toContain('aria-valuenow="1"');

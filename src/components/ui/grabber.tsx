@@ -42,7 +42,7 @@ function Grabber({
       type="button"
       role="slider"
       data-slot="grabber"
-      aria-label={t("调整高度")}
+      aria-label={t("Resize height")}
       aria-valuemin={0}
       aria-valuemax={Math.max(0, detentCount - 1)}
       aria-valuenow={currentDetent}
