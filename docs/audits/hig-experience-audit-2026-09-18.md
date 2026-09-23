@@ -541,7 +541,7 @@
 - **建议修复方向**：补 `open`/`onOpenChange`（Combobox）、`detent`/`onDetentChange`（BottomSheet）、可选受控 store 注入（Toasts）；SplitButton 增加 `menuButtonDisabled`。
 - **验收场景**：新增 API 测试，断言传 `open` 时组件完全由外部驱动（内部不自行变更）。
 
-- **修复记录（2026-09-23，增补 §5O；**本轮完成 3/4 缺口**）**：
+- **修复记录（2026-09-23，增补 §5O；四项缺口同会话全部闭环）**：
   - **Combobox `open` / `onOpenChange`（受控双模）**：新增 props；把 4 处 `setOpen` 写入点——选中（`:185`）、键盘导航（`:239`）、根与输入面点击（`:431`/`:441`）、Radix 的 Escape / 外点回调（`:527`）——**统一收敛到一个 `setOpen`**，受控时只上报、不写内部 state。新增 `tests/combobox-controlled.test.tsx`（2 用例）：外部未回写 prop 时内部**不自行打开**；回写后跟随；非受控模式不回归。
   - **BottomSheet `detent`（受控双模）**：复用同文件既有 `open` 双模写法；内部 `current` 改为 `detent`（受控值）/`detentState`（内部），两处写入点（拖拽吸附 `endDrag`、grabber 点击切档）统一走 `setDetent`；受控传值**越界 / 非整数钳到合法档位**（否则 `detents[out-of-range]` 为 undefined → ratio NaN → 面板高度崩）。`tests/bottom-sheet.test.tsx` 新用例：点击切档只上报且 `aria-valuenow` 不变 → 外部改 prop 后跟随且不重复上报 → 越界钳位。
   - **SplitButton `menuButtonDisabled`**：纯属性透传到 `MenuButton`（其 `disabled` 已可直达原生按钮，`menu.tsx:70/85`），无内部状态与 effect。新增 `tests/split-button-controlled.test.tsx`（2 用例）：只禁用菜单触发按钮、主按钮保持可用；且 `buttonProps.disabled` **仍只作用于主按钮**（既有行为不回归）。
