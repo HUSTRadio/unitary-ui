@@ -11,6 +11,9 @@ export { I18nProvider, useI18n } from "./i18n";
 // Font metrics probe
 export { probeFontMetrics, useFontMetrics, measureFontMetrics, applyFontMetrics } from "./font-metrics";
 
+// Navigation dismissal primitive (HIG-AUD-017)
+export { useDismissOnNavigate } from "./navigation";
+
 // Utility
 export { cn } from "./utils";
 export {

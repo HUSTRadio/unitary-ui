@@ -2,7 +2,7 @@
 import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
 import { HamburgerMenu } from "../src/components/ui/hamburger-menu";
 
@@ -19,7 +19,10 @@ afterEach(() => {
   container = undefined;
 });
 
-function renderGroupedMenu() {
+function renderGroupedMenu(props: {
+  onNavigate?: (to: string) => void;
+  onOpenChange?: (open: boolean) => void;
+} = {}) {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
@@ -29,6 +32,8 @@ function renderGroupedMenu() {
         anchor="topbar"
         open
         disableSearch
+        onNavigate={props.onNavigate}
+        onOpenChange={props.onOpenChange}
         groups={[
           {
             title: "Foundations",
@@ -43,6 +48,9 @@ function renderGroupedMenu() {
     );
   });
 }
+
+const groupedLink = (index = 0) =>
+  document.querySelectorAll<HTMLAnchorElement>('[data-slot="menu-group"] a')[index]!
 
 describe("HamburgerMenu grouped navigation", () => {
   test("renders every group with a visible heading and labelled group", () => {
@@ -66,5 +74,35 @@ describe("HamburgerMenu grouped navigation", () => {
     renderGroupedMenu();
     const links = document.querySelectorAll('[data-slot="menu-group"] a');
     expect(Array.from(links).map((link) => link.textContent)).toEqual(["Colors", "Button"]);
+  });
+
+  test("closes the panel when a grouped link is activated (HIG-AUD-017)", () => {
+    const onNavigate = vi.fn();
+    const onOpenChange = vi.fn();
+    renderGroupedMenu({ onNavigate, onOpenChange });
+
+    act(() => {
+      groupedLink(1).dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+    });
+
+    // 既有契约：回调照旧触发；修复点：面板必须随导航收起（此前只有搜索结果项会关）
+    expect(onNavigate).toHaveBeenCalledWith("/components/button");
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
+  test("keeps the panel open for modifier-key activation (new-tab semantics)", () => {
+    const onNavigate = vi.fn();
+    const onOpenChange = vi.fn();
+    renderGroupedMenu({ onNavigate, onOpenChange });
+
+    act(() => {
+      groupedLink(0).dispatchEvent(
+        new MouseEvent("click", { bubbles: true, cancelable: true, metaKey: true }),
+      );
+    });
+
+    expect(onNavigate).toHaveBeenCalledWith("/colors");
+    // 修饰键点击是「新标签页」意图：当前面板保留
+    expect(onOpenChange).not.toHaveBeenCalledWith(false);
   });
 });

@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/command-menu";
 import { Toasts } from "@/components/ui/toast";
 import { useFontMetrics } from "@/lib/font-metrics";
+import { useDismissOnNavigate } from "@/lib/navigation";
 import { IconsPage } from "./components/docs-icons";
 import { LifecycleAndHooksPage } from "./pages/lifecycle-and-hooks";
 import { ChartsGalleryPage } from "./pages/charts-gallery";
@@ -91,6 +92,9 @@ export default function App() {
     // 路由切换滚动复位（item 21）：仅 pathname 变化时回到顶部，语言切换不触发
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  // HIG-AUD-017：路由变化（前进/后退、程序化 navigate）时收起命令面板
+  useDismissOnNavigate(() => setCmdOpen(false));
 
   // 全局 Cmd/Ctrl+K 打开命令面板（HashRouter 下无 SSR 问题）
   useEffect(() => {

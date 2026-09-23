@@ -15,6 +15,7 @@ import {
   type SidebarNavGroup,
 } from "@/components/ui/sidebar-nav";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
+import { useDismissOnNavigate } from "@/lib/navigation";
 
 import { UnitaryLogoHorizontal } from "./unitary-logo";
 
@@ -56,6 +57,9 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
   const navigate = useNavigate();
   // 汉堡面板受控开关：导航后收回面板（与旧壳层 Drawer 行为一致）
   const [menuOpen, setMenuOpen] = useState(false);
+  // HIG-AUD-017：任何导航（前进/后退、程序化 navigate、面板外的链接）都收起面板；
+  // 点击面板条目这条路径已由 HamburgerMenu 自身关闭 + 下面的 onNavigate 兜底。
+  useDismissOnNavigate(() => setMenuOpen(false));
   // 搜索模式：<md 用焦点驱动工具行（搜索/主题/语言进面板首行，md 起整行隐藏）
   const searchMode: "query" | "toolbar" = "toolbar";
   // 命令式句柄：手机端工具行搜索按钮 → openSearch()

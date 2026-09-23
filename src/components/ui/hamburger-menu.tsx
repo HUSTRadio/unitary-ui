@@ -85,7 +85,7 @@ interface HamburgerMenuProps {
   groups?: MenuGroup[];
   /** 当前激活路由（用于 aria-current="page" 与高亮，对齐桌面 sidebar active 态） */
   activeTo?: string;
-  /** 点击结果项回调（随后关闭面板） */
+  /** 点击条目回调（导航列表项与搜索结果项均在随后关闭面板，HIG-AUD-017） */
   onNavigate?: (to: string) => void;
   /** 受控打开状态（不传则非受控） */
   open?: boolean;
@@ -379,7 +379,21 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                         <a
                           href={item.to}
                           aria-current={item.to === activeTo ? "page" : undefined}
-                          onClick={() => onNavigate?.(item.to)}
+                          onClick={(event) => {
+                            // HIG-AUD-017：导航列表项激活后必须收起面板——与搜索结果项
+                            // （:466-469）一致；此前只调 onNavigate，文档站靠消费方兜底。
+                            // 修饰键 / 中键 = 新标签页等原生行为，保留面板。
+                            onNavigate?.(item.to);
+                            if (
+                              event.metaKey ||
+                              event.ctrlKey ||
+                              event.shiftKey ||
+                              event.altKey
+                            ) {
+                              return;
+                            }
+                            setOpen(false);
+                          }}
                           className={cn(
                             // 与桌面侧栏同一套视觉语言 + HIG 触控行高（44px = 最小命中区）
                             "relative flex items-center gap-2 rounded-md px-3.5 nav-item-row-touch text-style-nav-item no-underline",
