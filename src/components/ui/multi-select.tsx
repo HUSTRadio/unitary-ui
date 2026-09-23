@@ -76,10 +76,23 @@ const MultiSelectContent = React.forwardRef<
   MultiSelectContentProps
 >(
   (
-    { className, align = "start", sideOffset = 8, children, onKeyDown, onOpenAutoFocus, ...props },
+    {
+      className,
+      align = "start",
+      sideOffset = 8,
+      children,
+      onKeyDown,
+      onOpenAutoFocus,
+      "aria-label": ariaLabelProp,
+      "aria-labelledby": ariaLabelledBy,
+      ...props
+    },
     ref,
   ) => {
+    const { t } = useI18n();
     const contentRef = React.useRef<HTMLDivElement>(null);
+    /** HIG-AUD-016：面板边缘 Tab 时用它走 Radix 的公开关闭通道（等价于点关闭）。 */
+    const closeRef = React.useRef<HTMLButtonElement>(null);
     const setContentRef = React.useCallback(
       (node: HTMLDivElement | null) => {
         contentRef.current = node;
@@ -109,24 +122,26 @@ const MultiSelectContent = React.forwardRef<
       if (rows.length === 0) return;
 
       const active = document.activeElement;
-      const controls = Array.from(
-        content.querySelectorAll<HTMLElement>(
-          "[data-multi-select-checkbox], [data-multi-select-action]",
-        ),
-      );
 
+      // HIG-AUD-016：不再用 `preventDefault` 把 Tab 锁在面板内（APG 反模式——键盘用户
+      // 只能靠 Escape 离开）。但 Radix Popover 的 FocusScope **硬编码 `loop: true`**
+      // （`@radix-ui/react-popover/dist/index.mjs:222-227`），只去掉我们自己的拦截仍会在
+      // 内容里循环，Tab 永远走不出去。因此在**面板边缘**显式接管：Tab 到最后一个可聚焦
+      // 元素（Shift+Tab 到第一个）时关闭浮层——等价于通行的「焦点移出浮层即关闭」约定，
+      // 焦点由 Radix 的 `onCloseAutoFocus` 交还触发元素。方向键 roving 保持不变。
       if (event.key === "Tab") {
-        event.preventDefault();
-        if (controls.length === 0) return;
-        const activeIndex = controls.indexOf(active as HTMLElement);
-        const delta = event.shiftKey ? -1 : 1;
-        const nextIndex =
-          activeIndex === -1
-            ? event.shiftKey
-              ? controls.length - 1
-              : 0
-            : (activeIndex + delta + controls.length) % controls.length;
-        controls[nextIndex]?.focus();
+        const focusables = Array.from(
+          content.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]):not([hidden]):not([aria-hidden="true"]), input:not([disabled]):not([hidden]), [tabindex]:not([tabindex="-1"])',
+          ),
+        ).filter((node) => node !== content);
+        const first = focusables[0];
+        const last = focusables.at(-1);
+        const leaving = event.shiftKey ? active === first : active === last;
+        if (leaving && focusables.length > 0) {
+          event.preventDefault();
+          closeRef.current?.click();
+        }
         return;
       }
 
@@ -172,6 +187,10 @@ const MultiSelectContent = React.forwardRef<
           ref={setContentRef}
           data-slot="multi-select-content"
           role="dialog"
+          // HIG-AUD-016：`role="dialog"` 必须有可访问名称。调用方可用 aria-label /
+          // aria-labelledby 覆盖，缺省回退到本地化的通用名称。
+          aria-label={ariaLabelledBy ? undefined : (ariaLabelProp ?? t("Select options"))}
+          aria-labelledby={ariaLabelledBy}
           align={align}
           sideOffset={sideOffset}
           onOpenAutoFocus={handleOpenAutoFocus}
@@ -184,6 +203,10 @@ const MultiSelectContent = React.forwardRef<
           {...props}
         >
           {children}
+          {/* 不可见、不可聚焦、不进入无障碍树的关闭通道（仅由边缘 Tab 触发） */}
+          <PopoverPrimitive.Close asChild>
+            <button ref={closeRef} type="button" hidden tabIndex={-1} aria-hidden="true" />
+          </PopoverPrimitive.Close>
         </PopoverPrimitive.Content>
       </PopoverPrimitive.Portal>
     );
@@ -232,6 +255,9 @@ function MultiSelectRow({
       <div
         data-slot="multi-select-checkbox-target"
         className="flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-sm"
+        // HIG-AUD-016：这里只是**指针命中区的冗余放大**（触屏 ≥44 由行的 pointer-coarse 保底），
+        // 真正的控件是内部 Checkbox——它现在可被 Tab 到达、带 role 与 aria-label；
+        // 键盘/AT 不再依赖这个 div。
         onClick={(event) => {
           if (event.target === event.currentTarget) onChange();
         }}
@@ -240,7 +266,6 @@ function MultiSelectRow({
           data-multi-select-checkbox
           checked={checked}
           onChange={onChange}
-          tabIndex={-1}
           aria-label={`${name}. ${t(checked ? "Uncheck" : "Check")}`}
           className="after:absolute after:-inset-1.5 after:content-['']"
         />
@@ -249,7 +274,8 @@ function MultiSelectRow({
         type="button"
         data-slot="multi-select-action"
         data-multi-select-action
-        tabIndex={-1}
+        // HIG-AUD-016：与 checkbox 一样进入 Tab 顺序（此前两者都是 -1，键盘只能靠方向键
+        // 在面板内游走、且无法用 Tab 离开）；方向键 roving 仍作为快捷方式保留。
         onClick={action.run}
         aria-label={`${name}. ${action.label}`}
         className="flex h-7 min-w-0 flex-1 touch-manipulation items-center justify-between rounded-sm p-1 text-left outline-none hover:bg-gray-alpha-200 focus-visible:bg-gray-alpha-200"
