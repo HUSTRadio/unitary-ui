@@ -580,6 +580,14 @@
 - **建议修复方向**：用 pointer 事件统一处理（或对合成事件做时间戳/`event.isTrusted` 过滤）；补 `-webkit-touch-callout: none`；评估 `contextmenu` 抑制。
 - **验收场景**：真机 iOS Safari：长按选中文本 → 只出现项目胶囊，不出现原生菜单，且胶囊稳定停留 ≥ 1s 不被自动关闭。
 
+**修复记录（2026-09-24，Chromium 触屏实测 + 运行确认；真机 iOS 仍待验证）**：
+
+- **验证状态订正**：`[静态推断，待真机验证]` → **`[已由真实触屏输入复现并修复；真机 iOS 待验证]`**。Chromium（CDP 真实 touch）实测事件序列 `pointerdown → touchstart → pointerup → touchend → mousedown(firesTouch=true) → mouseup → click`，且修复前胶囊确实出现 `visible → exiting → visible` 的闪烁（见下）。
+- **合成 mousedown 过滤（020-a）**：`closeIfOutside` 保持挂在 `mousedown`，新增两层判据——① `sourceCapabilities.firesTouchEvents === true`；② `touchend` 后 1s 窗口（只吞一次）。**「`isTrusted` 过滤」不可行**：合成事件实测 `isTrusted === true`。
+- **原生菜单抑制（020-b）**：容器与胶囊补 `[-webkit-touch-callout:none]`；容器补 `onContextMenu` preventDefault（消费方自行处理时可让位）；胶囊补 `touch-manipulation`；容器不加 `touch-action`（保留原生滚动/缩放）。
+- **回归**：`tests/edit-menu-api.test.tsx`（+2 用例：`touchend` → 合成 `mousedown` 不关闭且下一次真实 `mousedown` 仍关闭；`sourceCapabilities.firesTouchEvents` 路径）+ 永久 e2e `tests/e2e/edit-menu.spec.ts`（真实触屏 tap 后胶囊状态迁移中**不出现** `exiting` / `absent`）。**变异测试**：停用过滤 → 单测与 e2e 同时报警。
+- **本文正文行号注记**：`:157` / `:159` / `:254-308` 均取自**修复前版本**，当前实现在 `src/components/ui/edit-menu.tsx` 的合成事件过滤与容器 / 胶囊属性处。
+
 #### HIG-AUD-021 EditMenu 定位与语义边界问题（3 项）
 
 - **严重度**：P1 ｜ **类型**：实现缺陷
@@ -589,6 +597,16 @@
   3. **复制失败仍触发 `onCut`**：`:214,224` `void copyTextToClipboard(text).then(() => onCut(text))` 无 `catch` → 剪贴板写入失败时 `onCut` 仍被调用，调用方可能据此删除选中内容，造成**数据丢失**。
 - **建议修复方向**：补垂直 clamp（翻转后计算可用高度）；回调传原始选区文本（或同时提供 `text` 与 `rawText`）；`copyTextToClipboard` 失败时给出错误反馈并**不**调用 `onCut`。
 - **验收场景**：选区在视口最底部 → 胶囊完整可见；选中「` foo `」执行 Cut → 首尾空白一并被调用方删除；模拟剪贴板失败 → `onCut` 不被调用且有可见反馈。
+
+**修复记录（2026-09-24，三条全部运行确认）**：
+
+1. **垂直下边界 clamp**：`bottom` 分支改 `max(VIEWPORT_MARGIN, min(rect.bottom + offset, innerHeight - height - VIEWPORT_MARGIN))`。e2e 实测（390×160 视口，修复前）胶囊底边 **165.66 > 视口 152.5**；修复后 `declaredTop = innerHeight - height - 8` 且完整落在视口内（双主题）。
+2. **回调传原文**：`SelectionInfo` 增 `rawText`，`text` 保持「已 trim」语义不变；**剪贴板写入改为选区原文**；`onCut` / `onCopy` / `onLookUp` / `onShare` 与 `EditMenuAction.onSelect` 追加第二参数 `rawText`（纯新增）。e2e 实测：选中 `" any words"` 执行 Cut → 修复前剩余文本出现**双空格**（`Select  in this…`），修复后为 `Select in this…`。
+3. **剪贴板失败不丢数据**：写入失败时不再调用 `onCut` / `onCopy`，改由新增 `onError` 上报（可见反馈由消费方渲染，示例已接）。e2e 以 mock 剪贴板（`writeText` reject + `execCommand` 返回 false）验证：文本原样保留 + 示例日志出现失败提示。
+
+**回归与门禁**：`tests/edit-menu-api.test.tsx` 9 → 18 用例；新增永久 e2e `tests/e2e/edit-menu.spec.ts`（5 passed / 32.4s）；定向 vitest 10 files / 97 tests；`typecheck` exit 0；`lint` 0 errors；全量 `pnpm test` = 文档基线（7 failed | 233 passed）。详见增补 §5S。
+
+**本文正文行号注记**：`:132` / `:182-193` / `:214,224` / `:291` 取自**修复前版本**。
 
 #### HIG-AUD-022 Grabber 声明 `role="slider"` 但无键盘契约
 

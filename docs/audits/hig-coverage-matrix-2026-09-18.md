@@ -138,7 +138,7 @@
 | `menu` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-011、012、013、025 |
 | `dots-menu` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-011、012、013、032 |
 | `context-menu` | ✔ | ✔ | ✔ | ✔ | ⚠ **HIG-AUD-001（P0，✅ 已修复）**、**002（P0，✅ 已修复）**、005、009、010、011、012、025、031 |
-| `edit-menu` | ✔ | ✔ | ✔ | ✔ | ⚠ **HIG-AUD-004（P0，✅ 已修复）**、011、013、019、020、021、025、030、034 |
+| `edit-menu` | ✔ | ✔ | ✔ | ✔ | ⚠ **HIG-AUD-004（P0，✅ 已修复）**、**020 / 021（P1，✅ 均已修复 2026-09-24，增补 §5S）**、011、013、019、025、030、034 |
 | `split-button` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-011、012、018、025 |
 | `theme-switcher` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-013、019 |
 | `command-menu`（搜索模式） | — | — | ✔ | ✔ | ✔ `docs-shell.tsx:38,90,102` 的 `"toolbar"` 是搜索模式名，非组件 |
@@ -238,7 +238,7 @@
 | HIG 页面 | 状态 | 落点 | 结论 |
 |---|---|---|---|
 | Layout and Organization | **已实现**（复核后） | `docs-routes.ts:6,42,75,91,119,125`；`src/components/ui/layout.tsx`（`SafeArea`/`Stack`）；注册 `components.ts:379-393` | **已补审**：`SafeArea` 的 `max(档位, env())` 是正确的 HIG 落地（加分项）；问题为 HIG-AUD-045、046 |
-| Edit Menus | **已实现（含 1 个 P0 ✅ 已于 2026-09-21 修复 + 多个 P1）** | `src/components/ui/edit-menu.tsx` | 形态/「移除不适用的命令」/双语/i18n/材质到位；键盘与定位有缺口 → HIG-AUD-004、020、021、036；文档过度承诺 → HIG-DOC-05(b) |
+| Edit Menus | **已实现（含 1 个 P0 ✅ 2026-09-21 修复；020 / 021 两个 P1 ✅ 2026-09-24 修复；余 036）** | `src/components/ui/edit-menu.tsx` | 形态/「移除不适用的命令」/双语/i18n/材质到位；键盘（004 ✅）、触屏竞态（020 ✅）、定位下边界（021 ✅）已闭环，**仅余指针设备形态** → HIG-AUD-036；文档过度承诺 → HIG-DOC-05(b) |
 | Home Screen Quick Actions | **已实现，形态不完整** | `context-menu.tsx:118-241` | 竖排大图标 + 副标题 + 破坏性项已具备；**默认遮罩压住内容（P0，✅ 已于 2026-09-21 修复）**；按 HIG 正文缺「系统尾项」；HIG 正文未提及模糊/图标动画 → HIG-AUD-001、037、HIG-GAP-07 |
 | Pop-up Buttons | **已实现（= Select + 文档对齐）** | `select.tsx`；示例 `examples/select/pop-up-button-*.example.tsx` | 整合方向与 HIG 正文一致（Pop-up 承载互斥选项，动作类走 Pull-down）；移动端形态缺口 → HIG-AUD-027 |
 | Pull-Down Buttons | **已实现**（复核后） | `split-button.tsx` 变体；`tests/pull-down-button-api.test.ts` | **已补审**：默认角正确、保持 `role="menu"` 语义（加分项）；缺破坏性二次确认（037 ✅ 2026-09-23）、~~退场动画不对称~~（011/012 ✅ 2026-09-23，经 Menu 继承，增补 §5K）、测试为字符串契约 → HIG-AUD-041、048 |
@@ -262,7 +262,7 @@
 | 长内容 | 已覆盖 | `middle-truncate`、`scroller`、`overflow` 白名单（e2e 断言局部滚动 owner） |
 | 缩放（200%） | **待验证** | 仓库无 harness → HIG-VER-01 |
 | 安全区域（safe-area） | **部分覆盖** | `drawer`/`bottom-sheet`/`hamburger-menu` 有 `env(safe-area-inset-*)`；**`sheet` 缺**（HIG-AUD-010 相关） |
-| 浮层避让（碰撞翻转） | **部分覆盖** | `combobox` 已迁移 Radix Popover 支持碰撞翻转（`248f819`）；`edit-menu` 手写翻转**缺垂直下边界 clamp** → HIG-AUD-021 |
+| 浮层避让（碰撞翻转） | **部分覆盖** | `combobox` 已迁移 Radix Popover 支持碰撞翻转（`248f819`）；`edit-menu` 手写翻转**缺垂直下边界 clamp（✅ 已于 2026-09-24 修复：翻转后 `min(rect.bottom + offset, innerHeight - height - margin)`，e2e 双主题实测完整落在视口内，增补 §5S）** → HIG-AUD-021 |
 | 滚动条补偿 | **部分覆盖** | 无 `scrollbar-gutter`（唯一在文档侧栏） → HIG-AUD-028 |
 | 视口单位（`vh` vs `dvh`） | **部分覆盖** | 3 处用 `vh` → HIG-AUD-026 |
 | 动态字体（Dynamic Type 等价） | **原生专属不适用 / 待验证** | Web 无系统 Dynamic Type；已有字号 token 但**未验证用户浏览器缩放字号（`rem` 放大）下的布局** → 归入 HIG-VER-01 |
@@ -278,10 +278,10 @@
 | 焦点恢复 | **部分覆盖** | 6 个组件自实现（drawer/modal/bottom-sheet/command-menu/hamburger/destructive），**SidePanel 漏做**（→ HIG-AUD-006，**已于 2026-09-22 修复**，自实现归还并入此列，共 7 个，增补 §5E） |
 | 触屏（tap） | **部分覆盖** | 无 Playwright 触屏仿真证据 → HIG-VER-03 |
 | 触屏（长按） | **部分覆盖** | Quick Actions 依赖 Radix 内建 700ms 长按；遮罩层压住内容（✅ 已于 2026-09-21 修复）→ HIG-AUD-001；仍无 Playwright 触屏仿真证据 |
-| 触屏（手势：拖拽/下滑/滚动） | **部分覆盖** | Drawer 下滑 ✓、BottomSheet 拖档 ✓（**吞内部滚动已由 `1866616` 修复**，见 HIG-AUD-003）；EditMenu 触屏竞态仍开放 → HIG-AUD-020 |
+| 触屏（手势：拖拽/下滑/滚动） | **部分覆盖** | Drawer 下滑 ✓、BottomSheet 拖档 ✓（**吞内部滚动已由 `1866616` 修复**，见 HIG-AUD-003）；EditMenu 触屏竞态 **✅ 已于 2026-09-24 修复**（合成 mousedown 过滤 + 真实触屏 e2e，增补 §5S）→ HIG-AUD-020 |
 | 触控目标尺寸 | **部分覆盖** | 多数组件 < 44pt（部分 < 32px） → HIG-AUD-013 |
 | 滚动锁定 | 已覆盖 | Radix `RemoveScroll` + `index.css:2242-2244` 兜底；无 `scrollbar-gutter` → HIG-AUD-028 |
-| 手势冲突（长按选择文本 vs 长按菜单） | **部分覆盖** | Radix 设了 `-webkit-touch-callout: none`；EditMenu **未设** → HIG-AUD-020 |
+| 手势冲突（长按选择文本 vs 长按菜单） | **部分覆盖** | ~~Radix 设了 `-webkit-touch-callout: none`~~ **口径订正（2026-09-24）**：`node_modules` 全量检索 `touch-callout` / `TouchCallout` **0 命中**，安装版本的 Radix **并未**设置该属性（原结论为臆测）；EditMenu 现已自行补 `[-webkit-touch-callout:none]` + 容器 `onContextMenu` 抑制（✅ 2026-09-24，增补 §5S；该属性 WebKit-only，**真机待验证**）→ HIG-AUD-020 |
 
 ### C.5 反馈与任务流程
 
@@ -294,7 +294,7 @@
 | 破坏性操作保护 | **已覆盖（最强项）** | `destructive-action-modal`：输入验证门控 + `loading` + `role="alert"` 错误 + `label[for]`/`aria-labelledby` 双关联 + sticky footer |
 | 撤销 | 已覆盖 | `useToasts` 的 `onUndoAction` + 7000ms 窗口 |
 | 搜索任务流 | 已覆盖 | `command-menu`（⌘K 全局搜索，但**未绑定快捷键**）+ `search-input` + `hamburger-menu` 搜索模式（Ctrl K 提示**同样未绑定**） |
-| 编辑任务流 | **部分覆盖** | `edit-menu` 键盘路径已补齐（✅ 2026-09-21，HIG-AUD-004）：焦点进入 `role="toolbar"` 取代原计划的 `aria-live` 方案；触屏竞态仍开放 → HIG-AUD-020 |
+| 编辑任务流 | **部分覆盖** | `edit-menu` 键盘路径已补齐（✅ 2026-09-21，HIG-AUD-004）：焦点进入 `role="toolbar"` 取代原计划的 `aria-live` 方案；触屏竞态 **✅ 2026-09-24 修复**（HIG-AUD-020，增补 §5S） |
 | 分享任务流 | 部分覆盖（进行中） | ActivityView 未定稿 |
 | 导航任务流 | **部分覆盖** | 无「路由变化关闭浮层」 → HIG-AUD-017 |
 | 多浮层组合 | **已覆盖（2026-09-23 后）** | 层级统一 + 「遮罩 vs 内容」配对约定（HIG-AUD-009 ✅，增补 §5K）；`layer-tokens` 消费矩阵 + 双主题 computed 核查（menu/modal/popover 三带实测） |
@@ -325,8 +325,8 @@
 | HIG-AUD-017 | P1 | `hamburger-menu`、`context-menu`（href 项，**未改动**：依赖 Radix Item 默认关闭，未实测）、全部浮层——**已修复（2026-09-23，导航条目激活即关闭 + 库层 `useDismissOnNavigate` + 文档消费方接入 + e2e 2 passed + 变异测试，增补 §5N）** |
 | HIG-AUD-018 | P1 | `combobox`、`bottom-sheet`、`toast`、`split-button`——**已修复（2026-09-23，4/4：Combobox `open`/`onOpenChange`、BottomSheet `detent`、SplitButton `menuButtonDisabled`、Toasts `createToastStore` 注入；受控契约测试 + 浏览器回归 + 文档注册同步，增补 §5O）** |
 | HIG-AUD-019 | P1 | `drawer`（**经复核不成立**：`drawer.tsx:142` 早有 reduce 类）、`theme-switcher`、`combobox`、+ 66 个文件无组件级处理——**已修复（2026-09-23，22 浮层 kill switch 改 important 形式 + e2e 8 passed + 覆盖契约，根因见增补 §5L）** |
-| HIG-AUD-020 | P1 | `edit-menu` |
-| HIG-AUD-021 | P1 | `edit-menu` |
+| HIG-AUD-020 | P1 | `edit-menu` —— **✅ 已修复（2026-09-24）**：合成 `mousedown` 过滤（`firesTouchEvents` + touchend 窗口）+ 原生 callout/上下文菜单抑制；Chromium 真实触屏实测确认，**真机 iOS 待验证**（增补 §5S） |
+| HIG-AUD-021 | P1 | `edit-menu` —— **✅ 已修复（2026-09-24）**：垂直下边界 clamp（e2e 实测修复前溢出 13px）+ 回调传选区原文（`rawText`，剪切不再残留空白）+ 剪贴板失败不触发 `onCut` 改走 `onError`（增补 §5S） |
 | HIG-AUD-022 | P1 | `grabber` / `bottom-sheet` |
 | HIG-AUD-023 | P1 | `sidebar-nav`、`navbar`、`footer`、`phone`、`hamburger-menu`、`rating-pill`、`skeleton-mask` |
 | HIG-AUD-024 | P1 | `side-panel` |
@@ -374,7 +374,7 @@
 | HIG-VER-06 | 截图审计视口一致性 | `capture-visual-matrix.mjs` 视口 375/768/1440/1920 ≠ e2e 六档 | 对齐至 320/390/768/1024/1100/1440 |
 | ~~HIG-VER-07~~ | ~~HIG 官方正文 / 访问日期~~ | ✅ **已解决**：改用 chromium 真实渲染，11 页正文 + Apple 变更日志日期全部取得（主报告 §3、§3.1） | — |
 | HIG-VER-08 | ~~命令退出码（test / typecheck / build / docs:llm:check / test:docs-layout）~~ | ✅ **已解决（2026-09-18 第三轮 @ `834f19d8`）**：typecheck / docs:llm:check / build 全部 exit 0；`pnpm test` exit 1（9 稳定基线失败 + 2 flaky/环境）；`test:docs-layout` exit 1（113/116 passed，1 failed = 新发现 HIG-AUD-053，2 flaky = 冷启动波动）。首跑被 IDE safe-delete shim 拦截（outputDir 1999 文件超 500 阈值），预清后正常——环境干扰非产品缺陷。日志：`.scratch/hig-audit-2026-09-18/cmdlogs/`。**2026-09-21 复核**：`pnpm test` = 228 files / 1424 tests passed（exit 0）；`pnpm run lint`（oxlint）= 0 errors / 16 warnings（exit 0）；`test:docs-layout` 仍 exit 1（HIG-AUD-053） | — |
-| HIG-VER-09 | HIG-AUD-001 / 002 / 003 / 004 / 020 的浏览器确认 | **大部分解决（2026-09-21）**：001、002、004 已随修复在浏览器复核（002 键盘路径与右键菜单位置逐像素一致、004 键盘选区后焦点入首个可用项且单 Tab 停靠；001 遮罩 z 200 < 菜单 z 2001、Escape 关闭后同页 4 示例仍可用）；003 已由 `1866616` 修复并复核（手势只挂 `<Grabber>`，内容区可滚动）；020 仍待 | 仅剩 EditMenu 触屏竞态（020）补命中测试 |
+| HIG-VER-09 | HIG-AUD-001 / 002 / 003 / 004 / 020 的浏览器确认 | **大部分解决（2026-09-21）**：001、002、004 已随修复在浏览器复核（002 键盘路径与右键菜单位置逐像素一致、004 键盘选区后焦点入首个可用项且单 Tab 停靠；001 遮罩 z 200 < 菜单 z 2001、Escape 关闭后同页 4 示例仍可用）；003 已由 `1866616` 修复并复核（手势只挂 `<Grabber>`，内容区可滚动）；**020 已于 2026-09-24 完成真实触屏（Chromium CDP touch）复核并修复**（增补 §5S），**真机 iOS 原生菜单仍待验证** | ~~仅剩 EditMenu 触屏竞态（020）补命中测试~~ → 已闭环（Chromium 触屏单测/ e2e / 几何三口径；真机项见交付书 §9） |
 | HIG-VER-13 | 浮层**打开态**截图 / 动效中间帧 / 对比度像素测量 | 本轮 48 张为 fullPage 静止态 | Playwright 打开态 viewport 截图 + computed 值断言 |
 | ~~HIG-VER-14~~ | ~~复核后新增的 6 项 HIG 能力组件的深度审核~~ | ✅ **已解决**：补审完成，新增 HIG-AUD-038~050 | 见 `hig-experience-audit-2026-09-18-addendum-phase2.md` |
 | HIG-VER-15 | 二期组件的**运行验证**（MenuBar 键盘模型与长菜单溢出、Toolbar 折叠与 `disabled` 透传、ActivityView 可访问名称、pull-down 定位与展开动画） | **部分解决（2026-09-18 第二轮）**：长菜单溢出（HIG-AUD-038）、折叠与 disabled 透传（039）、可访问名称（040）、破坏性确认（037）已运行确认（补充报告 §5A）；MenuBar 键盘模型、pull-down 定位与动画仍待 | 复用 `scripts/runtime-interaction-audit.mjs` 的真实 CDP 输入范式各加一条 |

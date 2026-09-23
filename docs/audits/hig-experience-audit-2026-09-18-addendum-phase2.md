@@ -599,3 +599,23 @@
 - **门禁**：`pnpm run typecheck` exit 0；`pnpm run lint` 0 errors / 16 warnings（存量）；全量 `pnpm run test` → `9 failed | 231 passed (240)` ＝ 文档基线（7 个 `tests/audit/*` 环境类 + `button-api` / `showcode-typecheck` 两个并发 flaky，单跑均通过）。
 - **实现注意（测试写法）**：React 的 `onMouseEnter/Leave` 由 `mouseover/mouseout` 委托合成、`onFocus/BlurCapture` 由 `focusin/focusout` 合成——jsdom 单测必须用对应原生事件；另外 toast 出栈有 **350ms 退场驻留**，断言前要推进计时器两次。
 - **台账落点**：本文件 §5R、主报告 `014`（标题 + 验证状态 + 修复记录）、矩阵 `:87`/`:322`、交付书 §1/§2/批次 C/§7.9/§10。
+
+---
+
+## 5S. HIG-AUD-020 / 021 修复记录（2026-09-24，EditMenu 触屏竞态 + 定位/语义边界）
+
+**来源**：交付书批次 C（`020` / `021`），只读取证见交付书 §7.10。两条目同文件（`src/components/ui/edit-menu.tsx`）、改动点互不重叠，合批完成。**审计原文行号已整段漂移**（020 原文 `:157`/`:159`，021 原文 `:132`/`:182-193`/`:214,224`）——本轮一律按内容锚点定位。
+
+- **020-a 合成 mousedown 竞态**：capture 阶段 `document` 的 `closeIfOutside` 保持原样（**不**迁移到 `pointerdown`，避免改变鼠标路径与 `selectionchange` 的相对顺序），改为新增**合成事件过滤**：① `sourceCapabilities.firesTouchEvents === true`（规范的「由触摸合成」判据，Chromium）；② `touchend` 之后 1s 窗口（覆盖不实现 ① 的 Safari / Firefox），窗口**只吞一次**（首个 mousedown 即消费，随后真实鼠标按下照常关闭）。**审计建议的 `event.isTrusted` 过滤不成立**：真实触屏实测合成 mousedown 的 `isTrusted` 恒为 `true`。
+- **020-b 原生菜单抑制**：容器与胶囊补 `[-webkit-touch-callout:none]`（Tailwind 任意属性），容器补 `onContextMenu` preventDefault（**调用方传入自己的 `onContextMenu` 即让位**，容器内嵌 ContextMenu 的消费方不受影响）；胶囊补 `touch-manipulation`（容器**不**加 `touch-action`：页面内容区必须保留原生滚动与缩放手势）。**矩阵 `:284` 的「Radix 设了 `-webkit-touch-callout: none`」与实况不符**：`node_modules` 全量检索 `touch-callout` / `TouchCallout` **0 命中**（该行已订正）。
+- **021-1 垂直下边界 clamp**：`bottom` 分支改为 `max(VIEWPORT_MARGIN, min(rect.bottom + offset, innerHeight - height - VIEWPORT_MARGIN))`；`top` 分支的可用空间由翻转判定保证，无需再 clamp。
+- **021-2 选区原文**：`SelectionInfo` 增 `rawText`（`text` 仍为已 trim，**语义不变**）；剪贴板写入改为**原文**（与系统原生复制一致）；`onCut` / `onCopy` / `onLookUp` / `onShare` 与 `EditMenuAction.onSelect` **追加第二个参数 `rawText`**（纯新增，向后兼容，`text` 语义不动）。
+- **021-3 剪贴板失败**：`writeClipboardThen` 收敛 `then` / `catch`——写入失败时**不**调用 `onCut` / `onCopy`（避免消费方据此删除未复制成功的内容），改走新增 `onError`；组件不渲染错误 UI，**可见反馈由消费方给出**（示例已接）。
+- **回归**：`tests/edit-menu-api.test.tsx` 9 → **18 用例**（合成事件两条守护 + 翻转 clamp 几何 + 原文/自定义动作参数 + 失败路径 2 条）；新增永久 e2e **`tests/e2e/edit-menu.spec.ts` → 5 passed (32.4s)**：真实触屏 tap 竞态（用 MutationObserver 记录胶囊状态迁移，断言不出现 `exiting` / `absent`）、翻转下方 clamp 双主题、剪切按原文删除、剪贴板失败保留文本且有可见反馈。定向 vitest **10 files / 97 tests passed**（含 `docs-coverage` / `docs-i18n-parity` / `component-api-registry` / `touch-targets-contract` / `component-i18n-source`）。
+- **变异测试（守护有效性）**：① 停用合成过滤 → 单测 2 条 + e2e 触屏用例同时报警（**修复前真实触屏实测 `visible → exiting → visible` 闪烁**）；② 去掉 clamp → e2e 实测胶囊底边 **165.66 > 视口 152.5**（溢出 13px）；③ 退回「已 trim 文本 + 失败仍回调」→ e2e 实测剪切后残留**双空格**（`Select  in this…`）且失败无反馈。
+- **真实浏览器取证（Chromium，临时探针跑完即删）**：真实 touch tap 后事件序列 = `pointerdown → touchstart → pointerup → touchend → mousedown(firesTouch=true) → mouseup → click`；修复后胶囊全程 `visible`；双主题几何：胶囊与选区 **gap 8px**、水平**居中偏差 0**（1280×900）、桌面胶囊高 36px、`touch-action: manipulation`、背景 `rgb(255,255,255)` / `rgb(26,26,26)`。
+- **门禁**：`pnpm run typecheck` exit 0；`pnpm run lint`（oxlint）0 errors / 16 warnings（存量）；全量 `pnpm test` → **7 failed | 233 passed (240) files**（31 failed / 1516 passed tests）＝ **文档基线**（7 个 `tests/audit/*` 环境类，本轮无并发 flaky）。
+- **文档链**：`docs/geist/src/data/component-api.ts` 四条签名更新 + 新增 `onError` 行；`guides-05.ts` 双语 `accessibility` / `controlledBehavior` / `responsiveBehavior` 各补一条（**两侧条数一致**）；示例 `edit-menu/default-3f2a9c71.example.tsx` 改用 `rawText` 删除并接 `onError` 可见反馈。
+- **未验证（真机）**：iOS 原生 callout 是否真的被抑制——`-webkit-touch-callout` 属 **WebKit-only**，Blink 与 jsdom 都把该声明丢弃（计算值与 CSSOM 均取不到），本机只能证明「工具类已编译进样式表」；剪贴板失败路径在 Chromium 下用 mock（`navigator.clipboard.writeText` reject + `document.execCommand` 返回 false）覆盖。
+- **附带观察（本轮新发现，未修）**：**完全无交互来源的程序化选区**（`range.selectNodeContents()` 且此前无任何 pointer / keydown）会让胶囊走「抢焦点 + 还原选区」路径，实测同一段选区**先开后被收起**（时序抖动，`selectionchange` 只发 2 次却出现该现象）；真实用户必然先有指针或键盘交互，故本轮按「测试环境问题」记录在交付书 §9，**未改焦点逻辑**（避免动 `004` 的契约）。
+- **台账落点**：本文件 §5S、主报告 `020` / `021`（验证状态 + 修复记录）、矩阵 `:141`/`:241`/`:265`/`:281`/`:284`/`:297`/`:328-329`/`:377`、交付书 §1/§2/批次 C/§7.11/§9/§10。
