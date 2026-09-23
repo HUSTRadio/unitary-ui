@@ -608,12 +608,12 @@
 
 **本文正文行号注记**：`:132` / `:182-193` / `:214,224` / `:291` 取自**修复前版本**。
 
-#### HIG-AUD-022 Grabber 声明 `role="slider"` 但无键盘契约
+#### HIG-AUD-022 Grabber 声明 `role="slider"` 但无键盘契约 — ✅ 已修复（2026-09-24）
 
 - **严重度**：P1 ｜ **类型**：实现缺陷 ｜ **依据**：WAI-ARIA `slider` 模式
-- **证据**：`src/components/ui/grabber.tsx:28-42` —— `role="slider"` + `aria-valuemin/valuemax/valuenow` ✓，但只有 `onClick`（`:36`），**无 ArrowUp/ArrowDown/Home/End**，也无 `aria-orientation`。同时 `bottom-sheet.tsx:198-202` 的 `onCycleDetent` 只有点击循环，无键盘调档。
-- **建议修复方向**：实现方向键与 Home/End 调档（或改为 `role="button"` 并 `aria-label` 描述「切换档位」，降低语义承诺）。
-- **验收场景**：键盘聚焦 Grabber → `ArrowUp`/`ArrowDown` 改变档位且 `aria-valuenow` 同步。
+- **修复前证据**：`src/components/ui/grabber.tsx:28-42` —— `role="slider"` + `aria-valuemin/valuemax/valuenow` ✓，但只有 `onClick`（`:36`），**无 ArrowUp/ArrowDown/Home/End**，也无 `aria-orientation`。同时 `bottom-sheet.tsx:198-202` 的 `onCycleDetent` 只有点击循环，无键盘调档。**本段行号取自修复前版本。**
+- **修复后证据**：`grabber.tsx` 新增 `aria-orientation="vertical"` 与完整键盘调档：ArrowUp/Right 递增、ArrowDown/Left 递减、Home/End 跳首尾，边界钳制且不重复上报；`BottomSheet` / `ResponsiveDrawer` 均通过 `onDetentChange` 接入，前者保持 `detent` 受控/非受控契约，后者在 detents 动态缩短时钳制索引。
+- **验收结果**：定向 vitest **3 files / 42 tests passed**（含 Grabber 单元契约、BottomSheet 受控/非受控双断言、ResponsiveDrawer 接线与动态边界）；两组变异分别被 8 条、2 条测试捕获；真实 Chromium 临时探针 **3 passed**（BottomSheet 双主题 + ResponsiveDrawer），确认 ARIA、键盘路径和 ≥44px 命中区；详见增补 §5T。
 
 #### HIG-AUD-023 7 个已从包入口导出的组件未进入文档注册
 

@@ -149,7 +149,7 @@
 |---|---|---|---|---|---|
 | `sheet` | ✔ | ✔ | ✔ | ✔ | ~~HIG-AUD-010~~（**✅ 2026-09-23**：backdrop 族两值式为官方写法，保持）、012；**面板缺 `safe-area-inset-bottom`** |
 | `drawer` | ✔ | ✔ | ✔ | ✔ | ~~HIG-AUD-010、019~~（**✅ 2026-09-23**：scrim 族 token + `motion-reduce:animate-none!`）、012；**正面：焦点归还实现带竞态注释，是本仓库的范本** |
-| `bottom-sheet` | ✔ | ✔ | ✔ | ✔ | ⚠ **HIG-AUD-003（P0，✅ 已修复）**、008、~~010~~（✅）、012、018、022、026 |
+| `bottom-sheet` | ✔ | ✔ | ✔ | ✔ | ⚠ **HIG-AUD-003（P0，✅ 已修复）**、008、~~010~~（✅）、012、018、~~022~~（**✅ 2026-09-24：完整 slider 键盘 + 受控/非受控双契约，增补 §5T**）、026 |
 | `side-panel` | — | — | — | — | ⚠ ~~HIG-AUD-006、007~~（**已于 2026-09-22 修复并运行确认**，增补 §5E）、024（未导出、无注册/指南/示例）；010 族契约：保持 backdrop 两值式，测试已改为**禁 scrim 族**误用 |
 | `modal` | ✔ | ✔ | ✔ | ✔ | ~~HIG-AUD-010~~（**✅ 2026-09-23**：改用合成色 `--uni-overlay-backdrop`——Content 是 Overlay 子节点，元素 opacity 会波及内容）、026；**正面：唯一进出场对称 + token 完整 + `aria-modal`** |
 | `context-card` | ✔ | ✔ | ✔ | ✔ | ✔（进出场对称 + `zoom-out-95` ✓） |
@@ -193,7 +193,7 @@
 | `expand-panel.tsx` | ✔ 内部辅助；⚠ `expand-panel.tsx:125` `bg-black/40`、`:154` `shadow-lg` 字面量 → 并入 HIG-AUD-010 |
 | `feedback-faces.tsx` | ✔ 内部辅助（`rating-pill` 消费） |
 | `field-error.tsx` | ✔ 内部辅助（`input`/`select`/`textarea` 消费） |
-| `grabber.tsx` | ⚠ ~~HIG-AUD-008（`t("调整高度")`）~~（**✅ 2026-09-23**：key 改英文 `"Resize height"`，英文站不再显示中文，增补 §5M）、022（`role="slider"` 无键盘）；**正面：`:44-46` 记录实测对比度并说明 token 取舍** |
+| `grabber.tsx` | ⚠ ~~HIG-AUD-008（`t("调整高度")`）~~（**✅ 2026-09-23**：key 改英文 `"Resize height"`，英文站不再显示中文，增补 §5M）、~~022~~（**✅ 2026-09-24**：垂直 slider 完整支持 Arrow 四键 + Home/End，增补 §5T）；**正面：记录实测对比度并说明 token 取舍** |
 | `hamburger-icon.tsx` | ✔ 内部辅助 |
 | `loading-icon.tsx` | ✔ 内部辅助（`button` 消费） |
 | `phone-chrome.tsx` | ✔ 内部辅助 |
@@ -272,7 +272,7 @@
 | 输入方式 | 状态 | 说明 |
 |---|---|---|
 | 鼠标（hover / click / 右键） | 已覆盖 | 右键菜单、hover 态、focus-ring 齐备 |
-| 键盘（Tab / 方向键 / Enter / Space） | **部分覆盖** | Radix 覆盖大部分；**2 处硬缺口**：MultiSelect Tab 循环、Grabber `slider` 无键盘 → HIG-AUD-016、022（ContextMenu 无打开路径、EditMenu 不可达已于 2026-09-21 修复：002、004） |
+| 键盘（Tab / 方向键 / Enter / Space） | **已覆盖** | ContextMenu / EditMenu（002/004）、MultiSelect（016）、Grabber slider（022：Arrow 四键 + Home/End，BottomSheet 受控/非受控及 ResponsiveDrawer 均接入）已修复并有行为回归；Radix 覆盖其余标准控件 |
 | 键盘（Escape 关闭） | 已覆盖 | L1 组件均由 Radix 或自实现覆盖（EditMenu 原只把 Escape 挂在胶囊自身，2026-09-21 改为文档级监听，见 HIG-AUD-004） |
 | 焦点可见性 | 已覆盖 | `focus-ring` utility + `focus-visible` 统一 |
 | 焦点恢复 | **部分覆盖** | 6 个组件自实现（drawer/modal/bottom-sheet/command-menu/hamburger/destructive），**SidePanel 漏做**（→ HIG-AUD-006，**已于 2026-09-22 修复**，自实现归还并入此列，共 7 个，增补 §5E） |
@@ -327,7 +327,7 @@
 | HIG-AUD-019 | P1 | `drawer`（**经复核不成立**：`drawer.tsx:142` 早有 reduce 类）、`theme-switcher`、`combobox`、+ 66 个文件无组件级处理——**已修复（2026-09-23，22 浮层 kill switch 改 important 形式 + e2e 8 passed + 覆盖契约，根因见增补 §5L）** |
 | HIG-AUD-020 | P1 | `edit-menu` —— **✅ 已修复（2026-09-24）**：合成 `mousedown` 过滤（`firesTouchEvents` + touchend 窗口）+ 原生 callout/上下文菜单抑制；Chromium 真实触屏实测确认，**真机 iOS 待验证**（增补 §5S） |
 | HIG-AUD-021 | P1 | `edit-menu` —— **✅ 已修复（2026-09-24）**：垂直下边界 clamp（e2e 实测修复前溢出 13px）+ 回调传选区原文（`rawText`，剪切不再残留空白）+ 剪贴板失败不触发 `onCut` 改走 `onError`（增补 §5S） |
-| HIG-AUD-022 | P1 | `grabber` / `bottom-sheet` |
+| HIG-AUD-022 | P1 | `grabber` / `bottom-sheet` / `responsive-drawer` —— **✅ 已修复（2026-09-24）**：垂直 slider 完整键盘映射、边界钳制、BottomSheet 受控/非受控双契约及 ResponsiveDrawer 动态档位保护；定向 42 tests + Chromium 3 passed（增补 §5T） |
 | HIG-AUD-023 | P1 | `sidebar-nav`、`navbar`、`footer`、`phone`、`hamburger-menu`、`rating-pill`、`skeleton-mask` |
 | HIG-AUD-024 | P1 | `side-panel` |
 | HIG-AUD-025 | P2 | `menu`、`context-menu`、`edit-menu`、`dots-menu`、`split-button`、`multi-select`、`sheet`、`bottom-sheet`、`drawer`、`modal`、`tooltip`、`hamburger-menu`、`side-panel`、`theme-switcher` |

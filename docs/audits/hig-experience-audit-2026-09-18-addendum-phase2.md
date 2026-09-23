@@ -619,3 +619,17 @@
 - **未验证（真机）**：iOS 原生 callout 是否真的被抑制——`-webkit-touch-callout` 属 **WebKit-only**，Blink 与 jsdom 都把该声明丢弃（计算值与 CSSOM 均取不到），本机只能证明「工具类已编译进样式表」；剪贴板失败路径在 Chromium 下用 mock（`navigator.clipboard.writeText` reject + `document.execCommand` 返回 false）覆盖。
 - **附带观察（本轮新发现，未修）**：**完全无交互来源的程序化选区**（`range.selectNodeContents()` 且此前无任何 pointer / keydown）会让胶囊走「抢焦点 + 还原选区」路径，实测同一段选区**先开后被收起**（时序抖动，`selectionchange` 只发 2 次却出现该现象）；真实用户必然先有指针或键盘交互，故本轮按「测试环境问题」记录在交付书 §9，**未改焦点逻辑**（避免动 `004` 的契约）。
 - **台账落点**：本文件 §5S、主报告 `020` / `021`（验证状态 + 修复记录）、矩阵 `:141`/`:241`/`:265`/`:281`/`:284`/`:297`/`:328-329`/`:377`、交付书 §1/§2/批次 C/§7.11/§9/§10。
+
+---
+
+## 5T. HIG-AUD-022 修复记录（2026-09-24，Grabber slider 键盘契约）
+
+**来源**：交付书批次 C（`022`）。**基线校正**：`Grabber` 不只由 `BottomSheet` 使用，`ResponsiveDrawer` 的 bottom 形态也直接消费，因此本轮必须同时接线；同时不得破坏 `018` 已建立的 BottomSheet `detent` 受控契约。
+
+- **实现**：`src/components/ui/grabber.tsx` 新增 `onDetentChange(nextDetent)`、`aria-orientation="vertical"` 与 WAI-ARIA slider 键盘映射：ArrowUp/Right 递增，ArrowDown/Left 递减，Home/End 跳首尾；方向键在边界钳制、不循环且不重复上报，所有已消费键均 `preventDefault()` 防页面滚动。点击与 Enter/Space 仍沿用原生 button click 的循环切档，指针拖拽不变。
+- **父组件接线**：`BottomSheet` 把目标档位交给既有 `setDetent()`，因此受控态只 `onDetentChange` 上报、外部回灌后才更新，非受控态立即更新；`ResponsiveDrawer` 接入 `setCurrent`，并把 current 索引钳到动态 `detents` 的合法范围，防 `aria-valuenow > aria-valuemax`。
+- **回归**：`tests/grabber.test.tsx` 覆盖 6 键、边界、无回调、未知键与既有 Enter/Space；`bottom-sheet.test.tsx` 新增受控/非受控双断言；`responsive-drawer.test.tsx` 新增键盘调档及 detents 缩短钳制。定向 **3 files / 42 tests passed**，`pnpm run typecheck` exit 0。
+- **变异测试**：① 反转 ArrowUp/Right 的方向 → **8 tests failed**；② 断开 BottomSheet 的 `onDetentChange` 接线 → **2 tests failed**。恢复后定向回归全绿，证明组件本体和父层接线都有有效守护。
+- **真实浏览器（Chromium，临时 spec 跑完即删）**：**3 passed (23.5s)**——BottomSheet light/dark 双主题 + ResponsiveDrawer；确认 `aria-orientation=vertical`、End/ArrowDown/Home/ArrowUp 的实时 `aria-valuenow`、两主题命中盒宽高均 ≥44px，截图无视觉回归。首轮探针误用 path 路由而停在首页 15m；修正为 hash 路由并把临时用例 timeout 收紧为 60s 后通过（再次验证「临时探针也必须收紧超时」）。
+- **文档链**：双语 CHANGELOG；`component-api.ts` 的 detents / showIndicator / onDetentChange；BottomSheet 与 ResponsiveDrawer 双语指南；ResponsiveDrawer 多档示例补键盘说明。现有示例本就渲染多档 slider，无需新增示例文件。
+- **台账落点**：本文件 §5T、主报告 `022`、矩阵 bottom-sheet / grabber / 输入方式 / ID 索引、交付书 §1/§2/批次 C/§7.12/§10。
