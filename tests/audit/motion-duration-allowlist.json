@@ -27,18 +27,6 @@
       "files": ["src/styles/index.css"]
     },
     {
-      "literal": "0.3s",
-      "source": "motion-baseline-2026-09-20",
-      "reason": "command-menu 浮层 overlay/scale keyframes；迁移时归并 overlay 档",
-      "files": ["src/styles/index.css"]
-    },
-    {
-      "literal": "0.4s",
-      "source": "motion-baseline-2026-09-20",
-      "reason": "command-menu 移动端 sheet keyframes；迁移时按大面积位移归并",
-      "files": ["src/styles/index.css"]
-    },
-    {
       "literal": "150ms",
       "source": "motion-baseline-2026-09-20",
       "reason": "search-input 输入框缩放与 multi-select-trigger 过渡；与 fast 同值，迁移时替换",
@@ -49,18 +37,6 @@
       "source": "motion-baseline-2026-09-20",
       "reason": "book.module.css 翻页 transform 过渡；与新 base(250ms) 同值，迁移时替换",
       "files": ["src/components/ui/book.module.css"]
-    },
-    {
-      "literal": "300ms",
-      "source": "motion-baseline-2026-09-20",
-      "reason": "bottom-sheet 吸附时长（工具类 + 内联 height 过渡）；对应旧 slow，迁移时归并 overlay 档",
-      "files": ["src/components/ui/bottom-sheet.tsx", "src/components/ui/responsive-drawer.tsx"]
-    },
-    {
-      "literal": "500ms",
-      "source": "motion-baseline-2026-09-20",
-      "reason": "drawer 滑入吸附时长（内联 transform）；与 slower 同值，迁移时替换",
-      "files": ["src/components/ui/drawer.tsx"]
     },
     {
       "literal": "2s",

@@ -226,6 +226,9 @@ describe("CommandMenu official runtime contract", () => {
 
     expect(overlay.className).toContain("bg-background-100");
     expect(overlay.className).toContain("command-menu-overlay");
+    // HIG-AUD-009：遮罩与内容同走 modal 带 token（原 z-100 字面量收敛）
+    expect(overlay.className).toContain("z-[var(--uni-z-modal)]");
+    expect(dialog.className).toContain("z-[var(--uni-z-modal)]");
     expect(dialog.className).toContain("top-[15%]");
     expect(dialog.className).toContain("w-[640px]");
     expect(dialog.className).not.toContain("max-w-[calc(100vw-32px)]");

@@ -39,13 +39,16 @@ describe("Menu surface contract (B0 menu-surface)", () => {
     expect(content!.className).toContain("text-foreground");
   });
 
-  test("menu animates on open (fade+zoom) and fades when closing", () => {
+  test("menu animates on open (fade+zoom) and mirrors (fade+zoom) when closing", () => {
     const { content } = renderMenu();
     expect(content!.className).toContain("data-[state=open]:animate-in");
     expect(content!.className).toContain("data-[state=open]:fade-in-0");
     expect(content!.className).toContain("data-[state=open]:zoom-in-95");
     expect(content!.className).toContain("data-[state=closed]:animate-out");
     expect(content!.className).toContain("data-[state=closed]:fade-out-0");
+    // HIG-AUD-011 退场镜像 + HIG-AUD-012 时长走 fast 档 token
+    expect(content!.className).toContain("data-[state=closed]:zoom-out-95");
+    expect(content!.className).toContain("duration-(--uni-duration-fast)");
     expect(content!.className).toContain("motion-reduce:animate-none");
   });
 

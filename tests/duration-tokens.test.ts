@@ -64,3 +64,49 @@ describe("animation duration tokens", () => {
     expect(css).toContain("--default-transition-duration: var(--uni-duration-fast);");
   });
 });
+
+describe("overlay motion durations reference tokens (HIG-AUD-012)", () => {
+  const readSource = (relative: string) => readFile(path.join(root, relative), "utf8");
+
+  test.each([
+    "menu.tsx",
+    "menu-bar.tsx",
+    "context-menu.tsx",
+    "multi-select.tsx",
+    "feedback.tsx",
+    "edit-menu.tsx",
+    "select.tsx",
+    "relative-time-card.tsx",
+    "context-card.tsx",
+    "modal.tsx",
+    "destructive-action-modal.tsx",
+    "drawer.tsx",
+    "sheet.tsx",
+    "bottom-sheet.tsx",
+    "responsive-drawer.tsx",
+  ])("%s overlay animation consumes duration tokens", async (file) => {
+    const src = await readSource(`src/components/ui/${file}`);
+    expect(src).toMatch(/duration-\(--uni-(?:duration|motion)-/);
+  });
+
+  test.each([
+    ["bottom-sheet.tsx", "height var(--uni-motion-overlay)"],
+    ["responsive-drawer.tsx", "height var(--uni-motion-overlay)"],
+    ["drawer.tsx", "transform var(--uni-motion-expansive)"],
+  ])("%s inline transition consumes motion tokens", async (file, needle) => {
+    const src = await readSource(`src/components/ui/${file}`);
+    expect(src).toContain(needle);
+  });
+
+  test("command-menu overlay utilities consume tier tokens (no raw 0.3s/0.4s left)", async () => {
+    const css = await readThemeCss();
+    const start = css.indexOf("@utility command-menu-overlay");
+    const end = css.indexOf("@media (prefers-reduced-motion: reduce)", start);
+    expect(start).toBeGreaterThan(-1);
+    expect(end).toBeGreaterThan(start);
+    const block = css.slice(start, end);
+    expect(block).toContain("var(--uni-motion-overlay)");
+    expect(block).toContain("var(--uni-motion-expansive)");
+    expect(block).not.toMatch(/0\.3s|0\.4s/);
+  });
+});

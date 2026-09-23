@@ -153,7 +153,7 @@ function DrawerPanel({
             ? "none"
             : reducedMotion
               ? "transform 0s linear"
-              : "transform 500ms var(--ease-snap)",
+              : "transform var(--uni-motion-expansive) var(--ease-snap)",
         } as React.CSSProperties
       }
       onPointerDown={handlePointerDown}

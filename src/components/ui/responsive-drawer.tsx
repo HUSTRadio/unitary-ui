@@ -275,7 +275,8 @@ function ResponsiveDrawerContent({
           showGrabber
             ? ({
                 height: `${ratio * 100}dvh`,
-                transition: dragging ? "none" : "height 300ms var(--ease-snap)",
+                transition:
+                  dragging ? "none" : "height var(--uni-motion-overlay) var(--ease-snap)",
               } as React.CSSProperties)
             : undefined
         }

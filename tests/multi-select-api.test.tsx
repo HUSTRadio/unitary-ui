@@ -73,6 +73,10 @@ describe("Multi Select live Geist contract", () => {
     expect(source).toContain("sideOffset = 8");
     expect(source).not.toContain("shadow-md");
     expect(source).toContain("zoom-in-95");
+    // HIG-AUD-009/011/012：popover 带 token + 退场镜像 + fast 档时长
+    expect(source).toContain("z-[var(--uni-z-popover)]");
+    expect(source).toContain("data-[state=closed]:zoom-out-95");
+    expect(source).toContain("duration-(--uni-duration-fast)");
   });
 
   test("renders the live 28px row hierarchy and action geometry", async () => {

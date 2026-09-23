@@ -45,7 +45,7 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           data-slot="command-menu-overlay"
-          className="command-menu-overlay fixed inset-0 z-100 bg-background-100 opacity-80"
+          className="command-menu-overlay fixed inset-0 z-[var(--uni-z-modal)] bg-background-100 opacity-80"
         />
         <DialogPrimitive.Content
           data-slot="command-menu-content"
@@ -62,7 +62,7 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
               requestAnimationFrame(() => previous.focus());
             }
           }}
-          className="command-menu-scale command-menu-mobile fixed top-[15%] left-1/2 z-100 w-[640px] -translate-x-1/2 overflow-hidden rounded-overlay bg-background-100 outline-none max-grid-sm:top-auto max-grid-sm:bottom-0 max-grid-sm:left-0 max-grid-sm:h-[80vh] max-grid-sm:max-h-[80vh] max-grid-sm:w-full max-grid-sm:max-w-full max-grid-sm:translate-x-0 max-grid-sm:overflow-auto max-grid-sm:rounded-t-overlay max-grid-sm:rounded-b-none"
+          className="command-menu-scale command-menu-mobile fixed top-[15%] left-1/2 z-[var(--uni-z-modal)] w-[640px] -translate-x-1/2 overflow-hidden rounded-overlay bg-background-100 outline-none max-grid-sm:top-auto max-grid-sm:bottom-0 max-grid-sm:left-0 max-grid-sm:h-[80vh] max-grid-sm:max-h-[80vh] max-grid-sm:w-full max-grid-sm:max-w-full max-grid-sm:translate-x-0 max-grid-sm:overflow-auto max-grid-sm:rounded-t-overlay max-grid-sm:rounded-b-none"
         >
           <h2 id={titleId} className="sr-only">
             {t("Command Menu")}

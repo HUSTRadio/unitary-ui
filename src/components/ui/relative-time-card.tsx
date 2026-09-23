@@ -93,8 +93,8 @@ function RelativeTimeCard({
           sideOffset={6}
           align="start"
           className={cn(
-            "z-50 min-w-[300px] rounded-lg border border-gray-alpha-400 bg-popover p-3 text-popover-foreground shadow-md outline-none",
-            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 duration-(--uni-duration-base) motion-reduce:animate-none",
+            "z-[var(--uni-z-popover)] min-w-[300px] rounded-lg border border-gray-alpha-400 bg-popover p-3 text-popover-foreground shadow-md outline-none",
+            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 duration-(--uni-duration-base) motion-reduce:animate-none",
             className,
           )}
         >

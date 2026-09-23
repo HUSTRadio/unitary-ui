@@ -99,7 +99,7 @@ describe("BottomSheet", () => {
     expect(resizable.getAttribute("data-resizable")).toBe("true");
   });
 
-  it("弹出/收起有真实动画：animate-in/out 触发器 + 底部位移 + 300ms snap 曲线", () => {
+  it("弹出/收起有真实动画：animate-in/out 触发器 + 底部位移 + overlay 档 snap 曲线", () => {
     const markup = renderSheet(
       <BottomSheet open>
         <div>content</div>
@@ -108,10 +108,11 @@ describe("BottomSheet", () => {
     // 触发器（tw-animate-css）：缺 animate-in/animate-out 时 slide-* 变量不生效
     expect(markup).toContain("data-[state=open]:animate-in");
     expect(markup).toContain("data-[state=closed]:animate-out");
-    // 底部进出位移变量 + 与拖拽吸附一致的 300ms cubic-bezier(0.32,0.72,0,1)
+    // 底部进出位移变量 + 与拖拽吸附一致的 overlay 档 + cubic-bezier(0.32,0.72,0,1)
+    // （HIG-AUD-012：原 300ms 字面量迁至 --uni-motion-overlay）
     expect(markup).toContain("data-[state=open]:slide-in-from-bottom");
     expect(markup).toContain("data-[state=closed]:slide-out-to-bottom");
-    expect(markup).toContain("duration-300");
+    expect(markup).toContain("duration-(--uni-motion-overlay)");
     expect(markup).toContain("var(--ease-snap)");
     // reduced-motion 归零（WCAG 2.3.3）
     expect(markup).toContain("motion-reduce:animate-none");

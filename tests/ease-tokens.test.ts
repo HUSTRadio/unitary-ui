@@ -27,12 +27,14 @@ function stripComments(source: string) {
 }
 
 describe("easing tokens（2026-09-15 收敛基线）", () => {
-  test("4 个曲线 token 定义在 @theme static（发射到 :root，供类与内联 style 双消费）", () => {
+  test("5 个曲线 token 定义在 @theme static（发射到 :root，供类与内联 style 双消费）", () => {
     // 值与收敛前的字面量严格相等
     expect(css).toContain("--ease-snap: cubic-bezier(0.32, 0.72, 0, 1)");
     expect(css).toContain("--ease-pop: cubic-bezier(0.175, 0.885, 0.32, 1.1)");
     expect(css).toContain("--ease-stagger: cubic-bezier(0.16, 1, 0.3, 1)");
     expect(css).toContain("--ease-toast: cubic-bezier(0.25, 0.75, 0.6, 0.98)");
+    // HIG-AUD-012：Tailwind v4 内建 --ease-in-out 显式声明（值严格相等，Sheet 官方对齐面）
+    expect(css).toContain("--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1)");
   });
 
   test("src 内不得再现 ease-[cubic-bezier 任意值类（棘轮：新曲线必须走 token）", () => {

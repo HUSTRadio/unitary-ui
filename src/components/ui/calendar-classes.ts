@@ -84,9 +84,10 @@ const GEIST_ICON_ATTRS = {
   "data-slot": "geist-icon",
 } as const;
 
-/** combobox 弹出菜单（官方 cmdk-root：grid 容器 + p-2 group + h-9 item，2026-08-16 实测）。 */
+/** combobox 弹出菜单（官方 cmdk-root：grid 容器 + p-2 group + h-9 item，2026-08-16 实测）。
+    HIG-AUD-009：层级走 popover 带（与 combobox/select 内容同族），原超大数值字面量收敛。 */
 const COMBO_MENU_CLASS =
-  "grid bg-[var(--uni-background-100)] rounded-lg shadow-[var(--uni-shadow-menu)] overflow-hidden z-[99999999]";
+  "grid bg-[var(--uni-background-100)] rounded-lg shadow-[var(--uni-shadow-menu)] overflow-hidden z-[var(--uni-z-popover)]";
 
 const COMBO_GROUP_CLASS = "p-2";
 

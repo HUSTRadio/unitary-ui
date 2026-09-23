@@ -44,4 +44,11 @@ describe("Context Menu official contract", () => {
     expect(source).toContain("data-[disabled]:text-gray-500");
     expect(source).not.toContain("data-[disabled]:opacity-50");
   });
+
+  test("HIG-AUD-009/011/012: popover band, mirrored exit and fast-tier duration", () => {
+    expect(source).toContain("z-[var(--uni-z-popover)]");
+    expect(source).toContain("data-[state=closed]:zoom-out-95");
+    expect(source).toContain("duration-(--uni-duration-fast)");
+    expect(source).not.toMatch(/(^|[\s"'])z-50(?=[\s"'(]|$)/m);
+  });
 });

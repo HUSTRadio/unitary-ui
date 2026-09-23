@@ -76,8 +76,8 @@ const ContextMenuContent = React.forwardRef<
       ref={ref}
       onContextMenu={(event) => event.preventDefault()}
       className={cn(
-        "rounded-overlay bg-[var(--color-bg-elevated)] shadow-[var(--material-shadow-menu)] text-sm outline-hidden overflow-x-hidden overflow-y-auto p-1.5 overscroll-contain w-max max-sm:w-full max-sm:rounded-b-none",
-        "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none",
+        "z-[var(--uni-z-popover)] rounded-overlay bg-[var(--color-bg-elevated)] shadow-[var(--material-shadow-menu)] text-sm outline-hidden overflow-x-hidden overflow-y-auto p-1.5 overscroll-contain w-max max-sm:w-full max-sm:rounded-b-none",
+        "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 duration-(--uni-duration-fast) motion-reduce:animate-none",
         className,
       )}
       {...props}
@@ -202,7 +202,8 @@ interface ContextMenuQuickActionsContentProps extends ContextMenuContentProps {
 const QUICK_ACTIONS_CONTENT_CLASS =
   "rounded-overlay bg-[var(--color-bg-elevated)] shadow-[var(--material-shadow-menu)] p-2 outline-hidden max-sm:w-full max-sm:rounded-b-none " +
   "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 " +
-  "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none";
+  "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 " +
+  "duration-(--uni-duration-fast) motion-reduce:animate-none";
 
 const QUICK_ACTIONS_SCRIM_CLASS =
   "fixed inset-0 z-[var(--uni-z-drawer)] bg-black/40 backdrop-blur-(--uni-overlay-backdrop-blur) " +

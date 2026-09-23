@@ -36,6 +36,13 @@ describe("relative-time-card contract (shard-G)", () => {
     expect(source).toContain("motion-reduce:animate-none");
   });
 
+  it("源码：层级走 popover 带 + 退场镜像（HIG-AUD-009/011）", () => {
+    expect(source).toContain("z-[var(--uni-z-popover)]");
+    expect(source).not.toContain("z-50");
+    expect(source).toContain("data-[state=closed]:animate-out");
+    expect(source).toContain("data-[state=closed]:zoom-out-95");
+  });
+
   it("渲染：触发器为 inline cursor-pointer 形态", () => {
     const html = renderToStaticMarkup(<RelativeTimeCard date={date} locale="en-US" />);
     expect(html).toContain("cursor-pointer");

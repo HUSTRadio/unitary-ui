@@ -680,6 +680,10 @@ html[data-font-tier="system"],
   --ease-pop: cubic-bezier(0.175, 0.885, 0.32, 1.1);
   --ease-stagger: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-toast: cubic-bezier(0.25, 0.75, 0.6, 0.98);
+  /* HIG-AUD-012 显式声明：值与 Tailwind v4 内建 --ease-in-out
+     （cubic-bezier(0.4, 0, 0.2, 1)）严格相等，声明后 Sheet 等官方对齐面
+     （`transition ease-in-out`）纳入项目 token 真源，computed 零变化。 */
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* 项目语义排版体系。尺寸和行高成对定义，utility 不再复制行高字面量。
      34/41、28/34、22/28、20/25、17/22、16/21、15/20、13/18、12/16、11/13
@@ -1032,7 +1036,16 @@ html[data-font-tier="system"],
      light/dark 无差异，声明一次；组件消费 var(--uni-drawer-width)，禁写死 px） */
   --uni-drawer-width: min(420px, 90vw);
   /* Overlay stacking roles — 原值保值迁移（Task 9）；material=elevation 视觉契约，
-     stacking 由这些 role token 单独管理。数值不得在本任务中调整。 */
+    stacking 由这些 role token 单独管理。数值不得在本任务中调整。
+    层级序（小→大）：header 40 < menu 50 < drawer 200 < modal 300 < popover 2001
+    < toast 5000 < tooltip 99999 < context-card 1000000。
+    配对约定（HIG-AUD-009）：容器遮罩与容器内容同档（drawer/sheet 遮罩与面板同为
+    --uni-z-drawer，modal 遮罩与卡片同为 --uni-z-modal）；可跨容器唤起的悬浮菜单内容
+    （context-menu/quick-actions、select/combobox/multi-select、feedback、calendar
+    组合框）走 --uni-z-popover；header 走 --uni-z-header（navbar 默认解析 40）。
+    组件内部的相对堆叠（avatar 重叠、toast viewport 的 i+1、grid 调试层等）不属层级带，
+    允许局部小数值，不受本约定约束。 */
+  --uni-z-header: 40;
   --uni-z-menu: 50;
   --uni-z-modal: 300;
   --uni-z-popover: 2001;
@@ -2200,15 +2213,17 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
   }
 }
 
+/* HIG-AUD-012：浮层时长统一走档位 token（0.3s→overlay、0.4s→expansive 大面积位移），
+   曲线对齐 modal 遮罩（ease-pop）。 */
 @utility command-menu-overlay {
   animation-fill-mode: both;
 
   &[data-state="open"] {
-    animation: command-menu-overlay-in 0.3s ease-out;
+    animation: command-menu-overlay-in var(--uni-motion-overlay) var(--ease-pop);
   }
 
   &[data-state="closed"] {
-    animation: command-menu-overlay-out 0.3s ease-in;
+    animation: command-menu-overlay-out var(--uni-motion-overlay) var(--ease-pop);
   }
 }
 
@@ -2216,20 +2231,20 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
   box-shadow: var(--material-shadow-modal);
 
   &[data-state="open"] {
-    animation: command-menu-scale-in 0.3s var(--ease-pop);
+    animation: command-menu-scale-in var(--uni-motion-overlay) var(--ease-pop);
   }
 
   &[data-state="closed"] {
-    animation: command-menu-scale-out 0.3s var(--ease-pop);
+    animation: command-menu-scale-out var(--uni-motion-overlay) var(--ease-pop);
   }
 }
 
 @media (max-width: theme(--breakpoint-grid-sm)) {
   .command-menu-mobile[data-state="open"] {
-    animation: command-menu-mobile-in 0.4s var(--ease-snap);
+    animation: command-menu-mobile-in var(--uni-motion-expansive) var(--ease-snap);
   }
   .command-menu-mobile[data-state="closed"] {
-    animation: command-menu-mobile-out 0.4s var(--ease-snap);
+    animation: command-menu-mobile-out var(--uni-motion-expansive) var(--ease-snap);
   }
 }
 
@@ -2253,7 +2268,9 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
   position: absolute;
   width: 14px;
   height: 7px;
-  z-index: 999999999;
+  /* HIG-AUD-009：tip 位于 context-card 弹层（相对定位锚点）内部，属局部堆叠；
+     原九位数超大值收敛到家族 token（同上下文内最大值语义，computed 等效）。 */
+  z-index: var(--uni-z-context-card);
 }
 [data-slot="context-card-popover"][data-side="top"] [data-slot="context-card-tip"] {
   top: calc(100% - 1px);

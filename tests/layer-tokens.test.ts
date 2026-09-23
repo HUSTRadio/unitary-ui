@@ -14,7 +14,10 @@ import { describe, expect, test } from "vitest";
  * 语义带锁定（防止未来误抬层级）：
  * - menu(50) 独立带，禁止并入 popover 带（2001）；
  * - select 与 combobox 同属 popover 带，共享 --uni-z-popover；
+ * - HIG-AUD-009：context-menu/quick-actions、multi-select、feedback、relative-time-card、
+ *   calendar 组合框同走 popover 带——它们可在 drawer/modal 内被唤起，50 带会被容器遮罩覆盖；
  * - drawer/sheet 复用既有 --uni-z-drawer，禁止 alias 链；
+ * - header(40) 走 --uni-z-header，navbar 消费并保留 40 回退（消费方上下文可覆写）；
  * - toast viewport 用 --uni-z-toast，内部堆叠 zIndex: i + 1 不受影响。
  */
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -30,6 +33,11 @@ const LAYER_TOKENS: Record<string, number> = {
   "--uni-z-toast": 5000,
   "--uni-z-tooltip": 99999,
   "--uni-z-context-card": 1000000,
+};
+
+/** HIG-AUD-009 新增：header 带（navbar 原有 40 回退的显式化，值保值）。 */
+const HEADER_TOKEN: Record<string, number> = {
+  "--uni-z-header": 40,
 };
 
 describe("Layer token declarations (index.css)", () => {
@@ -51,10 +59,27 @@ describe("Layer token declarations (index.css)", () => {
     const aliasDecls = css.match(/--uni-z-[a-z-]+:/g) ?? [];
     for (const decl of aliasDecls) {
       expect(
-        ["--uni-z-drawer:", ...Object.keys(LAYER_TOKENS).map((t) => `${t}:`)],
+        [
+          "--uni-z-drawer:",
+          ...Object.keys(LAYER_TOKENS).map((t) => `${t}:`),
+          ...Object.keys(HEADER_TOKEN).map((t) => `${t}:`),
+        ],
         `unexpected layer token declaration: ${decl}`
       ).toContain(decl);
     }
+  });
+
+  test("header band token declared with the navbar fallback value (HIG-AUD-009)", async () => {
+    const css = await readCss();
+    for (const [token, value] of Object.entries(HEADER_TOKEN)) {
+      expect(
+        new RegExp(`${escape(token)}:\\s*${value};`).test(css),
+        `${token} must be declared as ${value} (navbar fallback, value-preserving)`
+      ).toBe(true);
+    }
+    // tip 局部堆叠的九位数字面量已收敛到家族 token
+    expect(css).not.toMatch(/z-index:\s*999999999/);
+    expect(css).toMatch(/z-index:\s*var\(--uni-z-context-card\)/);
   });
 });
 
@@ -67,6 +92,11 @@ describe("Raw z-index literals removed from component sources", () => {
     ["toast.tsx", /z-\[5000\]/],
     ["tooltip.tsx", /z-\[99999\]/],
     ["context-card.tsx", /z-\[1000000\]/],
+    ["destructive-action-modal.tsx", /(^|[\s"'])z-50(?=[\s"'(]|$)/m],
+    ["command-menu.tsx", /(^|[\s"'])z-100(?=[\s"'(]|$)/m],
+    ["feedback.tsx", /(^|[\s"'])z-50(?=[\s"'(]|$)/m],
+    ["relative-time-card.tsx", /(^|[\s"'])z-50(?=[\s"'(]|$)/m],
+    ["calendar-classes.ts", /z-\[99999999\]/],
   ])("%s no longer contains its raw literal", async (file, pattern) => {
     const source = await readComponent(file);
     expect(source).not.toMatch(pattern as RegExp);
@@ -87,6 +117,13 @@ describe("Components consume layer tokens", () => {
     ["toast.tsx", "var(--uni-z-toast)"],
     ["tooltip.tsx", "var(--uni-z-tooltip)"],
     ["context-card.tsx", "var(--uni-z-context-card)"],
+    ["destructive-action-modal.tsx", "var(--uni-z-modal)"],
+    ["command-menu.tsx", "var(--uni-z-modal)"],
+    ["feedback.tsx", "var(--uni-z-popover)"],
+    ["relative-time-card.tsx", "var(--uni-z-popover)"],
+    ["multi-select.tsx", "var(--uni-z-popover)"],
+    ["calendar-classes.ts", "var(--uni-z-popover)"],
+    ["context-menu.tsx", "var(--uni-z-popover)"],
   ])("%s consumes %s", async (file, tokenRef) => {
     const source = await readComponent(file);
     expect(source).toContain(tokenRef);

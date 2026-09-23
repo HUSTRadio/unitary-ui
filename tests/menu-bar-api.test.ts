@@ -46,6 +46,12 @@ describe("Menu Bar contract", () => {
     expect(source).toContain("motion-reduce:animate-none");
   });
 
+  test("HIG-AUD-011/012: mirrors zoom on exit and uses fast-tier duration", () => {
+    expect(source).toContain("data-[state=closed]:zoom-out-95");
+    expect(source).toContain("duration-(--uni-duration-fast)");
+    expect(source).toContain("z-[var(--uni-z-menu)]");
+  });
+
   test("documents the boundary against Navbar", () => {
     expect(source).toContain("Navbar");
     expect(source).toContain("应用级命令菜单");

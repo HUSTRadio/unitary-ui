@@ -14,12 +14,13 @@ import { Grabber } from "@/components/ui/grabber";
  * - overlay：bg-black/40 + z-[var(--uni-z-drawer)]（与 Drawer 逐字相同）；
  * - 面板圆角：rounded-t-overlay（与 CommandMenu 移动端 sheet 同族；Drawer 用 rounded-t-xl）。
  * 与 Drawer 的差异（勿"对齐"成一致）：本组件面板不叠 --material-shadow-*（面板贴视口
- * 底边、高度由档位驱动，浮层阴影属 Drawer 的固定高度语义），动画 300ms 与拖拽吸附曲线
- * 一致（Drawer 官方实测为 500ms 滑入）。
+ * 底边、高度由档位驱动，浮层阴影属 Drawer 的固定高度语义），动画走 --uni-motion-overlay
+ * 档、与拖拽吸附曲线一致（Drawer 官方实测为 500ms 滑入）。
  *
  * - 面板高度 = detents[current] * 100dvh，由 CSS 变量 --sheet-h 驱动
  * - 面板顶缘跟手改高度：**向上拖展开更高档，向下拖收起**（松手吸附最近档位，
- *   300ms cubic-bezier(0.32,0.72,0,1)）；拖拽只从 Grabber 指示条启动，
+ *   overlay 档时长（var(--uni-motion-overlay)）cubic-bezier(0.32,0.72,0,1)）；
+ *   拖拽只从 Grabber 指示条启动，
  *   面板内容区不受 pointer capture 劫持（内部按钮的 click 正常派发）
  * - 低于最低档继续下拉且 collapseDown → onOpenChange(false)
  * - 背景点击 / Esc 关闭（Radix 自带）；motion-reduce 时 transition-none
@@ -188,10 +189,10 @@ function BottomSheet({
             "pb-[env(safe-area-inset-bottom)] overscroll-none",
             dragging && "select-none",
             // 弹出/收起动画（tw-animate-css）：animate-in/out 是触发器，
-            // slide-in/out-from-bottom 设定位移变量；300ms 与拖拽吸附曲线一致。
+            // slide-in/out-from-bottom 设定位移变量；时长走 overlay 档、与拖拽吸附曲线一致。
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
-            "duration-300 ease-snap",
+            "duration-(--uni-motion-overlay) ease-snap",
             "motion-reduce:animate-none motion-reduce:transition-none",
             className,
           )}
@@ -202,7 +203,7 @@ function BottomSheet({
               transition:
                 dragging || reducedMotion
                   ? "none"
-                  : "height 300ms var(--ease-snap)",
+                  : "height var(--uni-motion-overlay) var(--ease-snap)",
             } as React.CSSProperties
             }
             >

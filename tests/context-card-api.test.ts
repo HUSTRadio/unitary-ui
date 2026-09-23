@@ -23,6 +23,8 @@ describe("Context Card official visual contract", () => {
   test("uses bordered fitted geometry, official radius, arrow, and portal layer", () => {
     expect(source).toContain("z-[var(--uni-z-context-card)]"); // Task 9 token form of the locked 1000000
     expect(source).toContain("w-fit");
+    // HIG-AUD-012：浮层动画时长走 token（hover 卡片族 = base 档）
+    expect(source).toContain("duration-(--uni-duration-base)");
     expect(source).toContain("rounded-md");
     expect(source).toContain("border-gray-alpha-400");
     expect(source).toContain("p-4");
