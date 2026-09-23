@@ -239,9 +239,8 @@
     {
       "literal": "#f2f2f2",
       "source": "legacy-baseline-2026-09-04",
-      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
+      "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移（modal.tsx 已于 HIG-AUD-010 迁到 --uni-overlay-backdrop-color 并清账）",
       "files": [
-        "src/components/ui/modal.tsx",
         "src/components/ui/snippet.tsx"
       ]
     },

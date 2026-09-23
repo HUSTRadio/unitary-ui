@@ -11,7 +11,10 @@ import { useI18n } from "@/lib/i18n";
  *       ModalDescription, ModalFooter, ModalClose。
  * 材质对齐 Geist 实测（2026-08-15，vercel.com/geist/modal 实时 DOM/computed style）：
  * - scrim：官方为独立 geist-overlay-backdrop 元素（bg #f2f2f2 light / #000 dark @ 0.8），
- *   overlay 本身透明；本地简化为 overlay 自身 bg-[#f2f2f2]/80 dark:bg-black/80（视觉等价）
+ *   overlay 本身透明；本地简化为 overlay 自身消费 backdrop 族的**合成色**
+ *   bg-[var(--uni-overlay-backdrop)]（= color × opacity，与上述官方值逐值等价）。
+ *   本 Overlay 带着 Content 子节点，故不能用元素 opacity-*（会把内容一起降透明）
+ *   ——HIG-AUD-010 已由字面量迁移为 token
  * - content 定位：官方 position:static 由 overlay flex 居中；本地 fixed top-50% left-50%
  *   -translate-x/y-1/2 居中（视觉等价）
  * - placement：`center`（默认，居中 + 中心缩放淡入，官方基线）|
@@ -53,8 +56,10 @@ const ModalOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-[var(--uni-z-modal)] flex flex-col items-center justify-center overflow-auto bg-[#f2f2f2]/80 dark:bg-black/80",
-      "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 duration-(--uni-duration-slow) ease-pop motion-reduce:animate-none",
+      // 用合成色而非元素 opacity-*：本 Overlay 带着 Content 子节点，元素透明度会把
+      // 内容一起降透明（sheet/side-panel 的 Overlay 无子节点才可用 color + opacity 两值式）
+      "fixed inset-0 z-[var(--uni-z-modal)] flex flex-col items-center justify-center overflow-auto bg-[var(--uni-overlay-backdrop)]",
+      "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 duration-(--uni-duration-slow) ease-pop motion-reduce:animate-none!",
       className,
     )}
     {...props}
@@ -150,7 +155,7 @@ const ModalContent = React.forwardRef<
               "max-modal:max-w-[calc(100vw-20px)]",
               "shadow-[var(--uni-shadow-modal-elevated)]",
               PLACEMENT_CLASS[placement],
-              "transition-[opacity,transform] duration-(--uni-duration-slow) ease-pop motion-reduce:animate-none motion-reduce:transition-none",
+              "transition-[opacity,transform] duration-(--uni-duration-slow) ease-pop motion-reduce:animate-none! motion-reduce:transition-none",
               "sm:overflow-hidden overflow-y-auto",
               className,
             )}

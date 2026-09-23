@@ -51,7 +51,7 @@ function ThemeSwitcher({ className, small = false, disabled = false }: ThemeSwit
             className={cn(
               // pointer-coarse：触屏命中区抬到 44×44（HIG-AUD-013）；桌面维持 24/32px 视觉。
               // 与 docs 壳层的 [&_button]:min-h-11 包装同语义（组件层原生支持后该包装可移除）
-              "inline-flex items-center justify-center rounded-full text-muted-foreground outline-none focus-ring transition-colors disabled:pointer-events-none disabled:opacity-50 pointer-coarse:min-h-11 pointer-coarse:min-w-11",
+              "inline-flex items-center justify-center rounded-full text-muted-foreground outline-none focus-ring transition-colors motion-reduce:transition-none disabled:pointer-events-none disabled:opacity-50 pointer-coarse:min-h-11 pointer-coarse:min-w-11",
               small ? "size-6" : "size-8",
               checked &&
                 "bg-background text-foreground shadow-[0_0_0_1px_var(--gray-alpha-400),0_2px_2px_rgba(0,0,0,0.12)]",

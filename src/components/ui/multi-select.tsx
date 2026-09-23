@@ -178,7 +178,7 @@ const MultiSelectContent = React.forwardRef<
           onKeyDown={handleKeyDown}
           className={cn(
             "material-menu multi-select-content z-[var(--uni-z-popover)] max-h-[min(var(--radix-popover-content-available-height),376px)] min-w-[var(--radix-popover-trigger-width)] overflow-y-scroll overscroll-contain p-2 text-popover-foreground outline-none",
-            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 duration-(--uni-duration-fast) motion-reduce:animate-none",
+            "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 duration-(--uni-duration-fast) motion-reduce:animate-none!",
             className,
           )}
           {...props}

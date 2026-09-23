@@ -49,7 +49,7 @@ describe("Menu surface contract (B0 menu-surface)", () => {
     // HIG-AUD-011 退场镜像 + HIG-AUD-012 时长走 fast 档 token
     expect(content!.className).toContain("data-[state=closed]:zoom-out-95");
     expect(content!.className).toContain("duration-(--uni-duration-fast)");
-    expect(content!.className).toContain("motion-reduce:animate-none");
+    expect(content!.className).toContain("motion-reduce:animate-none!");
   });
 
   test("dark theme background stays surface token (computed #0a0a0a verified in real browser)", () => {

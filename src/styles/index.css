@@ -1020,9 +1020,32 @@ html[data-font-tier="system"],
     rgba(0, 0, 0, 0.04) 0px 8px 16px -4px, rgba(0, 0, 0, 0.06) 0px 24px 32px -8px,
     rgb(250, 250, 250) 0px 0px 0px 1px;
 
-  /* Sheet 官方实测（2026-08-15）：overlay 遮罩 + 浮层阴影 + z 层级 */
+  /* 遮罩两族（HIG-AUD-010 裁决）：两族都有官方实测出处，**不是**同一角色的重复写法，
+     因此各自成族、并行登记；组件只消费 token，禁止再写遮罩颜色/透明度字面量。
+     - backdrop 族（表面洗色）：官方 Modal scrim 实测（2026-08-15 live computed，独立
+       backdrop 元素）bg #f2f2f2 light / #000 dark @ 0.8；官方 Sheet overlay 同值（本族
+       两值式即此次官方实测的登记形式）。消费：modal、sheet、side-panel。
+     - scrim 族（暗化）：官方 Drawer overlay 实测（2026-08-13 live computed）
+       rgba(0,0,0,.4)。消费：drawer、bottom-sheet、responsive-drawer、expand-panel、
+       quick-actions 遮罩、destructive-action-modal。
+     command-menu 的 overlay 走官方 cmdk 写法 bg-background-100 opacity-80（冻结于
+     tests/audit/geist-design-gate.json），是两族之外的单列例外，不并入任一族。 */
   --uni-overlay-backdrop-color: #f2f2f2;
   --uni-overlay-backdrop-opacity: 0.8;
+  /* 合成色（alpha 内联，自动跟随上面两值）：供「遮罩与内容同元素」的场景——
+     modal 的 Dialog.Content 是 Overlay 的子节点，对容器用 opacity-* 会把内容一起
+     降透明；sheet/side-panel 的 Overlay 无子节点，仍走 color + opacity 两值式
+     （与官方 overlay backdrop 变量的两值结构一致）。dark 只覆盖 color，合成值自动跟随。 */
+  --uni-overlay-backdrop: color-mix(
+    in oklab,
+    var(--uni-overlay-backdrop-color) calc(var(--uni-overlay-backdrop-opacity) * 100%),
+    transparent
+  );
+  /* 暗化族的 alpha 必须写在颜色里（backdrop 族的「色 + 透明度」两值式会破坏模糊）：
+     本族消费者 quick-actions 遮罩与 destructive-action-modal 同时带 backdrop-filter，
+     元素 opacity<1 会把 backdrop-filter 结果按组一起降透明，合成观感改变。
+     light/dark 同值（官方 Drawer 两主题同为 rgba(0,0,0,.4)），声明一次。 */
+  --uni-overlay-scrim-color: rgb(0 0 0 / 40%);
   /* 遮罩模糊强度的显式开关（HIG-AUD-010 建议口径）：0px 即「不模糊」。
      light/dark 无差异，声明一次（同 opacity）；组件消费
      backdrop-blur-(--uni-overlay-backdrop-blur)，禁止再写 backdrop-blur-* 档位字面量。

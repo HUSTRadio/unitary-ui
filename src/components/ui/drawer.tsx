@@ -16,8 +16,9 @@ import { cn } from "@/lib/utils";
  *   阴影是 light 口径，而该 token 在 :root/.dark 双主题定义：dark 下内层近白环被
  *   覆盖为 rgba(255,255,255,0.145) + rgb(0,0,0)。因此阴影必须走 token，内联 light
  *   字面量会绕过 .dark 覆盖，让暗色面板残留亮白 1px 描边。
- * - overlay bg-black/40（有暗化，实测 rgba(0,0,0,.4)），overlay 与 panel 同在
- *   fixed inset-0 层内（z-index 交给父层，panel 自身 z-index auto）
+ * - overlay 走暗化族 token bg-[var(--uni-overlay-scrim-color)]（官方实测 rgba(0,0,0,.4)
+ *   已登记为该 token；HIG-AUD-010 把逐组件字面量收敛为族 token），overlay 与 panel
+ *   同在 fixed inset-0 层内（z-index 交给父层，panel 自身 z-index auto）
  * - height 生效为 --drawer-frontmost-height（实测 200px）
  * - 出入场：slide-in-from-bottom / slide-out-to-bottom，500ms + ease-snap（官方
  *   0.5s cubic-bezier(0.32,0.72,0,1) 同值）。官方在 Base UI 上走 transition 机制；
@@ -138,7 +139,7 @@ function DrawerPanel({
         "max-h-[80dvh] overscroll-none",
         "data-[state=open]:animate-in data-[state=closed]:animate-out",
         "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
-        "duration-(--uni-motion-expansive) ease-snap motion-reduce:animate-none",
+        "duration-(--uni-motion-expansive) ease-snap motion-reduce:animate-none!",
         verticalScroll && "overflow-y-auto",
         dragging && "select-none",
         className,
@@ -217,7 +218,7 @@ function Drawer({
       }}
     >
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none motion-reduce:transition-none" />
+        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none" />
         <DrawerPanel
           onDismiss={onDismiss}
           height={height}

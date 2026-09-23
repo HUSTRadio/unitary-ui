@@ -89,7 +89,7 @@ function Skeleton({
         show && [
           // 流光带需要相对定位的裁切容器：overflow-hidden 保证扫过元素边缘的
           // 40% 宽渐隐带不会溢出到相邻内容上。
-          animated && "relative overflow-hidden motion-reduce:!animate-none",
+          animated && "relative overflow-hidden motion-reduce:animate-none!",
           "rounded-md bg-gray-alpha-200",
           pill && "rounded-full",
           rounded && "rounded-lg",

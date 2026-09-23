@@ -464,7 +464,7 @@ function EditMenu({
         }}
         className={cn(
           "flex max-w-[calc(100vw-16px)] items-center gap-0.5 overflow-x-auto rounded-full bg-[var(--color-bg-elevated)] p-1 shadow-[var(--material-shadow-menu)]",
-          "z-[var(--uni-z-popover)] duration-(--uni-duration-fast) motion-reduce:animate-none",
+          "z-[var(--uni-z-popover)] duration-(--uni-duration-fast) motion-reduce:animate-none!",
           exiting
             ? "animate-out fade-out-0 zoom-out-95 pointer-events-none"
             : "animate-in fade-in-0 zoom-in-95",

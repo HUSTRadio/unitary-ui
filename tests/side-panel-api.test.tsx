@@ -94,11 +94,11 @@ describe("SidePanel API contract（DD-001b）", () => {
     expect(overlay).not.toBeNull();
     expect(overlay.className).toContain("bg-[var(--uni-overlay-backdrop-color)]");
     expect(overlay.className).toContain("opacity-[var(--uni-overlay-backdrop-opacity)]");
-    // 禁止 drawer 的 bg-black/40 直搬（DD-001 §3.3）
-    expect(withOverlay + without).not.toContain("bg-black/40");
+    // 禁止直搬暗化族 scrim（DD-001 §3.3；HIG-AUD-010 两族裁决）
+    expect(withOverlay + without).not.toContain("bg-[var(--uni-overlay-scrim-color)]");
   });
 
-  it("动画：slide-in-from-right-5 / left 镜像 + motion-reduce:animate-none", () => {
+  it("动画：slide-in-from-right-5 / left 镜像 + motion-reduce:animate-none!", () => {
     renderPanel(
       <SidePanel show>
         <span>content</span>
@@ -106,7 +106,7 @@ describe("SidePanel API contract（DD-001b）", () => {
     );
     const panel = lastSlot("side-panel-content");
     expect(panel.className).toContain("slide-in-from-right-5");
-    expect(panel.className).toContain("motion-reduce:animate-none");
+    expect(panel.className).toContain("motion-reduce:animate-none!");
 
     renderPanel(
       <SidePanel show side="left">

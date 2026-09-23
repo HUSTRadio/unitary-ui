@@ -37,7 +37,7 @@ const MENU_BAR_SURFACE =
   "z-[var(--uni-z-menu)] min-w-48 overflow-x-hidden overflow-y-auto rounded-overlay bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none " +
   "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 " +
   "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 " +
-  "duration-(--uni-duration-fast) motion-reduce:animate-none";
+  "duration-(--uni-duration-fast) motion-reduce:animate-none!";
 
 const MENU_BAR_ITEM_BASE =
   "relative flex h-9 cursor-pointer select-none items-center rounded-overlay-item px-2 text-label-14 outline-none transition-colors " +

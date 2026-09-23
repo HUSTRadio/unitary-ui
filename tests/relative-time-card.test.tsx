@@ -33,7 +33,7 @@ describe("relative-time-card contract (shard-G)", () => {
 
   it("源码：动画 duration-(--uni-duration-base) + motion-reduce 禁动画（G3）", () => {
     expect(source).toContain("duration-(--uni-duration-base)");
-    expect(source).toContain("motion-reduce:animate-none");
+    expect(source).toContain("motion-reduce:animate-none!");
   });
 
   it("源码：层级走 popover 带 + 退场镜像（HIG-AUD-009/011）", () => {

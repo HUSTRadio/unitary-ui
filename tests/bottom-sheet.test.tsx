@@ -115,7 +115,7 @@ describe("BottomSheet", () => {
     expect(markup).toContain("duration-(--uni-motion-overlay)");
     expect(markup).toContain("var(--ease-snap)");
     // reduced-motion 归零（WCAG 2.3.3）
-    expect(markup).toContain("motion-reduce:animate-none");
+    expect(markup).toContain("motion-reduce:animate-none!");
   });
 
   it("顶部圆角用 --radius-overlay token（与 CommandMenu 移动端 sheet 同族）", () => {

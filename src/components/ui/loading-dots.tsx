@@ -42,7 +42,7 @@ function LoadingDots({ className, size = "md", children, ...props }: LoadingDots
         <span
           key={i}
           aria-hidden
-          className="mx-px inline-block animate-blink rounded-full bg-gray-900 motion-reduce:animate-none"
+          className="mx-px inline-block animate-blink rounded-full bg-gray-900 motion-reduce:animate-none!"
           style={{
             width: dotSize,
             height: dotSize,

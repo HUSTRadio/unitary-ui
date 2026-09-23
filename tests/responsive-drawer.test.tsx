@@ -116,7 +116,7 @@ describe("ResponsiveDrawer family", () => {
     expect(panel?.className).toContain("slide-in-from-right");
     expect(panel?.className).toContain("duration-(--uni-motion-expansive)");
     expect(panel?.className).toContain("ease-snap");
-    expect(panel?.className).toContain("motion-reduce:animate-none");
+    expect(panel?.className).toContain("motion-reduce:animate-none!");
     // 桌面侧栏几何：留白 + 圆角 + 宽度档位
     expect(panel?.className).toContain("sm:inset-y-2");
     expect(panel?.className).toContain("sm:rounded-xl");

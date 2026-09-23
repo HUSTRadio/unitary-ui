@@ -23,7 +23,9 @@ describe("Drawer official contract", () => {
   });
 
   test("has overlay, bottom enter/exit motion, and swipe state hooks", () => {
-    expect(source).toContain("bg-black/40");
+    // HIG-AUD-010：遮罩写法收敛为暗化族 token（官方实测 rgba(0,0,0,.4) 的登记值）
+    expect(source).toContain("bg-[var(--uni-overlay-scrim-color)]");
+    expect(source).not.toMatch(/bg-black\/\d/);
     expect(source).toContain("slide-in-from-bottom");
     expect(source).toContain("slide-out-to-bottom");
     expect(source).toContain('data-swipe-direction="down"');

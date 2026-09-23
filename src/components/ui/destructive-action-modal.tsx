@@ -115,7 +115,8 @@ function DestructiveActionModal({
       }}
     >
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--uni-z-modal)] bg-black/50 backdrop-blur-(--uni-overlay-backdrop-blur) data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-(--uni-motion-overlay) ease-pop motion-reduce:animate-none" />
+        {/* 遮罩走暗化族 token（HIG-AUD-010）：原 50% 无出处，并入 scrim 族 0.4 */}
+        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--uni-z-modal)] bg-[var(--uni-overlay-scrim-color)] backdrop-blur-(--uni-overlay-backdrop-blur) data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-(--uni-motion-overlay) ease-pop motion-reduce:animate-none!" />
         <DialogPrimitive.Content
           data-slot="destructive-action-modal"
           aria-label={ariaLabel}
@@ -124,7 +125,7 @@ function DestructiveActionModal({
           className={cn(
             "fixed top-1/2 left-1/2 z-[var(--uni-z-modal)] w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-xl border border-gray-alpha-400 bg-background shadow-[var(--material-shadow-modal)] outline-none",
             "max-h-[min(800px,80vh)] overflow-y-auto",
-            "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 duration-(--uni-motion-overlay) ease-pop motion-reduce:animate-none",
+            "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 duration-(--uni-motion-overlay) ease-pop motion-reduce:animate-none!",
             className,
           )}
         >

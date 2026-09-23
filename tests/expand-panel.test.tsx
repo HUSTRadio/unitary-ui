@@ -97,14 +97,16 @@ describe("ExpandPanel", () => {
     expect(custom.style.maxWidth).toBe("50vw");
   });
 
-  it("遮罩 bg-black/40 + z-[var(--uni-z-drawer)]；面板 shadow-lg + 动画曲线类", () => {
+  it("遮罩走暗化族 token + z-[var(--uni-z-drawer)]；面板 shadow-lg + 动画曲线类", () => {
     renderPanel(<ExpandPanel side="top" open aria-label="menu" />);
     const overlay = document.querySelector(
       '[data-slot="expand-panel"] ~ [data-radix-popper-content-wrapper] ~ *, [role="dialog"]',
     );
     void overlay;
     const markup = document.body.innerHTML;
-    expect(markup).toContain("bg-black/40");
+    // HIG-AUD-010：写法收敛为 scrim 族 token，不得再回落字面量
+    expect(markup).toContain("bg-[var(--uni-overlay-scrim-color)]");
+    expect(markup).not.toMatch(/bg-black\/\d/);
     expect(markup).toContain("z-[var(--uni-z-drawer)]");
     const panel = document.querySelector('[data-slot="expand-panel"]')!;
     expect(panel.className).toContain("shadow-lg");
@@ -112,7 +114,7 @@ describe("ExpandPanel", () => {
     expect(panel.className).toContain("data-[state=closed]:animate-out");
     expect(panel.className).toContain("duration-(--uni-duration-slower)");
     expect(panel.className).toContain("ease-snap");
-    expect(panel.className).toContain("motion-reduce:animate-none");
+    expect(panel.className).toContain("motion-reduce:animate-none!");
     expect(panel.getAttribute("aria-label")).toBe("menu");
   });
 });

@@ -127,7 +127,7 @@ function ExpandPanel({
         <DialogPrimitive.Overlay
           data-below-topbar={belowTopbar || undefined}
           className={cn(
-            "fixed z-[var(--uni-z-drawer)] bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none motion-reduce:transition-none",
+            "fixed z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none",
             belowTopbar
               ? // 仅遮蔽正文区：遮罩顶边 = navbar 底边，topbar 保持可见可交互
                 "inset-x-0 bottom-0 top-[var(--expand-anchor-bottom,64px)]"
@@ -157,7 +157,7 @@ function ExpandPanel({
             // 浏览器把横向/组合手势交给 body 导致内容反向。不设 overscroll-contain
             // （它在部分 WebView 上会反转拖拽方向，手指上拖内容反向下移）。
             "z-[var(--uni-z-drawer)] touch-pan-y overflow-y-auto bg-background shadow-lg outline-none",
-            "data-[state=open]:animate-in data-[state=closed]:animate-out duration-(--uni-duration-slower) ease-snap motion-reduce:animate-none motion-reduce:!transition-none",
+            "data-[state=open]:animate-in data-[state=closed]:animate-out duration-(--uni-duration-slower) ease-snap motion-reduce:animate-none! motion-reduce:!transition-none",
             SIDE_CLASSES[side],
             SIDE_TRANSFORM_CLASSES[side],
             className,

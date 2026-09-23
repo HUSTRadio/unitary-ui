@@ -43,7 +43,7 @@ describe("Menu Bar contract", () => {
     expect(source).toContain("rounded-overlay");
     expect(source).toContain("shadow-[var(--material-shadow-menu)]");
     expect(source).toContain("bg-surface");
-    expect(source).toContain("motion-reduce:animate-none");
+    expect(source).toContain("motion-reduce:animate-none!");
   });
 
   test("HIG-AUD-011/012: mirrors zoom on exit and uses fast-tier duration", () => {

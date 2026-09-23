@@ -15,17 +15,23 @@ describe("Modal official API contract (G07-MODAL-01 fix)", () => {
     const src = await read("src/components/ui/modal.tsx");
     const line = overlayLine(src);
     expect(line).toBeDefined();
-    // official live metrics: light rgb(242,242,242) / dark rgb(0,0,0) @ opacity 0.8
-    expect(line).toContain("bg-[#f2f2f2]/80");
-    expect(line).toContain("dark:bg-black/80");
+    // official live metrics: light rgb(242,242,242) / dark rgb(0,0,0) @ opacity 0.8。
+    // HIG-AUD-010 起该值由 backdrop 族 token 承载（token 逐值冻结在
+    // tests/overlay-backdrop-tokens.test.ts），本测试只锁消费写法与「不得回落字面量」。
+    // 消费 backdrop 族的合成色（= color × opacity）：Overlay 带 Content 子节点，
+    // 不能用元素 opacity-*（内容会一起降透明）。族契约见 tests/overlay-backdrop-tokens.test.ts
+    expect(line).toContain("bg-[var(--uni-overlay-backdrop)]");
     expect(line).toContain("z-[var(--uni-z-modal)]"); // Task 9 token form of the locked 300
+    expect(line).not.toMatch(/bg-\[#|bg-black\//);
   });
 
   test("G07-MODAL-01: overlay has NO backdrop blur and no old black/50 z-50 scrim", async () => {
     const src = await read("src/components/ui/modal.tsx");
     const line = overlayLine(src);
     expect(line).toBeDefined();
-    expect(line).not.toMatch(/backdrop-/);
+    // 原意是「遮罩不得带模糊」：仍禁止 backdrop-blur，但族 token 名
+    // （--uni-overlay-backdrop-color/-opacity）不算模糊
+    expect(line).not.toContain("backdrop-blur");
     expect(line).not.toContain("bg-black/50");
     expect(line).not.toContain("z-50");
   });
@@ -55,7 +61,7 @@ describe("Modal official API contract (G07-MODAL-01 fix)", () => {
     expect(src).toContain("data-[state=open]:slide-in-from-top-8");
     expect(src).toContain("data-[state=closed]:slide-out-to-top-8");
     // 手势与动效仍受 prefers-reduced-motion 降级
-    expect(src).toContain("motion-reduce:animate-none");
+    expect(src).toContain("motion-reduce:animate-none!");
   });
 
   test("ModalContent forces aria-modal=true on the dialog content", async () => {

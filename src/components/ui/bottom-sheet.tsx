@@ -11,7 +11,8 @@ import { Grabber } from "@/components/ui/grabber";
  * 官方文档固定（固定/自适应高度 + 仅受控 show/onDismiss）；本组件只承载官方没有的
  * 能力——多档位拖拽吸附，因此需要 detents/showIndicator/gestures 这组官方不存在的 API。
  * 两者外壳同族，通过共享 token 对齐，而不是合并实现：
- * - overlay：bg-black/40 + z-[var(--uni-z-drawer)]（与 Drawer 逐字相同）；
+ * - overlay：bg-[var(--uni-overlay-scrim-color)] + z-[var(--uni-z-drawer)]
+ *   （暗化族 token，与 Drawer 逐字相同；HIG-AUD-010）；
  * - 面板圆角：rounded-t-overlay（与 CommandMenu 移动端 sheet 同族；Drawer 用 rounded-t-xl）。
  * 与 Drawer 的差异（勿"对齐"成一致）：本组件面板不叠 --material-shadow-*（面板贴视口
  * 底边、高度由档位驱动，浮层阴影属 Drawer 的固定高度语义），动画走 --uni-motion-overlay
@@ -166,7 +167,7 @@ function BottomSheet({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none motion-reduce:transition-none" />
+        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none" />
         <DialogPrimitive.Content
           tabIndex={-1}
           data-slot="bottom-sheet"
@@ -193,7 +194,7 @@ function BottomSheet({
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
             "duration-(--uni-motion-overlay) ease-snap",
-            "motion-reduce:animate-none motion-reduce:transition-none",
+            "motion-reduce:animate-none! motion-reduce:transition-none",
             className,
           )}
           style={

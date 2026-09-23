@@ -43,6 +43,8 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
   return (
     <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
       <DialogPrimitive.Portal>
+        {/* 官方 cmdk 写法（design-gate 冻结）：两族遮罩 token 之外的单列例外，
+            理由见 index.css「遮罩两族」注释（HIG-AUD-010） */}
         <DialogPrimitive.Overlay
           data-slot="command-menu-overlay"
           className="command-menu-overlay fixed inset-0 z-[var(--uni-z-modal)] bg-background-100 opacity-80"

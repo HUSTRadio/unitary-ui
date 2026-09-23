@@ -65,6 +65,9 @@ describe("modal 排版几何（2026-09-15 固化）", () => {
 
   test("scrim 双主题保持官方实测值", async () => {
     const modal = await read("src/components/ui/modal.tsx");
-    expect(modal).toContain("bg-[#f2f2f2]/80 dark:bg-black/80");
+    // HIG-AUD-010：字面量已迁到 backdrop 族合成色（= color × opacity；官方实测
+    // light #f2f2f2 / dark #000 @ 0.8 由 token 逐值承载，契约见 overlay-backdrop-tokens）。
+    expect(modal).toContain("bg-[var(--uni-overlay-backdrop)]");
+    expect(modal).not.toMatch(/bg-\[#|dark:bg-black\//);
   });
 });

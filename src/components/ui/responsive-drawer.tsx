@@ -254,7 +254,7 @@ function ResponsiveDrawerContent({
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay
         data-slot="responsive-drawer-overlay"
-        className="fixed inset-0 z-[var(--uni-z-drawer)] bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none motion-reduce:transition-none"
+        className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none"
       />
       <DialogPrimitive.Content
         tabIndex={-1}
@@ -264,7 +264,7 @@ function ResponsiveDrawerContent({
           "fixed z-[var(--uni-z-drawer)] flex flex-col touch-pan-y overflow-hidden border-border bg-background shadow-[var(--material-shadow-menu)] outline-none",
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "duration-(--uni-motion-expansive) ease-snap",
-          "motion-reduce:animate-none motion-reduce:transition-none",
+          "motion-reduce:animate-none! motion-reduce:transition-none",
           PLACEMENT_STYLES[placement],
           (placement === "right" || placement === "left") && SIZE_STYLES[size],
           dragging && "select-none",

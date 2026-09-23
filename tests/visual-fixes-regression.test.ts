@@ -36,11 +36,11 @@ describe("视觉修复固化（badge / calendar compact / a11y）", () => {
 
   test("modal/sheet/collapse/motion 组件保留 motion-reduce 适配", async () => {
     const expectations: Array<[string, string]> = [
-      ["src/components/ui/sheet.tsx", "motion-reduce:animate-none"],
-      ["src/components/ui/modal.tsx", "motion-reduce:animate-none"],
-      ["src/components/ui/context-card.tsx", "motion-reduce:animate-none"],
+      ["src/components/ui/sheet.tsx", "motion-reduce:animate-none!"],
+      ["src/components/ui/modal.tsx", "motion-reduce:animate-none!"],
+      ["src/components/ui/context-card.tsx", "motion-reduce:animate-none!"],
       ["src/components/ui/collapse.tsx", "motion-reduce:transition-none"],
-      ["src/components/ui/destructive-action-modal.tsx", "motion-reduce:animate-none"],
+      ["src/components/ui/destructive-action-modal.tsx", "motion-reduce:animate-none!"],
     ];
     for (const [file, needle] of expectations) {
       const src = await read(file);

@@ -19,10 +19,11 @@ import { cn } from "@/lib/utils";
  *   直接消费 @utility material-medium）；
  * - 动画：data-[state=open]:slide-in-from-right-5（left 对称镜像）+ fade-in-0；
  *   closed slide-out-to-*-10 + fade-out-0；duration-(--uni-duration-base)；
- *   motion-reduce:animate-none（WCAG 2.3.3）；
+ *   motion-reduce:animate-none!（WCAG 2.3.3）；
  * - Overlay：bg-[var(--uni-overlay-backdrop-color)] @
- *   opacity-[var(--uni-overlay-backdrop-opacity)]（对齐 sheet 的 token 化 overlay，
- *   不用 drawer 的 bg-black/40 直搬）；noOverlay=true 跳过渲染 Overlay，并同步以
+ *   opacity-[var(--uni-overlay-backdrop-opacity)]（对齐 sheet 的 backdrop 族 token；
+ *   与 drawer 的暗化族 --uni-overlay-scrim-color 是**两族**，勿混用——HIG-AUD-010）；
+ *   noOverlay=true 跳过渲染 Overlay，并同步以
  *   modal={false} 运行（Radix 非模态：不锁 body 滚动、不 hideOthers 遮蔽外部内容、
  *   无焦点陷阱，页面保持可操作；外点仍触发 onDismiss，是否关闭由消费者决定）
  *   ——HIG-AUD-007；
@@ -69,7 +70,7 @@ const SidePanelOverlay = React.forwardRef<
     data-slot="side-panel-overlay"
     className={cn(
       "fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-backdrop-color)] opacity-[var(--uni-overlay-backdrop-opacity)]",
-      "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none motion-reduce:transition-none",
+      "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none! motion-reduce:transition-none",
       className,
     )}
     {...props}
@@ -94,7 +95,7 @@ const SidePanelContent = React.forwardRef<
         "material-medium fixed inset-y-4 z-[var(--uni-z-drawer)] w-[var(--uni-drawer-width)] overflow-y-auto outline-none",
         "data-[state=open]:animate-in data-[state=open]:duration-(--uni-duration-base) data-[state=open]:fade-in-0",
         "data-[state=closed]:animate-out data-[state=closed]:duration-(--uni-duration-base) data-[state=closed]:fade-out-0",
-        "motion-reduce:animate-none motion-reduce:transition-none",
+        "motion-reduce:animate-none! motion-reduce:transition-none",
         SIDE_STYLES[side],
         className,
       )}
