@@ -23,8 +23,9 @@ export function EditMenuDefault3F2A9C71Example() {
   return (
     <div className="w-full max-w-[420px] space-y-3">
       <EditMenu
-        onCut={(selected) => {
-          setText((current) => current.replace(selected, "").trim());
+        // 删除必须用选区原文（rawText）：用已 trim 的文本会残留首尾空白（HIG-AUD-021）
+        onCut={(selected, rawText) => {
+          setText((current) => current.replace(rawText, ""));
           setLog(`Cut ${selected.length} characters.`);
         }}
         onCopy={(selected) => setLog(`Copied ${selected.length} characters.`)}
@@ -37,6 +38,8 @@ export function EditMenuDefault3F2A9C71Example() {
         onSelectAll={selectAll}
         onLookUp={(selected) => setLog(`Looking up “${selected}”.`)}
         onShare={(selected) => setLog(`Sharing “${selected}”.`)}
+        // 剪贴板不可用时 onCut / onCopy 不会触发；这里给出可见反馈（HIG-AUD-021）
+        onError={() => setLog("Clipboard write is blocked — the selection was left untouched.")}
       >
         <p ref={textRef} className="text-copy-14 leading-6 text-foreground">
           {text}

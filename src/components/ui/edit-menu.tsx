@@ -18,7 +18,11 @@ import { cn } from "@/lib/utils";
  * **行为要点（HIG）**
  * - 仅在容器内存在有效文本选区时浮现；选区变化 / 滚动 / 缩放 / 点击他处即隐藏。
  * - 操作按上下文可用：未提供回调的标准操作不渲染（HIG 的"只显示相关操作"）。
- * - 浮层优先显示在选区上方，上方空间不足时翻转到下方；水平方向居中于选区并 clamp 进视口。
+ * - 浮层优先显示在选区上方，上方空间不足时翻转到下方；垂直与水平方向都 clamp 进视口。
+ * - 触屏（HIG-AUD-020）：手势结束后的合成 `mousedown` 不会误关胶囊；容器内抑制 iOS 原生
+ *   callout 与原生上下文菜单（消费方传入自己的 `onContextMenu` 即可让位）。
+ * - 剪贴板（HIG-AUD-021）：写入的是选区**原文**（含首尾空白）；写入失败时不触发
+ *   `onCut` / `onCopy`，改为 `onError`，由调用方给出可见反馈。
  *
  * **定位**：项目无 floating-ui 依赖，选区定位手写（`getSelection()` + `Range.getBoundingClientRect()`
  * + fixed 定位 + portal 到 body，避免被容器 overflow 裁剪）。
@@ -45,8 +49,13 @@ export interface EditMenuAction {
   label: React.ReactNode;
   /** 可选图标（16px 档） */
   icon?: React.ReactNode;
-  /** 点击时触发，参数为当前选中文本 */
-  onSelect: (selectedText: string) => void;
+  /**
+   * 点击时触发。
+   * @param selectedText 选中文本（**已 trim**，适合长度统计、查询等）
+   * @param rawText 选区**原文**（保留首尾空白）；剪切、替换等「原样处理选区」的操作
+   *   必须用它，否则处理结果与用户可见选区不一致（HIG-AUD-021）
+   */
+  onSelect: (selectedText: string, rawText: string) => void;
   disabled?: boolean;
 }
 
@@ -58,10 +67,18 @@ export interface EditMenuProps
   actions?: readonly EditMenuAction[];
   /** 启用的标准操作与顺序（默认全开）；未提供对应回调的项不渲染 */
   standardActions?: readonly EditMenuStandardAction[];
-  /** 剪切：组件复制文本后回调，实际删除由调用方执行（选区内容不受本组件控制） */
-  onCut?: (text: string) => void;
-  /** 复制后回调（复制动作本身由组件执行） */
-  onCopy?: (text: string) => void;
+  /**
+   * 剪切：组件把选区**原文**写入剪贴板后回调，实际删除由调用方执行
+   * （选区内容不受本组件控制）。第二个参数是选区原文，删除时必须用它。
+   * 剪贴板写入失败时**不会**回调（HIG-AUD-021：避免调用方据此删除内容造成数据丢失），
+   * 失败改由 `onError` 上报。
+   */
+  onCut?: (text: string, rawText: string) => void;
+  /**
+   * 复制后回调（复制动作本身由组件执行，写入剪贴板的是选区原文）。
+   * 剪贴板写入失败时**不会**回调，改由 `onError` 上报。
+   */
+  onCopy?: (text: string, rawText: string) => void;
   /**
    * 粘贴。组件不读取剪贴板（避免申请读权限），由调用方自行
    * `navigator.clipboard.readText()` 或写入编辑器。
@@ -69,10 +86,18 @@ export interface EditMenuProps
   onPaste?: () => void;
   /** 全选（调用方实现：选中容器内全部文本） */
   onSelectAll?: () => void;
-  /** 查询（Look Up） */
-  onLookUp?: (text: string) => void;
-  /** 共享 */
-  onShare?: (text: string) => void;
+  /** 查询（Look Up）：参数为选中文本与选区原文 */
+  onLookUp?: (text: string, rawText: string) => void;
+  /** 共享：参数为选中文本与选区原文 */
+  onShare?: (text: string, rawText: string) => void;
+  /**
+   * 剪贴板写入失败回调（参数为原始错误对象）。
+   *
+   * 组件不自行渲染错误 UI——**可见反馈由调用方给出**（如 toast / 行内提示）。
+   * 契约：写入失败时 `onCut` / `onCopy` 一律不触发，保证调用方不会在未复制成功时
+   * 删除内容（HIG-AUD-021）。
+   */
+  onError?: (error: unknown) => void;
   /** 胶囊与选区的间距（px，默认 8） */
   offset?: number;
 }
@@ -93,7 +118,10 @@ const VIEWPORT_MARGIN = 8;
 const CAPSULE_EXIT_MS = 150;
 
 interface SelectionInfo {
+  /** 选中文本（已 trim，供长度统计 / 查询使用） */
   text: string;
+  /** 选区原文（含首尾空白，供原样剪切 / 替换使用；HIG-AUD-021） */
+  rawText: string;
   rect: { top: number; bottom: number; left: number; width: number };
 }
 
@@ -124,8 +152,10 @@ function EditMenu({
   onSelectAll,
   onLookUp,
   onShare,
+  onError,
   offset = DEFAULT_OFFSET,
   className,
+  onContextMenu,
   ...props
 }: EditMenuProps) {
   const { t } = useI18n();
@@ -161,7 +191,8 @@ function EditMenu({
     if (!selectionObject || selectionObject.isCollapsed || selectionObject.rangeCount === 0) {
       return null;
     }
-    const text = selectionObject.toString().trim();
+    const rawText = selectionObject.toString();
+    const text = rawText.trim();
     if (!text) return null;
     const range = selectionObject.getRangeAt(0);
     if (!container.contains(range.commonAncestorContainer)) return null;
@@ -169,8 +200,10 @@ function EditMenu({
     if (rect.width === 0 && rect.height === 0) return null;
     // 记录 Range 以便焦点移入胶囊后还原选区（HIG-AUD-004）
     savedRangeRef.current = range;
+    // text 已 trim（长度统计 / 查询语义不变），rawText 保留首尾空白供原样操作（HIG-AUD-021）
     return {
       text,
+      rawText,
       rect: { top: rect.top, bottom: rect.bottom, left: rect.left, width: rect.width },
     };
   }, []);
@@ -209,7 +242,35 @@ function EditMenu({
       if (next && dismissedSignatureRef.current === selectionSignature(next)) return;
       setSelection(next);
     };
+    /**
+     * HIG-AUD-020：触屏手势结束后浏览器会补发一次**合成 mousedown**（compat mouse
+     * event），其 target 是手指落点——必然在容器内、不在胶囊内。原实现「不在胶囊内即关闭」
+     * 于是把 `touchend` 刚浮现的胶囊立刻收掉（一闪即隐）。
+     *
+     * 判据（按可靠性排序）：
+     * 1. `sourceCapabilities.firesTouchEvents`——规范的「由触摸合成」判据（Chromium）；
+     * 2. 触屏手势结束后的短窗口——覆盖不实现 (1) 的引擎（Safari / Firefox）。
+     *
+     * 注意：合成 mousedown 的 `isTrusted` 是 `true`，**不能**用它过滤。
+     */
+    const SYNTHETIC_MOUSE_WINDOW_MS = 1000;
+    let touchEndedAt: number | null = null;
+    const markTouchEnd = () => {
+      touchEndedAt = Date.now();
+    };
+    const consumeSyntheticMouse = (event: MouseEvent) => {
+      const capabilities = (
+        event as MouseEvent & { sourceCapabilities?: { firesTouchEvents?: boolean } | null }
+      ).sourceCapabilities;
+      const synthesizedFromTouch =
+        capabilities?.firesTouchEvents === true ||
+        (touchEndedAt !== null && Date.now() - touchEndedAt <= SYNTHETIC_MOUSE_WINDOW_MS);
+      // 窗口只覆盖紧随手势的那一次事件，避免吞掉后续真实鼠标交互。
+      touchEndedAt = null;
+      return synthesizedFromTouch;
+    };
     const closeIfOutside = (event: MouseEvent) => {
+      if (consumeSyntheticMouse(event)) return;
       const target = event.target as Node | null;
       if (target && capsuleRef.current?.contains(target)) return;
       setSelection(null);
@@ -228,6 +289,8 @@ function EditMenu({
     };
 
     document.addEventListener("mouseup", sync);
+    // 先记录手势结束时刻，再同步选区：紧随其后的合成 mousedown 需要被识别（见上）。
+    document.addEventListener("touchend", markTouchEnd, true);
     document.addEventListener("touchend", sync);
     document.addEventListener("selectionchange", sync);
     document.addEventListener("mousedown", closeIfOutside, true);
@@ -240,6 +303,7 @@ function EditMenu({
 
     return () => {
       document.removeEventListener("mouseup", sync);
+      document.removeEventListener("touchend", markTouchEnd, true);
       document.removeEventListener("touchend", sync);
       document.removeEventListener("selectionchange", sync);
       document.removeEventListener("mousedown", closeIfOutside, true);
@@ -304,10 +368,19 @@ function EditMenu({
     const centerX = displaySelection.rect.left + displaySelection.rect.width / 2;
     const placement =
       displaySelection.rect.top >= height + offset + VIEWPORT_MARGIN ? "top" : "bottom";
+    // 上方分支的可用空间由 placement 判定保证（top ≥ VIEWPORT_MARGIN）。
+    // 下方分支必须自行 clamp：选区贴近视口底部时 `rect.bottom + offset` 会把胶囊顶出下沿
+    // （HIG-AUD-021；`VIEWPORT_MARGIN` 原先只参与上方判定与水平 clamp）。
     const top =
       placement === "top"
         ? displaySelection.rect.top - offset - height
-        : displaySelection.rect.bottom + offset;
+        : Math.max(
+            VIEWPORT_MARGIN,
+            Math.min(
+              displaySelection.rect.bottom + offset,
+              window.innerHeight - height - VIEWPORT_MARGIN,
+            ),
+          );
     const half = width / 2;
     const left = Math.min(
       Math.max(centerX, half + VIEWPORT_MARGIN),
@@ -321,9 +394,29 @@ function EditMenu({
     setSelection(null);
   }, []);
 
+  /**
+   * 复制 / 剪切的标准动作：**成功写入剪贴板后**才回调。
+   *
+   * HIG-AUD-021：原实现 `void copyTextToClipboard(text).then(() => onCut(text))` 无 `catch`，
+   * 写入失败时 `onCut` 仍被调用，调用方据此删除选中内容即造成**数据丢失**。
+   * 现在失败一律走 `onError`（可见反馈由调用方给出），`onCut` / `onCopy` 不触发。
+   * 写入的是选区原文（`rawText`），与系统原生复制的行为一致。
+   */
+  const writeClipboardThen = React.useCallback(
+    (rawText: string, after: () => void) => {
+      void copyTextToClipboard(rawText)
+        .then(after)
+        .catch((error: unknown) => {
+          onError?.(error);
+        });
+    },
+    [onError],
+  );
+
   const items: EditMenuAction[] = React.useMemo(() => {
     if (!displaySelection) return [];
     const text = displaySelection.text;
+    const rawText = displaySelection.rawText;
     const standard: EditMenuAction[] = [];
 
     for (const key of standardActions) {
@@ -334,7 +427,7 @@ function EditMenu({
               id: "cut",
               label: t("Cut"),
               onSelect: () => {
-                void copyTextToClipboard(text).then(() => onCut(text));
+                writeClipboardThen(rawText, () => onCut(text, rawText));
               },
             });
           }
@@ -344,7 +437,7 @@ function EditMenu({
             id: "copy",
             label: t("Copy"),
             onSelect: () => {
-              void copyTextToClipboard(text).then(() => onCopy?.(text));
+              writeClipboardThen(rawText, () => onCopy?.(text, rawText));
             },
           });
           break;
@@ -360,19 +453,35 @@ function EditMenu({
           break;
         case "lookUp":
           if (onLookUp) {
-            standard.push({ id: "lookUp", label: t("Look Up"), onSelect: () => onLookUp(text) });
+            standard.push({
+              id: "lookUp",
+              label: t("Look Up"),
+              onSelect: () => onLookUp(text, rawText),
+            });
           }
           break;
         case "share":
           if (onShare) {
-            standard.push({ id: "share", label: t("Share"), onSelect: () => onShare(text) });
+            standard.push({ id: "share", label: t("Share"), onSelect: () => onShare(text, rawText) });
           }
           break;
       }
     }
 
     return actions ? [...standard, ...actions] : standard;
-  }, [displaySelection, standardActions, actions, onCut, onCopy, onPaste, onSelectAll, onLookUp, onShare, t]);
+  }, [
+    displaySelection,
+    standardActions,
+    actions,
+    onCut,
+    onCopy,
+    onPaste,
+    onSelectAll,
+    onLookUp,
+    onShare,
+    writeClipboardThen,
+    t,
+  ]);
 
   /** HIG-AUD-004：roving tabindex 的落点，越界时收敛到末项。 */
   const rovingIndex = Math.min(activeIndex, Math.max(items.length - 1, 0));
@@ -419,6 +528,8 @@ function EditMenu({
         data-exiting={exiting ? "" : undefined}
         // mousedown 阻止默认：点击胶囊不清除当前选区（否则 click 前选区已消失）
         onMouseDown={(event) => event.preventDefault()}
+        // HIG-AUD-020：长按胶囊不应弹出原生 callout / 上下文菜单（胶囊自带全部操作）
+        onContextMenu={(event) => event.preventDefault()}
         onKeyDown={(event) => {
           if (event.key === "Escape") {
             event.stopPropagation();
@@ -463,7 +574,10 @@ function EditMenu({
           transform: "translate(-50%, 0)",
         }}
         className={cn(
-          "flex max-w-[calc(100vw-16px)] items-center gap-0.5 overflow-x-auto rounded-full bg-[var(--color-bg-elevated)] p-1 shadow-[var(--material-shadow-menu)]",
+          // touch-manipulation：胶囊是按钮组，去掉双击缩放判定带来的点击延迟
+          // （页面级滚动/缩放不受影响——容器不加 touch-action，见 HIG-AUD-020 台账）
+          // -webkit-touch-callout：长按胶囊同样不弹出原生 callout
+          "flex max-w-[calc(100vw-16px)] touch-manipulation [-webkit-touch-callout:none] items-center gap-0.5 overflow-x-auto rounded-full bg-[var(--color-bg-elevated)] p-1 shadow-[var(--material-shadow-menu)]",
           "z-[var(--uni-z-popover)] duration-(--uni-duration-fast) motion-reduce:animate-none!",
           exiting
             ? "animate-out fade-out-0 zoom-out-95 pointer-events-none"
@@ -485,7 +599,9 @@ function EditMenu({
               tabIndex={index === rovingIndex ? 0 : -1}
               disabled={item.disabled}
               onFocus={() => setActiveIndex(index)}
-              onClick={() => runAction(() => item.onSelect(displaySelection.text))}
+              onClick={() =>
+                runAction(() => item.onSelect(displaySelection.text, displaySelection.rawText))
+              }
               className={cn(
                 // pointer-coarse：触屏命中区 ≥44×44（HIG-AUD-013）；桌面维持 28px 胶囊
                 "flex h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2.5 text-label-13 text-gray-1000 outline-none transition-colors pointer-coarse:min-h-11 pointer-coarse:min-w-11",
@@ -506,7 +622,24 @@ function EditMenu({
     ) : null;
 
   return (
-    <div ref={containerRef} data-slot="edit-menu" className={className} {...props}>
+    <div
+      ref={containerRef}
+      data-slot="edit-menu"
+      // HIG-AUD-020：选区容器内长按会**同时**弹出 iOS 原生 callout（WebKit 私有属性，
+      // 继承到子树）与 Android 原生上下文菜单，与胶囊重叠。callout 走 Tailwind 任意属性
+      // 类（Blink / jsdom 都会丢弃该属性的计算值，类名与编译后的样式规则才是可核对的证据）；
+      // 原生上下文菜单只在调用方未自行处理 `onContextMenu` 时抑制——需要容器内嵌
+      // ContextMenu（右键菜单）的消费方传入自己的 handler 即可让位。
+      // 不声明 `touch-action`：容器是页面内容区，必须保留原生滚动与缩放手势。
+      className={cn("[-webkit-touch-callout:none]", className)}
+      onContextMenu={
+        onContextMenu ??
+        ((event) => {
+          event.preventDefault();
+        })
+      }
+      {...props}
+    >
       {children}
       {typeof document !== "undefined" && capsule ? createPortal(capsule, document.body) : null}
     </div>

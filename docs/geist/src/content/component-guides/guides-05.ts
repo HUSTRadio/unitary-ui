@@ -378,19 +378,21 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       content: [
         "胶囊容器使用 role=\"toolbar\" 并带 aria-label，每个操作是可聚焦的原生 button。",
         "Escape 关闭胶囊；点击胶囊不会清除当前选区。",
+        "触屏：容器与胶囊都抑制原生 callout 与原生上下文菜单，长按不会与胶囊叠出第二套编辑菜单。",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
         "组件自行监听选区，调用方只需提供各操作回调；未提供回调的标准操作不会渲染。",
-        "Cut 由组件复制文本后交给 onCut，删除动作由调用方执行。",
+        "Cut 由组件复制文本后交给 onCut，删除动作由调用方执行；回调同时给出已 trim 文本与选区原文，删除请用原文（否则首尾空白会残留）。",
+        "剪贴板写入失败时不触发 onCut / onCopy，改为 onError：可见反馈由调用方渲染，避免未复制成功就删除内容。",
       ],
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "上方空间不足时翻转到选区下方，水平方向居中于选区并 clamp 进视口。",
+        "上方空间不足时翻转到选区下方；水平居中于选区并 clamp 进视口，垂直方向同样 clamp（选区贴近视口底部时不再溢出下沿）。",
         "滚动与视口缩放时收起，避免浮层与选区脱节。",
       ],
     },
@@ -1030,19 +1032,21 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       content: [
         "The capsule uses role=\"toolbar\" with an aria-label, and every action is a focusable native button.",
         "Escape closes the capsule; pressing the capsule never clears the current selection.",
+        "On touch, both the container and the capsule suppress the native callout and context menu, so a long press never stacks a second edit menu on top of the capsule.",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
         "The component watches the selection itself; callers only supply handlers, and standard actions without a handler are not rendered.",
-        "Cut copies the text for you and then hands it to onCut, which performs the deletion.",
+        "Cut copies the text for you and then hands it to onCut, which performs the deletion; handlers receive both the trimmed text and the raw selection, and deletion must use the raw text to avoid leftover whitespace.",
+        "When the clipboard write fails, onCut and onCopy are not fired — the failure goes to onError so the caller can show visible feedback instead of deleting content that was never copied.",
       ],
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "It flips below the selection when there is no room above and clamps horizontally inside the viewport.",
+        "It flips below the selection when there is no room above, clamps horizontally inside the viewport, and clamps vertically too, so a selection near the bottom edge no longer pushes the capsule past it.",
         "It collapses on scroll and viewport resize so the capsule never drifts away from the selection.",
       ],
     },
