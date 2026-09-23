@@ -571,3 +571,17 @@
 - **门禁**：`pnpm run typecheck` exit 0；`pnpm run lint` 0 errors / 16 warnings（存量）；全量 `pnpm run test` → `8 failed | 230 passed (238)` ＝ 文档基线。
 - **文档链**：未改 props / 示例 / 路由（无新 prop），`component-api.ts` 无需变更；受影响的旧契约断言已按新行为更新。
 - **台账落点**：本文件 §5P、主报告 `015`（标题 + 验证状态 + 修复记录）、矩阵 `:88`/`:323`、交付书 §1/§2/批次 C/§7.7/§10。
+
+---
+
+## 5Q. HIG-AUD-016 修复记录（2026-09-23，MultiSelect 键盘可达性 + 对话框命名）
+
+**来源**：交付书批次 C（`016`）。三项证据的修复前行号：Tab 循环 `:117-131`、无名对话框 `:174`、热区/`Checkbox` `:227-247`。
+
+- **Tab 循环（根因不在我们代码里）**：先移除我们自己的 `preventDefault` 循环；**真实浏览器实测仍然走不出面板** → 追到根因：**Radix Popover 在 `FocusScope` 上硬编码 `loop: true`**（`node_modules/@radix-ui/react-popover/dist/index.mjs:222-227`，`loop: true, trapped: trapFocus`），因此单靠不拦截无法穿透。改为**面板边缘显式接管**：Tab 到最后一个可聚焦元素（Shift+Tab 到第一个）时经 Radix 公开的 `Popover.Close` 通道关闭，焦点由 `onCloseAutoFocus` 交还触发元素——等价于「焦点移出浮层即关闭」的通行约定。
+- **热区与控件可达**：移除 `Checkbox` 与行操作按钮上的 `tabIndex={-1}`（两者进入 Tab 顺序，各自带 role 与 `aria-label`）；命中区 `div` 保留为**指针命中冗余放大**（触屏 ≥44 由行 `pointer-coarse` 保底），不再承担控件语义（源码注释写明）。
+- **对话框命名**：`role="dialog"` 的 `aria-label` 缺省取本地化的 `t("Select options")`（**新增 i18n key，en/zh 双侧**，受 `framework-i18n` 键集同构与 `component-i18n-source` 调用点扫描守护）；调用方可用 `aria-label` / `aria-labelledby` 覆盖，提供 `labelledby` 时不再输出 `label`（避免双名称）。
+- **回归**：新增 `tests/multi-select-keyboard.test.tsx`（4 用例：命名与两种覆盖 / Tab 不被 `preventDefault` / 行控件可 Tab 且带 `aria-label` / 方向键 roving 不回归）；新增**永久 e2e** `tests/e2e/multi-select-keyboard.spec.ts`（**1 passed (17.9s)**：仅键盘 Enter 打开 → Tab 进入面板遍历 → Tab 最终离开面板）；`multi-select-api` 复跑通过。
+- **门禁**：`pnpm run typecheck` exit 0；`pnpm run lint` 0 errors / 16 warnings（存量）；全量 `pnpm run test` → `7 failed | 232 passed (239)` ＝ 文档基线（本轮 flaky 全过）。
+- **关键教训**：`016` 的「Tab 锁」最初修复目标判断有误——我们自己的 `preventDefault` 只是表象，Radix 的 `FocusScope` 才是实际拦截者；**单测（`defaultPrevented === false`）会通过而用户可见行为不变**。教训：涉及「用户能否完成某操作」的条目，**必须用真实浏览器的行为断言收口**（本轮靠 e2e 才发现），不能只看单测。
+- **台账落点**：本文件 §5Q、主报告 `016`（标题 + 验证状态 + 修复记录）、矩阵 `:79`/`:324`、交付书 §1/§2/批次 C/§7.8/§10。

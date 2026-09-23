@@ -487,15 +487,22 @@
   - **真实浏览器验收（临时探针，跑完即删，1 passed）**：docs `/components/tooltip` 上所有 `span` 触发器**均无 `tabindex` 属性**、所有 `button` 触发器保持 `tabIndex 0`；聚焦被 Tooltip 包裹的 `<Button>` 仍能打开 `[role="tooltip"]`（**focus 通道未回归**）。
   - 门禁：`typecheck` exit 0；`lint` 0 errors / 16 warnings（存量）；定向 vitest **4 files / 16 tests**（`tooltip-focus`、`tooltip-api`、`tooltip-tip`、`loading-icon-layout`）；全量 `pnpm test` `8 failed | 230 passed (238)` ＝ 文档基线。
 
-#### HIG-AUD-016 MultiSelect：自写可点击 `div` 热区 + Tab 被锁在面板内
+#### HIG-AUD-016 MultiSelect：自写可点击 `div` 热区 + Tab 被锁在面板内 ✅ 已修复（2026-09-23，增补 §5Q）
 
-- **严重度**：P1 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[静态确证]`
-- **证据**：`src/components/ui/multi-select.tsx`
+- **严重度**：P1 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-23，修复与复测记录见增补 §5Q）
+- **证据（行号取自修复前版本，保留对照）**：`src/components/ui/multi-select.tsx`
   - `:227-233` `data-slot="multi-select-checkbox-target"` 是带 `onClick` 的 `div`，**无 `role`、无 `tabIndex`、无键盘处理**；其内部 `Checkbox` 被强制 `tabIndex={-1}`（`:238`）→ 该热区对键盘与 AT 完全不可达；
   - `:117-130` 在 `role="dialog"` 内 `preventDefault` 拦截 `Tab` 做循环 → **键盘用户无法用 Tab 离开面板**（APG 反模式），只能靠 `Escape`；
   - `:173` `role="dialog"` **无 `aria-label` / `aria-labelledby`** → 无名对话框。
 - **建议修复方向**：热区改为真正可聚焦元素（或复用 `Checkbox` 并取消 `tabIndex={-1}`）；移除 Tab 循环（保留 `Escape` + 外点）；给 dialog 补可访问名称。
 - **验收场景**：仅用键盘完成「打开面板 → Tab 遍历所有行与操作 → Tab 离开面板」；`role="dialog"` 有可访问名称。
+
+- **修复记录（2026-09-23，增补 §5Q）**：
+  - **Tab 循环**：先删掉我们自己的 `preventDefault` 循环；实测发现**Radix Popover 在 `FocusScope` 上硬编码 `loop: true`**（`@radix-ui/react-popover/dist/index.mjs:222-227`），只去掉我们的拦截 Tab 仍走不出面板。故改为在**面板边缘显式接管**：Tab 到最后一个可聚焦元素（Shift+Tab 到第一个）时走 Radix 公开的 `Popover.Close` 通道关闭，焦点由 `onCloseAutoFocus` 交还触发元素——等价于通行的「焦点移出浮层即关闭」约定。
+  - **热区/键盘可达**：移除 `Checkbox` 与行操作按钮上的 `tabIndex={-1}`（两者进入 Tab 顺序，各带 role 与 `aria-label`）；命中区 div 保留为**指针命中冗余放大**（触屏 ≥44 由行 `pointer-coarse` 保底），不再承担控件语义（源码注释已写明）。
+  - **对话框命名**：`role="dialog"` 补 `aria-label`，缺省取本地化的 `t("Select options")`（新增 i18n key，en/zh 双侧补齐，受键集同构与调用点扫描守护）；调用方可用 `aria-label` / `aria-labelledby` 覆盖（提供 labelledby 时不再输出 label，避免双名称）。
+  - 回归：新增 `tests/multi-select-keyboard.test.tsx`（4 用例：对话框命名与两种覆盖 / Tab 不被 `preventDefault` / 行控件可 Tab 且带 `aria-label` / 方向键 roving 不回归）；新增**永久 e2e** `tests/e2e/multi-select-keyboard.spec.ts`（**1 passed**：仅键盘 Enter 打开 → Tab 进入面板遍历 → Tab 最终离开面板）。
+  - 门禁：`typecheck` exit 0；`lint` 0 errors / 16 warnings（存量）；全量 `pnpm test` `7 failed | 232 passed (239)` ＝ 文档基线。
 
 #### HIG-AUD-017 无「路由变化即关闭浮层」机制 ✅ 已修复（2026-09-23，增补 §5N）
 

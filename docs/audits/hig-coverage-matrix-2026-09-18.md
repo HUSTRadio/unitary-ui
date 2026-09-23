@@ -76,7 +76,7 @@
 | `clearable-input` | ✔ | ✔ | ✔ | ✔ | ✔ |
 | `combobox` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-011、018、025、029、033 |
 | `search-input` | ✔ | ✔ | ✔ | ✔ | ✔ |
-| `multi-select` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-009、013、016、025、027 |
+| `multi-select` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-009、013、~~016~~（**✅ 2026-09-23**：Tab 不再被锁 + 控件可达 + 对话框命名，增补 §5Q）、025、027 |
 | `label` | ✔ | ✔ | ✔ | ✔ | ✔ |
 | `fieldset` | ✔ | ✔ | ✔ | ✔ | ✔（含 `ErrorText`/`WarningText`/`DisabledWall`） |
 
@@ -321,7 +321,7 @@
 | HIG-AUD-013 | P1 | `menu`、`dots-menu`、`select`、`multi-select`、`toast`、`theme-switcher`、`hamburger-menu`、`destructive-action-modal`、`edit-menu`（增补扩充：`menu-bar` Trigger、`toolbar` Item）——**已修复（2026-09-23，`pointer-coarse:` 触屏命中区 ≥44×44 + e2e 9 passed，增补 §5J）** |
 | HIG-AUD-014 | P1 | `toast` |
 | HIG-AUD-015 | P1 | `tooltip`——**已修复（2026-09-23，只透传 `tabIndex`、不制造焦点；消费面 22 处复核无键盘回归 + 浏览器探针，增补 §5P）** |
-| HIG-AUD-016 | P1 | `multi-select` |
+| HIG-AUD-016 | P1 | `multi-select`——**已修复（2026-09-23，Tab 边缘接管关闭 + 控件可 Tab/带 aria + 对话框命名；根因是 Radix `FocusScope` 硬编码 `loop`，增补 §5Q）** |
 | HIG-AUD-017 | P1 | `hamburger-menu`、`context-menu`（href 项，**未改动**：依赖 Radix Item 默认关闭，未实测）、全部浮层——**已修复（2026-09-23，导航条目激活即关闭 + 库层 `useDismissOnNavigate` + 文档消费方接入 + e2e 2 passed + 变异测试，增补 §5N）** |
 | HIG-AUD-018 | P1 | `combobox`、`bottom-sheet`、`toast`、`split-button`——**已修复（2026-09-23，4/4：Combobox `open`/`onOpenChange`、BottomSheet `detent`、SplitButton `menuButtonDisabled`、Toasts `createToastStore` 注入；受控契约测试 + 浏览器回归 + 文档注册同步，增补 §5O）** |
 | HIG-AUD-019 | P1 | `drawer`（**经复核不成立**：`drawer.tsx:142` 早有 reduce 类）、`theme-switcher`、`combobox`、+ 66 个文件无组件级处理——**已修复（2026-09-23，22 浮层 kill switch 改 important 形式 + e2e 8 passed + 覆盖契约，根因见增补 §5L）** |
