@@ -47,17 +47,20 @@ function Tooltip({
   disableTriggers = false,
   className,
 }: TooltipProps) {
+  // HIG-AUD-015：**不制造焦点**——此前对非可聚焦子元素强注 `tabIndex ?? 0`，把纯展示内容
+  // （`<span>`、纯文本）塞进 Tab 序列。现在只**透传**调用方显式声明的 `tabIndex`：需要键盘
+  // 触发时由调用方声明（如 `<span tabIndex={0}>`）或直接用可聚焦元素（`<button>`/`<a>`）。
+  // 本仓库内部消费点均属这两类（`tabs`/`progress`/`description` 已显式声明 tabIndex）。
+  // hover + focus **双通道不变**：焦点落在子元素上时 Tooltip 照常打开。
   const trigger =
     React.isValidElement<{ tabIndex?: number; className?: string }>(children) &&
     children.type !== React.Fragment ? (
       React.cloneElement(children, {
-        tabIndex: children.props.tabIndex ?? 0,
+        tabIndex: children.props.tabIndex,
         className: cn("outline-none focus-ring", children.props.className),
       })
     ) : (
-      <span tabIndex={0} className="inline-flex outline-none focus-ring">
-        {children}
-      </span>
+      <span className="inline-flex outline-none focus-ring">{children}</span>
     );
   const colors = tooltipColors[type];
   const delayDuration = typeof delay === "number" ? delay : delay ? 400 : 0;

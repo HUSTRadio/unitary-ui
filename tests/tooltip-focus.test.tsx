@@ -32,7 +32,7 @@ describe("Tooltip keyboard trigger contract", () => {
     globalThis.IS_REACT_ACT_ENVIRONMENT = false;
   });
 
-  test("makes a non-interactive element child keyboard-focusable", () => {
+  test("does not add a tab stop to non-interactive children (HIG-AUD-015)", () => {
     act(() => {
       root.render(
         <Tooltip text="More context" delay={false}>
@@ -41,9 +41,24 @@ describe("Tooltip keyboard trigger contract", () => {
       );
     });
 
+    // 纯展示子元素：不注入 tabIndex，也不制造焦点（此前为 `?? 0`，会把静态文本塞进 Tab 序列）
     const trigger = container.querySelector<HTMLElement>("span");
+    expect(trigger?.hasAttribute("tabindex")).toBe(false);
+    expect(trigger?.tabIndex).toBe(-1);
+  });
+
+  test("keeps a focusable child keyboard-triggerable", () => {
+    act(() => {
+      root.render(
+        <Tooltip text="More context" delay={false}>
+          <button type="button">Target</button>
+        </Tooltip>,
+      );
+    });
+
+    const trigger = container.querySelector<HTMLButtonElement>("button");
     expect(trigger?.tabIndex).toBe(0);
-    trigger?.focus();
+    act(() => trigger?.focus());
     expect(document.activeElement).toBe(trigger);
   });
 
