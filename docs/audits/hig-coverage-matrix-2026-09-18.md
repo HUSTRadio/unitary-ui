@@ -134,7 +134,7 @@
 | `navbar` | ✔ | — | — | — | ⚠ HIG-AUD-023 |
 | `footer` | ✔ | — | — | — | ⚠ HIG-AUD-023 |
 | `command-menu` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-009、012、026、030 |
-| `hamburger-menu` | ✔ | — | — | — | ⚠ HIG-AUD-008、017、023、025 |
+| `hamburger-menu` | ✔ | — | — | — | ⚠ ~~HIG-AUD-008~~（**✅ 2026-09-23**：`Close menu`/`Ctrl K` 补齐 + 键集同构编译期约束，增补 §5M）、017、023、025 |
 | `menu` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-011、012、013、025 |
 | `dots-menu` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-011、012、013、032 |
 | `context-menu` | ✔ | ✔ | ✔ | ✔ | ⚠ **HIG-AUD-001（P0，✅ 已修复）**、**002（P0，✅ 已修复）**、005、009、010、011、012、025、031 |
@@ -147,11 +147,11 @@
 
 | 组件 | 导出 | 注册 | 指南 | 示例 | 结论 |
 |---|---|---|---|---|---|
-| `sheet` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-010（正面：overlay 已 token 化）、012；**面板缺 `safe-area-inset-bottom`** |
-| `drawer` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-010、012、019；**正面：焦点归还实现带竞态注释，是本仓库的范本** |
-| `bottom-sheet` | ✔ | ✔ | ✔ | ✔ | ⚠ **HIG-AUD-003（P0，✅ 已修复）**、008、010、012、018、022、026 |
-| `side-panel` | — | — | — | — | ⚠ ~~HIG-AUD-006、007~~（**已于 2026-09-22 修复并运行确认**，增补 §5E）、024（未导出、无注册/指南/示例） |
-| `modal` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-010、026；**正面：唯一进出场对称 + token 完整 + `aria-modal`** |
+| `sheet` | ✔ | ✔ | ✔ | ✔ | ~~HIG-AUD-010~~（**✅ 2026-09-23**：backdrop 族两值式为官方写法，保持）、012；**面板缺 `safe-area-inset-bottom`** |
+| `drawer` | ✔ | ✔ | ✔ | ✔ | ~~HIG-AUD-010、019~~（**✅ 2026-09-23**：scrim 族 token + `motion-reduce:animate-none!`）、012；**正面：焦点归还实现带竞态注释，是本仓库的范本** |
+| `bottom-sheet` | ✔ | ✔ | ✔ | ✔ | ⚠ **HIG-AUD-003（P0，✅ 已修复）**、008、~~010~~（✅）、012、018、022、026 |
+| `side-panel` | — | — | — | — | ⚠ ~~HIG-AUD-006、007~~（**已于 2026-09-22 修复并运行确认**，增补 §5E）、024（未导出、无注册/指南/示例）；010 族契约：保持 backdrop 两值式，测试已改为**禁 scrim 族**误用 |
+| `modal` | ✔ | ✔ | ✔ | ✔ | ~~HIG-AUD-010~~（**✅ 2026-09-23**：改用合成色 `--uni-overlay-backdrop`——Content 是 Overlay 子节点，元素 opacity 会波及内容）、026；**正面：唯一进出场对称 + token 完整 + `aria-modal`** |
 | `context-card` | ✔ | ✔ | ✔ | ✔ | ✔（进出场对称 + `zoom-out-95` ✓） |
 | `popover`（`feedback` 内） | — | — | — | — | ⚠ HIG-AUD-009 |
 
@@ -193,7 +193,7 @@
 | `expand-panel.tsx` | ✔ 内部辅助；⚠ `expand-panel.tsx:125` `bg-black/40`、`:154` `shadow-lg` 字面量 → 并入 HIG-AUD-010 |
 | `feedback-faces.tsx` | ✔ 内部辅助（`rating-pill` 消费） |
 | `field-error.tsx` | ✔ 内部辅助（`input`/`select`/`textarea` 消费） |
-| `grabber.tsx` | ⚠ HIG-AUD-008（`t("调整高度")`）、022（`role="slider"` 无键盘）；**正面：`:44-46` 记录实测对比度并说明 token 取舍** |
+| `grabber.tsx` | ⚠ ~~HIG-AUD-008（`t("调整高度")`）~~（**✅ 2026-09-23**：key 改英文 `"Resize height"`，英文站不再显示中文，增补 §5M）、022（`role="slider"` 无键盘）；**正面：`:44-46` 记录实测对比度并说明 token 取舍** |
 | `hamburger-icon.tsx` | ✔ 内部辅助 |
 | `loading-icon.tsx` | ✔ 内部辅助（`button` 消费） |
 | `phone-chrome.tsx` | ✔ 内部辅助 |
@@ -226,10 +226,10 @@
 |---|---|---|
 | 信息层级与排版节奏 | 已覆盖 | token 化 `--uni-text-*`（`index.css:1472+`）；`tests/docs-typography-rhythm.test.tsx`、`tests/typography-tokens.test.ts` |
 | 视觉层级（z-order / 模态栈） | **已覆盖（2026-09-23 后）** | `--uni-z-*` 体系完整（新增 `--uni-z-header`），硬编码与缺失三态已随 HIG-AUD-009 修复（增补 §5K）；`tests/layer-tokens.test.ts` 守护声明/消费/裸字面量三面 |
-| 一致性（同族组件同一语言） | **部分覆盖** | overlay 5 种写法、DotsMenu/Menu 表面不一致、阴影字面量 → HIG-AUD-010、032、033 |
+| 一致性（同族组件同一语言） | **部分覆盖** | ~~overlay 5 种写法~~（**HIG-AUD-010 ✅ 2026-09-23**：两族 token 收敛 + 契约测试，增补 §5L）、DotsMenu/Menu 表面不一致、阴影字面量 → HIG-AUD-032、033 |
 | 内容优先 / 装饰克制 | **部分覆盖** | 模糊使用点 2 处（`destructive-action-modal`、Quick Actions），但**用途边界未文档化** → HIG-AUD-035 |
 | 直接操纵（跟随手指） | **部分覆盖** | Drawer 下滑、BottomSheet 拖拽档位已实现；但 BottomSheet 手势范围过宽 → HIG-AUD-003 |
-| 减少动态效果 | **部分覆盖** | 有全局兜底 + 28/94 文件组件级处理 → HIG-AUD-019；`待验证`：无 Playwright 全局 reduced-motion project |
+| 减少动态效果 | **已覆盖（2026-09-23 后）** | ~~有全局兜底 + 28/94 文件组件级处理 → HIG-AUD-019；`待验证`：无 Playwright 全局 reduced-motion project~~ → **HIG-AUD-019 ✅ 2026-09-23**：全局兜底 + 22 个 tw-animate 浮层的组件级 kill switch（important 形式，plain 形式实测无效）+ 永久 e2e `tests/e2e/reduced-motion.spec.ts`（双主题 8 passed，`animation-name: none` + 功能不受影响）；实测教训见增补 §5L |
 | 反馈的必要性（不过量/不缺失） | **部分覆盖** | 缺失侧：~~浮层退场动画缺失~~（HIG-AUD-011 ✅ 2026-09-23，增补 §5K）、loading 状态普遍缺；过量侧：Quick Actions 全屏模糊 + EditMenu 无退场闪烁 → HIG-AUD-025、034 |
 | 原生外观不作唯一答案 | 已遵循 | 本报告未以 Apple 拟真外观为判定标准；`PLAN-HIG-COMPONENTS.md:26` 已确认「Geist 风格 + HIG 行为，不做 Apple 拟真」 |
 
@@ -313,9 +313,9 @@
 | HIG-AUD-051 | P0（✅ 已于 2026-09-21 修复） | `context-menu`（Quick Actions 变体） |
 | HIG-AUD-006 | P1 | `side-panel`——**已修复（2026-09-22，运行确认，增补 §5E）** |
 | HIG-AUD-007 | P1 | `side-panel`——**已修复（2026-09-22，运行确认，增补 §5E）** |
-| HIG-AUD-008 | P1 | `hamburger-menu`、`grabber`、（根因）`framework-messages`/`i18n` |
+| HIG-AUD-008 | P1 | `hamburger-menu`、`grabber`、（根因）`framework-messages`/`i18n`——**已修复（2026-09-23，3 key 补齐 + 键集同构编译期约束 + 全 `src` 调用点扫描 + 变异测试验证守护有效性，增补 §5M）** |
 | HIG-AUD-009 | P1 | `destructive-action-modal`、`command-menu`、`multi-select`、`context-menu`、`feedback`、`calendar`（增补扩充：`menu-bar`）——**已修复（2026-09-23，token 收敛 + `--uni-z-header` 显式化 + 层级序/配对约定注释，增补 §5K）** |
-| HIG-AUD-010 | P1 | `sheet`、`side-panel`、`drawer`、`bottom-sheet`、`expand-panel`、`context-menu`、`destructive-action-modal`、`modal`、`command-menu` |
+| HIG-AUD-010 | P1 | `sheet`、`side-panel`、`drawer`、`bottom-sheet`、`expand-panel`、`context-menu`、`destructive-action-modal`、`modal`、`command-menu`（`command-menu` 为 design-gate 冻结的官方写法，保持例外）——**已修复（2026-09-23，遮罩两族 token + 合成色 + 契约测试 6 用例 + 像素等价探针，增补 §5L）** |
 | HIG-AUD-011 | P1 | `menu`、`context-menu`、`dots-menu`、`split-button`、`select`、`toast`、`edit-menu`（增补扩充：`menu-bar`、pull-down）——**已修复（2026-09-23，退场镜像补齐 + relative-time-card 补全退场，Select/EditMenu/Toast 复核为已修复，增补 §5K）** |
 | HIG-AUD-012 | P1 | `menu`、`context-menu`、`dots-menu`、`split-button`、`drawer`、`bottom-sheet`、`command-menu`、`destructive-action-modal`、`sheet`（增补扩充：`menu-bar`、pull-down、`responsive-drawer`、`context-card`）——**已修复（2026-09-23，浮层时长/缓动 token 化 + `--ease-in-out` 显式声明 + 账本清账 12→7，增补 §5K）** |
 | HIG-AUD-013 | P1 | `menu`、`dots-menu`、`select`、`multi-select`、`toast`、`theme-switcher`、`hamburger-menu`、`destructive-action-modal`、`edit-menu`（增补扩充：`menu-bar` Trigger、`toolbar` Item）——**已修复（2026-09-23，`pointer-coarse:` 触屏命中区 ≥44×44 + e2e 9 passed，增补 §5J）** |
@@ -324,7 +324,7 @@
 | HIG-AUD-016 | P1 | `multi-select` |
 | HIG-AUD-017 | P1 | `hamburger-menu`、`context-menu`（href 项）、全部浮层 |
 | HIG-AUD-018 | P1 | `combobox`、`bottom-sheet`、`toast`、`split-button` |
-| HIG-AUD-019 | P1 | `drawer`、`theme-switcher`、`combobox`、+ 66 个文件无组件级处理 |
+| HIG-AUD-019 | P1 | `drawer`（**经复核不成立**：`drawer.tsx:142` 早有 reduce 类）、`theme-switcher`、`combobox`、+ 66 个文件无组件级处理——**已修复（2026-09-23，22 浮层 kill switch 改 important 形式 + e2e 8 passed + 覆盖契约，根因见增补 §5L）** |
 | HIG-AUD-020 | P1 | `edit-menu` |
 | HIG-AUD-021 | P1 | `edit-menu` |
 | HIG-AUD-022 | P1 | `grabber` / `bottom-sheet` |

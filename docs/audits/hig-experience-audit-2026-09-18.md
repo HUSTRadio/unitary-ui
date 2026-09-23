@@ -351,10 +351,10 @@
   - **修复时实况**：采 `modal={!noOverlay}`（`{...rootProps}` 在后，消费者显式传 `modal` 仍可覆盖）；外点仍触发 `onDismiss`（受控语义：是否关闭由消费者决定），不加 `onPointerDownOutside preventDefault`（sheet 的常驻语义不强加给 SidePanel）。
 - **验收场景**：`noOverlay` 打开时，背景页面可滚动、可点击（用 `elementFromPoint` 校验）。✅ 已按此场景落为回归（vitest + 双主题浏览器探针：`elementFromPoint` 命中页面内容、`data-scroll-locked`/`aria-hidden` 均无，见 §5E）。
 
-#### HIG-AUD-008 i18n key 缺失 3 处 → 中文站点回显英文 key 原文
+#### HIG-AUD-008 i18n key 缺失 3 处 → 中文站点回显英文 key 原文 ✅ 已修复（2026-09-23，增补 §5M）
 
-- **严重度**：P1 ｜ **类型**：实现缺陷
-- **证据**：`src/lib/i18n.tsx:17,33` 在缺 key 时**静默回显 key 原文**（不告警、不抛错）。实际缺失：
+- **严重度**：P1 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-23，修复与复测记录见增补 §5M）
+- **证据（行号取自修复前版本，保留对照）**：`src/lib/i18n.tsx:17,33` 在缺 key 时**静默回显 key 原文**（不告警、不抛错）。实际缺失：
   | 位置 | key | 影响 |
   |---|---|---|
   | `src/components/ui/hamburger-menu.tsx:242` | `t("Close menu")` | 面板关闭按钮的无障碍名称未本地化 |
@@ -364,6 +364,14 @@
 - **根因**：`framework-messages.ts:1-276` 的两个 locale 键集合**没有类型级同构校验**，靠人工同步。
 - **建议修复方向**：补 3 个 key（`grabber` 改用英文 key 如 `"Resize height"`）；把 `FRAMEWORK_MESSAGES` 的 en/zh 键集合做成类型级约束（如 `Record<keyof typeof EN, string>` 的 zh 侧），让缺 key 变成编译错误。
 - **验收场景**：新增 `tests` 断言两 locale 键集合相等；中文站 `/components/bottom-sheet`、导航面板文案全部本地化。
+
+- **修复记录（2026-09-23，增补 §5M）**：
+  - `framework-messages.ts` 增 `export type FrameworkMessageKey = keyof typeof FRAMEWORK_MESSAGES.en;`；`i18n.tsx` 在**实现处**把 locale 消息表注解为 `Record<FrameworkMessageKey, string>` → 任一 locale 缺 key（含拼写差异）立即是**编译错误**（本条目的根因修复，取代人工同步）。
+  - 补齐 3 个 key（en/zh 双侧行序镜像）：`"Close menu"`→`关闭菜单`（`hamburger-menu.tsx:234`/`:278`）、`"Ctrl K"`→两侧同值（`:324` 的 `<kbd>`，快捷键字面量不翻译）、`"Resize height"`→`调整高度`（`grabber.tsx:45`，**key 由中文写法改为英文写法**，修掉英文站显示中文）。
+  - 回归：`tests/component-i18n-source.test.ts` 新增 3 用例（键集**双向相等** / 钉住本条目 3 个 key / **全 `src` 扫描 `t("…")` 字面量 key 必须存在于两个 locale**——补齐了原守卫只查「裸 JSX 文案」、从不查 `t()` key 是否存在的缺口，含条件分支与 `` `JSON ${type}` `` 前缀族，并带收集器健康度断言防「空过」）；`tests/framework-i18n.test.tsx` 增 grabber 双语言渲染断言；`tests/grabber.test.tsx:31` 旧中文断言更新为英文默认值。
+  - **守护有效性（变异测试）**：临时删 zh 的 `"Close menu"` → 三道守护同时报警：`tsc -b` 报 `src/lib/i18n.tsx(36,11): error TS2322 … not assignable to Record<…>`、键集用例报 `zh-CN 缺失的 key: ['Close menu']`、调用点扫描报 `hamburger-menu.tsx: "Close menu" 不在 zh-CN`（2 处）。恢复后 13 files passed。
+  - **运行确认（临时探针，跑完即删，4 passed）**：`/components/bottom-sheet` 的 grabber `aria-label` 实测 zh-CN `调整高度` / en-US `Resize height`；文档站 768×1024 导航面板触发按钮 `菜单`→`关闭菜单`（zh）/ `Menu`→`Close menu`（en），面板文案无 key 原文回显。
+  - 全 `src` 扫描结论：**本条目的 3 处即全部缺失项**（无其他缺 key、无前缀孤儿）。**已知限制**：`t()` 参数未收窄为键集（现有 5 处动态 key 调用会被误伤），「组件 ↔ key」漂移由静态扫描在测试期守护——见交付书 §9。
 
 #### HIG-AUD-009 z-index 层级体系不统一（token / 硬编码 / 缺失三态并存）✅ 已修复（2026-09-23）
 
@@ -381,10 +389,10 @@
 - **建议修复方向**：删除全部硬编码 z，统一走 token；补齐 `multi-select`/`context-menu` 内容层 z；在 `index.css` 注释中写明层级序（overlay < 内容 < drawer < modal < popover < toast < tooltip）并为「遮罩 vs 其内容」建立配对约定（同时解决 HIG-AUD-001）。
 - **验收场景**：新增/扩展 e2e：在 Drawer 内打开 CommandMenu、在 Modal 上触发 Toast，`elementFromPoint` 命中正确元素；`grep` 不到 `z-50`/`z-100` 类硬编码。
 
-#### HIG-AUD-010 Overlay 背板存在 5 种写法
+#### HIG-AUD-010 Overlay 背板存在 5 种写法 ✅ 已修复（2026-09-23，增补 §5L）
 
-- **严重度**：P1 ｜ **类型**：实现缺陷（一致性）
-- **证据**：
+- **严重度**：P1 ｜ **类型**：实现缺陷（一致性） ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-23，修复与复测记录见增补 §5L）
+- **证据（行号取自修复前版本，保留对照）**：
   | 写法 | 位置 |
   |---|---|
   | token 化 ✓ `bg-[var(--uni-overlay-backdrop-color)] opacity-[var(--uni-overlay-backdrop-opacity)]` | `sheet.tsx:55`、`side-panel.tsx:67` |
@@ -395,6 +403,15 @@
 - 关键事实：token 定义 `index.css:945-946`（light `#f2f2f2` / 0.8）+ `:1238`（dark `#000000`）→ `modal.tsx` 的字面量**在视觉上等价于 token**，因此这是**可迁移的字面量重复**，不是视觉分歧；`command-menu.tsx` 的 `bg-background-100 opacity-80` 与 token 近似但不同源；`destructive-action-modal.tsx` 是**唯一带 `backdrop-blur`** 的遮罩，属「装饰过量/不一致」。
 - **建议修复方向**：全部迁移到 `--uni-overlay-backdrop-*`；把「遮罩是否模糊」变成显式的 token 开关（`--uni-overlay-backdrop-blur`），而不是逐组件自由发挥。同时注意 `modal.tsx:13-14` 与 `bottom-sheet.tsx:14-18` 的注释声称「有意等价/有意不合并」——迁移时需同步更新这些注释，否则注释会与实现再次矛盾。
 - **验收场景**：`grep -r "bg-black/4\|bg-black/5\|bg-\[#f2f2f2\]" src/components/ui` 为空；双主题下 5 个浮层的背板实测色值一致（可用 `getComputedStyle` 断言）。
+
+- **修复记录（2026-09-23，增补 §5L）**：
+  - **方案裁决（与条目原建议不同，故记录理由）**：题述「5 种写法」经复核**不是同一角色的重复写法**——`#f2f2f2` light / `#000` dark @ 0.8（官方 Modal scrim 2026-08-15 live computed + 官方 Sheet overlay `--ds-overlay-backdrop-color`）与 `rgba(0,0,0,.4)`（官方 Drawer overlay 2026-08-13 live computed）是**两种官方遮罩角色**。若照原建议「全迁 `--uni-overlay-backdrop-*`」，Drawer 会在光模式从「暗化 40%」变成「近白洗色 80%」，破坏官方 parity → 裁决为**两族并行登记 + 写法各自收敛到 token**，并同步修订本条的验收口径为「族内一致 + 组件层无字面量」。
+  - token（`src/styles/index.css:1023-1048`）：新增暗化族 `--uni-overlay-scrim-color: rgb(0 0 0 / 40%)`（**alpha 内联在颜色里**——同族若用「色 + 透明度」两值式且元素带 `backdrop-filter`，元素 `opacity<1` 会把模糊按组一起降透明）与合成色 `--uni-overlay-backdrop`（`color-mix(in oklab, var(--uni-overlay-backdrop-color) calc(var(--uni-overlay-backdrop-opacity) * 100%), transparent)`，自动跟随两值，专供 `modal` 这种「Content 是 Overlay 子节点」的场景）。
+  - 迁移（computed 零变化）：`drawer.tsx:221`、`bottom-sheet.tsx:170`、`responsive-drawer.tsx:257`、`expand-panel.tsx:130`、`context-menu.tsx:209`（quick-actions 遮罩）`bg-black/40` → `bg-[var(--uni-overlay-scrim-color)]`；`modal.tsx:58` 字面量 → 合成色（light `#f2f2f2`@0.8 / dark `#000`@0.8 逐值等价）；`sheet`/`side-panel` 保持官方两值式。**唯一刻意观感变化**：`destructive-action-modal.tsx:119` 遮罩 `bg-black/50` → scrim 族 0.4（该 50% 无官方出处，属条目点名的孤例）。
+  - 注释同步（条目明确要求，原注释与实现矛盾）：`drawer.tsx:19-21`、`bottom-sheet.tsx:14-15`、`side-panel.tsx:23-26`、`modal.tsx:13-18`、`command-menu.tsx:46-48`。
+  - **单列例外**：`command-menu` 的 overlay 保持 design-gate（`tests/audit/geist-design-gate.json:171`）冻结的官方 cmdk 写法 `bg-background-100 opacity-80`，理由写入 `index.css` 族注释与组件注释，并由契约测试锁定「不得被顺手对齐」。
+  - 回归：新增永久契约 `tests/overlay-backdrop-tokens.test.ts`（6 用例：两族 token 逐值冻结 / 组件层无遮罩字面量（本条目验收 grep 的可执行版）/ 消费矩阵含跨族误用 / 模糊只走显式开关且仅 2 个消费者 / 带模糊遮罩禁止元素 `opacity-*` / command-menu 例外冻结）；旧写法断言同步 9 个测试文件；`tests/audit/raw-color-allowlist.json` 清 `#f2f2f2 @ modal.tsx` 陈旧条目。
+  - **运行确认（临时探针，跑完即删，双主题 12 passed）**：① 旧写法展开与 token **渲染像素逐字节等价**（同底色色块截图比对，不用序列化字符串）；② 真实 DOM 族内一致——`bottom-sheet` 遮罩与 quick-actions 遮罩同为 `rgba(0, 0, 0, 0.4)`（后者 `backdrop-filter: blur(8px)`）；③ modal 遮罩 `oklab(0.961145 … / 0.8)`（light）/ `oklab(0 0 0 / 0.8)`（dark）、元素 `opacity: 1`、卡片 `rgb(255,255,255)` / `rgb(10,10,10)`（**未被降透明**，即合成色方案要防的回归）；④ 几何：遮罩 1280×720 满覆盖、卡片中心 (640,360) 精确居中。
 
 #### HIG-AUD-011 退场动画缺失或不对称 ✅ 已修复（2026-09-23）
 
@@ -499,14 +516,22 @@
 
 #### HIG-AUD-019 `prefers-reduced-motion` 覆盖不完整
 
-- **严重度**：P1 ｜ **类型**：实现缺陷 ｜ **依据**：WCAG 2.3.3
-- **证据**：`src/components/ui/` 中仅 **28 个文件**包含 `motion-reduce`（共 94 个 `.tsx`）。有全局兜底（`index.css:1331-1340`），因此**不是硬失败**，但组件级覆盖不均：
+- **严重度**：P1 ｜ **类型**：实现缺陷 ｜ **依据**：WCAG 2.3.3 ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-23，修复与复测记录见增补 §5L）
+- **证据（行号取自修复前版本，保留对照）**：`src/components/ui/` 中仅 **28 个文件**包含 `motion-reduce`（共 94 个 `.tsx`）。有全局兜底（`index.css:1331-1340`，现为 `:1438`），因此**不是硬失败**，但组件级覆盖不均：
   - 覆盖较好：`modal`、`tooltip`、`sheet`、`side-panel`、`bottom-sheet`、`command-menu`、`multi-select`、`context-card`、`edit-menu`
   - 缺失组件级处理：`menu`/`context-menu` 有 `motion-reduce:animate-none` ✓，但 `drawer` 面板类名缺 `motion-reduce:animate-none`（只有 overlay 有，`:232` vs `:151-153`），依赖 JS matchMedia + 全局兜底；
   - `theme-switcher.tsx:52` `transition-colors` 无 `motion-reduce:transition-none`；
   - `combobox.tsx:114,117` 按钮过渡无 `motion-reduce`。
 - **建议修复方向**：把 `motion-reduce:animate-none` / `transition-none` 作为浮层与过渡组件的**默认约定**，并加守护测试（已有 `tests/skeleton-motion.test.tsx`、`tests/foundation-contract.test.ts:51` 先例）。
 - **验收场景**：`emulateMedia({ reducedMotion: "reduce" })` 下逐浮层断言 `animation-name: none` 且功能不受影响。
+
+- **修复记录（2026-09-23，增补 §5L）**：
+  - **根因（本轮新发现，已回填上式证据口径）**：`data-[state=open]:animate-in[data-state="open"]` 的 specificity 为 **0,2,0**，高于单类名 `motion-reduce:animate-none`（0,1,0）→ 22 个 tw-animate 浮层上的「组件级 reduce 类」**一直是空操作**，实际只有全局兜底（`animation-duration: 0.01ms !important`）在起作用。因此本条目原证据「28 个文件包含 motion-reduce」应读作**虚假覆盖**（文件数达标 ≠ 生效），这也是「覆盖不均」体感与实测不符的原因。
+  - **点名单项复核**：`drawer` 面板缺口**不成立**（`drawer.tsx:142` 早已带 reduce 类，属审核行号漂移）；`theme-switcher.tsx:54`（`transition-colors` 无保护）与 `combobox.tsx:114,117`（清空/展开按钮过渡）**确认缺失**，已补齐 `motion-reduce:transition-none`。
+  - 修复：22 个 tw-animate 浮层文件 + `loading-dots` 的 animation kill switch 统一为 **`motion-reduce:animate-none!`**（Tailwind v4 规范语法的末尾 important；`skeleton.tsx:92` 的 v3 前缀写法 `motion-reduce:!animate-none` 一并归一）。**过渡侧保持不变**——实测单类名的 `motion-reduce:transition-none` 已生效（`transition-property: none`），无需 important。
+  - 层叠最小复现（临时探针，reduce 模拟生效）：plain `motion-reduce:animate-none` → `animation-name: enter`；`motion-reduce:animate-none!` → `none`。
+  - 回归：新增永久 e2e `tests/e2e/reduced-motion.spec.ts`（**8 passed**；双主题 × 4 类浮层，computed `animation-name === "none"` 且打开/关闭/输入功能正常）+ 守护测试 `tests/reduced-motion-coverage.test.ts`（5 用例，分桶登记：A 21 个组件级 tw-animate 浮层 / B command-menu 样式表兜底块与 keyframes / C 点名过渡缺口 / D JS 门控 3 文件 / E 组件级免动画清单 13 项 + 全局兜底 4 条声明冻结）。
+  - **环境教训（写入探针范式）**：`test.use({ reducedMotion: "reduce" })` 在本项目配置下**不生效**（探针读 `matchMedia("(prefers-reduced-motion: reduce)").matches === false`），必须用显式 `page.emulateMedia()`；否则动画断言会在「无模拟」下假失败，并掩盖真实结论（本轮曾据此误判过一次根因方向）。
 
 #### HIG-AUD-020 EditMenu 触屏行为缺陷（合成 `mousedown` 竞态 + iOS 原生菜单冲突）
 

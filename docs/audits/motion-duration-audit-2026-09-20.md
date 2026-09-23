@@ -43,7 +43,7 @@
 ## 5. 漂移矩阵与缺口
 
 - 浮层同族漂移（扩写 HIG-AUD-012）：入场 150–500ms 漂移，`bottom-sheet` 300ms vs `drawer` 500ms vs `modal` slow 档；退场缺失见 HIG-AUD-011。
-- 缺口：部分组件无 token（见账本）；reduced-motion 全局兜底已覆盖（`0.01ms`），组件级免动画清单见 HIG-AUD-019；共享根因 R3（时长未成体系）由本轮 token 落地闭环。**2026-09-23 更新：HIG-AUD-012 迁移完成——menu/context-menu/menu-bar/multi-select/destructive-action-modal/bottom-sheet/responsive-drawer/command-menu/sheet 的浮层出入场全部落到 token，账本 12→7 条（增补 §5K）。**
+- 缺口：部分组件无 token（见账本）；~~组件级免动画清单见 HIG-AUD-019~~ ✅ **已于 2026-09-23 闭环（增补 §5L）**：全局兜底（`0.01ms`）之外，22 个 tw-animate 浮层的组件级 kill switch 改用 important 形式（`motion-reduce:animate-none!`）——实测 plain 形式被 `data-[state=*]:animate-in/out`（specificity 0,2,0）压过，此前属**虚假覆盖**；免动画清单（spinner/status-dot/loading-icon/avatar/gauge/charts 8 文件）与全局兜底声明由 `tests/reduced-motion-coverage.test.ts` 冻结。过渡侧实测 plain `motion-reduce:transition-none` 已生效，无需 important。共享根因 R3（时长未成体系）由本轮 token 落地闭环。**2026-09-23 更新：HIG-AUD-012 迁移完成——menu/context-menu/menu-bar/multi-select/destructive-action-modal/bottom-sheet/responsive-drawer/command-menu/sheet 的浮层出入场全部落到 token，账本 12→7 条（增补 §5K）。**
 
 ## 6. 取值来源标注
 
@@ -70,6 +70,7 @@
 - `pnpm run docs:llm:generate` 后 `--check` 通过：无漂移（92 路由 × 2 语言）。
 - 视觉核查：临时 Playwright（跑完即删）12/12 通过——真实 SwitchControl 0.25s（双主题）、四别名 var 链路、裸 transition-colors 0.15s、交互 700ms 内收敛、真实骨架流光 1.4s；双主题截图人工目检无布局破碎。
 - **2026-09-23（HIG-AUD-012 迁移复跑，增补 §5K）**：`pnpm run typecheck` exit 0；定向 vitest **23 files / 184 tests passed**（含 `motion-duration-governance` 双向棘轮、`duration-tokens` 浮层矩阵、`ease-tokens` 5 曲线）；临时 Playwright 双主题 computed 核查 3/3 passed（浮层 z / animation-duration / 退场 `exit` 事件与 `--tw-exit-scale` 变量、command-menu keyframes，跑完即删）。
+- **2026-09-23（HIG-AUD-010/019 会话，增补 §5L）**：`pnpm run typecheck`（`tsc -b`）exit 0；`pnpm run lint` **0 errors / 16 warnings（存量）**；定向 vitest **18 files / 112 tests passed**（含新增 `overlay-backdrop-tokens` 6 用例、`reduced-motion-coverage` 5 用例）；永久 e2e `tests/e2e/reduced-motion.spec.ts` **8 passed (47.6s)**（双主题 × modal / quick-actions / bottom-sheet / command-menu，reduce 下 `animation-name: none`）；临时视觉探针 **12 passed (1.0m)**（旧写法 vs token 的渲染像素逐字节等价、CSSOM 规则采集、reduce 层叠最小复现、族内 computed 一致、modal 遮罩满覆盖与卡片精确居中，跑完即删）。**层叠事实（探针实测，reduce 模拟生效）**：plain `motion-reduce:animate-none` → `animation-name: enter`（被 0,2,0 的 `data-[state=open]:animate-in` 压过）；`motion-reduce:animate-none!` → `none`；过渡侧 plain `motion-reduce:transition-none` → `transition-property: none`（无需 important）。**环境教训**：`test.use({ reducedMotion })` 在本项目配置下不生效（`matchMedia(...).matches === false`），必须用 `page.emulateMedia()`。
 
 ## 9. 局限性
 

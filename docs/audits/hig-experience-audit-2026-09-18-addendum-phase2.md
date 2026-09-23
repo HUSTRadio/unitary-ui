@@ -473,6 +473,52 @@
   - 定向 vitest：**23 files / 184 tests passed**（含全部治理棘轮与 `motion-duration-governance` 双向棘轮）。
 - **真实浏览器核查（临时 Playwright 探针，跑完即删；双主题各一轮）**：computed 实测——menu `z-index 50 / animation-duration 0.15s`；destructive-action-modal 卡片与遮罩 `z-index 300 / 0.35s / ease-pop(cubic-bezier(0.175, 0.885, 0.32, 1.1))`；multi-select `z-index 2001 / 0.15s`；command-menu 遮罩与面板 `z-index 300 / 0.35s`；relative-time-card 与 feedback `z-index 2001`；context-menu 内容 `z-index 2001`。退场经 `animationstart` 事件实测（tw-animate 退场统一 `animation-name: exit`、zoom 经 `--tw-exit-scale` 变量表达）：menu / multi-select / context-menu / hover-card 退场 `--tw-exit-scale` 均生效（zoom 镜像真实存在）、modal 内容 `exit@destructive-action-modal` 0.35s、command-menu 走 `command-menu-scale-out`。双主题截图（menu / destructive modal / command-menu）人工目检无异常。
 - **门禁**：`pnpm run typecheck` → exit 0；定向 vitest 全绿；`typecheck:tests` 按基线对照（命中项均为存量 `TS7017`（`globalThis.IS_REACT_ACT_ENVIRONMENT`），无新增）。
-- **连带面（未动）**：`044`（MenuBar z=50 与子菜单碰撞溢出）保持独立——层级议题与 009 同源但含溢出/翻转设计决策；`010`（背板 5 种写法）未动；`dominant`「menu 独立带」语义锁保持不变（测试中显式锁定）。
+- **连带面（未动）**：`044`（MenuBar z=50 与子菜单碰撞溢出）保持独立——层级议题与 009 同源但含溢出/翻转设计决策；~~`010`（背板 5 种写法）未动~~ → **已随 §5L 修复（2026-09-23）**；`dominant`「menu 独立带」语义锁保持不变（测试中显式锁定）。
 - **台账落点**：本文件 §5K、主报告 §4.2 三条目 + §1.2 P1 行、矩阵 `009`/`011`/`012` 行与 `:228`/`:300`、motion 审核 §4/§8/§9、交付书 §1/§2/批次 C/§6。
 - **提交状态**：实现与测试已由 `8d528b8` 提交（`fix(components): 浮层 z 层级/退场镜像/动效时长 token 化（HIG-AUD-009/011/012）`，27 files / +198 / −64）；本文件与其余台账随同名 docs 提交入库。
+
+---
+
+## 5L. HIG-AUD-010 / 019 修复记录（2026-09-23，遮罩两族 token + reduced-motion 真实覆盖）
+
+**来源**：交付书批次 C 推荐起手（010/019 与已闭环的 009/012 同族）。**基线校正（关键）**：两条目的原始证据都有失真——010 的「5 种写法」被读作「同一角色的重复写法」，实际是**两种有官方出处的遮罩角色**；019 的「28 个文件包含 motion-reduce」实为**虚假覆盖**（根因见下）。
+
+- **010 方案裁决（两族并行，不做「全迁」）**：官方实测出处 —— `backdrop` 族（表面洗色 `#f2f2f2` light / `#000` dark @ 0.8）源自官方 Modal scrim（2026-08-15 live computed，独立 backdrop 元素）与官方 Sheet overlay（`--ds-overlay-backdrop-color`）；`scrim` 族（暗化 `rgba(0,0,0,.4)`）源自官方 Drawer overlay（2026-08-13 live computed）。照条目原建议「全迁 backdrop 族」会让 Drawer 光模式由「暗化 40%」变「近白洗色 80%」，破坏官方 parity → 裁决为两族各自成族、写法收敛到 token，并同步修订验收口径为「族内一致 + 组件层无字面量」。
+- **010 实现**：
+  - `index.css` 新增 `--uni-overlay-scrim-color: rgb(0 0 0 / 40%)`（暗化族；**alpha 内联在颜色里**——本族消费者 `quick-actions` 遮罩与 `destructive-action-modal` 带 `backdrop-filter`，元素 `opacity<1` 会把模糊按组一起降透明）与合成色 `--uni-overlay-backdrop`（`color-mix(in oklab, <color> calc(<opacity> * 100%), transparent)`，自动跟随两值，专供 `modal`——其 `Dialog.Content` 是 `Overlay` 的**子节点**，用元素 `opacity` 会把内容一起降透明）；族注释写明出处、消费者清单、`command-menu` 例外与「模糊是显式开关」。
+  - 迁移（computed 零变化）：`drawer.tsx:221`、`bottom-sheet.tsx:170`、`responsive-drawer.tsx:257`、`expand-panel.tsx:130`、`context-menu.tsx:209` 的 `bg-black/40` 与 `modal.tsx:58` 的字面量；`destructive-action-modal.tsx:119` 由 `bg-black/50` 并入 scrim 族 0.4（**唯一刻意的观感变化**，该 50% 无出处）。
+  - 注释同步（条目明确要求）：`drawer.tsx:19-21`、`bottom-sheet.tsx:14-15`、`side-panel.tsx:23-26`、`modal.tsx:13-18`、`command-menu.tsx:46-48`。
+- **019 根因（本轮新发现，须回填审核口径）**：`data-[state=open]:animate-in[data-state="open"]` 的 specificity 为 **0,2,0**，高于单类名 `motion-reduce:animate-none`（0,1,0）→ 22 个 tw-animate 浮层的「组件级 reduce 类」**一直是空操作**，实际只有全局兜底（`animation-duration: 0.01ms !important`）在起作用。探针最小复现（reduce 模拟已生效）：plain → `animation-name: enter`；`motion-reduce:animate-none!` → `none`；过渡侧 plain `motion-reduce:transition-none` → `transition-property: none`（单类名，**无需** important）。**旁证**：`skeleton.tsx:92`、`expand-panel.tsx:160` 沿用 Tailwind v3 前缀写法 `motion-reduce:!animate-none`——实测在本版 Tailwind 下仍会生成规则（不致命），已统一到末尾形式。
+- **019 实现**：22 个 tw-animate 浮层文件（modal / sheet / drawer / bottom-sheet / responsive-drawer / side-panel / expand-panel / destructive-action-modal / context-menu / context-card / menu / menu-bar / select / multi-select / combobox / tooltip / toast / edit-menu / calendar / feedback / relative-time-card / loading-dots）+ `skeleton` 统一 `motion-reduce:animate-none!`；审计点名缺口 `theme-switcher.tsx:54`、`combobox.tsx:114,117` 补 `motion-reduce:transition-none`；**`drawer` 面板缺口经复核不成立**（`drawer.tsx:142` 早有 reduce 类，属审核行号漂移）。
+- **回归**：
+  - 新增 `tests/overlay-backdrop-tokens.test.ts`（6 用例）、`tests/reduced-motion-coverage.test.ts`（5 用例，分桶 A/B/C/D/E：A 21 个组件级浮层必须带 kill switch、B command-menu 样式表兜底块与 keyframes 存活、C 点名过渡缺口、D JS 门控 3 文件、E 组件级免动画清单 13 项 + 全局兜底 4 条声明冻结）；
+  - 新增永久 e2e `tests/e2e/reduced-motion.spec.ts`（**8 passed (47.6s)**：`page.emulateMedia({reducedMotion:"reduce"})` 下 modal 遮罩/内容、quick-actions 遮罩与菜单、bottom-sheet 面板、command-menu 遮罩/面板 computed `animation-name === "none"`，且打开/关闭/输入功能正常）；
+  - 同步更新断言旧写法的既有测试：`modal-api`、`drawer-api`、`expand-panel`、`quick-actions-api`、`side-panel-api`、`bottom-sheet`、`responsive-drawer`、`relative-time-card`、`menu-surface`、`menu-bar-api`、`visual-fixes-regression`、`skeleton-motion`、`destructive-action-modal-state`；`tests/audit/raw-color-allowlist.json` 清 `#f2f2f2 @ modal.tsx`（陈旧条目棘轮）。
+- **真实浏览器核查（临时探针，跑完即删；双主题 12 passed）**：① 旧写法展开与 token **渲染像素逐字节等价**（同底色色块截图比对，不依赖序列化字符串）；② CSSOM 采集到 `.motion-reduce\:animate-none\!` 规则（`@media (prefers-reduced-motion: reduce)` 内 `animation: … none !important`）；③ 真实 DOM 族内一致——`bottom-sheet` 与 quick-actions 遮罩同为 `rgba(0, 0, 0, 0.4)`（后者 `backdrop-filter: blur(8px)`）；④ modal 遮罩 `oklab(0.961145 … / 0.8)`（light）/ `oklab(0 0 0 / 0.8)`（dark）、元素 `opacity: 1`、卡片 `rgb(255,255,255)` / `rgb(10,10,10)`（未被降透明）；⑤ 几何：遮罩 1280×720 满覆盖、卡片中心 (640,360) 精确居中。
+- **门禁**：`pnpm run typecheck`（`tsc -b`）exit 0；`pnpm run lint` 0 errors / 16 warnings（存量）；定向 vitest **18 files / 112 tests passed**；e2e **8 passed**；审计验收 grep（`bg-black/4|bg-black/5|bg-[#f2f2f2]` in `src/components/ui`）为空。
+- **全量回归对照**：`pnpm run test` → exit 1，`Test Files 8 failed | 226 passed (234)` ＝ 文档基线（7 个 `tests/audit/*` 环境类 + 并发 flaky）。**首轮抓出并修复了本会话引入的 2 处回归**：① `tests/token-namespace.test.ts`（`index.css` 族注释含退役 `--ds-*` 前缀——该测试全量扫 `src/` 且**不忽略注释**）；② `tests/modal-typography-geometry.test.ts:68`（锁旧字面量）→ 修复后单跑 2 passed；`tests/button-api.test.ts` 单跑 1 passed（并发 flaky，非回归）。
+- **环境教训（写入探针范式）**：① `test.use({ reducedMotion: "reduce" })` 在本项目配置下**不生效**（探针实测 `matchMedia(…).matches === false`），必须用显式 `page.emulateMedia()`，否则断言会在「无模拟」下假失败并掩盖真实结论；② Playwright 重试会换 worker，探针用模块级对象 + `afterAll` 落盘会丢掉其他 worker 的证据，须**每条记录即时落盘**；③ 半透明色块的像素比对必须叠在**同一不透明底色**上，否则会因页底内容不同而假失败。
+- **文档链**：本轮只改组件内部类名与 CSS token，无 props / API / 示例 / 路由变化 → `docs/geist/src/data` 与双语 guides 无需同步；LLM 语料按交付书批次 G 仍**暂缓**（`docs:llm:check` 的 3 处既有漂移与本轮无关）。
+- **台账落点**：本文件 §5L、主报告 `010`/`019` 条目（标题 + 验证状态 + 修复记录）、矩阵 `:229`/`:232`/`:150-154`/`:318`/`:327`、motion 审核 §5/§8、交付书 §1/§2/批次 C/§7.3/§9/§10。
+
+---
+
+## 5M. HIG-AUD-008 修复记录（2026-09-23，i18n 缺 key + 键集同构）
+
+**来源**：交付书批次 C 推荐起手（`008`，独立、低风险）。**基线校正**：条目三处行号已漂移（`hamburger-menu.tsx:242/287` → 实测 `:234`/`:278`/`:324`；`grabber.tsx:32` → `:45`），key 本身缺失的属性不变。
+
+- **补齐 3 个 key**（`src/lib/framework-messages.ts`，en/zh **双侧就近插入并保持行序镜像**）：
+  - `"Close menu"` → zh `关闭菜单`（消费点 `hamburger-menu.tsx:234` 触发按钮展开态名称、`:278` 面板关闭按钮）；插入在 `Menu` 之后；
+  - `"Ctrl K"` → 两侧同值 `"Ctrl K"`（消费点 `hamburger-menu.tsx:324` 的 `<kbd>` 快捷键提示；快捷键字面量按仓库既有惯例不翻译，与 `"JSON {type}": "JSON {type}"` 同类）；插入在 `"Press Command K to open the Command Menu"` 之后；
+  - `"Resize height"` → zh `调整高度`（消费点 `grabber.tsx:45`）——**key 由中文写法改为英文写法**，修正「英文站显示中文」；插入在 `"Scroll right"` 之后（直接操纵类把手/滚动标签同族）。
+- **根因修复（键集同构，条目建议方向）**：`framework-messages.ts` 新增 `export type FrameworkMessageKey = keyof typeof FRAMEWORK_MESSAGES.en;`；`i18n.tsx` 把 locale 消息表在**实现处**注解为 `Record<FrameworkMessageKey, string>`（并让 `fallback` 复用同一类型）→ 任一 locale 缺 key（含拼写差异）**立即是编译错误**，不再依赖人工同步。
+- **回归**：
+  - `tests/component-i18n-source.test.ts` 新增 3 用例：① `en`/`zh-CN` 键集**双向相等**（运行期双保险）；② 钉住本条目 3 个 key 存在于两个 locale；③ **全 `src` 扫描 `t("…")` 字面量 key 必须存在于两个 locale**——补齐了原守卫只查「裸 JSX 文案」、从不查 `t()` key 是否存在的缺口（正是 3 个 key 漏过的原因）；扫描含条件表达式分支（`t(playing ? "Pause video" : "Play video")`）与模板前缀族（`` t(`JSON ${node.type}`) `` → 必须有同前缀 key），并带**收集器健康度断言**（扫到的 key 数 > 50）防止空过。
+  - `tests/framework-i18n.test.tsx` 新增 grabber 双语言渲染断言（默认 en `Resize height` / zh `调整高度`）；`tests/grabber.test.tsx:31` 的旧中文断言更新为英文默认值。
+  - 全 `src` 扫描结论：**本条目的 3 处即全部缺失项**（无其他缺 key、无前缀孤儿）。
+- **守护有效性（变异测试，2026-09-23）**：临时删除 zh 的 `"Close menu"`，三道守护同时报警——① `tsc -b`：`src/lib/i18n.tsx(36,11): error TS2322 ... is not assignable to type 'Record<…>'`；② 键集同构用例：`zh-CN 缺失的 key: expected [ 'Close menu' ] to deeply equal []`；③ 调用点扫描：`src/components/ui/hamburger-menu.tsx: "Close menu" 不在 zh-CN`（2 处调用点）。恢复后 `typecheck` exit 0、13 files passed。
+- **运行确认（临时探针，跑完即删，4 passed (26.8s)）**：① `/components/bottom-sheet` 打开 `Open Deployment Actions` → `[data-slot="grabber"]` 的 `aria-label` 实测 zh-CN `调整高度` / en-US `Resize height`；② 文档站 768×1024（<lg，汉堡可见）展开导航面板 → 触发按钮 `菜单`→`关闭菜单`（zh）/ `Menu`→`Close menu`（en），面板 `textContent` 无 key 原文回显。**覆盖说明**：该面板未渲染搜索行（`showCloseButton` 分支同理未渲染 `panel-close`），故 `"Search"`/`"Search…"`/`"Ctrl K"` 仅由键集同构 + 静态扫描守护，无浏览器级证据（`"Ctrl K"` 两侧同值，浏览器断言本身不具区分度）。
+- **门禁**：`pnpm run typecheck`（`tsc -b`）exit 0；`pnpm run lint` **0 errors / 16 warnings（存量，与上轮一致）**；定向 vitest **13 files / 80 tests passed**（含 `component-i18n-source`、`framework-i18n`、`i18n-remaining`、`i18n-controls`、`feedback-i18n`、`grabber`、`hamburger-*` 5 文件、`docs-i18n`/`docs-i18n-parity`）；全量 `pnpm run test` → exit 1，`Test Files 8 failed | 226 passed (234)` ＝ 文档基线（7 个 `tests/audit/*` 环境类 + `button-api` 并发 flaky），**无新增回归**。
+- **已知限制（写入交付书 §9）**：编译期约束覆盖「locale ↔ locale」漂移；「组件 ↔ key」漂移由静态扫描在**测试期**守护——`t()` 参数**未**收窄为键集，因为现有 5 处动态 key 调用（`t(topicName)`、`t(label)`、`t(menuButtonLabel)`、`t(STATUS_LABELS[state])`、`` t(`JSON ${node.type}`) ``）会被误伤，需先改造调用点类型（后续可选债务）。
+- **文档链**：未改 props/API/示例/路由；`docs/geist` 双语 guide 与 LLM 语料不涉及（语料按批次 G 仍暂缓）。
+- **台账落点**：本文件 §5M、主报告 `008` 条目（标题 + 验证状态 + 修复记录）、矩阵 `:137`/`:196`/`:316`、交付书 §1/§2/批次 C/§7.4/§9/§10。
