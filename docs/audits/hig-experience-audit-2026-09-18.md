@@ -475,12 +475,17 @@
 - **建议修复方向**：隐藏项加 `aria-hidden` + `inert`（或 `tabIndex={-1}` 级联）；`focus-within`/hover 时暂停计时并恢复；为 `preserve` 之外的 toast 提供可访问的关闭（`aria-label` 已有 ✓）。
 - **验收场景**：连续触发 6 条 toast，仅 Tab 到可见项；聚焦 toast 后停留 10s 不被关闭。
 
-#### HIG-AUD-015 Tooltip 给装饰性/非交互子元素强注 `tabIndex=0`
+#### HIG-AUD-015 Tooltip 给装饰性/非交互子元素强注 `tabIndex=0` ✅ 已修复（2026-09-23，增补 §5P）
 
-- **严重度**：P1 ｜ **类型**：实现缺陷
-- **证据**：`src/components/ui/tooltip.tsx:51-61` —— `React.cloneElement(children, { tabIndex: children.props.tabIndex ?? 0, … })`；fallback 分支 `<span tabIndex={0}>`。任何被 Tooltip 包裹的纯展示元素都会被塞进 Tab 序列。
+- **严重度**：P1 ｜ **类型**：实现缺陷 ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-23，修复与复测记录见增补 §5P）
+- **证据（行号取自修复前版本，保留对照）**：`src/components/ui/tooltip.tsx:51-61` —— `React.cloneElement(children, { tabIndex: children.props.tabIndex ?? 0, … })`；fallback 分支 `<span tabIndex={0}>`。任何被 Tooltip 包裹的纯展示元素都会被塞进 Tab 序列。
 - **建议修复方向**：仅在子元素本身可聚焦时不干预；否则由调用方显式声明 `tabIndex`，或提供 `focusable={false}`。Tooltip 的触发应支持 hover + focus 双通道，但不应**制造**焦点。
 - **验收场景**：`<Tooltip text="…"><span>静态文本</span></Tooltip>` 不产生 Tab 停靠点；包裹 `<button>` 时仍可键盘触发。
+
+- **修复记录（2026-09-23，增补 §5P）**：触发元素构造改为**只透传**调用方显式声明的 `tabIndex`（`children.props.tabIndex`，不再 `?? 0`），非元素子节点的兜底壳（`<span>`）也去掉强注的 `tabIndex={0}`；源码注释写明契约「**不制造焦点**：需要键盘触发时由调用方声明 `tabIndex` 或改用可聚焦元素」。**内部消费点全部复核**：`tabs.tsx:210`、`progress.tsx:154`、`description.tsx:45` 本就显式声明 `tabIndex={0}` ✓；`text-with-copy-button.tsx:135` 包裹的是真按钮 ✓ → 仓库内键盘可达性**无回归**。
+  - 回归：`tests/tooltip-focus.test.tsx` 重写用例①（原「非交互子元素被强制可聚焦」**正是本条目要修的行为**）→ 新契约「静态子元素**无** `tabindex` 属性且 `tabIndex === -1`」；新增用例「可聚焦子元素保持 `tabIndex 0`，`focus()` 后取得焦点」；显式 `tabIndex={-1}` 透传用例保留（3 用例）。
+  - **真实浏览器验收（临时探针，跑完即删，1 passed）**：docs `/components/tooltip` 上所有 `span` 触发器**均无 `tabindex` 属性**、所有 `button` 触发器保持 `tabIndex 0`；聚焦被 Tooltip 包裹的 `<Button>` 仍能打开 `[role="tooltip"]`（**focus 通道未回归**）。
+  - 门禁：`typecheck` exit 0；`lint` 0 errors / 16 warnings（存量）；定向 vitest **4 files / 16 tests**（`tooltip-focus`、`tooltip-api`、`tooltip-tip`、`loading-icon-layout`）；全量 `pnpm test` `8 failed | 230 passed (238)` ＝ 文档基线。
 
 #### HIG-AUD-016 MultiSelect：自写可点击 `div` 热区 + Tab 被锁在面板内
 

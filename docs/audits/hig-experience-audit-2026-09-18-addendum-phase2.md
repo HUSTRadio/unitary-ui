@@ -557,3 +557,17 @@
 - **第 4 项：Toasts 受控 store 注入（同会话完成）**：把模块级单例（`toast.tsx` 的 `toastRecords`/`toastListeners`/`nextToastId`）收进 `createToastStore()` 闭包，导出 `ToastStore` / `ToastRecord` 类型（`Toasts store?` + `useToasts(store?)` 绑定同一实例，`dismiss`/`subscribe`/`getSnapshot` 走注入实例）；**默认全局 store 保持既有行为**（既有示例与测试零改动通过）。回归：新增 `tests/toasts-controlled.test.tsx`（4 用例，含「注入 store 与另一 store 相互隔离」这一全局单例做不到的断言）；`tests/toast-api.test.ts` 导出断言放宽为「包含」式；`component-api.ts` toast 条目补 `store` + `createToastStore` 行并同步注册表 `toEqual` 列表；真实浏览器 docs `/components/toast` 弹出/关闭路径不变。**踩坑**：`createToastStore` 同时出现在函数声明与末尾导出表 → `Duplicated export` 导致测试文件**静默 0 test**（改为仅末尾导出）。
 - **方法论沉淀**：受控能力改造的验收必须**双断言**——①「传受控值时内部不自行变更」；②「既有非受控路径不回归」（单测覆盖不到 Radix 语义时用一次性浏览器探针补齐）。另：`.ts` 测试文件**不能含 JSX**（本轮踩到一次，改为 `.tsx` 后通过）。
 - **台账落点**：本文件 §5O、主报告 `018`（标题 + 验证状态 + 修复记录）、矩阵 `:326`、交付书 §1/§3/§7.6/§9/§10。
+
+---
+
+## 5P. HIG-AUD-015 修复记录（2026-09-23，Tooltip 不再制造焦点）
+
+**来源**：交付书批次 C（`015`，与 `014`/`016` 同批次的独立小修）。**基线校正**：条目行号取自修复前版本，实测触发元素构造在 `tooltip.tsx:50-61`；**另外发现 `tests/tooltip-focus.test.tsx` 的既有用例①正是在锁定本条目要修的行为**（「makes a non-interactive element child keyboard-focusable」）——「测试把缺陷固化成契约」的现象值得后续留意。
+
+- **实现**：触发元素构造改为只**透传**调用方声明的 `tabIndex`（去掉 `?? 0`）；非元素子节点的兜底 `<span>` 去掉强注的 `tabIndex={0}`；源码注释写明「**不制造焦点**」契约与两种推荐做法（调用方声明 `tabIndex`，或改用可聚焦元素）。
+- **消费面复核（全仓 22 个使用点）**：内部三处**本就显式声明** `tabIndex={0}`（`tabs.tsx:210`、`progress.tsx:154`、`description.tsx:45`）、一处包裹真按钮（`text-with-copy-button.tsx:135`）→ **仓库内键盘可达性无回归**；docs 示例中包裹纯文本 / `<span>` / `<Badge>` / `<Spinner>` 的触发器按预期不再进 Tab 序列（即条目验收场景）。
+- **回归**：`tests/tooltip-focus.test.tsx` 重写用例①（→「静态子元素无 `tabindex` 属性且 `tabIndex === -1`」）并新增「可聚焦子元素保持 `tabIndex 0` 且 `focus()` 后取得焦点」；显式 `tabIndex={-1}` 透传用例保留（共 3 用例）；`tooltip-api` / `tooltip-tip` / `loading-icon-layout` 复跑通过 → 定向 **4 files / 16 tests**。
+- **真实浏览器验收（临时探针，跑完即删，1 passed）**：`/components/tooltip` 上所有 `span` 触发器**无 `tabindex` 属性**、所有 `button` 触发器保持 `tabIndex 0`；聚焦被 Tooltip 包裹的 `<Button>` 仍打开 `[role="tooltip"]`（**focus 通道未回归**）。
+- **门禁**：`pnpm run typecheck` exit 0；`pnpm run lint` 0 errors / 16 warnings（存量）；全量 `pnpm run test` → `8 failed | 230 passed (238)` ＝ 文档基线。
+- **文档链**：未改 props / 示例 / 路由（无新 prop），`component-api.ts` 无需变更；受影响的旧契约断言已按新行为更新。
+- **台账落点**：本文件 §5P、主报告 `015`（标题 + 验证状态 + 修复记录）、矩阵 `:88`/`:323`、交付书 §1/§2/批次 C/§7.7/§10。

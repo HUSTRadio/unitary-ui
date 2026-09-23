@@ -85,7 +85,7 @@
 | 组件 | 导出 | 注册 | 指南 | 示例 | 结论 |
 |---|---|---|---|---|---|
 | `toast` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-011、013、014、025、030、031 |
-| `tooltip` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-013、015 |
+| `tooltip` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-013、~~015~~（**✅ 2026-09-23**：不再强注 `tabIndex`，契约见增补 §5P） |
 | `progress` | ✔ | ✔ | ✔ | ✔ | ✔ |
 | `skeleton` | ✔ | ✔ | ✔ | ✔ | ✔ |
 | `skeleton-mask` | ✔ | — | — | ✔ | ⚠ HIG-AUD-023（有导出/示例/测试，但未注册、无独立指南） |
@@ -320,7 +320,7 @@
 | HIG-AUD-012 | P1 | `menu`、`context-menu`、`dots-menu`、`split-button`、`drawer`、`bottom-sheet`、`command-menu`、`destructive-action-modal`、`sheet`（增补扩充：`menu-bar`、pull-down、`responsive-drawer`、`context-card`）——**已修复（2026-09-23，浮层时长/缓动 token 化 + `--ease-in-out` 显式声明 + 账本清账 12→7，增补 §5K）** |
 | HIG-AUD-013 | P1 | `menu`、`dots-menu`、`select`、`multi-select`、`toast`、`theme-switcher`、`hamburger-menu`、`destructive-action-modal`、`edit-menu`（增补扩充：`menu-bar` Trigger、`toolbar` Item）——**已修复（2026-09-23，`pointer-coarse:` 触屏命中区 ≥44×44 + e2e 9 passed，增补 §5J）** |
 | HIG-AUD-014 | P1 | `toast` |
-| HIG-AUD-015 | P1 | `tooltip` |
+| HIG-AUD-015 | P1 | `tooltip`——**已修复（2026-09-23，只透传 `tabIndex`、不制造焦点；消费面 22 处复核无键盘回归 + 浏览器探针，增补 §5P）** |
 | HIG-AUD-016 | P1 | `multi-select` |
 | HIG-AUD-017 | P1 | `hamburger-menu`、`context-menu`（href 项，**未改动**：依赖 Radix Item 默认关闭，未实测）、全部浮层——**已修复（2026-09-23，导航条目激活即关闭 + 库层 `useDismissOnNavigate` + 文档消费方接入 + e2e 2 passed + 变异测试，增补 §5N）** |
 | HIG-AUD-018 | P1 | `combobox`、`bottom-sheet`、`toast`、`split-button`——**已修复（2026-09-23，4/4：Combobox `open`/`onOpenChange`、BottomSheet `detent`、SplitButton `menuButtonDisabled`、Toasts `createToastStore` 注入；受控契约测试 + 浏览器回归 + 文档注册同步，增补 §5O）** |
