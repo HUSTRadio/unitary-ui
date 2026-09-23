@@ -160,28 +160,51 @@ function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: To
   const dismiss = store.dismiss;
   const timers = React.useRef(new Map<number, number>());
   const [expanded, setExpanded] = React.useState(false);
+  const [focusWithin, setFocusWithin] = React.useState(false);
+  // HIG-AUD-014：hover 展开或焦点停留在 toast 上时**暂停**自动关闭计时（WCAG 2.2.1 计时可调），
+  // 离开后按剩余时间续跑：`deadline` 记到期时刻，`remaining` 记暂停时的剩余量。
+  const paused = expanded || focusWithin;
+  const deadline = React.useRef(new Map<number, number>());
+  const remaining = React.useRef(new Map<number, number>());
   const itemRefs = React.useRef(new Map<number, HTMLLIElement>());
   const [heights, setHeights] = React.useState<Record<number, number>>({});
 
   React.useEffect(() => {
+    if (paused) {
+      // 暂停：结算每个在跑的计时器剩余量并停表
+      const now = Date.now();
+      for (const [id, timer] of timers.current) {
+        window.clearTimeout(timer);
+        remaining.current.set(id, Math.max(0, (deadline.current.get(id) ?? now) - now));
+        deadline.current.delete(id);
+      }
+      timers.current.clear();
+      return;
+    }
     records.forEach((toast) => {
       if (toast.preserve || toast.exiting || timers.current.has(toast.id)) return;
-      const duration = toast.duration ?? (toast.onUndoAction ? 7000 : 3500);
+      const total = toast.duration ?? (toast.onUndoAction ? 7000 : 3500);
+      const left = remaining.current.get(toast.id) ?? total;
+      remaining.current.delete(toast.id);
+      deadline.current.set(toast.id, Date.now() + left);
       timers.current.set(
         toast.id,
         window.setTimeout(() => {
           timers.current.delete(toast.id);
+          deadline.current.delete(toast.id);
           dismiss(toast.id);
-        }, duration),
+        }, left),
       );
     });
     for (const [id, timer] of timers.current) {
       if (!records.some((toast) => toast.id === id)) {
         window.clearTimeout(timer);
         timers.current.delete(id);
+        deadline.current.delete(id);
+        remaining.current.delete(id);
       }
     }
-  }, [records]);
+  }, [records, paused, dismiss]);
 
   React.useEffect(
     () => () => {
@@ -210,6 +233,13 @@ function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: To
       aria-relevant="additions text"
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
+      onFocusCapture={() => setFocusWithin(true)}
+      onBlurCapture={(event) => {
+        // 焦点仍在视口内（子项之间移动）时不算离开
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setFocusWithin(false);
+        }
+      }}
       className={cn(
         "pointer-events-none fixed right-[var(--toast-gap)] bottom-[var(--toast-gap)] z-[var(--uni-z-toast)] m-0 w-[min(420px,calc(100vw-2*var(--toast-gap)))] p-0 outline-none",
         className,
@@ -220,6 +250,9 @@ function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: To
       {records.map((toast, i) => {
         const d = count - 1 - i; // 0 = 最新（完全可见）
         const cappedD = Math.min(d, MAX_STACK);
+        // HIG-AUD-014：与 CSS 的 `nth-last-[n+4]` 对齐——d >= MAX_STACK 的项视觉上被隐藏，
+        // 因此必须同时移出 Tab 序列与无障碍树（见下方 aria-hidden / inert）。
+        const hidden = d >= MAX_STACK;
         // 展开态：向上累计（更旧的 toast 排到更上面）
         let expandY = 0;
         for (let j = i + 1; j < count; j++) {
@@ -241,6 +274,10 @@ function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: To
             role="status"
             data-kind={toast.kind}
             data-exiting={toast.exiting ? "" : undefined}
+            // HIG-AUD-014：被 CSS 隐藏的第 5 个及更旧项此前仍留在 Tab 序列与无障碍树里
+            // （`nth-last-[n+4]` 只改视觉）。`inert` 同时移出 Tab 序列与 AT，`aria-hidden` 兜底。
+            aria-hidden={hidden || undefined}
+            inert={hidden || undefined}
             className={cn(
               "pointer-events-auto absolute right-0 bottom-0 flex min-h-13 w-full items-start gap-3 rounded-xl bg-background-100 p-4 text-copy-14 text-gray-1000 shadow-[var(--material-shadow-menu)]",
               "transition-all duration-(--uni-duration-slow) ease-toast",
