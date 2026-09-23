@@ -453,3 +453,26 @@
   4. docs 站汉堡面板传 `disableSearch` → `search-clear` 在该路径不可达，其命中区由源码契约覆盖。
 - **连带面（未动）**：`029`（移动断点零散，与 013 共享 R8 根因）未动；`027`（Select 缺移动贴底形态）未动——主报告路线 2.5「触控目标统一策略」原依赖 027 的形态决策，本轮以「桌面视觉零变化 + 触屏命中区提升」**绕开该依赖**，无需等 027；`031`（破坏色 token）未动。
 - **台账落点**：本文件 §5J、矩阵 `013` 相关行、交付书 §1 + §2。
+
+---
+
+## 5K. HIG-AUD-009 / 011 / 012 修复记录（2026-09-23，浮层 token 化三件套）
+
+**来源**：交付书批次 C 推荐起手（z-index / 退场动画 / 动效 token——三件套受影响面高度重叠，合并一轮处理）。**基线校正**：三条目自 2026-09-18 审核后代码已漂移——Select / EditMenu / Toast 的退场与时长在既往修复中已 token 化，本轮复核实况而非台账原判。
+
+- **修复（z 层级，009）**：
+  - `destructive-action-modal.tsx` 遮罩 + 卡片 `z-50` → `z-[var(--uni-z-modal)]`（与 `modal.tsx` 同族；台账「本应同族却左右不一致」项闭环）；`command-menu.tsx` 遮罩 + 面板 `z-100` → `z-[var(--uni-z-modal)]`（dialog 类）；
+  - `context-menu.tsx` `ContextMenuContent` 补 `z-[var(--uni-z-popover)]`（**决策**：内容可在 drawer/modal 内被唤起，menu 带 50 会被容器遮罩 200/300 覆盖；与同文件 QuickActions 内容 2001 对齐）；`multi-select.tsx` 内容补 popover 带；`feedback.tsx`、`relative-time-card.tsx` `z-50` → popover 带；`calendar-classes.ts` 组合框 `z-[99999999]` → popover 带；
+  - `index.css` context-card-tip `z-index: 999999999` → `var(--uni-z-context-card)`（弹层内部局部堆叠，computed 等效）；新增 `--uni-z-header: 40`（navbar 既有回退值的显式化；navbar 消费保留 `,40` 回退，不破坏既有锁定测试）；z token 组注释补**层级序**与**「遮罩 vs 内容」配对约定**（009 建议项）。
+- **修复（退场镜像，011）**：`menu.tsx`、`menu-bar.tsx`（`MENU_BAR_SURFACE`，含增补扩充的 MenuBar / pull-down 连带面）、`context-menu.tsx`（标准 Content + `QUICK_ACTIONS_CONTENT_CLASS`）、`multi-select.tsx` 退场补 `data-[state=closed]:zoom-out-95`；`relative-time-card.tsx` 补整套退场（`animate-out` + `fade-out-0` + `zoom-out-95`——原为仅有入场）。
+- **修复（时长/缓动 token，012）**：`menu` / `menu-bar` / `context-menu` / `multi-select` 一律补 `duration-(--uni-duration-fast)`（对齐 select / feedback / edit-menu 既有族规）；`destructive-action-modal.tsx` 遮罩与卡片补 `duration-(--uni-motion-overlay) ease-pop`（对齐 modal，含台账「300ms 族左右不一致」闭环）；`context-card.tsx` 补 `duration-(--uni-duration-base)`（hover 卡片族，与 relative-time-card 同档）；`bottom-sheet.tsx` `duration-300` + 内联 `height 300ms` → `var(--uni-motion-overlay)`（overlay 档 350ms，与拖拽吸附仍同档）；`responsive-drawer.tsx` 内联 `height 300ms` 同迁；`drawer.tsx` 内联 `transform 500ms` → `var(--uni-motion-expansive)`（同值替换）；`index.css` command-menu 工具类 `0.3s`→`var(--uni-motion-overlay)`、`0.4s`→`var(--uni-motion-expansive)`、遮罩曲线 `ease-out/ease-in`→`var(--ease-pop)`（与 modal 遮罩统一）；`sheet.tsx` 官方对齐的 `transition ease-in-out` 走**内建显式化**路径——`index.css` 新增 `--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1)`（与 Tailwind v4 内建值严格相等，声明后纳入项目 token 真源，computed 零变化、类名与官方实测字符串不变）。
+- **棘轮账本清账**：`tests/audit/motion-duration-allowlist.json` 移除 `0.3s`、`0.4s`、`300ms`（bottom-sheet + responsive-drawer）、`500ms`（drawer）四条冻结账目（12 → 7 条）。
+- **回归**：
+  - 治理测试扩展：`layer-tokens.test.ts`（header token 声明 + 消费矩阵 7 项 + 裸字面量移除 5 项 + tip 字面量收敛）、`duration-tokens.test.ts`（「浮层动画必须引用时长 token」15 文件矩阵 + 3 处内联 transition + command-menu 工具类无 `0.3s/0.4s`）、`ease-tokens.test.ts`（5 曲线 token，含 `--ease-in-out` 显式化断言）；
+  - 组件测试：`menu-surface`（退场镜像 + fast 档）、`menu-bar-api`、`context-menu-api`、`multi-select-api`、`relative-time-card`、`context-card-api`、`command-menu-api`（双 z 断言）、`destructive-action-modal-state`（z 计数 2 + overlay/motion token）、`bottom-sheet`（**motion 审核 §9 遗留**：`duration-300` 硬断言随迁移更新为 `duration-(--uni-motion-overlay)`）；
+  - 定向 vitest：**23 files / 184 tests passed**（含全部治理棘轮与 `motion-duration-governance` 双向棘轮）。
+- **真实浏览器核查（临时 Playwright 探针，跑完即删；双主题各一轮）**：computed 实测——menu `z-index 50 / animation-duration 0.15s`；destructive-action-modal 卡片与遮罩 `z-index 300 / 0.35s / ease-pop(cubic-bezier(0.175, 0.885, 0.32, 1.1))`；multi-select `z-index 2001 / 0.15s`；command-menu 遮罩与面板 `z-index 300 / 0.35s`；relative-time-card 与 feedback `z-index 2001`；context-menu 内容 `z-index 2001`。退场经 `animationstart` 事件实测（tw-animate 退场统一 `animation-name: exit`、zoom 经 `--tw-exit-scale` 变量表达）：menu / multi-select / context-menu / hover-card 退场 `--tw-exit-scale` 均生效（zoom 镜像真实存在）、modal 内容 `exit@destructive-action-modal` 0.35s、command-menu 走 `command-menu-scale-out`。双主题截图（menu / destructive modal / command-menu）人工目检无异常。
+- **门禁**：`pnpm run typecheck` → exit 0；定向 vitest 全绿；`typecheck:tests` 按基线对照（命中项均为存量 `TS7017`（`globalThis.IS_REACT_ACT_ENVIRONMENT`），无新增）。
+- **连带面（未动）**：`044`（MenuBar z=50 与子菜单碰撞溢出）保持独立——层级议题与 009 同源但含溢出/翻转设计决策；`010`（背板 5 种写法）未动；`dominant`「menu 独立带」语义锁保持不变（测试中显式锁定）。
+- **台账落点**：本文件 §5K、主报告 §4.2 三条目 + §1.2 P1 行、矩阵 `009`/`011`/`012` 行与 `:228`/`:300`、motion 审核 §4/§8/§9、交付书 §1/§2/批次 C/§6。
+- **提交状态**：实现与测试已由 `8d528b8` 提交（`fix(components): 浮层 z 层级/退场镜像/动效时长 token 化（HIG-AUD-009/011/012）`，27 files / +198 / −64）；本文件与其余台账随同名 docs 提交入库。

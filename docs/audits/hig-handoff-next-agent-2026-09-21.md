@@ -71,6 +71,7 @@
 | **HIG-AUD-013**（触屏命中区 < 44pt，P1，跨 11 个组件）已于 2026-09-23 修复并运行确认 | **方案裁决**：密集行布局不能伪元素外扩（相邻命中区重叠反造误触）→ 采用 `pointer-coarse:` 变体：**触屏下 `min-h-11`/`min-w-11` 抬到 44×44、桌面维持 Geist 原视觉**（依据：HIG 44pt 针对触屏；WCAG 2.5.8 AA 桌面仅需 24×24，36px 菜单项已达标）。13 处声明覆盖 11 文件（行类补高、短标签/图标/胶囊同时补宽——实测 MenuBarTrigger「编辑」仅 35.7px）。**绕开原依赖**：主报告路线 2.5 原依赖 027（Select 移动形态）决策，本方案无需等 027。回归：新增源码契约 `tests/touch-targets-contract.test.ts`（15 断言）+ 永久 e2e `tests/e2e/touch-targets.spec.ts` → **9 passed (33.6s)**（触屏 context 实测 boundingBox ≥44×44：宽视口 6 静态目标 + 菜单项 + MultiSelect 行；窄视口 Toolbar 溢出菜单项）。**e2e 踩坑**：`actionTimeout` 未设则元素缺失时 `boundingBox()` 无限等待（首轮卡满 15m）；Radix zoom 动画中间帧低报（42.5px）；窄屏下 Toolbar 项被折叠不可静态测量。台账落点：增补 §5J、矩阵 `013` 行、本交付书 §1/§2 |
 | **HIG-AUD-037**（破坏性项无二次确认，P1，HIG `pull-down-buttons` 依据）已于 2026-09-23 修复并运行确认 | **方案裁决**：不内建确认浮层（HIG 允许 action sheet 或 alert，形态留给消费方；既有 `DestructiveActionModal` 的 `verificationPhrase` 必填属高门控，不适合 Remove App 级确认）→ 组件只给红色语义 + 消费方串接确认 + 示例演示 + JSDoc/指南写下约定。改动：Quick Actions 与 ActivityView 两个示例改为「破坏项 → Modal 确认（取消/确认两路径，取消无副作用）」；`context-menu` / `activity-view` / `split-button` 三处 `destructive` JSDoc 写明契约；guides-04/05/13 双语 accessibility 段与示例描述同步。**永久回归**：新增 `tests/e2e/quick-actions-destructive-confirm.spec.ts`（2 用例：红字断言 `rgb(238,0,0)` → 点击弹确认 → 取消状态不变 → 确认才执行；ActivityView 同）**2 passed (29.6s)**；定向 vitest 3 files 全绿；双主题视觉核查通过。台账落点：增补 §5I、矩阵 `037` 行、本交付书 §1/§2 |
 | **HIG-AUD-039 + 050**（Toolbar 折叠丢弃非 ToolbarItem 内容 / 溢出项丢 disabled+active / Fragment 收集失败，P1+P3）已于 2026-09-23 修复并运行确认 | 修复（`toolbar.tsx`）：`CollapsedItem` 增 `disabled`/`active` 并透传（溢出项 `disabled=` + `data-active` + `aria-current` + 常驻高亮）；新增 `isCollapsibleGroup()`——显式 `collapsible` 优先，未指定时仅全 ToolbarItem 组折叠，混合内容组常驻（显式折叠 + 混合内容时 dev 告警）；新增 `flattenChildren()` 递归展平 Fragment/数组（050 随之闭环）。**踩坑实况**：`ToolbarGroup` 函数签名的 `collapsible = true` 默认值必须移除，否则收集器（读原始 props）与组件（读解构值）判定不一致 → 组被折叠且溢出菜单为空。回归：新增 `tests/toolbar-collapse.test.tsx`（6 用例，jsdom + mock ResizeObserver）+ `toolbar-api` 契约补强 → 定向 **3 files / 19 tests 全绿**。真实浏览器探针（320×700 × 双主题，跑完即删）：溢出菜单 6 项中「网格视图」`data-active="true"` + `aria-current="true"`（修复前全丢），其余项正确为 null；截图确认 active 项常驻高亮。台账落点：增补 §5H、矩阵 `039`/`050` 行、本交付书 §1/§2 |
+| **HIG-AUD-009 / 011 / 012**（z-index 三态并存 / 退场动画不对称 / 时长 token 覆盖不全，P1，浮层 token 化三件套）已于 2026-09-23 修复并运行确认 | **基线校正**：三条目自 09-18 后代码已漂移——Select / EditMenu / Toast 的退场与时长在既往修复中已 token 化，本轮按实况收敛。**009**：destructive-action-modal 遮罩+卡片 `z-50` 与 command-menu `z-100` → `--uni-z-modal`；ContextMenuContent（**决策**：可在 drawer/modal 内唤起 → popover 带，与同文件 QuickActions 对齐）、multi-select、feedback、relative-time-card、calendar 组合框（`z-[99999999]`）→ popover 带；index.css tip 九位数字面量 → `--uni-z-context-card`；新增 `--uni-z-header: 40`（navbar 回退显式化，保留 `,40` 不破坏锁定测试）+ z token 组补层级序/配对约定注释。**011**：menu / menu-bar（`MENU_BAR_SURFACE`）/ context-menu（含 QuickActions）/ multi-select 退场补 `zoom-out-95`；relative-time-card 补整套退场。**012**：menu 族补 `duration-(--uni-duration-fast)`、destructive-action-modal 补 `--uni-motion-overlay + ease-pop`（对齐 modal）、context-card 补 base 档、bottom-sheet / responsive-drawer `300ms` 与 drawer `500ms` 内联、command-menu `0.3s/0.4s` → 档位 token、`sheet` 官方对齐的 `ease-in-out` 走**内建显式化**（`--ease-in-out` 与 Tailwind v4 内建值严格相等，computed 零变化）。**账本清账**：`motion-duration-allowlist` 12→7（移除 0.3s / 0.4s / 300ms / 500ms）；`bottom-sheet.test.tsx:114` 硬断言随迁移更新（motion 审核 §9 遗留闭环）。**回归**：`layer-tokens` / `duration-tokens` / `ease-tokens` 治理扩展 + 8 个组件测试；定向 **23 files / 184 tests passed**；typecheck exit 0。**双主题探针（跑完即删）**：computed 实测 menu 50/0.15s、modal 卡片与遮罩 300/0.35s/ease-pop、multi-select 2001、command-menu 300、context-menu 2001、hover-card 2001；退场经 `animationstart` 实测 `exit` + `--tw-exit-scale` 生效、command-menu `command-menu-scale-out`。台账落点：增补 §5K、主报告 §4.2 + §1.2、矩阵、motion 审核 §4/§8/§9、本交付书 §1/§2/批次 C/§6 |
 | 三份审核文档已同步标注 | 主报告、增补、矩阵均已改；原「修复前证据」段落**保留作对照**，仅加注「行号取自修复前版本」 |
 | 临时复现脚本已删除 | `tests/e2e/tmp-quickactions-audit.spec.ts` 已不存在（`tests/e2e/` 剩 5 个文件）；本轮视觉核查脚本（`.scratch/visual-audit.mjs`、`probe-*.mjs`）已删除，`.scratch/` 整体由 `.gitignore:22` 忽略 |
 | 已验证明令 | `pnpm run typecheck` → `tsc -b`，**exit 0**；`pnpm test` 全量 **228 files / 1424 tests passed，exit 0**；`pnpm run lint`（oxlint）→ **0 errors / 16 warnings，exit 0**；定向 `vitest run docs-i18n-parity + component-doc-completeness + docs-showcode + quick-actions-api` → **4 files / 16 tests passed，exit 0** |
@@ -81,9 +82,9 @@
 
 | 口径 | 总数 | 已完成 | **剩余** |
 |---|---|---|---|
-| **HIG-AUD 问题（主报告 ∪ 增补 并集）** | **54**（新增 054） | 10（001–005、006/007、038、051、054；另 `049` 判非缺陷关闭） | **43** |
+| **HIG-AUD 问题（主报告 ∪ 增补 并集）** | **54**（新增 054） | **17**（001–005、006/007、009/011/012、013、037、038、039、040、051、054；另 `049` 判非缺陷关闭；2026-09-23 批次已并入） | **36** |
 | ├ P0 | 6（含 1 条判定撤回） | 5 | **0** |
-| ├ P1 | 24 | 3（006/007、038，2026-09-22） | **21** |
+| ├ P1 | 24 | 9（006/007、038、009/011/012、013、037、039、040，2026-09-22~23） | **15** |
 | ├ P2 | 13（新增 054） | 1（054） | **12** |
 | └ P3 | 11 | 0 | **11** |
 | **PLAN-HIG-COMPONENTS 交付项** | **90** | 67 完成 / 18 部分 / 5 缺失 | **23** |
@@ -120,13 +121,13 @@
 | PLAN §十一.4 / G4 | **backdrop-blur 材质 token 未新增**，仍是字面量 `bg-black/40 backdrop-blur-sm` | `PLAN-HIG-COMPONENTS.md:322`；`context-menu.tsx:154-156` | ✅ 已闭环：新增 `--uni-overlay-backdrop-blur: 8px`（`src/styles/index.css` 遮罩 token 组），`context-menu.tsx` 与 `destructive-action-modal.tsx` 改走 `backdrop-blur-(--uni-overlay-backdrop-blur)`；真实浏览器双主题实测计算值 `blur(8px)`、遮罩色仍 40% / 50% |
 | PLAN M1–M4 门禁 | `pnpm test` exit 1（9 基线失败）、`test:docs-layout` exit 1、lint 无证据 | `…-addendum-phase2.md:225-227` | ✅ **汇总口径已闭环（2026-09-22 04:21，独占运行）**：`typecheck`、`build`、`lint`（0 error）、`pnpm test`（228 files / 1424 tests）均 exit 0；**`test:docs-layout` 可信汇总行已取得** → `2 failed / 1 flaky / 119 passed (42.8m)`，exit 1。failed = `command-search.spec.ts:49`（HIG-AUD-053，已知基线）+ `docs-layout.spec.ts:619` `static routes (light)`（环境卡死，见 §4）；flaky = `docs-layout.spec.ts:642` `aggregate layout audit gate`（首轮 3 条**真实**断言失败，重试被清空掩盖，见 §7.1） |
 
-### 批次 C：P1（17 条；`038`、`006`/`007`、`013`、`037`、`039`、`040` 已修复，见 §1）
+### 批次 C：P1（剩余 14 条；`038`、`006`/`007`、`013`、`037`、`039`、`040`、`009`/`011`/`012` 已修复，见 §1）
 
-`008` i18n key 缺失 3 处 ｜ `009` z-index 体系不统一 ｜ `010` Overlay 背板 5 种写法 ｜ `011` 退场动画缺失 ｜ `012` 动效时长 token 不全 ｜ `014` Toast Tab 序列/计时 ｜ `015` Tooltip 强注 tabIndex ｜ `016` MultiSelect 热区/Tab 锁 ｜ `017` 无路由关闭浮层机制 ｜ `018` 受控能力缺口 ｜ `019` reduced-motion 覆盖不全 ｜ `020` EditMenu 触屏缺陷 ｜ `021` EditMenu 定位/语义边界 ｜ `022` Grabber slider 无键盘 ｜ `023` 7 个导出组件未注册 ｜ `024` SidePanel 未导出/被门禁 ｜ `036` EditMenu 指针设备形态
+`008` i18n key 缺失 3 处 ｜ `010` Overlay 背板 5 种写法 ｜ `014` Toast Tab 序列/计时 ｜ `015` Tooltip 强注 tabIndex ｜ `016` MultiSelect 热区/Tab 锁 ｜ `017` 无路由关闭浮层机制 ｜ `018` 受控能力缺口 ｜ `019` reduced-motion 覆盖不全 ｜ `020` EditMenu 触屏缺陷 ｜ `021` EditMenu 定位/语义边界 ｜ `022` Grabber slider 无键盘 ｜ `023` 7 个导出组件未注册 ｜ `024` SidePanel 未导出/被门禁 ｜ `036` EditMenu 指针设备形态
 
-> `009`/`011`/`012`/`013`/`018`/`025` 的受影响清单已扩充到 MenuBar / Toolbar / pull-down，改动时注意连带面。
+> `009`/`011`/`012` 的受影响清单已扩充到 MenuBar / Toolbar / pull-down（**已于 2026-09-23 修复，见 §1**）；`013`/`018`/`025` 的扩充清单改动时注意连带面。
 
-> **枚举已完成（2026-09-22 晚，subagent 交叉核对主报告 §4.2 + 矩阵 + 增补 + 本交付书）**：未修 P1 = 上面 17 条（008–012、014–024 连续 + 036；`038`、`006`/`007`、`013`、`037`、`039`、`040` 已修）。口径提示：主报告 §1.2 按 P1 计 23 条（原口径），与本清单差 6，**以本清单并集为准**；`037` 在主报告的状态列未回填（增补已升级 [运行确认]），属时序差。推荐起手顺序：**`009`/`011`/`012`**（z-index / 退场动画 / 动效 token——token 化三件套可协同推进，且与 `029`（移动断点）受影响面重叠；`013` 已于 2026-09-23 修复见 §1）→ 其余按编号推进。
+> **枚举已完成（2026-09-22 晚，subagent 交叉核对主报告 §4.2 + 矩阵 + 增补 + 本交付书；2026-09-23 更新）**：未修 P1 = 上面 14 条（008、010、014–024 连续 + 036；`038`、`006`/`007`、`013`、`037`、`039`、`040`、`009`/`011`/`012` 已修）。口径提示：主报告 §1.2 按 P1 计 23 条（原口径），与本清单差 6，**以本清单并集为准**；`037` 在主报告的状态列未回填（增补已升级 [运行确认]），属时序差。推荐起手顺序（2026-09-23 刷新）：**`010`/`019`**（浮层背板 token 与 reduced-motion 全覆盖——与 009/012 同族一致性收尾，可协同）→ `008`（i18n，独立）→ 其余按编号推进。
 
 ### 批次 D：P2（12 条）
 
@@ -173,6 +174,7 @@
 - **未跟踪的 scratch（禁止提交）**：`.tmp-logo/`（临时 logo 生成脚本 `*.mjs`、字体 `*.ttf`、`*.png`、`textpath.json` 等）。
 - **并行会话（logo 线）未完成工作（不要动、不要提交）**：`brand/unitary-app-icon.svg`、`brand/unitary-mark.svg`、`brand/unitary-logo-horizontal.svg`、`docs/geist/src/components/unitary-logo.tsx`、`docs/geist/src/examples/badge/compact-rounded-7c41e2a8.example.tsx`。
 - **遗留临时 spec（2026-09-22 发现）**：`tests/e2e/tmp-triage-probe.spec.ts`（并行线遗留，非审核线产物）——按「跑完即删」纪律应在 logo 线收尾时删除，**勿提交**；审核线自己的探针（`tmp-sec71-*.spec.ts` 等）均已删净。
+- **2026-09-23（009/011/012 会话）**：实现与测试已由 `8d528b8` 提交（fix：`src/components/ui` 13 个组件文件 + `src/styles/index.css`，`tests` 13 个文件 = 治理 3 + 组件 9 + allowlist 1）；5 份 audits 台账（主报告 / 增补 / 矩阵 / motion / 本交付书）随同名 docs 提交入库；探针与日志已删净。
 - 除用户明确要求外，**不得 commit、不得 push**（AGENTS.md 硬约束）。
 - 所有临时脚本（Playwright 复现、测量脚本、日志）**跑完即删**；`.scratch/` 产物不得进版本库。
 
@@ -183,7 +185,7 @@
 1. **只读取证**（不写任何文件）：跑真实 `pnpm test` 与 `pnpm run test:docs-layout`，核对 §7 的基线失败是否仍为 9 项 / 3 文件，确认无新增回归。
 2. ~~**批次 A（3 个开放 P0）**~~ → ✅ **已于 2026-09-21 完成闭环**（每条均走：复现 → 修复 → 加/改回归测试 → 双主题视觉核查 → 三份台账同步；含行号与「修复后证据」）。
 3. **批次 B（计划缺口）**：~~优先 E11 `app-shell` 组合演示与 G4 材质 token（两者影响文档链与语料）~~ → ✅ E11（`522e53f`）、G4（`--uni-overlay-backdrop-blur`）、G3（`tests/e2e/context-menu-quick-actions-touch.spec.ts`）均已闭环；~~剩余 M1–M4 的 `test:docs-layout` 汇总口径~~ → ✅ 汇总口径已闭环（§7，`2 failed / 1 flaky / 119 passed (42.8m)`）；~~接续项 = §7.1 的三条断言分诊~~ → ✅ 已分诊闭环（§7.1：1 真实缺陷修复为 HIG-AUD-054 + 2 断言缺陷修正，增补台账 §5C）。
-4. **批次 C → D → E**：按严重度推进；~~`049` 可直接判定关闭~~ → ✅ **已关闭（2026-09-22）**：设计决策注释已落 `activity-view.tsx` 瓦片处，台账已回填；批次 C 剩余 P1 = **006–024、036–040 共 24 条未修**（枚举与推荐顺序见批次 C 节注）。
+4. **批次 C → D → E**：按严重度推进；~~`049` 可直接判定关闭~~ → ✅ **已关闭（2026-09-22）**：设计决策注释已落 `activity-view.tsx` 瓦片处，台账已回填；批次 C 剩余 P1 = **14 条**（008、010、014–024、036；2026-09-23 增量：009/011/012 已修复；枚举与推荐顺序见批次 C 节注）。
 5. **批次 F（债务）**：建议在 P0/P1 收敛后再做，且批次 1→2→3 顺序不可颠倒。
 6. **批次 G**：等用户解除暂缓并完成 safe-delete 人工确认。
 
