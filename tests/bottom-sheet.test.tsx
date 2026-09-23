@@ -4,7 +4,7 @@ import path from "node:path";
 import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { BottomSheet, snapToDetent } from "../src/components/ui/bottom-sheet";
 
@@ -41,6 +41,33 @@ describe("BottomSheet", () => {
     const three = [0.25, 0.5, 1];
     expect(snapToDetent(0.2, three)).toBe(0);
     expect(snapToDetent(0.6, three)).toBe(1);
+  });
+
+  it("detent 受控：只上报不改档，跟随外部传值（HIG-AUD-018）", () => {
+    const onDetentChange = vi.fn();
+    const sheet = (detent: number) => (
+      <BottomSheet detents={[0.5, 1]} detent={detent} onDetentChange={onDetentChange} open>
+        <div>content</div>
+      </BottomSheet>
+    );
+    const grabber = () => document.querySelector<HTMLElement>('[role="slider"]')!;
+
+    renderSheet(sheet(0));
+    expect(grabber().getAttribute("aria-valuenow")).toBe("0");
+
+    // 点击切档：受控态下只上报 onDetentChange，内部不得自行改档
+    act(() => grabber().click());
+    expect(onDetentChange).toHaveBeenCalledWith(1);
+    expect(grabber().getAttribute("aria-valuenow")).toBe("0");
+
+    // 外部把 detent 改成 1 → 组件跟随（且不再重复上报）
+    act(() => root.render(sheet(1)));
+    expect(grabber().getAttribute("aria-valuenow")).toBe("1");
+    expect(onDetentChange).toHaveBeenCalledTimes(1);
+
+    // 越界传值钳到合法档位：否则 detents[out-of-range] 为 undefined、面板高度崩
+    act(() => root.render(sheet(9)));
+    expect(grabber().getAttribute("aria-valuenow")).toBe("1");
   });
 
   it("automatic + 单 detent 不渲染 grabber", () => {

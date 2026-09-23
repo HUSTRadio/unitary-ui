@@ -64,6 +64,11 @@ export interface SplitButtonProps extends React.ComponentProps<"div"> {
   buttonProps?: ButtonProps;
   /** 下拉触发按钮的无障碍标签（官方 menuButtonLabel） */
   menuButtonLabel?: string;
+  /**
+   * 单独禁用下拉触发按钮（HIG-AUD-018）。
+   * `buttonProps.disabled` 只作用于主按钮，无法表达「主按钮可用、菜单不可用」这一状态。
+   */
+  menuButtonDisabled?: boolean;
   /** 菜单对齐方式（官方 menuAlignment；默认 bottom-start 对齐主按钮下方） */
   menuAlignment?: SplitButtonMenuAlignment;
   /** 菜单内容（官方 menuItems：SplitButtonMenuItem[] 或 fragment） */
@@ -113,6 +118,7 @@ function SplitButton({
   expandCorner = "top-left",
   buttonProps,
   menuButtonLabel = "More options",
+  menuButtonDisabled = false,
   menuAlignment = "bottom-start",
   menuItems,
   menuProps,
@@ -164,6 +170,7 @@ function SplitButton({
           variant={buttonProps?.type}
           size={buttonProps?.size}
           svgOnly
+          disabled={menuButtonDisabled}
           aria-label={menuButtonLabel === "More options" ? t(menuButtonLabel) : menuButtonLabel}
           className="rounded-l-none"
         >

@@ -15,73 +15,18 @@ export interface ToastOptions {
   duration?: number;
 }
 
-interface ToastRecord extends ToastOptions {
+/** 快照条目（HIG-AUD-018 起由 store 闭包持有，不再是模块级单例）。 */
+export interface ToastRecord extends ToastOptions {
   id: number;
   kind: ToastKind;
   /** 退场中：保留节点播放退场过渡，过渡结束后才从记录中移除 */
   exiting?: boolean;
 }
 
-let nextToastId = 1;
-let toastRecords: ToastRecord[] = [];
-const toastListeners = new Set<() => void>();
-
 /** 退场驻留时长：与条目 class 的 transition-all duration-(--uni-duration-slow)（350ms）一致 */
 const TOAST_EXIT_MS = 350;
 /** 退场位移：与入场 slide-in-from-bottom-2（8px）镜像 */
 const TOAST_EXIT_SLIDE = 8;
-
-function removeToast(id: number) {
-  const next = toastRecords.filter((toast) => toast.id !== id);
-  if (next.length === toastRecords.length) return;
-  toastRecords = next;
-  publish();
-}
-
-function publish() {
-  toastListeners.forEach((listener) => listener());
-}
-
-/**
- * 关闭：先标记退场并保留节点一个过渡时长（Apple 对称过渡——有入必有出），
- * 过渡结束后再真正移除。直接 filter 会让条目瞬间消失，退场动画无从播放。
- */
-function dismiss(id: number) {
-  const target = toastRecords.find((toast) => toast.id === id);
-  if (!target || target.exiting) return;
-  if (typeof window === "undefined") {
-    removeToast(id);
-    return;
-  }
-  toastRecords = toastRecords.map((toast) =>
-    toast.id === id ? { ...toast, exiting: true } : toast,
-  );
-  publish();
-  window.setTimeout(() => removeToast(id), TOAST_EXIT_MS);
-}
-
-function addToast(kind: ToastKind, options: ToastOptions | React.ReactNode) {
-  const normalized: ToastOptions =
-    !React.isValidElement(options) &&
-    typeof options === "object" &&
-    options !== null &&
-    "text" in options
-      ? (options as ToastOptions)
-      : { text: options };
-  const id = nextToastId++;
-  toastRecords = [...toastRecords, { ...normalized, id, kind }];
-  publish();
-  return id;
-}
-
-function subscribe(listener: () => void) {
-  toastListeners.add(listener);
-  return () => toastListeners.delete(listener);
-}
-
-function getSnapshot() {
-  return toastRecords;
-}
 
 export interface UseToastsReturn {
   message: (options: ToastOptions) => number;
@@ -91,16 +36,96 @@ export interface UseToastsReturn {
   dismiss: (id: number) => void;
 }
 
-function useToasts(): UseToastsReturn {
+/**
+ * HIG-AUD-018：可注入的 toast store —— 视口与 API 绑定同一实例，状态可完全由外部驱动。
+ */
+export interface ToastStore extends UseToastsReturn {
+  subscribe: (listener: () => void) => () => void;
+  getSnapshot: () => ToastRecord[];
+}
+
+/**
+ * 创建独立 store（HIG-AUD-018）。
+ *
+ * 此前状态是**模块级单例**，调用方无法拥有自己的 toast 队列：多视图/多场景共享同一栈，
+ * 测试之间也会互相污染（`drainToasts` 依赖全局）。现在把状态收进闭包——`<Toasts store={s}/>`
+ * 与 `useToasts(s)` 绑定同一个 `s`；**不传时用下面的默认全局 store，既有行为完全不变**。
+ */
+function createToastStore(): ToastStore {
+  let nextId = 1;
+  let records: ToastRecord[] = [];
+  const listeners = new Set<() => void>();
+
+  const publish = () => listeners.forEach((listener) => listener());
+
+  const removeToast = (id: number) => {
+    const next = records.filter((toast) => toast.id !== id);
+    if (next.length === records.length) return;
+    records = next;
+    publish();
+  };
+
+  /**
+   * 关闭：先标记退场并保留节点一个过渡时长（Apple 对称过渡——有入必有出），
+   * 过渡结束后再真正移除。直接 filter 会让条目瞬间消失，退场动画无从播放。
+   */
+  const dismiss = (id: number) => {
+    const target = records.find((toast) => toast.id === id);
+    if (!target || target.exiting) return;
+    if (typeof window === "undefined") {
+      removeToast(id);
+      return;
+    }
+    records = records.map((toast) =>
+      toast.id === id ? { ...toast, exiting: true } : toast,
+    );
+    publish();
+    window.setTimeout(() => removeToast(id), TOAST_EXIT_MS);
+  };
+
+  const addToast = (kind: ToastKind, options: ToastOptions | React.ReactNode) => {
+    const normalized: ToastOptions =
+      !React.isValidElement(options) &&
+      typeof options === "object" &&
+      options !== null &&
+      "text" in options
+        ? (options as ToastOptions)
+        : { text: options };
+    const id = nextId++;
+    records = [...records, { ...normalized, id, kind }];
+    publish();
+    return id;
+  };
+
+  return {
+    subscribe: (listener: () => void) => {
+      listeners.add(listener);
+      return () => {
+        listeners.delete(listener);
+      };
+    },
+    getSnapshot: () => records,
+    message: (options: ToastOptions) => addToast("message", options),
+    success: (text: React.ReactNode) => addToast("success", text),
+    warning: (text: React.ReactNode) => addToast("warning", text),
+    error: (text: React.ReactNode) => addToast("error", text),
+    dismiss,
+  };
+}
+
+/** 默认全局 store：`useToasts()` / `<Toasts/>` 不传 `store` 时使用（保持既有行为）。 */
+const defaultToastStore = createToastStore();
+
+function useToasts(store: ToastStore = defaultToastStore): UseToastsReturn {
   return React.useMemo(
     () => ({
-      message: (options: ToastOptions) => addToast("message", options),
-      success: (text: React.ReactNode) => addToast("success", text),
-      warning: (text: React.ReactNode) => addToast("warning", text),
-      error: (text: React.ReactNode) => addToast("error", text),
-      dismiss,
+      message: store.message,
+      success: store.success,
+      warning: store.warning,
+      error: store.error,
+      dismiss: store.dismiss,
     }),
-    [],
+    [store],
   );
 }
 
@@ -112,6 +137,8 @@ const toastIcons: Partial<Record<ToastKind, React.ComponentType<{ className?: st
 
 export interface ToastsProps extends React.ComponentProps<"ol"> {
   gap?: number;
+  /** HIG-AUD-018：绑定到指定 store（不传则用默认全局 store）。 */
+  store?: ToastStore;
 }
 
 /**
@@ -126,9 +153,11 @@ export interface ToastsProps extends React.ComponentProps<"ol"> {
 const STACK_GAP = 20; // 展开态 toast 间距（官方实测 20px）
 const MAX_STACK = 4; // 最多堆叠层数（更旧的隐藏）
 
-function Toasts({ className, gap = 16, ...props }: ToastsProps) {
+function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: ToastsProps) {
   const { t } = useI18n();
-  const records = React.useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  const records = React.useSyncExternalStore(store.subscribe, store.getSnapshot, store.getSnapshot);
+  // 三个关闭入口（自动关闭 / 动作后关闭 / 关闭按钮）统一走注入 store 的 dismiss
+  const dismiss = store.dismiss;
   const timers = React.useRef(new Map<number, number>());
   const [expanded, setExpanded] = React.useState(false);
   const itemRefs = React.useRef(new Map<number, HTMLLIElement>());
@@ -263,4 +292,4 @@ function Toasts({ className, gap = 16, ...props }: ToastsProps) {
   );
 }
 
-export { Toasts, useToasts };
+export { Toasts, useToasts, createToastStore };

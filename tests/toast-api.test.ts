@@ -41,7 +41,8 @@ describe("Toast official API contract (G12 audit fixes)", () => {
 
   test("Toast exports Toasts and useToasts", async () => {
     const src = await read("src/components/ui/toast.tsx");
-    expect(src).toMatch(/export\s*\{\s*Toasts,\s*useToasts\s*\}/);
+    // HIG-AUD-018：新增可注入 store 工厂（导出名集合按「包含」而非全等断言）
+    expect(src).toMatch(/export\s*\{[^}]*\bToasts\b[^}]*\buseToasts\b[^}]*\bcreateToastStore\b[^}]*\}/);
   });
 
   test("useToasts exposes message/success/warning/error/dismiss", async () => {

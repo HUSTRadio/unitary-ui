@@ -70,6 +70,9 @@ describe("component API registry", () => {
       ["warning", "(text: ReactNode) => number"],
       ["error", "(text: ReactNode) => number"],
       ["dismiss", "(id: number) => void"],
+      // HIG-AUD-018：可注入 store
+      ["store", "ToastStore"],
+      ["createToastStore", "() => ToastStore"],
     ]);
 
     expect(row("progress", "value")?.type).toBe("number | null");
@@ -166,6 +169,8 @@ describe("component API registry", () => {
     expect(row("bottom-sheet", "open")?.type).toBe("boolean");
     expect(row("bottom-sheet", "onOpenChange")?.type).toBe("(open: boolean) => void");
     expect(row("bottom-sheet", "onDetentChange")?.type).toBe("(index: number) => void");
+    // HIG-AUD-018：档位受控
+    expect(row("bottom-sheet", "detent")?.type).toBe("number");
     // HIG-AUD-040：面板命名能力（aria-label 回退 / aria-labelledby 关联）
     expect(row("bottom-sheet", "aria-label")?.type).toBe("string");
     expect(row("bottom-sheet", "aria-labelledby")?.type).toBe("string");
@@ -288,6 +293,11 @@ describe("component API registry", () => {
     expect(row("split-button", "buttonProps")?.type).toBe("ButtonProps");
     expect(row("split-button", "menuAlignment")?.defaultValue).toBe('"bottom-start"');
     expect(row("split-button", "menuItems")?.type).toBe("ReactNode");
+    // HIG-AUD-018：菜单触发按钮可单独禁用
+    expect(row("split-button", "menuButtonDisabled")).toMatchObject({
+      type: "boolean",
+      defaultValue: "false",
+    });
     expect(row("split-button", "onClick")).toBeUndefined();
     expect(row("split-button", "menu")).toBeUndefined();
 
@@ -367,6 +377,9 @@ describe("component API registry", () => {
     expect(row("combobox", "maxWidth")?.type).toBe("number");
     expect(row("combobox", "emptyMessage")?.type).toBe("string");
     expect(row("combobox", "ignoreDefaultHeight")?.type).toBe("boolean");
+    // HIG-AUD-018：打开状态受控
+    expect(row("combobox", "open")?.type).toBe("boolean");
+    expect(row("combobox", "onOpenChange")?.type).toBe("(open: boolean) => void");
 
     expect(row("multi-select", "layout")?.type).toBe("ControlLayout");
     expect(row("multi-select", "checked")?.required).toBe(true);

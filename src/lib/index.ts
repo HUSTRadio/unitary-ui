@@ -48,8 +48,15 @@ export { Badge, badgeVariants } from "@/components/ui/badge";
 export { Separator } from "@/components/ui/separator";
 
 // Components — Feedback
-export { Toasts, useToasts } from "@/components/ui/toast";
-export type { ToastKind, ToastOptions, UseToastsReturn, ToastsProps } from "@/components/ui/toast";
+export { Toasts, useToasts, createToastStore } from "@/components/ui/toast";
+export type {
+  ToastKind,
+  ToastOptions,
+  UseToastsReturn,
+  ToastsProps,
+  ToastStore,
+  ToastRecord,
+} from "@/components/ui/toast";
 export { Tooltip } from "@/components/ui/tooltip";
 export type { TooltipProps, TooltipPosition, TooltipBoxAlign, TooltipType } from "@/components/ui/tooltip";
 export { Progress } from "@/components/ui/progress";

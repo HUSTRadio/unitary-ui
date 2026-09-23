@@ -63,7 +63,12 @@ interface BottomSheetProps {
   /** 受控打开状态；不传则内部自管（受控双模） */
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  /** 吸附后档位变化回调 */
+  /**
+   * 受控当前档位（`detents` 数组下标）；不传则内部自管（受控双模，HIG-AUD-018）。
+   * 受控时拖拽吸附与点击切档**只上报** `onDetentChange`，组件不自行改档。
+   */
+  detent?: number;
+  /** 吸附后档位变化回调（受控双模下也是唯一的状态上报通道） */
   onDetentChange?: (index: number) => void;
   /** 无可见标题时提供面板的可访问名称（HIG-AUD-040：Dialog 内容必须有名称）。 */
   "aria-label"?: string;
@@ -79,6 +84,7 @@ function BottomSheet({
   gestures,
   open: openProp,
   onOpenChange,
+  detent: detentProp,
   onDetentChange,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
@@ -101,7 +107,20 @@ function BottomSheet({
     [isControlled, onOpenChange],
   );
 
-  const [current, setCurrent] = React.useState(0);
+  // 档位：与上面的 open 同款受控双模（HIG-AUD-018）
+  const isDetentControlled = detentProp !== undefined;
+  const [detentState, setDetentState] = React.useState(0);
+  const detent = isDetentControlled ? detentProp : detentState;
+  // 受控传值越界 / 非整数时钳到合法档位：否则 detents[out-of-range] 为 undefined，
+  // ratio 变 NaN → 面板高度直接崩。上报侧（onDetentChange）仍给吸附后的真实下标。
+  const detentIndex = Math.min(Math.max(Math.trunc(detent), 0), detents.length - 1);
+  const setDetent = React.useCallback(
+    (next: number) => {
+      if (!isDetentControlled) setDetentState(next);
+      onDetentChange?.(next);
+    },
+    [isDetentControlled, onDetentChange],
+  );
   const lastFocusedRef = React.useRef<HTMLElement | null>(null);
   // 拖拽中的实时比例（非受控瞬时态），null 表示未在拖拽
   const [dragRatio, setDragRatio] = React.useState<number | null>(null);
@@ -111,14 +130,14 @@ function BottomSheet({
 
   const resizable = gestures?.resize !== false;
   const dragging = dragRatio !== null;
-  const ratio = dragRatio ?? detents[current]!;
+  const ratio = dragRatio ?? detents[detentIndex]!;
 
   // 拖拽手势只挂在 Grabber 上（见渲染处）：若挂在面板 Content 上并 setPointerCapture，
   // pointerup 会被重定向到面板，浏览器不再给内部按钮派发 click——demo 的关闭按钮
   // 曾因此"点了没反应"。
   const handleGrabberPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
     if (!resizable || event.button !== 0) return;
-    dragStart.current = { y: event.clientY, ratio: detents[current]! };
+    dragStart.current = { y: event.clientY, ratio: detents[detentIndex]! };
     dragMoved.current = false;
     event.currentTarget.setPointerCapture(event.pointerId);
   };
@@ -150,8 +169,8 @@ function BottomSheet({
       }
     }
     const idx = snapToDetent(r, detents);
-    setCurrent(idx);
-    onDetentChange?.(idx);
+    // 受控双模：setDetent 内部决定是否写内部 state，并统一上报 onDetentChange
+    setDetent(idx);
   };
 
   // showIndicator 渲染条件：!==false 且（automatic 时需多档位）
@@ -211,7 +230,7 @@ function BottomSheet({
           {showGrabber && (
             <Grabber
               detentCount={detents.length}
-              currentDetent={current}
+              currentDetent={detentIndex}
               onPointerDown={handleGrabberPointerDown}
               onPointerMove={handleGrabberPointerMove}
               onPointerUp={endDrag}
@@ -222,9 +241,8 @@ function BottomSheet({
                   dragMoved.current = false;
                   return;
                 }
-                const idx = (current + 1) % detents.length;
-                setCurrent(idx);
-                onDetentChange?.(idx);
+                const idx = (detentIndex + 1) % detents.length;
+                setDetent(idx);
               }}
             />
           )}

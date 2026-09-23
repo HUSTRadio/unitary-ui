@@ -1681,6 +1681,13 @@ const O = {
       row("menuButtonLabel", "string", "Accessible label for the menu trigger.", "菜单触发器的无障碍标签。", {
         defaultValue: '"More options"',
       }),
+      row(
+        "menuButtonDisabled",
+        "boolean",
+        "Disables the menu trigger only (the primary action stays enabled).",
+        "仅禁用菜单触发按钮（主操作保持可用）。",
+        { defaultValue: "false" },
+      ),
       row("menuAlignment", "SplitButtonMenuAlignment", "Places the menu below the primary or menu button edge.", "将菜单对齐到主按钮或菜单按钮边缘。", {
         defaultValue: '"bottom-start"',
       }),
@@ -1798,7 +1805,7 @@ const O = {
     "TextareaHTMLAttributes<HTMLTextAreaElement>",
   ),
   toast: component(
-    ["Toasts", "useToasts"],
+    ["Toasts", "useToasts", "createToastStore"],
     [
       row(
         "message",
@@ -1810,6 +1817,18 @@ const O = {
       row("warning", "(text: ReactNode) => number", "Creates a warning toast.", "创建警告 Toast。"),
       row("error", "(text: ReactNode) => number", "Creates an error toast.", "创建错误 Toast。"),
       row("dismiss", "(id: number) => void", "Dismisses a toast by ID.", "按 ID 关闭 Toast。"),
+      row(
+        "store",
+        "ToastStore",
+        "Binds the viewport to an injected store (defaults to the global store).",
+        "把视口绑定到注入的 store（默认全局 store）。",
+      ),
+      row(
+        "createToastStore",
+        "() => ToastStore",
+        "Creates an isolated toast store so toast state can be driven externally.",
+        "创建独立 toast store，使 toast 状态可由外部驱动。",
+      ),
     ],
   ),
   toggle: component(
@@ -1870,6 +1889,8 @@ const O = {
         "Receives selection changes.",
         "接收选择变化。",
       ),
+      row("open", "boolean", "Controlled open state (uncontrolled when omitted).", "受控打开状态（不传则非受控）。"),
+      row("onOpenChange", "(open: boolean) => void", "Open-state change callback.", "开关回调。"),
       row("placeholder", "string", "Placeholder and fallback search prompt.", "占位文字和默认搜索提示。"),
       row("aria-label", "string", "Accessible name for the search input.", "搜索输入框的无障碍名称。"),
       row("label", "string", "Visible field label.", "可见字段标签。"),
@@ -1933,6 +1954,12 @@ const O = {
         "受控打开状态（不传则非受控）。",
       ),
       row("onOpenChange", "(open: boolean) => void", "Open-state change callback.", "开关回调。"),
+      row(
+        "detent",
+        "number",
+        "Controlled detent index into `detents` (uncontrolled when omitted).",
+        "受控档位下标（对应 detents 数组；不传则非受控）。",
+      ),
       row(
         "onDetentChange",
         "(index: number) => void",

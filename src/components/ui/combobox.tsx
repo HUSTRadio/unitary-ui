@@ -80,6 +80,12 @@ type ComboboxProps = {
   value?: string | null;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
+  /**
+   * 受控打开状态；不传则内部自管（受控双模，HIG-AUD-018）。
+   * 受控时选中 / Escape / 外点 / 键盘导航只上报 `onOpenChange`，组件不自行开关。
+   */
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
   placeholder?: string;
   /** 输入框的 accessible name（官方 Combobox aria-label） */
   "aria-label"?: string;
@@ -141,6 +147,8 @@ function Combobox({
   value: valueProp,
   defaultValue = "",
   onValueChange,
+  open: openProp,
+  onOpenChange,
   placeholder: placeholderProp,
   "aria-label": searchLabelProp,
   label,
@@ -156,7 +164,18 @@ function Combobox({
   const { t } = useI18n();
   const placeholder = placeholderProp ?? t("Search…");
   const searchLabel = searchLabelProp ?? t("Search");
-  const [open, setOpen] = React.useState(false);
+  // open：受控双模（HIG-AUD-018）。下方全部写入点（选中 / 键盘导航 / 根与输入面点击 /
+  // Radix 的 Escape 与外点回调）统一走 setOpen，受控时只上报、不写内部 state。
+  const isOpenControlled = openProp !== undefined;
+  const [openState, setOpenState] = React.useState(false);
+  const open = isOpenControlled ? openProp : openState;
+  const setOpen = React.useCallback(
+    (next: boolean) => {
+      if (!isOpenControlled) setOpenState(next);
+      onOpenChange?.(next);
+    },
+    [isOpenControlled, onOpenChange],
+  );
   const [query, setQuery] = React.useState("");
   const [internalValue, setInternalValue] = React.useState(defaultValue);
   const [activeValue, setActiveValue] = React.useState("");
