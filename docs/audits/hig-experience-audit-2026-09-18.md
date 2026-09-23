@@ -465,15 +465,22 @@
 - **建议修复方向**：统一用「视觉尺寸不变 + 命中区外扩」的模式（仓库已有两种先例），而不是放大视觉。
 - **验收场景**：新增 e2e，对 320/390 视口下所有浮层与列表项的 `getBoundingClientRect()`（或用 `document.elementFromPoint` 探测命中边界）断言 ≥ 44×44。
 
-#### HIG-AUD-014 Toast：隐藏项仍在 Tab 序列 + 计时不可暂停
+#### HIG-AUD-014 Toast：隐藏项仍在 Tab 序列 + 计时不可暂停 ✅ 已修复（2026-09-23，增补 §5R）
 
-- **严重度**：P1 ｜ **类型**：实现缺陷 ｜ **依据**：WCAG 2.2.1（计时可调）、2.4.3（焦点顺序）
-- **证据**：`src/components/ui/toast.tsx`
+- **严重度**：P1 ｜ **类型**：实现缺陷 ｜ **依据**：WCAG 2.2.1（计时可调）、2.4.3（焦点顺序） ｜ **验证状态**：`[已修复 + 运行确认]`（2026-09-23，修复与复测记录见增补 §5R）
+- **证据（行号取自修复前版本，保留对照）**：`src/components/ui/toast.tsx`
   - `:191` 第 5 个及更旧的 toast 用 `nth-last-[n+4]:opacity-0 nth-last-[n+4]:pointer-events-none` 隐藏，**未移出 Tab 序列、未加 `inert`/`aria-hidden`** → 键盘 Tab 会落到不可见 toast 的按钮上；
   - `:155-156` hover 只展开堆叠，**不暂停计时器**；焦点进入也不暂停；无「延长/关闭计时」的入口；
   - `:110-121` 自动关闭 3500ms（带 undo 7000ms），用户无控制手段。
 - **建议修复方向**：隐藏项加 `aria-hidden` + `inert`（或 `tabIndex={-1}` 级联）；`focus-within`/hover 时暂停计时并恢复；为 `preserve` 之外的 toast 提供可访问的关闭（`aria-label` 已有 ✓）。
 - **验收场景**：连续触发 6 条 toast，仅 Tab 到可见项；聚焦 toast 后停留 10s 不被关闭。
+
+- **修复记录（2026-09-23，增补 §5R）**：
+  - **隐藏项移出 Tab 序列与无障碍树**：新增与 CSS `nth-last-[n+4]` **对齐**的 JS 判定 `hidden = d >= MAX_STACK`（`d = count - 1 - i`），命中项加 `aria-hidden` + **`inert`**（React 19 布尔属性；`inert` 一并对 Tab 序列与 AT 生效）。
+  - **计时可暂停（WCAG 2.2.1）**：`paused = expanded(hover) || focusWithin`；暂停时结算每个在跑计时器的**剩余量**（`deadline`/`remaining` 两个 ref）并 `clearTimeout`，恢复时按剩余量续跑（**不是重新计时**）；`<ol>` 增加 `onFocusCapture` / `onBlurCapture`（用 `relatedTarget` 判断焦点是否真的离开视口）。
+  - 回归：新增 `tests/toast-timer.test.tsx`（3 用例：6 条时恰好 2 条 `inert` + `aria-hidden` 且其余不带 / hover 暂停 5s 后仍存活且按剩余量续跑 / **聚焦后停留 10s 不被关闭**再续跑）；`toasts-controlled`、`toast-example-actions` 复跑通过。
+  - **真实浏览器验收（临时探针，跑完即删，exit 0）**：docs `/components/toast` 连点 6 次 → `li[inert]` 恰好 2 条（**证明 JS 判定与 CSS 隐藏范围一致**）、`li[inert][aria-hidden="true"]` 同为 2；聚焦最新一条的关闭按钮后等待 **4.5s（> 默认 3500ms）** 仍可见。
+  - 门禁：`typecheck` exit 0；`lint` 0 errors / 16 warnings（存量）；全量 `pnpm test` `9 failed | 231 passed (240)` ＝ 文档基线（7 个 `tests/audit/*` + `button-api`/`showcode-typecheck` 两个并发 flaky，单跑均过）。
 
 #### HIG-AUD-015 Tooltip 给装饰性/非交互子元素强注 `tabIndex=0` ✅ 已修复（2026-09-23，增补 §5P）
 

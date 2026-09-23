@@ -585,3 +585,17 @@
 - **门禁**：`pnpm run typecheck` exit 0；`pnpm run lint` 0 errors / 16 warnings（存量）；全量 `pnpm run test` → `7 failed | 232 passed (239)` ＝ 文档基线（本轮 flaky 全过）。
 - **关键教训**：`016` 的「Tab 锁」最初修复目标判断有误——我们自己的 `preventDefault` 只是表象，Radix 的 `FocusScope` 才是实际拦截者；**单测（`defaultPrevented === false`）会通过而用户可见行为不变**。教训：涉及「用户能否完成某操作」的条目，**必须用真实浏览器的行为断言收口**（本轮靠 e2e 才发现），不能只看单测。
 - **台账落点**：本文件 §5Q、主报告 `016`（标题 + 验证状态 + 修复记录）、矩阵 `:79`/`:324`、交付书 §1/§2/批次 C/§7.8/§10。
+
+---
+
+## 5R. HIG-AUD-014 修复记录（2026-09-23，Toast 隐藏项与计时可暂停）
+
+**来源**：交付书批次 C（`014`）。修复前行号：隐藏项 class `:191`、hover 展开 `:155-156`、自动关闭默认 `:110-121`。
+
+- **隐藏项移出 Tab 序列与无障碍树**：新增与 CSS `nth-last-[n+4]` **对齐**的 JS 判定 `hidden = d >= MAX_STACK`（`d = count - 1 - i`，`MAX_STACK = 4`），命中项加 `aria-hidden` + **`inert`**（React 19 的布尔属性；`inert` 同时对 Tab 序列与 AT 生效）。此前只改视觉，键盘 Tab 会落到不可见 toast 的按钮上。
+- **计时可暂停（WCAG 2.2.1）**：`paused = expanded(hover) || focusWithin`。暂停时遍历在跑计时器、结算**剩余量**（`deadline`/`remaining` 两个 ref）并 `clearTimeout`；恢复时按剩余量续跑（**不是重新计时**）。`<ol>` 增加 `onFocusCapture` / `onBlurCapture`，用 `relatedTarget` 判断焦点是否真的离开视口（子项间移动不误判为离开）。
+- **回归**：新增 `tests/toast-timer.test.tsx`（3 用例）：① 6 条时**恰好 2 条** `inert` + `aria-hidden` 且其余不带；② hover 暂停 5s 仍存活、离开后按剩余量续跑（含退场驻留 350ms）；③ **聚焦后停留 10s 不被关闭**、焦点离开后续跑出栈。`toasts-controlled`、`toast-example-actions` 复跑通过。
+- **真实浏览器验收（临时探针，跑完即删，exit 0）**：`/components/toast` 连点 6 次 → `li[inert]` **恰好 2 条**（证明 **JS 判定与 CSS 隐藏范围一致**，这是本轮最大的实现风险点）、`li[inert][aria-hidden="true"]` 同为 2；聚焦最新一条关闭按钮后等待 **4.5s（> 默认 3500ms）** 仍可见。
+- **门禁**：`pnpm run typecheck` exit 0；`pnpm run lint` 0 errors / 16 warnings（存量）；全量 `pnpm run test` → `9 failed | 231 passed (240)` ＝ 文档基线（7 个 `tests/audit/*` 环境类 + `button-api` / `showcode-typecheck` 两个并发 flaky，单跑均通过）。
+- **实现注意（测试写法）**：React 的 `onMouseEnter/Leave` 由 `mouseover/mouseout` 委托合成、`onFocus/BlurCapture` 由 `focusin/focusout` 合成——jsdom 单测必须用对应原生事件；另外 toast 出栈有 **350ms 退场驻留**，断言前要推进计时器两次。
+- **台账落点**：本文件 §5R、主报告 `014`（标题 + 验证状态 + 修复记录）、矩阵 `:87`/`:322`、交付书 §1/§2/批次 C/§7.9/§10。

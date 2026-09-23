@@ -84,7 +84,7 @@
 
 | 组件 | 导出 | 注册 | 指南 | 示例 | 结论 |
 |---|---|---|---|---|---|
-| `toast` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-011、013、014、025、030、031 |
+| `toast` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-011、013、~~014~~（**✅ 2026-09-23**：隐藏项 `inert` + 计时可暂停，增补 §5R）、025、030、031 |
 | `tooltip` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-013、~~015~~（**✅ 2026-09-23**：不再强注 `tabIndex`，契约见增补 §5P） |
 | `progress` | ✔ | ✔ | ✔ | ✔ | ✔ |
 | `skeleton` | ✔ | ✔ | ✔ | ✔ | ✔ |
@@ -319,7 +319,7 @@
 | HIG-AUD-011 | P1 | `menu`、`context-menu`、`dots-menu`、`split-button`、`select`、`toast`、`edit-menu`（增补扩充：`menu-bar`、pull-down）——**已修复（2026-09-23，退场镜像补齐 + relative-time-card 补全退场，Select/EditMenu/Toast 复核为已修复，增补 §5K）** |
 | HIG-AUD-012 | P1 | `menu`、`context-menu`、`dots-menu`、`split-button`、`drawer`、`bottom-sheet`、`command-menu`、`destructive-action-modal`、`sheet`（增补扩充：`menu-bar`、pull-down、`responsive-drawer`、`context-card`）——**已修复（2026-09-23，浮层时长/缓动 token 化 + `--ease-in-out` 显式声明 + 账本清账 12→7，增补 §5K）** |
 | HIG-AUD-013 | P1 | `menu`、`dots-menu`、`select`、`multi-select`、`toast`、`theme-switcher`、`hamburger-menu`、`destructive-action-modal`、`edit-menu`（增补扩充：`menu-bar` Trigger、`toolbar` Item）——**已修复（2026-09-23，`pointer-coarse:` 触屏命中区 ≥44×44 + e2e 9 passed，增补 §5J）** |
-| HIG-AUD-014 | P1 | `toast` |
+| HIG-AUD-014 | P1 | `toast`——**已修复（2026-09-23，隐藏项 `aria-hidden`+`inert`（与 CSS 隐藏范围对齐）+ hover/focus 暂停计时并按剩余量续跑；单测 3 + 浏览器探针，增补 §5R）** |
 | HIG-AUD-015 | P1 | `tooltip`——**已修复（2026-09-23，只透传 `tabIndex`、不制造焦点；消费面 22 处复核无键盘回归 + 浏览器探针，增补 §5P）** |
 | HIG-AUD-016 | P1 | `multi-select`——**已修复（2026-09-23，Tab 边缘接管关闭 + 控件可 Tab/带 aria + 对话框命名；根因是 Radix `FocusScope` 硬编码 `loop`，增补 §5Q）** |
 | HIG-AUD-017 | P1 | `hamburger-menu`、`context-menu`（href 项，**未改动**：依赖 Radix Item 默认关闭，未实测）、全部浮层——**已修复（2026-09-23，导航条目激活即关闭 + 库层 `useDismissOnNavigate` + 文档消费方接入 + e2e 2 passed + 变异测试，增补 §5N）** |
