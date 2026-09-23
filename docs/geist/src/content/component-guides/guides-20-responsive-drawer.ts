@@ -51,14 +51,14 @@ export const RESPONSIVE_DRAWER_GUIDES_ZH: Record<string, ComponentGuide> = {
         "基于 Radix Dialog：打开时焦点移入面板、Tab 循环限制在面板内、Esc 与外点关闭、关闭后焦点返还到打开按钮。",
         "ResponsiveDrawerTitle / ResponsiveDrawerDescription 通过 Radix 的 aria-labelledby / aria-describedby 关联到面板，保证读屏能播报名称与说明。",
         "Header 内置的关闭按钮带可访问名称（无可见文本时用本地化的 Close），图标 aria-hidden，不单独承载语义。",
-        "底部形态的拖拽指示条是 role=\"slider\"，带 aria-valuemin/valuemax/valuenow，键盘用户可用左右方向键或 Enter 循环切换档位。",
+        "底部形态的拖拽指示条是垂直 role=\"slider\"，带 aria-valuemin/valuemax/valuenow/orientation；ArrowUp / ArrowRight 增一档、ArrowDown / ArrowLeft 减一档，Home / End 跳首尾且边界不循环。Enter / Space 与点击保持循环切档。",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
         "支持受控（open + onOpenChange）与非受控（defaultOpen）两种模式，与其他浮层组件一致。",
-        "onDetentChange 回报吸附后的档位索引，便于上层记录「用户上次停留在哪个高度」；拖拽跟手阶段不回报，避免高频回调。",
+        "onDetentChange 回报拖拽吸附、点击循环或键盘调档后的目标索引，便于上层记录用户上次停留高度；拖拽跟手阶段不回报，避免高频回调。detents 运行时缩短时，当前索引会钳制到新上限。",
       ],
     },
     responsiveBehavior: {
@@ -128,14 +128,14 @@ export const RESPONSIVE_DRAWER_GUIDES_EN: Record<string, ComponentGuide> = {
         "Built on Radix Dialog: focus moves into the panel on open, Tab is trapped inside, Escape and outside press dismiss, and focus returns to the trigger on close.",
         "ResponsiveDrawerTitle / ResponsiveDrawerDescription are wired to the panel through Radix's aria-labelledby / aria-describedby so screen readers announce the name and description.",
         "The header's built-in close button always has an accessible name (the localized Close when there is no visible label); its icon is aria-hidden and carries no meaning on its own.",
-        "In the bottom form the drag indicator is role=\"slider\" with aria-valuemin/valuemax/valuenow, so keyboard users can cycle detents with the arrow keys or Enter.",
+        "In the bottom form the drag indicator is a vertical role=\"slider\" with aria-valuemin/valuemax/valuenow/orientation. ArrowUp / ArrowRight increments, ArrowDown / ArrowLeft decrements, and Home / End moves to either boundary without wrapping; Enter / Space and click keep cycling.",
       ],
     },
     controlledBehavior: {
       status: "covered",
       content: [
         "Supports controlled (open + onOpenChange) and uncontrolled (defaultOpen) usage, matching the other overlay components.",
-        "onDetentChange reports the snapped detent index so callers can remember the last height the user chose; it is not fired during finger tracking to avoid high-frequency callbacks.",
+        "onDetentChange reports the target index after drag snapping, click cycling, or keyboard adjustment so callers can remember the last height; it is not fired during finger tracking. If detents shrinks at runtime, the current index clamps to the new maximum.",
       ],
     },
     responsiveBehavior: {

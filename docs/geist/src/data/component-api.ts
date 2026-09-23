@@ -912,15 +912,15 @@ const O = {
       row(
         "detents",
         "number[]",
-        "Bottom height steps as viewport ratios; ignored by side placements.",
-        "底部形态的高度档位（占视口比例）；侧栏形态忽略。",
+        "Bottom height steps as viewport ratios; ignored by side placements. The slider indicator supports Arrow keys plus Home and End.",
+        "底部形态的高度档位（占视口比例）；侧栏形态忽略。slider 指示条支持方向键及 Home / End。",
         { defaultValue: "[0.5, 1]" },
       ),
       row(
         "showIndicator",
         '"automatic" | boolean',
-        "Drag indicator policy; automatic renders it for multiple detents.",
-        "拖拽指示条策略；automatic 在多档位时渲染。",
+        "Drag indicator policy; automatic renders it for multiple detents. The bottom grabber is a vertical slider supporting Arrow keys and Home/End.",
+        "拖拽指示条策略；automatic 在多档位时渲染。底部指示条是垂直 slider，支持方向键与 Home/End。",
         { defaultValue: '"automatic"' },
       ),
       row(
@@ -935,8 +935,8 @@ const O = {
       row(
         "onDetentChange",
         "(index: number) => void",
-        "Called after the panel snaps to a detent.",
-        "面板吸附到档位后调用。",
+        "Called with the target index after drag, click, or keyboard adjustment.",
+        "拖拽、点击或键盘调档后以目标档位下标调用。",
       ),
     ],
   ),
@@ -1942,8 +1942,8 @@ const O = {
       row(
         "showIndicator",
         '"automatic" | boolean',
-        "Grabber visibility strategy; automatic renders it only when there is more than one detent.",
-        "拖拽指示条显隐策略；automatic 仅在多档位时渲染。",
+        "Grabber visibility strategy; automatic renders it only for multiple detents. The grabber is a vertical slider supporting Arrow keys and Home/End.",
+        "拖拽指示条显隐策略；automatic 仅在多档位时渲染。指示条是垂直 slider，支持方向键与 Home/End。",
         { defaultValue: '"automatic"' },
       ),
       row(
@@ -1969,8 +1969,8 @@ const O = {
       row(
         "onDetentChange",
         "(index: number) => void",
-        "Called with the detent index after the sheet snaps.",
-        "吸附完成后以档位下标调用。",
+        "Called with the target detent index after drag, click, or keyboard adjustment. In controlled mode the caller must feed the value back through detent.",
+        "拖拽、点击或键盘调档后以目标档位下标调用；受控模式须由调用方通过 detent 回灌。",
       ),
       row(
         "aria-label",

@@ -28,6 +28,7 @@ export const GUIDES_16_ZH: Record<string, ComponentGuide> = {
       content: [
         "组件基于 Radix Dialog，打开后由对话框原语管理焦点范围，并支持 Escape 与遮罩点击关闭。",
         "内容开头应提供清晰的可见标题和说明，主要操作不能只依赖拖拽手势。",
+        "多档位指示条使用垂直 slider 语义：ArrowUp / ArrowRight 增一档，ArrowDown / ArrowLeft 减一档，Home / End 跳到首尾；边界钳制而不循环。Enter / Space 与点击保持循环切档。",
         "prefers-reduced-motion: reduce 下会移除高度与进出场过渡。",
       ],
     },
@@ -35,7 +36,7 @@ export const GUIDES_16_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "传入 open 时由外部完全控制开关状态；省略 open 时组件内部管理状态，两种模式都会调用 onOpenChange。",
-        "松开拖拽后吸附到最近 detent，并以档位下标调用 onDetentChange；向下拖过最低档会按 collapseDown 配置决定是否关闭。",
+        "松开拖拽、点击循环或键盘调档都会以目标下标调用 onDetentChange；detent 受控时必须由调用方回灌，非受控时组件同步更新高度。向下拖过最低档会按 collapseDown 配置决定是否关闭。",
       ],
     },
     responsiveBehavior: {
@@ -130,6 +131,7 @@ export const GUIDES_16_EN: Record<string, ComponentGuide> = {
       content: [
         "The component uses Radix Dialog, whose primitives constrain focus while open and support Escape and backdrop dismissal.",
         "Begin the content with a clear visible heading and description, and never make dragging the only way to reach the primary action.",
+        "The multi-detent indicator is a vertical slider: ArrowUp / ArrowRight increments, ArrowDown / ArrowLeft decrements, and Home / End moves to the first or last detent. Arrow keys clamp instead of wrapping; Enter / Space and click keep cycling.",
         "Height and entrance transitions are removed under prefers-reduced-motion: reduce.",
       ],
     },
@@ -137,7 +139,7 @@ export const GUIDES_16_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Passing open makes the caller own visibility; omitting open uses internal state. Both modes report changes through onOpenChange.",
-        "A released drag snaps to the nearest detent and reports its index through onDetentChange. Dragging below the lowest detent closes only when collapseDown permits it.",
+        "Drag release, click cycling, and keyboard adjustment report the target index through onDetentChange. A controlled detent must be fed back by the caller; uncontrolled usage updates the height immediately. Dragging below the lowest detent closes only when collapseDown permits it.",
       ],
     },
     responsiveBehavior: {

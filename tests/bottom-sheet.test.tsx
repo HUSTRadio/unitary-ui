@@ -70,6 +70,55 @@ describe("BottomSheet", () => {
     expect(grabber().getAttribute("aria-valuenow")).toBe("1");
   });
 
+  it("键盘调档：非受控态同步 slider、高度与回调", () => {
+    const onDetentChange = vi.fn();
+    renderSheet(
+      <BottomSheet open detents={[0.25, 0.5, 1]} onDetentChange={onDetentChange}>
+        <div>content</div>
+      </BottomSheet>,
+    );
+    const panel = document.querySelector<HTMLElement>('[data-slot="bottom-sheet"]')!;
+    const grabber = panel.querySelector<HTMLElement>('[role="slider"]')!;
+
+    act(() => {
+      grabber.dispatchEvent(new KeyboardEvent("keydown", { key: "End", bubbles: true }));
+    });
+    expect(grabber.getAttribute("aria-valuenow")).toBe("2");
+    expect(panel.style.getPropertyValue("--sheet-h")).toBe("100dvh");
+    expect(onDetentChange).toHaveBeenLastCalledWith(2);
+
+    act(() => {
+      grabber.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+    });
+    expect(grabber.getAttribute("aria-valuenow")).toBe("1");
+    expect(panel.style.getPropertyValue("--sheet-h")).toBe("50dvh");
+    expect(onDetentChange).toHaveBeenLastCalledWith(1);
+  });
+
+  it("键盘调档：受控态只上报，外部回灌后才更新", () => {
+    const onDetentChange = vi.fn();
+    const sheet = (detent: number) => (
+      <BottomSheet open detents={[0.5, 1]} detent={detent} onDetentChange={onDetentChange}>
+        <div>content</div>
+      </BottomSheet>
+    );
+    const grabber = () => document.querySelector<HTMLElement>('[role="slider"]')!;
+    const panel = () => document.querySelector<HTMLElement>('[data-slot="bottom-sheet"]')!;
+
+    renderSheet(sheet(0));
+    act(() => {
+      grabber().dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true }));
+    });
+    expect(onDetentChange).toHaveBeenCalledWith(1);
+    expect(grabber().getAttribute("aria-valuenow")).toBe("0");
+    expect(panel().style.getPropertyValue("--sheet-h")).toBe("50dvh");
+
+    act(() => root.render(sheet(1)));
+    expect(grabber().getAttribute("aria-valuenow")).toBe("1");
+    expect(panel().style.getPropertyValue("--sheet-h")).toBe("100dvh");
+    expect(onDetentChange).toHaveBeenCalledTimes(1);
+  });
+
   it("automatic + 单 detent 不渲染 grabber", () => {
     const markup = renderSheet(
       <BottomSheet open detents={[1]}>

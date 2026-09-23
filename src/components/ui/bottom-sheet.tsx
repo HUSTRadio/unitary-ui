@@ -231,6 +231,7 @@ function BottomSheet({
             <Grabber
               detentCount={detents.length}
               currentDetent={detentIndex}
+              onDetentChange={setDetent}
               onPointerDown={handleGrabberPointerDown}
               onPointerMove={handleGrabberPointerMove}
               onPointerUp={endDrag}

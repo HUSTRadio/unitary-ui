@@ -175,6 +175,51 @@ describe("ResponsiveDrawer family", () => {
     expect(panelElement()?.getAttribute("style")).toContain("height: 40dvh");
   });
 
+  test("bottom grabber keyboard changes detent without changing open state", () => {
+    const onDetentChange = vi.fn();
+    const onOpenChange = vi.fn();
+    render(
+      <ResponsiveDrawer
+        open
+        placement="bottom"
+        detents={[0.4, 0.8, 1]}
+        onDetentChange={onDetentChange}
+        onOpenChange={onOpenChange}
+      >
+        <ResponsiveDrawerContent>Panel</ResponsiveDrawerContent>
+      </ResponsiveDrawer>,
+    );
+
+    const grabber = document.querySelector<HTMLButtonElement>('[data-slot="grabber"]')!;
+    act(() => {
+      grabber.dispatchEvent(new KeyboardEvent("keydown", { key: "End", bubbles: true }));
+    });
+    expect(grabber.getAttribute("aria-valuenow")).toBe("2");
+    expect(panelElement()?.getAttribute("style")).toContain("height: 100dvh");
+    expect(onDetentChange).toHaveBeenCalledWith(2);
+    expect(onOpenChange).not.toHaveBeenCalled();
+  });
+
+  test("clamps the current detent when the detent list shrinks", () => {
+    const drawer = (detents: number[]) => (
+      <ResponsiveDrawer open placement="bottom" detents={detents}>
+        <ResponsiveDrawerContent>Panel</ResponsiveDrawerContent>
+      </ResponsiveDrawer>
+    );
+    render(drawer([0.4, 0.8, 1]));
+    let grabber = document.querySelector<HTMLButtonElement>('[data-slot="grabber"]')!;
+    act(() => {
+      grabber.dispatchEvent(new KeyboardEvent("keydown", { key: "End", bubbles: true }));
+    });
+    expect(grabber.getAttribute("aria-valuenow")).toBe("2");
+
+    act(() => reactRoot.render(drawer([0.5, 1])));
+    grabber = document.querySelector<HTMLButtonElement>('[data-slot="grabber"]')!;
+    expect(grabber.getAttribute("aria-valuemax")).toBe("1");
+    expect(grabber.getAttribute("aria-valuenow")).toBe("1");
+    expect(panelElement()?.getAttribute("style")).toContain("height: 100dvh");
+  });
+
   test("closes when dragged below the lowest detent", () => {
     const onOpenChange = vi.fn();
     render(

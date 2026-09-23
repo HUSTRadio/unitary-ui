@@ -133,13 +133,17 @@ function ResponsiveDrawer({
       : "bottom"
     : placement;
 
-  const [current, setCurrentState] = React.useState(0);
+  const [currentState, setCurrentState] = React.useState(0);
+  // detents 可在运行时缩短；用于渲染与 ARIA 的索引必须同步钳制，避免
+  // aria-valuenow > aria-valuemax 或高度回退到错误档位（HIG-AUD-022）。
+  const current = Math.min(Math.max(currentState, 0), detents.length - 1);
   const setCurrent = React.useCallback(
     (index: number) => {
-      setCurrentState(index);
-      onDetentChange?.(index);
+      const next = Math.min(Math.max(Math.trunc(index), 0), detents.length - 1);
+      setCurrentState(next);
+      onDetentChange?.(next);
     },
-    [onDetentChange],
+    [detents.length, onDetentChange],
   );
 
   const contextValue = React.useMemo<ResponsiveDrawerContextValue>(
@@ -216,11 +220,14 @@ function ResponsiveDrawerContent({
   const dragMoved = React.useRef(false);
   const closeAnchorRef = React.useRef<HTMLButtonElement | null>(null);
   const dragging = dragRatio !== null;
-  const ratio = dragRatio ?? detents[current] ?? 1;
+  // detents 在挂载后缩短时，内部旧索引也必须钳到合法范围，避免 slider 的
+  // aria-valuenow 超过 aria-valuemax，且让下一次键盘/指针操作从可见档位继续。
+  const currentIndex = Math.min(Math.max(Math.trunc(current), 0), detents.length - 1);
+  const ratio = dragRatio ?? detents[currentIndex] ?? 1;
 
   const handleGrabberPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
     if (!showGrabber || event.button !== 0) return;
-    dragStart.current = { y: event.clientY, ratio: detents[current] ?? 1 };
+    dragStart.current = { y: event.clientY, ratio: detents[currentIndex] ?? 1 };
     dragMoved.current = false;
     event.currentTarget.setPointerCapture(event.pointerId);
   };
@@ -287,7 +294,8 @@ function ResponsiveDrawerContent({
         {showGrabber && (
           <Grabber
             detentCount={detents.length}
-            currentDetent={current}
+            currentDetent={currentIndex}
+            onDetentChange={setCurrent}
             onPointerDown={handleGrabberPointerDown}
             onPointerMove={handleGrabberPointerMove}
             onPointerUp={endDrag}

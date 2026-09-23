@@ -30,10 +30,10 @@ export function ResponsiveDrawerDetents7A3F5E92Example() {
           </ResponsiveDrawerHeader>
           <ResponsiveDrawerBody>
             <p className="text-copy-14 text-muted-foreground">
-              Drag the indicator to move between the 40%, 80%, and full-height detents; dragging
-              below the lowest detent dismisses the drawer. The snap uses the project ease-snap
-              curve, and drag tracking itself has no transition so the panel stays under your
-              finger.
+              Drag the indicator or focus it and use Arrow keys to move between the 40%, 80%, and
+              full-height detents; Home and End jump to either boundary. Dragging below the lowest
+              detent dismisses the drawer. The snap uses the project ease-snap curve, and drag
+              tracking itself has no transition so the panel stays under your finger.
             </p>
           </ResponsiveDrawerBody>
           <ResponsiveDrawerFooter>
