@@ -541,3 +541,19 @@
 - **门禁**：`pnpm run typecheck`（`tsc -b`）exit 0；`pnpm run lint` **0 errors / 16 warnings（存量）**；定向 vitest **5 files / 55 tests passed**（`navigation-dismiss`、`hamburger-menu-groups`、`hamburger-menu`、`hamburger-menu-modes`、`docs-shell-geometry`）；e2e `overlay-route-dismiss` **2 passed**；全量 `pnpm run test` 见交付书 §7.5（与文档基线一致）。
 - **文档链**：改动含 `docs/geist/src` 两处消费方接线（非 props/API/示例/路由变化）→ `docs/geist/src/data` 与双语 guides 无需同步；LLM 语料按批次 G 仍暂缓。
 - **台账落点**：本文件 §5N、主报告 `017` 条目（标题 + 验证状态 + 修复记录）、矩阵 `:137` 与 017 受影响行、交付书 §1/§2/批次 C/§7.5/§9/§10。
+
+---
+
+## 5O. HIG-AUD-018 修复记录（2026-09-23，受控能力缺口 4/4 闭环）
+
+**来源**：交付书批次 C（`018`）。**基线校正**：条目行号均已漂移（实测 combobox 的 `setOpen` 在 `:185`/`:239`/`:431`/`:441`/`:527`；bottom-sheet 档位 state 在 `:104`、写入点 `:153`/`:226`；split-button 触发按钮在 `:161-171`）。**取证结论（subagent）**：四缺口风险排序 **SplitButton < BottomSheet < Combobox < Toasts**；并纠偏一处——仓库**没有** Drawer `slide` API，真实受控先例是 BottomSheet 的 `open`（`:93-102`）与各文件里的 `isControlled = prop !== undefined` 双模写法。
+
+- **已完成 3/4**（细节见主报告 `018` 修复记录）：
+  - **Combobox 受控 `open`/`onOpenChange`**：4 处写入点收敛到统一 `setOpen`（选中 / 键盘导航 / 根与输入面点击 / Radix Escape 与外点），受控时只上报；新增 `tests/combobox-controlled.test.tsx`。
+  - **BottomSheet 受控 `detent`**：复用同文件 `open` 双模，`current` → `detent`/`detentState`，两处写入点统一；越界/非整数**钳到合法档位**（否则面板高度 NaN 崩）；`tests/bottom-sheet.test.tsx` 增用例。
+  - **SplitButton `menuButtonDisabled`**：纯属性透传到 `MenuButton`（`disabled` 已可达原生按钮）；新增 `tests/split-button-controlled.test.tsx`。
+- **文档注册同步**：`docs/geist/src/data/component-api.ts` 三处补行（combobox `open`/`onOpenChange`、bottom-sheet `detent`、split-button `menuButtonDisabled`）+ `tests/component-api-registry.test.ts` 三处断言 → **9 tests passed**。
+- **验证**：定向 vitest 全绿（受控契约 + 既有契约 + 注册表）；**真实浏览器回归探针（跑完即删，3 passed）**确认三组件既有非受控行为不变——重点是 **Radix Popover 的受控语义**（单测覆盖不到）；`typecheck` / `lint` 见交付书 §7.6。
+- **第 4 项：Toasts 受控 store 注入（同会话完成）**：把模块级单例（`toast.tsx` 的 `toastRecords`/`toastListeners`/`nextToastId`）收进 `createToastStore()` 闭包，导出 `ToastStore` / `ToastRecord` 类型（`Toasts store?` + `useToasts(store?)` 绑定同一实例，`dismiss`/`subscribe`/`getSnapshot` 走注入实例）；**默认全局 store 保持既有行为**（既有示例与测试零改动通过）。回归：新增 `tests/toasts-controlled.test.tsx`（4 用例，含「注入 store 与另一 store 相互隔离」这一全局单例做不到的断言）；`tests/toast-api.test.ts` 导出断言放宽为「包含」式；`component-api.ts` toast 条目补 `store` + `createToastStore` 行并同步注册表 `toEqual` 列表；真实浏览器 docs `/components/toast` 弹出/关闭路径不变。**踩坑**：`createToastStore` 同时出现在函数声明与末尾导出表 → `Duplicated export` 导致测试文件**静默 0 test**（改为仅末尾导出）。
+- **方法论沉淀**：受控能力改造的验收必须**双断言**——①「传受控值时内部不自行变更」；②「既有非受控路径不回归」（单测覆盖不到 Radix 语义时用一次性浏览器探针补齐）。另：`.ts` 测试文件**不能含 JSX**（本轮踩到一次，改为 `.tsx` 后通过）。
+- **台账落点**：本文件 §5O、主报告 `018`（标题 + 验证状态 + 修复记录）、矩阵 `:326`、交付书 §1/§3/§7.6/§9/§10。

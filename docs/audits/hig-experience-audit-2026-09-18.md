@@ -508,9 +508,9 @@
   - **守护有效性（变异测试）**：停用 `docs-shell.tsx` 的接入 → e2e「浏览器后退关闭」失败（面板仍可见）而「点击条目关闭」仍通过 → 两条路径各自独立生效；恢复后 2 passed。
   - **未验证项**：`context-menu.tsx:124-140`、`menu.tsx:208-227`（含 `dots-menu`/`menu-bar` 透传）的 `href` 条目依赖 Radix `Item` 的 select-关闭（仓库无显式处理），本轮未改动、未做浏览器实测 → 见交付书 §9。
 
-#### HIG-AUD-018 受控能力缺口（open / detent / 状态源不可控）
+#### HIG-AUD-018 受控能力缺口（open / detent / 状态源不可控）✅ 已修复（2026-09-23，增补 §5O）
 
-- **严重度**：P1 ｜ **类型**：实现缺陷（API 契约）
+- **严重度**：P1 ｜ **类型**：实现缺陷（API 契约） ｜ **验证状态**：`[已修复 + 运行确认]`（四个缺口全部闭环：Combobox `open`/`onOpenChange`、BottomSheet `detent`、SplitButton `menuButtonDisabled`、Toasts 受控 store 注入）
 - **证据**：
   | 组件 | 缺口 | 位置 |
   |---|---|---|
@@ -521,6 +521,16 @@
 - 已具备受控能力的：Select/MultiSelect/Menu/DotsMenu/Sheet/Modal/CommandMenu/BottomSheet(open)/Drawer/SidePanel/EditMenu(无) ✓
 - **建议修复方向**：补 `open`/`onOpenChange`（Combobox）、`detent`/`onDetentChange`（BottomSheet）、可选受控 store 注入（Toasts）；SplitButton 增加 `menuButtonDisabled`。
 - **验收场景**：新增 API 测试，断言传 `open` 时组件完全由外部驱动（内部不自行变更）。
+
+- **修复记录（2026-09-23，增补 §5O；**本轮完成 3/4 缺口**）**：
+  - **Combobox `open` / `onOpenChange`（受控双模）**：新增 props；把 4 处 `setOpen` 写入点——选中（`:185`）、键盘导航（`:239`）、根与输入面点击（`:431`/`:441`）、Radix 的 Escape / 外点回调（`:527`）——**统一收敛到一个 `setOpen`**，受控时只上报、不写内部 state。新增 `tests/combobox-controlled.test.tsx`（2 用例）：外部未回写 prop 时内部**不自行打开**；回写后跟随；非受控模式不回归。
+  - **BottomSheet `detent`（受控双模）**：复用同文件既有 `open` 双模写法；内部 `current` 改为 `detent`（受控值）/`detentState`（内部），两处写入点（拖拽吸附 `endDrag`、grabber 点击切档）统一走 `setDetent`；受控传值**越界 / 非整数钳到合法档位**（否则 `detents[out-of-range]` 为 undefined → ratio NaN → 面板高度崩）。`tests/bottom-sheet.test.tsx` 新用例：点击切档只上报且 `aria-valuenow` 不变 → 外部改 prop 后跟随且不重复上报 → 越界钳位。
+  - **SplitButton `menuButtonDisabled`**：纯属性透传到 `MenuButton`（其 `disabled` 已可直达原生按钮，`menu.tsx:70/85`），无内部状态与 effect。新增 `tests/split-button-controlled.test.tsx`（2 用例）：只禁用菜单触发按钮、主按钮保持可用；且 `buttonProps.disabled` **仍只作用于主按钮**（既有行为不回归）。
+  - **文档注册同步**：`docs/geist/src/data/component-api.ts` 为三者补行（combobox `open`/`onOpenChange`、bottom-sheet `detent`、split-button `menuButtonDisabled`）；`tests/component-api-registry.test.ts` 补对应断言 → **9 tests passed**。
+  - **真实浏览器回归（临时探针，跑完即删，3 passed）**：① docs `/components/combobox` 点击展开、listbox 可见、Escape 收起（**Radix Popover 受控语义未变**，这是本轮唯一在单测之外的风险点）；② bottom-sheet grabber 非受控点击切档 `aria-valuenow` 0→1；③ split-button 菜单触发按钮可点开菜单。
+  - **Toasts 受控 store 注入（第 4/4 项，同会话完成）**：把模块级单例（`toastRecords`/`toastListeners`/`nextToastId`）收进 `createToastStore()` 闭包，导出 `ToastStore` / `ToastRecord` 类型与 `createToastStore`；`Toasts` 新增 `store?`（默认全局 store），`useToasts(store?)` 绑定同一实例，`dismiss` / `subscribe` / `getSnapshot` 全部走注入实例。**默认全局 store 行为完全不变**（既有示例与测试零改动通过）。回归：新增 `tests/toasts-controlled.test.tsx`（4 用例：注入 store 驱动自身视口且与另一 store 隔离 / `useToasts(store)` 写入注入实例 / 省略 `store` 时默认 store 仍工作 / 自动关闭计时器绑定注入实例）；`tests/toast-api.test.ts` 的导出断言放宽为「包含」形式；`component-api.ts` 的 toast 条目补 `store` 与 `createToastStore` 行并在注册表 `toEqual` 列表中同步。真实浏览器：docs `/components/toast` 弹出 / 关闭路径不变。（**至此 018 的 4/4 缺口全部闭环**）
+  - **踩坑记录**：`createToastStore` 一度同时出现在函数声明与末尾导出表 → `Duplicated export` 会让测试文件**静默 0 test**（已改为仅末尾导出；与前述「`.ts` 不能含 JSX」同属「加载期失败不易察觉」类，值得警惕）。
+  - 门禁：`typecheck` / `lint` / 定向 vitest / 全量测试见交付书 §7.6。
 
 #### HIG-AUD-019 `prefers-reduced-motion` 覆盖不完整
 

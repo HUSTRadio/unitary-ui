@@ -323,7 +323,7 @@
 | HIG-AUD-015 | P1 | `tooltip` |
 | HIG-AUD-016 | P1 | `multi-select` |
 | HIG-AUD-017 | P1 | `hamburger-menu`、`context-menu`（href 项，**未改动**：依赖 Radix Item 默认关闭，未实测）、全部浮层——**已修复（2026-09-23，导航条目激活即关闭 + 库层 `useDismissOnNavigate` + 文档消费方接入 + e2e 2 passed + 变异测试，增补 §5N）** |
-| HIG-AUD-018 | P1 | `combobox`、`bottom-sheet`、`toast`、`split-button` |
+| HIG-AUD-018 | P1 | `combobox`、`bottom-sheet`、`toast`、`split-button`——**已修复（2026-09-23，4/4：Combobox `open`/`onOpenChange`、BottomSheet `detent`、SplitButton `menuButtonDisabled`、Toasts `createToastStore` 注入；受控契约测试 + 浏览器回归 + 文档注册同步，增补 §5O）** |
 | HIG-AUD-019 | P1 | `drawer`（**经复核不成立**：`drawer.tsx:142` 早有 reduce 类）、`theme-switcher`、`combobox`、+ 66 个文件无组件级处理——**已修复（2026-09-23，22 浮层 kill switch 改 important 形式 + e2e 8 passed + 覆盖契约，根因见增补 §5L）** |
 | HIG-AUD-020 | P1 | `edit-menu` |
 | HIG-AUD-021 | P1 | `edit-menu` |
