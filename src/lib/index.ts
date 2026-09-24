@@ -129,6 +129,13 @@ export { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescri
 export type { SheetProps, SheetSide, SheetTriggerProps, SheetPortalProps, SheetOverlayProps, SheetHeaderProps, SheetTitleProps, SheetDescriptionProps, SheetFooterProps, SheetCloseProps, SheetContentProps } from "@/components/ui/sheet";
 export { Drawer, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 export type { DrawerProps, DrawerTitleProps, DrawerDescriptionProps } from "@/components/ui/drawer";
+export { SidePanel, SidePanelTitle, SidePanelDescription, SidePanelClose } from "@/components/ui/side-panel";
+export type {
+  SidePanelProps,
+  SidePanelTitleProps,
+  SidePanelDescriptionProps,
+  SidePanelCloseProps,
+} from "@/components/ui/side-panel";
 export {
   ResponsiveDrawer,
   ResponsiveDrawerTrigger,

@@ -3,7 +3,41 @@ import { readFileSync } from "node:fs";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
 
+import { COMPONENT_GUIDES } from "../docs/geist/src/content/component-guides";
 import { COMPONENT_API } from "../docs/geist/src/data/component-api";
+import { COMPONENTS } from "../docs/geist/src/data/components";
+import { EXAMPLE_REGISTRY } from "../docs/geist/src/examples/registry";
+
+/**
+ * Package modules intentionally documented on a broader owner page. Every
+ * exception is explicit so a new public module cannot silently skip docs.
+ */
+const PUBLIC_UTILITIES_WITHOUT_COMPONENT_PAGES = new Set(["charts/chart-colors"]);
+
+const REQUIRED_PUBLIC_COMPONENT_MODULES = [
+  "sidebar-nav", "navbar", "footer", "phone", "hamburger-menu", "rating-pill", "skeleton-mask", "side-panel",
+] as const;
+
+const DOCUMENT_OWNER_BY_MODULE: Readonly<Record<string, readonly string[]>> = {
+  layout: ["safe-area", "stack"],
+  phone: ["device"],
+  "skeleton-mask": ["skeleton"],
+  "rating-pill": ["feedback"],
+  "chart-category-bar": ["category-bar"],
+  "chart-bar-list": ["bar-list"],
+  "chart-progress-circle": ["progress-circle"],
+  "chart-tracker": ["tracker"],
+  "charts/category-bar": ["category-bar"],
+  "charts/bar-list": ["bar-list"],
+  "charts/progress-circle": ["progress-circle"],
+  "charts/tracker": ["tracker"],
+  "charts/area-chart": ["area-chart"],
+  "charts/bar-chart": ["bar-chart"],
+  "charts/combo-chart": ["combo-chart"],
+  "charts/donut-chart": ["donut-chart"],
+  "charts/line-chart": ["line-chart"],
+  "charts/spark-chart": ["spark-chart"],
+};
 
 function libraryValueExports(): {
   all: Set<string>;
@@ -68,15 +102,26 @@ describe("library/docs public export parity", () => {
     expect(documented.filter((name) => !all.has(name))).toEqual([]);
   });
 
-  it("documents every package-root value exported from a documented component module", () => {
+  it("maps every package-root component module to complete docs owners", () => {
     const { byComponent } = libraryValueExports();
+    expect([...REQUIRED_PUBLIC_COMPONENT_MODULES].filter((moduleName) => !byComponent.has(moduleName))).toEqual([]);
+    const registeredSlugs = new Set(COMPONENTS.map(({ name }) => name));
 
-    for (const [component, actual] of byComponent) {
-      const api = COMPONENT_API[component as keyof typeof COMPONENT_API];
-      if (!api) continue;
+    for (const [moduleName, actual] of byComponent) {
+      if (PUBLIC_UTILITIES_WITHOUT_COMPONENT_PAGES.has(moduleName)) continue;
+      const owners = DOCUMENT_OWNER_BY_MODULE[moduleName] ?? [moduleName];
+      const documented = new Set<string>();
+      for (const owner of owners) {
+        expect(registeredSlugs.has(owner), `${moduleName} has no registered docs owner ${owner}`).toBe(true);
+        expect(COMPONENT_API[owner], `${moduleName} owner ${owner} has no API table`).toBeDefined();
+        expect(COMPONENT_GUIDES[owner]?.["zh-CN"], `${moduleName} owner ${owner} has no Chinese guide`).toBeDefined();
+        expect(COMPONENT_GUIDES[owner]?.["en-US"], `${moduleName} owner ${owner} has no English guide`).toBeDefined();
+        expect(EXAMPLE_REGISTRY[owner]?.length, `${moduleName} owner ${owner} has no example`).toBeGreaterThan(0);
+        COMPONENT_API[owner]?.exports.forEach((name) => documented.add(name));
+      }
       expect(
-        [...actual].filter((name) => !api.exports.includes(name)),
-        `${component} has undocumented package-root exports`,
+        [...actual].filter((name) => !documented.has(name)),
+        `${moduleName} has package-root exports missing from owners ${owners.join(", ")}`,
       ).toEqual([]);
     }
   });

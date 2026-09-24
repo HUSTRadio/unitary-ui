@@ -79,7 +79,11 @@ describe("component API registry", () => {
     expect(row("progress", "value")?.description).toContain("null");
     expect(row("progress", "indeterminate")).toBeUndefined();
 
-    expect(COMPONENT_API.feedback.exports).toEqual(["Feedback"]);
+    expect(COMPONENT_API.feedback.exports).toEqual(["Feedback", "RatingPill"]);
+    expect(row("feedback", "defaultValue")?.type).toBe("RatingValue");
+    expect(COMPONENT_API["side-panel"].exports).toEqual([
+      "SidePanel", "SidePanelTitle", "SidePanelDescription", "SidePanelClose",
+    ]);
     expect(row("feedback", "onSubmit")?.type).toBe(
       "(rating: FeedbackRatingValue | undefined, text: string, metadata?: Record<string, string>, topic?: string) => void",
     );
@@ -186,7 +190,7 @@ describe("component API registry", () => {
       "(error: Error, info: React.ErrorInfo) => void",
     );
 
-    expect(COMPONENT_API.device.exports).toEqual(["Device", "DeviceScreen"]);
+    expect(COMPONENT_API.device.exports).toEqual(["Device", "DeviceScreen", "Phone", "PhoneScreen"]);
     expect(row("device", "model")).toMatchObject({
       type: "DeviceModelId",
       required: true,

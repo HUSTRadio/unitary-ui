@@ -217,7 +217,11 @@ const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> 
 
   /* Navigation —— 位置与视图切换 */
   breadcrumbs: "navigation",
+  footer: "navigation",
+  "hamburger-menu": "navigation",
+  navbar: "navigation",
   pagination: "navigation",
+  "sidebar-nav": "navigation",
   tabs: "navigation",
 
   /* Data Display —— 数据、状态与标识的展示 */
@@ -257,6 +261,7 @@ const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> 
   grid: "overlays",
   modal: "overlays",
   "responsive-drawer": "overlays",
+  "side-panel": "overlays",
   scroller: "overlays",
   separator: "overlays",
   sheet: "overlays",

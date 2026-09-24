@@ -975,8 +975,10 @@ const O = {
     ],
   ),
   feedback: component(
-    ["Feedback"],
+    ["Feedback", "RatingPill"],
     [
+      row("value", "RatingValue", "RatingPill only: controlled rating.", "仅 RatingPill：受控评分。"),
+      row("onValueChange", "(value: RatingValue) => void", "RatingPill only: reports each selection.", "仅 RatingPill：回报每次选择。"),
       row("label", "string", "Text shown by the default secondary trigger.", "默认次级触发按钮显示的文本。", {
         defaultValue: '"Feedback"',
       }),
@@ -1305,7 +1307,7 @@ const O = {
   ),
   device: {
     ...component(
-      ["Device", "DeviceScreen"],
+      ["Device", "DeviceScreen", "Phone", "PhoneScreen"],
       [
         row("model", "DeviceModelId", "Registered device model.", "已注册的设备型号。", {
           required: true,
@@ -1785,6 +1787,62 @@ const O = {
     [
       row("selected", "string", "Controlled selected tab.", "受控选中的标签。"),
       row("setSelected", "(value: string) => void", "Receives tab selection.", "接收标签选择。"),
+    ],
+  ),
+  "sidebar-nav": component(
+    ["SidebarNav"],
+    [
+      row("groups", "SidebarNavGroup[]", "Navigation groups and their links.", "导航分组和链接。", { required: true }),
+      row("activeTo", "string", "Path of the active item.", "当前活动条目的路径。"),
+      row("onNavigate", "(to: string) => void", "Intercepts unmodified link activation; modified clicks retain native navigation.", "拦截无修饰键的链接激活；修饰键点击仍走原生导航。"),
+      row("side", '"left" | "right"', "Places the divider on the right-side variant.", "右侧形态增加左分隔线。", { defaultValue: '"left"' }),
+      row("collapsible", "boolean", "Allows group headings to toggle their contents.", "允许分组标题切换展开状态。", { defaultValue: "false" }),
+      row("persistKey", "string", "Persists collapsed groups in localStorage when provided.", "提供时将折叠状态保存在 localStorage。"),
+    ],
+  ),
+  navbar: component(
+    ["Navbar"],
+    [
+      row("scrollBehavior", '"static" | "pinned" | "auto-hide"', "Header positioning and scroll behavior.", "顶栏定位与滚动行为。", { defaultValue: '"pinned"' }),
+      row("variant", '"solid" | "transparent"', "Initial surface treatment.", "初始表面样式。", { defaultValue: '"solid"' }),
+      row("solidOnScroll", "boolean", "Fills a transparent header after scrolling down.", "向下滚动后为透明顶栏补底色。", { defaultValue: "false" }),
+      row("height", "string | number", "CSS height class or numeric inline height; defaults to h-16.", "CSS 高度类名或内联数字高度；默认 h-16。", { defaultValue: '"h-16"' }),
+      row("children", "ReactNode", "Header content arranged by the caller.", "由调用方编排的顶栏内容。"),
+    ],
+  ),
+  footer: component(
+    ["Footer"],
+    [
+      row("columns", "FooterColumn[]", "Titled link columns.", "带标题的链接列。"),
+      row("slotLeading", "ReactNode", "Content before the link columns.", "链接列之前的内容。"),
+      row("slotTrailing", "ReactNode", "Content after the link columns.", "链接列之后的内容。"),
+      row("sticky", "boolean", "Pins the footer to the bottom of the viewport.", "将页脚固定到视口底部。", { defaultValue: "false" }),
+    ],
+  ),
+  "hamburger-menu": component(
+    ["HamburgerMenu"],
+    [
+      row("anchor", '"topbar" | "sidebar"', "Chooses the trigger context; both anchors open downward by default.", "选择触发场景和默认展开方向。", { required: true }),
+      row("anchorElement", "HTMLElement | null", "Element used to position the panel below a topbar.", "用于将面板定位到顶栏下方的元素。"),
+      row("direction", '"down" | "left" | "right"', "Expansion direction; topbar defaults to down.", "展开方向；顶栏默认为 down。"),
+      row("items", "MenuItem[]", "Flat navigation and search source.", "扁平导航与搜索数据源。"),
+      row("groups", "MenuGroup[]", "Grouped navigation and search source.", "分组导航与搜索数据源。"),
+      row("activeTo", "string", "Current route for aria-current and highlighting.", "用于 aria-current 与高亮的当前路径。"),
+      row("onNavigate", "(to: string) => void", "Called when a navigation item is selected.", "选择导航条目时调用。"),
+      row("open", "boolean", "Controlled open state.", "受控打开状态。"),
+      row("onOpenChange", "(open: boolean) => void", "Reports open-state changes.", "回报打开状态变化。"),
+      row("disableSearch", "boolean", "Hides the built-in search field.", "隐藏内建搜索框。"),
+      row("searchMode", '"query" | "toolbar"', "Search by query or input focus.", "按输入内容或焦点进入搜索。", { defaultValue: '"query"' }),
+    ],
+  ),
+  "side-panel": component(
+    ["SidePanel", "SidePanelTitle", "SidePanelDescription", "SidePanelClose"],
+    [
+      row("show", "boolean", "Controlled open state.", "受控打开状态。"),
+      row("onDismiss", "() => void", "Called after Escape, outside press, or a close action; caller updates show.", "按 Escape、外点或关闭按钮后调用；由调用方更新 show。"),
+      row("side", '"right" | "left"', "Panel docking edge.", "面板停靠方向。", { defaultValue: '"right"' }),
+      row("noOverlay", "boolean", "Omits the backdrop and switches to non-modal behavior.", "省略遮罩并切为非模态行为。", { defaultValue: "false" }),
+      row("children", "ReactNode", "Panel content, including a title and an explicit close control.", "面板内容，包括标题及显式关闭控件。", { required: true }),
     ],
   ),
   "text-with-copy-button": component(

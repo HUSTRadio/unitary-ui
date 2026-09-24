@@ -471,6 +471,18 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "side-panel",
+    label: "Side Panel",
+    labelZh: "桌面侧板",
+    description: "A controlled desktop side panel with optional non-modal behavior.",
+    official: "Unitary Side Panel",
+    bestPractices: [
+      "Use SidePanel for a desktop detail or action surface; use Drawer for mobile bottom actions and ResponsiveDrawer for a shared responsive flow.",
+      "Pair show with onDismiss and provide a SidePanelTitle so the dialog has an accessible name.",
+      "Set noOverlay only when the page behind the panel must remain interactive; it also disables modal focus trapping and scroll locking.",
+    ],
+  },
+  {
     name: "responsive-drawer",
     label: "Responsive Drawer",
     labelZh: "响应式抽屉",
@@ -498,6 +510,34 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "Put destructive actions at the bottom of the action list and keep their labels Verb + Noun.",
       "ActivityView wraps BottomSheet at a fixed 0.6 detent and keeps pull-down dismissal — reach for BottomSheet directly when you need draggable detents (or pass sheetProps to override).",
     ],
+  },
+  {
+    name: "sidebar-nav",
+    label: "Sidebar Nav",
+    labelZh: "侧栏导航",
+    description: "Grouped sidebar navigation with active state and optional collapsible sections.",
+    official: "Unitary Sidebar Nav",
+  },
+  {
+    name: "navbar",
+    label: "Navbar",
+    labelZh: "顶部导航",
+    description: "A page header with static, pinned, or auto-hiding scroll behavior.",
+    official: "Unitary Navbar",
+  },
+  {
+    name: "footer",
+    label: "Footer",
+    labelZh: "页脚",
+    description: "A page footer with link columns and optional leading and trailing slots.",
+    official: "Unitary Footer",
+  },
+  {
+    name: "hamburger-menu",
+    label: "Hamburger Menu",
+    labelZh: "汉堡导航菜单",
+    description: "An expandable navigation menu with grouped links and built-in search.",
+    official: "Unitary Hamburger Menu",
   },
   {
     name: "menu-bar",

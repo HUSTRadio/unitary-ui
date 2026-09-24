@@ -27,6 +27,7 @@ import {
   RESPONSIVE_DRAWER_GUIDES_ZH,
   RESPONSIVE_DRAWER_GUIDES_EN,
 } from "./guides-20-responsive-drawer";
+import { PUBLIC_NAVIGATION_GUIDES_ZH, PUBLIC_NAVIGATION_GUIDES_EN } from "./guides-21-public-navigation";
 
 const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
   GUIDES_01_ZH,
@@ -49,6 +50,7 @@ const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
   GUIDES_18_ZH,
   CHARTS_GUIDES_ZH,
   RESPONSIVE_DRAWER_GUIDES_ZH,
+  PUBLIC_NAVIGATION_GUIDES_ZH,
 ];
 
 const COMPONENT_GUIDES_EN_PARTS: Record<string, ComponentGuide>[] = [
@@ -72,6 +74,7 @@ const COMPONENT_GUIDES_EN_PARTS: Record<string, ComponentGuide>[] = [
   GUIDES_18_EN,
   CHARTS_GUIDES_EN,
   RESPONSIVE_DRAWER_GUIDES_EN,
+  PUBLIC_NAVIGATION_GUIDES_EN,
 ];
 
 export const COMPONENT_GUIDES_ZH: Record<string, ComponentGuide> = Object.assign(

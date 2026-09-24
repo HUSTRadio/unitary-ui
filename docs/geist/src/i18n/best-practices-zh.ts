@@ -10,6 +10,11 @@
  */
 
 const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
+  "side-panel": [
+    "桌面详情或操作使用 SidePanel；移动端底部操作使用 Drawer，同一流程跨端共用时使用 ResponsiveDrawer。",
+    "将 show 与 onDismiss 配套，并提供 SidePanelTitle，为对话框建立可访问名称。",
+    "仅在面板后方页面仍需交互时启用 noOverlay；此选项同时关闭模态焦点约束和滚动锁定。",
+  ],
   /* Charts —— 图表分组 */
   "area-chart": [
     "面积图适合表达时间趋势的构成；当总量或占比比单系列更重要时，切换 type=\"stacked\" 或 \"percent\"。",

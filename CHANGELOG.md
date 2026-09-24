@@ -8,6 +8,8 @@
 
 ### Added
 
+- **HIG-AUD-023/024 公共组件文档与入口对齐**：`SidebarNav`、`Navbar`、`Footer`、`HamburgerMenu` 补齐独立文档页、双语指南、API 与可交互示例；`SidePanel` 及标题、描述、关闭子组件和类型从包根导出并补齐同等文档链。既有 `Phone`/`PhoneScreen`、`SkeletonMask`、`RatingPill` 分别由 Device、Skeleton、Feedback 页显式承接；导出到文档 owner 的双语、API 符号和示例一致性新增门禁。
+
 - **HIG 交互组件族**：新增并从包根导出 `ActivityView`（分享目标、操作列表、取消行与可覆盖的 `sheetProps`）、`EditMenu`（选区驱动的编辑工具条）、`MenuBar`（含菜单、复选项、分隔线与子菜单）、`Toolbar` / `ToolbarGroup` / `ToolbarItem`（三段布局与组级溢出折叠），以及 Context Menu 的 `ContextMenuQuickActionsContent` / `ContextMenuQuickActionsItem` 触屏长按变体；组件元数据、双语指南、可运行示例、API 注册表与 LLM 参考页同步覆盖。
 - **布局原语**：新增并从包根导出 `SafeArea` 与 `Stack`，包含 `SafeAreaProps`、`StackProps`、`LayoutSpacing` 与 `SafeAreaEdge` 类型；前者按边应用安全区 inset，后者提供受 token 约束的纵向/横向间距、对齐、换行与响应式方向。
 - **组件变体 API**：`ModalContent` 新增 `placement="center" | "top"`（默认 `center`，`top` 为贴顶下落的 sheet 形态）并导出 `ModalContentProps` / `ModalPlacement`；`SplitButton` 新增 `variant="split" | "pulldown"` 与 `expandCorner`；`Tabs` 新增与 primary/secondary 正交的 `compact` 密度；Select 文档新增 pop-up button 用法，并配套补齐双语 API、演示与回归测试。

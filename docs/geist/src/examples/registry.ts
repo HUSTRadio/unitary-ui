@@ -1,4 +1,14 @@
 import type { ComponentType } from "react";
+import SidebarNavExample from "./sidebar-nav/default-public.example";
+import SidebarNavExampleSource from "./sidebar-nav/default-public.example.tsx?example-source";
+import NavbarExample from "./navbar/default-public.example";
+import NavbarExampleSource from "./navbar/default-public.example.tsx?example-source";
+import FooterExample from "./footer/default-public.example";
+import FooterExampleSource from "./footer/default-public.example.tsx?example-source";
+import HamburgerMenuExample from "./hamburger-menu/default-public.example";
+import HamburgerMenuExampleSource from "./hamburger-menu/default-public.example.tsx?example-source";
+import SidePanelExample from "./side-panel/default-public.example";
+import SidePanelExampleSource from "./side-panel/default-public.example.tsx?example-source";
 import { BottomSheetDefault37A8EEC1Example } from "./bottom-sheet/default-37a8eec1.example";
 import BottomSheetDefault37A8EEC1ExampleSource from "./bottom-sheet/default-37a8eec1.example.tsx?example-source";
 import { ErrorBoundaryDefault37A8EEC1Example } from "./error-boundary/default-37a8eec1.example";
@@ -841,6 +851,11 @@ export interface ExampleRecord {
 }
 
 export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
+  { slug: "sidebar-nav", id: "default", Component: SidebarNavExample, source: SidebarNavExampleSource },
+  { slug: "navbar", id: "default", Component: NavbarExample, source: NavbarExampleSource },
+  { slug: "footer", id: "default", Component: FooterExample, source: FooterExampleSource },
+  { slug: "hamburger-menu", id: "default", Component: HamburgerMenuExample, source: HamburgerMenuExampleSource },
+  { slug: "side-panel", id: "default", Component: SidePanelExample, source: SidePanelExampleSource },
   { slug: "bottom-sheet", id: "default", Component: BottomSheetDefault37A8EEC1Example, source: BottomSheetDefault37A8EEC1ExampleSource },
   { slug: "error-boundary", id: "default", Component: ErrorBoundaryDefault37A8EEC1Example, source: ErrorBoundaryDefault37A8EEC1ExampleSource },
   { slug: "link", id: "default", Component: LinkDefault37A8EEC1Example, source: LinkDefault37A8EEC1ExampleSource },
