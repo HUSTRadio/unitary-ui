@@ -31,7 +31,7 @@ A share button opens the bottom panel with a target grid, an action list, and a 
 ## Accessibility
 
 - The panel reuses the Radix dialog: focus moves into the panel, Escape and outside clicks close it, and focus returns to the trigger.
-- Every target and action is a native button with a visible name; destructive actions differ by color and wording, not color alone.
+- Every target and action is a native button with a visible name; destructive actions carry red semantics and ask for confirmation before running (the confirmation appears outside the panel and can be cancelled — the Block User flow in the example).
 
 ## Controlled behavior
 
@@ -58,13 +58,18 @@ import { Copy } from "lucide-react";
 
 import { ActivityView } from "@/components/ui/activity-view";
 import { Button } from "@/components/ui/button";
+import { Modal, ModalContent } from "@/components/ui/modal";
 
 /**
  * ActivityView —— 底部分享面板：分享目标网格 + 操作列表 + 取消行。
  * 选择任意项后执行回调并关闭面板（活动是一次性动作）。
+ *
+ * 破坏性操作按 HIG 走二次确认：操作行只负责红色语义，确认浮层出现在面板
+ * 之外的独立位置，用户可确认或取消；取消时状态不变（HIG-AUD-037）。
  */
 export function ActivityViewDefault9E4C2B57Example() {
   const [open, setOpen] = React.useState(false);
+  const [confirming, setConfirming] = React.useState(false);
   const [log, setLog] = React.useState("Nothing shared yet.");
 
   const swatch = (color: string) => (
@@ -114,15 +119,50 @@ export function ActivityViewDefault9E4C2B57Example() {
         actions={[
           { id: "print", title: "Print", onSelect: () => setLog("Print") },
           { id: "save", title: "Save to Files", onSelect: () => setLog("Save to Files") },
+          // 破坏性操作只打开确认浮层（面板随之关闭——活动是一次性动作）
           {
             id: "block",
             title: "Block User",
             destructive: true,
-            onSelect: () => setLog("Block User"),
+            onSelect: () => setConfirming(true),
           },
         ]}
       />
       <p className="text-copy-13 text-gray-900">{log}</p>
+
+      {/* 破坏性操作的二次确认：浮层位于面板之外的独立位置，需刻意关闭
+          （确认或取消），取消时状态不变（HIG-AUD-037）。 */}
+      <Modal open={confirming} onOpenChange={setConfirming}>
+        <ModalContent bodyClassName="pb-0">
+          <header className="mb-5">
+            <h3 className="text-heading-20 text-foreground">Block this user?</h3>
+            <div className="mt-2 mb-1 text-copy-14 text-muted-foreground">
+              They will no longer be able to message you. You can unblock them later.
+            </div>
+          </header>
+          <footer className="sticky bottom-0 -mx-5 mt-5 flex shrink-0 items-center justify-between border-t border-gray-alpha-400 bg-background-100 px-5 py-4">
+            <Button
+              size="small"
+              typeName="button"
+              type="secondary"
+              onClick={() => setConfirming(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              size="small"
+              typeName="button"
+              type="error"
+              onClick={() => {
+                setLog("Block User");
+                setConfirming(false);
+              }}
+            >
+              Block User
+            </Button>
+          </footer>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

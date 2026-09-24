@@ -344,6 +344,14 @@ Displays a hierarchical directory structure with expandable folders and files.
 
 ](#/components/file-tree)[
 
+Unitary Footer
+
+### Footer
+
+A page footer with link columns and optional leading and trailing slots.
+
+](#/components/footer)[
+
 Gauge
 
 ### Gauge
@@ -359,6 +367,14 @@ Grid
 Displays elements in a grid layout.
 
 ](#/components/grid)[
+
+Unitary Hamburger Menu
+
+### Hamburger Menu
+
+An expandable navigation menu with grouped links and built-in search.
+
+](#/components/hamburger-menu)[
 
 Input
 
@@ -463,6 +479,14 @@ Multi Select
 A composed menu for selecting multiple externally managed options.
 
 ](#/components/multi-select)[
+
+Unitary Navbar
+
+### Navbar
+
+A page header with static, pinned, or auto-hiding scroll behavior.
+
+](#/components/navbar)[
 
 Note
 
@@ -591,6 +615,22 @@ Show More
 Shows expanded or collapsed content with a progressive-disclosure trigger.
 
 ](#/components/show-more)[
+
+Unitary Side Panel
+
+### Side Panel
+
+A controlled desktop side panel with optional non-modal behavior.
+
+](#/components/side-panel)[
+
+Unitary Sidebar Nav
+
+### Sidebar Nav
+
+Grouped sidebar navigation with active state and optional collapsible sections.
+
+](#/components/sidebar-nav)[
 
 Skeleton
 

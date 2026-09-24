@@ -238,7 +238,7 @@ export function DeviceAppearance1C9D4B2EExample() {
 导入
 
 ```tsx
-import { Device, DeviceScreen } from "@/components/ui/device";
+import { Device, DeviceScreen, Phone, PhoneScreen } from "@/components/ui/device";
 ```
 
 ### 属性与回调

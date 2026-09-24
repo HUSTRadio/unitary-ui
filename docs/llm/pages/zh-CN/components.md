@@ -344,6 +344,14 @@ File Tree
 
 ](#/components/file-tree)[
 
+Unitary Footer
+
+### 页脚
+
+A page footer with link columns and optional leading and trailing slots.
+
+](#/components/footer)[
+
 Gauge
 
 ### 仪表
@@ -359,6 +367,14 @@ Grid
 以网格布局显示元素。
 
 ](#/components/grid)[
+
+Unitary Hamburger Menu
+
+### 汉堡导航菜单
+
+An expandable navigation menu with grouped links and built-in search.
+
+](#/components/hamburger-menu)[
 
 Input
 
@@ -463,6 +479,14 @@ Multi Select
 用于选择多个外部受控选项的组合菜单。
 
 ](#/components/multi-select)[
+
+Unitary Navbar
+
+### 顶部导航
+
+A page header with static, pinned, or auto-hiding scroll behavior.
+
+](#/components/navbar)[
 
 Note
 
@@ -591,6 +615,22 @@ Show More
 通过渐进披露触发器展开或折叠内容。
 
 ](#/components/show-more)[
+
+Unitary Side Panel
+
+### 桌面侧板
+
+A controlled desktop side panel with optional non-modal behavior.
+
+](#/components/side-panel)[
+
+Unitary Sidebar Nav
+
+### 侧栏导航
+
+Grouped sidebar navigation with active state and optional collapsible sections.
+
+](#/components/sidebar-nav)[
 
 Skeleton
 

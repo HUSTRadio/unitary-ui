@@ -161,8 +161,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:9db00a0d078e265429cbc4f681b769926db8e4a9fb7c92471ef7346dc45aeed4",
-        "en-US": "sha256:f575a7733b7c9a2a76fa6f2968dfc1a52bc09cafdeacba5dc7c32524a9211a72"
+        "zh-CN": "sha256:fa46d4442058443b28ce87b0809884c7ce4e5e19e5c579ea076a8ce6e0460c40",
+        "en-US": "sha256:2fe96dae41778d4a5ed5e1173dfdd005b047f1c827ad4141608fe5824e1d3430"
       }
     },
     {
@@ -209,8 +209,8 @@
         "en-US": "pages/en-US/components/context-menu.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:9e519e2a5eb3a7fcfc74304e191383b090aef592e41b7287ee5823feed7d3587",
-        "en-US": "sha256:1313bfe61109f9f98a9121645876f95b09f72abbc40284b092a1163da65eb707"
+        "zh-CN": "sha256:d8cd5c4c8520ecc5acd901d22c52573ed8521dc5cbb24ab2e5bbbddd7cab1301",
+        "en-US": "sha256:4abede6d17cb8bcf86cc54f16e90e45559b0658ad80e9c659e7fa53d27785047"
       }
     },
     {
@@ -257,8 +257,8 @@
         "en-US": "pages/en-US/components/edit-menu.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:f60a373c3362777f68cf1f5651ede7040a0a7d20d38c1230cf716a2a22179ecc",
-        "en-US": "sha256:025f95d44cb4ef809a34bd481892cced55e409fd21372d7f3d5fa780cc2d427f"
+        "zh-CN": "sha256:6a71376a4d4dcf653721931098be080520b13a2277bf4af554322f350c631964",
+        "en-US": "sha256:6723d32c5a10220d961b31b9bb17fc9983e97eef223b52bf9b3587e05c233709"
       }
     },
     {
@@ -353,8 +353,8 @@
         "en-US": "pages/en-US/components/split-button.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:6cd458e230288f1d73a320762dc422ae9d0ecca0dab58e00b5722a4caf587668",
-        "en-US": "sha256:0dcad0f58fa5a512289608d0be50c5fcac1e8a6d3e8a062ebc2c93e1d36c0531"
+        "zh-CN": "sha256:adf7abeba257c358104b50f6ccbc417c7d988b390a5e5d1be6d5cf6354f541ac",
+        "en-US": "sha256:7490d62a810ce7f3d9b07e22ea06a7e65703e695ebb29a06888e1fc80aa1a79e"
       }
     },
     {
@@ -369,8 +369,8 @@
         "en-US": "pages/en-US/components/toolbar.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:f1f633e8d3b96c6db228e23fb2e4388f3e0aa9a2bae40293be994622d728bb19",
-        "en-US": "sha256:662dc748c7d0ee72e30bb7816d833b7af3d132c83160d94960682ad07efd4a42"
+        "zh-CN": "sha256:a69578b72b29401ca7faf4b946ec1b1aca1001e1cab7c7bebd01c142b682a0f5",
+        "en-US": "sha256:756b6898c25efe78445e52dbceac04b3e39718377ea10f8fa6e2a09af894ca95"
       }
     },
     {
@@ -449,8 +449,8 @@
         "en-US": "pages/en-US/components/combobox.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:2398bb9c36cd13a162f70e48f79b4097068e9e85d1d9ea6aab882fd9277949a0",
-        "en-US": "sha256:e7f2564ca5e695fa477200daddd40ca17ff4d0317533dfaa609053f33d8a18d5"
+        "zh-CN": "sha256:6b3d8d07ddc7d0c04bab5503d66d3155cf8d43cfabdcb10e782eb1963ee27df8",
+        "en-US": "sha256:6f44fc486ee47f8b5302da862b3ac1a3d4840b19904cbc260a9c3eef70917167"
       }
     },
     {
@@ -678,6 +678,54 @@
       }
     },
     {
+      "path": "/components/footer",
+      "title": {
+        "zh-CN": "页脚",
+        "en-US": "Footer"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/footer.md",
+        "en-US": "pages/en-US/components/footer.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:fed37efdec6d5b91e54f87b32d67ad43ded33aa1385f77fad546def275cf685e",
+        "en-US": "sha256:5b587b4c9eff2372902d6f486bfcb66c51ad381e2bed44d15d0e9b3cf2cccadf"
+      }
+    },
+    {
+      "path": "/components/hamburger-menu",
+      "title": {
+        "zh-CN": "汉堡导航菜单",
+        "en-US": "Hamburger Menu"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/hamburger-menu.md",
+        "en-US": "pages/en-US/components/hamburger-menu.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:9ed24b11dc36a7a6b0032d57437476e7a2c4f8c2a085f9544f50591586431801",
+        "en-US": "sha256:250371514f4e83026e1398be01bac4264ec9f0ce5784d96eda44f7b719807e65"
+      }
+    },
+    {
+      "path": "/components/navbar",
+      "title": {
+        "zh-CN": "顶部导航",
+        "en-US": "Navbar"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/navbar.md",
+        "en-US": "pages/en-US/components/navbar.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:b12fbc675df701d75c7e479c8285b924d7e5dad37afb8e13fcbd948f6e591311",
+        "en-US": "sha256:74e81d768cee5d84e6f4cb5ac77adda1f07887d3468a9bdf0e407e683ecb8157"
+      }
+    },
+    {
       "path": "/components/pagination",
       "title": {
         "zh-CN": "分页",
@@ -691,6 +739,22 @@
       "sourceHash": {
         "zh-CN": "sha256:c4ff0fe6d3c2185554ee386ef2a44b0cc0fbbf4bdc431827f0977feeb690caee",
         "en-US": "sha256:5e2a7eac078c257d17c85c2fe823f7a1a1fd8d713dfceb303490c6b6439e0792"
+      }
+    },
+    {
+      "path": "/components/sidebar-nav",
+      "title": {
+        "zh-CN": "侧栏导航",
+        "en-US": "Sidebar Nav"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/sidebar-nav.md",
+        "en-US": "pages/en-US/components/sidebar-nav.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:e8d1fd484887b959088f025e5dfa8d7ac4eacfd5bdd2f21e2bf5fd6680e7b9b7",
+        "en-US": "sha256:bb2a90141fefd07080e2f256082eb707fe5cdf230086233430444e9cb9de776f"
       }
     },
     {
@@ -1025,8 +1089,8 @@
         "en-US": "pages/en-US/components/feedback.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:b5a02b8ac4c3ef94fa70cdadb8d94481b9adb4c11ff19eaf7c7c9cbb93b9215f",
-        "en-US": "sha256:df0b08a87694759f609b20b79056bec2afc807d8b21fcdf22782fbbf2b8eb465"
+        "zh-CN": "sha256:f86ba2fd19fbb513119316a6e947bd6e42354e097c36cbe5fcdc26429a63692b",
+        "en-US": "sha256:343d35068e7f8c19ce3d369510ed0fe37dc31496ef45b382e38aba2ecdad4214"
       }
     },
     {
@@ -1089,8 +1153,8 @@
         "en-US": "pages/en-US/components/toast.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:346a0445cd80fa0a9db6f5e7b0773205c1f457928a30e886d9bc426c71902fe0",
-        "en-US": "sha256:e061fa9b51ca210d4092d28a34572d3cfa88451d3fe9365f83cda001daab6f3d"
+        "zh-CN": "sha256:7f410723eed980909337a7f0f6212c6b957b9d0d384aa6bf1d10ebc35db7866a",
+        "en-US": "sha256:bfaf0e4e574fc55a4234c0b911565b443315d7d97df0b1451fba3da0ee7e5361"
       }
     },
     {
@@ -1217,8 +1281,8 @@
         "en-US": "pages/en-US/components/responsive-drawer.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:b5afe2e92207c95f1af78cdc86b33f5b0f7de8aa82aa7ecf0baa3ee03b122749",
-        "en-US": "sha256:8fd8ad2e38edca6c5308f30ba37052542def3be4154259a6e32eee2c60940af1"
+        "zh-CN": "sha256:1be11b115d9deed80f0591638c754eb4a49540a516056f0a780e6ce1be2489eb",
+        "en-US": "sha256:1c085440ca9aabad062ddf6797c0ca4a2dfd29e029d9a51f531d118bdf349c79"
       }
     },
     {
@@ -1267,6 +1331,22 @@
       "sourceHash": {
         "zh-CN": "sha256:a1c283bedca29f32edf4dee0f2e8962821b59ae3bd811e3daf8d86a1585f1486",
         "en-US": "sha256:50362367aba099a5291219c7fcb0fad875b9d8ba96b8ad7ba33fde6301bf196e"
+      }
+    },
+    {
+      "path": "/components/side-panel",
+      "title": {
+        "zh-CN": "桌面侧板",
+        "en-US": "Side Panel"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/side-panel.md",
+        "en-US": "pages/en-US/components/side-panel.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:39c620b78459735fa33e758bd1c91c434dd740dd3557a69928fa6ee8311c6ed4",
+        "en-US": "sha256:f7d1d71b84edb165d1039b5cec32c0865ad388c5615d54b8aed5675ae4a78be5"
       }
     },
     {
@@ -1361,8 +1441,8 @@
         "en-US": "pages/en-US/components/device.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:81cfe8b786c4305192b140d0d11f9734ff8d217b41bc53fcea41b5b592d3e8fb",
-        "en-US": "sha256:ac00f510c48ae3a93834b57eb4fb2fb7c15b0e87204c40f65ca18d58e1cd5787"
+        "zh-CN": "sha256:25f4375dd890cc88e99dd4be8cd8db1bb181255e771e6c46d45f21291d39920b",
+        "en-US": "sha256:ca4d71fc259429d68d6917050e528f0efd3e88362739bcd80fc4aa5e4f0dfbbc"
       }
     },
     {
@@ -1441,8 +1521,8 @@
         "en-US": "pages/en-US/components/activity-view.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:146bc90843f1041e3b2952afeca38a78587ce3039c359cd94d5af3665c47804c",
-        "en-US": "sha256:bf3705d02b9c3f4571929c5745d81989c69499ebbab116a5ef592f462799e6da"
+        "zh-CN": "sha256:ea6af5a323a64a3f7f92ff7c074ccaa52e7df56cd768a7f53bbcf31bd8768afb",
+        "en-US": "sha256:61c1955fe9026bd5c997a5c6b8f861f51e5e74a45c09b0d87a1d3a692d8a0582"
       }
     },
     {
@@ -1457,8 +1537,8 @@
         "en-US": "pages/en-US/components/bottom-sheet.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:5163cee0263345a555f655db6051fa54d4383cc3fb2febf5500843737fec6c62",
-        "en-US": "sha256:c5a59f55015e4d93365257ce86b2222a0f071de89feeb5ec63a3d81b21bf90a5"
+        "zh-CN": "sha256:934e2236fb34b437598435c1db902e1cbc46bd83cb57033a13bcfdf0ee119bb0",
+        "en-US": "sha256:7f4760a0f53cb0072eacd5652527ef20c9045bddd49b5a5c92086e140bb0198b"
       }
     },
     {

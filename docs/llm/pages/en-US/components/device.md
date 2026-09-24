@@ -238,7 +238,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Device, DeviceScreen } from "@/components/ui/device";
+import { Device, DeviceScreen, Phone, PhoneScreen } from "@/components/ui/device";
 ```
 
 ### Props & callbacks

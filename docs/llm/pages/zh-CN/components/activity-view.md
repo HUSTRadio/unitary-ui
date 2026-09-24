@@ -31,7 +31,7 @@ Activity View
 ## 无障碍
 
 - 面板复用 Radix Dialog：焦点进入面板、Esc 与外部点击关闭、关闭后焦点归还触发元素。
-- 每个目标与操作都是带可见名称的原生 button，破坏性操作仅用颜色加语义标签区分。
+- 每个目标与操作都是带可见名称的原生 button；破坏性操作以红色语义区分，并在执行前请用户确认（确认浮层出现在面板之外、可取消——示例的 Block User 流程）。
 
 ## 受控行为
 
@@ -58,13 +58,18 @@ import { Copy } from "lucide-react";
 
 import { ActivityView } from "@/components/ui/activity-view";
 import { Button } from "@/components/ui/button";
+import { Modal, ModalContent } from "@/components/ui/modal";
 
 /**
  * ActivityView —— 底部分享面板：分享目标网格 + 操作列表 + 取消行。
  * 选择任意项后执行回调并关闭面板（活动是一次性动作）。
+ *
+ * 破坏性操作按 HIG 走二次确认：操作行只负责红色语义，确认浮层出现在面板
+ * 之外的独立位置，用户可确认或取消；取消时状态不变（HIG-AUD-037）。
  */
 export function ActivityViewDefault9E4C2B57Example() {
   const [open, setOpen] = React.useState(false);
+  const [confirming, setConfirming] = React.useState(false);
   const [log, setLog] = React.useState("Nothing shared yet.");
 
   const swatch = (color: string) => (
@@ -114,15 +119,50 @@ export function ActivityViewDefault9E4C2B57Example() {
         actions={[
           { id: "print", title: "Print", onSelect: () => setLog("Print") },
           { id: "save", title: "Save to Files", onSelect: () => setLog("Save to Files") },
+          // 破坏性操作只打开确认浮层（面板随之关闭——活动是一次性动作）
           {
             id: "block",
             title: "Block User",
             destructive: true,
-            onSelect: () => setLog("Block User"),
+            onSelect: () => setConfirming(true),
           },
         ]}
       />
       <p className="text-copy-13 text-gray-900">{log}</p>
+
+      {/* 破坏性操作的二次确认：浮层位于面板之外的独立位置，需刻意关闭
+          （确认或取消），取消时状态不变（HIG-AUD-037）。 */}
+      <Modal open={confirming} onOpenChange={setConfirming}>
+        <ModalContent bodyClassName="pb-0">
+          <header className="mb-5">
+            <h3 className="text-heading-20 text-foreground">Block this user?</h3>
+            <div className="mt-2 mb-1 text-copy-14 text-muted-foreground">
+              They will no longer be able to message you. You can unblock them later.
+            </div>
+          </header>
+          <footer className="sticky bottom-0 -mx-5 mt-5 flex shrink-0 items-center justify-between border-t border-gray-alpha-400 bg-background-100 px-5 py-4">
+            <Button
+              size="small"
+              typeName="button"
+              type="secondary"
+              onClick={() => setConfirming(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              size="small"
+              typeName="button"
+              type="error"
+              onClick={() => {
+                setLog("Block User");
+                setConfirming(false);
+              }}
+            >
+              Block User
+            </Button>
+          </footer>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
