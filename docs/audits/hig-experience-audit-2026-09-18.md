@@ -615,7 +615,7 @@
 - **修复后证据**：`grabber.tsx` 新增 `aria-orientation="vertical"` 与完整键盘调档：ArrowUp/Right 递增、ArrowDown/Left 递减、Home/End 跳首尾，边界钳制且不重复上报；`BottomSheet` / `ResponsiveDrawer` 均通过 `onDetentChange` 接入，前者保持 `detent` 受控/非受控契约，后者在 detents 动态缩短时钳制索引。
 - **验收结果**：定向 vitest **3 files / 42 tests passed**（含 Grabber 单元契约、BottomSheet 受控/非受控双断言、ResponsiveDrawer 接线与动态边界）；两组变异分别被 8 条、2 条测试捕获；真实 Chromium 临时探针 **3 passed**（BottomSheet 双主题 + ResponsiveDrawer），确认 ARIA、键盘路径和 ≥44px 命中区；详见增补 §5T。
 
-#### HIG-AUD-023 7 个已从包入口导出的组件未进入文档注册
+#### HIG-AUD-023 7 个已从包入口导出的组件未进入文档注册 — ✅ 已修复（2026-09-24）
 
 - **严重度**：P1 ｜ **类型**：文档问题
 - **证据**（`src/lib/index.ts` 有导出，`docs/geist/src/data/components.ts` 无 `name` 条目）：
@@ -628,11 +628,10 @@
   | `HamburgerMenu` | `:135` | — |
   | `RatingPill` | `:146` | **已有导出、有组件文件，但无注册、无指南、无 examples** |
   | `SkeletonMask` | `:56` | 仅在 `skeleton` 指南中作为扩展描述 |
-- 已核实：注册组件数 = **78**，双语指南数 = **78**（一一对应，含 `edit-menu`），故指南侧无缺口；缺口在**注册**侧。
-- **建议修复方向**：逐项决策——补注册 + 指南 + examples，或在公开 API 中明确这些为「内部/模式级组件」并从包入口移出（见 HIG-AUD-024）。
-- **验收场景**：包入口导出的每个组件模块都能在文档站找到页面，或明确不在文档范围（有决策记录）。
+- **修复前口径校正**：上表和旧计数是原审计取证快照，不能把七个模块等同于七个缺页。`Phone`/`PhoneScreen` 由 Device 页面承接、`SkeletonMask` 已由 Skeleton 页面承接；`RatingPill` 由 Feedback 页面承接但缺显式导出声明。真正缺独立页面的四项为 `SidebarNav`、`Navbar`、`Footer`、`HamburgerMenu`。
+- **修复后**：四项新增文档元数据、双语指南、API 及 live demo；Device / Feedback 页显式列出 `Phone`/`PhoneScreen` / `RatingPill`，Feedback 补 `value`/`onValueChange` 且保留已有同名 props 语义。根导出模块逐个解析后映射至一至多个显式 owner，强制检查组件注册、双语指南、API 导出名和示例；纯图表调色工具有精确豁免。文档构建生成 109 路由 × 2 语言，`docs:llm:check` 无漂移。详见增补 §5U。
 
-#### HIG-AUD-024 SidePanel 未从包入口导出，却被测试与门禁当作公共组件
+#### HIG-AUD-024 SidePanel 未从包入口导出，却被测试与门禁当作公共组件 — ✅ 已修复（2026-09-24）
 
 - **严重度**：P1 ｜ **类型**：文档问题 + API 表面不一致
 - **证据**：
@@ -641,8 +640,7 @@
   - 但存在 `tests/side-panel-api.test.tsx`，且 `tests/audit/ledger-design-gate.test.ts` 将其纳入门禁；
   - 仓库内**无任何生产代码** `import` 它（唯一引用是测试）。
   - 对照：`tests/library-docs-export-parity.test.ts:105-110` 明确断言 `ExpandPanel`/`Grabber`/`PhoneStatusBar`/`PhoneSafariChrome` **不得**从包根暴露，说明仓库对「内部辅助不导出」有清晰契约，而 SidePanel 不属该类。
-- **建议修复方向**：按意图二选一——导出为公共组件（补注册/指南/examples），或降级为内部辅助并把测试改为内部契约。
-- **验收场景**：`library-docs-export-parity.test.ts` 与 `side-panel-api.test.tsx` 的意图一致且无歧义。
+- **修复后**：选择公开组件契约，在 `src/lib/index.ts` 导出 `SidePanel` 与标题/描述/关闭子组件及其 props 类型；新增 SidePanel 独立文档页、API、双语指南、受控 live demo 和生成语料。根导出门禁不仅验证文档完整性，还要求上述八个已确认公共模块始终从根导出，防止删掉导出时遍历集合缩小造成假绿。详见增补 §5U。
 
 ---
 

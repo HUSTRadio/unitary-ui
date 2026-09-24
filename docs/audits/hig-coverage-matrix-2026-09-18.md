@@ -29,8 +29,8 @@
 
 | 差异 | 数量 | 组件 |
 |---|---|---|
-| 已从包入口导出、但**未注册**文档 | **7** | `SidebarNav`、`Navbar`、`Footer`、`Phone`/`PhoneScreen`、`HamburgerMenu`、`RatingPill`、`SkeletonMask` |
-| 有组件文件、但**既未注册也未从包入口导出** | **1** | `SidePanel`（`src/components/ui/side-panel.tsx:155`；仅被 `tests/side-panel-api.test.tsx` 引用） |
+| 已从包入口导出、但**未注册**文档 | **0（023 已修复）** | 4 个独立缺页已补；Phone/PhoneScreen → Device、SkeletonMask → Skeleton、RatingPill → Feedback 采用显式合并 owner，增补 §5U |
+| 有组件文件、但**既未注册也未从包入口导出** | **0（024 已修复）** | SidePanel 已正式根导出并补独立双语文档、API 与示例，增补 §5U |
 | 内部辅助（**有意不导出**，由 `tests/library-docs-export-parity.test.ts:105-110` 守护） | **4 个导出名 / 3 个文件** | `ExpandPanel`、`Grabber`、`PhoneStatusBar`、`PhoneSafariChrome` |
 | 其余内部辅助（未导出，无「不得导出」断言） | **5** | `CalendarPanel`、`Feedback*Face`、`FieldError`、`HamburgerIcon`、`LoadingIcon` |
 | 有 examples + 专用测试、但未注册 | **1** | `SkeletonMask` |
@@ -88,7 +88,7 @@
 | `tooltip` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-013、~~015~~（**✅ 2026-09-23**：不再强注 `tabIndex`，契约见增补 §5P） |
 | `progress` | ✔ | ✔ | ✔ | ✔ | ✔ |
 | `skeleton` | ✔ | ✔ | ✔ | ✔ | ✔ |
-| `skeleton-mask` | ✔ | — | — | ✔ | ⚠ HIG-AUD-023（有导出/示例/测试，但未注册、无独立指南） |
+| `skeleton-mask` | ✔ | ✔（Skeleton owner） | ✔ | ✔ | ✅ HIG-AUD-023：合并页已含 API/指南/示例，parity 显式守护（§5U） |
 | `spinner` | ✔ | ✔ | ✔ | ✔ | ✔（无专用测试，仅横切覆盖） |
 | `loading-dots` | ✔ | ✔ | ✔ | ✔ | ✔（无专用测试） |
 | `empty-state` | ✔ | ✔ | ✔ | ✔ | ✔ |
@@ -120,7 +120,7 @@
 | `pill` | ✔ | ✔ | ✔ | ✔ | ✔（无专用测试） |
 | `badge` | ✔ | ✔ | ✔ | ✔ | ✔ |
 | `avatar` | ✔ | ✔ | ✔ | ✔ | ✔ |
-| `rating-pill` | ✔ | — | — | — | ⚠ HIG-AUD-023（唯一「已导出但页面/指南/示例全缺」的组件） |
+| `rating-pill` | ✔ | ✔（Feedback owner） | ✔ | ✔ | ✅ HIG-AUD-023：Feedback 页补显式导出与 value/onValueChange API，§5U |
 | `separator` | ✔ | ✔ | ✔ | ✔ | ✔ |
 
 ### B.4 导航
@@ -130,11 +130,11 @@
 | `breadcrumbs` | ✔ | ✔ | ✔ | ✔ | ✔（`max-sm:overflow-x-auto` 已有） |
 | `pagination` | ✔ | ✔ | ✔ | ✔ | ✔（无专用测试） |
 | `link` | ✔ | ✔ | ✔ | ✔ | ✔ |
-| `sidebar-nav` | ✔ | — | — | — | ⚠ HIG-AUD-023 |
-| `navbar` | ✔ | — | — | — | ⚠ HIG-AUD-023 |
-| `footer` | ✔ | — | — | — | ⚠ HIG-AUD-023 |
+| `sidebar-nav` | ✔ | ✔ | ✔ | ✔ | ✅ HIG-AUD-023（独立页面，§5U） |
+| `navbar` | ✔ | ✔ | ✔ | ✔ | ✅ HIG-AUD-023（独立页面，§5U） |
+| `footer` | ✔ | ✔ | ✔ | ✔ | ✅ HIG-AUD-023（独立页面，§5U） |
 | `command-menu` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-009、012、026、030 |
-| `hamburger-menu` | ✔ | — | — | — | ⚠ ~~HIG-AUD-008~~（**✅ 2026-09-23**：`Close menu`/`Ctrl K` 补齐 + 键集同构编译期约束，增补 §5M）、~~017~~（**✅ 2026-09-23**：导航条目激活即关闭 + 库层 `useDismissOnNavigate`，增补 §5N）、023、025 |
+| `hamburger-menu` | ✔ | ✔ | ✔ | ✔ | ~~008~~（§5M）、~~017~~（§5N）、~~023~~（✅ 独立页面，§5U）、025 |
 | `menu` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-011、012、013、025 |
 | `dots-menu` | ✔ | ✔ | ✔ | ✔ | ⚠ HIG-AUD-011、012、013、032 |
 | `context-menu` | ✔ | ✔ | ✔ | ✔ | ⚠ **HIG-AUD-001（P0，✅ 已修复）**、**002（P0，✅ 已修复）**、005、009、010、011、012、025、031 |
@@ -150,7 +150,7 @@
 | `sheet` | ✔ | ✔ | ✔ | ✔ | ~~HIG-AUD-010~~（**✅ 2026-09-23**：backdrop 族两值式为官方写法，保持）、012；**面板缺 `safe-area-inset-bottom`** |
 | `drawer` | ✔ | ✔ | ✔ | ✔ | ~~HIG-AUD-010、019~~（**✅ 2026-09-23**：scrim 族 token + `motion-reduce:animate-none!`）、012；**正面：焦点归还实现带竞态注释，是本仓库的范本** |
 | `bottom-sheet` | ✔ | ✔ | ✔ | ✔ | ⚠ **HIG-AUD-003（P0，✅ 已修复）**、008、~~010~~（✅）、012、018、~~022~~（**✅ 2026-09-24：完整 slider 键盘 + 受控/非受控双契约，增补 §5T**）、026 |
-| `side-panel` | — | — | — | — | ⚠ ~~HIG-AUD-006、007~~（**已于 2026-09-22 修复并运行确认**，增补 §5E）、024（未导出、无注册/指南/示例）；010 族契约：保持 backdrop 两值式，测试已改为**禁 scrim 族**误用 |
+| `side-panel` | ✔ | ✔ | ✔ | ✔ | ~~006/007~~（§5E）、~~024~~（✅ 根导出及独立文档，§5U）；保留 backdrop 两值式，不混用 scrim 族 |
 | `modal` | ✔ | ✔ | ✔ | ✔ | ~~HIG-AUD-010~~（**✅ 2026-09-23**：改用合成色 `--uni-overlay-backdrop`——Content 是 Overlay 子节点，元素 opacity 会波及内容）、026；**正面：唯一进出场对称 + token 完整 + `aria-modal`** |
 | `context-card` | ✔ | ✔ | ✔ | ✔ | ✔（进出场对称 + `zoom-out-95` ✓） |
 | `popover`（`feedback` 内） | — | — | — | — | ⚠ HIG-AUD-009 |
@@ -160,7 +160,7 @@
 | 组件 | 导出 | 注册 | 指南 | 示例 | 结论 |
 |---|---|---|---|---|---|
 | `device` | ✔ | ✔ | ✔ | ✔ | ✔（`phone.md` → `device` 别名见 `docs-routes.ts:163`） |
-| `phone` / `PhoneScreen` | ✔ | — | — | — | ⚠ HIG-AUD-023（由 `device` 页面代表） |
+| `phone` / `PhoneScreen` | ✔ | ✔（Device owner） | ✔ | ✔ | ✅ HIG-AUD-023：Device 页明确列出 Phone/PhoneScreen，§5U |
 | `browser` | ✔ | ✔ | ✔ | ✔ | ✔ |
 | `book` | ✔ | ✔ | ✔ | ✔ | ✔ |
 | `video` | ✔ | ✔ | ✔ | ✔ | ✔ |
@@ -197,7 +197,7 @@
 | `hamburger-icon.tsx` | ✔ 内部辅助 |
 | `loading-icon.tsx` | ✔ 内部辅助（`button` 消费） |
 | `phone-chrome.tsx` | ✔ 内部辅助 |
-| `side-panel.tsx` | ⚠ HIG-AUD-006、007（**已于 2026-09-22 修复并运行确认**，增补 §5E）、024（未导出，但被测试与 design-gate 当公共组件） |
+| `side-panel.tsx` | ✅ 不再是内部辅助：006/007 已修（§5E），024 正式根导出并完整文档化（§5U） |
 
 ### B.9 复核后新增的 HIG 能力组件（**✅ 已补审**）
 
@@ -328,8 +328,8 @@
 | HIG-AUD-020 | P1 | `edit-menu` —— **✅ 已修复（2026-09-24）**：合成 `mousedown` 过滤（`firesTouchEvents` + touchend 窗口）+ 原生 callout/上下文菜单抑制；Chromium 真实触屏实测确认，**真机 iOS 待验证**（增补 §5S） |
 | HIG-AUD-021 | P1 | `edit-menu` —— **✅ 已修复（2026-09-24）**：垂直下边界 clamp（e2e 实测修复前溢出 13px）+ 回调传选区原文（`rawText`，剪切不再残留空白）+ 剪贴板失败不触发 `onCut` 改走 `onError`（增补 §5S） |
 | HIG-AUD-022 | P1 | `grabber` / `bottom-sheet` / `responsive-drawer` —— **✅ 已修复（2026-09-24）**：垂直 slider 完整键盘映射、边界钳制、BottomSheet 受控/非受控双契约及 ResponsiveDrawer 动态档位保护；定向 42 tests + Chromium 3 passed（增补 §5T） |
-| HIG-AUD-023 | P1 | `sidebar-nav`、`navbar`、`footer`、`phone`、`hamburger-menu`、`rating-pill`、`skeleton-mask` |
-| HIG-AUD-024 | P1 | `side-panel` |
+| HIG-AUD-023 | P1 | ✅ 已修（2026-09-24）：四独立页 + Phone / RatingPill / SkeletonMask 三合并 owner，双语/导出/示例守护（§5U） |
+| HIG-AUD-024 | P1 | ✅ 已修（2026-09-24）：SidePanel 根导出 + 独立页及子组件 API，守护防误删（§5U） |
 | HIG-AUD-025 | P2 | `menu`、`context-menu`、`edit-menu`、`dots-menu`、`split-button`、`multi-select`、`sheet`、`bottom-sheet`、`drawer`、`modal`、`tooltip`、`hamburger-menu`、`side-panel`、`theme-switcher` |
 | HIG-AUD-026 | P2 | `command-menu`、`modal`、`destructive-action-modal` |
 | HIG-AUD-027 | P2 | `select`、`multi-select` |

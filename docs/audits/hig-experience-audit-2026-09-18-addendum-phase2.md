@@ -633,3 +633,12 @@
 - **真实浏览器（Chromium，临时 spec 跑完即删）**：**3 passed (23.5s)**——BottomSheet light/dark 双主题 + ResponsiveDrawer；确认 `aria-orientation=vertical`、End/ArrowDown/Home/ArrowUp 的实时 `aria-valuenow`、两主题命中盒宽高均 ≥44px，截图无视觉回归。首轮探针误用 path 路由而停在首页 15m；修正为 hash 路由并把临时用例 timeout 收紧为 60s 后通过（再次验证「临时探针也必须收紧超时」）。
 - **文档链**：双语 CHANGELOG；`component-api.ts` 的 detents / showIndicator / onDetentChange；BottomSheet 与 ResponsiveDrawer 双语指南；ResponsiveDrawer 多档示例补键盘说明。现有示例本就渲染多档 slider，无需新增示例文件。
 - **台账落点**：本文件 §5T、主报告 `022`、矩阵 bottom-sheet / grabber / 输入方式 / ID 索引、交付书 §1/§2/批次 C/§7.12/§10。
+
+---
+
+## 5U. HIG-AUD-023/024 公共入口与文档 owner 对齐（2026-09-24）
+
+- **基线校正**：023 原表的 7 项并非 7 个缺页：`Phone`/`PhoneScreen` 已经通过 Device 页、`SkeletonMask` 通过 Skeleton 页承接；`RatingPill` 归 Feedback 页但此前 API 导出名未显式列出。因此独立文档缺页只有 SidebarNav / Navbar / Footer / HamburgerMenu；024 的 SidePanel 是第 5 个需新增的公共页面。
+- **实现**：SidePanel、SidePanelTitle、SidePanelDescription、SidePanelClose 及对应 props 类型由 `src/lib/index.ts` 正式公开；上述五页均新增组件元数据、导航分组、双语 API/指南和 live demo。合并页 Device 补 Phone/PhoneScreen 显式导出；Feedback 补 RatingPill 导出和专属 `value` / `onValueChange` API，保留原有 `onSubmit`、`defaultValue` 等公共条目语义。
+- **守护**：`library-docs-export-parity.test.ts` 按 TypeScript AST 提取包根值导出，显式映射多 owner 的 layout、Phone、SkeletonMask、RatingPill 和图表；逐 owner 检查注册、API、两语言指南、运行示例，按符号并集校验公共导出。另固定已核实的 8 个公共模块，防止移除入口使检查静默通过；非组件的 chart-colors 纯工具单独精确豁免。`docs-coverage` 官方快照外扩展页枚举同步更新，`component-api-registry` 校验 SidePanel 与 RatingPill 契约。
+- **生成**：执行 `pnpm run docs:llm:generate` 得 109 路由 × 2 语言 = 218 页，随后 `pnpm run docs:llm:check` exit 0，无漂移。真实浏览器与最终门禁记录见交付书 §7.13。
