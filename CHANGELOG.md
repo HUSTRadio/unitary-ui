@@ -8,6 +8,7 @@
 
 ### Fixed
 
+- **HIG-AUD-031/032/033/047 浮层材质与错误色对齐（视觉变更）**：① 破坏性／错误文本与 toast success 前景统一走既有语义 token——`activity-view`、`context-menu`、`select`、`destructive-action-modal` 的破坏性文字改用 `text-error-foreground`（`#ee0000` / `red-900` 收敛到双主题 `--error-foreground`：浅色 `#cb2a2f`、深色 `#ff6166`），`toast` success 改用 `text-success-foreground`；raw-color 棘轮账本随之清账 143 → 134。② `dots-menu` 浮层表面由 `bg-background` 改为 `bg-surface`，与 `menu.tsx` 同源（深色主题由纯黑 `#000000` 变为 `#0a0a0a`），并移除显式 `aria-haspopup="true"`（Radix 默认的 `aria-haspopup="menu"` 语义保留）。③ `combobox` 面板阴影改走 `--material-shadow-menu`，与 select / menu 浮层同源，并新增 `data-slot="combobox-content"` 供材质契约核查。④ `menu-bar` 快捷键区新增 `data-slot="menu-bar-shortcut"` 并注明仅展示、不绑定按键；living styleguide 的 MenuBar 示例同步移除未绑定的快捷键键帽。公开 API 与组件导出不变。
 - **EditMenu 选区操作列统一横向**：编辑区域选中文字后，触屏、鼠标和键盘均显示横向胶囊工具条（`role="toolbar"`、左右方向键及 Home/End），与右键唤出的竖向 ContextMenu 区分；保留触摸生成鼠标事件防闪烁、选区锚定与视口边界保护。双主题浏览器及键盘回归覆盖横向布局。
 
 ### Added
