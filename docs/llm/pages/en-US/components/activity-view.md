@@ -19,7 +19,7 @@ A bottom share sheet with a grid of share targets and a list of actions.
 
 ## When not to use
 
-- For a draggable multi-detent bottom layer — use BottomSheet directly.
+- For custom height detents or a bottom layer unrelated to sharing — use BottomSheet directly.
 - For always-available toolbar actions — use a toolbar instead of a one-shot panel.
 
 ## Examples
@@ -41,7 +41,7 @@ A share button opens the bottom panel with a target grid, an action list, and a 
 ## Responsive behavior
 
 - The target row scrolls horizontally so targets stay on a single line when they overflow; a fading edge indicates more targets and disappears at the end.
-- The panel takes 60% of the viewport height and reserves bottom safe-area padding.
+- The panel starts at 60% of the viewport height and expands to 90% via the top grabber or keyboard; it reserves bottom safe-area padding.
 
 ## Theme behavior
 
@@ -143,6 +143,15 @@ export function ActivityViewDefault9E4C2B57Example() {
         actions={[
           { id: "print", title: "Print", onSelect: () => setLog("Print") },
           { id: "save", title: "Save to Files", onSelect: () => setLog("Save to Files") },
+          { id: "bookmark", title: "Add Bookmark", onSelect: () => setLog("Add Bookmark") },
+          {
+            id: "reading",
+            title: "Add to Reading List",
+            onSelect: () => setLog("Add to Reading List"),
+          },
+          { id: "download", title: "Download", onSelect: () => setLog("Download") },
+          { id: "pin", title: "Pin Item", onSelect: () => setLog("Pin Item") },
+          { id: "report", title: "Report Issue", onSelect: () => setLog("Report Issue") },
           // 破坏性操作只打开确认浮层（面板随之关闭——活动是一次性动作）
           {
             id: "block",
@@ -211,4 +220,4 @@ import { ActivityView } from "@/components/ui/activity-view";
 - Use ActivityView for one-shot share or action flows; it closes itself after a target or action is picked.
 - Keep target names short—they truncate to one line beneath a 48px icon tile. When targets overflow, fading edges reveal more items and update as the row scrolls.
 - Put destructive actions at the bottom of the action list and keep their labels Verb + Noun.
-- ActivityView wraps BottomSheet at a fixed 0.6 detent and keeps pull-down dismissal — reach for BottomSheet directly when you need draggable detents (or pass sheetProps to override).
+- ActivityView starts at a 0.6 detent and expands to 0.9 by dragging or using the keyboard; pull below the first detent to dismiss. Use BottomSheet or sheetProps to customize detents and gestures.

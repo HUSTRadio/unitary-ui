@@ -12,8 +12,8 @@ describe("Activity View contract", () => {
     expect(source).toContain(
       'import { BottomSheet, type BottomSheetProps } from "@/components/ui/bottom-sheet"',
     );
-    expect(source).toContain("detents={[0.6]}");
-    // 渲染触控指示条 + 下拉关闭（单档位；上拉锁在最高档）
+    expect(source).toContain("detents={[0.6, 0.9]}");
+    // 指示条支持上拉到第二档和下拉关闭，但不允许超出最高档
     expect(source).not.toContain("showIndicator={false}");
     expect(source).toContain("gestures={{ expandUp: false }}");
   });
@@ -24,8 +24,8 @@ describe("Activity View contract", () => {
     expect(source).toContain('data-slot="activity-view-cancel"');
     expect(source).toContain("overflow-x-auto");
     expect(source).toContain("size-12");
-    // 操作组无描边框：容器用圆角 + overflow 收住行激活态背景（hover 不通栏越界）
-    expect(source).toContain('className="overflow-hidden rounded-overlay"');
+    // 操作组无描边框：容器用圆角 + overflow 收住行激活态背景，且不收缩裁断操作
+    expect(source).toContain('className="shrink-0 overflow-hidden rounded-overlay"');
   });
 
   test("closes after a one-shot activity and localizes its labels", () => {
@@ -43,7 +43,7 @@ describe("Activity View contract", () => {
     expect(source).toContain("sheetProps?: Partial<Omit<BottomSheetProps");
     expect(source).toContain("{...sheetProps}");
     // 透传展开在默认配置之后，但一次性活动契约的默认值保持不变
-    expect(source).toContain("detents={[0.6]}");
+    expect(source).toContain("detents={[0.6, 0.9]}");
     expect(source).toContain("gestures={{ expandUp: false }}");
     // 取消行贴面板底部（HIG 分享面板），底部内边距与顶部对称
     expect(source).toContain("mt-auto h-11 shrink-0");

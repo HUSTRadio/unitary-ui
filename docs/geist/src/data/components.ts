@@ -509,7 +509,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "Use ActivityView for one-shot share or action flows; it closes itself after a target or action is picked.",
       "Keep target names short—they truncate to one line beneath a 48px icon tile. When targets overflow, fading edges reveal more items and update as the row scrolls.",
       "Put destructive actions at the bottom of the action list and keep their labels Verb + Noun.",
-      "ActivityView wraps BottomSheet at a fixed 0.6 detent and keeps pull-down dismissal — reach for BottomSheet directly when you need draggable detents (or pass sheetProps to override).",
+      "ActivityView starts at a 0.6 detent and expands to 0.9 by dragging or using the keyboard; pull below the first detent to dismiss. Use BottomSheet or sheetProps to customize detents and gestures.",
     ],
   },
   {

@@ -19,7 +19,7 @@ Activity View
 
 ## 何时不应使用
 
-- 需要多档位可拖拽的底部弹层——直接用 BottomSheet。
+- 需要自定义更多高度档位或非分享用途的底部弹层——直接用 BottomSheet。
 - 需要常驻的工具栏操作——用 Toolbar 而非一次性面板。
 
 ## 示例
@@ -41,7 +41,7 @@ Activity View
 ## 响应式行为
 
 - 目标区横向滚动，超出面板宽度时保持单行动线；可滚动的边缘显示渐隐提示，滚动到尽头后消失。
-- 面板占视口高度 60%，底部留出安全区内边距。
+- 面板默认占视口高度 60%，可通过顶部指示条上拉或用键盘展开到 90%；底部留出安全区内边距。
 
 ## 主题行为
 
@@ -143,6 +143,15 @@ export function ActivityViewDefault9E4C2B57Example() {
         actions={[
           { id: "print", title: "Print", onSelect: () => setLog("Print") },
           { id: "save", title: "Save to Files", onSelect: () => setLog("Save to Files") },
+          { id: "bookmark", title: "Add Bookmark", onSelect: () => setLog("Add Bookmark") },
+          {
+            id: "reading",
+            title: "Add to Reading List",
+            onSelect: () => setLog("Add to Reading List"),
+          },
+          { id: "download", title: "Download", onSelect: () => setLog("Download") },
+          { id: "pin", title: "Pin Item", onSelect: () => setLog("Pin Item") },
+          { id: "report", title: "Report Issue", onSelect: () => setLog("Report Issue") },
           // 破坏性操作只打开确认浮层（面板随之关闭——活动是一次性动作）
           {
             id: "block",

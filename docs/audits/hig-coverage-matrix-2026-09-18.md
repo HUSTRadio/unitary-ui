@@ -348,7 +348,7 @@
 | HIG-AUD-040 | P1 | `activity-view`（+ 根因在 `bottom-sheet`：面板无可访问名称）——**已修复（2026-09-23，运行确认，增补 §5G）** |
 | HIG-AUD-041 | P2 | 二期 5 个测试文件（`menu-bar-api` / `toolbar-api` / `layout-api` / `activity-view-api` / `pull-down-button-api`） |
 | HIG-AUD-042 | P2 | ✅ 已定向修复（2026-09-25，增补 §5Z）：`activity-view` 八分享目标的双向渐隐随溢出与滚动更新，双主题 E2E 4 passed、视觉几何 2 passed；双语指南及生成语料同步 |
-| HIG-AUD-043 | P2 | `activity-view`（固定 0.6 单档、禁用扩展） |
+| HIG-AUD-043 | P2 | ✅ 已定向修复（2026-09-25，增补 §5AA）：`activity-view` 默认 0.6/0.9 双档、长操作列表可滚动/扩展；双主题 E2E 4 passed、视觉几何 2 passed；触屏真机仍待确认 |
 | HIG-AUD-044 | P2 | `menu-bar`（`--uni-z-menu`=50 低于 drawer/modal；根容器无溢出提示） |
 | HIG-AUD-045 | P3 | `safe-area`（`style` 可覆盖安全区内边距） |
 | HIG-AUD-046 | P3 | `safe-area`、`stack`（两份平行档位表） |

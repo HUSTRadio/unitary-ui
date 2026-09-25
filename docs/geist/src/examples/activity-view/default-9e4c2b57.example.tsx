@@ -48,6 +48,11 @@ export function ActivityViewDefault9E4C2B57Example() {
         actions={[
           { id: "print", title: "Print", onSelect: () => setLog("Print") },
           { id: "save", title: "Save to Files", onSelect: () => setLog("Save to Files") },
+          { id: "bookmark", title: "Add Bookmark", onSelect: () => setLog("Add Bookmark") },
+          { id: "reading", title: "Add to Reading List", onSelect: () => setLog("Add to Reading List") },
+          { id: "download", title: "Download", onSelect: () => setLog("Download") },
+          { id: "pin", title: "Pin Item", onSelect: () => setLog("Pin Item") },
+          { id: "report", title: "Report Issue", onSelect: () => setLog("Report Issue") },
           // 破坏性操作只打开确认浮层（面板随之关闭——活动是一次性动作）
           { id: "block", title: "Block User", destructive: true, onSelect: () => setConfirming(true) },
         ]}

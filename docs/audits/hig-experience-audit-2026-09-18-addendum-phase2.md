@@ -145,6 +145,7 @@
 - **影响**：面板固定占 60% 视口高，内容超出后在面板内滚动（`overflow-y-auto`，`:91`），用户**无法把面板拉高**以一次看到更多操作项。操作项较多（如 10 项 + 目标网格）时体验受限。
 - **建议修复方向**：至少允许两档（如 `[0.6, 0.9]`）或把档位/手势暴露为 props（`ActivityViewProps` 目前不透传 `detents`/`gestures`）。
 - **验收场景**：390×844 视口、8 个目标 + 8 个操作 → 面板可拉高至近全屏并完整浏览。
+- **修复后记录（2026-09-25）**：默认双档 60%/90%，指示条支持拖动与键盘切档；8 个操作的容器禁止 flex 收缩，低档位可滚动，90% 档完整可见。双主题浏览器和几何回归见增补 §5AA。
 
 #### HIG-AUD-044 MenuBar 层级与溢出提示
 
@@ -676,3 +677,11 @@
 - **文档**：真实 ActivityView 默认演示扩至 8 个目标；组件元数据及双语指南同步边缘渐隐契约。`pnpm run docs:llm:generate` 与 `pnpm run docs:llm:check` exit 0，`docs/llm/pages/{zh-CN,en-US}/components/activity-view.md` 与索引由真实构建更新；同时生成器更新此前未提交 EditMenu 文档对应语料，不属于 042 本身，交接保留，不手工回退。
 - **回归**：`tests/e2e/activity-view-scroll-edges.spec.ts` 在 light/dark 各验 8 目标溢出、滚到尽头提示切换、点击最后目标、键盘 Tab 使隐藏项入视及扩大视口后渐隐移除，共 **4 passed**（`--retries=0`）；相关 Vitest **3 files / 11 passed**、`pnpm run typecheck`/`pnpm run build` exit 0、lint 0 errors（16 条已有告警）、README 双主题截图检查通过。
 - **双主题视觉核查**：临时 Playwright 几何脚本（已删）在 390×844 light/dark 下得到目标行 `(x=16,y≈408.61,w=358,h=76)`、右渐隐 `(x=350,y≈408.61,w=24,h=76)`，贴合行右缘；light 渐变起色 `rgb(255,255,255)`、dark `rgb(0,0,0)`，均符合主题，2 passed。全量 `pnpm test` / `test:docs-layout` 未重跑。
+
+## 5AA. HIG-AUD-043 ActivityView 默认双档及长操作区（2026-09-25）
+
+- **修复**：`src/components/ui/activity-view.tsx` 默认 `detents={[0.6, 0.9]}`，保留指示条、下拉关闭和 `sheetProps` 的覆写能力；`gestures.expandUp=false` 仅限制超过最高档的拖拽，不影响第一档上拉至第二档。长操作组添加 `shrink-0`，避免 flex 把低档位的按钮压缩裁掉；纵向溢出由原有可滚动容器处理。
+- **演示与文档**：默认真实演示保持 8 个分享目标并扩充为 8 个操作；中英文指南和组件元数据同步 60%/90% 档位与适用边界。`pnpm run docs:llm:generate` + `pnpm run docs:llm:check` exit 0，生成的双语 ActivityView 页面及索引同步更新；README 双主题截图检查 exit 0。
+- **回归**：`tests/e2e/activity-view-detents.spec.ts` 双主题实测 390×844：60% 档内容可以纵向滚动，指示条 ArrowUp/ArrowDown 和鼠标模拟拖拽切换两档，90% 档完整看到末项并可点击关闭，**4 passed（无重试）**；与上轮横滚 E2E 合跑 **8 passed**。Vitest ActivityView API/a11y + 双语指南 **3 files / 11 passed**；typecheck/build exit 0、lint 0 errors（16 条既有告警）。
+- **双主题视觉核查**：临时 Playwright 几何脚本（已删）在 light/dark 测 60% 档 sheet `(x=0,y≈337.59,w=390,h≈506.41)`、内容 `(0,≈362.59,390,≈481.41)`；90% 档 sheet `(0,≈84.39,390,≈759.61)`、内容 `(0,≈109.39,390,≈734.61)`，均位于 390×844 视口内，2 passed。浏览器鼠标模拟拖拽不能替代 iOS 手指真机验证；全量 `pnpm test` / `test:docs-layout` 本轮未重跑。
+- **录屏复核（2026-09-25）**：另用 Playwright `video: on` 录制 light/dark 两段 390×844 操作（打开→60% 内滚→抓手上拖至 90%→键盘收起），录像分别 19.08s / 7.40s，VP8、368×800；各抽取视频末帧确认画面确实呈现 UI，而非空白录像。关键帧与三阶段截图复核：两主题 60% 档底部可见部分操作、滚动后完整可达末项，90% 档显示全部八操作，抓手/标题/列表边界无裁切；面板高度 506px→760px、内容可见高度 481px→735px，操作层未越视口。录屏和截图仅保存在忽略目录 `.scratch/hig-043-{light,dark}.webm` 及 `.scratch/hig-043-*.png`，未入库；录像尺寸由 Playwright 视频配置缩放，并非验证视口的实际像素尺寸。真机触摸与 VoiceOver 仍待设备验收。

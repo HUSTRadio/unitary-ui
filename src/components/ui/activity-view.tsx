@@ -19,8 +19,8 @@ import { cn } from "@/lib/utils";
  * title=null 不渲染标题行时回退 aria-label。两个命名属性经 BottomSheet 的
  * aria-label / aria-labelledby 透传到 Dialog 内容上。
  * 选择任意目标或操作后触发回调并关闭面板（HIG：活动是一次性动作）。
- * 手势：渲染触控指示条并支持下拉关闭（单档位 0.6，不支持上拉展开）；
- * 需要多档位拖拽或去掉指示条时用 sheetProps 覆盖。
+ * 手势：默认 60% / 90% 双档，触控指示条可上拉展开、下拉收起；
+ * 需要自定义档位或去掉指示条时用 sheetProps 覆盖。
  *
  * ```tsx
  * <ActivityView
@@ -69,7 +69,7 @@ export interface ActivityViewProps {
   showCancel?: boolean;
   /**
    * 透传给底层 BottomSheet（放在默认配置之后展开，可覆盖 detents / showIndicator /
-   * gestures 等）。需要多档位拖拽或自定义面板高度时用；多数场景保持默认即可。
+   * gestures 等）。默认 60% / 90% 双档；自定义面板高度或手势时用。
    */
   sheetProps?: Partial<Omit<BottomSheetProps, "open" | "onOpenChange" | "children">>;
   className?: string;
@@ -122,9 +122,8 @@ function ActivityView({
     <BottomSheet
       open={open}
       onOpenChange={onOpenChange}
-      detents={[0.6]}
-      // 指示条 + 下拉关闭（HIG：分享面板可下拉收起）；单档位下 resize 只表现为
-      // “跟手下拉 → 松手回弹或关闭”，expandUp:false 把上拉锁在最高档。
+      detents={[0.6, 0.9]}
+      // 指示条可上拉展开到 90%、下拉回到 60%，低于最低档继续下拉可关闭。
       showIndicator
       gestures={{ expandUp: false }}
       // 面板命名（HIG-AUD-040）：标题行存在时关联其 id；title=null 不渲染标题行时
@@ -210,7 +209,7 @@ function ActivityView({
       {actions && actions.length > 0 ? (
         // 操作组（HIG：操作与分享目标是两个视觉组）无描边框：容器只负责用圆角 +
         // overflow 收住行的激活态背景，避免 hover 灰底通栏到面板边缘。
-        <div data-slot="activity-view-actions" className="overflow-hidden rounded-overlay">
+        <div data-slot="activity-view-actions" className="shrink-0 overflow-hidden rounded-overlay">
           {actions.map((action) => (
             <button
               key={action.id}

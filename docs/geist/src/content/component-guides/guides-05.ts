@@ -413,7 +413,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       "需要把复制、打印、存储等操作与分享目标放在同一个底部面板时。",
     ],
     whenNotToUse: [
-      "需要多档位可拖拽的底部弹层——直接用 BottomSheet。",
+      "需要自定义更多高度档位或非分享用途的底部弹层——直接用 BottomSheet。",
       "需要常驻的工具栏操作——用 Toolbar 而非一次性面板。",
     ],
     examples: [
@@ -443,7 +443,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "目标区横向滚动，超出面板宽度时保持单行动线；可滚动的边缘显示渐隐提示，滚动到尽头后消失。",
-        "面板占视口高度 60%，底部留出安全区内边距。",
+        "面板默认占视口高度 60%，可通过顶部指示条上拉或用键盘展开到 90%；底部留出安全区内边距。",
       ],
     },
     themeBehavior: {
@@ -1068,7 +1068,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       "When copy, print, or save actions belong in the same bottom panel as the share targets.",
     ],
     whenNotToUse: [
-      "For a draggable multi-detent bottom layer — use BottomSheet directly.",
+      "For custom height detents or a bottom layer unrelated to sharing — use BottomSheet directly.",
       "For always-available toolbar actions — use a toolbar instead of a one-shot panel.",
     ],
     examples: [
@@ -1099,7 +1099,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "The target row scrolls horizontally so targets stay on a single line when they overflow; a fading edge indicates more targets and disappears at the end.",
-        "The panel takes 60% of the viewport height and reserves bottom safe-area padding.",
+        "The panel starts at 60% of the viewport height and expands to 90% via the top grabber or keyboard; it reserves bottom safe-area padding.",
       ],
     },
     themeBehavior: {
