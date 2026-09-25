@@ -155,6 +155,7 @@
   2. `src/components/ui/menu-bar.tsx:65` 根容器 `overflow-x-auto` 且无边缘提示（同 HIG-AUD-042 的一致性口径）。
 - **建议修复方向**：并入 HIG-AUD-009 的 z 层级统一治理；溢出提示并入 HIG-AUD-042。
 - **验收场景**：在 Modal 内打开 MenuBar 菜单 → 菜单在遮罩之上且可点击。
+- **修复后记录（2026-09-25）**：菜单及子菜单统一使用 `--uni-z-popover`（2001），Modal 内 Save / Export PDF 双主题可点击；菜单栏左右渐隐随横向滚动/尺寸变化切换；320px 子菜单在两侧不足时动态向内移动，保留 Portal 中的真实视口定位。新增 `tests/e2e/menu-bar-overlay.spec.ts` 6 用例，连同 HIG-AUD-038 原回归共 8 passed。独立临时 Playwright 脚本（运行后已删除）双主题 320×700 核查：112px 宽栏 `scrollWidth=130`、右渐隐 16px；子菜单 light 右边界 319.85 / dark 317.97 ≤ 320，浮层 z=2001 > Modal z=300，已截图核查（`.scratch/menu-bar-{light,dark}-{narrow,modal}.png`）。`typecheck`、`build`、文档语料生成及 check、README 截图 check 通过；`typecheck:tests` 的已有跨文件类型错误另列，不作为本任务通过项。
 
 ### 3.3 P3
 

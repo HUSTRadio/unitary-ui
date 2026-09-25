@@ -49,7 +49,7 @@ describe("Menu Bar contract", () => {
   test("HIG-AUD-011/012: mirrors zoom on exit and uses fast-tier duration", () => {
     expect(source).toContain("data-[state=closed]:zoom-out-95");
     expect(source).toContain("duration-(--uni-duration-fast)");
-    expect(source).toContain("z-[var(--uni-z-menu)]");
+    expect(source).toContain("z-[var(--uni-z-popover)]");
   });
 
   test("documents the boundary against Navbar", () => {

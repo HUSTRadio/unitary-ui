@@ -26,7 +26,7 @@ Menu Bar
 
 ### 默认菜单栏
 
-File / Edit / View 三个顶级菜单，含快捷键、子菜单、勾选态与禁用项。
+File / Edit / View 三个顶级菜单，含快捷键、子菜单、勾选态与禁用项；还可打开模态窗口中的菜单。
 
 ## 无障碍
 
@@ -41,8 +41,8 @@ File / Edit / View 三个顶级菜单，含快捷键、子菜单、勾选态与�
 
 ## 响应式行为
 
-- 顶级菜单横向排列，宽度不足时容器横向滚动。
-- 菜单浮层在视口内碰撞翻转，最大高度受限后可滚动。
+- 顶级菜单横向排列，宽度不足时容器横向滚动，边缘渐隐提示尚有隐藏命令。
+- 菜单浮层高于模态窗口与抽屉；子菜单在窄视口会向内移动以避免横向越界，最大高度受限后可滚动。
 
 ## 主题行为
 
@@ -55,6 +55,9 @@ No command yet.
 
 ```tsx
 import * as React from "react";
+
+import { Button } from "@/components/ui/button";
+import { Modal, ModalContent, ModalTitle } from "@/components/ui/modal";
 
 import {
   MenuBar,
@@ -76,6 +79,7 @@ import {
 export function MenuBarDefault1D7F3C05Example() {
   const [showHidden, setShowHidden] = React.useState(false);
   const [log, setLog] = React.useState("No command yet.");
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   return (
     <div className="flex w-full flex-col items-start gap-3">
@@ -129,6 +133,33 @@ export function MenuBarDefault1D7F3C05Example() {
         </MenuBarMenu>
       </MenuBar>
       <p className="text-copy-13 text-gray-900">{log}</p>
+      <Button typeName="button" size="small" onClick={() => setModalOpen(true)}>
+        Open menu in modal
+      </Button>
+      <Modal open={modalOpen} onOpenChange={setModalOpen}>
+        <ModalContent showCloseButton>
+          <ModalTitle>Document commands</ModalTitle>
+          <div className="mt-4 flex flex-col gap-3">
+            <MenuBar>
+              <MenuBarMenu>
+                <MenuBarTrigger>File</MenuBarTrigger>
+                <MenuBarContent>
+                  <MenuBarItem onSelect={() => setLog("Saved in modal")}>Save</MenuBarItem>
+                  <MenuBarSub>
+                    <MenuBarSubTrigger>Export</MenuBarSubTrigger>
+                    <MenuBarSubContent>
+                      <MenuBarItem onSelect={() => setLog("Exported PDF in modal")}>
+                        PDF
+                      </MenuBarItem>
+                    </MenuBarSubContent>
+                  </MenuBarSub>
+                </MenuBarContent>
+              </MenuBarMenu>
+            </MenuBar>
+            <p className="text-copy-13 text-gray-900">{log}</p>
+          </div>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

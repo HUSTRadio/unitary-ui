@@ -34,7 +34,7 @@ import { cn } from "@/lib/utils";
  */
 
 const MENU_BAR_SURFACE =
-  "z-[var(--uni-z-menu)] min-w-48 overflow-x-hidden overflow-y-auto rounded-overlay bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none " +
+  "z-[var(--uni-z-popover)] min-w-48 overflow-x-hidden overflow-y-auto rounded-overlay bg-surface p-1.5 text-foreground shadow-[var(--material-shadow-menu)] outline-none " +
   "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 " +
   "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 " +
   "duration-(--uni-duration-fast) motion-reduce:animate-none!";
@@ -58,17 +58,64 @@ function MenuBarShortcut({ className, children }: { className?: string; children
 const MenuBar = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <MenubarPrimitive.Root
-    ref={ref}
-    data-slot="menu-bar"
-    className={cn(
-      "flex h-9 w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-lg bg-background p-1 shadow-[0_0_0_1px_var(--gray-alpha-400)]",
-      className,
-    )}
-    {...props}
-  />
-));
+>(({ className, onScroll, style, ...props }, ref) => {
+  const [root, setRoot] = React.useState<HTMLDivElement | null>(null);
+  const [edges, setEdges] = React.useState({ left: false, right: false });
+  const updateEdges = React.useCallback(() => {
+    if (!root) return;
+    const left = root.scrollLeft > 1;
+    const right = root.scrollWidth - root.clientWidth - root.scrollLeft > 1;
+    setEdges((previous) =>
+      previous.left === left && previous.right === right ? previous : { left, right },
+    );
+  }, [root]);
+
+  React.useLayoutEffect(() => {
+    if (!root) return;
+    updateEdges();
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(updateEdges);
+    observer?.observe(root);
+    if (root.firstElementChild) observer?.observe(root.firstElementChild);
+    return () => observer?.disconnect();
+  }, [root, updateEdges]);
+
+  const setRefs = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      setRoot(node);
+      if (typeof ref === "function") ref(node);
+      else if (ref) ref.current = node;
+    },
+    [ref],
+  );
+
+  return (
+    <MenubarPrimitive.Root
+      {...props}
+      ref={setRefs}
+      data-slot="menu-bar"
+      data-overflow-left={edges.left || undefined}
+      data-overflow-right={edges.right || undefined}
+      onScroll={(event) => {
+        updateEdges();
+        onScroll?.(event);
+      }}
+      style={{
+        ...style,
+        maskImage: edges.left && edges.right
+          ? "linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent)"
+          : edges.left
+            ? "linear-gradient(to right, transparent, black 16px)"
+            : edges.right
+              ? "linear-gradient(to left, transparent, black 16px)"
+              : style?.maskImage,
+      }}
+      className={cn(
+        "flex h-9 w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-lg bg-background p-1 shadow-[0_0_0_1px_var(--gray-alpha-400)]",
+        className,
+      )}
+    />
+  );
+});
 MenuBar.displayName = "MenuBar";
 
 // 显式注解避免 TS2883：inferred 类型引用了 radix 内部 Scope，无法在 .d.ts 中命名
@@ -205,24 +252,52 @@ MenuBarSubTrigger.displayName = "MenuBarSubTrigger";
 const MenuBarSubContent = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.SubContent>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubContent>
->(({ className, ...props }, ref) => (
-  <MenubarPrimitive.SubContent
-    ref={ref}
-    data-slot="menu-bar-sub-content"
-    className={cn(
-      MENU_BAR_SURFACE,
-      // HIG-AUD-038：子菜单同样受可用高度约束。注意：@radix-ui/react-menubar
-      // 不为 SubContent 生成 `--radix-menubar-sub-content-available-height`
-      // （运行时实测为空），且 @radix-ui/react-menu 不暴露任何 available 变量；
-      // popper 原生变量 `--radix-popper-available-height` 是子菜单元素上唯一
-      // 可用的约束源，与 react-dropdown-menu SubContent 的官方 re-namespace
-      // 做法（var(--radix-popper-available-height)）语义一致。
-      "max-h-[var(--radix-popper-available-height)]",
-      className,
-    )}
-    {...props}
-  />
-));
+>(({ className, ...props }, ref) => {
+  const [content, setContent] = React.useState<HTMLDivElement | null>(null);
+  const [inset, setInset] = React.useState(0);
+  const setRefs = React.useCallback((node: HTMLDivElement | null) => {
+    setContent(node);
+    if (typeof ref === "function") ref(node);
+    else if (ref) ref.current = node;
+  }, [ref]);
+  const updateInset = React.useCallback(() => {
+    if (!content) return;
+    const trigger = document.getElementById(content.getAttribute("aria-labelledby") ?? "");
+    if (!trigger) return;
+    // 两侧都放不下时，允许子菜单与父菜单局部重叠，避免 Popper 翻转后仍越界。
+    const triggerRect = trigger.getBoundingClientRect();
+    const width = content.offsetWidth;
+    setInset(Math.min(0, window.innerWidth - triggerRect.right - width));
+  }, [content]);
+  React.useLayoutEffect(() => {
+    if (!content) return;
+    updateInset();
+    window.addEventListener("resize", updateInset);
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(updateInset);
+    observer?.observe(content);
+    return () => {
+      window.removeEventListener("resize", updateInset);
+      observer?.disconnect();
+    };
+  }, [content, updateInset]);
+
+  return (
+    <MenubarPrimitive.Portal>
+      <MenubarPrimitive.SubContent
+        {...props}
+        ref={setRefs}
+        data-slot="menu-bar-sub-content"
+        className={cn(
+          MENU_BAR_SURFACE,
+          // HIG-AUD-038：子菜单同样受可用高度约束；Radix 提供 popper 原生变量。
+          "max-h-[var(--radix-popper-available-height)]",
+          className,
+        )}
+        sideOffset={inset}
+      />
+    </MenubarPrimitive.Portal>
+  );
+});
 MenuBarSubContent.displayName = "MenuBarSubContent";
 
 export {

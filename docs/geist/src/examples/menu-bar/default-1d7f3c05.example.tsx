@@ -1,5 +1,8 @@
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
+import { Modal, ModalContent, ModalTitle } from "@/components/ui/modal";
+
 import {
   MenuBar,
   MenuBarCheckboxItem,
@@ -20,6 +23,7 @@ import {
 export function MenuBarDefault1D7F3C05Example() {
   const [showHidden, setShowHidden] = React.useState(false);
   const [log, setLog] = React.useState("No command yet.");
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   return (
     <div className="flex w-full flex-col items-start gap-3">
@@ -73,6 +77,31 @@ export function MenuBarDefault1D7F3C05Example() {
         </MenuBarMenu>
       </MenuBar>
       <p className="text-copy-13 text-gray-900">{log}</p>
+      <Button typeName="button" size="small" onClick={() => setModalOpen(true)}>
+        Open menu in modal
+      </Button>
+      <Modal open={modalOpen} onOpenChange={setModalOpen}>
+        <ModalContent showCloseButton>
+          <ModalTitle>Document commands</ModalTitle>
+          <div className="mt-4 flex flex-col gap-3">
+            <MenuBar>
+              <MenuBarMenu>
+                <MenuBarTrigger>File</MenuBarTrigger>
+                <MenuBarContent>
+                  <MenuBarItem onSelect={() => setLog("Saved in modal")}>Save</MenuBarItem>
+                  <MenuBarSub>
+                    <MenuBarSubTrigger>Export</MenuBarSubTrigger>
+                    <MenuBarSubContent>
+                      <MenuBarItem onSelect={() => setLog("Exported PDF in modal")}>PDF</MenuBarItem>
+                    </MenuBarSubContent>
+                  </MenuBarSub>
+                </MenuBarContent>
+              </MenuBarMenu>
+            </MenuBar>
+            <p className="text-copy-13 text-gray-900">{log}</p>
+          </div>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

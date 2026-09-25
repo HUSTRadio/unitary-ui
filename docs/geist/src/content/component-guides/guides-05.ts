@@ -471,7 +471,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
         id: "menu-bar-default",
         kind: "minimal",
         title: "默认菜单栏",
-        description: "File / Edit / View 三个顶级菜单，含快捷键、子菜单、勾选态与禁用项。",
+        description: "File / Edit / View 三个顶级菜单，含快捷键、子菜单、勾选态与禁用项；还可打开模态窗口中的菜单。",
         demoKey: "default",
       },
     ],
@@ -493,8 +493,8 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "顶级菜单横向排列，宽度不足时容器横向滚动。",
-        "菜单浮层在视口内碰撞翻转，最大高度受限后可滚动。",
+        "顶级菜单横向排列，宽度不足时容器横向滚动，边缘渐隐提示尚有隐藏命令。",
+        "菜单浮层高于模态窗口与抽屉；子菜单在窄视口会向内移动以避免横向越界，最大高度受限后可滚动。",
       ],
     },
     themeBehavior: {
@@ -1129,7 +1129,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Default menu bar",
         description:
-          "File, Edit, and View menus with shortcuts, a submenu, a checkbox item, and a disabled item.",
+          "File, Edit, and View menus with shortcuts, a submenu, a checkbox item, and a disabled item; includes an interactive menu inside a modal.",
         demoKey: "default",
       },
     ],
@@ -1151,8 +1151,8 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Top-level menus sit in a row and the bar scrolls horizontally when space runs out.",
-        "Menu surfaces flip on viewport collision and scroll once they hit the max height.",
+        "Top-level menus sit in a row; the bar scrolls horizontally with fading edges to signal hidden commands.",
+        "Menu surfaces stack above modals and drawers; submenus shift inward on narrow screens to stay within the viewport, and scroll once they hit the max height.",
       ],
     },
     themeBehavior: {

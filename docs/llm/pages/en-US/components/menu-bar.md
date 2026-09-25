@@ -26,7 +26,7 @@ A horizontal bar of application menus with keyboard shortcuts, submenus, and che
 
 ### Default menu bar
 
-File, Edit, and View menus with shortcuts, a submenu, a checkbox item, and a disabled item.
+File, Edit, and View menus with shortcuts, a submenu, a checkbox item, and a disabled item; includes an interactive menu inside a modal.
 
 ## Accessibility
 
@@ -41,8 +41,8 @@ File, Edit, and View menus with shortcuts, a submenu, a checkbox item, and a dis
 
 ## Responsive behavior
 
-- Top-level menus sit in a row and the bar scrolls horizontally when space runs out.
-- Menu surfaces flip on viewport collision and scroll once they hit the max height.
+- Top-level menus sit in a row; the bar scrolls horizontally with fading edges to signal hidden commands.
+- Menu surfaces stack above modals and drawers; submenus shift inward on narrow screens to stay within the viewport, and scroll once they hit the max height.
 
 ## Theme behavior
 
@@ -55,6 +55,9 @@ No command yet.
 
 ```tsx
 import * as React from "react";
+
+import { Button } from "@/components/ui/button";
+import { Modal, ModalContent, ModalTitle } from "@/components/ui/modal";
 
 import {
   MenuBar,
@@ -76,6 +79,7 @@ import {
 export function MenuBarDefault1D7F3C05Example() {
   const [showHidden, setShowHidden] = React.useState(false);
   const [log, setLog] = React.useState("No command yet.");
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   return (
     <div className="flex w-full flex-col items-start gap-3">
@@ -129,6 +133,33 @@ export function MenuBarDefault1D7F3C05Example() {
         </MenuBarMenu>
       </MenuBar>
       <p className="text-copy-13 text-gray-900">{log}</p>
+      <Button typeName="button" size="small" onClick={() => setModalOpen(true)}>
+        Open menu in modal
+      </Button>
+      <Modal open={modalOpen} onOpenChange={setModalOpen}>
+        <ModalContent showCloseButton>
+          <ModalTitle>Document commands</ModalTitle>
+          <div className="mt-4 flex flex-col gap-3">
+            <MenuBar>
+              <MenuBarMenu>
+                <MenuBarTrigger>File</MenuBarTrigger>
+                <MenuBarContent>
+                  <MenuBarItem onSelect={() => setLog("Saved in modal")}>Save</MenuBarItem>
+                  <MenuBarSub>
+                    <MenuBarSubTrigger>Export</MenuBarSubTrigger>
+                    <MenuBarSubContent>
+                      <MenuBarItem onSelect={() => setLog("Exported PDF in modal")}>
+                        PDF
+                      </MenuBarItem>
+                    </MenuBarSubContent>
+                  </MenuBarSub>
+                </MenuBarContent>
+              </MenuBarMenu>
+            </MenuBar>
+            <p className="text-copy-13 text-gray-900">{log}</p>
+          </div>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
