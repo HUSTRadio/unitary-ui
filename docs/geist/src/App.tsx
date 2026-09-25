@@ -189,7 +189,7 @@ export default function App() {
               {group.items.map((item) => (
                 <CommandMenuItem
                   key={item.to}
-                  value={getRouteSearchText(group, item)}
+                  value={getRouteSearchText(item)}
                   onSelect={() => navigate(item.to)}
                 >
                   {language === "zh-CN" ? (item.labelZh ?? item.label) : item.label}

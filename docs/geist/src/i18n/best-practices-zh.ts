@@ -191,6 +191,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
   ],
   "edit-menu": [
     "对当前文本选区执行操作使用 EditMenu；对右键或长按唤出的对象操作使用 ContextMenu。",
+    "EditMenu 在触屏、鼠标和键盘选区中均使用横向工具条；按钮支持左右方向键和 Home/End 导航。",
     "只为真正实现了的操作传入回调——EditMenu 会省略没有回调的标准操作，而不是显示一个点了没反应的项。",
     "Cut 视为“复制 + 调用方删除”：组件复制选区文本，再把文本交给 onCut 处理删除。",
     "Paste 交给调用方自行读取剪贴板，避免为组件申请剪贴板读权限。",

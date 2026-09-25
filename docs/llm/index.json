@@ -162,7 +162,7 @@
       },
       "sourceHash": {
         "zh-CN": "sha256:fa46d4442058443b28ce87b0809884c7ce4e5e19e5c579ea076a8ce6e0460c40",
-        "en-US": "sha256:2fe96dae41778d4a5ed5e1173dfdd005b047f1c827ad4141608fe5824e1d3430"
+        "en-US": "sha256:d2090e2ce7ed27e500883497660e003c66ce607296b4a1689130cade36abbe1e"
       }
     },
     {
@@ -257,8 +257,8 @@
         "en-US": "pages/en-US/components/edit-menu.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:6a71376a4d4dcf653721931098be080520b13a2277bf4af554322f350c631964",
-        "en-US": "sha256:6723d32c5a10220d961b31b9bb17fc9983e97eef223b52bf9b3587e05c233709"
+        "zh-CN": "sha256:5a9b7b9a0a96965a30d34931b27f9e7c103aa0cceec5714d2e2512f1b14da74f",
+        "en-US": "sha256:13e7e87af1c94147cbec6480731e31c87195d47a758be3e51c70a6872a5c3f9f"
       }
     },
     {
@@ -1521,8 +1521,8 @@
         "en-US": "pages/en-US/components/activity-view.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:ea6af5a323a64a3f7f92ff7c074ccaa52e7df56cd768a7f53bbcf31bd8768afb",
-        "en-US": "sha256:61c1955fe9026bd5c997a5c6b8f861f51e5e74a45c09b0d87a1d3a692d8a0582"
+        "zh-CN": "sha256:73c98608e29c4857e587b414a3e25408afece84379a93c7a4183b5c32e38407a",
+        "en-US": "sha256:48320265e67f1f6a757af800c68c747fc15b42a21db11a8a18cb564f162b6e3f"
       }
     },
     {

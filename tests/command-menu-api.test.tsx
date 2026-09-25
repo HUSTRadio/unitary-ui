@@ -132,7 +132,11 @@ describe("CommandMenu official runtime contract", () => {
     setNativeValue(input, "missing command");
     const empty = document.querySelector<HTMLElement>("[cmdk-empty]")!;
     expect(empty.getAttribute("role")).toBe("presentation");
-    expect(empty.textContent).toBe('No results found for "missing command".');
+    const status = empty.querySelector<HTMLElement>("[role='status']")!;
+    expect(status.getAttribute("aria-live")).toBe("polite");
+    expect(status.getAttribute("aria-atomic")).toBe("true");
+    expect(status.textContent).toBe('No results found for "missing command".');
+    expect(document.activeElement).toBe(input);
     expect(empty.className).toContain("text-center");
     expect(empty.className).not.toContain("text-left");
     expect(empty.className).toContain("text-copy-16");
@@ -239,6 +243,8 @@ describe("CommandMenu official runtime contract", () => {
     expect(dialog.className).toContain("max-grid-sm:top-auto");
     expect(dialog.className).toContain("max-grid-sm:h-[80vh]");
     expect(dialog.className).toContain("max-grid-sm:max-h-[80vh]");
+    expect(dialog.className).toContain("max-grid-sm:supports-[height:100dvh]:h-[80dvh]");
+    expect(dialog.className).toContain("max-grid-sm:supports-[height:100dvh]:max-h-[80dvh]");
     expect(dialog.className).toContain("max-grid-sm:w-full");
     expect(dialog.className).toContain("max-grid-sm:max-w-full");
     expect(dialog.className).toContain("max-grid-sm:translate-x-0");

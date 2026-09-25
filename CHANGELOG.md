@@ -6,6 +6,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- **EditMenu 选区操作列统一横向**：编辑区域选中文字后，触屏、鼠标和键盘均显示横向胶囊工具条（`role="toolbar"`、左右方向键及 Home/End），与右键唤出的竖向 ContextMenu 区分；保留触摸生成鼠标事件防闪烁、选区锚定与视口边界保护。双主题浏览器及键盘回归覆盖横向布局。
+
 ### Added
 
 - **HIG-AUD-023/024 公共组件文档与入口对齐**：`SidebarNav`、`Navbar`、`Footer`、`HamburgerMenu` 补齐独立文档页、双语指南、API 与可交互示例；`SidePanel` 及标题、描述、关闭子组件和类型从包根导出并补齐同等文档链。既有 `Phone`/`PhoneScreen`、`SkeletonMask`、`RatingPill` 分别由 Device、Skeleton、Feedback 页显式承接；导出到文档 owner 的双语、API 符号和示例一致性新增门禁。

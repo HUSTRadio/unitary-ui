@@ -6,6 +6,10 @@ All notable changes to this project are documented in this file. The format foll
 
 ## [Unreleased]
 
+### Fixed
+
+- **Horizontal EditMenu selection actions**: touch, mouse, and keyboard text selection now share a horizontal capsule toolbar (`role="toolbar"`, Left/Right arrows, and Home/End), distinct from the vertical right-click ContextMenu. Touch-generated mouse-event suppression, selection anchoring, and viewport clamping remain in place. Browser and keyboard checks cover the layout in both themes.
+
 ### Added
 
 - **HIG-AUD-023/024 public exports and documentation**: adds dedicated pages, bilingual guides, API tables, and live examples for `SidebarNav`, `Navbar`, `Footer`, and `HamburgerMenu`; exports `SidePanel`, its title/description/close primitives and types from the package root with the same documentation coverage. Existing `Phone`/`PhoneScreen`, `SkeletonMask`, and `RatingPill` are explicitly owned by the Device, Skeleton, and Feedback pages. A new parity gate checks exports against owners, bilingual guides, API symbols, and examples.

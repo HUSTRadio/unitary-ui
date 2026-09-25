@@ -6,14 +6,13 @@ import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 /**
- * EditMenu — Apple HIG「Edit Menus」的 Geist 化实现：文本选择后浮现的横向胶囊式编辑操作条。
+ * EditMenu — 选区驱动的横向胶囊编辑工具条，适用于触屏、鼠标和键盘选区。
  *
  * **与 ContextMenu 的区别（两种组件，勿混用）**
  * - ContextMenu：右键 / 长按触发的**竖向操作菜单**，菜单语义（role=menu），
  *   面向"对某个对象执行操作"。
- * - EditMenu：**选区驱动**的横向胶囊条（iOS 选中文字后的 Cut / Copy / Paste 胶囊），
- *   浮层锚定选区矩形（非触发器），操作对象是"当前选中的文本"，
- *   工具条语义（role=toolbar）。触发机制、形态、语义均不同，故独立实现。
+ * - EditMenu：**选区驱动**，浮层锚定文本选区矩形（非触发器）；始终使用
+ *   role=toolbar 的横向胶囊，操作对象是"当前选中的文本"，而非右键触发的对象。
  *
  * **行为要点（HIG）**
  * - 仅在容器内存在有效文本选区时浮现；选区变化 / 滚动 / 缩放 / 点击他处即隐藏。
@@ -522,8 +521,10 @@ function EditMenu({
       <div
         ref={capsuleRef}
         role="toolbar"
+        aria-orientation="horizontal"
         aria-label={t("Edit menu")}
         data-slot="edit-menu-capsule"
+        data-presentation="capsule"
         data-placement={position?.placement}
         data-exiting={exiting ? "" : undefined}
         // mousedown 阻止默认：点击胶囊不清除当前选区（否则 click 前选区已消失）
@@ -536,7 +537,6 @@ function EditMenu({
             setSelection(null);
             return;
           }
-          // HIG-AUD-004：toolbar 的 APG 键盘模型——方向键在项间循环移动，Home/End 跳首尾。
           if (
             event.key !== "ArrowRight" &&
             event.key !== "ArrowLeft" &&
@@ -577,7 +577,7 @@ function EditMenu({
           // touch-manipulation：胶囊是按钮组，去掉双击缩放判定带来的点击延迟
           // （页面级滚动/缩放不受影响——容器不加 touch-action，见 HIG-AUD-020 台账）
           // -webkit-touch-callout：长按胶囊同样不弹出原生 callout
-          "flex max-w-[calc(100vw-16px)] touch-manipulation [-webkit-touch-callout:none] items-center gap-0.5 overflow-x-auto rounded-full bg-[var(--color-bg-elevated)] p-1 shadow-[var(--material-shadow-menu)]",
+          "flex max-w-[calc(100vw-16px)] items-center gap-0.5 overflow-x-auto rounded-full touch-manipulation [-webkit-touch-callout:none] bg-[var(--color-bg-elevated)] p-1 shadow-[var(--material-shadow-menu)]",
           "z-[var(--uni-z-popover)] duration-(--uni-duration-fast) motion-reduce:animate-none!",
           exiting
             ? "animate-out fade-out-0 zoom-out-95 pointer-events-none"
@@ -589,7 +589,11 @@ function EditMenu({
         {items.map((item, index) => (
           <React.Fragment key={item.id}>
             {actions && index === items.length - actions.length && index !== 0 ? (
-              <span aria-hidden className="mx-0.5 h-4 w-px shrink-0 bg-gray-alpha-400" />
+              <span
+                role="separator"
+                aria-orientation="vertical"
+                className="mx-0.5 h-4 w-px shrink-0 bg-gray-alpha-400"
+              />
             ) : null}
             <button
               type="button"
@@ -604,7 +608,7 @@ function EditMenu({
               }
               className={cn(
                 // pointer-coarse：触屏命中区 ≥44×44（HIG-AUD-013）；桌面维持 28px 胶囊
-                "flex h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2.5 text-label-13 text-gray-1000 outline-none transition-colors pointer-coarse:min-h-11 pointer-coarse:min-w-11",
+                "flex h-7 shrink-0 items-center gap-1 rounded-full px-2.5 whitespace-nowrap text-label-13 text-gray-1000 outline-none transition-colors pointer-coarse:min-h-11 pointer-coarse:min-w-11",
                 "hover:bg-gray-alpha-100 focus-visible:bg-gray-alpha-100",
                 "disabled:pointer-events-none disabled:text-gray-700",
               )}

@@ -14,6 +14,7 @@ import { expect, test, type Page } from "@playwright/test";
  */
 
 const CAPSULE = '[data-slot="edit-menu-capsule"]';
+const EDIT_TOOLBAR = `${CAPSULE}[data-presentation="capsule"]`;
 const CONTAINER = '[data-slot="edit-menu"]';
 const PARAGRAPH = `${CONTAINER} p`;
 const INITIAL_TEXT =
@@ -127,7 +128,7 @@ test.describe("HIG-AUD-020 touch race", () => {
     await selectTextRange(page, 0, INITIAL_TEXT.length);
     await page.waitForTimeout(200);
 
-    await expect(page.locator(CAPSULE)).toBeVisible();
+    await expect(page.locator(EDIT_TOOLBAR)).toHaveAttribute("role", "toolbar");
     await installCapsuleStateRecorder(page);
 
     const box = await paragraph.boundingBox();
@@ -143,7 +144,7 @@ test.describe("HIG-AUD-020 touch race", () => {
     expect(states).not.toContain("exiting");
     expect(states).not.toContain("absent");
 
-    const capsule = page.locator(CAPSULE);
+    const capsule = page.locator(EDIT_TOOLBAR);
     await expect(capsule).toBeVisible();
     expect(await capsule.getAttribute("data-exiting")).toBeNull();
 
@@ -210,7 +211,7 @@ test.describe("HIG-AUD-021 bottom clamp", () => {
       await primePointerInteraction(page, "touch");
       await selectTextRange(page, 0, INITIAL_TEXT.length);
       await page.waitForTimeout(400);
-      await expect(page.locator(CAPSULE)).toBeVisible();
+      await expect(page.locator(EDIT_TOOLBAR)).toBeVisible();
 
       const geometry = await page.evaluate(
         ({ selector, paragraphSelector }) => {
@@ -243,6 +244,43 @@ test.describe("HIG-AUD-021 bottom clamp", () => {
   }
 });
 
+test.describe("EditMenu horizontal selection toolbar (HIG-AUD-036 product decision)", () => {
+  test.use({ viewport: { width: 900, height: 800 } });
+
+  test("mouse selection opens a horizontal keyboard-operable toolbar in both themes", async ({ page }) => {
+    for (const theme of ["light", "dark"] as const) {
+      await openDemo(page, theme);
+      await page.locator(PARAGRAPH).first().scrollIntoViewIfNeeded();
+      await primePointerInteraction(page, "mouse");
+      await selectTextRange(page, 7, 16);
+      const menu = page.locator(EDIT_TOOLBAR);
+      await expect(menu).toHaveAttribute("role", "toolbar");
+      await expect(menu).toHaveAttribute("aria-orientation", "horizontal");
+      const first = menu.getByRole("button", { name: "Cut" });
+      await first.focus();
+      await page.keyboard.press("ArrowRight");
+      await expect(menu.getByRole("button", { name: "Copy" })).toBeFocused();
+      const geometry = await menu.evaluate((node) => {
+        const rect = node.getBoundingClientRect();
+        const firstItem = node.querySelector("button")!.getBoundingClientRect();
+        const secondItem = node.querySelectorAll("button")[1].getBoundingClientRect();
+        return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom,
+          firstX: firstItem.x, secondX: secondItem.x, firstY: firstItem.y, secondY: secondItem.y,
+          viewportWidth: innerWidth, viewportHeight: innerHeight };
+      });
+      expect(geometry.secondX).toBeGreaterThan(geometry.firstX);
+      expect(Math.abs(geometry.secondY - geometry.firstY)).toBeLessThanOrEqual(1);
+      // 缩放入场的亚像素取整会让 8px 边距短暂显示为 7.98px。
+      expect(geometry.left).toBeGreaterThanOrEqual(7.5);
+      expect(geometry.right).toBeLessThanOrEqual(geometry.viewportWidth - 7.5);
+      expect(geometry.top).toBeGreaterThanOrEqual(7.5);
+      expect(geometry.bottom).toBeLessThanOrEqual(geometry.viewportHeight - 7.5);
+      await page.keyboard.press("Escape");
+      await expect(menu).toHaveCount(0);
+    }
+  });
+});
+
 test.describe("HIG-AUD-021 clipboard contract", () => {
   test.use({ viewport: { width: 900, height: 800 } });
 
@@ -252,7 +290,8 @@ test.describe("HIG-AUD-021 clipboard contract", () => {
     await primePointerInteraction(page, "mouse");
     // " any words"（含前导空格）→ 已 trim = "any words"
     await selectTextRange(page, 6, 16);
-    await expect(page.locator(CAPSULE)).toBeVisible();
+    await expect(page.locator(EDIT_TOOLBAR)).toHaveAttribute("role", "toolbar");
+    await expect(page.locator(`${EDIT_TOOLBAR} button`)).toHaveCount(6);
 
     await (await capsuleAction(page, "Cut")).click();
     await page.waitForTimeout(200);
@@ -278,7 +317,7 @@ test.describe("HIG-AUD-021 clipboard contract", () => {
     await page.locator(PARAGRAPH).first().scrollIntoViewIfNeeded();
     await primePointerInteraction(page, "mouse");
     await selectTextRange(page, 0, INITIAL_TEXT.length);
-    await expect(page.locator(CAPSULE)).toBeVisible();
+    await expect(page.locator(EDIT_TOOLBAR)).toBeVisible();
 
     await (await capsuleAction(page, "Cut")).click();
     await page.waitForTimeout(200);

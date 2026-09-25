@@ -276,7 +276,7 @@ Edit Menu
 
 ### Edit Menu
 
-A floating capsule toolbar of edit actions that appears over an active text selection.
+A selection-driven horizontal edit toolbar that appears beside selected text across touch, pointer, and keyboard input.
 
 ](#/components/edit-menu)[
 

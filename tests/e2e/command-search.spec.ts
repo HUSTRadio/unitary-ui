@@ -48,7 +48,13 @@ test("chinese search finds the same routes while ui is zh-CN", async ({ page }) 
 
 test("english search still works after switching ui to zh-CN", async ({ page }) => {
   await openHome(page, "zh-CN");
-  await searchAndSelect(page, "toast", /轻提示/);
+  const input = await openCommandMenu(page);
+  await input.fill("toast");
+  const selected = page.locator('[role="option"][data-selected="true"]');
+  await expect(selected).toHaveText("轻提示");
+  await expect(page.getByRole("option").first()).toHaveText("轻提示");
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(/轻提示/);
 });
 
 test("chinese search works while the ui is en-US", async ({ page }) => {
@@ -61,6 +67,11 @@ test("unknown term shows an empty state and escapes cleanly", async ({ page }) =
   const input = await openCommandMenu(page);
   await input.fill("zzzznotacomponent");
   await expect(page.getByRole("option")).toHaveCount(0);
+  const empty = page.getByRole("status");
+  await expect(empty).toHaveText('No results found for "zzzznotacomponent".');
+  await expect(empty).toHaveAttribute("aria-live", "polite");
+  await expect(empty).toHaveAttribute("aria-atomic", "true");
+  await expect(input).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).toBeHidden();
 });

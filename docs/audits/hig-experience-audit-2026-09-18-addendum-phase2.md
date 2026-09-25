@@ -136,6 +136,7 @@
 - **影响**：目标多于 4–5 个时，用户不知道右侧还有内容（HIG「share sheet 上方为横向滚动的目标区」）。
 - **建议修复方向**：复用 `Scroller` 组件或补边缘渐隐 token；或在目标区改为可换行网格（HIG 允许 grid）。
 - **验收场景**：目标 8 个时，右侧出现可见的溢出提示；键盘 Tab 到被裁切的目标时容器自动滚动入视。
+- **修复后记录（2026-09-25）**：已按实际 `scrollWidth/clientWidth/scrollLeft` 显示/移除双向渐隐；Portal 挂载后的回调 ref 与 ResizeObserver 保持状态同步。八目标双主题、键盘、点击透传和尺寸变化浏览器回归通过，证据见增补 §5Z。
 
 #### HIG-AUD-043 ActivityView 固定单档位且禁用扩展，长操作列表无法放大查看
 
@@ -642,3 +643,36 @@
 - **实现**：SidePanel、SidePanelTitle、SidePanelDescription、SidePanelClose 及对应 props 类型由 `src/lib/index.ts` 正式公开；上述五页均新增组件元数据、导航分组、双语 API/指南和 live demo。合并页 Device 补 Phone/PhoneScreen 显式导出；Feedback 补 RatingPill 导出和专属 `value` / `onValueChange` API，保留原有 `onSubmit`、`defaultValue` 等公共条目语义。
 - **守护**：`library-docs-export-parity.test.ts` 按 TypeScript AST 提取包根值导出，显式映射多 owner 的 layout、Phone、SkeletonMask、RatingPill 和图表；逐 owner 检查注册、API、两语言指南、运行示例，按符号并集校验公共导出。另固定已核实的 8 个公共模块，防止移除入口使检查静默通过；非组件的 chart-colors 纯工具单独精确豁免。`docs-coverage` 官方快照外扩展页枚举同步更新，`component-api-registry` 校验 SidePanel 与 RatingPill 契约。
 - **生成**：执行 `pnpm run docs:llm:generate` 得 109 路由 × 2 语言 = 218 页，随后 `pnpm run docs:llm:check` exit 0，无漂移。真实浏览器与最终门禁记录见交付书 §7.13。
+
+## 5V. HIG-AUD-036 EditMenu 指针设备菜单形态（2026-09-24）
+
+- **原始验收口径**：主报告 §4.4 要求鼠标/键盘选区为竖向菜单、触屏为横向胶囊；上一轮已实现并获得 Chromium 6 passed，但未提交，以下记录保留作历史证据。
+- **产品决策（同日覆盖上一轮）**：编辑域内选中文字后即时浮出的按钮列应始终横向，包括鼠标、键盘和触屏；右键或对象操作另由竖向 `ContextMenu` 承担。故撤回按 `pointerType` / `useInputModality` 分形态的实现；`EditMenu` 统一 `role="toolbar"`、横向胶囊、左右键与 Home/End，触摸合成鼠标事件防闪烁、选区锚定、视口 clamp、剪贴板失败语义及 Escape 保持不变。**按原 HIG-AUD-036 竖向验收标准为有意偏离，待审核决策，不视为已修复**。
+- **可验证范围**：横向方案定向单测 25 passed（鼠标/键盘/触屏共用 toolbar 语义与左右键焦点）；`tests/e2e/edit-menu.spec.ts` Chromium 6 passed（触屏点击和底部定位、桌面双主题按钮同行几何、视口边界、向右导航与剪切回调）；另临时文档站视觉探针浅/深两项通过并已删除，截图见本地 `.scratch/edit-toolbar-horizontal-{light,dark}.png`。上一轮双形态 6 passed 仅代表被撤回的实现，不能作为本方案证据。iOS WebKit 原生 callout/长按与真机 AT 行为仍待验。
+- **文档**：双语组件卡片、指南、最佳实践与 CHANGELOG 同步横向产品决策；由文档构建重生成 LLM 语料并通过 `docs:llm:check`，README 双主题截图一致性检查通过。门禁与状态见交付书 §7.14。
+
+## 5W. HIG-AUD-053 命令面板搜索相关性（2026-09-24）
+
+- **修复前复现**：`pnpm exec playwright test tests/e2e/command-search.spec.ts --retries=0 --timeout=30000` 的 5 用例中 1 failed：zh-CN 输入 `toast` 后 Enter 落到「堆叠」。主报告 §4.1 的原始证据保留。
+- **最小修复**：`docs/geist/src/data/docs-routes.ts` 的 `getRouteSearchText` 仅索引条目中英文标签和别名；`docs/geist/src/App.tsx` 不再传入组名。组标题仍渲染于命令面板，但不再逐项拼进 cmdk 子序列匹配文本，避免早于「轻提示」的 Stack 被误选。公共 `CommandMenu` 的筛选规则未改。
+- **回归**：`tests/docs-command-search.test.tsx` 覆盖双语条目、别名和 Stack 不带 `organization`（3 passed）；`tests/e2e/command-search.spec.ts` 在 zh-CN 下明确断言 `toast` 首个可见选项及默认选中项均为「轻提示」，然后按 Enter 导航（全套 5 passed，`--retries=0`）。`pnpm run typecheck` 与 `pnpm run build` 均 exit 0。
+- **双主题视觉核查**：临时 Playwright 用例（已删除）在 light/dark 测得面板 `x=320..960, y=108..249`，选中行 `x=328..952, y=205..241`、高 36px，两主题几何一致且行完整落在面板内，2 passed。全量 `pnpm test` / `pnpm run test:docs-layout` 本轮未重跑；历史失败不能当作当前结果。
+
+## 5X. HIG-AUD-026 动态视口浮层高度（2026-09-24）
+
+- **修复**：`command-menu` 的移动端高度/上限在旧 `80vh` 后添加 `@supports(height:100dvh)` 下的 `80dvh` 覆盖；`modal`（含 center/top）和 `destructive-action-modal` 的 `min(800px,80vh)` 上限也按同样方式覆写为 `min(800px,80dvh)`。保留原有内滚动方式、定位、公共属性与回退。
+- **守护**：更新三组件契约测试以同时锁定 `vh` 回退和 `dvh` 覆盖，定向 Vitest 3 文件 / 19 passed。新增永久 E2E `tests/e2e/overlay-dynamic-viewport.spec.ts`：对三种真实文档站 demo、light/dark、390×700→390×320 实测尺寸与视口内位置；CommandMenu/Modal 验证内部可滚动，共 6 passed（`--retries=0`）。`pnpm run typecheck`、`pnpm run build` exit 0；生产 CSS 实测包含 `80dvh`、`@supports (height:100dvh)` 和旧 `80vh`。
+- **视觉核查**：临时 Playwright 测量脚本（已删除）在 390×320 下得到双主题相同的面板几何：CommandMenu `(0,64,390,256)`；Modal `(10,0,370,256)`；DestructiveActionModal `(0,32,390,256)`，均不越界，2 passed。浏览器缩放视口**不等于**移动地址栏展开/收缩，本机无法证明真机行为；该场景仍需移动设备复核。全量 `test:docs-layout` 和 `pnpm test` 未因本项重跑。
+
+## 5Y. HIG-AUD-028 分诊 / 030 命令面板子项（2026-09-25）
+
+- **028 待闭环**：临时 Playwright（已删除）在 light/dark，1280×620 下测 Sheet/Modal/Menu 打开前、打开后、Escape 后，三项的 `main` 均 `(x=30,w=1220)`、触发按钮 `x=363`，`documentElement.clientWidth=innerWidth=1280`，body 锁定时 `overflow=clip`、`padding-right=0`。环境使用覆盖式滚动条，无经典滚动条占位；另一次强行改写 `window.innerWidth` 使其与 `clientWidth` 差 15px，虽然使打开后中心偏移 7.5px，但并非真实滚动条渲染，**不能据此证明实际平台缺陷**。未改公共 CSS，需在真实经典滚动条环境再测；避免叠加 `scrollbar-gutter` 与 Radix 内置补偿造成双倍留白。
+- **030 第 2 子项已定向修复，整条仍待闭环**：cmdk v1.1.1 内部在 `Command.Empty` 的 props 后强制覆写 `role=presentation`，单纯传入 `role=status` 无效（浏览器实际 DOM 已证实）。在空结果外壳内嵌 `span role=status aria-live=polite aria-atomic=true`，保留原文案和焦点；`tests/command-menu-api.test.tsx` 8 passed，`tests/e2e/command-search.spec.ts` 5 passed（无结果状态在可访问树被 `getByRole('status')` 找到，输入仍聚焦，`--retries=0`）。`pnpm run typecheck` / `pnpm run build` exit 0；`pnpm run lint` 0 errors，16 条现有文件警告。
+- **视觉核查**：临时 Playwright 用例（已删除）于 390×700 light/dark 两主题测无结果提示和面板边界，各 1 passed；无结果文字与行框均位于面板内，两主题一致。观测到原有移动列表 flex 下行框左对齐而非整个面板居中（x≈8..307，面板 x≈0..390），不是本次 status 子项引入，未扩展改动；NVDA/VoiceOver 的**实际播报**仍需设备验证，且 toast/edit-menu 两子项未修。全量 `test:docs-layout` / `pnpm test` 本轮未重跑。
+
+## 5Z. HIG-AUD-042 ActivityView 分享目标横滚提示（2026-09-25）
+
+- **修复**：`src/components/ui/activity-view.tsx` 保留原有单行水平滚动、按钮、选中后关闭和 Radix 底部浮层语义；以回调 ref 等待 Portal 中目标行挂载，在 `useLayoutEffect` 测量 `scrollWidth/clientWidth/scrollLeft`，并用 `ResizeObserver`/`onScroll` 更新左右两端的不可交互渐隐。无溢出不显示，到达左右边界后仅保留仍可滚动方向提示；有焦点的隐藏按钮依靠原生浏览器滚动入视，不新增焦点行为。
+- **文档**：真实 ActivityView 默认演示扩至 8 个目标；组件元数据及双语指南同步边缘渐隐契约。`pnpm run docs:llm:generate` 与 `pnpm run docs:llm:check` exit 0，`docs/llm/pages/{zh-CN,en-US}/components/activity-view.md` 与索引由真实构建更新；同时生成器更新此前未提交 EditMenu 文档对应语料，不属于 042 本身，交接保留，不手工回退。
+- **回归**：`tests/e2e/activity-view-scroll-edges.spec.ts` 在 light/dark 各验 8 目标溢出、滚到尽头提示切换、点击最后目标、键盘 Tab 使隐藏项入视及扩大视口后渐隐移除，共 **4 passed**（`--retries=0`）；相关 Vitest **3 files / 11 passed**、`pnpm run typecheck`/`pnpm run build` exit 0、lint 0 errors（16 条已有告警）、README 双主题截图检查通过。
+- **双主题视觉核查**：临时 Playwright 几何脚本（已删）在 390×844 light/dark 下得到目标行 `(x=16,y≈408.61,w=358,h=76)`、右渐隐 `(x=350,y≈408.61,w=24,h=76)`，贴合行右缘；light 渐变起色 `rgb(255,255,255)`、dark `rgb(0,0,0)`，均符合主题，2 passed。全量 `pnpm test` / `test:docs-layout` 未重跑。

@@ -320,6 +320,7 @@
   b. 给 `CommandMenu` 的 `Command` 传自定义 `filter`（精确/前缀命中优先，子序列降权）；
   c. 保留拼接但把分组名移到 value 末尾并自定义 filter 弱化非 label 段权重。
 - **验收场景**：`pnpm run test:docs-layout` 中 `command-search.spec.ts` 全绿（本条即由该用例守护）；zh-CN 搜 "toast" 首个选中项为「轻提示」。
+- **修复后记录（2026-09-24）**：已修复并定向运行确认；历史失败与根因证据保留在上文。实现和验收见增补 §5W；全量 `test:docs-layout` 尚未重跑，不能据此宣称全量门禁通过。
 - **附带**：本次 `test:docs-layout` 的 2 个 flaky（`docs-layout.spec.ts` chunk 7/11 light 首试 90s 超时后 retry 通过、aggregate-gate retry 通过）均为 dev server 冷启动性能波动，**非产品缺陷**。
 
 ---
@@ -653,6 +654,7 @@
 - **建议修复方向**：用 `useInputModality()` 分流——粗指针呈现横向胶囊，细指针/键盘呈现竖向菜单（或直接把该场景交给 `ContextMenu`，并在文档写明分工）。
 - **验收场景**：桌面拖选文本 → 呈现竖向菜单；触屏长按选中 → 呈现横向胶囊；两者都能用键盘操作。
 - **补充（同一原文）**：「Support **undo and redo** when possible. Like all menus, an edit menu doesn't require confirmation before performing its actions, so people can easily use undo and redo to recover a previous state.」→ Cut 不做确认的前提是**存在撤销**。本库的 `onCut` 只把文本交给调用方，**库侧不提供撤销**，这使 HIG-AUD-021 第 3 点（复制失败仍触发 `onCut`）从「不便」升级为**潜在数据丢失**：若调用方未实现撤销，误触 Cut 不可恢复。建议在 `edit-menu` 文档中明确「调用方必须提供撤销或确认」。
+- **2026-09-24 状态更新**：曾实现并在 Chromium 验证按输入方式拆分的竖向/横向布局（增补 §5V 原始记录）；随后产品反馈明确要求编辑域即时选区按钮列保持横向，不论输入设备，故撤回竖向形态。当前实现与原 HIG-AUD-036 的「桌面竖向菜单」验收条件不一致：按原 HIG 口径应标记为**有意偏离／待审核决策**，不可称其已修复。见增补 §5V / 交付书 §7.14。保留原证据与修复方向供对照。
 
 #### HIG-AUD-037 破坏性菜单项无二次确认
 
@@ -689,6 +691,7 @@
 - **影响**：移动端地址栏收缩/展开时内容被截断或出现跳动。
 - **建议修复方向**：统一改用 `dvh`（并保留 `vh` 作为回退，如 `max-h-[80vh]` → `max-h-[80dvh]`）。
 - **验收场景**：移动视口下滚动隐藏地址栏，浮层内容不被截断。
+- **修复后记录（2026-09-24）**：三处均添加 `dvh` 动态高度及 `vh` 回退；本机 Chromium 双主题缩放视口的尺寸/滚动断言通过，真实移动浏览器地址栏变化仍需设备验证，详见增补 §5X。
 
 #### HIG-AUD-027 Select 缺移动端全宽贴底形态（与项目自定规范不一致）
 
@@ -722,6 +725,7 @@
   3. `edit-menu.tsx:254-308` 浮层出现**无任何播报**（无 `aria-live`，也无焦点移动，见 HIG-AUD-004）。
 - **建议修复方向**：Toast 只保留一层 live region（推荐 `<ol aria-live>` + `<li>` 无 role，或反之）并加 `aria-atomic="true"`；`Command.Empty` 去掉 `role="presentation"`（或改为 `role="status"`）；`edit-menu` 与 HIG-AUD-004 一并修。
 - **验收场景**：NVDA/VoiceOver 下：新 toast 只播报一次；搜索无结果有播报；编辑菜单出现有播报。
+- **进度（2026-09-25）**：第 2 子项命令面板无结果已补内层 `role=status` 且浏览器可访问树确认；第 1/3 子项未改，NVDA/VoiceOver 真机播报未执行，整体 **HIG-AUD-030 仍待闭环**。详见增补 §5Y。
 
 ---
 

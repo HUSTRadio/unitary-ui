@@ -461,10 +461,11 @@ const COMPONENTS_EN: ComponentMeta[] = [
     label: "Edit Menu",
     labelZh: "编辑菜单",
     description:
-      "A floating capsule toolbar of edit actions that appears over an active text selection.",
+      "A selection-driven horizontal edit toolbar that appears beside selected text across touch, pointer, and keyboard input.",
     official: "Edit Menu",
     bestPractices: [
       "Use EditMenu for actions on the current text selection; use ContextMenu for actions on an object revealed by right-click or long-press.",
+      "Keep EditMenu horizontal for touch, pointer, and keyboard selections; its toolbar buttons use Left/Right and Home/End navigation.",
       "Only pass callbacks for the actions you implement—EditMenu omits standard actions without a handler instead of showing an inert item.",
       "Treat Cut as copy plus a caller-side deletion: the component copies the selection and then hands the text to onCut.",
       "Let Paste stay in the caller's hands: read the clipboard yourself instead of granting the component read permission.",
@@ -506,7 +507,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     mobileOnly: true,
     bestPractices: [
       "Use ActivityView for one-shot share or action flows; it closes itself after a target or action is picked.",
-      "Keep target names short—they truncate to one line beneath a 48px icon tile.",
+      "Keep target names short—they truncate to one line beneath a 48px icon tile. When targets overflow, fading edges reveal more items and update as the row scrolls.",
       "Put destructive actions at the bottom of the action list and keep their labels Verb + Noun.",
       "ActivityView wraps BottomSheet at a fixed 0.6 detent and keeps pull-down dismissal — reach for BottomSheet directly when you need draggable detents (or pass sheetProps to override).",
     ],

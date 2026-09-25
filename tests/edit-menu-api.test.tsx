@@ -127,6 +127,9 @@ describe("EditMenu", () => {
     expect(labels).not.toContain("Look Up");
     expect(labels).not.toContain("Share");
     expect(capsule()?.getAttribute("role")).toBe("toolbar");
+    expect(capsule()?.getAttribute("aria-orientation")).toBe("horizontal");
+    expect(capsule()?.getAttribute("data-presentation")).toBe("capsule");
+    expect(capsule()?.querySelectorAll("button")).toHaveLength(labels.length);
   });
 
   test("copies the selected text then closes the capsule", async () => {

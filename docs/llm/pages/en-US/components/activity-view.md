@@ -40,7 +40,7 @@ A share button opens the bottom panel with a target grid, an action list, and a 
 
 ## Responsive behavior
 
-- The target row scrolls horizontally so targets stay on a single line when they overflow.
+- The target row scrolls horizontally so targets stay on a single line when they overflow; a fading edge indicates more targets and disappears at the end.
 - The panel takes 60% of the viewport height and reserves bottom safe-area padding.
 
 ## Theme behavior
@@ -108,6 +108,30 @@ export function ActivityViewDefault9E4C2B57Example() {
             icon: swatch("#0070f3"),
             title: "Mail",
             onSelect: () => setLog("Shared via Mail"),
+          },
+          {
+            id: "notes",
+            icon: swatch("#f5a623"),
+            title: "Notes",
+            onSelect: () => setLog("Shared to Notes"),
+          },
+          {
+            id: "airdrop",
+            icon: swatch("#54b7ec"),
+            title: "AirDrop",
+            onSelect: () => setLog("Shared via AirDrop"),
+          },
+          {
+            id: "reminders",
+            icon: swatch("#e02d3c"),
+            title: "Reminders",
+            onSelect: () => setLog("Shared to Reminders"),
+          },
+          {
+            id: "calendar",
+            icon: swatch("#6266d0"),
+            title: "Calendar",
+            onSelect: () => setLog("Shared to Calendar"),
           },
           {
             id: "more",
@@ -185,6 +209,6 @@ import { ActivityView } from "@/components/ui/activity-view";
 ## Best Practices
 
 - Use ActivityView for one-shot share or action flows; it closes itself after a target or action is picked.
-- Keep target names short—they truncate to one line beneath a 48px icon tile.
+- Keep target names short—they truncate to one line beneath a 48px icon tile. When targets overflow, fading edges reveal more items and update as the row scrolls.
 - Put destructive actions at the bottom of the action list and keep their labels Verb + Noun.
 - ActivityView wraps BottomSheet at a fixed 0.6 detent and keeps pull-down dismissal — reach for BottomSheet directly when you need draggable detents (or pass sheetProps to override).

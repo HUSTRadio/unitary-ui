@@ -2,7 +2,7 @@
 
 > Route: `/components/edit-menu`
 
-A floating capsule toolbar of edit actions that appears over an active text selection.
+A selection-driven horizontal edit toolbar that appears beside selected text across touch, pointer, and keyboard input.
 
 [Back to Components](#/components)
 
@@ -10,12 +10,12 @@ A floating capsule toolbar of edit actions that appears over an active text sele
 
 Edit Menu
 
-A floating capsule toolbar of edit actions that appears over an active text selection.
+A selection-driven horizontal edit toolbar that appears beside selected text across touch, pointer, and keyboard input.
 
 ## When to use
 
 - When you need cut, copy, paste, select all, look up, or share for the current text selection.
-- When the toolbar should hug the selection and disappear as soon as the selection does.
+- When actions should hug the selection and disappear as soon as the selection does.
 
 ## When not to use
 
@@ -26,13 +26,13 @@ A floating capsule toolbar of edit actions that appears over an active text sele
 
 ### Default edit menu
 
-Selecting text reveals the capsule with cut, copy, paste, select all, look up, and share.
+Selecting text reveals a horizontal capsule toolbar with cut, copy, paste, select all, look up, and share.
 
 ## Accessibility
 
-- The capsule uses role="toolbar" with an aria-label, and every action is a focusable native button.
-- Escape closes the capsule; pressing the capsule never clears the current selection.
-- On touch, both the container and the capsule suppress the native callout and context menu, so a long press never stacks a second edit menu on top of the capsule.
+- The horizontal button group uses role="toolbar" for all input methods, with Left/Right arrow keys, Home/End, and an aria-label.
+- Escape closes the toolbar; activating an item does not clear the selection prematurely.
+- On touch, the container and capsule attempt to suppress the native callout and context menu; native long-press behavior on iOS WebKit still needs device verification.
 
 ## Controlled behavior
 
@@ -42,8 +42,8 @@ Selecting text reveals the capsule with cut, copy, paste, select all, look up, a
 
 ## Responsive behavior
 
-- It flips below the selection when there is no room above, clamps horizontally inside the viewport, and clamps vertically too, so a selection near the bottom edge no longer pushes the capsule past it.
-- It collapses on scroll and viewport resize so the capsule never drifts away from the selection.
+- The horizontal capsule anchors to the selection, flips below it if needed, and clamps to the viewport on both axes; overflow scrolls horizontally.
+- The toolbar closes on scroll and viewport resize so it never drifts away from the selection.
 
 ## Theme behavior
 
@@ -129,6 +129,7 @@ import { EditMenu } from "@/components/ui/edit-menu";
 ## Best Practices
 
 - Use EditMenu for actions on the current text selection; use ContextMenu for actions on an object revealed by right-click or long-press.
+- Keep EditMenu horizontal for touch, pointer, and keyboard selections; its toolbar buttons use Left/Right and Home/End navigation.
 - Only pass callbacks for the actions you implement—EditMenu omits standard actions without a handler instead of showing an inert item.
 - Treat Cut as copy plus a caller-side deletion: the component copies the selection and then hands the text to onCut.
 - Let Paste stay in the caller's hands: read the clipboard yourself instead of granting the component read permission.

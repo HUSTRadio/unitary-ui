@@ -112,10 +112,10 @@ function openViaKeyboard(field: HTMLElement, text = "selectable text") {
 }
 
 /** 指针路径：字段已持有焦点，但本次选区由指针产生 —— 胶囊不应抢走焦点。 */
-function openViaPointer(field: HTMLElement, text = "selectable text") {
+function openViaPointer(field: HTMLElement, text = "selectable text", pointerType = "mouse") {
   act(() => field.focus());
   act(() => {
-    document.dispatchEvent(new Event("pointerdown", { bubbles: true }));
+    document.dispatchEvent(new PointerEvent("pointerdown", { pointerType, bubbles: true }));
   });
   stubSelection(text, field);
   act(() => {
@@ -129,6 +129,7 @@ describe("EditMenu keyboard and dismissal behaviour (HIG-AUD-004)", () => {
     openViaKeyboard(field);
 
     expect(labels()).toEqual(["Cut", "Copy", "Paste"]);
+    expect(capsule()?.getAttribute("data-presentation")).toBe("capsule");
     expect(document.activeElement).toBe(items()[0]);
   });
 
@@ -136,8 +137,21 @@ describe("EditMenu keyboard and dismissal behaviour (HIG-AUD-004)", () => {
     const field = mountMenu();
     openViaPointer(field);
 
-    expect(capsule()).not.toBeNull();
+    expect(capsule()?.getAttribute("data-presentation")).toBe("capsule");
     expect(document.activeElement).toBe(field);
+  });
+
+  test("touch selection uses the same horizontal toolbar and keyboard navigation", () => {
+    const field = mountMenu();
+    openViaPointer(field, "selectable text", "touch");
+    expect(capsule()?.getAttribute("data-presentation")).toBe("capsule");
+    expect(capsule()?.getAttribute("role")).toBe("toolbar");
+    expect(capsule()?.getAttribute("aria-orientation")).toBe("horizontal");
+    act(() => items()[0].focus());
+    keyOnCapsuleFocus("ArrowRight");
+    expect(document.activeElement).toBe(items()[1]);
+    keyOnCapsuleFocus("ArrowLeft");
+    expect(document.activeElement).toBe(items()[0]);
   });
 
   test("keeps a single tab stop and navigates with arrows, Home and End", () => {
@@ -149,6 +163,8 @@ describe("EditMenu keyboard and dismissal behaviour (HIG-AUD-004)", () => {
     keyOnCapsuleFocus("ArrowRight");
     expect(document.activeElement).toBe(items()[1]);
     expect(items().map((item) => item.tabIndex)).toEqual([-1, 0, -1]);
+    keyOnCapsuleFocus("ArrowDown");
+    expect(document.activeElement).toBe(items()[1]);
 
     keyOnCapsuleFocus("End");
     expect(document.activeElement).toBe(items()[2]);

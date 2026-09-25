@@ -40,7 +40,7 @@ Activity View
 
 ## 响应式行为
 
-- 目标区横向滚动，超出面板宽度时保持单行动线。
+- 目标区横向滚动，超出面板宽度时保持单行动线；可滚动的边缘显示渐隐提示，滚动到尽头后消失。
 - 面板占视口高度 60%，底部留出安全区内边距。
 
 ## 主题行为
@@ -108,6 +108,30 @@ export function ActivityViewDefault9E4C2B57Example() {
             icon: swatch("#0070f3"),
             title: "Mail",
             onSelect: () => setLog("Shared via Mail"),
+          },
+          {
+            id: "notes",
+            icon: swatch("#f5a623"),
+            title: "Notes",
+            onSelect: () => setLog("Shared to Notes"),
+          },
+          {
+            id: "airdrop",
+            icon: swatch("#54b7ec"),
+            title: "AirDrop",
+            onSelect: () => setLog("Shared via AirDrop"),
+          },
+          {
+            id: "reminders",
+            icon: swatch("#e02d3c"),
+            title: "Reminders",
+            onSelect: () => setLog("Shared to Reminders"),
+          },
+          {
+            id: "calendar",
+            icon: swatch("#6266d0"),
+            title: "Calendar",
+            onSelect: () => setLog("Shared to Calendar"),
           },
           {
             id: "more",

@@ -355,10 +355,10 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
   "edit-menu": {
     slug: "edit-menu",
     locale: "zh-CN",
-    summary: "选区驱动的横向胶囊编辑工具条，在容器内出现有效文本选区时浮现于选区上方。",
+    summary: "选区驱动的横向编辑工具条：触屏、鼠标或键盘选中文字后均以胶囊形态锚定选区。",
     whenToUse: [
       "需要对当前选中的文本执行剪切、复制、粘贴、全选、查询或共享时。",
-      "希望操作条紧贴选区、随选区消失而隐藏时。",
+      "希望菜单紧贴选区、随选区消失而隐藏时。",
     ],
     whenNotToUse: [
       "对某个对象（行、文件、画布元素）执行操作——那是 ContextMenu 的场景。",
@@ -369,16 +369,16 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
         id: "edit-menu-default",
         kind: "minimal",
         title: "默认编辑菜单",
-        description: "选中文本后浮现胶囊工具条，并提供剪切、复制、粘贴、全选、查询与共享。",
+        description: "选中文本后浮现横向胶囊工具条，提供剪切、复制、粘贴、全选、查询与共享。",
         demoKey: "default",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "胶囊容器使用 role=\"toolbar\" 并带 aria-label，每个操作是可聚焦的原生 button。",
-        "Escape 关闭胶囊；点击胶囊不会清除当前选区。",
-        "触屏：容器与胶囊都抑制原生 callout 与原生上下文菜单，长按不会与胶囊叠出第二套编辑菜单。",
+        "任意输入方式均使用 role=\"toolbar\" 的横向按钮列，支持左右方向键与 Home/End；浮层有 aria-label。",
+        "Escape 关闭浮层；点击操作不会提前清除当前选区。",
+        "触屏：容器与胶囊尝试抑制原生 callout 与上下文菜单；iOS WebKit 的原生长按行为仍需真机验证。",
       ],
     },
     controlledBehavior: {
@@ -392,7 +392,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "上方空间不足时翻转到选区下方；水平居中于选区并 clamp 进视口，垂直方向同样 clamp（选区贴近视口底部时不再溢出下沿）。",
+        "横向胶囊始终锚定选区：上方空间不足时翻转到下方，水平和垂直位置均限制在视口内；内容过宽时可横向滚动。",
         "滚动与视口缩放时收起，避免浮层与选区脱节。",
       ],
     },
@@ -442,7 +442,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "目标区横向滚动，超出面板宽度时保持单行动线。",
+        "目标区横向滚动，超出面板宽度时保持单行动线；可滚动的边缘显示渐隐提示，滚动到尽头后消失。",
         "面板占视口高度 60%，底部留出安全区内边距。",
       ],
     },
@@ -1008,10 +1008,10 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "edit-menu",
     locale: "en-US",
     summary:
-      "A selection-driven horizontal capsule toolbar of edit actions that floats above the active text selection inside the container.",
+      "A selection-driven horizontal edit toolbar anchored to the text selection, with the same capsule layout for touch, pointer, and keyboard input.",
     whenToUse: [
       "When you need cut, copy, paste, select all, look up, or share for the current text selection.",
-      "When the toolbar should hug the selection and disappear as soon as the selection does.",
+      "When actions should hug the selection and disappear as soon as the selection does.",
     ],
     whenNotToUse: [
       "For actions on an object such as a row, file, or canvas element — that is ContextMenu.",
@@ -1023,16 +1023,16 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Default edit menu",
         description:
-          "Selecting text reveals the capsule with cut, copy, paste, select all, look up, and share.",
+          "Selecting text reveals a horizontal capsule toolbar with cut, copy, paste, select all, look up, and share.",
         demoKey: "default",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "The capsule uses role=\"toolbar\" with an aria-label, and every action is a focusable native button.",
-        "Escape closes the capsule; pressing the capsule never clears the current selection.",
-        "On touch, both the container and the capsule suppress the native callout and context menu, so a long press never stacks a second edit menu on top of the capsule.",
+        "The horizontal button group uses role=\"toolbar\" for all input methods, with Left/Right arrow keys, Home/End, and an aria-label.",
+        "Escape closes the toolbar; activating an item does not clear the selection prematurely.",
+        "On touch, the container and capsule attempt to suppress the native callout and context menu; native long-press behavior on iOS WebKit still needs device verification.",
       ],
     },
     controlledBehavior: {
@@ -1046,8 +1046,8 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "It flips below the selection when there is no room above, clamps horizontally inside the viewport, and clamps vertically too, so a selection near the bottom edge no longer pushes the capsule past it.",
-        "It collapses on scroll and viewport resize so the capsule never drifts away from the selection.",
+        "The horizontal capsule anchors to the selection, flips below it if needed, and clamps to the viewport on both axes; overflow scrolls horizontally.",
+        "The toolbar closes on scroll and viewport resize so it never drifts away from the selection.",
       ],
     },
     themeBehavior: {
@@ -1098,7 +1098,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "The target row scrolls horizontally so targets stay on a single line when they overflow.",
+        "The target row scrolls horizontally so targets stay on a single line when they overflow; a fading edge indicates more targets and disappears at the end.",
         "The panel takes 60% of the viewport height and reserves bottom safe-area padding.",
       ],
     },

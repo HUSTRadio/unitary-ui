@@ -80,6 +80,7 @@ describe("Modal official API contract (G07-MODAL-01 fix)", () => {
     const src = await read("src/components/ui/modal.tsx");
     expect(src).toContain("max-modal:max-w-[calc(100vw-20px)]");
     expect(src).toContain("sm:overflow-hidden overflow-y-auto");
+    expect(src).toContain("max-h-[min(800px,80vh)] supports-[height:100dvh]:max-h-[min(800px,80dvh)]");
   });
 
   test("Modal exports full API surface", async () => {

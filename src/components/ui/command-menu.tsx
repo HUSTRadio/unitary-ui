@@ -64,7 +64,7 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
               requestAnimationFrame(() => previous.focus());
             }
           }}
-          className="command-menu-scale command-menu-mobile fixed top-[15%] left-1/2 z-[var(--uni-z-modal)] w-[640px] -translate-x-1/2 overflow-hidden rounded-overlay bg-background-100 outline-none max-grid-sm:top-auto max-grid-sm:bottom-0 max-grid-sm:left-0 max-grid-sm:h-[80vh] max-grid-sm:max-h-[80vh] max-grid-sm:w-full max-grid-sm:max-w-full max-grid-sm:translate-x-0 max-grid-sm:overflow-auto max-grid-sm:rounded-t-overlay max-grid-sm:rounded-b-none"
+          className="command-menu-scale command-menu-mobile fixed top-[15%] left-1/2 z-[var(--uni-z-modal)] w-[640px] -translate-x-1/2 overflow-hidden rounded-overlay bg-background-100 outline-none max-grid-sm:top-auto max-grid-sm:bottom-0 max-grid-sm:left-0 max-grid-sm:h-[80vh] max-grid-sm:max-h-[80vh] max-grid-sm:supports-[height:100dvh]:h-[80dvh] max-grid-sm:supports-[height:100dvh]:max-h-[80dvh] max-grid-sm:w-full max-grid-sm:max-w-full max-grid-sm:translate-x-0 max-grid-sm:overflow-auto max-grid-sm:rounded-t-overlay max-grid-sm:rounded-b-none"
         >
           <h2 id={titleId} className="sr-only">
             {t("Command Menu")}
@@ -135,11 +135,10 @@ const CommandMenuList = React.forwardRef<
       )}
       {...props}
     >
-      <Command.Empty
-        role="presentation"
-        className="px-0 py-[30px] text-center text-copy-16 text-foreground"
-      >
-        {t('No results found for "{query}".', { query })}
+      <Command.Empty className="px-0 py-[30px] text-center text-copy-16 text-foreground">
+        <span role="status" aria-live="polite" aria-atomic="true">
+          {t('No results found for "{query}".', { query })}
+        </span>
       </Command.Empty>
       {children}
     </Command.List>

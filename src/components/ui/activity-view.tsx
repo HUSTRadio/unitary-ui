@@ -89,6 +89,25 @@ function ActivityView({
   // HIG-AUD-040：面板（Radix Dialog 内容）必须可被命名。有可见标题时用
   // aria-labelledby 关联标题 id；title=null 不渲染标题行时回退 aria-label。
   const titleId = React.useId();
+  const [targetsRow, setTargetsRow] = React.useState<HTMLDivElement | null>(null);
+  const [scrollEdges, setScrollEdges] = React.useState({ start: false, end: false });
+  const updateScrollEdges = React.useCallback(() => {
+    if (!targetsRow) return;
+    const start = targetsRow.scrollLeft > 1;
+    const end = targetsRow.scrollWidth - targetsRow.clientWidth - targetsRow.scrollLeft > 1;
+    setScrollEdges((previous) =>
+      previous.start === start && previous.end === end ? previous : { start, end },
+    );
+  }, [targetsRow]);
+
+  React.useLayoutEffect(() => {
+    if (!open || !targetsRow) return;
+    updateScrollEdges();
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(updateScrollEdges);
+    observer?.observe(targetsRow);
+    return () => observer?.disconnect();
+  }, [open, targetsRow, targets?.length, updateScrollEdges]);
+
   const close = React.useCallback(() => onOpenChange(false), [onOpenChange]);
   /** 活动是一次性动作：执行后即关闭面板。 */
   const run = React.useCallback(
@@ -139,34 +158,52 @@ function ActivityView({
       ) : null}
 
       {targets && targets.length > 0 ? (
-        <div
-          data-slot="activity-view-targets"
-          className="flex gap-3 overflow-x-auto overscroll-x-contain pb-1"
-        >
-          {targets.map((target) => (
-            <button
-              key={target.id}
-              type="button"
-              onClick={() => run(target.onSelect)}
-              className="flex w-16 shrink-0 flex-col items-center gap-1.5 outline-none"
-            >
-              {/* 图标瓦片 48px（icon 20px）是刻意的 Web 适配取舍，非对 HIG 的偏离：
-                  HIG 正文的 "about 70x70 pixels"（activity-views.md §3.1）是 iOS
-                  点/触屏语境；Web 按 Geist 密度收敛到 48px，与本页瓦片列的节奏一致。
-                  设计决策记录（HIG-AUD-049，2026-09-22 判定非缺陷关闭）。 */}
-              <span
-                aria-hidden="true"
-                className="flex size-12 items-center justify-center rounded-[14px] bg-gray-alpha-100 text-gray-1000 [&_svg]:size-5"
+        <div className="relative min-w-0">
+          <div
+            ref={setTargetsRow}
+            data-slot="activity-view-targets"
+            onScroll={updateScrollEdges}
+            className="flex gap-3 overflow-x-auto overscroll-x-contain pb-1"
+          >
+            {targets.map((target) => (
+              <button
+                key={target.id}
+                type="button"
+                onClick={() => run(target.onSelect)}
+                className="flex w-16 shrink-0 flex-col items-center gap-1.5 outline-none"
               >
-                {target.icon}
-              </span>
-              {/* 目标名是按钮标签：对齐控件标签惯例（label 系列 + 主文字色，
-                  同 menu-bar trigger / toolbar item） */}
-              <span className="w-full truncate text-center text-label-13 text-gray-1000">
-                {target.title}
-              </span>
-            </button>
-          ))}
+                {/* 图标瓦片 48px（icon 20px）是刻意的 Web 适配取舍，非对 HIG 的偏离：
+                    HIG 正文的 "about 70x70 pixels"（activity-views.md §3.1）是 iOS
+                    点/触屏语境；Web 按 Geist 密度收敛到 48px，与本页瓦片列的节奏一致。
+                    设计决策记录（HIG-AUD-049，2026-09-22 判定非缺陷关闭）。 */}
+                <span
+                  aria-hidden="true"
+                  className="flex size-12 items-center justify-center rounded-[14px] bg-gray-alpha-100 text-gray-1000 [&_svg]:size-5"
+                >
+                  {target.icon}
+                </span>
+                {/* 目标名是按钮标签：对齐控件标签惯例（label 系列 + 主文字色，
+                    同 menu-bar trigger / toolbar item） */}
+                <span className="w-full truncate text-center text-label-13 text-gray-1000">
+                  {target.title}
+                </span>
+              </button>
+            ))}
+          </div>
+          {scrollEdges.start && (
+            <span
+              data-slot="activity-view-scroll-start"
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-background to-transparent"
+            />
+          )}
+          {scrollEdges.end && (
+            <span
+              data-slot="activity-view-scroll-end"
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-background to-transparent"
+            />
+          )}
         </div>
       ) : null}
 

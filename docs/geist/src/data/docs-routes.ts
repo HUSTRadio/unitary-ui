@@ -426,11 +426,8 @@ export const DOCS_ROUTE_GROUPS: readonly DocsRouteGroup[] = DOCS_GROUPS.map((gro
   };
 });
 
-export function getRouteSearchText(
-  group: Pick<DocsRouteGroup, "title" | "titleZh">,
-  item: Pick<DocsRoute, "label" | "labelZh" | "aliases">,
-): string {
-  return [group.title, group.titleZh, item.label, item.labelZh, ...(item.aliases ?? [])]
+export function getRouteSearchText(item: Pick<DocsRoute, "label" | "labelZh" | "aliases">): string {
+  return [item.label, item.labelZh, ...(item.aliases ?? [])]
     .join(" ")
     .toLowerCase()
     .replace(/\s+/g, " ")

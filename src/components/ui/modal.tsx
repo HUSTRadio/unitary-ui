@@ -21,7 +21,7 @@ import { useI18n } from "@/lib/i18n";
  *   `top`（吸顶形态：贴视口顶边、上圆角归零，**自顶部下落入场**——macOS sheet 语义；
  *   入场/出场用位移淡入，配合 sticky header/footer 的长内容表单）
  * - content：w-[540px] max-w-full max-modal:max-w-[calc(100vw-20px)] flex flex-col
- *   rounded-[12px]（现 rounded-xl token）bg-background-100 无 border，max-h-[min(800px,80vh)]（1440x900 下
+ *   rounded-[12px]（现 rounded-xl token）bg-background-100 无 border，max-h-[min(800px,80dvh)]（vh 回退；1440x900 下
  *   720px，sticky demo 全高即由此封顶），sm:overflow-hidden overflow-y-auto
  * - 阴影：shadow-[var(--uni-shadow-modal-elevated)]（双主题：light 边框层 #00000014 /
  *   dark #ffffff24，其余 3 层一致）
@@ -151,7 +151,7 @@ const ModalContent = React.forwardRef<
             style={style}
             className={cn(
               "fixed z-[var(--uni-z-modal)] flex min-h-0 w-[540px] max-w-full min-w-0 flex-col overflow-hidden bg-background-100 text-foreground outline-none",
-              "max-h-[min(800px,80vh)]",
+              "max-h-[min(800px,80vh)] supports-[height:100dvh]:max-h-[min(800px,80dvh)]",
               "max-modal:max-w-[calc(100vw-20px)]",
               "shadow-[var(--uni-shadow-modal-elevated)]",
               PLACEMENT_CLASS[placement],

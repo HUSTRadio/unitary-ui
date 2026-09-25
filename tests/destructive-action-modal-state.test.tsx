@@ -67,6 +67,7 @@ describe("DestructiveActionModal layers and motion (HIG-AUD-009/012)", () => {
     // 遮罩与内容同为 modal 带（与 modal.tsx 同族，HIG-AUD-012 台账的「左右不一致」项）
     expect(source.match(/z-\[var\(--uni-z-modal\)\]/g)?.length).toBe(2);
     expect(source).toContain("duration-(--uni-motion-overlay) ease-pop");
+    expect(source).toContain("max-h-[min(800px,80vh)] supports-[height:100dvh]:max-h-[min(800px,80dvh)] overflow-y-auto");
     expect(source).toContain("data-[state=closed]:zoom-out-95");
     expect(source).not.toMatch(/(^|[\s"'])z-50(?=[\s"'(]|$)/m);
   });
