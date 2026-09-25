@@ -330,7 +330,7 @@
 | HIG-AUD-022 | P1 | `grabber` / `bottom-sheet` / `responsive-drawer` —— **✅ 已修复（2026-09-24）**：垂直 slider 完整键盘映射、边界钳制、BottomSheet 受控/非受控双契约及 ResponsiveDrawer 动态档位保护；定向 42 tests + Chromium 3 passed（增补 §5T） |
 | HIG-AUD-023 | P1 | ✅ 已修（2026-09-24）：四独立页 + Phone / RatingPill / SkeletonMask 三合并 owner，双语/导出/示例守护（§5U） |
 | HIG-AUD-024 | P1 | ✅ 已修（2026-09-24）：SidePanel 根导出 + 独立页及子组件 API，守护防误删（§5U） |
-| HIG-AUD-025 | P2 | `menu`、`context-menu`、`edit-menu`、`dots-menu`、`split-button`、`multi-select`、`sheet`、`bottom-sheet`、`drawer`、`modal`、`tooltip`、`hamburger-menu`、`side-panel`、`theme-switcher` |
+| HIG-AUD-025 | P2 | 阶段性：`hamburger-menu` 空态/加载态已修（2026-09-25，增补 §5AB）；`menu`、`context-menu`、`edit-menu`、`dots-menu`、`split-button`、`multi-select`、`sheet`、`bottom-sheet`、`drawer`、`modal`、`tooltip`、`side-panel`、`theme-switcher` 及二期补充 `menu-bar`、`toolbar` 仍待逐项核实，**025 未闭环** |
 | HIG-AUD-026 | P2 | ✅ 已定向修复（2026-09-24，增补 §5X）：`command-menu`、`modal`、`destructive-action-modal` 保留 `vh` 回退，以 `dvh` 覆盖；E2E 双主题/双高度 6 passed、视觉探针 2 passed；移动地址栏真机行为待验 |
 | HIG-AUD-027 | P2 | `select`、`multi-select` |
 | HIG-AUD-028 | P2 | 全局（浮层）；2026-09-25 本机覆盖式滚动条 Chromium 双主题 Sheet/Modal/Menu 开关均无宽度偏移；经典滚动条环境未验证，未更改样式，仍待闭环（增补 §5Y） |

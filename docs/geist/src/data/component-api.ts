@@ -1827,6 +1827,8 @@ const O = {
       row("direction", '"down" | "left" | "right"', "Expansion direction; topbar defaults to down.", "展开方向；顶栏默认为 down。"),
       row("items", "MenuItem[]", "Flat navigation and search source.", "扁平导航与搜索数据源。"),
       row("groups", "MenuGroup[]", "Grouped navigation and search source.", "分组导航与搜索数据源。"),
+      row("loading", "boolean", "Shows a loading status and marks navigation as busy while data loads.", "数据加载时显示加载状态并标记导航区域忙碌。", { defaultValue: "false" }),
+      row("emptyMessage", "ReactNode", "Optional message for an empty navigation or no search results.", "空导航或搜索无结果时的自定义文案。"),
       row("activeTo", "string", "Current route for aria-current and highlighting.", "用于 aria-current 与高亮的当前路径。"),
       row("onNavigate", "(to: string) => void", "Called when a navigation item is selected.", "选择导航条目时调用。"),
       row("open", "boolean", "Controlled open state.", "受控打开状态。"),

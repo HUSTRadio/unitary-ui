@@ -162,6 +162,46 @@ describe("HamburgerMenu", () => {
     expect(document.querySelector('[data-slot="menu-results"]')).toBeNull();
   });
 
+  it("空数据与无匹配搜索均显示可访问空态，清空查询后恢复导航", () => {
+    renderMenu(<HamburgerMenu anchor="topbar" items={[]} open />);
+    const nav = document.querySelector('[data-slot="menu-nav"]')!;
+    expect(nav.querySelector('[data-slot="menu-empty"]')?.getAttribute("role")).toBe("status");
+    expect(nav.querySelector('[data-slot="menu-empty"]')?.textContent).toBe("No results found");
+    expect(nav.querySelector('[data-slot="menu-list"]')).toBeNull();
+
+    renderMenu(<HamburgerMenu anchor="topbar" items={ITEMS} open />);
+    const input = document.querySelector('[data-slot="menu-search"] input') as HTMLInputElement;
+    typeInto(input, "zz-not-found");
+    expect(document.querySelector('[data-slot="menu-results-region"] [data-slot="menu-empty"]')?.textContent)
+      .toBe('No results found for "zz-not-found".');
+    expect(document.querySelectorAll('[data-slot="menu-result"]')).toHaveLength(0);
+    act(() => (document.querySelector('[data-slot="search-clear"]') as HTMLElement).click());
+    expect(document.querySelector('[data-slot="menu-empty"]')).toBeNull();
+    expect(document.querySelectorAll('[data-slot="menu-list"] li')).toHaveLength(3);
+  });
+
+  it("允许自定义空态文案覆盖默认无结果提示", () => {
+    renderMenu(<HamburgerMenu anchor="topbar" items={[]} open emptyMessage="Try again later" />);
+    expect(document.querySelector('[data-slot="menu-empty"]')?.textContent).toBe("Try again later");
+    renderMenu(<HamburgerMenu anchor="topbar" items={ITEMS} open emptyMessage="Try again later" />);
+    typeInto(document.querySelector('[data-slot="menu-search"] input') as HTMLInputElement, "zz-not-found");
+    expect(document.querySelector('[data-slot="menu-results-region"] [data-slot="menu-empty"]')?.textContent).toBe("Try again later");
+  });
+
+  it("加载状态替代旧导航、声明 busy 并在数据到达后恢复结果", () => {
+    renderMenu(<HamburgerMenu anchor="topbar" items={[]} open loading />);
+    const nav = document.querySelector('[data-slot="menu-nav"]')!;
+    expect(nav.getAttribute("aria-busy")).toBe("true");
+    expect(nav.querySelector('[data-slot="menu-loading"]')?.getAttribute("role")).toBe("status");
+    expect(nav.querySelector('[data-slot="menu-loading"]')?.textContent).toBe("Loading...");
+    expect(nav.querySelector('[data-slot="spinner"]')).not.toBeNull();
+    expect(document.querySelector('[data-slot="menu-empty"]')).toBeNull();
+    renderMenu(<HamburgerMenu anchor="topbar" items={ITEMS} open />);
+    expect(nav.getAttribute("aria-busy")).toBe("false");
+    expect(document.querySelector('[data-slot="menu-loading"]')).toBeNull();
+    expect(document.querySelectorAll('[data-slot="menu-list"] li')).toHaveLength(3);
+  });
+
   it("kbd Ctrl K 提示包 pointer-fine 变体（触屏不渲染）", () => {
     renderMenu(<HamburgerMenu anchor="topbar" />);
     act(() => {

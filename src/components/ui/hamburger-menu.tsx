@@ -7,6 +7,7 @@ import { ExpandPanel, type Side } from "./expand-panel";
 import { HamburgerIcon } from "./hamburger-icon";
 import { NavStatusBadge, type NavStatusTone } from "./nav-status-badge";
 import { Separator } from "./separator";
+import { Spinner } from "./spinner";
 
 /**
  * HamburgerMenu — 复合导航组件：HamburgerIcon(trigger) + ExpandPanel(展开容器)
@@ -83,6 +84,10 @@ interface HamburgerMenuProps {
   items?: MenuItem[];
   /** 分组导航数据；传入时保留小标题（含可选二级分类），并作为搜索的统一数据源 */
   groups?: MenuGroup[];
+  /** 数据加载中：显示加载指示并标记导航区域忙碌。@default false */
+  loading?: boolean;
+  /** 无导航项或无搜索结果时的空态文案；搜索无结果默认展示查询词。 */
+  emptyMessage?: React.ReactNode;
   /** 当前激活路由（用于 aria-current="page" 与高亮，对齐桌面 sidebar active 态） */
   activeTo?: string;
   /** 点击条目回调（导航列表项与搜索结果项均在随后关闭面板，HIG-AUD-017） */
@@ -143,6 +148,8 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   content = "merged",
   items,
   groups,
+  loading = false,
+  emptyMessage,
   activeTo,
   onNavigate,
   open,
@@ -220,6 +227,9 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   const results = navigationItems.filter((item) =>
     item.label.toLowerCase().includes(normalized),
   );
+  const emptyLabel = emptyMessage ?? (normalized
+    ? t('No results found for "{query}".', { query: query.trim() })
+    : t("No results found"));
   const groupIdPrefix = React.useId();
   let navigationIndex = 0;
 
@@ -341,17 +351,29 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
         <nav
           data-slot="menu-nav"
           className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-2"
+          aria-busy={loading}
         >
-          <div
-            data-slot="menu-list"
-            className={cn(
-              "list-none transition-opacity duration-(--uni-duration-slow)",
-              searching
-                ? "pointer-events-none opacity-0 h-0 overflow-hidden"
-                : "opacity-100",
-              staggerActive && "pointer-events-none",
-            )}
-          >
+          {loading ? (
+            <div data-slot="menu-loading" role="status" className="flex min-h-11 items-center gap-2 px-3.5 text-style-nav-item text-gray-900">
+              <Spinner aria-hidden size="md" />
+              <span>{t("Loading...")}</span>
+            </div>
+          ) : !searching && navigationItems.length === 0 ? (
+            <div data-slot="menu-empty" role="status" className="flex min-h-11 items-center px-3.5 text-style-nav-item text-gray-900">
+              {emptyLabel}
+            </div>
+          ) : null}
+          {!loading && navigationItems.length > 0 ? (
+            <div
+              data-slot="menu-list"
+              className={cn(
+                "list-none transition-opacity duration-(--uni-duration-slow)",
+                searching
+                  ? "pointer-events-none opacity-0 h-0 overflow-hidden"
+                  : "opacity-100",
+                staggerActive && "pointer-events-none",
+              )}
+            >
             {navigationGroups.map((group, groupIndex) => {
               const headingId = group.title
                 ? `${groupIdPrefix}-group-${groupIndex}`
@@ -465,43 +487,52 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                 </section>
               );
             })}
-          </div>
+            </div>
+          ) : null}
         </nav>
 
         {/* 结果区：仅搜索中渲染 */}
-        {searching ? (
-          <ul data-slot="menu-results" className="list-none space-y-1 px-4 pb-2">
-            {results.map((item) => (
-              <li key={item.to}>
-                <a
-                  href={item.to}
-                  data-slot="menu-result"
-                  aria-current={item.to === activeTo ? "page" : undefined}
-                  onClick={() => {
-                    onNavigate?.(item.to);
-                    setOpen(false);
-                  }}
-                  className={cn(
-                    // 结果项与列表项同一行几何（搜索是同一批路由的另一种呈现）
-                    "relative flex items-center gap-2 rounded-md px-3.5 nav-item-row-touch text-style-nav-item no-underline",
-                    item.to === activeTo
-                      ? "bg-gray-100 font-medium text-gray-1000"
-                      : "text-gray-900 hover:bg-gray-100 hover:text-gray-1000",
-                  )}
-                >
-                  {item.to === activeTo ? (
-                    <span
-                      aria-hidden
-                      data-slot="menu-item-indicator"
-                      className="absolute top-1/2 left-2 h-4 w-0.5 -translate-y-1/2 rounded-full bg-gray-900"
-                    />
-                  ) : null}
-                  <span className="truncate ink-shift-cjk">{item.label}</span>
-                  {item.badge ? <NavStatusBadge className="ml-auto" {...item.badge} /> : null}
-                </a>
-              </li>
-            ))}
-          </ul>
+        {searching && !loading ? (
+          <div data-slot="menu-results-region" aria-busy={loading} className="px-4 pb-2">
+            {results.length === 0 ? (
+              <div data-slot="menu-empty" role="status" className="flex min-h-11 items-center px-3.5 text-style-nav-item text-gray-900">
+                {emptyLabel}
+              </div>
+            ) : (
+              <ul data-slot="menu-results" className="list-none space-y-1">
+                {results.map((item) => (
+                  <li key={item.to}>
+                    <a
+                      href={item.to}
+                      data-slot="menu-result"
+                      aria-current={item.to === activeTo ? "page" : undefined}
+                      onClick={() => {
+                        onNavigate?.(item.to);
+                        setOpen(false);
+                      }}
+                      className={cn(
+                        // 结果项与列表项同一行几何（搜索是同一批路由的另一种呈现）
+                        "relative flex items-center gap-2 rounded-md px-3.5 nav-item-row-touch text-style-nav-item no-underline",
+                        item.to === activeTo
+                          ? "bg-gray-100 font-medium text-gray-1000"
+                          : "text-gray-900 hover:bg-gray-100 hover:text-gray-1000",
+                      )}
+                    >
+                      {item.to === activeTo ? (
+                        <span
+                          aria-hidden
+                          data-slot="menu-item-indicator"
+                          className="absolute top-1/2 left-2 h-4 w-0.5 -translate-y-1/2 rounded-full bg-gray-900"
+                        />
+                      ) : null}
+                      <span className="truncate ink-shift-cjk">{item.label}</span>
+                      {item.badge ? <NavStatusBadge className="ml-auto" {...item.badge} /> : null}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         ) : null}
       </ExpandPanel>
     </>
