@@ -11,7 +11,8 @@ const read = (relativePath: string) => readFile(path.join(root, relativePath), "
 describe("Toast official API contract (G12 audit fixes)", () => {
   test("G12-TOAST-01: success/warning/error kinds use semantic status backgrounds", async () => {
     const src = await read("src/components/ui/toast.tsx");
-    expect(src).toContain('toast.kind === "success" && "bg-link text-white"');
+    expect(src).toContain('toast.kind === "success" && "bg-link text-success-foreground"');
+    expect(src).not.toContain("text-white");
     expect(src).toContain(
       'toast.kind === "warning" && "bg-button-warning text-button-warning-foreground"',
     );
@@ -32,7 +33,8 @@ describe("Toast official API contract (G12 audit fixes)", () => {
   test("G12-TOAST-01: kind icons inherit the toast foreground instead of being tinted", async () => {
     const src = await read("src/components/ui/toast.tsx");
     // No leftover per-kind icon tint classes (colors now live on the container background)
-    expect(src).not.toMatch(/text-success/);
+    // 容器背景态现在合法地使用 text-success-foreground，此断言只拦「图标着色的遗留 per-kind 类」
+    expect(src).not.toMatch(/text-success(?!-foreground)/);
     expect(src).not.toMatch(/text-warning/);
     expect(src).not.toMatch(/text-destructive/);
     // Icon renders with a fixed size and inherits color from the li

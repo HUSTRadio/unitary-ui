@@ -91,6 +91,31 @@ describe("versioned LLM task package contract", () => {
     expect(validate(runnerSchemaPath, readJson(runnerConfigPath))).toBe(true);
   });
 
+  it("accepts the provider backend fields and rejects malformed credential/env names", () => {
+    const base = readJson(runnerConfigPath) as { agent: Record<string, unknown> };
+    expect(validate(runnerSchemaPath, base)).toBe(true);
+    expect(
+      validate(runnerSchemaPath, {
+        ...base,
+        agent: {
+          ...base.agent,
+          baseUrl: "https://api.deepseek.com/v1",
+          apiKeyEnv: "DEEPSEEK_API_KEY",
+        },
+      }),
+    ).toBe(true);
+    // apiKeyEnv 必须是 SCREAMING_SNAKE_CASE 的环境变量名，baseUrl 不得为空。
+    for (const agent of [
+      { ...base.agent, apiKeyEnv: "lowercase_key" },
+      { ...base.agent, apiKeyEnv: "1BAD" },
+      { ...base.agent, apiKeyEnv: "DEEPSEEK-API-KEY" },
+      { ...base.agent, baseUrl: "" },
+      { ...base.agent, unknownField: 1 },
+    ]) {
+      expect(validate(runnerSchemaPath, { ...base, agent })).toBe(false);
+    }
+  });
+
   it("rejects path traversal, empty write boundaries, and command-shaped validator IDs", () => {
     expect(existsSync(taskSchemaPath)).toBe(true);
     if (!existsSync(taskSchemaPath)) return;
@@ -172,6 +197,10 @@ describe("versioned LLM task package contract", () => {
     expect(second.status).toBe(0);
     expect(first.stdout).toBe(second.stdout);
 
+    // 期望值取自真实仓库配置，避免夹具与当前 provider/模型脱钩。
+    const runnerConfig = readJson(runnerConfigPath) as {
+      agent: { command: string; provider?: string; model: string; thinking?: string };
+    };
     const metadata = JSON.parse(first.stdout) as {
       task: string;
       taskVersion: number;
@@ -184,8 +213,13 @@ describe("versioned LLM task package contract", () => {
       task: "docs-update",
       taskVersion: 1,
       fragmentPaths: expectedFragments,
-      agent: { command: "codex", model: "gpt-5.6-sol", thinking: "medium" },
+      agent: {
+        command: runnerConfig.agent.command,
+        model: runnerConfig.agent.model,
+        thinking: runnerConfig.agent.thinking,
+      },
     });
+    expect(metadata.agent.provider).toBe(runnerConfig.agent.provider);
     expect(metadata.promptBundleHash).toMatch(/^[a-f0-9]{64}$/);
     expect(metadata.renderedPromptHash).toBeUndefined();
     expect(first.stdout).not.toContain("RUNTIME CONTEXT");

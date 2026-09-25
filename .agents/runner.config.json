@@ -4,7 +4,10 @@
   "agent": {
     "command": "codex",
     "codexCli": true,
-    "model": "gpt-5.6-sol",
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "baseUrl": "https://api.deepseek.com/v1",
+    "apiKeyEnv": "DEEPSEEK_API_KEY",
     "thinking": "medium",
     "ephemeral": true,
     "timeoutMs": 3600000

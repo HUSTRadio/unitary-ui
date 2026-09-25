@@ -44,7 +44,10 @@ describe("Context Menu Quick Actions variant", () => {
   });
 
   test("supports destructive system items and separators", () => {
-    expect(source).toContain("destructive && \"text-[#ee0000]\"");
+    // 语义断言（替代原先锁定 hex 字面量的脆性契约）：破坏性项文本必须走既有
+    // error-foreground token（与 menu.tsx 的 error 项约定一致），且不得回退原始 hex 工具类。
+    expect(source).toMatch(/destructive[\s\S]{0,48}text-error-foreground/);
+    expect(source).not.toMatch(/text-\[#[0-9a-fA-F]{3,8}\]/);
     expect(source).toContain("ContextMenuSeparator");
   });
 });

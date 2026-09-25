@@ -210,65 +210,85 @@ function assertProductionAgentTemplate(config) {
   }
 }
 
+/**
+ * 共享的 Codex exec 参数构造：生产分支与 testMode 分支必须逐字节一致，避免两份副本漂移。
+ * - workspace-write：任务允许写 allowlist 内文件（docs/** 等）
+ * - --color never：stdout 被 runner 捕获，禁用 ANSI 防污染
+ * - reasoning effort 经 -c model_reasoning_effort 覆盖（Codex 无 --thinking 旗标）
+ * - provider：-c model_provider 选择 provider；当配置同时给出 baseUrl 与 apiKeyEnv 时，
+ *   再用一组 -c 覆盖完整描述该 provider（name/base_url/env_key/wire_api），使 Codex 不依赖
+ *   用户级 config.toml 也能路由。codex-cli 0.153.0 已移除 chat wire_api，仅支持
+ *   responses（实测 wire_api="chat" 在加载 config 阶段直接报错），故显式写 responses。
+ * - prompt：arg 模式作位置参数；stdin 模式不传位置参数——codex exec 无位置参数时自动从
+ *   stdin 读取，与 PROMPT_STDIN_THRESHOLD 机制天然兼容
+ */
+function buildCodexArgs(agent, prompt, promptVia) {
+  const args = ["exec", "--sandbox", "workspace-write", "--skip-git-repo-check", "--color", "never"];
+  if (agent.provider) {
+    args.push("-c", `model_provider="${agent.provider}"`);
+    if (agent.baseUrl && agent.apiKeyEnv) {
+      const prefix = `model_providers.${agent.provider}`;
+      args.push("-c", `${prefix}.name="${agent.provider}"`);
+      args.push("-c", `${prefix}.base_url="${agent.baseUrl}"`);
+      args.push("-c", `${prefix}.env_key="${agent.apiKeyEnv}"`);
+      args.push("-c", `${prefix}.wire_api="responses"`);
+    }
+  }
+  args.push("--model", agent.model);
+  if (agent.thinking) {
+    args.push("-c", `model_reasoning_effort="${agent.thinking}"`);
+  }
+  if (promptVia === "arg") args.push(prompt);
+  return args;
+}
+
 export function buildAgentArgs(config, prompt, options = {}) {
   const { testMode = false, promptVia = "arg" } = options;
   const agent = config.agent;
   if (!testMode) {
     assertProductionAgentTemplate(config);
-    // Codex exec 模板：非交互一次性执行（exec 自身即 ephemeral，无持久会话旗标）。
-    // - workspace-write：任务允许写 allowlist 内文件（docs/** 等）
-    // - --color never：stdout 被 runner 捕获，禁用 ANSI 防污染
-    // - reasoning effort 经 -c model_reasoning_effort 覆盖（Codex 无 --thinking 旗标）
-    // - prompt：arg 模式作位置参数；stdin 模式不传位置参数——codex exec 无位置
-    //   参数时自动从 stdin 读取，与 PROMPT_STDIN_THRESHOLD 机制天然兼容
-    const args = ["exec", "--sandbox", "workspace-write", "--skip-git-repo-check", "--color", "never"];
-    if (agent.provider) args.push("-c", `model_provider="${agent.provider}"`);
-    args.push("--model", agent.model);
-    if (agent.thinking) {
-      args.push("-c", `model_reasoning_effort="${agent.thinking}"`);
-    }
-    if (promptVia === "arg") args.push(prompt);
-    return args;
+    return buildCodexArgs(agent, prompt, promptVia);
   }
 
   if (agent.codexCli) {
-    const args = ["exec", "--sandbox", "workspace-write", "--skip-git-repo-check", "--color", "never"];
-    if (agent.provider) args.push("-c", `model_provider="${agent.provider}"`);
-    args.push("--model", agent.model);
-    if (agent.thinking) {
-      args.push("-c", `model_reasoning_effort="${agent.thinking}"`);
-    }
-    if (promptVia === "arg") args.push(prompt);
-    return args;
+    return buildCodexArgs(agent, prompt, promptVia);
   }
   const args = [...(agent.subcommand ?? [])];
   if (promptVia === "arg") args.push(prompt);
   return args;
 }
 
+/**
+ * 允许透传给 agent 子进程的环境变量白名单。
+ * 逐项显式列出，禁止通配或按 `*_API_KEY` 后缀批量放行——只放行当前 provider 所需的
+ * 凭据变量（当前为 DeepSeek 的 DEEPSEEK_API_KEY，见 .agents/runner.config.json 的
+ * agent.apiKeyEnv）。父进程其它密钥（GITHUB_TOKEN、AWS_SECRET_ACCESS_KEY 等）必须被剥离。
+ */
+export const AGENT_ENV_ALLOWLIST = Object.freeze([
+  "PATH",
+  "PATHEXT",
+  "SYSTEMROOT",
+  "SystemRoot",
+  "WINDIR",
+  "COMSPEC",
+  "ComSpec",
+  "HOME",
+  "USERPROFILE",
+  "LOCALAPPDATA",
+  "APPDATA",
+  "TEMP",
+  "TMP",
+  "LANG",
+  "LC_ALL",
+  "TERM",
+  "NO_COLOR",
+  "FORCE_COLOR",
+  "DEEPSEEK_API_KEY",
+]);
+
 export function buildAgentEnvironment(sourceEnv = process.env, options = {}) {
-  const allowed = [
-    "PATH",
-    "PATHEXT",
-    "SYSTEMROOT",
-    "SystemRoot",
-    "WINDIR",
-    "COMSPEC",
-    "ComSpec",
-    "HOME",
-    "USERPROFILE",
-    "LOCALAPPDATA",
-    "APPDATA",
-    "TEMP",
-    "TMP",
-    "LANG",
-    "LC_ALL",
-    "TERM",
-    "NO_COLOR",
-    "FORCE_COLOR",
-  ];
   const env = {};
-  for (const name of allowed) {
+  for (const name of AGENT_ENV_ALLOWLIST) {
     if (sourceEnv[name] !== undefined) env[name] = sourceEnv[name];
   }
   if (options.testMode) {

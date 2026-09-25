@@ -188,6 +188,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "项规则与 Menu 相同：首字母大写动词 + 名词（Open in New Tab、Copy URL、Delete Deployment）。裸动词是错的。",
     "破坏性项分组到底部并加分隔线，破坏性标签保持 动词 + 名词。",
     "键盘菜单键（Windows/Linux 上为 Shift+F10）在无需右键的情况下打开同一菜单。",
+    "Quick Actions 遮罩是库内仅有的两处模糊遮罩之一。模糊用于表达前景层级——主屏、AI 建议或临时前台——且必须来自共享的遮罩模糊 token（--uni-overlay-backdrop-blur），而不是逐组件自选的模糊档位。在别处新增模糊遮罩属于设计决策，不是局部样式选择。",
   ],
   "edit-menu": [
     "对当前文本选区执行操作使用 EditMenu；对右键或长按唤出的对象操作使用 ContextMenu。",
@@ -242,6 +243,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "confirmLabel 与标题 1:1 匹配。绝不用通用词（Confirm、OK、Continue），也不用裸动词（Delete）。",
     "loading 会禁用两个按钮。调用方拥有 open——不要从 onConfirm 自行关闭。API 落定后关闭，或出错时保持打开让用户重试。",
     "验证输入打开即聚焦，用户可立即输入。提交保持禁用，直到值与验证短语完全匹配。",
+    "本组件是库内仅有的两处模糊遮罩之一。遮罩模糊用于表达前景层级——主屏、AI 建议或临时前台——且必须走共享的遮罩模糊 token（--uni-overlay-backdrop-blur），绝不写裸模糊档位。新增任何模糊遮罩都需要设计确认。",
   ],
   menu: [
     "在单个资源上打开动作列表的可发现触发器（行上的点菜单、主实体上的下拉）用 Menu。",

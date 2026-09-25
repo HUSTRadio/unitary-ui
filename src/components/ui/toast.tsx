@@ -284,7 +284,7 @@ function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: To
               "animate-in fade-in-0 slide-in-from-bottom-2 motion-reduce:animate-none!",
               "nth-last-[n+4]:opacity-0 nth-last-[n+4]:pointer-events-none",
               toast.exiting && "pointer-events-none opacity-0",
-              toast.kind === "success" && "bg-link text-white",
+              toast.kind === "success" && "bg-link text-success-foreground",
               toast.kind === "warning" && "bg-button-warning text-button-warning-foreground",
               toast.kind === "error" && "bg-danger text-danger-foreground",
             )}

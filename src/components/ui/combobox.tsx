@@ -122,8 +122,10 @@ const CLEAR_BUTTON_CLASS =
 const OPEN_BUTTON_CLASS =
   "outline-hidden m-0 p-0 border-0 box-border text-base align-baseline no-underline [tap-highlight-color:transparent] select-none bg-none cursor-pointer inline-flex !w-10 group-hover/combobox:text-gray-1000 disabled:cursor-not-allowed disabled:text-[var(--uni-gray-700)] [&>span]:inline-flex items-center justify-center !mr-0 absolute -right-px top-1/2 text-[var(--uni-gray-700)] transform -translate-y-1/2 transition-colors duration-(--uni-duration-fast) ease-in motion-reduce:transition-none";
 
+// HIG-AUD-033：面板阴影改走材质 token，与 select / multi-select / menu 的浮层阴影同源
+// （`--material-shadow-menu` 已含双主题 1px 描边与投影层，不再自写字面量）。
 const PANEL_CLASS =
-  "m-0 p-1.5 outline-hidden bg-[var(--uni-background-100)] shadow-[0_0_0_1px_var(--uni-gray-alpha-400),0_2px_2px_0_rgba(0,0,0,0.04),0_8px_16px_-4px_rgba(0,0,0,0.04),0_0_0_1px_var(--uni-background-200)] rounded-overlay z-[var(--uni-z-popover)] max-h-[210px] overflow-y-auto overflow-x-hidden [&>ul]:m-0 [&>ul]:p-0 [&>ul]:list-none";
+  "m-0 p-1.5 outline-hidden bg-[var(--uni-background-100)] shadow-[var(--material-shadow-menu)] rounded-overlay z-[var(--uni-z-popover)] max-h-[210px] overflow-y-auto overflow-x-hidden [&>ul]:m-0 [&>ul]:p-0 [&>ul]:list-none";
 /** 进出场动画经 data-state 切换：Radix Presence 检测关闭动画播完后才卸载面板 */
 const PANEL_STATE_CLASS =
   "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 duration-(--uni-duration-fast) motion-reduce:animate-none!";
@@ -507,6 +509,8 @@ function Combobox({
         <PopoverPrimitive.Content
           align="start"
           sideOffset={8}
+          // 与 select-content / menu 面板一致的可定位槽位，供浮层材质（阴影）契约核查使用
+          data-slot="combobox-content"
           onOpenAutoFocus={(event) => event.preventDefault()}
           /* 点输入表面不关面板（沿用原 pointerdown 判定）；失焦不关；Esc 走 Radix 默认关闭 */
           onPointerDownOutside={(event) => {

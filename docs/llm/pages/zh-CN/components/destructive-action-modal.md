@@ -228,3 +228,4 @@ import { DestructiveActionModal } from "@/components/ui/destructive-action-modal
 - confirmLabel 与标题 1:1 匹配。绝不用通用词（Confirm、OK、Continue），也不用裸动词（Delete）。
 - loading 会禁用两个按钮。调用方拥有 open——不要从 onConfirm 自行关闭。API 落定后关闭，或出错时保持打开让用户重试。
 - 验证输入打开即聚焦，用户可立即输入。提交保持禁用，直到值与验证短语完全匹配。
+- 本组件是库内仅有的两处模糊遮罩之一。遮罩模糊用于表达前景层级——主屏、AI 建议或临时前台——且必须走共享的遮罩模糊 token（--uni-overlay-backdrop-blur），绝不写裸模糊档位。新增任何模糊遮罩都需要设计确认。

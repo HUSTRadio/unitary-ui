@@ -1702,7 +1702,7 @@ const O = {
       row("variant", "SplitButtonVariant", "\"split\" renders a button plus menu list; \"pulldown\" renders a floating card that expands from a corner.", "split 渲染按钮加菜单列表；pulldown 渲染从指定角展开的悬浮卡片。", {
         defaultValue: '"split"',
       }),
-      row("expandCorner", "SplitButtonExpandCorner", "Corner the pulldown card stays anchored to; the card expands toward the opposite corner.", "pulldown 卡片锚定的角；卡片朝对角方向展开。", {
+      row("expandCorner", "SplitButtonExpandCorner", "Corner the pulldown card stays anchored to; the card expands toward the opposite corner. top-* expands downward with the card below the button; bottom-* expands upward with the card above it.", "pulldown 卡片锚定的角；卡片朝对角方向展开。top-* 向下展开（卡片在按钮下方），bottom-* 向上展开（卡片在按钮上方）。", {
         defaultValue: '"top-left"',
       }),
       row("menuItems", "ReactNode", "Secondary menu items.", "次级菜单项。"),

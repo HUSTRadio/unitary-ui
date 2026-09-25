@@ -153,7 +153,7 @@ function DestructiveActionModal({
                 {irreversibleDescription && (
                   <div
                     data-slot="destructive-action-modal-note"
-                    className="flex w-full flex-wrap items-center gap-3 rounded-md border border-red-200 bg-red-100 px-3 py-1.5 text-copy-14 text-red-900"
+                    className="flex w-full flex-wrap items-center gap-3 rounded-md border border-red-200 bg-red-100 px-3 py-1.5 text-copy-14 text-error-foreground"
                   >
                     <TriangleAlert className="size-3.5 shrink-0" aria-hidden />
                     <div className="min-w-0 flex-1 break-words">{irreversibleDescription}</div>
@@ -186,7 +186,7 @@ function DestructiveActionModal({
                     <div
                       role="alert"
                       aria-atomic="true"
-                      className="flex items-start text-sm leading-5 text-red-900"
+                      className="flex items-start text-sm leading-5 text-error-foreground"
                     >
                       <CircleAlert className="mr-2 mt-0.5 size-4 shrink-0" aria-hidden />
                       <span className="break-words">{errorMessage}</span>

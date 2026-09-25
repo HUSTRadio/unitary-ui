@@ -306,7 +306,7 @@ const ContextMenuQuickActionsItem = React.forwardRef<
     className={cn(
       "flex cursor-pointer select-none items-start gap-3 rounded-overlay-item px-2 py-2.5 text-left outline-none transition-colors",
       "data-highlighted:bg-gray-alpha-100 data-[disabled]:pointer-events-none data-[disabled]:text-gray-500",
-      destructive && "text-[#ee0000]",
+      destructive && "text-error-foreground",
       className,
     )}
     {...props}

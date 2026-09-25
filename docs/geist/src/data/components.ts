@@ -387,6 +387,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "Items follow the same rules as Menu: Title Case Verb + Noun (Open in New Tab, Copy URL, Delete Deployment). Bare verbs are wrong.",
       "Group destructive items at the bottom with a divider and keep the destructive label Verb + Noun.",
       "The keyboard menu key (Shift+F10 on Windows/Linux) opens the same menu without right-click.",
+      "The Quick Actions scrim is one of only two blurred overlays in the library. Blur expresses a foreground layer — the primary screen, an AI suggestion, or a temporary front surface — and must come from the shared overlay blur token (--uni-overlay-backdrop-blur), never a per-component blur step. Adding a blurred overlay elsewhere is a design decision, not a local styling choice.",
     ],
   },
   {
@@ -446,6 +447,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "confirmLabel matches the title 1:1. Never generic (Confirm, OK, Continue), never a bare verb (Delete).",
       "loading disables both buttons. The caller owns open — do not self-dismiss from onConfirm. Close after the API settles, or keep open on error so the user can retry.",
       "The verification input gets focus on open so the user can start typing immediately. Submit stays disabled until the value matches the verification phrase exactly.",
+      "Treat this as one of only two blurred overlays in the library. Backdrop blur expresses a foreground layer — the primary screen, an AI suggestion, or a temporary front surface — and must be applied through the shared overlay blur token (--uni-overlay-backdrop-blur), never a raw blur step. Any new blurred overlay requires design confirmation.",
     ],
   },
   {

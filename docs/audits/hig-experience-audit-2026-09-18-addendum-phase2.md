@@ -125,6 +125,18 @@
   - 改为行为断言（RTL/jsdom 渲染 + `getByRole`/`aria-*` 断言），至少覆盖：Toolbar 折叠后溢出菜单项与 `disabled` 透传、MenuBar 菜单可滚动、ActivityView 可访问名称、pull-down 的 `side`/`align`/`origin` 实际落到 DOM；
   - 保留少量「公开 API 契约」字符串断言是合理的（导出名、默认值），但**不要**断言视觉类名与表达式文本。
 - **验收场景**：把 `ToolbarGroup` 折叠实现换成纯 CSS 方案后，行为测试仍通过；把 `#ee0000` 迁移为语义 token 后无需改动行为测试。
+- **修复后记录（2026-09-26，5 个文件全部转换）**：不再有 `readFileSync + toContain` 的视觉类名与表达式文本契约，判据改为渲染输出或真实事件。
+
+  | 原文件 | 处置 | 新判据 |
+  |---|---|---|
+  | `tests/toolbar-api.test.ts` | 删除 → `tests/toolbar-slots.test.tsx` | 三段 `data-toolbar-slot`（含默认 `leading`）、`iconOnly` 的 `aria-label` 与不渲染可见文案、`active` 的 `aria-pressed`/`data-active`、内容溢出时整组折叠并产生溢出入口、`collapse={false}` 完全不注册测量、24px 滞回（310 保持折叠 / 330 展开） |
+  | `tests/activity-view-api.test.ts` | 删除 → `tests/activity-view-content.test.tsx` | 目标/操作/取消三个语义区、点击目标与操作后执行回调**并关闭**、取消行只关闭、`showCancel={false}`、空数据不渲染对应分区、默认标题与取消行的本地化文案 |
+  | `tests/layout-api.test.ts` | 删除 → `tests/layout-primitives.test.tsx` | 服务端渲染串判据：四边 `max(…, env(safe-area-inset-*))`、`edges` 按边启用与 `data-edges` 回显、`style` 覆盖安全区内边距的边界（045 文档化的行为）、**两表逐档同步守护（046）**、档位递增与默认档一致 |
+  | `tests/menu-bar-api.test.ts` | 删除 → `tests/menu-bar-interaction.test.tsx` | `role=menubar` 与默认不展开、打开后渲染菜单项/分隔线/子菜单入口、切换顶级菜单只保留一个展开、点击项与勾选项的真实回调、禁用项不可触发、快捷键文本 `aria-hidden` 且**按下 ⌘N / Ctrl+N 不执行命令**（047） |
+  | `tests/pull-down-button-api.test.ts` | 删除 → `tests/pull-down-button.test.tsx` | 四个 `expandCorner` 实际落到 `data-side`/`data-align` 与 `origin-*` 类、卡片内边距 `p-2`、split 变体忽略 `expandCorner`、`menuButtonDisabled` 只禁用触发按钮、默认 `top-left` 卡片在下方 |
+
+- **转换验证**：9 个文件（上述 5 个新文件 + 既有 `toolbar-collapse` / `activity-view-a11y` / `combobox-api` / `combobox-controlled`）合跑 **58 passed**；`pnpm run typecheck` exit 0；`pnpm run lint` 0 error（16 条既有 warning）。判据落在渲染输出与真实事件上，因此「换实现」不再需要改测试。
+- **连带发现（本轮未修，待分诊）**：`ToolbarItem` 在未传 `active` 时**完全不声明** `aria-pressed`（只有显式 `active={false}` 才输出 `"false"`），分段控件组中的非当前项因此对 AT 不呈现为切换按钮。已按实际契约断言，建议作为独立条目评估，不在本条范围内顺手改动。
 
 #### HIG-AUD-042 ActivityView 目标横向滚动无边缘提示（与仓库自身最佳实践矛盾）
 
@@ -167,6 +179,20 @@
 | **HIG-AUD-048** | pull-down 允许卡片出现在按钮**上方**，与「pull-down（下拉）」隐喻相悖 | `split-button.tsx:44-52`：`bottom-left`/`bottom-right` → `top-start`/`top-end`。默认 `top-left`（卡片在下方）✓ 正确 | 文档标注「上方展开用于工具栏位于底部等场景」，或收窄可选角 |
 | **HIG-AUD-049** | ActivityView 图标瓦片 48px，HIG 正文建议约 70×70px | `activity-view.tsx:113` `size-12`（48px）+ `:113` `[&_svg]:size-5`（20px）；HIG §3.1 `activity-views.md`「center it in an area measuring about **70x70 pixels**」 | **Web 适配判断，非缺陷**：需设计决策记录（HIG 的 70×70 是 iOS 点/像素语境；Web 48px 更贴合 Geist 密度）。~~建议在组件注释中写明取舍~~ → **已于 2026-09-22 关闭**：设计决策注释已落 `activity-view.tsx`（瓦片 `size-12` 处），布局无改动 |
 | **HIG-AUD-050** | `collectCollapsedItems` 不展平 Fragment，用 `<>…</>` 包裹分组时收集失败 | `toolbar.tsx:83,87` `React.Children.forEach` | 递归展平 Fragment，或文档禁止用 Fragment 包裹分组 |
+
+### 3.4 P3 修复记录（2026-09-26）
+
+| 编号 | 处置（采用审计给出的哪条路径） | 证据 |
+|---|---|---|
+| **HIG-AUD-031** | **迁移到既有语义 token**（审计首选「应走语义 token（`--destructive` 已存在）」；以 `menu.tsx` 的 `type==="error"` 既有约定为基准，未新造 token） | `activity-view.tsx`、`context-menu.tsx`、`select.tsx` 的破坏性/错误文本 → `text-error-foreground`；`toast.tsx` success 的硬编码 `text-white` → `text-success-foreground`（既有 token，取值 `#ffffff`，零观感变化）；`destructive-action-modal.tsx` 的两处 `text-red-900` → `text-error-foreground`（`border-red-200`/`bg-red-100` 属设计系统调色板类、已随主题，未动）。棘轮账本 `totalOccurrences` 143→134、`#ee0000` 的文件列表收窄至 `select.tsx` 并把 reason 改写为「仅剩 aria-invalid 错误环裸值，与共享 FIELD_ERROR_RING 取值不一致，需设计确认」（诚实保留而非谎称已清理）。`tests/quick-actions-api.test.tsx` 里**锁定 hex 字面量**的脆性断言改为语义断言 + 「不得回退 hex 工具类」的负向断言。验证：`raw-color-governance`、`radius-tokens`、`error-foreground-token`、`quick-actions-api`、`activity-view-content`、`toast-api`、`destructive-action-modal-state`、`dots-menu-surface`、`toolbar-collapse` 合跑 **46 passed**，`typecheck` exit 0、`lint` 0 error（16 存量 warning） |
+| **HIG-AUD-032** | **统一表面 token + 移除语义降级**（审计建议原文） | `dots-menu.tsx`：浮层 `bg-background` → `bg-surface`（与 `menu.tsx` 同源）；删除触发器上显式 `aria-haspopup="true"`，交回 Radix 输出 `aria-haspopup="menu"`。新增行为测试 `tests/dots-menu-surface.test.tsx`（jsdom：打开后浮层真实入 DOM、触发器 `aria-haspopup==="menu"`、浮层表面 token 等于 `Menu` 的权威表面 `bg-surface`），断言运行时可观察契约而非源码字符串。**连带修正**：3 处测试把该缺陷属性当作定位器——`tests/toolbar-collapse.test.tsx` 3 处与 `tests/e2e/touch-targets.spec.ts` 3 处改为 `[aria-haspopup="menu"]`，其中 e2e 还需**限定在示例容器内**（`[data-demo-component="dots-menu"]`），否则会测到导航栏同样带 `aria-haspopup="menu"` 的触发器（首版全局取首个即测出 32px 的假失败）。修正后 `touch-targets` **9 passed** |
+| **HIG-AUD-033** | **迁移到材质 token**（审计首选；采用等价最小实现——只换阴影，保留背景与圆角 token，避免连带打破 `radius-tokens` 治理） | `combobox.tsx` 面板的 4 层自写字面阴影 → `shadow-[var(--material-shadow-menu)]`（与 `select`/`multi-select`/`menu` 同源），并补 `data-slot="combobox-content"` 作可定位槽位；新增 `tests/e2e/combobox-panel-material.spec.ts` 直接比较 Combobox 与 Select 面板的 computed `box-shadow`（先归一化 Tailwind `--tw-shadow` 组合产生的 4 个全透明零层），双主题 **2 passed**，并断言双主题 1px 描边色真实生效；棘轮账本同步删除源码中已不存在的 `rgba(0,0,0,0.04)` 条目，`raw-color-governance` 复跑通过 |
+| **HIG-AUD-035** | **文档边界 + 白名单守护**（审计建议「写成 token」中 token 已存在，缺的是用途边界文档化与防回退） | 双语最佳实践各 +1 条（`docs/geist/src/data/components.ts` 的 context-menu / destructive-action-modal 条目 + `docs/geist/src/i18n/best-practices-zh.ts` 对应条目）：模糊只用于表达「主屏 / AI 建议 / 临时前台」层级、必须来自共享 `--uni-overlay-backdrop-blur`、别处新增模糊遮罩属设计决策；新增 `tests/overlay-blur-boundary.test.ts` 4 条断言（遮罩模糊 ⊆ 显式白名单；全仓 `backdrop-blur` 使用点 ⊆ 白名单 ∪ 装饰例外 `phone-chrome`；白名单遮罩必须含 `backdrop-blur-(--uni-overlay-backdrop-blur)`；禁止裸 `backdrop-blur-sm/md/[...]`），与既有 `overlay-backdrop-tokens` 联跑 **10 passed**，并用仓库外逻辑探针验证「新增违规会被拦下」 |
+| **HIG-AUD-045** | **文档路径**（审计首选「文档标注 `style` 会覆盖安全区内边距」），运行时行为不变，避免改动既有调用方语义 | 双语指南 `guides-05.ts` 的 safe-area `responsiveBehavior` 中英各 +1 条：明确 `style` 最后展开、传 `padding`/`paddingTop` 会覆盖组件计算的安全区内边距且**两者不合并**；测试 `tests/layout-primitives.test.tsx` 直接断言该边界（`style={{paddingTop:"0px"}}` 覆盖生效，未被覆盖的边仍保留 `env(safe-area-inset-left)`），另断言 `edges` 按边启用与 `data-edges` 回显、四边均取 `max(档位, env(...))` |
+| **HIG-AUD-046** | **守护测试**（审计次选「加守护测试断言二者同步」），不做运行时重构，保持 `SPACING_VALUE` / `STACK_GAP_CLASS` 现状 | 同一测试文件新增逐档守护：对 `xs/sm/md/lg/xl` 分别渲染 `SafeArea` 取内边距里的 `calc(var(--spacing) * N)` 的 N、渲染 `Stack` 取 `gap-M` 的 M，断言 `N === M`（任一表单独改档位即失败）；并断言档位数值递增、默认档等价于显式 `md`。判据取自**服务端渲染输出**而非源码文本，因此换实现方式不需要改测试 |
+| **HIG-AUD-047** | **移除未绑定承诺**（审计：「不建议对视觉用户展示未绑定的快捷键」；未新增 `onShortcut`——它本身不会让物理按键生效，而 ⌘N/⌘O 等多为浏览器保留键，页面无法可靠拦截） | 默认示例删除 6 处 `shortcut`（⌘N / ⌘O / ⌘Z / ⌘⇧Z / ⌘C / ⌘⇧.）并补注释说明取舍；双语指南 `summary`、`whenToUse`、示例描述改为「自行绑定后再展示快捷键」，组件 public `shortcut` API 与「仅展示」声明保留；`MenuBarShortcut` 新增 `data-slot="menu-bar-shortcut"`；`tests/menu-bar-interaction.test.tsx` 断言快捷键文本 `aria-hidden` 且按下 ⌘N / Ctrl+N / ⌘⇧N **不执行命令**（**9 passed**）；`tests/e2e/menu-bar-overlay.spec.ts` 新增双主题用例断言演示菜单内键帽数为 0 且命令仍可执行（与 033 用例合跑 **10 passed**） |
+| **HIG-AUD-048** | **文档路径**（审计首选「文档标注上方展开用于工具栏位于底部等场景」），**不收窄可选角**：`bottom-*` 已有使用方，收窄属运行时变更且超出本条范围 | `guides-13.ts` 中英双语补 pull-down 卡片变体说明（`variant="pulldown"`、`expandCorner` 四角各指向卡片在按钮上方/下方、动画原点固定在锚定角、向上展开的适用场景），新增示例条目 `split-btn-04`（引用注册表中**既有** demo `pull-down-card`，该 demo 此前未被任何指南正文引用）；`component-api.ts` 的 `expandCorner` 行补上下方向语义。**浏览器实证该文档主张**（双主题、1280×720，临时脚本跑完已删）：`top-left` 卡片 `y=337` vs 按钮底边 `330.59` → 在下方（间距 6.41px = 该变体的 `sideOffset 6`）；`bottom-left` 卡片底边 `289` vs 按钮顶边 `294.59` → 在上方；两者均在视口内，两主题数值一致 |
+| **HIG-AUD-041（连带）** | 二期 5 个源码字符串契约的转换同时消解了本条的两处「锁死重构 / 固化缺陷」风险 | 见 §3.2 的「修复后记录（2026-09-26）」：`layout-api.test.ts` 里精确匹配 `max(...)` 模板串的断言与 `activity-view-api.test.ts` 里冻结 `#ee0000` 的断言均已随文件替换消失 |
 
 ---
 

@@ -336,24 +336,24 @@
 | HIG-AUD-028 | P2 | 全局（浮层）；2026-09-25 本机覆盖式滚动条 Chromium 双主题 Sheet/Modal/Menu 开关均无宽度偏移；经典滚动条环境未验证，未更改样式，仍待闭环（增补 §5Y） |
 | HIG-AUD-029 | P2 | `select`、`combobox`、`drawer`、`bottom-sheet`、`side-panel`、`toast`、`tooltip`、`edit-menu` |
 | HIG-AUD-030 | P2 | `toast`、`command-menu`、`edit-menu`；`command-menu` 无结果内层 status 已修并经 Chromium 可访问树验证（2026-09-25，增补 §5Y），toast/edit-menu 及 NVDA/VoiceOver 待验，整条未闭环 |
-| HIG-AUD-031 | P3 | `destructive-action-modal`、`toast`、`context-menu`、`activity-view` |
-| HIG-AUD-032 | P3 | `dots-menu` |
-| HIG-AUD-033 | P3 | `combobox` |
+| HIG-AUD-031 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：`activity-view`/`context-menu`/`select`/`destructive-action-modal` 的破坏性文本与 `toast` success 前景统一走既有语义 token（`text-error-foreground` / `text-success-foreground`）；棘轮清账 143→134 且 `#ee0000` 收窄至 select 的错误环并更新理由；焦点测试集 46 passed |
+| HIG-AUD-032 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：`dots-menu` 浮层表面改 `bg-surface`（与 `menu.tsx` 同源）、移除显式 `aria-haspopup="true"` 语义降级；新增行为测试 `tests/dots-menu-surface.test.tsx`；连带修正 3 处耦合该缺陷属性的测试定位器 |
+| HIG-AUD-033 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：`combobox` 面板阴影改走 `--material-shadow-menu`；双主题计算值同源回归 2 passed；棘轮账本同步删除已消失的 `rgba(0,0,0,0.04)` |
 | HIG-AUD-034 | P3 | `edit-menu` |
-| HIG-AUD-035 | P3 | `destructive-action-modal`、`context-menu`、`sheet`、`side-panel`、`drawer`、`bottom-sheet`、`modal`、`command-menu` |
+| HIG-AUD-035 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：模糊用途边界写入双语最佳实践（仅供「主屏/AI 建议/临时前台」层级、必须走 `--uni-overlay-backdrop-blur`）；新增白名单守护 `tests/overlay-blur-boundary.test.ts`，新增使用点会失败并要求设计确认 |
 | HIG-AUD-036 | P1 | `edit-menu` 选区即时操作按产品决定始终横向；与原桌面竖向验收要求有意偏离、待审核，不能计为已修（增补 §5V） |
 | HIG-AUD-037 | P1 | `context-menu`（Quick Actions）、`split-button`（pull-down 变体）、`activity-view`——**已修复（2026-09-23，运行确认 + 永久 e2e，增补 §5I）** |
 | HIG-AUD-038 | P1 | `menu-bar`（菜单无可用高度约束 → 长菜单尾部不可达）——**已修复（2026-09-22，运行确认，增补 §5D）** |
 | HIG-AUD-039 | P1 | `toolbar`（折叠静默丢弃非 ToolbarItem 内容；`disabled` 在溢出菜单中失效）——**已修复（2026-09-23，运行确认，增补 §5H）** |
 | HIG-AUD-040 | P1 | `activity-view`（+ 根因在 `bottom-sheet`：面板无可访问名称）——**已修复（2026-09-23，运行确认，增补 §5G）** |
-| HIG-AUD-041 | P2 | 二期 5 个测试文件（`menu-bar-api` / `toolbar-api` / `layout-api` / `activity-view-api` / `pull-down-button-api`） |
+| HIG-AUD-041 | P2 | ✅ 已定向修复（2026-09-26，增补 §3.2）：二期 5 个源码字符串契约（`menu-bar-api` / `toolbar-api` / `layout-api` / `activity-view-api` / `pull-down-button-api`）全部改为渲染/行为断言（`menu-bar-interaction` / `toolbar-slots` / `layout-primitives` / `activity-view-content` / `pull-down-button`）；9 文件 58 passed、typecheck exit 0 |
 | HIG-AUD-042 | P2 | ✅ 已定向修复（2026-09-25，增补 §5Z）：`activity-view` 八分享目标的双向渐隐随溢出与滚动更新，双主题 E2E 4 passed、视觉几何 2 passed；双语指南及生成语料同步 |
 | HIG-AUD-043 | P2 | ✅ 已定向修复（2026-09-25，增补 §5AA）：`activity-view` 默认 0.6/0.9 双档、长操作列表可滚动/扩展；双主题 E2E 4 passed、视觉几何 2 passed；触屏真机仍待确认 |
 | HIG-AUD-044 | P2 | ✅ 已定向修复（2026-09-25，增补 §3.2）：`menu-bar` 浮层 popover 层级、横滚渐隐与 320px 子菜单内缩；双主题 E2E 6 passed、视觉几何 2 passed |
-| HIG-AUD-045 | P3 | `safe-area`（`style` 可覆盖安全区内边距） |
-| HIG-AUD-046 | P3 | `safe-area`、`stack`（两份平行档位表） |
-| HIG-AUD-047 | P3 | `menu-bar`（快捷键为不可用承诺） |
-| HIG-AUD-048 | P3 | `split-button`（pull-down 允许卡片出现在按钮上方） |
+| HIG-AUD-045 | P3 | ✅ 已定向修复（2026-09-26，文档路径，增补 §3.4）：双语指南写明 `style` 会覆盖安全区内边距且两者不合并；渲染级测试断言该边界与按边启用 |
+| HIG-AUD-046 | P3 | ✅ 已定向修复（2026-09-26，守护测试，增补 §3.4）：`layout-primitives.test.tsx` 逐档断言 SafeArea 的 `--spacing` 倍数与 Stack 的 `gap` 数字一致，并校验档位递增与默认档 |
+| HIG-AUD-047 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：默认示例移除 6 处未绑定键帽，双语指南改为「自行绑定后再展示」；行为测试断言按键不执行命令 + 双主题 e2e 断言演示无键帽 |
+| HIG-AUD-048 | P3 | ✅ 已定向修复（2026-09-26，文档路径，增补 §3.4）：`guides-13.ts` 双语补齐 pull-down 卡片变体与四角语义、新增 `split-btn-04` 示例（引用既有注册 demo `pull-down-card`）、`component-api.ts` 补上下方向；浏览器实测双主题 `top-*` 卡片在按钮下方（gap 6.41px）、`bottom-*` 在按钮上方且均在视口内 |
 | HIG-AUD-049 | P3 | `activity-view`（图标瓦片 48px vs HIG 正文 ~70×70，Web 适配判断） |
 | HIG-AUD-050 | P3 | `toolbar`（Fragment 包裹分组时收集失败）——**已修复（2026-09-23，随 039 同代码面闭环，增补 §5H）** |
 | HIG-AUD-053 | P2 | ✅ 已修（2026-09-24，增补 §5W）：命令面板条目只索引双语标签及别名，不混入分组名；定向 E2E 5/5、双主题几何 2/2 通过；全量 `test:docs-layout` 未重跑 |

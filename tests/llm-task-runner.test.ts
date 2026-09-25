@@ -74,6 +74,25 @@ function fakeTask() {
   };
 }
 
+// 断言必须绑定真实仓库配置，避免夹具与实际 provider/模型脱钩。
+function repoAgentConfig() {
+  const config = JSON.parse(
+    readFileSync(path.join(repoRoot, ".agents", "runner.config.json"), "utf8"),
+  ) as {
+    agent: {
+      command: string;
+      codexCli?: boolean;
+      provider?: string;
+      model: string;
+      baseUrl?: string;
+      apiKeyEnv?: string;
+      thinking?: string;
+      ephemeral?: boolean;
+    };
+  };
+  return config.agent;
+}
+
 async function loadRunner() {
   expect(existsSync(runnerPath)).toBe(true);
   return import(pathToFileURL(runnerPath).href);
@@ -109,19 +128,62 @@ describe("generic LLM task runner", () => {
     expect(env.GIT_TERMINAL_PROMPT).toBe("0");
   });
 
+  it("passes only the provider credential variable and strips every other secret", async () => {
+    const runner = await loadRunner();
+    const env = runner.buildAgentEnvironment({
+      PATH: "test-path",
+      DEEPSEEK_API_KEY: "ds-sentinel",
+      AWS_SECRET_ACCESS_KEY: "aws-sentinel",
+      GITHUB_TOKEN: "gh-sentinel",
+      OPENROUTER_API_KEY: "or-sentinel",
+      ANTHROPIC_API_KEY: "anthropic-sentinel",
+      DEEPSEEK_API_KEY_ID: "near-miss-sentinel",
+      UNSAFE_SECRET: "unsafe-sentinel",
+    });
+    expect(env.DEEPSEEK_API_KEY).toBe("ds-sentinel");
+    expect(env.AWS_SECRET_ACCESS_KEY).toBeUndefined();
+    expect(env.GITHUB_TOKEN).toBeUndefined();
+    expect(env.OPENROUTER_API_KEY).toBeUndefined();
+    expect(env.ANTHROPIC_API_KEY).toBeUndefined();
+    expect(env.DEEPSEEK_API_KEY_ID).toBeUndefined();
+    expect(env.UNSAFE_SECRET).toBeUndefined();
+  });
+
+  it("allowlists the provider credential by exact name, never by wildcard suffix", async () => {
+    const runner = await loadRunner();
+    // 冻结的字符串白名单：唯一允许的 *_API_KEY 必须是当前 provider 的凭据变量，
+    // 宽泛的 `*_API_KEY` 后缀匹配会让 OPENROUTER_API_KEY 等父进程密钥一并泄露。
+    expect(Object.isFrozen(runner.AGENT_ENV_ALLOWLIST)).toBe(true);
+    expect(runner.AGENT_ENV_ALLOWLIST).toContain("DEEPSEEK_API_KEY");
+    expect(
+      runner.AGENT_ENV_ALLOWLIST.filter((name: string) => name.endsWith("_API_KEY")),
+    ).toEqual(["DEEPSEEK_API_KEY"]);
+  });
+
   it("uses the fixed production Codex exec template and rejects a substituted executable", async () => {
     const runner = await loadRunner();
+    const { model, thinking } = repoAgentConfig();
     const config = {
       enabled: true,
       agent: {
         command: "codex",
         codexCli: true,
-        model: "gpt-5.6-sol",
-        thinking: "medium",
+        model,
+        thinking,
         ephemeral: true,
       },
     };
-    expect(runner.buildAgentArgs(config, "PROMPT")).toEqual([
+    const args = runner.buildAgentArgs(config, "PROMPT");
+    // 参数前缀必须是固定 Codex exec 模板，provider 切换不得改动它。
+    expect(args.slice(0, 6)).toEqual([
+      "exec",
+      "--sandbox",
+      "workspace-write",
+      "--skip-git-repo-check",
+      "--color",
+      "never",
+    ]);
+    expect(args).toEqual([
       "exec",
       "--sandbox",
       "workspace-write",
@@ -129,14 +191,103 @@ describe("generic LLM task runner", () => {
       "--color",
       "never",
       "--model",
-      "gpt-5.6-sol",
+      model,
       "-c",
-      'model_reasoning_effort="medium"',
+      `model_reasoning_effort="${thinking}"`,
       "PROMPT",
     ]);
     expect(() =>
       runner.buildAgentArgs({ ...config, agent: { ...config.agent, command: "node" } }, "PROMPT"),
     ).toThrow(/fixed Codex/);
+  });
+
+  it("describes the configured provider inline so Codex needs no user-level config.toml", async () => {
+    const runner = await loadRunner();
+    const agent = repoAgentConfig();
+    expect(agent.provider).toBe("deepseek");
+    expect(agent.baseUrl).toBe("https://api.deepseek.com/v1");
+    expect(agent.apiKeyEnv).toBe("DEEPSEEK_API_KEY");
+
+    const args = runner.buildAgentArgs({ enabled: true, agent }, "PROMPT");
+    const prefix = `model_providers.${agent.provider}`;
+    expect(args).toEqual([
+      "exec",
+      "--sandbox",
+      "workspace-write",
+      "--skip-git-repo-check",
+      "--color",
+      "never",
+      "-c",
+      `model_provider="${agent.provider}"`,
+      "-c",
+      `${prefix}.name="${agent.provider}"`,
+      "-c",
+      `${prefix}.base_url="${agent.baseUrl}"`,
+      "-c",
+      `${prefix}.env_key="${agent.apiKeyEnv}"`,
+      "-c",
+      `${prefix}.wire_api="responses"`,
+      "--model",
+      agent.model,
+      "-c",
+      `model_reasoning_effort="${agent.thinking}"`,
+      "PROMPT",
+    ]);
+    expect(args).toContain('model_providers.deepseek.base_url="https://api.deepseek.com/v1"');
+    expect(args).toContain('model_providers.deepseek.env_key="DEEPSEEK_API_KEY"');
+    expect(args).toContain('model_providers.deepseek.wire_api="responses"');
+    expect(args[args.indexOf("--model") + 1]).toBe("deepseek-flash");
+  });
+
+  it("omits provider overrides when no provider is configured", async () => {
+    const runner = await loadRunner();
+    const { model, thinking } = repoAgentConfig();
+    const args = runner.buildAgentArgs(
+      {
+        enabled: true,
+        agent: { command: "codex", codexCli: true, model, thinking, ephemeral: true },
+      },
+      "PROMPT",
+    );
+    expect(args.join("\n")).not.toContain("model_providers.");
+    expect(args.join("\n")).not.toContain("base_url");
+    expect(args.join("\n")).not.toContain("wire_api");
+    expect(args).toEqual([
+      "exec",
+      "--sandbox",
+      "workspace-write",
+      "--skip-git-repo-check",
+      "--color",
+      "never",
+      "--model",
+      model,
+      "-c",
+      `model_reasoning_effort="${thinking}"`,
+      "PROMPT",
+    ]);
+  });
+
+  it("omits the reasoning-effort override when the agent config has no thinking", async () => {
+    const runner = await loadRunner();
+    const { model } = repoAgentConfig();
+    // 「未设置 thinking」这条分支无法用全局配置值覆盖，故显式构造局部夹具。
+    const args = runner.buildAgentArgs(
+      { enabled: true, agent: { command: "codex", codexCli: true, model } },
+      "PROMPT",
+      { testMode: true },
+    );
+    expect(args).toEqual([
+      "exec",
+      "--sandbox",
+      "workspace-write",
+      "--skip-git-repo-check",
+      "--color",
+      "never",
+      "--model",
+      model,
+      "PROMPT",
+    ]);
+    expect(args).not.toContain("model_reasoning_effort");
   });
 
   it("returns status 2 for allowlisted writes without committing", async () => {
@@ -232,13 +383,14 @@ describe("generic LLM task runner", () => {
     expect(runner.promptViaStdin("small prompt")).toBe(false);
     expect(runner.promptViaStdin("x".repeat(runner.PROMPT_STDIN_THRESHOLD + 1))).toBe(true);
 
+    const { model, thinking } = repoAgentConfig();
     const config = {
       enabled: true,
       agent: {
         command: "codex",
         codexCli: true,
-        model: "gpt-5.6-sol",
-        thinking: "medium",
+        model,
+        thinking,
         ephemeral: true,
       },
     };
@@ -251,9 +403,9 @@ describe("generic LLM task runner", () => {
       "--color",
       "never",
       "--model",
-      "gpt-5.6-sol",
+      model,
       "-c",
-      'model_reasoning_effort="medium"',
+      `model_reasoning_effort="${thinking}"`,
     ]);
     expect(runner.buildAgentArgs(config, "PROMPT", { promptVia: "arg" })).toEqual([
       "exec",
@@ -263,9 +415,9 @@ describe("generic LLM task runner", () => {
       "--color",
       "never",
       "--model",
-      "gpt-5.6-sol",
+      model,
       "-c",
-      'model_reasoning_effort="medium"',
+      `model_reasoning_effort="${thinking}"`,
       "PROMPT",
     ]);
   });
@@ -296,5 +448,44 @@ describe("generic LLM task runner", () => {
     const captured = readFileSync(promptOut, "utf8");
     expect(captured).toContain("fixed prompt");
     expect(captured).toContain(runtimeContext.padding.slice(0, 64));
+  });
+
+  it("never writes provider credentials into the sanitized run record", async () => {
+    const runner = await loadRunner();
+    const dir = makeRepo();
+    const sentinel = "ds-key-must-not-be-recorded";
+    const result = await runner.runTask({
+      repoRoot: dir,
+      resolvedTask: fakeTask(),
+      runnerConfig: fakeConfig(),
+      runtimeContext: { mode: "test" },
+      testMode: true,
+      // testEnvironment 里带上 provider 凭据：它必须被透传给子进程，但绝不能落盘。
+      testEnvironment: {
+        FAKE_AGENT_TOUCH: "docs/new.md",
+        DEEPSEEK_API_KEY: sentinel,
+      },
+      testValidationExit: 0,
+    });
+    expect(result.status).toBe(2);
+    expect(result.runRecordPath).toBeTruthy();
+    const recordPath = result.runRecordPath as string;
+    expect(recordPath).toContain(path.join(".scratch", "llm-runs"));
+    const record = readFileSync(recordPath, "utf8");
+    expect(record).not.toContain(sentinel);
+    expect(record).toContain("fake-model");
+  });
+});
+
+// Windows 命令选择必须保持 fail-closed：shim-only 安装不退回 shell 派生。
+describe.skipIf(process.platform !== "win32")("resolveWindowsAgentCommand (win32)", () => {
+  it("fails closed on shim-only installs instead of shelling out", async () => {
+    const runner = await loadRunner();
+    const dir = mkdtempSync(path.join(os.tmpdir(), "unitary-agent-resolve-"));
+    cleanups.push(dir);
+    writeFileSync(path.join(dir, "codex.cmd"), "@echo off\r\n");
+    expect(() => runner.resolveWindowsAgentCommand("codex", { ...process.env, PATH: dir })).toThrow(
+      /CVE-2024-27980/,
+    );
   });
 });

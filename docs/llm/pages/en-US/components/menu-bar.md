@@ -14,7 +14,7 @@ A horizontal bar of application menus with keyboard shortcuts, submenus, and che
 
 ## When to use
 
-- For application-level command sets (File / Edit / View) that expose keyboard shortcuts.
+- For application-level command sets (File / Edit / View) whose shortcuts you bind yourself and then advertise.
 - For multi-level submenus or checkable view toggles.
 
 ## When not to use
@@ -26,7 +26,7 @@ A horizontal bar of application menus with keyboard shortcuts, submenus, and che
 
 ### Default menu bar
 
-File, Edit, and View menus with shortcuts, a submenu, a checkbox item, and a disabled item; includes an interactive menu inside a modal.
+File, Edit, and View menus with a submenu, a checkbox item, and a disabled item; includes an interactive menu inside a modal. No shortcut hints are shown because the component binds no keys.
 
 ## Accessibility
 
@@ -73,8 +73,12 @@ import {
 } from "@/components/ui/menu-bar";
 
 /**
- * MenuBar —— 水平应用菜单栏：顶级菜单横向排列，菜单项支持右对齐快捷键、
- * 分隔线、勾选态与子菜单。键盘导航（左右切顶级菜单、Esc 逐级关闭）由 Radix 提供。
+ * MenuBar —— 水平应用菜单栏：顶级菜单横向排列，菜单项支持分隔线、勾选态与子菜单。
+ * 键盘导航（左右切顶级菜单、Esc 逐级关闭）由 Radix 提供。
+ *
+ * HIG-AUD-047：`shortcut` 只负责展示、不绑定按键，因此本示例不渲染任何快捷键提示——
+ * 演示里出现 ⌘N / ⌘O / ⌘Z / ⌘C 这类键帽会让用户以为可按（其中多数还是浏览器保留键，
+ * 页面无法可靠拦截）。需要在真实产品里展示快捷键时，请由调用方自行绑定按键后传入。
  */
 export function MenuBarDefault1D7F3C05Example() {
   const [showHidden, setShowHidden] = React.useState(false);
@@ -87,12 +91,8 @@ export function MenuBarDefault1D7F3C05Example() {
         <MenuBarMenu>
           <MenuBarTrigger>File</MenuBarTrigger>
           <MenuBarContent>
-            <MenuBarItem shortcut="⌘N" onSelect={() => setLog("New Window")}>
-              New Window
-            </MenuBarItem>
-            <MenuBarItem shortcut="⌘O" onSelect={() => setLog("Open…")}>
-              Open…
-            </MenuBarItem>
+            <MenuBarItem onSelect={() => setLog("New Window")}>New Window</MenuBarItem>
+            <MenuBarItem onSelect={() => setLog("Open…")}>Open…</MenuBarItem>
             <MenuBarSeparator />
             <MenuBarSub>
               <MenuBarSubTrigger>Export</MenuBarSubTrigger>
@@ -106,26 +106,16 @@ export function MenuBarDefault1D7F3C05Example() {
         <MenuBarMenu>
           <MenuBarTrigger>Edit</MenuBarTrigger>
           <MenuBarContent>
-            <MenuBarItem shortcut="⌘Z" onSelect={() => setLog("Undo")}>
-              Undo
-            </MenuBarItem>
-            <MenuBarItem shortcut="⌘⇧Z" onSelect={() => setLog("Redo")}>
-              Redo
-            </MenuBarItem>
+            <MenuBarItem onSelect={() => setLog("Undo")}>Undo</MenuBarItem>
+            <MenuBarItem onSelect={() => setLog("Redo")}>Redo</MenuBarItem>
             <MenuBarSeparator />
-            <MenuBarItem shortcut="⌘C" onSelect={() => setLog("Copy")}>
-              Copy
-            </MenuBarItem>
+            <MenuBarItem onSelect={() => setLog("Copy")}>Copy</MenuBarItem>
           </MenuBarContent>
         </MenuBarMenu>
         <MenuBarMenu>
           <MenuBarTrigger>View</MenuBarTrigger>
           <MenuBarContent>
-            <MenuBarCheckboxItem
-              shortcut="⌘⇧."
-              checked={showHidden}
-              onCheckedChange={setShowHidden}
-            >
+            <MenuBarCheckboxItem checked={showHidden} onCheckedChange={setShowHidden}>
               Show Hidden Files
             </MenuBarCheckboxItem>
             <MenuBarItem disabled>Enter Full Screen</MenuBarItem>

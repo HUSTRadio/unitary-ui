@@ -26,6 +26,12 @@
         },
         "provider": { "type": "string", "minLength": 1 },
         "model": { "type": "string", "minLength": 1 },
+        "baseUrl": { "type": "string", "minLength": 1 },
+        "apiKeyEnv": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Z][A-Z0-9_]*$"
+        },
         "thinking": {
           "type": "string",
           "enum": ["off", "minimal", "low", "medium", "high", "xhigh", "max"]

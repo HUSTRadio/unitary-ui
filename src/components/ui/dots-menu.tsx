@@ -18,7 +18,7 @@ import { useI18n } from "@/lib/i18n";
  */
 
 const DOTS_MENU_CONTENT_CLASSES =
-  "min-w-[200px] rounded-overlay border-0 bg-background p-1.5 shadow-[var(--material-shadow-menu)]";
+  "min-w-[200px] rounded-overlay border-0 bg-surface p-1.5 shadow-[var(--material-shadow-menu)]";
 
 interface DotsMenuProps extends React.ComponentProps<typeof MenuContainer> {
   /** 图标尺寸（默认 18，官方实测） */
@@ -50,7 +50,6 @@ function DotsMenu({
         variant="unstyled"
         disabled={disabled}
         aria-label={t("Menu")}
-        aria-haspopup="true"
         style={
           disabled
             ? {

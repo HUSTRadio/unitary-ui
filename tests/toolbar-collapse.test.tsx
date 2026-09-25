@@ -54,7 +54,7 @@ function renderCollapsed(node: React.ReactNode) {
 /** 打开 DotsMenu 溢出菜单（Radix DropdownMenu：pointerdown 打开）。 */
 function openOverflowMenu() {
   const trigger = document.querySelector<HTMLButtonElement>(
-    '[data-slot="toolbar"] [aria-haspopup="true"]',
+    '[data-slot="toolbar"] [aria-haspopup="menu"]',
   )!;
   expect(trigger).not.toBeNull();
   act(() => {
@@ -117,7 +117,7 @@ describe("Toolbar 折叠溢出（HIG-AUD-039/050）", () => {
     // 混合组保持渲染：搜索框仍在 DOM，且不产生「无入口」的静默消失
     expect(document.querySelector('[data-testid="toolbar-search"]')).not.toBeNull();
     // 该组不产生溢出菜单（内容没有溢出入口，整组常驻）
-    expect(document.querySelector('[data-slot="toolbar"] [aria-haspopup="true"]')).toBeNull();
+    expect(document.querySelector('[data-slot="toolbar"] [aria-haspopup="menu"]')).toBeNull();
   });
 
   it("显式 collapsible={false} 的组常驻（对照）", () => {
@@ -129,7 +129,7 @@ describe("Toolbar 折叠溢出（HIG-AUD-039/050）", () => {
       </Toolbar>,
     );
     expect(document.querySelector('[data-slot="toolbar-group"]')).not.toBeNull();
-    expect(document.querySelector('[data-slot="toolbar"] [aria-haspopup="true"]')).toBeNull();
+    expect(document.querySelector('[data-slot="toolbar"] [aria-haspopup="menu"]')).toBeNull();
   });
 
   it("HIG-AUD-050：Fragment 包裹的分组与条目同样被收集", () => {

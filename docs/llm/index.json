@@ -113,8 +113,8 @@
         "en-US": "pages/en-US/components/safe-area.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:95f376ba08ca4c03bcb3a5c8d22ed5727b2390586695342d6c02b5ab9ce9df03",
-        "en-US": "sha256:9a6d5b82b379ed1149cba133a9b1549b848b8307cbdc17d98eabef733d74e3f1"
+        "zh-CN": "sha256:fa84452bad816749ec58870ad0b825b10c6e98a4b2ba4f378d770ce8163027d5",
+        "en-US": "sha256:0e282f66b7e779e2b27b84fa55829609d0618e6345317ef360676ec0f1b615e9"
       }
     },
     {
@@ -209,8 +209,8 @@
         "en-US": "pages/en-US/components/context-menu.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:d8cd5c4c8520ecc5acd901d22c52573ed8521dc5cbb24ab2e5bbbddd7cab1301",
-        "en-US": "sha256:4abede6d17cb8bcf86cc54f16e90e45559b0658ad80e9c659e7fa53d27785047"
+        "zh-CN": "sha256:95cd3f32ad926d353fe6440a9e1fa948c4582a344ed6bcf80afa854c8b2a2ecd",
+        "en-US": "sha256:7e973688ad7ae159de98e53ce74ad79f8aa2a7567cbd81b2c323ecd4b079f2ee"
       }
     },
     {
@@ -321,8 +321,8 @@
         "en-US": "pages/en-US/components/menu-bar.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:5592d12e1a6a6068df18cdd83a085b6bcd69e8ecbc29e496ba8193d4930d7a61",
-        "en-US": "sha256:88286475b69bed8d4949b1b388a5bbf3efd2c2beb52e85b45fecb98c4d8d50a0"
+        "zh-CN": "sha256:ab6cb8a664c0ef6fcd78114590065fe3382302d96e1fde0156ec25c4b4e8739a",
+        "en-US": "sha256:f478dd643a6f8af64355d25539c8486d9cac5fc74c32a72381ed96e8e379d3af"
       }
     },
     {
@@ -353,8 +353,8 @@
         "en-US": "pages/en-US/components/split-button.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:adf7abeba257c358104b50f6ccbc417c7d988b390a5e5d1be6d5cf6354f541ac",
-        "en-US": "sha256:7490d62a810ce7f3d9b07e22ea06a7e65703e695ebb29a06888e1fc80aa1a79e"
+        "zh-CN": "sha256:7c4e9c6cb271f6da6e9687011eddafe29e511b86f024361bf6eb56ed9392b64e",
+        "en-US": "sha256:04fd2f29133721371e80d4a05ad51452400f7fffe17f47259b58f8fac6d655cf"
       }
     },
     {
@@ -1233,8 +1233,8 @@
         "en-US": "pages/en-US/components/destructive-action-modal.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:301cea17b71a42ed817e5f96b21d6e7c906d12f8e5c685e9b3425e6d925cc104",
-        "en-US": "sha256:9858e7918777f1dd4458d9b076e4a245e5430297bb320b3b402a69a33e34d12d"
+        "zh-CN": "sha256:3d3ea5ac9f9bc62aa891a575114a7dfeb4bdfe848efdd5b8373395c21dcf04ed",
+        "en-US": "sha256:9ce57e90ae6429bf049f73f261aef8058ef18575e9f3e06cc38e605e7319d24b"
       }
     },
     {

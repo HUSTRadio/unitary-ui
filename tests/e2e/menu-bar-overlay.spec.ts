@@ -45,6 +45,32 @@ for (const theme of ["light", "dark"] as const) {
     await expect(page.getByText("Export PDF", { exact: true }).first()).toBeVisible();
   });
 
+  test(`MenuBar demo advertises no keycaps for unbound shortcuts (${theme})`, async ({ page }) => {
+    await page.addInitScript((preferredTheme) => {
+      localStorage.setItem("geist-docs-language", "en-US");
+      localStorage.setItem("geist-theme-preference", preferredTheme);
+    }, theme);
+    await page.goto("/#/components/menu-bar");
+    const bar = page.getByRole("menubar").first();
+
+    // HIG-AUD-047：组件不绑定按键，演示不得出现让用户以为可按的键帽
+    await bar.getByRole("menuitem", { name: "File" }).click();
+    const fileMenu = page.locator('[data-slot="menu-bar-content"]:visible');
+    await expect(fileMenu.getByRole("menuitem", { name: "New Window" })).toBeVisible();
+    await expect(fileMenu.locator('[data-slot="menu-bar-shortcut"]')).toHaveCount(0);
+
+    // 与同文件其它用例一致：换菜单前先 reload，避免上一条菜单的关闭状态干扰重开
+    await page.reload();
+    await bar.getByRole("menuitem", { name: "Edit" }).click();
+    const editMenu = page.locator('[data-slot="menu-bar-content"]:visible');
+    await expect(editMenu.getByRole("menuitem", { name: "Undo" })).toBeVisible();
+    await expect(editMenu.locator('[data-slot="menu-bar-shortcut"]')).toHaveCount(0);
+
+    // 命令本身仍可用：选择后写入日志
+    await editMenu.getByRole("menuitem", { name: "Copy" }).click();
+    await expect(page.getByText("Copy", { exact: true }).last()).toBeVisible();
+  });
+
   test(`MenuBar narrow overflow signals hidden commands (${theme})`, async ({ page }) => {
     await page.addInitScript((preferredTheme) => {
       localStorage.setItem("geist-docs-language", "en-US");

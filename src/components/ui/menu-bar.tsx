@@ -43,11 +43,12 @@ const MENU_BAR_ITEM_BASE =
   "relative flex h-9 cursor-pointer select-none items-center rounded-overlay-item px-2 text-label-14 outline-none transition-colors " +
   "data-highlighted:bg-gray-alpha-100 data-[disabled]:pointer-events-none data-[disabled]:text-gray-500";
 
-/** 菜单项右侧的快捷键区（HIG：右对齐、弱化色）。 */
+/** 菜单项右侧的快捷键区（HIG：右对齐、弱化色；仅展示，不绑定按键）。 */
 function MenuBarShortcut({ className, children }: { className?: string; children: React.ReactNode }) {
   return (
     <span
       aria-hidden="true"
+      data-slot="menu-bar-shortcut"
       className={cn("ml-auto pl-4 text-copy-13 tracking-wide text-gray-900", className)}
     >
       {children}

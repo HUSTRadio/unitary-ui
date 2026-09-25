@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "policy": "literal-level ledger. Every raw color literal occurrence in src/components + src/lib must appear here (files array covers every containing file). Every entry must still exist in code. Migration = move occurrence to semantic token, then delete the file from files[]. Empty files[] entries must be deleted.",
-  "totalOccurrences": 143,
+  "totalOccurrences": 134,
   "entries": [
     {
       "literal": "#000000",
@@ -221,11 +221,9 @@
     {
       "literal": "#ee0000",
       "source": "legacy-baseline-2026-09-04",
-      "reason": "与两套主题色阶均无匹配（品牌渐变/设备装饰/语法着色）；需设计决策新增语义 token 或登记为长期例外",
+      "reason": "仅剩 select.tsx 的 aria-invalid 错误环裸值（1px 边 + rgba 柔光）；与共享 FIELD_ERROR_RING 的 --color-red-900/--color-red-300 语义环取值不一致，需设计确认后迁移",
       "files": [
-        "src/components/ui/select.tsx",
-        "src/components/ui/activity-view.tsx",
-        "src/components/ui/context-menu.tsx"
+        "src/components/ui/select.tsx"
       ]
     },
     {
@@ -447,14 +445,6 @@
       "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
       "files": [
         "src/components/ui/dots-menu.tsx"
-      ]
-    },
-    {
-      "literal": "rgba(0,0,0,0.04)",
-      "source": "legacy-baseline-2026-09-04",
-      "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
-      "files": [
-        "src/components/ui/combobox.tsx"
       ]
     },
     {

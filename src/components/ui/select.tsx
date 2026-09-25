@@ -210,7 +210,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
                 aria-hidden="true"
                 className={cn(
                   "pointer-events-none ml-2 inline-flex shrink-0 text-gray-700",
-                  error && "text-[#ee0000]",
+                  error && "text-error-foreground",
                 )}
               >
                 {suffix}

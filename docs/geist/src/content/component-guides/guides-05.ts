@@ -457,9 +457,10 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
   "menu-bar": {
     slug: "menu-bar",
     locale: "zh-CN",
-    summary: "横向应用菜单栏：顶级菜单、右对齐快捷键、子菜单与勾选项，键盘模型由 Radix Menubar 提供。",
+    summary:
+      "横向应用菜单栏：顶级菜单、可选的右对齐快捷键提示、子菜单与勾选项，键盘模型由 Radix Menubar 提供。",
     whenToUse: [
-      "需要应用级命令集合（File / Edit / View）并展示键盘快捷键时。",
+      "需要应用级命令集合（File / Edit / View），且已自行绑定按键、要展示对应快捷键提示时。",
       "需要多级子菜单或可勾选的视图开关时。",
     ],
     whenNotToUse: [
@@ -471,7 +472,8 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
         id: "menu-bar-default",
         kind: "minimal",
         title: "默认菜单栏",
-        description: "File / Edit / View 三个顶级菜单，含快捷键、子菜单、勾选态与禁用项；还可打开模态窗口中的菜单。",
+        description:
+          "File / Edit / View 三个顶级菜单，含子菜单、勾选态与禁用项；还可打开模态窗口中的菜单。演示不展示快捷键提示，因为组件不绑定按键。",
         demoKey: "default",
       },
     ],
@@ -590,6 +592,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       content: [
         "内边距与设备安全区取较大值，设备旋转或系统栏变化时自动跟随。",
         "可按边启用：只给需要的边（如仅上下）应用安全区。",
+        "`style` 之后展开、优先级更高：传入 `padding` 或 `paddingTop` 等会覆盖组件计算的安全区内边距（两者不合并）。需要保留安全区时不要用 style 覆盖内边距。",
       ],
     },
     themeBehavior: {
@@ -1114,9 +1117,9 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "menu-bar",
     locale: "en-US",
     summary:
-      "A horizontal application menu bar with top-level menus, right-aligned shortcuts, submenus, and checkable items, backed by the Radix Menubar keyboard model.",
+      "A horizontal application menu bar with top-level menus, optional right-aligned shortcut hints, submenus, and checkable items, backed by the Radix Menubar keyboard model.",
     whenToUse: [
-      "For application-level command sets (File / Edit / View) that expose keyboard shortcuts.",
+      "For application-level command sets (File / Edit / View) whose shortcuts you bind yourself and then advertise.",
       "For multi-level submenus or checkable view toggles.",
     ],
     whenNotToUse: [
@@ -1129,7 +1132,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Default menu bar",
         description:
-          "File, Edit, and View menus with shortcuts, a submenu, a checkbox item, and a disabled item; includes an interactive menu inside a modal.",
+          "File, Edit, and View menus with a submenu, a checkbox item, and a disabled item; includes an interactive menu inside a modal. No shortcut hints are shown because the component binds no keys.",
         demoKey: "default",
       },
     ],
@@ -1252,6 +1255,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       content: [
         "Padding takes the larger of the spacing step and the device safe area, so it follows rotation and system bar changes.",
         "Edges are opt-in: apply the safe area only where it is needed, such as top and bottom.",
+        "`style` is spread last and therefore wins: passing `padding` or `paddingTop` overrides the safe-area padding the component computes (the two are not merged). Avoid overriding padding via style when you need the safe area to hold.",
       ],
     },
     themeBehavior: {

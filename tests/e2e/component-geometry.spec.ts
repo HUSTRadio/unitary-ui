@@ -353,7 +353,10 @@ test("bottom sheet animates without moving the document", async ({ page }) => {
     };
   });
   expect(styles.animationName).not.toBe("none");
-  expect(styles.animationDuration).toBe("0.3s");
+  // bottom-sheet 走 duration-(--uni-motion-overlay) → --uni-duration-slow = 350ms。
+  // 原断言 0.3s 是 2026-09-20 动效审核把 slow 档 300ms→350ms 之前的陈旧期望
+  // （docs/audits/motion-duration-audit-2026-09-20.md），与本轮 HIG 改动无关。
+  expect(styles.animationDuration).toBe("0.35s");
   expect(styles.radius).toBe("6px 6px 0px 0px");
 
   await page.keyboard.press("Escape");

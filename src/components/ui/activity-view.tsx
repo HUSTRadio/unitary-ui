@@ -217,7 +217,7 @@ function ActivityView({
               onClick={() => run(action.onSelect)}
               className={cn(
                 "flex h-11 w-full items-center gap-3 px-3 text-left text-label-14 outline-none transition-colors hover:bg-gray-alpha-100 focus-visible:bg-gray-alpha-100",
-                action.destructive ? "text-[#ee0000]" : "text-gray-1000",
+                action.destructive ? "text-error-foreground" : "text-gray-1000",
               )}
             >
               {action.icon ? (

@@ -40,6 +40,7 @@ Not applicable: Stateless — it only emits padding and holds no state of its ow
 
 - Padding takes the larger of the spacing step and the device safe area, so it follows rotation and system bar changes.
 - Edges are opt-in: apply the safe area only where it is needed, such as top and bottom.
+- \`style\` is spread last and therefore wins: passing \`padding\` or \`paddingTop\` overrides the safe-area padding the component computes (the two are not merged). Avoid overriding padding via style when you need the safe area to hold.
 
 ## Theme behavior
 

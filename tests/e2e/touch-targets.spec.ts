@@ -41,7 +41,10 @@ test.describe("HIG-AUD-013 触屏命中区（宽视口 / iPad 形态）", () => 
     },
     {
       route: "/components/dots-menu",
-      selector: '[aria-haspopup="true"]',
+      // Radix 的 DropdownMenuTrigger 输出 aria-haspopup="menu"；HIG-AUD-032 移除了
+      // dots-menu 显式传的 "true"（那是语义降级），因此不再用 "true" 定位。
+      // 必须限定在示例容器内：导航栏也有 aria-haspopup="menu" 的触发器，全局取首个会测错元素。
+      selector: '[data-demo-component="dots-menu"] [aria-haspopup="menu"]',
       label: "DotsMenu 触发器",
     },
   ] as const;
@@ -62,7 +65,11 @@ test.describe("HIG-AUD-013 触屏命中区（宽视口 / iPad 形态）", () => 
   test("菜单项（MenuItem）≥44 高", async ({ page }) => {
     await page.goto("/#/components/dots-menu");
     await page.locator('[data-slot="navbar"]').first().waitFor({ state: "visible" });
-    await page.locator('[aria-haspopup="true"]').first().click();
+    // 同样限定在示例容器内，避免点到导航栏的菜单触发器
+    await page
+      .locator('[data-demo-component="dots-menu"] [aria-haspopup="menu"]')
+      .first()
+      .click();
     const item = page.locator('[data-slot="menu-item"]').first();
     await item.waitFor({ state: "visible" });
     // Radix 浮层 zoom-in 动画（95%）期间测量会低报，等收敛
@@ -99,7 +106,7 @@ test.describe("HIG-AUD-013 触屏命中区（窄视口 / 手机形态）", () =>
       null,
       { timeout: 15_000 },
     );
-    await toolbar.locator('[aria-haspopup="true"]').click();
+    await toolbar.locator('[aria-haspopup="menu"]').click();
     const item = page.locator('[data-slot="menu-item"]').first();
     await item.waitFor({ state: "visible" });
     await page.waitForTimeout(600);

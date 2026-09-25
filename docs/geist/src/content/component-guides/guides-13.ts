@@ -4,10 +4,12 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
   "split-button": {
     slug: "split-button",
     locale: "zh-CN",
-    summary: "将主操作与相关选项组合在一个控件中，减少行空间占用。",
+    summary:
+      "将主操作与相关选项组合在一个控件中，减少行空间占用；下拉卡片变体（variant=\"pulldown\"）从指定角展开为悬浮卡片。",
     whenToUse: [
       "两个或更多操作共享同一行且高度相关时（如 'Deploy' 和 'Deploy to staging'）。",
       "需要平衡可见性和节省空间——主要操作需要醒目，次要变体以菜单形式呈现。",
+      "下拉卡片变体（variant=\"pulldown\"）用 expandCorner 指定卡片锚定的角；当触发按钮贴近屏幕或工具栏底部、下方空间不足时，用 bottom-left / bottom-right 让卡片向上展开。",
     ],
     whenNotToUse: [
       "超过三个相关动作时使用 Menu 替代；拆分按钮的菜单不应成为垃圾箱。",
@@ -34,6 +36,14 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
         title: "标题与图标组合",
         description: "菜单项通过 icon 属性在标题左侧加图标，两行条目中图标与首行标题对齐。",
         demoKey: "Title with Icon",
+      },
+      {
+        id: "split-btn-04",
+        kind: "variant",
+        title: "下拉卡片（pull-down）",
+        description:
+          "variant=\"pulldown\" 将菜单渲染为悬浮卡片；expandCorner 指定卡片锚定不动的角——top-left / top-right 从上方锚点向下展开（卡片在按钮下方），bottom-left / bottom-right 从下方锚点向上展开（卡片在按钮上方）。动画原点固定在锚定角，卡片朝对角缩放入场。向上展开用于触发按钮贴近屏幕底部、下方无空间可用的场景。",
+        demoKey: "pull-down-card",
       },
     ],
     accessibility: {
@@ -268,10 +278,12 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
   "split-button": {
     slug: "split-button",
     locale: "en-US",
-    summary: "Combines a primary action with related variants in one control, saving row space.",
+    summary:
+      "Combines a primary action with related variants in one control, saving row space; the pull-down variant (variant=\"pulldown\") expands as a floating card from a chosen corner.",
     whenToUse: [
       "When two or more related actions share the same row (e.g., 'Deploy' and 'Deploy to staging').",
       "When you need to balance visibility and space — the main action is prominent while secondary variants live in a menu.",
+      "The pull-down card variant (variant=\"pulldown\") takes its anchored corner from expandCorner; when the trigger sits near the bottom of the screen or a toolbar with no room below, use bottom-left / bottom-right to expand the card upward.",
     ],
     whenNotToUse: [
       "When there are more than three related actions; use a regular Menu instead, because the split-button menu must not become a junk drawer.",
@@ -300,6 +312,14 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
         description:
           "Menu items take a leading icon through the icon prop, aligned with the first line of the title.",
         demoKey: "Title with Icon",
+      },
+      {
+        id: "split-btn-04",
+        kind: "variant",
+        title: "Pull-down card",
+        description:
+          "variant=\"pulldown\" renders the menu as a floating card; expandCorner picks the corner the card stays anchored to — top-left / top-right expand downward (card below the button), while bottom-left / bottom-right expand upward (card above the button). The transform origin is pinned to the anchored corner, so the card scales in from the opposite corner. Use an upward corner when the trigger sits near the bottom of the screen or a toolbar where there is no room below.",
+        demoKey: "pull-down-card",
       },
     ],
     accessibility: {
