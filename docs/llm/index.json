@@ -3,7 +3,7 @@
   "framework": "Unitary UI",
   "primaryLocale": "zh-CN",
   "alternativeLocales": ["en-US"],
-  "canonicalSource": "docs/geist/src/data/docs-routes.ts",
+  "canonicalSource": "docs/site/src/data/docs-routes.ts",
   "routes": [
     {
       "path": "/",
@@ -17,8 +17,8 @@
         "en-US": "pages/en-US/introduction.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:91e620db808dd4328c581ffd89179377567faddf66bafeb0b715c0eb322d6bc0",
-        "en-US": "sha256:5aa4579b6f27d6de28964d3625ac3fa2ec510aba35dce241b3c306324a293d50"
+        "zh-CN": "sha256:0fde2fcf33ad39baad2663e6ac9b17ba815cc825556e1a9735dcac4d1d5338e1",
+        "en-US": "sha256:2c5521aeef9a58db640cc5aff62224f41e801a978a139889f150d9e822f6ee4b"
       }
     },
     {

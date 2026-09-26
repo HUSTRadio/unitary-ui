@@ -5,8 +5,8 @@ import { createRoot, type Root } from "react-dom/client";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it } from "vitest";
 
-import { AppShellDemo } from "../docs/geist/src/components/patterns/app-shell-demo";
-import { LanguageProvider } from "../docs/geist/src/i18n/language";
+import { AppShellDemo } from "../docs/site/src/components/patterns/app-shell-demo";
+import { LanguageProvider } from "../docs/site/src/i18n/language";
 import { ThemeProvider } from "../src/lib/theme";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;

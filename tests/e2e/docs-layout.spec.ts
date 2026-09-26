@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 import { expect, test, type Page } from "@playwright/test";
 
-import { DOCS_ROUTE_SEQUENCE } from "../../docs/geist/src/data/docs-routes";
+import { DOCS_ROUTE_SEQUENCE } from "../../docs/site/src/data/docs-routes";
 
 /**
  * docs 布局审计 harness（计划任务 11 步骤 4–6）。

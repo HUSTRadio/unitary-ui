@@ -40,7 +40,7 @@ JetBrains Maple Mono
 
 ](#/materials)[
 
-$ vp dev docs/geist
+$ vp dev docs
 
 协作
 

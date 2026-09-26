@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
-import { exampleSourcePlugin } from "./docs/geist/build/example-source-plugin.ts";
+import { exampleSourcePlugin } from "./docs/site/build/example-source-plugin.ts";
 
 const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8"));
 const dependencies = Object.keys(pkg.dependencies ?? {});

@@ -10,7 +10,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 import { Progress } from "../src/components/ui/progress";
 

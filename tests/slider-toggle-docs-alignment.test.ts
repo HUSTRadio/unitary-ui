@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, test } from "vitest";
 
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 const root = process.cwd();
 const read = (relativePath: string) => readFile(path.resolve(root, relativePath), "utf8");
@@ -24,9 +24,9 @@ describe("Slider and Toggle docs alignment", () => {
 
   test("Toggle exposes only the five canonical lowercase physical examples", async () => {
     const [docs, docsCss, componentApi] = await Promise.all([
-      read("docs/geist/src/components/docs-components-page.tsx"),
-      read("docs/geist/src/index.css"),
-      read("docs/geist/src/data/component-api.ts"),
+      read("docs/site/src/components/docs-components-page.tsx"),
+      read("docs/site/src/index.css"),
+      read("docs/site/src/data/component-api.ts"),
     ]);
 
     expect(Object.keys(EXAMPLE_SOURCE.toggle).sort()).toEqual([

@@ -1,4 +1,4 @@
-# docs/geist — Unitary 文档站
+# docs/site — Unitary 文档站
 
 独立 Vite 应用，通过 alias（`@` → 根仓库 `src/`）与 CSS `@source` 直接消费根仓库的
 shadcn/ui 元件（`src/components/ui/*`）、Geist token/排版/材质（`src/styles/index.css`）
@@ -8,13 +8,13 @@ shadcn/ui 元件（`src/components/ui/*`）、Geist token/排版/材质（`src/s
 
 ```bash
 # 启动开发服务器
-vp dev docs/geist
+vp dev docs
 
 # 生产构建
-vp build docs/geist
+vp build docs
 
-# 独立类型检查（使用 docs/geist/tsconfig.json）
-cd docs/geist && npx tsc --noEmit
+# 独立类型检查（使用 docs/site/tsconfig.json）
+cd docs/site && npx tsc --noEmit
 ```
 
 ## 结构说明

@@ -4,7 +4,7 @@
 // 不导入 vitest/config（pnpm 嵌套解析问题），直接导出纯配置对象。
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { exampleSourcePlugin } from "./docs/geist/build/example-source-plugin.ts";
+import { exampleSourcePlugin } from "./docs/site/build/example-source-plugin.ts";
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 

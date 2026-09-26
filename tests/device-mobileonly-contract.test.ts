@@ -3,15 +3,15 @@ import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
 
 const componentsSource = readFileSync(
-  resolve(import.meta.dirname, "../docs/geist/src/data/components.ts"),
+  resolve(import.meta.dirname, "../docs/site/src/data/components.ts"),
   "utf8",
 );
 const pageSource = readFileSync(
-  resolve(import.meta.dirname, "../docs/geist/src/components/docs-components-page.tsx"),
+  resolve(import.meta.dirname, "../docs/site/src/components/docs-components-page.tsx"),
   "utf8",
 );
 const demoSource = readFileSync(
-  resolve(import.meta.dirname, "../docs/geist/src/i18n/components-demo.ts"),
+  resolve(import.meta.dirname, "../docs/site/src/i18n/components-demo.ts"),
   "utf8",
 );
 

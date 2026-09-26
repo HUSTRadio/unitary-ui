@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 
 import { describe, expect, test } from "vitest";
 
-import { DOCS_ROUTE_GROUPS, getRouteSearchText } from "../docs/geist/src/data/docs-routes";
+import { DOCS_ROUTE_GROUPS, getRouteSearchText } from "../docs/site/src/data/docs-routes";
 
 function findRoute(label: string) {
   for (const group of DOCS_ROUTE_GROUPS) {
@@ -31,7 +31,7 @@ describe("docs command search text", () => {
   });
 
   test("uses the canonical bilingual search text as the command item value", () => {
-    const app = readFileSync(new URL("../docs/geist/src/App.tsx", import.meta.url), "utf8");
+    const app = readFileSync(new URL("../docs/site/src/App.tsx", import.meta.url), "utf8");
 
     expect(app).toContain("getRouteSearchText");
     expect(app).toContain("value={getRouteSearchText(item)}");

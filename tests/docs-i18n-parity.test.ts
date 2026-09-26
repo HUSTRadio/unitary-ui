@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { applicabilitySignature } from "../docs/geist/src/content/component-guide-schema";
+import { applicabilitySignature } from "../docs/site/src/content/component-guide-schema";
 import {
   COMPONENT_GUIDES,
   COMPONENT_GUIDES_EN,
   COMPONENT_GUIDES_ZH,
-} from "../docs/geist/src/content/component-guides";
-import { COMPONENTS } from "../docs/geist/src/data/components";
+} from "../docs/site/src/content/component-guides";
+import { COMPONENTS } from "../docs/site/src/data/components";
 
 const componentSlugs = COMPONENTS.map(({ name }) => name).sort();
 const requiredSections = [

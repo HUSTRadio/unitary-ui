@@ -4,16 +4,16 @@ import { fileURLToPath } from "node:url";
 import * as ts from "typescript";
 import { describe, expect, test } from "vitest";
 import { FRAMEWORK_MESSAGES } from "@/lib/framework-messages";
-import { COMPONENTS } from "../docs/geist/src/data/components";
-import { localizeComponentMetadata } from "../docs/geist/src/i18n/components-zh";
-import COMPONENT_BEST_PRACTICES_ZH from "../docs/geist/src/i18n/best-practices-zh";
+import { COMPONENTS } from "../docs/site/src/data/components";
+import { localizeComponentMetadata } from "../docs/site/src/i18n/components-zh";
+import COMPONENT_BEST_PRACTICES_ZH from "../docs/site/src/i18n/best-practices-zh";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const componentDirectory = path.join(root, "src/components/ui");
 const translatableAttributes = new Set(["aria-label", "alt", "placeholder", "title"]);
 const allowedTechnicalText = new Set(["UTC", "Esc", "K"]);
-const componentsDemoPath = path.join(root, "docs/geist/src/i18n/components-demo.ts");
-const bestPracticesZhPath = path.join(root, "docs/geist/src/i18n/best-practices-zh.ts");
+const componentsDemoPath = path.join(root, "docs/site/src/i18n/components-demo.ts");
+const bestPracticesZhPath = path.join(root, "docs/site/src/i18n/best-practices-zh.ts");
 
 const zhSource = await readFile(bestPracticesZhPath, "utf8");
 

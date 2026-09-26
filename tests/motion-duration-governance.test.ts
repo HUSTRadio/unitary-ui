@@ -22,8 +22,8 @@ const SCAN_ROOTS = [
   "src/lib",
   "src/styles",
   // 文档站代码目录；content/i18n/data 为指南散文（含中文时长叙述），不在扫描范围
-  "docs/geist/src/components",
-  "docs/geist/src/examples",
+  "docs/site/src/components",
+  "docs/site/src/examples",
 ];
 
 // token 真源定义行不算字面量（值即 token 本体）
@@ -162,7 +162,7 @@ describe("motion duration literal governance", () => {
       expect(entry.files.length, `literal ${entry.literal} 缺少 files`).toBeGreaterThan(0);
       for (const file of entry.files) {
         expect(
-          file.startsWith("src/") || file.startsWith("docs/geist/src/"),
+          file.startsWith("src/") || file.startsWith("docs/site/src/"),
           `literal ${entry.literal} 的 scope 必须指向扫描范围内的文件: ${file}`,
         ).toBe(true);
       }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 import { docsPageSource as source } from "./helpers/docs-page-source";
 

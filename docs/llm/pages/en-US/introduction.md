@@ -40,7 +40,7 @@ Presets for radii, fills, strokes, and shadows.
 
 ](#/materials)[
 
-$ vp dev docs/geist
+$ vp dev docs
 
 Collaborate
 

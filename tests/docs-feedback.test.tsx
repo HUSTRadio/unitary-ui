@@ -5,9 +5,9 @@ import { createRoot, type Root } from "react-dom/client";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { DocsPagination, FeedbackPanel } from "../docs/geist/src/components/docs-feedback";
-import { DOCS_ROUTE_SEQUENCE } from "../docs/geist/src/data/docs-routes";
-import { LanguageProvider, type DocsLanguage } from "../docs/geist/src/i18n/language";
+import { DocsPagination, FeedbackPanel } from "../docs/site/src/components/docs-feedback";
+import { DOCS_ROUTE_SEQUENCE } from "../docs/site/src/data/docs-routes";
+import { LanguageProvider, type DocsLanguage } from "../docs/site/src/i18n/language";
 
 let container: HTMLDivElement;
 let root: Root;

@@ -5,9 +5,9 @@ import { createRoot, type Root } from "react-dom/client";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { ComponentsPage } from "../docs/geist/src/components/docs-components-page";
-import { getDocsRoute } from "../docs/geist/src/data/docs-routes";
-import { LanguageProvider } from "../docs/geist/src/i18n/language";
+import { ComponentsPage } from "../docs/site/src/components/docs-components-page";
+import { getDocsRoute } from "../docs/site/src/data/docs-routes";
+import { LanguageProvider } from "../docs/site/src/i18n/language";
 import { ThemeProvider } from "../src/lib/theme";
 
 let container: HTMLDivElement;
@@ -72,7 +72,7 @@ async function render(componentName?: string) {
 }
 
 async function renderApp(pathname: string) {
-  const { default: App } = await import("../docs/geist/src/App");
+  const { default: App } = await import("../docs/site/src/App");
 
   await act(async () => {
     root.render(
@@ -164,7 +164,7 @@ describe("BackLink icon/text geometry contract", () => {
     // 不得覆盖 line-height：行盒高度就是墨迹参考框，压缩它会把图标再往下推。
     // 只看 className 字面量，避免把注释里提到的写法也算进来。
     const source = await import("node:fs/promises").then(({ readFile }) =>
-      readFile("docs/geist/src/components/docs-components-page.tsx", "utf8"),
+      readFile("docs/site/src/components/docs-components-page.tsx", "utf8"),
     );
     const backLink = source.slice(source.indexOf("function BackLink()"));
     const block = backLink.slice(0, backLink.indexOf("\n}"));

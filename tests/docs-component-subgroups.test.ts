@@ -4,8 +4,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
 
-import { COMPONENTS } from "../docs/geist/src/data/components";
-import { CHART_COMPONENT_NAMES, DOCS_ROUTE_GROUPS } from "../docs/geist/src/data/docs-routes";
+import { COMPONENTS } from "../docs/site/src/data/components";
+import { CHART_COMPONENT_NAMES, DOCS_ROUTE_GROUPS } from "../docs/site/src/data/docs-routes";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -85,7 +85,7 @@ describe("docs components second-level categories", () => {
   });
 
   test("does not hard-code mobileOnly components in the non-mobile category table", () => {
-    const source = readFileSync(path.join(ROOT, "docs/geist/src/data/docs-routes.ts"), "utf8");
+    const source = readFileSync(path.join(ROOT, "docs/site/src/data/docs-routes.ts"), "utf8");
     const table = source.match(/const COMPONENT_SUBGROUP_BY_NAME[^=]*=\s*\{([\s\S]*?)\n\};/);
     expect(table, "未找到 COMPONENT_SUBGROUP_BY_NAME 分类表").not.toBeNull();
 

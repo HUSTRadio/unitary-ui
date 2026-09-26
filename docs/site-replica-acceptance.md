@@ -24,10 +24,10 @@
 | 文档运行时健康检查                   | 72 路由 × 2 主题 × 4 视口                         | 已撤销               |
 | 视觉截图矩阵                         | 72 组件 × 2 主题 × 4 视口                         | 已撤销               |
 | 可信输入交互                         | 键盘、鼠标、Esc、焦点返还、Portal、ARIA、状态转换 | 已撤销               |
-| TypeScript                           | 根应用 + `docs/geist`                             | 通过（与一致性无关） |
-| oxlint                               | `src/`、`docs/geist/src/`、`tests/`               | 通过（与一致性无关） |
+| TypeScript                           | 根应用 + `docs/site`                             | 通过（与一致性无关） |
+| oxlint                               | `src/`、`docs/site/src/`、`tests/`               | 通过（与一致性无关） |
 | Vitest                               | registry、迁移零残留、`cn()`、Menu                | 通过（与一致性无关） |
-| 生产构建                             | 根应用 + `docs/geist`                             | 通过（与一致性无关） |
+| 生产构建                             | 根应用 + `docs/site`                             | 通过（与一致性无关） |
 
 四视口固定为 375、768、1440、1920px；以下为历史方法说明，不代表当前验收结论：运行时健康检查验证目标路由标题、非空 Live Demo、主题应用和根级横向溢出；视觉矩阵按每个 Live Demo 的完整 `getBoundingClientRect()` 裁剪。这些检查将在复审中按官方实时证据门禁重新设计。
 
@@ -72,10 +72,10 @@
 ```bash
 vp test
 node_modules/.bin/tsc -b --noEmit --force
-node_modules/.bin/tsc -p docs/geist/tsconfig.json --noEmit
-node_modules/.bin/oxlint src/ docs/geist/src/ tests/
+node_modules/.bin/tsc -p docs/site/tsconfig.json --noEmit
+node_modules/.bin/oxlint src/ docs/site/src/ tests/
 vp build
-node node_modules/vite/bin/vite.js build docs/geist --config docs/geist/vite.config.ts
+node node_modules/vite/bin/vite.js build docs --config docs/vite.config.ts
 DOCS_URL=http://localhost:5201 node scripts/runtime-docs-audit.mjs
 DOCS_URL=http://localhost:5201 node scripts/runtime-interaction-audit.mjs
 DOCS_URL=http://localhost:5201 node scripts/capture-visual-matrix.mjs

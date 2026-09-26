@@ -1,14 +1,14 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, test } from "vitest";
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 const source = readFileSync(
   resolve(import.meta.dirname, "../src/components/ui/context-card.tsx"),
   "utf8",
 );
 const docsSource = readFileSync(
-  resolve(import.meta.dirname, "../docs/geist/src/components/docs-components-page.tsx"),
+  resolve(import.meta.dirname, "../docs/site/src/components/docs-components-page.tsx"),
   "utf8",
 );
 const stylesSource = readFileSync(resolve(import.meta.dirname, "../src/styles/index.css"), "utf8");

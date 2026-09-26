@@ -34,7 +34,7 @@ import { useLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
 
 /**
- * Introduction 页卡片网格（docs/geist 首页）。
+ * Introduction 页卡片网格（docs/site 首页）。
  * 复刻 vercel.com/geist/introduction 的 2 列×3 行网格：
  * - 发丝线分隔（border-r / border-b border-border），无圆角、无背景、无阴影 —— 「网格单元」而非材质卡片
  * - 每卡 = 上半区预览示意（h-40 居中）+ 标题 + 描述
@@ -110,7 +110,7 @@ function IconsPreview() {
 }
 
 /** Components — mono 终端行 + Copy + 2 个视觉按钮 + Label/Value 视觉输入组 */
-const COPY_TEXT = "vp dev docs/geist";
+const COPY_TEXT = "vp dev docs";
 
 function ComponentsPreview() {
   const { language } = useLanguage();
@@ -225,7 +225,7 @@ function TypefacePreview() {
 
 /* ---------- 网格 ---------- */
 
-/* 陈列顺序与侧边栏（docs/geist/src/data/nav.ts）对齐：
+/* 陈列顺序与侧边栏（docs/site/src/data/nav.ts）对齐：
    Foundations 组按 Introduction → Icons → Colors → Typography → Materials → Grid；
    Components 独立组紧随其后。首页卡片取 Foundations 的 Icons/Colors/Typeface/Materials
    与 Components 组，顺序 = 侧边栏出现顺序。 */

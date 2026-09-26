@@ -4,13 +4,13 @@ import { act, type ComponentType } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { FieldsetDefault37A8EEC1Example } from "../docs/geist/src/examples/fieldset/default-37a8eec1.example";
-import { FieldsetErrorType96E58B0DExample } from "../docs/geist/src/examples/fieldset/error-type-96e58b0d.example";
-import { FieldsetMultipleFieldsets9DD2DFF4Example } from "../docs/geist/src/examples/fieldset/multiple-fieldsets-9dd2dff4.example";
-import { FieldsetWarningType82942353Example } from "../docs/geist/src/examples/fieldset/warning-type-82942353.example";
-import { FieldsetWithErrorTextB52BED15Example } from "../docs/geist/src/examples/fieldset/with-error-text-b52bed15.example";
-import { FieldsetWithLongContent39C2ED17Example } from "../docs/geist/src/examples/fieldset/with-long-content-39c2ed17.example";
-import { FieldsetWithWarningText16633F67Example } from "../docs/geist/src/examples/fieldset/with-warning-text-16633f67.example";
+import { FieldsetDefault37A8EEC1Example } from "../docs/site/src/examples/fieldset/default-37a8eec1.example";
+import { FieldsetErrorType96E58B0DExample } from "../docs/site/src/examples/fieldset/error-type-96e58b0d.example";
+import { FieldsetMultipleFieldsets9DD2DFF4Example } from "../docs/site/src/examples/fieldset/multiple-fieldsets-9dd2dff4.example";
+import { FieldsetWarningType82942353Example } from "../docs/site/src/examples/fieldset/warning-type-82942353.example";
+import { FieldsetWithErrorTextB52BED15Example } from "../docs/site/src/examples/fieldset/with-error-text-b52bed15.example";
+import { FieldsetWithLongContent39C2ED17Example } from "../docs/site/src/examples/fieldset/with-long-content-39c2ed17.example";
+import { FieldsetWithWarningText16633F67Example } from "../docs/site/src/examples/fieldset/with-warning-text-16633f67.example";
 
 const cases: Array<[string, ComponentType, string, string]> = [
   ["default", FieldsetDefault37A8EEC1Example, "Save Changes", "Changes saved"],

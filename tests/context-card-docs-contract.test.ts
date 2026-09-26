@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 describe("Context Card official demo contract", () => {
   test("covers default, alignment, and render-prop demos with real triggers", () => {

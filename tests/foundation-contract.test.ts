@@ -77,7 +77,7 @@ describe("Geist foundation and docs shell contract", () => {
   });
 
   test("docs shell provides skip navigation and a focusable main target", async () => {
-    const app = await read("docs/geist/src/App.tsx");
+    const app = await read("docs/site/src/App.tsx");
     expect(app).toContain('href="#main-content"');
     expect(app).toContain("event.preventDefault()");
     expect(app).toContain('document.getElementById("main-content")?.focus()');
@@ -85,7 +85,7 @@ describe("Geist foundation and docs shell contract", () => {
   });
 
   test("hash routes derive context-specific document titles from the canonical registry", async () => {
-    const app = await read("docs/geist/src/App.tsx");
+    const app = await read("docs/site/src/App.tsx");
     expect(app).toContain("document.title");
     expect(app).toContain("Unitary");
     expect(app).toContain("getDocsRouteLabel(route, language)");
@@ -107,12 +107,12 @@ describe("Geist foundation and docs shell contract", () => {
     // 主 App 与 docs 站都挂载探针
     const app = await read("src/App.tsx");
     expect(app).toContain("useFontMetrics");
-    const docsApp = await read("docs/geist/src/App.tsx");
+    const docsApp = await read("docs/site/src/App.tsx");
     expect(docsApp).toContain("useFontMetrics");
   });
 
   test("explicit theme owns one exact Background 1 browser chrome color", async () => {
-    const html = await read("docs/geist/index.html");
+    const html = await read("docs/index.html");
     const themeColorTags = html.match(/<meta\s+name="theme-color"[^>]*>/g) ?? [];
     expect(themeColorTags).toHaveLength(1);
     expect(themeColorTags[0]).not.toContain("media=");
@@ -123,7 +123,7 @@ describe("Geist foundation and docs shell contract", () => {
   });
 
   test("docs shell consumes named Geist typography utilities", async () => {
-    const shell = await read("docs/geist/src/components/docs-shell.tsx");
+    const shell = await read("docs/site/src/components/docs-shell.tsx");
     expect(shell).not.toMatch(/text-\[\d+px\]|leading-\[?\d/);
     // 壳层重构后导航链接排版移入 SidebarNav 组件；
     // 契约改为统计壳层与其组装的导航组件中的命名排版工具

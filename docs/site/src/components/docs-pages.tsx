@@ -32,7 +32,7 @@ import { useLanguage, type DocsLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
 
 /**
- * 文档站页面组件（docs/geist 专用）。
+ * 文档站页面组件（docs/site 专用）。
  * Introduction 首页 + Colors / Typography / Materials 内容页。
  * 内容值均提取自 docs/geist-markdown-refs/ 快照（2026-08-08 抓取），禁止凭记忆写值。
  */

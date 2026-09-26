@@ -13,7 +13,7 @@
   "impactGlobs": [
     ".agents/**",
     "src/**",
-    "docs/geist/**",
+    "docs/site/**",
     "package.json",
     "README.md",
     "README.en.md",
@@ -29,7 +29,7 @@
     "src/App.tsx",
     "src/examples/**",
     "images/styleguide/**",
-    "docs/geist/**",
+    "docs/site/**",
     "docs/llm/index.json",
     "docs/llm/pages/**",
     "README.md",

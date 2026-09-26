@@ -10,9 +10,9 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { Toasts } from "@/components/ui/toast";
-import { LanguageProvider } from "../docs/geist/src/i18n/language";
-import { ToastAction64CFF131Example } from "../docs/geist/src/examples/toast/action-64cff131.example";
-import { ToastUndoA8283ADEExample } from "../docs/geist/src/examples/toast/undo-a8283ade.example";
+import { LanguageProvider } from "../docs/site/src/i18n/language";
+import { ToastAction64CFF131Example } from "../docs/site/src/examples/toast/action-64cff131.example";
+import { ToastUndoA8283ADEExample } from "../docs/site/src/examples/toast/undo-a8283ade.example";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 

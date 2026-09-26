@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 describe("Entity official demo contract", () => {
   test("entity examples render the official Entity component structure", () => {

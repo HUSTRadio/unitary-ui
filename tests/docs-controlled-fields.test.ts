@@ -2,10 +2,10 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import ts from "typescript";
 import { describe, expect, test } from "vitest";
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 const root = process.cwd();
-const docsPath = path.resolve(root, "docs/geist/src/components/docs-components-page.tsx");
+const docsPath = path.resolve(root, "docs/site/src/components/docs-components-page.tsx");
 
 function inspectControlledDemoFields(source: string, fileName = docsPath) {
   const file = ts.createSourceFile(

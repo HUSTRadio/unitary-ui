@@ -46,15 +46,15 @@
     "localSourceInputs": [
       "src/**",
       "public/fonts/**",
-      "docs/geist/src/**",
-      "docs/geist/public/**",
+      "docs/site/src/**",
+      "docs/site/public/**",
       "package.json",
       "pnpm-lock.yaml",
       "components.json",
       "vite.config.*",
-      "docs/geist/vite.config.*",
+      "docs/site/vite.config.*",
       "tsconfig*.json",
-      "docs/geist/tsconfig*.json"
+      "docs/site/tsconfig*.json"
     ],
     "pixelAttribution": {
       "foregroundColorDistanceMax": 0,

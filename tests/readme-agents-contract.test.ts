@@ -17,7 +17,7 @@ describe("AGENTS.md LLM entry contract", () => {
     const agents = read("AGENTS.md");
     expect(agents).toContain("docs/llm/index.json");
     // 指向人类文档与主要源码目录
-    expect(agents).toContain("docs/geist");
+    expect(agents).toContain("docs/site");
     expect(agents).toContain("src/components/ui");
     expect(agents).toContain("src/styles");
   });

@@ -9,17 +9,17 @@ import { fileURLToPath } from "node:url";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { describe, expect, test } from "vitest";
 
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 import { auditShowCode } from "./audit/showcode-audit-lib";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 describe("show code coverage contract", () => {
   test("uses only paired physical example modules", async () => {
-    const dataFiles = await readdir(path.join(root, "docs/geist/src/data"));
+    const dataFiles = await readdir(path.join(root, "docs/site/src/data"));
     expect(dataFiles.filter((file) => /^demo-code.*\.ts$/.test(file))).toEqual([]);
 
-    const examplesRoot = path.join(root, "docs/geist/src/examples");
+    const examplesRoot = path.join(root, "docs/site/src/examples");
     const exampleFiles = (await readdir(examplesRoot, { recursive: true })).filter((file) =>
       file.endsWith(".example.tsx"),
     );

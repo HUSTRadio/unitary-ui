@@ -3,7 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 
-import { exampleSourcePlugin } from "../docs/geist/build/example-source-plugin";
+import { exampleSourcePlugin } from "../docs/site/build/example-source-plugin";
 
 const tempDirs: string[] = [];
 afterEach(async () => {

@@ -4,8 +4,8 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { ComponentGuideSections } from "../docs/geist/src/components/component-guide-sections";
-import type { ComponentGuide } from "../docs/geist/src/content/component-guide-schema";
+import { ComponentGuideSections } from "../docs/site/src/components/component-guide-sections";
+import type { ComponentGuide } from "../docs/site/src/content/component-guide-schema";
 
 let container: HTMLDivElement;
 let root: Root;

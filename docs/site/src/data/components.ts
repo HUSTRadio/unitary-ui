@@ -1,7 +1,7 @@
 import { localizeComponentMetadata } from "../i18n/components-zh";
 
 /**
- * 文档站 Components 数据（docs/geist 专用）。
+ * 文档站 Components 数据（docs/site 专用）。
  * 13 个已实现元件的元数据：路由 slug / 显示名 / 一句说明 / 官方对应组件名 / 用法代码片段。
  * 代码片段为「精简用法示例」字符串，详情页代码块展示，与根元件 API 保持一致。
  */

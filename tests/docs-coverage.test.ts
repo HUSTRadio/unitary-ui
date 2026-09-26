@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import { DOCS_ROUTE_GROUPS, DOCS_ROUTE_SEQUENCE } from "../docs/geist/src/data/docs-routes";
+import { DOCS_ROUTE_GROUPS, DOCS_ROUTE_SEQUENCE } from "../docs/site/src/data/docs-routes";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -21,8 +21,8 @@ describe("Geist documentation coverage", () => {
         .map((file) => file.slice(0, -3))
         .map((slug) => officialAliases.get(slug) ?? slug),
     );
-    const metadataSource = await read("docs/geist/src/data/components.ts");
-    const registrySource = await read("docs/geist/src/examples/registry.ts");
+    const metadataSource = await read("docs/site/src/data/components.ts");
+    const registrySource = await read("docs/site/src/examples/registry.ts");
     const metadataNames = [...metadataSource.matchAll(/^ {4}name:\s*"([^"]+)",?$/gm)].map(
       (match) => match[1],
     );
@@ -83,7 +83,7 @@ describe("Geist documentation coverage", () => {
   });
 
   it("uses Device as the canonical docs surface while preserving the Phone URL alias", async () => {
-    const { canonicalDocsPath, getDocsRoute } = await import("../docs/geist/src/data/docs-routes");
+    const { canonicalDocsPath, getDocsRoute } = await import("../docs/site/src/data/docs-routes");
     const deviceRoute = getDocsRoute("/components/device");
 
     expect(deviceRoute?.renderer).toEqual({
@@ -101,8 +101,8 @@ describe("Geist documentation coverage", () => {
       "src/App.tsx",
       "src/examples/DataTableExample.tsx",
       "src/components/ui",
-      "docs/geist/src",
-      "docs/geist-docs-findings.md",
+      "docs/site/src",
+      "docs/site-docs-findings.md",
     ];
     const removedApiPatterns = [
       /@\/components\/ui\/(?:dropdown-menu|segmented-control)/,
@@ -154,9 +154,9 @@ describe("Geist documentation coverage", () => {
 
   it("renders all three live Command Menu demo content contracts", async () => {
     const [defaultExample, withSuffixExample, withDividerExample] = await Promise.all([
-      read("docs/geist/src/examples/command-menu/default-37a8eec1.example.tsx"),
-      read("docs/geist/src/examples/command-menu/with-suffix-ed17650b.example.tsx"),
-      read("docs/geist/src/examples/command-menu/with-divider-5a6d5780.example.tsx"),
+      read("docs/site/src/examples/command-menu/default-37a8eec1.example.tsx"),
+      read("docs/site/src/examples/command-menu/with-suffix-ed17650b.example.tsx"),
+      read("docs/site/src/examples/command-menu/with-divider-5a6d5780.example.tsx"),
     ]);
 
     for (const text of ["Flags Explorer"]) {
@@ -185,7 +185,7 @@ describe("Geist documentation coverage", () => {
   });
 
   it("derives App rendering and titles from the canonical route registry", async () => {
-    const source = await read("docs/geist/src/App.tsx");
+    const source = await read("docs/site/src/App.tsx");
 
     expect(source).not.toContain("PAGE_TITLES");
     expect(source).not.toContain('"/introduction": IntroductionPage');

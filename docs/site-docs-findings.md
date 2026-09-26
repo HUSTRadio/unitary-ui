@@ -7,8 +7,8 @@
 
 ## F1: 文档站外壳组件缺失
 
-- **当前状态**：Banner / Pagination / Feedback 已沉淀为共享基础组件；Sidebar 仍为文档站专用外壳，继续按 YAGNI 保留在 `docs/geist/`。
-- **复现路径**：`docs/geist/src/App.tsx` 引入上述外壳组件，全部为 docs 专用文件。
+- **当前状态**：Banner / Pagination / Feedback 已沉淀为共享基础组件；Sidebar 仍为文档站专用外壳，继续按 YAGNI 保留在 `docs/site/`。
+- **复现路径**：`docs/site/src/App.tsx` 引入上述外壳组件，全部为 docs 专用文件。
 - **期望**：框架提供可直接复用的站点外壳基础组件。
 - **影响**：低。文档站独占使用，根仓库其他消费方暂不需要；如需在更多页面复用，需先沉淀为基础组件。
 - **建议**：如需复用再抽（YAGNI）；保持组合实现即可。
@@ -24,7 +24,7 @@
 ## F3: 主题切换形态差异（已解决）
 
 - **当前状态**：统一使用官方三态 `ThemeSwitcher`，文档站和根 styleguide 直接复用同一实现。
-- **复现路径**：`docs/geist/src/components/docs-shell.tsx` 与 `src/App.tsx` 均引用 `theme-switcher.tsx`。
+- **复现路径**：`docs/site/src/components/docs-shell.tsx` 与 `src/App.tsx` 均引用 `theme-switcher.tsx`。
 - **期望**：两种形态各有用武之地（banner 三态 segmented 省空间、设置页下拉可带更多信息）。
 - **影响**：无功能影响；两种形态并存。
 - **结论**：不保留下拉旧实现或双轨 API；三态控件直接复用 `src/lib/theme.tsx`。
@@ -93,7 +93,7 @@
 ## F-radix-1: indeterminate 非 boolean prop
 
 - **现象**：radix-ui 1.6.7 的 Checkbox `indeterminate` 不是 boolean prop——半选态通过 `checked="indeterminate"`（CheckedState 字符串值）表达；组件文档与示例代码若写 `<Checkbox indeterminate />` 属误导。
-- **复现路径**：`docs/geist/src/components/docs-components-page.tsx` CheckboxDemo 中 `parentState: boolean | "indeterminate"`。
+- **复现路径**：`docs/site/src/components/docs-components-page.tsx` CheckboxDemo 中 `parentState: boolean | "indeterminate"`。
 - **期望**：组件文档标注正确 API。
 - **影响**：低。实现已正确处理（`data-state="indeterminate"` 实测渲染正常）；仅文档示例（components.ts 中 code 片段写 `indeterminate` prop）需标注。
 - **建议**：在 Checkbox 组件文档中标注：半选态传 `checked="indeterminate"`，非 boolean prop。

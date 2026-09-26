@@ -9,7 +9,7 @@
 - 机器可读入口：[`index.json`](index.json)
 - 中文页面：`pages/zh-CN/**`
 - 英文页面：`pages/en-US/**`
-- canonical 路由：`docs/geist/src/data/docs-routes.ts`
+- canonical 路由：`docs/site/src/data/docs-routes.ts`
 - canonical 组件实现：`src/components/ui/**`
 - 版本化 LLM 任务包与提示词路径：[`../../.agents/README.md`](../../.agents/README.md)
 

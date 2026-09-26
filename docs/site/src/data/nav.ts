@@ -3,7 +3,7 @@ import type { LucideIcon } from "lucide-react";
 import { DOCS_ROUTE_GROUPS, type DocsGroupId, type DocsRouteStatus } from "./docs-routes";
 
 /**
- * 文档站侧栏导航兼容投影（docs/geist 专用）。
+ * 文档站侧栏导航兼容投影（docs/site 专用）。
  * Route metadata、排序、sidebar 可见性与二级分类都由 docs-routes registry 管理。
  */
 export interface NavItem {

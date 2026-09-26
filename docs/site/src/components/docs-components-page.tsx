@@ -21,7 +21,7 @@ import {
 } from "./docs-typography";
 
 /**
- * Components 文档页（docs/geist 专用）。
+ * Components 文档页（docs/site 专用）。
  * 总览模式（/components）：13 元件索引卡片网格。
  * 详情模式（/components/:name）：返回链接 + 实时 demo（直接渲染根元件）+ 代码块（带 Copy 按钮）。
  */

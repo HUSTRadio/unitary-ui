@@ -13,7 +13,7 @@ import {
   DocsParagraph,
   DocsSection,
   DocsSectionTitle,
-} from "../docs/geist/src/components/docs-typography";
+} from "../docs/site/src/components/docs-typography";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -127,10 +127,10 @@ describe("docs typography rhythm owner", () => {
 
   test("requires real semantic prose JSX consumers without direct legacy typography or color overrides", () => {
     const sources = [
-      "../docs/geist/src/components/doc-content.tsx",
-      "../docs/geist/src/components/docs-pages.tsx",
-      "../docs/geist/src/components/docs-api-reference.tsx",
-      "../docs/geist/src/components/docs-components-page.tsx",
+      "../docs/site/src/components/doc-content.tsx",
+      "../docs/site/src/components/docs-pages.tsx",
+      "../docs/site/src/components/docs-api-reference.tsx",
+      "../docs/site/src/components/docs-components-page.tsx",
     ].map((path) => readFileSync(new URL(path, import.meta.url), "utf8"));
 
     const [docContent, docsPages, apiReference, componentsPage] = sources;

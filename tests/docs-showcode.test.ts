@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-import { EXAMPLE_REGISTRY, EXAMPLE_SOURCE, type ExampleRecord } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_REGISTRY, EXAMPLE_SOURCE, type ExampleRecord } from "../docs/site/src/examples/registry";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
 
-const pagePath = "docs/geist/src/components/docs-components-page.tsx";
+const pagePath = "docs/site/src/components/docs-components-page.tsx";
 
 describe("docs Show code footer", () => {
   test("has a functional DemoShowCode with onClick toggle", async () => {
@@ -75,7 +75,7 @@ describe("docs Show code footer", () => {
   });
 
   test("modal live demo examples keep official copyable content", async () => {
-    const modalExamples = await read("docs/geist/src/examples/modal/default-37a8eec1.example.tsx");
+    const modalExamples = await read("docs/site/src/examples/modal/default-37a8eec1.example.tsx");
     expect(modalExamples).toContain("export function");
     expect(modalExamples).toContain("<Modal");
     expect(modalExamples).toContain("<ModalTrigger");

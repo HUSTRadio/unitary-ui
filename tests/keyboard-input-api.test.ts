@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
@@ -93,7 +93,7 @@ describe("KeyboardInput official API contract (G06 wave)", () => {
   test("plain variant supports borderless command shortcuts without bypassing platform modifiers", async () => {
     const [src, docs] = await Promise.all([
       read("src/components/ui/keyboard-input.tsx"),
-      read("docs/geist/src/components/docs-components-page.tsx"),
+      read("docs/site/src/components/docs-components-page.tsx"),
     ]);
     const example = EXAMPLE_SOURCE["keyboard-input"]["plain-command"];
     expect(src).toMatch(/plain\??:\s*boolean/);

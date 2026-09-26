@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 describe("Collapse official demo contract", () => {
   test("collapse examples use theme-sensitive divider borders", () => {

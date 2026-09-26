@@ -18,7 +18,7 @@ import { useLanguage } from "../i18n/language";
 import { demoText } from "../i18n/components-demo";
 
 /**
- * Grid — 框架真实 Grid 系统的文档页（docs/geist 专用）。
+ * Grid — 框架真实 Grid 系统的文档页（docs/site 专用）。
  *
  * 直接演示 src/components/ui/grid 的现有 primitives 组合：
  * 空 guides、basic auto-flow、solid cells、三断点响应式 rows/columns、

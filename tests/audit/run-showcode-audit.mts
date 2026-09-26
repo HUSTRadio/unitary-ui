@@ -2,7 +2,7 @@
 import { writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { DEMO_CODE } from "../../docs/geist/src/data/demo-code";
+import { DEMO_CODE } from "../../docs/site/src/data/demo-code";
 import { auditShowCode } from "./showcode-audit-lib";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");

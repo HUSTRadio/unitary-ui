@@ -2,9 +2,9 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-const app = readFileSync(resolve(process.cwd(), "docs/geist/src/App.tsx"), "utf8");
+const app = readFileSync(resolve(process.cwd(), "docs/site/src/App.tsx"), "utf8");
 const shell = readFileSync(
-  resolve(process.cwd(), "docs/geist/src/components/docs-shell.tsx"),
+  resolve(process.cwd(), "docs/site/src/components/docs-shell.tsx"),
   "utf8",
 );
 
@@ -158,7 +158,7 @@ describe("docs shell geometry — framework shell assembly", () => {
   it("removes the static DocsMobileNav list (superseded by the HamburgerMenu panel)", () => {
     expect(shell).not.toContain("DocsMobileNav");
     // 死 i18n key 一并清理
-    const catalog = readFileSync(resolve(process.cwd(), "docs/geist/src/i18n/catalog.ts"), "utf8");
+    const catalog = readFileSync(resolve(process.cwd(), "docs/site/src/i18n/catalog.ts"), "utf8");
     for (const dead of ["menuOpenAria", "menuCloseAria", "mobileSearchPlaceholder", "searchClearAria", "searchNoResults"]) {
       expect(catalog).not.toContain(dead);
     }

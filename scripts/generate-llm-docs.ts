@@ -34,8 +34,8 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "@playwright/test";
 import TurndownService from "turndown";
 
-import { COMPONENTS } from "../docs/geist/src/data/components";
-import { DOCS_ROUTE_SEQUENCE, type DocsRoute } from "../docs/geist/src/data/docs-routes";
+import { COMPONENTS } from "../docs/site/src/data/components";
+import { DOCS_ROUTE_SEQUENCE, type DocsRoute } from "../docs/site/src/data/docs-routes";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const LLM_DIR = path.join(ROOT, "docs", "llm");
@@ -96,7 +96,7 @@ async function startPreview(): Promise<{ child: ChildProcess; port: number }> {
   const baseUrl = `http://127.0.0.1:${port}`;
   const child = spawn(
     VP_COMMAND,
-    ["dev", "docs/geist", "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
+    ["dev", "docs", "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
     {
       cwd: ROOT,
       stdio: "ignore",
@@ -349,7 +349,7 @@ function writeOutput(outputs: RouteOutput[], targetDir: string): void {
     framework: "Unitary UI",
     primaryLocale: "zh-CN",
     alternativeLocales: ["en-US"],
-    canonicalSource: "docs/geist/src/data/docs-routes.ts",
+    canonicalSource: "docs/site/src/data/docs-routes.ts",
     generatedAt: undefined as unknown,
     routes: indexRoutes,
   };

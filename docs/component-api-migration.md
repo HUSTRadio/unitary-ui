@@ -113,14 +113,14 @@
 - 保留现有 `filter` 状态和筛选逻辑，只替换控件及标签。
 - 更新组件说明中的旧名称。
 
-### 3. `docs/geist/src/components/docs-shell.tsx`
+### 3. `docs/site/src/components/docs-shell.tsx`
 
 当前引用：
 
-- `docs/geist/src/components/docs-shell.tsx:5`：导入 `SegmentedControl`。
-- `docs/geist/src/components/docs-shell.tsx:19`：维护本地 `THEME_OPTIONS`。
-- `docs/geist/src/components/docs-shell.tsx:47`：直接操作 `useTheme`。
-- `docs/geist/src/components/docs-shell.tsx:74`：用 `SegmentedControl` 拼装主题切换器。
+- `docs/site/src/components/docs-shell.tsx:5`：导入 `SegmentedControl`。
+- `docs/site/src/components/docs-shell.tsx:19`：维护本地 `THEME_OPTIONS`。
+- `docs/site/src/components/docs-shell.tsx:47`：直接操作 `useTheme`。
+- `docs/site/src/components/docs-shell.tsx:74`：用 `SegmentedControl` 拼装主题切换器。
 
 迁移：
 
@@ -128,19 +128,19 @@
 - 直接渲染 `<ThemeSwitcher />`。
 - 主题选项顺序、图标、ARIA 和状态同步由 `ThemeSwitcher` 唯一负责。
 
-### 4. `docs/geist/src/components/docs-components-page.tsx`
+### 4. `docs/site/src/components/docs-components-page.tsx`
 
 当前引用：
 
-- `docs/geist/src/components/docs-components-page.tsx:75`：导入旧 Dropdown Menu API。
-- `docs/geist/src/components/docs-components-page.tsx:149`：导入 `SegmentedControl`。
-- `docs/geist/src/components/docs-components-page.tsx:185`：导入 `ThemeSwitch`。
-- `docs/geist/src/components/docs-components-page.tsx:435`：`DropdownMenuDemo`。
-- `docs/geist/src/components/docs-components-page.tsx:496`：`SegmentedControlDemo`。
-- `docs/geist/src/components/docs-components-page.tsx:706`：`ThemeSwitchDemo`。
-- `docs/geist/src/components/docs-components-page.tsx:1320`：旧 `dropdown-menu` 路由 case。
-- `docs/geist/src/components/docs-components-page.tsx:1356`：旧 `segmented-control` 路由 case。
-- `docs/geist/src/components/docs-components-page.tsx:1390`：旧 `theme-switch` 路由 case。
+- `docs/site/src/components/docs-components-page.tsx:75`：导入旧 Dropdown Menu API。
+- `docs/site/src/components/docs-components-page.tsx:149`：导入 `SegmentedControl`。
+- `docs/site/src/components/docs-components-page.tsx:185`：导入 `ThemeSwitch`。
+- `docs/site/src/components/docs-components-page.tsx:435`：`DropdownMenuDemo`。
+- `docs/site/src/components/docs-components-page.tsx:496`：`SegmentedControlDemo`。
+- `docs/site/src/components/docs-components-page.tsx:706`：`ThemeSwitchDemo`。
+- `docs/site/src/components/docs-components-page.tsx:1320`：旧 `dropdown-menu` 路由 case。
+- `docs/site/src/components/docs-components-page.tsx:1356`：旧 `segmented-control` 路由 case。
+- `docs/site/src/components/docs-components-page.tsx:1390`：旧 `theme-switch` 路由 case。
 
 迁移：
 
@@ -149,13 +149,13 @@
 - `SwitchDemo` 使用 `Switch` + `SwitchControl`，保留受控交互。
 - 路由 case 直接改为 `menu`、`switch`、`theme-switcher`；不保留旧 case 或重定向。
 
-### 5. `docs/geist/src/data/components.ts`
+### 5. `docs/site/src/data/components.ts`
 
 当前引用：
 
-- `docs/geist/src/data/components.ts:506`：`dropdown-menu` 元数据与旧代码示例。
-- `docs/geist/src/data/components.ts:1034`：`segmented-control` 元数据与旧代码示例。
-- `docs/geist/src/data/components.ts:1463`：`theme-switch` 元数据与旧代码示例。
+- `docs/site/src/data/components.ts:506`：`dropdown-menu` 元数据与旧代码示例。
+- `docs/site/src/data/components.ts:1034`：`segmented-control` 元数据与旧代码示例。
+- `docs/site/src/data/components.ts:1463`：`theme-switch` 元数据与旧代码示例。
 
 迁移：
 
@@ -163,13 +163,13 @@
 - Best Practices 直接取对应的 `docs/geist-markdown-refs/components/*.md`，不保留旧组件说明。
 - `Menu` 的示例使用正式 API；`Switch` 示例必须传 `name`；`ThemeSwitcher` 示例直接渲染组件。
 
-### 6. `docs/geist/src/data/nav.ts`
+### 6. `docs/site/src/data/nav.ts`
 
 当前引用：
 
-- `docs/geist/src/data/nav.ts:54`：`Dropdown Menu` / `/components/dropdown-menu`。
-- `docs/geist/src/data/nav.ts:77`：`Segmented Control` / `/components/segmented-control`。
-- `docs/geist/src/data/nav.ts:94`：`Theme Switch` / `/components/theme-switch`。
+- `docs/site/src/data/nav.ts:54`：`Dropdown Menu` / `/components/dropdown-menu`。
+- `docs/site/src/data/nav.ts:77`：`Segmented Control` / `/components/segmented-control`。
+- `docs/site/src/data/nav.ts:94`：`Theme Switch` / `/components/theme-switch`。
 
 迁移：
 
@@ -214,11 +214,11 @@
 以下不是运行时消费者，但迁移后必须同步，否则会继续宣称旧 API 存在：
 
 - `README.md:12`：旧基础组件清单和数量。
-- `docs/geist-docs-findings.md:10`、`:26-30`、`:74`、`:104-110`、`:143`：旧命名、旧差异和旧建议。
+- `docs/site-docs-findings.md:10`、`:26-30`、`:74`、`:104-110`、`:143`：旧命名、旧差异和旧建议。
 - `src/components/ui/context-menu.tsx:8`：Dropdown Menu 视觉说明。
 - `src/components/ui/toggle.tsx:16`：将 Switch 解释为本地 SegmentedControl。
 
-`docs/geist-docs-findings.md` 中已过时的“保留两种形态”建议应直接删除或标记为已解决，不能继续作为设计决策。
+`docs/site-docs-findings.md` 中已过时的“保留两种形态”建议应直接删除或标记为已解决，不能继续作为设计决策。
 
 ## 推荐执行顺序
 
@@ -258,11 +258,11 @@ test ! -e src/components/ui/theme-switch.tsx
 
 ```bash
 node_modules/.bin/tsc -b --noEmit
-node_modules/.bin/oxlint src/ docs/geist/src/
+node_modules/.bin/oxlint src/ docs/site/src/
 vp check
 vp test
 vp build
-node_modules/.bin/vite build docs/geist --config docs/geist/vite.config.ts
+node_modules/.bin/vite build docs --config docs/vite.config.ts
 ```
 
 实际渲染至少验证：

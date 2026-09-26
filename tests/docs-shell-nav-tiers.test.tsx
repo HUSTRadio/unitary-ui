@@ -8,9 +8,9 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, describe, expect, test } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 
-import { LanguageProvider } from "../docs/geist/src/i18n/language";
+import { LanguageProvider } from "../docs/site/src/i18n/language";
 import { ThemeProvider } from "../src/lib/theme";
-import { DocsBanner } from "../docs/geist/src/components/docs-shell";
+import { DocsBanner } from "../docs/site/src/components/docs-shell";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -29,7 +29,7 @@ if (!window.matchMedia) {
 }
 
 const shell = readFileSync(
-  resolve(process.cwd(), "docs/geist/src/components/docs-shell.tsx"),
+  resolve(process.cwd(), "docs/site/src/components/docs-shell.tsx"),
   "utf8",
 );
 

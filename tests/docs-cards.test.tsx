@@ -5,8 +5,8 @@ import { createRoot, type Root } from "react-dom/client";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { DocsCardGrid } from "../docs/geist/src/components/docs-cards";
-import { LanguageProvider } from "../docs/geist/src/i18n/language";
+import { DocsCardGrid } from "../docs/site/src/components/docs-cards";
+import { LanguageProvider } from "../docs/site/src/i18n/language";
 
 let container: HTMLDivElement;
 let root: Root;
@@ -55,7 +55,7 @@ describe("Introduction Components preview", () => {
     expect(card?.querySelectorAll('a[href],button,input,textarea,select,[role="button"]')).toHaveLength(
       0,
     );
-    expect(preview?.textContent).toContain("$ vp dev docs/geist");
+    expect(preview?.textContent).toContain("$ vp dev docs");
     expect(preview?.textContent).toContain("Collaborate");
     expect(preview?.textContent).toContain("Project name");
     expect(preview?.textContent).toContain("geist-docs");
