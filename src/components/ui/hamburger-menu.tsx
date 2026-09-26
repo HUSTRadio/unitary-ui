@@ -8,6 +8,7 @@ import { HamburgerIcon } from "./hamburger-icon";
 import { NavStatusBadge, type NavStatusTone } from "./nav-status-badge";
 import { Separator } from "./separator";
 import { Spinner } from "./spinner";
+import { useSubFrame } from "./sub-frame";
 
 /**
  * HamburgerMenu — 复合导航组件：HamburgerIcon(trigger) + ExpandPanel(展开容器)
@@ -60,6 +61,11 @@ interface HamburgerMenuProps {
   anchor: "topbar" | "sidebar";
   /** 定位锚元素（topbar 场景传 navbar 根元素，面板从其底边延伸落下） */
   anchorElement?: HTMLElement | null;
+  /**
+   * 可选的局部浮层容器；面板与遮罩在容器内展开。
+   * 省略时继承最近的 SubFrame，显式传 null 则回到视口。
+   */
+  container?: HTMLElement | null;
   /** 展开方向；默认映射 topbar→down，sidebar 建议传对侧方向 */
   direction?: "down" | "left" | "right";
   /** 展开态最大高。@default "100dvh" */
@@ -139,6 +145,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   icon,
   anchor,
   anchorElement,
+  container: containerProp,
   direction,
   maxExpandedHeight = "100dvh",
   maxExpandedWidth = "80vw",
@@ -161,6 +168,10 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   toolbarRight,
   className,
 }, ref) {
+  // 未显式传 container 时继承最近的 SubFrame；显式传 null 表示回到视口展开
+  const frameContainer = useSubFrame();
+  const container = containerProp === undefined ? frameContainer : containerProp;
+
   const { t } = useI18n();
   const [internalOpen, setInternalOpen] = React.useState(false);
   const isOpen = open ?? internalOpen;
@@ -258,7 +269,8 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
         open={isOpen}
         onOpenChange={setOpen}
         anchorElement={anchor === "topbar" ? (anchorElement ?? null) : null}
-        maxHeight={maxExpandedHeight}
+        container={container}
+        maxHeight={container ? undefined : maxExpandedHeight}
         maxWidth={maxExpandedWidth}
         aria-label={t("Menu")}
         className={cn(

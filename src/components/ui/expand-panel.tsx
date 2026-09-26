@@ -2,6 +2,7 @@ import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
+import { useSubFrame } from "@/components/ui/sub-frame";
 
 /**
  * ExpandPanel — 基于 Radix Dialog 的参数化四向展开容器（HamburgerMenu 展开引擎）。
@@ -39,7 +40,12 @@ interface ExpandPanelProps {
    * 宽度与其一致（「navbar 延伸落下」关键）。
    */
   anchorElement?: HTMLElement | null;
-  /** 面板最大高（CSS 长度）。默认 side=top → 100dvh */
+  /**
+   * 可选的局部浮层容器；省略时继承最近的 SubFrame（没有则相对视口定位），
+   * 显式传 null 可强制回到视口定位。
+   */
+  container?: HTMLElement | null;
+  /** 面板最大高（CSS 长度）。默认 side=top → 100dvh；局部容器内则限制到剩余高度。 */
   maxHeight?: string;
   /** 面板最大宽（CSS 长度）。默认横向（left/right）→ 80vw */
   maxWidth?: string;
@@ -77,14 +83,19 @@ function ExpandPanel({
   open,
   onOpenChange,
   anchorElement,
+  container: containerProp,
   maxHeight,
   maxWidth,
   className,
   children,
   "aria-label": ariaLabel,
 }: ExpandPanelProps) {
+  // 未显式传 container 时继承最近的 SubFrame；显式传 null 表示回到视口定位
+  const frameContainer = useSubFrame();
+  const container = containerProp === undefined ? frameContainer : containerProp;
+
   const horizontal = side === "left" || side === "right";
-  const resolvedMaxHeight = maxHeight ?? (side === "top" ? "100dvh" : undefined);
+  const resolvedMaxHeight = maxHeight ?? (side === "top" && !container ? "100dvh" : undefined);
   const resolvedMaxWidth = maxWidth ?? (horizontal ? "80vw" : undefined);
 
   // side=top + anchorElement：测量 anchor 底边/几何并注入 --expand-anchor-* 变量。
@@ -94,24 +105,35 @@ function ExpandPanel({
     if (!(side === "top" || (horizontal && belowTopbar)) || !anchorElement) return;
     const measure = () => {
       const rect = anchorElement.getBoundingClientRect();
+      const frame = container?.getBoundingClientRect();
+      const top = rect.bottom - (frame?.top ?? 0) - (container?.clientTop ?? 0);
+      const left = rect.left - (frame?.left ?? 0) - (container?.clientLeft ?? 0);
       setAnchorStyle({
-        "--expand-anchor-bottom": `${rect.bottom}px`,
+        "--expand-anchor-bottom": `${top}px`,
         "--expand-anchor-width": `${rect.width}px`,
-        "--expand-anchor-left": `${rect.left}px`,
+        "--expand-anchor-left": `${left}px`,
         ...(side === "top"
           ? {
-              top: `${rect.bottom}px`,
-              left: `${rect.left}px`,
+              top: `${top}px`,
+              left: `${left}px`,
               width: `${rect.width}px`,
               right: "auto",
+              ...(container ? { maxHeight: `${Math.max(0, container.clientHeight - top)}px` } : {}),
             }
           : {}),
       });
     };
     measure();
     window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [side, horizontal, belowTopbar, anchorElement]);
+    if (container) window.addEventListener("scroll", measure, true);
+    const observer = container && typeof ResizeObserver !== "undefined" ? new ResizeObserver(measure) : null;
+    if (container) observer?.observe(container);
+    return () => {
+      window.removeEventListener("resize", measure);
+      if (container) window.removeEventListener("scroll", measure, true);
+      observer?.disconnect();
+    };
+  }, [side, horizontal, belowTopbar, anchorElement, container]);
 
   // belowTopbar 模式：Radix Dialog 会对应用根节点施加 pointer-events:none（防外点交互），
   // 但本模式要求 topbar 保持可交互——挂 body 标记类，由 CSS 恢复 navbar 子树指针事件。
@@ -123,11 +145,12 @@ function ExpandPanel({
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
-      <DialogPrimitive.Portal>
+      <DialogPrimitive.Portal container={container}>
         <DialogPrimitive.Overlay
           data-below-topbar={belowTopbar || undefined}
           className={cn(
-            "fixed z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none",
+            "z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none",
+            container ? "absolute" : "fixed",
             belowTopbar
               ? // 仅遮蔽正文区：遮罩顶边 = navbar 底边，topbar 保持可见可交互
                 "inset-x-0 bottom-0 top-[var(--expand-anchor-bottom,64px)]"
@@ -159,6 +182,7 @@ function ExpandPanel({
             "z-[var(--uni-z-drawer)] touch-pan-y overflow-y-auto bg-background shadow-lg outline-none",
             "data-[state=open]:animate-in data-[state=closed]:animate-out duration-(--uni-duration-slower) ease-snap motion-reduce:animate-none! motion-reduce:!transition-none",
             SIDE_CLASSES[side],
+            container && "absolute",
             SIDE_TRANSFORM_CLASSES[side],
             className,
           )}

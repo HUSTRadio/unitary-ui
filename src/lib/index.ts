@@ -175,6 +175,8 @@ export { Scroller } from "@/components/ui/scroller";
 export type { ScrollerProps } from "@/components/ui/scroller";
 export { ContinuousSurface } from "@/components/ui/continuous-surface";
 export type { ContinuousSurfaceProps } from "@/components/ui/continuous-surface";
+export { SubFrame } from "@/components/ui/sub-frame";
+export type { SubFrameProps } from "@/components/ui/sub-frame";
 
 // Components — Mobile / Device
 export { Device, DeviceScreen } from "@/components/ui/device";

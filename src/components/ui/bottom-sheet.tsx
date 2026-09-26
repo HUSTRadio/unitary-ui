@@ -3,6 +3,7 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { Grabber } from "@/components/ui/grabber";
+import { useSubFrame } from "@/components/ui/sub-frame";
 
 /**
  * BottomSheet — 多档位（detent）底部弹层，本地扩展组件（官方 Geist 无对应页面）。
@@ -74,6 +75,11 @@ interface BottomSheetProps {
   "aria-label"?: string;
   /** 关联外部元素命名面板——如内容层渲染的标题所带的 id（ActivityView 即此用法）。 */
   "aria-labelledby"?: string;
+  /**
+   * 可选的局部浮层容器；档位比例和拖拽距离以容器高度为准。
+   * 省略时继承最近的 SubFrame，显式传 null 则回到 document.body。
+   */
+  container?: HTMLElement | null;
   className?: string;
   children?: React.ReactNode;
 }
@@ -88,9 +94,14 @@ function BottomSheet({
   onDetentChange,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
+  container: containerProp,
   className,
   children,
 }: BottomSheetProps) {
+  // 未显式传 container 时继承最近的 SubFrame；显式传 container={null} 表示回到 document.body
+  const frameContainer = useSubFrame();
+  const container = containerProp === undefined ? frameContainer : containerProp;
+
   const detents = React.useMemo(() => {
     const list = [...(detentsProp ?? [0.5, 1])].sort((a, b) => a - b);
     return list.length > 0 ? list : [0.5, 1];
@@ -149,7 +160,7 @@ function BottomSheet({
     // 因此位移取负号——下拉（clientY 增大）必须让 ratio 变小。
     const delta = event.clientY - dragStart.current.y;
     if (Math.abs(delta) > 4) dragMoved.current = true;
-    let next = dragStart.current.ratio - delta / window.innerHeight;
+    let next = dragStart.current.ratio - delta / (container?.clientHeight || window.innerHeight);
     if (gestures?.expandUp === false) next = Math.min(next, detents[detents.length - 1]!);
     setDragRatio(Math.max(0.05, next));
   };
@@ -185,8 +196,8 @@ function BottomSheet({
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
-      <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none" />
+      <DialogPrimitive.Portal container={container}>
+        <DialogPrimitive.Overlay className={cn("inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none", container ? "absolute" : "fixed")} />
         <DialogPrimitive.Content
           tabIndex={-1}
           data-slot="bottom-sheet"
@@ -205,7 +216,8 @@ function BottomSheet({
             }
           }}
           className={cn(
-            "fixed inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full touch-pan-y rounded-t-overlay border-t bg-background outline-none",
+            "inset-x-0 bottom-0 z-[var(--uni-z-drawer)] w-full max-w-full touch-pan-y rounded-t-overlay border-t bg-background outline-none",
+            container ? "absolute" : "fixed",
             "pb-[env(safe-area-inset-bottom)] overscroll-none",
             dragging && "select-none",
             // 弹出/收起动画（tw-animate-css）：animate-in/out 是触发器，
@@ -218,7 +230,7 @@ function BottomSheet({
           )}
           style={
             {
-              "--sheet-h": `${ratio * 100}dvh`,
+              "--sheet-h": container ? `${ratio * 100}%` : `${ratio * 100}dvh`,
               height: "var(--sheet-h)",
               transition:
                 dragging || reducedMotion
