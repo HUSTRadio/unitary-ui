@@ -10,8 +10,7 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
  * 超过 700ms 即可复现，全程不会派发 `contextmenu`（探针实测事件序列只有
  * pointerdown:touch / touchstart / pointerup:touch / touchend）。
  *
- * 视口取 1024px 宽：高于 `sm` 断点，Quick Actions 列表保持默认 224px 宽度，
- * 不会命中 `max-sm:w-full`。
+ * 视口取 1024px 宽：Quick Actions 列表保持默认 224px 宽度。
  */
 
 test.use({ hasTouch: true, isMobile: true, viewport: { width: 1024, height: 768 } });

@@ -1,18 +1,10 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 /**
- * HIG-AUD-027：Select / MultiSelect 与 ContextMenu 的浮层圆角契约。
+ * HIG-AUD-027：三个锚定式浮层在移动端和桌面端均保留四角圆角。
  *
- * 依据是项目自定规范（`PLAN-HIG-COMPONENTS.md:118`）与既有先例 `context-menu`
- * （内容类含 `max-sm:w-full max-sm:rounded-b-none`，Quick Actions 变体同）：移动端浮层
- * **只留上缘圆角**，与桌面端的四角 `rounded-overlay` 区分。
- *
- * 判据取自**计算值**而非类名，且同时测 390（移动）与 1280（桌面）两端，这样「形态被断点
- * 限定」这件事本身也被断言，而不是只测一端。
- *
- * 实测澄清（2026-09-26）：规范里的 `max-sm:w-full` 在 Radix popper 内**是惰性的**——
- * 带该类的 `context-menu` 在 390 下实测宽 99.25px 而非视口宽（`w-full` 相对 shrink-to-fit
- * 包装器解析）。故本契约只断言真正生效的圆角形态，不把「全宽」写成承诺。
+ * 390 与 1280 视口、明暗主题下以计算样式及几何值确认：浮层在视口内，
+ * 不误作全宽贴底面板。`max-sm:w-full` 在 Radix popper 包裹层中并不产生视口全宽。
  */
 test.describe.configure({ timeout: 120_000 });
 
@@ -31,7 +23,7 @@ async function openWith(page: Page, slug: string, theme: "light" | "dark") {
   });
 }
 
-type Metrics = { bottomRadius: string; topRadius: string; width: number; viewport: number };
+type Metrics = { bottomRadius: string; topRadius: string; width: number; x: number; bottom: number; viewport: number; height: number };
 
 const readMetrics = (el: Element): Metrics => {
   const rect = el.getBoundingClientRect();
@@ -40,7 +32,10 @@ const readMetrics = (el: Element): Metrics => {
     bottomRadius: style.borderBottomLeftRadius,
     topRadius: style.borderTopLeftRadius,
     width: Math.round(rect.width * 100) / 100,
+    x: rect.x,
+    bottom: rect.bottom,
     viewport: innerWidth,
+    height: innerHeight,
   };
 };
 
@@ -83,7 +78,7 @@ async function currentTheme(page: Page): Promise<string> {
 }
 
 for (const theme of ["light", "dark"] as const) {
-  test(`浮层移动端形态：只留上缘圆角（${theme}）`, async ({ page }) => {
+  test(`浮层移动端仍为锚定式四角圆角（${theme}）`, async ({ page }) => {
     await page.setViewportSize(MOBILE);
     await page.addInitScript((preference) => {
       localStorage.setItem("geist-docs-language", "en-US");
@@ -93,8 +88,12 @@ for (const theme of ["light", "dark"] as const) {
     const overlays = await openOverlays(page);
     for (const [name, metrics] of Object.entries(overlays)) {
       expect(metrics.viewport, `${name} 视口应为 390`).toBe(390);
-      expect(metrics.bottomRadius, `${name} 移动端下缘应为直角`).toBe("0px");
+      expect(metrics.bottomRadius, `${name} 移动端下缘应保留浮层圆角`).toBe("6px");
       expect(metrics.topRadius, `${name} 移动端上缘应保留浮层圆角`).toBe("6px");
+      expect(metrics.x, `${name} 不得超出视口左缘`).toBeGreaterThanOrEqual(-1);
+      expect(metrics.x + metrics.width, `${name} 不得超出视口右缘`).toBeLessThanOrEqual(391);
+      expect(metrics.width, `${name} 不应误作全屏底部面板`).toBeLessThan(389);
+      expect(metrics.bottom, `${name} 不应贴在视口底部`).toBeLessThan(metrics.height - 20);
     }
   });
 

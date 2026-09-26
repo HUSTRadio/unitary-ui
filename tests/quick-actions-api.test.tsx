@@ -31,7 +31,7 @@ describe("Context Menu Quick Actions variant", () => {
     expect(source).toContain("size-5");
     expect(source).toContain("text-label-14");
     expect(source).toContain("text-copy-13 text-gray-900");
-    expect(source).toContain("max-sm:w-full max-sm:rounded-b-none");
+    expect(source).not.toContain("max-sm:w-full max-sm:rounded-b-none");
   });
 
   test("pairs the variant with a blurred backdrop", () => {

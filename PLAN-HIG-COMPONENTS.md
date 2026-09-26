@@ -112,10 +112,10 @@
 ### 本轮补充勘察结论（2026-09-17）
 
 1. **无 floating-ui 依赖**：`package.json` dependencies 仅 radix-ui 1.6.7 / cmdk / lucide-react 等。EditMenu 的选区悬浮定位需手写：`document.getSelection()` + `range.getBoundingClientRect()` + fixed 定位 + selectionchange/mouseup/touchend 监听。
-2. **context-menu.tsx 现状**（132 行）：纯 Radix ContextMenu 封装（Root/Trigger/Content/Item/Separator），itemClassName 为 h-9 横排样式；Content 已有 `max-sm:w-full max-sm:rounded-b-none` 移动端全宽贴底先例。无状态钩子、无变体机制——QuickActions 变体需在此文件新增内容层组件。
+2. **context-menu.tsx 现状**（132 行）：纯 Radix ContextMenu 封装（Root/Trigger/Content/Item/Separator），itemClassName 为 h-9 横排样式；原先把 Content 的 `max-sm:w-full max-sm:rounded-b-none` 当作移动端全宽贴底先例；2026-09-26 实测证明 Radix 浮层包装层内的 `w-full` 并不产生视口全宽，且菜单没有贴底定位。当前 ContextMenu（含 Quick Actions 变体）采用锚定式四角圆角浮层。
 3. **Select 设计风格要点**（供 Pop-up 对齐与其他浮层组件参照）：
    - PC 端：Trigger 为全宽按钮（shadow ring 边框体系，`--gray-alpha-400` ring + hover/focus 加深 + focus 4px 光环）；Content 为 `material-menu` popper（`min-w-(--radix-select-trigger-width)`、`max-h-[min(available-height,376px)]`、`zoom-in-95 fade-in-0 duration-(--uni-duration-fast)` + `motion-reduce:animate-none`）；Item h-9、`rounded-overlay-item`、高亮 `bg-gray-alpha-100`、选中仅加粗+右侧 Check 不留背景。
-   - 移动端：浮层 `max-sm:w-full max-sm:rounded-b-none` 全宽贴底（ContextMenu 先例）。
+   - 移动端（2026-09-26 校正）：Select、MultiSelect 与 ContextMenu 均保留触发器/指针锚定及四角圆角；不是全宽贴底面板。需要真正底部面板时须另行实现并验证视口宽度、底部安全区域和键盘行为。
    - 组合式 API + 尺寸档（small 32 / default 36 / large 40）+ ControlLayout 统一布局 API。
 4. **split-button.tsx 现状**（219 行）：官方 props API（buttonProps/menuButtonLabel/menuItems/menuAlignment/menuProps）+ deprecated compound API；内部用 `useElementWidth` 测触发器宽度做 `alignOffset` 锚点偏移；菜单基于 menu.tsx 的 MenuContainer/MenuButton/Menu。pulldown 卡片变体加 `variant?: "split" | "pulldown"`（默认 split）+ `expandCorner?: "top-left" | "top-right" | "bottom-left" | "bottom-right"`。
 5. **docs-routes.ts 分组结构**：`DocsGroupId = "foundations" | "api" | "components" | "patterns"`；`DOCS_GROUPS` 数组定义分组标题（41-45 行）；Typography（73-79 行）与 Grid（88-95 行）当前是 foundations 下的 static 页（renderer: `{ kind: "static", page }`）。新分组需：`DocsGroupId` 加 `"layout"` + DOCS_GROUPS 加 `{ id: "layout", title: "Layout & Organization", titleZh: "排版与布局" }` + 两条路由 group 改为 `"layout"` + 布局原语组件注册进 components.ts 并以 component-detail 渲染、group 为 layout（需验证 component-index/侧栏投影对非 components 分组的兼容性）。

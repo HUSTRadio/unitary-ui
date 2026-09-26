@@ -89,7 +89,7 @@
 - 浮层表面：radius **12px**、padding **6px**（`--ds-popover-padding`）、阴影 `--material-shadow-menu`（1px rgba(0,0,0,.08) 环 + 4 层 + `rgb(250,250,250) 0 0 0 1px` 外环）、无真实 border、行高 36px（`--ds-popover-row-height`）、行圆角 6px、行水平 padding 0 8px、文字 14px/20px/400、light #171717 / dark #ededed。
 - 容器 dark bg **#0a0a0a**（`--ds-background-100`），非 #1a1a1a。
 - 高亮：`data-[highlighted]:bg-gray-alpha-100`（light rgba(0,0,0,.05) / dark rgba(255,255,255,.06)）。
-- 375 移动端：**`max-sm:w-full!` + `max-sm:rounded-b-0`**（context-menu 实测 104×172 内容自适应）；本地固定 160px 无 max-sm 类。
+- 375 移动端（当时官方观测）：`max-sm:w-full!` + `max-sm:rounded-b-0`，实测 104×172（内容自适应，并非视口全宽）；本地契约于 2026-09-26 校正为锚定式四角圆角，勿将历史类名当成底部面板承诺。
 - Portal 差异（需实测确认）：context-menu 菜单 → BODY（popper wrapper）；dots-menu 菜单在 `div.z-[var(--ds-z-menu)]` 内、position static（非 body 直挂）。两者不得强制同构。
 - **决策 D-M1**：menu.tsx 表面 token（radius/padding/shadow/row）统一到 §1.1 表；`--material-shadow-menu` 进主题层。**决策 D-M2**：context-menu 支持 `href`（渲染 `<a role="menuitem">`）、`prefix`/`suffix`（span.flex.mr-2/ml-2 + 16×16 svg）——官方 ContextMenuItem API（CM-1/CM-2）。**决策 D-M3**：dots-menu 保持现有菜单触发契约，按官方数据补 Sizes/Disabled/Disabled Menu Item 变体。
 
@@ -159,9 +159,9 @@
 ### 2.5 Context Menu（B1）
 
 - **官方事实**（README + diff-table + interactions）：16/16 真实视口 cells 全过（open/rest/主题/无溢出）；菜单 surface = §1.3 契约（r12、p6、`--material-shadow-menu`、行 36/6px、14/20/400、#171717/#ededed）；右键打开、指针锚定 menu.x≈pointer.x+2、body Portal、方向键/Enter/Esc/外点一致；API：`ContextMenuItem` 支持 `href`→`<a role=menuitem>`、`prefix`（span.flex.mr-2+16×16 svg）、`suffix`（span.flex.ml-2）、`value`+`onClick`（Enter 激活触发 onClick）；disabled → aria-disabled+data-disabled、#8f8f8f opacity 1、方向键跳过；375 `max-sm:w-full!`+`rounded-b-0`（104×172）；dark bg #0a0a0a；容器 r12（快照 md-refs 8px 已过期）；Shift+F10/菜单键实测不开（文档漂移，两端一致）；长按 BLOCKED。
-- **本地现状**：已补齐 href/prefix/suffix/value/onClick/disabled、r12 menu surface、移动端 sheet 与 4 类 demo；2026-08-12 实时复核后将可用项 cursor 对齐为 pointer、disabled 保持 default。长按仍 BLOCKED。
+- **当时本地现状**：已补齐 href/prefix/suffix/value/onClick/disabled、r12 menu surface 与 4 类 demo；曾把移动端类名误称为 sheet。2026-09-26 校正：本地采用锚定浮层、非底部面板；长按行为须以当前触控回归为准。
 - **目标 API**：ContextMenuItem 增加 `href/prefix/suffix/value/onClick/disabled` 全契约；Demo 补齐 4 变体。**Breaking**：本地 demo 的 ContextMenuItem 用法迁移；`tests/context-menu-api.test.ts` 新建。
-- **响应式**：`max-sm:w-full!` + `rounded-b-0` + 内容自适应宽度（104px 实测）。
+- **响应式（历史观测 / 当前取舍）**：官方 `max-sm:w-full!` + `rounded-b-0` 的 104px 实测是内容自适应，非视口全宽；本地于 2026-09-26 确认为锚定定位、四角圆角，不实现伪贴底形态。
 - **ARIA**：menuitem/aria-disabled/data-disabled；a role=menuitem 的链接语义。
 - **动效**：官方浮层无额外动画（维持）。
 - **允许修改文件**：`src/components/ui/context-menu.tsx`、`tests/context-menu-api.test.ts`（新建）、docs demo/i18n。

@@ -229,10 +229,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
               sideOffset={6}
               data-slot="select-content"
               className={cn(
-                // HIG-AUD-027：移动端采用与 context-menu 一致的浮层形态（圆角只留上缘）。
-                // 注：规范原文的 `max-sm:w-full` 在 Radix popper 内是惰性的——实测 context-menu
-                // （带该类）在 390 下宽 99.25px 而非视口宽，故这里只加真正生效的圆角半边。
-                "material-menu relative z-[var(--uni-z-popover)] max-h-[min(var(--radix-select-content-available-height),376px)] min-w-(--radix-select-trigger-width) w-full overflow-y-auto overscroll-contain p-1 text-popover-foreground max-sm:rounded-b-none",
+                "material-menu relative z-[var(--uni-z-popover)] max-h-[min(var(--radix-select-content-available-height),376px)] min-w-(--radix-select-trigger-width) w-full overflow-y-auto overscroll-contain p-1 text-popover-foreground",
                 "animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 duration-(--uni-duration-fast) motion-reduce:animate-none!",
               )}
             >

@@ -698,12 +698,13 @@
 - **验收场景**：移动视口下滚动隐藏地址栏，浮层内容不被截断。
 - **修复后记录（2026-09-24）**：三处均添加 `dvh` 动态高度及 `vh` 回退；本机 Chromium 双主题缩放视口的尺寸/滚动断言通过，真实移动浏览器地址栏变化仍需设备验证，详见增补 §5X。
 
-#### HIG-AUD-027 Select 缺移动端全宽贴底形态（与项目自定规范不一致）
+#### HIG-AUD-027 Select 移动端浮层形态与原计划不一致（已校正契约）
 
-- **严重度**：P2 ｜ **类型**：实现缺陷（一致性）
-- **证据**：`PLAN-HIG-COMPONENTS.md:118` 自定「移动端浮层 `max-sm:w-full max-sm:rounded-b-none` 全宽贴底」；`context-menu.tsx:25` 与 `multi-select.tsx:30` 已实现该先例，但 `select.tsx`（浮层 `:230-231`）**无任何 `max-sm:` 处理**。
-- **建议修复方向**：为 Select/MultiSelect 统一移动端形态（或撤销该规范并统一改为居中 popover）。
-- **验收场景**：390 视口下 Select 浮层形态与 ContextMenu 一致。
+- **严重度**：P2 ｜ **类型**：规范与实现不一致
+- **原始发现（2026-09-18）**：`PLAN-HIG-COMPONENTS.md:118` 曾称 ContextMenu 的 `max-sm:w-full max-sm:rounded-b-none` 是「全宽贴底」先例；并据此认为 Select 缺少移动端特化。实测 390px 视口下 ContextMenu 宽约 99.25px，浮层也未贴底；MultiSelect 的 `max-sm:w-full` 作用于触发器根容器而非浮层。原始前提不成立。
+- **校正决定（2026-09-26）**：Select、MultiSelect、ContextMenu（含 Quick Actions）统一维持锚定定位、四角圆角；移除无效的 `max-sm:w-full` 和伪底部面板的 `max-sm:rounded-b-none`，计划文本同步校正。真正全宽贴底交互如需采用，应另行设计和验收，不以改圆角冒充。
+- **已验收范围**：390 / 1280 视口、明暗主题下 ContextMenu、Select、MultiSelect 的计算圆角均为 6px，非视口全宽、非贴底，且未溢出。回归测试：`tests/e2e/mobile-overlay-form.spec.ts`。
+- **未闭环（Quick Actions）**：390px 视口实测菜单宽 224px、左缘 197px、右缘 421px，超出视口 31px；定宽菜单的移动端避碰需另行修复并加入回归后才可结案。
 
 #### HIG-AUD-028 滚动条宽度补偿缺失
 
@@ -716,7 +717,7 @@
 #### HIG-AUD-029 移动端断点覆盖零散 + 无 `visualViewport` 监听
 
 - **严重度**：P2 ｜ **类型**：实现缺陷
-- **证据**：仅 6 个组件有 `max-sm`/`max-grid-sm`/`max-modal` 特化（`context-menu`、`multi-select`、`command-menu`、`modal`、`sheet`、`breadcrumbs`、`note`、`calendar-classes`）；`select`、`combobox`、`drawer`、`bottom-sheet`、`side-panel`、`toast`、`tooltip`、`edit-menu` **无序断点特化**。
+- **原始证据**：移动端断点特化零散；不能将缺少 `max-sm:` 类本身视作缺陷，Select / MultiSelect / ContextMenu 已明确采用锚定式浮层（见 HIG-AUD-027）。其他控件的响应式行为仍需分别核实，不因 027 的契约校正而自动结案。
   `edit-menu.tsx:161` 只监听 `resize`，**不监听 `visualViewport`** → 移动端软键盘弹起、双指缩放时不重算位置。
 - **建议修复方向**：为浮层建立统一的响应式契约（与 HIG-AUD-027 合并处理）；`edit-menu` 增加 `visualViewport` 的 `resize`/`scroll` 监听（或直接关闭浮层）。
 - **验收场景**：390 视口下逐个浮层截图核对形态；`edit-menu` 在模拟软键盘弹起时不会停留在错误位置。

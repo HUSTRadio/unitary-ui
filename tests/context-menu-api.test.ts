@@ -33,10 +33,10 @@ describe("Context Menu official contract", () => {
     expect(source).not.toContain("h-9 cursor-default");
   });
 
-  test("uses content-sized desktop width and the official mobile sheet classes", () => {
+  test("uses anchored content-sized width without a false mobile sheet treatment", () => {
     expect(source).toContain("w-max");
-    expect(source).toContain("max-sm:w-full");
-    expect(source).toContain("max-sm:rounded-b-none");
+    expect(source).not.toContain("max-sm:w-full");
+    expect(source).not.toContain("max-sm:rounded-b-none");
     expect(source).not.toContain("min-w-[10rem]");
   });
 
