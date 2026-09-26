@@ -15,7 +15,34 @@ const compileManifestSchema = () => {
   return ajv.compile(readJson("geist-audit-manifest.schema.json"));
 };
 
-const selectorPair = {
+type SelectorPair = {
+  default: { official: string; local: string };
+  byViewport: Record<string, { official: string; local: string }>;
+};
+
+type ContractRole = {
+  selectors: SelectorPair;
+  presence: string;
+  acceptanceProfile: string;
+  measurementAxes?: readonly string[];
+  contextOwnerRole?: string;
+  coordinateOwnerRole?: string;
+  textRole?: string;
+  anchorEdge?: string;
+};
+
+type ContractFixture = {
+  demoId: string;
+  variant: string;
+  state: string;
+  clipRole: string;
+  evidenceNotBefore: string;
+  roles: Record<string, ContractRole>;
+  semanticNodeInventory: unknown[];
+  transparentWrappers: unknown[];
+};
+
+const selectorPair: SelectorPair = {
   default: {
     official: 'main [data-testid="component"]',
     local: 'main [data-slot="component"]',
@@ -23,7 +50,7 @@ const selectorPair = {
   byViewport: {},
 };
 
-const validContract = {
+const validContract: ContractFixture = {
   demoId: "default",
   variant: "default",
   state: "default",

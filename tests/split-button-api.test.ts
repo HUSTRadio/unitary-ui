@@ -8,12 +8,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
 import { Menu, MenuContainer } from "../src/components/ui/menu";
-import {
-  SplitButton,
-  SplitButtonMain,
-  SplitButtonMenu,
-  SplitButtonMenuItem,
-} from "../src/components/ui/split-button";
+import { SplitButton, SplitButtonMenuItem } from "../src/components/ui/split-button";
 
 // React 19 requires the act environment flag inside jsdom
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -32,13 +27,12 @@ async function renderIntoDocument(node: React.ReactNode): Promise<void> {
 }
 
 describe("SplitButton official props API contract (G11-SPLIT-01)", () => {
-  it("exports SplitButton + SplitButtonMenuItem and keeps legacy compound exports", async () => {
+  it("exports SplitButton and SplitButtonMenuItem", async () => {
     const src = await read("src/components/ui/split-button.tsx");
     expect(src).toMatch(/export\s*\{[^}]*SplitButton\b[^}]*\}/);
     expect(src).toMatch(/export\s*\{[^}]*SplitButtonMenuItem\b[^}]*\}/);
-    // backward compat: compound API exports preserved
-    expect(src).toMatch(/export\s*\{[^}]*SplitButtonMain\b[^}]*\}/);
-    expect(src).toMatch(/export\s*\{[^}]*SplitButtonMenu\b[^}]*\}/);
+    // 兼容层已移除：不再导出 compound API
+    expect(src).not.toMatch(/\bSplitButton(Main|Menu)\b/);
   });
 
   it("accepts the official props: buttonProps, menuButtonLabel, menuItems, menuAlignment, menuProps", async () => {
@@ -175,11 +169,11 @@ describe("SplitButtonMenuItem title + description + icon (G11-SPLIT-04)", () => 
 });
 
 describe("SplitButton icon-trigger geometry", () => {
-  it("uses svgOnly on both props and legacy MenuButton triggers", async () => {
+  it("uses svgOnly on the icon trigger", async () => {
     const src = await read("src/components/ui/split-button.tsx");
     const menuButtons = src.match(/<MenuButton[\s\S]*?<\/MenuButton>/g) ?? [];
 
-    expect(menuButtons).toHaveLength(2);
+    expect(menuButtons).toHaveLength(1);
     expect(menuButtons.every((menuButton) => menuButton.includes("svgOnly"))).toBe(true);
   });
 
@@ -201,25 +195,3 @@ describe("SplitButton icon-trigger geometry", () => {
   });
 });
 
-describe("SplitButton backward compatibility with compound API", () => {
-  it("still renders the legacy compound composition", () => {
-    const markup = renderToStaticMarkup(
-      React.createElement(
-        SplitButton,
-        null,
-        React.createElement(SplitButtonMain, null, "Deploy Project"),
-        React.createElement(
-          SplitButtonMenu,
-          { menuLabel: "More deployment actions" },
-          React.createElement("span", null, "Deploy to Preview"),
-        ),
-      ),
-    );
-
-    expect(markup).toContain('data-slot="split-button"');
-    expect(markup).toContain('data-slot="split-button-main"');
-    expect(markup).toContain('data-slot="split-button-menu"');
-    expect(markup).toContain("Deploy Project");
-    expect(markup).toContain('aria-label="More deployment actions"');
-  });
-});

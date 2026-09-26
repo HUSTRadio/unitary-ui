@@ -172,11 +172,13 @@ describe("useScrollDirection", () => {
       useScrollDirection();
       return null;
     }
+    const added = vi.spyOn(window, "addEventListener");
     await act(async () => {
       root.render(React.createElement(Probe));
     });
 
-    expect(window.eventNames?.().includes("scroll") ?? true).toBe(true);
+    expect(added).toHaveBeenCalledWith("scroll", expect.any(Function), { passive: true });
+    added.mockRestore();
     const removed = vi.spyOn(window, "removeEventListener");
     act(() => root.unmount());
     expect(removed).toHaveBeenCalledWith("scroll", expect.any(Function));

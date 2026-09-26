@@ -18,7 +18,7 @@ const expectRejected = (ledger: unknown) => {
   expect(validate(ledger), JSON.stringify(validate.errors, null, 2)).toBe(false);
 };
 
-const validResult = {
+const validResult: Record<string, unknown> = {
   cellKey: "description/default/default/light/375x812",
   slug: "description",
   variant: "default",

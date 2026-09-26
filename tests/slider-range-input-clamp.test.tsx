@@ -138,8 +138,7 @@ describe("Slider range manual input cross clamp", () => {
 
   test("defers keyboard commit callbacks beyond the Radix state updater", async () => {
     const onValueCommit = vi.fn();
-    const onValueCommitted = vi.fn();
-    mount({ defaultValue: [50], "aria-label": "Volume", onValueCommit, onValueCommitted });
+    mount({ defaultValue: [50], "aria-label": "Volume", onValueCommit });
 
     const thumb = container.querySelector<HTMLElement>('[data-slot="slider-thumb"]')!;
     act(() => {
@@ -149,18 +148,13 @@ describe("Slider range manual input cross clamp", () => {
     // Radix invokes onValueCommit from inside its state updater for keyboard input.
     // Deferring keeps consumer setState calls out of another component's render phase.
     expect(onValueCommit).not.toHaveBeenCalled();
-    expect(onValueCommitted).not.toHaveBeenCalled();
     await act(async () => Promise.resolve());
     expect(onValueCommit).toHaveBeenCalledWith([51]);
-    expect(onValueCommitted).toHaveBeenCalledWith([51]);
-    expect(onValueCommit.mock.invocationCallOrder[0]).toBeLessThan(
-      onValueCommitted.mock.invocationCallOrder[0]!,
-    );
   });
 
   test("does not duplicate deferred commit callbacks in StrictMode", async () => {
-    const onValueCommitted = vi.fn();
-    mount({ defaultValue: [50], "aria-label": "Volume", onValueCommitted }, true);
+    const onValueCommit = vi.fn();
+    mount({ defaultValue: [50], "aria-label": "Volume", onValueCommit }, true);
 
     const thumb = container.querySelector<HTMLElement>('[data-slot="slider-thumb"]')!;
     act(() => {
@@ -168,8 +162,8 @@ describe("Slider range manual input cross clamp", () => {
     });
     await act(async () => Promise.resolve());
 
-    expect(onValueCommitted).toHaveBeenCalledTimes(1);
-    expect(onValueCommitted).toHaveBeenCalledWith([51]);
+    expect(onValueCommit).toHaveBeenCalledTimes(1);
+    expect(onValueCommit).toHaveBeenCalledWith([51]);
   });
 
   test("collapsed value is reflected back into both inputs after commit", () => {

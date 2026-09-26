@@ -1,14 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
-import {
-  Grid,
-  GridCell,
-  GridCross,
-  GridItem,
-  GridPage,
-  GridSystem,
-} from "../src/components/ui/grid";
+import { Grid, GridCell, GridCross, GridPage, GridSystem } from "../src/components/ui/grid";
 
 const countGuides = (markup: string): number => (markup.match(/--x:/g) ?? []).length;
 
@@ -175,18 +168,6 @@ describe("G06-GRID-03: spacing comes from guides, not CSS gap", () => {
     expect(markup).not.toMatch(/class="[^"]*gap-[^"]*"/);
   });
 
-  it("ignores the legacy gap prop without emitting gap classes", () => {
-    const markup = renderToStaticMarkup(
-      <GridSystem>
-        <Grid columns={3} gap="md">
-          <GridCell>1</GridCell>
-          <GridCell>2</GridCell>
-        </Grid>
-      </GridSystem>,
-    );
-
-    expect(markup).not.toMatch(/class="[^"]*gap-[^"]*"/);
-  });
 });
 
 describe("G06-GRID-04: rows prop", () => {
@@ -301,25 +282,25 @@ describe("GridCell solid guide occlusion", () => {
   });
 });
 
-describe("backward compatibility", () => {
-  it("keeps GridItem span-based API working", () => {
+describe("span-based grid cells", () => {
+  it("renders GridCell spans with the official custom properties", () => {
     const markup = renderToStaticMarkup(
       <GridSystem>
         <Grid columns={12} rows={2}>
-          <GridItem span={6}>span 6</GridItem>
-          <GridItem span={6}>span 6</GridItem>
+          <GridCell column="auto / span 6">span 6</GridCell>
+          <GridCell column="auto / span 6">span 6</GridCell>
         </Grid>
       </GridSystem>,
     );
 
-    expect(markup).toContain('data-slot="grid-item"');
+    expect(markup).toContain('data-slot="grid-cell"');
     expect(markup).toContain("--sm-grid-column:auto / span 6");
     expect(markup).toContain("--sm-cell-columns:6");
   });
 
-  it("supports the legacy standalone Grid usage (no GridSystem)", () => {
+  it("supports the standalone Grid usage (no GridSystem)", () => {
     const markup = renderToStaticMarkup(
-      <Grid columns={3} gap="sm">
+      <Grid columns={3}>
         <div>1</div>
         <div>2</div>
       </Grid>,

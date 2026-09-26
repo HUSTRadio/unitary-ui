@@ -70,6 +70,7 @@ const metrics = (contextWidth: number, rootWidth: number, source: "official" | "
         display: "block",
         width: `${rootWidth}px`,
         height: "40px",
+        minWidth: undefined as string | undefined,
         padding: "0px",
         margin: "0px",
         border: "0px",

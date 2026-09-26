@@ -51,8 +51,6 @@ function renderMenu(contentProps?: {
             <MultiSelectRow
               name="设计系统"
               checked
-              selectedCount={2}
-              totalCount={3}
               onChange={vi.fn()}
               onSelectOnly={vi.fn()}
               onSelectAll={vi.fn()}

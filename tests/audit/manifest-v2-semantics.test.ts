@@ -1,12 +1,47 @@
 import { describe, expect, test } from "vitest";
 import { collectManifestSemanticViolations } from "./manifest-v2-semantics.mjs";
 
-const selectors = {
+type SelectorPair = {
+  default: { official: string; local: string };
+  byViewport: Record<string, { official: string; local: string }>;
+};
+
+type ContractRole = {
+  selectors: SelectorPair;
+  presence: string;
+  acceptanceProfile: string;
+  measurementAxes?: readonly string[];
+  contextOwnerRole?: string;
+  coordinateOwnerRole?: string;
+  textRole?: string;
+  anchorEdge?: string;
+};
+
+type TransparentWrapper = {
+  id: string;
+  source: string;
+  selector: string;
+  parentRole: string;
+  constraints: Record<string, unknown>;
+};
+
+type ContractFixture = {
+  demoId: string;
+  variant: string;
+  state: string;
+  clipRole: string;
+  evidenceNotBefore: string;
+  roles: Record<string, ContractRole>;
+  semanticNodeInventory: unknown[];
+  transparentWrappers: TransparentWrapper[];
+};
+
+const selectors: SelectorPair = {
   default: { official: "[data-official]", local: "[data-local]" },
   byViewport: {},
 };
 
-const contract = {
+const contract: ContractFixture = {
   demoId: "default",
   variant: "default",
   state: "default",

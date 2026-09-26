@@ -110,7 +110,9 @@ describe("Description live-discovery acceptance contract", () => {
       (component: { slug: string }) => component.slug === "description",
     );
     for (const contract of description.acceptanceContracts) {
-      for (const [roleName, role] of Object.entries(contract.roles)) {
+      for (const [roleName, role] of Object.entries(
+        contract.roles as Record<string, { selectors: { default: Record<string, string> } }>,
+      )) {
         for (const [source, selector] of Object.entries(role.selectors.default)) {
           expect(typeof selector, `${roleName}.${source} must be a string`).toBe("string");
           expect(selector, `${roleName}.${source} must be non-empty`).not.toBe("");

@@ -109,9 +109,15 @@ describe("Geist audit comparator (Task 4: semantic roles / responsive deltas / f
       fixture("semantic-local.json"),
     );
     const byRole = Object.fromEntries(
-      (report.roleComparisons["375x812"] as Array<{ role: string; classification: string }>).map(
-        (row) => [row.role, row],
-      ),
+      (
+        report.roleComparisons["375x812"] as Array<{
+          role: string;
+          classification: string;
+          rect: { max_delta_px: number };
+          styles: { failures: Array<{ field: string }>; exemptions: unknown[] };
+          aria: { failures: Array<{ field: string }> };
+        }>
+      ).map((row) => [row.role, row]),
     );
 
     // root：唯一差异是 fontFamily，无 manifest -> strict failure，无豁免

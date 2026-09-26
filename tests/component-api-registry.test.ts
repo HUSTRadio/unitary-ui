@@ -3,14 +3,14 @@ import { readFile } from "node:fs/promises";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
 
-import { COMPONENT_API } from "../docs/geist/src/data/component-api";
+import { COMPONENT_API } from "../docs/site/src/data/component-api";
 import {
   COMPONENT_GUIDES_EN,
   COMPONENT_GUIDES_ZH,
-} from "../docs/geist/src/content/component-guides";
-import { COMPONENTS } from "../docs/geist/src/data/components";
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
-import { DOCS_ROUTE_GROUPS } from "../docs/geist/src/data/docs-routes";
+} from "../docs/site/src/content/component-guides";
+import { COMPONENTS } from "../docs/site/src/data/components";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
+import { DOCS_ROUTE_GROUPS } from "../docs/site/src/data/docs-routes";
 
 describe("component API registry", () => {
   it("has an API entry for every documented component", () => {
@@ -18,7 +18,7 @@ describe("component API registry", () => {
   });
 
   it("does not retain unreachable raw API entries outside the component registry", async () => {
-    const file = "docs/geist/src/data/component-api.ts";
+    const file = "docs/site/src/data/component-api.ts";
     const source = ts.createSourceFile(
       file,
       await readFile(file, "utf8"),
@@ -146,13 +146,12 @@ describe("component API registry", () => {
       "Grid",
       "GridCell",
       "GridCross",
-      "GridItem",
       "GridPage",
       "GridSystem",
     ]);
     expect(row("grid", "height")?.type).toBe("GridHeight");
     expect(row("grid", "hideGuides")?.type).toBe("GridHideGuides");
-    expect(row("grid", "span")?.deprecated).toBe(true);
+    expect(row("grid", "span")).toBeUndefined();
 
     expect(COMPONENT_API.sheet.exports).toEqual([
       "Sheet",
@@ -190,7 +189,7 @@ describe("component API registry", () => {
       "(error: Error, info: React.ErrorInfo) => void",
     );
 
-    expect(COMPONENT_API.device.exports).toEqual(["Device", "DeviceScreen", "Phone", "PhoneScreen"]);
+    expect(COMPONENT_API.device.exports).toEqual(["Device", "DeviceScreen"]);
     expect(row("device", "model")).toMatchObject({
       type: "DeviceModelId",
       required: true,
@@ -545,7 +544,7 @@ describe("component API registry", () => {
     expect(DOCS_ROUTE_GROUPS.find((group) => group.id === "api")?.items).toEqual([
       expect.objectContaining({ to: "/lifecycle-and-hooks" }),
     ]);
-    const source = await readFile("docs/geist/src/components/docs-components-page.tsx", "utf8");
+    const source = await readFile("docs/site/src/components/docs-components-page.tsx", "utf8");
     expect(source).toContain("<ComponentApiReference componentName={name} />");
   });
 });

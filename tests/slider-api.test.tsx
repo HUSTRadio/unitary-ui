@@ -6,22 +6,25 @@ import { fileURLToPath } from "node:url";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
-import { Slider } from "../src/components/ui/slider";
+import { Slider, type SliderProps } from "../src/components/ui/slider";
 import { I18nProvider } from "../src/lib/i18n";
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
-const renderSlider = (props: Record<string, unknown>, localized = false) =>
+const renderSlider = (props: Partial<SliderProps>, localized = false) =>
   renderToStaticMarkup(
     localized
-      ? createElement(I18nProvider, { locale: "zh-CN" }, createElement(Slider, props))
-      : createElement(Slider, props),
+      ? createElement(I18nProvider, {
+          children: createElement(Slider, props as SliderProps),
+          locale: "zh-CN",
+        })
+      : createElement(Slider, props as SliderProps),
   );
 
 describe("Slider live Geist contract", () => {
   test("documents all six live demos", async () => {
-    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
+    const docs = await read("docs/site/src/components/docs-components-page.tsx");
     const manifest = await read("tests/audit/geist-audit-manifest.json");
 
     for (const id of [
@@ -130,13 +133,13 @@ describe("Slider live Geist contract", () => {
     expect(markup).toContain('data-slot="slider"');
   });
 
-  test("renders the official label and composes canonical then deprecated commit callbacks", async () => {
+  test("renders the official label and forwards the canonical commit callback", async () => {
     const source = await read("src/components/ui/slider.tsx");
     const committed = vi.fn();
     const markup = renderSlider({
       defaultValue: [50],
       label: "Drag then release",
-      onValueCommitted: committed,
+      onValueCommit: committed,
     });
 
     expect(markup).toContain("Drag then release");
@@ -144,17 +147,13 @@ describe("Slider live Geist contract", () => {
     expect(labelText).toContain("mb-2");
     expect(labelText).not.toContain("mb-0");
     expect(source).toContain("onValueCommit={handleValueCommit}");
-    expect(source).toMatch(/@deprecated[\s\S]*onValueCommitted\?:/);
+    expect(source).not.toContain("onValueCommitted");
 
     const handler = source.slice(
       source.indexOf("const handleValueCommit"),
       source.indexOf("const updateValue"),
     );
-    expect(handler.match(/callbacks\.onValueCommit\?\.\(committedValue\)/g)).toHaveLength(1);
-    expect(handler.match(/callbacks\.onValueCommitted\?\.\(committedValue\)/g)).toHaveLength(1);
-    expect(handler.indexOf("callbacks.onValueCommit?.(committedValue)")).toBeLessThan(
-      handler.indexOf("callbacks.onValueCommitted?.(committedValue)"),
-    );
+    expect(handler.match(/onValueCommitRef\.current\?\.\(committedValue\)/g)).toHaveLength(1);
   });
 });
 

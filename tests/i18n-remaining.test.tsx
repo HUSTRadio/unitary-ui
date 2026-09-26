@@ -11,7 +11,7 @@ import { StatusDot } from "@/components/ui/status-dot";
 import { I18nProvider } from "@/lib/i18n";
 
 const localize = (child: ReactNode) =>
-  renderToStaticMarkup(createElement(I18nProvider, { locale: "zh-CN" }, child));
+  renderToStaticMarkup(createElement(I18nProvider, { children: child, locale: "zh-CN" }));
 
 describe("remaining framework i18n", () => {
   test("localizes built-in controls while retaining caller content", () => {
@@ -27,8 +27,6 @@ describe("remaining framework i18n", () => {
           onChange: vi.fn(),
           onSelectOnly: vi.fn(),
           onSelectAll: vi.fn(),
-          selectedCount: 1,
-          totalCount: 1,
         }),
       ),
     ).toContain('aria-label="Design System. 取消选中"');

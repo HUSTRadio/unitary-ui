@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 import { MultiSelectRow } from "../src/components/ui/multi-select";
 
@@ -18,8 +18,6 @@ function renderRow(checked: boolean) {
     createElement(MultiSelectRow, {
       name: "Design System",
       checked,
-      selectedCount: checked ? 2 : 1,
-      totalCount: 3,
       onChange: vi.fn(),
       onSelectOnly: vi.fn(),
       onSelectAll: vi.fn(),

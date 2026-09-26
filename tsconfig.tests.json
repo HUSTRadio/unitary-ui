@@ -7,6 +7,8 @@
     "module": "esnext",
     "types": ["vite/client", "node"],
     "allowArbitraryExtensions": true,
+    /* 测试与审计脚本共用 scripts/lib、tests/audit 下的 .mjs 实现，需按 JS 推断其类型 */
+    "allowJs": true,
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -21,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["tests", "docs/geist/src"],
+  "include": ["tests", "docs/site/src"],
   "exclude": ["tests/e2e", "**/.hermes/**", "**/.superpowers/**"]
 }

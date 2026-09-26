@@ -55,7 +55,8 @@ describe("collector v2 metrics contract", () => {
 
   test("rejects incomplete mapped-text evidence", () => {
     const incomplete = structuredClone(validMetrics);
-    delete incomplete.roles.label.textEvidence.clientRects;
+    delete (incomplete.roles.label.textEvidence as Partial<typeof incomplete.roles.label.textEvidence>)
+      .clientRects;
     expect(collectMetricsContractViolations(config, incomplete)).toContainEqual(
       expect.objectContaining({ reason: expect.stringContaining("text evidence is incomplete") }),
     );

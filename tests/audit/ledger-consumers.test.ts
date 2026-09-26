@@ -164,7 +164,7 @@ describe("Geist replica audit contract (consumers)", () => {
     expect(report.geometry.nodes[0].official).toEqual({ x: 10, y: 10, width: 20, height: 10 });
     expect(readFileSync(join(out, "diff.png")).byteLength).toBeGreaterThan(0);
     expect(readFileSync(join(out, "overlay.png")).byteLength).toBeGreaterThan(0);
-  }, 15_000);
+  });
 
   test("comparator records image dimension mismatches instead of aborting without artifacts", { timeout: 20_000 }, () => {
     const dir = mkdtempSync(join(tmpdir(), "geist-audit-compare-dimensions-"));
@@ -215,7 +215,7 @@ describe("Geist replica audit contract (consumers)", () => {
     expect(report.pixel.changed_pixels).toBe(0);
     expect(readFileSync(join(out, "diff.png")).byteLength).toBeGreaterThan(0);
     expect(readFileSync(join(out, "overlay.png")).byteLength).toBeGreaterThan(0);
-  }, 15_000);
+  });
 
   test("comparator keeps legacy output compatible while adding semantic-role fields", { timeout: 20_000 }, () => {
     const dir = mkdtempSync(join(tmpdir(), "geist-audit-compare-legacy-"));
@@ -273,5 +273,5 @@ describe("Geist replica audit contract (consumers)", () => {
     expect(report.semanticAcceptanceStatus).toBe("FAIL");
     expect(report.approved_exclusions).toEqual([]);
     expect(report.artifacts).toEqual({ diff: "diff.png", overlay: "overlay.png" });
-  }, 15_000);
+  });
 });

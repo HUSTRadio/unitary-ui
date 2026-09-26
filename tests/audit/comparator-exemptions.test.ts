@@ -90,7 +90,7 @@ const manifest = (behaviorInfra: boolean) => ({
   components: [],
 });
 
-const styles = (overrides: Record<string, string> = {}) => ({
+const styles = (overrides: Record<string, string> = {}): Record<string, string> => ({
   display: "flex",
   position: "relative",
   boxSizing: "border-box",
@@ -207,6 +207,7 @@ const checkboxMetrics = (
         styles: styles({ fontFamily }),
         aria: {},
         ancestorChain: [],
+        textEvidence: undefined as { text: string; clientRects: unknown[] } | undefined,
       },
     },
     nodes: [
