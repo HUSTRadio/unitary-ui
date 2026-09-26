@@ -243,6 +243,49 @@ const ContextMenuQuickActionsContent = React.forwardRef<
   // Content 的 animate-out 与遮罩自身的退场会一起失效（并列渲染还会直接抛 Slot 报错）。
   // 因此把遮罩嵌进 Content —— 菜单退场恢复对称，遮罩与菜单同生共死。
   const [scrimExiting, setScrimExiting] = React.useState(false);
+  const [contentNode, setContentNode] = React.useState<HTMLDivElement | null>(null);
+  const composedRef = React.useCallback((node: HTMLDivElement | null) => {
+    setContentNode(node);
+    if (typeof ref === "function") ref(node);
+    else if (ref) ref.current = node;
+  }, [ref]);
+  const [horizontalOffset, setHorizontalOffset] = React.useState(0);
+
+  React.useEffect(() => {
+    const wrapper = contentNode?.parentElement;
+    if (!wrapper) return;
+
+    let frame = 0;
+    const updateOffset = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const bounds = wrapper.getBoundingClientRect();
+        const viewport = window.visualViewport;
+        const left = viewport?.offsetLeft ?? 0;
+        const right = left + (viewport?.width ?? window.innerWidth);
+        const padding = Math.min(8, (right - left) / 2);
+        const offset = Math.max(left + padding - bounds.left, Math.min(0, right - padding - bounds.right));
+        setHorizontalOffset((current) => current === offset ? current : offset);
+      });
+    };
+
+    const observer = new ResizeObserver(updateOffset);
+    observer.observe(wrapper);
+    observer.observe(contentNode);
+    window.addEventListener("resize", updateOffset);
+    window.addEventListener("scroll", updateOffset, true);
+    window.visualViewport?.addEventListener("resize", updateOffset);
+    window.visualViewport?.addEventListener("scroll", updateOffset);
+    updateOffset();
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("resize", updateOffset);
+      window.removeEventListener("scroll", updateOffset, true);
+      window.visualViewport?.removeEventListener("resize", updateOffset);
+      window.visualViewport?.removeEventListener("scroll", updateOffset);
+    };
+  }, [contentNode, width]);
 
   const handleAnimationStart = (event: React.AnimationEvent<HTMLDivElement>) => {
     // 只认 Content 自身的 enter/exit；冒泡自遮罩的事件忽略，避免自激。
@@ -258,12 +301,12 @@ const ContextMenuQuickActionsContent = React.forwardRef<
   return (
     <ContextMenuPrimitive.Portal>
       <ContextMenuPrimitive.Content
-        ref={ref}
+        ref={composedRef}
         onContextMenu={(event) => event.preventDefault()}
         onAnimationStart={handleAnimationStart}
         // Radix PopperContent 会让 popper 包裹层继承 Content 的计算 z-index。
         // 这里显式抬到 --uni-z-popover，遮罩才能稳定停在菜单之下、页面之上。
-        style={{ width, ...style, zIndex: "var(--uni-z-popover)" }}
+        style={{ width, ...style, position: "relative", left: horizontalOffset, zIndex: "var(--uni-z-popover)" }}
         className={cn(QUICK_ACTIONS_CONTENT_CLASS, className)}
         {...props}
       >

@@ -78,6 +78,24 @@ async function currentTheme(page: Page): Promise<string> {
 }
 
 for (const theme of ["light", "dark"] as const) {
+  test(`Quick Actions 移动端锚定菜单不越界（${theme}）`, async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await openWith(page, "context-menu", theme);
+    const trigger = page.getByRole("button", { name: "Notes", exact: true });
+    await trigger.scrollIntoViewIfNeeded();
+    await trigger.click({ button: "right" });
+    const menu = page.locator('[role="menu"]:visible').first();
+    await expect(menu).toBeVisible();
+    await expect(menu).toHaveCSS("width", "224px");
+    await expect.poll(async () => {
+      const rect = await menu.boundingBox();
+      return rect ? rect.x + rect.width : Infinity;
+    }).toBeLessThanOrEqual(MOBILE.width - 8);
+    const rect = await menu.boundingBox();
+    expect(rect).not.toBeNull();
+    expect(rect!.x).toBeGreaterThanOrEqual(8);
+  });
+
   test(`浮层移动端仍为锚定式四角圆角（${theme}）`, async ({ page }) => {
     await page.setViewportSize(MOBILE);
     await page.addInitScript((preference) => {

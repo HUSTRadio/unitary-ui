@@ -704,7 +704,7 @@
 - **原始发现（2026-09-18）**：`PLAN-HIG-COMPONENTS.md:118` 曾称 ContextMenu 的 `max-sm:w-full max-sm:rounded-b-none` 是「全宽贴底」先例；并据此认为 Select 缺少移动端特化。实测 390px 视口下 ContextMenu 宽约 99.25px，浮层也未贴底；MultiSelect 的 `max-sm:w-full` 作用于触发器根容器而非浮层。原始前提不成立。
 - **校正决定（2026-09-26）**：Select、MultiSelect、ContextMenu（含 Quick Actions）统一维持锚定定位、四角圆角；移除无效的 `max-sm:w-full` 和伪底部面板的 `max-sm:rounded-b-none`，计划文本同步校正。真正全宽贴底交互如需采用，应另行设计和验收，不以改圆角冒充。
 - **已验收范围**：390 / 1280 视口、明暗主题下 ContextMenu、Select、MultiSelect 的计算圆角均为 6px，非视口全宽、非贴底，且未溢出。回归测试：`tests/e2e/mobile-overlay-form.spec.ts`。
-- **未闭环（Quick Actions）**：390px 视口实测菜单宽 224px、左缘 197px、右缘 421px，超出视口 31px；定宽菜单的移动端避碰需另行修复并加入回归后才可结案。
+- **Quick Actions 修复（2026-09-26）**：修复前 390px 视口菜单宽 224px、左缘 197px、右缘 421px，超出视口 31px。定宽菜单挂载后以 Radix 定位包装层为基准计算视口边距，在内容层补偿水平偏移，不改变 portal 遮罩；补充双主题移动端边界回归 `tests/e2e/mobile-overlay-form.spec.ts`。
 
 #### HIG-AUD-028 滚动条宽度补偿缺失
 

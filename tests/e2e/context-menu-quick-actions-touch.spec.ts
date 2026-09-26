@@ -74,6 +74,23 @@ test("touch long press opens quick actions sharing the scrim material", async ({
   expect(menuWidth).toBe("224px");
 });
 
+test("mobile long press keeps quick actions inside the viewport", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openQuickActionsDemo(page);
+
+  const trigger = page.getByRole("button", { name: "Notes" }).first();
+  await trigger.scrollIntoViewIfNeeded();
+  await pressTrigger(page, trigger, 900);
+
+  const menu = page.getByRole("menu").first();
+  await expect(menu).toBeVisible();
+  await expect.poll(async () => {
+    const rect = await menu.boundingBox();
+    return rect ? rect.x + rect.width : Infinity;
+  }).toBeLessThanOrEqual(382);
+  expect((await menu.boundingBox())!.x).toBeGreaterThanOrEqual(8);
+});
+
 test("a short touch tap below the long press threshold does not open quick actions", async ({
   page,
 }) => {
