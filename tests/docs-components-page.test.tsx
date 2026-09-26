@@ -95,6 +95,18 @@ describe("ComponentsPage canonical route input", () => {
     expect(container.querySelector('a[href="#/components"]')).not.toBeNull();
   });
 
+  test("lays out the Navbar demo brand and trailing label in one centered row", async () => {
+    await render("navbar");
+
+    const header = container.querySelector<HTMLElement>('[data-demo-card="default"] [data-slot="navbar"]');
+    expect(header).not.toBeNull();
+    expect(header?.classList.contains("flex")).toBe(true);
+    expect(header?.classList.contains("items-center")).toBe(true);
+    expect(header?.children[0]?.textContent).toBe("Unitary");
+    expect(header?.children[1]?.textContent).toBe("Workspace");
+    expect(header?.children[1]?.classList.contains("ml-auto")).toBe(true);
+  });
+
   test("renders the overview when no component name is supplied", async () => {
     await render();
 
