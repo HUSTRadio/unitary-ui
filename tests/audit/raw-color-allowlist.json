@@ -2,6 +2,14 @@
   "schemaVersion": 1,
   "policy": "literal-level ledger. Every raw color literal occurrence in src/components + src/lib must appear here (files array covers every containing file). Every entry must still exist in code. Migration = move occurrence to semantic token, then delete the file from files[]. Empty files[] entries must be deleted.",
   "totalOccurrences": 134,
+  "postFreezeFiles": {
+    "src/components/ui/calendar-classes.ts": {
+      "addedAt": "2026-09-20",
+      "reviewedAt": "2026-09-26",
+      "reason": "类名串提取生成的常量模块（HIG-AUD-052 棘轮新增文件级登记）。所挂字面量均在 2026-09-04 冻结日之前引入、随提取迁入本文件，不是冻结后的新增颜色决策：hsl(0,0%,87%) 与 hsl(0,0%,30%) 首见于 5496a34（2026-08-16），rgba(0,0,0,0.16) 与 rgba(255,255,255,0.24) 首见于 9cedd15（2026-08-09）。若日后要迁移到语义 token（如 focus 环的 alpha 光晕、hint 按钮 hover 底），属设计决策，需先确认取值映射。",
+      "verifiedWith": "git log -S<literal> --reverse（首见提交）"
+    }
+  },
   "entries": [
     {
       "literal": "#000000",

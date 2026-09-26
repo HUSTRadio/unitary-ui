@@ -13,6 +13,7 @@
  * foundation-scale definition and is gated against the Geist snapshot by
  * tests/color-palette-governance.test.ts instead.
  */
+import { spawnSync } from "node:child_process";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -145,6 +146,98 @@ describe("raw color literal governance", () => {
       violations,
       `raw-color-allowlist.json 存在陈旧条目（迁移后没有清账）: ${violations.join("; ")}`,
     ).toEqual([]);
+  });
+
+  test("postFreezeFiles 登记必须完整、被引用且不含陈旧条目", () => {
+    const raw = JSON.parse(
+      readFileSync(path.join(root, "tests", "audit", "raw-color-allowlist.json"), "utf8"),
+    ) as { entries: AllowlistEntry[]; postFreezeFiles?: Record<string, Record<string, string>> };
+    const registry = raw.postFreezeFiles ?? {};
+    const actual = findRawLiterals();
+    const referencedByLegacy = new Set<string>();
+    for (const entry of raw.entries) {
+      if (entry.source !== "legacy-baseline-2026-09-04") continue;
+      for (const file of entry.files) referencedByLegacy.add(file);
+    }
+
+    const violations: string[] = [];
+    for (const [file, meta] of Object.entries(registry)) {
+      for (const field of ["addedAt", "reviewedAt", "reason"] as const) {
+        if (!meta[field]?.trim()) violations.push(`${file}: postFreezeFiles 缺少 ${field}`);
+      }
+      if (!referencedByLegacy.has(file)) {
+        violations.push(`${file}: 已登记冻结后 provenance，但没有任何 legacy 条目引用它（陈旧条目，请删除）`);
+      }
+      const stillHasLiterals = [...actual.values()].some((files) => files.has(file));
+      if (!stillHasLiterals) {
+        violations.push(`${file}: 已不在源码扫描结果中（陈旧条目，请删除）`);
+      }
+    }
+    expect(violations, violations.join("; ")).toEqual([]);
+  });
+
+  test("legacy entries only reference files that predate the freeze (HIG-AUD-052)", () => {
+    // 冻结日：legacy 账本产自 2026-09-04 的审计基线。晚于该日新增的文件不该
+    // 以 legacy 出处混进 files[]（那正是审计指出的「只增不减」旁路）。
+    const FREEZE = Date.parse("2026-09-04T00:00:00Z") / 1000;
+    const allowlist = readAllowlist();
+    const postFreezeFiles = (
+      JSON.parse(
+        readFileSync(path.join(root, "tests", "audit", "raw-color-allowlist.json"), "utf8"),
+      ) as { postFreezeFiles?: Record<string, Record<string, string>> }
+    ).postFreezeFiles ?? {};
+    const legacyFiles = new Set<string>();
+    for (const entry of allowlist) {
+      if (entry.source !== "legacy-baseline-2026-09-04") continue;
+      for (const file of entry.files) legacyFiles.add(file);
+    }
+
+    // 一次 git 遍历取「每个文件最早的 A（新增）提交时间」：log 由新到旧，后写覆盖为更早。
+    const addedAt = new Map<string, number>();
+    const log = spawnSync(
+      "git",
+      ["log", "--diff-filter=A", "--format=COMMIT:%ct", "--name-only"],
+      { cwd: root, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 },
+    );
+    expect(log.status, `git log 失败：${log.stderr ?? ""}`).toBe(0);
+    let current = 0;
+    for (const line of (log.stdout ?? "").split("\n")) {
+      const trimmed = line.trim();
+      if (!trimmed) continue;
+      if (trimmed.startsWith("COMMIT:")) {
+        current = Number(trimmed.slice("COMMIT:".length));
+        continue;
+      }
+      if (!legacyFiles.has(trimmed)) continue;
+      // 后出现的提交更早 → 覆盖为更早时间
+      addedAt.set(trimmed, current);
+    }
+
+    const violations: string[] = [];
+    for (const entry of allowlist) {
+      if (entry.source !== "legacy-baseline-2026-09-04") continue;
+      for (const file of entry.files) {
+        const added = addedAt.get(file);
+        if (added === undefined) {
+          violations.push(`${entry.literal} @ ${file}: 无法在 git 历史中确定该文件的新增时间`);
+          continue;
+        }
+        if (added >= FREEZE) {
+          // 冻结后新增的文件例外：必须显式登记文件级 provenance（含评审日期与理由），
+          // 例如字面量随重构迁入新文件的情形。没有登记就是旁路 —— 这正是本条的验收场景。
+          const declared = postFreezeFiles[file];
+          if (!declared) {
+            const when = new Date(added * 1000).toISOString().slice(0, 10);
+            violations.push(
+              `${entry.literal} @ ${file}: 该文件新增于 ${when}，晚于 legacy 冻结日 2026-09-04 —— ` +
+                "冻结后新增的出现处不得直接挂 legacy 出处：请迁移到语义 token，" +
+                "或在 raw-color-allowlist.json 的 postFreezeFiles 中登记带评审日期与理由的文件级 provenance",
+            );
+          }
+        }
+      }
+    }
+    expect(violations, violations.join("; ")).toEqual([]);
   });
 
   test("allowlist entries carry non-empty provenance fields", () => {

@@ -303,6 +303,11 @@
   2. **棘轮只守护字面量全集，不守护 files[] 收缩**：`tests/raw-color-governance.test.ts` 的「legacy 基线只能缩小」用例按**字面量集合**判断；同一字面量可在冻结后无限追加新文件，测试不拦。
 - **建议修复方向**：治理测试补一条不变量 —— legacy 条目 `files[]` 的每个出现处必须可证明**早于冻结日期**（登记文件级 commit hash，或用 `git log --diff-filter=A` 校验文件首次引入时间）；冻结后新增的出现处必须走独立 provenance（须评审签名）。同时推进原 005 的语义 token 迁移建议（`select.tsx` / `context-menu.tsx` / `activity-view.tsx` 统一迁 `--destructive`，账本删除 `#ee0000` 条目）。
 - **验收场景**：在冻结日期之后创建的新文件中引入 `#ee0000` 并登记 legacy 出处 → 治理测试**失败**。
+- **修复后记录（2026-09-26）**：
+  - **实质残留问题 1（冻结后新增代码挂 legacy 出处）已实质消解**：`context-menu.tsx` 与 `activity-view.tsx` 的 `#ee0000` 已随 HIG-AUD-031 迁移到 `text-error-foreground`；账本该条 `files[]` 收窄为 `select.tsx`，并把 reason 改写为「仅剩 aria-invalid 错误环裸值，与共享 `FIELD_ERROR_RING` 取值不一致，需设计确认后迁移」——是**待设计确认**而非洗白为 legacy。
+  - **实质残留问题 2（棘轮只守护字面量全集、不守护 `files[]`）已封堵**：`tests/raw-color-governance.test.ts` 新增不变量「legacy 条目只能引用早于冻结日的文件」——用一次 `git log --diff-filter=A` 遍历取每个被登记文件的**首次新增时间**，凡 ≥ 2026-09-04 冻结日即失败；同时账本新增 **`postFreezeFiles` 文件级 provenance 登记**（`addedAt` / `reviewedAt` / `reason` / `verifiedWith`）作为唯一放行通道，并配守护：登记必须字段完整、必须被某条 legacy 条目引用、且仍出现在源码扫描结果中（陈旧登记会失败）。这样"冻结后新增"只能以**显式、可评审**的方式进入账本，而不是沉默地追加 `files[]`。
+  - **该不变量当场暴露审计未发现的第二处旁路**：`src/components/ui/calendar-classes.ts`（新增于 **2026-09-20**）承载 4 个登记为 legacy 的字面量（`hsl(0,0%,87%)`、`hsl(0,0%,30%)`、`rgba(0,0,0,0.16)`、`rgba(255,255,255,0.24)`）。用 `git log -S<literal> --reverse` 逐个追溯最早引入提交后判定：这 4 个字面量**均早于冻结日**（`hsl(0,0%,87%)`/`hsl(0,0%,30%)` 首见 `5496a34` 2026-08-16；`rgba(0,0,0,0.16)`/`rgba(255,255,255,0.24)` 首见 `9cedd15` 2026-08-09），属**随类名串提取迁入新文件**，不是冻结后的新增颜色决策。故按文件级 provenance 登记（含上述 git 佐证与"迁移需设计确认"的说明），并**不**把它们笼统归为 legacy。
+  - **变异测试（守护类改动的必需证据）**：临时新建未跟踪文件 `src/components/ui/__mutation-probe.tsx`（含 `#ee0000`）并登记进该字面量的 legacy `files[]` → 治理测试**失败**（`#ee0000 @ …__mutation-probe.tsx: 无法在 git 历史中确定该文件的新增时间`）；另一条分支（已跟踪但新增于冻结日之后）由首次真实运行暴露，报错为「该文件新增于 2026-09-20，晚于 legacy 冻结日」。删除探针、从备份恢复账本后复跑：`raw-color-governance` **6 passed**，与 `radius-tokens`/`error-foreground-token`/`duration-tokens` 合跑 **41 passed**，`typecheck` exit 0。
 
 #### HIG-AUD-053 命令面板搜索相关性回归：搜 "toast" 默认选中「堆叠」（二期 layout 分组引入）
 

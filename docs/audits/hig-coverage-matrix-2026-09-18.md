@@ -356,6 +356,9 @@
 | HIG-AUD-048 | P3 | ✅ 已定向修复（2026-09-26，文档路径，增补 §3.4）：`guides-13.ts` 双语补齐 pull-down 卡片变体与四角语义、新增 `split-btn-04` 示例（引用既有注册 demo `pull-down-card`）、`component-api.ts` 补上下方向；浏览器实测双主题 `top-*` 卡片在按钮下方（gap 6.41px）、`bottom-*` 在按钮上方且均在视口内 |
 | HIG-AUD-049 | P3 | `activity-view`（图标瓦片 48px vs HIG 正文 ~70×70，Web 适配判断） |
 | HIG-AUD-050 | P3 | `toolbar`（Fragment 包裹分组时收集失败）——**已修复（2026-09-23，随 039 同代码面闭环，增补 §5H）** |
+| HIG-AUD-051 | P0 | Quick Actions 打开即崩溃（双 Portal 拆分违反 asChild 单子元素契约）——**已修复（2026-09-21，运行确认）**：Portal 只保留 Content 一个子节点，遮罩由 `QuickActionsScrim` 在 Content 子树内自行 portal 到 body；与 001 同批修复（主报告 §4.1、§1.2） |
+| HIG-AUD-052 | P2 | ✅ 已定向修复（2026-09-26）：legacy 条目新增「只能引用早于 2026-09-04 冻结日的文件」不变量（`git log --diff-filter=A` 校验文件首次新增时间）+ 账本 `postFreezeFiles` 文件级 provenance 登记（含字段完整性/被引用/无陈旧三重守护）；问题 1 随 031 迁移实质消解；新发现 `calendar-classes.ts`（2026-09-20 新增）承载的 4 个字面量经 `git -S` 证实早于冻结日（属迁入而非新增），已按文件级 provenance 登记；变异测试证明未登记的冻结后旁路会失败（主报告 §4.2 修复后记录） |
+| HIG-AUD-054 | P2 | `/components/feedback` @320 根级横向溢出——**已修复（2026-09-22 门禁首轮发现并当场修复，增补 §5C）**；此前台账落点仅见增补与本交付书，本次补入矩阵以对齐 54 条冻结基数 |
 | HIG-AUD-053 | P2 | ✅ 已修（2026-09-24，增补 §5W）：命令面板条目只索引双语标签及别名，不混入分组名；定向 E2E 5/5、双主题几何 2/2 通过；全量 `test:docs-layout` 未重跑 |
 | HIG-AUD-055 | P2 | 文档站移动导航面板（`hamburger-menu` + `expand-panel`，经 `docs-shell` 组装）：关闭按钮与 topbar 触发按钮重复 / belowTopbar 贴合三边的圆角 / 内容内边距贴边——**已修复（2026-09-23，运行确认，增补 §5F）** |
 
