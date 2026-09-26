@@ -339,7 +339,7 @@
 | HIG-AUD-031 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：`activity-view`/`context-menu`/`select`/`destructive-action-modal` 的破坏性文本与 `toast` success 前景统一走既有语义 token（`text-error-foreground` / `text-success-foreground`）；棘轮清账 143→134 且 `#ee0000` 收窄至 select 的错误环并更新理由；焦点测试集 46 passed |
 | HIG-AUD-032 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：`dots-menu` 浮层表面改 `bg-surface`（与 `menu.tsx` 同源）、移除显式 `aria-haspopup="true"` 语义降级；新增行为测试 `tests/dots-menu-surface.test.tsx`；连带修正 3 处耦合该缺陷属性的测试定位器 |
 | HIG-AUD-033 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：`combobox` 面板阴影改走 `--material-shadow-menu`；双主题计算值同源回归 2 passed；棘轮账本同步删除已消失的 `rgba(0,0,0,0.04)` |
-| HIG-AUD-034 | P3 | `edit-menu` |
+| HIG-AUD-034 | P3 | ✅ 已修复并核实（2026-09-26，增补 §3.4）：退场驻留机制由 HIG-AUD-011 批次落地（`CAPSULE_EXIT_MS=150` + `displaySelection`/`exiting` + `data-exiting`）；本次补两层回归——e2e 断言状态必须先 `exiting`（带退场类）再 `absent` 且驻留 ≈150ms，另加 `CAPSULE_EXIT_MS` 必须等于 `--uni-duration-fast` 的跨文件不变量。7 passed（e2e）+ 29 passed（单测） |
 | HIG-AUD-035 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：模糊用途边界写入双语最佳实践（仅供「主屏/AI 建议/临时前台」层级、必须走 `--uni-overlay-backdrop-blur`）；新增白名单守护 `tests/overlay-blur-boundary.test.ts`，新增使用点会失败并要求设计确认 |
 | HIG-AUD-036 | P1 | `edit-menu` 选区即时操作按产品决定始终横向；与原桌面竖向验收要求有意偏离、待审核，不能计为已修（增补 §5V） |
 | HIG-AUD-037 | P1 | `context-menu`（Quick Actions）、`split-button`（pull-down 变体）、`activity-view`——**已修复（2026-09-23，运行确认 + 永久 e2e，增补 §5I）** |

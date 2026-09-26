@@ -754,6 +754,8 @@
 - **类型**：审美建议 ｜ **证据**：`edit-menu.tsx:278` 只有 `animate-in`；`:152,154,198` 通过 `setSelection(null)` 立即卸载。
 - **说明**：这正是「必要反馈不足」——选中文字后的操作条在每次选区变化时闪动。建议与 HIG-AUD-011 合并处理。
 - **验收场景**：选区移动时胶囊平滑过渡而非逐帧闪烁。
+- **核对结论（2026-09-26）：已修复并补过程契约**。本条证据里的 `edit-menu.tsx:278`（只有 `animate-in`、`:152,154,198` 立即 `setSelection(null)`）**行号取自修复前版本**；现行实现（由 HIG-AUD-011「退场对称」批次落地）已有完整退场驻留：`CAPSULE_EXIT_MS = 150`（注释即「与胶囊 class 的 `duration-(--uni-duration-fast)` 保持一致」）、`:164-167` 的 `displaySelection` + `exiting` 双状态、`:318-345` 在选区塌陷时先 `setExiting(true)` 并在一个时长后卸载（含焦点归还）、`:576-587` 播放 `duration-(--uni-duration-fast)` + `animate-out fade-out-0 zoom-out-95 pointer-events-none`，并以 `data-exiting` 暴露状态供观测；`motion-reduce:animate-none!` 保证免动画偏好下不退化。
+  本次**新增两层回归**把该契约钉住（此前 e2e 只断言「不该误入 exiting」（020）与「最终消失」（021），没有任何用例证明退场真的播完）：① `tests/e2e/edit-menu.spec.ts` 新增「关闭时先驻留一个动画档（可观测 `data-exiting`），再卸载」——用页面内 `MutationObserver` 记录状态时间线，断言必须经过 `exiting`（且退场类落在节点上）再变 `absent`，并实测驻留时长落在 100–600ms（≈150ms 档）；② 新增 `tests/edit-menu-exit-timing.test.ts` 断言**跨文件不变量**——`CAPSULE_EXIT_MS` 必须等于 `--uni-duration-fast` 的值，且胶囊确实消费该 token（否则 token 一调、常量为旧值即会截断退场）。验证：`edit-menu` 相关单测 **29 passed**、`tests/e2e/edit-menu.spec.ts` **7 passed**。
 
 #### HIG-AUD-035 装饰性模糊的用途边界未文档化
 

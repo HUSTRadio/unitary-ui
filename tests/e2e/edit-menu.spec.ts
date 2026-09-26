@@ -327,3 +327,75 @@ test.describe("HIG-AUD-021 clipboard contract", () => {
     await expect(page.locator(LOG_LINE)).toContainText("Clipboard write is blocked");
   });
 });
+
+test.describe("HIG-AUD-034 退场动画必须播完再卸载", () => {
+  test.use({ viewport: { width: 900, height: 800 } });
+
+  /**
+   * 本条审计的原始表述是「关闭时节点瞬间消失，退场无从播放」。修复后组件用
+   * `displaySelection` + `exiting` 让节点多驻留一个时长档（`CAPSULE_EXIT_MS`）再卸载。
+   * 这里断言的是**过程**而不是终态：必须先经过 `exiting`（且带退场类）再变 `absent`，
+   * 否则「驻留」形同虚设——只断言最终消失会漏掉瞬间卸载的回归。
+   */
+  test("关闭时先驻留一个动画档（可观测 data-exiting），再卸载", async ({ page }) => {
+    await openDemo(page);
+    await page.locator(PARAGRAPH).first().scrollIntoViewIfNeeded();
+    await primePointerInteraction(page, "mouse");
+    await selectTextRange(page, 0, 12);
+    const capsule = page.locator(EDIT_TOOLBAR);
+    await expect(capsule).toBeVisible();
+    await expect(capsule).not.toHaveAttribute("data-exiting", "");
+
+    // 在页面内用 MutationObserver 记录状态时间线：页面轮询的粒度拿不到 150ms 级的驻留
+    await page.evaluate((selector) => {
+      const record = { states: [] as string[], start: 0, end: 0, exitClasses: "" };
+      (window as unknown as { __exitRecord: typeof record }).__exitRecord = record;
+      const read = () => {
+        const node = document.querySelector(selector);
+        if (!node) return "absent";
+        return node.getAttribute("data-exiting") !== null ? "exiting" : "visible";
+      };
+      record.states.push(read());
+      const observer = new MutationObserver(() => {
+        const state = read();
+        if (state === record.states[record.states.length - 1]) return;
+        record.states.push(state);
+        if (state === "exiting") {
+          record.start = performance.now();
+          const node = document.querySelector(selector);
+          record.exitClasses = node instanceof HTMLElement ? node.className : "";
+        }
+        if (state === "absent") {
+          record.end = performance.now();
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.body, {
+        subtree: true,
+        childList: true,
+        attributes: true,
+        attributeFilter: ["data-exiting"],
+      });
+    }, EDIT_TOOLBAR);
+
+    await page.keyboard.press("Escape");
+    await expect(capsule).toHaveCount(0);
+
+    const record = await page.evaluate(
+      () =>
+        (window as unknown as {
+          __exitRecord: { states: string[]; start: number; end: number; exitClasses: string };
+        }).__exitRecord,
+    );
+
+    expect(record.states).toContain("exiting");
+    expect(record.states[record.states.length - 1]).toBe("absent");
+    // 退场类必须真的落在节点上（动画播放的前提），且退场期间不拦截新选区
+    expect(record.exitClasses).toContain("animate-out");
+    expect(record.exitClasses).toContain("pointer-events-none");
+    // 驻留≈一个时长档（150ms）；放宽到区间以容忍定时器与调度抖动，但仍能拦住「瞬间卸载」
+    const residency = record.end - record.start;
+    expect(residency).toBeGreaterThanOrEqual(100);
+    expect(residency).toBeLessThanOrEqual(600);
+  });
+});
