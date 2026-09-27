@@ -10,7 +10,10 @@ import { useSubFrame } from "@/components/ui/sub-frame";
  *   top    → fixed inset-x-0 top-[var(--expand-anchor-bottom)] bottom-auto，
  *            只下圆角（rounded-b-overlay，HIG 浮层 6px）=「topbar 延伸落下」；anchorElement 存在时
  *            JS 测量 anchor.getBoundingClientRect().bottom 注入 CSS 变量
- *            --expand-anchor-bottom，面板宽度 = anchor 宽度。
+ *            --expand-anchor-bottom，面板宽度 = anchor 宽度。此形态下面板顶边即锚点
+ *            底边，浮层（遮罩顶边 + 进出场）整体以该边为界：顶边固定、由 clip-path
+ *            向下展开，不再整体上移掠过锚点（否则面板会从容器/文档顶部掉下来遮住
+ *            topbar），向上也不绘制阴影（见 index.css expand-panel-unroll-*）。
  *   left   → fixed left-0 inset-y-0 rounded-r-overlay，初始 -translate-x-full；
  *            belowTopbar 时顶/底/左三边贴合（anchor 底边、视口底、视口左缘），
  *            故该分支降为 rounded-none（贴合边的圆角只会留下缺口）
@@ -95,12 +98,19 @@ function ExpandPanel({
   const container = containerProp === undefined ? frameContainer : containerProp;
 
   const horizontal = side === "left" || side === "right";
+  // side=top 且提供锚点：面板顶边 = 锚点（topbar）底边，浮层整体以该边为界——
+  // 遮罩不压暗 topbar、面板也不整体上移掠过它（否则会像从文档顶部掉下来）。
+  const anchoredDrop = side === "top" && !!anchorElement;
+  const boundedByTopbar = belowTopbar || anchoredDrop;
   const resolvedMaxHeight = maxHeight ?? (side === "top" && !container ? "100dvh" : undefined);
   const resolvedMaxWidth = maxWidth ?? (horizontal ? "80vw" : undefined);
 
   // side=top + anchorElement：测量 anchor 底边/几何并注入 --expand-anchor-* 变量。
   // belowTopbar（侧滑）复用同一测量源：面板顶边贴 anchor 底边 → topbar 不被遮蔽。
   const [anchorStyle, setAnchorStyle] = React.useState<Record<string, string>>({});
+  // 同一次测量的纯变量投影：遮罩是面板的兄弟节点，拿不到 Content 上的内联变量，
+  // 需独立挂载，否则 belowTopbar/锚点顶边只能回落到 64px 默认值。
+  const [anchorVars, setAnchorVars] = React.useState<Record<string, string>>({});
   React.useLayoutEffect(() => {
     if (!(side === "top" || (horizontal && belowTopbar)) || !anchorElement) return;
     const measure = () => {
@@ -108,10 +118,14 @@ function ExpandPanel({
       const frame = container?.getBoundingClientRect();
       const top = rect.bottom - (frame?.top ?? 0) - (container?.clientTop ?? 0);
       const left = rect.left - (frame?.left ?? 0) - (container?.clientLeft ?? 0);
-      setAnchorStyle({
+      const vars = {
         "--expand-anchor-bottom": `${top}px`,
         "--expand-anchor-width": `${rect.width}px`,
         "--expand-anchor-left": `${left}px`,
+      };
+      setAnchorVars(vars);
+      setAnchorStyle({
+        ...vars,
         ...(side === "top"
           ? {
               top: `${top}px`,
@@ -135,24 +149,26 @@ function ExpandPanel({
     };
   }, [side, horizontal, belowTopbar, anchorElement, container]);
 
-  // belowTopbar 模式：Radix Dialog 会对应用根节点施加 pointer-events:none（防外点交互），
+  // 浮层以 topbar 底边为界时（belowTopbar 侧滑、或 side=top 的锚点落下），
+  // Radix Dialog 会对应用根节点施加 pointer-events:none（防外点交互），
   // 但本模式要求 topbar 保持可交互——挂 body 标记类，由 CSS 恢复 navbar 子树指针事件。
   React.useEffect(() => {
-    if (!belowTopbar) return;
+    if (!boundedByTopbar) return;
     document.body.classList.toggle("expand-panel-below-topbar", open === true);
     return () => document.body.classList.remove("expand-panel-below-topbar");
-  }, [belowTopbar, open]);
+  }, [boundedByTopbar, open]);
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal container={container}>
         <DialogPrimitive.Overlay
           data-below-topbar={belowTopbar || undefined}
+          style={anchorVars as React.CSSProperties}
           className={cn(
             "z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none",
             container ? "absolute" : "fixed",
-            belowTopbar
-              ? // 仅遮蔽正文区：遮罩顶边 = navbar 底边，topbar 保持可见可交互
+            boundedByTopbar
+              ? // 仅遮蔽正文区：遮罩顶边 = 锚点底边，topbar 保持可见可交互、不被压暗
                 "inset-x-0 bottom-0 top-[var(--expand-anchor-bottom,64px)]"
               : "inset-0",
           )}
@@ -162,6 +178,7 @@ function ExpandPanel({
           data-slot="expand-panel"
           data-side={side}
           data-below-topbar={belowTopbar || undefined}
+          data-drop-from-anchor={anchoredDrop || undefined}
           aria-label={ariaLabel}
           style={
             {
@@ -183,7 +200,10 @@ function ExpandPanel({
             "data-[state=open]:animate-in data-[state=closed]:animate-out duration-(--uni-duration-slower) ease-snap motion-reduce:animate-none! motion-reduce:!transition-none",
             SIDE_CLASSES[side],
             container && "absolute",
-            SIDE_TRANSFORM_CLASSES[side],
+            // 锚点落下：顶边固定在锚点底边、由 clip-path 向下展开（见 index.css
+            // expand-panel-unroll-*）。不走 translate 位移——整体上移会让面板从
+            // 容器顶部掠过 topbar 掉下来（用户实测）。
+            anchoredDrop ? undefined : SIDE_TRANSFORM_CLASSES[side],
             className,
           )}
         >

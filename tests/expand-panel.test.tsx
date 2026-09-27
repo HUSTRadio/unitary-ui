@@ -82,6 +82,38 @@ describe("ExpandPanel", () => {
     anchor.remove();
   });
 
+  // 回归（用户实测 2026-09-28，docs 站 App Shell 页）：side=top 的面板此前沿用
+  // -translate-y-full + slide-in-from-top，动画期间整体上移一个面板高度、从容器
+  // （乃至文档）顶部掉下来掠过 topbar；遮罩 inset-0 又把 topbar 压暗。锚点形态改为
+  // 「顶边固定在锚点底边 + clip-path 向下展开」，遮罩同界。
+  it("side=top + anchorElement：顶边贴锚点底边、遮罩同界且不做整体位移", () => {
+    const anchor = document.createElement("div");
+    document.body.append(anchor);
+    Object.defineProperty(anchor, "getBoundingClientRect", {
+      value: () => ({ bottom: 64, left: 0, width: 400, top: 0, right: 400 }) as DOMRect,
+    });
+
+    const panel = renderPanel(
+      <ExpandPanel side="top" open anchorElement={anchor} aria-label="menu" />,
+    );
+    expect(panel.hasAttribute("data-drop-from-anchor")).toBe(true);
+    // 不做整体位移（位移会让面板掠过并遮住 topbar）；展开交给 CSS 关键帧
+    expect(panel.className).not.toContain("-translate-y-full");
+    expect(panel.className).not.toContain("slide-in-from-top");
+    expect(panel.className).not.toContain("data-[state=open]:translate-y-0");
+
+    const overlay = document.querySelector(
+      '[data-state="open"][class*="overlay-scrim"]',
+    ) as HTMLElement;
+    expect(overlay.className).toContain("top-[var(--expand-anchor-bottom,64px)]");
+    expect(overlay.className).not.toContain("inset-0");
+    // 遮罩是 Content 的兄弟节点，拿不到 Content 的内联变量，必须自带同一测量值
+    expect(overlay.style.getPropertyValue("--expand-anchor-bottom")).toBe("64px");
+    // topbar 不再被遮罩覆盖 → 必须恢复其指针事件，否则只剩 Esc/正文区可关闭
+    expect(document.body.classList.contains("expand-panel-below-topbar")).toBe(true);
+    anchor.remove();
+  });
+
   it("maxHeight 默认 side=top→100dvh；maxWidth 默认横向→80vw，可覆盖", () => {
     const top = renderPanel(<ExpandPanel side="top" open />);
     expect(top.style.maxHeight).toBe("100dvh");

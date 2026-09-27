@@ -15,6 +15,14 @@ for (const [width, theme] of [[1080, "light"], [390, "dark"]] as const) {
     const frame = await openDemo(page, width, theme);
     const viewport = frame.locator('[data-slot="app-shell-viewport"]');
     await expect.poll(() => viewport.evaluate((node) => node.scrollHeight > node.clientHeight)).toBe(true);
+    // 回归（用户实测 2026-09-28）：滚动 owner 必须从 topbar 底边开始——否则滚动条
+    // 轨道会纵贯顶栏右侧（顶栏必须留在滚动容器之外）。
+    const scrollBounds = await frame.evaluate((node) => {
+      const navbarBottom = node.querySelector('[data-slot="navbar"]')!.getBoundingClientRect().bottom;
+      const viewportEl = node.querySelector('[data-slot="app-shell-viewport"]') as HTMLElement;
+      return { navbarBottom, viewportTop: viewportEl.getBoundingClientRect().top };
+    });
+    expect(scrollBounds.viewportTop).toBeCloseTo(scrollBounds.navbarBottom, 0);
 
     await frame.locator('[data-slot="hamburger-trigger"]').click();
     const panel = frame.locator('[data-slot="expand-panel"]');
@@ -25,10 +33,27 @@ for (const [width, theme] of [[1080, "light"], [390, "dark"]] as const) {
     const menuGeometry = await frame.evaluate((node) => {
       const frameBox = node.getBoundingClientRect();
       const navbarBox = node.querySelector('[data-slot="navbar"]')!.getBoundingClientRect();
-      const panelBox = node.querySelector('[data-slot="expand-panel"]')!.getBoundingClientRect();
-      return { frameBox: { left: frameBox.left, right: frameBox.right, top: frameBox.top, bottom: frameBox.bottom }, navbarBottom: navbarBox.bottom, panelBox: { left: panelBox.left, right: panelBox.right, top: panelBox.top, bottom: panelBox.bottom } };
+      const panelEl = node.querySelector('[data-slot="expand-panel"]') as HTMLElement;
+      const panelBox = panelEl.getBoundingClientRect();
+      const overlayEl = node.querySelector('[data-state="open"][class*="overlay-scrim"]') as HTMLElement;
+      const overlayBox = overlayEl.getBoundingClientRect();
+      const panelStyle = getComputedStyle(panelEl);
+      return {
+        frameBox: { left: frameBox.left, right: frameBox.right, top: frameBox.top, bottom: frameBox.bottom },
+        navbarBottom: navbarBox.bottom,
+        panelBox: { left: panelBox.left, right: panelBox.right, top: panelBox.top, bottom: panelBox.bottom },
+        overlayTop: overlayBox.top,
+        panelTransform: panelStyle.transform,
+        panelClipPath: panelStyle.clipPath,
+      };
     });
     expect(menuGeometry.panelBox.top).toBeCloseTo(menuGeometry.navbarBottom, 0);
+    // 回归（用户实测 2026-09-28）：面板顶边即 topbar 底边，遮罩必须同界（此前 inset-0
+    // 把 topbar 压暗），且面板不得做整体位移（此前 -translate-y-full 让面板从容器顶部
+    // 掉下来掠过 topbar），展开由 clip-path 在顶边完成。
+    expect(menuGeometry.overlayTop).toBeCloseTo(menuGeometry.navbarBottom, 0);
+    expect(menuGeometry.panelTransform).toBe("none");
+    expect(menuGeometry.panelClipPath).not.toContain("100%");
     expect(menuGeometry.panelBox.left).toBeGreaterThanOrEqual(menuGeometry.frameBox.left);
     expect(menuGeometry.panelBox.right).toBeLessThanOrEqual(menuGeometry.frameBox.right);
     expect(menuGeometry.panelBox.bottom).toBeLessThanOrEqual(menuGeometry.frameBox.bottom);

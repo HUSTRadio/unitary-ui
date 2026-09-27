@@ -139,6 +139,23 @@ describe("AppShellDemo · MenuBar + Toolbar 组合演示", () => {
     expect(list()?.className).not.toContain("grid-cols");
   });
 
+  // 回归（用户实测 2026-09-28）：整帧滚动时滚动条纵贯 topbar 右侧。根因是滚动 owner
+  // 包住了 topbar。壳层必须把滚动限制在 topbar 之下——navbar 是滚动容器的兄弟而非后代，
+  // 且自身不再 sticky（sticky 在非滚动祖先下会相对页面视口黏顶）。
+  it("滚动 owner 只在 topbar 之下：navbar 不是滚动容器的后代", () => {
+    renderAppShell("zh-CN");
+    const viewport = document.querySelector('[data-slot="app-shell-viewport"]');
+    expect(viewport).not.toBeNull();
+    expect(viewport!.querySelector('[data-slot="navbar"]')).toBeNull();
+
+    const navbar = document.querySelector<HTMLElement>('[data-slot="navbar"]');
+    expect(navbar).not.toBeNull();
+    expect(viewport!.previousElementSibling).toBe(navbar);
+    expect(navbar!.getAttribute("data-behavior")).toBe("static");
+    // 正文与页脚仍由同一个滚动容器承载
+    expect(viewport!.querySelector('[data-slot="footer"]')).not.toBeNull();
+  });
+
   it("锚点导航暴露新增的组合演示段落", () => {
     renderAppShell("zh-CN");
     const anchors = document.querySelectorAll('a[href="#demo-window"]');

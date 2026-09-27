@@ -2153,10 +2153,54 @@ html[data-font-tier="system"],
   }
 }
 
-/* ExpandPanel belowTopbar：面板只遮正文区时，topbar 保持可交互
+/* ExpandPanel belowTopbar / 锚点落下：浮层只遮正文区时，topbar 保持可交互
    （Radix Dialog 对应用根施加 pointer-events:none，此处恢复 navbar 子树） */
 body.expand-panel-below-topbar [data-slot="navbar"] {
   pointer-events: auto;
+}
+
+/* ExpandPanel 锚点落下（side=top 且测量了 anchorElement）：面板顶边即 topbar 底边，
+   进出场必须是「顶边不动、可见区向下展开」——用 clip-path 揭示而非 translate 位移。
+   若沿用整体上移，面板会从容器（乃至文档）顶部掉下来掠过并遮住 topbar（用户实测）。
+   clip-path 同时裁掉向上扩散的阴影，shadow-lg 不会压到 topbar 上；
+   左/右留 6px、下留 20px 供阴影绘制（对齐 shadow-lg 的 blur/offset 外扩量）。
+   锚点落下形态不做位移，故 fill-mode both 让收起终态保持不可见。 */
+@keyframes expand-panel-unroll-down {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 -6px -20px -6px);
+  }
+}
+
+@keyframes expand-panel-unroll-up {
+  from {
+    clip-path: inset(0 -6px -20px -6px);
+  }
+  to {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+[data-slot="expand-panel"][data-drop-from-anchor] {
+  clip-path: inset(0 0 100% 0);
+}
+
+[data-slot="expand-panel"][data-drop-from-anchor][data-state="open"] {
+  clip-path: inset(0 -6px -20px -6px);
+  animation: expand-panel-unroll-down var(--uni-motion-expansive) var(--ease-snap) both;
+}
+
+[data-slot="expand-panel"][data-drop-from-anchor][data-state="closed"] {
+  animation: expand-panel-unroll-up var(--uni-motion-expansive) var(--ease-snap) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="expand-panel"][data-drop-from-anchor] {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 /** 文档侧栏：该元素是唯一 scroll owner，保留原生 track/thumb 并为两侧预留稳定槽位。

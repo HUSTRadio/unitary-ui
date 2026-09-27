@@ -518,11 +518,12 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
       <SubFrame
         ref={frameRef}
         data-slot="app-shell-demo"
-        className="border-gray-alpha-400 mt-8 h-[min(720px,80dvh)] rounded-lg border"
+        className="border-gray-alpha-400 mt-8 flex h-[min(720px,80dvh)] flex-col rounded-lg border"
       >
-        <div data-slot="app-shell-viewport" className="h-full overflow-y-auto overscroll-contain">
-        {/* --- Topbar：Logo 文本 + ThemeSwitcher + trailing HamburgerMenu --- */}
-        <Navbar scrollBehavior="pinned">
+        {/* --- Topbar：Logo 文本 + ThemeSwitcher + trailing HamburgerMenu ---
+            topbar 是 flex 头部、不参与滚动（static：它本来就不动，再 sticky 会相对
+            页面视口黏顶）。滚动 owner 只覆盖其下方区域，滚动条因此不会纵贯顶栏右侧。 */}
+        <Navbar scrollBehavior="static" className="shrink-0">
           <div className="border-gray-alpha-400 flex h-full items-center justify-between border-b px-4">
             <a
               href="#demo-overview"
@@ -561,9 +562,13 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
           </div>
         </Navbar>
 
+        {/* --- 滚动 owner：topbar 之下的正文区（含页脚） ---
+            滚动只发生在这一段内，滚动条轨道从 topbar 底边开始，不穿过顶栏。 */}
+        <div data-slot="app-shell-viewport" className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
         {/* --- 中段：lg 断点 SidebarNav + 主内容区 --- */}
         <div className="lg:grid lg:grid-cols-[220px_1fr]">
-          <aside className="border-gray-alpha-400 hidden self-start lg:sticky lg:top-16 lg:block">
+          {/* 侧栏 sticky 相对本滚动容器：容器顶边已是 topbar 底边，故 top-0 */}
+          <aside className="border-gray-alpha-400 hidden self-start lg:sticky lg:top-0 lg:block">
             <SidebarNav
               groups={sidebarGroups}
               activeTo={activeAnchor}
@@ -575,7 +580,7 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
 
           <div className="min-w-0 px-6 py-6 lg:px-8">
             {/* 总览卡片区 */}
-            <section id={SECTION_IDS[0]} className="scroll-mt-32">
+            <section id={SECTION_IDS[0]} className="scroll-mt-6">
               <h2 className="text-heading-20 text-foreground">{copy.sectionOverview}</h2>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 {copy.overviewCards.map((card) => (
@@ -591,7 +596,7 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
             </section>
 
             {/* 可配项速查表 */}
-            <section id={SECTION_IDS[1]} className="scroll-mt-32 mt-10">
+            <section id={SECTION_IDS[1]} className="scroll-mt-6 mt-10">
               <h2 className="text-heading-20 text-foreground">{copy.sectionApi}</h2>
               <div
                 data-slot="docs-local-scroll"
@@ -635,7 +640,7 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
             </section>
 
             {/* MenuBar + Toolbar 组合演示：浏览器窗口形态的应用外壳 */}
-            <section id={SECTION_IDS[2]} className="scroll-mt-32 mt-10">
+            <section id={SECTION_IDS[2]} className="scroll-mt-6 mt-10">
               <h2 className="text-heading-20 text-foreground">{copy.sectionWindow}</h2>
               <p className="text-copy-13 mt-2 text-muted-foreground">{copy.windowLead}</p>
 
@@ -798,7 +803,7 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
             </section>
 
             {/* mobileOnly 说明卡：Smartphone 图标 + 「移动端特化」标注 + 内嵌交互 demo */}
-            <section id={SECTION_IDS[3]} className="scroll-mt-32 mt-10">
+            <section id={SECTION_IDS[3]} className="scroll-mt-6 mt-10">
               <h2 className="text-heading-20 text-foreground">{copy.sectionMobile}</h2>
               <div className="border-gray-alpha-400 bg-background mt-4 rounded-md border p-4">
                 <div className="flex flex-wrap items-center gap-2">

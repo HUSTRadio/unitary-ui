@@ -21,7 +21,9 @@ import { useSubFrame } from "./sub-frame";
  *   均渲染搜索+导航，split 仅加视觉分隔标注，API 先占位）
  * - 内建搜索状态机：query 非空 → 导航列表区收起（opacity-0 h-0 过渡 300ms）
  *   + 结果区渲染；X 清空钮还原列表（反向过渡）；Ctrl K 提示仅 pointer-fine 渲染
- * - side=down(top)：面板与 navbar 同宽共享 border-b、顶部无圆角（延伸感关键）
+ * - side=down(top)：面板与 navbar 同宽共享 border-b、顶部无圆角（延伸感关键）；
+ *   传了 anchorElement 时面板顶边即 navbar 底边，浮层（遮罩顶边 + 进出场）以该边为界
+ *   向下展开——不整体上移掠过 topbar，遮罩也不压暗 topbar（用户实测 2026-09-28）
  * - belowTopbar：面板顶边下移到 topbar 底边、topbar 保持可见可交互——此时触发按钮
  *   在打开态即是关闭控件，故面板内不再渲染 showCloseButton 指定的关闭按钮（否则
  *   两个功能相同的 X 垂直相邻，构成重复关闭入口）；toolbar 行相应左右各 16px 内边距。
