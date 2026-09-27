@@ -714,7 +714,7 @@
 - **建议修复方向**：在 `:root` 或浮层打开时使用 `scrollbar-gutter: stable`；或在 e2e 中断言打开浮层前后 `main` 的 `clientWidth` 不变。
 - **验收场景**：e2e 断言打开/关闭 Sheet、Modal、Menu 前后内容区宽度不变（±1px）。
 
-#### HIG-AUD-029 移动端断点覆盖零散 + 无 `visualViewport` 监听（视觉视口部分 ✅ 2026-09-27）
+#### HIG-AUD-029 移动端断点覆盖零散 + 无 `visualViewport` 监听 ✅ 2026-09-27 定点修复 + 组件级复核完成
 
 - **严重度**：P2 ｜ **类型**：实现缺陷
 - **原始证据**：移动端断点特化零散；不能将缺少 `max-sm:` 类本身视作缺陷，Select / MultiSelect / ContextMenu 已明确采用锚定式浮层（见 HIG-AUD-027）。其他控件的响应式行为仍需分别核实，不因 027 的契约校正而自动结案。
@@ -724,7 +724,13 @@
   - **`edit-menu`**：定位改用可见视口边界（翻转判定与两轴 clamp），并订阅视觉视口变化后**收起胶囊**——与既有「滚动 / 缩放即收起」同一口径。修复前实测：派发视觉视口 `resize` 后胶囊仍在（`count 1`）、位置停留在旧视口。
   - **`context-menu`（Quick Actions）**：其越界校正改为复用同一契约，消除两处各写一套 `visualViewport` 监听的分叉。
   - **回归**：`tests/e2e/edit-menu.spec.ts` 新增 HIG-AUD-029 段（双主题 5 用例，重复运行 2 遍全绿）——① 视觉视口 `resize` / `scroll` 后胶囊 `count 0`；② 伪造「只可见右半边」的缩放场景，断言胶囊被 clamp 进可见区且由可见区左缘决定。连同既有用例 `edit-menu` + 两个浮层套件共 **20 passed**。
-- **未闭环（响应式复核）**：`select`、`combobox`、`drawer`、`bottom-sheet`、`side-panel`、`toast`、`tooltip` 的组件级断点行为仍未逐一核实；真机软键盘行为未验证（本机为伪造可见视口 + 事件派发）。
+- **组件级响应式复核（2026-09-27 实测，结论：无缺陷）**：对点名的七个组件 `select`、`combobox`、`drawer`、`bottom-sheet`、`side-panel`、`toast`、`tooltip` 在 **320 / 390 视口 × 明暗主题**下逐页打开浮层实测：
+  - 浮层几何全部完整落在视口内（`x ≥ -1`、`x + w ≤ 视口宽 + 1`、`y ≥ -1`、`y + h ≤ 视口高 + 1`）：320px 下依次为 select `x=45 w=230`、combobox `x=45 w=230`、drawer `x=0 w=320`、bottom-sheet `x=21 w=278`、side-panel `x=16 w=288`、toast 单条 `x=16 w=288`、tooltip `x=8 w=239.3`；
+  - 七个页面在两种视口下 `documentElement.scrollWidth - innerWidth` 均为 **0**（无横向溢出）。
+  - 故「仅 8 个文件有 `max-sm:` 断点特化」不构成缺陷——与本条原始口径一致：**缺少 `max-sm:` 类本身不是缺陷**。
+  - 取证过程中的两个坑已写入回归注释，供后续复现：`toast` 的堆叠容器 `<ol data-slot="toasts">` 高度为 0（条目绝对定位），必须量单条 `li[role="status"]`；底部锚定的 `drawer` / `bottom-sheet` 在滑入动画期间会短暂越出视口下缘，必须等动画结束再量，否则会把入场过程误判成越界。
+  - **固化回归**：`tests/e2e/component-geometry.spec.ts` 新增两用例（320 / 390 各一，内含七个组件 × 明暗主题），断言「浮层不越界 + 页面不横向溢出」；重复运行 2 遍全绿，`component-geometry` 全量 **25 passed**。
+- **未闭环（真机）**：软键盘行为未在真机验证（本机为伪造可见视口 + 事件派发完成的取证）。
 
 #### HIG-AUD-030 屏幕阅读器播报缺陷（3 处）
 

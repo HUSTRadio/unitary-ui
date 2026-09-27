@@ -695,3 +695,139 @@ test("continuous surface uses measured paths without a competing background radi
   );
   expect(superClip.startsWith("url(")).toBe(true);
 });
+
+/**
+ * HIG-AUD-029 组件级响应式复核（2026-09-27 实测）。
+ *
+ * 审计把以下七个组件列为「无断点特化、需分别核实」：`select`、`combobox`、`drawer`、
+ * `bottom-sheet`、`side-panel`、`toast`、`tooltip`。首要取证已在 320 / 390 双主题下完成，
+ * **实测无缺陷**（浮层全部落在视口内、页面无横向溢出）——「缺少 `max-sm:` 类」本身不是缺陷，
+ * 这正是该条审计的原始口径。本用例把这条不变量固化成永久回归，避免后续改动把它弄丢。
+ *
+ * 说明：
+ * - `toast` 的堆叠容器 `<ol data-slot="toasts">` 高度为 0（条目绝对定位），可视区域是单条
+ *   `li[role="status"]`，因此量条目而不是容器；
+ * - `tooltip` 必须 hover 触发（其子元素没有 `tabIndex`，键盘聚焦不浮现）；
+ * - 断言的是**浮层不越界 + 页面不横向溢出**，不锁具体尺寸（尺寸由各组件自己的契约测试守护）。
+ */
+const NARROW_VIEWPORT_HEIGHT = 712;
+
+interface NarrowOverlayCase {
+  slug: string;
+  /** 浮层根元素；`toast` 例外，量的是单条条目。 */
+  overlay: string;
+  open: (page: Page) => Promise<void>;
+}
+
+function narrowOverlayCases(page: Page): NarrowOverlayCase[] {
+  return [
+    {
+      slug: "select",
+      overlay: '[data-slot="select-content"]',
+      open: async () => {
+        await page.locator('[data-slot="select-trigger"]').first().click();
+      },
+    },
+    {
+      slug: "combobox",
+      overlay: '[data-slot="combobox-content"]',
+      open: async () => {
+        await page.locator('[data-slot="combobox-root"]').first().click();
+      },
+    },
+    {
+      slug: "drawer",
+      overlay: '[data-slot="drawer"]',
+      open: async () => {
+        await page.getByRole("button", { name: "Open", exact: true }).first().click();
+      },
+    },
+    {
+      slug: "bottom-sheet",
+      overlay: '[data-slot="bottom-sheet"]',
+      open: async () => {
+        await page.getByRole("button", { name: "Open Deployment Actions" }).first().click();
+      },
+    },
+    {
+      slug: "side-panel",
+      overlay: '[data-slot="side-panel-content"]',
+      open: async () => {
+        await page.getByRole("button", { name: "Open details" }).first().click();
+      },
+    },
+    {
+      slug: "toast",
+      overlay: '[data-slot="toasts"] li[role="status"]',
+      open: async () => {
+        await page.getByRole("button", { name: "Show Toast" }).first().click();
+      },
+    },
+    {
+      slug: "tooltip",
+      overlay: '[role="tooltip"]',
+      open: async () => {
+        await page.getByText("Top", { exact: true }).first().hover();
+      },
+    },
+  ];
+}
+
+async function assertNarrowOverlayFits(
+  page: Page,
+  width: number,
+  theme: "light" | "dark",
+): Promise<void> {
+  for (const item of narrowOverlayCases(page)) {
+    await page.setViewportSize({ width, height: NARROW_VIEWPORT_HEIGHT });
+    await page.goto(`/#/components/${item.slug}`);
+    await page.waitForSelector('[data-slot="navbar"]');
+
+    await item.open(page);
+
+    const overlay = page.locator(`${item.overlay}:visible`).first();
+    await expect(overlay, `${item.slug} 的浮层应打开`).toBeVisible();
+    // 等入场动画真正结束再量：底部锚定的浮层（drawer / bottom-sheet）在滑入过程中
+    // 会短暂越出视口下缘，按固定时长等待会把它误判成越界缺陷。
+    await overlay.evaluate(async (node) => {
+      const finite = node.getAnimations({ subtree: true }).filter((animation) => {
+        const timing = animation.effect?.getComputedTiming();
+        return timing ? Number.isFinite(timing.endTime ?? Number.POSITIVE_INFINITY) : false;
+      });
+      await Promise.allSettled(finite.map((animation) => animation.finished));
+    });
+
+    const box = await overlay.boundingBox();
+    expect(box, `${item.slug} 的浮层应有几何盒`).not.toBeNull();
+    const context = `${item.slug} @ ${width}px ${theme}：x=${box!.x.toFixed(1)} w=${box!.width.toFixed(1)} y=${box!.y.toFixed(1)} h=${box!.height.toFixed(1)}`;
+    expect(box!.x, `${context} 不应超出左缘`).toBeGreaterThanOrEqual(-1);
+    expect(box!.x + box!.width, `${context} 不应超出右缘`).toBeLessThanOrEqual(width + 1);
+    expect(box!.y, `${context} 不应超出上缘`).toBeGreaterThanOrEqual(-1);
+    expect(box!.y + box!.height, `${context} 不应超出下缘`).toBeLessThanOrEqual(
+      NARROW_VIEWPORT_HEIGHT + 1,
+    );
+
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth,
+    );
+    expect(overflow, `${context} 不应制造页面横向溢出`).toBeLessThanOrEqual(0);
+
+    await page.keyboard.press("Escape");
+  }
+}
+
+for (const width of [320, 390] as const) {
+  test(`narrow viewport ${width}px: overlays stay inside the viewport in both themes`, async ({
+    page,
+  }) => {
+    test.setTimeout(240_000);
+    for (const theme of ["light", "dark"] as const) {
+      // 主题通过 init 脚本注入：每次导航都生效，且后注册的深色脚本覆盖前者。
+      await page.addInitScript((preference: "light" | "dark") => {
+        window.localStorage.setItem("unitary-docs-language", "en-US");
+        window.localStorage.setItem("unitary-theme-preference", preference);
+      }, theme);
+      await assertNarrowOverlayFits(page, width, theme);
+    }
+  });
+}

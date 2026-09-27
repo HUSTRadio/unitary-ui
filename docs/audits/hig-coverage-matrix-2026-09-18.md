@@ -258,7 +258,7 @@
 | 信息层级 / 阅读节奏 | 已覆盖 | typography token + 节奏测试 |
 | 对齐与留白（一致边距） | 已覆盖 | `control-layout.ts` 统一尺寸 API；`docs-block-spacing` 测试 |
 | 响应式重排 | 已覆盖（文档站） | e2e 六档视口 320/390/768/1024/1100/1440 × 双主题 × 全量注册路由 |
-| 响应式（组件级） | **部分覆盖** | 仅 8 个文件有 `max-sm`/`max-grid-sm`/`max-modal` → HIG-AUD-029 |
+| 响应式（组件级） | **已覆盖（2026-09-27 复核）** | 原判据「仅 8 个文件有 `max-sm`」不构成缺陷（见 HIG-AUD-029）：七个点名组件在 320/390 双主题实测浮层不越界、页面无横向溢出，回归见 `tests/e2e/component-geometry.spec.ts`「narrow viewport」两用例 |
 | 长内容 | 已覆盖 | `middle-truncate`、`scroller`、`overflow` 白名单（e2e 断言局部滚动 owner） |
 | 缩放（200%） | **待验证** | 仓库无 harness → HIG-VER-01 |
 | 安全区域（safe-area） | **部分覆盖** | `drawer`/`bottom-sheet`/`hamburger-menu` 有 `env(safe-area-inset-*)`；**`sheet` 缺**（HIG-AUD-010 相关） |
@@ -334,7 +334,7 @@
 | HIG-AUD-026 | P2 | ✅ 已定向修复（2026-09-24，增补 §5X）：`command-menu`、`modal`、`destructive-action-modal` 保留 `vh` 回退，以 `dvh` 覆盖；E2E 双主题/双高度 6 passed、视觉探针 2 passed；移动地址栏真机行为待验 |
 | HIG-AUD-027 | P2 | ✅ 已修（2026-09-26）：ContextMenu、Select、MultiSelect 均为锚定浮层而非全宽贴底；Quick Actions 原在 390px 视口右缘 421px 的 31px 溢出已通过定位包装层水平校正修复，双主题视口边界 E2E 覆盖 |
 | HIG-AUD-028 | P2 | 全局（浮层）；2026-09-25 本机覆盖式滚动条 Chromium 双主题 Sheet/Modal/Menu 开关均无宽度偏移；经典滚动条环境未验证，未更改样式，仍待闭环（增补 §5Y） |
-| HIG-AUD-029 | P2 | 视觉视口部分 ✅ 2026-09-27：新增 `src/lib/visual-viewport.ts` 统一契约（读取可见视口 + 订阅视觉视口 `resize`/`scroll`），`edit-menu` 据此在软键盘/双指缩放时收起并按可见视口 clamp，`context-menu`（Quick Actions）复用同一契约；单测 4 passed，e2e 5 用例（双主题，重复 2 遍）+ 相关套件共 20 passed。**未闭环**：`select`、`combobox`、`drawer`、`bottom-sheet`、`side-panel`、`toast`、`tooltip` 的组件级断点行为仍未逐一核实 |
+| HIG-AUD-029 | P2 | ✅ 2026-09-27 定点修复 + 组件级复核完成：① 视觉视口——新增 `src/lib/visual-viewport.ts` 统一契约（读取可见视口 + 订阅视觉视口 `resize`/`scroll`），`edit-menu` 据此在软键盘/双指缩放时收起并按可见视口 clamp，`context-menu`（Quick Actions）复用同一契约；单测 4 passed，e2e 5 用例（双主题，重复 2 遍）+ 相关套件共 20 passed。② 组件级复核——`select`、`combobox`、`drawer`、`bottom-sheet`、`side-panel`、`toast`、`tooltip` 在 320/390 双主题实测浮层全部不越界、页面无横向溢出（**无缺陷**），已固化为 `component-geometry` 两用例（全量 25 passed）。未闭环仅剩真机软键盘 |
 | HIG-AUD-030 | P2 | `toast`、`command-menu`、`edit-menu`；`command-menu` 无结果内层 status 已修并经 Chromium 可访问树验证（2026-09-25，增补 §5Y），toast/edit-menu 及 NVDA/VoiceOver 待验，整条未闭环 |
 | HIG-AUD-031 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：`activity-view`/`context-menu`/`select`/`destructive-action-modal` 的破坏性文本与 `toast` success 前景统一走既有语义 token（`text-error-foreground` / `text-success-foreground`）；棘轮清账 143→134 且 `#ee0000` 收窄至 select 的错误环并更新理由；焦点测试集 46 passed |
 | HIG-AUD-032 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：`dots-menu` 浮层表面改 `bg-surface`（与 `menu.tsx` 同源）、移除显式 `aria-haspopup="true"` 语义降级；新增行为测试 `tests/dots-menu-surface.test.tsx`；连带修正 3 处耦合该缺陷属性的测试定位器 |
