@@ -201,15 +201,16 @@ describe("generic LLM task runner", () => {
     ).toThrow(/fixed Codex/);
   });
 
-  it("describes the configured provider inline so Codex needs no user-level config.toml", async () => {
+  it("delegates provider routing to the Codex CLI instead of pinning one inline", async () => {
     const runner = await loadRunner();
     const agent = repoAgentConfig();
-    expect(agent.provider).toBe("deepseek");
-    expect(agent.baseUrl).toBe("https://api.deepseek.com/v1");
-    expect(agent.apiKeyEnv).toBe("DEEPSEEK_API_KEY");
+    // 仓库配置不再内联 provider：provider、base_url 与凭据由 codex 自身的
+    // 用户级配置决定，runner 只固定可执行文件、沙箱与提示词投递方式。
+    expect(agent.provider).toBeUndefined();
+    expect(agent.baseUrl).toBeUndefined();
+    expect(agent.apiKeyEnv).toBeUndefined();
 
     const args = runner.buildAgentArgs({ enabled: true, agent }, "PROMPT");
-    const prefix = `model_providers.${agent.provider}`;
     expect(args).toEqual([
       "exec",
       "--sandbox",
@@ -217,26 +218,14 @@ describe("generic LLM task runner", () => {
       "--skip-git-repo-check",
       "--color",
       "never",
-      "-c",
-      `model_provider="${agent.provider}"`,
-      "-c",
-      `${prefix}.name="${agent.provider}"`,
-      "-c",
-      `${prefix}.base_url="${agent.baseUrl}"`,
-      "-c",
-      `${prefix}.env_key="${agent.apiKeyEnv}"`,
-      "-c",
-      `${prefix}.wire_api="responses"`,
       "--model",
       agent.model,
       "-c",
       `model_reasoning_effort="${agent.thinking}"`,
       "PROMPT",
     ]);
-    expect(args).toContain('model_providers.deepseek.base_url="https://api.deepseek.com/v1"');
-    expect(args).toContain('model_providers.deepseek.env_key="DEEPSEEK_API_KEY"');
-    expect(args).toContain('model_providers.deepseek.wire_api="responses"');
-    expect(args[args.indexOf("--model") + 1]).toBe("deepseek-flash");
+    expect(args.some((arg) => arg.startsWith("model_provider="))).toBe(false);
+    expect(args[args.indexOf("--model") + 1]).toBe("gpt-5.6-sol");
   });
 
   it("omits provider overrides when no provider is configured", async () => {
