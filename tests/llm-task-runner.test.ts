@@ -225,7 +225,7 @@ describe("generic LLM task runner", () => {
       "PROMPT",
     ]);
     expect(args.some((arg) => arg.startsWith("model_provider="))).toBe(false);
-    expect(args[args.indexOf("--model") + 1]).toBe("gpt-5.6-sol");
+    expect(args[args.indexOf("--model") + 1]).toBe("gpt-6-sol");
   });
 
   it("omits provider overrides when no provider is configured", async () => {
