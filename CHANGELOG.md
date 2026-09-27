@@ -46,8 +46,8 @@
 - 导航壳层组件族（框架扩展）：Navbar / SidebarNav / Footer / HamburgerMenu / ExpandPanel / BottomSheet，统一 500ms cubic-bezier(0.32,0.72,0,1) 动画与 motion-reduce 降级，受控/非受控双模。
 - 壳层断点例外：侧栏断点保持 lg(1024px)（有意偏离官方 xl(1200px)，服务 VS Code 内嵌浏览器场景）。
 - Button 按压态（Apple HIG 要求）与默认最小宽度（min-w = 高度 × 2.2）；Progress label/labelPosition 8 方位标签与 300ms 过渡。
-- `docs/geist/src/__tests__/parity-regression.test.ts`：parity 修复的源码断言回归测试。
-- **Show Code 单源迁移（breaking）**：用物理 `.example.tsx` 文件替代逐条维护的 `demo-code*.ts` 字符串真源；`docs/geist/src/examples/` 下 374 个可运行示例组件通过 `?example-source` 虚拟模块同时为实时渲染与展示源码提供唯一真源，并注册到 `EXAMPLE_REGISTRY`；同步删除 29 个 demo-code 分片。该变更改变文档示例的模块形式，依赖旧 `DEMO_CODE` 分片的下游引用需要迁移。
+- `docs/site/src/__tests__/parity-regression.test.ts`：parity 修复的源码断言回归测试。
+- **Show Code 单源迁移（breaking）**：用物理 `.example.tsx` 文件替代逐条维护的 `demo-code*.ts` 字符串真源；`docs/site/src/examples/` 下 374 个可运行示例组件通过 `?example-source` 虚拟模块同时为实时渲染与展示源码提供唯一真源，并注册到 `EXAMPLE_REGISTRY`；同步删除 29 个 demo-code 分片。该变更改变文档示例的模块形式，依赖旧 `DEMO_CODE` 分片的下游引用需要迁移。
 - **文档演示库存保留（不重复渲染）**：示例注册表新增 `renderInSection` 元数据：20 条 primary-only 记录保留物理 `.example.tsx` 源码与 Show Code 可见性，但不再作为重复区块渲染（迁移曾引入 7 个组件的重复未本地化演示）；补回缺失的 Video default 示例，修复该路由 live demo 不可见与 LLM 文档爬取超时。
 - **16 px 文档节奏**：文档页中的 live demo、额外 demo 区与 API 参考区块统一通过 `DocsBlock` 作为 16 px 节奏 owner，消除零散的 `mt-5/mt-6/mt-8/mt-10`。
 - **命令搜索双语键盘流**：Command Menu 支持中英文关键词搜索，中文 UI 下仍可用英文关键词检索；新增上下键 + Enter 键盘选择、无结果空态与 Esc 关闭。
