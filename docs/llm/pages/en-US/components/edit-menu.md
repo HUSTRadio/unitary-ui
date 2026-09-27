@@ -42,8 +42,8 @@ Selecting text reveals a horizontal capsule toolbar with cut, copy, paste, selec
 
 ## Responsive behavior
 
-- The horizontal capsule anchors to the selection, flips below it if needed, and clamps to the viewport on both axes; overflow scrolls horizontally.
-- The toolbar closes on scroll and viewport resize so it never drifts away from the selection.
+- The horizontal capsule anchors to the selection, flips below it if needed, and clamps to the visible viewport on both axes; overflow scrolls horizontally.
+- The toolbar closes on scroll, viewport resize, and visible viewport changes such as the on-screen keyboard or pinch zoom, so it never drifts away from the selection.
 
 ## Theme behavior
 

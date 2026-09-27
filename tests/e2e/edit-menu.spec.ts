@@ -399,3 +399,116 @@ test.describe("HIG-AUD-034 退场动画必须播完再卸载", () => {
     expect(residency).toBeLessThanOrEqual(600);
   });
 });
+
+test.describe("HIG-AUD-029 可见视口（软键盘 / 双指缩放）", () => {
+  /**
+   * 软键盘弹起与双指缩放改变的是**视觉视口**：布局视口（`window.inner*`）不变、
+   * `window` 也不一定派发 `resize`，只订阅布局视口的浮层会停在旧位置。
+   *
+   * 伪造方式：`visualViewport` 在 Chromium 中是只读的，Playwright 无法直接改写其度量，
+   * 因此在页面脚本执行前用访问器属性替换为可控实现（宽度用 getter，避免 init 脚本
+   * 早于移动端仿真生效时读到布局视口的临时值）。
+   */
+  async function installVisualViewport(
+    page: Page,
+    bounds: { left: number; top: number; width: number; height: number },
+  ) {
+    await page.addInitScript((value: { left: number; top: number; width: number; height: number }) => {
+      Object.defineProperty(window, "visualViewport", {
+        configurable: true,
+        value: {
+          offsetLeft: value.left,
+          offsetTop: value.top,
+          get width() {
+            return value.width;
+          },
+          get height() {
+            return value.height;
+          },
+          scale: 1,
+          addEventListener() {},
+          removeEventListener() {},
+        },
+      });
+    }, bounds);
+  }
+
+  /** 打开示例并造出选区、等胶囊出现；返回容器段落。 */
+  async function revealCapsule(page: Page, mode: "mouse" | "touch") {
+    const paragraph = page.locator(PARAGRAPH).first();
+    await paragraph.scrollIntoViewIfNeeded();
+    await primePointerInteraction(page, mode);
+    await selectTextRange(page, 0, INITIAL_TEXT.length);
+    await expect(page.locator(EDIT_TOOLBAR)).toBeVisible();
+    return paragraph;
+  }
+
+  test.describe("软键盘弹起", () => {
+    test.use({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 700 } });
+
+    for (const theme of ["light", "dark"] as const) {
+      test(`视觉视口变化后胶囊收起，不停留在旧位置（${theme}）`, async ({ page }) => {
+        await openDemo(page, theme);
+        await revealCapsule(page, "touch");
+
+        // 修复前实测：胶囊对视觉视口信号毫无反应（仍在 count 1），位置停留在旧视口。
+        await page.evaluate(() => {
+          window.visualViewport?.dispatchEvent(new Event("resize"));
+        });
+
+        await expect(page.locator(EDIT_TOOLBAR)).toHaveCount(0);
+      });
+    }
+
+    test("双指缩放（视觉视口 scroll）同样收起胶囊", async ({ page }) => {
+      await openDemo(page);
+      await revealCapsule(page, "touch");
+
+      await page.evaluate(() => {
+        window.visualViewport?.dispatchEvent(new Event("scroll"));
+      });
+
+      await expect(page.locator(EDIT_TOOLBAR)).toHaveCount(0);
+    });
+  });
+
+  test.describe("双指缩放后定位", () => {
+    test.use({ viewport: { width: 900, height: 800 } });
+
+    /**
+     * 模拟放大后只看得见右半边：布局视口仍是 900×800，可见区只有 391×600
+     * （等于 scale≈2.3 时的 `900 / scale`，且被平移到右侧）。
+     * 选区中心落在可见区左侧之外，因此水平 clamp 的**边界**决定胶囊最终位置——
+     * 用布局视口宽度算的旧实现会把胶囊放到可见区左边（用户看不到）。
+     */
+    test("胶囊被 clamp 进可见区，而不是按布局视口宽度定位", async ({ page }) => {
+      const visible = { left: 500, top: 100, width: 391, height: 600 };
+      await installVisualViewport(page, visible);
+      await openDemo(page);
+      await revealCapsule(page, "mouse");
+      // 入场动画（`zoom-in-95`）期间节点的 transform 由动画接管、宽度也未落定，
+      // 与 HIG-AUD-021 段同样的口径：等一个动画档再量最终几何。
+      await page.waitForTimeout(400);
+
+      const geometry = await page.locator(CAPSULE).evaluate((node) => {
+        const rect = node.getBoundingClientRect();
+        return {
+          left: rect.left,
+          right: rect.right,
+          top: rect.top,
+          bottom: rect.bottom,
+          width: rect.width,
+          declaredLeft: Number.parseFloat((node as HTMLElement).style.left),
+        };
+      });
+
+      // 胶囊完整落在可见区内（安全边距 8px，容忍缩放动画的亚像素取整）
+      expect(geometry.left).toBeGreaterThanOrEqual(visible.left + 7.5);
+      expect(geometry.right).toBeLessThanOrEqual(visible.left + visible.width - 7.5);
+      expect(geometry.top).toBeGreaterThanOrEqual(visible.top + 7.5);
+      expect(geometry.bottom).toBeLessThanOrEqual(visible.top + visible.height - 7.5);
+      // 且确实由可见区左缘 clamp 而来（居中会被推到这里之外）
+      expect(geometry.declaredLeft).toBeCloseTo(visible.left + geometry.width / 2 + 8, 0);
+    });
+  });
+});

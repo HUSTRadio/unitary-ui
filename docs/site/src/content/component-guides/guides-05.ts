@@ -392,8 +392,8 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "横向胶囊始终锚定选区：上方空间不足时翻转到下方，水平和垂直位置均限制在视口内；内容过宽时可横向滚动。",
-        "滚动与视口缩放时收起，避免浮层与选区脱节。",
+        "横向胶囊始终锚定选区：上方空间不足时翻转到下方，水平和垂直位置均限制在可见视口内；内容过宽时可横向滚动。",
+        "滚动、视口缩放，以及可见视口变化（软键盘弹起、双指缩放）时收起，避免浮层与选区脱节。",
       ],
     },
     themeBehavior: {
@@ -1049,8 +1049,8 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "The horizontal capsule anchors to the selection, flips below it if needed, and clamps to the viewport on both axes; overflow scrolls horizontally.",
-        "The toolbar closes on scroll and viewport resize so it never drifts away from the selection.",
+        "The horizontal capsule anchors to the selection, flips below it if needed, and clamps to the visible viewport on both axes; overflow scrolls horizontally.",
+        "The toolbar closes on scroll, viewport resize, and visible viewport changes such as the on-screen keyboard or pinch zoom, so it never drifts away from the selection.",
       ],
     },
     themeBehavior: {

@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { copyTextToClipboard } from "@/lib/clipboard";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { getVisibleViewport, subscribeToVisualViewport } from "@/lib/visual-viewport";
 
 /**
  * EditMenu — 选区驱动的横向胶囊编辑工具条，适用于触屏、鼠标和键盘选区。
@@ -15,7 +16,8 @@ import { cn } from "@/lib/utils";
  *   role=toolbar 的横向胶囊，操作对象是"当前选中的文本"，而非右键触发的对象。
  *
  * **行为要点（HIG）**
- * - 仅在容器内存在有效文本选区时浮现；选区变化 / 滚动 / 缩放 / 点击他处即隐藏。
+ * - 仅在容器内存在有效文本选区时浮现；选区变化 / 滚动 / 缩放 / 点击他处 /
+ *   **可见视口变化（软键盘弹起、双指缩放）**即隐藏（HIG-AUD-029）。
  * - 操作按上下文可用：未提供回调的标准操作不渲染（HIG 的"只显示相关操作"）。
  * - 浮层优先显示在选区上方，上方空间不足时翻转到下方；垂直与水平方向都 clamp 进视口。
  * - 触屏（HIG-AUD-020）：手势结束后的合成 `mousedown` 不会误关胶囊；容器内抑制 iOS 原生
@@ -297,8 +299,10 @@ function EditMenu({
     document.addEventListener("pointerdown", handlePointerStart, true);
     document.addEventListener("touchstart", handlePointerStart, true);
     document.addEventListener("keydown", handleKeyStart, true);
-    window.addEventListener("scroll", close, true);
-    window.addEventListener("resize", close);
+    // HIG-AUD-029：除布局视口的 resize / 页面滚动外，还必须覆盖**视觉视口**变化
+    // （软键盘弹起、双指缩放）。胶囊的位置是打开时按视口坐标算好的快照，
+    // 视觉视口一变就过期；与既有的「滚动 / 缩放即收起」同一口径，直接收起。
+    const unsubscribeViewport = subscribeToVisualViewport(close);
 
     return () => {
       document.removeEventListener("mouseup", sync);
@@ -310,8 +314,7 @@ function EditMenu({
       document.removeEventListener("pointerdown", handlePointerStart, true);
       document.removeEventListener("touchstart", handlePointerStart, true);
       document.removeEventListener("keydown", handleKeyStart, true);
-      window.removeEventListener("scroll", close, true);
-      window.removeEventListener("resize", close);
+      unsubscribeViewport();
     };
   }, [readSelection]);
 
@@ -364,26 +367,32 @@ function EditMenu({
     // 影响的布局盒尺寸，与动画结束后的真实尺寸一致。
     const width = capsule.offsetWidth;
     const height = capsule.offsetHeight;
+    // HIG-AUD-029：翻转判定与 clamp 都以**可见视口**为界。软键盘弹起后
+    // `window.innerHeight` 仍是整屏高度，用它算出的「贴底」位置会落在键盘之下。
+    const viewport = getVisibleViewport();
     const centerX = displaySelection.rect.left + displaySelection.rect.width / 2;
     const placement =
-      displaySelection.rect.top >= height + offset + VIEWPORT_MARGIN ? "top" : "bottom";
-    // 上方分支的可用空间由 placement 判定保证（top ≥ VIEWPORT_MARGIN）。
+      displaySelection.rect.top - viewport.top >= height + offset + VIEWPORT_MARGIN
+        ? "top"
+        : "bottom";
+    // 上方分支的可用空间由 placement 判定保证（top ≥ 可见视口上缘 + VIEWPORT_MARGIN）。
     // 下方分支必须自行 clamp：选区贴近视口底部时 `rect.bottom + offset` 会把胶囊顶出下沿
     // （HIG-AUD-021；`VIEWPORT_MARGIN` 原先只参与上方判定与水平 clamp）。
     const top =
       placement === "top"
         ? displaySelection.rect.top - offset - height
         : Math.max(
-            VIEWPORT_MARGIN,
+            viewport.top + VIEWPORT_MARGIN,
             Math.min(
               displaySelection.rect.bottom + offset,
-              window.innerHeight - height - VIEWPORT_MARGIN,
+              viewport.bottom - height - VIEWPORT_MARGIN,
             ),
           );
     const half = width / 2;
+    const minLeft = viewport.left + half + VIEWPORT_MARGIN;
     const left = Math.min(
-      Math.max(centerX, half + VIEWPORT_MARGIN),
-      Math.max(window.innerWidth - half - VIEWPORT_MARGIN, half + VIEWPORT_MARGIN),
+      Math.max(centerX, minLeft),
+      Math.max(viewport.right - half - VIEWPORT_MARGIN, minLeft),
     );
     setPosition({ top, left, placement });
   }, [displaySelection, offset]);

@@ -714,13 +714,17 @@
 - **建议修复方向**：在 `:root` 或浮层打开时使用 `scrollbar-gutter: stable`；或在 e2e 中断言打开浮层前后 `main` 的 `clientWidth` 不变。
 - **验收场景**：e2e 断言打开/关闭 Sheet、Modal、Menu 前后内容区宽度不变（±1px）。
 
-#### HIG-AUD-029 移动端断点覆盖零散 + 无 `visualViewport` 监听
+#### HIG-AUD-029 移动端断点覆盖零散 + 无 `visualViewport` 监听（视觉视口部分 ✅ 2026-09-27）
 
 - **严重度**：P2 ｜ **类型**：实现缺陷
 - **原始证据**：移动端断点特化零散；不能将缺少 `max-sm:` 类本身视作缺陷，Select / MultiSelect / ContextMenu 已明确采用锚定式浮层（见 HIG-AUD-027）。其他控件的响应式行为仍需分别核实，不因 027 的契约校正而自动结案。
   `edit-menu.tsx:161` 只监听 `resize`，**不监听 `visualViewport`** → 移动端软键盘弹起、双指缩放时不重算位置。
-- **建议修复方向**：为浮层建立统一的响应式契约（与 HIG-AUD-027 合并处理）；`edit-menu` 增加 `visualViewport` 的 `resize`/`scroll` 监听（或直接关闭浮层）。
-- **验收场景**：390 视口下逐个浮层截图核对形态；`edit-menu` 在模拟软键盘弹起时不会停留在错误位置。
+- **视觉视口部分修复（2026-09-27）**：
+  - **共享契约**：新增 `src/lib/visual-viewport.ts`，把「读取可见视口边界」`getVisibleViewport()` 与「订阅可见视口变化」`subscribeToVisualViewport()`（布局视口 `resize` + 捕获阶段 `scroll`，视觉视口 `resize` / `scroll`）收敛到一处；单测 `tests/visual-viewport.test.ts`（4 passed）钉住回退行为与四类订阅来源。
+  - **`edit-menu`**：定位改用可见视口边界（翻转判定与两轴 clamp），并订阅视觉视口变化后**收起胶囊**——与既有「滚动 / 缩放即收起」同一口径。修复前实测：派发视觉视口 `resize` 后胶囊仍在（`count 1`）、位置停留在旧视口。
+  - **`context-menu`（Quick Actions）**：其越界校正改为复用同一契约，消除两处各写一套 `visualViewport` 监听的分叉。
+  - **回归**：`tests/e2e/edit-menu.spec.ts` 新增 HIG-AUD-029 段（双主题 5 用例，重复运行 2 遍全绿）——① 视觉视口 `resize` / `scroll` 后胶囊 `count 0`；② 伪造「只可见右半边」的缩放场景，断言胶囊被 clamp 进可见区且由可见区左缘决定。连同既有用例 `edit-menu` + 两个浮层套件共 **20 passed**。
+- **未闭环（响应式复核）**：`select`、`combobox`、`drawer`、`bottom-sheet`、`side-panel`、`toast`、`tooltip` 的组件级断点行为仍未逐一核实；真机软键盘行为未验证（本机为伪造可见视口 + 事件派发）。
 
 #### HIG-AUD-030 屏幕阅读器播报缺陷（3 处）
 

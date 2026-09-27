@@ -3,6 +3,7 @@ import { createPortal, flushSync } from "react-dom";
 import { ContextMenu as ContextMenuPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
+import { getVisibleViewport, subscribeToVisualViewport } from "@/lib/visual-viewport";
 
 const ContextMenu = ContextMenuPrimitive.Root;
 
@@ -259,12 +260,15 @@ const ContextMenuQuickActionsContent = React.forwardRef<
     const updateOffset = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
+        // HIG-AUD-029：边界取**可见视口**（软键盘 / 双指缩放会改变它），
+        // 订阅同样走共享契约，与编辑胶囊保持一致。
         const bounds = wrapper.getBoundingClientRect();
-        const viewport = window.visualViewport;
-        const left = viewport?.offsetLeft ?? 0;
-        const right = left + (viewport?.width ?? window.innerWidth);
-        const padding = Math.min(8, (right - left) / 2);
-        const offset = Math.max(left + padding - bounds.left, Math.min(0, right - padding - bounds.right));
+        const viewport = getVisibleViewport();
+        const padding = Math.min(8, viewport.width / 2);
+        const offset = Math.max(
+          viewport.left + padding - bounds.left,
+          Math.min(0, viewport.right - padding - bounds.right),
+        );
         setHorizontalOffset((current) => current === offset ? current : offset);
       });
     };
@@ -272,18 +276,12 @@ const ContextMenuQuickActionsContent = React.forwardRef<
     const observer = new ResizeObserver(updateOffset);
     observer.observe(wrapper);
     observer.observe(contentNode);
-    window.addEventListener("resize", updateOffset);
-    window.addEventListener("scroll", updateOffset, true);
-    window.visualViewport?.addEventListener("resize", updateOffset);
-    window.visualViewport?.addEventListener("scroll", updateOffset);
+    const unsubscribeViewport = subscribeToVisualViewport(updateOffset);
     updateOffset();
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
-      window.removeEventListener("resize", updateOffset);
-      window.removeEventListener("scroll", updateOffset, true);
-      window.visualViewport?.removeEventListener("resize", updateOffset);
-      window.visualViewport?.removeEventListener("scroll", updateOffset);
+      unsubscribeViewport();
     };
   }, [contentNode, width]);
 
