@@ -38,8 +38,9 @@ describe("AI documentation update prompt contract", () => {
       "Use the changelog as a fast freshness signal, never as sufficient proof",
     );
     expect(prompt).toContain(
-      "Run every deterministic generation and validation command supplied by the runner",
+      "the runner executes every deterministic generation and validation command itself after your turn",
     );
+    expect(prompt).toContain("Never run repository tooling");
     expect(prompt).toContain("A changelog entry never overrides a failing deterministic check");
   });
 
@@ -65,8 +66,7 @@ describe("AI documentation update prompt contract", () => {
 
     const prompt = assembledPrompt();
     expect(prompt).toContain("living demo pages in `src/App.tsx` and `src/examples/**`");
-    expect(prompt).toContain("pnpm run docs:readme:screenshots");
-    expect(prompt).toContain("pnpm run docs:readme:screenshots:check");
+    expect(prompt).toContain("the runner regenerates and validates `images/styleguide`");
     expect(prompt).toContain("Do not change component runtime behavior");
   });
 

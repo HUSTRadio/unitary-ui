@@ -7,8 +7,8 @@
 3. If a public behavior or API change has no changelog entry, update both changelogs: Simplified Chinese first in `CHANGELOG.md`, with an equivalent English alternative in `CHANGELOG.en.md`.
 4. Reconcile the canonical source, living demo pages in `src/App.tsx` and `src/examples/**`, Show Code, API registry, human documentation, and generated LLM reference corpus against the actual implementation.
 5. Treat the living styleguide as documentation: update only `src/App.tsx` and `src/examples/**` when their examples drift from the current public component API. Do not change component runtime behavior or edit `src/components/**` as part of this task.
-6. When living demos, themes, navigation, or screenshot metadata change, run `pnpm run docs:readme:screenshots`, review the generated README assets, then run `pnpm run docs:readme:screenshots:check`.
-7. Run every deterministic generation and validation command supplied by the runner. A changelog entry never overrides a failing deterministic check; fix the underlying documentation drift instead.
+6. When living demos, themes, navigation, or screenshot metadata change, report the affected pages instead of regenerating assets yourself: the runner regenerates and validates `images/styleguide` outside your sandbox.
+7. Never run repository tooling (`pnpm`, `vp`, `vitest`, `tsx`, or the documentation generators), and never try to work around a sandbox denial: your sandbox cannot read the linked dependency store, and the runner executes every deterministic generation and validation command itself after your turn. A changelog entry never overrides a failing deterministic check; if a required fact cannot be verified from the repository files alone, report the blocker explicitly instead of guessing.
 
 ## Completion criteria
 
