@@ -8,7 +8,7 @@
 
 # 日历
 
-Calendar
+calendar
 
 显示可供用户选择日期的月历。
 

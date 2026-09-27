@@ -8,7 +8,7 @@ A structured row for an entity and its primary action.
 
 # Entity
 
-Entity
+entity
 
 A structured row for an entity and its primary action.
 

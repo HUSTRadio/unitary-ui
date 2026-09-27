@@ -8,7 +8,7 @@ Displays content in a side panel that slides in from the edge of the screen.
 
 # Sheet
 
-Sheet
+sheet
 
 Displays content in a side panel that slides in from the edge of the screen.
 

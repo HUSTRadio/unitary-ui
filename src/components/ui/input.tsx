@@ -101,7 +101,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     const control = (
       <div
-        data-geist-input-wrapper=""
+        data-uni-input-wrapper=""
         data-version="v1"
         data-slot="input-container"
         style={layoutSurfaceStyle(layout)}

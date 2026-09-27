@@ -8,7 +8,7 @@ Triggers an action with configurable variants, sizes, and icons.
 
 # Button
 
-Button
+button
 
 Triggers an action with configurable variants, sizes, and icons.
 
@@ -308,14 +308,14 @@ export function ButtonDisabledVariantsCB2C3BEAExample() {
 
 ## Link
 
-[Sign Up](https://vercel.com/signup)
+[Sign Up](https://example.com/signup)
 
 ```tsx
 import { ButtonLink } from "@/components/ui/button";
 
 export function ButtonLinkB1B1BDB4Example() {
   return (
-    <ButtonLink className="w-fit" href="https://vercel.com/signup">
+    <ButtonLink className="w-fit" href="https://example.com/signup">
       Sign Up
     </ButtonLink>
   );

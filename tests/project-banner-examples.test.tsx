@@ -4,10 +4,10 @@ import { act, type ComponentType } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { ProjectBannerDefault21B111CBExample } from "../docs/geist/src/examples/project-banner/default-21b111cb.example";
-import { ProjectBannerError54A0E8C1Example } from "../docs/geist/src/examples/project-banner/error-54a0e8c1.example";
-import { ProjectBannerSuccessC88A0B90Example } from "../docs/geist/src/examples/project-banner/success-c88a0b90.example";
-import { ProjectBannerWarningE981DDAEExample } from "../docs/geist/src/examples/project-banner/warning-e981ddae.example";
+import { ProjectBannerDefault21B111CBExample } from "../docs/site/src/examples/project-banner/default-21b111cb.example";
+import { ProjectBannerError54A0E8C1Example } from "../docs/site/src/examples/project-banner/error-54a0e8c1.example";
+import { ProjectBannerSuccessC88A0B90Example } from "../docs/site/src/examples/project-banner/success-c88a0b90.example";
+import { ProjectBannerWarningE981DDAEExample } from "../docs/site/src/examples/project-banner/warning-e981ddae.example";
 
 describe("ProjectBanner example actions", () => {
   let container: HTMLDivElement;

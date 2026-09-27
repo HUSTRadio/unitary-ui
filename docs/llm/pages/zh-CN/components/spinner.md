@@ -8,7 +8,7 @@
 
 # 加载指示器
 
-Spinner
+spinner
 
 表示操作正在进行。
 

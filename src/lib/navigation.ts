@@ -12,7 +12,7 @@ import * as React from "react";
  * ② 前进 / 后退或程序化 navigate。
  *
  * 库内浮层默认**不**自动关闭（保持既有行为，AGENTS.md：除非任务要求否则不改运行时行为），
- * 由消费方显式接入；文档站的落点见 `docs/geist/src/components/docs-shell.tsx`。
+ * 由消费方显式接入；文档站的落点见 `docs/site/src/components/docs-shell.tsx`。
  *
  * @param onDismiss 导航发生时调用；始终取最新闭包（内部用 ref 转发）
  * @param enabled 传 false 时完全不解绑订阅（条件挂载用）

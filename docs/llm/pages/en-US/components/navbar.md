@@ -8,7 +8,7 @@ A page header with static, pinned, or auto-hiding scroll behavior.
 
 # Navbar
 
-Unitary Navbar
+navbar
 
 A page header with static, pinned, or auto-hiding scroll behavior.
 

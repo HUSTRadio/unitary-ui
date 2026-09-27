@@ -8,7 +8,7 @@ One drawer that docks to the bottom on phones and to the side on desktop, with o
 
 # Responsive Drawer
 
-Responsive Drawer
+responsive-drawer
 
 One drawer that docks to the bottom on phones and to the side on desktop, with optional detents.
 

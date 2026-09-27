@@ -12,8 +12,8 @@ const VIEWPORT = { width: 768, height: 1024 };
 async function openPanelAt(page: Page, route: string) {
   await page.setViewportSize(VIEWPORT);
   await page.addInitScript(() => {
-    window.localStorage.setItem("geist-docs-language", "en-US");
-    window.localStorage.setItem("geist-theme-preference", "light");
+    window.localStorage.setItem("unitary-docs-language", "en-US");
+    window.localStorage.setItem("unitary-theme-preference", "light");
   });
   await page.goto(route);
   await page.locator('[data-slot="navbar"]').first().waitFor({ state: "visible" });

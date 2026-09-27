@@ -3,12 +3,23 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 
-import { exampleSourcePlugin } from "../docs/geist/build/example-source-plugin";
+import { exampleSourcePlugin } from "../docs/site/build/example-source-plugin";
 
 const tempDirs: string[] = [];
 afterEach(async () => {
   await Promise.all(tempDirs.splice(0).map((directory) => rm(directory, { recursive: true, force: true })));
 });
+
+/**
+ * 该插件的 load 始终是函数实现；Vite 的 ObjectHook 联合类型需要先收窄才能调用。
+ */
+function callLoad(plugin: ReturnType<typeof exampleSourcePlugin>, id: string): Promise<unknown> {
+  const { load } = plugin;
+  if (typeof load !== "function") {
+    throw new Error("expected example source plugin to expose a function load hook");
+  }
+  return Promise.resolve(load.call({} as never, id));
+}
 
 describe("example source Vite plugin", () => {
   test("exports the exact physical TSX file as a string", async () => {
@@ -19,10 +30,9 @@ describe("example source Vite plugin", () => {
     await writeFile(file, source, "utf8");
 
     const plugin = exampleSourcePlugin();
-    const loaded = await plugin.load?.call({} as never, `${file}?example-source`);
-    const code = typeof loaded === "string" ? loaded : loaded?.code;
+    const loaded = await callLoad(plugin, `${file}?example-source`);
 
-    expect(code).toBe(`export default ${JSON.stringify(source)};`);
+    expect(loaded).toBe(`export default ${JSON.stringify(source)};`);
   });
 
   test("accepts Vite query parameters after example-source", async () => {
@@ -33,17 +43,14 @@ describe("example source Vite plugin", () => {
     await writeFile(file, source, "utf8");
 
     const plugin = exampleSourcePlugin();
-    const loaded = await plugin.load?.call(
-      {} as never,
-      `${file}?example-source&import&v=123`,
-    );
-    const code = typeof loaded === "string" ? loaded : loaded?.code;
-    expect(code).toBe(`export default ${JSON.stringify(source)};`);
+    const loaded = await callLoad(plugin, `${file}?example-source&import&v=123`);
+
+    expect(loaded).toBe(`export default ${JSON.stringify(source)};`);
   });
 
   test("ignores normal module loads", async () => {
     const plugin = exampleSourcePlugin();
-    const loaded = await plugin.load?.call({} as never, "button.example.tsx");
+    const loaded = await callLoad(plugin, "button.example.tsx");
     expect(loaded).toBeNull();
   });
 
@@ -63,7 +70,7 @@ describe("example source Vite plugin", () => {
     await writeFile(file, source, "utf8");
 
     const plugin = exampleSourcePlugin();
-    await expect(plugin.load?.call({} as never, `${file}?example-source`)).rejects.toThrow(message);
+    await expect(callLoad(plugin, `${file}?example-source`)).rejects.toThrow(message);
   });
 
   test("rejects a non-empty example-source query value", async () => {
@@ -73,8 +80,8 @@ describe("example source Vite plugin", () => {
     await writeFile(file, "export function Demo() { return <div />; }\n", "utf8");
 
     const plugin = exampleSourcePlugin();
-    await expect(
-      plugin.load?.call({} as never, `${file}?example-source=false`),
-    ).rejects.toThrow(/invalid example-source query/i);
+    await expect(callLoad(plugin, `${file}?example-source=false`)).rejects.toThrow(
+      /invalid example-source query/i,
+    );
   });
 });

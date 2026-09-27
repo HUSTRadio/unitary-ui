@@ -8,7 +8,7 @@
 
 # 复制按钮
 
-Copy Button
+copy-button
 
 将指定字符串复制到剪贴板，并在完成后提供反馈。
 
@@ -44,7 +44,7 @@ Copy Button
 
 ## 主题行为
 
-不适用: CopyButton 的颜色和样式自动跟随 Geist 设计系统主题令牌适配当前配色方案。
+不适用: CopyButton 的颜色和样式自动跟随 Unitary 设计系统主题令牌适配当前配色方案。
 
 ## 实时示例
 

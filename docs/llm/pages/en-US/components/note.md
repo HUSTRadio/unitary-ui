@@ -8,7 +8,7 @@ Displays text that requires attention or provides additional information.
 
 # Note
 
-Note
+note
 
 Displays text that requires attention or provides additional information.
 

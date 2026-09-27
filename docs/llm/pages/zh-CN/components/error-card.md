@@ -8,7 +8,7 @@
 
 # 错误卡片
 
-Error Card
+error-card
 
 包含恢复指引的封闭错误状态。
 

@@ -3,10 +3,10 @@ import { readFileSync } from "node:fs";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
 
-import { COMPONENT_GUIDES } from "../docs/geist/src/content/component-guides";
-import { COMPONENT_API } from "../docs/geist/src/data/component-api";
-import { COMPONENTS } from "../docs/geist/src/data/components";
-import { EXAMPLE_REGISTRY } from "../docs/geist/src/examples/registry";
+import { COMPONENT_GUIDES } from "../docs/site/src/content/component-guides";
+import { COMPONENT_API } from "../docs/site/src/data/component-api";
+import { COMPONENTS } from "../docs/site/src/data/components";
+import { EXAMPLE_REGISTRY } from "../docs/site/src/examples/registry";
 
 /**
  * Package modules intentionally documented on a broader owner page. Every
@@ -15,12 +15,11 @@ import { EXAMPLE_REGISTRY } from "../docs/geist/src/examples/registry";
 const PUBLIC_UTILITIES_WITHOUT_COMPONENT_PAGES = new Set(["charts/chart-colors"]);
 
 const REQUIRED_PUBLIC_COMPONENT_MODULES = [
-  "sidebar-nav", "navbar", "footer", "phone", "hamburger-menu", "rating-pill", "skeleton-mask", "side-panel",
+  "sidebar-nav", "navbar", "footer", "hamburger-menu", "rating-pill", "skeleton-mask", "side-panel",
 ] as const;
 
 const DOCUMENT_OWNER_BY_MODULE: Readonly<Record<string, readonly string[]>> = {
   layout: ["safe-area", "stack"],
-  phone: ["device"],
   "skeleton-mask": ["skeleton"],
   "rating-pill": ["feedback"],
   "chart-category-bar": ["category-bar"],

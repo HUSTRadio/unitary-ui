@@ -22,8 +22,8 @@ function effectiveShadow(value: string) {
 
 async function openWithTheme(page: Page, theme: "light" | "dark") {
   await page.addInitScript((preferredTheme) => {
-    localStorage.setItem("geist-docs-language", "en-US");
-    localStorage.setItem("geist-theme-preference", preferredTheme);
+    localStorage.setItem("unitary-docs-language", "en-US");
+    localStorage.setItem("unitary-theme-preference", preferredTheme);
   }, theme);
 }
 

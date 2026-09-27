@@ -37,8 +37,9 @@ describe("Grabber", () => {
     expect(markup).toContain('aria-valuenow="1"');
     // 视觉条：h-1 w-9 rounded-full；颜色 gray-700/dark:gray-600（WCAG ≥3:1 实测达标）
     expect(markup).toContain("h-1 w-9 rounded-full bg-gray-700 dark:bg-gray-600");
-    // 命中区扩展
-    expect(markup).toContain("py-5 px-6 -my-5 -mx-6");
+    // 命中区铺满面板，仅纵向外扩，不偏移视觉条水平中心
+    expect(markup).toContain("block w-full");
+    expect(markup).toContain("py-5 px-6 -my-5");
   });
 
   it("click 调用 onCycleDetent", async () => {

@@ -8,7 +8,7 @@ Organizes content into switchable panels.
 
 # Tabs
 
-Tabs
+tabs
 
 Organizes content into switchable panels.
 

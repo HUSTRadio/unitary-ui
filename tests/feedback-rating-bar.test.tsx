@@ -74,11 +74,11 @@ async function selectTopic(popup: HTMLElement, value: string) {
 
 describe("Feedback official interaction model", () => {
   test("default renders a compact secondary trigger and portals an anchored dialog on click", () => {
-    mount(<Feedback label="vercel" dryRun />);
+    mount(<Feedback label="unitary" dryRun />);
 
     const trigger = container.querySelector<HTMLButtonElement>('[data-slot="feedback-trigger"]');
     expect(trigger).not.toBeNull();
-    expect(trigger?.textContent).toContain("vercel");
+    expect(trigger?.textContent).toContain("unitary");
     expect(trigger?.className).toContain("h-8");
     expect(trigger?.className).toContain("bg-background-100");
     expect(radios()).toHaveLength(0);

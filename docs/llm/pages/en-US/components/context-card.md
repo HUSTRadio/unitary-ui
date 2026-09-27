@@ -8,7 +8,7 @@ A floating card that appears on hover or focus, showing richer detail than a too
 
 # Context Card
 
-Context Card
+context-card
 
 A floating card that appears on hover or focus, showing richer detail than a tooltip.
 
@@ -52,7 +52,7 @@ Not applicable: ContextCard is a floating overlay card rendered in a small area,
 
 ## Theme behavior
 
-- Context Card supports dark and light themes, with styles automatically adapting to the user's preferred color scheme following the Geist design system color tokens.
+- Context Card supports dark and light themes, with styles automatically adapting to the user's preferred color scheme following the Unitary design system color tokens.
 
 ## Live Demo
 

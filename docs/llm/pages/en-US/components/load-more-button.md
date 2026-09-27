@@ -8,7 +8,7 @@ A full-width button that appends more items to a paginated list.
 
 # Load More Button
 
-Load More Button
+load-more-button
 
 A full-width button that appends more items to a paginated list.
 

@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 import { SearchInput } from "../src/components/ui/search-input";
 
@@ -80,7 +80,7 @@ describe("SearchInput official API contract (G09 audit fixes)", () => {
     const src = await read("src/components/ui/search-input.tsx");
     // The Input element must render type="search" — not plain text
     expect(src).toMatch(/type="search"/);
-    expect(src).toContain("[&_[data-geist-input-wrapper]]:text-label-14");
+    expect(src).toContain("[&_[data-uni-input-wrapper]]:text-label-14");
     expect(src).toContain("[animation-duration:150ms]");
     expect(src).toContain("[&:has(input:disabled)_input::placeholder]:!text-gray-500");
     // type="search" must be enforced after the props spread so callers cannot

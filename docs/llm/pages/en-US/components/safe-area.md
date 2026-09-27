@@ -8,7 +8,7 @@ A spacing container that keeps content clear of device safe areas.
 
 # Safe Area
 
-Safe Area
+safe-area
 
 A spacing container that keeps content clear of device safe areas.
 

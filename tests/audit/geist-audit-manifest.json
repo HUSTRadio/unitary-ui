@@ -46,15 +46,15 @@
     "localSourceInputs": [
       "src/**",
       "public/fonts/**",
-      "docs/geist/src/**",
-      "docs/geist/public/**",
+      "docs/site/src/**",
+      "docs/site/public/**",
       "package.json",
       "pnpm-lock.yaml",
       "components.json",
       "vite.config.*",
-      "docs/geist/vite.config.*",
+      "docs/vite.config.*",
       "tsconfig*.json",
-      "docs/geist/tsconfig*.json"
+      "docs/site/tsconfig*.json"
     ],
     "pixelAttribution": {
       "foregroundColorDistanceMax": 0,
@@ -189,7 +189,7 @@
       ],
       "selectors": {
         "official": "button[data-geist-button]",
-        "local": "button[data-geist-button]"
+        "local": "button[data-uni-button]"
       },
       "interaction": "applicable",
       "acceptanceContracts": [
@@ -505,12 +505,12 @@
       "interactionRecipes": ["blocked:popover-open", "click:trigger"],
       "responsiveExpectations": [
         "trigger:w-[var(--width)] fixed 250/180px across viewports",
-        "skeleton:data-geist-skeleton wraps trigger and matches --width",
+        "skeleton:data-uni-skeleton wraps trigger and matches --width",
         "combobox-input:data-testid=calendar/combobox-input width follows --ds-size-*"
       ],
       "selectors": {
         "official": "[data-geist-calendar]",
-        "local": "[data-geist-calendar]"
+        "local": "[data-uni-calendar]"
       },
       "interaction": "applicable",
       "acceptanceContracts": [
@@ -549,7 +549,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div[data-geist-calendar]",
-                  "local": "[data-demo-container=\"default\"] div[data-geist-calendar]"
+                  "local": "[data-demo-container=\"default\"] div[data-uni-calendar]"
                 },
                 "byViewport": {}
               },
@@ -617,7 +617,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#horizontal-layout\"] ~ * div[data-geist-calendar]",
-                  "local": "[data-demo-container=\"horizontal-layout\"] div[data-geist-calendar]"
+                  "local": "[data-demo-container=\"horizontal-layout\"] div[data-uni-calendar]"
                 },
                 "byViewport": {}
               },
@@ -685,7 +685,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#sizes\"] ~ * div[data-geist-calendar]",
-                  "local": "[data-demo-container=\"sizes\"] div[data-geist-calendar]"
+                  "local": "[data-demo-container=\"sizes\"] div[data-uni-calendar]"
                 },
                 "byViewport": {}
               },
@@ -764,7 +764,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#compact\"] ~ * div[data-geist-calendar]",
-                  "local": "[data-demo-container=\"compact\"] div[data-geist-calendar]"
+                  "local": "[data-demo-container=\"compact\"] div[data-uni-calendar]"
                 },
                 "byViewport": {}
               },
@@ -1377,7 +1377,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] ~ * div.w-full.p-6 [data-geist-input]",
-                  "local": "[data-demo-container=\"default\"] [data-geist-input]"
+                  "local": "[data-demo-container=\"default\"] [data-uni-input]"
                 },
                 "byViewport": {}
               },
@@ -1434,7 +1434,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#with-label\"] ~ * div.w-full.p-6 [data-geist-input]",
-                  "local": "[data-demo-container=\"with-label\"] [data-geist-input]"
+                  "local": "[data-demo-container=\"with-label\"] [data-uni-input]"
                 },
                 "byViewport": {}
               },
@@ -1502,7 +1502,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#with-cmdk\"] ~ * div.w-full.p-6 [data-geist-input]",
-                  "local": "[data-demo-container=\"with-cmdk\"] [data-geist-input]"
+                  "local": "[data-demo-container=\"with-cmdk\"] [data-uni-input]"
                 },
                 "byViewport": {}
               },
@@ -1513,7 +1513,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#with-cmdk\"] ~ * div.w-full.p-6 label[data-geist-input-suffix]",
-                  "local": "[data-demo-container=\"with-cmdk\"] label[data-geist-input-suffix]"
+                  "local": "[data-demo-container=\"with-cmdk\"] label[data-uni-input-suffix]"
                 },
                 "byViewport": {}
               },
@@ -1581,7 +1581,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6 [data-geist-input]",
-                  "local": "[data-demo-container=\"disabled\"] [data-geist-input]"
+                  "local": "[data-demo-container=\"disabled\"] [data-uni-input]"
                 },
                 "byViewport": {}
               },
@@ -1592,7 +1592,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#disabled\"] ~ * div.w-full.p-6 label[data-geist-input-suffix]",
-                  "local": "[data-demo-container=\"disabled\"] label[data-geist-input-suffix]"
+                  "local": "[data-demo-container=\"disabled\"] label[data-uni-input-suffix]"
                 },
                 "byViewport": {}
               },
@@ -1660,7 +1660,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#with-clear-callback\"] ~ * div.w-full.p-6 [data-geist-input]",
-                  "local": "[data-demo-container=\"with-clear-callback\"] [data-geist-input]"
+                  "local": "[data-demo-container=\"with-clear-callback\"] [data-uni-input]"
                 },
                 "byViewport": {}
               },
@@ -8590,7 +8590,7 @@
       ],
       "selectors": {
         "official": "div[data-geist-input-wrapper]",
-        "local": "[data-slot=search-input] [data-geist-input-wrapper]"
+        "local": "[data-slot=search-input] [data-uni-input-wrapper]"
       },
       "interaction": "applicable",
       "acceptanceContracts": [
@@ -8605,7 +8605,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#default\"] + div div[data-geist-input-wrapper]",
-                  "local": "[data-demo-container=\"default\"] [data-geist-input-wrapper]"
+                  "local": "[data-demo-container=\"default\"] [data-uni-input-wrapper]"
                 },
                 "byViewport": {}
               },
@@ -8627,7 +8627,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#with-cmdk\"] + div div[data-geist-input-wrapper]",
-                  "local": "[data-demo-container=\"with-cmdk\"] [data-geist-input-wrapper]"
+                  "local": "[data-demo-container=\"with-cmdk\"] [data-uni-input-wrapper]"
                 },
                 "byViewport": {}
               },
@@ -8649,7 +8649,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#disabled\"] + div div[data-geist-input-wrapper]",
-                  "local": "[data-demo-container=\"disabled\"] [data-geist-input-wrapper]"
+                  "local": "[data-demo-container=\"disabled\"] [data-uni-input-wrapper]"
                 },
                 "byViewport": {}
               },
@@ -8671,7 +8671,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#loading\"] + div div[data-geist-input-wrapper]",
-                  "local": "[data-demo-container=\"loading\"] [data-geist-input-wrapper]"
+                  "local": "[data-demo-container=\"loading\"] [data-uni-input-wrapper]"
                 },
                 "byViewport": {}
               },
@@ -8693,7 +8693,7 @@
               "selectors": {
                 "default": {
                   "official": "a[href=\"#custom-prefix\"] + div div[data-geist-input-wrapper]",
-                  "local": "[data-demo-container=\"custom-prefix\"] [data-geist-input-wrapper]"
+                  "local": "[data-demo-container=\"custom-prefix\"] [data-uni-input-wrapper]"
                 },
                 "byViewport": {}
               },

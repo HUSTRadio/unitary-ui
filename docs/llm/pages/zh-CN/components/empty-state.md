@@ -8,7 +8,7 @@
 
 # 空状态
 
-Empty State
+empty-state
 
 在尚未添加内容或视图为空时填充空间。
 

@@ -8,7 +8,7 @@ Displays an overflowing list of items.
 
 # Scroller
 
-Scroller
+scroller
 
 Displays an overflowing list of items.
 

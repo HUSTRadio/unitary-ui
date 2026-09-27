@@ -376,6 +376,7 @@
   --color-disabled-foreground: var(--disabled-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-theme-accent: var(--theme-accent, var(--color-text-secondary));
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   /* Inline validation and alert copy has a distinct contrast target from destructive fills. */

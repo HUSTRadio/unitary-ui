@@ -8,7 +8,7 @@ Displays a placeholder while content is loading.
 
 # Skeleton
 
-Skeleton
+skeleton
 
 Displays a placeholder while content is loading.
 

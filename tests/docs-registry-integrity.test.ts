@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 
 import { describe, expect, test } from "vitest";
 
-import { demoSectionTitle } from "../docs/geist/src/i18n/components-demo";
+import { demoSectionTitle } from "../docs/site/src/i18n/components-demo";
 
 interface RegistryRecord {
   slug: string;
@@ -12,7 +12,7 @@ interface RegistryRecord {
 }
 
 const source = readFileSync(
-  resolve(process.cwd(), "docs/geist/src/examples/registry.ts"),
+  resolve(process.cwd(), "docs/site/src/examples/registry.ts"),
   "utf8",
 );
 

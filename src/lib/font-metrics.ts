@@ -17,7 +17,7 @@ import { useEffect } from "react";
  * 无需挂在特定 React 组件；useFontMetrics 保留供显式控制时使用（幂等）。
  */
 
-export const FONT_METRIC_CACHE_KEY = "geist-font-metrics-v2";
+export const FONT_METRIC_CACHE_KEY = "unitary-font-metrics-v2";
 
 /**
  * 状态栏时间字体栈（与 .phone-status-time 一致）。

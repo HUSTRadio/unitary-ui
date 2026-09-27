@@ -8,7 +8,7 @@ Gathers an emoji rating and open text feedback.
 
 # Feedback
 
-Feedback
+feedback
 
 Gathers an emoji rating and open text feedback.
 
@@ -71,7 +71,7 @@ The locally extended four-tone rating capsule; it is not an official Feedback va
 
 - Every rating uses the same blue-300 background and blue-900 glyph emphasis; no non-official four-color emotion mapping is added.
 - The separately labeled Local RatingPill extension retains semantic four-tone capsules; it is not an official Feedback variant.
-- Panel shadow, background, and border colors follow the Geist theme system, supporting global theme variable overrides.
+- Panel shadow, background, and border colors follow the Unitary theme system, supporting global theme variable overrides.
 - Collapsed Inline uses the interpolatable --radius-capsule-interpolable rather than an effectively-infinite pill radius; the latter gets clamped to half the shortest edge, which makes the radius snap mid-expansion.
 
 ## Live Demo
@@ -86,7 +86,7 @@ export function FeedbackDefault21B111CBExample() {
   return (
     <>
       <div className="hidden justify-center xl:flex">
-        <Feedback label="vercel" dryRun />
+        <Feedback label="unitary" dryRun />
       </div>
       <div className="flex justify-center xl:hidden">
         <Note>
@@ -127,7 +127,7 @@ export function FeedbackFeedbackWithSelectBF2A8F56Example() {
   return (
     <>
       <div className="hidden justify-center xl:flex">
-        <Feedback label="vercel" showTopics dryRun />
+        <Feedback label="unitary" showTopics dryRun />
       </div>
       <div className="flex justify-center xl:hidden">
         <Note>
@@ -158,7 +158,7 @@ export function FeedbackFeedbackWithTopics7C41E2ABExample() {
   return (
     <div className="flex flex-col items-center gap-4">
       <Feedback
-        label="vercel"
+        label="unitary"
         showTopics
         onSubmit={(rating, text, metadata, topic) => {
           setReceipt(
@@ -187,7 +187,7 @@ export function FeedbackFeedbackWithMetadata6449A9ACExample() {
     <>
       <div className="hidden justify-center xl:flex">
         <Feedback
-          label="vercel"
+          label="unitary"
           dryRun
           metadata={{
             userId: "user_12345",
@@ -236,7 +236,7 @@ import { Feedback } from "@/components/ui/feedback";
 import { Flag } from "lucide-react";
 
 export function FeedbackFeedbackWithPrefixEBD13739Example() {
-  return <Feedback dryRun label="vercel" prefix={<Flag className="size-4" />} />;
+  return <Feedback dryRun label="unitary" prefix={<Flag className="size-4" />} />;
 }
 ```
 
@@ -247,7 +247,7 @@ import { Feedback } from "@/components/ui/feedback";
 import { Flag } from "lucide-react";
 
 export function FeedbackFeedbackWithSuffixE429255FExample() {
-  return <Feedback dryRun label="vercel" suffix={<Flag className="size-4" />} />;
+  return <Feedback dryRun label="unitary" suffix={<Flag className="size-4" />} />;
 }
 ```
 

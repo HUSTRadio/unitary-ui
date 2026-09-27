@@ -8,7 +8,7 @@
 
 # 键盘输入
 
-Keyboard Input
+keyboard-input
 
 显示触发操作的键盘输入。
 

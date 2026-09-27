@@ -8,7 +8,7 @@
 
 # 状态圆点
 
-Status Dot
+status-dot
 
 显示部署状态指示器。
 

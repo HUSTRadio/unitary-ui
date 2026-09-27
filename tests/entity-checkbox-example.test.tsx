@@ -4,7 +4,7 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, describe, expect, test } from "vitest";
 
-import { EntityEntityWithListAndCheckbox26EB60A8Example } from "../docs/geist/src/examples/entity/entity-with-list-and-checkbox-26eb60a8.example";
+import { EntityEntityWithListAndCheckbox26EB60A8Example } from "../docs/site/src/examples/entity/entity-with-list-and-checkbox-26eb60a8.example";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 

@@ -8,7 +8,7 @@ A larger form of Radio for choices with more detail.
 
 # Choicebox
 
-Choicebox
+choicebox
 
 A larger form of Radio for choices with more detail.
 

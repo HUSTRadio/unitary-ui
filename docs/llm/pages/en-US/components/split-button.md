@@ -8,7 +8,7 @@ Combines a primary action with a short menu of related actions.
 
 # Split Button
 
-Split Button
+split-button
 
 Combines a primary action with a short menu of related actions.
 
@@ -271,12 +271,7 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import {
-  SplitButton,
-  SplitButtonMain,
-  SplitButtonMenu,
-  SplitButtonMenuItem,
-} from "@/components/ui/split-button";
+import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
 ```
 
 ### Props & callbacks

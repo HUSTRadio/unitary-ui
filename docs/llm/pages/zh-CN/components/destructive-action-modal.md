@@ -8,7 +8,7 @@
 
 # 危险操作确认框
 
-Destructive Action Modal
+destructive-action-modal
 
 使用红色警告标题和破坏性确认按钮确认危险操作。
 
@@ -123,16 +123,16 @@ export function DestructiveActionModalReversible6E7D6697Example() {
   return (
     <>
       <Button typeName="button" type="error" size="small" onClick={() => setOpen(true)}>
-        Disable Vercel Authentication
+        Disable Unitary Authentication
       </Button>
       <DestructiveActionModal
-        confirmLabel="Disable Vercel Authentication"
-        description="Anyone will be able to view your deployments without being a member of your team."
+        confirmLabel="Disable Unitary Authentication"
+        description="Anyone signed in will be able to manage this integration without being a member of your workspace."
         onCancel={() => setOpen(false)}
         onConfirm={() => setOpen(false)}
         open={open}
-        title="Disable Vercel Authentication"
-        verificationPhrase="disable vercel authentication"
+        title="Disable Unitary Authentication"
+        verificationPhrase="disable unitary authentication"
       />
     </>
   );

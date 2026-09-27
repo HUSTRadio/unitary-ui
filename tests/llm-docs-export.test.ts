@@ -5,7 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import { DOCS_ROUTE_SEQUENCE } from "../docs/geist/src/data/docs-routes";
+import { DOCS_ROUTE_SEQUENCE } from "../docs/site/src/data/docs-routes";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const LLM_DIR = path.join(ROOT, "docs", "llm");
@@ -35,7 +35,7 @@ describe("LLM docs export contract", () => {
       expect(text).toContain("index.json");
       expect(text).toContain("docs:llm:generate");
       expect(text).toContain("docs:llm:check");
-      expect(text).toContain("docs/geist/src/data/docs-routes.ts");
+      expect(text).toContain("docs/site/src/data/docs-routes.ts");
     }
     expect(generator).not.toContain("复用已在运行的预览服务");
     expect(generator).toContain("findAvailablePort");

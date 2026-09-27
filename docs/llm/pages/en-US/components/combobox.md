@@ -8,7 +8,7 @@ A searchable single-select list.
 
 # Combobox
 
-Combobox
+combobox
 
 A searchable single-select list.
 

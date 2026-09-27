@@ -8,7 +8,7 @@
 
 # 拆分按钮
 
-Split Button
+split-button
 
 将主要操作与一组简短的相关操作菜单组合。
 
@@ -271,12 +271,7 @@ export function SplitButtonPullDownCard6B3F1D80Example() {
 导入
 
 ```tsx
-import {
-  SplitButton,
-  SplitButtonMain,
-  SplitButtonMenu,
-  SplitButtonMenuItem,
-} from "@/components/ui/split-button";
+import { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
 ```
 
 ### 属性与回调

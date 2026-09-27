@@ -7,8 +7,8 @@ import { expect, test, type Page } from "@playwright/test";
 async function goto(page: Page, route: string) {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.addInitScript(() => {
-    window.localStorage.setItem("geist-docs-language", "en-US");
-    window.localStorage.setItem("geist-theme-preference", "light");
+    window.localStorage.setItem("unitary-docs-language", "en-US");
+    window.localStorage.setItem("unitary-theme-preference", "light");
   });
   await page.goto(route);
   await page.locator('[data-slot="navbar"]').first().waitFor({ state: "visible" });

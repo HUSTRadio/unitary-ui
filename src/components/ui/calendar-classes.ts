@@ -19,7 +19,7 @@ const TRIGGER_SMALL_CLASS =
 const TRIGGER_ROW_EXTRA_CLASS = "rounded-l-none [&_button]:rounded-l-none [&_button]:border-l";
 
 const ICON_SPAN_CLASS =
-  "mr-[3px] min-w-5 shrink-0 flex items-center justify-center [&_svg[data-slot=geist-icon]]:size-(--uni-control-decoration-size)";
+  "mr-[3px] min-w-5 shrink-0 flex items-center justify-center [&_svg[data-slot=unitary-icon]]:size-(--uni-control-decoration-size)";
 
 const ICON_SVG_CLASS = "size-(--uni-control-decoration-size) -mt-px";
 
@@ -77,11 +77,11 @@ const DIVIDER_SQUARE_CLASS =
 const DIVIDER_FULL_CLASS =
   "absolute -top-px -right-px -bottom-px z-[1] w-px bg-[var(--uni-gray-900)] opacity-0 transition-opacity duration-(--uni-duration-fast)";
 
-const GEIST_ICON_ATTRS = {
+const UNI_ICON_ATTRS = {
   viewBox: "0 0 16 16",
   height: 16,
   width: 16,
-  "data-slot": "geist-icon",
+  "data-slot": "unitary-icon",
 } as const;
 
 /** combobox 弹出菜单（官方 cmdk-root：grid 容器 + p-2 group + h-9 item，2026-08-16 实测）。
@@ -106,15 +106,15 @@ const COMBO_HINT_BUTTON_CLASS =
 
 /** 官方紧凑排布根类：trigger 左侧圆角 + combobox 右侧圆角（compact / sizes item2）。 */
 const CALENDAR_ROW_CLASS =
-  "flex items-center [&_[data-geist-button]]:rounded-l-[5px] [&_[data-geist-button]]:rounded-r-none [&_[data-geist-select]]:rounded-l-none [&_[data-geist-select]]:rounded-r-[5px] [&_input]:rounded-l-[5px] [&_input]:rounded-r-none";
+  "flex items-center [&_[data-uni-button]]:rounded-l-[5px] [&_[data-uni-button]]:rounded-r-none [&_[data-uni-select]]:rounded-l-none [&_[data-uni-select]]:rounded-r-[5px] [&_input]:rounded-l-[5px] [&_input]:rounded-r-none";
 
 /** 官方反向排布根类：combobox 左侧圆角 + trigger 右侧圆角（sizes item4）。 */
 const CALENDAR_ROW_REV_CLASS =
-  "flex items-center [&_[data-geist-button]]:rounded-l-none [&_[data-geist-button]]:rounded-r-[5px] [&_input]:rounded-l-[5px] [&_input]:rounded-r-none";
+  "flex items-center [&_[data-uni-button]]:rounded-l-none [&_[data-uni-button]]:rounded-r-[5px] [&_input]:rounded-l-[5px] [&_input]:rounded-r-none";
 
 /** 官方纵向排布根类：combobox 在上、trigger 在下（sizes item3）。 */
 function calendarColClass(size: "medium" | "small"): string {
-  return `[&_[data-geist-button]]:transform-none [&_[data-geist-button]]:rounded-[5px] [&_[data-geist-button]]:rounded-t-none [&_[data-geist-button]]:text-[1rem] inline-flex flex-col [&_[data-geist-button]]:!rounded-[5px] [&_[data-geist-button]]:!rounded-t-none h-(--uni-size-${size}) [&_[data-geist-select]_select]:rounded-t [&_[data-geist-select]_select]:rounded-br-none [&_[data-geist-select]_select]:rounded-bl-none`;
+  return `[&_[data-uni-button]]:transform-none [&_[data-uni-button]]:rounded-[5px] [&_[data-uni-button]]:rounded-t-none [&_[data-uni-button]]:text-[1rem] inline-flex flex-col [&_[data-uni-button]]:!rounded-[5px] [&_[data-uni-button]]:!rounded-t-none h-(--uni-size-${size}) [&_[data-uni-select]_select]:rounded-t [&_[data-uni-select]_select]:rounded-br-none [&_[data-uni-select]_select]:rounded-bl-none`;
 }
 
 /* ---------- 打开态 Popover 面板（官方 date range picker，2026-08-15 实测） ---------- */
@@ -159,7 +159,7 @@ export {
   CIRCULAR_SVG_MEDIUM_CLASS,
   DIVIDER_SQUARE_CLASS,
   DIVIDER_FULL_CLASS,
-  GEIST_ICON_ATTRS,
+  UNI_ICON_ATTRS,
   COMBO_MENU_CLASS,
   COMBO_GROUP_CLASS,
   COMBO_ITEM_CLASS,

@@ -170,7 +170,7 @@ export { Label } from "@/components/ui/label";
 export { Fieldset, FieldsetTitle, FieldsetSubtitle, FieldsetContent, FieldsetFooter, FieldsetFooterStatus, FieldsetFooterActions, FieldsetFooterAction, ErrorText, WarningText, DisabledWall } from "@/components/ui/fieldset";
 
 // Components — Layout
-export { Grid, GridCell, GridCross, GridItem, GridPage, GridSystem } from "@/components/ui/grid";
+export { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui/grid";
 export { Scroller } from "@/components/ui/scroller";
 export type { ScrollerProps } from "@/components/ui/scroller";
 export { ContinuousSurface } from "@/components/ui/continuous-surface";
@@ -181,7 +181,6 @@ export type { SubFrameProps } from "@/components/ui/sub-frame";
 // Components — Mobile / Device
 export { Device, DeviceScreen } from "@/components/ui/device";
 export type { DeviceProps, DeviceScreenProps, PhoneStatusBarOptions, PhoneSafariOptions } from "@/components/ui/device";
-export { Phone, PhoneScreen } from "@/components/ui/phone";
 export { BottomSheet } from "@/components/ui/bottom-sheet";
 export type { BottomSheetProps } from "@/components/ui/bottom-sheet";
 export { HamburgerMenu } from "@/components/ui/hamburger-menu";
@@ -205,7 +204,7 @@ export { LoadMoreButton } from "@/components/ui/load-more-button";
 export { ShowMore } from "@/components/ui/show-more";
 export { TextWithCopyButton } from "@/components/ui/text-with-copy-button";
 export { ProjectBanner, ProjectBannerContent, ProjectBannerClose } from "@/components/ui/project-banner";
-export { SplitButton, SplitButtonMain, SplitButtonMenu, SplitButtonMenuItem } from "@/components/ui/split-button";
+export { SplitButton, SplitButtonMenuItem } from "@/components/ui/split-button";
 export { Note, NoteContent, NoteAction, NoteLabel } from "@/components/ui/note";
 export { StatusDot } from "@/components/ui/status-dot";
 export { Pill } from "@/components/ui/pill";

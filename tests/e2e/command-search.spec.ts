@@ -2,8 +2,8 @@ import { expect, test, type Page } from "@playwright/test";
 
 async function openHome(page: Page, lang: "zh-CN" | "en-US") {
   await page.addInitScript((l) => {
-    window.localStorage.setItem("geist-docs-language", l);
-    window.localStorage.setItem("geist-theme-preference", "light");
+    window.localStorage.setItem("unitary-docs-language", l);
+    window.localStorage.setItem("unitary-theme-preference", "light");
   }, lang);
   await page.goto("/#/components");
   await page.waitForSelector('[data-slot="navbar"]');

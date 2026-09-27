@@ -8,7 +8,7 @@
 
 # 进度环
 
-Tremor Raw
+progress-circle
 
 渲染圆形进度指示器，可选中心指标。
 

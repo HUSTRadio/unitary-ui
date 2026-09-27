@@ -2,8 +2,8 @@ import { expect, test, type Page } from "@playwright/test";
 
 async function openComponent(page: Page, slug: string) {
   await page.addInitScript(() => {
-    window.localStorage.setItem("geist-docs-language", "en-US");
-    window.localStorage.setItem("geist-theme-preference", "light");
+    window.localStorage.setItem("unitary-docs-language", "en-US");
+    window.localStorage.setItem("unitary-theme-preference", "light");
   });
   await page.goto(`/#/components/${slug}`);
   await page.waitForSelector('[data-slot="navbar"]');
@@ -69,8 +69,8 @@ test("status dots use distinct visible colors for the documented states", async 
 
 test("status dots stay distinct and opaque in the dark theme", async ({ page }) => {
   await page.addInitScript(() => {
-    window.localStorage.setItem("geist-docs-language", "en-US");
-    window.localStorage.setItem("geist-theme-preference", "dark");
+    window.localStorage.setItem("unitary-docs-language", "en-US");
+    window.localStorage.setItem("unitary-theme-preference", "dark");
   });
   await page.goto("/#/components/status-dot");
   await page.waitForSelector('[data-slot="navbar"]');
@@ -418,7 +418,7 @@ test("scrollable sidebar keeps equal 16px top and bottom content insets", async 
 /**
  * 侧栏观感实测（2026-09-21 修订）：条目行 36px（HIG 指针行高，token
  * --uni-nav-item-height）、圆角 6px、左右内缩 14px；小标题对齐药丸左缘（不内缩，
- * 条目标签再内缩 14px 读层级）；选中态 = 药丸底色 + 左侧 2×16px 指示条。
+ * 条目标签再内缩 14px 读层级）；选中态 = 药丸底色 + 左侧 2×14px 指示条。
  */
 test("sidebar rows keep the HIG 36px rhythm with aligned heading, indicator and icon", async ({
   page,
@@ -476,9 +476,9 @@ test("sidebar rows keep the HIG 36px rhythm with aligned heading, indicator and 
   expect(Math.abs(metrics.headingLabelBox!.x - metrics.firstItemBox!.x)).toBeLessThanOrEqual(0.5);
   expect(Math.abs(metrics.itemLabelBox!.x - (metrics.iconItemBox!.x + 38))).toBeLessThanOrEqual(0.5);
 
-  // 指示条 2×16，垂直居中，距药丸左缘 8px（2026-09-21 右移 2px，避免贴住药丸边缘）
+  // 指示条 2×14，垂直居中，接近 15px 中文标签墨迹高度；距药丸左缘 8px
   expect(metrics.indicatorBox?.w).toBe(2);
-  expect(metrics.indicatorBox?.h).toBe(16);
+  expect(metrics.indicatorBox?.h).toBe(14);
   const activeCenter = metrics.activeBox!.y + metrics.activeBox!.h / 2;
   const indicatorCenter = metrics.indicatorBox!.y + metrics.indicatorBox!.h / 2;
   expect(Math.abs(activeCenter - indicatorCenter)).toBeLessThanOrEqual(0.5);
@@ -491,6 +491,24 @@ test("sidebar rows keep the HIG 36px rhythm with aligned heading, indicator and 
   const rowCenter = metrics.iconItemBox!.y + metrics.iconItemBox!.h / 2;
   expect(Math.abs(iconCenter - rowCenter)).toBeLessThanOrEqual(0.5);
   expect(Math.abs(metrics.iconBox!.x - (metrics.iconItemBox!.x + 14))).toBeLessThanOrEqual(0.5);
+});
+
+test("sidebar active indicator uses the page theme accent in both color schemes", async ({ page }) => {
+  await openComponent(page, "link");
+  const indicator = page.locator('[data-slot="docs-sidebar"] [data-slot="sidebar-nav-indicator"]');
+
+  for (const theme of ["light", "dark"] as const) {
+    await page.evaluate((nextTheme) => {
+      document.documentElement.classList.toggle("dark", nextTheme === "dark");
+      document.documentElement.dataset.theme = nextTheme;
+    }, theme);
+    const colors = await indicator.evaluate((node) => ({
+      indicator: getComputedStyle(node).backgroundColor,
+      token: getComputedStyle(document.documentElement).getPropertyValue("--theme-accent").trim(),
+    }));
+    expect(colors.token.toLowerCase()).toBe("#0d47a1");
+    expect(colors.indicator).toBe("rgb(13, 71, 161)");
+  }
 });
 
 /**

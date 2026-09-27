@@ -8,7 +8,7 @@ Fills spaces when no content has been added yet or a view is empty.
 
 # Empty State
 
-Empty State
+empty-state
 
 Fills spaces when no content has been added yet or a view is empty.
 

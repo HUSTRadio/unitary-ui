@@ -8,7 +8,7 @@ An overflow menu triggered by a three-dot icon that reveals additional actions i
 
 # Dots Menu
 
-Dots Menu
+dots-menu
 
 An overflow menu triggered by a three-dot icon that reveals additional actions in a dropdown.
 

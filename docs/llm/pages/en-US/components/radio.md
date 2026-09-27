@@ -8,7 +8,7 @@ Provides single user input from a selection of options.
 
 # Radio
 
-Radio
+radio
 
 Provides single user input from a selection of options.
 

@@ -8,7 +8,7 @@
 
 # 反馈
 
-Feedback
+feedback
 
 收集表情评分和开放文本反馈。
 
@@ -71,7 +71,7 @@ Feedback
 
 - 所有评分统一使用 blue-300 背景和 blue-900 图形强调，不引入官方不存在的四色情绪语义。
 - Local RatingPill extension 单独保留四色语义胶囊；它不是官方 Feedback 变体，也不改变 Feedback 的蓝色状态。
-- 面板阴影、背景色和边框颜色遵循 Geist 主题系统，支持全局主题变量的覆盖。
+- 面板阴影、背景色和边框颜色遵循 Unitary 主题系统，支持全局主题变量的覆盖。
 - Inline 收起态圆角使用可插值的 --radius-capsule-interpolable，而非无穷大 pill 半径；后者在过渡到 12px 时会被浏览器钳制到最短边一半，导致展开过程圆角突跳。
 
 ## 实时示例
@@ -86,7 +86,7 @@ export function FeedbackDefault21B111CBExample() {
   return (
     <>
       <div className="hidden justify-center xl:flex">
-        <Feedback label="vercel" dryRun />
+        <Feedback label="unitary" dryRun />
       </div>
       <div className="flex justify-center xl:hidden">
         <Note>
@@ -127,7 +127,7 @@ export function FeedbackFeedbackWithSelectBF2A8F56Example() {
   return (
     <>
       <div className="hidden justify-center xl:flex">
-        <Feedback label="vercel" showTopics dryRun />
+        <Feedback label="unitary" showTopics dryRun />
       </div>
       <div className="flex justify-center xl:hidden">
         <Note>
@@ -158,7 +158,7 @@ export function FeedbackFeedbackWithTopics7C41E2ABExample() {
   return (
     <div className="flex flex-col items-center gap-4">
       <Feedback
-        label="vercel"
+        label="unitary"
         showTopics
         onSubmit={(rating, text, metadata, topic) => {
           setReceipt(
@@ -187,7 +187,7 @@ export function FeedbackFeedbackWithMetadata6449A9ACExample() {
     <>
       <div className="hidden justify-center xl:flex">
         <Feedback
-          label="vercel"
+          label="unitary"
           dryRun
           metadata={{
             userId: "user_12345",
@@ -236,7 +236,7 @@ import { Feedback } from "@/components/ui/feedback";
 import { Flag } from "lucide-react";
 
 export function FeedbackFeedbackWithPrefixEBD13739Example() {
-  return <Feedback dryRun label="vercel" prefix={<Flag className="size-4" />} />;
+  return <Feedback dryRun label="unitary" prefix={<Flag className="size-4" />} />;
 }
 ```
 
@@ -247,7 +247,7 @@ import { Feedback } from "@/components/ui/feedback";
 import { Flag } from "lucide-react";
 
 export function FeedbackFeedbackWithSuffixE429255FExample() {
-  return <Feedback dryRun label="vercel" suffix={<Flag className="size-4" />} />;
+  return <Feedback dryRun label="unitary" suffix={<Flag className="size-4" />} />;
 }
 ```
 

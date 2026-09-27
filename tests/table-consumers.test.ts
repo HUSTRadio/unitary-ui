@@ -8,7 +8,7 @@ const read = (path: string) => readFileSync(resolve(root, path), "utf8");
 const consumers = [
   "src/App.tsx",
   "src/examples/DataTableExample.tsx",
-  "docs/geist/src/components/docs-pages.tsx",
+  "docs/site/src/components/docs-pages.tsx",
 ];
 
 describe("explicit TableRoot consumer migration", () => {

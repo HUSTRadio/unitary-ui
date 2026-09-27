@@ -123,7 +123,7 @@ function Button({
   return (
     <Comp
       data-slot="button"
-      data-geist-button=""
+      data-uni-button=""
       data-type={type}
       data-size={resolvedSize}
       data-shape={shape}
@@ -191,7 +191,7 @@ function ButtonLink({
   return (
     <a
       data-slot="button"
-      data-geist-button=""
+      data-uni-button=""
       data-type={type}
       data-size={resolvedSize}
       data-shape={shape}

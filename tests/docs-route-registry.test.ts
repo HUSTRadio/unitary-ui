@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { COMPONENTS } from "../docs/geist/src/data/components";
-import { NAV_GROUPS } from "../docs/geist/src/data/nav";
+import { COMPONENTS } from "../docs/site/src/data/components";
+import { NAV_GROUPS } from "../docs/site/src/data/nav";
 import {
   CHART_COMPONENT_NAMES,
   DOCS_ROUTE_GROUPS,
@@ -10,7 +10,7 @@ import {
   getAdjacentDocsPages,
   getDocsRoute,
   getDocsRouteLabel,
-} from "../docs/geist/src/data/docs-routes";
+} from "../docs/site/src/data/docs-routes";
 
 describe("canonical docs route registry", () => {
   it("normalizes introduction aliases and trailing slashes", () => {

@@ -8,7 +8,7 @@ A prominent message that spans the full width of its container to announce impor
 
 # Banner
 
-Banner
+banner
 
 A prominent message that spans the full width of its container to announce important information.
 

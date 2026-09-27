@@ -112,7 +112,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
     const wrapper = (
       <div
         data-slot="clearable-input-wrapper"
-        data-geist-input-wrapper=""
+        data-uni-input-wrapper=""
         data-version="v1"
         style={layoutSurfaceStyle(layout)}
         className={cn(
@@ -139,7 +139,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
           autoCorrect={autoCorrect}
           spellCheck={spellCheck}
           data-slot="input"
-          data-geist-input=""
+          data-uni-input=""
           className={cn(
             "order-1 flex h-full w-full min-w-0 appearance-none border-none bg-background-100 px-3 text-copy-14 outline-none",
             showSuffix
@@ -154,7 +154,7 @@ const ClearableInput = React.forwardRef<HTMLInputElement, ClearableInputProps>(
           <label
             htmlFor={id}
             aria-hidden="true"
-            data-geist-input-suffix=""
+            data-uni-input-suffix=""
             className={cn(
               "order-2 relative flex h-full shrink-0 items-center bg-background-100 pl-3 text-[var(--uni-gray-700)]",
               disabled && "bg-[var(--uni-gray-100)]",

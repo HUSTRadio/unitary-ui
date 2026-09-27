@@ -8,7 +8,7 @@ A menu for contextual actions, revealed on right click or long press.
 
 # Context Menu
 
-Context Menu
+context-menu
 
 A menu for contextual actions, revealed on right click or long press.
 

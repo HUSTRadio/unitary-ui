@@ -8,7 +8,7 @@ Renders a segmented horizontal bar showing shares of a total.
 
 # Category Bar
 
-Tremor Raw
+category-bar
 
 Renders a segmented horizontal bar showing shares of a total.
 

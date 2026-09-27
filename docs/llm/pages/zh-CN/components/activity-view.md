@@ -8,7 +8,7 @@
 
 # 活动视图
 
-Activity View
+activity-view
 
 带分享目标网格与操作列表的底部分享面板。
 

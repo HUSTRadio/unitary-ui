@@ -8,7 +8,7 @@
 
 # 多选
 
-Multi Select
+multi-select
 
 用于选择多个外部受控选项的组合菜单。
 

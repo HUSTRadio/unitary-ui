@@ -8,7 +8,7 @@ A flex preset that stacks children in one direction with a shared spacing step.
 
 # Stack
 
-Stack
+stack
 
 A flex preset that stacks children in one direction with a shared spacing step.
 

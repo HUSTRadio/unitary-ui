@@ -8,7 +8,7 @@ A succinct message that is displayed temporarily.
 
 # Toast
 
-Toast
+toast
 
 A succinct message that is displayed temporarily.
 

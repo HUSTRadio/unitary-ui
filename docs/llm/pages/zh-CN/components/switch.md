@@ -8,7 +8,7 @@
 
 # 分段选择
 
-Switch
+switch
 
 用于互斥视图选项的滑块分组。
 
@@ -249,5 +249,5 @@ import { Switch, SwitchControl } from "@/components/ui/switch";
 - 在恰好一个 Switch.Control 上设 defaultChecked（或受控 checked），让组有明确的初始状态。
 - 为每个 Switch.Control 留出内边距，让最宽标签在选中时不被 active pill 撑变形。用组内最长文案测试。
 - 每个 Switch.Control 标签首字母大写。标签保持一两个词且平行：Source / Output，而非 Source / Show output。
-- 每个 Switch.Control 始终提供 label，即使图标已承载含义，让屏幕阅读器播报选项。纯图标控件由组件渲染为 geist-sr-only。
+- 每个 Switch.Control 始终提供 label，即使图标已承载含义，让屏幕阅读器播报选项。纯图标控件由组件渲染为 sr-only。
 - 纯图标 Switch 在每个控件上配 Tooltip，让视觉用户获得与辅助技术相同的标签。

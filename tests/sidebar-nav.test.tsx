@@ -1,5 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
+import type { ComponentProps } from "react";
 import type { LucideIcon } from "lucide-react";
 
 import { SidebarNav } from "../src/components/ui/sidebar-nav";
@@ -19,9 +20,9 @@ const groups = [
 ];
 
 /** Extract the rendered <nav …>…</nav> substring from static markup. */
-function navMarkup(props: Record<string, unknown>): string {
+function navMarkup(props: Partial<ComponentProps<typeof SidebarNav>> = {}): string {
   const markup = renderToStaticMarkup(
-    <SidebarNav groups={groups} {...(props as never)} />,
+    <SidebarNav groups={groups} {...props} />,
   );
   const start = markup.indexOf("<nav");
   const end = markup.lastIndexOf("</nav>");
@@ -82,8 +83,9 @@ describe("SidebarNav", () => {
     expect(markup).toContain("bg-gray-100");
     expect(markup).toContain("text-gray-1000");
     expect(markup).toContain("font-medium");
-    // 选中态相对悬停的唯一几何差异：左侧 2×16px 指示条
+    // 选中态相对悬停的唯一几何差异：左侧 2×14px 指示条
     expect(markup.split('data-slot="sidebar-nav-indicator"').length - 1).toBe(1);
+    expect(markup).toMatch(/data-slot="sidebar-nav-indicator"[^>]*class="[^"]*bg-theme-accent/);
   });
 
   it("non-active items use text-gray-900 hover:bg-gray-100 and carry no indicator", () => {

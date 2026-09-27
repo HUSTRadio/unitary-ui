@@ -8,7 +8,7 @@ Displays key/value metadata pairs as a definition list.
 
 # Description
 
-Description
+description
 
 Displays key/value metadata pairs as a definition list.
 
@@ -38,7 +38,7 @@ Truncates overflow values with ellipsis display, paired with a tooltip to expand
 
 ## Accessibility
 
-- Geist renders <dl>/<dt>/<dd> native HTML definition list structure, where screen readers read each key-value pair as a definition unit.
+- Unitary renders <dl>/<dt>/<dd> native HTML definition list structure, where screen readers read each key-value pair as a definition unit.
 - Keys use Title Case noun format, values use sentence case unless they are literal identifiers, IDs, or timestamps that should be preserved verbatim.
 - Do not place interactive controls in the key slot; buttons, menus, and links belong in the value slot or parent layout.
 
@@ -52,7 +52,7 @@ Not applicable: Description as a definition list component behaves consistently 
 
 ## Theme behavior
 
-Not applicable: Description typography and colors are handled automatically by the Geist design system theme tokens, requiring no additional theme customization.
+Not applicable: Description typography and colors are handled automatically by the Unitary design system theme tokens, requiring no additional theme customization.
 
 ## Live Demo
 
@@ -133,7 +133,7 @@ import { Description } from "@/components/ui/description";
 ## Best Practices
 
 - Use <Description> for definition-list metadata: a short Title Case key paired with a single value (Last Deployed, Region, Plan). For inline help under a form field, use the input’s helper-text slot instead.
-- Geist renders <dl>/<dt>/<dd> so screen readers announce each key/value pair as a definition. Don’t wrap the component in extra paragraphs that break the list semantics.
+- Unitary renders <dl>/<dt>/<dd> so screen readers announce each key/value pair as a definition. Don’t wrap the component in extra paragraphs that break the list semantics.
 - Key is a Title Case noun (Last Deployed, Build Duration); value is sentence case unless it’s a literal identifier, ID, or timestamp that should be preserved verbatim.
 - Pass tooltip only when the key alone is ambiguous and a one-sentence definition resolves it. The tooltip text is sentence case and ends with a period.
 - Don’t put interactive controls in the key slot. Buttons, menus, and links belong in the value or the parent layout, not the label.

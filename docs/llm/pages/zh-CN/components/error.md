@@ -8,7 +8,7 @@
 
 # 错误
 
-Error
+error
 
 在操作失败时提供友好且可执行的消息。
 
@@ -56,7 +56,7 @@ Error
 ## 主题行为
 
 - 不同语义状态的颜色映射（红色表示严重错误，琥珀色表示警告）在暗色/亮色模式下均保持足够的对比度。
-- 背景色和边框颜色跟随 Geist 主题变量，支持全局主题定制。
+- 背景色和边框颜色跟随 Unitary 主题变量，支持全局主题定制。
 
 ## 实时示例
 
@@ -106,7 +106,7 @@ export function ErrorSizes74A3978DExample() {
 
 ## 带 error 属性
 
-The request failed. [Contact Us](https://vercel.com/contact)
+The request failed. [Contact Us](https://example.com/contact)
 
 ```tsx
 import { Error } from "@/components/ui/error";
@@ -117,7 +117,7 @@ export function ErrorWithAnErrorProperty93A4DDA8Example() {
       error={{
         message: "The request failed.",
         action: "Contact Us",
-        link: "https://vercel.com/contact",
+        link: "https://example.com/contact",
       }}
     />
   );

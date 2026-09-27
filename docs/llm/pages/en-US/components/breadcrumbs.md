@@ -8,7 +8,7 @@ Navigation aid that shows the user's location within a site's hierarchy.
 
 # Breadcrumbs
 
-Breadcrumbs
+breadcrumbs
 
 Navigation aid that shows the user's location within a site's hierarchy.
 

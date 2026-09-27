@@ -21,7 +21,7 @@ const AVATAR_IMG_URL: Record<string, (username: string, size: number) => string>
 
 /* 加载 shimmer 动画（官方 animate-loading，等价 keyframes 内联，避免改全局样式） */
 const AVATAR_LOADING_CSS = `
-@keyframes geist-avatar-loading {
+@keyframes unitary-avatar-loading {
   from { background-position: 0% 0; }
   to { background-position: 400% 0; }
 }
@@ -93,7 +93,7 @@ function Avatar({
         "relative inline-block size-[var(--avatar-size)] shrink-0 overflow-hidden rounded-full align-top leading-[0] transition-[background] duration-(--uni-duration-base) ease-in-out",
         "after:pointer-events-none after:absolute after:inset-0 after:size-full after:rounded-full after:border after:border-gray-alpha-400 after:content-['']",
         hasVisual &&
-          "before:pointer-events-none before:absolute before:inset-0 before:size-full before:animate-[geist-avatar-loading_1.4s_ease-in-out_infinite] before:bg-[linear-gradient(to_right_in_oklab,#fafafa,#eaeaea,#fafafa)] before:bg-[length:400%_100%] dark:before:bg-[linear-gradient(to_right_in_oklab,#111111,#333333,#111111)]",
+          "before:pointer-events-none before:absolute before:inset-0 before:size-full before:animate-[unitary-avatar-loading_1.4s_ease-in-out_infinite] before:bg-[linear-gradient(to_right_in_oklab,#fafafa,#eaeaea,#fafafa)] before:bg-[length:400%_100%] dark:before:bg-[linear-gradient(to_right_in_oklab,#111111,#333333,#111111)]",
         className,
       )}
       style={{ "--avatar-size": `${px}px` } as React.CSSProperties}

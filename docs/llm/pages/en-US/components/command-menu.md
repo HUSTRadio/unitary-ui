@@ -8,7 +8,7 @@ Filters and launches keyboard-first actions in a modal command palette.
 
 # Command Menu
 
-Command Menu
+command-menu
 
 Filters and launches keyboard-first actions in a modal command palette.
 

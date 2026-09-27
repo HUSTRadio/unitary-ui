@@ -8,7 +8,7 @@
 
 [
 
-Activity View
+activity-view
 
 ### 活动视图
 
@@ -16,7 +16,7 @@ Activity View
 
 ](#/components/activity-view)[
 
-Tremor Raw
+area-chart
 
 ### 面积图
 
@@ -24,7 +24,7 @@ Tremor Raw
 
 ](#/components/area-chart)[
 
-Avatar
+avatar
 
 ### 头像
 
@@ -32,7 +32,7 @@ Avatar
 
 ](#/components/avatar)[
 
-Badge
+badge
 
 ### 徽章
 
@@ -40,7 +40,7 @@ Badge
 
 ](#/components/badge)[
 
-Banner
+banner
 
 ### 横幅
 
@@ -48,7 +48,7 @@ Banner
 
 ](#/components/banner)[
 
-Tremor Raw
+bar-chart
 
 ### 柱状图
 
@@ -56,7 +56,7 @@ Tremor Raw
 
 ](#/components/bar-chart)[
 
-Tremor Raw
+bar-list
 
 ### 条形列表
 
@@ -64,7 +64,7 @@ Tremor Raw
 
 ](#/components/bar-list)[
 
-Book
+book
 
 ### 手册
 
@@ -72,7 +72,7 @@ Book
 
 ](#/components/book)[
 
-Bottom Sheet
+bottom-sheet
 
 ### 底部弹层
 
@@ -80,7 +80,7 @@ Bottom Sheet
 
 ](#/components/bottom-sheet)[
 
-Breadcrumbs
+breadcrumbs
 
 ### 面包屑
 
@@ -88,7 +88,7 @@ Breadcrumbs
 
 ](#/components/breadcrumbs)[
 
-Browser
+browser
 
 ### 浏览器
 
@@ -96,7 +96,7 @@ Browser
 
 ](#/components/browser)[
 
-Button
+button
 
 ### 按钮
 
@@ -104,7 +104,7 @@ Button
 
 ](#/components/button)[
 
-Calendar
+calendar
 
 ### 日历
 
@@ -112,7 +112,7 @@ Calendar
 
 ](#/components/calendar)[
 
-Tremor Raw
+category-bar
 
 ### 分类条
 
@@ -120,7 +120,7 @@ Tremor Raw
 
 ](#/components/category-bar)[
 
-Checkbox
+checkbox
 
 ### 复选框
 
@@ -128,7 +128,7 @@ Checkbox
 
 ](#/components/checkbox)[
 
-Choicebox
+choicebox
 
 ### 选择框
 
@@ -136,7 +136,7 @@ Choicebox
 
 ](#/components/choicebox)[
 
-Clearable Input
+clearable-input
 
 ### 可清空输入框
 
@@ -144,7 +144,7 @@ Clearable Input
 
 ](#/components/clearable-input)[
 
-Code
+code
 
 ### 代码
 
@@ -152,7 +152,7 @@ Code
 
 ](#/components/code)[
 
-Code Block
+code-block
 
 ### 代码块
 
@@ -160,7 +160,7 @@ Code Block
 
 ](#/components/code-block)[
 
-Collapse
+collapse
 
 ### 折叠面板
 
@@ -168,7 +168,7 @@ Collapse
 
 ](#/components/collapse)[
 
-Tremor Raw
+combo-chart
 
 ### 组合图
 
@@ -176,7 +176,7 @@ Tremor Raw
 
 ](#/components/combo-chart)[
 
-Combobox
+combobox
 
 ### 组合框
 
@@ -184,7 +184,7 @@ Combobox
 
 ](#/components/combobox)[
 
-Command Menu
+command-menu
 
 ### 命令菜单
 
@@ -192,7 +192,7 @@ Command Menu
 
 ](#/components/command-menu)[
 
-Context Card
+context-card
 
 ### 上下文卡片
 
@@ -200,7 +200,7 @@ Context Card
 
 ](#/components/context-card)[
 
-Context Menu
+context-menu
 
 ### 右键菜单
 
@@ -208,7 +208,7 @@ Context Menu
 
 ](#/components/context-menu)[
 
-Continuous Surface
+continuous-surface
 
 ### 连续曲率容器
 
@@ -216,7 +216,7 @@ Continuous Surface
 
 ](#/components/continuous-surface)[
 
-Copy Button
+copy-button
 
 ### 复制按钮
 
@@ -224,7 +224,7 @@ Copy Button
 
 ](#/components/copy-button)[
 
-Description
+description
 
 ### 描述
 
@@ -232,7 +232,7 @@ Description
 
 ](#/components/description)[
 
-Destructive Action Modal
+destructive-action-modal
 
 ### 危险操作确认框
 
@@ -240,7 +240,7 @@ Destructive Action Modal
 
 ](#/components/destructive-action-modal)[
 
-Phone
+device
 
 ### 设备外框
 
@@ -248,7 +248,7 @@ Phone
 
 ](#/components/device)[
 
-Tremor Raw
+donut-chart
 
 ### 环形图
 
@@ -256,7 +256,7 @@ Tremor Raw
 
 ](#/components/donut-chart)[
 
-Dots Menu
+dots-menu
 
 ### 省略号菜单
 
@@ -264,7 +264,7 @@ Dots Menu
 
 ](#/components/dots-menu)[
 
-Drawer
+drawer
 
 ### 抽屉
 
@@ -272,7 +272,7 @@ Drawer
 
 ](#/components/drawer)[
 
-Edit Menu
+edit-menu
 
 ### 编辑菜单
 
@@ -280,7 +280,7 @@ Edit Menu
 
 ](#/components/edit-menu)[
 
-Empty State
+empty-state
 
 ### 空状态
 
@@ -288,7 +288,7 @@ Empty State
 
 ](#/components/empty-state)[
 
-Entity
+entity
 
 ### 实体
 
@@ -296,7 +296,7 @@ Entity
 
 ](#/components/entity)[
 
-Error
+error
 
 ### 错误
 
@@ -304,7 +304,7 @@ Error
 
 ](#/components/error)[
 
-Error Boundary
+error-boundary
 
 ### 错误边界
 
@@ -312,7 +312,7 @@ Error Boundary
 
 ](#/components/error-boundary)[
 
-Error Card
+error-card
 
 ### 错误卡片
 
@@ -320,7 +320,7 @@ Error Card
 
 ](#/components/error-card)[
 
-Feedback
+feedback
 
 ### 反馈
 
@@ -328,7 +328,7 @@ Feedback
 
 ](#/components/feedback)[
 
-Fieldset
+fieldset
 
 ### 字段集
 
@@ -336,7 +336,7 @@ Fieldset
 
 ](#/components/fieldset)[
 
-File Tree
+file-tree
 
 ### 文件树
 
@@ -344,7 +344,7 @@ File Tree
 
 ](#/components/file-tree)[
 
-Unitary Footer
+footer
 
 ### 页脚
 
@@ -352,7 +352,7 @@ A page footer with link columns and optional leading and trailing slots.
 
 ](#/components/footer)[
 
-Gauge
+gauge
 
 ### 仪表
 
@@ -360,7 +360,7 @@ Gauge
 
 ](#/components/gauge)[
 
-Grid
+grid
 
 ### 栅格
 
@@ -368,7 +368,7 @@ Grid
 
 ](#/components/grid)[
 
-Unitary Hamburger Menu
+hamburger-menu
 
 ### 汉堡导航菜单
 
@@ -376,7 +376,7 @@ An expandable navigation menu with grouped links and built-in search.
 
 ](#/components/hamburger-menu)[
 
-Input
+input
 
 ### 输入框
 
@@ -384,7 +384,7 @@ Input
 
 ](#/components/input)[
 
-JsonView
+json-view
 
 ### JSON 查看器
 
@@ -392,7 +392,7 @@ JsonView
 
 ](#/components/json-view)[
 
-Keyboard Input
+keyboard-input
 
 ### 键盘输入
 
@@ -400,7 +400,7 @@ Keyboard Input
 
 ](#/components/keyboard-input)[
 
-Label
+label
 
 ### 标签
 
@@ -408,7 +408,7 @@ Label
 
 ](#/components/label)[
 
-Tremor Raw
+line-chart
 
 ### 折线图
 
@@ -416,7 +416,7 @@ Tremor Raw
 
 ](#/components/line-chart)[
 
-Link
+link
 
 ### 链接
 
@@ -424,7 +424,7 @@ Link
 
 ](#/components/link)[
 
-Load More Button
+load-more-button
 
 ### 加载更多按钮
 
@@ -432,7 +432,7 @@ Load More Button
 
 ](#/components/load-more-button)[
 
-Loading Dots
+loading-dots
 
 ### 加载圆点
 
@@ -440,7 +440,7 @@ Loading Dots
 
 ](#/components/loading-dots)[
 
-Menu
+menu
 
 ### 菜单
 
@@ -448,7 +448,7 @@ Menu
 
 ](#/components/menu)[
 
-Menu Bar
+menu-bar
 
 ### 菜单栏
 
@@ -456,7 +456,7 @@ Menu Bar
 
 ](#/components/menu-bar)[
 
-Middle Truncate
+middle-truncate
 
 ### 中间截断
 
@@ -464,7 +464,7 @@ Middle Truncate
 
 ](#/components/middle-truncate)[
 
-Modal
+modal
 
 ### 模态框
 
@@ -472,7 +472,7 @@ Modal
 
 ](#/components/modal)[
 
-Multi Select
+multi-select
 
 ### 多选
 
@@ -480,7 +480,7 @@ Multi Select
 
 ](#/components/multi-select)[
 
-Unitary Navbar
+navbar
 
 ### 顶部导航
 
@@ -488,7 +488,7 @@ A page header with static, pinned, or auto-hiding scroll behavior.
 
 ](#/components/navbar)[
 
-Note
+note
 
 ### 注释
 
@@ -496,7 +496,7 @@ Note
 
 ](#/components/note)[
 
-Pagination
+pagination
 
 ### 分页
 
@@ -504,7 +504,7 @@ Pagination
 
 ](#/components/pagination)[
 
-Pill
+pill
 
 ### 胶囊标签
 
@@ -512,7 +512,7 @@ Pill
 
 ](#/components/pill)[
 
-Progress
+progress
 
 ### 进度条
 
@@ -520,7 +520,7 @@ Progress
 
 ](#/components/progress)[
 
-Tremor Raw
+progress-circle
 
 ### 进度环
 
@@ -528,7 +528,7 @@ Tremor Raw
 
 ](#/components/progress-circle)[
 
-Project Banner
+project-banner
 
 ### 项目横幅
 
@@ -536,7 +536,7 @@ Project Banner
 
 ](#/components/project-banner)[
 
-Radio
+radio
 
 ### 单选按钮
 
@@ -544,7 +544,7 @@ Radio
 
 ](#/components/radio)[
 
-Relative Time Card
+relative-time-card
 
 ### 相对时间卡片
 
@@ -552,7 +552,7 @@ Relative Time Card
 
 ](#/components/relative-time-card)[
 
-Responsive Drawer
+responsive-drawer
 
 ### 响应式抽屉
 
@@ -560,7 +560,7 @@ Responsive Drawer
 
 ](#/components/responsive-drawer)[
 
-Safe Area
+safe-area
 
 ### 安全区
 
@@ -568,7 +568,7 @@ Safe Area
 
 ](#/components/safe-area)[
 
-Scroller
+scroller
 
 ### 滚动容器
 
@@ -576,7 +576,7 @@ Scroller
 
 ](#/components/scroller)[
 
-Search Input
+search-input
 
 ### 搜索框
 
@@ -584,7 +584,7 @@ Search Input
 
 ](#/components/search-input)[
 
-Select
+select
 
 ### 下拉选择器
 
@@ -592,7 +592,7 @@ Select
 
 ](#/components/select)[
 
-Separator
+separator
 
 ### 分隔线
 
@@ -600,7 +600,7 @@ Separator
 
 ](#/components/separator)[
 
-Sheet
+sheet
 
 ### 侧边面板
 
@@ -608,7 +608,7 @@ Sheet
 
 ](#/components/sheet)[
 
-Show More
+show-more
 
 ### 显示更多
 
@@ -616,7 +616,7 @@ Show More
 
 ](#/components/show-more)[
 
-Unitary Side Panel
+side-panel
 
 ### 桌面侧板
 
@@ -624,7 +624,7 @@ A controlled desktop side panel with optional non-modal behavior.
 
 ](#/components/side-panel)[
 
-Unitary Sidebar Nav
+sidebar-nav
 
 ### 侧栏导航
 
@@ -632,7 +632,7 @@ Grouped sidebar navigation with active state and optional collapsible sections.
 
 ](#/components/sidebar-nav)[
 
-Skeleton
+skeleton
 
 ### 骨架屏
 
@@ -640,7 +640,7 @@ Skeleton
 
 ](#/components/skeleton)[
 
-Slider
+slider
 
 ### 滑块
 
@@ -648,7 +648,7 @@ Slider
 
 ](#/components/slider)[
 
-Snippet
+snippet
 
 ### 代码片段
 
@@ -656,7 +656,7 @@ Snippet
 
 ](#/components/snippet)[
 
-Tremor Raw
+spark-chart
 
 ### 迷你趋势图
 
@@ -664,7 +664,7 @@ Tremor Raw
 
 ](#/components/spark-chart)[
 
-Spinner
+spinner
 
 ### 加载指示器
 
@@ -672,7 +672,7 @@ Spinner
 
 ](#/components/spinner)[
 
-Split Button
+split-button
 
 ### 拆分按钮
 
@@ -680,7 +680,7 @@ Split Button
 
 ](#/components/split-button)[
 
-Stack
+stack
 
 ### 堆叠
 
@@ -688,7 +688,7 @@ Stack
 
 ](#/components/stack)[
 
-Status Dot
+status-dot
 
 ### 状态圆点
 
@@ -696,7 +696,7 @@ Status Dot
 
 ](#/components/status-dot)[
 
-StepPoint
+step-point
 
 ### 步骤指示点
 
@@ -704,7 +704,15 @@ StepPoint
 
 ](#/components/step-point)[
 
-Switch
+sub-frame
+
+### 局部浮层框架
+
+把浮层限定在页面中的某一块区域内，弹层与面板因此不会盖住整页。
+
+](#/components/sub-frame)[
+
+switch
 
 ### 分段选择
 
@@ -712,7 +720,7 @@ Switch
 
 ](#/components/switch)[
 
-Table
+table
 
 ### 表格
 
@@ -720,7 +728,7 @@ Table
 
 ](#/components/table)[
 
-Tabs
+tabs
 
 ### 标签页
 
@@ -728,7 +736,7 @@ Tabs
 
 ](#/components/tabs)[
 
-Text With Copy Button
+text-with-copy-button
 
 ### 带复制按钮的文本
 
@@ -736,7 +744,7 @@ Text With Copy Button
 
 ](#/components/text-with-copy-button)[
 
-Textarea
+textarea
 
 ### 多行文本域
 
@@ -744,7 +752,7 @@ Textarea
 
 ](#/components/textarea)[
 
-Theme Switcher
+theme-switcher
 
 ### 主题切换器
 
@@ -752,7 +760,7 @@ Theme Switcher
 
 ](#/components/theme-switcher)[
 
-Toast
+toast
 
 ### 轻提示
 
@@ -760,7 +768,7 @@ Toast
 
 ](#/components/toast)[
 
-Toggle
+toggle
 
 ### 开关
 
@@ -768,7 +776,7 @@ Toggle
 
 ](#/components/toggle)[
 
-Toolbar
+toolbar
 
 ### 工具栏
 
@@ -776,7 +784,7 @@ Toolbar
 
 ](#/components/toolbar)[
 
-Tooltip
+tooltip
 
 ### 工具提示
 
@@ -784,7 +792,7 @@ Tooltip
 
 ](#/components/tooltip)[
 
-Tremor Raw
+tracker
 
 ### 状态跟踪条
 
@@ -792,7 +800,7 @@ Tremor Raw
 
 ](#/components/tracker)[
 
-Video
+video
 
 ### 视频
 

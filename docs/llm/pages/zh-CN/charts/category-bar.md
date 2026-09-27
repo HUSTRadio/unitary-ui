@@ -8,7 +8,7 @@
 
 # 分类条
 
-Tremor Raw
+category-bar
 
 渲染分段横向条，展示各部分占总体的比例。
 

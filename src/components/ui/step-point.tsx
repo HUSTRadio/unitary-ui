@@ -15,8 +15,7 @@ export interface StepPointProps {
   children: React.ReactNode;
 }
 
-/** @deprecated 仅用于兼容 `StepDot`；新代码应使用 `StepPointProps`。 */
-export interface StepDotProps {
+interface StepDotProps {
   status: StepStatus;
 }
 
@@ -34,7 +33,7 @@ const TEXT_STYLES: Record<StepStatus, string> = {
   failed: "text-danger",
 };
 
-/** @deprecated `StepDot` 是兼容性导出；新代码应使用完整的 `StepPoint`。 */
+/** StepPoint 的圆点部分（内部实现）。 */
 function StepDot({ status }: StepDotProps) {
   return (
     <span
@@ -66,4 +65,4 @@ function StepPoint({ status, children }: StepPointProps) {
   );
 }
 
-export { StepPoint, StepDot };
+export { StepPoint };

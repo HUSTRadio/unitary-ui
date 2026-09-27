@@ -8,7 +8,7 @@ Groups related form controls into a single semantic unit.
 
 # Fieldset
 
-Fieldset
+fieldset
 
 Groups related form controls into a single semantic unit.
 

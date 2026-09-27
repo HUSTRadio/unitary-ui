@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
 
-describe("Phone / Device react-mockframe contract", () => {
+describe("Device react-mockframe contract", () => {
   test("Device uses MockFrame and imports every device CSS bundle (no full mockframe.css)", async () => {
     const src = await read("src/components/ui/device.tsx");
     expect(src).toMatch(/import \{[^}]*\bMockFrame\b[^}]*\} from "react-mockframe"/);
@@ -16,15 +16,6 @@ describe("Phone / Device react-mockframe contract", () => {
     }
     // 不引全量 mockframe.css（分包按需）
     expect(src).not.toMatch(/mockframe(?:-iphones|-android|-tablets|-laptops)?\.min\.css/);
-  });
-
-  test("Phone is a deprecated alias over Device with model iphone-17", async () => {
-    const src = await read("src/components/ui/phone.tsx");
-    expect(src).toMatch(/@deprecated/);
-    expect(src).toMatch(/export \{[^}]*\bPhone\b[^}]*\}/);
-    expect(src).toMatch(/model="iphone-17"/);
-    // alias 不直接引用 react-mockframe（实现全部下沉到 Device）
-    expect(src).not.toMatch(/react-mockframe/);
   });
 
   test("registry: iphone-17 content 393×852 bezel 12; devices are symmetric-bezel only", async () => {

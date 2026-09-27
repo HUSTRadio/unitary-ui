@@ -13,8 +13,8 @@ const DESKTOP = { width: 1280, height: 900 };
 
 async function openWith(page: Page, slug: string, theme: "light" | "dark") {
   await page.addInitScript((preference) => {
-    localStorage.setItem("geist-docs-language", "en-US");
-    localStorage.setItem("geist-theme-preference", preference);
+    localStorage.setItem("unitary-docs-language", "en-US");
+    localStorage.setItem("unitary-theme-preference", preference);
   }, theme);
   await page.goto(`/#/components/${slug}`);
   await page.waitForSelector('[data-slot="navbar"]');
@@ -99,8 +99,8 @@ for (const theme of ["light", "dark"] as const) {
   test(`浮层移动端仍为锚定式四角圆角（${theme}）`, async ({ page }) => {
     await page.setViewportSize(MOBILE);
     await page.addInitScript((preference) => {
-      localStorage.setItem("geist-docs-language", "en-US");
-      localStorage.setItem("geist-theme-preference", preference);
+      localStorage.setItem("unitary-docs-language", "en-US");
+      localStorage.setItem("unitary-theme-preference", preference);
     }, theme);
 
     const overlays = await openOverlays(page);
@@ -118,8 +118,8 @@ for (const theme of ["light", "dark"] as const) {
   test(`浮层桌面端形态：四角圆角（${theme}）`, async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.addInitScript((preference) => {
-      localStorage.setItem("geist-docs-language", "en-US");
-      localStorage.setItem("geist-theme-preference", preference);
+      localStorage.setItem("unitary-docs-language", "en-US");
+      localStorage.setItem("unitary-theme-preference", preference);
     }, theme);
 
     const overlays = await openOverlays(page);

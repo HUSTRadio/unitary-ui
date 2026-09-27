@@ -116,7 +116,7 @@ describe("HIG-AUD-046：SafeArea 与 Stack 的档位表必须逐档同步", () =
 
 describe("布局原语的文档注册", () => {
   const routes = readFileSync(
-    new URL("../docs/geist/src/data/docs-routes.ts", import.meta.url),
+    new URL("../docs/site/src/data/docs-routes.ts", import.meta.url),
     "utf8",
   );
 

@@ -8,7 +8,7 @@
 
 # 字段集
 
-Fieldset
+fieldset
 
 将相关表单控件组合成一个语义单元。
 

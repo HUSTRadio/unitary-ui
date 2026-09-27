@@ -8,7 +8,7 @@ Renders categorical bar series with stacked, percent, and vertical layouts.
 
 # Bar Chart
 
-Tremor Raw
+bar-chart
 
 Renders categorical bar series with stacked, percent, and vertical layouts.
 

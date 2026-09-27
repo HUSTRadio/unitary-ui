@@ -8,7 +8,7 @@ Navigates to internal or external destinations with platform-aware icon treatmen
 
 # Link
 
-Link
+link
 
 Navigates to internal or external destinations with platform-aware icon treatment.
 

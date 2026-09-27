@@ -12,7 +12,8 @@ Use these locations in this order:
 
 1. Component implementation: `src/components/ui`
 2. Shared styling and tokens: `src/styles`
-3. Human-facing documentation application: `docs/geist`
+3. Human-facing documentation application: `docs/site` (Vite root `docs/`, entry `docs/index.html`, config
+   `docs/vite.config.ts`; run it with `vp dev docs`)
 4. Machine-readable documentation index: `docs/llm/index.json`
 5. Generated route corpus: `docs/llm/pages`
 6. Tests under `tests`
@@ -56,8 +57,8 @@ Component documentation is structured data rendered by the Geist docs applicatio
 For component-facing changes, check all of the following:
 
 - the implementation in `src/components/ui`;
-- the API registry and component metadata in `docs/geist/src/data`;
-- the bilingual guide registry in `docs/geist/src/content/component-guides`;
+- the API registry and component metadata in `docs/site/src/data`;
+- the bilingual guide registry in `docs/site/src/content/component-guides`;
 - live demo identifiers used by guide examples;
 - the generated route corpus in `docs/llm/pages`.
 

@@ -8,7 +8,7 @@
 
 # 迷你趋势图
 
-Tremor Raw
+spark-chart
 
 渲染内联迷你趋势图（面积、折线或柱形）。
 

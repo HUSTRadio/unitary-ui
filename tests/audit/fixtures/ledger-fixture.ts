@@ -9,6 +9,6 @@ export const auditDir = resolve(import.meta.dirname, "..");
 export const readJson = (name: string) =>
   JSON.parse(readFileSync(join(auditDir, name), "utf8"));
 export const readReport = () =>
-  readFileSync(resolve(root, "docs/geist-replica-acceptance.md"), "utf8");
+  readFileSync(resolve(root, "docs/site-replica-acceptance.md"), "utf8");
 export const allowedStatuses = new Set(["PASS", "FAIL", "MISSING", "BLOCKED", "NOT_APPLICABLE"]);
 export const COMPLETION_CLAIM_RE = /72\/72|576\/576/;

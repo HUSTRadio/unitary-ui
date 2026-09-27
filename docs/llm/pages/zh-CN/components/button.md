@@ -8,7 +8,7 @@
 
 # 按钮
 
-Button
+button
 
 使用可配置的变体、尺寸和图标触发操作。
 
@@ -308,14 +308,14 @@ export function ButtonDisabledVariantsCB2C3BEAExample() {
 
 ## 链接
 
-[Sign Up](https://vercel.com/signup)
+[Sign Up](https://example.com/signup)
 
 ```tsx
 import { ButtonLink } from "@/components/ui/button";
 
 export function ButtonLinkB1B1BDB4Example() {
   return (
-    <ButtonLink className="w-fit" href="https://vercel.com/signup">
+    <ButtonLink className="w-fit" href="https://example.com/signup">
       Sign Up
     </ButtonLink>
   );

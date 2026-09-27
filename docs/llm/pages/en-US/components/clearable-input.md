@@ -8,7 +8,7 @@ A text input with an inline Esc keycap that clears on pointer activation or Esca
 
 # Clearable Input
 
-Clearable Input
+clearable-input
 
 A text input with an inline Esc keycap that clears on pointer activation or Escape.
 

@@ -5,12 +5,12 @@ import { readFile } from "node:fs/promises";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { ColorsPage, GridPage } from "../docs/geist/src/components/docs-pages";
+import { ColorsPage, GridPage } from "../docs/site/src/components/docs-pages";
 import {
   FOUNDATION_COLOR_SCALES,
   SEMANTIC_COLOR_TOKENS,
-} from "../docs/geist/src/data/foundation-colors";
-import { LanguageProvider } from "../docs/geist/src/i18n/language";
+} from "../docs/site/src/data/foundation-colors";
+import { LanguageProvider } from "../docs/site/src/i18n/language";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -58,7 +58,7 @@ beforeEach(() => {
     () =>
       ({
         getPropertyValue,
-      }) as CSSStyleDeclaration,
+      }) as unknown as CSSStyleDeclaration,
   );
 });
 
@@ -168,7 +168,7 @@ describe("Colors foundation docs", () => {
   });
 
   test("removes raw color tables and unsupported P3 claims from the Colors page source", async () => {
-    const source = await readFile("docs/geist/src/components/docs-pages.tsx", "utf8");
+    const source = await readFile("docs/site/src/components/docs-pages.tsx", "utf8");
     const colorsPageSource = source.slice(source.indexOf("/* ================= Colors ================= */"), source.indexOf("/* ================= Typography ================= */"));
 
     expect(colorsPageSource).not.toMatch(/\b(?:COLOR_SCALES|GRAY_DARK|SEMANTIC_TOKENS)\b/);
@@ -278,7 +278,7 @@ describe("Grid docs parity", () => {
   });
 
   test("does not claim configurable gap or Tailwind xl/2xl breakpoints", async () => {
-    const source = await readFile("docs/geist/src/components/docs-grid-page.tsx", "utf8");
+    const source = await readFile("docs/site/src/components/docs-grid-page.tsx", "utf8");
 
     expect(source).not.toMatch(/configurable gap/i);
     // No Tailwind breakpoint presets (xl/2xl) claimed as Grid API.
@@ -288,7 +288,7 @@ describe("Grid docs parity", () => {
   });
 
   test("docs-pages only re-exports GridPage from the dedicated grid docs module", async () => {
-    const source = await readFile("docs/geist/src/components/docs-pages.tsx", "utf8");
+    const source = await readFile("docs/site/src/components/docs-pages.tsx", "utf8");
 
     expect(source).toContain('export { GridPage } from "./docs-grid-page";');
     expect(source).not.toMatch(/function GridPage/);

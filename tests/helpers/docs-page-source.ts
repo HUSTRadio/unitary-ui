@@ -7,6 +7,6 @@ import { resolve } from "node:path";
  * 断言仍基于源码字符串，修改组件页面前先跑相关契约测试。
  */
 export const docsPageSource = readFileSync(
-  resolve(import.meta.dirname, "../../docs/geist/src/components/docs-components-page.tsx"),
+  resolve(import.meta.dirname, "../../docs/site/src/components/docs-components-page.tsx"),
   "utf8",
 );

@@ -12,7 +12,7 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
  *
  * 数值与结构来源：官方实时 Input 全部 demo DOM/computed style（2026-08-11）
  * + design 台账 §1.2。
- * - wrapper：div[data-geist-input-wrapper][data-version="v1"]；ring = box-shadow 1px
+ * - wrapper：div[data-uni-input-wrapper][data-version="v1"]；ring = box-shadow 1px
  *   （light #00000014 / dark #ffffff24，即 --color-gray-alpha-400）；radius 6px；
  *   transition-all 0.15s cubic-bezier(0.4,0,0.2,1)。
  * - focus-within：ring 变为 1px --input-focus-border + 4px --input-focus-glow
@@ -48,7 +48,7 @@ describe("Input wrapper contract (B0 input-wrapper)", () => {
   test("label field stays outside the ring wrapper", () => {
     const { field, label, wrapper } = renderInput({ label: "Name", onChange: () => {} });
     expect(wrapper).not.toBeNull();
-    expect(wrapper!.hasAttribute("data-geist-input-wrapper")).toBe(true);
+    expect(wrapper!.hasAttribute("data-uni-input-wrapper")).toBe(true);
     expect(wrapper!.getAttribute("data-version")).toBe("v1");
     expect(field).not.toBeNull();
     expect(label!.parentElement).toBe(field);
@@ -187,7 +187,7 @@ function renderInput(props: Record<string, unknown>) {
   });
   return {
     container,
-    wrapper: container.querySelector("[data-geist-input-wrapper]"),
+    wrapper: container.querySelector("[data-uni-input-wrapper]"),
     field: container.querySelector('[data-slot="input-field"]'),
     label: container.querySelector("label"),
     input: container.querySelector('input[data-slot="input"]'),

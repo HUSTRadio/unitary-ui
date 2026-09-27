@@ -26,7 +26,7 @@ pageviews
 
 [
 
-Tremor Raw
+area-chart
 
 ### Area Chart
 
@@ -34,7 +34,7 @@ Renders layered area series for trends over time, with stacked and percent varia
 
 ](#/charts/area-chart)[
 
-Tremor Raw
+bar-chart
 
 ### Bar Chart
 
@@ -42,7 +42,7 @@ Renders categorical bar series with stacked, percent, and vertical layouts.
 
 ](#/charts/bar-chart)[
 
-Tremor Raw
+bar-list
 
 ### Bar List
 
@@ -50,7 +50,7 @@ Renders a ranked list where each row carries a proportional bar and value.
 
 ](#/charts/bar-list)[
 
-Tremor Raw
+category-bar
 
 ### Category Bar
 
@@ -58,7 +58,7 @@ Renders a segmented horizontal bar showing shares of a total.
 
 ](#/charts/category-bar)[
 
-Tremor Raw
+combo-chart
 
 ### Combo Chart
 
@@ -66,7 +66,7 @@ Combines bar and line series in one chart, optionally on two axes.
 
 ](#/charts/combo-chart)[
 
-Tremor Raw
+donut-chart
 
 ### Donut Chart
 
@@ -74,7 +74,7 @@ Renders a part-to-whole donut (or pie) with an optional center metric.
 
 ](#/charts/donut-chart)[
 
-Tremor Raw
+line-chart
 
 ### Line Chart
 
@@ -82,7 +82,7 @@ Renders connected line series for continuous trends with optional axis titles.
 
 ](#/charts/line-chart)[
 
-Tremor Raw
+progress-circle
 
 ### Progress Circle
 
@@ -90,7 +90,7 @@ Renders a circular progress indicator with an optional center metric.
 
 ](#/charts/progress-circle)[
 
-Tremor Raw
+spark-chart
 
 ### Spark Chart
 
@@ -98,7 +98,7 @@ Renders tiny inline sparklines (area, line, or bar) for at-a-glance trends.
 
 ](#/charts/spark-chart)[
 
-Tremor Raw
+tracker
 
 ### Tracker
 

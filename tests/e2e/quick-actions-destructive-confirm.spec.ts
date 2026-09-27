@@ -10,7 +10,7 @@ import { expect, test } from "@playwright/test";
 test.describe("Destructive confirmation (HIG-AUD-037)", () => {
   test("破坏项先弹确认；取消后状态不变，确认后才执行", async ({ page }) => {
     await page.addInitScript(() => {
-      window.localStorage.setItem("geist-theme-preference", "light");
+      window.localStorage.setItem("unitary-theme-preference", "light");
     });
     await page.goto("/#/components/context-menu");
     await page.locator('[data-slot="navbar"]').first().waitFor({ state: "visible" });
@@ -53,7 +53,7 @@ test.describe("Destructive confirmation (HIG-AUD-037)", () => {
 
   test("ActivityView 破坏性操作同样先确认；取消后无副作用", async ({ page }) => {
     await page.addInitScript(() => {
-      window.localStorage.setItem("geist-theme-preference", "light");
+      window.localStorage.setItem("unitary-theme-preference", "light");
     });
     await page.goto("/#/components/activity-view");
     await page.locator('[data-slot="navbar"]').first().waitFor({ state: "visible" });

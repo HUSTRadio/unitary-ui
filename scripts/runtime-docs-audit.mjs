@@ -84,7 +84,7 @@ const failures = [];
 for (const theme of themes) {
   await evaluate(
     client,
-    `(()=>{localStorage.setItem('geist-theme-preference', ${JSON.stringify(theme)});document.documentElement.classList.toggle('dark', ${theme === "dark"});document.documentElement.dataset.theme=${JSON.stringify(theme)};return true})()`,
+    `(()=>{localStorage.setItem('unitary-theme-preference', ${JSON.stringify(theme)});document.documentElement.classList.toggle('dark', ${theme === "dark"});document.documentElement.dataset.theme=${JSON.stringify(theme)};return true})()`,
   );
 
   for (const width of viewportWidths) {

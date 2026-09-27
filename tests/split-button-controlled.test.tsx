@@ -32,7 +32,7 @@ describe("SplitButton controlled props", () => {
   it("menuButtonDisabled only disables the menu trigger", async () => {
     await renderIntoDocument(
       <SplitButton
-        menuItems={<SplitButtonMenuItem>Duplicate</SplitButtonMenuItem>}
+        menuItems={<SplitButtonMenuItem title="Duplicate" />}
         menuButtonDisabled
       >
         Deploy
@@ -47,7 +47,7 @@ describe("SplitButton controlled props", () => {
     await renderIntoDocument(
       <SplitButton
         buttonProps={{ typeName: "button", disabled: true }}
-        menuItems={<SplitButtonMenuItem>Duplicate</SplitButtonMenuItem>}
+        menuItems={<SplitButtonMenuItem title="Duplicate" />}
       >
         Deploy
       </SplitButton>,

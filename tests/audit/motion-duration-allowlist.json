@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "policy": "literal-level ledger. Every animation/transition duration literal occurrence in src/components + src/lib + src/styles + docs/geist/src code dirs must appear here (files array covers every containing file). Every entry must still exist in code. Migration = replace the occurrence with a --uni-duration-* / --uni-motion-* tier token (or --uni-loop-* for looping periods), then remove the file from files[]. Delay/dwell/auto-dismiss timing values and --animate-* definition-internal literals are out of scope (see docs/audits/motion-duration-audit-2026-09-20.md).",
+  "policy": "literal-level ledger. Every animation/transition duration literal occurrence in src/components + src/lib + src/styles + docs/site/src code dirs must appear here (files array covers every containing file). Every entry must still exist in code. Migration = replace the occurrence with a --uni-duration-* / --uni-motion-* tier token (or --uni-loop-* for looping periods), then remove the file from files[]. Delay/dwell/auto-dismiss timing values and --animate-* definition-internal literals are out of scope (see docs/audits/motion-duration-audit-2026-09-20.md).",
   "entries": [
     {
       "literal": "0s",

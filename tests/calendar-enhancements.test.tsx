@@ -109,7 +109,7 @@ describe("calendar enhancements", () => {
       wrapMinHeight: 50,
       wrapMaxHeight: 100,
     });
-    const calendar = container.querySelector<HTMLElement>("[data-geist-calendar]")!;
+    const calendar = container.querySelector<HTMLElement>("[data-uni-calendar]")!;
     expect(trigger.className).not.toContain("whitespace-nowrap");
     expect(calendar.style.getPropertyValue("--wrap-min-rows")).toBe("2");
     expect(calendar.style.getPropertyValue("--wrap-max-rows")).toBe("4");

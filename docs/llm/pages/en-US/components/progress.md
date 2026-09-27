@@ -8,7 +8,7 @@ Shows progress relative to a limit or a task.
 
 # Progress
 
-Progress
+progress
 
 Shows progress relative to a limit or a task.
 

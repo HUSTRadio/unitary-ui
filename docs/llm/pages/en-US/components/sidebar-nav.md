@@ -8,7 +8,7 @@ Grouped sidebar navigation with active state and optional collapsible sections.
 
 # Sidebar Nav
 
-Unitary Sidebar Nav
+sidebar-nav
 
 Grouped sidebar navigation with active state and optional collapsible sections.
 

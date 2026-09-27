@@ -8,7 +8,7 @@ Shows expanded or collapsed content with a progressive-disclosure trigger.
 
 # Show More
 
-Show More
+show-more
 
 Shows expanded or collapsed content with a progressive-disclosure trigger.
 
@@ -55,7 +55,7 @@ Not applicable: ShowMore renders only a fixed 32px-high trigger. It does not man
 
 ## Theme behavior
 
-- Button colors, hover states, and highlights follow Geist theme variables, adapting automatically between dark and light modes.
+- Button colors, hover states, and highlights follow Unitary theme variables, adapting automatically between dark and light modes.
 - noBorder only removes the default border. There are no dedicated border-color or background props; use className for additional styling.
 
 ## Live Demo

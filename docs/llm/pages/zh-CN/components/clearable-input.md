@@ -8,7 +8,7 @@
 
 # 可清空输入框
 
-Clearable Input
+clearable-input
 
 带内联 Esc 键帽、支持按 Escape 清除内容的输入框。
 

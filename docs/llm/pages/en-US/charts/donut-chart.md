@@ -8,7 +8,7 @@ Renders a part-to-whole donut (or pie) with an optional center metric.
 
 # Donut Chart
 
-Tremor Raw
+donut-chart
 
 Renders a part-to-whole donut (or pie) with an optional center metric.
 

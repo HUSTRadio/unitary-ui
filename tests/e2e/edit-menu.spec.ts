@@ -30,8 +30,8 @@ test.use({ actionTimeout: 5_000 });
 async function openDemo(page: Page, theme: "light" | "dark" = "light") {
   await page.addInitScript(
     (preference: string) => {
-      window.localStorage.setItem("geist-docs-language", "en-US");
-      window.localStorage.setItem("geist-theme-preference", preference);
+      window.localStorage.setItem("unitary-docs-language", "en-US");
+      window.localStorage.setItem("unitary-theme-preference", preference);
     },
     theme,
   );

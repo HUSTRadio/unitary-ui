@@ -8,7 +8,7 @@ Allows users to select one or more items from a group.
 
 # Checkbox
 
-Checkbox
+checkbox
 
 Allows users to select one or more items from a group.
 

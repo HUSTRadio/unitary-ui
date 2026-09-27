@@ -8,7 +8,7 @@
 
 # 右键菜单
 
-Context Menu
+context-menu
 
 通过右键点击或长按显示上下文操作菜单。
 

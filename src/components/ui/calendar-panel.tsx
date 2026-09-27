@@ -327,7 +327,7 @@ export function CalendarPanel({
                 </label>
               </div>
               <div className="flex gap-2">
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-uni-input-wrapper="">
                   <input
                     aria-label={t("Start date")}
                     placeholder={datePattern}
@@ -341,7 +341,7 @@ export function CalendarPanel({
                       inputErrors["start-date"] &&
                         "!shadow-[0_0_0_1px_var(--danger),0_0_0_4px_color-mix(in_srgb,var(--danger)_20%,transparent)]",
                     )}
-                    data-geist-input=""
+                    data-uni-input=""
                     spellCheck="false"
                     type="text"
                     value={getDateInput("start")}
@@ -352,7 +352,7 @@ export function CalendarPanel({
                     }}
                   />
                 </div>
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-uni-input-wrapper="">
                   <input
                     aria-label={t("Start time")}
                     placeholder={clockPattern}
@@ -364,7 +364,7 @@ export function CalendarPanel({
                       inputErrors["start-time"] &&
                         "!shadow-[0_0_0_1px_var(--danger),0_0_0_4px_color-mix(in_srgb,var(--danger)_20%,transparent)]",
                     )}
-                    data-geist-input=""
+                    data-uni-input=""
                     spellCheck="false"
                     type="text"
                     value={getTimeInput("start")}
@@ -384,7 +384,7 @@ export function CalendarPanel({
                 </label>
               </div>
               <div className="flex gap-2">
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-geist-input-wrapper="">
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-full")} data-uni-input-wrapper="">
                   <input
                     aria-label={t("End date")}
                     placeholder={datePattern}
@@ -396,7 +396,7 @@ export function CalendarPanel({
                       inputErrors["end-date"] &&
                         "!shadow-[0_0_0_1px_var(--danger),0_0_0_4px_color-mix(in_srgb,var(--danger)_20%,transparent)]",
                     )}
-                    data-geist-input=""
+                    data-uni-input=""
                     spellCheck="false"
                     type="text"
                     value={getDateInput("end")}
@@ -407,7 +407,7 @@ export function CalendarPanel({
                     }}
                   />
                 </div>
-                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-geist-input-wrapper="">
+                <div className={cn(DATE_INPUT_WRAP_CLASS, "w-36")} data-uni-input-wrapper="">
                   <input
                     aria-label={t("End time")}
                     placeholder={clockPattern}
@@ -419,7 +419,7 @@ export function CalendarPanel({
                       inputErrors["end-time"] &&
                         "!shadow-[0_0_0_1px_var(--danger),0_0_0_4px_color-mix(in_srgb,var(--danger)_20%,transparent)]",
                     )}
-                    data-geist-input=""
+                    data-uni-input=""
                     spellCheck="false"
                     type="text"
                     value={getTimeInput("end")}

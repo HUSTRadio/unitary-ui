@@ -8,7 +8,7 @@
 
 # 步骤指示点
 
-StepPoint
+step-point
 
 标记多步骤流程中的进度。
 

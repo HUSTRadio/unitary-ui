@@ -8,7 +8,7 @@ Displays a list of actions in a floating menu.
 
 # Menu
 
-Menu
+menu
 
 Displays a list of actions in a floating menu.
 
@@ -75,7 +75,7 @@ export function MenuDefault21B111CBExample() {
         <MenuItem onClick={() => undefined}>One</MenuItem>
         <MenuItem onClick={() => undefined}>Two</MenuItem>
         <MenuItem onClick={() => undefined}>Three</MenuItem>
-        <MenuItem href="https://vercel.com">Test for Link</MenuItem>
+        <MenuItem href="https://example.com">Test for Link</MenuItem>
         <MenuItem onClick={() => undefined} type="error">
           Delete
         </MenuItem>
@@ -100,7 +100,7 @@ export function MenuWithChevron2CC766B6Example() {
         <MenuItem onClick={() => undefined}>One</MenuItem>
         <MenuItem onClick={() => undefined}>Two</MenuItem>
         <MenuItem onClick={() => undefined}>Three</MenuItem>
-        <MenuItem href="https://vercel.com">Test for Link</MenuItem>
+        <MenuItem href="https://example.com">Test for Link</MenuItem>
         <MenuItem onClick={() => undefined} type="error">
           Delete
         </MenuItem>

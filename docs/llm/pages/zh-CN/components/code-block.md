@@ -8,14 +8,14 @@
 
 # 代码块
 
-Code Block
+code-block
 
 带文件名标题和边框的多行代码块。
 
 ## 何时使用
 
 - 展示多行、需要语法着色的源代码，读者可能需要逐行扫描或复制粘贴。
-- 当代码示例有明确的粘贴目的地时（如 app/page.tsx、vercel.json），利用文件名头增强上下文清晰度。
+- 当代码示例有明确的粘贴目的地时（如 src/App.tsx、vite.config.ts），利用文件名头增强上下文清晰度。
 
 ## 何时不应使用
 
@@ -547,5 +547,5 @@ import { CodeBlock, CodeBlockHeader, CodeBlockContent } from "@/components/ui/co
 - 可复制的 shell 命令或单行密钥揭示用 Snippet；它自带提示符符号与复制功能。
 - 始终传入 language/syntax（tsx、bash、json、diff）。高亮是选择 CodeBlock 而非裸 pre 的首要原因。
 - 只高亮讨论中的行；每行都高亮的效果等同没有高亮。
-- 片段有粘贴目的地（app/page.tsx、vercel.json）时显示文件名标题；临时示例省略它。
+- 片段有粘贴目的地（src/App.tsx、vite.config.ts）时显示文件名标题；临时示例省略它。
 - 片段保持可运行。不要把真实代码改写成伪语法，也不要给 shell 命令加 $ 前缀。

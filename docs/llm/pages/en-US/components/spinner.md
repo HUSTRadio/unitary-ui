@@ -8,7 +8,7 @@ Indicates an in-progress operation.
 
 # Spinner
 
-Spinner
+spinner
 
 Indicates an in-progress operation.
 

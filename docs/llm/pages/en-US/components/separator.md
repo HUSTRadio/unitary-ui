@@ -8,7 +8,7 @@ Divides content into visually distinct groups.
 
 # Separator
 
-Separator
+separator
 
 Divides content into visually distinct groups.
 

@@ -8,7 +8,7 @@
 
 # 面积图
 
-Tremor Raw
+area-chart
 
 渲染分层面积趋势，支持堆叠与百分比变体。
 

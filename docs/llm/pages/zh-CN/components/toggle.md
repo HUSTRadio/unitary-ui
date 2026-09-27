@@ -8,7 +8,7 @@
 
 # 开关
 
-Toggle
+toggle
 
 用于单个布尔设置的开关。
 
@@ -291,6 +291,6 @@ import { Toggle } from "@/components/ui/toggle";
 - 仅当动作确实不可能时（缺套餐、策略锁定）禁用 Toggle；配说明解决方式的辅助文本或 Tooltip。
 - 标签是 children 而非 label prop。首字母大写名词短语、1–4 个词，命名 ON 时成立的状态：Password Protection，而非 Enable Password Protection。
 - 在标签下渲染可选的一句说明，只解释 ON。不要描述 OFF；它是否定。
-- 通过 children、aria-label 或 aria-labelledby 提供可访问名称。三者都缺失时 Geist 在开发模式警告。
+- 通过 children、aria-label 或 aria-labelledby 提供可访问名称。三者都缺失时 Unitary 在开发模式警告。
 - 保持 labelCasing="title"（默认值），让标签与其他首字母大写表面一致。
 - 仅当可见标签位于行上别处时才设 aria-label；否则让 children 承载它，让视觉与读屏文案保持一致。

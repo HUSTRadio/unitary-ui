@@ -8,7 +8,7 @@ A search field with a standard leading icon.
 
 # Search Input
 
-Search Input
+search-input
 
 A search field with a standard leading icon.
 

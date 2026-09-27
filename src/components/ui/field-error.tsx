@@ -45,7 +45,7 @@ function FieldError({ id, large, className, children }: FieldErrorProps) {
       role="alert"
       aria-atomic="true"
       data-slot="field-error"
-      data-geist-error=""
+      data-uni-error=""
       className={cn(
         "mt-1 flex items-start text-copy-13 leading-5 text-error-foreground",
         large && "text-base leading-6",

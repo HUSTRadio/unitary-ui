@@ -23,7 +23,12 @@ import {
 export type ThemePreference = "light" | "dark" | "system";
 export type ResolvedTheme = "light" | "dark";
 
-const STORAGE_KEY = "geist-theme-preference";
+const STORAGE_KEY = "unitary-theme-preference";
+/**
+ * 迁移前沿用的键名（Geist 命名）。只用于回退读取：命中后写入新键并清理旧键，
+ * 保证老用户已保存的偏好不丢失，也让 HTML 首帧脚本与运行时保持一致。
+ */
+const LEGACY_STORAGE_KEY = "geist-theme-preference";
 const DARK_QUERY = "(prefers-color-scheme: dark)";
 
 interface ThemeContextValue {
@@ -44,7 +49,14 @@ export function readStoredPreference(): ThemePreference {
   if (typeof window === "undefined") return "system";
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    return isThemePreference(stored) ? stored : "system";
+    if (isThemePreference(stored)) return stored;
+    const legacy = window.localStorage.getItem(LEGACY_STORAGE_KEY);
+    if (isThemePreference(legacy)) {
+      window.localStorage.setItem(STORAGE_KEY, legacy);
+      window.localStorage.removeItem(LEGACY_STORAGE_KEY);
+      return legacy;
+    }
+    return "system";
   } catch {
     return "system";
   }

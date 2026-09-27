@@ -8,7 +8,7 @@
 
 # 面包屑
 
-Breadcrumbs
+breadcrumbs
 
 显示用户在网站层级中当前位置的导航辅助。
 

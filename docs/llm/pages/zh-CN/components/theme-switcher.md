@@ -8,7 +8,7 @@
 
 # 主题切换器
 
-Theme Switcher
+theme-switcher
 
 在浅色、深色和系统主题之间切换。
 

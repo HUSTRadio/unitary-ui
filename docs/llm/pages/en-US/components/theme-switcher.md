@@ -8,7 +8,7 @@ Switches between light, dark, and system themes.
 
 # Theme Switcher
 
-Theme Switcher
+theme-switcher
 
 Switches between light, dark, and system themes.
 

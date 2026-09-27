@@ -89,7 +89,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
         style={layoutRootStyle(layout)}
         className={cn(
           "w-full max-w-full",
-          "[&_[data-geist-input-wrapper]]:text-label-14 [&_[data-geist-input-wrapper]]:transition-all [&_[data-geist-input-wrapper]]:[animation-duration:150ms]",
+          "[&_[data-uni-input-wrapper]]:text-label-14 [&_[data-uni-input-wrapper]]:transition-all [&_[data-uni-input-wrapper]]:[animation-duration:150ms]",
           "[&:has(input:disabled)_[data-slot=input-prefix]]:!bg-gray-100 [&:has(input:disabled)_[data-slot=input-suffix]]:!bg-gray-100",
           "[&:has(input:disabled)_input::placeholder]:!text-gray-500",
           className,

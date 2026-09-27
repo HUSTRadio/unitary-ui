@@ -12,7 +12,7 @@ async function openActivityView(page: Page, width = 390) {
 
 for (const theme of ["light", "dark"] as const) {
   test(`overflow hints follow target scrolling (${theme})`, async ({ page }) => {
-    await page.addInitScript((value) => localStorage.setItem("geist-theme-preference", value), theme);
+    await page.addInitScript((value) => localStorage.setItem("unitary-theme-preference", value), theme);
     const row = await openActivityView(page);
     const start = page.locator('[data-slot="activity-view-scroll-start"]');
     const end = page.locator('[data-slot="activity-view-scroll-end"]');
@@ -33,7 +33,7 @@ for (const theme of ["light", "dark"] as const) {
   });
 
   test(`keyboard reaches the clipped target and resize updates hints (${theme})`, async ({ page }) => {
-    await page.addInitScript((value) => localStorage.setItem("geist-theme-preference", value), theme);
+    await page.addInitScript((value) => localStorage.setItem("unitary-theme-preference", value), theme);
     const row = await openActivityView(page);
     const first = row.getByRole("button", { name: "Copy" });
     await first.focus();

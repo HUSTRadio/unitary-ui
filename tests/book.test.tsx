@@ -38,7 +38,7 @@ describe("Book", () => {
         illustration={<span data-testid="illustration" />}
         textColor="white"
         textured
-        title="Design Engineering at Vercel"
+        title="Design Engineering at Unitary"
         variant="simple"
       />,
     );

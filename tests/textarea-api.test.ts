@@ -70,14 +70,14 @@ describe("Textarea official API contract (G12 audit fixes)", () => {
     expect(src).toMatch(/h-auto/);
   });
 
-  test("error wiring: aria-invalid + aria-describedby, role=alert, data-geist-error", async () => {
+  test("error wiring: aria-invalid + aria-describedby, role=alert, data-uni-error", async () => {
     const src = await read("src/components/ui/textarea.tsx");
     expect(src).toMatch(/aria-invalid=\{error \? true : undefined\}/);
     // describedby joins the error id with any caller-provided value via the shared helper
     expect(src).toMatch(/joinDescribedBy\(errorId, props\["aria-describedby"\]\)/);
     const shared = await read("src/components/ui/field-error.tsx");
     expect(shared).toMatch(/role="alert"/);
-    expect(shared).toMatch(/data-geist-error=""/);
+    expect(shared).toMatch(/data-uni-error=""/);
   });
 
   test("exports Textarea with displayName", async () => {

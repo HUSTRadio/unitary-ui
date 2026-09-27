@@ -23,7 +23,6 @@ describe("Tooltip official single-track API contract", () => {
       "tip",
       "center",
       "type",
-      "disableTriggers",
       "className",
     ]) {
       expect(src).toMatch(new RegExp(`${prop}\\??:`));

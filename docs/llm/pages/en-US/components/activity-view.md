@@ -8,7 +8,7 @@ A bottom share sheet with a grid of share targets and a list of actions.
 
 # Activity View
 
-Activity View
+activity-view
 
 A bottom share sheet with a grid of share targets and a list of actions.
 

@@ -8,7 +8,7 @@ Represents a user or a team with an image or fallback.
 
 # Avatar
 
-Avatar
+avatar
 
 Represents a user or a team with an image or fallback.
 

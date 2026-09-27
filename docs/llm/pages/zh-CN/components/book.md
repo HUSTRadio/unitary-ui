@@ -8,7 +8,7 @@
 
 # 手册
 
-Book
+book
 
 响应式书籍封面组件。
 
@@ -91,9 +91,9 @@ export function BookVariants63D2643BExample() {
 
 ## 自定义颜色
 
-How Vercel improves your website's search engine ranking
+How Unitary improves your website's search engine ranking
 
-Design Engineering at Vercel
+Design Engineering at Unitary
 
 The user experience of the Frontend Cloud
 
@@ -103,11 +103,11 @@ import { Book } from "@/components/ui/book";
 export function BookCustomColorA5F69A18Example() {
   return (
     <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
-      <Book color="#9D2127" title="How Vercel improves your website's search engine ranking" />
+      <Book color="#9D2127" title="How Unitary improves your website's search engine ranking" />
       <Book
         color="#7DC1C1"
         textColor="white"
-        title="Design Engineering at Vercel"
+        title="Design Engineering at Unitary"
         variant="simple"
       />
       <Book color="#FED954" title="The user experience of the Frontend Cloud" />
@@ -118,7 +118,7 @@ export function BookCustomColorA5F69A18Example() {
 
 ## 自定义图标
 
-Vercel Platform Guide
+Unitary Platform Guide
 
 Next.js Documentation
 
@@ -131,7 +131,7 @@ import { ArrowRight, Atom, Triangle } from "lucide-react";
 export function BookCustomIconEE5755A2Example() {
   return (
     <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
-      <Book icon={<Triangle className="size-4" aria-hidden />} title="Vercel Platform Guide" />
+      <Book icon={<Triangle className="size-4" aria-hidden />} title="Unitary Platform Guide" />
       <Book icon={<ArrowRight className="size-4" aria-hidden />} title="Next.js Documentation" />
       <Book icon={<Atom className="size-4" aria-hidden />} title="React Essentials" />
     </div>
@@ -202,17 +202,17 @@ export function BookWidth3019947BExample() {
 
 ## 纹理封面
 
-Design Engineering at Vercel
+Design Engineering at Unitary
 
-Design Engineering at Vercel
+Design Engineering at Unitary
 
-Design Engineering at Vercel
+Design Engineering at Unitary
 
-Design Engineering at Vercel
+Design Engineering at Unitary
 
-Design Engineering at Vercel
+Design Engineering at Unitary
 
-Design Engineering at Vercel
+Design Engineering at Unitary
 
 ```tsx
 import { Book } from "@/components/ui/book";
@@ -221,30 +221,30 @@ export function BookTexturedB29877FBExample() {
   return (
     <div className="flex flex-col items-stretch justify-start gap-12 flex-initial">
       <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
-        <Book color="#7DC1C1" textured title="Design Engineering at Vercel" />
-        <Book color="#9D2127" textured title="Design Engineering at Vercel" />
-        <Book color="#FED954" textured title="Design Engineering at Vercel" />
+        <Book color="#7DC1C1" textured title="Design Engineering at Unitary" />
+        <Book color="#9D2127" textured title="Design Engineering at Unitary" />
+        <Book color="#FED954" textured title="Design Engineering at Unitary" />
       </div>
       <div className="flex flex-row items-baseline justify-start gap-8 flex-initial">
         <Book
           color="#7DC1C1"
           textColor="white"
           textured
-          title="Design Engineering at Vercel"
+          title="Design Engineering at Unitary"
           variant="simple"
         />
         <Book
           color="#9D2127"
           textColor="#ece4db"
           textured
-          title="Design Engineering at Vercel"
+          title="Design Engineering at Unitary"
           variant="simple"
         />
         <Book
           color="#FED954"
           textColor="#9d3b05"
           textured
-          title="Design Engineering at Vercel"
+          title="Design Engineering at Unitary"
           variant="simple"
         />
       </div>

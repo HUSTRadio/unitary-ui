@@ -8,7 +8,7 @@ Frames screenshots inside realistic phone and tablet shells.
 
 # Device
 
-Phone
+device
 
 Frames screenshots inside realistic phone and tablet shells.
 
@@ -21,7 +21,6 @@ Frames screenshots inside realistic phone and tablet shells.
 
 - Don't render live product UI inside the frame; device chrome implies a captured surface, not an interactive one.
 - Use Browser instead when the goal is to demonstrate responsive web pages.
-- Don't use the deprecated Phone alias in new code; it only supports migration of existing iPhone 17 call sites.
 
 ## Examples
 
@@ -60,7 +59,7 @@ Not applicable: Device is presentational. Its model, color, chrome options, and 
 
 08:00
 
-![Vercel dashboard on iPhone](/dashboard.png)
+![Unitary dashboard on iPhone](/dashboard.png)
 
 ```tsx
 import { Device, DeviceScreen } from "@/components/ui/device";
@@ -73,7 +72,7 @@ export function DeviceComposition47FCA483Example() {
           {/* 截图/录屏承担可访问名称 */}
           <img
             src="/dashboard.png"
-            alt="Vercel dashboard on iPhone"
+            alt="Unitary dashboard on iPhone"
             className="h-full w-full object-cover"
           />
         </DeviceScreen>
@@ -152,7 +151,7 @@ export function DeviceStatusBar3EF6E901Example() {
 
 08:00
 
-vercel.com/geist↻
+example.com↻
 
 ![Website shown in the Safari mockup](/page.png)
 
@@ -161,7 +160,7 @@ import { Device, DeviceScreen } from "@/components/ui/device";
 
 export function DeviceSafariChrome0140AFFBExample() {
   return (
-    <Device model="iphone-17" safari={{ layout: "compact", url: "vercel.com/geist" }}>
+    <Device model="iphone-17" safari={{ layout: "compact", url: "example.com" }}>
       <DeviceScreen>
         <img
           src="/page.png"
@@ -238,19 +237,17 @@ This page lists the stable public surface. Refer to the underlying element type 
 Import
 
 ```tsx
-import { Device, DeviceScreen, Phone, PhoneScreen } from "@/components/ui/device";
+import { Device, DeviceScreen } from "@/components/ui/device";
 ```
 
 ### Props & callbacks
 
 <table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">Name</th><th class="px-3 py-2 font-medium">Type</th><th class="px-3 py-2 font-medium">Description</th><th class="px-3 py-2 font-medium">Default</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">model</code><span class="ml-1 text-destructive">*</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">DeviceModelId</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Registered device model.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">color</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">DeviceColor&lt;M&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Body color supported by the selected model.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">landscape</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Rotates devices that support landscape.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">dynamicIsland</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ChromeGate&lt;M, "notch", boolean&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Shows the notch treatment on supported models.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">statusBar</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ChromeGate&lt;M, "status-bar", boolean | PhoneStatusBarOptions&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Shows or configures the decorative status bar on supported models.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">true</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">safari</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ChromeGate&lt;M, "safari", boolean | PhoneSafariOptions&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Shows or configures decorative Safari chrome on supported models.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">autoFit</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Shrinks the frame to fit narrow containers without enlarging it.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">true</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">zoom</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">number</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Explicit scale that takes precedence over autoFit.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">animated</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Enables the short frame transform transition unless reduced motion is requested.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">frameClassName</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Class name forwarded to the MockFrame root.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">children</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">Screen content, normally wrapped in DeviceScreen.</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
-Phone remains a deprecated iPhone 17 alias for migration; new code should use Device with an explicit model.
-
 ## Best Practices
 
 - Use Device as marketing chrome around phone or tablet screenshots, recordings, and demo images on landing pages and docs.
-- Choose a registered model explicitly; use the deprecated Phone alias only while migrating existing iPhone 17 call sites.
+- Choose a registered model explicitly; pass the model id that matches the screenshot's device.
 - Don't render live product UI inside the frame; the chrome implies a captured screen, not an interactive surface.
 - Treat the device chrome as decorative; accessible naming belongs on the inner screenshot or recording.
 - Use statusBar, safari, and dynamicIsland only with models whose chrome capability supports them.

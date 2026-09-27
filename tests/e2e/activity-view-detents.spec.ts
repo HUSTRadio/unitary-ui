@@ -2,7 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 
 async function openActivityView(page: Page, theme: "light" | "dark") {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.addInitScript((value) => localStorage.setItem("geist-theme-preference", value), theme);
+  await page.addInitScript((value) => localStorage.setItem("unitary-theme-preference", value), theme);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/#/components/activity-view");
   await page.locator('[data-demo-card="default"]').getByRole("button", { name: "Share", exact: true }).click();
@@ -21,6 +21,22 @@ async function expectHeight(sheet: ReturnType<Page["locator"]>, expected: number
 for (const theme of ["light", "dark"] as const) {
   test(`share sheet expands and its long action list remains usable (${theme})`, async ({ page }) => {
     const { sheet, grabber } = await openActivityView(page, theme);
+    const alignment = await sheet.evaluate((element) => {
+      const sheetBox = element.getBoundingClientRect();
+      const grabber = element.querySelector('[data-slot="grabber"]')!;
+      const buttonBox = grabber.getBoundingClientRect();
+      const barBox = grabber.querySelector("span")!.getBoundingClientRect();
+      return {
+        sheetCenter: sheetBox.x + sheetBox.width / 2,
+        buttonCenter: buttonBox.x + buttonBox.width / 2,
+        barCenter: barBox.x + barBox.width / 2,
+        buttonWidth: buttonBox.width,
+        sheetWidth: sheetBox.width,
+      };
+    });
+    expect(Math.abs(alignment.barCenter - alignment.sheetCenter)).toBeLessThanOrEqual(0.5);
+    expect(Math.abs(alignment.buttonCenter - alignment.sheetCenter)).toBeLessThanOrEqual(0.5);
+    expect(alignment.buttonWidth).toBeCloseTo(alignment.sheetWidth, 0);
     await expect(grabber).toHaveAttribute("aria-valuenow", "0");
     await expectHeight(sheet, 844 * 0.6);
     const content = sheet.locator("div.overflow-y-auto");

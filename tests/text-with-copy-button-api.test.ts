@@ -49,12 +49,12 @@ describe("TextWithCopyButton official API contract (G11-RETRY audit fixes)", () 
 
   test("G11-TWCB-04: showTooltip (default false) + as/style passthrough props", async () => {
     const src = await read("src/components/ui/text-with-copy-button.tsx");
-    // showTooltip prop, default false, drives Tooltip disableTriggers
+    // showTooltip prop, default false；为 true 时按钮外包 Tooltip(text=textToCopy)，
+    // 为 false 时直接返回 button（不再依赖 Tooltip.disableTriggers 兼容开关）
     expect(src).toMatch(/showTooltip\??:/);
     expect(src).toMatch(/showTooltip = false/);
-    expect(src).toMatch(/disableTriggers=\{!showTooltip\}/);
-    expect(src).toMatch(/<Tooltip/);
-    expect(src).toMatch(/text=\{textToCopy\}/);
+    expect(src).toMatch(/if \(!showTooltip\) return button;/);
+    expect(src).toMatch(/<Tooltip text=\{textToCopy\}>\{button\}<\/Tooltip>/);
     // as prop: text element tag, default "p"
     expect(src).toMatch(/as\?: React\.ElementType/);
     expect(src).toMatch(/as: Tag = "p"/);

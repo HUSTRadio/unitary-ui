@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
 import { Radio, RadioGroup, RadioGroupItem, useRadio } from "../src/components/ui/radio";
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(repoRoot, relativePath), "utf8");
@@ -47,7 +47,7 @@ afterEach(() => {
 
 describe("Radio live official contract", () => {
   test("inventory and docs cover all five live demos", async () => {
-    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
+    const docs = await read("docs/site/src/components/docs-components-page.tsx");
     const manifest = JSON.parse(await read("tests/audit/geist-audit-manifest.json"));
     const entry = manifest.components.find((item: { slug: string }) => item.slug === "radio");
     const expected = [

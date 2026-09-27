@@ -8,7 +8,7 @@ Clips a measured surface with independently derived continuous corners and a cir
 
 # Continuous Surface
 
-Continuous Surface
+continuous-surface
 
 Clips a measured surface with independently derived continuous corners and a circular fallback.
 

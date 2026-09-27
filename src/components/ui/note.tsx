@@ -116,7 +116,7 @@ function Note({
       inert={disabled ? true : undefined}
       className={cn(
         "gap-3 rounded-lg relative box-border flex w-full flex-wrap items-center border break-words",
-        "[&_a:not([data-geist-button])]:font-medium [&_a:not([data-geist-button])]:underline-offset-2 [&_a:not([data-geist-button]):hover]:underline",
+        "[&_a:not([data-uni-button])]:font-medium [&_a:not([data-uni-button])]:underline-offset-2 [&_a:not([data-uni-button]):hover]:underline",
         NOTE_VARIANT_STYLES[variant],
         fill && NOTE_FILL_STYLES[variant],
         NOTE_SIZE_STYLES[size],

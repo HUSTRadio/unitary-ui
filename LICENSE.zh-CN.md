@@ -13,7 +13,7 @@
 
 ## 适用范围
 
-- 本许可证覆盖本仓库的自有代码（`src/`、`docs/geist/`、脚本等）。
+- 本许可证覆盖本仓库的自有代码（`src/`、`docs/site/`、脚本等）。
 - **第三方资产不适用本许可证**：字体（JetBrains Maple Mono / OPPO Sans / HarmonyOS Sans）与第三方代码（react-mockframe 等）各有其许可条款，详见 [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) 与 [`CREDITS.md`](./CREDITS.md)。
 
 ## 原文

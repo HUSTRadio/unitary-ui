@@ -8,7 +8,7 @@ Displays a runnable shell command or short code the user is meant to copy.
 
 # Snippet
 
-Snippet
+snippet
 
 Displays a runnable shell command or short code the user is meant to copy.
 
@@ -168,10 +168,10 @@ import { Snippet } from "@/components/ui/snippet";
 import type { JSX } from "react";
 
 const COPY_TEXT = `# About
-Template for a full-featured Next.js AI chatbot
+Unitary UI — a React component library built on the Vercel Geist design language
 
 # Requirements
-This template uses the Vercel AI Gateway to access multiple AI models through a unified interface. The default model is OpenAI GPT-4.1 Mini, with support for Anthropic, Google, and xAI models.`;
+Install the package, import the stylesheet, and keep components on the semantic token layer so light and dark themes stay consistent across the library.`;
 
 export function SnippetControlledCopiedStateB953E7D9Example(): JSX.Element {
   const [copied, setCopied] = useState(false);

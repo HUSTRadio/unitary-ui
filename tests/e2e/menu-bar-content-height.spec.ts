@@ -29,8 +29,8 @@ test.setTimeout(3 * 60_000);
 
 async function openMenuBarDemo(page: Page) {
   await page.addInitScript(() => {
-    window.localStorage.setItem("geist-docs-language", "en-US");
-    window.localStorage.setItem("geist-theme-preference", "light");
+    window.localStorage.setItem("unitary-docs-language", "en-US");
+    window.localStorage.setItem("unitary-theme-preference", "light");
   });
   await page.goto("/#/components/menu-bar");
   await page.waitForSelector('[data-slot="navbar"]');

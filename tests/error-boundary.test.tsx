@@ -31,7 +31,7 @@ function mount(element: React.ReactElement) {
 }
 
 /** 抛错组件 */
-function Boom({ message }: { message: string }) {
+function Boom({ message }: { message: string }): React.ReactElement {
   throw new Error(message);
 }
 
@@ -83,7 +83,7 @@ describe("ErrorBoundary (工程审查 P1: 双层边界)", () => {
     function PageA() {
       return <div data-testid="a">page-a</div>;
     }
-    function PageB() {
+    function PageB(): React.ReactElement {
       throw new Error("page-b boom");
     }
     const c = mount(

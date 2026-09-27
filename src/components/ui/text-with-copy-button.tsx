@@ -127,14 +127,12 @@ function TextWithCopyButton({
     </button>
   );
 
-  // 官方：textToCopy 为空时渲染 null；showTooltip 为 false 时 Tooltip disableTriggers（仅透传 children）
+  // 官方：textToCopy 为空时渲染 null；showTooltip 为 false 时不渲染 Tooltip（仅透传 button）
   if (!textToCopy) return null;
 
-  return (
-    <Tooltip disableTriggers={!showTooltip} text={textToCopy}>
-      {button}
-    </Tooltip>
-  );
+  if (!showTooltip) return button;
+
+  return <Tooltip text={textToCopy}>{button}</Tooltip>;
 }
 
 export { TextWithCopyButton };

@@ -8,7 +8,7 @@
 
 # 折线图
 
-Tremor Raw
+line-chart
 
 渲染连续折线趋势，支持可选坐标轴标题。
 

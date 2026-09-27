@@ -78,12 +78,12 @@
 ## 六、文档注册链与验证命令（每个新组件都要走）
 
 ### 文档链
-1. `docs/geist/src/data/components.ts` — 组件注册 `{ name, label, labelZh, description, official, bestPractices[] }`（第 255 行 context-menu、330 行 dots-menu、1113 行 split-button 为格式参考）。
-2. `docs/geist/src/data/component-api.ts` — API 表。
-3. `docs/geist/src/data/docs-routes.ts` — 路由/侧栏（NAV_GROUPS 由其投影）。
-4. `docs/geist/src/content/component-guides/` — guides-01..18.ts 双语指南 + index.ts。
-5. `docs/geist/src/examples/<name>/` — 演示目录 + `examples/registry.ts`。
-6. `docs/geist/src/components/patterns/app-shell-demo.tsx` — patterns 先例（MenuBar/Toolbar 组合演示候选落点）。
+1. `docs/site/src/data/components.ts` — 组件注册 `{ name, label, labelZh, description, official, bestPractices[] }`（第 255 行 context-menu、330 行 dots-menu、1113 行 split-button 为格式参考）。
+2. `docs/site/src/data/component-api.ts` — API 表。
+3. `docs/site/src/data/docs-routes.ts` — 路由/侧栏（NAV_GROUPS 由其投影）。
+4. `docs/site/src/content/component-guides/` — guides-01..18.ts 双语指南 + index.ts。
+5. `docs/site/src/examples/<name>/` — 演示目录 + `examples/registry.ts`。
+6. `docs/site/src/components/patterns/app-shell-demo.tsx` — patterns 先例（MenuBar/Toolbar 组合演示候选落点）。
 7. `tests/` — vitest 回归测试。
 
 ### 验证命令
@@ -286,7 +286,7 @@ interface ActivityViewProps {
 
 **定位**：分两层——(a) 文档站新增顶层分组"排版与布局"（Layout & Organization），与"组件"分组同级，把现有 Typography（排版）、Grid（网格）两个 foundations 静态页迁入；(b) 新增布局原语组件（SafeArea/Stack），组件页也挂在该分组下。
 
-**导航重组**（`docs/geist/src/data/docs-routes.ts`）：
+**导航重组**（`docs/site/src/data/docs-routes.ts`）：
 - `DocsGroupId` 联合类型加 `"layout"`。
 - `DOCS_GROUPS`（41-45 行）插入 `{ id: "layout", title: "Layout & Organization", titleZh: "排版与布局" }`——置于 "components" 之后或之前（执行时按侧栏信息架构习惯定，倾向 foundations → layout → components → patterns 或 components 前）。
 - Typography（73-79 行）、Grid（88-95 行）两条路由 `group` 从 `"foundations"` 改为 `"layout"`（to/renderer 不变，静态页内容不动）。

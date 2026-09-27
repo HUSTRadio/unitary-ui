@@ -28,7 +28,7 @@ function renderInput(props: React.ComponentProps<typeof ClearableInput>) {
   return {
     container,
     input: container.querySelector("input")!,
-    wrapper: container.querySelector<HTMLElement>("[data-geist-input-wrapper]")!,
+    wrapper: container.querySelector<HTMLElement>("[data-uni-input-wrapper]")!,
   };
 }
 
@@ -58,8 +58,8 @@ describe("ClearableInput official runtime contract", () => {
     const { input, wrapper } = renderInput({ "aria-label": "Search" });
 
     expect(wrapper.getAttribute("data-version")).toBe("v1");
-    expect(wrapper.hasAttribute("data-geist-input-wrapper")).toBe(true);
-    expect(input.hasAttribute("data-geist-input")).toBe(true);
+    expect(wrapper.hasAttribute("data-uni-input-wrapper")).toBe(true);
+    expect(input.hasAttribute("data-uni-input")).toBe(true);
     expect(input.getAttribute("spellcheck")).toBe("false");
     expect(input.autocomplete).toBe("off");
     expect(input.getAttribute("autocapitalize")).toBe("none");
@@ -84,7 +84,7 @@ describe("ClearableInput official runtime contract", () => {
 
   test("empty value has no suffix unless cmdk is enabled", () => {
     const plain = renderInput({ "aria-label": "Plain", value: "", onChange: () => {} });
-    expect(plain.container.querySelector("[data-geist-input-suffix]")).toBeNull();
+    expect(plain.container.querySelector("[data-uni-input-suffix]")).toBeNull();
 
     const command = renderInput({
       "aria-label": "Command",
@@ -92,7 +92,7 @@ describe("ClearableInput official runtime contract", () => {
       value: "",
       onChange: () => {},
     });
-    const suffix = command.container.querySelector<HTMLElement>("[data-geist-input-suffix]")!;
+    const suffix = command.container.querySelector<HTMLElement>("[data-uni-input-suffix]")!;
     expect(suffix.getAttribute("aria-hidden")).toBe("true");
     expect(suffix.textContent).toContain("Esc");
     expect(suffix.textContent).toContain("⌘K");
@@ -101,8 +101,8 @@ describe("ClearableInput official runtime contract", () => {
   });
 
   test("a value renders an aria-hidden inline Esc keycap clear segment", () => {
-    const { container, input } = renderInput({ defaultValue: "geist" });
-    const suffix = container.querySelector<HTMLElement>("[data-geist-input-suffix]")!;
+    const { container, input } = renderInput({ defaultValue: "unitary" });
+    const suffix = container.querySelector<HTMLElement>("[data-uni-input-suffix]")!;
     const button = suffix.querySelector("button")!;
     const kbd = button.querySelector("kbd")!;
 
@@ -168,14 +168,14 @@ describe("ClearableInput official runtime contract", () => {
     const { container, input } = renderInput({ "aria-label": "Search" });
     setNativeValue(input, "query");
     expect(input.value).toBe("query");
-    expect(container.querySelector("[data-geist-input-suffix]")).not.toBeNull();
+    expect(container.querySelector("[data-uni-input-suffix]")).not.toBeNull();
   });
 
   test("disabled blocks click and Escape clearing and removes the button from tab order", () => {
     const onClear = vi.fn();
     const { container, input } = renderInput({ defaultValue: "locked", disabled: true, onClear });
     const button = container.querySelector("button")!;
-    const suffix = container.querySelector<HTMLElement>("[data-geist-input-suffix]")!;
+    const suffix = container.querySelector<HTMLElement>("[data-uni-input-suffix]")!;
 
     expect(button.tabIndex).toBe(-1);
     expect(suffix.className).toContain("bg-[var(--uni-gray-100)]");

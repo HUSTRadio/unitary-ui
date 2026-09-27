@@ -46,7 +46,7 @@ describe("specialized hooks contract", () => {
   });
 
   test("useRadio returns { component } shape with a single key", () => {
-    const result = useRadio({ label: "Radio", value: "a" });
+    const result = useRadio({ value: "a" });
     expect(Object.keys(result)).toEqual(["component"]);
     expect(React.isValidElement(result.component)).toBe(true);
   });

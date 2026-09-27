@@ -41,10 +41,19 @@ type BookColorProperties = React.CSSProperties & {
 
 const DEFAULT_STRIPE_COLOR = "#f5b047";
 
-function VercelMark() {
+/**
+ * 默认封面标志：Unitary 品牌符号，路径与 brand/unitary-mark.svg 保持一致
+ * （字形位于 1024 画布内的 128 偏移框，保留品牌留白比例）。
+ */
+function UnitaryMark() {
   return (
-    <svg aria-hidden="true" data-slot="geist-icon" height="16" viewBox="0 0 16 16" width="16">
-      <path clipRule="evenodd" d="m8 1 8 14H0z" fill="currentColor" fillRule="evenodd" />
+    <svg aria-hidden="true" data-slot="unitary-icon" height="16" viewBox="0 0 1024 1024" width="16">
+      <g transform="translate(128 128)">
+        <path
+          d="M704.13 473.10L704.13 294.90L63.87 0L63.87 216.05L443.93 384.79L63.87 551.95L63.87 768Z"
+          fill="currentColor"
+        />
+      </g>
     </svg>
   );
 }
@@ -153,7 +162,7 @@ const Book = React.forwardRef<HTMLDivElement, BookProps>(
                     {illustration ?? <DefaultBookIllustration />}
                   </div>
                 ) : (
-                  (icon ?? <VercelMark />)
+                  (icon ?? <UnitaryMark />)
                 )}
               </div>
             </div>

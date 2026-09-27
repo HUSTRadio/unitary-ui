@@ -11,8 +11,6 @@ export interface LabelProps extends Omit<
   id: string;
   /** 标签文本。 */
   value: string;
-  /** @deprecated `id` 已始终通过 htmlFor 关联输入控件；该标记仅为兼容旧调用保留。 */
-  withInput?: boolean;
   bypassCasing?: boolean;
 }
 
@@ -23,11 +21,10 @@ export interface LabelProps extends Omit<
  * - 文本规格：13px / 19.5px（text-checkbox-label，继承 body 1.5 行高）、
  *   gray-900（light #4d4d4d）、margin-bottom 8px、默认 capitalize（bypassCasing 跳过）。
  */
-function Label({ className, id, value, withInput, bypassCasing, ...props }: LabelProps) {
+function Label({ className, id, value, bypassCasing, ...props }: LabelProps) {
   return (
     <LabelPrimitive.Root
       data-slot="label"
-      data-with-input={withInput || undefined}
       htmlFor={id}
       {...props}
     >

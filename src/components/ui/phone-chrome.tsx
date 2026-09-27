@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import type { PhoneSafariOptions, PhoneStatusBarOptions } from "./phone";
+import type { PhoneSafariOptions, PhoneStatusBarOptions } from "./device";
 
 /**
  * Phone 状态栏与 Safari 展示层。

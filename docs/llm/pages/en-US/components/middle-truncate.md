@@ -8,7 +8,7 @@ Preserves the beginning and end of long identifiers.
 
 # Middle Truncate
 
-Middle Truncate
+middle-truncate
 
 Preserves the beginning and end of long identifiers.
 

@@ -9,7 +9,7 @@ This directory provides stable Markdown generated from the real documentation pa
 - Machine-readable entry point: [`index.json`](index.json)
 - Chinese pages: `pages/zh-CN/**`
 - English pages: `pages/en-US/**`
-- Canonical routes: `docs/geist/src/data/docs-routes.ts`
+- Canonical routes: `docs/site/src/data/docs-routes.ts`
 - Canonical component source: `src/components/ui/**`
 - Versioned LLM task packages and prompt paths: [`../../.agents/README.en.md`](../../.agents/README.en.md)
 

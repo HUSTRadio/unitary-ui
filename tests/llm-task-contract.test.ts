@@ -23,8 +23,8 @@ const expectedFragments = [
   ".agents/tasks/docs-update/prompt.md",
 ];
 
-function readJson(filePath: string): unknown {
-  return JSON.parse(readFileSync(filePath, "utf8"));
+function readJson(filePath: string): Record<string, unknown> {
+  return JSON.parse(readFileSync(filePath, "utf8")) as Record<string, unknown>;
 }
 
 function validate(schemaPath: string, value: unknown): boolean {

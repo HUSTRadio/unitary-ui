@@ -8,7 +8,7 @@
 
 # 组合图
 
-Tremor Raw
+combo-chart
 
 在同一图表中组合柱与折线系列，可选双轴。
 

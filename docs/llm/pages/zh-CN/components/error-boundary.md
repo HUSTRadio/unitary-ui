@@ -8,7 +8,7 @@
 
 # 错误边界
 
-Error Boundary
+error-boundary
 
 隔离 React 渲染失败，并以恢复界面替换出错子树。
 

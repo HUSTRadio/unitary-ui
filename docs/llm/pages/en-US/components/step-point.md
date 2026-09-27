@@ -8,7 +8,7 @@ Marks progress through a multi-step flow.
 
 # Step Point
 
-StepPoint
+step-point
 
 Marks progress through a multi-step flow.
 

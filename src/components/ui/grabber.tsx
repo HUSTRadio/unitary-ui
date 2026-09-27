@@ -8,7 +8,7 @@ import { useI18n } from "@/lib/i18n";
  * - button role="slider" + aria 四件套（valuemin/valuemax/valuenow/orientation 对应垂直高度档位）
  * - ArrowUp/ArrowRight 增一档，ArrowDown/ArrowLeft 减一档，Home/End 跳到两端；边界钳制
  * - 视觉条：mx-auto mt-2 h-1 w-9 rounded-full bg-gray-700 dark:bg-gray-600
- * - 命中区向四周扩展（py-5 px-6 -my-5 -mx-6），点击（无拖动位移）循环切换档位
+ * - 命中区横向覆盖面板、纵向扩展（w-full py-5 px-6 -my-5），点击（无拖动位移）循环切换档位
  * - 拖拽手势（pointer 四连）由 BottomSheet 注入：手势只从这里启动，
  *   面板内容区不受 pointer capture 劫持，内部按钮的 click 正常派发。
  */
@@ -87,11 +87,9 @@ function Grabber({
       onPointerCancel={onPointerCancel}
       onClick={() => onCycleDetent?.()}
       className={cn(
-        // 命中区扩展到视觉条之外：block（width:auto）+ 负 margin 自动拉宽、中心
-        // 不偏移——w-full（显式 width:100%）配 -mx-6 会把整盒左移 24px（width 不
-        // 随负 margin 拉伸），指示条因此偏左，故必须用 width:auto 的拉宽方式。
-        "focus-ring relative block cursor-grab touch-none select-none outline-none active:cursor-grabbing",
-        "py-5 px-6 -my-5 -mx-6",
+        // 命中区横向铺满面板；只用负纵向 margin 扩展触控区域，不移动水平中心。
+        "focus-ring relative block w-full cursor-grab touch-none select-none outline-none active:cursor-grabbing",
+        "py-5 px-6 -my-5",
         className,
       )}
     >

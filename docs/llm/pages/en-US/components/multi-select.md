@@ -8,7 +8,7 @@ A composed menu for selecting multiple externally managed options.
 
 # Multi Select
 
-Multi Select
+multi-select
 
 A composed menu for selecting multiple externally managed options.
 

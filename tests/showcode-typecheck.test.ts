@@ -3,7 +3,7 @@ import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { expect, test } from "vitest";
 
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 import { writeTypecheckFixtures } from "./audit/showcode-audit-lib";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");

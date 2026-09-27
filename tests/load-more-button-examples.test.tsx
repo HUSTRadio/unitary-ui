@@ -4,11 +4,11 @@ import { act, type ComponentType } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { LoadMoreButtonCustomTextCFD55183Example } from "../docs/geist/src/examples/load-more-button/custom-text-cfd55183.example";
-import { LoadMoreButtonDefault21B111CBExample } from "../docs/geist/src/examples/load-more-button/default-21b111cb.example";
-import { LoadMoreButtonLoadingDC380888Example } from "../docs/geist/src/examples/load-more-button/loading-dc380888.example";
-import { LoadMoreButtonNoBorderRadius7DFF5DD3Example } from "../docs/geist/src/examples/load-more-button/no-border-radius-7dff5dd3.example";
-import { LoadMoreButtonNoGap7BF8EBE8Example } from "../docs/geist/src/examples/load-more-button/no-gap-7bf8ebe8.example";
+import { LoadMoreButtonCustomTextCFD55183Example } from "../docs/site/src/examples/load-more-button/custom-text-cfd55183.example";
+import { LoadMoreButtonDefault21B111CBExample } from "../docs/site/src/examples/load-more-button/default-21b111cb.example";
+import { LoadMoreButtonLoadingDC380888Example } from "../docs/site/src/examples/load-more-button/loading-dc380888.example";
+import { LoadMoreButtonNoBorderRadius7DFF5DD3Example } from "../docs/site/src/examples/load-more-button/no-border-radius-7dff5dd3.example";
+import { LoadMoreButtonNoGap7BF8EBE8Example } from "../docs/site/src/examples/load-more-button/no-gap-7bf8ebe8.example";
 
 describe("LoadMoreButton example outcomes", () => {
   let container: HTMLDivElement;

@@ -6,8 +6,8 @@ for (const theme of ["light", "dark"] as const) {
   test(`HamburgerMenu empty and loading states (${theme})`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.addInitScript((preferredTheme) => {
-      localStorage.setItem("geist-docs-language", "en-US");
-      localStorage.setItem("geist-theme-preference", preferredTheme);
+      localStorage.setItem("unitary-docs-language", "en-US");
+      localStorage.setItem("unitary-theme-preference", preferredTheme);
     }, theme);
     await page.goto("/#/components/hamburger-menu");
     const demo = page.getByRole("heading", { name: "Live Demo" }).locator("..");

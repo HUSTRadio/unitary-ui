@@ -34,10 +34,9 @@ const contracts: Record<string, string[]> = {
     "SplitButtonMenuAlignment",
     "SplitButtonProps",
     "SplitButtonMenuItemProps",
-    "SplitButtonMenuProps",
   ],
   "status-dot.tsx": ["StatusDotState", "StatusDotProps"],
-  "step-point.tsx": ["StepStatus", "StepPointProps", "StepDotProps"],
+  "step-point.tsx": ["StepStatus", "StepPointProps"],
   "switch.tsx": ["SwitchSize", "SwitchProps", "SwitchControlProps"],
   "table.tsx": [
     "TableRootProps",

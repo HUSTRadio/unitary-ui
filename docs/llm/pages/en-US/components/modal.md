@@ -8,7 +8,7 @@ Displays a dialog that interrupts the user.
 
 # Modal
 
-Modal
+modal
 
 Displays a dialog that interrupts the user.
 

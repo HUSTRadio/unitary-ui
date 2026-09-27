@@ -8,7 +8,7 @@ A controlled desktop side panel with optional non-modal behavior.
 
 # Side Panel
 
-Unitary Side Panel
+side-panel
 
 A controlled desktop side panel with optional non-modal behavior.
 

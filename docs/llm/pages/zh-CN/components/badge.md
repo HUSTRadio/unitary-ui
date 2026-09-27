@@ -8,7 +8,7 @@
 
 # 徽章
 
-Badge
+badge
 
 用于状态、计数和元数据的简短标签。
 
@@ -368,7 +368,7 @@ import { Badge, badgeVariants } from "@/components/ui/badge";
 - Badge 是静态标签。不要给它挂 onClick；当用户可以对值采取操作时，升级为 Button 或链接。
 - Badge 内容保持文字或图标 + 文字。绝不在 Badge 内堆叠两个图标或嵌套子 Badge。
 - 生命周期 Badge（Alpha、Beta、Early Access）配一个说明限制的 Tooltip，如 Alpha：API 在 GA 前可能变更。
-- 首字母大写，尽量一个词，最多两个：Active、Pending、Pro、Enterprise Trial。与规范 API 或日志术语一致：Production 而非 Prod、Deployed 而非 Live、Canceled 而非 Cancelled（Vercel API 使用一个 L）。
+- 首字母大写，尽量一个词，最多两个：Active、Pending、Pro、Enterprise Trial。与规范 API 或日志术语一致：Production 而非 Prod、Deployed 而非 Live、Canceled 而非 Cancelled（与规范 API 的单 L 拼写一致）。
 - 成功状态不加对勾图标、错误不加 X；由变体传达信号。把含义映射到颜色：绿色健康、红色错误、琥珀警告、蓝色信息或生产、灰色中性。-subtle 后缀可在密集表面弱化任一颜色。
 - 不要往里面塞完整句子（Currently Active、You are on Pro）；周围的行已提供上下文。
 - 对纯图标或含义模糊的 Badge 设置 title，让屏幕阅读器播报含义。不要只依赖颜色；没有它文字也必须可读。

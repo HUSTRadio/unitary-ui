@@ -4,12 +4,12 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { ErrorCardDefault21B111CBExample } from "../docs/geist/src/examples/error-card/default-21b111cb.example";
-import { EntityEntityWithListBD7895E8Example } from "../docs/geist/src/examples/entity/entity-with-list-bd7895e8.example";
-import { NoteAction64CFF131Example } from "../docs/geist/src/examples/note/action-64cff131.example";
-import { TabsDisableSpecificTabsA4195A7DExample } from "../docs/geist/src/examples/tabs/disable-specific-tabs-a4195a7d.example";
-import { TabsWithIcons1F71F4BCExample } from "../docs/geist/src/examples/tabs/with-icons-1f71f4bc.example";
-import { TabsSecondary62F2CCFFExample } from "../docs/geist/src/examples/tabs/secondary-62f2ccff.example";
+import { ErrorCardDefault21B111CBExample } from "../docs/site/src/examples/error-card/default-21b111cb.example";
+import { EntityEntityWithListBD7895E8Example } from "../docs/site/src/examples/entity/entity-with-list-bd7895e8.example";
+import { NoteAction64CFF131Example } from "../docs/site/src/examples/note/action-64cff131.example";
+import { TabsDisableSpecificTabsA4195A7DExample } from "../docs/site/src/examples/tabs/disable-specific-tabs-a4195a7d.example";
+import { TabsWithIcons1F71F4BCExample } from "../docs/site/src/examples/tabs/with-icons-1f71f4bc.example";
+import { TabsSecondary62F2CCFFExample } from "../docs/site/src/examples/tabs/secondary-62f2ccff.example";
 
 describe("action-bearing documentation examples", () => {
   let container: HTMLDivElement;

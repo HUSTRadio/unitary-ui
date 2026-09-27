@@ -4,7 +4,7 @@
 
 # Unitary
 
-Vercel design system for building consistent web experiences.
+Unitary is a React component library built on the Vercel Geist design language.
 
 [GitHub Repository](https://github.com/HUSTRadio/unitary-ui)
 
@@ -40,13 +40,13 @@ Presets for radii, fills, strokes, and shadows.
 
 ](#/materials)[
 
-$ vp dev docs/geist
+$ vp dev docs
 
 Collaborate
 
 Project name
 
-geist-docs
+unitary-docs
 
 ### Components
 

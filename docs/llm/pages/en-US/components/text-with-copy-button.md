@@ -8,7 +8,7 @@ Displays text alongside a button that copies it to the clipboard.
 
 # Text With Copy Button
 
-Text With Copy Button
+text-with-copy-button
 
 Displays text alongside a button that copies it to the clipboard.
 

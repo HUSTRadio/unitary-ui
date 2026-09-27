@@ -8,7 +8,7 @@ Building blocks for React applications.
 
 [
 
-Activity View
+activity-view
 
 ### Activity View
 
@@ -16,7 +16,7 @@ A bottom share sheet with a grid of share targets and a list of actions.
 
 ](#/components/activity-view)[
 
-Tremor Raw
+area-chart
 
 ### Area Chart
 
@@ -24,7 +24,7 @@ Renders layered area series for trends over time, with stacked and percent varia
 
 ](#/components/area-chart)[
 
-Avatar
+avatar
 
 ### Avatar
 
@@ -32,7 +32,7 @@ Represents a user or a team with an image or fallback.
 
 ](#/components/avatar)[
 
-Badge
+badge
 
 ### Badge
 
@@ -40,7 +40,7 @@ Small labels for statuses, counts, and metadata.
 
 ](#/components/badge)[
 
-Banner
+banner
 
 ### Banner
 
@@ -48,7 +48,7 @@ A prominent message that spans the full width of its container to announce impor
 
 ](#/components/banner)[
 
-Tremor Raw
+bar-chart
 
 ### Bar Chart
 
@@ -56,7 +56,7 @@ Renders categorical bar series with stacked, percent, and vertical layouts.
 
 ](#/components/bar-chart)[
 
-Tremor Raw
+bar-list
 
 ### Bar List
 
@@ -64,7 +64,7 @@ Renders a ranked list where each row carries a proportional bar and value.
 
 ](#/components/bar-list)[
 
-Book
+book
 
 ### Book
 
@@ -72,7 +72,7 @@ A responsive book component.
 
 ](#/components/book)[
 
-Bottom Sheet
+bottom-sheet
 
 ### Bottom Sheet
 
@@ -80,7 +80,7 @@ Presents mobile actions or supporting content at draggable height detents.
 
 ](#/components/bottom-sheet)[
 
-Breadcrumbs
+breadcrumbs
 
 ### Breadcrumbs
 
@@ -88,7 +88,7 @@ Navigation aid that shows the user's location within a site's hierarchy.
 
 ](#/components/breadcrumbs)[
 
-Browser
+browser
 
 ### Browser
 
@@ -96,7 +96,7 @@ Frames screenshots and demos inside a realistic browser window.
 
 ](#/components/browser)[
 
-Button
+button
 
 ### Button
 
@@ -104,7 +104,7 @@ Triggers an action with configurable variants, sizes, and icons.
 
 ](#/components/button)[
 
-Calendar
+calendar
 
 ### Calendar
 
@@ -112,7 +112,7 @@ Displays a month calendar from which users can pick a date.
 
 ](#/components/calendar)[
 
-Tremor Raw
+category-bar
 
 ### Category Bar
 
@@ -120,7 +120,7 @@ Renders a segmented horizontal bar showing shares of a total.
 
 ](#/components/category-bar)[
 
-Checkbox
+checkbox
 
 ### Checkbox
 
@@ -128,7 +128,7 @@ Allows users to select one or more items from a group.
 
 ](#/components/checkbox)[
 
-Choicebox
+choicebox
 
 ### Choicebox
 
@@ -136,7 +136,7 @@ A larger form of Radio for choices with more detail.
 
 ](#/components/choicebox)[
 
-Clearable Input
+clearable-input
 
 ### Clearable Input
 
@@ -144,7 +144,7 @@ A text input with an inline Esc keycap that clears on pointer activation or Esca
 
 ](#/components/clearable-input)[
 
-Code
+code
 
 ### Code
 
@@ -152,7 +152,7 @@ Display a snippet of code with syntax highlighting.
 
 ](#/components/code)[
 
-Code Block
+code-block
 
 ### Code Block
 
@@ -160,7 +160,7 @@ A bordered code block with a filename header for multi-line source.
 
 ](#/components/code-block)[
 
-Collapse
+collapse
 
 ### Collapse
 
@@ -168,7 +168,7 @@ A vertically stacked set of headings that each reveal a related section of conte
 
 ](#/components/collapse)[
 
-Tremor Raw
+combo-chart
 
 ### Combo Chart
 
@@ -176,7 +176,7 @@ Combines bar and line series in one chart, optionally on two axes.
 
 ](#/components/combo-chart)[
 
-Combobox
+combobox
 
 ### Combobox
 
@@ -184,7 +184,7 @@ A searchable single-select list.
 
 ](#/components/combobox)[
 
-Command Menu
+command-menu
 
 ### Command Menu
 
@@ -192,7 +192,7 @@ Filters and launches keyboard-first actions in a modal command palette.
 
 ](#/components/command-menu)[
 
-Context Card
+context-card
 
 ### Context Card
 
@@ -200,7 +200,7 @@ A floating card that appears on hover or focus, showing richer detail than a too
 
 ](#/components/context-card)[
 
-Context Menu
+context-menu
 
 ### Context Menu
 
@@ -208,7 +208,7 @@ A menu for contextual actions, revealed on right click or long press.
 
 ](#/components/context-menu)[
 
-Continuous Surface
+continuous-surface
 
 ### Continuous Surface
 
@@ -216,7 +216,7 @@ Clips a measured surface with independently derived continuous corners and a cir
 
 ](#/components/continuous-surface)[
 
-Copy Button
+copy-button
 
 ### Copy Button
 
@@ -224,7 +224,7 @@ Copies a given string to the clipboard and provides feedback when copied.
 
 ](#/components/copy-button)[
 
-Description
+description
 
 ### Description
 
@@ -232,7 +232,7 @@ Displays key/value metadata pairs as a definition list.
 
 ](#/components/description)[
 
-Destructive Action Modal
+destructive-action-modal
 
 ### Destructive Action Modal
 
@@ -240,7 +240,7 @@ Confirms destructive actions with a red AlertTriangle header and a destructive c
 
 ](#/components/destructive-action-modal)[
 
-Phone
+device
 
 ### Device
 
@@ -248,7 +248,7 @@ Frames screenshots inside realistic phone and tablet shells.
 
 ](#/components/device)[
 
-Tremor Raw
+donut-chart
 
 ### Donut Chart
 
@@ -256,7 +256,7 @@ Renders a part-to-whole donut (or pie) with an optional center metric.
 
 ](#/components/donut-chart)[
 
-Dots Menu
+dots-menu
 
 ### Dots Menu
 
@@ -264,7 +264,7 @@ An overflow menu triggered by a three-dot icon that reveals additional actions i
 
 ](#/components/dots-menu)[
 
-Drawer
+drawer
 
 ### Drawer
 
@@ -272,7 +272,7 @@ Displays content in a separate bottom view from the existing context.
 
 ](#/components/drawer)[
 
-Edit Menu
+edit-menu
 
 ### Edit Menu
 
@@ -280,7 +280,7 @@ A selection-driven horizontal edit toolbar that appears beside selected text acr
 
 ](#/components/edit-menu)[
 
-Empty State
+empty-state
 
 ### Empty State
 
@@ -288,7 +288,7 @@ Fills spaces when no content has been added yet or a view is empty.
 
 ](#/components/empty-state)[
 
-Entity
+entity
 
 ### Entity
 
@@ -296,7 +296,7 @@ A structured row for an entity and its primary action.
 
 ](#/components/entity)[
 
-Error
+error
 
 ### Error
 
@@ -304,7 +304,7 @@ Provides a friendly, actionable message when an operation fails.
 
 ](#/components/error)[
 
-Error Boundary
+error-boundary
 
 ### Error Boundary
 
@@ -312,7 +312,7 @@ Contains React render failures and replaces the failed subtree with recovery UI.
 
 ](#/components/error-boundary)[
 
-Error Card
+error-card
 
 ### Error Card
 
@@ -320,7 +320,7 @@ A contained error state with recovery guidance.
 
 ](#/components/error-card)[
 
-Feedback
+feedback
 
 ### Feedback
 
@@ -328,7 +328,7 @@ Gathers an emoji rating and open text feedback.
 
 ](#/components/feedback)[
 
-Fieldset
+fieldset
 
 ### Fieldset
 
@@ -336,7 +336,7 @@ Groups related form controls into a single semantic unit.
 
 ](#/components/fieldset)[
 
-File Tree
+file-tree
 
 ### File Tree
 
@@ -344,7 +344,7 @@ Displays a hierarchical directory structure with expandable folders and files.
 
 ](#/components/file-tree)[
 
-Unitary Footer
+footer
 
 ### Footer
 
@@ -352,7 +352,7 @@ A page footer with link columns and optional leading and trailing slots.
 
 ](#/components/footer)[
 
-Gauge
+gauge
 
 ### Gauge
 
@@ -360,7 +360,7 @@ A circular visual for conveying a percentage.
 
 ](#/components/gauge)[
 
-Grid
+grid
 
 ### Grid
 
@@ -368,7 +368,7 @@ Displays elements in a grid layout.
 
 ](#/components/grid)[
 
-Unitary Hamburger Menu
+hamburger-menu
 
 ### Hamburger Menu
 
@@ -376,7 +376,7 @@ An expandable navigation menu with grouped links and built-in search.
 
 ](#/components/hamburger-menu)[
 
-Input
+input
 
 ### Input
 
@@ -384,7 +384,7 @@ A single-line text field for user input.
 
 ](#/components/input)[
 
-JsonView
+json-view
 
 ### JsonView
 
@@ -392,7 +392,7 @@ Renders JSON as a syntax-highlighted tree.
 
 ](#/components/json-view)[
 
-Keyboard Input
+keyboard-input
 
 ### Keyboard Input
 
@@ -400,7 +400,7 @@ Displays keyboard input that triggers an action.
 
 ](#/components/keyboard-input)[
 
-Label
+label
 
 ### Label
 
@@ -408,7 +408,7 @@ Accessible text label for form controls.
 
 ](#/components/label)[
 
-Tremor Raw
+line-chart
 
 ### Line Chart
 
@@ -416,7 +416,7 @@ Renders connected line series for continuous trends with optional axis titles.
 
 ](#/components/line-chart)[
 
-Link
+link
 
 ### Link
 
@@ -424,7 +424,7 @@ Navigates to internal or external destinations with platform-aware icon treatmen
 
 ](#/components/link)[
 
-Load More Button
+load-more-button
 
 ### Load More Button
 
@@ -432,7 +432,7 @@ A full-width button that appends more items to a paginated list.
 
 ](#/components/load-more-button)[
 
-Loading Dots
+loading-dots
 
 ### Loading Dots
 
@@ -440,7 +440,7 @@ Indicates an action running in the background with three bouncing dots.
 
 ](#/components/loading-dots)[
 
-Menu
+menu
 
 ### Menu
 
@@ -448,7 +448,7 @@ Displays a list of actions in a floating menu.
 
 ](#/components/menu)[
 
-Menu Bar
+menu-bar
 
 ### Menu Bar
 
@@ -456,7 +456,7 @@ A horizontal bar of application menus with keyboard shortcuts, submenus, and che
 
 ](#/components/menu-bar)[
 
-Middle Truncate
+middle-truncate
 
 ### Middle Truncate
 
@@ -464,7 +464,7 @@ Preserves the beginning and end of long identifiers.
 
 ](#/components/middle-truncate)[
 
-Modal
+modal
 
 ### Modal
 
@@ -472,7 +472,7 @@ Displays a dialog that interrupts the user.
 
 ](#/components/modal)[
 
-Multi Select
+multi-select
 
 ### Multi Select
 
@@ -480,7 +480,7 @@ A composed menu for selecting multiple externally managed options.
 
 ](#/components/multi-select)[
 
-Unitary Navbar
+navbar
 
 ### Navbar
 
@@ -488,7 +488,7 @@ A page header with static, pinned, or auto-hiding scroll behavior.
 
 ](#/components/navbar)[
 
-Note
+note
 
 ### Note
 
@@ -496,7 +496,7 @@ Displays text that requires attention or provides additional information.
 
 ](#/components/note)[
 
-Pagination
+pagination
 
 ### Pagination
 
@@ -504,7 +504,7 @@ Navigates through numbered pages of a data set.
 
 ](#/components/pagination)[
 
-Pill
+pill
 
 ### Pill
 
@@ -512,7 +512,7 @@ Clickable filter chip for toggling a query or selection.
 
 ](#/components/pill)[
 
-Progress
+progress
 
 ### Progress
 
@@ -520,7 +520,7 @@ Shows progress relative to a limit or a task.
 
 ](#/components/progress)[
 
-Tremor Raw
+progress-circle
 
 ### Progress Circle
 
@@ -528,7 +528,7 @@ Renders a circular progress indicator with an optional center metric.
 
 ](#/components/progress-circle)[
 
-Project Banner
+project-banner
 
 ### Project Banner
 
@@ -536,7 +536,7 @@ Used for temporary, project-wide notifications that require resolution.
 
 ](#/components/project-banner)[
 
-Radio
+radio
 
 ### Radio
 
@@ -544,7 +544,7 @@ Provides single user input from a selection of options.
 
 ](#/components/radio)[
 
-Relative Time Card
+relative-time-card
 
 ### Relative Time Card
 
@@ -552,7 +552,7 @@ Shows a relative timestamp with temporal context.
 
 ](#/components/relative-time-card)[
 
-Responsive Drawer
+responsive-drawer
 
 ### Responsive Drawer
 
@@ -560,7 +560,7 @@ One drawer that docks to the bottom on phones and to the side on desktop, with o
 
 ](#/components/responsive-drawer)[
 
-Safe Area
+safe-area
 
 ### Safe Area
 
@@ -568,7 +568,7 @@ A spacing container that keeps content clear of device safe areas.
 
 ](#/components/safe-area)[
 
-Scroller
+scroller
 
 ### Scroller
 
@@ -576,7 +576,7 @@ Displays an overflowing list of items.
 
 ](#/components/scroller)[
 
-Search Input
+search-input
 
 ### Search Input
 
@@ -584,7 +584,7 @@ A search field with a standard leading icon.
 
 ](#/components/search-input)[
 
-Select
+select
 
 ### Select
 
@@ -592,7 +592,7 @@ Presents a list of options in a dropdown.
 
 ](#/components/select)[
 
-Separator
+separator
 
 ### Separator
 
@@ -600,7 +600,7 @@ Divides content into visually distinct groups.
 
 ](#/components/separator)[
 
-Sheet
+sheet
 
 ### Sheet
 
@@ -608,7 +608,7 @@ Displays content in a side panel that slides in from the edge of the screen.
 
 ](#/components/sheet)[
 
-Show More
+show-more
 
 ### Show More
 
@@ -616,7 +616,7 @@ Shows expanded or collapsed content with a progressive-disclosure trigger.
 
 ](#/components/show-more)[
 
-Unitary Side Panel
+side-panel
 
 ### Side Panel
 
@@ -624,7 +624,7 @@ A controlled desktop side panel with optional non-modal behavior.
 
 ](#/components/side-panel)[
 
-Unitary Sidebar Nav
+sidebar-nav
 
 ### Sidebar Nav
 
@@ -632,7 +632,7 @@ Grouped sidebar navigation with active state and optional collapsible sections.
 
 ](#/components/sidebar-nav)[
 
-Skeleton
+skeleton
 
 ### Skeleton
 
@@ -640,7 +640,7 @@ Displays a placeholder while content is loading.
 
 ](#/components/skeleton)[
 
-Slider
+slider
 
 ### Slider
 
@@ -648,7 +648,7 @@ An input to select a value from a given range.
 
 ](#/components/slider)[
 
-Snippet
+snippet
 
 ### Snippet
 
@@ -656,7 +656,7 @@ Displays a runnable shell command or short code the user is meant to copy.
 
 ](#/components/snippet)[
 
-Tremor Raw
+spark-chart
 
 ### Spark Chart
 
@@ -664,7 +664,7 @@ Renders tiny inline sparklines (area, line, or bar) for at-a-glance trends.
 
 ](#/components/spark-chart)[
 
-Spinner
+spinner
 
 ### Spinner
 
@@ -672,7 +672,7 @@ Indicates an in-progress operation.
 
 ](#/components/spinner)[
 
-Split Button
+split-button
 
 ### Split Button
 
@@ -680,7 +680,7 @@ Combines a primary action with a short menu of related actions.
 
 ](#/components/split-button)[
 
-Stack
+stack
 
 ### Stack
 
@@ -688,7 +688,7 @@ A flex preset that stacks children in one direction with a shared spacing step.
 
 ](#/components/stack)[
 
-Status Dot
+status-dot
 
 ### Status Dot
 
@@ -696,7 +696,7 @@ Displays an indicator of deployment status.
 
 ](#/components/status-dot)[
 
-StepPoint
+step-point
 
 ### Step Point
 
@@ -704,7 +704,15 @@ Marks progress through a multi-step flow.
 
 ](#/components/step-point)[
 
-Switch
+sub-frame
+
+### Sub Frame
+
+Scopes overlays to one region of a page so sheets and panels stay inside it.
+
+](#/components/sub-frame)[
+
+switch
 
 ### Switch
 
@@ -712,7 +720,7 @@ A slider group for mutually exclusive view options.
 
 ](#/components/switch)[
 
-Table
+table
 
 ### Table
 
@@ -720,7 +728,7 @@ Displays structured data in rows and columns.
 
 ](#/components/table)[
 
-Tabs
+tabs
 
 ### Tabs
 
@@ -728,7 +736,7 @@ Organizes content into switchable panels.
 
 ](#/components/tabs)[
 
-Text With Copy Button
+text-with-copy-button
 
 ### Text With Copy Button
 
@@ -736,7 +744,7 @@ Displays text alongside a button that copies it to the clipboard.
 
 ](#/components/text-with-copy-button)[
 
-Textarea
+textarea
 
 ### Textarea
 
@@ -744,7 +752,7 @@ A multi-line text field for longer input.
 
 ](#/components/textarea)[
 
-Theme Switcher
+theme-switcher
 
 ### Theme Switcher
 
@@ -752,7 +760,7 @@ Switches between light, dark, and system themes.
 
 ](#/components/theme-switcher)[
 
-Toast
+toast
 
 ### Toast
 
@@ -760,7 +768,7 @@ A succinct message that is displayed temporarily.
 
 ](#/components/toast)[
 
-Toggle
+toggle
 
 ### Toggle
 
@@ -768,7 +776,7 @@ A switch for a single boolean setting.
 
 ](#/components/toggle)[
 
-Toolbar
+toolbar
 
 ### Toolbar
 
@@ -776,7 +784,7 @@ A window-level bar of grouped tool items that collapses into an overflow menu.
 
 ](#/components/toolbar)[
 
-Tooltip
+tooltip
 
 ### Tooltip
 
@@ -784,7 +792,7 @@ A floating label that appears on hover or focus.
 
 ](#/components/tooltip)[
 
-Tremor Raw
+tracker
 
 ### Tracker
 
@@ -792,7 +800,7 @@ Renders a sequence of status blocks for event timelines or uptime history.
 
 ](#/components/tracker)[
 
-Video
+video
 
 ### Video
 

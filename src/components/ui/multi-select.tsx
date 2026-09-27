@@ -220,10 +220,6 @@ export interface MultiSelectRowProps {
   onChange: () => void;
   onSelectOnly: () => void;
   onSelectAll: () => void;
-  /** @deprecated Retained for backwards compatibility; row actions no longer depend on it. */
-  selectedCount?: number;
-  /** @deprecated Retained for backwards compatibility; row actions no longer depend on it. */
-  totalCount?: number;
   count?: number;
   className?: string;
 }

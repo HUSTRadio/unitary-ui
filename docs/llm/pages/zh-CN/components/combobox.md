@@ -8,7 +8,7 @@
 
 # 组合框
 
-Combobox
+combobox
 
 可搜索的单选列表。
 

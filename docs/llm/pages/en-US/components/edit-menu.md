@@ -8,7 +8,7 @@ A selection-driven horizontal edit toolbar that appears beside selected text acr
 
 # Edit Menu
 
-Edit Menu
+edit-menu
 
 A selection-driven horizontal edit toolbar that appears beside selected text across touch, pointer, and keyboard input.
 

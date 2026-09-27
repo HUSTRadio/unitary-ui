@@ -21,9 +21,9 @@ describe("视觉修复固化（badge / calendar compact / a11y）", () => {
   test("calendar compact 行类：trigger 左圆角 + 右侧控件右圆角", async () => {
     const src = await read("src/components/ui/calendar-classes.ts");
     const rowClass = src.match(/const CALENDAR_ROW_CLASS =\s*"([^"]*)"/s)?.[1] ?? "";
-    expect(rowClass).toContain("[&_[data-geist-button]]:rounded-l-[5px]");
-    expect(rowClass).toContain("[&_[data-geist-button]]:rounded-r-none");
-    expect(rowClass).toContain("[&_[data-geist-select]]:rounded-r-[5px]");
+    expect(rowClass).toContain("[&_[data-uni-button]]:rounded-l-[5px]");
+    expect(rowClass).toContain("[&_[data-uni-button]]:rounded-r-none");
+    expect(rowClass).toContain("[&_[data-uni-select]]:rounded-r-[5px]");
   });
 
   test("theme-switcher / grabber 均消费标准 focus-ring（键盘焦点可见）", async () => {

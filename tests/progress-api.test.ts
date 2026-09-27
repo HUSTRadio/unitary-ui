@@ -10,9 +10,9 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
-import { Progress } from "../src/components/ui/progress";
+import { Progress, type ProgressLabelPosition } from "../src/components/ui/progress";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(root, relativePath), "utf8");
@@ -102,7 +102,7 @@ describe("Progress label positions", () => {
       "bottom-center": "items-center",
       "bottom-right": "items-end",
     } as const;
-    for (const [pos, cls] of Object.entries(cases)) {
+    for (const [pos, cls] of Object.entries(cases) as Array<[ProgressLabelPosition, string]>) {
       const html = renderToStaticMarkup(
         createElement(Progress, { value: 30, label: "30%", labelPosition: pos }),
       );

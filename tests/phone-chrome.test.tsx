@@ -4,7 +4,7 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
-import { Phone, PhoneScreen } from "@/components/ui/phone";
+import { Device, DeviceScreen } from "@/components/ui/device";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 HTMLElement.prototype.scrollIntoView = vi.fn();
@@ -25,12 +25,14 @@ function mount(node: React.ReactNode) {
   act(() => root.render(node));
 }
 
-describe("Phone status bar & Safari chrome", () => {
+const DEVICE_MODEL = "iphone-17";
+
+describe("Device status bar & Safari chrome", () => {
   test("default status bar renders 08:00 with full meters and is aria-hidden", () => {
     mount(
-      <Phone>
-        <PhoneScreen />
-      </Phone>,
+      <Device model={DEVICE_MODEL}>
+        <DeviceScreen />
+      </Device>,
     );
     const bar = container.querySelector('[data-slot="phone-status-bar"]')!;
     expect(bar.getAttribute("aria-hidden")).toBe("true");
@@ -41,18 +43,21 @@ describe("Phone status bar & Safari chrome", () => {
 
   test("statusBar={false} removes the bar", () => {
     mount(
-      <Phone statusBar={false}>
-        <PhoneScreen />
-      </Phone>,
+      <Device model={DEVICE_MODEL} statusBar={false}>
+        <DeviceScreen />
+      </Device>,
     );
     expect(container.querySelector('[data-slot="phone-status-bar"]')).toBeNull();
   });
 
   test("custom levels and battery clamping are applied", () => {
     mount(
-      <Phone statusBar={{ time: "9:41", cellular: 2, wifi: 1, battery: 150, appearance: "dark" }}>
-        <PhoneScreen />
-      </Phone>,
+      <Device
+        model={DEVICE_MODEL}
+        statusBar={{ time: "9:41", cellular: 2, wifi: 1, battery: 150, appearance: "dark" }}
+      >
+        <DeviceScreen />
+      </Device>,
     );
     const bar = container.querySelector('[data-slot="phone-status-bar"]')!;
     expect(bar.textContent).toContain("9:41");
@@ -67,9 +72,9 @@ describe("Phone status bar & Safari chrome", () => {
   test("safari defaults to compact/example.com; three layouts render", () => {
     for (const layout of ["compact", "bottom", "top"] as const) {
       mount(
-        <Phone safari={{ layout }}>
-          <PhoneScreen />
-        </Phone>,
+        <Device model={DEVICE_MODEL} safari={{ layout }}>
+          <DeviceScreen />
+        </Device>,
       );
       const chrome = container.querySelector('[data-slot="phone-safari"]')!;
       expect(chrome.getAttribute("aria-hidden")).toBe("true");
@@ -79,20 +84,20 @@ describe("Phone status bar & Safari chrome", () => {
 
   test("safari={false} (default) renders no chrome; controlled url updates and truncates", () => {
     mount(
-      <Phone>
-        <PhoneScreen />
-      </Phone>,
+      <Device model={DEVICE_MODEL}>
+        <DeviceScreen />
+      </Device>,
     );
     expect(container.querySelector('[data-slot="phone-safari"]')).toBeNull();
 
     const Rerender = ({ url }: { url: string }) => (
-      <Phone safari={{ url }}>
-        <PhoneScreen />
-      </Phone>
+      <Device model={DEVICE_MODEL} safari={{ url }}>
+        <DeviceScreen />
+      </Device>
     );
-    mount(<Rerender url="https://vercel.com/geist/phone/docs" />);
+    mount(<Rerender url="https://example.com/products/phone/docs" />);
     let chrome = container.querySelector('[data-slot="phone-safari"]')!;
-    expect(chrome.textContent).not.toContain("https://vercel.com/geist/phone/docs");
+    expect(chrome.textContent).not.toContain("https://example.com/products/phone/docs");
 
     act(() =>
       root.render(<Rerender url="  https://very-long.example.com/a/b/c/d/e/f/g/h/i/j/k  " />),
@@ -103,9 +108,9 @@ describe("Phone status bar & Safari chrome", () => {
 
   test("chrome elements are not focusable (no button/a/input inside chrome)", () => {
     mount(
-      <Phone safari={{ layout: "top" }} statusBar>
-        <PhoneScreen />
-      </Phone>,
+      <Device model={DEVICE_MODEL} safari={{ layout: "top" }} statusBar>
+        <DeviceScreen />
+      </Device>,
     );
     const interactive = container
       .querySelector('[data-slot="phone-safari"]')

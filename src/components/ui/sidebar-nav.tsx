@@ -98,7 +98,7 @@ export function createNavigateHandler(
  *   小标题一律不内缩，文字左缘 = 药丸左缘
  * - 默认文字 text-gray-900（light #4d4d4d ≈ Tremor gray-600；dark #a1a1a1 ≈ Tremor gray-400）
  * - 悬停 bg-gray-100 + text-gray-1000（Tremor hover:bg-gray-100 + hover:text-gray-800）
- * - 选中 = 与悬停同底色 + 强化文字 + 左侧 2×16px 指示条（Tremor 签名式做法，无独立底色）
+ * - 选中 = 与悬停同底色 + 强化文字 + 左侧 2×14px 指示条（贴近中文字形墨迹高度，无独立底色）
  * - 三级标签统一字号（text-style-nav-heading / -subheading / -item 同一 15/20，
  *   见 src/styles/index.css 的 nav token）
  * - 层次感来自对齐：一级/二级小标题都对齐到条目药丸左缘，条目标签再内缩 14px
@@ -261,7 +261,7 @@ export function SidebarNav({
                 <span
                   aria-hidden
                   data-slot="sidebar-nav-indicator"
-                  className="absolute top-1/2 left-2 h-4 w-0.5 -translate-y-1/2 rounded-full bg-gray-900"
+                  className="absolute top-1/2 left-2 h-3.5 w-0.5 -translate-y-1/2 rounded-full bg-theme-accent"
                 />
               ) : null}
               {Icon ? <Icon size={16} className="shrink-0" aria-hidden /> : null}

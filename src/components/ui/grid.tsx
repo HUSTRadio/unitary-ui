@@ -16,10 +16,6 @@ import styles from "./grid.module.css";
  * - GridCross: column / row
  * - GridPage
  *
- * Backward compatibility (kept): Grid accepts the legacy `gap` prop (ignored —
- * spacing comes from the guide system, official G06-GRID-03) and `GridItem`
- * remains exported as a span-based alias of GridCell.
- *
  * Breakpoints (official): xs <=400 / sm 401-600 / smd 601-768 / md 769-960 / lg >=961.
  * Responsive values resolve with the official fallback chains, e.g. smd:
  * smd -> md -> sm.
@@ -28,13 +24,6 @@ import styles from "./grid.module.css";
 /* ------------------------------------------------------------------ */
 /* types                                                               */
 /* ------------------------------------------------------------------ */
-
-/** @deprecated Legacy column presets; use `number` through `GridColumns`. */
-export type GridCols = 1 | 2 | 3 | 4 | 6 | 12;
-/** @deprecated Spacing comes from the guide system; `Grid.gap` is ignored. */
-export type GridGap = "sm" | "md" | "lg";
-/** @deprecated Use `GridResponsiveValue<number>`. */
-export type GridResponsiveCols = { sm?: GridCols; md?: GridCols; lg?: GridCols };
 
 export type GridBreakpoint = "xs" | "sm" | "smd" | "md" | "lg";
 export type GridResponsiveValue<T extends number | string> = Partial<Record<GridBreakpoint, T>>;
@@ -61,11 +50,6 @@ export interface GridProps extends React.ComponentProps<"section"> {
   rows?: GridRows;
   height?: GridHeight;
   hideGuides?: GridHideGuides;
-  /**
-   * @deprecated Official grids have no `gap` prop — spacing comes from the guide
-   * system. Kept for backward compatibility; the value is ignored.
-   */
-  gap?: GridGap;
 }
 
 export interface GridCellProps extends React.ComponentProps<"div"> {
@@ -80,11 +64,6 @@ export interface GridCrossProps extends React.ComponentProps<"div"> {
 }
 
 export type GridPageProps = React.ComponentProps<"div">;
-
-/** @deprecated Use `GridCell` with an explicit `column` span. */
-export interface GridItemProps extends React.ComponentProps<"div"> {
-  span?: GridCols;
-}
 
 const GRID_BREAKPOINTS: readonly GridBreakpoint[] = ["xs", "sm", "smd", "md", "lg"] as const;
 
@@ -433,7 +412,6 @@ function Grid({
   rows = 1,
   height,
   hideGuides,
-  gap: _gap,
   ...props
 }: GridProps) {
   const system = useContext(GridSystemContext);
@@ -592,20 +570,4 @@ function GridPage({ className, children, ...props }: GridPageProps) {
   );
 }
 
-/**
- * @deprecated Use `GridCell` with an explicit `column` span.
- * GridItem — legacy component, kept for backward compatibility.
- * Maps the old `span` prop onto an auto-placed GridCell column span.
- */
-function GridItem({ className, span, ...props }: GridItemProps) {
-  return (
-    <GridCell
-      data-slot="grid-item"
-      column={span != null ? `auto / span ${span}` : undefined}
-      className={className}
-      {...props}
-    />
-  );
-}
-
-export { Grid, GridCell, GridCross, GridItem, GridPage, GridSystem };
+export { Grid, GridCell, GridCross, GridPage, GridSystem };

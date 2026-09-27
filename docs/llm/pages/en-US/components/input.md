@@ -8,7 +8,7 @@ A single-line text field for user input.
 
 # Input
 
-Input
+input
 
 A single-line text field for user input.
 
@@ -82,7 +82,7 @@ export function InputDefault37A8EEC1Example() {
 
 https://.com
 
-vercel/
+unitary/
 
 ```tsx
 import { Input } from "@/components/ui/input";
@@ -103,7 +103,7 @@ export function InputPrefixAndSuffix99076368Example() {
         suffix={icon}
         suffixStyling={false}
       />
-      <Input placeholder="Default" prefix="vercel/" suffix={icon} suffixStyling={false} />
+      <Input placeholder="Default" prefix="unitary/" suffix={icon} suffixStyling={false} />
     </div>
   );
 }
@@ -222,7 +222,7 @@ export function InputStates2F6E9DAEExample() {
     <div className="flex w-full max-w-md flex-col gap-3">
       <Input aria-label="Default" placeholder="Default" />
       <Input aria-label="Disabled" disabled placeholder="Disabled" />
-      <Input aria-label="With value" defaultValue="geist-docs" placeholder="With value" />
+      <Input aria-label="With value" defaultValue="unitary-docs" placeholder="With value" />
     </div>
   );
 }

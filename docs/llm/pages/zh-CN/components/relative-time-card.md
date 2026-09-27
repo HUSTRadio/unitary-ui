@@ -8,7 +8,7 @@
 
 # 相对时间卡片
 
-Relative Time Card
+relative-time-card
 
 显示带时间上下文的相对时间戳。
 

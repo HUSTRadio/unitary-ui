@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const runtimeRoots = [path.join(root, "src"), path.join(root, "docs/geist/src")];
+const runtimeRoots = [path.join(root, "src"), path.join(root, "docs/site/src")];
 
 async function runtimeFiles(directory: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });

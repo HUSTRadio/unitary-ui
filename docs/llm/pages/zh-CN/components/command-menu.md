@@ -8,7 +8,7 @@
 
 # 命令菜单
 
-Command Menu
+command-menu
 
 在模态命令面板中筛选并启动键盘优先的操作。
 

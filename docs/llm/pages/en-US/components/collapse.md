@@ -8,7 +8,7 @@ A vertically stacked set of headings that each reveal a related section of conte
 
 # Collapse
 
-Collapse
+collapse
 
 A vertically stacked set of headings that each reveal a related section of content.
 

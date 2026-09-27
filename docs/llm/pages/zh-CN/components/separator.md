@@ -8,7 +8,7 @@
 
 # 分隔线
 
-Separator
+separator
 
 将内容划分为视觉上不同的组。
 

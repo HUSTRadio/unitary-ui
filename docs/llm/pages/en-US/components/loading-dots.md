@@ -8,7 +8,7 @@ Indicates an action running in the background with three bouncing dots.
 
 # Loading Dots
 
-Loading Dots
+loading-dots
 
 Indicates an action running in the background with three bouncing dots.
 

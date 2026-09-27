@@ -4,7 +4,7 @@
 
 # Unitary
 
-用于构建一致 Web 体验的 Vercel 设计系统。
+Unitary 是一个基于 Vercel Geist 设计语言构建的 React 组件库。
 
 [GitHub 仓库](https://github.com/HUSTRadio/unitary-ui)
 
@@ -40,13 +40,13 @@ JetBrains Maple Mono
 
 ](#/materials)[
 
-$ vp dev docs/geist
+$ vp dev docs
 
 协作
 
 项目名称
 
-geist-docs
+unitary-docs
 
 ### 组件
 

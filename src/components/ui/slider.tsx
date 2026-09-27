@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
  * 官方 API（补全）：
  * - label：可访问名称，渲染在轨道上方（同时作为 thumb 的 aria-label）
  * - showStartInput / showEndInput：显示起始 / 结束数值输入框（输入同步 value）
- * - onValueCommitted：拖动释放后提交（映射到 Radix onValueCommit）
+ * - onValueCommit：拖动释放后提交（映射到 Radix onValueCommit）
  *
  * 样式（官方实测对齐）：
  * - root：216px min-width、8px 轨道区，外层 group 包裹 control
@@ -49,11 +49,6 @@ export interface SliderProps extends React.ComponentPropsWithoutRef<typeof Slide
    * （自动生成的与自定义数组中无 label 的）。
    */
   markLabelFormat?: (value: number) => string;
-  /**
-   * @deprecated 使用 Radix 兼容的 `onValueCommit`。迁移期间若两个回调同时存在，
-   * 组件会先调用 `onValueCommit`，再调用此别名，各一次。
-   */
-  onValueCommitted?: (value: number[]) => void;
 }
 
 interface ValueInputProps {
@@ -124,7 +119,6 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
       showEndInput,
       marks,
       markLabelFormat,
-      onValueCommitted,
       onValueCommit,
       value: valueProp,
       defaultValue,
@@ -163,8 +157,8 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
       (mark) => mark.label != null || markLabelFormat != null,
     );
 
-    const commitCallbacksRef = React.useRef({ onValueCommit, onValueCommitted });
-    commitCallbacksRef.current = { onValueCommit, onValueCommitted };
+    const onValueCommitRef = React.useRef(onValueCommit);
+    onValueCommitRef.current = onValueCommit;
     const pendingCommitRef = React.useRef<number[] | null>(null);
     const commitScheduledRef = React.useRef(false);
 
@@ -180,9 +174,7 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
         const committedValue = pendingCommitRef.current;
         pendingCommitRef.current = null;
         if (!committedValue) return;
-        const callbacks = commitCallbacksRef.current;
-        callbacks.onValueCommit?.(committedValue);
-        callbacks.onValueCommitted?.(committedValue);
+        onValueCommitRef.current?.(committedValue);
       });
     }, []);
 

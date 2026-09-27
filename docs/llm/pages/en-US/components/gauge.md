@@ -8,7 +8,7 @@ A circular visual for conveying a percentage.
 
 # Gauge
 
-Gauge
+gauge
 
 A circular visual for conveying a percentage.
 

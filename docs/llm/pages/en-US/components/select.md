@@ -8,7 +8,7 @@ Presents a list of options in a dropdown.
 
 # Select
 
-Select
+select
 
 Presents a list of options in a dropdown.
 

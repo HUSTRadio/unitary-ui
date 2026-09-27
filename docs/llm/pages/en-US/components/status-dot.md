@@ -8,7 +8,7 @@ Displays an indicator of deployment status.
 
 # Status Dot
 
-Status Dot
+status-dot
 
 Displays an indicator of deployment status.
 

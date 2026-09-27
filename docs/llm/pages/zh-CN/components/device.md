@@ -8,7 +8,7 @@
 
 # 设备外框
 
-Phone
+device
 
 将手机或平板截图置于逼真的设备外框中。
 
@@ -21,7 +21,6 @@ Phone
 
 - 不要在外框内渲染实时产品界面；设备外框表达的是捕获画面，而非可交互界面。
 - 如果只需要展示网页响应式效果，请使用 Browser 组件；它更适合网页截图。
-- 新代码不要使用已废弃的 Phone 别名；它只用于迁移既有 iPhone 17 调用。
 
 ## 示例
 
@@ -60,7 +59,7 @@ Phone
 
 08:00
 
-![Vercel dashboard on iPhone](/dashboard.png)
+![Unitary dashboard on iPhone](/dashboard.png)
 
 ```tsx
 import { Device, DeviceScreen } from "@/components/ui/device";
@@ -73,7 +72,7 @@ export function DeviceComposition47FCA483Example() {
           {/* 截图/录屏承担可访问名称 */}
           <img
             src="/dashboard.png"
-            alt="Vercel dashboard on iPhone"
+            alt="Unitary dashboard on iPhone"
             className="h-full w-full object-cover"
           />
         </DeviceScreen>
@@ -152,7 +151,7 @@ export function DeviceStatusBar3EF6E901Example() {
 
 08:00
 
-vercel.com/geist↻
+example.com↻
 
 ![Website shown in the Safari mockup](/page.png)
 
@@ -161,7 +160,7 @@ import { Device, DeviceScreen } from "@/components/ui/device";
 
 export function DeviceSafariChrome0140AFFBExample() {
   return (
-    <Device model="iphone-17" safari={{ layout: "compact", url: "vercel.com/geist" }}>
+    <Device model="iphone-17" safari={{ layout: "compact", url: "example.com" }}>
       <DeviceScreen>
         <img
           src="/page.png"
@@ -238,19 +237,17 @@ export function DeviceAppearance1C9D4B2EExample() {
 导入
 
 ```tsx
-import { Device, DeviceScreen, Phone, PhoneScreen } from "@/components/ui/device";
+import { Device, DeviceScreen } from "@/components/ui/device";
 ```
 
 ### 属性与回调
 
 <table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">model</code><span class="ml-1 text-destructive">*</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">DeviceModelId</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">已注册的设备型号。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">color</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">DeviceColor&lt;M&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">所选型号支持的机身颜色。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">landscape</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">将支持横屏的设备旋转为横向。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">dynamicIsland</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ChromeGate&lt;M, "notch", boolean&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">在支持的型号上显示灵动岛装饰。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">statusBar</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ChromeGate&lt;M, "status-bar", boolean | PhoneStatusBarOptions&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">在支持的型号上显示或配置装饰性状态栏。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">true</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">safari</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ChromeGate&lt;M, "safari", boolean | PhoneSafariOptions&gt;</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">在支持的型号上显示或配置装饰性 Safari 外观。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">autoFit</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">缩小外框以适配窄容器，但不会放大。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">true</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">zoom</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">number</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">优先于 autoFit 的显式缩放比例。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">animated</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">在未请求减少动效时启用短促的外框变换过渡。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">frameClassName</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">透传给 MockFrame 根元素的类名。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">children</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">ReactNode</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">屏幕内容，通常包裹在 DeviceScreen 中。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
 
-Phone 仅作为已废弃的 iPhone 17 迁移别名保留；新代码应使用显式 model 的 Device。
-
 ## 最佳实践
 
 - 在落地页和文档中，用 Device 包裹手机或平板截图、录屏与 demo 图。
-- 显式选择已注册的 model；现有 iPhone 17 调用迁移期间才继续使用已废弃的 Phone 别名。
+- 显式选择已注册的 model，并传入与截图设备一致的型号 id。
 - 不要在外框内渲染实时产品 UI；设备外框表达的是捕获画面，而非可交互界面。
 - 把设备 chrome 视为装饰层；可访问名称由内部截图或录屏承担。
 - 仅对具备相应 chrome 能力的 model 使用 statusBar、safari 和 dynamicIsland。

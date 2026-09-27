@@ -8,7 +8,7 @@ A slider group for mutually exclusive view options.
 
 # Switch
 
-Switch
+switch
 
 A slider group for mutually exclusive view options.
 
@@ -249,5 +249,5 @@ import { Switch, SwitchControl } from "@/components/ui/switch";
 - Set defaultChecked (or controlled checked) on exactly one Switch.Control so the group has a defined initial state.
 - Pad each Switch.Control so the widest label fits without the active pill resizing on selection. Test with the longest copy in the set.
 - Title Case each Switch.Control label. Keep labels to one or two words and parallel: Source / Output, not Source / Show output.
-- Always provide a label on every Switch.Control, even when an icon carries the meaning, so screen readers announce the option. The component renders it as geist-sr-only for icon-only controls.
+- Always provide a label on every Switch.Control, even when an icon carries the meaning, so screen readers announce the option. The component renders it as sr-only for icon-only controls.
 - Pair an icon-only Switch with a Tooltip on each control so sighted users get the same label assistive tech receives.

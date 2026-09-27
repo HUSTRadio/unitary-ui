@@ -4,8 +4,8 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { IconsPage } from "../docs/geist/src/components/docs-icons";
-import { LanguageProvider } from "../docs/geist/src/i18n/language";
+import { IconsPage } from "../docs/site/src/components/docs-icons";
+import { LanguageProvider } from "../docs/site/src/i18n/language";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 

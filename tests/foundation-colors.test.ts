@@ -6,7 +6,7 @@ import {
   FOUNDATION_COLOR_ROLE_PARTITIONS,
   FOUNDATION_COLOR_SCALES,
   SEMANTIC_COLOR_TOKENS,
-} from "../docs/geist/src/data/foundation-colors";
+} from "../docs/site/src/data/foundation-colors";
 
 const expectedScales = [
   ["Backgrounds", [100, 200]],

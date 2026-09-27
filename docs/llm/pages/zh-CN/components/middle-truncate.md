@@ -8,7 +8,7 @@
 
 # 中间截断
 
-Middle Truncate
+middle-truncate
 
 保留长标识符的开头和结尾。
 

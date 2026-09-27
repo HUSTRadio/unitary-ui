@@ -12,7 +12,7 @@ function render(address?: string) {
 
 describe("Browser official API contract", () => {
   it("renders 12px traffic-light dots with an 8px gap (P2 geometry)", () => {
-    const markup = render("https://vercel.com");
+    const markup = render("https://example.com");
 
     // Exactly three 12px dots (size-3), matching official w-3 h-3 rounded-full circles
     expect(markup.match(/size-3 rounded-full/g)).toHaveLength(3);
@@ -23,7 +23,7 @@ describe("Browser official API contract", () => {
   });
 
   it("renders responsive back/forward/reload controls (P1)", () => {
-    const markup = render("https://vercel.com");
+    const markup = render("https://example.com");
 
     // Controls live in a decorative aria-hidden group, hidden below md, flex at md+
     expect(markup).toMatch(/<span aria-hidden="true" class="[^"]*hidden[^"]*md:flex[^"]*">/);
@@ -35,7 +35,7 @@ describe("Browser official API contract", () => {
   });
 
   it("keeps the chrome decorative: dots and controls are non-focusable, not buttons", () => {
-    const markup = render("https://vercel.com");
+    const markup = render("https://example.com");
 
     // Only the address-bar Copy action is a real button
     expect(markup.match(/<button/g)).toHaveLength(1);
@@ -45,9 +45,9 @@ describe("Browser official API contract", () => {
   });
 
   it("renders the address bar with copy action when address is provided", () => {
-    const markup = render("https://vercel.com");
+    const markup = render("https://example.com");
 
-    expect(markup).toContain("https://vercel.com");
+    expect(markup).toContain("https://example.com");
     expect(markup).toContain('aria-label="Copy"');
     expect(markup).toContain('data-slot="browser-chrome"');
     expect(markup).toContain('data-slot="browser-content"');

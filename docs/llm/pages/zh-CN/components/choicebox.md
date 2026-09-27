@@ -8,7 +8,7 @@
 
 # 选择框
 
-Choicebox
+choicebox
 
 承载更详细选项内容的大尺寸 Radio。
 

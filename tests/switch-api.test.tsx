@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
 import { Switch, SwitchControl } from "../src/components/ui/switch";
-import { EXAMPLE_SOURCE } from "../docs/geist/src/examples/registry";
+import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relativePath: string) => readFile(path.join(repoRoot, relativePath), "utf8");
@@ -56,7 +56,7 @@ describe("Switch live official contract", () => {
   });
 
   test("inventory and docs cover all six live demos", async () => {
-    const docs = await read("docs/geist/src/components/docs-components-page.tsx");
+    const docs = await read("docs/site/src/components/docs-components-page.tsx");
     const manifest = JSON.parse(await read("tests/audit/geist-audit-manifest.json"));
     const entry = manifest.components.find((item: { slug: string }) => item.slug === "switch");
     const expected = ["default", "disabled", "sizes", "full-width", "tooltip", "icon"];

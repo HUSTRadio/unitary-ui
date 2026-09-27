@@ -6,7 +6,7 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { DocsBlock } from "../docs/geist/src/components/docs-typography";
+import { DocsBlock } from "../docs/site/src/components/docs-typography";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -48,7 +48,7 @@ describe("DocsBlock spacing owner", () => {
 
   test("uses the shared 16px token for block margins without changing child grid spacing", () => {
     const stylesPath = "../src/styles/index.css";
-    const guideSectionsPath = "../docs/geist/src/components/component-guide-sections.tsx";
+    const guideSectionsPath = "../docs/site/src/components/component-guide-sections.tsx";
     const styles = readFileSync(new URL(stylesPath, import.meta.url), "utf8");
     const ownerRule = styles.match(/\.docs-prose-block\s*\{([\s\S]*?)\n\}/m)?.[1] ?? "";
     const guideSections = readFileSync(new URL(guideSectionsPath, import.meta.url), "utf8");
@@ -66,11 +66,11 @@ describe("DocsBlock spacing owner", () => {
 
   test("owns live demos, extra demo sections, and API content blocks", () => {
     const componentsPage = readFileSync(
-      "docs/geist/src/components/docs-components-page.tsx",
+      "docs/site/src/components/docs-components-page.tsx",
       "utf8",
     );
     const apiReference = readFileSync(
-      "docs/geist/src/components/docs-api-reference.tsx",
+      "docs/site/src/components/docs-api-reference.tsx",
       "utf8",
     );
 

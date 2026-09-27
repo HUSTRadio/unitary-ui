@@ -8,7 +8,7 @@
 
 # 骨架屏
 
-Skeleton
+skeleton
 
 在内容加载期间显示占位结构。
 

@@ -8,7 +8,7 @@ A horizontal bar of application menus with keyboard shortcuts, submenus, and che
 
 # Menu Bar
 
-Menu Bar
+menu-bar
 
 A horizontal bar of application menus with keyboard shortcuts, submenus, and checkable items.
 

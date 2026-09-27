@@ -2,14 +2,14 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { LANGUAGE_OPTIONS, SHELL_COPY } from "../docs/geist/src/i18n/catalog";
+import { LANGUAGE_OPTIONS, SHELL_COPY } from "../docs/site/src/i18n/catalog";
 import {
   DEMO_COPY,
   demoSectionTitle,
   demoText,
   demoTextWithValues,
-} from "../docs/geist/src/i18n/components-demo";
-import { readDocsLanguage } from "../docs/geist/src/i18n/language";
+} from "../docs/site/src/i18n/components-demo";
+import { readDocsLanguage } from "../docs/site/src/i18n/language";
 
 describe("docs language support", () => {
   it("defines Chinese as the default when no browser preference is available", () => {
@@ -22,7 +22,7 @@ describe("docs language support", () => {
   });
 
   it("bridges the docs language state into framework component translations", () => {
-    const source = readFileSync(resolve(process.cwd(), "docs/geist/src/i18n/language.tsx"), "utf8");
+    const source = readFileSync(resolve(process.cwd(), "docs/site/src/i18n/language.tsx"), "utf8");
 
     expect(source).toContain('import { I18nProvider } from "@/lib/i18n"');
     expect(source).toContain('<I18nProvider locale={language === "zh-CN" ? "zh-CN" : "en"}>');
@@ -55,7 +55,7 @@ describe("docs language support", () => {
 
   it("localizes every registry section id shown in the Chinese docs", () => {
     const source = readFileSync(
-      resolve(process.cwd(), "docs/geist/src/examples/registry.ts"),
+      resolve(process.cwd(), "docs/site/src/examples/registry.ts"),
       "utf8",
     );
     const ids = new Set([...source.matchAll(/\bid:\s*"([^"]+)"/gu)].map((match) => match[1]));
@@ -76,7 +76,7 @@ describe("docs language support", () => {
 
   it("uses the language catalog instead of duplicate component-page maps", () => {
     const source = readFileSync(
-      resolve(process.cwd(), "docs/geist/src/components/docs-components-page.tsx"),
+      resolve(process.cwd(), "docs/site/src/components/docs-components-page.tsx"),
       "utf8",
     );
     expect(source).not.toContain("isChinese()");
@@ -86,7 +86,7 @@ describe("docs language support", () => {
 
   it("does not hardcode Chinese accessible names in the component demos", () => {
     const source = readFileSync(
-      resolve(process.cwd(), "docs/geist/src/components/docs-components-page.tsx"),
+      resolve(process.cwd(), "docs/site/src/components/docs-components-page.tsx"),
       "utf8",
     );
     expect(source).not.toMatch(/aria-label="[^"]*[\u3400-\u9fff][^"]*"/u);
@@ -94,7 +94,7 @@ describe("docs language support", () => {
 
   it("translates every user-facing section title from the shared catalog", () => {
     const source = readFileSync(
-      resolve(process.cwd(), "docs/geist/src/components/docs-components-page.tsx"),
+      resolve(process.cwd(), "docs/site/src/components/docs-components-page.tsx"),
       "utf8",
     );
     const titles = [...source.matchAll(/<Section title="([^"]+)"/gu)].map((match) => match[1]);
@@ -176,7 +176,7 @@ describe("docs language support", () => {
 
   it("consumes the catalog in interactive and feedback demos", () => {
     const source = readFileSync(
-      resolve(process.cwd(), "docs/geist/src/components/docs-components-page.tsx"),
+      resolve(process.cwd(), "docs/site/src/components/docs-components-page.tsx"),
       "utf8",
     );
 
@@ -190,7 +190,7 @@ describe("docs language support", () => {
 
   it("localizes the remaining P1 control and status demos", () => {
     const source = readFileSync(
-      resolve(process.cwd(), "docs/geist/src/components/docs-components-page.tsx"),
+      resolve(process.cwd(), "docs/site/src/components/docs-components-page.tsx"),
       "utf8",
     );
 
@@ -204,7 +204,7 @@ describe("docs language support", () => {
 
   it("does not use scattered language ternaries inside component demos", () => {
     const source = readFileSync(
-      resolve(process.cwd(), "docs/geist/src/components/docs-components-page.tsx"),
+      resolve(process.cwd(), "docs/site/src/components/docs-components-page.tsx"),
       "utf8",
     );
     const demos = source.split("/* ---------- 总览模式 ---------- */", 1)[0];
@@ -215,10 +215,10 @@ describe("docs language support", () => {
 
   it("eliminates zh ternaries from the entire docs site source", () => {
     const files = [
-      "docs/geist/src/components/docs-components-page.tsx",
-      "docs/geist/src/components/docs-pages.tsx",
-      "docs/geist/src/components/docs-cards.tsx",
-      "docs/geist/src/App.tsx",
+      "docs/site/src/components/docs-components-page.tsx",
+      "docs/site/src/components/docs-pages.tsx",
+      "docs/site/src/components/docs-cards.tsx",
+      "docs/site/src/App.tsx",
     ];
     for (const file of files) {
       const source = readFileSync(resolve(process.cwd(), file), "utf8");
@@ -229,10 +229,10 @@ describe("docs language support", () => {
 
   it("does not contain zhTitles or SECTION_TITLES_ZH maps in any docs file", () => {
     const files = [
-      "docs/geist/src/components/docs-components-page.tsx",
-      "docs/geist/src/components/docs-pages.tsx",
-      "docs/geist/src/components/docs-cards.tsx",
-      "docs/geist/src/App.tsx",
+      "docs/site/src/components/docs-components-page.tsx",
+      "docs/site/src/components/docs-pages.tsx",
+      "docs/site/src/components/docs-cards.tsx",
+      "docs/site/src/App.tsx",
     ];
     for (const file of files) {
       const source = readFileSync(resolve(process.cwd(), file), "utf8");

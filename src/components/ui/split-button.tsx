@@ -17,8 +17,6 @@ import { useI18n } from "@/lib/i18n";
  * - `menuAlignment`：菜单对齐方式，默认 "bottom-start"（对齐主按钮下方），可选 "bottom-end"
  * - `menuProps`：菜单容器 props（如 { width: 264 }）
  * - `children`：主按钮文案
- *
- * 兼容旧 compound API：SplitButton + SplitButtonMain + SplitButtonMenu 仍可用。
  */
 
 export type SplitButtonMenuAlignment = "bottom-start" | "bottom-end";
@@ -128,19 +126,6 @@ function SplitButton({
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const triggerWidth = useElementWidth(triggerRef);
 
-  // 向后兼容：未使用官方 props 时按旧 compound API 渲染
-  const isPropsApi = menuItems !== undefined || buttonProps !== undefined;
-
-  if (!isPropsApi) {
-    return (
-      <MenuContainer>
-        <div data-slot="split-button" className={cn("flex rounded-md", className)} {...props}>
-          {children}
-        </div>
-      </MenuContainer>
-    );
-  }
-
   const isPulldown = variant === "pulldown";
   // pulldown 卡片的方向由展开角决定；split 仍用官方 menuAlignment。
   const position: MenuPosition = isPulldown
@@ -193,65 +178,6 @@ function SplitButton({
   );
 }
 
-/** @deprecated 使用 `SplitButton` 的 `buttonProps`/`menuItems` props API。 */
-function SplitButtonMain({ className, children, ...props }: ButtonProps) {
-  return (
-    <Button data-slot="split-button-main" className={cn("rounded-r-none", className)} {...props}>
-      {children}
-    </Button>
-  );
-}
-
-/** @deprecated 使用 `SplitButton` 的 props API；保留此类型用于渐进迁移。 */
-export interface SplitButtonMenuProps extends ButtonProps {
-  /** 下拉触发按钮的无障碍标签（aria-label） */
-  menuLabel?: string;
-  /** 下拉菜单对齐方式（"start" 对齐主按钮左缘，官方默认 bottom-start） */
-  align?: "start" | "center" | "end";
-  /** 视觉变体（透传 Button type） */
-  variant?: ButtonProps["type"];
-  /** 下拉菜单内容 */
-  children?: React.ReactNode;
-}
-
-/** @deprecated 使用 `SplitButton` 的 `menuButtonLabel`/`menuItems` props API。 */
-function SplitButtonMenu({
-  className,
-  children,
-  menuLabel = "More options",
-  align = "start",
-  variant = "default",
-  size = "medium",
-  type: _type,
-  ...props
-}: SplitButtonMenuProps) {
-  const { t } = useI18n();
-  const triggerRef = React.useRef<HTMLButtonElement>(null);
-  const triggerWidth = useElementWidth(triggerRef);
-  // "start" 对齐主按钮左缘；"end" 对齐整组右缘（触发按钮贴右）；"center" 取整组中心
-  const alignOffset = align === "start" ? -triggerWidth : align === "end" ? 0 : -triggerWidth / 2;
-
-  return (
-    <>
-      <MenuButton
-        ref={triggerRef}
-        data-slot="split-button-menu"
-        variant={variant}
-        size={size}
-        svgOnly
-        aria-label={menuLabel === "More options" ? t(menuLabel) : menuLabel}
-        className={cn("rounded-l-none", className)}
-        {...props}
-      >
-        <ChevronDown className="size-3.5" aria-hidden />
-      </MenuButton>
-      <Menu align={align} alignOffset={alignOffset}>
-        {children}
-      </Menu>
-    </>
-  );
-}
-
 const SplitButtonMenuItem = React.forwardRef<
   React.ElementRef<typeof MenuItem>,
   SplitButtonMenuItemProps
@@ -280,4 +206,4 @@ const SplitButtonMenuItem = React.forwardRef<
 ));
 SplitButtonMenuItem.displayName = "SplitButtonMenuItem";
 
-export { SplitButton, SplitButtonMain, SplitButtonMenu, SplitButtonMenuItem };
+export { SplitButton, SplitButtonMenuItem };

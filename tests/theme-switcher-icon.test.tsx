@@ -20,7 +20,7 @@ if (typeof window.matchMedia !== "function") {
         media: query,
         addEventListener: () => {},
         removeEventListener: () => {},
-      }) as MediaQueryList,
+      }) as unknown as MediaQueryList,
   });
 }
 

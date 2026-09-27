@@ -8,7 +8,7 @@
 
 # 响应式抽屉
 
-Responsive Drawer
+responsive-drawer
 
 一个抽屉承载手机贴底与桌面贴右两种形态，可选底部拖拽档位。
 

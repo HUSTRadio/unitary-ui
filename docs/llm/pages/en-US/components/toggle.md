@@ -8,7 +8,7 @@ A switch for a single boolean setting.
 
 # Toggle
 
-Toggle
+toggle
 
 A switch for a single boolean setting.
 
@@ -292,5 +292,5 @@ import { Toggle } from "@/components/ui/toggle";
 - The label is children, not a label prop. Title Case noun phrase, 1–4 words, naming what is true when ON: Password Protection, not Enable Password Protection.
 - Render an optional one-sentence description as a sibling under the label that explains ON only. Don’t describe OFF; it’s the negation.
 - Keep labelCasing="title" (the default) so labels match other Title Case surfaces. Use labelCasing="normal" only when sentence-case content sits inline next to the toggle.
-- Provide an accessible name through children, aria-label, or aria-labelledby. Geist warns in development if all three are missing.
+- Provide an accessible name through children, aria-label, or aria-labelledby. Unitary warns in development if all three are missing.
 - Set aria-label only when the visible label sits elsewhere on the row; otherwise let children carry it so sighted and screen-reader copy stay aligned.

@@ -8,7 +8,7 @@ Renders a circular progress indicator with an optional center metric.
 
 # Progress Circle
 
-Tremor Raw
+progress-circle
 
 Renders a circular progress indicator with an optional center metric.
 

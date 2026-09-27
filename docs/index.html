@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Unitary</title>
+    <script>
+      // 首帧前应用主题偏好，避免 FOUC（与 src/lib/theme.tsx 的 initTheme 一致）
+      (function () {
+        try {
+          var key = "unitary-theme-preference";
+          var pref = localStorage.getItem(key);
+          if (pref === null) {
+            // 迁移旧键（Geist 命名）保存的偏好，避免首帧与运行时不一致
+            var legacy = localStorage.getItem("geist-theme-preference");
+            if (legacy !== null) {
+              pref = legacy;
+              localStorage.setItem(key, legacy);
+              localStorage.removeItem("geist-theme-preference");
+            }
+          }
+          var dark =
+            pref === "dark" ||
+            ((pref === null || pref === "system") &&
+              matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.classList.toggle("dark", dark);
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+          document.documentElement.style.colorScheme = dark ? "dark" : "light";
+          document.querySelector('meta[name="theme-color"]').content = dark ? "#0a0a0a" : "#ffffff";
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/site/src/main.tsx"></script>
+  </body>
+</html>

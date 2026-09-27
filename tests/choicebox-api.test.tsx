@@ -80,7 +80,7 @@ describe("Choicebox official Group/Item contract (B1)", () => {
   test("radio emits one string and checkbox emits the toggled string array", () => {
     const radioChange = vi.fn();
     let view = mount(
-      <ChoiceboxGroup aria-label="Plan" onChange={radioChange} type="radio" value="trial">
+      <ChoiceboxGroup label="Plan" onChange={radioChange} type="radio" value="trial">
         <ChoiceboxGroupItem description="Start now" title="Pro" value="pro" />
       </ChoiceboxGroup>,
     );
@@ -92,7 +92,7 @@ describe("Choicebox official Group/Item contract (B1)", () => {
     const checkboxChange = vi.fn();
     view = mount(
       <ChoiceboxGroup
-        aria-label="Features"
+        label="Features"
         onChange={checkboxChange}
         type="checkbox"
         value={["audit"]}
@@ -111,7 +111,7 @@ describe("Choicebox official Group/Item contract (B1)", () => {
   test("checkbox uses role=group, check indicator, and merges group/item disabled", () => {
     const view = mount(
       <ChoiceboxGroup
-        aria-label="Features"
+        label="Features"
         disabled
         onChange={() => {}}
         type="checkbox"
@@ -134,7 +134,7 @@ describe("Choicebox official Group/Item contract (B1)", () => {
 
   test("custom children render only for selected items", () => {
     const view = mount(
-      <ChoiceboxGroup aria-label="Plan" onChange={() => {}} type="radio" value="trial">
+      <ChoiceboxGroup label="Plan" onChange={() => {}} type="radio" value="trial">
         <ChoiceboxGroupItem description="Trial" title="Trial" value="trial">
           <span data-custom="trial">Trial badge</span>
         </ChoiceboxGroupItem>
@@ -154,7 +154,7 @@ describe("Choicebox official Group/Item contract (B1)", () => {
   test("tile and indicators use official surface, state, focus and responsive classes", () => {
     const view = mount(
       <ChoiceboxGroup
-        aria-label="Plan"
+        label="Plan"
         listClassName="flex-row"
         onChange={() => {}}
         type="radio"

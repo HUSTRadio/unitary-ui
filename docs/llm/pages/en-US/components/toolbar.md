@@ -8,7 +8,7 @@ A window-level bar of grouped tool items that collapses into an overflow menu.
 
 # Toolbar
 
-Toolbar
+toolbar
 
 A window-level bar of grouped tool items that collapses into an overflow menu.
 

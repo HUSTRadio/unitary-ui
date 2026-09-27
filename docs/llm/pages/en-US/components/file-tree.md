@@ -8,7 +8,7 @@ Displays a hierarchical directory structure with expandable folders and files.
 
 # File Tree
 
-File Tree
+file-tree
 
 Displays a hierarchical directory structure with expandable folders and files.
 

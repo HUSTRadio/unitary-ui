@@ -8,7 +8,7 @@ Contains React render failures and replaces the failed subtree with recovery UI.
 
 # Error Boundary
 
-Error Boundary
+error-boundary
 
 Contains React render failures and replaces the failed subtree with recovery UI.
 

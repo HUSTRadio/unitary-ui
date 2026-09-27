@@ -8,7 +8,7 @@ A floating label that appears on hover or focus.
 
 # Tooltip
 
-Tooltip
+tooltip
 
 A floating label that appears on hover or focus.
 

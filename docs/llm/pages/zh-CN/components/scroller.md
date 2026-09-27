@@ -8,7 +8,7 @@
 
 # 滚动容器
 
-Scroller
+scroller
 
 显示内容溢出的项目列表。
 

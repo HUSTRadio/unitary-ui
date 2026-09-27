@@ -8,7 +8,7 @@ Displays a month calendar from which users can pick a date.
 
 # Calendar
 
-Calendar
+calendar
 
 Displays a month calendar from which users can pick a date.
 

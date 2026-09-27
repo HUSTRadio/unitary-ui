@@ -8,7 +8,7 @@ Renders tiny inline sparklines (area, line, or bar) for at-a-glance trends.
 
 # Spark Chart
 
-Tremor Raw
+spark-chart
 
 Renders tiny inline sparklines (area, line, or bar) for at-a-glance trends.
 

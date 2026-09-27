@@ -19,8 +19,8 @@ const SCRIM_SELECTOR = '[data-slot="context-menu-quick-actions-overlay"]';
 
 async function openQuickActionsDemo(page: Page) {
   await page.addInitScript(() => {
-    window.localStorage.setItem("geist-docs-language", "en-US");
-    window.localStorage.setItem("geist-theme-preference", "light");
+    window.localStorage.setItem("unitary-docs-language", "en-US");
+    window.localStorage.setItem("unitary-theme-preference", "light");
   });
   await page.goto("/#/components/context-menu");
   await page.waitForSelector('[data-slot="navbar"]');

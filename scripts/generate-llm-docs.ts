@@ -31,11 +31,11 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { chromium } from "@playwright/test";
+import { chromium, type Page } from "@playwright/test";
 import TurndownService from "turndown";
 
-import { COMPONENTS } from "../docs/geist/src/data/components";
-import { DOCS_ROUTE_SEQUENCE, type DocsRoute } from "../docs/geist/src/data/docs-routes";
+import { COMPONENTS } from "../docs/site/src/data/components";
+import { DOCS_ROUTE_SEQUENCE, type DocsRoute } from "../docs/site/src/data/docs-routes";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const LLM_DIR = path.join(ROOT, "docs", "llm");
@@ -79,6 +79,10 @@ async function isServerUp(url: string): Promise<boolean> {
 
 async function findAvailablePort(startPort: number): Promise<number> {
   for (let port = startPort; port < startPort + 100; port++) {
+    // 仅“能绑定”并不够：残留的预览进程仍可能在端口上应答，而 --strictPort 会让本进程的
+    // vp dev 直接退出，随后 Playwright 连到一个正在消失的服务上并超时。因此已有服务应答的
+    // 端口一律跳过，保证 startPreview 返回的端口一定由本次 spawn 的进程提供。
+    if (await isServerUp(`http://127.0.0.1:${port}`)) continue;
     const available = await new Promise<boolean>((resolve) => {
       const server = net.createServer();
       server.once("error", () => resolve(false));
@@ -96,7 +100,7 @@ async function startPreview(): Promise<{ child: ChildProcess; port: number }> {
   const baseUrl = `http://127.0.0.1:${port}`;
   const child = spawn(
     VP_COMMAND,
-    ["dev", "docs/geist", "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
+    ["dev", "docs", "--host", "127.0.0.1", "--port", String(port), "--strictPort"],
     {
       cwd: ROOT,
       stdio: "ignore",
@@ -126,8 +130,9 @@ function stopPreview(child: ChildProcess | null): void {
   if (!child || child.killed) return;
   try {
     if (process.platform === "win32") {
-      // Windows 下 vp 是 .cmd 包装，需要杀整个进程树。
-      spawn("taskkill", ["/pid", String(child.pid), "/t", "/f"], { stdio: "ignore" });
+      // Windows 下 vp 是 .cmd 包装，需要杀整个进程树；必须同步等待结束，否则本进程退出后
+      // 预览服务仍占着端口，会让后续 generate/check 复用到它。
+      spawnSync("taskkill", ["/pid", String(child.pid), "/t", "/f"], { stdio: "ignore" });
     } else {
       child.kill("SIGTERM");
     }
@@ -228,6 +233,95 @@ interface RouteOutput {
   pages: Record<Locale, string>;
 }
 
+/**
+ * 等待 #main-content 不仅存在、且已经渲染出非空内容。
+ * 仅 `waitForSelector` 会在语言切换/路由重挂载的空窗期命中一个尚未填充的容器，
+ * 从而导致语料静默丢失内容（曾观测到示例代码块被整体丢弃）。
+ */
+async function waitForRenderedMain(page: Page): Promise<void> {
+  await page.waitForSelector("#main-content", { timeout: 30_000 });
+  await page.waitForFunction(
+    () => {
+      const main = document.getElementById("main-content");
+      return !!main && (main.textContent ?? "").trim().length > 0;
+    },
+    undefined,
+    { timeout: 30_000 },
+  );
+}
+
+const SHOW_CODE_NAME = /^(显示代码|Show code)$/;
+
+/**
+ * 展开全部 “显示代码 / Show code” 折叠块，并确认展开后代码块真正挂载。
+ * 未展开或未渲染都会抛错，交由路由级重试处理，绝不静默产出残缺语料。
+ */
+async function expandAllCodeBlocks(page: Page): Promise<void> {
+  const toggles = page.getByRole("button", { name: SHOW_CODE_NAME });
+  for (let pass = 0; pass < 2; pass++) {
+    const count = await toggles.count();
+    for (let i = 0; i < count; i++) {
+      const button = toggles.nth(i);
+      if ((await button.getAttribute("aria-expanded").catch(() => null)) === "true") continue;
+      await button.click({ timeout: 5_000 }).catch(() => undefined);
+    }
+    let collapsed = 0;
+    for (let i = 0; i < count; i++) {
+      if ((await toggles.nth(i).getAttribute("aria-expanded").catch(() => null)) !== "true") {
+        collapsed += 1;
+      }
+    }
+    if (collapsed === 0) {
+      // 展开状态翻转后代码块才挂载，必须等 <pre> 数量追上折叠块数量。
+      await page.waitForFunction(
+        (expected) => document.querySelectorAll("#main-content pre").length >= expected,
+        count,
+        { timeout: 20_000 },
+      );
+      return;
+    }
+  }
+  throw new Error("“显示代码” 折叠块在重试后仍未全部展开");
+}
+
+/** 单条 route × locale 的抓取；失败时抛错，由调用方决定重试或终止。 */
+async function captureRoute(
+  page: Page,
+  turndown: TurndownService,
+  baseUrl: string,
+  route: DocsRoute,
+  locale: Locale,
+): Promise<string> {
+  await page.goto(`${baseUrl}/?lang=${locale}#${route.to}`, {
+    waitUntil: "domcontentloaded",
+    timeout: 60_000,
+  });
+  await waitForRenderedMain(page);
+  // 等待 hash 路由挂载到位（hash 变化是客户端导航，需等渲染）。
+  await page
+    .waitForFunction((to) => window.location.hash === `#${to}`, route.to, { timeout: 10_000 })
+    .catch(() => undefined);
+  // HashRouter 会先更新 URL，再提交新页面内容；main 本身跨路由常驻，因此不能作为
+  // 组件详情已就绪的信号。等待当前组件的 demo 标记，防止抓到上一页的 API/示例。
+  if (route.renderer.kind === "component-detail") {
+    await page.waitForSelector(`[data-demo-component="${route.renderer.componentName}"]`, {
+      timeout: 30_000,
+    });
+  }
+  await expandAllCodeBlocks(page);
+  // 内容稳定窗口：等待渲染完成。
+  await page.waitForLoadState("networkidle", { timeout: 15_000 }).catch(() => undefined);
+
+  const html = await page.evaluate(extractMainHtml);
+  if (!html) throw new Error(`route ${route.to} (${locale}) 未渲染出 #main-content`);
+  const markdown = turndown
+    .turndown(html)
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+  if (!markdown) throw new Error(`route ${route.to} (${locale}) 转换后内容为空`);
+  return `${pagePreamble(route, locale)}\n${markdown}\n`;
+}
+
 async function captureAllRoutes(): Promise<RouteOutput[]> {
   const { child, port } = await startPreview();
   const baseUrl = `http://127.0.0.1:${port}`;
@@ -260,43 +354,27 @@ async function captureAllRoutes(): Promise<RouteOutput[]> {
     const pagesByRoute = new Map<string, Partial<Record<Locale, string>>>();
     for (const locale of LOCALES) {
       for (const route of DOCS_ROUTE_SEQUENCE) {
-        const url = `${baseUrl}/?lang=${locale}#${route.to}`;
-        await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60_000 });
-        await page.waitForSelector("#main-content", { timeout: 30_000 });
-        // 等待 hash 路由挂载到位（hash 变化是客户端导航，需等渲染）。
-        await page
-          .waitForFunction((to) => window.location.hash === `#${to}`, route.to, { timeout: 10_000 })
-          .catch(() => undefined);
-        // HashRouter 会先更新 URL，再提交新页面内容；main 本身跨路由常驻，因此不能作为
-        // 组件详情已就绪的信号。等待当前组件的 demo 标记，防止抓到上一页的 API/示例。
-        if (route.renderer.kind === "component-detail") {
-          await page.waitForSelector(
-            `[data-demo-component="${route.renderer.componentName}"]`,
-            { timeout: 30_000 },
-          );
-        }
-        // 展开折叠的代码块（Show code / 显示代码），让代码进入语义内容。
-        // 只匹配 Show code 按钮，避免误点汉堡菜单/命令面板等其它折叠控件。
-        const showCodeButtons = page.getByRole("button", { name: /^(显示代码|Show code)$/ });
-        const showCodeCount = await showCodeButtons.count().catch(() => 0);
-        for (let i = 0; i < showCodeCount; i++) {
-          const button = showCodeButtons.nth(i);
-          if ((await button.getAttribute("aria-expanded").catch(() => null)) === "false") {
-            await button.click({ timeout: 5_000 }).catch(() => undefined);
+        const attempts = 2;
+        let captured: string | null = null;
+        let lastError: unknown = null;
+        for (let attempt = 1; attempt <= attempts && captured === null; attempt++) {
+          try {
+            // 重试时先卸载当前文档，强制一次全新挂载，避免复用半渲染状态。
+            if (attempt > 1) await page.goto("about:blank").catch(() => undefined);
+            captured = await captureRoute(page, turndown, baseUrl, route, locale);
+          } catch (error) {
+            lastError = error;
+            const message = error instanceof Error ? error.message : String(error);
+            if (attempt < attempts) log(`重试 ${route.to} [${locale}]：${message}`);
           }
         }
-        // 内容稳定窗口：等待渲染完成。
-        await page.waitForLoadState("networkidle", { timeout: 15_000 }).catch(() => undefined);
-
-        const html = await page.evaluate(extractMainHtml);
-        if (!html) fail(`route ${route.to} (${locale}) 未渲染出 #main-content`);
-        const markdown = turndown
-          .turndown(html)
-          .replace(/\n{3,}/g, "\n\n")
-          .trim();
-        if (!markdown) fail(`route ${route.to} (${locale}) 转换后内容为空`);
+        if (captured === null) {
+          const message =
+            lastError instanceof Error ? (lastError.stack ?? lastError.message) : String(lastError);
+          fail(`route ${route.to} (${locale}) 捕获失败：${message}`);
+        }
         const record = pagesByRoute.get(route.to) ?? {};
-        record[locale] = `${pagePreamble(route, locale)}\n${markdown}\n`;
+        record[locale] = captured;
         pagesByRoute.set(route.to, record);
         log(`抓取 ${route.to} [${locale}]`);
       }
@@ -349,7 +427,7 @@ function writeOutput(outputs: RouteOutput[], targetDir: string): void {
     framework: "Unitary UI",
     primaryLocale: "zh-CN",
     alternativeLocales: ["en-US"],
-    canonicalSource: "docs/geist/src/data/docs-routes.ts",
+    canonicalSource: "docs/site/src/data/docs-routes.ts",
     generatedAt: undefined as unknown,
     routes: indexRoutes,
   };

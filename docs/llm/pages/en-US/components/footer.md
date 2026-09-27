@@ -8,7 +8,7 @@ A page footer with link columns and optional leading and trailing slots.
 
 # Footer
 
-Unitary Footer
+footer
 
 A page footer with link columns and optional leading and trailing slots.
 

@@ -95,7 +95,7 @@ describe("Button official single-track API contract", () => {
       "src/components/ui/relative-time-card.tsx",
       "src/components/ui/split-button.tsx",
       "src/examples",
-      "docs/geist/src",
+      "docs/site/src",
     ];
 
     const { readdir, stat } = await import("node:fs/promises");

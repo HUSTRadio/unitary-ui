@@ -26,7 +26,7 @@ pageviews
 
 [
 
-Tremor Raw
+area-chart
 
 ### 面积图
 
@@ -34,7 +34,7 @@ Tremor Raw
 
 ](#/charts/area-chart)[
 
-Tremor Raw
+bar-chart
 
 ### 柱状图
 
@@ -42,7 +42,7 @@ Tremor Raw
 
 ](#/charts/bar-chart)[
 
-Tremor Raw
+bar-list
 
 ### 条形列表
 
@@ -50,7 +50,7 @@ Tremor Raw
 
 ](#/charts/bar-list)[
 
-Tremor Raw
+category-bar
 
 ### 分类条
 
@@ -58,7 +58,7 @@ Tremor Raw
 
 ](#/charts/category-bar)[
 
-Tremor Raw
+combo-chart
 
 ### 组合图
 
@@ -66,7 +66,7 @@ Tremor Raw
 
 ](#/charts/combo-chart)[
 
-Tremor Raw
+donut-chart
 
 ### 环形图
 
@@ -74,7 +74,7 @@ Tremor Raw
 
 ](#/charts/donut-chart)[
 
-Tremor Raw
+line-chart
 
 ### 折线图
 
@@ -82,7 +82,7 @@ Tremor Raw
 
 ](#/charts/line-chart)[
 
-Tremor Raw
+progress-circle
 
 ### 进度环
 
@@ -90,7 +90,7 @@ Tremor Raw
 
 ](#/charts/progress-circle)[
 
-Tremor Raw
+spark-chart
 
 ### 迷你趋势图
 
@@ -98,7 +98,7 @@ Tremor Raw
 
 ](#/charts/spark-chart)[
 
-Tremor Raw
+tracker
 
 ### 状态跟踪条
 

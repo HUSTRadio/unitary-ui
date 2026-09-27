@@ -55,7 +55,7 @@ test.describe("docs typography geometry", () => {
     await page.goto("/#/introduction");
     for (const theme of ["light", "dark"] as const) {
       await page.evaluate((nextTheme) => {
-        localStorage.setItem("geist-theme-preference", nextTheme);
+        localStorage.setItem("unitary-theme-preference", nextTheme);
       }, theme);
       await page.reload();
       for (const width of [320, 390, 768, 1440]) {
@@ -267,7 +267,7 @@ test.describe("Feedback official interaction and geometry", () => {
 
   test("matches the measured selected colors in dark mode", async ({ page }) => {
     await page.evaluate(() => {
-      localStorage.setItem("geist-theme-preference", "dark");
+      localStorage.setItem("unitary-theme-preference", "dark");
     });
     await page.reload();
     const capsule = page.locator('[data-demo-card="Inline"] [data-slot="rating-pill"]');

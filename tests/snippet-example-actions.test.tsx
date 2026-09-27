@@ -4,8 +4,8 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { SnippetCallback32E8D276Example } from "../docs/geist/src/examples/snippet/callback-32e8d276.example";
-import { SnippetControlledCopiedStateB953E7D9Example } from "../docs/geist/src/examples/snippet/controlled-copied-state-b953e7d9.example";
+import { SnippetCallback32E8D276Example } from "../docs/site/src/examples/snippet/callback-32e8d276.example";
+import { SnippetControlledCopiedStateB953E7D9Example } from "../docs/site/src/examples/snippet/controlled-copied-state-b953e7d9.example";
 
 describe("Snippet example actions", () => {
   let container: HTMLDivElement;

@@ -8,7 +8,7 @@ Renders layered area series for trends over time, with stacked and percent varia
 
 # Area Chart
 
-Tremor Raw
+area-chart
 
 Renders layered area series for trends over time, with stacked and percent variants.
 

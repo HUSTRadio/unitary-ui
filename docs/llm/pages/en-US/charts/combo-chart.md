@@ -8,7 +8,7 @@ Combines bar and line series in one chart, optionally on two axes.
 
 # Combo Chart
 
-Tremor Raw
+combo-chart
 
 Combines bar and line series in one chart, optionally on two axes.
 

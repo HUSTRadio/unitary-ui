@@ -8,14 +8,14 @@ A bordered code block with a filename header for multi-line source.
 
 # Code Block
 
-Code Block
+code-block
 
 A bordered code block with a filename header for multi-line source.
 
 ## When to use
 
 - Displaying multi-line, syntax-highlighted source code that the reader needs to scan line by line or copy and paste.
-- When the code snippet has a known paste destination (like app/page.tsx or vercel.json), use the filename header to reinforce context clarity.
+- When the code snippet has a known paste destination (like src/App.tsx or vite.config.ts), use the filename header to reinforce context clarity.
 
 ## When not to use
 
@@ -547,5 +547,5 @@ import { CodeBlock, CodeBlockHeader, CodeBlockContent } from "@/components/ui/co
 - Pick Snippet for a copy-to-clipboard shell command or one-line key reveal; it ships with the prompt glyph and copy affordance built in.
 - Always pass a language/syntax (tsx, bash, json, diff). Highlighting is the primary reason to choose CodeBlock over a plain <pre>.
 - Highlight only the lines under discussion. A block where every line is highlighted reads the same as no highlight at all.
-- Show the filename header when the snippet has a paste destination (app/page.tsx, vercel.json). Omit it for ephemeral examples.
+- Show the filename header when the snippet has a paste destination (src/App.tsx, vite.config.ts). Omit it for ephemeral examples.
 - Snippets stay runnable. Don't paraphrase real code into pseudo-syntax, and don't prepend $ to shell commands.

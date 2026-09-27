@@ -8,7 +8,7 @@ Navigates through numbered pages of a data set.
 
 # Pagination
 
-Pagination
+pagination
 
 Navigates through numbered pages of a data set.
 

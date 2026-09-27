@@ -8,7 +8,7 @@ Displays keyboard input that triggers an action.
 
 # Keyboard Input
 
-Keyboard Input
+keyboard-input
 
 Displays keyboard input that triggers an action.
 

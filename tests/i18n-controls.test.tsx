@@ -29,7 +29,7 @@ function mount(localized: boolean) {
   const controls = (
     <>
       <Avatar placeholder />
-      <Avatar username="vercel" />
+      <Avatar username="unitary" />
       <AvatarGroup members={[{ username: "a" }, { username: "b" }]} limit={1} />
       <AvatarWithIcon icon={<span />} />
       <Browser address="https://example.com" />
@@ -65,7 +65,7 @@ describe("framework control i18n", () => {
   test("localizes built-in labels while retaining consumer-provided content", () => {
     mount(true);
     expect(container.querySelector('[aria-label="占位头像"]')).toBeTruthy();
-    expect(container.querySelector('[alt="用户 vercel 的头像"]')).toBeTruthy();
+    expect(container.querySelector('[alt="用户 unitary 的头像"]')).toBeTruthy();
     expect(container.querySelector('[aria-label="带图标的头像"]')).toBeTruthy();
     expect(container.querySelector('[aria-label="复制"]')).toBeTruthy();
     expect(container.querySelector('[aria-label="按 Cmd + K 打开命令菜单"]')).toBeTruthy();

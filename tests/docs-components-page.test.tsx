@@ -5,9 +5,10 @@ import { createRoot, type Root } from "react-dom/client";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { ComponentsPage } from "../docs/geist/src/components/docs-components-page";
-import { getDocsRoute } from "../docs/geist/src/data/docs-routes";
-import { LanguageProvider } from "../docs/geist/src/i18n/language";
+import { ComponentsPage } from "../docs/site/src/components/docs-components-page";
+import { COMPONENTS } from "../docs/site/src/data/components";
+import { getDocsRoute } from "../docs/site/src/data/docs-routes";
+import { LanguageProvider } from "../docs/site/src/i18n/language";
 import { ThemeProvider } from "../src/lib/theme";
 
 let container: HTMLDivElement;
@@ -43,9 +44,15 @@ beforeEach(() => {
     dispatchEvent: () => false,
   }));
   const restoreScrollTo = stubProperty(window, "scrollTo", () => {});
+  const restoreResizeObserver = stubProperty(window, "ResizeObserver", class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  });
   const restoreCanvasContext = stubProperty(HTMLCanvasElement.prototype, "getContext", () => null);
   restorePlatformApis = () => {
     restoreCanvasContext();
+    restoreResizeObserver();
     restoreScrollTo();
     restoreMatchMedia();
   };
@@ -72,7 +79,7 @@ async function render(componentName?: string) {
 }
 
 async function renderApp(pathname: string) {
-  const { default: App } = await import("../docs/geist/src/App");
+  const { default: App } = await import("../docs/site/src/App");
 
   await act(async () => {
     root.render(
@@ -133,6 +140,52 @@ describe("ComponentsPage canonical route input", () => {
 });
 
 /**
+ * 徽标语义契约：详情页标题旁与卡片眉标展示的是**元件 ID**（路由 slug），
+ * 显示名只作为标题出现；元数据里不再保留上游来源名，避免徽标变成别人的名字。
+ */
+describe("component id badges", () => {
+  const chartIds = [
+    "area-chart",
+    "bar-chart",
+    "line-chart",
+    "combo-chart",
+    "donut-chart",
+    "spark-chart",
+    "category-bar",
+    "bar-list",
+    "tracker",
+    "progress-circle",
+  ] as const;
+
+  test("component metadata no longer carries an upstream display name", () => {
+    for (const component of COMPONENTS) {
+      expect(component).not.toHaveProperty("official");
+    }
+  });
+
+  test("shows the component id right after the detail title", async () => {
+    await render("area-chart");
+
+    const title = container.querySelector("h1");
+    expect(title?.textContent).toBe("面积图");
+    const badge = title?.nextElementSibling;
+    expect(badge?.getAttribute("data-slot")).toBe("component-id");
+    expect(badge?.textContent?.trim()).toBe("area-chart");
+  });
+
+  test("shows the component id on every chart gallery card, with the display name as title", async () => {
+    await renderApp("/charts");
+
+    for (const id of chartIds) {
+      const card = container.querySelector(`a[href="#/charts/${id}"]`);
+      expect(card).not.toBeNull();
+      expect(card?.querySelector('[data-slot="component-id"]')?.textContent?.trim()).toBe(id);
+      expect(card?.querySelector("h3")?.textContent?.trim()).toBeTruthy();
+    }
+  });
+});
+
+/**
  * BackLink 的图标/文本几何契约。
  *
  * 历史缺陷：图标与文本并排放在 `inline-flex items-center` 里。flex 对中的是**行盒**，
@@ -164,7 +217,7 @@ describe("BackLink icon/text geometry contract", () => {
     // 不得覆盖 line-height：行盒高度就是墨迹参考框，压缩它会把图标再往下推。
     // 只看 className 字面量，避免把注释里提到的写法也算进来。
     const source = await import("node:fs/promises").then(({ readFile }) =>
-      readFile("docs/geist/src/components/docs-components-page.tsx", "utf8"),
+      readFile("docs/site/src/components/docs-components-page.tsx", "utf8"),
     );
     const backLink = source.slice(source.indexOf("function BackLink()"));
     const block = backLink.slice(0, backLink.indexOf("\n}"));

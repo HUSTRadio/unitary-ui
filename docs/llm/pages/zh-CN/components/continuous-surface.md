@@ -8,7 +8,7 @@
 
 # 连续曲率容器
 
-Continuous Surface
+continuous-surface
 
 通过连续曲率路径裁切自适应尺寸的表面，并在路径不可用时保留普通圆角。
 

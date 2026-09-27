@@ -5,8 +5,8 @@ test.setTimeout(45_000);
 for (const theme of ["light", "dark"] as const) {
   test(`MenuBar in a modal stays clickable above its overlay (${theme})`, async ({ page }) => {
     await page.addInitScript((preferredTheme) => {
-      localStorage.setItem("geist-docs-language", "en-US");
-      localStorage.setItem("geist-theme-preference", preferredTheme);
+      localStorage.setItem("unitary-docs-language", "en-US");
+      localStorage.setItem("unitary-theme-preference", preferredTheme);
     }, theme);
     await page.goto("/#/components/menu-bar");
     await page.getByRole("button", { name: "Open menu in modal" }).click();
@@ -29,8 +29,8 @@ for (const theme of ["light", "dark"] as const) {
   test(`MenuBar submenu stays inside narrow viewport (${theme})`, async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 700 });
     await page.addInitScript((preferredTheme) => {
-      localStorage.setItem("geist-docs-language", "en-US");
-      localStorage.setItem("geist-theme-preference", preferredTheme);
+      localStorage.setItem("unitary-docs-language", "en-US");
+      localStorage.setItem("unitary-theme-preference", preferredTheme);
     }, theme);
     await page.goto("/#/components/menu-bar");
     await page.getByRole("menubar").first().getByRole("menuitem", { name: "File" }).click();
@@ -47,8 +47,8 @@ for (const theme of ["light", "dark"] as const) {
 
   test(`MenuBar demo advertises no keycaps for unbound shortcuts (${theme})`, async ({ page }) => {
     await page.addInitScript((preferredTheme) => {
-      localStorage.setItem("geist-docs-language", "en-US");
-      localStorage.setItem("geist-theme-preference", preferredTheme);
+      localStorage.setItem("unitary-docs-language", "en-US");
+      localStorage.setItem("unitary-theme-preference", preferredTheme);
     }, theme);
     await page.goto("/#/components/menu-bar");
     const bar = page.getByRole("menubar").first();
@@ -73,8 +73,8 @@ for (const theme of ["light", "dark"] as const) {
 
   test(`MenuBar narrow overflow signals hidden commands (${theme})`, async ({ page }) => {
     await page.addInitScript((preferredTheme) => {
-      localStorage.setItem("geist-docs-language", "en-US");
-      localStorage.setItem("geist-theme-preference", preferredTheme);
+      localStorage.setItem("unitary-docs-language", "en-US");
+      localStorage.setItem("unitary-theme-preference", preferredTheme);
     }, theme);
     await page.goto("/#/components/menu-bar");
     const bar = page.locator('[data-slot="menu-bar"]').first();

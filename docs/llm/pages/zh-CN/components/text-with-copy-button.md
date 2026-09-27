@@ -8,7 +8,7 @@
 
 # 带复制按钮的文本
 
-Text With Copy Button
+text-with-copy-button
 
 在文本旁显示可将其复制到剪贴板的按钮。
 

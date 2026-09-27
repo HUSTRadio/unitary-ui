@@ -8,7 +8,7 @@
 
 # 分页
 
-Pagination
+pagination
 
 在数据集的编号页面之间导航。
 

@@ -44,14 +44,16 @@ describe("TextWithCopyButton event contract", () => {
   test("runs the consumer click first and respects preventDefault", async () => {
     const onClick = vi.fn((event: React.MouseEvent<HTMLButtonElement>) => event.preventDefault());
 
-    await click(<TextWithCopyButton textToCopy="blocked" onClick={onClick} />);
+    await click(
+      <TextWithCopyButton onClick={onClick} textLabel="Blocked" textToCopy="blocked" />,
+    );
 
     expect(onClick).toHaveBeenCalledOnce();
     expect(writeText).not.toHaveBeenCalled();
   });
 
   test("copies text when click is not prevented", async () => {
-    await click(<TextWithCopyButton textToCopy="copied text" />);
+    await click(<TextWithCopyButton textLabel="Copied text" textToCopy="copied text" />);
 
     expect(writeText).toHaveBeenCalledWith("copied text");
   });

@@ -49,7 +49,7 @@ export function App() {
 
 ## Documentation
 
-- 文档站：`vp dev docs/geist`
+- 文档站：`vp dev docs`
 - 官方规范快照：[`docs/geist-markdown-refs`](./docs/geist-markdown-refs)
 - 变更记录：[`CHANGELOG.md`](./CHANGELOG.md)
 

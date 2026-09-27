@@ -8,8 +8,8 @@ type Surface = "command" | "modal" | "destructive";
 async function openSurface(page: Page, surface: Surface, theme: (typeof themes)[number]) {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.addInitScript((value) => {
-    localStorage.setItem("geist-theme-preference", value);
-    localStorage.setItem("geist-docs-language", "en-US");
+    localStorage.setItem("unitary-theme-preference", value);
+    localStorage.setItem("unitary-docs-language", "en-US");
   }, theme);
   const demo = {
     command: { route: "command-menu", card: "with-suffix", button: "Open Command Menu" },

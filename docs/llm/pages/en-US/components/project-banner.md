@@ -8,7 +8,7 @@ Used for temporary, project-wide notifications that require resolution.
 
 # Project Banner
 
-Project Banner
+project-banner
 
 Used for temporary, project-wide notifications that require resolution.
 

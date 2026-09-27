@@ -17,8 +17,6 @@ export interface TooltipProps {
   tip?: boolean;
   center?: boolean;
   type?: TooltipType;
-  /** @deprecated 兼容内部组合用法；新代码应按条件决定是否渲染 Tooltip。 */
-  disableTriggers?: boolean;
   className?: string;
 }
 
@@ -44,7 +42,6 @@ function Tooltip({
   tip = true,
   center = true,
   type = "default",
-  disableTriggers = false,
   className,
 }: TooltipProps) {
   // HIG-AUD-015：**不制造焦点**——此前对非可聚焦子元素强注 `tabIndex ?? 0`，把纯展示内容
@@ -65,8 +62,6 @@ function Tooltip({
   const colors = tooltipColors[type];
   const delayDuration = typeof delay === "number" ? delay : delay ? 400 : 0;
   const tipClipId = React.useId();
-
-  if (disableTriggers) return <>{children}</>;
 
   return (
     <TooltipPrimitive.Provider delayDuration={delayDuration}>

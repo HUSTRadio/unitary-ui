@@ -8,7 +8,7 @@ A contained error state with recovery guidance.
 
 # Error Card
 
-Error Card
+error-card
 
 A contained error state with recovery guidance.
 

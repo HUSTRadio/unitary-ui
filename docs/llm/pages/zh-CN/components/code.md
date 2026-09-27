@@ -8,7 +8,7 @@
 
 # 代码
 
-Code
+code
 
 使用语法高亮展示代码片段。
 
@@ -50,7 +50,7 @@ Code
 
 ## 实时示例
 
-Install with `npm i geist` and import the component.
+Install with `npm i @hustradio/unitary-ui` and import the component.
 
 ```tsx
 console.log("Hello");
@@ -63,7 +63,7 @@ export function CodeDefault21B111CBExample() {
   return (
     <div className="flex w-full max-w-2xl flex-col gap-3">
       <p className="text-copy-14 text-muted-foreground">
-        Install with <InlineCode>npm i geist</InlineCode> and import the component.
+        Install with <InlineCode>npm i @hustradio/unitary-ui</InlineCode> and import the component.
       </p>
       <Code syntax="javascript">{`console.log("Hello")`}</Code>
     </div>

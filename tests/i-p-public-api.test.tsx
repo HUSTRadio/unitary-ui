@@ -47,8 +47,7 @@ import type {
   NoteProps,
 } from "@/components/ui/note";
 import type { PaginationProps } from "@/components/ui/pagination";
-import { Phone, type PhoneProps, type PhoneScreenProps } from "@/components/ui/phone";
-import type { DeviceProps, DeviceScreenProps } from "@/components/ui/device";
+import { Device, type DeviceProps, type DeviceScreenProps } from "@/components/ui/device";
 import type { DeviceModelId } from "@/lib/device-models";
 import type { PillProps } from "@/components/ui/pill";
 import type {
@@ -95,8 +94,6 @@ type PublicApiSurface = readonly [
   NoteLabelProps,
   NoteActionProps,
   PaginationProps,
-  PhoneProps,
-  PhoneScreenProps,
   DeviceProps,
   DeviceScreenProps,
   DeviceModelId,
@@ -162,19 +159,19 @@ describe("I-P public API contracts", () => {
     expect(container.textContent).toContain("Analytics");
   });
 
-  test("Phone forwards native div attributes and refs", () => {
+  test("Device forwards native div attributes and refs", () => {
     const ref = createRef<HTMLDivElement>();
     const children: ReactNode = <span>Screen</span>;
 
     act(() => {
       root.render(
-        <Phone ref={ref} id="phone-preview" aria-label="Phone preview">
+        <Device model="iphone-17" ref={ref} id="device-preview" aria-label="Device preview">
           {children}
-        </Phone>,
+        </Device>,
       );
     });
 
-    expect(ref.current).toBe(container.querySelector("#phone-preview"));
-    expect(ref.current?.getAttribute("aria-label")).toBe("Phone preview");
+    expect(ref.current).toBe(container.querySelector("#device-preview"));
+    expect(ref.current?.getAttribute("aria-label")).toBe("Device preview");
   });
 });

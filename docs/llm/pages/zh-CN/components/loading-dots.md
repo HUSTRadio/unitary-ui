@@ -8,7 +8,7 @@
 
 # 加载圆点
 
-Loading Dots
+loading-dots
 
 用三个跳动圆点表示后台操作正在运行。
 

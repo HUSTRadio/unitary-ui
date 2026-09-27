@@ -14,8 +14,8 @@ describe("Link", () => {
   });
 
   it("expands github: prefix as well", () => {
-    const html = markupOf({ href: "github:vercel/geist", children: "Geist" });
-    expect(html).toContain('href="https://github.com/vercel/geist"');
+    const html = markupOf({ href: "github:HUSTRadio/unitary-ui", children: "Unitary" });
+    expect(html).toContain('href="https://github.com/HUSTRadio/unitary-ui"');
   });
 
   it("puts the forge brand icon before the label by default and omits ExternalLink", () => {

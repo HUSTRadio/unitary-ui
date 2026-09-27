@@ -8,7 +8,7 @@ A multi-line text field for longer input.
 
 # Textarea
 
-Textarea
+textarea
 
 A multi-line text field for longer input.
 

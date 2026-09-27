@@ -8,7 +8,7 @@ Shows a relative timestamp with temporal context.
 
 # Relative Time Card
 
-Relative Time Card
+relative-time-card
 
 Shows a relative timestamp with temporal context.
 

@@ -4,16 +4,16 @@ import { fileURLToPath } from "node:url";
 import * as ts from "typescript";
 import { describe, expect, test } from "vitest";
 import { FRAMEWORK_MESSAGES } from "@/lib/framework-messages";
-import { COMPONENTS } from "../docs/geist/src/data/components";
-import { localizeComponentMetadata } from "../docs/geist/src/i18n/components-zh";
-import COMPONENT_BEST_PRACTICES_ZH from "../docs/geist/src/i18n/best-practices-zh";
+import { COMPONENTS } from "../docs/site/src/data/components";
+import { localizeComponentMetadata } from "../docs/site/src/i18n/components-zh";
+import COMPONENT_BEST_PRACTICES_ZH from "../docs/site/src/i18n/best-practices-zh";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const componentDirectory = path.join(root, "src/components/ui");
 const translatableAttributes = new Set(["aria-label", "alt", "placeholder", "title"]);
 const allowedTechnicalText = new Set(["UTC", "Esc", "K"]);
-const componentsDemoPath = path.join(root, "docs/geist/src/i18n/components-demo.ts");
-const bestPracticesZhPath = path.join(root, "docs/geist/src/i18n/best-practices-zh.ts");
+const componentsDemoPath = path.join(root, "docs/site/src/i18n/components-demo.ts");
+const bestPracticesZhPath = path.join(root, "docs/site/src/i18n/best-practices-zh.ts");
 
 const zhSource = await readFile(bestPracticesZhPath, "utf8");
 
@@ -27,6 +27,22 @@ async function componentFiles(directory: string): Promise<string[]> {
     }),
   );
   return nested.flat();
+}
+
+/** 取 JSX 属性上的字符串字面量：直接写法或 {} 包裹两种形式。 */
+function jsxStringLiteral(
+  initializer: ts.JsxAttributeValue | undefined,
+): ts.StringLiteral | undefined {
+  if (!initializer) return undefined;
+  if (ts.isStringLiteral(initializer)) return initializer;
+  if (
+    ts.isJsxExpression(initializer) &&
+    initializer.expression &&
+    ts.isStringLiteral(initializer.expression)
+  ) {
+    return initializer.expression;
+  }
+  return undefined;
 }
 
 describe("component i18n source guard", () => {
@@ -49,18 +65,14 @@ describe("component i18n source guard", () => {
             violations.push(`${path.relative(root, file)}: raw JSX text ${JSON.stringify(text)}`);
           }
         }
-        if (ts.isJsxAttribute(node) && translatableAttributes.has(node.name.text)) {
-          const initializer = node.initializer;
-          const literal = ts.isStringLiteral(initializer)
-            ? initializer
-            : ts.isJsxExpression(initializer) &&
-                initializer.expression &&
-                ts.isStringLiteral(initializer.expression)
-              ? initializer.expression
-              : undefined;
+        if (ts.isJsxAttribute(node)) {
+          const attributeName = node.name.getText(source);
+          const literal = translatableAttributes.has(attributeName)
+            ? jsxStringLiteral(node.initializer)
+            : undefined;
           if (literal) {
             violations.push(
-              `${path.relative(root, file)}: raw ${node.name.text} ${JSON.stringify(literal.text)}`,
+              `${path.relative(root, file)}: raw ${attributeName} ${JSON.stringify(literal.text)}`,
             );
           }
         }

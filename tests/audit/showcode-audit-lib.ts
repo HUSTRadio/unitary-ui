@@ -31,7 +31,7 @@ export interface AuditReport {
   totalEntries: number;
 }
 
-const PAGE_PATH = "docs/geist/src/components/docs-components-page.tsx";
+const PAGE_PATH = "docs/site/src/components/docs-components-page.tsx";
 
 /** 从页面源码提取 (slug, blockId) 引用集合（线性扫描：锚点就近归属） */
 export function extractReferences(pageSource: string): { slug: string; id: string }[] {

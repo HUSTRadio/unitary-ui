@@ -18,8 +18,8 @@ async function openRoute(page: Page, route: string, theme: Theme) {
   // 会让本文件的断言在「无模拟」下假失败）。
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.addInitScript((value) => {
-    window.localStorage.setItem("geist-theme-preference", value);
-    window.localStorage.setItem("geist-docs-language", "en-US");
+    window.localStorage.setItem("unitary-theme-preference", value);
+    window.localStorage.setItem("unitary-docs-language", "en-US");
   }, theme);
   await page.goto(route);
   await page.locator('[data-slot="navbar"]').first().waitFor({ state: "visible" });

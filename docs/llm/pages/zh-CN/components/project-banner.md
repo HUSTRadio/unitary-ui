@@ -8,7 +8,7 @@
 
 # 项目横幅
 
-Project Banner
+project-banner
 
 用于需要解决的临时项目级通知。
 

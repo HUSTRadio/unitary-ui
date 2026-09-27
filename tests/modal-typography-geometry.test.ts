@@ -10,10 +10,10 @@ const read = async (relative: string) =>
 
 /** 带 sticky footer 的 4 个 modal 示例（2026-09-15 排版修复对象）。 */
 const STICKY_FOOTER_EXAMPLES = [
-  "docs/geist/src/examples/modal/default-37a8eec1.example.tsx",
-  "docs/geist/src/examples/modal/sticky-964a9431.example.tsx",
-  "docs/geist/src/examples/modal/single-button-15781da6.example.tsx",
-  "docs/geist/src/examples/modal/inset-2f0c8478.example.tsx",
+  "docs/site/src/examples/modal/default-37a8eec1.example.tsx",
+  "docs/site/src/examples/modal/sticky-964a9431.example.tsx",
+  "docs/site/src/examples/modal/single-button-15781da6.example.tsx",
+  "docs/site/src/examples/modal/inset-2f0c8478.example.tsx",
 ];
 
 describe("modal 排版几何（2026-09-15 固化）", () => {
@@ -44,7 +44,7 @@ describe("modal 排版几何（2026-09-15 固化）", () => {
   });
 
   test("compact 示例保持 p-4 紧凑体系（独立间距节奏，勿套用标准档）", async () => {
-    const src = await read("docs/geist/src/examples/modal/compact-c4e1a90b.example.tsx");
+    const src = await read("docs/site/src/examples/modal/compact-c4e1a90b.example.tsx");
     expect(src).toContain("bodyClassName=\"p-4 pb-0\"");
     expect(src).toContain("-mx-4 mt-3");
     expect(src).toContain("px-4 py-3");

@@ -39,12 +39,12 @@ function mount(data: unknown, defaultExpandDepth = 1, localized = false) {
 
 describe("JsonView interaction regressions", () => {
   test("primitive rows render only the primitive value, never an object preview prefix", () => {
-    const view = mount({ name: "Geist", enabled: true, count: 3, empty: null });
+    const view = mount({ name: "Unitary", enabled: true, count: 3, empty: null });
     const rows = [...view.querySelectorAll<HTMLElement>('[data-slot="json-view-row"]')];
     const name = rows.find((row) => row.textContent?.includes("name:"))!;
     const enabled = rows.find((row) => row.textContent?.includes("enabled:"))!;
 
-    expect(name.textContent).toBe('name: "Geist",');
+    expect(name.textContent).toBe('name: "Unitary",');
     expect(enabled.textContent).toBe("enabled: true,");
     expect(name.textContent).not.toContain("{ … }");
   });

@@ -8,7 +8,7 @@ Copies a given string to the clipboard and provides feedback when copied.
 
 # Copy Button
 
-Copy Button
+copy-button
 
 Copies a given string to the clipboard and provides feedback when copied.
 
@@ -44,7 +44,7 @@ Not applicable: CopyButton is a small icon button that maintains consistent size
 
 ## Theme behavior
 
-Not applicable: CopyButton colors and styles automatically adapt to the current color scheme following the Geist design system theme tokens.
+Not applicable: CopyButton colors and styles automatically adapt to the current color scheme following the Unitary design system theme tokens.
 
 ## Live Demo
 

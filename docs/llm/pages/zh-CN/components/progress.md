@@ -8,7 +8,7 @@
 
 # 进度条
 
-Progress
+progress
 
 显示相对于限制或任务的进度。
 

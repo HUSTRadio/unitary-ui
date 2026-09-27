@@ -8,7 +8,7 @@
 
 # 加载更多按钮
 
-Load More Button
+load-more-button
 
 向分页列表追加更多项目的全宽按钮。
 

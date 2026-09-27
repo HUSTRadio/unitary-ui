@@ -8,7 +8,7 @@ Displays content in a separate bottom view from the existing context.
 
 # Drawer
 
-Drawer
+drawer
 
 Displays content in a separate bottom view from the existing context.
 

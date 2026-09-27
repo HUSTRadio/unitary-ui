@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 import { expect, test, type Page } from "@playwright/test";
 
-import { DOCS_ROUTE_SEQUENCE } from "../../docs/geist/src/data/docs-routes";
+import { DOCS_ROUTE_SEQUENCE } from "../../docs/site/src/data/docs-routes";
 
 /**
  * docs 布局审计 harness（计划任务 11 步骤 4–6）。
@@ -159,7 +159,7 @@ async function gotoRoute(page: Page, route: string, viewport: { width: number; h
 
 async function setTheme(page: Page, theme: Theme) {
   await page.addInitScript((value) => {
-    window.localStorage.setItem("geist-theme-preference", value);
+    window.localStorage.setItem("unitary-theme-preference", value);
   }, theme);
 }
 

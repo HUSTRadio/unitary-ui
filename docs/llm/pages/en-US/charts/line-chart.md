@@ -8,7 +8,7 @@ Renders connected line series for continuous trends with optional axis titles.
 
 # Line Chart
 
-Tremor Raw
+line-chart
 
 Renders connected line series for continuous trends with optional axis titles.
 

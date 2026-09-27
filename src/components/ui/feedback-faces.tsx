@@ -9,10 +9,10 @@ import * as React from "react";
  *   Love it! 爱心眼 = var(--uni-amber-800)。
  */
 
-/** @deprecated 仅供 Feedback 内部使用；请使用 `Feedback` 组件。 */
+/** 内部评分表情图标；仅供 Feedback 评分行（RatingPill）使用。 */
 type FeedbackFaceProps = React.SVGProps<SVGSVGElement>;
 
-/** @deprecated 仅供 Feedback 内部使用；请使用 `Feedback` 组件。 */
+/** 内部评分表情图标；仅供 Feedback 评分行（RatingPill）使用。 */
 function FeedbackHateFace(props: FeedbackFaceProps) {
   return (
     <svg
@@ -20,7 +20,7 @@ function FeedbackHateFace(props: FeedbackFaceProps) {
       viewBox="0 0 16 16"
       height="16"
       width="16"
-      data-slot="geist-icon"
+      data-slot="unitary-icon"
       style={{ color: "currentcolor" }}
     >
       <path
@@ -39,7 +39,7 @@ function FeedbackHateFace(props: FeedbackFaceProps) {
   );
 }
 
-/** @deprecated 仅供 Feedback 内部使用；请使用 `Feedback` 组件。 */
+/** 内部评分表情图标；仅供 Feedback 评分行（RatingPill）使用。 */
 function FeedbackNotGreatFace(props: FeedbackFaceProps) {
   return (
     <svg
@@ -47,7 +47,7 @@ function FeedbackNotGreatFace(props: FeedbackFaceProps) {
       viewBox="0 0 16 16"
       height="16"
       width="16"
-      data-slot="geist-icon"
+      data-slot="unitary-icon"
       style={{ color: "currentcolor" }}
     >
       <path
@@ -58,7 +58,7 @@ function FeedbackNotGreatFace(props: FeedbackFaceProps) {
   );
 }
 
-/** @deprecated 仅供 Feedback 内部使用；请使用 `Feedback` 组件。 */
+/** 内部评分表情图标；仅供 Feedback 评分行（RatingPill）使用。 */
 function FeedbackOkayFace(props: FeedbackFaceProps) {
   return (
     <svg
@@ -66,7 +66,7 @@ function FeedbackOkayFace(props: FeedbackFaceProps) {
       viewBox="0 0 16 16"
       height="16"
       width="16"
-      data-slot="geist-icon"
+      data-slot="unitary-icon"
       style={{ color: "currentcolor" }}
     >
       <path
@@ -77,7 +77,7 @@ function FeedbackOkayFace(props: FeedbackFaceProps) {
   );
 }
 
-/** @deprecated 仅供 Feedback 内部使用；请使用 `Feedback` 组件。 */
+/** 内部评分表情图标；仅供 Feedback 评分行（RatingPill）使用。 */
 function FeedbackLoveFace(props: FeedbackFaceProps) {
   return (
     <svg
@@ -85,7 +85,7 @@ function FeedbackLoveFace(props: FeedbackFaceProps) {
       viewBox="0 0 16 16"
       height="16"
       width="16"
-      data-slot="geist-icon"
+      data-slot="unitary-icon"
       style={{ color: "currentcolor" }}
     >
       <path

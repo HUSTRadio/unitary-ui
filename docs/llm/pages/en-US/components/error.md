@@ -8,7 +8,7 @@ Provides a friendly, actionable message when an operation fails.
 
 # Error
 
-Error
+error
 
 Provides a friendly, actionable message when an operation fails.
 
@@ -56,7 +56,7 @@ Not applicable: Error is a presentation-only component driven by whether an erro
 ## Theme behavior
 
 - Color mapping for semantic states (red for severe errors, amber for warnings) maintains sufficient contrast in both dark and light modes.
-- Background and border colors follow the Geist theme variables, supporting global theme customization via CSS tokens.
+- Background and border colors follow the Unitary theme variables, supporting global theme customization via CSS tokens.
 
 ## Live Demo
 
@@ -106,7 +106,7 @@ export function ErrorSizes74A3978DExample() {
 
 ## With an error property
 
-The request failed. [Contact Us](https://vercel.com/contact)
+The request failed. [Contact Us](https://example.com/contact)
 
 ```tsx
 import { Error } from "@/components/ui/error";
@@ -117,7 +117,7 @@ export function ErrorWithAnErrorProperty93A4DDA8Example() {
       error={{
         message: "The request failed.",
         action: "Contact Us",
-        link: "https://vercel.com/contact",
+        link: "https://example.com/contact",
       }}
     />
   );

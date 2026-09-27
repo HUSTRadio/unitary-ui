@@ -8,7 +8,7 @@ Clickable filter chip for toggling a query or selection.
 
 # Pill
 
-Pill
+pill
 
 Clickable filter chip for toggling a query or selection.
 

@@ -12,14 +12,14 @@ import { getRelativeTimePresets } from "@/lib/date-locale";
  *
  * 官方为 Popover 日期范围选择器（Trigger 按钮 + 快速选择 Combobox + 弹出面板），
  * 打开态 Popover 超出本组件范围（BLOCKED，见 manifest）。本组件逐字复刻官方
- * 关闭态 DOM：div[data-geist-calendar] > span[data-geist-skeleton]（包裹
+ * 关闭态 DOM：div[data-uni-calendar] > span[data-uni-skeleton]（包裹
  * group/calendar > trigger button）+ 可选 cmdk Combobox（快速选择输入框）。
  * 类名与官方一致（Tailwind v4 同一引擎），计算样式/几何逐像素对齐。
  *
  * 实测（Light 1440×900，2026-08-13）：
  * - trigger 按钮 w-[var(--width)]，中号 36px（--uni-size-medium）/ 小号 32px；
  * - 文本 span.truncate 由按钮 [&>span]:nth-[2]:w-full 撑满剩余宽度（不依赖字体度量）；
- * - 骨架 span[data-geist-skeleton] 常驻（加载占位，包裹触发按钮）。
+ * - 骨架 span[data-uni-skeleton] 常驻（加载占位，包裹触发按钮）。
  */
 import {
   CALENDAR_ROW_CLASS,
@@ -38,7 +38,7 @@ import {
   COMBO_ROOT_CLASS,
   DIVIDER_FULL_CLASS,
   DIVIDER_SQUARE_CLASS,
-  GEIST_ICON_ATTRS,
+  UNI_ICON_ATTRS,
   ICON_SPAN_CLASS,
   ICON_SVG_CLASS,
   SKELETON_CLASS,
@@ -118,14 +118,14 @@ function CalendarCombobox({
   const inputClass = full
     ? size === "small"
       ? wide
-        ? "peer/comboboxInput rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none w-[var(--width)] text-[var(--uni-gray-700)] h-(--uni-size-small) px-[34px]"
-        : "peer/comboboxInput rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none text-[var(--uni-gray-700)] h-(--uni-size-small) px-[34px]"
+        ? "peer/comboboxInput rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-uni-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none w-[var(--width)] text-[var(--uni-gray-700)] h-(--uni-size-small) px-[34px]"
+        : "peer/comboboxInput rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-uni-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none text-[var(--uni-gray-700)] h-(--uni-size-small) px-[34px]"
       : wide
-        ? "peer/comboboxInput px-9 h-(--uni-size-medium) rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none w-[var(--width)] text-[var(--uni-gray-700)]"
-        : "peer/comboboxInput px-9 h-(--uni-size-medium) rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none text-[var(--uni-gray-700)]"
+        ? "peer/comboboxInput px-9 h-(--uni-size-medium) rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-uni-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none w-[var(--width)] text-[var(--uni-gray-700)]"
+        : "peer/comboboxInput px-9 h-(--uni-size-medium) rounded-[5px] rounded-r-none font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] [&_[data-uni-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] font-normal !w-[var(--width)] rounded-tr-[5px] rounded-b-none text-left text-[14px] outline-none text-[var(--uni-gray-700)]"
     : size === "small"
-      ? "peer/comboboxInput px-9 rounded-[5px] rounded-r-none text-[14px] font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] outline-none relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] font-normal [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] pl-2 !rounded-l-none !rounded-r-[5px] text-[var(--uni-gray-700)] h-(--uni-size-small) pr-[34px]"
-      : "peer/comboboxInput px-9 h-(--uni-size-medium) rounded-[5px] rounded-r-none text-[14px] font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] outline-none relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] font-normal [&_[data-geist-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] pl-2 !rounded-l-none !rounded-r-[5px] text-[var(--uni-gray-700)]";
+      ? "peer/comboboxInput px-9 rounded-[5px] rounded-r-none text-[14px] font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] outline-none relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] font-normal [&_[data-uni-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] pl-2 !rounded-l-none !rounded-r-[5px] text-[var(--uni-gray-700)] h-(--uni-size-small) pr-[34px]"
+      : "peer/comboboxInput px-9 h-(--uni-size-medium) rounded-[5px] rounded-r-none text-[14px] font-[var(--font-sans)] whitespace-nowrap shadow-[0_0_0_1px_var(--uni-gray-400)] outline-none relative bg-[var(--uni-background-100)] [background-clip:_padding-box] placeholder:text-[var(--uni-gray-700)] hover:cursor-pointer hover:!bg-[var(--uni-gray-100)] font-normal [&_[data-uni-button]]:font-normal transition-[box-shadow] duration-(--uni-duration-fast) hover:z-10 hover:shadow-[0_0_0_1px_var(--uni-gray-500)] dark:focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(255,255,255,0.24)] !outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--uni-gray-600),0px_0px_0px_4px_rgba(0,0,0,0.16)] pl-2 !rounded-l-none !rounded-r-[5px] text-[var(--uni-gray-700)]";
 
   const chevronClass = size === "small" ? CHEVRON_SVG_SMALL_CLASS : CHEVRON_SVG_CLASS;
   const circularClass = size === "small" ? CIRCULAR_SVG_CLASS : CIRCULAR_SVG_MEDIUM_CLASS;
@@ -177,7 +177,7 @@ function CalendarCombobox({
           </PopoverPrimitive.Trigger>
           {full && (
             <svg
-              {...GEIST_ICON_ATTRS}
+              {...UNI_ICON_ATTRS}
               data-glyph="circular"
               style={{ color: "var(--uni-gray-700)" }}
               className={circularClass}
@@ -189,7 +189,7 @@ function CalendarCombobox({
             </svg>
           )}
           <svg
-            {...GEIST_ICON_ATTRS}
+            {...UNI_ICON_ATTRS}
             style={{ color: "var(--uni-gray-700)" }}
             className={cn(chevronClass, open && "rotate-180")}
           >
@@ -436,7 +436,7 @@ function Calendar({
   };
 
   return (
-    <div data-geist-calendar="" data-version="v1" className={effectiveClassName} style={rootStyle}>
+    <div data-uni-calendar="" data-version="v1" className={effectiveClassName} style={rootStyle}>
       {effectiveComboboxFirst && effectiveShowCombobox && (
         <CalendarCombobox
           size={size}
@@ -452,7 +452,7 @@ function Calendar({
       )}
       <PopoverPrimitive.Root>
         <span
-          data-geist-skeleton=""
+          data-uni-skeleton=""
           data-testid="legacy/skeleton"
           data-version="v1"
           className={SKELETON_CLASS}
@@ -473,14 +473,14 @@ function Calendar({
                   wrap ? "!whitespace-normal items-start py-1" : "whitespace-nowrap",
                   triggerClassName,
                 )}
-                data-geist-button=""
+                data-uni-button=""
                 data-prefix="true"
                 data-suffix="false"
                 data-version="v1"
               >
                 <span className={ICON_SPAN_CLASS}>
                   <svg
-                    {...GEIST_ICON_ATTRS}
+                    {...UNI_ICON_ATTRS}
                     style={{ color: "var(--uni-gray-700)" }}
                     className={ICON_SVG_CLASS}
                   >

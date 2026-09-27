@@ -8,7 +8,7 @@
 
 # 搜索框
 
-Search Input
+search-input
 
 带标准前置图标的搜索字段。
 

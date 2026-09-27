@@ -155,7 +155,7 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
         .click();
     });
     // 动画期：仅前 8 项带 data-staggered，且列表禁点
-    const staggered = document.querySelectorAll("[data-staggered]");
+    const staggered = document.querySelectorAll<HTMLElement>("[data-staggered]");
     expect(staggered).toHaveLength(8);
     expect(staggered[0].style.animationDelay).toBe("0ms");
     // Task 5b（2026-08-24）：stagger 提速——间隔 40→20ms
@@ -179,7 +179,7 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
   it("belowTopbar forwards to ExpandPanel data attribute (Task 10)", () => {
     act(() => {
       root.render(
-        <HamburgerMenu anchor="topbar" belowTopbar side="left" open />,
+        <HamburgerMenu anchor="topbar" belowTopbar direction="left" open />,
       );
     });
     const panel = document.querySelector('[data-slot="expand-panel"]');
@@ -193,7 +193,7 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
   it("belowTopbar suppresses showCloseButton — trigger is the single close control", () => {
     renderMenu({
       belowTopbar: true,
-      side: "left",
+      direction: "left",
       showCloseButton: true,
       toolbarLeft: <button data-testid="tl">L</button>,
       toolbarRight: <button data-testid="tr">R</button>,
@@ -290,7 +290,7 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
     });
 
     it("search results carry the same indicator", () => {
-      renderActive({ query: undefined });
+      renderActive();
       const input = document.querySelector(
         '[data-slot="menu-search"] input',
       ) as HTMLInputElement;

@@ -8,7 +8,7 @@
 
 # 多行文本域
 
-Textarea
+textarea
 
 用于较长输入的多行文本字段。
 

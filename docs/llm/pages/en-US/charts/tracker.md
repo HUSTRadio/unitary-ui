@@ -8,7 +8,7 @@ Renders a sequence of status blocks for event timelines or uptime history.
 
 # Tracker
 
-Tremor Raw
+tracker
 
 Renders a sequence of status blocks for event timelines or uptime history.
 

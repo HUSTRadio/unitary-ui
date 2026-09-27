@@ -8,7 +8,7 @@
 
 # 环形图
 
-Tremor Raw
+donut-chart
 
 渲染部分占整体的环形（或饼形）图，可选中心指标。
 

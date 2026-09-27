@@ -8,7 +8,7 @@ Embeds a video with built-in playback controls.
 
 # Video
 
-Video
+video
 
 Embeds a video with built-in playback controls.
 

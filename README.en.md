@@ -49,7 +49,7 @@ The package root supports native Node ESM `import` and CommonJS `require` withou
 
 ## Documentation
 
-- Documentation site: `vp dev docs/geist`
+- Documentation site: `vp dev docs`
 - Official specification snapshot: [`docs/geist-markdown-refs`](./docs/geist-markdown-refs)
 - Changelog: [`CHANGELOG.en.md`](./CHANGELOG.en.md)
 

@@ -8,7 +8,7 @@ Renders a ranked list where each row carries a proportional bar and value.
 
 # Bar List
 
-Tremor Raw
+bar-list
 
 Renders a ranked list where each row carries a proportional bar and value.
 
