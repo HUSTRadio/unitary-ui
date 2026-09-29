@@ -68,19 +68,32 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(shell).toContain("hidden w-[260px]");
   });
 
-  it("keeps the sidebar as a real scroll owner with a visible native scrollbar", () => {
+  it("keeps the sidebar as a real scroll owner with a visible native scrollbar (library utility)", () => {
     const styles = readFileSync(resolve(process.cwd(), "src/styles/index.css"), "utf8");
-    expect(shell).toMatch(/<aside[^>]*docs-sidebar[^>]*overflow-y-auto/);
-    expect(styles).toMatch(/\.docs-sidebar\s*\{[\s\S]*scrollbar-width:\s*thin;[\s\S]*scrollbar-color:\s*var\(--gray-alpha-400\)\s+transparent;[\s\S]*scrollbar-gutter:\s*stable both-edges;/);
-    expect(styles).toMatch(/\.docs-sidebar::\-webkit-scrollbar\s*\{[\s\S]*width:\s*8px;/);
-    expect(styles).toMatch(/\.docs-sidebar::\-webkit-scrollbar-thumb\s*\{[\s\S]*background-color:\s*var\(--gray-alpha-400\);[\s\S]*background-clip:\s*content-box;/);
-    expect(styles).not.toMatch(/\.docs-sidebar\s*\{[\s\S]*scrollbar-color:\s*transparent/);
-    const thumb = styles.match(/\.docs-sidebar::\-webkit-scrollbar-thumb\s*\{([^}]*)\}/)?.[1] ?? "";
+    // 2026-09-29：滚动条契约从 docs 专有类 .docs-sidebar 抽象成库内标准工具类
+    // nav-scroll，侧栏 aside 与抽屉导航区共用（换形态不换滚动条）。
+    expect(shell).toMatch(/<aside[^>]*data-slot="docs-sidebar"/);
+    expect(shell).toContain("nav-scroll relative hidden w-[260px]");
+    expect(styles).toMatch(/@utility nav-scroll\s*\{[\s\S]*scrollbar-width:\s*thin;[\s\S]*scrollbar-color:\s*var\(--gray-alpha-400\)\s+transparent;[\s\S]*scrollbar-gutter:\s*stable both-edges;/);
+    expect(styles).toMatch(/&::-webkit-scrollbar\s*\{[\s\S]*width:\s*8px;/);
+    expect(styles).toMatch(/&::-webkit-scrollbar-thumb\s*\{[\s\S]*background-color:\s*var\(--gray-alpha-400\);[\s\S]*background-clip:\s*content-box;/);
+    expect(styles).not.toMatch(/@utility nav-scroll\s*\{[\s\S]*scrollbar-color:\s*transparent/);
+    const thumb = styles.match(/&::-webkit-scrollbar-thumb\s*\{([^}]*)\}/)?.[1] ?? "";
     expect(thumb).not.toMatch(/opacity:\s*0/);
+    // 旧 docs 专有类不得残留（否则两处又会出现第二份滚动条契约）
+    expect(styles).not.toMatch(/\.docs-sidebar/);
   });
 
-  it("gives the scrollable sidebar equal 16px content insets at both ends", () => {
-    expect(shell).toContain('className="min-h-full border-gray-alpha-400 px-6 py-4"');
+  it("gives the scrollable sidebar equal 16px content insets from the shared contract", () => {
+    const navLayout = readFileSync(
+      resolve(process.cwd(), "src/components/ui/nav-layout.ts"),
+      "utf8",
+    );
+    // 数值只在契约模块声明一次，外壳与抽屉都消费常量
+    expect(navLayout).toContain('export const NAV_INSET_X = "px-6";');
+    expect(navLayout).toContain('export const NAV_INSET_Y = "py-4";');
+    expect(shell).toContain("NAV_CONTENT_INSET");
+    expect(shell).not.toMatch(/px-6 py-4/);
     expect(shell).not.toContain('className="h-full min-h-0 border-gray-alpha-400 px-6 pb-3.5 pt-4"');
   });
 

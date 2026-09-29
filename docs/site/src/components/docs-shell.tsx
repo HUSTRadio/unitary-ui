@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/hamburger-menu";
 import { Input } from "@/components/ui/input";
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
+import { NAV_CONTENT_INSET } from "@/components/ui/nav-layout";
 import { Navbar } from "@/components/ui/navbar";
 import {
   SidebarNav,
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/sidebar-nav";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { useDismissOnNavigate } from "@/lib/navigation";
+import { cn } from "@/lib/utils";
 
 import { UnitaryLogoHorizontal } from "./unitary-logo";
 
@@ -31,7 +33,8 @@ import { useLanguage } from "../i18n/language";
  *   ≥lg 隐藏（桌面形态无汉堡）。面板工具行（搜索/主题/语言）只在 <md 渲染，
  *   md 起该行整行隐藏——topbar 自身已有这些入口，且关闭控件由触发按钮承担。
  * Sidebar：lg 断点起常驻的 <SidebarNav>；260px 宽与 sticky 容器由本层控制，
- *   组件只出导航内容。
+ *   组件只出导航内容；内容内缩与滚动条槽位来自库内共享契约（NAV_CONTENT_INSET /
+ *   nav-scroll）——与 <lg 的抽屉导航同一组数值，折叠换形态不换排版。
  */
 
 /* ---------- Navbar ---------- */
@@ -69,10 +72,12 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
   useEffect(() => {
     setNavbarEl(document.querySelector<HTMLElement>('[data-slot="navbar"]'));
   }, []);
-  // 保留 NAV_GROUPS 分组、二级分类与小标题；label/title 均随语言
+  // 保留 NAV_GROUPS 分组、二级分类与小标题；label/title 均随语言。
+  // id 必须显式带上：折叠记忆键与侧栏同源（两侧共用 SIDEBAR_COLLAPSE_KEY）。
   const menuGroups = useMemo(
     () =>
       NAV_GROUPS.map((group) => ({
+        id: group.id,
         title: language === "zh-CN" ? (group.titleZh ?? group.title) : group.title,
         items: group.items.map((item) => ({
           label: language === "zh-CN" ? (item.labelZh ?? item.label) : item.label,
@@ -132,6 +137,11 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               maxExpandedWidth="292px"
               belowTopbar
               staggerIn
+              /* 抽屉是「侧栏折叠后的形态」：排版与交互同源（nav-layout 契约），
+                 分组标题同样可折叠，并共用侧栏的折叠记忆键——换形态不换排版、
+                 也不换用户的折叠偏好。 */
+              collapsible
+              persistKey={SIDEBAR_COLLAPSE_KEY}
               toolbarLeft={
                 searchMode === "toolbar" ? (
                   <button
@@ -311,7 +321,12 @@ function DocsSidebar() {
   return (
     <aside
       data-slot="docs-sidebar"
-      className="docs-sidebar relative hidden w-[260px] shrink-0 self-start overflow-y-auto border-l border-r border-gray-alpha-400 lg:sticky lg:top-16 lg:bottom-0 lg:block lg:h-[calc(100vh-4rem)]"
+      className={cn(
+        // 滚动条槽位与细滚动条走库内标准工具类（nav-scroll），内容内缩走共享契约
+        // （NAV_CONTENT_INSET）：与抽屉导航区同一组数值 → 折叠成抽屉时文字列不变。
+        "nav-scroll relative hidden w-[260px] shrink-0 self-start overflow-y-auto border-l border-r border-gray-alpha-400 lg:sticky lg:top-16 lg:bottom-0 lg:block lg:h-[calc(100vh-4rem)]",
+        NAV_CONTENT_INSET,
+      )}
     >
       <SidebarNav
         groups={groups}
@@ -320,7 +335,7 @@ function DocsSidebar() {
         side="left"
         collapsible
         persistKey={SIDEBAR_COLLAPSE_KEY}
-        className="min-h-full border-gray-alpha-400 px-6 py-4"
+        className="min-h-full"
       />
       <div
         className="from-background pointer-events-none absolute inset-x-0 top-0 h-4 bg-linear-to-b"

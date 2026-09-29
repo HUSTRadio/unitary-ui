@@ -3,8 +3,24 @@ import * as React from "react";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
+import { Collapse, CollapseContent, CollapseTrigger } from "./collapse";
 import { ExpandPanel, type Side } from "./expand-panel";
 import { HamburgerIcon } from "./hamburger-icon";
+import {
+  NAV_CONTENT_INSET,
+  NAV_GROUP_BODY_INSET,
+  NAV_GROUP_RHYTHM,
+  NAV_HEADING_BASE,
+  NAV_INSET_X,
+  NAV_ITEM_BASE_ADAPTIVE,
+  NAV_ITEM_INDICATOR,
+  NAV_ITEM_STATE_ACTIVE,
+  NAV_ITEM_STATE_IDLE,
+  NAV_SUBGROUP_DIVIDER,
+  NAV_SUBHEADING_BASE,
+  navGroupKey,
+  useNavGroupCollapse,
+} from "./nav-layout";
 import { NavStatusBadge, type NavStatusTone } from "./nav-status-badge";
 import { Separator } from "./separator";
 import { Spinner } from "./spinner";
@@ -27,7 +43,13 @@ import { useSubFrame } from "./sub-frame";
  * - belowTopbar：面板顶边下移到 topbar 底边、topbar 保持可见可交互——此时触发按钮
  *   在打开态即是关闭控件，故面板内不再渲染 showCloseButton 指定的关闭按钮（否则
  *   两个功能相同的 X 垂直相邻，构成重复关闭入口）；toolbar 行相应左右各 16px 内边距。
- * - 触发行高 44px（HIG 触控），列表容器水平内边距 16px（与 toolbar 的 pr-4 同一栅格）
+ * - 导航排版与侧栏 SidebarNav 同源（./nav-layout.ts 契约）：同一份分组数据在
+ *   「常驻侧栏」与「折叠成抽屉」之间只换形态、不换排版——内容内缩 24/16px、
+ *   条目药丸 -mx-1 px-3.5（小标题与药丸左缘同轴）、分组之间 16px 呼吸、
+ *   标题可折叠时走同一套标准 Collapse（用户实测 2026-09-29：抽屉曾用 16px 内缩 +
+ *   固定 44px 行高 + 无折叠标题，换成抽屉就换了一套排版）。
+ * - 行高自适应指针能力：鼠标 36px（与侧栏一致）、触控 44px（HIG 最小命中区），
+ *   不再让桌面窄窗口被迫承受触控行高。
  */
 
 /** 条目右端状态胶囊（与桌面侧栏共用 NavStatusBadge 原子）。 */
@@ -49,6 +71,11 @@ interface MenuSubgroup {
 }
 
 interface MenuGroup {
+  /**
+   * 与语言无关的稳定标识，用作折叠状态记忆键；缺省回退 `title`。
+   * 与侧栏共用同一个 persistKey 时应显式传入同一组 id，两种形态才共享折叠偏好。
+   */
+  id?: string;
   title: string;
   /** 分组内全部条目（扁平）；有 subgroups 时是其顺序一致的投影，搜索始终按此扁平序匹配。 */
   items: MenuItem[];
@@ -92,6 +119,16 @@ interface HamburgerMenuProps {
   items?: MenuItem[];
   /** 分组导航数据；传入时保留小标题（含可选二级分类），并作为搜索的统一数据源 */
   groups?: MenuGroup[];
+  /**
+   * 分组标题可点击开合（与侧栏同一套标准 Collapse + 键盘 disclosure 语义）。
+   * @default false
+   */
+  collapsible?: boolean;
+  /**
+   * 折叠状态记忆键：传入后折叠结果写入 localStorage 并跨会话恢复。
+   * 与侧栏共用同一个键（且分组 id 一致）时，两种形态共享同一份折叠偏好。
+   */
+  persistKey?: string;
   /** 数据加载中：显示加载指示并标记导航区域忙碌。@default false */
   loading?: boolean;
   /** 无导航项或无搜索结果时的空态文案；搜索无结果默认展示查询词。 */
@@ -157,6 +194,8 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   content = "merged",
   items,
   groups,
+  collapsible = false,
+  persistKey,
   loading = false,
   emptyMessage,
   activeTo,
@@ -234,8 +273,28 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
   // 面板内不再渲染第二个关闭入口（见 showCloseButton 契约）。
   const renderCloseButton = showCloseButton && !belowTopbar;
 
-  const navigationGroups = groups ?? [{ title: "", items: items ?? [] }];
+  const navigationGroups = React.useMemo(
+    () => groups ?? [{ title: "", items: items ?? [] }],
+    [groups, items],
+  );
   const navigationItems = groups?.flatMap((group) => group.items) ?? items ?? [];
+  // 分组 key 与「当前页所在分组」：折叠记忆与路由自动展开与侧栏共用同一契约，
+  // 因此两侧传到同一 persistKey 时键必须一致（见 MenuGroup.id）。
+  const groupKeys = React.useMemo(
+    () => navigationGroups.map((group, index) => navGroupKey(group.id, group.title, index)),
+    [navigationGroups],
+  );
+  const activeGroupId = React.useMemo(() => {
+    const index = navigationGroups.findIndex((group) =>
+      group.items.some((item) => item.to === activeTo),
+    );
+    return index === -1 ? null : groupKeys[index];
+  }, [navigationGroups, groupKeys, activeTo]);
+  const { isCollapsed, setGroupOpen } = useNavGroupCollapse({
+    enabled: collapsible,
+    persistKey,
+    activeGroupId,
+  });
   const normalized = query.trim().toLowerCase();
   const results = navigationItems.filter((item) =>
     item.label.toLowerCase().includes(normalized),
@@ -314,11 +373,16 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
           </div>
         )}
 
-        {/* 搜索行（disableSearch 时不渲染） */}
+        {/* 搜索行（disableSearch 时不渲染）：横向内缩跟内容列同一契约，
+            与导航条目的药丸左缘同一条竖线（工具行例外——它的控件锚在触发按钮
+            轴线上，见下方 panel-toolbar 的 pl-0 契约）。 */}
         {!disableSearch && (
         <div
           data-slot="menu-search"
-          className="flex items-center gap-2 border-b border-gray-alpha-400 px-4 py-3"
+          className={cn(
+            "flex items-center gap-2 border-b border-gray-alpha-400 py-3",
+            NAV_INSET_X,
+          )}
         >
           <input
             type="text"
@@ -356,15 +420,20 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
           <div
             data-slot="content-divider"
             role="separator"
-            className="mx-4 my-2 border-t border-dashed border-gray-alpha-400"
+            className={cn("my-2 border-t border-dashed border-gray-alpha-400", NAV_INSET_X)}
           />
         ) : null}
 
         {/* 导航列表区：nav 是唯一滚动容器（min-h-0 flex-1 撑满剩余高度）；
-            搜索时列表收起（h-0 + opacity 过渡还原）；stagger 动画期禁点 */}
+            搜索时列表收起（h-0 + opacity 过渡还原）；stagger 动画期禁点。
+            内容内缩与滚动条槽位走共享契约：与侧栏 aside 同一内缩（24/16px）+
+            同一细滚动条 + stable both-edges 稳定槽位 → 两处导航文字列对齐。 */}
         <nav
           data-slot="menu-nav"
-          className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-2"
+          className={cn(
+            "min-h-0 flex-1 overflow-y-auto overscroll-contain nav-scroll",
+            NAV_CONTENT_INSET,
+          )}
           aria-busy={loading}
         >
           {loading ? (
@@ -382,6 +451,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
               data-slot="menu-list"
               className={cn(
                 "list-none transition-opacity duration-(--uni-duration-slow)",
+                NAV_GROUP_RHYTHM,
                 searching
                   ? "pointer-events-none opacity-0 h-0 overflow-hidden"
                   : "opacity-100",
@@ -389,6 +459,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
               )}
             >
             {navigationGroups.map((group, groupIndex) => {
+              const groupKey = groupKeys[groupIndex];
               const headingId = group.title
                 ? `${groupIdPrefix}-group-${groupIndex}`
                 : undefined;
@@ -431,18 +502,19 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                             setOpen(false);
                           }}
                           className={cn(
-                            // 与桌面侧栏同一套视觉语言 + HIG 触控行高（44px = 最小命中区）
-                            "relative flex items-center gap-2 rounded-md px-3.5 nav-item-row-touch text-style-nav-item no-underline",
+                            // 与桌面侧栏同一套条目几何（契约模块）：药丸内缩、行高随
+                            // 指针能力自适应（鼠标 36px = 侧栏行高；触控 44px = HIG 命中区）
+                            NAV_ITEM_BASE_ADAPTIVE,
                             item.to === activeTo
-                              ? "bg-gray-100 font-medium text-gray-1000"
-                              : "text-gray-900 hover:bg-gray-100 hover:text-gray-1000",
+                              ? NAV_ITEM_STATE_ACTIVE
+                              : NAV_ITEM_STATE_IDLE,
                           )}
                         >
                           {item.to === activeTo ? (
                             <span
                               aria-hidden
                               data-slot="menu-item-indicator"
-                              className="absolute top-1/2 left-2 h-4 w-0.5 -translate-y-1/2 rounded-full bg-gray-900"
+                              className={NAV_ITEM_INDICATOR}
                             />
                           ) : null}
                           <span className="truncate ink-shift-cjk">{item.label}</span>
@@ -455,21 +527,9 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                   })}
                 </ul>
               );
-              return (
-                <section
-                  key={group.title || "navigation"}
-                  data-slot="menu-group"
-                  aria-labelledby={headingId}
-                >
-                  {group.title ? (
-                    <h2
-                      id={headingId}
-                      data-slot="menu-group-heading"
-                      className="nav-space-parent flex h-8 items-center text-style-nav-heading font-semibold tracking-wide text-gray-1000"
-                    >
-                      <span className="truncate ink-shift-cjk">{group.title}</span>
-                    </h2>
-                  ) : null}
+              // 分组内容与侧栏同名契约：px-1 包裹抵消条目的 -mx-1 → 标题与药丸左缘同轴
+              const groupBody = (
+                <div className={NAV_GROUP_BODY_INSET}>
                   {group.subgroups ? (
                     // 与桌面侧栏同一节奏 token：一级标题 nav-space-parent，二级小组 40px 短分割线 + nav-space-sibling
                     <div>
@@ -480,14 +540,11 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                               decorative
                               length="short"
                               data-slot="menu-subgroup-divider"
-                              className="nav-space-sibling bg-gray-alpha-400"
+                              className={NAV_SUBGROUP_DIVIDER}
                             />
                           ) : null}
                           <div data-slot="menu-subgroup">
-                            <h3
-                              data-slot="menu-subgroup-heading"
-                              className="flex h-7 items-center text-style-nav-subheading font-medium text-gray-900"
-                            >
+                            <h3 data-slot="menu-subgroup-heading" className={NAV_SUBHEADING_BASE}>
                               <span className="truncate ink-shift-cjk">{subgroup.title}</span>
                             </h3>
                             {renderItems(subgroup.items)}
@@ -498,6 +555,58 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                   ) : (
                     renderItems(group.items)
                   )}
+                </div>
+              );
+              return (
+                /* 无标题的扁平 items 兜底分组没有稳定 id：退回序号，避免空 key */
+                <section
+                  key={groupKey || `nav-group-${groupIndex}`}
+                  data-slot="menu-group"
+                  aria-labelledby={headingId}
+                >
+                  {group.title ? (
+                    collapsible ? (
+                      /*
+                       * 折叠标题直接用标准 Collapse（Radix Collapsible，见 collapse.tsx）：
+                       * - 受控 open + onOpenChange：折叠记忆与路由自动展开由共享 hook 持有；
+                       * - CollapseTrigger as="div"：不是 button、没有按钮外观，只有 disclosure
+                       *   语义与键盘开关（与侧栏同源）；
+                       * - size="bare"：去掉标题内边距，行几何回到导航自己的 h-8 契约；
+                       * - indicatorAlign="inline"：chevron 紧跟标题；
+                       * - CollapseContent：保留内容节点 + 折叠态 inert，不卸载上百条链接。
+                       */
+                      <Collapse
+                        open={!isCollapsed(groupKey)}
+                        onOpenChange={(next) => setGroupOpen(groupKey, next)}
+                        size="bare"
+                        indicatorAlign="inline"
+                      >
+                        <CollapseTrigger
+                          as="div"
+                          id={headingId}
+                          data-slot="menu-group-heading"
+                          className={cn(NAV_HEADING_BASE, "select-none")}
+                        >
+                          <span className="truncate ink-shift-cjk">{group.title}</span>
+                        </CollapseTrigger>
+                        <CollapseContent
+                          data-slot="menu-group-content"
+                          aria-label={group.title}
+                        >
+                          {groupBody}
+                        </CollapseContent>
+                      </Collapse>
+                    ) : (
+                      <>
+                        <h2 id={headingId} data-slot="menu-group-heading" className={NAV_HEADING_BASE}>
+                          <span className="truncate ink-shift-cjk">{group.title}</span>
+                        </h2>
+                        {groupBody}
+                      </>
+                    )
+                  ) : (
+                    groupBody
+                  )}
                 </section>
               );
             })}
@@ -505,15 +614,22 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
           ) : null}
         </nav>
 
-        {/* 结果区：仅搜索中渲染 */}
+        {/* 结果区：仅搜索中渲染（内缩与导航区同源，行几何与列表项同一契约） */}
         {searching && !loading ? (
-          <div data-slot="menu-results-region" aria-busy={loading} className="px-4 pb-2">
+          <div
+            data-slot="menu-results-region"
+            aria-busy={loading}
+            className={cn("pb-2", NAV_INSET_X)}
+          >
             {results.length === 0 ? (
               <div data-slot="menu-empty" role="status" className="flex min-h-11 items-center px-3.5 text-style-nav-item text-gray-900">
                 {emptyLabel}
               </div>
             ) : (
-              <ul data-slot="menu-results" className="list-none space-y-1">
+              <ul
+                data-slot="menu-results"
+                className={cn("list-none space-y-1", NAV_GROUP_BODY_INSET)}
+              >
                 {results.map((item) => (
                   <li key={item.to}>
                     <a
@@ -526,17 +642,17 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
                       }}
                       className={cn(
                         // 结果项与列表项同一行几何（搜索是同一批路由的另一种呈现）
-                        "relative flex items-center gap-2 rounded-md px-3.5 nav-item-row-touch text-style-nav-item no-underline",
+                        NAV_ITEM_BASE_ADAPTIVE,
                         item.to === activeTo
-                          ? "bg-gray-100 font-medium text-gray-1000"
-                          : "text-gray-900 hover:bg-gray-100 hover:text-gray-1000",
+                          ? NAV_ITEM_STATE_ACTIVE
+                          : NAV_ITEM_STATE_IDLE,
                       )}
                     >
                       {item.to === activeTo ? (
                         <span
                           aria-hidden
                           data-slot="menu-item-indicator"
-                          className="absolute top-1/2 left-2 h-4 w-0.5 -translate-y-1/2 rounded-full bg-gray-900"
+                          className={NAV_ITEM_INDICATOR}
                         />
                       ) : null}
                       <span className="truncate ink-shift-cjk">{item.label}</span>

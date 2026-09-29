@@ -5,6 +5,19 @@ import { type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { Collapse, CollapseContent, CollapseTrigger } from "./collapse";
+import {
+  NAV_GROUP_BODY_INSET,
+  NAV_GROUP_RHYTHM,
+  NAV_HEADING_BASE,
+  NAV_ITEM_BASE,
+  NAV_ITEM_INDICATOR,
+  NAV_ITEM_STATE_ACTIVE,
+  NAV_ITEM_STATE_IDLE,
+  NAV_SUBGROUP_DIVIDER,
+  NAV_SUBHEADING_BASE,
+  navGroupKey,
+  useNavGroupCollapse,
+} from "./nav-layout";
 import { NavStatusBadge, type NavStatusTone } from "./nav-status-badge";
 import { Separator } from "./separator";
 
@@ -114,57 +127,14 @@ export function createNavigateHandler(
  * HIG 滚动条规范（overlay，不占布局）→ 侧栏滚动条不挤压内容宽度。
  */
 
-/** 条目行内缩契约：药丸两侧各外扩 4px、文字左内缩 14px。 */
-const ITEM_INSET = "-mx-1 px-3.5";
-/**
- * 分组内容包裹：px-1 恰好抵消条目的 -mx-1 → 药丸左缘落在内容盒边缘；同时保证
- * 内容不横向溢出（CollapseContent 的 overflow-y:hidden 会把 overflow-x 算成 auto，
- * 越界会冒出横向滚动条）。
+/*
+ * 几何与配色取值一律来自共享契约模块 ./nav-layout.ts —— 侧栏与折叠抽屉的唯一
+ * 来源，改一处两处导航同时生效（用户实测 2026-09-29：抽屉与侧栏排版漂移）。
+ * 本组件只负责结构（分组 → 标题 → 内容 → 条目）与交互（折叠记忆、当前页标记）。
  */
-const GROUP_BODY_INSET = "px-1";
-/** 包裹内的二级小标题：用 -mx-1 回到药丸左缘（与条目、分割线同轴）。 */
-const SUBHEADING_INSET = "-mx-1";
-/** 一级小标题在包裹之外（Collapse 触发器），无需抵消，本身就落在药丸左缘。 */
-const HEADING_BASE = `nav-space-parent flex h-8 items-center gap-2 rounded-md text-style-nav-heading font-semibold tracking-wide text-gray-1000 focus-ring`;
-const ITEM_BASE = `${ITEM_INSET} nav-item-row relative flex items-center gap-2 rounded-md text-style-nav-item focus-ring`;
-/**
- * 二级小组分隔契约：复用标准 `Separator`（radix 分隔线组件），
- * 长度由 `length="short"` 提供（40px，刻意短于行宽——它只是分组提示，
- * 不与条目药丸/选中条抢视觉）；本组件只负责骨架之外的三件事：
- * 左缘与小标题同轴（-ml-1）、上下留白（nav-space-sibling）、
- * 颜色跟外壳分隔线同 token（gray-alpha-400，而非 Separator 默认的 gray-200）。
- *
- * 垂直节奏取值来自标准 token（见 src/styles/index.css）：
- *   一级小标题 → 第一个二级小组 = 6px（--uni-nav-space-parent）
- *   二级小组 ↔ 二级小组         = 9px（--uni-nav-space-sibling 上下各 4px + 1px 线）
- * 浏览器实测断言见 tests/e2e/component-geometry.spec.ts。
- */
-const SUBGROUP_DIVIDER = "-ml-1 nav-space-sibling bg-gray-alpha-400";
-
-/** 折叠记忆读取：存储不可用时静默降级为「无记忆」。 */
-function readCollapsedGroups(key: string): Set<string> {
-  try {
-    const raw = window.localStorage.getItem(key);
-    if (!raw) return new Set<string>();
-    const parsed: unknown = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return new Set<string>();
-    return new Set(parsed.filter((entry): entry is string => typeof entry === "string"));
-  } catch {
-    return new Set<string>();
-  }
-}
-
-/** 折叠记忆写入：隐私模式/配额受限时静默降级为「不记忆」。 */
-function writeCollapsedGroups(key: string, collapsed: ReadonlySet<string>): void {
-  try {
-    window.localStorage.setItem(key, JSON.stringify([...collapsed]));
-  } catch {
-    // 折叠本身仍然工作，只是跨会话不记忆。
-  }
-}
 
 function groupIdOf(group: SidebarNavGroup, index: number): string {
-  return group.id ?? group.label ?? String(index);
+  return navGroupKey(group.id, group.label, index);
 }
 
 /** 渲染用条目投影（有 subgroups 时以二级分类为准，同时并入扁平序列以做当前页定位）。 */
@@ -193,49 +163,12 @@ export function SidebarNav({
     return index === -1 ? null : groupIds[index];
   }, [groups, groupIds, activeTo]);
 
-  // 折叠的是「分组 id 集合」；首帧为空集 = 全展开（静态渲染与首帧确定性）。
-  const [collapsed, setCollapsed] = React.useState<ReadonlySet<string>>(
-    () => new Set<string>(),
-  );
-  const [storageReady, setStorageReady] = React.useState(false);
-  const [seenActiveTo, setSeenActiveTo] = React.useState<string | undefined>(activeTo);
-
-  // 路由变化时展开新页面所在分组：渲染期派生，避免「当前页被折叠藏起来」。
-  if (seenActiveTo !== activeTo) {
-    setSeenActiveTo(activeTo);
-    if (activeGroupId && collapsed.has(activeGroupId)) {
-      const next = new Set(collapsed);
-      next.delete(activeGroupId);
-      setCollapsed(next);
-    }
-  }
-
-  // 记忆恢复：挂载后读取，静态渲染路径不触碰存储。
-  // persistKey/collapsible 变化才重读；此处只关心首次读取的 activeGroupId（闭包捕获当次值即可）。
-  React.useEffect(() => {
-    if (!collapsible || !persistKey) return;
-    const stored = readCollapsedGroups(persistKey);
-    // 当前页所在分组永不以折叠态恢复
-    if (activeGroupId) stored.delete(activeGroupId);
-    setCollapsed(stored);
-    setStorageReady(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [collapsible, persistKey]);
-
-  // 记忆写入：storageReady 之后才写，避免用首帧空集覆盖已存状态。
-  React.useEffect(() => {
-    if (!storageReady || !persistKey) return;
-    writeCollapsedGroups(persistKey, collapsed);
-  }, [collapsed, persistKey, storageReady]);
-
-  const handleGroupOpenChange = React.useCallback((id: string, nextOpen: boolean) => {
-    setCollapsed((prev) => {
-      const next = new Set(prev);
-      if (nextOpen) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  }, []);
+  // 折叠状态（记忆读写、路由变化自动展开）与抽屉共用同一实现，见 ./nav-layout.ts。
+  const { isCollapsed, setGroupOpen } = useNavGroupCollapse({
+    enabled: collapsible,
+    persistKey,
+    activeGroupId,
+  });
 
   const renderItems = (items: SidebarNavItem[]) => (
     <ul className="space-y-1">
@@ -251,17 +184,15 @@ export function SidebarNav({
               onClick={createNavigateHandler(onNavigate, item.to)}
               data-slot="sidebar-nav-item"
               className={cn(
-                ITEM_BASE,
-                active
-                  ? "bg-gray-100 font-medium text-gray-1000"
-                  : "text-gray-900 hover:bg-gray-100 hover:text-gray-1000",
+                NAV_ITEM_BASE,
+                active ? NAV_ITEM_STATE_ACTIVE : NAV_ITEM_STATE_IDLE,
               )}
             >
               {active ? (
                 <span
                   aria-hidden
                   data-slot="sidebar-nav-indicator"
-                  className="absolute top-1/2 left-2 h-3.5 w-0.5 -translate-y-1/2 rounded-full bg-theme-accent"
+                  className={NAV_ITEM_INDICATOR}
                 />
               ) : null}
               {Icon ? <Icon size={16} className="shrink-0" aria-hidden /> : null}
@@ -277,7 +208,7 @@ export function SidebarNav({
   );
 
   const renderGroupBody = (group: SidebarNavGroup) => (
-    <div className={GROUP_BODY_INSET}>
+    <div className={NAV_GROUP_BODY_INSET}>
       {group.subgroups ? (
         /* 二级小组：组间短水平分割线 + 上下留白区分，不做水平缩进层级 */
         <div>
@@ -288,15 +219,12 @@ export function SidebarNav({
                   decorative
                   length="short"
                   data-slot="sidebar-nav-subgroup-divider"
-                  className={SUBGROUP_DIVIDER}
+                  className={NAV_SUBGROUP_DIVIDER}
                 />
               ) : null}
               <div data-slot="sidebar-nav-subgroup">
                 {/* 二级小标题：与一级 heading 同字号（统一字号），靠字重 + 次级色分层 */}
-                <div
-                  data-slot="sidebar-nav-subheading"
-                  className={`${SUBHEADING_INSET} flex h-7 items-center text-style-nav-subheading font-medium text-gray-900`}
-                >
+                <div data-slot="sidebar-nav-subheading" className={NAV_SUBHEADING_BASE}>
                   <span className="truncate ink-shift-cjk">{subgroup.label}</span>
                 </div>
                 {renderItems(subgroup.items)}
@@ -314,7 +242,7 @@ export function SidebarNav({
     <nav
       data-slot="sidebar-nav"
       aria-label={ariaLabel}
-      className={cn("flex flex-col gap-4", side === "left" ? "" : "border-l", className)}
+      className={cn(NAV_GROUP_RHYTHM, side === "left" ? "" : "border-l", className)}
     >
       {groups.map((group, index) => {
         const id = groupIds[index];
@@ -322,7 +250,7 @@ export function SidebarNav({
         if (!collapsible) {
           return (
             <div key={id} data-slot="sidebar-nav-group">
-              <div data-slot="sidebar-nav-heading" className={HEADING_BASE}>
+              <div data-slot="sidebar-nav-heading" className={NAV_HEADING_BASE}>
                 <span className="truncate ink-shift-cjk">{group.label}</span>
               </div>
               {renderGroupBody(group)}
@@ -330,7 +258,7 @@ export function SidebarNav({
           );
         }
 
-        const open = !collapsed.has(id);
+        const open = !isCollapsed(id);
         return (
           /*
            * 折叠行为直接用标准 Collapse（Radix Collapsible，见 collapse.tsx）：
@@ -345,14 +273,14 @@ export function SidebarNav({
             key={id}
             data-slot="sidebar-nav-group"
             open={open}
-            onOpenChange={(next) => handleGroupOpenChange(id, next)}
+            onOpenChange={(next) => setGroupOpen(id, next)}
             size="bare"
             indicatorAlign="inline"
           >
             <CollapseTrigger
               as="div"
               data-slot="sidebar-nav-heading"
-              className={cn(HEADING_BASE, "select-none")}
+              className={cn(NAV_HEADING_BASE, "select-none")}
             >
               <span className="truncate ink-shift-cjk">{group.label}</span>
             </CollapseTrigger>

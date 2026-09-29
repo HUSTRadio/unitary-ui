@@ -228,12 +228,14 @@ describe("HamburgerMenu side-slide modes (Task 3)", () => {
         "utf8",
       );
 
-    it("menu-nav is the flex-1 scroll container", async () => {
+    it("menu-nav is the flex-1 scroll container sharing the sidebar inset contract", async () => {
       const src = await readSource();
-      // px-4：列表容器水平内边距与 toolbar 的 pr-4 同一栅格（8px 时分组标题贴面板左缘）
+      // 2026-09-29：内容内缩与滚动条槽位改走共享契约（NAV_CONTENT_INSET / nav-scroll），
+      // 与侧栏 aside 同一组数值——此前抽屉自带 px-4 py-2 + 原生粗滚动条，与侧栏排版漂移。
       expect(src).toMatch(
-        /<nav\s+data-slot="menu-nav"\s+className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-2"/,
+        /<nav\s+data-slot="menu-nav"\s+className=\{cn\(\s*"min-h-0 flex-1 overflow-y-auto overscroll-contain nav-scroll",\s*NAV_CONTENT_INSET,/,
       );
+      expect(src).not.toContain("overscroll-contain px-4 py-2");
     });
 
     it("list has no max-h clip — search collapse uses h-0 + opacity instead", async () => {

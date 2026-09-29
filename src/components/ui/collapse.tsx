@@ -179,7 +179,21 @@ function CollapseContent({
     const content = contentRef.current;
     if (!content) return;
 
-    const measure = () => setHeight(content.scrollHeight);
+    /**
+     * 高度取「排版盒」而不是 scrollHeight：scrollHeight 计入可滚动溢出，而入场动画的
+     * transform 会把它撑大——HamburgerMenu 抽屉逐项浮现从 translateY(8px) 起步，
+     * 内容底边因此虚高 8px，折叠区高度被虚报，分组底部多出一截死留白
+     * （用户实测 2026-09-29：抽屉分组节奏 24px ≠ 侧栏 16px）。
+     * 做法：临时把高度放开为 auto 读一次 offsetHeight（只反映排版盒，与 transform 无关），
+     * 读完立即还原——同一帧内完成，不产生额外绘制。
+     */
+    const measure = () => {
+      const previousHeight = content.style.height;
+      content.style.height = "auto";
+      const next = content.offsetHeight;
+      content.style.height = previousHeight;
+      setHeight(next);
+    };
     const syncState = () => setClosed(content.dataset.state === "closed");
     measure();
     syncState();
