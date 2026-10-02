@@ -37,13 +37,14 @@ export function App() {
 
 <!-- STYLEGUIDE_SCREENSHOTS_START -->
 
-| 页面     | Light                                                     | Dark                                                    |
-| -------- | --------------------------------------------------------- | ------------------------------------------------------- |
-| 组件总览 | ![组件总览 Light](images/styleguide/components-light.png) | ![组件总览 Dark](images/styleguide/components-dark.png) |
-| 表单示例 | ![表单示例 Light](images/styleguide/form-light.png)       | ![表单示例 Dark](images/styleguide/form-dark.png)       |
-| 数据表格 | ![数据表格 Light](images/styleguide/table-light.png)      | ![数据表格 Dark](images/styleguide/table-dark.png)      |
-| 审批流程 | ![审批流程 Light](images/styleguide/workflow-light.png)   | ![审批流程 Dark](images/styleguide/workflow-dark.png)   |
-| 设置面板 | ![设置面板 Light](images/styleguide/settings-light.png)   | ![设置面板 Dark](images/styleguide/settings-dark.png)   |
+| 页面       | Light                                                        | Dark                                                       |
+| ---------- | ------------------------------------------------------------ | ---------------------------------------------------------- |
+| 分页与媒体 | ![分页与媒体 Light](images/styleguide/paged-media-light.png) | ![分页与媒体 Dark](images/styleguide/paged-media-dark.png) |
+| 组件总览   | ![组件总览 Light](images/styleguide/components-light.png)    | ![组件总览 Dark](images/styleguide/components-dark.png)    |
+| 表单示例   | ![表单示例 Light](images/styleguide/form-light.png)          | ![表单示例 Dark](images/styleguide/form-dark.png)          |
+| 数据表格   | ![数据表格 Light](images/styleguide/table-light.png)         | ![数据表格 Dark](images/styleguide/table-dark.png)         |
+| 审批流程   | ![审批流程 Light](images/styleguide/workflow-light.png)      | ![审批流程 Dark](images/styleguide/workflow-dark.png)      |
+| 设置面板   | ![设置面板 Light](images/styleguide/settings-light.png)      | ![设置面板 Dark](images/styleguide/settings-dark.png)      |
 
 <!-- STYLEGUIDE_SCREENSHOTS_END -->
 

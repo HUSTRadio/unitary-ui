@@ -29,8 +29,9 @@ import { DataTableExample } from "@/examples/DataTableExample";
 import { FormExample } from "@/examples/FormExample";
 import { SettingsExample } from "@/examples/SettingsExample";
 import { WorkflowExample } from "@/examples/WorkflowExample";
+import { PagedMediaExample } from "@/examples/PagedMediaExample";
 
-/** Living styleguide — 组件总览 + 4 个组合示例。 */
+/** Living styleguide — 组件总览 + 5 个组合示例。 */
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="space-y-3">
@@ -41,7 +42,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 export default function App() {
-  const [page, setPage] = useState<"components" | "form" | "table" | "workflow" | "settings">(
+  const [page, setPage] = useState<"components" | "form" | "table" | "workflow" | "settings" | "paged-media">(
     "components",
   );
   const [checked, setChecked] = useState(true);
@@ -54,6 +55,7 @@ export default function App() {
   useFontMetrics();
 
   const NAV: { key: typeof page; label: string; labelEn: string }[] = [
+    { key: "paged-media", label: "分页与媒体", labelEn: "Pagination and media" },
     { key: "components", label: "组件总览", labelEn: "Components overview" },
     { key: "form", label: "表单示例", labelEn: "Form example" },
     { key: "table", label: "数据表格", labelEn: "Data table" },
@@ -107,6 +109,7 @@ export default function App() {
       <main className="mx-auto max-w-6xl space-y-10 px-6 py-10">
         {/* 页面级边界：单个示例页崩溃只占位该区域，导航/其余页面继续可用；切换页面自动重置 */}
         <ErrorBoundary name={`styleguide:${page}`} resetKeys={[page]}>
+          {page === "paged-media" && <PagedMediaExample />}
           {page === "form" && <FormExample />}
           {page === "table" && <DataTableExample />}
           {page === "workflow" && <WorkflowExample />}

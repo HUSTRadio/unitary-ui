@@ -37,13 +37,14 @@ The package root supports native Node ESM `import` and CommonJS `require` withou
 
 <!-- STYLEGUIDE_SCREENSHOTS_START -->
 
-| Page                | Light                                                                | Dark                                                               |
-| ------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| Components overview | ![Components overview Light](images/styleguide/components-light.png) | ![Components overview Dark](images/styleguide/components-dark.png) |
-| Form example        | ![Form example Light](images/styleguide/form-light.png)              | ![Form example Dark](images/styleguide/form-dark.png)              |
-| Data table          | ![Data table Light](images/styleguide/table-light.png)               | ![Data table Dark](images/styleguide/table-dark.png)               |
-| Workflow            | ![Workflow Light](images/styleguide/workflow-light.png)              | ![Workflow Dark](images/styleguide/workflow-dark.png)              |
-| Settings panel      | ![Settings panel Light](images/styleguide/settings-light.png)        | ![Settings panel Dark](images/styleguide/settings-dark.png)        |
+| Page                 | Light                                                                  | Dark                                                                 |
+| -------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Pagination and media | ![Pagination and media Light](images/styleguide/paged-media-light.png) | ![Pagination and media Dark](images/styleguide/paged-media-dark.png) |
+| Components overview  | ![Components overview Light](images/styleguide/components-light.png)   | ![Components overview Dark](images/styleguide/components-dark.png)   |
+| Form example         | ![Form example Light](images/styleguide/form-light.png)                | ![Form example Dark](images/styleguide/form-dark.png)                |
+| Data table           | ![Data table Light](images/styleguide/table-light.png)                 | ![Data table Dark](images/styleguide/table-dark.png)                 |
+| Workflow             | ![Workflow Light](images/styleguide/workflow-light.png)                | ![Workflow Dark](images/styleguide/workflow-dark.png)                |
+| Settings panel       | ![Settings panel Light](images/styleguide/settings-light.png)          | ![Settings panel Dark](images/styleguide/settings-dark.png)          |
 
 <!-- STYLEGUIDE_SCREENSHOTS_END -->
 
