@@ -30,12 +30,12 @@
 | 聚焦回归（增加双语结构、guide sections、临时文件发现） | exit 0，9 files / 52 tests |
 | 浏览器 Choicebox / Input / ActivityView | exit 0，10 passed，双主题且 retries=0 |
 | App Shell 与合成裁剪边界回归 | exit 0，3 passed；双主题 × 6 宽度 × 顶部/底部；真实越界反例仍失败 |
-| 原始 docs-layout 全部静态路由矩阵 | exit 0，6 chunks passed，2.7m；retries=0 |
+| 原始 docs-layout 全部静态路由矩阵 | exit 0，6 chunks / 240 组合 / 0 failures，2.7m；retries=0 |
 | pnpm run build / typecheck | 均 exit 0 |
 | pnpm run lint | exit 0；现有 warning，无新增错误 |
 | docs:llm:generate | generate/check 均 exit 0，110 路由 × 2 语言，确定性无漂移 |
 | docs:readme:screenshots / docs:readme:screenshots:check | 均 exit 0，5 页 × 2 主题；仅 components 双主题图变化，随 Input 提交 |
-| pnpm run test --maxWorkers=4 | exit 1，8 failed / 241 passed files，32 failed / 1601 passed tests；失败均为 tests/audit 的 python/Pillow 环境基线，日志 .scratch/handoff-vitest-full.log |
+| pnpm run test --maxWorkers=4 | exit 1，8 failed / 241 passed files，32 failed / 1601 passed tests；31 项为 7 个 tests/audit 文件的 python/Pillow 环境基线；另 1 项 section-without-code 是旧正则把 JSX 箭头误判为标签结束，已改为 TSX AST 检查并增加反例，4 files / 11 tests 复验 exit 0，日志 .scratch/handoff-vitest-full.log |
 | pnpm run typecheck:tests | exit 2；未改动的 run-showcode-audit.mts:5 仍导入已移除的 demo-code；llm-task-runner.test.ts:227 隐式 any。git diff HEAD 对两文件为零差异 |
 
 ## 4. 提交边界
@@ -63,4 +63,8 @@
 - ActivityView 实测卡片 clientHeight=162、sheet clientHeight=96、内容可见高度=78、scrollHeight=572。采用足够高的局部预览（min(844px,100dvh)），保留卡片 Portal；回归仍要求预览高度至少 800px（844px 视口）、展开增加超过 200px、完整长列表及操作可达。
 - App Shell 不是首帧竞态：390px 视口下表格完整 bottom=2090.375，祖先滚动容器 bottom=968.5625，main bottom=1253.5625。表格已被祖先裁剪；原审计忽略裁剪。现测量祖先逐轴裁剪后的可见边界，并以未裁剪越界反例防止放宽门禁。
 - 审计采集用例自身使用 soft assertion，并关闭 evidence lifecycle 的重试；不能再通过新进程空的 ALL_FAILURES 把失败变成 flaky pass。
-- 三份 HIG 台账同步与其余提交待完成。真机验收仍按 §5 保留。
+- `791054c`：Choicebox 文案、live demo 说明、Trial 徽章、双语语料及浏览器回归已提交。三份 HIG 台账同步与其余提交待完成。真机验收仍按 §5 保留。
+### 最终复验补记
+
+- `pnpm run test --maxWorkers=4` 第二次：exit 1，7 failed / 242 passed files，31 failed / 1603 passed tests；全部失败均为 Python/Pillow 审计环境基线，新增 TSX 检查通过。日志 `.scratch/handoff-vitest-final.log`。
+- ActivityView 收尾发现固定高度卡片会裁剪 Show Code；现将固定高度的 SubFrame 仅包住预览，代码区放在它之后。新增双主题断言：展开代码不改变 frame 高度，代码末端在卡片边界内。最终构建、专项与语料检查正在复验。
