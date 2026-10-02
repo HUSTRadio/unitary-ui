@@ -1,6 +1,6 @@
 # Choicebox 自定义内容与并行交接收尾
 
-> 更新：2026-10-02；状态：执行中。当前用户授权：核对现状、更新计划、执行并自动提交；同时处理可自动验证的 HIG 实现问题。未授权推送。
+> 更新：2026-10-03；状态：执行中。当前用户授权：核对现状、更新计划、执行并自动提交；同时处理可自动验证的 HIG 实现问题。未授权推送。
 
 ## 1. 当前基线与结论
 
@@ -14,12 +14,12 @@
 ## 2. 执行清单
 
 - [x] 核对 branch、diff、实现、文档、测试及交接书；更新本计划。
-- [ ] Choicebox：保留组件契约；为实时 demo 增加可选说明位，复用同一份双语 guide 文案；持久化双语言、双主题切换与 Trial 渐变回归。
-- [ ] Input：订正文档注释；验证 styled/plain 双主题几何；独立提交原有修复。
-- [ ] HIG harness：排除 `_tmp-*`、`*.tmp.*` 和隐藏探针，补自动发现回归；保留他人忽略文件，不删除也不提交。
-- [ ] HIG ActivityView：实测卡片与 sheet；选择可用的局部预览高度，保留长列表、分档与操作可达性要求；不得把 97px 不可用体验固化为契约。
-- [ ] HIG App Shell：实测滚动 owner 与 main 边界，修复真实原因；aggregate 结果不得被 retry 的空进程状态掩盖。
-- [ ] 验证：聚焦测试、类型检查、构建、双语语料生成与确定性检查、README 截图生成与检查、受影响浏览器用例（禁用重试）。
+- [x] Choicebox：保留组件契约；为实时 demo 增加可选说明位，复用同一份双语 guide 文案；持久化双语言、双主题切换与 Trial 渐变回归。
+- [x] Input：订正文档注释；验证 styled/plain 双主题几何；独立提交原有修复。
+- [x] HIG harness：排除 `_tmp-*`、`*.tmp.*` 和隐藏探针，补自动发现回归；保留他人忽略文件，不删除也不提交。
+- [x] HIG ActivityView：实测卡片与 sheet；选择可用的局部预览高度，保留长列表、分档与操作可达性要求；不得把 97px 不可用体验固化为契约。
+- [x] HIG App Shell：实测滚动 owner 与 main 边界，修复真实原因；aggregate 结果不得被 retry 的空进程状态掩盖。
+- [x] 验证：聚焦测试、类型检查、构建、双语语料生成与确定性检查、README 截图生成与检查、受影响浏览器用例（禁用重试）。
 - [ ] 分批显式 stage、复核 staged diff、签名提交；更新此计划中的提交与验证证据。
 
 ## 3. 本轮证据
@@ -35,7 +35,7 @@
 | pnpm run lint | exit 0；现有 warning，无新增错误 |
 | docs:llm:generate | generate/check 均 exit 0，110 路由 × 2 语言，确定性无漂移 |
 | docs:readme:screenshots / docs:readme:screenshots:check | 均 exit 0，5 页 × 2 主题；仅 components 双主题图变化，随 Input 提交 |
-| pnpm run test --maxWorkers=4 | exit 1，8 failed / 241 passed files，32 failed / 1601 passed tests；31 项为 7 个 tests/audit 文件的 python/Pillow 环境基线；另 1 项 section-without-code 是旧正则把 JSX 箭头误判为标签结束，已改为 TSX AST 检查并增加反例，4 files / 11 tests 复验 exit 0，日志 .scratch/handoff-vitest-full.log |
+| 全量单测首次（修复 JSX 检查前） | exit 1，8 failed / 241 passed files，32 failed / 1601 passed tests；31 项为 7 个 tests/audit 文件的 python/Pillow 环境基线；另 1 项 section-without-code 是旧正则把 JSX 箭头误判为标签结束，已改为 TSX AST 检查并增加反例，4 files / 11 tests 复验 exit 0，日志 .scratch/handoff-vitest-full.log |
 | pnpm run typecheck:tests | exit 2；未改动的 run-showcode-audit.mts:5 仍导入已移除的 demo-code；llm-task-runner.test.ts:227 隐式 any。git diff HEAD 对两文件为零差异 |
 
 ## 4. 提交边界
@@ -67,4 +67,16 @@
 ### 最终复验补记
 
 - `pnpm run test --maxWorkers=4` 第二次：exit 1，7 failed / 242 passed files，31 failed / 1603 passed tests；全部失败均为 Python/Pillow 审计环境基线，新增 TSX 检查通过。日志 `.scratch/handoff-vitest-final.log`。
-- ActivityView 收尾发现固定高度卡片会裁剪 Show Code；现将固定高度的 SubFrame 仅包住预览，代码区放在它之后。新增双主题断言：展开代码不改变 frame 高度，代码末端在卡片边界内。最终构建、专项与语料检查正在复验。
+- ActivityView 收尾发现固定高度卡片会裁剪 Show Code；现将固定高度的 SubFrame 仅包住预览，代码区放在它之后。新增双主题断言：展开代码不改变 frame 高度，代码末端在卡片边界内。最终独立预览容器专项 exit 0，8 passed（35.6s）；2026-10-03 恢复后生产构建 exit 0，聚焦契约 7 files / 29 tests exit 0。全部受影响浏览器用例 exit 0，22 passed（1.6m），retries=0；最终语料检查 exit 0，无漂移。
+- `77edb98`：旧 JSX 正则检查改为 TSX AST，增加箭头表达式与缺失 code 属性反例；已独立提交。
+
+### 2026-10-03 恢复后的最终证据
+
+| 检查 | 结果 |
+| --- | --- |
+| 聚焦契约（Choicebox、Show Code、TSX、双语、Input、发现规则） | exit 0，7 files / 29 tests |
+| 生产构建（含项目类型检查） | exit 0 |
+| 全部受影响正式浏览器 spec | exit 0，22 passed（1.6m），双主题，retries=0；日志 .scratch/handoff-browser-resume.log |
+| 最终双语语料确定性 | exit 0，无漂移；日志 .scratch/handoff-llm-resume.log |
+
+已验证本轮改动没有引入新的剩余失败；全仓单测的 7 个 Python/Pillow 环境失败文件及测试类型检查的两项旧错误仍按 §3/§5 单独记录。HIG 批次正在提交，随后更新最终提交索引。

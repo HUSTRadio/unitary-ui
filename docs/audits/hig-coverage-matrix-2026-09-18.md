@@ -425,3 +425,19 @@ node .scratch/hig-audit-2026-09-18/run-round4-trusted.mjs       # ② 可信全�
 # 治理测试（HIG-AUD-005 撤回依据 / HIG-AUD-052 棘轮缺口复现入口）
 pnpm exec vitest run tests/raw-color-governance.test.ts         # 实测 4/4 passed, exit 0
 ```
+
+## G. 2026-10-02 自动验证收尾
+
+| 第四轮遗留 | 本轮状态与证据 |
+| --- | --- |
+| 临时探针混入门禁 | 已修配置与 Git ignore；Playwright 真实发现回归通过，保留普通测试 |
+| ActivityView 约 97px 分享面板 | 修复前实测 sheet clientHeight=96；增加可用局部预览高度，双主题键盘/拖拽与长列表守护通过 |
+| App Shell 12/12 边界失败 | 根因是祖先裁剪未计入；visibleRect 检查通过六宽度、双主题、滚动前后；真实越界反例仍被拒绝 |
+| 汇总重试掩盖失败 | 采集测试自身 soft assertion，evidence lifecycle retries=0 |
+| 新鲜静态矩阵 | 6 chunks / 240 组合 / 0 failures，exit 0，2.7m（未宣称全组件矩阵重跑） |
+| HIG 专项 | ActivityView、滚动边界、破坏性确认、命令搜索共 14 passed，exit 0，58.6s，无重试 |
+| 外部验收 | NVDA/VoiceOver、经典滚动条平台及既存产品决策仍待验证 |
+
+详细取证与复现命令见增补 §5AF；最终单元测试、已知基线错误与提交记录见 `docs/superpowers/plans/2026-10-02-choicebox-custom-content-parity.md`。
+
+2026-10-03 收尾复验：全部受影响正式浏览器用例 22 passed（1.6m）、retries=0；生产构建与最终 220 页语料确定性均 exit 0。最终全量单测仅余 7 个 Python/Pillow 环境失败文件（31 failed / 1603 passed tests）；两处旧测试类型错误另列。详见交接执行计划。

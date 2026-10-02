@@ -7,6 +7,7 @@ import { defineConfig } from "@playwright/test";
  */
 export default defineConfig({
   testDir: "./tests/e2e",
+  testIgnore: ["**/_tmp-*", "**/*.tmp.*", "**/.*.spec.ts"],
   timeout: 15 * 60_000,
   expect: { timeout: 10_000 },
   fullyParallel: false,

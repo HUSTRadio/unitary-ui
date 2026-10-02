@@ -773,3 +773,21 @@
 - **关键正面结论**：`command-search.spec.ts`（**HIG-AUD-053 守护用例**）**5/5 全绿**——053 的修复在全量门禁层面得到确认（此前只有定向 5 passed 记录）。
 - **`pnpm test` → exit 1 定性**（@ `4ecfee27`，171.66s）：8 failed 文件 = 7 个 `tests/audit/*`（**环境类**：`python -c "from PIL import Image…"` 命令失败，本机无 Pillow）+ `tests/button-api.test.ts:85`（`Test timed out in 15000ms`；**单跑 exit 0 / 9 passed / 339ms** → flaky，非断言失败）。两者均与产品状态无关。
 - **未取得**：本机无 NVDA/VoiceOver，故 HIG-AUD-030 的真机播报验证仍为缺口（见 §5AC）。
+
+## 5AF. 交接执行复核与修复（2026-10-02）
+
+本节更新 §5AD/§5AE 的待办状态，历史运行结果保留。用户已授权执行可自动验证的 HIG 实现修复并分批提交。
+
+- **临时探针污染已修**：Playwright 排除 `**/_tmp-*`、`**/*.tmp.*`、`**/.*.spec.ts`，Git 排除 `tests/e2e/_tmp-*`。发现回归实际调用 Playwright `--list`，证明普通 spec 仍被收集，四种临时命名均不被收集。既有忽略文件保留，不删除他人工作。
+- **ActivityView 采用可用的局部预览高度**：修复前浏览器实测卡片 clientHeight=162、sheet clientHeight=96、内容 clientHeight=78 / scrollHeight=572。文档卡片内的预览 SubFrame 为此组件提供 `min(844px,100dvh)` 高度；保留局部 Portal，Show Code 放在独立预览之后，展开代码不会影响分档或被固定高度裁剪。回归按实际容器高度校验 0.6/0.9 两档，同时要求 844px 测试视口下容器至少 800px、展开增加超过 200px、末项可达、拖拽和取消/确认仍有效。不是将 97px 体验降为通过。
+- **App Shell 根因为审计忽略祖先裁剪，不是异步竞态**：390px 视口下表格完整 bottom=2090.375，局部滚动视窗 bottom=968.5625，main bottom=1253.5625。表格的离屏部分已被祖先裁剪；原审计却比较完整 rect。新增共享测量函数保留原始 rect，同时计算逐轴祖先裁剪后的 visibleRect。合成夹具覆盖 hidden/clip/auto 以及 visible、横向真实越界反例；App Shell 双主题六宽度在滚动前后均通过。
+- **失败不能再被空汇总掩盖**：每个采集用例自身 soft-assert 检查结果，evidence lifecycle 禁用重试。即使新 worker 的汇总数组为空，原采集用例仍然失败。
+- **新鲜证据**：`pnpm exec playwright test tests/e2e/activity-view-detents.spec.ts tests/e2e/scroll-owner-bounds.spec.ts tests/e2e/quick-actions-destructive-confirm.spec.ts tests/e2e/command-search.spec.ts --retries=0 --timeout=60000` → exit 0，14 passed（58.6s）。`pnpm exec playwright test tests/e2e/docs-layout.spec.ts --grep 'static routes chunk' --retries=0` → exit 0，6 chunks / 240 组合 / 0 failures（2.7m），不是全量组件矩阵。
+- 构建、项目类型检查、lint、220 页双语语料确定性、5 页双主题 README 截图确定性均 exit 0。扩展 `typecheck:tests` 存在两项未修改文件的基线错误：run-showcode-audit.mts 旧 demo-code 导入、llm-task-runner.test.ts 隐式 any。全量 Vitest 的 Python/Pillow 环境缺口及最终统计见交接执行计划 §3；不宣称全仓所有门禁通过。
+- 真机播报、经典滚动条平台、EditMenu 方向产品决策与未覆盖浮层状态仍待验收。本轮不新增官方像素 parity 结论。
+
+执行与提交索引：`docs/superpowers/plans/2026-10-02-choicebox-custom-content-parity.md`。
+
+- 最终容器分离后补跑 ActivityView 与破坏性确认专项：exit 0，8 passed（35.6s），含双主题 Show Code 完整可见及预览高度稳定回归。2026-10-03 中断恢复后再次验证生产构建 exit 0，聚焦契约 7 files / 29 tests exit 0。
+
+2026-10-03 收尾复验：全部受影响正式浏览器用例 22 passed（1.6m）、retries=0；生产构建与最终 220 页语料确定性均 exit 0。最终全量单测仅余 7 个 Python/Pillow 环境失败文件（31 failed / 1603 passed tests）；两处旧测试类型错误另列。详见交接执行计划。

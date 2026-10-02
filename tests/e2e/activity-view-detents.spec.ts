@@ -11,7 +11,13 @@ async function openActivityView(page: Page, theme: "light" | "dark") {
   await expect(grabber).toHaveAttribute("aria-valuemax", "1");
   await expect(sheet.locator('[data-slot="activity-view-targets"] button')).toHaveCount(8);
   await expect(sheet.locator('[data-slot="activity-view-actions"] button')).toHaveCount(8);
-  return { sheet, grabber };
+  await sheet.scrollIntoViewIfNeeded();
+  const card = page.locator('[data-demo-card="default"]');
+  const frameHeight = await card.locator('[data-slot="sub-frame"]').evaluate((element) => element.clientHeight);
+  // A usable local preview must preserve room for the long list and both detents.
+  expect(frameHeight).toBeGreaterThanOrEqual(800);
+  expect(await sheet.evaluate((element) => element.offsetParent?.getAttribute("data-slot"))).toBe("sub-frame");
+  return { sheet, grabber, frameHeight };
 }
 
 async function expectHeight(sheet: ReturnType<Page["locator"]>, expected: number) {
@@ -19,8 +25,27 @@ async function expectHeight(sheet: ReturnType<Page["locator"]>, expected: number
 }
 
 for (const theme of ["light", "dark"] as const) {
+  test(`source listing expands without changing the overlay viewport (${theme})`, async ({ page }) => {
+    await page.addInitScript((value) => localStorage.setItem("unitary-theme-preference", value), theme);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/#/components/activity-view");
+    const card = page.locator('[data-demo-card="default"]');
+    const frame = card.locator('[data-slot="sub-frame"]');
+    await expect(frame).toBeVisible();
+    const height = await frame.evaluate((element) => element.clientHeight);
+    await card.getByRole("button", { name: /Show code|显示代码/ }).click();
+    const code = card.locator("pre");
+    await expect(code).toBeVisible();
+    expect(await frame.evaluate((element) => element.clientHeight)).toBe(height);
+    const bounds = await card.evaluate((element) => ({
+      cardBottom: element.getBoundingClientRect().bottom,
+      codeBottom: element.querySelector("pre")!.getBoundingClientRect().bottom,
+    }));
+    expect(bounds.codeBottom).toBeLessThanOrEqual(bounds.cardBottom);
+  });
+
   test(`share sheet expands and its long action list remains usable (${theme})`, async ({ page }) => {
-    const { sheet, grabber } = await openActivityView(page, theme);
+    const { sheet, grabber, frameHeight } = await openActivityView(page, theme);
     const alignment = await sheet.evaluate((element) => {
       const sheetBox = element.getBoundingClientRect();
       const grabber = element.querySelector('[data-slot="grabber"]')!;
@@ -38,7 +63,7 @@ for (const theme of ["light", "dark"] as const) {
     expect(Math.abs(alignment.buttonCenter - alignment.sheetCenter)).toBeLessThanOrEqual(0.5);
     expect(alignment.buttonWidth).toBeCloseTo(alignment.sheetWidth, 0);
     await expect(grabber).toHaveAttribute("aria-valuenow", "0");
-    await expectHeight(sheet, 844 * 0.6);
+    await expectHeight(sheet, frameHeight * 0.6);
     const content = sheet.locator("div.overflow-y-auto");
     const initial = await content.evaluate((node) => ({ scroll: node.scrollHeight, visible: node.clientHeight }));
     expect(initial.scroll).toBeGreaterThan(initial.visible);
@@ -49,7 +74,7 @@ for (const theme of ["light", "dark"] as const) {
     await grabber.focus();
     await page.keyboard.press("ArrowUp");
     await expect(grabber).toHaveAttribute("aria-valuenow", "1");
-    await expectHeight(sheet, 844 * 0.9);
+    await expectHeight(sheet, frameHeight * 0.9);
     const expanded = await content.evaluate((node) => ({ scroll: node.scrollHeight, visible: node.clientHeight }));
     expect(expanded.visible).toBeGreaterThan(initial.visible + 200);
     expect(expanded.scroll).toBeLessThanOrEqual(expanded.visible + 1);
@@ -60,7 +85,7 @@ for (const theme of ["light", "dark"] as const) {
   });
 
   test(`grabber drag expands to the second detent and can collapse (${theme})`, async ({ page }) => {
-    const { sheet, grabber } = await openActivityView(page, theme);
+    const { sheet, grabber, frameHeight } = await openActivityView(page, theme);
     const bounds = await grabber.boundingBox();
     expect(bounds).not.toBeNull();
     const x = bounds!.x + bounds!.width / 2;
@@ -70,10 +95,10 @@ for (const theme of ["light", "dark"] as const) {
     await page.mouse.move(x, y - 270, { steps: 8 });
     await page.mouse.up();
     await expect(grabber).toHaveAttribute("aria-valuenow", "1");
-    await expectHeight(sheet, 844 * 0.9);
+    await expectHeight(sheet, frameHeight * 0.9);
     await grabber.focus();
     await page.keyboard.press("ArrowDown");
     await expect(grabber).toHaveAttribute("aria-valuenow", "0");
-    await expectHeight(sheet, 844 * 0.6);
+    await expectHeight(sheet, frameHeight * 0.6);
   });
 }

@@ -76,6 +76,19 @@ function TableDemoCard({
   slug?: string;
 }) {
   const allowOverflow = slug !== undefined && DEMO_OVERFLOW_VISIBLE_SLUGS.has(slug);
+  if (slug === "activity-view") {
+    return (
+      <div data-demo-card={id} className="overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background-100">
+        {/* Keep the overlay viewport independent of the expandable source listing. */}
+        <SubFrame className="h-[min(844px,100dvh)]">
+          <div data-slot="docs-local-scroll" data-demo-container={id} className="w-full overflow-x-auto p-6">
+            {children}
+          </div>
+        </SubFrame>
+        <DemoShowCode code={code} />
+      </div>
+    );
+  }
   return (
     // 卡片本身就是局部浮层容器：demo 里的 BottomSheet / HamburgerMenu 会落在卡片内，
     // 而不是盖住整页文档。裁剪仍沿用卡片原本的 overflow 类（故 clip={false}）。

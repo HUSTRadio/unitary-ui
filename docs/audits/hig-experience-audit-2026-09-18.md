@@ -1021,3 +1021,11 @@
 - 本次**新增文件仅限**：`docs/audits/hig-experience-audit-2026-09-18.md`、`docs/audits/hig-coverage-matrix-2026-09-18.md`、`.scratch/hig-audit-2026-09-18/baseline-and-evidence.md`。
 - 审核期间出现的实现改动（`edit-menu`、Quick Actions、pull-down、activity-view）由**并发会话**产生，非本次审核所为；本报告将其作为审核对象记录。
 - 未把 Apple 原生外观当作唯一正确答案；HIG 原生专属能力已单列为「不适用」而非缺陷。
+
+## 11. 2026-10-02 交接执行更新
+
+第四轮遗留的可自动验证问题已修复并取证，详见增补 §5AF：临时探针发现规则、ActivityView 可用局部预览高度、App Shell 祖先裁剪边界，以及 aggregate 重试丢失失败记录。ActivityView / 滚动边界 / 破坏性确认 / 搜索专项 14 passed；静态路由 240 组合、0 failures，均 retries=0。此前对 App Shell 的「疑似首帧竞态」已被实测推翻，实际是审计把被祖先裁剪的离屏表格矩形误报为越界。
+
+项目类型检查、构建、双语语料与 README 截图确定性均通过；完整门禁仍须区分 Python/Pillow 环境基线及两处旧测试类型错误。真机与产品决策缺口不在本轮结案，最终运行统计与提交索引见 `docs/superpowers/plans/2026-10-02-choicebox-custom-content-parity.md`。本节是后续整改执行记录，§10 的只读声明仅描述最初审计。
+
+2026-10-03 收尾复验：全部受影响正式浏览器用例 22 passed（1.6m）、retries=0；生产构建与最终 220 页语料确定性均 exit 0。最终全量单测仅余 7 个 Python/Pillow 环境失败文件（31 failed / 1603 passed tests）；两处旧测试类型错误另列。详见交接执行计划。

@@ -4,6 +4,8 @@ import { fileURLToPath } from "node:url";
 
 import { expect, test, type Page } from "@playwright/test";
 
+import { collectLocalScrollOwners } from "./helpers/scroll-owner-bounds";
+
 import { DOCS_ROUTE_SEQUENCE } from "../../docs/site/src/data/docs-routes";
 
 /**
@@ -76,6 +78,7 @@ interface LayoutEvidence {
     clientWidth: number;
     scrollWidth: number;
     rect: RectJSON;
+    visibleRect: RectJSON;
     insideMain: boolean;
     demoCard: string | null;
     componentScrollPrimitive: "scroller" | "tabs" | "table-root" | "code-block-tabs" | null;
@@ -165,7 +168,8 @@ async function setTheme(page: Page, theme: Theme) {
 
 /** 页内一次性采集 LayoutEvidence */
 async function collectEvidence(page: Page): Promise<Omit<LayoutEvidence, "route" | "theme">> {
-  return page.evaluate(() => {
+  const owners = await page.evaluate(collectLocalScrollOwners);
+  return page.evaluate((localScrollOwners) => {
     const round = (n: number) => Math.round(n * 100) / 100;
     const rectJson = (el: Element | null | undefined): RectJSON | null => {
       if (!el) return null;
@@ -189,24 +193,11 @@ async function collectEvidence(page: Page): Promise<Omit<LayoutEvidence, "route"
       const r = el.getBoundingClientRect();
       return r.width > 0 && r.height > 0;
     };
-    const describe = (el: Element): string => {
-      const slot = el.getAttribute("data-slot");
-      const demo =
-        el.getAttribute("data-demo-card") ??
-        el.getAttribute("data-demo-container") ??
-        el.getAttribute("data-grid-demo");
-      const cls = (el.getAttribute("class") ?? "").split(/\s+/).slice(0, 3).join(".");
-      return `${el.tagName.toLowerCase()}${slot ? `[data-slot=${slot}]` : ""}${
-        demo ? `[${demo}]` : ""
-      }${cls ? `.${cls}` : ""}`;
-    };
-
     const root = document.documentElement;
     const navbar = document.querySelector<HTMLElement>('[data-slot="navbar"]');
     const sidebar = document.querySelector<HTMLElement>('[data-slot="docs-sidebar"]');
     const hamburger = document.querySelector<HTMLElement>('[data-slot="hamburger-trigger"]');
     const main = document.getElementById("main-content");
-    const mainRect = main?.getBoundingClientRect();
 
     const topbarBlocks: Record<string, RectJSON | null> = {
       brand: rectJson(document.querySelector('[data-slot="docs-topbar-brand"]')),
@@ -224,45 +215,6 @@ async function collectEvidence(page: Page): Promise<Omit<LayoutEvidence, "route"
           rect: rectJson(button)!,
         });
       }
-    }
-
-    // 局部横向滚动 owner：overflowX 非 visible 且内容超宽（±1px 容差）
-    const localScrollOwners: LayoutEvidence["localScrollOwners"] = [];
-    for (const el of Array.from(document.querySelectorAll("body *"))) {
-      if (!(el instanceof HTMLElement)) continue;
-      if (!isVisible(el)) continue;
-      const cs = getComputedStyle(el);
-      // `hidden`/`clip` are truncation owners (for example `.truncate`), not
-      // user-scrollable regions. Only audit actual horizontal scroll owners.
-      if (cs.overflowX !== "auto" && cs.overflowX !== "scroll") continue;
-      if (el.scrollWidth <= el.clientWidth + 1) continue;
-      const r = el.getBoundingClientRect();
-      const insideMain =
-        !!mainRect &&
-        r.left >= mainRect.left - 1 &&
-        r.right <= mainRect.right + 1 &&
-        r.top >= mainRect.top - 1 &&
-        r.bottom <= mainRect.bottom + 1;
-      const demoCard = el.closest('[data-demo-card]')?.getAttribute("data-demo-card") ?? null;
-      const componentSlot = el
-        .closest('[data-slot="scroller"], [data-slot="tabs"], [data-slot="table-root"], [data-slot="code-block-tabs"]')
-        ?.getAttribute("data-slot");
-      const componentScrollPrimitive =
-        componentSlot === "scroller" ||
-        componentSlot === "tabs" ||
-        componentSlot === "table-root" ||
-        componentSlot === "code-block-tabs"
-          ? componentSlot
-          : null;
-      localScrollOwners.push({
-        selector: describe(el),
-        clientWidth: el.clientWidth,
-        scrollWidth: el.scrollWidth,
-        rect: rectJson(el)!,
-        insideMain,
-        demoCard,
-        componentScrollPrimitive,
-      });
     }
 
     // sticky 校验：仅桌面且页面可滚动时才有意义（sticky 在滚动后同步生效）
@@ -392,7 +344,7 @@ async function collectEvidence(page: Page): Promise<Omit<LayoutEvidence, "route"
     }
 
     return evidence;
-  });
+  }, owners);
 }
 
 /** 计划步骤 5 的确定性断言（每组合） */
@@ -504,8 +456,8 @@ function runChecks(
     } else if (!owner.insideMain) {
       fail(
         "local-scroll-owner-inside-main",
-        `局部滚动 owner rect 超出 main content 边界：${owner.selector}`,
-        owner.rect,
+        `局部滚动 owner 的可见边界超出 main content：${owner.selector}`,
+        owner.visibleRect,
         owner.selector,
       );
     }
@@ -622,6 +574,8 @@ async function auditCombo(
   appendFileSync(JSONL_PATH, `${JSON.stringify(evidence)}\n`);
   const failures = runChecks(route, theme, viewport, ev);
   ALL_FAILURES.push(...failures);
+  // Fail the collecting test too: a fresh worker must not erase earlier failures.
+  expect.soft(failures, `${route} @${viewport.width} ${theme}`).toEqual([]);
 }
 
 function chunk<T>(items: T[], size: number): T[][] {
@@ -631,6 +585,7 @@ function chunk<T>(items: T[], size: number): T[][] {
 }
 
 test.describe("docs layout audit — evidence lifecycle", () => {
+  test.describe.configure({ retries: 0 });
   test.beforeAll(() => {
     mkdirSync(SCRATCH, { recursive: true });
     mkdirSync(SHOT_DIR, { recursive: true });

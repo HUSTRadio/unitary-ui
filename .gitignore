@@ -22,6 +22,7 @@ coverage/
 .scratch/
 .tmp/
 *.tmp.*
+tests/e2e/_tmp-*
 .plans/
 .plan/
 .superpowers/
