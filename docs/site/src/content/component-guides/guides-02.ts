@@ -299,8 +299,9 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
         id: "choicebox-custom",
         kind: "advanced",
         title: "自定义内容",
-        description: "在卡片内放置自定义内容（图标、描述、徽章等）。",
+        description: "自定义内容（图标、徽章等）仅在选中该项时渲染，未选中的卡片不显示。",
         demoKey: "custom-content",
+        showDescriptionInDemo: true,
       },
     ],
     accessibility: {
@@ -645,8 +646,10 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
         id: "choicebox-custom",
         kind: "advanced",
         title: "Custom content",
-        description: "Places custom content (icons, descriptions, badges) inside the tiles.",
+        description:
+          "Custom content (icons, badges) renders only while the option is selected; unselected tiles stay plain.",
         demoKey: "custom-content",
+        showDescriptionInDemo: true,
       },
     ],
     accessibility: {

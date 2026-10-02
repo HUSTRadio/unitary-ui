@@ -17,6 +17,7 @@ import {
   DocsList,
   DocsPageLead,
   DocsPageTitle,
+  DocsParagraph,
   DocsSection,
   DocsSectionTitle,
 } from "./docs-typography";
@@ -151,11 +152,13 @@ function renderDemo(name: string): React.ReactNode {
 
 function Section({
   title,
+  description,
   children,
   code,
   slug,
 }: {
   title: string;
+  description?: string;
   children: React.ReactNode;
   code?: string;
   slug?: string;
@@ -164,6 +167,7 @@ function Section({
   return (
     <DocsSection>
       <DocsSectionTitle>{demoSectionTitle(language, title)}</DocsSectionTitle>
+      {description ? <DocsParagraph>{description}</DocsParagraph> : null}
       <DocsBlock>
         {code ? (
           <TableDemoCard id={title} code={code} slug={slug}>
@@ -178,8 +182,9 @@ function Section({
 }
 
 /** 名称 → 额外演示分段（Sizes / Variants / States），未命中的组件返回 null */
-function renderExtraSections(name: string, _language: DocsLanguage): React.ReactNode {
+function renderExtraSections(name: string, language: DocsLanguage): React.ReactNode {
   const records = EXAMPLE_REGISTRY[name] ?? [];
+  const guide = getComponentGuide(name, language);
   const primary = primaryExample(records);
   const remaining = primary
     ? records.filter((record) => record !== primary && record.renderInSection !== false)
@@ -193,6 +198,9 @@ function renderExtraSections(name: string, _language: DocsLanguage): React.React
           <Section
             key={`${record.slug}/${record.id}`}
             title={record.id}
+            description={guide?.examples.find(
+              (example) => example.demoKey === record.id && example.showDescriptionInDemo,
+            )?.description}
             code={record.source}
             slug={name}
           >

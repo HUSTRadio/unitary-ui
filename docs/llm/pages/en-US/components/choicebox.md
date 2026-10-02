@@ -34,7 +34,7 @@ A multi-select tile group for additive choices.
 
 ### Custom content
 
-Places custom content (icons, descriptions, badges) inside the tiles.
+Custom content (icons, badges) renders only while the option is selected; unselected tiles stay plain.
 
 ## Accessibility
 
@@ -173,6 +173,8 @@ export function ChoiceboxDisabled17EB3C01Example() {
 
 ## Custom content
 
+Custom content (icons, badges) renders only while the option is selected; unselected tiles stay plain.
+
 Pro TrialFree for two weeks
 
 Trial
@@ -197,7 +199,7 @@ export function ChoiceboxCustomContent2D9A6A02Example() {
     >
       <ChoiceboxGroupItem description="Free for two weeks" title="Pro Trial" value="trial">
         <div className="flex justify-center p-2">
-          <Badge variant="purple">Trial</Badge>
+          <Badge variant="trial">Trial</Badge>
         </div>
       </ChoiceboxGroupItem>
       <ChoiceboxGroupItem description="Get started now" title="Pro" value="pro">

@@ -17,6 +17,8 @@ export interface ComponentGuideExample {
   title: string;
   description: string;
   demoKey?: string;
+  /** Repeat essential guidance beside the live demo using the same localized copy. */
+  showDescriptionInDemo?: boolean;
 }
 
 export interface ComponentGuide {

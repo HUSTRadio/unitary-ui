@@ -31,8 +31,8 @@ describe("component guide locale parity", () => {
 
       expect(zh.locale).toBe("zh-CN");
       expect(en.locale).toBe("en-US");
-      expect(zh.examples.map(({ id, kind, demoKey }) => ({ id, kind, demoKey }))).toEqual(
-        en.examples.map(({ id, kind, demoKey }) => ({ id, kind, demoKey })),
+      expect(zh.examples.map(({ id, kind, demoKey, showDescriptionInDemo }) => ({ id, kind, demoKey, showDescriptionInDemo }))).toEqual(
+        en.examples.map(({ id, kind, demoKey, showDescriptionInDemo }) => ({ id, kind, demoKey, showDescriptionInDemo })),
       );
 
       for (const section of requiredSections) {
