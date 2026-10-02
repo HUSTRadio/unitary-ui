@@ -1,6 +1,6 @@
 # Choicebox 自定义内容与并行交接收尾
 
-> 更新：2026-10-03；状态：执行中。当前用户授权：核对现状、更新计划、执行并自动提交；同时处理可自动验证的 HIG 实现问题。未授权推送。
+> 更新：2026-10-03；状态：本轮授权实施、验证与提交已完成；全仓基线问题及外部验收另列。当前用户授权：核对现状、更新计划、执行并自动提交；同时处理可自动验证的 HIG 实现问题。未授权推送。
 
 ## 1. 当前基线与结论
 
@@ -20,7 +20,7 @@
 - [x] HIG ActivityView：实测卡片与 sheet；选择可用的局部预览高度，保留长列表、分档与操作可达性要求；不得把 97px 不可用体验固化为契约。
 - [x] HIG App Shell：实测滚动 owner 与 main 边界，修复真实原因；aggregate 结果不得被 retry 的空进程状态掩盖。
 - [x] 验证：聚焦测试、类型检查、构建、双语语料生成与确定性检查、README 截图生成与检查、受影响浏览器用例（禁用重试）。
-- [ ] 分批显式 stage、复核 staged diff、签名提交；更新此计划中的提交与验证证据。
+- [x] 分批显式 stage、复核 staged diff、签名提交；更新此计划中的提交与验证证据。
 
 ## 3. 本轮证据
 
@@ -63,7 +63,7 @@
 - ActivityView 实测卡片 clientHeight=162、sheet clientHeight=96、内容可见高度=78、scrollHeight=572。采用足够高的局部预览（min(844px,100dvh)），保留卡片 Portal；回归仍要求预览高度至少 800px（844px 视口）、展开增加超过 200px、完整长列表及操作可达。
 - App Shell 不是首帧竞态：390px 视口下表格完整 bottom=2090.375，祖先滚动容器 bottom=968.5625，main bottom=1253.5625。表格已被祖先裁剪；原审计忽略裁剪。现测量祖先逐轴裁剪后的可见边界，并以未裁剪越界反例防止放宽门禁。
 - 审计采集用例自身使用 soft assertion，并关闭 evidence lifecycle 的重试；不能再通过新进程空的 ALL_FAILURES 把失败变成 flaky pass。
-- `791054c`：Choicebox 文案、live demo 说明、Trial 徽章、双语语料及浏览器回归已提交。三份 HIG 台账同步与其余提交待完成。真机验收仍按 §5 保留。
+- `791054c`：Choicebox 文案、live demo 说明、Trial 徽章、双语语料及浏览器回归已提交。三份 HIG 台账与实现、测试已随 `5abdb67` 提交。真机验收仍按 §5 保留。
 ### 最终复验补记
 
 - `pnpm run test --maxWorkers=4` 第二次：exit 1，7 failed / 242 passed files，31 failed / 1603 passed tests；全部失败均为 Python/Pillow 审计环境基线，新增 TSX 检查通过。日志 `.scratch/handoff-vitest-final.log`。
@@ -79,4 +79,18 @@
 | 全部受影响正式浏览器 spec | exit 0，22 passed（1.6m），双主题，retries=0；日志 .scratch/handoff-browser-resume.log |
 | 最终双语语料确定性 | exit 0，无漂移；日志 .scratch/handoff-llm-resume.log |
 
-已验证本轮改动没有引入新的剩余失败；全仓单测的 7 个 Python/Pillow 环境失败文件及测试类型检查的两项旧错误仍按 §3/§5 单独记录。HIG 批次正在提交，随后更新最终提交索引。
+已执行的回归未发现本轮新增剩余失败；全仓单测的 7 个 Python/Pillow 环境失败文件及测试类型检查的两项旧错误仍按 §3/§5 单独记录。HIG 批次已提交；四个实施提交的 GPG 验证均为 G，工作区在最终计划记录前为空。
+
+## 8. 最终提交索引与完成边界
+
+| 提交 | 内容 |
+| --- | --- |
+| `416abb7` | Input 外侧圆角、注释与回归、双语 CHANGELOG、README 双主题截图 |
+| `791054c` | Choicebox 选中说明、live demo 文案、Trial 徽章、双语语料与回归 |
+| `77edb98` | TSX AST 代码来源契约检查及反例 |
+| `5abdb67` | 可用 ActivityView 局部预览、代码区可读性、裁剪边界审计、失败归属与探针发现规则、三份 HIG 台账 |
+| 本文件的收尾提交 | `docs(plan): finalize choicebox and HIG handoff evidence`；仅记录最终状态，不包含实施改动 |
+
+实施提交全部保留仓库签名约定，已验证签名。未推送。Choicebox DOM 钩子保留、docs-only 修正未单独添加 CHANGELOG；官方像素矩阵扩展与未决 HIG 工作按 §5 保留，不作为本轮自动验证通过的结论。
+
+本轮验证已完成：构建/项目类型检查、lint、聚焦契约、22 个受影响浏览器用例、240 个静态路由布局组合、语料与 README 截图确定性通过。全量单测和扩展测试类型检查按 §3 记录真实失败，未标成全仓绿色；恢复条件分别是可用的 Python/Pillow 环境，以及独立修复两个旧测试类型错误。真机辅助技术及产品决策仍须后续验收。
