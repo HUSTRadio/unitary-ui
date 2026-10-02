@@ -13,7 +13,7 @@ import { useSubFrame } from "@/components/ui/sub-frame";
  *            --expand-anchor-bottom，面板宽度 = anchor 宽度。此形态下面板顶边即锚点
  *            底边，浮层（遮罩顶边 + 进出场）整体以该边为界：顶边固定、由 clip-path
  *            向下展开，不再整体上移掠过锚点（否则面板会从容器/文档顶部掉下来遮住
- *            topbar），向上也不绘制阴影（见 index.css expand-panel-unroll-*）。
+ *            topbar），向上也不绘制阴影（见 index.css 的锚点 clip-path 规则）。
  *   left   → fixed left-0 inset-y-0 rounded-r-overlay，初始 -translate-x-full；
  *            belowTopbar 时顶/底/左三边贴合（anchor 底边、视口底、视口左缘），
  *            故该分支降为 rounded-none（贴合边的圆角只会留下缺口）
@@ -26,6 +26,7 @@ import { useSubFrame } from "@/components/ui/sub-frame";
 type Side = "top" | "bottom" | "left" | "right";
 
 interface ExpandPanelProps {
+  triggerRef?: React.RefObject<HTMLButtonElement | null>;
   /** 展开来向 */
   side: Side;
   /**
@@ -74,10 +75,10 @@ const SIDE_CLASSES: Record<Side, string> = {
 
 /** 初始收起方向 transform ↔ 展开 translate-0 */
 const SIDE_TRANSFORM_CLASSES: Record<Side, string> = {
-  top: "-translate-y-full data-[state=open]:translate-y-0 data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top",
-  bottom: "translate-y-full data-[state=open]:translate-y-0 data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
-  left: "-translate-x-full data-[state=open]:translate-x-0 data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left",
-  right: "translate-x-full data-[state=open]:translate-x-0 data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right",
+  top: "-translate-y-full data-[motion-state=open]:translate-y-0",
+  bottom: "translate-y-full data-[motion-state=open]:translate-y-0",
+  left: "-translate-x-full data-[motion-state=open]:translate-x-0",
+  right: "translate-x-full data-[motion-state=open]:translate-x-0",
 };
 
 function ExpandPanel({
@@ -92,7 +93,35 @@ function ExpandPanel({
   className,
   children,
   "aria-label": ariaLabel,
+  triggerRef,
 }: ExpandPanelProps) {
+  const contentRef = React.useRef<HTMLDivElement>(null);
+  const [present, setPresent] = React.useState(Boolean(open));
+  const [motionOpen, setMotionOpen] = React.useState(false);
+  const openRef = React.useRef(open);
+  openRef.current = open;
+
+  // 保留退出中的节点，让 CSS 从当前进度反转；重新打开会取消旧的卸载计时器。
+  // Retain the exiting node so transitions reverse from their current position.
+  React.useLayoutEffect(() => {
+    if (open) {
+      setPresent(true);
+      // Flush the initial closed style before the first opening transition.
+      contentRef.current?.getBoundingClientRect();
+      const frame = requestAnimationFrame(() => setMotionOpen(true));
+      return () => cancelAnimationFrame(frame);
+    }
+    setMotionOpen(false);
+    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const durations = contentRef.current
+      ? getComputedStyle(contentRef.current)
+          .transitionDuration.split(",")
+          .map((value) => parseFloat(value) * (value.trim().endsWith("ms") ? 1 : 1000))
+      : [];
+    const duration = reduced ? 0 : Math.max(0, ...durations.filter(Number.isFinite)) || 500;
+    const timer = window.setTimeout(() => setPresent(false), duration);
+    return () => window.clearTimeout(timer);
+  }, [open]);
   // 未显式传 container 时继承最近的 SubFrame；显式传 null 表示回到视口定位
   const frameContainer = useSubFrame();
   const container = containerProp === undefined ? frameContainer : containerProp;
@@ -140,7 +169,8 @@ function ExpandPanel({
     measure();
     window.addEventListener("resize", measure);
     if (container) window.addEventListener("scroll", measure, true);
-    const observer = container && typeof ResizeObserver !== "undefined" ? new ResizeObserver(measure) : null;
+    const observer =
+      container && typeof ResizeObserver !== "undefined" ? new ResizeObserver(measure) : null;
     if (container) observer?.observe(container);
     return () => {
       window.removeEventListener("resize", measure);
@@ -154,62 +184,87 @@ function ExpandPanel({
   // 但本模式要求 topbar 保持可交互——挂 body 标记类，由 CSS 恢复 navbar 子树指针事件。
   React.useEffect(() => {
     if (!boundedByTopbar) return;
-    document.body.classList.toggle("expand-panel-below-topbar", open === true);
+    document.body.classList.toggle("expand-panel-below-topbar", present || open === true);
     return () => document.body.classList.remove("expand-panel-below-topbar");
-  }, [boundedByTopbar, open]);
+  }, [boundedByTopbar, open, present]);
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
-      <DialogPrimitive.Portal container={container}>
-        <DialogPrimitive.Overlay
-          data-below-topbar={belowTopbar || undefined}
-          style={anchorVars as React.CSSProperties}
-          className={cn(
-            "z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none",
-            container ? "absolute" : "fixed",
-            boundedByTopbar
-              ? // 仅遮蔽正文区：遮罩顶边 = 锚点底边，topbar 保持可见可交互、不被压暗
-                "inset-x-0 bottom-0 top-[var(--expand-anchor-bottom,64px)]"
-              : "inset-0",
-          )}
-        />
-        <DialogPrimitive.Content
-          tabIndex={-1}
-          data-slot="expand-panel"
-          data-side={side}
-          data-below-topbar={belowTopbar || undefined}
-          data-drop-from-anchor={anchoredDrop || undefined}
-          aria-label={ariaLabel}
-          style={
-            {
-              maxHeight: resolvedMaxHeight,
-              maxWidth: resolvedMaxWidth,
-              // side=left/right 时把 maxWidth 同时作为目标宽度（侧滑面板应为固定宽卡片，
-              // 而非由内容撑开的窄条）；auto 值不注入，保持内容自适应
-              ...(horizontal && resolvedMaxWidth && resolvedMaxWidth !== "auto"
-                ? { width: resolvedMaxWidth }
-                : {}),
-              ...anchorStyle,
-            } as React.CSSProperties
-          }
-          className={cn(
-            // 触摸滚动跟随手指：touch-action: pan-y 明确声明仅垂直平移，避免
-            // 浏览器把横向/组合手势交给 body 导致内容反向。不设 overscroll-contain
-            // （它在部分 WebView 上会反转拖拽方向，手指上拖内容反向下移）。
-            "z-[var(--uni-z-drawer)] touch-pan-y overflow-y-auto bg-background shadow-lg outline-none",
-            "data-[state=open]:animate-in data-[state=closed]:animate-out duration-(--uni-duration-slower) ease-snap motion-reduce:animate-none! motion-reduce:!transition-none",
-            SIDE_CLASSES[side],
-            container && "absolute",
-            // 锚点落下：顶边固定在锚点底边、由 clip-path 向下展开（见 index.css
-            // expand-panel-unroll-*）。不走 translate 位移——整体上移会让面板从
-            // 容器顶部掠过 topbar 掉下来（用户实测）。
-            anchoredDrop ? undefined : SIDE_TRANSFORM_CLASSES[side],
-            className,
-          )}
-        >
-          {children}
-        </DialogPrimitive.Content>
-      </DialogPrimitive.Portal>
+      {(open || present) && (
+        <DialogPrimitive.Portal container={container} forceMount>
+          <DialogPrimitive.Overlay
+            forceMount
+            data-motion-state={motionOpen ? "open" : "closed"}
+            data-below-topbar={belowTopbar || undefined}
+            style={anchorVars as React.CSSProperties}
+            className={cn(
+              "z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] opacity-0 data-[motion-state=open]:opacity-100 transition-opacity duration-(--uni-duration-slower) ease-snap motion-reduce:transition-none",
+              container ? "absolute" : "fixed",
+              boundedByTopbar
+                ? // 仅遮蔽正文区：遮罩顶边 = 锚点底边，topbar 保持可见可交互、不被压暗
+                  "inset-x-0 bottom-0 top-[var(--expand-anchor-bottom,64px)]"
+                : "inset-0",
+            )}
+          />
+          <DialogPrimitive.Content
+            forceMount
+            ref={contentRef}
+            tabIndex={-1}
+            data-slot="expand-panel"
+            data-motion-state={motionOpen ? "open" : "closed"}
+            inert={!open || undefined}
+            aria-hidden={!open || undefined}
+            aria-describedby={undefined}
+            onInteractOutside={(event) => {
+              // Trigger pointerdown belongs to its click, not outside dismissal.
+              if (triggerRef?.current?.contains(event.target as Node)) event.preventDefault();
+            }}
+            onCloseAutoFocus={(event) => {
+              if (!triggerRef) return;
+              event.preventDefault();
+              if (!openRef.current) triggerRef.current?.focus();
+            }}
+            onTransitionEnd={(event) => {
+              if (event.target === event.currentTarget && !openRef.current) setPresent(false);
+            }}
+            data-side={side}
+            data-below-topbar={belowTopbar || undefined}
+            data-drop-from-anchor={anchoredDrop || undefined}
+            aria-label={ariaLabel}
+            style={
+              {
+                maxHeight: resolvedMaxHeight,
+                maxWidth: resolvedMaxWidth,
+                // side=left/right 时把 maxWidth 同时作为目标宽度（侧滑面板应为固定宽卡片，
+                // 而非由内容撑开的窄条）；auto 值不注入，保持内容自适应
+                ...(horizontal && resolvedMaxWidth && resolvedMaxWidth !== "auto"
+                  ? { width: resolvedMaxWidth }
+                  : {}),
+                ...anchorStyle,
+              } as React.CSSProperties
+            }
+            className={cn(
+              // 触摸滚动跟随手指：touch-action: pan-y 明确声明仅垂直平移，避免
+              // 浏览器把横向/组合手势交给 body 导致内容反向。不设 overscroll-contain
+              // （它在部分 WebView 上会反转拖拽方向，手指上拖内容反向下移）。
+              "z-[var(--uni-z-drawer)] touch-pan-y overflow-y-auto bg-background shadow-lg outline-none",
+              "transition-[translate,clip-path] duration-(--uni-duration-slower) ease-snap motion-reduce:!transition-none",
+              SIDE_CLASSES[side],
+              container && "absolute",
+              // 锚点落下：顶边固定在锚点底边、由 clip-path 向下展开（见 index.css
+              // 锚点 clip-path 规则）。不走 translate 位移——整体上移会让面板从
+              // 容器顶部掠过 topbar 掉下来（用户实测）。
+              anchoredDrop ? undefined : SIDE_TRANSFORM_CLASSES[side],
+              className,
+            )}
+          >
+            <DialogPrimitive.Title className="sr-only">
+              {ariaLabel ?? "Panel"}
+            </DialogPrimitive.Title>
+            {children}
+          </DialogPrimitive.Content>
+        </DialogPrimitive.Portal>
+      )}
     </DialogPrimitive.Root>
   );
 }

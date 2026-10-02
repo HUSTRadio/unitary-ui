@@ -102,7 +102,8 @@ describe("Docs shell drawer nav tiers (md+ dedup)", () => {
     expect(trigger.getAttribute("aria-expanded")).toBe("true");
 
     act(() => trigger.click());
-    expect(document.querySelector('[data-slot="expand-panel"]')).toBeNull();
+    expect(document.querySelector('[data-slot="expand-panel"]')?.getAttribute("data-state")).toBe("closed");
+    expect(document.querySelector('[data-slot="expand-panel"]')?.hasAttribute("inert")).toBe(true);
     expect(trigger.getAttribute("aria-expanded")).toBe("false");
   });
 });

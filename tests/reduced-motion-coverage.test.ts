@@ -41,7 +41,6 @@ const TW_ANIMATE_OVERLAYS = [
   "context-card",
   "combobox",
   "feedback",
-  "expand-panel",
   "multi-select",
   "tooltip",
   "modal",
@@ -56,7 +55,7 @@ const TW_ANIMATE_OVERLAYS = [
 ] as const;
 
 /** B. 动画在样式表工具类里的浮层（组件类名不含 animate-in）。 */
-const CSS_FALLBACK_OVERLAYS = ["command-menu"] as const;
+const CSS_FALLBACK_OVERLAYS = ["command-menu", "expand-panel"] as const;
 
 /** C. HIG-AUD-019 点名缺口：收敛后的写法必须仍在（防回退）。 */
 const NAMED_TRANSITION_FIXES: ReadonlyArray<readonly [string, string]> = [

@@ -1,11 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Languages, Search } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import {
-  HamburgerMenu,
-  type HamburgerMenuHandle,
-} from "@/components/ui/hamburger-menu";
+import { HamburgerMenu } from "@/components/ui/hamburger-menu";
 import { Input } from "@/components/ui/input";
 import { Menu, MenuButton, MenuContainer, MenuItem } from "@/components/ui/menu";
 import { NAV_CONTENT_INSET } from "@/components/ui/nav-layout";
@@ -63,10 +60,9 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
   // HIG-AUD-017：任何导航（前进/后退、程序化 navigate、面板外的链接）都收起面板；
   // 点击面板条目这条路径已由 HamburgerMenu 自身关闭 + 下面的 onNavigate 兜底。
   useDismissOnNavigate(() => setMenuOpen(false));
-  // 搜索模式：<md 用焦点驱动工具行（搜索/主题/语言进面板首行，md 起整行隐藏）
+  // <md 的主题/语言进面板工具行；搜索始终由可见顶栏的 CommandMenu 入口负责。
+  // Theme/language move into the mobile toolbar; search stays in the topbar.
   const searchMode: "query" | "toolbar" = "toolbar";
-  // 命令式句柄：手机端工具行搜索按钮 → openSearch()
-  const menuRef = useRef<HamburgerMenuHandle | null>(null);
   // 汉堡面板锚元素：navbar 根元素（面板从其底边延伸落下、与其同宽共享边框）
   const [navbarEl, setNavbarEl] = useState<HTMLElement | null>(null);
   useEffect(() => {
@@ -106,7 +102,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
       {/* Navbar 容器本身即 1220px 居中 sticky 块（官方架构，回退 f08fd84 全宽化）：
           留白区透出页面底色；内层只做内容布局，不再重复 mx-auto/max-w。
           品牌区宽 = sidebar 宽(260) − 内容容器左 padding(22) = 238 → border-r 与 sidebar 右缘对齐 */}
-      <div className="flex h-full w-full pl-[22px] border-gray-alpha-400 lg:border-l lg:border-r max-lg:border-l-0 max-lg:border-r-0 max-md:grid max-md:grid-cols-[44px_1fr_44px] max-md:items-center max-md:pl-0">
+      <div className="flex h-full w-full pl-[22px] border-gray-alpha-400 lg:border-l lg:border-r max-lg:border-l-0 max-lg:border-r-0 max-md:grid max-md:grid-cols-[44px_1fr_44px] max-md:items-center max-md:px-3">
         {/* 左区块：汉堡按钮（<lg 可见）+ Logo */}
         <div className="border-gray-alpha-400 flex grow items-center gap-2 py-4 pl-px lg:w-[238px] lg:grow-0 lg:border-r max-md:contents">
           {/* max-md:contents —— 左区块解体为 grid item：汉堡占第1列、品牌占第2列（居中） */}
@@ -121,7 +117,6 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
             }}
           >
             <HamburgerMenu
-              ref={menuRef}
               anchor="topbar"
               anchorElement={navbarEl}
               direction="left"
@@ -142,18 +137,6 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
                  也不换用户的折叠偏好。 */
               collapsible
               persistKey={SIDEBAR_COLLAPSE_KEY}
-              toolbarLeft={
-                searchMode === "toolbar" ? (
-                  <button
-                    type="button"
-                    aria-label={copy.searchAria}
-                    onClick={() => menuRef.current?.openSearch()}
-                    className="inline-flex size-11 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-[var(--uni-gray-alpha-200)]"
-                  >
-                    <Search className="size-4" aria-hidden />
-                  </button>
-                ) : undefined
-              }
               toolbarRight={
                 searchMode === "toolbar" ? (
                   <div className="flex items-center gap-2">

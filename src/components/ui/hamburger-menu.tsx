@@ -236,15 +236,24 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
     wasOpenRef.current = isOpen;
   }, [isOpen]);
 
-  // stagger-in：面板每次打开重播；动画进行中列表禁点，最后一项延迟结束后恢复。
+  // stagger-in：首次及完成退出后打开时重播；快速反转保留当前内容。
+  // 动画进行中列表禁点，最后一项延迟结束后恢复。
   // prefers-reduced-motion 下不启用（项直接呈现）。
   const [staggerActive, setStaggerActive] = React.useState(false);
+  const lastCloseTime = React.useRef<number | null>(null);
+  const hasOpened = React.useRef(isOpen);
   React.useEffect(() => {
     if (!staggerIn || !isOpen) {
+      if (!isOpen && hasOpened.current) lastCloseTime.current = Date.now();
       setStaggerActive(false);
       return;
     }
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    hasOpened.current = true;
+    // A rapid reversal reuses the visible panel; don't restart item entrances.
+    const exitDuration = parseFloat(getComputedStyle(document.documentElement)
+      .getPropertyValue("--uni-duration-slower")) || 500;
+    if (lastCloseTime.current !== null && Date.now() - lastCloseTime.current < exitDuration) return;
     setStaggerActive(true);
     const total = staggerCount * STAGGER_INTERVAL_MS + STAGGER_ITEM_DURATION_MS;
     const timer = window.setTimeout(() => setStaggerActive(false), total);
@@ -325,6 +334,7 @@ const HamburgerMenu = React.forwardRef<HamburgerMenuHandle, HamburgerMenuProps>(
         </span>
       </button>
       <ExpandPanel
+        triggerRef={triggerRef}
         side={side}
         belowTopbar={belowTopbar}
         open={isOpen}

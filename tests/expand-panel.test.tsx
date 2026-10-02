@@ -44,8 +44,8 @@ describe("ExpandPanel", () => {
     expect(left.className).toContain("fixed left-0 inset-y-0");
     expect(left.className).toContain("rounded-r-overlay");
     expect(left.className).toContain("-translate-x-full");
-    expect(left.className).toContain("data-[state=open]:animate-in");
-    expect(left.className).toContain("data-[state=open]:slide-in-from-left");
+    expect(left.className).toContain("transition-[translate,clip-path]");
+    expect(left.className).toContain("data-[motion-state=open]:translate-x-0");
 
     const right = renderPanel(<ExpandPanel side="right" open />);
     expect(right.className).toContain("fixed right-0 inset-y-0");
@@ -60,7 +60,7 @@ describe("ExpandPanel", () => {
 
   it("open 状态切换 transform 到 translate-y/x-0", () => {
     const panel = renderPanel(<ExpandPanel side="bottom" open />);
-    expect(panel.className).toContain("data-[state=open]:translate-y-0");
+    expect(panel.className).toContain("data-[motion-state=open]:translate-y-0");
     expect(panel.getAttribute("data-state")).toBe("open");
   });
 
@@ -142,11 +142,11 @@ describe("ExpandPanel", () => {
     expect(markup).toContain("z-[var(--uni-z-drawer)]");
     const panel = document.querySelector('[data-slot="expand-panel"]')!;
     expect(panel.className).toContain("shadow-lg");
-    expect(panel.className).toContain("data-[state=open]:animate-in");
-    expect(panel.className).toContain("data-[state=closed]:animate-out");
+    expect(panel.className).toContain("transition-[translate,clip-path]");
+    expect(panel.className).not.toContain("animate-in");
     expect(panel.className).toContain("duration-(--uni-duration-slower)");
     expect(panel.className).toContain("ease-snap");
-    expect(panel.className).toContain("motion-reduce:animate-none!");
+    expect(panel.className).toContain("motion-reduce:!transition-none");
     expect(panel.getAttribute("aria-label")).toBe("menu");
   });
 });
