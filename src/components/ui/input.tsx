@@ -20,7 +20,11 @@ import { FieldError, FIELD_ERROR_RING, joinDescribedBy } from "./field-error";
  *   styled 时使用 bg-background-200 + 单侧 1px 分隔线；各段之间无正 margin。
  *   prefixStyling=false 时用 -mr-3 与 input 的左 padding 重叠（外侧留白维持 12px），
  *   suffixStyling=false 保持 bg-background-100 且无分隔线。
- * - rounded：wrapper rounded-full + mt-3（官方原样），input 同步 rounded-full
+ * - rounded：wrapper rounded-full + mt-3（官方原样）；内层 input 不设圆角，由 wrapper 裁切；
+ *   styled/plain 装饰段只圆外侧角（prefix rounded-l-full / suffix rounded-r-full，
+ *   其余角保持直角），使紧邻分隔线的内侧边沿保持垂直，符合「胶囊」外观；
+ *   若两端同时 rounded-full，装饰段会各自收成一个椭圆 chip，内侧出现弧线
+ * - 非 rounded 档的 prefix/suffix 装饰段保持直角
  * - label：<label> 包裹 text div（data-slot=input-label，13px/19.5px gray-900，
  *   capitalize + mb-2）与输入控件（官方 label[data-version=v1] 结构）
  * - error：共享 FieldError 基础层（4px 间距、图标、排版、ARIA 统一），
@@ -122,7 +126,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               // [&_svg]:size-4 对齐全仓库图标 16px 惯例（button/menu/tabs 等 22 处），
               // 防止 lucide 默认 24px 图标在 32-36px 高的输入框里被放大
               "flex h-full shrink-0 items-center text-gray-700 [&_svg]:size-4 [&_svg]:shrink-0",
-              rounded && "rounded-full",
+              // 只圆外侧角：内侧（分隔线一侧）保持垂直边沿
+              rounded && "rounded-l-full",
               // 外侧维持 12px；分隔线一侧缩半档到 10px（与 input 的 pl-2.5 合起来两侧一致）
               prefixStyling
                 ? "border-r border-gray-alpha-400 bg-background-200 pl-3 pr-2.5"
@@ -160,7 +165,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             data-styling={suffixStyling ? "styled" : "plain"}
             className={cn(
               "flex h-full shrink-0 items-center text-gray-700 [&_svg]:size-4 [&_svg]:shrink-0",
-              rounded && "rounded-full",
+              // 只圆外侧角：内侧（分隔线一侧）保持垂直边沿
+              rounded && "rounded-r-full",
               suffixStyling
                 ? "border-l border-gray-alpha-400 bg-background-200 pl-2.5 pr-3"
                 : cn(NO_STYLING_CLASSES, "px-3"),

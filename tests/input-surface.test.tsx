@@ -163,7 +163,7 @@ describe("Input wrapper contract (B0 input-wrapper)", () => {
     expect(input!.className).toContain("pr-3");
   });
 
-  test("rounded variant chips sync the pill radius (no right-angle corners in capsule)", () => {
+  test("rounded variant keeps affix inner edges vertical (capsule, not two chips)", () => {
     const { container } = renderInput({
       rounded: true,
       prefix: "$",
@@ -172,8 +172,14 @@ describe("Input wrapper contract (B0 input-wrapper)", () => {
     });
     const prefix = container.querySelector('[data-slot="input-prefix"]');
     const suffix = container.querySelector('[data-slot="input-suffix"]');
-    expect(prefix!.className).toContain("rounded-full");
-    expect(suffix!.className).toContain("rounded-full");
+    // 只圆外侧角，内侧（分隔线一侧）保持垂直，形成单个胶囊
+    expect(prefix!.className).toContain("rounded-l-full");
+    expect(prefix!.className).not.toContain("rounded-r-full");
+    expect(suffix!.className).toContain("rounded-r-full");
+    expect(suffix!.className).not.toContain("rounded-l-full");
+    for (const segment of [prefix, suffix]) {
+      expect(segment!.className).not.toMatch(/(?:^|\s)rounded-full(?:\s|$)/);
+    }
   });
 });
 
