@@ -16,9 +16,9 @@
 | 集合 | 审核开始时 | **交付复核时** | 来源 |
 |---|---|---|---|
 | 包入口导出的组件模块 | 85 | **89**（+`activity-view`、`menu-bar`、`toolbar`、`layout`） | `src/lib/index.ts` |
-| 文档注册组件（`COMPONENTS`） | 78 | **83**（+`activity-view`、`menu-bar`、`toolbar`、`safe-area`、`stack`） | `docs/geist/src/data/components.ts`（`safe-area`:379、`stack`:387、`toolbar`:395） |
-| 双语指南（slug） | 78 | **83** | `docs/geist/src/content/component-guides/guides-01..18.ts`（`locale: "zh-CN"` 合计 = 83；`guides-05.ts:406,456,507,558,599` + 对应 en 段） |
-| examples 演示目录 | 79 | **84**（+5 个新组件目录） | `docs/geist/src/examples/` |
+| 文档注册组件（`COMPONENTS`） | 78 | **83**（+`activity-view`、`menu-bar`、`toolbar`、`safe-area`、`stack`） | `docs/geist/src/data/components.ts`（**现 `docs/site/src/data/components.ts`**；`safe-area`:379、`stack`:387、`toolbar`:395） |
+| 双语指南（slug） | 78 | **83** | `docs/geist/src/content/component-guides/guides-01..18.ts`（**现 `docs/site/src/content/component-guides/`**；`locale: "zh-CN"` 合计 = 83；`guides-05.ts:406,456,507,558,599` + 对应 en 段） |
+| examples 演示目录 | 79 | **84**（+5 个新组件目录） | `docs/geist/src/examples/`（**现 `docs/site/src/examples/`**） |
 | 文档路由分组 | 4 组 | **5 组**（新增 `layout`） | `docs-routes.ts:6,42` |
 
 **已核实的两个重要事实（修正初审误报）**：
@@ -52,7 +52,7 @@
 
 ## B. 逐组件覆盖记录
 
-图例：**导出** = 从 `src/lib/index.ts` 导出；**注册** = 在 `docs/geist/src/data/components.ts` 注册；**指南** = 双语指南；**示例** = examples 目录；**结论** = 本轮审核结论。
+图例：**导出** = 从 `src/lib/index.ts` 导出；**注册** = 在 `docs/geist/src/data/components.ts` 注册（**现 `docs/site/src/data/components.ts`**）；**指南** = 双语指南；**示例** = examples 目录；**结论** = 本轮审核结论。
 
 - `✔` 静态维度内未发现可确认缺陷
 - `⚠` 已审核并发现问题（编号见主报告）
@@ -335,7 +335,7 @@
 | HIG-AUD-027 | P2 | ✅ 已修（2026-09-26）：ContextMenu、Select、MultiSelect 均为锚定浮层而非全宽贴底；Quick Actions 原在 390px 视口右缘 421px 的 31px 溢出已通过定位包装层水平校正修复，双主题视口边界 E2E 覆盖 |
 | HIG-AUD-028 | P2 | 全局（浮层）；2026-09-25 本机覆盖式滚动条 Chromium 双主题 Sheet/Modal/Menu 开关均无宽度偏移；经典滚动条环境未验证，未更改样式，仍待闭环（增补 §5Y） |
 | HIG-AUD-029 | P2 | ✅ 2026-09-27 定点修复 + 组件级复核完成：① 视觉视口——新增 `src/lib/visual-viewport.ts` 统一契约（读取可见视口 + 订阅视觉视口 `resize`/`scroll`），`edit-menu` 据此在软键盘/双指缩放时收起并按可见视口 clamp，`context-menu`（Quick Actions）复用同一契约；单测 4 passed，e2e 5 用例（双主题，重复 2 遍）+ 相关套件共 20 passed。② 组件级复核——`select`、`combobox`、`drawer`、`bottom-sheet`、`side-panel`、`toast`、`tooltip` 在 320/390 双主题实测浮层全部不越界、页面无横向溢出（**无缺陷**），已固化为 `component-geometry` 两用例（全量 25 passed）。未闭环仅剩真机软键盘 |
-| HIG-AUD-030 | P2 | `toast`、`command-menu`、`edit-menu`；`command-menu` 无结果内层 status 已修并经 Chromium 可访问树验证（2026-09-25，增补 §5Y），toast/edit-menu 及 NVDA/VoiceOver 待验，整条未闭环 |
+| HIG-AUD-030 | P2 | ✅ **逐子项核实后闭环（2026-09-29，增补 §5AC）**：第 2 子项（`command-menu` 无结果内层 `role=status`）09-25 已修并经 Chromium 可访问树验证；第 3 子项（`edit-menu` 浮层播报）**由 HIG-AUD-004 连带闭环**（`edit-menu.tsx:506-513` 焦点入首项即触发播报，补 `aria-live` 反成第二通道）；第 1 子项（`toast` 双层 live region）**改判非缺陷**——`<ol aria-live>`（稳定容器）+ `<li role="status">`（`aria-atomic`）符合 WAI-ARIA 实践，两个改动方向均为净损失（去 `li` 丢 atomic 并破坏 7 处测试契约；去 `ol` 使新节点不被播报）。剩余仅 NVDA/VoiceOver 真机播报验证（**验证缺口，非待修缺陷**） |
 | HIG-AUD-031 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：`activity-view`/`context-menu`/`select`/`destructive-action-modal` 的破坏性文本与 `toast` success 前景统一走既有语义 token（`text-error-foreground` / `text-success-foreground`）；棘轮清账 143→134 且 `#ee0000` 收窄至 select 的错误环并更新理由；焦点测试集 46 passed |
 | HIG-AUD-032 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：`dots-menu` 浮层表面改 `bg-surface`（与 `menu.tsx` 同源）、移除显式 `aria-haspopup="true"` 语义降级；新增行为测试 `tests/dots-menu-surface.test.tsx`；连带修正 3 处耦合该缺陷属性的测试定位器 |
 | HIG-AUD-033 | P3 | ✅ 已定向修复（2026-09-26，增补 §3.4）：`combobox` 面板阴影改走 `--material-shadow-menu`；双主题计算值同源回归 2 passed；棘轮账本同步删除已消失的 `rgba(0,0,0,0.04)` |
@@ -377,6 +377,7 @@
 | HIG-VER-05 | reduced-motion 全量 | 仅 `docs-feedback-typography.spec.ts:252` 一处用例 | 扩展为浮层矩阵 |
 | HIG-VER-06 | 截图审计视口一致性 | `capture-visual-matrix.mjs` 视口 375/768/1440/1920 ≠ e2e 六档 | 对齐至 320/390/768/1024/1100/1440 |
 | ~~HIG-VER-07~~ | ~~HIG 官方正文 / 访问日期~~ | ✅ **已解决**：改用 chromium 真实渲染，11 页正文 + Apple 变更日志日期全部取得（主报告 §3、§3.1） | — |
+| — | **第四轮可信全量门禁（2026-09-29）** | ✅ **已取得**。① `pnpm test` @ `4ecfee27` → **exit 1**（8 failed 文件：7 个 `tests/audit/*` 缺 Pillow 的**环境类** + `tests/button-api.test.ts:85` 15000ms 超时，**单跑 9 passed / exit 0** 证实 flaky）。② `test:docs-layout` @ `c679d059`（工作区含 7 处未提交改动）→ **202 tests｜5 failed｜3 flaky｜194 passed（40.3m）**（**动态排除**未清理临时探针后运行 22 个正式 spec）。5 failed = 1 条**过期颜色断言**（`quick-actions-destructive-confirm.spec.ts:33` 仍锁 `#ee0000`，HIG-AUD-031 已迁 `--error-foreground` → 产品正确）+ 4 条 `activity-view-detents` 仅高度不符（期望 506.4 / 实际 97px，**待活跃会话定性**）；**`command-search` 全绿 = HIG-AUD-053 确认**。⚠️ flaky 之一 `docs-layout.spec.ts:707` aggregate gate 首轮为**全矩阵真实断言失败被 retry 掩盖**。详见增补 §5AD / §5AE | — |
 | HIG-VER-08 | ~~命令退出码（test / typecheck / build / docs:llm:check / test:docs-layout）~~ | ✅ **已解决（2026-09-18 第三轮 @ `834f19d8`）**：typecheck / docs:llm:check / build 全部 exit 0；`pnpm test` exit 1（9 稳定基线失败 + 2 flaky/环境）；`test:docs-layout` exit 1（113/116 passed，1 failed = 新发现 HIG-AUD-053，2 flaky = 冷启动波动）。首跑被 IDE safe-delete shim 拦截（outputDir 1999 文件超 500 阈值），预清后正常——环境干扰非产品缺陷。日志：`.scratch/hig-audit-2026-09-18/cmdlogs/`。**2026-09-21 复核**：`pnpm test` = 228 files / 1424 tests passed（exit 0）；`pnpm run lint`（oxlint）= 0 errors / 16 warnings（exit 0）；`test:docs-layout` 仍 exit 1（HIG-AUD-053） | — |
 | HIG-VER-09 | HIG-AUD-001 / 002 / 003 / 004 / 020 的浏览器确认 | **大部分解决（2026-09-21）**：001、002、004 已随修复在浏览器复核（002 键盘路径与右键菜单位置逐像素一致、004 键盘选区后焦点入首个可用项且单 Tab 停靠；001 遮罩 z 200 < 菜单 z 2001、Escape 关闭后同页 4 示例仍可用）；003 已由 `1866616` 修复并复核（手势只挂 `<Grabber>`，内容区可滚动）；**020 已于 2026-09-24 完成真实触屏（Chromium CDP touch）复核并修复**（增补 §5S），**真机 iOS 原生菜单仍待验证** | ~~仅剩 EditMenu 触屏竞态（020）补命中测试~~ → 已闭环（Chromium 触屏单测/ e2e / 几何三口径；真机项见交付书 §9） |
 | HIG-VER-13 | 浮层**打开态**截图 / 动效中间帧 / 对比度像素测量 | 本轮 48 张为 fullPage 静止态 | Playwright 打开态 viewport 截图 + computed 值断言 |
@@ -401,7 +402,7 @@ pnpm run test:docs-layout                 # 六档视口 × 双主题 × 全量�
 
 # 本轮新增的浏览器采集（可复现）
 node .scratch/hig-audit-2026-09-18/fetch-hig-sources.mjs        # HIG 正文（JS 渲染）
-pnpm exec vp dev docs/geist --host 127.0.0.1 --port 5211 --strictPort   # 起本地文档站
+pnpm exec vp dev docs/site --host 127.0.0.1 --port 5211 --strictPort    # 起本地文档站（现路径；2026-09-27 搬迁前为 docs/geist）
 node .scratch/hig-audit-2026-09-18/capture-docs-screenshots.mjs # 48 张截图
 node .scratch/hig-audit-2026-09-18/verify-quick-actions.mjs     # 已被下方脚本取代（第一轮结果不确定的原因见主报告 HIG-AUD-051）
 
@@ -413,6 +414,13 @@ node .scratch/hig-audit-2026-09-18/repro-slot-error.mjs         # HIG-AUD-051 �
 node .scratch/hig-audit-2026-09-18/collect-all-exit-codes.mjs   # gitlog+typecheck+docs:llm:check+build+清5211+test:docs-layout
 node .scratch/hig-audit-2026-09-18/retry-failed-cmds.mjs        # （首跑两项失败时的修复重试：~分隔符 + 预清 outputDir）
 node .scratch/hig-audit-2026-09-18/diagnose-command-search.mjs  # HIG-AUD-053 候选顺序诊断（可选补充；静态链已闭环）
+
+# 第四轮：审计后台账订正 + 可信全量门禁（2026-09-29）
+node .scratch/hig-audit-2026-09-18/run-round4-tests.mjs         # ① 全量 pnpm test @ 4ecfee27 → exit 1（8 failed：7 个 tests/audit 缺 Pillow + button-api 超时；后者单跑 9 passed）
+node .scratch/hig-audit-2026-09-18/run-round4-trusted.mjs       # ② 可信全量 test:docs-layout：动态排除未清理临时探针后跑 22 个正式 spec
+                                                                #    → 202 tests｜5 failed｜3 flaky｜194 passed（40.3m）；日志 cmdlogs/round4-trusted-layout.log
+# 注：run-round4-heartbeat.mjs 已弃用——默认收集会被未清理临时探针的 15 分钟超时拖到会话 idle 超时（见增补 §5AD），改用上面的动态排除跑法
+# 注：Playwright 位置参数须为正斜杠路径或裸文件名；path.join 的 Windows 反斜杠路径会得到 "No tests found"
 
 # 治理测试（HIG-AUD-005 撤回依据 / HIG-AUD-052 棘轮缺口复现入口）
 pnpm exec vitest run tests/raw-color-governance.test.ts         # 实测 4/4 passed, exit 0

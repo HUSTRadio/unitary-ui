@@ -29,8 +29,19 @@ test.describe("Destructive confirmation (HIG-AUD-037)", () => {
     // 1) 红字破坏项点击 → 菜单关闭、确认浮层出现（不直接执行）
     await card.click({ button: "right" });
     await expect(menu).toBeVisible();
-    // 破坏性项保留红色语义（与组件契约一致）
-    await expect(removeItem).toHaveCSS("color", "rgb(238, 0, 0)");
+    // 破坏性项保留红色语义（与组件契约一致）。
+    // HIG-AUD-031 起破坏性文字走语义 token `--error-foreground`（浅色 #cb2a2f / 深色 #ff6166），
+    // 此处读 token 的计算值再比较：既锁定「必须来自该 token」的契约，
+    // 又不会像旧断言那样锁死 #ee0000 字面量、在 token 迁移后失效。
+    const errorForeground = await page.evaluate(() => {
+      const probe = document.createElement("span");
+      probe.style.color = "var(--error-foreground)";
+      document.body.appendChild(probe);
+      const resolved = getComputedStyle(probe).color;
+      probe.remove();
+      return resolved;
+    });
+    await expect(removeItem).toHaveCSS("color", errorForeground);
     await removeItem.click();
     await expect(dialog).toBeVisible();
     await expect(dialog.getByText("Remove App?")).toBeVisible();

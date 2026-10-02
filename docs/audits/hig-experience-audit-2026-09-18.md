@@ -5,6 +5,7 @@
 > 判断尺度：**简约排版为主体，模糊、材质与动效作为点缀**
 > 审核基线：见 §2「基线漂移」——对象在审核期间持续变动
 > 配套文件：`docs/audits/hig-coverage-matrix-2026-09-18.md`（覆盖矩阵）、`docs/audits/hig-experience-audit-2026-09-18-addendum-phase2.md`（**二期新增组件补审，含 HIG-AUD-038~050**）、`.scratch/hig-audit-2026-09-18/baseline-and-evidence.md`（原始证据）
+> **路径注记（2026-09-29 追加）**：文档站已于 2026-09-27 由 `docs/geist/` 迁至 **`docs/site/`**（`ff54f2d` / `1bc0551`）。本文（及配套矩阵、增补）中 09-27 之前的 `docs/geist/...` 引用是**当时状态的原文证据**，按审计保真原则保留不改；**当前等价路径为 `docs/site/...`**（内部相对结构不变：`src/data/`、`src/examples/`、`src/content/component-guides/`、`src/components/`）。例外：`docs/geist-markdown-refs/` 是独立目录（72 篇另一套参考文档），未搬迁、名称未变。
 
 ---
 
@@ -51,6 +52,7 @@
 | 落笔前 | `5d173ca` | `split-button.tsx` pull-down 变体（工作区未提交）、`activity-view.tsx`（工作区未提交） |
 | 落笔后复核 | `16d0863` | 上两项已提交（`5d173ca`、`16d0863`），**工作区已清空**（`git status --porcelain` 仅剩本报告两个文件） |
 | 二轮验证后 | `834f19d8` | 仅 1 个新提交 `834f19d`（`fix(bottom-sheet)` 拖拽方向跟手，`d6d5429..834f19d8` 已核实无其他改动）；工作区仍只剩本审计 3 个报告文件 |
+| 审计后（2026-09-27 起） | `4ecfee27` | 文档站由 `docs/geist/` 迁至 **`docs/site/`**（`ff54f2d`/`1bc0551`，见文首路径注记）；其间 `027`/`029` 等条目由后续会话闭环（详见交付书） |
 
 近期提交序列（审核期间新增）：
 `c0be2d4` edit-menu → `92a5b42` context-menu Quick Actions → `5d173ca` split-button pull-down + Select pop-up 对齐 → `16d0863` activity-view 分享面板。
@@ -74,7 +76,7 @@
 - **实现**：`src/components/ui/` 全部 `.tsx`（审核开始 94 个）+ `src/lib/`（i18n、theme、clipboard、input-modality 等）。
 - **公共 API**：`src/lib/index.ts` 全部 85 个组件模块导出。
 - **token**：`src/styles/index.css`（z-index / 时长 / 缓动 / 材质 / overlay）。
-- **文档链**：`docs/geist/src/data/{components.ts,component-api.ts,docs-routes.ts}`、`content/component-guides/guides-01..18.ts`、`examples/`。
+- **文档链**（审核时路径；**现为 `docs/site/src/...`**，见文首路径注记）：`docs/geist/src/data/{components.ts,component-api.ts,docs-routes.ts}`、`content/component-guides/guides-01..18.ts`、`examples/`。
 - **测试**：`tests/`（含 `tests/e2e/`、`tests/audit/`）。
 - **未覆盖**（明确声明）：`docs/geist-markdown-refs/`（另一套 72 篇参考文档，与站点路由不同源）、`docs/superpowers/`。
 
@@ -742,6 +744,14 @@
 - **建议修复方向**：Toast 只保留一层 live region（推荐 `<ol aria-live>` + `<li>` 无 role，或反之）并加 `aria-atomic="true"`；`Command.Empty` 去掉 `role="presentation"`（或改为 `role="status"`）；`edit-menu` 与 HIG-AUD-004 一并修。
 - **验收场景**：NVDA/VoiceOver 下：新 toast 只播报一次；搜索无结果有播报；编辑菜单出现有播报。
 - **进度（2026-09-25）**：第 2 子项命令面板无结果已补内层 `role=status` 且浏览器可访问树确认；第 1/3 子项未改，NVDA/VoiceOver 真机播报未执行，整体 **HIG-AUD-030 仍待闭环**。详见增补 §5Y。
+- **核实与结论（2026-09-29）**——逐子项复核后**不执行代码改动**，理由如下：
+  1. **第 2 子项：已闭环**（09-25）。现行 `command-menu.tsx:138-141` 为 `<Command.Empty>` 内嵌 `<span role="status" aria-live="polite" aria-atomic="true">`，外层 `role="presentation"` 已移除。
+  2. **第 3 子项：已实质闭环（由 HIG-AUD-004 的修复连带达成）**。`edit-menu.tsx:506-513` 在胶囊出现时 `first.focus()` 把焦点移入 `role="toolbar"`（`:532-534`，带 `aria-label`）内的首个可用按钮，`:343-347` 负责关闭后归还。焦点进入按钮本身即触发 AT 播报，**不需要也不宜**再为工具条加 `aria-live`——那会与焦点播报形成第二条通道，正是本条要消除的重复来源。
+  3. **第 1 子项：核实后改判「非缺陷」，降级为真机验证缺口**。现行结构为 `<ol data-slot="toasts" aria-live="polite" aria-relevant="additions text">`（`toast.tsx:230-233`；**稳定容器、先于内容存在**）+ 每条 `<li role="status">`（`:274`；`status` 隐含 `aria-atomic="true"`）。这**符合 WAI-ARIA live region 实践**：容器须预先存在、内容后插入才播报；条目级 `status` 提供整条原子播报。两个方向的改动都有实质代价而非收益：
+     - 去掉 `<li role="status">`：丢失 `aria-atomic`（`<ol>` 未声明 atomic → 可能退化为增量播报），并破坏 **7 处既有测试契约**（`tests/toast-api.test.ts:77` 源码断言 + `action-bearing-examples` / `snippet-example-actions` / `docs-foundations` / `fieldset-example-actions` / `load-more-button-examples` 对 `[role="status"]` 的文本读取 + `tests/e2e/component-geometry.spec.ts:197,215,761` 的条目定位）；
+     - 去掉 `<ol aria-live>` 只留 `li role="status"`：新增节点自身可能不被 AT 播报（live region 未预先进入观察）——属**实质回归**。
+     - 原证据「可能重复播报」为规范推断，本条自始标注 NVDA/VoiceOver 未执行，**无真机依据支持改动**。
+  - **结论**：030 的 3 个子项 = **2 项闭环（其中 1 项由 004 连带闭环）+ 1 项改判非缺陷**；剩余为**验证缺口**（NVDA / VoiceOver 真机播报），已在矩阵 §E 单列，不计为待修缺陷。
 
 ---
 
@@ -823,7 +833,7 @@
 | 采集 | 命令 | 产物 |
 |---|---|---|
 | HIG 正文（JS 渲染） | `node .scratch/hig-audit-2026-09-18/fetch-hig-sources.mjs` | `.scratch/hig-audit-2026-09-18/hig-sources/*.md`（11 页，HTTP 200） |
-| 本地文档站 | `pnpm exec vp dev docs/geist --host 127.0.0.1 --port 5211 --strictPort` | 实测 `http://127.0.0.1:5211/` 返回 **200** |
+| 本地文档站 | `pnpm exec vp dev docs/geist --host 127.0.0.1 --port 5211 --strictPort` | 实测 `http://127.0.0.1:5211/` 返回 **200**（**现路径为 `docs/site`**，见文首路径注记） |
 | 组件页截图 | `node .scratch/hig-audit-2026-09-18/capture-docs-screenshots.mjs` | `screenshots/<slug>-<w>-<theme>.png`，**12 页面 × 2 主题 × 2 视口（1440/390）= 48 张**（fullPage） |
 | 命中测试脚本 | `node .scratch/hig-audit-2026-09-18/verify-quick-actions.mjs` | 见下方「被阻塞」 |
 
@@ -987,6 +997,7 @@
 | HIG-VER-14 | 浮层**打开态**截图、动效中间帧、对比度像素测量 | 本轮 48 张截图为 fullPage 静止态，不含打开态 | 用 Playwright 打开每个浮层后截 viewport 图，并加 computed 值/像素采样断言 |
 | ~~HIG-VER-16~~ | ~~复核后新增的 6 项 HIG 能力组件（MenuBar / Toolbar / SafeArea / Stack / ActivityView / pull-down 变体）的深度审核~~ | ✅ **已解决** | 见补充报告 `hig-experience-audit-2026-09-18-addendum-phase2.md`（新增 HIG-AUD-038~050） |
 | HIG-VER-17 | 二期组件的**运行验证**（MenuBar 键盘模型、Toolbar 折叠与 `disabled` 透传、ActivityView 可访问名称、pull-down 定位与展开动画） | **部分解决（2026-09-18 第二轮）**：HIG-AUD-038（长菜单溢出，40 项合成菜单实测）、039（溢出项丢失 `disabled`/状态属性实测）、040（dialog 无可访问名称实测）、037（破坏性项无确认实测）均已运行确认（证据见补充报告 §5A）；**MenuBar 键盘模型与 pull-down 定位动画仍未验证** | 复用 `scripts/runtime-interaction-audit.mjs` 的真实 CDP 输入范式各加一条 |
+| — | **第四轮可信全量门禁（2026-09-29，`pnpm test` @ `4ecfee27` / `test:docs-layout` @ `c679d059`，后者工作区含 7 处未提交修改）** | **① `pnpm test` → exit 1**（8 failed / 239 passed files；32 failed / 1593 passed tests；171.66s）：7 个 `tests/audit/*` 为**环境类**（`python -c "from PIL import Image…"` 不可用，本机无 Pillow）；`tests/button-api.test.ts:85` 为 15000ms 超时且**单跑复验 exit 0 / 9 passed / 339ms** → **flaky 确认**。**② `test:docs-layout`（动态排除未清理临时探针后的可信汇总）→ exit 1**：**202 tests：5 failed / 3 flaky / 194 passed（40.3m）**。5 failed = `quick-actions-destructive-confirm.spec.ts:11`（**过期断言**：期望 `rgb(238,0,0)`，实际 `rgb(203,42,47)`＝`--error-foreground`，HIG-AUD-031 于 09-26 收敛 `#ee0000` 后该守护用例未同步，**产品行为正确**）+ `activity-view-detents.spec.ts` 双主题 ×2 用例（HIG-AUD-043 守护；仅**高度**不符：期望 844×0.6=506.4，实际 **97px**；结构断言全通过 → **待活跃会话确认**）。3 flaky 中 **`docs-layout.spec.ts:707` aggregate gate 首轮为真实断言失败**（`[local-scroll-owner-inside-main] /patterns/app-shell` **12/12 视口×主题**报「局部滚动 owner rect 超出 main content 边界」，与 09-28 `fb49869` 滚动 owner 改动相关）被 retry 清空掩盖。**关键正面结论**：`command-search.spec.ts`（**HIG-AUD-053 守护**）**5/5 全绿**。日志：`.scratch/hig-audit-2026-09-18/cmdlogs/round4-*.log` | 见增补 §5AD（临时探针污染）/ §5AE（本轮汇总与争议定性） |
 | — | ~~`pnpm test` / `typecheck` / `build` / `docs:llm:check` / `test:docs-layout` 的退出码~~ | ✅ **已解决（2026-09-18 第三轮 @ `834f19d8`，一次性采集）**：`typecheck` → **exit 0**；`docs:llm:check` → **exit 0**（corpus 确定性通过）；`build` → **exit 0**；`test:docs-layout` → **exit 1**（116 用例：**113 passed / 1 failed / 2 flaky**，13.3m——1 failed 即 HIG-AUD-053；2 flaky 为 dev server 冷启动性能波动非产品）；`pnpm test` → exit 1（分类见前：9 稳定基线失败 + 2 flaky/环境）。审计环境备注：`test:docs-layout` 首跑被 IDE safe-delete shim 拦截（outputDir 1999 文件 > 500 阈值），预清后正常执行——**环境干扰非产品缺陷**，与 `showcode-typecheck` ETIMEDOUT 同源。原始日志：`.scratch/hig-audit-2026-09-18/cmdlogs/*.log` | — |
 | — | 真实 iOS Safari / VoiceOver | 环境不支持 | 真机验证；**不得**用模拟结果替代 |
 

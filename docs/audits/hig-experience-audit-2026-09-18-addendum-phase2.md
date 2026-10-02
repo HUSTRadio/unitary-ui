@@ -5,6 +5,7 @@
 > 主报告：`docs/audits/hig-experience-audit-2026-09-18.md`
 > 覆盖矩阵：`docs/audits/hig-coverage-matrix-2026-09-18.md`
 > 规范依据：`docs/audits/hig-experience-audit-2026-09-18.md` §3.1（已由 chromium 渲染取得的 HIG 正文）
+> **路径注记（2026-09-29 追加）**：文档站已于 2026-09-27 由 `docs/geist/` 迁至 **`docs/site/`**（`ff54f2d` / `1bc0551`）。本文件中的 `docs/geist/...` 引用为**当时状态的原文证据**，保留不改；**当前等价路径为 `docs/site/...`**。`docs/geist-markdown-refs/` 未搬迁。
 
 ---
 
@@ -719,3 +720,56 @@
 - **范围**：仅处理 `hamburger-menu` 的数据型空态与加载态；主报告 §4.3 所列 `menu`、`context-menu`、`multi-select`、`split-button` 等浮层，以及二期新增 `menu-bar`、`toolbar` 均**未完成**，025 仍属待办，不计入关闭数量。通用容器 `modal` 等是否需要强制状态槽位须逐组件按数据来源评估，不盲目套用。
 - **实现**：`HamburgerMenu` 新增 `loading=false`、可选 `emptyMessage`；零导航项和搜索无匹配显示本地化 `role=status`（查询词可见），加载时用既有 `Spinner` + 文案，导航区 `aria-busy` 并隐藏旧列表；保留已有列表恢复及搜索焦点行为。公开 API、双语指南、示例状态切换及生成语料已同步。
 - **浏览器验收**：`tests/e2e/hamburger-menu-states.spec.ts` 明暗双主题 × 390px：搜索无匹配 → 清空恢复，空数组 → 状态提示，加载 → `aria-busy=true` + 指示器，恢复数据 → 原导航。临时 Playwright 脚本双主题对 Empty/Loading 分别截图及测量：状态行均 44px 高、横向范围 x=16–296 位于 0–312px 面板内，稳定态截图位于 `.scratch/hamburger-{light,dark}-{empty,loading}-settled.png`（固定顶栏下，面板 y=64–186；light 面板白底、dark 面板黑底）；临时脚本运行后删除。正式回归 2 passed，聚焦 Vitest 3 文件 / 33 passed。`pnpm run typecheck` 与 `pnpm run build` exit 0，`pnpm run lint` 为 0 error / 16 条既有 warning，`pnpm run docs:llm:generate`/`docs:llm:check` 及 README 双主题截图检查通过；`pnpm run typecheck:tests` 因其他文件既有跨项目类型错误 exit 2（本次涉及文件无 IDE 类型诊断），全量 `pnpm test`/布局套件未重跑。
+
+---
+
+## 5AC. HIG-AUD-030 逐子项核实与改判（2026-09-29）
+
+- **触发**：030 是剩余清单里唯一带明确技术动作的条目。本轮按「先核实、再决定改不改」复查三个子项的**现行实现**（自 09-25 的记录后又经过 004 等修复），结论为**不执行代码改动**。
+- **第 2 子项（command-menu 无结果不播报）**：✅ 已闭环（2026-09-25，见 §5Y）。现行 `command-menu.tsx:138-141` 为 `<Command.Empty>` 内嵌 `<span role="status" aria-live="polite" aria-atomic="true">`，外层 `role="presentation"` 已移除。
+- **第 3 子项（edit-menu 浮层无播报）**：✅ **已由 HIG-AUD-004 的修复连带闭环**。`edit-menu.tsx:506-513` 胶囊出现即 `first.focus()`，焦点落入 `role="toolbar"`（`:532-534`，含 `aria-label`）内首个可用按钮；`:343-347` 关闭后归还焦点。**焦点进入按钮本身即触发 AT 播报**；再给工具条补 `aria-live` 反而会形成第二条播报通道，与 030 要消除的「重复播报」同源，故不做。
+- **第 1 子项（toast 双层 live region）**：**核实后改判「非缺陷」，降级为真机验证缺口**。现行 `<ol data-slot="toasts" aria-live="polite" aria-relevant="additions text">`（`toast.tsx:230-233`）+ 每条 `<li role="status">`（`:274`）符合 WAI-ARIA live region 实践：容器**预先存在**、内容后插入才播报；条目级 `status` 隐含 `aria-atomic="true"`，保证整条而非增量播报。两个改动方向都是净损失：
+  - 去掉 `li[role="status"]` → 丢失 `aria-atomic`（`<ol>` 未声明）且破坏 **7 处既有测试契约**：`tests/toast-api.test.ts:77`（源码断言）、`tests/action-bearing-examples.test.tsx:35,43,54`、`tests/snippet-example-actions.test.tsx:36`、`tests/docs-foundations.test.tsx:103,167`、`tests/fieldset-example-actions.test.tsx:43`、`tests/load-more-button-examples.test.tsx:37,41`、`tests/e2e/component-geometry.spec.ts:197,215,761`（条目几何定位）。
+  - 去掉 `ol[aria-live]` 只留 `li role="status"` → 新增节点自身可能不被 AT 播报（live region 未预先进入观察）→ **实质回归**。
+  - 原证据「可能重复播报」属规范推断；本条自始标注 NVDA/VoiceOver 未执行，**无真机依据支持改动**。
+- **剩余**：仅 **NVDA / VoiceOver 真机播报验证**（确认「新 toast 播报一次」）。属**验证缺口**而非待修缺陷，已在矩阵 §E 单列；本机不做无依据的改动。
+
+---
+
+## 5AD. 门禁收集被未清理的临时探针污染（2026-09-29 发现）
+
+- **现象**：第四轮全量 `test:docs-layout` 收集到 **203 tests**（2026-09-18 第三轮为 **116**）。其中两个自述「跑完即删」的临时探针被默认收集并长时间失败：
+  - `tests/e2e/_tmp-nav-parity.spec.ts:70`（文件头：「临时视觉核查脚本（跑完即删）」）—— 单个用例 **15.0m 超时，retry 再 15.0m ≈ 30 分钟空耗**；
+  - `tests/e2e/.wave2-mobile-overlay.tmp.spec.ts:65`（文件头：「临时探针（wave2 / HIG-AUD-027·029）… 跑完即删」，`test.setTimeout(180_000)`）—— **3.0m 超时 ×2**。
+- **原因**：`package.json` 的 `test:docs-layout` = `playwright test -c playwright.config.ts`；`playwright.config.ts` 只有 `testDir: "./tests/e2e"`、**未设 `testIgnore`**，而 Playwright 按文件名收集、**不读 `.gitignore`**。
+- **入库风险分层（重要）**：`.wave2-mobile-overlay.tmp.spec.ts` 命中 `.gitignore:24` 的 `*.tmp.*` → 不会入库；**`_tmp-nav-parity.spec.ts` 不被任何 ignore 规则覆盖**（`.gitignore` 无 `_tmp-*`）→ `git add` 会将其收进版本库。
+- **影响**：① 可信全量汇总无法在合理时间内取得（30+ 分钟被探针独占，且会让会话触发 idle 超时）；② 门禁失败项与产品状态无关，污染分诊；③ 若 `_tmp-` 文件入库，此后每次套件运行都会带上它。
+- **本轮处置**：**不修改仓库文件**——临时探针属并发会话的进行中工作，AGENTS.md 要求保留无关本地修改、不 sweep 他人工作。取证改为「动态排除临时探针（`_tmp-*` / `.*` / `*.tmp.*`）后运行正式 21 个 spec」，脚本与日志见矩阵 §F。
+- **建议修复（留待产品决定）**：
+  1. `playwright.config.ts` 增 `testIgnore: ["**/_tmp-*.spec.ts", "**/*.tmp.*.spec.ts", "**/.*.spec.ts"]`，让临时探针永不被门禁收集；
+  2. `.gitignore` 增 `tests/e2e/_tmp-*`，与既有 `*.tmp.*` 对齐；
+  3. 约定临时探针统一放 `.scratch/`（已 ignore）或一律使用 `*.tmp.spec.ts` 命名，避免裸 `_tmp-` 前缀。
+- **当日后续（2026-09-29 晚）**：`tests/e2e/_tmp-nav-parity.spec.ts` **已被清理**——目录中已不存在，正式套件新增 `nav-surface-parity.spec.ts`（22 个正式 spec）。仅余 `.wave2-mobile-overlay.tmp.spec.ts`（被 `.gitignore:24` 的 `*.tmp.*` 覆盖，无入库风险）仍待删除。**「`_tmp-` 命名不在 ignore 覆盖内」这条缺口本身仍建议按上述第 1/2 项修补。**
+
+---
+
+## 5AE. 第四轮可信全量门禁汇总与争议定性（2026-09-29）
+
+- **取得方式**：`test:docs-layout` 的默认收集被未清理临时探针污染（§5AD，203 → 一次性 15 分钟超时 ×2 使会话触发 idle 超时）。改用**动态排除**（`_tmp-*` / 点文件 / `*.tmp.*`）后运行 22 个正式 spec，脚本与原始日志见矩阵 §F；Playwright 位置参数须为**正斜杠路径或裸文件名**（`path.join` 的 Windows 反斜杠会得到 `No tests found`——首跑即此坑）。
+- **基线**：`test:docs-layout` @ `c679d059`，**工作区非干净**（7 处未提交：`CHANGELOG(.en).md`、三份审计台账、`src/components/ui/input.tsx`、`tests/input-surface.test.tsx`）；`pnpm test` @ `4ecfee27`。两次不是同一 revision，不得混用同一汇总行。
+- **`test:docs-layout` → exit 1**：**202 tests｜5 failed｜3 flaky｜194 passed（40.3m）**。
+- **5 failed 定性**：
+  1. `quick-actions-destructive-confirm.spec.ts:11`（`:33` 断言 `Expect "rgb(238, 0, 0)" / Received "rgb(203, 42, 47)"`）→ **过期断言（测试债务）**。HIG-AUD-031（09-26）已把破坏性文字收敛到语义 token `text-error-foreground`（浅色 `#cb2a2f`、深色 `#ff6166`，CHANGELOG 有记），该 HIG-AUD-037 守护用例仍锁旧字面量 → **产品行为正确，测试未同步**，属 HIG-AUD-041 所记脆性模式的又一实例。
+  2. `activity-view-detents.spec.ts:22:3` / `:62:3` × light/dark（共 4 条）→ **守护用例在 09-25 为 4 passed，现双主题稳定失败**。失败点唯一：`expectHeight(sheet, 844 * 0.6)` 期望 **506.4**、实际 **97px**；同一用例内的结构断言（`grabber` 为 `role="slider"` 且 `aria-valuemax=1`、`activity-view-targets`/`actions` 各 8 个按钮、指示条与面板居中对齐）**全部通过**。**根因已静态定位（高度基准从「视口」变成「卡片」）**：
+     - `docs/site/src/components/docs-components-page.tsx:78-97`——**demo 卡片自身就是 `SubFrame`**（注释：「卡片本身就是局部浮层容器：demo 里的 BottomSheet / HamburgerMenu 会落在卡片内」），且其 `className` 只有圆角/边框/底色，**没有高度类** → 卡片高度由内容决定（ActivityView 的 default demo 内容仅一个 Share 按钮 + 一行日志）。
+     - `src/components/ui/bottom-sheet.tsx:101-103`——`container = containerProp ?? useSubFrame()`，于是卡片内的 BottomSheet **自动继承卡片**作为 Portal 容器；`:219-220` 随之切成 `absolute` 定位。
+     - `bottom-sheet.tsx:231-240`——`"--sheet-h": container ? \`${ratio * 100}%\` : \`${ratio * 100}dvh\``。**容器模式下高度基准是 SubFrame（卡片），不再是视口**；`detents=[0.6,0.9]` 下首档即「卡片高度 × 0.6」，与 spec 的「视口 × 0.6」不可能相等（97 ≈ 卡片高度 × 0.6 → 卡片约 161px）。
+     - `activity-view.tsx:143` 的内容区是 `flex min-h-0 flex-1 flex-col overflow-y-auto` → 在矮卡片里内容只能滚动，而非「长列表可用」。
+     - **故非单纯断言漂移，而是口径变更后的两种可能，均需产品决策**：**(A)** 认可「卡片内浮层按卡片高度分档」是设计意图 → 则该 spec 的核心意图（`expanded.visible > initial.visible + 200`、长操作列表可用）在 ~160px 卡片里**物理上无法成立**，spec 需重写为「卡片内可滚动」而非「双档长列表」；**(B)** 认为 ActivityView 这类「内容密集型卡片内浮层」需要可用高度 → 应给该类 demo 卡片最小高度（沿用既有 `DEMO_OVERFLOW_VISIBLE_SLUGS` 的按 slug 特化先例），或让该 demo 显式 `container={null}` 回到视口（但会盖住整页文档，与卡片容器化的初衷相悖）。**在决策前不改实现、也不改断言**（改断言等于把 97px 的不可用体验固化成契约）。
+     - 探针脚本 `probe-activity-view-sheet.mjs` 已就绪（读卡片/sheet/`--sheet-h`/offsetParent/内容 scrollHeight 实测值），本轮因工具审批通道中断未能运行，留作决策后的取证入口。
+- **3 flaky（首轮失败、retry 通过）——其中一条是真实信号被掩盖**：
+  - **`docs-layout.spec.ts:707` aggregate layout audit gate**：首轮失败内容**不是**随机波动，而是 **12/12 视口×主题组合**的同一断言：`[local-scroll-owner-inside-main] /patterns/app-shell @{1440x900,1100x800,1024x768,768x1024,390x844,320x700} {light,dark}: 局部滚动 owner rect 超出 main content 边界：div[data-slot=docs-local-scroll].border-gray-alpha-400.mt-4.overflow-x-auto`。该断言要求「局部滚动 owner 的 rect 落在 main content 边界内」，与 09-28 `fb49869`（`fix(app-shell): anchor the panel to the topbar edge and scope scrolling below it`）把 App Shell 的滚动 owner 改到「顶栏之下的正文区」属同一区域改动，**高度疑似首帧/异步布局竞态**（稳定后归位 → retry 通过）。此类「首轮真实断言失败被 retry 清空掩盖」正是交付书 §7.1 记录过的模式，建议：把该断言的首轮结果单列（或对该页加稳定等待），否则门禁会持续把真实布局信号当 flaky 放过。
+  - 另两条 flaky（`multi-select-keyboard.spec.ts:17`、`quick-actions-destructive-confirm.spec.ts:54`）未逐条定性，按 retry 通过记录。
+- **关键正面结论**：`command-search.spec.ts`（**HIG-AUD-053 守护用例**）**5/5 全绿**——053 的修复在全量门禁层面得到确认（此前只有定向 5 passed 记录）。
+- **`pnpm test` → exit 1 定性**（@ `4ecfee27`，171.66s）：8 failed 文件 = 7 个 `tests/audit/*`（**环境类**：`python -c "from PIL import Image…"` 命令失败，本机无 Pillow）+ `tests/button-api.test.ts:85`（`Test timed out in 15000ms`；**单跑 exit 0 / 9 passed / 339ms** → flaky，非断言失败）。两者均与产品状态无关。
+- **未取得**：本机无 NVDA/VoiceOver，故 HIG-AUD-030 的真机播报验证仍为缺口（见 §5AC）。
