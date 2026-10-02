@@ -8,6 +8,8 @@
 
 ### Fixed
 
+- **移动导航与快速点击**: 移除窄屏抽屉内重复且失效的搜索按钮，并为顶栏两端保留对称边距。ExpandPanel 改为可反转的 CSS 过渡；退出期间复用节点、取消旧卸载、隔离触发按钮的外部点击处理，避免快速开关时抽动或重新打开。
+
 - **Input rounded 变体胶囊形态修正（视觉变更）**：`Input` 的 `rounded` 档此前给 prefix/suffix 装饰段都加了 `rounded-full`，两端各自收成一个椭圆 chip，紧邻分隔线的内侧边沿出现弧线。现在装饰段只圆外侧角（prefix `rounded-l-full`、suffix `rounded-r-full`，其余角保持直角），内侧边沿垂直并与分隔线贴合，整体是单个胶囊；`prefixStyling` 为真或假的两种圆角示例结果一致。`tests/input-surface.test.tsx` 与双主题浏览器几何核查（内侧圆角 0px、外侧圆角等于外壳胶囊半径）锁定该契约。
 - **顶栏锚定浮层与滚动 owner（视觉变更）**：`ExpandPanel` 在 `side="top"` 且测量了锚元素的形态下（App Shell 顶栏汉堡面板），面板顶边即顶栏底边——此前打开动画让面板整体上移一个自身高度、从容器顶部掉下来掠过顶栏，遮罩又是 `inset-0` 把顶栏一并压暗；现在遮罩顶边与面板进出场都以该边为界，面板由 `clip-path` 从顶边向下展开（顺带裁掉向上扩散的阴影），顶栏保持可见可交互。App Shell 演示页同步把滚动 owner 从整帧改为顶栏之下的正文区，滚动条不再纵贯顶栏右侧；桌面侧栏 sticky 偏移与区块锚点留白随结构一并校正。
 - **HIG-AUD-029 可见视口契约（视觉视口）**：新增共享模块 `src/lib/visual-viewport.ts`，统一「读取可见视口边界」与「订阅可见视口变化」（布局视口 `resize` + 捕获阶段 `scroll`，视觉视口 `resize` / `scroll`）。`EditMenu` 的定位改用可见视口边界，并在软键盘弹起、双指缩放等可见视口变化时收起胶囊（与既有「滚动 / 缩放即收起」同一口径）；修复前实测视觉视口变化后胶囊毫无反应、停在旧位置。Quick Actions 的越界校正同步复用该契约，不再各写一套监听。`select`、`combobox`、`drawer`、`bottom-sheet`、`side-panel`、`toast`、`tooltip` 的组件级断点行为仍待逐一核实。
@@ -17,6 +19,8 @@
 - **EditMenu 选区操作列统一横向**：编辑区域选中文字后，触屏、鼠标和键盘均显示横向胶囊工具条（`role="toolbar"`、左右方向键及 Home/End），与右键唤出的竖向 ContextMenu 区分；保留触摸生成鼠标事件防闪烁、选区锚定与视口边界保护。双主题浏览器及键盘回归覆盖横向布局。
 
 ### Added
+
+- **数字分页与媒体组件**: 新增 NumberedPagination（页码与省略号）、Carousel（图片、键盘、触摸与方向按钮）、FullPageScroller（滚轮及触摸阈值整屏切换、惯性抑制、全屏演示）与 LazyLoad（接近滚动视口时延迟挂载、尺寸占位）。同步包入口类型、中英文指南、API 表、可运行演示、Show Code 与 living styleguide。
 
 - **HIG-AUD-023/024 公共组件文档与入口对齐**：`SidebarNav`、`Navbar`、`Footer`、`HamburgerMenu` 补齐独立文档页、双语指南、API 与可交互示例；`SidePanel` 及标题、描述、关闭子组件和类型从包根导出并补齐同等文档链。既有 `Phone`/`PhoneScreen`、`SkeletonMask`、`RatingPill` 分别由 Device、Skeleton、Feedback 页显式承接；导出到文档 owner 的双语、API 符号和示例一致性新增门禁。
 

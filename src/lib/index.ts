@@ -90,8 +90,8 @@ export { Snippet } from "@/components/ui/snippet";
 // Components — Navigation
 export { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 export type { BreadcrumbType, BreadcrumbProps, BreadcrumbItemProps } from "@/components/ui/breadcrumbs";
-export { Pagination } from "@/components/ui/pagination";
-export type { PaginationProps, PaginationRailLink } from "@/components/ui/pagination";
+export { Pagination, NumberedPagination } from "@/components/ui/pagination";
+export type { PaginationProps, PaginationRailLink, NumberedPaginationProps } from "@/components/ui/pagination";
 export { Link } from "@/components/ui/link";
 export type { LinkProps } from "@/components/ui/link";
 export { SidebarNav } from "@/components/ui/sidebar-nav";
@@ -173,6 +173,12 @@ export { Fieldset, FieldsetTitle, FieldsetSubtitle, FieldsetContent, FieldsetFoo
 export { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui/grid";
 export { Scroller } from "@/components/ui/scroller";
 export type { ScrollerProps } from "@/components/ui/scroller";
+export { FullPageScroller } from "@/components/ui/full-page-scroller";
+export type { FullPageScrollerProps } from "@/components/ui/full-page-scroller";
+export { Carousel } from "@/components/ui/carousel";
+export type { CarouselProps, CarouselImage } from "@/components/ui/carousel";
+export { LazyLoad } from "@/components/ui/lazy-load";
+export type { LazyLoadProps } from "@/components/ui/lazy-load";
 export { ContinuousSurface } from "@/components/ui/continuous-surface";
 export type { ContinuousSurfaceProps } from "@/components/ui/continuous-surface";
 export { SubFrame } from "@/components/ui/sub-frame";

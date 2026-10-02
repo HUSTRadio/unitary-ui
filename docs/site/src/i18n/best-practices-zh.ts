@@ -10,6 +10,9 @@
  */
 
 const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
+  "carousel": ["为每张图片提供有意义的 alt，并保持一致的宽高比。","使用主动翻页；轮播不会自动切换。"],
+  "full-page-scroller": ["保持各屏内容相关，并提供可见的进度提示。","整屏手势适合演示；较长内容应在各屏内部自然滚动。"],
+  "lazy-load": ["通过占位内容预留尺寸，避免布局跳动。","简单图片可使用原生 loading=\"lazy\"；需要延迟整个子树时使用 LazyLoad。"],
   "side-panel": [
     "桌面详情或操作使用 SidePanel；移动端底部操作使用 Drawer，同一流程跨端共用时使用 ResponsiveDrawer。",
     "将 show 与 onDismiss 配套，并提供 SidePanelTitle，为对话框建立可访问名称。",
@@ -405,8 +408,8 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "正文是点名影响的主动语态单句：Changing this region restarts all functions.。",
   ],
   pagination: [
-    "兄弟页面间的顺序导航（文档文章、博客帖子、引导步骤）用 Pagination。同一数据集内揭示更多行用 Show More 或数字分页器。",
-    "作为上一篇/下一篇文档轨使用 Pagination；需要跳到编号页面时用数据表格专用分页器。",
+    "Pagination 用于相邻文章导航；NumberedPagination 用于搜索结果等数字跳页场景。",
+    "作为上一篇/下一篇文档轨使用 Pagination；需要跳到编号页面时使用 NumberedPagination。",
     "序列首尾的 Previous / Next 槽位用隐藏而非禁用；空的导轨比一个无处可去的暗淡链接更干净。",
     '通过 children 添加页码时，由调用方为当前项设置 aria-current="page" 并提供选中样式；Pagination 没有 isActive prop。',
     "页面标签保持简短——数字或 1–2 个词。不要在链接内复述如 Page 3 of 10 这样的序号位置。",

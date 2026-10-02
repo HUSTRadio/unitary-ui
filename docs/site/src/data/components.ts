@@ -27,6 +27,39 @@ export interface ComponentMeta {
 }
 
 const COMPONENTS_EN: ComponentMeta[] = [
+{
+  "name": "carousel",
+  "label": "Carousel",
+  "labelZh": "图片轮播",
+  "description": "Browses images with swipe gestures, arrow controls, and slide indicators.",
+  "descriptionZh": "通过滑动手势、方向按钮和指示器浏览图片。",
+  "bestPractices": [
+    "Provide useful alt text for every image and keep a consistent aspect ratio.",
+    "Use deliberate navigation; the gallery never advances automatically."
+  ]
+},
+{
+  "name": "full-page-scroller",
+  "label": "Full Page Scroller",
+  "labelZh": "整屏滚动",
+  "description": "Changes one viewport-sized section after a wheel or touch gesture crosses its threshold.",
+  "descriptionZh": "滚轮或触摸手势达到阈值后，一次切换一个视口大小的区块。",
+  "bestPractices": [
+    "Keep sections related and provide a visible progress indicator.",
+    "Reserve full page gestures for presentations; let long content scroll within its own section."
+  ]
+},
+{
+  "name": "lazy-load",
+  "label": "Lazy Load",
+  "labelZh": "延迟加载",
+  "description": "Mounts content once it approaches a viewport or a local scroll container.",
+  "descriptionZh": "内容接近视口或局部滚动容器时首次挂载。",
+  "bestPractices": [
+    "Reserve content dimensions with a placeholder to prevent layout shifts.",
+    "Use native image loading=\"lazy\" for simple images; use LazyLoad to defer an entire subtree."
+  ]
+},
   /* Charts —— 图表分组（Tremor Raw 内置，路由 /charts/<name>） */
   {
     name: "area-chart",
@@ -828,8 +861,8 @@ const COMPONENTS_EN: ComponentMeta[] = [
     labelZh: "分页",
     description: "Navigates through numbered pages of a data set.",
     bestPractices: [
-      "Use Pagination for sequential navigation between sibling pages (docs articles, blog posts, onboarding steps). For revealing more rows of the same data set, use Show More or a numbered pager.",
-      "Use Pagination as a previous/next document rail; use a data-table-specific pager when users must jump to numbered pages.",
+      "Use Pagination for sequential navigation between sibling pages (docs articles, blog posts, onboarding steps). For more rows in one list use ShowMore; for numbered results pages use NumberedPagination.",
+      "Use Pagination as a previous/next document rail; use NumberedPagination when users must jump to numbered pages.",
       'When children contain page links, mark the current one with aria-current="page" and style it in caller code; Pagination has no isActive prop.',
       "Hide the Previous / Next slot at the start or end of a sequence instead of disabling it; an empty rail reads cleaner than a dimmed link with nowhere to go.",
       "Keep page labels short — numbers or 1–2 words. Don’t restate ordinal positions like Page 3 of 10 inside a link.",

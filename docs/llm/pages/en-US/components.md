@@ -112,6 +112,14 @@ Displays a month calendar from which users can pick a date.
 
 ](#/components/calendar)[
 
+carousel
+
+### Carousel
+
+Browses images with swipe gestures, arrow controls, and slide indicators.
+
+](#/components/carousel)[
+
 category-bar
 
 ### Category Bar
@@ -352,6 +360,14 @@ A page footer with link columns and optional leading and trailing slots.
 
 ](#/components/footer)[
 
+full-page-scroller
+
+### Full Page Scroller
+
+Changes one viewport-sized section after a wheel or touch gesture crosses its threshold.
+
+](#/components/full-page-scroller)[
+
 gauge
 
 ### Gauge
@@ -407,6 +423,14 @@ label
 Accessible text label for form controls.
 
 ](#/components/label)[
+
+lazy-load
+
+### Lazy Load
+
+Mounts content once it approaches a viewport or a local scroll container.
+
+](#/components/lazy-load)[
 
 line-chart
 

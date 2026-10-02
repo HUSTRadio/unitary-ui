@@ -222,53 +222,62 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
     },
   },
   pagination: {
-    slug: "pagination",
-    locale: "zh-CN",
-    summary: "通过上一个/下一个导航轨道在相邻内容页面间顺序移动，适用于文章、帖子和步骤序列。",
-    whenToUse: [
-      "在兄弟页面之间进行顺序导航（如文档文章、博客帖子、引导步骤），用户一次只阅读一页内容。",
-      "作为上一个/下一个文档导航轨道，当用户需要在系列页面间前进或后退时。",
+    "slug": "pagination",
+    "locale": "zh-CN",
+    "summary": "Pagination 提供相邻文章导航；NumberedPagination 提供搜索结果式数字页码与省略号。",
+    "whenToUse": [
+      "在相邻文档、文章或引导步骤间前进和后退时使用 Pagination。",
+      "搜索结果、商品列表或数据集需要跳到特定页码时使用 NumberedPagination。"
     ],
-    whenNotToUse: [
-      "如果要揭示同一数据集的更多行数据，应使用 Show More 或编号翻页器而非 Pagination 组件。",
-      "当用户必须跳转到特定编号页面时，应使用数据表专用的数字翻页器。",
+    "whenNotToUse": [
+      "揭示同一列表的更多内容时使用 ShowMore。",
+      "总页数未知且需要连续加载时，使用 LoadMoreButton 或 LazyLoad，而不是数字分页。"
     ],
-    examples: [
+    "examples": [
       {
-        id: "default",
-        kind: "minimal",
-        title: "默认分页",
-        description:
-          "最基础的分页用法：用 previous 和 next 渲染相邻页面链接；调用方可在中间 children 区域传入自定义导航内容。",
-        demoKey: "Default",
+        "id": "default",
+        "kind": "minimal",
+        "title": "相邻文章导航",
+        "description": "Pagination 的 previous/next 提供相邻页面标题及目标链接。",
+        "demoKey": "Default"
       },
+      {
+        "id": "numbered",
+        "kind": "stateful",
+        "title": "数字页码",
+        "description": "使用受控页码展示 1、当前页邻居、末页及省略号。",
+        "demoKey": "Numbered"
+      }
     ],
-    accessibility: {
-      status: "covered",
-      content: [
-        "组件渲染带 navigation 标签的 nav；Previous / Next 链接包含方向和目标标题的可访问名称。",
-        "如通过 children 添加页码或其他导航，调用方负责为当前项设置 aria-current 并保留原生链接语义。",
-      ],
+    "accessibility": {
+      "status": "covered",
+      "content": [
+        "Pagination 是带标签的导航区域，链接名称包含目标文章标题。",
+        "NumberedPagination 自动为当前页设置 aria-current=\"page\"；首尾方向按钮会禁用，省略号不可交互。",
+        "提供 getPageHref 时使用真实链接，保留在新标签页打开的行为；未提供时使用按钮。"
+      ]
     },
-    controlledBehavior: {
-      status: "not-applicable",
-      reason:
-        "Pagination 不管理当前页或总页数；previous、next 和可选 children 全部由调用方根据路由状态传入。",
+    "controlledBehavior": {
+      "status": "covered",
+      "content": [
+        "Pagination 的 previous/next 由路由状态提供。",
+        "NumberedPagination 支持受控 page 或非受控 defaultPage，页码从 1 开始；onPageChange 报告新页码。totalPages 缩小时显示范围会被限制。"
+      ]
     },
-    responsiveBehavior: {
-      status: "covered",
-      content: [
-        "中间的 children 导航区在 xl 以下隐藏，Previous / Next 轨道链接保持可见。",
-        "在序列首尾省略对应的 previous 或 next prop，组件会保留两端布局而不渲染不可用链接。",
-      ],
+    "responsiveBehavior": {
+      "status": "covered",
+      "content": [
+        "Pagination 的 children 居中区在 xl 以下隐藏，相邻文章链接保持可见。",
+        "NumberedPagination 保留首尾页及当前页邻居，用省略号表示较大的间隔；窄屏按钮自然换行。"
+      ]
     },
-    themeBehavior: {
-      status: "covered",
-      content: [
-        "Previous / Next 链接、方向图标和辅助文字使用主题颜色。",
-        "组件不渲染当前页高亮；通过 children 添加页码时，其选中样式由调用方负责。",
-      ],
-    },
+    "themeBehavior": {
+      "status": "covered",
+      "content": [
+        "链接、方向图标、页码和当前页状态使用主题 token。",
+        "Pagination 的自定义 children 链接由调用方设置样式；NumberedPagination 内置当前页样式。"
+      ]
+    }
   },
   device: {
     slug: "device",
@@ -561,54 +570,62 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
     },
   },
   pagination: {
-    slug: "pagination",
-    locale: "en-US",
-    summary:
-      "Sequentially navigates between adjacent content pages with previous and next rail links, ideal for articles, posts, and step sequences.",
-    whenToUse: [
-      "For sequential navigation between sibling pages (docs articles, blog posts, onboarding steps) where the user reads one page at a time.",
-      "As a previous/next document rail when users need to advance or retreat through a series of pages.",
+    "slug": "pagination",
+    "locale": "en-US",
+    "summary": "Pagination provides adjacent-document navigation; NumberedPagination provides numbered results pages and ellipses.",
+    "whenToUse": [
+      "Use Pagination to advance or retreat between adjacent documents, articles or onboarding steps.",
+      "Use NumberedPagination to jump to a specific page of search results, products or a data set."
     ],
-    whenNotToUse: [
-      "To reveal more rows of the same data set, use Show More or a numbered pager instead of Pagination.",
-      "When users must jump to numbered pages, use a data-table-specific numeric pager.",
+    "whenNotToUse": [
+      "Use ShowMore to reveal additional content in one list.",
+      "Use LoadMoreButton or LazyLoad for continuous loading with an unknown total instead of numbered pages."
     ],
-    examples: [
+    "examples": [
       {
-        id: "default",
-        kind: "minimal",
-        title: "Default pagination",
-        description:
-          "The basic pagination rail renders adjacent pages through previous and next; callers may supply custom navigation in the centered children area.",
-        demoKey: "Default",
+        "id": "default",
+        "kind": "minimal",
+        "title": "Adjacent document navigation",
+        "description": "Pagination previous/next props provide adjacent page titles and destinations.",
+        "demoKey": "Default"
       },
+      {
+        "id": "numbered",
+        "kind": "stateful",
+        "title": "Numbered pages",
+        "description": "Show the first page, current neighbors, last page and ellipses with controlled page state.",
+        "demoKey": "Numbered"
+      }
     ],
-    accessibility: {
-      status: "covered",
-      content: [
-        "The component renders a labelled navigation region; Previous and Next links include accessible names with their destination titles.",
-        "When callers add page links through children, they are responsible for native link semantics and aria-current on the current item.",
-      ],
+    "accessibility": {
+      "status": "covered",
+      "content": [
+        "Pagination is a labelled navigation region and link names include destination article titles.",
+        "NumberedPagination automatically marks the current page with aria-current=\"page\"; boundary arrows are disabled and ellipses are not interactive.",
+        "getPageHref renders real links and preserves opening in a new tab; otherwise controls are buttons."
+      ]
     },
-    controlledBehavior: {
-      status: "not-applicable",
-      reason:
-        "Pagination does not manage an active page or total count; the caller derives previous, next, and optional children from routing state.",
+    "controlledBehavior": {
+      "status": "covered",
+      "content": [
+        "Pagination derives previous/next from routing.",
+        "NumberedPagination supports controlled page or uncontrolled defaultPage, with one-based pages. onPageChange reports selection and displayed pages are clamped when totalPages shrinks."
+      ]
     },
-    responsiveBehavior: {
-      status: "covered",
-      content: [
-        "The centered children navigation area is hidden below xl, while the Previous and Next rail links remain available.",
-        "At the start or end of a sequence, omit the corresponding previous or next prop; the component preserves the rail layout without rendering a disabled link.",
-      ],
+    "responsiveBehavior": {
+      "status": "covered",
+      "content": [
+        "Pagination hides centered children below xl while adjacent document links remain visible.",
+        "NumberedPagination retains first/last pages and current neighbors, uses ellipses for larger gaps, and wraps controls on narrow screens."
+      ]
     },
-    themeBehavior: {
-      status: "covered",
-      content: [
-        "Previous and Next links, direction icons, and supporting text use theme colors.",
-        "The component does not render a current-page highlight. Callers style any page links supplied through children.",
-      ],
-    },
+    "themeBehavior": {
+      "status": "covered",
+      "content": [
+        "Links, direction icons, page numbers and the current page state use theme tokens.",
+        "Callers style custom children links in Pagination; NumberedPagination includes current-page styling."
+      ]
+    }
   },
   device: {
     slug: "device",

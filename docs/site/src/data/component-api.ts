@@ -34,6 +34,32 @@ const component = (exports: string[], rows: ApiRow[] = [], extendsType?: string)
 });
 
 const O = {
+  "carousel": component(["Carousel"], [
+    row("images", "CarouselImage[]", "Images with src, required alt, optional caption, srcSet and sizes.", "图片列表：src、必填 alt，以及可选 caption、srcSet 和 sizes。", {"required":true,"origin":"extension"}),
+    row("index", "number", "Controlled zero-based slide index.", "受控的零起始图片索引。", {"origin":"extension"}),
+    row("defaultIndex", "number", "Initial uncontrolled slide index.", "非受控模式的初始图片索引。", {"defaultValue":"0","origin":"extension"}),
+    row("onIndexChange", "(index: number) => void", "Reports selection by controls, keyboard or gestures.", "报告按钮、键盘或手势选择的新索引。", {"origin":"extension"}),
+    row("loop", "boolean", "Wraps previous/next arrow controls at the ends; gestures stop at the boundary.", "方向按钮在首尾循环；手势到达边界后停止。", {"defaultValue":"false","origin":"extension"}),
+  ], "Omit<ComponentProps<\"div\">, \"children\" | \"onChange\">"),
+  "full-page-scroller": component(["FullPageScroller"], [
+    row("orientation", "\"vertical\" | \"horizontal\"", "Paging axis.", "整屏切换方向。", {"defaultValue":"\"vertical\"","origin":"extension"}),
+    row("index", "number", "Controlled zero-based section index.", "受控的零起始区块索引。", {"origin":"extension"}),
+    row("defaultIndex", "number", "Initial uncontrolled index.", "非受控模式的初始索引。", {"defaultValue":"0","origin":"extension"}),
+    row("onIndexChange", "(index: number) => void", "Reports a requested section change.", "报告请求切换到的区块索引。", {"origin":"extension"}),
+    row("wheelThreshold", "number", "Accumulated wheel distance in pixels; line and page inputs are normalized.", "累计滚轮阈值，单位像素；行和页单位会转换。", {"defaultValue":"80","origin":"extension"}),
+    row("touchThreshold", "number", "Minimum completed swipe distance in pixels.", "完成滑动时的最小距离，单位像素。", {"defaultValue":"50","origin":"extension"}),
+    row("disabled", "boolean", "Disables gesture and keyboard paging.", "禁用手势及键盘翻屏。", {"defaultValue":"false","origin":"extension"}),
+    row("children", "ReactNode", "Each direct child occupies one full section.", "每个直接子节点占据一整屏。", {"origin":"extension"}),
+  ], "Omit<ComponentProps<\"div\">, \"onChange\">"),
+  "lazy-load": component(["LazyLoad"], [
+    row("placeholder", "ReactNode", "Content shown before the first reveal.", "首次显示前的占位内容。", {"origin":"extension"}),
+    row("root", "Element | Document | null", "IntersectionObserver scroll root; null uses the viewport.", "IntersectionObserver 滚动根节点；null 使用浏览器视口。", {"defaultValue":"null","origin":"extension"}),
+    row("rootMargin", "string", "Observer margin for loading before content is visible.", "观察器边距，用于提前加载。", {"defaultValue":"\"200px\"","origin":"extension"}),
+    row("threshold", "number", "Required intersection ratio.", "要求的相交比例。", {"defaultValue":"0","origin":"extension"}),
+    row("onLoad", "() => void", "Called once when deferred content mounts; not an image download callback.", "延迟内容首次挂载时调用一次；不代表图片下载完成。", {"origin":"extension"}),
+    row("disabled", "boolean", "Renders content eagerly.", "立即渲染内容。", {"defaultValue":"false","origin":"extension"}),
+    row("children", "ReactNode", "Subtree mounted once, then retained.", "首次挂载后保持挂载的内容子树。", {"origin":"extension"}),
+  ], "ComponentProps<\"div\">"),
   /* Charts —— 图表分组（Tremor Raw 内置，/charts/<name>） */
   "area-chart": component(
     ["AreaChart"],
@@ -1289,8 +1315,15 @@ const O = {
     ],
   ),
   pagination: component(
-    ["Pagination"],
+    ["Pagination", "NumberedPagination"],
     [
+      row("NumberedPagination.totalPages", "number", "Total page count (required).", "总页数（必填）。", { required: true, origin: "extension" }),
+      row("NumberedPagination.page", "number", "Controlled one-based current page.", "受控的从 1 起始的当前页。", { origin: "extension" }),
+      row("NumberedPagination.defaultPage", "number", "Initial uncontrolled page.", "非受控模式的初始页。", { defaultValue: "1", origin: "extension" }),
+      row("NumberedPagination.onPageChange", "(page: number) => void", "Reports page selection.", "报告选择的新页码。", { origin: "extension" }),
+      row("NumberedPagination.siblingCount", "number", "Number of neighboring pages on each side (0–10).", "当前页两侧邻居页码的数量（0–10）。", { defaultValue: "1", origin: "extension" }),
+      row("NumberedPagination.getPageHref", "(page: number) => string", "Renders real page links; otherwise uses buttons.", "提供真实页面链接；未提供时渲染按钮。", { origin: "extension" }),
+      row("NumberedPagination.disabled", "boolean", "Disables every page control.", "禁用所有翻页控件。", { defaultValue: "false", origin: "extension" }),
       row("previous", "PaginationRailLink", "Previous-page title and destination.", "上一页标题与目标地址。"),
       row("next", "PaginationRailLink", "Next-page title and destination.", "下一页标题与目标地址。"),
       row("children", "ReactNode", "Optional centered pagination content on wide screens.", "宽屏时可选的居中分页内容。"),

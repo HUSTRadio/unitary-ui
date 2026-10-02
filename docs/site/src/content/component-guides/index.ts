@@ -1,3 +1,4 @@
+import { PAGED_MEDIA_GUIDES_ZH, PAGED_MEDIA_GUIDES_EN } from "./guides-23-paged-media";
 import type {
   ComponentGuide,
   ComponentGuidePair,
@@ -53,6 +54,7 @@ const COMPONENT_GUIDES_ZH_PARTS: Record<string, ComponentGuide>[] = [
   RESPONSIVE_DRAWER_GUIDES_ZH,
   PUBLIC_NAVIGATION_GUIDES_ZH,
   SUB_FRAME_GUIDES_ZH,
+  PAGED_MEDIA_GUIDES_ZH,
 ];
 
 const COMPONENT_GUIDES_EN_PARTS: Record<string, ComponentGuide>[] = [
@@ -78,6 +80,7 @@ const COMPONENT_GUIDES_EN_PARTS: Record<string, ComponentGuide>[] = [
   RESPONSIVE_DRAWER_GUIDES_EN,
   PUBLIC_NAVIGATION_GUIDES_EN,
   SUB_FRAME_GUIDES_EN,
+  PAGED_MEDIA_GUIDES_EN,
 ];
 
 export const COMPONENT_GUIDES_ZH: Record<string, ComponentGuide> = Object.assign(

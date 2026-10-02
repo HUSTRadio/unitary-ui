@@ -112,6 +112,14 @@ calendar
 
 ](#/components/calendar)[
 
+carousel
+
+### 图片轮播
+
+通过滑动手势、方向按钮和指示器浏览图片。
+
+](#/components/carousel)[
+
 category-bar
 
 ### 分类条
@@ -352,6 +360,14 @@ A page footer with link columns and optional leading and trailing slots.
 
 ](#/components/footer)[
 
+full-page-scroller
+
+### 整屏滚动
+
+滚轮或触摸手势达到阈值后，一次切换一个视口大小的区块。
+
+](#/components/full-page-scroller)[
+
 gauge
 
 ### 仪表
@@ -407,6 +423,14 @@ label
 用于表单控件的无障碍文本标签。
 
 ](#/components/label)[
+
+lazy-load
+
+### 延迟加载
+
+内容接近视口或局部滚动容器时首次挂载。
+
+](#/components/lazy-load)[
 
 line-chart
 

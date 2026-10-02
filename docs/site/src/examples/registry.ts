@@ -1,3 +1,11 @@
+import NumberedExample from "./pagination/numbered.example";
+import NumberedExampleSource from "./pagination/numbered.example.tsx?example-source";
+import CarouselExample from "./carousel/default.example";
+import CarouselExampleSource from "./carousel/default.example.tsx?example-source";
+import FullPageExample from "./full-page-scroller/default.example";
+import FullPageExampleSource from "./full-page-scroller/default.example.tsx?example-source";
+import LazyLoadExample from "./lazy-load/default.example";
+import LazyLoadExampleSource from "./lazy-load/default.example.tsx?example-source";
 import type { ComponentType } from "react";
 import SidebarNavExample from "./sidebar-nav/default-public.example";
 import SidebarNavExampleSource from "./sidebar-nav/default-public.example.tsx?example-source";
@@ -853,6 +861,10 @@ export interface ExampleRecord {
 }
 
 export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
+  { slug: "pagination", id: "Numbered", Component: NumberedExample, source: NumberedExampleSource },
+  { slug: "carousel", id: "default", Component: CarouselExample, source: CarouselExampleSource },
+  { slug: "full-page-scroller", id: "default", Component: FullPageExample, source: FullPageExampleSource },
+  { slug: "lazy-load", id: "default", Component: LazyLoadExample, source: LazyLoadExampleSource },
   { slug: "sidebar-nav", id: "default", Component: SidebarNavExample, source: SidebarNavExampleSource },
   { slug: "navbar", id: "default", Component: NavbarExample, source: NavbarExampleSource },
   { slug: "footer", id: "default", Component: FooterExample, source: FooterExampleSource },

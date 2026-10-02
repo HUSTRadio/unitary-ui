@@ -8,6 +8,7 @@ import type { DocsLanguage } from "./language";
  */
 export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
   "zh-CN": {
+    Numbered: "数字页码",
     // Shared demo chrome
     "Show code": "显示代码",
     "Select Date Range": "选择日期范围",

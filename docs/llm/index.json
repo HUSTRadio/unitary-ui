@@ -161,8 +161,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:3961bc0f953198bab9be62ccf10ee8a2001d9e4e4d3415386613903857a8ab84",
-        "en-US": "sha256:bf3623e1b14b1b416aa7f04ae7ce118999c92e7211db4ab4c985e4d20e7c8464"
+        "zh-CN": "sha256:173181695fe33a5eca0674760fc1d213f771e2daca81a3b1933b5906922de8f4",
+        "en-US": "sha256:f40885fc2c41acdc8ec785b908cd050db6199eba794b597bddfcee2fdce64cd5"
       }
     },
     {
@@ -737,8 +737,8 @@
         "en-US": "pages/en-US/components/pagination.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:d3b86a68f2169271984c5ff5c9ae3f9b82c6dc5dca4e6d8eb9072f07649798c1",
-        "en-US": "sha256:9e77609b6b21886870219a1d403c63de18f234b686db678016e91c1da362d249"
+        "zh-CN": "sha256:3cd971bdea9e1c820c7cda4e2622d09ea2233a34d64a06d2bd2e74b963bdbb4b",
+        "en-US": "sha256:9b289c470b6f8a90608e7fcaa077296e1b48deee1bc750db599aa7712930cb6f"
       }
     },
     {
@@ -1238,6 +1238,22 @@
       }
     },
     {
+      "path": "/components/full-page-scroller",
+      "title": {
+        "zh-CN": "整屏滚动",
+        "en-US": "Full Page Scroller"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/full-page-scroller.md",
+        "en-US": "pages/en-US/components/full-page-scroller.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:b19eacafccdb64618f166766a0f67fc8e73d61eb7f6efe002394b3a58b90d418",
+        "en-US": "sha256:809c1074160daf230f46aa88eb18901dfddbae5a02d6debf2388d2ae15abfd17"
+      }
+    },
+    {
       "path": "/components/grid",
       "title": {
         "zh-CN": "栅格",
@@ -1414,6 +1430,22 @@
       }
     },
     {
+      "path": "/components/carousel",
+      "title": {
+        "zh-CN": "图片轮播",
+        "en-US": "Carousel"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/carousel.md",
+        "en-US": "pages/en-US/components/carousel.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:1bd5870545141c73b039d2e65eac03415d8e2ed4f1f3e8e278b8fc8753c52b32",
+        "en-US": "sha256:6ff000f4b01e62634c73462b2515995ce32a16c8509cfd4c6097b9514e5f1636"
+      }
+    },
+    {
       "path": "/components/code",
       "title": {
         "zh-CN": "代码",
@@ -1459,6 +1491,22 @@
       "sourceHash": {
         "zh-CN": "sha256:1b0d13e8d284ccd48f1ac39551841504a51b61b5eb4e8b8fe4de2796e5abe7c4",
         "en-US": "sha256:3ce5d9a2ffa96540554315ea868fce2fda59aeef480cb026cb16daee02894d8f"
+      }
+    },
+    {
+      "path": "/components/lazy-load",
+      "title": {
+        "zh-CN": "延迟加载",
+        "en-US": "Lazy Load"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/lazy-load.md",
+        "en-US": "pages/en-US/components/lazy-load.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:6e5469fd296bf9713ed399a517897c2affa09afdb6543d25e8cf0e3d935e7b93",
+        "en-US": "sha256:7113a1b44cc525f470c1a86ad427c94c28471bf50ceac89b4ce33a1d693d1e41"
       }
     },
     {

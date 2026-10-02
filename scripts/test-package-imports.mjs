@@ -21,6 +21,12 @@ function consume(mode) {
     ${load}
     assert.equal(typeof window, 'undefined');
     assert.equal(typeof document, 'undefined');
+    for (const name of ['NumberedPagination', 'Carousel', 'FullPageScroller', 'LazyLoad']) {
+      assert.equal(typeof api[name], 'function', name);
+    }
+    assert.match(render(h(api.NumberedPagination, {totalPages: 5})), /aria-current="page"/);
+    assert.match(render(h(api.FullPageScroller, {index: 1}, h('div', null, 'First'), h('div', null, 'Second'))), /data-index="1"/);
+    assert.match(render(h(api.LazyLoad, {disabled: true}, 'Eager server content')), /Eager server content/);
     assert.match(render(h(api.Button, null, 'Node button')), /Node button/);
     assert.match(render(h(api.ContinuousSurface, {radius: 12}, 'Surface')), /border-radius:12px/);
     assert.deepEqual(api.cornerCurvePoints(24, 100, 24).at(-1), [24, 0]);

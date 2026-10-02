@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
+import { COMPONENTS } from "../docs/site/src/data/components";
 import { DOCS_ROUTE_GROUPS, DOCS_ROUTE_SEQUENCE } from "../docs/site/src/data/docs-routes";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -21,11 +22,8 @@ describe("Geist documentation coverage", () => {
         .map((file) => file.slice(0, -3))
         .map((slug) => officialAliases.get(slug) ?? slug),
     );
-    const metadataSource = await read("docs/site/src/data/components.ts");
     const registrySource = await read("docs/site/src/examples/registry.ts");
-    const metadataNames = [...metadataSource.matchAll(/^ {4}name:\s*"([^"]+)",?$/gm)].map(
-      (match) => match[1],
-    );
+    const metadataNames = COMPONENTS.map((component) => component.name);
     const registryRecords = [...registrySource.matchAll(/slug:\s*"([^"]+)",\s*id:\s*"([^"]+)"/g)];
     const demoNames = registryRecords.map((match) => match[1]);
     const metadata = new Set(metadataNames);
@@ -43,6 +41,7 @@ describe("Geist documentation coverage", () => {
       "bar-chart",
       "bar-list",
       "bottom-sheet",
+      "carousel",
       "category-bar",
       "combo-chart",
       "continuous-surface",
@@ -50,7 +49,9 @@ describe("Geist documentation coverage", () => {
       "edit-menu",
       "error-boundary",
       "footer",
+      "full-page-scroller",
       "hamburger-menu",
+      "lazy-load",
       "line-chart",
       "link",
       "menu-bar",
