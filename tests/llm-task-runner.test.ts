@@ -210,7 +210,7 @@ describe("generic LLM task runner", () => {
     expect(agent.baseUrl).toBeUndefined();
     expect(agent.apiKeyEnv).toBeUndefined();
 
-    const args = runner.buildAgentArgs({ enabled: true, agent }, "PROMPT");
+    const args: string[] = runner.buildAgentArgs({ enabled: true, agent }, "PROMPT");
     expect(args).toEqual([
       "exec",
       "--sandbox",
