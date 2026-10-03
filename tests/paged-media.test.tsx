@@ -5,7 +5,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
 import { NumberedPagination } from "../src/components/ui/pagination";
 import { FullPageScroller } from "../src/components/ui/full-page-scroller";
-import { Carousel } from "../src/components/ui/carousel";
+import { Carousel, type CarouselVariant } from "../src/components/ui/carousel";
 import { LazyLoad } from "../src/components/ui/lazy-load";
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
@@ -187,6 +187,35 @@ describe("Carousel", () => {
     { src: "/a.svg", alt: "First" },
     { src: "/b.svg", alt: "Second" },
   ];
+  it.each<CarouselVariant>(["slide", "fade-linear", "fade", "fade-scale"])(
+    "keeps keyboard, controls and active slide accessibility for %s",
+    (variant) => {
+      const change = vi.fn();
+      render(<Carousel images={images} variant={variant} onIndexChange={change} />);
+      click('[aria-label="Next image"]');
+      expect(scrollerIndex()).toBe("1");
+      expect(change).toHaveBeenLastCalledWith(1);
+      const sections = host.querySelectorAll('[data-slot="full-page-section"]');
+      expect(sections[0].hasAttribute("inert")).toBe(true);
+      expect(sections[1].hasAttribute("inert")).toBe(false);
+      act(() =>
+        host
+          .querySelector('[data-slot="full-page-scroller"]')!
+          .dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true })),
+      );
+      expect(scrollerIndex()).toBe("0");
+      expect(change).toHaveBeenLastCalledWith(0);
+    },
+  );
+  it("keeps the current image and node when changing effects", () => {
+    const change = vi.fn();
+    render(<Carousel images={images} defaultIndex={1} onIndexChange={change} />);
+    const image = host.querySelector('img[alt="Second"]');
+    render(<Carousel images={images} variant="fade-scale" onIndexChange={change} />);
+    expect(scrollerIndex()).toBe("1");
+    expect(host.querySelector('img[alt="Second"]')).toBe(image);
+    expect(change).not.toHaveBeenCalled();
+  });
   it("changes slides with arrows and indicators, lazy loads peers, and wraps controls", () => {
     render(<Carousel images={images} loop />);
     expect(host.querySelector('img[alt="Second"]')!.getAttribute("loading")).toBe("lazy");

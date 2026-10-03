@@ -24,7 +24,7 @@ for (const theme of ["light", "dark"] as const) {
         await expect(pager.locator('[aria-current="page"]')).toHaveText("24");
         await expect(pager.getByRole("button", { name: "Next", exact: true })).toBeDisabled();
         await page.goto("/#/components/carousel");
-        const carousel = page.locator('[data-slot="carousel"]');
+        const carousel = page.locator('[data-slot="carousel"]').first();
         const region = carousel.locator('[data-slot="full-page-scroller"]');
         await carousel.getByRole("button", { name: "Next image", exact: true }).click();
         await expect(region).toHaveAttribute("data-index", "1");
@@ -124,7 +124,7 @@ test("touch threshold and horizontal carousel gestures work on a touch device", 
   await page.addInitScript(() => localStorage.setItem("unitary-docs-language", "en-US"));
   await page.goto("http://127.0.0.1:5211/#/components/full-page-scroller");
   const session = await context.newCDPSession(page);
-  const region = page.locator('[data-slot="full-page-scroller"]');
+  const region = page.locator('[data-slot="full-page-scroller"]').first();
   await region.scrollIntoViewIfNeeded();
   const swipe = async (dx: number, dy: number) => {
     const box = (await region.boundingBox())!;

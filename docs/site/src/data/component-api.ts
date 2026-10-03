@@ -35,6 +35,7 @@ const component = (exports: string[], rows: ApiRow[] = [], extendsType?: string)
 
 const O = {
   "carousel": component(["Carousel"], [
+    row("variant", "\"slide\" | \"fade-linear\" | \"fade\" | \"fade-scale\"", "Slide, linear fade, eased fade or eased fade with subtle scaling. All respect reduced motion.", "滑动、线性淡入淡出、缓入缓出或缓入缓出加轻微缩放；均支持减少动画。", { defaultValue: "\"slide\"", origin: "extension" }),
     row("images", "CarouselImage[]", "Images with src, required alt, optional caption, srcSet and sizes.", "图片列表：src、必填 alt，以及可选 caption、srcSet 和 sizes。", {"required":true,"origin":"extension"}),
     row("index", "number", "Controlled zero-based slide index.", "受控的零起始图片索引。", {"origin":"extension"}),
     row("defaultIndex", "number", "Initial uncontrolled slide index.", "非受控模式的初始图片索引。", {"defaultValue":"0","origin":"extension"}),

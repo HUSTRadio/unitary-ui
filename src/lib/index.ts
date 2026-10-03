@@ -176,7 +176,7 @@ export type { ScrollerProps } from "@/components/ui/scroller";
 export { FullPageScroller } from "@/components/ui/full-page-scroller";
 export type { FullPageScrollerProps } from "@/components/ui/full-page-scroller";
 export { Carousel } from "@/components/ui/carousel";
-export type { CarouselProps, CarouselImage } from "@/components/ui/carousel";
+export type { CarouselProps, CarouselImage, CarouselVariant } from "@/components/ui/carousel";
 export { LazyLoad } from "@/components/ui/lazy-load";
 export type { LazyLoadProps } from "@/components/ui/lazy-load";
 export { ContinuousSurface } from "@/components/ui/continuous-surface";

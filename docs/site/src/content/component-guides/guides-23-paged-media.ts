@@ -14,12 +14,20 @@ const content = {
           description: "浏览本地图片，使用指示器、按钮或横向手势切换。",
           demoKey: "default",
         },
+        {
+          id: "variants",
+          kind: "variant",
+          title: "图片切换效果",
+          description: "选择滑动、线性淡入淡出、缓入缓出或轻微缩放，再使用按钮、键盘或手势翻页比较效果。",
+          demoKey: "variants",
+        },
       ],
       accessibility: {
         status: "covered",
         content: [
           "每张图片必须提供 alt；当前图片指示器带有 aria-current；进度通过礼貌播报更新。",
           "在图片区域聚焦后使用左右方向键、Home 和 End；非当前图片不可聚焦。",
+          "所有效果尊重 prefers-reduced-motion，启用减少动画时直接切换。",
         ],
       },
       controlledBehavior: {
@@ -27,6 +35,8 @@ const content = {
         content: [
           "index 是零起始索引；省略时使用 defaultIndex 和内部状态；onIndexChange 报告按钮、键盘和手势选择。",
           "loop 仅使方向按钮在首尾循环；手势会停在边界。没有自动播放。",
+          "variant 默认为 slide；fade-linear 使用匀速透明度过渡，fade 使用 ease-in-out，fade-scale 在缓入缓出中加入 1.04 到 1 的缩放。",
+          "切换效果不会重置当前图片；快速反向翻页从当前透明度和缩放进度继续，过渡时长使用共享 slower token（500ms）。",
         ],
       },
       responsiveBehavior: {
@@ -132,12 +142,20 @@ const content = {
           description: "Browse local images using indicators, arrows or horizontal gestures.",
           demoKey: "default",
         },
+        {
+          id: "variants",
+          kind: "variant",
+          title: "Image transition effects",
+          description: "Choose slide, linear fade, eased fade or a subtle scale, then compare them with controls, keyboard or gestures.",
+          demoKey: "variants",
+        },
       ],
       accessibility: {
         status: "covered",
         content: [
           "Every image requires alt text; the current indicator has aria-current and progress is announced politely.",
           "Focus the image region to use Left/Right, Home and End; inactive images cannot receive focus.",
+          "Every effect respects prefers-reduced-motion and switches immediately when reduced motion is enabled.",
         ],
       },
       controlledBehavior: {
@@ -145,6 +163,8 @@ const content = {
         content: [
           "index is zero-based; omit it to use defaultIndex and internal state. onIndexChange reports control, keyboard and gesture selection.",
           "loop wraps arrow controls only; gestures stop at the boundary. There is no autoplay.",
+          "variant defaults to slide. fade-linear changes opacity at a constant rate; fade uses ease-in-out; fade-scale adds scaling from 1.04 to 1 to the eased fade.",
+          "Changing the effect retains the current image. Rapid reversals continue from the current opacity and scale; transitions use the shared slower duration token (500ms).",
         ],
       },
       responsiveBehavior: {

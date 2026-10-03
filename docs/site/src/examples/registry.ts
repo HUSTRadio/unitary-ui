@@ -2,6 +2,8 @@ import NumberedExample from "./pagination/numbered.example";
 import NumberedExampleSource from "./pagination/numbered.example.tsx?example-source";
 import CarouselExample from "./carousel/default.example";
 import CarouselExampleSource from "./carousel/default.example.tsx?example-source";
+import CarouselVariantsExample from "./carousel/variants.example";
+import CarouselVariantsExampleSource from "./carousel/variants.example.tsx?example-source";
 import FullPageExample from "./full-page-scroller/default.example";
 import FullPageExampleSource from "./full-page-scroller/default.example.tsx?example-source";
 import LazyLoadExample from "./lazy-load/default.example";
@@ -863,6 +865,7 @@ export interface ExampleRecord {
 export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "pagination", id: "Numbered", Component: NumberedExample, source: NumberedExampleSource },
   { slug: "carousel", id: "default", Component: CarouselExample, source: CarouselExampleSource },
+  { slug: "carousel", id: "variants", Component: CarouselVariantsExample, source: CarouselVariantsExampleSource },
   { slug: "full-page-scroller", id: "default", Component: FullPageExample, source: FullPageExampleSource },
   { slug: "lazy-load", id: "default", Component: LazyLoadExample, source: LazyLoadExampleSource },
   { slug: "sidebar-nav", id: "default", Component: SidebarNavExample, source: SidebarNavExampleSource },

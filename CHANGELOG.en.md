@@ -20,6 +20,8 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Added
 
+- **Carousel transition effects**: Adds `variant`: default `slide`, constant-rate `fade-linear`, eased `fade`, and `fade-scale` with subtle scaling. Effects share existing paging controls, support interrupted reversals and reduced motion, and have selectable demos in bilingual docs and the living styleguide.
+
 - **Numbered pagination and media components**: Adds NumberedPagination (page numbers and ellipses), Carousel (images, keyboard, touch and arrows), FullPageScroller (wheel/touch thresholds, momentum suppression and a fullscreen demo), and LazyLoad (deferred mounting near a scroll viewport with dimension placeholders). Package types, bilingual guides, API tables, live examples, Show Code and the living styleguide cover the same APIs.
 
 - **HIG-AUD-023/024 public exports and documentation**: adds dedicated pages, bilingual guides, API tables, and live examples for `SidebarNav`, `Navbar`, `Footer`, and `HamburgerMenu`; exports `SidePanel`, its title/description/close primitives and types from the package root with the same documentation coverage. Existing `Phone`/`PhoneScreen`, `SkeletonMask`, and `RatingPill` are explicitly owned by the Device, Skeleton, and Feedback pages. A new parity gate checks exports against owners, bilingual guides, API symbols, and examples.

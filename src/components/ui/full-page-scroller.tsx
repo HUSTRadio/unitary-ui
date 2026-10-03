@@ -238,7 +238,9 @@ function FullPageScroller({
           vertical && "flex-col",
         )}
         style={{
-          transform: vertical ? `translateY(-${current * 100}%)` : `translateX(-${current * 100}%)`,
+          // Carousel 的叠层淡入淡出复用此手势容器，覆盖位移而不改变分页状态。
+          // Stacked carousel fades reuse paging gestures while overriding translation.
+          transform: `var(--uni-page-transform, ${vertical ? `translateY(-${current * 100}%)` : `translateX(-${current * 100}%)`})`,
         }}
       >
         {items.map((child, position) => (

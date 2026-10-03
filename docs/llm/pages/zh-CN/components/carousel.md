@@ -26,15 +26,22 @@ carousel
 
 浏览本地图片，使用指示器、按钮或横向手势切换。
 
+### 图片切换效果
+
+选择滑动、线性淡入淡出、缓入缓出或轻微缩放，再使用按钮、键盘或手势翻页比较效果。
+
 ## 无障碍
 
 - 每张图片必须提供 alt；当前图片指示器带有 aria-current；进度通过礼貌播报更新。
 - 在图片区域聚焦后使用左右方向键、Home 和 End；非当前图片不可聚焦。
+- 所有效果尊重 prefers-reduced-motion，启用减少动画时直接切换。
 
 ## 受控行为
 
 - index 是零起始索引；省略时使用 defaultIndex 和内部状态；onIndexChange 报告按钮、键盘和手势选择。
 - loop 仅使方向按钮在首尾循环；手势会停在边界。没有自动播放。
+- variant 默认为 slide；fade-linear 使用匀速透明度过渡，fade 使用 ease-in-out，fade-scale 在缓入缓出中加入 1.04 到 1 的缩放。
+- 切换效果不会重置当前图片；快速反向翻页从当前透明度和缩放进度继续，过渡时长使用共享 slower token（500ms）。
 
 ## 响应式行为
 
@@ -92,6 +99,53 @@ export default function CarouselExample() {
 }
 ```
 
+## 变体
+
+切换效果
+
+![海岸与远山](/gallery-coast.svg)
+
+![沙漠与沙丘](/gallery-desert.svg)
+
+![森林与雪山](/gallery-forest.svg)
+
+第 1 张图片，共 3 张
+
+```tsx
+import { useState } from "react";
+import { Carousel, type CarouselVariant } from "@/components/ui/carousel";
+import { Select, SelectItem } from "@/components/ui/select";
+import { useI18n } from "@/lib/i18n";
+
+export default function CarouselVariantsExample() {
+  const { locale } = useI18n();
+  const zh = locale === "zh-CN";
+  const [variant, setVariant] = useState<CarouselVariant>("fade");
+  return (
+    <div className="w-full max-w-2xl space-y-4">
+      <Select
+        label={zh ? "切换效果" : "Transition effect"}
+        value={variant}
+        onValueChange={(value) => setVariant(value as CarouselVariant)}
+      >
+        <SelectItem value="slide">{zh ? "滑动" : "Slide"}</SelectItem>
+        <SelectItem value="fade-linear">{zh ? "线性淡入淡出" : "Linear fade"}</SelectItem>
+        <SelectItem value="fade">{zh ? "缓入缓出" : "Eased fade"}</SelectItem>
+        <SelectItem value="fade-scale">{zh ? "淡入淡出与缩放" : "Fade and scale"}</SelectItem>
+      </Select>
+      <Carousel
+        variant={variant}
+        images={[
+          { src: "/gallery-coast.svg", alt: zh ? "海岸与远山" : "Coast and distant hills" },
+          { src: "/gallery-desert.svg", alt: zh ? "沙漠与沙丘" : "Desert dunes" },
+          { src: "/gallery-forest.svg", alt: zh ? "森林与雪山" : "Forest and snowy mountains" },
+        ]}
+      />
+    </div>
+  );
+}
+```
+
 ## API 参考
 
 此页只列出稳定公开表面；原生属性请参阅对应元素类型。
@@ -106,7 +160,7 @@ import { Carousel } from "@/components/ui/carousel";
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">images</code><span class="ml-1 text-destructive">*</span><span class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">CarouselImage[]</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">图片列表：src、必填 alt，以及可选 caption、srcSet 和 sizes。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">index</code><span class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">number</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">受控的零起始图片索引。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultIndex</code><span class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">number</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">非受控模式的初始图片索引。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">0</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onIndexChange</code><span class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(index: number) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">报告按钮、键盘或手势选择的新索引。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">loop</code><span class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">方向按钮在首尾循环；手势到达边界后停止。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">variant</code><span class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"slide" | "fade-linear" | "fade" | "fade-scale"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">滑动、线性淡入淡出、缓入缓出或缓入缓出加轻微缩放；均支持减少动画。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"slide"</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">images</code><span class="ml-1 text-destructive">*</span><span class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">CarouselImage[]</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">图片列表：src、必填 alt，以及可选 caption、srcSet 和 sizes。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">index</code><span class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">number</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">受控的零起始图片索引。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">defaultIndex</code><span class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">number</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">非受控模式的初始图片索引。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">0</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">onIndexChange</code><span class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(index: number) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">报告按钮、键盘或手势选择的新索引。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">loop</code><span class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">方向按钮在首尾循环；手势到达边界后停止。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
 
 ## 最佳实践
 

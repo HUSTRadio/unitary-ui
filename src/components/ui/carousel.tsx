@@ -13,8 +13,11 @@ export interface CarouselImage {
   sizes?: string;
 }
 
+export type CarouselVariant = "slide" | "fade-linear" | "fade" | "fade-scale";
+
 export interface CarouselProps extends Omit<React.ComponentProps<"div">, "children" | "onChange"> {
   images: CarouselImage[];
+  variant?: CarouselVariant;
   index?: number;
   defaultIndex?: number;
   onIndexChange?: (index: number) => void;
@@ -23,6 +26,7 @@ export interface CarouselProps extends Omit<React.ComponentProps<"div">, "childr
 
 function Carousel({
   images,
+  variant = "slide",
   index,
   defaultIndex = 0,
   onIndexChange,
@@ -51,6 +55,7 @@ function Carousel({
     <div
       {...props}
       data-slot="carousel"
+      data-variant={variant}
       role={props.role ?? "region"}
       aria-roledescription={t("carousel")}
       aria-label={props["aria-label"] ?? t("Image gallery")}

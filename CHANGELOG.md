@@ -20,6 +20,8 @@
 
 ### Added
 
+- **Carousel 切换效果**：新增 `variant`：默认 `slide`、`fade-linear` 匀速淡入淡出、`fade` 缓入缓出、`fade-scale` 淡入淡出加轻微缩放。所有效果共用现有翻页操作，支持中途反转与减少动画；双语文档和展示页提供可切换演示。
+
 - **数字分页与媒体组件**: 新增 NumberedPagination（页码与省略号）、Carousel（图片、键盘、触摸与方向按钮）、FullPageScroller（滚轮及触摸阈值整屏切换、惯性抑制、全屏演示）与 LazyLoad（接近滚动视口时延迟挂载、尺寸占位）。同步包入口类型、中英文指南、API 表、可运行演示、Show Code 与 living styleguide。
 
 - **HIG-AUD-023/024 公共组件文档与入口对齐**：`SidebarNav`、`Navbar`、`Footer`、`HamburgerMenu` 补齐独立文档页、双语指南、API 与可交互示例；`SidePanel` 及标题、描述、关闭子组件和类型从包根导出并补齐同等文档链。既有 `Phone`/`PhoneScreen`、`SkeletonMask`、`RatingPill` 分别由 Device、Skeleton、Feedback 页显式承接；导出到文档 owner 的双语、API 符号和示例一致性新增门禁。

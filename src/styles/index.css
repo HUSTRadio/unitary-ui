@@ -2153,6 +2153,46 @@ html[data-font-tier="system"],
   }
 }
 
+/* Carousel 淡入淡出：图片叠在同一网格区域，复用 FullPageScroller 的分页与手势。
+   Stacked slides reuse paging and gestures, with reversible opacity transitions. */
+[data-slot="carousel"][data-variant^="fade"] {
+  --uni-page-transform: none;
+}
+
+[data-slot="carousel"][data-variant^="fade"] [data-slot="full-page-track"] {
+  display: grid;
+  transition: none;
+}
+
+[data-slot="carousel"][data-variant^="fade"] [data-slot="full-page-section"] {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity var(--uni-duration-slower) ease-in-out;
+}
+
+[data-slot="carousel"][data-variant^="fade"] [data-slot="full-page-section"]:not([inert]) {
+  opacity: 1;
+}
+
+[data-slot="carousel"][data-variant="fade-linear"] [data-slot="full-page-section"] {
+  transition-timing-function: linear;
+}
+
+[data-slot="carousel"][data-variant="fade-scale"] [data-slot="full-page-section"] {
+  transform: scale(1.04);
+  transition-property: opacity, transform;
+}
+
+[data-slot="carousel"][data-variant="fade-scale"] [data-slot="full-page-section"]:not([inert]) {
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="carousel"][data-variant^="fade"] [data-slot="full-page-section"] {
+    transition: none !important;
+  }
+}
+
 /* ExpandPanel belowTopbar / 锚点落下：浮层只遮正文区时，topbar 保持可交互
    （Radix Dialog 对应用根施加 pointer-events:none，此处恢复 navbar 子树） */
 body.expand-panel-below-topbar [data-slot="navbar"] {
