@@ -2,11 +2,10 @@
 import { writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { DEMO_CODE } from "../../docs/site/src/data/demo-code";
-import { auditShowCode } from "./showcode-audit-lib";
+import { auditShowCode, loadExampleSources } from "./showcode-audit-lib";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const report = await auditShowCode(root, DEMO_CODE);
+const report = await auditShowCode(root, await loadExampleSources(root));
 
 const outDir = path.join(root, ".hermes/audit");
 await mkdir(outDir, { recursive: true });

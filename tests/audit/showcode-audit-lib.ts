@@ -33,6 +33,82 @@ export interface AuditReport {
 
 const PAGE_PATH = "docs/site/src/components/docs-components-page.tsx";
 
+/** Read the paired source files without executing live demos or Vite-only imports. */
+export async function loadExampleSources(
+  repoRoot: string,
+): Promise<Record<string, Record<string, string>>> {
+  const registryPath = path.join(repoRoot, "docs/site/src/examples/registry.ts");
+  const registry = ts.createSourceFile(
+    registryPath,
+    await readFile(registryPath, "utf8"),
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS,
+  );
+  const diagnostics =
+    (registry as unknown as { parseDiagnostics?: readonly ts.Diagnostic[] }).parseDiagnostics ?? [];
+  if (diagnostics.length) throw new Error(`${registryPath}: invalid registry syntax`);
+  const imports = new Map<string, string>();
+  let records: ts.ArrayLiteralExpression | undefined;
+  for (const statement of registry.statements) {
+    if (
+      ts.isImportDeclaration(statement) &&
+      statement.importClause?.name &&
+      ts.isStringLiteral(statement.moduleSpecifier) &&
+      statement.moduleSpecifier.text.endsWith("?example-source")
+    ) {
+      imports.set(
+        statement.importClause.name.text,
+        path.resolve(path.dirname(registryPath), statement.moduleSpecifier.text.split("?")[0]),
+      );
+    }
+    if (ts.isVariableStatement(statement)) {
+      for (const declaration of statement.declarationList.declarations) {
+        if (ts.isIdentifier(declaration.name) && declaration.name.text === "EXAMPLE_RECORDS") {
+          if (!declaration.initializer || !ts.isArrayLiteralExpression(declaration.initializer)) {
+            throw new Error(`${registryPath}: expected an EXAMPLE_RECORDS array`);
+          }
+          records = declaration.initializer;
+        }
+      }
+    }
+  }
+  if (!records?.elements.length) throw new Error(`${registryPath}: no example records found`);
+
+  const sources = new Map<string, Map<string, string>>();
+  for (const record of records.elements) {
+    if (!ts.isObjectLiteralExpression(record)) {
+      throw new Error(`${registryPath}: expected a literal example record`);
+    }
+    const fields = new Map<string, ts.Expression>();
+    for (const property of record.properties) {
+      if (ts.isPropertyAssignment(property) && ts.isIdentifier(property.name)) {
+        fields.set(property.name.text, property.initializer);
+      }
+    }
+    const slug = fields.get("slug");
+    const id = fields.get("id");
+    const source = fields.get("source");
+    if (
+      !slug ||
+      !ts.isStringLiteral(slug) ||
+      !id ||
+      !ts.isStringLiteral(id) ||
+      !source ||
+      !ts.isIdentifier(source)
+    ) {
+      throw new Error(`${registryPath}: expected literal slug/id and an imported source`);
+    }
+    const sourcePath = imports.get(source.text);
+    if (!sourcePath) throw new Error(`${slug.text}/${id.text}: source import not found`);
+    const blocks = sources.get(slug.text) ?? new Map<string, string>();
+    if (blocks.has(id.text)) throw new Error(`${slug.text}/${id.text}: duplicate example record`);
+    blocks.set(id.text, await readFile(sourcePath, "utf8"));
+    sources.set(slug.text, blocks);
+  }
+  return Object.fromEntries([...sources].map(([slug, blocks]) => [slug, Object.fromEntries(blocks)]));
+}
+
 /** 从页面源码提取 (slug, blockId) 引用集合（线性扫描：锚点就近归属） */
 export function extractReferences(pageSource: string): { slug: string; id: string }[] {
   const refs: { slug: string; id: string; pos: number }[] = [];

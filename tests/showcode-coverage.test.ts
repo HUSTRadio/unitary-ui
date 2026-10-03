@@ -7,14 +7,33 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
 import { describe, expect, test } from "vitest";
 
 import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
-import { auditShowCode } from "./audit/showcode-audit-lib";
+import { auditShowCode, loadExampleSources } from "./audit/showcode-audit-lib";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 describe("show code coverage contract", () => {
+  test("standalone audit reads the same sources as the live example registry", async () => {
+    const sources = await loadExampleSources(root);
+    expect(sources).toEqual(EXAMPLE_SOURCE);
+    const expectedReport = await auditShowCode(root, EXAMPLE_SOURCE);
+    expect(expectedReport.totalEntries).toBeGreaterThan(0);
+
+    const stdout = execFileSync(
+      process.execPath,
+      ["--import", "tsx", path.join(root, "tests/audit/run-showcode-audit.mts")],
+      { cwd: root, encoding: "utf8", timeout: 30000 },
+    );
+    const report = JSON.parse(
+      await readFile(path.join(root, ".hermes/audit/showcode-audit-baseline.json"), "utf8"),
+    );
+    expect(report).toEqual(expectedReport);
+    expect(stdout).toContain(`totalEntries: ${expectedReport.totalEntries}`);
+  }, 60000);
+
   test("uses only paired physical example modules", async () => {
     const dataFiles = await readdir(path.join(root, "docs/site/src/data"));
     expect(dataFiles.filter((file) => /^demo-code.*\.ts$/.test(file))).toEqual([]);
