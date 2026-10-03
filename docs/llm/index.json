@@ -54,6 +54,22 @@
       }
     },
     {
+      "path": "/tokens",
+      "title": {
+        "zh-CN": "全局 Token",
+        "en-US": "Global Tokens"
+      },
+      "category": "foundations",
+      "locales": {
+        "zh-CN": "pages/zh-CN/tokens.md",
+        "en-US": "pages/en-US/tokens.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:87e39f04f35f25c98cc4f2766e1342fe04e059a530ae2e24a6aeac8e66ce81a1",
+        "en-US": "sha256:73a79df6e8175a5edc6f4f108b61fcf4a9c5712e19f1272afc006704cf6ece30"
+      }
+    },
+    {
       "path": "/materials",
       "title": {
         "zh-CN": "材质",
@@ -139,7 +155,7 @@
         "zh-CN": "生命周期与钩子",
         "en-US": "Lifecycle & Hooks"
       },
-      "category": "pattern",
+      "category": "api",
       "locales": {
         "zh-CN": "pages/zh-CN/lifecycle-and-hooks.md",
         "en-US": "pages/en-US/lifecycle-and-hooks.md"
@@ -1787,7 +1803,7 @@
         "zh-CN": "图表",
         "en-US": "Charts"
       },
-      "category": "pattern",
+      "category": "charts",
       "locales": {
         "zh-CN": "pages/zh-CN/charts.md",
         "en-US": "pages/en-US/charts.md"

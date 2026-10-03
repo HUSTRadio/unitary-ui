@@ -22,7 +22,12 @@ import { describe, expect, test } from "vitest";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SCAN_ROOTS = ["src/components", "src/lib"];
-const EXEMPT_FILES = new Set([path.join("src", "styles", "index.css")]);
+// 目录只复制 canonical CSS，global-token-catalog.test.ts 验证逐字一致。
+// Catalog metadata copies canonical CSS; deterministic tests reject manual edits.
+const EXEMPT_FILES = new Set([
+  path.join("src", "styles", "index.css"),
+  path.join("src", "lib", "token-catalog.ts"),
+]);
 
 const HEX = /#[0-9a-fA-F]{3,8}\b/g;
 // Only reject an alphabetic predecessor: inside Tailwind arbitrary values the

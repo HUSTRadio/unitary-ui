@@ -20,6 +20,8 @@
 
 ### Added
 
+- **全局 Token 文档与读写 API**：新增可搜索的样式源码目录、局部/全局实时编辑器，以及包根导出的读取、批量写入、恢复和 React 订阅 API；区分运行时变量与构建映射，支持主题级联和 SSR，并验证目录生成无漂移。
+
 - **Carousel 切换效果**：新增 `variant`：默认 `slide`、`fade-linear` 匀速淡入淡出、`fade` 缓入缓出、`fade-scale` 淡入淡出加轻微缩放。所有效果共用现有翻页操作，支持中途反转与减少动画；双语文档和展示页提供可切换演示。
 
 - **数字分页与媒体组件**: 新增 NumberedPagination（页码与省略号）、Carousel（图片、键盘、触摸与方向按钮）、FullPageScroller（滚轮及触摸阈值整屏切换、惯性抑制、全屏演示）与 LazyLoad（接近滚动视口时延迟挂载、尺寸占位）。同步包入口类型、中英文指南、API 表、可运行演示、Show Code 与 living styleguide。

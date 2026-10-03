@@ -20,6 +20,8 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Added
 
+- **Global token documentation and API**: Adds a searchable catalog generated from the stylesheet, a local/global live editor, and package-root read, batch-write, reset and React subscription APIs. Distinguishes runtime variables from build mappings, supports theme cascading and SSR, and checks generated catalog drift.
+
 - **Carousel transition effects**: Adds `variant`: default `slide`, constant-rate `fade-linear`, eased `fade`, and `fade-scale` with subtle scaling. Effects share existing paging controls, support interrupted reversals and reduced motion, and have selectable demos in bilingual docs and the living styleguide.
 
 - **Numbered pagination and media components**: Adds NumberedPagination (page numbers and ellipses), Carousel (images, keyboard, touch and arrows), FullPageScroller (wheel/touch thresholds, momentum suppression and a fullscreen demo), and LazyLoad (deferred mounting near a scroll viewport with dimension placeholders). Package types, bilingual guides, API tables, live examples, Show Code and the living styleguide cover the same APIs.

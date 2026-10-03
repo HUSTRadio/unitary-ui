@@ -80,6 +80,9 @@ function findDurationLiterals(): Map<string, Set<string>> {
   const byLiteral = new Map<string, Set<string>>();
   for (const scanRoot of SCAN_ROOTS) {
     for (const relative of walk(path.join(root, scanRoot))) {
+      // 静态目录复制 CSS 定义，并由生成确定性测试验证；不是新增动画实现。
+      // The generated catalog mirrors CSS definitions, checked by the catalog test.
+      if (relative === "src/lib/token-catalog.ts") continue;
       const isCss = relative.endsWith(".css");
       const text = codeOnly(readFileSync(path.join(root, relative), "utf8"), isCss);
       for (const line of text.split("\n")) {

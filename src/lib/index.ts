@@ -8,6 +8,12 @@ import "../styles/index.css";
 export { ThemeProvider, useTheme } from "./theme";
 export { I18nProvider, useI18n } from "./i18n";
 
+// Global design tokens / 全局设计 token
+export { GLOBAL_TOKENS, TOKEN_NAMES, RUNTIME_TOKEN_NAMES } from "./token-catalog";
+export type { TokenName, RuntimeTokenName, TokenGroup } from "./token-catalog";
+export { getToken, getTokens, setToken, setTokens, resetToken, resetTokens, subscribeTokens, useTokens } from "./tokens";
+export type { TokenTarget, TokenOptions, TokenWriteOptions, TokenValues } from "./tokens";
+
 // Font metrics probe
 export { probeFontMetrics, useFontMetrics, measureFontMetrics, applyFontMetrics } from "./font-metrics";
 

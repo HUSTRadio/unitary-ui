@@ -163,11 +163,12 @@ function extractMainHtml(): string {
   for (const selector of ["script", "style", "svg", "nav", "aside", "form"]) {
     for (const el of Array.from(clone.querySelectorAll(selector))) el.remove();
   }
-  // 交互控件与运行时状态：表单控件、媒体播放器表面。
+  // 交互控件与运行时状态：表单控件、媒体播放器及 token 编辑器；代码保留。
+  // Remove runtime editors but retain their source examples for portable output.
   // Video 的计时文本会在媒体元数据加载前后从 00:00 变为实际时长，必须整体移除，
   // 否则同一源码的连续生成会产生非确定性语料漂移；示例代码仍保留完整用法。
   for (const el of Array.from(
-    clone.querySelectorAll('button, input, select, textarea, [data-slot="video"]'),
+    clone.querySelectorAll('button, input, select, textarea, [data-slot="video"], [data-token-demo]'),
   )) {
     el.remove();
   }
@@ -224,7 +225,7 @@ function routeTitle(route: DocsRoute): Record<Locale, string> {
 function routeCategory(route: DocsRoute): string {
   if (route.renderer.kind === "component-detail") return "component";
   if (route.renderer.kind === "component-index") return "components-index";
-  if (route.renderer.kind === "localized") return "pattern";
+  if (route.renderer.kind === "localized") return route.group === "patterns" ? "pattern" : route.group;
   return "foundations";
 }
 

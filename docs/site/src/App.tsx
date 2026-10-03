@@ -18,6 +18,7 @@ import { useFontMetrics } from "@/lib/font-metrics";
 import { useDismissOnNavigate } from "@/lib/navigation";
 import { IconsPage } from "./components/docs-icons";
 import { LifecycleAndHooksPage } from "./pages/lifecycle-and-hooks";
+import { TokensPage } from "./pages/tokens";
 import { ChartsGalleryPage } from "./pages/charts-gallery";
 import { AppShellDemo } from "./components/patterns/app-shell-demo";
 import {
@@ -54,6 +55,7 @@ const LOCALIZED_PAGE_COMPONENTS = {
   "lifecycle-and-hooks": LifecycleAndHooksPage,
   "app-shell": AppShellDemo,
   charts: ChartsGalleryPage,
+  tokens: TokensPage,
 } satisfies Record<LocalizedPageKey, ComponentType<{ language: DocsLanguage }>>;
 
 export default function App() {

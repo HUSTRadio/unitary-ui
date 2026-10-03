@@ -26,6 +26,8 @@ export default {
       "**/.{idea,git,cache,output,temp}/**",
       "**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*",
       "**/.hermes/**",
+      // 本地验证快照与临时产物不参与测试收集。 / Exclude local verification snapshots.
+      "**/.scratch/**",
       // git worktree 隔离工作区（parallel-subagent-driven-development）：
       // 其中的 tests/ 是旧代码快照，会被 vitest 重复收集导致套件数翻倍
       "**/.superpowers/**",

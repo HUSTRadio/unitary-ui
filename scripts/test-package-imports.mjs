@@ -24,6 +24,18 @@ function consume(mode) {
     for (const name of ['NumberedPagination', 'Carousel', 'FullPageScroller', 'LazyLoad']) {
       assert.equal(typeof api[name], 'function', name);
     }
+    for (const name of ['getToken', 'getTokens', 'setToken', 'setTokens', 'resetToken', 'resetTokens', 'subscribeTokens', 'useTokens']) {
+      assert.equal(typeof api[name], 'function', name);
+    }
+    assert.equal(api.getToken('--radius'), '');
+    assert.deepEqual(api.getTokens(['--radius']), {'--radius': ''});
+    assert.equal(api.setToken('--radius', '8px'), false);
+    assert.equal(api.resetTokens(), false);
+    api.subscribeTokens(() => {})();
+    assert.equal(api.GLOBAL_TOKENS['--radius'].kind, 'runtime');
+    assert.ok(api.RUNTIME_TOKEN_NAMES.includes('--radius'));
+    assert.ok(api.TOKEN_NAMES.includes('--radius-lg'));
+    assert.equal(render(h(() => h('output', null, api.useTokens(['--radius'])['--radius']))), '<output></output>');
     assert.match(render(h(api.NumberedPagination, {totalPages: 5})), /aria-current="page"/);
     assert.match(render(h(api.FullPageScroller, {index: 1}, h('div', null, 'First'), h('div', null, 'Second'))), /data-index="1"/);
     assert.match(render(h(api.LazyLoad, {disabled: true}, 'Eager server content')), /Eager server content/);
