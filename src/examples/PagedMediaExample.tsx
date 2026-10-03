@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { NumberedPagination } from "@/components/ui/pagination";
-import { Carousel } from "@/components/ui/carousel";
+import { Carousel, type CarouselVariant } from "@/components/ui/carousel";
+import { Select, SelectItem } from "@/components/ui/select";
 import { FullPageScroller } from "@/components/ui/full-page-scroller";
 import { LazyLoad } from "@/components/ui/lazy-load";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function PagedMediaExample() {
   const [page, setPage] = useState(6);
+  const [variant, setVariant] = useState<CarouselVariant>("slide");
   return (
     <div className="space-y-10">
       <section className="space-y-3">
@@ -18,7 +20,19 @@ export function PagedMediaExample() {
       </section>
       <section className="space-y-3">
         <h2 className="text-heading-24">图片轮播 · Image carousel</h2>
+        <Select
+          label="切换效果 · Transition effect"
+          value={variant}
+          onValueChange={(value) => setVariant(value as CarouselVariant)}
+          layout={{ width: "min(18rem, 100%)" }}
+        >
+          <SelectItem value="slide">滑动 · Slide</SelectItem>
+          <SelectItem value="fade-linear">线性淡入淡出 · Linear fade</SelectItem>
+          <SelectItem value="fade">缓入缓出 · Eased fade</SelectItem>
+          <SelectItem value="fade-scale">淡入淡出与缩放 · Fade and scale</SelectItem>
+        </Select>
         <Carousel
+          variant={variant}
           className="max-w-2xl"
           images={[
             { src: "/gallery-coast.svg", alt: "海岸 · Coast" },

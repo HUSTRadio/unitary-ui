@@ -43,3 +43,13 @@ Browser coverage includes light/dark themes, 320/390/767px navigation, narrow an
 - `tests/llm-task-runner.test.ts:227` — TS7006, implicit `any` parameter `arg`.
 
 These errors are separate from the passing source typecheck and production build. / 这两处错误与已通过的源码类型检查、生产构建分别记录。
+
+## Carousel variants follow-up / Carousel 效果扩展
+
+- Adds `CarouselVariant` and `variant`: default `slide`, constant-rate `fade-linear`, eased `fade`, and `fade-scale` (1.04 to 1). / 新增 `CarouselVariant` 与 `variant`：默认滑动、匀速淡入淡出、缓入缓出，以及从 1.04 缩放到 1 的淡入淡出。
+- Effects share existing paging gestures, retain the current image when changed, reverse from current animation progress and respect reduced motion. / 所有效果复用翻页手势，切换效果保留当前图片，中途反转延续当前进度，并支持减少动画。
+- Real browser samples at 20% transition time measured opacity 0.20 for linear fade and approximately 0.08 for ease-in-out. / 浏览器在过渡时长 20% 处实测，线性透明度为 0.20，缓入缓出约为 0.08。
+- Focused component, API, bilingual parity and translation-source checks passed: 4 files, 40 tests, exit 0. / 组件、API、双语与翻译源码检查通过：4 个文件、40 项测试，退出码 0。
+- `pnpm exec playwright test tests/e2e/carousel-variants.spec.ts tests/e2e/paged-media.spec.ts --retries=0 --max-failures=1`: 12 passed, exit 0, covering both themes, 320/1280px layouts, interrupted fades, actual touch and reduced motion. / 12 项测试通过，覆盖双主题、320/1280px 布局、中途反转、真实触摸及减少动画。
+- Production build, native package tests, generated corpus check and screenshot check passed with exit 0. The packed archive contains the new exported variant types and retains 16 fonts and required licenses/notices. / 生产构建、原生包测试、生成文档及截图检查均返回 0；打包产物包含新导出的效果类型，并保留 16 个字体与必要许可及声明。
+- The same two pre-existing `typecheck:tests` errors above remain; no new test type errors were reported. / 测试类型检查仍为上文两处原有错误，没有新增错误。
