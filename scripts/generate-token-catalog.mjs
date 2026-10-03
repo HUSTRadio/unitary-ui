@@ -35,7 +35,10 @@ export function collectGlobalTokens(css) {
       variants: {},
     };
     const value = decl.value.replace(/\s+/g, " ").trim();
-    if (!inline || runtimeReferences.has(decl.prop)) entry.kind = "runtime";
+    // 断点在构建时展开为媒体条件；发射 CSS 变量并不使条件可运行时修改。
+    // Breakpoints compile into media conditions even when their variables are emitted.
+    if (decl.prop.startsWith("--breakpoint-")) entry.kind = "mapping";
+    else if (!inline || runtimeReferences.has(decl.prop)) entry.kind = "runtime";
     if (dark) entry.darkValue = value;
     else if (fontTier) entry.variants[`font:${fontTier}`] = value;
     else entry.value = value;

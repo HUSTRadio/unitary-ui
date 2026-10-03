@@ -73,6 +73,19 @@ describe("global token API", () => {
     expect(document.documentElement.style.getPropertyValue("--radius")).toBe("");
   });
 
+  it("rejects breakpoint writes and resets without partially mutating runtime values", () => {
+    setToken("--radius", "4px");
+    document.documentElement.style.setProperty("--breakpoint-grid-md", "60rem");
+    expect(getToken("--breakpoint-grid-md")).toBe("60rem");
+    expect(() => setToken("--breakpoint-grid-md" as never, "100rem")).toThrow(/Build-time mapping/);
+    expect(() => setTokens({ "--radius": "8px", "--breakpoint-grid-md": "100rem" } as never)).toThrow(
+      /Build-time mapping/,
+    );
+    expect(() => resetTokens(["--radius", "--breakpoint-grid-md"] as never)).toThrow(/Build-time mapping/);
+    expect(getToken("--radius")).toBe("4px");
+    expect(getToken("--breakpoint-grid-md")).toBe("60rem");
+  });
+
   it("subscribes to relevant ancestor changes and releases all listeners", async () => {
     const listener = vi.fn();
     const off = subscribeTokens(listener, { target: host });

@@ -218,8 +218,8 @@ export function TokensPage({ language }: { language: DocsLanguage }) {
         </DocsSectionTitle>
         <DocsParagraph>
           {zh
-            ? "目录中的运行时变量可用 setToken 修改。构建映射来自 @theme inline，Tailwind 可能把表达式直接写入工具类，修改映射变量不一定影响现有类；API 因此拒绝写入映射，请修改其 value 引用的运行时变量。例如圆角 --radius 影响 rounded-sm/rounded-md，rounded-lg 使用独立的固定映射。断点用于构建媒体查询，不能用运行时 API 更改响应式布局断点。"
-            : "Runtime entries can be changed with setToken. Build mappings originate in @theme inline, whose expressions may be embedded in utilities. Changing the mapping variable may not affect existing classes, so writes are rejected; edit the runtime variable referenced by its value. For example, --radius affects rounded-sm/rounded-md, while rounded-lg has an independent fixed mapping. Breakpoints build media queries and cannot change responsive breakpoints through the runtime API."}
+            ? "目录中的运行时变量可用 setToken 修改。构建映射包括 @theme inline 映射和所有 --breakpoint-* 断点。Tailwind 可能把表达式直接写入工具类；断点则在构建时展开为媒体条件，即使 @theme static 发射了变量，条件也不会随写入改变。API 和 RuntimeTokenName 因此排除这些构建配置，请修改工具类实际消费的运行时变量。例如 --radius 影响 rounded-sm/rounded-md，rounded-lg 使用独立的固定映射。局部修改动效档位时，也应让目标直接消费该变量，或覆盖目标消费的语义别名。"
+            : "Runtime entries can be changed with setToken. Build mappings include @theme inline mappings and every --breakpoint-* token. Tailwind may embed expressions in utilities; breakpoints compile into media conditions that stay fixed even when @theme static emits the variables. The API and RuntimeTokenName exclude these build configurations. Edit the runtime variable actually consumed by the utility: --radius affects rounded-sm/rounded-md, while rounded-lg uses an independent fixed mapping. For scoped motion changes, consume the edited tier directly or override the semantic alias consumed by the target."}
         </DocsParagraph>
         <DocsParagraph>
           {zh

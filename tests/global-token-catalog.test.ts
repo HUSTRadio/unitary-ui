@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
-import { describe, expect, it } from "vitest";
+import { describe, expect, expectTypeOf, it } from "vitest";
 import { collectGlobalTokens, renderTokenCatalog } from "../scripts/generate-token-catalog.mjs";
+import { GLOBAL_TOKENS, RUNTIME_TOKEN_NAMES, type RuntimeTokenName } from "../src/lib/token-catalog";
 
 describe("global token catalog generation", () => {
   it("captures themes and font tiers, distinguishes mappings and excludes component-local variables", () => {
@@ -27,6 +28,21 @@ describe("global token catalog generation", () => {
     });
     expect(tokens["--uni-duration-fast"].group).toBe("motion");
     expect(tokens["--uni-page-transform"]).toBeUndefined();
+  });
+  it("keeps emitted breakpoints read-only even when declarations reference their variables", () => {
+    const tokens = collectGlobalTokens(`
+      @theme static { --breakpoint-panel: 60rem; --uni-duration-fast: 150ms; }
+      :root { --breakpoint-panel: 60rem; }
+      .panel { max-width: var(--breakpoint-panel); }
+    `);
+    expect(tokens["--breakpoint-panel"].kind).toBe("mapping");
+    expect(tokens["--uni-duration-fast"].kind).toBe("runtime");
+    const breakpoints = Object.keys(GLOBAL_TOKENS).filter((name) => name.startsWith("--breakpoint-"));
+    expect(breakpoints).toHaveLength(7);
+    for (const name of breakpoints) {
+      expect(RUNTIME_TOKEN_NAMES).not.toContain(name);
+    }
+    expectTypeOf<Extract<RuntimeTokenName, `--breakpoint-${string}`>>().toBeNever();
   });
   it("is deterministic and matches the canonical stylesheet", async () => {
     const css = await readFile("src/styles/index.css", "utf8");

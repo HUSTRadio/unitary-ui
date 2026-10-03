@@ -8,6 +8,8 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Token runtime contracts**: Keeps the seven `--breakpoint-*` entries discoverable as build configurations while excluding them from writable types and write/reset APIs. The scoped motion demo directly consumes the edited duration: selecting 500ms updates the preview without changing outside buttons. Default breakpoints and visual values remain consistent.
+
 - **Docs layout and token consumers**: centralizes docs shell widths and the footer's 480px breakpoint, reuses radius and marked-list indent tokens, and connects Menu / ContextMenu padding to `--uni-popover-padding` (6px by default). Restores the English Feedback guide's 12px radius specification and corrects Chinese Avatar numeric size and accessibility guidance, with bilingual specification and browser regressions.
 
 - **Documentation readability**: Shortens component summaries, guides, foundation pages, app shell explanations, and READMEs in both languages. Replaces internal jargon with concrete instructions, explains required API markers and inherited prop types, and corrects the description of uncontrolled change callbacks.

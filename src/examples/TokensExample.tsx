@@ -87,7 +87,10 @@ export function TokensExample() {
             ? "悬停或聚焦按钮，观察颜色、圆角和动画。"
             : "Hover or focus the button to inspect its color, radius and animation."}
         </p>
-        <Button typeName="button" className="rounded-md transition-transform hover:scale-105">
+        <Button
+          typeName="button"
+          className="rounded-md transition-transform duration-(--uni-duration-fast) hover:scale-105"
+        >
           {zh ? "预览按钮" : "Preview button"}
         </Button>
       </div>

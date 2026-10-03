@@ -312,49 +312,49 @@ export const GLOBAL_TOKENS = {
   "--breakpoint-grid-lg": {
     "value": "80rem",
     "darkValue": "",
-    "kind": "runtime",
+    "kind": "mapping",
     "variants": {},
     "group": "layout"
   },
   "--breakpoint-grid-md": {
     "value": "60rem",
     "darkValue": "",
-    "kind": "runtime",
+    "kind": "mapping",
     "variants": {},
     "group": "layout"
   },
   "--breakpoint-grid-sm": {
     "value": "37.5rem",
     "darkValue": "",
-    "kind": "runtime",
+    "kind": "mapping",
     "variants": {},
     "group": "layout"
   },
   "--breakpoint-grid-smd": {
     "value": "48rem",
     "darkValue": "",
-    "kind": "runtime",
+    "kind": "mapping",
     "variants": {},
     "group": "layout"
   },
   "--breakpoint-grid-xs": {
     "value": "25rem",
     "darkValue": "",
-    "kind": "runtime",
+    "kind": "mapping",
     "variants": {},
     "group": "layout"
   },
   "--breakpoint-modal": {
     "value": "33.75rem",
     "darkValue": "",
-    "kind": "runtime",
+    "kind": "mapping",
     "variants": {},
     "group": "layout"
   },
   "--breakpoint-video": {
     "value": "62rem",
     "darkValue": "",
-    "kind": "runtime",
+    "kind": "mapping",
     "variants": {},
     "group": "layout"
   },
