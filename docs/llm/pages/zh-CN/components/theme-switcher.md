@@ -30,7 +30,7 @@ theme-switcher
 
 ### 紧凑尺寸
 
-演示 small 尺寸版本，适用于页脚、下拉菜单等高密度 chrome 区域。
+演示 compact 尺寸版本，适用于页脚、下拉菜单等高密度 chrome 区域。
 
 ## 无障碍
 
@@ -41,13 +41,13 @@ theme-switcher
 ## 受控行为
 
 - Theme Switcher 通过框架的 ThemeProvider（src/lib/theme.tsx）读取和写入主题偏好；应用根节点用 ThemeProvider 包裹一次即可，无需把主题状态冗余映射到本地 React 状态。
-- 本库不依赖 next-themes：公开 API 仅有 className / small / disabled 三个 prop，没有 onChange 回调或 forcedTheme 概念。
+- 本库不依赖 next-themes：公开 API 仅有 className / compact / disabled 三个 prop，没有 onChange 回调或 forcedTheme 概念。
 - 需要拦截主题切换（如跟随系统设置联动）时，直接使用 useTheme() 的 preference/setPreference，而不是包一层回调。
 
 ## 响应式行为
 
 - Theme Switcher 在桌面端呈现完整的三选项行，在窄屏上不裁剪任何选项以保持完整功能。
-- compact 尺寸（small prop）在任意视口下都能保持紧凑排列，适合页脚和导航栏等空间受限区域。
+- compact 尺寸（compact prop）在任意视口下都能保持紧凑排列，适合页脚和导航栏等空间受限区域。
 
 ## 主题行为
 
@@ -64,13 +64,13 @@ export function ThemeSwitcherDefault21B111CBExample() {
 }
 ```
 
-## 小
+## 紧凑布局
 
 ```tsx
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
-export function ThemeSwitcherSmall5263293FExample() {
-  return <ThemeSwitcher small />;
+export function ThemeSwitcherCompact5263293FExample() {
+  return <ThemeSwitcher compact />;
 }
 ```
 
@@ -96,7 +96,7 @@ import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">className</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">主题单选组的附加类名。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">small</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">使用紧凑的主题选项按钮。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">disabled</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">禁用所有主题选项。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">className</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">主题单选组的附加类名。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">compact</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">使用紧凑的主题选项按钮。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">disabled</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">boolean</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">禁用所有主题选项。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">false</td></tr></tbody></table>
 
 ## 最佳实践
 
