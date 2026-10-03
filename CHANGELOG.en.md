@@ -8,6 +8,8 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **API table provenance**: Replace repeated row badges with one introductory note when every API is a framework extension. Mixed official/extension tables keep row badges, and required markers remain visible.
+
 - **Docs startup and deep links**: load pages and paired example/source modules on demand, showing headings and guidance while demos load. Isolate the docs and styleguide dependency caches to prevent competing dev servers from replacing each other's optimized modules. Remove duplicate topbar offsets from the main scroll area and sidebar; corpus generation waits for asynchronous pages and examples to finish.
 
 - **False pre-push screenshot blocks**: Checks and drift updates reuse the same browser capture, wait for viewport images to decode, and tolerate corner antialiasing noise within strict pixel limits. A commit is requested only when managed files actually change. A read-only recheck handles updates with no changes and reports persistent instability, avoiding a clean-worktree commit loop. Impacted refs must match HEAD, pending inputs are checked before execution, and public image assets trigger screenshot validation.

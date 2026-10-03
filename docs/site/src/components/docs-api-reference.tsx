@@ -6,55 +6,63 @@ import { DocsBlock, DocsParagraph, DocsSection, DocsSectionTitle } from "./docs-
 function ApiTable({ rows }: { rows: ApiRow[] }) {
   const { language } = useLanguage();
   if (rows.length === 0) return null;
+  const extensionOnly = rows.every((item) => item.origin === "extension");
 
   return (
-    <div
-      data-slot="docs-local-scroll"
-      className="overflow-x-auto rounded-md border border-border"
-    >
-      <table className="w-full min-w-[640px] text-left">
-        <thead className="border-b border-border">
-          <tr className="text-label-13 text-foreground">
-            <th className="px-3 py-2 font-medium">{language === "zh-CN" ? "名称" : "Name"}</th>
-            <th className="px-3 py-2 font-medium">{language === "zh-CN" ? "类型" : "Type"}</th>
-            <th className="px-3 py-2 font-medium">
-              {language === "zh-CN" ? "说明" : "Description"}
-            </th>
-            <th className="px-3 py-2 font-medium">{language === "zh-CN" ? "默认值" : "Default"}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((item) => (
-            <tr key={item.name} className="border-b border-border last:border-0">
-              <td className="px-3 py-2 align-top text-label-13 text-foreground">
-                <code translate="no">{item.name}</code>
-                {item.required ? <span className="ml-1 text-destructive">*</span> : null}
-                {item.origin === "extension" ? (
-                  <span className="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">
-                    {language === "zh-CN" ? "框架扩展" : "Extension"}
-                  </span>
-                ) : null}
-              </td>
-              <td
-                className="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground"
-                translate="no"
-              >
-                {item.type}
-              </td>
-              <td className="px-3 py-2 align-top text-copy-13 text-muted-foreground">
-                {language === "zh-CN" ? item.descriptionZh : item.description}
-              </td>
-              <td
-                className="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground"
-                translate="no"
-              >
-                {item.defaultValue ?? "—"}
-              </td>
+    <>
+      {extensionOnly ? (
+        <DocsParagraph data-api-origin="extension">
+          {language === "zh-CN" ? "本表 API 均为 Unitary 扩展。" : "All APIs in this table are Unitary extensions."}
+        </DocsParagraph>
+      ) : null}
+      <div
+        data-slot="docs-local-scroll"
+        className="overflow-x-auto rounded-md border border-border"
+      >
+        <table className="w-full min-w-[640px] text-left">
+          <thead className="border-b border-border">
+            <tr className="text-label-13 text-foreground">
+              <th className="px-3 py-2 font-medium">{language === "zh-CN" ? "名称" : "Name"}</th>
+              <th className="px-3 py-2 font-medium">{language === "zh-CN" ? "类型" : "Type"}</th>
+              <th className="px-3 py-2 font-medium">
+                {language === "zh-CN" ? "说明" : "Description"}
+              </th>
+              <th className="px-3 py-2 font-medium">{language === "zh-CN" ? "默认值" : "Default"}</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {rows.map((item) => (
+              <tr key={item.name} className="border-b border-border last:border-0">
+                <td className="px-3 py-2 align-top text-label-13 text-foreground">
+                  <code translate="no">{item.name}</code>
+                  {item.required ? <span className="ml-1 text-destructive">*</span> : null}
+                  {!extensionOnly && item.origin === "extension" ? (
+                    <span data-slot="docs-api-extension-badge" className="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">
+                      {language === "zh-CN" ? "框架扩展" : "Extension"}
+                    </span>
+                  ) : null}
+                </td>
+                <td
+                  className="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground"
+                  translate="no"
+                >
+                  {item.type}
+                </td>
+                <td className="px-3 py-2 align-top text-copy-13 text-muted-foreground">
+                  {language === "zh-CN" ? item.descriptionZh : item.description}
+                </td>
+                <td
+                  className="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground"
+                  translate="no"
+                >
+                  {item.defaultValue ?? "—"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }
 
