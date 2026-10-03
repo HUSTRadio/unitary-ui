@@ -3,10 +3,11 @@ import * as React from "react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { MemoryRouter } from "react-router-dom";
-import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { ComponentsPage } from "../docs/site/src/components/docs-components-page";
 import { COMPONENTS } from "../docs/site/src/data/components";
+import { EXAMPLE_LOADERS } from "../docs/site/src/examples/registry.ts?example-loaders";
 import { getDocsRoute } from "../docs/site/src/data/docs-routes";
 import { LanguageProvider } from "../docs/site/src/i18n/language";
 import { ThemeProvider } from "../src/lib/theme";
@@ -70,12 +71,19 @@ afterEach(() => {
 
 async function render(componentName?: string) {
   await act(async () => {
+    // Loading behavior is covered by the browser's deliberately delayed request.
+    // Preload here so component assertions run inside React's act boundary.
+    if (componentName) await EXAMPLE_LOADERS[componentName]?.();
     root.render(
       <LanguageProvider>
         <ComponentsPage componentName={componentName} />
       </LanguageProvider>,
     );
   });
+  await vi.waitFor(async () => {
+    await act(async () => {});
+    expect(container.querySelector('[data-slot="docs-examples-loading"]')).toBeNull();
+  }, { timeout: 10_000 });
 }
 
 async function renderApp(pathname: string) {
@@ -92,6 +100,11 @@ async function renderApp(pathname: string) {
       </ThemeProvider>,
     );
   });
+  // Route modules resolve after the shell renders its Suspense fallback.
+  await vi.waitFor(async () => {
+    await act(async () => {});
+    expect(container.querySelector("#main-content h1")).not.toBeNull();
+  }, { timeout: 10_000 });
 }
 
 describe("ComponentsPage canonical route input", () => {

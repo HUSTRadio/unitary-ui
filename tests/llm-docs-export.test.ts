@@ -85,6 +85,17 @@ describe("LLM docs export contract", () => {
     expect(count).toBe(DOCS_ROUTE_SEQUENCE.length * 2);
   });
 
+  it("exports rendered page headings instead of an async route's loading placeholder", () => {
+    for (const route of readIndex().routes) {
+      for (const rel of Object.values(route.locales) as string[]) {
+        const content = readPage(rel);
+        const routeHeader = content.indexOf("> Route:");
+        const body = content.slice(content.indexOf("\n", routeHeader) + 1);
+        expect(body, `${rel} must include the rendered page, beyond its metadata`).toMatch(/^#\s+\S/m);
+      }
+    }
+  });
+
   it("每页含 route、title、summary，且无垃圾痕迹", () => {
     const index = readIndex();
     for (const route of index.routes) {

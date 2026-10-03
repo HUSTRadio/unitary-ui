@@ -98,7 +98,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
   );
 
   return (
-    <Navbar scrollBehavior="pinned" className="mx-auto w-full max-w-[var(--uni-doc-layout-shell-width)]">
+    <Navbar scrollBehavior="pinned" className="mx-auto w-full max-w-[var(--uni-doc-layout-shell-width)] shrink-0">
       {/* Navbar 容器本身即 1220px 居中 sticky 块（官方架构，回退 f08fd84 全宽化）：
           留白区透出页面底色；内层只做内容布局，不再重复 mx-auto/max-w。
           品牌区宽 = sidebar 宽(260) − 内容容器左 padding(22) = 238 → border-r 与 sidebar 右缘对齐 */}
@@ -316,7 +316,7 @@ function DocsSidebar() {
       className={cn(
         // 滚动条槽位与细滚动条走库内标准工具类（nav-scroll），内容内缩走共享契约
         // （NAV_CONTENT_INSET）：与抽屉导航区同一组数值 → 折叠成抽屉时文字列不变。
-        "nav-scroll relative hidden w-[var(--uni-doc-layout-sidebar-width)] shrink-0 self-start overflow-y-auto border-l border-r border-gray-alpha-400 lg:sticky lg:top-[var(--uni-topbar-height)] lg:bottom-0 lg:block lg:h-[calc(100vh-var(--uni-topbar-height))]",
+        "nav-scroll relative hidden w-[var(--uni-doc-layout-sidebar-width)] shrink-0 self-start overflow-y-auto border-l border-r border-gray-alpha-400 lg:sticky lg:top-0 lg:block lg:h-[calc(100dvh-var(--uni-topbar-height))]",
         NAV_CONTENT_INSET,
       )}
     >

@@ -1,11 +1,10 @@
-import { useEffect, useState, type ComponentType } from "react";
+import { lazy, Suspense, useEffect, useState, type ComponentType } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { DocsBanner, DocsSidebar } from "./components/docs-shell";
 import { DocsPagination } from "./components/docs-feedback";
 import { Button } from "@/components/ui/button";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
-import { ComponentsPage } from "./components/docs-components-page";
 import {
   CommandMenu,
   CommandMenuGroup,
@@ -16,11 +15,6 @@ import {
 import { Toasts } from "@/components/ui/toast";
 import { useFontMetrics } from "@/lib/font-metrics";
 import { useDismissOnNavigate } from "@/lib/navigation";
-import { IconsPage } from "./components/docs-icons";
-import { LifecycleAndHooksPage } from "./pages/lifecycle-and-hooks";
-import { TokensPage } from "./pages/tokens";
-import { ChartsGalleryPage } from "./pages/charts-gallery";
-import { AppShellDemo } from "./components/patterns/app-shell-demo";
 import {
   ColorsPage,
   GridPage,
@@ -41,6 +35,27 @@ import {
 import { SHELL_COPY } from "./i18n/catalog";
 import { demoText } from "./i18n/components-demo";
 import { useLanguage, type DocsLanguage } from "./i18n/language";
+
+// 外壳与介绍页立即可用，其余页面随导航加载。
+// Keep the shell and introduction ready; load specialist pages on navigation.
+const ComponentsPage = lazy(() =>
+  import("./components/docs-components-page").then((module) => ({ default: module.ComponentsPage })),
+);
+const IconsPage = lazy(() =>
+  import("./components/docs-icons").then((module) => ({ default: module.IconsPage })),
+);
+const LifecycleAndHooksPage = lazy(() =>
+  import("./pages/lifecycle-and-hooks").then((module) => ({ default: module.LifecycleAndHooksPage })),
+);
+const TokensPage = lazy(() =>
+  import("./pages/tokens").then((module) => ({ default: module.TokensPage })),
+);
+const ChartsGalleryPage = lazy(() =>
+  import("./pages/charts-gallery").then((module) => ({ default: module.ChartsGalleryPage })),
+);
+const AppShellDemo = lazy(() =>
+  import("./components/patterns/app-shell-demo").then((module) => ({ default: module.AppShellDemo })),
+);
 
 const STATIC_PAGE_COMPONENTS = {
   introduction: IntroductionPage,
@@ -117,8 +132,8 @@ export default function App() {
   }, []);
 
   return (
-    // 顶栏脱离文档流（fixed），主区域是唯一滚动 owner（见下方 main）：
-    // 这样根滚动条不会与 topbar 覆盖段重叠，滚动条严格从 topbar 下沿起画。
+    // Sticky Navbar 已占据一行，main 撑满剩余视口并负责滚动，不再重复顶栏偏移。
+    // Sticky Navbar occupies a flex row; main fills and scrolls the remainder.
     <div className="flex h-dvh flex-col overflow-hidden bg-background">
       <a
         href="#main-content"
@@ -134,7 +149,7 @@ export default function App() {
       <main
         id="main-content"
         tabIndex={-1}
-        className="topbar-offset-scroll mx-auto mt-[var(--uni-topbar-height)] w-full max-w-[var(--uni-doc-layout-shell-width)] flex-1 overflow-y-auto border-gray-alpha-400 lg:grid lg:grid-cols-[var(--uni-doc-layout-sidebar-width)_1fr] lg:border-r"
+        className="topbar-offset-scroll mx-auto min-h-0 w-full max-w-[var(--uni-doc-layout-shell-width)] flex-1 overflow-y-auto border-gray-alpha-400 lg:grid lg:grid-cols-[var(--uni-doc-layout-sidebar-width)_1fr] lg:border-r"
       >
         <DocsSidebar />
         <div className="min-w-0 py-10">
@@ -161,19 +176,31 @@ export default function App() {
                 </div>
               }
             >
-              {StaticPage ? (
-                <StaticPage />
-              ) : LocalizedPage ? (
-                <LocalizedPage language={language} />
-              ) : isComponentsPage ? (
-                <ComponentsPage componentName={componentName} />
-              ) : (
-                <>
-                  <DocsPageTitle>{copy.pageInProgress}</DocsPageTitle>
-                  <DocsParagraph>{copy.pageInProgressDescription(pathname)}</DocsParagraph>
-                </>
-
-              )}
+              <Suspense
+                key={canonicalPath}
+                fallback={
+                  <div
+                    role="status"
+                    data-slot="docs-page-loading"
+                    className="py-16 text-copy-14 text-muted-foreground"
+                  >
+                    {demoText(language, "Loading...")}
+                  </div>
+                }
+              >
+                {StaticPage ? (
+                  <StaticPage />
+                ) : LocalizedPage ? (
+                  <LocalizedPage language={language} />
+                ) : isComponentsPage ? (
+                  <ComponentsPage componentName={componentName} />
+                ) : (
+                  <>
+                    <DocsPageTitle>{copy.pageInProgress}</DocsPageTitle>
+                    <DocsParagraph>{copy.pageInProgressDescription(pathname)}</DocsParagraph>
+                  </>
+                )}
+              </Suspense>
             </ErrorBoundary>
 
             {/* 内容页页脚：分页和默认可见的反馈胶囊共用同一布局行。 */}

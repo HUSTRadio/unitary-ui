@@ -235,7 +235,7 @@ interface RouteOutput {
 }
 
 /**
- * 等待 #main-content 不仅存在、且已经渲染出非空内容。
+ * 等待 #main-content 的页面标题就绪，排除异步路由的加载提示与错误占位。
  * 仅 `waitForSelector` 会在语言切换/路由重挂载的空窗期命中一个尚未填充的容器，
  * 从而导致语料静默丢失内容（曾观测到示例代码块被整体丢弃）。
  */
@@ -244,7 +244,11 @@ async function waitForRenderedMain(page: Page): Promise<void> {
   await page.waitForFunction(
     () => {
       const main = document.getElementById("main-content");
-      return !!main && (main.textContent ?? "").trim().length > 0;
+      return (
+        !!main &&
+        !!main.querySelector("h1") &&
+        !main.querySelector('[data-slot="docs-page-loading"], [data-slot="docs-examples-loading"], [data-slot="page-render-error"]')
+      );
     },
     undefined,
     { timeout: 30_000 },

@@ -26,10 +26,21 @@ for (const theme of ["light", "dark"] as const) {
       await expect(main).toHaveCSS("max-width", "1220px");
       await expect(sidebar).toHaveCSS("width", "260px");
       await expect(brandColumn).toHaveCSS("width", "238px");
-      await expect(main).toHaveCSS("margin-top", "64px");
-      await expect(sidebar).toHaveCSS("top", "64px");
+      await expect(main).toHaveCSS("margin-top", "0px");
+      await expect(sidebar).toHaveCSS("top", "0px");
       await expect(sidebar).toHaveCSS("height", "836px");
+      const headerBounds = await navbar.boundingBox();
+      const mainBounds = await main.boundingBox();
+      const sidebarBounds = await sidebar.boundingBox();
+      expect(mainBounds!.y).toBe(headerBounds!.y + headerBounds!.height);
+      expect(sidebarBounds!.y).toBe(mainBounds!.y);
+      expect(sidebarBounds!.y + sidebarBounds!.height).toBe(900);
       await page.screenshot({ path: `.scratch/docs-layout-tokens/shell-${theme}.png` });
+      await main.evaluate((element) => { element.scrollTop = 400; });
+      await expect.poll(async () => (await sidebar.boundingBox())!.y).toBe(mainBounds!.y);
+      expect((await navbar.boundingBox())!.y).toBe(0);
+      expect(await page.evaluate(() => window.scrollY)).toBe(0);
+      await main.evaluate((element) => { element.scrollTop = 0; });
 
       await page.evaluate(() => {
         const style = document.documentElement.style;

@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
 
 import { getComponentGuide } from "../content/component-guides";
 import { COMPONENTS, type ComponentMeta } from "../data/components";
-import { EXAMPLE_REGISTRY, type ExampleRecord } from "../examples/registry";
+import type { ExampleRecord } from "../examples/registry";
+import { EXAMPLE_LOADERS } from "../examples/registry.ts?example-loaders";
 import { demoSectionTitle, demoText, demoTextWithValues } from "../i18n/components-demo";
 import { type DocsLanguage, useLanguage } from "../i18n/language";
 import { ComponentGuideSections } from "./component-guide-sections";
@@ -153,7 +154,9 @@ function primaryExample(records: readonly ExampleRecord[]): ExampleRecord | unde
 }
 
 /** Live rendering and Show Code source are paired in the same registry record. */
-function renderDemo(name: string): React.ReactNode {
+type ExampleRegistry = Readonly<Record<string, readonly ExampleRecord[]>>;
+
+function renderDemo(name: string, EXAMPLE_REGISTRY: ExampleRegistry): React.ReactNode {
   const record = primaryExample(EXAMPLE_REGISTRY[name] ?? []);
   if (!record) return null;
   const Example = record.Component;
@@ -196,7 +199,7 @@ function Section({
 }
 
 /** 名称 → 额外演示分段（Sizes / Variants / States），未命中的组件返回 null */
-function renderExtraSections(name: string, language: DocsLanguage): React.ReactNode {
+function renderExtraSections(name: string, language: DocsLanguage, EXAMPLE_REGISTRY: ExampleRegistry): React.ReactNode {
   const records = EXAMPLE_REGISTRY[name] ?? [];
   const guide = getComponentGuide(name, language);
   const primary = primaryExample(records);
@@ -222,6 +225,30 @@ function renderExtraSections(name: string, language: DocsLanguage): React.ReactN
           </Section>
         );
       })}
+    </>
+  );
+}
+
+// Stable promises let Suspense retry without starting another import. The
+// registry still owns the component/source pairing and visible section order.
+const exampleModules = new Map<string, Promise<{ EXAMPLE_REGISTRY: ExampleRegistry }>>();
+const emptyExamples = Promise.resolve({ EXAMPLE_REGISTRY: {} });
+
+function ComponentExamples({ name }: { name: string }) {
+  const { language } = useLanguage();
+  let pending = exampleModules.get(name);
+  if (!pending) {
+    pending = EXAMPLE_LOADERS[name]?.() ?? emptyExamples;
+    exampleModules.set(name, pending);
+  }
+  const { EXAMPLE_REGISTRY } = React.use(pending);
+  return (
+    <>
+      <DocsSection>
+        <DocsSectionTitle>{demoText(language, "Live Demo")}</DocsSectionTitle>
+        <DemoSection componentName={name}>{renderDemo(name, EXAMPLE_REGISTRY)}</DemoSection>
+      </DocsSection>
+      {renderExtraSections(name, language, EXAMPLE_REGISTRY)}
     </>
   );
 }
@@ -307,12 +334,13 @@ function ComponentDetail({ name }: { name: string }) {
 
       {guide && <ComponentGuideSections guide={guide} />}
 
-      <DocsSection>
-        <DocsSectionTitle>{demoText(language, "Live Demo")}</DocsSectionTitle>
-        <DemoSection componentName={name}>{renderDemo(name)}</DemoSection>
-      </DocsSection>
-
-      {renderExtraSections(name, language)}
+      <React.Suspense key={name} fallback={
+        <div role="status" data-slot="docs-examples-loading" className="py-10 text-copy-14 text-muted-foreground">
+          {demoText(language, "Loading...")}
+        </div>
+      }>
+        <ComponentExamples name={name} />
+      </React.Suspense>
 
       <ComponentApiReference componentName={name} />
 

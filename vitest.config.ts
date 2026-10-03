@@ -5,11 +5,12 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { exampleSourcePlugin } from "./docs/site/build/example-source-plugin.ts";
+import { componentExamplesPlugin } from "./docs/site/build/component-examples-plugin.ts";
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 
 export default {
-  plugins: [exampleSourcePlugin()],
+  plugins: [componentExamplesPlugin(), exampleSourcePlugin()],
   resolve: {
     alias: {
       "@": path.resolve(rootDir, "src"),

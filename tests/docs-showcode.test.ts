@@ -30,7 +30,7 @@ describe("docs Show code footer", () => {
   test("live demos and Show Code consume the same registry record", async () => {
     const src = await read(pagePath);
     expect(src).toContain(
-      'import { EXAMPLE_REGISTRY, type ExampleRecord } from "../examples/registry";',
+      'import type { ExampleRecord } from "../examples/registry";',
     );
     expect(src).toContain("const Example = record.Component;");
     expect(src).toContain("<TableDemoCard id={record.id} code={record.source} slug={name}>");

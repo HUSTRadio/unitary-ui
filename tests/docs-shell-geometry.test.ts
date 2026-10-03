@@ -63,8 +63,8 @@ describe("docs shell geometry — framework shell assembly", () => {
     // 容器结构保持：260px 宽 + 左右双边界 + lg sticky
     expect(shell).toContain("w-[var(--uni-doc-layout-sidebar-width)]");
     expect(shell).toContain("border-l border-r border-gray-alpha-400");
-    expect(shell).toContain("lg:sticky lg:top-[var(--uni-topbar-height)]");
-    expect(shell).toContain("lg:h-[calc(100vh-var(--uni-topbar-height))]");
+    expect(shell).toContain("lg:sticky lg:top-0");
+    expect(shell).toContain("lg:h-[calc(100dvh-var(--uni-topbar-height))]");
     expect(shell).toContain("hidden w-[var(--uni-doc-layout-sidebar-width)]");
   });
 
@@ -195,8 +195,9 @@ describe("docs shell geometry — framework shell assembly", () => {
     // 且带 topbar-offset-scroll；外壳锁定视口高度并禁止自身滚动。
     expect(app).toMatch(/<main[^>]*topbar-offset-scroll/);
     expect(app).toMatch(/<main[^>]*overflow-y-auto/);
-    // 顶栏高度留白：main 下移一个 topbar 高度，避免内容被 sticky topbar 遮住。
-    expect(app).toMatch(/<main[^>]*mt-\[var\(--uni-topbar-height\)\]/);
+    // Sticky Navbar already occupies a flex row; main must not offset it again.
+    expect(app).not.toMatch(/<main[^>]*mt-\[var\(--uni-topbar-height\)\]/);
+    expect(app).toMatch(/<main[^>]*min-h-0/);
     expect(shell).toMatch(/<Navbar[^>]*scrollBehavior="pinned"/);
   });
 
