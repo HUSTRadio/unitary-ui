@@ -2,7 +2,7 @@
 
 > Route: `/charts/bar-list`
 
-Renders a ranked list where each row carries a proportional bar and value.
+Rank items with names, bars, and values, plus optional links and icons.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Renders a ranked list where each row carries a proportional bar and value.
 
 bar-list
 
-Renders a ranked list where each row carries a proportional bar and value.
+Rank items with names, bars, and values, plus optional links and icons.
 
 ## When to use
 
@@ -90,7 +90,7 @@ export function BarListDefault37A8EEC1Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -98,7 +98,7 @@ Import
 import { BarList } from "@/components/ui/bar-list";
 ```
 
-Native props: `React.HTMLAttributes<HTMLDivElement>`
+Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`
 
 ### Props & callbacks
 

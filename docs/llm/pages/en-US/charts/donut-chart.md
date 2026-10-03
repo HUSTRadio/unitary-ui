@@ -2,7 +2,7 @@
 
 > Route: `/charts/donut-chart`
 
-Renders a part-to-whole donut (or pie) with an optional center metric.
+Show proportions as a donut or pie; the donut center can display a main metric.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Renders a part-to-whole donut (or pie) with an optional center metric.
 
 donut-chart
 
-Renders a part-to-whole donut (or pie) with an optional center metric.
+Show proportions as a donut or pie; the donut center can display a main metric.
 
 ## When to use
 
@@ -103,7 +103,7 @@ export function DonutChartPie7E3C1B6DExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

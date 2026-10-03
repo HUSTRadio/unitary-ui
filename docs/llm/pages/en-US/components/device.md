@@ -2,7 +2,7 @@
 
 > Route: `/components/device`
 
-Frames screenshots inside realistic phone and tablet shells.
+Present screenshots or recordings in a phone or tablet frame of a specified model.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Frames screenshots inside realistic phone and tablet shells.
 
 device
 
-Frames screenshots inside realistic phone and tablet shells.
+Present screenshots or recordings in a phone or tablet frame of a specified model.
 
 ## When to use
 
@@ -232,7 +232,7 @@ export function DeviceAppearance1C9D4B2EExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

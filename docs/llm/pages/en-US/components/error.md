@@ -2,7 +2,7 @@
 
 > Route: `/components/error`
 
-Provides a friendly, actionable message when an operation fails.
+Show an error, such as a loading failure, and explain the next step.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Provides a friendly, actionable message when an operation fails.
 
 error
 
-Provides a friendly, actionable message when an operation fails.
+Show an error, such as a loading failure, and explain the next step.
 
 ## When to use
 
@@ -126,7 +126,7 @@ export function ErrorWithAnErrorProperty93A4DDA8Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -134,7 +134,7 @@ Import
 import { Error } from "@/components/ui/error";
 ```
 
-Native props: `ComponentProps<"div">`
+Also accepts props defined by: `ComponentProps<"div">`
 
 ### Props & callbacks
 

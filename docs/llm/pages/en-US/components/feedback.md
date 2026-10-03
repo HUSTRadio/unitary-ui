@@ -2,7 +2,7 @@
 
 > Route: `/components/feedback`
 
-Gathers an emoji rating and open text feedback.
+Collect an emoji rating and written feedback.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Gathers an emoji rating and open text feedback.
 
 feedback
 
-Gathers an emoji rating and open text feedback.
+Collect an emoji rating and written feedback.
 
 ## When to use
 
@@ -56,7 +56,7 @@ The locally extended four-tone rating capsule; it is not an official Feedback va
 
 - Dismissing the default Popover with Escape or an outside press preserves the current draft for reopening.
 - Inline collapses and clears its rating on Escape, outside press, or focus departure while preserving the text draft; a null relatedTarget (window blur) re-checks the real focus target first instead of clearing the rating by mistake.
-- The Inline form region expands upward as a floating layer (absolutely positioned), so it never participates in the parent height calculation: neither expanding nor collapsing changes the vertical metrics of the capsule's container. Expansion is horizontally centered on the collapsed capsule's geometric center — both edges move outward symmetrically — and collapsing restores width and height together along the same ease-out curve.
+- The Inline form opens upward without changing the parent height. Its width expands from the pill’s center; width and height return together along a fast-then-slow easing curve.
 - In dryRun mode Send neither invokes onSubmit nor closes; a real submit resets rating, text, and topic.
 - topic only comes from the default Popover's selector and is passed as the fourth onSubmit argument; it is not written into metadata unless includeTopicInMetadata is enabled.
 
@@ -253,7 +253,7 @@ export function FeedbackFeedbackWithSuffixE429255FExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

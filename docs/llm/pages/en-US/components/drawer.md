@@ -2,7 +2,7 @@
 
 > Route: `/components/drawer`
 
-Displays content in a separate bottom view from the existing context.
+Open a bottom panel for a short form or supporting action without leaving the page.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays content in a separate bottom view from the existing context.
 
 drawer
 
-Displays content in a separate bottom view from the existing context.
+Open a bottom panel for a short form or supporting action without leaving the page.
 
 ## When to use
 
@@ -43,7 +43,7 @@ Controlling the drawer's viewport proportion via the custom height prop to match
 
 - The open state is fully controlled by the parent — internals do not manage open/close independently.
 - Close callbacks notify the parent to synchronize external state.
-- Body scroll is locked while open and restored on close.
+- Lock page scrolling while open and restore it on close.
 
 ## Responsive behavior
 
@@ -54,7 +54,7 @@ Controlling the drawer's viewport proportion via the custom height prop to match
 ## Theme behavior
 
 - Backdrop shadow and divider colors follow the application theme.
-- Body scroll lock maintains proper contrast in both dark and light themes.
+- Scroll locking is independent of the theme.
 
 ## Live Demo
 
@@ -108,7 +108,7 @@ export function DrawerCustomHeight986065F9Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

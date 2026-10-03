@@ -5,9 +5,9 @@ export const GUIDES_18_ZH: Record<string, ComponentGuide> = {
     slug: "continuous-surface",
     locale: "zh-CN",
     summary:
-      "ContinuousSurface 根据元素实时尺寸生成连续曲率裁切路径，并在 JavaScript 或 clip-path 不可用时保留普通圆角。",
+      "按元素尺寸生成连续圆角裁切；无法生成路径时使用普通圆角。",
     whenToUse: [
-      "用于孤立卡片、磁贴或近方形品牌无关表面，且形状确实属于设计系统语义时。",
+      "用于需要连续圆角的独立卡片、磁贴或近方形容器。",
       "矩形卡片使用保留直边的 continuousCornerPath；完整 superellipse 只用于近方形图标或头像。",
       "需要在响应式尺寸变化后保持同一视觉半径和曲线家族时。",
     ],
@@ -28,7 +28,7 @@ export const GUIDES_18_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "组件保留 div 的原生属性；根据内容用途自行提供 landmark、heading 或可访问名称。",
+        "组件支持 div 属性。需要说明区域用途时，添加合适的 role、标题或无障碍名称。",
         "形状只提供视觉分组，不应成为传达状态或交互含义的唯一方式。",
       ],
     },
@@ -58,9 +58,9 @@ export const GUIDES_18_EN: Record<string, ComponentGuide> = {
     slug: "continuous-surface",
     locale: "en-US",
     summary:
-      "ContinuousSurface measures its element and applies an independently derived continuous-corner clip path, retaining a circular fallback when JavaScript or clip-path is unavailable.",
+      "Clip an element with continuous corners based on its size, falling back to ordinary rounded corners.",
     whenToUse: [
-      "Use it for isolated cards, tiles, or near-square brand-neutral surfaces when shape is an intentional design-system semantic.",
+      "Use it for standalone cards, tiles, or near-square containers that need continuous corners.",
       "Use continuousCornerPath with straight sides for rectangular cards; reserve a full superellipse for near-square icons or avatars.",
       "Use it when a responsive surface must preserve one visual radius and curve family after resizing.",
     ],
@@ -81,7 +81,7 @@ export const GUIDES_18_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "The component preserves native div attributes; add a landmark, heading, or accessible name when the content requires one.",
+        "The component accepts div attributes. Add an appropriate role, heading, or accessible name when needed to describe the region.",
         "Shape is only a visual grouping cue and must not be the sole carrier of state or interactive meaning.",
       ],
     },

@@ -2,7 +2,7 @@
 
 > Route: `/components/sub-frame`
 
-Scopes overlays to one region of a page so sheets and panels stay inside it.
+Keep overlays within a region of the page for side-by-side previews or local demos.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Scopes overlays to one region of a page so sheets and panels stay inside it.
 
 sub-frame
 
-Scopes overlays to one region of a page so sheets and panels stay inside it.
+Keep overlays within a region of the page for side-by-side previews or local demos.
 
 ## When to use
 
@@ -84,7 +84,7 @@ export default function SubFrameExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -92,7 +92,7 @@ Import
 import { SubFrame } from "@/components/ui/sub-frame";
 ```
 
-Native props: `React.HTMLAttributes<HTMLDivElement>`
+Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`
 
 ### Props & callbacks
 

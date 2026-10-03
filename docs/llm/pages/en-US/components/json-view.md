@@ -2,7 +2,7 @@
 
 > Route: `/components/json-view`
 
-Renders JSON as a syntax-highlighted tree.
+Inspect JSON objects and arrays in an expandable, highlighted tree.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Renders JSON as a syntax-highlighted tree.
 
 json-view
 
-Renders JSON as a syntax-highlighted tree.
+Inspect JSON objects and arrays in an expandable, highlighted tree.
 
 ## When to use
 
@@ -154,7 +154,7 @@ export function JsonViewHighlightedF00CEE7CExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

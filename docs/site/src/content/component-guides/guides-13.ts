@@ -5,14 +5,14 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
     slug: "split-button",
     locale: "zh-CN",
     summary:
-      "将主操作与相关选项组合在一个控件中，减少行空间占用；下拉卡片变体（variant=\"pulldown\"）从指定角展开为悬浮卡片。",
+      "将主要操作与相关选项菜单放在同一个按钮组中。",
     whenToUse: [
       "两个或更多操作共享同一行且高度相关时（如 'Deploy' 和 'Deploy to staging'）。",
       "需要平衡可见性和节省空间——主要操作需要醒目，次要变体以菜单形式呈现。",
       "下拉卡片变体（variant=\"pulldown\"）用 expandCorner 指定卡片锚定的角；当触发按钮贴近屏幕或工具栏底部、下方空间不足时，用 bottom-left / bottom-right 让卡片向上展开。",
     ],
     whenNotToUse: [
-      "超过三个相关动作时使用 Menu 替代；拆分按钮的菜单不应成为垃圾箱。",
+      "相关操作超过三个时，考虑用 Menu 分组。",
       "当两个动作重要程度相当时，使用并排的两个 Button 而非主次分级。",
     ],
     examples: [
@@ -72,7 +72,7 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
   "status-dot": {
     slug: "status-dot",
     locale: "zh-CN",
-    summary: "用小圆点指示部署的生命周期状态（构建中、就绪、错误等）。",
+    summary: "用小圆点和可选标签显示部署状态。",
     whenToUse: [
       "展示部署生命周期状态（QUEUED、BUILDING、READY、ERROR、CANCELED、DELETED）。",
       "在表格行、列表卡片或命令面板中与文本状态标签并列使用。",
@@ -122,7 +122,7 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
   "step-point": {
     slug: "step-point",
     locale: "zh-CN",
-    summary: "在多步流程中标记用户当前的进度节点。",
+    summary: "标记多步流程中每个步骤的状态。",
     whenToUse: [
       "引导用户完成多步流程（如设置向导、注册表单、部署配置）时显示步骤进度。",
       "需要向用户传达线性任务的整体结构，以及当前位置和剩余步骤。",
@@ -166,13 +166,13 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
   switch: {
     slug: "switch",
     locale: "zh-CN",
-    summary: "作为 2-3 个互斥选项的分段选择器，用于在同一界面的不同视图间切换。",
+    summary: "用分段按钮在少量互斥视图间切换。",
     whenToUse: [
       "需要在两个或三个互斥选项之间切换时（如 Source 和 Output 两种视图）。",
       "选项数量少且用户经常需要在它们之间来回切换，需要即时反馈。",
     ],
     whenNotToUse: [
-      "布尔开关场景应使用 Toggle，而非 Switch 的无线电语义。",
+      "布尔设置使用 Toggle；Switch 用于互斥选项。",
       "超过三个选项或标签很长时应使用 Tabs 或 Select 代替。",
     ],
     examples: [
@@ -201,7 +201,7 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "每个 Switch.Control 都应提供可访问名称（即使图标-only 也要加 Tooltip 和 sr-only 标签）。",
+        "每个 Switch.Control 都应提供无障碍名称（即使图标-only 也要加 Tooltip 和 sr-only 标签）。",
         "左右箭头键移动焦点，回车或空格激活选项，Escape 退出。",
       ],
     },
@@ -220,13 +220,13 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
     },
     themeBehavior: {
       status: "covered",
-      content: ["激活态 pill 的颜色跟随主题 token，可以在暗色和亮色模式下保持一致的对比度。"],
+      content: ["激活态 pill 的颜色跟随主题变量，可以在暗色和亮色模式下保持一致的对比度。"],
     },
   },
   table: {
     slug: "table",
     locale: "zh-CN",
-    summary: "以行和列展示结构化数据，适用于比较和分析。",
+    summary: "以行列显示结构化数据，便于逐项比较。",
     whenToUse: [
       "数据行具有相同形状且至少有一列可在行间排序或比较时使用。",
       "需要展示密集的结构化数据（订单列表、成员表、部署日志等）。",
@@ -269,7 +269,7 @@ export const GUIDES_13_ZH: Record<string, ComponentGuide> = {
     },
     themeBehavior: {
       status: "covered",
-      content: ["表格的背景色、分割线和 hover 高亮都继承主题 token，斑马纹（zebra）可选配。"],
+      content: ["表格的背景色、分割线和 hover 高亮都继承主题变量，斑马纹（zebra）可选配。"],
     },
   },
 };
@@ -279,14 +279,14 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
     slug: "split-button",
     locale: "en-US",
     summary:
-      "Combines a primary action with related variants in one control, saving row space; the pull-down variant (variant=\"pulldown\") expands as a floating card from a chosen corner.",
+      "Combine a primary action and a menu of related options in one button group.",
     whenToUse: [
       "When two or more related actions share the same row (e.g., 'Deploy' and 'Deploy to staging').",
       "When you need to balance visibility and space — the main action is prominent while secondary variants live in a menu.",
       "The pull-down card variant (variant=\"pulldown\") takes its anchored corner from expandCorner; when the trigger sits near the bottom of the screen or a toolbar with no room below, use bottom-left / bottom-right to expand the card upward.",
     ],
     whenNotToUse: [
-      "When there are more than three related actions; use a regular Menu instead, because the split-button menu must not become a junk drawer.",
+      "Consider grouping actions with Menu when there are more than three.",
       "When two actions are equally important; place two side-by-side Buttons rather than a primary-secondary hierarchy.",
     ],
     examples: [
@@ -352,7 +352,7 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
     slug: "status-dot",
     locale: "en-US",
     summary:
-      "Indicates a deployment lifecycle state with a small colored dot (building, ready, error, etc.).",
+      "Show deployment status with a dot and an optional label.",
     whenToUse: [
       "Showing deployment lifecycle states: QUEUED, BUILDING, READY, ERROR, CANCELED, DELETED.",
       "Placed inline beside text labels in table rows, list cards, or command palette items.",
@@ -405,7 +405,7 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
   "step-point": {
     slug: "step-point",
     locale: "en-US",
-    summary: "Marks a user's progress through a multi-step flow or wizard.",
+    summary: "Mark the status of each step in a multi-step process.",
     whenToUse: [
       "Guiding users through multi-step flows such as setup wizards, registration forms, or deployment configurations.",
       "Communicating the overall structure of a linear task, current position, and remaining steps.",
@@ -451,13 +451,13 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
     slug: "switch",
     locale: "en-US",
     summary:
-      "A segmented selector for 2–3 mutually exclusive options, used to toggle between views of the same surface.",
+      "Switch between a few mutually exclusive views with segmented controls.",
     whenToUse: [
       "Switching between two or three mutually exclusive options (e.g., Source vs Output views).",
       "When options are few and users frequently toggle between them with need for instant feedback.",
     ],
     whenNotToUse: [
-      "For boolean on/off toggles use Toggle instead; Switch implements radio semantics, not checkbox semantics.",
+      "Use Toggle for a boolean setting and Switch for mutually exclusive options.",
       "Past 3 options or when labels grow beyond a couple of words, switch to Tabs or a Select.",
     ],
     examples: [
@@ -513,7 +513,7 @@ export const GUIDES_13_EN: Record<string, ComponentGuide> = {
   table: {
     slug: "table",
     locale: "en-US",
-    summary: "Displays structured data in rows and columns, suited for comparison and analysis.",
+    summary: "Display structured data in rows and columns for comparison.",
     whenToUse: [
       "When data rows share the same shape and at least one column is sortable or comparable across rows.",
       "Rendering dense structured data such as order lists, member tables, or deployment logs.",

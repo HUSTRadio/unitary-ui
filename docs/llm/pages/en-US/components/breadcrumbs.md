@@ -2,7 +2,7 @@
 
 > Route: `/components/breadcrumbs`
 
-Navigation aid that shows the user's location within a site's hierarchy.
+Show the current page’s hierarchy and provide links to parent pages.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Navigation aid that shows the user's location within a site's hierarchy.
 
 breadcrumbs
 
-Navigation aid that shows the user's location within a site's hierarchy.
+Show the current page’s hierarchy and provide links to parent pages.
 
 ## When to use
 
@@ -113,7 +113,7 @@ export function BreadcrumbsDisabled75081B59Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

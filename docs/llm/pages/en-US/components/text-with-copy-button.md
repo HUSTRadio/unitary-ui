@@ -2,7 +2,7 @@
 
 > Route: `/components/text-with-copy-button`
 
-Displays text alongside a button that copies it to the clipboard.
+Display text with a copy button beside it.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays text alongside a button that copies it to the clipboard.
 
 text-with-copy-button
 
-Displays text alongside a button that copies it to the clipboard.
+Display text with a copy button beside it.
 
 ## When to use
 
@@ -88,7 +88,7 @@ export function TextWithCopyButtonWithSmallAndTertiary230FE3B9Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

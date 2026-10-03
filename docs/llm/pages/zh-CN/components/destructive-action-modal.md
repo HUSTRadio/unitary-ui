@@ -2,7 +2,7 @@
 
 > Route: `/components/destructive-action-modal`
 
-使用红色警告标题和破坏性确认按钮确认危险操作。
+确认删除等高风险操作；输入指定短语后才能提交。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 destructive-action-modal
 
-使用红色警告标题和破坏性确认按钮确认危险操作。
+确认删除等高风险操作；输入指定短语后才能提交。
 
 ## 何时使用
 
@@ -50,7 +50,7 @@ API 失败时保持模态框打开让用户可以重试，而不是静默关闭�
 
 ## 受控行为
 
-- 调用方负责控制 open 状态，不自行关闭——应在 API 结算后或出错时保持打开。
+- 由父组件控制 open：请求成功后关闭，失败时保持打开以便重试。
 - loading 属性同时禁用两个按钮，由父组件管理交互状态。
 - 输入字段在打开时自动聚焦并持续校验匹配性。
 
@@ -207,7 +207,7 @@ export function DestructiveActionModalWithError3E9E4249Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -221,9 +221,9 @@ import { DestructiveActionModal } from "@/components/ui/destructive-action-modal
 
 ## 最佳实践
 
-- 动作具有破坏性且需要摩擦时（删除、轮换、撤销、断开、降级）用本组件而非 Modal；typed gate 强制刻意操作。
-- 对后果严重到值得停顿的可逆破坏性动作也可用。保留 typed gate，去掉不可逆提示条。
-- 常规确认（保存草稿、放弃更改、不保存关闭）不要用；stakes 很低时 typed gate 显得戏剧化——用普通 Modal。
+- 动作具有破坏性且需要摩擦时（删除、轮换、撤销、断开、降级）用本组件而非 Modal；确认短语输入 强制刻意操作。
+- 对后果严重到值得停顿的可逆破坏性动作也可用。保留 确认短语输入，去掉不可逆提示条。
+- 常规确认（保存草稿、放弃更改、不保存关闭）不要用；操作风险 很低时 确认短语输入 显得戏剧化——用普通 Modal。
 - 标题是首字母大写的陈述句 动词 + 名词，绝不是疑问句。Delete Project，而非 Delete this project?。
 - confirmLabel 与标题 1:1 匹配。绝不用通用词（Confirm、OK、Continue），也不用裸动词（Delete）。
 - loading 会禁用两个按钮。调用方拥有 open——不要从 onConfirm 自行关闭。API 落定后关闭，或出错时保持打开让用户重试。

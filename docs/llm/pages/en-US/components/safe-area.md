@@ -2,7 +2,7 @@
 
 > Route: `/components/safe-area`
 
-A spacing container that keeps content clear of device safe areas.
+Add padding around notches, rounded corners, and system bars while keeping a minimum inset.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A spacing container that keeps content clear of device safe areas.
 
 safe-area
 
-A spacing container that keeps content clear of device safe areas.
+Add padding around notches, rounded corners, and system bars while keeping a minimum inset.
 
 ## When to use
 
@@ -74,7 +74,7 @@ export function SafeAreaDefault2C9F5A41Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

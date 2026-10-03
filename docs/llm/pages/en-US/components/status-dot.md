@@ -2,7 +2,7 @@
 
 > Route: `/components/status-dot`
 
-Displays an indicator of deployment status.
+Show deployment status with a dot and an optional label.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays an indicator of deployment status.
 
 status-dot
 
-Displays an indicator of deployment status.
+Show deployment status with a dot and an optional label.
 
 ## When to use
 
@@ -89,7 +89,7 @@ export function StatusDotLabel0E66373FExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

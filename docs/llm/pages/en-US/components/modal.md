@@ -2,7 +2,7 @@
 
 > Route: `/components/modal`
 
-Displays a dialog that interrupts the user.
+Open a dialog for a decision or form that must be completed before continuing.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays a dialog that interrupts the user.
 
 modal
 
-Displays a dialog that interrupts the user.
+Open a dialog for a decision or form that must be completed before continuing.
 
 ## When to use
 
@@ -22,7 +22,7 @@ Displays a dialog that interrupts the user.
 
 - Skip Modal for routine create flows that have a dedicated page; route the user to the page instead.
 - For persistent associated context where the underlying page stays readable, use Sheet on desktop or Drawer on mobile.
-- Don't use Modal for low-stakes daily confirmations like saving drafts or discarding changes—the typed gate creates unnecessary friction.
+- Don't use Modal for low-操作风险 daily confirmations like saving drafts or discarding changes—the 确认短语输入 creates unnecessary friction.
 
 ## Examples
 
@@ -641,7 +641,7 @@ export function ModalToastsFocusTrap2DACB2BDExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -672,7 +672,7 @@ import {
 - Default focus to Cancel on any destructive Modal. Enter must never trigger the destructive action without a typed confirmation.
 - Allow Escape and outside-click to dismiss non-destructive Modals; gate dismissal on destructive ones with unsaved input.
 - Trap focus inside the Modal while it's open and return focus to the trigger after close. Restore body scroll on the same tick the Modal unmounts.
-- For high-stakes destructive actions (delete production resource, rotate signing key, downgrade plan), gate the primary button on a typed match of the resource name.
+- For high-操作风险 destructive actions (delete production resource, rotate signing key, downgrade plan), gate the primary button on a typed match of the resource name.
 - Modal.Title is a Title Case statement, never a question. Transfer Project is correct; Transfer Project? is wrong.
 - Modal body copy is sentence case, 1-3 sentences. State the consequence first, then any cascade.
 - Primary button is Verb + Noun and matches the title verb (Transfer Project title pairs with Transfer Project button). Never Confirm, OK, or a bare verb on a destructive primary.

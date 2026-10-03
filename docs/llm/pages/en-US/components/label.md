@@ -2,7 +2,7 @@
 
 > Route: `/components/label`
 
-Accessible text label for form controls.
+Give a form control a visible name and associate it with the input.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Accessible text label for form controls.
 
 label
 
-Accessible text label for form controls.
+Give a form control a visible name and associate it with the input.
 
 ## When to use
 
@@ -44,7 +44,7 @@ Use bypassCasing when the label text requires preserving specific capitalization
 
 ## Controlled behavior
 
-Not applicable: Label is a purely presentational component that renders only the given label text and establishes its association with a target form control. It has no internal state or user interaction capability; all behavior is determined by the passed props.
+Not applicable: Label displays text and associates it with a form control through htmlFor; it has no internal state.
 
 ## Responsive behavior
 
@@ -109,7 +109,7 @@ export function LabelBypassCasingB8D7E5E0Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -117,7 +117,7 @@ Import
 import { Label } from "@/components/ui/label";
 ```
 
-Native props: `LabelHTMLAttributes<HTMLLabelElement>`
+Also accepts props defined by: `LabelHTMLAttributes<HTMLLabelElement>`
 
 ### Props & callbacks
 

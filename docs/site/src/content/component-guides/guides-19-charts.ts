@@ -13,7 +13,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "zh-CN": {
       slug: "area-chart",
       locale: "zh-CN",
-      summary: "面积图用分层填充表达时间趋势的构成，支持堆叠与百分比模式、渐变/纯色填充与自定义提示。",
+      summary: "用面积填充显示时间趋势，支持堆叠、百分比和自定义提示。",
       whenToUse: [
         "展示一个或多个序列随时间的趋势，且希望填充增强量感。",
         "需要表达总量（stacked）或份额（percent）而非单序列数值。",
@@ -36,7 +36,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "en-US": {
       slug: "area-chart",
       locale: "en-US",
-      summary: "The area chart expresses trend composition over time with layered fills, including stacked and percent modes, gradient or solid fills, and custom tooltips.",
+      summary: "Show trends over time with filled areas, stacking, percentage mode, and custom tooltips.",
       whenToUse: [
         "Showing one or more series over time where the fill reinforces magnitude.",
         "Communicating totals (stacked) or shares (percent) instead of single-series values.",
@@ -61,7 +61,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "zh-CN": {
       slug: "bar-chart",
       locale: "zh-CN",
-      summary: "柱状图用于跨类目比较，支持堆叠、百分比与垂直布局，柱体可点击并与图例联动。",
+      summary: "用柱形比较不同类别的数值，支持堆叠、百分比和横向布局。",
       whenToUse: ["跨类目比较离散数值。", "表达份额（percent）或构成（stacked）。", "类目标签较长时使用垂直布局。"],
       whenNotToUse: ["连续时间趋势——用面积图或折线图。", "占比只有两三段且空间紧张——用 CategoryBar。"],
       examples: [
@@ -77,7 +77,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "en-US": {
       slug: "bar-chart",
       locale: "en-US",
-      summary: "The bar chart compares values across categories, with stacked, percent, and vertical layouts; bars are clickable and linked to the legend.",
+      summary: "Compare values across categories with bars, stacking, percentage mode, and horizontal bars.",
       whenToUse: ["Comparing discrete values across categories.", "Showing share (percent) or composition (stacked).", "Using the vertical layout when category labels are long."],
       whenNotToUse: ["Continuous time trends — use area or line charts.", "Two or three share segments in tight space — use CategoryBar."],
       examples: [
@@ -95,7 +95,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "zh-CN": {
       slug: "line-chart",
       locale: "zh-CN",
-      summary: "折线图渲染连续趋势的干净线条，支持坐标轴标题、首尾刻度与自定义提示。",
+      summary: "用折线比较连续趋势，支持坐标轴标题和自定义提示。",
       whenToUse: ["连续趋势且不希望面积填充带来量感干扰。", "需要标注坐标轴语义（xAxisLabel / yAxisLabel）。"],
       whenNotToUse: ["强调构成或总量——用面积图。", "类目比较——用柱状图。"],
       examples: [
@@ -110,7 +110,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "en-US": {
       slug: "line-chart",
       locale: "en-US",
-      summary: "The line chart renders clean continuous trends with optional axis titles, first/last ticks, and custom tooltips.",
+      summary: "Compare continuous trends with lines, axis labels, and custom tooltips.",
       whenToUse: ["Continuous trends where area fills would add visual noise.", "Annotating axis semantics via xAxisLabel / yAxisLabel."],
       whenNotToUse: ["Emphasizing composition or totals — use the area chart.", "Category comparison — use the bar chart."],
       examples: [
@@ -127,7 +127,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "zh-CN": {
       slug: "combo-chart",
       locale: "zh-CN",
-      summary: "组合图在同一类目轴上组合柱与折线系列，可选双轴以适配不可比的数值范围。",
+      summary: "在同一图中组合柱形和折线，可用双轴表示不同量纲。",
       whenToUse: ["两个相关指标共享同一类目轴（如收入与利润率）。", "两系列数值范围不可比时开启 enableBiaxial。"],
       whenNotToUse: ["指标多于两条主线——拆成多图或用图卡组合。", "只需要单一图表形态——直接用 BarChart / LineChart。"],
       examples: [
@@ -142,7 +142,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "en-US": {
       slug: "combo-chart",
       locale: "en-US",
-      summary: "The combo chart combines bar and line series on one category axis, optionally on two axes for incompatible value ranges.",
+      summary: "Combine bars and lines in one chart, with optional dual axes for different units.",
       whenToUse: ["Two related metrics sharing a category axis (e.g. revenue and margin).", "Enabling enableBiaxial when the series ranges are incomparable."],
       whenNotToUse: ["More than two main metrics — split into multiple charts or chart cards.", "A single shape suffices — use BarChart / LineChart directly."],
       examples: [
@@ -159,7 +159,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "zh-CN": {
       slug: "donut-chart",
       locale: "zh-CN",
-      summary: "环形图表达部分占整体，中心可放置主指标；variant=\"pie\" 可退化为饼形。",
+      summary: "用环形或饼形显示各部分占比，环形中心可显示主指标。",
       whenToUse: ["占比结构 ≤5 段。", "中心主指标无需悬停即可读。"],
       whenNotToUse: ["精确数值比较——柱状图或条形列表更易读。", "扇区很多——合并为「其他」或改用 BarList。"],
       examples: [
@@ -174,7 +174,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "en-US": {
       slug: "donut-chart",
       locale: "en-US",
-      summary: "The donut chart shows parts of a whole with an optional center metric; variant=\"pie\" yields a full pie.",
+      summary: "Show proportions as a donut or pie; the donut center can display a main metric.",
       whenToUse: ["Share-of-total structures with five or fewer slices.", "A center metric readable without hovering."],
       whenNotToUse: ["Precise value comparison — bars or a bar list read faster.", "Many slices — bucket into \"Other\" or switch to BarList."],
       examples: [
@@ -191,7 +191,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "zh-CN": {
       slug: "spark-chart",
       locale: "zh-CN",
-      summary: "迷你趋势图（SparkAreaChart / SparkLineChart / SparkBarChart）以内联小图传达走势，适合卡片与表格单元格。",
+      summary: "用迷你面积图、折线图或柱状图显示卡片和表格中的趋势。",
       whenToUse: ["在紧凑空间传达单一序列的走势方向。", "与显式数值配对使用（数值负责精确，小图负责形状）。"],
       whenNotToUse: ["需要坐标轴、图例或 tooltip 的完整图表场景。", "多系列对比。"],
       examples: [
@@ -206,7 +206,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "en-US": {
       slug: "spark-chart",
       locale: "en-US",
-      summary: "Spark charts (SparkAreaChart / SparkLineChart / SparkBarChart) convey trends as inline mini charts for cards and table cells.",
+      summary: "Show trends inside cards or tables with a small area, line, or bar chart.",
       whenToUse: ["Conveying a single series' direction in compact space.", "Pairing with an explicit number (number for precision, spark for shape)."],
       whenNotToUse: ["Full chart contexts needing axes, legends, or tooltips.", "Multi-series comparison."],
       examples: [
@@ -223,7 +223,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "zh-CN": {
       slug: "category-bar",
       locale: "zh-CN",
-      summary: "分类条用分段横条紧凑表达占比结构，可带刻度标记与悬停提示。",
+      summary: "用分段横条显示占比，可添加阈值标记和提示。",
       whenToUse: ["占比上下文需要紧凑呈现（如卡片内）。", "需要标记目标线或阈值（marker）。"],
       whenNotToUse: ["精确数值或排名——用 BarList。", "扇区语义或中心指标——用环形图。"],
       examples: [
@@ -237,7 +237,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "en-US": {
       slug: "category-bar",
       locale: "en-US",
-      summary: "The category bar renders share-of-total structure as a segmented horizontal bar, with an optional marker and hover tooltip.",
+      summary: "Show proportions in a segmented bar, with optional threshold markers and tooltips.",
       whenToUse: ["Compact share-of-total context (e.g. inside cards).", "Marking a target or threshold via marker."],
       whenNotToUse: ["Exact values or rankings — use BarList.", "Slice semantics or a center metric — use the donut chart."],
       examples: [
@@ -253,7 +253,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "zh-CN": {
       slug: "bar-list",
       locale: "zh-CN",
-      summary: "条形列表按值排序渲染名称、等比条形与数值，行可带链接与图标。",
+      summary: "按数值排列名称、条形和读数，条目可带链接和图标。",
       whenToUse: ["需要行上下文（名称 + 数值 + 链接）的排名比较。", "页面流量、来源榜等榜单场景。"],
       whenNotToUse: ["占比结构——用环形图或分类条。", "连续趋势——用迷你趋势图。"],
       examples: [
@@ -267,7 +267,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "en-US": {
       slug: "bar-list",
       locale: "en-US",
-      summary: "The bar list renders ranked names with proportional bars and values; rows may carry links and icons.",
+      summary: "Rank items with names, bars, and values, plus optional links and icons.",
       whenToUse: ["Ranked comparisons that benefit from row context (name + value + link).", "Leaderboards such as page traffic or sources."],
       whenNotToUse: ["Share-of-total structure — use the donut chart or category bar.", "Continuous trends — use a spark chart."],
       examples: [
@@ -283,7 +283,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "zh-CN": {
       slug: "tracker",
       locale: "zh-CN",
-      summary: "跟踪条以状态块序列呈现离散事件历史（可用性、CI 运行），每块带悬停提示。",
+      summary: "用一系列状态块显示可用性、构建结果等事件历史。",
       whenToUse: ["离散事件历史（uptime、构建结果）。", "需要紧凑的时间线状态概览。"],
       whenNotToUse: ["连续指标——用面积图或折线图。", "需要精确数值标签——用表格。"],
       examples: [
@@ -297,7 +297,7 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "en-US": {
       slug: "tracker",
       locale: "en-US",
-      summary: "The tracker renders discrete event history (uptime, CI runs) as a sequence of status blocks with hover tooltips.",
+      summary: "Show event history, such as uptime or build results, as a sequence of status blocks.",
       whenToUse: ["Discrete event histories (uptime, build outcomes).", "A compact timeline status overview."],
       whenNotToUse: ["Continuous metrics — use area or line charts.", "Exact value labels — use a table."],
       examples: [
@@ -313,11 +313,11 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "zh-CN": {
       slug: "progress-circle",
       locale: "zh-CN",
-      summary: "进度环以圆形比例表达单一指标（完成度、容量），中心可放置数值与说明。",
+      summary: "用圆环显示完成度或容量占比，中心可放数值和说明。",
       whenToUse: ["单一比例指标的醒目表达。", "中心数值 + 副标签的组合场景。"],
       whenNotToUse: ["表盘式仪表读数——用 Gauge。", "多段占比——用分类条或环形图。"],
       examples: [
-        { id: "progress-circle-default", kind: "minimal", title: "默认进度环", description: "带宽宽使用率与中心百分比。" },
+        { id: "progress-circle-default", kind: "minimal", title: "默认进度环", description: "显示带宽使用率，并在中心标注百分比。" },
       ],
       accessibility: { status: "covered", content: ["具体数值作为 children 渲染为文本，不依赖颜色读数。"] },
       controlledBehavior: { status: "not-applicable", reason: "纯展示组件，进度由 value/max props 决定。" },
@@ -327,11 +327,11 @@ export const CHARTS_GUIDES: Partial<ComponentGuideRegistry> = {
     "en-US": {
       slug: "progress-circle",
       locale: "en-US",
-      summary: "The progress circle expresses a single ratio (completion, capacity) as a ring with an optional center metric.",
+      summary: "Show completion or capacity as a ring, with a value and description in the center.",
       whenToUse: ["A prominent single-ratio metric.", "Center value plus sub-label compositions."],
       whenNotToUse: ["Dial-style gauge readings — use Gauge.", "Multi-segment shares — use the category bar or donut chart."],
       examples: [
-        { id: "progress-circle-default", kind: "minimal", title: "Default progress circle", description: "Bandwidth usage with a center percentage." },
+        { id: "progress-circle-default", kind: "minimal", title: "Default progress circle", description: "Show bandwidth usage with a percentage in the center." },
       ],
       accessibility: { status: "covered", content: ["The concrete value renders as text children, so reading never depends on color."] },
       controlledBehavior: { status: "not-applicable", reason: "Static display component; progress derives from value/max props." },

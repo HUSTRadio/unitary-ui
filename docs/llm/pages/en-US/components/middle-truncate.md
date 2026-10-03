@@ -2,7 +2,7 @@
 
 > Route: `/components/middle-truncate`
 
-Preserves the beginning and end of long identifiers.
+Shorten long text with an ellipsis while keeping both ends of a path, URL, or identifier.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Preserves the beginning and end of long identifiers.
 
 middle-truncate
 
-Preserves the beginning and end of long identifiers.
+Shorten long text with an ellipsis while keeping both ends of a path, URL, or identifier.
 
 ## When to use
 
@@ -67,7 +67,7 @@ export function MiddleTruncateExamplesE68EE04DExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

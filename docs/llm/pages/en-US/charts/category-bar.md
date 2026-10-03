@@ -2,7 +2,7 @@
 
 > Route: `/charts/category-bar`
 
-Renders a segmented horizontal bar showing shares of a total.
+Show proportions in a segmented bar, with optional threshold markers and tooltips.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Renders a segmented horizontal bar showing shares of a total.
 
 category-bar
 
-Renders a segmented horizontal bar showing shares of a total.
+Show proportions in a segmented bar, with optional threshold markers and tooltips.
 
 ## When to use
 
@@ -70,7 +70,7 @@ export function CategoryBarDefault37A8EEC1Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -78,7 +78,7 @@ Import
 import { CategoryBar } from "@/components/ui/category-bar";
 ```
 
-Native props: `React.HTMLAttributes<HTMLDivElement>`
+Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`
 
 ### Props & callbacks
 

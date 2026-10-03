@@ -2,7 +2,7 @@
 
 > Route: `/components/clearable-input`
 
-带内联 Esc 键帽、支持按 Escape 清除内容的输入框。
+带 Esc 清除按钮的输入框，可点击按钮或按 Escape 清空。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 clearable-input
 
-带内联 Esc 键帽、支持按 Escape 清除内容的输入框。
+带 Esc 清除按钮的输入框，可点击按钮或按 Escape 清空。
 
 ## 何时使用
 
@@ -30,7 +30,7 @@ clearable-input
 
 ### 带标签的可清空输入框
 
-将可见标签与原生日生输入关联以支持屏幕阅读器，同时保持 Escape 清除功能可用。
+关联可见标签和输入框；按 Escape 仍可清空。
 
 ### 与命令菜单集成的可清空输入框
 
@@ -62,7 +62,7 @@ clearable-input
 ## 主题行为
 
 - 跟随设计系统颜色变量，在不同主题下自动适配边框、文字和背景颜色。
-- 清除键帽继承主题前景色，并在悬停和聚焦时使用同一套语义颜色令牌。
+- 清除键帽继承主题前景色，并在悬停和聚焦时使用同一套语义颜色变量。
 
 ## 实时示例
 
@@ -192,7 +192,7 @@ export function ClearableInputWithClearCallback3538EFCAExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -200,7 +200,7 @@ export function ClearableInputWithClearCallback3538EFCAExample() {
 import { ClearableInput } from "@/components/ui/clearable-input";
 ```
 
-原生属性：`InputHTMLAttributes<HTMLInputElement>`
+还支持以下类型中定义的属性：`InputHTMLAttributes<HTMLInputElement>`
 
 ### 属性与回调
 

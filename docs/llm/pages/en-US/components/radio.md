@@ -2,7 +2,7 @@
 
 > Route: `/components/radio`
 
-Provides single user input from a selection of options.
+Choose one option from a mutually exclusive group.
 
 [Back to Components](#/components)
 
@@ -10,13 +10,13 @@ Provides single user input from a selection of options.
 
 radio
 
-Provides single user input from a selection of options.
+Choose one option from a mutually exclusive group.
 
 ## When to use
 
 - Use Radio for a single choice from 2–6 mutually exclusive options where seeing every option matters, such as deploy regions, plan tiers, or billing cycle.
 - Wrap related radios in <fieldset> + <legend> so screen readers announce the group name before each option.
-- Pre-select the safest default so the field reads as configured, never as required-but-empty.
+- Provide a safe default option when preselection is appropriate.
 
 ## When not to use
 
@@ -176,7 +176,7 @@ export function RadioRadioStandalone65A01781Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

@@ -4,10 +4,10 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
   browser: {
     slug: "browser",
     locale: "zh-CN",
-    summary: "把截图与演示装进逼真的浏览器窗口框架，用于落地页、文档与更新日志的营销展示。",
+    summary: "用浏览器窗框展示截图、录屏或演示。",
     whenToUse: [
       "在落地页、文档或 changelog 文章中展示产品截图、录屏与演示时，用 Browser 提供真实的浏览器窗框。",
-      "需要让静态截图获得“可运行产品”的视觉语境，又不想引入真实交互组件时。",
+      "需要用浏览器窗框为静态截图补充使用场景时。",
     ],
     whenNotToUse: [
       "不要在 Browser 框架里渲染真实产品 UI——窗框暗示这是截图，不是可交互的界面。",
@@ -18,14 +18,14 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
         id: "browser-composition",
         kind: "minimal",
         title: "基本组合",
-        description: "在浏览器窗口框架内放置截图或演示内容，展示标准的营销展示结构。",
+        description: "在浏览器窗框中放置截图或演示内容。",
         demoKey: "Composition",
       },
     ],
     accessibility: {
       status: "covered",
       content: [
-        "窗框装饰（交通灯、前进/后退箭头等）应携带 aria-hidden；地址栏的复制按钮保留自身的可访问名称，实际语义由内部图片或视频承载。",
+        "窗框装饰（交通灯、前进/后退箭头等）应携带 aria-hidden；地址栏的复制按钮保留自身的无障碍名称，实际语义由内部图片或视频承载。",
         "内部截图必须提供描述产品状态的替代文本，而不是复述窗框装饰。",
       ],
     },
@@ -52,7 +52,7 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
   button: {
     slug: "button",
     locale: "zh-CN",
-    summary: "触发一个改变状态的动作，支持多种视觉变体、尺寸、图标与加载态。",
+    summary: "触发保存、部署等操作，支持图标、加载态和多种尺寸。",
     whenToUse: [
       "用于会改变状态的动作：部署、保存、删除、轮换密钥；需要改变 URL 的导航请用 ButtonLink。",
       '表单提交场景使用 typeName="submit"（注意 HTML type 属性在 typeName 上，而 type 控制视觉变体）。',
@@ -60,8 +60,8 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
     ],
     whenNotToUse: [
       '不要用 type="success"/"ghost"/"violet" 这类不存在的取值；辅助动作用 secondary，危险确认用 error。',
-      "不要在按钮动作确实不可能发生之外的场景禁用按钮；禁用时必须配 Tooltip 说明原因。",
-      "纯图标按钮必须同时提供 svgOnly 与 aria-label；组件不会在运行时校验，调用方必须提供描述动作与目标（复制部署 URL）的标签，而不是只写图标名。",
+      "仅在操作不可用时禁用按钮，并说明原因。",
+      "纯图标按钮需提供 svgOnly 和 aria-label。标签应说明动作与目标，如“复制部署 URL”；组件不会校验标签是否存在。",
     ],
     examples: [
       {
@@ -106,7 +106,7 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
       content: [
         "loading 态保留标签、显示加载图标并禁用原生按钮；调用方应在其他可读区域提供进度说明。",
         "已有可见文本的按钮不要再设置 aria-label——它会覆盖可见标签，造成屏幕阅读器不一致。",
-        "禁用按钮必须配 Tooltip 说明原因，否则灰化按钮看起来像 bug。",
+        "为禁用按钮说明原因，让用户知道如何继续。",
       ],
     },
     controlledBehavior: {
@@ -134,7 +134,7 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
   calendar: {
     slug: "calendar",
     locale: "zh-CN",
-    summary: "展示月历供用户挑选日期，适合需要星期与月份上下文的日期选择场景。",
+    summary: "用月历选择日期或日期范围。",
     whenToUse: [
       "分析报表的时间范围选择，以及任何需要看到星期与月份上下文的日期挑选场景。",
       "用 min/max 限定在数据保留窗口内，防止用户选到范围外的日期。",
@@ -206,7 +206,7 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
   checkbox: {
     slug: "checkbox",
     locale: "zh-CN",
-    summary: "允许用户从一组选项中选择一个或多个，覆盖多选、确认声明与表格行选择场景。",
+    summary: "勾选多个选项、确认声明或选择表格行。",
     whenToUse: [
       "列表内多选：表格行选择器、多选筛选器、偏好勾选组。",
       "用户必须确认某个具体陈述的场景：服务条款、不可逆导出确认。",
@@ -271,7 +271,7 @@ export const GUIDES_02_ZH: Record<string, ComponentGuide> = {
   choicebox: {
     slug: "choicebox",
     locale: "zh-CN",
-    summary: "更大形态的 Radio，为需要更多细节的选项提供大点击目标与描述空间。",
+    summary: "用带描述或图标的卡片进行单选或多选。",
     whenToUse: [
       "选项受益于更大的点击目标，并需要附带描述或图标时，用 Choicebox 替代普通 Radio。",
       "互斥选择用单选模式，可叠加的选择用多选模式——不要在同一组内混用。",
@@ -340,10 +340,10 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
     slug: "browser",
     locale: "en-US",
     summary:
-      "Frames screenshots and demos inside a realistic browser window for marketing use on landing pages, docs, and changelog posts.",
+      "Present a screenshot, recording, or demo in a browser frame.",
     whenToUse: [
       "Use Browser as marketing chrome around screenshots, demos, and recordings shown on landing pages, docs, and changelog posts.",
-      "Use it when a static screenshot needs the visual context of a running product without embedding live components.",
+      "Use a browser frame to give a static screenshot context.",
     ],
     whenNotToUse: [
       "Don't render real product UI inside a Browser frame; the chrome implies a screenshot, not a live surface.",
@@ -355,7 +355,7 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Composition",
         description:
-          "Places a screenshot or demo inside the browser window frame, showing the standard marketing composition.",
+          "Place a screenshot or demo inside a browser frame.",
         demoKey: "Composition",
       },
     ],
@@ -390,7 +390,7 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
     slug: "button",
     locale: "en-US",
     summary:
-      "Triggers an action that mutates state, with configurable variants, sizes, icons, and a loading state.",
+      "Trigger actions such as saving or deploying, with icons, loading states, and multiple sizes.",
     whenToUse: [
       "Use Button for actions that mutate state (deploy, save, delete); use ButtonLink for navigation that changes the URL.",
       'For form submits use typeName="submit" — the HTML type attribute lives on typeName, while type controls the visual variant.',
@@ -398,8 +398,8 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
     ],
     whenNotToUse: [
       "Don't use nonexistent type values like success/ghost/violet; pass secondary for supporting actions and error for destructive confirmations.",
-      "Disable a button only when the action is impossible right now; pair disabling with a Tooltip that explains why.",
-      "Icon-only buttons require both svgOnly and aria-label. The component does not validate this at runtime, so callers must supply a label naming the action and target (Copy deployment URL), not only the icon.",
+      "Disable a button only when its action is unavailable, and explain why.",
+      "Provide svgOnly and aria-label for icon-only buttons. Name the action and target, such as “Copy deployment URL”; the component does not validate the label.",
     ],
     examples: [
       {
@@ -446,7 +446,7 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
       content: [
         "The loading state preserves the label, shows the loading icon, and disables the native button; expose progress through another readable status surface when needed.",
         "Don't set aria-label on a button that already has visible text; it overrides the label and creates a screen-reader mismatch.",
-        "Disabled buttons need a Tooltip naming the reason; a greyed button without explanation reads as a bug.",
+        "Explain why a button is disabled so users know how to proceed.",
       ],
     },
     controlledBehavior: {
@@ -475,7 +475,7 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
     slug: "calendar",
     locale: "en-US",
     summary:
-      "Displays a month calendar from which users can pick a date — the right picker when day-of-week and month context matter.",
+      "Choose a date or date range from a monthly calendar.",
     whenToUse: [
       "Pick Calendar for analytics ranges and any picker where day-of-week and month context matter.",
       "Set min and max to the data window so users can't pick outside the retention range.",
@@ -548,7 +548,7 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
     slug: "checkbox",
     locale: "en-US",
     summary:
-      "Allows users to select one or more items from a group — covering multi-select, acknowledgments, and table row pickers.",
+      "Select multiple options, confirm a statement, or select table rows.",
     whenToUse: [
       "Multi-select inside a list: table-row pickers, multi-pick filters, and opt-in preference groups.",
       "Acknowledgments where the user must affirm a specific statement (terms of service, irreversible export).",
@@ -618,7 +618,7 @@ export const GUIDES_02_EN: Record<string, ComponentGuide> = {
     slug: "choicebox",
     locale: "en-US",
     summary:
-      "A larger form of Radio for choices with more detail — big tap targets plus room for descriptions and icons.",
+      "Choose one or more options from cards with descriptions or icons.",
     whenToUse: [
       "Use Choicebox when a choice benefits from a larger tap target plus a description or icon.",
       "Single-select for mutually exclusive choices, multi-select for additive ones — don't mix the two within one group.",

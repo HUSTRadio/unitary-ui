@@ -131,7 +131,7 @@ export default function FullPageExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -139,7 +139,7 @@ Import
 import { FullPageScroller } from "@/components/ui/full-page-scroller";
 ```
 
-Native props: `Omit<ComponentProps<"div">, "onChange">`
+Also accepts props defined by: `Omit<ComponentProps<"div">, "onChange">`
 
 ### Props & callbacks
 

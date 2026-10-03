@@ -2,7 +2,7 @@
 
 > Route: `/components/continuous-surface`
 
-Clips a measured surface with independently derived continuous corners and a circular fallback.
+Clip an element with continuous corners based on its size, falling back to ordinary rounded corners.
 
 [Back to Components](#/components)
 
@@ -10,11 +10,11 @@ Clips a measured surface with independently derived continuous corners and a cir
 
 continuous-surface
 
-Clips a measured surface with independently derived continuous corners and a circular fallback.
+Clip an element with continuous corners based on its size, falling back to ordinary rounded corners.
 
 ## When to use
 
-- Use it for isolated cards, tiles, or near-square brand-neutral surfaces when shape is an intentional design-system semantic.
+- Use it for standalone cards, tiles, or near-square containers that need continuous corners.
 - Use continuousCornerPath with straight sides for rectangular cards; reserve a full superellipse for near-square icons or avatars.
 - Use it when a responsive surface must preserve one visual radius and curve family after resizing.
 
@@ -32,7 +32,7 @@ Compares the exact circular p=2 baseline, default p=3 continuous curve, and emph
 
 ## Accessibility
 
-- The component preserves native div attributes; add a landmark, heading, or accessible name when the content requires one.
+- The component accepts div attributes. Add an appropriate role, heading, or accessible name when needed to describe the region.
 - Shape is only a visual grouping cue and must not be the sole carrier of state or interactive meaning.
 
 ## Controlled behavior
@@ -122,7 +122,7 @@ export function ContinuousSurfaceDefault37A8EEC1Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -130,7 +130,7 @@ Import
 import { ContinuousSurface } from "@/components/ui/continuous-surface";
 ```
 
-Native props: `HTMLAttributes<HTMLDivElement>`
+Also accepts props defined by: `HTMLAttributes<HTMLDivElement>`
 
 ### Props & callbacks
 

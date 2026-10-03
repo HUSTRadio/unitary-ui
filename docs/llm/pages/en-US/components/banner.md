@@ -2,7 +2,7 @@
 
 > Route: `/components/banner`
 
-A prominent message that spans the full width of its container to announce important information.
+Show a full-width announcement or important notice at the top of a container.
 
 [Back to Components](#/components)
 
@@ -10,12 +10,12 @@ A prominent message that spans the full width of its container to announce impor
 
 banner
 
-A prominent message that spans the full width of its container to announce important information.
+Show a full-width announcement or important notice at the top of a container.
 
 ## When to use
 
 - Display global announcements, maintenance notices, or critical alerts at the top of a page or section start where user attention is needed.
-- Use Banner's button configuration when an announcement needs one explicit linked call to action.
+- Use button to configure the label and destination of an action link.
 - When a message requires full content width and contextual framing (such as deployment status changes).
 
 ## When not to use
@@ -70,7 +70,7 @@ export function BannerDefault21B111CBExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

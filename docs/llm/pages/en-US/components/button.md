@@ -2,7 +2,7 @@
 
 > Route: `/components/button`
 
-Triggers an action with configurable variants, sizes, and icons.
+Trigger actions such as saving or deploying, with icons, loading states, and multiple sizes.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Triggers an action with configurable variants, sizes, and icons.
 
 button
 
-Triggers an action with configurable variants, sizes, and icons.
+Trigger actions such as saving or deploying, with icons, loading states, and multiple sizes.
 
 ## When to use
 
@@ -21,8 +21,8 @@ Triggers an action with configurable variants, sizes, and icons.
 ## When not to use
 
 - Don't use nonexistent type values like success/ghost/violet; pass secondary for supporting actions and error for destructive confirmations.
-- Disable a button only when the action is impossible right now; pair disabling with a Tooltip that explains why.
-- Icon-only buttons require both svgOnly and aria-label. The component does not validate this at runtime, so callers must supply a label naming the action and target (Copy deployment URL), not only the icon.
+- Disable a button only when its action is unavailable, and explain why.
+- Provide svgOnly and aria-label for icon-only buttons. Name the action and target, such as “Copy deployment URL”; the component does not validate the label.
 
 ## Examples
 
@@ -50,7 +50,7 @@ Places icons before or after the label to strengthen action recognition.
 
 - The loading state preserves the label, shows the loading icon, and disables the native button; expose progress through another readable status surface when needed.
 - Don't set aria-label on a button that already has visible text; it overrides the label and creates a screen-reader mismatch.
-- Disabled buttons need a Tooltip naming the reason; a greyed button without explanation reads as a bug.
+- Explain why a button is disabled so users know how to proceed.
 
 ## Controlled behavior
 
@@ -383,7 +383,7 @@ export function ButtonVariants63D2643BExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -391,7 +391,7 @@ Import
 import { Button, ButtonLink, CustomButton, buttonVariants } from "@/components/ui/button";
 ```
 
-Native props: `ButtonHTMLAttributes<HTMLButtonElement>`
+Also accepts props defined by: `ButtonHTMLAttributes<HTMLButtonElement>`
 
 ### Props & callbacks
 

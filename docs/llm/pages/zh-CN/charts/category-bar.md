@@ -2,7 +2,7 @@
 
 > Route: `/charts/category-bar`
 
-渲染分段横向条，展示各部分占总体的比例。
+用分段横条显示占比，可添加阈值标记和提示。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 category-bar
 
-渲染分段横向条，展示各部分占总体的比例。
+用分段横条显示占比，可添加阈值标记和提示。
 
 ## 何时使用
 
@@ -70,7 +70,7 @@ export function CategoryBarDefault37A8EEC1Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -78,7 +78,7 @@ export function CategoryBarDefault37A8EEC1Example() {
 import { CategoryBar } from "@/components/ui/category-bar";
 ```
 
-原生属性：`React.HTMLAttributes<HTMLDivElement>`
+还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`
 
 ### 属性与回调
 

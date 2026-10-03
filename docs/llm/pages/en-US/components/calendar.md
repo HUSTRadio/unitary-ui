@@ -2,7 +2,7 @@
 
 > Route: `/components/calendar`
 
-Displays a month calendar from which users can pick a date.
+Choose a date or date range from a monthly calendar.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays a month calendar from which users can pick a date.
 
 calendar
 
-Displays a month calendar from which users can pick a date.
+Choose a date or date range from a monthly calendar.
 
 ## When to use
 
@@ -234,7 +234,7 @@ export function CalendarPinnedTimezoneEF9CAF79Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

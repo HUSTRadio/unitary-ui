@@ -4,9 +4,9 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
   tabs: {
     slug: "tabs",
     locale: "zh-CN",
-    summary: "将内容组织到可切换的面板中，让用户在同一页面内浏览不同的视图。",
+    summary: "在同一页面内切换概览、日志等相关视图。",
     whenToUse: [
-      "在单个页面内用于在不同但属于同一范围的视图间切换（如概览、日志、设置）。",
+      "在同一页面中切换概览、日志、设置等相关视图。",
       "多个视图共享同一个 URL 父级和数据模型时，使用标签页保持上下文同步。",
       "需要通过 URL 状态实现深度链接和刷新恢复（如 query param 或路径映射）的场景。",
     ],
@@ -72,7 +72,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
   "text-with-copy-button": {
     slug: "text-with-copy-button",
     locale: "zh-CN",
-    summary: "显示文本内容并附带一个复制按钮，方便用户将文本一键复制到剪贴板。",
+    summary: "显示文本，并在旁边提供复制按钮。",
     whenToUse: [
       "展示一段短文本供用户快速复制，如令牌、命令、ID 或配置值等需要按原样使用的字符串。",
       "需要在代码片段、终端命令或环境变量旁边提供便捷的复制操作时，作为内联辅助功能使用。",
@@ -128,7 +128,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
   textarea: {
     slug: "textarea",
     locale: "zh-CN",
-    summary: "多行文本输入框，适合需要换行的较长内容输入场景。",
+    summary: "输入描述、备注等多行文本。",
     whenToUse: [
       "输入可以换行的内容（如提交消息、描述信息、备注），需要用户在编辑器中输入多行自由格式文本时。",
       "表单字段需要预留足够的书写空间且不希望单行 Input 被撑破布局时，Textarea 提供了可控的行数和自动扩展能力。",
@@ -194,13 +194,13 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
   "theme-switcher": {
     slug: "theme-switcher",
     locale: "zh-CN",
-    summary: "提供 Light / System / Dark 三种主题模式的切换控件，帮助用户自定义视觉偏好。",
+    summary: "在浅色、深色和跟随系统三种主题偏好间切换。",
     whenToUse: [
       "作为应用中唯一的官方主题切换入口，放置在页脚或设置页面，提供简洁的主题选择。",
       "需要 Light / System / Dark 三态偏好切换时使用；组件内置图标、语义标签和 System 模式检测。",
     ],
     whenNotToUse: [
-      "不要在页面上多次重复放置主题切换器——Theme Switcher 应在整个应用中只出现一次，而不是每页各一份。",
+      "将主题切换器放在共用页脚或设置页，避免重复提供入口。",
       "不要自行用 Switch 或三个图标按钮重写主题选择器——Theme Switcher 已经处理了图标、aria-label 和 System 模式检测等细节。",
     ],
     examples: [
@@ -232,7 +232,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
       content: [
         "Theme Switcher 通过框架的 ThemeProvider（src/lib/theme.tsx）读取和写入主题偏好；应用根节点用 ThemeProvider 包裹一次即可，无需把主题状态冗余映射到本地 React 状态。",
         "本库不依赖 next-themes：公开 API 仅有 className / small / disabled 三个 prop，没有 onChange 回调或 forcedTheme 概念。",
-        "需要拦截主题切换（如跟随系统设置联动）时，直接消费 useTheme() 的 preference/setPreference，而不是包一层回调。",
+        "需要拦截主题切换（如跟随系统设置联动）时，直接使用 useTheme() 的 preference/setPreference，而不是包一层回调。",
       ],
     },
     responsiveBehavior: {
@@ -246,14 +246,14 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Theme Switcher 本身是主题切换的核心控件，其图标和文字随所选主题实时变化，是当前选中主题的可视化反映。",
-        "在 Settings 页面等有充足空间的场景中，使用默认尺寸确保标签文字有足够的呼吸空间。",
+        "设置页等空间充足的区域使用默认尺寸。",
       ],
     },
   },
   toast: {
     slug: "toast",
     locale: "zh-CN",
-    summary: "短暂显示的简明消息通知，用于确认用户操作的结果。",
+    summary: "短暂显示操作结果或通知。",
     whenToUse: [
       "对用户发起的操作给出非阻塞的确认反馈，如 'Domain added'、'Project archived'、'Deployment canceled'。",
       "异步流程结束时发送最终的状态通知（成功或错误），不需要在中间步骤堆叠多条 toast。",
@@ -324,9 +324,9 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
     slug: "tabs",
     locale: "en-US",
     summary:
-      "Organizes content into switchable panels for navigating sibling views within a single page.",
+      "Switch between related views, such as overview and logs, within a page.",
     whenToUse: [
-      "Switch between sibling views inside a single page (Overview, Logs, Settings) where all views share the same scope and data model.",
+      "Switch between related views, such as overview, logs, and settings, within a page.",
       "When deep-linking and refresh preservation via URL state (query param or path segment) keeps the current view in sync.",
       "Display multiple related sections side by side under a shared parent container without requiring full page navigation.",
     ],
@@ -396,7 +396,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
     slug: "text-with-copy-button",
     locale: "en-US",
     summary:
-      "Displays text alongside a copy button that copies the content to the clipboard with a single click.",
+      "Display text with a copy button beside it.",
     whenToUse: [
       "Present short strings for users to copy verbatim, such as tokens, commands, IDs, or configuration values.",
       "Provide an inline copy affordance next to code snippets, terminal commands, or environment variable values for easy retrieval.",
@@ -455,7 +455,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
     slug: "textarea",
     locale: "en-US",
     summary:
-      "A multi-line text input field suitable for longer content that needs to wrap across multiple lines.",
+      "Enter multi-line text, such as a description or notes.",
     whenToUse: [
       "Input content that wraps to multiple lines, such as commit messages, descriptions, or notes where users enter free-form multi-line text.",
       "When a form field needs sufficient writing space and a single-line Input would break the layout, Textarea offers controllable row count and optional growth.",
@@ -525,13 +525,13 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
     slug: "theme-switcher",
     locale: "en-US",
     summary:
-      "Provides a Light / System / Dark theme switching control for users to customize their visual preference.",
+      "Choose light, dark, or system theme preference.",
     whenToUse: [
       "As the sole canonical theme toggle in an app, placed in the footer or settings page for clean, centralized access.",
       "For Light / System / Dark three-state preference switching; Theme Switcher ships with built-in icons, semantic labels, and System mode detection.",
     ],
     whenNotToUse: [
-      "Do not duplicate the theme switcher across pages—it should appear exactly once per app, not once per route.",
+      "Place the theme switcher in a shared footer or settings page to avoid duplicate controls.",
       "Do not rebuild a theme picker with Switch components or three icon buttons—Theme Switcher already handles icons, aria-labels, and System detection.",
     ],
     examples: [
@@ -579,7 +579,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Theme Switcher itself is the core theme-control element; its icons and labels change in real time with the selected theme, visually reflecting the active choice.",
-        "On settings pages with ample room, use the default size so label text has enough breathing space.",
+        "Use the default size where space allows, such as a settings page.",
       ],
     },
   },
@@ -587,7 +587,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
     slug: "toast",
     locale: "en-US",
     summary:
-      "A succinct temporary message notification used to acknowledge the result of user-initiated actions.",
+      "Briefly display an action result or notification.",
     whenToUse: [
       "Provide non-blocking acknowledgments of user-initiated actions, e.g. 'Domain added', 'Project archived', 'Deployment canceled'.",
       "Emit a final status notification (success or error) at the terminal step of an async flow, avoiding stacked intermediate messages.",

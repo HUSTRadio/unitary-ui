@@ -2,7 +2,7 @@
 
 > Route: `/charts/tracker`
 
-Renders a sequence of status blocks for event timelines or uptime history.
+Show event history, such as uptime or build results, as a sequence of status blocks.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Renders a sequence of status blocks for event timelines or uptime history.
 
 tracker
 
-Renders a sequence of status blocks for event timelines or uptime history.
+Show event history, such as uptime or build results, as a sequence of status blocks.
 
 ## When to use
 
@@ -64,7 +64,7 @@ export function TrackerDefault37A8EEC1Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -72,7 +72,7 @@ Import
 import { Tracker } from "@/components/ui/tracker";
 ```
 
-Native props: `React.HTMLAttributes<HTMLDivElement>`
+Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`
 
 ### Props & callbacks
 

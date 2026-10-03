@@ -2,7 +2,7 @@
 
 > Route: `/components/combobox`
 
-可搜索的单选列表。
+通过输入搜索并选择一个选项。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 combobox
 
-可搜索的单选列表。
+通过输入搜索并选择一个选项。
 
 ## 何时使用
 
@@ -20,7 +20,7 @@ combobox
 ## 何时不应使用
 
 - 对于简单的二元选择（开关/启用/禁用），应该使用 Toggle 而不是 Combobox；组合框的交互成本过高。
-- 当用户需要从已知列表中多选时；请使用 Multi Select 组合框是单选专用组件。
+- 需要多选时使用 MultiSelect；Combobox 只支持单选。
 
 ## 示例
 
@@ -38,7 +38,7 @@ combobox
 
 ### 不同尺寸的组合框
 
-展示 Combobox 提供的尺寸变体（small、medium、large），以便在不同密度场景中使用。
+展示 Combobox 提供的尺寸变体（small、medium、large），适配不同布局密度。
 
 ### 带标签的组合框
 
@@ -579,7 +579,7 @@ export function ComboboxInsideSheet95E13F11Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 

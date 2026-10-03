@@ -2,7 +2,7 @@
 
 > Route: `/components/slider`
 
-用于从给定范围中选择数值的输入控件。
+在给定数值范围内拖动滑块选择值。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 slider
 
-用于从给定范围中选择数值的输入控件。
+在给定数值范围内拖动滑块选择值。
 
 ## 何时使用
 
@@ -36,7 +36,7 @@ slider
 
 ### 带标签
 
-展示通过 label prop 在轨道上方提供可见且可访问名称的 Range Slider。
+展示通过 label prop 在轨道上方提供可见且无障碍名称的 Range Slider。
 
 ## 无障碍
 
@@ -146,7 +146,7 @@ export function SliderCommitOnRelease97B1700EExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -164,4 +164,4 @@ import { Slider } from "@/components/ui/slider";
 - 端口号或内存限制这类精确值，slider 配数字 Input；键盘用户默认输入。
 - 吸附到合理步长（1、5、10%），拖拽绝不产生 47.83291 这类值。min 与 max 夹到真实产品限制。
 - 需要精确值时启用 showStartInput/showEndInput，或由调用方在相邻区域渲染带单位的数值；label 只负责命名滑块。
-- 通过兄弟 <label htmlFor> 或 aria-label 给 slider 可访问名称，让原生方向键、Page Up/Down、Home/End 行为承担键盘工作。不要拦截这些键。
+- 通过兄弟 <label htmlFor> 或 aria-label 给 slider 无障碍名称，让原生方向键、Page Up/Down、Home/End 行为承担键盘工作。不要拦截这些键。

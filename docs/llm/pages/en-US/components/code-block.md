@@ -2,7 +2,7 @@
 
 > Route: `/components/code-block`
 
-A bordered code block with a filename header for multi-line source.
+Display highlighted code with filenames, line numbers, and change markers.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A bordered code block with a filename header for multi-line source.
 
 code-block
 
-A bordered code block with a filename header for multi-line source.
+Display highlighted code with filenames, line numbers, and change markers.
 
 ## When to use
 
@@ -529,7 +529,7 @@ export function CodeBlockOpenInV0CA6FBF0AExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

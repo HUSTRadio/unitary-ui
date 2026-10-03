@@ -4,7 +4,7 @@
 
 # App Shell
 
-This page is a self-contained shell assembly demo: topbar, sidebar navigation, content area and footer are all composed from framework components. Resize the window across the lg breakpoint (1024px) to see the coherent switch between the sidebar and the hamburger menu forms.
+Build an application page with a topbar, sidebar, content area, and footer. Resize the window to see the sidebar switch to a hamburger menu at the lg breakpoint (1024px).
 
 [App Shell](#demo-overview)
 
@@ -16,11 +16,11 @@ scrollBehavior supports static / pinned / auto-hide positioning; variant support
 
 ### SidebarNav
 
-Generic sidebar navigation: grouped data, activeTo highlights the current item, side picks the separator edge, and items can carry a trailing status pill. With collapsible on, group headings toggle open and closed. Width is owned by the outer layout; visible from the lg breakpoint.
+groups defines navigation groups, activeTo highlights the current page, and side sets the separator edge. collapsible allows groups to fold. This demo’s outer layout sets the width and shows the sidebar from the lg breakpoint.
 
 ### HamburgerMenu
 
-HamburgerIcon + ExpandPanel composite: with anchor=topbar the panel extends downward from the topbar's bottom edge (same width, shared border), with built-in search filtering.
+Combines HamburgerIcon and ExpandPanel. With anchor=topbar, the panel opens below the topbar; typing a query displays matching results.
 
 ### Footer
 
@@ -32,7 +32,7 @@ columns link groups + slotLeading/slotTrailing slots + optional sticky pinning. 
 
 ## Menu bar and toolbar
 
-MenuBar owns application-level commands (File / Edit / View, with right-aligned shortcuts, separators, checkable and disabled items); Toolbar owns the window-level action groups (three-slot layout, whole-group collapse into an overflow menu, segmented toggle). Composed together they form the browser-window application shell: menu bar on top, toolbar directly beneath.
+MenuBar provides application commands such as File, Edit, and View. Toolbar provides tools such as navigation and view switching, moving groups into an overflow menu when space is limited. This demo places the menu bar above the toolbar.
 
 unitary-ui.app/editor
 

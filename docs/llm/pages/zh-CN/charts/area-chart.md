@@ -2,7 +2,7 @@
 
 > Route: `/charts/area-chart`
 
-渲染分层面积趋势，支持堆叠与百分比变体。
+用面积填充显示时间趋势，支持堆叠、百分比和自定义提示。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 area-chart
 
-渲染分层面积趋势，支持堆叠与百分比变体。
+用面积填充显示时间趋势，支持堆叠、百分比和自定义提示。
 
 ## 何时使用
 
@@ -282,7 +282,7 @@ export function AreaChartChartCardE6B2D9F1Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -290,7 +290,7 @@ export function AreaChartChartCardE6B2D9F1Example() {
 import { AreaChart } from "@/components/ui/area-chart";
 ```
 
-原生属性：`React.HTMLAttributes<HTMLDivElement>`
+还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`
 
 ### 属性与回调
 

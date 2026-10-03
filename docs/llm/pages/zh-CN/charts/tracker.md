@@ -2,7 +2,7 @@
 
 > Route: `/charts/tracker`
 
-渲染状态块序列，用于事件时间线或可用性历史。
+用一系列状态块显示可用性、构建结果等事件历史。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 tracker
 
-渲染状态块序列，用于事件时间线或可用性历史。
+用一系列状态块显示可用性、构建结果等事件历史。
 
 ## 何时使用
 
@@ -64,7 +64,7 @@ export function TrackerDefault37A8EEC1Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -72,7 +72,7 @@ export function TrackerDefault37A8EEC1Example() {
 import { Tracker } from "@/components/ui/tracker";
 ```
 
-原生属性：`React.HTMLAttributes<HTMLDivElement>`
+还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`
 
 ### 属性与回调
 

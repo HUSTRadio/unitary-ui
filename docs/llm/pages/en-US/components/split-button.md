@@ -2,7 +2,7 @@
 
 > Route: `/components/split-button`
 
-Combines a primary action with a short menu of related actions.
+Combine a primary action and a menu of related options in one button group.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Combines a primary action with a short menu of related actions.
 
 split-button
 
-Combines a primary action with a short menu of related actions.
+Combine a primary action and a menu of related options in one button group.
 
 ## When to use
 
@@ -20,7 +20,7 @@ Combines a primary action with a short menu of related actions.
 
 ## When not to use
 
-- When there are more than three related actions; use a regular Menu instead, because the split-button menu must not become a junk drawer.
+- Consider grouping actions with Menu when there are more than three.
 - When two actions are equally important; place two side-by-side Buttons rather than a primary-secondary hierarchy.
 
 ## Examples
@@ -266,7 +266,7 @@ export function SplitButtonPullDownCard6B3F1D80Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

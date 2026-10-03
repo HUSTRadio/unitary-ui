@@ -2,7 +2,7 @@
 
 > Route: `/components/book`
 
-A responsive book component.
+Present an article, manual, or marketing content as a book cover.
 
 [Back to Components](#/components)
 
@@ -10,19 +10,19 @@ A responsive book component.
 
 book
 
-A responsive book component.
+Present an article, manual, or marketing content as a book cover.
 
 ## When to use
 
-- Use Book for marketing pages, docs landing covers, and changelog hero shots where content needs the metaphor of a labeled volume.
+- Use a book cover to feature an article or manual on a marketing page, docs landing page, or changelog.
 - Use simple when the title carries the design; use stripe when an icon or color stripe adds category hierarchy.
-- Reserve the textured treatment for isolated hero shots used for single articles or chapter presentations.
+- Reserve textures for standalone article or chapter covers.
 
 ## When not to use
 
 - Do not use Book inside product info cards or dashboard tiles—it is too decorative for repeated UI rows.
-- Do not treat Book as an interactive content editor—it is a purely presentational frame with no editing capabilities.
-- In accessibility-first scenarios, do not use the cover as the primary content source—the cover should be treated as decorative chrome with the title surfaced via an underlying heading element.
+- Book displays a cover and does not support editing.
+- Provide important titles and content as readable text, rather than only in the cover image.
 
 ## Examples
 
@@ -40,8 +40,8 @@ Demonstrates replacing the built-in illustration and customizing colors for a pe
 
 ## Accessibility
 
-- Book's cover should be marked as decorative chrome with the title surfaced through an underlying heading element so screen readers do not double-announce.
-- Cover illustrations should have empty alt text (decorative=true) since meaning is already conveyed in the title.
+- Use readable text for the title and hide purely decorative artwork from screen readers.
+- For decorative custom illustrations, use alt="" on images or aria-hidden on SVGs.
 - Page thickness effects should not impact core content legibility and focus capability.
 
 ## Controlled behavior
@@ -50,8 +50,8 @@ Not applicable: Book is a passive display component with no state transitions or
 
 ## Responsive behavior
 
-- Book uses responsive widths to preserve the cover proportion, scaling automatically without distortion across viewports.
-- On narrow screens, book title may shrink font size or enable multi-line wrapping while preserving the cover ratio integrity.
+- width accepts a number or breakpoint-specific widths; the cover scales proportionally.
+- On narrow screens, keep titles short and check that the chosen width fits the container.
 
 ## Theme behavior
 
@@ -255,7 +255,7 @@ export function BookTexturedB29877FBExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -269,8 +269,8 @@ import { Book } from "@/components/ui/book";
 
 ## Best Practices
 
-- Use Book for marketing pages, docs landing covers, and changelog hero shots where content needs the metaphor of a labeled volume.
-- For in-product cards and dashboard tiles, use Card; Book is too decorative for repeated UI rows.
-- Use simple when the title carries the design; use stripe when an icon or color stripe adds category hierarchy.
-- Use responsive widths to preserve the cover proportion, and reserve the textured treatment for isolated hero shots.
-- Treat the cover as decorative chrome and surface the title via the underlying heading element so screen readers don't double-announce.
+- Use Book to feature an article or manual on a marketing page, docs landing page, or changelog.
+- Use Card for product cards and dashboard lists to avoid repeating decorative covers.
+- Use simple for a title-led cover; use stripe when an icon or color stripe identifies a category.
+- Use responsive width values to preserve cover proportions; reserve textures for standalone covers.
+- Use readable text for the title and hide purely decorative artwork from screen readers.

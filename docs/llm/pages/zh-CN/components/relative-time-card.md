@@ -2,7 +2,7 @@
 
 > Route: `/components/relative-time-card`
 
-显示带时间上下文的相对时间戳。
+显示“5 分钟前”等相对时间，悬停或聚焦时查看精确时间。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 relative-time-card
 
-显示带时间上下文的相对时间戳。
+显示“5 分钟前”等相对时间，悬停或聚焦时查看精确时间。
 
 ## 何时使用
 
@@ -68,7 +68,7 @@ export function RelativeTimeCardDefault21B111CBExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 

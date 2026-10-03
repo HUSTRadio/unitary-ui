@@ -2,7 +2,7 @@
 
 > Route: `/components/note`
 
-Displays text that requires attention or provides additional information.
+Show a persistent notice, warning, or explanation beside the relevant content.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays text that requires attention or provides additional information.
 
 note
 
-Displays text that requires attention or provides additional information.
+Show a persistent notice, warning, or explanation beside the relevant content.
 
 ## When to use
 
@@ -44,7 +44,7 @@ Replaces the default icon slot with a custom SVG icon to meet brand-specific vis
 ## Accessibility
 
 - Different variants (destructive, warning, success) convey semantics through color and icons, but color alone is insufficient — explicit text descriptions must accompany them.
-- A Note is persistent rather than transient; its content is announced immediately by screen readers on page load.
+- Note stays in the page content until the parent removes it. Add aria-live when changes need to be announced.
 - The disabled state sets both aria-disabled and native inert, so the entire Note becomes non-interactive and leaves the accessibility tree.
 
 ## Controlled behavior
@@ -245,7 +245,7 @@ export function NoteCustomIconEE5755A2Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

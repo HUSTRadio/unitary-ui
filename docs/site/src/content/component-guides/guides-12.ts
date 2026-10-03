@@ -4,16 +4,16 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
   "show-more": {
     slug: "show-more",
     locale: "zh-CN",
-    summary: "通过渐进式披露触发器展示展开或收起的内容。",
+    summary: "用按钮请求展开或收起内容；内容本身由页面管理。",
     whenToUse: [
-      "对单个长列表或内容块进行渐进式披露，如最近活动、仓库分支、附件资源等。",
+      "对单个长列表或内容块进行按需展开，如最近活动、仓库分支、附件资源等。",
       "需要在截断前展示足够多的行数以传达列表形状（通常 5–10 行），让用户了解完整列表的全貌。",
       "组件文案固定为“显示更多”/“显示更少”；如需提示隐藏项数量，应在相邻内容中由调用方展示。",
     ],
     whenNotToUse: [
       "同一数据集的平行分页应使用 Pagination 而非 ShowMore；可选区块应使用 Collapse。",
-      "不要在截断仅 2 行的数据时使用——这会让人感到敷衍。至少展示 5 行再截断。",
-      "不要在同一数据集中先展开又立即折叠——折叠已展开的行会让阅读位置丢失。",
+      "短列表直接显示；较长列表可先显示 5–10 行再提供展开按钮。",
+      "展开后不要自动收起，避免打断用户的阅读位置。",
     ],
     examples: [
       {
@@ -69,7 +69,7 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
   skeleton: {
     slug: "skeleton",
     locale: "zh-CN",
-    summary: "在内容加载期间显示占位符骨架屏。",
+    summary: "加载时显示与内容尺寸匹配的占位形状；SkeletonMask 可遮罩已有内容。",
     whenToUse: [
       "当异步数据填充已知布局（表格行、卡片网格、个人资料模块、侧边栏）时，展示 Skeleton 作为加载占位符。",
       "需要维持最终内容的宽高尺寸以避免布局抖动（CLS），骨架屏能精确匹配实际元素的形状和大小。",
@@ -157,7 +157,7 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
   slider: {
     slug: "slider",
     locale: "zh-CN",
-    summary: "一个从给定范围中选择值的输入控件。",
+    summary: "在给定数值范围内拖动滑块选择值。",
     whenToUse: [
       "用于需要对数值范围敏感的输入场景：带宽上限、透明度、音频音量、颜色通道等形状和距离比精度更重要的情况。",
       "需要将滑块与数字输入框配对使用，供键盘用户在精确值（端口号、内存限制）间进行选择。",
@@ -187,7 +187,7 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
         id: "with-label",
         kind: "stateful",
         title: "带标签",
-        description: "展示通过 label prop 在轨道上方提供可见且可访问名称的 Range Slider。",
+        description: "展示通过 label prop 在轨道上方提供可见且无障碍名称的 Range Slider。",
         demoKey: "with-label",
       },
     ],
@@ -223,7 +223,7 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
   snippet: {
     slug: "snippet",
     locale: "zh-CN",
-    summary: "展示可供复制运行的 shell 命令或简短代码。",
+    summary: "展示可复制的 Shell 命令或短代码。",
     whenToUse: [
       "为用户希望一键复制的运行型 shell 命令使用 Snippet，它自带提示符字符和复制辅助功能。",
       "内联令牌（环境变量名、路径）应使用 InlineCode，多行源代码应使用 CodeBlock；单行短命令则使用 Snippet。",
@@ -292,7 +292,7 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
   spinner: {
     slug: "spinner",
     locale: "zh-CN",
-    summary: "表示正在进行的操作。",
+    summary: "用旋转图标表示操作仍在进行。",
     whenToUse: [
       "对没有明确进度信息的单次进行中操作使用 Spinner，此时无法提供确定的百分比或时长。",
       "在按钮上使用 loading 状态而非替换为 Spinner，这样忙碌的元素仍然可聚焦且可以向辅助技术广播忙闲状态。",
@@ -323,7 +323,7 @@ export const GUIDES_12_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Spinner 是无交互的展示型组件，没有受控行为或状态转换；它的显隐由父组件的状态驱动，自身不接受受控属性。",
+        "Spinner 的显示和隐藏由父组件决定，没有内部状态。",
     },
     responsiveBehavior: {
       status: "covered",
@@ -346,16 +346,16 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
   "show-more": {
     slug: "show-more",
     locale: "en-US",
-    summary: "Shows expanded or collapsed content with a progressive-disclosure trigger.",
+    summary: "Request expanded or collapsed content with a button; the page manages the content itself.",
     whenToUse: [
-      "Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.",
+      "Use ShowMore for showing content on demand of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.",
       "Show enough rows to convey the shape of the list before truncating (5–10 typical); this helps users understand the full scope of hidden content.",
       'The component label is fixed to "Show More" / "Show Less". If hidden-item count matters, render that count in adjacent caller-owned content.',
     ],
     whenNotToUse: [
       "For sibling pages of the same data set, use Pagination rather than ShowMore; for optional sections, use Collapse instead.",
-      "Do not use ShowMore when truncating only 2 rows—it feels performative. Always show at least 5 rows before truncating.",
-      "Do not cycle Show More then Show Less mid-flow on the same data set; collapsing rows after expansion scrolls them away from where the user was reading.",
+      "Show short lists in full; for longer lists, show 5–10 rows before offering an expand button.",
+      "Do not collapse content automatically after expansion; preserve the user’s reading position.",
     ],
     examples: [
       {
@@ -413,7 +413,7 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
   skeleton: {
     slug: "skeleton",
     locale: "en-US",
-    summary: "Displays a placeholder while content is loading.",
+    summary: "Show placeholders matching the content size while loading; SkeletonMask can mask existing content.",
     whenToUse: [
       "Show a Skeleton when async data fills a known layout: table rows, card grids, profile blocks, sidebars—preserving the eventual content's shape.",
       "Set width and height to match the final content so the layout does not shift when data resolves, preventing Cumulative Layout Shift (CLS).",
@@ -504,7 +504,7 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
   slider: {
     slug: "slider",
     locale: "en-US",
-    summary: "An input to select a value from a given range.",
+    summary: "Drag a slider to choose a value within a numeric range.",
     whenToUse: [
       "Use a slider for ranged numeric input where shape and proximity matter more than precision: bandwidth caps, opacity, audio volume, color channels.",
       "Pair the slider with a numeric Input for exact values like port numbers or memory limits, where keyboard users prefer typing.",
@@ -572,7 +572,7 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
   snippet: {
     slug: "snippet",
     locale: "en-US",
-    summary: "Displays a runnable shell command or short code the user is meant to copy.",
+    summary: "Display a copyable shell command or short code snippet.",
     whenToUse: [
       "Use Snippet for a runnable shell command the user is meant to copy; it ships with the prompt glyph and copy affordance built in.",
       "For inline tokens (env var names, paths) use InlineCode, and for multi-line source use CodeBlock; one-liner commands belong in Snippet.",
@@ -642,7 +642,7 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
   spinner: {
     slug: "spinner",
     locale: "en-US",
-    summary: "Indicates an in-progress operation.",
+    summary: "Use a spinning icon to indicate an ongoing action.",
     whenToUse: [
       "Use Spinner for a single in-flight action or indeterminate wait where there is no known progress to show.",
       "Prefer a loading state on the action control itself (like Button loading) so the busy element stays focusable and announces the busy state to assistive tech.",
@@ -674,7 +674,7 @@ export const GUIDES_12_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Spinner is a passive display component with no interactive state or controlled properties; its visibility is driven by the parent component's state and it accepts no controlled attributes.",
+        "The parent controls when Spinner appears; it has no internal state.",
     },
     responsiveBehavior: {
       status: "covered",

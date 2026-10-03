@@ -2,7 +2,7 @@
 
 > Route: `/components/command-menu`
 
-Filters and launches keyboard-first actions in a modal command palette.
+Search resources, navigate to pages, or run commands from a panel with keyboard support.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Filters and launches keyboard-first actions in a modal command palette.
 
 command-menu
 
-Filters and launches keyboard-first actions in a modal command palette.
+Search resources, navigate to pages, or run commands from a panel with keyboard support.
 
 ## When to use
 
@@ -38,7 +38,7 @@ Adds suffix labels to command items to show auxiliary information such as keyboa
 
 ## Accessibility
 
-- Trap all focus inside the overlay while the panel is open; press Escape to close the panel and release focus back to the trigger.
+- Keep focus inside the open panel. Escape closes it and returns focus to the trigger.
 - Each command item should provide a clear Title Case verb phrase description (e.g., 'Deploy Project'), avoiding ambiguous phrasing.
 - Show a recent or default item set when the input is empty so the menu is useful before typing.
 
@@ -195,7 +195,7 @@ export function CommandMenuWithSuffixED17650BExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

@@ -4,7 +4,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
   label: {
     slug: "label",
     locale: "zh-CN",
-    summary: "为表单控件提供可访问的文本标签，确保屏幕阅读器正确播报字段名称。",
+    summary: "为表单控件提供可见名称，并关联对应输入框。",
     whenToUse: [
       "需要将可见文字标签与表单控件关联时，让屏幕阅读器播报字段名称。",
       "通过 htmlFor 和控制器的 id 匹配标签，使点击标签时聚焦对应输入框。",
@@ -20,7 +20,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "默认标签",
         description:
-          "最基础的 Label 用法：传入一个文本字符串作为可见标签，自动渲染为语义化的 <label> 元素并与关联的表单控件绑定。",
+          "基本 Label 用法：传入一个文本字符串作为可见标签，自动渲染为语义化的 <label> 元素并与关联的表单控件绑定。",
         demoKey: "default",
       },
       {
@@ -50,7 +50,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Label 是一个纯展示型组件，只负责渲染给定的标签文本并建立与目标表单控件的关联。它没有内部状态或用户交互能力，所有行为由传入的 props 决定。",
+        "Label 显示标签文本，并通过 htmlFor 关联表单控件；没有内部状态。",
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -60,7 +60,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "标签文字的颜色从主题令牌获取，确保浅色模式和深色模式下都有良好的可读性和对比度。",
+        "标签文字的颜色从主题变量获取，适配明暗主题。",
         "字体大小和字重遵循设计系统的排版规范，与相邻输入框保持一致的视觉层级。",
       ],
     },
@@ -68,7 +68,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
   "load-more-button": {
     slug: "load-more-button",
     locale: "zh-CN",
-    summary: "一个全宽按钮，用于向分页列表追加更多项目，适合无限滚动场景中的手动加载更多操作。",
+    summary: "点击全宽按钮，向当前列表追加下一批数据。",
     whenToUse: [
       "用户在信息流或数据列表中需要手动触发加载更多内容时，比自动加载更能让用户掌控浏览节奏。",
       "列表内容分多页加载，需要在当前页面底部放置一个明确的加载更多入口来保持页面结构清晰。",
@@ -83,7 +83,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "默认加载更多按钮",
         description:
-          "最基本的加载更多内容按钮：占据整行宽度，带有标准的加载状态和文案，适用于大多数需要分页加载数据的场景。",
+          "基本加载更多内容按钮：占据整行宽度，带有标准的加载状态和文案，适用于大多数需要分页加载数据的场景。",
         demoKey: "Default",
       },
       {
@@ -125,7 +125,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "按钮的背景色、边框和文字颜色均从主题令牌获取，包括深色模式下的自动适配和高对比度模式的特殊处理。",
+        "按钮的背景色、边框和文字颜色均从主题变量获取，包括深色模式下的自动适配和高对比度模式的特殊处理。",
         "加载状态的渐变动画和禁用态的透明度遵循设计系统的交互反馈规范。",
       ],
     },
@@ -133,7 +133,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
   "loading-dots": {
     slug: "loading-dots",
     locale: "zh-CN",
-    summary: "用三个弹跳圆点表示后台正在运行的操作，适合嵌入到短文本中以传达等待中的即时状态。",
+    summary: "用三个跳动圆点表示正在保存、加载等操作。",
     whenToUse: [
       "在短文本中嵌入加载提示，例如 Saving + Loading Dots 或 Building + Loading Dots，让用户知道操作正在进行中。",
       "不确定等待时长但时间较短的场景，圆点动画比进度条更轻量且不显得过于正式。",
@@ -150,7 +150,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "默认加载圆点",
         description:
-          "最基本的三种弹跳圆点动画：没有额外文本说明，仅用动画本身传达系统正在处理中，适用于上下文已经明确的场景。",
+          "基本三种弹跳圆点动画：没有额外文本说明，仅用动画本身传达系统正在处理中，适用于上下文已经明确的场景。",
         demoKey: "Default",
       },
       {
@@ -182,15 +182,15 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "圆点的颜色从主题令牌获取，确保浅色和深色模式下都具有良好的对比度和视觉效果。",
-        "组件当前始终运行点状动画；若产品需要响应 prefers-reduced-motion，应由应用层提供静态替代或额外样式。",
+        "圆点的颜色从主题变量获取，适配明暗主题。",
+        "启用 prefers-reduced-motion 时，圆点停止动画。",
       ],
     },
   },
   menu: {
     slug: "menu",
     locale: "zh-CN",
-    summary: "在弹出菜单中展示一组操作项，适合对单个资源进行发现和管理操作的场景。",
+    summary: "点击触发按钮，打开一组相关操作。",
     whenToUse: [
       "需要一个可发现的触发器来打开针对单一资源的行动列表，例如行上的省略号菜单或主实体的下拉菜单。",
       "用户对某个资源（如项目、部署、用户）需要进行多种相关操作（重命名、复制、删除等），且这些操作共享同一个上下文。",
@@ -206,7 +206,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "默认菜单",
         description:
-          "最简单的菜单用法：一个触发器点开一组操作项，每一项采用 Title Case 动词+名词格式，如 Rename Project、Duplicate Deployment。",
+          "基本菜单用法：一个触发器点开一组操作项，每一项采用 Title Case 动词+名词格式，如 Rename Project、Duplicate Deployment。",
         demoKey: "Default",
       },
       {
@@ -259,7 +259,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "菜单的背景色、边框和分隔线颜色从主题令牌获取，确保浅色模式和深色模式下的正确对比度。",
+        "菜单的背景色、边框和分隔线颜色从主题变量获取，确保浅色模式和深色模式下的正确对比度。",
         "悬停态、聚焦态和禁用态的颜色区分遵循设计系统的色彩规范，包括高对比度模式的特殊处理。",
       ],
     },
@@ -268,7 +268,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
     slug: "middle-truncate",
     locale: "zh-CN",
     summary:
-      "保留长标识符的开头和结尾部分，中间用省略号替代，适用于路径、URL、哈希值等双端有意义的场景。",
+      "用省略号缩短长文本，保留路径、URL 或标识符的首尾。",
     whenToUse: [
       "需要展示文件路径、URL、哈希值和标识符等长文本时，同时保留前缀和后缀以便用户识别来源和目标。",
       "用户需要既能快速识别标识符的大致含义（通过两端关键字符），又不会因为过长文本破坏布局整齐度时。",
@@ -325,7 +325,7 @@ export const GUIDES_08_EN: Record<string, ComponentGuide> = {
     slug: "label",
     locale: "en-US",
     summary:
-      "Provides an accessible text label for form controls, ensuring screen readers announce the field name.",
+      "Give a form control a visible name and associate it with the input.",
     whenToUse: [
       "When a visible text label needs to be associated with a form control so screen readers announce the field name.",
       "By matching the label to the control via htmlFor and the control's id so clicking the label focuses the field.",
@@ -371,7 +371,7 @@ export const GUIDES_08_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Label is a purely presentational component that renders only the given label text and establishes its association with a target form control. It has no internal state or user interaction capability; all behavior is determined by the passed props.",
+        "Label displays text and associates it with a form control through htmlFor; it has no internal state.",
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -390,7 +390,7 @@ export const GUIDES_08_EN: Record<string, ComponentGuide> = {
     slug: "load-more-button",
     locale: "en-US",
     summary:
-      "A full-width button for appending more items to a paginated list, suited for manual load-more interactions in infinite scroll scenarios.",
+      "Append the next batch of data to a list with a full-width button.",
     whenToUse: [
       "When users need to manually trigger loading more content in an information feed or data list, giving them control over browsing pace compared to auto-loading.",
       "When list content loads in pages and a clear load-more entry point at the bottom keeps page structure readable and predictable.",
@@ -456,7 +456,7 @@ export const GUIDES_08_EN: Record<string, ComponentGuide> = {
     slug: "loading-dots",
     locale: "en-US",
     summary:
-      "Indicates an action running in the background with three bouncing dots, ideal for inline wait indicators embedded within short text.",
+      "Use three animated dots to indicate an action such as saving or loading.",
     whenToUse: [
       "Embedding a loading hint inside short copy, e.g. Saving<LoadingDots /> or Building<LoadingDots />, so users know an operation is in progress.",
       "For short-duration indeterminate waits where the dot animation is lighter-weight and less formal than a progress bar.",
@@ -506,7 +506,7 @@ export const GUIDES_08_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Dot colors are drawn from theme tokens, ensuring good contrast and visual clarity in both light and dark modes.",
-        "The dot animation currently always runs; applications that need prefers-reduced-motion support should provide a static alternative or an additional style.",
+        "The dots stop animating when prefers-reduced-motion is enabled.",
       ],
     },
   },
@@ -514,7 +514,7 @@ export const GUIDES_08_EN: Record<string, ComponentGuide> = {
     slug: "menu",
     locale: "en-US",
     summary:
-      "Displays a list of actions in a floating popup menu, suited for discoverability and management operations on a single resource.",
+      "Open a list of related actions from a trigger button.",
     whenToUse: [
       "When a discoverable trigger opens a list of actions on a single resource, such as a dots menu on a row or a dropdown on a primary entity.",
       "When a user needs to perform multiple related operations (rename, duplicate, delete) on a resource (project, deployment, user) sharing the same context.",
@@ -592,7 +592,7 @@ export const GUIDES_08_EN: Record<string, ComponentGuide> = {
     slug: "middle-truncate",
     locale: "en-US",
     summary:
-      "Preserves the beginning and end of long identifiers with ellipsis in the middle, suited for paths, URLs, hashes, and other dual-end-meaningful scenarios.",
+      "Shorten long text with an ellipsis while keeping both ends of a path, URL, or identifier.",
     whenToUse: [
       "When displaying long text such as file paths, URLs, hashes, and identifiers where both prefix and suffix carry identifying meaning.",
       "When users need to quickly recognize a rough sense of the identifier's origin/target while preventing excessively long text from breaking layout neatness.",

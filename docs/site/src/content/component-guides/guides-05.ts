@@ -5,7 +5,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     slug: "destructive-action-modal",
     locale: "zh-CN",
     summary:
-      "用于确认危险操作的模态框，通过红色 AlertTriangle 标题和需验证文本输入的二次确认机制来防止误操作。",
+      "确认删除等高风险操作；输入指定短语后才能提交。",
     whenToUse: [
       "当操作具有不可逆或严重后果（如删除、吊销密钥、降级计划）且需要强制用户明确意图时使用。",
       "对于可恢复但后果严重的数据删除操作，使用此组件并在标题中说明影响范围。",
@@ -58,7 +58,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "调用方负责控制 open 状态，不自行关闭——应在 API 结算后或出错时保持打开。",
+        "由父组件控制 open：请求成功后关闭，失败时保持打开以便重试。",
         "loading 属性同时禁用两个按钮，由父组件管理交互状态。",
         "输入字段在打开时自动聚焦并持续校验匹配性。",
       ],
@@ -82,7 +82,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     slug: "dots-menu",
     locale: "zh-CN",
     summary:
-      "通过三点图标触发的溢出菜单，在下拉面板中展现更多操作选项，是行级或卡片级菜单的标准入口。",
+      "点击三点按钮，打开当前行或卡片的更多操作。",
     whenToUse: [
       "行内、卡片或资源项上空间有限，需要展开更多相关操作时使用。",
       "与 Context Menu 互补：Dots Menu 面向可见触发器和键盘/鼠标通用操作，右击快捷操作则由 Context Menu 承担。",
@@ -149,7 +149,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "遵循应用主题系统渲染背景、边框和高亮颜色。",
-        "禁用状态的色调通过 CSS 变量从主题令牌获取，确保亮/暗模式一致。",
+        "禁用状态的色调通过 CSS 变量从主题变量获取，确保亮/暗模式一致。",
       ],
     },
   },
@@ -157,7 +157,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     slug: "drawer",
     locale: "zh-CN",
     summary:
-      "在现有内容下方从底部弹出的覆盖层视图，专用于移动端短表单和轻量面板，保持上下文连续性。",
+      "从底部打开面板，在当前页面中完成短表单或辅助操作。",
     whenToUse: [
       "小视口中需要展示短聚焦动作，如单个表单、筛选面板或与 Cancel 配对的主 CTA。",
       "需要在保留当前浏览上下文的同时呈现辅助内容，但不需要桌面端侧边栏那样的持久面板。",
@@ -196,7 +196,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       content: [
         "open 状态由父组件完全控制，内部不自行管理打开与关闭。",
         "关闭时通过回调通知父组件以同步外部状态。",
-        "锁住 body 滚动以开放状态保持，恢复于关闭时。",
+        "打开时禁止页面滚动，关闭后恢复。",
       ],
     },
     responsiveBehavior: {
@@ -211,14 +211,14 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "背景层、阴影和分隔线颜色跟随应用主题。",
-        "Body 滚动锁定在暗色/亮色主题下均有正确的对比度表现。",
+        "滚动锁定与主题无关。",
       ],
     },
   },
   "empty-state": {
     slug: "empty-state",
     locale: "zh-CN",
-    summary: "当无内容已添加或视图为空时填充区域的通用组件；场景差异由调用方通过标题、图标和 children 组合。",
+    summary: "在没有数据时说明原因，并提供创建、重试等下一步操作。",
     whenToUse: [
       "列表过滤后返回零条结果或资源尚未创建时，由调用方传入相应标题、描述、图标和操作。",
       "用户访问了其无权查看的路由时，可由页面布局全屏承载 EmptyState 并提供导航建议。",
@@ -227,7 +227,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     whenNotToUse: [
       "不要在 Empty State 中放置关键持续性警告——空状态随列表填充而消失，持续性警告应放在 Note 或页面头部。",
       "已加载但有数据的正常视图中不需要 Empty State；异步网络错误的空列表应使用 Error 组件。",
-      "三个以上的 CTAs 会使空状态变得臃肿——最多一个主行动加一个次行动。",
+      "最多提供一个主要操作和一个次要操作。",
     ],
     examples: [
       {
@@ -264,7 +264,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Empty State 是展示型组件，根据数据源的有无决定渲染何种空状态，没有受控开关。内容由父组件传入的 props 驱动，不存在 open/close 状态。",
+        "空状态的内容和显示时机由父组件决定；组件没有 open/close 状态。",
     },
     responsiveBehavior: {
       status: "covered",
@@ -284,7 +284,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
   entity: {
     slug: "entity",
     locale: "zh-CN",
-    summary: "结构化行组件，用于展示一个描述性对象及其主操作，适用于单个资源的行列组合展示。",
+    summary: "在一行中展示资源信息和主要操作。",
     whenToUse: [
       "展示单一描述性对象附带一个主操作行，例如成员行、集成行或资源详情行。",
       "需要将媒体、内容和操作固定在稳定列中以保证加载和选中状态不会改变行的布局时。",
@@ -335,7 +335,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Entity 本质上是展示型行组件，不维护自身交互状态。选中态由父组件控制并通过 props 传递，Row 级别的点击通常由外层容器处理，Entity 组件本身不负责打开/关闭逻辑。",
+        "Entity 只负责行布局；选中状态和点击操作由父组件处理。",
     },
     responsiveBehavior: {
       status: "covered",
@@ -355,7 +355,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
   "edit-menu": {
     slug: "edit-menu",
     locale: "zh-CN",
-    summary: "选区驱动的横向编辑工具条：触屏、鼠标或键盘选中文字后均以胶囊形态锚定选区。",
+    summary: "选中文字后，在选区旁显示剪切、复制等编辑操作。",
     whenToUse: [
       "需要对当前选中的文本执行剪切、复制、粘贴、全选、查询或共享时。",
       "希望菜单紧贴选区、随选区消失而隐藏时。",
@@ -378,7 +378,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       content: [
         "任意输入方式均使用 role=\"toolbar\" 的横向按钮列，支持左右方向键与 Home/End；浮层有 aria-label。",
         "Escape 关闭浮层；点击操作不会提前清除当前选区。",
-        "触屏：容器与胶囊尝试抑制原生 callout 与上下文菜单；iOS WebKit 的原生长按行为仍需真机验证。",
+        "触屏：容器与胶囊尝试抑制原生长按弹出菜单 与上下文菜单；iOS WebKit 的原生长按行为仍需真机验证。",
       ],
     },
     controlledBehavior: {
@@ -399,7 +399,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "胶囊背景、分隔线与文字色跟随主题 Token，暗色模式下保持对比度。",
+        "胶囊背景、分隔线与文字色跟随主题变量，暗色模式下保持对比度。",
         "入场缩放淡入动画在 prefers-reduced-motion 下禁用。",
       ],
     },
@@ -407,7 +407,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
   "activity-view": {
     slug: "activity-view",
     locale: "zh-CN",
-    summary: "底部分享面板：横向滚动的分享目标网格 + 操作列表 + 取消行，复用 BottomSheet 容器。",
+    summary: "底部分享面板，包含分享目标、操作列表和取消按钮。",
     whenToUse: [
       "需要从当前内容分享到多个目标（app、服务）时。",
       "需要把复制、打印、存储等操作与分享目标放在同一个底部面板时。",
@@ -442,14 +442,14 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "目标区横向滚动，超出面板宽度时保持单行动线；可滚动的边缘显示渐隐提示，滚动到尽头后消失。",
+        "分享目标保持单行并可横向滚动；边缘渐隐提示隐藏内容，滚动到尽头后消失。",
         "面板默认占视口高度 60%，可通过顶部指示条上拉或用键盘展开到 90%；底部留出安全区内边距。",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "面板背景、图标块底色与文字色跟随主题 Token。",
+        "面板背景、图标块底色与文字色跟随主题变量。",
         "破坏性操作使用错误色 token，暗色模式下保持对比度。",
       ],
     },
@@ -458,7 +458,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     slug: "menu-bar",
     locale: "zh-CN",
     summary:
-      "横向应用菜单栏：顶级菜单、可选的右对齐快捷键提示、子菜单与勾选项，键盘模型由 Radix Menubar 提供。",
+      "横向应用菜单栏，支持子菜单、勾选项和快捷键提示。",
     whenToUse: [
       "需要应用级命令集合（File / Edit / View），且已自行绑定按键、要展示对应快捷键提示时。",
       "需要多级子菜单或可勾选的视图开关时。",
@@ -510,7 +510,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
   toolbar: {
     slug: "toolbar",
     locale: "zh-CN",
-    summary: "窗口级工具操作条：leading / center / trailing 三段分组，空间不足时按组折叠进溢出菜单。",
+    summary: "分组排列工具按钮，空间不足时将可折叠组移入更多操作菜单。",
     whenToUse: [
       "需要窗口级命令组（导航、视图切换、收尾动作）并希望空间不足自动折叠时。",
       "需要把工具项按语义分成前、中、后三段时。",
@@ -547,7 +547,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "空间不足时可折叠组整组收起，组内 ToolbarItem 进入溢出菜单；含搜索框 / MenuButton 等非 ToolbarItem 内容的组保持常驻（这类内容没有溢出入口）。",
-        "展开启用 24px 滞回，避免临界宽度下反复折叠。",
+        "重新展开需多出 24px 空间，避免宽度临界时反复折叠。",
       ],
     },
     themeBehavior: {
@@ -561,7 +561,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
   "safe-area": {
     slug: "safe-area",
     locale: "zh-CN",
-    summary: "安全区间距容器：内边距取「间距档」与设备安全区 env(safe-area-inset-*) 的较大值。",
+    summary: "用内边距避开刘海、圆角和系统栏，并保留指定的最小间距。",
     whenToUse: [
       "内容需要避开圆角、刘海或系统栏时。",
       "需要为页面四周统一最小内边距时。",
@@ -597,13 +597,13 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     },
     themeBehavior: {
       status: "not-applicable",
-      reason: "只输出内边距，不消费颜色 token，因此不随主题变化。",
+      reason: "只输出内边距，不使用颜色变量，因此不随主题变化。",
     },
   },
   stack: {
     slug: "stack",
     locale: "zh-CN",
-    summary: "方向 + 间距堆叠：语义化的 flex 预设，用统一间距档替代随机的 gap 值。",
+    summary: "沿横向或纵向排列子元素，统一间距和对齐方式。",
     whenToUse: [
       "需要把子元素按单一方向排列并统一间距时。",
       "希望间距来自设计系统的档位而非临时数值时。",
@@ -635,7 +635,7 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     },
     themeBehavior: {
       status: "not-applicable",
-      reason: "只输出 flex 与间距，不消费颜色 token，因此不随主题变化。",
+      reason: "只输出 flex 与间距，不使用颜色变量，因此不随主题变化。",
     },
   },
 };
@@ -645,14 +645,14 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "destructive-action-modal",
     locale: "en-US",
     summary:
-      "A modal that confirms destructive actions with a red AlertTriangle header and a typed verification gate to prevent accidental execution.",
+      "Confirm high-risk actions such as deletion; require a matching phrase before submission.",
     whenToUse: [
-      "When the action is destructive and warrants friction — delete, rotate, revoke, disconnect, downgrade. The typed gate forces deliberate intent.",
-      "For reversible destructive actions too, when the consequence is serious enough to warrant a pause but still benefit from the typed gate.",
+      "When the action is destructive and warrants friction — delete, rotate, revoke, disconnect, downgrade. The 确认短语输入 forces deliberate intent.",
+      "For reversible destructive actions too, when the consequence is serious enough to warrant a pause but still benefit from the 确认短语输入.",
       "When you need the user to type a confirmation phrase to prove their understanding of the consequences before proceeding.",
     ],
     whenNotToUse: [
-      "Routine confirmations such as save draft, discard changes, or close without saving should use a plain Modal — the typed gate reads as melodrama when the stakes are low.",
+      "Routine confirmations such as save draft, discard changes, or close without saving should use a plain Modal — the 确认短语输入 reads as melodrama when the 操作风险 are low.",
       "Actions that only involve a light UI refresh or immediate undo don't merit an input barrier — use a non-blocking toast instead.",
       "Non-blocking acknowledgments belong to Toast, not Modal — a destructive confirmation needs the blocking overlay.",
     ],
@@ -701,7 +701,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "The caller owns open — do not self-dismiss from onConfirm; close after the API settles or keep open on error so the user can retry.",
+        "The parent controls open: close after a successful request and keep it open on failure for retry.",
         "The loading property disables both buttons simultaneously, managed by the parent component.",
         "The input field auto-focuses on open and continuously validates against the confirmation phrase.",
       ],
@@ -725,7 +725,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "dots-menu",
     locale: "en-US",
     summary:
-      "An overflow menu triggered by a three-dot icon that reveals additional actions in a dropdown — the standard entry point for row-level or card-level secondary actions.",
+      "Open additional actions for a row or card from a three-dot button.",
     whenToUse: [
       "Where space is limited on rows, cards, or resource items and you need to surface additional related actions.",
       "As a complement to Context Menu: Dots Menu handles visible triggers with keyboard/mouse parity, while right-click shortcuts are handled by Context Menu.",
@@ -802,7 +802,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "drawer",
     locale: "en-US",
     summary:
-      "A bottom-overlay panel that slides up from the viewport edge for short mobile forms and lightweight side panels, preserving context continuity.",
+      "Open a bottom panel for a short form or supporting action without leaving the page.",
     whenToUse: [
       "On small viewports for short focused actions: a single form, a filter sheet, or a primary CTA paired with Cancel.",
       "When you need to present auxiliary content while keeping the browsing context intact without requiring a desktop-side-panel–level persistent surface.",
@@ -843,7 +843,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       content: [
         "The open state is fully controlled by the parent — internals do not manage open/close independently.",
         "Close callbacks notify the parent to synchronize external state.",
-        "Body scroll is locked while open and restored on close.",
+        "Lock page scrolling while open and restore it on close.",
       ],
     },
     responsiveBehavior: {
@@ -858,7 +858,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Backdrop shadow and divider colors follow the application theme.",
-        "Body scroll lock maintains proper contrast in both dark and light themes.",
+        "Scroll locking is independent of the theme.",
       ],
     },
   },
@@ -866,7 +866,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "empty-state",
     locale: "en-US",
     summary:
-      "Fills an area when no content has been added or a view is empty. The caller composes each scenario from title, description, icon, and children.",
+      "Explain why no data is available and offer a next step, such as creating content or retrying.",
     whenToUse: [
       "When a filtered list returns zero results or a resource has not been created, pass scenario-specific copy, iconography, and actions.",
       "When a user lands on a route they cannot view, the page layout can render EmptyState full-page with navigation guidance.",
@@ -875,7 +875,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     whenNotToUse: [
       "Don't put critical persistent warnings in Empty States — they vanish when the list populates; persistent warnings belong in a Note or the page header.",
       "Normal loaded views with data should not show Empty State — asynchronously failed loads should use the Error component instead.",
-      "Three CTAs make an empty state bloated — cap at one primary plus one secondary action.",
+      "Offer at most one primary and one secondary action.",
     ],
     examples: [
       {
@@ -914,7 +914,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Empty State is a presentation-only component driven by whether the data source has content. It does not manage an open/close toggle — content is passed as props from the parent, and there is no interactive state to control.",
+        "The parent decides what to display and when; EmptyState has no open/close state.",
     },
     responsiveBehavior: {
       status: "covered",
@@ -935,7 +935,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "entity",
     locale: "en-US",
     summary:
-      "A structured row for a descriptive object with one primary row action — ideal for single-resource row layouts with media, content, and action columns.",
+      "Display a resource and its primary action in one row.",
     whenToUse: [
       "For one descriptive object with one primary row action, like a membership row, integration row, or resource detail row.",
       "When you need media, content, and actions in stable columns so loading and selected states do not shift the row layout.",
@@ -990,7 +990,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Entity is fundamentally a presentation row component and does not manage its own interaction state. Selection state is controlled externally via props, and row-level clicks are typically handled by the outer container — the Entity component itself is responsible for displaying, not for open/close logic.",
+        "Entity provides the row layout; the parent handles selection and click actions.",
     },
     responsiveBehavior: {
       status: "covered",
@@ -1011,7 +1011,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "edit-menu",
     locale: "en-US",
     summary:
-      "A selection-driven horizontal edit toolbar anchored to the text selection, with the same capsule layout for touch, pointer, and keyboard input.",
+      "Show editing actions such as cut and copy next to selected text.",
     whenToUse: [
       "When you need cut, copy, paste, select all, look up, or share for the current text selection.",
       "When actions should hug the selection and disappear as soon as the selection does.",
@@ -1065,7 +1065,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "activity-view",
     locale: "en-US",
     summary:
-      "A bottom share sheet: a horizontally scrolling grid of share targets, an action list, and a cancel row, built on the BottomSheet container.",
+      "A bottom sharing panel with destinations, actions, and a cancel button.",
     whenToUse: [
       "When the current content can be shared to several targets such as apps or services.",
       "When copy, print, or save actions belong in the same bottom panel as the share targets.",
@@ -1101,7 +1101,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "The target row scrolls horizontally so targets stay on a single line when they overflow; a fading edge indicates more targets and disappears at the end.",
+        "Sharing destinations stay in one horizontally scrollable row. Faded edges indicate hidden content and disappear at the end.",
         "The panel starts at 60% of the viewport height and expands to 90% via the top grabber or keyboard; it reserves bottom safe-area padding.",
       ],
     },
@@ -1117,7 +1117,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "menu-bar",
     locale: "en-US",
     summary:
-      "A horizontal application menu bar with top-level menus, optional right-aligned shortcut hints, submenus, and checkable items, backed by the Radix Menubar keyboard model.",
+      "An application menu bar with submenus, checkbox items, and shortcut hints.",
     whenToUse: [
       "For application-level command sets (File / Edit / View) whose shortcuts you bind yourself and then advertise.",
       "For multi-level submenus or checkable view toggles.",
@@ -1170,7 +1170,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "toolbar",
     locale: "en-US",
     summary:
-      "A window-level bar of tool items grouped into leading, center, and trailing slots that collapse group by group into an overflow menu.",
+      "Arrange tools in groups and move collapsible groups into an overflow menu when space is limited.",
     whenToUse: [
       "For window-level command groups (navigation, view switching, finishing actions) that should collapse when space runs out.",
       "When tool items need a semantic front, middle, and back split.",
@@ -1208,7 +1208,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Collapsible groups fold away as a unit and their ToolbarItems move into the overflow menu; groups holding non-ToolbarItem content such as a search field stay in place because that content has no overflow entry point.",
-        "Expanding uses a 24px hysteresis band so the bar does not flap at the threshold width.",
+        "Reopening requires 24px of extra space to prevent repeated collapsing near the width threshold.",
       ],
     },
     themeBehavior: {
@@ -1223,7 +1223,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "safe-area",
     locale: "en-US",
     summary:
-      "A spacing container whose padding is the larger of the spacing step and the device safe area (env(safe-area-inset-*)).",
+      "Add padding around notches, rounded corners, and system bars while keeping a minimum inset.",
     whenToUse: [
       "When content must stay clear of rounded corners, notches, or system bars.",
       "When a page needs one consistent minimum inset on all sides.",
@@ -1267,7 +1267,7 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     slug: "stack",
     locale: "en-US",
     summary:
-      "A flex preset that stacks children in one direction using a shared spacing step instead of ad-hoc gap values.",
+      "Arrange children horizontally or vertically with consistent spacing and alignment.",
     whenToUse: [
       "When children line up in a single direction with one consistent gap.",
       "When spacing should come from design-system steps rather than arbitrary numbers.",

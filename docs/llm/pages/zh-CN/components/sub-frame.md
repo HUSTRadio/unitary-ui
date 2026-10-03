@@ -2,7 +2,7 @@
 
 > Route: `/components/sub-frame`
 
-把浮层限定在页面中的某一块区域内，弹层与面板因此不会盖住整页。
+将浮层限制在页面内的指定区域，适合并排预览和局部演示。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 sub-frame
 
-把浮层限定在页面中的某一块区域内，弹层与面板因此不会盖住整页。
+将浮层限制在页面内的指定区域，适合并排预览和局部演示。
 
 ## 何时使用
 
@@ -84,7 +84,7 @@ export default function SubFrameExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -92,7 +92,7 @@ export default function SubFrameExample() {
 import { SubFrame } from "@/components/ui/sub-frame";
 ```
 
-原生属性：`React.HTMLAttributes<HTMLDivElement>`
+还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`
 
 ### 属性与回调
 

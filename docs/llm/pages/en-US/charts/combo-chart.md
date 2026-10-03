@@ -2,7 +2,7 @@
 
 > Route: `/charts/combo-chart`
 
-Combines bar and line series in one chart, optionally on two axes.
+Combine bars and lines in one chart, with optional dual axes for different units.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Combines bar and line series in one chart, optionally on two axes.
 
 combo-chart
 
-Combines bar and line series in one chart, optionally on two axes.
+Combine bars and lines in one chart, with optional dual axes for different units.
 
 ## When to use
 
@@ -127,7 +127,7 @@ export function ComboChartBiaxial2A9F5C3EExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -135,7 +135,7 @@ Import
 import { ComboChart } from "@/components/ui/combo-chart";
 ```
 
-Native props: `React.HTMLAttributes<HTMLDivElement>`
+Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`
 
 ### Props & callbacks
 

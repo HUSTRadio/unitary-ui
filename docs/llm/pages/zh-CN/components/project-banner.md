@@ -2,7 +2,7 @@
 
 > Route: `/components/project-banner`
 
-用于需要解决的临时项目级通知。
+在项目页面显示需要处理的通知，并提供解决操作。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 project-banner
 
-用于需要解决的临时项目级通知。
+在项目页面显示需要处理的通知，并提供解决操作。
 
 ## 何时使用
 
@@ -166,7 +166,7 @@ export function ProjectBannerError54A0E8C1Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 

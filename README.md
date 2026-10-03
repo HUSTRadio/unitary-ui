@@ -4,23 +4,23 @@
 
 To LLM Agents: see [AGENTS.md](./AGENTS.md) for llm-specified documentation.
 
-基于 Vercel Geist 设计语言的 React 组件库，提供设计 token、基础组件、组合示例和双语文档站。
+基于 Vercel Geist 设计语言的 React 组件库，提供设计变量（token）、基础组件、组合示例和中英文文档。
 
-## Features
+## 功能
 
-- Light / dark 双主题与完整语义 token
+- 浅色、深色主题与按用途命名的设计变量
 - 覆盖 Geist 常用组件及本地扩展
 - TypeScript API、实时示例和可复制代码
 - 表单、数据表格、审批流程和设置面板等组合示例
 - 简体中文与英文文档
 
-## Installation
+## 安装
 
 ```bash
 pnpm add @hustradio/unitary-ui
 ```
 
-## Quick start
+## 快速开始
 
 ```tsx
 import { Button } from "@hustradio/unitary-ui";
@@ -31,9 +31,9 @@ export function App() {
 }
 ```
 
-包根入口支持裸 Node 的 ESM `import` 和 CommonJS `require`，无需 CSS loader。浏览器应用仍需显式导入 `@hustradio/unitary-ui/styles.css`；该文件包含 Device 的设备外框样式。Node 服务端不要直接导入 CSS 文件。
+Node 可直接用 ESM `import` 或 CommonJS `require` 导入组件，无需 CSS 加载器。浏览器应用需另行导入 `@hustradio/unitary-ui/styles.css`，其中包含 Device 外框样式；Node 服务端不应导入 CSS。
 
-## Screenshots
+## 示例截图
 
 <!-- STYLEGUIDE_SCREENSHOTS_START -->
 
@@ -49,17 +49,17 @@ export function App() {
 
 <!-- STYLEGUIDE_SCREENSHOTS_END -->
 
-## Documentation
+## 文档
 
 - 文档站：`vp dev docs`
 - 官方规范快照：[`docs/geist-markdown-refs`](./docs/geist-markdown-refs)
 - 变更记录：[`CHANGELOG.md`](./CHANGELOG.md)
 
-## 调色盘治理
+## 颜色规范
 
-唯一基础参考调色盘为 **Vercel Geist Colors**。基础色阶的证据快照是 `docs/geist-markdown-refs/foundations/colors.md`，运行时 owner 是 `src/styles/index.css`。`--uni-*` 是语义映射层，不是第二套调色盘；Apple HIG 仅提供布局、行为和无障碍约束，不是第二套调色盘。用户强制 override 必须具名来源、理由和作用域。
+基础色阶采用 **Vercel Geist Colors**，参考快照见 `docs/geist-markdown-refs/foundations/colors.md`，实际定义在 `src/styles/index.css`。`--uni-*` 按具体用途映射这些颜色。Apple HIG 用于指导布局、交互和无障碍，不提供额外调色盘。覆盖颜色时需注明来源、理由和适用范围。
 
-## Development
+## 开发
 
 ```bash
 pnpm install
@@ -75,12 +75,12 @@ pnpm exec playwright install chromium
 pnpm run test:package
 ```
 
-该命令重新构建库，使用独立 Node 进程验证 ESM/CJS 导入、SSR 与高亮，再用 Chromium 检查发布 CSS 的 Device 几何；不依赖源码 alias 或 CSS loader。
+该命令重新构建库，用独立 Node 进程检查 ESM/CJS 导入、服务端渲染和代码高亮，再用 Chromium 检查发布样式下的 Device 尺寸与布局。
 
-## Credits
+## 致谢
 
 设计参考与第三方资产见 [`CREDITS.md`](./CREDITS.md)。OPPO Sans 与 HarmonyOS Sans 的再分发存在许可风险，详见 [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md)。
 
-## License
+## 许可证
 
 MIT © 2026 HUSTRadio。法律文本见 [`LICENSE`](./LICENSE)，中文阅读入口见 [`LICENSE.zh-CN.md`](./LICENSE.zh-CN.md)。

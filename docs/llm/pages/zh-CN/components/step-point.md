@@ -2,7 +2,7 @@
 
 > Route: `/components/step-point`
 
-标记多步骤流程中的进度。
+标记多步流程中每个步骤的状态。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 step-point
 
-标记多步骤流程中的进度。
+标记多步流程中每个步骤的状态。
 
 ## 何时使用
 
@@ -67,7 +67,7 @@ export function StepPointDefault21B111CBExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 

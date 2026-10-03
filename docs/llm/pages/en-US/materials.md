@@ -6,11 +6,11 @@
 
 Presets for radii, fills, strokes, and shadows.
 
-Surface — on the page. Floating — above the page. Each preset is an elevation visual contract; stacking order is managed by separate layer tokens, not by the material itself.
+Surface is for containers within the page; Floating is for overlays. Material presets define corners, backgrounds, borders, and shadows. Layer tokens control stacking order separately.
 
 ## Surface
 
-On the page, in normal document flow. Choose the lowest elevation that reads clearly.
+For containers within the page. Use a light shadow to distinguish layers without drawing too much attention.
 
 material-base
 
@@ -70,7 +70,7 @@ Radius
 
 ## Floating
 
-Above the page. Never stack the same material twice; shadows do not replace focus rings or ARIA semantics. Check separation in both themes.
+For popup panels. Avoid applying a material twice, keep focus indicators and ARIA attributes, and check clarity in both themes.
 
 material-tooltip
 

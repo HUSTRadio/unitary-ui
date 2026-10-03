@@ -4,7 +4,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
   "command-menu": {
     slug: "command-menu",
     locale: "zh-CN",
-    summary: "通过键盘优先的模态命令面板过滤并启动全局操作，适用于跨应用资源查找与快捷执行。",
+    summary: "搜索资源、跳转页面或执行命令的面板，支持键盘操作。",
     whenToUse: [
       "需要在应用中提供一个全局键盘快捷键（如 ⌘K / Ctrl+K）触发的命令面板来搜索资源、跳转页面或执行操作。",
       "菜单项数量可能超过大约 30 条，需要按类型或最近使用分组为多个页面，以避免单平铺列表过长。",
@@ -39,7 +39,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "在面板打开时将所有焦点 trap 锁定在覆盖层内部，按下 Escape 关闭面板并释放焦点回到触发器。",
+        "面板打开后焦点限制在内部；按 Escape 关闭，并将焦点返回触发按钮。",
         "每个命令项都应提供清晰的 Title Case 动词短语描述（例如 'Deploy Project'），避免使用歧义词汇。",
         "当输入为空时展示最近或默认项目集合，确保无输入状态下菜单仍然可用。",
       ],
@@ -64,7 +64,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
   "context-card": {
     slug: "context-card",
     locale: "zh-CN",
-    summary: "悬浮于触发元素上方弹出的浮动卡片，展示比工具提示更丰富的实体元数据详情。",
+    summary: "悬停或聚焦时显示用户、部署等对象的补充信息。",
     whenToUse: [
       "需要在悬停或聚焦时揭示实体的元数据信息，例如用户头像旁的用户详情、部署名称旁的构建信息等。",
       "触发器通常为密集数据中的名称链接或头像，需要补充一行识别信息和 2–4 行的 Label: value 元数据。",
@@ -100,8 +100,8 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "ContextCard 是非模态 Hover Card，不会把焦点锁定在卡片内；触发元素应保持可聚焦，Escape 可关闭浮层。",
-        "触发元素保留自身的 accessible name；卡片是补充信息，不应替代触发元素的无障碍名称。",
+        "ContextCard 不限制焦点在卡片内。触发元素需可聚焦，按 Escape 可关闭卡片。",
+        "触发元素需有自己的无障碍名称；卡片只提供补充信息。",
         "卡片内的内容不应重复触发元素已经展示的可见信息，避免信息冗余。",
       ],
     },
@@ -116,14 +116,14 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "上下文卡片支持深色/浅色主题，样式跟随 Unitary 设计系统的颜色令牌自动适配用户偏好的配色方案。",
+        "上下文卡片支持深色/浅色主题，样式跟随 Unitary 设计系统的颜色变量自动适配用户偏好的配色方案。",
       ],
     },
   },
   "context-menu": {
     slug: "context-menu",
     locale: "zh-CN",
-    summary: "在行、文件或画布对象上右键或长按弹出上下文操作菜单，适合 power-user 快捷操作。",
+    summary: "右键点击或长按对象，打开相关操作菜单。",
     whenToUse: [
       "需要对行、文件或画布对象提供右键单击或长按触发的上下文快捷操作菜单。",
       "需要为同一操作同时提供右键菜单入口和可见的菜单触发器（按钮/图标），确保鼠标用户和键盘用户都有等效访问路径。",
@@ -137,7 +137,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
         id: "ctxmenu-default",
         kind: "minimal",
         title: "基本右键菜单",
-        description: "在触发区域右键单击时显示标准的上下文操作菜单，包含基本的标题用例选项。",
+        description: "在触发区域右键点击，打开相关操作列表。",
         demoKey: "default",
       },
       {
@@ -195,7 +195,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
   "copy-button": {
     slug: "copy-button",
     locale: "zh-CN",
-    summary: "将给定字符串复制到剪贴板并在复制成功后提供视觉反馈的图标按钮。",
+    summary: "复制指定文本，并用图标反馈复制结果。",
     whenToUse: [
       "需要将一个简短字符串原样复制到剪贴板，例如令牌（token）、命令行指令、唯一标识符 ID。",
       "需要在复制完成后显示约 1.2 秒的打勾确认反馈，让用户明确感知复制操作已完成。",
@@ -232,13 +232,13 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
     },
     themeBehavior: {
       status: "not-applicable",
-      reason: "CopyButton 的颜色和样式自动跟随 Unitary 设计系统主题令牌适配当前配色方案。",
+      reason: "CopyButton 的颜色和样式自动跟随 Unitary 设计系统主题变量适配当前配色方案。",
     },
   },
   description: {
     slug: "description",
     locale: "zh-CN",
-    summary: "以定义列表的形式展示键/值元数据对，适用于结构化元数据信息的展示。",
+    summary: "以键值对显示地区、套餐等元数据。",
     whenToUse: [
       "需要以定义列表展示元数据：短小的 Title Case 键名配对单一值（例如 'Last Deployed'、'Region'、'Plan'）。",
       "需要让 <dl>/<dt>/<dd> 语义结构被屏幕阅读器正确识别，每对 key/value 作为一个定义项朗读。",
@@ -252,7 +252,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
         id: "desc-default",
         kind: "minimal",
         title: "默认定义列表",
-        description: "以默认左对齐方式展示一组键/值定义列表，呈现清晰的元数据结构。",
+        description: "左对齐显示一组键值对。",
         demoKey: "default",
       },
       {
@@ -280,7 +280,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
     },
     controlledBehavior: {
       status: "not-applicable",
-      reason: "Description 是纯展示型组件，用于渲染定义的键值对，不存在任何交互式状态或受控行为。",
+      reason: "Description 只显示传入的键值对，没有内部状态。",
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -288,7 +288,7 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
     },
     themeBehavior: {
       status: "not-applicable",
-      reason: "Description 的排版和颜色由 Unitary 设计系统的主题令牌自动处理，无需额外主题定制。",
+      reason: "Description 的排版和颜色由 Unitary 设计系统的主题变量自动处理，无需额外主题定制。",
     },
   },
 };
@@ -298,7 +298,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
     slug: "command-menu",
     locale: "en-US",
     summary:
-      "Filters and launches keyboard-first actions in a modal command palette, ideal for cross-app resource search and quick execution.",
+      "Search resources, navigate to pages, or run commands from a panel with keyboard support.",
     whenToUse: [
       "Provide a global keyboard shortcut (⌘K on macOS, Ctrl+K elsewhere) triggered command palette to search resources, navigate pages, or execute actions across the application.",
       "When menu item count could exceed roughly 30 items that would span multiple categories or recent usage, group them into separate pages rather than presenting a single flat list.",
@@ -336,7 +336,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Trap all focus inside the overlay while the panel is open; press Escape to close the panel and release focus back to the trigger.",
+        "Keep focus inside the open panel. Escape closes it and returns focus to the trigger.",
         "Each command item should provide a clear Title Case verb phrase description (e.g., 'Deploy Project'), avoiding ambiguous phrasing.",
         "Show a recent or default item set when the input is empty so the menu is useful before typing.",
       ],
@@ -363,7 +363,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
     slug: "context-card",
     locale: "en-US",
     summary:
-      "A floating card that appears on hover or focus, showing richer entity metadata details than a standard tooltip.",
+      "Show details about a user, deployment, or other item on hover or focus.",
     whenToUse: [
       "Reveal entity metadata on hover or focus: a user detail near their avatar, build info next to a deployment name, or project stats beside a link.",
       "The trigger is typically a name link or avatar in dense data tables; the card supplements with one identifying line and 2–4 Label: value metadata rows.",
@@ -401,8 +401,8 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "ContextCard is a non-modal hover card and does not trap focus; keep the trigger focusable, and Escape can dismiss the floating card.",
-        "The trigger retains its own accessible name—the card is supplementary and should not replace the trigger's accessible name.",
+        "ContextCard does not trap focus. Keep its trigger focusable; Escape closes the card.",
+        "Give the trigger its own accessible name; the card provides supporting information.",
         "Content in the card should not restate what the trigger already displays visibly, avoiding information redundancy.",
       ],
     },
@@ -427,7 +427,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
     slug: "context-menu",
     locale: "en-US",
     summary:
-      "Pops up a contextual action menu on right-click or long-press over a row, file, or canvas object for power-user shortcuts.",
+      "Right-click or long-press an item to open its action menu.",
     whenToUse: [
       "Provide right-click or long-press contextual shortcut action menus on rows, files, or canvas objects.",
       "Mirror every menu action in both the right-click menu and a visible Menu trigger or row button, ensuring parity between mouse-only and keyboard-only users.",
@@ -442,7 +442,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Basic context menu",
         description:
-          "Displays a standard contextual action menu on right-click in the trigger area with basic Title Case options.",
+          "Right-click the trigger area to open its action list.",
         demoKey: "default",
       },
       {
@@ -507,7 +507,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
     slug: "copy-button",
     locale: "en-US",
     summary:
-      "Copies a given string to the clipboard and provides visual confirmation feedback after a successful copy operation.",
+      "Copy text and show the result with an icon.",
     whenToUse: [
       "Copy a short string verbatim to the clipboard, such as a token, a command-line instruction, or a unique identifier ID.",
       "Display a checkmark confirmation for about 1.2 seconds after copying succeeds, so the user clearly perceives the copy action is done.",
@@ -554,7 +554,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
     slug: "description",
     locale: "en-US",
     summary:
-      "Displays key/value metadata pairs as a definition list, suitable for structured metadata information presentation.",
+      "Display metadata, such as region or plan, as key–value pairs.",
     whenToUse: [
       "Present metadata as a definition list: a short Title Case key paired with a single value (e.g., 'Last Deployed', 'Region', 'Plan').",
       "Need the <dl>/<dt>/<dd> semantic HTML structure recognized by screen readers, reading each key/value pair as one definition unit.",
@@ -569,7 +569,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Default definition list",
         description:
-          "Displays a group of key/value definition lists with default left alignment, presenting clear metadata structure.",
+          "Display a left-aligned list of key–value pairs.",
         demoKey: "default",
       },
       {
@@ -600,7 +600,7 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Description is a purely presentational component for rendering definition key-value pairs, with no interactive state or controlled behavior.",
+        "Description displays the supplied key–value pairs and has no internal state.",
     },
     responsiveBehavior: {
       status: "not-applicable",

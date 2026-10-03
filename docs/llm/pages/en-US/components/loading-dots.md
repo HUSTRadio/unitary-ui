@@ -2,7 +2,7 @@
 
 > Route: `/components/loading-dots`
 
-Indicates an action running in the background with three bouncing dots.
+Use three animated dots to indicate an action such as saving or loading.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Indicates an action running in the background with three bouncing dots.
 
 loading-dots
 
-Indicates an action running in the background with three bouncing dots.
+Use three animated dots to indicate an action such as saving or loading.
 
 ## When to use
 
@@ -50,7 +50,7 @@ Not applicable: As an inline element, Loading Dots scales with the current line'
 ## Theme behavior
 
 - Dot colors are drawn from theme tokens, ensuring good contrast and visual clarity in both light and dark modes.
-- The dot animation currently always runs; applications that need prefers-reduced-motion support should provide a static alternative or an additional style.
+- The dots stop animating when prefers-reduced-motion is enabled.
 
 ## Live Demo
 
@@ -86,7 +86,7 @@ export function LoadingDotsWithTextF00F2530Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

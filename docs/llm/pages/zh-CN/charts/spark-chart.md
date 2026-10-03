@@ -2,7 +2,7 @@
 
 > Route: `/charts/spark-chart`
 
-渲染内联迷你趋势图（面积、折线或柱形）。
+用迷你面积图、折线图或柱状图显示卡片和表格中的趋势。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 spark-chart
 
-渲染内联迷你趋势图（面积、折线或柱形）。
+用迷你面积图、折线图或柱状图显示卡片和表格中的趋势。
 
 ## 何时使用
 
@@ -263,7 +263,7 @@ export function SparkChartKpiCardC3F1A8D4Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -271,7 +271,7 @@ export function SparkChartKpiCardC3F1A8D4Example() {
 import { SparkAreaChart, SparkLineChart, SparkBarChart } from "@/components/ui/spark-chart";
 ```
 
-原生属性：`React.HTMLAttributes<HTMLDivElement>`
+还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`
 
 ### 属性与回调
 

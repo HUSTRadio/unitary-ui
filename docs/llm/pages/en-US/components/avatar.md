@@ -2,7 +2,7 @@
 
 > Route: `/components/avatar`
 
-Represents a user or a team with an image or fallback.
+Represent a user or team with an image, initials, or a placeholder.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Represents a user or a team with an image or fallback.
 
 avatar
 
-Represents a user or a team with an image or fallback.
+Represent a user or team with an image, initials, or a placeholder.
 
 ## When to use
 
@@ -398,7 +398,7 @@ export function AvatarCurvature8D2F4A71Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -413,7 +413,7 @@ import {
 } from "@/components/ui/avatar";
 ```
 
-Native props: `ComponentProps<typeof AvatarPrimitive.Root>`
+Also accepts props defined by: `ComponentProps<typeof AvatarPrimitive.Root>`
 
 ### Props & callbacks
 

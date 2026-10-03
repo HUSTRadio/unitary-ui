@@ -2,7 +2,7 @@
 
 > Route: `/components/middle-truncate`
 
-保留长标识符的开头和结尾。
+用省略号缩短长文本，保留路径、URL 或标识符的首尾。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 middle-truncate
 
-保留长标识符的开头和结尾。
+用省略号缩短长文本，保留路径、URL 或标识符的首尾。
 
 ## 何时使用
 
@@ -67,7 +67,7 @@ export function MiddleTruncateExamplesE68EE04DExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 

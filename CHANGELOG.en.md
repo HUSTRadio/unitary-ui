@@ -8,6 +8,8 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Documentation readability**: Shortens component summaries, guides, foundation pages, app shell explanations, and READMEs in both languages. Replaces internal jargon with concrete instructions, explains required API markers and inherited prop types, and corrects the description of uncontrolled change callbacks.
+
 - **Mobile navigation and rapid clicks**: Removes the duplicate, inactive search button inside the narrow-screen drawer and gives the topbar symmetric edge insets. ExpandPanel uses reversible CSS transitions, reuses exiting nodes, cancels stale unmounts and excludes its trigger from outside dismissal to prevent jumps or accidental reopening during rapid toggles.
 
 - **Input rounded variant capsule shape (visual change)**: The `rounded` variant previously put `rounded-full` on both affixes, so each one collapsed into its own elliptical chip and the edge next to the divider curved inward. Affixes now round only their outer corners (prefix `rounded-l-full`, suffix `rounded-r-full`; the remaining corners stay square), so the inner edge is vertical and sits flush against the divider and the control reads as one capsule. Both the styled and the `prefixStyling={false}` rounded examples behave the same way. `tests/input-surface.test.tsx` plus a dual-theme browser geometry check (inner corners 0px, outer corners equal to the wrapper's capsule radius) lock the contract.

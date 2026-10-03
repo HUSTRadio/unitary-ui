@@ -43,7 +43,7 @@ full-page-scroller
 
 ## 主题行为
 
-- 容器不强制背景；演示使用共享主题 token，过渡使用 slower 时长和 ease-snap。
+- 容器不强制背景；演示使用共享主题变量，过渡使用 slower 时长和 ease-snap。
 
 ## 实时示例
 
@@ -131,7 +131,7 @@ export default function FullPageExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -139,7 +139,7 @@ export default function FullPageExample() {
 import { FullPageScroller } from "@/components/ui/full-page-scroller";
 ```
 
-原生属性：`Omit<ComponentProps<"div">, "onChange">`
+还支持以下类型中定义的属性：`Omit<ComponentProps<"div">, "onChange">`
 
 ### 属性与回调
 

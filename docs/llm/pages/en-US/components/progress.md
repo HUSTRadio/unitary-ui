@@ -2,7 +2,7 @@
 
 > Route: `/components/progress`
 
-Shows progress relative to a limit or a task.
+Show task completion or used capacity as a share of the total.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Shows progress relative to a limit or a task.
 
 progress
 
-Shows progress relative to a limit or a task.
+Show task completion or used capacity as a share of the total.
 
 ## When to use
 
@@ -296,7 +296,7 @@ export function ProgressDynamicB6EE7B3EExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

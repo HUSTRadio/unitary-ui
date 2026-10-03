@@ -2,7 +2,7 @@
 
 > Route: `/components/dots-menu`
 
-An overflow menu triggered by a three-dot icon that reveals additional actions in a dropdown.
+Open additional actions for a row or card from a three-dot button.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ An overflow menu triggered by a three-dot icon that reveals additional actions i
 
 dots-menu
 
-An overflow menu triggered by a three-dot icon that reveals additional actions in a dropdown.
+Open additional actions for a row or card from a three-dot button.
 
 ## When to use
 
@@ -141,7 +141,7 @@ export function DotsMenuDisabledMenuItem717ABAD2Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

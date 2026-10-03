@@ -2,7 +2,7 @@
 
 > Route: `/components/sheet`
 
-Displays content in a side panel that slides in from the edge of the screen.
+Open a panel from the screen edge to show details related to the current page.
 
 [Back to Components](#/components)
 
@@ -10,12 +10,12 @@ Displays content in a side panel that slides in from the edge of the screen.
 
 sheet
 
-Displays content in a side panel that slides in from the edge of the screen.
+Open a panel from the screen edge to show details related to the current page.
 
 ## When to use
 
 - When presenting persistent associated context (deployment details, member profiles) while keeping the underlying page interactive.
-- When a side panel with explicit open and close affordances feels more natural than a center-modal dialog.
+- Use it for a side detail panel that users can open and close.
 
 ## When not to use
 
@@ -125,7 +125,7 @@ export function SheetWithSideCF31B857Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

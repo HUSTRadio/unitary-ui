@@ -2,7 +2,7 @@
 
 > Route: `/components/keyboard-input`
 
-Displays keyboard input that triggers an action.
+Display a key or shortcut combination as keycaps.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays keyboard input that triggers an action.
 
 keyboard-input
 
-Displays keyboard input that triggers an action.
+Display a key or shortcut combination as keycaps.
 
 ## When to use
 
@@ -47,7 +47,7 @@ Used for single keys or named keys without modifiers, such as Enter or Esc. The 
 
 ## Controlled behavior
 
-Not applicable: Keyboard Input (Kbd) is a purely presentational UI component that renders styled key badges. It has no internal state, event handling, or user interaction capability; all behavior is determined by its props.
+Not applicable: Kbd displays key hints without handling key events or storing state.
 
 ## Responsive behavior
 
@@ -119,7 +119,7 @@ export function KeyboardInputPlainCommand4E2140C6Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

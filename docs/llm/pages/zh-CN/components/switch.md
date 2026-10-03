@@ -2,7 +2,7 @@
 
 > Route: `/components/switch`
 
-用于互斥视图选项的滑块分组。
+用分段按钮在少量互斥视图间切换。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 switch
 
-用于互斥视图选项的滑块分组。
+用分段按钮在少量互斥视图间切换。
 
 ## 何时使用
 
@@ -19,7 +19,7 @@ switch
 
 ## 何时不应使用
 
-- 布尔开关场景应使用 Toggle，而非 Switch 的无线电语义。
+- 布尔设置使用 Toggle；Switch 用于互斥选项。
 - 超过三个选项或标签很长时应使用 Tabs 或 Select 代替。
 
 ## 示例
@@ -38,7 +38,7 @@ switch
 
 ## 无障碍
 
-- 每个 Switch.Control 都应提供可访问名称（即使图标-only 也要加 Tooltip 和 sr-only 标签）。
+- 每个 Switch.Control 都应提供无障碍名称（即使图标-only 也要加 Tooltip 和 sr-only 标签）。
 - 左右箭头键移动焦点，回车或空格激活选项，Escape 退出。
 
 ## 受控行为
@@ -52,7 +52,7 @@ switch
 
 ## 主题行为
 
-- 激活态 pill 的颜色跟随主题 token，可以在暗色和亮色模式下保持一致的对比度。
+- 激活态 pill 的颜色跟随主题变量，可以在暗色和亮色模式下保持一致的对比度。
 
 ## 实时示例
 
@@ -228,7 +228,7 @@ export function SwitchIconA35ABCD6Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 

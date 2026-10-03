@@ -27,7 +27,7 @@ export const GUIDES_17_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "使用能独立说明目的地的可见文案，避免“点击这里”等脱离上下文后失去意义的标签。",
-        "外链图标均为 aria-hidden；屏幕阅读器仍以链接文案作为可访问名称。",
+        "外链图标均为 aria-hidden；屏幕阅读器仍以链接文案作为无障碍名称。",
         "组件保留键盘 focus-visible 双环和原生锚点语义。",
       ],
     },

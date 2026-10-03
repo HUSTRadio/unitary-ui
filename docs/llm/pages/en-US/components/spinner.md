@@ -2,7 +2,7 @@
 
 > Route: `/components/spinner`
 
-Indicates an in-progress operation.
+Use a spinning icon to indicate an ongoing action.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Indicates an in-progress operation.
 
 spinner
 
-Indicates an in-progress operation.
+Use a spinning icon to indicate an ongoing action.
 
 ## When to use
 
@@ -38,7 +38,7 @@ Showcases different color variants of the Spinner for varying backgrounds and co
 
 ## Controlled behavior
 
-Not applicable: Spinner is a passive display component with no interactive state or controlled properties; its visibility is driven by the parent component's state and it accepts no controlled attributes.
+Not applicable: The parent controls when Spinner appears; it has no internal state.
 
 ## Responsive behavior
 
@@ -89,7 +89,7 @@ export function SpinnerColors88C45D9EExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

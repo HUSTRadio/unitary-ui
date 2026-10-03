@@ -2,7 +2,7 @@
 
 > Route: `/charts/bar-chart`
 
-Renders categorical bar series with stacked, percent, and vertical layouts.
+Compare values across categories with bars, stacking, percentage mode, and horizontal bars.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Renders categorical bar series with stacked, percent, and vertical layouts.
 
 bar-chart
 
-Renders categorical bar series with stacked, percent, and vertical layouts.
+Compare values across categories with bars, stacking, percentage mode, and horizontal bars.
 
 ## When to use
 
@@ -147,7 +147,7 @@ export function BarChartVertical9F0A3C5EExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -155,7 +155,7 @@ Import
 import { BarChart } from "@/components/ui/bar-chart";
 ```
 
-Native props: `React.HTMLAttributes<HTMLDivElement>`
+Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`
 
 ### Props & callbacks
 

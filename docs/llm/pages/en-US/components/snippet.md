@@ -2,7 +2,7 @@
 
 > Route: `/components/snippet`
 
-Displays a runnable shell command or short code the user is meant to copy.
+Display a copyable shell command or short code snippet.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays a runnable shell command or short code the user is meant to copy.
 
 snippet
 
-Displays a runnable shell command or short code the user is meant to copy.
+Display a copyable shell command or short code snippet.
 
 ## When to use
 
@@ -198,7 +198,7 @@ export function SnippetControlledCopiedStateB953E7D9Example(): JSX.Element {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

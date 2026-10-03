@@ -2,7 +2,7 @@
 
 > Route: `/components/toggle`
 
-A switch for a single boolean setting.
+Turn a boolean setting, such as password protection, on or off.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A switch for a single boolean setting.
 
 toggle
 
-A switch for a single boolean setting.
+Turn a boolean setting, such as password protection, on or off.
 
 ## When to use
 
@@ -271,7 +271,7 @@ export function ToggleWithLabelBB9F6883Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

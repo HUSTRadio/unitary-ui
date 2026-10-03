@@ -2,7 +2,7 @@
 
 > Route: `/components/menu-bar`
 
-A horizontal bar of application menus with keyboard shortcuts, submenus, and checkable items.
+An application menu bar with submenus, checkbox items, and shortcut hints.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A horizontal bar of application menus with keyboard shortcuts, submenus, and che
 
 menu-bar
 
-A horizontal bar of application menus with keyboard shortcuts, submenus, and checkable items.
+An application menu bar with submenus, checkbox items, and shortcut hints.
 
 ## When to use
 
@@ -157,7 +157,7 @@ export function MenuBarDefault1D7F3C05Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

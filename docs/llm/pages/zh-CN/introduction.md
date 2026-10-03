@@ -18,7 +18,7 @@ Unitary 是一个基于 Vercel Geist 设计语言构建的 React 组件库。
 
 ### 颜色
 
-一套高对比度且具备无障碍能力的颜色系统。
+兼顾对比度与可读性的颜色系统。
 
 ](#/colors)[
 
@@ -50,6 +50,6 @@ unitary-docs
 
 ### 组件
 
-用于构建 React 应用的基础模块。
+构建 React 应用的基础组件。
 
 ](#/components)

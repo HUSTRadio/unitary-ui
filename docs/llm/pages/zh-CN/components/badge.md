@@ -2,7 +2,7 @@
 
 > Route: `/components/badge`
 
-用于状态、计数和元数据的简短标签。
+用简短标签显示状态、数量或元数据。
 
 [返回组件](#/components)
 
@@ -10,17 +10,17 @@
 
 badge
 
-用于状态、计数和元数据的简短标签。
+用简短标签显示状态、数量或元数据。
 
 ## 何时使用
 
-- 在描述对象的旁边放置简短、可快速扫描的元数据标签：状态、计划层级、环境或角色。
+- 在对象旁用短标签显示状态、套餐、环境或角色。
 - 展示生命周期阶段标签（Alpha、Beta、Early Access），并配合 Tooltip 注明限制信息。
 - 用颜色映射表达含义：绿色表示健康，红色表示错误，琥珀色表示警告，蓝色表示信息或生产环境。
 
 ## 何时不应使用
 
-- 不要让 Badge 成为可点击元素；如果用户需要操作该值，提升为 Button 或链接。
+- 标签需要点击操作时，使用 Button 或链接。
 - 不要在 Badge 内嵌套另一个 Badge 或多个图标——每行只放一个 Badge。
 - 不要在 Badge 中塞入整句文案（如 Currently Active），周围行已经提供了上下文。
 
@@ -55,12 +55,12 @@ shape="rounded"（4px 圆角矩形）+ size="compact"（20px 高）+ contrast="s
 ## 响应式行为
 
 - Badge 采用紧凑的内联排版，在窄屏和宽屏上保持一致的视觉密度。
-- 长文本在窄屏上自动换行或通过省略号截断，不会溢出父容器边界。
+- Badge 文本不自动换行。保持标签简短，长文本由外层布局处理。
 
 ## 主题行为
 
 - 每个变体对应一套深色/浅色模式下的颜色对，跟随主题变量的更新。
-- \-subtle 后缀色调可在密集表面上调低任何变体的饱和度，减少视觉干扰。
+- contrast="low" 使用无填充的文字样式；contrast="soft" 使用柔和底色。
 
 ## 实时示例
 
@@ -347,7 +347,7 @@ export function BadgeCompactRounded7C41E2A8Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -355,7 +355,7 @@ export function BadgeCompactRounded7C41E2A8Example() {
 import { Badge, badgeVariants } from "@/components/ui/badge";
 ```
 
-原生属性：`HTMLAttributes<HTMLSpanElement>`
+还支持以下类型中定义的属性：`HTMLAttributes<HTMLSpanElement>`
 
 ### 属性与回调
 

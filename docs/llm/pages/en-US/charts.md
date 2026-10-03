@@ -4,7 +4,7 @@
 
 # Charts
 
-A vendored Tremor Raw chart family: trend, comparison, and share-of-total charts plus micro visualizations, blending into the grayscale system in both themes.
+Charts based on Tremor Raw for trends, comparisons, proportions, and small visualizations, with light and dark themes.
 
 Visitor analytics
 
@@ -30,7 +30,7 @@ area-chart
 
 ### Area Chart
 
-Renders layered area series for trends over time, with stacked and percent variants.
+Show trends over time with filled areas, stacking, percentage mode, and custom tooltips.
 
 ](#/charts/area-chart)[
 
@@ -38,7 +38,7 @@ bar-chart
 
 ### Bar Chart
 
-Renders categorical bar series with stacked, percent, and vertical layouts.
+Compare values across categories with bars, stacking, percentage mode, and horizontal bars.
 
 ](#/charts/bar-chart)[
 
@@ -46,7 +46,7 @@ bar-list
 
 ### Bar List
 
-Renders a ranked list where each row carries a proportional bar and value.
+Rank items with names, bars, and values, plus optional links and icons.
 
 ](#/charts/bar-list)[
 
@@ -54,7 +54,7 @@ category-bar
 
 ### Category Bar
 
-Renders a segmented horizontal bar showing shares of a total.
+Show proportions in a segmented bar, with optional threshold markers and tooltips.
 
 ](#/charts/category-bar)[
 
@@ -62,7 +62,7 @@ combo-chart
 
 ### Combo Chart
 
-Combines bar and line series in one chart, optionally on two axes.
+Combine bars and lines in one chart, with optional dual axes for different units.
 
 ](#/charts/combo-chart)[
 
@@ -70,7 +70,7 @@ donut-chart
 
 ### Donut Chart
 
-Renders a part-to-whole donut (or pie) with an optional center metric.
+Show proportions as a donut or pie; the donut center can display a main metric.
 
 ](#/charts/donut-chart)[
 
@@ -78,7 +78,7 @@ line-chart
 
 ### Line Chart
 
-Renders connected line series for continuous trends with optional axis titles.
+Compare continuous trends with lines, axis labels, and custom tooltips.
 
 ](#/charts/line-chart)[
 
@@ -86,7 +86,7 @@ progress-circle
 
 ### Progress Circle
 
-Renders a circular progress indicator with an optional center metric.
+Show completion or capacity as a ring, with a value and description in the center.
 
 ](#/charts/progress-circle)[
 
@@ -94,7 +94,7 @@ spark-chart
 
 ### Spark Chart
 
-Renders tiny inline sparklines (area, line, or bar) for at-a-glance trends.
+Show trends inside cards or tables with a small area, line, or bar chart.
 
 ](#/charts/spark-chart)[
 
@@ -102,6 +102,6 @@ tracker
 
 ### Tracker
 
-Renders a sequence of status blocks for event timelines or uptime history.
+Show event history, such as uptime or build results, as a sequence of status blocks.
 
 ](#/charts/tracker)

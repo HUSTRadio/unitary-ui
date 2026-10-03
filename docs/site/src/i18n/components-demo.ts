@@ -451,8 +451,8 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     Grid: "网格",
     Collaborate: "协作",
     "Icon set tailored for developer tools.": "为开发者工具定制的图标集合。",
-    "Building blocks for React applications.": "用于构建 React 应用的基础模块。",
-    "A high contrast, accessible color system.": "一套高对比度且具备无障碍能力的颜色系统。",
+    "Building blocks for React applications.": "构建 React 应用的基础组件。",
+    "A high contrast, accessible color system.": "兼顾对比度与可读性的颜色系统。",
     "Presets for radii, fills, strokes, and shadows.": "圆角、填充、描边与阴影的预设。",
     "Specifically designed for developers and designers.": "专为开发者和设计师设计。",
     "Unitary is a React component library built on the Vercel Geist design language.":
@@ -486,11 +486,11 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "There are 10 color scales in the system. Each swatch shows the current theme value and can be copied.":
       "系统共 10 个色阶。每个色卡展示当前主题取值，点击即可复制。",
     "Numbered color steps group by their intended interface role.":
-      "数字色阶按其界面角色分组。",
+      "1–10 档色阶按背景、边框、文字等用途分组。",
     "There are two background colors for pages and UI components. In most instances, use Background 1—especially when color is placed on top of the background. Use Background 2 sparingly when subtle differentiation is needed.":
-      "页面与 UI 组件使用两种背景色。多数情况下使用 Background 1——尤其是当颜色叠加在背景之上时；仅在需要细微区分时少量使用 Background 2。",
+      "页面和组件通常使用 Background 1；需要区分相邻区域时，少量使用 Background 2。",
     "Semantic tokens communicate interface roles while resolving to the current theme value.":
-      "语义 Token 表达界面角色，同时解析为当前主题取值。",
+      "语义变量（token）按用途命名，例如背景、文字和边框；颜色随当前主题变化。",
     Token: "Token",
     Role: "角色",
     "Current value": "当前取值",
@@ -519,9 +519,9 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Colors 4–6: Borders": "色彩 4–6：边框",
     "Colors 7–8: High contrast backgrounds": "色彩 7–8：高对比背景",
     "Colors 9–10: Text and icons": "色彩 9–10：文本与图标",
-    "Use for component fills and layered interaction states.": "用于组件填充与分层交互状态。",
+    "Use for component fills and layered interaction states.": "用于组件背景、悬停态和按下态。",
     "Use for structural borders and separators.": "用于结构性边框与分隔线。",
-    "Use for high-emphasis component backgrounds.": "用于高强调的组件背景。",
+    "Use for high-emphasis component backgrounds.": "用于需要突出显示的组件背景。",
     "Use for accessible text and icon contrast.": "用于无障碍的文本与图标对比。",
     // 语义颜色 Token
     Canvas: "画布",
@@ -530,7 +530,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     Border: "边框",
     "Focus ring": "焦点环",
     "Primary action": "主要操作",
-    "Primary page and component surface.": "页面与组件的主要表面。",
+    "Primary page and component surface.": "页面与组件的主要背景。",
     "Primary text and icon color.": "主要文本与图标颜色。",
     "Supporting text and icons.": "辅助文本与图标。",
     "Structural borders and separators.": "结构性边框与分隔线。",
@@ -539,7 +539,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Destructive actions and error states.": "破坏性操作与错误状态。",
     "Successful outcomes and confirmations.": "成功结果与确认。",
     "Warnings that need attention.": "需要关注的警告。",
-    "Rules of typesetting throughout the system.": "贯穿整个系统的排版规则。",
+    "Rules of typesetting throughout the system.": "标题、按钮、标签和正文的排版规范。",
     Headings: "标题",
     Buttons: "按钮",
     // Button demos
@@ -603,13 +603,13 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Surface — on the page. Floating — above the page. Each block applies its material-* class and lists its radius, usage, and z-index.":
       "Surface 位于页面内，Floating 位于页面之上。每个方块应用对应 material-* 类，并标注圆角、用途与 z-index 层级。",
     "Surface — on the page. Floating — above the page. Each preset is an elevation visual contract; stacking order is managed by separate layer tokens, not by the material itself.":
-      "Surface 位于页面内，Floating 位于页面之上。每个预设都是 elevation 视觉契约；层叠顺序由独立的 layer token 管理，不由材质本身决定。",
+      "Surface 用于页面内的容器，Floating 用于浮层。材质预设定义圆角、背景、边框和阴影；显示顺序由层级变量单独控制。",
     "Surface": "表面",
     "Floating": "浮层",
     "On the page, in normal document flow. Choose the lowest elevation that reads clearly.":
-      "位于页面内、正常文档流中。选择能清晰表达层次所需的最低 elevation。",
+      "用于页面内的容器。用较轻的阴影区分层次，避免过度突出。",
     "Above the page. Never stack the same material twice; shadows do not replace focus rings or ARIA semantics. Check separation in both themes.":
-      "位于页面之上。不要叠加同一材质；阴影不能替代 focus ring 或 ARIA 语义。请在双主题下检查分离度。",
+      "用于弹出面板。避免重复叠加材质，保留焦点指示和 ARIA 属性，并检查明暗主题下是否清晰。",
     "Base": "基础",
     "Medium": "中型",
     "Menu": "菜单",
@@ -789,7 +789,22 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Touch screen: use Drawer.": "触屏抽屉请用 Drawer。",
     "Full-width bottom sheet with swipe-to-dismiss.": "全宽底部抽屉，下拉手势关闭。",
   },
-  "en-US": {},
+  "en-US": {
+    "Semantic tokens communicate interface roles while resolving to the current theme value.":
+      "Semantic tokens are named for uses such as backgrounds, text, and borders. Their colors follow the current theme.",
+    "Numbered color steps group by their intended interface role.":
+      "Color steps 1–10 are grouped by uses such as backgrounds, borders, and text.",
+    "There are two background colors for pages and UI components. In most instances, use Background 1—especially when color is placed on top of the background. Use Background 2 sparingly when subtle differentiation is needed.":
+      "Use Background 1 for most pages and components. Use Background 2 sparingly to distinguish adjacent regions.",
+    "Surface — on the page. Floating — above the page. Each preset is an elevation visual contract; stacking order is managed by separate layer tokens, not by the material itself.":
+      "Surface is for containers within the page; Floating is for overlays. Material presets define corners, backgrounds, borders, and shadows. Layer tokens control stacking order separately.",
+    "On the page, in normal document flow. Choose the lowest elevation that reads clearly.":
+      "For containers within the page. Use a light shadow to distinguish layers without drawing too much attention.",
+    "Above the page. Never stack the same material twice; shadows do not replace focus rings or ARIA semantics. Check separation in both themes.":
+      "For popup panels. Avoid applying a material twice, keep focus indicators and ARIA attributes, and check clarity in both themes.",
+    "Rules of typesetting throughout the system.":
+      "Typography guidelines for headings, buttons, labels, and body text.",
+  },
 };
 
 export function demoText(language: DocsLanguage, source: string): string {

@@ -2,7 +2,7 @@
 
 > Route: `/components/choicebox`
 
-承载更详细选项内容的大尺寸 Radio。
+用带描述或图标的卡片进行单选或多选。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 choicebox
 
-承载更详细选项内容的大尺寸 Radio。
+用带描述或图标的卡片进行单选或多选。
 
 ## 何时使用
 
@@ -214,7 +214,7 @@ export function ChoiceboxCustomContent2D9A6A02Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 

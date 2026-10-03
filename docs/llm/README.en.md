@@ -2,7 +2,7 @@
 
 [Simplified Chinese primary](README.md)
 
-This directory provides stable Markdown generated from the real documentation pages for AI agents and retrieval systems. Simplified Chinese is the primary locale; English is the alternative locale.
+This directory contains Chinese and English Markdown generated from the documentation site for AI assistants and retrieval systems.
 
 ## Entry point and sources of truth
 
@@ -13,7 +13,7 @@ This directory provides stable Markdown generated from the real documentation pa
 - Canonical component source: `src/components/ui/**`
 - Versioned LLM task packages and prompt paths: [`../../.agents/README.en.md`](../../.agents/README.en.md)
 
-`index.json` lists both locale paths, titles, categories, and SHA-256 values in canonical route order. Generated pages are not independent sources of truth. Fix the real component, route, API registry, demo, or guide first, then regenerate.
+`index.json` lists both locales’ file paths, titles, categories, and SHA-256 checksums in route order. To correct an error, update the component, route, API data, example, or guide first, then regenerate.
 
 ## Generate and verify
 
@@ -22,7 +22,7 @@ vp run docs:llm:generate
 vp run docs:llm:check
 ```
 
-`docs:llm:generate` starts a preview owned exclusively by the current command, generates every page from semantic HTML, and atomically replaces the artifacts. `docs:llm:check` generates a temporary result and compares bytes without writing tracked files; drift exits non-zero.
+`docs:llm:generate` starts its own preview server, generates Markdown from page HTML, and replaces the output files when complete. `docs:llm:check` generates a temporary copy and compares it byte by byte with the repository files. Differences produce a non-zero exit code; the check does not modify files.
 
 ## Usage boundaries
 

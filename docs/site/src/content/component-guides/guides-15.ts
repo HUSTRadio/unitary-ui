@@ -5,7 +5,7 @@ export const GUIDES_15_ZH: Record<string, ComponentGuide> = {
     slug: "toggle",
     locale: "zh-CN",
     summary:
-      "用于单一布尔值的即时开启/关闭设置。点击即生效，适用于像密码保护或自动取消构建这类开关。",
+      "开启或关闭一个布尔设置，如密码保护。",
     whenToUse: [
       "需要一个单一的布尔值设定，且打开后立即生效的场景（如密码保护、自动取消构建）。",
       "与其他表单控件并列时，用 Toggle 表示单条设置的开/关，而不是使用 Checkbox（多选列表）或 Switch（2–3 个互斥视图）。",
@@ -73,7 +73,7 @@ export const GUIDES_15_ZH: Record<string, ComponentGuide> = {
   tooltip: {
     slug: "tooltip",
     locale: "zh-CN",
-    summary: "悬浮或聚焦时出现的浮动提示标签，为元素添加额外上下文信息而不占用空间。",
+    summary: "悬停或聚焦时显示简短的补充说明。",
     whenToUse: [
       "需要解释某事物的存在原因，而非事物本身是什么：可见标签命名该对象，工具提示补充限制条件、作用范围或数量上限。",
       "图标按钮等小触发器需要额外的语境说明时，通过 Tooltip 在不扩展 UI 的前提下提供解释。",
@@ -132,7 +132,7 @@ export const GUIDES_15_ZH: Record<string, ComponentGuide> = {
   video: {
     slug: "video",
     locale: "zh-CN",
-    summary: "嵌入带内置播放控制和懒加载支持的媒体视频播放器。",
+    summary: "嵌入视频，提供播放控件和延迟加载。",
     whenToUse: [
       "需要在页面中嵌入视频片段，并要求开箱即用的播放控制和懒加载性能优化。",
       "需要在营销页面、文档封面或产品演示页中展示视频内容，同时保持页面的视觉一致性。",
@@ -168,7 +168,7 @@ export const GUIDES_15_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Video 没有声明式 playing 或 currentTime props；内部控制层自行同步播放状态。",
-        "组件向外转发 HTMLVideoElement ref，调用方可通过 play()、pause() 和 currentTime 执行命令式媒体控制。",
+        "通过 HTMLVideoElement ref 调用 play()、pause() 或设置 currentTime，可控制播放。",
       ],
     },
     responsiveBehavior: {
@@ -191,7 +191,7 @@ export const GUIDES_15_EN: Record<string, ComponentGuide> = {
     slug: "toggle",
     locale: "en-US",
     summary:
-      "A switch for a single boolean setting where ON takes effect immediately, like Password Protection or Auto-Cancel Builds.",
+      "Turn a boolean setting, such as password protection, on or off.",
     whenToUse: [
       "For a single boolean setting where ON takes effect right away (e.g., password protection, auto-cancel builds). Use Toggle instead of Checkbox for multi-select lists, or Switch for 2–3 mutually exclusive views.",
       "When you need a clear on/off toggle for one independent setting presented alongside other form controls.",
@@ -263,7 +263,7 @@ export const GUIDES_15_EN: Record<string, ComponentGuide> = {
     slug: "tooltip",
     locale: "en-US",
     summary:
-      "A floating label that appears on hover or focus, adding contextual detail without taking up permanent space.",
+      "Show a short explanation on hover or focus.",
     whenToUse: [
       "To explain why something exists, not what it is: the visible label names the thing; the tooltip adds the constraint, scope, or limit.",
       "When icon-only triggers or compact UI elements need extra context without expanding the visible interface.",
@@ -325,7 +325,7 @@ export const GUIDES_15_EN: Record<string, ComponentGuide> = {
   video: {
     slug: "video",
     locale: "en-US",
-    summary: "Embeds a video with built-in playback controls and lazy loading support.",
+    summary: "Embed video with playback controls and lazy loading.",
     whenToUse: [
       "When embedding video clips on pages with out-of-the-box playback controls and lazy-loading performance optimization.",
       "When displaying video content on marketing pages, documentation covers, or product demos while keeping visual consistency.",
@@ -363,7 +363,7 @@ export const GUIDES_15_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Video has no declarative playing or currentTime props; its custom controls synchronize playback state internally.",
-        "The component forwards an HTMLVideoElement ref, so callers can invoke play(), pause(), or assign currentTime for imperative media control.",
+        "Use the HTMLVideoElement ref to call play(), pause(), or set currentTime.",
       ],
     },
     responsiveBehavior: {

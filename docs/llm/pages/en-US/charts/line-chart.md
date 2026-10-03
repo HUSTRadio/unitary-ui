@@ -2,7 +2,7 @@
 
 > Route: `/charts/line-chart`
 
-Renders connected line series for continuous trends with optional axis titles.
+Compare continuous trends with lines, axis labels, and custom tooltips.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Renders connected line series for continuous trends with optional axis titles.
 
 line-chart
 
-Renders connected line series for continuous trends with optional axis titles.
+Compare continuous trends with lines, axis labels, and custom tooltips.
 
 ## When to use
 
@@ -128,7 +128,7 @@ export function LineChartCustomTooltip4D7B2E8AExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -136,7 +136,7 @@ Import
 import { LineChart } from "@/components/ui/line-chart";
 ```
 
-Native props: `React.HTMLAttributes<HTMLDivElement>`
+Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`
 
 ### Props & callbacks
 

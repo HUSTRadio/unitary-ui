@@ -2,7 +2,7 @@
 
 > Route: `/charts/progress-circle`
 
-渲染圆形进度指示器，可选中心指标。
+用圆环显示完成度或容量占比，中心可放数值和说明。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 progress-circle
 
-渲染圆形进度指示器，可选中心指标。
+用圆环显示完成度或容量占比，中心可放数值和说明。
 
 ## 何时使用
 
@@ -26,7 +26,7 @@ progress-circle
 
 ### 默认进度环
 
-带宽宽使用率与中心百分比。
+显示带宽使用率，并在中心标注百分比。
 
 ## 无障碍
 
@@ -72,7 +72,7 @@ export function ProgressCircleDefault37A8EEC1Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -80,7 +80,7 @@ export function ProgressCircleDefault37A8EEC1Example() {
 import { ProgressCircle } from "@/components/ui/progress-circle";
 ```
 
-原生属性：`React.HTMLAttributes<HTMLDivElement>`
+还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`
 
 ### 属性与回调
 

@@ -2,7 +2,7 @@
 
 > Route: `/components/load-more-button`
 
-A full-width button that appends more items to a paginated list.
+Append the next batch of data to a list with a full-width button.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A full-width button that appends more items to a paginated list.
 
 load-more-button
 
-A full-width button that appends more items to a paginated list.
+Append the next batch of data to a list with a full-width button.
 
 ## When to use
 
@@ -161,7 +161,7 @@ export function LoadMoreButtonCustomTextCFD55183Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

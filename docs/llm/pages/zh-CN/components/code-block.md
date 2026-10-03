@@ -2,7 +2,7 @@
 
 > Route: `/components/code-block`
 
-带文件名标题和边框的多行代码块。
+展示多行高亮代码，支持文件名、行号和变更标记。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 code-block
 
-带文件名标题和边框的多行代码块。
+展示多行高亮代码，支持文件名、行号和变更标记。
 
 ## 何时使用
 
@@ -529,7 +529,7 @@ export function CodeBlockOpenInV0CA6FBF0AExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 

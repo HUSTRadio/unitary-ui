@@ -2,7 +2,7 @@
 
 > Route: `/components/edit-menu`
 
-A selection-driven horizontal edit toolbar that appears beside selected text across touch, pointer, and keyboard input.
+Show editing actions such as cut and copy next to selected text.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A selection-driven horizontal edit toolbar that appears beside selected text acr
 
 edit-menu
 
-A selection-driven horizontal edit toolbar that appears beside selected text across touch, pointer, and keyboard input.
+Show editing actions such as cut and copy next to selected text.
 
 ## When to use
 
@@ -114,7 +114,7 @@ export function EditMenuDefault3F2A9C71Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

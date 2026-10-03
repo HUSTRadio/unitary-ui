@@ -2,7 +2,7 @@
 
 > Route: `/components/scroller`
 
-Displays an overflowing list of items.
+Scroll through overflowing content within a bounded area.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays an overflowing list of items.
 
 scroller
 
-Displays an overflowing list of items.
+Scroll through overflowing content within a bounded area.
 
 ## When to use
 
@@ -156,7 +156,7 @@ export function ScrollerHorizontalWithButtons29D25875Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

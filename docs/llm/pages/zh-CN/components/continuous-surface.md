@@ -2,7 +2,7 @@
 
 > Route: `/components/continuous-surface`
 
-通过连续曲率路径裁切自适应尺寸的表面，并在路径不可用时保留普通圆角。
+按元素尺寸生成连续圆角裁切；无法生成路径时使用普通圆角。
 
 [返回组件](#/components)
 
@@ -10,11 +10,11 @@
 
 continuous-surface
 
-通过连续曲率路径裁切自适应尺寸的表面，并在路径不可用时保留普通圆角。
+按元素尺寸生成连续圆角裁切；无法生成路径时使用普通圆角。
 
 ## 何时使用
 
-- 用于孤立卡片、磁贴或近方形品牌无关表面，且形状确实属于设计系统语义时。
+- 用于需要连续圆角的独立卡片、磁贴或近方形容器。
 - 矩形卡片使用保留直边的 continuousCornerPath；完整 superellipse 只用于近方形图标或头像。
 - 需要在响应式尺寸变化后保持同一视觉半径和曲线家族时。
 
@@ -32,7 +32,7 @@ continuous-surface
 
 ## 无障碍
 
-- 组件保留 div 的原生属性；根据内容用途自行提供 landmark、heading 或可访问名称。
+- 组件支持 div 属性。需要说明区域用途时，添加合适的 role、标题或无障碍名称。
 - 形状只提供视觉分组，不应成为传达状态或交互含义的唯一方式。
 
 ## 受控行为
@@ -122,7 +122,7 @@ export function ContinuousSurfaceDefault37A8EEC1Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -130,7 +130,7 @@ export function ContinuousSurfaceDefault37A8EEC1Example() {
 import { ContinuousSurface } from "@/components/ui/continuous-surface";
 ```
 
-原生属性：`HTMLAttributes<HTMLDivElement>`
+还支持以下类型中定义的属性：`HTMLAttributes<HTMLDivElement>`
 
 ### 属性与回调
 

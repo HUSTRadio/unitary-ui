@@ -36,18 +36,22 @@ describe("color palette governance", () => {
   test("describes --uni-* and Apple HIG as constraints rather than second palettes", async () => {
     for (const name of documents.zh) {
       const document = await readDocument(name);
-      expect(document).toMatch(/--uni-\*.*语义映射层.*不是第二套调色盘/);
-      expect(document).toMatch(/Apple HIG.*布局、行为和无障碍约束.*不是第二套调色盘/);
-      expect(document).toContain("具名来源、理由和作用域");
+      expect(document).toMatch(/--uni-\*.*(?:语义映射层.*不是第二套调色盘|按具体用途映射这些颜色)/);
+      expect(document).toMatch(
+        /Apple HIG.*布局、(?:行为|交互)和无障碍.*(?:不是第二套调色盘|不提供额外调色盘)/,
+      );
+      expect(document).toMatch(/(?:具名|注明)来源、理由和(?:作用域|适用范围)/);
     }
 
     for (const name of documents.en) {
       const document = await readDocument(name);
-      expect(document).toMatch(/--uni-\*.*semantic mapping layer.*not a second palette/i);
       expect(document).toMatch(
-        /Apple HIG.*layout, behavior, and accessibility constraints.*not a second palette/i,
+        /--uni-\*.*(?:semantic mapping layer.*not a second palette|maps these colors to specific uses)/i,
       );
-      expect(document).toContain("name its source, reason, and scope");
+      expect(document).toMatch(
+        /Apple HIG.*layout, (?:behavior|interaction), and accessibility.*(?:not a second palette|without adding another palette)/i,
+      );
+      expect(document).toMatch(/(?:name|document) (?:its|their) source, reason, and scope/i);
     }
   });
 
@@ -71,7 +75,9 @@ describe("color palette governance", () => {
 
   test("does not admit a second foundation color scale", async () => {
     const css = await readFile(path.join(root, "src/styles/index.css"), "utf8");
-    const foundationPrefixes = [...css.matchAll(/--([a-z][a-z0-9-]*)-(?:100|200|300|400|500|600|700|800|900|1000)\s*:/g)]
+    const foundationPrefixes = [
+      ...css.matchAll(/--([a-z][a-z0-9-]*)-(?:100|200|300|400|500|600|700|800|900|1000)\s*:/g),
+    ]
       .map((match) => match[1])
       .filter((prefix) => !prefix.startsWith("color-") && !prefix.startsWith("uni-"));
 

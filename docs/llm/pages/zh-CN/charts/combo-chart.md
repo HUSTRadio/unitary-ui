@@ -2,7 +2,7 @@
 
 > Route: `/charts/combo-chart`
 
-在同一图表中组合柱与折线系列，可选双轴。
+在同一图中组合柱形和折线，可用双轴表示不同量纲。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 combo-chart
 
-在同一图表中组合柱与折线系列，可选双轴。
+在同一图中组合柱形和折线，可用双轴表示不同量纲。
 
 ## 何时使用
 
@@ -127,7 +127,7 @@ export function ComboChartBiaxial2A9F5C3EExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -135,7 +135,7 @@ export function ComboChartBiaxial2A9F5C3EExample() {
 import { ComboChart } from "@/components/ui/combo-chart";
 ```
 
-原生属性：`React.HTMLAttributes<HTMLDivElement>`
+还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`
 
 ### 属性与回调
 

@@ -2,7 +2,7 @@
 
 > Route: `/components/slider`
 
-An input to select a value from a given range.
+Drag a slider to choose a value within a numeric range.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ An input to select a value from a given range.
 
 slider
 
-An input to select a value from a given range.
+Drag a slider to choose a value within a numeric range.
 
 ## When to use
 
@@ -146,7 +146,7 @@ export function SliderCommitOnRelease97B1700EExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

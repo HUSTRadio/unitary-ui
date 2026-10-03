@@ -39,12 +39,12 @@ const HERO_DATA = [
 
 const COPY = {
   "zh-CN": {
-    lead: "基于 Tremor Raw 源码内置的图表组件族：趋势、对比、占比三大场景加微可视化，明暗双主题下与库内灰阶体系自然融合。",
+    lead: "图表基于 Tremor Raw，覆盖趋势、数值比较、占比和迷你图，支持明暗主题。",
     heroTitle: "Visitor analytics",
     heroSubtitle: "近 6 个月访客与浏览量（AreaChart live demo）",
   },
   "en-US": {
-    lead: "A vendored Tremor Raw chart family: trend, comparison, and share-of-total charts plus micro visualizations, blending into the grayscale system in both themes.",
+    lead: "Charts based on Tremor Raw for trends, comparisons, proportions, and small visualizations, with light and dark themes.",
     heroTitle: "Visitor analytics",
     heroSubtitle: "Visitors and pageviews over the last 6 months (AreaChart live demo)",
   },

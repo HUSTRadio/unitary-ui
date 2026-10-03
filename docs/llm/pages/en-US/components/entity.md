@@ -2,7 +2,7 @@
 
 > Route: `/components/entity`
 
-A structured row for an entity and its primary action.
+Display a resource and its primary action in one row.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A structured row for an entity and its primary action.
 
 entity
 
-A structured row for an entity and its primary action.
+Display a resource and its primary action in one row.
 
 ## When to use
 
@@ -49,7 +49,7 @@ Entity uses fill layout so columns stretch proportionally to adapt to container 
 
 ## Controlled behavior
 
-Not applicable: Entity is fundamentally a presentation row component and does not manage its own interaction state. Selection state is controlled externally via props, and row-level clicks are typically handled by the outer container — the Entity component itself is responsible for displaying, not for open/close logic.
+Not applicable: Entity provides the row layout; the parent handles selection and click actions.
 
 ## Responsive behavior
 
@@ -337,7 +337,7 @@ export function EntityEntityWithColumnClassNames71E7FBA7Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

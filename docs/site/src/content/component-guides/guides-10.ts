@@ -4,7 +4,7 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
   pill: {
     slug: "pill",
     locale: "zh-CN",
-    summary: "可点击的筛选芯片，用于切换查询条件或选中项。",
+    summary: "点击标签，切换筛选条件或选中项。",
     whenToUse: [
       "需要可点击的筛选芯片来切换过滤条件时，使用 Pill 而非静态 Badge。",
       '通过 variant="active" 高亮当前已选中的筛选器，让视觉用户无需依赖颜色即可感知激活状态。',
@@ -42,7 +42,7 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Pill 本身是无受控属性的展示型组件，选中状态由外部 onClick 回调管理；组件内部不维护独立的状态机。",
+        "Pill 不保存选中状态；父组件在 onClick 中更新状态，再传入对应 variant。",
     },
     responsiveBehavior: {
       status: "covered",
@@ -62,7 +62,7 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
   progress: {
     slug: "progress",
     locale: "zh-CN",
-    summary: "展示相对于某个上限或任务的进度百分比。",
+    summary: "显示任务完成量或已用容量占总量的比例。",
     whenToUse: [
       "已知总量且可追踪确定性进度时使用 Progress，如文件上传、多步设置、构建步骤或批量删除操作。",
       "搭配明确的工作描述和单位文本（如「正在上传 12/30 个文件」），让进度条不仅仅是一个抽象数字。",
@@ -129,7 +129,7 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
   "project-banner": {
     slug: "project-banner",
     locale: "zh-CN",
-    summary: "用于显示需要解决的临时项目级通知横幅。",
+    summary: "在项目页面显示需要处理的通知，并提供解决操作。",
     whenToUse: [
       "需要在项目级别展示紧急状态时使用 Project Banner，如逾期账单、活跃回滚、攻击缓解或即将到期阻止部署的试用。",
       "根据严重程度匹配语义变体：error 用于关键停机或支付阻塞状态，warning 用于非即时的异常状态，success 用于积极的安全状态，gray 用于常规项目通知。",
@@ -187,11 +187,11 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
   radio: {
     slug: "radio",
     locale: "zh-CN",
-    summary: "提供从多个互斥选项中选择一个的单选输入控件。",
+    summary: "从一组互斥选项中选择一个。",
     whenToUse: [
       "需要从 2-6 个互斥选项中做单一选择时使用 Radio，且用户必须看到所有选项才能做出决定，如部署区域、计划层级或计费周期。",
       "为相关联的单选按钮设置 <fieldset> + <legend> 包裹，这样屏幕阅读器在每个选项前播报组名。",
-      "预设一个最安全的默认值，让字段在读起来已经配置完成，而非必需的但为空状态。",
+      "适合预选时，提供一个安全的默认选项。",
     ],
     whenNotToUse: [
       "当选项数量超过 6 个时，切换至 Select 或 Combobox 以避免列表占据过多表单空间。",
@@ -246,7 +246,7 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "选中态的圆点和边框颜色遵循主题变量的主色调，暗色/亮色模式自动适配。",
+        "选中态的圆点和边框颜色遵循主题变量的主色调，适配明暗主题。",
         "禁用态 Radio 的透明度和对比度调整通过主题色板的 alpha 通道实现，保持无障碍对比度要求。",
       ],
     },
@@ -254,7 +254,7 @@ export const GUIDES_10_ZH: Record<string, ComponentGuide> = {
   "relative-time-card": {
     slug: "relative-time-card",
     locale: "zh-CN",
-    summary: "展示相对时间戳及其上下文语境，如「5 分钟前」。",
+    summary: "显示“5 分钟前”等相对时间，悬停或聚焦时查看精确时间。",
     whenToUse: [
       "近期活动展示时使用相对时间格式（如「3 分钟前」「2 小时前」），让用户快速理解事件的新鲜度。",
       "在表格单元格中展示最近的操作记录时间，结合表格里其他行进行快速比较。",
@@ -315,7 +315,7 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
   pill: {
     slug: "pill",
     locale: "en-US",
-    summary: "Clickable filter chip for toggling a query or selection.",
+    summary: "Switch a filter or selection by clicking a pill.",
     whenToUse: [
       "Use Pill for clickable filter chips that toggle a query, as opposed to a static Badge.",
       'Highlight the currently selected filter with variant="active" so sighted users see the active state without relying on color alone.',
@@ -355,7 +355,7 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Pill itself has no controlled properties for internal state management; selection state is managed externally via onClick callbacks without an independent state machine.",
+        "Pill does not store selection; the parent updates state in onClick and passes the matching variant.",
     },
     responsiveBehavior: {
       status: "covered",
@@ -375,7 +375,7 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
   progress: {
     slug: "progress",
     locale: "en-US",
-    summary: "Shows progress relative to a limit or a task.",
+    summary: "Show task completion or used capacity as a share of the total.",
     whenToUse: [
       "Use Progress for deterministic work whose total is knowable, such as file uploads, multi-step setup, build steps, or batch deletions.",
       'Pair the bar with descriptive text naming the work and units (e.g., "Uploading 12 of 30 files") so the bar communicates more than an abstract number.',
@@ -445,7 +445,7 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
   "project-banner": {
     slug: "project-banner",
     locale: "en-US",
-    summary: "Used for temporary, project-wide notifications that require resolution.",
+    summary: "Show a notice that needs attention on a project page, with an action to resolve it.",
     whenToUse: [
       "Reach for Project Banner for project-wide states that need resolution: overdue billing, an active rollback, attack mitigation, or an expiring trial blocking deploys.",
       "Match variant to severity: error for critical downtime or payment-blocking states, warning for an exceptional state with non-immediate action, success for a positive temporary mitigation, gray for routine project-wide notices.",
@@ -504,11 +504,11 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
   radio: {
     slug: "radio",
     locale: "en-US",
-    summary: "Provides single user input from a selection of options.",
+    summary: "Choose one option from a mutually exclusive group.",
     whenToUse: [
       "Use Radio for a single choice from 2–6 mutually exclusive options where seeing every option matters, such as deploy regions, plan tiers, or billing cycle.",
       "Wrap related radios in <fieldset> + <legend> so screen readers announce the group name before each option.",
-      "Pre-select the safest default so the field reads as configured, never as required-but-empty.",
+      "Provide a safe default option when preselection is appropriate.",
     ],
     whenNotToUse: [
       "Past 6 options, switch to Select or Combobox so the list does not dominate the form.",
@@ -574,7 +574,7 @@ export const GUIDES_10_EN: Record<string, ComponentGuide> = {
   "relative-time-card": {
     slug: "relative-time-card",
     locale: "en-US",
-    summary: "Shows a relative timestamp with temporal context.",
+    summary: "Show relative time, such as “5 minutes ago,” with the exact timestamp on hover or focus.",
     whenToUse: [
       'Use relative time formats (like "5 min ago", "2 hours ago") for recent activity displays so users quickly grasp event freshness.',
       "Use in table cells to show recently performed action timestamps, enabling quick comparison alongside other rows.",

@@ -4,7 +4,7 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
   error: {
     slug: "error",
     locale: "zh-CN",
-    summary: "在操作失败时提供友好、可操作的错误消息，适用于区块级或页面级的资源加载失败场景。",
+    summary: "显示加载失败等错误，并说明下一步操作。",
     whenToUse: [
       "当一个区块或页面级资源（如面板、仪表盘卡片、路由边界）加载失败时，使用 Error 组件作为块级错误展示。",
       "当平台或系统级别的异步请求失败时，需附带稳定的标识符（如请求 ID、部署 ID），让用户或支持人员追踪问题。",
@@ -70,7 +70,7 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
   "error-card": {
     slug: "error-card",
     locale: "zh-CN",
-    summary: "一个带恢复指引的独立错误状态卡片，适用于受限面板无法渲染的场景。",
+    summary: "在卡片内显示错误信息和恢复操作。",
     whenToUse: [
       "当某个有界面板或卡片区域因错误无法正常渲染时，使用 Error Card 展示具体的错误信息和恢复建议。",
       "需要一个包含清晰标题、描述和恢复操作的容器化错误提示，且错误范围限定在单个 UI 区块内。",
@@ -121,7 +121,7 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
   feedback: {
     slug: "feedback",
     locale: "zh-CN",
-    summary: "收集用户的表情评分和开放式文本反馈，适用于文档或流程结束后获取用户评价的场景。",
+    summary: "收集表情评分和文字反馈。",
     whenToUse: [
       "在页面末尾、文档结尾或已完成的工作流之后放置反馈面板，用户在形成观点后再收集意见。",
       "需要轻量级的情感反馈（表情评分）加上可选的详细文字评论时，避免引入完整的表单系统。",
@@ -184,7 +184,7 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
       content: [
         "默认 Popover 在 Escape 或外部点击关闭时保留当前草稿，重新打开后可继续编辑。",
         "Inline 在 Escape、外部点击或焦点离开后收起并清空评分，同时保留文字草稿；窗口失焦（relatedTarget 为 null）时会先复核真实焦点位置，不会误判为离开而清空评分。",
-        "Inline 表单区向上悬浮展开（绝对定位），不参与父容器高度计算，展开与收起都不改变胶囊所在容器的垂直度量；展开以收起胶囊的几何中心为水平原点左右对称扩展，收起时宽度与高度按同一条先快后缓曲线同步还原。",
+        "Inline 表单向上浮动展开，不改变父容器高度。宽度以胶囊中心向两侧扩展；收起时，宽高同步按先快后缓的曲线恢复。",
         "dryRun 下 Send 不调用 onSubmit，也不关闭界面；正常提交会复位评分、文字和主题。",
         "topic 只由默认 Popover 的主题选择器产生，作为 onSubmit 第 4 个参数传出；默认不会写入 metadata，需要时用 includeTopicInMetadata 显式开启。",
       ],
@@ -212,7 +212,7 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
     slug: "fieldset",
     locale: "zh-CN",
     summary:
-      "将相关的表单控件组合为一个具有标题、描述和支持内容的语义单元，适用于设置页面的配置分组。",
+      "将相关表单控件分组，配上标题、说明和页脚操作。",
     whenToUse: [
       "当需要将一组相关的表单控件归并为一个带有标题、支持文案和可选页脚的语义单元时使用。",
       "在设置页面中组织功能分组，如通知设置、安全设置等，每组使用独立的 Fieldset。",
@@ -279,15 +279,15 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "Fieldset 的边框、分割线和标题强调色跟随应用的主题变量，在暗色/亮色模式下自动适配。",
-        "禁用状态的灰色调和半透明效果通过 CSS 变量从主题令牌获取，确保跨主题的视觉一致性。",
+        "Fieldset 的边框、分割线和标题强调色跟随应用的主题变量，适配明暗主题。",
+        "禁用状态的灰色调和半透明效果通过 CSS 变量从主题变量获取，确保跨主题的视觉一致性。",
       ],
     },
   },
   "file-tree": {
     slug: "file-tree",
     locale: "zh-CN",
-    summary: "以可扩展的文件夹和文件层级结构展示目录树视图，适用于代码预览和文件浏览场景。",
+    summary: "显示文件和文件夹目录，支持展开文件夹。",
     whenToUse: [
       "需要在文档、示例或预览面板中展示项目的文件或目录层级结构时使用。",
       "当用户需要展开/折叠文件夹来浏览多层级文件系统，且结构是只读的展示用途时。",
@@ -318,17 +318,17 @@ export const GUIDES_06_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "展开/折叠状态可通过 expandable 属性外部控制，支持编程式地展开特定节点。",
-        "选中节点（如有选框功能）可通过 controlled 属性同步外部状态变化，实现多选或联动。",
-        "调用方可通过回调事件监听节点的展开和折叠操作，用于持久化树的展开状态。",
+        "FileTreeItem 用 open 和 onOpenChange 控制展开状态；defaultOpen 设置初始状态。",
+        "组件不提供选中值或多选 API；需要选择功能时由页面自行组合。",
+        "onOpenChange 在展开或收起时通知新状态，可用于保存展开记录。",
       ],
     },
     responsiveBehavior: {
       status: "covered",
       content: [
         "在窄屏上文件树可能启用水平滚动以容纳过长的文件名，同时保持缩进层级不变。",
-        "文件夹展开/折叠按钮在小屏幕上增大触摸目标尺寸以确保手指操作的可靠性。",
-        "文件树容器支持 overflow-auto 行为，大尺寸的长路径不会撑破布局边界。",
+        "文件夹按钮固定为 28px 高；触屏场景需由页面扩大点击区域。",
+        "需要限制宽度或允许滚动时，在外层容器设置对应样式。",
       ],
     },
     themeBehavior: {
@@ -346,7 +346,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
     slug: "error",
     locale: "en-US",
     summary:
-      "Provides a friendly, actionable message when an operation fails — use as a block surface when a section or page-level resource failed to load.",
+      "Show an error, such as a loading failure, and explain the next step.",
     whenToUse: [
       "When a section or page-level resource (like a panel, dashboard card, or route boundary) fails to load — use Error as the block-level failure indicator.",
       "When a platform or system-level async request fails and needs a stable identifier (request ID, deployment ID) for the user or support team to trace the issue.",
@@ -415,7 +415,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
     slug: "error-card",
     locale: "en-US",
     summary:
-      "A contained error state with concrete recovery guidance — ideal when a bounded panel cannot render and the user needs actionable next steps.",
+      "Display an error and recovery actions inside a card.",
     whenToUse: [
       "When a bounded panel or card area fails to render due to an error, use Error Card to show the specific problem and suggested recovery actions.",
       "When you need a self-contained error container with a clear title, description, and a recovery action rather than a bare error message.",
@@ -468,7 +468,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
     slug: "feedback",
     locale: "en-US",
     summary:
-      "Gathers emoji rating and optional text feedback — place at the end of a page, doc, or completed flow where the user has formed an opinion.",
+      "Collect an emoji rating and written feedback.",
     whenToUse: [
       "At the end of a page, documentation article, or completed workflow — collect feedback after the user has had time to form an opinion.",
       "When lightweight emotional feedback (emoji rating) combined with optional detailed text comments is sufficient, without needing a full-form experience.",
@@ -534,7 +534,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
       content: [
         "Dismissing the default Popover with Escape or an outside press preserves the current draft for reopening.",
         "Inline collapses and clears its rating on Escape, outside press, or focus departure while preserving the text draft; a null relatedTarget (window blur) re-checks the real focus target first instead of clearing the rating by mistake.",
-        "The Inline form region expands upward as a floating layer (absolutely positioned), so it never participates in the parent height calculation: neither expanding nor collapsing changes the vertical metrics of the capsule's container. Expansion is horizontally centered on the collapsed capsule's geometric center — both edges move outward symmetrically — and collapsing restores width and height together along the same ease-out curve.",
+        "The Inline form opens upward without changing the parent height. Its width expands from the pill’s center; width and height return together along a fast-then-slow easing curve.",
         "In dryRun mode Send neither invokes onSubmit nor closes; a real submit resets rating, text, and topic.",
         "topic only comes from the default Popover's selector and is passed as the fourth onSubmit argument; it is not written into metadata unless includeTopicInMetadata is enabled.",
       ],
@@ -562,7 +562,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
     slug: "fieldset",
     locale: "en-US",
     summary:
-      "Groups related form controls into a single semantic unit with title, supporting copy, and optional footer — ideal for organizing settings pages.",
+      "Group related form controls with a title, description, and footer actions.",
     whenToUse: [
       "When you need to group a set of related form controls into a single semantic unit with a title, supporting description, and optional footer area.",
       "To organize functional groups on settings pages, such as notification settings, security settings, each in its own Fieldset.",
@@ -642,7 +642,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
     slug: "file-tree",
     locale: "en-US",
     summary:
-      "Displays a hierarchical directory structure with expandable folders and files — ideal for code previews and file browsing contexts.",
+      "Display files and folders with expandable directory entries.",
     whenToUse: [
       "When you need to show a project's file or directory hierarchy in documentation, examples, or preview panels.",
       "When users need to expand and collapse folders to navigate a multi-level file system structure used for read-only display purposes.",
@@ -674,17 +674,17 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "covered",
       content: [
-        "Expand/collapse state can be externally controlled via expandable props, supporting programmatic expansion of specific nodes.",
-        "Selected node state (where selection is supported) can sync via controlled props for multi-select or cross-component linkage.",
-        "Callers can listen to expand/collapse callback events to persist the tree's expanded state across sessions.",
+        "Control FileTreeItem expansion with open and onOpenChange; use defaultOpen for the initial state.",
+        "The component has no selection value or multi-select API; compose selection behavior in the page when needed.",
+        "onOpenChange reports the new expanded state and can be used to persist it.",
       ],
     },
     responsiveBehavior: {
       status: "covered",
       content: [
         "On narrow screens the file tree may enable horizontal scrolling to accommodate long file names while maintaining indentation levels.",
-        "Folder expand/collapse buttons increase touch target size on small screens to ensure reliable finger-based interactions.",
-        "The file tree container supports overflow-auto behavior — excessively long paths won't break the layout boundaries.",
+        "Folder buttons are 28px tall; the page should provide a larger hit area for touch use.",
+        "Set width constraints or scrolling styles on the outer container when needed.",
       ],
     },
     themeBehavior: {

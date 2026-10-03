@@ -2,7 +2,7 @@
 
 > Route: `/components/context-card`
 
-A floating card that appears on hover or focus, showing richer detail than a tooltip.
+Show details about a user, deployment, or other item on hover or focus.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A floating card that appears on hover or focus, showing richer detail than a too
 
 context-card
 
-A floating card that appears on hover or focus, showing richer detail than a tooltip.
+Show details about a user, deployment, or other item on hover or focus.
 
 ## When to use
 
@@ -38,8 +38,8 @@ Fully customizes the internal rendering logic of the card through a render prop,
 
 ## Accessibility
 
-- ContextCard is a non-modal hover card and does not trap focus; keep the trigger focusable, and Escape can dismiss the floating card.
-- The trigger retains its own accessible name—the card is supplementary and should not replace the trigger's accessible name.
+- ContextCard does not trap focus. Keep its trigger focusable; Escape closes the card.
+- Give the trigger its own accessible name; the card provides supporting information.
 - Content in the card should not restate what the trigger already displays visibly, avoiding information redundancy.
 
 ## Controlled behavior
@@ -235,7 +235,7 @@ export function ContextCardRenderProp84FF0355Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

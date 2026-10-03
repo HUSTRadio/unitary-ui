@@ -4,7 +4,7 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
   "clearable-input": {
     slug: "clearable-input",
     locale: "zh-CN",
-    summary: "一个带内联 Esc 键帽的文本输入框，可通过点击或按 Escape 清空。",
+    summary: "带 Esc 清除按钮的输入框，可点击按钮或按 Escape 清空。",
     whenToUse: [
       "用户在搜索、过滤或短查询字段中频繁需要清除当前输入值。",
       "需要一种不增加额外按钮空间的快速回退方式，让用户一键还原到空白状态。",
@@ -25,7 +25,7 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
         id: "clearable-input-with-label",
         kind: "minimal",
         title: "带标签的可清空输入框",
-        description: "将可见标签与原生日生输入关联以支持屏幕阅读器，同时保持 Escape 清除功能可用。",
+        description: "关联可见标签和输入框；按 Escape 仍可清空。",
         demoKey: "with-label",
       },
       {
@@ -76,14 +76,14 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "跟随设计系统颜色变量，在不同主题下自动适配边框、文字和背景颜色。",
-        "清除键帽继承主题前景色，并在悬停和聚焦时使用同一套语义颜色令牌。",
+        "清除键帽继承主题前景色，并在悬停和聚焦时使用同一套语义颜色变量。",
       ],
     },
   },
   code: {
     slug: "code",
     locale: "zh-CN",
-    summary: "提供块级 Code 与行内 InlineCode：前者渲染可横向滚动的 <pre> 代码块，后者用于正文中的短代码标识。",
+    summary: "Code 显示可横向滚动的代码块；InlineCode 显示正文中的短代码。",
     whenToUse: [
       "用 Code 展示轻量的块级代码片段，并通过 syntax 挂接语言高亮。",
       "在正文中引用变量名、函数名或文件路径时使用同模块导出的 InlineCode。",
@@ -115,7 +115,7 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
     },
     controlledBehavior: {
       status: "not-applicable",
-      reason: "Code 组件无交互状态概念，不接受 value/onChange 属性；它是一个只读的语法高亮渲染器。",
+      reason: "Code 只显示代码，不管理交互状态，也不提供 value/onChange。",
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -129,7 +129,7 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
   "code-block": {
     slug: "code-block",
     locale: "zh-CN",
-    summary: "一个带边框的代码块组件，内含文件名头部和多行语法高亮，适合读者扫描或复制的源码展示。",
+    summary: "展示多行高亮代码，支持文件名、行号和变更标记。",
     whenToUse: [
       "展示多行、需要语法着色的源代码，读者可能需要逐行扫描或复制粘贴。",
       "当代码示例有明确的粘贴目的地时（如 src/App.tsx、vite.config.ts），利用文件名头增强上下文清晰度。",
@@ -204,10 +204,10 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
     slug: "collapse",
     locale: "zh-CN",
     summary:
-      "一组垂直排列的标题，每个标题都能揭示相关联的内容区域，适合放置大多数用户通常会跳过的补充信息。",
+      "按标题展开或收起补充内容，如常见问题和高级设置。",
     whenToUse: [
       "可选的、高级的或重复出现的内容——常见问题解答、高级设置、请求负载预览——大多数用户在首次访问时会跳过这些内容。",
-      "需要在同一个页面中容纳大量信息，但又不想一开始就淹没主要内容，可以使用 Collapse 进行渐进式披露。",
+      "需要在同一个页面中容纳大量信息，但又不想一开始就淹没主要内容，可以使用 Collapse 进行按需展开。",
     ],
     whenNotToUse: [
       "当内容对每个用户都至关重要时；应使用页面章节和普通标题，把核心内容折叠起来等于隐藏了页面的主旨。",
@@ -232,7 +232,7 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
         id: "collapse-multiple",
         kind: "advanced",
         title: "允许多个面板同时展开的折叠面板",
-        description: "multiple 模式下，用户可以同时展开多个面板而关闭其他面板，适合 FAQ 场景。",
+        description: "multiple 模式允许同时展开多个面板，适合常见问题列表。",
         demoKey: "multiple",
       },
       {
@@ -291,14 +291,14 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
   combobox: {
     slug: "combobox",
     locale: "zh-CN",
-    summary: "一个可搜索的单选列表，适用于通过输入过滤从大型选项中寻找单一目标的选择场景。",
+    summary: "通过输入搜索并选择一个选项。",
     whenToUse: [
       "当一个选项列表很长，通过输入过滤能显著提升用户找到目标的效率时；对于短小有固定数量的列表，Select 更合适。",
       "需要在选择的同时保持搜索查询的独立状态，这样重新打开列表不会擦除已选值。",
     ],
     whenNotToUse: [
       "对于简单的二元选择（开关/启用/禁用），应该使用 Toggle 而不是 Combobox；组合框的交互成本过高。",
-      "当用户需要从已知列表中多选时；请使用 Multi Select 组合框是单选专用组件。",
+      "需要多选时使用 MultiSelect；Combobox 只支持单选。",
     ],
     examples: [
       {
@@ -326,7 +326,7 @@ export const GUIDES_03_ZH: Record<string, ComponentGuide> = {
         id: "combobox-sizes",
         kind: "minimal",
         title: "不同尺寸的组合框",
-        description: "展示 Combobox 提供的尺寸变体（small、medium、large），以便在不同密度场景中使用。",
+        description: "展示 Combobox 提供的尺寸变体（small、medium、large），适配不同布局密度。",
         demoKey: "sizes",
       },
       {
@@ -386,7 +386,7 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
   "clearable-input": {
     slug: "clearable-input",
     locale: "en-US",
-    summary: "A text input with an inline Esc keycap that clears on pointer activation or Escape.",
+    summary: "A text input with an Esc button; click it or press Escape to clear the value.",
     whenToUse: [
       "Users frequently need to reset the current value in search, filter, or short query fields.",
       "You need a fast way to clear the input without adding an extra button to the layout; the inline clear icon serves as a low-friction reset affordance.",
@@ -409,7 +409,7 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "Clearable input with label",
         description:
-          "Associates a visible label with the native input for screen reader access, while keeping the Escape clear accessible from the input itself.",
+          "Associate the visible label with the input; Escape still clears it.",
         demoKey: "with-label",
       },
       {
@@ -470,7 +470,7 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
     slug: "code",
     locale: "en-US",
     summary:
-      "Provides block-level Code and inline InlineCode: Code renders a horizontally scrollable <pre>, while InlineCode marks short identifiers in prose.",
+      "Code displays a horizontally scrollable code block; InlineCode displays short code within text.",
     whenToUse: [
       "Use Code for a lightweight block-level snippet and pass syntax to attach language highlighting.",
       "Use the module's InlineCode export for variable names, function names, or file paths inside prose.",
@@ -503,7 +503,7 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Code is a read-only syntax highlighter with no value/onChange props or interactive state; its rendered content is determined entirely by the children prop.",
+        "Code displays code without interactive state or value/onChange props.",
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -521,7 +521,7 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
     slug: "code-block",
     locale: "en-US",
     summary:
-      "A bordered code block with a filename header for multi-line source, ideal for scanning or copy-pasting source code shown in documentation.",
+      "Display highlighted code with filenames, line numbers, and change markers.",
     whenToUse: [
       "Displaying multi-line, syntax-highlighted source code that the reader needs to scan line by line or copy and paste.",
       "When the code snippet has a known paste destination (like src/App.tsx or vite.config.ts), use the filename header to reinforce context clarity.",
@@ -601,7 +601,7 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
     slug: "collapse",
     locale: "en-US",
     summary:
-      "A vertically stacked set of headings that each reveal a related section of content, ideal for progressive disclosure of supplementary information most users skip on first visit.",
+      "Expand or collapse supporting content, such as FAQs and advanced settings, under a heading.",
     whenToUse: [
       "Optional, advanced, or repetitive content that most users skip on most visits: FAQs, advanced settings, request payload previews.",
       "When you need to accommodate large amounts of information on one page without burying the main content under the weight of exposition.",
@@ -632,7 +632,7 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
         kind: "advanced",
         title: "Multi-open collapse panel",
         description:
-          "In multiple mode, users can expand several panels simultaneously without closing others; well-suited for FAQ scenarios.",
+          "multiple allows several panels to stay open, useful for FAQs.",
         demoKey: "multiple",
       },
       {
@@ -693,14 +693,14 @@ export const GUIDES_03_EN: Record<string, ComponentGuide> = {
     slug: "combobox",
     locale: "en-US",
     summary:
-      "A searchable single-select list for finding one option from a large set by filtering with input text.",
+      "Search by typing and select one option.",
     whenToUse: [
       "When filtering materially helps users find one option from a long list; for short fixed lists, Select is a better fit.",
       "When you need to keep the selected value and search query distinct so reopening the list doesn't erase the prior selection.",
     ],
     whenNotToUse: [
       "For simple binary choices (toggle on/off), use Toggle instead of Combobox; the interaction overhead is too heavy for a simple switch.",
-      "When users need to select multiple items; use Multi Select—Combobox is designed for single-selection only.",
+      "Use MultiSelect for multiple selections; Combobox selects one option.",
     ],
     examples: [
       {

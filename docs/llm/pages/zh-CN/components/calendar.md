@@ -2,7 +2,7 @@
 
 > Route: `/components/calendar`
 
-显示可供用户选择日期的月历。
+用月历选择日期或日期范围。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 calendar
 
-显示可供用户选择日期的月历。
+用月历选择日期或日期范围。
 
 ## 何时使用
 
@@ -234,7 +234,7 @@ export function CalendarPinnedTimezoneEF9CAF79Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 

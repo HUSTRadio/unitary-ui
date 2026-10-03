@@ -2,7 +2,7 @@
 
 > Route: `/components/tabs`
 
-Organizes content into switchable panels.
+Switch between related views, such as overview and logs, within a page.
 
 [Back to Components](#/components)
 
@@ -10,11 +10,11 @@ Organizes content into switchable panels.
 
 tabs
 
-Organizes content into switchable panels.
+Switch between related views, such as overview and logs, within a page.
 
 ## When to use
 
-- Switch between sibling views inside a single page (Overview, Logs, Settings) where all views share the same scope and data model.
+- Switch between related views, such as overview, logs, and settings, within a page.
 - When deep-linking and refresh preservation via URL state (query param or path segment) keeps the current view in sync.
 - Display multiple related sections side by side under a shared parent container without requiring full page navigation.
 
@@ -226,7 +226,7 @@ export function TabsCompactB6B54201Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

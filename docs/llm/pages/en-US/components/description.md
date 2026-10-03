@@ -2,7 +2,7 @@
 
 > Route: `/components/description`
 
-Displays key/value metadata pairs as a definition list.
+Display metadata, such as region or plan, as key–value pairs.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays key/value metadata pairs as a definition list.
 
 description
 
-Displays key/value metadata pairs as a definition list.
+Display metadata, such as region or plan, as key–value pairs.
 
 ## When to use
 
@@ -26,7 +26,7 @@ Displays key/value metadata pairs as a definition list.
 
 ### Default definition list
 
-Displays a group of key/value definition lists with default left alignment, presenting clear metadata structure.
+Display a left-aligned list of key–value pairs.
 
 ### Right-aligned text
 
@@ -44,7 +44,7 @@ Truncates overflow values with ellipsis display, paired with a tooltip to expand
 
 ## Controlled behavior
 
-Not applicable: Description is a purely presentational component for rendering definition key-value pairs, with no interactive state or controlled behavior.
+Not applicable: Description displays the supplied key–value pairs and has no internal state.
 
 ## Responsive behavior
 
@@ -118,7 +118,7 @@ export function DescriptionEllipsisB014A021Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

@@ -2,7 +2,7 @@
 
 > Route: `/components/destructive-action-modal`
 
-Confirms destructive actions with a red AlertTriangle header and a destructive confirm button.
+Confirm high-risk actions such as deletion; require a matching phrase before submission.
 
 [Back to Components](#/components)
 
@@ -10,17 +10,17 @@ Confirms destructive actions with a red AlertTriangle header and a destructive c
 
 destructive-action-modal
 
-Confirms destructive actions with a red AlertTriangle header and a destructive confirm button.
+Confirm high-risk actions such as deletion; require a matching phrase before submission.
 
 ## When to use
 
-- When the action is destructive and warrants friction — delete, rotate, revoke, disconnect, downgrade. The typed gate forces deliberate intent.
-- For reversible destructive actions too, when the consequence is serious enough to warrant a pause but still benefit from the typed gate.
+- When the action is destructive and warrants friction — delete, rotate, revoke, disconnect, downgrade. The 确认短语输入 forces deliberate intent.
+- For reversible destructive actions too, when the consequence is serious enough to warrant a pause but still benefit from the 确认短语输入.
 - When you need the user to type a confirmation phrase to prove their understanding of the consequences before proceeding.
 
 ## When not to use
 
-- Routine confirmations such as save draft, discard changes, or close without saving should use a plain Modal — the typed gate reads as melodrama when the stakes are low.
+- Routine confirmations such as save draft, discard changes, or close without saving should use a plain Modal — the 确认短语输入 reads as melodrama when the 操作风险 are low.
 - Actions that only involve a light UI refresh or immediate undo don't merit an input barrier — use a non-blocking toast instead.
 - Non-blocking acknowledgments belong to Toast, not Modal — a destructive confirmation needs the blocking overlay.
 
@@ -50,7 +50,7 @@ Keep the modal open on API failure so the user can retry, rather than silently d
 
 ## Controlled behavior
 
-- The caller owns open — do not self-dismiss from onConfirm; close after the API settles or keep open on error so the user can retry.
+- The parent controls open: close after a successful request and keep it open on failure for retry.
 - The loading property disables both buttons simultaneously, managed by the parent component.
 - The input field auto-focuses on open and continuously validates against the confirmation phrase.
 
@@ -207,7 +207,7 @@ export function DestructiveActionModalWithError3E9E4249Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -221,9 +221,9 @@ import { DestructiveActionModal } from "@/components/ui/destructive-action-modal
 
 ## Best Practices
 
-- Reach for this over Modal when the action is destructive and warrants friction: delete, rotate, revoke, disconnect, downgrade. The typed gate forces deliberate intent.
-- Use it for reversible destructive actions too, when the consequence is serious enough to warrant a pause. Keep the typed gate; drop the irreversibility band.
-- Don't use for routine confirmations (save draft, discard changes, close without saving). The typed gate reads as melodrama when the stakes are low — use a plain Modal.
+- Reach for this over Modal when the action is destructive and warrants friction: delete, rotate, revoke, disconnect, downgrade. The 确认短语输入 forces deliberate intent.
+- Use it for reversible destructive actions too, when the consequence is serious enough to warrant a pause. Keep the 确认短语输入; drop the irreversibility band.
+- Don't use for routine confirmations (save draft, discard changes, close without saving). The 确认短语输入 reads as melodrama when the 操作风险 are low — use a plain Modal.
 - Title is Title Case, Verb + Noun, a statement — never a question. Delete Project, not Delete this project?.
 - confirmLabel matches the title 1:1. Never generic (Confirm, OK, Continue), never a bare verb (Delete).
 - loading disables both buttons. The caller owns open — do not self-dismiss from onConfirm. Close after the API settles, or keep open on error so the user can retry.

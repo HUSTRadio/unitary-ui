@@ -2,7 +2,7 @@
 
 > Route: `/components/activity-view`
 
-A bottom share sheet with a grid of share targets and a list of actions.
+A bottom sharing panel with destinations, actions, and a cancel button.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A bottom share sheet with a grid of share targets and a list of actions.
 
 activity-view
 
-A bottom share sheet with a grid of share targets and a list of actions.
+A bottom sharing panel with destinations, actions, and a cancel button.
 
 ## When to use
 
@@ -40,7 +40,7 @@ A share button opens the bottom panel with a target grid, an action list, and a 
 
 ## Responsive behavior
 
-- The target row scrolls horizontally so targets stay on a single line when they overflow; a fading edge indicates more targets and disappears at the end.
+- Sharing destinations stay in one horizontally scrollable row. Faded edges indicate hidden content and disappear at the end.
 - The panel starts at 60% of the viewport height and expands to 90% via the top grabber or keyboard; it reserves bottom safe-area padding.
 
 ## Theme behavior
@@ -203,7 +203,7 @@ export function ActivityViewDefault9E4C2B57Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

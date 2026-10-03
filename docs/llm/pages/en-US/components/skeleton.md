@@ -2,7 +2,7 @@
 
 > Route: `/components/skeleton`
 
-Displays a placeholder while content is loading.
+Show placeholders matching the content size while loading; SkeletonMask can mask existing content.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays a placeholder while content is loading.
 
 skeleton
 
-Displays a placeholder while content is loading.
+Show placeholders matching the content size while loading; SkeletonMask can mask existing content.
 
 ## When to use
 
@@ -351,7 +351,7 @@ export function SkeletonMaskControlledToggle4D5A1E07Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

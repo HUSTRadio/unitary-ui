@@ -2,7 +2,7 @@
 
 > Route: `/components/textarea`
 
-A multi-line text field for longer input.
+Enter multi-line text, such as a description or notes.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A multi-line text field for longer input.
 
 textarea
 
-A multi-line text field for longer input.
+Enter multi-line text, such as a description or notes.
 
 ## When to use
 
@@ -185,7 +185,7 @@ export function TextareaRows101F2FF3Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -193,7 +193,7 @@ Import
 import { Textarea } from "@/components/ui/textarea";
 ```
 
-Native props: `TextareaHTMLAttributes<HTMLTextAreaElement>`
+Also accepts props defined by: `TextareaHTMLAttributes<HTMLTextAreaElement>`
 
 ### Props & callbacks
 

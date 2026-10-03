@@ -2,7 +2,7 @@
 
 > Route: `/components/show-more`
 
-通过渐进披露触发器展开或折叠内容。
+用按钮请求展开或收起内容；内容本身由页面管理。
 
 [返回组件](#/components)
 
@@ -10,19 +10,19 @@
 
 show-more
 
-通过渐进披露触发器展开或折叠内容。
+用按钮请求展开或收起内容；内容本身由页面管理。
 
 ## 何时使用
 
-- 对单个长列表或内容块进行渐进式披露，如最近活动、仓库分支、附件资源等。
+- 对单个长列表或内容块进行按需展开，如最近活动、仓库分支、附件资源等。
 - 需要在截断前展示足够多的行数以传达列表形状（通常 5–10 行），让用户了解完整列表的全貌。
 - 组件文案固定为“显示更多”/“显示更少”；如需提示隐藏项数量，应在相邻内容中由调用方展示。
 
 ## 何时不应使用
 
 - 同一数据集的平行分页应使用 Pagination 而非 ShowMore；可选区块应使用 Collapse。
-- 不要在截断仅 2 行的数据时使用——这会让人感到敷衍。至少展示 5 行再截断。
-- 不要在同一数据集中先展开又立即折叠——折叠已展开的行会让阅读位置丢失。
+- 短列表直接显示；较长列表可先显示 5–10 行再提供展开按钮。
+- 展开后不要自动收起，避免打断用户的阅读位置。
 
 ## 示例
 
@@ -93,7 +93,7 @@ export function ShowMoreNoBorder5DEDD0A8Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -101,7 +101,7 @@ export function ShowMoreNoBorder5DEDD0A8Example() {
 import { ShowMore } from "@/components/ui/show-more";
 ```
 
-原生属性：`ButtonHTMLAttributes<HTMLButtonElement>`
+还支持以下类型中定义的属性：`ButtonHTMLAttributes<HTMLButtonElement>`
 
 ### 属性与回调
 

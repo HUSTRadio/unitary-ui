@@ -2,7 +2,7 @@
 
 > Route: `/components/stack`
 
-A flex preset that stacks children in one direction with a shared spacing step.
+Arrange children horizontally or vertically with consistent spacing and alignment.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A flex preset that stacks children in one direction with a shared spacing step.
 
 stack
 
-A flex preset that stacks children in one direction with a shared spacing step.
+Arrange children horizontally or vertically with consistent spacing and alignment.
 
 ## When to use
 
@@ -74,7 +74,7 @@ export function StackDefault7E1B84D3Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

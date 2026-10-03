@@ -2,7 +2,7 @@
 
 > Route: `/components/theme-switcher`
 
-在浅色、深色和系统主题之间切换。
+在浅色、深色和跟随系统三种主题偏好间切换。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 theme-switcher
 
-在浅色、深色和系统主题之间切换。
+在浅色、深色和跟随系统三种主题偏好间切换。
 
 ## 何时使用
 
@@ -19,7 +19,7 @@ theme-switcher
 
 ## 何时不应使用
 
-- 不要在页面上多次重复放置主题切换器——Theme Switcher 应在整个应用中只出现一次，而不是每页各一份。
+- 将主题切换器放在共用页脚或设置页，避免重复提供入口。
 - 不要自行用 Switch 或三个图标按钮重写主题选择器——Theme Switcher 已经处理了图标、aria-label 和 System 模式检测等细节。
 
 ## 示例
@@ -42,7 +42,7 @@ theme-switcher
 
 - Theme Switcher 通过框架的 ThemeProvider（src/lib/theme.tsx）读取和写入主题偏好；应用根节点用 ThemeProvider 包裹一次即可，无需把主题状态冗余映射到本地 React 状态。
 - 本库不依赖 next-themes：公开 API 仅有 className / small / disabled 三个 prop，没有 onChange 回调或 forcedTheme 概念。
-- 需要拦截主题切换（如跟随系统设置联动）时，直接消费 useTheme() 的 preference/setPreference，而不是包一层回调。
+- 需要拦截主题切换（如跟随系统设置联动）时，直接使用 useTheme() 的 preference/setPreference，而不是包一层回调。
 
 ## 响应式行为
 
@@ -52,7 +52,7 @@ theme-switcher
 ## 主题行为
 
 - Theme Switcher 本身是主题切换的核心控件，其图标和文字随所选主题实时变化，是当前选中主题的可视化反映。
-- 在 Settings 页面等有充足空间的场景中，使用默认尺寸确保标签文字有足够的呼吸空间。
+- 设置页等空间充足的区域使用默认尺寸。
 
 ## 实时示例
 
@@ -86,7 +86,7 @@ export function ThemeSwitcherDisabled75081B59Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -101,8 +101,8 @@ import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 ## 最佳实践
 
 - 规范 Light / System / Dark 控件用 Theme Switcher。每个应用放一次，页脚或设置里，不要跨页面重复。
-- 密集 chrome（页脚、下拉）传 small；设置页有标签呼吸空间时用默认尺寸。
+- 空间紧凑的界面区域（页脚、下拉）传 small；设置页有标签呼吸空间时用默认尺寸。
 - Theme Switcher 读写框架的 ThemeProvider（src/lib/theme.tsx），所以应用根部包一次 ThemeProvider，不要把它镜像到本地 React state。
-- 本库不依赖 next-themes：公开 API 仅有 className / small / disabled，没有 onChange 回调或 forcedTheme 概念；需要拦截变更时直接消费 useTheme()。
+- 本库不依赖 next-themes：公开 API 仅有 className / small / disabled，没有 onChange 回调或 forcedTheme 概念；需要拦截变更时直接使用 useTheme()。
 - 不要用 Switch 或三个图标按钮重建主题选择器。Theme Switcher 已处理图标、每选项 aria-label 与 System 检测。
-- 选项标签经框架 i18n（t()）本地化；保持这种写法，让可访问名称与界面语言一致。
+- 选项标签经框架 i18n（t()）本地化；保持这种写法，让无障碍名称与界面语言一致。

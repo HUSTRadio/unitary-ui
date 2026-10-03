@@ -2,7 +2,7 @@
 
 > Route: `/components/code`
 
-使用语法高亮展示代码片段。
+Code 显示可横向滚动的代码块；InlineCode 显示正文中的短代码。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 code
 
-使用语法高亮展示代码片段。
+Code 显示可横向滚动的代码块；InlineCode 显示正文中的短代码。
 
 ## 何时使用
 
@@ -38,7 +38,7 @@ code
 
 ## 受控行为
 
-不适用: Code 组件无交互状态概念，不接受 value/onChange 属性；它是一个只读的语法高亮渲染器。
+不适用: Code 只显示代码，不管理交互状态，也不提供 value/onChange。
 
 ## 响应式行为
 
@@ -73,7 +73,7 @@ export function CodeDefault21B111CBExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 

@@ -2,7 +2,7 @@
 
 > Route: `/components/copy-button`
 
-将指定字符串复制到剪贴板，并在完成后提供反馈。
+复制指定文本，并用图标反馈复制结果。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 copy-button
 
-将指定字符串复制到剪贴板，并在完成后提供反馈。
+复制指定文本，并用图标反馈复制结果。
 
 ## 何时使用
 
@@ -44,7 +44,7 @@ copy-button
 
 ## 主题行为
 
-不适用: CopyButton 的颜色和样式自动跟随 Unitary 设计系统主题令牌适配当前配色方案。
+不适用: CopyButton 的颜色和样式自动跟随 Unitary 设计系统主题变量适配当前配色方案。
 
 ## 实时示例
 
@@ -65,7 +65,7 @@ export function CopyButtonDefault21B111CBExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -73,7 +73,7 @@ export function CopyButtonDefault21B111CBExample() {
 import { CopyButton } from "@/components/ui/copy-button";
 ```
 
-原生属性：`ButtonHTMLAttributes<HTMLButtonElement>`
+还支持以下类型中定义的属性：`ButtonHTMLAttributes<HTMLButtonElement>`
 
 ### 属性与回调
 

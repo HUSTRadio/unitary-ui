@@ -2,7 +2,7 @@
 
 > Route: `/components/project-banner`
 
-Used for temporary, project-wide notifications that require resolution.
+Show a notice that needs attention on a project page, with an action to resolve it.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Used for temporary, project-wide notifications that require resolution.
 
 project-banner
 
-Used for temporary, project-wide notifications that require resolution.
+Show a notice that needs attention on a project page, with an action to resolve it.
 
 ## When to use
 
@@ -166,7 +166,7 @@ export function ProjectBannerError54A0E8C1Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

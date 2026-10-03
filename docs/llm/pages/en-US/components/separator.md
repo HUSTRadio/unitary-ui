@@ -2,7 +2,7 @@
 
 > Route: `/components/separator`
 
-Divides content into visually distinct groups.
+Separate groups of content with a horizontal or vertical line.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Divides content into visually distinct groups.
 
 separator
 
-Divides content into visually distinct groups.
+Separate groups of content with a horizontal or vertical line.
 
 ## When to use
 
@@ -39,7 +39,7 @@ A vertical line filling the available height of a flex row, useful for spacing h
 
 ## Controlled behavior
 
-Not applicable: The separator is a purely presentational component with no interactive state or internal mutability; controlled behavior does not apply.
+Not applicable: The separator is a display component with no interactive state or internal mutability; controlled behavior does not apply.
 
 ## Responsive behavior
 
@@ -154,7 +154,7 @@ export function SeparatorOrientationVariants25A5D06AExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

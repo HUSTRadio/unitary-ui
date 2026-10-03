@@ -2,7 +2,7 @@
 
 > Route: `/components/combobox`
 
-A searchable single-select list.
+Search by typing and select one option.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A searchable single-select list.
 
 combobox
 
-A searchable single-select list.
+Search by typing and select one option.
 
 ## When to use
 
@@ -20,7 +20,7 @@ A searchable single-select list.
 ## When not to use
 
 - For simple binary choices (toggle on/off), use Toggle instead of Combobox; the interaction overhead is too heavy for a simple switch.
-- When users need to select multiple items; use Multi Select—Combobox is designed for single-selection only.
+- Use MultiSelect for multiple selections; Combobox selects one option.
 
 ## Examples
 
@@ -579,7 +579,7 @@ export function ComboboxInsideSheet95E13F11Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

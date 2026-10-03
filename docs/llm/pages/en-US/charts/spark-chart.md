@@ -2,7 +2,7 @@
 
 > Route: `/charts/spark-chart`
 
-Renders tiny inline sparklines (area, line, or bar) for at-a-glance trends.
+Show trends inside cards or tables with a small area, line, or bar chart.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Renders tiny inline sparklines (area, line, or bar) for at-a-glance trends.
 
 spark-chart
 
-Renders tiny inline sparklines (area, line, or bar) for at-a-glance trends.
+Show trends inside cards or tables with a small area, line, or bar chart.
 
 ## When to use
 
@@ -263,7 +263,7 @@ export function SparkChartKpiCardC3F1A8D4Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -271,7 +271,7 @@ Import
 import { SparkAreaChart, SparkLineChart, SparkBarChart } from "@/components/ui/spark-chart";
 ```
 
-Native props: `React.HTMLAttributes<HTMLDivElement>`
+Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`
 
 ### Props & callbacks
 

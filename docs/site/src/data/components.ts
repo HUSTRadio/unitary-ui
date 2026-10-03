@@ -65,7 +65,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "area-chart",
     label: "Area Chart",
     labelZh: "面积图",
-    description: "Renders layered area series for trends over time, with stacked and percent variants.",
+    description: "Show trends over time with filled areas, stacking, percentage mode, and custom tooltips.",
     bestPractices: [
       "Use AreaChart for trend composition over time; switch to type=\"stacked\" or \"percent\" when totals or shares matter more than individual series.",
       "Keep ResponsiveContainer height explicit (default h-80) so the chart never collapses to zero height.",
@@ -76,7 +76,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "bar-chart",
     label: "Bar Chart",
     labelZh: "柱状图",
-    description: "Renders categorical bar series with stacked, percent, and vertical layouts.",
+    description: "Compare values across categories with bars, stacking, percentage mode, and horizontal bars.",
     bestPractices: [
       "Use BarChart for comparisons across categories; use layout=\"vertical\" when category labels are long.",
       "Limit the number of categories per series so bars remain readable on narrow containers.",
@@ -87,7 +87,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "line-chart",
     label: "Line Chart",
     labelZh: "折线图",
-    description: "Renders connected line series for continuous trends with optional axis titles.",
+    description: "Compare continuous trends with lines, axis labels, and custom tooltips.",
     bestPractices: [
       "Use LineChart for continuous trends where the area fill of AreaChart would add visual noise.",
       "Add xAxisLabel / yAxisLabel when the data dimensions are not self-evident from the index values.",
@@ -98,7 +98,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "combo-chart",
     label: "Combo Chart",
     labelZh: "组合图",
-    description: "Combines bar and line series in one chart, optionally on two axes.",
+    description: "Combine bars and lines in one chart, with optional dual axes for different units.",
     bestPractices: [
       "Use ComboChart when two related metrics (e.g. revenue and margin) share the same category axis.",
       "Enable enableBiaxial when the two series have incompatible value ranges.",
@@ -109,7 +109,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "donut-chart",
     label: "Donut Chart",
     labelZh: "环形图",
-    description: "Renders a part-to-whole donut (or pie) with an optional center metric.",
+    description: "Show proportions as a donut or pie; the donut center can display a main metric.",
     bestPractices: [
       "Use DonutChart with five or fewer slices; move the rest into an \"Other\" bucket.",
       "Center children (value + label) communicate the primary metric without requiring a tooltip.",
@@ -120,7 +120,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "spark-chart",
     label: "Spark Chart",
     labelZh: "迷你趋势图",
-    description: "Renders tiny inline sparklines (area, line, or bar) for at-a-glance trends.",
+    description: "Show trends inside cards or tables with a small area, line, or bar chart.",
     bestPractices: [
       "Use SparkAreaChart / SparkLineChart / SparkBarChart inside cards and table cells, not as standalone charts.",
       "Keep exactly one category per spark chart; multiple series defeat the compact form.",
@@ -131,7 +131,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "category-bar",
     label: "Category Bar",
     labelZh: "分类条",
-    description: "Renders a segmented horizontal bar showing shares of a total.",
+    description: "Show proportions in a segmented bar, with optional threshold markers and tooltips.",
     bestPractices: [
       "Use CategoryBar for compact share-of-total context where a donut would be too heavy.",
       "Keep values normalized to a meaningful total; the component renders proportional widths.",
@@ -142,7 +142,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "bar-list",
     label: "Bar List",
     labelZh: "条形列表",
-    description: "Renders a ranked list where each row carries a proportional bar and value.",
+    description: "Rank items with names, bars, and values, plus optional links and icons.",
     bestPractices: [
       "Use BarList for ranked comparisons that benefit from row context (name + value + link).",
       "Provide valueFormatter for units such as currency or percentages.",
@@ -153,7 +153,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "tracker",
     label: "Tracker",
     labelZh: "状态跟踪条",
-    description: "Renders a sequence of status blocks for event timelines or uptime history.",
+    description: "Show event history, such as uptime or build results, as a sequence of status blocks.",
     bestPractices: [
       "Use Tracker for discrete event history (uptime, CI runs), not continuous metrics.",
       "Pair each block color with a tooltip so color never carries meaning alone.",
@@ -164,7 +164,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "progress-circle",
     label: "Progress Circle",
     labelZh: "进度环",
-    description: "Renders a circular progress indicator with an optional center metric.",
+    description: "Show completion or capacity as a ring, with a value and description in the center.",
     bestPractices: [
       "Use ProgressCircle for a single ratio (completion, capacity); use Gauge for dial-style metrics.",
       "Put the concrete value as children so the number is readable without color cues.",
@@ -175,7 +175,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "avatar",
     label: "Avatar",
     labelZh: "头像",
-    description: "Represents a user or a team with an image or fallback.",
+    description: "Represent a user or team with an image, initials, or a placeholder.",
     bestPractices: [
       "Use Avatar to represent a single user or team. Stacked Avatars represent a group of people.",
       "Provide initials or a placeholder so the avatar remains identifiable when an image is unavailable; use AvatarWithIcon for an icon avatar.",
@@ -188,19 +188,19 @@ const COMPONENTS_EN: ComponentMeta[] = [
     label: "Banner",
     labelZh: "横幅",
     description:
-      "A prominent message that spans the full width of its container to announce important information.",
+      "Show a full-width announcement or important notice at the top of a container.",
   },
   {
     name: "book",
     label: "Book",
     labelZh: "手册",
-    description: "A responsive book component.",
+    description: "Present an article, manual, or marketing content as a book cover.",
     bestPractices: [
-      "Use Book for marketing pages, docs landing covers, and changelog hero shots where content needs the metaphor of a labeled volume.",
-      "For in-product cards and dashboard tiles, use Card; Book is too decorative for repeated UI rows.",
-      "Use simple when the title carries the design; use stripe when an icon or color stripe adds category hierarchy.",
-      "Use responsive widths to preserve the cover proportion, and reserve the textured treatment for isolated hero shots.",
-      "Treat the cover as decorative chrome and surface the title via the underlying heading element so screen readers don't double-announce.",
+      "Use Book to feature an article or manual on a marketing page, docs landing page, or changelog.",
+      "Use Card for product cards and dashboard lists to avoid repeating decorative covers.",
+      "Use simple for a title-led cover; use stripe when an icon or color stripe identifies a category.",
+      "Use responsive width values to preserve cover proportions; reserve textures for standalone covers.",
+      "Use readable text for the title and hide purely decorative artwork from screen readers.",
     ],
   },
   {
@@ -221,7 +221,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "sub-frame",
     label: "Sub Frame",
     labelZh: "局部浮层框架",
-    description: "Scopes overlays to one region of a page so sheets and panels stay inside it.",
+    description: "Keep overlays within a region of the page for side-by-side previews or local demos.",
     bestPractices: [
       "Wrap an app shell, a device preview, or a docs demo card in Sub Frame when its overlays should stay inside that region.",
       "Let nested Bottom Sheet, Expand Panel, and Hamburger Menu inherit the frame instead of wiring a container ref by hand.",
@@ -233,7 +233,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "browser",
     label: "Browser",
     labelZh: "浏览器",
-    description: "Frames screenshots and demos inside a realistic browser window.",
+    description: "Present a screenshot, recording, or demo in a browser frame.",
     bestPractices: [
       "Use Browser as marketing chrome around screenshots, demos, and recordings shown on landing pages, docs, and changelog posts.",
       "Don't render real product UI inside a Browser frame; the chrome implies a screenshot, not a live surface.",
@@ -244,13 +244,13 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "breadcrumbs",
     label: "Breadcrumbs",
     labelZh: "面包屑",
-    description: "Navigation aid that shows the user's location within a site's hierarchy.",
+    description: "Show the current page’s hierarchy and provide links to parent pages.",
   },
   {
     name: "badge",
     label: "Badge",
     labelZh: "徽章",
-    description: "Small labels for statuses, counts, and metadata.",
+    description: "Show a status, count, or metadata in a short label.",
     bestPractices: [
       "Use Badge for short, scannable metadata that sits next to the thing it describes: status, plan tier, environment, or role. One badge per row; two side by side is a sign the row needs a second column.",
       "For a colored dot without text, use Status Dot. For clickable filter chips that toggle a query, use the pill variant or a small Button.",
@@ -267,7 +267,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "button",
     label: "Button",
     labelZh: "按钮",
-    description: "Triggers an action with configurable variants, sizes, and icons.",
+    description: "Trigger actions such as saving or deploying, with icons, loading states, and multiple sizes.",
     bestPractices: [
       "Use Button for actions that mutate state (deploy, save, delete); use ButtonLink for navigation that changes the URL. Switch to a Menu or Split Button when more than one related action shares a row.",
       'Default Button is primary. Pass type="secondary" for the supporting action and type="error" for destructive confirmations. primary, success, ghost, and violet are not valid type values.',
@@ -284,7 +284,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "calendar",
     label: "Calendar",
     labelZh: "日历",
-    description: "Displays a month calendar from which users can pick a date.",
+    description: "Choose a date or date range from a monthly calendar.",
     bestPractices: [
       "Pick Calendar for analytics ranges and any picker where day-of-week and month context matter.",
       "Set min and max to the data window so users can't pick outside the retention range.",
@@ -295,7 +295,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "choicebox",
     label: "Choicebox",
     labelZh: "选择框",
-    description: "A larger form of Radio for choices with more detail.",
+    description: "Choose one or more options from cards with descriptions or icons.",
     bestPractices: [
       "Use Choicebox when a choice benefits from a larger tap target plus a description or icon.",
       "Single-select for mutually exclusive choices, multi-select for additive ones. Don't mix the two within one group.",
@@ -306,7 +306,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "checkbox",
     label: "Checkbox",
     labelZh: "复选框",
-    description: "Allows users to select one or more items from a group.",
+    description: "Select multiple options, confirm a statement, or select table rows.",
     bestPractices: [
       "Multi-select inside a list, like table-row pickers, multi-pick filters, and opt-in preference groups.",
       "Acknowledgments where the user must affirm a specific statement (terms of service, irreversible export).",
@@ -326,13 +326,13 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "code",
     label: "Code",
     labelZh: "代码",
-    description: "Display a snippet of code with syntax highlighting.",
+    description: "Code displays a horizontally scrollable code block; InlineCode displays short code within text.",
   },
   {
     name: "code-block",
     label: "Code Block",
     labelZh: "代码块",
-    description: "A bordered code block with a filename header for multi-line source.",
+    description: "Display highlighted code with filenames, line numbers, and change markers.",
     bestPractices: [
       "Use CodeBlock for multi-line, syntax-highlighted source the reader will scan or paste. For a single inline token (env var, function name, file path), use InlineCode.",
       "Pick Snippet for a copy-to-clipboard shell command or one-line key reveal; it ships with the prompt glyph and copy affordance built in.",
@@ -347,7 +347,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     label: "Collapse",
     labelZh: "折叠面板",
     description:
-      "A vertically stacked set of headings that each reveal a related section of content.",
+      "Expand or collapse supporting content, such as FAQs and advanced settings, under a heading.",
     bestPractices: [
       "Use Collapse for optional, advanced, or repetitive content that most users skip on most visits (FAQ, advanced settings, request payload preview).",
       "For top-level structure that every user reads, use page sections with regular headings; collapsing primary content hides what the page is about.",
@@ -364,7 +364,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "command-menu",
     label: "Command Menu",
     labelZh: "命令菜单",
-    description: "Filters and launches keyboard-first actions in a modal command palette.",
+    description: "Search resources, navigate to pages, or run commands from a panel with keyboard support.",
     bestPractices: [
       "Use CommandMenu for a global, keyboard-first command palette that finds resources and runs actions across the app. For a menu opened from a visible trigger on a single resource, use Menu; for right-click on a row, use ContextMenu.",
       "Group items into pages (Projects, Team Settings) when a single flat list would exceed roughly 30 items or span multiple resource types.",
@@ -380,7 +380,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     label: "Context Card",
     labelZh: "上下文卡片",
     description:
-      "A floating card that appears on hover or focus, showing richer detail than a tooltip.",
+      "Show details about a user, deployment, or other item on hover or focus.",
     bestPractices: [
       "Use Context Card to reveal entity metadata on hover or focus: a user, a deployment, a project, an API key. The trigger is usually a name link or avatar in dense data.",
       "For a one-line explanation without metadata rows, use Tooltip. For long-form content, edit forms, or persistent navigation, route to a Drawer or a detail page.",
@@ -395,7 +395,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "context-menu",
     label: "Context Menu",
     labelZh: "右键菜单",
-    description: "A menu for contextual actions, revealed on right click or long press.",
+    description: "Right-click or long-press an item to open its action menu.",
     bestPractices: [
       "Use ContextMenu for power-user shortcuts on right-click or long-press over a row, file, or canvas object.",
       "ContextMenu must never be the only entry point for an action. Mirror every item in a visible Menu trigger or row button so mouse-only and keyboard-only users have parity.",
@@ -412,7 +412,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     label: "Continuous Surface",
     labelZh: "连续曲率容器",
     description:
-      "Clips a measured surface with independently derived continuous corners and a circular fallback.",
+      "Clip an element with continuous corners based on its size, falling back to ordinary rounded corners.",
     bestPractices: [
       "Use ContinuousSurface for isolated cards or tiles where continuous curvature is a deliberate shape-system choice.",
       "Keep the default exponent unless a documented shape token calls for another value; exponent 2 is the circular baseline.",
@@ -425,7 +425,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "description",
     label: "Description",
     labelZh: "描述",
-    description: "Displays key/value metadata pairs as a definition list.",
+    description: "Display metadata, such as region or plan, as key–value pairs.",
     bestPractices: [
       "Use <Description> for definition-list metadata: a short Title Case key paired with a single value (Last Deployed, Region, Plan). For inline help under a form field, use the input’s helper-text slot instead.",
       "Unitary renders <dl>/<dt>/<dd> so screen readers announce each key/value pair as a definition. Don’t wrap the component in extra paragraphs that break the list semantics.",
@@ -438,7 +438,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "copy-button",
     label: "Copy Button",
     labelZh: "复制按钮",
-    description: "Copies a given string to the clipboard and provides feedback when copied.",
+    description: "Copy text and show the result with an icon.",
     bestPractices: [
       "Use CopyButton for a single short string the user copies verbatim — a token, a command, an ID. For longer blocks, pair a full Snippet with its own copy affordance.",
       "Show the checkmark feedback for about 1.2s after a successful copy so the action reads as done; reset it before the next click.",
@@ -451,11 +451,11 @@ const COMPONENTS_EN: ComponentMeta[] = [
     label: "Destructive Action Modal",
     labelZh: "危险操作确认框",
     description:
-      "Confirms destructive actions with a red AlertTriangle header and a destructive confirm button.",
+      "Confirm high-risk actions such as deletion; require a matching phrase before submission.",
     bestPractices: [
-      "Reach for this over Modal when the action is destructive and warrants friction: delete, rotate, revoke, disconnect, downgrade. The typed gate forces deliberate intent.",
-      "Use it for reversible destructive actions too, when the consequence is serious enough to warrant a pause. Keep the typed gate; drop the irreversibility band.",
-      "Don't use for routine confirmations (save draft, discard changes, close without saving). The typed gate reads as melodrama when the stakes are low — use a plain Modal.",
+      "Reach for this over Modal when the action is destructive and warrants friction: delete, rotate, revoke, disconnect, downgrade. The 确认短语输入 forces deliberate intent.",
+      "Use it for reversible destructive actions too, when the consequence is serious enough to warrant a pause. Keep the 确认短语输入; drop the irreversibility band.",
+      "Don't use for routine confirmations (save draft, discard changes, close without saving). The 确认短语输入 reads as melodrama when the 操作风险 are low — use a plain Modal.",
       "Title is Title Case, Verb + Noun, a statement — never a question. Delete Project, not Delete this project?.",
       "confirmLabel matches the title 1:1. Never generic (Confirm, OK, Continue), never a bare verb (Delete).",
       "loading disables both buttons. The caller owns open — do not self-dismiss from onConfirm. Close after the API settles, or keep open on error so the user can retry.",
@@ -468,14 +468,14 @@ const COMPONENTS_EN: ComponentMeta[] = [
     label: "Dots Menu",
     labelZh: "省略号菜单",
     description:
-      "An overflow menu triggered by a three-dot icon that reveals additional actions in a dropdown.",
+      "Open additional actions for a row or card from a three-dot button.",
   },
   {
     name: "edit-menu",
     label: "Edit Menu",
     labelZh: "编辑菜单",
     description:
-      "A selection-driven horizontal edit toolbar that appears beside selected text across touch, pointer, and keyboard input.",
+      "Show editing actions such as cut and copy next to selected text.",
     bestPractices: [
       "Use EditMenu for actions on the current text selection; use ContextMenu for actions on an object revealed by right-click or long-press.",
       "Keep EditMenu horizontal for touch, pointer, and keyboard selections; its toolbar buttons use Left/Right and Home/End navigation.",
@@ -500,7 +500,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     label: "Responsive Drawer",
     labelZh: "响应式抽屉",
     description:
-      "One drawer that docks to the bottom on phones and to the side on desktop, with optional detents.",
+      "Use one drawer that opens from the bottom on phones and from the right on desktops, with bottom height detents.",
     bestPractices: [
       "Reach for ResponsiveDrawer when the same information architecture has to work on phone and desktop; keep the mirrored Drawer / Sheet / BottomSheet for their fixed contracts.",
       "Turn on responsive instead of branching in app code: below 640px it uses the bottom geometry, above it docks to the right edge with 8px inset.",
@@ -513,7 +513,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     label: "Activity View",
     labelZh: "活动视图",
     description:
-      "A bottom share sheet with a grid of share targets and a list of actions.",
+      "A bottom sharing panel with destinations, actions, and a cancel button.",
     mobileOnly: true,
     bestPractices: [
       "Use ActivityView for one-shot share or action flows; it closes itself after a target or action is picked.",
@@ -551,7 +551,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     label: "Menu Bar",
     labelZh: "菜单栏",
     description:
-      "A horizontal bar of application menus with keyboard shortcuts, submenus, and checkable items.",
+      "An application menu bar with submenus, checkbox items, and shortcut hints.",
     bestPractices: [
       "Use MenuBar for application-level commands; use Navbar for page-level navigation links.",
       "Every destructive command belongs in a menu item with a verb phrase, never as a bare top-level menu.",
@@ -564,21 +564,21 @@ const COMPONENTS_EN: ComponentMeta[] = [
     label: "Safe Area",
     labelZh: "安全区",
     description:
-      "A spacing container that keeps content clear of device safe areas.",
+      "Add padding around notches, rounded corners, and system bars while keeping a minimum inset.",
   },
   {
     name: "stack",
     label: "Stack",
     labelZh: "堆叠",
     description:
-      "A flex preset that stacks children in one direction with a shared spacing step.",
+      "Arrange children horizontally or vertically with consistent spacing and alignment.",
   },
   {
     name: "toolbar",
     label: "Toolbar",
     labelZh: "工具栏",
     description:
-      "A window-level bar of grouped tool items that collapses into an overflow menu.",
+      "Arrange tools in groups and move collapsible groups into an overflow menu when space is limited.",
     bestPractices: [
       "Use Toolbar for window-level command groups; use Navbar for page-level navigation links.",
       "Put navigation in the leading group, the current view switch in the center group, and finishing commands in the trailing group.",
@@ -590,7 +590,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "menu",
     label: "Menu",
     labelZh: "菜单",
-    description: "Displays a list of actions in a floating menu.",
+    description: "Open a list of related actions from a trigger button.",
     bestPractices: [
       "Use Menu for a discoverable trigger that opens a list of actions on a single resource (a dots menu on a row, a dropdown on a primary entity).",
       "For right-click or long-press on a row, use ContextMenu. For global commands behind ⌘K, use CommandMenu. For two related primary actions, use a split button rather than burying the secondary action.",
@@ -612,7 +612,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "drawer",
     label: "Drawer",
     labelZh: "抽屉",
-    description: "Displays content in a separate bottom view from the existing context.",
+    description: "Open a bottom panel for a short form or supporting action without leaving the page.",
     mobileOnly: true,
     bestPractices: [
       "Only use Drawer on small viewports. For a desktop side panel that keeps the page interactive, use Sheet; for a blocking decision, use Modal.",
@@ -628,7 +628,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "empty-state",
     label: "Empty State",
     labelZh: "空状态",
-    description: "Fills spaces when no content has been added yet or a view is empty.",
+    description: "Explain why no data is available and offer a next step, such as creating content or retrying.",
     bestPractices: [
       "Compose the generic title, description, icon, and children for the scenario: zero search results, a blank slate, informational context, completed work, or a failed load.",
       "Use the page layout to render permission and tier-denial empty states full-page when the user lands on a route they can’t view.",
@@ -642,7 +642,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "error",
     label: "Error",
     labelZh: "错误",
-    description: "Provides a friendly, actionable message when an operation fails.",
+    description: "Show an error, such as a loading failure, and explain the next step.",
     bestPractices: [
       "Use the Error component as a block surface when a section or page-level resource failed to load: a panel, a dashboard card, a route boundary.",
       "Pick toasts.error() for transient action failures and the error prop on Input for field-level validation. Don't replace either with this block.",
@@ -669,7 +669,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "feedback",
     label: "Feedback",
     labelZh: "反馈",
-    description: "Gathers an emoji rating and open text feedback.",
+    description: "Collect an emoji rating and written feedback.",
     bestPractices: [
       "Place Feedback at the end of a page, doc, or completed flow where the user has formed an opinion. Don't front-load it on a surface the user has only opened.",
       "Keep the form collapsed until the user acts: default Feedback starts as a secondary button, while Inline keeps only the rating capsule visible.",
@@ -683,7 +683,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "fieldset",
     label: "Fieldset",
     labelZh: "字段集",
-    description: "Groups related form controls into a single semantic unit.",
+    description: "Group related form controls with a title, description, and footer actions.",
     bestPractices: [
       "Use Fieldset for one settings surface with a title, supporting copy, and optional footer status/actions.",
       "Put body content in FieldsetContent and actions in FieldsetFooterActions; don't hand-build an extra card or footer shell.",
@@ -695,7 +695,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "grid",
     label: "Grid",
     labelZh: "栅格",
-    description: "Displays elements in a grid layout.",
+    description: "Create a two-dimensional layout with cells and visible guide lines.",
     bestPractices: [
       "Use Grid for two-dimensional cell-and-guide layouts in marketing pages, docs landing pages, and feature breakdowns where the rule lines and cell borders are part of the design.",
       "For plain n-column responsive content (cards, lists), use Tailwind grid grid-cols-* utilities directly; Grid is overkill when guides aren't visible.",
@@ -707,13 +707,13 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "file-tree",
     label: "File Tree",
     labelZh: "文件树",
-    description: "Displays a hierarchical directory structure with expandable folders and files.",
+    description: "Display files and folders with expandable directory entries.",
   },
   {
     name: "gauge",
     label: "Gauge",
     labelZh: "仪表",
-    description: "A circular visual for conveying a percentage.",
+    description: "Show a percentage, such as quota usage or utilization, as an arc.",
     bestPractices: [
       "A 0–100 ratio against a fixed maximum where the comparison is the point, like quota usage, build cache hit rate, uptime, or billing-period consumption.",
       "For determinate task progress with a known total (uploads, multi-step setup), use Progress.",
@@ -727,7 +727,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "input",
     label: "Input",
     labelZh: "输入框",
-    description: "A single-line text field for user input.",
+    description: "Enter single-line text, such as a name or email address.",
     bestPractices: [
       "Pick <Input> for a single line of free-form text such as names, domains, or tokens.",
       "Switch to Textarea the moment content can wrap to multiple lines.",
@@ -750,7 +750,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "json-view",
     label: "JsonView",
     labelZh: "JSON 查看器",
-    description: "Renders JSON as a syntax-highlighted tree.",
+    description: "Inspect JSON objects and arrays in an expandable, highlighted tree.",
     bestPractices: [
       "Use JSON View for JSON objects or arrays that users need to inspect, scan, collapse, or expand. Add a separate copy control when copying is required.",
       "Use a regular code block when the value is static documentation, not an interactive product surface.",
@@ -761,7 +761,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "keyboard-input",
     label: "Keyboard Input",
     labelZh: "键盘输入",
-    description: "Displays keyboard input that triggers an action.",
+    description: "Display a key or shortcut combination as keycaps.",
     bestPractices: [
       "Use Kbd for shortcut hints inside prose, menu items, and button suffixes. In long-form docs that narrate a shortcut, write the ⌘ K shortcut directly so the page renders the same when copied to plain text.",
       "Pass modifiers via boolean props (meta, shift, alt, ctrl). The component does not detect the OS, so choose meta or ctrl for the target platform.",
@@ -774,7 +774,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "loading-dots",
     label: "Loading Dots",
     labelZh: "加载圆点",
-    description: "Indicates an action running in the background with three bouncing dots.",
+    description: "Use three animated dots to indicate an action such as saving or loading.",
     bestPractices: [
       "Use Loading Dots embedded in copy for short indeterminate waits, e.g. Saving<LoadingDots /> or Building<LoadingDots />.",
       "For buttons, set the loading prop on Button instead of dropping dots inside the label.",
@@ -790,7 +790,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "label",
     label: "Label",
     labelZh: "标签",
-    description: "Accessible text label for form controls.",
+    description: "Give a form control a visible name and associate it with the input.",
     bestPractices: [
       "Use Label to associate a visible text label with a form control so screen readers announce the field name.",
       "Match the label to the control via htmlFor and the control's id so clicking the label focuses the field.",
@@ -801,7 +801,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "load-more-button",
     label: "Load More Button",
     labelZh: "加载更多按钮",
-    description: "A full-width button that appends more items to a paginated list.",
+    description: "Append the next batch of data to a list with a full-width button.",
   },
   {
     name: "link",
@@ -821,7 +821,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "modal",
     label: "Modal",
     labelZh: "模态框",
-    description: "Displays a dialog that interrupts the user.",
+    description: "Open a dialog for a decision or form that must be completed before continuing.",
     bestPractices: [
       "Use Modal when a decision must block the rest of the page. For persistent associated context where the underlying page stays readable, use Sheet on desktop or Drawer on mobile.",
       "Confirm destructive actions in a Modal. Drawer and Sheet don't fully dim the page, so they read as too soft for a delete or revoke.",
@@ -829,7 +829,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "Default focus to Cancel on any destructive Modal. Enter must never trigger the destructive action without a typed confirmation.",
       "Allow Escape and outside-click to dismiss non-destructive Modals; gate dismissal on destructive ones with unsaved input.",
       "Trap focus inside the Modal while it's open and return focus to the trigger after close. Restore body scroll on the same tick the Modal unmounts.",
-      "For high-stakes destructive actions (delete production resource, rotate signing key, downgrade plan), gate the primary button on a typed match of the resource name.",
+      "For high-操作风险 destructive actions (delete production resource, rotate signing key, downgrade plan), gate the primary button on a typed match of the resource name.",
       "Modal.Title is a Title Case statement, never a question. Transfer Project is correct; Transfer Project? is wrong.",
       "Modal body copy is sentence case, 1-3 sentences. State the consequence first, then any cascade.",
       "Primary button is Verb + Noun and matches the title verb (Transfer Project title pairs with Transfer Project button). Never Confirm, OK, or a bare verb on a destructive primary.",
@@ -845,7 +845,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "note",
     label: "Note",
     labelZh: "注释",
-    description: "Displays text that requires attention or provides additional information.",
+    description: "Show a persistent notice, warning, or explanation beside the relevant content.",
     bestPractices: [
       "Use a Note for inline contextual feedback next to the field, card, or section it describes: a region change warning above a region picker, a rate-limit notice next to a usage gauge.",
       "Pick Banner when the message is page-level or system-wide and needs a CTA, Toast for transient acknowledgments, Modal for destructive confirmations.",
@@ -859,7 +859,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "pagination",
     label: "Pagination",
     labelZh: "分页",
-    description: "Navigates through numbered pages of a data set.",
+    description: "Pagination links to the previous and next articles; NumberedPagination navigates by page number.",
     bestPractices: [
       "Use Pagination for sequential navigation between sibling pages (docs articles, blog posts, onboarding steps). For more rows in one list use ShowMore; for numbered results pages use NumberedPagination.",
       "Use Pagination as a previous/next document rail; use NumberedPagination when users must jump to numbered pages.",
@@ -872,7 +872,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "device",
     label: "Device",
     labelZh: "设备外框",
-    description: "Frames screenshots inside realistic phone and tablet shells.",
+    description: "Present screenshots or recordings in a phone or tablet frame of a specified model.",
     bestPractices: [
       "Use Device as marketing chrome around phone or tablet screenshots, recordings, and demo images on landing pages and docs.",
       "Choose a registered model explicitly; pass the model id that matches the screenshot's device.",
@@ -885,7 +885,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "pill",
     label: "Pill",
     labelZh: "胶囊标签",
-    description: "Clickable filter chip for toggling a query or selection.",
+    description: "Switch a filter or selection by clicking a pill.",
     bestPractices: [
       "Use Pill for clickable filter chips that toggle a query; for a static status label use Badge instead.",
       'Pass variant="active" to highlight the currently selected filter so sighted users see the active state without color alone.',
@@ -896,7 +896,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "progress",
     label: "Progress",
     labelZh: "进度条",
-    description: "Shows progress relative to a limit or a task.",
+    description: "Show task completion or used capacity as a share of the total.",
     bestPractices: [
       "Determinate work whose total is knowable, like file uploads, multi-step setup, build steps, or batch deletions.",
       "For short indeterminate waits (~1–3s), use Spinner; for inline copy like Saving, use Loading Dots.",
@@ -908,7 +908,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "project-banner",
     label: "Project Banner",
     labelZh: "项目横幅",
-    description: "Used for temporary, project-wide notifications that require resolution.",
+    description: "Show a notice that needs attention on a project page, with an action to resolve it.",
     bestPractices: [
       "Use Project Banner for project-wide states that need resolution: overdue billing, an active rollback, attack mitigation, an expiring trial blocking deploys.",
       "Pick Note for inline contextual messages tied to a single field or card, Toast for transient acknowledgments, Modal for confirmations.",
@@ -923,7 +923,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "radio",
     label: "Radio",
     labelZh: "单选按钮",
-    description: "Provides single user input from a selection of options.",
+    description: "Choose one option from a mutually exclusive group.",
     bestPractices: [
       "A single choice from 2–6 mutually exclusive options where seeing every option matters (deploy regions, plan tiers, billing cycle).",
       "Past 6 options, switch to Select or Combobox so the list doesn't dominate the form.",
@@ -937,7 +937,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "scroller",
     label: "Scroller",
     labelZh: "滚动容器",
-    description: "Displays an overflowing list of items.",
+    description: "Scroll through overflowing content within a bounded area.",
     bestPractices: [
       "Use Scroller for an overflowing list of peer items along a single axis: chip rows, log streams, code snippets, command palettes.",
       "Pick vertical for stacked feeds, horizontal for chip and tile rails, free only when content genuinely scrolls in both directions.",
@@ -950,7 +950,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "switch",
     label: "Switch",
     labelZh: "分段选择",
-    description: "A slider group for mutually exclusive view options.",
+    description: "Switch between a few mutually exclusive views with segmented controls.",
     bestPractices: [
       "Use Switch as a segmented selector for 2–3 mutually exclusive options that show different views of the same surface, like Source vs Output.",
       "For a boolean on/off setting, use Toggle. Switch implements radio semantics, so two options stay mutually exclusive rather than reading as a checkbox.",
@@ -967,7 +967,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "sheet",
     label: "Sheet",
     labelZh: "侧边面板",
-    description: "Displays content in a side panel that slides in from the edge of the screen.",
+    description: "Open a panel from the screen edge to show details related to the current page.",
     bestPractices: [
       "Use Sheet for persistent associated context like deployment details, log row inspection, or a member profile, where the underlying page stays useful.",
       "For a blocking decision, use Modal. For a mobile-only bottom sheet, use Drawer.",
@@ -984,7 +984,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "select",
     label: "Select",
     labelZh: "下拉选择器",
-    description: "Presents a list of options in a dropdown.",
+    description: "Choose one option from a dropdown list.",
     bestPractices: [
       "Pick <Select> for short, fixed lists (under ~10 items) where typing adds nothing; switch to Combobox once filtering helps.",
       "Use MultiSelect when more than one value can be chosen at once; use Switch for a 2–3 option segmented choice.",
@@ -1001,7 +1001,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "separator",
     label: "Separator",
     labelZh: "分隔线",
-    description: "Divides content into visually distinct groups.",
+    description: "Separate groups of content with a horizontal or vertical line.",
     bestPractices: [
       "Use Separator to divide content into visually distinct groups, like between sections of a list or menu items.",
       "Horizontal separators span the full width of their container; vertical ones fill the available height of a flex row.",
@@ -1013,9 +1013,9 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "show-more",
     label: "Show More",
     labelZh: "显示更多",
-    description: "Shows expanded or collapsed content with a progressive-disclosure trigger.",
+    description: "Request expanded or collapsed content with a button; the page manages the content itself.",
     bestPractices: [
-      "Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.",
+      "Use ShowMore for showing content on demand of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.",
       "Show enough rows to convey the shape of the list before truncating (5–10 typical). Truncating at 2 makes the affordance feel performative.",
       'ShowMore uses fixed "Show More" / "Show Less" labels. Put any hidden-item count in adjacent caller-owned content.',
       "Don’t cycle Show More then Show Less mid-flow on the same data set; collapsing rows after the user expanded them scrolls them away from where they were reading.",
@@ -1027,7 +1027,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "skeleton",
     label: "Skeleton",
     labelZh: "骨架屏",
-    description: "Displays a placeholder while content is loading.",
+    description: "Show placeholders matching the content size while loading; SkeletonMask can mask existing content.",
     bestPractices: [
       "Show a Skeleton when async data fills a known layout: table rows, card grids, profile blocks, sidebars.",
       "For a single in-flight action, use Spinner; for known progress, use Progress.",
@@ -1041,7 +1041,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "slider",
     label: "Slider",
     labelZh: "滑块",
-    description: "An input to select a value from a given range.",
+    description: "Drag a slider to choose a value within a numeric range.",
     bestPractices: [
       "Use a slider for ranged numeric input where shape and proximity matter more than precision: bandwidth caps, opacity, audio volume, color channels.",
       "For exact values like a port number or memory limit, pair the slider with a numeric Input; keyboard users default to typing.",
@@ -1054,7 +1054,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "snippet",
     label: "Snippet",
     labelZh: "代码片段",
-    description: "Displays a runnable shell command or short code the user is meant to copy.",
+    description: "Display a copyable shell command or short code snippet.",
     bestPractices: [
       "Use Snippet for a runnable shell command the user is meant to copy. For inline tokens (env var names, paths) use InlineCode, and for multi-line source use CodeBlock.",
       "Pass the command as text. The component renders any prompt itself; keep the copied payload in sync with what the user sees.",
@@ -1066,7 +1066,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "spinner",
     label: "Spinner",
     labelZh: "加载指示器",
-    description: "Indicates an in-progress operation.",
+    description: "Use a spinning icon to indicate an ongoing action.",
     bestPractices: [
       "Use Spinner for a single in-flight action or indeterminate wait where there’s no known progress to show.",
       "For a known duration or percentage, use Progress instead of a spinner.",
@@ -1078,7 +1078,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "status-dot",
     label: "Status Dot",
     labelZh: "状态圆点",
-    description: "Displays an indicator of deployment status.",
+    description: "Show deployment status with a dot and an optional label.",
     bestPractices: [
       "Use Status Dot only for deployment lifecycle states: QUEUED | BUILDING | READY | ERROR | CANCELED | DELETED.",
       "For non-deployment statuses (Workflow runs, Queue messages, Sandbox, Cron jobs), use a Badge with the canonical state vocabulary instead of repurposing the dot.",
@@ -1091,13 +1091,13 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "step-point",
     label: "Step Point",
     labelZh: "步骤指示点",
-    description: "Marks progress through a multi-step flow.",
+    description: "Mark the status of each step in a multi-step process.",
   },
   {
     name: "table",
     label: "Table",
     labelZh: "表格",
-    description: "Displays structured data in rows and columns.",
+    description: "Display structured data in rows and columns for comparison.",
     bestPractices: [
       "Use <Table> for tabular data where rows share the same shape and at least one column is sortable or comparable across rows.",
       "For a row of descriptive content paired with a single action (membership row, integration row), use Entity instead.",
@@ -1115,7 +1115,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "tabs",
     label: "Tabs",
     labelZh: "标签页",
-    description: "Organizes content into switchable panels.",
+    description: "Switch between related views, such as overview and logs, within a page.",
     bestPractices: [
       "Use Tabs to switch between sibling views inside a single page (Overview, Logs, Settings).",
       "For navigation between unrelated pages, use a sub-menu, not Tabs. Tabs imply the views share scope, URL parent, and data model.",
@@ -1135,13 +1135,13 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "text-with-copy-button",
     label: "Text With Copy Button",
     labelZh: "带复制按钮的文本",
-    description: "Displays text alongside a button that copies it to the clipboard.",
+    description: "Display text with a copy button beside it.",
   },
   {
     name: "textarea",
     label: "Textarea",
     labelZh: "多行文本域",
-    description: "A multi-line text field for longer input.",
+    description: "Enter multi-line text, such as a description or notes.",
     bestPractices: [
       "Pick <Textarea> for content that wraps to multiple lines (commit messages, descriptions, notes); use Input for a single value like a name or domain.",
       "Set a generous default rows and grow only when the surface has vertical room; don’t let the field push primary actions below the fold.",
@@ -1156,7 +1156,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "toast",
     label: "Toast",
     labelZh: "轻提示",
-    description: "A succinct message that is displayed temporarily.",
+    description: "Briefly display an action result or notification.",
     bestPractices: [
       "Use a toast for non-blocking acknowledgments of user-initiated actions: Domain added, Project archived, Deployment canceled.",
       "Don’t use a toast alone for billing failures, permission denials, or build failures the user has to triage. Pair a ≤6-word toast (Build failed) with a persistent row carrying the recovery step.",
@@ -1173,7 +1173,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "toggle",
     label: "Toggle",
     labelZh: "开关",
-    description: "A switch for a single boolean setting.",
+    description: "Turn a boolean setting, such as password protection, on or off.",
     bestPractices: [
       "Use Toggle for a single boolean setting where ON takes effect immediately, like Password Protection or Auto-Cancel Builds. Switch to Checkbox for a multi-select list, or to Switch for 2–3 mutually exclusive views.",
       "checked is optional. Pass checked with onChange for caller-controlled state, or use defaultChecked for an uncontrolled initial state.",
@@ -1190,7 +1190,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "tooltip",
     label: "Tooltip",
     labelZh: "工具提示",
-    description: "A floating label that appears on hover or focus.",
+    description: "Show a short explanation on hover or focus.",
     bestPractices: [
       "Use a Tooltip to explain why something exists, not what it is. The visible label names the thing; the tooltip adds the constraint, scope, or limit.",
       "Tooltips open on hover and keyboard focus. The default entry delay is 400ms; use delay={false} for none or pass a numeric override.",
@@ -1206,7 +1206,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "theme-switcher",
     label: "Theme Switcher",
     labelZh: "主题切换器",
-    description: "Switches between light, dark, and system themes.",
+    description: "Choose light, dark, or system theme preference.",
     bestPractices: [
       "Use Theme Switcher for the canonical Light / System / Dark control. Place it once per app, in the footer or settings, not duplicated across pages.",
       "Pass small for dense chrome (footers, dropdowns); use the default size on a settings page where there’s room for the labels to breathe.",
@@ -1220,7 +1220,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "video",
     label: "Video",
     labelZh: "视频",
-    description: "Embeds a video with built-in playback controls.",
+    description: "Embed video with playback controls and lazy loading.",
     bestPractices: [
       "Use Video to embed clips with built-in playback controls and lazy loading support.",
       "Lock the inner video aspect ratio so the container doesn't reflow while media loads.",
@@ -1232,7 +1232,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     label: "Clearable Input",
     labelZh: "可清空输入框",
     description:
-      "A text input with an inline Esc keycap that clears on pointer activation or Escape.",
+      "A text input with an Esc button; click it or press Escape to clear the value.",
     bestPractices: [
       "Use Clearable Input for search, filter, and short query fields where resetting the current value is frequent.",
       "Associate visible labels with the native input, and keep Escape clearing available from the input itself.",
@@ -1242,7 +1242,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "combobox",
     label: "Combobox",
     labelZh: "组合框",
-    description: "A searchable single-select list.",
+    description: "Search by typing and select one option.",
     bestPractices: [
       "Use Combobox when filtering materially helps users find one option; use Select for short fixed lists.",
       "Keep the selected value and search query distinct so reopening the list does not erase the selection.",
@@ -1252,7 +1252,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "entity",
     label: "Entity",
     labelZh: "实体",
-    description: "A structured row for an entity and its primary action.",
+    description: "Display a resource and its primary action in one row.",
     bestPractices: [
       "Use Entity for one descriptive object with one primary row action; use Table when rows share comparable columns.",
       "Keep media, content, and actions in stable columns so loading and selected states do not shift the row.",
@@ -1262,7 +1262,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "error-card",
     label: "Error Card",
     labelZh: "错误卡片",
-    description: "A contained error state with recovery guidance.",
+    description: "Display an error and recovery actions inside a card.",
     bestPractices: [
       "Use Error Card when a bounded panel cannot render; use field errors for validation and Toast for transient action failures.",
       "State what failed and provide a concrete recovery action rather than a generic Try again message.",
@@ -1272,7 +1272,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "middle-truncate",
     label: "Middle Truncate",
     labelZh: "中间截断",
-    description: "Preserves the beginning and end of long identifiers.",
+    description: "Shorten long text with an ellipsis while keeping both ends of a path, URL, or identifier.",
     bestPractices: [
       "Use Middle Truncate for paths, URLs, hashes, and identifiers where both prefix and suffix carry meaning.",
       "Expose the full value through title or adjacent copy affordance; truncation must not destroy access to the source value.",
@@ -1282,7 +1282,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "multi-select",
     label: "Multi Select",
     labelZh: "多选",
-    description: "A composed menu for selecting multiple externally managed options.",
+    description: "Select multiple options in a popup list, with selection managed by the page.",
     bestPractices: [
       "Use Multi Select only when more than one option may be active; use Combobox for searchable single selection.",
       "Keep the trigger summary concise and expose the full selection list inside the open control.",
@@ -1292,7 +1292,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "relative-time-card",
     label: "Relative Time Card",
     labelZh: "相对时间卡片",
-    description: "Shows a relative timestamp with temporal context.",
+    description: "Show relative time, such as “5 minutes ago,” with the exact timestamp on hover or focus.",
     bestPractices: [
       "Use relative time for recent activity and expose the exact timestamp when users hover or focus.",
       "Switch to an absolute date once relative wording stops helping users compare events.",
@@ -1302,7 +1302,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "search-input",
     label: "Search Input",
     labelZh: "搜索框",
-    description: "A search field with a standard leading icon.",
+    description: "A text input with a search icon for entering a query.",
     bestPractices: [
       "Use Search Input for query-driven filtering, not for ordinary form text entry.",
       "Provide a visible label or an equivalent accessible name and preserve the query while results update.",
@@ -1312,7 +1312,7 @@ const COMPONENTS_EN: ComponentMeta[] = [
     name: "split-button",
     label: "Split Button",
     labelZh: "拆分按钮",
-    description: "Combines a primary action with a short menu of related actions.",
+    description: "Combine a primary action and a menu of related options in one button group.",
     bestPractices: [
       "Keep the most common action on the main button and limit the menu to closely related variants.",
       "Label the menu button with the target and purpose, not the chevron icon.",

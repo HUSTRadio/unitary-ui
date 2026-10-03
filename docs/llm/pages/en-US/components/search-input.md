@@ -2,7 +2,7 @@
 
 > Route: `/components/search-input`
 
-A search field with a standard leading icon.
+A text input with a search icon for entering a query.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A search field with a standard leading icon.
 
 search-input
 
-A search field with a standard leading icon.
+A text input with a search icon for entering a query.
 
 ## When to use
 
@@ -39,7 +39,7 @@ Shows a loading state while search results are updating, providing real-time fee
 
 ## Controlled behavior
 
-Not applicable: Search Input presents a query value primarily; controlled behavior relies on the parent managing value and onChange, with no additional intrinsic control features.
+Not applicable: The parent manages the query through value and onChange.
 
 ## Responsive behavior
 
@@ -173,7 +173,7 @@ export function SearchInputCustomPrefix3441EADCExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

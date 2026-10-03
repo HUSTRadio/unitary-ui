@@ -2,7 +2,7 @@
 
 > Route: `/components/multi-select`
 
-A composed menu for selecting multiple externally managed options.
+Select multiple options in a popup list, with selection managed by the page.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A composed menu for selecting multiple externally managed options.
 
 multi-select
 
-A composed menu for selecting multiple externally managed options.
+Select multiple options in a popup list, with selection managed by the page.
 
 ## When to use
 
@@ -318,7 +318,7 @@ export function MultiSelectControlledStateAE611285Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

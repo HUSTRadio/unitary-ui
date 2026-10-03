@@ -2,7 +2,7 @@
 
 > Route: `/components/choicebox`
 
-A larger form of Radio for choices with more detail.
+Choose one or more options from cards with descriptions or icons.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A larger form of Radio for choices with more detail.
 
 choicebox
 
-A larger form of Radio for choices with more detail.
+Choose one or more options from cards with descriptions or icons.
 
 ## When to use
 
@@ -214,7 +214,7 @@ export function ChoiceboxCustomContent2D9A6A02Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

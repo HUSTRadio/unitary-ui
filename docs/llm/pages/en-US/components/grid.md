@@ -2,7 +2,7 @@
 
 > Route: `/components/grid`
 
-Displays elements in a grid layout.
+Create a two-dimensional layout with cells and visible guide lines.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays elements in a grid layout.
 
 grid
 
-Displays elements in a grid layout.
+Create a two-dimensional layout with cells and visible guide lines.
 
 ## When to use
 
@@ -42,7 +42,7 @@ Combines dashed guide lines with cross-point decorations for an advanced, design
 
 ## Accessibility
 
-Not applicable: Grid is a purely visual layout component without interactive elements or semantic ARIA roles. Accessibility is determined by the actual components placed inside the grid cells (buttons, links, headings, etc.).
+Not applicable: Grid is a layout component without interactive elements or semantic ARIA roles. Accessibility is determined by the actual components placed inside the grid cells (buttons, links, headings, etc.).
 
 ## Controlled behavior
 
@@ -384,7 +384,7 @@ export function GridDashedGridWithGridPageFA2E79AFExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

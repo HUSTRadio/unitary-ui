@@ -2,7 +2,7 @@
 
 > Route: `/components/menu`
 
-Displays a list of actions in a floating menu.
+Open a list of related actions from a trigger button.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays a list of actions in a floating menu.
 
 menu
 
-Displays a list of actions in a floating menu.
+Open a list of related actions from a trigger button.
 
 ## When to use
 
@@ -285,7 +285,7 @@ export function MenuWithSection5563D2A4Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

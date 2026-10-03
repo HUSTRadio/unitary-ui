@@ -2,7 +2,7 @@
 
 > Route: `/components/toggle`
 
-用于单个布尔设置的开关。
+开启或关闭一个布尔设置，如密码保护。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 toggle
 
-用于单个布尔设置的开关。
+开启或关闭一个布尔设置，如密码保护。
 
 ## 何时使用
 
@@ -271,7 +271,7 @@ export function ToggleWithLabelBB9F6883Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -291,6 +291,6 @@ import { Toggle } from "@/components/ui/toggle";
 - 仅当动作确实不可能时（缺套餐、策略锁定）禁用 Toggle；配说明解决方式的辅助文本或 Tooltip。
 - 标签是 children 而非 label prop。首字母大写名词短语、1–4 个词，命名 ON 时成立的状态：Password Protection，而非 Enable Password Protection。
 - 在标签下渲染可选的一句说明，只解释 ON。不要描述 OFF；它是否定。
-- 通过 children、aria-label 或 aria-labelledby 提供可访问名称。三者都缺失时 Unitary 在开发模式警告。
+- 通过 children、aria-label 或 aria-labelledby 提供无障碍名称。三者都缺失时 Unitary 在开发模式警告。
 - 保持 labelCasing="title"（默认值），让标签与其他首字母大写表面一致。
 - 仅当可见标签位于行上别处时才设 aria-label；否则让 children 承载它，让视觉与读屏文案保持一致。

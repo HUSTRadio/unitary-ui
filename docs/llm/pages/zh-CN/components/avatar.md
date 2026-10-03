@@ -2,7 +2,7 @@
 
 > Route: `/components/avatar`
 
-使用图片或回退内容表示用户或团队。
+用图片、首字母或占位内容表示用户或团队。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 avatar
 
-使用图片或回退内容表示用户或团队。
+用图片、首字母或占位内容表示用户或团队。
 
 ## 何时使用
 
@@ -46,7 +46,7 @@ avatar
 
 ## 受控行为
 
-不适用: Avatar 是无交互的展示型组件，不接收受控属性；图像回退由内部逻辑处理，无需外部状态控制。
+不适用: Avatar 是展示组件，不接收受控属性；图像回退由内部逻辑处理，无需外部状态控制。
 
 ## 响应式行为
 
@@ -398,7 +398,7 @@ export function AvatarCurvature8D2F4A71Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -413,7 +413,7 @@ import {
 } from "@/components/ui/avatar";
 ```
 
-原生属性：`ComponentProps<typeof AvatarPrimitive.Root>`
+还支持以下类型中定义的属性：`ComponentProps<typeof AvatarPrimitive.Root>`
 
 ### 属性与回调
 

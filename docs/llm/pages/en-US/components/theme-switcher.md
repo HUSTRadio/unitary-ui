@@ -2,7 +2,7 @@
 
 > Route: `/components/theme-switcher`
 
-Switches between light, dark, and system themes.
+Choose light, dark, or system theme preference.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Switches between light, dark, and system themes.
 
 theme-switcher
 
-Switches between light, dark, and system themes.
+Choose light, dark, or system theme preference.
 
 ## When to use
 
@@ -19,7 +19,7 @@ Switches between light, dark, and system themes.
 
 ## When not to use
 
-- Do not duplicate the theme switcher across pages—it should appear exactly once per app, not once per route.
+- Place the theme switcher in a shared footer or settings page to avoid duplicate controls.
 - Do not rebuild a theme picker with Switch components or three icon buttons—Theme Switcher already handles icons, aria-labels, and System detection.
 
 ## Examples
@@ -52,7 +52,7 @@ Demonstrates the small-size variant, ideal for dense chrome areas like footers a
 ## Theme behavior
 
 - Theme Switcher itself is the core theme-control element; its icons and labels change in real time with the selected theme, visually reflecting the active choice.
-- On settings pages with ample room, use the default size so label text has enough breathing space.
+- Use the default size where space allows, such as a settings page.
 
 ## Live Demo
 
@@ -86,7 +86,7 @@ export function ThemeSwitcherDisabled75081B59Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

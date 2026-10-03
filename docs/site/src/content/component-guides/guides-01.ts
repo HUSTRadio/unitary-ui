@@ -4,7 +4,7 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
   avatar: {
     slug: "avatar",
     locale: "zh-CN",
-    summary: "用图片或回退占位符表示用户或团队。",
+    summary: "用图片、首字母或占位内容表示用户或团队。",
     whenToUse: [
       "用 Avatar 表示单个用户或团队，并在头像旁显示姓名和角色信息。",
       "使用堆叠（Stacked）Avatar 展示一组人员，如团队成员列表或评论者集合。",
@@ -49,7 +49,7 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Avatar 是无交互的展示型组件，不接收受控属性；图像回退由内部逻辑处理，无需外部状态控制。",
+        "Avatar 是展示组件，不接收受控属性；图像回退由内部逻辑处理，无需外部状态控制。",
     },
     responsiveBehavior: {
       status: "covered",
@@ -69,14 +69,14 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
   badge: {
     slug: "badge",
     locale: "zh-CN",
-    summary: "用于状态、数量和元数据的小标签。",
+    summary: "用简短标签显示状态、数量或元数据。",
     whenToUse: [
-      "在描述对象的旁边放置简短、可快速扫描的元数据标签：状态、计划层级、环境或角色。",
+      "在对象旁用短标签显示状态、套餐、环境或角色。",
       "展示生命周期阶段标签（Alpha、Beta、Early Access），并配合 Tooltip 注明限制信息。",
       "用颜色映射表达含义：绿色表示健康，红色表示错误，琥珀色表示警告，蓝色表示信息或生产环境。",
     ],
     whenNotToUse: [
-      "不要让 Badge 成为可点击元素；如果用户需要操作该值，提升为 Button 或链接。",
+      "标签需要点击操作时，使用 Button 或链接。",
       "不要在 Badge 内嵌套另一个 Badge 或多个图标——每行只放一个 Badge。",
       "不要在 Badge 中塞入整句文案（如 Currently Active），周围行已经提供了上下文。",
     ],
@@ -127,24 +127,24 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Badge 采用紧凑的内联排版，在窄屏和宽屏上保持一致的视觉密度。",
-        "长文本在窄屏上自动换行或通过省略号截断，不会溢出父容器边界。",
+        "Badge 文本不自动换行。保持标签简短，长文本由外层布局处理。",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
         "每个变体对应一套深色/浅色模式下的颜色对，跟随主题变量的更新。",
-        "-subtle 后缀色调可在密集表面上调低任何变体的饱和度，减少视觉干扰。",
+        "contrast=\"low\" 使用无填充的文字样式；contrast=\"soft\" 使用柔和底色。",
       ],
     },
   },
   banner: {
     slug: "banner",
     locale: "zh-CN",
-    summary: "一个横跨容器全宽的醒目消息区域，用于宣布重要信息。",
+    summary: "在容器顶部显示全宽公告或重要提示。",
     whenToUse: [
       "在页面顶部或区块起始处展示全局公告、维护通知或关键提示，确保用户注意到。",
-      "当公告需要附带一个明确的链接式行动入口时，使用 Banner 的 button 配置提供 CTA。",
+      "公告需要操作链接时，通过 button 配置链接文案和目标。",
       "当消息需要跨越完整内容宽度并提供上下文时（如部署状态变更）。",
     ],
     whenNotToUse: [
@@ -183,7 +183,7 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "Banner 外壳默认透明，文本和 CTA 使用主题令牌适配暗色与亮色模式。",
+        "Banner 外壳默认透明，文本和 CTA 使用主题变量适配暗色与亮色模式。",
         "组件没有内置成功、警告或错误变体；需要语义配色时由调用方组合样式和语义。",
       ],
     },
@@ -191,16 +191,16 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
   book: {
     slug: "book",
     locale: "zh-CN",
-    summary: "一个响应式的书籍造型组件，用于营销页面和技术文档的封面展示。",
+    summary: "用书籍封面造型展示文章、手册或营销内容。",
     whenToUse: [
-      "在营销页面、文档着陆页封面和更新日志的醒目位置使用 Book，内容为标题载体时需要书籍的隐喻。",
+      "在营销页、文档首页或更新日志中，用书籍封面突出文章或手册。",
       "使用简单（simple）风格让标题主导设计，或使用条纹（stripe）风格用图标或彩色条纹添加类别层级。",
-      "在孤立的主题摄影场景中保留纹理处理，用于单篇文章或章节的视觉呈现。",
+      "纹理效果适合单独展示的文章或章节封面。",
     ],
     whenNotToUse: [
       "不要在产品信息卡和管理仪表板的平铺中使用 Book——它过于装饰性，不适合重复排列的 UI 行。",
-      "不要把 Book 当作可交互的内容编辑器——它是纯粹的展示框架，不支持编辑功能。",
-      "不要在需要无障碍优先的场景中将封面作为主要内容源——封面应被视为装饰元素，标题应由底层标题元素提供。",
+      "Book 用于封面展示，不支持内容编辑。",
+      "重要标题和内容应以可读文字提供，不能只放在封面图中。",
     ],
     examples: [
       {
@@ -228,27 +228,27 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Book 的封面应标记为装饰性 chrome，标题应通过底层的 heading 元素呈现，以免屏幕阅读器双重朗读。",
-        '封面插图的 alt 文本应为空（decorative="true"），因为实际意义已在标题中体现。',
+        "标题使用可读文字；仅作装饰的图案应对屏幕阅读器隐藏。",
+        "自定义插图仅作装饰时，图片使用 alt=\"\"，SVG 使用 aria-hidden。",
         "书页厚度效果不应影响核心内容的可读性和聚焦能力。",
       ],
     },
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Book 是无交互的展示型组件，没有任何状态转换或受控属性；封面造型完全通过 props 配置。",
+        "Book 是展示组件，没有任何状态转换或受控属性；封面造型完全通过 props 配置。",
     },
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Book 使用响应式宽度来保留封面的宽高比，在不同视口下自动缩放而不失真。",
-        "窄屏上书名可能缩小字号或启用多行，但保持封面比例的完整性。",
+        "width 可传数值或按断点设置的宽度，封面按比例缩放。",
+        "窄屏上应保持书名简短，并检查所设宽度是否适合容器。",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
-        "Book 的阴影、边框和渐变效果跟随主题变量，在暗色/亮色模式下自动适配。",
+        "Book 的阴影、边框和渐变效果跟随主题变量，适配明暗主题。",
         "可通过 props 自定义颜色（custom color）覆盖默认主题色，实现品牌一致性。",
       ],
     },
@@ -256,7 +256,7 @@ export const GUIDES_01_ZH: Record<string, ComponentGuide> = {
   breadcrumbs: {
     slug: "breadcrumbs",
     locale: "zh-CN",
-    summary: "导航辅助组件，展示用户在站点层级中的当前位置。",
+    summary: "显示当前页面的层级路径，方便返回上级页面。",
     whenToUse: [
       "在具有多层级结构的应用中展示面包屑导航，帮助用户理解当前所在位置并快速跳转至上层节点。",
       "当 URL 路径反映了资源的层级关系时（如 /projects/space/documents），面包屑是自然的同步展现方式。",
@@ -317,7 +317,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
   avatar: {
     slug: "avatar",
     locale: "en-US",
-    summary: "Represents a user or a team with an image or fallback.",
+    summary: "Represent a user or team with an image, initials, or a placeholder.",
     whenToUse: [
       "Use Avatar to represent a single user or team, displayed alongside name and role information.",
       "Use stacked Avatars to represent a group of people, such as team member lists or collections of commenters.",
@@ -384,14 +384,14 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
   badge: {
     slug: "badge",
     locale: "en-US",
-    summary: "Small labels for statuses, counts, and metadata.",
+    summary: "Show a status, count, or metadata in a short label.",
     whenToUse: [
-      "Place short, scannable metadata labels next to the thing they describe: status, plan tier, environment, or role.",
+      "Use short labels beside an item to show its status, plan, environment, or role.",
       "Showcase lifecycle stage labels (Alpha, Beta, Early Access) paired with a Tooltip noting any limitations.",
       "Map meaning to color: green for healthy, red for error, amber for warning, blue for informational or production.",
     ],
     whenNotToUse: [
-      "Never make a Badge clickable—if the user needs to act on the value, promote it to a Button or link.",
+      "Use a Button or link when the label needs to trigger an action.",
       "Never nest another Badge or multiple icons inside a Badge—one badge per row only.",
       "Avoid stuffing sentences inside a Badge (Currently Active); the surrounding row supplies the context.",
     ],
@@ -443,14 +443,14 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Badge uses compact inline typography that maintains consistent visual density on both narrow and wide screens.",
-        "Long text auto-wraps or truncates with ellipsis on narrow viewports, never overflowing its parent container.",
+        "Badge text does not wrap automatically. Keep labels short and handle long text in the outer layout.",
       ],
     },
     themeBehavior: {
       status: "covered",
       content: [
         "Each variant comes with a paired dark/light mode color set managed through theme variables.",
-        "The -subtle suffix tone lowers saturation of any variant on dense surfaces to reduce visual interference.",
+        "contrast=\"low\" uses text without a fill; contrast=\"soft\" uses a soft background.",
       ],
     },
   },
@@ -458,10 +458,10 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
     slug: "banner",
     locale: "en-US",
     summary:
-      "A prominent message that spans the full width of its container to announce important information.",
+      "Show a full-width announcement or important notice at the top of a container.",
     whenToUse: [
       "Display global announcements, maintenance notices, or critical alerts at the top of a page or section start where user attention is needed.",
-      "Use Banner's button configuration when an announcement needs one explicit linked call to action.",
+      "Use button to configure the label and destination of an action link.",
       "When a message requires full content width and contextual framing (such as deployment status changes).",
     ],
     whenNotToUse: [
@@ -509,16 +509,16 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
     slug: "book",
     locale: "en-US",
     summary:
-      "A responsive book-shaped component for marketing pages and documentation hero displays.",
+      "Present an article, manual, or marketing content as a book cover.",
     whenToUse: [
-      "Use Book for marketing pages, docs landing covers, and changelog hero shots where content needs the metaphor of a labeled volume.",
+      "Use a book cover to feature an article or manual on a marketing page, docs landing page, or changelog.",
       "Use simple when the title carries the design; use stripe when an icon or color stripe adds category hierarchy.",
-      "Reserve the textured treatment for isolated hero shots used for single articles or chapter presentations.",
+      "Reserve textures for standalone article or chapter covers.",
     ],
     whenNotToUse: [
       "Do not use Book inside product info cards or dashboard tiles—it is too decorative for repeated UI rows.",
-      "Do not treat Book as an interactive content editor—it is a purely presentational frame with no editing capabilities.",
-      "In accessibility-first scenarios, do not use the cover as the primary content source—the cover should be treated as decorative chrome with the title surfaced via an underlying heading element.",
+      "Book displays a cover and does not support editing.",
+      "Provide important titles and content as readable text, rather than only in the cover image.",
     ],
     examples: [
       {
@@ -547,8 +547,8 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "Book's cover should be marked as decorative chrome with the title surfaced through an underlying heading element so screen readers do not double-announce.",
-        "Cover illustrations should have empty alt text (decorative=true) since meaning is already conveyed in the title.",
+        "Use readable text for the title and hide purely decorative artwork from screen readers.",
+        "For decorative custom illustrations, use alt=\"\" on images or aria-hidden on SVGs.",
         "Page thickness effects should not impact core content legibility and focus capability.",
       ],
     },
@@ -560,8 +560,8 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "Book uses responsive widths to preserve the cover proportion, scaling automatically without distortion across viewports.",
-        "On narrow screens, book title may shrink font size or enable multi-line wrapping while preserving the cover ratio integrity.",
+        "width accepts a number or breakpoint-specific widths; the cover scales proportionally.",
+        "On narrow screens, keep titles short and check that the chosen width fits the container.",
       ],
     },
     themeBehavior: {
@@ -575,7 +575,7 @@ export const GUIDES_01_EN: Record<string, ComponentGuide> = {
   breadcrumbs: {
     slug: "breadcrumbs",
     locale: "en-US",
-    summary: "Navigation aid that shows the user's location within a site's hierarchy.",
+    summary: "Show the current page’s hierarchy and provide links to parent pages.",
     whenToUse: [
       "Display breadcrumb navigation in applications with multi-level structures to help users understand their current position and jump quickly to parent nodes.",
       "Use Breadcrumbs when URL paths reflect resource hierarchy (e.g., /projects/space/documents) as a natural synchronization mechanism.",

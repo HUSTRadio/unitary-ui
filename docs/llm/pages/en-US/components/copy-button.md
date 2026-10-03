@@ -2,7 +2,7 @@
 
 > Route: `/components/copy-button`
 
-Copies a given string to the clipboard and provides feedback when copied.
+Copy text and show the result with an icon.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Copies a given string to the clipboard and provides feedback when copied.
 
 copy-button
 
-Copies a given string to the clipboard and provides feedback when copied.
+Copy text and show the result with an icon.
 
 ## When to use
 
@@ -65,7 +65,7 @@ export function CopyButtonDefault21B111CBExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -73,7 +73,7 @@ Import
 import { CopyButton } from "@/components/ui/copy-button";
 ```
 
-Native props: `ButtonHTMLAttributes<HTMLButtonElement>`
+Also accepts props defined by: `ButtonHTMLAttributes<HTMLButtonElement>`
 
 ### Props & callbacks
 

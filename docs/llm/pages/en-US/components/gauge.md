@@ -2,7 +2,7 @@
 
 > Route: `/components/gauge`
 
-A circular visual for conveying a percentage.
+Show a percentage, such as quota usage or utilization, as an arc.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A circular visual for conveying a percentage.
 
 gauge
 
-A circular visual for conveying a percentage.
+Show a percentage, such as quota usage or utilization, as an arc.
 
 ## When to use
 
@@ -44,11 +44,11 @@ When data is loading and the specific percentage is not yet available, use a spi
 ## Accessibility
 
 - The component sets role="progressbar" with aria-valuemin, aria-valuemax, and aria-valuenow so screen readers announce the current progress correctly.
-- Always pair the gauge with an adjacent label or Tooltip naming what the number represents; the gauge alone is not self-describing.
+- Add a text label or Tooltip to explain what the percentage represents.
 
 ## Controlled behavior
 
-Not applicable: Gauge is a purely presentational component that renders only the given percentage value and color configuration. It has no internal interactive state concept; the parent controls appearance by passing value and other props directly.
+Not applicable: Gauge has no internal state; the parent updates its value and colors through props.
 
 ## Responsive behavior
 
@@ -195,7 +195,7 @@ export function GaugeIndeterminateD5DB1EBAExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

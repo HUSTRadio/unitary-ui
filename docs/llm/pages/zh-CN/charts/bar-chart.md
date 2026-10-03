@@ -2,7 +2,7 @@
 
 > Route: `/charts/bar-chart`
 
-渲染类目柱状系列，支持堆叠、百分比与垂直布局。
+用柱形比较不同类别的数值，支持堆叠、百分比和横向布局。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 bar-chart
 
-渲染类目柱状系列，支持堆叠、百分比与垂直布局。
+用柱形比较不同类别的数值，支持堆叠、百分比和横向布局。
 
 ## 何时使用
 
@@ -147,7 +147,7 @@ export function BarChartVertical9F0A3C5EExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -155,7 +155,7 @@ export function BarChartVertical9F0A3C5EExample() {
 import { BarChart } from "@/components/ui/bar-chart";
 ```
 
-原生属性：`React.HTMLAttributes<HTMLDivElement>`
+还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`
 
 ### 属性与回调
 

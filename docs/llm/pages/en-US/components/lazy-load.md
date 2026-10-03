@@ -104,7 +104,7 @@ export default function LazyLoadExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -112,7 +112,7 @@ Import
 import { LazyLoad } from "@/components/ui/lazy-load";
 ```
 
-Native props: `ComponentProps<"div">`
+Also accepts props defined by: `ComponentProps<"div">`
 
 ### Props & callbacks
 

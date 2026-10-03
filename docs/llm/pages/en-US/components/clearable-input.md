@@ -2,7 +2,7 @@
 
 > Route: `/components/clearable-input`
 
-A text input with an inline Esc keycap that clears on pointer activation or Escape.
+A text input with an Esc button; click it or press Escape to clear the value.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A text input with an inline Esc keycap that clears on pointer activation or Esca
 
 clearable-input
 
-A text input with an inline Esc keycap that clears on pointer activation or Escape.
+A text input with an Esc button; click it or press Escape to clear the value.
 
 ## When to use
 
@@ -30,7 +30,7 @@ A base Clearable Input without a label, showing the input area and its inline cl
 
 ### Clearable input with label
 
-Associates a visible label with the native input for screen reader access, while keeping the Escape clear accessible from the input itself.
+Associate the visible label with the input; Escape still clears it.
 
 ### Clearable input integrated with command menu
 
@@ -192,7 +192,7 @@ export function ClearableInputWithClearCallback3538EFCAExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -200,7 +200,7 @@ Import
 import { ClearableInput } from "@/components/ui/clearable-input";
 ```
 
-Native props: `InputHTMLAttributes<HTMLInputElement>`
+Also accepts props defined by: `InputHTMLAttributes<HTMLInputElement>`
 
 ### Props & callbacks
 

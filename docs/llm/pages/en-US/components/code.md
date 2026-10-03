@@ -2,7 +2,7 @@
 
 > Route: `/components/code`
 
-Display a snippet of code with syntax highlighting.
+Code displays a horizontally scrollable code block; InlineCode displays short code within text.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Display a snippet of code with syntax highlighting.
 
 code
 
-Display a snippet of code with syntax highlighting.
+Code displays a horizontally scrollable code block; InlineCode displays short code within text.
 
 ## When to use
 
@@ -38,7 +38,7 @@ Not applicable: Code renders <pre><code> semantics and InlineCode renders <code>
 
 ## Controlled behavior
 
-Not applicable: Code is a read-only syntax highlighter with no value/onChange props or interactive state; its rendered content is determined entirely by the children prop.
+Not applicable: Code displays code without interactive state or value/onChange props.
 
 ## Responsive behavior
 
@@ -73,7 +73,7 @@ export function CodeDefault21B111CBExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

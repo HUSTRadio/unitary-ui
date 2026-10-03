@@ -31,7 +31,7 @@ link
 ## 无障碍
 
 - 使用能独立说明目的地的可见文案，避免“点击这里”等脱离上下文后失去意义的标签。
-- 外链图标均为 aria-hidden；屏幕阅读器仍以链接文案作为可访问名称。
+- 外链图标均为 aria-hidden；屏幕阅读器仍以链接文案作为无障碍名称。
 - 组件保留键盘 focus-visible 双环和原生锚点语义。
 
 ## 受控行为
@@ -69,7 +69,7 @@ export function LinkDefault37A8EEC1Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -77,7 +77,7 @@ export function LinkDefault37A8EEC1Example() {
 import { Link } from "@/components/ui/link";
 ```
 
-原生属性：`ComponentProps<"a">`
+还支持以下类型中定义的属性：`ComponentProps<"a">`
 
 ### 属性与回调
 

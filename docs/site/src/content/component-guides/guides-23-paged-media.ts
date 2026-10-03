@@ -45,7 +45,7 @@ const content = {
       },
       themeBehavior: {
         status: "covered",
-        content: ["边框、图片说明、按钮和指示器使用主题 token。"],
+        content: ["边框、图片说明、按钮和指示器使用主题变量。"],
       },
     },
     "full-page-scroller": {
@@ -85,7 +85,7 @@ const content = {
       },
       themeBehavior: {
         status: "covered",
-        content: ["容器不强制背景；演示使用共享主题 token，过渡使用 slower 时长和 ease-snap。"],
+        content: ["容器不强制背景；演示使用共享主题变量，过渡使用 slower 时长和 ease-snap。"],
       },
     },
     "lazy-load": {

@@ -2,7 +2,7 @@
 
 > Route: `/components/pill`
 
-Clickable filter chip for toggling a query or selection.
+Switch a filter or selection by clicking a pill.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Clickable filter chip for toggling a query or selection.
 
 pill
 
-Clickable filter chip for toggling a query or selection.
+Switch a filter or selection by clicking a pill.
 
 ## When to use
 
@@ -42,7 +42,7 @@ Demonstrates using variant="active" to highlight the currently selected filter, 
 
 ## Controlled behavior
 
-Not applicable: Pill itself has no controlled properties for internal state management; selection state is managed externally via onClick callbacks without an independent state machine.
+Not applicable: Pill does not store selection; the parent updates state in onClick and passes the matching variant.
 
 ## Responsive behavior
 
@@ -82,7 +82,7 @@ export function PillDefault21B111CBExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

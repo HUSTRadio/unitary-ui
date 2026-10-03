@@ -72,7 +72,7 @@ interface WindowMenuCopy {
 const DEMO_COPY = {
   "zh-CN": {
     title: "App Shell 应用壳层",
-    lead: "本页是一个自包含的壳层组装演示：顶栏、侧边导航、内容区与页脚全部由框架组件拼装而成。缩放窗口跨过 lg 断点（1024px）即可看到侧边导航与汉堡菜单两种形态的连贯切换。",
+    lead: "用顶栏、侧栏、内容区和页脚搭建应用页面。调整窗口宽度，观察侧栏在 lg 断点（1024px）处切换为汉堡导航菜单。",
     sectionOverview: "总览",
     overviewCards: [
       {
@@ -81,11 +81,11 @@ const DEMO_COPY = {
       },
       {
         heading: "SidebarNav",
-        body: "通用侧边导航：groups 分组数据、activeTo 高亮当前项、side 控制分隔边，条目可带右侧状态胶囊。打开 collapsible 后分组标题可点击开合。宽度由外层布局控制，lg 断点起显示。",
+        body: "groups 定义导航组，activeTo 高亮当前页，side 设置分隔线方向。collapsible 允许折叠分组。本例由外层布局设置宽度，并从 lg 断点起显示侧栏。",
       },
       {
         heading: "HamburgerMenu",
-        body: "HamburgerIcon + ExpandPanel 复合组件：anchor=topbar 时面板从顶栏底边向下延伸（同宽、共享底边框），内建搜索过滤，输入即收起导航列表并渲染结果。",
+        body: "组合 HamburgerIcon 和 ExpandPanel。anchor=topbar 时，面板从顶栏底边向下展开；输入搜索词后显示匹配结果。",
       },
       {
         heading: "Footer",
@@ -176,7 +176,7 @@ const DEMO_COPY = {
     ] as ApiRowCopy[],
     sectionWindow: "应用菜单栏与工具栏",
     windowLead:
-      "MenuBar 承担应用级命令（File / Edit / View，含右对齐快捷键、分隔线、勾选项与禁用态），Toolbar 承担窗口级工具操作组（三段排布、空间不足时整组折叠进溢出菜单、分段切换）。两者组合即为浏览器窗口形态的应用外壳：菜单栏在上、工具栏紧随其下。",
+      "MenuBar 提供 File / Edit / View 等应用命令；Toolbar 提供导航和视图切换等常用工具，空间不足时按组收进更多操作菜单。本例将菜单栏放在工具栏上方。",
     windowAddress: "unitary-ui.app/editor",
     menuBarAriaLabel: "应用菜单",
     windowMenus: [
@@ -262,7 +262,7 @@ const DEMO_COPY = {
   },
   "en-US": {
     title: "App Shell",
-    lead: "This page is a self-contained shell assembly demo: topbar, sidebar navigation, content area and footer are all composed from framework components. Resize the window across the lg breakpoint (1024px) to see the coherent switch between the sidebar and the hamburger menu forms.",
+    lead: "Build an application page with a topbar, sidebar, content area, and footer. Resize the window to see the sidebar switch to a hamburger menu at the lg breakpoint (1024px).",
     sectionOverview: "Overview",
     overviewCards: [
       {
@@ -271,11 +271,11 @@ const DEMO_COPY = {
       },
       {
         heading: "SidebarNav",
-        body: "Generic sidebar navigation: grouped data, activeTo highlights the current item, side picks the separator edge, and items can carry a trailing status pill. With collapsible on, group headings toggle open and closed. Width is owned by the outer layout; visible from the lg breakpoint.",
+        body: "groups defines navigation groups, activeTo highlights the current page, and side sets the separator edge. collapsible allows groups to fold. This demo’s outer layout sets the width and shows the sidebar from the lg breakpoint.",
       },
       {
         heading: "HamburgerMenu",
-        body: "HamburgerIcon + ExpandPanel composite: with anchor=topbar the panel extends downward from the topbar's bottom edge (same width, shared border), with built-in search filtering.",
+        body: "Combines HamburgerIcon and ExpandPanel. With anchor=topbar, the panel opens below the topbar; typing a query displays matching results.",
       },
       {
         heading: "Footer",
@@ -368,7 +368,7 @@ const DEMO_COPY = {
     ] as ApiRowCopy[],
     sectionWindow: "Menu bar and toolbar",
     windowLead:
-      "MenuBar owns application-level commands (File / Edit / View, with right-aligned shortcuts, separators, checkable and disabled items); Toolbar owns the window-level action groups (three-slot layout, whole-group collapse into an overflow menu, segmented toggle). Composed together they form the browser-window application shell: menu bar on top, toolbar directly beneath.",
+      "MenuBar provides application commands such as File, Edit, and View. Toolbar provides tools such as navigation and view switching, moving groups into an overflow menu when space is limited. This demo places the menu bar above the toolbar.",
     windowAddress: "unitary-ui.app/editor",
     menuBarAriaLabel: "Application menu",
     windowMenus: [

@@ -2,7 +2,7 @@
 
 > Route: `/components/toolbar`
 
-A window-level bar of grouped tool items that collapses into an overflow menu.
+Arrange tools in groups and move collapsible groups into an overflow menu when space is limited.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A window-level bar of grouped tool items that collapses into an overflow menu.
 
 toolbar
 
-A window-level bar of grouped tool items that collapses into an overflow menu.
+Arrange tools in groups and move collapsible groups into an overflow menu when space is limited.
 
 ## When to use
 
@@ -42,7 +42,7 @@ Three groups of tool items; narrow the container and the groups collapse into th
 ## Responsive behavior
 
 - Collapsible groups fold away as a unit and their ToolbarItems move into the overflow menu; groups holding non-ToolbarItem content such as a search field stay in place because that content has no overflow entry point.
-- Expanding uses a 24px hysteresis band so the bar does not flap at the threshold width.
+- Reopening requires 24px of extra space to prevent repeated collapsing near the width threshold.
 
 ## Theme behavior
 
@@ -99,7 +99,7 @@ export function ToolbarDefault4A8E7C22Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

@@ -2,7 +2,7 @@
 
 > Route: `/components/text-with-copy-button`
 
-在文本旁显示可将其复制到剪贴板的按钮。
+显示文本，并在旁边提供复制按钮。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 text-with-copy-button
 
-在文本旁显示可将其复制到剪贴板的按钮。
+显示文本，并在旁边提供复制按钮。
 
 ## 何时使用
 
@@ -88,7 +88,7 @@ export function TextWithCopyButtonWithSmallAndTertiary230FE3B9Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 

@@ -2,7 +2,7 @@
 
 > Route: `/components/device`
 
-将手机或平板截图置于逼真的设备外框中。
+用指定型号的手机或平板外框展示截图和录屏。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 device
 
-将手机或平板截图置于逼真的设备外框中。
+用指定型号的手机或平板外框展示截图和录屏。
 
 ## 何时使用
 
@@ -26,7 +26,7 @@ device
 
 ### 组合结构
 
-使用必填 model 选择 iPhone 17，并用 DeviceScreen 包裹承担可访问名称的截图内容。
+使用必填 model 选择 iPhone 17，并用 DeviceScreen 包裹承担无障碍名称的截图内容。
 
 ### 设备型号
 
@@ -38,7 +38,7 @@ device
 
 ## 无障碍
 
-- 设备外框、状态栏和 Safari chrome 是装饰层；真正的可访问名称由 DeviceScreen 内部的截图或录屏承担。
+- 设备外框、状态栏和 Safari chrome 是装饰层；真正的无障碍名称由 DeviceScreen 内部的截图或录屏承担。
 - 为内部截图设置有意义的 alt 文本，说明画面内容和用途。
 
 ## 受控行为
@@ -232,7 +232,7 @@ export function DeviceAppearance1C9D4B2EExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -249,5 +249,5 @@ import { Device, DeviceScreen } from "@/components/ui/device";
 - 在落地页和文档中，用 Device 包裹手机或平板截图、录屏与 demo 图。
 - 显式选择已注册的 model，并传入与截图设备一致的型号 id。
 - 不要在外框内渲染实时产品 UI；设备外框表达的是捕获画面，而非可交互界面。
-- 把设备 chrome 视为装饰层；可访问名称由内部截图或录屏承担。
+- 把设备 chrome 视为装饰层；无障碍名称由内部截图或录屏承担。
 - 仅对具备相应 chrome 能力的 model 使用 statusBar、safari 和 dynamicIsland。

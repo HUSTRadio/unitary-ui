@@ -2,7 +2,7 @@
 
 > Route: `/components/show-more`
 
-Shows expanded or collapsed content with a progressive-disclosure trigger.
+Request expanded or collapsed content with a button; the page manages the content itself.
 
 [Back to Components](#/components)
 
@@ -10,19 +10,19 @@ Shows expanded or collapsed content with a progressive-disclosure trigger.
 
 show-more
 
-Shows expanded or collapsed content with a progressive-disclosure trigger.
+Request expanded or collapsed content with a button; the page manages the content itself.
 
 ## When to use
 
-- Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.
+- Use ShowMore for showing content on demand of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.
 - Show enough rows to convey the shape of the list before truncating (5–10 typical); this helps users understand the full scope of hidden content.
 - The component label is fixed to "Show More" / "Show Less". If hidden-item count matters, render that count in adjacent caller-owned content.
 
 ## When not to use
 
 - For sibling pages of the same data set, use Pagination rather than ShowMore; for optional sections, use Collapse instead.
-- Do not use ShowMore when truncating only 2 rows—it feels performative. Always show at least 5 rows before truncating.
-- Do not cycle Show More then Show Less mid-flow on the same data set; collapsing rows after expansion scrolls them away from where the user was reading.
+- Show short lists in full; for longer lists, show 5–10 rows before offering an expand button.
+- Do not collapse content automatically after expansion; preserve the user’s reading position.
 
 ## Examples
 
@@ -93,7 +93,7 @@ export function ShowMoreNoBorder5DEDD0A8Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -101,7 +101,7 @@ Import
 import { ShowMore } from "@/components/ui/show-more";
 ```
 
-Native props: `ButtonHTMLAttributes<HTMLButtonElement>`
+Also accepts props defined by: `ButtonHTMLAttributes<HTMLButtonElement>`
 
 ### Props & callbacks
 
@@ -109,7 +109,7 @@ Native props: `ButtonHTMLAttributes<HTMLButtonElement>`
 
 ## Best Practices
 
-- Use ShowMore for progressive disclosure of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.
+- Use ShowMore for showing content on demand of a single long list or block (recent activity, repo branches, attached resources). For sibling pages of the same data set, use Pagination; for optional sections, use Collapse.
 - Show enough rows to convey the shape of the list before truncating (5–10 typical). Truncating at 2 makes the affordance feel performative.
 - ShowMore uses fixed "Show More" / "Show Less" labels. Put any hidden-item count in adjacent caller-owned content.
 - Don’t cycle Show More then Show Less mid-flow on the same data set; collapsing rows after the user expanded them scrolls them away from where they were reading.

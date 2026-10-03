@@ -2,7 +2,7 @@
 
 > Route: `/components/snippet`
 
-显示用户需要复制的可运行 Shell 命令或短代码。
+展示可复制的 Shell 命令或短代码。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 snippet
 
-显示用户需要复制的可运行 Shell 命令或短代码。
+展示可复制的 Shell 命令或短代码。
 
 ## 何时使用
 
@@ -198,7 +198,7 @@ export function SnippetControlledCopiedStateB953E7D9Example(): JSX.Element {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 

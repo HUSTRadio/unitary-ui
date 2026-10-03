@@ -2,7 +2,7 @@
 
 > Route: `/components/label`
 
-用于表单控件的无障碍文本标签。
+为表单控件提供可见名称，并关联对应输入框。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 label
 
-用于表单控件的无障碍文本标签。
+为表单控件提供可见名称，并关联对应输入框。
 
 ## 何时使用
 
@@ -27,7 +27,7 @@ label
 
 ### 默认标签
 
-最基础的 Label 用法：传入一个文本字符串作为可见标签，自动渲染为语义化的 <label> 元素并与关联的表单控件绑定。
+基本 Label 用法：传入一个文本字符串作为可见标签，自动渲染为语义化的 <label> 元素并与关联的表单控件绑定。
 
 ### 带输入框的标签
 
@@ -44,7 +44,7 @@ Label 与 Input 配合的正确用法：通过 htmlFor/id 配对实现点击标�
 
 ## 受控行为
 
-不适用: Label 是一个纯展示型组件，只负责渲染给定的标签文本并建立与目标表单控件的关联。它没有内部状态或用户交互能力，所有行为由传入的 props 决定。
+不适用: Label 显示标签文本，并通过 htmlFor 关联表单控件；没有内部状态。
 
 ## 响应式行为
 
@@ -52,7 +52,7 @@ Label 与 Input 配合的正确用法：通过 htmlFor/id 配对实现点击标�
 
 ## 主题行为
 
-- 标签文字的颜色从主题令牌获取，确保浅色模式和深色模式下都有良好的可读性和对比度。
+- 标签文字的颜色从主题变量获取，适配明暗主题。
 - 字体大小和字重遵循设计系统的排版规范，与相邻输入框保持一致的视觉层级。
 
 ## 实时示例
@@ -109,7 +109,7 @@ export function LabelBypassCasingB8D7E5E0Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -117,7 +117,7 @@ export function LabelBypassCasingB8D7E5E0Example() {
 import { Label } from "@/components/ui/label";
 ```
 
-原生属性：`LabelHTMLAttributes<HTMLLabelElement>`
+还支持以下类型中定义的属性：`LabelHTMLAttributes<HTMLLabelElement>`
 
 ### 属性与回调
 

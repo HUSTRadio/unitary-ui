@@ -12,7 +12,7 @@ activity-view
 
 ### Activity View
 
-A bottom share sheet with a grid of share targets and a list of actions.
+A bottom sharing panel with destinations, actions, and a cancel button.
 
 ](#/components/activity-view)[
 
@@ -20,7 +20,7 @@ area-chart
 
 ### Area Chart
 
-Renders layered area series for trends over time, with stacked and percent variants.
+Show trends over time with filled areas, stacking, percentage mode, and custom tooltips.
 
 ](#/components/area-chart)[
 
@@ -28,7 +28,7 @@ avatar
 
 ### Avatar
 
-Represents a user or a team with an image or fallback.
+Represent a user or team with an image, initials, or a placeholder.
 
 ](#/components/avatar)[
 
@@ -36,7 +36,7 @@ badge
 
 ### Badge
 
-Small labels for statuses, counts, and metadata.
+Show a status, count, or metadata in a short label.
 
 ](#/components/badge)[
 
@@ -44,7 +44,7 @@ banner
 
 ### Banner
 
-A prominent message that spans the full width of its container to announce important information.
+Show a full-width announcement or important notice at the top of a container.
 
 ](#/components/banner)[
 
@@ -52,7 +52,7 @@ bar-chart
 
 ### Bar Chart
 
-Renders categorical bar series with stacked, percent, and vertical layouts.
+Compare values across categories with bars, stacking, percentage mode, and horizontal bars.
 
 ](#/components/bar-chart)[
 
@@ -60,7 +60,7 @@ bar-list
 
 ### Bar List
 
-Renders a ranked list where each row carries a proportional bar and value.
+Rank items with names, bars, and values, plus optional links and icons.
 
 ](#/components/bar-list)[
 
@@ -68,7 +68,7 @@ book
 
 ### Book
 
-A responsive book component.
+Present an article, manual, or marketing content as a book cover.
 
 ](#/components/book)[
 
@@ -84,7 +84,7 @@ breadcrumbs
 
 ### Breadcrumbs
 
-Navigation aid that shows the user's location within a site's hierarchy.
+Show the current page’s hierarchy and provide links to parent pages.
 
 ](#/components/breadcrumbs)[
 
@@ -92,7 +92,7 @@ browser
 
 ### Browser
 
-Frames screenshots and demos inside a realistic browser window.
+Present a screenshot, recording, or demo in a browser frame.
 
 ](#/components/browser)[
 
@@ -100,7 +100,7 @@ button
 
 ### Button
 
-Triggers an action with configurable variants, sizes, and icons.
+Trigger actions such as saving or deploying, with icons, loading states, and multiple sizes.
 
 ](#/components/button)[
 
@@ -108,7 +108,7 @@ calendar
 
 ### Calendar
 
-Displays a month calendar from which users can pick a date.
+Choose a date or date range from a monthly calendar.
 
 ](#/components/calendar)[
 
@@ -124,7 +124,7 @@ category-bar
 
 ### Category Bar
 
-Renders a segmented horizontal bar showing shares of a total.
+Show proportions in a segmented bar, with optional threshold markers and tooltips.
 
 ](#/components/category-bar)[
 
@@ -132,7 +132,7 @@ checkbox
 
 ### Checkbox
 
-Allows users to select one or more items from a group.
+Select multiple options, confirm a statement, or select table rows.
 
 ](#/components/checkbox)[
 
@@ -140,7 +140,7 @@ choicebox
 
 ### Choicebox
 
-A larger form of Radio for choices with more detail.
+Choose one or more options from cards with descriptions or icons.
 
 ](#/components/choicebox)[
 
@@ -148,7 +148,7 @@ clearable-input
 
 ### Clearable Input
 
-A text input with an inline Esc keycap that clears on pointer activation or Escape.
+A text input with an Esc button; click it or press Escape to clear the value.
 
 ](#/components/clearable-input)[
 
@@ -156,7 +156,7 @@ code
 
 ### Code
 
-Display a snippet of code with syntax highlighting.
+Code displays a horizontally scrollable code block; InlineCode displays short code within text.
 
 ](#/components/code)[
 
@@ -164,7 +164,7 @@ code-block
 
 ### Code Block
 
-A bordered code block with a filename header for multi-line source.
+Display highlighted code with filenames, line numbers, and change markers.
 
 ](#/components/code-block)[
 
@@ -172,7 +172,7 @@ collapse
 
 ### Collapse
 
-A vertically stacked set of headings that each reveal a related section of content.
+Expand or collapse supporting content, such as FAQs and advanced settings, under a heading.
 
 ](#/components/collapse)[
 
@@ -180,7 +180,7 @@ combo-chart
 
 ### Combo Chart
 
-Combines bar and line series in one chart, optionally on two axes.
+Combine bars and lines in one chart, with optional dual axes for different units.
 
 ](#/components/combo-chart)[
 
@@ -188,7 +188,7 @@ combobox
 
 ### Combobox
 
-A searchable single-select list.
+Search by typing and select one option.
 
 ](#/components/combobox)[
 
@@ -196,7 +196,7 @@ command-menu
 
 ### Command Menu
 
-Filters and launches keyboard-first actions in a modal command palette.
+Search resources, navigate to pages, or run commands from a panel with keyboard support.
 
 ](#/components/command-menu)[
 
@@ -204,7 +204,7 @@ context-card
 
 ### Context Card
 
-A floating card that appears on hover or focus, showing richer detail than a tooltip.
+Show details about a user, deployment, or other item on hover or focus.
 
 ](#/components/context-card)[
 
@@ -212,7 +212,7 @@ context-menu
 
 ### Context Menu
 
-A menu for contextual actions, revealed on right click or long press.
+Right-click or long-press an item to open its action menu.
 
 ](#/components/context-menu)[
 
@@ -220,7 +220,7 @@ continuous-surface
 
 ### Continuous Surface
 
-Clips a measured surface with independently derived continuous corners and a circular fallback.
+Clip an element with continuous corners based on its size, falling back to ordinary rounded corners.
 
 ](#/components/continuous-surface)[
 
@@ -228,7 +228,7 @@ copy-button
 
 ### Copy Button
 
-Copies a given string to the clipboard and provides feedback when copied.
+Copy text and show the result with an icon.
 
 ](#/components/copy-button)[
 
@@ -236,7 +236,7 @@ description
 
 ### Description
 
-Displays key/value metadata pairs as a definition list.
+Display metadata, such as region or plan, as key–value pairs.
 
 ](#/components/description)[
 
@@ -244,7 +244,7 @@ destructive-action-modal
 
 ### Destructive Action Modal
 
-Confirms destructive actions with a red AlertTriangle header and a destructive confirm button.
+Confirm high-risk actions such as deletion; require a matching phrase before submission.
 
 ](#/components/destructive-action-modal)[
 
@@ -252,7 +252,7 @@ device
 
 ### Device
 
-Frames screenshots inside realistic phone and tablet shells.
+Present screenshots or recordings in a phone or tablet frame of a specified model.
 
 ](#/components/device)[
 
@@ -260,7 +260,7 @@ donut-chart
 
 ### Donut Chart
 
-Renders a part-to-whole donut (or pie) with an optional center metric.
+Show proportions as a donut or pie; the donut center can display a main metric.
 
 ](#/components/donut-chart)[
 
@@ -268,7 +268,7 @@ dots-menu
 
 ### Dots Menu
 
-An overflow menu triggered by a three-dot icon that reveals additional actions in a dropdown.
+Open additional actions for a row or card from a three-dot button.
 
 ](#/components/dots-menu)[
 
@@ -276,7 +276,7 @@ drawer
 
 ### Drawer
 
-Displays content in a separate bottom view from the existing context.
+Open a bottom panel for a short form or supporting action without leaving the page.
 
 ](#/components/drawer)[
 
@@ -284,7 +284,7 @@ edit-menu
 
 ### Edit Menu
 
-A selection-driven horizontal edit toolbar that appears beside selected text across touch, pointer, and keyboard input.
+Show editing actions such as cut and copy next to selected text.
 
 ](#/components/edit-menu)[
 
@@ -292,7 +292,7 @@ empty-state
 
 ### Empty State
 
-Fills spaces when no content has been added yet or a view is empty.
+Explain why no data is available and offer a next step, such as creating content or retrying.
 
 ](#/components/empty-state)[
 
@@ -300,7 +300,7 @@ entity
 
 ### Entity
 
-A structured row for an entity and its primary action.
+Display a resource and its primary action in one row.
 
 ](#/components/entity)[
 
@@ -308,7 +308,7 @@ error
 
 ### Error
 
-Provides a friendly, actionable message when an operation fails.
+Show an error, such as a loading failure, and explain the next step.
 
 ](#/components/error)[
 
@@ -324,7 +324,7 @@ error-card
 
 ### Error Card
 
-A contained error state with recovery guidance.
+Display an error and recovery actions inside a card.
 
 ](#/components/error-card)[
 
@@ -332,7 +332,7 @@ feedback
 
 ### Feedback
 
-Gathers an emoji rating and open text feedback.
+Collect an emoji rating and written feedback.
 
 ](#/components/feedback)[
 
@@ -340,7 +340,7 @@ fieldset
 
 ### Fieldset
 
-Groups related form controls into a single semantic unit.
+Group related form controls with a title, description, and footer actions.
 
 ](#/components/fieldset)[
 
@@ -348,7 +348,7 @@ file-tree
 
 ### File Tree
 
-Displays a hierarchical directory structure with expandable folders and files.
+Display files and folders with expandable directory entries.
 
 ](#/components/file-tree)[
 
@@ -372,7 +372,7 @@ gauge
 
 ### Gauge
 
-A circular visual for conveying a percentage.
+Show a percentage, such as quota usage or utilization, as an arc.
 
 ](#/components/gauge)[
 
@@ -380,7 +380,7 @@ grid
 
 ### Grid
 
-Displays elements in a grid layout.
+Create a two-dimensional layout with cells and visible guide lines.
 
 ](#/components/grid)[
 
@@ -396,7 +396,7 @@ input
 
 ### Input
 
-A single-line text field for user input.
+Enter single-line text, such as a name or email address.
 
 ](#/components/input)[
 
@@ -404,7 +404,7 @@ json-view
 
 ### JsonView
 
-Renders JSON as a syntax-highlighted tree.
+Inspect JSON objects and arrays in an expandable, highlighted tree.
 
 ](#/components/json-view)[
 
@@ -412,7 +412,7 @@ keyboard-input
 
 ### Keyboard Input
 
-Displays keyboard input that triggers an action.
+Display a key or shortcut combination as keycaps.
 
 ](#/components/keyboard-input)[
 
@@ -420,7 +420,7 @@ label
 
 ### Label
 
-Accessible text label for form controls.
+Give a form control a visible name and associate it with the input.
 
 ](#/components/label)[
 
@@ -436,7 +436,7 @@ line-chart
 
 ### Line Chart
 
-Renders connected line series for continuous trends with optional axis titles.
+Compare continuous trends with lines, axis labels, and custom tooltips.
 
 ](#/components/line-chart)[
 
@@ -452,7 +452,7 @@ load-more-button
 
 ### Load More Button
 
-A full-width button that appends more items to a paginated list.
+Append the next batch of data to a list with a full-width button.
 
 ](#/components/load-more-button)[
 
@@ -460,7 +460,7 @@ loading-dots
 
 ### Loading Dots
 
-Indicates an action running in the background with three bouncing dots.
+Use three animated dots to indicate an action such as saving or loading.
 
 ](#/components/loading-dots)[
 
@@ -468,7 +468,7 @@ menu
 
 ### Menu
 
-Displays a list of actions in a floating menu.
+Open a list of related actions from a trigger button.
 
 ](#/components/menu)[
 
@@ -476,7 +476,7 @@ menu-bar
 
 ### Menu Bar
 
-A horizontal bar of application menus with keyboard shortcuts, submenus, and checkable items.
+An application menu bar with submenus, checkbox items, and shortcut hints.
 
 ](#/components/menu-bar)[
 
@@ -484,7 +484,7 @@ middle-truncate
 
 ### Middle Truncate
 
-Preserves the beginning and end of long identifiers.
+Shorten long text with an ellipsis while keeping both ends of a path, URL, or identifier.
 
 ](#/components/middle-truncate)[
 
@@ -492,7 +492,7 @@ modal
 
 ### Modal
 
-Displays a dialog that interrupts the user.
+Open a dialog for a decision or form that must be completed before continuing.
 
 ](#/components/modal)[
 
@@ -500,7 +500,7 @@ multi-select
 
 ### Multi Select
 
-A composed menu for selecting multiple externally managed options.
+Select multiple options in a popup list, with selection managed by the page.
 
 ](#/components/multi-select)[
 
@@ -516,7 +516,7 @@ note
 
 ### Note
 
-Displays text that requires attention or provides additional information.
+Show a persistent notice, warning, or explanation beside the relevant content.
 
 ](#/components/note)[
 
@@ -524,7 +524,7 @@ pagination
 
 ### Pagination
 
-Navigates through numbered pages of a data set.
+Pagination links to the previous and next articles; NumberedPagination navigates by page number.
 
 ](#/components/pagination)[
 
@@ -532,7 +532,7 @@ pill
 
 ### Pill
 
-Clickable filter chip for toggling a query or selection.
+Switch a filter or selection by clicking a pill.
 
 ](#/components/pill)[
 
@@ -540,7 +540,7 @@ progress
 
 ### Progress
 
-Shows progress relative to a limit or a task.
+Show task completion or used capacity as a share of the total.
 
 ](#/components/progress)[
 
@@ -548,7 +548,7 @@ progress-circle
 
 ### Progress Circle
 
-Renders a circular progress indicator with an optional center metric.
+Show completion or capacity as a ring, with a value and description in the center.
 
 ](#/components/progress-circle)[
 
@@ -556,7 +556,7 @@ project-banner
 
 ### Project Banner
 
-Used for temporary, project-wide notifications that require resolution.
+Show a notice that needs attention on a project page, with an action to resolve it.
 
 ](#/components/project-banner)[
 
@@ -564,7 +564,7 @@ radio
 
 ### Radio
 
-Provides single user input from a selection of options.
+Choose one option from a mutually exclusive group.
 
 ](#/components/radio)[
 
@@ -572,7 +572,7 @@ relative-time-card
 
 ### Relative Time Card
 
-Shows a relative timestamp with temporal context.
+Show relative time, such as “5 minutes ago,” with the exact timestamp on hover or focus.
 
 ](#/components/relative-time-card)[
 
@@ -580,7 +580,7 @@ responsive-drawer
 
 ### Responsive Drawer
 
-One drawer that docks to the bottom on phones and to the side on desktop, with optional detents.
+Use one drawer that opens from the bottom on phones and from the right on desktops, with bottom height detents.
 
 ](#/components/responsive-drawer)[
 
@@ -588,7 +588,7 @@ safe-area
 
 ### Safe Area
 
-A spacing container that keeps content clear of device safe areas.
+Add padding around notches, rounded corners, and system bars while keeping a minimum inset.
 
 ](#/components/safe-area)[
 
@@ -596,7 +596,7 @@ scroller
 
 ### Scroller
 
-Displays an overflowing list of items.
+Scroll through overflowing content within a bounded area.
 
 ](#/components/scroller)[
 
@@ -604,7 +604,7 @@ search-input
 
 ### Search Input
 
-A search field with a standard leading icon.
+A text input with a search icon for entering a query.
 
 ](#/components/search-input)[
 
@@ -612,7 +612,7 @@ select
 
 ### Select
 
-Presents a list of options in a dropdown.
+Choose one option from a dropdown list.
 
 ](#/components/select)[
 
@@ -620,7 +620,7 @@ separator
 
 ### Separator
 
-Divides content into visually distinct groups.
+Separate groups of content with a horizontal or vertical line.
 
 ](#/components/separator)[
 
@@ -628,7 +628,7 @@ sheet
 
 ### Sheet
 
-Displays content in a side panel that slides in from the edge of the screen.
+Open a panel from the screen edge to show details related to the current page.
 
 ](#/components/sheet)[
 
@@ -636,7 +636,7 @@ show-more
 
 ### Show More
 
-Shows expanded or collapsed content with a progressive-disclosure trigger.
+Request expanded or collapsed content with a button; the page manages the content itself.
 
 ](#/components/show-more)[
 
@@ -660,7 +660,7 @@ skeleton
 
 ### Skeleton
 
-Displays a placeholder while content is loading.
+Show placeholders matching the content size while loading; SkeletonMask can mask existing content.
 
 ](#/components/skeleton)[
 
@@ -668,7 +668,7 @@ slider
 
 ### Slider
 
-An input to select a value from a given range.
+Drag a slider to choose a value within a numeric range.
 
 ](#/components/slider)[
 
@@ -676,7 +676,7 @@ snippet
 
 ### Snippet
 
-Displays a runnable shell command or short code the user is meant to copy.
+Display a copyable shell command or short code snippet.
 
 ](#/components/snippet)[
 
@@ -684,7 +684,7 @@ spark-chart
 
 ### Spark Chart
 
-Renders tiny inline sparklines (area, line, or bar) for at-a-glance trends.
+Show trends inside cards or tables with a small area, line, or bar chart.
 
 ](#/components/spark-chart)[
 
@@ -692,7 +692,7 @@ spinner
 
 ### Spinner
 
-Indicates an in-progress operation.
+Use a spinning icon to indicate an ongoing action.
 
 ](#/components/spinner)[
 
@@ -700,7 +700,7 @@ split-button
 
 ### Split Button
 
-Combines a primary action with a short menu of related actions.
+Combine a primary action and a menu of related options in one button group.
 
 ](#/components/split-button)[
 
@@ -708,7 +708,7 @@ stack
 
 ### Stack
 
-A flex preset that stacks children in one direction with a shared spacing step.
+Arrange children horizontally or vertically with consistent spacing and alignment.
 
 ](#/components/stack)[
 
@@ -716,7 +716,7 @@ status-dot
 
 ### Status Dot
 
-Displays an indicator of deployment status.
+Show deployment status with a dot and an optional label.
 
 ](#/components/status-dot)[
 
@@ -724,7 +724,7 @@ step-point
 
 ### Step Point
 
-Marks progress through a multi-step flow.
+Mark the status of each step in a multi-step process.
 
 ](#/components/step-point)[
 
@@ -732,7 +732,7 @@ sub-frame
 
 ### Sub Frame
 
-Scopes overlays to one region of a page so sheets and panels stay inside it.
+Keep overlays within a region of the page for side-by-side previews or local demos.
 
 ](#/components/sub-frame)[
 
@@ -740,7 +740,7 @@ switch
 
 ### Switch
 
-A slider group for mutually exclusive view options.
+Switch between a few mutually exclusive views with segmented controls.
 
 ](#/components/switch)[
 
@@ -748,7 +748,7 @@ table
 
 ### Table
 
-Displays structured data in rows and columns.
+Display structured data in rows and columns for comparison.
 
 ](#/components/table)[
 
@@ -756,7 +756,7 @@ tabs
 
 ### Tabs
 
-Organizes content into switchable panels.
+Switch between related views, such as overview and logs, within a page.
 
 ](#/components/tabs)[
 
@@ -764,7 +764,7 @@ text-with-copy-button
 
 ### Text With Copy Button
 
-Displays text alongside a button that copies it to the clipboard.
+Display text with a copy button beside it.
 
 ](#/components/text-with-copy-button)[
 
@@ -772,7 +772,7 @@ textarea
 
 ### Textarea
 
-A multi-line text field for longer input.
+Enter multi-line text, such as a description or notes.
 
 ](#/components/textarea)[
 
@@ -780,7 +780,7 @@ theme-switcher
 
 ### Theme Switcher
 
-Switches between light, dark, and system themes.
+Choose light, dark, or system theme preference.
 
 ](#/components/theme-switcher)[
 
@@ -788,7 +788,7 @@ toast
 
 ### Toast
 
-A succinct message that is displayed temporarily.
+Briefly display an action result or notification.
 
 ](#/components/toast)[
 
@@ -796,7 +796,7 @@ toggle
 
 ### Toggle
 
-A switch for a single boolean setting.
+Turn a boolean setting, such as password protection, on or off.
 
 ](#/components/toggle)[
 
@@ -804,7 +804,7 @@ toolbar
 
 ### Toolbar
 
-A window-level bar of grouped tool items that collapses into an overflow menu.
+Arrange tools in groups and move collapsible groups into an overflow menu when space is limited.
 
 ](#/components/toolbar)[
 
@@ -812,7 +812,7 @@ tooltip
 
 ### Tooltip
 
-A floating label that appears on hover or focus.
+Show a short explanation on hover or focus.
 
 ](#/components/tooltip)[
 
@@ -820,7 +820,7 @@ tracker
 
 ### Tracker
 
-Renders a sequence of status blocks for event timelines or uptime history.
+Show event history, such as uptime or build results, as a sequence of status blocks.
 
 ](#/components/tracker)[
 
@@ -828,6 +828,6 @@ video
 
 ### Video
 
-Embeds a video with built-in playback controls.
+Embed video with playback controls and lazy loading.
 
 ](#/components/video)

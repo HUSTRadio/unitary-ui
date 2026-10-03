@@ -28,7 +28,7 @@ A page header with static, pinned, or auto-hiding scroll behavior.
 
 ## 无障碍
 
-- 组件渲染 header；调用方须给交互按钮提供可访问名称。
+- 组件渲染 header；调用方须给交互按钮提供无障碍名称。
 
 ## 受控行为
 
@@ -68,7 +68,7 @@ export default function NavbarExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 

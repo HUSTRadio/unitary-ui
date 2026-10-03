@@ -2,7 +2,7 @@
 
 > Route: `/components/video`
 
-嵌入带内置播放控件的视频。
+嵌入视频，提供播放控件和延迟加载。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 video
 
-嵌入带内置播放控件的视频。
+嵌入视频，提供播放控件和延迟加载。
 
 ## 何时使用
 
@@ -40,7 +40,7 @@ video
 ## 受控行为
 
 - Video 没有声明式 playing 或 currentTime props；内部控制层自行同步播放状态。
-- 组件向外转发 HTMLVideoElement ref，调用方可通过 play()、pause() 和 currentTime 执行命令式媒体控制。
+- 通过 HTMLVideoElement ref 调用 play()、pause() 或设置 currentTime，可控制播放。
 
 ## 响应式行为
 
@@ -94,7 +94,7 @@ export function VideoNoControlsA3B62E68Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -102,7 +102,7 @@ export function VideoNoControlsA3B62E68Example() {
 import { Video } from "@/components/ui/video";
 ```
 
-原生属性：`VideoHTMLAttributes<HTMLVideoElement>`
+还支持以下类型中定义的属性：`VideoHTMLAttributes<HTMLVideoElement>`
 
 ### 属性与回调
 

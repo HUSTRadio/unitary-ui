@@ -2,7 +2,7 @@
 
 > Route: `/components/responsive-drawer`
 
-一个抽屉承载手机贴底与桌面贴右两种形态，可选底部拖拽档位。
+同一个抽屉在手机上从底部打开、在桌面上从右侧打开，支持底部高度档位。
 
 [返回组件](#/components)
 
@@ -10,17 +10,17 @@
 
 responsive-drawer
 
-一个抽屉承载手机贴底与桌面贴右两种形态，可选底部拖拽档位。
+同一个抽屉在手机上从底部打开、在桌面上从右侧打开，支持底部高度档位。
 
 ## 何时使用
 
-- 同一条信息架构要在手机与桌面同时成立时——例如「部署操作」在手机上是从底部弹出的动作面板，在桌面上是右侧的详情抽屉。
-- 需要浮动面板语义（遮罩、焦点陷阱、Esc 与外点关闭）但又不想在应用层写断点分支时，开启 responsive 由组件决定形态。
+- 同一内容需要适配手机与桌面时，例如手机底部操作面板和桌面右侧详情面板。
+- 开启 responsive 后，组件按屏幕宽度选择面板方向，并提供遮罩、焦点管理和关闭操作。
 - 需要底部多档位拖拽（先看半屏摘要、再拉到全高看详情）时，用 detents 表达档位，档位吸附沿用 BottomSheet 的交互语义。
 
 ## 何时不应使用
 
-- 需要官方镜像行为时不要替换：官方 Drawer 的固定/自适应高度与仅受控 show/onDismiss 契约由文档固定，本组件不改变它。
+- 需要 Drawer 的高度和 show/onDismiss API 时使用 Drawer；ResponsiveDrawer 使用另一套 API。
 - 侧栏形态不需要拖拽档位；给 right / left 传 detents 不会生效，属于误用。
 - 整页内容都放不下、且不需要遮罩与焦点陷阱时，用普通页面布局或 Scroller，不要把全站导航塞进抽屉。
 
@@ -42,7 +42,7 @@ placement="bottom" + detents=\[0.4, 0.8, 1\]：指示条跟手拖动、松手吸
 
 - 基于 Radix Dialog：打开时焦点移入面板、Tab 循环限制在面板内、Esc 与外点关闭、关闭后焦点返还到打开按钮。
 - ResponsiveDrawerTitle / ResponsiveDrawerDescription 通过 Radix 的 aria-labelledby / aria-describedby 关联到面板，保证读屏能播报名称与说明。
-- Header 内置的关闭按钮带可访问名称（无可见文本时用本地化的 Close），图标 aria-hidden，不单独承载语义。
+- Header 内置的关闭按钮带无障碍名称（无可见文本时用本地化的 Close），图标 aria-hidden，不单独承载语义。
 - 底部形态的拖拽指示条是垂直 role="slider"，带 aria-valuemin/valuemax/valuenow/orientation；ArrowUp / ArrowRight 增一档、ArrowDown / ArrowLeft 减一档，Home / End 跳首尾且边界不循环。Enter / Space 与点击保持循环切档。
 
 ## 受控行为
@@ -52,7 +52,7 @@ placement="bottom" + detents=\[0.4, 0.8, 1\]：指示条跟手拖动、松手吸
 
 ## 响应式行为
 
-- responsive 开启时以 640px 为断点：以下使用底部几何（顶缘圆角、safe-area 内边距、可选档位），以上使用右侧面板几何（四周 8px 留白、圆角、细边框、柔阴影）。
+- responsive 开启时，640px 以下使用底部面板，带顶部圆角、安全区边距和可选高度档位；640px 起使用右侧面板，四周留白 8px。
 - placement 固定方位时，左右面板在窄屏退化为 3/4 宽的全高面板，避免小屏上面板过窄。
 - Footer 在移动端纵向倒序（主操作在上），≥640px 变为右对齐横排；Body 始终独立滚动，Header/Footer 保持吸顶吸底。
 
@@ -236,7 +236,7 @@ export function ResponsiveDrawerDetents7A3F5E92Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -260,7 +260,7 @@ import {
 
 ## 最佳实践
 
-- 同一条信息架构要跨手机与桌面时使用响应式抽屉；官方镜像的 Drawer / Sheet / BottomSheet 保留各自固定契约，不要互相替换。
+- 同一内容需要在手机和桌面上切换面板形态时，使用 ResponsiveDrawer。Drawer、Sheet 和 BottomSheet 的 API 不同，使用时需分别核对。
 - 开启 responsive 而不是在应用层写断点分支：640px 以下用底部形态，以上贴右并留 8px 边距。
 - detents 与自动指示条只对底部形态生效；侧栏面板按设计不提供拖拽。
 - 用内置 Header 承载标题/说明与关闭按钮，把滚动交给 Body，保证 Footer 始终可达。

@@ -2,7 +2,7 @@
 
 > Route: `/components/checkbox`
 
-Allows users to select one or more items from a group.
+Select multiple options, confirm a statement, or select table rows.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Allows users to select one or more items from a group.
 
 checkbox
 
-Allows users to select one or more items from a group.
+Select multiple options, confirm a statement, or select table rows.
 
 ## When to use
 
@@ -129,7 +129,7 @@ export function CheckboxIndeterminateD5DB1EBAExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

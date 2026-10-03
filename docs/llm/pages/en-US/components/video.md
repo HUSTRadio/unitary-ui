@@ -2,7 +2,7 @@
 
 > Route: `/components/video`
 
-Embeds a video with built-in playback controls.
+Embed video with playback controls and lazy loading.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Embeds a video with built-in playback controls.
 
 video
 
-Embeds a video with built-in playback controls.
+Embed video with playback controls and lazy loading.
 
 ## When to use
 
@@ -40,7 +40,7 @@ Hides built-in playback controls for an immersive viewing experience, suitable f
 ## Controlled behavior
 
 - Video has no declarative playing or currentTime props; its custom controls synchronize playback state internally.
-- The component forwards an HTMLVideoElement ref, so callers can invoke play(), pause(), or assign currentTime for imperative media control.
+- Use the HTMLVideoElement ref to call play(), pause(), or set currentTime.
 
 ## Responsive behavior
 
@@ -94,7 +94,7 @@ export function VideoNoControlsA3B62E68Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -102,7 +102,7 @@ Import
 import { Video } from "@/components/ui/video";
 ```
 
-Native props: `VideoHTMLAttributes<HTMLVideoElement>`
+Also accepts props defined by: `VideoHTMLAttributes<HTMLVideoElement>`
 
 ### Props & callbacks
 

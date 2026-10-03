@@ -2,7 +2,7 @@
 
 > Route: `/components/fieldset`
 
-Groups related form controls into a single semantic unit.
+Group related form controls with a title, description, and footer actions.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Groups related form controls into a single semantic unit.
 
 fieldset
 
-Groups related form controls into a single semantic unit.
+Group related form controls with a title, description, and footer actions.
 
 ## When to use
 
@@ -639,7 +639,7 @@ export function FieldsetWarningType82942353Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

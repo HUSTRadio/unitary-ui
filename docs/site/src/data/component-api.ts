@@ -325,7 +325,7 @@ const O = {
         "svgOnly",
         "boolean",
         "Icon-only mode: collapses padding and requires aria-label.",
-        "图标按钮模式：collapse padding，需配合 aria-label。",
+        "纯图标按钮：缩小内边距，需提供 aria-label。",
         { defaultValue: "false" },
       ),
       row("prefix", "ReactNode", "Leading icon slot.", "前缀图标。"),
@@ -490,8 +490,8 @@ const O = {
       row(
         "as",
         "ElementType",
-        "Trigger element. A non-button element renders a plain disclosure (role=button + Enter/Space) with no button chrome.",
-        "触发元素类型。非按钮元素渲染无按钮外观的披露控件（role=button + Enter/Space）。",
+        "Trigger element type. Non-button elements have no button styling and use role=button with Enter/Space support.",
+        "触发元素类型。非按钮元素不使用按钮样式，并通过 role=button 支持 Enter/Space 操作。",
       ),
       row("disabled", "boolean", "Blocks toggling and dims the row.", "阻止展开并整行变淡。", {
         defaultValue: "false",
@@ -1064,7 +1064,7 @@ const O = {
       "DisabledWall",
     ],
     [
-      row("type", "FieldsetType", "Visual tone for the card border and footer.", "卡片边框与页脚的视觉语气。", {
+      row("type", "FieldsetType", "Visual tone for the card border and footer.", "卡片边框与页脚的配色样式。", {
         defaultValue: '"default"',
       }),
       row("title", "ReactNode", "Optional title rendered in FieldsetContent.", "在 FieldsetContent 中渲染的可选标题。"),
@@ -1146,7 +1146,7 @@ const O = {
         defaultValue: "true",
       }),
       row("rounded", "boolean", "Renders a pill-shaped input surface.", "渲染胶囊形输入框表面。"),
-      row("layout", "ControlLayout", "Applies the shared control layout contract.", "应用共享控件布局契约。"),
+      row("layout", "ControlLayout", "Sets width, height, size limits, and flex. Numbers use pixels; strings accept CSS values.", "设置宽高、尺寸上下限和 flex。数字以像素为单位，字符串可使用 CSS 值。"),
     ],
     "InputHTMLAttributes<HTMLInputElement>",
   ),
@@ -1520,7 +1520,7 @@ const O = {
       row("error", "ReactNode", "Validation message rendered below the field.", "字段下方渲染的校验消息。"),
       row("prefix", "ReactNode", "Leading trigger adornment.", "触发器前缀装饰内容。"),
       row("suffix", "ReactNode", "Trailing trigger adornment that replaces the chevron.", "替代下拉箭头的触发器后缀装饰内容。"),
-      row("layout", "ControlLayout", "Applies the shared control layout contract.", "应用共享控件布局契约。"),
+      row("layout", "ControlLayout", "Sets width, height, size limits, and flex. Numbers use pixels; strings accept CSS values.", "设置宽高、尺寸上下限和 flex。数字以像素为单位，字符串可使用 CSS 值。"),
     ],
     "React.ComponentProps<typeof SelectPrimitive.Root>",
   ),
@@ -1623,7 +1623,7 @@ const O = {
         "label",
         "string",
         "SkeletonMask only: accessible name announced while the region is masked.",
-        "仅 SkeletonMask：遮罩期间播报的可访问名称。",
+        "仅 SkeletonMask：遮罩期间播报的无障碍名称。",
         { origin: "extension" },
       ),
       row(
@@ -1781,7 +1781,7 @@ const O = {
         defaultValue: '"auto"',
       }),
       row("colorScheme", "TableColorScheme", "Basic, striped, bordered, or interactive row treatment.", "基础、斑马纹、行间分隔线或可交互行样式。"),
-      row("frame", '"outline" | "none"', "Controls the visible TableRoot outline while preserving its rounded overflow owner.", "控制 TableRoot 的可见外框，同时保留圆角溢出裁切 owner。", {
+      row("frame", '"outline" | "none"', "Controls the TableRoot outline while keeping content clipped to its rounded corners.", "控制 TableRoot 外框；超出圆角范围的内容仍会被裁切。", {
         defaultValue: '"outline"',
       }),
       row("columnDividers", "boolean", "Adds logical inline-start dividers after the first cell in each row.", "为每行第二个及后续单元格添加逻辑 inline-start 列分隔线。", {
@@ -2045,13 +2045,13 @@ const O = {
         "onDetentChange",
         "(index: number) => void",
         "Called with the target detent index after drag, click, or keyboard adjustment. In controlled mode the caller must feed the value back through detent.",
-        "拖拽、点击或键盘调档后以目标档位下标调用；受控模式须由调用方通过 detent 回灌。",
+        "拖拽、点击或键盘调档后以目标档位下标调用；受控模式须由调用方通过 detent 更新。",
       ),
       row(
         "aria-label",
         "string",
         "Accessible name for the panel when no visible heading exists.",
-        "无可见标题时提供面板的可访问名称。",
+        "无可见标题时提供面板的无障碍名称。",
       ),
       row(
         "aria-labelledby",

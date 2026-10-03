@@ -10,11 +10,11 @@ import { DocArticle, type DocPageContent } from "../components/doc-content";
 const zh: DocPageContent = {
   title: "生命周期与钩子",
   lead: [
-    "先说结论：这套组件没有 ",
+    "组件通过属性和回调提供状态控制，不提供 ",
     { code: "componentDidMount" },
     "、",
     { code: "componentWillUnmount" },
-    " 那种生命周期钩子。组件的全部行为都通过 props 和回调暴露——状态由谁保存、什么时候变、变了之后通知谁，都由你传入的 props 决定。这一页讲清楚这三件事怎么用。",
+    " 这类通用生命周期接口。本页说明如何管理状态、接收变化和取消操作。",
   ],
   sections: [
     {
@@ -22,7 +22,7 @@ const zh: DocPageContent = {
       blocks: [
         {
           p: [
-            "凡是带状态的组件（",
+            "支持受控与非受控模式的组件（如 ",
             { code: "Input" },
             "、",
             { code: "Select" },
@@ -30,14 +30,14 @@ const zh: DocPageContent = {
             { code: "Combobox" },
             "、",
             { code: "Switch" },
-            " 等）都支持两种用法，区别只在「状态存在谁那里」：",
+            "）可以由父组件或组件自身保存状态：",
           ],
         },
         {
           ul: [
             [
               { strong: "受控模式：" },
-              "状态保存在你自己的 state 里。把当前值通过 ",
+              "父组件保存状态，通过 ",
               { code: "value" },
               "、",
               { code: "open" },
@@ -45,39 +45,39 @@ const zh: DocPageContent = {
               { code: "checked" },
               " 传给组件，同时传对应的 ",
               { code: "on…Change" },
-              " 回调接收变化。用户每次操作都会触发回调，你必须把新值写回 state——不写回，界面就不会变，这相当于「否决」了这次操作。",
+              " 回调接收新值。将新值写回状态后，界面才会更新。",
             ],
             [
               { strong: "非受控模式：" },
-              "只传 ",
+              "通过 ",
               { code: "defaultValue" },
               "、",
               { code: "defaultOpen" },
               " 或 ",
               { code: "defaultChecked" },
-              " 设置初始值，之后组件自己在内部维护状态，不会再通知你变化。适合「我只关心初始是什么」的场景。",
+              " 设置初始值，之后由组件更新内部状态。是否提供变更回调，见对应组件的 API。",
             ],
           ],
         },
         {
           p: [
-            "怎么选：需要在其他地方读写这个值、或想在变化时执行逻辑（发请求、联动其他控件），就用受控；只是渲染一个自管理的控件，非受控更省事。注意同一个状态只能选一种模式——既传 ",
+            "需要同步其他控件或从外部修改状态时，使用受控模式；只需设置初始值时，使用非受控模式。同一个状态不要同时传 ",
             { code: "value" },
-            " 又传 ",
+            " 和 ",
             { code: "defaultValue" },
-            " 是未定义行为。",
+            "。具体支持哪些属性，以组件 API 为准。",
           ],
         },
       ],
     },
     {
-      heading: "回调契约",
+      heading: "回调与取消操作",
       blocks: [
         {
           ul: [
             [
               { code: "on…Change" },
-              " 表示「用户或组件请求改变状态」，而不是「状态已经变了」。受控模式下，是否接受这次改变由你决定：写回新值就是接受，不写回就是拒绝。",
+              " 通知状态变化请求。受控模式下，由父组件决定是否更新状态。",
             ],
             [
               { code: "onSelect" },
@@ -85,39 +85,37 @@ const zh: DocPageContent = {
               { code: "onConfirm" },
               "、",
               { code: "onCopy" },
-              " 这类具名回调各管各的意图，触发时机和参数见对应组件的文档页；它们不能当作通用的挂载/更新钩子来用。",
+              " 分别处理选择、确认和复制。触发时机和参数见各组件的 API。",
             ],
             [
-              { strong: "Cancelled-Action Contract（取消约定）：" },
-              "部分点击回调支持取消后续动作——组件先调用你的回调，回调里调用 ",
+              { strong: "取消后续操作：" },
+              "部分组件先调用点击回调；在回调中调用 ",
               { code: "event.preventDefault()" },
               " 即取消。目前 ",
               { code: "CopyButton" },
               "、",
               { code: "TextWithCopyButton" },
-              " 遵循此约定（阻止后不会真正复制，也不会弹反馈），由共享工具 ",
-              { code: "callWithCancelGuard" },
-              " 统一实现并有契约测试锁定。该约定只适用于「点击触发一个明确后续动作」的组件，不适用于开关类状态切换——那些走各自文档里说明的取消机制。",
+              " 支持此用法，取消后不会复制或显示反馈。其他组件的取消方式见各自 API。",
             ],
             [
-              "回调契约的解释权和具体签名都列在对应组件文档的 API 参考表里：官方 API 原样列出；框架扩展项（如 ",
+              "各组件的 API 表列出属性和回调签名。本库新增的属性（如 ",
               { code: "Checkbox.defaultChecked" },
-              "）标注「框架扩展」徽标，便于与官方表面区分。",
+              "）标有“框架扩展”。",
             ],
           ],
         },
       ],
     },
     {
-      heading: "组件特化的 API",
+      heading: "组件专用钩子与事件",
       blocks: [
         {
           p: [
-            "少数组件提供了自己的 hooks 或依赖原生事件，这些不属于通用生命周期，因此直接写在各自的文档页里，例如 ",
+            "组件专用钩子和事件见对应文档，例如 ",
             { link: ["Radio useRadio", "/components/radio"] },
             "、",
             { link: ["Toast useToasts", "/components/toast"] },
-            " 以及媒体组件的原生播放事件。用到哪个组件时去那一页查即可，本页不需要重复。",
+            "，以及 Video 的原生播放事件。",
           ],
         },
       ],
@@ -128,11 +126,11 @@ const zh: DocPageContent = {
 const en: DocPageContent = {
   title: "Lifecycle & Hooks",
   lead: [
-    "The short version: these components have no lifecycle hooks like ",
+    "Components expose state control through props and callbacks, without general lifecycle APIs such as ",
     { code: "componentDidMount" },
     " or ",
     { code: "componentWillUnmount" },
-    ". All behavior is exposed through props and callbacks — who owns the state, when it changes, and who gets notified are all decided by the props you pass. This page explains how the three mechanisms work.",
+    ". This page explains how to manage state, receive changes, and cancel actions.",
   ],
   sections: [
     {
@@ -140,7 +138,7 @@ const en: DocPageContent = {
       blocks: [
         {
           p: [
-            "Every stateful component (",
+            "Components that support both controlled and uncontrolled modes, such as ",
             { code: "Input" },
             ", ",
             { code: "Select" },
@@ -148,14 +146,14 @@ const en: DocPageContent = {
             { code: "Combobox" },
             ", ",
             { code: "Switch" },
-            ", …) supports two modes. The only question is where the state lives:",
+            ", can store state in the parent or in the component itself:",
           ],
         },
         {
           ul: [
             [
               { strong: "Controlled: " },
-              "you own the state. Pass the current value via ",
+              "the parent stores state and passes the current value through ",
               { code: "value" },
               ", ",
               { code: "open" },
@@ -163,80 +161,78 @@ const en: DocPageContent = {
               { code: "checked" },
               ", plus the matching ",
               { code: "on…Change" },
-              " callback. Every user interaction fires that callback; if you don't write the new value back to your state, the UI doesn't change — which amounts to rejecting the change.",
+              " callback. Update the parent’s state with the new value to update the UI.",
             ],
             [
               { strong: "Uncontrolled: " },
-              "pass only ",
+              "use ",
               { code: "defaultValue" },
               ", ",
               { code: "defaultOpen" },
               ", or ",
               { code: "defaultChecked" },
-              " to set the initial value. After that the component keeps its own internal state and won't notify you of changes. Use this when you only care about the starting value.",
+              " to set the initial value, then let the component update its own state. Check its API for available change callbacks.",
             ],
           ],
         },
         {
           p: [
-            "How to choose: if you need to read or write the value elsewhere, or run logic on change (requests, linking controls), go controlled. If the control just manages itself, uncontrolled is simpler. Pick exactly one mode per state — passing both ",
+            "Use controlled mode to synchronize other controls or update state externally. Use uncontrolled mode when you only need an initial value. Do not pass both ",
             { code: "value" },
             " and ",
             { code: "defaultValue" },
-            " is undefined behavior.",
+            " for the same state. Check each component’s API for supported props.",
           ],
         },
       ],
     },
     {
-      heading: "Callback contracts",
+      heading: "Callbacks and cancellation",
       blocks: [
         {
           ul: [
             [
               { code: "on…Change" },
-              " means “the user or component requests a state change”, not “the state has changed”. In controlled mode you decide whether to accept it: writing the new value back accepts; not writing it back rejects.",
+              " reports a state change request. In controlled mode, the parent decides whether to update state.",
             ],
             [
-              "Intent-named callbacks like ",
+              "Callbacks such as ",
               { code: "onSelect" },
               ", ",
               { code: "onConfirm" },
               ", and ",
               { code: "onCopy" },
-              " each cover exactly their own intent; timing and arguments are documented on the component's page. None of them work as generic mount/update hooks.",
+              " handle selection, confirmation, and copying. Their timing and arguments are listed in each component’s API.",
             ],
             [
-              { strong: "Cancelled-Action Contract: " },
-              "some click callbacks let you cancel the follow-up action — the component calls your callback first, and calling ",
+              { strong: "Cancel an action: " },
+              "some components call your click callback before acting. Calling ",
               { code: "event.preventDefault()" },
               " cancels it. Currently ",
               { code: "CopyButton" },
               " and ",
               { code: "TextWithCopyButton" },
-              " honor this (cancelling skips both the copy and its confirmation feedback), implemented through the shared ",
-              { code: "callWithCancelGuard" },
-              " helper and locked by contract tests. This contract only applies to components whose click triggers a concrete follow-up action — not to open/close state toggles, which use the cancellation mechanism documented on their own pages.",
+              " support this: cancellation skips copying and feedback. Check other components’ APIs for their cancellation behavior.",
             ],
             [
-              "The authoritative callback signatures live in the API reference table on each component's page: official APIs are listed verbatim; framework extensions (e.g. ",
+              "Each component’s API table lists its props and callback signatures. Props added by this library, such as ",
               { code: "Checkbox.defaultChecked" },
-              ") are marked with an “Extension” badge to tell them apart from the official surface.",
+              ", have an “Extension” badge.",
             ],
           ],
         },
       ],
     },
     {
-      heading: "Component-specific APIs",
+      heading: "Component hooks and events",
       blocks: [
         {
           p: [
-            "A few components ship their own hooks or rely on native events. These are not part of any generic lifecycle, so they are documented on the component's own page — for example ",
+            "See the relevant component page for its hooks and events, such as ",
             { link: ["Radio useRadio", "/components/radio"] },
             ", ",
             { link: ["Toast useToasts", "/components/toast"] },
-            ", and the native media events on media components. Look them up on the relevant component page when you use that component.",
+            ", and Video’s native playback events.",
           ],
         },
       ],

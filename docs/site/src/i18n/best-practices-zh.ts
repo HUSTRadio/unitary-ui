@@ -15,7 +15,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
   "lazy-load": ["通过占位内容预留尺寸，避免布局跳动。","简单图片可使用原生 loading=\"lazy\"；需要延迟整个子树时使用 LazyLoad。"],
   "side-panel": [
     "桌面详情或操作使用 SidePanel；移动端底部操作使用 Drawer，同一流程跨端共用时使用 ResponsiveDrawer。",
-    "将 show 与 onDismiss 配套，并提供 SidePanelTitle，为对话框建立可访问名称。",
+    "将 show 与 onDismiss 配套，并提供 SidePanelTitle，为对话框建立无障碍名称。",
     "仅在面板后方页面仍需交互时启用 noOverlay；此选项同时关闭模态焦点约束和滚动锁定。",
   ],
   /* Charts —— 图表分组 */
@@ -70,7 +70,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "轨道使用低对比 token；不要脱离设计系统调色板改色。",
   ],
   "responsive-drawer": [
-    "同一条信息架构要跨手机与桌面时使用响应式抽屉；官方镜像的 Drawer / Sheet / BottomSheet 保留各自固定契约，不要互相替换。",
+    "同一内容需要在手机和桌面上切换面板形态时，使用 ResponsiveDrawer。Drawer、Sheet 和 BottomSheet 的 API 不同，使用时需分别核对。",
     "开启 responsive 而不是在应用层写断点分支：640px 以下用底部形态，以上贴右并留 8px 边距。",
     "detents 与自动指示条只对底部形态生效；侧栏面板按设计不提供拖拽。",
     "用内置 Header 承载标题/说明与关闭按钮，把滚动交给 Body，保证 Footer 始终可达。",
@@ -82,11 +82,11 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "按上下文选择尺寸：sm 用于密集行，default 用于列表和提及，lg 用于个人资料头部。",
   ],
   book: [
-    "在营销页、文档落地封面和 changelog 主视觉中使用 Book，这类内容需要「带标签的书卷」这一隐喻。",
-    "产品内卡片与仪表盘磁贴使用 Card；Book 对重复出现的 UI 行来说过于装饰性。",
-    "当标题承担设计时用 simple；当图标或色条增加分类层级时用 stripe。",
-    "使用响应式宽度保持封面比例；textured 处理仅用于独立的 hero 图。",
-    "把封面视为装饰性 chrome，标题经由底层标题元素呈现，避免屏幕阅读器重复播报。",
+    "在营销页、文档首页或更新日志中，用 Book 突出文章或手册。",
+    "产品卡片和仪表盘列表使用 Card，避免重复使用装饰性封面。",
+    "以标题为主时用 simple；需要图标或分类色条时用 stripe。",
+    "用响应式 width 保持封面比例；纹理效果适合单独展示的封面。",
+    "标题使用可读文字；仅作装饰的图案应对屏幕阅读器隐藏。",
   ],
   "bottom-sheet": [
     "移动端操作或辅助内容需要保留当前页面上下文时使用 Bottom Sheet。",
@@ -102,7 +102,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "Sub Frame 的作用域只是浮层；只需要滚动或裁剪时，普通 overflow 容器就够。",
   ],
   browser: [
-    "在落地页、文档和 changelog 文章中，把 Browser 用作截图、demo 和录屏周围的营销 chrome。",
+    "在落地页、文档和 changelog 文章中，把 Browser 用作截图、demo 和录屏周围的营销展示窗框。",
     "不要在 Browser 框内渲染真实产品 UI；chrome 暗示的是截图，而非可交互界面。",
     "浏览器 chrome 是装饰性的，应携带 aria-hidden；含义由内部图片或视频承载。",
   ],
@@ -125,7 +125,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "仅当动作当前确实不可能时（缺输入、权限不足）才禁用按钮，并配一个解释原因的 Tooltip。",
     "标签首字母大写并写明结果：Deploy Project、Invite Member、Rotate Key。避免裸动词（Submit）与通用确认（OK、Confirm）。",
     "破坏性按钮遵循 动词 + 名词，并 1:1 配对 toast：Delete Project 然后 Project deleted。模式切换按钮追加 Instead：Use a Recovery Code Instead。",
-    "纯图标按钮必须同时有 svgOnly 与 aria-label；调用方必须提供可访问标签，组件不会在运行时校验。aria-label 命名动作与目标（Copy deployment URL），而不是图标（Copy）。",
+    "纯图标按钮必须同时有 svgOnly 与 aria-label；调用方必须提供无障碍标签，组件不会在运行时校验。aria-label 命名动作与目标（Copy deployment URL），而不是图标（Copy）。",
     "已有可见文字的按钮不要设置 aria-label；它会覆盖标签并造成读屏不一致。",
   ],
   calendar: [
@@ -187,7 +187,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "交互内容限制为一个主动作（View Project、Open Settings）。多于一个 CTA 看起来像菜单，应放进 Menu。",
     "以实体名称开头，作为首字母大写的标题，下接一行句首大写的识别信息，再跟 2–4 行 Label: value 元数据。",
     "不要复述触发器已经显示的内容；如果该行已渲染部署 URL，不要作为卡片首行重复。",
-    "触发器保留自己的可访问名称；卡片是补充性的，不应取代它。Escape 关闭卡片并把焦点还给触发器。",
+    "触发器保留自己的无障碍名称；卡片是补充性的，不应取代它。Escape 关闭卡片并把焦点还给触发器。",
   ],
   "context-menu": [
     "对行、文件或画布对象右键或长按触发的专家级快捷操作使用 ContextMenu。",
@@ -245,9 +245,9 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "优先 navigator.clipboard.writeText，并提供隐藏 textarea 的 execCommand 回退，以便剪贴板权限缺失时仍可复制。",
   ],
   "destructive-action-modal": [
-    "动作具有破坏性且需要摩擦时（删除、轮换、撤销、断开、降级）用本组件而非 Modal；typed gate 强制刻意操作。",
-    "对后果严重到值得停顿的可逆破坏性动作也可用。保留 typed gate，去掉不可逆提示条。",
-    "常规确认（保存草稿、放弃更改、不保存关闭）不要用；stakes 很低时 typed gate 显得戏剧化——用普通 Modal。",
+    "动作具有破坏性且需要摩擦时（删除、轮换、撤销、断开、降级）用本组件而非 Modal；确认短语输入 强制刻意操作。",
+    "对后果严重到值得停顿的可逆破坏性动作也可用。保留 确认短语输入，去掉不可逆提示条。",
+    "常规确认（保存草稿、放弃更改、不保存关闭）不要用；操作风险 很低时 确认短语输入 显得戏剧化——用普通 Modal。",
     "标题是首字母大写的陈述句 动词 + 名词，绝不是疑问句。Delete Project，而非 Delete this project?。",
     "confirmLabel 与标题 1:1 匹配。绝不用通用词（Confirm、OK、Continue），也不用裸动词（Delete）。",
     "loading 会禁用两个按钮。调用方拥有 open——不要从 onConfirm 自行关闭。API 落定后关闭，或出错时保持打开让用户重试。",
@@ -284,7 +284,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "当用户落在无权查看的路由时，由页面布局全页承载权限与套餐拒绝空状态。",
     "不要在这里放关键持久警告。列表填充后空态会消失；持久警告属于 Note 或页头。",
     "title 首字母大写；description 句首大写并补充新信息，而非复述标题。",
-    "最多一个主 CTA 加一个次 CTA。三个 CTA 是坏味道。",
+    "最多提供一个主要操作和一个次要操作。",
     '异步过滤变化后用 aria-live="polite" 包裹区域，让屏幕阅读器播报结果更新。',
   ],
   error: [
@@ -336,7 +336,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "当值来自已知列表、用户通过输入过滤时用 Combobox。",
     "内联搜索框用 <SearchInput> 并带限定范围的 placeholder（Search projects）；不要把它嵌进无关表单。",
     "失焦时校验而非每次按键；通过向 error 传字符串显示消息。",
-    "提交前修剪首尾空白，让 example.com 与 example.com 解析为同一值。",
+    "提交前去除首尾空格，避免相同输入被识别为不同值。",
     "保存期间保持字段可聚焦；仅当输入确实不可能时把 disabled 与 spinner 搭配。",
     "不要用 Tooltip 包裹带标签的 <Input>；把说明放在兄弟图标按钮上，让标签保持被播报。",
     "标签是简短的首字母大写名词：Project Name、Domain、Environment Variable Name。",
@@ -418,7 +418,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "在落地页和文档中，用 Device 包裹手机或平板截图、录屏与 demo 图。",
     "显式选择已注册的 model，并传入与截图设备一致的型号 id。",
     "不要在外框内渲染实时产品 UI；设备外框表达的是捕获画面，而非可交互界面。",
-    "把设备 chrome 视为装饰层；可访问名称由内部截图或录屏承担。",
+    "把设备 chrome 视为装饰层；无障碍名称由内部截图或录屏承担。",
     "仅对具备相应 chrome 能力的 model 使用 statusBar、safari 和 dynamicIsland。",
   ],
   pill: [
@@ -516,7 +516,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "端口号或内存限制这类精确值，slider 配数字 Input；键盘用户默认输入。",
     "吸附到合理步长（1、5、10%），拖拽绝不产生 47.83291 这类值。min 与 max 夹到真实产品限制。",
     "需要精确值时启用 showStartInput/showEndInput，或由调用方在相邻区域渲染带单位的数值；label 只负责命名滑块。",
-    "通过兄弟 <label htmlFor> 或 aria-label 给 slider 可访问名称，让原生方向键、Page Up/Down、Home/End 行为承担键盘工作。不要拦截这些键。",
+    "通过兄弟 <label htmlFor> 或 aria-label 给 slider 无障碍名称，让原生方向键、Page Up/Down、Home/End 行为承担键盘工作。不要拦截这些键。",
   ],
   snippet: [
     "用户要复制的可运行 shell 命令用 Snippet。内联 token（环境变量名、路径）用 InlineCode，多行源码用 CodeBlock。",
@@ -590,7 +590,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
     "仅当动作确实不可能时（缺套餐、策略锁定）禁用 Toggle；配说明解决方式的辅助文本或 Tooltip。",
     "标签是 children 而非 label prop。首字母大写名词短语、1–4 个词，命名 ON 时成立的状态：Password Protection，而非 Enable Password Protection。",
     "在标签下渲染可选的一句说明，只解释 ON。不要描述 OFF；它是否定。",
-    "通过 children、aria-label 或 aria-labelledby 提供可访问名称。三者都缺失时 Unitary 在开发模式警告。",
+    "通过 children、aria-label 或 aria-labelledby 提供无障碍名称。三者都缺失时 Unitary 在开发模式警告。",
     '保持 labelCasing="title"（默认值），让标签与其他首字母大写表面一致。',
     "仅当可见标签位于行上别处时才设 aria-label；否则让 children 承载它，让视觉与读屏文案保持一致。",
   ],
@@ -606,11 +606,11 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
   ],
   "theme-switcher": [
     "规范 Light / System / Dark 控件用 Theme Switcher。每个应用放一次，页脚或设置里，不要跨页面重复。",
-    "密集 chrome（页脚、下拉）传 small；设置页有标签呼吸空间时用默认尺寸。",
+    "空间紧凑的界面区域（页脚、下拉）传 small；设置页有标签呼吸空间时用默认尺寸。",
     "Theme Switcher 读写框架的 ThemeProvider（src/lib/theme.tsx），所以应用根部包一次 ThemeProvider，不要把它镜像到本地 React state。",
-    "本库不依赖 next-themes：公开 API 仅有 className / small / disabled，没有 onChange 回调或 forcedTheme 概念；需要拦截变更时直接消费 useTheme()。",
+    "本库不依赖 next-themes：公开 API 仅有 className / small / disabled，没有 onChange 回调或 forcedTheme 概念；需要拦截变更时直接使用 useTheme()。",
     "不要用 Switch 或三个图标按钮重建主题选择器。Theme Switcher 已处理图标、每选项 aria-label 与 System 检测。",
-    "选项标签经框架 i18n（t()）本地化；保持这种写法，让可访问名称与界面语言一致。",
+    "选项标签经框架 i18n（t()）本地化；保持这种写法，让无障碍名称与界面语言一致。",
   ],
   video: [
     "内嵌播放控制与惰性加载支持的短片用 Video。",
@@ -647,7 +647,7 @@ const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
   ],
   "search-input": [
     "查询驱动的过滤用 Search Input，而非普通表单文本输入。",
-    "提供可见标签或等效可访问名称，并在结果更新时保留查询。",
+    "提供可见标签或等效无障碍名称，并在结果更新时保留查询。",
   ],
   "split-button": [
     "把最常见的动作放在主按钮上，并把菜单限制为密切相关的变体。",

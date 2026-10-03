@@ -2,7 +2,7 @@
 
 > Route: `/charts/progress-circle`
 
-Renders a circular progress indicator with an optional center metric.
+Show completion or capacity as a ring, with a value and description in the center.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Renders a circular progress indicator with an optional center metric.
 
 progress-circle
 
-Renders a circular progress indicator with an optional center metric.
+Show completion or capacity as a ring, with a value and description in the center.
 
 ## When to use
 
@@ -26,7 +26,7 @@ Renders a circular progress indicator with an optional center metric.
 
 ### Default progress circle
 
-Bandwidth usage with a center percentage.
+Show bandwidth usage with a percentage in the center.
 
 ## Accessibility
 
@@ -72,7 +72,7 @@ export function ProgressCircleDefault37A8EEC1Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -80,7 +80,7 @@ Import
 import { ProgressCircle } from "@/components/ui/progress-circle";
 ```
 
-Native props: `React.HTMLAttributes<HTMLDivElement>`
+Also accepts props defined by: `React.HTMLAttributes<HTMLDivElement>`
 
 ### Props & callbacks
 

@@ -2,7 +2,7 @@
 
 > Route: `/components/responsive-drawer`
 
-One drawer that docks to the bottom on phones and to the side on desktop, with optional detents.
+Use one drawer that opens from the bottom on phones and from the right on desktops, with bottom height detents.
 
 [Back to Components](#/components)
 
@@ -10,17 +10,17 @@ One drawer that docks to the bottom on phones and to the side on desktop, with o
 
 responsive-drawer
 
-One drawer that docks to the bottom on phones and to the side on desktop, with optional detents.
+Use one drawer that opens from the bottom on phones and from the right on desktops, with bottom height detents.
 
 ## When to use
 
-- When the same information architecture has to work on phone and desktop — for example "Deployment Actions" as a bottom action sheet on mobile and a side detail panel on desktop.
-- When you need floating-panel semantics (overlay, focus trap, Escape and outside-press dismissal) without writing breakpoint branches in app code: enable responsive and let the component choose the geometry.
+- Use it when the same content needs a bottom action panel on phones and a right-side detail panel on desktops.
+- Enable responsive to choose the panel direction by screen width, with an overlay, focus management, and dismissal controls.
 - When the bottom form needs height steps (peek at a summary, then drag to full height for detail): express them with detents, which reuse BottomSheet's snap semantics.
 
 ## When not to use
 
-- Don't swap in this component when you need the mirrored Drawer contract: the official fixed/auto height plus controlled-only show/onDismiss API stays untouched.
+- Use Drawer when you need its height behavior and show/onDismiss API; ResponsiveDrawer uses a different API.
 - The side panel has no drag affordance by design; passing detents to right / left is a misuse and has no effect.
 - When the content simply doesn't fit and you don't need an overlay or focus trap, use page layout or Scroller instead of hiding navigation inside a drawer.
 
@@ -52,7 +52,7 @@ placement="bottom" with detents=\[0.4, 0.8, 1\]: the indicator tracks your finge
 
 ## Responsive behavior
 
-- With responsive enabled the 640px breakpoint decides the geometry: below it the panel uses the bottom form (top rounding, safe-area padding, optional detents), above it the side panel form (8px inset, rounding, hairline border, soft shadow).
+- With responsive enabled, widths below 640px use a bottom panel with rounded top corners, safe-area padding, and optional height detents. At 640px and above, a right-side panel has an 8px inset.
 - With a fixed placement, side panels degrade to a three-quarter-width full-height panel on narrow viewports so they never become too cramped to use.
 - The footer stacks in reverse order on mobile (primary action on top) and becomes a right-aligned row at 640px and above; the body always scrolls independently while header and footer stay pinned.
 
@@ -236,7 +236,7 @@ export function ResponsiveDrawerDetents7A3F5E92Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

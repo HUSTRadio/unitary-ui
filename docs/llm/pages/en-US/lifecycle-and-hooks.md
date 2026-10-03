@@ -4,24 +4,24 @@
 
 # Lifecycle & Hooks
 
-The short version: these components have no lifecycle hooks like `componentDidMount` or `componentWillUnmount`. All behavior is exposed through props and callbacks — who owns the state, when it changes, and who gets notified are all decided by the props you pass. This page explains how the three mechanisms work.
+Components expose state control through props and callbacks, without general lifecycle APIs such as `componentDidMount` or `componentWillUnmount`. This page explains how to manage state, receive changes, and cancel actions.
 
 ## Controlled & uncontrolled
 
-Every stateful component (`Input`, `Select`, `Combobox`, `Switch`, …) supports two modes. The only question is where the state lives:
+Components that support both controlled and uncontrolled modes, such as `Input`, `Select`, `Combobox`, `Switch`, can store state in the parent or in the component itself:
 
-- **Controlled:** you own the state. Pass the current value via `value`, `open`, or `checked`, plus the matching `on…Change` callback. Every user interaction fires that callback; if you don't write the new value back to your state, the UI doesn't change — which amounts to rejecting the change.
-- **Uncontrolled:** pass only `defaultValue`, `defaultOpen`, or `defaultChecked` to set the initial value. After that the component keeps its own internal state and won't notify you of changes. Use this when you only care about the starting value.
+- **Controlled:** the parent stores state and passes the current value through `value`, `open`, or `checked`, plus the matching `on…Change` callback. Update the parent’s state with the new value to update the UI.
+- **Uncontrolled:** use `defaultValue`, `defaultOpen`, or `defaultChecked` to set the initial value, then let the component update its own state. Check its API for available change callbacks.
 
-How to choose: if you need to read or write the value elsewhere, or run logic on change (requests, linking controls), go controlled. If the control just manages itself, uncontrolled is simpler. Pick exactly one mode per state — passing both `value` and `defaultValue` is undefined behavior.
+Use controlled mode to synchronize other controls or update state externally. Use uncontrolled mode when you only need an initial value. Do not pass both `value` and `defaultValue` for the same state. Check each component’s API for supported props.
 
-## Callback contracts
+## Callbacks and cancellation
 
-- `on…Change` means “the user or component requests a state change”, not “the state has changed”. In controlled mode you decide whether to accept it: writing the new value back accepts; not writing it back rejects.
-- Intent-named callbacks like `onSelect`, `onConfirm`, and `onCopy` each cover exactly their own intent; timing and arguments are documented on the component's page. None of them work as generic mount/update hooks.
-- **Cancelled-Action Contract:** some click callbacks let you cancel the follow-up action — the component calls your callback first, and calling `event.preventDefault()` cancels it. Currently `CopyButton` and `TextWithCopyButton` honor this (cancelling skips both the copy and its confirmation feedback), implemented through the shared `callWithCancelGuard` helper and locked by contract tests. This contract only applies to components whose click triggers a concrete follow-up action — not to open/close state toggles, which use the cancellation mechanism documented on their own pages.
-- The authoritative callback signatures live in the API reference table on each component's page: official APIs are listed verbatim; framework extensions (e.g. `Checkbox.defaultChecked`) are marked with an “Extension” badge to tell them apart from the official surface.
+- `on…Change` reports a state change request. In controlled mode, the parent decides whether to update state.
+- Callbacks such as `onSelect`, `onConfirm`, and `onCopy` handle selection, confirmation, and copying. Their timing and arguments are listed in each component’s API.
+- **Cancel an action:** some components call your click callback before acting. Calling `event.preventDefault()` cancels it. Currently `CopyButton` and `TextWithCopyButton` support this: cancellation skips copying and feedback. Check other components’ APIs for their cancellation behavior.
+- Each component’s API table lists its props and callback signatures. Props added by this library, such as `Checkbox.defaultChecked`, have an “Extension” badge.
 
-## Component-specific APIs
+## Component hooks and events
 
-A few components ship their own hooks or rely on native events. These are not part of any generic lifecycle, so they are documented on the component's own page — for example [Radio useRadio](#/components/radio), [Toast useToasts](#/components/toast), and the native media events on media components. Look them up on the relevant component page when you use that component.
+See the relevant component page for its hooks and events, such as [Radio useRadio](#/components/radio), [Toast useToasts](#/components/toast), and Video’s native playback events.

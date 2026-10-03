@@ -4,7 +4,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
   scroller: {
     slug: "scroller",
     locale: "zh-CN",
-    summary: "在一个轴向上展示溢出内容的滚动容器。",
+    summary: "在固定区域内滚动浏览溢出的内容。",
     whenToUse: [
       "当需要在单一方向上展示一组同类项目的溢出列表时，例如标签行、日志流或图片平铺。",
       "当容器尺寸小于总内容大小时，希望用户通过方向滚动发现被截断的项目。",
@@ -32,7 +32,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "滚动区域内的每个子项目拥有独立的语义和可访问名称。",
+        "滚动区域内的每个子项目拥有独立的语义和无障碍名称。",
         "Tab 键顺序遵循 DOM 顺序，因此应按阅读顺序排列项目，无论滚动方向如何。",
       ],
     },
@@ -54,7 +54,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
   "search-input": {
     slug: "search-input",
     locale: "zh-CN",
-    summary: "带有标准前置搜索图标的搜索输入框。",
+    summary: "带搜索图标的输入框，用于输入查询条件。",
     whenToUse: [
       "需要用户输入文本查询驱动结果过滤的场景。",
       "需要一个带可视化搜索图标前缀、便于识别的输入控件。",
@@ -68,7 +68,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
         id: "default",
         kind: "minimal",
         title: "基础搜索输入",
-        description: "最简单的搜索输入用法，带有默认搜索图标前缀和占位提示文本。",
+        description: "基本搜索输入用法，带有默认搜索图标前缀和占位提示文本。",
         demoKey: "default",
       },
       {
@@ -82,14 +82,14 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "输入框拥有语义明确的类型（role=search）和可访问名称，方便屏幕阅读器识别用途。",
-        "应与可见标签或等效的可访问名称关联，以确保无障碍上下文完整。",
+        "输入框拥有语义明确的类型（role=search）和无障碍名称，方便屏幕阅读器识别用途。",
+        "应与可见标签或等效的无障碍名称关联，以确保无障碍上下文完整。",
       ],
     },
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "搜索输入以展示查询值为主，受控行为依赖上层组件管理 value 和 onChange，组件自身不具备额外的受控特性。",
+        "父组件通过 value 和 onChange 管理搜索词。",
     },
     responsiveBehavior: {
       status: "covered",
@@ -103,7 +103,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
   select: {
     slug: "select",
     locale: "zh-CN",
-    summary: "以下拉菜单的形式呈现选项列表的紧凑选择控件。",
+    summary: "从下拉列表中选择一个选项。",
     whenToUse: [
       "从简短固定的选项列表中快速选择一个值时，尤其适合大约十个以内的选项。",
       "空间受限的设置面板、筛选器行或紧凑型表单中，需要使用下拉选择节省垂直空间。",
@@ -153,7 +153,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
   separator: {
     slug: "separator",
     locale: "zh-CN",
-    summary: "将内容划分为视觉上不同组块的分隔元素。",
+    summary: "用水平或垂直分隔线区分内容组。",
     whenToUse: [
       "需要在菜单项之间、列表区块或页面布局的不同部分之间添加视觉分割线时。",
       "当希望在不增加额外间距的情况下提供清晰的分区感时，分隔线是轻量级方案。",
@@ -187,7 +187,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
     },
     controlledBehavior: {
       status: "not-applicable",
-      reason: "分隔线是一个纯粹的展示型组件，不涉及任何交互状态或内部可变性，无需受控行为。",
+      reason: "分隔线是一个纯粹的展示组件，没有内部状态。",
     },
     responsiveBehavior: {
       status: "covered",
@@ -201,10 +201,10 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
   sheet: {
     slug: "sheet",
     locale: "zh-CN",
-    summary: "从屏幕边缘滑入的侧边面板，展示与主内容相关的附加信息。",
+    summary: "从屏幕边缘打开面板，显示与当前页面相关的详情。",
     whenToUse: [
       "需要展示持久的关联上下文（如部署详情或成员档案）同时保持主页内容可交互时。",
-      "当需要一个有明确打开/关闭操作的侧边面板，比弹窗对话框更自然的展示方式。",
+      "需要用户可主动打开和关闭的侧边详情面板时。",
     ],
     whenNotToUse: [
       "当需要完全阻塞页面的决策确认时，请使用模态对话框（Modal）。",
@@ -245,7 +245,7 @@ export const GUIDES_11_ZH: Record<string, ComponentGuide> = {
     },
     themeBehavior: {
       status: "covered",
-      content: ["面板的背景色、边框和阴影均可自定义，并且能与应用的暗色主题无缝配合。"],
+      content: ["面板的背景色、边框和阴影均可自定义，并且能与应用的暗色主题配合。"],
     },
   },
 };
@@ -254,7 +254,7 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
   scroller: {
     slug: "scroller",
     locale: "en-US",
-    summary: "A scrolling container that displays overflowing content along a single axis.",
+    summary: "Scroll through overflowing content within a bounded area.",
     whenToUse: [
       "When you need to present an overflowing list of peer items in a single direction, such as chip rows, log streams, or tile grids.",
       "When the container is smaller than the total content and users should discover clipped items through directional scrolling.",
@@ -309,7 +309,7 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
   "search-input": {
     slug: "search-input",
     locale: "en-US",
-    summary: "A search field with a standard leading search icon prefix.",
+    summary: "A text input with a search icon for entering a query.",
     whenToUse: [
       "When users need to enter text queries that drive result filtering.",
       "When you want an input control with a visible search icon prefix for instant visual recognition.",
@@ -346,7 +346,7 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Search Input presents a query value primarily; controlled behavior relies on the parent managing value and onChange, with no additional intrinsic control features.",
+        "The parent manages the query through value and onChange.",
     },
     responsiveBehavior: {
       status: "covered",
@@ -364,7 +364,7 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
   select: {
     slug: "select",
     locale: "en-US",
-    summary: "A compact dropdown selector that presents a list of options.",
+    summary: "Choose one option from a dropdown list.",
     whenToUse: [
       "When selecting a single value from a short, fixed set of roughly ten options or fewer.",
       "In constrained form layouts, settings panels, or filter rows where a dropdown saves vertical space.",
@@ -419,7 +419,7 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
   separator: {
     slug: "separator",
     locale: "en-US",
-    summary: "A visual divider element that splits content into distinct groups.",
+    summary: "Separate groups of content with a horizontal or vertical line.",
     whenToUse: [
       "When you need a visual divider between menu items, list sections, or layout blocks.",
       "When a lightweight line conveys partitioning better than additional spacing layers alone.",
@@ -456,7 +456,7 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "The separator is a purely presentational component with no interactive state or internal mutability; controlled behavior does not apply.",
+        "The separator is a display component with no interactive state or internal mutability; controlled behavior does not apply.",
     },
     responsiveBehavior: {
       status: "covered",
@@ -475,10 +475,10 @@ export const GUIDES_11_EN: Record<string, ComponentGuide> = {
     slug: "sheet",
     locale: "en-US",
     summary:
-      "A side panel that slides in from the screen edge, showing contextual detail alongside main content.",
+      "Open a panel from the screen edge to show details related to the current page.",
     whenToUse: [
       "When presenting persistent associated context (deployment details, member profiles) while keeping the underlying page interactive.",
-      "When a side panel with explicit open and close affordances feels more natural than a center-modal dialog.",
+      "Use it for a side detail panel that users can open and close.",
     ],
     whenNotToUse: [
       "When a fully blocking decision overlay is required; use Modal for blocking interactions.",

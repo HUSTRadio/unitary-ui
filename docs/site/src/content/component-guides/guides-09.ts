@@ -4,7 +4,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
   modal: {
     slug: "modal",
     locale: "zh-CN",
-    summary: "弹出一个中断用户当前操作的对话框，适用于需要阻塞页面并完成决策的场景。",
+    summary: "打开对话框，让用户先完成决策或表单再继续操作。",
     whenToUse: [
       "当一个决策必须阻止用户继续操作整个页面时（如确认删除、转移项目等）。",
       "需要确认破坏性操作时——Drawer 和 Sheet 不会完全遮住页面，因此对删除或撤销等操作显得力度不够。",
@@ -21,7 +21,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "默认模态框",
         description:
-          "最基础的 Modal 用法：展示一个带有标题、主体文案和操作按钮的标准对话框，覆盖在遮罩层之上以中断用户的当前操作。",
+          "基本 Modal 用法：展示一个带有标题、主体文案和操作按钮的标准对话框，覆盖在遮罩层之上以中断用户的当前操作。",
         demoKey: "default",
       },
       {
@@ -74,15 +74,15 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "Modal 的背景遮罩色、内容区域的背景以及按钮颜色均遵循主题令牌，自动适配浅色和深色模式。",
-        "自定义配色可以与设计系统的 Token 变量无缝配合，保持一致的品牌视觉。",
+        "Modal 的背景遮罩色、内容区域的背景以及按钮颜色均遵循主题变量，自动适配浅色和深色模式。",
+        "自定义配色可以与设计系统的 Token 变量配合，保持一致的品牌视觉。",
       ],
     },
   },
   "multi-select": {
     slug: "multi-select",
     locale: "zh-CN",
-    summary: "一个由触发器、弹出层和复选行组合而成的多选菜单。",
+    summary: "在弹出列表中勾选多个选项，选择状态由页面管理。",
     whenToUse: [
       "当可能需要激活多个选项时，例如多值过滤器、标签选择或多字段配置。",
       "需要为每行提供“仅选择此项”或“选择全部”等快捷操作，并由页面拥有选择状态时。",
@@ -141,7 +141,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "选中项的高亮颜色、边框和背景均从主题令牌获取，浅色/深色模式下对比度均符合无障碍要求。",
+        "选中项的高亮颜色、边框和背景均从主题变量获取，浅色/深色模式下对比度均符合无障碍要求。",
         "下拉列表的背景、滚动条和悬停效果跟随当前主题保持一致的视觉风格。",
       ],
     },
@@ -149,7 +149,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
   note: {
     slug: "note",
     locale: "zh-CN",
-    summary: "显示需要引起注意的行内提示文本或额外信息，支持多种语义变体。",
+    summary: "在相关内容旁持续显示提示、警告或补充说明。",
     whenToUse: [
       "在字段、卡片或它描述的区块旁边提供上下文反馈，例如区域变更警告、速率限制提醒或使用量提示。",
       "需要在行内持续展示一条提示信息直到底层状态发生变化，且不涉及破坏性操作或全局横幅级别的内容。",
@@ -165,7 +165,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
         kind: "variant",
         title: "尺寸变体",
         description:
-          "Note 提供多种尺寸供选择，以适应不同的布局密度需求——紧凑的尺寸适合密集表格行，标准尺寸适合卡片和段落之间。",
+          "Note 提供多种尺寸供选择，适配不同布局密度——紧凑的尺寸适合密集表格行，标准尺寸适合卡片和段落之间。",
         demoKey: "Sizes",
       },
       {
@@ -197,7 +197,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "不同变体（destructive、warning、success）通过颜色和图标传递语义，但颜色本身不足以区分——必须搭配明确的文本说明。",
-        "Note 不是临时通知——它是持久性的，屏幕阅读器会在页面加载时立即播报其内容。",
+        "Note 显示在页面内容中，保留到父组件移除为止。需要主动播报变化时，另行设置 aria-live。",
         "禁用态（disabled）会同时设置 aria-disabled 与原生 inert，整块 Note 不可交互并从无障碍树中移除。",
       ],
     },
@@ -216,7 +216,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "Note 的各语义变体颜色（destructive、warning、success、secondary、violet、cyan）均从主题令牌获取，自动适配深浅色模式。",
+        "Note 的各语义变体颜色（destructive、warning、success、secondary、violet、cyan）均从主题变量获取，自动适配深浅色模式。",
         "禁用状态的 Note 会降低透明度但仍保留足够的对比度以维持可读性。",
       ],
     },
@@ -274,7 +274,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
     "themeBehavior": {
       "status": "covered",
       "content": [
-        "链接、方向图标、页码和当前页状态使用主题 token。",
+        "链接、方向图标、页码和当前页状态使用主题变量。",
         "Pagination 的自定义 children 链接由调用方设置样式；NumberedPagination 内置当前页样式。"
       ]
     }
@@ -282,7 +282,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
   device: {
     slug: "device",
     locale: "zh-CN",
-    summary: "用显式设备型号的外框包裹手机或平板截图，适合营销页面和技术文档中的产品展示。",
+    summary: "用指定型号的手机或平板外框展示截图和录屏。",
     whenToUse: [
       "在着陆页、文档和介绍页面中，用 Device 包裹手机或平板截图、录屏和演示图像。",
       "同一套展示需要覆盖 iPhone、Pixel、Galaxy 或 iPad 等已注册设备型号时。",
@@ -297,7 +297,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "组合结构",
         description:
-          "使用必填 model 选择 iPhone 17，并用 DeviceScreen 包裹承担可访问名称的截图内容。",
+          "使用必填 model 选择 iPhone 17，并用 DeviceScreen 包裹承担无障碍名称的截图内容。",
         demoKey: "Composition",
       },
       {
@@ -320,7 +320,7 @@ export const GUIDES_09_ZH: Record<string, ComponentGuide> = {
     accessibility: {
       status: "covered",
       content: [
-        "设备外框、状态栏和 Safari chrome 是装饰层；真正的可访问名称由 DeviceScreen 内部的截图或录屏承担。",
+        "设备外框、状态栏和 Safari chrome 是装饰层；真正的无障碍名称由 DeviceScreen 内部的截图或录屏承担。",
         "为内部截图设置有意义的 alt 文本，说明画面内容和用途。",
       ],
     },
@@ -351,7 +351,7 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
     slug: "modal",
     locale: "en-US",
     summary:
-      "A dialog that interrupts the user, used when a decision must block the rest of the page.",
+      "Open a dialog for a decision or form that must be completed before continuing.",
     whenToUse: [
       "When a decision must block the rest of the page, such as confirming a deletion or transferring a project.",
       "When you need to confirm destructive actions; Drawer and Sheet don't fully dim the page so they read as too soft for delete or revoke flows.",
@@ -360,7 +360,7 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
     whenNotToUse: [
       "Skip Modal for routine create flows that have a dedicated page; route the user to the page instead.",
       "For persistent associated context where the underlying page stays readable, use Sheet on desktop or Drawer on mobile.",
-      "Don't use Modal for low-stakes daily confirmations like saving drafts or discarding changes—the typed gate creates unnecessary friction.",
+      "Don't use Modal for low-操作风险 daily confirmations like saving drafts or discarding changes—the 确认短语输入 creates unnecessary friction.",
     ],
     examples: [
       {
@@ -429,7 +429,7 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
   "multi-select": {
     slug: "multi-select",
     locale: "en-US",
-    summary: "A multi-select menu composed from a trigger, popover content, and checkbox rows.",
+    summary: "Select multiple options in a popup list, with selection managed by the page.",
     whenToUse: [
       "When more than one option may be active, such as multi-value filters, tag selection, or multi-field configuration.",
       "When each row needs Only or Check All shortcuts and the page owns the selected state.",
@@ -497,7 +497,7 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
     slug: "note",
     locale: "en-US",
     summary:
-      "Displays inline contextual feedback or additional information that requires attention, with semantic variants.",
+      "Show a persistent notice, warning, or explanation beside the relevant content.",
     whenToUse: [
       "For inline contextual feedback next to the field, card, or section it describes, such as a region change warning, rate-limit notice, or usage gauge.",
       "When you need to display a persistent message inline until the underlying state changes, without escalating to a full-page banner or transient toast.",
@@ -545,7 +545,7 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Different variants (destructive, warning, success) convey semantics through color and icons, but color alone is insufficient — explicit text descriptions must accompany them.",
-        "A Note is persistent rather than transient; its content is announced immediately by screen readers on page load.",
+        "Note stays in the page content until the parent removes it. Add aria-live when changes need to be announced.",
         "The disabled state sets both aria-disabled and native inert, so the entire Note becomes non-interactive and leaves the accessibility tree.",
       ],
     },
@@ -631,7 +631,7 @@ export const GUIDES_09_EN: Record<string, ComponentGuide> = {
     slug: "device",
     locale: "en-US",
     summary:
-      "Frames phone or tablet screenshots inside an explicit registered device model for product showcases on marketing pages and docs.",
+      "Present screenshots or recordings in a phone or tablet frame of a specified model.",
     whenToUse: [
       "Around phone or tablet screenshots, recordings, and demo images on landing pages, docs, and introduction pages.",
       "When one showcase must cover registered iPhone, Pixel, Galaxy, or iPad models through the same component contract.",

@@ -80,7 +80,7 @@ export default function SidePanelExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -100,5 +100,5 @@ import {
 ## 最佳实践
 
 - 桌面详情或操作使用 SidePanel；移动端底部操作使用 Drawer，同一流程跨端共用时使用 ResponsiveDrawer。
-- 将 show 与 onDismiss 配套，并提供 SidePanelTitle，为对话框建立可访问名称。
+- 将 show 与 onDismiss 配套，并提供 SidePanelTitle，为对话框建立无障碍名称。
 - 仅在面板后方页面仍需交互时启用 noOverlay；此选项同时关闭模态焦点约束和滚动锁定。

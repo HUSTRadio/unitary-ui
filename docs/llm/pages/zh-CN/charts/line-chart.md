@@ -2,7 +2,7 @@
 
 > Route: `/charts/line-chart`
 
-渲染连续折线趋势，支持可选坐标轴标题。
+用折线比较连续趋势，支持坐标轴标题和自定义提示。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 line-chart
 
-渲染连续折线趋势，支持可选坐标轴标题。
+用折线比较连续趋势，支持坐标轴标题和自定义提示。
 
 ## 何时使用
 
@@ -128,7 +128,7 @@ export function LineChartCustomTooltip4D7B2E8AExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -136,7 +136,7 @@ export function LineChartCustomTooltip4D7B2E8AExample() {
 import { LineChart } from "@/components/ui/line-chart";
 ```
 
-原生属性：`React.HTMLAttributes<HTMLDivElement>`
+还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`
 
 ### 属性与回调
 

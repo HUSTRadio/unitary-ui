@@ -2,7 +2,7 @@
 
 > Route: `/components/textarea`
 
-用于较长输入的多行文本字段。
+输入描述、备注等多行文本。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 textarea
 
-用于较长输入的多行文本字段。
+输入描述、备注等多行文本。
 
 ## 何时使用
 
@@ -185,7 +185,7 @@ export function TextareaRows101F2FF3Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -193,7 +193,7 @@ export function TextareaRows101F2FF3Example() {
 import { Textarea } from "@/components/ui/textarea";
 ```
 
-原生属性：`TextareaHTMLAttributes<HTMLTextAreaElement>`
+还支持以下类型中定义的属性：`TextareaHTMLAttributes<HTMLTextAreaElement>`
 
 ### 属性与回调
 

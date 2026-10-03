@@ -2,7 +2,7 @@
 
 > Route: `/components/error-card`
 
-A contained error state with recovery guidance.
+Display an error and recovery actions inside a card.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A contained error state with recovery guidance.
 
 error-card
 
-A contained error state with recovery guidance.
+Display an error and recovery actions inside a card.
 
 ## When to use
 
@@ -91,7 +91,7 @@ export function ErrorCardDefault21B111CBExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

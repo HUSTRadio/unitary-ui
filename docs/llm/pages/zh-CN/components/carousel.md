@@ -49,7 +49,7 @@ carousel
 
 ## 主题行为
 
-- 边框、图片说明、按钮和指示器使用主题 token。
+- 边框、图片说明、按钮和指示器使用主题变量。
 
 ## 实时示例
 
@@ -148,7 +148,7 @@ export default function CarouselVariantsExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -156,7 +156,7 @@ export default function CarouselVariantsExample() {
 import { Carousel } from "@/components/ui/carousel";
 ```
 
-原生属性：`Omit<ComponentProps<"div">, "children" | "onChange">`
+还支持以下类型中定义的属性：`Omit<ComponentProps<"div">, "children" | "onChange">`
 
 ### 属性与回调
 

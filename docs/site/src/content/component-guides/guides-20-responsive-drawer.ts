@@ -10,14 +10,14 @@ export const RESPONSIVE_DRAWER_GUIDES_ZH: Record<string, ComponentGuide> = {
     slug: "responsive-drawer",
     locale: "zh-CN",
     summary:
-      "一个抽屉承载两端形态：手机贴底、桌面贴右；沿用 BottomSheet 的档位与拖拽语义，并补齐 Header 关闭按钮、独立滚动 Body 与响应式 Footer。",
+      "同一个抽屉在手机上从底部打开、在桌面上从右侧打开，支持底部高度档位。",
     whenToUse: [
-      "同一条信息架构要在手机与桌面同时成立时——例如「部署操作」在手机上是从底部弹出的动作面板，在桌面上是右侧的详情抽屉。",
-      "需要浮动面板语义（遮罩、焦点陷阱、Esc 与外点关闭）但又不想在应用层写断点分支时，开启 responsive 由组件决定形态。",
+      "同一内容需要适配手机与桌面时，例如手机底部操作面板和桌面右侧详情面板。",
+      "开启 responsive 后，组件按屏幕宽度选择面板方向，并提供遮罩、焦点管理和关闭操作。",
       "需要底部多档位拖拽（先看半屏摘要、再拉到全高看详情）时，用 detents 表达档位，档位吸附沿用 BottomSheet 的交互语义。",
     ],
     whenNotToUse: [
-      "需要官方镜像行为时不要替换：官方 Drawer 的固定/自适应高度与仅受控 show/onDismiss 契约由文档固定，本组件不改变它。",
+      "需要 Drawer 的高度和 show/onDismiss API 时使用 Drawer；ResponsiveDrawer 使用另一套 API。",
       "侧栏形态不需要拖拽档位；给 right / left 传 detents 不会生效，属于误用。",
       "整页内容都放不下、且不需要遮罩与焦点陷阱时，用普通页面布局或 Scroller，不要把全站导航塞进抽屉。",
     ],
@@ -50,7 +50,7 @@ export const RESPONSIVE_DRAWER_GUIDES_ZH: Record<string, ComponentGuide> = {
       content: [
         "基于 Radix Dialog：打开时焦点移入面板、Tab 循环限制在面板内、Esc 与外点关闭、关闭后焦点返还到打开按钮。",
         "ResponsiveDrawerTitle / ResponsiveDrawerDescription 通过 Radix 的 aria-labelledby / aria-describedby 关联到面板，保证读屏能播报名称与说明。",
-        "Header 内置的关闭按钮带可访问名称（无可见文本时用本地化的 Close），图标 aria-hidden，不单独承载语义。",
+        "Header 内置的关闭按钮带无障碍名称（无可见文本时用本地化的 Close），图标 aria-hidden，不单独承载语义。",
         "底部形态的拖拽指示条是垂直 role=\"slider\"，带 aria-valuemin/valuemax/valuenow/orientation；ArrowUp / ArrowRight 增一档、ArrowDown / ArrowLeft 减一档，Home / End 跳首尾且边界不循环。Enter / Space 与点击保持循环切档。",
       ],
     },
@@ -64,7 +64,7 @@ export const RESPONSIVE_DRAWER_GUIDES_ZH: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "responsive 开启时以 640px 为断点：以下使用底部几何（顶缘圆角、safe-area 内边距、可选档位），以上使用右侧面板几何（四周 8px 留白、圆角、细边框、柔阴影）。",
+        "responsive 开启时，640px 以下使用底部面板，带顶部圆角、安全区边距和可选高度档位；640px 起使用右侧面板，四周留白 8px。",
         "placement 固定方位时，左右面板在窄屏退化为 3/4 宽的全高面板，避免小屏上面板过窄。",
         "Footer 在移动端纵向倒序（主操作在上），≥640px 变为右对齐横排；Body 始终独立滚动，Header/Footer 保持吸顶吸底。",
       ],
@@ -85,14 +85,14 @@ export const RESPONSIVE_DRAWER_GUIDES_EN: Record<string, ComponentGuide> = {
     slug: "responsive-drawer",
     locale: "en-US",
     summary:
-      "One drawer that serves both form factors: docked to the bottom on phones and to the side on desktop, reusing BottomSheet's detents and drag semantics while adding a built-in header close button, a scrollable body, and a responsive footer.",
+      "Use one drawer that opens from the bottom on phones and from the right on desktops, with bottom height detents.",
     whenToUse: [
-      "When the same information architecture has to work on phone and desktop — for example \"Deployment Actions\" as a bottom action sheet on mobile and a side detail panel on desktop.",
-      "When you need floating-panel semantics (overlay, focus trap, Escape and outside-press dismissal) without writing breakpoint branches in app code: enable responsive and let the component choose the geometry.",
+      "Use it when the same content needs a bottom action panel on phones and a right-side detail panel on desktops.",
+      "Enable responsive to choose the panel direction by screen width, with an overlay, focus management, and dismissal controls.",
       "When the bottom form needs height steps (peek at a summary, then drag to full height for detail): express them with detents, which reuse BottomSheet's snap semantics.",
     ],
     whenNotToUse: [
-      "Don't swap in this component when you need the mirrored Drawer contract: the official fixed/auto height plus controlled-only show/onDismiss API stays untouched.",
+      "Use Drawer when you need its height behavior and show/onDismiss API; ResponsiveDrawer uses a different API.",
       "The side panel has no drag affordance by design; passing detents to right / left is a misuse and has no effect.",
       "When the content simply doesn't fit and you don't need an overlay or focus trap, use page layout or Scroller instead of hiding navigation inside a drawer.",
     ],
@@ -141,7 +141,7 @@ export const RESPONSIVE_DRAWER_GUIDES_EN: Record<string, ComponentGuide> = {
     responsiveBehavior: {
       status: "covered",
       content: [
-        "With responsive enabled the 640px breakpoint decides the geometry: below it the panel uses the bottom form (top rounding, safe-area padding, optional detents), above it the side panel form (8px inset, rounding, hairline border, soft shadow).",
+        "With responsive enabled, widths below 640px use a bottom panel with rounded top corners, safe-area padding, and optional height detents. At 640px and above, a right-side panel has an 8px inset.",
         "With a fixed placement, side panels degrade to a three-quarter-width full-height panel on narrow viewports so they never become too cramped to use.",
         "The footer stacks in reverse order on mobile (primary action on top) and becomes a right-aligned row at 640px and above; the body always scrolls independently while header and footer stay pinned.",
       ],

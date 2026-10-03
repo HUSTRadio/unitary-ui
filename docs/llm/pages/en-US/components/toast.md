@@ -2,7 +2,7 @@
 
 > Route: `/components/toast`
 
-A succinct message that is displayed temporarily.
+Briefly display an action result or notification.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A succinct message that is displayed temporarily.
 
 toast
 
-A succinct message that is displayed temporarily.
+Briefly display an action result or notification.
 
 ## When to use
 
@@ -377,7 +377,7 @@ export function ToastError54A0E8C1Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

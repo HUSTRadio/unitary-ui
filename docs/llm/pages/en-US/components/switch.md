@@ -2,7 +2,7 @@
 
 > Route: `/components/switch`
 
-A slider group for mutually exclusive view options.
+Switch between a few mutually exclusive views with segmented controls.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A slider group for mutually exclusive view options.
 
 switch
 
-A slider group for mutually exclusive view options.
+Switch between a few mutually exclusive views with segmented controls.
 
 ## When to use
 
@@ -19,7 +19,7 @@ A slider group for mutually exclusive view options.
 
 ## When not to use
 
-- For boolean on/off toggles use Toggle instead; Switch implements radio semantics, not checkbox semantics.
+- Use Toggle for a boolean setting and Switch for mutually exclusive options.
 - Past 3 options or when labels grow beyond a couple of words, switch to Tabs or a Select.
 
 ## Examples
@@ -228,7 +228,7 @@ export function SwitchIconA35ABCD6Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

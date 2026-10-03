@@ -69,8 +69,8 @@ export function ComponentApiReference({ componentName }: { componentName: string
       <DocsSectionTitle>{title}</DocsSectionTitle>
       <DocsParagraph>
         {language === "zh-CN"
-          ? "此页只列出稳定公开表面；原生属性请参阅对应元素类型。"
-          : "This page lists the stable public surface. Refer to the underlying element type for inherited native attributes."}
+          ? "组件的导入方式和 API 如下。* 表示必填属性。"
+          : "Component imports and API are listed below. * marks a required prop."}
       </DocsParagraph>
 
       <DocsBlock>
@@ -85,7 +85,7 @@ export function ComponentApiReference({ componentName }: { componentName: string
       {api.extends ? (
         <DocsParagraph>
           <span className="text-foreground">
-            {language === "zh-CN" ? "原生属性：" : "Native props: "}
+            {language === "zh-CN" ? "还支持以下类型中定义的属性：" : "Also accepts props defined by: "}
           </span>
           <code className="break-all" translate="no">{api.extends}</code>
         </DocsParagraph>
@@ -103,8 +103,8 @@ export function ComponentApiReference({ componentName }: { componentName: string
       ) : (
         <DocsParagraph>
           {language === "zh-CN"
-            ? "该组件通过其导出项和组合子组件提供 API。"
-            : "This component exposes its API through the listed exports and composition slots."}
+            ? "组合使用上面列出的组件，用法见本页示例。"
+            : "Compose the components listed above. See this page’s examples for usage."}
         </DocsParagraph>
       )}
 
@@ -114,4 +114,3 @@ export function ComponentApiReference({ componentName }: { componentName: string
     </DocsSection>
   );
 }
-

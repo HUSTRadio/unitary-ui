@@ -2,7 +2,7 @@
 
 > Route: `/components/error`
 
-在操作失败时提供友好且可执行的消息。
+显示加载失败等错误，并说明下一步操作。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 error
 
-在操作失败时提供友好且可执行的消息。
+显示加载失败等错误，并说明下一步操作。
 
 ## 何时使用
 
@@ -126,7 +126,7 @@ export function ErrorWithAnErrorProperty93A4DDA8Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -134,7 +134,7 @@ export function ErrorWithAnErrorProperty93A4DDA8Example() {
 import { Error } from "@/components/ui/error";
 ```
 
-原生属性：`ComponentProps<"div">`
+还支持以下类型中定义的属性：`ComponentProps<"div">`
 
 ### 属性与回调
 

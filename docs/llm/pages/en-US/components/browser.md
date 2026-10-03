@@ -2,7 +2,7 @@
 
 > Route: `/components/browser`
 
-Frames screenshots and demos inside a realistic browser window.
+Present a screenshot, recording, or demo in a browser frame.
 
 [Back to Components](#/components)
 
@@ -10,12 +10,12 @@ Frames screenshots and demos inside a realistic browser window.
 
 browser
 
-Frames screenshots and demos inside a realistic browser window.
+Present a screenshot, recording, or demo in a browser frame.
 
 ## When to use
 
 - Use Browser as marketing chrome around screenshots, demos, and recordings shown on landing pages, docs, and changelog posts.
-- Use it when a static screenshot needs the visual context of a running product without embedding live components.
+- Use a browser frame to give a static screenshot context.
 
 ## When not to use
 
@@ -26,7 +26,7 @@ Frames screenshots and demos inside a realistic browser window.
 
 ### Composition
 
-Places a screenshot or demo inside the browser window frame, showing the standard marketing composition.
+Place a screenshot or demo inside a browser frame.
 
 ## Accessibility
 
@@ -71,7 +71,7 @@ export function BrowserComposition47FCA483Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

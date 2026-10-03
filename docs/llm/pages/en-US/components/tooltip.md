@@ -2,7 +2,7 @@
 
 > Route: `/components/tooltip`
 
-A floating label that appears on hover or focus.
+Show a short explanation on hover or focus.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A floating label that appears on hover or focus.
 
 tooltip
 
-A floating label that appears on hover or focus.
+Show a short explanation on hover or focus.
 
 ## When to use
 
@@ -370,7 +370,7 @@ export function TooltipOtherF97E9DA0Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

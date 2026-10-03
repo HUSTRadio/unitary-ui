@@ -2,7 +2,7 @@
 
 > Route: `/components/step-point`
 
-Marks progress through a multi-step flow.
+Mark the status of each step in a multi-step process.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Marks progress through a multi-step flow.
 
 step-point
 
-Marks progress through a multi-step flow.
+Mark the status of each step in a multi-step process.
 
 ## When to use
 
@@ -67,7 +67,7 @@ export function StepPointDefault21B111CBExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

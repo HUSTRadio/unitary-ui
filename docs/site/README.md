@@ -1,9 +1,8 @@
 # Unitary 文档站（docs/site）
 
 文档站的 Vite 根是 `docs/`：入口 `docs/index.html`，配置 `docs/vite.config.ts`，应用源码集中在
-`docs/site/`。应用通过 alias（`@` → 根仓库 `src/`）与 CSS `@source` 直接消费根仓库的
-shadcn/ui 元件（`src/components/ui/*`）、token/排版/材质（`src/styles/index.css`）
-与 `src/lib/*`（theme.tsx、utils.ts），不复制元件代码。
+`docs/site/`。文档站直接复用仓库中的组件（`src/components/ui/*`）、样式（`src/styles/index.css`）
+和工具（`src/lib/*`），通过 `@` 别名引用 `src/`，通过 CSS `@source` 扫描组件类名。
 
 ## 命令（在仓库根目录执行）
 

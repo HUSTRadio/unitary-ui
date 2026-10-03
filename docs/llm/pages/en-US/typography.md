@@ -4,7 +4,7 @@
 
 # Typography
 
-Rules of typesetting throughout the system.
+Typography guidelines for headings, buttons, labels, and body text.
 
 ## Fonts
 

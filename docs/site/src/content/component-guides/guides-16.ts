@@ -36,7 +36,7 @@ export const GUIDES_16_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "传入 open 时由外部完全控制开关状态；省略 open 时组件内部管理状态，两种模式都会调用 onOpenChange。",
-        "松开拖拽、点击循环或键盘调档都会以目标下标调用 onDetentChange；detent 受控时必须由调用方回灌，非受控时组件同步更新高度。向下拖过最低档会按 collapseDown 配置决定是否关闭。",
+        "松开拖拽、点击循环或键盘调档都会以目标下标调用 onDetentChange；detent 受控时必须由调用方更新，非受控时组件同步更新高度。向下拖过最低档会按 collapseDown 配置决定是否关闭。",
       ],
     },
     responsiveBehavior: {
@@ -49,7 +49,7 @@ export const GUIDES_16_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "面板使用背景与边框主题 token，遮罩保持半透明黑色；亮暗主题下无需传入单独配色。",
+        "面板使用背景与边框主题变量，遮罩保持半透明黑色；亮暗主题下无需传入单独配色。",
       ],
     },
   },

@@ -55,9 +55,9 @@ The package root supports native Node ESM `import` and CommonJS `require` withou
 - Official specification snapshot: [`docs/geist-markdown-refs`](./docs/geist-markdown-refs)
 - Changelog: [`CHANGELOG.en.md`](./CHANGELOG.en.md)
 
-## Palette governance
+## Color guidelines
 
-The sole foundation reference palette is **Vercel Geist Colors**. Its evidence snapshot is `docs/geist-markdown-refs/foundations/colors.md`; `src/styles/index.css` is the runtime owner of the foundation scales. `--uni-*` is a semantic mapping layer, not a second palette; Apple HIG supplies layout, behavior, and accessibility constraints only, not a second palette. A user-forced override must name its source, reason, and scope.
+The foundation scales use **Vercel Geist Colors**, with a reference snapshot in `docs/geist-markdown-refs/foundations/colors.md` and definitions in `src/styles/index.css`. `--uni-*` maps these colors to specific uses. Apple HIG guides layout, interaction, and accessibility without adding another palette. Color overrides must document their source, reason, and scope.
 
 ## Development
 
@@ -75,7 +75,7 @@ pnpm exec playwright install chromium
 pnpm run test:package
 ```
 
-This rebuilds the library, checks ESM/CJS imports, SSR, and highlighting in separate Node processes, then verifies Device geometry with the published CSS in Chromium. It does not rely on source aliases or a CSS loader.
+This rebuilds the library, checks ESM/CJS imports, server rendering, and code highlighting in separate Node processes, then verifies Device dimensions and layout with the published CSS in Chromium.
 
 ## Credits
 

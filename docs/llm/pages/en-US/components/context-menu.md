@@ -2,7 +2,7 @@
 
 > Route: `/components/context-menu`
 
-A menu for contextual actions, revealed on right click or long press.
+Right-click or long-press an item to open its action menu.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ A menu for contextual actions, revealed on right click or long press.
 
 context-menu
 
-A menu for contextual actions, revealed on right click or long press.
+Right-click or long-press an item to open its action menu.
 
 ## When to use
 
@@ -26,7 +26,7 @@ A menu for contextual actions, revealed on right click or long press.
 
 ### Basic context menu
 
-Displays a standard contextual action menu on right-click in the trigger area with basic Title Case options.
+Right-click the trigger area to open its action list.
 
 ### Disabled menu items
 
@@ -346,7 +346,7 @@ export function ContextMenuQuickActions8D41B0E7Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

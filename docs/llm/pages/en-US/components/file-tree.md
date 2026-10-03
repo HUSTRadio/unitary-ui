@@ -2,7 +2,7 @@
 
 > Route: `/components/file-tree`
 
-Displays a hierarchical directory structure with expandable folders and files.
+Display files and folders with expandable directory entries.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Displays a hierarchical directory structure with expandable folders and files.
 
 file-tree
 
-Displays a hierarchical directory structure with expandable folders and files.
+Display files and folders with expandable directory entries.
 
 ## When to use
 
@@ -38,15 +38,15 @@ Displays the default file tree component with expandable folder nodes and file i
 
 ## Controlled behavior
 
-- Expand/collapse state can be externally controlled via expandable props, supporting programmatic expansion of specific nodes.
-- Selected node state (where selection is supported) can sync via controlled props for multi-select or cross-component linkage.
-- Callers can listen to expand/collapse callback events to persist the tree's expanded state across sessions.
+- Control FileTreeItem expansion with open and onOpenChange; use defaultOpen for the initial state.
+- The component has no selection value or multi-select API; compose selection behavior in the page when needed.
+- onOpenChange reports the new expanded state and can be used to persist it.
 
 ## Responsive behavior
 
 - On narrow screens the file tree may enable horizontal scrolling to accommodate long file names while maintaining indentation levels.
-- Folder expand/collapse buttons increase touch target size on small screens to ensure reliable finger-based interactions.
-- The file tree container supports overflow-auto behavior — excessively long paths won't break the layout boundaries.
+- Folder buttons are 28px tall; the page should provide a larger hit area for touch use.
+- Set width constraints or scrolling styles on the outer container when needed.
 
 ## Theme behavior
 
@@ -86,7 +86,7 @@ export function FileTreeDefault21B111CBExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

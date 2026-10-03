@@ -2,7 +2,7 @@
 
 > Route: `/charts/bar-list`
 
-渲染排名列表，每行携带等比条形与数值。
+按数值排列名称、条形和读数，条目可带链接和图标。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 bar-list
 
-渲染排名列表，每行携带等比条形与数值。
+按数值排列名称、条形和读数，条目可带链接和图标。
 
 ## 何时使用
 
@@ -90,7 +90,7 @@ export function BarListDefault37A8EEC1Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -98,7 +98,7 @@ export function BarListDefault37A8EEC1Example() {
 import { BarList } from "@/components/ui/bar-list";
 ```
 
-原生属性：`React.HTMLAttributes<HTMLDivElement>`
+还支持以下类型中定义的属性：`React.HTMLAttributes<HTMLDivElement>`
 
 ### 属性与回调
 

@@ -2,7 +2,7 @@
 
 > Route: `/components/pagination`
 
-在数据集的编号页面之间导航。
+Pagination 链接上一篇和下一篇；NumberedPagination 按页码跳转。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 pagination
 
-在数据集的编号页面之间导航。
+Pagination 链接上一篇和下一篇；NumberedPagination 按页码跳转。
 
 ## 何时使用
 
@@ -50,7 +50,7 @@ Pagination 的 previous/next 提供相邻页面标题及目标链接。
 
 ## 主题行为
 
-- 链接、方向图标、页码和当前页状态使用主题 token。
+- 链接、方向图标、页码和当前页状态使用主题变量。
 - Pagination 的自定义 children 链接由调用方设置样式；NumberedPagination 内置当前页样式。
 
 ## 实时示例
@@ -95,7 +95,7 @@ export function PaginationDefault21B111CBExample() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
@@ -103,7 +103,7 @@ export function PaginationDefault21B111CBExample() {
 import { Pagination, NumberedPagination } from "@/components/ui/pagination";
 ```
 
-原生属性：`ComponentProps<"nav">`
+还支持以下类型中定义的属性：`ComponentProps<"nav">`
 
 ### 属性与回调
 

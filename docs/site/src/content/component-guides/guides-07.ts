@@ -4,7 +4,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
   gauge: {
     slug: "gauge",
     locale: "zh-CN",
-    summary: "用圆形弧线展示一个百分比数值，适用于配额、利用率等比率场景。",
+    summary: "用圆弧显示配额、利用率等百分比。",
     whenToUse: [
       "在固定最大值的 0–100 比率中传达数值，例如配额使用率、构建缓存命中率、运行时间或计费周期消耗。",
       "需要一个紧凑的视觉指标来替代数字文本以快速扫描页面时。",
@@ -20,7 +20,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "带标签的仪表盘",
         description:
-          "最基本的用法：传入一个百分比值并配以描述性标签，让屏幕阅读器和可见读者都能理解该数值所代表的含义。",
+          "基本用法：传入一个百分比值并配以描述性标签，让屏幕阅读器和可见读者都能理解该数值所代表的含义。",
         demoKey: "Label",
       },
       {
@@ -52,13 +52,13 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         '组件设置 role="progressbar"，并提供 aria-valuemin、aria-valuemax 和 aria-valuenow 属性，屏幕阅读器会正确播报当前进度。',
-        "必须始终为仪表盘搭配相邻标签或 Tooltip 来说明数值代表的内容；仅靠图形是自我说明不足的。",
+        "为仪表配上文字标签或 Tooltip，说明百分比代表什么。",
       ],
     },
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Gauge 是一个纯展示型组件，只负责渲染给定的百分比值和颜色配置，没有内部交互状态概念。父组件通过传递 value 和其他 props 直接控制其外观。",
+        "Gauge 没有内部状态；父组件通过 value 和颜色属性更新读数。",
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -67,7 +67,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "轨道颜色跟随主题令牌；默认进度段使用固定的红、琥珀和绿色阈值。",
+        "轨道颜色跟随主题变量；默认进度段使用固定的红、琥珀和绿色阈值。",
         "colors 可传阈值映射或主次颜色对，并可使用 CSS 变量等普通 CSS 颜色值，但不解析渐变。",
       ],
     },
@@ -75,7 +75,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
   grid: {
     slug: "grid",
     locale: "zh-CN",
-    summary: "以带有网格线和引导线的布局方式排列内容元素，适用于营销页面和功能介绍的结构性排版。",
+    summary: "用单元格和可见参考线组织二维布局。",
     whenToUse: [
       "需要在营销页面、文档首页和功能分解图中实现二维的单元格加引导线布局，其中引导线和单元格边框本身就是设计的一部分。",
       "希望在不增加复杂嵌套的情况下对齐多个项目并保持视觉层次。",
@@ -90,7 +90,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "基础栅格",
         description:
-          "最简单的网格布局示例：定义几行几列，元素自动按网格填充，带有默认的引导线和间距。",
+          "基本网格布局示例：定义几行几列，元素自动按网格填充，带有默认的引导线和间距。",
         demoKey: "Basic grid",
       },
       {
@@ -138,7 +138,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "网格线颜色和单元格背景色从主题令牌获取，确保浅色模式和深色模式下的正确对比度。",
+        "网格线颜色和单元格背景色从主题变量获取，确保浅色模式和深色模式下的正确对比度。",
         "引导线粗细和样式（实线、虚线）可通过 props 调整并与设计系统的 Token 保持一致。",
       ],
     },
@@ -146,7 +146,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
   input: {
     slug: "input",
     locale: "zh-CN",
-    summary: "单行文本输入框，用于接收用户的自由文本输入，如名称、域名或标识符。",
+    summary: "输入名称、邮箱等单行文本。",
     whenToUse: [
       "用户需要输入单行自由格式文本时，如项目名称、邮箱地址、API 密钥或域名。",
       "需要进行字段级验证并以即时反馈告诉用户输入是否有效的场景。",
@@ -163,7 +163,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
         kind: "minimal",
         title: "默认输入框",
         description:
-          "最基础的输入框用法，包含占位符提示和标准的外观样式，适用于大多数通用文本输入场景。",
+          "基本输入框用法，包含占位符提示和标准的外观样式，适用于大多数通用文本输入场景。",
         demoKey: "default",
       },
       {
@@ -202,7 +202,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Input 接受 value 和 onChange 来控制受控行为，也可使用未受控方式通过默认值初始化。",
-        "应在提交前去除首尾空格，这样 example.com 和 example.com 会解析为同一个值。",
+        "提交前去除首尾空格，避免相同输入被识别为不同值。",
       ],
     },
     responsiveBehavior: {
@@ -215,7 +215,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "输入框的边框颜色、背景色和聚焦状态均遵循主题令牌，包括深色模式的适配。",
+        "输入框的边框颜色、背景色和聚焦状态均遵循主题变量，包括深色模式的适配。",
         "错误状态的红色边框和正常状态的颜色区分遵循设计系统的色彩规范。",
       ],
     },
@@ -223,7 +223,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
   "json-view": {
     slug: "json-view",
     locale: "zh-CN",
-    summary: "以语法高亮的树形结构渲染 JSON 数据，支持展开、折叠和键盘浏览。",
+    summary: "以可展开的高亮树查看 JSON 对象和数组。",
     whenToUse: [
       "用户需要检查、浏览或折叠展开 JSON 对象/数组时，交互式查看是核心功能。",
       "作为产品界面的一部分展示 API 返回的结构化数据，允许用户逐层探索数据结构。",
@@ -288,14 +288,14 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "树的基础文字和背景跟随主题；字符串、数字、布尔值和 null 使用组件定义的语法配色。",
-        "匹配文本使用固定黄色高亮，键名使用显式亮/暗色值；不要把它描述为可配置的完整主题令牌方案。",
+        "匹配文本使用固定黄色高亮，键名使用显式亮/暗色值；不要把它描述为可配置的完整主题变量方案。",
       ],
     },
   },
   "keyboard-input": {
     slug: "keyboard-input",
     locale: "zh-CN",
-    summary: "以美观的按键样式展示快捷键输入，帮助用户识别菜单项或按钮末尾的操作指令。",
+    summary: "以键帽样式显示按键或快捷键组合。",
     whenToUse: [
       "在正文文本、菜单项和按钮后缀中显示快捷键提示，让用户直观了解触发某个操作所需的键盘组合。",
       "在长篇文档中叙述某个快捷操作时，用 Kbd 元素呈现按键样式使文档更加专业易读。",
@@ -348,7 +348,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Keyboard Input (Kbd) 是一个纯展示的 UI 组件，用于呈现按键样式的文本。它没有内部状态、事件处理或用户交互能力，所有行为由传入的 props 决定。",
+        "Kbd 只显示按键提示，不处理按键事件，也不保存状态。",
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -358,7 +358,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
     themeBehavior: {
       status: "covered",
       content: [
-        "按键的背景色、边框和文字颜色均从主题令牌获取，确保在浅色和深色模式下都有良好的对比度和视觉效果。",
+        "按键的背景色、边框和文字颜色均从主题变量获取，确保在浅色和深色模式下都有良好的对比度和视觉效果。",
         "激活状态（如果有的话）的颜色切换也遵循主题规范。",
       ],
     },
@@ -370,7 +370,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
     slug: "gauge",
     locale: "en-US",
     summary:
-      "A circular visual for conveying a percentage, ideal for quota usage, hit rates, and ratio-based metrics.",
+      "Show a percentage, such as quota usage or utilization, as an arc.",
     whenToUse: [
       "In a 0–100 ratio against a fixed maximum where the comparison is the point, like quota usage, build cache hit rate, uptime, or billing-period consumption.",
       "When you need a compact visual indicator to replace raw numbers for quick page scanning.",
@@ -418,13 +418,13 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         'The component sets role="progressbar" with aria-valuemin, aria-valuemax, and aria-valuenow so screen readers announce the current progress correctly.',
-        "Always pair the gauge with an adjacent label or Tooltip naming what the number represents; the gauge alone is not self-describing.",
+        "Add a text label or Tooltip to explain what the percentage represents.",
       ],
     },
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Gauge is a purely presentational component that renders only the given percentage value and color configuration. It has no internal interactive state concept; the parent controls appearance by passing value and other props directly.",
+        "Gauge has no internal state; the parent updates its value and colors through props.",
     },
     responsiveBehavior: {
       status: "not-applicable",
@@ -442,7 +442,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
     slug: "grid",
     locale: "en-US",
     summary:
-      "Displays elements in a grid layout with guide lines and cell borders, suited for marketing pages and feature breakdowns where the rules are part of the design.",
+      "Create a two-dimensional layout with cells and visible guide lines.",
     whenToUse: [
       "For two-dimensional cell-and-guide layouts in marketing pages, docs landing pages, and feature breakdowns where the rule lines and cell borders are part of the design.",
       "When you want to align multiple items without excessive nesting while maintaining visual hierarchy.",
@@ -488,7 +488,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
     accessibility: {
       status: "not-applicable",
       reason:
-        "Grid is a purely visual layout component without interactive elements or semantic ARIA roles. Accessibility is determined by the actual components placed inside the grid cells (buttons, links, headings, etc.).",
+        "Grid is a layout component without interactive elements or semantic ARIA roles. Accessibility is determined by the actual components placed inside the grid cells (buttons, links, headings, etc.).",
     },
     controlledBehavior: {
       status: "not-applicable",
@@ -514,7 +514,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
     slug: "input",
     locale: "en-US",
     summary:
-      "A single-line text field for free-form user input, such as names, domains, or identifiers.",
+      "Enter single-line text, such as a name or email address.",
     whenToUse: [
       "When the user needs to enter a single line of free-form text, such as project name, email address, API key, or domain.",
       "When field-level validation with immediate feedback is needed to inform the user whether their input is valid.",
@@ -570,7 +570,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Input accepts value and onChange for controlled behavior, or can be used uncontrolled via defaultValue initialization.",
-        "Trim leading and trailing whitespace before submit so example.com and example.com resolve to one value.",
+        "Trim leading and trailing spaces before submission so equivalent input is treated consistently.",
       ],
     },
     responsiveBehavior: {
@@ -592,7 +592,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
     slug: "json-view",
     locale: "en-US",
     summary:
-      "Renders JSON as a syntax-highlighted tree with expand, collapse, and keyboard navigation.",
+      "Inspect JSON objects and arrays in an expandable, highlighted tree.",
     whenToUse: [
       "When users need to inspect, browse, or collapse and expand JSON objects or arrays; interactive viewing is the core requirement.",
       "As part of a product interface presenting API response data, allowing users to explore the data structure layer by layer.",
@@ -666,7 +666,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
     slug: "keyboard-input",
     locale: "en-US",
     summary:
-      "Displays keyboard keys in a styled badge format to help users recognize shortcut instructions in menus, buttons, and prose.",
+      "Display a key or shortcut combination as keycaps.",
     whenToUse: [
       "For shortcut hints inside prose, menu items, and button suffixes, letting users intuitively know the keyboard combination to trigger an action.",
       "In long-form documentation narrating a shortcut, rendering keys as Kbd elements makes the document look professional and easy to scan.",
@@ -719,7 +719,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
     controlledBehavior: {
       status: "not-applicable",
       reason:
-        "Keyboard Input (Kbd) is a purely presentational UI component that renders styled key badges. It has no internal state, event handling, or user interaction capability; all behavior is determined by its props.",
+        "Kbd displays key hints without handling key events or storing state.",
     },
     responsiveBehavior: {
       status: "not-applicable",

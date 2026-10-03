@@ -2,7 +2,7 @@
 
 > Route: `/components/pagination`
 
-Navigates through numbered pages of a data set.
+Pagination links to the previous and next articles; NumberedPagination navigates by page number.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Navigates through numbered pages of a data set.
 
 pagination
 
-Navigates through numbered pages of a data set.
+Pagination links to the previous and next articles; NumberedPagination navigates by page number.
 
 ## When to use
 
@@ -95,7 +95,7 @@ export function PaginationDefault21B111CBExample() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -103,7 +103,7 @@ Import
 import { Pagination, NumberedPagination } from "@/components/ui/pagination";
 ```
 
-Native props: `ComponentProps<"nav">`
+Also accepts props defined by: `ComponentProps<"nav">`
 
 ### Props & callbacks
 

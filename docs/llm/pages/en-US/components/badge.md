@@ -2,7 +2,7 @@
 
 > Route: `/components/badge`
 
-Small labels for statuses, counts, and metadata.
+Show a status, count, or metadata in a short label.
 
 [Back to Components](#/components)
 
@@ -10,17 +10,17 @@ Small labels for statuses, counts, and metadata.
 
 badge
 
-Small labels for statuses, counts, and metadata.
+Show a status, count, or metadata in a short label.
 
 ## When to use
 
-- Place short, scannable metadata labels next to the thing they describe: status, plan tier, environment, or role.
+- Use short labels beside an item to show its status, plan, environment, or role.
 - Showcase lifecycle stage labels (Alpha, Beta, Early Access) paired with a Tooltip noting any limitations.
 - Map meaning to color: green for healthy, red for error, amber for warning, blue for informational or production.
 
 ## When not to use
 
-- Never make a Badge clickable—if the user needs to act on the value, promote it to a Button or link.
+- Use a Button or link when the label needs to trigger an action.
 - Never nest another Badge or multiple icons inside a Badge—one badge per row only.
 - Avoid stuffing sentences inside a Badge (Currently Active); the surrounding row supplies the context.
 
@@ -55,12 +55,12 @@ Not applicable: Badge is a static label with no controlled behavior or interacti
 ## Responsive behavior
 
 - Badge uses compact inline typography that maintains consistent visual density on both narrow and wide screens.
-- Long text auto-wraps or truncates with ellipsis on narrow viewports, never overflowing its parent container.
+- Badge text does not wrap automatically. Keep labels short and handle long text in the outer layout.
 
 ## Theme behavior
 
 - Each variant comes with a paired dark/light mode color set managed through theme variables.
-- The -subtle suffix tone lowers saturation of any variant on dense surfaces to reduce visual interference.
+- contrast="low" uses text without a fill; contrast="soft" uses a soft background.
 
 ## Live Demo
 
@@ -347,7 +347,7 @@ export function BadgeCompactRounded7C41E2A8Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 
@@ -355,7 +355,7 @@ Import
 import { Badge, badgeVariants } from "@/components/ui/badge";
 ```
 
-Native props: `HTMLAttributes<HTMLSpanElement>`
+Also accepts props defined by: `HTMLAttributes<HTMLSpanElement>`
 
 ### Props & callbacks
 

@@ -2,7 +2,7 @@
 
 > Route: `/components/empty-state`
 
-Fills spaces when no content has been added yet or a view is empty.
+Explain why no data is available and offer a next step, such as creating content or retrying.
 
 [Back to Components](#/components)
 
@@ -10,7 +10,7 @@ Fills spaces when no content has been added yet or a view is empty.
 
 empty-state
 
-Fills spaces when no content has been added yet or a view is empty.
+Explain why no data is available and offer a next step, such as creating content or retrying.
 
 ## When to use
 
@@ -22,7 +22,7 @@ Fills spaces when no content has been added yet or a view is empty.
 
 - Don't put critical persistent warnings in Empty States — they vanish when the list populates; persistent warnings belong in a Note or the page header.
 - Normal loaded views with data should not show Empty State — asynchronously failed loads should use the Error component instead.
-- Three CTAs make an empty state bloated — cap at one primary plus one secondary action.
+- Offer at most one primary and one secondary action.
 
 ## Examples
 
@@ -46,7 +46,7 @@ Uses the generic props and children to add context that helps users understand t
 
 ## Controlled behavior
 
-Not applicable: Empty State is a presentation-only component driven by whether the data source has content. It does not manage an open/close toggle — content is passed as props from the parent, and there is no interactive state to control.
+Not applicable: The parent decides what to display and when; EmptyState has no open/close state.
 
 ## Responsive behavior
 
@@ -137,7 +137,7 @@ export function EmptyStateInformationalBE8ED055Example() {
 
 ## API Reference
 
-This page lists the stable public surface. Refer to the underlying element type for inherited native attributes.
+Component imports and API are listed below. \* marks a required prop.
 
 Import
 

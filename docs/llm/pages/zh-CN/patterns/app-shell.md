@@ -4,7 +4,7 @@
 
 # App Shell 应用壳层
 
-本页是一个自包含的壳层组装演示：顶栏、侧边导航、内容区与页脚全部由框架组件拼装而成。缩放窗口跨过 lg 断点（1024px）即可看到侧边导航与汉堡菜单两种形态的连贯切换。
+用顶栏、侧栏、内容区和页脚搭建应用页面。调整窗口宽度，观察侧栏在 lg 断点（1024px）处切换为汉堡导航菜单。
 
 [App Shell](#demo-overview)
 
@@ -16,11 +16,11 @@ scrollBehavior 支持 static / pinned / auto-hide 三种定位行为；variant �
 
 ### SidebarNav
 
-通用侧边导航：groups 分组数据、activeTo 高亮当前项、side 控制分隔边，条目可带右侧状态胶囊。打开 collapsible 后分组标题可点击开合。宽度由外层布局控制，lg 断点起显示。
+groups 定义导航组，activeTo 高亮当前页，side 设置分隔线方向。collapsible 允许折叠分组。本例由外层布局设置宽度，并从 lg 断点起显示侧栏。
 
 ### HamburgerMenu
 
-HamburgerIcon + ExpandPanel 复合组件：anchor=topbar 时面板从顶栏底边向下延伸（同宽、共享底边框），内建搜索过滤，输入即收起导航列表并渲染结果。
+组合 HamburgerIcon 和 ExpandPanel。anchor=topbar 时，面板从顶栏底边向下展开；输入搜索词后显示匹配结果。
 
 ### Footer
 
@@ -32,7 +32,7 @@ columns 链接列 + slotLeading/slotTrailing 插槽 + sticky 吸底可选。本�
 
 ## 应用菜单栏与工具栏
 
-MenuBar 承担应用级命令（File / Edit / View，含右对齐快捷键、分隔线、勾选项与禁用态），Toolbar 承担窗口级工具操作组（三段排布、空间不足时整组折叠进溢出菜单、分段切换）。两者组合即为浏览器窗口形态的应用外壳：菜单栏在上、工具栏紧随其下。
+MenuBar 提供 File / Edit / View 等应用命令；Toolbar 提供导航和视图切换等常用工具，空间不足时按组收进更多操作菜单。本例将菜单栏放在工具栏上方。
 
 unitary-ui.app/editor
 

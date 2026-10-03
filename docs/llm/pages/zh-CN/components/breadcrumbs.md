@@ -2,7 +2,7 @@
 
 > Route: `/components/breadcrumbs`
 
-显示用户在网站层级中当前位置的导航辅助。
+显示当前页面的层级路径，方便返回上级页面。
 
 [返回组件](#/components)
 
@@ -10,7 +10,7 @@
 
 breadcrumbs
 
-显示用户在网站层级中当前位置的导航辅助。
+显示当前页面的层级路径，方便返回上级页面。
 
 ## 何时使用
 
@@ -113,7 +113,7 @@ export function BreadcrumbsDisabled75081B59Example() {
 
 ## API 参考
 
-此页只列出稳定公开表面；原生属性请参阅对应元素类型。
+组件的导入方式和 API 如下。\* 表示必填属性。
 
 导入
 
