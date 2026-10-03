@@ -184,8 +184,8 @@ export const GUIDES_04_ZH: Record<string, ComponentGuide> = {
       reason: "ContextMenu 管理自身打开/关闭状态，不暴露外部值控制 API；激活任意项即关闭菜单。",
     },
     responsiveBehavior: {
-      status: "not-applicable",
-      reason: "ContextMenu 为弹出覆盖层，在各类视口下保持统一的弹出行为，无显著的响应式差异。",
+      status: "covered",
+      content: ["普通菜单项高度由 --uni-popover-row-height 控制，默认 36px；Quick Actions 使用独立的行布局。"],
     },
     themeBehavior: {
       status: "not-applicable",
@@ -493,9 +493,8 @@ export const GUIDES_04_EN: Record<string, ComponentGuide> = {
         "ContextMenu manages its own open/closed state internally and does not expose an external value-controlled API; activating any item closes the menu.",
     },
     responsiveBehavior: {
-      status: "not-applicable",
-      reason:
-        "ContextMenu as a popup overlay behaves consistently across all viewport sizes without significant responsive differences.",
+      status: "covered",
+      content: ["Ordinary menu item height follows --uni-popover-row-height, defaulting to 36px; Quick Actions uses an independent row layout."],
     },
     themeBehavior: {
       status: "not-applicable",

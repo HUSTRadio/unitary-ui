@@ -64,11 +64,11 @@ describe("Menu surface contract (B0 menu-surface)", () => {
     }
   });
 
-  test("row contract: height 36px (h-9 fixed + text-label-14 20px), radius 6px, px-2, highlighted bg", () => {
+  test("row contract: height token + text-label-14, overlay radius, px-2, highlighted bg", () => {
     const { item } = renderMenu();
     expect(item).not.toBeNull();
     expect(item!.className).toContain("text-label-14");
-    expect(item!.className).toContain("h-9");
+    expect(item!.className).toContain("h-(--uni-popover-row-height)");
     expect(item!.className).toContain("px-2");
     expect(item!.className).toContain("rounded-overlay-item");
     expect(item!.className).toContain("data-highlighted:bg-gray-alpha-100");

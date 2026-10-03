@@ -108,4 +108,21 @@ for (const theme of ["light", "dark"] as const) {
     );
     await expect(probe).toHaveCSS("display", "block");
   });
+
+  test(`catalog distinguishes deprecated and reserved entries (${theme})`, async ({ page }) => {
+    await page.addInitScript((theme) => {
+      localStorage.setItem("unitary-docs-language", "en-US");
+      localStorage.setItem("unitary-theme-preference", theme);
+    }, theme);
+    await page.goto("/#/tokens");
+    const search = page.getByRole("searchbox", { name: "Search tokens" });
+    await search.fill("--radius-circle");
+    const deprecated = page.locator('[data-token-name="--radius-circle"]');
+    await expect(deprecated).toContainText("Deprecated");
+    await expect(deprecated).toContainText("Prefer --radius-circular");
+    await search.fill("--radius-continuous");
+    await expect(page.locator('[data-token-name="--radius-continuous"]')).toContainText("Reserved");
+    await search.fill("--uni-drawer-width");
+    await expect(page.locator('[data-token-name="--uni-drawer-width"]')).toContainText("Layout");
+  });
 }

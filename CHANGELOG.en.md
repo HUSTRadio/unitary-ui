@@ -8,6 +8,8 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Token consumption and lifecycle**: Connects Menu / ContextMenu rows to their default 36px height variable while retaining Menu's 44px touch minimum. The catalog corrects the Drawer width group and derives supported, reserved and deprecated states plus preferred replacements from CSS definitions. Historical shape names and Tooltip inversion colors remain compatible, with documentation identifying their status and actual component controls.
+
 - **Token runtime contracts**: Keeps the seven `--breakpoint-*` entries discoverable as build configurations while excluding them from writable types and write/reset APIs. The scoped motion demo directly consumes the edited duration: selecting 500ms updates the preview without changing outside buttons. Default breakpoints and visual values remain consistent.
 
 - **Docs layout and token consumers**: centralizes docs shell widths and the footer's 480px breakpoint, reuses radius and marked-list indent tokens, and connects Menu / ContextMenu padding to `--uni-popover-padding` (6px by default). Restores the English Feedback guide's 12px radius specification and corrects Chinese Avatar numeric size and accessibility guidance, with bilingual specification and browser regressions.

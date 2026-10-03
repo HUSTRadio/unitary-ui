@@ -33,7 +33,17 @@ export function collectGlobalTokens(css) {
       darkValue: "",
       kind: "mapping",
       variants: {},
+      status: "active",
     };
+    const comment = decl.prev();
+    if (comment?.type === "comment" && comment.text.startsWith("@token ")) {
+      const metadata = comment.text.match(/^@token (reserved|deprecated)(?: (--[\w-]+))?$/);
+      if (!metadata || (metadata[1] === "deprecated") !== Boolean(metadata[2])) {
+        throw decl.error(`Invalid token lifecycle annotation: ${comment.text}`);
+      }
+      entry.status = metadata[1];
+      if (metadata[2]) entry.replacement = metadata[2];
+    }
     const value = decl.value.replace(/\s+/g, " ").trim();
     // 断点在构建时展开为媒体条件；发射 CSS 变量并不使条件可运行时修改。
     // Breakpoints compile into media conditions even when their variables are emitted.
@@ -45,6 +55,11 @@ export function collectGlobalTokens(css) {
     entry.group = groupFor(decl.prop);
     entries.set(decl.prop, entry);
   });
+  for (const [name, entry] of entries) {
+    if (entry.replacement && (entry.replacement === name || !entries.has(entry.replacement))) {
+      throw new Error(`Invalid token replacement for ${name}: ${entry.replacement}`);
+    }
+  }
   return Object.fromEntries([...entries].sort(([a], [b]) => a.localeCompare(b, "en")));
 }
 
@@ -55,7 +70,7 @@ function groupFor(name) {
   if (/^--radius/.test(name)) return "shape";
   if (/^--(?:uni-z|z-)/.test(name)) return "layers";
   if (/^--(?:material|shadow|overlay|uni-(?:shadow|overlay))/.test(name)) return "materials";
-  if (/^--(?:breakpoint|spacing|uni-(?:size|control|popover|nav|doc))/.test(name)) return "layout";
+  if (/^--(?:breakpoint|spacing|uni-(?:size|control|popover|nav|doc|drawer))/.test(name)) return "layout";
   return "colors";
 }
 

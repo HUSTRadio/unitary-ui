@@ -57,7 +57,7 @@ context-menu
 
 ## 响应式行为
 
-不适用: ContextMenu 为弹出覆盖层，在各类视口下保持统一的弹出行为，无显著的响应式差异。
+- 普通菜单项高度由 --uni-popover-row-height 控制，默认 36px；Quick Actions 使用独立的行布局。
 
 ## 主题行为
 

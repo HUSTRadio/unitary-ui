@@ -29,6 +29,29 @@ describe("global token catalog generation", () => {
     expect(tokens["--uni-duration-fast"].group).toBe("motion");
     expect(tokens["--uni-page-transform"]).toBeUndefined();
   });
+  it("retains lifecycle annotations across theme overrides and validates replacements", () => {
+    const tokens = collectGlobalTokens(`
+      :root {
+        --surface: #fff;
+        /* @token deprecated --surface */
+        --old-surface: #fff;
+        /* @token reserved */
+        --radius-future: 20px;
+        --uni-drawer-width: 420px;
+      }
+      .dark { --old-surface: #000; }
+    `);
+    expect(tokens["--old-surface"]).toMatchObject({
+      status: "deprecated", replacement: "--surface", darkValue: "#000",
+    });
+    expect(tokens["--radius-future"].status).toBe("reserved");
+    expect(tokens["--surface"].status).toBe("active");
+    expect(tokens["--uni-drawer-width"].group).toBe("layout");
+    for (const annotation of ["deprecated", "reserved --surface", "unsupported"]) {
+      expect(() => collectGlobalTokens(`:root { /* @token ${annotation} */ --old: #fff; }`)).toThrow();
+    }
+    expect(() => collectGlobalTokens(":root { /* @token deprecated --missing */ --old: #fff; }")).toThrow(/replacement/);
+  });
   it("keeps emitted breakpoints read-only even when declarations reference their variables", () => {
     const tokens = collectGlobalTokens(`
       @theme static { --breakpoint-panel: 60rem; --uni-duration-fast: 150ms; }

@@ -6,6 +6,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-bg-hover)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--accent-foreground": {
@@ -13,6 +14,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-text-primary)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--action-hover": {
@@ -20,6 +22,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#cccccc",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--action-pressed": {
@@ -27,6 +30,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#a0a0a0",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--action-primary": {
@@ -34,6 +38,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ededed",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--action-soft": {
@@ -41,6 +46,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#292929",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--ai-primary": {
@@ -48,6 +54,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--ai-soft": {
@@ -55,6 +62,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#12382c",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--amber-100": {
@@ -62,6 +70,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#291a00",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--amber-1000": {
@@ -69,6 +78,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#fff6e8",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--amber-200": {
@@ -76,6 +86,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#341d00",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--amber-300": {
@@ -83,6 +94,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#4d2600",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--amber-400": {
@@ -90,6 +102,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#572e00",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--amber-500": {
@@ -97,6 +110,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#70400b",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--amber-600": {
@@ -104,6 +118,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#f59e0b",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--amber-700": {
@@ -111,6 +126,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffb224",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--amber-800": {
@@ -118,6 +134,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ff9900",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--amber-900": {
@@ -125,6 +142,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ff9a00",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--animate-blink": {
@@ -132,6 +150,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--animate-copy-check-draw": {
@@ -139,6 +158,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--animate-skeleton-shimmer": {
@@ -146,6 +166,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--background": {
@@ -153,6 +174,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-bg-canvas)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--background-100": {
@@ -160,6 +182,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0a0a0a",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--background-200": {
@@ -167,6 +190,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#000000",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--badge-green": {
@@ -174,6 +198,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--badge-green-foreground": {
@@ -181,6 +206,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--badge-red": {
@@ -188,6 +214,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#d93036",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--badge-red-foreground": {
@@ -195,6 +222,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--badge-red-subtle-foreground": {
@@ -202,6 +230,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ff6166",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--badge-teal": {
@@ -209,6 +238,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--badge-teal-foreground": {
@@ -216,6 +246,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--banner-focus-color": {
@@ -223,6 +254,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--blue-100": {
@@ -230,6 +262,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0f1e2e",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--blue-1000": {
@@ -237,6 +270,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#f5faff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--blue-200": {
@@ -244,6 +278,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#101f38",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--blue-300": {
@@ -251,6 +286,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#153058",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--blue-400": {
@@ -258,6 +294,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#103a69",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--blue-500": {
@@ -265,6 +302,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0d4a89",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--blue-600": {
@@ -272,6 +310,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0080ff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--blue-700": {
@@ -279,6 +318,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#006efe",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--blue-800": {
@@ -286,6 +326,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0052d1",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--blue-900": {
@@ -293,6 +334,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#5ea2ff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--border": {
@@ -300,6 +342,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-border-subtle)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--border-strong": {
@@ -307,6 +350,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-border-strong)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--breakpoint-grid-lg": {
@@ -314,6 +358,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--breakpoint-grid-md": {
@@ -321,6 +366,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--breakpoint-grid-sm": {
@@ -328,6 +374,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--breakpoint-grid-smd": {
@@ -335,6 +382,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--breakpoint-grid-xs": {
@@ -342,6 +390,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--breakpoint-modal": {
@@ -349,6 +398,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--breakpoint-video": {
@@ -356,6 +406,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--button-error": {
@@ -363,6 +414,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#d93036",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--button-error-foreground": {
@@ -370,6 +422,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--button-error-hover": {
@@ -377,6 +430,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ff6166",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--button-warning": {
@@ -384,6 +438,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ff990a",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--button-warning-foreground": {
@@ -391,6 +446,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0a0a0a",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--button-warning-hover": {
@@ -398,6 +454,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#d27504",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--card": {
@@ -405,6 +462,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-bg-surface)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--card-foreground": {
@@ -412,6 +470,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-text-primary)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--code-added": {
@@ -419,6 +478,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#12361b",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--code-highlight": {
@@ -426,6 +486,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0f2f57",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--code-referenced": {
@@ -433,6 +494,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#4d2a00",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--code-removed": {
@@ -440,6 +502,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#561a1e",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-accent": {
@@ -447,6 +510,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-accent-foreground": {
@@ -454,6 +518,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-action-hover": {
@@ -461,6 +526,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-action-pressed": {
@@ -468,6 +534,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-action-primary": {
@@ -475,6 +542,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-action-soft": {
@@ -482,6 +550,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-ai": {
@@ -489,6 +558,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-ai-soft": {
@@ -496,6 +566,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-amber-100": {
@@ -503,6 +574,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-amber-1000": {
@@ -510,6 +582,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-amber-200": {
@@ -517,6 +590,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-amber-300": {
@@ -524,6 +598,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-amber-400": {
@@ -531,6 +606,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-amber-500": {
@@ -538,6 +614,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-amber-600": {
@@ -545,6 +622,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-amber-700": {
@@ -552,6 +630,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-amber-800": {
@@ -559,6 +638,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-amber-900": {
@@ -566,6 +646,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-background": {
@@ -573,6 +654,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-background-100": {
@@ -580,6 +662,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-background-200": {
@@ -587,6 +670,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-badge-green": {
@@ -594,6 +678,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-badge-green-foreground": {
@@ -601,6 +686,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-badge-red": {
@@ -608,6 +694,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-badge-red-foreground": {
@@ -615,6 +702,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-badge-red-subtle-foreground": {
@@ -622,6 +710,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-badge-teal": {
@@ -629,6 +718,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-badge-teal-foreground": {
@@ -636,6 +726,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-bg-canvas": {
@@ -643,6 +734,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#000000",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-bg-elevated": {
@@ -650,6 +742,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#1a1a1a",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-bg-hover": {
@@ -657,6 +750,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#1f1f1f",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-bg-selected": {
@@ -664,6 +758,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#292929",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-bg-subtle": {
@@ -671,6 +766,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#292929",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-bg-surface": {
@@ -678,6 +774,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0a0a0a",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-blue-100": {
@@ -685,6 +782,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-blue-1000": {
@@ -692,6 +790,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-blue-200": {
@@ -699,6 +798,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-blue-300": {
@@ -706,6 +806,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-blue-400": {
@@ -713,6 +814,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-blue-500": {
@@ -720,6 +822,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-blue-600": {
@@ -727,6 +830,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-blue-700": {
@@ -734,6 +838,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-blue-800": {
@@ -741,6 +846,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-blue-900": {
@@ -748,6 +854,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-border": {
@@ -755,6 +862,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-border-strong": {
@@ -762,6 +870,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#454545",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-border-subtle": {
@@ -769,6 +878,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#1f1f1f",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-button-error": {
@@ -776,6 +886,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-button-error-foreground": {
@@ -783,6 +894,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-button-error-hover": {
@@ -790,6 +902,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-button-warning": {
@@ -797,6 +910,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-button-warning-foreground": {
@@ -804,6 +918,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-button-warning-hover": {
@@ -811,6 +926,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-canvas": {
@@ -818,6 +934,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-card": {
@@ -825,6 +942,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-card-foreground": {
@@ -832,6 +950,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-danger": {
@@ -839,6 +958,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-danger-foreground": {
@@ -846,6 +966,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-danger-hover": {
@@ -853,6 +974,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-danger-soft": {
@@ -860,6 +982,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-destructive": {
@@ -867,6 +990,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-destructive-foreground": {
@@ -874,6 +998,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-disabled-foreground": {
@@ -881,6 +1006,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-elevated": {
@@ -888,6 +1014,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-error-foreground": {
@@ -895,6 +1022,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-focus-ring": {
@@ -902,6 +1030,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ededed",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-foreground": {
@@ -909,6 +1038,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-100": {
@@ -916,6 +1046,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-1000": {
@@ -923,6 +1054,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-200": {
@@ -930,6 +1062,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-300": {
@@ -937,6 +1070,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-400": {
@@ -944,6 +1078,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-500": {
@@ -951,6 +1086,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-600": {
@@ -958,6 +1094,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-700": {
@@ -965,6 +1102,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-800": {
@@ -972,6 +1110,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-900": {
@@ -979,6 +1118,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-alpha-100": {
@@ -986,6 +1126,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-alpha-1000": {
@@ -993,6 +1134,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-alpha-200": {
@@ -1000,6 +1142,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-alpha-300": {
@@ -1007,6 +1150,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-alpha-400": {
@@ -1014,6 +1158,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-alpha-500": {
@@ -1021,6 +1166,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-alpha-600": {
@@ -1028,6 +1174,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-alpha-700": {
@@ -1035,6 +1182,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-alpha-800": {
@@ -1042,6 +1190,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-gray-alpha-900": {
@@ -1049,6 +1198,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-green-100": {
@@ -1056,6 +1206,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-green-1000": {
@@ -1063,6 +1214,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-green-200": {
@@ -1070,6 +1222,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-green-300": {
@@ -1077,6 +1230,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-green-400": {
@@ -1084,6 +1238,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-green-500": {
@@ -1091,6 +1246,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-green-600": {
@@ -1098,6 +1254,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-green-700": {
@@ -1105,6 +1262,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-green-800": {
@@ -1112,6 +1270,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-green-900": {
@@ -1119,6 +1278,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-hover-layer": {
@@ -1126,6 +1286,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-info": {
@@ -1133,6 +1294,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-info-foreground": {
@@ -1140,6 +1302,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-info-soft": {
@@ -1147,6 +1310,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-input": {
@@ -1154,6 +1318,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-link": {
@@ -1161,6 +1326,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-muted": {
@@ -1168,6 +1334,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-muted-foreground": {
@@ -1175,6 +1342,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-overlay": {
@@ -1182,6 +1350,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-pink-100": {
@@ -1189,6 +1358,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-pink-1000": {
@@ -1196,6 +1366,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-pink-200": {
@@ -1203,6 +1374,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-pink-300": {
@@ -1210,6 +1382,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-pink-400": {
@@ -1217,6 +1390,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-pink-500": {
@@ -1224,6 +1398,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-pink-600": {
@@ -1231,6 +1406,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-pink-700": {
@@ -1238,6 +1414,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-pink-800": {
@@ -1245,6 +1422,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-pink-900": {
@@ -1252,6 +1430,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-popover": {
@@ -1259,6 +1438,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-popover-foreground": {
@@ -1266,6 +1446,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-primary": {
@@ -1273,6 +1454,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-primary-foreground": {
@@ -1280,6 +1462,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-progress": {
@@ -1287,6 +1470,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-progress-foreground": {
@@ -1294,6 +1478,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-progress-soft": {
@@ -1301,6 +1486,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-purple-100": {
@@ -1308,6 +1494,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-purple-1000": {
@@ -1315,6 +1502,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-purple-200": {
@@ -1322,6 +1510,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-purple-300": {
@@ -1329,6 +1518,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-purple-400": {
@@ -1336,6 +1526,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-purple-500": {
@@ -1343,6 +1534,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-purple-600": {
@@ -1350,6 +1542,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-purple-700": {
@@ -1357,6 +1550,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-purple-800": {
@@ -1364,6 +1558,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-purple-900": {
@@ -1371,6 +1566,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-red-100": {
@@ -1378,6 +1574,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-red-1000": {
@@ -1385,6 +1582,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-red-200": {
@@ -1392,6 +1590,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-red-300": {
@@ -1399,6 +1598,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-red-400": {
@@ -1406,6 +1606,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-red-500": {
@@ -1413,6 +1614,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-red-600": {
@@ -1420,6 +1622,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-red-700": {
@@ -1427,6 +1630,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-red-800": {
@@ -1434,6 +1638,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-red-900": {
@@ -1441,6 +1646,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-ring": {
@@ -1448,6 +1654,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-secondary": {
@@ -1455,6 +1662,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-secondary-foreground": {
@@ -1462,6 +1670,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-selected": {
@@ -1469,6 +1678,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-subtle": {
@@ -1476,6 +1686,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-success": {
@@ -1483,6 +1694,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-success-foreground": {
@@ -1490,6 +1702,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-success-soft": {
@@ -1497,6 +1710,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-surface": {
@@ -1504,6 +1718,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-teal-100": {
@@ -1511,6 +1726,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-teal-1000": {
@@ -1518,6 +1734,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-teal-200": {
@@ -1525,6 +1742,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-teal-300": {
@@ -1532,6 +1750,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-teal-400": {
@@ -1539,6 +1758,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-teal-500": {
@@ -1546,6 +1766,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-teal-600": {
@@ -1553,6 +1774,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-teal-700": {
@@ -1560,6 +1782,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-teal-800": {
@@ -1567,6 +1790,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-teal-900": {
@@ -1574,6 +1798,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-text-inverse": {
@@ -1581,6 +1806,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0a0a0a",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-text-inverse-secondary": {
@@ -1588,6 +1814,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#404040",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-text-primary": {
@@ -1595,6 +1822,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ededed",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-text-secondary": {
@@ -1602,6 +1830,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#a1a1a1",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-text-tertiary": {
@@ -1609,6 +1838,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#7d7d7d",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-theme-accent": {
@@ -1616,6 +1846,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-urgent": {
@@ -1623,6 +1854,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-urgent-foreground": {
@@ -1630,6 +1862,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-urgent-soft": {
@@ -1637,6 +1870,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-warning": {
@@ -1644,6 +1878,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-warning-action": {
@@ -1651,6 +1886,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-warning-action-foreground": {
@@ -1658,6 +1894,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-warning-action-hover": {
@@ -1665,6 +1902,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-warning-foreground": {
@@ -1672,6 +1910,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--color-warning-soft": {
@@ -1679,6 +1918,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--context-card-tip-stroke": {
@@ -1686,6 +1926,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--gray-alpha-500)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--danger": {
@@ -1693,6 +1934,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#e5484d",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--danger-foreground": {
@@ -1700,6 +1942,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--danger-hover": {
@@ -1707,6 +1950,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#d12929",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--danger-soft": {
@@ -1714,6 +1958,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#381619",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--default-transition-duration": {
@@ -1721,6 +1966,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--destructive": {
@@ -1728,6 +1974,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--danger)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--destructive-foreground": {
@@ -1735,6 +1982,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--disabled-foreground": {
@@ -1742,6 +1990,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#454545",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--ease-in-out": {
@@ -1749,6 +1998,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--ease-pop": {
@@ -1756,6 +2006,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--ease-snap": {
@@ -1763,6 +2014,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--ease-stagger": {
@@ -1770,6 +2022,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--ease-toast": {
@@ -1777,6 +2030,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--error-foreground": {
@@ -1784,6 +2038,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ff6166",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--focus-ring-color": {
@@ -1791,6 +2046,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#52a8ff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--focus-ring-outline": {
@@ -1798,6 +2054,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "0 0 0 2px var(--color-bg-surface), 0 0 0 4px var(--focus-ring-color)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--font-mono": {
@@ -1805,6 +2062,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--font-sans": {
@@ -1815,6 +2073,7 @@ export const GLOBAL_TOKENS = {
       "font:hmos": "\"HarmonyOS Sans SC\", \"HarmonyOS Sans SC Subset\", \"HarmonyOS Sans TC\", \"HarmonyOS Sans TC Subset\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans SC\", sans-serif",
       "font:system": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans SC\", sans-serif"
     },
+    "status": "active",
     "group": "typography"
   },
   "--foreground": {
@@ -1822,6 +2081,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-text-primary)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-100": {
@@ -1829,6 +2089,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#1a1a1a",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-1000": {
@@ -1836,6 +2097,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ededed",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-200": {
@@ -1843,6 +2105,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#1f1f1f",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-300": {
@@ -1850,6 +2113,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#292929",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-400": {
@@ -1857,6 +2121,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#2e2e2e",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-500": {
@@ -1864,6 +2129,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#454545",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-600": {
@@ -1871,6 +2137,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#878787",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-700": {
@@ -1878,6 +2145,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#8f8f8f",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-800": {
@@ -1885,6 +2153,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#7d7d7d",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-900": {
@@ -1892,6 +2161,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#a1a1a1",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-alpha-100": {
@@ -1899,6 +2169,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff0f",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-alpha-1000": {
@@ -1906,6 +2177,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffffeb",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-alpha-200": {
@@ -1913,6 +2185,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff17",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-alpha-300": {
@@ -1920,6 +2193,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff21",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-alpha-400": {
@@ -1927,6 +2201,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff24",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-alpha-500": {
@@ -1934,6 +2209,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff3d",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-alpha-600": {
@@ -1941,6 +2217,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff82",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-alpha-700": {
@@ -1948,6 +2225,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff8a",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-alpha-800": {
@@ -1955,6 +2233,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff78",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--gray-alpha-900": {
@@ -1962,6 +2241,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff9c",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--green-100": {
@@ -1969,6 +2249,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0d220f",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--green-1000": {
@@ -1976,6 +2257,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ecfdf0",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--green-200": {
@@ -1983,6 +2265,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#112412",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--green-300": {
@@ -1990,6 +2273,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#143617",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--green-400": {
@@ -1997,6 +2281,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#15451d",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--green-500": {
@@ -2004,6 +2289,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#1d6329",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--green-600": {
@@ -2011,6 +2297,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#2d9341",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--green-700": {
@@ -2018,6 +2305,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#46a758",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--green-800": {
@@ -2025,6 +2313,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#3d8f4f",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--green-900": {
@@ -2032,6 +2321,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#6fe28d",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--info": {
@@ -2039,6 +2329,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#006efe",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--info-foreground": {
@@ -2046,6 +2337,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--info-soft": {
@@ -2053,6 +2345,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#101f38",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--input": {
@@ -2060,6 +2353,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-border-subtle)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--input-disabled-placeholder": {
@@ -2067,6 +2361,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#444444",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--input-focus-border": {
@@ -2074,6 +2369,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "rgba(255, 255, 255, 0.51)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--input-focus-glow": {
@@ -2081,6 +2377,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "rgba(255, 255, 255, 0.24)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--input-value-border": {
@@ -2088,6 +2385,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--input-value-foreground": {
@@ -2095,6 +2393,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-white)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--invert-background": {
@@ -2102,6 +2401,8 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff",
     "kind": "runtime",
     "variants": {},
+    "status": "deprecated",
+    "replacement": "--background-100",
     "group": "colors"
   },
   "--invert-foreground": {
@@ -2109,6 +2410,8 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0a0a0a",
     "kind": "runtime",
     "variants": {},
+    "status": "deprecated",
+    "replacement": "--foreground",
     "group": "colors"
   },
   "--link": {
@@ -2116,6 +2419,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0072f5",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--material-shadow-base": {
@@ -2123,6 +2427,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "rgba(255, 255, 255, 0.145) 0px 0px 0px 1px, rgb(0, 0, 0) 0px 0px 0px 1px",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--material-shadow-fullscreen": {
@@ -2130,6 +2435,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "rgba(255, 255, 255, 0.145) 0px 0px 0px 1px, rgba(0, 0, 0, 0.02) 0px 1px 1px 0px, rgba(0, 0, 0, 0.04) 0px 8px 16px -4px, rgba(0, 0, 0, 0.06) 0px 24px 32px -8px, rgb(0, 0, 0) 0px 0px 0px 1px",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--material-shadow-large": {
@@ -2137,6 +2443,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "rgba(255, 255, 255, 0.145) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 2px 2px 0px, rgba(0, 0, 0, 0.04) 0px 8px 16px -4px, rgb(0, 0, 0) 0px 0px 0px 1px",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--material-shadow-medium": {
@@ -2144,6 +2451,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "rgba(255, 255, 255, 0.145) 0px 0px 0px 1px, rgba(0, 0, 0, 0.32) 0px 2px 2px 0px, rgba(0, 0, 0, 0.16) 0px 8px 8px -8px, rgb(0, 0, 0) 0px 0px 0px 1px",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--material-shadow-menu": {
@@ -2151,6 +2459,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "rgba(255, 255, 255, 0.145) 0px 0px 0px 1px, rgba(0, 0, 0, 0.02) 0px 1px 1px 0px, rgba(0, 0, 0, 0.04) 0px 4px 8px -4px, rgba(0, 0, 0, 0.06) 0px 16px 24px -8px, rgb(0, 0, 0) 0px 0px 0px 1px",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--material-shadow-modal": {
@@ -2158,6 +2467,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "rgba(255, 255, 255, 0.145) 0px 0px 0px 1px, rgba(0, 0, 0, 0.02) 0px 1px 1px 0px, rgba(0, 0, 0, 0.04) 0px 8px 16px -4px, rgba(0, 0, 0, 0.06) 0px 24px 32px -8px, rgb(0, 0, 0) 0px 0px 0px 1px",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--material-shadow-small": {
@@ -2165,6 +2475,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "rgba(255, 255, 255, 0.145) 0px 0px 0px 1px, rgba(0, 0, 0, 0.16) 0px 1px 2px 0px, rgb(0, 0, 0) 0px 0px 0px 1px",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--material-shadow-tooltip": {
@@ -2172,6 +2483,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "rgba(255, 255, 255, 0.145) 0px 0px 0px 1px, rgba(0, 0, 0, 0.02) 0px 1px 1px 0px, rgba(0, 0, 0, 0.04) 0px 4px 8px 0px, rgb(0, 0, 0) 0px 0px 0px 1px",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--muted": {
@@ -2179,6 +2491,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-bg-subtle)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--muted-foreground": {
@@ -2186,6 +2499,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-text-secondary)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--overlay": {
@@ -2193,6 +2507,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#000000b3",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--pink-100": {
@@ -2200,6 +2515,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#2a1520",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--pink-1000": {
@@ -2207,6 +2523,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#fdf1f7",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--pink-200": {
@@ -2214,6 +2531,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#371726",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--pink-300": {
@@ -2221,6 +2539,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#4b1c30",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--pink-400": {
@@ -2228,6 +2547,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#521b33",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--pink-500": {
@@ -2235,6 +2555,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#6e1e3c",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--pink-600": {
@@ -2242,6 +2563,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#921a4a",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--pink-700": {
@@ -2249,6 +2571,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#e93d82",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--pink-800": {
@@ -2256,6 +2579,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#d9216e",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--pink-900": {
@@ -2263,6 +2587,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ff66ad",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--popover": {
@@ -2270,6 +2595,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-bg-elevated)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--popover-foreground": {
@@ -2277,6 +2603,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-text-primary)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--primary": {
@@ -2284,6 +2611,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--action-primary)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--primary-foreground": {
@@ -2291,6 +2619,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-text-inverse)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--progress": {
@@ -2298,6 +2627,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#006efe",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--progress-foreground": {
@@ -2305,6 +2635,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--progress-soft": {
@@ -2312,6 +2643,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#101f38",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--purple-100": {
@@ -2319,6 +2651,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#201527",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--purple-1000": {
@@ -2326,6 +2659,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#f8effc",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--purple-200": {
@@ -2333,6 +2667,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#2a1834",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--purple-300": {
@@ -2340,6 +2675,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#3d2050",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--purple-400": {
@@ -2347,6 +2683,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#47275f",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--purple-500": {
@@ -2354,6 +2691,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#5b2d78",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--purple-600": {
@@ -2361,6 +2699,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#8e4ec6",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--purple-700": {
@@ -2368,6 +2707,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#8e4ec6",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--purple-800": {
@@ -2375,6 +2715,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#773bb5",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--purple-900": {
@@ -2382,6 +2723,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#c57df0",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--radius": {
@@ -2389,6 +2731,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--radius-2xl": {
@@ -2396,6 +2739,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--radius-3xl": {
@@ -2403,6 +2747,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--radius-4xl": {
@@ -2410,6 +2755,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--radius-5xl": {
@@ -2417,6 +2763,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--radius-capsule": {
@@ -2424,6 +2771,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--radius-capsule-interpolable": {
@@ -2431,6 +2779,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--radius-circle": {
@@ -2438,6 +2787,8 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "deprecated",
+    "replacement": "--radius-circular",
     "group": "shape"
   },
   "--radius-circular": {
@@ -2445,6 +2796,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--radius-concentric-inset": {
@@ -2452,6 +2804,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "reserved",
     "group": "shape"
   },
   "--radius-continuous": {
@@ -2459,6 +2812,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "reserved",
     "group": "shape"
   },
   "--radius-lg": {
@@ -2466,6 +2820,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--radius-md": {
@@ -2473,6 +2828,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--radius-overlay": {
@@ -2480,6 +2836,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--radius-overlay-item": {
@@ -2487,6 +2844,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--radius-pill": {
@@ -2494,6 +2852,8 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "deprecated",
+    "replacement": "--radius-capsule",
     "group": "shape"
   },
   "--radius-sm": {
@@ -2501,6 +2861,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--radius-xl": {
@@ -2508,6 +2869,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "mapping",
     "variants": {},
+    "status": "active",
     "group": "shape"
   },
   "--red-100": {
@@ -2515,6 +2877,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#2a1314",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--red-1000": {
@@ -2522,6 +2885,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#fdf2f4",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--red-200": {
@@ -2529,6 +2893,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#381619",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--red-300": {
@@ -2536,6 +2901,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#561920",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--red-400": {
@@ -2543,6 +2909,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#671e25",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--red-500": {
@@ -2550,6 +2917,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#82202b",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--red-600": {
@@ -2557,6 +2925,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#e5484d",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--red-700": {
@@ -2564,6 +2933,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#e5484d",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--red-800": {
@@ -2571,6 +2941,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#d12929",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--red-900": {
@@ -2578,6 +2949,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ff6369",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--ring": {
@@ -2585,6 +2957,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-focus-ring)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--secondary": {
@@ -2592,6 +2965,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--action-soft)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--secondary-foreground": {
@@ -2599,6 +2973,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--color-text-primary)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--success": {
@@ -2606,6 +2981,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#46a758",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--success-foreground": {
@@ -2613,6 +2989,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--success-soft": {
@@ -2620,6 +2997,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#112412",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--teal-100": {
@@ -2627,6 +3005,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#04221d",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--teal-1000": {
@@ -2634,6 +3013,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ecfbf5",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--teal-200": {
@@ -2641,6 +3021,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#052722",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--teal-300": {
@@ -2648,6 +3029,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#073b33",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--teal-400": {
@@ -2655,6 +3037,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#08403a",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--teal-500": {
@@ -2662,6 +3045,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0d5e55",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--teal-600": {
@@ -2669,6 +3053,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#158f82",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--teal-700": {
@@ -2676,6 +3061,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#17a693",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--teal-800": {
@@ -2683,6 +3069,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0f8c7d",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--teal-900": {
@@ -2690,6 +3077,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#12b5a1",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--toggle-checked": {
@@ -2697,6 +3085,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0070f3",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--toggle-checked-red": {
@@ -2704,6 +3093,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#e5484d",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--toggle-disabled-thumb-checked": {
@@ -2711,6 +3101,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#878787",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--toggle-disabled-thumb-unchecked": {
@@ -2718,6 +3109,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#454545",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--toggle-disabled-track-checked": {
@@ -2725,6 +3117,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#333333",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--toggle-disabled-track-unchecked": {
@@ -2732,6 +3125,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#333333",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--toggle-label": {
@@ -2739,6 +3133,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#888888",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--toggle-thumb": {
@@ -2746,6 +3141,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ededed",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-accents-5": {
@@ -2753,6 +3149,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#888",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-amber-800": {
@@ -2760,6 +3157,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--amber-800)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-amber-900": {
@@ -2767,6 +3165,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "hsla(39, 90%, 50%, 1)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-background-100": {
@@ -2774,6 +3173,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--background-100)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-blue-100": {
@@ -2781,6 +3181,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0f1c2e",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-blue-200": {
@@ -2788,6 +3189,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "hsl(214 59% 15%)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-blue-600": {
@@ -2795,6 +3197,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0091ff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-blue-700": {
@@ -2802,6 +3205,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--blue-700)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-blue-900": {
@@ -2809,6 +3213,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#52a8ff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-control-decoration-size": {
@@ -2816,6 +3221,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-doc-list-indent": {
@@ -2823,6 +3229,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-doc-space-heading-body": {
@@ -2830,6 +3237,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-doc-space-list-item": {
@@ -2837,6 +3245,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-doc-space-paragraph": {
@@ -2844,6 +3253,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-doc-space-section": {
@@ -2851,6 +3261,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-doc-space-title-lead": {
@@ -2858,6 +3269,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-drawer-width": {
@@ -2865,13 +3277,15 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
-    "group": "colors"
+    "status": "active",
+    "group": "layout"
   },
   "--uni-duration-base": {
     "value": "250ms",
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--uni-duration-fast": {
@@ -2879,6 +3293,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--uni-duration-slow": {
@@ -2886,6 +3301,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--uni-duration-slower": {
@@ -2893,6 +3309,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--uni-feedback-blue-300": {
@@ -2900,6 +3317,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0f2f57",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-feedback-blue-900": {
@@ -2907,6 +3325,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#52a8ff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-focus-color": {
@@ -2914,6 +3333,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-gray-100": {
@@ -2921,6 +3341,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--gray-100)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-gray-1000": {
@@ -2928,6 +3349,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--gray-1000)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-gray-400": {
@@ -2935,6 +3357,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "hsl(0 0% 18%)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-gray-500": {
@@ -2942,6 +3365,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--gray-500)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-gray-600": {
@@ -2949,6 +3373,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--gray-600)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-gray-700": {
@@ -2956,6 +3381,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--gray-700)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-gray-900": {
@@ -2963,6 +3389,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--gray-900)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-gray-alpha-200": {
@@ -2970,6 +3397,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--gray-alpha-200)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-gray-alpha-300": {
@@ -2977,6 +3405,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--gray-alpha-300)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-gray-alpha-400": {
@@ -2984,6 +3413,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--gray-alpha-400)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-gray-alpha-500": {
@@ -2991,6 +3421,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--gray-alpha-500)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-gray-alpha-600": {
@@ -2998,6 +3429,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--gray-alpha-600)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-green-900": {
@@ -3005,6 +3437,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "hsla(131, 43%, 57%, 1)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-ink-shift": {
@@ -3015,6 +3448,7 @@ export const GLOBAL_TOKENS = {
       "font:hmos": "0em",
       "font:system": "0em"
     },
+    "status": "active",
     "group": "typography"
   },
   "--uni-ink-shift-cjk": {
@@ -3025,6 +3459,7 @@ export const GLOBAL_TOKENS = {
       "font:hmos": "0em",
       "font:system": "0em"
     },
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-body": {
@@ -3032,6 +3467,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-callout": {
@@ -3039,6 +3475,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-caption1": {
@@ -3046,6 +3483,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-caption2": {
@@ -3053,6 +3491,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-compact": {
@@ -3060,6 +3499,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "reserved",
     "group": "typography"
   },
   "--uni-leading-display": {
@@ -3067,6 +3507,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-footnote": {
@@ -3074,6 +3515,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-headline": {
@@ -3081,6 +3523,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-large-title": {
@@ -3088,6 +3531,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-nav-heading": {
@@ -3095,6 +3539,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-nav-item": {
@@ -3102,6 +3547,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-nav-subheading": {
@@ -3109,6 +3555,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-prose": {
@@ -3116,6 +3563,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-reading": {
@@ -3123,6 +3571,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "reserved",
     "group": "typography"
   },
   "--uni-leading-subhead": {
@@ -3130,6 +3579,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-title1": {
@@ -3137,6 +3587,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-title2": {
@@ -3144,6 +3595,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-leading-title3": {
@@ -3151,6 +3603,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-loop-standard": {
@@ -3158,6 +3611,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--uni-mixed-script-gap-prose": {
@@ -3165,6 +3619,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "reserved",
     "group": "typography"
   },
   "--uni-mixed-script-gap-ui": {
@@ -3172,6 +3627,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "reserved",
     "group": "typography"
   },
   "--uni-motion-expansive": {
@@ -3179,6 +3635,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--uni-motion-feedback": {
@@ -3186,6 +3643,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--uni-motion-overlay": {
@@ -3193,6 +3651,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--uni-motion-state": {
@@ -3200,6 +3659,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "motion"
   },
   "--uni-nav-item-height": {
@@ -3207,6 +3667,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-nav-item-height-touch": {
@@ -3214,6 +3675,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-nav-space-parent": {
@@ -3221,6 +3683,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-nav-space-sibling": {
@@ -3228,6 +3691,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-overlay-backdrop": {
@@ -3235,6 +3699,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--uni-overlay-backdrop-blur": {
@@ -3242,6 +3707,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--uni-overlay-backdrop-color": {
@@ -3249,6 +3715,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#000000",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--uni-overlay-backdrop-opacity": {
@@ -3256,6 +3723,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--uni-overlay-scrim-color": {
@@ -3263,6 +3731,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--uni-pink-900": {
@@ -3270,6 +3739,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "hsla(341, 90%, 67%, 1)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-popover-padding": {
@@ -3277,6 +3747,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-popover-row-height": {
@@ -3284,6 +3755,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-purple-900": {
@@ -3291,6 +3763,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "hsla(275, 80%, 71%, 1)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-red-900": {
@@ -3298,6 +3771,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "hsla(358, 100%, 69%, 1)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--uni-shadow-menu": {
@@ -3305,6 +3779,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "var(--material-shadow-menu)",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--uni-shadow-modal-elevated": {
@@ -3312,6 +3787,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "0 0 0 1px #ffffff24, 0px 32px 72px -12px #0000000f, 0px 8px 32px -12px #00000014, 0px 8px 24px -12px #0000001f",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "materials"
   },
   "--uni-size-medium": {
@@ -3319,6 +3795,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layout"
   },
   "--uni-text-body": {
@@ -3326,6 +3803,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-callout": {
@@ -3333,6 +3811,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-caption1": {
@@ -3340,6 +3819,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-caption2": {
@@ -3347,6 +3827,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-display": {
@@ -3354,6 +3835,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-footnote": {
@@ -3361,6 +3843,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-headline": {
@@ -3368,6 +3851,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-large-title": {
@@ -3375,6 +3859,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-nav-heading": {
@@ -3382,6 +3867,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-nav-item": {
@@ -3389,6 +3875,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-nav-subheading": {
@@ -3396,6 +3883,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-subhead": {
@@ -3403,6 +3891,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-title1": {
@@ -3410,6 +3899,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-title2": {
@@ -3417,6 +3907,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-text-title3": {
@@ -3424,6 +3915,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "typography"
   },
   "--uni-z-context-card": {
@@ -3431,6 +3923,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layers"
   },
   "--uni-z-drawer": {
@@ -3438,6 +3931,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layers"
   },
   "--uni-z-header": {
@@ -3445,6 +3939,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layers"
   },
   "--uni-z-menu": {
@@ -3452,6 +3947,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layers"
   },
   "--uni-z-modal": {
@@ -3459,6 +3955,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layers"
   },
   "--uni-z-popover": {
@@ -3466,6 +3963,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layers"
   },
   "--uni-z-toast": {
@@ -3473,6 +3971,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layers"
   },
   "--uni-z-tooltip": {
@@ -3480,6 +3979,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "layers"
   },
   "--urgent": {
@@ -3487,6 +3987,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ff9900",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--urgent-foreground": {
@@ -3494,6 +3995,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffffff",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--urgent-soft": {
@@ -3501,6 +4003,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#4d2600",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--warning": {
@@ -3508,6 +4011,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffb224",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--warning-action": {
@@ -3515,6 +4019,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ffb224",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--warning-action-foreground": {
@@ -3522,6 +4027,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0a0a0a",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--warning-action-hover": {
@@ -3529,6 +4035,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#ff9900",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--warning-foreground": {
@@ -3536,6 +4043,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#0a0a0a",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   },
   "--warning-soft": {
@@ -3543,6 +4051,7 @@ export const GLOBAL_TOKENS = {
     "darkValue": "#341d00",
     "kind": "runtime",
     "variants": {},
+    "status": "active",
     "group": "colors"
   }
 } as const;

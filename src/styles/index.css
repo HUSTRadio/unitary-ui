@@ -452,6 +452,7 @@
   --radius-3xl: 1.25rem; /* 20px — Unitary team value */
   --radius-4xl: 1.5rem; /* 24px — Unitary team value */
   --radius-5xl: 1.75rem; /* 28px — Unitary team value */
+  /* @token deprecated --radius-capsule */
   --radius-pill: 9999px;
 
   /* Shape families — Unitary team values
@@ -469,11 +470,14 @@
     - continuous: default token size for fallback border-radius; real continuous
       corners use clip-path: path(...) from src/lib/continuous-corner.ts
       (see docs/design/corner-and-typography-tokens.md §2.2) */
+  /* @token reserved */
   --radius-concentric-inset: 2px;
+  /* @token deprecated --radius-circular */
   --radius-circle: 50%;
   --radius-circular: 50%;
   --radius-capsule: 9999px;
   --radius-capsule-interpolable: 1.5rem; /* 24px = half of the 48px capsule height */
+  /* @token reserved */
   --radius-continuous: var(--radius-md);
   /* End shape families */
 
@@ -727,10 +731,14 @@ html[data-font-tier="system"],
   --uni-leading-display: 3rem;
 
   /* Mixed-script spacing references W3C CLReq; values are Unitary team choices. */
+  /* @token reserved */
   --uni-mixed-script-gap-ui: 0.125em;
+  /* @token reserved */
   --uni-mixed-script-gap-prose: 0.25em;
+  /* @token reserved */
   --uni-leading-compact: 1.35;
   --uni-leading-prose: 1.55;
+  /* @token reserved */
   --uni-leading-reading: 1.7;
 
   /* Unitary docs rhythm：现有内容几何的语义 owner，不宣称外部规范来源。 */
@@ -1114,7 +1122,9 @@ html[data-font-tier="system"],
   --input: var(--color-border-subtle);
   --ring: var(--color-focus-ring);
   /* 官方 Tooltip 反转表面 (invert-theme): light bg #0a0a0a fg #ededed */
+  /* @token deprecated --background-100 */
   --invert-background: #0a0a0a;
+  /* @token deprecated --foreground */
   --invert-foreground: #ededed;
 
   color-scheme: light;

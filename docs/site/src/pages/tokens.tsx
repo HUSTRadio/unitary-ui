@@ -29,6 +29,12 @@ const groups: Record<TokenGroup, [string, string]> = {
   layout: ["尺寸与间距", "Layout"],
 };
 
+const statuses = {
+  active: ["受支持", "Supported"],
+  reserved: ["预留", "Reserved"],
+  deprecated: ["已弃用", "Deprecated"],
+} as const;
+
 const api = [
   [
     "getToken(name, options?)",
@@ -228,6 +234,19 @@ export function TokensPage({ language }: { language: DocsLanguage }) {
         </DocsParagraph>
       </DocsSection>
       <DocsSection>
+        <DocsSectionTitle>{zh ? "生命周期与推荐入口" : "Lifecycle and preferred names"}</DocsSectionTitle>
+        <DocsParagraph>
+          {zh
+            ? "目录的 status 区分 active（受支持）、reserved（预留）与 deprecated（已弃用）；状态独立于 runtime/mapping 配置机制。受支持不表示每个组件都消费该变量，预留表示工具类或定义已有契约但当前界面未接入。已弃用名称继续保留兼容，其 replacement 给出推荐替代入口；替换前应检查消费语义，不自动转换原有配色。"
+            : "Catalog status distinguishes active (supported), reserved and deprecated entries independently of runtime/mapping behavior. Supported does not mean every component consumes the variable. Reserved entries have a definition or utility contract without current UI integration. Deprecated names remain compatible; replacement identifies the preferred alternative. Check the consuming role before migrating rather than automatically converting existing colors."}
+        </DocsParagraph>
+        <DocsParagraph>
+          {zh
+            ? "新代码使用 --radius-circular/--radius-capsule，旧 circle/pill 名称保留为兼容入口。--invert-background/foreground 不再用于默认 Tooltip；默认 Tooltip 使用 --background-100/--foreground。--radius-continuous 是预留的普通圆角降级工具类，ContinuousSurface 的曲线与降级半径由 radius prop 控制。菜单行高使用 --uni-popover-row-height，默认 36px；Menu 的触控最小高度仍为 44px。"
+            : "New code uses --radius-circular/--radius-capsule; the circle/pill names remain compatibility entries. --invert-background/foreground are no longer used by the default Tooltip, which consumes --background-100/--foreground. --radius-continuous is a reserved ordinary-radius fallback utility; ContinuousSurface uses its radius prop for both curves and fallback. Menu row height consumes --uni-popover-row-height, defaulting to 36px; Menu retains a 44px minimum height for touch pointers."}
+        </DocsParagraph>
+      </DocsSection>
+      <DocsSection>
         <DocsSectionTitle>{zh ? "完整目录" : "Complete catalog"}</DocsSectionTitle>
         <DocsParagraph>
           {zh
@@ -297,6 +316,10 @@ export function TokensPage({ language }: { language: DocsLanguage }) {
                           : zh
                             ? "构建映射"
                             : "Build mapping"}
+                      </p>
+                      <p className="mt-1 text-muted-foreground" data-token-status={token.status}>
+                        {statuses[token.status][zh ? 0 : 1]}
+                        {"replacement" in token && <> · {zh ? "推荐" : "Prefer"} <code>{token.replacement}</code></>}
                       </p>
                     </td>
                     <td className={`${cell} max-w-80 break-words`}>

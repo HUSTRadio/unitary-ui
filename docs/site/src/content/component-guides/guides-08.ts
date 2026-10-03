@@ -254,6 +254,7 @@ export const GUIDES_08_ZH: Record<string, ComponentGuide> = {
       content: [
         "菜单位置会根据窗口的边界自动翻转（如向上弹出或向下弹出），不会在窄视口中因硬编码侧边而裁剪。",
         "Radix 会做碰撞位移，但组件不自动设置小屏最大宽度；长内容的宽度与换行由调用方约束。",
+        "菜单项高度由 --uni-popover-row-height 控制，默认 36px；触控指针下最小高度保持 44px。",
       ],
     },
     themeBehavior: {
@@ -578,6 +579,7 @@ export const GUIDES_08_EN: Record<string, ComponentGuide> = {
       content: [
         "Menu position auto-flips based on window bounds (upward or downward pop-up) so it doesn't clip on narrow viewports due to hardcoded sides.",
         "Radix shifts the menu to avoid collisions, but the component does not set a small-screen maximum width; callers own width and wrapping for long content.",
+        "Menu item height follows --uni-popover-row-height, defaulting to 36px; touch pointers retain a minimum height of 44px.",
       ],
     },
     themeBehavior: {

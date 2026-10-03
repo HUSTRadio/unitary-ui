@@ -57,7 +57,7 @@ Not applicable: ContextMenu manages its own open/closed state internally and doe
 
 ## Responsive behavior
 
-Not applicable: ContextMenu as a popup overlay behaves consistently across all viewport sizes without significant responsive differences.
+- Ordinary menu item height follows --uni-popover-row-height, defaulting to 36px; Quick Actions uses an independent row layout.
 
 ## Theme behavior
 
