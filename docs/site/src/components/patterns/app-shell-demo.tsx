@@ -542,7 +542,7 @@ export function AppShellDemo({ language }: { language: DocsLanguage }) {
             </a>
             <div className="flex items-center gap-2">
               {/* 主题切换占位：真实 ThemeSwitcher，双主题下壳层观感即刻可验 */}
-              <ThemeSwitcher small />
+              <ThemeSwitcher compact />
               {/* trailing：<lg 的汉堡入口，面板从顶栏底边向下延伸 */}
               <HamburgerMenu
                 anchor="topbar"

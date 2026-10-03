@@ -212,11 +212,11 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
         demoKey: "Default",
       },
       {
-        id: "small",
+        id: "compact",
         kind: "variant",
         title: "紧凑尺寸",
-        description: "演示 small 尺寸版本，适用于页脚、下拉菜单等高密度 chrome 区域。",
-        demoKey: "Small",
+        description: "演示 compact 尺寸版本，适用于页脚、下拉菜单等高密度 chrome 区域。",
+        demoKey: "Compact",
       },
     ],
     accessibility: {
@@ -231,7 +231,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Theme Switcher 通过框架的 ThemeProvider（src/lib/theme.tsx）读取和写入主题偏好；应用根节点用 ThemeProvider 包裹一次即可，无需把主题状态冗余映射到本地 React 状态。",
-        "本库不依赖 next-themes：公开 API 仅有 className / small / disabled 三个 prop，没有 onChange 回调或 forcedTheme 概念。",
+        "本库不依赖 next-themes：公开 API 仅有 className / compact / disabled 三个 prop，没有 onChange 回调或 forcedTheme 概念。",
         "需要拦截主题切换（如跟随系统设置联动）时，直接使用 useTheme() 的 preference/setPreference，而不是包一层回调。",
       ],
     },
@@ -239,7 +239,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Theme Switcher 在桌面端呈现完整的三选项行，在窄屏上不裁剪任何选项以保持完整功能。",
-        "compact 尺寸（small prop）在任意视口下都能保持紧凑排列，适合页脚和导航栏等空间受限区域。",
+        "compact 尺寸（compact prop）在任意视口下都能保持紧凑排列，适合页脚和导航栏等空间受限区域。",
       ],
     },
     themeBehavior: {
@@ -544,12 +544,12 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
         demoKey: "Default",
       },
       {
-        id: "small",
+        id: "compact",
         kind: "variant",
         title: "Compact size",
         description:
-          "Demonstrates the small-size variant, ideal for dense chrome areas like footers and dropdowns.",
-        demoKey: "Small",
+          "Demonstrates the compact-size variant, ideal for dense chrome areas like footers and dropdowns.",
+        demoKey: "Compact",
       },
     ],
     accessibility: {
@@ -564,7 +564,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Theme Switcher reads from and writes to the framework's own ThemeProvider (src/lib/theme.tsx); wrap the app in ThemeProvider once at the root without mirroring into local React state.",
-        "The library does not depend on next-themes: the public API is just className / small / disabled—there is no onChange callback or forcedTheme concept.",
+        "The library does not depend on next-themes: the public API is just className / compact / disabled—there is no onChange callback or forcedTheme concept.",
         "To intercept theme changes (e.g. syncing with system settings), consume preference/setPreference from useTheme() directly instead of wrapping a callback.",
       ],
     },
@@ -572,7 +572,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "On desktop, Theme Switcher renders all three options in a row; on narrow screens no options are cropped to preserve full functionality.",
-        "The small (compact) variant stays tightly packed on any viewport, fitting well in footers and nav bars.",
+        "The compact variant stays tightly packed on any viewport, fitting well in footers and nav bars.",
       ],
     },
     themeBehavior: {

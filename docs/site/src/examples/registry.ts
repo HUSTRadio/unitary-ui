@@ -767,8 +767,8 @@ import { ShowMoreNoBorder5DEDD0A8Example } from "./show-more/no-border-5dedd0a8.
 import ShowMoreNoBorder5DEDD0A8ExampleSource from "./show-more/no-border-5dedd0a8.example.tsx?example-source";
 import { ThemeSwitcherDefault21B111CBExample } from "./theme-switcher/default-21b111cb.example";
 import ThemeSwitcherDefault21B111CBExampleSource from "./theme-switcher/default-21b111cb.example.tsx?example-source";
-import { ThemeSwitcherSmall5263293FExample } from "./theme-switcher/small-5263293f.example";
-import ThemeSwitcherSmall5263293FExampleSource from "./theme-switcher/small-5263293f.example.tsx?example-source";
+import { ThemeSwitcherCompact5263293FExample } from "./theme-switcher/compact-5263293f.example";
+import ThemeSwitcherCompact5263293FExampleSource from "./theme-switcher/compact-5263293f.example.tsx?example-source";
 import { ThemeSwitcherDisabled75081B59Example } from "./theme-switcher/disabled-75081b59.example";
 import ThemeSwitcherDisabled75081B59ExampleSource from "./theme-switcher/disabled-75081b59.example.tsx?example-source";
 import { LoadingDotsDefault21B111CBExample } from "./loading-dots/default-21b111cb.example";
@@ -1248,7 +1248,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "show-more", id: "Expanded", Component: ShowMoreExpandedE72D5D8DExample, source: ShowMoreExpandedE72D5D8DExampleSource },
   { slug: "show-more", id: "No border", Component: ShowMoreNoBorder5DEDD0A8Example, source: ShowMoreNoBorder5DEDD0A8ExampleSource },
   { slug: "theme-switcher", id: "Default", Component: ThemeSwitcherDefault21B111CBExample, source: ThemeSwitcherDefault21B111CBExampleSource },
-  { slug: "theme-switcher", id: "Small", Component: ThemeSwitcherSmall5263293FExample, source: ThemeSwitcherSmall5263293FExampleSource },
+  { slug: "theme-switcher", id: "Compact", Component: ThemeSwitcherCompact5263293FExample, source: ThemeSwitcherCompact5263293FExampleSource },
   { slug: "theme-switcher", id: "Disabled", Component: ThemeSwitcherDisabled75081B59Example, source: ThemeSwitcherDisabled75081B59ExampleSource },
   { slug: "loading-dots", id: "Default", Component: LoadingDotsDefault21B111CBExample, source: LoadingDotsDefault21B111CBExampleSource },
   { slug: "loading-dots", id: "With text", Component: LoadingDotsWithTextF00F2530Example, source: LoadingDotsWithTextF00F2530ExampleSource },

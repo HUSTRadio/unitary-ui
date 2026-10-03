@@ -137,34 +137,43 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
                  也不换用户的折叠偏好。 */
               collapsible
               persistKey={SIDEBAR_COLLAPSE_KEY}
+              toolbarLeft={
+                searchMode === "toolbar" ? (
+                  // 与顶栏（≥md）同一默认档，不再覆写按钮/图标尺寸；
+                  // 触屏命中区由组件内 pointer-coarse:min-h-11 负责。
+                  <ThemeSwitcher />
+                ) : undefined
+              }
               toolbarRight={
                 searchMode === "toolbar" ? (
-                  <div className="flex items-center gap-2">
-                    <div className="[&_button]:min-h-11 [&_button]:min-w-11 [&_button]:px-1">
-                      <ThemeSwitcher small />
-                    </div>
-                    <MenuContainer position="bottom-end">
-                      <MenuButton
-                        variant="unstyled"
-                        aria-label={copy.languageAria}
-                        className="flex size-11 items-center justify-center rounded-md text-muted-foreground hover:bg-gray-alpha-100 hover:text-foreground focus-ring"
-                      >
-                        <Languages className="size-4 shrink-0" aria-hidden />
-                      </MenuButton>
-                      <Menu width={128} stateful aria-label={copy.languageLabel}>
-                        {LANGUAGE_OPTIONS.map((option) => (
-                          <MenuItem
-                            key={option.value}
-                            aria-current={option.value === language ? "true" : undefined}
-                            active={option.value === language}
-                            onSelect={() => setLanguage(option.value)}
-                          >
-                            {option.label}
-                          </MenuItem>
-                        ))}
-                      </Menu>
-                    </MenuContainer>
-                  </div>
+                  <MenuContainer position="bottom-end">
+                    <MenuButton
+                      variant="unstyled"
+                      aria-label={copy.languageAria}
+                      className="flex h-11 min-w-11 shrink-0 items-center justify-center gap-1.5 rounded-md px-2 text-label-13 whitespace-nowrap text-muted-foreground hover:bg-gray-alpha-100 hover:text-foreground focus-ring"
+                    >
+                      <Languages className="size-4 shrink-0" aria-hidden />
+                      {LANGUAGE_OPTIONS.find((option) => option.value === language)?.label}
+                    </MenuButton>
+                    {/* 菜单经 Portal 渲染，需位于抽屉遮罩之上以接收点击。 */}
+                    <Menu
+                      width={128}
+                      stateful
+                      aria-label={copy.languageLabel}
+                      className="z-[var(--uni-z-popover)]"
+                    >
+                      {LANGUAGE_OPTIONS.map((option) => (
+                        <MenuItem
+                          key={option.value}
+                          aria-current={option.value === language ? "true" : undefined}
+                          active={option.value === language}
+                          onSelect={() => setLanguage(option.value)}
+                        >
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </MenuContainer>
                 ) : undefined
               }
               groups={menuGroups}

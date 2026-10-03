@@ -352,7 +352,7 @@ describe("component API registry", () => {
     expect(row("textarea", "label")?.type).toBe("ReactNode");
     expect(row("textarea", "layout")?.type).toBe("ControlLayout");
 
-    expect(row("theme-switcher", "small")?.defaultValue).toBe("false");
+    expect(row("theme-switcher", "compact")?.defaultValue).toBe("false");
     expect(row("theme-switcher", "disabled")?.defaultValue).toBe("false");
     expect(row("theme-switcher", "theme")).toBeUndefined();
     expect(row("theme-switcher", "onThemeChange")).toBeUndefined();

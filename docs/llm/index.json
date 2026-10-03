@@ -56,7 +56,7 @@
     {
       "path": "/tokens",
       "title": {
-        "zh-CN": "全局 Token",
+        "zh-CN": "全局变量",
         "en-US": "Global Tokens"
       },
       "category": "foundations",
@@ -65,7 +65,7 @@
         "en-US": "pages/en-US/tokens.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:87e39f04f35f25c98cc4f2766e1342fe04e059a530ae2e24a6aeac8e66ce81a1",
+        "zh-CN": "sha256:930f8f2c7fc0703a46fdca263ce4bf53688959d495713c9d076be1ab1ed8bc75",
         "en-US": "sha256:73a79df6e8175a5edc6f4f108b61fcf4a9c5712e19f1272afc006704cf6ece30"
       }
     },

@@ -33,7 +33,7 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-function mount(small = false) {
+function mount(compact = false) {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
@@ -41,7 +41,7 @@ function mount(small = false) {
     root.render(
       <ThemeProvider>
         <I18nProvider locale="en">
-          <ThemeSwitcher small={small} />
+          <ThemeSwitcher compact={compact} />
         </I18nProvider>
       </ThemeProvider>,
     ),
@@ -64,7 +64,7 @@ describe("ThemeSwitcher system icon", () => {
     expect(html).toMatch(/lucide-monitor[^>]*max-md:absolute/);
   });
 
-  test("small variant keeps the same dual-icon behavior with size-3.5", () => {
+  test("compact variant keeps the same dual-icon behavior with size-3.5", () => {
     const c = mount(true);
     const html = c.innerHTML;
     expect(html).toContain("lucide-monitor");

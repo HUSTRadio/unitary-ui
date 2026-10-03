@@ -119,7 +119,7 @@ export function TokensPage({ language }: { language: DocsLanguage }) {
   const cell = "border-b border-border p-3 text-left align-top text-copy-13";
   return (
     <article className="min-w-0 max-w-3xl">
-      <DocsPageTitle>{zh ? "全局 Token" : "Global Tokens"}</DocsPageTitle>
+      <DocsPageTitle>{zh ? "全局变量" : "Global Tokens"}</DocsPageTitle>
       <DocsPageLead>
         {zh
           ? "查阅全局设计变量，并通过包根导出的 API 读取、修改和订阅当前页面的样式。"

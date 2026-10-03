@@ -1935,7 +1935,7 @@ const O = {
     ["ThemeSwitcher"],
     [
       row("className", "string", "Additional classes for the radiogroup.", "主题单选组的附加类名。"),
-      row("small", "boolean", "Uses compact theme option buttons.", "使用紧凑的主题选项按钮。", {
+      row("compact", "boolean", "Uses compact theme option buttons.", "使用紧凑的主题选项按钮。", {
         defaultValue: "false",
       }),
       row("disabled", "boolean", "Disables every theme option.", "禁用所有主题选项。", {

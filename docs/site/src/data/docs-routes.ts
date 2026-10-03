@@ -102,7 +102,7 @@ const STATIC_DOCS_ROUTES: readonly DocsRoute[] = [
     to: "/tokens",
     group: "foundations",
     label: "Global Tokens",
-    labelZh: "全局 Token",
+    labelZh: "全局变量",
     sidebar: true,
     renderer: { kind: "localized", page: "tokens" },
   },

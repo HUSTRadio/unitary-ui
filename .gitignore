@@ -19,6 +19,7 @@ coverage/
 .continue/
 .agent/
 .codebuddy/
+.workbuddy/
 .scratch/
 .tmp/
 *.tmp.*

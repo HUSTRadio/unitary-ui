@@ -1408,6 +1408,20 @@ html[data-font-tier="system"],
   html {
     -webkit-text-size-adjust: 100%;
     tab-size: 4;
+
+    /*
+     * 全局滚动约束（2026-10-03）：根滚动容器是 <html>，而 topbar 是
+     * position: sticky 浮在其上——滚动条原本从视口最顶端起画，与 topbar
+     * 覆盖的那段高度重叠，视觉上像"滚动条穿过顶栏"。
+     *
+     * scroll-padding-top 把滚动port 的 snap 起点/内边距压到 topbar 之下，
+     * 锚点跳转与 scrollIntoView 不再把目标藏到顶栏背后；配合 Navbar 的
+     * sticky top-0，滚动内容始终从 topbar 下沿开始可见。
+     *
+     * 高度写死为 4rem（h-16）以匹配 Navbar 默认高度；Navbar 传自定义
+     * height 时需由调用方覆盖本值（当前唯一消费方是文档站，默认 h-16）。
+     */
+    scroll-padding-top: 4rem;
   }
 
   body {
@@ -2237,6 +2251,55 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
   &::-webkit-scrollbar {
     width: 8px;
     height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--gray-alpha-400);
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    background-clip: content-box;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: var(--gray-alpha-500);
+  }
+}
+
+/*
+ * 顶栏下滚动约束（全局，2026-10-03）
+ *
+ * 问题：页面滚动发生在根 <html> 上，而 topbar 是 position: sticky top-0。
+ * 根滚动容器的滚动条因此从视口最顶端起画，与 sticky topbar 覆盖的 4rem
+ * 完全重叠——视觉上滚动条"穿过"顶栏右端（搜索/主题图标所在处）。
+ *
+ * 约束分两层，本工具类负责第二层（视觉），base 层的 scroll-padding-top
+ * 负责第一层（锚点定位）：
+ *   1. base `html { scroll-padding-top }` → 锚点/scrollIntoView 不把目标
+ *      藏到顶栏背后；
+ *   2. 本类把滚动 owner 自身下移出顶栏区域 → 滚动条轨道从顶栏下沿起画。
+ *
+ * 用法：把 topbar 之外的区域包成独立滚动容器（h-[calc(100dvh-4rem)] +
+ * overflow-y-auto），并给该容器加 topbar-offset-scroll。topbar 自身
+ * 继续 sticky/fixed 悬浮在滚动容器之上。
+ *
+ * 与 nav-scroll 的分工：nav-scroll 管"滚动条长什么样"（细滚动条 + 稳定
+ * 槽位），本类管"滚动条从哪里开始画"。
+ */
+@utility topbar-offset-scroll {
+  /* 顶栏高度的唯一权威来源；与 Navbar 默认 h-16 一致。 */
+  --uni-topbar-height: 4rem;
+
+  /* 滚动容器从顶栏下沿开始，滚动条轨道自然不会进入顶栏区域。 */
+  scroll-padding-block-start: var(--uni-topbar-height);
+
+  /* 与 nav-scroll 同族的细滚动条观感；此处不重复声明槽位宽度，
+     避免与 nav-scroll 叠加出双层 gutter。 */
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-alpha-400) transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
   }
   &::-webkit-scrollbar-track {
     background: transparent;

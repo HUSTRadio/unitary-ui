@@ -90,7 +90,7 @@ export default function App() {
             ))}
           </nav>
         </div>
-        <ThemeSwitcher small />
+        <ThemeSwitcher compact />
       </header>
 
       {/* 移动端导航 */}

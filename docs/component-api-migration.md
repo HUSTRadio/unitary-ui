@@ -78,7 +78,7 @@
 | `@/components/ui/theme-switch` | `@/components/ui/theme-switcher` |
 | `<ThemeSwitch />`              | `<ThemeSwitcher />`              |
 
-`ThemeSwitcher` 是 Light / System / Dark 三态控件，支持当前官方文档需要的 `small` 和 `disabled`。不保留下拉式 `ThemeSwitch`。
+`ThemeSwitcher` 是 Light / System / Dark 三态控件，支持当前官方文档需要的 `compact` 和 `disabled`。不保留下拉式 `ThemeSwitch`。
 
 ## 当前真实引用与迁移方式
 
@@ -269,7 +269,7 @@ node_modules/.bin/vite build docs --config docs/vite.config.ts
 
 - `#/components/menu`：打开、键盘导航、Esc 关闭、焦点返回、disabled、error item、Light / Dark。
 - `#/components/switch`：点击和方向键切换、唯一选中、disabled、small / default / large、Light / Dark。
-- `#/components/theme-switcher`：Light / System / Dark 状态同步、small、disabled、刷新后偏好保持。
+- `#/components/theme-switcher`：Light / System / Dark 状态同步、compact、disabled、刷新后偏好保持。
 - `src/App.tsx`：桌面页头主题切换、移动端 5 项导航、组件总览 3 项 Switch。
 - `DataTableExample`：4 项筛选迁移到 Select 后筛选结果不变。
 - 375、768、1440、1920 px 四个视口下无布局跳动或横向溢出。

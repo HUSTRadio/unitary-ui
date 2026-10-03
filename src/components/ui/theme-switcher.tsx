@@ -16,11 +16,12 @@ const THEME_OPTIONS: Array<{
 
 export interface ThemeSwitcherProps {
   className?: string;
-  small?: boolean;
+  /** 紧凑档：按钮 24px / 图标 14px，用于页脚、导航栏等空间受限区域。 */
+  compact?: boolean;
   disabled?: boolean;
 }
 
-function ThemeSwitcher({ className, small = false, disabled = false }: ThemeSwitcherProps) {
+function ThemeSwitcher({ className, compact = false, disabled = false }: ThemeSwitcherProps) {
   const { preference, setPreference } = useTheme();
   const { t } = useI18n();
 
@@ -52,7 +53,7 @@ function ThemeSwitcher({ className, small = false, disabled = false }: ThemeSwit
               // pointer-coarse：触屏命中区抬到 44×44（HIG-AUD-013）；桌面维持 24/32px 视觉。
               // 与 docs 壳层的 [&_button]:min-h-11 包装同语义（组件层原生支持后该包装可移除）
               "inline-flex items-center justify-center rounded-full text-muted-foreground outline-none focus-ring transition-colors motion-reduce:transition-none disabled:pointer-events-none disabled:opacity-50 pointer-coarse:min-h-11 pointer-coarse:min-w-11",
-              small ? "size-6" : "size-8",
+              compact ? "size-6" : "size-8",
               checked &&
                 "bg-background text-foreground shadow-[0_0_0_1px_var(--gray-alpha-400),0_2px_2px_rgba(0,0,0,0.12)]",
             )}
@@ -64,21 +65,21 @@ function ThemeSwitcher({ className, small = false, disabled = false }: ThemeSwit
               <>
                 <Monitor
                   className={cn(
-                    small ? "size-3.5" : "size-4",
+                    compact ? "size-3.5" : "size-4",
                     "max-md:absolute max-md:invisible md:visible",
                   )}
                   aria-hidden
                 />
                 <Smartphone
                   className={cn(
-                    small ? "size-3.5" : "size-4",
+                    compact ? "size-3.5" : "size-4",
                     "max-md:static md:absolute md:invisible",
                   )}
                   aria-hidden
                 />
               </>
             ) : (
-              <Icon className={small ? "size-3.5" : "size-4"} aria-hidden />
+              <Icon className={compact ? "size-3.5" : "size-4"} aria-hidden />
             )}
           </button>
         );

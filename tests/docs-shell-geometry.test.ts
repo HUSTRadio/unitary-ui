@@ -153,20 +153,13 @@ describe("docs shell geometry — framework shell assembly", () => {
 
   it("language menu and theme switcher are hidden on mobile topbar (drawer hosts them)", () => {
     // 2026-08-24 新契约：移动端（<md）topbar 右区块只保留搜索入口，
-    // 语言/主题收敛进汉堡抽屉工具行（toolbarRight 已有等价副本），
+    // 语言/主题收敛进汉堡抽屉工具行（toolbarLeft / toolbarRight 提供入口），
     // 消除 390px 视口下右簇 ~197px 的横向溢出。
     const rightBlock = shell.slice(shell.indexOf("右区块"), shell.indexOf("</Navbar>"));
     expect(rightBlock.match(/max-md:hidden/g)?.length).toBeGreaterThanOrEqual(2);
   });
 
-  it("drawer toolbar theme switcher buttons get >=44px touch targets via hit-area wrapper", () => {
-    // 2026-08-24 新契约：抽屉工具行的 <ThemeSwitcher small />（按钮实测 24×24）
-    // 外包命中扩展容器，把可点目标提升到 ≥44×44（Apple HIG / WCAG 2.5.8）。
-    const wrap = shell.match(
-      /<div className="\[\&_button\]:min-h-11[^"]*">\s*<ThemeSwitcher small \/>/,
-    );
-    expect(wrap).not.toBeNull();
-  });
+  // 工具行的布局、图标与 >=44px 命中区由 docs-mobile-toolbar.spec.ts 实测。
 
   it("removes the static DocsMobileNav list (superseded by the HamburgerMenu panel)", () => {
     expect(shell).not.toContain("DocsMobileNav");
@@ -189,9 +182,22 @@ describe("docs shell geometry — framework shell assembly", () => {
   });
 
   it("uses one shared page background for margins, sidebar and content", () => {
-    expect(app).toContain('className="flex min-h-screen flex-col bg-background"');
+    // 2026-10-03 起外壳改用 h-dvh + overflow-hidden：滚动 owner 下移到 <main>，
+    // 让滚动条严格从 topbar 下沿起画（topbar-offset-scroll 契约）。
+    // 背景仍为单一 bg-background，不引入第二层底色。
+    expect(app).toContain('className="flex h-dvh flex-col overflow-hidden bg-background"');
     expect(app).not.toMatch(/bg-background-200/);
     expect(app).not.toMatch(/className="min-w-0[^"]*bg-/);
+  });
+
+  it("topbar stays clear of the scrollbar track (scroll owner is main, not the document)", () => {
+    // 滚动条不得与 sticky topbar 的覆盖段重叠：<main> 自身是滚动容器，
+    // 且带 topbar-offset-scroll；外壳锁定视口高度并禁止自身滚动。
+    expect(app).toMatch(/<main[^>]*topbar-offset-scroll/);
+    expect(app).toMatch(/<main[^>]*overflow-y-auto/);
+    // 顶栏高度留白：main 下移一个 topbar 高度，避免内容被 sticky topbar 遮住。
+    expect(app).toMatch(/<main[^>]*mt-16/);
+    expect(shell).toMatch(/<Navbar[^>]*scrollBehavior="pinned"/);
   });
 
   it("continuous main divider @x=363: sidebar carries border-r (docks with navbar brand borderR)", () => {

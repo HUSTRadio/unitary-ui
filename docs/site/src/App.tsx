@@ -91,7 +91,13 @@ export default function App() {
   }, [canonicalPath, language]);
 
   useEffect(() => {
-    // 路由切换滚动复位（item 21）：仅 pathname 变化时回到顶部，语言切换不触发
+    // 路由切换滚动复位（item 21）：仅 pathname 变化时回到顶部，语言切换不触发。
+    // 滚动 owner 是 <main>（topbar 约束后不再是根 document），故复位到该容器。
+    // scrollTo 是 HTMLElement 方法，jsdom 等轻量宿主可能未实现，需typeof 守卫。
+    const main = document.getElementById("main-content");
+    if (main && typeof main.scrollTo === "function") {
+      main.scrollTo({ top: 0 });
+    }
     window.scrollTo(0, 0);
   }, [pathname]);
 
@@ -111,7 +117,9 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    // 顶栏脱离文档流（fixed），主区域是唯一滚动 owner（见下方 main）：
+    // 这样根滚动条不会与 topbar 覆盖段重叠，滚动条严格从 topbar 下沿起画。
+    <div className="flex h-dvh flex-col overflow-hidden bg-background">
       <a
         href="#main-content"
         onClick={(event) => {
@@ -126,7 +134,7 @@ export default function App() {
       <main
         id="main-content"
         tabIndex={-1}
-        className="mx-auto w-full max-w-[1220px] flex-1 border-gray-alpha-400 lg:grid lg:grid-cols-[260px_1fr] lg:border-r"
+        className="topbar-offset-scroll mx-auto mt-16 w-full max-w-[1220px] flex-1 overflow-y-auto border-gray-alpha-400 lg:grid lg:grid-cols-[260px_1fr] lg:border-r"
       >
         <DocsSidebar />
         <div className="min-w-0 py-10">
