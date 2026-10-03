@@ -10,15 +10,15 @@ const shell = readFileSync(
 
 describe("docs shell geometry — framework shell assembly", () => {
   it("limits width on the navbar/main/footer containers, not an inner wrapper", () => {
-    expect(app).toContain("max-w-[1220px]");
+    expect(app).toContain("max-w-[var(--uni-doc-layout-shell-width)]");
     expect(app).not.toContain("max-w-[1280px]");
-    expect(shell).toContain("max-w-[1220px]");
+    expect(shell).toContain("max-w-[var(--uni-doc-layout-shell-width)]");
   });
 
   it("wide navbar is a centered 1220 block (official architecture), not full-width", () => {
     // 官方架构：Navbar 容器本身 sticky mx-auto max-w-[1220px]（非全宽条），
     // 留白区透出页面底色；内层 div 不再重复 mx-auto/max-w（回退 f08fd84 全宽化）。
-    expect(shell).toMatch(/<Navbar[^>]*max-w-\[1220px\]/);
+    expect(shell).toMatch(/<Navbar[^>]*max-w-\[var\(--uni-doc-layout-shell-width\)\]/);
     const inner = shell.slice(shell.indexOf("<Navbar"), shell.indexOf("</Navbar>"));
     expect(inner).not.toMatch(/className="mx-auto flex h-full w-full max-w-\[1220px\]/);
   });
@@ -36,7 +36,7 @@ describe("docs shell geometry — framework shell assembly", () => {
 
   it("uses lg:grid with sidebar + content columns at the lg breakpoint", () => {
     // 断点铁律：桌面/移动分界一律 lg:（1024px），禁止 xl
-    expect(app).toContain("lg:grid lg:grid-cols-[260px_1fr]");
+    expect(app).toContain("lg:grid lg:grid-cols-[var(--uni-doc-layout-sidebar-width)_1fr]");
     expect(app).not.toMatch(/\bxl:/);
     expect(shell).not.toMatch(/\bxl:/);
   });
@@ -61,11 +61,11 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(shell).toContain("<SidebarNav");
     expect(shell).toContain("activeTo={pathname}");
     // 容器结构保持：260px 宽 + 左右双边界 + lg sticky
-    expect(shell).toContain("w-[260px]");
+    expect(shell).toContain("w-[var(--uni-doc-layout-sidebar-width)]");
     expect(shell).toContain("border-l border-r border-gray-alpha-400");
-    expect(shell).toContain("lg:sticky lg:top-16");
-    expect(shell).toContain("lg:h-[calc(100vh-4rem)]");
-    expect(shell).toContain("hidden w-[260px]");
+    expect(shell).toContain("lg:sticky lg:top-[var(--uni-topbar-height)]");
+    expect(shell).toContain("lg:h-[calc(100vh-var(--uni-topbar-height))]");
+    expect(shell).toContain("hidden w-[var(--uni-doc-layout-sidebar-width)]");
   });
 
   it("keeps the sidebar as a real scroll owner with a visible native scrollbar (library utility)", () => {
@@ -73,7 +73,7 @@ describe("docs shell geometry — framework shell assembly", () => {
     // 2026-09-29：滚动条契约从 docs 专有类 .docs-sidebar 抽象成库内标准工具类
     // nav-scroll，侧栏 aside 与抽屉导航区共用（换形态不换滚动条）。
     expect(shell).toMatch(/<aside[^>]*data-slot="docs-sidebar"/);
-    expect(shell).toContain("nav-scroll relative hidden w-[260px]");
+    expect(shell).toContain("nav-scroll relative hidden w-[var(--uni-doc-layout-sidebar-width)]");
     expect(styles).toMatch(/@utility nav-scroll\s*\{[\s\S]*scrollbar-width:\s*thin;[\s\S]*scrollbar-color:\s*var\(--gray-alpha-400\)\s+transparent;[\s\S]*scrollbar-gutter:\s*stable both-edges;/);
     expect(styles).toMatch(/&::-webkit-scrollbar\s*\{[\s\S]*width:\s*8px;/);
     expect(styles).toMatch(/&::-webkit-scrollbar-thumb\s*\{[\s\S]*background-color:\s*var\(--gray-alpha-400\);[\s\S]*background-clip:\s*content-box;/);
@@ -108,7 +108,7 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(menu).not.toMatch(/\n\s+showCloseButton(?=\s|\n)/);
     expect(menu).toContain("[&>[data-slot=panel-toolbar]]:md:hidden");
     expect(menu).toContain('maxExpandedHeight="100dvh"');
-    expect(menu).toContain('maxExpandedWidth="292px"');
+    expect(menu).toContain('maxExpandedWidth="var(--uni-doc-layout-mobile-nav-width)"');
     expect(menu).toContain("anchorElement={navbarEl}");
     expect(menu).toContain("groups={menuGroups}");
     expect(menu).toContain("open={menuOpen}");
@@ -175,7 +175,7 @@ describe("docs shell geometry — framework shell assembly", () => {
   });
 
   it("joins navbar and main outer rails at lg+ without placing a border on the scrolling content column", () => {
-    expect(shell).toMatch(/<Navbar[^>]*max-w-\[1220px\]/);
+    expect(shell).toMatch(/<Navbar[^>]*max-w-\[var\(--uni-doc-layout-shell-width\)\]/);
     expect(shell).toMatch(/flex h-full w-full[^"]*lg:border-l[^"]*lg:border-r/);
     expect(app).toMatch(/<main[\s\S]*?border-gray-alpha-400[\s\S]*?lg:border-r/);
     expect(app).not.toMatch(/className="min-w-0[^"]*border-r/);
@@ -196,7 +196,7 @@ describe("docs shell geometry — framework shell assembly", () => {
     expect(app).toMatch(/<main[^>]*topbar-offset-scroll/);
     expect(app).toMatch(/<main[^>]*overflow-y-auto/);
     // 顶栏高度留白：main 下移一个 topbar 高度，避免内容被 sticky topbar 遮住。
-    expect(app).toMatch(/<main[^>]*mt-16/);
+    expect(app).toMatch(/<main[^>]*mt-\[var\(--uni-topbar-height\)\]/);
     expect(shell).toMatch(/<Navbar[^>]*scrollBehavior="pinned"/);
   });
 

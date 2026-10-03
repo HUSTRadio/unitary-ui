@@ -148,7 +148,7 @@ describe("docs feedback", () => {
 
     const nav = container.querySelector("nav")!;
     expect(nav.className).toContain("grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]");
-    expect(nav.className).toContain("max-[480px]:grid-cols-2");
+    expect(nav.className).toContain("docs-feedback-compact:grid-cols-2");
     expect(nav.getAttribute("aria-label")).toBe("文档分页");
     const feedback = nav.querySelector('[data-slot="feedback-anchor"]');
     expect(feedback?.getAttribute("aria-label")).toBe("这篇文档对你有帮助吗？");

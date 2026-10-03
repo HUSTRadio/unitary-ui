@@ -180,7 +180,7 @@ function SimpleIconGlyph({
     return (
       <span
         aria-hidden
-        className={cn("flex shrink-0 items-center justify-center rounded-[4px] font-medium", className)}
+        className={cn("flex shrink-0 items-center justify-center rounded-sm font-medium", className)}
         style={{
           width: size,
           height: size,
@@ -514,7 +514,7 @@ export function IconsPage() {
               </p>
             </ModalHeader>
 
-            <div className="mt-5 flex h-40 items-center justify-center rounded-[8px] border border-gray-alpha-400 bg-background-200">
+            <div className="mt-5 flex h-40 items-center justify-center rounded-lg border border-gray-alpha-400 bg-background-200">
               {selected.lib === "lucide" ? (
                 <selected.Icon
                   size={settings.size}
@@ -538,7 +538,7 @@ export function IconsPage() {
                   onChange={(event) =>
                     setSettings((prev) => ({ ...prev, color: event.target.value }))
                   }
-                  className="h-8 w-full cursor-pointer rounded-[6px] border border-gray-alpha-400 bg-background-100 p-1"
+                  className="h-8 w-full cursor-pointer rounded-md border border-gray-alpha-400 bg-background-100 p-1"
                 />
               </div>
               <div>

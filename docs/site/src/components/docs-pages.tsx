@@ -153,7 +153,7 @@ export function ColorsPage() {
             "There are two background colors for pages and UI components. In most instances, use Background 1—especially when color is placed on top of the background. Use Background 2 sparingly when subtle differentiation is needed.",
           )}
         </DocsParagraph>
-        <DocsList className="list-disc pl-5">
+        <DocsList className="list-disc pl-[var(--uni-doc-list-indent)]">
           <li>{demoText(language, "Background 1 — Default element background")}</li>
           <li>{demoText(language, "Background 2 — Secondary background")}</li>
         </DocsList>

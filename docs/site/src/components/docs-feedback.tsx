@@ -37,16 +37,16 @@ export function DocsPagination() {
 
   return (
     <nav
-      className="mt-8 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4 max-[480px]:grid-cols-2"
+      className="mt-8 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4 docs-feedback-compact:grid-cols-2"
       aria-label={copy.paginationAria}
     >
       {/* flex：让 FeedbackPanel 的 inline-flex section 成为 flex item，
           否则 inline 元素产生的行盒会给容器额外加约 6px（字体降部空间），
           使页脚比胶囊实际高度高出一截，且与左右分列不等高。 */}
-      <div className="col-start-2 flex justify-self-center max-[480px]:col-span-2 max-[480px]:col-start-1 max-[480px]:row-start-1">
+      <div className="col-start-2 flex justify-self-center docs-feedback-compact:col-span-2 docs-feedback-compact:col-start-1 docs-feedback-compact:row-start-1">
         <FeedbackPanel />
       </div>
-      <div className="col-start-1 row-start-1 min-w-0 justify-self-start max-[480px]:row-start-2">
+      <div className="col-start-1 row-start-1 min-w-0 justify-self-start docs-feedback-compact:row-start-2">
         {previous ? (
           <NavLink
             to={previous.to}
@@ -65,7 +65,7 @@ export function DocsPagination() {
           </NavLink>
         ) : null}
       </div>
-      <div className="col-start-3 row-start-1 min-w-0 justify-self-end max-[480px]:col-start-2 max-[480px]:row-start-2">
+      <div className="col-start-3 row-start-1 min-w-0 justify-self-end docs-feedback-compact:col-start-2 docs-feedback-compact:row-start-2">
         {next ? (
           <NavLink
             to={next.to}

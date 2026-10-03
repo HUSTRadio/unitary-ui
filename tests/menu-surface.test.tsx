@@ -26,7 +26,7 @@ describe("Menu surface contract (B0 menu-surface)", () => {
     const { content } = renderMenu();
     expect(content).not.toBeNull();
     expect(content!.className).toContain("rounded-overlay");
-    expect(content!.className).toContain("p-1.5");
+    expect(content!.className).toContain("p-[var(--uni-popover-padding)]");
     expect(content!.className).toContain("shadow-[var(--material-shadow-menu)]");
     // 官方无真实 border；border 由 --material-shadow-menu 的 1px 环承担
     expect(content!.className).not.toContain("border ");

@@ -554,7 +554,7 @@ export const GUIDES_06_EN: Record<string, ComponentGuide> = {
         "Every rating uses the same blue-300 background and blue-900 glyph emphasis; no non-official four-color emotion mapping is added.",
         "The separately labeled Local RatingPill extension retains semantic four-tone capsules; it is not an official Feedback variant.",
         "Panel shadow, background, and border colors follow the Unitary theme system, supporting global theme variable overrides.",
-        "Collapsed Inline uses the interpolatable --radius-capsule-interpolable rather than an effectively-infinite pill radius; the latter gets clamped to half the shortest edge, which makes the radius snap mid-expansion.",
+        "Collapsed Inline uses the interpolatable --radius-capsule-interpolable rather than an effectively-infinite pill radius; when transitioning to 12px, the latter gets clamped to half the shortest edge, which makes the radius snap mid-expansion.",
       ],
     },
   },

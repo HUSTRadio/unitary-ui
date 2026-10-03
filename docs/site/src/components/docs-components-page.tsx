@@ -78,8 +78,9 @@ function TableDemoCard({
   const allowOverflow = slug !== undefined && DEMO_OVERFLOW_VISIBLE_SLUGS.has(slug);
   if (slug === "activity-view") {
     return (
-      <div data-demo-card={id} className="overflow-hidden rounded-[8px] border border-gray-alpha-400 bg-background-100">
-        {/* Keep the overlay viewport independent of the expandable source listing. */}
+      <div data-demo-card={id} className="overflow-hidden rounded-lg border border-gray-alpha-400 bg-background-100">
+        {/* 844px 是演示视口的固定高度；与可展开的源码列表相互独立。
+            844px is the demo viewport fixture, independent of the expandable source listing. */}
         <SubFrame className="h-[min(844px,100dvh)]">
           <div data-slot="docs-local-scroll" data-demo-container={id} className="w-full overflow-x-auto p-6">
             {children}
@@ -95,7 +96,7 @@ function TableDemoCard({
     <SubFrame
       clip={false}
       className={cn(
-        "rounded-[8px] border border-gray-alpha-400 bg-background-100",
+        "rounded-lg border border-gray-alpha-400 bg-background-100",
         allowOverflow ? "overflow-visible" : "overflow-hidden",
       )}
       data-demo-card={id}
@@ -124,7 +125,7 @@ function DemoShowCode({ code }: { code: string }) {
         aria-expanded={showCode}
         aria-controls={codeId}
         onClick={() => setShowCode((v) => !v)}
-        className={`flex h-12 w-full items-center gap-3 border-t border-gray-400 bg-background-200 px-4 text-left text-copy-14 text-gray-900 transition-colors hover:bg-gray-200 focus:outline-none${showCode ? "" : " rounded-b-[8px]"}`}
+        className={`flex h-12 w-full items-center gap-3 border-t border-gray-400 bg-background-200 px-4 text-left text-copy-14 text-gray-900 transition-colors hover:bg-gray-200 focus:outline-none${showCode ? "" : " rounded-b-lg"}`}
       >
         <ChevronRight
           className={`size-4 transition-transform${showCode ? " rotate-90" : ""}`}
@@ -136,7 +137,7 @@ function DemoShowCode({ code }: { code: string }) {
         <div id={codeId} className="overflow-hidden">
           <CodeBlockComponent
             language="tsx"
-            className="rounded-none rounded-b-[8px] border-0 border-t border-gray-alpha-400"
+            className="rounded-none rounded-b-lg border-0 border-t border-gray-alpha-400"
           >
             {code}
           </CodeBlockComponent>

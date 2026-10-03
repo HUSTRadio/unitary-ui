@@ -76,6 +76,16 @@ pnpm run docs:llm:check
 
 Do not hand-edit generated files when the generator or canonical docs source should change instead.
 
+### Documentation literal values
+
+Audit rendered styles separately from comments, translated specifications, code examples, and
+assertions. Numeric prose and runnable examples may use literal values to explain the public API;
+do not bulk-convert them to tokens. Keep numeric specifications equivalent across locales.
+Exact preview fixtures and palette swatches may retain literals when their purpose is documented.
+Reuse existing library tokens for site styling; keep docs-only shell geometry and media-query
+constants in `docs/site/src/index.css` instead of expanding the public library token catalog.
+Trace indirect consumption through CSS owners and utility classes before declaring a token unused.
+
 ## README screenshot workflow
 
 The README screenshot set is generated from the real living styleguide. The generator discovers every

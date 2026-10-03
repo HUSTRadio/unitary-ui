@@ -26,7 +26,7 @@ describe("Context Menu official contract", () => {
   test("uses the official menu surface and row geometry", () => {
     expect(source).toContain("rounded-overlay");
     expect(source).toContain("rounded-overlay-item");
-    expect(source).toContain("p-1.5");
+    expect(source).toContain("p-[var(--uni-popover-padding)]");
     expect(source).toContain("text-label-14");
     expect(source).toContain("cursor-pointer");
     expect(source).toContain("data-[disabled]:cursor-default");

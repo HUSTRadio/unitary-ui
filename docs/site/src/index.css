@@ -12,4 +12,16 @@
 
 :root {
   --theme-accent: #0d47a1;
+
+  /* 文档站外壳几何；站点专用值不进入组件库的公共 token catalog。
+     Docs shell geometry stays local to the site, outside the public library catalog. */
+  --uni-doc-layout-shell-width: 1220px;
+  --uni-doc-layout-sidebar-width: 260px;
+  --uni-doc-layout-shell-gutter: 22px;
+  --uni-doc-layout-brand-width: calc(var(--uni-doc-layout-sidebar-width) - var(--uni-doc-layout-shell-gutter));
+  --uni-doc-layout-mobile-nav-width: 292px;
 }
+
+/* 媒体查询使用构建期常量；CSS var() 不能充当媒体查询条件。
+   Media queries need a build-time constant rather than a runtime CSS variable. */
+@custom-variant docs-feedback-compact (@media (width < 480px));

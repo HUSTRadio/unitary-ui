@@ -134,7 +134,7 @@ export default function App() {
       <main
         id="main-content"
         tabIndex={-1}
-        className="topbar-offset-scroll mx-auto mt-16 w-full max-w-[1220px] flex-1 overflow-y-auto border-gray-alpha-400 lg:grid lg:grid-cols-[260px_1fr] lg:border-r"
+        className="topbar-offset-scroll mx-auto mt-[var(--uni-topbar-height)] w-full max-w-[var(--uni-doc-layout-shell-width)] flex-1 overflow-y-auto border-gray-alpha-400 lg:grid lg:grid-cols-[var(--uni-doc-layout-sidebar-width)_1fr] lg:border-r"
       >
         <DocsSidebar />
         <div className="min-w-0 py-10">

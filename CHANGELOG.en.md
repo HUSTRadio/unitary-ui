@@ -8,6 +8,8 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Docs layout and token consumers**: centralizes docs shell widths and the footer's 480px breakpoint, reuses radius and marked-list indent tokens, and connects Menu / ContextMenu padding to `--uni-popover-padding` (6px by default). Restores the English Feedback guide's 12px radius specification and corrects Chinese Avatar numeric size and accessibility guidance, with bilingual specification and browser regressions.
+
 - **Documentation readability**: Shortens component summaries, guides, foundation pages, app shell explanations, and READMEs in both languages. Replaces internal jargon with concrete instructions, explains required API markers and inherited prop types, and corrects the description of uncontrolled change callbacks.
 
 - **Mobile navigation and rapid clicks**: Removes the duplicate, inactive search button inside the narrow-screen drawer and gives the topbar symmetric edge insets. ExpandPanel uses reversible CSS transitions, reuses exiting nodes, cancels stale unmounts and excludes its trigger from outside dismissal to prevent jumps or accidental reopening during rapid toggles.

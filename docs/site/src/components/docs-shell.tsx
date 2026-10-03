@@ -98,13 +98,13 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
   );
 
   return (
-    <Navbar scrollBehavior="pinned" className="mx-auto w-full max-w-[1220px]">
+    <Navbar scrollBehavior="pinned" className="mx-auto w-full max-w-[var(--uni-doc-layout-shell-width)]">
       {/* Navbar 容器本身即 1220px 居中 sticky 块（官方架构，回退 f08fd84 全宽化）：
           留白区透出页面底色；内层只做内容布局，不再重复 mx-auto/max-w。
           品牌区宽 = sidebar 宽(260) − 内容容器左 padding(22) = 238 → border-r 与 sidebar 右缘对齐 */}
-      <div className="flex h-full w-full pl-[22px] border-gray-alpha-400 lg:border-l lg:border-r max-lg:border-l-0 max-lg:border-r-0 max-md:grid max-md:grid-cols-[44px_1fr_44px] max-md:items-center max-md:px-3">
+      <div className="flex h-full w-full pl-[var(--uni-doc-layout-shell-gutter)] border-gray-alpha-400 lg:border-l lg:border-r max-lg:border-l-0 max-lg:border-r-0 max-md:grid max-md:grid-cols-[44px_1fr_44px] max-md:items-center max-md:px-3">
         {/* 左区块：汉堡按钮（<lg 可见）+ Logo */}
-        <div className="border-gray-alpha-400 flex grow items-center gap-2 py-4 pl-px lg:w-[238px] lg:grow-0 lg:border-r max-md:contents">
+        <div className="border-gray-alpha-400 flex grow items-center gap-2 py-4 pl-px lg:w-[var(--uni-doc-layout-brand-width)] lg:grow-0 lg:border-r max-md:contents">
           {/* max-md:contents —— 左区块解体为 grid item：汉堡占第1列、品牌占第2列（居中） */}
           {/* 双向锁：容器 lg:hidden —— ≥lg 无汉堡按钮；ExpandPanel 经 Portal 渲染不受影响 */}
           <div
@@ -129,7 +129,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               disableSearch={searchMode === "toolbar"}
               searchMode={searchMode}
               maxExpandedHeight="100dvh"
-              maxExpandedWidth="292px"
+              maxExpandedWidth="var(--uni-doc-layout-mobile-nav-width)"
               belowTopbar
               staggerIn
               /* 抽屉是「侧栏折叠后的形态」：排版与交互同源（nav-layout 契约），
@@ -230,7 +230,7 @@ function DocsBanner({ onSearchOpen }: { onSearchOpen: () => void }) {
               type="button"
               onClick={onSearchOpen}
               aria-label={copy.searchAria}
-              className="group -m-1.5 shrink-0 rounded-md p-1.5 focus-ring max-md:[margin-right:0px] lg:hidden"
+              className="group -m-1.5 shrink-0 rounded-md p-1.5 focus-ring max-md:mr-0 lg:hidden"
             >
               {/* 视觉保持 32px，命中区扩到 44px（Apple HIG ≥44pt / WCAG 2.5.8） */}
               <span className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors group-hover:bg-gray-alpha-100 group-hover:text-foreground">
@@ -316,7 +316,7 @@ function DocsSidebar() {
       className={cn(
         // 滚动条槽位与细滚动条走库内标准工具类（nav-scroll），内容内缩走共享契约
         // （NAV_CONTENT_INSET）：与抽屉导航区同一组数值 → 折叠成抽屉时文字列不变。
-        "nav-scroll relative hidden w-[260px] shrink-0 self-start overflow-y-auto border-l border-r border-gray-alpha-400 lg:sticky lg:top-16 lg:bottom-0 lg:block lg:h-[calc(100vh-4rem)]",
+        "nav-scroll relative hidden w-[var(--uni-doc-layout-sidebar-width)] shrink-0 self-start overflow-y-auto border-l border-r border-gray-alpha-400 lg:sticky lg:top-[var(--uni-topbar-height)] lg:bottom-0 lg:block lg:h-[calc(100vh-var(--uni-topbar-height))]",
         NAV_CONTENT_INSET,
       )}
     >
