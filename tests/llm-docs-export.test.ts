@@ -72,6 +72,15 @@ describe("LLM docs export contract", () => {
     expect(allPages.size).toBe(DOCS_ROUTE_SEQUENCE.length * 2);
   });
 
+  it("classifies async primitives as network pages while preserving their existing URLs", () => {
+    const routes = readIndex().routes;
+    expect(routes.filter((route: any) => route.category === "network").map((route: any) => route.path))
+      .toEqual(["/components/lazy-load", "/components/prefetch"]);
+    for (const route of DOCS_ROUTE_SEQUENCE.filter((route) => route.group === "network")) {
+      expect(routes.find((entry: any) => entry.path === route.to)?.category).toBe("network");
+    }
+  });
+
   it("每条路由的双语页面文件全部存在且非空", () => {
     const index = readIndex();
     let count = 0;

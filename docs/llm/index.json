@@ -166,6 +166,38 @@
       }
     },
     {
+      "path": "/components/lazy-load",
+      "title": {
+        "zh-CN": "延迟加载",
+        "en-US": "Lazy Load"
+      },
+      "category": "network",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/lazy-load.md",
+        "en-US": "pages/en-US/components/lazy-load.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:50774a4c1bc630f21bd1257d636f22b2db83ce576c6543981bad95319f92465e",
+        "en-US": "sha256:457c355819c55e26878fd4ce0d3439ff903520f1094190b8984216dc2ca80cfb"
+      }
+    },
+    {
+      "path": "/components/prefetch",
+      "title": {
+        "zh-CN": "预载",
+        "en-US": "Prefetch"
+      },
+      "category": "network",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/prefetch.md",
+        "en-US": "pages/en-US/components/prefetch.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:ec46b7c0fa2abf5e60856a53e5172a035df5f0882c2f6c099db2c6a1cefbcbfc",
+        "en-US": "sha256:618f2fc80207c95cc7054d25d602121ade203a7d1b715d4b887f196551ebe174"
+      }
+    },
+    {
       "path": "/components",
       "title": {
         "zh-CN": "组件",
@@ -1187,38 +1219,6 @@
       "sourceHash": {
         "zh-CN": "sha256:151d9baa0eceb6580b04ed2fbd6fe14aa4af0a5c61e1a389174bd6cf57710f5a",
         "en-US": "sha256:0602afe45b1f3ff719acbc202cb376eceffac80f95ca9a0bbaf32271fb72c38e"
-      }
-    },
-    {
-      "path": "/components/lazy-load",
-      "title": {
-        "zh-CN": "延迟加载",
-        "en-US": "Lazy Load"
-      },
-      "category": "component",
-      "locales": {
-        "zh-CN": "pages/zh-CN/components/lazy-load.md",
-        "en-US": "pages/en-US/components/lazy-load.md"
-      },
-      "sourceHash": {
-        "zh-CN": "sha256:50774a4c1bc630f21bd1257d636f22b2db83ce576c6543981bad95319f92465e",
-        "en-US": "sha256:457c355819c55e26878fd4ce0d3439ff903520f1094190b8984216dc2ca80cfb"
-      }
-    },
-    {
-      "path": "/components/prefetch",
-      "title": {
-        "zh-CN": "预载",
-        "en-US": "Prefetch"
-      },
-      "category": "component",
-      "locales": {
-        "zh-CN": "pages/zh-CN/components/prefetch.md",
-        "en-US": "pages/en-US/components/prefetch.md"
-      },
-      "sourceHash": {
-        "zh-CN": "sha256:ec46b7c0fa2abf5e60856a53e5172a035df5f0882c2f6c099db2c6a1cefbcbfc",
-        "en-US": "sha256:618f2fc80207c95cc7054d25d602121ade203a7d1b715d4b887f196551ebe174"
       }
     },
     {

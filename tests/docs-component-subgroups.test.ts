@@ -16,7 +16,6 @@ const EXPECTED_SUBGROUP_IDS = [
   "navigation",
   "data-display",
   "feedback",
-  "async-loading",
   "overlays",
   "content",
   "mobile",
@@ -24,11 +23,14 @@ const EXPECTED_SUBGROUP_IDS = [
 
 /** 布局原语归入「排版与布局」分组，图表组件归入「图表」分组，都不属于「组件」区块。 */
 const LAYOUT_COMPONENT_NAMES = new Set(["safe-area", "stack"]);
+const NETWORK_COMPONENT_NAMES = new Set(["lazy-load", "prefetch"]);
 
-/** 「组件」区块只收常规组件页（布局原语与图表另列分组）。 */
+/** 「组件」区块只收常规组件页，排除独立归组的原语与图表。 / Excludes separately grouped pages. */
 const REGULAR_COMPONENTS = COMPONENTS.filter(
   (component) =>
-    !LAYOUT_COMPONENT_NAMES.has(component.name) && !CHART_COMPONENT_NAMES.has(component.name),
+    !LAYOUT_COMPONENT_NAMES.has(component.name) &&
+    !NETWORK_COMPONENT_NAMES.has(component.name) &&
+    !CHART_COMPONENT_NAMES.has(component.name),
 );
 
 function componentsGroup() {
@@ -42,10 +44,6 @@ function componentPath(name: string): string {
 }
 
 describe("docs components second-level categories", () => {
-  test("groups Prefetch and LazyLoad as sibling async-loading features", () => {
-    const subgroup = componentsGroup().subgroups?.find((entry) => entry.id === "async-loading");
-    expect(subgroup?.items.map((entry) => entry.to)).toEqual(["/components/lazy-load", "/components/prefetch"]);
-  });
   test("declares the functional subgroups in sidebar order with bilingual titles", () => {
     const subgroups = componentsGroup().subgroups ?? [];
     expect(subgroups.map((subgroup) => subgroup.id)).toEqual(EXPECTED_SUBGROUP_IDS);
@@ -56,7 +54,7 @@ describe("docs components second-level categories", () => {
     }
   });
 
-  test("covers every component page exactly once and leaves layout primitives and charts out", () => {
+  test("covers regular component pages exactly once and leaves separately grouped primitives and charts out", () => {
     const paths = componentsGroup().items.map((item) => item.to);
     expect(new Set(paths).size, "组件区块出现重复路由").toBe(paths.length);
     expect([...paths].sort()).toEqual(

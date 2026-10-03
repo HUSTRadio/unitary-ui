@@ -8,6 +8,8 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Docs navigation categories**: Move LazyLoad and Prefetch from Components / Async Loading to a separate Network & Async section immediately after API. Sidebar, mobile navigation, search and adjacent-page order follow the new section, the machine-readable index uses `network`, and existing URLs stay compatible.
+
 - **API table provenance**: Replace repeated row badges with one introductory note when every API is a framework extension. Mixed official/extension tables keep row badges, and required markers remain visible.
 
 - **Docs startup and deep links**: load pages and paired example/source modules on demand, showing headings and guidance while demos load. Isolate the docs and styleguide dependency caches to prevent competing dev servers from replacing each other's optimized modules. Remove duplicate topbar offsets from the main scroll area and sidebar; corpus generation waits for asynchronous pages and examples to finish.

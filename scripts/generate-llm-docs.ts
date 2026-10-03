@@ -223,6 +223,7 @@ function routeTitle(route: DocsRoute): Record<Locale, string> {
 }
 
 function routeCategory(route: DocsRoute): string {
+  if (route.group === "network") return "network";
   if (route.renderer.kind === "component-detail") return "component";
   if (route.renderer.kind === "component-index") return "components-index";
   if (route.renderer.kind === "localized") return route.group === "patterns" ? "pattern" : route.group;

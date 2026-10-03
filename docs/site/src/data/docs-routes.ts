@@ -3,7 +3,7 @@ import { Smartphone, type LucideIcon } from "lucide-react";
 import { COMPONENTS, type ComponentMeta } from "./components";
 import type { DocsLanguage } from "../i18n/language";
 
-export type DocsGroupId = "foundations" | "layout" | "api" | "components" | "charts" | "patterns";
+export type DocsGroupId = "foundations" | "layout" | "api" | "network" | "components" | "charts" | "patterns";
 export type StaticPageKey =
   | "introduction"
   | "icons"
@@ -60,6 +60,7 @@ const DOCS_GROUPS: readonly Omit<DocsRouteGroup, "items">[] = [
   { id: "foundations", title: "Foundations", titleZh: "基础" },
   { id: "layout", title: "Layout & Organization", titleZh: "排版与布局" },
   { id: "api", title: "API", titleZh: "API" },
+  { id: "network", title: "Network & Async", titleZh: "网络与异步" },
   { id: "components", title: "Components", titleZh: "组件" },
   { id: "charts", title: "Charts", titleZh: "图表" },
   { id: "patterns", title: "Patterns", titleZh: "模式" },
@@ -142,9 +143,12 @@ const STATIC_DOCS_ROUTES: readonly DocsRoute[] = [
 
 /**
  * 布局原语归入「排版与布局」（Layout & Organization）分组，与 Typography / Grid 静态页同级；
- * 其余组件页仍在「组件」分组。
+ * 网络与异步原语、图表也有各自的分组，其余组件页归入「组件」。
  */
 const LAYOUT_COMPONENT_NAMES: ReadonlySet<string> = new Set(["safe-area", "stack"]);
+
+/** 网络与异步行为原语独立归组，保留现有链接。 / Async primitives keep their existing URLs. */
+const NETWORK_COMPONENT_NAMES: ReadonlySet<string> = new Set(["lazy-load", "prefetch"]);
 
 /**
  * 图表组件（Tremor Raw 内置）归入「图表」（Charts）顶级分组，路由挂在 /charts/<name>，
@@ -173,7 +177,6 @@ const COMPONENT_SUBGROUPS = [
   { id: "navigation", title: "Navigation", titleZh: "导航" },
   { id: "data-display", title: "Data Display", titleZh: "数据展示" },
   { id: "feedback", title: "Feedback & Status", titleZh: "反馈与状态" },
-  { id: "async-loading", title: "Async Loading", titleZh: "异步加载" },
   { id: "overlays", title: "Overlays & Containers", titleZh: "浮层与容器" },
   { id: "content", title: "Content & Media", titleZh: "内容与媒体" },
   { id: "mobile", title: "Mobile only", titleZh: "仅移动端" },
@@ -273,8 +276,6 @@ const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> 
   "side-panel": "overlays",
   scroller: "overlays",
   "full-page-scroller": "overlays",
-  "lazy-load": "async-loading",
-  prefetch: "async-loading",
   carousel: "content",
   separator: "overlays",
   sheet: "overlays",
@@ -316,13 +317,15 @@ function componentSubgroupRank(component: ComponentMeta): number {
 }
 
 /**
- * 组件页排序键。布局原语不属于「组件」区块的二级分类，统一取 -1 排在最前——
- * 它们最终归入 layout 分组，与其他分组的相对顺序由 DOCS_ROUTE_SEQUENCE 的分组投影决定。
+ * 组件页排序键。布局及网络与异步原语不参与「组件」二级分类，统一取 -1；
+ * 各顶级分组的相对顺序由 DOCS_ROUTE_SEQUENCE 的分组投影决定。
  * 图表组件同理不参与二级分类，取 COMPONENT_SUBGROUPS.length + 1 排在末位，归入 charts 分组。
  */
 function componentSortRank(component: ComponentMeta): number {
   if (CHART_COMPONENT_NAMES.has(component.name)) return COMPONENT_SUBGROUPS.length + 1;
-  return LAYOUT_COMPONENT_NAMES.has(component.name) ? -1 : componentSubgroupRank(component);
+  return LAYOUT_COMPONENT_NAMES.has(component.name) || NETWORK_COMPONENT_NAMES.has(component.name)
+    ? -1
+    : componentSubgroupRank(component);
 }
 
 const COMPONENT_DETAIL_ROUTES: readonly DocsRoute[] = [...COMPONENTS]
@@ -338,18 +341,22 @@ const COMPONENT_DETAIL_ROUTES: readonly DocsRoute[] = [...COMPONENTS]
       ? "charts"
       : LAYOUT_COMPONENT_NAMES.has(component.name)
         ? "layout"
-        : "components",
+        : NETWORK_COMPONENT_NAMES.has(component.name)
+          ? "network"
+          : "components",
     label: component.label,
     labelZh: component.labelZh ?? component.label,
     sidebar: true,
     renderer: { kind: "component-detail", componentName: component.name },
   }));
 
-/** 组件页路径 → 二级分类（切分「组件」区块时使用；布局原语与图表组件不在此列）。 */
+/** 组件页路径 → 二级分类；独立归组的原语与图表不在此列。 / Excludes separately grouped pages. */
 const COMPONENT_SUBGROUP_BY_PATH: ReadonlyMap<string, ComponentSubgroupId> = new Map(
   COMPONENTS.filter(
     (component) =>
-      !LAYOUT_COMPONENT_NAMES.has(component.name) && !CHART_COMPONENT_NAMES.has(component.name),
+      !LAYOUT_COMPONENT_NAMES.has(component.name) &&
+      !NETWORK_COMPONENT_NAMES.has(component.name) &&
+      !CHART_COMPONENT_NAMES.has(component.name),
   ).map((component) => [
     `/components/${component.name}`,
     componentSubgroupId(component),
