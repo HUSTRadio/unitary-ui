@@ -35,6 +35,11 @@ function consume(mode) {
     assert.equal(api.GLOBAL_TOKENS['--radius'].kind, 'runtime');
     assert.ok(api.RUNTIME_TOKEN_NAMES.includes('--radius'));
     assert.ok(api.TOKEN_NAMES.includes('--radius-lg'));
+    assert.equal(api.GLOBAL_TOKENS['--breakpoint-grid-md'].kind, 'mapping');
+    assert.ok(!api.RUNTIME_TOKEN_NAMES.includes('--breakpoint-grid-md'));
+    assert.throws(() => api.setToken('--breakpoint-grid-md', '100rem'), /Build-time mapping/);
+    assert.equal(api.GLOBAL_TOKENS['--radius-circle'].status, 'deprecated');
+    assert.equal(api.GLOBAL_TOKENS['--radius-circle'].replacement, '--radius-circular');
     assert.equal(render(h(() => h('output', null, api.useTokens(['--radius'])['--radius']))), '<output></output>');
     assert.match(render(h(api.NumberedPagination, {totalPages: 5})), /aria-current="page"/);
     assert.match(render(h(api.FullPageScroller, {index: 1}, h('div', null, 'First'), h('div', null, 'Second'))), /data-index="1"/);
@@ -57,8 +62,13 @@ function consume(mode) {
     const devices = ['iphone-17', 'pixel-10', 'galaxy-s25', 'ipad-pro'];
     const html = devices.map(model => render(h(api.Device, {model, autoFit: false},
       h(api.DeviceScreen, null, 'Node device')))).join('');
+    const gridHtml = [false, true].map(container => render(h('div',
+      {'data-grid-probe': container ? 'container' : 'viewport'},
+      h(api.GridSystem, {unstable_useContainer: container},
+        h(api.Grid, {columns: {xs:1,sm:2,smd:3,md:4,lg:5}, rows:1},
+          h(api.GridCell, null, 'Grid probe')))))).join('');
     assert.match(html, /mockframe/);
-    process.stdout.write(JSON.stringify({exports: Object.keys(api).sort(), html}));
+    process.stdout.write(JSON.stringify({exports: Object.keys(api).sort(), html, gridHtml}));
   `], { encoding: "utf8", timeout: 30_000 });
   const error = (result.stderr ?? "").split("\n").filter(line => line.length < 1000).join("\n");
   assert.equal(result.status, 0, `${mode}: ${result.error ?? error}`);
@@ -68,6 +78,66 @@ function consume(mode) {
 let esm;
 test("native ESM package import supports SSR and all registered Prism grammars", () => {
   esm = consume("module");
+});
+
+test("published radius utilities have real geometry and preserve runtime/build boundaries", async () => {
+  const { chromium } = await import("@playwright/test");
+  const css = readFileSync(requireFromConsumer.resolve(`${packageName}/styles.css`), "utf8");
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    const classes = ["rounded-circular", "rounded-capsule", "rounded-continuous", "rounded-md", "rounded-lg"];
+    await page.setContent(`<!doctype html><style>${css}</style>${classes.map(name =>
+      `<div class="${name}" style="width:100px;height:100px"></div>`).join("")}`);
+    for (const theme of ["light", "dark"]) {
+      await page.evaluate(theme => {
+        document.documentElement.classList.toggle("dark", theme === "dark");
+        document.documentElement.style.removeProperty("--radius");
+      }, theme);
+      const read = () => page.locator("body > div").evaluateAll(elements =>
+        elements.map(element => getComputedStyle(element).borderRadius));
+      assert.deepEqual(await read(), ["50%", "9999px", "6px", "6px", "8px"], theme);
+      await page.evaluate(() => {
+        document.documentElement.style.setProperty("--radius", "10px");
+        document.documentElement.style.setProperty("--radius-circular", "25%");
+        document.documentElement.style.setProperty("--radius-capsule", "12px");
+      });
+      assert.deepEqual(await read(), ["50%", "9999px", "10px", "10px", "8px"], theme);
+    }
+  } finally {
+    await browser.close();
+  }
+});
+
+test("published Grid CSS preserves viewport and container tier boundaries in both themes", async () => {
+  const { chromium } = await import("@playwright/test");
+  const { gridHtml } = esm ?? consume("module");
+  const css = readFileSync(requireFromConsumer.resolve(`${packageName}/styles.css`), "utf8");
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    await page.setContent(`<!doctype html><style>${css}</style>${gridHtml}`);
+    const viewportGrid = page.locator('[data-grid-probe="viewport"] [data-slot="grid"]');
+    const containerGrid = page.locator('[data-grid-probe="container"] [data-slot="grid"]');
+    const wrapper = page.locator('[data-slot="grid-system-wrapper"]');
+    const boundaries = [[400,1],[401,2],[600,2],[601,3],[768,3],[769,4],[960,4],[961,5],[1280,5]];
+    const columns = locator => locator.evaluate(element =>
+      getComputedStyle(element).gridTemplateColumns.split(" ").length);
+    for (const theme of ["light", "dark"]) {
+      await page.evaluate(theme => document.documentElement.classList.toggle("dark", theme === "dark"), theme);
+      for (const [width, expected] of boundaries) {
+        await page.setViewportSize({width, height:900});
+        assert.equal(await columns(viewportGrid), expected, `${theme} viewport ${width}`);
+      }
+      await page.setViewportSize({width:1440, height:900});
+      for (const [width, expected] of boundaries) {
+        await wrapper.evaluate((element, width) => { element.style.width = `${width}px`; }, width);
+        assert.equal(await columns(containerGrid), expected, `${theme} container ${width}`);
+      }
+    }
+  } finally {
+    await browser.close();
+  }
 });
 
 test("native CJS package require supports SSR with the same exports", () => {

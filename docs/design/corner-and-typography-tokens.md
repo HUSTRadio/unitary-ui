@@ -39,10 +39,14 @@ Apple HIG 没有给出可直接移植到 Web 的统一圆角 token 表，也没�
 派生语义：
 
 - `concentric`：内层半径约为外层半径减去实际 inset；已有 overlay 6/4px 对使用 2px 光学差。
-- `circular`：`--radius-circle: 50%`，只在等宽高表面形成圆。
+- `circular`：`--radius-circular: 50%`，只在等宽高表面形成圆；旧名称 `--radius-circle` 保留兼容并标记为 deprecated。
 - `capsule`：`--radius-capsule` 复用无穷大 pill 半径，视觉结果等价于 $h/2$。
 - `capsule-interpolable`：`--radius-capsule-interpolable: 1.5rem`（24px），取值为动画表面**收起高度的一半**。**只用于需要过渡 `border-radius` 的表面。** `--radius-capsule` 与 `--radius-pill` 都是"实际无穷大"值，浏览器会把它们钳制到 $min(w,h)/2$；从无穷大过渡到有限半径时，约 99% 的过渡进度都停留在被钳制的同一视觉半径上，最后才瞬间跌到目标值，表现为可见的圆角突跳。有限值可让 `border-radius` 全程线性插值。静止形态与 `--radius-capsule` 视觉等价（都是 $h/2$ 半径的胶囊），因此可以安全替换。
 - `continuous`：由运行时数学 path 实现，不能用普通 `border-radius` 假装。
+
+`--radius-pill` 是 `--radius-capsule` 的 deprecated 兼容名称。`--radius-continuous` 和 `--radius-concentric-inset` 标记为 reserved：前者只提供普通圆角降级工具类，后者暂未驱动组件的内缩计算。`ContinuousSurface` 的曲线及降级半径由 `radius` prop 控制。目录中的 lifecycle 状态与 runtime/mapping 分类独立；`@theme inline` 的字面量映射不会因运行时写入同名变量而改变已生成的工具类。
+
+New code uses `--radius-circular` and `--radius-capsule`; `--radius-circle` and `--radius-pill` remain deprecated compatibility names. The continuous fallback utility and concentric inset are reserved entries, while `ContinuousSurface` uses its `radius` prop. Lifecycle status is independent of runtime/build classification: writing an inline theme mapping does not update its compiled utility.
 
 ### 2.2 Continuous corner 数学
 
@@ -76,9 +80,13 @@ $$
 - 长文本行高分层为 compact 1.35、prose 1.55、reading 1.7；现有 11 级控件/标题 token 保持兼容，不批量迁移现有 demo。
 - Latin 单词内部不参与 CJK 均排。页面应设置正确 `lang`，让字体 fallback 与换行规则按语言工作。
 
+上述两项 mixed-script gap 以及 compact/reading leading 当前为 reserved token，不会自动调整组件文字间距或行高；prose leading 有实际正文消费点。预留值表达设计意图，不代表默认组件已启用相关行为。
+
+Mixed-script gaps and compact/reading leading are currently reserved values; they do not automatically change component typography. Prose leading has an active prose consumer.
+
 ## 4. 验证
 
 1. 数学测试验证 $p=2$ 圆弧退化、端点、边界、单调性和非法参数。
 2. 组件测试验证 SSR 降级、data-slot 与 style 合并。
 3. 浏览器测试验证 p=2/circular、p=3/p=5 与 superellipse 示例均渲染且 path 生效。
-4. token 测试限制新增 block 中不得出现品牌联想命名。
+4. token 测试编译 canonical CSS，验证形状工具类和兼容名称的实际输出；发布包浏览器测试验证计算圆角及运行时覆盖边界。

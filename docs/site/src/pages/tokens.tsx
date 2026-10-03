@@ -232,6 +232,11 @@ export function TokensPage({ language }: { language: DocsLanguage }) {
             ? "--font-metric-cjk-ratio、--font-metric-digit-w、--font-metric-baseline、--font-metric-colon 是 applyFontMetrics 测量后写入的输出，不在静态目录内；字体探针会重新计算这些值。字体方案的覆盖记录在 variants 中。"
             : "--font-metric-cjk-ratio, --font-metric-digit-w, --font-metric-baseline and --font-metric-colon are measured outputs written by applyFontMetrics rather than static catalog entries. The font probe recalculates them. Font-tier overrides appear in variants."}
         </DocsParagraph>
+        <DocsParagraph>
+          {zh
+            ? "Grid 的 grid-xs/sm/smd/md token 是 400/600/768/960px 的视口档位上界（默认 16px 字号），Grid 的 lg 档从 960px 以上开始。历史 grid-lg: 工具类保留 1280px 阈值，不代表组件的 lg 档入口。Tailwind 的无 max- 前缀变体从阈值起生效，max- 变体在阈值以下生效，应按条件而不是同名档位选择。"
+            : "Grid's grid-xs/sm/smd/md tokens are viewport tier upper bounds at 400/600/768/960px with the default 16px font size; the component's lg tier starts above 960px. The legacy grid-lg: utility retains its 1280px threshold and does not represent the component's lg entry. Tailwind variants without max- start at the threshold; max- variants apply below it. Choose by the condition rather than by a matching tier name."}
+        </DocsParagraph>
       </DocsSection>
       <DocsSection>
         <DocsSectionTitle>{zh ? "生命周期与推荐入口" : "Lifecycle and preferred names"}</DocsSectionTitle>
@@ -244,6 +249,11 @@ export function TokensPage({ language }: { language: DocsLanguage }) {
           {zh
             ? "新代码使用 --radius-circular/--radius-capsule，旧 circle/pill 名称保留为兼容入口。--invert-background/foreground 不再用于默认 Tooltip；默认 Tooltip 使用 --background-100/--foreground。--radius-continuous 是预留的普通圆角降级工具类，ContinuousSurface 的曲线与降级半径由 radius prop 控制。菜单行高使用 --uni-popover-row-height，默认 36px；Menu 的触控最小高度仍为 44px。"
             : "New code uses --radius-circular/--radius-capsule; the circle/pill names remain compatibility entries. --invert-background/foreground are no longer used by the default Tooltip, which consumes --background-100/--foreground. --radius-continuous is a reserved ordinary-radius fallback utility; ContinuousSurface uses its radius prop for both curves and fallback. Menu row height consumes --uni-popover-row-height, defaulting to 36px; Menu retains a 44px minimum height for touch pointers."}
+        </DocsParagraph>
+        <DocsParagraph>
+          {zh
+            ? "--uni-doc-space-* 与 --uni-doc-list-indent 服务文档站内容排版，保留既有公共 CSS 契约。新增站点外壳尺寸与媒体条件由 docs/site/src/index.css 管理，避免继续扩展组件库的站点专用目录。"
+            : "--uni-doc-space-* and --uni-doc-list-indent serve documentation content typography and retain their existing public CSS contract. New site shell geometry and media conditions belong in docs/site/src/index.css to avoid extending the library catalog with site-specific configuration."}
         </DocsParagraph>
       </DocsSection>
       <DocsSection>

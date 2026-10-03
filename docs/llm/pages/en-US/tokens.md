@@ -192,11 +192,15 @@ Runtime entries can be changed with setToken. Build mappings include @theme inli
 
 \--font-metric-cjk-ratio, --font-metric-digit-w, --font-metric-baseline and --font-metric-colon are measured outputs written by applyFontMetrics rather than static catalog entries. The font probe recalculates them. Font-tier overrides appear in variants.
 
+Grid's grid-xs/sm/smd/md tokens are viewport tier upper bounds at 400/600/768/960px with the default 16px font size; the component's lg tier starts above 960px. The legacy grid-lg: utility retains its 1280px threshold and does not represent the component's lg entry. Tailwind variants without max- start at the threshold; max- variants apply below it. Choose by the condition rather than by a matching tier name.
+
 ## Lifecycle and preferred names
 
 Catalog status distinguishes active (supported), reserved and deprecated entries independently of runtime/mapping behavior. Supported does not mean every component consumes the variable. Reserved entries have a definition or utility contract without current UI integration. Deprecated names remain compatible; replacement identifies the preferred alternative. Check the consuming role before migrating rather than automatically converting existing colors.
 
 New code uses --radius-circular/--radius-capsule; the circle/pill names remain compatibility entries. --invert-background/foreground are no longer used by the default Tooltip, which consumes --background-100/--foreground. --radius-continuous is a reserved ordinary-radius fallback utility; ContinuousSurface uses its radius prop for both curves and fallback. Menu row height consumes --uni-popover-row-height, defaulting to 36px; Menu retains a 44px minimum height for touch pointers.
+
+\--uni-doc-space-\* and --uni-doc-list-indent serve documentation content typography and retain their existing public CSS contract. New site shell geometry and media conditions belong in docs/site/src/index.css to avoid extending the library catalog with site-specific configuration.
 
 ## Complete catalog
 

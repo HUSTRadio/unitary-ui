@@ -51,6 +51,7 @@ Not applicable: As a layout container, Grid manages no internal state or user in
 ## Responsive behavior
 
 - The Grid component includes built-in responsive breakpoints that automatically adjust column counts and guide visibility across different viewports.
+- Viewport tiers are xs≤400, sm>400 and≤600, smd>600 and≤768, md>768 and≤960, lg>960px at the default 16px font size; the first four grid tokens are upper bounds. The legacy grid-lg: utility keeps its 1280px threshold, distinct from the component's lg entry. Container queries retain independent pixel boundaries at 400/401, 600/601, 768/769 and 960/961px.
 - Row and column guides can be hidden independently to suit specific layout needs; hiding both usually means a plain Tailwind grid is the right tool.
 
 ## Theme behavior

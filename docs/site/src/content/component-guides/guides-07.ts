@@ -132,6 +132,7 @@ export const GUIDES_07_ZH: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "Grid 组件内置响应式断点，在不同视口下自动调整列数和引导线的显示方式。",
+        "视口档位为 xs≤400、sm>400 且≤600、smd>600 且≤768、md>768 且≤960、lg>960px（默认 16px 字号）；前四个 grid token 表示上界。历史 grid-lg: 工具类阈值仍为 1280px，不是组件 lg 档入口。容器查询保留 400/401、600/601、768/769、960/961px 的独立像素边界。",
         "可以分别隐藏行引导线或列引导线以适应特定的布局需求，当两侧引导线都隐藏时通常意味着纯 Tailwind 网格更为合适。",
       ],
     },
@@ -499,6 +500,7 @@ export const GUIDES_07_EN: Record<string, ComponentGuide> = {
       status: "covered",
       content: [
         "The Grid component includes built-in responsive breakpoints that automatically adjust column counts and guide visibility across different viewports.",
+        "Viewport tiers are xs≤400, sm>400 and≤600, smd>600 and≤768, md>768 and≤960, lg>960px at the default 16px font size; the first four grid tokens are upper bounds. The legacy grid-lg: utility keeps its 1280px threshold, distinct from the component's lg entry. Container queries retain independent pixel boundaries at 400/401, 600/601, 768/769 and 960/961px.",
         "Row and column guides can be hidden independently to suit specific layout needs; hiding both usually means a plain Tailwind grid is the right tool.",
       ],
     },

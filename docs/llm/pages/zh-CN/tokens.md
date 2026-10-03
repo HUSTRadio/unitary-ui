@@ -192,11 +192,15 @@ TokenName 包含全部目录条目；RuntimeTokenName 仅包含可写变量；To
 
 \--font-metric-cjk-ratio、--font-metric-digit-w、--font-metric-baseline、--font-metric-colon 是 applyFontMetrics 测量后写入的输出，不在静态目录内；字体探针会重新计算这些值。字体方案的覆盖记录在 variants 中。
 
+Grid 的 grid-xs/sm/smd/md token 是 400/600/768/960px 的视口档位上界（默认 16px 字号），Grid 的 lg 档从 960px 以上开始。历史 grid-lg: 工具类保留 1280px 阈值，不代表组件的 lg 档入口。Tailwind 的无 max- 前缀变体从阈值起生效，max- 变体在阈值以下生效，应按条件而不是同名档位选择。
+
 ## 生命周期与推荐入口
 
 目录的 status 区分 active（受支持）、reserved（预留）与 deprecated（已弃用）；状态独立于 runtime/mapping 配置机制。受支持不表示每个组件都消费该变量，预留表示工具类或定义已有契约但当前界面未接入。已弃用名称继续保留兼容，其 replacement 给出推荐替代入口；替换前应检查消费语义，不自动转换原有配色。
 
 新代码使用 --radius-circular/--radius-capsule，旧 circle/pill 名称保留为兼容入口。--invert-background/foreground 不再用于默认 Tooltip；默认 Tooltip 使用 --background-100/--foreground。--radius-continuous 是预留的普通圆角降级工具类，ContinuousSurface 的曲线与降级半径由 radius prop 控制。菜单行高使用 --uni-popover-row-height，默认 36px；Menu 的触控最小高度仍为 44px。
+
+\--uni-doc-space-\* 与 --uni-doc-list-indent 服务文档站内容排版，保留既有公共 CSS 契约。新增站点外壳尺寸与媒体条件由 docs/site/src/index.css 管理，避免继续扩展组件库的站点专用目录。
 
 ## 完整目录
 

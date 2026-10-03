@@ -8,6 +8,8 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Token build evidence and Grid breakpoints**: Compiles Grid viewport queries from four tier upper-bound tokens while retaining viewport/container boundaries and the legacy 1280px utility. Bilingual docs distinguish component tiers from utility conditions. Radius regressions now check actual Tailwind output and computed styles from published CSS, with package-level responsive and container-query coverage.
+
 - **Token consumption and lifecycle**: Connects Menu / ContextMenu rows to their default 36px height variable while retaining Menu's 44px touch minimum. The catalog corrects the Drawer width group and derives supported, reserved and deprecated states plus preferred replacements from CSS definitions. Historical shape names and Tooltip inversion colors remain compatible, with documentation identifying their status and actual component controls.
 
 - **Token runtime contracts**: Keeps the seven `--breakpoint-*` entries discoverable as build configurations while excluding them from writable types and write/reset APIs. The scoped motion demo directly consumes the edited duration: selecting 500ms updates the preview without changing outside buttons. Default breakpoints and visual values remain consistent.

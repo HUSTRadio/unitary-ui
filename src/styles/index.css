@@ -538,8 +538,12 @@ html[data-font-tier="system"],
  * 框架自定义断点（官方 Geist GridSystem 制：xs≤400 / sm 401-600 /
  * smd 601-768 / md 769-960 / lg≥961），以及组件级窄屏档。
  * 命名避开 Tailwind 默认 sm/md/lg/xl/2xl，不冲突。
- * @theme static：同时发射到 :root（CSS 模块可引用 var(--breakpoint-*)）
- * 并生成响应式变体（grid-xs: / max-grid-sm: 等）。
+ * 前四个 grid token 是档位上界；Grid 模块通过 theme() 在构建时展开视口条件。
+ * @theme static 同时发射变量与生成响应式变体，发射变量不使条件可运行时修改。
+ * grid-lg=1280px 保留为历史宽屏工具类阈值，不代表 Grid 的 lg 档入口（>960px）。
+ * The first four grid tokens are tier upper bounds consumed through build-time theme().
+ * Emitted variables do not make media conditions mutable; legacy grid-lg utilities
+ * keep their 1280px threshold independently of the Grid component's >960px lg tier.
  */
 @theme static {
   /* Foundation palette aliases must be emitted for the runtime docs color scales. */

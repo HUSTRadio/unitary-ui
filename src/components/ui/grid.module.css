@@ -1,3 +1,5 @@
+@reference "../../styles/index.css";
+
 /* Grid system — replica of the official Geist GridSystem/Grid/GridCell/GridCross/GridPage.
  * Mechanism (verified from official SSR + CSS module):
  *  - spacing comes from the guide lines (1px borders), NOT CSS gap (colGap: normal)
@@ -277,8 +279,8 @@
 }
 
 /* xs */
-/* ≤400px = grid-xs (25rem) */
-@media (width <= 25rem) {
+/* 档位上界来自构建 token。 / Tier upper bounds come from build tokens. */
+@media (width <= theme(--breakpoint-grid-xs)) {
   .gridSystem {
     --horizontal-margin: 1rem;
   }
@@ -320,7 +322,7 @@
 
 /* sm */
 /* 401–600px = grid-sm (37.5rem) */
-@media (width > 25rem) and (width <= 37.5rem) {
+@media (width > theme(--breakpoint-grid-xs)) and (width <= theme(--breakpoint-grid-sm)) {
   .gridSystem {
     --horizontal-margin: 1rem;
   }
@@ -362,7 +364,7 @@
 
 /* smd */
 /* 601–768px = grid-smd (48rem) */
-@media (width > 37.5rem) and (width <= 48rem) {
+@media (width > theme(--breakpoint-grid-sm)) and (width <= theme(--breakpoint-grid-smd)) {
   .grid {
     --height: var(--smd-height, var(--md-height, var(--sm-height)));
     --grid-rows: var(--smd-grid-rows, var(--md-grid-rows, var(--sm-grid-rows)));
@@ -400,7 +402,7 @@
 
 /* md */
 /* 769–960px = grid-md (60rem) */
-@media (width > 48rem) and (width <= 60rem) {
+@media (width > theme(--breakpoint-grid-smd)) and (width <= theme(--breakpoint-grid-md)) {
   .grid {
     --height: var(--md-height, var(--smd-height, var(--sm-height)));
     --grid-rows: var(--md-grid-rows, var(--smd-grid-rows, var(--sm-grid-rows)));
@@ -437,8 +439,8 @@
 }
 
 /* lg */
-/* ≥961px = grid-lg (80rem) */
-@media (width > 60rem) {
+/* lg 接续 md 上界，不使用历史 1280px 工具类阈值。 / lg starts above md, not the legacy 1280px utility. */
+@media (width > theme(--breakpoint-grid-md)) {
   .grid {
     --height: var(--lg-height, var(--md-height, var(--smd-height, var(--sm-height))));
     --grid-rows: var(
