@@ -8,6 +8,8 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **False pre-push screenshot blocks**: Checks and drift updates reuse the same browser capture, wait for viewport images to decode, and tolerate corner antialiasing noise within strict pixel limits. A commit is requested only when managed files actually change. A read-only recheck handles updates with no changes and reports persistent instability, avoiding a clean-worktree commit loop. Impacted refs must match HEAD, pending inputs are checked before execution, and public image assets trigger screenshot validation.
+
 - **Token build evidence and Grid breakpoints**: Compiles Grid viewport queries from four tier upper-bound tokens while retaining viewport/container boundaries and the legacy 1280px utility. Bilingual docs distinguish component tiers from utility conditions. Radius regressions now check actual Tailwind output and computed styles from published CSS, with package-level responsive and container-query coverage.
 
 - **Token consumption and lifecycle**: Connects Menu / ContextMenu rows to their default 36px height variable while retaining Menu's 44px touch minimum. The catalog corrects the Drawer width group and derives supported, reserved and deprecated states plus preferred replacements from CSS definitions. Historical shape names and Tooltip inversion colors remain compatible, with documentation identifying their status and actual component controls.

@@ -4,7 +4,9 @@ import { existsSync, mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+vi.setConfig({ testTimeout: 60_000 });
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const RUNNER = path.join(ROOT, "scripts", "pre-push.mjs");
@@ -52,7 +54,16 @@ function makeFakeScripts(dir: string) {
   const docs = path.join(dir, "fake-docs.mjs");
   writeFileSync(
     screenshot,
-    `import { writeFileSync } from "node:fs";\nconst check = process.argv.includes("--check");\nif (check) process.exit(Number(process.env.FAKE_SCREENSHOT_CHECK ?? 0));\nwriteFileSync(process.env.FAKE_SCREENSHOT_MARKER, "generated");\n`,
+    `import { mkdirSync, writeFileSync } from "node:fs";
+import path from "node:path";
+const update = process.argv.includes("--update-on-drift");
+writeFileSync(process.env.FAKE_SCREENSHOT_CALLED, "called");
+if (update && process.env.FAKE_SCREENSHOT_CHECK === "2" && process.env.FAKE_SCREENSHOT_WRITE !== "0") {
+  mkdirSync(path.dirname(process.env.FAKE_SCREENSHOT_MARKER), { recursive: true });
+  writeFileSync(process.env.FAKE_SCREENSHOT_MARKER, "generated");
+}
+process.exit(Number(update ? process.env.FAKE_SCREENSHOT_CHECK : process.env.FAKE_SCREENSHOT_VERIFY));
+`,
   );
   writeFileSync(
     docs,
@@ -68,6 +79,9 @@ function runHook({
   checkStatus,
   docsStatus = 0,
   input,
+  verifyStatus = checkStatus,
+  writeScreenshot = true,
+  skip = false,
 }: {
   dir: string;
   remoteSha: string;
@@ -75,9 +89,13 @@ function runHook({
   checkStatus: number;
   docsStatus?: number;
   input?: string;
+  verifyStatus?: number;
+  writeScreenshot?: boolean;
+  skip?: boolean;
 }) {
   const { screenshot, docs } = makeFakeScripts(dir);
-  const screenshotMarker = path.join(dir, "screenshot-generated.txt");
+  const screenshotMarker = path.join(dir, "images", "styleguide", "capture.png");
+  const screenshotCalled = path.join(dir, "screenshot-called.txt");
   const docsMarker = path.join(dir, "docs-called.txt");
   const result = spawnSync(process.execPath, [RUNNER, "origin", "(redacted)"], {
     cwd: dir,
@@ -90,12 +108,16 @@ function runHook({
       UNITARY_PRE_PUSH_SCREENSHOT_SCRIPT: screenshot,
       UNITARY_PRE_PUSH_DOCS_ADAPTER: docs,
       FAKE_SCREENSHOT_CHECK: String(checkStatus),
+      FAKE_SCREENSHOT_VERIFY: String(verifyStatus),
+      FAKE_SCREENSHOT_WRITE: writeScreenshot ? "1" : "0",
+      FAKE_SCREENSHOT_CALLED: screenshotCalled,
+      UNITARY_DOCS_HOOK_SKIP: skip ? "1" : "0",
       FAKE_DOCS_EXIT: String(docsStatus),
       FAKE_SCREENSHOT_MARKER: screenshotMarker,
       FAKE_DOCS_MARKER: docsMarker,
     },
   });
-  return { result, screenshotMarker, docsMarker };
+  return { result, screenshotMarker, screenshotCalled, docsMarker };
 }
 
 afterEach(() => {
@@ -103,6 +125,121 @@ afterEach(() => {
 });
 
 describe("统一 pre-push 编排", () => {
+  it("漂移更新无改动且只读复核通过时继续推送，不要求空提交", () => {
+    const { dir, remoteSha } = makeRepo();
+    const localSha = addCommit(dir, "src/App.tsx", "fix(ui): adjust page");
+    const { result, docsMarker } = runHook({
+      dir,
+      remoteSha,
+      localSha,
+      checkStatus: 2,
+      verifyStatus: 0,
+      writeScreenshot: false,
+    });
+    expect(result.status).toBe(0);
+    expect(existsSync(docsMarker)).toBe(true);
+    expect(result.stderr).toContain("无实际改动");
+    expect(result.stderr).not.toContain("git commit");
+  });
+
+  it("漂移更新无改动且复核仍漂移时明确报告不稳定，不要求空提交", () => {
+    const { dir, remoteSha } = makeRepo();
+    const localSha = addCommit(dir, "src/App.tsx", "fix(ui): adjust page");
+    const { result, docsMarker } = runHook({
+      dir,
+      remoteSha,
+      localSha,
+      checkStatus: 2,
+      writeScreenshot: false,
+    });
+    expect(result.status).toBe(1);
+    expect(existsSync(docsMarker)).toBe(false);
+    expect(result.stderr).toContain("当前没有可提交的截图变更");
+    expect(result.stderr).not.toContain("git commit");
+  });
+
+  it("在截图更新前拒绝未提交的已跟踪文件，保留用户修改", () => {
+    const { dir, remoteSha } = makeRepo();
+    const localSha = addCommit(dir, "src/App.tsx", "fix(ui): adjust page");
+    writeFileSync(path.join(dir, "README.md"), "user edits\n");
+    const { result, screenshotCalled, docsMarker } = runHook({
+      dir,
+      remoteSha,
+      localSha,
+      checkStatus: 2,
+    });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("worktree has tracked changes");
+    expect(existsSync(screenshotCalled)).toBe(false);
+    expect(existsSync(docsMarker)).toBe(false);
+    expect(git(dir, ["diff", "--", "README.md"])).toContain("user edits");
+  });
+
+  it("在任一 gate 前拒绝会被读取的未跟踪输入文件", () => {
+    const { dir, remoteSha } = makeRepo();
+    const localSha = addCommit(dir, "src/App.tsx", "fix(ui): adjust page");
+    mkdirSync(path.join(dir, "public"));
+    writeFileSync(path.join(dir, "public", "gallery.svg"), "uncommitted image");
+    const { result, screenshotCalled, docsMarker } = runHook({
+      dir,
+      remoteSha,
+      localSha,
+      checkStatus: 0,
+    });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("public/gallery.svg");
+    expect(existsSync(screenshotCalled)).toBe(false);
+    expect(existsSync(docsMarker)).toBe(false);
+  });
+
+  it("待推送提交与 HEAD 不一致时拒绝用当前工作区验证", () => {
+    const { dir, remoteSha } = makeRepo();
+    const localSha = addCommit(dir, "src/App.tsx", "fix(ui): first page");
+    addCommit(dir, "src/App.tsx", "fix(ui): another page");
+    const { result, screenshotCalled, docsMarker } = runHook({
+      dir,
+      remoteSha,
+      localSha,
+      checkStatus: 0,
+    });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("pushed commit does not match HEAD");
+    expect(existsSync(screenshotCalled)).toBe(false);
+    expect(existsSync(docsMarker)).toBe(false);
+  });
+
+  it("拒绝包含不同受影响提交的多 ref push", () => {
+    const { dir, remoteSha } = makeRepo();
+    const otherSha = addCommit(dir, "src/App.tsx", "fix(ui): first page");
+    const localSha = addCommit(dir, "src/App.tsx", "fix(ui): another page");
+    const { result, screenshotCalled } = runHook({
+      dir,
+      remoteSha,
+      localSha,
+      checkStatus: 0,
+      input: `refs/heads/main ${localSha} refs/heads/main ${remoteSha}\nrefs/heads/other ${otherSha} refs/heads/other ${remoteSha}\n`,
+    });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("refs/heads/other");
+    expect(existsSync(screenshotCalled)).toBe(false);
+  });
+
+  it("显式跳过时不调用 gate，且不宣称验证通过", () => {
+    const { dir, remoteSha } = makeRepo();
+    const localSha = addCommit(dir, "src/App.tsx", "fix(ui): adjust page");
+    const { result, screenshotCalled, docsMarker } = runHook({
+      dir,
+      remoteSha,
+      localSha,
+      checkStatus: 2,
+      skip: true,
+    });
+    expect(result.status).toBe(0);
+    expect(result.stderr).toContain("这不代表验证通过");
+    expect(existsSync(screenshotCalled)).toBe(false);
+    expect(existsSync(docsMarker)).toBe(false);
+  });
+
   it("截图漂移时生成受管文件、给出固定提交信息，并阻止 LLM gate", () => {
     const { dir, remoteSha } = makeRepo();
     const localSha = addCommit(dir, "src/App.tsx", "feat(ui): add page");

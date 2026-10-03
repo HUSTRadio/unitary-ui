@@ -52,7 +52,13 @@ vp run llm -- docs-update --manual
 - `--dry-run`：输出稳定、脱敏的任务元数据和 prompt hash，不调用 Agent。
 - `--manual`：执行任务；合法写入返回 exit 2，要求人工审查和提交。
 
-pre-push hook 仍通过 `scripts/ai-docs-pre-push.mjs` 接入，但该脚本只是 Git ref 上下文适配器；提示词、影响范围、写入边界和校验器均来自 `docs-update` 任务包。
+pre-push hook 由 `scripts/pre-push.mjs` 编排截图检查，再通过 `scripts/ai-docs-pre-push.mjs` 接入文档任务。适配器只处理 Git ref 上下文；提示词、文档影响范围、写入边界和校验器均来自 `docs-update` 任务包。
+
+受影响的 push 必须对应当前检出的 HEAD，且已跟踪文件与会被检查读取的未跟踪输入文件没有待提交改动。不同目标提交的 refs 需要分别检出、验证和推送；删除 ref 或无影响路径的更新快速通过。
+
+截图 gate 使用 `--check --update-on-drift`，只启动一次浏览器，并将发现漂移的同一份截图写回受管文件。只有实际产生 README 或 PNG 变更时才返回 exit 2，要求审查、提交后重推；若更新没有产生改动，则只读复核，通过后继续文档 gate。复核仍漂移时返回 exit 1 并报告不稳定原因，不要求空提交。单独执行 `pnpm run docs:readme:screenshots:check` 保持只读。
+
+PNG 比较解码后的像素，仅容许最多 16 个像素、每个 RGB 通道不超过 10/255 的抗锯齿微差。尺寸或 alpha 变化、超过任一上限的差异、缺失或损坏文件仍判为漂移；README 受管区块保持精确比较。
 
 ## 新增任务
 

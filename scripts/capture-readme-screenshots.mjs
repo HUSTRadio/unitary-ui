@@ -4,9 +4,10 @@ import http from "node:http";
 import net from "node:net";
 import os from "node:os";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { chromium } from "@playwright/test";
+import { screenshotsMatch } from "./lib/readme-screenshots.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "images", "styleguide");
@@ -23,6 +24,7 @@ const VP_COMMAND = process.platform === "win32" ? "vp.exe" : "vp";
  */
 const NAVIGATION_TIMEOUT_MS = 120_000;
 const CHECK = process.argv.includes("--check");
+const UPDATE_ON_DRIFT = process.argv.includes("--update-on-drift");
 const BLOCK_START = "<!-- STYLEGUIDE_SCREENSHOTS_START -->";
 const BLOCK_END = "<!-- STYLEGUIDE_SCREENSHOTS_END -->";
 
@@ -98,8 +100,45 @@ function stopPreview(child) {
   }
 }
 
-async function settle(page) {
+export async function settle(page) {
   await page.evaluate(async () => {
+    // 路由切换后新挂载的图片也必须完成解码；不等待视口外的 lazy 图片。
+    // Decode newly mounted viewport images without waiting for offscreen lazy images.
+    const candidates = [...document.images].filter((image) => {
+      const rect = image.getBoundingClientRect();
+      return (
+        getComputedStyle(image).visibility !== "hidden" &&
+        rect.width > 0 &&
+        rect.height > 0 &&
+        rect.top < innerHeight &&
+        rect.bottom > 0 &&
+        rect.left < innerWidth &&
+        rect.right > 0
+      );
+    });
+    // IntersectionObserver 同时考虑祖先 overflow 裁剪，避免等待轮播中不可见的 lazy 图片。
+    // Account for ancestor clipping so hidden lazy carousel slides cannot stall the capture.
+    const visibleImages = await new Promise((resolve) => {
+      if (candidates.length === 0) return resolve([]);
+      const entries = new Map();
+      const observer = new IntersectionObserver((records) => {
+        for (const record of records) entries.set(record.target, record);
+        if (entries.size !== candidates.length) return;
+        observer.disconnect();
+        resolve(
+          [...entries.values()]
+            .filter(
+              (entry) =>
+                entry.isIntersecting &&
+                entry.intersectionRect.width > 0 &&
+                entry.intersectionRect.height > 0,
+            )
+            .map((entry) => entry.target),
+        );
+      });
+      for (const image of candidates) observer.observe(image);
+    });
+    await Promise.all(visibleImages.map((image) => image.decode()));
     await document.fonts.ready;
     if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
   });
@@ -252,7 +291,7 @@ async function compareFile(expectedPath, actualPath) {
       fs.readFile(expectedPath),
       fs.readFile(actualPath),
     ]);
-    return expected.equals(actual);
+    return screenshotsMatch(expected, actual);
   } catch {
     return false;
   }
@@ -320,6 +359,14 @@ async function main() {
         process.stderr.write(
           `[readme-screenshots] drift detected:\n${drift.map((item) => `  ${item}`).join("\n")}\n`,
         );
+        if (UPDATE_ON_DRIFT) {
+          // 复用发现漂移的同一份采样，避免第二次启动浏览器得到不同结果。
+          // Apply the exact capture that detected drift instead of sampling again.
+          await applyGenerated(stagingRoot, pages, expectedReadmes);
+          console.log(
+            `[readme-screenshots] updated ${drift.length} managed files from the checked capture`,
+          );
+        }
         process.exitCode = 2;
         return;
       }
@@ -341,7 +388,9 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(error.stack ?? error);
-  process.exitCode = 1;
-});
+if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
+  main().catch((error) => {
+    console.error(error.stack ?? error);
+    process.exitCode = 1;
+  });
+}

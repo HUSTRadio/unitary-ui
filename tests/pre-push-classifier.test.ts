@@ -28,6 +28,8 @@ describe("pre-push Angular Commit 与截图影响分类", () => {
       "src/components/ui/button.tsx",
       "src/lib/theme.ts",
       "public/fonts/oppo-sans-l1-vf.woff2",
+      "public/gallery-coast.svg",
+      "docs/site/build/example-source-plugin.ts",
       "vite.config.ts",
       "package.json",
     ]) {

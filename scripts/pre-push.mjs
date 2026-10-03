@@ -5,7 +5,16 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
-import { classifyScreenshotImpact } from "./lib/pre-push-classifier.mjs";
+import { affectsScreenshots, classifyScreenshotImpact } from "./lib/pre-push-classifier.mjs";
+import {
+  assertPushedCheckout,
+  parsePushedRefs,
+  pushedPaths,
+  pushGit,
+  worktreeChanges,
+} from "./lib/pre-push-context.mjs";
+import { resolveTask } from "./lib/llm-task-contract.mjs";
+import { matchesAny } from "./lib/llm-task-runner.mjs";
 
 const ROOT = process.cwd();
 const SCRIPT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -49,45 +58,7 @@ function fail(message, options = {}) {
 }
 
 function git(args) {
-  const result = spawnSync("git", args, { cwd: ROOT, encoding: "utf8" });
-  if (result.error) throw result.error;
-  if (result.status !== 0) {
-    throw new Error(`git ${args.join(" ")} failed with status ${result.status ?? "error"}`);
-  }
-  return result.stdout;
-}
-
-function parseRefs(input) {
-  const refs = [];
-  for (const rawLine of input.split(/\r?\n/)) {
-    const line = rawLine.trim();
-    if (!line) continue;
-    const parts = line.split(/\s+/);
-    if (parts.length !== 4) {
-      throw new Error(`malformed pre-push ref record: ${line}`);
-    }
-    const [localRef, localSha, remoteRef, remoteSha] = parts;
-    if (!/^[0-9a-f]{40,64}$/i.test(localSha) || !/^[0-9a-f]{40,64}$/i.test(remoteSha)) {
-      throw new Error(`invalid object id in pre-push ref record: ${line}`);
-    }
-    refs.push({ localRef, localSha, remoteRef, remoteSha });
-  }
-  return refs;
-}
-
-function changedPaths(ref) {
-  if (ZERO_SHA.test(ref.localSha)) return [];
-  const args = ZERO_SHA.test(ref.remoteSha)
-    ? [
-        "diff",
-        "--no-renames",
-        "--name-only",
-        "-z",
-        "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
-        ref.localSha,
-      ]
-    : ["diff", "--no-renames", "--name-only", "-z", ref.remoteSha, ref.localSha];
-  return git(args).split("\0").filter(Boolean);
+  return pushGit(ROOT, args);
 }
 
 function commitMessages(ref) {
@@ -118,7 +89,7 @@ function runScreenshotGate(context) {
   process.stderr.write(
     `[pre-push] README 截图检查已触发（路径=${decision.pathMatch ? "yes" : "no"}, commit=${decision.commitMatch ? "yes" : "no"}）。\n`,
   );
-  const check = runNode(SCREENSHOT_SCRIPT, ["--check"]);
+  const check = runNode(SCREENSHOT_SCRIPT, ["--check", "--update-on-drift"]);
   if (check.stdout) process.stderr.write(check.stdout);
   if (check.status === 0) return;
   if (check.status !== 2) {
@@ -134,16 +105,21 @@ function runScreenshotGate(context) {
   }
 
   if (check.stderr) process.stderr.write(check.stderr);
-  process.stderr.write("[pre-push] 检测到截图漂移，正在重新生成受管文件。\n");
-  const generate = runNode(SCREENSHOT_SCRIPT, []);
-  if (generate.stdout) process.stderr.write(generate.stdout);
-  if (generate.status !== 0) {
-    if (generate.stderr) process.stderr.write(generate.stderr);
-    fail(`截图生成失败，状态 ${generate.status ?? "error"}`, {
-      missing: "README 截图没有生成完成",
+  const managedChanges = worktreeChanges(ROOT).filter(({ file }) =>
+    /^(?:README(?:\.en)?\.md|images\/styleguide\/.+\.png)$/.test(file),
+  );
+  if (managedChanges.length === 0) {
+    // 没有实际改动时不能要求空提交；只读复核仍失败则报告不稳定。 / Never request an empty commit.
+    process.stderr.write("[pre-push] 截图更新后无实际改动，正在只读复核。\n");
+    const verify = runNode(SCREENSHOT_SCRIPT, ["--check"]);
+    if (verify.stdout) process.stderr.write(verify.stdout);
+    if (verify.stderr) process.stderr.write(verify.stderr);
+    if (verify.status === 0) return;
+    fail(`截图复核失败，状态 ${verify.status ?? "error"}`, {
+      missing: "截图结果不稳定或复核没有完成，当前没有可提交的截图变更",
       steps: [
-        "pnpm run docs:readme:screenshots",
-        "根据生成输出修复问题并确认 images/styleguide 与 README 受管区块完整",
+        "pnpm run docs:readme:screenshots:check",
+        "根据输出检查图片加载、字体与页面渲染是否稳定",
         "修复后重新执行 git push",
       ],
     });
@@ -207,7 +183,7 @@ function main() {
   }
 
   const input = readFileSync(0, "utf8");
-  const refs = parseRefs(input);
+  const refs = parsePushedRefs(input);
   if (refs.length === 0) {
     process.stderr.write("[pre-push] 没有待推送的 ref，跳过检查。\n");
     return;
@@ -215,12 +191,22 @@ function main() {
 
   const paths = new Set();
   const commits = [];
+  const task = resolveTask(SCRIPT_ROOT, "docs-update");
+  const affectsInput = (file) =>
+    affectsScreenshots(file) ||
+    matchesAny(file, task.impactGlobs) ||
+    matchesAny(file, task.allowedWriteGlobs);
+  const affectedRefs = [];
   for (const ref of refs) {
-    for (const file of changedPaths(ref)) paths.add(file);
+    const changed = pushedPaths(ROOT, ref);
+    for (const file of changed) paths.add(file);
+    if (changed.some(affectsInput)) affectedRefs.push(ref);
     commits.push(...commitMessages(ref));
   }
 
+  assertPushedCheckout(ROOT, affectedRefs, affectsInput);
   runScreenshotGate({ changedPaths: [...paths].sort(), commits });
+  assertPushedCheckout(ROOT, affectedRefs, affectsInput);
   runDocsGate(input);
 }
 
@@ -229,18 +215,27 @@ try {
 } catch (error) {
   const message = error instanceof Error ? error.message : String(error);
   const refInputError = /(?:ref record|object id|ref 更新记录)/i.test(message);
+  const checkoutError = /(?:pushed commit does not match HEAD|worktree has tracked changes)/.test(
+    message,
+  );
   fail(message, {
     missing: "pre-push 自动检查没有完成",
-    steps: refInputError
+    steps: checkoutError
       ? [
-          "通过 git push 触发 hook，不要手动构造 ref 输入",
-          "如果正常 git push 仍出现该错误，执行 pnpm run hooks:install 后重试",
+          "git status --short",
+          "保存或提交当前改动，确保检出的 HEAD 就是待推送的提交；不同提交的 refs 请分别推送",
+          "切换到对应提交后重新执行 git push",
         ]
-      : [
-          "阅读上方错误并修复对应问题",
-          "pnpm run docs:readme:screenshots:check",
-          "pnpm run llm -- check",
-          "修复后重新执行 git push",
-        ],
+      : refInputError
+        ? [
+            "通过 git push 触发 hook，不要手动构造 ref 输入",
+            "如果正常 git push 仍出现该错误，执行 pnpm run hooks:install 后重试",
+          ]
+        : [
+            "阅读上方错误并修复对应问题",
+            "pnpm run docs:readme:screenshots:check",
+            "pnpm run llm -- check",
+            "修复后重新执行 git push",
+          ],
   });
 }

@@ -1,11 +1,12 @@
 const SCREENSHOT_PATH_PATTERNS = [
   /^src\//,
-  /^public\/fonts\//,
+  /^public\//,
   /^(?:index\.html|package\.json|pnpm-lock\.yaml)$/,
   /^(?:vite|tailwind|postcss)\.config\.[cm]?[jt]s$/,
   /^images\/styleguide\//,
   /^scripts\/capture-readme-screenshots\.mjs$/,
   /^scripts\/lib\/readme-screenshots\.mjs$/,
+  /^docs\/site\/build\/example-source-plugin\.ts$/,
   /^README(?:\.en)?\.md$/,
 ];
 
@@ -24,15 +25,17 @@ export function parseAngularCommit(message) {
 }
 
 export function classifyScreenshotImpact({ changedPaths, commits }) {
-  const pathMatch = changedPaths.some((file) =>
-    SCREENSHOT_PATH_PATTERNS.some((pattern) => pattern.test(file.replaceAll("\\", "/"))),
-  );
+  const pathMatch = changedPaths.some(affectsScreenshots);
   const commitMatch = commits.some((message) => {
     const parsed = parseAngularCommit(message);
     if (!parsed) return false;
     return VISUAL_TYPES.has(parsed.type) && VISUAL_SCOPES.has(parsed.scope);
   });
   return { required: pathMatch, pathMatch, commitMatch };
+}
+
+export function affectsScreenshots(file) {
+  return SCREENSHOT_PATH_PATTERNS.some((pattern) => pattern.test(file.replaceAll("\\", "/")));
 }
 
 export const SCREENSHOT_IMPACT_PATTERNS = SCREENSHOT_PATH_PATTERNS;

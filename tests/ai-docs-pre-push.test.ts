@@ -162,6 +162,35 @@ describe("ai-docs-pre-push.mjs adapter boundary", () => {
     expect(result.stderr).toContain("tracked changes");
   });
 
+  it("rejects a pushed commit that differs from the checked-out HEAD before agent execution", () => {
+    const dir = makeRepo();
+    const oldSha = git(dir, ["rev-parse", "HEAD^"]).stdout.trim();
+    const marker = path.join(scratchDir(), "marker.txt");
+    const result = runRunner({
+      cwd: dir,
+      input: `refs/heads/old ${oldSha} refs/heads/old ${ZERO_SHA}\n`,
+      env: { FAKE_AGENT_MARKER: marker },
+    });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("pushed commit does not match HEAD");
+    expect(existsSync(marker)).toBe(false);
+  });
+
+  it("rejects untracked documentation inputs before agent execution", () => {
+    const dir = makeRepo();
+    mkdirSync(path.join(dir, "docs", "site"), { recursive: true });
+    writeFileSync(path.join(dir, "docs", "site", "uncommitted.md"), "user draft");
+    const marker = path.join(scratchDir(), "marker.txt");
+    const result = runRunner({
+      cwd: dir,
+      input: pushInput(dir),
+      env: { FAKE_AGENT_MARKER: marker },
+    });
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("docs/site/uncommitted.md");
+    expect(existsSync(marker)).toBe(false);
+  });
+
   it("fast-passes when the pushed range has no task impact", () => {
     const dir = makeRepo();
     const marker = path.join(scratchDir(), "marker.txt");
@@ -435,31 +464,34 @@ describe("ai-docs-pre-push.mjs adapter boundary", () => {
 
 // Node ≥ 20.12.2（CVE-2024-27980）禁止无 shell spawn .cmd/.bat；命令选择必须在
 // 生产路径上解析原生可执行文件，shim-only 时 fail-closed，而不是退回 shell 派生。
-describe.skipIf(process.platform !== "win32")("resolveWindowsAgentCommand (win32 command selection)", () => {
-  it("resolves the native executable and skips .cmd/.bat shims", () => {
-    const dir = mkdtempSync(path.join(os.tmpdir(), "unitary-agent-resolve-"));
-    cleanups.push(dir);
-    writeFileSync(path.join(dir, "codex.exe"), "binary");
-    writeFileSync(path.join(dir, "codex.cmd"), "@echo off\r\n");
-    const resolved = resolveWindowsAgentCommand("codex", { ...process.env, PATH: dir });
-    expect(resolved.toLowerCase()).toBe(path.join(dir, "codex.exe").toLowerCase());
-  });
+describe.skipIf(process.platform !== "win32")(
+  "resolveWindowsAgentCommand (win32 command selection)",
+  () => {
+    it("resolves the native executable and skips .cmd/.bat shims", () => {
+      const dir = mkdtempSync(path.join(os.tmpdir(), "unitary-agent-resolve-"));
+      cleanups.push(dir);
+      writeFileSync(path.join(dir, "codex.exe"), "binary");
+      writeFileSync(path.join(dir, "codex.cmd"), "@echo off\r\n");
+      const resolved = resolveWindowsAgentCommand("codex", { ...process.env, PATH: dir });
+      expect(resolved.toLowerCase()).toBe(path.join(dir, "codex.exe").toLowerCase());
+    });
 
-  it("fails closed instead of shelling out when only a .cmd shim is found", () => {
-    const dir = mkdtempSync(path.join(os.tmpdir(), "unitary-agent-resolve-"));
-    cleanups.push(dir);
-    writeFileSync(path.join(dir, "codex.cmd"), "@echo off\r\n");
-    expect(() => resolveWindowsAgentCommand("codex", { ...process.env, PATH: dir })).toThrow(
-      /CVE-2024-27980/,
-    );
-  });
+    it("fails closed instead of shelling out when only a .cmd shim is found", () => {
+      const dir = mkdtempSync(path.join(os.tmpdir(), "unitary-agent-resolve-"));
+      cleanups.push(dir);
+      writeFileSync(path.join(dir, "codex.cmd"), "@echo off\r\n");
+      expect(() => resolveWindowsAgentCommand("codex", { ...process.env, PATH: dir })).toThrow(
+        /CVE-2024-27980/,
+      );
+    });
 
-  it("falls back to the bare command so spawn reports ENOENT when nothing is found", () => {
-    const dir = mkdtempSync(path.join(os.tmpdir(), "unitary-agent-resolve-"));
-    cleanups.push(dir);
-    expect(resolveWindowsAgentCommand("codex", { ...process.env, PATH: dir })).toBe("codex");
-  });
-});
+    it("falls back to the bare command so spawn reports ENOENT when nothing is found", () => {
+      const dir = mkdtempSync(path.join(os.tmpdir(), "unitary-agent-resolve-"));
+      cleanups.push(dir);
+      expect(resolveWindowsAgentCommand("codex", { ...process.env, PATH: dir })).toBe("codex");
+    });
+  },
+);
 
 describe(".githooks/pre-push", () => {
   it("is executable, POSIX-only, and invokes the unified orchestrator", () => {

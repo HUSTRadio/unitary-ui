@@ -104,8 +104,13 @@ pnpm run docs:readme:screenshots:check
 The generator owns only the content between `STYLEGUIDE_SCREENSHOTS_START` and
 `STYLEGUIDE_SCREENSHOTS_END` in both README files, plus PNG files under `images/styleguide`. The
 pre-push hook uses changed paths as the gate decision; Angular/Conventional commit metadata is
-diagnostic only. If it finds drift, it regenerates the managed files and aborts the push so a human
-can review and commit them. Every blocked push prints the incomplete operation and exact recovery
+diagnostic only. It checks and updates drift from the same browser capture, aborting for review and
+commit only when managed files actually change. PNG pixel comparison tolerates at most 16 differing
+pixels with an RGB channel delta of at most 10/255; dimensions and alpha must match exactly.
+An update with no changes requires a successful
+read-only recheck; persistent instability is reported without requesting an empty commit. Impacted
+refs must match the checked-out HEAD, with clean tracked files and no untracked check inputs.
+Every blocked push prints the incomplete operation and exact recovery
 steps; follow those steps, commit generated changes when requested, then run `git push` again.
 
 ## Validation

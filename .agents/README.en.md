@@ -52,7 +52,13 @@ vp run llm -- docs-update --manual
 - `--dry-run`: print stable, sanitized metadata and prompt hashes without invoking an agent.
 - `--manual`: execute a task; allowlisted writes return exit 2 for human review and commit.
 
-The pre-push hook still enters through `scripts/ai-docs-pre-push.mjs`, but that file is only a Git-ref context adapter. The `docs-update` task package owns prompts, impact paths, write boundaries, and validators.
+The pre-push hook uses `scripts/pre-push.mjs` to orchestrate screenshot checks, then enters the documentation task through `scripts/ai-docs-pre-push.mjs`. The adapter handles Git-ref context only; the `docs-update` task package owns prompts, documentation impact paths, write boundaries, and validators.
+
+An impacted push must match the checked-out HEAD, with no pending changes to tracked files or untracked input files consumed by the checks. Refs targeting different commits must be checked out, validated, and pushed separately; ref deletions and updates without impacted paths pass quickly.
+
+The screenshot gate uses `--check --update-on-drift` to launch the browser once and write the exact capture that detected drift to managed files. It returns exit 2 for review, commit, and retry only when README or PNG files actually change. If an update produces no changes, a read-only recheck must pass before the documentation gate continues. Persistent drift returns exit 1 with an instability diagnostic instead of requesting an empty commit. Running `pnpm run docs:readme:screenshots:check` alone remains read-only.
+
+PNG comparison uses decoded pixels, tolerating antialiasing noise in at most 16 pixels with an RGB difference of at most 10/255 per channel. Dimension or alpha changes, differences above either limit, and missing or corrupt files still count as drift. Managed README blocks use exact comparison.
 
 ## Adding a task
 
