@@ -78,7 +78,7 @@ export function ComponentApiReference({ componentName }: { componentName: string
           {language === "zh-CN" ? "导入" : "Import"}
         </p>
         <CodeBlock language="tsx" hideLineNumbers>
-          {`import { ${api.exports.join(", ")} } from "@/components/ui/${componentName}"`}
+          {`import { ${api.exports.join(", ")} } from "${api.importPath ?? `@/components/ui/${componentName}`}"`}
         </CodeBlock>
       </DocsBlock>
 

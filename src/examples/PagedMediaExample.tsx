@@ -5,6 +5,7 @@ import { Select, SelectItem } from "@/components/ui/select";
 import { FullPageScroller } from "@/components/ui/full-page-scroller";
 import { LazyLoad } from "@/components/ui/lazy-load";
 import { Skeleton } from "@/components/ui/skeleton";
+import PrefetchExample from "../../docs/site/src/examples/prefetch/default.example";
 
 export function PagedMediaExample() {
   const [page, setPage] = useState(6);
@@ -68,6 +69,10 @@ export function PagedMediaExample() {
             className="h-full w-full object-cover"
           />
         </LazyLoad>
+      </section>
+      <section className="space-y-3">
+        <h2 className="text-heading-24">预载 · Prefetch</h2>
+        <PrefetchExample />
       </section>
     </div>
   );

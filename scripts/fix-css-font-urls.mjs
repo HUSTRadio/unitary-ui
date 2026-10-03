@@ -15,7 +15,7 @@ writeFileSync(cssPath, css);
 console.log(`css font urls rewritten: ${before} absolute → relative ./fonts/`);
 
 // 2. 删除 demo / app build / sourcemap 资源
-for (const f of ["demo.mp4", "demo-poster.png", "gallery-coast.svg", "gallery-desert.svg", "gallery-forest.svg", "index.html", "assets"]) {
+for (const f of ["demo.mp4", "demo-poster.png", "gallery-coast.svg", "gallery-desert.svg", "gallery-forest.svg", "prefetch-preview.json", "index.html", "assets"]) {
   const p = join(distDir, f);
   try {
     rmSync(p, { recursive: true, force: true });

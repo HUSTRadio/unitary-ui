@@ -4,6 +4,7 @@ import { ArrowLeft, ChevronRight, Smartphone } from "lucide-react";
 import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
 import { SubFrame } from "@/components/ui/sub-frame";
 import { cn } from "@/lib/utils";
+import { createPrefetch, type PrefetchResource } from "@/lib/prefetch";
 
 import { getComponentGuide } from "../content/component-guides";
 import { COMPONENTS, type ComponentMeta } from "../data/components";
@@ -231,17 +232,20 @@ function renderExtraSections(name: string, language: DocsLanguage, EXAMPLE_REGIS
 
 // Stable promises let Suspense retry without starting another import. The
 // registry still owns the component/source pairing and visible section order.
-const exampleModules = new Map<string, Promise<{ EXAMPLE_REGISTRY: ExampleRegistry }>>();
-const emptyExamples = Promise.resolve({ EXAMPLE_REGISTRY: {} });
+const exampleModules = new Map<string, PrefetchResource<{ EXAMPLE_REGISTRY: ExampleRegistry }>>();
+
+export function loadComponentExamples(name: string): Promise<{ EXAMPLE_REGISTRY: ExampleRegistry }> {
+  let resource = exampleModules.get(name);
+  if (!resource) {
+    resource = createPrefetch(() => EXAMPLE_LOADERS[name]?.() ?? { EXAMPLE_REGISTRY: {} });
+    exampleModules.set(name, resource);
+  }
+  return resource.load();
+}
 
 function ComponentExamples({ name }: { name: string }) {
   const { language } = useLanguage();
-  let pending = exampleModules.get(name);
-  if (!pending) {
-    pending = EXAMPLE_LOADERS[name]?.() ?? emptyExamples;
-    exampleModules.set(name, pending);
-  }
-  const { EXAMPLE_REGISTRY } = React.use(pending);
+  const { EXAMPLE_REGISTRY } = React.use(loadComponentExamples(name));
   return (
     <>
       <DocsSection>

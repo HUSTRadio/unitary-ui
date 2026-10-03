@@ -35,26 +35,27 @@ import {
 import { SHELL_COPY } from "./i18n/catalog";
 import { demoText } from "./i18n/components-demo";
 import { useLanguage, type DocsLanguage } from "./i18n/language";
+import { DOCS_PAGE_RESOURCES, prefetchDocsLink } from "./data/page-loaders";
 
 // 外壳与介绍页立即可用，其余页面随导航加载。
 // Keep the shell and introduction ready; load specialist pages on navigation.
 const ComponentsPage = lazy(() =>
-  import("./components/docs-components-page").then((module) => ({ default: module.ComponentsPage })),
+  DOCS_PAGE_RESOURCES.components.load().then((module) => ({ default: module.ComponentsPage })),
 );
 const IconsPage = lazy(() =>
-  import("./components/docs-icons").then((module) => ({ default: module.IconsPage })),
+  DOCS_PAGE_RESOURCES.icons.load().then((module) => ({ default: module.IconsPage })),
 );
 const LifecycleAndHooksPage = lazy(() =>
-  import("./pages/lifecycle-and-hooks").then((module) => ({ default: module.LifecycleAndHooksPage })),
+  DOCS_PAGE_RESOURCES["lifecycle-and-hooks"].load().then((module) => ({ default: module.LifecycleAndHooksPage })),
 );
 const TokensPage = lazy(() =>
-  import("./pages/tokens").then((module) => ({ default: module.TokensPage })),
+  DOCS_PAGE_RESOURCES.tokens.load().then((module) => ({ default: module.TokensPage })),
 );
 const ChartsGalleryPage = lazy(() =>
-  import("./pages/charts-gallery").then((module) => ({ default: module.ChartsGalleryPage })),
+  DOCS_PAGE_RESOURCES.charts.load().then((module) => ({ default: module.ChartsGalleryPage })),
 );
 const AppShellDemo = lazy(() =>
-  import("./components/patterns/app-shell-demo").then((module) => ({ default: module.AppShellDemo })),
+  DOCS_PAGE_RESOURCES["app-shell"].load().then((module) => ({ default: module.AppShellDemo })),
 );
 
 const STATIC_PAGE_COMPONENTS = {
@@ -134,7 +135,11 @@ export default function App() {
   return (
     // Sticky Navbar 已占据一行，main 撑满剩余视口并负责滚动，不再重复顶栏偏移。
     // Sticky Navbar occupies a flex row; main fills and scrolls the remainder.
-    <div className="flex h-dvh flex-col overflow-hidden bg-background">
+    <div className="flex h-dvh flex-col overflow-hidden bg-background"
+      onPointerOver={(event) => { if (event.pointerType !== "touch") prefetchDocsLink(event); }}
+      onPointerDown={(event) => { if (event.pointerType === "touch") prefetchDocsLink(event); }}
+      onFocusCapture={prefetchDocsLink}
+    >
       <a
         href="#main-content"
         onClick={(event) => {

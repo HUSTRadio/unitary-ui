@@ -10,6 +10,7 @@
  */
 
 const COMPONENT_BEST_PRACTICES_ZH: Record<string, string[]> = {
+  prefetch: ["每组加载器与参数使用一个稳定资源，通过 load() 消费同一结果。", "输入变化后显式失效；只为可能接着访问的内容预载，不预载所有页面。"],
   "carousel": ["为每张图片提供有意义的 alt，并保持一致的宽高比。","使用主动翻页；轮播不会自动切换。"],
   "full-page-scroller": ["保持各屏内容相关，并提供可见的进度提示。","整屏手势适合演示；较长内容应在各屏内部自然滚动。"],
   "lazy-load": ["通过占位内容预留尺寸，避免布局跳动。","简单图片可使用原生 loading=\"lazy\"；需要延迟整个子树时使用 LazyLoad。"],

@@ -536,6 +536,14 @@ pill
 
 ](#/components/pill)[
 
+prefetch
+
+### 预载
+
+在用户有操作意图、接近视口或浏览器空闲时准备可复用的模块或数据。
+
+](#/components/prefetch)[
+
 progress
 
 ### 进度条

@@ -38,6 +38,12 @@ async function render(componentName: string, language: DocsLanguage) {
 
 describe("API reference explanations", () => {
   for (const language of ["zh-CN", "en-US"] as const) {
+    it(`imports the Prefetch component and resource API from the actual package root in ${language}`, async () => {
+      await render("prefetch", language);
+      expect(container.querySelector("pre code")?.textContent).toContain(
+        'import { Prefetch, createPrefetch, usePrefetchState } from "@hustradio/unitary-ui"',
+      );
+    });
     it(`explains required markers before the props table in ${language}`, async () => {
       await render("carousel", language);
 

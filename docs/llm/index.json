@@ -177,8 +177,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:26532dcb5d1183f8ca1c0777438b8a7ea0c9103231c67ba86625005074e61e33",
-        "en-US": "sha256:34acb3a25ccadeef632880ab2d7eb8439336096731de27e398a71e308a3dbd4b"
+        "zh-CN": "sha256:81a9f302fe0b7e496626beca94f97b1b402a68961ec1b83c2bd68072b663307d",
+        "en-US": "sha256:e9ae468d41d4caa268cbae5045e4548a175edb99619cb12d52ae0961a608d7b8"
       }
     },
     {
@@ -1190,6 +1190,38 @@
       }
     },
     {
+      "path": "/components/lazy-load",
+      "title": {
+        "zh-CN": "延迟加载",
+        "en-US": "Lazy Load"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/lazy-load.md",
+        "en-US": "pages/en-US/components/lazy-load.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:179d2e41feb0cb9281f3415b03dd5bdad0a206b5b743ebfebf1405d3159ce287",
+        "en-US": "sha256:d30c90e56937e2b0eb180b339e458fc004e2104f367212169d8fd588038bbf30"
+      }
+    },
+    {
+      "path": "/components/prefetch",
+      "title": {
+        "zh-CN": "预载",
+        "en-US": "Prefetch"
+      },
+      "category": "component",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/prefetch.md",
+        "en-US": "pages/en-US/components/prefetch.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:9f06041f4b43ec16db827df35d5b9064627dd021cf82f3cb34bb6eae4f2903f1",
+        "en-US": "sha256:93ac0cf0bbb3caab05b88e8b91b37dde3429cef8022cc37b8a8379e026475f14"
+      }
+    },
+    {
       "path": "/components/collapse",
       "title": {
         "zh-CN": "折叠面板",
@@ -1507,22 +1539,6 @@
       "sourceHash": {
         "zh-CN": "sha256:4193c3a6ced9891a1210f53da6dde745926f36a992d99259e1610974f77bbccf",
         "en-US": "sha256:9c14c38883d394e437dee617bc57506a876c34f6b469d486101d576a46edbf22"
-      }
-    },
-    {
-      "path": "/components/lazy-load",
-      "title": {
-        "zh-CN": "延迟加载",
-        "en-US": "Lazy Load"
-      },
-      "category": "component",
-      "locales": {
-        "zh-CN": "pages/zh-CN/components/lazy-load.md",
-        "en-US": "pages/en-US/components/lazy-load.md"
-      },
-      "sourceHash": {
-        "zh-CN": "sha256:179d2e41feb0cb9281f3415b03dd5bdad0a206b5b743ebfebf1405d3159ce287",
-        "en-US": "sha256:d30c90e56937e2b0eb180b339e458fc004e2104f367212169d8fd588038bbf30"
       }
     },
     {

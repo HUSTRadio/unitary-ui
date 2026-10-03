@@ -8,6 +8,10 @@ import FullPageExample from "./full-page-scroller/default.example";
 import FullPageExampleSource from "./full-page-scroller/default.example.tsx?example-source";
 import LazyLoadExample from "./lazy-load/default.example";
 import LazyLoadExampleSource from "./lazy-load/default.example.tsx?example-source";
+import PrefetchExample from "./prefetch/default.example";
+import PrefetchExampleSource from "./prefetch/default.example.tsx?example-source";
+import PrefetchStrategiesExample from "./prefetch/strategies.example";
+import PrefetchStrategiesExampleSource from "./prefetch/strategies.example.tsx?example-source";
 import type { ComponentType } from "react";
 import SidebarNavExample from "./sidebar-nav/default-public.example";
 import SidebarNavExampleSource from "./sidebar-nav/default-public.example.tsx?example-source";
@@ -868,6 +872,8 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "carousel", id: "variants", Component: CarouselVariantsExample, source: CarouselVariantsExampleSource },
   { slug: "full-page-scroller", id: "default", Component: FullPageExample, source: FullPageExampleSource },
   { slug: "lazy-load", id: "default", Component: LazyLoadExample, source: LazyLoadExampleSource },
+  { slug: "prefetch", id: "default", Component: PrefetchExample, source: PrefetchExampleSource },
+  { slug: "prefetch", id: "strategies", Component: PrefetchStrategiesExample, source: PrefetchStrategiesExampleSource },
   { slug: "sidebar-nav", id: "default", Component: SidebarNavExample, source: SidebarNavExampleSource },
   { slug: "navbar", id: "default", Component: NavbarExample, source: NavbarExampleSource },
   { slug: "footer", id: "default", Component: FooterExample, source: FooterExampleSource },

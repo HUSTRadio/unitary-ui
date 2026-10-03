@@ -536,6 +536,14 @@ Switch a filter or selection by clicking a pill.
 
 ](#/components/pill)[
 
+prefetch
+
+### Prefetch
+
+Prepares reusable modules or data on intent, near a viewport, or while idle.
+
+](#/components/prefetch)[
+
 progress
 
 ### Progress

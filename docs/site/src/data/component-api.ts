@@ -14,6 +14,7 @@ export type ApiRow = {
 
 export type ComponentApi = {
   exports: string[];
+  importPath?: string;
   extends?: string;
   rows: ApiRow[];
   notes?: { en: string; zh: string }[];
@@ -34,6 +35,27 @@ const component = (exports: string[], rows: ApiRow[] = [], extendsType?: string)
 });
 
 const O = {
+  prefetch: {
+    importPath: "@hustradio/unitary-ui",
+    ...component(["Prefetch", "createPrefetch", "usePrefetchState"], [
+      row("resource", "PrefetchResource<unknown>", "Shared resource created with createPrefetch; creation starts no work.", "createPrefetch 创建的共享资源；创建时不启动工作。", { required: true, origin: "extension" }),
+      row("trigger", '"intent" | "viewport" | "idle"', "Intent uses mouse/pen entry, keyboard focus and touch press; viewport and idle schedule once per setup.", "意图模式响应鼠标/笔进入、键盘聚焦与触摸按下；视口与空闲模式每次设置调度一次。", { defaultValue: '"intent"', origin: "extension" }),
+      row("asChild", "boolean", "Merges behavior into one existing element without adding a wrapper.", "将行为合并到一个现有元素，不额外添加包装层。", { defaultValue: "false", origin: "extension" }),
+      row("disabled", "boolean", "Suppresses automatic prefetch; explicit resource.load() remains available.", "禁止自动预载；显式 resource.load() 仍可用。", { defaultValue: "false", origin: "extension" }),
+      row("respectDataSaver", "boolean", "Skips automatic prefetch when navigator.connection.saveData is available and true.", "navigator.connection.saveData 可用且为 true 时跳过自动预载。", { defaultValue: "true", origin: "extension" }),
+      row("root", "Element | Document | null", "IntersectionObserver root for viewport mode.", "视口模式的 IntersectionObserver 根节点。", { defaultValue: "null", origin: "extension" }),
+      row("rootMargin", "string", "Viewport-mode intersection margin.", "视口模式的相交边距。", { defaultValue: '"200px"', origin: "extension" }),
+      row("threshold", "number", "Minimum intersection ratio in viewport mode.", "视口模式要求的最小相交比例。", { defaultValue: "0", origin: "extension" }),
+      row("createPrefetch", "<T>(loader: (signal: AbortSignal) => T | PromiseLike<T>) => PrefetchResource<T>", "Creates a caller-owned resource; use stable instances, or one instance per SSR request for private data.", "创建由调用方持有的资源；保持实例稳定，私有数据在 SSR 中每个请求使用独立实例。", { origin: "extension" }),
+      row("resource.load", "() => Promise<T>", "Returns the same in-flight or successful promise; errors reject and the next call can retry.", "返回同一个进行中或成功的 Promise；错误会拒绝，下一次调用可重试。", { origin: "extension" }),
+      row("resource.prefetch", "() => Promise<void>", "Warms the load cache; handles background rejection and exposes errors in the snapshot.", "预热 load 缓存；处理后台拒绝，错误通过快照提供。", { origin: "extension" }),
+      row("resource.invalidate", "() => void", "Clears the cache, aborts pending work honoring its signal and ignores stale completions.", "清除缓存，中止支持信号的进行中工作，并忽略旧结果。", { origin: "extension" }),
+      row("resource.getSnapshot", "() => PrefetchSnapshot<T>", "Stable readonly idle/loading/ready/error snapshot; ready contains data and error contains the failure.", "稳定的只读 idle/loading/ready/error 快照；ready 提供 data，error 提供失败原因。", { origin: "extension" }),
+      row("resource.subscribe", "(listener: () => void) => () => void", "Subscribes to changes and returns an unsubscribe function.", "订阅状态变化，返回取消订阅函数。", { origin: "extension" }),
+      row("usePrefetchState", "<T>(resource: PrefetchResource<T>) => PrefetchSnapshot<T>", "Observes state without loading; SSR and initial hydration use idle.", "只订阅状态，不启动加载；SSR 与首次水合使用 idle。", { origin: "extension" }),
+    ], 'Omit<ComponentPropsWithoutRef<"div">, "resource">'),
+    notes: [{ zh: "Prefetch 是 Unitary 扩展。它保留已挂载子元素，不设置视觉样式；动态 import 会执行模块。缺少观察器时使用空闲调度，缺少空闲 API 时使用 200ms 定时器；卸载只取消尚未执行的调度。", en: "Prefetch is a Unitary extension. Children remain mounted and no visual styles are added; dynamic import executes modules. Missing observers fall back to idle scheduling, and missing idle APIs use a 200ms timer. Unmounting cancels pending scheduling only." }],
+  },
   "carousel": component(["Carousel"], [
     row("variant", "\"slide\" | \"fade-linear\" | \"fade\" | \"fade-scale\"", "Slide, linear fade, eased fade or eased fade with subtle scaling. All respect reduced motion.", "滑动、线性淡入淡出、缓入缓出或缓入缓出加轻微缩放；均支持减少动画。", { defaultValue: "\"slide\"", origin: "extension" }),
     row("images", "CarouselImage[]", "Images with src, required alt, optional caption, srcSet and sizes.", "图片列表：src、必填 alt，以及可选 caption、srcSet 和 sizes。", {"required":true,"origin":"extension"}),

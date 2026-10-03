@@ -61,6 +61,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     // Section titles
     Sizes: "尺寸",
     Variants: "变体",
+    Strategies: "触发方式",
     "Prefix and Suffix": "前缀与后缀",
     "Horizontal Layout": "横向布局",
     Presets: "预设范围",

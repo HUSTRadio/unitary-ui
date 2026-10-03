@@ -92,6 +92,7 @@ describe("canonical docs route registry", () => {
       "navigation",
       "data-display",
       "feedback",
+      "async-loading",
       "overlays",
       "content",
       "mobile",

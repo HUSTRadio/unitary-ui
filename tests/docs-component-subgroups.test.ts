@@ -16,6 +16,7 @@ const EXPECTED_SUBGROUP_IDS = [
   "navigation",
   "data-display",
   "feedback",
+  "async-loading",
   "overlays",
   "content",
   "mobile",
@@ -41,6 +42,10 @@ function componentPath(name: string): string {
 }
 
 describe("docs components second-level categories", () => {
+  test("groups Prefetch and LazyLoad as sibling async-loading features", () => {
+    const subgroup = componentsGroup().subgroups?.find((entry) => entry.id === "async-loading");
+    expect(subgroup?.items.map((entry) => entry.to)).toEqual(["/components/lazy-load", "/components/prefetch"]);
+  });
   test("declares the functional subgroups in sidebar order with bilingual titles", () => {
     const subgroups = componentsGroup().subgroups ?? [];
     expect(subgroups.map((subgroup) => subgroup.id)).toEqual(EXPECTED_SUBGROUP_IDS);

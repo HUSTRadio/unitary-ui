@@ -28,6 +28,14 @@ export interface ComponentMeta {
 
 const COMPONENTS_EN: ComponentMeta[] = [
 {
+  name: "prefetch",
+  label: "Prefetch",
+  labelZh: "预载",
+  description: "Prepares reusable modules or data on intent, near a viewport, or while idle.",
+  descriptionZh: "在用户有操作意图、接近视口或浏览器空闲时准备可复用的模块或数据。",
+  bestPractices: ["Keep one stable resource per loader and parameter set; consume it through load().", "Invalidate when inputs change. Use prefetch for likely next content, not every page."],
+},
+{
   "name": "carousel",
   "label": "Carousel",
   "labelZh": "图片轮播",

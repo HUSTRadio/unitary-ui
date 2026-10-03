@@ -56,6 +56,7 @@ describe("Geist documentation coverage", () => {
       "link",
       "menu-bar",
       "navbar",
+      "prefetch",
       "progress-circle",
       "responsive-drawer",
       "safe-area",
