@@ -30,8 +30,9 @@ import { FormExample } from "@/examples/FormExample";
 import { SettingsExample } from "@/examples/SettingsExample";
 import { WorkflowExample } from "@/examples/WorkflowExample";
 import { PagedMediaExample } from "@/examples/PagedMediaExample";
+import { TokensExample } from "@/examples/TokensExample";
 
-/** Living styleguide — 组件总览 + 5 个组合示例。 */
+/** Living styleguide — 组件总览与可交互组合示例。 / Overview and interactive examples. */
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="space-y-3">
@@ -42,7 +43,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 export default function App() {
-  const [page, setPage] = useState<"components" | "form" | "table" | "workflow" | "settings" | "paged-media">(
+  const [page, setPage] = useState<"components" | "form" | "table" | "workflow" | "settings" | "paged-media" | "tokens">(
     "components",
   );
   const [checked, setChecked] = useState(true);
@@ -61,6 +62,7 @@ export default function App() {
     { key: "table", label: "数据表格", labelEn: "Data table" },
     { key: "workflow", label: "审批流程", labelEn: "Workflow" },
     { key: "settings", label: "设置面板", labelEn: "Settings panel" },
+    { key: "tokens", label: "全局 Token", labelEn: "Global tokens" },
   ];
 
   return (
@@ -114,6 +116,7 @@ export default function App() {
           {page === "table" && <DataTableExample />}
           {page === "workflow" && <WorkflowExample />}
           {page === "settings" && <SettingsExample />}
+          {page === "tokens" && <TokensExample />}
         </ErrorBoundary>
 
         {page === "components" && (

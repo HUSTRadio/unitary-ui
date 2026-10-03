@@ -45,6 +45,7 @@ export function App() {
 | 数据表格   | ![数据表格 Light](images/styleguide/table-light.png)         | ![数据表格 Dark](images/styleguide/table-dark.png)         |
 | 审批流程   | ![审批流程 Light](images/styleguide/workflow-light.png)      | ![审批流程 Dark](images/styleguide/workflow-dark.png)      |
 | 设置面板   | ![设置面板 Light](images/styleguide/settings-light.png)      | ![设置面板 Dark](images/styleguide/settings-dark.png)      |
+| 全局 Token | ![全局 Token Light](images/styleguide/tokens-light.png)      | ![全局 Token Dark](images/styleguide/tokens-dark.png)      |
 
 <!-- STYLEGUIDE_SCREENSHOTS_END -->
 

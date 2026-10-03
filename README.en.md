@@ -45,6 +45,7 @@ The package root supports native Node ESM `import` and CommonJS `require` withou
 | Data table           | ![Data table Light](images/styleguide/table-light.png)                 | ![Data table Dark](images/styleguide/table-dark.png)                 |
 | Workflow             | ![Workflow Light](images/styleguide/workflow-light.png)                | ![Workflow Dark](images/styleguide/workflow-dark.png)                |
 | Settings panel       | ![Settings panel Light](images/styleguide/settings-light.png)          | ![Settings panel Dark](images/styleguide/settings-dark.png)          |
+| Global tokens        | ![Global tokens Light](images/styleguide/tokens-light.png)             | ![Global tokens Dark](images/styleguide/tokens-dark.png)             |
 
 <!-- STYLEGUIDE_SCREENSHOTS_END -->
 
