@@ -391,7 +391,7 @@
 ## F. 复验入口
 
 ```powershell
-cd d:/Projects/GitHub/HUSTRadio/unitary-ui
+# 在仓库根目录执行
 git rev-parse HEAD                        # 冻结基线
 pnpm exec vitest run tests/raw-color-governance.test.ts   # HIG-AUD-005 撤回依据（实测为绿）/ HIG-AUD-052 棘轮缺口入口
 pnpm test                                 # 全量契约

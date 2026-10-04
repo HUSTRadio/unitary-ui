@@ -1,7 +1,7 @@
 # Unitary UI · HIG 工作交付书（给下一个 Agent）
 
 - **生成时间**：2026-09-21 ｜ **最近修订**：2026-09-26：本波并行闭环 **9 条**（`041` 测试质量 + P3 `031`/`032`/`033`/`035`/`045`/`046`/`047`/`048`），处置与证据见增补 **§3.4 / §3.2**、本交付书 **§7.21**；同时把 LLM 文档任务切到 DeepSeek 后端（**§7.20**）。计数变为 **46 修 + 2 关闭 + 6 待闭环 = 54**（P0 0、P1 1〔`036`〕、P2 5、P3 0；`034` 于同日核对后关闭（§7.22），`052` 同日封堵棘轮旁路（§7.23））。矩阵 §D 同时补齐此前缺失的 `051`/`052`/`054` 三行。`025` 仍仅 HamburgerMenu 阶段完成；`028` 待经典滚动条平台、`030` 仅命令面板子项；`026` 移动地址栏与 `043` 真触屏仍待设备验收。提交与工作区状态必须现场核对。
-- **工作区**：`d:/Projects/GitHub/HUSTRadio/unitary-ui`
+- **工作区**：`unitary-ui` 仓库根目录（本地绝对路径不随仓库分发）
 - **仓库状态（2026-09-26 提交前）**：分支 `master`，HEAD 为 `bf900b8`（`025` 阶段与交付书前两轮已入库）；**本波（含 DeepSeek runner 改造与九条修复）尚未提交**，提交前须排除未跟踪 `.tmp-logo/` 并核对实际 HEAD 与领先提交数。
 - **工作区快照（2026-09-26 提交前，历史记录）**：本波涉及 `src/components/ui/{combobox,menu-bar,dots-menu,context-menu,select,toast,activity-view,destructive-action-modal}.tsx`、`scripts/lib/llm-task-runner.mjs`、`.agents/{runner.config,runner.schema}.json`、`tests/**`（含 5 个新行为测试、`overlay-blur-boundary`、`dots-menu-surface`、`combobox-panel-material`）、`docs/geist/**` 若干、`docs/llm/**` 生成语料、三份审计台账。**凭据文件 `.agents/runner.env.local` 被 `*.local` 忽略、绝不可提交**；`.tmp-logo/` 属他人工作不可动。以 `git status --short` 现场核对为准。
 - **口径**：只记**可核对的静态事实**与**已验证命令输出**；推断处显式标注；未能核实的条目集中列在 §9。

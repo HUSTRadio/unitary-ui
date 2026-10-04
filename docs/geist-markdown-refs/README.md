@@ -2,7 +2,7 @@
 
 > **来源**：https://vercel.com/geist/introduction（官方文档，含 /geist/* 与 /font）
 > **抓取日期**：2026-08-08
-> **抓取方式**：Playwright 独立浏览器进程 × 12 并行子代理，自动展开每个组件页的 "Show code" 代码块；截图存 `screenshots/`（light 主题默认）
+> **抓取方式**：Playwright 独立浏览器进程 × 12 并行子代理，自动展开每个组件页的 "Show code" 代码块；参考截图仅作为本地证据保存，不纳入版本控制。
 > **用途**：本框架（unitary-ui，视觉基准 Vercel Geist）的本地设计规范参考；**严格声明仍以官方页面为准**，本快照用于离线查值与快速对照。
 > **复核日期**：2026-08-09；72 组件本地复刻验收见 [`../site-replica-acceptance.md`](../site-replica-acceptance.md)。
 
@@ -13,7 +13,6 @@
 | `foundations/` | introduction / colors / typography / materials          | 4      |
 | `brands/`      | brands（Vercel/Next.js/Turbo/v0/eve/AI SDK 锚点）/ font | 2      |
 | `components/`  | 72 个组件文档（含完整示例代码）                         | 72     |
-| `screenshots/` | 每页 light 主题截图（PNG）                              | 79     |
 
 ## Foundations 要点
 
@@ -68,6 +67,6 @@ avatar, badge, banner, book, breadcrumbs, browser, button, calendar, checkbox, c
 ## 注意事项
 
 - `geistcn-icons` 页面在官方已 307 重定向到 introduction（Vercel 已移除独立图标页），未保留。
-- `screenshots/` 为 light 主题；如需 dark 对照可重跑抓取脚本加 `--dark` 参数。
+- 本地 `screenshots/` 为历史 light 主题参考截图，已由 `.gitignore` 排除；仓库展示截图仍由 `images/styleguide/` 管理。
 - 渲染参数由 `geist-styles.js` 实测生成（2026-08-08），若官方样式更新可重跑刷新；table.md 另有独立维护的参数表，两者可共存。
-- 抓取脚本（临时）：`C:/Users/Leon/.hermes/cache/geist-crawl/geist-crawl.js` 与 `geist-styles.js`
+- 历史抓取使用本地临时脚本 `geist-crawl.js` 与 `geist-styles.js`；它们不随仓库分发。
