@@ -14,6 +14,15 @@ import {
 } from "../docs/site/src/data/docs-routes";
 
 describe("canonical docs route registry", () => {
+  it("exposes color schemes in Foundations with bilingual navigation and pagination", () => {
+    const route = getDocsRoute("/color-schemes");
+    expect(route).toMatchObject({
+      group: "foundations", sidebar: true, label: "Color Schemes", labelZh: "配色方案",
+      renderer: { kind: "localized", page: "color-schemes" },
+    });
+    expect(getAdjacentDocsPages("/colors").next?.to).toBe("/color-schemes");
+    expect(getAdjacentDocsPages("/color-schemes").previous?.to).toBe("/colors");
+  });
   it("normalizes introduction aliases and trailing slashes", () => {
     expect(canonicalDocsPath("introduction")).toBe("/");
     expect(canonicalDocsPath("/introduction/")).toBe("/");
@@ -23,6 +32,12 @@ describe("canonical docs route registry", () => {
       page: "introduction",
     });
     expect(getDocsRouteLabel(DOCS_ROUTE_SEQUENCE[0], "zh-CN")).toBe("介绍");
+  });
+  it("registers the scoped color scheme API in the API group", () => {
+    expect(getDocsRoute("/api/color-schemes")).toMatchObject({
+      group: "api", sidebar: true, label: "Color Scheme API", labelZh: "配色 API",
+      renderer: { kind: "localized", page: "color-scheme-api" },
+    });
   });
 
   it("uses unique canonical routes and derives component details from COMPONENTS", () => {
@@ -143,8 +158,9 @@ describe("canonical docs route registry", () => {
   });
 
   it("follows the new network section order in previous and next links", () => {
-    expect(getAdjacentDocsPages("/api/tokens").next?.to).toBe("/network/lazy-load");
-    expect(getAdjacentDocsPages("/network/lazy-load").previous?.to).toBe("/api/tokens");
+    expect(getAdjacentDocsPages("/api/tokens").next?.to).toBe("/api/color-schemes");
+    expect(getAdjacentDocsPages("/api/color-schemes").next?.to).toBe("/network/lazy-load");
+    expect(getAdjacentDocsPages("/network/lazy-load").previous?.to).toBe("/api/color-schemes");
     expect(getAdjacentDocsPages("/network/lazy-load").next?.to).toBe("/network/prefetch");
     expect(getAdjacentDocsPages("/network/prefetch").next?.to).toBe("/components");
     expect(getAdjacentDocsPages("/components").previous?.to).toBe("/network/prefetch");

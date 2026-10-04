@@ -76,3 +76,9 @@
 - 仓库：<https://github.com/recharts/recharts>
 - 版权：© 2016-2024 Recharts Group（MIT，完整声明见 `THIRD_PARTY_NOTICES.md`）
 - 参考范围：npm 运行时依赖，作为内置图表组件的渲染底层；本仓库未修改其源码。
+
+## 代码主题颜色参考 / Code theme color references
+
+- 来源：[VS Code Light+/Dark+](https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes)、[Monokai](https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json)、[Solarized](https://ethanschoonover.com/solarized/)。
+- 理由：按用户要求提供独立于 UI 色盘的公认代码主题。仅将公开色值适配到 Prism 语法角色，不复制完整编辑器主题规则或实现代码。
+- 作用域：显式应用的行内代码与代码块容器及其 CSS 导出。UI 基础色阶仍由项目既有色盘提供；品牌蓝来自 Unitary logo。

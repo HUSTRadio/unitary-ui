@@ -16,6 +16,26 @@ import { ThemeProvider, useTheme, I18nProvider, useI18n } from "@hustradio/unita
 
 [View reference](#/api#providers)
 
+## Color schemes & code themes
+
+Named UI palettes and independent inline and block code themes for explicit DOM scopes.
+
+```tsx
+import {
+  COLOR_SCHEMES,
+  CODE_THEMES,
+  getColorScheme,
+  getCodeTheme,
+  resolveCodeTheme,
+  getInlineCodeColors,
+  createColorSchemeCSS,
+  applyColorScheme,
+  applyCodeTheme,
+} from "@hustradio/unitary-ui";
+```
+
+[View reference](#/api/color-schemes)
+
 ## Design tokens
 
 Read, override, subscribe to and restore runtime variables.

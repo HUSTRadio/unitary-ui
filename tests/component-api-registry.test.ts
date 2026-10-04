@@ -545,6 +545,7 @@ describe("component API registry", () => {
       expect.objectContaining({ to: "/api" }),
       expect.objectContaining({ to: "/api/state-and-events" }),
       expect.objectContaining({ to: "/api/tokens" }),
+      expect.objectContaining({ to: "/api/color-schemes" }),
     ]);
     const source = await readFile("docs/site/src/components/docs-components-page.tsx", "utf8");
     expect(source).toContain("<ComponentApiReference componentName={name} />");

@@ -5,8 +5,12 @@ import { FRAMEWORK_API } from "../docs/site/src/data/framework-api";
 import { DOCS_ROUTE_GROUPS, DOCS_ROUTE_SEQUENCE, getDocsRoute, getComponentDocsPath } from "../docs/site/src/data/docs-routes";
 
 describe("canonical documentation categories", () => {
-  it("provides the three API pages in the intended order", () => {
-    expect(DOCS_ROUTE_GROUPS.find((group) => group.id === "api")!.items.map((route) => route.to)).toEqual(["/api", "/api/state-and-events", "/api/tokens"]);
+  it("provides the API pages in the intended order", () => {
+    expect(DOCS_ROUTE_GROUPS.find((group) => group.id === "api")!.items.map((route) => route.to)).toEqual(["/api", "/api/state-and-events", "/api/tokens", "/api/color-schemes"]);
+  });
+  it("lists the public palette and code theme APIs in the overview", () => {
+    const entry = FRAMEWORK_API.find((group) => group.to === "/api/color-schemes");
+    expect(entry?.names).toEqual(["COLOR_SCHEMES", "CODE_THEMES", "getColorScheme", "getCodeTheme", "resolveCodeTheme", "getInlineCodeColors", "createColorSchemeCSS", "applyColorScheme", "applyCodeTheme"]);
   });
   it("uses unique category paths and removes obsolete moved routes", () => {
     expect(new Set(DOCS_ROUTE_SEQUENCE.map((route) => route.to)).size).toBe(DOCS_ROUTE_SEQUENCE.length);

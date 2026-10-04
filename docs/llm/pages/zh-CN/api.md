@@ -16,6 +16,26 @@ import { ThemeProvider, useTheme, I18nProvider, useI18n } from "@hustradio/unita
 
 [查看参考](#/api#providers)
 
+## 配色方案与代码主题
+
+为明确的 DOM 容器提供命名 UI 配色，以及独立的行内和代码块主题。
+
+```tsx
+import {
+  COLOR_SCHEMES,
+  CODE_THEMES,
+  getColorScheme,
+  getCodeTheme,
+  resolveCodeTheme,
+  getInlineCodeColors,
+  createColorSchemeCSS,
+  applyColorScheme,
+  applyCodeTheme,
+} from "@hustradio/unitary-ui";
+```
+
+[查看参考](#/api/color-schemes)
+
 ## 设计变量
 
 读取、覆盖、订阅和恢复运行时变量。

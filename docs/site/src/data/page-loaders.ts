@@ -12,6 +12,8 @@ export const DOCS_PAGE_RESOURCES = {
   icons: createPrefetch(() => import("../components/docs-icons")),
   "state-and-events": createPrefetch(() => import("../pages/state-and-events")),
   tokens: createPrefetch(() => import("../pages/tokens")),
+  "color-schemes": createPrefetch(() => import("../color-schemes/page")),
+  "color-scheme-api": createPrefetch(() => import("../pages/color-scheme-api")),
   charts: createPrefetch(() => import("../pages/charts-gallery")),
   "app-shell": createPrefetch(() => import("../components/patterns/app-shell-demo")),
 };

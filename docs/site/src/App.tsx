@@ -53,6 +53,12 @@ const StateAndEventsPage = lazy(() =>
 const TokensPage = lazy(() =>
   DOCS_PAGE_RESOURCES.tokens.load().then((module) => ({ default: module.TokensPage })),
 );
+const ColorSchemesPage = lazy(() =>
+  DOCS_PAGE_RESOURCES["color-schemes"].load().then((module) => ({ default: module.ColorSchemesPage })),
+);
+const ColorSchemeApiPage = lazy(() =>
+  DOCS_PAGE_RESOURCES["color-scheme-api"].load().then((module) => ({ default: module.ColorSchemeApiPage })),
+);
 const ChartsGalleryPage = lazy(() =>
   DOCS_PAGE_RESOURCES.charts.load().then((module) => ({ default: module.ChartsGalleryPage })),
 );
@@ -76,6 +82,8 @@ const LOCALIZED_PAGE_COMPONENTS = {
   tokens: TokensPage,
   layer: LayerPage,
   "api-overview": ApiOverviewPage,
+  "color-schemes": ColorSchemesPage,
+  "color-scheme-api": ColorSchemeApiPage,
 } satisfies Record<LocalizedPageKey, ComponentType<{ language: DocsLanguage }>>;
 
 export default function App() {

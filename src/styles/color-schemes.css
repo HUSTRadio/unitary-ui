@@ -1,0 +1,24 @@
+/* Opt-in scopes only. Values are supplied by applyColorScheme/applyCodeTheme or exported CSS. */
+[data-color-scheme], [data-code-scheme] { color: var(--foreground); }
+[data-color-scheme]:not([data-color-scheme="default"]) { --theme-accent: var(--link); --color-theme-accent: var(--link); }
+[data-color-scheme][data-theme="light"], [data-code-scheme][data-theme="light"] { color-scheme: light; }
+[data-color-scheme][data-theme="dark"], [data-code-scheme][data-theme="dark"] { color-scheme: dark; }
+[data-inline-code-theme]:not([data-inline-code-theme="default"]) [data-slot="inline-code"] {
+  color: var(--scheme-inline-foreground); background: var(--scheme-inline-background);
+  border: 1px solid var(--scheme-inline-border); border-radius: var(--radius); padding: 0.1em 0.35em; overflow-wrap: anywhere;
+}
+[data-code-scheme]:not([data-code-scheme="default"]) .token.comment { color: var(--scheme-code-comment); }
+[data-code-scheme]:not([data-code-scheme="default"]) .token.keyword { color: var(--scheme-code-keyword); }
+[data-code-scheme]:not([data-code-scheme="default"]) .token.string { color: var(--scheme-code-string); }
+[data-code-scheme]:not([data-code-scheme="default"]) .token.number { color: var(--scheme-code-number); }
+[data-code-scheme]:not([data-code-scheme="default"]) .token.boolean { color: var(--scheme-code-boolean); }
+[data-code-scheme]:not([data-code-scheme="default"]) .token.function { color: var(--scheme-code-function); }
+[data-code-scheme]:not([data-code-scheme="default"]) .token.property { color: var(--scheme-code-property); }
+[data-code-scheme]:not([data-code-scheme="default"]) .token.variable { color: var(--scheme-code-variable); }
+[data-code-scheme]:not([data-code-scheme="default"]) .token.punctuation { color: var(--scheme-code-punctuation); }
+[data-code-scheme]:not([data-code-scheme="default"]) .token.class-name,
+[data-code-scheme]:not([data-code-scheme="default"]) .token.builtin { color: var(--scheme-code-type); }
+[data-code-scheme]:not([data-code-scheme="default"]) .token.operator { color: var(--scheme-code-punctuation); }
+[data-code-scheme]:not([data-code-scheme="default"]) .token.tag { color: var(--scheme-code-keyword); }
+[data-code-scheme]:not([data-code-scheme="default"]) .token.attr-name { color: var(--scheme-code-property); }
+[data-code-scheme]:not([data-code-scheme="default"]) .token.attr-value { color: var(--scheme-code-string); }

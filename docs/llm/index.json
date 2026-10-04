@@ -54,6 +54,22 @@
       }
     },
     {
+      "path": "/color-schemes",
+      "title": {
+        "zh-CN": "配色方案",
+        "en-US": "Color Schemes"
+      },
+      "category": "foundations",
+      "locales": {
+        "zh-CN": "pages/zh-CN/color-schemes.md",
+        "en-US": "pages/en-US/color-schemes.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:be3ad5ecc54017e5b23e1243a63b402c21cb1d7aad6ce26462052af803ed4af2",
+        "en-US": "sha256:d9f09904121adb344ad96e02ce3ad3673aa7ad3dde7ef4263d6a0e30ae3a70f9"
+      }
+    },
+    {
       "path": "/materials",
       "title": {
         "zh-CN": "材质",
@@ -161,8 +177,8 @@
         "en-US": "pages/en-US/api.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:c6374bc485281551dd087fb4eade5db0edcca7dea19adf87f321733a6cc96051",
-        "en-US": "sha256:d264d14cbdd373adb6a1a6c41e6a834a66a12b0022c13e1e8e293c5dab2c325e"
+        "zh-CN": "sha256:049ef5b5521be62ae614fbebc9d38a829b59b37b9438423dbdf7ec944609ed0d",
+        "en-US": "sha256:2f3a71ed766d92635531f1f202b08d4dae71dda887455beff4e5e3e3d6bcb586"
       }
     },
     {
@@ -195,6 +211,22 @@
       "sourceHash": {
         "zh-CN": "sha256:29f2dc403f3f9f15b87f225addb91e5f15f64812c0f9d359a06aad25ffaa51c0",
         "en-US": "sha256:7f680e15e9793dcc863a68f7f3e43c01ac3abe7b0826c6ace193790e285f5a05"
+      }
+    },
+    {
+      "path": "/api/color-schemes",
+      "title": {
+        "zh-CN": "配色 API",
+        "en-US": "Color Scheme API"
+      },
+      "category": "api",
+      "locales": {
+        "zh-CN": "pages/zh-CN/api/color-schemes.md",
+        "en-US": "pages/en-US/api/color-schemes.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:c7477133f38c994b567af3335bbc91a6cc4e91ddd9cb9647a0e3118f2ba89287",
+        "en-US": "sha256:aff4893a8703abce21dcf1d92528add974b52acce27e45bd4be4fe7dd7fccc2b"
       }
     },
     {

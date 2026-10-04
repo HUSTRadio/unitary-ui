@@ -39,6 +39,18 @@ function consume(mode) {
     assert.equal(api.setToken('--radius', '8px'), false);
     assert.equal(api.resetTokens(), false);
     api.subscribeTokens(() => {})();
+    for (const name of ['getColorScheme', 'getCodeTheme', 'resolveCodeTheme', 'getInlineCodeColors', 'createColorSchemeCSS', 'applyColorScheme', 'applyCodeTheme']) {
+      assert.equal(typeof api[name], 'function', name);
+    }
+    assert.equal(api.COLOR_SCHEMES.length, 4);
+    assert.equal(api.CODE_THEMES.length, 6);
+    assert.equal(api.getColorScheme('unitary-blue').ui.dark['--primary'], '#0d47a1');
+    const monokai = api.resolveCodeTheme(api.getCodeTheme('monokai'), api.getColorScheme('green'), 'light');
+    assert.equal(monokai.mode, 'dark');
+    assert.equal(monokai.colors.number, '#ae81ff');
+    assert.match(api.createColorSchemeCSS({scheme: 'green', blockTheme: 'monokai'}), /--scheme-code-number: #ae81ff/);
+    api.applyColorScheme(null, {mode: 'light'})();
+    api.applyCodeTheme(null, {mode: 'dark'})();
     assert.equal(api.GLOBAL_TOKENS['--radius'].kind, 'runtime');
     assert.ok(api.RUNTIME_TOKEN_NAMES.includes('--radius'));
     assert.ok(api.TOKEN_NAMES.includes('--radius-lg'));

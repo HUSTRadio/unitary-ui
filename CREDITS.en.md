@@ -74,3 +74,9 @@ This repository's implementation references and benefits from the following proj
 - Repository: <https://github.com/recharts/recharts>
 - Copyright: © 2016-2024 Recharts Group (MIT; full notice in [`THIRD_PARTY_NOTICES.en.md`](./THIRD_PARTY_NOTICES.en.md))
 - Usage: npm runtime dependency serving as the rendering engine beneath the vendored chart components; its source is not modified in this repository.
+
+## Code theme color references
+
+- Sources: [VS Code Light+/Dark+](https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes), [Monokai](https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json), [Solarized](https://ethanschoonover.com/solarized/).
+- Reason: the user requested recognized code themes independent of the UI palette. Published color values are adapted to Prism roles; complete editor theme rules and implementation code are not copied.
+- Scope: explicitly selected inline code and code block containers and their CSS exports. UI scales continue to use the existing project palette; brand blue comes from the Unitary logo.

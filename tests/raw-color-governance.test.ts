@@ -201,7 +201,9 @@ describe("raw color literal governance", () => {
     const addedAt = new Map<string, number>();
     const log = spawnSync(
       "git",
-      ["log", "--diff-filter=A", "--format=COMMIT:%ct", "--name-only"],
+      // 按账本中的路径计算新增时间；重命名也产生新路径，不能被 Git 的 R 分类隐藏。
+      // Count path creation: rename detection must not hide a new ledger path as R.
+      ["log", "--no-renames", "--diff-filter=A", "--format=COMMIT:%ct", "--name-only"],
       { cwd: root, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 },
     );
     expect(log.status, `git log 失败：${log.stderr ?? ""}`).toBe(0);

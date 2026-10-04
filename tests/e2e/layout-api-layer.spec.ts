@@ -70,6 +70,11 @@ test("API navigation and directory links use their canonical categories", async 
   await page.addInitScript(() => localStorage.setItem("unitary-docs-language", "en-US"));
   await page.goto("/#/api");
   await expect(page.locator("#main-content h1")).toHaveText("API Overview");
+  await page.locator('[data-api-directory="Color schemes & code themes"]').getByRole("link").click();
+  await expect(page).toHaveURL(/#\/api\/color-schemes$/);
+  await expect(page.locator("#main-content h1")).toHaveText("Color Scheme API");
+  await page.goto("/#/api");
+  await expect(page.locator("#main-content h1")).toHaveText("API Overview");
   await page.locator('[data-api-directory="Design tokens"]').getByRole("link").click();
   await expect(page).toHaveURL(/#\/api\/tokens$/);
   await expect(page.locator("#main-content h1")).toHaveText("Global Tokens");
