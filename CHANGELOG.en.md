@@ -38,7 +38,7 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Added
 
-- **Prefetch and asynchronous loading docs**: Export `createPrefetch`, `Prefetch`, and `usePrefetchState` from the package root. Prepare modules or data on intent, near a viewport, or while idle, with shared requests and successful cache entries, retries, invalidation, abort signals, and automatic Data Saver checks. Docs navigation reuses these resources to prepare only the target page and its examples. Add bilingual guides, API references, and interactive examples alongside Lazy Load in Async Loading.
+- **Prefetch and asynchronous loading docs**: Export `createPrefetch`, `Prefetch`, and `usePrefetchState` from the package root. Prepare modules or data on intent, near a viewport, or while idle, with shared requests and successful cache entries, retries, invalidation, abort signals, and automatic Data Saver checks. Docs navigation reuses these resources to prepare only the target page and its examples. Add bilingual guides, API references, and interactive examples alongside Lazy Load in Network & Async.
 
 - **Global token documentation and API**: Adds a searchable catalog generated from the stylesheet, a local/global live editor, and package-root read, batch-write, reset and React subscription APIs. Distinguishes runtime variables from build mappings, supports theme cascading and SSR, and checks generated catalog drift.
 
