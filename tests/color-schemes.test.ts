@@ -1,10 +1,10 @@
 import { describe, expect, test } from "vitest";
 import { readFileSync } from "node:fs";
 import { GLOBAL_TOKENS } from "../src/lib/token-catalog";
-import { defaultTokens } from "../docs/site/src/color-schemes/default";
-import { schemes, brandBlue, type Mode } from "../docs/site/src/color-schemes/presets";
-import { codeThemes, resolveCodeTheme, inlineColors, codeRoles } from "../docs/site/src/color-schemes/code-themes";
-import { selectionCss } from "../docs/site/src/color-schemes/styles";
+import { defaultTokens } from "../src/lib/color-schemes/default";
+import { schemes, brandBlue, type Mode } from "../src/lib/color-schemes/presets";
+import { codeThemes, resolveCodeTheme, inlineColors, codeRoles } from "../src/lib/color-schemes/code-themes";
+import { selectionCss } from "../src/lib/color-schemes/styles";
 
 function luminance(hex: string) {
   const rgb = hex.slice(1).match(/../g)!.map(v => parseInt(v, 16) / 255)

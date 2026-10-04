@@ -1,13 +1,27 @@
 {
   "schemaVersion": 1,
   "policy": "literal-level ledger. Every raw color literal occurrence in src/components + src/lib must appear here (files array covers every containing file). Every entry must still exist in code. Migration = move occurrence to semantic token, then delete the file from files[]. Empty files[] entries must be deleted.",
-  "totalOccurrences": 134,
+  "totalOccurrences": 359,
   "postFreezeFiles": {
     "src/components/ui/calendar-classes.ts": {
       "addedAt": "2026-09-20",
       "reviewedAt": "2026-09-26",
       "reason": "类名串提取生成的常量模块（HIG-AUD-052 棘轮新增文件级登记）。所挂字面量均在 2026-09-04 冻结日之前引入、随提取迁入本文件，不是冻结后的新增颜色决策：hsl(0,0%,87%) 与 hsl(0,0%,30%) 首见于 5496a34（2026-08-16），rgba(0,0,0,0.16) 与 rgba(255,255,255,0.24) 首见于 9cedd15（2026-08-09）。若日后要迁移到语义 token（如 focus 环的 alpha 光晕、hint 按钮 hover 底），属设计决策，需先确认取值映射。",
       "verifiedWith": "git log -S<literal> --reverse（首见提交）"
+    },
+    "src/lib/color-schemes/default.ts": {
+      "addedAt": "2026-10-04",
+      "reviewedAt": "2026-10-04",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "verifiedWith": "tests/color-schemes.test.ts palette membership + saved Default browser comparison; canonical logo SVG; published upstream code-theme values"
+    },
+    "src/lib/color-schemes/code-themes.ts": {
+      "addedAt": "2026-10-04",
+      "reviewedAt": "2026-10-04",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "verifiedWith": "tests/color-schemes.test.ts palette membership + saved Default browser comparison; canonical logo SVG; published upstream code-theme values"
     }
   },
   "entries": [
@@ -17,7 +31,9 @@
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
         "src/components/ui/grid.module.css",
-        "src/components/ui/phone-chrome.tsx"
+        "src/components/ui/phone-chrome.tsx",
+        "src/lib/color-schemes/default.ts",
+        "src/lib/color-schemes/code-themes.ts"
       ]
     },
     {
@@ -41,7 +57,8 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
-        "src/components/ui/snippet.tsx"
+        "src/components/ui/snippet.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -57,7 +74,8 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
-        "src/components/ui/select.tsx"
+        "src/components/ui/select.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -74,7 +92,8 @@
       "reason": "存在双主题完全等价的既有 token，属安全迁移候选（迁移后须从本账本对应文件的 files 数组移除）",
       "files": [
         "src/components/ui/badge.tsx",
-        "src/components/ui/book.tsx"
+        "src/components/ui/book.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -92,7 +111,8 @@
       "files": [
         "src/components/ui/snippet.tsx",
         "src/components/ui/tooltip.tsx",
-        "src/lib/theme.tsx"
+        "src/lib/theme.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -108,7 +128,8 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
-        "src/components/ui/toggle.tsx"
+        "src/components/ui/toggle.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -116,7 +137,8 @@
       "source": "snippet-inverted-dark-scheme-2026-09-14",
       "reason": "反色（dark scheme）子树的文字色，与 dark 主题 --gray-100（#1a1a1a）同值；待 snippet 迁移为 dark:text-gray-100 后从账本移除",
       "files": [
-        "src/components/ui/snippet.tsx"
+        "src/components/ui/snippet.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -132,7 +154,8 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
-        "src/components/ui/book.module.css"
+        "src/components/ui/book.module.css",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -149,7 +172,8 @@
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
         "src/components/ui/avatar.tsx",
-        "src/components/ui/text-with-copy-button.tsx"
+        "src/components/ui/text-with-copy-button.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -157,7 +181,8 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
-        "src/components/ui/avatar.tsx"
+        "src/components/ui/avatar.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -181,7 +206,8 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
-        "src/components/ui/avatar.tsx"
+        "src/components/ui/avatar.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -205,7 +231,8 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
-        "src/components/ui/gauge.tsx"
+        "src/components/ui/gauge.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -213,7 +240,8 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
-        "src/components/ui/book.tsx"
+        "src/components/ui/book.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -247,7 +275,8 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移（modal.tsx 已于 HIG-AUD-010 迁到 --uni-overlay-backdrop-color 并清账）",
       "files": [
-        "src/components/ui/snippet.tsx"
+        "src/components/ui/snippet.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -263,7 +292,8 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
-        "src/components/ui/fieldset.tsx"
+        "src/components/ui/fieldset.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -280,7 +310,8 @@
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
         "src/components/ui/avatar.tsx",
-        "src/components/ui/book.module.css"
+        "src/components/ui/book.module.css",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -320,7 +351,8 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "存在双主题完全等价的既有 token，属安全迁移候选（迁移后须从本账本对应文件的 files 数组移除）",
       "files": [
-        "src/components/ui/gauge.tsx"
+        "src/components/ui/gauge.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -340,7 +372,9 @@
         "src/components/ui/phone-chrome.tsx",
         "src/components/ui/snippet.tsx",
         "src/components/ui/tooltip.tsx",
-        "src/lib/theme.tsx"
+        "src/lib/theme.tsx",
+        "src/lib/color-schemes/default.ts",
+        "src/lib/color-schemes/code-themes.ts"
       ]
     },
     {
@@ -348,7 +382,8 @@
       "source": "snippet-inverted-dark-scheme-2026-09-14",
       "reason": "反色（dark scheme）子树的 hover 遮罩，与 dark 主题 --gray-alpha-200（#ffffff17）同值；待迁移为 hover:bg-gray-alpha-200 后从账本移除",
       "files": [
-        "src/components/ui/snippet.tsx"
+        "src/components/ui/snippet.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -356,7 +391,8 @@
       "source": "legacy-baseline-2026-09-04",
       "reason": "仅与单主题色阶部分匹配；需 dark: 变体或语义 token 方案后迁移",
       "files": [
-        "src/components/ui/snippet.tsx"
+        "src/components/ui/snippet.tsx",
+        "src/lib/color-schemes/default.ts"
       ]
     },
     {
@@ -580,6 +616,1984 @@
       "reason": "alpha 叠加效果（聚焦光环/遮罩/阴影）；无实色基础 token 对应，需 alpha token 方案或设计确认",
       "files": [
         "src/components/ui/grid.module.css"
+      ]
+    },
+    {
+      "literal": "#383838",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#4d4d4d",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0d0d0d",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#fff7e6",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#3d2200",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffefcc",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffe6b3",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffcc66",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#f59e0b",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ff9900",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#a35200",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#267a3b",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#cb2a2f",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0c7869",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0072f5",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ebf5ff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#00264d",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#e8f2ff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#e2efff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#d1e6ff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#99ccff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#52a8ff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#006efe",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0052d1",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0060d6",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ebebeb",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#c9c9c9",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ae292f",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ff990a",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#d27504",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#daf6da",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#e0f0ff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#fef0cd",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffe6e6",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#f0f0f0",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#f7f7f7",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#e6e6e6",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#a8a8a8",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#8f8f8f",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#7d7d7d",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0000000d",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#000000e8",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0000001a",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#00000036",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#00000070",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#00000082",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#000000b3",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#f2fcf4",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#1f2e22",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#f0fbf2",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#dff5e4",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#d4f0dc",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#b8ecc9",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#99e6b0",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#46a758",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#3d8f4f",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffeaf4",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#450a26",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffeaf6",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffe3f0",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffd9eb",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffbfdd",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ff8ac4",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#e93d82",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#d9216e",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#cf2a70",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#f5efff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#26004d",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#f3eaff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ead8ff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#e3ccff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#d6b6ff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#c39bff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#8e4ec6",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#773bb5",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#7a2fd6",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#fff5f5",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#351315",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#fff0f0",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffe8e8",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffd1d1",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffb3b3",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ff6b6e",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#d12929",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#c72a2a",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ecfdf7",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#093b32",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ebfaf4",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#e0f7ef",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#d2f2e8",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#9fe8d8",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#57e0c2",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#17a693",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0f8c7d",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#d4d4d4",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts",
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#dbdbdb",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ededed",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#f87275",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#666666",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#f0f7ff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#52aeff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0068d6",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#cccccc",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#a0a0a0",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#292929",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#12382c",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#291a00",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#fff6e8",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#341d00",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#4d2600",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#572e00",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#70400b",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ff9a00",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#d93036",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ff6166",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0f1e2e",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#f5faff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#101f38",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#153058",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#103a69",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0d4a89",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0080ff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#5ea2ff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#454545",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#12361b",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0f2f57",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#4d2a00",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#561a1e",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#2e2e2e",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#878787",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#a1a1a1",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffffff0f",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffffffeb",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffffff21",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffffff3d",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffffff82",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffffff8a",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffffff78",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ffffff9c",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0d220f",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ecfdf0",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#112412",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#143617",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#15451d",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#1d6329",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#2d9341",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#6fe28d",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#2a1520",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#fdf1f7",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#371726",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#4b1c30",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#521b33",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#6e1e3c",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#921a4a",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ff66ad",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#201527",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#f8effc",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#2a1834",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#3d2050",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#47275f",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#5b2d78",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#c57df0",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#2a1314",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#fdf2f4",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#381619",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#561920",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#671e25",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#82202b",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ff6369",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#04221d",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#ecfbf5",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#052722",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#073b33",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#08403a",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0d5e55",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#158f82",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#12b5a1",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#404040",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts",
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#888888",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0f1c2e",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0091ff",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "rgba(0, 0, 0, 0.34)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "rgba(0, 0, 0, 0.16)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsla(30, 100%, 32%, 1)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsl(210 100% 96%)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsl(0 0% 92%)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsla(133, 50%, 32%, 1)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsla(336, 65%, 45%, 1)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsla(274, 71%, 43%, 1)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsla(358, 66%, 48%, 1)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "rgba(255, 255, 255, 0.51)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "rgba(255, 255, 255, 0.24)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsla(39, 90%, 50%, 1)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsl(214 59% 15%)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsl(0 0% 18%)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsla(131, 43%, 57%, 1)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsla(341, 90%, 67%, 1)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsla(275, 80%, 71%, 1)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "hsla(358, 100%, 69%, 1)",
+      "source": "src/styles/index.css; actual docs root computed colors, 2026-10-04",
+      "reason": "用户要求保存当前 docs 配色为 Default。只读捕获既有双主题颜色，不是新增 UI 色值；限定显式配色容器和导出。 / User-requested snapshot of existing docs colors, limited to explicit scopes and CSS exports.",
+      "files": [
+        "src/lib/color-schemes/default.ts"
+      ]
+    },
+    {
+      "literal": "#0d47a1",
+      "source": "brand/unitary-logo-horizontal.svg",
+      "reason": "用户要求品牌蓝使用 Unitary logo 的蓝色，仅命名 unitary-blue 的主动作使用。 / User-requested canonical logo blue for Unitary Blue primary actions.",
+      "files": [
+        "src/lib/color-schemes/presets.ts"
+      ]
+    },
+    {
+      "literal": "#e8e8e8",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#d8d8d8",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#008000",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#af00db",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#a31515",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#098658",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#0000ff",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#795e26",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#001080",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#267f99",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#1e1e1e",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#303031",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#6a9955",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#c586c0",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#ce9178",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#b5cea8",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#569cd6",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#dcdcaa",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#9cdcfe",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#4ec9b0",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#272822",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#1e1f1c",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#f8f8f2",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#414339",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#88846f",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#f92672",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#e6db74",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#ae81ff",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#a6e22e",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#66d9ef",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#3e3d32",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#4b661680",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#90274a70",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#fdf6e3",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#002b36",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#eee8d5",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#073642",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#657b83",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#839496",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#93a1a1",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#586e75",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#859900",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#2aa198",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#d33682",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#b58900",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#268bd2",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
+      ]
+    },
+    {
+      "literal": "#cb4b16",
+      "source": "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes; https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json; https://ethanschoonover.com/solarized/",
+      "reason": "用户要求独立于 UI 的公认代码主题。公开色值适配 Prism 角色，限定代码容器；主题明暗独立。 / Published editor colors adapted to Prism, only in explicitly selected code scopes.",
+      "files": [
+        "src/lib/color-schemes/code-themes.ts"
       ]
     }
   ]

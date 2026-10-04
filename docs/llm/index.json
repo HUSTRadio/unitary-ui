@@ -65,8 +65,8 @@
         "en-US": "pages/en-US/color-schemes.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:600e7b56c2b049fae34fc5f1c24f82d05f576be33ba8d13c4988b5e970e7a352",
-        "en-US": "sha256:1ad7457704455cbf38b07e2f7c4870bb275805cb7e5792f5f281980704c45c54"
+        "zh-CN": "sha256:75c85ec8cde434b903eb91bf8a359934ab25c8a39edc4952bc8aaf03de1cef11",
+        "en-US": "sha256:c6bc31fcd5f062c65f2c519ab71d21121cb90dfaa172c6937bef6e188c7e836b"
       }
     },
     {
@@ -179,6 +179,22 @@
       "sourceHash": {
         "zh-CN": "sha256:3926b327eb25d933f9d0a13da31f131c76b70071566b8d29f33d0675c37ccd33",
         "en-US": "sha256:fbf84b82e8fffb67c32e368835d7e7b8940d53ecca9d74a820a3b2fc3180a24c"
+      }
+    },
+    {
+      "path": "/api/color-schemes",
+      "title": {
+        "zh-CN": "配色 API",
+        "en-US": "Color Scheme API"
+      },
+      "category": "api",
+      "locales": {
+        "zh-CN": "pages/zh-CN/api/color-schemes.md",
+        "en-US": "pages/en-US/api/color-schemes.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:c7477133f38c994b567af3335bbc91a6cc4e91ddd9cb9647a0e3118f2ba89287",
+        "en-US": "sha256:aff4893a8703abce21dcf1d92528add974b52acce27e45bd4be4fe7dd7fccc2b"
       }
     },
     {

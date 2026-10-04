@@ -4,7 +4,8 @@ import type { Mode, SchemeTokens, UiScheme } from "./presets";
 export const codeRoles = ["background", "surface", "foreground", "border", "comment", "keyword", "string", "number", "boolean", "function", "property", "type", "variable", "punctuation", "highlight", "added", "removed", "referenced"] as const;
 export type CodeRole = typeof codeRoles[number];
 export type CodeColors = Record<CodeRole, string>;
-export type CodeTheme = { id: string; name: string; mode?: Mode; source?: string; colors?: CodeColors };
+export type CodeThemeId = "default" | "light" | "dark" | "monokai" | "solarized-light" | "solarized-dark";
+export type CodeTheme = { readonly id: CodeThemeId; readonly name: string; readonly mode?: Mode; readonly source?: string; readonly colors?: Readonly<CodeColors> };
 const vsSource = "https://github.com/microsoft/vscode/tree/main/extensions/theme-defaults/themes";
 const monokaiSource = "https://github.com/microsoft/vscode/blob/main/extensions/theme-monokai/themes/monokai-color-theme.json";
 const solarizedSource = "https://ethanschoonover.com/solarized/";
@@ -27,7 +28,7 @@ export const codeThemes: readonly CodeTheme[] = [
     background: "#272822", surface: "#1e1f1c", foreground: "#f8f8f2", border: "#414339", comment: "#88846f", keyword: "#f92672", string: "#e6db74", number: "#ae81ff", boolean: "#ae81ff", function: "#a6e22e", property: "#a6e22e", type: "#66d9ef", variable: "#f8f8f2", punctuation: "#f8f8f2", highlight: "#3e3d32", added: "#4b661680", removed: "#90274a70", referenced: "#414339",
   } },
   ...(["light", "dark"] as const).map(mode => ({
-    id: `solarized-${mode}`, name: `Solarized ${mode === "light" ? "Light" : "Dark"}`, mode, source: solarizedSource,
+    id: `solarized-${mode}` as const, name: `Solarized ${mode === "light" ? "Light" : "Dark"}`, mode, source: solarizedSource,
     colors: {
       background: mode === "light" ? "#fdf6e3" : "#002b36", surface: mode === "light" ? "#eee8d5" : "#073642",
       foreground: mode === "light" ? "#657b83" : "#839496", border: mode === "light" ? "#93a1a1" : "#586e75",
@@ -39,7 +40,7 @@ export const codeThemes: readonly CodeTheme[] = [
 export function resolveCodeTheme(theme: CodeTheme, ui: UiScheme, uiMode: Mode) {
   const mode = theme.mode ?? uiMode;
   const base: SchemeTokens = theme.id === "default" ? ui.ui[mode] : defaultTokens[mode];
-  const colors: CodeColors = theme.colors ?? {
+  const colors: CodeColors = theme.colors ? { ...theme.colors } : {
     background: base["--background"]!, surface: base["--background-200"]!, foreground: base["--foreground"]!, border: base["--border"]!,
     comment: base["--uni-gray-900"]!, keyword: base["--uni-pink-900"]!, string: base["--uni-green-900"]!, number: base["--uni-green-900"]!, boolean: base["--uni-green-900"]!, function: base["--uni-purple-900"]!, property: base["--uni-red-900"]!, type: base["--uni-green-900"]!, variable: base["--uni-green-900"]!, punctuation: base["--uni-gray-1000"]!, highlight: base["--code-highlight"]!, added: base["--code-added"]!, removed: base["--code-removed"]!, referenced: base["--code-referenced"]!,
   };

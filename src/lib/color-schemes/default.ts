@@ -1,4 +1,4 @@
-import type { RuntimeTokenName } from "@/lib/token-catalog";
+import type { RuntimeTokenName } from "../token-catalog";
 
 // Saved from the real docs root in both themes on 2026-10-04.
 // Colors are resolved runtime values of src/styles/index.css, not an authored palette.

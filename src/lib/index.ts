@@ -14,6 +14,10 @@ export type { TokenName, RuntimeTokenName, TokenGroup } from "./token-catalog";
 export { getToken, getTokens, setToken, setTokens, resetToken, resetTokens, subscribeTokens, useTokens } from "./tokens";
 export type { TokenTarget, TokenOptions, TokenWriteOptions, TokenValues } from "./tokens";
 
+// Named UI palettes and independent inline/block code themes.
+export { COLOR_SCHEMES, CODE_THEMES, getColorScheme, getCodeTheme, resolveCodeTheme, getInlineCodeColors, createColorSchemeCSS, applyColorScheme, applyCodeTheme } from "./color-schemes";
+export type { ColorSchemeId, ColorScheme, ColorSchemeMode, ColorSchemeTokens, CodeThemeId, CodeTheme, CodeRole, CodeColors, ColorSchemeSelection, ApplyColorSchemeOptions, ApplyCodeThemeOptions } from "./color-schemes";
+
 // Font metrics probe
 export { probeFontMetrics, useFontMetrics, measureFontMetrics, applyFontMetrics } from "./font-metrics";
 

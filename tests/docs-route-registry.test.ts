@@ -32,6 +32,12 @@ describe("canonical docs route registry", () => {
     });
     expect(getDocsRouteLabel(DOCS_ROUTE_SEQUENCE[0], "zh-CN")).toBe("介绍");
   });
+  it("registers the scoped color scheme API in the API group", () => {
+    expect(getDocsRoute("/api/color-schemes")).toMatchObject({
+      group: "api", sidebar: true, label: "Color Scheme API", labelZh: "配色 API",
+      renderer: { kind: "localized", page: "color-scheme-api" },
+    });
+  });
 
   it("uses unique canonical routes and derives component details from COMPONENTS", () => {
     const paths = DOCS_ROUTE_SEQUENCE.map((route) => route.to);
@@ -155,8 +161,9 @@ describe("canonical docs route registry", () => {
   });
 
   it("follows the new network section order in previous and next links", () => {
-    expect(getAdjacentDocsPages("/lifecycle-and-hooks").next?.to).toBe("/components/lazy-load");
-    expect(getAdjacentDocsPages("/components/lazy-load").previous?.to).toBe("/lifecycle-and-hooks");
+    expect(getAdjacentDocsPages("/lifecycle-and-hooks").next?.to).toBe("/api/color-schemes");
+    expect(getAdjacentDocsPages("/api/color-schemes").next?.to).toBe("/components/lazy-load");
+    expect(getAdjacentDocsPages("/components/lazy-load").previous?.to).toBe("/api/color-schemes");
     expect(getAdjacentDocsPages("/components/lazy-load").next?.to).toBe("/components/prefetch");
     expect(getAdjacentDocsPages("/components/prefetch").next?.to).toBe("/components");
     expect(getAdjacentDocsPages("/components").previous?.to).toBe("/components/prefetch");

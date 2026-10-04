@@ -1,6 +1,6 @@
 import type { DocsLanguage } from "../i18n/language";
-import type { SchemeTokens } from "./presets";
-import type { CodeColors } from "./code-themes";
+import type { SchemeTokens } from "@/lib/color-schemes/presets";
+import type { CodeColors } from "@/lib/color-schemes/code-themes";
 
 const uiRoles = [
   ["--background", "画布", "Canvas"], ["--card", "表面", "Surface"], ["--secondary", "次级表面", "Subtle surface"],

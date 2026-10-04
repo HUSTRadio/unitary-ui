@@ -10,6 +10,7 @@ export const DOCS_PAGE_RESOURCES = {
   "lifecycle-and-hooks": createPrefetch(() => import("../pages/lifecycle-and-hooks")),
   tokens: createPrefetch(() => import("../pages/tokens")),
   "color-schemes": createPrefetch(() => import("../color-schemes/page")),
+  "color-scheme-api": createPrefetch(() => import("../pages/color-scheme-api")),
   charts: createPrefetch(() => import("../pages/charts-gallery")),
   "app-shell": createPrefetch(() => import("../components/patterns/app-shell-demo")),
 };

@@ -91,6 +91,8 @@ console.log("Unitary", count);
 
 ## 来源与接入
 
+[查看配色 API →](#/api/color-schemes)
+
 Default 保存了当前 docs 两种主题各 313 个运行时颜色变量。品牌蓝、绿色、琥珀方案从项目现有色阶取值；品牌蓝主动作使用 logo 的 #0D47A1。
 
 代码主题采用 VS Code Light+、Dark+、Monokai 与 Solarized 的公认色值，并适配到 Prism 类别；不是完整复制编辑器的 TextMate 规则。Default 跟随 UI 表面与明暗，固定主题保持自己的背景和语法色。

@@ -16,14 +16,14 @@ import { StatusDot } from "@/components/ui/status-dot";
 import { Breadcrumb, BreadcrumbItem } from "@/components/ui/breadcrumbs";
 import { Fieldset, FieldsetTitle, FieldsetSubtitle, FieldsetContent, FieldsetFooter } from "@/components/ui/fieldset";
 import { Collapse, CollapseTrigger, CollapseContent } from "@/components/ui/collapse";
-import { resetTokens, setTokens } from "@/lib/tokens";
+import { applyColorScheme, applyCodeTheme, createColorSchemeCSS, type ColorSchemeId, type CodeThemeId } from "@/lib/color-schemes";
 import { DocsPageTitle, DocsPageLead, DocsParagraph, DocsSection, DocsSectionTitle } from "../components/docs-typography";
 import type { DocsLanguage } from "../i18n/language";
 import { UnitaryLogoHorizontal } from "../components/unitary-logo";
 import { DOCS_ROUTE_SEQUENCE } from "../data/docs-routes";
-import { schemes, type Mode } from "./presets";
-import { codeThemes, inlineColors, resolveCodeTheme } from "./code-themes";
-import { getCodeTheme, inlineVariables, selectionCss, scopeStyles, scopedTokens } from "./styles";
+import { schemes, type Mode } from "@/lib/color-schemes/presets";
+import { codeThemes, inlineColors, resolveCodeTheme } from "@/lib/color-schemes/code-themes";
+import { getCodeTheme } from "@/lib/color-schemes/styles";
 import { PaletteSwatches, uiSwatches, codeSwatches, inlineSwatches } from "./palette";
 
 const messages = {
@@ -71,9 +71,9 @@ export async function loadProject(id: string) {
 export function ColorSchemesPage({ language }: { language: DocsLanguage }) {
   const en = language === "en-US";
   const t = (key: keyof typeof messages) => messages[key][en ? 1 : 0];
-  const [uiId, setUiId] = useState("default");
-  const [inlineId, setInlineId] = useState("default");
-  const [blockId, setBlockId] = useState("default");
+  const [uiId, setUiId] = useState<ColorSchemeId>("default");
+  const [inlineId, setInlineId] = useState<CodeThemeId>("default");
+  const [blockId, setBlockId] = useState<CodeThemeId>("default");
   const [mode, setMode] = useState<Mode>("light");
   const [paletteTab, setPaletteTab] = useState("ui");
   const [selectedNav, setSelectedNav] = useState("/preview/overview");
@@ -96,18 +96,14 @@ export function ColorSchemesPage({ language }: { language: DocsLanguage }) {
   ];
 
   useLayoutEffect(() => {
-    // Switching away from Default must not leave any of its saved overrides behind.
-    resetTokens(undefined, { target: uiRef.current });
-    setTokens(scopedTokens(ui.ui[mode]), { target: uiRef.current });
-    resetTokens(undefined, { target: codeRef.current });
-    const resolved = resolveCodeTheme(block, ui, mode);
-    setTokens(scopedTokens(resolved.tokens), { target: codeRef.current });
-    for (const [name, value] of Object.entries(resolved.syntax)) codeRef.current?.style.setProperty(name, value);
-    for (const [name, value] of Object.entries(inlineVariables(inline, ui, mode))) inlineRef.current?.style.setProperty(name, value);
-  }, [ui, inline, block, mode]);
+    const restoreUi = applyColorScheme(uiRef.current, { scheme: uiId, mode });
+    const restoreInline = applyCodeTheme(inlineRef.current, { scheme: uiId, theme: inlineId, mode, kind: "inline" });
+    const restoreBlock = applyCodeTheme(codeRef.current, { scheme: uiId, theme: blockId, mode });
+    return () => { restoreBlock(); restoreInline(); restoreUi(); };
+  }, [uiId, inlineId, blockId, mode]);
 
   const exportCss = () => {
-    const url = URL.createObjectURL(new Blob([selectionCss(ui, inline, block)], { type: "text/css" }));
+    const url = URL.createObjectURL(new Blob([createColorSchemeCSS({ scheme: uiId, inlineTheme: inlineId, blockTheme: blockId })], { type: "text/css" }));
     const link = document.createElement("a");
     link.href = url;
     link.download = `unitary-${uiId}-${inlineId}-${blockId}.css`;
@@ -119,19 +115,18 @@ export function ColorSchemesPage({ language }: { language: DocsLanguage }) {
   const paletteTitle = paletteTab === "ui" ? t("ui") : paletteTab === "inline" ? t("inline") : t("block");
 
   return <div className="scheme-lab" data-slot="color-schemes-page">
-    <style>{scopeStyles}</style>
     <DocsPageTitle>{t("title")}</DocsPageTitle>
     <DocsPageLead>{t("lead")}</DocsPageLead>
     <DocsParagraph><Link to={tokensRoute} className="focus-ring underline underline-offset-4">{t("tokens")}</Link></DocsParagraph>
     <DocsSection>
       <section className="lab-controls" aria-label={t("controls")}>
-        <Select label={t("ui")} value={uiId} onValueChange={value => { setUiId(value); setPaletteTab("ui"); }} layout={{ width: "180px" }}>
+        <Select label={t("ui")} value={uiId} onValueChange={value => { setUiId(value as ColorSchemeId); setPaletteTab("ui"); }} layout={{ width: "180px" }}>
           {schemes.map(s => <SelectItem key={s.id} value={s.id}>{en ? s.english : `${s.name} / ${s.english}`}</SelectItem>)}
         </Select>
-        <Select label={t("inline")} value={inlineId} onValueChange={value => { setInlineId(value); setPaletteTab("inline"); }} layout={{ width: "190px" }}>
+        <Select label={t("inline")} value={inlineId} onValueChange={value => { setInlineId(value as CodeThemeId); setPaletteTab("inline"); }} layout={{ width: "190px" }}>
           {codeThemes.map(s => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
         </Select>
-        <Select label={t("block")} value={blockId} onValueChange={value => { setBlockId(value); setPaletteTab("block"); }} layout={{ width: "190px" }}>
+        <Select label={t("block")} value={blockId} onValueChange={value => { setBlockId(value as CodeThemeId); setPaletteTab("block"); }} layout={{ width: "190px" }}>
           {codeThemes.map(s => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
         </Select>
         <Switch name={switchName} value={mode} onValueChange={value => setMode(value as Mode)} role="radiogroup" aria-label={t("mode")}>
@@ -194,6 +189,7 @@ export function ColorSchemesPage({ language }: { language: DocsLanguage }) {
       <DocsParagraph>{t("isolation")}</DocsParagraph>
     </DocsSection>
     <DocsSection><DocsSectionTitle>{t("limits")}</DocsSectionTitle>
+      <DocsParagraph><Link to="/api/color-schemes" className="focus-ring underline underline-offset-4">{en ? "Read the Color Scheme API →" : "查看配色 API →"}</Link></DocsParagraph>
       <DocsParagraph>{t("uiSource")}</DocsParagraph>
       <DocsParagraph>{t("codeSource")}</DocsParagraph>
       <DocsParagraph>{t("inlineNote")}</DocsParagraph>

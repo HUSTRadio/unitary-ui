@@ -91,6 +91,8 @@ SubFrame contains the preview's palette and local overlays. UI theme is independ
 
 ## Sources and adoption
 
+[Read the Color Scheme API →](#/api/color-schemes)
+
 Default saves 313 runtime color variables per docs theme. Unitary Blue, Green and Amber use existing project scales; Unitary Blue actions use the logo's #0D47A1.
 
 Code themes use published VS Code Light+, Dark+, Monokai and Solarized colors adapted to Prism categories, rather than the editor's full TextMate rules. Default follows UI surfaces and theme; fixed themes retain their own background and syntax colors.

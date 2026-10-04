@@ -37,3 +37,13 @@ baseline 当前有未提交结构调整，与本次 docs 路由接入文件重�
 Focused tests cover complete Default token capture, palette membership, exact brand blue, text/button contrast, independent code themes, three-scope CSS export and existing token/code/frame behavior. Browser coverage exercises both docs shell modes, every UI mode and palette, all fixed code themes, standard Select interaction, role swatches, focus/hover/disabled states, normal form behavior, copy/export/reimport, mobile widths, localization and contained overlays.
 
 Fresh results for the final implementation are recorded in the task response. Earlier full-suite sandbox execution had Python subprocess permission and Windows executable lookup failures; rerunning all nine affected files with native Python and normal subprocess permission passed 83 tests. This is not claimed as a single successful full-suite run. README capture has exhibited intermittent paged-media-light drift; a successful capture does not substitute for its read-only stability check.
+
+## Public API implementation / 公共 API 落地
+
+The shared engine now lives in `src/lib/color-schemes`. Package-root exports provide immutable COLOR_SCHEMES/CODE_THEMES registries, validated lookups, pure role resolution, three-scope CSS generation, applyColorScheme and applyCodeTheme. Applications require an explicit target and mode; null refs are safe no-ops. Cleanup restores owned values, priorities and attributes without overwriting subsequent external edits. The docs showcase consumes these functions, and the bilingual `/api/color-schemes` page specifies their contracts.
+
+公共引擎已移入库内，没有保留第二套 docs 实现。API 复用 setTokens，通过正常 DOM 继承与现有 SubFrame 和 baseline 的 Layer 结构组合，不新增全局状态或修改 portal 的公共行为。
+
+The first showcase commit was e926239. A normal `git merge --ff-only codex/color-schemes` in baseline exited 1 because its uncommitted docs registry, loader, App, corpus index and route test edits would be overwritten. Baseline remained at its prior HEAD; no unrelated changes were stashed, committed or removed. API work continued against the observed baseline contracts in the isolated feature branch.
+
+首轮合并被 Git 正常拒绝，baseline 原有改动已保全。实际包的 ESM/CJS 导入、SSR、CSS、声明、字体及许可文件均已检查。最终测试结果以完成回复的新鲜输出为准。

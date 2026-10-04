@@ -1,8 +1,8 @@
 import { test, expect, type Page, type Locator } from "@playwright/test";
 import { readFile } from "node:fs/promises";
-import { defaultTokens } from "../../docs/site/src/color-schemes/default";
-import { schemes } from "../../docs/site/src/color-schemes/presets";
-import { codeThemes, resolveCodeTheme, inlineColors } from "../../docs/site/src/color-schemes/code-themes";
+import { defaultTokens } from "../../src/lib/color-schemes/default";
+import { schemes } from "../../src/lib/color-schemes/presets";
+import { codeThemes, resolveCodeTheme, inlineColors } from "../../src/lib/color-schemes/code-themes";
 
 async function color(page: Page, value: string) {
   return page.evaluate(value => {
@@ -157,6 +157,18 @@ for (const docsTheme of ["light", "dark"] as const) {
 }
 
 for (const [language, docsTheme, width] of [["zh-CN", "light", 1280], ["en-US", "dark", 390]] as const) {
+  test(`public API documentation and showcase navigation (${language})`, async ({ page }) => {
+    const lab = await open(page, docsTheme, language, width);
+    await lab.getByRole("link", { name: language === "en-US" ? "Read the Color Scheme API →" : "查看配色 API →" }).click();
+    await expect(page).toHaveURL(/#\/api\/color-schemes$/);
+    const main = page.locator("#main-content");
+    await expect(main.getByRole("heading", { name: "Color Scheme API", exact: true })).toBeVisible();
+    await expect(main).toContainText("applyColorScheme");
+    await expect(main).toContainText("createColorSchemeCSS");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+    await main.getByRole("link", { name: language === "en-US" ? "Open the interactive palette showcase →" : "打开交互配色展示 →" }).click();
+    await expect(lab.locator("h1")).toBeVisible();
+  });
   test(`localized standard frame and contained overlay (${language}, ${width}px)`, async ({ page }) => {
     const lab = await open(page, docsTheme, language, width);
     const en = language === "en-US";
