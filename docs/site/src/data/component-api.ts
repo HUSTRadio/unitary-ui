@@ -8,7 +8,7 @@ export type ApiRow = {
   descriptionZh: string;
   required?: boolean;
   defaultValue?: string;
-  /** official = 官方 API 原样（默认）；extension = 框架扩展（API 表渲染「框架扩展」徽标） */
+  /** official = 官方 API 原样（默认）；extension = 框架扩展（全表统一说明，混合表逐行徽标） */
   origin?: "official" | "extension";
 };
 
@@ -54,7 +54,7 @@ const O = {
       row("resource.subscribe", "(listener: () => void) => () => void", "Subscribes to changes and returns an unsubscribe function.", "订阅状态变化，返回取消订阅函数。", { origin: "extension" }),
       row("usePrefetchState", "<T>(resource: PrefetchResource<T>) => PrefetchSnapshot<T>", "Observes state without loading; SSR and initial hydration use idle.", "只订阅状态，不启动加载；SSR 与首次水合使用 idle。", { origin: "extension" }),
     ], 'Omit<ComponentPropsWithoutRef<"div">, "resource">'),
-    notes: [{ zh: "Prefetch 是 Unitary 扩展。它保留已挂载子元素，不设置视觉样式；动态 import 会执行模块。缺少观察器时使用空闲调度，缺少空闲 API 时使用 200ms 定时器；卸载只取消尚未执行的调度。", en: "Prefetch is a Unitary extension. Children remain mounted and no visual styles are added; dynamic import executes modules. Missing observers fall back to idle scheduling, and missing idle APIs use a 200ms timer. Unmounting cancels pending scheduling only." }],
+    notes: [{ zh: "Prefetch 保留已挂载子元素，不设置视觉样式；动态 import 会执行模块。缺少观察器时使用空闲调度，缺少空闲 API 时使用 200ms 定时器；卸载只取消尚未执行的调度。", en: "Prefetch keeps children mounted and adds no visual styles; dynamic import executes modules. Missing observers fall back to idle scheduling, and missing idle APIs use a 200ms timer. Unmounting cancels pending scheduling only." }],
   },
   "carousel": component(["Carousel"], [
     row("variant", "\"slide\" | \"fade-linear\" | \"fade\" | \"fade-scale\"", "Slide, linear fade, eased fade or eased fade with subtle scaling. All respect reduced motion.", "滑动、线性淡入淡出、缓入缓出或缓入缓出加轻微缩放；均支持减少动画。", { defaultValue: "\"slide\"", origin: "extension" }),

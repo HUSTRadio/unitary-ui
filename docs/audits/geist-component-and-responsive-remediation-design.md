@@ -2,8 +2,8 @@
 
 - 门禁执行：2026-08-11（UTC+8 15:10），Task 9 父级审核（只读审核 + 设计固化）
 - 统一计划：`.hermes/plans/2026-08-11_141304-geist-systemic-parity-and-responsive-remediation.md` §7 Task 9（387–403 行）
-- 审核框架：`C:/Users/Leon/geist-audit/task9-parent-gate-framework.md`（§6.1 结论分级 / §6.2 证据单元 / §6.3 步骤）
-- 证据目录：`C:/Users/Leon/geist-audit/phase-e/*`（evidence UTC 2026-08-11 06:23–07:09；worker 产物，非 repo 内容）
+- 审核框架：本地外部文件 `task9-parent-gate-framework.md`（§6.1 结论分级 / §6.2 证据单元 / §6.3 步骤，不随仓库分发）
+- 证据目录：本地外部 `geist-audit/phase-e/`（evidence UTC 2026-08-11 06:23–07:09；worker 产物，非 repo 内容）
 - 仓库基线：HEAD `b46923f`（Task 3 提交）；本门禁文档与测试契约按 Task 9 独立提交
 - 配套机器台账：`tests/audit/geist-design-gate.json`（逐组件维度状态 + 批次边界，机器可读）
 

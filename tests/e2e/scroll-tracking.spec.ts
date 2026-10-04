@@ -159,7 +159,7 @@ for (const theme of ["light", "dark"] as const) {
     const button = sidebar.getByRole("link", { name: "Lazy Load", exact: true });
     await expect(button).toHaveAttribute("aria-current", "page");
     const heading = root.locator('[data-scroll-tracking-category]');
-    await expect(heading).toHaveText("Async Loading");
+    await expect(heading).toHaveText("Network & Async");
     await expectVerticalPosition(sidebar, heading, 16);
     expect((await verticalGeometry(sidebar, button)).offset).toBeGreaterThan(16);
     expect(await sidebar.evaluate((node) => node.scrollTop)).toBeGreaterThan(0);

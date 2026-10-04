@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { LOCKED_PACKAGE_SCRIPTS } from "../scripts/lib/locked-package-scripts.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -29,11 +30,17 @@ describe("README 示例截图生成合同", () => {
   it("提供生成与只读漂移检查命令，但不要求 README 用户执行", () => {
     const pkg = JSON.parse(read("package.json")) as { scripts?: Record<string, string> };
     expect(pkg.scripts?.["docs:readme:screenshots"]).toBe(
-      "node scripts/capture-readme-screenshots.mjs",
+      "node scripts/run-locked-script.mjs docs:readme:screenshots",
     );
     expect(pkg.scripts?.["docs:readme:screenshots:check"]).toBe(
-      "node scripts/capture-readme-screenshots.mjs --check",
+      "node scripts/run-locked-script.mjs docs:readme:screenshots:check",
     );
+    expect(LOCKED_PACKAGE_SCRIPTS["docs:readme:screenshots"].steps).toEqual([
+      ["node", "scripts/capture-readme-screenshots.mjs"],
+    ]);
+    expect(LOCKED_PACKAGE_SCRIPTS["docs:readme:screenshots:check"].steps).toEqual([
+      ["node", "scripts/capture-readme-screenshots.mjs", "--check"],
+    ]);
 
     expect(read("README.md")).not.toContain("vp run docs:readme:screenshots");
     expect(read("README.en.md")).not.toContain("vp run docs:readme:screenshots");

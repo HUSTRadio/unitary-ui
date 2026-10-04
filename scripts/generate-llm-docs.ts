@@ -33,6 +33,7 @@ import { fileURLToPath } from "node:url";
 
 import { chromium, type Page } from "@playwright/test";
 import TurndownService from "turndown";
+import { withPackageLock } from "./lib/package-script-lock.mjs";
 
 import { COMPONENTS } from "../docs/site/src/data/components";
 import { DOCS_ROUTE_SEQUENCE, type DocsRoute } from "../docs/site/src/data/docs-routes";
@@ -223,6 +224,7 @@ function routeTitle(route: DocsRoute): Record<Locale, string> {
 }
 
 function routeCategory(route: DocsRoute): string {
+  if (route.group === "network") return "network";
   if (route.renderer.kind === "component-detail") return "component";
   if (route.renderer.kind === "component-index") return "components-index";
   if (route.renderer.kind === "localized") return route.group === "patterns" ? "pattern" : route.group;
@@ -553,7 +555,7 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch((error: unknown) => {
+withPackageLock(ROOT, "workspace-checks", main).catch((error: unknown) => {
   const message = error instanceof Error ? (error.stack ?? error.message) : String(error);
   fail(message);
 });

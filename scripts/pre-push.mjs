@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
@@ -15,6 +15,11 @@ import {
 } from "./lib/pre-push-context.mjs";
 import { resolveTask } from "./lib/llm-task-contract.mjs";
 import { matchesAny } from "./lib/llm-task-runner.mjs";
+import {
+  leasePackageLockProcess,
+  packageLockEnvironment,
+  withPackageLock,
+} from "./lib/package-script-lock.mjs";
 
 const ROOT = process.cwd();
 const SCRIPT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -70,15 +75,49 @@ function commitMessages(ref) {
     .filter(Boolean);
 }
 
-function runNode(script, args, options = {}) {
-  return spawnSync(process.execPath, [script, ...args], {
+async function runNode(script, args, options = {}) {
+  const { input, ...spawnOptions } = options;
+  const child = spawn(process.execPath, [script, ...args], {
     cwd: ROOT,
-    encoding: "utf8",
-    ...options,
+    env: packageLockEnvironment(),
+    ...spawnOptions,
   });
+  const release = child.pid ? leasePackageLockProcess(child.pid) : () => {};
+  let stdout = "";
+  let stderr = "";
+  child.stdout?.on("data", (chunk) => {
+    stdout += chunk;
+  });
+  child.stderr?.on("data", (chunk) => {
+    stderr += chunk;
+  });
+  child.stdin?.on("error", (error) => {
+    if (error.code !== "EPIPE") throw error;
+  });
+  child.stdin?.end(input);
+  const interrupt = () => child.kill("SIGINT");
+  const terminate = () => child.kill("SIGTERM");
+  process.on("SIGINT", interrupt);
+  process.on("SIGTERM", terminate);
+  try {
+    return await new Promise((resolve, reject) => {
+      child.once("error", reject);
+      child.once("close", (status, signal) =>
+        resolve({
+          status: status ?? (signal === "SIGINT" ? 130 : 143),
+          stdout,
+          stderr,
+        }),
+      );
+    });
+  } finally {
+    process.removeListener("SIGINT", interrupt);
+    process.removeListener("SIGTERM", terminate);
+    release();
+  }
 }
 
-function runScreenshotGate(context) {
+async function runScreenshotGate(context) {
   const decision = classifyScreenshotImpact(context);
   if (!decision.required) {
     const detail = decision.commitMatch ? "（检测到视觉 commit 信号，但无权威影响路径）" : "";
@@ -89,7 +128,7 @@ function runScreenshotGate(context) {
   process.stderr.write(
     `[pre-push] README 截图检查已触发（路径=${decision.pathMatch ? "yes" : "no"}, commit=${decision.commitMatch ? "yes" : "no"}）。\n`,
   );
-  const check = runNode(SCREENSHOT_SCRIPT, ["--check", "--update-on-drift"]);
+  const check = await runNode(SCREENSHOT_SCRIPT, ["--check", "--update-on-drift"]);
   if (check.stdout) process.stderr.write(check.stdout);
   if (check.status === 0) return;
   if (check.status !== 2) {
@@ -111,7 +150,7 @@ function runScreenshotGate(context) {
   if (managedChanges.length === 0) {
     // 没有实际改动时不能要求空提交；只读复核仍失败则报告不稳定。 / Never request an empty commit.
     process.stderr.write("[pre-push] 截图更新后无实际改动，正在只读复核。\n");
-    const verify = runNode(SCREENSHOT_SCRIPT, ["--check"]);
+    const verify = await runNode(SCREENSHOT_SCRIPT, ["--check"]);
     if (verify.stdout) process.stderr.write(verify.stdout);
     if (verify.stderr) process.stderr.write(verify.stderr);
     if (verify.status === 0) return;
@@ -135,8 +174,8 @@ function runScreenshotGate(context) {
   process.exit(2);
 }
 
-function runDocsGate(input) {
-  const result = runNode(DOCS_ADAPTER, process.argv.slice(2), {
+async function runDocsGate(input) {
+  const result = await runNode(DOCS_ADAPTER, process.argv.slice(2), {
     input,
     stdio: ["pipe", "inherit", "inherit"],
   });
@@ -162,7 +201,7 @@ function runDocsGate(input) {
   process.exit(result.status ?? 1);
 }
 
-function main() {
+async function main() {
   if (
     !TEST_MODE &&
     (process.env.UNITARY_PRE_PUSH_SCREENSHOT_SCRIPT || process.env.UNITARY_PRE_PUSH_DOCS_ADAPTER)
@@ -183,6 +222,10 @@ function main() {
   }
 
   const input = readFileSync(0, "utf8");
+  return withPackageLock(ROOT, "pre-push", () => checkPush(input));
+}
+
+async function checkPush(input) {
   const refs = parsePushedRefs(input);
   if (refs.length === 0) {
     process.stderr.write("[pre-push] 没有待推送的 ref，跳过检查。\n");
@@ -205,14 +248,12 @@ function main() {
   }
 
   assertPushedCheckout(ROOT, affectedRefs, affectsInput);
-  runScreenshotGate({ changedPaths: [...paths].sort(), commits });
+  await runScreenshotGate({ changedPaths: [...paths].sort(), commits });
   assertPushedCheckout(ROOT, affectedRefs, affectsInput);
-  runDocsGate(input);
+  await runDocsGate(input);
 }
 
-try {
-  main();
-} catch (error) {
+main().catch((error) => {
   const message = error instanceof Error ? error.message : String(error);
   const refInputError = /(?:ref record|object id|ref 更新记录)/i.test(message);
   const checkoutError = /(?:pushed commit does not match HEAD|worktree has tracked changes)/.test(
@@ -238,4 +279,4 @@ try {
             "修复后重新执行 git push",
           ],
   });
-}
+});

@@ -3,6 +3,11 @@ dist/
 coverage/
 *.tgz
 .env
+# Environment secrets; only explicit example files may be published.
+.env.*
+!.env.example
+!.env.sample
+!.env.template
 .hermes/
 *.local
 *.log
@@ -27,6 +32,26 @@ tests/e2e/_tmp-*
 .plans/
 .plan/
 .superpowers/
+.wt/
+.tmp-*/
+.aws/
+.ssh/
+
+# Build caches and editor/OS scratch files
+.pnpm-store/
+.vite/
+.cache/
+*.tsbuildinfo
+*.tmp
+*.swp
+*.swo
+*~
+Thumbs.db
+Desktop.ini
+
+# Offline reference captures are local evidence, not shipped documentation.
+# Keep the Markdown reference fixtures and images/styleguide/ versioned.
+/docs/geist-markdown-refs/screenshots/
 
 # `.agents/` 是版本化的 canonical agent 任务包，必须纳入 Git。
 

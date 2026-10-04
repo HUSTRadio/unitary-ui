@@ -38,6 +38,29 @@ async function render(componentName: string, language: DocsLanguage) {
 
 describe("API reference explanations", () => {
   for (const language of ["zh-CN", "en-US"] as const) {
+    for (const component of ["prefetch", "carousel"]) {
+      it(`explains uniform extension provenance once for ${component} in ${language}`, async () => {
+        await render(component, language);
+        const explanation = container.querySelector('[data-api-origin="extension"]')!;
+        expect(explanation.textContent).toContain(language === "zh-CN" ? "本表 API 均为 Unitary 扩展" : "All APIs in this table are Unitary extensions");
+        expect(container.querySelectorAll('[data-slot="docs-api-extension-badge"]')).toHaveLength(0);
+        expect(container.querySelectorAll("tbody tr").length).toBeGreaterThan(0);
+        expect(explanation.compareDocumentPosition(container.querySelector("table")!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+      });
+    }
+    it(`keeps row-level provenance for mixed official and extension APIs in ${language}`, async () => {
+      await render("checkbox", language);
+      expect(container.querySelector('[data-api-origin="extension"]')).toBeNull();
+      const markedNames = [...container.querySelectorAll("tbody tr")]
+        .filter((row) => row.querySelector('[data-slot="docs-api-extension-badge"]'))
+        .map((row) => row.querySelector("td code")?.textContent);
+      expect(markedNames).toEqual(["defaultChecked", "size"]);
+    });
+    it(`adds no extension note or tags for official-only APIs in ${language}`, async () => {
+      await render("button", language);
+      expect(container.querySelector('[data-api-origin="extension"]')).toBeNull();
+      expect(container.querySelectorAll('[data-slot="docs-api-extension-badge"]')).toHaveLength(0);
+    });
     it(`imports the Prefetch component and resource API from the actual package root in ${language}`, async () => {
       await render("prefetch", language);
       expect(container.querySelector("pre code")?.textContent).toContain(

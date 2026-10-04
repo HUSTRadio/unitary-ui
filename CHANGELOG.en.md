@@ -8,6 +8,10 @@ All notable changes to this project are documented in this file. The format foll
 
 ### Fixed
 
+- **Docs navigation categories**: Move LazyLoad and Prefetch from Components / Async Loading to a separate Network & Async section immediately after API. Sidebar, mobile navigation, search and adjacent-page order follow the new section, the machine-readable index uses `network`, and existing URLs stay compatible.
+
+- **API table provenance**: Replace repeated row badges with one introductory note when every API is a framework extension. Mixed official/extension tables keep row badges, and required markers remain visible.
+
 - **Docs startup and deep links**: load pages and paired example/source modules on demand, showing headings and guidance while demos load. Isolate the docs and styleguide dependency caches to prevent competing dev servers from replacing each other's optimized modules. Remove duplicate topbar offsets from the main scroll area and sidebar; corpus generation waits for asynchronous pages and examples to finish.
 
 - **False pre-push screenshot blocks**: Checks and drift updates reuse the same browser capture, wait for viewport images to decode, and tolerate corner antialiasing noise within strict pixel limits. A commit is requested only when managed files actually change. A read-only recheck handles updates with no changes and reports persistent instability, avoiding a clean-worktree commit loop. Impacted refs must match HEAD, pending inputs are checked before execution, and public image assets trigger screenshot validation.
@@ -36,7 +40,7 @@ All notable changes to this project are documented in this file. The format foll
 
 - **Active-item scroll tracking**: Adds optional `scrollTracking` to `SidebarNav` and `Tabs` (`disabled` / `on-reload` / `always`, disabled by default), with package-root `ScrollTrackingMode`. On initial load or active-item changes, align at the scroll container's top or horizontal start edge with a preferred 16px inset. If preceding item or heading text or icons would remain visible, reduce spacing to 8px, 4px and so on; clamp the target to its scroll range. Reuses 250ms nonlinear motion and supports RTL, reduced motion and manual interruption. SidebarNav also provides `scrollTrackingTarget` (default `item`); `category` aligns the active item’s subgroup heading, falling back to its group heading, with package-root `SidebarNavScrollTrackingTarget`. The docs sidebar enables `on-reload` + `category`; bilingual API references, guides, interactive examples, Show Code and the living styleguide cover the same behavior.
 
-- **Prefetch and asynchronous loading docs**: Export `createPrefetch`, `Prefetch`, and `usePrefetchState` from the package root. Prepare modules or data on intent, near a viewport, or while idle, with shared requests and successful cache entries, retries, invalidation, abort signals, and automatic Data Saver checks. Docs navigation reuses these resources to prepare only the target page and its examples. Add bilingual guides, API references, and interactive examples alongside Lazy Load in Async Loading.
+- **Prefetch and asynchronous loading docs**: Export `createPrefetch`, `Prefetch`, and `usePrefetchState` from the package root. Prepare modules or data on intent, near a viewport, or while idle, with shared requests and successful cache entries, retries, invalidation, abort signals, and automatic Data Saver checks. Docs navigation reuses these resources to prepare only the target page and its examples. Add bilingual guides, API references, and interactive examples alongside Lazy Load in Network & Async.
 
 - **Global token documentation and API**: Adds a searchable catalog generated from the stylesheet, a local/global live editor, and package-root read, batch-write, reset and React subscription APIs. Distinguishes runtime variables from build mappings, supports theme cascading and SSR, and checks generated catalog drift.
 

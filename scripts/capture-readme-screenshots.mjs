@@ -8,6 +8,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { chromium } from "@playwright/test";
 import { screenshotsMatch } from "./lib/readme-screenshots.mjs";
+import { withPackageLock } from "./lib/package-script-lock.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "images", "styleguide");
@@ -389,7 +390,7 @@ async function main() {
 }
 
 if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
-  main().catch((error) => {
+  withPackageLock(ROOT, "workspace-checks", main).catch((error) => {
     console.error(error.stack ?? error);
     process.exitCode = 1;
   });

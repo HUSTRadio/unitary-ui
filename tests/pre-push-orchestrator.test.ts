@@ -1,9 +1,10 @@
 // @vitest-environment node
-import { spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { spawn, spawnSync } from "node:child_process";
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { setTimeout as delay } from "node:timers/promises";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.setConfig({ testTimeout: 60_000 });
@@ -125,6 +126,84 @@ afterEach(() => {
 });
 
 describe("统一 pre-push 编排", () => {
+  it("并发 hooks 等待完整检查链完成，并保留各自的 stdin", async () => {
+    const { dir, remoteSha } = makeRepo();
+    const localSha = addCommit(dir, "src/App.tsx", "fix(ui): concurrent gates");
+    const screenshot = path.join(dir, "serialized-screenshot.mjs");
+    const docs = path.join(dir, "serialized-docs.mjs");
+    writeFileSync(
+      screenshot,
+      `
+import { appendFileSync, existsSync, writeFileSync } from 'node:fs';
+import { setTimeout as delay } from 'node:timers/promises';
+appendFileSync('gates.txt', 'screenshot:' + process.env.GATE_NAME + '\\n');
+writeFileSync(process.env.GATE_NAME + '.ready', 'ready');
+while (process.env.GATE_NAME === 'first' && !existsSync('release.txt')) await delay(25);
+`,
+    );
+    writeFileSync(
+      docs,
+      `
+import { appendFileSync, readFileSync } from 'node:fs';
+appendFileSync('gates.txt', 'docs:' + process.env.GATE_NAME + ':' + readFileSync(0, 'utf8'));
+`,
+    );
+    const input = `refs/heads/main ${localSha} refs/heads/main ${remoteSha}\n`;
+    const start = (name: string) => {
+      const child = spawn(process.execPath, [RUNNER, "origin", "(redacted)"], {
+        cwd: dir,
+        env: {
+          ...process.env,
+          NODE_ENV: "test",
+          UNITARY_PRE_PUSH_TEST_MODE: "1",
+          UNITARY_PRE_PUSH_SCREENSHOT_SCRIPT: screenshot,
+          UNITARY_PRE_PUSH_DOCS_ADAPTER: docs,
+          GATE_NAME: name,
+        },
+        stdio: ["pipe", "ignore", "pipe"],
+      });
+      let stderr = "";
+      child.stderr.on("data", (chunk) => {
+        stderr += chunk;
+      });
+      child.stdin.end(input);
+      const done = new Promise((resolve, reject) => {
+        child.once("error", reject);
+        child.once("exit", resolve);
+      });
+      return { child, done, stderr: () => stderr };
+    };
+    const wait = async (predicate: () => boolean) => {
+      const deadline = Date.now() + 10_000;
+      while (!predicate()) {
+        if (Date.now() > deadline) throw new Error("Timed out waiting for concurrent hook");
+        await delay(25);
+      }
+    };
+    const first = start("first");
+    let second: ReturnType<typeof start> | undefined;
+    try {
+      await wait(() => existsSync(path.join(dir, "first.ready")));
+      second = start("second");
+      await wait(() => second!.stderr().includes("waiting for pre-push"));
+      expect(existsSync(path.join(dir, "second.ready"))).toBe(false);
+      writeFileSync(path.join(dir, "release.txt"), "release");
+      expect(await first.done).toBe(0);
+      expect(await second.done).toBe(0);
+      expect(readFileSync(path.join(dir, "gates.txt"), "utf8")).toBe(
+        `screenshot:first\ndocs:first:${input}screenshot:second\ndocs:second:${input}`,
+      );
+    } finally {
+      writeFileSync(path.join(dir, "release.txt"), "release");
+      for (const entry of [first, second]) {
+        if (entry && entry.child.exitCode === null && entry.child.signalCode === null) {
+          entry.child.kill("SIGKILL");
+          await entry.done;
+        }
+      }
+    }
+  });
+
   it("漂移更新无改动且只读复核通过时继续推送，不要求空提交", () => {
     const { dir, remoteSha } = makeRepo();
     const localSha = addCommit(dir, "src/App.tsx", "fix(ui): adjust page");

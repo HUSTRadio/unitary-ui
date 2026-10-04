@@ -166,6 +166,38 @@
       }
     },
     {
+      "path": "/components/lazy-load",
+      "title": {
+        "zh-CN": "延迟加载",
+        "en-US": "Lazy Load"
+      },
+      "category": "network",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/lazy-load.md",
+        "en-US": "pages/en-US/components/lazy-load.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:50774a4c1bc630f21bd1257d636f22b2db83ce576c6543981bad95319f92465e",
+        "en-US": "sha256:457c355819c55e26878fd4ce0d3439ff903520f1094190b8984216dc2ca80cfb"
+      }
+    },
+    {
+      "path": "/components/prefetch",
+      "title": {
+        "zh-CN": "预载",
+        "en-US": "Prefetch"
+      },
+      "category": "network",
+      "locales": {
+        "zh-CN": "pages/zh-CN/components/prefetch.md",
+        "en-US": "pages/en-US/components/prefetch.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:ec46b7c0fa2abf5e60856a53e5172a035df5f0882c2f6c099db2c6a1cefbcbfc",
+        "en-US": "sha256:618f2fc80207c95cc7054d25d602121ade203a7d1b715d4b887f196551ebe174"
+      }
+    },
+    {
       "path": "/components",
       "title": {
         "zh-CN": "组件",
@@ -417,8 +449,8 @@
         "en-US": "pages/en-US/components/checkbox.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:b8bc16b8c825a8fba235f994360f750c18e9343d9fc65c083122a0a80a6e345c",
-        "en-US": "sha256:1be0ef10c0e3f8a6729c90c12b56880c676b1ecfab0a7a6fb642c4d08e654187"
+        "zh-CN": "sha256:e408d81c914074f57055b1f47799e9af37c39ae8f4fa6280f2da265bbde40b7c",
+        "en-US": "sha256:497729407f00cfaa96c8d9a726e7e1bf328c48e0c935206d3a7f8aecd05c0fe9"
       }
     },
     {
@@ -609,8 +641,8 @@
         "en-US": "pages/en-US/components/slider.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:84b25c68584cb7265e18fa19d33be797187061283958b7e9aa75e8e44e464c74",
-        "en-US": "sha256:f8f36db2c1859d823d18e09ad7ef3481d8308332e416ab8a97e371db9340338b"
+        "zh-CN": "sha256:5698eb2c5b0052978828ee5f4ecd6e93d8e1bc2b240321ad93ac339489c5cf3a",
+        "en-US": "sha256:c23d4a50a0812e05fc17145bb9681d769ef68b3f191d5fbb3d54e59b72c0c21c"
       }
     },
     {
@@ -753,8 +785,8 @@
         "en-US": "pages/en-US/components/pagination.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:c9c702b9a9e078c739102f8ac319a746cf86104f29610cf9c9cad6fe7ab6e50f",
-        "en-US": "sha256:d48c33dc5cb0761ce03648f67481da62a1bf0b128ead10439ff2dc833a79b633"
+        "zh-CN": "sha256:31fd1c0991e399e185db450b381e1c11e09c586ce014c99d62388fd32a996236",
+        "en-US": "sha256:696bda39508513f6e7d5b0cae2c8f3acfde4924f950a6b3745978242cf3fcec1"
       }
     },
     {
@@ -769,8 +801,8 @@
         "en-US": "pages/en-US/components/sidebar-nav.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:e3532115c10f0c7a8139b20424612854194a25dc6616b26abf464848687c3953",
-        "en-US": "sha256:94d3474ab8e4626ef9d544e191d3c6cde360d1213ce139748b7ab8443026c25a"
+        "zh-CN": "sha256:ad72edf1a521eca7c1fda9886e1b959cc0067c1220068d5475732f12ef184aad",
+        "en-US": "sha256:41d19a83a5280fe168a4e9d994f8093f30955d63722f9cfa79ee2b8196043ebd"
       }
     },
     {
@@ -785,8 +817,8 @@
         "en-US": "pages/en-US/components/tabs.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:b5ff112de7bfdc09a6d0cbca094b77efa7d635f826731e15c16f0e8834646270",
-        "en-US": "sha256:a2824b86d068d2dbc2fd6bb5d27834ef28bcbe9cc5ffc6cc8e99f6c812c37ba4"
+        "zh-CN": "sha256:82623d15f81a5348f516b7436a9387b2218a3107570dd7f10e3c5fbf2b6501b9",
+        "en-US": "sha256:19ad1936dd26b4e86bf5dc811854de4b006f640569282635706e8e6545225681"
       }
     },
     {
@@ -1137,8 +1169,8 @@
         "en-US": "pages/en-US/components/skeleton.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:6a383f90feb386e39495f4af3bb76dedf735a1ebcc40b14a44c33f7743a2840f",
-        "en-US": "sha256:fbc426cb3aa9c6c40da923922f2f438fcae5fe3829e9c8b7d3678fa5ee3d1ed6"
+        "zh-CN": "sha256:cf16c15904f191cafbb74e12b1c6e62a99efb9131425517ecbf2194c9fb2ebc0",
+        "en-US": "sha256:15d93820449c9335a3fee33a00536892bdf51bc27f3e95edf1cce517db5e63d5"
       }
     },
     {
@@ -1187,38 +1219,6 @@
       "sourceHash": {
         "zh-CN": "sha256:151d9baa0eceb6580b04ed2fbd6fe14aa4af0a5c61e1a389174bd6cf57710f5a",
         "en-US": "sha256:0602afe45b1f3ff719acbc202cb376eceffac80f95ca9a0bbaf32271fb72c38e"
-      }
-    },
-    {
-      "path": "/components/lazy-load",
-      "title": {
-        "zh-CN": "延迟加载",
-        "en-US": "Lazy Load"
-      },
-      "category": "component",
-      "locales": {
-        "zh-CN": "pages/zh-CN/components/lazy-load.md",
-        "en-US": "pages/en-US/components/lazy-load.md"
-      },
-      "sourceHash": {
-        "zh-CN": "sha256:179d2e41feb0cb9281f3415b03dd5bdad0a206b5b743ebfebf1405d3159ce287",
-        "en-US": "sha256:d30c90e56937e2b0eb180b339e458fc004e2104f367212169d8fd588038bbf30"
-      }
-    },
-    {
-      "path": "/components/prefetch",
-      "title": {
-        "zh-CN": "预载",
-        "en-US": "Prefetch"
-      },
-      "category": "component",
-      "locales": {
-        "zh-CN": "pages/zh-CN/components/prefetch.md",
-        "en-US": "pages/en-US/components/prefetch.md"
-      },
-      "sourceHash": {
-        "zh-CN": "sha256:9f06041f4b43ec16db827df35d5b9064627dd021cf82f3cb34bb6eae4f2903f1",
-        "en-US": "sha256:93ac0cf0bbb3caab05b88e8b91b37dde3429cef8022cc37b8a8379e026475f14"
       }
     },
     {
@@ -1297,8 +1297,8 @@
         "en-US": "pages/en-US/components/full-page-scroller.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:832bb4a32a79b7d6ab1a527d07a7471ad39d1759c04e5e628a3f57dc1a547408",
-        "en-US": "sha256:dc48c1789809a6270d48feb4378d564b4d4cacc3a28ddc1d60f17396fd12a698"
+        "zh-CN": "sha256:31ae362321f39eceea6cc1d80db5f32d2728a1e63c0675d844f0cb7bed160b7f",
+        "en-US": "sha256:53b99e87a5f5992b2b1388d80039a0b6cde6f25326b25eb264a40b18dd244956"
       }
     },
     {
@@ -1489,8 +1489,8 @@
         "en-US": "pages/en-US/components/carousel.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:34cafb5bde51821ad6eeadeb941567a1c740f9adad60602bd7a9fd28753feaf4",
-        "en-US": "sha256:f06918fa6a65cbdb5e94b379af1d75146871e132518cd37189cb7fdb2c6afb94"
+        "zh-CN": "sha256:65d49eac6145d2c6480cf6bbf2e612860cc8512ba1a68a2fe9cc13f6ec6dac23",
+        "en-US": "sha256:1c554831d6f234574cc7a4f43bf39767e28962fa6481cec60d7bf58bc5811536"
       }
     },
     {

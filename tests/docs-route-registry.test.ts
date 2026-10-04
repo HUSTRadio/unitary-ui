@@ -92,7 +92,6 @@ describe("canonical docs route registry", () => {
       "navigation",
       "data-display",
       "feedback",
-      "async-loading",
       "overlays",
       "content",
       "mobile",
@@ -122,6 +121,36 @@ describe("canonical docs route registry", () => {
     const unknown = getAdjacentDocsPages("/not-a-doc-route");
     expect(unknown.previous).toBeUndefined();
     expect(unknown.next).toBeUndefined();
+  });
+
+  it("groups network and async primitives after API with bilingual titles and existing URLs", () => {
+    const groupIndex = DOCS_ROUTE_GROUPS.findIndex((group) => group.id === "network");
+    const network = DOCS_ROUTE_GROUPS[groupIndex];
+    expect(DOCS_ROUTE_GROUPS[groupIndex - 1]?.id).toBe("api");
+    expect(DOCS_ROUTE_GROUPS[groupIndex + 1]?.id).toBe("components");
+    expect(network?.title).toBe("Network & Async");
+    expect(network?.titleZh).toBe("网络与异步");
+    expect(network?.subgroups).toBeUndefined();
+    expect(network?.items.map((route) => route.to)).toEqual([
+      "/components/lazy-load",
+      "/components/prefetch",
+    ]);
+    for (const name of ["lazy-load", "prefetch"]) {
+      expect(getDocsRoute(`/components/${name}/`)).toMatchObject({
+        group: "network",
+        renderer: { kind: "component-detail", componentName: name },
+      });
+      expect(DOCS_ROUTE_GROUPS.find((group) => group.id === "components")?.items.map((route) => route.to))
+        .not.toContain(`/components/${name}`);
+    }
+  });
+
+  it("follows the new network section order in previous and next links", () => {
+    expect(getAdjacentDocsPages("/lifecycle-and-hooks").next?.to).toBe("/components/lazy-load");
+    expect(getAdjacentDocsPages("/components/lazy-load").previous?.to).toBe("/lifecycle-and-hooks");
+    expect(getAdjacentDocsPages("/components/lazy-load").next?.to).toBe("/components/prefetch");
+    expect(getAdjacentDocsPages("/components/prefetch").next?.to).toBe("/components");
+    expect(getAdjacentDocsPages("/components").previous?.to).toBe("/components/prefetch");
   });
 
   it("accepts every route renderer descriptor in App's typed renderer maps", () => {
