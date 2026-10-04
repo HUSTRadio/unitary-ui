@@ -38,27 +38,36 @@ tabs
 
 展示 Secondary 模式下的标签页，用于弱化次要分组的内容切换。
 
+### 活动标签滚动跟踪
+
+比较禁用、载入时和始终跟踪；外部选择活动标签后重新载入演示，并切换文字方向。
+
 ## 无障碍
 
 - 每个 tablist 应在没有可见标题的情况下使用 aria-label 标注（如 aria-label='Sections'），帮助屏幕阅读器识别功能。
 - 使用左右方向键在标签之间移动焦点，Enter 或 Space 激活当前标签，不要劫持这些键盘快捷键用于全局操作。
 - 活动标签必须始终保持可见的焦点环样式，不能为追求视觉效果而移除焦点指示。
+- 滚动跟踪不会转移键盘焦点；系统请求减少动画时直接完成定位。
 
 ## 受控行为
 
 - 通过必填的 selected 与 setSelected 控制当前标签；selected 使用标签项的 id，而不是数组索引。
 - 需要 URL 持久化时，由调用方在 setSelected 更新路径中同步路由状态。
 - 禁用态的标签通过 disabled 属性隐藏交互能力，配合 Tooltip 说明禁用原因（权限不足或数据为空）。
+- scrollTracking 是可选的 Unitary 扩展，类型为 ScrollTrackingMode，默认 disabled；on-reload 在首次挂载、DOM 布局就绪后尝试一次，之后的 selected 变化不会触发跟踪；always 在进入该模式及 selected 值变化时更新位置。
+- 调用方先从 URL 恢复 selected，再让组件跟踪活动标签；组件不解析路由或锚点。手动滚动会中断当前动画；on-reload 的这次尝试仍视为已用，不会重新开始。always 也不会持续锁定同一个活动值的位置。
 
 ## 响应式行为
 
 - 移动端建议限制在 3–4 个标签以内；超出范围应将次要视图移至 Menu 下拉中。
 - 标签行保持固定字号和间距，并在内容超出可用宽度时提供水平滚动；组件不会自动压缩排版。
+- 跟踪首选标签行水平起始边内侧 16px；若会露出前一标签的文字或图标，按 spacing 尺度将间距缩小为 8px、4px 等。RTL 使用右侧起始边。目标位置被限制在可滚动范围内，靠近末端时允许无法完全对齐。
 
 ## 主题行为
 
 - 标签页的颜色、下划线和激活高亮跟随主题变量变化，在暗色/亮色模式下各有对应的配色方案。
 - Secondary 模式在不同主题下会自动调整为对比度更低的变体颜色。
+- 滚动跟踪复用 --uni-motion-state（默认 250ms）与 --ease-in-out 非线性曲线；两种主题使用相同的动效 token。
 
 ## 实时示例
 
@@ -224,6 +233,129 @@ export function TabsCompactB6B54201Example() {
 }
 ```
 
+## 活动项滚动跟随
+
+跟踪模式
+
+活动标签
+
+文字方向
+
+从上方选择活动标签，比较跟踪模式；切换文字方向后重新载入，观察起始边对齐。你也可以手动滚动标签行。
+
+纵向活动项的相同能力参见 [侧栏导航文档](#/components/sidebar-nav)。
+
+```tsx
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
+import { Select, SelectItem } from "@/components/ui/select";
+import { Tabs } from "@/components/ui/tabs";
+import { useI18n } from "@/lib/i18n";
+import type { ScrollTrackingMode } from "@/lib";
+
+export default function TabsScrollTrackingExample() {
+  const { locale } = useI18n();
+  const zh = locale === "zh-CN";
+  const [mode, setMode] = useState<ScrollTrackingMode>("on-reload");
+  const [selected, setSelected] = useState("view-6");
+  const [direction, setDirection] = useState<"ltr" | "rtl">("ltr");
+  const [mount, setMount] = useState(0);
+  const tabs = Array.from({ length: 12 }, (_, index) => ({
+    title: `${zh ? "视图" : "View"} ${index + 1}`,
+    value: `view-${index + 1}`,
+  }));
+
+  return (
+    <div data-slot="tabs-scroll-tracking-demo" className="w-full max-w-xl space-y-4">
+      <div className="flex flex-wrap items-end gap-3">
+        <div data-slot="scroll-tracking-mode">
+          <Select
+            label={zh ? "跟踪模式" : "Tracking mode"}
+            value={mode}
+            onValueChange={(value) => setMode(value as ScrollTrackingMode)}
+          >
+            <SelectItem value="disabled">{zh ? "禁用" : "Disabled"}</SelectItem>
+            <SelectItem value="on-reload">{zh ? "载入时" : "On reload"}</SelectItem>
+            <SelectItem value="always">{zh ? "始终跟踪" : "Always"}</SelectItem>
+          </Select>
+        </div>
+        <div data-slot="scroll-tracking-target">
+          <Select
+            label={zh ? "活动标签" : "Active tab"}
+            value={selected}
+            onValueChange={setSelected}
+          >
+            {tabs.map((tab) => (
+              <SelectItem key={tab.value} value={tab.value}>
+                {tab.title}
+              </SelectItem>
+            ))}
+          </Select>
+        </div>
+        <div data-slot="scroll-tracking-direction">
+          <Select
+            label={zh ? "文字方向" : "Direction"}
+            value={direction}
+            onValueChange={(value) => setDirection(value as "ltr" | "rtl")}
+          >
+            <SelectItem value="ltr">{zh ? "从左到右" : "Left to right"}</SelectItem>
+            <SelectItem value="rtl">{zh ? "从右到左" : "Right to left"}</SelectItem>
+          </Select>
+        </div>
+        <Button
+          data-slot="scroll-tracking-remount"
+          type="secondary"
+          typeName="button"
+          onClick={() => setMount((value) => value + 1)}
+        >
+          {zh ? "重新载入演示" : "Reload demo"}
+        </Button>
+        <Button
+          data-slot="scroll-tracking-reset"
+          type="tertiary"
+          typeName="button"
+          onClick={() => {
+            setMode("on-reload");
+            setSelected("view-6");
+            setDirection("ltr");
+            setMount((value) => value + 1);
+          }}
+        >
+          {zh ? "重置演示" : "Reset demo"}
+        </Button>
+      </div>
+      <p className="text-copy-14 text-muted-foreground">
+        {zh
+          ? "从上方选择活动标签，比较跟踪模式；切换文字方向后重新载入，观察起始边对齐。你也可以手动滚动标签行。"
+          : "Choose an active tab above to compare modes. Change direction and reload to observe start-edge alignment. You can also scroll the tab row manually."}
+      </p>
+      <p className="text-copy-14 text-muted-foreground">
+        {zh ? "纵向活动项的相同能力参见 " : "For the vertical equivalent, see "}
+        <Link href="#/components/sidebar-nav">
+          {zh ? "侧栏导航文档" : "SidebarNav documentation"}
+        </Link>
+        {zh ? "。" : "."}
+      </p>
+      <div
+        key={mount}
+        data-slot="scroll-tracking-viewport"
+        dir={direction}
+        className="w-full max-w-xs min-w-0"
+      >
+        <Tabs
+          tabs={tabs}
+          selected={selected}
+          setSelected={setSelected}
+          scrollTracking={mode}
+          ariaLabel={zh ? "视图跟踪演示" : "View tracking demo"}
+        />
+      </div>
+    </div>
+  );
+}
+```
+
 ## API 参考
 
 组件的导入方式和 API 如下。\* 表示必填属性。
@@ -236,7 +368,7 @@ import { Tabs } from "@/components/ui/tabs";
 
 ### 属性与回调
 
-<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">selected</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">受控选中的标签。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">setSelected</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(value: string) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">接收标签选择。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr></tbody></table>
+<table class="w-full min-w-[640px] text-left"><thead class="border-b border-border"><tr class="text-label-13 text-foreground"><th class="px-3 py-2 font-medium">名称</th><th class="px-3 py-2 font-medium">类型</th><th class="px-3 py-2 font-medium">说明</th><th class="px-3 py-2 font-medium">默认值</th></tr></thead><tbody><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">selected</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">string</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">受控选中的标签。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">setSelected</code></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">(value: string) =&gt; void</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">接收标签选择。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">—</td></tr><tr class="border-b border-border last:border-0"><td class="px-3 py-2 align-top text-label-13 text-foreground"><code translate="no">scrollTracking</code><span data-slot="docs-api-extension-badge" class="ml-2 rounded-sm border border-gray-alpha-400 px-1 text-label-12 text-muted-foreground">框架扩展</span></td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"disabled" | "on-reload" | "always"</td><td class="px-3 py-2 align-top text-copy-13 text-muted-foreground">在水平起始边对齐活动标签，首选 16px 留白；若会露出前一标签的文字或图标，按 spacing 尺度缩小。on-reload 在挂载后执行一次，always 在进入该模式或 selected 值变化时执行。类型为 ScrollTrackingMode；受滚动边界限制，仍可手动滚动。</td><td class="px-3 py-2 align-top font-mono text-label-12 text-muted-foreground" translate="no">"disabled"</td></tr></tbody></table>
 
 ## 最佳实践
 

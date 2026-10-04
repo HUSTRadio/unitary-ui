@@ -38,6 +38,8 @@
 
 ### Added
 
+- **活动项滚动跟踪**：`SidebarNav` 与 `Tabs` 新增可选的 `scrollTracking`（`disabled` / `on-reload` / `always`，默认禁用），并从包入口导出 `ScrollTrackingMode`。载入时或活动项变化时，对齐到滚动容器顶部或水平起始边，首选 16px 留白；若会露出前一条目或标题的文字、图标，按 spacing 尺度缩小为 8px、4px 等，目标受滚动边界限制。复用 250ms 非线性动效，支持 RTL、减少动画与手动中断。SidebarNav 另提供 `scrollTrackingTarget`（默认 `item`）；`category` 定位当前条目所属的二级分类小标题，无二级分类时定位一级标题，包入口导出 `SidebarNavScrollTrackingTarget`。文档侧栏启用 `on-reload` + `category`，双语 API、指南、可交互演示、Show Code 与 living styleguide 同步覆盖。
+
 - **预载与异步加载文档**：新增包根导出的 `createPrefetch`、`Prefetch` 与 `usePrefetchState`，支持操作意图、接近视口、浏览器空闲三种触发，共享并发请求与成功缓存、失败重试、失效与中止，并默认尊重省流量设置。文档导航复用相同资源提前准备目标页及其演示；双语指南、API、可操作示例与 Lazy Load 同列“网络与异步”。
 
 - **全局 Token 文档与读写 API**：新增可搜索的样式源码目录、局部/全局实时编辑器，以及包根导出的读取、批量写入、恢复和 React 订阅 API；区分运行时变量与构建映射，支持主题级联和 SSR，并验证目录生成无漂移。

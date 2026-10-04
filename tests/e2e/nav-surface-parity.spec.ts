@@ -120,7 +120,11 @@ test("次级宽屏抽屉与宽屏侧栏的导航排版同源", async ({ page }) 
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/#/components/link");
   await page.waitForSelector('[data-slot="docs-sidebar"] [data-slot="sidebar-nav-item"]');
-  await page.waitForTimeout(400);
+  await page.evaluate(async () => { await document.fonts.ready; });
+  await expect(page.locator('[data-slot="docs-sidebar"] [data-slot="sidebar-nav"]'))
+    .not.toHaveAttribute("data-scroll-tracking-state", /pending|running/);
+  // Compare both surfaces at the same content origin after mount tracking settles.
+  await page.locator('[data-slot="docs-sidebar"]').evaluate((node) => { node.scrollTop = 0; });
   const sidebar = await measure(page, {
     scrollOwner: '[data-slot="docs-sidebar"]',
     groupContainer: '[data-slot="sidebar-nav"]',

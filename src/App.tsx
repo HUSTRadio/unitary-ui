@@ -31,6 +31,7 @@ import { SettingsExample } from "@/examples/SettingsExample";
 import { WorkflowExample } from "@/examples/WorkflowExample";
 import { PagedMediaExample } from "@/examples/PagedMediaExample";
 import { TokensExample } from "@/examples/TokensExample";
+import { ScrollTrackingExample } from "@/examples/ScrollTrackingExample";
 
 /** Living styleguide — 组件总览与可交互组合示例。 / Overview and interactive examples. */
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -261,6 +262,10 @@ export default function App() {
               <div className="pt-4 text-copy-14 text-muted-foreground">
                 {tab === "overview" ? "概览内容" : tab === "details" ? "详情内容" : "历史内容"}
               </div>
+            </Section>
+
+            <Section title="Scroll Tracking（活动项滚动跟踪）">
+              <ScrollTrackingExample />
             </Section>
 
             {/* Badge / StepPoint */}

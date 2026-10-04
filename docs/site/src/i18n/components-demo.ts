@@ -59,6 +59,7 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Content below separator": "分隔线下方内容",
 
     // Section titles
+    "Scroll tracking": "活动项滚动跟随",
     Sizes: "尺寸",
     Variants: "变体",
     Strategies: "触发方式",

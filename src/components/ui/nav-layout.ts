@@ -125,6 +125,8 @@ export interface NavGroupCollapseOptions {
 }
 
 export interface NavGroupCollapse {
+  /** 持久化状态已恢复。 / Persistence restoration is complete. */
+  ready: boolean;
   /** 该分组当前是否处于折叠态。 */
   isCollapsed: (id: string) => boolean;
   /** 开合回调：受控交给标准 Collapse 的 onOpenChange。 */
@@ -146,7 +148,8 @@ export function useNavGroupCollapse({
   const [collapsed, setCollapsed] = React.useState<ReadonlySet<string>>(
     () => new Set<string>(),
   );
-  const [storageReady, setStorageReady] = React.useState(false);
+  const [restoredKey, setRestoredKey] = React.useState<string | null>(null);
+  const storageReady = !!persistKey && restoredKey === persistKey;
   const [seenActiveGroupId, setSeenActiveGroupId] = React.useState<string | null>(
     activeGroupId,
   );
@@ -169,7 +172,7 @@ export function useNavGroupCollapse({
     // 当前页所在分组永不以折叠态恢复
     if (activeGroupId) stored.delete(activeGroupId);
     setCollapsed(stored);
-    setStorageReady(true);
+    setRestoredKey(persistKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled, persistKey]);
 
@@ -193,5 +196,5 @@ export function useNavGroupCollapse({
     [collapsed],
   );
 
-  return { isCollapsed, setGroupOpen };
+  return { isCollapsed, setGroupOpen, ready: !enabled || !persistKey || storageReady };
 }

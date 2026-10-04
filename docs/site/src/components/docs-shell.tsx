@@ -327,6 +327,8 @@ function DocsSidebar() {
         side="left"
         collapsible
         persistKey={SIDEBAR_COLLAPSE_KEY}
+        scrollTracking="on-reload"
+        scrollTrackingTarget="category"
         className="min-h-full"
       />
       <div

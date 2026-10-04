@@ -37,6 +37,13 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
         description: "展示 Secondary 模式下的标签页，用于弱化次要分组的内容切换。",
         demoKey: "Secondary",
       },
+      {
+        id: "scroll-tracking",
+        kind: "stateful",
+        title: "活动标签滚动跟踪",
+        description: "比较禁用、载入时和始终跟踪；外部选择活动标签后重新载入演示，并切换文字方向。",
+        demoKey: "scroll-tracking",
+      },
     ],
     accessibility: {
       status: "covered",
@@ -44,6 +51,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
         "每个 tablist 应在没有可见标题的情况下使用 aria-label 标注（如 aria-label='Sections'），帮助屏幕阅读器识别功能。",
         "使用左右方向键在标签之间移动焦点，Enter 或 Space 激活当前标签，不要劫持这些键盘快捷键用于全局操作。",
         "活动标签必须始终保持可见的焦点环样式，不能为追求视觉效果而移除焦点指示。",
+        "滚动跟踪不会转移键盘焦点；系统请求减少动画时直接完成定位。",
       ],
     },
     controlledBehavior: {
@@ -52,6 +60,8 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
         "通过必填的 selected 与 setSelected 控制当前标签；selected 使用标签项的 id，而不是数组索引。",
         "需要 URL 持久化时，由调用方在 setSelected 更新路径中同步路由状态。",
         "禁用态的标签通过 disabled 属性隐藏交互能力，配合 Tooltip 说明禁用原因（权限不足或数据为空）。",
+        "scrollTracking 是可选的 Unitary 扩展，类型为 ScrollTrackingMode，默认 disabled；on-reload 在首次挂载、DOM 布局就绪后尝试一次，之后的 selected 变化不会触发跟踪；always 在进入该模式及 selected 值变化时更新位置。",
+        "调用方先从 URL 恢复 selected，再让组件跟踪活动标签；组件不解析路由或锚点。手动滚动会中断当前动画；on-reload 的这次尝试仍视为已用，不会重新开始。always 也不会持续锁定同一个活动值的位置。",
       ],
     },
     responsiveBehavior: {
@@ -59,6 +69,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
       content: [
         "移动端建议限制在 3–4 个标签以内；超出范围应将次要视图移至 Menu 下拉中。",
         "标签行保持固定字号和间距，并在内容超出可用宽度时提供水平滚动；组件不会自动压缩排版。",
+        "跟踪首选标签行水平起始边内侧 16px；若会露出前一标签的文字或图标，按 spacing 尺度将间距缩小为 8px、4px 等。RTL 使用右侧起始边。目标位置被限制在可滚动范围内，靠近末端时允许无法完全对齐。",
       ],
     },
     themeBehavior: {
@@ -66,6 +77,7 @@ export const GUIDES_14_ZH: Record<string, ComponentGuide> = {
       content: [
         "标签页的颜色、下划线和激活高亮跟随主题变量变化，在暗色/亮色模式下各有对应的配色方案。",
         "Secondary 模式在不同主题下会自动调整为对比度更低的变体颜色。",
+        "滚动跟踪复用 --uni-motion-state（默认 250ms）与 --ease-in-out 非线性曲线；两种主题使用相同的动效 token。",
       ],
     },
   },
@@ -360,6 +372,13 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
           "Demonstrates the Secondary mode for de-emphasized content grouping and less prominent view switching.",
         demoKey: "Secondary",
       },
+      {
+        id: "scroll-tracking",
+        kind: "stateful",
+        title: "Active-tab scroll tracking",
+        description: "Compare disabled, on-reload and always; select a tab externally, reload the demo and switch text direction.",
+        demoKey: "scroll-tracking",
+      },
     ],
     accessibility: {
       status: "covered",
@@ -367,6 +386,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
         "Label the tablist with aria-label when no visible heading sits above it (e.g. aria-label='Sections'), so screen readers identify the purpose.",
         "Left/Right arrows move focus across tabs, Enter or Space activates; do not hijack these keyboard shortcuts for global operations.",
         "Always maintain a visible focus ring on the active tab—do not suppress focus styles for visual polish.",
+        "Scroll tracking does not move keyboard focus; reduced-motion preferences make alignment immediate.",
       ],
     },
     controlledBehavior: {
@@ -375,6 +395,8 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
         "Control the active tab with the required selected and setSelected props; selected uses a tab item's id rather than its array index.",
         "For URL persistence, synchronize route state from the caller's setSelected update path.",
         "Disabled tabs hide interactivity via the disabled prop and should be paired with a Tooltip explaining the constraint (permissions insufficient or empty data).",
+        "scrollTracking is an optional Unitary extension typed as ScrollTrackingMode and defaults to disabled. on-reload attempts alignment once after the initial mount and DOM layout readiness; later selected changes do not trigger tracking. always updates position when entering that mode and when the selected value changes.",
+        "Restore selected from the URL in the caller before tracking the active tab; the component does not parse routes or anchors. Manual scrolling interrupts the current animation and still consumes the on-reload attempt. always does not continually lock the position for the same active value.",
       ],
     },
     responsiveBehavior: {
@@ -382,6 +404,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
       content: [
         "On mobile, limit tabs to 3–4; beyond that, move secondary views behind a Menu dropdown.",
         "The tab row keeps fixed typography and gaps and scrolls horizontally when it exceeds the available width; it does not compress those styles automatically.",
+        "Tracking prefers 16px inside the horizontal start edge. If preceding tab text or icons would remain visible, the spacing scale reduces the inset to 8px, 4px and so on. RTL uses the right start edge. The target is clamped to the available scroll range, so end items may not fully align.",
       ],
     },
     themeBehavior: {
@@ -389,6 +412,7 @@ export const GUIDES_14_EN: Record<string, ComponentGuide> = {
       content: [
         "Tab colors, underline indicators, and activation highlights follow theme variables with corresponding palettes for dark and light modes.",
         "Secondary mode automatically adjusts to lower-contrast variant colors that adapt across themes.",
+        "Scroll tracking reuses --uni-motion-state (250ms by default) and the nonlinear --ease-in-out curve; both themes share these motion tokens.",
       ],
     },
   },
