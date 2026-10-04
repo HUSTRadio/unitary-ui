@@ -54,6 +54,22 @@
       }
     },
     {
+      "path": "/color-schemes",
+      "title": {
+        "zh-CN": "配色方案",
+        "en-US": "Color Schemes"
+      },
+      "category": "foundations",
+      "locales": {
+        "zh-CN": "pages/zh-CN/color-schemes.md",
+        "en-US": "pages/en-US/color-schemes.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:600e7b56c2b049fae34fc5f1c24f82d05f576be33ba8d13c4988b5e970e7a352",
+        "en-US": "sha256:1ad7457704455cbf38b07e2f7c4870bb275805cb7e5792f5f281980704c45c54"
+      }
+    },
+    {
       "path": "/tokens",
       "title": {
         "zh-CN": "全局变量",

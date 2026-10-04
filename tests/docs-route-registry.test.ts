@@ -13,6 +13,15 @@ import {
 } from "../docs/site/src/data/docs-routes";
 
 describe("canonical docs route registry", () => {
+  it("exposes color schemes in Foundations with bilingual navigation and pagination", () => {
+    const route = getDocsRoute("/color-schemes");
+    expect(route).toMatchObject({
+      group: "foundations", sidebar: true, label: "Color Schemes", labelZh: "配色方案",
+      renderer: { kind: "localized", page: "color-schemes" },
+    });
+    expect(getAdjacentDocsPages("/colors").next?.to).toBe("/color-schemes");
+    expect(getAdjacentDocsPages("/color-schemes").previous?.to).toBe("/colors");
+  });
   it("normalizes introduction aliases and trailing slashes", () => {
     expect(canonicalDocsPath("introduction")).toBe("/");
     expect(canonicalDocsPath("/introduction/")).toBe("/");

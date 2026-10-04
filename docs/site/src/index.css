@@ -25,3 +25,46 @@
 /* 媒体查询使用构建期常量；CSS var() 不能充当媒体查询条件。
    Media queries need a build-time constant rather than a runtime CSS variable. */
 @custom-variant docs-feedback-compact (@media (width < 480px));
+
+/* Color scheme showcase: geometry stays in docs; colors come from scoped presets. */
+.scheme-lab { min-width: 0; }
+.scheme-lab .lab-controls { display: flex; flex-wrap: wrap; align-items: end; gap: 16px; margin-bottom: 24px; }
+.scheme-lab .scheme-palette { margin-bottom: 24px; }
+.scheme-lab .scheme-palette > p { margin: 8px 0; }
+.scheme-lab .scheme-swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 12px; padding: 16px 0; }
+.scheme-lab .scheme-swatch { min-width: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.scheme-lab .scheme-swatch-color { display: block; height: 40px; border-bottom: 1px solid var(--border); }
+.scheme-lab .scheme-swatch figcaption { display: grid; gap: 4px; padding: 12px; }
+.scheme-lab .scheme-swatch figcaption code { overflow-wrap: anywhere; }
+.scheme-lab .scheme-swatch-token { color: var(--muted-foreground); overflow-wrap: anywhere; }
+.scheme-lab .scheme-preview-frame { container-type: inline-size; isolation: isolate; background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-2xl); }
+.scheme-lab .workspace-topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 24px; }
+.scheme-lab .workspace-brand svg { width: 110px; }
+/* Canonical mark blue from brand/unitary-logo-horizontal.svg; follow the local UI theme. */
+.scheme-lab [data-ui-preview][data-theme="light"] .workspace-brand svg > path:first-child { fill: #0d47a1; }
+.scheme-lab [data-ui-preview][data-theme="dark"] .workspace-brand svg > path:first-child { fill: white; }
+.scheme-lab .workspace-health { display: flex; align-items: center; gap: 8px; }
+.scheme-lab .workspace { display: grid; grid-template-columns: 190px minmax(0, 1fr); }
+.scheme-lab .workspace-nav { border-right: 1px solid var(--border); padding: 24px 16px; }
+.scheme-lab .workspace-nav > p { margin-top: 32px; }
+.scheme-lab .workspace-main { min-width: 0; padding: 24px; }
+.scheme-lab .workspace-title { padding: 24px 0; }
+.scheme-lab .workspace-title p { margin-top: 8px; }
+.scheme-lab .card-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; }
+.scheme-lab .project-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.scheme-lab .workspace-notes { margin: 24px 0; }
+.scheme-lab .workspace-notes > h3 { margin-bottom: 12px; }
+.scheme-lab .inline-example { margin-bottom: 16px; }
+.scheme-lab .scheme-code { min-width: 0; }
+.scheme-lab .scheme-overlay-content { padding: 24px; }
+.scheme-lab .scheme-overlay-content p { margin: 12px 0 20px; }
+/* Adapt to the frame's width, including when the docs sidebar narrows its container. */
+@container (max-width: 680px) {
+  .scheme-lab .workspace { grid-template-columns: minmax(0, 1fr); }
+  .scheme-lab .workspace-nav { display: none; }
+  .scheme-lab .workspace-main { padding: 20px 16px; }
+}
+@container (max-width: 420px) {
+  .scheme-lab .workspace-topbar { padding: 0 16px; }
+  .scheme-lab .workspace-health { display: none; }
+}

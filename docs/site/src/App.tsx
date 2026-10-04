@@ -51,6 +51,9 @@ const LifecycleAndHooksPage = lazy(() =>
 const TokensPage = lazy(() =>
   DOCS_PAGE_RESOURCES.tokens.load().then((module) => ({ default: module.TokensPage })),
 );
+const ColorSchemesPage = lazy(() =>
+  DOCS_PAGE_RESOURCES["color-schemes"].load().then((module) => ({ default: module.ColorSchemesPage })),
+);
 const ChartsGalleryPage = lazy(() =>
   DOCS_PAGE_RESOURCES.charts.load().then((module) => ({ default: module.ChartsGalleryPage })),
 );
@@ -72,6 +75,7 @@ const LOCALIZED_PAGE_COMPONENTS = {
   "app-shell": AppShellDemo,
   charts: ChartsGalleryPage,
   tokens: TokensPage,
+  "color-schemes": ColorSchemesPage,
 } satisfies Record<LocalizedPageKey, ComponentType<{ language: DocsLanguage }>>;
 
 export default function App() {

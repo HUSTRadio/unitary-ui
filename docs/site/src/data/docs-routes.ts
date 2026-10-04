@@ -11,7 +11,7 @@ export type StaticPageKey =
   | "typography"
   | "materials"
   | "grid";
-export type LocalizedPageKey = "lifecycle-and-hooks" | "app-shell" | "charts" | "tokens";
+export type LocalizedPageKey = "lifecycle-and-hooks" | "app-shell" | "charts" | "tokens" | "color-schemes";
 
 /** 条目状态标记（侧栏 / 汉堡面板右端胶囊的色调）。 */
 export type DocsRouteStatus = "new" | "updated";
@@ -90,6 +90,15 @@ const STATIC_DOCS_ROUTES: readonly DocsRoute[] = [
     labelZh: "颜色",
     sidebar: true,
     renderer: { kind: "static", page: "colors" },
+  },
+  {
+    to: "/color-schemes",
+    group: "foundations",
+    label: "Color Schemes",
+    labelZh: "配色方案",
+    sidebar: true,
+    status: "new",
+    renderer: { kind: "localized", page: "color-schemes" },
   },
   {
     to: "/typography",
