@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { useScrollTracking, type ScrollTrackingMode } from "@/lib/scroll-tracking";
 import { Tooltip } from "@/components/ui/tooltip";
 
 /**
@@ -42,6 +43,8 @@ interface TabsProps {
   disabled?: boolean;
   /** tablist 无障碍标签（无可见标题时必填） */
   ariaLabel?: string;
+  /** 活动项滚动跟随；默认禁用。 / Active-item scroll tracking; disabled by default. */
+  scrollTracking?: ScrollTrackingMode;
   className?: string;
 }
 
@@ -54,6 +57,7 @@ function Tabs({
   compact,
   disabled,
   ariaLabel,
+  scrollTracking = "disabled",
 }: TabsProps) {
   return (
     <OfficialTabs
@@ -64,6 +68,7 @@ function Tabs({
       compact={compact}
       disabled={disabled}
       ariaLabel={ariaLabel}
+      scrollTracking={scrollTracking}
       className={className}
     />
   );
@@ -97,6 +102,7 @@ function OfficialTabs({
   compact,
   disabled,
   ariaLabel,
+  scrollTracking = "disabled",
   className,
 }: {
   tabs: TabsTab[];
@@ -106,6 +112,7 @@ function OfficialTabs({
   compact?: boolean;
   disabled?: boolean;
   ariaLabel?: string;
+  scrollTracking?: ScrollTrackingMode;
   className?: string;
 }) {
   const [focusedIndex, setFocusedIndex] = React.useState(() =>
@@ -115,6 +122,13 @@ function OfficialTabs({
     ),
   );
   const refs = React.useRef<(HTMLButtonElement | null)[]>([]);
+  const listRef = React.useRef<HTMLDivElement>(null);
+  useScrollTracking({
+    mode: scrollTracking, activeKey: selected, rootRef: listRef,
+    axis: "inline", owner: "self",
+    targetSelector: '[role="tab"][aria-selected="true"]',
+    precedingSelector: '[role="tab"]',
+  });
 
   const enabledIndices = tabs
     .map((tab, index) => (disabled || tab.disabled ? -1 : index))
@@ -129,7 +143,7 @@ function OfficialTabs({
   /** 移动焦点并同步激活（官方实测 auto activation：新聚焦的 tab 立即被选中） */
   const moveFocusTo = (index: number) => {
     setFocusedIndex(index);
-    refs.current[index]?.focus();
+    refs.current[index]?.focus({ preventScroll: scrollTracking === "always" });
     activate(index);
   };
 
@@ -164,6 +178,7 @@ function OfficialTabs({
 
   return (
     <div
+      ref={listRef}
       role="tablist"
       aria-label={ariaLabel}
       onKeyDown={handleKeyDown}
@@ -191,6 +206,7 @@ function OfficialTabs({
             className={cn(
               tabsTriggerClasses(variant, compact),
               isDisabled && "cursor-not-allowed",
+              scrollTracking !== "disabled" && "scroll-tracking-inset",
             )}
           >
             {tab.icon ? (

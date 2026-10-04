@@ -399,6 +399,7 @@ const DOCS_ROUTE_STATUS: Readonly<Record<string, DocsRouteStatus>> = {
   "/components/sub-frame": "new",
   "/components/modal": "updated",
   "/components/tabs": "updated",
+  "/components/sidebar-nav": "updated",
   "/charts": "new",
   "/charts/area-chart": "new",
   "/charts/bar-chart": "new",

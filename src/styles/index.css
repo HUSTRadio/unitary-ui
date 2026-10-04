@@ -2253,6 +2253,13 @@ body.expand-panel-below-topbar [data-slot="navbar"] {
    滚动条出现/消失而横移，两侧导航也因此同轴）。轨道不充当列分割线；固定列边界
    由外壳 border-l / border-r 持有。
    用户实测 2026-09-29：抽屉导航此前没有滚动条槽位与细滚动条 → 与侧栏排版漂移。 */
+/* 活动项对齐使用既有间距尺度，JS 读取计算后的逻辑边距。
+   Active-item alignment reads computed logical margins from the spacing scale. */
+@utility scroll-tracking-inset {
+  scroll-margin-block-start: calc(var(--spacing) * 4);
+  scroll-margin-inline-start: calc(var(--spacing) * 4);
+}
+
 @utility nav-scroll {
   scrollbar-width: thin;
   scrollbar-color: var(--gray-alpha-400) transparent;

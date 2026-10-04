@@ -13,6 +13,14 @@ async function openComponent(page: Page, slug: string) {
       requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
     );
   });
+  const sidebar = page.locator('[data-slot="docs-sidebar"]');
+  await expect(sidebar.locator('[data-slot="sidebar-nav"]')).not.toHaveAttribute(
+    "data-scroll-tracking-state",
+    /pending|running/,
+  );
+  // These measurements describe the navigation layout at its content origin.
+  // Initial active-item tracking now intentionally moves the sidebar on load.
+  await sidebar.evaluate((node) => { node.scrollTop = 0; });
 }
 
 async function rect(locator: ReturnType<Page["locator"]>) {

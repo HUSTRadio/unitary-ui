@@ -1822,6 +1822,7 @@ const O = {
     [
       row("selected", "string", "Controlled selected tab.", "受控选中的标签。"),
       row("setSelected", "(value: string) => void", "Receives tab selection.", "接收标签选择。"),
+      row("scrollTracking", '"disabled" | "on-reload" | "always"', "Aligns the selected tab at horizontal start with a preferred 16px inset, reduced by the spacing scale when preceding text or icons would remain visible. on-reload runs once after mounting; always runs on mode entry or selected-value changes. Uses ScrollTrackingMode; scroll limits apply and manual scrolling remains available.", "在水平起始边对齐活动标签，首选 16px 留白；若会露出前一标签的文字或图标，按 spacing 尺度缩小。on-reload 在挂载后执行一次，always 在进入该模式或 selected 值变化时执行。类型为 ScrollTrackingMode；受滚动边界限制，仍可手动滚动。", { defaultValue: '"disabled"', origin: "extension" }),
     ],
   ),
   "sidebar-nav": component(
@@ -1833,6 +1834,8 @@ const O = {
       row("side", '"left" | "right"', "Places the divider on the right-side variant.", "右侧形态增加左分隔线。", { defaultValue: '"left"' }),
       row("collapsible", "boolean", "Allows group headings to toggle their contents.", "允许分组标题切换展开状态。", { defaultValue: "false" }),
       row("persistKey", "string", "Persists collapsed groups in localStorage when provided.", "提供时将折叠状态保存在 localStorage。"),
+      row("scrollTracking", '"disabled" | "on-reload" | "always"', "Aligns the chosen target below its nearest vertical scroll container's top with a preferred 16px inset, reduced by the spacing scale when preceding text or icons would remain visible. on-reload runs once after mounting; always runs on mode entry, activeTo or scrollTrackingTarget changes. Uses ScrollTrackingMode; scroll limits apply and manual scrolling remains available.", "在最近纵向滚动容器顶部下方对齐所选目标，首选 16px 留白；若会露出前方文字或图标，按 spacing 尺度缩小。on-reload 在挂载后执行一次，always 在进入该模式、activeTo 或 scrollTrackingTarget 变化时执行。类型为 ScrollTrackingMode；受滚动边界限制，仍可手动滚动。", { defaultValue: '"disabled"', origin: "extension" }),
+      row("scrollTrackingTarget", '"item" | "category"', "Chooses the active link or its subgroup heading; category uses the group heading when no subgroups exist. Uses SidebarNavScrollTrackingTarget. The docs sidebar opts into category with on-reload.", "选择当前链接或所属二级分类小标题；category 在没有 subgroups 时使用一级分组标题。类型为 SidebarNavScrollTrackingTarget。文档侧栏使用 category + on-reload。", { defaultValue: '"item"', origin: "extension" }),
     ],
   ),
   navbar: component(

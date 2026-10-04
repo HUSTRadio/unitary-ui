@@ -3,6 +3,7 @@ import type { MouseEvent } from "react";
 import { type LucideIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useScrollTracking, type ScrollTrackingMode } from "@/lib/scroll-tracking";
 
 import { Collapse, CollapseContent, CollapseTrigger } from "./collapse";
 import {
@@ -58,6 +59,9 @@ export interface SidebarNavGroup {
   subgroups?: SidebarNavSubgroup[];
 }
 
+/** Scroll to the active link or its nearest category heading. */
+export type SidebarNavScrollTrackingTarget = "item" | "category";
+
 export interface SidebarNavProps {
   /** Grouped navigation entries. */
   groups: SidebarNavGroup[];
@@ -74,6 +78,10 @@ export interface SidebarNavProps {
    * 不传则完全无持久化。首帧一律全展开（静态渲染不触碰存储）。
    */
   persistKey?: string;
+  /** 活动项滚动跟随；默认禁用。 / Active-item scroll tracking; disabled by default. */
+  scrollTracking?: ScrollTrackingMode;
+  /** Align the item or its subgroup heading (group heading when ungrouped). @default "item" */
+  scrollTrackingTarget?: SidebarNavScrollTrackingTarget;
   className?: string;
 }
 
@@ -149,8 +157,11 @@ export function SidebarNav({
   side = "left",
   collapsible = false,
   persistKey,
+  scrollTracking = "disabled",
+  scrollTrackingTarget = "item",
   className,
 }: SidebarNavProps) {
+  const navRef = React.useRef<HTMLElement>(null);
   const ariaLabel = groups[0]?.label ?? "Sidebar navigation";
   const groupIds = React.useMemo(
     () => groups.map((group, index) => groupIdOf(group, index)),
@@ -164,10 +175,21 @@ export function SidebarNav({
   }, [groups, groupIds, activeTo]);
 
   // 折叠状态（记忆读写、路由变化自动展开）与抽屉共用同一实现，见 ./nav-layout.ts。
-  const { isCollapsed, setGroupOpen } = useNavGroupCollapse({
+  const { isCollapsed, setGroupOpen, ready } = useNavGroupCollapse({
     enabled: collapsible,
     persistKey,
     activeGroupId,
+  });
+
+  useScrollTracking({
+    mode: scrollTracking,
+    activeKey: activeTo === undefined ? undefined : `${scrollTrackingTarget}:${activeTo}`,
+    rootRef: navRef,
+    axis: "block", owner: "ancestor", ready,
+    targetSelector: scrollTrackingTarget === "category"
+      ? '[data-scroll-tracking-category]'
+      : '[data-slot="sidebar-nav-item"][aria-current="page"]',
+    precedingSelector: '[data-slot="sidebar-nav-item"], [data-slot="sidebar-nav-heading"], [data-slot="sidebar-nav-subheading"]',
   });
 
   const renderItems = (items: SidebarNavItem[]) => (
@@ -186,6 +208,7 @@ export function SidebarNav({
               className={cn(
                 NAV_ITEM_BASE,
                 active ? NAV_ITEM_STATE_ACTIVE : NAV_ITEM_STATE_IDLE,
+                scrollTracking !== "disabled" && "scroll-tracking-inset",
               )}
             >
               {active ? (
@@ -224,7 +247,9 @@ export function SidebarNav({
               ) : null}
               <div data-slot="sidebar-nav-subgroup">
                 {/* 二级小标题：与一级 heading 同字号（统一字号），靠字重 + 次级色分层 */}
-                <div data-slot="sidebar-nav-subheading" className={NAV_SUBHEADING_BASE}>
+                <div data-slot="sidebar-nav-subheading"
+                  data-scroll-tracking-category={subgroup.items.some((item) => item.to === activeTo) ? "" : undefined}
+                  className={cn(NAV_SUBHEADING_BASE, scrollTracking !== "disabled" && "scroll-tracking-inset")}>
                   <span className="truncate ink-shift-cjk">{subgroup.label}</span>
                 </div>
                 {renderItems(subgroup.items)}
@@ -240,17 +265,20 @@ export function SidebarNav({
 
   return (
     <nav
+      ref={navRef}
       data-slot="sidebar-nav"
       aria-label={ariaLabel}
       className={cn(NAV_GROUP_RHYTHM, side === "left" ? "" : "border-l", className)}
     >
       {groups.map((group, index) => {
         const id = groupIds[index];
+        const category = !group.subgroups && id === activeGroupId ? "" : undefined;
+        const headingClass = cn(NAV_HEADING_BASE, scrollTracking !== "disabled" && "scroll-tracking-inset");
         // 不可折叠：保持既有单层/二级分类结构，标题不成为交互元素。
         if (!collapsible) {
           return (
             <div key={id} data-slot="sidebar-nav-group">
-              <div data-slot="sidebar-nav-heading" className={NAV_HEADING_BASE}>
+              <div data-slot="sidebar-nav-heading" data-scroll-tracking-category={category} className={headingClass}>
                 <span className="truncate ink-shift-cjk">{group.label}</span>
               </div>
               {renderGroupBody(group)}
@@ -280,7 +308,8 @@ export function SidebarNav({
             <CollapseTrigger
               as="div"
               data-slot="sidebar-nav-heading"
-              className={cn(NAV_HEADING_BASE, "select-none")}
+              data-scroll-tracking-category={category}
+              className={cn(headingClass, "select-none")}
             >
               <span className="truncate ink-shift-cjk">{group.label}</span>
             </CollapseTrigger>

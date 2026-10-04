@@ -19,6 +19,7 @@ export { probeFontMetrics, useFontMetrics, measureFontMetrics, applyFontMetrics 
 
 // Navigation dismissal primitive (HIG-AUD-017)
 export { useDismissOnNavigate } from "./navigation";
+export type { ScrollTrackingMode } from "./scroll-tracking";
 
 // Utility
 export { cn } from "./utils";
@@ -103,6 +104,7 @@ export type { LinkProps } from "@/components/ui/link";
 export { SidebarNav } from "@/components/ui/sidebar-nav";
 export type {
   SidebarNavProps,
+  SidebarNavScrollTrackingTarget,
   SidebarNavGroup,
   SidebarNavItem,
   SidebarNavSubgroup,

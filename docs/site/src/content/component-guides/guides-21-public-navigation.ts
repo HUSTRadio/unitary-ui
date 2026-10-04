@@ -5,14 +5,22 @@ type GuideContent = Omit<ComponentGuide, "slug" | "locale">;
 const content: Record<GuideLocale, Record<string, GuideContent>> = {
   "zh-CN": {
     "sidebar-nav": {
-      summary: "SidebarNav 提供分组导航、当前项状态与可选折叠记忆。",
+      summary: "SidebarNav 提供分组导航、当前项状态、可选折叠记忆与活动项滚动跟踪。",
       whenToUse: ["桌面应用需要分组侧栏导航并突出当前页面时。"],
       whenNotToUse: ["移动端需要可展开的全屏导航时，使用 HamburgerMenu。"],
-      examples: [{ id: "default", kind: "minimal", title: "分组导航", description: "选择条目更新当前页状态。", demoKey: "default" }],
-      accessibility: { status: "covered", content: ["链接保持原生锚点语义；当前项设置 aria-current，折叠组标题可用键盘操作。"] },
-      controlledBehavior: { status: "covered", content: ["activeTo 由调用方传入；onNavigate 拦截普通点击，修饰键点击仍沿用原生锚点行为。"] },
-      responsiveBehavior: { status: "covered", content: ["宽度由外部布局决定；触控行使用更大的命中区。"] },
-      themeBehavior: { status: "covered", content: ["链接、焦点与选中态使用语义颜色 token。"] },
+      examples: [
+        { id: "default", kind: "minimal", title: "分组导航", description: "选择条目更新当前页状态。", demoKey: "default" },
+        { id: "scroll-tracking", kind: "stateful", title: "活动项滚动跟踪", description: "比较三档跟踪模式及条目／分类小标题对齐；选择活动条目、重新载入或手动滚动。", demoKey: "scroll-tracking" },
+      ],
+      accessibility: { status: "covered", content: ["链接保持原生锚点语义；当前项设置 aria-current，折叠组标题可用键盘操作。", "滚动跟踪不会转移焦点；系统请求减少动画时直接完成定位。"] },
+      controlledBehavior: { status: "covered", content: [
+        "activeTo 由调用方传入；onNavigate 拦截普通点击，修饰键点击仍沿用原生锚点行为。",
+        "scrollTracking 是可选的 Unitary 扩展，类型为 ScrollTrackingMode，默认 disabled；on-reload 在首次挂载、DOM 布局就绪后尝试一次，之后的 activeTo 变化不会触发跟踪；always 在进入该模式及 activeTo 变化时更新位置。",
+        "scrollTrackingTarget 默认 item，定位当前条目；category 定位所属二级分类的小标题，没有 subgroups 时定位一级分组标题。文档侧栏使用 on-reload + category。always 也响应对齐目标的切换；on-reload 已执行后切换目标需要重新挂载。",
+        "调用方从路由或锚点恢复 activeTo；组件跟踪对应的活动链接。手动滚动会中断当前动画，on-reload 的这次尝试仍视为已用。always 也不会持续锁定同一个活动值的位置。",
+      ] },
+      responsiveBehavior: { status: "covered", content: ["宽度由外部布局决定；触控行使用更大的命中区。", "跟踪只滚动最近的纵向滚动容器，首选顶部下方 16px；若会露出前一条目或分组标题的文字、图标，按 spacing 尺度缩小为 8px、4px 等。目标被限制在可滚动范围内，不会带动外层页面。"] },
+      themeBehavior: { status: "covered", content: ["链接、焦点与选中态使用语义颜色 token。", "滚动跟踪复用 --uni-motion-state（默认 250ms）与 --ease-in-out 非线性曲线；两种主题使用相同的动效 token。"] },
     },
     navbar: {
       summary: "Navbar 是可配置滚动定位和表面样式的页面顶栏。",
@@ -57,14 +65,22 @@ const content: Record<GuideLocale, Record<string, GuideContent>> = {
   },
   "en-US": {
     "sidebar-nav": {
-      summary: "SidebarNav renders grouped sidebar links with active state and optional collapse persistence.",
+      summary: "SidebarNav renders grouped sidebar links with active state, optional collapse persistence and active-item scroll tracking.",
       whenToUse: ["Use it for grouped navigation in desktop application layouts."],
       whenNotToUse: ["Use HamburgerMenu for expandable navigation on a compact screen."],
-      examples: [{ id: "default", kind: "minimal", title: "Grouped links", description: "Select an item to update the current-page state.", demoKey: "default" }],
-      accessibility: { status: "covered", content: ["Links retain native anchor semantics; the active item uses aria-current and collapsible headings support keyboard activation."] },
-      controlledBehavior: { status: "covered", content: ["The caller supplies activeTo; onNavigate intercepts unmodified clicks, while modified clicks retain native navigation."] },
-      responsiveBehavior: { status: "covered", content: ["The surrounding layout sets the width; touch rows have larger hit targets."] },
-      themeBehavior: { status: "covered", content: ["Links, focus rings, and selection use semantic color tokens."] },
+      examples: [
+        { id: "default", kind: "minimal", title: "Grouped links", description: "Select an item to update the current-page state.", demoKey: "default" },
+        { id: "scroll-tracking", kind: "stateful", title: "Active-item scroll tracking", description: "Compare three tracking modes and item/category-heading alignment; choose an active item, reload or scroll manually.", demoKey: "scroll-tracking" },
+      ],
+      accessibility: { status: "covered", content: ["Links retain native anchor semantics; the active item uses aria-current and collapsible headings support keyboard activation.", "Scroll tracking does not move focus; reduced-motion preferences make alignment immediate."] },
+      controlledBehavior: { status: "covered", content: [
+        "The caller supplies activeTo; onNavigate intercepts unmodified clicks, while modified clicks retain native navigation.",
+        "scrollTracking is an optional Unitary extension typed as ScrollTrackingMode and defaults to disabled. on-reload attempts alignment once after the initial mount and DOM layout readiness; later activeTo changes do not trigger tracking. always updates position when entering that mode and when activeTo changes.",
+        "scrollTrackingTarget defaults to item for the active link. category aligns its subgroup heading, falling back to the group heading when there are no subgroups. The docs sidebar uses on-reload + category. always also responds to alignment-target changes; after on-reload has run, changing the target requires remounting.",
+        "Restore activeTo from the route or anchor in the caller; the component tracks the corresponding active link. Manual scrolling interrupts the current animation and still consumes the on-reload attempt. always does not continually lock the position for the same active value.",
+      ] },
+      responsiveBehavior: { status: "covered", content: ["The surrounding layout sets the width; touch rows have larger hit targets.", "Tracking scrolls only the nearest vertical scroll container and prefers 16px below its top. If preceding item or group-heading text or icons would remain visible, the spacing scale reduces the inset to 8px, 4px and so on. The target is clamped to the available scroll range and does not scroll the outer page."] },
+      themeBehavior: { status: "covered", content: ["Links, focus rings, and selection use semantic color tokens.", "Scroll tracking reuses --uni-motion-state (250ms by default) and the nonlinear --ease-in-out curve; both themes share these motion tokens."] },
     },
     navbar: {
       summary: "Navbar provides configurable positioning and surface treatment for a page header.",
