@@ -5,6 +5,7 @@ import path from "node:path";
 import process from "node:process";
 
 import { renderTaskPrompt } from "./llm-task-contract.mjs";
+import { leasePackageLockProcess, withPackageLock } from "./package-script-lock.mjs";
 
 const VP = process.platform === "win32" ? "vp.exe" : "vp";
 // 生产生成方：Codex CLI。
@@ -59,9 +60,8 @@ export const VALIDATORS = Object.freeze({
   "docs-contracts": Object.freeze([
     [
       VP,
-      "exec",
-      "vitest",
       "run",
+      "test",
       "tests/component-api-registry.test.ts",
       "tests/component-doc-completeness.test.ts",
       "tests/changelog-contract.test.ts",
@@ -334,7 +334,7 @@ export function waitForAgentExit(child, timeoutMs, getOutput) {
   });
 }
 
-function runAgent({ repoRoot, runnerConfig, prompt, testMode, testEnvironment }) {
+async function runAgent({ repoRoot, runnerConfig, prompt, testMode, testEnvironment }) {
   const agent = runnerConfig.agent;
   const viaStdin = promptViaStdin(prompt);
   const args = buildAgentArgs(runnerConfig, prompt, {
@@ -352,6 +352,7 @@ function runAgent({ repoRoot, runnerConfig, prompt, testMode, testEnvironment })
     stdio: [viaStdin ? "pipe" : "ignore", "pipe", "pipe"],
     env: buildAgentEnvironment(sourceEnv, { testMode }),
   });
+  const release = child.pid ? leasePackageLockProcess(child.pid) : () => {};
 
   if (viaStdin) {
     child.stdin.write(prompt);
@@ -367,7 +368,17 @@ function runAgent({ repoRoot, runnerConfig, prompt, testMode, testEnvironment })
     stderr += chunk.toString();
   });
 
-  return waitForAgentExit(child, agent.timeoutMs ?? 1800000, () => ({ stdout, stderr }));
+  const interrupt = () => child.kill("SIGINT");
+  const terminate = () => child.kill("SIGTERM");
+  process.on("SIGINT", interrupt);
+  process.on("SIGTERM", terminate);
+  try {
+    return await waitForAgentExit(child, agent.timeoutMs ?? 1800000, () => ({ stdout, stderr }));
+  } finally {
+    process.removeListener("SIGINT", interrupt);
+    process.removeListener("SIGTERM", terminate);
+    release();
+  }
 }
 
 function runValidators(repoRoot, validatorIds, options = {}) {
@@ -410,6 +421,10 @@ function writeSanitizedRunRecord(repoRoot, record) {
 }
 
 export async function runTask(options) {
+  return withPackageLock(options.repoRoot, "docs-agent", () => runTaskExclusively(options));
+}
+
+async function runTaskExclusively(options) {
   const {
     repoRoot,
     resolvedTask,
