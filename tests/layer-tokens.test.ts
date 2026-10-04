@@ -61,6 +61,8 @@ describe("Layer token declarations (index.css)", () => {
       expect(
         [
           "--uni-z-drawer:",
+          "--uni-z-base:",
+          "--uni-z-calendar:",
           ...Object.keys(LAYER_TOKENS).map((t) => `${t}:`),
           ...Object.keys(HEADER_TOKEN).map((t) => `${t}:`),
         ],

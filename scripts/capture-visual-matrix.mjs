@@ -1,3 +1,5 @@
+import { tsImport } from "tsx/esm/api";
+const { getComponentDocsPath } = await tsImport("../docs/site/src/data/docs-routes.ts", { parentURL: import.meta.url });
 import fs from "node:fs/promises";
 import path from "node:path";
 
@@ -112,7 +114,7 @@ async function waitForDemo(send, slug) {
         };
       })()`,
     );
-    if (state.hash === `#/components/${slug}` && state.heading && state.ready) return;
+    if (state.hash === `#${getComponentDocsPath(slug)}` && state.heading && state.ready) return;
     await sleep(50);
   }
   throw new Error(`Timed out waiting for Live Demo: ${slug}`);
@@ -135,7 +137,7 @@ async function main() {
       });
 
       for (const slug of SLUGS) {
-        const url = `${DOCS_URL.replace(/\/$/, "")}/#/components/${slug}`;
+        const url = `${DOCS_URL.replace(/\/$/, "")}/#${getComponentDocsPath(slug)}`;
         await send("Page.navigate", { url });
         await waitForDemo(send, slug);
 

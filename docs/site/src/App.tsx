@@ -17,7 +17,6 @@ import { useFontMetrics } from "@/lib/font-metrics";
 import { useDismissOnNavigate } from "@/lib/navigation";
 import {
   ColorsPage,
-  GridPage,
   IntroductionPage,
   MaterialsPage,
   TypographyPage,
@@ -39,14 +38,17 @@ import { DOCS_PAGE_RESOURCES, prefetchDocsLink } from "./data/page-loaders";
 
 // 外壳与介绍页立即可用，其余页面随导航加载。
 // Keep the shell and introduction ready; load specialist pages on navigation.
+const GridPage = lazy(() => DOCS_PAGE_RESOURCES.grid.load().then((module) => ({ default: module.GridPage })));
+const LayerPage = lazy(() => DOCS_PAGE_RESOURCES.layer.load().then((module) => ({ default: module.LayerPage })));
+const ApiOverviewPage = lazy(() => DOCS_PAGE_RESOURCES["api-overview"].load().then((module) => ({ default: module.ApiOverviewPage })));
 const ComponentsPage = lazy(() =>
   DOCS_PAGE_RESOURCES.components.load().then((module) => ({ default: module.ComponentsPage })),
 );
 const IconsPage = lazy(() =>
   DOCS_PAGE_RESOURCES.icons.load().then((module) => ({ default: module.IconsPage })),
 );
-const LifecycleAndHooksPage = lazy(() =>
-  DOCS_PAGE_RESOURCES["lifecycle-and-hooks"].load().then((module) => ({ default: module.LifecycleAndHooksPage })),
+const StateAndEventsPage = lazy(() =>
+  DOCS_PAGE_RESOURCES["state-and-events"].load().then((module) => ({ default: module.StateAndEventsPage })),
 );
 const TokensPage = lazy(() =>
   DOCS_PAGE_RESOURCES.tokens.load().then((module) => ({ default: module.TokensPage })),
@@ -68,10 +70,12 @@ const STATIC_PAGE_COMPONENTS = {
 } satisfies Record<StaticPageKey, ComponentType>;
 
 const LOCALIZED_PAGE_COMPONENTS = {
-  "lifecycle-and-hooks": LifecycleAndHooksPage,
+  "state-and-events": StateAndEventsPage,
   "app-shell": AppShellDemo,
   charts: ChartsGalleryPage,
   tokens: TokensPage,
+  layer: LayerPage,
+  "api-overview": ApiOverviewPage,
 } satisfies Record<LocalizedPageKey, ComponentType<{ language: DocsLanguage }>>;
 
 export default function App() {

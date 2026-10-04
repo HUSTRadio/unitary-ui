@@ -31,8 +31,8 @@ const THEMES = ["light", "dark"] as const;
 type Theme = (typeof THEMES)[number];
 
 const ROUTES = DOCS_ROUTE_SEQUENCE.map((route) => route.to);
-const STATIC_ROUTES = ROUTES.filter((to) => !to.startsWith("/components/"));
-const COMPONENT_ROUTES = ROUTES.filter((to) => to.startsWith("/components/"));
+const STATIC_ROUTES = DOCS_ROUTE_SEQUENCE.filter((route) => route.renderer.kind !== "component-detail").map((route) => route.to);
+const COMPONENT_ROUTES = DOCS_ROUTE_SEQUENCE.filter((route) => route.renderer.kind === "component-detail").map((route) => route.to);
 
 const SCRATCH = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../.scratch");
 const JSONL_PATH = path.join(SCRATCH, "docs-layout-audit.jsonl");
@@ -291,7 +291,7 @@ async function collectEvidence(page: Page): Promise<Omit<LayoutEvidence, "route"
     }
 
     /* ---- /grid：真实 Grid DOM 与 guide/clipping 记录 ---- */
-    if (location.hash.startsWith("#/grid")) {
+    if (location.hash.startsWith("#/layout/grid")) {
       const sections = Array.from(document.querySelectorAll("[data-grid-demo]")).map(
         (el) => el.getAttribute("data-grid-demo")!,
       );
@@ -895,7 +895,7 @@ test.describe("visual evidence screenshots", () => {
         ["/patterns/app-shell", 320],
       ] as Array<[string, number]>
     ).map(([route, w]) => [route, w, ["light"] as Theme[]] as [string, number, Theme[]]),
-    ...(["/colors", "/materials", "/grid"] as const).flatMap((route) =>
+    ...(["/colors", "/materials", "/layout/grid"] as const).flatMap((route) =>
       ([1440, 768, 390] as const).map(
         (w) => [route, w, [...THEMES]] as [string, number, Theme[]],
       ),

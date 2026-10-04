@@ -1,9 +1,13 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+
+const LayerDialogPrimitiveContent = withLayerBridge(DialogPrimitive.Content);
+const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
 
 /**
  * Modal — Geist 官方 Modal 封装（基于 Radix Dialog 原语）。
@@ -53,7 +57,7 @@ const ModalOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Overlay
+  <LayerDialogPrimitiveOverlay
     ref={ref}
     className={cn(
       // 用合成色而非元素 opacity-*：本 Overlay 带着 Content 子节点，元素透明度会把
@@ -129,7 +133,7 @@ const ModalContent = React.forwardRef<
     return (
       <ModalPortal>
         <ModalOverlay>
-          <DialogPrimitive.Content
+          <LayerDialogPrimitiveContent
             ref={ref}
             aria-modal="true"
             data-slot="modal-content"
@@ -170,7 +174,7 @@ const ModalContent = React.forwardRef<
                 </DialogPrimitive.Close>
               )}
             </div>
-          </DialogPrimitive.Content>
+          </LayerDialogPrimitiveContent>
         </ModalOverlay>
       </ModalPortal>
     );

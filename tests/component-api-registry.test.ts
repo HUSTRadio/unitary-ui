@@ -542,7 +542,9 @@ describe("component API registry", () => {
 
   it("links the common lifecycle conventions and every component page to the registry UI", async () => {
     expect(DOCS_ROUTE_GROUPS.find((group) => group.id === "api")?.items).toEqual([
-      expect.objectContaining({ to: "/lifecycle-and-hooks" }),
+      expect.objectContaining({ to: "/api" }),
+      expect.objectContaining({ to: "/api/state-and-events" }),
+      expect.objectContaining({ to: "/api/tokens" }),
     ]);
     const source = await readFile("docs/site/src/components/docs-components-page.tsx", "utf8");
     expect(source).toContain("<ComponentApiReference componentName={name} />");

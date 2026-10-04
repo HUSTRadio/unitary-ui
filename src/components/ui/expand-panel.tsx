@@ -1,8 +1,12 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { useSubFrame } from "@/components/ui/sub-frame";
+
+const LayerDialogPrimitiveContent = withLayerBridge(DialogPrimitive.Content);
+const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
 
 /**
  * ExpandPanel — 基于 Radix Dialog 的参数化四向展开容器（HamburgerMenu 展开引擎）。
@@ -192,7 +196,7 @@ function ExpandPanel({
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       {(open || present) && (
         <DialogPrimitive.Portal container={container} forceMount>
-          <DialogPrimitive.Overlay
+          <LayerDialogPrimitiveOverlay
             forceMount
             data-motion-state={motionOpen ? "open" : "closed"}
             data-below-topbar={belowTopbar || undefined}
@@ -206,7 +210,7 @@ function ExpandPanel({
                 : "inset-0",
             )}
           />
-          <DialogPrimitive.Content
+          <LayerDialogPrimitiveContent
             forceMount
             ref={contentRef}
             tabIndex={-1}
@@ -262,7 +266,7 @@ function ExpandPanel({
               {ariaLabel ?? "Panel"}
             </DialogPrimitive.Title>
             {children}
-          </DialogPrimitive.Content>
+          </LayerDialogPrimitiveContent>
         </DialogPrimitive.Portal>
       )}
     </DialogPrimitive.Root>

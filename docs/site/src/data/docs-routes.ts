@@ -11,7 +11,7 @@ export type StaticPageKey =
   | "typography"
   | "materials"
   | "grid";
-export type LocalizedPageKey = "lifecycle-and-hooks" | "app-shell" | "charts" | "tokens";
+export type LocalizedPageKey = "state-and-events" | "app-shell" | "charts" | "tokens" | "api-overview" | "layer";
 
 /** 条目状态标记（侧栏 / 汉堡面板右端胶囊的色调）。 */
 export type DocsRouteStatus = "new" | "updated";
@@ -92,20 +92,12 @@ const STATIC_DOCS_ROUTES: readonly DocsRoute[] = [
     renderer: { kind: "static", page: "colors" },
   },
   {
-    to: "/typography",
+    to: "/layout/typography",
     group: "layout",
     label: "Typography",
     labelZh: "排版",
     sidebar: true,
     renderer: { kind: "static", page: "typography" },
-  },
-  {
-    to: "/tokens",
-    group: "foundations",
-    label: "Global Tokens",
-    labelZh: "全局变量",
-    sidebar: true,
-    renderer: { kind: "localized", page: "tokens" },
   },
   {
     to: "/materials",
@@ -116,20 +108,28 @@ const STATIC_DOCS_ROUTES: readonly DocsRoute[] = [
     renderer: { kind: "static", page: "materials" },
   },
   {
-    to: "/grid",
-    group: "layout",
-    label: "Grid",
-    labelZh: "网格",
+    to: "/api",
+    group: "api",
+    label: "API Overview",
+    labelZh: "API 总览",
     sidebar: true,
-    renderer: { kind: "static", page: "grid" },
+    renderer: { kind: "localized", page: "api-overview" },
   },
   {
-    to: "/lifecycle-and-hooks",
+    to: "/api/state-and-events",
     group: "api",
-    label: "Lifecycle & Hooks",
-    labelZh: "生命周期与钩子",
+    label: "State & Events",
+    labelZh: "状态与事件",
     sidebar: true,
-    renderer: { kind: "localized", page: "lifecycle-and-hooks" },
+    renderer: { kind: "localized", page: "state-and-events" },
+  },
+  {
+    to: "/api/tokens",
+    group: "api",
+    label: "Global Tokens",
+    labelZh: "全局变量",
+    sidebar: true,
+    renderer: { kind: "localized", page: "tokens" },
   },
   {
     to: "/components",
@@ -145,9 +145,9 @@ const STATIC_DOCS_ROUTES: readonly DocsRoute[] = [
  * 布局原语归入「排版与布局」（Layout & Organization）分组，与 Typography / Grid 静态页同级；
  * 网络与异步原语、图表也有各自的分组，其余组件页归入「组件」。
  */
-const LAYOUT_COMPONENT_NAMES: ReadonlySet<string> = new Set(["safe-area", "stack"]);
+const LAYOUT_COMPONENT_NAMES: ReadonlySet<string> = new Set(["grid", "safe-area", "flex", "layer"]);
 
-/** 网络与异步行为原语独立归组，保留现有链接。 / Async primitives keep their existing URLs. */
+/** 网络与异步行为原语独立归组，使用独立网络路径。 / Async primitives use network routes. */
 const NETWORK_COMPONENT_NAMES: ReadonlySet<string> = new Set(["lazy-load", "prefetch"]);
 
 /**
@@ -270,7 +270,6 @@ const COMPONENT_SUBGROUP_BY_NAME: Readonly<Record<string, ComponentSubgroupId>> 
   "context-card": "overlays",
   "continuous-surface": "overlays",
   "destructive-action-modal": "overlays",
-  grid: "overlays",
   modal: "overlays",
   "responsive-drawer": "overlays",
   "side-panel": "overlays",
@@ -328,15 +327,21 @@ function componentSortRank(component: ComponentMeta): number {
     : componentSubgroupRank(component);
 }
 
+/** Single source for public documentation destinations. */
+export function getComponentDocsPath(name: string): string {
+  if (CHART_COMPONENT_NAMES.has(name)) return `/charts/${name}`;
+  if (LAYOUT_COMPONENT_NAMES.has(name)) return `/layout/${name}`;
+  if (NETWORK_COMPONENT_NAMES.has(name)) return `/network/${name}`;
+  return `/components/${name}`;
+}
+
 const COMPONENT_DETAIL_ROUTES: readonly DocsRoute[] = [...COMPONENTS]
   .sort((left, right) => {
     const rankDelta = componentSortRank(left) - componentSortRank(right);
     return rankDelta !== 0 ? rankDelta : left.label.localeCompare(right.label, "en");
   })
   .map((component) => ({
-    to: CHART_COMPONENT_NAMES.has(component.name)
-      ? `/charts/${component.name}`
-      : `/components/${component.name}`,
+    to: getComponentDocsPath(component.name),
     group: CHART_COMPONENT_NAMES.has(component.name)
       ? "charts"
       : LAYOUT_COMPONENT_NAMES.has(component.name)
@@ -347,7 +352,11 @@ const COMPONENT_DETAIL_ROUTES: readonly DocsRoute[] = [...COMPONENTS]
     label: component.label,
     labelZh: component.labelZh ?? component.label,
     sidebar: true,
-    renderer: { kind: "component-detail", componentName: component.name },
+    renderer: component.name === "grid"
+      ? { kind: "static", page: "grid" }
+      : component.name === "layer"
+        ? { kind: "localized", page: "layer" }
+        : { kind: "component-detail", componentName: component.name },
   }));
 
 /** 组件页路径 → 二级分类；独立归组的原语与图表不在此列。 / Excludes separately grouped pages. */
@@ -396,13 +405,18 @@ const ALL_DOCS_ROUTES: readonly DocsRoute[] = [
  * - new：《HIG 交互组件族》（MenuBar / Toolbar）、《Shape family 与连续曲率》（ContinuousSurface）、
  *   《布局原语》（SafeArea）
  * - updated：《组件变体 API》（Modal 新增 placement、Tabs 新增 compact 密度）
- * 键为 canonical 路由（布局原语的 path 仍是 /components/*，归组见 COMPONENT_DETAIL_ROUTES）。
+ * 键为 canonical 路由（按布局、网络与图表等分类生成）。
  */
 const DOCS_ROUTE_STATUS: Readonly<Record<string, DocsRouteStatus>> = {
   "/components/menu-bar": "new",
   "/components/toolbar": "new",
   "/components/continuous-surface": "new",
-  "/components/safe-area": "new",
+  "/layout/safe-area": "new",
+  "/layout/layer": "new",
+  "/layout/flex": "updated",
+  "/api": "new",
+  "/api/state-and-events": "updated",
+  "/api/tokens": "updated",
   "/components/sub-frame": "new",
   "/components/modal": "updated",
   "/components/tabs": "updated",

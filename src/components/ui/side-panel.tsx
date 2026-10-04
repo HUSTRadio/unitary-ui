@@ -1,7 +1,11 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
+
+const LayerDialogPrimitiveContent = withLayerBridge(DialogPrimitive.Content);
+const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
 
 /**
  * SidePanel — 桌面侧板（DD-001b，设计决策 §7：pointer 态独立组件，不塞进 drawer.tsx）。
@@ -65,7 +69,7 @@ const SidePanelOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Overlay
+  <LayerDialogPrimitiveOverlay
     ref={ref}
     data-slot="side-panel-overlay"
     className={cn(
@@ -88,7 +92,7 @@ const SidePanelContent = React.forwardRef<
   const lastFocusedRef = React.useRef<HTMLElement | null>(null);
 
   return (
-    <DialogPrimitive.Content
+    <LayerDialogPrimitiveContent
       ref={ref}
       data-slot="side-panel-content"
       className={cn(
@@ -114,7 +118,7 @@ const SidePanelContent = React.forwardRef<
       }}
     >
       {children}
-    </DialogPrimitive.Content>
+    </LayerDialogPrimitiveContent>
   );
 });
 SidePanelContent.displayName = DialogPrimitive.Content.displayName;

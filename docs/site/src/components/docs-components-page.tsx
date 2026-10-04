@@ -1,5 +1,7 @@
+import { DemoShowCode } from "./demo-show-code";
+import { DOCS_ROUTE_SEQUENCE } from "../data/docs-routes";
 import * as React from "react";
-import { ArrowLeft, ChevronRight, Smartphone } from "lucide-react";
+import { ArrowLeft, Smartphone } from "lucide-react";
 
 import { CodeBlock as CodeBlockComponent } from "@/components/ui/code-block";
 import { SubFrame } from "@/components/ui/sub-frame";
@@ -116,39 +118,6 @@ function TableDemoCard({
 }
 
 /** 官方 show code 统一实现：按钮（收起态 rounded-b-lg 作卡片底边；展开态直角，无缝衔接代码区）+ 展开代码（rounded-b-lg + border-t，含行号）。官方实测：按钮 focus 无可见 ring，故不施加 focus-ring。 */
-function DemoShowCode({ code }: { code: string }) {
-  const { language } = useLanguage();
-  const [showCode, setShowCode] = React.useState(false);
-  const codeId = React.useId();
-  return (
-    <>
-      <button
-        type="button"
-        aria-expanded={showCode}
-        aria-controls={codeId}
-        onClick={() => setShowCode((v) => !v)}
-        className={`flex h-12 w-full items-center gap-3 border-t border-gray-400 bg-background-200 px-4 text-left text-copy-14 text-gray-900 transition-colors hover:bg-gray-200 focus:outline-none${showCode ? "" : " rounded-b-lg"}`}
-      >
-        <ChevronRight
-          className={`size-4 transition-transform${showCode ? " rotate-90" : ""}`}
-          aria-hidden
-        />
-        {demoText(language, "Show code")}
-      </button>
-      {showCode ? (
-        <div id={codeId} className="overflow-hidden">
-          <CodeBlockComponent
-            language="tsx"
-            className="rounded-none rounded-b-lg border-0 border-t border-gray-alpha-400"
-          >
-            {code}
-          </CodeBlockComponent>
-        </div>
-      ) : null}
-    </>
-  );
-}
-
 /** 名称 → 实时 demo 渲染器（未命中的分支在调用前已拦截） */
 function primaryExample(records: readonly ExampleRecord[]): ExampleRecord | undefined {
   return records.find((record) => record.id === "default") ?? records[0];
@@ -269,10 +238,10 @@ function ComponentsOverview() {
       </DocsPageLead>
 
       <div className="mt-10 grid grid-cols-1 border-t border-l border-border sm:grid-cols-2 xl:grid-cols-3">
-        {COMPONENTS.map((component) => (
+        {COMPONENTS.filter((component) => DOCS_ROUTE_SEQUENCE.some((route) => route.group === "components" && route.renderer.kind === "component-detail" && route.renderer.componentName === component.name)).map((component) => (
           <a
             key={component.name}
-            href={`#/components/${component.name}`}
+            href={`#${DOCS_ROUTE_SEQUENCE.find((route) => route.renderer.kind === "component-detail" && route.renderer.componentName === component.name)!.to}`}
             data-slot="docs-card"
             className="group block border-b border-r border-border p-6 transition-colors hover:bg-gray-alpha-100"
           >
@@ -308,7 +277,7 @@ function ComponentDetail({ name }: { name: string }) {
   if (!meta) {
     return (
       <div>
-        <BackLink />
+        <BackLink name={name} />
         <DocsPageTitle>{demoText(language, "Component not found")}</DocsPageTitle>
         <DocsPageLead className="max-w-xl">
           {demoTextWithValues(language, "No component named {name} was found.", { name })}
@@ -319,7 +288,7 @@ function ComponentDetail({ name }: { name: string }) {
 
   return (
     <div>
-      <BackLink />
+      <BackLink name={name} />
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <DocsPageTitle>
           {language === "zh-CN" ? (meta.labelZh ?? meta.label) : meta.label}
@@ -371,11 +340,13 @@ function ComponentDetail({ name }: { name: string }) {
   );
 }
 
-function BackLink() {
+function BackLink({ name }: { name: string }) {
   const { language } = useLanguage();
+  const route = DOCS_ROUTE_SEQUENCE.find((item) => item.renderer.kind === "component-detail" && item.renderer.componentName === name);
+  if (route?.group !== "components" && route?.group !== "charts") return null;
   return (
     <a
-      href="#/components"
+      href={route.group === "charts" ? "#/charts" : "#/components"}
       className="inline-flex items-center gap-1.5 text-copy-14 whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground"
     >
       {/*
@@ -390,7 +361,7 @@ function BackLink() {
        */}
       <span className="inline-flex items-center gap-[0.3125rem] whitespace-nowrap">
         <ArrowLeft className="size-4" aria-hidden />
-        {demoText(language, "Back to Components")}
+        {route.group === "charts" ? (language === "zh-CN" ? "返回图表" : "Back to Charts") : demoText(language, "Back to Components")}
       </span>
     </a>
   );

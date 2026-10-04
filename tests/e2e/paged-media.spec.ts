@@ -89,7 +89,7 @@ for (const theme of ["light", "dark"] as const) {
       page,
     }) => {
       await page.setViewportSize({ width: 390, height: 844 });
-      await page.goto("/#/components/lazy-load");
+      await page.goto("/#/network/lazy-load");
       const viewport = page.locator('[data-slot="lazy-demo-viewport"]');
       await viewport.scrollIntoViewIfNeeded();
       const regions = viewport.locator('[data-slot="lazy-load"]');

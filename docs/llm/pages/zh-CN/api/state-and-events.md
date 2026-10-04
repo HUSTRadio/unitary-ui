@@ -1,8 +1,8 @@
-# 生命周期与钩子
+# 状态与事件
 
-> Route: `/lifecycle-and-hooks`
+> Route: `/api/state-and-events`
 
-# 生命周期与钩子
+# 状态与事件
 
 组件通过属性和回调提供状态控制，不提供 `componentDidMount`、`componentWillUnmount` 这类通用生命周期接口。本页说明如何管理状态、接收变化和取消操作。
 

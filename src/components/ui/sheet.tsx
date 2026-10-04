@@ -1,7 +1,11 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
+
+const LayerDialogPrimitiveContent = withLayerBridge(DialogPrimitive.Content);
+const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
 
 /**
  * Sheet — Geist 官方 Sheet 封装（基于 Radix Dialog 原语）。
@@ -48,7 +52,7 @@ const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   SheetOverlayProps
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Overlay
+  <LayerDialogPrimitiveOverlay
     ref={ref}
     data-slot="sheet-overlay"
     className={cn(
@@ -84,7 +88,7 @@ const SheetContent = React.forwardRef<
 >(({ className, children, side = "right", noOverlay = false, ...props }, ref) => (
   <SheetPortal>
     {!noOverlay && <SheetOverlay />}
-    <DialogPrimitive.Content
+    <LayerDialogPrimitiveContent
       ref={ref}
       data-slot="sheet-content"
       className={cn(
@@ -98,7 +102,7 @@ const SheetContent = React.forwardRef<
       {...props}
     >
       {children}
-    </DialogPrimitive.Content>
+    </LayerDialogPrimitiveContent>
   </SheetPortal>
 ));
 SheetContent.displayName = DialogPrimitive.Content.displayName;

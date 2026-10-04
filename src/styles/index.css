@@ -1073,7 +1073,7 @@ html[data-font-tier="system"],
   --uni-drawer-width: min(420px, 90vw);
   /* Overlay stacking roles — 原值保值迁移（Task 9）；material=elevation 视觉契约，
     stacking 由这些 role token 单独管理。数值不得在本任务中调整。
-    层级序（小→大）：header 40 < menu 50 < drawer 200 < modal 300 < popover 2001
+    层级序（小→大）：base 0 < calendar 30 < header 40 < menu 50 < drawer 200 < modal 300 < popover 2001
     < toast 5000 < tooltip 99999 < context-card 1000000。
     配对约定（HIG-AUD-009）：容器遮罩与容器内容同档（drawer/sheet 遮罩与面板同为
     --uni-z-drawer，modal 遮罩与卡片同为 --uni-z-modal）；可跨容器唤起的悬浮菜单内容
@@ -1081,6 +1081,8 @@ html[data-font-tier="system"],
     组合框）走 --uni-z-popover；header 走 --uni-z-header（navbar 默认解析 40）。
     组件内部的相对堆叠（avatar 重叠、toast viewport 的 i+1、grid 调试层等）不属层级带，
     允许局部小数值，不受本约定约束。 */
+  --uni-z-base: 0;
+  --uni-z-calendar: 30;
   --uni-z-header: 40;
   --uni-z-menu: 50;
   --uni-z-modal: 300;

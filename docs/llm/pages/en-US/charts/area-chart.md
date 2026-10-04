@@ -4,7 +4,7 @@
 
 Show trends over time with filled areas, stacking, percentage mode, and custom tooltips.
 
-[Back to Components](#/components)
+[Back to Charts](#/charts)
 
 # Area Chart
 

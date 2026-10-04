@@ -4,7 +4,7 @@
 
 Show trends inside cards or tables with a small area, line, or bar chart.
 
-[Back to Components](#/components)
+[Back to Charts](#/charts)
 
 # Spark Chart
 

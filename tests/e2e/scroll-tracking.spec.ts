@@ -1,3 +1,4 @@
+import { getComponentDocsPath } from "../../docs/site/src/data/docs-routes";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 type Theme = "light" | "dark";
@@ -71,7 +72,7 @@ function demo(page: Page, kind: Kind) {
 type Demo = ReturnType<typeof demo>;
 
 async function openDemo(page: Page, kind: Kind, theme: Theme) {
-  await openDocs(page, `/components/${kind}`, theme);
+  await openDocs(page, getComponentDocsPath(kind), theme);
   const surface = demo(page, kind);
   await surface.fixture.scrollIntoViewIfNeeded();
   await expect(surface.fixture).toBeVisible();
@@ -153,7 +154,7 @@ async function observeMotion(surface: Demo) {
 
 for (const theme of ["light", "dark"] as const) {
   test(`docs direct load and reload align the active category heading (${theme})`, async ({ page }) => {
-    await openDocs(page, "/components/lazy-load", theme);
+    await openDocs(page, "/network/lazy-load", theme);
     const sidebar = page.locator('[data-slot="docs-sidebar"]');
     const root = sidebar.locator('[data-slot="sidebar-nav"]');
     const button = sidebar.getByRole("link", { name: "Lazy Load", exact: true });

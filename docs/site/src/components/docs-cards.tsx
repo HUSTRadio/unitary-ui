@@ -44,7 +44,7 @@ import { demoText } from "../i18n/components-demo";
 /* ---------- 通用卡片单元 ---------- */
 
 interface DocCardProps {
-  /** hash 路由目标（如 "/typography" → href="#/typography"） */
+  /** hash 路由目标（如 "/layout/typography" → href="#/layout/typography"） */
   href: string;
   title: string;
   description: string;
@@ -241,7 +241,7 @@ const DOC_CARDS: Omit<DocCardProps, "children">[] = [
     description: "A high contrast, accessible color system.",
   },
   {
-    href: "/typography",
+    href: "/layout/typography",
     title: "Typeface",
     description: "Specifically designed for developers and designers.",
   },

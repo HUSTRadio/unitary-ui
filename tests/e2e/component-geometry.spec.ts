@@ -1,3 +1,4 @@
+import { getComponentDocsPath } from "../../docs/site/src/data/docs-routes";
 import { expect, test, type Page } from "@playwright/test";
 
 async function openComponent(page: Page, slug: string) {
@@ -5,7 +6,7 @@ async function openComponent(page: Page, slug: string) {
     window.localStorage.setItem("unitary-docs-language", "en-US");
     window.localStorage.setItem("unitary-theme-preference", "light");
   });
-  await page.goto(`/#/components/${slug}`);
+  await page.goto(`/#${getComponentDocsPath(slug)}`);
   await page.waitForSelector('[data-slot="navbar"]');
   await page.evaluate(async () => {
     await document.fonts.ready;
@@ -788,7 +789,7 @@ async function assertNarrowOverlayFits(
 ): Promise<void> {
   for (const item of narrowOverlayCases(page)) {
     await page.setViewportSize({ width, height: NARROW_VIEWPORT_HEIGHT });
-    await page.goto(`/#/components/${item.slug}`);
+    await page.goto(`/#${getComponentDocsPath(item.slug)}`);
     await page.waitForSelector('[data-slot="navbar"]');
 
     await item.open(page);

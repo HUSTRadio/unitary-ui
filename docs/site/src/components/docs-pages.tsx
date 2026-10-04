@@ -747,12 +747,3 @@ export function MaterialsPage() {
   );
 }
 
-/* ================= Grid ================= */
-
-/**
- * Grid - 框架真实 Grid 系统的文档页。
- * 页面实现独立维护在 docs-grid-page.tsx，这里仅 re-export，
- * 避免路由注册表因文件拆分再次维护第二份映射。
- */
-export { GridPage } from "./docs-grid-page";
-

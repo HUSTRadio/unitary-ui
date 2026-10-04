@@ -1,3 +1,4 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Check, ChevronDown, Search, X } from "lucide-react";
 import { Popover as PopoverPrimitive } from "radix-ui";
@@ -5,6 +6,8 @@ import { Popover as PopoverPrimitive } from "radix-ui";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import { layoutRootStyle, layoutSurfaceStyle, type ControlLayout } from "@/lib/control-layout";
+
+const LayerPopoverPrimitiveContent = withLayerBridge(PopoverPrimitive.Content);
 
 /**
  * Combobox - 官方 vercel.com/geist/combobox 复刻实现（@vercel/geistcn Combobox）。
@@ -506,7 +509,7 @@ function Combobox({
         </ul>
       )}
       <PopoverPrimitive.Portal>
-        <PopoverPrimitive.Content
+        <LayerPopoverPrimitiveContent
           align="start"
           sideOffset={8}
           // 与 select-content / menu 面板一致的可定位槽位，供浮层材质（阴影）契约核查使用
@@ -539,7 +542,7 @@ function Combobox({
               {options}
             </ul>
           )}
-        </PopoverPrimitive.Content>
+        </LayerPopoverPrimitiveContent>
       </PopoverPrimitive.Portal>
     </div>
   );

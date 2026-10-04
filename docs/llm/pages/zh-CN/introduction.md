@@ -32,7 +32,7 @@ JetBrains Maple Mono
 
 专为开发者和设计师设计。
 
-](#/typography)[
+](#/layout/typography)[
 
 ### 材质
 

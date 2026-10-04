@@ -1,9 +1,13 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { Grabber } from "@/components/ui/grabber";
 import { useSubFrame } from "@/components/ui/sub-frame";
+
+const LayerDialogPrimitiveContent = withLayerBridge(DialogPrimitive.Content);
+const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
 
 /**
  * BottomSheet — 多档位（detent）底部弹层，本地扩展组件（官方 Geist 无对应页面）。
@@ -197,8 +201,8 @@ function BottomSheet({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
       <DialogPrimitive.Portal container={container}>
-        <DialogPrimitive.Overlay className={cn("inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none", container ? "absolute" : "fixed")} />
-        <DialogPrimitive.Content
+        <LayerDialogPrimitiveOverlay className={cn("inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none", container ? "absolute" : "fixed")} />
+        <LayerDialogPrimitiveContent
           tabIndex={-1}
           data-slot="bottom-sheet"
           data-resizable={resizable && showGrabber ? "true" : undefined}
@@ -260,7 +264,7 @@ function BottomSheet({
             />
           )}
           {children}
-        </DialogPrimitive.Content>
+        </LayerDialogPrimitiveContent>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>
   );

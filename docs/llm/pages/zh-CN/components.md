@@ -16,14 +16,6 @@ activity-view
 
 ](#/components/activity-view)[
 
-area-chart
-
-### 面积图
-
-用面积填充显示时间趋势，支持堆叠、百分比和自定义提示。
-
-](#/components/area-chart)[
-
 avatar
 
 ### 头像
@@ -47,22 +39,6 @@ banner
 在容器顶部显示全宽公告或重要提示。
 
 ](#/components/banner)[
-
-bar-chart
-
-### 柱状图
-
-用柱形比较不同类别的数值，支持堆叠、百分比和横向布局。
-
-](#/components/bar-chart)[
-
-bar-list
-
-### 条形列表
-
-按数值排列名称、条形和读数，条目可带链接和图标。
-
-](#/components/bar-list)[
 
 book
 
@@ -120,14 +96,6 @@ carousel
 
 ](#/components/carousel)[
 
-category-bar
-
-### 分类条
-
-用分段横条显示占比，可添加阈值标记和提示。
-
-](#/components/category-bar)[
-
 checkbox
 
 ### 复选框
@@ -175,14 +143,6 @@ collapse
 按标题展开或收起补充内容，如常见问题和高级设置。
 
 ](#/components/collapse)[
-
-combo-chart
-
-### 组合图
-
-在同一图中组合柱形和折线，可用双轴表示不同量纲。
-
-](#/components/combo-chart)[
 
 combobox
 
@@ -255,14 +215,6 @@ device
 用指定型号的手机或平板外框展示截图和录屏。
 
 ](#/components/device)[
-
-donut-chart
-
-### 环形图
-
-用环形或饼形显示各部分占比，环形中心可显示主指标。
-
-](#/components/donut-chart)[
 
 dots-menu
 
@@ -376,14 +328,6 @@ gauge
 
 ](#/components/gauge)[
 
-grid
-
-### 栅格
-
-用单元格和可见参考线组织二维布局。
-
-](#/components/grid)[
-
 hamburger-menu
 
 ### 汉堡导航菜单
@@ -423,22 +367,6 @@ label
 为表单控件提供可见名称，并关联对应输入框。
 
 ](#/components/label)[
-
-lazy-load
-
-### 延迟加载
-
-内容接近视口或局部滚动容器时首次挂载。
-
-](#/components/lazy-load)[
-
-line-chart
-
-### 折线图
-
-用折线比较连续趋势，支持坐标轴标题和自定义提示。
-
-](#/components/line-chart)[
 
 link
 
@@ -536,14 +464,6 @@ pill
 
 ](#/components/pill)[
 
-prefetch
-
-### 预载
-
-在用户有操作意图、接近视口或浏览器空闲时准备可复用的模块或数据。
-
-](#/components/prefetch)[
-
 progress
 
 ### 进度条
@@ -551,14 +471,6 @@ progress
 显示任务完成量或已用容量占总量的比例。
 
 ](#/components/progress)[
-
-progress-circle
-
-### 进度环
-
-用圆环显示完成度或容量占比，中心可放数值和说明。
-
-](#/components/progress-circle)[
 
 project-banner
 
@@ -591,14 +503,6 @@ responsive-drawer
 同一个抽屉在手机上从底部打开、在桌面上从右侧打开，支持底部高度档位。
 
 ](#/components/responsive-drawer)[
-
-safe-area
-
-### 安全区
-
-用内边距避开刘海、圆角和系统栏，并保留指定的最小间距。
-
-](#/components/safe-area)[
 
 scroller
 
@@ -688,14 +592,6 @@ snippet
 
 ](#/components/snippet)[
 
-spark-chart
-
-### 迷你趋势图
-
-用迷你面积图、折线图或柱状图显示卡片和表格中的趋势。
-
-](#/components/spark-chart)[
-
 spinner
 
 ### 加载指示器
@@ -711,14 +607,6 @@ split-button
 将主要操作与相关选项菜单放在同一个按钮组中。
 
 ](#/components/split-button)[
-
-stack
-
-### 堆叠
-
-沿横向或纵向排列子元素，统一间距和对齐方式。
-
-](#/components/stack)[
 
 status-dot
 
@@ -823,14 +711,6 @@ tooltip
 悬停或聚焦时显示简短的补充说明。
 
 ](#/components/tooltip)[
-
-tracker
-
-### 状态跟踪条
-
-用一系列状态块显示可用性、构建结果等事件历史。
-
-](#/components/tracker)[
 
 video
 

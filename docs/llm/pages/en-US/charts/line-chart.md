@@ -4,7 +4,7 @@
 
 Compare continuous trends with lines, axis labels, and custom tooltips.
 
-[Back to Components](#/components)
+[Back to Charts](#/charts)
 
 # Line Chart
 

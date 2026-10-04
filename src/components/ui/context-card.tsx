@@ -1,8 +1,11 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { HoverCard as HoverCardPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { TIP_ARROW_PATH } from "@/lib/tip-arrow";
+
+const LayerHoverCardPrimitiveContent = withLayerBridge(HoverCardPrimitive.Content);
 
 /**
  * ContextCard — Geist 官方 Context Card 规范（docs/geist-markdown-refs/components/context-card.md）。
@@ -81,7 +84,7 @@ function ContextCardTrigger({
         )}
       </HoverCardPrimitive.Trigger>
       <HoverCardPrimitive.Portal>
-        <HoverCardPrimitive.Content
+        <LayerHoverCardPrimitiveContent
           side={side}
           align={align}
           sideOffset={sideOffset}
@@ -114,7 +117,7 @@ function ContextCardTrigger({
               stroke="var(--context-card-tip-stroke)"
             />
           </svg>
-        </HoverCardPrimitive.Content>
+        </LayerHoverCardPrimitiveContent>
       </HoverCardPrimitive.Portal>
     </HoverCardPrimitive.Root>
   );

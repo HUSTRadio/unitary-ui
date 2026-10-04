@@ -4,7 +4,7 @@
 
 Show event history, such as uptime or build results, as a sequence of status blocks.
 
-[Back to Components](#/components)
+[Back to Charts](#/charts)
 
 # Tracker
 

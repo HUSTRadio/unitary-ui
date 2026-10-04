@@ -3,12 +3,12 @@ import type { DocsLanguage } from "../i18n/language";
 import { DocArticle, type DocPageContent } from "../components/doc-content";
 
 /**
- * 「生命周期与钩子」页面文案：结构化内容模型，中英双份同构，
+ * 「状态与事件」页面文案：结构化内容模型，中英双份同构，
  * 由 DocArticle 统一渲染（排版层级、行内代码样式集中在一处）。
  */
 
 const zh: DocPageContent = {
-  title: "生命周期与钩子",
+  title: "状态与事件",
   lead: [
     "组件通过属性和回调提供状态控制，不提供 ",
     { code: "componentDidMount" },
@@ -124,7 +124,7 @@ const zh: DocPageContent = {
 };
 
 const en: DocPageContent = {
-  title: "Lifecycle & Hooks",
+  title: "State & Events",
   lead: [
     "Components expose state control through props and callbacks, without general lifecycle APIs such as ",
     { code: "componentDidMount" },
@@ -240,8 +240,8 @@ const en: DocPageContent = {
   ],
 };
 
-export const LIFECYCLE_CONTENT: Record<DocsLanguage, DocPageContent> = { "zh-CN": zh, "en-US": en };
+export const STATE_EVENTS_CONTENT: Record<DocsLanguage, DocPageContent> = { "zh-CN": zh, "en-US": en };
 
-export function LifecycleAndHooksPage({ language }: { language: DocsLanguage }) {
-  return <DocArticle content={LIFECYCLE_CONTENT[language]} />;
+export function StateAndEventsPage({ language }: { language: DocsLanguage }) {
+  return <DocArticle content={STATE_EVENTS_CONTENT[language]} />;
 }

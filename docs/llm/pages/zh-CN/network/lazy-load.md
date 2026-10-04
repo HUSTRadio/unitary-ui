@@ -1,10 +1,8 @@
 # 延迟加载
 
-> Route: `/components/lazy-load`
+> Route: `/network/lazy-load`
 
 内容接近视口或局部滚动容器时首次挂载。
-
-[返回组件](#/components)
 
 # 延迟加载
 

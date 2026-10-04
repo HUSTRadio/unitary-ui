@@ -10,3 +10,8 @@ export const docsPageSource = readFileSync(
   resolve(import.meta.dirname, "../../docs/site/src/components/docs-components-page.tsx"),
   "utf8",
 );
+
+export const demoShowCodeSource = readFileSync(
+  resolve(import.meta.dirname, "../../docs/site/src/components/demo-show-code.tsx"),
+  "utf8",
+);

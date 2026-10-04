@@ -1,3 +1,4 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import { CircleAlert, Loader2, TriangleAlert } from "lucide-react";
@@ -6,6 +7,9 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+
+const LayerDialogPrimitiveContent = withLayerBridge(DialogPrimitive.Content);
+const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
 
 /**
  * DestructiveActionModal — 危险操作确认弹窗（docs/geist-markdown-refs/components/destructive-action-modal.md 官方语义）。
@@ -116,8 +120,8 @@ function DestructiveActionModal({
     >
       <DialogPrimitive.Portal>
         {/* 遮罩走暗化族 token（HIG-AUD-010）：原 50% 无出处，并入 scrim 族 0.4 */}
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--uni-z-modal)] bg-[var(--uni-overlay-scrim-color)] backdrop-blur-(--uni-overlay-backdrop-blur) data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-(--uni-motion-overlay) ease-pop motion-reduce:animate-none!" />
-        <DialogPrimitive.Content
+        <LayerDialogPrimitiveOverlay className="fixed inset-0 z-[var(--uni-z-modal)] bg-[var(--uni-overlay-scrim-color)] backdrop-blur-(--uni-overlay-backdrop-blur) data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-(--uni-motion-overlay) ease-pop motion-reduce:animate-none!" />
+        <LayerDialogPrimitiveContent
           data-slot="destructive-action-modal"
           aria-label={ariaLabel}
           aria-labelledby={ariaLabelledBy ?? (ariaLabel ? undefined : titleId)}
@@ -225,7 +229,7 @@ function DestructiveActionModal({
               </button>
             </footer>
           </form>
-        </DialogPrimitive.Content>
+        </LayerDialogPrimitiveContent>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>
   );

@@ -1,3 +1,4 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Check, ChevronDown } from "lucide-react";
 import { Select as SelectPrimitive } from "radix-ui";
@@ -6,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import { layoutRootStyle, layoutSurfaceStyle, type ControlLayout } from "@/lib/control-layout";
 import { FieldError, FIELD_ERROR_RING } from "./field-error";
+
+const LayerSelectPrimitiveContent = withLayerBridge(SelectPrimitive.Content);
 
 /**
  * Select — Geist 官方 Select（docs/geist-markdown-refs/components/select.md + 实时 vercel.com/geist/select）。
@@ -224,7 +227,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
             )}
           </SelectPrimitive.Trigger>
           <SelectPrimitive.Portal>
-            <SelectPrimitive.Content
+            <LayerSelectPrimitiveContent
               position="popper"
               sideOffset={6}
               data-slot="select-content"
@@ -236,7 +239,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
               <SelectPrimitive.Viewport className="flex flex-col gap-0.5">
                 {children}
               </SelectPrimitive.Viewport>
-            </SelectPrimitive.Content>
+            </LayerSelectPrimitiveContent>
           </SelectPrimitive.Portal>
           {/* 隐藏表单 select：FormData / required / name 契约（Radix unstable_BubbleInput） */}
           <SelectPrimitive.unstable_BubbleInput />

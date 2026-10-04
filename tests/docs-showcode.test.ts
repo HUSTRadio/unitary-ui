@@ -12,7 +12,7 @@ const pagePath = "docs/site/src/components/docs-components-page.tsx";
 
 describe("docs Show code footer", () => {
   test("has a functional DemoShowCode with onClick toggle", async () => {
-    const src = await read(pagePath);
+    const src = await read("docs/site/src/components/demo-show-code.tsx");
     expect(src).toMatch(/function DemoShowCode/);
     expect(src).toMatch(/setShowCode/);
     expect(src).toMatch(/onClick=\{\s*\(\) => setShowCode/);

@@ -36,7 +36,7 @@ test.describe("docs typography geometry", () => {
   });
 
   test("aligns unmarked Grid best-practice items with their heading", async ({ page }) => {
-    await page.goto("/#/grid");
+    await page.goto("/#/layout/grid");
 
     const section = page.locator('[data-grid-demo="best-practices"]');
     const heading = section.locator("h2");
@@ -80,7 +80,7 @@ test.describe("docs typography geometry", () => {
           true,
         );
 
-        await page.goto("/#/grid");
+        await page.goto("/#/layout/grid");
         const section = page.locator('[data-grid-demo="best-practices"]');
         await section.waitFor();
         const [headingBox, itemBox] = await Promise.all([
@@ -322,7 +322,7 @@ test.describe("Feedback official interaction and geometry", () => {
   });
 
   test("uses the compact localized footer label without clipping", async ({ page }) => {
-    await page.goto("/#/grid");
+    await page.goto("/#/layout/grid");
     const footer = page.locator('[data-slot="feedback-anchor"] [data-slot="rating-pill"]');
     const label = footer.locator("p");
     await expect(label).toHaveText("提供反馈");
@@ -330,7 +330,7 @@ test.describe("Feedback official interaction and geometry", () => {
   });
 
   test("centers the footer capsule horizontally in the pagination row", async ({ page }) => {
-    await page.goto("/#/grid");
+    await page.goto("/#/layout/grid");
     const footer = page.locator('[data-slot="feedback-anchor"]');
     await expect(footer).toBeVisible();
 

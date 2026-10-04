@@ -19,7 +19,7 @@ const REQUIRED_PUBLIC_COMPONENT_MODULES = [
 ] as const;
 
 const DOCUMENT_OWNER_BY_MODULE: Readonly<Record<string, readonly string[]>> = {
-  layout: ["safe-area", "stack"],
+  layout: ["safe-area", "flex"],
   "skeleton-mask": ["skeleton"],
   "rating-pill": ["feedback"],
   "chart-category-bar": ["category-bar"],

@@ -1,3 +1,4 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 // Tremor Raw · CategoryBar [v0.0.3] —— 源码内置自 github.com/tremorlabs/tremor（Apache-2.0，© Tremor contributors）
 // 本地适配：cn 工具、语义 token（text-muted-foreground、ring-background）、排版类（text-copy-13）、
 // marker 提示改用 HoverCard（与本项目 Tracker 一致，替代上游内部 Tooltip 依赖）、动效时长 token 化
@@ -14,6 +15,8 @@ import {
   type AvailableChartColorsKeys,
   getColorClassName,
 } from "./chart-colors"
+
+const LayerHoverCardPrimitiveContent = withLayerBridge(HoverCardPrimitive.Content);
 
 const getMarkerBgColor = (
   marker: number | undefined,
@@ -214,7 +217,7 @@ const CategoryBar = React.forwardRef<HTMLDivElement, CategoryBarProps>(
                     {markerBar(true)}
                   </HoverCardPrimitive.Trigger>
                   <HoverCardPrimitive.Portal>
-                    <HoverCardPrimitive.Content
+                    <LayerHoverCardPrimitiveContent
                       sideOffset={10}
                       side="top"
                       align="center"
@@ -227,7 +230,7 @@ const CategoryBar = React.forwardRef<HTMLDivElement, CategoryBarProps>(
                       )}
                     >
                       {marker.tooltip}
-                    </HoverCardPrimitive.Content>
+                    </LayerHoverCardPrimitiveContent>
                   </HoverCardPrimitive.Portal>
                 </HoverCardPrimitive.Root>
               ) : (

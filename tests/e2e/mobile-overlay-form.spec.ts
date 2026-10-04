@@ -1,3 +1,4 @@
+import { getComponentDocsPath } from "../../docs/site/src/data/docs-routes";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 /**
@@ -16,7 +17,7 @@ async function openWith(page: Page, slug: string, theme: "light" | "dark") {
     localStorage.setItem("unitary-docs-language", "en-US");
     localStorage.setItem("unitary-theme-preference", preference);
   }, theme);
-  await page.goto(`/#/components/${slug}`);
+  await page.goto(`/#${getComponentDocsPath(slug)}`);
   await page.waitForSelector('[data-slot="navbar"]');
   await page.evaluate(async () => {
     await document.fonts.ready;

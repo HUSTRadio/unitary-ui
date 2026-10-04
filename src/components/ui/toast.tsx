@@ -150,7 +150,7 @@ export interface ToastsProps extends React.ComponentProps<"ol"> {
  * hover 视口时展开：scale 归 1、translateY 恢复为累计高度偏移（完整垂直排列）。
  * 过渡 350ms cubic-bezier(0.25,0.75,0.6,0.98)；第 5 个及更旧（nth-last）隐藏。
  */
-const STACK_GAP = 20; // 展开态 toast 间距（官方实测 20px）
+const FLEX_GAP = 20; // 展开态 toast 间距（官方实测 20px）
 const MAX_STACK = 4; // 最多堆叠层数（更旧的隐藏）
 
 function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: ToastsProps) {
@@ -256,7 +256,7 @@ function Toasts({ className, gap = 16, store = defaultToastStore, ...props }: To
         // 展开态：向上累计（更旧的 toast 排到更上面）
         let expandY = 0;
         for (let j = i + 1; j < count; j++) {
-          expandY += (heights[records[j].id] ?? 56) + STACK_GAP;
+          expandY += (heights[records[j].id] ?? 56) + FLEX_GAP;
         }
         const scale = expanded ? 1 : 1 - 0.05 * cappedD;
         const ty = expanded ? -expandY : cappedD === 0 ? 0 : -(13 + 20 * cappedD);

@@ -1,9 +1,12 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { HoverCard as HoverCardPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { formatRelativeTime } from "@/lib/date-locale";
 import { useI18n } from "@/lib/i18n";
+
+const LayerHoverCardPrimitiveContent = withLayerBridge(HoverCardPrimitive.Content);
 
 /**
  * RelativeTimeCard — Geist 官方 RelativeTimeCard（docs/geist-markdown-refs/components/relative-time-card.md）。
@@ -88,7 +91,7 @@ function RelativeTimeCard({
         )}
       </HoverCardPrimitive.Trigger>
       <HoverCardPrimitive.Portal>
-        <HoverCardPrimitive.Content
+        <LayerHoverCardPrimitiveContent
           side={side}
           sideOffset={6}
           align="start"
@@ -129,7 +132,7 @@ function RelativeTimeCard({
               ))}
             </div>
           </div>
-        </HoverCardPrimitive.Content>
+        </LayerHoverCardPrimitiveContent>
       </HoverCardPrimitive.Portal>
     </HoverCardPrimitive.Root>
   );

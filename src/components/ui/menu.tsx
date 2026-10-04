@@ -1,9 +1,12 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { DropdownMenu as MenuPrimitive } from "radix-ui";
 import { ChevronDown, Lock } from "lucide-react";
 
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+const LayerMenuPrimitiveContent = withLayerBridge(MenuPrimitive.Content);
 
 export type MenuPosition =
   | "bottom-start"
@@ -129,7 +132,7 @@ const Menu = React.forwardRef<React.ElementRef<typeof MenuPrimitive.Content>, Me
     return (
       <MenuStatefulContext.Provider value={stateful}>
         <MenuPrimitive.Portal>
-          <MenuPrimitive.Content
+          <LayerMenuPrimitiveContent
             ref={ref}
             sideOffset={sideOffset}
             {...positionProps[position]}

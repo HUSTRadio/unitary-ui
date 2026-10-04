@@ -1,8 +1,11 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Collapsible as CollapsiblePrimitive } from "radix-ui";
 import { ChevronDown, Plus } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+
+const LayerCollapsiblePrimitiveContent = withLayerBridge(CollapsiblePrimitive.Content);
 
 type CollapseIcon = "chevron" | "plus";
 /**
@@ -212,7 +215,7 @@ function CollapseContent({
   }, []);
 
   return (
-    <CollapsiblePrimitive.Content
+    <LayerCollapsiblePrimitiveContent
       data-slot="collapse-content"
       role="region"
       forceMount={forceMount}

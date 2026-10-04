@@ -1,8 +1,11 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Tooltip as TooltipPrimitive } from "radix-ui";
 
 import { TIP_ARROW_PATH } from "@/lib/tip-arrow";
 import { cn } from "@/lib/utils";
+
+const LayerTooltipPrimitiveContent = withLayerBridge(TooltipPrimitive.Content);
 
 export type TooltipPosition = "top" | "bottom" | "left" | "right";
 export type TooltipBoxAlign = "left" | "center" | "right";
@@ -68,7 +71,7 @@ function Tooltip({
       <TooltipPrimitive.Root>
         <TooltipPrimitive.Trigger asChild>{trigger}</TooltipPrimitive.Trigger>
         <TooltipPrimitive.Portal>
-          <TooltipPrimitive.Content
+          <LayerTooltipPrimitiveContent
             side={position}
             align={boxAlign === "left" ? "start" : boxAlign === "right" ? "end" : "center"}
             sideOffset={10}
@@ -109,7 +112,7 @@ function Tooltip({
                 </svg>
               </TooltipPrimitive.Arrow>
             ) : null}
-          </TooltipPrimitive.Content>
+          </LayerTooltipPrimitiveContent>
         </TooltipPrimitive.Portal>
       </TooltipPrimitive.Root>
     </TooltipPrimitive.Provider>

@@ -1,10 +1,8 @@
 # Safe Area
 
-> Route: `/components/safe-area`
+> Route: `/layout/safe-area`
 
 Add padding around notches, rounded corners, and system bars while keeping a minimum inset.
-
-[Back to Components](#/components)
 
 # Safe Area
 
@@ -79,7 +77,7 @@ Component imports and API are listed below. \* marks a required prop.
 Import
 
 ```tsx
-import { SafeArea } from "@/components/ui/safe-area";
+import { SafeArea } from "@hustradio/unitary-ui";
 ```
 
 ### Props & callbacks

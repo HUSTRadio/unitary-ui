@@ -568,6 +568,13 @@ const COMPONENTS_EN: ComponentMeta[] = [
     ],
   },
   {
+    name: "layer",
+    label: "Layer",
+    labelZh: "层级",
+    description: "Control semantic stacking, scoped levels, and portal boundaries.",
+    descriptionZh: "控制语义层级、局部覆盖及 Portal 边界。",
+  },
+  {
     name: "safe-area",
     label: "Safe Area",
     labelZh: "安全区",
@@ -575,9 +582,9 @@ const COMPONENTS_EN: ComponentMeta[] = [
       "Add padding around notches, rounded corners, and system bars while keeping a minimum inset.",
   },
   {
-    name: "stack",
-    label: "Stack",
-    labelZh: "堆叠",
+    name: "flex",
+    label: "Flex",
+    labelZh: "弹性布局",
     description:
       "Arrange children horizontally or vertically with consistent spacing and alignment.",
   },

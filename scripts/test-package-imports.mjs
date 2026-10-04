@@ -27,6 +27,13 @@ function consume(mode) {
     for (const name of ['getToken', 'getTokens', 'setToken', 'setTokens', 'resetToken', 'resetTokens', 'subscribeTokens', 'useTokens']) {
       assert.equal(typeof api[name], 'function', name);
     }
+    for (const name of ['Flex', 'Layer', 'LayerScope', 'LayerPortal', 'useLayerStyle']) {
+      assert.equal(typeof api[name], 'function', name);
+    }
+    assert.equal(Object.hasOwn(api, 'Stack'), false);
+    assert.match(render(h(api.Flex, {direction: 'row'}, 'Flex content')), /data-slot="flex"/);
+    assert.match(render(h(api.LayerScope, {levels: {popover: 71}}, h(api.Layer, {level: 'popover'}))), /--uni-z-popover:71/);
+    assert.equal(render(h(api.LayerPortal, null, 'Client portal')), '');
     assert.equal(api.getToken('--radius'), '');
     assert.deepEqual(api.getTokens(['--radius']), {'--radius': ''});
     assert.equal(api.setToken('--radius', '8px'), false);

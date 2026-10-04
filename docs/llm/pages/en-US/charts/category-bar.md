@@ -4,7 +4,7 @@
 
 Show proportions in a segmented bar, with optional threshold markers and tooltips.
 
-[Back to Components](#/components)
+[Back to Charts](#/charts)
 
 # Category Bar
 

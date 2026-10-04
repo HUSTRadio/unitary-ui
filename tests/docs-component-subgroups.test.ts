@@ -22,7 +22,7 @@ const EXPECTED_SUBGROUP_IDS = [
 ];
 
 /** 布局原语归入「排版与布局」分组，图表组件归入「图表」分组，都不属于「组件」区块。 */
-const LAYOUT_COMPONENT_NAMES = new Set(["safe-area", "stack"]);
+const LAYOUT_COMPONENT_NAMES = new Set(["grid", "safe-area", "flex", "layer"]);
 const NETWORK_COMPONENT_NAMES = new Set(["lazy-load", "prefetch"]);
 
 /** 「组件」区块只收常规组件页，排除独立归组的原语与图表。 / Excludes separately grouped pages. */

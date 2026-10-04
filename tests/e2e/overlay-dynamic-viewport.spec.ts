@@ -1,3 +1,4 @@
+import { getComponentDocsPath } from "../../docs/site/src/data/docs-routes";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 const themes = ["light", "dark"] as const;
@@ -21,7 +22,7 @@ async function openSurface(page: Page, surface: Surface, theme: (typeof themes)[
     },
   }[surface];
   await page.setViewportSize({ width: 390, height: heights[0] });
-  await page.goto(`/#/components/${demo.route}`);
+  await page.goto(`/#${getComponentDocsPath(demo.route)}`);
   await page.locator(`[data-demo-card="${demo.card}"]`).getByRole("button", { name: demo.button }).click();
   const selector = {
     command: '[data-slot="command-menu-content"]',

@@ -1,0 +1,11 @@
+/** Package-root API directory; reference pages retain detailed contracts. */
+export const FRAMEWORK_API = [
+  { title: "Theme & localization", titleZh: "主题与国际化", names: ["ThemeProvider", "useTheme", "I18nProvider", "useI18n"], to: "/api#providers", description: "Theme preferences and framework messages.", descriptionZh: "管理主题偏好和框架消息语言。" },
+  { title: "Design tokens", titleZh: "设计变量", names: ["GLOBAL_TOKENS", "TOKEN_NAMES", "RUNTIME_TOKEN_NAMES", "getToken", "getTokens", "setToken", "setTokens", "resetToken", "resetTokens", "subscribeTokens", "useTokens"], to: "/api/tokens", description: "Read, override, subscribe to and restore runtime variables.", descriptionZh: "读取、覆盖、订阅和恢复运行时变量。" },
+  { title: "Layout & layers", titleZh: "布局与层级", names: ["Layer", "LayerScope", "LayerPortal", "useLayerStyle"], to: "/layout/layer", description: "Semantic levels and scoped portal configuration.", descriptionZh: "管理语义层级和局部 Portal 配置。" },
+  { title: "State & events", titleZh: "状态与事件", names: ["useRadio", "useToasts", "createToastStore"], to: "/api/state-and-events", description: "Common state conventions; component-specific hooks are documented on Radio and Toast.", descriptionZh: "通用状态约定；组件专用钩子分别由 Radio 和 Toast 文档维护。" },
+  { title: "Navigation & prefetch", titleZh: "导航与预载", names: ["useDismissOnNavigate", "createPrefetch", "usePrefetchState"], to: "/network/prefetch", description: "Navigation dismissal and shared loading resources.", descriptionZh: "导航关闭与共享加载资源。" },
+  { title: "Font metrics", titleZh: "字体度量", names: ["probeFontMetrics", "useFontMetrics", "measureFontMetrics", "applyFontMetrics"], to: "/layout/typography", description: "Measure fonts and apply the framework's typography compensation.", descriptionZh: "测量字体并应用框架的排版补偿。" },
+  { title: "Geometry & utilities", titleZh: "几何与工具", names: ["cn", "CIRCULAR_CORNER_EXPONENT", "CONTINUOUS_CORNER_EXPONENT", "continuousCornerPath", "cornerCurvePoints", "superellipsePath", "useContinuousCorners"], to: "/components/continuous-surface", description: "Merge classes and generate continuous corner geometry.", descriptionZh: "合并样式类并生成连续曲率几何。" },
+  { title: "Chart colors", titleZh: "图表颜色", names: ["AvailableChartColors", "constructCategoryColors", "getColorClassName"], to: "/charts", description: "Build category color maps and chart utility classes.", descriptionZh: "生成分类配色映射和图表样式类。" },
+] as const;

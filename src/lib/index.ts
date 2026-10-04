@@ -123,8 +123,6 @@ export { MenuBar, MenuBarMenu, MenuBarTrigger, MenuBarContent, MenuBarItem, Menu
 export type { MenuBarItemProps, MenuBarCheckboxItemProps } from "@/components/ui/menu-bar";
 export { Toolbar, ToolbarGroup, ToolbarItem } from "@/components/ui/toolbar";
 export type { ToolbarProps, ToolbarGroupProps, ToolbarItemProps, ToolbarSlot } from "@/components/ui/toolbar";
-export { SafeArea, Stack } from "@/components/ui/layout";
-export type { SafeAreaProps, StackProps, LayoutSpacing, SafeAreaEdge } from "@/components/ui/layout";
 export type { ActivityAction, ActivityTarget, ActivityViewProps } from "@/components/ui/activity-view";
 export type { EditMenuAction, EditMenuProps, EditMenuStandardAction } from "@/components/ui/edit-menu";
 export { MenuContainer, MenuButton, Menu, MenuItem, MenuItemLocked, MenuLink, MenuDivider, MenuSection } from "@/components/ui/menu";
@@ -177,7 +175,12 @@ export { Textarea } from "@/components/ui/textarea";
 export { Label } from "@/components/ui/label";
 export { Fieldset, FieldsetTitle, FieldsetSubtitle, FieldsetContent, FieldsetFooter, FieldsetFooterStatus, FieldsetFooterActions, FieldsetFooterAction, ErrorText, WarningText, DisabledWall } from "@/components/ui/fieldset";
 
+export { Layer, LayerScope, LayerPortal, useLayerStyle } from "@/components/ui/layer";
+export type { LayerProps, LayerScopeProps, LayerPortalProps, LayerLevel } from "@/components/ui/layer";
+
 // Components — Layout
+export { SafeArea, Flex } from "@/components/ui/layout";
+export type { SafeAreaProps, FlexProps, LayoutSpacing, SafeAreaEdge } from "@/components/ui/layout";
 export { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui/grid";
 export { Scroller } from "@/components/ui/scroller";
 export type { ScrollerProps } from "@/components/ui/scroller";

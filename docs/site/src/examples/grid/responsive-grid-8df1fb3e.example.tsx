@@ -4,9 +4,12 @@ export function GridResponsiveGrid8DF1FB3EExample() {
   return (
     <GridSystem unstable_useContainer>
       <Grid columns={{ sm: 1, md: 2, lg: 3 }} rows={{ sm: 6, md: 3, lg: 2 }}>
-        {[1, 2, 3, 4, 5, 6].map((n) => (
-          <GridCell key={n}>{n}</GridCell>
-        ))}
+        <GridCell>1</GridCell>
+        <GridCell>2</GridCell>
+        <GridCell>3</GridCell>
+        <GridCell>4</GridCell>
+        <GridCell>5</GridCell>
+        <GridCell>6</GridCell>
       </Grid>
     </GridSystem>
   );

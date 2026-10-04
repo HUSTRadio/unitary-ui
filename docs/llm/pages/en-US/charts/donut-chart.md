@@ -4,7 +4,7 @@
 
 Show proportions as a donut or pie; the donut center can display a main metric.
 
-[Back to Components](#/components)
+[Back to Charts](#/charts)
 
 # Donut Chart
 

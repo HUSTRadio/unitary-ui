@@ -8,7 +8,7 @@ for (const theme of ["light", "dark"] as const) {
       localStorage.setItem("unitary-theme-preference", theme);
     }, theme);
     await page.setViewportSize({ width: 320, height: 844 });
-    await page.goto("/#/tokens");
+    await page.goto("/#/api/tokens");
     const editor = page.locator("[data-token-editor]");
     const preview = editor.locator("[data-token-preview]");
     const button = preview.getByRole("button", { name: "Preview button" });
@@ -89,7 +89,7 @@ for (const theme of ["light", "dark"] as const) {
       localStorage.setItem("unitary-docs-language", "en-US");
       localStorage.setItem("unitary-theme-preference", theme);
     }, theme);
-    await page.goto("/#/tokens");
+    await page.goto("/#/api/tokens");
     await expect(page.locator('[data-token-name="--breakpoint-grid-md"]')).toContainText("Build mapping");
     await page.evaluate(() => {
       const probe = document.createElement("div");
@@ -114,7 +114,7 @@ for (const theme of ["light", "dark"] as const) {
       localStorage.setItem("unitary-docs-language", "en-US");
       localStorage.setItem("unitary-theme-preference", theme);
     }, theme);
-    await page.goto("/#/tokens");
+    await page.goto("/#/api/tokens");
     const search = page.getByRole("searchbox", { name: "Search tokens" });
     await search.fill("--radius-circle");
     const deprecated = page.locator('[data-token-name="--radius-circle"]');

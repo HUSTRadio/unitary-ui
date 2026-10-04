@@ -5,7 +5,8 @@ import { readFile } from "node:fs/promises";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { ColorsPage, GridPage } from "../docs/site/src/components/docs-pages";
+import { ColorsPage } from "../docs/site/src/components/docs-pages";
+import { GridPage } from "../docs/site/src/components/docs-grid-page";
 import {
   FOUNDATION_COLOR_SCALES,
   SEMANTIC_COLOR_TOKENS,
@@ -287,10 +288,12 @@ describe("Grid docs parity", () => {
     expect(source).not.toMatch(/<Grid[^>]*\sgap\s*=/);
   });
 
-  test("docs-pages only re-exports GridPage from the dedicated grid docs module", async () => {
+  test("Grid is loaded independently from the eager foundation pages", async () => {
     const source = await readFile("docs/site/src/components/docs-pages.tsx", "utf8");
 
-    expect(source).toContain('export { GridPage } from "./docs-grid-page";');
+    expect(source).not.toContain('export { GridPage } from "./docs-grid-page";');
+    const loaders = await readFile("docs/site/src/data/page-loaders.ts", "utf8");
+    expect(loaders).toContain('grid: createPrefetch(() => import("../components/docs-grid-page"))');
     expect(source).not.toMatch(/function GridPage/);
   });
 });

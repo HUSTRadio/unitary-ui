@@ -1,3 +1,4 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 // Tremor Raw · Tracker [v1.0.0] —— 源码内置自 github.com/tremorlabs/tremor（Apache-2.0，© Tremor contributors）
 // 本地适配：radix-ui 聚合导入、cn 工具、语义 token（bg-foreground/text-background/text-copy-13）、
 // 默认底色改用随主题翻转的 bg-gray-400、移除 tremor-id 标记；其余保持上游逻辑。
@@ -6,6 +7,8 @@ import React from "react"
 import { HoverCard as HoverCardPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
+
+const LayerHoverCardPrimitiveContent = withLayerBridge(HoverCardPrimitive.Content);
 
 export interface TrackerBlockProps {
   key?: string | number
@@ -41,7 +44,7 @@ const Block = ({
         </div>
       </HoverCardPrimitive.Trigger>
       <HoverCardPrimitive.Portal>
-        <HoverCardPrimitive.Content
+        <LayerHoverCardPrimitiveContent
           sideOffset={10}
           side="top"
           align="center"
@@ -58,7 +61,7 @@ const Block = ({
           )}
         >
           {tooltip}
-        </HoverCardPrimitive.Content>
+        </LayerHoverCardPrimitiveContent>
       </HoverCardPrimitive.Portal>
     </HoverCardPrimitive.Root>
   )

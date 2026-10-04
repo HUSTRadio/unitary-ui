@@ -20,7 +20,7 @@ for (const theme of ["light", "dark"] as const) {
         await gate;
         await route.continue();
       });
-      await page.goto("/#/components/prefetch");
+      await page.goto("/#/network/prefetch");
       await expect(page.locator("#main-content h1")).toHaveText("Prefetch");
       const demo = page.locator('[data-slot="prefetch-demo"]');
       const open = demo.getByRole("button", { name: "Open preview", exact: true });
@@ -48,7 +48,7 @@ for (const theme of ["light", "dark"] as const) {
       localStorage.setItem("unitary-docs-language", "en-US");
       localStorage.setItem("unitary-theme-preference", value);
     }, theme);
-    await page.goto("/#/components/prefetch");
+    await page.goto("/#/network/prefetch");
     const demo = page.locator('[data-slot="prefetch-strategies-demo"]');
     const viewport = demo.locator('[data-slot="prefetch-demo-viewport"]');
     await viewport.scrollIntoViewIfNeeded();
@@ -94,7 +94,7 @@ test.describe("touch intent", () => {
   test("touch press prepares one request and activation consumes it", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.addInitScript(() => localStorage.setItem("unitary-docs-language", "en-US"));
-    await page.goto("/#/components/prefetch");
+    await page.goto("/#/network/prefetch");
     const demo = page.locator('[data-slot="prefetch-demo"]');
     await demo.getByRole("button", { name: "Open preview", exact: true }).tap();
     await expect(demo.locator('[data-slot="prefetch-preview"]')).toBeVisible();

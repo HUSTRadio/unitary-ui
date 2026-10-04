@@ -4,7 +4,7 @@
 
 Compare values across categories with bars, stacking, percentage mode, and horizontal bars.
 
-[Back to Components](#/components)
+[Back to Charts](#/charts)
 
 # Bar Chart
 

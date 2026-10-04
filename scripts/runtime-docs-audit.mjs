@@ -1,3 +1,5 @@
+import { tsImport } from "tsx/esm/api";
+const { getComponentDocsPath } = await tsImport("../docs/site/src/data/docs-routes.ts", { parentURL: import.meta.url });
 import { readdir } from "node:fs/promises";
 
 const cdpPort = Number(process.env.CDP_PORT ?? 9223);
@@ -103,8 +105,8 @@ for (const theme of themes) {
         client,
         "document.querySelector('main h1')?.textContent?.trim() ?? ''",
       );
-      await evaluate(client, `location.hash=${JSON.stringify(`/components/${slug}`)}`);
-      const expectedHash = `#/components/${slug}`;
+      await evaluate(client, `location.hash=${JSON.stringify(getComponentDocsPath(slug))}`);
+      const expectedHash = `#${getComponentDocsPath(slug)}`;
       const readyPredicate =
         `location.hash === ${JSON.stringify(expectedHash)} && ` +
         `document.querySelector('main h1')?.textContent?.trim() && ` +
@@ -113,7 +115,7 @@ for (const theme of themes) {
       try {
         await waitFor(client, readyPredicate, 3000);
       } catch {
-        await client.send("Page.navigate", { url: `${baseUrl}#/components/${slug}` });
+        await client.send("Page.navigate", { url: `${baseUrl}#${getComponentDocsPath(slug)}` });
         await waitFor(
           client,
           `location.hash === ${JSON.stringify(expectedHash)} && ` +

@@ -1,3 +1,5 @@
+import { tsImport } from "tsx/esm/api";
+const { getComponentDocsPath } = await tsImport("../docs/site/src/data/docs-routes.ts", { parentURL: import.meta.url });
 const CDP_HTTP = process.env.CDP_HTTP ?? "http://127.0.0.1:9223";
 const DOCS_URL = process.env.DOCS_URL ?? "http://localhost:5201/";
 const requestedSlugs = new Set(
@@ -62,13 +64,13 @@ const demoExpression = `(() => {
 })()`;
 
 async function goto(send, slug) {
-  await send("Page.navigate", { url: `${DOCS_URL.replace(/\/$/, "")}/#/components/${slug}` });
+  await send("Page.navigate", { url: `${DOCS_URL.replace(/\/$/, "")}/#${getComponentDocsPath(slug)}` });
   for (let attempt = 0; attempt < 80; attempt += 1) {
     const ready = await evaluate(
       send,
       `(() => {
         const demo = ${demoExpression};
-        return location.hash === ${JSON.stringify(`#/components/${slug}`)} && Boolean(demo?.children.length);
+        return location.hash === ${JSON.stringify(`#${getComponentDocsPath(slug)}`)} && Boolean(demo?.children.length);
       })()`,
     );
     if (ready) return;

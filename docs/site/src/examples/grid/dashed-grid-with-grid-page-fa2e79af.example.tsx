@@ -1,17 +1,11 @@
-import { Grid, GridCell, GridCross, GridPage, GridSystem } from "@/components/ui/grid";
+import { Grid, GridPage as GridPageFrame, GridSystem } from "@/components/ui/grid";
 
 export function GridDashedGridWithGridPageFA2E79AFExample() {
   return (
-    <GridPage>
-      <GridSystem dashedGuides guideWidth={1}>
-        <Grid columns={1} rows={1}>
-          <GridCross column={1} row={1} />
-          <GridCross column={2} row={2} />
-          <GridCross column={2} row={1} />
-          <GridCross column={1} row={2} />
-          <GridCell>Content here</GridCell>
-        </Grid>
+    <GridPageFrame>
+      <GridSystem dashedGuides unstable_useContainer>
+        <Grid columns={4} rows={2} height={140} />
       </GridSystem>
-    </GridPage>
+    </GridPageFrame>
   );
 }

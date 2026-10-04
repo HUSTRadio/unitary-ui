@@ -17,7 +17,7 @@ for (const theme of ["light", "dark"] as const) {
       page,
     }) => {
       await page.setViewportSize({ width: 1440, height: 900 });
-      await page.goto("/#/grid");
+      await page.goto("/#/layout/grid");
       const navbar = page.locator('[data-slot="navbar"]').first();
       const main = page.locator("#main-content");
       const sidebar = page.locator('[data-slot="docs-sidebar"]');
@@ -70,7 +70,7 @@ for (const theme of ["light", "dark"] as const) {
     });
 
     test("preserves the strict 480px footer breakpoint and capsule centering", async ({ page }) => {
-      await page.goto("/#/grid");
+      await page.goto("/#/layout/grid");
       const footer = page.locator('[data-slot="feedback-anchor"]');
       const row = page.locator("nav").filter({ has: footer });
       for (const width of [320, 390, 479, 480, 481, 768, 1440]) {
@@ -110,7 +110,7 @@ for (const theme of ["light", "dark"] as const) {
       );
       await expect(markedList).toHaveCSS("padding-left", "32px");
 
-      await page.goto("/#/grid");
+      await page.goto("/#/layout/grid");
       const list = page.locator('[data-grid-demo="best-practices"] ul');
       await expect(list).toHaveCSS("padding-left", "0px");
       const lead = page.locator('[data-slot="docs-prose-lead"]').first();
@@ -135,7 +135,7 @@ for (const theme of ["light", "dark"] as const) {
       page,
     }) => {
       await page.setViewportSize({ width: 1440, height: 900 });
-      await page.goto("/#/grid");
+      await page.goto("/#/layout/grid");
       await page.locator('[data-slot="navbar"] button[aria-label="Select language"]').click();
       const menu = page.locator('[data-slot="menu"]');
       await expect(menu).toHaveCSS("padding", "6px");

@@ -16,11 +16,11 @@ function findRoute(label: string) {
 describe("docs command search text", () => {
   test("indexes bilingual item labels without leaking group names into each result", () => {
     const { item } = findRoute("Status Dot");
-    const { group: layout, item: stack } = findRoute("Stack");
+    const { group: layout, item: stack } = findRoute("Flex");
 
     expect(getRouteSearchText(item)).toBe("status dot 状态圆点");
     expect(layout.title).toBe("Layout & Organization");
-    expect(getRouteSearchText(stack)).toBe("stack 堆叠");
+    expect(getRouteSearchText(stack)).toBe("flex 弹性布局");
     expect(getRouteSearchText(stack)).not.toContain("organization");
   });
 

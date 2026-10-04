@@ -32,7 +32,7 @@ JetBrains Maple Mono
 
 Specifically designed for developers and designers.
 
-](#/typography)[
+](#/layout/typography)[
 
 ### Materials
 

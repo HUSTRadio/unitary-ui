@@ -1,11 +1,29 @@
-import {
-  Grid,
-  GridCell,
-  GridCross,
-  GridPage as GridPageFrame,
-  GridSystem,
-} from "@/components/ui/grid";
-
+import { DemoShowCode } from "./demo-show-code";
+import { ComponentApiReference } from "./docs-api-reference";
+import { GridGrid0D7D12ACExample } from "../examples/grid/grid-0d7d12ac.example";
+import GridGrid0D7D12ACExampleSource from "../examples/grid/grid-0d7d12ac.example.tsx?example-source";
+import { GridBasicGrid278AA3F9Example } from "../examples/grid/basic-grid-278aa3f9.example";
+import GridBasicGrid278AA3F9ExampleSource from "../examples/grid/basic-grid-278aa3f9.example.tsx?example-source";
+import { GridSolidCellsE676560CExample } from "../examples/grid/solid-cells-e676560c.example";
+import GridSolidCellsE676560CExampleSource from "../examples/grid/solid-cells-e676560c.example.tsx?example-source";
+import { GridResponsiveGrid8DF1FB3EExample } from "../examples/grid/responsive-grid-8df1fb3e.example";
+import GridResponsiveGrid8DF1FB3EExampleSource from "../examples/grid/responsive-grid-8df1fb3e.example.tsx?example-source";
+import { GridResponsiveGuideClippingA58874D5Example } from "../examples/grid/responsive-guide-clipping-a58874d5.example";
+import GridResponsiveGuideClippingA58874D5ExampleSource from "../examples/grid/responsive-guide-clipping-a58874d5.example.tsx?example-source";
+import { GridHiddenRowGuides59338B9FExample } from "../examples/grid/hidden-row-guides-59338b9f.example";
+import GridHiddenRowGuides59338B9FExampleSource from "../examples/grid/hidden-row-guides-59338b9f.example.tsx?example-source";
+import { GridHiddenColumnGuidesE1033A1BExample } from "../examples/grid/hidden-column-guides-e1033a1b.example";
+import GridHiddenColumnGuidesE1033A1BExampleSource from "../examples/grid/hidden-column-guides-e1033a1b.example.tsx?example-source";
+import { GridOverlayingCellsB9F603D6Example } from "../examples/grid/overlaying-cells-b9f603d6.example";
+import GridOverlayingCellsB9F603D6ExampleSource from "../examples/grid/overlaying-cells-b9f603d6.example.tsx?example-source";
+import { GridSpecificGuideClipping4F529B64Example } from "../examples/grid/specific-guide-clipping-4f529b64.example";
+import GridSpecificGuideClipping4F529B64ExampleSource from "../examples/grid/specific-guide-clipping-4f529b64.example.tsx?example-source";
+import { GridGridWithCross6A783E1BExample } from "../examples/grid/grid-with-cross-6a783e1b.example";
+import GridGridWithCross6A783E1BExampleSource from "../examples/grid/grid-with-cross-6a783e1b.example.tsx?example-source";
+import { GridDashedGridWithCrossB76B6591Example } from "../examples/grid/dashed-grid-with-cross-b76b6591.example";
+import GridDashedGridWithCrossB76B6591ExampleSource from "../examples/grid/dashed-grid-with-cross-b76b6591.example.tsx?example-source";
+import { GridDashedGridWithGridPageFA2E79AFExample } from "../examples/grid/dashed-grid-with-grid-page-fa2e79af.example";
+import GridDashedGridWithGridPageFA2E79AFExampleSource from "../examples/grid/dashed-grid-with-grid-page-fa2e79af.example.tsx?example-source";
 import {
   DocsList,
   DocsPageLead,
@@ -82,10 +100,9 @@ export function GridPage() {
           {t("A Grid without cells renders only its guide lines. Set height so the empty surface stays visible.")}
         </DocsParagraph>
         <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
-          <GridSystem unstable_useContainer>
-            <Grid columns={6} rows={3} height={180} />
-          </GridSystem>
+          <GridGrid0D7D12ACExample />
         </div>
+        <DemoShowCode code={GridGrid0D7D12ACExampleSource} />
       </DocsSection>
 
       <DocsSection data-grid-demo="auto-flow">
@@ -94,17 +111,9 @@ export function GridPage() {
           {t("Cells without explicit placement flow into the tracks in DOM order.")}
         </DocsParagraph>
         <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
-          <GridSystem unstable_useContainer>
-            <Grid columns={3} rows={2}>
-              <GridCell>1</GridCell>
-              <GridCell>2</GridCell>
-              <GridCell>3</GridCell>
-              <GridCell>4</GridCell>
-              <GridCell>5</GridCell>
-              <GridCell>6</GridCell>
-            </Grid>
-          </GridSystem>
+          <GridBasicGrid278AA3F9Example />
         </div>
+        <DemoShowCode code={GridBasicGrid278AA3F9ExampleSource} />
       </DocsSection>
 
       <DocsSection data-grid-demo="solid-cells">
@@ -113,23 +122,9 @@ export function GridPage() {
           {t("A solid cell paints over its area and hides the guide borders strictly inside its span.")}
         </DocsParagraph>
         <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
-          <GridSystem unstable_useContainer>
-            {/* A 跨 2 列 + B..H 共 7 个 = 9 个格位，正好铺满 3×3；
-                rows 也必须写 3，否则第 3 行整行没有辅助线。 */}
-            <Grid columns={3} rows={3}>
-              <GridCell column="1/3" row="1" solid>
-                A
-              </GridCell>
-              <GridCell>B</GridCell>
-              <GridCell>C</GridCell>
-              <GridCell>D</GridCell>
-              <GridCell>E</GridCell>
-              <GridCell>F</GridCell>
-              <GridCell>G</GridCell>
-              <GridCell>H</GridCell>
-            </Grid>
-          </GridSystem>
+          <GridSolidCellsE676560CExample />
         </div>
+        <DemoShowCode code={GridSolidCellsE676560CExampleSource} />
       </DocsSection>
 
       <DocsSection data-grid-demo="responsive-breakpoints">
@@ -138,17 +133,9 @@ export function GridPage() {
           {t("columns and rows accept responsive objects; give values for sm, md, and lg explicitly.")}
         </DocsParagraph>
         <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
-          <GridSystem unstable_useContainer>
-            <Grid columns={{ sm: 1, md: 2, lg: 3 }} rows={{ sm: 6, md: 3, lg: 2 }}>
-              <GridCell>1</GridCell>
-              <GridCell>2</GridCell>
-              <GridCell>3</GridCell>
-              <GridCell>4</GridCell>
-              <GridCell>5</GridCell>
-              <GridCell>6</GridCell>
-            </Grid>
-          </GridSystem>
+          <GridResponsiveGrid8DF1FB3EExample />
         </div>
+        <DemoShowCode code={GridResponsiveGrid8DF1FB3EExampleSource} />
       </DocsSection>
 
       <DocsSection data-grid-demo="responsive-clipping">
@@ -159,24 +146,9 @@ export function GridPage() {
           )}
         </DocsParagraph>
         <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
-          <GridSystem unstable_useContainer>
-            {/* rows 要给“该断点下内容实际占用的行数”，否则辅助线只画到一半、底部几行没有网格线：
-                sm 1 列 → Feature 占 2 行 + 其余 6 格各 1 行 = 8；md 2 列 → 4；lg 4 列 → 2。 */}
-            <Grid columns={{ sm: 1, md: 2, lg: 4 }} rows={{ sm: 8, md: 4, lg: 2 }}>
-              <GridCell column={{ sm: "1", md: "1/3", lg: "1/3" }} row={{ sm: "1/3", md: 1 }} solid>
-                Feature
-              </GridCell>
-              {/* 编号按“格位”算：Feature 占了前两个格位（1、2），所以其余从 3 起，
-                  与 specific-clipping 的 1 + 2 / 3 / 4 / 5 + 6 同一套规则。 */}
-              <GridCell>3</GridCell>
-              <GridCell>4</GridCell>
-              <GridCell>5</GridCell>
-              <GridCell>6</GridCell>
-              <GridCell>7</GridCell>
-              <GridCell>8</GridCell>
-            </Grid>
-          </GridSystem>
+          <GridResponsiveGuideClippingA58874D5Example />
         </div>
+        <DemoShowCode code={GridResponsiveGuideClippingA58874D5ExampleSource} />
       </DocsSection>
 
       <DocsSection data-grid-demo="hide-row-guides">
@@ -185,10 +157,9 @@ export function GridPage() {
           {t('hideGuides="row" removes the horizontal guide borders.')}
         </DocsParagraph>
         <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
-          <GridSystem unstable_useContainer>
-            <Grid columns={12} rows={3} height="preserve-aspect-ratio" hideGuides="row" />
-          </GridSystem>
+          <GridHiddenRowGuides59338B9FExample />
         </div>
+        <DemoShowCode code={GridHiddenRowGuides59338B9FExampleSource} />
       </DocsSection>
 
       <DocsSection data-grid-demo="hide-column-guides">
@@ -197,10 +168,9 @@ export function GridPage() {
           {t('hideGuides="column" removes the vertical guide borders.')}
         </DocsParagraph>
         <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
-          <GridSystem unstable_useContainer>
-            <Grid columns={12} rows={3} height="preserve-aspect-ratio" hideGuides="column" />
-          </GridSystem>
+          <GridHiddenColumnGuidesE1033A1BExample />
         </div>
+        <DemoShowCode code={GridHiddenColumnGuidesE1033A1BExampleSource} />
       </DocsSection>
 
       <DocsSection data-grid-demo="overlaying-cells">
@@ -209,18 +179,9 @@ export function GridPage() {
           {t("Cells can share tracks and overlap; stacking follows DOM order.")}
         </DocsParagraph>
         <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
-          <GridSystem unstable_useContainer>
-            {/* 必须显式给 height：不给 height 时行高是 auto，跨行单元格的内容高度
-                会被均摊到它跨越的每一行（约 52px），小于单元格的 cell-padding(40px)，
-                文字就被 padding-top 顶到行线上。
-                315 / 3 行 = 105px，与本页其它示例的自动行高（cell-padding×2 + 文本行高）
-                一致；行高一致，标签才会像其它示例那样落在所在行的垂直中部。 */}
-            <Grid columns={4} rows={3} height={315}>
-              <GridCell column="1/3" row="1/3">A</GridCell>
-              <GridCell column="2/5" row="2/4">B</GridCell>
-            </Grid>
-          </GridSystem>
+          <GridOverlayingCellsB9F603D6Example />
         </div>
+        <DemoShowCode code={GridOverlayingCellsB9F603D6ExampleSource} />
       </DocsSection>
 
       <DocsSection data-grid-demo="specific-clipping">
@@ -229,44 +190,18 @@ export function GridPage() {
           {t('Use explicit line ranges ("a/b") to clip exactly the guides under a span.')}
         </DocsParagraph>
         <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
-          <GridSystem unstable_useContainer>
-            <Grid columns={3} rows={2}>
-              <GridCell column="1/3" row="1" solid>
-                1 + 2
-              </GridCell>
-              <GridCell>3</GridCell>
-              <GridCell>4</GridCell>
-              <GridCell column="2/4" row="2" solid>
-                5 + 6
-              </GridCell>
-            </Grid>
-          </GridSystem>
+          <GridSpecificGuideClipping4F529B64Example />
         </div>
+        <DemoShowCode code={GridSpecificGuideClipping4F529B64ExampleSource} />
       </DocsSection>
 
       <DocsSection data-grid-demo="cross">
         <DocsSectionTitle>{t("Cross")}</DocsSectionTitle>
         <DocsParagraph className="max-w-xl">{t("GridCross marks an intersection of grid lines.")}</DocsParagraph>
         <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
-          <GridSystem unstable_useContainer>
-            <Grid columns={3} rows={2}>
-              {/* 标上该网格的全部交点：4 条列线（columns+1）× 3 条行线（rows+1）= 12 个。
-                  十字以交点为中心跨骑网格线（inset 为负），最外圈的会探出网格盒，
-                  由 docs-local-scroll 的 padding 留出可见空间。 */}
-              {[1, 2, 3, 4].flatMap((column) =>
-                [1, 2, 3].map((row) => (
-                  <GridCross key={`${column}-${row}`} column={column} row={row} />
-                )),
-              )}
-              <GridCell>1</GridCell>
-              <GridCell>2</GridCell>
-              <GridCell>3</GridCell>
-              <GridCell>4</GridCell>
-              <GridCell>5</GridCell>
-              <GridCell>6</GridCell>
-            </Grid>
-          </GridSystem>
+          <GridGridWithCross6A783E1BExample />
         </div>
+        <DemoShowCode code={GridGridWithCross6A783E1BExampleSource} />
       </DocsSection>
 
       <DocsSection data-grid-demo="dashed-cross">
@@ -275,23 +210,9 @@ export function GridPage() {
           {t("Inside a GridSystem with dashedGuides, crosses render dashed as well.")}
         </DocsParagraph>
         <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
-          <GridSystem dashedGuides unstable_useContainer>
-            <Grid columns={3} rows={2}>
-              {/* 与 Cross 示例对齐：同样标上全部 12 个交点，这里用于对比虚线渲染 */}
-              {[1, 2, 3, 4].flatMap((column) =>
-                [1, 2, 3].map((row) => (
-                  <GridCross key={`${column}-${row}`} column={column} row={row} />
-                )),
-              )}
-              <GridCell>1</GridCell>
-              <GridCell>2</GridCell>
-              <GridCell>3</GridCell>
-              <GridCell>4</GridCell>
-              <GridCell>5</GridCell>
-              <GridCell>6</GridCell>
-            </Grid>
-          </GridSystem>
+          <GridDashedGridWithCrossB76B6591Example />
         </div>
+        <DemoShowCode code={GridDashedGridWithCrossB76B6591ExampleSource} />
       </DocsSection>
 
       <DocsSection data-grid-demo="dashed-page">
@@ -302,13 +223,11 @@ export function GridPage() {
           )}
         </DocsParagraph>
         <div data-slot="docs-local-scroll" className="mt-6 -mx-4 -mb-4 overflow-x-auto p-4">
-          <GridPageFrame>
-            <GridSystem dashedGuides unstable_useContainer>
-              <Grid columns={4} rows={2} height={140} />
-            </GridSystem>
-          </GridPageFrame>
+          <GridDashedGridWithGridPageFA2E79AFExample />
         </div>
+        <DemoShowCode code={GridDashedGridWithGridPageFA2E79AFExampleSource} />
       </DocsSection>
+      <ComponentApiReference componentName="grid" />
     </div>
   );
 }

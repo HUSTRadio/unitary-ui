@@ -1,10 +1,10 @@
-# 排版
+# Typography
 
-> Route: `/typography`
+> Route: `/layout/typography`
 
-# 排版
+# Typography
 
-标题、按钮、标签和正文的排版规范。
+Typography guidelines for headings, buttons, labels, and body text.
 
 ## Fonts
 
@@ -14,9 +14,9 @@ Three typefaces are bundled and subsetted into the framework: the default UI fac
 - `HarmonyOS Sans SC`纵一苇之所如，凌万顷之茫然。
 - `JetBrains Maple Mono`Together for a shared future.
 
-## 标题
+## Headings
 
-用于引出页面或章节。
+Used to introduce pages or sections.
 
 - `text-heading-72`Heading 72
 - `text-heading-64`Heading 64
@@ -29,17 +29,17 @@ Three typefaces are bundled and subsetted into the framework: the default UI fac
 - `text-heading-16`Heading 16 with **Subtle**
 - `text-heading-14`Heading 14
 
-## 按钮
+## Buttons
 
-仅用于渲染按钮的组件内部。
+Only to be used within components that render buttons.
 
 - `text-button-16`
 - `text-button-14`
 - `text-button-12`
 
-## 标签
+## Label
 
-为单行文本设计，并提供充足行高以便突出显示并与图标对齐。
+Designed for single-lines, and given ample line-height for highlighting & marrying up with icons.
 
 - `text-label-20`Label 20
 - `text-label-18`Label 18
@@ -51,9 +51,9 @@ Three typefaces are bundled and subsetted into the framework: the default UI fac
 - `text-label-12`Label 12 with **Strong**, AND CAPS
 - `text-label-12-mono`Label 12 Mono
 
-## 复制
+## Copy
 
-为多行文本设计，行高高于 Label。
+Designed for multiple lines of text, having a higher line height than Label.
 
 - `text-copy-24`Copy 24 with **Strong**
 - `text-copy-20`Copy 20 with **Strong**

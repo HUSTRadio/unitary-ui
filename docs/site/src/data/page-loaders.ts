@@ -6,8 +6,11 @@ import { canonicalDocsPath, getDocsRoute } from "./docs-routes";
 // Navigation prefetch and rendering share resources; constructing them starts no work.
 export const DOCS_PAGE_RESOURCES = {
   components: createPrefetch(() => import("../components/docs-components-page")),
+  grid: createPrefetch(() => import("../components/docs-grid-page")),
+  layer: createPrefetch(() => import("../pages/layer")),
+  "api-overview": createPrefetch(() => import("../pages/api-overview")),
   icons: createPrefetch(() => import("../components/docs-icons")),
-  "lifecycle-and-hooks": createPrefetch(() => import("../pages/lifecycle-and-hooks")),
+  "state-and-events": createPrefetch(() => import("../pages/state-and-events")),
   tokens: createPrefetch(() => import("../pages/tokens")),
   charts: createPrefetch(() => import("../pages/charts-gallery")),
   "app-shell": createPrefetch(() => import("../components/patterns/app-shell-demo")),
@@ -27,8 +30,8 @@ export function getDocsPrefetchResource(path: string): PrefetchResource<void> | 
         if (renderer.kind === "component-detail") await module.loadComponentExamples(renderer.componentName);
       } else if (renderer.kind === "localized") {
         await DOCS_PAGE_RESOURCES[renderer.page].load();
-      } else if (renderer.kind === "static" && renderer.page === "icons") {
-        await DOCS_PAGE_RESOURCES.icons.load();
+      } else if (renderer.kind === "static" && (renderer.page === "icons" || renderer.page === "grid")) {
+        await DOCS_PAGE_RESOURCES[renderer.page].load();
       }
     });
     routes.set(canonical, resource);

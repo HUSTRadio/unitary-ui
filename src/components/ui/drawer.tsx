@@ -1,7 +1,11 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
+
+const LayerDialogPrimitiveContent = withLayerBridge(DialogPrimitive.Content);
+const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
 
 /**
  * Drawer — Geist 官方 Drawer（docs/geist-markdown-refs/components/drawer.md 官方语义）。
@@ -129,7 +133,7 @@ function DrawerPanel({
   };
 
   return (
-    <DialogPrimitive.Content
+    <LayerDialogPrimitiveContent
       tabIndex={-1}
       data-slot="drawer"
       data-swipe-direction="down"
@@ -173,7 +177,7 @@ function DrawerPanel({
       }}
     >
       {children}
-    </DialogPrimitive.Content>
+    </LayerDialogPrimitiveContent>
   );
 }
 
@@ -218,7 +222,7 @@ function Drawer({
       }}
     >
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none" />
+        <LayerDialogPrimitiveOverlay className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none" />
         <DrawerPanel
           onDismiss={onDismiss}
           height={height}

@@ -16,14 +16,6 @@ A bottom sharing panel with destinations, actions, and a cancel button.
 
 ](#/components/activity-view)[
 
-area-chart
-
-### Area Chart
-
-Show trends over time with filled areas, stacking, percentage mode, and custom tooltips.
-
-](#/components/area-chart)[
-
 avatar
 
 ### Avatar
@@ -47,22 +39,6 @@ banner
 Show a full-width announcement or important notice at the top of a container.
 
 ](#/components/banner)[
-
-bar-chart
-
-### Bar Chart
-
-Compare values across categories with bars, stacking, percentage mode, and horizontal bars.
-
-](#/components/bar-chart)[
-
-bar-list
-
-### Bar List
-
-Rank items with names, bars, and values, plus optional links and icons.
-
-](#/components/bar-list)[
 
 book
 
@@ -120,14 +96,6 @@ Browses images with swipe gestures, arrow controls, and slide indicators.
 
 ](#/components/carousel)[
 
-category-bar
-
-### Category Bar
-
-Show proportions in a segmented bar, with optional threshold markers and tooltips.
-
-](#/components/category-bar)[
-
 checkbox
 
 ### Checkbox
@@ -175,14 +143,6 @@ collapse
 Expand or collapse supporting content, such as FAQs and advanced settings, under a heading.
 
 ](#/components/collapse)[
-
-combo-chart
-
-### Combo Chart
-
-Combine bars and lines in one chart, with optional dual axes for different units.
-
-](#/components/combo-chart)[
 
 combobox
 
@@ -255,14 +215,6 @@ device
 Present screenshots or recordings in a phone or tablet frame of a specified model.
 
 ](#/components/device)[
-
-donut-chart
-
-### Donut Chart
-
-Show proportions as a donut or pie; the donut center can display a main metric.
-
-](#/components/donut-chart)[
 
 dots-menu
 
@@ -376,14 +328,6 @@ Show a percentage, such as quota usage or utilization, as an arc.
 
 ](#/components/gauge)[
 
-grid
-
-### Grid
-
-Create a two-dimensional layout with cells and visible guide lines.
-
-](#/components/grid)[
-
 hamburger-menu
 
 ### Hamburger Menu
@@ -423,22 +367,6 @@ label
 Give a form control a visible name and associate it with the input.
 
 ](#/components/label)[
-
-lazy-load
-
-### Lazy Load
-
-Mounts content once it approaches a viewport or a local scroll container.
-
-](#/components/lazy-load)[
-
-line-chart
-
-### Line Chart
-
-Compare continuous trends with lines, axis labels, and custom tooltips.
-
-](#/components/line-chart)[
 
 link
 
@@ -536,14 +464,6 @@ Switch a filter or selection by clicking a pill.
 
 ](#/components/pill)[
 
-prefetch
-
-### Prefetch
-
-Prepares reusable modules or data on intent, near a viewport, or while idle.
-
-](#/components/prefetch)[
-
 progress
 
 ### Progress
@@ -551,14 +471,6 @@ progress
 Show task completion or used capacity as a share of the total.
 
 ](#/components/progress)[
-
-progress-circle
-
-### Progress Circle
-
-Show completion or capacity as a ring, with a value and description in the center.
-
-](#/components/progress-circle)[
 
 project-banner
 
@@ -591,14 +503,6 @@ responsive-drawer
 Use one drawer that opens from the bottom on phones and from the right on desktops, with bottom height detents.
 
 ](#/components/responsive-drawer)[
-
-safe-area
-
-### Safe Area
-
-Add padding around notches, rounded corners, and system bars while keeping a minimum inset.
-
-](#/components/safe-area)[
 
 scroller
 
@@ -688,14 +592,6 @@ Display a copyable shell command or short code snippet.
 
 ](#/components/snippet)[
 
-spark-chart
-
-### Spark Chart
-
-Show trends inside cards or tables with a small area, line, or bar chart.
-
-](#/components/spark-chart)[
-
 spinner
 
 ### Spinner
@@ -711,14 +607,6 @@ split-button
 Combine a primary action and a menu of related options in one button group.
 
 ](#/components/split-button)[
-
-stack
-
-### Stack
-
-Arrange children horizontally or vertically with consistent spacing and alignment.
-
-](#/components/stack)[
 
 status-dot
 
@@ -823,14 +711,6 @@ tooltip
 Show a short explanation on hover or focus.
 
 ](#/components/tooltip)[
-
-tracker
-
-### Tracker
-
-Show event history, such as uptime or build results, as a sequence of status blocks.
-
-](#/components/tracker)[
 
 video
 

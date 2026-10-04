@@ -1,9 +1,13 @@
+import { useLayerVariables } from "./layer";
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { createPortal, flushSync } from "react-dom";
 import { ContextMenu as ContextMenuPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { getVisibleViewport, subscribeToVisualViewport } from "@/lib/visual-viewport";
+
+const LayerContextMenuPrimitiveContent = withLayerBridge(ContextMenuPrimitive.Content);
 
 const ContextMenu = ContextMenuPrimitive.Root;
 
@@ -73,7 +77,7 @@ const ContextMenuContent = React.forwardRef<
   ContextMenuContentProps
 >(({ className, ...props }, ref) => (
   <ContextMenuPrimitive.Portal>
-    <ContextMenuPrimitive.Content
+    <LayerContextMenuPrimitiveContent
       ref={ref}
       onContextMenu={(event) => event.preventDefault()}
       className={cn(
@@ -218,11 +222,13 @@ const QUICK_ACTIONS_SCRIM_CLASS =
  * 这样遮罩与菜单同生共死，并跟随菜单的 animationstart 同步淡出。
  */
 function QuickActionsScrim({ exiting }: { exiting: boolean }) {
+  const vars = useLayerVariables();
   if (typeof document === "undefined") return null;
 
   return createPortal(
     <div
       aria-hidden="true"
+      style={vars}
       data-slot="context-menu-quick-actions-overlay"
       data-exiting={exiting ? "" : undefined}
       className={cn(
@@ -298,7 +304,7 @@ const ContextMenuQuickActionsContent = React.forwardRef<
 
   return (
     <ContextMenuPrimitive.Portal>
-      <ContextMenuPrimitive.Content
+      <LayerContextMenuPrimitiveContent
         ref={composedRef}
         onContextMenu={(event) => event.preventDefault()}
         onAnimationStart={handleAnimationStart}
@@ -310,7 +316,7 @@ const ContextMenuQuickActionsContent = React.forwardRef<
       >
         {backdropBlur ? <QuickActionsScrim exiting={scrimExiting} /> : null}
         {children}
-      </ContextMenuPrimitive.Content>
+      </LayerContextMenuPrimitiveContent>
     </ContextMenuPrimitive.Portal>
   );
 });

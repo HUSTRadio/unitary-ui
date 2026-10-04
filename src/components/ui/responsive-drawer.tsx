@@ -1,3 +1,4 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import { X } from "lucide-react";
@@ -6,6 +7,9 @@ import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import { Grabber } from "@/components/ui/grabber";
 import { snapToDetent } from "@/components/ui/bottom-sheet";
+
+const LayerDialogPrimitiveContent = withLayerBridge(DialogPrimitive.Content);
+const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
 
 /**
  * ResponsiveDrawer — 统一响应式抽屉家族（本地扩展，与官方镜像 Drawer / Sheet / BottomSheet 并存）。
@@ -259,11 +263,11 @@ function ResponsiveDrawerContent({
 
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay
+      <LayerDialogPrimitiveOverlay
         data-slot="responsive-drawer-overlay"
         className="fixed inset-0 z-[var(--uni-z-drawer)] bg-[var(--uni-overlay-scrim-color)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 motion-reduce:animate-none! motion-reduce:transition-none"
       />
-      <DialogPrimitive.Content
+      <LayerDialogPrimitiveContent
         tabIndex={-1}
         data-slot="responsive-drawer-content"
         data-placement={placement}
@@ -310,7 +314,7 @@ function ResponsiveDrawerContent({
           />
         )}
         {children}
-      </DialogPrimitive.Content>
+      </LayerDialogPrimitiveContent>
     </DialogPrimitive.Portal>
   );
 }

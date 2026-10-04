@@ -4,7 +4,7 @@
 
 Show completion or capacity as a ring, with a value and description in the center.
 
-[Back to Components](#/components)
+[Back to Charts](#/charts)
 
 # Progress Circle
 

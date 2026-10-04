@@ -3918,6 +3918,22 @@ export const GLOBAL_TOKENS = {
     "status": "active",
     "group": "typography"
   },
+  "--uni-z-base": {
+    "value": "0",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "layers"
+  },
+  "--uni-z-calendar": {
+    "value": "30",
+    "darkValue": "",
+    "kind": "runtime",
+    "variants": {},
+    "status": "active",
+    "group": "layers"
+  },
   "--uni-z-context-card": {
     "value": "1000000",
     "darkValue": "",

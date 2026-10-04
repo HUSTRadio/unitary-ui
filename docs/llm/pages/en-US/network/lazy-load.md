@@ -1,10 +1,8 @@
 # Lazy Load
 
-> Route: `/components/lazy-load`
+> Route: `/network/lazy-load`
 
 Mounts content once it approaches a viewport or a local scroll container.
-
-[Back to Components](#/components)
 
 # Lazy Load
 

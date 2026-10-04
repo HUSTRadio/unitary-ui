@@ -600,8 +600,8 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
       reason: "只输出内边距，不使用颜色变量，因此不随主题变化。",
     },
   },
-  stack: {
-    slug: "stack",
+  flex: {
+    slug: "flex",
     locale: "zh-CN",
     summary: "沿横向或纵向排列子元素，统一间距和对齐方式。",
     whenToUse: [
@@ -614,9 +614,9 @@ export const GUIDES_05_ZH: Record<string, ComponentGuide> = {
     ],
     examples: [
       {
-        id: "stack-default",
+        id: "flex-default",
         kind: "minimal",
-        title: "默认堆叠",
+        title: "默认弹性布局",
         description: "纵向堆叠两组行：一组居中对齐，一组两端对齐。",
         demoKey: "default",
       },
@@ -1263,8 +1263,8 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
       reason: "It only emits padding and consumes no color tokens, so it does not vary by theme.",
     },
   },
-  stack: {
-    slug: "stack",
+  flex: {
+    slug: "flex",
     locale: "en-US",
     summary:
       "Arrange children horizontally or vertically with consistent spacing and alignment.",
@@ -1278,9 +1278,9 @@ export const GUIDES_05_EN: Record<string, ComponentGuide> = {
     ],
     examples: [
       {
-        id: "stack-default",
+        id: "flex-default",
         kind: "minimal",
-        title: "Default stack",
+        title: "Default flex layout",
         description: "A column stack of two rows: one centered, one justified to the ends.",
         demoKey: "default",
       },

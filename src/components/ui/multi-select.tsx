@@ -1,3 +1,4 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Popover as PopoverPrimitive } from "radix-ui";
 import { ChevronDown } from "lucide-react";
@@ -6,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import { layoutRootStyle, type ControlLayout } from "@/lib/control-layout";
 import { Checkbox } from "./checkbox";
+
+const LayerPopoverPrimitiveContent = withLayerBridge(PopoverPrimitive.Content);
 
 /**
  * Multi Select — Geist 官方 Multi Select（2026-08-15 实时页面）。
@@ -183,7 +186,7 @@ const MultiSelectContent = React.forwardRef<
 
     return (
       <PopoverPrimitive.Portal>
-        <PopoverPrimitive.Content
+        <LayerPopoverPrimitiveContent
           ref={setContentRef}
           data-slot="multi-select-content"
           role="dialog"
@@ -207,7 +210,7 @@ const MultiSelectContent = React.forwardRef<
           <PopoverPrimitive.Close asChild>
             <button ref={closeRef} type="button" hidden tabIndex={-1} aria-hidden="true" />
           </PopoverPrimitive.Close>
-        </PopoverPrimitive.Content>
+        </LayerPopoverPrimitiveContent>
       </PopoverPrimitive.Portal>
     );
   },

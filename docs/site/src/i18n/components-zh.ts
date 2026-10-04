@@ -37,7 +37,7 @@ const COMPONENT_DESCRIPTION_ZH: Record<string, string> = {
   "menu-bar": "横向应用菜单栏，支持子菜单、勾选项和快捷键提示。",
   toolbar: "分组排列工具按钮，空间不足时将可折叠组移入更多操作菜单。",
   "safe-area": "用内边距避开刘海、圆角和系统栏，并保留指定的最小间距。",
-  stack: "沿横向或纵向排列子元素，统一间距和对齐方式。",
+  flex: "沿横向或纵向排列子元素，统一间距和对齐方式。",
   "continuous-surface": "按元素尺寸生成连续圆角裁切；无法生成路径时使用普通圆角。",
   description: "以键值对显示地区、套餐等元数据。",
   "copy-button": "复制指定文本，并用图标反馈复制结果。",

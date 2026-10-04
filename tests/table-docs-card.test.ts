@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { EXAMPLE_SOURCE } from "../docs/site/src/examples/registry";
 
-import { docsPageSource as source } from "./helpers/docs-page-source";
+import { docsPageSource as source, demoShowCodeSource } from "./helpers/docs-page-source";
 
 describe("Table docs demo card contract", () => {
   it("uses a dedicated full-width Table demo card", () => {
@@ -14,12 +14,12 @@ describe("Table docs demo card contract", () => {
   });
 
   it("renders the official Show code footer as part of the card", () => {
-    expect(source).toContain("aria-expanded={showCode}");
-    expect(source).toContain("aria-controls={codeId}");
-    expect(source).toContain("id={codeId}");
-    expect(source).toContain("Show code");
-    expect(source).toContain("h-12 w-full items-center");
-    expect(source).toContain("border-t border-gray-400 bg-background-200");
+    expect(demoShowCodeSource).toContain("aria-expanded={showCode}");
+    expect(demoShowCodeSource).toContain("aria-controls={codeId}");
+    expect(demoShowCodeSource).toContain("id={codeId}");
+    expect(demoShowCodeSource).toContain("Show code");
+    expect(demoShowCodeSource).toContain("h-12 w-full items-center");
+    expect(demoShowCodeSource).toContain("border-t border-gray-400 bg-background-200");
   });
 
   it("uses TableDemoCard for table variants", () => {

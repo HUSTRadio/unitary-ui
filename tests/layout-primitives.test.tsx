@@ -3,12 +3,12 @@ import { readFileSync } from "node:fs";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
-import { SafeArea, Stack, type LayoutSpacing } from "../src/components/ui/layout";
+import { SafeArea, Flex, type LayoutSpacing } from "../src/components/ui/layout";
 
 /**
  * 布局原语行为契约（替代源码字符串断言，HIG-AUD-041）。
  *
- * 断言对象是**渲染输出**而不是实现文本：SafeArea 的 `style` 与 Stack 的类名是
+ * 断言对象是**渲染输出**而不是实现文本：SafeArea 的 `style` 与 Flex 的类名是
  * 组件对外可观察的结果，换实现方式（如改用 CSS 自定义属性）时不应需要改测试。
  * 用服务端渲染串做判据，避免 jsdom 对 `max()` / `env()` 的解析差异干扰结论。
  */
@@ -65,16 +65,16 @@ describe("SafeArea 行为", () => {
   });
 });
 
-describe("Stack 行为", () => {
+describe("Flex 行为", () => {
   it("默认纵向堆叠并使用 md 间距档", () => {
-    const html = markup(<Stack />);
-    expect(html).toContain('data-slot="stack"');
+    const html = markup(<Flex />);
+    expect(html).toContain('data-slot="flex"');
     expect(html).toContain("flex-col");
     expect(html).toContain("gap-4");
   });
 
   it("direction / align / justify / wrap 落到类名", () => {
-    const html = markup(<Stack direction="row" align="baseline" justify="between" wrap />);
+    const html = markup(<Flex direction="row" align="baseline" justify="between" wrap />);
     expect(html).toContain("flex-row");
     expect(html).toContain("items-baseline");
     expect(html).toContain("justify-between");
@@ -83,21 +83,21 @@ describe("Stack 行为", () => {
   });
 
   it("未传 align / justify / wrap 时不输出对应类", () => {
-    const html = markup(<Stack />);
+    const html = markup(<Flex />);
     expect(html).not.toContain("items-");
     expect(html).not.toContain("justify-");
     expect(html).not.toContain("flex-wrap");
   });
 });
 
-describe("HIG-AUD-046：SafeArea 与 Stack 的档位表必须逐档同步", () => {
-  it("同一档位下 SafeArea 的 --spacing 倍数等于 Stack 的 gap 数字", () => {
+describe("HIG-AUD-046：SafeArea 与 Flex 的档位表必须逐档同步", () => {
+  it("同一档位下 SafeArea 的 --spacing 倍数等于 Flex 的 gap 数字", () => {
     for (const step of STEPS) {
       const padding = paddingOf(markup(<SafeArea padding={step} />), "top")!;
       const multiplier = /calc\(var\(--spacing\) \* (\d+)\)/.exec(padding)?.[1];
-      const gapClass = /\bgap-(\d+)\b/.exec(markup(<Stack gap={step} />))?.[1];
+      const gapClass = /\bgap-(\d+)\b/.exec(markup(<Flex gap={step} />))?.[1];
       expect(multiplier, `SafeArea 档位 ${step}`).toBeTruthy();
-      expect(gapClass, `Stack 档位 ${step}`).toBeTruthy();
+      expect(gapClass, `Flex 档位 ${step}`).toBeTruthy();
       // 两张平行表一旦漂移（例如只改了一处档位），这里立即失败
       expect(`${step}:${multiplier}`).toBe(`${step}:${gapClass}`);
     }
@@ -120,8 +120,8 @@ describe("布局原语的文档注册", () => {
     "utf8",
   );
 
-  it("SafeArea 与 Stack 归入 Layout & Organization 分组", () => {
-    expect(routes).toContain('new Set(["safe-area", "stack"])');
+  it("SafeArea 与 Flex 归入 Layout & Organization 分组", () => {
+    expect(routes).toContain('new Set(["grid", "safe-area", "flex", "layer"])');
     expect(routes).toContain('title: "Layout & Organization"');
     expect(routes).toContain('titleZh: "排版与布局"');
   });

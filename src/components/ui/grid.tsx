@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import styles from "./grid.module.css";
 
 /**
- * Grid — official Geist GridSystem API replica (docs/geist-markdown-refs/components/grid.md).
+ * Grid — official Geist GridSystem API replica (docs/geist-markdown-refs/layout/grid.md).
  *
  * Official surface:
  * - GridSystem: debug / guideWidth / dashedGuides / unstable_useContainer

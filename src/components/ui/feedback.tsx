@@ -1,3 +1,4 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Popover } from "radix-ui";
 
@@ -6,6 +7,8 @@ import { RatingButtons, type RatingValue } from "@/components/ui/rating-pill";
 import { Select, SelectItem } from "@/components/ui/select";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+
+const LayerPopoverContent = withLayerBridge(Popover.Content);
 
 /**
  * Feedback — 与实时 vercel.com/geist/feedback 对齐的默认 Popover 与 Inline 胶囊。
@@ -457,7 +460,7 @@ function Feedback({
           ) : null}
         </Popover.Trigger>
         <Popover.Portal>
-          <Popover.Content
+          <LayerPopoverContent
             data-slot="feedback-popup"
             role="dialog"
             align="center"
@@ -473,7 +476,7 @@ function Feedback({
             )}
           >
             <FeedbackForm {...formProps} />
-          </Popover.Content>
+          </LayerPopoverContent>
         </Popover.Portal>
       </Popover.Root>
     </div>

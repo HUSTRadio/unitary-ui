@@ -1,3 +1,4 @@
+import { useLayerVariables } from "./layer";
 import * as React from "react";
 import { createPortal } from "react-dom";
 
@@ -159,6 +160,7 @@ function EditMenu({
   onContextMenu,
   ...props
 }: EditMenuProps) {
+  const layerVars = useLayerVariables();
   const { t } = useI18n();
   const containerRef = React.useRef<HTMLDivElement>(null);
   const capsuleRef = React.useRef<HTMLDivElement>(null);
@@ -577,6 +579,7 @@ function EditMenu({
           restoreSelection();
         }}
         style={{
+          ...layerVars,
           position: "fixed",
           top: position?.top ?? 0,
           left: position?.left ?? 0,

@@ -1,7 +1,11 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Menubar as MenubarPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
+
+const LayerMenubarPrimitiveContent = withLayerBridge(MenubarPrimitive.Content);
+const LayerMenubarPrimitiveSubContent = withLayerBridge(MenubarPrimitive.SubContent);
 
 /**
  * MenuBar — Apple HIG「The Menu Bar」的 Geist 化实现：水平应用菜单栏。
@@ -146,7 +150,7 @@ const MenuBarContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Content>
 >(({ className, ...props }, ref) => (
   <MenubarPrimitive.Portal>
-    <MenubarPrimitive.Content
+    <LayerMenubarPrimitiveContent
       ref={ref}
       data-slot="menu-bar-content"
       className={cn(
@@ -284,7 +288,7 @@ const MenuBarSubContent = React.forwardRef<
 
   return (
     <MenubarPrimitive.Portal>
-      <MenubarPrimitive.SubContent
+      <LayerMenubarPrimitiveSubContent
         {...props}
         ref={setRefs}
         data-slot="menu-bar-sub-content"

@@ -13,7 +13,7 @@ for (const theme of ["light", "dark"] as const) {
         }, { theme, language });
         const errors: string[] = [];
         page.on("pageerror", (error) => errors.push(error.message));
-        await page.goto("/#/components/lazy-load");
+        await page.goto("/#/network/lazy-load");
         await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
         const zh = language === "zh-CN";
         await expect(page.locator("#main-content h1")).toHaveText(zh ? "延迟加载" : "Lazy Load");
@@ -40,11 +40,11 @@ for (const theme of ["light", "dark"] as const) {
         const components = nav.locator(`[data-slot="${groupSlot}"]`).filter({
           has: page.locator(`[data-slot="${headingSlot}"]`, { hasText: componentTitle }),
         });
-        await expect(components.locator('a[href*="/components/lazy-load"], a[href*="/components/prefetch"]')).toHaveCount(0);
+        await expect(components.locator('a[href*="/network/lazy-load"], a[href*="/network/prefetch"]')).toHaveCount(0);
 
         await network.screenshot({ path: testInfo.outputPath("network-navigation.png") });
         await network.getByRole("link", { name: zh ? "预载" : "Prefetch", exact: true }).click();
-        await expect(page).toHaveURL(/#\/components\/prefetch$/);
+        await expect(page).toHaveURL(/#\/network\/prefetch$/);
         await expect(page.locator("#main-content h1")).toHaveText(zh ? "预载" : "Prefetch");
         await expect(page.locator('[data-demo-card="default"] [data-slot="prefetch-demo"]')).toBeVisible();
         if (mobile) {
@@ -55,7 +55,7 @@ for (const theme of ["light", "dark"] as const) {
         await page.getByRole("combobox").fill(zh ? "延迟加载" : "Lazy Load");
         await expect(page.locator('[cmdk-group-heading]:visible')).toHaveText(networkTitle);
         await page.getByRole("option", { name: zh ? "延迟加载" : "Lazy Load", exact: true }).click();
-        await expect(page).toHaveURL(/#\/components\/lazy-load$/);
+        await expect(page).toHaveURL(/#\/network\/lazy-load$/);
         await expect(page.locator("#main-content h1")).toHaveText(zh ? "延迟加载" : "Lazy Load");
         expect(errors).toEqual([]);
       });

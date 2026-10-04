@@ -1,3 +1,4 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Popover as PopoverPrimitive } from "radix-ui";
 
@@ -52,6 +53,8 @@ import {
   calendarColClass,
 } from "./calendar-classes";
 import { CalendarPanel } from "./calendar-panel";
+
+const LayerPopoverPrimitiveContent = withLayerBridge(PopoverPrimitive.Content);
 
 type CalendarSize = "medium" | "small";
 
@@ -204,7 +207,7 @@ function CalendarCombobox({
         </div>
         {Object.keys(presets).length > 0 && (
           <PopoverPrimitive.Portal>
-            <PopoverPrimitive.Content
+            <LayerPopoverPrimitiveContent
               align="start"
               sideOffset={8}
               className={cn(COMBO_MENU_CLASS, full && "grid-cols-2")}
@@ -257,7 +260,7 @@ function CalendarCombobox({
                   </div>
                 </div>
               )}
-            </PopoverPrimitive.Content>
+            </LayerPopoverPrimitiveContent>
           </PopoverPrimitive.Portal>
         )}
       </div>
@@ -510,13 +513,13 @@ function Calendar({
           </div>
         </span>
         <PopoverPrimitive.Portal>
-          <PopoverPrimitive.Content
+          <LayerPopoverPrimitiveContent
             side="bottom"
             align="start"
             sideOffset={4}
             data-slot="calendar-popover"
             className={cn(
-              "group/popover z-30 overflow-x-hidden overflow-y-auto rounded-xl bg-[var(--uni-background-100)] shadow-[var(--uni-shadow-menu)] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none!",
+              "group/popover z-[var(--uni-z-calendar)] overflow-x-hidden overflow-y-auto rounded-xl bg-[var(--uni-background-100)] shadow-[var(--uni-shadow-menu)] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none!",
               horizontalLayout ? "w-[520px]" : "w-[280px]",
             )}
           >
@@ -538,7 +541,7 @@ function Calendar({
                 onChange?.(range);
               }}
             />
-          </PopoverPrimitive.Content>
+          </LayerPopoverPrimitiveContent>
         </PopoverPrimitive.Portal>
       </PopoverPrimitive.Root>
       {!effectiveComboboxFirst && effectiveShowCombobox && (

@@ -75,7 +75,7 @@ describe("LLM docs export contract", () => {
   it("classifies async primitives as network pages while preserving their existing URLs", () => {
     const routes = readIndex().routes;
     expect(routes.filter((route: any) => route.category === "network").map((route: any) => route.path))
-      .toEqual(["/components/lazy-load", "/components/prefetch"]);
+      .toEqual(["/network/lazy-load", "/network/prefetch"]);
     for (const route of DOCS_ROUTE_SEQUENCE.filter((route) => route.group === "network")) {
       expect(routes.find((entry: any) => entry.path === route.to)?.category).toBe("network");
     }
@@ -132,8 +132,7 @@ describe("LLM docs export contract", () => {
     // 图表组件族的详情页挂在 /charts/<name>，与 /components/<name> 同属 component-detail 渲染器
     const componentRoutes = index.routes.filter(
       (r: any) =>
-        (r.path.startsWith("/components/") && r.path !== "/components") ||
-        r.path.startsWith("/charts/"),
+        DOCS_ROUTE_SEQUENCE.some((route) => route.to === r.path && route.renderer.kind === "component-detail"),
     );
     expect(componentRoutes.length).toBe(
       DOCS_ROUTE_SEQUENCE.filter((route) => route.renderer.kind === "component-detail").length,

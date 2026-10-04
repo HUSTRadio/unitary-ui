@@ -17,8 +17,8 @@
         "en-US": "pages/en-US/introduction.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:ef17ff5de4c72938f4932359f95a8f323292fea79082faa3b3197e4e28299bf5",
-        "en-US": "sha256:28b6aff960b2754069764ceacafadc2c788f0f6844ac7956885d208fb8afbd24"
+        "zh-CN": "sha256:d5c0100ae2027e68fd17d4fde3438b6fb59ae059b982b656e7493c6f97fef9c1",
+        "en-US": "sha256:8d8c6874d44500dfcc72532588eff77bc0f48957d32b9809ec4fd252e14fce5a"
       }
     },
     {
@@ -54,22 +54,6 @@
       }
     },
     {
-      "path": "/tokens",
-      "title": {
-        "zh-CN": "全局变量",
-        "en-US": "Global Tokens"
-      },
-      "category": "foundations",
-      "locales": {
-        "zh-CN": "pages/zh-CN/tokens.md",
-        "en-US": "pages/en-US/tokens.md"
-      },
-      "sourceHash": {
-        "zh-CN": "sha256:4ff5aa27babc2b853db98835a35f8905d2b8c75b30036673ef7fb4550a97b283",
-        "en-US": "sha256:19a069b824e6e52bea647e364f27198eed5bdda9b3a3bf0de58e8152f6feaae8"
-      }
-    },
-    {
       "path": "/materials",
       "title": {
         "zh-CN": "材质",
@@ -86,115 +70,163 @@
       }
     },
     {
-      "path": "/typography",
+      "path": "/layout/typography",
       "title": {
         "zh-CN": "排版",
         "en-US": "Typography"
       },
-      "category": "foundations",
+      "category": "layout",
       "locales": {
-        "zh-CN": "pages/zh-CN/typography.md",
-        "en-US": "pages/en-US/typography.md"
+        "zh-CN": "pages/zh-CN/layout/typography.md",
+        "en-US": "pages/en-US/layout/typography.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:fdfc0892165247f12599882cccef1418df95feaf80cfcd3426f36a6674696afc",
-        "en-US": "sha256:147cc1eb42dea6470c4e12dc2463f1bc1abe177a0b24397dcb1f39354a196239"
+        "zh-CN": "sha256:6305cae8a7d40b54b1c6051b82648ce5fce14a69c95789d38eafefea1d8a8301",
+        "en-US": "sha256:3216df7630949a3e031e605008dcd21a254674f31471c3278f0b8fd30e446313"
       }
     },
     {
-      "path": "/grid",
+      "path": "/layout/flex",
       "title": {
-        "zh-CN": "网格",
+        "zh-CN": "弹性布局",
+        "en-US": "Flex"
+      },
+      "category": "layout",
+      "locales": {
+        "zh-CN": "pages/zh-CN/layout/flex.md",
+        "en-US": "pages/en-US/layout/flex.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:13a9c1641646cb669acc4df1e32b5a5bc2887fdcc12688f75ad371dd5e7f2959",
+        "en-US": "sha256:4df2ab702ce0e3af51cda64972ecc0ee52a4ba75cab5f31bfe8c0dd3c538cfd7"
+      }
+    },
+    {
+      "path": "/layout/grid",
+      "title": {
+        "zh-CN": "栅格",
         "en-US": "Grid"
       },
-      "category": "foundations",
+      "category": "layout",
       "locales": {
-        "zh-CN": "pages/zh-CN/grid.md",
-        "en-US": "pages/en-US/grid.md"
+        "zh-CN": "pages/zh-CN/layout/grid.md",
+        "en-US": "pages/en-US/layout/grid.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:ff3a2bf0acd176e5bf0eb350d413897217bed4f2d79d9bfb9c0a5dcd1d2b0d26",
-        "en-US": "sha256:8b098206b81d420113dcf5159626aac3fd8ff2b94135186cad138eab6eabff9f"
+        "zh-CN": "sha256:b21ce9f67278cc8d9cbf8ce42d0147a971cf59b4afc810201423afb243d956ad",
+        "en-US": "sha256:8db711a9fabf30a36b0c399d4b744d2ba81240fd056f2650c0f80e51dfb39c60"
       }
     },
     {
-      "path": "/components/safe-area",
+      "path": "/layout/layer",
+      "title": {
+        "zh-CN": "层级",
+        "en-US": "Layer"
+      },
+      "category": "layout",
+      "locales": {
+        "zh-CN": "pages/zh-CN/layout/layer.md",
+        "en-US": "pages/en-US/layout/layer.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:92ee40269e5aeb2ff473d4bbaa68f50d5358d6a6175b55bb7d8a82a6ec2514e7",
+        "en-US": "sha256:6404fb0f8d36022fc6c8756e83716f85d5f59dfaf2303aa4b173c943b3a0c946"
+      }
+    },
+    {
+      "path": "/layout/safe-area",
       "title": {
         "zh-CN": "安全区",
         "en-US": "Safe Area"
       },
-      "category": "component",
+      "category": "layout",
       "locales": {
-        "zh-CN": "pages/zh-CN/components/safe-area.md",
-        "en-US": "pages/en-US/components/safe-area.md"
+        "zh-CN": "pages/zh-CN/layout/safe-area.md",
+        "en-US": "pages/en-US/layout/safe-area.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:8781e20b82fd498c097a7760bf1b23e215e28ffa0adb61a13e88f862d8159213",
-        "en-US": "sha256:08a0954c1fc5ed202bc400830312b8411367c652eb6f59e1e62ed32593cab98a"
+        "zh-CN": "sha256:f222179f1a88a2bfb1a3ba3295f6cac5ff1bf9b44923074e42ed3368160c334f",
+        "en-US": "sha256:5a75930d6f36bf037b951b603cc0369e0ac68bbe73a0fc5c1dacb5d0e16a4417"
       }
     },
     {
-      "path": "/components/stack",
+      "path": "/api",
       "title": {
-        "zh-CN": "堆叠",
-        "en-US": "Stack"
-      },
-      "category": "component",
-      "locales": {
-        "zh-CN": "pages/zh-CN/components/stack.md",
-        "en-US": "pages/en-US/components/stack.md"
-      },
-      "sourceHash": {
-        "zh-CN": "sha256:9bfdb89c9947541fd09d1ae5706fab06862ee00dc33562e897b4f42844ab581b",
-        "en-US": "sha256:eea6fa3b5269d2556b08d1d0050b7e2d4dfa8d2ffd84c16444d5a9a66a2e83d5"
-      }
-    },
-    {
-      "path": "/lifecycle-and-hooks",
-      "title": {
-        "zh-CN": "生命周期与钩子",
-        "en-US": "Lifecycle & Hooks"
+        "zh-CN": "API 总览",
+        "en-US": "API Overview"
       },
       "category": "api",
       "locales": {
-        "zh-CN": "pages/zh-CN/lifecycle-and-hooks.md",
-        "en-US": "pages/en-US/lifecycle-and-hooks.md"
+        "zh-CN": "pages/zh-CN/api.md",
+        "en-US": "pages/en-US/api.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:3926b327eb25d933f9d0a13da31f131c76b70071566b8d29f33d0675c37ccd33",
-        "en-US": "sha256:fbf84b82e8fffb67c32e368835d7e7b8940d53ecca9d74a820a3b2fc3180a24c"
+        "zh-CN": "sha256:c6374bc485281551dd087fb4eade5db0edcca7dea19adf87f321733a6cc96051",
+        "en-US": "sha256:d264d14cbdd373adb6a1a6c41e6a834a66a12b0022c13e1e8e293c5dab2c325e"
       }
     },
     {
-      "path": "/components/lazy-load",
+      "path": "/api/state-and-events",
+      "title": {
+        "zh-CN": "状态与事件",
+        "en-US": "State & Events"
+      },
+      "category": "api",
+      "locales": {
+        "zh-CN": "pages/zh-CN/api/state-and-events.md",
+        "en-US": "pages/en-US/api/state-and-events.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:de8a0853c77f72fab9a667714108fe1bc86b81f5f8e8769dba9dd2b6ed5d9fdc",
+        "en-US": "sha256:fcc0c39653cd697cb3f7732f6739197f88ea2e3d19d8099fd05a8bfa6aa52008"
+      }
+    },
+    {
+      "path": "/api/tokens",
+      "title": {
+        "zh-CN": "全局变量",
+        "en-US": "Global Tokens"
+      },
+      "category": "api",
+      "locales": {
+        "zh-CN": "pages/zh-CN/api/tokens.md",
+        "en-US": "pages/en-US/api/tokens.md"
+      },
+      "sourceHash": {
+        "zh-CN": "sha256:29f2dc403f3f9f15b87f225addb91e5f15f64812c0f9d359a06aad25ffaa51c0",
+        "en-US": "sha256:7f680e15e9793dcc863a68f7f3e43c01ac3abe7b0826c6ace193790e285f5a05"
+      }
+    },
+    {
+      "path": "/network/lazy-load",
       "title": {
         "zh-CN": "延迟加载",
         "en-US": "Lazy Load"
       },
       "category": "network",
       "locales": {
-        "zh-CN": "pages/zh-CN/components/lazy-load.md",
-        "en-US": "pages/en-US/components/lazy-load.md"
+        "zh-CN": "pages/zh-CN/network/lazy-load.md",
+        "en-US": "pages/en-US/network/lazy-load.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:50774a4c1bc630f21bd1257d636f22b2db83ce576c6543981bad95319f92465e",
-        "en-US": "sha256:457c355819c55e26878fd4ce0d3439ff903520f1094190b8984216dc2ca80cfb"
+        "zh-CN": "sha256:f9f4b84e1417bff3eba4cce991a3763420c6e1b65a1abac2f4cce506a0a36616",
+        "en-US": "sha256:2ba3bd1745712b09a2eb0480a1dfa183447f4b2eb1622339f47b4c2efe294d45"
       }
     },
     {
-      "path": "/components/prefetch",
+      "path": "/network/prefetch",
       "title": {
         "zh-CN": "预载",
         "en-US": "Prefetch"
       },
       "category": "network",
       "locales": {
-        "zh-CN": "pages/zh-CN/components/prefetch.md",
-        "en-US": "pages/en-US/components/prefetch.md"
+        "zh-CN": "pages/zh-CN/network/prefetch.md",
+        "en-US": "pages/en-US/network/prefetch.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:ec46b7c0fa2abf5e60856a53e5172a035df5f0882c2f6c099db2c6a1cefbcbfc",
-        "en-US": "sha256:618f2fc80207c95cc7054d25d602121ade203a7d1b715d4b887f196551ebe174"
+        "zh-CN": "sha256:572343aadea1fbe953b5adacf3b74d9c345a086d8e7146c59c9366b91e86f609",
+        "en-US": "sha256:0a882f871c311a4df79dab9eb27a259d111e5a96675f04e696a09727f5d10f6b"
       }
     },
     {
@@ -209,8 +241,8 @@
         "en-US": "pages/en-US/components.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:81a9f302fe0b7e496626beca94f97b1b402a68961ec1b83c2bd68072b663307d",
-        "en-US": "sha256:e9ae468d41d4caa268cbae5045e4548a175edb99619cb12d52ae0961a608d7b8"
+        "zh-CN": "sha256:bd32c854d759a8ff6dd16a6ed5793ae982f96205718096b73b105d3bb6b22ec0",
+        "en-US": "sha256:35f8e15ea7b55b67a703bfe1c6773eed6ed890f9dab3e458e6c39c47c45b287c"
       }
     },
     {
@@ -1302,22 +1334,6 @@
       }
     },
     {
-      "path": "/components/grid",
-      "title": {
-        "zh-CN": "栅格",
-        "en-US": "Grid"
-      },
-      "category": "component",
-      "locales": {
-        "zh-CN": "pages/zh-CN/components/grid.md",
-        "en-US": "pages/en-US/components/grid.md"
-      },
-      "sourceHash": {
-        "zh-CN": "sha256:59e7479b2570303384232f759b234c223178e563244935668874e7851e7595ec",
-        "en-US": "sha256:f083c85c158f3ce1608c61c9f2a0b187b446e83ceebd0b5cf8ba8785f3279baf"
-      }
-    },
-    {
       "path": "/components/modal",
       "title": {
         "zh-CN": "模态框",
@@ -1665,8 +1681,8 @@
         "en-US": "pages/en-US/charts/area-chart.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:396ad033963bfb3b6eed14721376391d41dae7a4043077a88a55d260244bbd79",
-        "en-US": "sha256:32bf37438fde782778f4ce1c0c050c9cb2d93e9e0f4e48ef6c8c50c90be82481"
+        "zh-CN": "sha256:c2dcce2b7cc50c9faf95771a02a497c30d0bd32d5c9e2ea2463d64359b8e8356",
+        "en-US": "sha256:d2523a25e43c8a185d6877a830e20934a91e11c374eae444ce9eeed904f0f82c"
       }
     },
     {
@@ -1681,8 +1697,8 @@
         "en-US": "pages/en-US/charts/bar-chart.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:15c9705ad203e39a6da8c0b9f03ca07eb4169b9da3bf60e2dc54833c1f504797",
-        "en-US": "sha256:9d9e0f481133056f6fe47b8f3c6eb6aa1d362c4ab8011ccf55ccb6017b1ea3bf"
+        "zh-CN": "sha256:dd5fbb9dfbc732e8798e43bd59bf6aa6b0e963c1d9141092e82bc919bf957db6",
+        "en-US": "sha256:78d8e379471cd34fe5a72b6fc2a79096743303412d050b040c7b594c5afd84aa"
       }
     },
     {
@@ -1697,8 +1713,8 @@
         "en-US": "pages/en-US/charts/bar-list.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:162b9e97b0c37f2a245ade74b42649ea8e7c8ee53b072f5c7500403a907bf03b",
-        "en-US": "sha256:67891e0733bf37ad94bfe735eede31252041d29af15f5077099e7b74656b0623"
+        "zh-CN": "sha256:009610d257d030a93716691e26e84d7fa1e7613a5bb861a23794d811b3a34fb0",
+        "en-US": "sha256:6b9b5275a9ba15651dbced3e518950d0234ea956fe00d7598512860a0a2d29d4"
       }
     },
     {
@@ -1713,8 +1729,8 @@
         "en-US": "pages/en-US/charts/category-bar.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:3e8ec571295f7270d81953041cf09801b12832884e7190b224a8664ebba775eb",
-        "en-US": "sha256:14ef1787de16b921a43285c2b92b3ed88ebb16afb5adeb36b2a91913de7af234"
+        "zh-CN": "sha256:32a345fde532d936a926f3dd7de67f9e2c8425f5d95e0164f9cd7fe2df913c82",
+        "en-US": "sha256:4a1cfbf6e1cf1219ea196eb612d28ff05231e1c05dcb20e4f1bd8462642d94bc"
       }
     },
     {
@@ -1729,8 +1745,8 @@
         "en-US": "pages/en-US/charts/combo-chart.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:eb34dcde041a4e226892fec3c7d0b7ebed751396f9081e60e91b192a002a5b72",
-        "en-US": "sha256:d3818a46813b912b1102bf1e55c2640c34b8fd7921bdc0151934a84b77e8531d"
+        "zh-CN": "sha256:aef0a9aa0af35c0be14e6345659218574e9713c549a6a6efdf947d6dfcdd3f37",
+        "en-US": "sha256:c973336ffb2bb187c1322f48e8f94fd5447c2bfb7ad5cfe8f64493a4ce871089"
       }
     },
     {
@@ -1745,8 +1761,8 @@
         "en-US": "pages/en-US/charts/donut-chart.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:a567e29117753e3473a01928d3248c9c43e4d19e094dad886c7950ac41641978",
-        "en-US": "sha256:26b93fb1b45772c0db634b4ab7934ccfce4eaaf5c282485e37c20704f655a298"
+        "zh-CN": "sha256:984fff7b58c47c81ee4e3d8d381ee8a1ea85c9335b524937318f4b1608bdeffd",
+        "en-US": "sha256:97ef19ff1caf034b9c02f3b1cca2a62026b88244634b8eae8b24f11106217326"
       }
     },
     {
@@ -1761,8 +1777,8 @@
         "en-US": "pages/en-US/charts/line-chart.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:eedb0bbcf214242cea3af4d8fc898c95932d423ba5b2d11595c728e5ae1bcca5",
-        "en-US": "sha256:e6129756cfa22b11905b4a39abc3054c28be072c11bcf955448218c0c04aae88"
+        "zh-CN": "sha256:0050369af96ba572ad6fbfb5210fd3762024caa5d59849b236c81628c0f03643",
+        "en-US": "sha256:02d40879372114a2b63e2f4116f6951638309c644075cb8bbaccfc5b07552deb"
       }
     },
     {
@@ -1777,8 +1793,8 @@
         "en-US": "pages/en-US/charts/progress-circle.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:b82dd3f6cc468625711ee5a6741da4d0d755b231e085d166781cb5bdaaa6ec7d",
-        "en-US": "sha256:a371020ee938590cbccd42bac2ab37ee15b703077df19af0ed659750b54a2d20"
+        "zh-CN": "sha256:244804053cc2df29252bed013d8f0c35facc4c70a9cc847deabd28c475b3b8a8",
+        "en-US": "sha256:13101890a69bb5a48a5343dec14dcac3c70cc8165344dd13f2ec2579f679bbf4"
       }
     },
     {
@@ -1793,8 +1809,8 @@
         "en-US": "pages/en-US/charts/spark-chart.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:73418bec32bffa4c65eb543aee7e6fd3e12a9ecda825bb7f1868e3e8cd793676",
-        "en-US": "sha256:19352c33bfdedcece583ec980beb67ba0cf3f560f903735e176c8355261d2cbd"
+        "zh-CN": "sha256:d0fde2d530f13d47b4d48e090558957647be4e87f117a7d1b32e5df95bfa1d92",
+        "en-US": "sha256:ec972d720b3c8763de5e53693e62d2ed9cb7e5c624d8ab6f54e0448d524a138b"
       }
     },
     {
@@ -1809,8 +1825,8 @@
         "en-US": "pages/en-US/charts/tracker.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:61e5990f74bb4068d7c8c001b1f7c56c5224606306cc46fec3c7dacbd6ae6f58",
-        "en-US": "sha256:c73b4d7a7716327cad17a8423f2c31711420aab97810a4b8da5a9facc4849955"
+        "zh-CN": "sha256:885d4256bb97c26f0ed9ed8242946ca1e36d90d2eabc3c3669ad25b68d4f1adb",
+        "en-US": "sha256:58f1c8dd66cde705b627b2a54d33d5928c3464759ad53ca05a6f4202ce7175de"
       }
     },
     {

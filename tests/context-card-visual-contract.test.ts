@@ -11,6 +11,7 @@ const docsSource = readFileSync(
   resolve(import.meta.dirname, "../docs/site/src/components/docs-components-page.tsx"),
   "utf8",
 );
+const codeSource = readFileSync(resolve(import.meta.dirname, "../docs/site/src/components/demo-show-code.tsx"), "utf8");
 const stylesSource = readFileSync(resolve(import.meta.dirname, "../src/styles/index.css"), "utf8");
 
 describe("Context Card visual parity contract", () => {
@@ -51,8 +52,8 @@ describe("Context Card visual parity contract", () => {
   });
 
   test("Show code toggle is wired to the physical example source", () => {
-    expect(docsSource).toContain("setShowCode");
-    expect(docsSource).toContain("aria-controls={codeId}");
+    expect(codeSource).toContain("setShowCode");
+    expect(codeSource).toContain("aria-controls={codeId}");
     expect(docsSource).toContain("EXAMPLE_REGISTRY[name]");
     expect(docsSource).toContain("code={record.source}");
     expect(EXAMPLE_SOURCE["context-card"].default).toContain("export function");

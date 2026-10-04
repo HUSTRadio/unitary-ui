@@ -1,8 +1,8 @@
-# Lifecycle & Hooks
+# State & Events
 
-> Route: `/lifecycle-and-hooks`
+> Route: `/api/state-and-events`
 
-# Lifecycle & Hooks
+# State & Events
 
 Components expose state control through props and callbacks, without general lifecycle APIs such as `componentDidMount` or `componentWillUnmount`. This page explains how to manage state, receive changes, and cancel actions.
 

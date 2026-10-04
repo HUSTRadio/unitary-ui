@@ -1,9 +1,13 @@
+import { withLayerBridge } from "@/lib/layer-bridge";
 import * as React from "react";
 import { Command } from "cmdk";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+
+const LayerDialogPrimitiveContent = withLayerBridge(DialogPrimitive.Content);
+const LayerDialogPrimitiveOverlay = withLayerBridge(DialogPrimitive.Overlay);
 
 const CommandMenuContext = React.createContext<{
   close: () => void;
@@ -45,11 +49,11 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
       <DialogPrimitive.Portal>
         {/* 官方 cmdk 写法（design-gate 冻结）：两族遮罩 token 之外的单列例外，
             理由见 index.css「遮罩两族」注释（HIG-AUD-010） */}
-        <DialogPrimitive.Overlay
+        <LayerDialogPrimitiveOverlay
           data-slot="command-menu-overlay"
           className="command-menu-overlay fixed inset-0 z-[var(--uni-z-modal)] bg-background-100 opacity-80"
         />
-        <DialogPrimitive.Content
+        <LayerDialogPrimitiveContent
           data-slot="command-menu-content"
           aria-labelledby={titleId}
           aria-describedby={descriptionId}
@@ -82,7 +86,7 @@ function CommandMenu({ children, open, setOpen }: CommandMenuProps) {
               {children}
             </Command>
           </CommandMenuContext.Provider>
-        </DialogPrimitive.Content>
+        </LayerDialogPrimitiveContent>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>
   );

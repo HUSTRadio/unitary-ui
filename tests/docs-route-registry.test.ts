@@ -10,6 +10,7 @@ import {
   getAdjacentDocsPages,
   getDocsRoute,
   getDocsRouteLabel,
+  getComponentDocsPath,
 } from "../docs/site/src/data/docs-routes";
 
 describe("canonical docs route registry", () => {
@@ -33,11 +34,7 @@ describe("canonical docs route registry", () => {
       .map((route) => route.to)
       .sort();
     expect(componentPaths).toEqual(
-      COMPONENTS.map((component) =>
-        CHART_COMPONENT_NAMES.has(component.name)
-          ? `/charts/${component.name}`
-          : `/components/${component.name}`,
-      ).sort(),
+      COMPONENTS.filter((component) => !["grid", "layer"].includes(component.name)).map((component) => getComponentDocsPath(component.name)).sort(),
     );
   });
 
@@ -132,11 +129,11 @@ describe("canonical docs route registry", () => {
     expect(network?.titleZh).toBe("网络与异步");
     expect(network?.subgroups).toBeUndefined();
     expect(network?.items.map((route) => route.to)).toEqual([
-      "/components/lazy-load",
-      "/components/prefetch",
+      "/network/lazy-load",
+      "/network/prefetch",
     ]);
     for (const name of ["lazy-load", "prefetch"]) {
-      expect(getDocsRoute(`/components/${name}/`)).toMatchObject({
+      expect(getDocsRoute(`/network/${name}/`)).toMatchObject({
         group: "network",
         renderer: { kind: "component-detail", componentName: name },
       });
@@ -146,11 +143,11 @@ describe("canonical docs route registry", () => {
   });
 
   it("follows the new network section order in previous and next links", () => {
-    expect(getAdjacentDocsPages("/lifecycle-and-hooks").next?.to).toBe("/components/lazy-load");
-    expect(getAdjacentDocsPages("/components/lazy-load").previous?.to).toBe("/lifecycle-and-hooks");
-    expect(getAdjacentDocsPages("/components/lazy-load").next?.to).toBe("/components/prefetch");
-    expect(getAdjacentDocsPages("/components/prefetch").next?.to).toBe("/components");
-    expect(getAdjacentDocsPages("/components").previous?.to).toBe("/components/prefetch");
+    expect(getAdjacentDocsPages("/api/tokens").next?.to).toBe("/network/lazy-load");
+    expect(getAdjacentDocsPages("/network/lazy-load").previous?.to).toBe("/api/tokens");
+    expect(getAdjacentDocsPages("/network/lazy-load").next?.to).toBe("/network/prefetch");
+    expect(getAdjacentDocsPages("/network/prefetch").next?.to).toBe("/components");
+    expect(getAdjacentDocsPages("/components").previous?.to).toBe("/network/prefetch");
   });
 
   it("accepts every route renderer descriptor in App's typed renderer maps", () => {

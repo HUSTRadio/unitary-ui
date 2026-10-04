@@ -14,7 +14,7 @@ for (const language of ["zh-CN", "en-US"] as const) {
         const errors: string[] = [];
         page.on("pageerror", (error) => errors.push(error.message));
 
-        await page.goto("/#/components/prefetch");
+        await page.goto("/#/network/prefetch");
         const api = page.locator("#api-reference");
         const note = api.locator('[data-api-origin="extension"]');
         await expect(note).toHaveText(language === "zh-CN"

@@ -1,10 +1,8 @@
 # Prefetch
 
-> Route: `/components/prefetch`
+> Route: `/network/prefetch`
 
 Prepares reusable modules or data on intent, near a viewport, or while idle.
-
-[Back to Components](#/components)
 
 # Prefetch
 

@@ -4,7 +4,7 @@
 
 Combine bars and lines in one chart, with optional dual axes for different units.
 
-[Back to Components](#/components)
+[Back to Charts](#/charts)
 
 # Combo Chart
 

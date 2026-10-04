@@ -1,10 +1,8 @@
 # 安全区
 
-> Route: `/components/safe-area`
+> Route: `/layout/safe-area`
 
 用内边距避开刘海、圆角和系统栏，并保留指定的最小间距。
-
-[返回组件](#/components)
 
 # 安全区
 
@@ -79,7 +77,7 @@ export function SafeAreaDefault2C9F5A41Example() {
 导入
 
 ```tsx
-import { SafeArea } from "@/components/ui/safe-area";
+import { SafeArea } from "@hustradio/unitary-ui";
 ```
 
 ### 属性与回调

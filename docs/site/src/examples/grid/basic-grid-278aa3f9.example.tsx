@@ -2,11 +2,14 @@ import { Grid, GridCell, GridSystem } from "@/components/ui/grid";
 
 export function GridBasicGrid278AA3F9Example() {
   return (
-    <GridSystem guideWidth={1} unstable_useContainer>
+    <GridSystem unstable_useContainer>
       <Grid columns={3} rows={2}>
-        {[1, 2, 3, 4, 5, 6].map((n) => (
-          <GridCell key={n}>{n}</GridCell>
-        ))}
+        <GridCell>1</GridCell>
+        <GridCell>2</GridCell>
+        <GridCell>3</GridCell>
+        <GridCell>4</GridCell>
+        <GridCell>5</GridCell>
+        <GridCell>6</GridCell>
       </Grid>
     </GridSystem>
   );

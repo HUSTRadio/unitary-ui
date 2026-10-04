@@ -35,6 +35,16 @@ const component = (exports: string[], rows: ApiRow[] = [], extendsType?: string)
 });
 
 const O = {
+  layer: {
+    importPath: "@hustradio/unitary-ui",
+    ...component(["Layer", "LayerScope", "LayerPortal", "useLayerStyle"], [
+      row("Layer.level", "LayerLevel", "Semantic stacking role.", "语义层级角色。", { defaultValue: '"base"', origin: "extension" }),
+      row("LayerScope.levels", "Partial<Record<LayerLevel, number>>", "Safe integer overrides merged with the nearest parent scope.", "安全整数覆盖，与最近父作用域配置合并。", { defaultValue: "{}", origin: "extension" }),
+      row("LayerScope.isolate", "boolean", "Isolates physical DOM descendants; portals outside still escape.", "隔离物理 DOM 子树；外部 Portal 仍在作用域之外。", { defaultValue: "false", origin: "extension" }),
+      row("LayerPortal.container", "Element | DocumentFragment | null", "Portal target; omitted or null uses body after mounting.", "挂载目标；省略或 null 时在挂载后使用 body。", { defaultValue: "document.body", origin: "extension" }),
+      row("useLayerStyle(level)", "CSSProperties", "Returns scope variables and the role z-index for custom elements.", "返回作用域变量及语义 z-index，供自定义元素使用。", { origin: "extension" }),
+    ], 'ComponentProps<"div">'),
+  },
   prefetch: {
     importPath: "@hustradio/unitary-ui",
     ...component(["Prefetch", "createPrefetch", "usePrefetchState"], [
@@ -786,7 +796,8 @@ const O = {
     ],
     undefined,
   ),
-  "safe-area": component(
+  "safe-area": {
+    ...component(
     ["SafeArea"],
     [
       row(
@@ -805,9 +816,12 @@ const O = {
       ),
     ],
     undefined,
-  ),
-  stack: component(
-    ["Stack"],
+    ),
+    importPath: "@hustradio/unitary-ui",
+  },
+  flex: {
+    ...component(
+    ["Flex"],
     [
       row("direction", "\"row\" | \"column\"", "Stacking direction.", "堆叠方向。", {
         defaultValue: '"column"',
@@ -830,7 +844,9 @@ const O = {
       row("wrap", "boolean", "Allows children to wrap onto multiple lines.", "允许子项换行。"),
     ],
     undefined,
-  ),
+    ),
+    importPath: "@hustradio/unitary-ui",
+  },
   "continuous-surface": component(
     ["ContinuousSurface"],
     [

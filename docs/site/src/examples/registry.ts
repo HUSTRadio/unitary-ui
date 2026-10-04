@@ -1,3 +1,9 @@
+import { LayerPortalExample } from "./layer/portal.example";
+import LayerPortalSource from "./layer/portal.example.tsx?example-source";
+import { LayerScopedExample } from "./layer/scoped.example";
+import LayerScopedSource from "./layer/scoped.example.tsx?example-source";
+import { LayerDefaultExample } from "./layer/default.example";
+import LayerDefaultSource from "./layer/default.example.tsx?example-source";
 import NumberedExample from "./pagination/numbered.example";
 import NumberedExampleSource from "./pagination/numbered.example.tsx?example-source";
 import CarouselExample from "./carousel/default.example";
@@ -821,8 +827,8 @@ import { ToolbarDefault4A8E7C22Example } from "./toolbar/default-4a8e7c22.exampl
 import ToolbarDefault4A8E7C22ExampleSource from "./toolbar/default-4a8e7c22.example.tsx?example-source";
 import { SafeAreaDefault2C9F5A41Example } from "./safe-area/default-2c9f5a41.example";
 import SafeAreaDefault2C9F5A41ExampleSource from "./safe-area/default-2c9f5a41.example.tsx?example-source";
-import { StackDefault7E1B84D3Example } from "./stack/default-7e1b84d3.example";
-import StackDefault7E1B84D3ExampleSource from "./stack/default-7e1b84d3.example.tsx?example-source";
+import { FlexDefault7E1B84D3Example } from "./flex/default-7e1b84d3.example";
+import FlexDefault7E1B84D3ExampleSource from "./flex/default-7e1b84d3.example.tsx?example-source";
 import { AreaChartDefault37A8EEC1Example } from "./area-chart/default-37a8eec1.example";
 import AreaChartDefault37A8EEC1ExampleSource from "./area-chart/default-37a8eec1.example.tsx?example-source";
 import { AreaChartStacked5E4F2A9BExample } from "./area-chart/stacked-5e4f2a9b.example";
@@ -871,6 +877,9 @@ export interface ExampleRecord {
 }
 
 export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
+  { slug: "layer", id: "portal", Component: LayerPortalExample, source: LayerPortalSource },
+  { slug: "layer", id: "scoped", Component: LayerScopedExample, source: LayerScopedSource },
+  { slug: "layer", id: "default", Component: LayerDefaultExample, source: LayerDefaultSource },
   { slug: "pagination", id: "Numbered", Component: NumberedExample, source: NumberedExampleSource },
   { slug: "carousel", id: "default", Component: CarouselExample, source: CarouselExampleSource },
   { slug: "carousel", id: "variants", Component: CarouselVariantsExample, source: CarouselVariantsExampleSource },
@@ -1283,7 +1292,7 @@ export const EXAMPLE_RECORDS: readonly ExampleRecord[] = [
   { slug: "menu-bar", id: "default", Component: MenuBarDefault1D7F3C05Example, source: MenuBarDefault1D7F3C05ExampleSource },
   { slug: "toolbar", id: "default", Component: ToolbarDefault4A8E7C22Example, source: ToolbarDefault4A8E7C22ExampleSource },
   { slug: "safe-area", id: "default", Component: SafeAreaDefault2C9F5A41Example, source: SafeAreaDefault2C9F5A41ExampleSource },
-  { slug: "stack", id: "default", Component: StackDefault7E1B84D3Example, source: StackDefault7E1B84D3ExampleSource },
+  { slug: "flex", id: "default", Component: FlexDefault7E1B84D3Example, source: FlexDefault7E1B84D3ExampleSource },
   { slug: "area-chart", id: "default", Component: AreaChartDefault37A8EEC1Example, source: AreaChartDefault37A8EEC1ExampleSource },
   { slug: "area-chart", id: "stacked", Component: AreaChartStacked5E4F2A9BExample, source: AreaChartStacked5E4F2A9BExampleSource },
   { slug: "area-chart", id: "custom-tooltip", Component: AreaChartCustomTooltip8C1D4E7FExample, source: AreaChartCustomTooltip8C1D4E7FExampleSource },

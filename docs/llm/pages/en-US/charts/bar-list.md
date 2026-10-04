@@ -4,7 +4,7 @@
 
 Rank items with names, bars, and values, plus optional links and icons.
 
-[Back to Components](#/components)
+[Back to Charts](#/charts)
 
 # Bar List
 

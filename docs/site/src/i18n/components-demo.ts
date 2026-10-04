@@ -106,6 +106,8 @@ export const DEMO_COPY: Record<DocsLanguage, Record<string, string>> = {
     "Bypass Casing": "忽略大小写",
     "Full featured table": "完整功能表格",
     Group: "分组",
+    Portal: "传送门",
+    Scoped: "局部作用域",
     "Stacking order": "堆叠顺序",
     Overlap: "重叠",
     "Fixed overlap": "固定重叠",

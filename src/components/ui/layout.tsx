@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
  *
  * - `SafeArea`：安全区边距容器。内边距取「间距档」与设备安全区（`env(safe-area-inset-*)`）
  *   的较大值，内容因此不会被圆角、刘海或系统栏遮挡。
- * - `Stack`：方向 + 间距堆叠。语义化的 flex 预设（direction / gap / align / justify / wrap）。
+ * - `Flex`：方向与间距布局。语义化的 flex 预设（direction / gap / align / justify / wrap）。
  */
 
 export type LayoutSpacing = "xs" | "sm" | "md" | "lg" | "xl";
@@ -27,7 +27,7 @@ const SPACING_VALUE: Record<LayoutSpacing, string> = {
   xl: "calc(var(--spacing) * 8)",
 };
 
-const STACK_GAP_CLASS: Record<LayoutSpacing, string> = {
+const FLEX_GAP_CLASS: Record<LayoutSpacing, string> = {
   xs: "gap-1",
   sm: "gap-2",
   md: "gap-4",
@@ -64,8 +64,8 @@ function SafeArea({ edges = "all", padding = "md", className, style, ...props }:
   );
 }
 
-export interface StackProps extends React.ComponentProps<"div"> {
-  /** 堆叠方向，默认 "column" */
+export interface FlexProps extends React.ComponentProps<"div"> {
+  /** 排列方向，默认 "column" */
   direction?: "row" | "column";
   /** 间距档，默认 "md" */
   gap?: LayoutSpacing;
@@ -77,7 +77,7 @@ export interface StackProps extends React.ComponentProps<"div"> {
   wrap?: boolean;
 }
 
-const STACK_ALIGN_CLASS: Record<NonNullable<StackProps["align"]>, string> = {
+const FLEX_ALIGN_CLASS: Record<NonNullable<FlexProps["align"]>, string> = {
   start: "items-start",
   center: "items-center",
   end: "items-end",
@@ -85,14 +85,14 @@ const STACK_ALIGN_CLASS: Record<NonNullable<StackProps["align"]>, string> = {
   baseline: "items-baseline",
 };
 
-const STACK_JUSTIFY_CLASS: Record<NonNullable<StackProps["justify"]>, string> = {
+const FLEX_JUSTIFY_CLASS: Record<NonNullable<FlexProps["justify"]>, string> = {
   start: "justify-start",
   center: "justify-center",
   end: "justify-end",
   between: "justify-between",
 };
 
-function Stack({
+function Flex({
   direction = "column",
   gap = "md",
   align,
@@ -100,17 +100,17 @@ function Stack({
   wrap,
   className,
   ...props
-}: StackProps) {
+}: FlexProps) {
   return (
     <div
-      data-slot="stack"
+      data-slot="flex"
       data-direction={direction}
       className={cn(
         "flex",
         direction === "row" ? "flex-row" : "flex-col",
-        STACK_GAP_CLASS[gap],
-        align && STACK_ALIGN_CLASS[align],
-        justify && STACK_JUSTIFY_CLASS[justify],
+        FLEX_GAP_CLASS[gap],
+        align && FLEX_ALIGN_CLASS[align],
+        justify && FLEX_JUSTIFY_CLASS[justify],
         wrap && "flex-wrap",
         className,
       )}
@@ -119,4 +119,4 @@ function Stack({
   );
 }
 
-export { SafeArea, Stack };
+export { SafeArea, Flex };

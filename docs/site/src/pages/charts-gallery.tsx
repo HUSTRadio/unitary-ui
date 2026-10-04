@@ -1,3 +1,4 @@
+import { CHART_COMPONENT_NAMES, getComponentDocsPath } from "../data/docs-routes";
 import { AreaChart } from "@/components/ui/charts/area-chart";
 
 import { COMPONENTS } from "../data/components";
@@ -15,18 +16,7 @@ import {
  */
 
 /** 图表分组组件名单（与 docs-routes 的 CHART_COMPONENT_NAMES 保持一致）。 */
-const CHART_COMPONENT_NAMES: ReadonlySet<string> = new Set([
-  "area-chart",
-  "bar-chart",
-  "line-chart",
-  "combo-chart",
-  "donut-chart",
-  "spark-chart",
-  "category-bar",
-  "bar-list",
-  "tracker",
-  "progress-circle",
-]);
+
 
 const HERO_DATA = [
   { month: "Jan", visitors: 2890, pageviews: 4210 },
@@ -83,7 +73,7 @@ export function ChartsGalleryPage({ language }: { language: DocsLanguage }) {
         {charts.map((component) => (
           <a
             key={component.name}
-            href={`#/charts/${component.name}`}
+            href={`#${getComponentDocsPath(component.name)}`}
             data-slot="docs-card"
             className="group block border-b border-r border-border p-6 transition-colors hover:bg-gray-alpha-100"
           >

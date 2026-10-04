@@ -1,10 +1,8 @@
 # 预载
 
-> Route: `/components/prefetch`
+> Route: `/network/prefetch`
 
 在用户有操作意图、接近视口或浏览器空闲时准备可复用的模块或数据。
-
-[返回组件](#/components)
 
 # 预载
 
