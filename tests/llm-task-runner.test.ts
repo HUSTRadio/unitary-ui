@@ -109,6 +109,11 @@ describe("generic LLM task runner", () => {
     expect(runner.VALIDATORS["styleguide-screenshots"]).toEqual([
       [expect.stringMatching(/^vp(?:\.exe)?$/), "run", "docs:readme:screenshots:check"],
     ]);
+    expect(runner.VALIDATORS["docs-contracts"][0].slice(0, 3)).toEqual([
+      expect.stringMatching(/^vp(?:\.exe)?$/),
+      "run",
+      "test",
+    ]);
     expect(runner.validateTaskCapabilities(fakeTask())).toBeUndefined();
     expect(() =>
       runner.validateTaskCapabilities({ ...fakeTask(), validators: ["sh-c-true"] }),
@@ -121,10 +126,12 @@ describe("generic LLM task runner", () => {
       PATH: "test-path",
       SYSTEMROOT: "C:/Windows",
       UNSAFE_SECRET: "do-not-pass",
+      UNITARY_PACKAGE_LOCKS: "parent-lock-identities",
     });
     expect(env.PATH).toBe("test-path");
     expect(env.SYSTEMROOT).toBe("C:/Windows");
     expect(env.UNSAFE_SECRET).toBeUndefined();
+    expect(env.UNITARY_PACKAGE_LOCKS).toBeUndefined();
     expect(env.GIT_TERMINAL_PROMPT).toBe("0");
   });
 

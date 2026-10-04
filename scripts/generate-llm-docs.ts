@@ -33,6 +33,7 @@ import { fileURLToPath } from "node:url";
 
 import { chromium, type Page } from "@playwright/test";
 import TurndownService from "turndown";
+import { withPackageLock } from "./lib/package-script-lock.mjs";
 
 import { COMPONENTS } from "../docs/site/src/data/components";
 import { DOCS_ROUTE_SEQUENCE, type DocsRoute } from "../docs/site/src/data/docs-routes";
@@ -553,7 +554,7 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch((error: unknown) => {
+withPackageLock(ROOT, "workspace-checks", main).catch((error: unknown) => {
   const message = error instanceof Error ? (error.stack ?? error.message) : String(error);
   fail(message);
 });
