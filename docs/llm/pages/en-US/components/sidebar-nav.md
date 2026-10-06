@@ -52,7 +52,7 @@ Compare three tracking modes and item/category-heading alignment; choose an acti
 ## Theme behavior
 
 - Links, focus rings, and selection use semantic color tokens.
-- The indicator retains the theme accent color; sliding and stretching reuse --uni-motion-state (250ms by default) and the nonlinear --ease-snap curve.
+- At rest, the indicator is 3×14px and vertically centered in the row, sitting 6px from the pill edge inside its 14px leading gutter. It retains the theme accent color; sliding and stretching reuse --uni-motion-state (250ms by default) and the nonlinear --ease-snap curve.
 - Scroll tracking reuses --uni-motion-state (250ms by default) and the nonlinear --ease-in-out curve; both themes share these motion tokens.
 
 ## Live Demo

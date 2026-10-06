@@ -45,7 +45,7 @@ An expandable navigation menu with grouped links and built-in search.
 ## 主题行为
 
 - 面板和导航条目沿用共享语义颜色 token。
-- 指示条沿用主题强调色，滑动与拉伸复用 --uni-motion-state（默认 250ms）与 --ease-snap 非线性曲线。
+- 指示条静止时为 3×14px，位于条目 14px 前导留白内，距药丸左缘 6px，并按行高垂直居中。沿用主题强调色，滑动与拉伸复用 --uni-motion-state（默认 250ms）与 --ease-snap 非线性曲线。
 
 ## 实时示例
 

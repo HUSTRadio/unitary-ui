@@ -21,7 +21,7 @@ const content: Record<GuideLocale, Record<string, GuideContent>> = {
         "调用方从路由或锚点恢复 activeTo；组件跟踪对应的活动链接。手动滚动会中断当前动画，on-reload 的这次尝试仍视为已用。always 也不会持续锁定同一个活动值的位置。",
       ] },
       responsiveBehavior: { status: "covered", content: ["宽度由外部布局决定；触控行使用更大的命中区。", "跟踪只滚动最近的纵向滚动容器，首选顶部下方 16px；若会露出前一条目或分组标题的文字、图标，按 spacing 尺度缩小为 8px、4px 等。目标被限制在可滚动范围内，不会带动外层页面。"] },
-      themeBehavior: { status: "covered", content: ["链接、焦点与选中态使用语义颜色 token。", "指示条沿用主题强调色，滑动与拉伸复用 --uni-motion-state（默认 250ms）与 --ease-snap 非线性曲线。", "滚动跟踪复用 --uni-motion-state（默认 250ms）与 --ease-in-out 非线性曲线；两种主题使用相同的动效 token。"] },
+      themeBehavior: { status: "covered", content: ["链接、焦点与选中态使用语义颜色 token。", "指示条静止时为 3×14px，位于条目 14px 前导留白内，距药丸左缘 6px，并按行高垂直居中。沿用主题强调色，滑动与拉伸复用 --uni-motion-state（默认 250ms）与 --ease-snap 非线性曲线。", "滚动跟踪复用 --uni-motion-state（默认 250ms）与 --ease-in-out 非线性曲线；两种主题使用相同的动效 token。"] },
     },
     navbar: {
       summary: "Navbar 是可配置滚动定位和表面样式的页面顶栏。",
@@ -51,7 +51,7 @@ const content: Record<GuideLocale, Record<string, GuideContent>> = {
       accessibility: { status: "covered", content: ["触发按钮提供无障碍名称；菜单打开后支持 Escape 关闭与焦点归还。", "空数据与无匹配搜索通过 role=status 报告；加载时导航区标记 aria-busy 并显示状态指示。", "选中指示条不获取焦点；减少动画时直接定位，运行期间启用该偏好会取消当前滑动。"] },
       controlledBehavior: { status: "covered", content: ["使用 open + onOpenChange 受控；不传 open 时由组件管理展开状态。", "调用方传入 loading 显示加载态，emptyMessage 可覆盖空数据及无匹配搜索的默认提示。", "菜单保持打开、常规列表显示且入场动画结束时，activeTo 在同一最基层列表内变化会让指示条平滑滑动，沿移动方向非线性伸长后再收回目标高度，保持厚度：有 subgroups 时以子分类为边界，否则以一级分组为边界；扁平 items 共用一个列表。首次显示、跨组或搜索状态切换时直接定位，快速切换从当前可见位置与长度继续。"] },
       responsiveBehavior: { status: "covered", content: ["topbar 默认向下展开，sidebar 也默认向下；可显式指定左或右，maxExpandedWidth 和 maxExpandedHeight 可约束面板。传入已定位的 container 可在局部容器内展开并限制遮罩范围。"] },
-      themeBehavior: { status: "covered", content: ["面板和导航条目沿用共享语义颜色 token。", "指示条沿用主题强调色，滑动与拉伸复用 --uni-motion-state（默认 250ms）与 --ease-snap 非线性曲线。"] },
+      themeBehavior: { status: "covered", content: ["面板和导航条目沿用共享语义颜色 token。", "指示条静止时为 3×14px，位于条目 14px 前导留白内，距药丸左缘 6px，并按行高垂直居中。沿用主题强调色，滑动与拉伸复用 --uni-motion-state（默认 250ms）与 --ease-snap 非线性曲线。"] },
     },
     "side-panel": {
       summary: "SidePanel 为桌面提供左侧或右侧的受控悬浮详情面板。",
@@ -82,7 +82,7 @@ const content: Record<GuideLocale, Record<string, GuideContent>> = {
         "Restore activeTo from the route or anchor in the caller; the component tracks the corresponding active link. Manual scrolling interrupts the current animation and still consumes the on-reload attempt. always does not continually lock the position for the same active value.",
       ] },
       responsiveBehavior: { status: "covered", content: ["The surrounding layout sets the width; touch rows have larger hit targets.", "Tracking scrolls only the nearest vertical scroll container and prefers 16px below its top. If preceding item or group-heading text or icons would remain visible, the spacing scale reduces the inset to 8px, 4px and so on. The target is clamped to the available scroll range and does not scroll the outer page."] },
-      themeBehavior: { status: "covered", content: ["Links, focus rings, and selection use semantic color tokens.", "The indicator retains the theme accent color; sliding and stretching reuse --uni-motion-state (250ms by default) and the nonlinear --ease-snap curve.", "Scroll tracking reuses --uni-motion-state (250ms by default) and the nonlinear --ease-in-out curve; both themes share these motion tokens."] },
+      themeBehavior: { status: "covered", content: ["Links, focus rings, and selection use semantic color tokens.", "At rest, the indicator is 3×14px and vertically centered in the row, sitting 6px from the pill edge inside its 14px leading gutter. It retains the theme accent color; sliding and stretching reuse --uni-motion-state (250ms by default) and the nonlinear --ease-snap curve.", "Scroll tracking reuses --uni-motion-state (250ms by default) and the nonlinear --ease-in-out curve; both themes share these motion tokens."] },
     },
     navbar: {
       summary: "Navbar provides configurable positioning and surface treatment for a page header.",
@@ -112,7 +112,7 @@ const content: Record<GuideLocale, Record<string, GuideContent>> = {
       accessibility: { status: "covered", content: ["The trigger has an accessible name; Escape closes the menu and returns focus.", "Empty navigation and unmatched search expose role=status; the loading state marks navigation aria-busy and shows a status indicator.", "The selection indicator does not take focus. Reduced motion positions it immediately; enabling that preference during a slide cancels the current motion."] },
       controlledBehavior: { status: "covered", content: ["Use open with onOpenChange for controlled state; omit open for internal state.", "Set loading while data loads; emptyMessage optionally overrides both empty-navigation and unmatched-search messages.", "While the menu stays open, its regular list is shown and entrance motion has finished, activeTo changes within the same leaf list slide the indicator smoothly, elongating nonlinearly in the direction of motion before contracting to the target height while retaining its thickness: a subgroup when present, otherwise a top-level group; flat items share one list. Initial display, cross-group changes and search-state changes position immediately; rapid changes continue from the current visible position and length."] },
       responsiveBehavior: { status: "covered", content: ["Both anchors default to downward expansion; sidebars may specify left or right, with configurable size limits. A positioned container keeps the panel and backdrop within a local frame."] },
-      themeBehavior: { status: "covered", content: ["The panel and links use shared semantic color tokens.", "The indicator retains the theme accent color; sliding and stretching reuse --uni-motion-state (250ms by default) and the nonlinear --ease-snap curve."] },
+      themeBehavior: { status: "covered", content: ["The panel and links use shared semantic color tokens.", "At rest, the indicator is 3×14px and vertically centered in the row, sitting 6px from the pill edge inside its 14px leading gutter. It retains the theme accent color; sliding and stretching reuse --uni-motion-state (250ms by default) and the nonlinear --ease-snap curve."] },
     },
     "side-panel": {
       summary: "SidePanel is a controlled floating detail panel on either side of a desktop page.",

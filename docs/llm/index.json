@@ -769,8 +769,8 @@
         "en-US": "pages/en-US/components/toggle.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:2eda65dc877db6aa0754711e240095262c2bc7006cd5ff655ef7d615c2804723",
-        "en-US": "sha256:de6ddd01003d6fcbea902c0781c1e83b9509cd021d4c2dfa43aead6747830173"
+        "zh-CN": "sha256:38ac55d61915b15c2c6e663cc2ab0dbcf117172ef39c0100f47536102ad56c57",
+        "en-US": "sha256:fe3ad184e359630ff95a5055d3c8a8a6504372429e78c2d4c803783a8c7bc23d"
       }
     },
     {
@@ -817,8 +817,8 @@
         "en-US": "pages/en-US/components/hamburger-menu.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:e79c5997d1bacd8119fddb327b23b088b5105d0ea9a8aef2141d4a784fdcb375",
-        "en-US": "sha256:870a4ea6e038fe47b2762fdbcd33945c6932ed544511570c3b434ef1d751f122"
+        "zh-CN": "sha256:d99abc13648f8000f92dd0950852e1955068692f958d6da7aa357e155dc7c7e4",
+        "en-US": "sha256:ac96301f55651f79f483184d181824d84a7a70c6d9d115cd726e3558cfdffbf8"
       }
     },
     {
@@ -865,8 +865,8 @@
         "en-US": "pages/en-US/components/sidebar-nav.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:d5e351a5b85a1e15813d7d0aaff10179a8b09bf52aaa1edc62446f7267b2d3b7",
-        "en-US": "sha256:b3fe777f17592100ada3f78e121059bce1fc4923b1a4f7d3bd2c0fa5df761f66"
+        "zh-CN": "sha256:06b0c001c0f58dd56463e7cfd8e1f0a44c927c23ea57c8513c335c59e8db0eaf",
+        "en-US": "sha256:155b0690a31e770185a97dbb4336f8c7cab5f72e5a0da0d58c01e658e512e3bc"
       }
     },
     {

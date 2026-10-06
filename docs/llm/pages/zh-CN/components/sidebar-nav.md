@@ -52,7 +52,7 @@ Grouped sidebar navigation with active state and optional collapsible sections.
 ## 主题行为
 
 - 链接、焦点与选中态使用语义颜色 token。
-- 指示条沿用主题强调色，滑动与拉伸复用 --uni-motion-state（默认 250ms）与 --ease-snap 非线性曲线。
+- 指示条静止时为 3×14px，位于条目 14px 前导留白内，距药丸左缘 6px，并按行高垂直居中。沿用主题强调色，滑动与拉伸复用 --uni-motion-state（默认 250ms）与 --ease-snap 非线性曲线。
 - 滚动跟踪复用 --uni-motion-state（默认 250ms）与 --ease-in-out 非线性曲线；两种主题使用相同的动效 token。
 
 ## 实时示例

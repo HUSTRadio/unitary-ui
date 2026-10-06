@@ -120,7 +120,7 @@ export function createNavigateHandler(
  *   小标题一律不内缩，文字左缘 = 药丸左缘
  * - 默认文字 text-gray-900（light #4d4d4d ≈ Tremor gray-600；dark #a1a1a1 ≈ Tremor gray-400）
  * - 悬停 bg-gray-100 + text-gray-1000（Tremor hover:bg-gray-100 + hover:text-gray-800）
- * - 选中 = 与悬停同底色 + 强化文字 + 左侧 2×14px 指示条（贴近中文字形墨迹高度，无独立底色）
+ * - 选中 = 与悬停同底色 + 强化文字 + 左侧 3×14px 指示条（在 14px 前导留白内对齐，贴近中文字形墨迹高度）
  * - 三级标签统一字号（text-style-nav-heading / -subheading / -item 同一 15/20，
  *   见 src/styles/index.css 的 nav token）
  * - 层次感来自对齐：一级/二级小标题都对齐到条目药丸左缘，条目标签再内缩 14px

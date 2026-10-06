@@ -92,9 +92,9 @@ async function expectAligned(marker: Locator, item: Locator, axis: "vertical" | 
   const indicator = await box(marker);
   const target = await box(item);
   if (axis === "vertical") {
-    expect(indicator.width).toBe(2);
+    expect(indicator.width).toBe(3);
     expect(indicator.height).toBe(14);
-    expect(Math.abs(indicator.x - target.x - 8)).toBeLessThanOrEqual(0.5);
+    expect(Math.abs(indicator.x - target.x - 6)).toBeLessThanOrEqual(0.5);
     expect(Math.abs(indicator.y + indicator.height / 2 - target.y - target.height / 2)).toBeLessThanOrEqual(0.5);
   } else {
     expect(indicator.height).toBe(2);

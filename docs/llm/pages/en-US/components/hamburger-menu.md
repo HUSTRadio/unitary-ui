@@ -45,7 +45,7 @@ Open the menu, switch between items, empty and loading data, or search for an un
 ## Theme behavior
 
 - The panel and links use shared semantic color tokens.
-- The indicator retains the theme accent color; sliding and stretching reuse --uni-motion-state (250ms by default) and the nonlinear --ease-snap curve.
+- At rest, the indicator is 3×14px and vertically centered in the row, sitting 6px from the pill edge inside its 14px leading gutter. It retains the theme accent color; sliding and stretching reuse --uni-motion-state (250ms by default) and the nonlinear --ease-snap curve.
 
 ## Live Demo
 

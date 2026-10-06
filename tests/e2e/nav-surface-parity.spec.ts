@@ -38,6 +38,10 @@ interface Metrics {
   /** 折叠内容盒底边相对最后一条目底边的余量（不得虚高，见下方回归说明） */
   contentBottomGap: number | null;
   activeIndicatorColor: string | null;
+  indicatorSize: { width: number; height: number } | null;
+  indicatorLeftInset: number | null;
+  indicatorCenterOffset: number | null;
+  indicatorContentGap: number | null;
 }
 
 function measure(page: Page, selectors: Selectors): Promise<Metrics> {
@@ -69,6 +73,10 @@ function measure(page: Page, selectors: Selectors): Promise<Metrics> {
       ) ?? null;
     const style = getComputedStyle(scrollOwner);
     const shellX = shell.getBoundingClientRect().x;
+    const markerBox = marker?.getBoundingClientRect();
+    const markerItem = marker?.closest("a");
+    const markerItemBox = markerItem?.getBoundingClientRect();
+    const leadingContentBox = markerItem?.querySelector("svg, span.truncate")?.getBoundingClientRect();
 
     return {
       contentInset: `${style.paddingTop} ${style.paddingRight} ${style.paddingBottom} ${style.paddingLeft}`,
@@ -111,14 +119,37 @@ function measure(page: Page, selectors: Selectors): Promise<Metrics> {
             )
           : null,
       activeIndicatorColor: marker ? getComputedStyle(marker).backgroundColor : null,
+      indicatorSize: markerBox ? { width: round(markerBox.width), height: round(markerBox.height) } : null,
+      indicatorLeftInset: markerBox && markerItemBox ? round(markerBox.x - markerItemBox.x) : null,
+      indicatorCenterOffset: markerBox && markerItemBox
+        ? round(markerBox.y + markerBox.height / 2 - markerItemBox.y - markerItemBox.height / 2)
+        : null,
+      indicatorContentGap: markerBox && leadingContentBox ? round(leadingContentBox.x - markerBox.right) : null,
     };
   }, selectors);
 }
 
-test("次级宽屏抽屉与宽屏侧栏的导航排版同源", async ({ page }) => {
+async function initialize(page: Page, theme: "light" | "dark") {
+  await page.addInitScript((theme) => {
+    localStorage.setItem("unitary-docs-language", "en-US");
+    localStorage.setItem("unitary-theme-preference", theme);
+    localStorage.removeItem("unitary.docs.sidebar.collapsed-groups");
+  }, theme);
+}
+
+function expectIndicatorGeometry(metrics: Metrics) {
+  expect(metrics.indicatorSize).toEqual({ width: 3, height: 14 });
+  expect(metrics.indicatorLeftInset).toBe(6);
+  expect(metrics.indicatorCenterOffset).toBe(0);
+  expect(metrics.indicatorContentGap).toBe(5);
+}
+
+async function expectPointerParity(page: Page, theme: "light" | "dark") {
+  await initialize(page, theme);
   // 宽屏（≥lg）：常驻侧栏
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/#/components/link");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
   await page.waitForSelector('[data-slot="docs-sidebar"] [data-slot="sidebar-nav-item"]');
   await page.evaluate(async () => { await document.fonts.ready; });
   await expect(page.locator('[data-slot="docs-sidebar"] [data-slot="sidebar-nav"]'))
@@ -134,7 +165,7 @@ test("次级宽屏抽屉与宽屏侧栏的导航排版同源", async ({ page }) 
   });
   await page
     .locator('[data-slot="docs-sidebar"]')
-    .screenshot({ path: ".scratch/nav-parity/sidebar.png" });
+    .screenshot({ path: `.scratch/nav-parity/sidebar-${theme}.png` });
 
   // 次级宽屏（md–lg）：同一份导航折叠成抽屉（指针场景）
   await page.setViewportSize({ width: 900, height: 900 });
@@ -151,7 +182,7 @@ test("次级宽屏抽屉与宽屏侧栏的导航排版同源", async ({ page }) 
   });
   await page
     .locator('[data-slot="expand-panel"]')
-    .screenshot({ path: ".scratch/nav-parity/drawer.png" });
+    .screenshot({ path: `.scratch/nav-parity/drawer-${theme}.png` });
 
   console.log("SIDEBAR\n" + JSON.stringify(sidebar, null, 2));
   console.log("DRAWER\n" + JSON.stringify(drawer, null, 2));
@@ -200,7 +231,43 @@ test("次级宽屏抽屉与宽屏侧栏的导航排版同源", async ({ page }) 
   expect(drawer.headingRole).toBe("button");
 
   // 选中指示条同色；两侧都预留滚动条稳定槽位（细滚动条 + stable both-edges）
+  expectIndicatorGeometry(sidebar);
+  expectIndicatorGeometry(drawer);
   expect(drawer.activeIndicatorColor).toBe(sidebar.activeIndicatorColor);
   expect(sidebar.scrollbarWidth).toBeGreaterThanOrEqual(16);
   expect(drawer.scrollbarWidth).toBeGreaterThanOrEqual(16);
-});
+}
+
+for (const theme of ["light", "dark"] as const) {
+  test(`次级宽屏抽屉与宽屏侧栏的导航排版同源 (${theme})`, async ({ page }) => {
+    await expectPointerParity(page, theme);
+  });
+
+  test(`touch navigation centers the indicator in a 44px row (${theme})`, async ({ browser, baseURL }) => {
+    const context = await browser.newContext({ baseURL, hasTouch: true, viewport: { width: 900, height: 900 } });
+    try {
+      const page = await context.newPage();
+      await initialize(page, theme);
+      await page.goto("/#/components/link");
+      await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
+      expect(await page.evaluate(() => matchMedia("(pointer: coarse)").matches)).toBe(true);
+      await page.evaluate(async () => { await document.fonts.ready; });
+      await page.locator('[data-slot="hamburger-trigger"]').tap();
+      await expect(page.locator('[data-slot="menu-nav"] [data-slot="menu-group"] a').first()).toBeVisible();
+      await page.waitForTimeout(700);
+      const drawer = await measure(page, {
+        scrollOwner: '[data-slot="menu-nav"]',
+        groupContainer: '[data-slot="menu-list"]',
+        shell: '[data-slot="expand-panel"]',
+        item: '[data-slot="menu-group"] a',
+        heading: '[data-slot="menu-group-heading"]',
+      });
+      expect(drawer.itemHeights).toEqual([44]);
+      expect(drawer.itemPadding).toBe("0px 14px");
+      expectIndicatorGeometry(drawer);
+      expect(drawer.activeIndicatorColor).toBe("rgb(13, 71, 161)");
+    } finally {
+      await context.close();
+    }
+  });
+}

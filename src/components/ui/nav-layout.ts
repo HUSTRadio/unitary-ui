@@ -20,7 +20,7 @@ import * as React from "react";
  * - 行内缩：条目 -mx-1 px-3.5（药丸两侧各外扩 4px，文字左内缩 14px）；
  *   小标题一律不内缩，文字左缘 = 药丸左缘 → 标题永远在读层级的外侧
  * - 分组之间 16px（gap-4）；一级标题到首个二级小组 6px（nav-space-parent）
- * - 选中 = 与悬停同底色 + 强化文字 + 左侧 2×14px 主题色指示条
+ * - 选中 = 与悬停同底色 + 强化文字 + 左侧 3×14px 主题色指示条
  */
 
 /** 内容内缩：x 单轴（工具栏 / 结果区）与 y 单轴分开导出，便于只对齐横向。 */
@@ -57,9 +57,9 @@ export const NAV_SUBGROUP_DIVIDER = "-ml-1 nav-space-sibling bg-gray-alpha-400";
 /** 条目状态：选中 = 悬停同底色 + 强化文字；未选中 = 次级文字 + 悬停反馈。 */
 export const NAV_ITEM_STATE_ACTIVE = "bg-gray-100 font-medium text-gray-1000";
 export const NAV_ITEM_STATE_IDLE = "text-gray-900 hover:bg-gray-100 hover:text-gray-1000";
-/** 选中指示条：2×14px、垂直居中、距药丸左缘 8px、跟随主题强调色。 */
+/** 选中指示条：3×14px、垂直居中；14px 前导留白中左侧 6px、内容侧 5px。 */
 export const NAV_ITEM_INDICATOR =
-  "pointer-events-none absolute top-1/2 left-2 h-3.5 w-0.5 -translate-y-1/2 rounded-full bg-theme-accent";
+  "pointer-events-none absolute top-1/2 left-1.5 h-3.5 w-0.75 -translate-y-1/2 rounded-full bg-theme-accent";
 
 /**
  * 条目行高（值见 index.css 的 --uni-nav-item-height*）：

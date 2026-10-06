@@ -44,11 +44,13 @@ Passes a Title Case label through children and pairs it with descriptive copy ex
 
 - Provide an accessible name through children, aria-label, or aria-labelledby. This library's implementation performs no runtime validation—it does not warn when all three are missing, so callers must guarantee a name.
 - Set aria-label only when the visible label sits elsewhere on the row; otherwise let children carry both visual and screen-reader labels.
+- With prefers-reduced-motion enabled, the thumb moves directly to the new state without sliding or stretching. Enabling the preference during an animation also cancels that motion.
 
 ## Controlled behavior
 
 - checked is optional in the type. Pass checked with onChange for caller-controlled state, or use the inherited defaultChecked for an uncontrolled initial state.
 - Persist on change and surface the result in a useToasts().success(…) toast (Password protection enabled); don't leave the user wondering whether the flip stuck.
+- Both controlled and uncontrolled changes animate the thumb. Rapid reversals continue from its current visible position and width, ending in the original circle at the target position. Initial rendering shows the initial state immediately.
 
 ## Responsive behavior
 
@@ -57,6 +59,7 @@ Not applicable: Toggle is a small boolean switch whose behavior and layout remai
 ## Theme behavior
 
 - Toggle follows the theme color system; the filled-on state color switches automatically with the current theme, ensuring sufficient contrast in all palette schemes.
+- The thumb widens horizontally before contracting while retaining its height, with stretch limited to 25% of its original width and the original size at rest. Position and width share --uni-motion-state (250ms by default) and the nonlinear --ease-snap curve; the track color retains its existing transition.
 
 ## Live Demo
 
@@ -292,5 +295,5 @@ import { Toggle } from "@/components/ui/toggle";
 - The label is children, not a label prop. Title Case noun phrase, 1–4 words, naming what is true when ON: Password Protection, not Enable Password Protection.
 - Render an optional one-sentence description as a sibling under the label that explains ON only. Don’t describe OFF; it’s the negation.
 - Keep labelCasing="title" (the default) so labels match other Title Case surfaces. Use labelCasing="normal" only when sentence-case content sits inline next to the toggle.
-- Provide an accessible name through children, aria-label, or aria-labelledby. Unitary warns in development if all three are missing.
+- Provide an accessible name through children, aria-label, or aria-labelledby. Callers must supply a name; Toggle does not validate it at runtime.
 - Set aria-label only when the visible label sits elsewhere on the row; otherwise let children carry it so sighted and screen-reader copy stay aligned.

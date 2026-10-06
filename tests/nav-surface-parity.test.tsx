@@ -192,6 +192,10 @@ describe("nav surface parity — 抽屉向侧栏排版对齐", () => {
     const drawerIndicator = q(drawerNav(), '[data-slot="menu-item-indicator"]');
     expect(drawerIndicator).not.toBeNull();
     expect(sorted(drawerIndicator)).toEqual(sorted(sidebarIndicator));
+    for (const geometryClass of ["w-0.75", "h-3.5", "left-1.5", "top-1/2", "-translate-y-1/2"]) {
+      expect(classesOf(sidebarIndicator)).toContain(geometryClass);
+      expect(classesOf(drawerIndicator)).toContain(geometryClass);
+    }
   });
 
   it("折叠记忆与侧栏共用同一个键：抽屉里折叠的分组，切到侧栏仍是折叠的", () => {
