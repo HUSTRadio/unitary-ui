@@ -47,18 +47,42 @@ export function useSlidingIndicator({ rootRef, activeKey, enabled = true }: Slid
     const localHeight = Number.parseFloat(style.height);
     const scaleX = localWidth > 0 ? targetBox.width / localWidth : 1;
     const scaleY = localHeight > 0 ? targetBox.height / localHeight : 1;
-    const x = (sourceBox.left - targetBox.left) / scaleX;
-    const y = (sourceBox.top - targetBox.top) / scaleY;
-    const width = sourceBox.width / targetBox.width;
-    const height = sourceBox.height / targetBox.height;
-    if (x === 0 && y === 0 && width === 1 && height === 1) return;
+    const dx = sourceBox.left + sourceBox.width / 2 - targetBox.left - targetBox.width / 2;
+    const dy = sourceBox.top + sourceBox.height / 2 - targetBox.top - targetBox.height / 2;
+    if (dx === 0 && dy === 0 && sourceBox.width === targetBox.width && sourceBox.height === targetBox.height) return;
     const tokens = getTokens(["--uni-motion-state", "--ease-snap"], { target });
     const duration = milliseconds(tokens["--uni-motion-state"]);
     if (duration <= 0 || !tokens["--ease-snap"]) return;
+    // 取消后读取自然尺寸，避免快速连点把上一次拉伸反复放大。
+    // Read resting dimensions after cancellation so rapid retargeting cannot compound stretch.
+    const restingBox = source.getBoundingClientRect();
+    const horizontal = Math.abs(dx) >= Math.abs(dy);
+    const length = horizontal ? "width" : "height";
+    const naturalLength = Math.max(restingBox[length], targetBox[length]);
+    const extra = Math.min(Math.abs(horizontal ? dx : dy) * 0.35, naturalLength * 0.6);
+    const peak = 0.6;
+    let peakWidth = sourceBox.width + (targetBox.width - sourceBox.width) * peak;
+    let peakHeight = sourceBox.height + (targetBox.height - sourceBox.height) * peak;
+    const spanStart = Math.min(horizontal ? sourceBox.left : sourceBox.top, horizontal ? targetBox.left : targetBox.top);
+    const spanEnd = Math.max(horizontal ? sourceBox.right : sourceBox.bottom, horizontal ? targetBox.right : targetBox.bottom);
+    const peakLength = Math.min(Math.max(sourceBox[length], naturalLength + extra), spanEnd - spanStart);
+    if (horizontal) peakWidth = peakLength;
+    else peakHeight = peakLength;
+    let peakLeft = targetBox.left + targetBox.width / 2 + dx * (1 - peak) - peakWidth / 2;
+    let peakTop = targetBox.top + targetBox.height / 2 + dy * (1 - peak) - peakHeight / 2;
+    // 宽度差异较大时仍留在起点与终点之间，避免被滚动容器裁切。
+    // Keep unequal-width peaks within the endpoints' span to avoid scroll-container clipping.
+    if (horizontal) peakLeft = Math.max(spanStart, Math.min(peakLeft, spanEnd - peakWidth));
+    else peakTop = Math.max(spanStart, Math.min(peakTop, spanEnd - peakHeight));
+    const frame = (left: number, top: number, width: number, height: number, offset: number): Keyframe => ({
+      transform: `translate(${(left - targetBox.left) / scaleX}px, ${(top - targetBox.top) / scaleY}px) scale(${width / targetBox.width}, ${height / targetBox.height})`,
+      transformOrigin: "top left", offset,
+    });
     try {
       animation.current = target.animate([
-        { transform: `translate(${x}px, ${y}px) scale(${width}, ${height})`, transformOrigin: "top left" },
-        { transform: "none", transformOrigin: "top left" },
+        frame(sourceBox.left, sourceBox.top, sourceBox.width, sourceBox.height, 0),
+        frame(peakLeft, peakTop, peakWidth, peakHeight, peak),
+        { transform: "none", transformOrigin: "top left", offset: 1 },
       ], { duration, easing: tokens["--ease-snap"] });
     } catch {
       // 无效的自定义动效值不应阻断选中状态更新。

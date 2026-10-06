@@ -817,8 +817,8 @@
         "en-US": "pages/en-US/components/hamburger-menu.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:cc3faee6f20c80b6acd37c95ecd45a284d687f1b29d552df560251401a943cab",
-        "en-US": "sha256:0ba3c9ea81f99ab758e0824a8558f12d5e55684ce5b48068b4e67cf9d1963931"
+        "zh-CN": "sha256:e79c5997d1bacd8119fddb327b23b088b5105d0ea9a8aef2141d4a784fdcb375",
+        "en-US": "sha256:870a4ea6e038fe47b2762fdbcd33945c6932ed544511570c3b434ef1d751f122"
       }
     },
     {
@@ -865,8 +865,8 @@
         "en-US": "pages/en-US/components/sidebar-nav.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:29deb6bcde4fb836395e18cc722149f5848b689d96e6d5925ed069640683b45b",
-        "en-US": "sha256:7e71a73ed41c396bfcade63f37fdbddae7090416c2b0fdafbed9ed1e8e35f097"
+        "zh-CN": "sha256:d5e351a5b85a1e15813d7d0aaff10179a8b09bf52aaa1edc62446f7267b2d3b7",
+        "en-US": "sha256:b3fe777f17592100ada3f78e121059bce1fc4923b1a4f7d3bd2c0fa5df761f66"
       }
     },
     {
@@ -881,8 +881,8 @@
         "en-US": "pages/en-US/components/tabs.md"
       },
       "sourceHash": {
-        "zh-CN": "sha256:9ef3e34f53a428535868855e64934b7cb29ba8def1724e1279335e4912f0e6e1",
-        "en-US": "sha256:ff1ee89f1f8323acf22af0f5826e1ce9384fe625c3dab3a823bab85801f9eda0"
+        "zh-CN": "sha256:4b81d1f84ae1cc7940938743b889a585d2abb444b5e0a6031e243356ebb100dc",
+        "en-US": "sha256:0e5aa1ceddac58a1f952396b3cc68721ad841c96dc0ef4bb6a768dc5c9153f20"
       }
     },
     {

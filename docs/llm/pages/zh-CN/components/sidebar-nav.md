@@ -39,7 +39,7 @@ Grouped sidebar navigation with active state and optional collapsible sections.
 ## 受控行为
 
 - activeTo 由调用方传入；onNavigate 拦截普通点击，修饰键点击仍沿用原生锚点行为。
-- activeTo 在同一最基层列表内变化时，选中指示条平滑滑动：有 subgroups 时以同一子分类为边界，否则以同一一级分组为边界。首次显示、跨组切换直接定位，快速切换从当前可见位置继续。
+- activeTo 在同一最基层列表内变化时，选中指示条平滑滑动，沿移动方向非线性伸长后再收回目标高度，保持厚度：有 subgroups 时以同一子分类为边界，否则以同一一级分组为边界。首次显示、跨组切换直接定位，快速切换从当前可见位置与长度继续。
 - scrollTracking 是可选的 Unitary 扩展，类型为 ScrollTrackingMode，默认 disabled；on-reload 在首次挂载、DOM 布局就绪后尝试一次，之后的 activeTo 变化不会触发跟踪；always 在进入该模式及 activeTo 变化时更新位置。
 - scrollTrackingTarget 默认 item，定位当前条目；category 定位所属二级分类的小标题，没有 subgroups 时定位一级分组标题。文档侧栏使用 on-reload + category。always 也响应对齐目标的切换；on-reload 已执行后切换目标需要重新挂载。
 - 调用方从路由或锚点恢复 activeTo；组件跟踪对应的活动链接。手动滚动会中断当前动画，on-reload 的这次尝试仍视为已用。always 也不会持续锁定同一个活动值的位置。
@@ -52,7 +52,7 @@ Grouped sidebar navigation with active state and optional collapsible sections.
 ## 主题行为
 
 - 链接、焦点与选中态使用语义颜色 token。
-- 指示条沿用主题强调色，滑动复用 --uni-motion-state（默认 250ms）与 --ease-snap 非线性曲线。
+- 指示条沿用主题强调色，滑动与拉伸复用 --uni-motion-state（默认 250ms）与 --ease-snap 非线性曲线。
 - 滚动跟踪复用 --uni-motion-state（默认 250ms）与 --ease-in-out 非线性曲线；两种主题使用相同的动效 token。
 
 ## 实时示例

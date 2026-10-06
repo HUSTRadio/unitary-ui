@@ -39,7 +39,7 @@ Compare three tracking modes and item/category-heading alignment; choose an acti
 ## Controlled behavior
 
 - The caller supplies activeTo; onNavigate intercepts unmodified clicks, while modified clicks retain native navigation.
-- When activeTo changes within the same leaf list, the selection indicator slides smoothly: the same subgroup when subgroups are present, otherwise the same top-level group. Initial display and cross-group changes position immediately; rapid changes continue from the current visible position.
+- When activeTo changes within the same leaf list, the selection indicator slides smoothly, elongating nonlinearly in the direction of motion before contracting to the target height while retaining its thickness: the same subgroup when subgroups are present, otherwise the same top-level group. Initial display and cross-group changes position immediately; rapid changes continue from the current visible position and length.
 - scrollTracking is an optional Unitary extension typed as ScrollTrackingMode and defaults to disabled. on-reload attempts alignment once after the initial mount and DOM layout readiness; later activeTo changes do not trigger tracking. always updates position when entering that mode and when activeTo changes.
 - scrollTrackingTarget defaults to item for the active link. category aligns its subgroup heading, falling back to the group heading when there are no subgroups. The docs sidebar uses on-reload + category. always also responds to alignment-target changes; after on-reload has run, changing the target requires remounting.
 - Restore activeTo from the route or anchor in the caller; the component tracks the corresponding active link. Manual scrolling interrupts the current animation and still consumes the on-reload attempt. always does not continually lock the position for the same active value.
@@ -52,7 +52,7 @@ Compare three tracking modes and item/category-heading alignment; choose an acti
 ## Theme behavior
 
 - Links, focus rings, and selection use semantic color tokens.
-- The indicator retains the theme accent color; sliding reuses --uni-motion-state (250ms by default) and the nonlinear --ease-snap curve.
+- The indicator retains the theme accent color; sliding and stretching reuse --uni-motion-state (250ms by default) and the nonlinear --ease-snap curve.
 - Scroll tracking reuses --uni-motion-state (250ms by default) and the nonlinear --ease-in-out curve; both themes share these motion tokens.
 
 ## Live Demo
