@@ -48,10 +48,12 @@ Compare disabled, on-reload and always; select a tab externally, reload the demo
 - Left/Right arrows move focus across tabs, Enter or Space activates; do not hijack these keyboard shortcuts for global operations.
 - Always maintain a visible focus ring on the active tab—do not suppress focus styles for visual polish.
 - Scroll tracking does not move keyboard focus; reduced-motion preferences make alignment immediate.
+- The underline does not take focus. Reduced motion positions it immediately; enabling that preference during a slide cancels the current motion.
 
 ## Controlled behavior
 
 - Control the active tab with the required selected and setSelected props; selected uses a tab item's id rather than its array index.
+- The primary underline slides smoothly within the same tab row and adapts to the target tab width. Initial display positions immediately; rapid changes continue from the current visible position. Selection updates immediately and sliding requires no additional props.
 - For URL persistence, synchronize route state from the caller's setSelected update path.
 - Disabled tabs hide interactivity via the disabled prop and should be paired with a Tooltip explaining the constraint (permissions insufficient or empty data).
 - scrollTracking is an optional Unitary extension typed as ScrollTrackingMode and defaults to disabled. on-reload attempts alignment once after the initial mount and DOM layout readiness; later selected changes do not trigger tracking. always updates position when entering that mode and when the selected value changes.
@@ -67,6 +69,7 @@ Compare disabled, on-reload and always; select a tab externally, reload the demo
 
 - Tab colors, underline indicators, and activation highlights follow theme variables with corresponding palettes for dark and light modes.
 - Secondary mode automatically adjusts to lower-contrast variant colors that adapt across themes.
+- The primary underline retains its foreground color; sliding reuses --uni-motion-state (250ms by default) and the nonlinear --ease-snap curve.
 - Scroll tracking reuses --uni-motion-state (250ms by default) and the nonlinear --ease-in-out curve; both themes share these motion tokens.
 
 ## Live Demo

@@ -4,6 +4,7 @@ import { type LucideIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useScrollTracking, type ScrollTrackingMode } from "@/lib/scroll-tracking";
+import { useSlidingIndicator } from "@/lib/selection-indicator";
 
 import { Collapse, CollapseContent, CollapseTrigger } from "./collapse";
 import {
@@ -192,8 +193,10 @@ export function SidebarNav({
     precedingSelector: '[data-slot="sidebar-nav-item"], [data-slot="sidebar-nav-heading"], [data-slot="sidebar-nav-subheading"]',
   });
 
+  useSlidingIndicator({ rootRef: navRef, activeKey: activeTo });
+
   const renderItems = (items: SidebarNavItem[]) => (
-    <ul className="space-y-1">
+    <ul data-selection-indicator-group="" className="space-y-1">
       {items.map((item) => {
         const active = activeTo === item.to;
         const Icon = item.icon;
@@ -211,13 +214,12 @@ export function SidebarNav({
                 scrollTracking !== "disabled" && "scroll-tracking-inset",
               )}
             >
-              {active ? (
-                <span
-                  aria-hidden
-                  data-slot="sidebar-nav-indicator"
-                  className={NAV_ITEM_INDICATOR}
-                />
-              ) : null}
+              <span
+                aria-hidden
+                data-selection-indicator=""
+                data-slot={active ? "sidebar-nav-indicator" : undefined}
+                className={cn(NAV_ITEM_INDICATOR, !active && "invisible")}
+              />
               {Icon ? <Icon size={16} className="shrink-0" aria-hidden /> : null}
               <span className="truncate ink-shift-cjk">{item.label}</span>
               {badge ? (

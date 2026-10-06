@@ -38,6 +38,8 @@
 
 ### Added
 
+- **选中指示条滑动**：`SidebarNav` 与 `HamburgerMenu` 的主题强调色指示条在同一最基层列表内切换时非线性滑动；有二级分类时以子分类为边界，否则以一级分组为边界。`Tabs` 的 primary 下划线同样在标签行内滑动并适配标签宽度，保留原有前景色。复用 `--uni-motion-state`（默认 250ms）与 `--ease-snap`；首次显示、跨组切换直接定位，快速切换从当前可见位置继续。减少动画时直接定位，运行期间启用该偏好会取消滑动；键盘、导航与公开 props 保持兼容，双语指南同步说明。
+
 - **活动项滚动跟踪**：`SidebarNav` 与 `Tabs` 新增可选的 `scrollTracking`（`disabled` / `on-reload` / `always`，默认禁用），并从包入口导出 `ScrollTrackingMode`。载入时或活动项变化时，对齐到滚动容器顶部或水平起始边，首选 16px 留白；若会露出前一条目或标题的文字、图标，按 spacing 尺度缩小为 8px、4px 等，目标受滚动边界限制。复用 250ms 非线性动效，支持 RTL、减少动画与手动中断。SidebarNav 另提供 `scrollTrackingTarget`（默认 `item`）；`category` 定位当前条目所属的二级分类小标题，无二级分类时定位一级标题，包入口导出 `SidebarNavScrollTrackingTarget`。文档侧栏启用 `on-reload` + `category`，双语 API、指南、可交互演示、Show Code 与 living styleguide 同步覆盖。
 
 - **预载与异步加载文档**：新增包根导出的 `createPrefetch`、`Prefetch` 与 `usePrefetchState`，支持操作意图、接近视口、浏览器空闲三种触发，共享并发请求与成功缓存、失败重试、失效与中止，并默认尊重省流量设置。文档导航复用相同资源提前准备目标页及其演示；双语指南、API、可操作示例与 Lazy Load 同列“网络与异步”。
